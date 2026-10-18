@@ -143,8 +143,8 @@ function ChangesPanel() {
 }
 
 // The paper's clock with each change on its own lane, the first pick and the final pick in their
-// verdict colours. Wide screens only, where the device has the room: two of the three changes land in
-// the paper's last two minutes, which only a clock can show.
+// verdict colours. Wide screens only, where the device has the room: each change is a second thought inside
+// its own question, and the clock shows where in the paper those seconds fell (two in its last three minutes).
 function ChangeClock() {
   const total = S.facts.totalSec;
   return (

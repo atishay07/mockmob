@@ -14,6 +14,8 @@ import { CloseActions, DockLine } from '@/components/landing/CloseActions';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
+import { HeroMorph } from '@/components/landing/HeroMorph';
+import { HERO_LINES } from '@/components/landing/heroPhrases.mjs';
 import { Reveal } from '@/components/landing/Reveal';
 import { LiveStatsBand } from '@/components/landing/LiveStatsBand';
 import { QuestionBankLine } from '@/components/landing/QuestionBankLine';
@@ -46,6 +48,7 @@ import './feature-tour.css';
 import './tour-screens.css';
 import './lab-cinema.css';
 import './home.css';
+import './hero-motion.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   'Quick practice and Full mock on credits',
@@ -160,9 +163,9 @@ export default function LandingPage() {
               <div className="lp-hero__greeting"><p className="lp-hero__for" data-hero style={{ '--h': 0 }}>For CUET UG 2027</p><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
               <h1 className="lp-title">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
-                <span className="lp-title__line">CUET 2027.</span>
-                <span className="lp-title__line">One mock.</span>
-                <span className="lp-title__line lp-title__morph">No more guessing.</span>
+                <span className="lp-title__line lp-title__brand">{HERO_LINES[0]}</span>
+                <span className="lp-title__line">{HERO_LINES[1]}</span>
+                <HeroMorph />
                 </>}
               </h1>
               <p className="lp-lead" data-hero style={{ '--h': 1 }}>
@@ -190,6 +193,7 @@ export default function LandingPage() {
               </div>
               <div className="lp-stage__path"><span>Answer</span><i /><span>Read why it’s right</span></div>
               <p className="lp-stage__note">Five original CUET-style questions. Every answer comes with the why.</p>
+              <p className="lp-stage__other">Taking other subjects? <Link href="/signup">Sign up free and pick yours</Link></p>
             </div>
           </div>
 

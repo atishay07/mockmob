@@ -19,11 +19,13 @@ test('no landing source carries a retired claim, a hype word or a guarantee', ()
   for (const [name, src] of SOURCES) assert.doesNotMatch(stripComments(src), banned, name);
 });
 
-test('the hero bank line keeps its two facts and says Pro has no cap', () => {
+test('the hero bank line keeps every fact in one sentence and says Pro has no cap', () => {
   const line = read('QuestionBankLine.jsx');
-  assert.match(line, /SUBJECT_CLAIM\.long/);
-  assert.match(line, /no fixed set to run out of, and no cap on Pro\./);
-  assert.match(line, /built fresh from one live/);
+  assert.match(line, /SUBJECT_CLAIM\.long\},/);
+  assert.match(line, /no fixed set to run out of, no cap on Pro\./);
+  assert.match(line, /each built fresh from one live bank of/);
+  assert.match(line, /each built fresh from one live question bank/);
+  assert.match(line, /bank\.questions\.toLocaleString\('en-IN'\)/, 'the count is the live one');
 });
 
 test('"unlimited mocks" on Pro stays true only while the Pro list says unlimited', () => {

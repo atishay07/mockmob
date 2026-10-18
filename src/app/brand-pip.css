@@ -219,7 +219,7 @@
   height: 71.4%;
   border-radius: 50%;
   background: radial-gradient(120% 90% at 40% 30%, #fffdf6, #fbf3e4 70%);
-  translate: calc(var(--pip-look-x, 0) * var(--pip-dir, 1) * 24%) calc(var(--pip-look-y, 0) * 16%);
+  translate: calc(var(--pip-look-x, 0) * var(--pip-dir, 1) * 24%) calc(var(--pip-look-y, 0) * 14%);
   transition: translate 240ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1));
 }
 [data-pip-guide] .pip-eye__ball { animation: pip-eye-blink 6.8s var(--pip-blink, 0s) infinite; }
@@ -291,3 +291,98 @@
   .pip-rig, .pip-rig__breath, .pip-eye__ball { animation: none !important; }
 }
 :root[data-motion='reduced'] .pip-eyes { display: none !important; }
+
+/* ---- Round 7 (18 Oct, D38): the hero's Mobi comes alive ----
+   Only at the hero (his seat on phones; the flyer while it rests at the hero on desktop) and only while the guide
+   runs, so the Arena's Mobi stays still and Reduce motion gets the plain pose. Transform and opacity only.
+   - fly in: from just past the right edge on a short, low arc (up 12% of his height, so on a phone he stays under
+     the site bar), touch down at 1.04 and settle to 1 (720 ms). The two legs run on nested layers with their own
+     curves (across: an ease-out; up then down: ease-out then ease-in), so the path is a real arc. Then the
+     greeting wave, as before;
+   - float: 4 px up and back every 3.2 s; on phones his contact shadow narrows and lightens as he rises;
+   - blink: about every 5 s (a single, then a double);
+   - glance: each time the headline's last line changes his eyes go to it and his head dips about 3 degrees toward
+     it (PipGuide, WAAPI on rotate);
+   - react to the sample: a hop for a right answer, a head tilt for a wrong one (about the middle of his body);
+   - a seat off screen, or the flyer while hidden, pauses all of it. */
+@keyframes pip-fly-x {
+  0% { opacity: 0; transform: translate3d(80%, 0, 0) rotate(10deg) scale(0.9); animation-timing-function: cubic-bezier(0.33, 1, 0.68, 1); }
+  18% { opacity: 1; }
+  68% { transform: translate3d(0, 0, 0) rotate(-2deg) scale(1.04); animation-timing-function: cubic-bezier(0.23, 1, 0.32, 1); }
+  100% { opacity: 1; transform: none; }
+}
+@keyframes pip-fly-y {
+  0% { transform: translate3d(0, 0, 0); animation-timing-function: cubic-bezier(0.5, 1, 0.89, 1); }
+  32% { transform: translate3d(0, -12%, 0); animation-timing-function: cubic-bezier(0.11, 0, 0.5, 0); }
+  68%, 100% { transform: none; }
+}
+@keyframes pip-float { 0%, 100% { transform: translate3d(0, 0, 0); } 50% { transform: translate3d(0, -4px, 0); } }
+@keyframes pip-float-shadow { 0%, 100% { scale: 1; opacity: 1; } 50% { scale: 0.86; opacity: 0.7; } }
+@keyframes pip-eye-blink-hero {
+  0%, 2%, 47%, 49.4%, 51.8%, 100% { scale: 1 1; animation-timing-function: var(--mm-ease-in-out, ease-in-out); }
+  1%, 48.2%, 50.6% { scale: 1 0.1; animation-timing-function: var(--mm-ease-in-out, ease-in-out); }
+}
+/* A head tilt: a turn about a point 38% up from his feet (the middle of his body), not a lean from the feet. */
+@keyframes pip-tilt { 0% { transform: none; } 24%, 68% { transform: translate3d(0, -38%, 0) rotate(-8deg) translate3d(0, 38%, 0); } 100% { transform: none; } }
+@keyframes pip-tilt-b { 0% { transform: none; } 24%, 68% { transform: translate3d(0, -38%, 0) rotate(-8deg) translate3d(0, 38%, 0); } 100% { transform: none; } }
+
+/* Phones: his seat beside "For CUET UG 2027". */
+[data-pip-guide='local'] .pip-seat[data-pip-station='hero'][data-pip-enter] .pip-rig {
+  animation: pip-fly-x 720ms 280ms both, pip-wave 1300ms 1060ms backwards, pip-float 3.2s cubic-bezier(0.37, 0, 0.63, 1) 2400ms infinite;
+}
+[data-pip-guide='local'] .pip-seat[data-pip-station='hero'][data-pip-enter] .pip-rig__breath {
+  animation: pip-breathe 4.6s var(--mm-ease-sweep, ease-in-out) infinite, pip-fly-y 720ms 280ms both;
+}
+[data-pip-guide='local'] .pip-seat[data-pip-station='hero'][data-pip-enter] .pip-seat__art::after {
+  animation: pip-float-shadow 3.2s cubic-bezier(0.37, 0, 0.63, 1) 2400ms infinite;
+}
+/* Desktop: the flyer at the hero. */
+.pip-actor__float { position: absolute; inset: 0; transform-origin: 50% 100%; }
+.pip-actor[data-motion^='fly'] { animation: pip-fly-x 720ms both; }
+.pip-actor[data-motion^='fly'] .pip-actor__float { animation: pip-fly-y 720ms both; }
+[data-pip-guide] .pip-actor[data-station='hero'][data-alive]:not([data-motion^='fly']) .pip-actor__float {
+  animation: pip-float 3.2s cubic-bezier(0.37, 0, 0.63, 1) infinite;
+}
+[data-pip-guide] :is(.pip-seat[data-pip-station='hero'], .pip-actor[data-station='hero']) .pip-eye__ball {
+  animation: pip-eye-blink-hero 10s var(--pip-blink, 0s) infinite;
+}
+/* A wrong sample answer: the warm pose and a head tilt (PipGuide REACTIONS.encourage). */
+.pip-actor[data-motion^='tilt'] { animation: pip-tilt 900ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) both; }
+.pip-actor[data-motion='tilt-1'] { animation-name: pip-tilt-b; }
+/* The sample's own small Mobi (phones, where the hero's seat has scrolled away by the time the reason shows): a hop
+   for a right answer, a tilt for a wrong one, played once the reason has scrolled into reach (DemoDrill). */
+[data-pip-guide] .mm-drill .pip-drill-reaction > .pip-image { transform-origin: 50% 100%; }
+[data-pip-guide] .mm-drill .pip-drill-reaction[data-verdict='right'] > .pip-image { animation: pip-hop 560ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 480ms both; }
+[data-pip-guide] .mm-drill .pip-drill-reaction[data-verdict='wrong'] > .pip-image { animation: pip-tilt 900ms var(--mm-ease-out, cubic-bezier(0.23, 1, 0.32, 1)) 480ms both; }
+/* Off screen, nothing ticks. */
+[data-pip-guide] .pip-seat[data-pip-off] :is(.pip-rig, .pip-rig__breath, .pip-eye__ball),
+[data-pip-guide] .pip-seat[data-pip-off] .pip-seat__art::after,
+.pip-guide-flyer[data-pip-shown='false'] :is(.pip-actor, .pip-actor__float, .pip-art-direction, .pip-eye__ball) { animation-play-state: paused; }
+/* Desktop lane: a seat's line steps out while he is not standing on that seat (PipGuide data-pip-away). */
+@media (min-width: 1100px) {
+  [data-pip-guide='on'] .pip-seat[data-pip-station] figcaption { transition: opacity 180ms var(--mm-ease-out, ease-out); }
+  [data-pip-guide='on'] .pip-seat[data-pip-away='true'] figcaption { opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .pip-actor__float, .mm-drill .pip-drill-reaction > .pip-image { animation: none !important; }
+}
+/* One Mobi in view (W-074). Where his figure is drawn by someone else (the desktop flyer stands in for every seat;
+   on a phone the reacting actor stands in for its seat), the seat's own figure is hidden outright: visibility as
+   well as opacity, and on the image itself. A finished arrival animation holds the rig's opacity at 1, which beat
+   the plain opacity rule and left two Mobis on top of each other while a phone seat reacted. */
+[data-pip-guide='on'] .pip-seat[data-pip-station] .pip-seat__art > :is(.pip-image, .pip-rig),
+[data-pip-guide='on'] .pip-seat[data-pip-station] .pip-seat__art > .pip-rig .pip-image,
+.pip-seat[data-pip-reacting='true'] .pip-seat__art > :is(.pip-image, .pip-rig),
+.pip-seat[data-pip-reacting='true'] .pip-seat__art > .pip-rig .pip-image { opacity: 0; visibility: hidden; }
+/* Phones, and any width under Reduce motion: of the Mobis on screen only the one most on screen stays; another
+   yields until it is (PipGuide oneMobi). Its figure fades out and its line stays. A seat whose Mobi has not arrived
+   yet is hidden outright too, not only see-through. */
+[data-pip-guide='local'] .pip-seat[data-pip-station]:not([data-pip-enter]) .pip-rig { visibility: hidden; }
+[data-pip-one] .pip-seat[data-pip-station] .pip-seat__art { transition: opacity 200ms var(--mm-ease-out, ease-out), visibility 0s; }
+[data-pip-one] .pip-seat[data-pip-yield] .pip-seat__art,
+[data-pip-one] .pip-drill-reaction[data-pip-yield] > .pip-image,
+[data-pip-one] .pip-drill-result[data-pip-yield] {
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 160ms var(--mm-ease-out, ease-out), visibility 0s linear 160ms;
+}
