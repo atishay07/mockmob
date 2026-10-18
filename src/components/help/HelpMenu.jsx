@@ -7,7 +7,8 @@
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { AppIcon } from '@/components/ui/Glyph';
-import { HELP_DOOR, HELP_DOOR_ROWS } from '@/lib/helpDoor.mjs';
+import { HELP_DOOR, HELP_DOOR_ROWS, tourNote } from '@/lib/helpDoor.mjs';
+import { useTourStops } from './TourStops';
 import './help-door.css';
 
 const ICONS = { tour: 'guide', faq: 'help', write: 'mail' };
@@ -15,6 +16,7 @@ const CLOSE_MS = 140;
 
 export default function HelpMenu({ request, onClose, onTour, links = null }) {
   const panel = useRef(null);
+  const tourStops = useTourStops();
   const [place, setPlace] = useState(null);
   const [closing, setClosing] = useState(false);
   const anchor = request?.anchor || 'sidebar';
@@ -96,7 +98,7 @@ export default function HelpMenu({ request, onClose, onTour, links = null }) {
                 </span>
                 <span className="help-menu__text">
                   <b>{row.label}</b>
-                  <span>{row.note}</span>
+                  <span>{row.id === 'tour' ? tourNote(tourStops) : row.note}</span>
                 </span>
               </>
             );

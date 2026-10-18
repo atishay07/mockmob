@@ -66,3 +66,47 @@ test('W-089: the six 18 Oct design notes are in the repo, as written', () => {
     assert.match(text, /^# .+/m, `${name} opens with its title`);
   }
 });
+
+// ---------------------------------------------------------------------------------------------------------------------
+// W-093: Help and FAQ said "Five stops" while the tour ran eight; two hedge lines in Learn and Progress.
+// ---------------------------------------------------------------------------------------------------------------------
+
+test('W-093: the Help tour row counts the tour that will run, in every combination of Learn and the Mob', async () => {
+  const { tourSteps } = await import('../../src/lib/appTour.mjs');
+  const { tourNote } = await import('../../src/lib/helpDoor.mjs');
+  const words = { 7: 'Seven', 8: 'Eight', 9: 'Nine', 10: 'Ten' };
+  for (const study of [false, true]) {
+    for (const mob of [false, true]) {
+      const n = tourSteps({ study, mob }).length;
+      assert.equal(tourNote(n), `${words[n]} stops, about a minute`, `study ${study}, mob ${mob}`);
+    }
+  }
+  assert.equal(tourSteps({ study: true }).length, 8, 'the live set (Learn on, the Mob off) is eight stops');
+  assert.doesNotMatch(read('src/lib/helpDoor.mjs'), /Five stops/);
+});
+
+test('W-093: the shell runs the tour from appTour.mjs and tells Help how many stops there are', () => {
+  const shell = read('src/app/(app)/AppLayoutClient.jsx');
+  assert.match(shell, /from '@\/lib\/appTour\.mjs'/);
+  assert.match(shell, /tourSteps\(\{ mob: mobOn, study: studyOn \}\)/);
+  assert.match(shell, /<TourStopsProvider count=\{TOUR_STEPS\.length\}>/);
+  assert.doesNotMatch(shell, /const TOUR_STEPS_ALL/, 'one list of stops, not two');
+  assert.match(read('src/app/(app)/help/HelpPageClient.jsx'), /tourNote\(tourStops\)/);
+});
+
+test('W-093: Learn and Progress no longer hedge', () => {
+  assert.doesNotMatch(read('src/components/study/StudyLibrary.jsx'), /provisional until NTA/);
+  assert.doesNotMatch(read('src/components/study/StudyProgress.jsx'), /does not certify mastery/);
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// W-079: no target under 44 px that the audit found.
+// ---------------------------------------------------------------------------------------------------------------------
+
+test('W-079: the sidebar rows, the Practice fine-tune line, "See Q14" and the switch are 44 px targets', () => {
+  const arena = stripComments(read('src/app/(app)/arena.css'));
+  assert.match(arena, /\.arena-nav-link--sub\s*\{[^}]*min-height:\s*44px/);
+  assert.match(stripComments(read('src/app/(app)/dashboard/practice.css')), /\.pr-bar__fine\s*\{[^}]*min-height:\s*44px/);
+  assert.match(stripComments(read('src/components/result/result-1017.css')), /\.rx-notice \.rx-link\s*\{[^}]*padding-block:\s*13px/);
+  assert.match(stripComments(read('src/components/ui/controls/controls.css')), /\.ctl-toggle \.mk-switch[^{]*\{[^}]*min-height:\s*44px/);
+});

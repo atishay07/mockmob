@@ -123,7 +123,7 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
                       </div>
                     </div>
                   </SmoothDetails></li>)}</ul> : <p className="cx-empty">{subjectName(subject)} lessons are still being prepared. Practice questions are available now.</p>}
-                {all.chapters.length ? <p className="cx-foot">Chapter list from the CUET UG 2026 syllabus; the 2027 syllabus is provisional until NTA publishes it.</p> : null}
+                {all.chapters.length ? <p className="cx-foot">Chapters follow the CUET UG 2026 syllabus.</p> : null}
               </section>
             </>}
           </div>

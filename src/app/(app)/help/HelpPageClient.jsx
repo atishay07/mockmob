@@ -10,13 +10,15 @@ import { useEffect, useMemo, useState } from 'react';
 import ArenaHead from '@/components/arena/ArenaHead';
 import { AppIcon } from '@/components/ui/Glyph';
 import { FAQ_ITEMS, HELP_HEADING, HELP_LEDE, SUPPORT_ROW, faqIdFrom } from '@/lib/helpFaq.mjs';
-import { HELP_DOOR_ROWS } from '@/lib/helpDoor.mjs';
+import { HELP_DOOR_ROWS, tourNote } from '@/lib/helpDoor.mjs';
+import { useTourStops } from '@/components/help/TourStops';
 import { GUIDE_EVENT } from '@/components/profile/accountModel.mjs';
 import './help.css';
 
 const fold = (text) => String(text || '').toLowerCase().normalize('NFKD').replace(/[̀-ͯ]/g, '');
 
 export default function HelpPageClient() {
+  const tourStops = useTourStops();
   const [open, setOpen] = useState(null);
   const [query, setQuery] = useState('');
   const shown = useMemo(() => {
@@ -42,7 +44,7 @@ export default function HelpPageClient() {
           const body = (
             <>
               <span className="help-ways__icon" aria-hidden="true"><AppIcon name="guide" size={20} /></span>
-              <span className="help-write__text"><b>{row.label}</b><span>{row.note}</span></span>
+              <span className="help-write__text"><b>{row.label}</b><span>{row.id === 'tour' ? tourNote(tourStops) : row.note}</span></span>
             </>
           );
           return (
