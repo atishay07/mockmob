@@ -31,6 +31,7 @@ import '../result/widgets/mistake_row.dart';
 import '../result/widgets/next_move_panel.dart';
 import '../result/widgets/result_head.dart';
 import 'copy.dart';
+import '../pro_nudge/pro_nudge.dart' show ProNudgeRow, ProNudgeSurface;
 import 'data/default_subject.dart' show publicIdOf;
 import 'data/practice_catalog.dart';
 import 'data/practice_notes.dart';
@@ -520,6 +521,8 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
           null => null,
         },
       ),
+      // The one Pro nudge on this page: nothing with PLAY_BILLING off or for a Pro student.
+      const ProNudgeRow(surface: ProNudgeSurface.result, topGap: MmSpace.s8),
       // Layer 3: the mistakes, in repair order, each with its repair inline.
       const SizedBox(height: MmSpace.group),
       MistakesHead(

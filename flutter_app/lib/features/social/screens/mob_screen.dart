@@ -11,6 +11,7 @@ import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../practice/widgets/stale_subjects_banner.dart' show openEditSubjects;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry;
 import '../../you/data/subject_catalog.dart' show youSubjectNames;
 import '../../you/widgets/you_page.dart';
 import '../../you/widgets/you_row.dart';
@@ -25,6 +26,7 @@ import '../widgets/mob_compare_card.dart';
 import '../widgets/mob_extras.dart';
 import '../widgets/mob_parts.dart';
 import '../widgets/mob_plan_widgets.dart';
+import '../widgets/mob_pro_entry.dart';
 import '../widgets/mob_ring.dart';
 import 'mob_sheets.dart';
 
@@ -165,6 +167,7 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
   int _colour = 0;
   bool _busy = false;
   String? _error;
+  MobFailure? _errorFailure;
   String? _nameError;
 
   /// The server said there is no subject to start a Mob for: the way forward is Edit subjects.
@@ -196,6 +199,7 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
     setState(() {
       _busy = true;
       _error = null;
+      _errorFailure = null;
       _nameError = null;
       _subjectsFirst = false;
     });
@@ -210,6 +214,7 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
           _nameError = failure == MobFailure.nameInvalid ? MobCopy.nameRule : MobCopy.failure(failure);
         } else {
           _error = actions.say(failure);
+          _errorFailure = failure;
         }
         _subjectsFirst = failure.needsSubjects;
       });
@@ -279,6 +284,8 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
         if (_error != null) ...[
           const SizedBox(height: MmSpace.s12),
           InlineBanner(message: _error!, tone: BannerTone.error),
+          // Free starts one Mob: when that is the limit met, the key to the Upgrade sheet on it (D80).
+          MobProEntry(failure: _errorFailure),
           if (_subjectsFirst) ...[
             const SizedBox(height: MmSpace.s8),
             KeyButton.secondary(label: MobCopy.chooseSubjects, onPressed: () => openEditSubjects(context)),
@@ -361,7 +368,7 @@ class _MobBodyState extends ConsumerState<MobBody> {
     final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob, extra: extra);
     if (!mounted) return;
     setState(() => _sitting = null);
-    if (failure != null) showMobToast(context, MobCopy.failure(failure));
+    if (failure != null) sayMobFailure(context, failure, MobCopy.failure(failure));
   }
 
   Future<void> _nudge() async {
@@ -421,13 +428,13 @@ class _MobBodyState extends ConsumerState<MobBody> {
         if (!await confirmMobSheet(context, title: MobCopy.removeTitle(m.name), body: MobCopy.removeBody(m.name), confirm: MobCopy.removeMember)) return;
         failure = await actions.remove(m.memberId);
     }
-    if (failure != null && mounted) showMobToast(context, _say(failure));
+    if (failure != null && mounted) sayMobFailure(context, failure, _say(failure));
   }
 
   Future<void> _leave() async {
     if (!await confirmMobSheet(context, title: MobCopy.leaveTitle(mob.several, mob.subjectName), body: MobCopy.leaveBody, confirm: MobCopy.leaveConfirm)) return;
     final failure = await ref.read(mobActionsProvider).leave();
-    if (failure != null && mounted) showMobToast(context, _say(failure));
+    if (failure != null && mounted) sayMobFailure(context, failure, _say(failure));
   }
 
   @override
@@ -606,10 +613,12 @@ class _MobBodyState extends ConsumerState<MobBody> {
     );
   }
 
-  /// A free student's one weekly Mob paper went to another of their Mobs: say so, and sell nothing.
+  /// A free student's one weekly Mob paper went to another of their Mobs: say so, and (with the Pro
+  /// nudges on) the key that opens the Upgrade sheet on that limit (D80). No price here.
   List<Widget> _freeUsed() => [
         const SizedBox(height: MmSpace.s12),
         const MobNote(MobCopy.freeUsed, center: true),
+        const Center(child: UpgradeEntry(reason: ProReason.mobLimit, topGap: MmSpace.s8)),
       ];
 
   Widget _members(BuildContext context) {
@@ -641,7 +650,7 @@ class _MobBodyState extends ConsumerState<MobBody> {
     Future<void> toggle(Future<MobFailure?> Function() write, bool v) async {
       ref.read(hapticsProvider).toggle(v);
       final f = await write();
-      if (f != null && context.mounted) showMobToast(context, actions.say(f));
+      if (f != null && context.mounted) sayMobFailure(context, f, actions.say(f));
     }
 
     return Column(

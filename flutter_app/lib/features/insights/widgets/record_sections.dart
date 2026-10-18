@@ -10,6 +10,7 @@ import '../copy.dart';
 import '../data/insights_models.dart';
 import '../data/subject_names.dart';
 import '../../../core/models/attempt.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProReason;
 import '../data/trend.dart';
 import 'evidence.dart';
 import 'insights_bits.dart';
@@ -52,7 +53,7 @@ class _ChaptersSectionState extends State<ChaptersSection> {
           if (i > 0) Divider(height: 1, color: colors.line),
           WeakChapterRow(chapter: _weak(shown[i]), subtitle: subjectDisplayName(shown[i].subject), onPractise: () => widget.onPractise(shown[i])),
         ],
-        if (locked > 0) ...[const SizedBox(height: MmSpace.s12), ProRow(InsightsCopy.proMore(locked))],
+        if (locked > 0) ...[const SizedBox(height: MmSpace.s12), ProRow(InsightsCopy.proMore(locked), reason: ProReason.insightsChapters)],
         if (widget.thin.isNotEmpty) ...[
           const SizedBox(height: MmSpace.s8),
           MmPressable(

@@ -15,6 +15,7 @@ import '../mob_routes.dart';
 import '../screens/mob_screen.dart' show MobRingView;
 import '../screens/mob_sheets.dart' show InviteSheet;
 import 'mob_parts.dart';
+import 'mob_pro_entry.dart';
 
 /// The block with its 28 dp lead for Today's list. In a Mob: the card. In no Mob: nothing at all (no
 /// gap either), except one inline invitation after a week's run (a study week met, or 7 saved
@@ -127,7 +128,7 @@ class _MobTodayCardState extends ConsumerState<MobTodayCard> {
     final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob);
     if (!mounted) return;
     setState(() => _sitting = false);
-    if (failure != null) showMobToast(context, ref.read(mobActionsProvider).say(failure));
+    if (failure != null) sayMobFailure(context, failure, ref.read(mobActionsProvider).say(failure));
   }
 
   Future<void> _act(Mob mob, MobEntry entry) {

@@ -4,11 +4,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProReason;
 import '../copy.dart';
 import '../data/mob_models.dart';
 import '../data/mob_repository.dart';
 import '../mob_routes.dart';
 import 'mob_parts.dart';
+import 'mob_pro_entry.dart';
 
 /// Compare with your Mob: the free teaser (where the Mob split, one line), what the plan allows next
 /// to it, and the key that opens the side-by-side. Free: the teaser and one free side-by-side, once.
@@ -36,17 +38,20 @@ class _MobCompareCardState extends ConsumerState<MobCompareCard> {
   bool _opening = false;
   bool _sharing = false;
   String? _notice;
+  MobFailure? _failure;
 
   Future<void> _open() async {
     setState(() {
       _opening = true;
       _notice = null;
+      _failure = null;
     });
     final (compare, failure) = await ref.read(mobActionsProvider).compare(week: widget.extra == null ? widget.week : null, extra: widget.extra?.id);
     if (!mounted) return;
     setState(() {
       _opening = false;
       _notice = failure == null ? null : ref.read(mobActionsProvider).say(failure);
+      _failure = failure;
     });
     if (compare != null) {
       await openMobCompare(context, compare, week: widget.week, extra: widget.extra?.id);
@@ -58,12 +63,14 @@ class _MobCompareCardState extends ConsumerState<MobCompareCard> {
     setState(() {
       _sharing = true;
       _notice = null;
+      _failure = null;
     });
     final failure = await ref.read(mobActionsProvider).updateMe(showScore: on);
     if (!mounted) return;
     setState(() {
       _sharing = false;
       _notice = failure == null ? null : ref.read(mobActionsProvider).say(failure);
+      _failure = failure;
     });
   }
 
@@ -90,6 +97,8 @@ class _MobCompareCardState extends ConsumerState<MobCompareCard> {
             const SizedBox(height: MmSpace.s8),
             Text(note, style: type.small.copyWith(color: colors.ink2)),
           ],
+          // The side-by-side is Pro's: the note says what it holds, the key opens the Upgrade sheet on it (D80).
+          if (summary.locked) const MobProEntry(reason: ProReason.mob, topGap: MmSpace.s12),
           if (showShare) ...[
             const SizedBox(height: MmSpace.s12),
             MobSwitchRow(title: MobCopy.shareLabel, note: MobCopy.shareHint, value: false, enabled: !_sharing, onChanged: _share, padding: EdgeInsets.zero),
@@ -101,6 +110,7 @@ class _MobCompareCardState extends ConsumerState<MobCompareCard> {
           if (_notice != null) ...[
             const SizedBox(height: MmSpace.s8),
             Semantics(liveRegion: true, child: Text(_notice!, style: type.small.copyWith(color: colors.ink))),
+            if (!summary.locked) MobProEntry(failure: _failure),
           ],
         ],
       ),

@@ -19,6 +19,7 @@ import '../data/recovery_record.dart';
 import '../data/subject_names.dart';
 import '../data/trend.dart';
 import '../insights_paths.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProReason;
 import '../widgets/insights_bits.dart';
 import '../widgets/ledger_hero.dart';
 import '../widgets/recovery_sections.dart';
@@ -261,14 +262,14 @@ class InsightsScreen extends ConsumerWidget {
         gap,
         section(
           InsightsCopy.changesHeading,
-          inputs.pro ? ChangesSection(changes: c, evidence: ev.changes) : const ProRow(InsightsCopy.proChanges),
+          inputs.pro ? ChangesSection(changes: c, evidence: ev.changes) : const ProRow(InsightsCopy.proChanges, reason: ProReason.insightsChanges),
         ),
       ],
       if (showPace) ...[
         gap,
         section(
           InsightsCopy.paceHeading,
-          inputs.pro ? PaceSection(pace: p, evidence: ev.pace) : const ProRow(InsightsCopy.proPace),
+          inputs.pro ? PaceSection(pace: p, evidence: ev.pace) : const ProRow(InsightsCopy.proPace, reason: ProReason.insightsPace),
         ),
       ],
       if (showWeek) ...[

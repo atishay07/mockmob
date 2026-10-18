@@ -8,6 +8,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../credits/data/credit_figures.dart' show creditFiguresProvider;
 import '../../insights/data/subject_names.dart' show canonicalSubjectId;
+import '../../pro_nudge/pro_nudge.dart' show ProNudgeRow, ProNudgeSurface;
 import '../../result/model/next_move.dart' show NextMoveRules;
 import '../copy.dart';
 import '../data/review_providers.dart' show subjectName;
@@ -118,6 +119,8 @@ class _WeakChaptersLeadState extends ConsumerState<WeakChaptersLead> {
                   practiseLine: line,
                   onPractise: () => context.push(practisePathFor(open)),
                 ),
+                // The one Pro nudge on Review: nothing with PLAY_BILLING off or for a Pro student.
+                const ProNudgeRow(surface: ProNudgeSurface.reviewPractise, topGap: MmSpace.s4),
                 const SizedBox(height: ReviewSpace.group),
                 ChapterMistakes(row: open, onRepair: widget.onRepair),
               ],

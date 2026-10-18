@@ -24,6 +24,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../practice/model/practice_selection.dart' show mockQuestionCount;
 import '../../practice/widgets/choice_deck.dart' show ChoiceDeck, ChoiceOption, ChoiceRow;
 import '../../practice/widgets/choice_glyphs.dart' show ChoiceGlyphKind;
+import '../../pro_nudge/pro_nudge.dart' show ProReason, showUpgradeSheetIfOn;
 import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntryProvider;
 import '../../runner/runner_routes.dart' show NtaRoutes;
 import '../copy.dart';
@@ -236,6 +237,8 @@ class AlternativesSheet extends ConsumerWidget {
     return AlternativesSheetBody(
       rows: rows,
       onRow: (row) {
+        // NTA mode comes with Pro: a Free student meets the Upgrade sheet (PLAY_BILLING on); otherwise as before.
+        if (row.kind == AlternativeKind.nta && !inputs.isPro && showUpgradeSheetIfOn(context, reason: ProReason.ntaMode)) return;
         final router = GoRouter.of(context);
         Navigator.of(context).maybePop();
         if (AppRoutes.tabRoots.contains(row.location)) {

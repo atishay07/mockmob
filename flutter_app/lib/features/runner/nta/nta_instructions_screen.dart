@@ -19,6 +19,7 @@ import '../../practice/data/practice_quote.dart';
 import '../../practice/data/practice_starter.dart' show StartFailure;
 import '../../practice/model/practice_selection.dart';
 import '../../practice/widgets/failure_copy.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry;
 import '../../rules/widgets/start_sheet_line.dart';
 import 'nta_chip.dart';
 import 'nta_copy.dart';
@@ -207,9 +208,11 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
                         InlineBanner(message: (_error ?? gate)!, tone: BannerTone.warning),
                         const SizedBox(height: MmSpace.s12),
                       ],
-                      if (gate != null)
-                        KeyButton.secondary(label: PracticeCopy.backToPractice, onPressed: _back)
-                      else ...[
+                      if (gate != null) ...[
+                        // The mode comes with Pro: the Upgrade sheet, when PLAY_BILLING is on (it draws nothing otherwise).
+                        if (quote != null && quote.isAccessRequired) const UpgradeEntry(reason: ProReason.ntaMode, bottomGap: MmSpace.s8),
+                        KeyButton.secondary(label: PracticeCopy.backToPractice, onPressed: _back),
+                      ] else ...[
                         // The line keeps its space once the box is ticked, so the page does not move.
                         // It is the reason the key is off, so it is read while the key is.
                         ExcludeSemantics(

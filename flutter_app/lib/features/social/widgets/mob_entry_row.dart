@@ -13,7 +13,7 @@ import '../data/mob_repository.dart';
 import '../logic/mob_entry.dart';
 import '../mob_routes.dart';
 import '../screens/mob_sheets.dart' show InviteSheet;
-import 'mob_parts.dart';
+import 'mob_pro_entry.dart';
 
 /// The Mob's one calm line on Practice and Review (the website's entry lines, from [mobEntryFor]).
 /// Practice: this week's paper with an outlined "Sit it" key, or "See your answers" once sat. Review:
@@ -45,7 +45,7 @@ class _MobEntryRowState extends ConsumerState<MobEntryRow> {
         final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob);
         if (!mounted) return;
         setState(() => _opening = false);
-        if (failure != null) showMobToast(context, ref.read(mobActionsProvider).say(failure));
+        if (failure != null) sayMobFailure(context, failure, ref.read(mobActionsProvider).say(failure));
       case MobEntryAct.answers:
         final id = entry.resultId;
         if (id == null) return openMobPage(context);

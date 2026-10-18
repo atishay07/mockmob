@@ -12,6 +12,7 @@ import '../../core/motion/motion.dart';
 import '../../core/router/app_shell.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../pro_nudge/pro_nudge.dart';
 import '../runner/runner_routes.dart' show NtaRoutes;
 import 'copy.dart';
 import 'data/practice_catalog.dart';
@@ -390,7 +391,11 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                   title: PracticeCopy.smartTitle,
                                   tag: smartGated ? PracticeCopy.proTag : null,
                                   note: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
-                                  onTap: () => _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject)),
+                                  onTap: () {
+                                    // A Free student is told what Pro adds and can buy it (PLAY_BILLING on); otherwise as before.
+                                    if (smartGated && showUpgradeSheetIfOn(context, reason: ProReason.smartPractice)) return;
+                                    _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject));
+                                  },
                                 ),
                               ),
                             ChoiceRow.band(
@@ -417,7 +422,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                                           tag: ntaGated ? PracticeCopy.proTag : null,
                                           note: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
                                           // The exam's own instructions page: the clock starts only after it.
-                                          onTap: () => context.push(NtaRoutes.location(subject)),
+                                          onTap: () {
+                                            if (ntaGated && showUpgradeSheetIfOn(context, reason: ProReason.ntaMode)) return;
+                                            context.push(NtaRoutes.location(subject));
+                                          },
                                         )
                                       : null,
                                 ),
@@ -426,6 +434,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                           ],
                         ),
                       ),
+                      // The one Pro nudge on this page, under the mock rows: nothing with the flag off or for a Pro student.
+                      const Padding(padding: gutter, child: ProNudgeRow(surface: ProNudgeSurface.practiceMocks, topGap: MmSpace.s4)),
                       // The exam band closes with its own rule, so the next section opens on air alone.
                       const SizedBox(height: MmSpace.s32),
                       // F. More ways in: the question stream and the Admission Compass.

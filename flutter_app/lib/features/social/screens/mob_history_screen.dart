@@ -10,6 +10,7 @@ import '../data/mob_navigator.dart';
 import '../data/mob_repository.dart';
 import '../mob_routes.dart';
 import '../widgets/mob_parts.dart';
+import '../widgets/mob_pro_entry.dart';
 
 /// Past weeks of the Mob (Pro): the weekly papers that closed, newest first. Each week says how many
 /// sat and your own result; a week with two or more sitters opens as a side-by-side. Read when the
@@ -53,7 +54,7 @@ class _MobHistoryScreenState extends ConsumerState<MobHistoryScreen> {
     if (!mounted) return;
     setState(() => _opening = null);
     if (failure != null) {
-      showMobToast(context, ref.read(mobActionsProvider).say(failure));
+      sayMobFailure(context, failure, ref.read(mobActionsProvider).say(failure));
     } else if (compare != null) {
       await openMobCompare(context, compare, week: w.week);
     }
@@ -88,6 +89,8 @@ class _MobHistoryScreenState extends ConsumerState<MobHistoryScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(ref.read(mobActionsProvider).say(_failure!), style: type.body.copyWith(color: colors.ink)),
+                  // Past weeks are Pro's: when that is the answer, the way to it, not only Try again (D80).
+                  MobProEntry(failure: _failure, topGap: MmSpace.s12),
                   const SizedBox(height: MmSpace.s16),
                   PillKey(label: MobCopy.tryAgain, onPressed: _load),
                 ],

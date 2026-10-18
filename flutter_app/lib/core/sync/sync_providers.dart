@@ -16,6 +16,7 @@ import '../repositories/dismissal_repository.dart';
 import '../repositories/local_scope.dart';
 import '../repositories/pending_result_repository.dart';
 import '../repositories/session_draft_repository.dart';
+import '../repositories/student_actions.dart';
 import '../storage/storage_providers.dart';
 import 'background_tasks.dart';
 import 'outbox_repository.dart';
@@ -144,6 +145,8 @@ final sessionEngineServicesProvider = Provider<SessionEngineServices>((ref) {
         await ref.read(attemptsRepositoryProvider.notifier).upsertSubmitted(attempt);
         // New evidence: "Not today" no longer applies.
         await ref.read(dismissalRepositoryProvider).clearForNewAttempt();
+        // A real action of this run (the first-session Pro pop-up waits for one).
+        ref.read(studentActionsProvider.notifier).submitted();
         // A set spends Practice credits on the server: read the balance again now, so the result
         // key and the avatar sheet show what it holds and not the figure from before the set.
         unawaited(ref.read(meCreditsProvider.notifier).refresh(force: true).catchError((Object _) {}));

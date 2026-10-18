@@ -15,6 +15,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/key_button_motion.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../learn/data/catalog_repository.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProNudgeRow, ProNudgeSurface;
 import '../copy.dart';
 import '../data/launch_flow.dart';
 import '../data/open_paper.dart';
@@ -389,6 +390,12 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
         onUseDailyCount: () => _c.change(_selection.copyWith(count: 10)),
         onOpenConcepts: widget.exits.concepts,
         onOpenReview: widget.exits.review,
+      ),
+      // A Free student who will spend credits on this set is told Pro needs none (PLAY_BILLING on; nothing otherwise).
+      ProNudgeRow(
+        surface: ProNudgeSurface.practiceCost,
+        show: loaded != null && !pending && !start.creditsLow && costLineFor(loaded).kind == CostKind.credits,
+        topGap: MmSpace.s4,
       ),
       if (!chaptersFirst) fineTune,
       if (mode.isMock)
