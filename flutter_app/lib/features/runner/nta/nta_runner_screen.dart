@@ -71,18 +71,7 @@ class _NtaRunnerViewState extends ConsumerState<NtaRunnerView> with RunnerHost<N
   }
 
   @override
-  void onLifecycleChange(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.inactive:
-        _integrity.onInactive();
-      case AppLifecycleState.hidden || AppLifecycleState.paused:
-        _integrity.onLeft();
-      case AppLifecycleState.resumed:
-        _integrity.onReturned();
-      case AppLifecycleState.detached:
-        break;
-    }
-  }
+  void onLifecycleChange(AppLifecycleState state) => _integrity.onLifecycle(state);
 
   void _onIntegrity() {
     if (!mounted) return;

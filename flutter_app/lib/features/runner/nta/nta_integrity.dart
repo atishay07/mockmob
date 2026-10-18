@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart' show AppLifecycleState;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/storage/prefs_store.dart';
@@ -100,6 +101,23 @@ class NtaIntegrity extends ChangeNotifier {
       // A missing store only loses the count; the exam carries on.
     }
     if (!_disposed) notifyListeners();
+  }
+
+  /// The app's lifecycle, the way the website reads the tab (M-003, owner 13 Oct): a deliberate switch
+  /// to another app ([AppLifecycleState.hidden], [AppLifecycleState.paused]) counts at once; a cover
+  /// that leaves the app showing ([AppLifecycleState.inactive]: the notification shade, a call banner)
+  /// counts only if it outlasts [inactiveGrace]; coming back clears the pending cover. There is no other grace.
+  void onLifecycle(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.inactive:
+        onInactive();
+      case AppLifecycleState.hidden || AppLifecycleState.paused:
+        onLeft();
+      case AppLifecycleState.resumed:
+        onReturned();
+      case AppLifecycleState.detached:
+        break;
+    }
   }
 
   /// Another window covers the app (split screen, a dialog, the recents swipe beginning).

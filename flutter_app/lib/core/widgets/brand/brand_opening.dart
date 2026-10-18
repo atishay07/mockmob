@@ -105,6 +105,10 @@ abstract final class OpeningTimeline {
   static const double reducedMs = 200;
   static const double reducedFadeMs = 160;
 
+  /// The first launch after install under reduced motion: the static word is held (nothing moves)
+  /// until here, so the whole opening is still [fullMs] long, then the short [reducedFadeMs] hands off.
+  static const double reducedFullHandOffAt = fullMs - reducedFadeMs;
+
   /// The Android 12+ splash draws the 108-unit `splash_mo` drawable 288 dp square (an icon with no
   /// icon background); `launch_background.xml` uses the same size before Android 12. Keep in step
   /// with SPLASH_ICON_DP in tool/make_icons.py.
@@ -393,7 +397,8 @@ abstract final class OpeningGlass {
 /// The one brand opening, on every cold start: it continues the system splash's "mo", grows into
 /// "mockmob", and hands off to the first screen. About 1.3 s; the first launch after install
 /// ([firstLaunch]) plays it whole, about 3 s. It covers the app until it is done, then
-/// removes itself ([onDone]); tap to skip. Under reduced motion the "mo" fades to the word.
+/// removes itself ([onDone]); tap anywhere to skip. Under reduced motion the "mo" fades to the still word (held
+/// for the whole 3 s on the first launch).
 ///
 /// [ready] says the first screen is known and built (the session is known and the router has gone
 /// to it); it is never about the first screen's data (the opening plays on its own clock, and the
@@ -418,7 +423,8 @@ class BrandOpening extends ConsumerStatefulWidget {
   final VoidCallback onDone;
 
   /// The first launch after install (M-001): the whole opening, [OpeningTimeline.fullMs] in all, instead of the short
-  /// one. Under reduced motion it is the same short fade either way.
+  /// one. Under reduced motion the static word is held for the same [OpeningTimeline.fullMs],
+  /// with nothing moving. A tap skips either.
   final bool firstLaunch;
 
   /// Called once when the "mo" is on the glass (the platform answered, or its answer timed out):
@@ -571,7 +577,7 @@ class _BrandOpeningState extends ConsumerState<BrandOpening> with TickerProvider
 
   /// The earliest the hand-off starts on its own: the composed word, or after the first launch's hold.
   double get _settledAt => _reduced
-      ? OpeningTimeline.reducedMs
+      ? (widget.firstLaunch ? OpeningTimeline.reducedFullHandOffAt : OpeningTimeline.reducedMs)
       : widget.firstLaunch
           ? OpeningTimeline.fullHandOffAt
           : OpeningTimeline.settledAt;

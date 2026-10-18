@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/copy/plan_copy.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/json_helpers.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
@@ -229,6 +230,7 @@ void main() {
       expect(find.text('AI credits'), findsWidgets);
       expect(find.text('Free'), findsOneWidget);
       expect(find.text('Free plan'), findsNothing, reason: 'the pill says it once');
+      expect(find.text(PlanCopy.bankFree), findsOneWidget, reason: 'one central bank, said quietly (M-002)');
       expect(_card('Practice credits, 40. For mocks and practice sets'), findsOneWidget);
       expect(_card('AI credits, 9. For Ask Mobi and repair explanations'), findsOneWidget);
       expect(find.text('Renews 1 November'), findsOneWidget);
@@ -338,6 +340,20 @@ void main() {
       expect(find.text('Pro until 12 January 2027'), findsOneWidget);
       expect(find.text('Unlimited'), findsOneWidget);
       expect(find.text('Practice is unlimited on Pro'), findsOneWidget);
+      expect(find.text(PlanCopy.bankPro), findsOneWidget);
+    });
+
+    test('the bank line is truthful and calm: no subject count, no promise a question never returns, no banned punctuation', () {
+      for (final s in [PlanCopy.bankPro, PlanCopy.bankFree]) {
+        expect(s.contains('central question bank'), isTrue, reason: s);
+        expect(RegExp(r'\d').hasMatch(s), isFalse, reason: 'no figure that could go stale: $s');
+        expect(s.contains('!'), isFalse);
+        expect(s.contains('—'), isFalse);
+        expect(s.contains('·'), isFalse);
+        expect(s.toLowerCase().contains('never repeat'), isFalse);
+      }
+      expect(PlanCopy.bankLine(pro: true), contains('Unlimited'));
+      expect(PlanCopy.bankLine(pro: false).contains('Unlimited'), isFalse, reason: 'Free spends credits: only Pro says unlimited');
     });
   });
 
