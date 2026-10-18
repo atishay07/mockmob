@@ -190,7 +190,7 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | OPEN | **W-064, F18:** guided entry points for every feature (adoption). |
 | OPEN | **W-072/073/077/082/083/087:** the premium bar, motion, anti-slop, subject art, balance and detail sweeps. |
 | OPEN | **W-085:** web and app parity. |
-| OPEN | **W-091:** every W and L item verified live at 390 and 1440, Night and Day. **The last full audit was before R2; re-audit on live.** |
+| DONE (audit) | **W-091:** re-audited on live R6 on 18 Oct (`W-REAUDIT-2026-10-18.md`): **71 PASS, 21 PARTIAL, 0 FAIL, 4 not testable, 4 superseded** (was 37/49/11). The open items are being fixed in R7/R8 (see the 9:50 am row below). |
 
 ### Landing
 
@@ -282,6 +282,25 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D36 | Ask Mobi redesign not seen (the preview was built on R4). On R7, the Today lead card carries Ask Mobi "Why this?"; release notes say where Ask Mobi is | OPEN (R7) |
 | D38 | Landing HERO refinement: the morphing/typed changing line under "CUET 2027" (L-016), CUET 2027 coloured (L-017), not a fake button (L-018), clean spacing (L-014), the Mobi animation (L-004), no glow (L-019) | OPEN (Opus, wt-land3) |
 | D37 | Finish and perfect everything, publish the final web and app versions, then tell him; he reviews both and gives final feedback | RULE / in progress |
+
+### Re-audit follow-ups, 18 Oct about 9:50 am (all being built for R8 unless marked)
+| W | Item | Where |
+|---|---|---|
+| W-041/W-042/W-077 (Today) | The new Today replaces R4's | R7 (verifying) |
+| W-078 | /mentor "Your record" unreadable in Day (contrast 1.01): a LIVE bug | wt-r8-fixes |
+| W-026/W-075 | Two lime keys on phones: the dock Start goes quiet while a page's own primary is visible (the same rule the desktop sidebar already uses) | wt-r8-fixes |
+| W-079 | Sub-44 px spots (Practice fine-tune row, "See Q14", the Mob icon buttons; desktop sidebar rows if the rail still fits) | wt-r8-fixes |
+| W-093 | Help "Five stops" vs the 8-stop tour; two disclaimer-tone lines (Learn, Progress) | wt-r8-fixes |
+| W-089 | Copy the pass-1018 design notes into the repo | wt-r8-fixes |
+| W-064 | The first-week path; the "of the 6 you repaired, 5 did not come back" receipt | wt-r8-adopt |
+| W-032 | "Try it again" before the key on the result page | wt-r8-retry |
+| W-074 | The landing shows two Mobis at once at 1440 | the landing hero agent (wt-land3) |
+| W-085 | App parity: Review leads with weak chapters in v15 | wt-v15-review |
+| W-061/W-062 | The Mob is off in production | by decision (gate first) |
+| W-049 | Colleges are also addable outside onboarding | kept as edit paths (never cut); his call if he wants them gone |
+| W-099 | /mentor "Your record" and the Weak chapters page repeat the same record | **DECIDE** (merging cuts a page; ask him) |
+| W-033/W-058 | A live repair and sign-in persistence need a real signed-in walk | not testable from fixtures |
+| W-046 | "Study day / week chapters" meaning | **ask him** |
 
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
