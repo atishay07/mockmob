@@ -1,11 +1,18 @@
 // The Wallet's read: `GET /api/wallet` (signed in), the one credits balance (owner D78, 18 Oct 2026).
 //
-//   {"total": n, "freeLeft": n, "freeAllowance": n, "resetAt": ISO, "held": n,
-//    "packs": [...], "history": [{"at": ISO, "what": text, "delta": n, "balanceAfter": n}]}
+//   {"ok": true,
+//    "credits": {"total": n, "freeLeft": n, "freeAllowance": n, "held": n, "resetAt": ISO, "renewsOn": "YYYY-MM-DD",
+//                "parts": {...}, "label": "Credits", "buys": text},
+//    "plan": {"name": "Free" | "Pro", "until": "YYYY-MM-DD" | null},
+//    "proOffer": {...} | null, "packs": [...], "commerce": {"open": bool, "message": text | null},
+//    "history": [{"at": ISO, "pool": text, "what": text, "delta": n, "balanceAfter": n}] | null,
+//    "historyState": "ready" | "unavailable"}
 //
-// "total" is this month's free credits left plus the credits held. A number the server did not send
-// is null and is never drawn as zero. The "packs" list carries the website's own prices: the app never
-// reads them, because every price it shows is Google Play's own string (lib/features/billing).
+// "credits.total" is this month's free credits left plus the credits held. A number the server did not
+// send is null and is never drawn as zero. A history that could not be read is null with historyState
+// "unavailable": the balances stay. The app never reads "proOffer", "packs" or "commerce": they are the
+// website's own prices and checkout state, and every price the app shows is Google Play's own string
+// (lib/features/billing).
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -40,21 +47,42 @@ class WalletEntry {
 }
 
 class WalletRead {
-  const WalletRead({this.total, this.freeLeft, this.freeAllowance, this.resetAt, this.held, this.history = const []});
+  const WalletRead({
+    this.total,
+    this.freeLeft,
+    this.freeAllowance,
+    this.resetAt,
+    this.held,
+    this.buys,
+    this.planIsPro,
+    this.planUntil,
+    this.history = const [],
+    this.historyUnavailable = false,
+  });
 
   factory WalletRead.fromJson(Json j) {
-    final freeLeft = asInt(j['freeLeft']);
-    final held = asInt(j['held']);
+    final credits = asJson(j['credits']);
+    final plan = asJson(j['plan']);
+    final freeLeft = asInt(credits['freeLeft']);
+    final held = asInt(credits['held']);
+    final rows = j['history'];
+    final planName = asStringOr(plan['name'], '').trim();
+    final buys = asStringOr(credits['buys'], '').trim();
     return WalletRead(
       // The server's own total; this month's free credits plus held only when it sent no total.
-      total: asInt(j['total']) ?? (freeLeft != null && held != null ? freeLeft + held : null),
+      total: asInt(credits['total']) ?? (freeLeft != null && held != null ? freeLeft + held : null),
       freeLeft: freeLeft,
-      freeAllowance: asInt(j['freeAllowance']),
-      resetAt: asDate(j['resetAt']),
+      freeAllowance: asInt(credits['freeAllowance']),
+      resetAt: asDate(credits['resetAt']),
       held: held,
+      buys: buys.isEmpty ? null : buys,
+      planIsPro: planName.isEmpty ? null : planName.toLowerCase() == 'pro',
+      planUntil: asDate(plan['until']),
       history: [
-        for (final row in (j['history'] is List ? j['history'] as List : const <Object?>[])) ?WalletEntry.tryParse(row),
+        for (final row in (rows is List ? rows : const <Object?>[])) ?WalletEntry.tryParse(row),
       ],
+      // null history, or the server's own "unavailable": the lines could not be read (an empty list is a real empty history).
+      historyUnavailable: j['historyState'] == 'unavailable' || (j.containsKey('history') && rows == null),
     );
   }
 
@@ -66,8 +94,20 @@ class WalletRead {
   final DateTime? resetAt;
   final int? held;
 
+  /// The server's one sentence on what a credit buys, so the words follow its price list.
+  final String? buys;
+
+  /// The server's own plan: true for Pro, false for Free, null when it sent none.
+  final bool? planIsPro;
+
+  /// The day Pro ends (India's calendar day), when the server sent one.
+  final DateTime? planUntil;
+
   /// Newest first.
   final List<WalletEntry> history;
+
+  /// The balances read but the history did not.
+  final bool historyUnavailable;
 }
 
 class WalletRepository extends JsonRemoteNotifier<WalletRead> {
@@ -93,7 +133,9 @@ class WalletView {
     this.freeAllowance,
     this.resetsAt,
     this.held,
+    this.buys,
     this.history = const [],
+    this.historyUnavailable = false,
     this.isPro = false,
     this.proUntil,
     this.loading = false,
@@ -108,7 +150,13 @@ class WalletView {
   /// When the free credits reset, as a wall-clock time on India's clock (no zone).
   final DateTime? resetsAt;
   final int? held;
+
+  /// What a credit buys, in the server's words; null falls back to the app's own line.
+  final String? buys;
   final List<WalletEntry> history;
+
+  /// The balances are known but the history could not be read.
+  final bool historyUnavailable;
   final bool isPro;
   final DateTime? proUntil;
 
@@ -138,9 +186,12 @@ final walletViewProvider = Provider<WalletView>((ref) {
     freeAllowance: v?.freeAllowance,
     resetsAt: wall(v?.resetAt),
     held: v?.held,
+    buys: v?.buys,
     history: v?.history ?? const [],
-    isPro: auth.isPro,
-    proUntil: auth.premiumUntil?.toLocal(),
+    historyUnavailable: v?.historyUnavailable ?? false,
+    // The wallet's own plan wins when the read carries one; the signed-in account says it otherwise.
+    isPro: v?.planIsPro ?? auth.isPro,
+    proUntil: v?.planUntil ?? auth.premiumUntil?.toLocal(),
     loading: read.isInitialLoading,
     failed: read.isFailedEmpty,
     stale: read.isStale,

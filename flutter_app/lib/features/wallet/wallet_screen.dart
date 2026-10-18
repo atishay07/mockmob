@@ -104,7 +104,8 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
         ),
       );
     }
-    if (view.failed) {
+    // The balance read can work while the lines did not: the figure stays, the lines say so.
+    if (view.failed || view.historyUnavailable) {
       return Padding(
         padding: youGutter,
         child: Column(
@@ -246,7 +247,7 @@ class _Balance extends StatelessWidget {
     final known = view.total != null;
     final figure = known ? '${view.total}' : (view.loading ? WalletCopy.checking : WalletCopy.notLoaded);
     final lines = <String>[
-      WalletCopy.creditsFor,
+      view.buys ?? WalletCopy.creditsFor,
       if (view.freeLeft != null && view.freeAllowance != null) WalletCopy.freeLeft(view.freeLeft!, view.freeAllowance!),
       if (view.resetsAt != null) WalletCopy.resets(view.resetsAt!),
       if (view.held != null && view.held! > 0) '${WalletCopy.held(view.held!)}. ${WalletCopy.heldNote}',

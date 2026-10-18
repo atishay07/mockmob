@@ -53,6 +53,14 @@ class _FakePlatform extends InAppPurchasePlatform {
   }
 }
 
+class _RefusingPlatform extends _FakePlatform {
+  @override
+  Future<bool> buyNonConsumable({required PurchaseParam purchaseParam}) async => false;
+
+  @override
+  Future<bool> buyConsumable({required PurchaseParam purchaseParam, bool autoConsume = true}) async => false;
+}
+
 void main() {
   late _FakePlatform platform;
   late PluginPlayStore store;
@@ -78,6 +86,17 @@ void main() {
   test('finishing a non-consumable completes (acknowledges) it', () async {
     await store.finish(purchase('pro_cuet_2027'), consumable: false);
     expect(platform.calls.single, 'complete pro_cuet_2027');
+  });
+
+  test('without the Android addition (a phone with no Google Play add-on) a pack is still completed, never silently dropped', () async {
+    await store.finish(purchase('credits_29_150'), consumable: true);
+    expect(platform.calls.single, 'complete credits_29_150');
+  });
+
+  test('buy returns what the platform says: false when the sheet could not open', () async {
+    final refusing = PluginPlayStore(platform: _RefusingPlatform());
+    expect(await refusing.buy(productDetails('pro_cuet_2027', 'Rs 150.00'), consumable: false, accountHash: 'd' * 64), isFalse);
+    expect(await refusing.buy(productDetails('credits_10_50', 'Rs 15.00'), consumable: true, accountHash: 'd' * 64), isFalse);
   });
 
   test('restore passes the account hash; products and purchases pass straight through', () async {

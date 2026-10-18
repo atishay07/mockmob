@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/core/models/json_helpers.dart' show Json;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/wallet/data/wallet_data.dart';
@@ -51,17 +52,72 @@ void main() {
   });
 
   testWidgets('a balance that did not load is Not loaded, never 0', (tester) async {
-    await _pump(tester, rig: BillingRig(), read: walletState({'history': <Object?>[]}));
+    await _pump(tester, rig: BillingRig(), read: walletState({'ok': true, 'history': <Object?>[], 'historyState': 'ready'}));
     expect(find.text('Not loaded'), findsOneWidget);
     expect(find.text('0'), findsNothing);
     expect(find.textContaining('free credits left'), findsNothing);
   });
 
-  test('the total is the free credits left plus held when the server sends no total', () {
-    expect(WalletRead.fromJson({'freeLeft': 12, 'held': 8, 'freeAllowance': 50}).total, 20);
-    expect(WalletRead.fromJson({'freeLeft': 12}).total, isNull);
-    expect(WalletRead.fromJson({'total': 7, 'freeLeft': 12, 'held': 8}).total, 7);
+  test('the read follows the server nested shape: credits, plan, history and historyState', () {
+    final read = WalletRead.fromJson(walletBody());
+    expect(read.total, 46);
+    expect(read.freeLeft, 40);
+    expect(read.freeAllowance, 50);
+    expect(read.held, 6);
+    expect(read.resetAt, DateTime.utc(2026, 10, 31, 18, 30));
+    expect(read.buys, '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.');
+    expect(read.planIsPro, isFalse);
+    expect(read.history, hasLength(4));
+    expect(read.historyUnavailable, isFalse);
+    final pro = WalletRead.fromJson(walletBody(pro: true));
+    expect(pro.planIsPro, isTrue);
+    expect(pro.planUntil, DateTime(2027, 7, 31));
   });
+
+  test('the total is the free credits left plus held when the server sends no total', () {
+    Json credits(Map<String, Object?> c) => {'credits': c};
+    expect(WalletRead.fromJson(credits({'freeLeft': 12, 'held': 8, 'freeAllowance': 50})).total, 20);
+    expect(WalletRead.fromJson(credits({'freeLeft': 12})).total, isNull);
+    expect(WalletRead.fromJson(credits({'total': 7, 'freeLeft': 12, 'held': 8})).total, 7);
+    // An unreadable balance is null, never 0, and a body with no credits at all reads as nothing known.
+    expect(WalletRead.fromJson(credits({'total': null, 'freeLeft': null, 'held': null})).total, isNull);
+    expect(WalletRead.fromJson(const {}).total, isNull);
+    expect(WalletRead.fromJson(const {}).planIsPro, isNull);
+  });
+
+  test('a history the server could not read is unavailable, an empty one is not', () {
+    expect(WalletRead.fromJson(walletBody(historyReadable: false)).historyUnavailable, isTrue);
+    expect(WalletRead.fromJson(walletBody(historyReadable: false)).history, isEmpty);
+    expect(WalletRead.fromJson(walletBody(history: false)).historyUnavailable, isFalse);
+    expect(WalletRead.fromJson({'historyState': 'unavailable'}).historyUnavailable, isTrue);
+  });
+
+  testWidgets('the balance stays when the history could not be read; only the lines say so', (tester) async {
+    await _pump(tester, rig: BillingRig(on: false), read: walletState(walletBody(historyReadable: false)));
+    expect(find.text('46'), findsWidgets);
+    expect(find.text('40 of 50 free credits left this month'), findsOneWidget);
+    expect(find.text(WalletCopy.historyFailedTitle), findsOneWidget);
+    expect(find.text('Not loaded'), findsNothing);
+  });
+
+  testWidgets('the plan comes from the wallet read: Pro has no Pro row and says practice is unlimited', (tester) async {
+    await _pump(tester, rig: BillingRig(), read: walletState(walletBody(pro: true)));
+    expect(find.text(WalletCopy.proRowNote), findsNothing);
+    expect(find.text(WalletCopy.practiceUnlimitedNote), findsOneWidget);
+  });
+
+  for (final on in [true, false]) {
+    testWidgets('the website prices in the read (packs, proOffer) never reach the screen, with Google Play ${on ? 'on' : 'off'}', (tester) async {
+      await _pump(tester, rig: BillingRig(on: on));
+      for (final web in ['₹10', '₹29', '₹49', '₹99', 'Rs 10', 'Rs 29', 'Rs 49', 'Rs 99', 'mockmob.in', 'checkout']) {
+        expect(find.textContaining(web), findsNothing, reason: web);
+      }
+      // Off: the one calm line and no purchase key of any kind.
+      expect(find.text(BillingCopy.topUpsSoon), on ? findsNothing : findsOneWidget);
+      if (!on) expect(find.text('Get Pro'), findsNothing);
+      expect(find.text('Add credits'), findsNothing);
+    });
+  }
 
   testWidgets('flag on: one set of packs with Google Play prices, a quiet Pro row, no pool rows', (tester) async {
     await _pump(tester, rig: BillingRig());
@@ -103,7 +159,7 @@ void main() {
   });
 
   testWidgets('Pro: no Pro row, practice is unlimited, the packs are still there', (tester) async {
-    await _pump(tester, rig: BillingRig(), pro: true);
+    await _pump(tester, rig: BillingRig(), pro: true, read: walletState(walletBody(pro: true)));
     expect(find.text(WalletCopy.proRowNote), findsNothing);
     expect(find.text(WalletCopy.practiceUnlimitedNote), findsOneWidget);
     expect(find.text('50 credits'), findsOneWidget);
@@ -125,7 +181,7 @@ void main() {
   testWidgets('history: the latest lines with their time, the change and what is left', (tester) async {
     await _pump(tester, rig: BillingRig(on: false));
     expect(find.text('Ask Mobi reply'), findsOneWidget);
-    expect(find.text('Monthly free credits'), findsOneWidget);
+    expect(find.text('Free credits for the month'), findsOneWidget);
     expect(find.text('−10'), findsOneWidget);
     expect(find.text('46 left'), findsOneWidget);
     expect(find.text('+50'), findsOneWidget);
