@@ -46,7 +46,7 @@ void main() {
       expect(ids, ['chapter', 'changes', 'pace', 'skips']);
     });
 
-    test('the chapter finding names the chapter, never its subject, and prints Review's figure (final walk, H6)', () {
+    test('the chapter finding names the chapter, never its subject, and prints Review’s figure (final walk, H6)', () {
       final f = readout(rich()).first;
       expect(f.headline, 'You lose the most marks in Partnership: admission of a partner');
       expect(f.detail, startsWith('Partnership: admission of a partner: 6 right, 4 wrong, 3 left blank, of 13 questions over 3 sessions.'));

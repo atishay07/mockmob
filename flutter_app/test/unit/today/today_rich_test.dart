@@ -298,7 +298,7 @@ void main() {
       expect(t.points.map((p) => p.label), ['Mock 2', 'Mock 3', 'Mock 4', 'Mock 5', 'Mock 6', 'Mock 7']);
       expect(t.ofSubject, 7);
       expect(t.outOf, 250);
-      expect(AheadCopy.marksSub(6, 7, 'Accountancy'), 'Newest 6 of your 7 Accountancy mocks');
+      expect(AheadCopy.marksSub(6, 7, 'Accountancy'), 'Newest 6 of your 7 Accountancy full mocks');
     });
 
     test('a sealed paper is never on the line, and under two full mocks there is no line', () {
@@ -313,6 +313,17 @@ void main() {
       expect(AheadCopy.marksNotBest(171, 'Mock 7', 6, 204, 'Mock 5'), '171 on Mock 7. Your best of these 6 is 204, on Mock 5.');
       expect(AheadCopy.marksChange(33, 'Mock 6'), '+33 on Mock 6.');
       expect(AheadCopy.marksChange(-12, 'Mock 6'), '−12 on Mock 6.');
+    });
+
+    test('a best shared by two or more papers names every one of them, never "your best" for one (final walk, low)', () {
+      TrendPoint pt(int k, int marks) => TrendPoint(attemptId: 'm$k', label: 'Mock $k', date: '', marks: marks, outOf: 250, target: const GoTo('/r'));
+      MarksTrend trend(List<int> marks) =>
+          MarksTrend(subject: 'Accountancy', ofSubject: marks.length, outOf: 250, points: [for (var k = 0; k < marks.length; k++) pt(k + 3, marks[k])]);
+      // The walk: Mock 3 to Mock 8 scored 0, 5, 4, 5, 4, 5.
+      expect(marksHead(trend([0, 5, 4, 5, 4, 5])), '5 on Mock 8. Your best of these 6 is 5, on Mock 4, Mock 6 and Mock 8.');
+      expect(marksHead(trend([0, 5, 4, 5, 4, 3])), '3 on Mock 8. Your best of these 6 is 5, on Mock 4 and Mock 6.');
+      expect(marksHead(trend([0, 5, 4, 2, 4, 6])), '6 on Mock 8, your best of these 6.');
+      expect(marksHead(trend([0, 7, 4])), '4 on Mock 5. Your best of these 3 is 7, on Mock 4.');
     });
 
     testWidgets('equal marks on two mocks in a row say "Level with", never "0 on", which reads as a zero score', (tester) async {
@@ -386,7 +397,7 @@ void main() {
       expect(find.text(GlanceCopy.practise), findsNothing);
       expect(find.text(AheadCopy.practiseSet), findsNothing);
       expect(find.text(AheadCopy.weakHint), findsOneWidget);
-      expect(find.text(AheadCopy.marksOpen), findsNWidgets(weak.rows.length));
+      expect(find.text(GlanceCopy.marksLost), findsNWidgets(weak.rows.length));
       await tester.tap(find.text(weak.rows.first.chapter));
       await tester.pumpAndSettle();
       expect(find.text(AheadCopy.practiseSet), findsOneWidget);

@@ -37,7 +37,7 @@ void main() {
       final badge = tonightFor(inputs);
       expect(move.state, NextMoveState.ready);
       expect(badge, greaterThan(0));
-      expect(badgeFor(inputs), greaterThanOrEqualTo(badge), reason: 'the badge is every open repair, tonight's chapter among them');
+      expect(badgeFor(inputs), greaterThanOrEqualTo(badge), reason: 'the badge is every open repair, tonight’s chapter among them');
 
       final n = int.parse(move.number!);
       final label = move.numberLabel!;
@@ -65,7 +65,7 @@ void main() {
   }
   agrees('a returning student on the 10 min chip', ashaInputs(returning: true, selectedMinutes: 10));
 
-  test('late at night the recorded case reads 3 in 10 min of the chapter's 4, never 3 to repair tonight', () {
+  test('late at night the recorded case reads 3 in 10 min of the chapter’s 4, never 3 to repair tonight', () {
     final inputs = ashaInputs(now: tuesdayLate);
     final move = buildMove(inputs);
     expect(tonightFor(inputs), 4);
@@ -74,14 +74,14 @@ void main() {
     expect(move.meaning, startsWith('3 of the 4 open mistakes in '));
   });
 
-  test('the whole chapter says mistakes to repair, with the chapter's number', () {
+  test('the whole chapter says mistakes to repair, with the chapter’s number', () {
     final inputs = ashaInputs(selectedMinutes: 15);
     final move = buildMove(inputs);
     expect(move.number, '${tonightFor(inputs)}');
     expect(move.numberLabel, 'mistakes\nto repair');
   });
 
-  test('the badge, Today's Repairs tile and Practice's row say one count: every open repair (final walk, H7)', () {
+  test('the badge, Today’s Repairs tile and Practice’s row say one count: every open repair (final walk, H7)', () {
     final inputs = ashaInputs();
     final index = indexFor(inputs);
     final badge = badgeFor(inputs);
@@ -89,9 +89,9 @@ void main() {
     final container = ProviderContainer(overrides: [reviewIndexProvider.overrideWithValue(index)]);
     addTearDown(container.dispose);
     final open = container.read(openRepairsProvider);
-    expect(open, badge, reason: 'Practice's Repairs row reads openRepairsProvider');
+    expect(open, badge, reason: 'Practice’s Repairs row reads openRepairsProvider');
     final withOpen = ashaInputs(openRepairs: open);
-    expect(buildQueue(withOpen).repairsOpen, badge, reason: 'Today's Repairs tile');
+    expect(buildQueue(withOpen).repairsOpen, badge, reason: 'Today’s Repairs tile');
     expect(BarBadges(reviewCount: badge).reviewText, badge > 9 ? '9+' : '$badge');
   });
 }

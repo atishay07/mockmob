@@ -92,16 +92,21 @@ abstract final class AheadCopy {
   // Your marks.
   static const String marksTitle = 'Your marks';
 
-  /// "Your last 6 Accountancy mocks", or "Newest 6 of your 9 Accountancy mocks".
+  /// "Your last 6 Accountancy full mocks", or "Newest 6 of your 9 Accountancy full mocks": one subject, and it says so,
+  /// beside Road to CUET's count of every full mock (final walk, H8).
   static String marksSub(int shown, int all, String subject) =>
-      shown == all ? 'Your last $shown $subject mocks' : 'Newest $shown of your $all $subject mocks';
+      shown == all ? 'Your last $shown $subject full mocks' : 'Newest $shown of your $all $subject full mocks';
 
   /// "204 on Mock 7, your best of these 6."
   static String marksBest(int marks, String label, int shown) => '$marks on $label, your best of these $shown.';
 
-  /// "171 on Mock 7. Your best of these 6 is 204, on Mock 5."
+  /// "171 on Mock 7. Your best of these 6 is 204, on Mock 5." [bestLabel] names every paper at the best ("Mock 4 and Mock 8").
   static String marksNotBest(int marks, String label, int shown, int best, String bestLabel) =>
       '$marks on $label. Your best of these $shown is $best, on $bestLabel.';
+
+  /// "Mock 4", "Mock 4 and Mock 8", "Mock 2, Mock 4 and Mock 8".
+  static String joinLabels(List<String> labels) =>
+      labels.length <= 1 ? labels.join() : '${labels.sublist(0, labels.length - 1).join(', ')} and ${labels.last}';
 
   /// "+33 on Mock 6.", "−12 on Mock 6.", or "Level with Mock 6." when the marks are the same (never
   /// "0 on Mock 6.", which reads as a zero score).

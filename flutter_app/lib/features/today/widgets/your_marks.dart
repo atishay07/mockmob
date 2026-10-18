@@ -42,12 +42,9 @@ class YourMarksBlock extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final newest = t.newest;
-    final best = t.best;
     final prev = t.previous;
     final n = t.points.length;
-    final head = identical(best, newest) || best.marks == newest.marks
-        ? AheadCopy.marksBest(newest.marks, newest.label, n)
-        : AheadCopy.marksNotBest(newest.marks, newest.label, n, best.marks, best.label);
+    final head = marksHead(t);
     final delta = prev == null ? null : newest.marks - prev.marks;
     final lead = '${newest.marks}';
     final lineStyle = type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink2);

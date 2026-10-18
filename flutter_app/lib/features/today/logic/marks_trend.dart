@@ -4,6 +4,7 @@
 // fewer than two full mocks there is no line and Your marks shows Last paper alone.
 import '../../../core/models/attempt.dart';
 import '../../../core/router/routes.dart';
+import '../copy_ahead.dart' show AheadCopy;
 import 'move_builder.dart' show paperLabel;
 import 'subjects.dart';
 import 'today_inputs.dart';
@@ -36,6 +37,23 @@ class MarksTrend {
     }
     return b;
   }
+
+  /// Every point at the best marks, oldest first: more than one on a tie.
+  List<TrendPoint> get bests => [for (final p in points) if (p.marks == best.marks) p];
+}
+
+/// The line under Your marks: the newest paper against the best of the points shown. A best shared by two or more papers
+/// names every one of them ("5 on Mock 8. Your best of these 6 is 5, on Mock 4, Mock 6 and Mock 8."), never "your best"
+/// as if Mock 8 alone held it (final walk, low).
+String marksHead(MarksTrend t) {
+  final newest = t.newest;
+  final n = t.points.length;
+  final bests = t.bests;
+  final labels = AheadCopy.joinLabels([for (final p in bests) p.label]);
+  if (newest.marks == t.best.marks) {
+    return bests.length == 1 ? AheadCopy.marksBest(newest.marks, newest.label, n) : AheadCopy.marksNotBest(newest.marks, newest.label, n, newest.marks, labels);
+  }
+  return AheadCopy.marksNotBest(newest.marks, newest.label, n, t.best.marks, labels);
 }
 
 /// The trend for [subject] (the move's), else the newest full mock's subject. Null with fewer than
