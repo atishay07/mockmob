@@ -341,3 +341,19 @@ His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW
 > "Rules: ... Opus for taste and money ... Persuasive, truthful marketing copy for nudges and Pro."
 
 **Ledger D86:** tonight's order and rules as above; deadline 10:30 pm. Opus for money paths (credits core, verifiers) and taste.
+
+## Owner, 18 Oct about 7:40 pm IST (verbatim)
+> "I believe that timelines can be adjusted according to whatever you want when running several AI agents because there is no limit on how much we can run. We have more than enough RAM and CPU usage also, so that's not the restrictive part. I feel like you can still speed up. Right now, 4 or 5 agents are only working, I think, so I don't think that's the pace you want, even for yourself.
+>
+> Anyway, keep nudging the agents, don't let them stall, and be on top of everything. What I want was that every feature that you are integrating after the check side should not be a check of whether everything is working. It should be a check of taste also, and if there is anything we can continuously keep improving on it. Actionable feedback, like live feedback while testing, the agent can itself give. How I give my feedback: I think you have finally understood my taste, what I like, and what I don't.
+>
+> I think there were some issues with the swipe left and right thing, so you can take UI experience inspiration from apps like Tinder, not just swipe-left, swipe-right dating kind of apps. Many other apps have also integrated these kinds of things to understand user taste or adapt to this and many things, and the UI should also be like that. When a first-time user is entering, it won't know what cards actually do or what swipe left and swipe right mean, so you have to build the entire process into this.
+>
+> This is just one example I'm giving. This is one of 100 tasks that you had to do. I'm not sure how they will have been implemented until the entire final build is ready, and that itself takes so long. I just want to make sure that we are always aligned on the right path."
+
+**Ledger D87-D91:**
+- **D87** Run many more agents in parallel; he says RAM and CPU are not the limit. Speed up.
+- **D88** Stay on top: keep nudging agents, never let one stall.
+- **D89** Every check is ALSO a taste check with actionable improvements, given the way he gives feedback (his taste), and improvement continues after the check (not only "does it work").
+- **D90** The swipe stack (D51): learn from Tinder AND other swipe-card apps that learn taste; a first-time user must understand what the cards do and what left and right mean; build that whole first-run process in.
+- **D91** Stay aligned on all ~100 tasks before the final build: show him how things are implemented early, not only at the end.

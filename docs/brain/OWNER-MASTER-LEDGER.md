@@ -410,6 +410,15 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 |---|---|---|
 | D86 | Tonight by 10:30 pm, in order: R9 (verify, MOB_ENABLED, push, STATUS); final app 1.0.15+6 (walk, APK, Mob + per-question walk on 3103, install, send); tracks C-H with tests and independent checks; release 10 + production migrations play_purchases and one_credits_balance; v15.2 walked, APK, installed; then ONE message | BUILDING 7:25 pm |
 
+### Owner at about 7:40 pm, 18 Oct (D87-D91)
+| D | Item | Status |
+|---|---|---|
+| D87 | Many more agents in parallel; speed up | 7:45 pm: added the taste workflow (about 12 more agents) on top of the 3 running |
+| D88 | Keep nudging agents; never let one stall | A stall monitor on every agent transcript (alert after 8 min silent) |
+| D89 | Every check also a taste check with actionable improvements, in his taste; keep improving | OWNER-TASTE-PROFILE.md (synthesised from the ledger and his words) used by every critic; taste critics per surface feed improvement builders for v15.2 and release 10 |
+| D90 | Swipe stack: Tinder and taste-learning swipe apps as inspiration; first-time users must learn what cards and left/right mean | Swipe v2: Opus design spec + mock, then build, then Opus taste critic; ships in v15.2 |
+| D91 | Stay aligned on all tasks; show how things look early | Send him screenshots of each surface as critics finish |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
