@@ -416,12 +416,8 @@ body:has(.mm.lp) {
     font-size: 0.8125rem;
   }
 }
-/* On a phone the dock carries the primary action in the thumb zone. */
-@media (max-width: 899px) {
-  .lp-cta {
-    display: none;
-  }
-}
+/* The hero's buttons show at every width (L-013): the dock rises only after they scroll away (HeroDockGate), so a guest on a
+   tablet window (761 to 899 px) has Start and the sample in the first screen, not only the menu. */
 
 /* The stage: the playable drill with product chips floating around it. */
 .lp-stage {
