@@ -40,7 +40,7 @@ function useForm() {
 
 const PAGE = normalizeContext({ kind: 'page' });
 
-export default function AssistantDrawer({ open, onClose, context = PAGE, onForm }) {
+export default function AssistantDrawer({ open, onClose, context = PAGE, onForm, returnTo = null }) {
   const reduced = useReducedMotion();
   const form = useForm();
   const panel = useRef(null);
@@ -74,9 +74,12 @@ export default function AssistantDrawer({ open, onClose, context = PAGE, onForm 
     return () => {
       cancelAnimationFrame(frame);
       document.removeEventListener('keydown', onKey);
-      if (previous?.isConnected && previous !== document.body) previous.focus({ preventScroll: true });
+      // Back to the control that opened the panel; a row of the phone's More sheet is gone by now (the sheet closed when it was
+      // pressed), so focus goes to the control that opened that sheet (returnTo, askMobi.mjs returnFocusFor).
+      const back = previous?.isConnected && previous !== document.body ? previous : (returnTo ? document.querySelector(returnTo) : null);
+      back?.focus({ preventScroll: true });
     };
-  }, [open, form, modal]);
+  }, [open, form, modal, returnTo]);
 
   // Docked, the panel starts under the top bar: its real lower edge, read on open and as the page scrolls (a strip above
   // the bar, such as the development preview's note, moves it down until it scrolls away).

@@ -319,7 +319,17 @@ export function eventCaption(e, { key = null } = {}) {
 }
 
 /**
- * The real moments of a paper, at most REEL_RULES.maxMoments, ranked lost, long, won and returned in paper order:
+ * The moments in the order they happened: by the clock second each carries (`sec`: when the answer changed, or when the long
+ * stay began). A moment without a known second goes after the dated ones, in paper order; ties go by question number.
+ */
+export function momentsInTimeOrder(moments) {
+  const when = (m) => (Number.isFinite(m.sec) ? m.sec : Infinity);
+  return [...moments].sort((a, b) => when(a) - when(b) || a.n - b.n);
+}
+
+/**
+ * The real moments of a paper, at most REEL_RULES.maxMoments, chosen by rank (lost, long, won) and returned in the order they
+ * happened on the clock ("What stood out" reads like the sitting did):
  *   lost  the first answer was the key and the paper's final answer is not (answerChanges: before === key, after !== key)
  *   long  the longest stay (>= 90 s and >= 2.5x even pace) on a question that did not earn marks
  *   won   the first answer was wrong and the final answer is the key
@@ -341,10 +351,10 @@ export function reelMoments({ rows = [], changes = [], view = null, paceSec = nu
     if (!list?.length || !Number.isInteger(key)) continue;
     if (row.verdict === 'wrong' && list[0].before === key) {
       const leave = list.find((c) => c.before === key && c.after !== key) || list[0];
-      lost.push({ kind: 'lost', n: row.number, at: clockLabel(sec(leave.at)), text: fill(M.lost, { n: row.number, m: MARKS_RIGHT - MARKS_WRONG }) });
+      lost.push({ kind: 'lost', n: row.number, sec: sec(leave.at), at: clockLabel(sec(leave.at)), text: fill(M.lost, { n: row.number, m: MARKS_RIGHT - MARKS_WRONG }) });
     } else if (row.verdict === 'correct' && Number.isInteger(list[0].before) && list[0].before !== key) {
       const gain = list.find((c) => c.after === key) || list[list.length - 1];
-      won.push({ kind: 'won', n: row.number, at: clockLabel(sec(gain.at)), text: fill(M.won, { n: row.number, m: MARKS_RIGHT - MARKS_WRONG }) });
+      won.push({ kind: 'won', n: row.number, sec: sec(gain.at), at: clockLabel(sec(gain.at)), text: fill(M.won, { n: row.number, m: MARKS_RIGHT - MARKS_WRONG }) });
     }
   }
   let long = null;
@@ -354,7 +364,7 @@ export function reelMoments({ rows = [], changes = [], view = null, paceSec = nu
       .sort((a, b) => b.sec - a.sec || a.n - b.n)[0];
     if (best) {
       const x = Math.round((best.sec / paceSec) * 10) / 10;
-      long = { kind: 'long', n: best.n, at: null, text: fill(M.long, { n: best.n, time: spentLabel(best.sec), x, pace: spentLabel(paceSec), result: R.reel.results[verdictOf.get(best.n) === 'skipped' ? 'blank' : 'wrong'] }) };
+      long = { kind: 'long', n: best.n, sec: Number.isFinite(view.firstAt?.get?.(best.n)) ? view.firstAt.get(best.n) : null, at: null, text: fill(M.long, { n: best.n, time: spentLabel(best.sec), x, pace: spentLabel(paceSec), result: R.reel.results[verdictOf.get(best.n) === 'skipped' ? 'blank' : 'wrong'] }) };
     }
   }
   const picked = [];
@@ -365,7 +375,7 @@ export function reelMoments({ rows = [], changes = [], view = null, paceSec = nu
     taken.add(m.n);
     picked.push(m);
   }
-  return picked.sort((a, b) => a.n - b.n);
+  return momentsInTimeOrder(picked);
 }
 
 /**

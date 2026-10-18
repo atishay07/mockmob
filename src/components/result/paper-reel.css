@@ -3,6 +3,9 @@
 .pbk-row { --pbk-ease: cubic-bezier(0.23, 1, 0.32, 1); margin-top: 22px; padding: 16px 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); display: grid; gap: 12px; align-items: center; min-width: 0; }
 .pbk-row__text h2 { margin: 0; font: 700 17px/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
 .pbk-row__text p { margin: 4px 0 0; font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
+/* Straight after the "Badge earned" row the two share one hairline: that row ends in a rule and this one begins with one, and the page's
+   24 px gap, the row's 4 px margin and this row's own 22 px made a 50 px empty band between them. */
+.sb-earned + .pbk-row { margin-top: calc(-1 * (var(--rl-gap, 24px) + 4px)); border-top: 0; }
 .pbk-row .pbk-open { justify-self: start; min-height: 44px; padding: 0 16px 0 12px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: none; color: var(--a-ink); display: inline-flex; align-items: center; gap: 8px; font: 650 14.5px/1 var(--font-body); cursor: pointer; transition: transform 160ms var(--pbk-ease), border-color 160ms ease; }
 .pbk-row .pbk-open:active { transform: scale(0.97); }
 .pbk-open svg { width: 18px; height: 18px; fill: var(--a-ink); }

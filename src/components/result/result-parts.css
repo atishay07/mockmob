@@ -70,6 +70,13 @@
   .ap-dhead { padding-top: 4px; }
   .ap .ap-all { display: none; }
 }
+/* While the part sits under the index (a phone, or a column too narrow for two), its sticky heading says "Your mistakes" and the block's
+   own heading said "Your 12 mistakes" again right under it: one heading stays. The block's goes (it is still the list's accessible name)
+   and its marks line stays, so the count is not lost: it is in the index row and on "Show all". */
+@container ap (max-width: 879px) {
+  .ap-body .rx-mistakes__head h2 { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .ap-body .rx-mistakes__head { justify-content: flex-start; }
+}
 @media (prefers-reduced-motion: reduce) {
   .ap-part { animation: none; }
   .ap .ap-row, .ap .ap-next, .ap-mark[data-ready] { transition: none; }

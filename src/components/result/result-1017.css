@@ -235,7 +235,7 @@
 }
 
 /* ---------- N12 restore (17 Oct night): the summary card and the open Mistake Lab ---------- */
-.rl-page { gap: 24px; }
+.rl-page { --rl-gap: 24px; gap: var(--rl-gap); }
 .rl-page .rh { align-items: start; }
 .rl-page .rh .rp-hero__main { gap: 8px; }
 .rh-verdict { margin: 4px 0 0; font: 650 18px/1.4 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); text-wrap: pretty; max-width: 40ch; }

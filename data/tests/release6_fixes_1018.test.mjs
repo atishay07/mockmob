@@ -3,8 +3,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { cutIndexLine, cutSentence, knownRecord, nearestSlot, replayView, spokenTime } from '../replay.js';
+import { cutIndexLine, cutSentence, knownRecord, momentsInTimeOrder, nearestSlot, reelMoments, replayView, spokenTime } from '../replay.js';
 import { aiRenewsLine } from '../review_input.mjs';
+import { MORE_BUTTON, openAskMobi, returnFocusFor } from '../../src/components/ai/askMobi.mjs';
 import COPY from '../mistake_lab.copy.json' with { type: 'json' };
 
 const root = new URL('../../', import.meta.url);
@@ -174,4 +175,64 @@ test('inside the Ask panel volt is Mobi\'s mark alone: the Free chip and the Key
   assert.match(css, /\.amb-quote__key\s*\{\s*color:\s*var\(--a-ink-2\)/);
   assert.match(css, /\.amb-ask em\[data-price='free'\]\s*\{\s*color:\s*var\(--a-ink-2\)/);
   for (const token of ['--a-good-text', '--a-accent', '--a-select', '--a-volt', '--volt', '#d2f000', '#D2F000']) assert.ok(!css.includes(token), `${token} is not used in the panel`);
+});
+
+test('the reel\'s "What stood out" lists the moments in the order they happened, not in question order', () => {
+  const row = (number, verdict) => ({ number, verdict, q: { id: `p${number}`, correctIndex: 2 }, chapter: 'Share Capital' });
+  const rows = [1, 2, 3, 4, 5, 6].map((n) => row(n, 'wrong'));
+  // Q6 was changed away from the key early in the sitting (at 10 s), Q2 later (at 50 s), Q4 last (at 90 s).
+  const changes = [
+    { qid: 'p6', at: 10000, before: 2, after: 0, markEffect: -6 },
+    { qid: 'p2', at: 50000, before: 2, after: 0, markEffect: -6 },
+    { qid: 'p4', at: 90000, before: 2, after: 0, markEffect: -6 },
+  ];
+  const moments = reelMoments({ rows, changes });
+  assert.deepEqual(moments.map((m) => m.n), [6, 2, 4], 'by the clock, not Q2, Q4, Q6');
+  assert.deepEqual(moments.map((m) => m.at), ['0:10', '0:50', '1:30']);
+  // A long stay is dated by when the stay began.
+  const view = { cut: null, firstAt: new Map([[5, 30]]), perQuestion: rows.map((r) => ({ n: r.number, sec: r.number === 5 ? 240 : 30, result: 'wrong' })) };
+  const withLong = reelMoments({ rows, changes: changes.slice(0, 2), view, paceSec: 60 });
+  assert.deepEqual(withLong.map((m) => [m.kind, m.n]), [['lost', 6], ['long', 5], ['lost', 2]]);
+  assert.equal(withLong[1].at, null, 'the stay shows no clock label of its own');
+  // Undated moments follow the dated ones, in paper order; equal seconds go by question number.
+  assert.deepEqual(momentsInTimeOrder([{ n: 4, sec: null }, { n: 1, sec: null }, { n: 3, sec: 20 }, { n: 2, sec: 20 }]).map((m) => m.n), [2, 3, 1, 4]);
+});
+
+test('no empty band under the "Badge earned" row: the reel row shares its hairline', () => {
+  const reel = stripComments(read('src/components/result/paper-reel.css'));
+  assert.match(reel, /\.sb-earned \+ \.pbk-row\s*\{\s*margin-top:\s*calc\(-1 \* \(var\(--rl-gap, 24px\) \+ 4px\)\);\s*border-top:\s*0/);
+  // The 4 px is the earned row's own margin (study-badges.css) and --rl-gap the page's gap (result-1017.css): the three sum to 0.
+  assert.match(stripComments(read('src/components/study-badges.css')), /\.app-shell \.sb-earned\s*\{[^}]*margin:\s*4px 0/);
+  assert.match(stripComments(read('src/components/result/result-1017.css')), /\.rl-page\s*\{\s*--rl-gap:\s*24px;\s*gap:\s*var\(--rl-gap\)/);
+});
+
+test('Ask Mobi opened from a row in the phone\'s More sheet gives focus back to the More button on Esc', () => {
+  const inSheet = { closest: (sel) => (sel === '.arena-sheet' ? {} : null) };
+  const onPage = { closest: () => null };
+  assert.equal(returnFocusFor(inSheet), MORE_BUTTON);
+  assert.equal(MORE_BUTTON, '[data-tour="nav-more"]');
+  assert.equal(returnFocusFor(onPage), null, 'a control that stays on the page is focused again as it is');
+  assert.equal(returnFocusFor(null), null);
+  assert.equal(returnFocusFor({ closest: () => { throw new Error('detached'); } }), null);
+  // The request carries it to the host, which hands it to the panel, which falls back to it when the opener is gone.
+  let detail = null;
+  const target = { dispatchEvent: (event) => { detail = event.detail; return true; } };
+  openAskMobi({ context: { kind: 'page' }, from: Object.assign(inSheet, { getBoundingClientRect: () => ({ width: 0 }) }) }, target);
+  assert.equal(detail.returnTo, MORE_BUTTON);
+  assert.match(read('src/components/ai/AskMobiHost.jsx'), /returnTo=\{request\.returnTo\}/);
+  assert.match(read('src/components/ai/AssistantDrawer.jsx'), /document\.querySelector\(returnTo\)/);
+});
+
+test('while the part sits under the index, one heading says "Your mistakes": the block\'s own title is for screen readers only', () => {
+  const css = stripComments(read('src/components/result/result-parts.css'));
+  const narrow = blocks(css, '@container ap (max-width: 879px)').join('\n');
+  assert.match(narrow, /\.ap-body \.rx-mistakes__head h2\s*\{\s*position:\s*absolute;\s*width:\s*1px/);
+  // It stays the list's accessible name, and side by side (880 px and up) the block keeps its title.
+  assert.match(read('src/components/result/MistakeList.jsx'), /aria-labelledby="rx-mistakes-title"/);
+  assert.ok(!/rx-mistakes__head h2/.test(blocks(css, '@container ap (min-width: 880px)').join('\n')));
+});
+
+test('the reel is the only place that orders the moments, and the page that shows them uses that order', () => {
+  assert.match(read('src/components/result/PaperReel.jsx'), /script\.moments\.map\(\(m\) => <li key=\{m\.n\}>/);
+  assert.match(read('data/replay.js'), /return momentsInTimeOrder\(picked\);/);
 });

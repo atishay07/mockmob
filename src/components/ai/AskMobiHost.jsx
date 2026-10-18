@@ -32,7 +32,7 @@ export default function AskMobiHost() {
       const detail = event.detail || {};
       const context = detail.context ? normalizeContext(detail.context) : contextFromLegacy(detail);
       // A new key per request remounts the panel, so a question asked from a repair never inherits an older answer.
-      setRequest({ context, key: Date.now() });
+      setRequest({ context, key: Date.now(), returnTo: typeof detail.returnTo === 'string' ? detail.returnTo : null });
       setOpen(true);
     };
     const onNav = (event) => {
@@ -61,6 +61,7 @@ export default function AskMobiHost() {
       onClose={() => setOpen(false)}
       onForm={setForm}
       context={request.context}
+      returnTo={request.returnTo}
     />
   );
 }
