@@ -366,6 +366,7 @@ abstract final class InsightsCopy {
 
   // Why a question got no reply (the server's codes, in plain words), then what it cost.
   static const failOffline = 'You are offline. Send it again when you are back.';
+  static const failSlow = 'Taking longer than usual. Send it again in a moment.';
   static String failNoCredits(int? balance, String renew) => balance == null
       ? 'That needs 1 AI credit. Yours renew on $renew. Questions about your record stay free.'
       : 'That needs 1 AI credit and you have $balance. They renew on $renew. Questions about your record stay free.';

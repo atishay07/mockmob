@@ -161,6 +161,7 @@ class _AskMessageViewState extends State<AskMessageView> {
       // credit line says so only once that is true (a held credit is said as held).
       final (text, credit, canRetry) = switch (failure) {
         AskFailure.offline => (InsightsCopy.failOffline, InsightsCopy.creditNotTwice, true),
+        AskFailure.slow => (InsightsCopy.failSlow, InsightsCopy.creditNotTwice, true),
         // Nothing was charged and the question is kept: after the credits renew (or the pause
         // ends) Send again sends the same words, so the student never retypes them.
         AskFailure.noCredits => (InsightsCopy.failNoCredits(m.balance, renew), InsightsCopy.creditNone, true),

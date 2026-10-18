@@ -6,6 +6,8 @@ import 'package:uuid/uuid.dart';
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/connectivity/connectivity_monitor.dart' show NetworkStatus;
+import '../../../core/connectivity/connectivity_providers.dart' show networkStatusProvider;
 import '../../../core/models/json_helpers.dart';
 import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/local_scope.dart';
@@ -13,6 +15,8 @@ import '../../../core/storage/prefs_store.dart';
 import 'ai_reply_report.dart';
 import 'ask_question.dart';
 import 'ask_wallet.dart';
+import 'insights_models.dart' show PrepInsights;
+import '../widgets/ask_prompts.dart' show moreRecordPrompts, recordPrompts;
 import 'insights_repository.dart';
 import 'readout.dart';
 
@@ -38,6 +42,10 @@ enum AskFailure {
   /// No answer arrived. The outcome is unknown, so Send again reuses the request id and the server
   /// never charges the same question twice.
   offline,
+
+  /// No answer arrived in time while the phone is online (the server is slow, not the phone
+  /// offline). The outcome is unknown, as with [offline]: Send again reuses the request id.
+  slow,
 
   /// `insufficient_ai_credits` (402): the wallet has no credit for a reply.
   noCredits,
@@ -231,7 +239,44 @@ class AskController extends Notifier<AskState> {
       return null;
     }
     _append([AskMessage.student(text), const AskMessage.sending()]);
-    return _post(state.messages.length - 1, text, const Uuid().v4(), questionRef: questionRef);
+    final index = state.messages.length - 1;
+    // A fixed record ask asked before the record has reached the phone (the first ask after a cold
+    // start, v15.1 walk): it waits for the record and is answered here, never sent to the network
+    // while the record is on its way. Only a record that does not come goes to the server, which
+    // answers record questions too.
+    if (questionRef == null && insights == null && isRecordAsk(text)) {
+      final epoch = _epoch;
+      final record = await _awaitRecord();
+      if (epoch != _epoch || !ref.mounted) return null;
+      final answer = record == null ? null : answerFromInsights(text, record, pro: ref.read(insightsProProvider));
+      if (answer != null) {
+        _replaceAt(index, AskMessage.reply(answer.reply, origin: AskOrigin.phone, actions: answer.actions));
+        return null;
+      }
+    }
+    return _post(index, text, const Uuid().v4(), questionRef: questionRef);
+  }
+
+  /// The fixed record asks (the Ask screen's record tiles and its follow-up rail): each is answered
+  /// from the record on this phone.
+  static final Set<String> recordAsks = {for (final p in [...recordPrompts(null), ...moreRecordPrompts()]) p.text};
+
+  /// True when [text] is one of [recordAsks].
+  static bool isRecordAsk(String text) => recordAsks.contains(text.trim());
+
+  /// How long a record ask waits for the record before the server is asked instead.
+  static const Duration recordWait = Duration(seconds: 15);
+
+  /// The record, once the read already on its way (or a new one) lands; null when it does not
+  /// come within [recordWait].
+  Future<PrepInsights?> _awaitRecord() async {
+    try {
+      await ref.read(insightsRepositoryProvider.notifier).refresh().timeout(recordWait);
+    } on Object {
+      // Too slow or failed: the server is asked instead.
+    }
+    if (!ref.mounted) return null;
+    return ref.read(insightsRepositoryProvider).value;
   }
 
   /// A suggested ask whose answer was already read from the record on this phone ([answer]): it
@@ -363,10 +408,11 @@ class AskController extends Notifier<AskState> {
       if (origin == AskOrigin.model) ref.read(creditsRepositoryProvider.notifier).refresh();
       return null;
     } on ApiError catch (e) {
-      final failure = askFailureFor(e);
+      // No answer while the phone is online is a slow server, never "You are offline" (v15.1 walk).
+      final failure = askFailureFor(e, network: e.isOffline ? _networkStatus() : NetworkStatus.unknown);
       // Only an unknown outcome stays remembered: every other failure is the server saying what
       // happened to the question, so there is nothing to recover.
-      if (failure != AskFailure.offline && failure != AskFailure.inProgress) await _forget(store);
+      if (failure != AskFailure.offline && failure != AskFailure.slow && failure != AskFailure.inProgress) await _forget(store);
       if (epoch != _epoch) return failure;
       if (failure == AskFailure.alreadyAnswered) {
         // Answered and charged once already: read that reply back instead of asking again.
@@ -427,6 +473,17 @@ class AskController extends Notifier<AskState> {
     return null;
   }
 
+  /// The connection monitor's word, or unknown when it cannot be read. It is only read when it is
+  /// already running (the app's shell watches it), so a failed reply never starts the monitor.
+  NetworkStatus _networkStatus() {
+    try {
+      if (!ref.exists(networkStatusProvider)) return NetworkStatus.unknown;
+      return ref.read(networkStatusProvider);
+    } on Object {
+      return NetworkStatus.unknown;
+    }
+  }
+
   static List<(String, String)> _actions(Object? raw) => [
         for (final a in asJsonList(raw))
           if (asString(a['label']) case final label? when asString(a['route']) != null) (label, asString(a['route'])!),
@@ -456,8 +513,15 @@ final askControllerProvider = NotifierProvider<AskController, AskState>(AskContr
 
 /// The failure a refused or lost question ends in. The server's machine code decides first (the
 /// codes the website and the repair route share); the HTTP status only for a code it has not met.
-AskFailure askFailureFor(ApiError e) {
-  if (e.isOffline) return AskFailure.offline;
+///
+/// No answer at all is [AskFailure.offline] only when the phone has no connection: with the
+/// connection monitor saying [network] is online, or a request that connected and then timed out
+/// while the monitor does not say offline, the server was slow ([AskFailure.slow]).
+AskFailure askFailureFor(ApiError e, {NetworkStatus network = NetworkStatus.unknown}) {
+  if (e.isOffline) {
+    final slow = network == NetworkStatus.online || (e.kind == ApiErrorKind.timeout && network != NetworkStatus.offline);
+    return slow ? AskFailure.slow : AskFailure.offline;
+  }
   return switch (e.code.toLowerCase()) {
     'insufficient_ai_credits' => AskFailure.noCredits,
     'operation_released' => AskFailure.resend,
