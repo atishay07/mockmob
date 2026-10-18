@@ -575,7 +575,8 @@ abstract final class ReviewCopy {
   // repair, Try it again (ActionLabels in model/review_chapters.dart). No "Repair first", no "Repair in N".
 
   static const marksLostWord = 'marks lost';
-  static const loseMost = 'You lose the most marks in';
+  /// "marks in" is bound with a no-break space: beside the art the line breaks before "marks", never before "in".
+  static const loseMost = 'You lose the most marks\u00A0in';
 
   /// The lead-in over a chapter that is not the costliest: its place in the ranking, in words.
   static String costliestNth(int rank) => 'Your ${ordinal(rank)} costliest chapter';

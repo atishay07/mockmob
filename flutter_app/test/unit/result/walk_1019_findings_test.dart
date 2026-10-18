@@ -12,6 +12,7 @@ import 'package:mockmob/features/result/layers_copy.dart';
 import 'package:mockmob/features/result/model/next_move.dart' show practiceCostLine, repairCostLine;
 import 'package:mockmob/features/review/copy.dart';
 import 'package:mockmob/features/review/screens/record_screen.dart';
+import 'package:mockmob/features/review/screens/review_screen.dart';
 import 'package:mockmob/features/review/widgets/chapter_hero.dart' show WholeWordTitle;
 import 'package:mockmob/features/runner/copy.dart';
 import 'package:mockmob/features/runner/widgets/save_glyph.dart';
@@ -111,6 +112,29 @@ void main() {
       expect(find.bySemanticsLabel(RunnerCopy.savedOnThisPhoneSpoken), findsOneWidget);
       expect(RunnerCopy.savedOnThisPhoneSpoken, 'Your answers are saved on this phone. They go to your account when you submit.');
       handle.dispose();
+    });
+  });
+
+  group('Your papers header at 360 dp (19 Oct device walk: "Your pap...")', () {
+    testWidgets('the title is whole and clear of the labelled Ask Mobi pill', (tester) async {
+      await pumpMockmob(
+        tester,
+        const ReviewScreen(),
+        size: const Size(360, 800),
+        disableAnimations: true,
+        wrapInScaffold: false,
+        overrides: reviewOverrides(attempts: [quick]),
+      );
+      await tester.pump(const Duration(milliseconds: 600));
+      final title = find.text(ReviewCopy.title);
+      expect(title, findsOneWidget);
+      expect(tester.renderObject<RenderParagraph>(title).didExceedMaxLines, isFalse);
+      expect(find.text(ReviewCopy.askKey), findsOneWidget);
+      expect(tester.getRect(title).right, lessThanOrEqualTo(tester.getRect(find.text(ReviewCopy.askKey)).left));
+    });
+
+    test('"You lose the most marks in" keeps "marks in" together, so "in" never sits alone', () {
+      expect(ReviewCopy.loseMost, 'You lose the most marks in');
     });
   });
 }

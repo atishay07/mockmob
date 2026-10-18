@@ -134,7 +134,16 @@ class ReviewTabHeader extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Semantics(header: true, child: Text(title, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                    // Whole, never cut: at 360 dp "Your papers" beside the account key and the labelled pill read "Your
+                    // pap..." (19 Oct device walk), so the title steps down to fit and the pill keeps its word.
+                    Semantics(
+                      header: true,
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        alignment: Alignment.centerLeft,
+                        child: Text(title, style: type.screenTitle, maxLines: 1, softWrap: false),
+                      ),
+                    ),
                     _NoticeSlot(notice),
                   ],
                 ),
