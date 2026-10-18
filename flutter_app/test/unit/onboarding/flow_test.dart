@@ -19,6 +19,7 @@ import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/state/answers_store.dart';
 import 'package:mockmob/features/onboarding/steps/plan_step.dart';
 import 'package:mockmob/features/onboarding/widgets/hold_to_seal.dart';
+import 'package:mockmob/features/onboarding/widgets/step_frame.dart';
 
 import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
@@ -146,12 +147,20 @@ void main() {
 
   testWidgets('back walks the deck backwards, and from the first step returns to Welcome', (tester) async {
     final semantics = tester.ensureSemantics();
-    await _pump(tester, answers: studentUpTo(Steps.stage, step: Steps.course));
+    final c = await _pump(tester, answers: studentUpTo(Steps.stage, step: Steps.course));
     await _tap(tester, OnboardingCopy.continuePlan);
     expect(find.text(OnboardingCopy.courseTitle), findsOneWidget);
-    await tester.tap(find.bySemanticsLabel(OnboardingCopy.back));
+    // D43: a labelled Back in the action row, left of the primary key, both 48 dp or taller.
+    final back = find.byKey(StepBackKey.keyKey);
+    expect(back, findsOneWidget);
+    expect(tester.getSize(back).height, greaterThanOrEqualTo(48));
+    expect(tester.getTopLeft(back).dx, moreOrLessEquals(MmSpace.gutter, epsilon: 0.5), reason: 'Back starts the action row, on the left');
+    await tester.tap(back);
     await _settle(tester);
     expect(find.text(OnboardingCopy.stageTitle), findsOneWidget);
+    expect(c.read(onboardingAnswersProvider).value!.stage, Stage.classTwelve, reason: 'Back keeps the answers');
+    expect(find.byKey(StepBackKey.keyKey), findsNothing, reason: 'the first step has no labelled Back');
+    // The small top icon stays, and from the first step it returns to Welcome.
     await tester.tap(find.bySemanticsLabel(OnboardingCopy.back));
     await _settle(tester);
     expect(find.text(OnboardingCopy.continuePlan), findsOneWidget);
@@ -210,7 +219,11 @@ void main() {
     expect(find.widgetWithText(KeyButton, OnboardingCopy.sealIt), findsNothing, reason: 'not a second key under the hold');
     expect(tester.getSize(seal).height, greaterThanOrEqualTo(48));
     expect(tester.getTopLeft(seal).dy, greaterThan(tester.getBottomLeft(find.byType(HoldToSeal)).dy - 1), reason: 'the line sits under the hold');
-    expect(tester.getSize(find.byType(HoldToSeal)).width, greaterThan(300), reason: 'the hold takes the full width');
+    // D43: Back stands left of the hold; the hold takes the rest of the row, the hint the whole width.
+    final back = find.byKey(StepBackKey.keyKey);
+    expect(tester.getTopRight(back).dx, lessThan(tester.getTopLeft(find.byType(HoldToSeal)).dx));
+    expect(tester.getSize(find.byType(HoldToSeal)).width, greaterThan(200), reason: 'the hold takes the rest of the row');
+    expect(tester.getSize(seal).width, greaterThan(300), reason: 'the hint runs the whole width');
     await tester.tap(seal);
     await _settle(tester);
     expect(c.read(onboardingAnswersProvider).value!.sealed, isTrue);

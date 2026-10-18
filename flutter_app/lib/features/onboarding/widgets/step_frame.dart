@@ -52,6 +52,12 @@ class MobiSizing {
     if (fit && rest != null) want = math.min(want, free - rest - gap);
     return want.clamp(min, max).toDouble();
   }
+
+  @override
+  bool operator ==(Object other) => other is MobiSizing && other.share == share && other.min == min && other.max == max && other.fit == fit;
+
+  @override
+  int get hashCode => Object.hash(share, min, max, fit);
 }
 
 /// The one frame every onboarding step stands in (D40, D43, D44).
@@ -67,7 +73,7 @@ class MobiSizing {
 ///   title: they share a row, and the title starts under it.
 /// - While the keyboard is up the action row and Mobi step aside, so a field and its answers
 ///   keep the room.
-class StepFrame extends StatefulWidget {
+class StepFrame extends StatelessWidget {
   const StepFrame({
     super.key,
     required this.content,
@@ -129,29 +135,11 @@ class StepFrame extends StatefulWidget {
   static const double largeBubbleFrom = 760;
 
   @override
-  State<StepFrame> createState() => _StepFrameState();
-}
-
-class _StepFrameState extends State<StepFrame> {
-  /// The content's measured height, for a [MobiSizing.fit] step.
-  double? _rest;
-
-  void _measured(Size size) {
-    if (!widget.mobi.fit) return;
-    final h = size.height;
-    if (_rest != null && (h - _rest!).abs() < 1) return;
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (mounted) setState(() => _rest = h);
-    });
-  }
-
-  @override
   Widget build(BuildContext context) {
     final guide = StepGuide.of(context);
-    final controller = widget.guideController ?? guide?.mobi;
+    final controller = guideController ?? guide?.mobi;
     final onBack = guide?.onBack;
-    final bottom = widget.bottom;
-    final back = widget.backInRow && onBack != null ? StepBackKey(onPressed: onBack) : null;
+    final back = backInRow && onBack != null ? StepBackKey(onPressed: onBack) : null;
     final Widget? row = switch ((back, bottom)) {
       (null, null) => null,
       (final Widget b, null) => Align(alignment: Alignment.centerLeft, child: b),
@@ -167,28 +155,30 @@ class _StepFrameState extends State<StepFrame> {
 
     return KeyboardWatch(
       builder: (context, open) {
-        final withGuide = widget.showGuide && controller != null && !open;
+        final withGuide = showGuide && controller != null && !open;
         final scroll = LayoutBuilder(
           builder: (context, box) {
             final free = box.maxHeight;
-            final size = widget.mobi.sizeFor(free, rest: _rest == null ? null : _rest! + RenderBalancedBox.fitGap, gap: gap);
-            final group = Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                if (withGuide) ...[
-                  GuideHeader(
-                    controller: controller,
-                    size: size,
-                    entrance: widget.guideEntrance ?? guide?.entrance ?? MobiAct.idle,
-                    figureKey: widget.guideKey,
-                    large: large,
-                  ),
-                  SizedBox(height: gap),
-                ] else if (widget.showGuide && controller != null)
-                  // Mobi stepped aside for the keyboard: the title keeps its room under the bar.
-                  SizedBox(height: gap),
-                _SizeReport(onSize: _measured, child: widget.content),
-              ],
+            // Mobi is sized in the same layout pass as the content beside him (GuidedGroup), so
+            // a step never paints him at one size and then another.
+            final group = GuidedGroup(
+              free: free,
+              gap: gap,
+              sizing: mobi,
+              header: withGuide
+                  ? LayoutBuilder(
+                      builder: (context, c) => GuideHeader(
+                        controller: controller,
+                        size: c.minHeight,
+                        entrance: guideEntrance ?? guide?.entrance ?? MobiAct.idle,
+                        figureKey: guideKey,
+                        large: large,
+                      ),
+                    )
+                  : null,
+              // Mobi stepped aside for the keyboard: the title keeps its room under the bar.
+              topGap: !withGuide && showGuide && controller != null ? gap : 0,
+              content: content,
             );
             final body = SingleChildScrollView(
               // Dragging the list puts the keyboard away, so the pinned key comes back.
@@ -196,18 +186,18 @@ class _StepFrameState extends State<StepFrame> {
               child: BalancedBox(
                 minHeight: free.isFinite ? free : 0,
                 // With no action row the group keeps clear of the gesture bar itself.
-                reserve: widget.endInset + (row == null ? MediaQuery.paddingOf(context).bottom : 0),
+                reserve: endInset + (row == null ? MediaQuery.paddingOf(context).bottom : 0),
                 topShare: StepFrame.topShare,
                 child: group,
               ),
             );
-            final overlay = widget.overlay;
             final faded = row == null ? body : FadeWhenMore(child: body);
-            if (overlay == null) return faded;
+            final over = overlay;
+            if (over == null) return faded;
             return Stack(
               children: [
                 Positioned.fill(child: faded),
-                Positioned(left: 0, right: 0, bottom: MmSpace.s24, child: overlay),
+                Positioned(left: 0, right: 0, bottom: MmSpace.s24, child: over),
               ],
             );
           },
@@ -216,7 +206,7 @@ class _StepFrameState extends State<StepFrame> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Expanded(child: scroll),
-            if (row != null && !(widget.hideBottomForKeyboard && open))
+            if (row != null && !(hideBottomForKeyboard && open))
               Padding(
                 padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + StepFrame.footGap),
                 child: row,
@@ -305,6 +295,110 @@ class GuideHeader extends StatelessWidget {
   }
 }
 
+/// Mobi's header above the step's content, Mobi sized from [free] and the content's height in one
+/// layout pass: the content is laid out first, then [header] gets Mobi's height as its minimum
+/// height (a LayoutBuilder there reads it). [topGap] stands in for a header that stepped aside.
+class GuidedGroup extends MultiChildRenderObjectWidget {
+  GuidedGroup({super.key, required this.free, required this.gap, required this.sizing, required Widget content, Widget? header, this.topGap = 0})
+      : hasHeader = header != null,
+        super(children: [content, ?header]);
+
+  final double free;
+  final double gap;
+  final MobiSizing sizing;
+  final bool hasHeader;
+  final double topGap;
+
+  @override
+  RenderGuidedGroup createRenderObject(BuildContext context) => RenderGuidedGroup(free, gap, sizing, hasHeader, topGap);
+
+  @override
+  void updateRenderObject(BuildContext context, RenderGuidedGroup renderObject) {
+    renderObject
+      ..free = free
+      ..gap = gap
+      ..sizing = sizing
+      ..hasHeader = hasHeader
+      ..topGap = topGap;
+  }
+}
+
+class RenderGuidedGroup extends RenderBox
+    with ContainerRenderObjectMixin<RenderBox, _GroupData>, RenderBoxContainerDefaultsMixin<RenderBox, _GroupData> {
+  RenderGuidedGroup(this._free, this._gap, this._sizing, this._hasHeader, this._topGap);
+
+  double _free;
+  set free(double v) {
+    if (v == _free) return;
+    _free = v;
+    markNeedsLayout();
+  }
+
+  double _gap;
+  set gap(double v) {
+    if (v == _gap) return;
+    _gap = v;
+    markNeedsLayout();
+  }
+
+  MobiSizing _sizing;
+  set sizing(MobiSizing v) {
+    if (v == _sizing) return;
+    _sizing = v;
+    markNeedsLayout();
+  }
+
+  bool _hasHeader;
+  set hasHeader(bool v) {
+    if (v == _hasHeader) return;
+    _hasHeader = v;
+    markNeedsLayout();
+  }
+
+  double _topGap;
+  set topGap(double v) {
+    if (v == _topGap) return;
+    _topGap = v;
+    markNeedsLayout();
+  }
+
+  /// Mobi's height after the last layout (0 with no header).
+  double mobiSize = 0;
+
+  @override
+  void setupParentData(RenderBox child) {
+    if (child.parentData is! _GroupData) child.parentData = _GroupData();
+  }
+
+  @override
+  void performLayout() {
+    final w = constraints.maxWidth;
+    final content = firstChild!;
+    content.layout(BoxConstraints.tightFor(width: w), parentUsesSize: true);
+    final h = content.size.height;
+    var top = _topGap;
+    final header = _hasHeader ? childAfter(content) : null;
+    if (header != null) {
+      mobiSize = _sizing.sizeFor(_free, rest: h + RenderBalancedBox.fitGap, gap: _gap);
+      header.layout(BoxConstraints(minWidth: w, maxWidth: w, minHeight: mobiSize), parentUsesSize: true);
+      (header.parentData! as _GroupData).offset = Offset.zero;
+      top = header.size.height + _gap;
+    } else {
+      mobiSize = 0;
+    }
+    (content.parentData! as _GroupData).offset = Offset(0, top);
+    size = constraints.constrain(Size(w, top + h));
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset) => defaultPaint(context, offset);
+
+  @override
+  bool hitTestChildren(BoxHitTestResult result, {required Offset position}) => defaultHitTestChildren(result, position: position);
+}
+
+class _GroupData extends ContainerBoxParentData<RenderBox> {}
+
 /// Sizes to at least [minHeight] and places its child with [topShare] of the spare room above
 /// it. A child taller than that makes it taller, with [reserve] under the child's end (the scroll
 /// takes over).
@@ -376,31 +470,6 @@ class RenderBalancedBox extends RenderShiftedBox {
     final top = fits ? math.max(0.0, math.min(spare * _topShare, spare - fitGap)) : 0.0;
     (child.parentData! as BoxParentData).offset = Offset(0, top);
     size = c.constrain(Size(c.maxWidth, height));
-  }
-}
-
-/// Reports its child's size after each layout.
-class _SizeReport extends SingleChildRenderObjectWidget {
-  const _SizeReport({required this.onSize, super.child});
-
-  final ValueChanged<Size> onSize;
-
-  @override
-  _RenderSizeReport createRenderObject(BuildContext context) => _RenderSizeReport(onSize);
-
-  @override
-  void updateRenderObject(BuildContext context, _RenderSizeReport renderObject) => renderObject.onSize = onSize;
-}
-
-class _RenderSizeReport extends RenderProxyBox {
-  _RenderSizeReport(this.onSize);
-
-  ValueChanged<Size> onSize;
-
-  @override
-  void performLayout() {
-    super.performLayout();
-    onSize(size);
   }
 }
 
