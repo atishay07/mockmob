@@ -28,7 +28,7 @@
 `> **Final app:** wt-v15-1 (ui/v15.1-1018) at ab8db172 = 1.0.15+6 (v15 walk fixes + per-question price display + richer Today + swipe stack; 6007 unit, 1675 goldens).
 `> - Walk r1 NO-GO: HIGH = "How many questions?" dead when the lead came from the Suggested stack; MEDIUM = the could-not-refresh line wraps at 360, Ask Mobi's cold first answer waits 20 s then says offline, Today's failure title is cut at 360.
 `> - Fix round + walk r2 + release APK: workflow wf_42449aec-c78.
-`> - THEN a short Mob + per-question walk against the staging site on 3103 (wt-rig-r9 d0d6d0fe = R9 + Mob with MOB_ENABLED=true; set \`adb -e reverse tcp:3101 tcp:3103\`, then restore \`tcp:3101 tcp:3101\`).
+`> - THEN a short Mob + per-question walk against the staging site on 3103 (wt-rig-r9 d0d6d0fe = R9 + Mob with MOB_ENABLED=true; set `adb -e reverse tcp:3101 tcp:3103`, then restore `tcp:3101 tcp:3101`).
 `> - Then install on his phone (adb -s 10BF370PA6002XR install -r) and send.
 `> **Play billing (D73):** agents are running.
 `> - Server: wt-play-server, web/play-billing-1018 (verify + RTDN + play_purchases migration, flag PLAY_BILLING_ENABLED).
