@@ -6,10 +6,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/features/billing/billing.dart';
-import 'package:mockmob/features/billing/data/billing_controller.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
 import 'package:mockmob/features/billing/widgets/get_pro_sheet.dart';
-import 'package:mockmob/features/credits/data/credits_models.dart';
 
 import '../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
 import '../../helpers/golden_harness.dart';

@@ -1,9 +1,8 @@
-// Where the Get Pro sheet and the AI credit packs are reachable from, flag on and flag off: the
-// Credits page, the You plan card, Practice's Pro gate and credits-low state, and Ask Mobi's
-// out-of-credits band. With PLAY_BILLING off none of them shows anything.
+// Where the Upgrade sheet and the credit top-ups are reachable from, flag on and flag off: the You
+// plan card, Practice's Pro gate and credits-low state (both open the Upgrade sheet, D80), and Ask
+// Mobi's out-of-credits band. With PLAY_BILLING off none of them shows anything.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
@@ -15,10 +14,10 @@ import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/insights/copy.dart';
 import 'package:mockmob/features/insights/screens/ask_screen.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
+import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show ProNudgeCopy, ProReason;
 import 'package:mockmob/features/you/account/plan_card.dart';
 
 import '../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
-import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import '../../golden/insights/insights_golden_support.dart' show insightsOverrides;
 import '../practice/support/harness.dart';
@@ -94,25 +93,29 @@ void main() {
       await tester.pump(const Duration(milliseconds: 50));
     }
 
-    testWidgets('flag on: the Pro gate has a Get Pro key that opens the sheet', (tester) async {
+    testWidgets('flag on: the Pro gate has an Upgrade to Pro key that opens the Upgrade sheet on NTA mode', (tester) async {
       final rig = BillingRig();
       await pumpGate(tester, rig);
       expect(find.text('NTA mode comes with Pro'), findsOneWidget);
-      final key = find.text('Get Pro').first;
+      final key = find.text(ProNudgeCopy.gateAction).first;
       await tester.ensureVisible(key);
       await tester.tap(key);
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
-      expect(find.text('Pro includes'), findsOneWidget);
+      // The Upgrade sheet, with the gate's own headline and Google Play's key to buy.
+      expect(find.bySemanticsLabel(ProNudgeCopy.sheetLabel), findsOneWidget);
+      expect(find.text(ProNudgeCopy.head(ProReason.ntaMode).title), findsOneWidget);
+      expect(find.text(BillingCopy.getPro), findsWidgets);
       // The free way out is still there.
       expect(find.text('Take a Full mock instead'), findsWidgets);
     });
 
-    testWidgets('flag off: the gate is the one it was, with no Get Pro', (tester) async {
+    testWidgets('flag off: the gate is the one it was, with no Upgrade key', (tester) async {
       final rig = BillingRig(on: false);
       await pumpGate(tester, rig);
       expect(find.text('NTA mode comes with Pro'), findsOneWidget);
+      expect(find.text(ProNudgeCopy.gateAction), findsNothing);
       expect(find.text('Get Pro'), findsNothing);
     });
 
@@ -123,14 +126,31 @@ void main() {
           tester,
           location: '/practice/setup/quick?subject=accountancy',
           routes: routes(),
-          overrides: [...practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => lowCredits())), ...rig.overrides],
+          overrides: [
+            ...practiceOverrides(quotes: FakeQuoteRepository((s, m, c, p) => lowCredits())),
+            // The Upgrade sheet reads the plan from the credits overview, which would open the phone's database.
+            meCreditsProvider.overrideWith(() => FakeMeCredits(creditsState())),
+            creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
+            ...rig.overrides,
+          ],
         );
         await tester.pump(const Duration(milliseconds: 350));
         await tester.pump(const Duration(milliseconds: 50));
         expect(find.textContaining('You have 8 credits, and this takes 10.'), findsOneWidget);
-        expect(find.text(BillingCopy.proRemovesLimit), on ? findsOneWidget : findsNothing);
-        expect(find.text('Get Pro'), on ? findsWidgets : findsNothing);
-        expect(find.text(BillingCopy.addPracticeCredits), on ? findsWidgets : findsNothing);
+        expect(find.text(ProNudgeCopy.creditsRunLow), on ? findsOneWidget : findsNothing);
+        expect(find.text(ProNudgeCopy.gateAction), on ? findsWidgets : findsNothing);
+        expect(find.text(BillingCopy.getCredits), on ? findsWidgets : findsNothing);
+        if (on) {
+          // The key opens the Upgrade sheet on what removes the limit.
+          final key = find.text(ProNudgeCopy.gateAction).first;
+          await tester.ensureVisible(key);
+          await tester.tap(key);
+          await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
+          await tester.pump();
+          await tester.pump(const Duration(milliseconds: 700));
+          expect(find.text(ProNudgeCopy.head(ProReason.practiceCredits).title), findsOneWidget);
+          expect(find.text(BillingCopy.getPro), findsWidgets);
+        }
       });
     }
   });

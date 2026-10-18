@@ -139,7 +139,7 @@ class _GetPanelState extends State<GetPanel> {
           Semantics(liveRegion: true, child: Text(low.message(selection.mode), style: context.mmType.lead)),
           // Practice credits are not sold; Pro is what removes the limit. The Upgrade sheet, when PLAY_BILLING is on.
           const Align(alignment: Alignment.centerLeft, child: UpgradeEntry(reason: ProReason.practiceCredits, topGap: MmSpace.s12, note: ProNudgeCopy.creditsRunLow)),
-          const Align(alignment: Alignment.centerLeft, child: WalletTopUpEntry(label: BillingCopy.addPracticeCredits)),
+          const Align(alignment: Alignment.centerLeft, child: WalletTopUpEntry()),
           const SizedBox(height: MmSpace.s20),
           _FreeRightNow(
             subjectId: selection.subjectId,

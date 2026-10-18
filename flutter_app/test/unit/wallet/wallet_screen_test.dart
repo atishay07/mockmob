@@ -11,7 +11,6 @@ import 'package:mockmob/features/wallet/wallet_screen.dart';
 import '../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
 import '../../helpers/golden_harness.dart';
 import '../billing/billing_test_support.dart';
-import '../you/you_test_support.dart';
 import 'wallet_test_support.dart';
 
 Future<void> _settle(WidgetTester tester) async {
