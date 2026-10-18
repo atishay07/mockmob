@@ -264,6 +264,17 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 - **M-025:** never let one track eat hours while other open asks sit; app work runs in parallel with web work.
 - **M-019:** while he sleeps, never block on a question; find a workaround.
 
+
+### Status update, 18 Oct about 6:45 am IST (session 604ced81)
+| Items | Status |
+|---|---|
+| D7/D12 (Night on Ask Mobi), D10 theme switch, D11 Help and FAQ page, D13 nav floor, D5 Practice Review and repair + Ask Mobi, D15/D17 (first pass), F15 Learn and Review, D20 the "Learn" name | **LIVE-UNCHECKED** in R5 (main 58bc53f6). Where to look: docs/brain/R5-WHERE-TO-LOOK.md |
+| D15/D16/D17/D18/D29/F17 (Review/result 1018), D6/D12 (Ask Mobi 1018), COMMUNITY-1018 + D20, D19 badges (web) | **BUILT**, wt-rel6 (R6); ships after the verifier's fix round |
+| D1-D3, D25-D28 (web Today 1018) | **BUILT**, wt-today18 d0486c12; waits for his live review (port 3207) |
+| D32 landing | **BUILT**, wt-land3 f64cffe5 (position band only; the toggle was already live); waits for his live review (port 3206) |
+| App: Today 1018 (D1-D3, D26-D29), Ask Mobi (D6), Play it back (D29), M-001 logo, D19 badges | **BUILT** in v15 (wt-v15 fecc6a73 + ui/v15-badges a85f0e50); emulator walk running |
+| Production migration revise_cards_mode | Applied at 4:50 am (grant); STATUS text pending in the R6 push |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
