@@ -10,7 +10,7 @@
 // Saves: the date and the mock target to PUT /api/me/road (study_goals.exam_date, mock_target); the days to
 // PUT /api/me/goal { weekdays, daysPerWeek }. Before the road columns exist (onAccount false) the date and target are
 // read-only ("Set on the app for now") and the days still save.
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Minus, Plus } from 'lucide-react';
 import { WEEKDAY_SHORT } from '@/lib/studyWeekdays.mjs';
@@ -118,11 +118,8 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
   useEffect(() => () => Object.values(timers.current).forEach((t) => window.clearTimeout(t)), []);
   const locked = !onAccount;
   const floor = (Number(taken) || 0) + 1;
-  const choices = useMemo(() => {
-    const all = mockChoices({ weeks: fig.weeks, taken: taken ?? 0 });
-    // Light to heavy, so the suggestion sits in the middle of a scale.
-    return [...all].sort((a, b) => a.value - b.value);
-  }, [fig.weeks, taken]);
+  // Light to heavy, so the suggestion sits in the middle of a scale (three tiles: cheap enough to work out on each render).
+  const choices = [...mockChoices({ weeks: fig.weeks, taken: taken ?? 0 })].sort((a, b) => a.value - b.value);
   const isChoice = choices.some((c) => c.value === target);
   const pace = mockPace({ target, taken: taken ?? 0, days: fig.days });
   const paceWords = pace.left === 0 ? 'target reached' : pace.strong ? pace.strong.replace(/^about /, '').replace(/ gets you there\.$/, '') : `${pace.left} to go`;
