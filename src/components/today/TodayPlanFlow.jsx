@@ -108,8 +108,7 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
   // The target the student has picked, or null: until they pick one it follows the suggestion for the date and days now
   // on the sentence, so the sentence, the highlighted tile, the receipt and the road always show the same number.
   const [picked, setPicked] = useState(plan.mockTarget ?? null);
-  const { suggested } = fig;
-  const target = picked ?? suggested;
+  const target = targetFor(picked, fig.suggested);
   const savedTarget = useRef(plan.mockTarget ?? null);
   const [ownOpen, setOwnOpen] = useState(Boolean(plan.examDate));
   const [month, setMonth] = useState(plan.examDate ? Number(plan.examDate.slice(5, 7)) - 1 : 4);

@@ -32,8 +32,9 @@
   position: sticky; top: var(--arena-topbar-h, 63px); z-index: 4; display: flex; align-items: center; justify-content: space-between; gap: 12px;
   min-height: 56px; margin-bottom: 10px; background: var(--a-bg); border-bottom: 1px solid var(--a-line); scroll-margin-top: var(--arena-topbar-h, 63px);
 }
-/* A row opened by a jump (?q=N, a chip, Repair next) lands below the sticky part heading (56 px plus its 1 px rule), not under it. */
-.ap-body .rp-q { scroll-margin-top: calc(var(--arena-topbar-h, 63px) + 57px + 12px); }
+/* A row opened by a jump (?q=N, a chip, Repair next) lands below the sticky part heading (56 px plus its 1 px rule), not under it:
+   a mistake's row in Your mistakes (.rx-row) and a row in Answer by answer (.rp-q). */
+.ap-body :is(.rp-q, .rx-row) { scroll-margin-top: calc(var(--arena-topbar-h, 63px) + 57px + 12px); }
 .ap-dhead h3 { margin: 0; font: 740 22px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); scroll-margin-top: var(--arena-topbar-h, 63px); }
 .ap .ap-all { display: inline-flex; align-items: center; min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer; font: 650 14px/1 var(--font-body); color: var(--a-ink-2); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); white-space: nowrap; }
 .ap .ap-next {

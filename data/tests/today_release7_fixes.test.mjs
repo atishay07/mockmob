@@ -42,7 +42,9 @@ test('H1: Change plan and the road use the one rule, and the flow no longer seed
   const flow = read('src/components/today/TodayPlanFlow.jsx');
   const road = read('src/components/today/TodayRoad.jsx');
   assert.doesNotMatch(flow, /useState\(plan\.mockTarget \?\? fig\.suggested\)/);
-  assert.match(flow, /const \{ suggested \} = fig;\n  const target = picked \?\? suggested;/);
+  assert.match(flow, /const target = targetFor\(picked, fig\.suggested\);/);
+  // The receipt reads the same target the sentence shows.
+  assert.match(flow, /onDone\?\.\(\{ weeks: fig\.weeks, days: days\.length, target \}\)/);
   assert.match(flow, /useState\(plan\.mockTarget \?\? null\)/);
   assert.match(road, /const target = targetFor\(plan\.mockTarget, fig\.suggested\)/);
 });
@@ -82,7 +84,7 @@ test('M5: every Today hit area named by the verifier is at least 44 px', () => {
 
 test('M6: a row opened by a jump clears the sticky part heading', () => {
   const css = read('src/components/result/result-parts.css');
-  assert.match(css, /\.ap-body \.rp-q \{ scroll-margin-top: calc\(var\(--arena-topbar-h, 63px\) \+ 57px/);
+  assert.match(css, /\.ap-body :is\(\.rp-q, \.rx-row\) \{ scroll-margin-top: calc\(var\(--arena-topbar-h, 63px\) \+ 57px/);
 });
 
 // ---- M7 ---------------------------------------------------------------------------------------------------------------------
