@@ -241,7 +241,7 @@ export function alternatives({ move, papers = null, revise = null, facts = null,
   const last = papers?.[0] || null;
   const open = openMistakes(last, repaired);
   const out = [];
-  if (open > 0) out.push({ id: 'repair', title: 'Repair a mistake', reason: `${plural(open, 'open mistake')} on ${paperName(last, subjectName)}.`, href: `/result/${encodeURIComponent(last.id)}` });
+  if (open > 0) out.push({ id: 'repair', title: 'Repair a mistake', reason: `${plural(open, 'open mistake')} on ${paperName(last, subjectName)}.`, href: `/result/${encodeURIComponent(last.id)}`, subject: last.subject || null });
   if (whole(revise?.due) && revise.due > 0) out.push({ id: 'revise', title: 'Revise what came back', reason: `${plural(revise.due, 'question')} due today.`, href: '/review/revise' });
   out.push({ id: 'quick', title: 'Quick practice', reason: 'Pick the subject, chapters and length yourself.', href: '/dashboard?mode=quick' });
   out.push({ id: 'another', title: 'Another subject', reason: 'Practice opens on every subject you study.', href: '/dashboard' });

@@ -150,3 +150,14 @@ test('Weak chapters: the misses say they open (chevron, no bare "+"); rows after
   assert.match(sheet, /\.twk__open\[aria-expanded='true'\] \.twk__plus \{ transform: rotate\(180deg\); \}/);
   assert.match(sheet, /@media \(max-width: 600px\) \{[\s\S]*?li\[data-compact\] \.twk__practise \{ position: relative; justify-self: end; width: 40px;[\s\S]*?li\[data-compact\] \.twk__practise::after \{ content: ''; position: absolute; inset: -2px; \}/, 'a 44 px hit area');
 });
+
+test('More ways to practise: rows look pressable (picture, chevron, press) and the intro is bolder', () => {
+  const move = read('src/components/today/TodayMove.jsx');
+  assert.match(move, /lede=\{`Pick what fits \$\{when\}\. Each one opens straight in\.`\}/);
+  assert.match(move, /<AltTile item=\{a\} \/>/);
+  assert.match(move, /<ChevronRight className="tsh__chev" size=\{16\}/);
+  assert.doesNotMatch(move, /Each one, and why it might be your next move/);
+  const sheet = css('src/components/today/today.css');
+  assert.match(sheet, /\.tsh__row \{[^}]*grid-template-columns: 36px minmax\(0, 1fr\) 16px;[^}]*min-height: 64px;/);
+  assert.match(sheet, /\.tsh__row:active \{ background: var\(--a-hover\);/);
+});

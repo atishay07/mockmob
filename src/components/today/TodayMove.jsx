@@ -11,7 +11,7 @@
 // The key is the viewport's one volt (data-page-primary steps the shell's Start key back to an outline).
 import { useContext, useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { ChevronsUpDown, RotateCcw, Check, Repeat2 } from 'lucide-react';
+import { ChevronsUpDown, RotateCcw, Check, Repeat2, ChevronRight, Timer, Layers, ListChecks, MonitorCheck, Users, NotebookText, Brain, RefreshCw } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
@@ -59,15 +59,26 @@ function Art({ move, failed }) {
   return <span className="tm__glyph" aria-hidden="true">{move.id === 'done' ? <Check size={36} strokeWidth={1.5} /> : <RotateCcw size={34} strokeWidth={1.5} />}</span>;
 }
 
-function SomethingElse({ open, onClose, items }) {
+// Each way in carries its own picture (release 10, F5: rows that look pressable): the paper's subject object for a repair, else the
+// app's icon for the mode (one lucide family, as Glyph's APP_ICONS), and a chevron that says the row opens.
+const ALT_ICONS = { quick: Timer, another: Layers, mock: ListChecks, nta: MonitorCheck, mob: Users, review: NotebookText, revise: Brain, repair: RefreshCw };
+
+function AltTile({ item }) {
+  if (item.subject) return <span className="tsh__tile tsh__tile--obj" aria-hidden="true"><SubjectObject id={item.subject} size={36} life={false} framed={false} /></span>;
+  const Icon = ALT_ICONS[item.id] || Layers;
+  return <span className="tsh__tile" aria-hidden="true"><Icon size={18} strokeWidth={1.75} /></span>;
+}
+
+function SomethingElse({ open, onClose, items, when = 'tonight' }) {
   return (
-    <TodaySheet open={open} onClose={onClose} id="tm-else" title="More ways to practise" lede="Each one, and why it might be your next move.">
+    <TodaySheet open={open} onClose={onClose} id="tm-else" title="More ways to practise" lede={`Pick what fits ${when}. Each one opens straight in.`}>
       <ul className="tsh__list">
         {items.map((a) => (
           <li key={a.id}>
             <Link className="tsh__row" href={a.href} onClick={onClose}>
-              <b>{a.title}</b>
-              <span>{a.reason}</span>
+              <AltTile item={a} />
+              <span className="tsh__row-t"><b>{a.title}</b><span>{a.reason}</span></span>
+              <ChevronRight className="tsh__chev" size={16} strokeWidth={2} aria-hidden="true" />
             </Link>
           </li>
         ))}
@@ -243,7 +254,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
           {alternatives.length ? <button type="button" aria-haspopup="dialog" onClick={() => setSheet(true)}>More ways to practise</button> : null}
         </div>
       ) : null}
-      <SomethingElse open={sheet} onClose={() => setSheet(false)} items={alternatives} />
+      <SomethingElse open={sheet} onClose={() => setSheet(false)} items={alternatives} when={word.startsWith('Tonight') ? 'tonight' : 'today'} />
     </section>
   );
 }
