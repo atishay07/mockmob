@@ -5,6 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { finaliseExpiredSessionsForUser, supabaseSessionStore } from '@/lib/server/sessionFinaliser';
 import { reportFinalisedEpisodeCheck } from '@/lib/server/finaliseEpisodeCheck';
 import { forgetBadges } from '@/lib/server/badgesStore';
+import { isSummaryView, readAttemptListSummary } from '@/lib/server/attemptListSummary';
 
 export async function GET(request) {
   try {
@@ -13,6 +14,9 @@ export async function GET(request) {
     // Abandoned mocks past their deadline become results the moment the student looks.
     const finalised = await finaliseExpiredSessionsForUser(supabaseSessionStore(supabaseAdmin(), { userId: session.user.id }), { onEpisodeCheck: reportFinalisedEpisodeCheck });
     if (finalised?.finalised) forgetBadges(session.user.id); // a result saved just now can earn a badge (BADGES-REFINE-1018)
+    // ?view=summary (the Android app's list call): the same array with only what the app reads, never the heavy snapshot fields.
+    // No param: the full attempts, byte for byte as before (the website and older apps).
+    if (isSummaryView(request)) return NextResponse.json(await readAttemptListSummary(supabaseAdmin(), session.user.id));
     const attempts = await Database.getAttempts(session.user.id);
     return NextResponse.json(attempts);
   } catch (e) {
