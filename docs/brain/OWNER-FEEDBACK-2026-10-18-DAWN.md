@@ -238,3 +238,9 @@ Ledger: keep all agents running; at about 95% usage he switches accounts. Have N
 > "Yes, build both the richer Today (D52) and the swipe card stack (D51) as v15.1."
 
 **Ledger:** D51 and D52 approved as designed in docs/design-decisions/pass-1018/TODAY-SWIPE-1018.md: a right swipe makes the card the lead (it never starts or spends); the real Skip and Do-this-instead buttons stay. D50 decided by the CTO from his words: "How many questions?" offers 5, 10, 15, 20 and a full mock, and on day one Weak chapters names the chapters with the most marks at stake (going into the final v15).
+
+## Owner, 18 Oct about 3:55 pm IST (session 604ced81, resumed after the 3:35 pm handoff)
+His message was the pasted next-session prompt (resume from 25ef3d95, follow NOW.md). Asked "Ship release 8?" (preview http://192.168.1.8:3208), his choice:
+> "Ship it (Recommended)"
+
+**Ledger D63:** ship release 8. Done in order: the D54 migration `20261018130000_free_ai_wallet_50` on production first (pre-check, apply, post-check, rolled-back dry spend, undo ready), then main pushed fc9e1f6b..00328e54.

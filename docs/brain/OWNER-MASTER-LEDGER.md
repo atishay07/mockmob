@@ -329,6 +329,11 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 - **D51 and D52:** built and critic-checked, in v15.1 wt-v15-1 (88cc6c5d); not walked yet.
 - None of the app items is DONE until a walked APK is in his hands.
 
+### Owner at about 3:55 pm, 18 Oct (session 604ced81)
+| D | Item | Status |
+|---|---|---|
+| D63 | "Ship it": release 8 | Migration applied on production 3:57 pm (pre/post md5 checked, dry spend rolled back); main pushed 00328e54; Vercel check and STATUS in progress |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
