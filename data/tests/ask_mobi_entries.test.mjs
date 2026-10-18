@@ -149,7 +149,7 @@ test('every entry is wired once, with its one label, and none adds a card or an 
   assert.doesNotMatch(read('src/app/(app)/dashboard/DashboardPageClient.jsx'), /PracticeAskRow/, 'one Ask Mobi entry on Practice, not two');
   assert.match(read('src/app/(app)/dashboard/PracticeRepairs.jsx'), /<AskMobiLink context=\{practiceContext\(insights\)\}[^>]*>[\s\S]*?\{ENTRY_LABELS\.practice\}/);
   const host = read('src/components/ai/AskMobiHost.jsx');
-  assert.match(host, /isAskMobiNavHref/, 'the Planning row opens the panel in place');
+  assert.match(host, /isAskMobiNavHref/, 'the Ask Mobi door in the navigation opens the panel in place');
   const css = read('src/components/ai/ask-entry.css');
   assert.doesNotMatch(css, /background(-color)?:|box-shadow|linear-gradient|radial-gradient|text-shadow|backdrop-filter|#d2f000|var\(--volt/, 'a text button or a hairline row: no fill, no card, no glow, no accent');
 });
@@ -160,7 +160,8 @@ test('the Help door no longer carries Mobi, and nothing about Mobi sits under th
   assert.match(foot, /<AppearanceSwitch compact \/>/);
   assert.doesNotMatch(foot, /Orb|Ask Mobi|openAskMobi/);
   assert.match(shell, /item\('mentor', 'Ask Mobi'|arenaNavigation/);
-  assert.match(read('src/lib/arenaNavigation.js'), /item\('mentor', 'Ask Mobi', 'prepos'\)/, 'Ask Mobi stays as the ordinary Planning row');
+  assert.match(read('src/lib/arenaNavigation.js'), /item\('mentor', 'Ask Mobi', 'prepos'\)/, 'Ask Mobi stays an ordinary /mentor link');
+  assert.match(shell, /className="arena-mobi-door"/, 'Mobi’s own door sits above the foot, never under the theme switch (D6)');
   assert.doesNotMatch(shell, /Open Help to ask Mobi/, 'the tour does not send a student to Help for Mobi');
 });
 
