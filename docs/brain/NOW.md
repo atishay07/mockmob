@@ -34,7 +34,15 @@
 > - Server: wt-play-server, web/play-billing-1018 (verify + RTDN + play_purchases migration, flag PLAY_BILLING_ENABLED).
 > - App: wt-play-app, ui/play-billing-1018 from ab8db172 (in_app_purchase, Get Pro sheet, flag PLAY_BILLING).
 > - Then: an Opus check, a v15.2 merge (on top of the walked final app) and its APK; docs/brain/PLAY-BILLING-PLAN-1018.md for his Play Console steps.
-> **Usage:** 70% at 6:34 pm; ask him to switch accounts at about 7:20 pm.
+> **Added 6:40-7:00 pm (owner D75-D81; all in the ledger):** Pro on Play Rs 150 FINAL; ONE credits balance; Pro nudges; first-session Upgrade pop-up. Agents running (Agent tool, background; each commits in its own worktree):
+> - web/credits-core-1018 (wt-credits-core, Opus): one balance + one spend order + migration 20261018210000_one_credits_balance (staging only) + packs credits_10_50/29_150/49_300.
+> - web/wallet-1018 (wt-wallet-web): /wallet + /api/wallet + order/verify behind WALLET_COMMERCE_OPEN + docs/brain/WALLET-RAZORPAY.md (the owner wires Razorpay himself today).
+> - web/pro-nudge-1018 (wt-pro-nudge, Opus): nudges, the Upgrade sheet on Pro-feature taps, the first-session pop-up.
+> - ui/play-billing-1018 (wt-play-app): billing + Get Pro sheet + one-balance wallet screen.
+> - ui/pro-nudge-1018 (wt-pro-nudge-app): app nudges + first-session pop-up (only with PLAY_BILLING on: the store rule).
+> - web/play-billing-1018 (wt-play-server): DONE ba5eef6e (46 tests; map being moved to the one-credits packs); plan docs/brain/PLAY-BILLING-PLAN-1018.md.
+> - Release 10 = R9 + credits core + wallet + nudges + play server: integrate, verify, apply 20261018190000_play_purchases and 20261018210000_one_credits_balance on production (pre/post md5 checks, undo), push. Then a v15.2 app = final app + play-app + pro-nudge-app.
+> **Usage:** 81% at 6:57 pm; the owner was asked to switch accounts now.
 
 ## 1. The goal (owner, D39 at 9:15 am, then D59 and D62)
 The Play Store is parked.
