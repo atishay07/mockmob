@@ -39,7 +39,16 @@ void main() {
       overrides: () => onboardingOverrides(answers: _notSure(Steps.subjects)),
       act: (tester) => _tap(tester, find.text(SubjectSets.commerce.title)),
     );
+    // Save: the keys at full strength before the age; the age answers as tiles.
+    onboardingGolden('taste_save_ask_${e.key}', _flow, size: e.value, overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save)));
   }
+  onboardingGolden(
+    'taste_save_ask_large_text',
+    _flow,
+    size: _sizes['360']!,
+    textScale: 1.3,
+    overrides: () => onboardingOverrides(answers: studentUpTo(Steps.plan, step: Steps.save)),
+  );
   onboardingGolden(
     'taste_subjects_set_large_text',
     _flow,

@@ -11,6 +11,10 @@ import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/onboarding/widgets/subject_row.dart';
 
+import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/onboarding/model/choices.dart';
+import 'package:mockmob/features/onboarding/steps/save_step.dart';
+import 'package:mockmob/features/onboarding/widgets/choice_tile.dart';
 import '../../golden/onboarding/support.dart';
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -82,6 +86,28 @@ void main() {
       expect(find.text(ChoicesCopy.otherSets), findsNothing);
       // Rating stays optional: the key is live.
       expect(_answers(c).confidence, isEmpty);
+      expect(tester.takeException(), isNull);
+    });
+  });
+
+  group('Save: the sign-in keys never look disabled', () {
+    testWidgets('before the age, Google is live, a tap asks the age; the age answers are 52 dp tiles with no dot', (tester) async {
+      final c = await _flowAt(tester, studentUpTo(Steps.plan, step: Steps.save), size: const Size(412, 915));
+      expect(_answers(c).age, isNull);
+      final google = find.widgetWithText(KeyButton, OnboardingCopy.continueWithGoogle);
+      expect(tester.widget<KeyButton>(google).onPressed, isNotNull);
+      final email = find.widgetWithText(KeyButton, OnboardingCopy.useEmailCode);
+      expect(tester.widget<KeyButton>(email).onPressed, isNotNull);
+      final pills = find.byType(ChoicePills<AgeAnswer>);
+      expect(find.descendant(of: pills, matching: find.byType(SelectBubble)), findsNothing, reason: 'answers, not radio rows');
+      final yes = find.ancestor(of: find.text(AgeAnswer.adult.label), matching: find.byType(AnimatedContainer)).first;
+      expect(tester.getSize(yes).height, 52);
+      await tester.tap(google);
+      await _settle(tester);
+      expect(_answers(c).age, isNull);
+      expect(find.byType(SaveStep), findsOneWidget, reason: 'still on the save step: the age comes first');
+      await _tap(tester, find.text(AgeAnswer.adult.label));
+      expect(_answers(c).age, AgeAnswer.adult);
       expect(tester.takeException(), isNull);
     });
   });

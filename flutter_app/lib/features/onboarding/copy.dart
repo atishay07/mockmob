@@ -222,6 +222,9 @@ abstract final class OnboardingCopy {
 
   /// The hint on a sign-in key that waits for the age question above it.
   static const String ageFirst = 'Answer the age question first';
+
+  /// Mobi, when a sign-in key is tapped before the age is answered.
+  static const String mobiAgeFirst = 'One quick one first: are you 18 yet?';
   static const String continueWithGoogle = 'Continue with Google';
   static const String googleBusy = 'Signing in';
   static const String cancelBrowser = 'Cancel';

@@ -348,12 +348,13 @@ void main() {
 
   testWidgets('the save step pins its keys and Not now; answering the age moves nothing (O4)', (tester) async {
     AgeAnswer? age;
+    var googled = 0;
     late StateSetter set;
     await pumpMockmob(
       tester,
       StatefulBuilder(builder: (context, setState) {
         set = setState;
-        return SaveView(age: age, onAge: (a) => setState(() => age = a), onGoogle: () {}, onEmail: () {}, onNotNow: () {});
+        return SaveView(age: age, onAge: (a) => setState(() => age = a), onGoogle: () => googled++, onEmail: () {}, onNotNow: () {});
       }),
       size: kPhone,
       disableAnimations: true,
@@ -361,12 +362,18 @@ void main() {
     );
     await tester.pump();
     final google = find.widgetWithText(KeyButton, OnboardingCopy.continueWithGoogle);
-    expect(tester.widget<KeyButton>(google).onPressed, isNull, reason: 'waits for the age');
+    // Drawn at full strength (v15 taste pass): a tap asks the age instead of signing in.
+    expect(tester.widget<KeyButton>(google).onPressed, isNotNull, reason: 'never looks disabled');
+    await tester.tap(google);
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(googled, 0, reason: 'the age comes first');
     final before = tester.getTopLeft(google);
     final notNow = tester.getTopLeft(find.text(OnboardingCopy.notNow));
     set(() => age = AgeAnswer.adult);
     await tester.pump();
-    expect(tester.widget<KeyButton>(google).onPressed, isNotNull);
+    await tester.tap(google);
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(googled, 1, reason: 'answered, the key signs in');
     expect(tester.getTopLeft(google), before, reason: 'nothing moves when the age is answered');
     expect(tester.getTopLeft(find.text(OnboardingCopy.notNow)), notNow);
     expect(notNow.dy, greaterThan(kPhone.height - 140), reason: 'pinned at the thumb, not under a hole');
