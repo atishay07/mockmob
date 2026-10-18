@@ -7,6 +7,7 @@ import 'package:mockmob/core/analytics/analytics.dart';
 import 'package:mockmob/core/api/api_client.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/api/api_providers.dart';
+import 'package:mockmob/features/wallet/data/wallet_data.dart' show WalletRead, walletRepositoryProvider;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/connectivity/connectivity.dart' show NetworkStatus, networkStatusProvider;
 import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier;
@@ -270,6 +271,38 @@ RemoteState<CreditsOverview> creditsState({
       fetchedAt: DateTime(2026, 10, 12, 21, 15),
     );
 
+/// `GET /api/wallet` on a server without the wallet route (release 9 production): a 404.
+const walletMissing = RemoteState<WalletRead>(error: ApiError(status: 404, kind: ApiErrorKind.notFound, code: 'not_found'));
+
+/// The credits read of a one-balance server (owner D78): the two stored parts, which add up to the one
+/// total, the `total` block, and history lines that state the one balance after them this month. The
+/// numbers follow the website's own fixture: 38 free credits left of 50 and 70 held, 108 in all.
+RemoteState<CreditsOverview> oneBalanceState({
+  int? total = 108,
+  int freeLeft = 38,
+  int held = 70,
+  bool pro = false,
+  List<Map<String, Object?>> history = const [],
+}) =>
+    RemoteState(
+      value: CreditsOverview.fromJson({
+        'practice': {'balance': total == null ? null : held, 'renewsOn': null, 'label': 'Practice credits'},
+        'ai': {'balance': total == null ? null : freeLeft, 'renewsOn': '2026-11-01', 'label': 'AI credits'},
+        'plan': {'name': pro ? 'Pro' : 'Free', 'until': pro ? '2027-07-31' : null},
+        'history': history,
+        'nextCursor': null,
+        'total': {
+          'balance': total,
+          'freeLeft': total == null ? null : freeLeft,
+          'freeAllowance': total == null ? null : 50,
+          'held': total == null ? null : held,
+          'renewsOn': total == null ? null : '2026-11-01',
+          'label': 'Credits',
+        },
+      }),
+      fetchedAt: DateTime(2026, 10, 12, 21, 15),
+    );
+
 class MockAnalytics extends Mock implements AnalyticsClient {}
 
 MockAnalytics quietAnalytics() {
@@ -354,6 +387,8 @@ List<Override> youOverrides({
   String? version = '1.0.0 (1)',
   RemoteState<RulesRead>? rules,
   RemoteState<CreditsOverview>? credits,
+  RemoteState<WalletRead>? wallet,
+  Override? walletOverride,
   DateTime? now,
   NotificationPrefs? notificationPrefs,
   Override? notificationPrefsProvider,
@@ -390,6 +425,9 @@ List<Override> youOverrides({
     appVersionProvider.overrideWith((ref) async => version),
     notificationPrefsProvider ?? notificationPrefsRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: notificationPrefs ?? NotificationPrefs.defaults)),
     meCreditsProvider.overrideWith(() => FakeMeCredits(credits ?? creditsState())),
+    // `GET /api/wallet`: by default today's production answer (404, no wallet route), so nothing reaches the
+    // network or the database.
+    walletOverride ?? walletRepositoryProvider.overrideWithBuild((ref, n) => wallet ?? walletMissing),
     creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
     // Across your mocks on the hub (Mistake Lab v4 slice 3): settled, no network.
     rulesRepositoryProvider.overrideWithBuild((ref, n) => rules ?? const RemoteState()),

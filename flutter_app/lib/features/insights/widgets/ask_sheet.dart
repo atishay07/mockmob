@@ -29,6 +29,7 @@ import '../data/readout.dart';
 import '../insights_paths.dart';
 import '../screens/insights_screen.dart' show insightsInputsProvider;
 import 'ask_messages.dart';
+import 'ask_wallet.dart' show askOneBalanceProvider;
 import 'insights_bits.dart' show ActionLink;
 import 'mobi_mark.dart';
 import 'motion_bits.dart';
@@ -385,6 +386,7 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
                   bonus: wallet?.bonus,
                   // A pause is said once, in the notice above; the credits themselves are untouched.
                   resetsOn: renew,
+                  oneBalance: ref.watch(askOneBalanceProvider),
                 ),
                 note: (typed) {
                   if (typed.trim().isEmpty) return AskSheetCopy.recordFree;

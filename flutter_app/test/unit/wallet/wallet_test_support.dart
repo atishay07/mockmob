@@ -76,7 +76,7 @@ RemoteState<WalletRead> walletState([Map<String, Object?>? body]) =>
 List<Override> walletOverrides({RemoteState<WalletRead>? read, bool pro = false, BillingRig? rig}) => [
       ...youOverrides(
         auth: AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Asha Verma', isPro: pro, premiumUntil: pro ? DateTime(2027, 7, 31) : null),
+        walletOverride: walletRepositoryProvider.overrideWith(() => FakeWalletRepo(read ?? walletState(walletBody(pro: pro)))),
       ),
-      walletRepositoryProvider.overrideWith(() => FakeWalletRepo(read ?? walletState(walletBody(pro: pro)))),
       ...?rig?.overrides,
     ];

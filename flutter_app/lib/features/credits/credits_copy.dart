@@ -1,6 +1,9 @@
-/// Every word of the Credits page and of the credit tiles on You. Two credit names only,
-/// "Practice credits" and "AI credits", and every line that spends one names its pool and says
-/// what is left. Sentence case, no exclamation marks, no em dashes, no middle dots, 12-hour times.
+/// Every word of the Credits page and of the credit tiles on You and in the Account sheet.
+///
+/// On a server that keeps one credits balance (owner D78, release 10) there is one name, "Credits", and
+/// the words "Practice credits" and "AI credits" never appear as balances. On an older server there are
+/// two, "Practice credits" and "AI credits". Sentence case, no exclamation marks, no em dashes, no middle
+/// dots, 12-hour times.
 library;
 
 import '../../core/copy/copy.dart';
@@ -25,6 +28,27 @@ abstract final class CreditsCopy {
   static const unlimited = 'Unlimited';
   static String renews(DateTime date) => 'Renews ${formatDayMonth(date)}';
 
+  // The one credits balance.
+  static const oneName = 'Credits';
+  static const oneMeaning = 'For practice, mocks and Ask Mobi';
+  static const oneUnknown = 'Credits did not load.';
+  static const oneProMeaning = 'For Ask Mobi and repairs. Practice is unlimited on Pro.';
+
+  /// "1 credit", "40 credits".
+  static String count(int n) => n == 1 ? '1 credit' : '$n credits';
+
+  /// "38 of 50 free credits left this month".
+  static String freeLeft(int left, int of) => '$left of $of free credits left this month';
+
+  /// "Free credits renew 1 November".
+  static String freeRenews(DateTime date) => 'Free credits renew ${formatDayMonth(date)}';
+
+  /// "70 held. They do not expire."
+  static String held(int n) => '$n held. They do not expire.';
+  static const filterPractice = 'Practice';
+  static const filterAi = 'AI';
+  static const filterLabel = 'Show history for';
+
   /// A balance that did not load. Never shown as zero.
   static const notLoaded = 'Not loaded';
   static const checking = 'Checking';
@@ -41,6 +65,7 @@ abstract final class CreditsCopy {
 
   static const historyEmptyTitle = 'Nothing spent yet';
   static const historyEmptyBody = 'When you use Practice credits or AI credits, each line shows here with what is left.';
+  static const historyEmptyBodyOne = 'When you spend credits, each line shows here.';
   static String historyEmptyFor(CreditPool pool) => 'No ${pool.name} lines in what has loaded yet.';
 
   static const historyFailedTitle = 'History did not load';
@@ -49,26 +74,33 @@ abstract final class CreditsCopy {
   static const loadFailedBody = 'Check your connection and try again.';
   static const stale = 'Showing the figures from the last time you were online.';
 
-  /// The second line of a history row: the pool and the count, then what is left.
+  /// The second line of a history row, for TalkBack.
   ///
-  /// "Used 1 AI credit. 8 AI credits left."
-  static String line(CreditEntry e) {
-    final count = e.pool.count(e.delta.abs());
+  /// Two pools: the pool and the count, "Used 1 AI credit." The running figure is left out: on an older
+  /// server it is counted per ledger and can disagree with the balance on the card above (final walk,
+  /// "50 AI credits left" next to a balance of 10).
+  ///
+  /// One balance: "Used 10 credits. 108 left." The figure is the server's own one balance after the line;
+  /// it sends it only for this month's lines, so an older line says only what it used.
+  static String line(CreditEntry e, {bool oneBalance = false}) {
+    final n = e.delta.abs();
+    final count = oneBalance ? CreditsCopy.count(n) : e.pool.count(n);
     final change = e.isSpend ? 'Used $count' : 'Added $count';
-    final after = e.balanceAfter;
-    return after == null ? '$change.' : '$change. ${e.pool.count(after)} left.';
+    final after = oneBalance ? e.balanceAfter : null;
+    return after == null ? '$change.' : '$change. $after left.';
   }
 
-  /// The value column's second line: what is left, "40 left". Null when the server sent no balance.
-  static String? left(CreditEntry e) => e.balanceAfter == null ? null : '${e.balanceAfter} left';
+  /// The value column's second line, "40 left": one balance mode only, and only when the server sent it.
+  static String? left(CreditEntry e, {bool oneBalance = false}) => !oneBalance || e.balanceAfter == null ? null : '${e.balanceAfter} left';
 
-  /// The 12 sp tag under the title: the pool, said once ("Practice credits", "AI credits").
-  static String tag(CreditEntry e) => e.pool.name;
+  /// The 12 sp tag under the title: the pool, said once ("Practice credits", "AI credits"). None in one
+  /// balance mode, where there is no pool to name.
+  static String? tag(CreditEntry e, {bool oneBalance = false}) => oneBalance ? null : e.pool.name;
 
-  /// The row's words for TalkBack (the long form: pool, count and what is left).
-  static String rowLabel(CreditEntry e, String when) {
+  /// The row's words for TalkBack (the long form: what it was, the count, and in one balance mode what is left).
+  static String rowLabel(CreditEntry e, String when, {bool oneBalance = false}) {
     final what = e.what.isEmpty ? (e.isSpend ? 'Credits used' : 'Credits added') : e.what;
-    return '$what. ${line(e)} $when';
+    return '$what. ${line(e, oneBalance: oneBalance)} $when';
   }
 
   /// The title of a row with no words from the server.

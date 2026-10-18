@@ -220,7 +220,10 @@ class PlanCreditsRow extends ConsumerWidget {
     final title = figures.isPro ? (until == null ? CreditsCopy.planProActive : CreditsCopy.planUntil(until)) : YouCopy.planFree;
     final practice = figures.practice;
     final ai = figures.ai;
-    final note = practice == null || ai == null ? YouCopy.planNoteUnloaded : YouCopy.planNote(practice, ai);
+    // One credits balance (owner D78): one figure, never "practice credits" and "AI credits" side by side.
+    final note = figures.oneBalance
+        ? (figures.total == null ? YouCopy.planNoteUnloaded : CreditsCopy.count(figures.total!))
+        : (practice == null || ai == null ? YouCopy.planNoteUnloaded : YouCopy.planNote(practice, ai));
     return YouPanel(
       flat: true,
       inset: _flatInset,

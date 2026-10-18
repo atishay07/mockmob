@@ -6,6 +6,7 @@ import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
 import 'package:mockmob/core/models/rhythm.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
+import 'package:mockmob/core/repositories/quote_repository.dart' show quoteRepositoryProvider;
 import 'package:mockmob/core/repositories/rhythm_seen_repository.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/rhythm/data/rhythm_prefs.dart' show rhythmPrefsStoreProvider;
@@ -29,6 +30,7 @@ import 'package:mockmob/features/today/widgets/road_timeline.dart' show RoadStop
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import '../core_data/support/test_db.dart';
+import '../practice/support/harness.dart' show FakeQuoteRepository, creditsQuote;
 import 'support/today_fixtures.dart';
 
 void main() {
@@ -37,6 +39,10 @@ void main() {
   final overrides = [
     authSnapshotProvider.overrideWithBuild(
       (ref, notifier) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u', name: 'Asha Verma'),
+    ),
+    // "How many questions?" prices each row from its own quote (final walk): a credit a question.
+    quoteRepositoryProvider.overrideWithValue(
+      FakeQuoteRepository((s, m, c, p) => creditsQuote(cost: m == 'full' ? 50 : c ?? 10, balance: 390, mode: m, count: c ?? 10)),
     ),
   ];
 

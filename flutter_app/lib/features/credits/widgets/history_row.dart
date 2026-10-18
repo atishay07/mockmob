@@ -9,12 +9,17 @@ import '../credits_copy.dart';
 import '../data/credits_models.dart';
 
 /// One line of the history: the pool's glyph, what it was ("Practice set"), the pool as a 12 sp
-/// tag with the time, and in the value column the change and what is left ("40 left").
-/// Information only; nothing here opens. The pool is said in words, never by colour alone.
+/// tag with the time, and in the value column the change. Information only; nothing here opens. The
+/// pool is said in words, never by colour alone.
+///
+/// [oneBalance]: the server keeps one credits balance, so there is no pool tag, and the value column adds
+/// the server's own balance after the line ("108 left") when it sent one. On an older server no running
+/// figure is shown: it is counted per ledger and could disagree with the balance on the card above.
 class HistoryRow extends StatelessWidget {
-  const HistoryRow({super.key, required this.entry});
+  const HistoryRow({super.key, required this.entry, this.oneBalance = false});
 
   final CreditEntry entry;
+  final bool oneBalance;
 
   static String changeText(int delta) => delta < 0 ? '$minusSign${delta.abs()}' : '+$delta';
 
@@ -24,11 +29,12 @@ class HistoryRow extends StatelessWidget {
     final type = context.mmType;
     final at = entry.at.toLocal();
     final time = formatTime12(at);
-    final left = CreditsCopy.left(entry);
+    final left = CreditsCopy.left(entry, oneBalance: oneBalance);
+    final tag = CreditsCopy.tag(entry, oneBalance: oneBalance);
     final what = entry.what.isEmpty ? CreditsCopy.whatFallback(entry) : entry.what;
     return Semantics(
       container: true,
-      label: CreditsCopy.rowLabel(entry, time),
+      label: CreditsCopy.rowLabel(entry, time, oneBalance: oneBalance),
       excludeSemantics: true,
       child: ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 56),
@@ -37,7 +43,7 @@ class HistoryRow extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              IconWell(entry.pool == CreditPool.practice ? LucideIcons.layers : LucideIcons.sparkles),
+              IconWell(oneBalance ? LucideIcons.wallet : (entry.pool == CreditPool.practice ? LucideIcons.layers : LucideIcons.sparkles)),
               const SizedBox(width: MmSpace.s12),
               Expanded(
                 child: Column(
@@ -54,7 +60,7 @@ class HistoryRow extends StatelessWidget {
                       runSpacing: 2,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        _PoolTag(label: CreditsCopy.tag(entry)),
+                        if (tag != null) _PoolTag(label: tag),
                         Text(time, style: type.caption.copyWith(fontSize: 12, color: colors.ink3)),
                       ],
                     ),

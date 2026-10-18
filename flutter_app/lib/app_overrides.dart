@@ -11,7 +11,7 @@ import 'core/widgets/bar/bar_live.dart';
 import 'core/auth/auth_state.dart' show authSnapshotProvider;
 import 'features/practice/data/practice_catalog.dart' show practiceSubjectProvider, practiceSubjectsProvider, subjectChoices;
 import 'features/practice/data/start_entries.dart' show practiceQuickNtaProvider;
-import 'features/review/data/review_providers.dart' show openRepairsProvider, quickRepairFromReviewProvider, reviewIndexProvider;
+import 'features/review/data/review_providers.dart' show openRepairsProvider, quickRepairFromReviewProvider;
 import 'features/today/copy.dart' show TodayCopy;
 import 'features/today/data/lead_pick.dart' show todayLeadIsPickProvider, todayLeadMoveProvider;
 import 'features/today/data/today_providers.dart' show todayInputsProvider, todayNextActionProvider, todayViewProvider;

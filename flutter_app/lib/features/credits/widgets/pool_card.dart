@@ -76,3 +76,63 @@ class PoolCard extends StatelessWidget {
     );
   }
 }
+
+/// The one credits balance on the Credits page (a server that keeps one balance, owner D78): "Credits",
+/// the figure as the loudest thing on the card, what it pays for, this month's free credits left with the
+/// day they renew, and the credits held. Every line is the server's own number; a line it did not send is
+/// left out, and a balance that is not known reads "Not loaded", never 0.
+class OneBalanceCard extends StatelessWidget {
+  const OneBalanceCard({super.key, required this.figures});
+
+  final CreditFigures figures;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final total = figures.total;
+    final figureText = total != null ? '$total' : (figures.loading ? CreditsCopy.checking : CreditsCopy.notLoaded);
+    final meaning = figures.aiPaused
+        ? 'AI replies are paused'
+        : (figures.isPro ? CreditsCopy.oneProMeaning : CreditsCopy.oneMeaning);
+    final lines = <String>[
+      if (figures.freeLeft != null && figures.freeAllowance != null) CreditsCopy.freeLeft(figures.freeLeft!, figures.freeAllowance!),
+      if (figures.freeRenews != null) CreditsCopy.freeRenews(figures.freeRenews!),
+      if ((figures.held ?? 0) > 0) CreditsCopy.held(figures.held!),
+    ];
+    final Widget figure = total != null
+        ? MonumentalNumber(
+            value: figureText,
+            unit: total == 1 ? 'credit' : 'credits',
+            style: type.figure,
+            fromZeroOnFirstBuild: false,
+            memoryKey: 'credits-one',
+          )
+        : Text(figureText, style: type.title.copyWith(color: colors.ink3));
+
+    return MmSurface.plain(
+      semanticsLabel: '${CreditsCopy.oneName}, $figureText. $meaning. ${lines.join('. ')}',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Icon(LucideIcons.wallet, size: 18, color: colors.ink2),
+              const SizedBox(width: MmSpace.s8),
+              Expanded(child: Text(CreditsCopy.oneName, style: type.labelLarge.copyWith(color: colors.ink2))),
+              const MobiCharacter(size: 32, head: true, still: true, shadow: false, entrance: MobiAct.idle),
+            ],
+          ),
+          const SizedBox(height: MmSpace.s12),
+          figure,
+          const SizedBox(height: MmSpace.s8),
+          Text(meaning, style: type.small.copyWith(color: colors.ink2)),
+          for (final line in lines) ...[
+            const SizedBox(height: MmSpace.s4),
+            Text(line, style: type.caption.copyWith(color: colors.ink3)),
+          ],
+        ],
+      ),
+    );
+  }
+}

@@ -7,7 +7,13 @@
 //    "ai":       {"balance": n, "renewsOn": "YYYY-MM-DD" | null, "label": "AI credits"},
 //    "plan":     {"name": "Free" | "Pro", "until": "YYYY-MM-DD" | null},
 //    "history":  [{"at": ISO, "pool": "practice" | "ai", "what": text, "delta": n, "balanceAfter": n}],
-//    "nextCursor": string | null}
+//    "nextCursor": string | null,
+//    "total": {"balance": n | null, "freeLeft": n | null, "freeAllowance": n | null, "held": n | null,
+//              "renewsOn": "YYYY-MM-DD" | null, "label": "Credits"}}
+//
+// "total" is the one credits balance (owner D78, release 10): present only on a server that keeps one
+// balance, where practice.balance + ai.balance = total.balance and every history line's balanceAfter is
+// that one balance (null for lines before this month). An older server sends no "total".
 //
 // A balance the server did not send is null and is never drawn as zero.
 
@@ -84,6 +90,33 @@ class CreditPlan {
   bool get isPro => name == 'Pro';
 }
 
+/// The one credits balance (`total` in `GET /api/me/credits` on a one-balance server). Every number is null
+/// when the server could not read it.
+class CreditTotal {
+  const CreditTotal({this.balance, this.freeLeft, this.freeAllowance, this.held, this.renewsOn});
+
+  /// Null when the body has no `total` block (an older, two-pool server).
+  static CreditTotal? tryParse(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    return CreditTotal(
+      balance: asInt(j['balance']),
+      freeLeft: asInt(j['freeLeft']),
+      freeAllowance: asInt(j['freeAllowance']),
+      held: asInt(j['held']),
+      renewsOn: creditsDate(j['renewsOn']),
+    );
+  }
+
+  final int? balance;
+  final int? freeLeft;
+  final int? freeAllowance;
+  final int? held;
+
+  /// The India day the free credits come back.
+  final DateTime? renewsOn;
+}
+
 class CreditEntry {
   const CreditEntry({required this.at, required this.pool, required this.what, required this.delta, this.balanceAfter});
 
@@ -123,6 +156,7 @@ class CreditsOverview {
     required this.plan,
     required this.history,
     this.nextCursor,
+    this.total,
   });
 
   factory CreditsOverview.fromJson(Json j) => CreditsOverview(
@@ -134,6 +168,7 @@ class CreditsOverview {
             ?CreditEntry.tryParse(row),
         ],
         nextCursor: _cursor(j['nextCursor']),
+        total: CreditTotal.tryParse(j['total']),
       );
 
   static String? _cursor(Object? raw) {
@@ -148,6 +183,9 @@ class CreditsOverview {
   /// Newest first, 30 to a page.
   final List<CreditEntry> history;
   final String? nextCursor;
+
+  /// The one credits balance, on a server that keeps one; null on an older server.
+  final CreditTotal? total;
 
   CreditBalance of(CreditPool pool) => pool == CreditPool.practice ? practice : ai;
 }

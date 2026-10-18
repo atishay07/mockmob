@@ -7,9 +7,12 @@ import '../credits_copy.dart';
 import '../data/credit_figures.dart';
 import '../data/credits_models.dart';
 
-/// The two pools side by side, each as a tile with its name, the balance, what it pays for and
-/// when it renews. Used on You and in the Account sheet; the tiles open the Credits page.
-/// A balance that is not known reads "Not loaded", never 0.
+/// The credits as tiles that open the Credits page. Used on You and in the Account sheet.
+///
+/// On a server that keeps one credits balance (owner D78, release 10): one tile, "Credits", with the one
+/// figure, what it pays for and this month's free credits. On an older server: the two pools side by side,
+/// each with its name, the balance, what it pays for and when it renews. A balance that is not known reads
+/// "Not loaded", never 0.
 class CreditTiles extends StatelessWidget {
   const CreditTiles({super.key, required this.figures, required this.onOpen, this.mobi = false, this.keyPrefix = 'credits', this.flat = false});
 
@@ -30,6 +33,23 @@ class CreditTiles extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (figures.oneBalance) {
+      final total = figures.total;
+      final freeLine = figures.freeLeft != null && figures.freeAllowance != null
+          ? CreditsCopy.freeLeft(figures.freeLeft!, figures.freeAllowance!)
+          : (figures.freeRenews != null ? CreditsCopy.freeRenews(figures.freeRenews!) : null);
+      return CreditTile(
+        flat: flat,
+        key: ValueKey('$keyPrefix-credits'),
+        name: CreditsCopy.oneName,
+        figure: total != null ? '$total' : (figures.loading ? CreditsCopy.checking : CreditsCopy.notLoaded),
+        known: total != null,
+        meaning: figures.aiPaused ? 'AI replies are paused' : (figures.isPro ? CreditsCopy.oneProMeaning : CreditsCopy.oneMeaning),
+        footnote: freeLine,
+        mobi: mobi,
+        onTap: onOpen,
+      );
+    }
     final String practiceFigure;
     final String practiceMeaning;
     if (figures.isPro) {
@@ -52,7 +72,7 @@ class CreditTiles extends StatelessWidget {
             child: CreditTile(
               flat: flat,
               key: ValueKey('$keyPrefix-practice'),
-              pool: CreditPool.practice,
+              name: CreditPool.practice.name,
               figure: practiceFigure,
               known: figures.isPro || figures.practice != null,
               meaning: practiceMeaning,
@@ -71,7 +91,7 @@ class CreditTiles extends StatelessWidget {
             child: CreditTile(
               flat: flat,
               key: ValueKey('$keyPrefix-ai'),
-              pool: CreditPool.ai,
+              name: CreditPool.ai.name,
               figure: aiFigure,
               known: figures.ai != null,
               meaning: aiMeaning,
@@ -89,7 +109,7 @@ class CreditTiles extends StatelessWidget {
 class CreditTile extends StatelessWidget {
   const CreditTile({
     super.key,
-    required this.pool,
+    required this.name,
     required this.figure,
     required this.known,
     required this.meaning,
@@ -99,7 +119,8 @@ class CreditTile extends StatelessWidget {
     this.flat = false,
   });
 
-  final CreditPool pool;
+  /// "Credits", or on an older server "Practice credits" or "AI credits".
+  final String name;
   final String figure;
 
   /// False draws the figure as a quiet line ("Not loaded"), not a number.
@@ -118,13 +139,13 @@ class CreditTile extends StatelessWidget {
     final type = context.mmType;
     final numeric = known && int.tryParse(figure) != null;
     const padding = EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s8, MmSpace.s12);
-    final semanticsLabel = '${CreditsCopy.balanceLabel(pool, figure, meaning)}. Opens Credits';
+    final semanticsLabel = '$name, $figure. $meaning. Opens Credits';
     final content = Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Expanded(child: Text(pool.name, style: type.caption.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis)),
+              Expanded(child: Text(name, style: type.caption.copyWith(color: colors.ink2), maxLines: 1, overflow: TextOverflow.ellipsis)),
               if (mobi) ...[
                 const MobiCharacter(size: 22, head: true, still: true, shadow: false, entrance: MobiAct.idle),
                 const SizedBox(width: MmSpace.s4),

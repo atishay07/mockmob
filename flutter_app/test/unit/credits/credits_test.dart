@@ -168,14 +168,27 @@ void main() {
   });
 
   group('words', () {
-    test('every spend line names its pool, the count and what is left', () {
+    // New contract (final walk, 18 Oct): on a two-pool server no line carries a running figure. It was
+    // counted per ledger and showed "50 AI credits left" next to an AI balance of 10.
+    test('every spend line names its pool and the count, and no running figure on a two-pool server', () {
       final o = CreditsOverview.fromJson(_fixture());
-      expect(CreditsCopy.line(o.history[0]), 'Used 10 Practice credits. 40 Practice credits left.');
-      expect(CreditsCopy.line(o.history[1]), 'Used 1 AI credit. 9 AI credits left.');
-      expect(CreditsCopy.line(o.history[2]), 'Added 10 Practice credits. 50 Practice credits left.');
-      expect(CreditsCopy.line(o.history[3]), 'Added 1 AI credit. 11 AI credits left.');
-      expect(CreditsCopy.left(o.history[0]), '40 left');
+      expect(CreditsCopy.line(o.history[0]), 'Used 10 Practice credits.');
+      expect(CreditsCopy.line(o.history[1]), 'Used 1 AI credit.');
+      expect(CreditsCopy.line(o.history[2]), 'Added 10 Practice credits.');
+      expect(CreditsCopy.line(o.history[3]), 'Added 1 AI credit.');
+      expect(CreditsCopy.left(o.history[0]), isNull);
       expect(CreditsCopy.tag(o.history[1]), 'AI credits');
+    });
+
+    test('one balance: one name, and the server\'s own balance after each line when it sent one', () {
+      final o = CreditsOverview.fromJson(_fixture());
+      expect(CreditsCopy.line(o.history[0], oneBalance: true), 'Used 10 credits. 40 left.');
+      expect(CreditsCopy.line(o.history[1], oneBalance: true), 'Used 1 credit. 9 left.');
+      expect(CreditsCopy.left(o.history[0], oneBalance: true), '40 left');
+      expect(CreditsCopy.tag(o.history[0], oneBalance: true), isNull);
+      final older = CreditEntry(at: DateTime.utc(2026, 9, 1), pool: CreditPool.practice, what: 'Full mock', delta: -50);
+      expect(CreditsCopy.line(older, oneBalance: true), 'Used 50 credits.', reason: 'a line before this month has no figure');
+      expect(CreditsCopy.left(older, oneBalance: true), isNull);
     });
 
     test('there are two credit names only, and no banned punctuation', () {
@@ -191,6 +204,12 @@ void main() {
         CreditsCopy.historyEmptyFor(CreditPool.ai),
         CreditsCopy.moreFailed,
         for (final e in CreditsOverview.fromJson(_fixture()).history) CreditsCopy.line(e),
+        for (final e in CreditsOverview.fromJson(_fixture()).history) CreditsCopy.line(e, oneBalance: true),
+        CreditsCopy.oneMeaning,
+        CreditsCopy.oneProMeaning,
+        CreditsCopy.freeLeft(38, 50),
+        CreditsCopy.held(70),
+        CreditsCopy.historyEmptyBodyOne,
       ];
       for (final s in strings) {
         expect(s.contains('!'), isFalse, reason: s);
@@ -224,7 +243,7 @@ void main() {
 
     Map<String, dynamic> withMore() => _fixture()..['nextCursor'] = 'c1';
 
-    testWidgets('both pools, the plan, and each history line with its pool and what is left', (tester) async {
+    testWidgets('both pools, the plan, and each history line with its pool and no running figure', (tester) async {
       await pump(tester, mine: _loaded());
       expect(find.text('Practice credits'), findsWidgets);
       expect(find.text('AI credits'), findsWidgets);
@@ -236,12 +255,11 @@ void main() {
       expect(find.text('Renews 1 November'), findsOneWidget);
       expect(find.text('Practice set'), findsOneWidget);
       expect(find.text('Repair, Q2 Accountancy'), findsOneWidget);
-      // The value column says what is left; the long sentence is for TalkBack only.
-      expect(find.text('40 left'), findsWidgets);
-      expect(find.text('9 left'), findsWidgets);
-      expect(find.text('11 left'), findsWidgets);
-      expect(find.text('Used 10 Practice credits. 40 Practice credits left.'), findsNothing);
-      expect(find.bySemanticsLabel(RegExp('Used 10 Practice credits. 40 Practice credits left.')), findsOneWidget);
+      // Two pools: no running "left" figure that could disagree with the cards above (final walk). The
+      // long sentence is for TalkBack only.
+      expect(find.textContaining(' left'), findsNothing);
+      expect(find.text('Used 10 Practice credits.'), findsNothing);
+      expect(find.bySemanticsLabel(RegExp('Used 10 Practice credits.')), findsOneWidget);
       expect(find.text('Today'), findsOneWidget);
       expect(find.text('Yesterday'), findsOneWidget);
       expect(find.text('Show earlier'), findsNothing, reason: 'the fixture has no further page');
@@ -252,7 +270,7 @@ void main() {
 
     testWidgets('a filter shows one pool only', (tester) async {
       await pump(tester, mine: _loaded());
-      await tester.tap(find.widgetWithText(MmChip, 'AI credits'));
+      await tester.tap(find.widgetWithText(MmChip, CreditsCopy.filterAi));
       await tester.pumpAndSettle();
       expect(find.text('Repair, Q2 Accountancy'), findsOneWidget);
       expect(find.text('Practice set'), findsNothing);

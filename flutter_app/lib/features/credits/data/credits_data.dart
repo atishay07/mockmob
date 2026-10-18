@@ -31,6 +31,12 @@ class MeCreditsRepository extends JsonRemoteNotifier<CreditsOverview> {
     ref.listen(authSnapshotProvider.select((s) => s.creditBalance), (previous, next) {
       if (previous == null || next == null || previous == next) return;
       unawaited(refresh(force: true).catchError((Object _) {}));
+      // On a one-balance server a set is paid from the same balance Ask Mobi shows, so Ask's own read (when the
+      // app holds one) is read again too: its header never keeps the figure from before the set. Its landing
+      // reads this overview once more, which ends there (nothing listens to this read landing).
+      if (ref.exists(creditsRepositoryProvider) && (state.value?.total?.balance != null || ref.read(creditsRepositoryProvider).value?.oneBalance == true)) {
+        unawaited(ref.read(creditsRepositoryProvider.notifier).refresh(force: true).catchError((Object _) {}));
+      }
     });
     return super.build();
   }

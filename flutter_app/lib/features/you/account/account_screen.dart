@@ -111,7 +111,7 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
       title: YouCopy.accountTitle,
       children: [
         PlanCard(auth: auth, mobi: _mobi),
-        // Both pools and every use of them live on Credits; the plan card shows Practice credits.
+        // The balance and every use of it live on Credits; the plan card shows the same figure as the Account sheet.
         Padding(
           padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
           child: Align(
