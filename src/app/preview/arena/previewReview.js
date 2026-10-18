@@ -22,7 +22,16 @@ import { fixtureCheckField } from './previewRepairCheck';
 const one1018 = { ...student1018, papers: student1018.papers.filter((p) => p.id === 'm3'), items: student1018.items.filter((i) => i.paper === 'm3'), chapterQuestions: { m3: student1018.chapterQuestions.m3 } };
 const done1018 = { ...student1018, items: student1018.items.map((i) => (i.ch === 'adm' && i.state === 'open' ? { ...i, state: 'repaired', repairedAt: '2026-10-17T20:10:00+05:30' } : i)) };
 const zero1018 = { ...student1018, wallet: { ...student1018.wallet, aiCredits: 0, practiceCredits: 0 } };
-const RECORDS = { student1018, one: one1018, done: done1018, zero: zero1018, student, check: checkPending, zero1017: zeroCredits, held: allHeld, one1017: onePaper, nothing: nothingMissed, dedupe: reviseDedupe, empty, down: recordDown };
+// ?review=allwrong: every question a chapter asked was wrong, so the marks lost (6 a wrong) pass the marks on offer (5 a question).
+const allwrong1018 = (() => {
+  const chapterQuestions = {};
+  for (const i of student1018.items) {
+    chapterQuestions[i.paper] ||= {};
+    chapterQuestions[i.paper][i.ch] = (chapterQuestions[i.paper][i.ch] || 0) + 1;
+  }
+  return { ...student1018, chapterQuestions };
+})();
+const RECORDS = { student1018, allwrong: allwrong1018, one: one1018, done: done1018, zero: zero1018, student, check: checkPending, zero1017: zeroCredits, held: allHeld, one1017: onePaper, nothing: nothingMissed, dedupe: reviseDedupe, empty, down: recordDown };
 const SAVED = new Set(['repaired', 'held', 'slipped']);
 const subjectId = (v) => { const t = String(v || '').toLowerCase(); return SUBJECTS.find((s) => s.id === t || s.name.toLowerCase() === t)?.id || t.replace(/\s+/g, '_'); };
 
@@ -40,6 +49,21 @@ const EXPLAIN = {
   'm3:42': 'Goodwill brought in cash by the new partner is shared by the old partners in the ratio in which they give up their share, the sacrificing ratio, and is credited to their capital accounts.',
 };
 
+// The paper's key in these fixtures is option B (attemptFor), so the saved repair says B everywhere: fixtureRepairV3 is written
+// around option C, which the sheet's "answer key (B)" line then contradicted (R9, previewReview copy).
+const KEY_INDEX = 1;
+const LETTER = 'ABCD';
+function repairFor(item, opts) {
+  const base = fixtureRepairV3(opts);
+  const chosenIndex = item?.pick && LETTER.indexOf(item.pick) >= 0 && LETTER.indexOf(item.pick) !== KEY_INDEX ? LETTER.indexOf(item.pick) : 0;
+  const fix = (t) => (typeof t === 'string' ? t.replace(/option C/g, `option ${LETTER[KEY_INDEX]}`).replace(/option A/g, `option ${LETTER[chosenIndex]}`) : t);
+  const r = base.repair || {};
+  return {
+    ...base, chosenIndex, keyIndex: KEY_INDEX,
+    repair: { ...r, trap: fix(r.trap), why_right: fix(r.why_right), contrast: fix(r.contrast), why_tempting: fix(r.why_tempting), others: (r.others || []).map((o) => ({ ...o, index: o.index === KEY_INDEX ? 2 : o.index, why: fix(o.why) })) },
+  };
+}
+
 const kind = () => new URLSearchParams(window.location.search).get('review') || 'student1018';
 function record() {
   const k = kind();
@@ -51,6 +75,9 @@ function record() {
   const wallet = base.wallet ? { ...base.wallet, aiCredits: Number.isFinite(base.wallet.aiCredits) ? base.wallet.aiCredits - mem.spent : base.wallet.aiCredits } : base.wallet;
   return { ...base, items, wallet };
 }
+
+// The question text as the paper stores it: the row's stem ends the sentence, with no colon pasted after its full stop.
+const stemQuestion = (stem) => (/[.?!:]$/.test(String(stem).trim()) ? String(stem).trim() : `${String(stem).trim()}:`);
 
 function attemptFor(rec, paperId) {
   const paper = rec.papers.find((p) => p.id === paperId);
@@ -64,7 +91,7 @@ function attemptFor(rec, paperId) {
     const options = (item && OPTIONS[item.ch]) || GENERIC;
     const key = item?.key ? 'ABCD'.indexOf(item.key) : 1;
     const given = item?.state === 'blank' ? null : item ? (item.pick ? 'ABCD'.indexOf(item.pick) : key === 0 ? 2 : 0) : key;
-    snapshot.push({ id, subject: subjectId(paper.subject), chapter: item ? (rec.chapters.find((c) => c.id === item.ch)?.name || 'Chapter') : 'Chapter', question: item ? `${item.stem}:` : `Question ${n} of this paper.`, options, correctIndex: key, explanation: (item && EXPLAIN[`${paperId}:${n}`]) || 'Illustrative explanation for the preview: the book reasons from the rule for this chapter to the correct option.' });
+    snapshot.push({ id, subject: subjectId(paper.subject), chapter: item ? (rec.chapters.find((c) => c.id === item.ch)?.name || 'Chapter') : 'Chapter', question: item ? stemQuestion(item.stem) : `Question ${n} of this paper.`, options, correctIndex: key, explanation: (item && EXPLAIN[`${paperId}:${n}`]) || 'Illustrative explanation for the preview: the book reasons from the rule for this chapter to the correct option.' });
     details.push({ qid: id, givenIndex: given, isCorrect: item ? false : true });
   }
   return { id: paperId, subject: subjectId(paper.subject), completedAt: paper.at, total: paper.questions, correct: paper.right, wrong: paper.wrong, unattempted: paper.blank, questionsSnapshot: snapshot, details, answerReviewState: 'ready' };
@@ -112,13 +139,13 @@ export function previewReview(url, method, init, fixture, json) {
     if (!item) return null;
     const chapter = rec.chapters.find((c) => c.id === item.ch)?.name || 'Chapter';
     const check = fixtureCheckField(fixture.get('check') || 'ready');
-    if (SAVED.has(item.state)) return json({ ...fixtureRepairV3({ stored: true, practiceChapter: chapter }), ...(check ? { check } : {}) });
+    if (SAVED.has(item.state)) return json({ ...repairFor(item, { stored: true, practiceChapter: chapter }), ...(check ? { check } : {}) });
     if (Number.isFinite(rec.wallet?.aiCredits) && rec.wallet.aiCredits < 1) return json({ ok: false, error: 'insufficient_ai_credits', balance: 0, message: 'This repair uses 1 AI credit. You have 0. Seeing the answer and trying again are still free.' }, 402);
     const mem = window.__previewReview;
     return new Promise((resolve) => setTimeout(() => {
       mem.repaired.set(`${item.paper}:${item.q}`, new Date(Date.parse(rec.now)).toISOString());
       mem.spent += 1;
-      resolve(json({ ...fixtureRepairV3({ stored: false, practiceChapter: chapter }), wallet: { total: rec.wallet.aiCredits - 1, state: 'available' }, ...(check ? { check } : {}) }));
+      resolve(json({ ...repairFor(item, { stored: false, practiceChapter: chapter }), wallet: { total: rec.wallet.aiCredits - 1, state: 'available' }, ...(check ? { check } : {}) }));
     }, 900));
   }
   return null;

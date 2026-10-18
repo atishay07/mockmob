@@ -6,11 +6,13 @@
 import { useState } from 'react';
 import { RETRY_COPY } from '@/../data/retry_first.mjs';
 import { plainOptionTexts } from '@/../data/option_text';
+import { cleanStem } from './stemText.mjs';
 import './review-1017.css';
+
+export { sameStem } from './stemText.mjs';
 
 export const LETTERS = 'ABCDEFGH';
 const text = (v) => (v == null ? '' : typeof v === 'string' || typeof v === 'number' ? String(v) : v.text ?? v.label ?? v.name ?? '');
-
 /**
  * One question as the free steps read it: the stem, the options as plain text, the key and the student's pick as option
  * indexes, and the book explanation. `d` is the paper's detail for the question (its givenIndex); `pick` is the letter a row
@@ -20,7 +22,7 @@ export function questionModel(q, d = null, pick = null) {
   if (!q) return null;
   const given = Number.isInteger(d?.givenIndex) ? d.givenIndex : pick ? LETTERS.indexOf(pick) : null;
   return {
-    id: q.id, stem: text(q.question ?? q.body), options: plainOptionTexts(q.options).map(text),
+    id: q.id, stem: cleanStem(q.question ?? q.body), options: plainOptionTexts(q.options).map(text),
     key: Number.isInteger(q.correctIndex) ? q.correctIndex : null, given: given >= 0 ? given : null, explanation: text(q.explanation),
   };
 }

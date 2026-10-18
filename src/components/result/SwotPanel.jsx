@@ -3,7 +3,7 @@
 // and the SWOT for this mock. Every sentence and number comes from the server (data/mock_swot.js);
 // this file lays out only the section headings and button labels below. Free: no model, no credit.
 // On the 17 Oct result it sits inside the fold "After this mock: strengths, gaps and plan" (inFold): the fold names it,
-// so its own title is left to screen readers, and the student-facing heading is plain words, not "SWOT" (F11; adoption 11).
+// so it prints no title of its own (one name, one heading), and the student-facing heading is plain words, not "SWOT" (F11; adoption 11).
 import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import './swot.css';
@@ -106,8 +106,9 @@ export default function SwotPanel({ swot, attemptId, onJump, inFold = false, pla
   const titleId = `${uid}-title`;
 
   return (
-    <section ref={ref} className="sw" aria-labelledby={titleId} data-motion={phase} data-in-fold={inFold || undefined}>
-      <h2 id={titleId} className={inFold ? 'sw-title mr-sr' : 'sw-title'}>{SWOT_UI_COPY.title}</h2>
+    <section ref={ref} className="sw" aria-labelledby={inFold ? undefined : titleId} aria-label={inFold ? SWOT_UI_COPY.title : undefined} data-motion={phase} data-in-fold={inFold || undefined}>
+      {/* Inside the result's part of the same name the part's own heading is the title: a second "After this mock" would read twice (R9). */}
+      {inFold ? null : <h2 id={titleId} className="sw-title">{SWOT_UI_COPY.title}</h2>}
 
       {plan.length ? (
         <div className="sw-block">

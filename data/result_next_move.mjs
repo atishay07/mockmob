@@ -109,8 +109,8 @@ export function costliest(analysis, { answerReviews = {} } = {}) {
 }
 
 /**
- * Layer 1's finding: { line, detail }. "Share Capital cost 29 of the 122 marks you missed." / "4 wrong and 1 left
- * blank, of 6 questions." Nothing missed: "Every question right." Without chapter data: the marks split.
+ * Layer 1's finding: { line, detail }. "Share Capital cost 29 of the 122 marks you missed." / "In Share Capital: 4 wrong and 1 left
+ * blank of its 6 questions." Nothing missed: "Every question right." Without chapter data: the marks split.
  */
 export function costliestLine(analysis, { answerReviews = {} } = {}) {
   const marks = analysis?.marks;
@@ -123,9 +123,11 @@ export function costliestLine(analysis, { answerReviews = {} } = {}) {
     return { line: `${plural(marks.blank, 'blank')} left ${marks.gapBlank} marks unearned.`, detail: null };
   }
   const parts = [c.wrong ? `${c.wrong} wrong` : null, c.blank ? `${c.blank} left blank` : null].filter(Boolean).join(' and ');
+  // The count belongs to the chapter, not the paper: it names the chapter and says "its", so "of 10 questions" can never
+  // be read against a 50-question paper (R9, D15).
   const detail = c.n && c.right / c.n < NEXT_MOVE_RULES.fewRight
-    ? `${c.right} right of ${c.n}: ${parts}.`
-    : `${parts}, of ${plural(c.n, 'question')}.`;
+    ? `In ${c.chapter}: ${c.right} right of its ${plural(c.n, 'question')}, ${parts}.`
+    : `In ${c.chapter}: ${parts} of its ${plural(c.n, 'question')}.`;
   // One chapter holding every missed mark says so, rather than "11 of the 11".
   const line = c.marks === marks.gap ? `${c.chapter} cost all ${marks.gap} marks you missed.` : `${c.chapter} cost ${c.marks} of the ${marks.gap} marks you missed.`;
   return { line, detail, chapter: c.chapter };

@@ -14,6 +14,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { ChevronDown, Play, Users } from 'lucide-react';
 import { curves, durations } from '@/lib/motion/tokens.g.js';
+import { splitPhaseAt } from './splitReveal.mjs';
 import './marks-ledger.css';
 
 const CHIPS_SHOWN = 8; // LAB_RULES.chipsShown in data/mistake_lab.js
@@ -87,15 +88,24 @@ function useSplit(attemptId) {
     const el = ref.current;
     if (!el) return undefined;
     let raf = 0;
-    const io = new IntersectionObserver(([entry]) => {
-      if (!entry?.isIntersecting) return;
-      io.disconnect();
+    let frame = 0;
+    const off = () => { window.removeEventListener('scroll', ask); window.removeEventListener('resize', ask); };
+    const check = () => {
+      frame = 0;
+      const box = el.getBoundingClientRect();
+      const next = splitPhaseAt({ top: box.top, bottom: box.bottom, height: box.height, viewport: window.innerHeight });
+      if (!next) return;
+      off();
       markSeen(attemptId);
+      if (next === 'still') { setPhase('still'); return; }
       // Two frames, so the neutral block is painted before it splits.
       raf = requestAnimationFrame(() => { raf = requestAnimationFrame(() => setPhase(reducedMotion() ? 'still' : 'split')); });
-    }, { threshold: 1, rootMargin: '0px 0px -12% 0px' });
-    io.observe(el);
-    return () => { io.disconnect(); cancelAnimationFrame(raf); };
+    };
+    function ask() { if (!frame) frame = requestAnimationFrame(check); }
+    window.addEventListener('scroll', ask, { passive: true });
+    window.addEventListener('resize', ask, { passive: true });
+    ask();
+    return () => { off(); cancelAnimationFrame(frame); cancelAnimationFrame(raf); };
   }, [phase, attemptId]);
   return [ref, phase];
 }

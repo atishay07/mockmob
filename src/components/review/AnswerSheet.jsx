@@ -14,7 +14,7 @@ import { haveLine } from '@/lib/creditCopy.mjs';
 import { aiRenewsLine } from '@/../data/review_input.mjs';
 import { RETRY_COPY } from '@/../data/retry_first.mjs';
 // "Try it again", the hidden note, the free keys and the question model are shared with the result's mistakes (RetryFirst.jsx).
-import { FreeKeys, HiddenNote, LETTERS, TryAgain, questionModel } from './freeSteps';
+import { FreeKeys, HiddenNote, LETTERS, TryAgain, questionModel, sameStem } from './freeSteps';
 
 const SAVED = new Set(['repaired', 'held', 'slipped']);
 
@@ -47,10 +47,10 @@ function useQuestion(item, wanted) {
   return [state, () => { setState({ status: 'loading' }); setTick((t) => t + 1); }];
 }
 
-function Answer({ q }) {
+function Answer({ q, showStem = true }) {
   return (
     <div className="rvw-ans">
-      <p className="rvw-try__stem">{q.stem}</p>
+      {showStem ? <p className="rvw-try__stem">{q.stem}</p> : null}
       <ul className="rvw-opts" aria-label="The options with your pick and the correct answer">
         {q.options.map((o, i) => {
           const mine = i === q.given;
@@ -72,7 +72,8 @@ function Answer({ q }) {
   );
 }
 
-export default function AnswerSheet({ item, wallet, autoRepair = false, onChanged }) {
+// stemInRow: the row above already prints this question's stem, so the sheet leaves it out when it is the same words (F11).
+export default function AnswerSheet({ item, wallet, autoRepair = false, onChanged, stemInRow = false }) {
   const saved = SAVED.has(item.state) && !item.keyState;
   const repairable = item.repairable;
   const [mode, setMode] = useState(saved ? 'saved' : autoRepair && repairable ? 'repair' : 'hidden');
@@ -82,14 +83,15 @@ export default function AnswerSheet({ item, wallet, autoRepair = false, onChange
   const noAi = Number.isFinite(wallet?.aiCredits) && wallet.aiCredits < 1;
   const settle = (_qid, status) => { if (status === 'explained' || status === 'stored') onChanged?.(); };
 
+  const showStem = !(stemInRow && q && sameStem(item.stem, q.stem));
   const waiting = needs && (read.status === 'loading' || read.status === 'idle');
   const failed = needs && (read.status === 'error' || read.status === 'missing');
 
   const body = (() => {
     if (waiting) return <p className="rvw-sheet__note" role="status">Opening Question {item.number}.</p>;
     if (failed) return <p className="rvw-sheet__note" role="alert">Question {item.number} did not load. <button type="button" className="rvw-inline" onClick={retry}>Try again</button></p>;
-    if (mode === 'try' && q) return <TryAgain q={q} number={item.number} onShow={() => setMode('answer')} />;
-    if (mode === 'answer' && q) return <Answer q={q} />;
+    if (mode === 'try' && q) return <TryAgain q={q} number={item.number} onShow={() => setMode('answer')} showStem={showStem} />;
+    if (mode === 'answer' && q) return <Answer q={q} showStem={showStem} />;
     if (mode === 'repair' || mode === 'saved') {
       const questionId = item.qid || q?.id;
       if (!questionId) return null;

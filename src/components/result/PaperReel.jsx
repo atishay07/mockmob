@@ -57,6 +57,9 @@ function Key({ next, onAct, onClose }) {
   return <button type="button" className="btn-volt pbk-key mk-press" onClick={() => { onClose(); onAct?.({ kind: next.kind, target: next.target }); }}>{next.label}</button>;
 }
 
+/** What the rings on the sheet mean once the costliest chapter shows: every ringed question is one of its lost ones (M-005). */
+export const ringNote = (chapter) => `Ringed: ${chapter.numbers.length === 1 ? '1 question' : `${chapter.numbers.length} questions`} in ${chapter.name} that lost marks.`;
+
 /** The reel itself: a full-screen dialog over the result. */
 export default function PaperReel({ script, onClose, onAct, autoplay = true }) {
   const [reduced] = useState(readReduced);
@@ -149,6 +152,8 @@ export default function PaperReel({ script, onClose, onAct, autoplay = true }) {
             );
           })}
         </ol>
+
+        <p className="pbk-ringnote">{f.chapter?.numbers?.length ? ringNote(f.chapter) : null}</p>
 
         <div className="pbk-cap" aria-live="polite" data-kind={f.kind}>
           {caption ? (

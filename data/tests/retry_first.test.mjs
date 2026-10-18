@@ -90,7 +90,7 @@ test('the retry, its words and its components never reach the server: no fetch, 
     }
     // Only these modules are imported, none of which can make a call.
     const imports = [...src.matchAll(/^import .*? from '([^']+)';?$/gm)].map((m) => m[1]);
-    for (const spec of imports) assert.ok(['react', '@/../data/retry_first.mjs', '@/../data/option_text', '@/components/review/freeSteps', './repair_presentation.mjs'].includes(spec) || spec.endsWith('.css'), `${file} imports ${spec}`);
+    for (const spec of imports) assert.ok(['react', '@/../data/retry_first.mjs', '@/../data/option_text', '@/components/review/freeSteps', './repair_presentation.mjs', './stemText.mjs'].includes(spec) || spec.endsWith('.css'), `${file} imports ${spec}`);
   }
 });
 

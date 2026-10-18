@@ -74,6 +74,16 @@ function itemOut(i) {
 }
 
 /**
+ * The chapter's one sentence. Never "lost X of Y" with X > Y: a wrong answer costs 6 against the 5 it had on offer, so a
+ * chapter where every question is wrong loses more than it offered. Then the "of N" goes and the marks stand alone (R9, D18).
+ */
+function lineFor({ lost, offer, asked, papers, counted }) {
+  if (offer === null) return { lead: `Lost ${lost} marks`, rest: ` in ${joinNames(papers)}. ${counted}.` };
+  if (lost > offer) return { lead: `Lost ${lost} marks`, rest: `${asked}. ${counted}.` };
+  return { lead: `Lost ${lost} of the ${offer} marks`, rest: ` on offer${asked}. ${counted}.` };
+}
+
+/**
  * The chapters, most marks lost first: { id, name, subject, subjectName, lost, offer, questions, scored, wrong, blank,
  * papers, line, open, blanks, repaired, held, slipped, pending }. `open` is the never-repaired wrong answers, newest first;
  * `blanks` the blanks; `repaired` the saved repairs (named in the foot). `offer` is null when the record does not say how
@@ -118,7 +128,7 @@ export function chapterRows(record) {
       id, name: g.ref.name, subject: g.ref.subject, subjectName: g.ref.subjectName || g.ref.subject,
       lost, offer, questions, scored, wrong, blank,
       papers, paperIds: paperRefs.map((p) => p.id),
-      line: offer === null ? { lead: `Lost ${lost} marks`, rest: ` in ${joinNames(papers)}. ${counted}.` } : { lead: `Lost ${lost} of the ${offer} marks`, rest: ` on offer${asked}. ${counted}.` },
+      line: lineFor({ lost, offer, asked, papers, counted }),
       share: offer ? Math.min(1, lost / offer) : 1,
       open: open.map(itemOut), blanks: blanks.map(itemOut), repaired: repaired.map(itemOut),
       held: repaired.filter((i) => i.state === 'held').length,

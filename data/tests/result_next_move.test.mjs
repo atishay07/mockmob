@@ -121,7 +121,7 @@ test('the result page brings Mobi back (N12, 17 Oct night), never sleepy, with o
   assert.match(page, /mobiReaction\(attempt, \{ celebrations: prefs\.celebrations \}\)/);
   assert.doesNotMatch(page, /mobiReaction\([^)]*hour/);
   assert.match(page, /<ReaderMobi/);
-  assert.match(hero, /<MobiReact act=\{reaction\.act\}/);
+  assert.match(hero, /<MobiReact act=\{heroAct\(reaction\.act\)\}/); // rest shows as a wide-eyed idle (R9)
   assert.doesNotMatch(page, /Session complete/);
   assert.doesNotMatch(page, /Key at submission/);
   assert.match(page, /receiptLine\(/);

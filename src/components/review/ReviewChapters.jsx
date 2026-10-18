@@ -94,9 +94,11 @@ function MistakeRow({ row, item, wallet, open, onOpen, onRepair, onChanged }) {
             <Pick letter={row.pick} />
           </span>
         </button>
-        <button type="button" className="rv8-act mk-press" onClick={onRepair} aria-label={`Repair question ${row.number}`}>Repair</button>
+        {/* One Repair entry at a time: the row's key opens the sheet, and once it is open the sheet's own "Repair Qn, 1 AI credit"
+            is the entry, so the paid action is never offered twice (F11). */}
+        {open ? null : <button type="button" className="rv8-act mk-press" onClick={onRepair} aria-label={`Repair question ${row.number}`}>Repair</button>}
       </div>
-      {open && item ? <AnswerSheet key={item.uid} item={item} wallet={wallet} onChanged={onChanged} /> : null}
+      {open && item ? <AnswerSheet key={item.uid} item={item} wallet={wallet} onChanged={onChanged} stemInRow /> : null}
     </li>
   );
 }
