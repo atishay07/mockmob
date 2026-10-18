@@ -87,6 +87,8 @@ class StepFrame extends StatelessWidget {
     this.guideEntrance,
     this.overlay,
     this.showGuide = true,
+    this.head,
+    this.besideHead = false,
   });
 
   /// The step's own group under Mobi: its title, support and answers. Laid out at its natural
@@ -118,6 +120,14 @@ class StepFrame extends StatelessWidget {
 
   /// Mobi stands in the group (off where a moment needs the room).
   final bool showGuide;
+
+  /// The step's title and support, above [content]. Laid out with the content unless
+  /// [besideHead].
+  final Widget? head;
+
+  /// Mobi stands at the end of the [head] row instead of above it, with no bubble: for a step
+  /// whose sealed sheet, pinned keys and quiet lines all need the height (the save step).
+  final bool besideHead;
 
   /// The fade above the action row (SPACING.md 4.5).
   static const double fade = MmSpace.s24;
@@ -161,24 +171,32 @@ class StepFrame extends StatelessWidget {
             final free = box.maxHeight;
             // Mobi is sized in the same layout pass as the content beside him (GuidedGroup), so
             // a step never paints him at one size and then another.
+            final head = this.head;
+            final beside = besideHead && head != null;
+            final entrance = guideEntrance ?? guide?.entrance ?? MobiAct.idle;
+            final Widget? header = !withGuide
+                ? null
+                : LayoutBuilder(
+                    builder: (context, c) => beside
+                        ? Row(
+                            children: [
+                              Expanded(child: head),
+                              const SizedBox(width: MmSpace.s12),
+                              GuideHeader(controller: controller, size: c.minHeight, entrance: entrance, figureKey: guideKey, bubble: false),
+                            ],
+                          )
+                        : GuideHeader(controller: controller, size: c.minHeight, entrance: entrance, figureKey: guideKey, large: large),
+                  );
             final group = GuidedGroup(
               free: free,
-              gap: gap,
+              gap: beside ? 0 : gap,
               sizing: mobi,
-              header: withGuide
-                  ? LayoutBuilder(
-                      builder: (context, c) => GuideHeader(
-                        controller: controller,
-                        size: c.minHeight,
-                        entrance: guideEntrance ?? guide?.entrance ?? MobiAct.idle,
-                        figureKey: guideKey,
-                        large: large,
-                      ),
-                    )
-                  : null,
+              header: header,
               // Mobi stepped aside for the keyboard: the title keeps its room under the bar.
               topGap: !withGuide && showGuide && controller != null ? gap : 0,
-              content: content,
+              content: head == null || (beside && withGuide)
+                  ? content
+                  : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, content]),
             );
             final body = SingleChildScrollView(
               // Dragging the list puts the keyboard away, so the pinned key comes back.
@@ -243,6 +261,7 @@ class GuideHeader extends StatelessWidget {
     this.entrance = MobiAct.idle,
     this.figureKey,
     this.large = false,
+    this.bubble = true,
   });
 
   final MobiController controller;
@@ -250,6 +269,9 @@ class GuideHeader extends StatelessWidget {
   final MobiAct entrance;
   final GlobalKey? figureKey;
   final bool large;
+
+  /// Off: Mobi alone, with no bubble beside him (he stands at the end of a title row).
+  final bool bubble;
 
   @override
   Widget build(BuildContext context) {
@@ -269,12 +291,14 @@ class GuideHeader extends StatelessWidget {
         seed: 11,
       ),
     );
+    final placed = figureKey == null ? figure : KeyedSubtree(key: figureKey, child: figure);
+    if (!bubble) return placed;
     return ConstrainedBox(
       constraints: BoxConstraints(minHeight: size),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          figureKey == null ? figure : KeyedSubtree(key: figureKey, child: figure),
+          placed,
           const SizedBox(width: MmSpace.s4),
           Expanded(
             child: LayoutBuilder(

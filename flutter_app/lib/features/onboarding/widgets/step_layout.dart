@@ -21,6 +21,7 @@ class StepLayout extends StatelessWidget {
     this.hideBottomForKeyboard = true,
     this.tight = false,
     this.backInRow = true,
+    this.guideBesideTitle = false,
   });
 
   final String title;
@@ -48,6 +49,9 @@ class StepLayout extends StatelessWidget {
 
   /// The labelled Back sits left of [bottom] (off for a step that places it itself).
   final bool backInRow;
+
+  /// Mobi stands at the end of the title row, not above it (the save step).
+  final bool guideBesideTitle;
 
   /// The end inset of a step whose last answers are tiles (the rhythm step's times).
   static const double tileEndInset = 72;
@@ -103,7 +107,9 @@ class StepLayout extends StatelessWidget {
         endInset: endInset,
         hideBottomForKeyboard: hideBottomForKeyboard,
         backInRow: backInRow,
-        content: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, body]),
+        head: head,
+        besideHead: guideBesideTitle,
+        content: body,
         bottom: bottom == null ? null : EntranceItem(at: Entrance.key, child: bottom),
       ),
     );

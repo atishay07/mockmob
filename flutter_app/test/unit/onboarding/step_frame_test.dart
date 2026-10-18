@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/model/answers.dart';
+import 'package:mockmob/features/onboarding/model/choices.dart';
 import 'package:mockmob/features/onboarding/model/deck.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
 import 'package:mockmob/features/onboarding/widgets/step_frame.dart';
@@ -89,6 +89,16 @@ void main() {
     await pumpStep(tester, const OnboardingAnswers(step: Steps.stage), const Size(360, 800));
     final scroll = tester.state<ScrollableState>(find.descendant(of: find.byType(StepFrame), matching: find.byType(Scrollable)).first);
     expect(scroll.position.maxScrollExtent, 0);
+  });
+
+  testWidgets('the save step: Mobi beside the title, so the sheet and the bank line fit on a 390 by 844 phone', (tester) async {
+    await pumpStep(tester, studentUpTo(Steps.plan, step: Steps.save).copyWith(age: AgeAnswer.adult), const Size(390, 844));
+    final scroll = tester.state<ScrollableState>(find.descendant(of: find.byType(StepFrame), matching: find.byType(Scrollable)).first);
+    expect(scroll.position.maxScrollExtent, 0);
+    final mobi = find.byType(MobiCharacter);
+    final title = find.text(OnboardingCopy.saveTitle);
+    expect(tester.getTopLeft(mobi).dx, greaterThan(tester.getTopRight(title).dx), reason: 'at the end of the title row');
+    expect(find.text(OnboardingCopy.bankLine(8197)), findsOneWidget);
   });
 
   testWidgets('with room to spare Mobi is 18% of the free height', (tester) async {

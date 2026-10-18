@@ -295,6 +295,9 @@ class _SaveViewState extends State<SaveView> {
       // The sheet, the quiet bank line, the age question and two keys all want the room.
       tight: true,
       backInRow: false,
+      // Mobi stands beside the title here, so the sealed sheet and the bank line (every paper
+      // is built fresh from the live bank) stay above the fold on a 390 by 844 phone.
+      guideBesideTitle: true,
       body: content,
       bottom: keys,
     );
