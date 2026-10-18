@@ -282,6 +282,7 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .tw__day[data-today]:not([aria-pressed='true']) .tw__dot { outline: 1.5px solid var(--a-ink-3); outline-offset: 3px; }
 .app-shell .tw__name { font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); transition: color 150ms ease; }
 .app-shell .tw__day[aria-pressed='true'] .tw__name, .app-shell .tw__day[data-today] .tw__name { color: var(--a-ink); }
+.app-shell .tw__legend { margin: 6px 2px 0; font-size: 12px; line-height: 1.4; color: var(--a-ink-3); animation: today-fade 200ms ease both; }
 .app-shell .tw__readout { min-height: 76px; margin-top: 12px; padding: 0 2px; }
 .app-shell .tw__readout[data-swap] { animation: today-rise-4 220ms var(--t-out) both; }
 .app-shell .tw__readout h3 { margin: 0; font: 600 15px/1.3 var(--font-body); color: var(--a-ink); }

@@ -181,3 +181,12 @@ test('Done for tonight: Mobi cheers once a visit, then stands proud; the week ke
   assert.match(move, /recallNumber\(DONE_CHEER\) == null/);
   assert.match(read('src/app/(app)/today/page.jsx'), /mobiFree=\{!\(lead\?\.art === 'mobi' \|\| lead\?\.id === 'done'\)/);
 });
+
+test('This week: the strip explains its dashed ring, dot and dash in one quiet line for the first 3 visits', () => {
+  const week = read('src/components/today/TodayWeek.jsx');
+  assert.match(week, /LEGEND_KEY = 'mm:today-week-legend:v1'/);
+  assert.match(week, /missed: 'Dashed: a planned day that passed\.', rest: 'Dot: a rest day\.', before: 'Dash: before your first session\.'/);
+  assert.match(week, /if \(n < 3\) \{ window\.localStorage\.setItem\(LEGEND_KEY, String\(n \+ 1\)\); setShowLegend\(true\); \}/);
+  assert.match(week, /\} catch \{ \/\* no storage/);
+  assert.match(css('src/components/today/today.css'), /\.tw__legend \{[^}]*font-size: 12px;[^}]*color: var\(--a-ink-3\)/);
+});

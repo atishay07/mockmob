@@ -16,6 +16,10 @@ import { keepTogether } from '@/lib/today/move.mjs';
 const read = (key) => { try { return window.localStorage.getItem(key) === '1'; } catch { return false; } };
 const remember = (key) => { try { window.localStorage.setItem(key, '1'); } catch { /* it may cheer again on this device */ } };
 const SAY = { counted: 'study day', planned: 'planned', missed: 'planned, nothing saved', open: 'nothing saved', rest: 'rest day', before: 'before your first session' };
+// The strip's marks explained in one quiet line for the first 3 visits that show one (release 10, N1 #7: nothing to decode).
+const LEGEND_KEY = 'mm:today-week-legend:v1';
+const LEGEND = { missed: 'Dashed: a planned day that passed.', rest: 'Dot: a rest day.', before: 'Dash: before your first session.' };
+export const legendFor = (marks) => ['missed', 'rest', 'before'].filter((k) => marks.some((m) => m.look === k)).map((k) => LEGEND[k]).join(' ');
 const LONG = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
 function Day({ m, i, selected, onSelect }) {
@@ -57,6 +61,19 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
     mark: marks[sel], index: sel, papers: papers?.status === 'ready' ? papers.data : [], repairs: repairs || [], dayKey, clockOf: (at) => clockIn(at, tz),
     subjectName, failed, goal: r?.daysGoal || null, done: Number.isInteger(r?.studyDays) ? r.studyDays : null, met: Boolean(r?.metThisWeek), today,
   }) : null;
+
+  const legend = legendFor(marks);
+  const [showLegend, setShowLegend] = useState(false);
+  useEffect(() => {
+    if (!legend || hold) return undefined;
+    const t = window.setTimeout(() => {
+      try {
+        const n = Number(window.localStorage.getItem(LEGEND_KEY)) || 0;
+        if (n < 3) { window.localStorage.setItem(LEGEND_KEY, String(n + 1)); setShowLegend(true); }
+      } catch { /* no storage: the strip stays as it is */ }
+    }, 0);
+    return () => window.clearTimeout(t);
+  }, [legend, hold]);
 
   // The cheer: decided once when the week arrives, remembered once it has been shown.
   const [moment, setMoment] = useState(null);
@@ -107,6 +124,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
           {marks.map((m, i) => <Day key={m.key} m={m} i={i} selected={i === sel} onSelect={select} />)}
         </ol>
       </div>
+      {showLegend && legend ? <p className="tw__legend">{legend}</p> : null}
       {readout ? (
         <div className="tw__readout" key={swapKey} data-swap={swapKey > 0 || undefined} aria-live="polite">
           <h3>{readout.title}</h3>
