@@ -194,3 +194,29 @@ Every brief is in `docs/brain/briefs-1019/`.
 **G7 evidence:** picks 4 and 5 look dropped from the ACCOUNT (You says 3 colleges), not just hidden on Today.
 
 **Web baseline:** captures of release 10 in tmp/walk-1019/baseline-web-r10 (partial; stopped at Practice).
+
+## 4c. Session 604ced81, 19 Oct about 4:50 am (supersedes 4 and 4b where they differ)
+**Paused for the usage window (86%; it resets at 7:30 am IST). Resume in this session; every owner is resumable with SendMessage.**
+
+**Web: release 11 is fully integrated and green.** `deploy/web-1019-r11` in wt-rel11 is at **9c6b3338**, with A4a, A4b, C3, W5 and C1 merged.
+- **Checks after the last merge:** lint 0; app 777; today 120; recovery 610; billing 344; dock 49; learning 357; mob 78; auth 110; 0 failures; `next build --webpack` OK.
+- **NOT done yet:** the Opus copy pass, the W1/W2 browser walks, the verifier, push.
+
+**App: v15.3 (`ui/v15.3-1019` in wt-v15-3) is at d299f5de,** with A5 and A2a merged; analyze is clean and tools, onboarding and You tests pass (764).
+- **Not merged** (each at a reviewed STOP POINT, with "Continue here" in its report):
+  - A1 a06513e2: code, tests and goldens done; the full unit run, profile APK and fresh walk remain.
+  - A2b 3ad3df32: fresh walk done; heavy walk and Day screens remain.
+  - A3 00e8b863: practice result moment and Your papers done on device; the full-mock reveal and the heavy filter remain.
+  - C2 02e7adbe: built and tested; the article fix, full unit run and walk remain. Also restore the insights Pro rows hidden by e3ca76be (D101).
+
+**Copy-pass notes:** tmp/feedback-1019/COPY-PASS-NOTES.md, plus:
+- about 27 app lines still say "in Review" (they should say "Your papers");
+- A3's key reads "See it in Your papers" (he said "See this paper"; ask him);
+- the bar labels hide on scroll (NAV-1017 approved this; ask him).
+
+**Infra:**
+- mockmob-hotfix\node_modules lost its scoped packages at 2:55 am. Every web worktree now links mockmob-next\node_modules (the common brief was updated).
+- The OTP shim is mockmob-next/tmp/rig-1016e/otp-shim.mjs (SHIM_TARGET/SHIM_PORT).
+- About 120 to 290 app goldens were already stale at v15.2. Agents regenerated only their own; decide after the merges.
+
+**For his morning message:** the 2026 data puts LSR (912.5) above Hansraj (907.5) for B.Com (Hons), so D103 shows that order with the numbers. Colleges 4 and 5 were never lost from the account (it was a You display cap of 3, now 8).
