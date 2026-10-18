@@ -2,7 +2,7 @@
 // Takes the Supabase client (the routes pass the admin client), so the tests run it over a real Postgres. No migration: it uses
 // two tables production already has, attempts (read) and learning_allowances (one row per free start, its primary key is the lock).
 import { toPublicSubjectId } from '../../../data/cuet_controls.js';
-import { FIRST_FULL_MOCK_PERIOD, FULL_PAPER_MODES, firstFullMockKind, firstFullMockState } from '../../../data/first_full_mock.js';
+import { FIRST_FULL_MOCK_PERIOD, FULL_PAPER_MODES, firstFullMockKind, firstFullMockState, fullSampleKind } from '../../../data/first_full_mock.js';
 
 const UNIQUE_VIOLATION = '23505';
 const failed = (cause) => Object.assign(new Error('SESSION_CREATE_FAILED'), { cause });
@@ -17,21 +17,26 @@ const claimRow = (db, userId, kind) => db.from('learning_allowances').select('re
   .eq('user_id', userId).eq('kind', kind).eq('period', FIRST_FULL_MOCK_PERIOD).maybeSingle();
 
 /**
- * { fullPapers, claim } for one student and one internal subject id. fullPapers is the count of saved Full mock and NTA mode
- * attempts in the subject (null when the read failed); claim is { reference } when the free row exists, null when it does not,
- * undefined when the read failed. Never throws.
+ * { fullPapers, claim, sample } for one student and one internal subject id. fullPapers is the count of saved Full mock and NTA
+ * mode attempts in the subject (null when the read failed); claim is { reference } when the free row exists, null when it does
+ * not, undefined when the read failed; sample is true when a full-sample row exists for the subject (the durable-only free
+ * full mock this rule folds in). Two reads, in parallel, both on indexed keys. Never throws.
  */
 export async function readFirstFullMockFacts(db, { userId, subject }) {
   const kind = firstFullMockKind(subject);
-  if (!db || !userId || !kind) return { fullPapers: null, claim: undefined };
-  const [papers, claim] = await Promise.all([
+  if (!db || !userId || !kind) return { fullPapers: null, claim: undefined, sample: false };
+  const sample = fullSampleKind(subject);
+  const [papers, rows] = await Promise.all([
     settle(db.from('attempts').select('id', { count: 'exact', head: true })
       .eq('user_id', userId).in('subject', subjectSpellings(subject)).in('selection_meta->>mode', FULL_PAPER_MODES)),
-    settle(claimRow(db, userId, kind)),
+    settle(db.from('learning_allowances').select('kind,period,reference').eq('user_id', userId).in('kind', [kind, sample])),
   ]);
+  const list = rows?.error || !Array.isArray(rows?.data) ? null : rows.data;
+  const held = list?.find((row) => row.kind === kind && row.period === FIRST_FULL_MOCK_PERIOD) || null;
   return {
     fullPapers: papers?.error || !Number.isInteger(papers?.count) ? null : papers.count,
-    claim: claim?.error ? undefined : claim?.data ? { reference: String(claim.data.reference) } : null,
+    claim: list === null ? undefined : held ? { reference: String(held.reference) } : null,
+    sample: Boolean(list?.some((row) => row.kind === sample)),
   };
 }
 
