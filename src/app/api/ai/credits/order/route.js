@@ -6,6 +6,7 @@ import { createPackOrder } from '@/lib/server/walletCheckout';
 import { walletDeps } from '@/lib/server/walletDeps';
 import { getAICreditPack } from '@/services/credits/aiCreditWallet';
 import { CAPABILITIES } from '@/../data/capabilities';
+import { walletCommerceOpen, WALLET_COMMERCE_CLOSED_MESSAGE } from '@/lib/wallet/walletPacks.mjs';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -16,6 +17,10 @@ export async function POST(request) {
     const session = await auth();
     if (!session?.user?.id) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
+    }
+    // One switch for selling: this older route honours the same WALLET_COMMERCE_OPEN gate as POST /api/wallet/order.
+    if (!walletCommerceOpen()) {
+      return NextResponse.json({ error: 'WALLET_COMMERCE_CLOSED', message: WALLET_COMMERCE_CLOSED_MESSAGE }, { status: 503 });
     }
     if (CAPABILITIES.aiTopUps.state !== 'available') return NextResponse.json({error:'PREPOS_TOPUPS_PAUSED',message:CAPABILITIES.aiTopUps.reason},{status:503});
 

@@ -56,6 +56,7 @@ import { previewMob } from './previewMob';
 import { previewFirstWeek } from './previewFirstWeek';
 import { previewReview } from './previewReview';
 import { previewWallet } from './previewWallet';
+import { previewChipCredits } from './previewChip';
 import { previewConcepts } from './previewConcepts';
 
 const CS_SUBJECT = { id: 'computer_science', name: 'Computer Science / Informatics Practices', practice: 'supported', chapters: ['Python Revision Tour', 'Database Concepts'] };
@@ -647,7 +648,7 @@ function PreviewInner({ candidatePathway }) {
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
       retiredSubjects: params.get('stale') === '1' ? ['teaching_aptitude'] : [],
-      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : 40, ...(MONTHLY || {}) },
+      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : previewChipCredits(params, 40), ...(MONTHLY || {}) },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
     signInWithGoogle: async () => ({}), signInWithEmail: async () => ({}), verifyEmailOtp: async () => ({}),
     signOut: async () => {}, refreshSession: async () => {},

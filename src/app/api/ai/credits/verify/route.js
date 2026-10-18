@@ -36,12 +36,16 @@ export async function POST(request) {
       return NextResponse.json({ error: 'Payment is not a PrepOS credit pack' }, { status: 400 });
     }
 
+    // A row already captured is never downgraded to 'failed' by a replayed bad signature or mismatched payment.
+    const settled = paymentRecord.status === 'captured';
     const isSignatureValid = verifyRazorpayPaymentSignature({ orderId, paymentId, signature });
     if (!isSignatureValid) {
-      await Database.updatePaymentByOrderId(orderId, {
-        paymentId,
-        status: 'failed',
-      });
+      if (!settled) {
+        await Database.updatePaymentByOrderId(orderId, {
+          paymentId,
+          status: 'failed',
+        });
+      }
       return NextResponse.json({ error: 'Invalid Razorpay signature' }, { status: 400 });
     }
 
@@ -52,12 +56,14 @@ export async function POST(request) {
       razorpayPayment.status === 'captured';
 
     if (!amountMatches) {
-      await Database.updatePaymentByOrderId(orderId, {
-        paymentId,
-        status: 'failed',
-        amountPaid: typeof razorpayPayment.amount === 'number' ? razorpayPayment.amount : null,
-        rawPayment: razorpayPayment,
-      });
+      if (!settled) {
+        await Database.updatePaymentByOrderId(orderId, {
+          paymentId,
+          status: 'failed',
+          amountPaid: typeof razorpayPayment.amount === 'number' ? razorpayPayment.amount : null,
+          rawPayment: razorpayPayment,
+        });
+      }
       return NextResponse.json({ error: 'Payment details do not match credit pack' }, { status: 400 });
     }
 

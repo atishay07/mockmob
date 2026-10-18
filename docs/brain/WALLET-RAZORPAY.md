@@ -11,7 +11,7 @@ ONE credits balance. The wallet is built and closed: packs show their prices; no
 | `RAZORPAY_WEBHOOK_SECRET` | the webhook secret | required by the existing `/webhook` route |
 | `WALLET_COMMERCE_OPEN` | `true` | the only switch. Anything else (or unset) = closed: no order, no payment row, keys say "Top-ups open soon" |
 
-`WALLET_COMMERCE_OPEN` governs the wallet's own order route. The older `/api/ai/credits/order` route still honours `RELEASE_GATES.aiCommerce`.
+`WALLET_COMMERCE_OPEN` governs both order routes: `POST /api/wallet/order` and the older `POST /api/ai/credits/order`, which also still needs `RELEASE_GATES.aiCommerce` (CAPABILITIES.aiTopUps) and sells only live packs. Either gate closed = no order. Flipping `aiCommerce` alone opens nothing.
 
 ## 2. Webhook
 
@@ -27,7 +27,8 @@ One set, usable for everything, in one file: `src/services/credits/creditPacks.m
 | --- | --- |
 | `GET /api/wallet` | one read for the page and the Android app (cookie or bearer) |
 | `POST /api/wallet/order` `{ packId }` | validates the pack id server-side, creates the Razorpay order; 503 `WALLET_COMMERCE_CLOSED` while the flag is off. Cookie only |
-| `POST /api/wallet/verify` `{ razorpay_order_id, razorpay_payment_id, razorpay_signature }` | checks the signature and Razorpay's own record of the payment, then grants once. Not gated by the flag: a payment already taken is always settled. Cookie only |
+| `POST /api/wallet/verify` `{ razorpay_order_id, razorpay_payment_id, razorpay_signature }` | checks the signature and Razorpay's own record of the payment, then grants once. Not gated by the flag: a payment already taken is always settled. A row already `captured` is never set back to `failed` by a replayed bad signature or mismatched payment. Cookie only |
+| `POST /api/ai/credits/order` | the older order route, same order step; closed unless `WALLET_COMMERCE_OPEN=true` and `RELEASE_GATES.aiCommerce` are both on. `/api/ai/credits/verify` has the same captured-row guard |
 
 The app does not sell credits in v1 (Play billing rules), so order and verify take no bearer token; the app reads `GET /api/wallet`.
 
@@ -102,6 +103,8 @@ This branch carries two stand-ins that the release 10 merge replaces with `wt-cr
 - `src/services/credits/aiCreditWallet.js` here only swaps its pack list for the catalog (the same lines as the core's `withStatus` and `findCreditPack`); on conflict take the core's whole file.
 
 ## 6. Test before opening
+
+The live `/wallet` page has only been checked on `/preview/arena?view=wallet` fixtures (the preview shell's top-bar chip now shows the same total as the page). The real Razorpay checkout, a real signature and a real grant have not been run. Do the steps below on a preview deploy before `WALLET_COMMERCE_OPEN` is set to `true` in production.
 
 1. Set test keys and `WALLET_COMMERCE_OPEN=true` on a preview deployment.
 2. Buy `credits_29_150` with a Razorpay test card: the balance rises by 150 and one "Credits added" line appears; replay the verify call: nothing is added.

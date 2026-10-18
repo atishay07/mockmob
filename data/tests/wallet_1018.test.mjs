@@ -5,6 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, existsSync } from 'node:fs';
 import { CREDIT_PACKS, LEGACY_AI_PACKS, PLAY_PRODUCT_IDS, findCreditPack, findBuyableCreditPack } from '../../src/services/credits/creditPacks.mjs';
+import { previewChipCredits } from '../../src/app/preview/arena/previewChip.js';
 import { packViews, walletCommerceOpen, perCreditInr, creditsLabel } from '../../src/lib/wallet/walletPacks.mjs';
 import { createWalletOrder, createPackOrder, verifyWalletPayment } from '../../src/lib/server/walletCheckout.js';
 import { walletBody, unifyHistory, creditsBuyLine } from '../../src/lib/server/wallet.js';
@@ -155,6 +156,37 @@ test('verify: a bad signature is refused, marks the order failed and grants noth
   assert.equal(r.status, 400);
   assert.equal(deps.calls.grants.length, 0);
   assert.equal(deps.calls.updates[0][1].status, 'failed');
+});
+
+test('verify: a bad signature or a mismatched payment replayed on an already captured order does not flip the row to failed', async () => {
+  const captured = () => record({ status: 'captured', paymentId: 'pay_1', amountPaid: 2900 });
+  const badSig = fakeDeps({ getPaymentByOrderId: async () => captured(), verifySignature: () => false });
+  const r1 = await verifyWalletPayment({ userId: 'u1', input, deps: badSig });
+  assert.deepEqual([r1.status, badSig.calls.updates.length, badSig.calls.grants.length], [400, 0, 0]);
+  const wrong = fakeDeps({ getPaymentByOrderId: async () => captured(), fetchPayment: async () => ({ order_id: 'order_1', amount: 100, currency: 'INR', status: 'captured' }) });
+  const r2 = await verifyWalletPayment({ userId: 'u1', input, deps: wrong });
+  assert.deepEqual([r2.status, wrong.calls.updates.length, wrong.calls.grants.length], [400, 0, 0]);
+  // an order that is not captured yet still goes to failed
+  const fresh = fakeDeps({ getPaymentByOrderId: async () => record(), verifySignature: () => false });
+  await verifyWalletPayment({ userId: 'u1', input, deps: fresh });
+  assert.equal(fresh.calls.updates[0][1].status, 'failed');
+  // the older verify route carries the same guard
+  const legacy = file('src/app/api/ai/credits/verify/route.js');
+  assert.match(legacy, /const settled = paymentRecord\.status === 'captured'/);
+  assert.equal((legacy.match(/if \(!settled\)/g) || []).length, 2);
+});
+
+test('the older order route honours the wallet flag too: closed flag means no order even if aiCommerce is opened', () => {
+  const route = file('src/app/api/ai/credits/order/route.js');
+  assert.match(route, /walletCommerceOpen\(\)/);
+  assert.ok(route.indexOf('walletCommerceOpen()') < route.indexOf('createPackOrder({'), 'the flag is checked before any order is created');
+  assert.match(file('docs/brain/WALLET-RAZORPAY.md'), /governs both order routes/);
+});
+
+test('the preview shell chip shows the wallet total on the wallet fixture', () => {
+  assert.equal(previewChipCredits(new URLSearchParams('view=wallet'), 40), 108);
+  assert.equal(previewChipCredits(new URLSearchParams('view=wallet&wallet=zero'), 40), 0);
+  assert.equal(previewChipCredits(new URLSearchParams('view=today'), 40), 40);
 });
 
 test('verify uses the real Razorpay signature rule (HMAC of order|payment)', () => {

@@ -68,17 +68,22 @@ export async function verifyWalletPayment({ userId, input, deps }) {
   const pack = findCreditPack(record.planId);
   if (!pack) return { status: 400, body: { error: 'Payment is not a credit pack' } };
 
+  // A row already captured is never downgraded: replaying a bad signature or a mismatched payment against a settled order
+  // changes nothing (the grant key is idempotent, and the row's status must stay truthful).
+  const settled = record.status === 'captured';
   if (!deps.verifySignature({ orderId, paymentId, signature })) {
-    await deps.updatePaymentByOrderId(orderId, { paymentId, status: 'failed' });
+    if (!settled) await deps.updatePaymentByOrderId(orderId, { paymentId, status: 'failed' });
     return { status: 400, body: { error: 'Invalid Razorpay signature' } };
   }
 
   const payment = await deps.fetchPayment(paymentId);
   const matches = payment?.order_id === orderId && payment.amount === pack.amountPaise && payment.currency === 'INR' && payment.status === 'captured';
   if (!matches) {
-    await deps.updatePaymentByOrderId(orderId, {
-      paymentId, status: 'failed', amountPaid: typeof payment?.amount === 'number' ? payment.amount : null, rawPayment: payment,
-    });
+    if (!settled) {
+      await deps.updatePaymentByOrderId(orderId, {
+        paymentId, status: 'failed', amountPaid: typeof payment?.amount === 'number' ? payment.amount : null, rawPayment: payment,
+      });
+    }
     return { status: 400, body: { error: 'Payment details do not match credit pack' } };
   }
 
