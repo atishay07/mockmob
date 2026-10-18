@@ -23,6 +23,7 @@ import '../rhythm/rhythm.dart';
 import '../rhythm/widgets/rhythm_layout.dart' show SectionBreak;
 import '../rhythm/data/badges.dart';
 import '../rhythm/widgets/badge_home.dart';
+import '../credits/credits.dart' show meCreditsProvider;
 import '../notifications/notifications.dart' show NotificationsInvite;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'hub/study_sections.dart';
@@ -82,6 +83,20 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
   void initState() {
     super.initState();
     _scroll.addListener(_trackAfterFrame);
+  }
+
+  /// Whether this tab was in front at the last build. The shell turns a tab's tickers off while another tab is in front,
+  /// so a tab coming back reads as that going from false to true.
+  bool _inFront = true;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final front = TickerMode.valuesOf(context).enabled;
+    // Credits are spent on other tabs (a set or a mock on Practice, a repair, Ask Mobi): each time You comes back to the
+    // front the balances are read again, so the plan row never keeps the figure from before the spend (v15 walk, M9).
+    if (front && !_inFront) unawaited(ref.read(meCreditsProvider.notifier).refresh(force: true).catchError((Object _) {}));
+    _inFront = front;
   }
 
   @override

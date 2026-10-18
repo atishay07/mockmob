@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
+import '../../../core/auth/auth_state.dart' show authSnapshotProvider;
 import '../../../core/models/json_helpers.dart';
 import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/json_remote_notifier.dart';
@@ -22,6 +23,14 @@ class MeCreditsRepository extends JsonRemoteNotifier<CreditsOverview> {
     ref.listen(creditsRepositoryProvider, (previous, next) {
       final landed = next.fetchedAt != null && !next.fromCache && next.fetchedAt != previous?.fetchedAt;
       if (landed && previous?.fetchedAt != null) unawaited(refresh(force: true));
+    });
+    // A set or a mock spends Practice credits when it starts, and the profile read that follows reports the new balance
+    // (practice_starter, launch_flow). The overview the figures prefer is then older than the profile: read it again the
+    // moment the profile's balance moves, so You and the Account sheet never keep showing what was there before the spend
+    // (v15 walk, M9: "190 practice credits" after the server held 140).
+    ref.listen(authSnapshotProvider.select((s) => s.creditBalance), (previous, next) {
+      if (previous == null || next == null || previous == next) return;
+      unawaited(refresh(force: true).catchError((Object _) {}));
     });
     return super.build();
   }
