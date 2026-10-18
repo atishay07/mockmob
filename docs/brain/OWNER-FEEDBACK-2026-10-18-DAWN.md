@@ -155,3 +155,18 @@ Each time, a screen he wanted **refined** was **rebuilt**, and the useful parts 
 - **D35:** the new web Today is **better**. Proceed to ship it.
 - **D36:** he did not see the Ask Mobi redesign. Cause: the 3207 preview is built on the release 4 code, and the Ask Mobi redesign is in release 6 (live on mockmob.in). After the merge, the Today on release 6 must show the new Ask Mobi entry ("Why this?") on the lead card. Every release note must say where Ask Mobi is now.
 - **D37 (process):** finish and perfect everything, publish the final website and app versions, then tell him. He then reviews both and gives his final feedback. His go-ahead covers publishing the final web versions (Today, landing) once they pass the suites and an independent visual check. The app is "published" as a delivered APK and AAB; Play Store upload needs his Console account and upload key.
+
+## Owner, 18 Oct about 9 am IST (after viewing the landing preview on 3206: the band and the bolder copy)
+> "So I have seen the landing page on the landing preview. Thing is that hero section only majorly needs some sort of improvement or refinement, like the text copy below CUET 2027. There can be some morphing text continuously changing and showing something animated, like I said, and the mobby [Mobi] animation. Along with some other things."
+
+**Ledger D38:** the landing HERO needs a real refinement. These are his own earlier asks, still not done on the landing (WEB-OWNER-LEDGER L items):
+- **L-016:** a visibly changing word in the headline (a typed line or a crisp per-letter morph; not glass, no glow). "like I said" refers to 15 Oct: "We had implemented glassmorphism kind of text in there that was continuously changing... You can also type some other kind of animation, like typed animation... or some other kind of text morphing."
+- **L-017:** "CUET 2027" in brand colour.
+- **L-018:** the CUET 2027 element is not a fake button that only scrolls.
+- **L-014:** clean spacing; the message lands at first glance.
+- **L-004:** the flying Mobi / Mobi animation.
+- **L-019:** no glow, sheen or gradient text.
+
+"Along with some other things": the rest of the hero L items (L-013 conversion path, L-015 a sample for other subject combinations).
+
+The rest of the landing (band + bolder copy) is not rejected.

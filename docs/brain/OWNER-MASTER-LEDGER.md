@@ -280,6 +280,7 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 |---|---|---|
 | D35 | The web Today is "better now". Ship it on top of release 6 | OPEN (R7) |
 | D36 | Ask Mobi redesign not seen (the preview was built on R4). On R7, the Today lead card carries Ask Mobi "Why this?"; release notes say where Ask Mobi is | OPEN (R7) |
+| D38 | Landing HERO refinement: the morphing/typed changing line under "CUET 2027" (L-016), CUET 2027 coloured (L-017), not a fake button (L-018), clean spacing (L-014), the Mobi animation (L-004), no glow (L-019) | OPEN (Opus, wt-land3) |
 | D37 | Finish and perfect everything, publish the final web and app versions, then tell him; he reviews both and gives final feedback | RULE / in progress |
 
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
