@@ -1,0 +1,220 @@
+/* Pro nudges (owner D79 to D81). The Upgrade sheet: a bottom sheet under 640 px, a centred dialog from 640 px. The inline
+   nudge: one quiet line, no card, no lime. Tokens are the arena's (arena.css), so Night and Day both follow. No glow, no
+   gradient, no nested cards; 44 px targets; motion is ease-out 150-300 ms and a fade under reduced motion. */
+
+/* ---------- The sheet ---------- */
+.pn-sheet {
+  position: fixed;
+  inset: auto 0 0 0;
+  z-index: 95;
+  display: none;
+  width: 100%;
+  max-width: 100%;
+  max-height: min(92dvh, 760px);
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  border: 1px solid var(--a-line-strong);
+  border-bottom: 0;
+  border-radius: 24px 24px 0 0;
+  background: var(--a-raised);
+  color: var(--a-ink);
+  font-family: var(--font-body);
+  box-shadow: inset 0 1px 0 var(--a-edge), 0 -24px 64px -28px rgb(0 0 0 / 0.6);
+}
+.pn-sheet[open] { display: block; }
+html[data-theme='light'] .pn-sheet { box-shadow: inset 0 1px 0 var(--a-edge), 0 -24px 56px -28px rgb(20 32 14 / 0.3); }
+.pn-sheet::backdrop {
+  background: rgb(5 8 6 / 0.6);
+  animation: pn-scrim-in 220ms ease-out;
+}
+html[data-theme='light'] .pn-sheet::backdrop { background: rgb(23 32 22 / 0.32); }
+.pn-sheet[data-state='closing']::backdrop { opacity: 0; transition: opacity 180ms ease-out; }
+@keyframes pn-scrim-in { from { opacity: 0; } }
+html:has(.pn-sheet[open]) { overflow: hidden; }
+
+.pn-handle {
+  display: block;
+  width: 40px;
+  height: 4px;
+  margin: 10px auto 0;
+  border-radius: 99px;
+  background: var(--a-line-strong);
+}
+.pn-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--a-ink-3);
+  cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+.pn-close:hover { background: var(--a-hover); color: var(--a-ink); }
+.pn-close:focus-visible, .pn-later:focus-visible, .pn-go:focus-visible, .pn-inline__go:focus-visible, .pn-inline__x:focus-visible {
+  outline: 2px solid var(--a-focus);
+  outline-offset: 2px;
+}
+
+.pn-body { padding: 18px 20px calc(20px + env(safe-area-inset-bottom, 0px)); }
+.pn-title {
+  margin: 0 44px 0 0;
+  font-family: var(--font-display);
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
+  color: var(--a-ink);
+  text-wrap: balance;
+}
+.pn-lede {
+  margin: 10px 0 0;
+  font-size: 15px;
+  line-height: 1.5;
+  color: var(--a-ink-2);
+  text-wrap: pretty;
+}
+
+.pn-benefits {
+  display: grid;
+  gap: 12px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+.pn-benefits li {
+  display: grid;
+  grid-template-columns: 20px 1fr;
+  gap: 10px;
+  align-items: start;
+  font-size: 15px;
+  line-height: 1.45;
+  color: var(--a-ink);
+  font-variant-numeric: tabular-nums;
+}
+.pn-benefits li svg { margin-top: 2px; color: var(--a-accent-text); }
+
+.pn-foot {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--a-line);
+}
+.pn-price {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 2px 8px;
+  margin: 0;
+  color: var(--a-ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.pn-price b {
+  font-family: var(--font-display);
+  font-size: 32px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: var(--a-ink);
+}
+.pn-price__cycle { font-size: 15px; font-weight: 600; color: var(--a-ink); }
+.pn-price__terms { flex-basis: 100%; font-size: 13px; line-height: 1.45; color: var(--a-ink-3); }
+
+.pn-actions { display: grid; gap: 6px; margin-top: 16px; }
+.pn-go {
+  min-height: 52px;
+  padding: 14px 22px;
+  font-size: 16px;
+  border-radius: 12px;
+  text-decoration: none;
+}
+.pn-later {
+  min-height: 44px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: var(--a-ink-2);
+  font: 600 15px/1 var(--font-body);
+  cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+.pn-later:hover { background: var(--a-hover); color: var(--a-ink); }
+
+@media (min-width: 640px) {
+  .pn-sheet {
+    inset: 0;
+    width: min(460px, calc(100vw - 48px));
+    max-height: calc(100dvh - 48px);
+    margin: auto;
+    border-bottom: 1px solid var(--a-line-strong);
+    border-radius: 22px;
+    box-shadow: inset 0 1px 0 var(--a-edge), 0 30px 80px -30px rgb(0 0 0 / 0.7);
+  }
+  .pn-handle { display: none; }
+  .pn-body { padding: 28px 28px 24px; }
+  .pn-title { font-size: 28px; }
+  .pn-actions { grid-template-columns: 1fr auto; align-items: center; gap: 8px; }
+  .pn-later { padding: 0 18px; }
+}
+
+/* ---------- The inline nudge ---------- */
+.pn-inline {
+  display: flex;
+  align-items: center;
+  gap: 4px 10px;
+  margin: 12px 0 0;
+  padding: 4px 0 4px 12px;
+  border-left: 1px solid var(--a-volt-line);
+  color: var(--a-ink-2);
+  animation: pn-inline-in 220ms cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.pn-inline__text { flex: 1 1 auto; min-width: 0; margin: 0; font-size: 14px; line-height: 1.45; text-wrap: pretty; }
+.pn-inline__go {
+  flex: none;
+  min-height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--a-line-strong);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--a-ink);
+  font: 700 14px/1 var(--font-display);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: border-color 150ms ease-out, background-color 150ms ease-out;
+}
+.pn-inline__go:hover { border-color: var(--a-line-hover); background: var(--a-hover); }
+.pn-inline__x {
+  flex: none;
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  margin-right: -10px;
+  border: 0;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--a-ink-4);
+  cursor: pointer;
+  transition: background-color 150ms ease-out, color 150ms ease-out;
+}
+.pn-inline__x:hover { background: var(--a-hover); color: var(--a-ink-2); }
+@keyframes pn-inline-in { from { opacity: 0; transform: translate3d(0, 4px, 0); } }
+@media (max-width: 479px) {
+  .pn-inline { flex-wrap: wrap; }
+  .pn-inline__text { flex-basis: calc(100% - 44px); }
+  .pn-inline__x { order: 2; }
+  .pn-inline__go { order: 3; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pn-inline { animation: pn-fade 150ms ease-out both; }
+  .pn-sheet::backdrop { animation: none; }
+}
+html[data-motion='reduced'] .pn-inline { animation: pn-fade 150ms ease-out both; }
+@keyframes pn-fade { from { opacity: 0; } }
