@@ -21,6 +21,7 @@ import {
 } from '@/services/credits/aiCreditWallet';
 import { breadcrumbJsonLd, faqJsonLd, seoMetadata } from '@/lib/seo';
 import { runtimeAiReleased } from '@/../data/capabilities';
+import { walletCommerceOpen } from '@/lib/wallet/walletPacks.mjs';
 import { aiCreditsRules, aiCreditsStatusLine } from './aiCreditsCopy.mjs';
 
 export const metadata = seoMetadata({
@@ -50,7 +51,9 @@ export default async function AICreditsPage() {
   const currentUser = session?.user?.id ? await Database.getUserById(session.user.id) : null;
   const wallet = currentUser ? await readAIWallet(currentUser) : null;
   const isPaid = isPaidUser(currentUser);
-  const checkoutOpen = aiCommerceOpen();
+  // One switch for selling (release 10): the wallet's WALLET_COMMERCE_OPEN, on top of the AI top-up capability, so no pack here
+  // looks buyable while the order route would refuse it.
+  const checkoutOpen = aiCommerceOpen() && walletCommerceOpen();
   const monthly = isPaid ? AI_PRO_INCLUDED_MONTHLY_CREDITS : AI_FREE_MONTHLY_CREDITS;
 
   return (

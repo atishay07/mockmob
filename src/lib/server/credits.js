@@ -96,10 +96,10 @@ export function aiWhat(row, detail = null) {
   const reason = String(row?.reason || '');
   const name = AI_FEATURE(row?.feature);
   const tail = detail ? `, ${detail}` : '';
-  if (reason === 'monthly_grant') return 'Monthly AI credits';
-  if (reason === 'pack_purchase') return 'AI credits added';
+  if (reason === 'monthly_grant') return 'Free credits for the month';
+  if (reason === 'pack_purchase') return 'Credits added';
   if (reason === 'admin_adjustment') return 'Adjustment from MockMob';
-  if (reason === 'expiry') return 'Monthly AI credits ended';
+  if (reason === 'expiry') return 'Free credits ended';
   if (reason === 'ai_release') return `${name} returned${tail}`;
   return `${name}${tail}`;
 }

@@ -105,10 +105,10 @@ test('plan is Free or Pro with the paid-through date in India time', () => {
 });
 
 test('words: every reason and feature has a plain line, and a repair names its question and subject', () => {
-  assert.equal(aiWhat({ reason: 'monthly_grant' }), 'Monthly AI credits');
-  assert.equal(aiWhat({ reason: 'pack_purchase' }), 'AI credits added');
+  assert.equal(aiWhat({ reason: 'monthly_grant' }), 'Free credits for the month');
+  assert.equal(aiWhat({ reason: 'pack_purchase' }), 'Credits added');
   assert.equal(aiWhat({ reason: 'admin_adjustment' }), 'Adjustment from MockMob');
-  assert.equal(aiWhat({ reason: 'expiry' }), 'Monthly AI credits ended');
+  assert.equal(aiWhat({ reason: 'expiry' }), 'Free credits ended');
   assert.equal(aiWhat({ reason: 'ai_spend', feature: 'rival_quick' }), 'Rival battle');
   assert.equal(aiWhat({ reason: 'ai_reserve', feature: 'score_recovery_repair' }, 'Q7 Accountancy'), 'Repair, Q7 Accountancy');
   assert.equal(aiWhat({ reason: 'ai_release', feature: 'score_recovery_repair' }, 'Q7 Accountancy'), 'Repair returned, Q7 Accountancy');

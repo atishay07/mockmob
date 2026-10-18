@@ -56,7 +56,7 @@ import { previewMob } from './previewMob';
 import { previewFirstWeek } from './previewFirstWeek';
 import { previewReview } from './previewReview';
 import { previewWallet } from './previewWallet';
-import { previewChipCredits } from './previewChip';
+import { previewBalancePart, previewOneTotal } from './previewChip';
 import { previewConcepts } from './previewConcepts';
 import { browserSession, loadRecord, openUpgrade, saveRecord } from '@/components/pro/proNudgeStore';
 import { emptyRecord, noteOnboarded } from '@/lib/proNudge.mjs';
@@ -526,8 +526,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // ?wallet=down simulates a missing schema; ?wallet=zero is a known balance of 0 (add &ai=live for "0 left, resets 1 Nov", else the paused wallet); otherwise a paused wallet with stored balances.
       const page = new URLSearchParams(window.location.search);
       const wallet = page.get('wallet') === 'down' ? unreadableWallet('schema_unavailable')
-        : page.get('wallet') === 'zero' ? projectWallet({ included_monthly_credits: 50, included_credits_used: 50, bonus_credits: 0, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: false, includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')) })
-        : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')) });
+        : page.get('wallet') === 'zero' ? projectWallet({ included_monthly_credits: 50, included_credits_used: 50, bonus_credits: 0, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: false, includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')), practiceBalance: previewBalancePart(page) })
+        : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')), practiceBalance: page.get('plan') === 'pro' ? 0 : previewBalancePart(page) });
       return json({ ok: true, state: wallet.state, message: wallet.message, wallet, practiceCredits: { balance: 40, label: 'Practice credits (Quick Practice and Full Mock)' } });
     }
     if (url.pathname === '/api/ai/mentor/history') return json({ ok: true, session: null, messages: [] });
@@ -691,7 +691,7 @@ function PreviewInner({ candidatePathway }) {
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
       retiredSubjects: params.get('stale') === '1' ? ['teaching_aptitude'] : [],
-      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : previewChipCredits(params, params.get('balance') !== null && Number.isFinite(Number(params.get('balance'))) ? Number(params.get('balance')) : 40), ...(MONTHLY || {}) },
+      isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : (previewOneTotal(params) ?? previewBalancePart(params)), credits: pro ? null : { total: previewOneTotal(params) }, ...(MONTHLY || {}) },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,
     signInWithGoogle: async () => ({}), signInWithEmail: async () => ({}), verifyEmailOtp: async () => ({}),
     signOut: async () => {}, refreshSession: async () => {},

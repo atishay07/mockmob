@@ -128,29 +128,6 @@ const FREE_NOTES = [
   'Practice and Ask Mobi replies share one credits balance: 50 free a month, used first.',
 ];
 
-const AI_PACKS = [
-  {
-    name: 'AI Boost',
-    price: '₹10',
-    credits: '50 credits',
-    desc: 'New purchases paused. Existing credit balances are preserved.',
-  },
-  {
-    name: 'Prep Pack',
-    price: '₹20',
-    credits: '150 credits',
-    desc: 'Shared learning plans and core recovery do not require paid model calls.',
-  },
-  {
-    name: 'Power Pack',
-    price: '₹50',
-    credits: '400 credits',
-    desc: 'Paid AI remains gated on durable spending and wallet checks.',
-    popular: true,
-    flag: 'Most credits per rupee',
-  },
-];
-
 const buildFaqs = (offer, bankSize = null) => [
   {
     q: 'Is Pro a monthly subscription?',
