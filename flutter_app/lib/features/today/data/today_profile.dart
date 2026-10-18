@@ -39,9 +39,12 @@ class TodayProfile {
     this.restWeekdays = const {},
     this.firstMoveRoute,
     this.firstMoveLine,
+    this.subjects = const [],
+    this.weakestRated,
   });
 
-  /// The first three of My colleges, in the student's order (the first is the dream pick).
+  /// Every college on My colleges, the hardest to get into first ([hardestFirst]). Today shows the
+  /// first three and says how many there are in all (D104).
   final List<LadderPick> ladder;
 
   /// The CSAS category the ladder figures belong to (default UR).
@@ -61,10 +64,53 @@ class TodayProfile {
 
   /// The line the student's biggest worry wrote ("Every slip becomes a repair.").
   final String? firstMoveLine;
+
+  /// The subjects the setup sheet holds (public ids), weakest first by the student's own ratings.
+  /// The suggested deck builds its first cards from them before any paper exists (19 Oct, G12),
+  /// and they stand in while the account's own list has not synced yet.
+  final List<String> subjects;
+
+  /// The subject the student themselves rated below every other one ([weakestRatedOf]), or null
+  /// when the ratings do not single one out.
+  final String? weakestRated;
 }
 
-/// The sealed sheet as Today needs it, or null before one is sealed. The ladder is the first three
-/// colleges of My colleges (the one list shared with Compass, You and the website), each with its
+/// [picks] with the hardest to get into first: the highest Round 1 closing marks lead, a college
+/// without a figure for the category goes last, and ties keep the order they came in (D103, D104).
+/// My colleges may already arrive in this order; the sort is stable, so it agrees with that order
+/// and still holds when the list arrives in the order the student picked.
+List<LadderPick> hardestFirst(List<LadderPick> picks) {
+  final indexed = [for (final (i, p) in picks.indexed) (i, p)];
+  indexed.sort((a, b) {
+    final x = a.$2.closingScore, y = b.$2.closingScore;
+    if (x == null && y == null) return a.$1.compareTo(b.$1);
+    if (x == null) return 1;
+    if (y == null) return -1;
+    final c = y.compareTo(x);
+    return c != 0 ? c : a.$1.compareTo(b.$1);
+  });
+  return [for (final (_, p) in indexed) p];
+}
+
+/// The sheet's subjects, weakest first, as public ids.
+List<String> sheetSubjectsOf(StudentSheet sheet) => [for (final (s, _) in sheet.subjects) s.id];
+
+/// The subject the student rated weakest: the first of the ranked list when the student rated it
+/// and rated it below every other subject (an unrated subject counts as Okay, as the ranking does);
+/// a lone subject counts when it was rated Shaky.
+String? weakestRatedOf(StudentSheet sheet) {
+  final rated = sheet.subjects;
+  if (rated.isEmpty) return null;
+  final (first, confidence) = rated.first;
+  if (confidence == null) return null;
+  final others = rated.skip(1).toList();
+  if (others.isEmpty) return confidence == Confidence.shaky ? first.id : null;
+  final below = others.every((e) => confidence.index < (e.$2 ?? Confidence.okay).index);
+  return below ? first.id : null;
+}
+
+/// The sealed sheet as Today needs it, or null before one is sealed. The ladder is every college of
+/// My colleges (the one list shared with Compass, You and the website), hardest first, each with its
 /// Round 1 figure when one is on file for the student's category and none when it is not: a college
 /// is never left off, and a number is never estimated. Until the list is known (loading, did not
 /// load, or nobody signed in) the colleges named in the setup stand in for it.
@@ -80,8 +126,10 @@ final todayProfileProvider = Provider<TodayProfile?>((ref) {
   final move = sheet.firstMove;
   final days = sheet.days;
   return TodayProfile(
-    ladder: mine.hasList ? ladderOfList(mine.list.ladder, sheet.category) : ladderOf(sheet),
+    ladder: hardestFirst(mine.hasList ? ladderOfList(mine.list.colleges, sheet.category) : ladderOf(sheet)),
     category: sheet.category,
+    subjects: sheetSubjectsOf(sheet),
+    weakestRated: weakestRatedOf(sheet),
     weakestSubject: move.subject.id,
     firstMoveAt: sheet.deferredToTonight ? move.nextWindow(ref.watch(nowProvider)()) : null,
     restWeekdays: days.isEmpty ? const {} : {for (var d = 0; d < 7; d++) if (!days.contains(d)) d + 1},
@@ -100,7 +148,7 @@ List<LadderPick> ladderOf(StudentSheet sheet) {
   ]..sort((a, b) => (b.closingScore ?? 0).compareTo(a.closingScore ?? 0));
 }
 
-/// The first colleges of My colleges as Today's ladder, in the student's order. The Round 1 figure
+/// My colleges as Today's ladder, in the list's order ([hardestFirst] then orders it). The Round 1 figure
 /// comes from the DU file on the phone when it names this college in this programme.
 List<LadderPick> ladderOfList(List<MyCollege> colleges, String category) {
   final picks = <LadderPick>[];
@@ -116,7 +164,7 @@ List<LadderPick> ladderOfList(List<MyCollege> colleges, String category) {
 TodayProfile? _listOnly(Ref ref, MyCollegesView mine) {
   if (mine.list.isEmpty) return null;
   final answers = ref.watch(onboardingAnswersProvider).value;
-  return TodayProfile(ladder: ladderOfList(mine.list.ladder, answers?.category ?? DuCatalog.defaultCategory), category: answers?.category ?? DuCatalog.defaultCategory);
+  return TodayProfile(ladder: hardestFirst(ladderOfList(mine.list.colleges, answers?.category ?? DuCatalog.defaultCategory)), category: answers?.category ?? DuCatalog.defaultCategory);
 }
 
 /// The ladder alone, from answers that were edited but never sealed and belong to this account.

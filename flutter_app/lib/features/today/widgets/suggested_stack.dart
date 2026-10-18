@@ -1062,6 +1062,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
               final undo = _undo;
               return _DeckControls(
                 ended: ended,
+                count: _pass.length,
                 notNow: p > 0 && x < 0 ? p : 0,
                 upNext: p > 0 && x > 0 && right ? p : 0,
                 notNowLit: _demoSide == MmDragSide.left || (_past && x < 0),
@@ -1824,7 +1825,13 @@ class _Art extends StatelessWidget {
     maxHeight: double.infinity,
     child: switch (card.art) {
       SuggestedArt.mobi => Mobi(pose: HeroArtView.poseFor(card.pose), size: _mobiSize),
-      SuggestedArt.stopwatch => const HybridStopwatch(height: _hybridHeight),
+      // A calm, still stopwatch (19 Oct, G12: its hands swept round each time the card moved to a
+      // new place in the deck, which read as an odd clock animation). The object holds its pose;
+      // the whole card answers the finger.
+      SuggestedArt.stopwatch => MediaQuery(
+          data: MediaQuery.of(context).copyWith(disableAnimations: true),
+          child: const HybridStopwatch(height: _hybridHeight),
+        ),
       SuggestedArt.bell => const HybridBell(height: _hybridHeight),
       // The lead card's object, unframed: an object on the card, not an icon. It stays still (no
       // lean or tap of its own), since the whole card answers the finger.
@@ -1881,6 +1888,7 @@ class _Stamp extends StatelessWidget {
 class _DeckControls extends StatelessWidget {
   const _DeckControls({
     required this.ended,
+    required this.count,
     required this.notNow,
     required this.upNext,
     required this.notNowLit,
@@ -1894,6 +1902,9 @@ class _DeckControls extends StatelessWidget {
   });
 
   final bool ended;
+
+  /// The cards in the deck ("See it again" over one card, "Go through them again" over more).
+  final int count;
 
   /// How far a drag toward each side has come (0 to 1).
   final double notNow;
@@ -1957,11 +1968,11 @@ class _DeckControls extends StatelessWidget {
                   child: _RowButton(
                     key: SuggestedStack.againKey,
                     icon: LucideIcons.refreshCw,
-                    label: SuggestedCopy.again,
+                    label: SuggestedCopy.againFor(count),
                     style: label,
                     filled: true,
                     onTap: onAgain,
-                    semanticsLabel: SuggestedCopy.again,
+                    semanticsLabel: SuggestedCopy.againFor(count),
                   ),
                 ),
               ],

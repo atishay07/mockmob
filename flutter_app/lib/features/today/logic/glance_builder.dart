@@ -24,6 +24,7 @@ import 'marks_trend.dart';
 import 'move_builder.dart';
 import 'road_board.dart';
 import 'road_builder.dart' show expectedWindowStart;
+import 'starter_cards.dart';
 import 'subjects.dart';
 import 'today_builder.dart' show buildLastPaper;
 import 'today_inputs.dart';
@@ -45,6 +46,7 @@ String choiceKeyOf(MoveHero m) => switch (m.kind) {
       MoveKind.weakest => 'weakest',
       MoveKind.firstMock || MoveKind.mock => 'mock',
       MoveKind.otherSubject => 'other',
+      MoveKind.practice => m.choiceKey ?? 'quick',
       _ => 'lead',
     };
 
@@ -60,6 +62,7 @@ String leadTitle(MoveHero m) => switch (m.kind) {
       MoveKind.weakest => GlanceCopy.titleWeakest,
       MoveKind.mock => GlanceCopy.titleMock,
       MoveKind.otherSubject => GlanceCopy.titleOtherSubject,
+      MoveKind.practice => m.title ?? m.summary,
       _ => switch (m.state) {
           NextMoveState.newUser || NextMoveState.subjectChanged => GlanceCopy.titleStart,
           NextMoveState.stale => GlanceCopy.titleRefresh,
@@ -105,8 +108,14 @@ String formatDayMonthShortLocal(DateTime d) => '${d.day} ${const ['Jan', 'Feb', 
 /// moves of a different kind from [lead], in the order Repair, Revise, the weakest chapter, a full
 /// mock (none in 14 days), another subject. Done for tonight keeps them too, for a student who
 /// wants more (its key shows the repairs).
+///
+/// 19 Oct, G12 (R1): every one of those but the mock and another subject needs a paper, so a fresh
+/// account got one card. With no paper yet the deck is the starter cards ([starterChoices], up to
+/// [starterDeckSize]), built from the subjects alone; a light record that leaves fewer than
+/// [deckMinimum] is topped up from them.
 List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakest, int limit = 4}) {
   if (lead.kind == MoveKind.failure || lead.state == NextMoveState.historyUnavailable) return const [];
+  if ((i.attempts ?? const <Attempt>[]).isEmpty) return starterChoices(i, lead);
   final leadKey = choiceKeyOf(lead);
   final out = <MoveChoice>[];
   void add(String key, MoveChoice? Function() build) {
@@ -146,6 +155,7 @@ List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakes
     if (other == null) return null;
     return MoveChoice(key: 'other', title: GlanceCopy.titleOtherSubject, line: GlanceCopy.choiceOtherLine(subjectName(other)), hero: presentMove(otherSubjectMoveFor(i, subject: other), i));
   });
+  if (out.length < math.min(limit, deckMinimum)) out.addAll(starterChoices(i, lead, existing: out, limit: math.min(limit, deckMinimum) - out.length));
   return out;
 }
 

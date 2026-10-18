@@ -28,6 +28,7 @@ import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
 import '../../social/social.dart' show MobTodayBlock;
 import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
+import '../widgets/colleges_sheet.dart' show showTodayCollegesSheet;
 import '../widgets/move_hero.dart';
 import '../widgets/open_paper_hero.dart';
 import '../widgets/resume_hero.dart';
@@ -754,7 +755,6 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     ];
     final road = view.road;
     final glance = view.glance;
-    final first = road == null || road.ladder.isEmpty ? null : road.ladder.first;
     final loaded = view.hero != null;
     // TODAY-1018 section 4: 40 dp between blocks on the phone.
     const gap = SizedBox(height: 40);
@@ -870,13 +870,19 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              const GlanceHead(title: GlanceCopy.collegesTitle),
+              GlanceHead(title: GlanceCopy.collegesTitle, sub: road.ladderSaved > 1 ? TodayCopy.collegesTop(road.ladderSaved) : null),
               const SizedBox(height: MmSpace.s4),
               TodayRows(
-                firstCollege: first,
+                colleges: road.ladder,
                 collegesSaved: road.ladderSaved,
-                collegesStatus: first != null ? CollegesCardStatus.ready : widget.colleges.status,
+                collegesStatus: road.ladder.isNotEmpty ? CollegesCardStatus.ready : widget.colleges.status,
                 onColleges: () => callbacks.onTarget(const GoTo(ToolsPaths.colleges)),
+                onSeeAll: () => unawaited(showTodayCollegesSheet(
+                  context,
+                  colleges: road.colleges,
+                  category: road.category,
+                  onOpenColleges: () => callbacks.onTarget(const GoTo(ToolsPaths.colleges)),
+                )),
                 onChoose: callbacks.onChooseColleges,
                 onRetry: callbacks.onCollegesRetry,
                 headed: true,

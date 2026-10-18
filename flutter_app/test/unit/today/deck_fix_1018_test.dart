@@ -140,9 +140,10 @@ void main() {
     expect(find.ancestor(of: coach, matching: find.byType(MmOverlapSwitcher)), findsNothing);
   });
 
-  test('the end says the passed cards wait, as Not now promised; the count never says none are left', () {
+  test('the end says every card was seen (they all wait, as Not now promised); the count never says none are left', () {
     expect(SuggestedCopy.coachLeft, contains('It waits at the back'));
-    expect(SuggestedCopy.allSeen(3), 'You passed all three. They wait here.');
+    // 19 Oct, G12: "You passed all three. They wait here." read as bad English.
+    expect(SuggestedCopy.allSeen(3), "You've seen all three.");
     expect(SuggestedCopy.noneLeft, isNot(contains('None')));
     expect(SuggestedCopy.allSeen(3), isNot(contains('!')));
   });

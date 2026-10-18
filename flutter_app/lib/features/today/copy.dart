@@ -760,6 +760,15 @@ abstract final class TodayCopy {
   static String lastPaperName(String label, String subject) => '$label, $subject';
   static String lastPaperSub(String date, String? change) => change == null ? date : '$date, $change';
   static String collegesSub(String course, int more) => more > 0 ? '$course, 2026 Round 1. $more more saved.' : '$course, 2026 Round 1.';
+
+  // Your colleges on Today (19 Oct, D104): the three hardest to get into, labelled, and every one
+  // a tap away. "Top" says what it means (the owner asked whether the three were first
+  // preferences): the ones that need the most marks.
+  static String collegesTop(int of) => of > 3 ? 'Your top 3 of $of: the three that need the most marks.' : 'The one that needs the most marks comes first.';
+  static String collegeRowSub(String course, {required bool figure}) => figure ? '$course, 2026 Round 1.' : '$course. No Round 1 figure on file for your category.';
+  static String seeAllCount(int n) => 'See all $n colleges';
+  static const String seeAllSub = 'Every college you picked, with the marks it needs.';
+  static String seeAllSemantics(int n) => 'See all $n colleges. Every college you picked, with the marks it needs.';
   static const String collegesEmpty = 'Pick up to 8 colleges to see their 2026 cutoffs here.';
   static const String choose = 'Choose';
 

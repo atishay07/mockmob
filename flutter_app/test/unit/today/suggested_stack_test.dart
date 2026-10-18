@@ -244,9 +244,10 @@ void main() {
     test('the words: one name per direction, the end says the passed cards wait, every count has its unit, "Both" for two', () {
       expect(SuggestedCopy.upNext, 'Do this next');
       expect(SuggestedCopy.notNow, 'Not now');
-      // The end shows only after every card was passed on, and they wait behind it (D96 fix pass).
-      expect(SuggestedCopy.allSeen(4), 'You passed all four. They wait here.');
-      expect(SuggestedCopy.allSeen(1), 'You passed this one. It waits here.');
+      // The end shows only after every card was seen, and they wait behind it (D96 fix pass; the
+      // words since 19 Oct, G12: whole sentences, true for one card or more).
+      expect(SuggestedCopy.allSeen(4), "You've seen all four.");
+      expect(SuggestedCopy.allSeen(1), 'That was the only card.');
       expect(SuggestedCopy.countFirst(4), '4 cards');
       expect(SuggestedCopy.moreAfter(2, 4), '2 more after this');
       expect(SuggestedCopy.moreAfter(0, 4), 'Last of 4');

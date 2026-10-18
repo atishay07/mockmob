@@ -16,11 +16,13 @@ import '../../../core/storage/prefs_store.dart';
 import '../../../core/widgets/art/mm_art.dart';
 import '../copy.dart';
 import '../copy_suggested.dart';
+import 'starter_cards.dart' show starterDeckSize, starterPoseFor;
 import 'today_model.dart';
 
-/// Cards the deck holds: the lead's three best alternatives, or, after a pick, the recommended
-/// move (marked Suggested) and three others.
-const int deckSize = 4;
+/// Cards the deck holds at most: the lead's best alternatives (four from a record; up to five
+/// starter cards before the first paper, 19 Oct G12), or, after a pick, the recommended move
+/// (marked Suggested) and the others.
+const int deckSize = starterDeckSize;
 
 /// What stands in a card's art corner.
 enum SuggestedArt {
@@ -123,7 +125,11 @@ List<SuggestedCard> distinctArt(List<SuggestedCard> cards) {
 
 SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
   final m = c.hero;
-  if (m == null) return SuggestedCard(choice: c, title: c.title, line: c.line, art: SuggestedArt.mobi, pose: MmArt.mobiPoint);
+  if (m == null) {
+    // A card that opens something (the Mob, adding subjects, the done state's repairs): Mobi
+    // stands in its corner, greeting for the Mob.
+    return SuggestedCard(choice: c, title: c.title, line: c.line, cost: c.key == 'mob' ? StarterCopy.mobCost : null, art: SuggestedArt.mobi, pose: starterPoseFor(c.key));
+  }
   final subject = m.subjectLine ?? '';
   final minutes = _minutes(m);
   final questions = _questions(m);

@@ -18,9 +18,9 @@ abstract final class SuggestedCopy {
 
   /// The count over the stack: the cards still to come in this pass, out of the deck.
   static String moreAfter(int more, int of) => more <= 0 ? 'Last of $of' : '$more more after this';
-  /// Over the end card: every card was passed on, and they are all still there (Not now says
+  /// Over the end card: every card has been seen, and they are all still there (Not now says
   /// "It waits at the back", so the end never says they are gone).
-  static const String noneLeft = 'All passed';
+  static const String noneLeft = 'All seen';
 
   /// First run only, under the heading: what the cards are.
   static const String intro = 'More ways to win back marks today, one card at a time.';
@@ -33,8 +33,10 @@ abstract final class SuggestedCopy {
   static const String letGoLeft = 'Let go: it waits at the back';
   static const String letGoLast = 'Let go: that was the last one';
 
-  /// The first left swipe ever: where the card went and what the deck will do (DeckMemory).
-  static const String learnedLeft = 'At the back now.\nCards you often pass on sit lower next time.';
+  /// The first left swipe ever: where the card went, in whole sentences (19 Oct, G12: the old
+  /// "At the back now." read as a clipped fragment). "Can": the passed cards come back with "Go
+  /// through them again" once the others are seen.
+  static const String learnedLeft = "It's at the back now. You can see it again after the others.";
 
   // The two directions and the way back.
   static const String upNext = 'Do this next';
@@ -73,13 +75,22 @@ abstract final class SuggestedCopy {
   /// The lead card's own noun ("6 mistakes come back today"), so the move reads the same in both.
   static String reviseLine(int due) => due == 1 ? '1 mistake you repaired comes back today.' : '$due mistakes you repaired come back today.';
 
-  // The end of the deck: it shows only once every card was passed on with Not now, and they all
-  // wait behind it ("Go through them again" in the row brings them back). Final walk L: "That's all
-  // three for today" read as if the passed cards were gone, against "It waits at the back".
-  static String allSeen(int n) => n == 1 ? 'You passed this one. It waits here.' : 'You passed all ${_word(n)}. They wait here.';
+  // The end of the deck: it shows only once every card has been seen, and they all wait behind it
+  // ("Go through them again" in the row brings them back). 19 Oct, G12: "You passed this one. It
+  // waits here." and "Go through them again" over a single card read as bad English; the end now
+  // says what is true in plain words, for one card, two, or more.
+  static String allSeen(int n) => switch (n) {
+        1 => 'That was the only card.',
+        2 => "You've seen both cards.",
+        _ => "You've seen all ${_word(n)}.",
+      };
   static const String endOurPick = 'The card above is still our pick for you.';
   static const String endYourPick = 'Your pick is ready in the card above.';
   static const String again = 'Go through them again';
+
+  /// "Go through them again" over one card: there is no "them".
+  static const String againOne = 'See it again';
+  static String againFor(int n) => n == 1 ? againOne : again;
   static const String everyWay = 'See every way to practise';
 
   // Screen readers: the row is the path, so each button says what it does.
@@ -101,4 +112,43 @@ abstract final class SuggestedCopy {
         5 => 'five',
         _ => '$n',
       };
+}
+
+/// The deck's cards for a student with no paper yet (19 Oct, G12): built from the subjects the
+/// student picked, so a fresh account gets four or five real moves. Every card's first sentence is
+/// its evidence line on the card; the rest shows on the lead card once it moves up.
+abstract final class StarterCopy {
+  static const String titleWeakest = 'Practise your weakest subject';
+  static const String titleChapter = 'Practise one chapter';
+  static const String titleNextChapter = 'Practise another chapter';
+  static const String titleMob = 'Sit the same paper as your friends';
+  static const String titleSubjects = 'Add your other subjects';
+  static const String titleSubjectsNone = 'Add your subjects';
+
+  /// The subject the student rated weakest in the setup.
+  static String weakestWhy(String subject, int n) => 'You rated $subject as your weakest subject. $n questions show where it stands today.';
+
+  /// Any other subject, before a paper exists.
+  static String quickWhy(String subject, int n) => 'A quick $n in $subject shows where it stands right now.';
+
+  /// The language paper (English).
+  static String languageWhy(String subject, int n) => 'Most DU courses count a language paper, and $subject is the usual one. $n questions keep it sharp.';
+
+  /// The first chapter of a subject in MockMob's order, and the one after it.
+  static String chapterWhy(String chapter, String subject, int n) => 'Start $subject with $chapter. $n questions on that chapter alone.';
+  static String nextChapterWhy(String chapter, int n) => 'Try $chapter next. $n questions on that chapter alone.';
+
+  /// The Mob (it opens the Mob page; nothing starts from the deck).
+  static const String mobCost = '10 questions a week, with friends';
+  static const String mobLine = 'Up to 5 of you get the same questions each week, free of credits.';
+  static const String mobKey = 'Open the Mob';
+
+  /// Fewer subjects than DU counts: the way to add them.
+  static const String subjectsLine = 'Most DU courses count a language and three subjects. Add yours to practise them here.';
+  static const String subjectsKey = 'Add subjects';
+
+  static String numberOn(String chapter) => 'questions on\n$chapter';
+  static String numberIn(String subject) => 'questions in\n$subject';
+  static String summary(String what) => 'Practise $what';
+  static String key(int n) => 'Start practice, $n min';
 }

@@ -124,7 +124,12 @@ class TodayInputs {
     this.repairedToday = 0,
     this.openRepairs,
     this.reviewChapters,
+    this.mobInvite = false,
   });
+
+  /// The Mob is on and the student is in none yet: the suggested deck may offer to start one
+  /// ("Sit the same paper as your friends", 19 Oct, G12).
+  final bool mobInvite;
 
   final DateTime now;
   final String timezone;

@@ -469,14 +469,19 @@ class RoadModel {
     this.board,
     this.plannedDays,
     this.ladderSaved = 0,
+    this.colleges = const [],
     this.onAccount = false,
   });
 
   /// The road is kept on the account (else on this phone only): the save receipts say which.
   final bool onAccount;
 
-  /// Every college on My colleges (the ladder shows the first three): "2 more saved".
+  /// How many colleges are on My colleges in all ("Your top 3 of 5").
   final int ladderSaved;
+
+  /// Every college on My colleges, the hardest to get into first (D104): [ladder] is its first
+  /// three, and "See all" lists every one of these.
+  final List<LadderRung> colleges;
 
   /// The weekdays the student plans to study (0 = Monday), when the plan matches the goal: the
   /// pace strip keeps these picks when the count changes.
@@ -501,6 +506,8 @@ class RoadModel {
   /// Days left in the expected window (window phase only).
   final int? daysLeft;
   final List<RoadStop> stops;
+
+  /// The three hardest to get into of [colleges] (all of them when there are three or fewer).
   final List<LadderRung> ladder;
 
   /// The student's CSAS category, or null when never chosen (the ladder then says it shows

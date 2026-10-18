@@ -20,6 +20,7 @@ import '../../review/revise/revise_data.dart' show reviseCapProvider, reviseEntr
 import '../../rhythm/data/rhythm_providers.dart' show rhythmClockProvider;
 import '../../rhythm/logic/dates.dart' show formatIsoDate, studentDate;
 import '../../rhythm/rhythm.dart';
+import '../../social/data/mob_repository.dart' show currentMobProvider, mobAvailableProvider;
 import '../../paper_reel/paper_reel.dart' show reelSeenProvider;
 import '../logic/move_builder.dart';
 import '../logic/reel_pending.dart';
@@ -288,7 +289,10 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     reviseShown: reviseRead?.shown,
     reviseCards: [for (final c in reviseRead?.items ?? const []) (questionId: c.questionId, subject: c.subject, chapter: c.chapter)],
     reviseCap: reviseRead == null ? 10 : ref.watch(reviseCapProvider).value ?? 10,
-    subjects: auth.subjects,
+    // The account's subjects; until they sync, the ones the setup sheet holds (a fresh account's
+    // deck read none and offered a single card, 19 Oct G12).
+    subjects: auth.subjects.isNotEmpty ? auth.subjects : (ref.watch(todayProfileProvider)?.subjects ?? const []),
+    mobInvite: ref.watch(mobAvailableProvider) && ref.watch(currentMobProvider) == null,
     attempts: attempts.value,
     // A Try again or a pull on the failure card keeps the card up while the new read runs (it is
     // not a first load, so no skeleton): the failure stands until the read answers.

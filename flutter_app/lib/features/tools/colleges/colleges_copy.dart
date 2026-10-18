@@ -11,7 +11,8 @@ abstract final class CollegesCopy {
   // My colleges.
   static const String myColleges = 'My colleges';
   static const String edit = 'Edit';
-  static String caption(int n) => n >= 3 ? '$n of ${MyColleges.maxColleges}. The first 3 show on Today.' : '$n of ${MyColleges.maxColleges}';
+  // Today shows the three that need the most marks, with "See all" for the rest (19 Oct, D104).
+  static String caption(int n) => n > 3 ? '$n of ${MyColleges.maxColleges}. Today shows the 3 that need the most marks.' : '$n of ${MyColleges.maxColleges}';
   static const String addCollege = 'Add a college';
   static const String loading = 'Loading your colleges';
 
@@ -68,7 +69,7 @@ abstract final class CollegesCopy {
   static const String dataLine = 'DU data: 2026 admission rounds and the UG Bulletin 2026-27.';
 
   // The ladder in the chooser.
-  static String picked(int n) => n >= 1 ? '$n of ${MyColleges.maxColleges} picked. The first 3 show on Today.' : 'Pick up to ${MyColleges.maxColleges}. The first 3 show on Today.';
+  static String picked(int n) => n >= 1 ? '$n of ${MyColleges.maxColleges} picked. Today shows the 3 that need the most marks.' : 'Pick up to ${MyColleges.maxColleges}. Today shows the 3 that need the most marks.';
   static const String onToday = 'On Today';
   static const String full = '8 is the most. Drop one to add another.';
   static String showAll(int n) => 'Show all $n';
