@@ -17,6 +17,10 @@ abstract final class PracticeCopy {
   static const String waysHeading = 'Ways to practise';
   static const String concepts = 'Concepts';
   static const String moreHeading = 'More ways in';
+
+  /// The Repairs row under the suggestion: the whole account's open mistakes, the count Review's header and Today's tile print.
+  static const String repairsTitle = 'Repairs';
+  static String repairsNote(int open) => open == 1 ? '1 open mistake to repair' : '$open open mistakes to repair';
   static const String toolsTitle = 'Admission Compass';
   static const String toolsNote = 'Which DU courses your subjects open, with the 2026 Round 1 cutoffs.';
   static const String allConcepts = 'See all';

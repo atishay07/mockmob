@@ -4,18 +4,17 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
-import '../../insights/ask_mobi.dart' show AskMobiPracticeRow;
 import '../../insights/insights_routes.dart' show EntryRow, StreamEntry;
 import '../../review/review_routes.dart' show ReviewAgainRow;
 import '../../social/social.dart' show MobEntryPlace, MobEntryRow;
 import '../copy.dart';
 import 'mode_list.dart' show SectionHeading;
 
-/// "More ways in", under the modes: Review again (when there are repaired mistakes to ask), Ask Mobi what to
-/// practise, this
-/// week's Mob paper (when the student is in a Mob), the untimed question stream in the chosen subject, and the
-/// Admission Compass, pushed straight (the `/tools` hub is now a redirect to the Colleges tab, so
-/// Back returns here). Plain rows, no art, no counts invented.
+/// "More ways in", under the modes: Revise or Review again (when there is something to ask), this week's Mob paper
+/// (when the student is in a Mob), the untimed question stream in the chosen subject, and the Admission Compass, pushed
+/// straight (the `/tools` hub is now a redirect to the Colleges tab, so Back returns here). Plain rows, no art, no counts
+/// invented. Repairs and "Ask Mobi what to practise" are not here: they sit under the suggestion at the top
+/// (`PracticeTopRows`, the owner's D5), where a student finds them.
 class PracticeMoreRows extends StatelessWidget {
   const PracticeMoreRows({super.key, required this.subject});
 
@@ -31,9 +30,6 @@ class PracticeMoreRows extends StatelessWidget {
         // Review again first (L14): the only row here that is an action on the student's own
         // repaired mistakes. Review owns it; it shows only when there is something to ask.
         const ReviewAgainRow(),
-        // Ask Mobi what to practise, beside the repairs: a row, free, with a real line from the record.
-        const AskMobiPracticeRow(),
-        Divider(height: 1, color: context.mmColors.line),
         // This week's Mob paper, for a student in a Mob (nothing at all otherwise).
         const MobEntryRow(place: MobEntryPlace.practice),
         StreamEntry(subject: subject),

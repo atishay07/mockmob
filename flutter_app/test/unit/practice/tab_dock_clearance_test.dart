@@ -2,8 +2,8 @@
 // shell adds the bar's clearance to a tab root's bottom padding (MmBarInsets); this pumps the tab
 // on a 360 by 800 dp phone with a 24 dp status bar and a 24 dp gesture inset, wrapped the way
 // the shell wraps it, and checks the last row ends above the bar's top edge once scrolled, and
-// that the quick pair (Quick practice, By chapter) is whole above the bar at first view on a
-// 360 by 780 phone, with no scroll.
+// that, at first view, the suggestion and the two rows under it (Repairs, Ask Mobi) are whole above the bar and the quick pair is one short scroll away on a
+// 360 by 800 phone.
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
@@ -99,20 +99,29 @@ void main() {
     }
   });
 
-  testWidgets('at first view the quick pair starts above the bar, titles and notes in view, on a 360 by 780 phone', (tester) async {
-    const phone = Size(360, 780);
+  // The owner's D5 (18 Oct) over his 15 Oct first-view rule for the quick pair: Repairs and "Ask Mobi what to practise" now sit
+  // right under the suggestion, so at first view a 360 by 800 phone shows the suggestion, Repairs and Ask Mobi whole above
+  // the bar, and the quick pair begins under them. No layout can hold both asks: the pair needed the whole first view on a
+  // 780 phone. The pair stays reachable with one short scroll and then rests whole above the bar.
+  testWidgets('at first view the suggestion, Repairs and Ask Mobi are above the bar; the quick pair follows and is one short scroll away', (tester) async {
+    const phone = Size(360, 800);
     tester.view.padding = const FakeViewPadding(top: 48, bottom: _gesture * 2);
-    await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes(), attempts: const []), size: phone);
+    await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes(), attempts: const [], openRepairs: 98), size: phone);
     for (var i = 0; i < 12; i++) {
       await tester.pump(const Duration(milliseconds: 150));
     }
     final barTop = phone.height - _gesture - MmBar.lift - MmBar.height;
-    // The cards start well above the bar, and each title and the first line of its note rest
-    // above it (the card's foot may pass behind the glass on the shortest phones).
+    expect(tester.getRect(find.text('Repairs')).bottom, lessThanOrEqualTo(barTop), reason: 'Repairs is whole above the bar at first view');
+    expect(tester.getRect(find.text('Ask Mobi what to practise')).bottom, lessThanOrEqualTo(barTop), reason: 'so is Ask Mobi');
+    final pair = tester.getRect(find.byKey(const ValueKey('choice-quick')));
+    expect(pair.top, greaterThan(tester.getRect(find.text('Ask Mobi what to practise')).bottom), reason: 'the pair comes after the two rows');
+    // One short scroll (about a third of a screen) brings the pair, titles and notes, above the bar.
+    final scrollable = find.byType(Scrollable).first;
+    await tester.drag(scrollable, const Offset(0, -220));
+    await tester.pump(const Duration(milliseconds: 400));
     for (final (id, title, note) in const [('quick', 'Quick practice', PracticeCopy.quickLine), ('chapter', 'By chapter', PracticeCopy.chapterLine)]) {
-      final card = tester.getRect(find.byKey(ValueKey('choice-$id')));
-      expect(card.top, lessThanOrEqualTo(barTop - 120), reason: 'the $id card starts well above the bar');
-      expect(tester.getRect(find.text(title)).bottom, lessThanOrEqualTo(barTop - MmSpace.s24), reason: '$title rests above the bar at first view');
+      expect(tester.getRect(find.byKey(ValueKey('choice-$id'))).top, lessThanOrEqualTo(barTop - 120), reason: 'the $id card starts well above the bar after one scroll');
+      expect(tester.getRect(find.text(title)).bottom, lessThanOrEqualTo(barTop - MmSpace.s24), reason: '$title rests above the bar after one scroll');
       expect(tester.getRect(find.text(note)).top + 20, lessThanOrEqualTo(barTop), reason: 'the first line of the $id note rests above the bar');
     }
   });

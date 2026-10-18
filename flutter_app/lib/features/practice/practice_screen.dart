@@ -32,6 +32,7 @@ import 'widgets/practice_mobi.dart';
 import 'widgets/stale_subjects_banner.dart';
 import 'widgets/subject_tiles.dart';
 import 'widgets/suggestion_hero.dart';
+import 'widgets/top_rows.dart';
 
 /// The Practice tab (L08, brief app-practice-review-1016 section 2): the subject first ("Practise
 /// in", the tiles), then "Up next in [subject]", the one lit start, about that same subject; then
@@ -342,6 +343,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                         index: 2,
                         child: Padding(padding: gutter, child: SuggestionHero(actionKey: _heroKey, compact: true)),
                       ),
+                      const SizedBox(height: MmSpace.s16),
+                      // D2. Repairs (with how many are open) and Ask Mobi what to practise, where a student sees them:
+                      // right under the suggestion, not three screens down (D5).
+                      const MmStaggerItem(index: 2, child: Padding(padding: gutter, child: PracticeTopRows())),
                       const SizedBox(height: MmRhythm.group),
                       // E. Ways to practise, shortest to longest, in one deck: the quick pair, Smart
                       // practice, then the exam band. Not keyed by subject: a new subject keeps the

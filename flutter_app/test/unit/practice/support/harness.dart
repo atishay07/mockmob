@@ -33,6 +33,7 @@ import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/review/data/review_providers.dart' show ReviewInputs, reviewInputsProvider;
 import 'package:mockmob/features/review/revise/revise_data.dart' show reviseEntryProvider;
 import 'package:mockmob/features/review/again/review_again_entry.dart' show reviewAgainCountProvider;
+import 'package:mockmob/features/review/data/review_providers.dart' show openRepairsProvider;
 import 'package:mockmob/features/practice/data/practice_prefs.dart';
 import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
 import 'package:mockmob/features/social/data/mob_repository.dart' show mobRepositoryProvider;
@@ -297,6 +298,9 @@ List<Override> practiceOverrides({
   MemoryPrefsStore? prefs,
   Stream<void>? restored,
   bool lateNightLines = true,
+
+  /// Every mistake open on the account (Practice's Repairs row); null: not read yet, no row.
+  int? openRepairs,
   List<Override> extra = const [],
 }) => [
   practicePrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
@@ -324,6 +328,8 @@ List<Override> practiceOverrides({
   // Its Review again count reads the phone's repair index (the real drift database, which a widget
   // test cannot open): none repaired here, so the row stays hidden.
   reviewAgainCountProvider.overrideWithValue(0),
+  // The Repairs row reads the same index through one count: set per test, none by default.
+  openRepairsProvider.overrideWithValue(openRepairs),
   savedRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: const SavedList(), fetchedAt: testNow)),
   // "Ask Mobi what to practise" (More ways in) reads the record: settled and empty here, so no line under it and no database.
   insightsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),

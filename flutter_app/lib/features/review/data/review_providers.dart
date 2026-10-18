@@ -149,3 +149,8 @@ String subjectName(String id) => switch (id) {
   '' => 'Practice',
   _ => id.replaceAll('_', ' ').replaceFirstMapped(RegExp('^.'), (m) => m[0]!.toUpperCase()),
 };
+
+/// Every mistake still open on the account, or null until the attempts list is read: the one count behind Review's
+/// "N left to repair" header, Today's Repairs tile and "N open in all" line, and Practice's Repairs row, so the screens
+/// can never print different numbers for the same queue (v15 walk, M6).
+final openRepairsProvider = Provider<int?>((ref) => ref.watch(reviewIndexProvider.select((index) => index?.openCount)));
