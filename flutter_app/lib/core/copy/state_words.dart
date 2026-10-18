@@ -30,9 +30,11 @@ abstract final class SavedCopy {
   static String offline(DateTime? lastGoodRead) =>
       lastGoodRead == null ? 'Offline. Showing what is saved on this phone.' : 'Offline. Last loaded ${formatTime12(lastGoodRead)}.';
 
-  /// The server answered badly or not at all while the phone is online: "Could not refresh. Last loaded 7:26 AM."
+  /// The server answered badly or not at all while the phone is online: "Not refreshed. Last loaded 7:26 AM." Short enough
+  /// to hold one line beside the Ask pill on a 360 dp phone at 1.0 text, as the offline line does (v15.1 walk: "Could not
+  /// refresh. Last loaded" wrapped to two lines there and pushed Review's summary and hero down 26 px).
   static String refreshFailed(DateTime? lastGoodRead) =>
-      lastGoodRead == null ? 'Could not refresh. Showing your saved record.' : 'Could not refresh. Last loaded ${formatTime12(lastGoodRead)}.';
+      lastGoodRead == null ? 'Not refreshed. Showing your saved record.' : 'Not refreshed. Last loaded ${formatTime12(lastGoodRead)}.';
 
   /// After a Try again that changed nothing: it still says the last good read, and fits one line (the old "Tried 10:18 AM, still
   /// not loading. Last loaded 10:14 AM." ran off a phone's width and cut the time that mattered, v15 walk).

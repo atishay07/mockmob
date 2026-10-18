@@ -154,9 +154,30 @@ void main() {
       expect(tester.getRect(find.byType(ReviewTabHeader)), before, reason: 'no layout jump');
     });
 
+    testWidgets('at 360 dp and 1.0 text a failed refresh is one line too and the header keeps its place (v15.1 walk)', (tester) async {
+      Future<Rect> header(RemoteState<List<Attempt>> state) async {
+        await pumpMockmob(
+          tester,
+          const ReviewScreen(),
+          size: const Size(360, 3000),
+          disableAnimations: true,
+          wrapInScaffold: false,
+          overrides: reviewOverrides(attemptsState: state),
+        );
+        return tester.getRect(find.byType(ReviewTabHeader));
+      }
+
+      final fresh = await header(RemoteState(value: allAttempts, fetchedAt: eveningUtc));
+      final failed = await header(RemoteState(value: allAttempts, fetchedAt: eveningUtc, error: _server));
+      final line = find.text(ReviewCopy.savedRefreshFailed(DateTime(2026, 10, 13, 21, 40)));
+      expect(line, findsOneWidget);
+      expect(tester.getSize(line).height, lessThan(24), reason: 'one line, as the offline line is');
+      expect(failed, fresh, reason: 'no layout jump: the summary and the hero stay where they were');
+    });
+
     testWidgets('online but the refresh failed', (tester) async {
       await _pump(tester, state: RemoteState(value: allAttempts, fetchedAt: eveningUtc, error: _server));
-      expect(find.text('Could not refresh. Last loaded 9:40 PM.'), findsOneWidget);
+      expect(find.text('Not refreshed. Last loaded 9:40 PM.'), findsOneWidget);
     });
   });
 

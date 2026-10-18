@@ -1,4 +1,4 @@
-// M1 and M2 of the v15 emulator walk. After the network came back Today kept saying "Could not refresh" for over a
+// M1 and M2 of the v15 emulator walk. After the network came back Today kept saying "Not refreshed" for over a
 // minute until the student tapped the line, and the line's time read as the failed try. Now one debounced read runs
 // by itself when the connection returns, the line carries the time of the last GOOD read, and Today and Review say
 // the same words over a saved copy.
@@ -308,9 +308,9 @@ void main() {
           lastTriedAt: tried,
         );
 
-    test('"Could not refresh" names the last good read, never the failed try', () {
+    test('"Not refreshed" names the last good read, never the failed try', () {
       final line = buildHeader(inputs(stale: true)).updatedLine!;
-      expect(line, 'Could not refresh. Last loaded 7:26 AM.');
+      expect(line, 'Not refreshed. Last loaded 7:26 AM.');
       expect(line, isNot(contains('7:32')));
     });
 
@@ -322,7 +322,7 @@ void main() {
 
     test('the older of the two reads stands: a newer plan never makes days-old papers look fresh', () {
       final line = buildHeader(inputs(stale: true, planRead: failedTry)).updatedLine!;
-      expect(line, 'Could not refresh. Last loaded 7:26 AM.');
+      expect(line, 'Not refreshed. Last loaded 7:26 AM.');
     });
 
     test('a fresh read says nothing', () {
@@ -343,7 +343,7 @@ void main() {
       expect(header.refreshable, isTrue, reason: 'online by the monitor: a tap on the line still reads again');
     });
 
-    test('a server error stays "Could not refresh", the same words Review uses', () {
+    test('a server error stays "Not refreshed", the same words Review uses', () {
       final today = buildHeader(inputs(stale: true)).updatedLine;
       final review = HeaderNotice.forFailure(offline: false, lastGoodRead: DateTime.utc(2026, 10, 18, 7, 26));
       expect(review, today);
@@ -351,7 +351,7 @@ void main() {
 
     test('an unknown time never invents one', () {
       expect(SavedCopy.offline(null), 'Offline. Showing what is saved on this phone.');
-      expect(SavedCopy.refreshFailed(null), 'Could not refresh. Showing your saved record.');
+      expect(SavedCopy.refreshFailed(null), 'Not refreshed. Showing your saved record.');
     });
 
     test('the connection and timeout errors are the offline cause; a server error is not', () {

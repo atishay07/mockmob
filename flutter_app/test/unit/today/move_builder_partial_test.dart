@@ -1,7 +1,7 @@
 // L01 (owner 15 and 16 Oct: "Could not reach MockMob" over a record printed under it): a partial
 // failure is never an error card. Only no attempts at all (no live read, no cache) gives the
 // failure card, and that card names its cause, says when it last tried, and on a failed refresh
-// with papers in hand the header says "Could not refresh" instead.
+// with papers in hand the header says "Not refreshed" instead.
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/load_problem.dart';
 import 'package:mockmob/core/domain/next_move.dart';
@@ -51,7 +51,7 @@ void main() {
       expect(view.hero, isA<MoveHero>());
       expect((view.hero! as MoveHero).state, isNot(NextMoveState.historyUnavailable));
       expect(view.header.refreshable, isTrue);
-      expect(view.header.updatedLine, startsWith('Could not refresh. Last loaded '));
+      expect(view.header.updatedLine, startsWith('Not refreshed. Last loaded '));
       final tried = buildToday(withPlan(readyPlan(), attemptsStale: true, lastTried: at.add(const Duration(minutes: 2))));
       expect(tried.header.updatedLine, contains('Still not loading'));
     });
