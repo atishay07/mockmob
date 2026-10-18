@@ -498,7 +498,7 @@ QueueTiles buildQueue(TodayInputs i) {
   // The round is the lead card's own number (10 of 92), from the same function, so the tile and the card agree.
   final round = due == null || due <= 0 ? null : reviseRoundOf(i).size;
   final size = round ?? (due == null ? 5 : math.min(i.reviseCap == 5 ? 5 : 10, due));
-  final minutes = size <= 5 ? 5 : 10;
+  final minutes = size;
   if (all == null) return QueueTiles(reviseDue: due, reviseRound: round, reviseMinutes: minutes);
   if (all.isEmpty) return QueueTiles(repairsOpen: 0, reviseDue: due, reviseRound: round, reviseMinutes: minutes, dayOne: true);
   // Open repairs: the account's one count (Review's index, which Review's header prints too). Only when that index is

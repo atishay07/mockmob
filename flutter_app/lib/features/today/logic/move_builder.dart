@@ -604,7 +604,9 @@ MoveHero _revise(TodayInputs i, MoveFacts f, NextMoveState state, String overlin
   final due = round.due;
   final remaining = round.remaining;
   final size = round.size;
-  final minutes = size <= 5 ? 5 : 10;
+  // A minute a question, so the length token ("about 9 min") and the key ("Start Revise, 9 min")
+  // never disagree when fewer than 10 are left (final walk, H2).
+  final minutes = size;
   final cards = i.reviseCards.take(size).toList();
 
   // Subjects, most questions first (ties keep the server's order).
@@ -652,7 +654,7 @@ MoveHero _revise(TodayInputs i, MoveFacts f, NextMoveState state, String overlin
     subjectLine: title,
     art: HeroArt.object(subject: lead),
     number: '$size',
-    numberLabel: size < due ? TodayCopy.reviseOfDue(due) : TodayCopy.reviseLabel(size),
+    numberLabel: TodayCopy.reviseLabel(size),
     meaning: meaning,
     // See why is always there (TODAY-1017 4.2): the newest paper's why sheet, or, when the round's
     // papers are not on this phone (a fresh install, a second device), Revise itself, which shows
