@@ -387,6 +387,12 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D79-D80 | Pro nudges everywhere ("Get unlimited mocks", "No credits needed for practice with Pro"); any Pro feature tap opens "Upgrade to Pro" | BUILDING: web (Opus, wt-pro-nudge), app (wt-pro-nudge-app; app nudges only with Play billing on, the store rule) |
 | D81 | First-session pop-up after the first real action (never on or right after onboarding), benefits personalised and true; once ever | BUILDING with D79-D80 |
 
+### Owner at about 7:05 pm, 18 Oct (D82-D83)
+| D | Item | Status |
+|---|---|---|
+| D82 | Packs approved: 50 credits Rs 10, 150 Rs 29, 300 Rs 49 (web); Play Rs 15 / 45 / 75; Pro Rs 150 on Play | DECIDED |
+| D83 | Worst-case cost and margin of a Rs 10 / 50-credit pack | ANSWERED 7:10 pm from production runtime_ai_requests (gpt-6-luna avg USD 0.000299, max 0.000479, guard ceiling 0.00237 per reply; a Haiku-class reply about 0.00127). Found: the per-user AI cap would refuse bought credits; fix sent to the credits core agent. Recommendation: a hard output cap per reply, the default on gpt-6-luna |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
