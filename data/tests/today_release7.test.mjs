@@ -144,7 +144,8 @@ test('lead card: "Why this?" sits beside the reason line, a real link with a 44 
   assert.match(page, /askContext=\{askContext\}/);
   // 44 px: the inline entry pads 12 px above and below its line (24 + the 21 px line); the sentence link rule does the same.
   assert.match(read('src/components/ai/ask-entry.css'), /\.ame\.ame--inline \{[^}]*padding: 12px 0/);
-  assert.match(read('src/components/today/today.css'), /a\.tm__inline \{ padding-block: 12px; \}/);
+  // The sentence link rule pads 14 px: an inline box measures its font (about 18 px), not the line, so 12 px measured 42.
+  assert.match(read('src/components/today/today.css'), /a\.tm__inline \{ padding-block: 14px; \}/);
 });
 
 // ---- D28: the greeting by the local hour survives the merge --------------------------------------------------------------------

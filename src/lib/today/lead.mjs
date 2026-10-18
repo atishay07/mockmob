@@ -188,3 +188,15 @@ export function refit(move) {
 
 /** The day's key for the kept pick (sessionStorage `mm:today-pick:v1:<day>`). */
 export const pickKey = (dayKey) => `mm:today-pick:v1:${dayKey}`;
+
+/**
+ * The session length kept on this device (localStorage `mm:today-length:v1`) is stored with the day it was chosen on,
+ * `2026-10-18:20`, so "Kept on this device for today" is true: another day, or an old value with no day, reads as none.
+ */
+export const keepLength = (dayKey, minutes) => `${dayKey}:${minutes}`;
+export function readLength(raw, dayKey, allowed = [10, 20, 30]) {
+  const m = /^(\d{4}-\d{2}-\d{2}):(\d+)$/.exec(String(raw ?? ''));
+  if (!m || m[1] !== dayKey) return null;
+  const n = Number(m[2]);
+  return allowed.includes(n) ? n : null;
+}

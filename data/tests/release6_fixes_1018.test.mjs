@@ -150,7 +150,7 @@ test('the small links are 44 px targets without moving a line: badge names, Best
   const badges = stripComments(read('src/components/study-badges.css'));
   assert.match(badges, /\.sb-badge__open\s*\{[^}]*min-width:\s*44px;\s*padding:\s*12px 0;\s*margin-block:\s*-12px/);
   assert.match(read('src/components/StudyBadges.jsx'), /sb-link sb-link--tap" href=\{r\.href\}>Open that paper/);
-  assert.match(stripComments(read('src/components/today/today.css')), /a\.tm__inline\s*\{\s*padding-block:\s*12px/);
+  assert.match(stripComments(read('src/components/today/today.css')), /a\.tm__inline\s*\{\s*padding-block:\s*14px/);
   assert.match(stripComments(read('src/components/review/review-1018.css')), /\.rv8-inline\s*\{[^}]*display:\s*inline-block;[^}]*padding:\s*12px 0;\s*margin-block:\s*-12px/);
 });
 

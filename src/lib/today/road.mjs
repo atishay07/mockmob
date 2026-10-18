@@ -111,6 +111,12 @@ export function roadFigures({ today, plan = {}, goal = null, taken = null }) {
 }
 
 /**
+ * The mock target in use: the student's own pick when one is held, else the suggestion for the date and days now. One rule for
+ * the road, Change plan's sentence, its highlighted tile and its receipt, so they never show different numbers.
+ */
+export const targetFor = (picked, suggested) => (Number.isInteger(picked) ? picked : suggested);
+
+/**
  * The strip's columns: one per week from this week's Monday to the exam's week, inclusive (or one per day under
  * DAYS_MODE_UNDER days). Each column: { key, planned, counted, current, boards, registration, month } where
  * `planned` is the pips to draw (the goal; 2 in boards weeks), `counted` only for this week (the server's count),
@@ -307,6 +313,8 @@ export function weekMockShare({ target, taken, thisWeek = 0, weeks, weekStart, l
  *   rhythm       GET /api/me/rhythm (weekStart, studyDayDates, studyDays, daysGoal, mocksThisWeek, paused)
  *   weekdays     the planned weekdays (0 = Monday) or null
  *   revise       { due, answeredToday } from GET /api/me/revise (due = still to ask today), or null
+ *   reviseState  'failed' or 'loading' when revise is null because the read did not answer: Revise is then unknown, listed as
+ *                such and never counted, so nothing says "everything due today is done" without it
  *   move         the lead move (its title and minutes name today's session), or null
  *   fig          roadFigures(...)
  *   target       the mock target in use (the student's, else the suggestion)
@@ -315,7 +323,7 @@ export function weekMockShare({ target, taken, thisWeek = 0, weeks, weekStart, l
  *   firstDay     no session saved yet: today is the first day of the plan, and no full mock is asked of this week
  * Returns { today, week, goal } or null when the week is not known yet.
  */
-export function roadLayers({ today, rhythm = null, weekdays = null, revise = null, move = null, fig, target, taken = null, lastMockDay = null, firstDay = false }) {
+export function roadLayers({ today, rhythm = null, weekdays = null, revise = null, reviseState = null, move = null, fig, target, taken = null, lastMockDay = null, firstDay = false }) {
   if (!rhythm?.weekStart || !isDayKey(today) || !fig) return null;
   const idx = Math.max(0, Math.min(6, daysBetween(rhythm.weekStart, today)));
   const counted = new Set(rhythm.studyDayDates || []);
@@ -344,13 +352,18 @@ export function roadLayers({ today, rhythm = null, weekdays = null, revise = nul
   if (leftRevise != null && asked + leftRevise > 0) {
     items.push({ id: 'revise', title: 'Revise', detail: `${asked} of ${asked + leftRevise} questions`, done: leftRevise === 0, href: leftRevise > 0 ? '/review/revise' : null, minutes: leftRevise > 0 ? Math.max(5, Math.ceil(leftRevise / 5) * 5) : null });
   }
+  const reviseUnknown = leftRevise == null && (reviseState === 'failed' || reviseState === 'loading');
+  const unknown = reviseUnknown ? [{ id: 'revise', title: 'Revise', detail: reviseState === 'failed' ? 'Did not load' : 'Loading' }] : [];
+  const unknownLine = reviseState === 'failed' ? 'Revise did not load, so it is not counted.' : 'Checking Revise.';
   const open = items.filter((i) => !i.done);
   const todayLayer = {
+    unknown,
     done: items.length - open.length,
     total: items.length,
     items,
-    rest: !items.length,
-    left: !items.length
+    rest: !items.length && !reviseUnknown,
+    left: reviseUnknown && !open.length ? (items.length ? `Done so far. ${unknownLine}` : unknownLine)
+      : !items.length
       ? (plan ? 'A rest day in your plan. Anything you practise still counts.' : 'Nothing is due today. Anything you practise counts.')
       : !open.length ? 'Everything due today is done.'
         : `Left: ${open.map((i) => (i.id === 'revise' ? `${leftRevise} Revise ${leftRevise === 1 ? 'question' : 'questions'}` : `${i.title.charAt(0).toLowerCase()}${i.title.slice(1)}${i.detail.startsWith('about') ? `, ${i.detail}` : ''}`)).join(', and ')}.`,

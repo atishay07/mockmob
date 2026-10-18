@@ -16,7 +16,7 @@ import { Minus, Plus } from 'lucide-react';
 import { WEEKDAY_SHORT } from '@/lib/studyWeekdays.mjs';
 import {
   addDays, cuetDates, cuetYear, mockChoices, mockPace, sessionsUntil, shortDay, weekdayDay, roadFigures,
-  MOCK_TARGET_MAX,
+  MOCK_TARGET_MAX, targetFor,
 } from '@/lib/today/road.mjs';
 import TodaySheet from './TodaySheet';
 
@@ -105,8 +105,12 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
   const [days, setDays] = useState(() => (Array.isArray(weekdays) && weekdays.length ? [...weekdays] : defaultDays(daysPerWeek)));
   const savedDays = useRef(days);
   const fig = roadFigures({ today, plan: { examDate: exam }, goal: days.length, taken });
-  const [target, setTarget] = useState(plan.mockTarget ?? fig.suggested);
-  const savedTarget = useRef(target);
+  // The target the student has picked, or null: until they pick one it follows the suggestion for the date and days now
+  // on the sentence, so the sentence, the highlighted tile, the receipt and the road always show the same number.
+  const [picked, setPicked] = useState(plan.mockTarget ?? null);
+  const { suggested } = fig;
+  const target = picked ?? suggested;
+  const savedTarget = useRef(plan.mockTarget ?? null);
   const [ownOpen, setOwnOpen] = useState(Boolean(plan.examDate));
   const [month, setMonth] = useState(plan.examDate ? Number(plan.examDate.slice(5, 7)) - 1 : 4);
   const [status, setStatus] = useState('');
@@ -169,11 +173,11 @@ export default function TodayPlanFlow({ open, onClose, startStep = 1, today, pla
   const pickTarget = (n) => {
     if (locked) return;
     const v = Math.min(MOCK_TARGET_MAX, Math.max(floor, n));
-    setTarget(v);
+    setPicked(v);
     setStatus('Saving…');
     window.clearTimeout(timers.current.target);
     timers.current.target = window.setTimeout(async () => {
-      try { await saveRoad({ mockTarget: v }); savedTarget.current = v; setStatus('Saved.'); setAnySaved(true); } catch { setTarget(savedTarget.current); setStatus('Not saved. Your target is unchanged.'); }
+      try { await saveRoad({ mockTarget: v }); savedTarget.current = v; setStatus('Saved.'); setAnySaved(true); } catch { setPicked(savedTarget.current); setStatus('Not saved. Your target is unchanged.'); }
     }, 350);
   };
 

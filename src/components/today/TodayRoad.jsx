@@ -18,11 +18,11 @@
 // PUT /api/me/goal), the rhythm, today's Revise, the full mocks on the record. Unknown is never zero: a read that failed
 // says so in words. Every date says "expected" until NTA publishes; nothing here predicts marks or chances, and a plan
 // is never a debt.
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Flag, SlidersHorizontal } from 'lucide-react';
 import { api } from '@/lib/fetcher';
-import { roadFigures, roadLayers, stripColumns, weekdayDay, shortDay } from '@/lib/today/road.mjs';
+import { roadFigures, roadLayers, stripColumns, targetFor, weekdayDay, shortDay } from '@/lib/today/road.mjs';
 import { todayKeyIn } from '@/lib/today/week.mjs';
 import { clock } from '@/lib/today/move.mjs';
 import TodayPlanFlow from './TodayPlanFlow';
@@ -33,6 +33,9 @@ const lowerFirst = (t) => (/^[A-Z]{2}/.test(t) ? t : `${t.charAt(0).toLowerCase(
 // Up to 16 things get a segment each; more (a target of 27 full mocks) are one continuous stretch filled to the share.
 const MAX_SEGMENTS = 16;
 const LONG_DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+// Revise's read, when it did not give an answer: unknown, never counted as done or as nothing due.
+const reviseState = (read) => (read.status === 'error' || (read.status === 'ready' && !read.data) ? 'failed' : read.status === 'ready' ? null : 'loading');
 
 /** One stretch of road: `total` segments, the first `done` filled; `groups` splits it (study days, then a mock). */
 function Stretch({ done, total, order, groups = null, flag = false }) {
@@ -89,20 +92,31 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const goalNow = goalData?.daysPerWeek ?? rhythm.data?.daysGoal ?? null;
   const taken = facts.status === 'ready' && Number.isInteger(facts.data?.mocks) ? facts.data.mocks : null;
   const fig = roadFigures({ today, plan, goal: goalNow, taken });
-  const target = plan.mockTarget ?? fig.suggested;
+  const target = targetFor(plan.mockTarget, fig.suggested);
   const lastMock = papers.status === 'ready' ? (papers.data || []).find((p) => ['full', 'nta'].includes(p?.mode)) : null;
   const lastMockDay = lastMock ? todayKeyIn(tz, Number(lastMock.completedAt)) : null;
   const rhythmNow = rhythm.data && goalSaved ? { ...rhythm.data, daysGoal: goalSaved.daysPerWeek } : rhythm.data;
   const dayOne = facts.status === 'ready' && facts.data?.sessions === 0;
   const layers = roadLayers({
     today, rhythm: rhythmNow, weekdays: goalData?.weekdays || null,
-    revise: revise.status === 'ready' ? revise.data : null, move: lead, fig, target, taken, lastMockDay, firstDay: dayOne,
+    revise: revise.status === 'ready' ? revise.data : null, reviseState: reviseState(revise), move: lead, fig, target, taken, lastMockDay, firstDay: dayOne,
   });
   const [sel, setSel] = useState(0);
   const [swapKey, setSwapKey] = useState(0);
   const select = (i) => { setSel(i); setSwapKey((k) => k + 1); };
   const [flow, setFlow] = useState(null); // the step Change plan opens on, or null
   const [receipt, setReceipt] = useState('');
+  // Change plan is re-keyed on open and close, so the browser has nothing to give focus back to: return it to the button
+  // that opened the sheet (the header's, or the goal readout's), however the sheet closed (Esc, X, Done, backdrop).
+  const openerRef = useRef(null);
+  const openFlow = (event) => { openerRef.current = event.currentTarget; setFlow(1); };
+  useEffect(() => {
+    if (flow || !openerRef.current) return;
+    const opener = openerRef.current;
+    openerRef.current = null;
+    const target = opener.isConnected && !opener.disabled ? opener : document.querySelector('.trd__change');
+    target?.focus({ preventScroll: true });
+  }, [flow]);
 
   const saveRoad = useCallback(async (body) => {
     const next = await api('/api/me/road', { method: 'PUT', headers: JSON_HEADERS, body: JSON.stringify(body) });
@@ -126,7 +140,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const header = (
     <header className="tg__row trd__head">
       <h2 id="trd-h" className="tg__h">Road to CUET</h2>
-      <button type="button" className="tm__pill trd__change" aria-haspopup="dialog" onClick={() => setFlow(1)} disabled={hold || !layers}><SlidersHorizontal size={16} strokeWidth={1.75} aria-hidden="true" />Change plan</button>
+      <button type="button" className="tm__pill trd__change" aria-haspopup="dialog" onClick={openFlow} disabled={hold || !layers}><SlidersHorizontal size={16} strokeWidth={1.75} aria-hidden="true" />Change plan</button>
     </header>
   );
 
@@ -167,9 +181,10 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const stops = [
     {
       id: 'today', label: 'Due today',
-      figure: day.rest ? 'Rest' : day.done, of: day.rest ? '' : `of ${day.total}`, unit: day.rest ? 'nothing due' : 'done',
+      figure: day.rest ? 'Rest' : day.total ? day.done : day.unknown.length ? '?' : day.done, of: day.rest || !day.total ? '' : `of ${day.total}`,
+      unit: day.rest ? 'nothing due' : day.unknown.length ? (day.total ? 'done so far' : 'Revise unknown') : 'done',
       stretch: <Stretch done={day.done} total={day.rest ? 0 : day.total} order={0} />,
-      aria: `Due today: ${day.rest ? 'nothing, a rest day' : `${day.done} of ${day.total} done`}. ${day.left}`,
+      aria: `Due today: ${day.rest ? 'nothing, a rest day' : day.total ? `${day.done} of ${day.total} done` : 'not known yet'}. ${day.left}`,
     },
     {
       id: 'week', label: 'This week',
@@ -191,13 +206,19 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
     readout = (
       <>
         <h3>Today, {todayName}</h3>
-        {day.items.length ? (
+        {day.items.length || day.unknown.length ? (
           <ul className="trd__items">
             {day.items.map((i) => (
               <li key={i.id} data-done={i.done || undefined}>
                 <span className="trd__mark" aria-hidden="true">{i.done ? <Check size={13} strokeWidth={2.6} /> : null}</span>
                 <span className="trd__item-t"><b>{i.title}</b><span>{i.done ? (i.id === 'revise' ? `${i.detail}, done` : i.detail) : i.detail}</span></span>
                 {!i.done && i.href ? <Link className="tm__pill trd__go" href={i.href}>{i.id === 'revise' ? 'Revise now' : 'Start'}</Link> : null}
+              </li>
+            ))}
+            {day.unknown.map((i) => (
+              <li key={i.id} data-unknown>
+                <span className="trd__mark" aria-hidden="true">?</span>
+                <span className="trd__item-t"><b>{i.title}</b><span>{i.detail}</span></span>
               </li>
             ))}
           </ul>
@@ -241,7 +262,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
             {dayOne ? <p className="trd__note">Set your date and days. It takes three taps.</p> : null}
           </>
         )}
-        <button type="button" className="tm__pill trd__plan" aria-haspopup="dialog" onClick={() => setFlow(1)}><SlidersHorizontal size={16} strokeWidth={1.75} aria-hidden="true" />Change plan</button>
+        <button type="button" className="tm__pill trd__plan" aria-haspopup="dialog" onClick={openFlow}><SlidersHorizontal size={16} strokeWidth={1.75} aria-hidden="true" />Change plan</button>
       </>
     );
   }

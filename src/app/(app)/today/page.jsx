@@ -20,7 +20,7 @@ import { useMobEnabled } from '@/components/mob/MobFlag';
 import { api } from '@/lib/fetcher';
 import { getSubjectById } from '@/../data/subjects';
 import { alternatives as buildAlternatives, buildMove, clock, fitMove } from '@/lib/today/move.mjs';
-import { choiceMoves, leadOf, pickChoices, pickKey, refit } from '@/lib/today/lead.mjs';
+import { choiceMoves, keepLength, leadOf, pickChoices, pickKey, readLength, refit } from '@/lib/today/lead.mjs';
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
 import { TEST_MODES } from '@/../data/test_modes';
 import { usesLine } from '@/lib/creditCopy.mjs';
@@ -49,6 +49,8 @@ const hourNow = () => new Date().getHours();
 const subjectName = (id) => getSubjectById(id)?.name || (id ? id.replace(/_/g, ' ').replace(/^\w/, (c) => c.toUpperCase()) : '');
 const LENGTH_KEY = 'mm:today-length:v1';
 const LENGTHS = [10, 20, 30];
+// This device's own calendar day: the kept length is "for today" on this device.
+const deviceDay = () => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; };
 const reducedMotion = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced'; } catch { return false; } };
 const readStorage = () => { try { return window.localStorage; } catch { return null; } };
 const readPick = (key) => { try { return window.sessionStorage.getItem(key) || null; } catch { return null; } };
@@ -96,7 +98,7 @@ export default function Today() {
   const [saving, setSaving] = useState('');
   useEffect(() => {
     const t = window.setTimeout(() => {
-      try { const v = Number(window.localStorage.getItem(LENGTH_KEY)); if (LENGTHS.includes(v)) setChosen(v); } catch { /* none kept */ }
+      try { const v = readLength(window.localStorage.getItem(LENGTH_KEY), deviceDay(), LENGTHS); if (v) setChosen(v); } catch { /* none kept */ }
     }, 0);
     return () => window.clearTimeout(t);
   }, []);
@@ -104,7 +106,7 @@ export default function Today() {
     const prefs = data.plan.data?.study?.preferences;
     if (!prefs) {
       setChosen(n); data.setMinutes(n); setSaving('local');
-      try { window.localStorage.setItem(LENGTH_KEY, String(n)); } catch { /* tonight only */ }
+      try { window.localStorage.setItem(LENGTH_KEY, keepLength(deviceDay(), n)); } catch { /* tonight only */ }
       return;
     }
     setSaving('saving');

@@ -36,7 +36,7 @@
 .app-shell .tg__of { font: 600 19px/1 var(--font-display); color: var(--a-ink-2); }
 .app-shell .tm__inline { display: inline; padding: 0; border: 0; background: none; color: var(--a-ink); font: inherit; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; cursor: pointer; }
 /* A link inside a sentence is a 44 px target: 12 px of padding above and below on an inline box adds hit area and moves no line. */
-.app-shell a.tm__inline { padding-block: 12px; }
+.app-shell a.tm__inline { padding-block: 14px; }
 .app-shell .tm__inline:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 4px; }
 .app-shell :is(.today, .tsh) .tm__pill, .tsh .tm__pill {
   display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px;
@@ -233,7 +233,7 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
    tapped stop's readout. Each stop's count is drawn as its own stretch of road, near to far, ending at the flag. ---------- */
 .app-shell .trd { animation: today-rise-8 260ms var(--t-out) 120ms both; }
 .app-shell .trd__head { align-items: center; }
-.app-shell .trd__change { min-height: 40px; padding: 0 14px; font-size: 14px; }
+.app-shell .trd__change { min-height: 44px; margin-block: -2px; padding: 0 14px; font-size: 14px; }
 .app-shell .trd__box { border: 1px solid var(--a-line); border-radius: 24px; overflow: hidden; }
 .app-shell .trd__goal { padding: 20px 20px 12px; }
 .app-shell .trd__weeks { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 10px; margin: 0; }
@@ -274,14 +274,15 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .trd__readout[data-swap] { animation: today-rise-4 220ms var(--t-out) both; }
 .app-shell .trd__readout h3 { margin: 0 0 4px; font: 600 15px/1.3 var(--font-body); color: var(--a-ink); }
 .app-shell .trd__items { display: grid; margin: 0; padding: 0; list-style: none; }
-.app-shell .trd__items li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 52px; padding: 6px 0; border-top: 1px solid var(--a-line); }
+.app-shell .trd__items li { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 52px; padding: 4px 0; border-top: 1px solid var(--a-line); }
 .app-shell .trd__items li:first-child { border-top: 0; }
 .app-shell .trd__mark { display: grid; place-items: center; width: 20px; height: 20px; border-radius: 50%; box-shadow: inset 0 0 0 1.5px var(--a-line-strong); color: var(--a-bg); }
 .app-shell .trd__items li[data-done] .trd__mark { background: var(--a-ink); box-shadow: none; }
 .app-shell .trd__item-t { display: grid; gap: 1px; min-width: 0; }
 .app-shell .trd__item-t b { font: 600 14.5px/1.3 var(--font-body); color: var(--a-ink); }
 .app-shell .trd__item-t span { font-size: 13px; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
-.app-shell .today .trd__go { min-height: 40px; padding: 0 14px; font-size: 14px; }
+.app-shell .today .trd__go { min-height: 44px; padding: 0 14px; font-size: 14px; }
+.app-shell .trd__items li[data-unknown] .trd__mark { color: var(--a-ink-3); font: 600 12px/1 var(--font-body); }
 .app-shell .trd__note { margin: 6px 0 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
 .app-shell .trd__note b { color: var(--a-ink); font-weight: 600; }
 .app-shell .trd__plan { justify-self: start; margin-top: 12px; }
@@ -314,6 +315,8 @@ html[data-theme='light'] .app-shell .tw__day[data-state='counted'] .tw__dot { bo
 .app-shell .twk__more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 240ms var(--t-out); }
 .app-shell .twk__more[data-open] { grid-template-rows: 1fr; }
 .app-shell .twk__more > div { min-height: 0; overflow: hidden; }
+/* Collapsed, the row's links are not reachable by Tab (0 px tall but focusable otherwise); they leave the order once the fold has closed. */
+.app-shell .twk__more:not([data-open]) > div { visibility: hidden; transition: visibility 0s 240ms; }
 .app-shell .twk__list { display: grid; gap: 2px; margin: 0; padding: 0 0 6px 32px; list-style: none; }
 .app-shell .twk__mk { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid var(--a-line); }
 .app-shell .twk__mk:first-child { border-top: 0; }
@@ -470,7 +473,7 @@ html[data-theme='light'] .tsh::backdrop { background: rgb(23 32 22 / 0.32); }
 .tsh .tpf__cal { margin-top: 10px; padding: 12px; border: 1px solid var(--a-line); border-radius: 16px; }
 .tsh .tpf__cal-h { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 8px; font: 600 15px/1 var(--font-body); }
 .tsh .tpf__cal-m { display: inline-flex; gap: 4px; }
-.tsh .tpf__cal-m button { min-height: 36px; padding: 0 12px; border: 1px solid var(--a-line-strong); border-radius: 18px; background: transparent; color: var(--a-ink-2); font: 600 13.5px/1 var(--font-body); cursor: pointer; }
+.tsh .tpf__cal-m button { min-height: 44px; margin-block: -4px; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 18px; background: transparent; color: var(--a-ink-2); font: 600 13.5px/1 var(--font-body); cursor: pointer; }
 .tsh .tpf__cal-m button[aria-pressed='true'] { background: var(--a-ink); color: var(--a-bg); border-color: var(--a-ink); }
 .tsh .tpf__cal-g { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 2px; text-align: center; }
 .tsh .tpf__cal-g > span { padding: 4px 0; font-size: 11.5px; font-weight: 600; color: var(--a-ink-3); }
@@ -519,7 +522,7 @@ html[data-theme='light'] .tsh .tpf__done { box-shadow: inset 0 0 0 1px rgb(82 10
 @media (max-width: 559px) {
   .app-shell .twk__row { grid-template-columns: minmax(0, 1fr); gap: 0; }
   .app-shell .twk__open { padding-bottom: 6px; }
-  .app-shell .twk__practise { justify-self: start; min-height: 40px !important; margin: 0 0 14px 32px; padding: 0 14px !important; }
+  .app-shell .twk__practise { justify-self: start; min-height: 44px !important; margin: 0 0 10px 32px; padding: 0 14px !important; }
   .tsh .tpf__sentence { font-size: 22px; }
   .tsh .tpf__ans { padding: 12px 12px 11px; }
   .tsh .tpf__answers--3 .tpf__ans-big { font-size: 30px; }

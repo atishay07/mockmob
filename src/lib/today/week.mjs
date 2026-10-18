@@ -165,6 +165,7 @@ export function dayReadout({ mark, index, papers = null, repairs = null, dayKey,
     return { title, lines: out, note: out.length ? (m ? `Still to come: ${m.slice(9)}` : '') : m || 'Any session today counts toward your week.' };
   }
   if (out.length) return { title: long, lines: out, note: '' };
+  if (mark.state === 'counted') return { title: long, lines: out, note: 'Counted as a study day. The session is not listed here.' };
   if (mark.state === 'before') return { title: long, lines: out, note: 'Before your first session.' };
   if (mark.state === 'rest') return { title: long, lines: out, note: 'A rest day in your plan. Anything you practise still counts.' };
   if (mark.state === 'planned') {

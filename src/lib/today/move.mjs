@@ -150,7 +150,6 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     id, overline, number: open, label: open === 1 ? 'mistake to repair' : 'mistakes to repair',
     why: `${open === last.wrong ? (open === 1 ? 'It is from' : `All ${word(open)} are from`) : `${plural(open, 'open mistake')} from`} ${lastName} on ${lastWhen}.${extra}${sparseClause}`,
     key: { label: 'Start repair', href: `/result/${encodeURIComponent(last.id)}`, minutes: repairMinutes(open) },
-    link: { label: 'See why', href: `/result/${encodeURIComponent(last.id)}` },
     pills: pills(papers.length < 2 ? 'mock' : 'else'), art: 'object', subject: last.subject, firstWeek, open, paperAt: last.completedAt,
     aiEach: 1, // each repair uses 1 AI credit; the card says so, with the balance, before the press
   });
