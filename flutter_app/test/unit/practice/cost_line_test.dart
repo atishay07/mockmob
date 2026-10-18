@@ -86,9 +86,9 @@ void main() {
   group('credits low', () {
     final low = q(state: 'blocked', launchable: false, reasonCode: 'insufficient_credits', cost: 10, balance: 8);
 
-    test('quick and chapter practice use the exact spec sentence', () {
+    test('quick and chapter practice say what the set takes (the count is not known here, so no advice to shorten)', () {
       final c = creditsLowFor(low)!;
-      expect(c.message(PracticeMode.quick), 'You have 8 credits, and this takes 10. One chapter takes the same.');
+      expect(c.message(PracticeMode.quick), 'You have 8 credits, and this takes 10.');
       expect(c.message(PracticeMode.chapter), c.message(PracticeMode.quick));
     });
 

@@ -121,7 +121,7 @@ void main() {
           ),
         );
 
-    testWidgets('a changed selection keeps the rows, quieter, until the new quote lands; no skeleton, no second rise', (tester) async {
+    testWidgets('a changed selection keeps the rows, quieter, until the new quote lands; no skeleton, no second rise, no old cost', (tester) async {
       late StateSetter set;
       AsyncValue<PracticeQuote>? quote = AsyncData(dailyFree(count: 10));
       var pending = false;
@@ -141,7 +141,10 @@ void main() {
       });
       await tester.pump();
       expect(find.text(PracticeCopy.whatYouGet), findsOneWidget, reason: 'the ticket stays; the body does not turn into a skeleton');
-      expect(find.textContaining('10 questions'), findsWidgets, reason: 'the old figures hold while the new quote is read');
+      expect(find.textContaining('20 questions'), findsWidgets, reason: 'the length now chosen is named at once');
+      expect(find.textContaining('10 questions'), findsNothing, reason: 'the old length is never shown beside the new one');
+      expect(find.text(PracticeCopy.costChecking), findsOneWidget, reason: 'the held cost belongs to the old length, so the row says it is checking');
+      expect(find.text(PracticeCopy.freeToday), findsNothing, reason: 'no figure of the old length');
       final held = tester.widget<AnimatedOpacity>(find.byType(AnimatedOpacity).first);
       expect(held.opacity, lessThan(1), reason: 'held a step lighter');
       // The new quote lands: the figures change in place.

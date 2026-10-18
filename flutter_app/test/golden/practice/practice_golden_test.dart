@@ -301,7 +301,7 @@ void main() {
       });
 
       testWidgets('confirm, credits low', (tester) async {
-        final quotes = FakeQuoteRepository((s, m, c, p) => c == 10 ? dailyFree() : lowCredits());
+        final quotes = FakeQuoteRepository((s, m, c, p) => c == 10 ? dailyFree() : lowCredits(cost: c ?? 10, count: c ?? 10));
         await _pump(tester, '/practice/setup/quick?subject=accountancy&count=15', b, practiceOverrides(quotes: quotes, learn: catalog(due: 2)));
         await _settle(tester);
         await _shot(tester, 'setup_credits_low', b);
