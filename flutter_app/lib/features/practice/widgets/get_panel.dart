@@ -55,22 +55,13 @@ class GetPanel extends StatefulWidget {
   State<GetPanel> createState() => _GetPanelState();
 }
 
-/// The ticket as last shown, kept so a changed selection that is being quoted again does not blank it.
-class _HeldTicket {
-  const _HeldTicket({required this.selection, required this.quote, required this.costText, required this.subjectName});
-
-  final PracticeSelection selection;
-  final PracticeQuote quote;
-  final String? costText;
-  final String subjectName;
-}
-
 class _GetPanelState extends State<GetPanel> {
-  /// What the panel last showed as a finished ticket; null before the first one and after any other state. A 5, 10, 15 or
+  /// The quote the panel last showed a finished ticket for, kept so the ticket's rows stay in place while a new length is
+  /// quoted; null before the first one and after any other state. A 5, 10, 15 or
   /// 20 tap used to turn the whole body into a grey skeleton for the length of the quote and then rise the rows in again:
   /// on every tap the panel flickered (v15 walk). The finished ticket now stays, quieter, until the new quote lands, and
   /// the new figures replace the old ones in place. The skeleton is for the first quote of the sheet only.
-  _HeldTicket? _held;
+  PracticeQuote? _held;
 
   static const _ticketKey = ValueKey('get-ticket');
 
@@ -99,10 +90,11 @@ class _GetPanelState extends State<GetPanel> {
       if (held != null) {
         return _Ticket(
           key: _ticketKey,
-          selection: held.selection,
-          quote: held.quote,
-          costText: held.costText,
-          subjectName: held.subjectName,
+          // The length now chosen, not the one the held quote was for; the held quote only keeps the rows in place.
+          selection: selection,
+          quote: held,
+          costText: null,
+          subjectName: subjectName,
           checking: true,
         );
       }
@@ -160,7 +152,7 @@ class _GetPanelState extends State<GetPanel> {
       return PlainNotice(message: line.text!);
     }
     final costText = line.kind == CostKind.none ? null : line.text;
-    _held = _HeldTicket(selection: selection, quote: q, costText: costText, subjectName: subjectName);
+    _held = q;
     // One key for the sheet's whole life: the rows rise in once, the first time, and a new quote replaces the figures in
     // place (a change of 5 to 20 questions is a number changing, not a panel arriving again).
     return _Ticket(key: _ticketKey, selection: selection, quote: q, costText: costText, subjectName: subjectName);
@@ -241,8 +233,11 @@ class _TicketState extends State<_Ticket> with SingleTickerProviderStateMixin {
     final subjectName = widget.subjectName;
     final colors = context.mmColors;
     final type = context.mmType;
-    final count = quote.count ?? selection.effectiveCount;
-    final time = quote.durationSec == null ? null : Duration(seconds: quote.durationSec!);
+    // While a changed length is being quoted the line names the length now chosen and holds the time back, and the cost
+    // row says it is checking: the held quote's figures belong to the old length and are never shown beside the new one.
+    final checking = widget.checking;
+    final count = checking ? selection.effectiveCount : quote.count ?? selection.effectiveCount;
+    final time = checking || quote.durationSec == null ? null : Duration(seconds: quote.durationSec!);
     final get = selection.mode.isMock
         ? PracticeCopy.mockGetLine(count, time == null ? null : (time.inSeconds / 60).round())
         : PracticeCopy.getLine(count, time);
@@ -252,18 +247,21 @@ class _TicketState extends State<_Ticket> with SingleTickerProviderStateMixin {
       // No chapters row: the chapter field above names the chosen ones, and "all chapters" is what a
       // quick practice already is.
       (PracticeCopy.summaryMarking, PracticeCopy.markingValue),
-      (PracticeCopy.summaryCost, costText ?? (quote.entitlementKind == 'access' ? PracticeCopy.costIncluded : PracticeCopy.costFree)),
+      (
+        PracticeCopy.summaryCost,
+        checking ? PracticeCopy.costChecking : costText ?? (quote.entitlementKind == 'access' ? PracticeCopy.costIncluded : PracticeCopy.costFree),
+      ),
     ];
     // Held quietly while the next quote is read: the same rows in the same places, a step lighter, so a changed length
     // reads as a number about to change and nothing jumps.
     return AnimatedOpacity(
-      opacity: widget.checking ? 0.5 : 1,
+      opacity: checking ? 0.5 : 1,
       duration: Motion.of(context, Motion.ui),
       curve: Motion.out,
       child: Semantics(
         container: true,
-        liveRegion: widget.checking,
-        label: widget.checking
+        liveRegion: checking,
+        label: checking
             ? PracticeCopy.checkingCost
             : '${PracticeCopy.whatYouGet}, $subjectName, ${modeTitle(selection.mode)}. $get ${[if (difficulty != null) '${PracticeCopy.difficultyLabel}: $difficulty', if (!selection.mode.isMock) chapters.isEmpty ? PracticeCopy.allChapters : PracticeCopy.chaptersSummary(chapters), for (final r in rows) '${r.$1}: ${r.$2}'].join('. ')}',
         excludeSemantics: true,

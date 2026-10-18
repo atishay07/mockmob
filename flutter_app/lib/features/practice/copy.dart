@@ -253,8 +253,8 @@ abstract final class PracticeCopy {
   static const String signInAgain = 'Sign in again to continue.';
 
   // Credits low.
-  static String creditsLowPractice(int balance, int cost) =>
-      'You have ${plural(balance, 'credit')}, and this takes $cost. One chapter takes the same.';
+  static String creditsLowPractice(int balance, int cost, {bool shorterPossible = false}) =>
+      'You have ${plural(balance, 'credit')}, and this takes $cost.${shorterPossible ? ' A shorter set takes fewer.' : ''}';
   static String creditsLowMock(int balance, int cost, String modeLabel) =>
       'You have ${plural(balance, 'credit')}, and a $modeLabel takes $cost.';
 

@@ -49,14 +49,18 @@ CostLine costLineFor(PracticeQuote quote) {
 
 /// The credits-low state (spec 5.4): the balance and what this mode costs, both from the quote.
 class CreditsLow {
-  const CreditsLow({required this.balance, required this.cost});
+  const CreditsLow({required this.balance, required this.cost, this.count});
 
   final int balance;
   final int cost;
 
+  /// The length the quote was for. A practice set costs a credit a question, so a length above the shortest can be made
+  /// shorter; the sentence says so only then.
+  final int? count;
+
   String message(PracticeMode mode) => mode.isMock
       ? PracticeCopy.creditsLowMock(balance, cost, mode == PracticeMode.nta ? 'exam-day mock' : 'Full mock')
-      : PracticeCopy.creditsLowPractice(balance, cost);
+      : PracticeCopy.creditsLowPractice(balance, cost, shorterPossible: (count ?? 0) > mode.counts.first);
 }
 
 CreditsLow? creditsLowFor(PracticeQuote quote) {
@@ -64,7 +68,7 @@ CreditsLow? creditsLowFor(PracticeQuote quote) {
   final cost = quote.creditCost;
   final balance = quote.creditBalance;
   if (cost == null || balance == null) return null;
-  return CreditsLow(balance: balance, cost: cost);
+  return CreditsLow(balance: balance, cost: cost, count: quote.count);
 }
 
 /// Whether a mode row for [mode] should be shown at all. NTA-style appears only when the quote

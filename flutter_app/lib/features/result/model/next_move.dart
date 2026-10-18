@@ -24,8 +24,8 @@ abstract final class NextMoveRules {
   /// "Practise 10 on {chapter}".
   static const setSize = 10;
 
-  /// Practice credits for a 10-question Quick practice.
-  static const practiceCost = 10;
+  /// Practice credits for this set: a Free student pays 1 credit a question (owner, 18 Oct), so the cost follows the size.
+  static const practiceCost = setSize;
 
   /// With 5 or fewer left, the time for all of them is said.
   static const fewRepairs = 5;

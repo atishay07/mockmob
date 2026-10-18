@@ -150,7 +150,7 @@ void main() {
   });
 
   testWidgets('credits low names the free paths, and the daily practice only when the quote confirms it', (tester) async {
-    final quotes = FakeQuoteRepository((s, m, c, p) => c == 10 ? dailyFree() : lowCredits());
+    final quotes = FakeQuoteRepository((s, m, c, p) => c == 10 ? dailyFree() : lowCredits(cost: c ?? 10, count: c ?? 10));
     await pumpRouted(
       tester,
       location: '/practice/setup/quick?subject=accountancy&count=15',
@@ -158,7 +158,7 @@ void main() {
       overrides: practiceOverrides(quotes: quotes, learn: catalog(due: 2)),
     );
     await settle(tester);
-    expect(text('You have 8 credits, and this takes 10. One chapter takes the same.'), findsOneWidget);
+    expect(text('You have 8 credits, and this takes 15. A shorter set takes fewer.'), findsOneWidget);
     expect(text('Free right now'), findsOneWidget);
     expect(text('Learn'), findsOneWidget);
     expect(text('Your answers and keys, explanations included'), findsOneWidget);

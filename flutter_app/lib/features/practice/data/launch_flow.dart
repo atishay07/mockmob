@@ -54,10 +54,15 @@ bool quoteSpendsCredits(PracticeQuote quote) => !quote.freeByAllowance && (quote
 
 /// True when [fresh] asks the student to pay more than [shown] did.
 bool costWentUp(PracticeQuote shown, PracticeQuote fresh) {
-  final before = shown.freeByAllowance ? 0 : (shown.creditCost ?? 0);
-  final after = fresh.freeByAllowance ? 0 : (fresh.creditCost ?? 0);
-  return after > before;
+  return effectiveCreditCost(fresh) > effectiveCreditCost(shown);
 }
+
+/// What [quote] asks the student to pay, as the check below reads it: nothing when an allowance covers it.
+int effectiveCreditCost(PracticeQuote quote) => quote.freeByAllowance ? 0 : (quote.creditCost ?? 0);
+
+/// True when the quote the student saw was for another length than the one being started. A practice set costs a
+/// credit a question, so a figure shown for 5 questions says nothing about 20: such a quote is never launched on.
+bool quoteIsForOtherCount(PracticeQuote shown, PracticeSelection selection) => shown.count != null && shown.count != selection.effectiveCount;
 
 /// The shared launch of spec 5.4: re-quote after expiry, never launch on a quote that is now
 /// blocked or dearer than the one shown, look up the mock number, then start.
@@ -77,14 +82,18 @@ Future<LaunchResult> launchPractice(WidgetRef ref, PracticeSelection selection, 
 
 Future<LaunchResult> _launchPractice(WidgetRef ref, PracticeSelection selection, PracticeQuote shown) async {
   var quote = shown;
-  if (quote.isExpiredAt(ref.read(nowProvider)())) {
+  final otherCount = quoteIsForOtherCount(shown, selection);
+  if (otherCount || quote.isExpiredAt(ref.read(nowProvider)())) {
     try {
       quote = await requote(ref, selection.quoteQuery);
     } on ApiError catch (e) {
       return LaunchFailed(failureFor(e));
     }
     if (!quote.launchable) return LaunchNeedsLook(quote, costChanged: false);
-    if (costWentUp(shown, quote)) return LaunchNeedsLook(quote, costChanged: true);
+    // A figure the student saw for another length is not one they agreed to: any difference is shown again, not only a
+    // dearer one.
+    final changed = otherCount ? effectiveCreditCost(quote) != effectiveCreditCost(shown) : costWentUp(shown, quote);
+    if (changed) return LaunchNeedsLook(quote, costChanged: true);
   }
   if (!quote.launchable) return LaunchNeedsLook(quote, costChanged: false);
 

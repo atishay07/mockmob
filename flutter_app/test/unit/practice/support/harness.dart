@@ -88,13 +88,14 @@ PracticeQuote dailyFree({int count = 10}) =>
     quoteOf(cost: 0, allowance: {'kind': 'daily_practice', 'state': 'available'}, durationSec: count * 60, count: count);
 PracticeQuote creditsQuote({int cost = 10, int balance = 100, String mode = 'quick', int count = 10}) =>
     quoteOf(cost: cost, balance: balance, durationSec: mode == 'full' ? 3600 : count * 60, count: count, mode: mode);
-PracticeQuote lowCredits({int cost = 10, int balance = 8}) => quoteOf(
+PracticeQuote lowCredits({int cost = 10, int balance = 8, int count = 10}) => quoteOf(
   state: 'blocked',
   launchable: false,
   reasonCode: 'insufficient_credits',
   reason: 'Quick Practice costs 10 credits and you have 8.',
   cost: cost,
   balance: balance,
+  count: count,
 );
 PracticeQuote proGate() => quoteOf(
   state: 'blocked',
