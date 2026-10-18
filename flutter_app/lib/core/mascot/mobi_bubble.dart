@@ -13,7 +13,7 @@ enum MobiTail { down, up, left, right }
 /// start, so nothing reflows), the bubble grows out of its tail, and TalkBack reads the whole
 /// line once. Under reduced motion the line is simply there.
 class MobiBubble extends StatefulWidget {
-  const MobiBubble({super.key, required this.speech, this.tail = MobiTail.down, this.maxWidth = 260, this.delay = 0.18, this.boxed = true, this.tailInset});
+  const MobiBubble({super.key, required this.speech, this.tail = MobiTail.down, this.maxWidth = 260, this.delay = 0.18, this.boxed = true, this.tailInset, this.large = false});
 
   final MobiSpeech speech;
   final MobiTail tail;
@@ -29,6 +29,10 @@ class MobiBubble extends StatefulWidget {
   /// For [MobiTail.up] and [MobiTail.down]: how far the tail's tip sits from the bubble's right
   /// edge, so it can point at a Mobi who is not centred under the bubble. Null centres it.
   final double? tailInset;
+
+  /// One type step up (17/23 in place of 15/20): for a tall phone where the bubble has the
+  /// content width and the line should read at arm's length (onboarding, D44).
+  final bool large;
 
   @override
   State<MobiBubble> createState() => _MobiBubbleState();
@@ -102,7 +106,9 @@ class _MobiBubbleState extends State<MobiBubble> with SingleTickerProviderStateM
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final style = type.labelLarge.copyWith(fontSize: 15, height: 20 / 15, color: colors.ink);
+    final style = widget.large
+        ? type.labelLarge.copyWith(fontSize: 17, height: 23 / 17, color: colors.ink)
+        : type.labelLarge.copyWith(fontSize: 15, height: 20 / 15, color: colors.ink);
     final text = widget.speech.text;
     final pad = !widget.boxed
         ? EdgeInsets.zero

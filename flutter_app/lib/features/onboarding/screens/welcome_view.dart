@@ -187,7 +187,8 @@ class _WelcomeViewState extends State<WelcomeView> {
     // stands in its lit ellipse, as large as the painting says (shrunk only to stay under the
     // wordmark), and his line sits above him to the left, ending before the pinned sheet so it
     // never covers it.
-    final wordmarkBottom = pad.top + MmSpace.s16 + 26 + MmSpace.s16;
+    // The wordmark stands 24 dp under the status bar, never in it (D40).
+    final wordmarkBottom = pad.top + MmSpace.s24 + 26 + MmSpace.s16;
     final room = LayoutBuilder(
       builder: (context, box) {
         final layout = colors.isNight
@@ -381,7 +382,7 @@ class _WelcomeViewState extends State<WelcomeView> {
           const Positioned.fill(child: IgnorePointer(child: Grain())),
           Positioned(
             left: WelcomeView.gutter,
-            top: pad.top + MmSpace.s16,
+            top: pad.top + MmSpace.s24,
             child: Wordmark(height: 26, color: colors.ink),
           ),
         ],

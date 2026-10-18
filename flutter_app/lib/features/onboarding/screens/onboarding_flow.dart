@@ -31,6 +31,7 @@ import '../steps/worry_step.dart';
 import '../widgets/answer_sheet_card.dart';
 import '../widgets/choice_tile.dart';
 import '../widgets/guide_bar.dart';
+import '../widgets/step_frame.dart';
 import '../widgets/keyboard_watch.dart';
 import '../widgets/plan_seal_moment.dart';
 import 'welcome_view.dart';
@@ -72,8 +73,11 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
   /// The start key was tapped before the stored sheet was read: the deck opens when it is.
   bool _startWhenLoaded = false;
 
-  /// The guide Mobi in the top bar.
+  /// The guide Mobi, standing in each step's group (StepFrame).
   final MobiController _mobi = MobiController();
+
+  /// The step Mobi said hello on, this visit.
+  String? _greetOn;
   Timer? _hush;
   Timer? _lookBack;
 
@@ -305,7 +309,13 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
         }
       }
       final cue = mobiCueFor(before, after);
-      if (cue != null) _perform(cue);
+      // After the frame: a cue that comes with a new step is for the Mobi in that step's group,
+      // who attaches as it builds.
+      if (cue != null) {
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          if (mounted) _perform(cue);
+        });
+      }
     });
 
     if (!widget.skipColdOpen && cold && !_coldDone) {
@@ -347,6 +357,8 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
 
     final step = _current(answers);
     _armReveal(step);
+    // Mobi waves hello on the first step of this visit only; after that he simply stands.
+    _greetOn ??= step.id;
     final saveFailed = ref.watch(onboardingSaveFailedProvider);
     return PopScope(
       canPop: false,
@@ -384,67 +396,65 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                   constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
-                    // The guide bar is laid over the column, so Mobi's bubble can run over the
-                    // top of the sheet for a moment without the sheet painting over it.
-                    child: Stack(
+                    // The bar stands under the status bar with its own room; the sheet strip under
+                    // it, then the step, whose frame balances Mobi and the answers in what is left.
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            const SizedBox(height: GuideBar.height),
-                            // The sheet stays put from step to step (only its bubbles and lines
-                            // change); it folds away, rather than vanishing, where a step shows
-                            // its own copy or none.
-                            KeyboardWatch(
-                              builder: (context, keyboardOpen) => _SheetSlot(
-                              child: _showsSheet(step, keyboardOpen: keyboardOpen)
-                                  ? AnswerSheetCard(
-                                      key: const ValueKey('sheet'),
-                                      answers: answers,
-                                      now: ref.watch(nowProvider)(),
-                                      current: step.id,
-                                      // Compact on every step: the weeks to the window are read under the road on the first
-                                      // step itself, so the reveal card does not say them twice.
-                                      compact: true,
-                                      // A one-line strip on every step; the whole card only for
-                                      // the first step's cold reveal.
-                                      slim: step.id != Steps.stage || _sheetRevealed,
-                                    )
-                                  : const SizedBox(key: ValueKey('none'), width: double.infinity),
-                              ),
-                            ),
-                            // An answer the phone could not keep is said, with a way to retry.
-                            if (saveFailed)
-                              Padding(
-                                padding: const EdgeInsets.only(top: MmSpace.s12),
-                                child: InlineBanner(
-                                  message: OnboardingCopy.saveFailed,
-                                  tone: BannerTone.warning,
-                                  actionLabel: OnboardingCopy.tryAgain,
-                                  onAction: () => unawaited(_c.retrySave()),
-                                ),
-                              ),
-                            Expanded(
-                              child: GuideGlance(
-                                onGlance: _glance,
-                                child: _StepSwitcher(
-                                  forward: _forward,
-                                  child: KeyedSubtree(key: ValueKey(step.id), child: _body(step, answers)),
-                                ),
-                              ),
-                            ),
-                          ],
+                        GuideBar(
+                          onBack: () => _back(answers),
+                          onSkip: step.skippable && !answers.isDone(step.id) ? () => _skip(answers) : null,
                         ),
-                        Positioned(
-                          left: 0,
-                          right: 0,
-                          top: 0,
-                          child: GuideBar(
-                            controller: _mobi,
-                            onBack: () => _back(answers),
-                            onSkip: step.skippable && !answers.isDone(step.id) ? () => _skip(answers) : null,
-                            // The first move has its own Mobi, pointing at Start.
-                            showMobi: step.kind != StepKind.firstMove,
+                        // The sheet stays put from step to step (only its bubbles and lines
+                        // change); it folds away, rather than vanishing, where a step shows
+                        // its own copy or none.
+                        KeyboardWatch(
+                          builder: (context, keyboardOpen) => _SheetSlot(
+                          child: _showsSheet(step, keyboardOpen: keyboardOpen)
+                              ? AnswerSheetCard(
+                                  key: const ValueKey('sheet'),
+                                  answers: answers,
+                                  now: ref.watch(nowProvider)(),
+                                  current: step.id,
+                                  // Compact on every step: the weeks to the window are read under the road on the first
+                                  // step itself, so the reveal card does not say them twice.
+                                  compact: true,
+                                  // A one-line strip on every step; the whole card only for
+                                  // the first step's cold reveal.
+                                  slim: step.id != Steps.stage || _sheetRevealed,
+                                )
+                              : const SizedBox(key: ValueKey('none'), width: double.infinity),
+                          ),
+                        ),
+                        // An answer the phone could not keep is said, with a way to retry.
+                        if (saveFailed)
+                          Padding(
+                            padding: const EdgeInsets.only(top: MmSpace.s12),
+                            child: InlineBanner(
+                              message: OnboardingCopy.saveFailed,
+                              tone: BannerTone.warning,
+                              actionLabel: OnboardingCopy.tryAgain,
+                              onAction: () => unawaited(_c.retrySave()),
+                            ),
+                          ),
+                        Expanded(
+                          child: GuideGlance(
+                            onGlance: _glance,
+                            child: _StepSwitcher(
+                              forward: _forward,
+                              child: KeyedSubtree(
+                                key: ValueKey(step.id),
+                                // The deck's Mobi and the way back reach the step's frame. The
+                                // first step has no labelled Back (the bar's icon returns to
+                                // Welcome); every later one does, and Back keeps the answers.
+                                child: StepGuide(
+                                  mobi: _mobi,
+                                  onBack: _steps(answers).indexWhere((s) => s.id == step.id) > 0 ? () => _back(answers) : null,
+                                  entrance: _greetOn == step.id ? MobiAct.hello : MobiAct.idle,
+                                  child: _body(step, answers),
+                                ),
+                              ),
+                            ),
                           ),
                         ),
                       ],

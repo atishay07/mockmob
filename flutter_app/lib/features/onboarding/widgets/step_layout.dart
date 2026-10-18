@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import 'entrance.dart';
-import 'keyboard_watch.dart';
+import 'step_frame.dart';
 
 /// The common body of a step under the sheet: the question as a headline, one line of support,
 /// the answers (scrolling when they need to), and the action area pinned at the bottom. It builds
@@ -17,11 +16,11 @@ class StepLayout extends StatelessWidget {
     required this.body,
     this.support,
     this.bottom,
-    this.scroll = true,
     this.titleKey,
     this.endInset = fade + MmSpace.s8,
     this.hideBottomForKeyboard = true,
     this.tight = false,
+    this.backInRow = true,
   });
 
   final String title;
@@ -30,7 +29,6 @@ class StepLayout extends StatelessWidget {
 
   /// Pinned under the body: the primary action, and anything that belongs with it.
   final Widget? bottom;
-  final bool scroll;
 
   /// On the question, for tests that measure it.
   final Key? titleKey;
@@ -48,11 +46,14 @@ class StepLayout extends StatelessWidget {
   /// height: for a step whose body and pinned keys both need the room (the save step).
   final bool tight;
 
+  /// The labelled Back sits left of [bottom] (off for a step that places it itself).
+  final bool backInRow;
+
   /// The end inset of a step whose last answers are tiles (the rhythm step's times).
   static const double tileEndInset = 72;
 
   /// The fade above the pinned key (SPACING.md 4.5).
-  static const double fade = MmSpace.s24;
+  static const double fade = StepFrame.fade;
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +62,11 @@ class StepLayout extends StatelessWidget {
     // Short phones (360 by 640) give the answers the room: the head tightens by 8 dp.
     final short = tight || MediaQuery.sizeOf(context).height < 720;
     final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.3);
+    // Under Mobi the frame keeps the gap; with no Mobi above (a step pumped alone) the head keeps
+    // its own room from the strip.
+    final guided = StepGuide.of(context)?.mobi != null;
     final head = Padding(
-      padding: EdgeInsets.only(top: short ? MmSpace.s16 : MmSpace.s24),
+      padding: EdgeInsets.only(top: guided ? 0 : (short ? MmSpace.s16 : MmSpace.s24)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -91,30 +95,16 @@ class StepLayout extends StatelessWidget {
       ),
     );
 
-    final content = scroll
-        ? SingleChildScrollView(
-            // Dragging the list puts the keyboard away, so the pinned key comes back.
-            keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-            // Clear of the fade above the pinned key, so the last choice can scroll fully clear.
-            padding: EdgeInsets.only(bottom: endInset),
-            child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, body]),
-          )
-        : Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, Expanded(child: body)]);
-
+    final bottom = this.bottom;
+    // Every step stands in the one frame (D40, D43, D44): the group balanced in the free height
+    // with Mobi above it, the action row with Back pinned at the foot.
     return StepEntrance(
-      // The pinned key steps out of the way while the keyboard is up (a step with a text field).
-      child: KeyboardWatch(
-        builder: (context, open) => Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(child: bottom == null ? content : _FadeWhenMore(child: content)),
-            if (bottom != null && !(hideBottomForKeyboard && open))
-              Padding(
-                padding: EdgeInsets.only(top: MmSpace.s8, bottom: MediaQuery.paddingOf(context).bottom + MmSpace.s12),
-                child: EntranceItem(at: Entrance.key, child: bottom!),
-              ),
-          ],
-        ),
+      child: StepFrame(
+        endInset: endInset,
+        hideBottomForKeyboard: hideBottomForKeyboard,
+        backInRow: backInRow,
+        content: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [head, body]),
+        bottom: bottom == null ? null : EntranceItem(at: Entrance.key, child: bottom),
       ),
     );
   }
@@ -126,73 +116,5 @@ class StepLayout extends StatelessWidget {
     final fits = !p.didExceedMaxLines;
     p.dispose();
     return fits;
-  }
-}
-
-/// A 24 dp fade into the ground above the pinned key, shown only while there is more below, so
-/// nothing at rest sits half-dimmed under it and a long list reads as scrolling, not cut off.
-class _FadeWhenMore extends StatefulWidget {
-  const _FadeWhenMore({required this.child});
-
-  final Widget child;
-
-  @override
-  State<_FadeWhenMore> createState() => _FadeWhenMoreState();
-}
-
-class _FadeWhenMoreState extends State<_FadeWhenMore> {
-  final ValueNotifier<bool> _more = ValueNotifier<bool>(false);
-
-  bool _onMetrics(ScrollMetrics m) {
-    final more = m.extentAfter > 1;
-    if (more != _more.value) _more.value = more;
-    return false;
-  }
-
-  @override
-  void dispose() {
-    _more.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return NotificationListener<ScrollMetricsNotification>(
-      onNotification: (n) => n.depth == 0 && _onMetrics(n.metrics),
-      child: NotificationListener<ScrollNotification>(
-        onNotification: (n) => n.depth == 0 && _onMetrics(n.metrics),
-        child: Stack(
-          children: [
-            Positioned.fill(child: widget.child),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: StepLayout.fade,
-              child: IgnorePointer(
-                child: ValueListenableBuilder<bool>(
-                  valueListenable: _more,
-                  builder: (context, more, child) => AnimatedOpacity(
-                    opacity: more ? 1 : 0,
-                    duration: Motion.of(context, const Duration(milliseconds: 160)),
-                    child: child,
-                  ),
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [colors.ground.withValues(alpha: 0), colors.ground],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

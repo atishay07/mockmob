@@ -5,85 +5,51 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 
-/// The deck's top bar: Back, the guide Mobi standing on the answer sheet below him, his line in
-/// a bubble beside him, and Skip when the step allows it. 48 dp targets. The bubble may run
-/// below the bar for a moment while Mobi talks, so the flow lays this over the sheet.
+/// The deck's top bar: the small Back icon and Skip when the step allows it, 48 dp targets. It
+/// stands [topGap] under the status bar, so nothing on a step sits in it (D40). Mobi no longer
+/// rides here: he stands in each step's group, sized to the phone (D44, StepFrame).
 class GuideBar extends StatelessWidget {
   const GuideBar({
     super.key,
-    required this.controller,
     required this.onBack,
     required this.onSkip,
-    this.showMobi = true,
   });
 
-  static const double height = 56;
-  static const double mobiSize = 64;
+  /// The bar's own height (the targets are 48 dp, centred).
+  static const double height = 48;
 
-  final MobiController controller;
+  /// The room between the status bar and the bar, so its icon sits 24 dp or more under it.
+  static const double topGap = MmSpace.s12;
+
+  /// The bar with the room above it.
+  static const double extent = topGap + height;
+
   final VoidCallback onBack;
   final VoidCallback? onSkip;
-
-  /// Off where the step has its own, larger Mobi.
-  final bool showMobi;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final mobiWidth = MobiFigure.widthFor(mobiSize);
-    const mobiLeft = 56.0;
-    return SizedBox(
-      height: height,
-      child: Stack(
-        clipBehavior: Clip.none,
-        children: [
-          Row(
-            children: [
-              // The label sits on the pressable itself, so TalkBack's double tap reaches onTap.
-              MmPressable(
-                semanticsLabel: OnboardingCopy.back,
-                onTap: onBack,
-                pressedScale: 0.9,
-                builder: (context, pressed, _) => SizedBox.square(
-                  dimension: 48,
-                  child: Center(child: Icon(LucideIcons.arrowLeft, size: 22, color: pressed ? colors.ink2 : colors.ink)),
-                ),
-              ),
-              const Spacer(),
-              if (onSkip != null) KeyButton.quiet(label: OnboardingCopy.skip, onPressed: onSkip),
-            ],
-          ),
-          if (showMobi) ...[
-            Positioned(
-              left: mobiLeft,
-              bottom: 0,
-              // An input-heavy screen: he does not twitch at every tap. The flow glances on purpose, at
-              // the thing the student just changed (GuideGlance), and the sheet's bubble inks.
-              child: MobiCharacter(
-                controller: controller,
-                size: mobiSize,
-                entrance: MobiAct.hello,
-                interactive: true,
-                watchTaps: false,
-                seed: 11,
+    return Padding(
+      padding: const EdgeInsets.only(top: topGap),
+      child: SizedBox(
+        height: height,
+        child: Row(
+          children: [
+            // The label sits on the pressable itself, so TalkBack's double tap reaches onTap.
+            MmPressable(
+              semanticsLabel: OnboardingCopy.back,
+              onTap: onBack,
+              pressedScale: 0.9,
+              builder: (context, pressed, _) => SizedBox.square(
+                dimension: 48,
+                child: Center(child: Icon(LucideIcons.arrowLeft, size: 22, color: pressed ? colors.ink2 : colors.ink)),
               ),
             ),
-            Positioned(
-              left: mobiLeft + mobiWidth + 2,
-              right: onSkip == null ? 0 : 72,
-              top: 2,
-              child: ValueListenableBuilder<MobiSpeech?>(
-                valueListenable: controller.speech,
-                builder: (context, speech, _) => Align(
-                  alignment: Alignment.topLeft,
-                  child: speech == null
-                      ? const SizedBox.shrink()
-                      : MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.left, maxWidth: 260),
-                ),
-              ),
-            ),
+            const Spacer(),
+            if (onSkip != null) KeyButton.quiet(label: OnboardingCopy.skip, onPressed: onSkip),
           ],
-        ],
+        ),
       ),
     );
   }
