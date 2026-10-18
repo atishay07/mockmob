@@ -1,6 +1,8 @@
 # NOW: MockMob current state (overwrite at every handoff; git keeps the history)
 
-**Last written:** 19 Oct 2026, about 2:25 am IST, by session 25ef3d95 (main, Claude Opus 5.5, CEO/CTO).
+**Last written:** 19 Oct 2026, about 2:12 am IST, by the Autopilot session 6f206609 (fork of 25ef3d95; Claude Opus 5.5, CEO/CTO). The owner started Autopilot at 2:07 am; he is asleep.
+
+**2:10 am:** the previous session ended and all 10 agents died within minutes, with no commits; only 2 uncommitted edits were left in wt-1019-a2a. All 10 were RELAUNCHED from their saved briefs (docs/brain/briefs-1019/01-10) with a RESUMED line, in the same worktrees. The disk clean-up (brief 11) had already finished.
 
 **THE GOAL AND THE PLAN FOR TONIGHT'S UNATTENDED RUN: `docs/brain/AUTOPILOT-GOAL-1019.md`.** Read it completely first. It is the source of truth until 9:00 AM. It covers:
 - what done means;
@@ -16,7 +18,7 @@
 - **Web:** www.mockmob.in = main 23a7c090 (release 10). Flags WALLET_COMMERCE_OPEN, PLAY_BILLING_ENABLED and PERSISTENT_LIMITS_ENABLED are OFF.
 - **App:** v15.2 ab04b067 (1.0.15+7) on his phone (V2413, 10BF370PA6002XR).
 
-## Running (launched about 2:05 am; exact briefs in `docs/brain/briefs-1019/`)
+## Running (relaunched about 2:10 am by the Autopilot session; exact briefs in `docs/brain/briefs-1019/`)
 - **App owners:**
   - A1, shell and Practice: wt-1019-a1.
   - A2a, onboarding and colleges: wt-1019-a2a.
