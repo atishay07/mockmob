@@ -97,7 +97,7 @@ void main() {
         expect(c.key, isNot('repair'));
         expect(c.hero, isNotNull);
       }
-      expect(view.choices.first.line, '6 due, about 10 min');
+      expect(view.choices.first.line, '6 due, about 6 min');
     });
   });
 

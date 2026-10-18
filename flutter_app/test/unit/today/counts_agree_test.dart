@@ -24,11 +24,11 @@ void main() {
   final saturday = DateTime.utc(2026, 10, 17, 14, 40);
 
   group('the Revise tile and the lead card say the same round', () {
-    test('92 due: the lead says "10 of 92 due today" and the tile says the same figure, not the whole backlog', () {
+    test('92 due: the lead names the round (10), as the Revise page does, and the tile says the same figure', () {
       final i = ashaInputs(now: saturday, reviseDue: 92);
       final lead = reviseMoveFor(i)!;
       expect(lead.number, '10');
-      expect(lead.numberLabel, TodayCopy.reviseOfDue(92));
+      expect(lead.numberLabel, TodayCopy.reviseLabel(10));
       final queue = buildQueue(i);
       expect(queue.reviseDue, 92);
       expect(queue.reviseRound, 10);
@@ -60,7 +60,7 @@ void main() {
       expect(buildQueue(ashaInputs(now: saturday)).reviseDue, isNull);
     });
 
-    testWidgets('on screen the tile reads "10 of 92 due today", and "7 due today" when the round is all of them', (tester) async {
+    testWidgets('on screen the tile reads "10 due today" for the round, and "7 due today" when the round is all of them', (tester) async {
       Future<void> pump(int due) => pumpMockmob(
             tester,
             Padding(padding: const EdgeInsets.all(16), child: QueueTilesBlock(queue: buildQueue(ashaInputs(now: saturday, reviseDue: due)))),
@@ -68,8 +68,8 @@ void main() {
           );
       await pump(92);
       expect(find.text('10'), findsOneWidget);
-      expect(find.text('of 92 due today'), findsOneWidget);
-      expect(find.bySemanticsLabel(RegExp('^Revise\\. 10 of 92 due today')), findsOneWidget);
+      expect(find.text('due today'), findsOneWidget);
+      expect(find.text('of 92 due today'), findsNothing);
       await pump(7);
       expect(find.text('7'), findsOneWidget);
       expect(find.text('due today'), findsOneWidget);

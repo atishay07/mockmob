@@ -42,7 +42,7 @@ void main() {
       expect(m.kind, MoveKind.revise);
       expect(m.overline, isNot(contains('first week')));
       expect(m.number, '10');
-      expect(m.numberLabel, 'of 92 due\ntoday');
+      expect(m.numberLabel, TodayCopy.reviseLabel(10));
       expect(m.primary.label, 'Start Revise, 10 min');
     });
 

@@ -374,9 +374,10 @@ class _Readout extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
+    // Today leads with what is next; the day's papers follow (final walk, H4).
     final lines = [
-      ...readout.lines,
       if (readout.isToday) upNext ?? GlanceCopy.moveNotLoaded,
+      ...readout.lines,
     ];
     // The old words leave and then the new day's rise into place (220 ms): never both readable at once. Reduced motion swaps at once.
     return MmFadeThrough(

@@ -207,6 +207,16 @@ List<DayReadout>? buildReadouts(TodayInputs i) {
       () {
         final date = monday.add(Duration(days: d));
         final papers = [for (final a in all.reversed) if (i.date(a.completedAt) == date) a];
+        String lineOf(Attempt a) => unopened.contains(a.id)
+            ? '${paperLabel(all, a)}, ${subjectName(a.subject)}, ${a.total} questions, result waiting, ${formatTime12(i.clock(a.completedAt))}'
+            : GlanceCopy.paperLine(paperLabel(all, a), subjectName(a.subject), a.total, a.marks, a.maxMarks, formatTime12(i.clock(a.completedAt)));
+        // A busy day reads as a summary and the latest paper, never a raw log of every paper (final walk, H4).
+        if (papers.length > 2) {
+          final mocks = papers.where((a) => a.isMock).length;
+          final lines = [GlanceCopy.daySummary(mocks, papers.length - mocks), GlanceCopy.latestPaper(lineOf(papers.last))];
+          if (d == today) return DayReadout(title: GlanceCopy.todayTitle(date, planned: planned != null && planned.contains(d)), lines: lines, isToday: true);
+          return DayReadout(title: GlanceCopy.dayTitle(date), lines: lines);
+        }
         final lines = [
           for (final a in papers)
             unopened.contains(a.id)
@@ -294,13 +304,16 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   final last = board.lastMockAt;
   final nextDue = every == null ? null : (last == null ? i.date() : last.add(Duration(days: every)));
   final dueThisWeek = mocksKnown && all.isNotEmpty && mocksThisWeek == 0 && nextDue != null && !nextDue.isAfter(sunday);
-  final plannedMocks = mocksThisWeek + (dueThisWeek ? 1 : 0);
+  // What the pace asks of this week (one mock every [every] days), never every mock already taken:
+  // 13 extra mocks are not 13 things that were due (final walk, H5).
+  final weeklyDue = every == null || every <= 0 ? 1 : math.max(1, 7 ~/ every);
+  final plannedMocks = mocksThisWeek > 0 || dueThisWeek ? weeklyDue : 0;
   // The next mock's day, on a day the plan studies (the weeks ahead names the same day).
   final nextOn = nextDue == null ? null : snapToPlan(nextDue.isBefore(i.date()) ? i.date() : nextDue, plannedWeekdays(i));
   final weekItems = <DueItem>[
     if (goal != null) DueItem(label: GlanceCopy.itemStudyWeek(studyDone, goal), done: studyDone >= goal),
     if (plannedMocks > 0)
-      DueItem(label: GlanceCopy.itemMockWeek(mocksThisWeek, plannedMocks), done: mocksThisWeek >= plannedMocks, target: dueThisWeek && i.attempts != null ? GoTo(TodayLinks.fullMock(subject: all.isEmpty ? null : all.first.subject)) : null)
+      DueItem(label: GlanceCopy.itemMockWeek(math.min(mocksThisWeek, plannedMocks), plannedMocks), done: mocksThisWeek >= plannedMocks, target: dueThisWeek && i.attempts != null ? GoTo(TodayLinks.fullMock(subject: all.isEmpty ? null : all.first.subject)) : null)
     else if (nextDue != null && mocksKnown && all.isNotEmpty)
       DueItem(label: GlanceCopy.itemMockWeekNone(GlanceCopy.dayShort(nextOn!)), done: false, info: true),
   ];

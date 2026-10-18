@@ -73,6 +73,12 @@ abstract final class GlanceCopy {
       minutes == null ? 'Up next: ${_lowerFirst(title)}.' : 'Up next: ${_lowerFirst(title)}, about ${plural(minutes, 'minute')}.';
   static String paperLine(String label, String subject, int questions, int marks, int outOf, String time) =>
       '$label, $subject, $questions questions, $marks of $outOf, $time';
+  static String daySummary(int mocks, int quick) {
+    final parts = [if (mocks > 0) plural(mocks, 'full mock'), if (quick > 0) plural(quick, 'quick set')];
+    return '${parts.join(' and ')} saved.';
+  }
+
+  static String latestPaper(String line) => 'Latest: $line';
   static String noSession(int goal) => 'No session saved that day. The week still counts any $goal days.';
   static const String noSessionNoGoal = 'No session saved that day.';
   static const String restDay = 'A rest day in your plan. Anything you practise still counts.';
