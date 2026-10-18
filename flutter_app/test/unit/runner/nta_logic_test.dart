@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart' show AppLifecycleState;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/runner/logic/sheet_cells.dart';
@@ -229,6 +230,79 @@ void main() {
         expect(g.strikes, 0, reason: '4 s in all, but never 3 s in one go');
         await tester.pump(const Duration(milliseconds: 1100));
         expect(g.strikes, 1);
+        g.dispose();
+      });
+    });
+
+    group('the app lifecycle, as the website reads the tab (M-003)', () {
+      NtaIntegrity real() => NtaIntegrity(sessionId: 's1', store: store, onTerminate: () => terminations++, isLive: () => live);
+
+      testWidgets('a notification shade pulled for 2 s (inactive, then resumed) is forgiven', (tester) async {
+        final g = real();
+        await g.load();
+        g.onLifecycle(AppLifecycleState.inactive);
+        await tester.pump(const Duration(seconds: 2));
+        g.onLifecycle(AppLifecycleState.resumed);
+        await tester.pump(const Duration(seconds: 5));
+        expect(g.strikes, 0);
+        expect(g.locksAnswers, isFalse);
+        g.dispose();
+      });
+
+      testWidgets('a shade held past 3 s counts once', (tester) async {
+        final g = real();
+        await g.load();
+        g.onLifecycle(AppLifecycleState.inactive);
+        await tester.pump(const Duration(milliseconds: 3100));
+        expect(g.strikes, 1);
+        g.onLifecycle(AppLifecycleState.resumed);
+        g.dispose();
+      });
+
+      testWidgets('a deliberate switch (inactive, hidden, paused) counts at once, and only once', (tester) async {
+        final g = real();
+        await g.load();
+        g.onLifecycle(AppLifecycleState.inactive);
+        await tester.pump(const Duration(milliseconds: 300));
+        g.onLifecycle(AppLifecycleState.hidden);
+        expect(g.strikes, 1, reason: 'no 3 s grace for a real switch');
+        g.onLifecycle(AppLifecycleState.paused);
+        await tester.pump(const Duration(seconds: 6));
+        expect(g.strikes, 1, reason: 'the pending cover was dropped and the absence counts once');
+        expect(g.lastViolation, NtaViolation.left);
+        g.dispose();
+      });
+
+      testWidgets('three deliberate switches end the paper, with no grace between them', (tester) async {
+        final g = real();
+        await g.load();
+        for (var i = 0; i < 3; i++) {
+          g.onLifecycle(AppLifecycleState.hidden);
+          g.onLifecycle(AppLifecycleState.resumed);
+          g.acknowledge();
+        }
+        expect(g.strikes, 3);
+        expect(g.terminated, isTrue);
+        expect(terminations, 1);
+        g.dispose();
+      });
+
+      testWidgets('a switch right after the shade, with the first return in between, still counts', (tester) async {
+        final g = real();
+        await g.load();
+        g.onLifecycle(AppLifecycleState.inactive);
+        await tester.pump(const Duration(seconds: 1));
+        g.onLifecycle(AppLifecycleState.resumed);
+        g.onLifecycle(AppLifecycleState.hidden);
+        expect(g.strikes, 1);
+        g.dispose();
+      });
+
+      testWidgets('detached counts nothing', (tester) async {
+        final g = real();
+        await g.load();
+        g.onLifecycle(AppLifecycleState.detached);
+        expect(g.strikes, 0);
         g.dispose();
       });
     });
