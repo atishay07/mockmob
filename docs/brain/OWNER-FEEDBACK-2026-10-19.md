@@ -144,3 +144,8 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 
 **Finding:** Autopilot had forked this session (6f206609) and launched 10 duplicate agents. He stopped it. The original agents are alive.
 **Ledger D113:** no Autopilot tonight. Session 25ef3d95 keeps its 10 agents and runs the plan. When this account nears its limit, STOP POINTs are made and the work waits for the reset or for him.
+
+## CTO pick under D112, 19 Oct about 2:45 am (the owner is away)
+**C-pick 1, web navigation: option A,** the same five places as the app: Today, Practice (with Your papers, Learn, Explore, Saved), Start, Mob (with Your standing), You (with Progress, Marks trend, Colleges, Wallet, Guide, Show me around). Ask Mobi becomes Mobi's own door at the foot of the sidebar.
+- Why: he picked this structure for the app (D105, D106). It answers all of G24. It is the calmest sidebar and the only phone sheet with no scroll. Every page keeps its own link and route (R3).
+- Board images: tmp/design-1019/web-nav/BOARD-*.png. Design: docs/design-decisions/pass-1019/WEB-NAV-1019.md. He can switch to B or C.
