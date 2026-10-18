@@ -1,7 +1,7 @@
 // The weeks ahead (D52 item 2, TODAY-SWIPE-1018, mock today.html #ahead): a vertical timeline in
 // v10's dated-list form, never a strip to decode (N1). Next week first, with its planned weekdays as
 // chips (the suggested mock's day filled) and the stopwatch when a full mock is suggested; then two
-// more weeks; then "Then, at this pace": half the goal, registration, the boards and CUET UG with
+// more weeks, each with its planned weekdays too; then "Then, at this pace": half the goal, registration, the boards and CUET UG with
 // its date pill. A week row opens Change plan for that week. On the ground, split by hairlines, no
 // card. The rows draw in once, top to bottom, the first time the block comes into view (40 ms
 // apart, 220 ms ease-out, 6 dp and opacity); under reduced motion everything is in place at once.
@@ -16,23 +16,17 @@ import '../copy_ahead.dart';
 import '../logic/today_model.dart';
 import '../logic/weeks_ahead.dart';
 import 'glance_rows.dart' show GlanceHead;
-import 'plan_flow_sheet.dart' show PlanFlowBody, PlanFooterHost, PlanFooterSlot;
+import 'plan_flow_sheet.dart' show showPlanFlow;
 import 'reveal_once.dart';
 import 'road_section.dart' show RoadActions;
 import 'today_tones.dart';
 import 'today_type.dart';
 
-/// Change plan, opened from one week of the timeline: the plan's own sentence on its study days
-/// (the week's figures are its study days and its suggested mock), titled with the week.
-Future<String?> showWeekPlan(BuildContext context, {required AheadWeek week, required RoadLayers layers, required RoadModel road, RoadActions? actions}) {
-  final slot = PlanFooterSlot();
-  return showMmSheet<String>(
-    context: context,
-    title: AheadCopy.planTitle(week.monday),
-    builder: (context) => PlanFlowBody(layers: layers, road: road, actions: actions, initialStep: 1, footerSlot: slot),
-    footer: (context) => PlanFooterHost(slot: slot),
-  );
-}
+/// Change plan, opened from a week of the timeline. The plan is one weekly rhythm to the exam (no
+/// week is stored on its own), so the sheet is the plain Change plan on its study days step: the
+/// title never promises a change to one week that the save would make to every week.
+Future<String?> showWeekPlan(BuildContext context, {required RoadLayers layers, required RoadModel road, RoadActions? actions}) =>
+    showPlanFlow(context, layers: layers, road: road, actions: actions, initialStep: 1);
 
 class WeeksAheadBlock extends StatelessWidget {
   const WeeksAheadBlock({super.key, required this.ahead, this.onWeek});
@@ -66,6 +60,7 @@ class WeeksAheadBlock extends StatelessWidget {
         GlanceHead(title: AheadCopy.title, sub: a.perWeek == null ? AheadCopy.datesOnly : AheadCopy.pace(a.perWeek!)),
         const SizedBox(height: MmSpace.s8),
         RevealOnce(
+          id: 'today-weeks-ahead',
           length: total,
           builder: (context, progress) => Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -104,7 +99,7 @@ class _Arrive extends StatelessWidget {
       builder: (context, child) {
         final v = Motion.out.transform(Interval(start.clamp(0.0, 1.0), end.clamp(0.0, 1.0)).transform(progress.value));
         if (v >= 1) return child!;
-        return Opacity(opacity: v, child: Transform.translate(offset: Offset(0, 6 * (1 - v)), child: child));
+        return Opacity(opacity: v, alwaysIncludeSemantics: true, child: Transform.translate(offset: Offset(0, 6 * (1 - v)), child: child));
       },
     );
   }
@@ -239,7 +234,7 @@ class _WeekRow extends StatelessWidget {
           const SizedBox(height: 2),
           Text(line, style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink2)),
         ],
-        if (chips != null && w.next) ...[const SizedBox(height: MmSpace.s8), chips],
+        if (chips != null) ...[const SizedBox(height: MmSpace.s8), chips],
       ],
     );
     final thumb = w.next && w.mocks.isNotEmpty;

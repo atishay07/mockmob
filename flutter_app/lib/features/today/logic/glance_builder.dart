@@ -293,12 +293,14 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
   final nextDue = every == null ? null : (last == null ? i.date() : last.add(Duration(days: every)));
   final dueThisWeek = mocksKnown && all.isNotEmpty && mocksThisWeek == 0 && nextDue != null && !nextDue.isAfter(sunday);
   final plannedMocks = mocksThisWeek + (dueThisWeek ? 1 : 0);
+  // The next mock's day, on a day the plan studies (the weeks ahead names the same day).
+  final nextOn = nextDue == null ? null : snapToPlan(nextDue.isBefore(i.date()) ? i.date() : nextDue, plannedWeekdays(i));
   final weekItems = <DueItem>[
     if (goal != null) DueItem(label: GlanceCopy.itemStudyWeek(studyDone, goal), done: studyDone >= goal),
     if (plannedMocks > 0)
       DueItem(label: GlanceCopy.itemMockWeek(mocksThisWeek, plannedMocks), done: mocksThisWeek >= plannedMocks, target: dueThisWeek && i.attempts != null ? GoTo(TodayLinks.fullMock(subject: all.isEmpty ? null : all.first.subject)) : null)
     else if (nextDue != null && mocksKnown && all.isNotEmpty)
-      DueItem(label: GlanceCopy.itemMockWeekNone(GlanceCopy.dayShort(nextDue.isBefore(i.date()) ? i.date() : nextDue)), done: false, info: true),
+      DueItem(label: GlanceCopy.itemMockWeekNone(GlanceCopy.dayShort(nextOn!)), done: false, info: true),
   ];
   final int plannedDone = math.min<int>(studyDone, goal ?? 0) + math.min<int>(mocksThisWeek, plannedMocks);
   final plannedAll = (goal ?? 0) + plannedMocks;
@@ -339,7 +341,7 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
     weekKnown: w != null,
     weekMocksPlanned: plannedMocks,
     weekMocksDone: math.min(mocksThisWeek, plannedMocks),
-    nextMockOn: plannedMocks == 0 && nextDue != null && mocksKnown && all.isNotEmpty ? (nextDue.isBefore(i.date()) ? i.date() : nextDue) : null,
+    nextMockOn: plannedMocks == 0 && nextOn != null && mocksKnown && all.isNotEmpty ? nextOn : null,
     weekEnds: sunday,
     goalItems: [
       DueItem(label: GlanceCopy.itemExamOn(board.examDate, own: board.ownDate), done: false, info: true),

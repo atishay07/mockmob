@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/art/art.dart' show HybridStopwatch;
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show Mobi;
 import 'package:mockmob/features/today/copy_ahead.dart';
@@ -16,6 +17,7 @@ import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/logic/weeks_ahead.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
+import 'package:mockmob/features/today/widgets/reveal_once.dart';
 import 'package:mockmob/features/today/widgets/today_header.dart';
 import 'package:mockmob/features/today/widgets/weak_chapters.dart';
 import 'package:mockmob/features/today/widgets/weeks_ahead.dart';
@@ -110,7 +112,7 @@ void main() {
       expect(a.studyDaysLeft, isNull);
     });
 
-    testWidgets('a week row opens Change plan for that week', (tester) async {
+    testWidgets('a week row opens the plain Change plan: the plan is one rhythm, so the title names no week', (tester) async {
       final view = buildToday(_inputs());
       await _pump(tester, TodayBody(view: view, skeletonDelay: Duration.zero, callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {})), size: const Size(412, 4200));
       expect(find.text(AheadCopy.title), findsOneWidget);
@@ -118,20 +120,90 @@ void main() {
       expect(find.text('4 study days and a full mock'), findsOneWidget);
       expect(find.text('CUET UG expected'), findsOneWidget);
       expect(find.text('Sat 1 May'), findsOneWidget);
+      final before = find.text(GlanceCopy.planTitle).evaluate().length;
       await tester.tap(find.text('4 study days and a full mock'));
       await tester.pumpAndSettle();
-      expect(find.text(AheadCopy.planTitle(DateTime.utc(2026, 10, 26))), findsOneWidget);
+      expect(find.text(GlanceCopy.planTitle), findsNWidgets(before + 1));
+      expect(find.textContaining('week of', findRichText: true), findsNothing);
       expect(find.text(GlanceCopy.askDays), findsOneWidget);
     });
   });
 
-  test("a mock keeps the pace's own day, the one Road to CUET names, even on a day not planned", () {
-    // Last full mock 11 days ago (Wed 7 Oct): the next is due Tue 20 Oct, which Asha does not plan.
+  test('a suggested mock lands on a planned day, the same day Road to CUET names', () {
+    // Last full mock 11 days ago (Wed 7 Oct): the pace says Tue 20 Oct, a day Asha leaves free, so
+    // the mock is suggested for her next planned day, Thu 22 Oct, in both places.
     final i = ashaInputs(now: sunday, attempts: ashaRecord(DateTime.utc(2026, 10, 9, 14, 10)), week: sundayWeek, reviseDue: 6);
     final v = buildToday(i);
     final next = v.glance!.ahead!.weeks.first;
-    expect(next.mocks.single.on, DateTime.utc(2026, 10, 20));
-    expect(v.glance!.road!.nextMockOn, DateTime.utc(2026, 10, 20));
+    expect(next.mocks.single.on, DateTime.utc(2026, 10, 22));
+    expect(next.days, contains(next.mocks.single.on.weekday - 1));
+    expect(v.glance!.road!.nextMockOn, DateTime.utc(2026, 10, 22));
+    expect(snapToPlan(DateTime.utc(2026, 10, 20), {0, 3, 5, 6}), DateTime.utc(2026, 10, 22));
+    expect(snapToPlan(DateTime.utc(2026, 10, 22), {0, 3, 5, 6}), DateTime.utc(2026, 10, 22));
+    expect(snapToPlan(DateTime.utc(2026, 10, 20), null), DateTime.utc(2026, 10, 20));
+  });
+
+  testWidgets('every week row with planned days shows them; next week holds the mock and the stopwatch', (tester) async {
+    final i = ashaInputs(now: sunday, attempts: ashaRecord(DateTime.utc(2026, 10, 9, 14, 10)), week: sundayWeek, reviseDue: 6);
+    final a = buildToday(i).glance!.ahead!;
+    await _pump(tester, SingleChildScrollView(child: WeeksAheadBlock(ahead: a, onWeek: (_) {})));
+    // As the approved mock: full mock 8 next week, a bare week of 26 Oct, full mock 9 the week of 2 Nov.
+    expect([for (final w in a.weeks) w.mocks.map((m) => m.number).toList()], [[8], <int>[], [9]]);
+    expect(find.text('4 study days and a full mock'), findsNWidgets(2));
+    // Seven letters a week, on all three weeks.
+    expect(find.text('M'), findsNWidgets(3));
+    expect(find.byType(HybridStopwatch), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  group('the reveal', () {
+    Widget block(List<double> seen) => RevealOnce(
+          id: 'test-block',
+          length: const Duration(milliseconds: 200),
+          builder: (context, p) => AnimatedBuilder(
+            animation: p,
+            builder: (context, _) {
+              seen.add(p.value);
+              return const SizedBox(height: 100);
+            },
+          ),
+        );
+
+    testWidgets('a block that played is in place when the lazy list builds it again', (tester) async {
+      final seen = <double>[];
+      final scroll = ScrollController();
+      await tester.pumpWidget(MaterialApp(home: Scaffold(body: ListView(controller: scroll, children: [block(seen), const SizedBox(height: 4000)]))));
+      await tester.pumpAndSettle();
+      expect(seen.last, 1);
+      scroll.jumpTo(3000);
+      await tester.pump();
+      expect(find.byType(RevealOnce), findsNothing);
+      seen.clear();
+      scroll.jumpTo(0);
+      await tester.pump();
+      expect(find.byType(RevealOnce), findsOneWidget);
+      expect(seen, isNotEmpty);
+      expect(seen.every((v) => v == 1), isTrue);
+    });
+
+    testWidgets('it plays when a block above shrinks it into view with no scroll', (tester) async {
+      final seen = <double>[];
+      var tall = true;
+      late StateSetter set;
+      await tester.pumpWidget(MaterialApp(
+        home: Scaffold(
+          body: StatefulBuilder(builder: (context, s) {
+            set = s;
+            return SingleChildScrollView(child: Column(children: [SizedBox(height: tall ? 2000 : 10), block(seen)]));
+          }),
+        ),
+      ));
+      await tester.pumpAndSettle();
+      expect(seen.last, 0);
+      set(() => tall = false);
+      await tester.pumpAndSettle();
+      expect(seen.last, 1);
+    });
   });
 
   group('your marks', () {
@@ -163,9 +235,13 @@ void main() {
       await _pump(tester, SingleChildScrollView(child: YourMarksBlock(trend: view.glance!.marks, paper: view.glance!.paper, onOpen: (_) {})));
       expect(find.text(AheadCopy.marksTitle), findsOneWidget);
       expect(find.text(GlanceCopy.paperTitle), findsOneWidget);
+      // The change on the one before is said once, on the marks line; Last paper keeps its date.
+      final change = view.glance!.paper!.paper.change!;
+      expect(find.textContaining(change, findRichText: true), findsOneWidget);
       await _pump(tester, SingleChildScrollView(child: YourMarksBlock(paper: view.glance!.paper, onOpen: (_) {})));
       expect(find.text(AheadCopy.marksTitle), findsNothing);
       expect(find.text(GlanceCopy.paperTitle), findsOneWidget);
+      expect(find.textContaining(change, findRichText: true), findsOneWidget);
     });
   });
 

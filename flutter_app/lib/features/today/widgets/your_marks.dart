@@ -2,7 +2,8 @@
 // Today, merged with Last paper so no block is added. The last six full mocks in the move's subject
 // (each point its real marks, the newest lit and named in the figure face), a dashed round-number
 // reference, one line in words ("204 on Mock 7, your best of these 6. +33 on Mock 6."), then the
-// Last paper block unchanged under a hairline. With fewer than two full mocks there is no line and
+// Last paper block under a hairline, its sub-line the date alone when it is that same mock (the
+// change is said once). With fewer than two full mocks there is no line and
 // the block is Last paper alone, as before. The line draws once, 600 ms, the first time it comes
 // into view, and the newest point pops from 0.95; under reduced motion it is all there at once.
 import 'dart:math' as math;
@@ -61,6 +62,7 @@ class YourMarksBlock extends StatelessWidget {
           child: SizedBox(
             height: chartHeight,
             child: RevealOnce(
+              id: 'today-your-marks',
               length: drawLength,
               builder: (context, progress) => RepaintBoundary(
                 child: CustomPaint(
@@ -99,7 +101,8 @@ class YourMarksBlock extends StatelessWidget {
           const SizedBox(height: 18),
           Divider(height: 1, thickness: 1, color: colors.line),
           const SizedBox(height: MmSpace.s16),
-          LastPaperBlock(detail: p, onOpen: onOpen, headed: false),
+          // The marks line already says the newest mock's change: Last paper keeps only its date.
+          LastPaperBlock(detail: p, onOpen: onOpen, headed: false, change: !(delta != null && p.paper.target == newest.target)),
         ],
       ],
     );

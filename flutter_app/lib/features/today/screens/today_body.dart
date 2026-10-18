@@ -756,7 +756,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
               ahead: glance.ahead!,
               onWeek: road == null || glance.road == null
                   ? null
-                  : (week) => unawaited(showWeekPlan(context, week: week, layers: glance.road!, road: road, actions: callbacks.road)),
+                  : (_) => unawaited(showWeekPlan(context, layers: glance.road!, road: road, actions: callbacks.road)),
             ),
           ),
         ],

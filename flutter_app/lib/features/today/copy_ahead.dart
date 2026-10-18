@@ -74,9 +74,6 @@ abstract final class AheadCopy {
   /// "Sat 1 May".
   static String dayShort(DateTime d) => '${_weekdayShort[d.weekday - 1]} ${d.day} ${_month[d.month - 1]}';
 
-  /// Change plan opened from a week of the timeline.
-  static String planTitle(DateTime monday) => 'Change plan, week of ${dayMonth(monday)}';
-
   static String weekSemantics(String when, String title, String? line) => '$when. $title.${line == null ? '' : ' $line'} Change plan.';
   static String dayChip(int weekday, {required bool planned, required bool mock}) =>
       '${_weekdayLong[weekday]}${mock ? ', full mock suggested' : (planned ? ', planned' : ', not planned')}';

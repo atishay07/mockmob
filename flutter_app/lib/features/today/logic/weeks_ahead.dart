@@ -119,6 +119,18 @@ Set<int>? plannedWeekdays(TodayInputs i) {
   return w.planned ?? (rest.isEmpty ? null : {for (var d = 0; d < 7; d++) if (!rest.contains(d + 1)) d});
 }
 
+/// The day a suggested full mock lands on: its own day when the plan studies then, else the next
+/// planned day (a full mock is a study day, never a day the plan leaves free). Road to CUET names
+/// the same day, so the two never disagree.
+DateTime snapToPlan(DateTime day, Set<int>? planned) {
+  if (planned == null || planned.isEmpty) return day;
+  for (var k = 0; k < 7; k++) {
+    final d = day.add(Duration(days: k));
+    if (planned.contains(d.weekday - 1)) return d;
+  }
+  return day;
+}
+
 bool _boardWeek(DateTime monday, DateTime exam) {
   final start = CuetCalendar.boardsStart(exam.year), end = CuetCalendar.boardsEnd(exam.year);
   final m = DateTime(monday.year, monday.month, monday.day);
@@ -160,8 +172,11 @@ WeeksAhead buildWeeksAhead(TodayInputs i, {required RoadBoard board, Map<DateTim
     }
     final nextMonday = sunday.add(const Duration(days: 1));
     if (on.isBefore(nextMonday)) on = nextMonday;
+    // The pace keeps its own rhythm; each mock is said on the planned day it lands on.
     while (number <= target && on.isBefore(exam)) {
-      mocks.add(AheadMock(number: number, on: on));
+      final day = snapToPlan(on, planned);
+      if (!day.isBefore(exam)) break;
+      mocks.add(AheadMock(number: number, on: day));
       number++;
       on = on.add(Duration(days: every));
     }
@@ -178,7 +193,7 @@ WeeksAhead buildWeeksAhead(TodayInputs i, {required RoadBoard board, Map<DateTim
       final days = boards && perWeek > CuetCalendar.boardWeekSessions ? CuetCalendar.boardWeekSessions : perWeek;
       // The weekdays are named only when the plan names exactly that many (a board week does not).
       final named = planned != null && planned.length == days ? planned : null;
-      // The mock keeps the pace's own day, the one Road to CUET names ("Next full mock Tue 20 Oct").
+      // The mock is on a planned day, the one Road to CUET names ("Next full mock Thu 22 Oct").
       final inWeek = [
         for (final m in mocks)
           if (!m.on.isBefore(start) && !m.on.isAfter(end)) m,

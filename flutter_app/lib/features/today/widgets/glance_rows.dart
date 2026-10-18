@@ -76,7 +76,7 @@ class GlanceLink extends StatelessWidget {
 }
 
 class LastPaperBlock extends StatelessWidget {
-  const LastPaperBlock({super.key, required this.detail, this.onOpen, this.headed = true});
+  const LastPaperBlock({super.key, required this.detail, this.onOpen, this.headed = true, this.change = true});
 
   final PaperDetail detail;
   final void Function(TodayTarget target)? onOpen;
@@ -84,6 +84,10 @@ class LastPaperBlock extends StatelessWidget {
   /// False inside Your marks (D52): the block keeps everything but says "Last paper" as a quiet
   /// caption under the marks line instead of a section title of its own.
   final bool headed;
+
+  /// False when the line above already says this paper's change (Your marks): the sub-line is the
+  /// date alone ("Fri 16 Oct, 9:10 PM").
+  final bool change;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +97,9 @@ class LastPaperBlock extends StatelessWidget {
     final p = d.paper;
     // A rise is said in the good colour with its words, never in volt.
     final accent = colors.goodText;
-    final at = p.up == true && p.change != null ? p.sub.indexOf(p.change!) : -1;
+    final dropChange = !change && p.change != null && p.sub.endsWith(', ${p.change}');
+    final sub = dropChange ? p.sub.substring(0, p.sub.length - p.change!.length - 2) : p.sub;
+    final at = !dropChange && p.up == true && p.change != null ? sub.indexOf(p.change!) : -1;
     final subStyle = type.caption.copyWith(fontSize: 13.5, color: colors.ink2);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -108,7 +114,7 @@ class LastPaperBlock extends StatelessWidget {
         ],
         MmPressable(
           onTap: onOpen == null ? null : () => onOpen!(p.target),
-          semanticsLabel: '${p.title}. ${p.sub}. ${p.marks} ${GlanceCopy.paperBar(d.right, d.wrong, d.blank, d.total)}. ${GlanceCopy.openResult}.',
+          semanticsLabel: '${p.title}. $sub. ${p.marks} ${GlanceCopy.paperBar(d.right, d.wrong, d.blank, d.total)}. ${GlanceCopy.openResult}.',
           focusRadius: MmRadius.smallAll,
           pressedScale: 0.99,
           builder: (context, pressed, _) => Row(
@@ -123,11 +129,11 @@ class LastPaperBlock extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text.rich(
                       at < 0
-                          ? TextSpan(text: p.sub)
+                          ? TextSpan(text: sub)
                           : TextSpan(children: [
-                              TextSpan(text: p.sub.substring(0, at)),
+                              TextSpan(text: sub.substring(0, at)),
                               TextSpan(text: p.change, style: TextStyle(color: accent, fontWeight: FontWeight.w600)),
-                              TextSpan(text: p.sub.substring(at + p.change!.length)),
+                              TextSpan(text: sub.substring(at + p.change!.length)),
                             ]),
                       style: subStyle,
                     ),
