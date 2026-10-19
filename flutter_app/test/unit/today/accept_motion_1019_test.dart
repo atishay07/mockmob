@@ -34,7 +34,7 @@ final _overrides = [
   authSnapshotProvider.overrideWithBuild((ref, notifier) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u', name: 'Asha Verma')),
 ];
 
-Future<void> _pump(WidgetTester tester, {required bool animate}) async {
+Future<void> _pump(WidgetTester tester, {required bool animate, Size size = const Size(412, 2400)}) async {
   await pumpMockmob(
     tester,
     TodayBody(
@@ -42,7 +42,7 @@ Future<void> _pump(WidgetTester tester, {required bool animate}) async {
       skeletonDelay: Duration.zero,
       callbacks: TodayCallbacks(onAction: (_) {}, onTarget: (_) {}),
     ),
-    size: const Size(412, 2400),
+    size: size,
     disableAnimations: !animate,
     overrides: _overrides,
   );
@@ -136,6 +136,65 @@ void main() {
     ];
     expect(opacities.any((o) => o == 0), isTrue, reason: 'still hidden at 100 ms');
     await tester.pumpAndSettle();
+  });
+
+  testWidgets('M5: with the lead card scrolled out of view the page goes first on a short ease-out, then the card travels with the page still', (tester) async {
+    await _pump(tester, animate: true, size: const Size(360, 640));
+    final scroll = tester.state<ScrollableState>(find.byType(Scrollable).first);
+    // The student has read down to the deck: the lead card is above the top of the screen.
+    await tester.ensureVisible(find.byKey(SuggestedStack.upNextKey));
+    await tester.pumpAndSettle();
+    final start = scroll.position.pixels;
+    expect(start, greaterThan(200), reason: 'the page is scrolled down to the deck');
+    final lead = find.byType(MoveHeroCard);
+    expect(lead.evaluate().isEmpty || tester.getRect(lead).bottom < 0, isTrue, reason: 'the lead card is off screen, so the page has to move');
+
+    final flightScroll = <double>[];
+    SuggestedStack.debugFlightFrame = (_) => flightScroll.add(scroll.position.pixels);
+    await tester.tap(find.byKey(SuggestedStack.upNextKey));
+    // A fake clock at 60 frames a second: the pixels at every frame, from the tap on.
+    final pixels = <double>[scroll.position.pixels];
+    final times = <int>[0];
+    for (var ms = 16; ms <= 1200; ms += 16) {
+      await tester.pump(const Duration(milliseconds: 16));
+      pixels.add(scroll.position.pixels);
+      times.add(ms);
+    }
+    await tester.pumpAndSettle();
+    expect(_heroTitle(tester), GlanceCopy.titleWeakest, reason: 'the pick was made');
+    expect(flightScroll, isNotEmpty, reason: 'the card travelled');
+    // One ease-out: it only ever moves toward the lead, and it is done inside 300 ms.
+    final flightEnd = times.length;
+    final firstStill = pixels.indexWhere((p) => p == pixels[pixels.indexOf(pixels.reduce((a, b) => a < b ? a : b))]);
+    for (var k = 1; k <= firstStill; k++) {
+      expect(pixels[k], lessThanOrEqualTo(pixels[k - 1] + 1e-6), reason: 'frame $k scrolls the wrong way');
+    }
+    expect(flightEnd, greaterThan(firstStill));
+    final doneAt = times[firstStill];
+    expect(doneAt, lessThanOrEqualTo(300), reason: 'the page was still moving at $doneAt ms');
+    expect(pixels.first - pixels[firstStill], greaterThan(100), reason: 'it did bring the lead back');
+    // The card moves only when the page has stopped: every flight frame sees the same page.
+    final landed = flightScroll.first;
+    for (final p in flightScroll) {
+      expect(p, closeTo(landed, 0.5), reason: 'the page moved during the flight');
+    }
+    expect(landed, closeTo(pixels[firstStill], 0.5));
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('M5: with the lead card in view the page does not scroll at all while the card travels', (tester) async {
+    await _pump(tester, animate: true, size: const Size(360, 1100));
+    final scroll = tester.state<ScrollableState>(find.byType(Scrollable).first);
+    final before = scroll.position.pixels;
+    final seen = <double>[];
+    SuggestedStack.debugFlightFrame = (_) => seen.add(scroll.position.pixels);
+    await tester.tap(find.byKey(SuggestedStack.upNextKey));
+    for (var ms = 0; ms < 1000; ms += 16) {
+      await tester.pump(const Duration(milliseconds: 16));
+      expect(scroll.position.pixels, closeTo(before, 0.5), reason: 'the page moved at $ms ms');
+    }
+    await tester.pumpAndSettle();
+    expect(seen, isNotEmpty);
   });
 
   testWidgets('reduced motion: no flight, the lead crossfades and the deck swaps at once', (tester) async {

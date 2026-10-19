@@ -724,6 +724,29 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       return;
     }
     if (swipe) hapticsOf(context)?.light();
+    // The page never scrolls while the card travels (walk M5, 19 Oct: it moved about 600 px under the flight). With
+    // the lead card out of view the page goes first, on a short ease-out, and the one move starts once it has landed;
+    // reduced motion jumps there on the commit, as before.
+    final target = _reduced ? null : _leadScrollTarget();
+    final position = Scrollable.maybeOf(context)?.position;
+    if (target == null || position == null) {
+      _commitUpNext(card);
+      return;
+    }
+    _leaving = true;
+    unawaited(
+      position.animateTo(target, duration: leadScrollDuration, curve: Motion.out).whenComplete(() {
+        if (!mounted) return;
+        _leaving = false;
+        _commitUpNext(card);
+      }),
+    );
+  }
+
+  /// The commit of an Up next: the pick is made, the lead swaps and the card travels to it on one spring.
+  void _commitUpNext(SuggestedCard card) {
+    final hero = card.choice.hero;
+    if (hero == null) return;
     final coach = _coach;
     final first = coach == null || !coach.rightDone;
     if (coach != null) unawaited(DeckCoach.used(coach, right: true));
@@ -747,11 +770,14 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       _landed = false;
       _fly.value = 0;
       _fly.animateWith(Motion.spring(deckFlightSpring, 0, 1)).whenCompleteOrCancel(() {
-        if (mounted) setState(() => _flight = null);
+        if (!mounted) return;
+        setState(() => _flight = null);
+        // A new lead taller than the old one may still reach under the bar: the page settles it once the card has
+        // landed, never while it travels.
+        _revealLeadAfterSwap();
       });
       _x.value = 0;
       widget.onChoose(card.choice);
-      _revealLeadAfterSwap();
     }
     // The bar is a snack bar, a live region of its own: it speaks the result once. Only without a
     // bar is it announced here (round 2, item 4).
@@ -807,6 +833,36 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     });
   }
 
+  /// How long the page takes to bring an off-screen lead card back before the card moves: short, so the accept still
+  /// feels like one gesture (under 300 ms).
+  static const Duration leadScrollDuration = Duration(milliseconds: 260);
+
+  /// Where the page must be for the lead card to show whole above the Up next bar, or null when it already does (or
+  /// when there is no vertical page to move). A lead a lazy list has let go sits near the top of the page.
+  double? _leadScrollTarget() {
+    final scrollable = Scrollable.maybeOf(context);
+    if (widget.leadKey == null || scrollable == null || scrollable.position.axis != Axis.vertical) return null;
+    final viewport = scrollable.context.findRenderObject();
+    if (viewport is! RenderBox || !viewport.attached) return null;
+    final position = scrollable.position;
+    final lead = widget.leadKey?.currentContext?.findRenderObject();
+    if (lead is! RenderBox || !lead.attached || !lead.hasSize) return position.minScrollExtent;
+    final inset = MediaQuery.paddingOf(context).top + MmSpace.s16;
+    final top = lead.localToGlobal(Offset.zero, ancestor: viewport).dy;
+    final floor = viewport.size.height - _barReserve();
+    final bottom = top + lead.size.height;
+    final double delta;
+    if (top < inset) {
+      delta = top - inset;
+    } else if (bottom > floor) {
+      delta = bottom - floor;
+    } else {
+      return null;
+    }
+    final target = (position.pixels + delta).clamp(position.minScrollExtent, position.maxScrollExtent);
+    return (target - position.pixels).abs() < 0.5 ? null : target;
+  }
+
   /// A card chosen while the lead card's top is scrolled away: the page brings the lead card back
   /// into view, so the swap is never made out of sight. The deck scrolls with it, so a flight
   /// still lands on it.
@@ -846,7 +902,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
           if (mounted) _revealLead(again: false);
         });
       } else {
-        unawaited(position.animateTo(target, duration: const Duration(milliseconds: 420), curve: Motion.inOut).then((_) {
+        unawaited(position.animateTo(target, duration: leadScrollDuration, curve: Motion.out).then((_) {
           if (mounted) _revealLead(again: false);
         }));
       }
@@ -855,7 +911,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     if (_reduced) {
       position.jumpTo(target);
     } else {
-      unawaited(position.animateTo(target, duration: const Duration(milliseconds: 420), curve: Motion.inOut));
+      unawaited(position.animateTo(target, duration: leadScrollDuration, curve: Motion.out));
     }
   }
 
