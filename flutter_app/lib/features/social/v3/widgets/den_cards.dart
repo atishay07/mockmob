@@ -13,7 +13,6 @@ import '../../../pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
 import '../../copy.dart';
 import '../../data/mob_models.dart';
 import '../../data/mob_navigator.dart';
-import '../../widgets/mob_parts.dart' show showMobToast;
 import '../../widgets/mob_pro_entry.dart' show sayMobFailure;
 import '../../widgets/mob_ring.dart' show MobColours;
 import '../copy_v3.dart';
@@ -264,10 +263,8 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
         const SizedBox(height: MmSpace.s8),
         KeyButton.secondary(
           label: MobV3Copy.copyCode,
-          onPressed: () async {
-            final shown = await copyInviteCode(context);
-            if (shown != null && context.mounted) showMobToast(context, MobV3Copy.codeCopied);
-          },
+          // One toast, above the dock (it said it twice, the second over the bar: L6).
+          onPressed: () => copyInviteCode(context, aboveBar: true),
         ),
         const SizedBox(height: MmSpace.s8),
         Text(
