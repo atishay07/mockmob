@@ -74,6 +74,10 @@
 @media (hover: hover) and (pointer: fine) { .app-shell .mc-key:hover { border-color: var(--a-line-hover); background: var(--a-hover); } }
 
 .app-shell .mc-foot { display: grid; gap: 10px; justify-items: start; }
+/* You's Colleges card (D126 A): last year's closing mark under each college, and Add colleges. */
+.app-shell .mc-name .mc-cut { margin-top: 2px; font-size: 13px; line-height: 1.35; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .mc-name .mc-cut b { font: 750 14px/1.2 var(--font-display); color: var(--a-ink); letter-spacing: -0.01em; }
+.app-shell .mc-keys { display: flex; flex-wrap: wrap; gap: 8px 10px; }
 .app-shell .mc-notice { margin: 0; min-height: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-bad-text); }
 .app-shell .mc-notice:empty { display: none; }
 
