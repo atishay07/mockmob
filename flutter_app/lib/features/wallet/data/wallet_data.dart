@@ -24,7 +24,7 @@ import '../../../core/repositories/remote_state.dart';
 import '../wallet_copy.dart';
 
 class WalletEntry {
-  const WalletEntry({required this.at, required this.what, required this.delta, this.balanceAfter});
+  const WalletEntry({required this.at, required this.what, required this.delta, this.balanceAfter, this.pool});
 
   /// Null when the row is unusable (no time or no change): the page leaves it out.
   static WalletEntry? tryParse(Object? raw) {
@@ -32,7 +32,8 @@ class WalletEntry {
     final at = asDate(j['at']);
     final delta = asInt(j['delta']);
     if (at == null || delta == null) return null;
-    return WalletEntry(at: at, what: asStringOr(j['what'], '').trim(), delta: delta, balanceAfter: asInt(j['balanceAfter']));
+    final pool = asStringOr(j['pool'], '').trim();
+    return WalletEntry(at: at, what: asStringOr(j['what'], '').trim(), delta: delta, balanceAfter: asInt(j['balanceAfter']), pool: pool.isEmpty ? null : pool);
   }
 
   final DateTime at;
@@ -43,6 +44,9 @@ class WalletEntry {
   /// Negative for a spend, positive for a top-up or the monthly credits.
   final int delta;
   final int? balanceAfter;
+
+  /// The server's pool for the line ("practice", "ai"), when it sent one: it picks the line's icon.
+  final String? pool;
 
   bool get isSpend => delta < 0;
 }

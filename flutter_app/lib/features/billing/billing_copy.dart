@@ -128,6 +128,13 @@ abstract final class BillingCopy {
   /// listed but cannot be bought (never hidden, D101).
   static const topUpsPaused = 'New credit packs are paused just now. Your credits are kept and still work.';
   static const getCredits = 'Add credits';
+  static const topUpsLead = 'Credits from a top-up are yours to keep. They never expire.';
+  static const bestValue = 'Best value';
+  static String savePercent(int pct) => 'Save $pct%';
+  static String packWorth(int credits) => credits >= 100
+      ? '${credits ~/ 50} full mocks or $credits questions'
+      : '1 full mock or $credits questions';
+  static String balanceNow(int total) => 'Your balance is now $total.';
   static String packLabel(int credits) => credits == 1 ? '1 credit' : '$credits credits';
   static String packSemantics(int credits, String? price) => price == null ? packLabel(credits) : '${packLabel(credits)}, $price';
 }
