@@ -64,9 +64,17 @@ abstract final class AskDoorCopy {
 
   // Ask now.
   static const nowTitle = 'Ask now';
-  static const nowLine = 'Type any CUET doubt and Mobi explains it in plain words.';
+  /// What a credit buys, said on the door before anything is typed (C-dec 3b: 1 credit on every plan).
+  static const nowLine = '1 credit buys an answer, a follow-up and 2 real CUET questions.';
+
+  /// The line under a starter from the record: "Accountancy. You lost 39 marks here."
+  static String starterLost(String subject, int lost) => '$subject. You lost $lost ${lost == 1 ? 'mark' : 'marks'} here.';
+
+  /// The line under a starter from the student's subjects.
+  static String starterSubject(String subject) => '$subject. You pick the chapter for the 2 questions.';
   static const nowHint = 'Type your doubt here';
-  static const nowTip = 'Or tap one to ask it now.';
+  static const nowTip = 'Or tap a doubt from your weak chapters.';
+  static const nowTipFresh = 'Or tap one to ask it now.';
   static const nowTapBox = 'Tap the box to see three ideas to start with.';
 
   // Ask your record.
@@ -78,6 +86,7 @@ abstract final class AskDoorCopy {
           ? 'Mobi reads your last $recordReadCap papers and answers from them.'
           : 'Mobi reads your $papers papers and answers from them.';
   static const recordTip = 'Tap a question and Mobi answers at once.';
+  static const recordTipFree = 'Then ask your record. Each answer is free and comes at once.';
   static String leadFigureLine(String chapter) => 'marks lost in $chapter, your biggest leak';
 
   /// The figure's line for the lead: alone, "marks lost in Ray Optics, your biggest leak"; tied (owner I14), "marks lost in
@@ -98,7 +107,7 @@ abstract final class AskDoorCopy {
   // The record asks.
   static const lastPaper = 'Why did I lose marks in my last paper?';
   static String revise(DateTime now) => 'What should I revise ${tonightOrToday(now)}?';
-  static const revisePreview = 'A written plan built from your record';
+  static const revisePreview = 'Chapters, rules and traps from your record';
   static String chaptersRanked(int n) => '$n ${n == 1 ? 'chapter' : 'chapters'} ranked from your answers';
   static const pacePreviewLocked = 'Timing from your timed papers';
   static const changesPreviewLocked = 'From the answers you changed';
@@ -121,7 +130,7 @@ abstract final class AskDoorCopy {
   static const creditsNone = 'You have no credits left.';
   static const creditsPaused = 'Written answers are paused just now.';
   static const pausedSecond = 'Answers from your marks still work.';
-  static const howItCosts = 'Answers from your marks are free. A written answer uses 1 credit.';
+  static const howItCosts = 'Answers from your record are free. A doubt uses 1 credit, with its follow-up and 2 real CUET questions.';
   static const howItCostsNone = 'Answers from your marks stay free.';
 
   // Pro, with PLAY_BILLING off: a calm sheet, no price, no link (D101).
@@ -138,8 +147,16 @@ abstract final class AskDoorCopy {
   static const offline = 'You are offline. Answers from your record still work. Written answers wait until you are back online.';
 
   // While a written reply is on its way.
-  static const writingNote = 'This reply uses 1 credit. A reply that fails uses none.';
+  static const writingNote = 'This doubt uses 1 credit. A reply that fails uses none.';
+  static const followUpWriting = 'Your follow-up is free. A reply that fails uses nothing.';
   static const followUpHint = 'Ask a follow-up';
+
+  // A doubt's thread: its one free follow-up, then a new doubt.
+  static const followUpOneHint = 'Ask your one follow-up';
+  static const followUpLeft = '1 follow-up left. It is free.';
+  static const threadDone = 'This doubt has had its follow-up.';
+  static const threadDoneBody = 'Ask a new doubt to open a new one. It uses 1 credit.';
+  static const newDoubt = 'Ask a new doubt (1 credit)';
   static const startOver = 'Ask something new';
 
   // The Practice card.
@@ -158,69 +175,87 @@ abstract final class AskDoorCopy {
 
 // ---- Ask now ------------------------------------------------------------------------------
 
-/// Starters per subject: common CUET doubts, each a question the model answers (none is answered
-/// from the record, so none is ever marked "1 credit" and then answered free, or the other way).
-const Map<String, List<String>> askNowBank = {
-  'accountancy': [
-    'Explain the sacrificing ratio in simple words',
-    'How is goodwill valued by the super profit method?',
-    'What is the difference between shares and debentures?',
-  ],
-  'economics': [
-    'What is price elasticity of demand?',
-    'Explain the investment multiplier in simple words',
-    'Why does the demand curve slope downwards?',
-  ],
-  'business_studies': [
-    'Explain Fayol’s principles of management in simple words',
-    'What is the difference between delegation and decentralisation?',
-  ],
-  'english': [
-    'How do I find the main idea of a passage?',
-    'How do I solve para jumbles faster?',
-  ],
-  'mathematics': [
-    'How do I find the inverse of a 2 by 2 matrix?',
-    'Explain the chain rule in simple words',
-  ],
-  'general_test': [
-    'How do I solve blood relation questions quickly?',
-    'How do I find a percentage increase in my head?',
-  ],
-  'physics': ['Explain Gauss’s law in simple words'],
-  'chemistry': ['How do I balance a redox equation?'],
-  'biology': ['Explain how DNA replication works in simple words'],
-  'history': ['What were the main features of the Harappan cities?'],
-  'political_science': ['What did the Non-Aligned Movement stand for?'],
-  'geography': ['What is the difference between weather and climate?'],
-  'psychology': ['What is the difference between a trait and a type?'],
-  'sociology': ['What does social stratification mean?'],
-  'computer_science': ['What is the difference between a list and a tuple in Python?'],
+/// One Ask now starter: the doubt that is sent, the line under it, and the anchor of its 2 check questions. A
+/// starter from the record carries its chapter, so the server attaches 2 real CUET questions on it; one from the
+/// student's subjects alone sends the subject and lets the student pick the chapter after the answer.
+class NowStarter {
+  const NowStarter({required this.text, this.preview, this.subject, this.chapter});
+
+  final String text;
+  final String? preview;
+
+  /// The subject id (`accountancy`), or null.
+  final String? subject;
+
+  /// The bank's chapter name, only when the record named it. Never guessed.
+  final String? chapter;
+}
+
+/// With no record: one plain doubt per subject, sent with its subject only (no chapter is guessed: the student
+/// picks it for the 2 questions).
+const Map<String, String> askNowFallback = {
+  'accountancy': 'How is goodwill valued by the super profit method?',
+  'economics': 'What is price elasticity of demand?',
+  'business_studies': 'What is the difference between delegation and decentralisation?',
+  'english': 'How do I find the main idea of a passage?',
+  'mathematics': 'How do I find the inverse of a 2 by 2 matrix?',
+  'general_test': 'How do I solve blood relation questions quickly?',
+  'physics': 'Explain Gauss’s law in simple words.',
+  'chemistry': 'How do I balance a redox equation?',
+  'biology': 'How does DNA replication work?',
+  'history': 'What were the main features of the Harappan cities?',
+  'political_science': 'What did the Non-Aligned Movement stand for?',
+  'geography': 'What is the difference between weather and climate?',
+  'psychology': 'What is the difference between a trait and a type?',
+  'sociology': 'What does social stratification mean?',
+  'computer_science': 'What is the difference between a list and a tuple in Python?',
 };
 
-/// The three Ask now starters, in order. A student with a record leads with their own weakest
-/// chapter (T001); the rest come from their subjects, one subject at a time. With no subjects the
-/// Commerce set the design was drawn with stands in.
-List<String> askNowStarters({PrepInsights? record, List<String> subjects = const []}) {
-  final out = <String>[];
-  void add(String s) {
-    if (!out.contains(s) && out.length < 3) out.add(s);
-  }
+/// The doubts asked about a weak chapter, in turn: each names the chapter, so Mobi answers about it and the 2
+/// questions come from it.
+const List<String Function(String)> _chapterDoubts = [
+  _explainIt,
+  _whichTrap,
+  _whatToRemember,
+];
+String _explainIt(String c) => 'I keep losing marks in $c. Explain it the CUET way.';
+String _whichTrap(String c) => 'Which trap catches me in $c, and how do I spot it?';
+String _whatToRemember(String c) => 'What must I remember about $c before a mock?';
 
-  final top = record != null && record.isReady && record.ranked.isNotEmpty ? costliestChapters(record.ranked).first.chapter.trim() : null;
-  if (top != null && top.isNotEmpty) add('Explain $top in simple words');
-
-  final lists = [for (final s in subjects) ?askNowBank[canonicalSubjectId(s)]];
-  if (lists.isEmpty) lists.addAll([askNowBank['accountancy']!, askNowBank['economics']!, askNowBank['english']!]);
-  for (var round = 0; out.length < 3 && round < 3; round++) {
-    for (final l in lists) {
-      if (round < l.length) add(l[round]);
-    }
+/// The three Ask now starters, in order. With a record they are doubts about the student's own weakest chapters
+/// (the ones that cost the most marks), each sending its subject and chapter. With no record (or fewer than three
+/// ranked chapters) the rest come from the student's subjects, one doubt each, sending the subject alone. With no
+/// subjects the Commerce set stands in.
+List<NowStarter> askNowStarters({PrepInsights? record, List<String> subjects = const []}) {
+  final out = <NowStarter>[];
+  final chapters = record != null && record.isReady
+      ? [
+          for (final c in byMarksLost(record.ranked))
+            if (c.lost > 0 && c.chapter.trim().isNotEmpty && c.chapter != 'Unmapped chapter') c,
+        ]
+      : const <ChapterLine>[];
+  for (final c in chapters.take(3)) {
+    final name = c.chapter.trim();
+    out.add(NowStarter(
+      text: _chapterDoubts[out.length](name),
+      preview: AskDoorCopy.starterLost(subjectDisplayName(c.subject), c.lost),
+      subject: canonicalSubjectId(c.subject),
+      chapter: name,
+    ));
   }
-  // A set with few starters of its own is filled from the parts every CUET student sits, so the
-  // door always has three ideas (it says so at 360 dp).
-  for (final s in [...askNowBank['english']!, ...askNowBank['general_test']!]) {
-    add(s);
+  final ids = [for (final s in subjects) canonicalSubjectId(s)];
+  final pool = [
+    for (final id in ids.isEmpty ? const ['accountancy', 'economics', 'english'] : ids)
+      if (askNowFallback[id] case final doubt?) (id, doubt),
+    for (final id in const ['english', 'general_test'])
+      if (askNowFallback[id] case final doubt?) (id, doubt),
+  ];
+  final seen = {for (final s in out) s.subject};
+  for (final (id, doubt) in pool) {
+    if (out.length >= 3) break;
+    if (seen.contains(id)) continue;
+    seen.add(id);
+    out.add(NowStarter(text: doubt, preview: AskDoorCopy.starterSubject(subjectDisplayName(id)), subject: id));
   }
   return out;
 }
@@ -371,6 +406,8 @@ List<DoorAsk> recordDoorAsks(PrepInsights? record, {required bool pro, LastPaper
       intent: AskIntent.losing,
       preview: lead == null ? 'Reads your wrong and blank answers' : '${lead.lost} marks lost in ${lead.place}',
     ),
+    // Worked out from the record by the server with no model call (replyKind 'tonight'): free (C-dec 3).
+    DoorAsk(text: AskDoorCopy.revise(now), price: DoorPrice.free, intent: AskIntent.plan, preview: AskDoorCopy.revisePreview),
     DoorAsk(
       text: 'Which chapter should I practise?',
       price: DoorPrice.free,
@@ -378,7 +415,6 @@ List<DoorAsk> recordDoorAsks(PrepInsights? record, {required bool pro, LastPaper
       preview: ready && record.ranked.isNotEmpty ? AskDoorCopy.chaptersRanked(record.ranked.length) : 'Ranks the chapters costing you the most marks',
     ),
     if (last != null) DoorAsk(text: AskDoorCopy.lastPaper, price: DoorPrice.free, preview: last.preview, answer: last.answer),
-    DoorAsk(text: AskDoorCopy.revise(now), price: DoorPrice.credit, intent: AskIntent.plan, preview: AskDoorCopy.revisePreview),
     DoorAsk(
       text: 'Am I too slow on wrong answers?',
       price: pro ? DoorPrice.free : DoorPrice.pro,

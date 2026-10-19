@@ -12,6 +12,7 @@ import 'package:go_router/go_router.dart';
 import '../rules/screens/rule_book_screen.dart';
 import 'again/review_again_screen.dart';
 import 'revise/revise_screen.dart';
+import 'screens/fix_screen.dart';
 import 'screens/mistakes_screen.dart';
 import 'screens/record_screen.dart';
 import 'screens/repair_ending_screen.dart';
@@ -49,6 +50,15 @@ Widget reviewRepairScreen(BuildContext context, GoRouterState state) {
   final attemptId = state.pathParameters['attemptId'] ?? '';
   final questionId = state.pathParameters['questionId'] ?? '';
   final count = int.tryParse(state.uri.queryParameters['count'] ?? '');
+  // "Fix it for good": one mistake, as Mobi's job (MOBI-CONTRACT 4).
+  if (state.uri.queryParameters['job'] == 'fix') {
+    return FixScreen(
+      key: ValueKey('fix:$attemptId/$questionId'),
+      attemptId: attemptId,
+      questionId: questionId,
+      number: int.tryParse(state.uri.queryParameters['n'] ?? ''),
+    );
+  }
   return RepairScreen(key: ValueKey('$attemptId/$questionId'), attemptId: attemptId, questionId: questionId, count: count);
 }
 

@@ -112,13 +112,19 @@ void main() {
       expect(AskDoorCopy.greetHeavy('Riya', 59), 'Hi Riya. Ask me any doubt, or ask what your 59 papers say.');
     });
 
-    test('Ask now always has three starters: the weakest chapter first, then the student subjects', () {
+    test('Ask now always has three starters: doubts on the weakest chapters, each sent with its chapter; else the student subjects', () {
       final heavy = askNowStarters(record: rich(), subjects: const ['accountancy', 'economics']);
       expect(heavy, hasLength(3));
-      expect(heavy.first, 'Explain ${recordLead(rich())!.chapter} in simple words');
+      final lead = recordLead(rich())!;
+      expect(heavy.first.text, 'I keep losing marks in ${lead.chapter}. Explain it the CUET way.');
+      expect(heavy.first.chapter, lead.chapter, reason: 'the server attaches 2 bank questions on that chapter');
+      expect(heavy.first.subject, isNotNull);
+      expect(heavy.every((s) => s.chapter != null), isTrue, reason: 'the rich record ranks at least three chapters');
       expect(askNowStarters(subjects: const ['physics']), hasLength(3), reason: 'a set with one starter is filled from English and the General Test');
-      expect(askNowStarters(), hasLength(3));
-      expect(askNowStarters().toSet(), hasLength(3));
+      final fresh = askNowStarters();
+      expect(fresh, hasLength(3));
+      expect({for (final s in fresh) s.text}, hasLength(3));
+      expect(fresh.every((s) => s.chapter == null && s.subject != null), isTrue, reason: 'no record: the subject only, a chapter is never guessed');
     });
 
     test('a heavy record: the lead is the biggest leak, every ask says its price, Pro asks are locked on Free', () {
@@ -132,7 +138,7 @@ void main() {
       DoorAsk byText(String t) => asks.firstWhere((a) => a.text == t);
       expect(byText('Which chapter should I practise?').price, DoorPrice.free);
       expect(byText(AskDoorCopy.lastPaper).price, DoorPrice.free);
-      expect(byText(AskDoorCopy.revise(evening)).price, DoorPrice.credit);
+      expect(byText(AskDoorCopy.revise(evening)).price, DoorPrice.free, reason: 'tonight is worked out from the record with no model (C-dec 3)');
       expect(byText('Am I too slow on wrong answers?').price, DoorPrice.pro);
       expect(byText('Do I change answers too much?').price, DoorPrice.pro, reason: 'locked for Free, as the app already treats it (D101)');
       expect(byText('How is my week going?').price, DoorPrice.free);
@@ -178,7 +184,7 @@ void main() {
     test('the credit line is the wallet: of your 50 monthly, the real renewal day, or nothing invented', () {
       final w = AskWallet.fromCredits(monthly());
       expect(creditLineWords(w, renew: renewDay(w, evening)).$1, '38 of your 50 free credits left\u00a0· they refill\u00a01\u00a0Nov');
-      expect(creditLineWords(w, renew: '1 November').$2, 'Answers from your marks are free. A written answer uses 1 credit.');
+      expect(creditLineWords(w, renew: '1 November').$2, 'Answers from your record are free. A doubt uses 1 credit, with its follow-up and 2 real CUET questions.');
       expect(creditLineWords(w, renew: '1 November', oneBalance: true).$1, '38 credits left\u00a0· free ones refill\u00a01\u00a0Nov');
       expect(creditLineWords(null, renew: '1 November').$1, AskDoorCopy.creditsUnknown, reason: 'an unknown balance is never a zero');
       expect(creditLineWords(w.withTotal(0), renew: '1 November').$1, 'You have no credits left. Your free credits refill on 1 November.');
@@ -214,7 +220,7 @@ void main() {
       final now = find.byType(AskNowDoor);
       expect(find.descendant(of: now, matching: find.byType(AskStarterRow)), findsNWidgets(2));
       expect(find.descendant(of: now, matching: find.text(AskDoorCopy.oneCredit)), findsNWidgets(2));
-      expect(find.text(AskDoorCopy.nowTip), findsOneWidget);
+      expect(find.text(AskDoorCopy.nowTipFresh), findsOneWidget);
       // The credit line is the wallet's own numbers.
       expect(find.text('38 of your 50 free credits left\u00a0· they refill\u00a01\u00a0Nov'), findsOneWidget);
     });
@@ -236,7 +242,7 @@ void main() {
       final record = find.byType(AskRecordDoor);
       expect(find.descendant(of: record, matching: find.byType(AskPriceTag)), findsNWidgets(7));
       expect(find.descendant(of: record, matching: find.text(AskDoorCopy.pro)), findsNWidgets(2), reason: 'pace and changes: visible but locked');
-      expect(find.descendant(of: record, matching: find.text(AskDoorCopy.oneCredit)), findsOneWidget, reason: 'the revision plan');
+      expect(find.descendant(of: record, matching: find.text(AskDoorCopy.oneCredit)), findsNothing, reason: 'the revision plan is free now');
     });
 
     testWidgets('at 360 dp a heavy account shows no starter and says where they are; a tap into the field brings all three', (tester) async {

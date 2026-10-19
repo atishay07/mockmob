@@ -350,7 +350,7 @@ abstract final class InsightsCopy {
   static const walletRenewNote = 'Unused free credits do not carry over.';
   static const walletHow = 'How Ask uses credits';
   static const walletHowRecord = 'Questions about your record are free.';
-  static const walletHowModel = 'Other questions use 1 credit for a written reply.';
+  static const walletHowModel = 'A doubt uses 1 credit: Mobi’s answer, one follow-up and 2 real CUET questions to test it.';
   static const walletHowFailed = 'A reply that fails costs nothing; the credit returns automatically.';
   static const walletAllowance = '50 credits a month on Free, 50 on Pro. Separate from practice credits.';
   static const walletHistory = 'Used in this conversation';
@@ -378,6 +378,8 @@ abstract final class InsightsCopy {
       : 'That needs 1 credit and you have $balance. They refill on $renew. Questions about your record stay free.';
   static const failPaused = 'AI replies are paused just now. Questions about your record still work.';
   static const failResend = 'That did not go through. Send it again.';
+  static const failThreadFull = 'This doubt has had its follow-up. Ask a new doubt to open a new one, for 1 credit.';
+  static const failThreadGone = 'Mobi could not find this doubt any more. Ask it as a new doubt.';
   static const failRate = 'That is a lot of questions in a minute. Wait a moment, then send again.';
   static const failTooLong = 'That is too long. Keep it under 1,500 characters.';
   static const failUnavailable = 'Mobi could not write a reliable reply just now. Try again in a little while.';
