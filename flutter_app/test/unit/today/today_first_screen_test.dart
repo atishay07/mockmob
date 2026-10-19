@@ -54,7 +54,7 @@ void main() {
       textScale: scale,
       brightness: brightness,
       disableAnimations: true,
-      overrides: [...todayOverrides, yourCollegesProvider.overrideWithValue(colleges)],
+      overrides: [...todayOverrides.where((o) => !identical(o.origin, yourCollegesProvider)), yourCollegesProvider.overrideWithValue(colleges)],
     );
     await tester.pump();
     await tester.pump();
