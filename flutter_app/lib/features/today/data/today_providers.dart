@@ -23,12 +23,15 @@ import '../../rhythm/rhythm.dart';
 import '../../social/data/mob_repository.dart' show currentMobProvider, mobAvailableProvider;
 import '../../paper_reel/paper_reel.dart' show reelSeenProvider;
 import '../logic/move_builder.dart';
+import '../logic/study_log.dart' show StudySource;
 import '../logic/reel_pending.dart';
 import '../logic/today_builder.dart';
 import '../logic/today_clock.dart';
 import '../logic/today_inputs.dart';
 import '../logic/today_model.dart';
+import 'lead_pick.dart' show todayPicks;
 import 'road_plan.dart';
+import 'study_log_store.dart';
 import 'today_profile.dart';
 
 /// The plan Today reads. The client builds the card from the record, so the plan is used for
@@ -54,6 +57,10 @@ class TodayMinutes extends Notifier<int?> {
   }
 
   void choose(int minutes) => state = minutes;
+
+  /// The length the card offered before the student's first pick today (what Today suggested),
+  /// so the study log can tell a longer pick from the suggestion.
+  int? suggested;
 }
 
 final todayMinutesProvider = NotifierProvider<TodayMinutes, int?>(TodayMinutes.new);
@@ -338,6 +345,7 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     selectedMinutes: ref.watch(todayMinutesProvider),
     roadPlan: ref.watch(roadPlanProvider),
     lastTriedAt: ref.watch(todayLastTriedProvider),
+    pattern: ref.watch(studyPatternProvider),
   );
 });
 
@@ -424,7 +432,12 @@ class TodayActions {
     if (shown == MoveKind.revise) {
       unawaited(_ref.read(reviseCapProvider.notifier).set(minutes));
     } else {
-      _ref.read(todayMinutesProvider.notifier).choose(minutes);
+      final picker = _ref.read(todayMinutesProvider.notifier);
+      if (_ref.read(todayMinutesProvider) == null) {
+        final hero = _ref.read(todayViewProvider).hero;
+        picker.suggested = hero is MoveHero ? hero.selectedMinutes : null;
+      }
+      picker.choose(minutes);
     }
   }
 
@@ -451,6 +464,20 @@ class TodayActions {
   }
 
   void started(TodayAction action, {int? minutes}) {
+    // The study log learns where the session came from and the length picked against the one offered.
+    if (action.startsSession) {
+      try {
+        final picked = _ref.read(todayMinutesProvider);
+        final fromDeck = todayPicks.of(_ref.read(todayViewProvider).header.dateLine) != null;
+        _ref.read(studyLogProvider.notifier).noteTodayStart(
+              source: fromDeck ? StudySource.todayDeck : StudySource.todayLead,
+              suggested: picked == null ? minutes : _ref.read(todayMinutesProvider.notifier).suggested,
+              chosen: minutes,
+            );
+      } on Object {
+        // The log is a comfort; the start goes ahead.
+      }
+    }
     unawaited(_ref.read(analyticsClientProvider).track(
       AnalyticsEvents.nextMoveStarted,
       props: {'action_type': ?action.actionType, 'minutes': ?minutes, 'screen': 'today'},
