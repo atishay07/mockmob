@@ -389,3 +389,9 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 - Free starts: "1 free start per Mob a week + Pass the mic (Recommended)"
 - Streaks: "Yes, this system (Recommended)"
 **Ledger D133:** Play Console app setup done by him (Google Cloud Part 2 and products later). Mob v3: characters in finish C (B's stand on the shelf and in marketing); build Den Arena with Den Live's best (stage-lit podium, parcel climb-out, ruler race); Free gets 1 start per Mob per week plus Pass the mic (a Pro friend hands the start, 2 a week); Pro: every format, live rooms, full mock together, unlimited starts; while billing is off, starts stay open for everyone; the two-streak humane system as proposed.
+
+## Owner, 19 Oct about 7:35 pm IST (verbatim)
+> "Now let me know what to do to finish the billing and start the closed testing. It is still not showing that I'm eligible for testing. It's showing two things are logged: Select Testers and Select Country and Regions.
+>
+> Though I have already set up, I don't know which one step is remaining in "Finish setting up your app." Obviously, that is "Set up your store listing," but that will also take some time, and many things I have to generate are not ready yet, like the graphics and all. Can you tell me what steps to do right now, what can be avoided, and which are the highest priority to proceed"
+**Ledger D134:** he wants the closed test started too. Prepare the whole store listing pack (text, icon, feature graphic, phone screenshots) for him to paste; give him a priority order.
