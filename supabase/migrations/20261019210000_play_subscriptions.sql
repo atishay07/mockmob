@@ -188,8 +188,13 @@ begin
   end if;
 
   if v_touch_user then
+    -- While the student has a Razorpay subscription on record, its status word is Razorpay's: the web's cancel key and the
+    -- cancel route read it to know whether Razorpay may still charge, so Play never overwrites it (review 19 Oct night).
+    -- The app and the web read Google's own state from the subscription row (playSubscription) instead.
     update public.users
-       set is_premium = v_premium, subscription_status = v_status, premium_until = v_new_until
+       set is_premium = v_premium,
+           subscription_status = case when coalesce(razorpay_subscription_id, '') <> '' then subscription_status else v_status end,
+           premium_until = v_new_until
      where id = v_owner;
   end if;
 

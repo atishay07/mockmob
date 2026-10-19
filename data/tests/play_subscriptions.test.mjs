@@ -697,7 +697,8 @@ test('wiring: the store calls the sync function, RTDN gets the Google client, db
   const card = file('src/components/billing/PlanCard.jsx');
   assert.match(card, /https:\/\/play\.google\.com\/store\/account\/subscriptions\?sku=pro_monthly&package=in\.mockmob\.app/);
   assert.match(card, /Pro renews every month through Google Play\./);
-  assert.doesNotMatch(card.slice(card.indexOf('playShown ? (')), /₹149/, 'the web card names no Play price');
+  assert.ok(card.includes('playOnly ? ('), 'the Google Play-only branch exists');
+  assert.doesNotMatch(card, /₹149|149/, 'the web card names no Play price');
   const pkg = JSON.parse(file('package.json'));
   assert.match(pkg.scripts['test:billing'], /data\/tests\/play_subscriptions\.test\.mjs/);
 });
@@ -817,4 +818,58 @@ test('review: a Razorpay refund kept for other paid access lowers premium_until 
   await fire('payment.captured', { payment: paymentEntity({ id: 'pay_once', order_id: 'order_once', invoice_id: null }) });
   assert.equal(db.user('u1').premiumUntil, PASS, 'a later other date never raises premium_until here');
   globalThis.__mmSession = null;
+});
+
+test('review: with a Razorpay subscription on record, Play never overwrites its status word (past_due then Play, then Play cancelled)', async () => {
+  const w = await world();
+  try {
+    // A failed Razorpay renewal: Pro lapsed, Razorpay still retrying (past_due), so the app offered Get Pro.
+    await w.d.query("update public.users set is_premium = false, subscription_status = 'past_due', premium_until = $1, razorpay_subscription_id = 'sub_m1' where id = 'u1'", [iso(Date.now() - DAY)]);
+    const subEnd = Date.now() + 30 * DAY;
+    w.set(T(92), 'u1', { expiry: subEnd });
+    await w.verify('u1', T(92));
+    let u = await q(w.d, "select is_premium, subscription_status, premium_until from public.users where id = 'u1'").then((r) => r[0]);
+    assert.deepEqual([u.is_premium, u.subscription_status, ms(u.premium_until)], [true, 'past_due', subEnd], 'Pro on from Play; the Razorpay word stays, so its cancel key stays');
+    w.set(T(92), 'u1', { state: SUB_STATE.canceled, expiry: subEnd, autoRenew: false, ack: true });
+    await w.notify(T(92), 3);
+    u = await userRow(w.d, 'u1');
+    assert.equal(u.subscription_status, 'past_due', 'a Play cancel never says Razorpay renewals are off');
+    w.set(T(92), 'u1', { state: SUB_STATE.expired, expiry: Date.now() - 1000, autoRenew: false, ack: true });
+    await w.notify(T(92), 13);
+    u = await userRow(w.d, 'u1');
+    assert.deepEqual([u.is_premium, u.subscription_status], [false, 'past_due']);
+    // Without a Razorpay subscription the word follows Google, as before.
+    w.set(T(93), 'u2', { expiry: subEnd });
+    await w.verify('u2', T(93));
+    w.set(T(93), 'u2', { state: SUB_STATE.canceled, expiry: subEnd, autoRenew: false, ack: true });
+    await w.notify(T(93), 3);
+    assert.equal((await userRow(w.d, 'u2')).subscription_status, 'cancelled');
+  } finally { await w.close(); }
+});
+
+test('review: the Plan card shows the Razorpay cancel key beside Google Play whenever Razorpay may still charge', async () => {
+  const { playPlanMode } = await import('../../src/components/billing/planCardModel.mjs');
+  const renewingPlay = { active: true, autoRenewing: true, inGracePeriod: false, onHold: false };
+  // Play only: Razorpay cannot charge (no subscription, or its renewal is off).
+  assert.deepEqual(
+    (({ playOnly, both, playRenewing }) => ({ playOnly, both, playRenewing }))(playPlanMode({ pro: true, play: renewingPlay, razorpayMayCharge: false })),
+    { playOnly: true, both: false, playRenewing: true });
+  // Both: Razorpay active or past_due beside a Play subscription.
+  const m = playPlanMode({ pro: true, play: renewingPlay, razorpayMayCharge: true });
+  assert.deepEqual([m.playOnly, m.both], [false, true]);
+  // Right after the Razorpay cancel is accepted, the card keeps showing both until the session refresh.
+  assert.equal(playPlanMode({ pro: true, play: renewingPlay, razorpayMayCharge: false, cancelledNow: true }).both, true);
+  // On hold beside a retrying Razorpay: both, so the retries can still be stopped.
+  assert.equal(playPlanMode({ pro: false, play: { active: false, onHold: true }, razorpayMayCharge: true }).both, true);
+  // No Play subscription to show: neither Play branch.
+  const none = playPlanMode({ pro: true, play: null, razorpayMayCharge: true });
+  assert.deepEqual([none.playOnly, none.both], [false, false]);
+
+  const card = file('src/components/billing/PlanCard.jsx');
+  assert.match(card, /razorpayMayCharge: canCancel/, 'the card asks the model with the Razorpay cancel rule');
+  const bothBranch = card.slice(card.indexOf(') : both ? ('), card.indexOf(') : pro || paymentFailed ? ('));
+  assert.match(bothBranch, /\{playLead\}/);
+  assert.match(bothBranch, /\{playLink\}/);
+  assert.match(bothBranch, /Cancel the web renewal/);
+  assert.match(bothBranch, /Your Google Play subscription stays as it is\./);
 });

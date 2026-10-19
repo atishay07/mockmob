@@ -3,7 +3,8 @@
 // Account > Plan. Says exactly what the student has: Free (credits), Pro that renews monthly
 // (with a two-step cancel), Pro whose renewal is off or whose last payment failed (access runs to the
 // paid date), or Pro access with a fixed end date and nothing to cancel. Monthly Pro bought in the Android app is billed
-// and renewed by Google Play, so the card says so and links to Google Play's subscription page instead of a cancel key.
+// and renewed by Google Play, so the card says so and links to Google Play's subscription page. A student who also has a
+// Razorpay monthly that may still charge sees both, with the Razorpay cancel key (planCardModel.mjs).
 import { useState } from 'react';
 import Link from 'next/link';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
@@ -11,6 +12,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { DrawnCheck } from '@/components/ui/DrawnCheck';
 import { PAYMENT_PLANS } from '@/lib/payments/plans';
 import { PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
+import { playPlanMode } from './planCardModel.mjs';
 
 const MONTHLY_RUPEES = Math.round(PAYMENT_PLANS.pro_monthly_99.amount / 100);
 // Dates are India dates: a paid-through instant of 18:29:59Z is 23:59 IST, and must not read as the next day elsewhere.
@@ -41,12 +43,10 @@ export function PlanCard() {
   const canCancel = hasSubscription && (status === 'active' || status === 'past_due');
   const until = user?.premiumUntil || null;
   // Monthly Pro bought in the Android app: Google Play bills it and holds its renewal, so it is managed there, not here.
-  const play = user?.playSubscription || null;
-  const playRenewing = Boolean(pro && play?.active && play.autoRenewing && !play.inGracePeriod);
-  const playRenewalOff = Boolean(pro && play?.active && play.autoRenewing === false);
-  const playRetrying = Boolean(pro && play?.active && play.inGracePeriod);
-  const playOnHold = Boolean(!pro && play?.onHold);
-  const playShown = playRenewing || playRenewalOff || playRetrying || playOnHold;
+  // When Razorpay may still charge as well, both are shown, so the Razorpay cancel key never disappears.
+  const { playRenewing, playRenewalOff, playRetrying, playOnHold, both, playOnly } = playPlanMode({
+    pro, play: user?.playSubscription || null, razorpayMayCharge: canCancel, cancelledNow,
+  });
   // Not Pro but with an end date on record: Pro was held and has ended (the server clears isPremium at the end).
   const ended = !pro && Boolean(until);
 
@@ -65,6 +65,24 @@ export function PlanCard() {
     }
   }
 
+  // The Google Play lines, shared by the Play-only card and the card that shows both subscriptions.
+  const playLead = (
+    <p className="plan-card__lead">
+      {playRenewing && <>Pro renews every month through Google Play.{until ? <> Paid through <LeadDate iso={until} />. The next payment is due then.</> : null}</>}
+      {playRenewalOff && <>Renewal is off in Google Play, so no further payment will be taken. Pro stays active{until ? <> until <LeadDate iso={until} /></> : null}, then your account moves to Free.</>}
+      {playRetrying && <>Google Play could not take your latest monthly payment. Pro stays active{until ? <> until <LeadDate iso={until} /></> : null} while Google Play tries again. Update your payment method in Google Play to keep it.</>}
+      {playOnHold && <>Google Play could not take your monthly payment, so Pro is paused. Update your payment method in Google Play and Pro comes back.</>}
+    </p>
+  );
+  const playLink = <a href={PLAY_SUBSCRIPTIONS_URL} className="plan-card__quiet" target="_blank" rel="noopener noreferrer">Manage it in Google Play</a>;
+  const cancelStatus = (
+    <>
+      {phase === 'working' && <p className="plan-card__msg" role="status">Cancelling</p>}
+      {phase === 'done' && <p className="plan-card__msg" role="status"><DrawnCheck size={15} />{message}</p>}
+      {phase === 'error' && <p className="plan-card__msg" data-tone="bad" role="alert"><StatusIcon kind="warning" size={15} />{message}</p>}
+    </>
+  );
+
   return (
     <section className="plan-card" aria-labelledby="plan-card-title">
       <div className="plan-card__head">
@@ -73,17 +91,35 @@ export function PlanCard() {
         <span className="plan-card__meta">{pro ? 'Pro' : 'Free'}</span>
       </div>
 
-      {playShown ? (
+      {playOnly ? (
         <>
-          <p className="plan-card__lead">
-            {playRenewing && <>Pro renews every month through Google Play.{until ? <> Paid through <LeadDate iso={until} />. The next payment is due then.</> : null}</>}
-            {playRenewalOff && <>Renewal is off in Google Play, so no further payment will be taken. Pro stays active{until ? <> until <LeadDate iso={until} /></> : null}, then your account moves to Free.</>}
-            {playRetrying && <>Google Play could not take your latest monthly payment. Pro stays active{until ? <> until <LeadDate iso={until} /></> : null} while Google Play tries again. Update your payment method in Google Play to keep it.</>}
-            {playOnHold && <>Google Play could not take your monthly payment, so Pro is paused. Update your payment method in Google Play and Pro comes back.</>}
-          </p>
+          {playLead}
           {pro && <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick practice and Full mock</span></div>}
           {playOnHold && <p className="plan-card__lead">{FREE_COSTS}</p>}
-          <a href={PLAY_SUBSCRIPTIONS_URL} className="plan-card__quiet" target="_blank" rel="noopener noreferrer">Manage it in Google Play</a>
+          {playLink}
+        </>
+      ) : both ? (
+        <>
+          {/* Two monthly subscriptions: Razorpay's renewal can only be stopped here, Google Play's only in Google Play. */}
+          {!cancelledNow && <p className="plan-card__lead">
+            {status === 'active' && <>You also have a monthly subscription on the web, which renews at ₹{MONTHLY_RUPEES} a month through Razorpay. If you only need one, cancel the web renewal below.</>}
+            {status === 'past_due' && <>Your last web payment through Razorpay did not go through, and Razorpay may try the charge again. Cancel the web renewal below to stop it.</>}
+          </p>}
+          {playLead}
+          {pro && <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick practice and Full mock</span></div>}
+          {playOnHold && <p className="plan-card__lead">{FREE_COSTS}</p>}
+          {playLink}
+          {canCancel && (phase === 'idle' || phase === 'error') && <button type="button" className="plan-card__quiet" onClick={() => setPhase('confirm')}>{phase === 'error' ? 'Try cancelling again' : 'Cancel the web renewal'}</button>}
+          {canCancel && phase === 'confirm' && (
+            <div className="plan-card__confirm" role="group" aria-label="Confirm cancellation">
+              <p>Stop the web renewal? No further payments will be taken through Razorpay. Your Google Play subscription stays as it is.</p>
+              <div>
+                <button type="button" className="plan-card__danger" onClick={cancelRenewal}>Yes, stop renewing</button>
+                <button type="button" className="plan-card__quiet" onClick={() => setPhase('idle')}>Keep renewal</button>
+              </div>
+            </div>
+          )}
+          {cancelStatus}
         </>
       ) : pro || paymentFailed ? (
         <>
@@ -108,9 +144,7 @@ export function PlanCard() {
               </div>
             </div>
           )}
-          {phase === 'working' && <p className="plan-card__msg" role="status">Cancelling</p>}
-          {phase === 'done' && <p className="plan-card__msg" role="status"><DrawnCheck size={15} />{message}</p>}
-          {phase === 'error' && <p className="plan-card__msg" data-tone="bad" role="alert"><StatusIcon kind="warning" size={15} />{message}</p>}
+          {cancelStatus}
         </>
       ) : (
         <>
