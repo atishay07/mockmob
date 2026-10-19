@@ -320,6 +320,23 @@ void main() {
       }
     }
 
+    testWidgets("with no credits left the stage says so once: the band takes the credit line's place", (tester) async {
+      await pumpMockmob(
+        tester,
+        const AskScreen(),
+        brightness: Brightness.dark,
+        size: const Size(360, 800),
+        disableAnimations: true,
+        overrides: insightsOverrides(credits: monthly(total: 0)),
+        wrapInScaffold: false,
+      );
+      await tester.pumpAndSettle();
+      expect(find.text(InsightsCopy.outTitle), findsOneWidget);
+      expect(find.byType(AskCreditLine), findsNothing);
+      expect(find.text(AskDoorCopy.recordTitle), findsOneWidget);
+      // Where the door sits is font-dependent; the real-font golden ask_b_heavy_360_no_credits shows it above the band.
+    });
+
     const lastTalk = AskState(messages: [
       AskMessage.student('Explain the sacrificing ratio in simple words'),
       AskMessage.reply('The sacrificing ratio is the share each old partner gives up.', origin: AskOrigin.model),

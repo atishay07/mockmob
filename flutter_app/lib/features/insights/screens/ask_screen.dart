@@ -546,9 +546,12 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                     child: FollowUpRail(key: _railKey, prompts: followUps, onTap: sendPrompt, delay: Duration(milliseconds: revealMs == 0 ? 0 : revealMs + 240)),
                   ),
                 if ((wallet?.empty ?? false) && hand == null) AskOutOfCredits(onDetails: _openWallet),
-                // The stage asks inside its Ask now door, and the credit line closes the screen; once a
-                // conversation starts (or a question is handed over) the composer takes the foot.
-                if (stage)
+                // The stage asks inside its Ask now door, and the credit line closes the screen; with no
+                // credits left the band above says it instead (once, not twice; the doors keep their room).
+                // Once a conversation starts (or a question is handed over) the composer takes the foot.
+                if (stage && (wallet?.empty ?? false))
+                  SizedBox(height: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom)
+                else if (stage)
                   AskCreditLine(onTap: _openWallet, bottomInset: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom)
                 else if (!blockedQuestion)
                   _Composer(

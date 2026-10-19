@@ -63,6 +63,9 @@ void main() {
   insightsGolden('ask_b_fresh_360_text130', () => const AskScreen(), size: const Size(360, 1400), textScale: 1.3, overrides: _fresh);
   insightsGolden('ask_b_heavy_360_text130', () => const AskScreen(), size: const Size(360, 1600), textScale: 1.3, overrides: _heavy);
 
+  // No credits left: the band says it once, in the credit line's place.
+  insightsGolden('ask_b_heavy_360_no_credits', () => const AskScreen(), size: const Size(360, 800), overrides: () => insightsOverrides(credits: _monthly(total: 0)));
+
   // A written reply on its way: "Writing a reply", and what it uses, never a fake typewriter.
   insightsGolden(
     'ask_b_writing_360',
