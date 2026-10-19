@@ -374,7 +374,9 @@ test('the test database runs production\'s exact spend_credits (release 10, one 
     assert.equal(r.m, PROD_SPEND_MD5);
     const learning = file('src/lib/server/learning.js');
     assert.match(learning, /export const durableLearningEnabled = \(\) => process\.env\.LEARNING_SESSIONS_ENABLED === 'true';/, 'the stand-in matches the real flag');
-    const migrations = readdirSync(path.join(ROOT, 'supabase', 'migrations')).filter((f) => /first_full_mock|first_mock/.test(f) || /first_full_mock/.test(file(`supabase/migrations/${f}`)));
+    // Mob v3 (20261020100000_mob_v3_core.sql) names 'first_full_mock' only as a Fold's earn source (Naav), not a mock rule.
+    const migrations = readdirSync(path.join(ROOT, 'supabase', 'migrations')).filter((f) => !/_mob_v3_/.test(f))
+      .filter((f) => /first_full_mock|first_mock/.test(f) || /first_full_mock/.test(file(`supabase/migrations/${f}`)));
     assert.deepEqual(migrations, [], 'no migration: learning_allowances and attempts already exist on production');
     // The start path asks spend_credits only for actions production knows; the free start asks it nothing.
     assert.match(file('data/db.js'), /\['generate', 'attempt', \.\.\.PER_QUESTION_ACTIONS, 'attempt_full'\]\.includes\(action\)/);
