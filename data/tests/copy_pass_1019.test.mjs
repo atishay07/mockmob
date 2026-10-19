@@ -32,9 +32,9 @@ test('every shared line that prices a full mock says the first one in each subje
   assert.doesNotMatch(knowledge, /a full mock 50/, 'Ask Mobi no longer says a bare "a full mock 50"');
   // Release 11 (verifier L4): the clause is written once, behind the rule's switch, and both lines carry it.
   assert.equal((knowledge.match(/your first full mock in each subject is free/g) || []).length, 1, 'one clause');
-  assert.equal((knowledge.match(/deeper analysis costs 3\$\{FIRST_FREE\}\./g) || []).length, 2, 'the Credits guide entry and the instant credits answer');
+  assert.equal((knowledge.match(/a full mock costs 50\$\{FIRST_FREE\}\. Answers from your record are free\./g) || []).length, 2, 'the Credits guide entry and the instant credits answer');
   const pricing = read('src/app/pricing/page.js');
-  assert.match(pricing, /3 a deeper analysis\.\$\{FIRST_FULL_MOCK_ON \? ' Your first Full mock in each subject is free\.' : ''\}`\]/, 'the Free plan’s Credits row, with its full stop (L7)');
+  assert.match(pricing, /Answers from your record are free\.\$\{FIRST_FULL_MOCK_ON \? ' Your first Full mock in each subject is free\.' : ''\}`\]/, 'the Free plan’s Credits row, with its full stop (L7)');
   assert.match(pricing, /\['Full mock \(50 questions, 60 minutes\)', 'First one free in each subject, then 50 credits each', 'Unlimited'\]/);
   // The plan card says the price sentence once (it already carries the free first mock), not the rule a second time.
   assert.doesNotMatch(read('src/components/billing/PlanCard.jsx'), /FIRST_FULL_MOCK_COPY/);

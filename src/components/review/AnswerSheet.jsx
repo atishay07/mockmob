@@ -1,7 +1,7 @@
 "use client";
 // The free answer sheet (LEARN-REVIEW-1017 5.5, L13): an open mistake never needs a credit to be understood. It opens in
 // place under its row. "Try it again" shows the question with the key hidden; "Show the answer" shows your pick, the
-// correct answer and the book explanation. Both are free and record nothing. "Fix it for good · 1 credit" (v13, Mobi's job; it
+// correct answer and the book explanation. Both are free and record nothing. "Fix it for good, 1 credit" (v13, Mobi's job; it
 // was "Repair Q{n}") is the paid step inside it, its price said before the tap, and
 // runs the existing repair (recovery/MistakeRepair.jsx, which holds RepairCheck). A mistake that already has a saved repair
 // (repaired, held, slipped) opens that repair, free, and is never offered a paid one (F17).

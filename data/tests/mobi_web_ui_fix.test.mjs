@@ -1,5 +1,5 @@
 // Mobi v13 on the website, "Fix it for good" (C-dec 3 and 3b, D157): Mistake Repair as Mobi's flagship job, reached from
-// "Ask Mobi about Q7", priced before the tap ("Fix it for good · 1 credit", every plan). Your option, why it looked right
+// "Ask Mobi about Q7", priced before the tap ("Fix it for good, 1 credit", every plan). Your option, why it looked right
 // with your own trap history, why the key is right, one rule, check 1 then check 2, then held (the server's words). The pure
 // model, the wiring, and the real components rendered from fixtures (the repo's SWC loader, as repair_wiring.test.mjs).
 import test from 'node:test';
@@ -26,7 +26,7 @@ const MOBI = {
 };
 
 test('the price is said before the tap, on every plan, and the key names the job', () => {
-  assert.equal(FIX_COPY.startLabel, 'Fix it for good · 1 credit');
+  assert.equal(FIX_COPY.startLabel, 'Fix it for good, 1 credit');
   assert.equal(FIX_COPY.askTitle(7), 'Ask Mobi about Q7');
   assert.equal(FIX_COPY.askTitle(null), 'Ask Mobi about this question');
   assert.equal(FIX_COPY.startAria(7), 'Fix it for good, 1 credit, for Q7', 'the accessible name starts with the visible words');

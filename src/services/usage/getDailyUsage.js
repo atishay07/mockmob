@@ -12,17 +12,19 @@ export const INCLUDED_MONTHLY_AI_CREDITS = AI_INCLUDED_MONTHLY_CREDITS;
 export const CREDIT_COSTS = {
   mentor_chat: 1,
   ai_mentor_extra: 1,
-  deep_mentor_analysis: 3,
-  mock_autopsy: 3,
-  trap_drill: 3,
-  custom_mock_plan: 3,
-  admission_path: 3,
+  // Mobi never charges for talking, and every Mobi job is 1 credit on every plan (C-dec 3 and 3b, 20 Oct 2026): the old
+  // 3-credit "deeper analysis" tier is gone. These model-suggested actions were never charged at 3; they now say 1.
+  deep_mentor_analysis: 1,
+  mock_autopsy: 1,
+  trap_drill: 1,
+  custom_mock_plan: 1,
+  admission_path: 1,
   premium_rival: 1,
   rival_college: 3,
   rival_weakness: 3,
   rival_boss: 3,
   rival_rematch: 1,
-  deep_recovery_plan: 3,
+  deep_recovery_plan: 1,
 };
 
 export const LIMITS = {

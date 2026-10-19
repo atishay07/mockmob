@@ -264,7 +264,7 @@ test('GET /api/wallet body: ONE credits balance, the stable field names, the pac
   assert.deepEqual(body.credits.parts, { included: 38, bonus: 30, balance: 40 });
   assert.equal(body.credits.renewsOn, '2026-11-01');
   assert.equal(body.credits.label, 'Credits');
-  assert.equal(body.credits.buys, '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits, and your first one in each subject is free. Deeper analysis costs 3 credits. The cost shows before you start.');
+  assert.equal(body.credits.buys, '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 real CUET questions. A full mock costs 50 credits, and your first one in each subject is free. Everything Mobi reads from your record is free. The cost shows before you start.');
   assert.equal('practice' in body, false);
   assert.equal('ai' in body, false);
   assert.deepEqual(body.plan, { name: 'Free', until: null });
@@ -336,7 +336,7 @@ test('the balance: one figure, what a credit buys, the free allowance with its r
   const t = balanceTile(PAGE);
   assert.equal(t.figure, '108');
   assert.deepEqual(t.lines, [
-    '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits, and your first one in each subject is free. Deeper analysis costs 3 credits. The cost shows before you start.',
+    '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 real CUET questions. A full mock costs 50 credits, and your first one in each subject is free. Everything Mobi reads from your record is free. The cost shows before you start.',
     'Free credits this month: 38 of 50 left, reset on 1 November, 12:00 AM.',
     'Credits you hold: 70. They do not expire.',
   ]);

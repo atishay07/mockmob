@@ -19,7 +19,7 @@ export const FAQ_ITEMS = Object.freeze([
       'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. They refill to 50 at the start of every month, so unused free credits do not carry over.',
       'Credits you buy or earn are used after the free ones, and they never expire. A credit pack is a one-time payment: it never renews and never charges you again.',
       PRACTICE_PRICE_LINE,
-      'An Ask Mobi chat reply costs 1 credit, and deeper analysis, like a mock autopsy or a trap drill, costs 3. The cost shows before you start. On Pro, practice needs no credits at all, so your credits go to Ask Mobi.',
+      'Mobi charges for finished jobs, never for talking. 1 credit fixes a mistake for good (why your option looked right, why the key is right, a rule to keep and 2 fresh questions), or settles a doubt (Mobi’s answer, one follow-up and 2 real CUET questions to test it). Everything Mobi reads from your record is free. The cost shows before you start. On Pro, practice needs no credits at all, so your credits go to Mobi.',
     ]),
   }),
   Object.freeze({

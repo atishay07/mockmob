@@ -27,7 +27,7 @@ test('no page still says Free gets 10 credits a month, and the pages that name t
     assert.doesNotMatch(s, /\b10 a month\b|10 on Free|10 credits|: 10 a month/, `${rel} still states 10`);
   }
   // One credits balance (D78): the 50 free a month are for practice and Ask Mobi alike.
-  assert.match(file('src/app/pricing/page.js'), /plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply/);
+  assert.match(file('src/app/pricing/page.js'), /plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 a Mobi job \(a mistake fixed for good, or a doubt answered and tested\)/);
   assert.match(file('src/app/pricing/page.js'), /Practice and Ask Mobi replies share one credits balance: 50 free a month, used first\./);
   assert.match(file('src/app/features/page.js'), /everyone gets 50 free a month/);
   assert.match(file('src/app/page.js'), /AI replies use monthly credits: 50 on Free, 50 on Pro/);

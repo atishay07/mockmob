@@ -72,6 +72,9 @@ export async function POST(request) {
   const sessionId = typeof payload.sessionId === 'string' ? payload.sessionId : null;
   // A doubt thread (C-dec 3, 20 Oct 2026): `threadId` marks the one follow-up of an open thread (free).
   const threadId = typeof payload.threadId === 'string' && payload.threadId ? payload.threadId : null;
+  // A doubt sent from "Ask now" with its chapter (a starter or a chip), or marked replyKind 'doubt', is a doubt: it opens a
+  // thread and is never answered from the record by keywords (a chapter name like "Change in Profit Sharing Ratio" would trip them).
+  const doubt = (typeof payload.subject === 'string' && payload.subject.trim() !== '') || payload.replyKind === 'doubt';
 
   // 1. Questions about the student's own record are answered from the record: free, instant, no model.
   let insights = null;
@@ -85,7 +88,7 @@ export async function POST(request) {
 
   // "What should I revise tonight?" is free (C-dec 3 item 2): the rules from the student's own repairs, the traps that catch
   // them, the chapters that cost most and the Revise cards due. No model, no credit. The old app's text is caught too.
-  if (!studyLesson && !questionContext && !threadId && (payload.replyKind === 'tonight' || asksTonight(message))) {
+  if (!studyLesson && !questionContext && !threadId && (payload.replyKind === 'tonight' || (!doubt && asksTonight(message)))) {
     let pack;
     try { pack = await readTonight({ userId, attempts: attempts || [], insights }); }
     catch { pack = null; }
@@ -94,7 +97,7 @@ export async function POST(request) {
       return reply(await persist({ userId, sessionId, message, response, mode }), response, dbUser, 'record');
     }
   }
-  const fromRecord = !studyLesson && !questionContext && !threadId && insights ? answerFromInsights(message, insights, { pro: isPaidUser(dbUser) }) : null;
+  const fromRecord = !studyLesson && !questionContext && !threadId && !doubt && insights ? answerFromInsights(message, insights, { pro: isPaidUser(dbUser) }) : null;
   if (fromRecord) {
     const response = {
       reply: fromRecord.reply, origin: 'record', confidence: 0, reason: 'From your own sessions. No credits used.', cards: [],

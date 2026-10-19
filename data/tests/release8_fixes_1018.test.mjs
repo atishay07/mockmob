@@ -163,7 +163,7 @@ test('W-032: a Review row\'s Repair opens the sealed sheet (Try it again, Show t
   assert.match(page, /onRepair=\{\(\) => setOpenUid\(m\.uid\)\}/);
   assert.match(page, /className="rv8-act mk-press" onClick=\{onRepair\}/);
   // The sealed sheet carries the priced key; nothing on the row itself reserves a credit. v13 (C-dec 3, D157): the key is
-  // Mobi's job, "Fix it for good · 1 credit" (fixForGood.mjs FIX_COPY.startLabel), its price said before the tap.
+  // Mobi's job, "Fix it for good, 1 credit" (fixForGood.mjs FIX_COPY.startLabel), its price said before the tap.
   assert.match(read('src/components/review/AnswerSheet.jsx'), /aria-label=\{FIX_COPY\.startAria\(item\.number\)\}>\{FIX_COPY\.startLabel\}<\/button>/);
 });
 

@@ -3,7 +3,7 @@
 // match the answer key before any repair is shown; a mismatch holds the question for review instead.
 //
 // v13 (C-dec 3 and 3b, D157): this is "Fix it for good", Mobi's flagship job, reached from "Ask Mobi about Q7" on a paper's
-// answers. The price is said before the tap ("Fix it for good · 1 credit", every plan). When the server sends the job
+// answers. The price is said before the tap ("Fix it for good, 1 credit", every plan). When the server sends the job
 // (`mobi`, fixForGood.mjs), the fix reads: your option and the key, why it looked right with your own history of that
 // trap, why the key is right, one rule, check 1 then check 2, then held (the server's words). Older payloads render as before.
 import { useContext, useEffect, useId, useRef, useState } from 'react';
