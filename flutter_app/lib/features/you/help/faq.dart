@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../wallet/data/wallet_data.dart' show firstFullMockFreeProvider;
 import '../widgets/you_motion.dart' show YouSizeEase;
 import '../widgets/you_page.dart' show youText;
 
@@ -27,15 +29,33 @@ class FaqItem {
 abstract final class FaqCopy {
   static const heading = 'Common questions';
 
+  /// What the app can always say. It makes no claim about the first full mock being free: that is the server's to say
+  /// (the free first full mock can be switched off, and an older server has no such rule), so the claim is added only by
+  /// [creditsWhenFirstFree], when the server's own credits line says it.
   static const credits = FaqItem(
     id: 'credits',
     question: 'How do credits work?',
     answer: [
       'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. They refill to 50 at the start of every month, so unused free credits do not carry over.',
-      '1 credit buys 1 practice question or 1 Ask Mobi reply. A full mock costs 50, and your first one in each subject is free. The cost shows before you start.',
+      '1 credit buys 1 practice question or 1 Ask Mobi reply. A full mock costs 50 credits. The cost shows before you start.',
       'On Pro, practice is unlimited. Your credits still count for Ask Mobi and repairs.',
     ],
   );
+
+  /// [credits] with the free first full mock, shown only while the server says it is on.
+  static const creditsWhenFirstFree = FaqItem(
+    id: 'credits',
+    question: 'How do credits work?',
+    answer: [
+      'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. They refill to 50 at the start of every month, so unused free credits do not carry over.',
+      '1 credit buys 1 practice question or 1 Ask Mobi reply. A full mock costs 50 credits, and your first one in each subject is free. The cost shows before you start.',
+      'On Pro, practice is unlimited. Your credits still count for Ask Mobi and repairs.',
+    ],
+  );
+
+  /// [items] with the credits answer that matches what the server says about the free first full mock.
+  static List<FaqItem> forServer(List<FaqItem> items, {required bool firstMockFree}) =>
+      firstMockFree ? [for (final i in items) i.id == credits.id ? creditsWhenFirstFree : i] : items;
 
   static const history = FaqItem(
     id: 'history',
@@ -90,22 +110,24 @@ abstract final class FaqCopy {
 /// The questions as an accordion: one open at a time, each question a 56 dp row that opens its
 /// answer under it (a height ease and a turning chevron; instant under reduced motion). [openId]
 /// starts one open.
-class FaqList extends StatefulWidget {
+class FaqList extends ConsumerStatefulWidget {
   const FaqList({super.key, this.items = FaqCopy.all, this.openId});
 
   final List<FaqItem> items;
   final String? openId;
 
   @override
-  State<FaqList> createState() => _FaqListState();
+  ConsumerState<FaqList> createState() => _FaqListState();
 }
 
-class _FaqListState extends State<FaqList> {
+class _FaqListState extends ConsumerState<FaqList> {
   late String? _open = widget.openId;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    // The credits answer says the first full mock is free only while the server says so.
+    final items = FaqCopy.forServer(widget.items, firstMockFree: ref.watch(firstFullMockFreeProvider));
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: youText),
       child: DecoratedBox(
@@ -115,16 +137,16 @@ class _FaqListState extends State<FaqList> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            for (var i = 0; i < widget.items.length; i++) ...[
+            for (var i = 0; i < items.length; i++) ...[
               if (i > 0)
                 SizedBox(height: 1, child: ColoredBox(color: colors.line)),
               _FaqRow(
-                item: widget.items[i],
-                open: _open == widget.items[i].id,
+                item: items[i],
+                open: _open == items[i].id,
                 onToggle: () => setState(
-                  () => _open = _open == widget.items[i].id
+                  () => _open = _open == items[i].id
                       ? null
-                      : widget.items[i].id,
+                      : items[i].id,
                 ),
               ),
             ],
