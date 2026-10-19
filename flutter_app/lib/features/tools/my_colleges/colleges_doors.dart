@@ -72,9 +72,9 @@ String _score(num score) => score == score.roundToDouble() ? '${score.round()}' 
 abstract final class CollegesDoorCopy {
   static const String title = 'Your colleges';
   static const String chooseTitle = 'Choose your colleges';
-  static const String chooseLine = 'See the marks each one needed in 2026.';
-  static const String chooseKey = 'Choose your colleges';
-  static const String chooseCardLine = 'Pick the colleges you want, and see the marks each one needed to get in, in 2026.';
+  static const String chooseLine = "See each college's 2026 cutoff.";
+  static const String chooseKey = 'Choose colleges';
+  static const String chooseCardLine = 'Pick the colleges you want and see the lowest score each one took in 2026.';
   static const String failedLine = 'Tap to open your list.';
   static const String failedCardLine = 'Your colleges did not load. Open the list to try again.';
   static const String compass = 'Admission Compass';
@@ -200,20 +200,20 @@ class YouCollegesCard extends ConsumerWidget {
     };
     final keys = switch (c.status) {
       YourCollegesStatus.none => [
-        KeyButton.secondary(label: CollegesDoorCopy.chooseKey, onPressed: () => _choose(context)),
-        KeyButton.quiet(label: CollegesDoorCopy.compass, onPressed: () => context.push(AppRoutes.toolsCompass)),
+        _CardKey(label: CollegesDoorCopy.chooseKey, onTap: () => _choose(context)),
+        _CardKey(label: CollegesDoorCopy.compass, onTap: () => context.push(AppRoutes.toolsCompass)),
       ],
       YourCollegesStatus.some => [
-        KeyButton.secondary(
+        _CardKey(
           label: c.picks.length > YourColleges.shown ? CollegesDoorCopy.seeAll(c.picks.length) : CollegesDoorCopy.openList,
           semanticsLabel: c.picks.length > YourColleges.shown ? CollegesDoorCopy.seeAllSemantics(c.picks.length) : null,
-          onPressed: () => _openList(context),
+          onTap: () => _openList(context),
         ),
-        KeyButton.secondary(label: CollegesDoorCopy.compass, onPressed: () => context.push(AppRoutes.toolsCompass)),
+        _CardKey(label: CollegesDoorCopy.compass, onTap: () => context.push(AppRoutes.toolsCompass)),
       ],
       _ => [
-        KeyButton.secondary(label: CollegesDoorCopy.openList, onPressed: () => _openList(context)),
-        KeyButton.quiet(label: CollegesDoorCopy.compass, onPressed: () => context.push(AppRoutes.toolsCompass)),
+        _CardKey(label: CollegesDoorCopy.openList, onTap: () => _openList(context)),
+        _CardKey(label: CollegesDoorCopy.compass, onTap: () => context.push(AppRoutes.toolsCompass)),
       ],
     };
     return MmSurface.plain(
@@ -250,7 +250,7 @@ class YouCollegesCard extends ConsumerWidget {
           if (MediaQuery.textScalerOf(context).scale(16) > 16 * 1.25)
             Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [keys[0], const SizedBox(height: MmSpace.s8), keys[1]])
           else
-            Row(children: [Expanded(child: keys[0]), const SizedBox(width: MmSpace.s8), Expanded(child: keys[1])]),
+            Row(children: [Expanded(flex: 10, child: keys[0]), const SizedBox(width: MmSpace.s8), Expanded(flex: 15, child: keys[1])]),
         ],
       ),
     );
@@ -298,6 +298,36 @@ class _Row extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// A pill key sized for the card: the app's secondary key surface, with room for "Admission Compass" on one line at
+/// 360 dp (the shared key's 24 dp sides would wrap it). 48 dp tall, the focus ring, a light tap.
+class _CardKey extends StatelessWidget {
+  const _CardKey({required this.label, required this.onTap, this.semanticsLabel});
+
+  final String label;
+  final VoidCallback onTap;
+  final String? semanticsLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      onTap: onTap,
+      semanticsLabel: semanticsLabel ?? label,
+      pressedScale: 0.97,
+      haptic: MmPressHaptic.selection,
+      focusRadius: MmRadius.pillAll,
+      builder: (context, pressed, focused) => Container(
+        constraints: const BoxConstraints(minHeight: 48),
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s8),
+        alignment: Alignment.center,
+        decoration: ShapeDecoration(color: colors.raised, shape: StadiumBorder(side: BorderSide(color: colors.lineStrong))),
+        child: Text(label, textAlign: TextAlign.center, style: type.labelLarge),
       ),
     );
   }

@@ -97,8 +97,8 @@ void main() {
       expect(find.text(PracticeCopy.doorPractise), findsOneWidget);
       expect(find.text(PracticeCopy.doorPapers), findsOneWidget);
       expect(find.text(PracticeCopy.doorLearn), findsOneWidget);
-      expect(tester.getSemantics(_door('practise')), containsSemantics(isSelected: true, isButton: true, isInMutuallyExclusiveGroup: true));
-      expect(tester.getSemantics(_door('papers')), containsSemantics(isSelected: false, isButton: true, isInMutuallyExclusiveGroup: true));
+      expect(tester.getSemantics(_door('practise')), isSemantics(isSelected: true, isButton: true, isInMutuallyExclusiveGroup: true));
+      expect(tester.getSemantics(_door('papers')), isSemantics(isSelected: false, isButton: true, isInMutuallyExclusiveGroup: true));
       handle.dispose();
     });
 

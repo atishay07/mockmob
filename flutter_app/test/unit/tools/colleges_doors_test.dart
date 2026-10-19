@@ -10,7 +10,6 @@ import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/repositories/quote_repository.dart' show quoteRepositoryProvider;
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
-import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/today_header.dart';
 import 'package:mockmob/features/tools/data/my_colleges_actions.dart';
@@ -160,7 +159,8 @@ void main() {
 
     testWidgets('a fresh account: an honest invite to choose, with the Compass one tap away', (tester) async {
       await _routed(tester, const YouCollegesCard(), _none);
-      expect(find.text('Choose your colleges'), findsNWidgets(2), reason: 'the title and its key');
+      expect(find.text('Choose your colleges'), findsOneWidget, reason: 'the title');
+      expect(find.text(CollegesDoorCopy.chooseKey), findsOneWidget, reason: 'its key, not the same words twice');
       expect(find.text(CollegesDoorCopy.chooseCardLine), findsOneWidget);
       expect(find.text('Admission Compass'), findsOneWidget);
       expect(find.text('of 1000'), findsNothing);
