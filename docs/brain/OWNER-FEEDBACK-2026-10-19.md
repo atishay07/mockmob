@@ -437,3 +437,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 9:40 pm IST (verbatim)
 > "Just a small issue: I, by mistake, clicked on the "Send Test Notification".  i hope that wont cause any trouble let me know if anything is needed or if everything is confirmed setup  and according to that, update the handoff."
 **Ledger D138:** step 8 (RTDN in Play Console) is done; he also sent the test notification. Harmless: the endpoint answers 404 while PLAY_BILLING_ENABLED is off, so Pub/Sub keeps retrying with backoff until it is delivered after the billing switch-on (the server only logs a test notification; it grants nothing) or the message expires (7 days). Nothing to undo.
+
+## Owner, 19 Oct about 9:50 pm IST (verbatim)
+> "I checked in the play console. It's just showing that the player billing account status is active, never expired. There's nothing else. Can you test it and update it right now only if it's done?"
+**Ledger D139:** the service account shows Active (never expires) in Play Console Users and permissions. A real API test is not possible tonight: the key exists only in Vercel Production (sensitive), and the server's Play routes answer 404 until PLAY_BILLING_ENABLED is on (needs his yes and the play-subs deploy). The first check runs in the next session right after the switch-on.
