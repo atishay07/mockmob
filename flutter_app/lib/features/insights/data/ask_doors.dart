@@ -65,7 +65,7 @@ abstract final class AskDoorCopy {
   // Ask now.
   static const nowTitle = 'Ask now';
   /// What a credit buys, said on the door before anything is typed (C-dec 3b: 1 credit on every plan).
-  static const nowLine = '1 credit settles a doubt: Mobi’s answer, one follow-up, and 2 real CUET questions to test it.';
+  static const nowLine = '1 credit buys an answer, a follow-up and 2 real CUET questions.';
 
   /// The line under a starter from the record: "Accountancy. You lost 39 marks here."
   static String starterLost(String subject, int lost) => '$subject. You lost $lost ${lost == 1 ? 'mark' : 'marks'} here.';

@@ -5,6 +5,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/review/data/repair_record_api.dart' show serverRepairsProvider;
+import 'package:mockmob/features/insights/data/mobi_api.dart' show mobiStandingProvider;
+import 'package:mockmob/features/insights/data/mobi_models.dart' show MobiStanding, StandingStatus;
 import 'package:mockmob/core/connectivity/connectivity_monitor.dart' show NetworkStatus;
 import 'package:mockmob/core/connectivity/connectivity_providers.dart' show NetworkStatusNotifier, networkStatusProvider;
 import 'package:mockmob/core/models/my_colleges.dart';
@@ -68,6 +71,11 @@ Future<void> pumpMockmob(
         // (it draws nothing) unless the test passes its own.
         if (!overrides.any((o) => identical(o.origin, mobRepositoryProvider)))
           mobRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<MobRead>()),
+        // Ask Mobi's Where you stand reads the server: no standing (the record door as before) unless the test passes its own.
+        if (!overrides.any((o) => identical(o.origin, mobiStandingProvider)))
+          mobiStandingProvider.overrideWith((ref) async => const MobiStanding(status: StandingStatus.empty)),
+        // The account's saved repairs (the sheet's "Fix it for good" key reads them): none unless the test passes its own.
+        if (!overrides.any((o) => identical(o.origin, serverRepairsProvider))) serverRepairsProvider.overrideWith((ref) async => const <String, DateTime>{}),
         // Review and Today say "Offline" from the connection monitor: a screen under test is online unless the test says otherwise.
         if (!overrides.any((o) => identical(o.origin, networkStatusProvider))) networkStatusProvider.overrideWith(_OnlineNetwork.new),
         ...overrides,

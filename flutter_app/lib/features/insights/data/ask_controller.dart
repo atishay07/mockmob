@@ -352,7 +352,8 @@ class AskController extends Notifier<AskState> {
     if (hand != null && hand.loading) return null;
     final questionRef = hand != null && hand.ready ? hand.ref : null;
     final insights = ref.read(insightsRepositoryProvider).value;
-    final local = questionRef != null || insights == null || replyKind != null ? null : answerFromInsights(text, insights, pro: ref.read(insightsProProvider));
+    // A starter's doubt carries its subject: it is a doubt, never answered from the record by its words.
+    final local = questionRef != null || insights == null || replyKind != null || subject != null ? null : answerFromInsights(text, insights, pro: ref.read(insightsProProvider));
     if (local != null) {
       _append([AskMessage.student(text), AskMessage.reply(local.reply, origin: AskOrigin.phone, actions: local.actions)]);
       return null;

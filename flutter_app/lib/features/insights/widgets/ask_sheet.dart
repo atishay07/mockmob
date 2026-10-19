@@ -719,12 +719,12 @@ class FixItKey extends StatelessWidget {
 }
 
 abstract final class FixKeyCopy {
-  static const fix = 'Fix it for good';
-  static const price = '· 1 credit';
-  static const fixSpoken = 'Fix it for good. 1 credit.';
-  static const openFix = 'Open your fix';
-  static const free = '· Free';
-  static const openSpoken = 'Open your fix. Free.';
+  static const fix = 'Fix it for good,';
+  static const price = '1 credit';
+  static const fixSpoken = 'Fix it for good, 1 credit.';
+  static const openFix = 'Open your fix,';
+  static const free = 'free';
+  static const openSpoken = 'Open your fix, free.';
   static const line = 'Mobi shows why your option looked right, why the key is right and one rule to keep, then tests the fix on 2 fresh questions.';
   static const storedLine = 'Mobi has already written this fix, so it opens free.';
 }
