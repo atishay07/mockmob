@@ -243,4 +243,12 @@ test('the pages use the shared picker where a student sets the daily time', () =
   assert.match(goal, /<DailyMinutes/);
   const profile = read('src/app/(app)/profile/ProfilePageClient.jsx');
   assert.match(profile, />Your goal<\/h2>/);
+  const onboarding = read('src/app/onboarding/OnboardingPageClient.jsx');
+  assert.match(onboarding, /<DailyMinutes/);
+  assert.match(onboarding, /Optional/);
+  // The daily time rides with the days only when the student chose one, and a failure of it never blocks the first run.
+  assert.match(onboarding, /\.\.\.\(minutes \? \{ dailyMinutes: minutes \} : \{\}\)/);
+  const study = read('src/components/study/StudyWorkspace.jsx');
+  assert.match(study, /<DailyMinutes/);
+  assert.doesNotMatch(study, /STUDY_MINUTES|WEEK_MINUTES/);
 });
