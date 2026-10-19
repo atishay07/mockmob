@@ -54,7 +54,7 @@ class MarksFooter extends StatelessWidget {
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              RevealTally(cells: m.cells, ink: ink),
+              RevealTally(cells: m.cells, ink: ink, marks: !m.isHeld),
               if (line != null) ...[const SizedBox(height: MmSpace.s12), Text(line, style: type.small.copyWith(color: colors.ink2))],
             ],
           ),

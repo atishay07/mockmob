@@ -85,6 +85,9 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
   late final Animation<double> _footer;
   late final Animation<double> _tallyInk;
 
+  /// The marker's loop round the total, once the figure has rolled to rest (from 1260 to 1660 ms).
+  late final Animation<double> _circle;
+
   /// The words on the two faces of the flap: those outside are gone before the flap stands on edge
   /// (by 22% of the lift) and those inside arrive once it is nearly flat (from 72%), so no
   /// text is ever seen skewed or cut by the sheet's edge mid-fold.
@@ -138,6 +141,7 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
       curve: const Interval(0, 0.16, curve: Motion.glide),
     );
     _tallyInk = _ReadInk(_scan, () => _rows);
+    _circle = CurvedAnimation(parent: _reveal, curve: const Interval(0.7, 0.92, curve: Curves.easeInOut));
     _outsideWords = _Span(_open, 0.04, 0.22, flip: true);
     _insideWords = _Span(_open, 0.72, 0.98);
     _reveal.addListener(_onReveal);
@@ -331,7 +335,17 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
         geometry: g,
         open: open,
         outside: FlapOutside(model: m, geometry: g, fade: open == _open ? _outsideWords : null),
-        inside: FlapInside(model: m, geometry: g, showFigure: _figureIn, rollFigure: !_calm, meter: _calm ? null : _meter, fade: open == _open ? _insideWords : null),
+        inside: FlapInside(
+          model: m,
+          geometry: g,
+          showFigure: _figureIn,
+          rollFigure: !_calm,
+          meter: _calm ? null : _meter,
+          fade: open == _open ? _insideWords : null,
+          // Every score is circled once it is added up (I13), in volt after a result met with warmth, in ink otherwise.
+          circle: _calm ? kAlwaysCompleteAnimation : _circle,
+          circleWarm: m.variant.celebratory,
+        ),
         // Nothing in the body reads the unfold, so it is not rebuilt on every frame of it.
         body: SheetBody(
           geometry: g,

@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart' show LucideIcons;
 
 import '../../../core/copy/formatters.dart' show formatSignedNumber;
 import '../../../core/theme/theme.dart';
+import '../../../core/widgets/widgets.dart' show KeyButton;
 
 import '../model/next_move.dart' show ChapterCost;
 import '../model/paper_read.dart';
@@ -120,6 +121,15 @@ List<FinishChapter> finishChaptersOf(List<ChapterCost> ranked) => [
       blank: c.blank,
     ),
 ];
+
+/// How many of [chapters] show under a cap of [maxRows]: the cap, then any rows tied with the last one shown.
+int shownCount(List<FinishChapter> chapters, int maxRows) {
+  var n = maxRows.clamp(0, chapters.length);
+  while (n > 0 && n < chapters.length && chapters[n].rank == chapters[n - 1].rank) {
+    n++;
+  }
+  return n;
+}
 
 TextStyle _tabular(TextStyle s) => s.copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
 
@@ -266,8 +276,10 @@ class FinishChapters extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final shown = chapters.take(maxRows).toList();
-    final rest = chapters.skip(maxRows).toList();
+    // A tie is never cut in two: the rows go on while the next shares the last shown rank.
+    final cut = shownCount(chapters, maxRows);
+    final shown = chapters.take(cut).toList();
+    final rest = chapters.skip(cut).toList();
     final value = _tabular(type.body.copyWith(color: colors.ink, fontWeight: FontWeight.w700));
     final rank = _tabular(type.small.copyWith(color: colors.ink3, fontWeight: FontWeight.w600));
     return AnimatedBuilder(
@@ -422,20 +434,49 @@ class _MarkerPainter extends CustomPainter {
   bool shouldRepaint(_MarkerPainter old) => old.progress != progress || old.color != color;
 }
 
-/// The read of the paper, as the moment's last beat (20 Oct, owner: "it doesn't do the SWOT analysis"): one compact
-/// card, four short blocks. Strengths, then Weaknesses (the chapters that lost marks, ranked, ties shared and marked,
-/// and any changed answers that cost marks), then the Opportunity (the marks within reach, as this paper's own
-/// arithmetic), then Risks (only when the numbers show one). The blocks rise in 120 ms apart on [t].
+/// Mobi's read of the paper, the moment's last beat (20 Oct, owner: "it doesn't do the SWOT analysis, it is very
+/// basic"): one card, four short blocks, written on the phone from this paper's own numbers (free, no model call).
+/// Strengths; Weaknesses (the chapters that lost marks, ranked, ties said and marked, and changed answers that cost
+/// marks); the Opportunity (the marks within reach, as this paper's arithmetic, with one "Fix these" key that opens
+/// the repair of exactly those answers); Threats (only when the numbers show one). The blocks rise in 120 ms apart on
+/// [t]. Mobi is on the screen once, over the paper; the card carries Mobi's name, not a second Mobi. An NTA paper has
+/// no Mobi ([plain]): the same read under a plain heading.
 class PaperReadCard extends StatelessWidget {
-  const PaperReadCard({super.key, required this.read, required this.t, this.maxChapters = 3});
+  const PaperReadCard({
+    super.key,
+    required this.read,
+    required this.t,
+    this.maxChapters = 3,
+    this.lead,
+    this.leadDetail,
+    this.onFix,
+    this.plain = false,
+    this.at,
+  });
 
   final PaperRead read;
   final Animation<double> t;
   final int maxChapters;
 
-  /// Block [i]'s own 0 to 1 at [v].
-  static double beat(double v, int i) =>
-      Curves.easeOut.transform(((v - FinishBeats.chaptersAt - i * FinishBeats.blockGap) / FinishBeats.rowSpan).clamp(0.0, 1.0));
+  /// Over the chapters: the v12 line, ties said as ties ("Goodwill and Admission of a partner each cost you 6 marks.").
+  final String? lead;
+
+  /// Under [lead] for a tie: "Together they cost 12 of the 12 marks you missed."
+  final String? leadDetail;
+
+  /// Opens the repair of [PaperRead.fixQids]; null hides the key (nothing repairable, keys held).
+  final VoidCallback? onFix;
+
+  /// No Mobi (NTA): the heading is the student's own.
+  final bool plain;
+
+  /// Where on [t] the first block starts (the practice moment's [FinishBeats.chaptersAt] by default).
+  final double? at;
+
+  /// Block [i]'s own 0 to 1 at [v], starting at [from].
+  static double beat(double v, int i, {double? from}) => Curves.easeOut.transform(
+    ((v - (from ?? FinishBeats.chaptersAt) - i * FinishBeats.blockGap) / FinishBeats.rowSpan).clamp(0.0, 1.0),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -443,17 +484,42 @@ class PaperReadCard extends StatelessWidget {
     final type = context.mmType;
     final body = type.body.copyWith(color: colors.ink);
     final r = read;
+    final fixCount = r.fixQids.length;
     final blocks = <Widget>[
-      _ReadBlock(icon: LucideIcons.trendingUp, label: PaperReadCopy.strengths, tint: colors.goodText, children: [
-        for (final s in r.strengths) Text(s, style: body),
-      ]),
+      if (r.strengths.isNotEmpty)
+        _ReadBlock(icon: LucideIcons.trendingUp, label: PaperReadCopy.strengths, tint: colors.goodText, children: [
+          for (final s in r.strengths) Text(s, style: body),
+        ]),
       _ReadBlock(icon: LucideIcons.trendingDown, label: PaperReadCopy.weaknesses, tint: colors.wrongText, children: [
-        if (r.leakChapters.isNotEmpty) _ChapterTable(chapters: r.leakChapters, maxRows: maxChapters),
+        if (lead != null && r.leakChapters.length >= 2) ...[
+          Text(lead!, style: body.copyWith(fontWeight: FontWeight.w600)),
+          if (leadDetail != null) Text(leadDetail!, style: type.small.copyWith(color: colors.ink2)),
+        ],
+        if (r.leakChapters.length >= 2) _ChapterTable(chapters: r.leakChapters, maxRows: maxChapters),
         for (final s in r.leaks) Text(s, style: body),
       ]),
       _ReadBlock(icon: LucideIcons.target, label: PaperReadCopy.opportunity, tint: colors.accentText, children: [
-        Text(r.reach, style: body.copyWith(fontWeight: FontWeight.w600)),
+        Text(r.reach, key: const ValueKey('paper-read-reach'), style: body.copyWith(fontWeight: FontWeight.w600)),
         if (r.reachNote != null) Text(r.reachNote!, style: type.small.copyWith(color: colors.ink2)),
+        if (onFix != null && fixCount > 0) ...[
+          const SizedBox(height: MmSpace.s4),
+          Row(
+            children: [
+              KeyButton.secondary(
+                key: const ValueKey('paper-read-fix'),
+                label: PaperReadCopy.fixKey(fixCount),
+                semanticsLabel: PaperReadCopy.fixSpoken(fixCount, r.fixChapter),
+                expanded: false,
+                minHeight: 44,
+                onPressed: onFix,
+              ),
+              const SizedBox(width: MmSpace.s12),
+              Flexible(
+                child: ExcludeSemantics(child: Text(PaperReadCopy.fixNote(fixCount), style: type.small.copyWith(color: colors.ink3))),
+              ),
+            ],
+          ),
+        ],
       ]),
       if (r.risks.isNotEmpty)
         _ReadBlock(icon: LucideIcons.triangleAlert, label: PaperReadCopy.risks, tint: colors.warnText, children: [
@@ -467,19 +533,35 @@ class PaperReadCard extends StatelessWidget {
         shape: RoundedSuperellipseBorder(borderRadius: MmRadius.panelAll, side: BorderSide(color: colors.line)),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s4),
+        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s4),
         child: AnimatedBuilder(
           animation: t,
           builder: (context, _) => Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Opacity(
-                opacity: beat(t.value, 0),
-                child: Text(PaperReadCopy.title, style: type.caption.copyWith(color: colors.ink2)),
+                opacity: beat(t.value, 0, from: at),
+                child: Semantics(
+                  header: true,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                    textBaseline: TextBaseline.alphabetic,
+                    children: [
+                      Expanded(
+                        child: Text(
+                          plain ? PaperReadCopy.titlePlain : PaperReadCopy.title,
+                          style: type.body.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      if (!plain) Text(PaperReadCopy.free, style: type.small.copyWith(color: colors.ink3)),
+                    ],
+                  ),
+                ),
               ),
+              const SizedBox(height: MmSpace.s4),
               for (var i = 0; i < blocks.length; i++)
                 _rise(
-                  beat(t.value, i),
+                  beat(t.value, i, from: at),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
                     decoration: i == 0 ? null : BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
@@ -518,7 +600,7 @@ class _ReadBlock extends StatelessWidget {
               Text(label, style: type.small.copyWith(color: colors.ink2, fontWeight: FontWeight.w700, letterSpacing: 0.2)),
             ],
           ),
-          const SizedBox(height: MmSpace.s4),
+          const SizedBox(height: MmSpace.s6),
           for (var i = 0; i < children.length; i++) ...[
             if (i > 0) const SizedBox(height: MmSpace.s4),
             children[i],
@@ -540,8 +622,10 @@ class _ChapterTable extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final shown = chapters.take(maxRows).toList();
-    final rest = chapters.skip(maxRows).toList();
+    // A tie is never cut in two: the rows go on while the next shares the last shown rank.
+    final cut = shownCount(chapters, maxRows);
+    final shown = chapters.take(cut).toList();
+    final rest = chapters.skip(cut).toList();
     final value = _tabular(type.body.copyWith(color: colors.ink, fontWeight: FontWeight.w700));
     final rank = _tabular(type.small.copyWith(color: colors.ink3, fontWeight: FontWeight.w600));
     return Column(

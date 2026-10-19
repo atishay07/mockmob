@@ -70,6 +70,46 @@ final Map<String, (String, List<(String, V)>)> kinds = {
       for (var i = 0; i < 5; i++) ('Admission of a partner', V.blank),
     ],
   ),
+  // Quick 10, middling: 6 right, 3 wrong, 1 not attempted (27 of 50).
+  'quick10_mixed': (
+    'quick',
+    [
+      ('Admission of a partner', V.right),
+      ('Goodwill', V.right),
+      ('Goodwill', V.wrong),
+      ('Retirement of a partner', V.right),
+      ('Admission of a partner', V.right),
+      ('Goodwill', V.wrong),
+      ('Retirement of a partner', V.right),
+      ('Admission of a partner', V.wrong),
+      ('Retirement of a partner', V.right),
+      ('Goodwill', V.blank),
+    ],
+  ),
+  // By chapter, 10, good: 9 right, 1 wrong.
+  'chapter10_good': (
+    'chapter',
+    [
+      for (var i = 0; i < 6; i++) ('Goodwill', V.right),
+      ('Goodwill', V.wrong),
+      for (var i = 0; i < 3; i++) ('Goodwill', V.right),
+    ],
+  ),
+  // By chapter, 10, poor: 2 right, 6 wrong, 2 not attempted (4 of 50).
+  'chapter10_poor': (
+    'chapter',
+    [
+      ('Goodwill', V.wrong),
+      ('Goodwill', V.right),
+      for (var i = 0; i < 4; i++) ('Goodwill', V.wrong),
+      ('Goodwill', V.right),
+      ('Goodwill', V.wrong),
+      ('Goodwill', V.blank),
+      ('Goodwill', V.blank),
+    ],
+  ),
+  // By chapter, 10, all left blank.
+  'chapter10_blank': ('chapter', [for (var i = 0; i < 10; i++) ('Goodwill', V.blank)]),
   // Quick 20, great: 18 right, 2 wrong in two chapters (tied).
   'quick20_great': (
     'quick',
@@ -119,7 +159,7 @@ void main() {
     }
   }
 
-  for (final kind in ['quick5_good', 'quick10_poor', 'quick10_blank']) {
+  for (final kind in kinds.keys) {
     for (final ms in [0, 500, 1100, 1700, 2300, 3000, 4200]) {
       testWidgets('frame at $ms ms, $kind, 360 dp, night', (tester) async {
         await _pump(tester, Brightness.dark, kind);
@@ -144,11 +184,11 @@ void main() {
   });
 
   // The whole moment on one tall page, to judge the chapters beat under the paper.
-  for (final kind in ['quick10_poor', 'quick10_blank', 'quick20_great']) {
+  for (final kind in kinds.keys) {
     for (final b in [Brightness.dark, Brightness.light]) {
       final tag = b == Brightness.dark ? 'night' : 'day';
-      testWidgets('the whole moment, $kind, 360 by 1200, $tag', (tester) async {
-        await _pump(tester, b, kind, size: const Size(360, 1200));
+      testWidgets('the whole moment, $kind, 360 by 1640, $tag', (tester) async {
+        await _pump(tester, b, kind, size: const Size(360, 1640));
         await tester.pump();
         await tester.pump();
         await _frames(tester, 5200);

@@ -526,7 +526,8 @@ void main() {
     );
     await tester.pump(const Duration(milliseconds: 900));
     expect(find.textContaining('You have'), findsNothing);
-    expect(find.text('1 credit.'), findsOneWidget);
+    // The foot's repair cost (Mobi's read carries its own "Fix this one" note above it).
+    expect(find.descendant(of: find.byType(ResultFoot), matching: find.text('1 credit.')), findsOneWidget);
   });
 
   testWidgets('with fresh questions ready the proof fold starts 5 in that chapter for this attempt', (tester) async {
@@ -841,5 +842,34 @@ void main() {
       expect(provePick(inv, wrongInRepairOrder: ['Accounting Ratios'], blankChapters: [null, 'Share Capital']), isNull);
       expect(provePick(null, wrongInRepairOrder: ['Goodwill'], blankChapters: const []), isNull);
     });
+  });
+
+  testWidgets("Mobi's read: the reach is this paper's arithmetic, and Fix these opens the repair of exactly those answers", (tester) async {
+    final router = await pumpResult(
+      tester,
+      resultOverrides(
+        attemptId: 'p1',
+        detail: detailOf([
+          ('Goodwill', V.wrong),
+          ('Admission of a partner', V.right),
+          ('Goodwill', V.wrong),
+          ('Admission of a partner', V.right),
+          ('Admission of a partner', V.wrong),
+          ('Goodwill', V.right),
+        ]),
+      ),
+    );
+    await frames(tester, ms: 900);
+    final reach = find.byKey(const ValueKey('paper-read-reach'));
+    await bringIn(tester, reach);
+    // 3 right, 3 wrong: 12. Goodwill's 2 wrong fixed: 24.
+    expect(tester.widget<Text>(reach).data, 'Fix the 2 wrong answers in Goodwill and this paper is 24, not 12.');
+    final fix = find.byKey(const ValueKey('paper-read-fix'));
+    await bringIn(tester, fix);
+    await tester.pump(const Duration(seconds: 1));
+    await tester.tap(fix);
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(router.state.uri.path, '/review/repair/p1/p1-q1');
+    expect(router.state.uri.queryParameters['count'], '2');
   });
 }

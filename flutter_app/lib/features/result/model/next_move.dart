@@ -223,6 +223,9 @@ String _plural(int n, String word) => '$n $word${n == 1 ? '' : 's'}';
 
 bool _isHeld(Map<String, String> reviews, String qid) => _held.contains(reviews[qid]);
 
+/// A key under re-check or corrected: its answer is not repairable yet.
+bool isKeyHeld(Map<String, String> reviews, String qid) => _isHeld(reviews, qid);
+
 /// "full mock", "NTA paper", "practice".
 String paperKind(String? mode) => switch (mode) {
   'full' => 'full mock',

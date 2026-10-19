@@ -271,7 +271,8 @@ void main() {
       expect(of(RecapVariant.higher, CelebrationMode.off), RevealLevel.words);
       expect(of(RecapVariant.standard, CelebrationMode.full), RevealLevel.plain, reason: 'no sweep after an ordinary result');
       expect(of(RecapVariant.firstMock, CelebrationMode.full), RevealLevel.plain, reason: 'a first mock is never a score celebration');
-      expect(of(RecapVariant.lower, CelebrationMode.full), RevealLevel.words);
+      // A lower result is marked like any other: the ink, the count and the circled total (20 Oct, I13). No light.
+      expect(of(RecapVariant.lower, CelebrationMode.full), RevealLevel.plain);
       expect(of(RecapVariant.held, CelebrationMode.full), RevealLevel.words);
       expect(of(RecapVariant.higher, CelebrationMode.full, reduced: true), RevealLevel.words);
       expect(RevealLevel.celebrate.lights, isTrue);

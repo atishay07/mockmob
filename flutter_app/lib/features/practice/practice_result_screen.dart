@@ -25,12 +25,13 @@ import '../result/data/move_state.dart';
 import '../result/layers_copy.dart';
 import '../result/model/move_inputs.dart';
 import '../result/model/next_move.dart';
+import '../result/model/paper_read.dart' show chapterHistoryOf, paperReadOf;
 import '../result/move_nav.dart';
 import '../result/widgets/fold_section.dart';
 import '../result/widgets/mistake_row.dart';
 import '../result/widgets/next_move_panel.dart';
 import '../result/widgets/finish_reveal.dart' show finishChaptersOf;
-import '../result/widgets/result_head.dart' show CostliestBlock, ResultNotice;
+import '../result/widgets/result_head.dart' show ResultNotice;
 import '../review/your_papers_link.dart' show yourPapersLocation;
 import 'copy.dart';
 import '../pro_nudge/pro_nudge.dart' show ProNudgeRow, ProNudgeSurface;
@@ -494,13 +495,29 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final finishMarks = FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total);
     final tone = finishToneFor(finishMarks, previousAccuracy: _previousAccuracy(attempt));
     final costliest = costliestLine(rows, reviews: reviews);
-    // One chapter lost every missed mark: the moment's bar line has just said the figure and the panel below names the
-    // chapter, so the block would say it a second time (one thing at a time, D108).
-    final top = costliest.chapter == null ? null : _topChapter(rows, reviews);
     // Where the marks went, chapter by chapter, ranked with ties shared (I13, I14): the moment's last beat. When it is
     // shown there, the costliest block below would say the same thing again, so it gives way.
     final chapters = finishChaptersOf(rankedChapterCosts(rows, reviews: reviews));
-    final showCostliest = costliest.chapter != null && top != null && top.marks < rows.marks.gap && chapters.length < 2;
+    // Mobi's read of the paper (20 Oct, owner: "it doesn't do the SWOT analysis"): the moment's last beat, from this
+    // paper's own numbers and the student's earlier papers in the subject. It carries the chapters, so the costliest
+    // block below gives way to it.
+    final read = paperReadOf(
+      rows,
+      reviews: reviews,
+      dwellMs: analysis.dwellMs,
+      changes: [for (final c in analysis.changes) c.markEffect],
+      previousShare: _previousAccuracy(attempt),
+      subject: subjectName,
+      history: chapterHistoryOf(ref.watch(attemptsRepositoryProvider).value ?? const [], attempt),
+    );
+    // "Fix these": exactly the answers the read names that can still be repaired, in one run.
+    final fixable = [
+      for (final q in read.fixQids)
+        if (!state.repaired.contains(q)) q,
+    ];
+    final onFix = fixable.isEmpty || keysOff
+        ? null
+        : () => _go(Uri(path: AppRoutes.reviewRepair(attempt.id, fixable.first), queryParameters: {'count': '${fixable.length}'}).toString());
 
     // What is below the head waits for the arrival, then rises in: the list never gives the result away while the score
     // still counts up.
@@ -515,14 +532,10 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     );
 
     final layers = <Widget>[
-      // What the moment does not say: the chapter that cost the most (only when one did; the moment's bar line already
-      // says what the missed marks went to) and a key under re-check. Below the fold, so the moment stays one thing.
-      if (showCostliest || notice != null) ...[
+      // What the moment does not say: a key under re-check. The chapter that cost the most is in Mobi's read now.
+      if (notice != null) ...[
         const SizedBox(height: MmSpace.s24),
-        if (showCostliest)
-          CostliestBlock(costliest: costliest, notice: notice)
-        else
-          ResultNotice(text: notice!),
+        ResultNotice(text: notice),
       ],
       // One quiet line under the marks: Mobi opens on where this set's lost marks went, free (as on a mock).
       if (askLines.isNotEmpty) ...[
@@ -699,6 +712,8 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                       chapters: chapters,
                                       chaptersLead: costliest.line,
                                       chaptersDetail: costliest.tied.length > 1 ? costliest.detail : null,
+                                      read: model.hasRows && !failedKeys ? read : null,
+                                      onFix: onFix,
                                       onSettled: () {
                                         if (mounted && !_settled) setState(() => _settled = true);
                                       },
@@ -746,9 +761,6 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     );
   }
 }
-
-/// The chapter that cost the most marks (the screen's own `costliest` local names the line built from it).
-ChapterCost? _topChapter(MoveAnalysis rows, Map<String, String> reviews) => costliest(rows, reviews: reviews);
 
 /// The folds' names in the session's memory.
 abstract final class _Folds {

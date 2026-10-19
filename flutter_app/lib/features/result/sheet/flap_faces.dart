@@ -8,6 +8,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/recap_model.dart';
+import '../widgets/finish_reveal.dart' show MarkerCircle;
 import 'paper.dart';
 import 'sheet_geometry.dart';
 
@@ -223,7 +224,25 @@ class _CodeSeal extends StatelessWidget {
 
 /// The inside of the flap: the marks box of the answer sheet, where the figure lands.
 class FlapInside extends StatelessWidget {
-  const FlapInside({super.key, required this.model, required this.geometry, required this.showFigure, this.rollFigure = true, this.meter, this.fade});
+  const FlapInside({
+    super.key,
+    required this.model,
+    required this.geometry,
+    required this.showFigure,
+    this.rollFigure = true,
+    this.meter,
+    this.fade,
+    this.circle,
+    this.circleWarm = false,
+  });
+
+  /// The marker's loop round the total once it has landed (20 Oct, I13: every score is added up and circled, as an
+  /// examiner rings the total at the top of a marked paper); null draws none.
+  final Animation<double>? circle;
+
+  /// The loop in volt (a result met with warmth) rather than in the sheet's ink; read from the sheet's own colours,
+  /// which are Night's on Daylight too.
+  final bool circleWarm;
 
   final RecapModel model;
   final SheetGeometry geometry;
@@ -271,7 +290,9 @@ class FlapInside extends StatelessWidget {
             ),
             const SizedBox(height: 6),
             Expanded(
-              child: model.isHeld ? _Held(model: model) : _Figure(model: model, geometry: geometry, show: showFigure, roll: rollFigure),
+              child: model.isHeld
+                  ? _Held(model: model)
+                  : _Figure(model: model, geometry: geometry, show: showFigure, roll: rollFigure, circle: circle, circleWarm: circleWarm),
             ),
             if (!model.isHeld) ...[
               MarksMeter(marks: model.marks, max: model.maxMarks, progress: meter),
@@ -307,12 +328,17 @@ class _Fade extends StatelessWidget {
 }
 
 class _Figure extends StatelessWidget {
-  const _Figure({required this.model, required this.geometry, required this.show, required this.roll});
+  const _Figure({required this.model, required this.geometry, required this.show, required this.roll, this.circle, this.circleWarm = false});
 
   final RecapModel model;
   final SheetGeometry geometry;
   final bool show;
   final bool roll;
+  final Animation<double>? circle;
+
+  /// The loop in volt (a result met with warmth) rather than in the sheet's ink; read from the sheet's own colours,
+  /// which are Night's on Daylight too.
+  final bool circleWarm;
 
   @override
   Widget build(BuildContext context) {
@@ -326,16 +352,31 @@ class _Figure extends StatelessWidget {
         child: FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.topLeft,
-          child: MediaQuery.withNoTextScaling(
-            child: MonumentalNumber(
+          child: MediaQuery.withNoTextScaling(child: _ringed(context, MonumentalNumber(
               value: formatSignedNumber(model.marks),
               unit: ResultCopy.outOf(model.maxMarks),
               style: type.figureHero.copyWith(fontSize: geometry.figureSize, height: 0.9),
               roll: roll,
               semanticsLabel: label,
-            ),
-          ),
+            ))),
         ),
+      ),
+    );
+  }
+}
+
+extension on _Figure {
+  /// The figure inside the marker's loop, with air for the loop to pass round it.
+  Widget _ringed(BuildContext context, Widget figure) {
+    final c = circle;
+    if (c == null) return figure;
+    // Set a little low in its slot, so the loop clears the title and date over the figure.
+    return Transform.translate(
+      offset: const Offset(0, 10),
+      child: MarkerCircle(
+        progress: c,
+        color: circleWarm ? context.mmColors.accentText : context.mmColors.ink,
+        child: Padding(padding: const EdgeInsets.fromLTRB(10, 0, 12, 2), child: figure),
       ),
     );
   }

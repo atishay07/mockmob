@@ -8,8 +8,31 @@ import '../copy.dart';
 /// (and being checked, when any), each led by its own bubble so state is never colour alone. While
 /// the reader passes, each count is the number of bubbles of that kind actually inked so far, so
 /// the counts arrive with the ink and end on the paper's real counts.
+///
+/// With [marks] (20 Oct, I13: the marks are added up), each count carries what it is worth under its word: +5 for each
+/// correct answer, -1 for each wrong one, 0 for each not attempted, adding up with the ink to the circled total on the
+/// sheet.
 class RevealTally extends StatelessWidget {
-  const RevealTally({super.key, required this.cells, required this.ink});
+  const RevealTally({super.key, required this.cells, required this.ink, this.marks = false});
+
+  /// Each count's marks under it.
+  final bool marks;
+
+  /// What one answer of [k] is worth; null for answers being checked.
+  static int? worth(BubbleState k) => switch (k) {
+    BubbleState.filled => 5,
+    BubbleState.wrong => -1,
+    BubbleState.blank => 0,
+    _ => null,
+  };
+
+  /// "+225", "−3", "0".
+  static String marksText(BubbleState k, int count) {
+    final w = worth(k);
+    if (w == null) return '';
+    final v = w * count;
+    return v > 0 ? '+$v' : (v < 0 ? '−${-v}' : '0');
+  }
 
   /// One state per question, in paper order.
   final List<BubbleState> cells;
@@ -34,12 +57,12 @@ class RevealTally extends StatelessWidget {
     final total = countsUpTo(cells, cells.length);
     final held = total[BubbleState.marked]! > 0;
     final label = [
-      ResultCopy.correct(total[BubbleState.filled]!),
-      ResultCopy.wrong(total[BubbleState.wrong]!),
-      ResultCopy.notAttempted(total[BubbleState.blank]!),
+      ResultCopy.correct(total[BubbleState.filled]!) + (marks ? ', ${marksText(BubbleState.filled, total[BubbleState.filled]!)} marks' : ''),
+      ResultCopy.wrong(total[BubbleState.wrong]!) + (marks ? ', ${marksText(BubbleState.wrong, total[BubbleState.wrong]!)} marks' : ''),
+      ResultCopy.notAttempted(total[BubbleState.blank]!) + (marks ? ', 0 marks' : ''),
       if (held) ResultCopy.heldCell(total[BubbleState.marked]!),
     ].join(', ');
-    Widget row(Map<BubbleState, int> c) => _TallyRow(counts: c, held: held);
+    Widget row(Map<BubbleState, int> c) => _TallyRow(counts: c, held: held, marks: marks);
     final a = ink;
     return Semantics(
       container: true,
@@ -63,10 +86,11 @@ class RevealTally extends StatelessWidget {
 }
 
 class _TallyRow extends StatelessWidget {
-  const _TallyRow({required this.counts, required this.held});
+  const _TallyRow({required this.counts, required this.held, required this.marks});
 
   final Map<BubbleState, int> counts;
   final bool held;
+  final bool marks;
 
   /// The width between two columns of the single row: a hairline and the gap after it.
   static const double _divide = 1 + MmSpace.s12;
@@ -103,7 +127,7 @@ class _TallyRow extends StatelessWidget {
                 for (var i = 0; i < kinds.length; i++) ...[
                   if (i > 0) ...[VerticalDivider(width: 1, thickness: 1, color: colors.line), const SizedBox(width: MmSpace.s12)],
                   Expanded(
-                    child: _Count(state: kinds[i].$1, count: counts[kinds[i].$1] ?? 0, label: kinds[i].$2),
+                    child: _Count(state: kinds[i].$1, count: counts[kinds[i].$1] ?? 0, label: kinds[i].$2, marks: marks),
                   ),
                 ],
               ],
@@ -118,7 +142,7 @@ class _TallyRow extends StatelessWidget {
             for (final k in kinds)
               SizedBox(
                 width: item,
-                child: _InlineCount(state: k.$1, count: counts[k.$1] ?? 0, label: k.$2),
+                child: _InlineCount(state: k.$1, count: counts[k.$1] ?? 0, label: k.$2, marks: marks),
               ),
           ],
         );
@@ -129,11 +153,12 @@ class _TallyRow extends StatelessWidget {
 
 /// A count with its label beside it, for the two-column tally: bubble, number, words.
 class _InlineCount extends StatelessWidget {
-  const _InlineCount({required this.state, required this.count, required this.label});
+  const _InlineCount({required this.state, required this.count, required this.label, this.marks = false});
 
   final BubbleState state;
   final int count;
   final String label;
+  final bool marks;
 
   @override
   Widget build(BuildContext context) {
@@ -151,17 +176,22 @@ class _InlineCount extends StatelessWidget {
         ),
         const SizedBox(width: MmSpace.s8),
         Flexible(child: Text(label, style: type.caption.copyWith(color: colors.ink3))),
+        if (marks && RevealTally.worth(state) != null) ...[
+          const SizedBox(width: MmSpace.s8),
+          _MarksValue(state: state, count: count),
+        ],
       ],
     );
   }
 }
 
 class _Count extends StatelessWidget {
-  const _Count({required this.state, required this.count, required this.label});
+  const _Count({required this.state, required this.count, required this.label, this.marks = false});
 
   final BubbleState state;
   final int count;
   final String label;
+  final bool marks;
 
   @override
   Widget build(BuildContext context) {
@@ -187,7 +217,31 @@ class _Count extends StatelessWidget {
         ),
         const SizedBox(height: 2),
         Text(label, style: type.caption.copyWith(color: colors.ink3)),
+        if (marks && RevealTally.worth(state) != null) ...[const SizedBox(height: 2), _MarksValue(state: state, count: count)],
       ],
+    );
+  }
+}
+
+/// What a count is worth, in tabular figures so the column never jitters while it adds up.
+class _MarksValue extends StatelessWidget {
+  const _MarksValue({required this.state, required this.count});
+
+  final BubbleState state;
+  final int count;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final color = switch (state) {
+      BubbleState.wrong when count > 0 => colors.wrongText,
+      BubbleState.blank => colors.ink3,
+      _ => colors.ink,
+    };
+    return Text(
+      RevealTally.marksText(state, count),
+      maxLines: 1,
+      style: context.mmType.body.copyWith(color: color, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]),
     );
   }
 }

@@ -10,6 +10,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../result/widgets/finish_reveal.dart';
+import '../../result/model/paper_read.dart' show PaperRead;
 import '../../rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 import '../copy.dart';
 import '../model/finish_reaction.dart';
@@ -57,7 +58,16 @@ class FinishStage extends ConsumerStatefulWidget {
     this.chapters = const [],
     this.chaptersLead,
     this.chaptersDetail,
+    this.read,
+    this.onFix,
   });
+
+  /// Mobi's read of the paper (Strengths, Weaknesses, Opportunity, Threats), the moment's last beat. When it is there
+  /// it carries the chapters in its Weaknesses, so [chapters] are not shown on their own.
+  final PaperRead? read;
+
+  /// Opens the repair of the answers the read's Opportunity names ("Fix these 2").
+  final VoidCallback? onFix;
 
   /// Under the sentence, for a tie: what the tied chapters cost together.
   final String? chaptersDetail;
@@ -531,9 +541,10 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
           const SizedBox(height: MmSpace.s20),
           // Where the marks went, chapter by chapter, ties shared and said (I14). Only when two or more chapters lost
           // marks.
-          if (widget.chapters.length >= 2) ...[
+          if (widget.read case final read?)
+            PaperReadCard(read: read, t: _after, lead: widget.chaptersLead, leadDetail: widget.chaptersDetail, onFix: widget.onFix)
+          else if (widget.chapters.length >= 2)
             FinishChapters(chapters: widget.chapters, t: _after, lead: widget.chaptersLead, leadDetail: widget.chaptersDetail),
-          ],
           // The late-night "good place to stop" line is not here any more: it sits under the pinned
           // key, with "Finish for now" (AP3-06, A14).
         ],
