@@ -111,6 +111,8 @@ export function RazorpayPaymentButton({
   // Once Razorpay's window has taken a payment, an error no longer means "nothing was charged".
   const [afterPayment, setAfterPayment] = useState(false);
   const [noRetry, setNoRetry] = useState(false);
+  // The code field stays folded behind one quiet link (version 13: one dominant key), and opens by itself when a code is prefilled.
+  const [codeOpen, setCodeOpen] = useState(false);
 
   // Prefill on mount: URL ?ref= wins, then localStorage. URL also writes
   // through to localStorage so the code persists across navigation.
@@ -286,7 +288,7 @@ export function RazorpayPaymentButton({
         modal: {
           ondismiss: () => {
             setStatus('idle');
-            setMessage('Payment cancelled.');
+            setMessage('Checkout closed. Nothing was charged.');
           },
         },
       });
@@ -326,6 +328,7 @@ export function RazorpayPaymentButton({
 
   return (
     <div className="mm-checkout">
+      {codeOpen || code ? (
       <label className="mm-checkout__field">
         <span className="mm-checkout__label">
           <Tag aria-hidden="true" />
@@ -341,6 +344,7 @@ export function RazorpayPaymentButton({
           onChange={(event) => {
             setAppliedCode(null);
             setMessage('');
+            setCodeOpen(true);
             setCode(event.target.value);
           }}
           placeholder="Paste a creator code"
@@ -357,6 +361,7 @@ export function RazorpayPaymentButton({
           </span>
         ) : null}
       </label>
+      ) : null}
 
       <button
         type="button"
@@ -367,6 +372,12 @@ export function RazorpayPaymentButton({
         {isLoading ? <Loader2 className="mm-checkout__spin" aria-hidden="true" /> : null}
         {isLoading ? 'Opening secure checkout' : isConfirming ? 'Confirming your payment' : label}
       </button>
+
+      {codeOpen || code ? null : (
+        <button type="button" className="mm-checkout__codelink" onClick={() => setCodeOpen(true)} disabled={isLoading || isConfirming}>
+          {billing === 'monthly' ? 'Have a referral code?' : 'Have a referral or discount code?'}
+        </button>
+      )}
 
       {message ? (
         <p className="mm-checkout__msg" data-tone={status === 'success' ? 'ok' : status === 'error' ? 'bad' : 'info'} role="status">
