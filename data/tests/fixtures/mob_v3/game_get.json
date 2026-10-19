@@ -1,0 +1,87 @@
+{
+  "game": {
+    "id": "uuid-1",
+    "mobId": "uuid-2",
+    "format": "sprint",
+    "mode": "async",
+    "count": 5,
+    "secondsPerQuestion": 60,
+    "subjectName": "Accountancy",
+    "chapter": "Goodwill",
+    "title": "Kabir's sprint",
+    "host": {
+      "memberId": "member-1",
+      "name": "Kabir",
+      "you": false
+    },
+    "openedAt": "2026-10-22T08:35:00.000Z",
+    "closesAt": "2026-10-23T08:35:00.000Z",
+    "closed": false,
+    "serverNow": "2026-10-22T08:42:24.000Z",
+    "room": null,
+    "runs": [
+      {
+        "memberId": "member-2",
+        "name": "Riya",
+        "colour": 3,
+        "fold": "kandil",
+        "at": "2026-10-22T08:37:30.000Z",
+        "finished": true
+      },
+      {
+        "memberId": "member-1",
+        "name": "Kabir",
+        "colour": 1,
+        "fold": "hexa",
+        "at": "2026-10-22T08:40:15.000Z",
+        "finished": true
+      },
+      {
+        "memberId": "member-3",
+        "name": "Aarav",
+        "colour": 1,
+        "fold": "dart",
+        "at": "2026-10-22T08:42:24.000Z",
+        "finished": true
+      }
+    ],
+    "you": {
+      "run": "finished",
+      "marks": 9,
+      "answered": 5
+    },
+    "ghosts": [
+      {
+        "memberId": "member-2",
+        "name": "Riya",
+        "colour": 3,
+        "fold": "kandil",
+        "playedAt": "2026-10-22T08:37:30.000Z",
+        "arrivalsMs": [
+          30000,
+          60000,
+          90000,
+          120000,
+          150000
+        ],
+        "finishedMs": 150000
+      },
+      {
+        "memberId": "member-1",
+        "name": "Kabir",
+        "colour": 1,
+        "fold": "hexa",
+        "playedAt": "2026-10-22T08:40:15.000Z",
+        "arrivalsMs": [
+          33000,
+          66000,
+          99000,
+          132000,
+          165000
+        ],
+        "finishedMs": 165000
+      }
+    ],
+    "podiumReady": true
+  }
+}

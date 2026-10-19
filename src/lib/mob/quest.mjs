@@ -11,7 +11,7 @@ export const gameTitle = (hostName, format, you = false) => `${you ? 'Your' : `$
 /**
  * The "What filled it" rows: by game or paper, never by person, never a count of people. rows: mob_quest_week by_source
  * ([{ source, source_id, answered }]); games: Map(gameId -> { hostName, format, hostIsYou }); extras: Map(id -> chapter).
- * Rows with the same label are summed, in first-seen order.
+ * Rows with the same label are summed; the most answered come first.
  */
 export function questLabels(rows, { games = new Map(), extras = new Map() } = {}) {
   const out = [];
@@ -29,7 +29,8 @@ export function questLabels(rows, { games = new Map(), extras = new Map() } = {}
       add(g ? gameTitle(g.hostName, g.format, g.hostIsYou) : 'A Mob game', n);
     } else if (r.source === 'fix') add('Fix it together', n);
   }
-  return out;
+  // Most first, then by name, so the list reads the same on every device.
+  return out.sort((a, b) => b.answered - a.answered || a.label.localeCompare(b.label));
 }
 
 /** The quest block of the den view. q: mob_quest_week's answer. */

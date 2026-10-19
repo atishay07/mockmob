@@ -1,0 +1,14 @@
+{
+  "billingOn": true,
+  "can": true,
+  "via": "free_weekly",
+  "modes": [
+    "async"
+  ],
+  "formats": [
+    "sprint",
+    "round"
+  ],
+  "freeLeft": 1,
+  "mics": 0
+}

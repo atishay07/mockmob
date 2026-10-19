@@ -1,0 +1,293 @@
+{
+  "mob": {
+    "id": "uuid-2",
+    "subject": "accountancy",
+    "subjectName": "Accountancy",
+    "plan": {
+      "pro": false,
+      "maxMobs": 1,
+      "mobCount": 1,
+      "started": 0,
+      "canMakeExtra": false,
+      "canStartAnother": true
+    },
+    "mobs": [
+      {
+        "id": "uuid-2",
+        "subject": "accountancy",
+        "subjectName": "Accountancy",
+        "active": true
+      }
+    ],
+    "you": {
+      "memberId": "member-3",
+      "name": "Aarav",
+      "colour": 1,
+      "role": "member",
+      "showScore": true,
+      "nudgesMuted": false
+    },
+    "members": [
+      {
+        "memberId": "member-2",
+        "name": "Riya",
+        "colour": 3,
+        "you": false,
+        "sat": false,
+        "owner": true
+      },
+      {
+        "memberId": "member-3",
+        "name": "Aarav",
+        "colour": 1,
+        "you": true,
+        "sat": false
+      },
+      {
+        "memberId": "member-1",
+        "name": "Kabir",
+        "colour": 1,
+        "you": false,
+        "sat": false
+      },
+      {
+        "memberId": "member-4",
+        "name": "Zoya",
+        "colour": 1,
+        "you": false,
+        "sat": false
+      }
+    ],
+    "seatsLeft": 1,
+    "week": {
+      "start": "2026-10-19",
+      "closesAt": "2026-10-25T18:29:59.000Z",
+      "closed": false,
+      "paper": {
+        "count": 10,
+        "durationSec": 600,
+        "cost": {
+          "type": "free"
+        },
+        "blocked": null
+      },
+      "sat": 0,
+      "size": 4,
+      "youSat": false,
+      "yourResultId": null
+    },
+    "trap": null,
+    "compare": null,
+    "extras": [],
+    "pastWeeks": 0,
+    "nudge": {
+      "canSend": false,
+      "reason": "not_sat",
+      "received": null
+    },
+    "invite": {
+      "code": "MR1SNQ",
+      "url": "https://www.mockmob.in/join/MR1SNQ",
+      "expiresAt": "2026-10-29T08:35:00.000Z",
+      "usesLeft": 1
+    },
+    "v3": {
+      "name": {
+        "key": 0,
+        "text": "Chai Circle"
+      },
+      "showPodium": true,
+      "youOwn": false,
+      "members": [
+        {
+          "memberId": "member-2",
+          "name": "Riya",
+          "colour": 3,
+          "fold": "kandil",
+          "finish": "plain",
+          "you": false,
+          "owner": true
+        },
+        {
+          "memberId": "member-3",
+          "name": "Aarav",
+          "colour": 1,
+          "fold": "hexa",
+          "finish": "plain",
+          "you": true,
+          "owner": false
+        },
+        {
+          "memberId": "member-1",
+          "name": "Kabir",
+          "colour": 1,
+          "fold": "hexa",
+          "finish": "plain",
+          "you": false,
+          "owner": false
+        },
+        {
+          "memberId": "member-4",
+          "name": "Zoya",
+          "colour": 1,
+          "fold": "dogear",
+          "finish": "plain",
+          "you": false,
+          "owner": false
+        }
+      ],
+      "games": [
+        {
+          "id": "uuid-1",
+          "format": "sprint",
+          "mode": "async",
+          "count": 5,
+          "chapter": "Goodwill",
+          "subjectName": "Accountancy",
+          "title": "Kabir's sprint",
+          "host": {
+            "memberId": "member-1",
+            "name": "Kabir"
+          },
+          "openedAt": "2026-10-22T08:35:00.000Z",
+          "closesAt": "2026-10-23T08:35:00.000Z",
+          "closed": false,
+          "room": null,
+          "runs": [
+            {
+              "memberId": "member-2",
+              "name": "Riya",
+              "at": "2026-10-22T08:37:30.000Z"
+            },
+            {
+              "memberId": "member-1",
+              "name": "Kabir",
+              "at": "2026-10-22T08:40:15.000Z"
+            },
+            {
+              "memberId": "member-3",
+              "name": "Aarav",
+              "at": "2026-10-22T08:42:24.000Z"
+            }
+          ],
+          "yourRun": "finished",
+          "podiumReady": true
+        },
+        {
+          "id": "uuid-3",
+          "format": "sprint",
+          "mode": "async",
+          "count": 5,
+          "chapter": null,
+          "subjectName": "Accountancy",
+          "title": "Riya's sprint",
+          "host": {
+            "memberId": "member-2",
+            "name": "Riya"
+          },
+          "openedAt": "2026-10-21T06:35:00.000Z",
+          "closesAt": "2026-10-22T06:35:00.000Z",
+          "closed": true,
+          "room": null,
+          "runs": [
+            {
+              "memberId": "member-2",
+              "name": "Riya",
+              "at": "2026-10-21T06:36:40.000Z"
+            },
+            {
+              "memberId": "member-3",
+              "name": "Aarav",
+              "at": "2026-10-21T06:37:55.000Z"
+            },
+            {
+              "memberId": "member-1",
+              "name": "Kabir",
+              "at": "2026-10-21T06:38:45.000Z"
+            },
+            {
+              "memberId": "member-4",
+              "name": "Zoya",
+              "at": "2026-10-21T06:40:50.000Z"
+            }
+          ],
+          "yourRun": "finished",
+          "podiumReady": true
+        }
+      ],
+      "quest": {
+        "week": "2026-10-19",
+        "target": 60,
+        "answered": 32,
+        "done": false,
+        "doneAt": null,
+        "sizedFor": 4,
+        "youSteppedOut": false,
+        "bySource": [
+          {
+            "label": "Riya's sprint",
+            "answered": 19
+          },
+          {
+            "label": "Kabir's sprint",
+            "answered": 12
+          },
+          {
+            "label": "Fix it together",
+            "answered": 1
+          }
+        ],
+        "parcel": {
+          "kind": "fold",
+          "fold": "hop"
+        }
+      },
+      "mobChain": {
+        "weeks": 0,
+        "best": 0,
+        "passes": 0,
+        "stitchedThisWeek": false,
+        "restarted": false,
+        "next": {
+          "at": 2,
+          "item": "den_stamp"
+        }
+      },
+      "shelf": {
+        "items": [],
+        "nextItem": {
+          "at": 2,
+          "item": "den_stamp"
+        }
+      },
+      "starts": {
+        "billingOn": false,
+        "can": true,
+        "via": "open",
+        "modes": [
+          "live",
+          "async"
+        ],
+        "formats": [
+          "sprint",
+          "round",
+          "rematch"
+        ],
+        "freeLeft": null,
+        "mics": 0,
+        "micsToGive": null
+      },
+      "chainChip": {
+        "hidden": false,
+        "days": 1,
+        "todayDone": false
+      },
+      "reactions": [],
+      "moments": [],
+      "live": {
+        "enabled": true,
+        "hoursOk": true
+      }
+    }
+  }
+}

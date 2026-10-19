@@ -321,7 +321,8 @@ export function createMobV3Service(deps, helpers = {}) {
     const chapter = trapQ?.chapter && deps.validChapter && deps.validChapter(g.subject, trapQ.chapter) ? trapQ.chapter : null;
     const key = `fix_${g.id}_${q}_${stage}_${memberIdFor(deps.secret, g.mob_id, userId)}`;
     for (const ch of chapter ? [chapter, null] : [null]) {
-      const ids = await deps.pickQuestionIds(g.subject, { mobId: g.mob_id, week: g.week_start, count: 5, chapter: ch, key }).catch(() => []);
+      // A draw longer than the game, so at least one question is not one of the game's own.
+      const ids = await deps.pickQuestionIds(g.subject, { mobId: g.mob_id, week: g.week_start, count: Math.min(20, g.question_ids.length + 5), chapter: ch, key }).catch(() => []);
       const fresh = (ids || []).find((id) => !g.question_ids.includes(id));
       if (fresh) return fresh;
     }

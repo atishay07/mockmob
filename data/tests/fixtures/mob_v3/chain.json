@@ -1,0 +1,368 @@
+{
+  "hidden": false,
+  "days": 1,
+  "practised": 1,
+  "rested": 0,
+  "madeUp": 0,
+  "paused": 0,
+  "best": 1,
+  "today": {
+    "answered": 4,
+    "needed": 5,
+    "done": false
+  },
+  "passes": {
+    "held": 0,
+    "max": 2,
+    "next": {
+      "kind": "days",
+      "at": 3
+    }
+  },
+  "week": [
+    {
+      "day": "2026-10-16",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-17",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-18",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-19",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-20",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-21",
+      "state": "practised"
+    },
+    {
+      "day": "2026-10-22",
+      "state": "today",
+      "answered": 4
+    }
+  ],
+  "calendar": [
+    {
+      "day": "2026-09-01",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-02",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-03",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-04",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-05",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-06",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-07",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-08",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-09",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-10",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-11",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-12",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-13",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-14",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-15",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-16",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-17",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-18",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-19",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-20",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-21",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-22",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-23",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-24",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-25",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-26",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-27",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-28",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-29",
+      "state": "none"
+    },
+    {
+      "day": "2026-09-30",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-01",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-02",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-03",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-04",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-05",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-06",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-07",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-08",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-09",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-10",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-11",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-12",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-13",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-14",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-15",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-16",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-17",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-18",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-19",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-20",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-21",
+      "state": "practised"
+    },
+    {
+      "day": "2026-10-22",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-23",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-24",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-25",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-26",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-27",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-28",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-29",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-30",
+      "state": "none"
+    },
+    {
+      "day": "2026-10-31",
+      "state": "none"
+    }
+  ],
+  "milestones": [
+    {
+      "at": 3,
+      "reward": "rest_pass",
+      "done": false,
+      "left": 2
+    },
+    {
+      "at": 7,
+      "reward": "rest_pass",
+      "done": false,
+      "left": 6
+    },
+    {
+      "at": 14,
+      "reward": "rest_pass",
+      "done": false,
+      "left": 13
+    },
+    {
+      "at": 21,
+      "reward": "rest_pass",
+      "done": false,
+      "left": 20
+    },
+    {
+      "at": 30,
+      "reward": "foil",
+      "done": false,
+      "left": 29
+    },
+    {
+      "at": 50,
+      "reward": "ribbon",
+      "done": false,
+      "left": 49
+    },
+    {
+      "at": 75,
+      "reward": "ribbon",
+      "done": false,
+      "left": 74
+    },
+    {
+      "at": 100,
+      "reward": "ribbon",
+      "done": false,
+      "left": 99
+    },
+    {
+      "at": 150,
+      "reward": "ribbon",
+      "done": false,
+      "left": 149
+    }
+  ],
+  "next": {
+    "at": 3,
+    "reward": "rest_pass",
+    "left": 2
+  },
+  "makeUp": null,
+  "pause": {
+    "days": [],
+    "usedThisSeason": 0,
+    "max": 14
+  },
+  "notices": [],
+  "due": []
+}
