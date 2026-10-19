@@ -16,8 +16,9 @@ import '../widgets/you_page.dart' show PillKey, youText;
 /// The plan as the server reports it (WEB-PARITY F3): Free or Pro, the credit balance (or unlimited
 /// practice on Pro) and when Pro access ends. On a server that keeps one credits balance (owner D78) the
 /// figure is that one balance, called "credits", the same figure the Account sheet and the Credits page
-/// show; on an older server it is the Practice credits balance and says so. Read-only: the app never sells, so
-/// there is no price and no purchase key, only a plain line saying where plans are managed.
+/// show; on an older server it is the Practice credits balance and says so. A Free student sees Google Play's
+/// Get Pro (PLAY_BILLING on); a Pro student who subscribed through Google Play sees when it renews and a
+/// Manage subscription key that opens Google Play's own page.
 ///
 /// The balance rolls up from 0 only when it came fresh from the server in this run
 /// ([AuthSnapshot.profileFresh]); a balance read from the copy kept on the phone is shown as it
@@ -93,6 +94,8 @@ class _PlanCardState extends ConsumerState<PlanCard> {
     final type = context.mmType;
     final pro = auth.isPro;
     final until = auth.premiumUntil?.toLocal();
+    final sub = ref.watch(playSubscriptionProvider);
+    final playSub = sub != null && sub.active ? sub : null;
     final figures = ref.watch(creditFiguresProvider);
     // The same computation as the Account sheet and the Credits page: one figure on a one-balance server.
     final one = figures.oneBalance;
@@ -168,11 +171,22 @@ class _PlanCardState extends ConsumerState<PlanCard> {
                     child: MobiBubble(key: ValueKey(speech.id), speech: speech, boxed: false, maxWidth: 260),
                   ),
           ),
-          if (pro) ...[
+          if (pro && playSub == null) ...[
             const SizedBox(height: MmSpace.s8),
             Text(
               until == null ? EditCopy.proActive : EditCopy.proUntil('${formatDayMonth(until)} ${until.year}'),
               style: type.small.copyWith(color: colors.ink2),
+            ),
+          ],
+          // Monthly Pro bought through Google Play: where it stands, and Google Play's own page to
+          // change it (renewal, payment method, cancel).
+          if (pro && playSub != null) ...[
+            const SizedBox(height: MmSpace.s8),
+            Text(subscriptionLine(playSub), style: type.small.copyWith(color: colors.ink2)),
+            const SizedBox(height: MmSpace.s4),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: KeyButton.quiet(label: BillingCopy.manageSubscription, onPressed: () => ref.read(playManageSubscriptionProvider)()),
             ),
           ],
           // One quiet line (M-002): where the mocks come from, true on every plan.

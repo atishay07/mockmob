@@ -96,6 +96,10 @@ abstract final class ApiCodes {
     'grant_unavailable',
     'play_not_configured',
     'user_not_found',
+    // The monthly subscription (19 Oct 2026): Google holds it, but it gives no Pro now.
+    'subscription_on_hold',
+    'subscription_paused',
+    'subscription_ended',
   };
 }
 

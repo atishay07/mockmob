@@ -51,7 +51,7 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
     final loading = s.productsLoading || (s.store == StoreAvailability.checking && s.products.isEmpty);
     final anyPrice = packs.any((p) => s.priceOf(p.id) != null);
     final bought = s.stage == BillingStage.confirmed ? PlayProducts.byId(s.productId ?? '') : null;
-    final boughtPack = bought != null && bought.kind != PlayProductKind.pro ? bought : null;
+    final boughtPack = bought != null && bought.kind == PlayProductKind.creditPack ? bought : null;
 
     final Widget body;
     if (anyPrice) {

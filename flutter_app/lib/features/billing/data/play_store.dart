@@ -1,7 +1,45 @@
 import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform, visibleForTesting;
 import 'package:in_app_purchase_android/billing_client_wrappers.dart' show PurchaseStateWrapper;
-import 'package:in_app_purchase_android/in_app_purchase_android.dart' show GooglePlayPurchaseDetails, InAppPurchaseAndroidPlatform;
+import 'package:in_app_purchase_android/in_app_purchase_android.dart'
+    show GooglePlayProductDetails, GooglePlayPurchaseDetails, GooglePlayPurchaseParam, InAppPurchaseAndroidPlatform;
 import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart';
+
+import 'play_products.dart';
+
+/// Google Play answers a subscription query with one [ProductDetails] per offer of each base plan.
+/// The app sells the base plan itself: [PlayProduct.basePlanId] with no offer on top (no trial, no
+/// introductory price, owner D136). Every other offer is left out, so the price shown and the offer
+/// token bought are always the base plan's. One-time products pass through as they are.
+Map<String, ProductDetails> sellableDetails(Iterable<ProductDetails> details) {
+  final out = <String, ProductDetails>{};
+  for (final d in details) {
+    final product = PlayProducts.byId(d.id);
+    if (product == null) continue;
+    if (product.isSubscription && !isBasePlanOffer(d, product.basePlanId!)) continue;
+    out[d.id] = d;
+  }
+  return out;
+}
+
+/// True when [d] is the base plan [basePlanId] itself (Google's offer id is null for it). Details that
+/// do not come from Google Play's plugin (a test's fake) carry no offers and count as the base plan.
+bool isBasePlanOffer(ProductDetails d, String basePlanId) {
+  if (d is! GooglePlayProductDetails) return true;
+  final i = d.subscriptionIndex;
+  final offers = d.productDetails.subscriptionOfferDetails;
+  if (i == null || offers == null || i < 0 || i >= offers.length) return false;
+  return offers[i].basePlanId == basePlanId && offers[i].offerId == null;
+}
+
+/// How often a subscription's price is charged, from Google Play's own pricing phase (ISO 8601, for
+/// example `P1M`). Null for a one-time product or when Google did not say.
+String? billingPeriodOf(ProductDetails d) {
+  if (d is! GooglePlayProductDetails) return null;
+  final i = d.subscriptionIndex;
+  final offers = d.productDetails.subscriptionOfferDetails;
+  if (i == null || offers == null || i < 0 || i >= offers.length || offers[i].pricingPhases.isEmpty) return null;
+  return offers[i].pricingPhases.last.billingPeriod;
+}
 
 /// What the billing controller needs from Google Play, in one small seam. The real one is
 /// [PluginPlayStore] (the official `in_app_purchase` plugin); tests pass a fake.
@@ -72,8 +110,13 @@ class PluginPlayStore implements PlayStore {
 
   @override
   Future<bool> buy(ProductDetails product, {required bool consumable, required String accountHash}) {
-    // On Android the application user name becomes the purchase's obfuscated account id.
-    final param = PurchaseParam(productDetails: product, applicationUserName: accountHash);
+    // On Android the application user name becomes the purchase's obfuscated account id. A
+    // subscription is bought with its base plan's offer token, named here rather than left to the
+    // plugin's default.
+    final offerToken = product is GooglePlayProductDetails ? product.offerToken : null;
+    final PurchaseParam param = offerToken != null
+        ? GooglePlayPurchaseParam(productDetails: product, applicationUserName: accountHash, offerToken: offerToken)
+        : PurchaseParam(productDetails: product, applicationUserName: accountHash);
     // autoConsume off: the plugin would otherwise consume a pack the moment Google Play reports
     // it, before the server has granted anything. The server consumes it after the grant.
     return consumable ? _platform.buyConsumable(purchaseParam: param, autoConsume: false) : _platform.buyNonConsumable(purchaseParam: param);
