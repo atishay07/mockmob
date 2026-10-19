@@ -18,6 +18,24 @@ import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_STATE } from '../../../data/first
 import { usesLine } from '../creditCopy.mjs';
 import { DAILY_FREE_LINE, DAILY_SET, PRICE_AT_START_LINE, dailySetState, isDailySet } from '../dailySet.mjs';
 
+// Today never waits for the free-first-mock read to paint (release 11 verifier L10). A mock move in the read's subject keeps one
+// line free under its key (priceSlot): while the read is on its way the line is empty, and the price lands in the same space, so
+// nothing below it moves. The space is the longest line the move can show, laid out invisibly behind the real one.
+const isMock = (m) => m?.kind === 'mock' || m?.id === 'firstMock';
+
+/** Is this move's price still waiting for the free-first-mock read? `firstFull` is { subject, state, settled }. */
+export function pricePending(m, { premium = false, firstFull = null } = {}) {
+  return Boolean(!premium && isMock(m) && firstFull && typeof firstFull === 'object' && firstFull.settled === false && m.subject && m.subject === firstFull.subject);
+}
+
+/** The words that size a mock move's price line: the longest it can show (free, unknown, or its price with the balance). */
+export function priceSlotOf(m, { premium = false, balance = null, firstFull = null } = {}) {
+  if (premium || !isMock(m) || !firstFull || typeof firstFull !== 'object') return null;
+  const cost = practiceCreditCost('full', TEST_MODES.full.fixedCount);
+  const lines = [FIRST_FULL_MOCK_COPY.price, PRICE_AT_START_LINE, usesLine({ what: 'This mock', cost, pool: 'practice', balance })];
+  return lines.reduce((a, b) => (b.length > a.length ? b : a));
+}
+
 export function priceLineOf(m, { premium = false, balance = null, dailySet = DAILY_SET.priced, firstFull = null } = {}) {
   if (m.id === 'revise') return 'Free. No credits.';
   if (premium || m.aiEach || ['resume', 'check', 'done', 'plan'].includes(m.id) || (m.id === 'returning' && m.open > 0)) return null;

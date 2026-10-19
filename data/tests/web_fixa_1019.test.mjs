@@ -174,3 +174,34 @@ test('walk 6: no screen names the old place "Review" ("in Review", "Open Review"
   // "Review" that means reviewing answers stays ("Review your mistakes", "Review and repair", NTA's "Mark for Review").
   assert.match(read('src/app/(app)/dashboard/PracticeRepairs.jsx'), /label: 'Review and repair'/);
 });
+
+// ---- 9. (verifier L10) Today never waits for the second quote read ---------------------------------------------------------
+test('L10: Today paints without waiting for the free-first-mock read; a mock\'s price line keeps its space and fills in place', async () => {
+  const { priceLineOf, pricePending, priceSlotOf } = await import('../../src/lib/today/priceLine.mjs');
+  const mock = { id: 'firstMock', kind: 'mock', number: 50, subject: 'economics', key: { href: '/dashboard?subject=economics&mode=full' } };
+  const waiting = { subject: 'economics', state: 'unknown', settled: false };
+  const landed = { subject: 'economics', state: 'available', settled: true };
+  assert.equal(pricePending(mock, { firstFull: waiting }), true, 'on its way: the line is held empty');
+  assert.equal(pricePending(mock, { firstFull: landed }), false);
+  assert.equal(pricePending(mock, { firstFull: { ...waiting, subject: 'english' } }), false, 'another subject was not read');
+  assert.equal(pricePending(mock, { premium: true, firstFull: waiting }), false, 'Pro prints no price');
+  assert.equal(pricePending({ id: 'practice', number: 10, subject: 'economics' }, { firstFull: waiting }), false, 'a practice set never waits for it');
+  // The room is the longest line the move can show, so the free line, "Practice shows the price" or the price all fit it.
+  const room = priceSlotOf(mock, { balance: 1234, firstFull: waiting });
+  for (const state of ['available', 'unknown', 'used']) {
+    const line = priceLineOf(mock, { balance: 1234, firstFull: { subject: 'economics', state, settled: true } });
+    assert.ok(line.length <= room.length, `${state}: "${line}" fits "${room}"`);
+  }
+  assert.equal(priceSlotOf(mock, { premium: true, firstFull: waiting }), null);
+  assert.equal(priceSlotOf(mock, { firstFull: null }), null, 'the rule switched off: a plain line, as before');
+  const page = read('src/app/(app)/today/page.jsx');
+  assert.doesNotMatch(code(page), /firstFullState === 'unknown'|mockLeads/, 'the page hold no longer waits for the read');
+  assert.match(page, /const holdForPage = !waitedOut && \(\[data\.rhythm, data\.road, data\.goal, insights\]\.some\(\(r\) => r\.status === 'loading'\) \|\| Boolean\(userId && !premium && dailySet === 'unknown'\)\);/);
+  assert.match(page, /priceLine: pending \? '' : priceLineOf\(m, \{ premium, balance, dailySet, firstFull \}\), priceSlot: priceSlotOf\(m, \{ premium, balance, firstFull \}\)/);
+  const card = read('src/components/today/TodayMove.jsx');
+  assert.match(card, /m\.priceSlot \? <p className="tm__price tm__price--slot"><span className="tm__price-room" aria-hidden="true">\{m\.priceSlot\}<\/span><span>\{m\.priceLine\}<\/span><\/p>/);
+  const css = read('src/components/today/today.css');
+  assert.match(css, /\.app-shell \.tm__price--slot \{ display: grid; \}/);
+  assert.match(css, /\.app-shell \.tm__price--slot > span \{ grid-area: 1 \/ 1; \}/);
+  assert.match(css, /\.app-shell \.tm__price-room \{ visibility: hidden; \}/);
+});
