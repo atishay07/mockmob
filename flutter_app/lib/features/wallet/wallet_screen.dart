@@ -245,7 +245,7 @@ class WalletBalanceCard extends StatelessWidget {
             else
               Text(figureWords, style: type.title.copyWith(color: colors.ink3)),
             if (split) ...[
-              const SizedBox(height: MmSpace.s20),
+              const SizedBox(height: MmSpace.s16),
               _SplitBar(free: free, kept: held),
               const SizedBox(height: MmSpace.s16),
               _Part(
@@ -291,12 +291,12 @@ class _SplitBar extends StatelessWidget {
       child: SizedBox(
         height: 8,
         child: empty
-            ? ColoredBox(color: colors.line)
+            ? ColoredBox(color: colors.line, child: const SizedBox.expand())
             : Row(
                 children: [
-                  if (free > 0) Expanded(flex: free, child: ColoredBox(color: colors.volt)),
+                  if (free > 0) Expanded(flex: free, child: ColoredBox(color: colors.volt, child: const SizedBox.expand())),
                   if (free > 0 && kept > 0) const SizedBox(width: 2),
-                  if (kept > 0) Expanded(flex: kept, child: ColoredBox(color: colors.ink3)),
+                  if (kept > 0) Expanded(flex: kept, child: ColoredBox(color: colors.ink3, child: const SizedBox.expand())),
                 ],
               ),
       ),
@@ -380,7 +380,7 @@ class _ProBridge extends StatelessWidget {
     final type = context.mmType;
     return DecoratedBox(
       position: DecorationPosition.foreground,
-      decoration: BoxDecoration(borderRadius: MmRadius.panelAll, border: Border.all(color: colors.voltEdge, width: 1.5)),
+      decoration: BoxDecoration(borderRadius: MmRadius.panelAll, border: Border.all(color: colors.lineStrong)),
       child: MmSurface.plain(
         onTap: onTap,
         semanticsLabel: '${WalletCopy.proBridgeTitle}. ${WalletCopy.proBridgeBody} ${WalletCopy.proBridgeKey}',
@@ -443,54 +443,20 @@ class _Buys extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Wrap(
-              spacing: MmSpace.s12,
-              runSpacing: MmSpace.s12,
-              children: [
-                for (final (icon, cost, what, note) in tiles)
-                  SizedBox(
-                    width: w,
-                    child: Semantics(
-                      container: true,
-                      label: '$what: ${cost == null ? WalletCopy.includedOnPro : '$cost ${WalletCopy.creditsWord(cost)}'}${note == null ? '' : '. $note'}',
-                      excludeSemantics: true,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: colors.raised,
-                          borderRadius: MmRadius.smallAll,
-                          border: Border.all(color: colors.line),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(MmSpace.s12),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Icon(icon, size: 18, color: colors.ink2),
-                              const SizedBox(height: MmSpace.s8),
-                              Text.rich(
-                                TextSpan(children: [
-                                  TextSpan(
-                                    text: cost == null ? WalletCopy.includedOnPro : '$cost',
-                                    style: type.title.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
-                                  ),
-                                  if (cost != null)
-                                    TextSpan(text: ' ${WalletCopy.creditsWord(cost)}', style: type.small.copyWith(color: colors.ink2)),
-                                ]),
-                              ),
-                              const SizedBox(height: 2),
-                              Text(what, style: type.small.copyWith(color: colors.ink)),
-                              if (note != null) ...[
-                                const SizedBox(height: 2),
-                                Text(note, style: type.caption.copyWith(color: colors.goodText)),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-              ],
-            ),
+            for (final (r, row) in [tiles.sublist(0, 2), tiles.sublist(2)].indexed) ...[
+              if (r > 0) const SizedBox(height: MmSpace.s12),
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (final (i, t) in row.indexed) ...[
+                      if (i > 0) const SizedBox(width: MmSpace.s12),
+                      SizedBox(width: w, child: _BuyTile(icon: t.$1, cost: t.$2, what: t.$3, note: t.$4)),
+                    ],
+                  ],
+                ),
+              ),
+            ],
             const SizedBox(height: MmSpace.s12),
             Text(WalletCopy.costShows, style: type.caption.copyWith(color: colors.ink3)),
           ],
@@ -548,6 +514,54 @@ class _HistoryRow extends StatelessWidget {
                   ],
                 ],
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BuyTile extends StatelessWidget {
+  const _BuyTile({required this.icon, required this.cost, required this.what, this.note});
+
+  final IconData icon;
+
+  /// Null on Pro for what Pro includes.
+  final int? cost;
+  final String what;
+  final String? note;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final c = cost;
+    return Semantics(
+      container: true,
+      label: '$what: ${c == null ? WalletCopy.includedOnPro : '$c ${WalletCopy.creditsWord(c)}'}${note == null ? '' : '. $note'}',
+      excludeSemantics: true,
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: colors.raised, borderRadius: MmRadius.smallAll, border: Border.all(color: colors.line)),
+        child: Padding(
+          padding: const EdgeInsets.all(MmSpace.s12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, size: 18, color: colors.ink2),
+              const SizedBox(height: MmSpace.s8),
+              Text.rich(
+                TextSpan(children: [
+                  TextSpan(text: c == null ? WalletCopy.includedOnPro : '$c', style: type.title.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
+                  if (c != null) TextSpan(text: ' ${WalletCopy.creditsWord(c)}', style: type.small.copyWith(color: colors.ink2)),
+                ]),
+              ),
+              const SizedBox(height: 2),
+              Text(what, style: type.small.copyWith(color: colors.ink)),
+              if (note != null) ...[
+                const SizedBox(height: 2),
+                Text(note!, style: type.caption.copyWith(color: colors.goodText)),
+              ],
             ],
           ),
         ),
