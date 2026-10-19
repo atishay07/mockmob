@@ -127,27 +127,23 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
         final runs = MobV3Copy.runsSoFar(g!.runs, now);
         children
           ..add(_HostLine(game: g, v3: v3, title: MobV3Copy.openedA(g)))
-          ..add(const SizedBox(height: MmSpace.s4))
-          ..add(
-            Padding(
-              padding: const EdgeInsets.only(left: _HostLine.indent),
-              child: Text(keepTimes(MobV3Copy.openLine(g, now)), style: type.body.copyWith(color: colors.ink2)),
-            ),
-          );
+          ..add(const SizedBox(height: MmSpace.s8))
+          // Full card width (not indented under the head disc): one line less at 360 dp (H5).
+          ..add(Text(keepTimes(MobV3Copy.openLine(g, now)), style: type.body.copyWith(color: colors.ink2)));
         if (runs != null) {
           children
-            ..add(const SizedBox(height: MmSpace.s12))
+            ..add(const SizedBox(height: MmSpace.s8))
             ..add(_RunsRow(text: runs));
         }
         children
           ..add(const SizedBox(height: MmSpace.s16))
-          ..add(KeyButton(label: MobV3Copy.playKey(g), onPressed: () => MobV3Nav.run(context, g.id)))
+          ..add(KeyButton(key: const ValueKey('den-play-key'), label: MobV3Copy.playKey(g), onPressed: () => MobV3Nav.run(context, g.id)))
           ..add(const SizedBox(height: MmSpace.s4))
           ..add(_moreLink() ?? DenLink(label: MobV3Copy.moreWays, onTap: () => showPlayPicker(context)));
       case DenCardKind.played:
         final yours = _yourRunAt(g!);
         children
-          ..add(_HostLine(game: g, v3: v3, title: (g.title?.isNotEmpty ?? false) ? g.title! : MobV3Copy.gameTitle(g)))
+          ..add(_HostLine(game: g, v3: v3, title: _titleOf(g)))
           ..add(const SizedBox(height: MmSpace.s4));
         if (yours != null && g.closesAt != null) {
           children.add(
@@ -224,6 +220,14 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
     return DenPaperCard(
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: children),
     );
+  }
+
+  bool _mine(MobGameSummary g) => g.host == null || g.host!.you || g.host!.memberId == v3.you?.memberId;
+
+  /// "Your sprint" for a game you opened (the server may name you), else the server's title.
+  String _titleOf(MobGameSummary g) {
+    if (_mine(g)) return 'Your ${MobV3Copy.gameKind(g.format)}';
+    return (g.title?.isNotEmpty ?? false) ? g.title! : MobV3Copy.gameTitle(g);
   }
 
   DateTime? _yourRunAt(MobGameSummary g) {
@@ -306,13 +310,17 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
     final played = g.yourRun == YourRun.finished;
     final at = _yourRunAt(g);
     final line = played ? (at == null ? null : MobV3Copy.onePlayedLine(at, g.closesAt, now)) : MobV3Copy.oneOpenLine(g, now);
+    // Your own game reads "Your sprint", whatever name the server put on it (it said "Aarav's sprint").
+    final kind = MobV3Copy.gameKind(g.format);
+    final mine = _mine(g);
+    final title = _titleOf(g);
     return DenPaperCard(
       key: const ValueKey('den-one-game'),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          _HostLine(game: g, v3: v3, title: (g.title?.isNotEmpty ?? false) ? g.title! : MobV3Copy.gameTitle(g)),
+          _HostLine(game: g, v3: v3, title: title),
           if (line != null) ...[
             const SizedBox(height: MmSpace.s4),
             Padding(
@@ -323,7 +331,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           const SizedBox(height: MmSpace.s16),
           played
               ? KeyButton.secondary(key: const ValueKey('den-one-podium'), label: MobV3Copy.seePodiumSoFar, onPressed: () => MobV3Nav.podium(context, g.id))
-              : KeyButton.secondary(key: const ValueKey('den-one-play'), label: MobV3Copy.playKey(g), onPressed: () => MobV3Nav.run(context, g.id)),
+              : KeyButton.secondary(key: const ValueKey('den-one-play'), label: mine ? 'Play your $kind' : MobV3Copy.playKey(g), onPressed: () => MobV3Nav.run(context, g.id)),
           const SizedBox(height: MmSpace.s4),
         ],
       ),
@@ -444,7 +452,7 @@ class _RunsRow extends StatelessWidget {
     final type = context.mmType;
     final colors = context.mmColors;
     return Padding(
-      padding: const EdgeInsets.only(left: _HostLine.indent),
+      padding: EdgeInsets.zero,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -485,7 +493,7 @@ class _TickRule extends CustomPainter {
 
 /// The den's card surface: raised paper with a hairline, a lamp-lit top edge and a folded corner.
 class DenPaperCard extends StatelessWidget {
-  const DenPaperCard({super.key, required this.child, this.padding = const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s12)});
+  const DenPaperCard({super.key, required this.child, this.padding = const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s16, MmSpace.s20, MmSpace.s12)});
 
   final Widget child;
   final EdgeInsetsGeometry padding;

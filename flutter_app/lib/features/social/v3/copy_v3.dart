@@ -127,12 +127,14 @@ abstract final class MobV3Copy {
     return '$who opened $article';
   }
 
-  /// "5 Goodwill questions. Race the runs so far. Open until 2:05 PM tomorrow."
+  /// "5 Goodwill questions. Open until 2:05 PM tomorrow." With no runs yet: "Be the first to set a run."
+  /// With runs, the runs row under it says who to race, so the line does not say it twice (H5: the
+  /// card is one line shorter and its key stays in view at 360 dp).
   static String openLine(MobGameSummary g, DateTime now) {
     final what = g.chapter == null || g.chapter!.isEmpty ? '${g.count} ${g.subjectName} questions' : '${g.count} ${g.chapter} questions';
-    final race = g.runs.isEmpty ? 'Be the first to set a run.' : 'Race the runs so far.';
+    final race = g.runs.isEmpty ? ' Be the first to set a run.' : '';
     final until = g.closesAt == null ? '' : ' Open until ${MobTime.when(g.closesAt!, now)}.';
-    return '$what. $race$until';
+    return '$what.$race$until';
   }
 
   /// "Runs so far: Riya, 2:10 PM. Kabir, 4:55 PM." Finished runs only (F2). Null with none.

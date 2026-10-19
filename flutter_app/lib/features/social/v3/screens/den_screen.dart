@@ -412,9 +412,14 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
       builder: (context, box) {
         final w = box.maxWidth;
         final stageTop = top + DenScreen.headerRow;
-        final roomH = stageTop + DenSizes.stageHeight(w);
         final mob = view?.mob;
         final v3 = view?.v3;
+        // The stage keeps its 280 dp for the Folds; the tag band under their boots only keeps the room
+        // its names need (two lines at large text, a second caption line in a Mob of one). The rest
+        // goes to the card, so its key is on screen on first view at 360 dp (H5).
+        final tagNeed = MediaQuery.textScalerOf(context).scale(18) * ((v3?.members.length ?? 2) <= 1 ? 2 : 1) + 14;
+        final spare = (DenSizes.tagBand - tagNeed).clamp(0.0, DenSizes.tagBand);
+        final roomH = stageTop + DenSizes.stageHeight(w) - spare;
         final loading = view == null && state.value == null && state.error == null;
         final failed = view == null && !loading;
         final now = ref.watch(denClockProvider)();
@@ -508,7 +513,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
           children: [
             room,
             Padding(
-              padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s4, MmSpace.gutter, MmSpace.s48 + bottom),
+              padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s48 + bottom),
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: below),
             ),
           ],

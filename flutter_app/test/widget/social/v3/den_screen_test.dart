@@ -114,6 +114,54 @@ void main() {
     expect(find.text(MobV3Copy.copyCode), findsOneWidget);
   });
 
+  testWidgets('H2: a Mob of one after you played your own sprint shows your time and the podium so far', (tester) async {
+    await pumpDen(tester, v3Server(scenario: 'oneplayed'));
+    await _open(tester);
+    expect(find.byKey(const ValueKey('den-one-game')), findsOneWidget);
+    expect(find.text('Your sprint'), findsOneWidget);
+    expect(find.textContaining('You played at'), findsOneWidget);
+    expect(find.text(MobV3Copy.seePodiumSoFar), findsOneWidget);
+    expect(find.text(MobV3Copy.startSprint), findsOneWidget, reason: 'another sprint can still be started');
+    // The invite stays below it and is still the one volt key.
+    expect(find.text(MobV3Copy.inviteWhatsApp), findsOneWidget);
+    expect(tester.getRect(find.byKey(const ValueKey('den-one-game'))).top, lessThan(tester.getRect(find.text(MobV3Copy.oneTitle)).top));
+  });
+
+  testWidgets('H2: a Mob of one with no game keeps the plain D5', (tester) async {
+    await pumpDen(tester, v3Server(scenario: 'one'));
+    await _open(tester);
+    expect(find.byKey(const ValueKey('den-one-game')), findsNothing);
+    expect(find.text(MobV3Copy.seePodiumSoFar), findsNothing);
+  });
+
+  testWidgets('L4: in a Mob of one your Fold stands in the middle of the lamp pool', (tester) async {
+    await pumpDen(tester, v3Server(scenario: 'one'));
+    await _open(tester);
+    final fold = tester.getCenter(find.byType(FoldPuppet));
+    expect(fold.dx, closeTo(180, 2));
+  });
+
+  testWidgets('L5: a brand-new Mob pennant says New Mob, never 0 weeks', (tester) async {
+    await pumpDen(tester, v3Server(scenario: 'one'));
+    await _open(tester);
+    expect(find.text('0'), findsNothing);
+    expect(find.text(MobV3Copy.pennantNew), findsOneWidget);
+    expect(find.text('Mob'), findsOneWidget);
+  });
+
+  testWidgets('H5: at 360 x 800 the heavy den shows the play key above the bottom bar, the pass notice under the card', (tester) async {
+    await pumpDen(tester, v3Server(scenario: 'heavy'), height: 800);
+    await _open(tester);
+    final key = find.byKey(const ValueKey('den-play-key'));
+    expect(key, findsOneWidget);
+    // The tab bar and the gesture bar take the last 100 dp of an 800 dp phone, the status bar the
+    // first 40 (the emulator's 720 x 1600 at 2x).
+    expect(tester.getRect(key).bottom, lessThanOrEqualTo(800 - 100 - 40), reason: 'the one key is visible on first view');
+    final notice = find.byKey(const ValueKey('den-pass-notice'));
+    expect(notice, findsOneWidget);
+    expect(tester.getRect(notice).top, greaterThan(tester.getRect(key).bottom), reason: 'the notice sits under the card');
+  });
+
   testWidgets('D6 failed: the sentence and Try again, the room with no Folds', (tester) async {
     await pumpDen(
       tester,
@@ -217,7 +265,11 @@ void main() {
     expect(EnterDen.dim(420), closeTo(0, 0.001));
     expect(EnterDen.roomDy(120), closeTo(14, 0.001));
     expect(EnterDen.roomDy(480), closeTo(0, 0.001));
-    expect(EnterDen.pennantAngle(160) * 180 / 3.141592653589793, closeTo(2.4, 0.01));
+    expect(EnterDen.pennantAngle(160) * 180 / 3.141592653589793, closeTo(4.8, 0.01));
+    // Even half-swings of 225 ms: -2.4 at 385, +1.2 at 610, -0.4 at 835 (a visible, decaying sway).
+    expect(EnterDen.pennantAngle(385) * 180 / 3.141592653589793, closeTo(-2.4, 0.01));
+    expect(EnterDen.pennantAngle(610) * 180 / 3.141592653589793, closeTo(1.2, 0.01));
+    expect(EnterDen.pennantAngle(835) * 180 / 3.141592653589793, closeTo(-0.4, 0.01));
     expect(EnterDen.pennantAngle(1060).abs(), lessThan(0.0001));
     // Folds from 200, 90 ms apart; rise 14 dp and scale 0.92 to 1.
     expect(EnterDen.fold(199, 0).$1, 0);
