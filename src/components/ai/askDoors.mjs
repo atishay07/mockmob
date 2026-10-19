@@ -57,7 +57,7 @@ export const greeting = (name, sessions) => {
 export const greetName = (user) => shownFirstName(user?.name, user?.email);
 
 export const recordLine = (sessions) => (sessions === 1 ? 'Mobi reads your first paper and answers from it.' : `Mobi reads your ${sessions} papers and answers from them.`);
-export const leadFigureLine = (chapter) => `marks lost in ${chapter}, your biggest leak`;
+export const leadFigureLine = (chapter) => `marks to win back in ${chapter}, your biggest leak`;
 export const seeAll = (n) => `See all ${n} questions about your record`;
 export const seeFewer = 'Show fewer questions';
 export const chaptersRanked = (n) => `${n} ${n === 1 ? 'chapter' : 'chapters'} ranked from your answers`;
@@ -161,19 +161,18 @@ export function priceOfTyped(text, { insights = null, status = 'loading', pro = 
 
 // ---- Ask your record ----------------------------------------------------------------------------------------------
 
-const LOST_WRONG = 6; // 5 not earned and 1 taken off (Your papers' own arithmetic, data/review_chapters.mjs)
-const LOST_BLANK = 5;
-
-/** The chapter that cost the most marks, with the figure: { lost, chapter }, or null when no chapter is ranked yet. */
+/**
+ * The record's own biggest leak: its top-ranked chapter and that chapter's figure, { lost, chapter }, or null when no chapter is
+ * ranked yet. The ranking and the figure are the record's (data/prepos_insights.js: chapters ranked by the marks to win back,
+ * `open`; the record below the doors prints the same number as "marks to win back"), never worked out a second way here, so one
+ * chapter has one number on the page and the door names the chapter the answer names.
+ */
 export function recordLead(insights) {
   if (!ready(insights)) return null;
-  let best = null;
-  for (const c of insights.chapters?.ranked || []) {
-    const lost = (Number(c.wrong) || 0) * LOST_WRONG + (Number(c.skip) || 0) * LOST_BLANK;
-    const name = String(c.chapter || '').trim();
-    if (lost > 0 && name && (!best || lost > best.lost)) best = { lost, chapter: name };
-  }
-  return best;
+  const top = (insights.chapters?.ranked || [])[0];
+  const name = String(top?.chapter || '').trim();
+  const lost = Number(top?.open);
+  return name && Number.isFinite(lost) && lost > 0 ? { lost, chapter: name } : null;
 }
 
 const sec = (s) => (s >= 60 ? `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, '0')}` : `${Math.round(s)}s`);
@@ -282,7 +281,7 @@ export function recordDoorAsks(insights, { pro = false, last = null, now = new D
   const changes = isReady ? insights.changes : null;
   const ranked = isReady ? insights.chapters?.ranked || [] : [];
   return [
-    { id: 'losing', text: 'Where am I losing marks?', price: 'free', preview: lead ? `${lead.lost} marks lost in ${lead.chapter}` : 'Reads your wrong and blank answers' },
+    { id: 'losing', text: 'Where am I losing marks?', price: 'free', preview: lead ? `${lead.lost} marks to win back in ${lead.chapter}` : 'Reads your wrong and blank answers' },
     { id: 'chapter', text: 'Which chapter should I practise?', price: 'free', preview: ranked.length ? chaptersRanked(ranked.length) : 'Ranks the chapters costing you the most marks' },
     ...(last ? [{ id: 'last', text: LAST_PAPER_ASK, price: 'free', preview: last.preview, answer: last }] : []),
     { id: 'revise', text: `What should I revise ${tonightOrToday(now)}?`, price: 'credit', preview: revisePreview },
@@ -319,11 +318,11 @@ export function creditLine(wallet) {
   if (wallet.total <= 0) return { first: `You have no credits left.${d ? ` Your free credits refill on ${d.replace(' ', ' ')}.` : ''}`, second: DOOR_COPY.howItCostsNone, known: true };
   const bought = (wallet.bonusCredits || 0) > 0 || (wallet.balanceCredits || 0) > 0 || (wallet.heldCredits || 0) > 0;
   const monthly = wallet.includedMonthlyCredits;
-  const when = d ? ` · they refill ${d}` : '';
+  const when = d ? ` · they refill on ${d}` : '';
   if (!bought && Number.isFinite(monthly) && wallet.total <= monthly) {
     return { first: `${wallet.total} of your ${monthly} free credits left${when}`, second: DOOR_COPY.howItCosts, known: true };
   }
-  const free = d ? ` · free ones refill ${d}` : '';
+  const free = d ? ` · free ones refill on ${d}` : '';
   return { first: `${wallet.total === 1 ? '1 credit' : `${wallet.total} credits`} left${free}`, second: DOOR_COPY.howItCosts, known: true };
 }
 
@@ -358,9 +357,12 @@ export function clockStamp(at, { timeZone } = {}) {
   return `${get('weekday')} ${get('day')} ${get('month')}, ${get('hour')}:${get('minute')} ${get('dayPeriod').toLowerCase()}`;
 }
 
-/** What a saved reply cost, in words: written replies say their credit, record answers say free, anything else says nothing. */
+/**
+ * What a saved reply cost, in words: a written reply says the credits it really used, a record answer says free, anything else
+ * says nothing. A written reply with no charge saved (0) claims no cost, never "1 credit" (release 11 fix pass D).
+ */
 export function costOf(row) {
-  if (row.origin === 'model') return `Written answer · ${creditCount(row.charged || 1)}`;
+  if (row.origin === 'model') return Number(row.charged) > 0 ? `Written answer · ${creditCount(Number(row.charged))}` : 'Written answer';
   if (row.origin === 'record') return 'From your record · free';
   return null;
 }

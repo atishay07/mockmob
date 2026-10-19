@@ -4,7 +4,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { dueBadge, dueLabel, dueWords } from '../../src/lib/nav/dueCount.mjs';
+import { dueBadge, dueLabel, dueTabBadge, dueWords } from '../../src/lib/nav/dueCount.mjs';
 import { paperCountsOf, scopeOf, statsOf, subjectsOf } from '../../src/components/review/reviewScope.mjs';
 import { ATTEMPT_WINDOW, buildReviewRecord, paperCounts } from '../../src/lib/server/review.js';
 import { reviewBody } from '../review_input.mjs';
@@ -13,10 +13,12 @@ const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), '
 const code = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 
 // ---- 1. (verifier M1) the Revise count reads as a Revise count ---------------------------------------------------------------
-test('M1: the count beside Your papers and on the dock\'s Practice says "8 to revise", and a screen reader hears "8 questions to revise today"', () => {
-  assert.equal(dueBadge(8), '8 to revise');
-  assert.equal(dueBadge(1), '1 to revise');
-  assert.equal(dueBadge(140), '99+ to revise');
+test('M1: the sidebar and the dock say "8 due", the row of tabs "8 to revise", and a screen reader hears "8 questions to revise today"', () => {
+  assert.equal(dueBadge(8), '8 due');
+  assert.equal(dueBadge(1), '1 due');
+  assert.equal(dueBadge(140), '99+ due');
+  assert.equal(dueTabBadge(8), '8 to revise');
+  assert.equal(dueTabBadge(140), '99+ to revise');
   assert.equal(dueWords(8), '8 questions to revise today');
   assert.equal(dueLabel('Your papers', 8), 'Your papers, 8 questions to revise today');
   assert.equal(dueLabel('Practice', 1), 'Practice, 1 question to revise today');
@@ -25,7 +27,7 @@ test('M1: the count beside Your papers and on the dock\'s Practice says "8 to re
   // Every place the count is drawn: the sidebar's Your papers, the dock's Practice and Practice's row of tabs.
   assert.match(layout, /<i className="arena-nav-link__count" aria-hidden="true">\{dueBadge\(reviseBadge\)\}<\/i>/);
   assert.match(layout, /<i className="arena-badge" aria-hidden="true">\{dueBadge\(reviseBadge\)\}<\/i>/);
-  assert.match(tabs, /<i className="arena-tab__count" aria-hidden="true">\{dueBadge\(badge\)\}<\/i>/);
+  assert.match(tabs, /<i className="arena-tab__count" aria-hidden="true">\{dueTabBadge\(badge\)\}<\/i>/);
   assert.match(layout, /const countLabel = \(tab\) => \(reviseBadge && \(tab\.id === 'review' \|\| tab\.id === 'dashboard'\) \? dueLabel\(tab\.label, reviseBadge\) : undefined\);/);
   for (const src of [layout, tabs]) {
     assert.doesNotMatch(src, /> 99 \? '99\+' : (reviseBadge|badge)\}/, 'no bare number is drawn');

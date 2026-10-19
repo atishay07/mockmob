@@ -13,7 +13,7 @@
 import Link from 'next/link';
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { ChevronRight } from 'lucide-react';
-import { dueBadge } from '@/lib/nav/dueCount.mjs';
+import { dueTabBadge } from '@/lib/nav/dueCount.mjs';
 import { NUDGE_BACK_MS, NUDGE_DELAY_MS, NUDGE_EASE_OUT, NUDGE_KEY, NUDGE_OUT_MS, NUDGE_PX, NUDGE_SETTLE, TAB_PAD, peekPadding, scrollToShow } from './placeTabsPeek.mjs';
 
 const EDGE = 2;
@@ -150,7 +150,7 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
             <Link key={tab.id} href={hrefOf(tab)} className="arena-tab" aria-current={current ? 'page' : undefined}
               aria-label={badge ? countLabel?.(tab) : undefined} onClick={onNavigate}>
               <span>{tab.label}</span>
-              {badge ? <i className="arena-tab__count" aria-hidden="true">{dueBadge(badge)}</i> : null}
+              {badge ? <i className="arena-tab__count" aria-hidden="true">{dueTabBadge(badge)}</i> : null}
             </Link>
           );
         })}

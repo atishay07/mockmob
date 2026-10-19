@@ -18,10 +18,11 @@ import { answerFromInsights } from '../../../data/prepos_insights';
 import { creditCount, usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import { useInsights } from './useInsights';
 import { creditLine } from './askDoors.mjs';
+import { planStart } from './startPlan.mjs';
 import MobiMark from './MobiMark';
 import {
   answerFree, inSentence, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
-  suggestionsFor, walletLine,
+  suggestionsFor,
 } from './askSuggestions.mjs';
 
 // Offline: a written reply needs a connection, so nothing is sent and nothing is charged; answers from the record already on
@@ -52,7 +53,11 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const leave = () => { if (!onPage) onClose?.(); };
   const [context, setContext] = useState(opened);
   const [recordTry, setRecordTry] = useState(0);
-  const insightsState = useInsights(userId, recordTry);
+  // The page hands over the record it has already read, so a doors ask never depends on a second read that can fail. Without
+  // one (the docked panel), the panel reads the record itself.
+  const handed = initial?.record && (initial.record.status === 'ready' || initial.record.status === 'empty') ? initial.record : null;
+  const fetched = useInsights(handed ? null : userId, recordTry);
+  const insightsState = handed || fetched;
   const status = insightsState.status;
   const insights = insightsState.insights;
   const [showRecord, setShowRecord] = useState(opened?.record === true);
@@ -216,25 +221,24 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   useEffect(() => { onPending?.(Boolean(pending)); }, [pending, onPending]);
   const started = useRef(false);
   const startNow = useRef(null);
+  const [failedStart, setFailedStart] = useState(null);
   useEffect(() => {
     startNow.current = () => {
       if (!initial?.text || started.current) return;
-      const text = String(initial.text).trim();
-      const say = (reply, actions = []) => {
-        started.current = true;
-        setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text }, { id: `a_${Date.now()}`, role: 'assistant', response: { reply, origin: 'status', actions } }]);
-      };
-      if (initial.answer) { started.current = true; pushFree(text, initial.answer); return; }
-      const product = productAskFor(text);
-      if (product) { started.current = true; pushFree(text, answerFree(product, { context: scoped, insights, pro })); return; }
-      if (status === 'loading') return;
-      const fromRecord = status === 'ready' || status === 'empty' ? answerFromInsights(text, insights ?? { state: 'empty' }, { pro }) : null;
-      if (fromRecord) { started.current = true; pushFree(text, { reply: fromRecord.reply, actions: (fromRecord.actions || []).slice(0, 1), source: recordSource(insights) }); return; }
-      if (!wallet) return;
-      if (offline) { say('This was not sent because you are offline. No credit was used.'); return; }
-      if (!paid.open) { say(paid.why, [{ label: 'See your credits', route: '/wallet' }]); return; }
+      const plan = planStart({ initial, status, insights, pro, wallet, offline, paid });
+      const ask = (reply, actions = []) => setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text: plan.text }, { id: `a_${Date.now()}`, role: 'assistant', response: { reply, origin: 'status', actions } }]);
+      if (plan.kind === 'none' || plan.kind === 'wait') return;
       started.current = true;
-      sendPaid(text);
+      if (plan.kind === 'page') pushFree(plan.text, initial.answer);
+      else if (plan.kind === 'product') pushFree(plan.text, answerFree(plan.product, { context: scoped, insights, pro }));
+      else if (plan.kind === 'record') pushFree(plan.text, plan.answer);
+      else if (plan.kind === 'record-failed') {
+        // A "Free" ask is never sent as a written reply: it says what happened, that nothing was charged, and offers Try again.
+        const turnId = `u_${Date.now()}`;
+        setTurns((prev) => [...prev, { id: turnId, role: 'user', text: plan.text }]);
+        setFailedStart({ reply: plan.reply, turnId });
+      } else if (plan.kind === 'say') ask(plan.reply, plan.actions);
+      else sendPaid(plan.text);
     };
   });
   useEffect(() => {
@@ -242,14 +246,25 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     Promise.resolve().then(() => { if (active) startNow.current?.(); });
     return () => { active = false; };
   }, [initial, status, wallet, offline]);
+  function tryStartAgain() {
+    const failed = failedStart;
+    if (!failed) return;
+    setFailedStart(null);
+    setTurns((prev) => prev.filter((turn) => turn.id !== failed.turnId));
+    started.current = false;
+    // Handed a record: there is nothing to read again, so the ask runs again now. Otherwise the panel reads the record again,
+    // and the ask runs when that read settles (its status changes, which re-runs the effect above).
+    if (handed) window.setTimeout(() => startNow.current?.(), 0);
+    else setRecordTry((n) => n + 1);
+  }
 
   const dropQuestion = () => { setContext((prev) => ({ ...prev, kind: 'page', ref: null, number: null, pickLabel: null, keyLabel: null })); setQuestionCtx(null); setAsked([]); };
   const price = priceForText(input, { insights, status, pro, hasQuestion: questionTyping });
   const busy = Boolean(pending) || Boolean(retry);
   const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (paid.open && !offline));
-  const line = walletLine(wallet);
-  // On the page the credit line says it once, in the page's words (askDoors.mjs creditLine), the same as under the doors.
-  const pageLine = onPage ? creditLine(wallet).first : null;
+  // The credit line is the page's own words (askDoors.mjs creditLine), docked or on /mentor, so one balance reads one way
+  // everywhere: "38 of your 50 free credits left · they refill on 1 Nov".
+  const creditWords = creditLine(wallet).first;
   const placeholder = onPage ? 'Ask a follow-up' : questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${inSentence(scoped.label)}` : 'Ask about your record';
   const sessions = sessionsLabel(insights, status);
   const summary = recordSummary(insights, { pro });
@@ -341,6 +356,13 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           ? <p key={turn.id} className="amb-you amb-rise" data-last={index === lastIndex ? '' : undefined}>{turn.text}</p>
           : <Answer key={turn.id} response={turn.response} qName={qName} wallet={wallet} onNavigate={navigate} last={index === lastIndex} />)}
 
+        {failedStart ? (
+          <div className="amb-notice" role="status" data-last="">
+            <span>{failedStart.reply}</span>
+            <button type="button" className="amb-btn amb-btn--line" onClick={tryStartAgain}>Try again</button>
+          </div>
+        ) : null}
+
         {pending ? (
           <p className="amb-reading" role="status" data-last="">
             <MobiMark size={20} blinking />
@@ -409,10 +431,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         <div className="amb-cost">
           {/* The balance, with the wallet one tap away (the balance, its rules and the packs live there). */}
           <Link href="/wallet" className="amb-cost__wallet" onClick={leave}>
-            {pageLine ? pageLine : <>
-              {line.count !== null ? <b key={line.count} className="amb-num">{line.count}</b> : null}{line.count !== null ? ' ' : ''}{line.rest}
-              {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
-            </>}
+            {creditWords}
           </Link>
           <span className="amb-cost__price" aria-live="polite">
             {pending && onPage ? 'This reply uses 1 credit. A reply that fails uses none.' : !price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `An AI service writes it. ${usesLine({ what: 'This reply', cost: 1, pool: 'ai' })}` : 'Needs a written reply. Nothing is charged from here.'}
