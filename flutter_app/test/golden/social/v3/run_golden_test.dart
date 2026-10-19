@@ -35,6 +35,7 @@ void main() {
       await _toQuestion3(tester, b: b);
       await tester.tap(option(1));
       await tester.pump(const Duration(milliseconds: 300));
+      await tester.pump(const Duration(milliseconds: 500));
       await precacheRunArt(tester, rounds: 3);
       await expectLater(_app, matchesGoldenFile('goldens/run_r1_360_${_tag(b)}.png'));
     });

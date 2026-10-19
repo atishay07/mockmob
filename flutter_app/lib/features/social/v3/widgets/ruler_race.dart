@@ -74,18 +74,18 @@ class _Geo {
   static const double side = 12;
 
   double get poleX => width - 34;
-  double get poleTop => 30;
+  double get poleTop => 6;
   static const double boots = rulerTop + 3;
 
   double numberX(int i) {
     final a = side + 18;
-    final b = poleX - 30;
+    final b = poleX - 46;
     if (count <= 1) return (a + b) / 2;
     return a + (i.clamp(1, count) - 1) * (b - a) / (count - 1);
   }
 
-  /// Where a Fold that reached the flag stands: just before the pole.
-  double get flagStandX => poleX - 20;
+  /// Where a Fold that reached the flag stands: at the pole, which stands behind it.
+  double get flagStandX => poleX - 8;
 
   double slotX(int slot) => slot > count ? flagStandX : numberX(slot);
 }
@@ -519,7 +519,8 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
       if (i > 0) l = math.max(l, lefts[i - 1] + order[i - 1].w + 2);
       lefts.add(l);
     }
-    final maxRight = geo.width - _Geo.side;
+    // Names stop short of the pole, so a pennant never sits on a name.
+    final maxRight = geo.poleX - 2;
     for (var i = order.length - 1; i >= 0; i--) {
       final limit = i == order.length - 1 ? maxRight : lefts[i + 1] - 2;
       if (lefts[i] + order[i].w > limit) lefts[i] = limit - order[i].w;

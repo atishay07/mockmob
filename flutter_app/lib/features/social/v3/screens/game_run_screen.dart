@@ -215,6 +215,18 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
 
   static String? _code(Object e) => e is ApiError ? e.code : null;
 
+  /// RUN_EXPIRED carries `{ run: { finished, marks, answered, count } }` (in the error's details,
+  /// directly or under `detail`).
+  static int? _expiredMarks(Object e) {
+    if (e is! ApiError) return null;
+    Object? run = e.details['run'];
+    final detail = e.details['detail'];
+    if (run is! Map && detail is Map) run = detail['run'];
+    if (run is! Map) return null;
+    final m = run['marks'];
+    return m is num ? m.toInt() : null;
+  }
+
   bool _hasThree() {
     var run = 0;
     for (var i = 0; i < _count; i++) {
@@ -348,7 +360,9 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
         _sending = false;
         _slow = false;
         if (code == 'RUN_EXPIRED') {
+          // The server sends the stored run with it: R6 shows those marks (no refetch).
           _expired = MobV3Copy.error(e);
+          _marks = _expiredMarks(e) ?? _marks;
           _finished = true;
           _phase = _Phase.done;
         } else {

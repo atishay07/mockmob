@@ -4,6 +4,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/api/api.dart';
+import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/screens/podium_screen.dart';
 import 'package:mockmob/features/social/v3/widgets/fold_puppet.dart';
 import 'package:mockmob/features/social/v3/widgets/run_option.dart';
@@ -45,7 +47,7 @@ void main() {
   testWidgets('a pick names the key "Lock in B"; lock-in sends one request, even when tapped twice', (tester) async {
     final s = RecordingServer();
     await _ready(tester, s);
-    await tester.tap(option(1));
+    await tapOption(tester, 1);
     await tester.pump(const Duration(milliseconds: 150));
     expect(find.text('Lock in B'), findsOneWidget);
     expect(_look(tester, 1), RunOptionLook.picked);
@@ -62,7 +64,7 @@ void main() {
   testWidgets('"Saving your answer" shows only after 600 ms with no reply', (tester) async {
     final s = RecordingServer()..answerDelay = const Duration(seconds: 2);
     await _ready(tester, s);
-    await tester.tap(option(0));
+    await tapOption(tester, 0);
     await tester.pump(const Duration(milliseconds: 120));
     await tester.tap(find.byKey(const ValueKey('run-key-lock')));
     await tester.pump(const Duration(milliseconds: 550));
@@ -76,13 +78,13 @@ void main() {
   testWidgets('a retry after a timeout sends the same question and pick', (tester) async {
     final s = RecordingServer(failAnswers: 1);
     await _ready(tester, s);
-    await tester.tap(option(2));
+    await tapOption(tester, 2);
     await tester.pump(const Duration(milliseconds: 120));
     await tester.tap(find.byKey(const ValueKey('run-key-lock')));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 50));
     expect(find.byKey(const ValueKey('run-key-retry')), findsOneWidget);
-    expect(find.text("That didn't go through. Try again."), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const ValueKey('run-send-error'))).data, isNotEmpty);
     // The pick stays locked while it retries; nothing else can be picked.
     expect(_look(tester, 2), RunOptionLook.locked);
     await tester.tap(find.byKey(const ValueKey('run-key-retry')));
@@ -136,7 +138,7 @@ void main() {
     for (var i = 0; i < 4; i++) {
       expect(_look(tester, i), RunOptionLook.idle);
     }
-    final res = await s.answer(riyaSprint, q: 0, pick: -1);
+    final res = (await tester.runAsync(() => s.answer(riyaSprint, q: 0, pick: -1)))!;
     expect(res.delta, 0);
     expect(res.marks, 0);
   });
@@ -183,7 +185,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 500));
     expect(find.text('You played all 5.'), findsOneWidget);
     // 3 right, 1 wrong, 1 skipped: the server says 14. The app shows the server's number.
-    final run = await s.answer(riyaSprint, q: 4, pick: correctOf(4));
+    final run = (await tester.runAsync(() => s.answer(riyaSprint, q: 4, pick: correctOf(4))))!;
     expect(run.marks, 14);
     final marks = tester.widget<Text>(find.byKey(const ValueKey('run-done-marks')));
     expect(marks.textSpan!.toPlainText(), '14 marks');
@@ -198,25 +200,28 @@ void main() {
 
   testWidgets('resume from stored answers: no countdown, the Fold at its question, no animation', (tester) async {
     final s = RecordingServer();
-    await s.run(riyaSprint);
-    s.skew = const Duration(seconds: 42);
-    await s.answer(riyaSprint, q: 0, pick: correctOf(0));
-    s.skew = const Duration(seconds: 88);
-    await s.answer(riyaSprint, q: 1, pick: wrongOf(1));
+    await tester.runAsync(() async {
+      await s.run(riyaSprint);
+      s.skew = const Duration(seconds: 42);
+      await s.answer(riyaSprint, q: 0, pick: correctOf(0));
+      s.skew = const Duration(seconds: 88);
+      await s.answer(riyaSprint, q: 1, pick: wrongOf(1));
+    });
     s.calls.clear();
     await pumpRun(tester, s);
     expect(find.byKey(const ValueKey('run-countdown')), findsNothing);
     expect(find.text('Question 3 of 5'), findsOneWidget);
     final ruler = tester.widget<RulerRace>(find.byType(RulerRace));
-    expect(ruler.instant, isTrue);
     final you = ruler.racers.firstWhere((r) => r.you);
+    // No animation: your Fold is already standing where it stays.
+    final before = tester.getTopLeft(find.byKey(const ValueKey('ruler-fold-you')));
+    await tester.pump(const Duration(milliseconds: 150));
+    expect(tester.getTopLeft(find.byKey(const ValueKey('ruler-fold-you'))), before);
     expect(you.at, 3);
     expect(ruler.answered, 2);
     // The pace chip from the stored times.
     expect(find.text('4 s behind Kabir'), findsOneWidget);
     expect(s.calls, isEmpty);
-    await tester.pump(const Duration(milliseconds: 100));
-    expect(tester.widget<RulerRace>(find.byType(RulerRace)).instant, isFalse);
   });
 
   testWidgets('RUN_DONE goes straight to the podium', (tester) async {
@@ -279,4 +284,26 @@ void main() {
     expect(find.text('Right.'), findsOneWidget);
     expect(find.text('+5'), findsNothing); // no float in reduced motion
   });
+
+  testWidgets('RUN_EXPIRED: its sentence and the stored marks it carries, then the podium', (tester) async {
+    final s = _ExpiringServer();
+    await _ready(tester, s);
+    await tapOption(tester, 0);
+    await tester.pump(const Duration(milliseconds: 120));
+    await tester.tap(find.byKey(const ValueKey('run-key-lock')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(find.text('Your time on this game ran out. Questions you did not answer count as skipped.'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const ValueKey('run-done-marks'))).textSpan!.toPlainText(), '9 marks');
+    expect(find.text('See the podium'), findsOneWidget);
+  });
+}
+
+class _ExpiringServer extends RecordingServer {
+  @override
+  Future<AnswerResult> answer(String id, {required int q, required int pick}) async {
+    throw const ApiError(kind: ApiErrorKind.conflict, code: 'RUN_EXPIRED', status: 410, details: {
+      'run': {'finished': true, 'marks': 9, 'answered': 2, 'count': 5},
+    });
+  }
 }

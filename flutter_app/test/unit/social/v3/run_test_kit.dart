@@ -97,11 +97,20 @@ Future<void> precacheRunArt(WidgetTester tester, {int rounds = 10}) async {
 
 /// Plays the countdown out (2700 ms) and lets the question rise.
 Future<void> pastCountdown(WidgetTester tester) async {
-  await tester.pump(const Duration(milliseconds: 2800));
+  for (var i = 0; i < 60 && find.byKey(const ValueKey('run-countdown')).evaluate().isNotEmpty; i++) {
+    await tester.pump(const Duration(milliseconds: 100));
+  }
   await tester.pump(const Duration(milliseconds: 100));
 }
 
 Finder option(int i) => find.byKey(ValueKey('run-option-$i'));
+
+/// Scrolls option [i] into view (long questions push it below the fold) and taps it.
+Future<void> tapOption(WidgetTester tester, int i) async {
+  await tester.ensureVisible(option(i));
+  await tester.pump();
+  await tester.tap(option(i));
+}
 Finder keyLabel(String text) => find.text(text);
 
 /// Picks [pick] (or skips with -1) at run time [atSeconds] and waits for the server's answer.
@@ -110,7 +119,7 @@ Future<void> answerAt(WidgetTester tester, MobV3FakeServer server, {required int
   if (pick < 0) {
     await tester.tap(find.byKey(const ValueKey('run-key-skip')));
   } else {
-    await tester.tap(option(pick));
+    await tapOption(tester, pick);
     await tester.pump(const Duration(milliseconds: 120));
     await tester.tap(find.byKey(const ValueKey('run-key-lock')));
   }
