@@ -122,6 +122,7 @@ abstract final class AskDoorCopy {
   // While a written reply is on its way.
   static const writingNote = 'This reply uses 1 credit. A reply that fails uses none.';
   static const followUpHint = 'Ask a follow-up';
+  static const startOver = 'Ask something new';
 
   // The Practice card.
   static const cardTitle = 'Ask Mobi';

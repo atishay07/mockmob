@@ -124,6 +124,11 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       } else {
         ref.read(askQuestionProvider.notifier).clear();
       }
+      // A door chosen on Practice's card is a new question: the last conversation is put away so the
+      // doors show (an ordinary open keeps it, with "Ask something new" one tap away).
+      if (widget.door != null && cleanQuestionRef(widget.questionRef) == null) {
+        ref.read(askControllerProvider.notifier).startOver();
+      }
       // A question that was on its way when the app closed comes back with Send again.
       ref.read(askControllerProvider.notifier).restoreInterrupted();
       _openAtDoor();
@@ -487,6 +492,20 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                               )
                             else ...[
                               _head(record, name, size: 104, greet: hand == null),
+                              // Back to the two doors at any time, once the reply has landed.
+                              if (hand == null && !state.busy)
+                                Center(
+                                  child: KeyButton.secondary(
+                                    label: AskDoorCopy.startOver,
+                                    expanded: false,
+                                    minHeight: MmTarget.min,
+                                    onPressed: () {
+                                      ref.read(askControllerProvider.notifier).startOver();
+                                      _settled = 0;
+                                      _stageGlanced = false;
+                                    },
+                                  ),
+                                ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [

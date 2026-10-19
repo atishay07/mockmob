@@ -26,6 +26,7 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show Mobi, TabRootHeader;
 import 'package:mockmob/features/insights/copy.dart';
 import 'package:mockmob/features/insights/data/ai_reply_report.dart' show insightsPrefsStoreProvider;
+import 'package:mockmob/features/insights/data/ask_controller.dart';
 import 'package:mockmob/features/insights/data/ask_doors.dart';
 import 'package:mockmob/features/insights/data/ask_wallet.dart';
 import 'package:mockmob/features/insights/data/insights_models.dart';
@@ -318,6 +319,45 @@ void main() {
         });
       }
     }
+
+    const lastTalk = AskState(messages: [
+      AskMessage.student('Explain the sacrificing ratio in simple words'),
+      AskMessage.reply('The sacrificing ratio is the share each old partner gives up.', origin: AskOrigin.model),
+    ]);
+
+    testWidgets('an ordinary open keeps the last conversation, and "Ask something new" brings back the two doors', (tester) async {
+      await pumpMockmob(
+        tester,
+        const AskScreen(),
+        brightness: Brightness.dark,
+        size: const Size(384, 900),
+        disableAnimations: true,
+        overrides: insightsOverrides(credits: monthly(), ask: lastTalk),
+        wrapInScaffold: false,
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(AskNowDoor), findsNothing, reason: 'the conversation is still there, as in v15.2');
+      expect(find.text(AskDoorCopy.startOver), findsWidgets);
+      await tester.tap(find.text(AskDoorCopy.startOver).first);
+      await tester.pumpAndSettle();
+      expect(find.byType(AskNowDoor), findsOneWidget);
+      expect(find.byType(AskRecordDoor), findsOneWidget);
+    });
+
+    testWidgets("a door chosen on Practice's card opens at the doors, even after a conversation", (tester) async {
+      await pumpMockmob(
+        tester,
+        const AskScreen(door: AskDoor.record),
+        brightness: Brightness.dark,
+        size: const Size(384, 900),
+        disableAnimations: true,
+        overrides: insightsOverrides(credits: monthly(), ask: lastTalk),
+        wrapInScaffold: false,
+      );
+      await tester.pumpAndSettle();
+      expect(find.byType(AskRecordDoor), findsOneWidget);
+      expect(find.text(AskDoorCopy.startOver), findsNothing);
+    });
 
     testWidgets('?door=record and ?door=now reach the screen; anything else opens at the top', (tester) async {
       AskScreen? built;

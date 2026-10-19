@@ -494,6 +494,14 @@ class AskController extends Notifier<AskState> {
     return c == null ? null : AskWallet.fromCredits(c);
   }
 
+  /// Puts the conversation away and starts a new one at Ask Mobi's two doors (ASK-MOBI-1019 B). The
+  /// wallet the server last reported stays. Never while a reply is on its way: nothing in flight is lost.
+  void startOver() {
+    if (state.busy || state.messages.isEmpty) return;
+    _epoch++;
+    state = AskState(wallet: state.wallet, walletAt: state.walletAt);
+  }
+
   void _append(List<AskMessage> add) =>
       state = AskState(messages: [...state.messages, ...add], sessionId: state.sessionId, wallet: state.wallet, walletAt: state.walletAt);
 
