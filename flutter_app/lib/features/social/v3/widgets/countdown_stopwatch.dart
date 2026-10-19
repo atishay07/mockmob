@@ -58,8 +58,9 @@ abstract final class CountdownTimeline {
     }
     if (local < stampIn) {
       final p = Motion.out.transform((local / stampIn).clamp(0.0, 1.0));
-      // The ink lands fast (a stamp), the scale settles over the whole 180.
-      return (n: n, opacity: (local / 70).clamp(0.0, 1.0), scale: 1.25 - 0.25 * p);
+      // A stamp: the paper is there from the first frame (no blank dial between beats, the judge's
+      // "dead tile"), inking from 70% to full in 60 ms while the scale settles over the 180.
+      return (n: n, opacity: (0.7 + 0.3 * local / 60).clamp(0.0, 1.0), scale: 1.25 - 0.25 * p);
     }
     if (local < leaveAt) return (n: n, opacity: 1, scale: 1);
     final c = Motion.leave.transform(((local - leaveAt) / (beat - leaveAt)).clamp(0.0, 1.0));
@@ -73,7 +74,7 @@ abstract final class CountdownTimeline {
     if (t < go) return null;
     final local = t - go;
     if (reduced) return (opacity: (local / reducedFade).clamp(0.0, 1.0), scale: 1);
-    return (opacity: (local / 60).clamp(0.0, 1.0), scale: _goLand.x(local / 1000));
+    return (opacity: (0.7 + 0.3 * local / 60).clamp(0.0, 1.0), scale: _goLand.x(local / 1000));
   }
 
   /// The ring burst at Go: (scale of the dial radius, opacity), or null.
@@ -160,7 +161,7 @@ class CountdownStage extends StatelessWidget {
         builder: (context, box) {
           // The stopwatch takes what the column leaves: heads 64, the line about 44, Skip 48, gaps.
           final room = box.maxHeight - 64 - 48 - 48 - 72;
-          final width = math.min(math.min(box.maxWidth * 0.66, 260.0), math.max(120.0, room * 596 / 768));
+          final width = math.min(math.min(box.maxWidth * 0.72, 280.0), math.max(120.0, room * 596 / 768));
           return AnimatedBuilder(
             animation: ms,
             builder: (context, _) {
@@ -226,9 +227,8 @@ class _SkipPill extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         child: Container(
-          constraints: const BoxConstraints(minHeight: 48, minWidth: 88),
-          alignment: Alignment.center,
-          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20),
+          constraints: const BoxConstraints(minHeight: 48, minWidth: 96),
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s24, vertical: 13),
           decoration: ShapeDecoration(
             color: colors.raised.withValues(alpha: 0.9),
             shape: StadiumBorder(side: BorderSide(color: colors.line)),
