@@ -576,3 +576,11 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > Only if you think that can be done, then we can delay it to version 13. Another option is that you can include it in version 12 just as a basic version, and then you can improvise upon it in version 13 so that each version has some substantial improvements."
 **Ledger D149:** he likes the Mob v3 screens (quest, chain, join, shelf, podium, Fix it together); motion must be as good. Mob v3 may go into version 12 as a basic version and improve in 13. Walks waste time stuck on sign-in and never test the real experience: fix the walk harness so agents see and test the actual screens against his words. He offers a second ChatGPT/Codex account for the image limit, and suggests the reviewer account (password) for walks.
+
+## Owner, 20 Oct about 12:35 am IST (verbatim)
+> "Then I have signed in to a fresh account. Let me know if you need anything else from my side, and update me on the progress. It's been almost 1 hour. Are you done with the next version, because I see nothing running right now? Most of the things are stalled."
+**Ledger:** Codex now signed in to his second ChatGPT Plus account; the Folds art resumed.
+
+## Owner, 20 Oct about 12:40 am IST (verbatim)
+> "Okay, just make sure this time, in the Vox agents, continuously capture the visuals. Also, see if anything looks out of place, or think if it's not, it can be made better. Continuously, they are working on it because if testing and working go hand in hand, we can always achieve a better result than anything else."
+**Ledger D150 (standing rule):** every building agent captures visuals continuously while it works (screens and motion frames on the emulator or goldens), looks at each one for anything out of place or anything that could be better, and improves it in the same loop: build and test hand in hand, not a walk at the end. ("Vox agents" = the agents, dictation.)
