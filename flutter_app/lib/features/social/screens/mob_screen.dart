@@ -63,12 +63,12 @@ class _MobScreenState extends ConsumerState<MobScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(mobRepositoryProvider);
-    // Mob v3 (MOB-BUILD-SPEC-V3): the den, when the app's MOB_V3_ENABLED is on and the server sent
-    // `v3`. With the flag off this branch never runs and the page below is unchanged.
+    // Mob v3 (MOB-BUILD-SPEC-V3): the den, when the app's MOB_V3_ENABLED is on and the server can
+    // serve it (`v3` with a Mob, `v3Available` with none). Otherwise the page below is unchanged.
     // M13: switching Mobs reloads with no value; the den stays (faded out, then its skeleton) so the
     // switch fades through den to den instead of flashing today's Mob page.
     final switching = state.loading && state.value == null && ref.read(denSessionMemoryProvider).switchedAt != null;
-    if (ref.watch(mobV3EnabledProvider) && !mobDisabledError(state.error) && (switching || (state.value != null && (state.value!.v3 != null || state.value!.mob == null)))) {
+    if (ref.watch(mobV3EnabledProvider) && !mobDisabledError(state.error) && (switching || (state.value?.serverV3 ?? false))) {
       return DenScreen(asTab: widget.asTab);
     }
     final mob = mobDisabledError(state.error) ? null : state.value?.mob;

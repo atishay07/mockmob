@@ -30,14 +30,14 @@ final denViewProvider = Provider<DenView?>((ref) {
   final read = ref.watch(mobRepositoryProvider).value;
   if (read == null) return null;
   final v3 = read.v3;
-  // The server sends v3 inside the Mob, so a student with no Mob gets none: with the app flag on,
-  // the no-Mob state is the v3 start (D0) all the same.
-  if (v3 == null) return read.mob == null ? const DenView(mob: null, v3: MobV3(name: MobV3Name(text: ''))) : null;
+  // The server sends v3 inside the Mob, so a student with no Mob gets none: when the server says
+  // `v3Available`, the no-Mob state is the v3 start (D0) all the same.
+  if (v3 == null) return read.serverV3 ? const DenView(mob: null, v3: MobV3(name: MobV3Name(text: ''))) : null;
   return DenView(mob: read.mob, v3: v3);
 });
 
 /// True when the Mob tab should draw the v3 screens for this read.
-bool showsV3(Ref ref, MobRead? read) => ref.read(mobV3EnabledProvider) && read?.v3 != null;
+bool showsV3(Ref ref, MobRead? read) => ref.read(mobV3EnabledProvider) && (read?.serverV3 ?? false);
 
 class MobV3Actions {
   MobV3Actions(this.ref);

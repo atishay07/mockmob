@@ -389,6 +389,7 @@ class MobV3FakeServer implements MobV3Api {
     if (mob == null) {
       return {
         'mob': null,
+        'v3Available': true,
         'v3': {
           'name': {'key': null, 'text': ''},
           'members': <Object>[],
@@ -424,6 +425,7 @@ class MobV3FakeServer implements MobV3Api {
         'invite': {'code': 'K7P2M9', 'url': 'https://www.mockmob.in/join/K7P2M9', 'expiresAt': _iso(now.add(const Duration(days: 7)))},
       },
       'v3': _v3(mob),
+      'v3Available': true,
     };
   }
 

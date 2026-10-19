@@ -532,20 +532,32 @@ String subjectNameOf(String subject) => subject
 /// `GET /api/mob` and every reply that carries the same shape (create, join, patch, remove): `{ mob:
 /// null }` or `{ mob: {...} }`.
 class MobRead {
-  const MobRead(this.mob, {this.v3});
+  const MobRead(this.mob, {this.v3, this.v3Available = false});
 
   factory MobRead.fromJson(Json j) {
     final raw = j['mob'];
     // Mob v3 (MOB-BUILD-SPEC-V3 3.1): the `v3` object beside the old keys; read only by the v3 den,
     // which shows only when the app's MOB_V3_ENABLED is on. Old screens never look at it.
     final v3 = j['v3'] ?? (raw is Map ? raw['v3'] : null);
-    return MobRead(raw is Map ? Mob.fromJson(asJson(raw)) : null, v3: MobV3.fromJsonOrNull(v3));
+    return MobRead(
+      raw is Map ? Mob.fromJson(asJson(raw)) : null,
+      v3: MobV3.fromJsonOrNull(v3),
+      v3Available: asBool(j['v3Available']) == true,
+    );
   }
 
   final Mob? mob;
 
   /// Null when the server sends no v3 object (its MOB_V3_ENABLED is off).
   final MobV3? v3;
+
+  /// The server's capability flag (top-level `v3Available`): true when its MOB_V3_ENABLED is on, also
+  /// for a student with no Mob (who gets no `v3` object). Old servers send nothing: false.
+  final bool v3Available;
+
+  /// The server can serve the new Mob for this read: with a Mob it sent `v3`; with none it said
+  /// `v3Available`. Otherwise today's Mob shows, whatever the app's own flag says.
+  bool get serverV3 => v3 != null || (mob == null && v3Available);
 }
 
 /// One member's pick on one question, from the side-by-side.

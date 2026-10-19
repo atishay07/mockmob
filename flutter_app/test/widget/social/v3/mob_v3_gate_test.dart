@@ -1,5 +1,6 @@
 // The gate (spec 1.1): with MOB_V3_ENABLED off the Mob tab stays exactly as it was, even when the
-// server sends v3; with it on, a read with v3 (or no Mob) draws the den.
+// server sends v3; with it on, the den draws only when the server can serve it: `v3` with a Mob,
+// the top-level `v3Available` with none. Old servers that send neither keep today's Mob.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -37,18 +38,50 @@ void main() {
     expect(find.byType(DenScreen), findsOneWidget);
   });
 
-  testWidgets('flag on: no Mob draws the den start even without v3 (the server sends v3 inside the Mob)', (tester) async {
-    await pumpMockmob(
-      tester,
-      const MobScreen(asTab: true),
-      wrapInScaffold: false,
-      disableAnimations: true,
-      overrides: [
-        ...mobOverrides(noMobState(), now: v3Now),
-        mobV3EnabledProvider.overrideWithValue(true),
-      ],
-    );
+  Future<void> pumpRead(WidgetTester tester, Map<String, Object?> json) => pumpMockmob(
+        tester,
+        const MobScreen(asTab: true),
+        wrapInScaffold: false,
+        disableAnimations: true,
+        overrides: [
+          ...mobOverrides(RemoteState(value: MobRead.fromJson(json), fetchedAt: v3Now), now: v3Now),
+          mobV3EnabledProvider.overrideWithValue(true),
+        ],
+      );
+
+  testWidgets('server on: no Mob with v3Available draws the den start', (tester) async {
+    await pumpRead(tester, {'mob': null, 'v3Available': true});
     expect(find.byType(DenScreen), findsOneWidget);
+  });
+
+  testWidgets("server off: no Mob and no v3Available keeps today's Mob (old servers too)", (tester) async {
+    await pumpRead(tester, {'mob': null});
+    expect(find.byType(DenScreen), findsNothing);
+    await pumpRead(tester, {'mob': null, 'v3Available': false});
+    expect(find.byType(DenScreen), findsNothing);
+  });
+
+  testWidgets("server off: a student in a Mob with no v3 keeps today's Mob, even with v3Available", (tester) async {
+    final json = Map<String, Object?>.from(v3Server().denNow())..remove('v3');
+    final mob = Map<String, Object?>.from(json['mob']! as Map)..remove('v3');
+    await pumpRead(tester, {...json, 'mob': mob, 'v3Available': false});
+    expect(find.byType(DenScreen), findsNothing);
+    await pumpRead(tester, {'mob': mob});
+    expect(find.byType(DenScreen), findsNothing);
+    await pumpRead(tester, {'mob': mob, 'v3Available': true});
+    expect(find.byType(DenScreen), findsNothing, reason: 'with a Mob the den needs the v3 object itself');
+  });
+
+  test('MobRead reads v3Available; absent or not true is false', () {
+    expect(MobRead.fromJson({'mob': null, 'v3Available': true}).v3Available, isTrue);
+    expect(MobRead.fromJson({'mob': null}).v3Available, isFalse);
+    expect(MobRead.fromJson({'mob': null, 'v3Available': 'yes'}).v3Available, isFalse);
+    expect(MobRead.fromJson({'mob': null}).serverV3, isFalse);
+    expect(MobRead.fromJson({'mob': null, 'v3Available': true}).serverV3, isTrue);
+  });
+
+  test('the app flag is on unless the build says MOB_V3_ENABLED=false', () {
+    expect(MobV3Flags.enabledByDefine, isTrue);
   });
 
   testWidgets('flag on, nothing read yet: the den does not draw', (tester) async {
