@@ -128,12 +128,12 @@ abstract final class BillingCopy {
   /// listed but cannot be bought (never hidden, D101).
   static const topUpsPaused = 'New credit packs are paused just now. Your credits are kept and still work.';
   static const getCredits = 'Add credits';
-  static const topUpsLead = 'Credits from a top-up are yours to keep. They never expire.';
+  /// What a top-up is for, by plan (owner, 20 Oct 1:45 am: most buyers are Pro students topping up for Mobi's
+  /// written answers and repairs; no "1 full mock or 50 questions" line, which undersells).
+  static const topUpsLeadPro = "For Mobi's written answers and repairs. Top-up credits never expire.";
+  static const topUpsLeadFree = "For practice, Mobi's written answers and repairs. Top-up credits never expire.";
   static const bestValue = 'Best value';
   static String savePercent(int pct) => 'Save $pct%';
-  static String packWorth(int credits) => credits >= 100
-      ? '${credits ~/ 50} full mocks or $credits questions'
-      : '1 full mock or $credits questions';
   static String balanceNow(int total) => 'Your balance is now $total.';
   static String packLabel(int credits) => credits == 1 ? '1 credit' : '$credits credits';
   static String packSemantics(int credits, String? price) => price == null ? packLabel(credits) : '${packLabel(credits)}, $price';

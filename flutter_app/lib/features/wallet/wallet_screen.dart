@@ -235,7 +235,6 @@ class WalletBalanceCard extends StatelessWidget {
                   MmCountUp(
                     value: total,
                     fromZeroOnFirstBuild: false,
-                    memoryKey: 'wallet.total',
                     style: type.figureHero,
                   ),
                   const SizedBox(width: MmSpace.s8),
@@ -420,7 +419,7 @@ class _ProBridge extends StatelessWidget {
   }
 }
 
-/// What credits buy, as four tiles with the cost big. On Pro a practice question is included.
+/// What credits buy, as four tiles with the cost big. On Pro practice and full mocks are included.
 class _Buys extends StatelessWidget {
   const _Buys({required this.pro, required this.firstMockFree});
 
@@ -431,12 +430,16 @@ class _Buys extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final tiles = <(IconData, int?, String, String?)>[
+    // On Pro, practice and full mocks are included, so what credits are for (Mobi and analysis) comes first.
+    final practice = <(IconData, int?, String, String?)>[
       (LucideIcons.listChecks, pro ? null : 1, WalletCopy.buyQuestion, null),
-      (LucideIcons.timer, 50, WalletCopy.buyMock, firstMockFree ? WalletCopy.buyMockFirstFree : null),
-      (LucideIcons.scanSearch, 3, WalletCopy.buyAnalysis, null),
-      (LucideIcons.messageCircle, 1, WalletCopy.buyReply, null),
+      (LucideIcons.timer, pro ? null : 50, WalletCopy.buyMock, !pro && firstMockFree ? WalletCopy.buyMockFirstFree : null),
     ];
+    final mobi = <(IconData, int?, String, String?)>[
+      (LucideIcons.messageCircle, 1, WalletCopy.buyReply, null),
+      (LucideIcons.scanSearch, 3, WalletCopy.buyAnalysis, null),
+    ];
+    final tiles = pro ? [...mobi, ...practice] : [...practice, ...mobi];
     return LayoutBuilder(
       builder: (context, c) {
         final w = (c.maxWidth - MmSpace.s12) / 2;

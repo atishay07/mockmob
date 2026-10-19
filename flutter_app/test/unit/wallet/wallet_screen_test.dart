@@ -142,7 +142,12 @@ void main() {
     await _pump(tester, rig: BillingRig(), read: walletState(walletBody(pro: true)));
     expect(find.text(WalletCopy.proBridgeTitle), findsNothing);
     expect(find.textContaining(WalletCopy.practiceUnlimitedNote), findsOneWidget);
-    expect(find.text(WalletCopy.includedOnPro), findsOneWidget);
+    // Practice and full mocks are included on Pro; the top-up says what it is for, with no equivalence line.
+    await tester.scrollUntilVisible(find.text(WalletCopy.costShows), 300, scrollable: find.byType(Scrollable).first);
+    expect(find.text(WalletCopy.includedOnPro), findsNWidgets(2));
+    expect(find.text(BillingCopy.topUpsLeadPro), findsOneWidget);
+    expect(find.textContaining('full mocks or'), findsNothing);
+    expect(find.textContaining('full mock or'), findsNothing);
   });
 
   for (final on in [true, false]) {
@@ -174,6 +179,8 @@ void main() {
     expect(tester.widget<PackCard>(find.byType(PackCard).at(2)).savePercent, 16);
     expect(tester.widget<PackCard>(find.byType(PackCard).at(0)).savePercent, isNull);
     expect(find.text(BillingCopy.bestValue), findsOneWidget);
+    expect(find.text(BillingCopy.topUpsLeadFree), findsOneWidget);
+    expect(find.textContaining('questions'), findsNothing);
     expect(find.text('₹15.00'), findsOneWidget);
     expect(find.text('₹30.00'), findsOneWidget);
     expect(find.text('₹75.00'), findsOneWidget);
@@ -332,8 +339,8 @@ void main() {
       WalletCopy.historyEmptyBody, WalletCopy.historyFailedBody, BillingCopy.topUpsSoon, BillingCopy.topUpsNote,
       WalletCopy.freeLeft(40, 50), WalletCopy.held(6), WalletCopy.resets(DateTime(2026, 11, 1)),
       WalletCopy.freePartNote(40, 50, DateTime(2026, 11, 1)), WalletCopy.keptPartNote, WalletCopy.lowNote, WalletCopy.proBridgeTitle,
-      WalletCopy.proBridgeBody, WalletCopy.proBridgeKey, WalletCopy.costShows, WalletCopy.buyMockFirstFree, BillingCopy.topUpsLead,
-      BillingCopy.bestValue, BillingCopy.savePercent(16), BillingCopy.packWorth(50), BillingCopy.packWorth(300), BillingCopy.balanceNow(346),
+      WalletCopy.proBridgeBody, WalletCopy.proBridgeKey, WalletCopy.costShows, WalletCopy.buyMockFirstFree, BillingCopy.topUpsLeadPro, BillingCopy.topUpsLeadFree,
+      BillingCopy.bestValue, BillingCopy.savePercent(16), BillingCopy.balanceNow(346),
     ];
     for (final s in all) {
       final lower = s.toLowerCase();

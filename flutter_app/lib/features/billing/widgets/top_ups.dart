@@ -47,7 +47,7 @@ class PackValue {
 }
 
 /// The Wallet's top-ups: one set of credit packs for the one credits balance, as cards. Each card is
-/// the credits, what they come to, and Google Play's own price; the best value is marked by the real
+/// the credits and Google Play's own price (no "1 full mock or 50 questions" line: it undersells); the best value is marked by the real
 /// maths ([PackValue]). Nothing is added until the server confirms the purchase; then the pack is named
 /// and the new balance said. A balance is never edited here.
 ///
@@ -93,6 +93,7 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
     final bought = s.stage == BillingStage.confirmed ? PlayProducts.byId(s.productId ?? '') : null;
     final boughtPack = bought != null && bought.kind == PlayProductKind.creditPack ? bought : null;
     final total = ref.watch(walletViewProvider.select((v) => v.total));
+    final pro = ref.watch(walletViewProvider.select((v) => v.isPro));
     final value = PackValue.of(
       {for (final p in packs) if (s.products[p.id] != null) p.id: s.products[p.id]!.rawPrice},
       {for (final p in packs) p.id: p.credits ?? 0},
@@ -160,7 +161,7 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Text(BillingCopy.topUpsLead, style: type.small.copyWith(color: colors.ink2)),
+        Text(pro ? BillingCopy.topUpsLeadPro : BillingCopy.topUpsLeadFree, style: type.small.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s16),
         body,
         BillingNotice(ids: ids),
@@ -226,7 +227,7 @@ class _Added extends StatelessWidget {
   }
 }
 
-/// One credit pack: the credits big on the left with what they come to, Google Play's own price on the
+/// One credit pack: the credits big on the left, Google Play's own price on the
 /// right in a key-like pill. The best-value pack wears a volt edge and its tag; a saving is said plainly.
 class PackCard extends StatelessWidget {
   const PackCard({
@@ -257,7 +258,6 @@ class PackCard extends StatelessWidget {
     final save = savePercent;
     final spoken = [
       BillingCopy.packSemantics(credits, price),
-      BillingCopy.packWorth(credits),
       if (best) BillingCopy.bestValue,
       if (save != null) BillingCopy.savePercent(save),
     ].join('. ');
@@ -297,8 +297,6 @@ class PackCard extends StatelessWidget {
                       Text(credits == 1 ? 'credit' : 'credits', style: type.labelLarge.copyWith(color: dim ? colors.ink3 : colors.ink2)),
                     ],
                   ),
-                  const SizedBox(height: MmSpace.s4),
-                  Text(BillingCopy.packWorth(credits), style: type.small.copyWith(color: colors.ink2)),
                 ],
               ),
             ),
