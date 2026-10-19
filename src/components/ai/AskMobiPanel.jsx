@@ -8,6 +8,11 @@
 // Kept from R4 as it was: free answers from the record (answerFromInsights), the question hand-off (questionRef and
 // /api/recovery/ask-context), the price shown before every paid reply (W-060), one request id per student action that is
 // reused only after an unknown outcome so a retry can never charge twice, and the wallet broadcast to the top bar.
+//
+// v13 (C-dec 3 and 3b, D157): a written reply that opens a doubt is a finished job for 1 credit: Mobi's answer, one free
+// follow-up (sent with the thread's id) and 2 real CUET questions answered right here (DoubtChecks). After the follow-up the
+// panel offers "Ask a new doubt (1 credit)". "What should I revise tonight?" is read from the record by the server, free
+// (replyKind 'tonight'). Every failure, and a full thread, says nothing was charged.
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -20,6 +25,8 @@ import { useInsights } from './useInsights';
 import { creditLine } from './askDoors.mjs';
 import { planStart } from './startPlan.mjs';
 import MobiMark from './MobiMark';
+import { DoubtChecks, TonightBlock } from './MobiJobParts';
+import { JOB_COPY, chatFailure, followUpOpen, isTonightAsk, threadFromReply } from './mobiJobs.mjs';
 import {
   answerFree, inSentence, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
   suggestionsFor,
@@ -40,9 +47,11 @@ export default function AskMobiPanel(props) {
   return <Panel key={user?.id || 'guest'} {...props} />;
 }
 
-function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title', initial = null, onPending = null }) {
+function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title', initial: given = null, doubt = null, onPending = null }) {
   const router = useRouter();
   const { user } = useAuth();
+  // An Ask now starter hands over its chapter with the words, so the doubt's 2 questions come from that chapter.
+  const initial = useMemo(() => (given && doubt ? { ...given, doubt } : given), [given, doubt]);
   const userId = user?.id || null;
   const pro = isPaidUser(user);
   const offline = !useSyncExternalStore(subscribeOnline, onlineNow, () => true);
@@ -115,6 +124,9 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const [pending, setPending] = useState(null);
   const [retry, setRetry] = useState(null);
   const [sessionId, setSessionId] = useState(null);
+  // The open doubt: { id, followUpsLeft, subject, chapter }. Its one follow-up is free; after it, a new doubt is 1 credit.
+  const [doubtThread, setDoubtThread] = useState(null);
+  const anchorRef = useRef(null);
   const inFlight = useRef(false);
   const pendingRef = useRef(null);
   const bodyRef = useRef(null);
@@ -165,6 +177,13 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   function submit() {
     const text = input.trim();
     if (!text || inFlight.current || opening || retry) return;
+    // An open doubt: the words are its free follow-up, never a record answer (talk inside a job is included).
+    if (!questionTyping && followUpOpen(doubtThread)) {
+      if (offline) return;
+      setInput('');
+      sendFree(text, 'followup');
+      return;
+    }
     const product = !questionTyping ? productAskFor(text) : null;
     if (product) { setInput(''); pushFree(text, answerFree(product, { context: scoped, insights, pro })); return; }
     // Questions about the student's own record are answered from the record: free, instant, no model. Never while a
@@ -173,6 +192,13 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     if (fromRecord) {
       setInput('');
       pushFree(text, { reply: fromRecord.reply, actions: (fromRecord.actions || []).slice(0, 1), source: recordSource(insights) });
+      return;
+    }
+    // "What should I revise tonight?": the server reads it from the record, free.
+    if (!questionTyping && isTonightAsk(text)) {
+      if (offline) return;
+      setInput('');
+      sendFree(text, 'tonight');
       return;
     }
     if (!paid.open || offline) return;
@@ -188,20 +214,63 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     inFlight.current = true;
     if (!isRetry) setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text: finalText }]);
     // One request id per student action. It is reused only if the last attempt ended with an unknown outcome (network
-    // error), so a retry can never be charged twice.
-    if (!isRetry) pendingRef.current = { message: finalText, id: crypto.randomUUID().replace(/-/g, ''), mode: modeFor(scoped.kind), questionRef: withQuestion ? questionRef : null };
-    setPending({ question: Boolean(pendingRef.current.questionRef) });
+    // error), so a retry can never be charged twice. A new doubt opens a new thread, so the old one closes here.
+    if (!isRetry) pendingRef.current = { message: finalText, id: crypto.randomUUID().replace(/-/g, ''), mode: modeFor(scoped.kind), questionRef: withQuestion ? questionRef : null, anchor: withQuestion ? null : takeAnchor(), kind: 'paid' };
+    if (!isRetry && !pendingRef.current.questionRef) setDoubtThread(null);
+    await deliver();
+  }
+
+  // The follow-up inside an open doubt, and tonight's set from the record: never charged (C-dec 3b). The same request-id
+  // rule as a paid reply; Retry sends the same request.
+  async function sendFree(text, kind) {
+    const finalText = String(text || '').trim();
+    if (!finalText || inFlight.current || opening || retry || offline) return;
+    if (kind === 'followup' && !followUpOpen(doubtThread)) return;
+    inFlight.current = true;
+    setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text: finalText }]);
+    pendingRef.current = { message: finalText, id: crypto.randomUUID().replace(/-/g, ''), mode: modeFor(scoped.kind), questionRef: null, anchor: null, kind, threadId: kind === 'followup' ? doubtThread.id : null };
+    await deliver();
+  }
+
+  function takeAnchor() {
+    const anchor = anchorRef.current;
+    anchorRef.current = null;
+    return anchor;
+  }
+
+  async function deliver() {
+    const sent = pendingRef.current;
+    setPending({ question: Boolean(sent.questionRef), free: sent.kind === 'followup' || sent.kind === 'tonight', kind: sent.kind });
     try {
-      const res = await fetch('/api/ai/mentor/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({ message: pendingRef.current.message, mode: pendingRef.current.mode, replyKind: 'model', sessionId, requestId: pendingRef.current.id, ...(pendingRef.current.questionRef ? { questionRef: pendingRef.current.questionRef } : {}) }) });
+      const res = await fetch('/api/ai/mentor/chat', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify({
+        message: sent.message, mode: sent.mode, replyKind: replyKindOf(sent), sessionId, requestId: sent.id,
+        ...(sent.threadId ? { threadId: sent.threadId } : {}),
+        ...(sent.anchor?.subject ? { subject: sent.anchor.subject, ...(sent.anchor.chapter ? { chapter: sent.anchor.chapter } : {}) } : {}),
+        ...(pendingRef.current.questionRef ? { questionRef: pendingRef.current.questionRef } : {}),
+      }) });
       const data = await res.json();
       if (res.ok && !data?.response?.reply && !data?.reply) throw new Error('Reply outcome unreadable');
       const about = pendingRef.current.questionRef;
       pendingRef.current = null; // the server gave a definite answer
       setRetry(null);
-      const response = res.ok ? { ...normalizeResponse({ ...(data.response || data), runtimeState: data.runtimeState }), about } : {
-        reply: data.message || (res.status === 429 ? 'Too many questions in a short time. Wait a minute and try again.' : 'Mobi could not answer just now. Nothing is charged for a reply that fails.'),
-        origin: 'status', actions: res.status === 402 ? [{ label: 'See your credits', route: '/wallet' }] : [],
-      };
+      let response;
+      if (res.ok) {
+        const job = threadFromReply(data);
+        response = { ...normalizeResponse({ ...(data.response || data), runtimeState: data.runtimeState }), about, followUp: sent.kind === 'followup', tonight: job.tonight };
+        if (job.thread) {
+          setDoubtThread(job.thread);
+          // The reply that opened the doubt carries its 2 questions; a follow-up keeps the thread's own.
+          if (!sent.threadId) Object.assign(response, { thread: job.thread, checks: job.checks, checksNote: job.checksNote });
+        }
+      } else {
+        const failure = chatFailure(res.status, data);
+        if (failure.full) setDoubtThread((t) => (t ? { ...t, followUpsLeft: 0 } : t));
+        if (failure.gone) setDoubtThread(null);
+        response = {
+          reply: data.message || res.status === 429 || res.status === 402 ? failure.reply : 'Mobi could not answer just now. Nothing is charged for a reply that fails.',
+          origin: 'status', actions: failure.actions,
+        };
+      }
       setTurns((prev) => [...prev, { id: `a_${Date.now()}`, role: 'assistant', response }]);
       if (data.sessionId) setSessionId(data.sessionId);
     } catch {
@@ -226,6 +295,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     startNow.current = () => {
       if (!initial?.text || started.current) return;
       const plan = planStart({ initial, status, insights, pro, wallet, offline, paid });
+      anchorRef.current = plan.anchor || null;
       const ask = (reply, actions = []) => setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text: plan.text }, { id: `a_${Date.now()}`, role: 'assistant', response: { reply, origin: 'status', actions } }]);
       if (plan.kind === 'none' || plan.kind === 'wait') return;
       started.current = true;
@@ -238,6 +308,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         setTurns((prev) => [...prev, { id: turnId, role: 'user', text: plan.text }]);
         setFailedStart({ reply: plan.reply, turnId });
       } else if (plan.kind === 'say') ask(plan.reply, plan.actions);
+      else if (plan.kind === 'tonight') sendFree(plan.text, 'tonight');
       else sendPaid(plan.text);
     };
   });
@@ -259,9 +330,11 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   }
 
   const dropQuestion = () => { setContext((prev) => ({ ...prev, kind: 'page', ref: null, number: null, pickLabel: null, keyLabel: null })); setQuestionCtx(null); setAsked([]); };
-  const price = priceForText(input, { insights, status, pro, hasQuestion: questionTyping });
+  const threadOpen = !questionTyping && followUpOpen(doubtThread);
+  const threadDone = !questionTyping && Boolean(doubtThread) && !threadOpen;
+  const price = threadOpen && input.trim() ? 'followup' : !questionTyping && isTonightAsk(input) ? 'free' : priceForText(input, { insights, status, pro, hasQuestion: questionTyping });
   const busy = Boolean(pending) || Boolean(retry);
-  const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (paid.open && !offline));
+  const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (price === 'followup' && !offline) || (paid.open && !offline));
   // The credit line is the page's own words (askDoors.mjs creditLine), docked or on /mentor, so one balance reads one way
   // everywhere: "38 of your 50 free credits left · they refill on 1 Nov".
   const creditWords = creditLine(wallet).first;
@@ -277,6 +350,12 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         : scoped.kind === 'practice' ? { name: 'Practice', detail: chapter }
           : null;
   const lastIndex = turns.length - 1;
+  const fieldHint = threadOpen ? JOB_COPY.followUpPlaceholder : threadDone ? JOB_COPY.newDoubtPlaceholder : placeholder;
+  const newDoubt = () => {
+    if (onPage) { onClose?.(); return; }
+    setDoubtThread(null);
+    fieldRef.current?.focus();
+  };
 
   return (
     <div className="amb" data-form={form}>
@@ -356,7 +435,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
 
         {turns.map((turn, index) => turn.role === 'user'
           ? <p key={turn.id} className="amb-you amb-rise" data-last={index === lastIndex ? '' : undefined}>{turn.text}</p>
-          : <Answer key={turn.id} response={turn.response} qName={qName} wallet={wallet} onNavigate={navigate} last={index === lastIndex} />)}
+          : <Answer key={turn.id} response={turn.response} qName={qName} wallet={wallet} onNavigate={navigate} last={index === lastIndex} insights={insights} subjects={user?.subjects || []} offline={offline} />)}
 
         {failedStart ? (
           <div className="amb-notice" role="status" data-last="">
@@ -368,8 +447,15 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         {pending ? (
           <p className="amb-reading" role="status" data-last="">
             <MobiMark size={20} blinking />
-            {pending.question ? `Reading ${qName}, your pick and the key` : onPage ? 'Writing a reply' : 'Reading your question and your record'}
+            {pending.question ? `Reading ${qName}, your pick and the key` : pending.kind === 'tonight' ? 'Reading your record for tonight' : onPage ? 'Writing a reply' : 'Reading your question and your record'}
           </p>
+        ) : null}
+
+        {threadDone && !pending && !retry ? (
+          <div className="mj-next">
+            <p className="mj-quiet">{JOB_COPY.settled}</p>
+            <button type="button" className="amb-btn amb-btn--line" onClick={newDoubt}>{JOB_COPY.newDoubt}</button>
+          </div>
         ) : null}
 
         {retry ? (
@@ -416,14 +502,14 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
 
       <form className="amb-compose" onSubmit={(event) => { event.preventDefault(); submit(); }}>
         <div className="amb-field">
-          <label htmlFor="amb-input" className="sr-only">{placeholder}</label>
+          <label htmlFor="amb-input" className="sr-only">{fieldHint}</label>
           <textarea
             id="amb-input"
             ref={fieldRef}
             value={input}
             rows={1}
             maxLength={1500}
-            placeholder={placeholder}
+            placeholder={fieldHint}
             disabled={busy || opening}
             onChange={(event) => { setInput(event.target.value); grow(event.target); }}
             onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); submit(); } }}
@@ -436,12 +522,20 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
             {balanceTick ? <><b key={balanceTick[1]} className="amb-num">{balanceTick[1]}</b>{balanceTick[2]}</> : creditWords}
           </Link>
           <span className="amb-cost__price" aria-live="polite">
-            {pending && onPage ? 'This reply uses 1 credit. A reply that fails uses none.' : !price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `An AI service writes it. ${usesLine({ what: 'This reply', cost: 1, pool: 'ai' })}` : 'Needs a written reply. Nothing is charged from here.'}
+            {pending && onPage ? (pending.free ? 'This one is free. Nothing is charged.' : 'This reply uses 1 credit. A reply that fails uses none.') : threadOpen ? JOB_COPY.followUpFree : !price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `An AI service writes it. ${usesLine({ what: 'This reply', cost: 1, pool: 'ai' })}` : 'Needs a written reply. Nothing is charged from here.'}
           </span>
         </div>
       </form>
     </div>
   );
+}
+
+// What the chat route is asked for: tonight's set from the record, the follow-up of an open doubt, a reply about one question,
+// or a doubt (an Ask now question; the server opens its thread and never answers it from the record's keywords).
+function replyKindOf(sent) {
+  if (sent.kind === 'tonight') return 'tonight';
+  if (sent.kind === 'followup' || sent.questionRef) return 'model';
+  return 'doubt';
 }
 
 function grow(node) {
@@ -450,14 +544,16 @@ function grow(node) {
   node.style.height = `${Math.min(node.scrollHeight, 120)}px`;
 }
 
-function Answer({ response, qName = 'this question', wallet = null, onNavigate, last = false }) {
-  const next = response.actions?.[0];
+function Answer({ response, qName = 'this question', wallet = null, onNavigate, last = false, insights = null, subjects = [], offline = false }) {
+  const tonight = Boolean(response.tonight);
+  const next = tonight ? null : response.actions?.[0];
   let source = response.source || null;
   if (response.origin === 'model') {
     const what = response.about ? `Written reply on ${qName} and its key` : 'Written reply';
     const spent = response.charged ? usedLine({ cost: response.charged, pool: 'ai', balance: wallet?.known ? wallet.total : null }) : 'No credit used.';
-    source = `${what}. ${spent}`;
+    source = response.followUp && !response.charged ? JOB_COPY.followUpSource : `${what}. ${spent}`;
   } else if (response.origin === 'status') source = null;
+  else if (tonight) source = JOB_COPY.tonightSource;
   else if (!source) source = 'From your record';
   if (response.origin === 'status') {
     return (
@@ -470,6 +566,13 @@ function Answer({ response, qName = 'this question', wallet = null, onNavigate, 
   return (
     <div className="amb-ans amb-rise" data-origin={response.origin} data-last={last ? '' : undefined}>
       {String(response.reply || '').split(/\n{2,}/).map((para, i) => <p key={i}>{para}</p>)}
+      {tonight ? <TonightBlock tonight={response.tonight} actions={response.actions} onNavigate={onNavigate} /> : null}
+      {response.thread ? (
+        <DoubtChecks
+          threadId={response.thread.id} checks={response.checks || []} note={response.checksNote || null}
+          subject={response.thread.subject} chapter={response.thread.chapter} insights={insights} subjects={subjects} offline={offline}
+        />
+      ) : null}
       {source ? <span className="amb-src"><MobiMark size={15} />{source}</span> : null}
       {next ? <button type="button" className="amb-btn amb-btn--line" onClick={() => onNavigate(next.route || next.target)}>{next.label}</button> : null}
     </div>

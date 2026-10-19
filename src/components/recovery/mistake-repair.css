@@ -181,3 +181,19 @@ h4.mr-title { margin: 0; font-size: 18px; line-height: 1.25; letter-spacing: -0.
 @keyframes mr-fill { from { background-color: transparent; color: var(--a-accent-text, #d2f000); } to { background-color: var(--a-select, #d2f000); color: #10140e; } }
 .mr-ways { display: flex; flex-wrap: wrap; gap: 4px 18px; }
 .mr-ways a { display: inline-flex; align-items: center; min-height: 44px; color: var(--a-ink, #f2f4ec); font-weight: 650; text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong, #384736); }
+
+/* v13 "Fix it for good" (fixForGood.mjs): the title that names the question, your option against the key, your own history of
+   the trap, and the held line at the end. Hairlines and type, no new cards; colour always agrees with words. */
+.mr-ask-title { margin: 0 2px 8px; font: 700 15px/1.3 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
+.mr-picks { display: grid; gap: 8px; margin: 0; }
+.mr-picks > div { display: grid; grid-template-columns: 7.5rem minmax(0, 1fr); gap: 2px 12px; align-items: baseline; }
+.mr-picks dt { font: 650 13px/1.4 var(--font-display, inherit); color: var(--a-ink-3, #93a08f); }
+.mr-picks dd { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); overflow-wrap: anywhere; }
+.mr-picks dd b { margin-right: 6px; font: 700 14px/1 var(--font-display, inherit); color: var(--a-bad-text, #ff9d92); }
+.mr-picks [data-key] dd b { color: var(--a-good-text, #b6e36e); }
+@media (max-width: 480px) { .mr-picks > div { grid-template-columns: minmax(0, 1fr); } }
+.mr-history { margin: 8px 0 0; font: 600 14px/1.5 var(--font-body, inherit); color: var(--a-ink, #f2f4ec); }
+.mr-held { display: flex; align-items: flex-start; gap: 10px; margin: 0; padding-top: 14px; border-top: 1px solid var(--a-line, #253026); font-size: 15px; line-height: 1.5; color: var(--a-ink-2, #bcc5b9); }
+.mr-held b { font-family: var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
+.mr-held__mark { flex: none; display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--a-line-strong, #384736); }
+.mr-held[data-held] .mr-held__mark { border-color: var(--a-good-text, #b6e36e); color: var(--a-good-text, #b6e36e); }

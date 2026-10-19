@@ -6,12 +6,19 @@
 //  * Ask now: any CUET doubt. A big field, then three starters, each marked "1 credit" before the tap. A starter sends at once
 //    (D53: no consent sheet), the price of what is typed is said under the field before anything is sent, and the wait is
 //    honest: "Writing a reply" while the reply is on its way, then the whole reply. Nothing is faked as streaming.
-//  * Ask your record: it leads with the student's real biggest marks leak, then the record questions, each labelled Free,
+//  * Ask your record: it leads with Where you stand (v13, below), then the record questions, each labelled Free,
 //    1 credit or Pro. A fresh account is told plainly that the record needs a paper, with one key. Pro asks stay visible with
 //    a quiet Pro tag (R3, D101); a tap opens the Upgrade sheet (D80), because Pro is sold on the web.
 //
 // Under the doors: the true credit line (the one balance) and "Your recent questions". Once something is asked, the doors
 // give way to the conversation (the same panel that docks beside a question or a mock) with "Ask something new" to come back.
+//
+// v13 (C-dec 3 and 3b, D157), why Mobi over a free chatbot: Mobi works on the student's own record and acts.
+//  * Ask your record LEADS with "Where you stand" (WhereYouStand, free on every plan): the range against the student's own
+//    colleges, the first college's 2026 Round 1 closing marks and the gap, and the chapters that close it fastest.
+//    "What should I revise tonight?" is Free: the server reads it from the record.
+//  * Ask now says what a credit buys (a doubt settled: the answer, one follow-up and 2 real CUET questions), and its starters
+//    are doubts about the chapters the student's own practice misses, each sent with its subject and chapter.
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -23,16 +30,19 @@ import { useMobiGate } from '@/lib/mobiHooks';
 import { greeting as mobiGreeting } from '@/lib/mobiRation';
 import { analyseSession } from '../../../data/session_recovery.js';
 import AskMobiPanel from './AskMobiPanel';
+import { WhereYouStand } from './MobiJobParts';
+import { JOB_COPY, doubtStarters } from './mobiJobs.mjs';
 import {
-  DOOR_COPY, askNowStarters, creditLine, fewerIdeasLabel, greeting, greetName, lastPaper, moreIdeasLabel, moreStarters, noteFor, paperIsOpen,
-  priceOfTyped, priceWord, recordDoorAsks, recordLead, recordLine, seeAll, seeFewer, clockStamp, costOf, leadFigureLine,
+  DOOR_COPY, creditLine, fewerIdeasLabel, greeting, greetName, lastPaper, moreIdeasLabel, noteFor, paperIsOpen,
+  priceOfTyped, priceWord, recordDoorAsks, recordLine, seeAll, seeFewer, clockStamp, costOf,
 } from './askDoors.mjs';
 import { exchangesFrom } from './mentorHistory.mjs';
 import './ask-doors.css';
 
 const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.addEventListener('offline', cb); return () => { window.removeEventListener('online', cb); window.removeEventListener('offline', cb); }; };
 const onlineNow = () => navigator.onLine !== false;
-const SHOWN_AFTER_LEAD = 3;
+// Where you stand leads the record door; four record questions follow it, the rest behind "See all".
+const SHOWN_ASKS = 4;
 
 /** The newest paper, read from its own answers: the summary row first, then the saved paper for the chapters that cost the most. */
 function useLastPaper(enabled, userId) {
@@ -104,11 +114,12 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
   const name = greetName(user);
   const subjects = user?.subjects || [];
   const sessions = ready ? insights.sessions : 0;
-  const starters = askNowStarters({ insights: ready ? insights : null, subjects });
-  const more = moreStarters({ insights: ready ? insights : null, subjects });
+  // Doubts about the chapters the student's practice misses (a fresh account: doubts tied to a chapter of each subject).
+  const doubts = doubtStarters({ insights: ready ? insights : null, subjects, limit: 6 });
+  const starters = doubts.slice(0, 3);
+  const more = doubts.slice(3);
   const last = lastPaper(paper.item, { analysis: paper.analysis, now });
   const asks = recordDoorAsks(ready ? insights : null, { pro, last, now: new Date(now) });
-  const lead = recordLead(ready ? insights : null);
   const credits = creditLine(wallet);
 
   const [text, setText] = useState('');
@@ -136,7 +147,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
     // `free`: the ask was shown as Free, so the panel answers it from the record (handed over below, already read) or not at all;
     // it is never sent as a written reply. `record` is the record this page has read, so the panel does not read it a second time.
     setThread({
-      key: threadCount.current, text: body, free: ask.free === true,
+      key: threadCount.current, text: body, free: ask.free === true, doubt: ask.doubt || null,
       record: ready ? { status, insights } : null,
       answer: ask.answer ? { reply: ask.answer.reply, actions: ask.answer.actions, source: 'From your last paper' } : null,
     });
@@ -153,7 +164,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
     start({ text: ask.text, answer: ask.id === 'last' ? ask.answer : null, free: ask.price === 'free' });
   }
 
-  const visible = allOpen ? asks.slice(1) : asks.slice(1, 1 + SHOWN_AFTER_LEAD);
+  const visible = allOpen ? asks : asks.slice(0, SHOWN_ASKS);
   const idle = !thread;
 
   return (
@@ -174,6 +185,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
             form="page"
             context={{ kind: 'page', ref: null, label: null, number: null, chapter: null, lines: [] }}
             initial={{ text: thread.text, answer: thread.answer, free: thread.free, record: thread.record }}
+            doubt={thread.doubt}
             onClose={() => { setThread(null); setWaiting(false); }}
             onPending={setWaiting}
           />
@@ -187,6 +199,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
               <div>
                 <h2 id="amd-now-title">{DOOR_COPY.nowTitle}</h2>
                 <p>{DOOR_COPY.nowLine}</p>
+                <p className="amd-buys">{JOB_COPY.creditBuys}</p>
               </div>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className="amd-bell" src="/brand/mascot/ask-deskbell.webp" alt="" width="70" height="64" />
@@ -208,10 +221,10 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
               <button type="submit" className="amd-send" disabled={!text.trim()} aria-label="Ask Mobi"><ArrowUp size={22} aria-hidden="true" /></button>
             </form>
             <p className="amd-note" aria-live="polite">{note}</p>
-            <p className="amd-tip">{DOOR_COPY.nowTip}</p>
+            <p className="amd-tip">{starters.some((s) => s.mine) ? JOB_COPY.startersTip : DOOR_COPY.nowTip}</p>
             <ul className="amd-list">
               {[...starters, ...(moreOpen ? more : [])].map((s, i) => (
-                <li key={s} style={{ '--i': i }}><Row text={s} price="credit" onClick={() => start({ text: s })} /></li>
+                <li key={s.id} style={{ '--i': i }}><Row text={s.text} preview={s.preview} price="credit" onClick={() => start({ text: s.text, doubt: { subject: s.subject, chapter: s.chapter } })} /></li>
               ))}
             </ul>
             {more.length ? (
@@ -246,26 +259,17 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
               </div>
             ) : null}
 
+            {ready || status === 'unavailable' ? <WhereYouStand userId={userId} /> : null}
+
             {ready ? (
               <>
-                <button
-                  type="button"
-                  className="amd-lead"
-                  onClick={(event) => askRecord(asks[0], event)}
-                  aria-label={lead ? `Ask: ${asks[0].text}. ${lead.lost} ${leadLine(lead)}. ${DOOR_COPY.free}` : `Ask: ${asks[0].text}. ${asks[0].preview}. ${DOOR_COPY.free}`}
-                >
-                  <span className="amd-lead__top"><b>{asks[0].text}</b><PriceTag price="free" /></span>
-                  {lead ? (
-                    <span className="amd-lead__figure"><strong>{lead.lost}</strong><small>{leadLine(lead)}</small></span>
-                  ) : <small className="amd-lead__plain">{asks[0].preview}</small>}
-                </button>
                 <p className="amd-tip">{DOOR_COPY.recordTip}</p>
                 <ul className="amd-list">
                   {visible.map((a, i) => (
                     <li key={a.id} style={{ '--i': i }}><Row text={a.text} preview={a.preview} price={a.price} locked={a.locked} onClick={(event) => askRecord(a, event)} /></li>
                   ))}
                 </ul>
-                {asks.length - 1 > SHOWN_AFTER_LEAD ? (
+                {asks.length > SHOWN_ASKS ? (
                   <button type="button" className="amd-link" aria-expanded={allOpen} onClick={() => setAllOpen((v) => !v)}>
                     {allOpen ? seeFewer : seeAll(asks.length)}
                     {allOpen ? <ChevronUp size={18} aria-hidden="true" /> : <ChevronDown size={18} aria-hidden="true" />}
@@ -314,4 +318,3 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
   );
 }
 
-const leadLine = (lead) => leadFigureLine(lead.chapter);

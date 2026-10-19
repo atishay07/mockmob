@@ -10,6 +10,7 @@ import { answerFromInsights } from '../../../data/prepos_insights.js';
 import { creditCount } from '../../lib/creditCopy.mjs';
 import { productAskFor, shortDate } from './askSuggestions.mjs';
 import { shownFirstName } from '../../lib/displayName.mjs';
+import { isTonightAsk } from './mobiJobs.mjs';
 
 // ---- Words (read aloud, D84: whole sentences, no exclamation marks, arrows or emoji) -----------------------------------
 
@@ -61,7 +62,8 @@ export const leadFigureLine = (chapter) => `marks to win back in ${chapter}, you
 export const seeAll = (n) => `See all ${n} questions about your record`;
 export const seeFewer = 'Show fewer questions';
 export const chaptersRanked = (n) => `${n} ${n === 1 ? 'chapter' : 'chapters'} ranked from your answers`;
-export const revisePreview = 'A written plan built from your record';
+// v13 (C-dec 3, D157): "What should I revise tonight?" is read from the record, free: the chapters, the rules and the traps.
+export const revisePreview = (when = 'tonight') => `Your chapters, rules and traps for ${when}`;
 export const pacePreviewLocked = 'Timing from your timed papers';
 export const changesPreviewLocked = 'From the answers you changed';
 export const changesPreview = (count, gains, losses) => `${count} ${count === 1 ? 'change' : 'changes'}: ${gains} helped, ${losses} hurt`;
@@ -155,6 +157,7 @@ export function priceOfTyped(text, { insights = null, status = 'loading', pro = 
   const t = String(text || '').trim();
   if (!t) return null;
   if (productAskFor(t)) return 'free';
+  if (isTonightAsk(t)) return 'free';
   if ((status === 'ready' || status === 'empty') && answerFromInsights(t, insights ?? { state: 'empty' }, { pro })) return 'free';
   return 'credit';
 }
@@ -284,7 +287,7 @@ export function recordDoorAsks(insights, { pro = false, last = null, now = new D
     { id: 'losing', text: 'Where am I losing marks?', price: 'free', preview: lead ? `${lead.lost} marks to win back in ${lead.chapter}` : 'Reads your wrong and blank answers' },
     { id: 'chapter', text: 'Which chapter should I practise?', price: 'free', preview: ranked.length ? chaptersRanked(ranked.length) : 'Ranks the chapters costing you the most marks' },
     ...(last ? [{ id: 'last', text: LAST_PAPER_ASK, price: 'free', preview: last.preview, answer: last }] : []),
-    { id: 'revise', text: `What should I revise ${tonightOrToday(now)}?`, price: 'credit', preview: revisePreview },
+    { id: 'revise', text: `What should I revise ${tonightOrToday(now)}?`, price: 'free', preview: revisePreview(tonightOrToday(now)), tonight: true },
     { id: 'pace', text: 'Am I too slow on wrong answers?', price: pro ? 'free' : 'pro', locked: !pro, preview: pro ? paceLine(insights) || 'Needs timed answers' : pacePreviewLocked },
     {
       id: 'week', text: 'How is my week going?', price: 'free',
