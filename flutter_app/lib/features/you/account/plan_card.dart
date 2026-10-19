@@ -90,7 +90,7 @@ class _PlanCardState extends ConsumerState<PlanCard> {
 
   /// Opens Google Play's own subscription page; when it does not open, one line says where to find it.
   Future<void> _manage() async {
-    final opened = await ref.read(playManageSubscriptionProvider)();
+    final opened = await ref.read(playBillingProvider.notifier).manageSubscription();
     if (mounted) setState(() => _manageFailed = !opened);
   }
 

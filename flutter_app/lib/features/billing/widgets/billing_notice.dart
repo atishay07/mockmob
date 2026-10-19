@@ -58,7 +58,7 @@ class BillingNotice extends ConsumerWidget {
           tone: BannerTone.error,
           actionLabel: inPlay ? BillingCopy.manageSubscription : (finalAnswer ? null : BillingCopy.tryAgain),
           onAction: inPlay
-              ? () => ref.read(playManageSubscriptionProvider)()
+              ? () => ref.read(playBillingProvider.notifier).manageSubscription()
               : (finalAnswer ? null : () => ref.read(playBillingProvider.notifier).retry()),
         );
     }

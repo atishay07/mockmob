@@ -54,7 +54,7 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
   bool _manageFailed = false;
 
   Future<void> _manage() async {
-    final opened = await ref.read(playManageSubscriptionProvider)();
+    final opened = await ref.read(playBillingProvider.notifier).manageSubscription();
     if (mounted) setState(() => _manageFailed = !opened);
   }
 

@@ -69,8 +69,29 @@ final playManageSubscriptionProvider = Provider<Future<bool> Function()>((ref) {
   };
 });
 
-/// The student's Google Play subscription: the server's answer to this run's verify when there is
-/// one (the freshest), otherwise what `/api/auth/me` last said. Null when there is none.
+/// Reads the profile (`/api/auth/me`) again after the app came back to the front for a Play
+/// subscriber, who may have turned renewal off, fixed a payment or been refunded in Google Play.
+/// When the plan or the subscription changed, every other reader of the plan is read again too
+/// ([playBillingRefreshProvider]); otherwise nothing else is reloaded. Replaceable in tests.
+final playProfileRereadProvider = Provider<Future<void> Function()>((ref) {
+  return () async {
+    final before = ref.read(authSnapshotProvider);
+    try {
+      await ref.read(authSnapshotProvider.notifier).reload();
+    } on Object {
+      return; // The next resume or launch tries again.
+    }
+    final after = ref.read(authSnapshotProvider);
+    if (after.playSubscription != before.playSubscription || after.isPro != before.isPro) {
+      await ref.read(playBillingRefreshProvider)();
+    }
+  };
+});
+
+/// The student's Google Play subscription: the server's answer to this run's verify while it is the
+/// newest word, otherwise what `/api/auth/me` last said. A profile that arrives with a different
+/// subscription replaces the verify answer (the controller drops it), so the freshest answer wins.
+/// Null when there is none.
 final playSubscriptionProvider = Provider<PlaySubscriptionInfo?>((ref) {
   final fromVerify = ref.watch(playBillingProvider.select((s) => s.subscription));
   return fromVerify ?? ref.watch(authSnapshotProvider.select((s) => s.playSubscription));
@@ -253,6 +274,14 @@ class PlayBillingController extends Notifier<PlayBillingState> {
   /// check does not send them again (a student's Restore still does).
   final Set<String> _settled = {};
 
+  /// The subscription tokens among [_settled]: sent again after the student was in Google Play's
+  /// subscription page, where a cancel, a fixed payment or a resume changes them.
+  final Set<String> _settledSubscriptions = {};
+
+  /// The student opened Google Play's subscription page ([manageSubscription]); the next resume
+  /// reads the subscription again.
+  bool _manageOpened = false;
+
   /// Products Google Play reported as pending during the check that is running, or null when no
   /// check is running.
   Set<String>? _pendingSeen;
@@ -291,7 +320,10 @@ class PlayBillingController extends Notifier<PlayBillingState> {
     }
 
     ref.listen<String?>(playBillingUserIdProvider, (previous, next) {
-      if (next == null || (previous != null && previous != next)) _settled.clear();
+      if (next == null || (previous != null && previous != next)) {
+        _settled.clear();
+        _settledSubscriptions.clear();
+      }
       if (next == null) {
         _held.clear();
         _flow = false;
@@ -299,6 +331,11 @@ class PlayBillingController extends Notifier<PlayBillingState> {
       } else if (previous != next) {
         unawaited(_syncOwned());
       }
+    });
+    // A profile read after this run's verify answer is the fresher word on the subscription (a cancel
+    // or a refund Google told the server about): it replaces the verify answer.
+    ref.listen<PlaySubscriptionInfo?>(authSnapshotProvider.select((s) => s.playSubscription), (previous, next) {
+      if (previous != next && state.subscription != null) _set(subscription: null);
     });
     // On every launch with a signed-in student: ask Google Play what this account owns, which sends
     // again anything the server could not confirm last time. Quiet.
@@ -318,14 +355,42 @@ class PlayBillingController extends Notifier<PlayBillingState> {
   /// The app came back to the front: a quiet check of what Google Play holds, at most once every
   /// [minGap]. Skipped while the student is in Google Play's own sheet (its result arrives on the
   /// purchase stream), except when the purchase is pending, which this check is for.
+  ///
+  /// A Play subscriber's profile is read again too, because the subscription can change in Google
+  /// Play while the app is away (renewal off, a refund). Back from Google Play's subscription page
+  /// ([manageSubscription]) the check always runs, and the subscription is sent to the server again,
+  /// which re-reads it from Google.
   Future<void> checkOnResume({Duration minGap = const Duration(seconds: 30)}) async {
     if (_store == null || ref.read(playBillingUserIdProvider) == null) return;
     if (_flow && state.stage != BillingStage.pending) return;
+    final fromManage = _manageOpened;
     final now = DateTime.now();
     final last = _lastResumeCheck;
-    if (last != null && now.difference(last) < minGap) return;
+    if (!fromManage && last != null && now.difference(last) < minGap) return;
     _lastResumeCheck = now;
+    _manageOpened = false;
+    if (fromManage) {
+      _settled.removeAll(_settledSubscriptions);
+      _settledSubscriptions.clear();
+    }
     await _syncOwned();
+    final known = state.subscription ?? ref.read(authSnapshotProvider).playSubscription;
+    if (_alive && (fromManage || known != null)) {
+      try {
+        await ref.read(playProfileRereadProvider)();
+      } on Object {
+        // Quiet: the next resume or launch reads it again.
+      }
+    }
+  }
+
+  /// Opens Google Play's own page for the Pro subscription ([playManageSubscriptionProvider]) and,
+  /// when it opened, reads the subscription again as soon as the app is back. False when nothing
+  /// could open it.
+  Future<bool> manageSubscription() async {
+    final opened = await ref.read(playManageSubscriptionProvider)();
+    if (opened) _manageOpened = true;
+    return opened;
   }
 
   void _set({
@@ -589,24 +654,35 @@ class PlayBillingController extends Notifier<PlayBillingState> {
       // the app never does. If that step failed on the server (`finished: false`) the purchase is
       // still unfinished with Google Play, so the next check sends it again and the server finishes it.
       _held.remove(token);
-      if (result.body['finished'] != false) _settled.add(token);
+      if (result.body['finished'] != false) _settle(token, product);
       _set(unconfirmed: _held.length);
+      // The plan is read again when something changed: a purchase the student made, a first grant,
+      // a pack, or a subscription that is not what the profile already says. A quiet check that
+      // only confirmed the same subscription again reloads nothing.
+      var changed = interactive || !product.isSubscription || result.body['idempotent'] != true;
       if (product.isSubscription) {
         final info = PlaySubscriptionInfo.fromJson(result.body['subscription']);
-        if (info != null) _set(subscription: info);
+        if (info == null) {
+          changed = true;
+        } else {
+          _set(subscription: info);
+          if (info != ref.read(authSnapshotProvider).playSubscription) changed = true;
+        }
       }
       if (interactive) _end(BillingStage.confirmed, product.id);
-      unawaited(ref.read(playBillingRefreshProvider)().catchError((Object _) {}));
+      if (changed) unawaited(ref.read(playBillingRefreshProvider)().catchError((Object _) {}));
     } on ApiError catch (e) {
       final failure = _failureFor(e);
       if (failure.isFinal) {
         // A final no: holding it would only send it again at every launch.
         _held.remove(token);
-        _settled.add(token);
+        _settle(token, product);
         _set(unconfirmed: _held.length);
         if (failure == BillingFailure.subscriptionOnHold || failure == BillingFailure.subscriptionPaused || failure == BillingFailure.subscriptionEnded) {
-          // Google holds the subscription but it gives no Pro now: read the plan again so every
-          // screen says so (the server already switched Pro off).
+          // Google holds the subscription but it gives no Pro now. The server's answer says where it
+          // stands, so it replaces anything this run said before (an earlier "active"). Then the plan
+          // is read again so every screen says so (the server already switched Pro off).
+          _set(subscription: PlaySubscriptionInfo.fromJson(e.details['subscription']));
           unawaited(ref.read(playBillingRefreshProvider)().catchError((Object _) {}));
         }
       } else {
@@ -619,6 +695,11 @@ class PlayBillingController extends Notifier<PlayBillingState> {
     } finally {
       _inFlight.remove(token);
     }
+  }
+
+  void _settle(String token, PlayProduct product) {
+    _settled.add(token);
+    if (product.isSubscription) _settledSubscriptions.add(token);
   }
 
   void _hold(PurchaseDetails p) {

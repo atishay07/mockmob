@@ -180,12 +180,16 @@ class BillingRig {
   final bool manageOpens;
   int manageOpened = 0;
 
+  /// How often the profile was read again after the app came back to the front.
+  int rereads = 0;
+
   List<Override> get overrides => [
         appConfigProvider.overrideWithValue(on ? playOnConfig : playOffConfig),
         playStoreProvider.overrideWithValue(store),
         playVerifierProvider.overrideWithValue(verifier),
         playBillingUserIdProvider.overrideWithValue(userId),
         playBillingRefreshProvider.overrideWithValue(() async => refreshes++),
+        playProfileRereadProvider.overrideWithValue(() async => rereads++),
         playManageSubscriptionProvider.overrideWithValue(() async {
           manageOpened++;
           return manageOpens;
