@@ -310,6 +310,15 @@ abstract final class MobV3Copy {
   static const String everyonesMarks = "Everyone's marks";
   static const String onlyYou = "You're the first to finish. Places fill in as friends play.";
   static const String skipShow = 'Skip';
+  // The only-you sentence split for the headline and the line under it (same words as [onlyYou]).
+  static const String onlyYouTitle = "You're the first to finish.";
+  static const String onlyYouLine = 'Places fill in as friends play.';
+  static const String rematchAsked = 'You asked your Mob for a rematch.';
+  static const String back = 'Back';
+  static String placeOf(int place) => switch (place) { 1 => 'First place', 2 => 'Second place', 3 => 'Third place', _ => 'Place $place' };
+  static String podiumSemantics(String name, int? place, int? marks) =>
+      '$name, ${place == null ? '' : '${placeOf(place).toLowerCase()}, '}${marks == null ? private.toLowerCase() : MobV3Copy.marks(marks)}';
+  static String headName(String name, bool you) => you ? 'You' : name;
 
   // ---- R8 Everyone's moment ----
   static const String momentsTitle = "Everyone's moment";
@@ -330,6 +339,7 @@ abstract final class MobV3Copy {
   static const String sendSticker = 'Send your Mob a sticker';
   static String fixTogether(int q) => 'Fix question $q together';
   static const String backToDen = 'Back to the den';
+  static String momentRow(String name, String sentence) => '$name: $sentence';
 
   // ---- R9 Fix it together ----
   static String fixSub(String mob) => '$mob, one trap';
@@ -344,6 +354,15 @@ abstract final class MobV3Copy {
   static const String fixRight = 'Right. That one is fixed for you.';
   static const String fixWrong = 'Not this one. Here is why.';
   static const String fixTogetherDone = 'Two of you passed the check, so this trap is fixed together.';
+  static const String yourPick = 'Your pick';
+  static const String rightAnswer = 'The right answer';
+  static const String freshTitle = 'One fresh question, only for you';
+  static const String checkTitle = 'The check: one more like it';
+  static const String takeCheck = 'Take the check';
+  static const String checkKey = 'Check my answer';
+  static const String fixTitle = 'Fix it together';
+  static String bubbleLabel(String letter, bool yours, bool right) =>
+      'Option $letter${yours ? ', your pick' : ''}${right ? ', the right answer' : ''}';
 
   // ---- C1 Chain, You ----
   static const String tabYou = 'You';
