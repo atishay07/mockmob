@@ -232,11 +232,7 @@ class WalletBalanceCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.baseline,
                 textBaseline: TextBaseline.alphabetic,
                 children: [
-                  MmCountUp(
-                    value: total,
-                    fromZeroOnFirstBuild: false,
-                    style: type.figureHero,
-                  ),
+                  _BalanceFigure(value: total, style: type.figureHero),
                   const SizedBox(width: MmSpace.s8),
                   Flexible(child: Text(WalletCopy.toSpend, style: type.labelLarge.copyWith(color: colors.ink2))),
                 ],
@@ -270,6 +266,53 @@ class WalletBalanceCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+/// The hero figure. It shows the server's balance as it is; when a new figure from the server is higher
+/// (a confirmed top-up) it counts up to it in volt and then settles back to ink over 1.6 s. Under
+/// reduced motion it simply shows the new figure.
+class _BalanceFigure extends StatefulWidget {
+  const _BalanceFigure({required this.value, required this.style});
+
+  final int value;
+  final TextStyle style;
+
+  @override
+  State<_BalanceFigure> createState() => _BalanceFigureState();
+}
+
+class _BalanceFigureState extends State<_BalanceFigure> with SingleTickerProviderStateMixin {
+  late final AnimationController _glow = AnimationController(vsync: this, duration: const Duration(milliseconds: 1600));
+
+  @override
+  void didUpdateWidget(_BalanceFigure old) {
+    super.didUpdateWidget(old);
+    if (widget.value > old.value && !MediaQuery.disableAnimationsOf(context)) _glow.forward(from: 0);
+  }
+
+  @override
+  void dispose() {
+    _glow.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = context.mmColors.accentText;
+    return AnimatedBuilder(
+      animation: _glow,
+      builder: (context, _) {
+        final v = _glow.value;
+        // Full volt while it counts (the first half), then an ease back to the figure's own ink.
+        final t = !_glow.isAnimating ? 0.0 : (v < 0.5 ? 1.0 : Curves.easeOut.transform(1 - (v - 0.5) / 0.5));
+        return MmCountUp(
+          value: widget.value,
+          fromZeroOnFirstBuild: false,
+          style: widget.style.copyWith(color: Color.lerp(widget.style.color, accent, t)),
+        );
+      },
     );
   }
 }
