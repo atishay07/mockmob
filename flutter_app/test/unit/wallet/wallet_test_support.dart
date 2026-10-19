@@ -3,7 +3,6 @@
 
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:mockmob/core/auth/auth_state.dart';
-import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/wallet/data/wallet_data.dart';
 
@@ -74,11 +73,10 @@ RemoteState<WalletRead> walletState([Map<String, Object?>? body]) =>
 
 /// The Wallet's overrides: signed in as the You kit's student (Pro or Free), the wallet read, and
 /// (optionally) the billing rig's Google Play fakes.
-List<Override> walletOverrides({RemoteState<WalletRead>? read, bool pro = false, BillingRig? rig, RemoteState<AiCredits>? aiCredits}) => [
+List<Override> walletOverrides({RemoteState<WalletRead>? read, bool pro = false, BillingRig? rig}) => [
       ...youOverrides(
         auth: AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'Asha Verma', isPro: pro, premiumUntil: pro ? DateTime(2027, 7, 31) : null),
         walletOverride: walletRepositoryProvider.overrideWith(() => FakeWalletRepo(read ?? walletState(walletBody(pro: pro)))),
-        aiCredits: aiCredits,
       ),
       ...?rig?.overrides,
     ];
