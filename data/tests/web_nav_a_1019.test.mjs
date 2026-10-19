@@ -135,12 +135,12 @@ test('the You sheet: the account card, Ask Mobi with his face, Your progress, Yo
 });
 
 test('copy, read aloud (R6): full sentences, no telegram style', () => {
-  assert.match(layout, /rail: 'He explains any answer\.'/);
-  assert.match(layout, /sheet: 'He explains questions, results and your plan\.'/);
+  // Release 11 (walk item 12): one line for the one door, on the sidebar and on the phone's sheet (web_fixa_1019.test.mjs).
+  assert.match(layout, /const ASK_MOBI_NOTE = 'He explains any answer\.';/);
   assert.match(layout, /<span className="arena-sheet__lead-name">Ask Mobi<\/span>/);
   assert.equal(MOB_PAGES[0].label, 'Your Mob');
   assert.deepEqual(MOB_PAGES.map((tab) => tab.label), ['Your Mob', 'Your standing']);
-  for (const line of ['He explains any answer.', 'He explains questions, results and your plan.']) {
+  for (const line of ['He explains any answer.']) {
     assert.doesNotMatch(line, /[!—·]|\p{Extended_Pictographic}/u, line);
     assert.match(line, /^[A-Z].*\.$/, `${line} is a sentence`);
   }

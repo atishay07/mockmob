@@ -35,6 +35,7 @@ import mascot from '@/../public/brand/mascot/manifest.json';
 import PlaceTabs from '@/components/nav/PlaceTabs';
 import { useReviseBadge } from '@/lib/reviewRead';
 import { dueBadge, dueLabel } from '@/lib/nav/dueCount.mjs';
+import { shownName } from '@/lib/displayName.mjs';
 import { VIEW_TRANSITION_PROPS } from '@/lib/motion/placeTransition';
 import { tourSteps } from '@/lib/appTour.mjs';
 import { HELP_DOOR, TOUR_LABEL } from '@/lib/helpDoor.mjs';
@@ -50,9 +51,10 @@ function PageTransition({ children }) {
 
 // Mobi's face on his door (the sidebar's foot and the phone's You sheet): the real mascot art, static, as on the logo.
 const MOBI_FACE = mascot.greeting;
-// The two lines under "Ask Mobi" (R6, read aloud): the sidebar's is short enough for one line at 232 px. One voice for both (copy
-// pass, 19 Oct): what he does, so the line under "Ask Mobi" never starts with "Ask" again.
-const ASK_MOBI_NOTE = { rail: 'He explains any answer.', sheet: 'He explains questions, results and your plan.' };
+// The one line under "Ask Mobi" (R6, read aloud), on the sidebar's door and the phone sheet's row alike (release 11 walk: three
+// taglines for one door). The owner's nav option A gives the door this line; it fits one line at 232 px. What he does, so the
+// line under "Ask Mobi" never starts with "Ask" again.
+const ASK_MOBI_NOTE = 'He explains any answer.';
 
 // The Guide's stops live in src/lib/appTour.mjs (W-093), so the Guide page counts the tour that will run.
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
@@ -335,6 +337,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // The Revise count is drawn as "8 due", never a bare number that reads as a paper count (verifier M1), and said in words.
   const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? dueLabel(tab.label, reviseBadge) : undefined);
   const hrefOf = (tab) => previewLinks?.[tab.id] || tab.href || `/${tab.id}`;
+  // The account's name only when it is a real name (release 11 walk; the app's rule, src/lib/displayName.mjs), else "Account".
+  const accountName = shownName(user?.name, user?.email);
   const linkClass = (tab) => ['arena-nav-link', tab.place ? 'arena-nav-link--place' : '', tab.sub ? 'arena-nav-link--sub' : ''].filter(Boolean).join(' ');
   const renderNavLink = (tab, onNavigate, index = 0) => (
     <React.Fragment key={tab.id}>
@@ -400,7 +404,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         {!isTestRoute && (
           <Link href={previewLinks?.mentor || '/mentor'} className="arena-mobi-door" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined}>
             <Image className="arena-mobi-door__face" src={MOBI_FACE.src} width={30} height={41} sizes="30px" alt="" />
-            <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">{ASK_MOBI_NOTE.rail}</span></span>
+            <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">{ASK_MOBI_NOTE}</span></span>
           </Link>
         )}
         {/* The foot is the appearance row alone (D11). */}
@@ -432,7 +436,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             <span className="arena-theme arena-sm-up"><ThemeToggle /></span>
             <Link href="/profile" className="arena-profile arena-desktop-only">
               <Avatar name={user?.name} size="sm" />
-              <span>{user?.name ?? 'Account'}</span>
+              <span>{accountName ?? 'Account'}</span>
             </Link>
             {/* Sign out in words, beside the account (owner G29, 19 Oct): an unlabelled glyph was missed. */}
             <button
@@ -447,7 +451,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             <Link
               href={previewLinks?.profile || '/profile'}
               className="arena-you arena-mobile-only"
-              aria-label={`Account, ${user?.name ?? 'your profile'}`}
+              aria-label={`Account, ${accountName ?? 'your profile'}`}
               aria-current={isActive('profile') ? 'page' : undefined}
               onClick={() => setMobileMenuOpen(false)}
             >
@@ -483,7 +487,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             <div className="arena-sheet__account">
               <Link href={previewLinks?.profile || '/profile'} className="arena-sheet__who" onClick={() => setMobileMenuOpen(false)}>
                 <Avatar name={user?.name} size="sm" />
-                <span>{user?.name ?? 'Account'}</span>
+                <span>{accountName ?? 'Account'}</span>
               </Link>
               <div className="arena-sheet__tools">
                 {/* The phone's account menu says Sign out in words (owner G29). */}
@@ -506,7 +510,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             {/* Ask Mobi, with Mobi's face, above the places and the theme control (D6). */}
             <Link href={previewLinks?.mentor || '/mentor'} className="arena-sheet__lead arena-sheet__lead--ask" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined} onClick={() => setMobileMenuOpen(false)}>
               <Image className="arena-sheet__mobi" src={MOBI_FACE.src} width={30} height={41} sizes="30px" alt="" />
-              <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">{ASK_MOBI_NOTE.sheet}</span></span>
+              <span className="arena-sheet__lead-text"><span className="arena-sheet__lead-name">Ask Mobi</span><span className="arena-sheet__lead-note">{ASK_MOBI_NOTE}</span></span>
             </Link>
             {sheetGroups.map((group) => (
               <nav key={group.id} className="arena-nav-group" aria-label={group.label}>

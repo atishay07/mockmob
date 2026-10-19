@@ -37,6 +37,7 @@ import { api, apiGet, apiPatch, apiPost } from '@/lib/fetcher';
 import ArenaHead from '@/components/arena/ArenaHead';
 import InstallPractice from '@/components/InstallPractice';
 import TodayCompass from '@/components/du/TodayCompass';
+import { shownFirstName } from '@/lib/displayName.mjs';
 import './profile-privacy.css';
 import '@/components/profile/account.css';
 
@@ -160,7 +161,7 @@ function DeleteAccountSection() {
   );
 }
 
-const firstName = (name) => String(name || '').trim().split(/\s+/)[0] || '';
+// The greeting's name follows the app's rule (src/lib/displayName.mjs): a handle or the email's prefix is not a name.
 
 export default function ProfilePageClient() {
   const { user, status, refreshSession } = useAuth();
@@ -210,7 +211,7 @@ export default function ProfilePageClient() {
   const currentName = draftName ?? (user?.name || '');
   const trimmed = currentName.trim();
   const dirty = trimmed.length > 0 && trimmed !== (user?.name || '');
-  const hi = firstName(user?.name);
+  const hi = shownFirstName(user?.name, user?.email);
 
   async function saveName() {
     setIsSaving(true);

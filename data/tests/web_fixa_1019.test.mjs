@@ -224,3 +224,43 @@ test('L6, L7, L8: "50 credits", full stops on the pricing rows, and the tour poi
   const at = (needle) => sheet.indexOf(needle);
   assert.ok(at('arena-sheet__who') < at('arena-sheet__tour') && at('arena-sheet__tour') < at('{HELP_DOOR.label}') && at('{HELP_DOOR.label}') < at('arena-sheet__lead--ask'), 'name, Show me around, Guide, then Ask Mobi');
 });
+
+// ---- 10. (walk item 15) a handle or the email's prefix is not a name ------------------------------------------------------
+test('walk 15: the new student is greeted without a name until a real first name is set (the app\'s shownFirstName rule)', async () => {
+  const { shownFirstName, shownName } = await import('../../src/lib/displayName.mjs');
+  const { greetName, greeting } = await import('../../src/lib/today/greeting.mjs');
+  const email = 'walk-r11-web-1019a@example.com';
+  // The app's cases (flutter_app lib/core/auth/display_name.dart), one for one.
+  for (const handle of ['walk-r11-web-1019a', 'app-e2e-student', 'asha_v', 'asha.v', 'asha07', 'Asha 07', 'a@b']) {
+    assert.equal(shownName(handle, email), null, handle);
+    assert.equal(shownFirstName(handle, email), null, handle);
+    assert.equal(greetName(handle, email), '', handle);
+  }
+  assert.equal(shownName('Walk', 'walk@example.com'), null, 'the email\'s own local part is not a name');
+  assert.equal(shownName('  ', email), null);
+  assert.equal(shownName('Asha Rao', email), 'Asha Rao');
+  assert.equal(shownFirstName('Asha Rao', email), 'Asha');
+  assert.equal(greeting({ hour: 9, name: 'walk-r11-web-1019a', email }), 'Good morning');
+  assert.equal(greeting({ hour: 9, name: 'Asha Rao', email }), 'Good morning, Asha');
+  // Every screen that greets or labels the account reads the rule: Practice's heading, Account's "Hi", the shell's account labels.
+  const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
+  assert.match(practice, /const greetFirst = shownFirstName\(user\?\.name, user\?\.email\);/);
+  assert.match(practice, /\{greetFirst \? `\$\{greetFirst\}, what are we practising\?` : 'What are we practising\?'\}/);
+  assert.doesNotMatch(practice, /user\.name\.split/);
+  const profile = read('src/app/(app)/profile/ProfilePageClient.jsx');
+  assert.match(profile, /const hi = shownFirstName\(user\?\.name, user\?\.email\);/);
+  const shell = read('src/app/(app)/AppLayoutClient.jsx');
+  assert.match(shell, /const accountName = shownName\(user\?\.name, user\?\.email\);/);
+  assert.doesNotMatch(shell, /user\?\.name \?\? /, 'no label prints the raw name');
+  assert.equal((shell.match(/\{accountName \?\? 'Account'\}/g) || []).length, 2, 'the top bar and the You sheet');
+});
+
+// ---- 11. (walk item 12) one line under Ask Mobi -----------------------------------------------------------------------------
+test('walk 12: the Ask Mobi door has one line, "He explains any answer.", on the sidebar and on the phone\'s You sheet', () => {
+  const shell = read('src/app/(app)/AppLayoutClient.jsx');
+  assert.match(shell, /const ASK_MOBI_NOTE = 'He explains any answer\.';/);
+  assert.equal((shell.match(/<span className="arena-sheet__lead-note">\{ASK_MOBI_NOTE\}<\/span>/g) || []).length, 2, 'the rail door and the sheet row');
+  for (const old of ['He explains questions, results and your plan.', 'He knows your record.', 'Ask about a question, a result or your plan.']) {
+    assert.doesNotMatch(shell, new RegExp(old.replace(/[.?]/g, '\$&')), old);
+  }
+});

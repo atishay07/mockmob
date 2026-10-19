@@ -36,6 +36,7 @@ import PracticeRepairs from './PracticeRepairs';
 import { useRailCue, reducedMotion as railReduced } from '@/components/start/railCue';
 import { InlineNudge, ProFacts, openUpgrade } from '@/components/pro';
 import { fullMocksIn } from '@/lib/proNudge.mjs';
+import { shownFirstName } from '@/lib/displayName.mjs';
 import './practice.css';
 import './chapter-picker.css';
 
@@ -138,6 +139,8 @@ function PracticeSkeleton() {
 // sheet and this page (NAV-1017 8.2), so its panel is drawn here only while Concepts exists. The panel is personalised (ConceptsPanel).
 export default function DashboardPageClient({ studyEnabled = false } = {}) {
   const { user, status: authStatus } = useAuth();
+  // A real first name only (release 11 walk: never the email's prefix or a handle; src/lib/displayName.mjs, the app's rule).
+  const greetFirst = shownFirstName(user?.name, user?.email);
   const toast = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -559,7 +562,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
 
       <header className="pr-head pr-head--solo">
         <div>
-          <h1 className="display-md">{user?.name ? `${user.name.split(' ')[0]}, what are we practising?` : 'What are we practising?'}</h1>
+          <h1 className="display-md">{greetFirst ? `${greetFirst}, what are we practising?` : 'What are we practising?'}</h1>
           <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to your record.</p>
           {/* The balance under the lede at every width. The price is said once, on the mode tiles (and the card's own Cost line),
               not again here (release 9: it was stated about four times in the first fold). */}
