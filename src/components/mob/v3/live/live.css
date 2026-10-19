@@ -101,7 +101,7 @@ html[data-theme='light'] .lv-tag.is-host .lv-tag__dot { background: var(--mp-pap
 /* ---- L2 / M3, the countdown ---- */
 .lv-lobby.is-counting .lv-lobby__under { filter: saturate(0.8); }
 .lv-count { position: fixed; inset: 0; z-index: 200; display: grid; align-content: center; justify-items: center; gap: clamp(18px, 4vh, 36px); padding: calc(24px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom)); color: #f4efe2; isolation: isolate; }
-.lv-count__scrim { position: absolute; inset: 0; z-index: -1; background: #0c0b08; opacity: calc(0.55 + 0.3 * var(--depth)); transition: opacity 600ms var(--mp-ease); animation: lv-fade 300ms var(--mp-ease) both; }
+.lv-count__scrim { position: absolute; inset: 0; z-index: -1; background: #0c0b08; opacity: calc(0.5 + 0.25 * var(--depth)); transition: opacity 600ms var(--mp-ease); animation: lv-in 300ms var(--mp-ease); }
 /* Go: the stage leaves (600 ms) while the first question rises underneath. */
 .lv-count.is-go .lv-count__scrim { opacity: 0; transition: opacity 560ms var(--mp-leave); }
 .lv-count.is-go .lv-count__heads, .lv-count.is-go .lv-count__line, .lv-count.is-go .lv-count__watch { opacity: 0; transition: opacity 300ms var(--mp-leave); }
@@ -187,4 +187,5 @@ html[data-theme='light'] .lv-count__scrim { background: #241d10; }
   .lv-tag { animation: lv-fade 120ms linear both !important; }
 }
 @keyframes lv-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lv-in { from { opacity: 0; } }
 @keyframes lv-out { to { opacity: 0; transform: rotate(-3deg) scale(0.96); } }

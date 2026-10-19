@@ -48,9 +48,9 @@ export function LobbyStage({ seats, stickers = [], onStickerGone, skeleton = fal
           </li>
         ))}
         {Array.from({ length: seats.open }, (_, i) => (
-          <li key={`open${i}`} className="lv-seat is-open" aria-hidden={i > 0 || undefined}>
+          <li key={`open${i}`} className="lv-seat is-open" aria-label={i === 0 ? LIVE_COPY.seatsLabel(seats.open) : undefined} aria-hidden={i > 0 || undefined}>
             <span className="lv-seat__fig"><span className="lv-seat__outline" aria-hidden="true">+</span></span>
-            <span className="lv-seat__name is-open">{i === 0 ? (seats.open === 1 ? LIVE_COPY.openSeat : LIVE_COPY.seatsLabel(seats.open)) : LIVE_COPY.openSeat}</span>
+            <span className="lv-seat__name is-open" aria-hidden="true">{LIVE_COPY.openSeat}</span>
           </li>
         ))}
       </ul>
