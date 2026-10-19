@@ -184,7 +184,7 @@ test('own rows only: one student saving never changes another', async () => {
 test('source: the route takes the user from the session, validates before saving, and the store writes the plan with the goal', () => {
   const route = read('src/app/api/me/goal/route.js');
   assert.match(route, /const goal = resolveGoalWeekdays\(body\);\s*\n\s*if \(!goal\.ok\) return bad\(goal\.message\);/);
-  assert.match(route, /saveGoal\(session\.user\.id, \{ daysPerWeek: goal\.daysPerWeek, pausedUntil, weekdays: goal\.weekdays \}\)/);
+  assert.match(route, /saveGoal\(session\.user\.id, \{ daysPerWeek: goal\.daysPerWeek, pausedUntil, weekdays: goal\.weekdays, dailyMinutes: minutes\.minutes \}\)/);
   assert.ok(route.indexOf('resolveGoalWeekdays(body)') < route.indexOf('saveGoal(session.user.id'));
   assert.doesNotMatch(route, /body\.(userId|user_id)/);
   const store = read('src/lib/server/appPrefs.js');

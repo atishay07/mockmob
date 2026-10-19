@@ -1,4 +1,5 @@
 // Shared deterministic study contracts. No answer keys from assessment banks belong here.
+import { isGoalMinutes, goalMinutesOr, allocateMinutes, QUICK_PRACTICE_MAX, REVIEW_BLOCK_MAX } from './goal_minutes.js';
 export const STUDY_SUBJECTS = ['english', 'accountancy', 'business_studies', 'economics'];
 export const SCHEDULER_VERSION = 'fsrs-5.4.2-retention-090-v1';
 export const NEW_CARDS_PER_DAY = 5;
@@ -13,10 +14,11 @@ export function preferences(input, previous = DEFAULT_PREFERENCES, premium = fal
   const subjects = input.subjects ?? previous.subjects;
   if (!Array.isArray(subjects) || !subjects.length || subjects.some(s => !STUDY_SUBJECTS.includes(s))) throw new Error('INVALID_SUBJECTS');
   const minutes = input.minutes ?? previous.minutes;
-  if (![10, 20, 30].includes(minutes)) throw new Error('INVALID_MINUTES');
+  // Any whole number of minutes from 5 to 999 (data/goal_minutes.js): the app keeps long daily goals whole.
+  if (!isGoalMinutes(minutes)) throw new Error('INVALID_MINUTES');
   const weeklyPlan = input.weeklyPlan === undefined ? previous.weeklyPlan : input.weeklyPlan;
   if (input.weeklyPlan != null && !premium) throw new Error('PREMIUM_REQUIRED');
-  if (weeklyPlan != null && (!Array.isArray(weeklyPlan) || weeklyPlan.length !== 7 || weeklyPlan.some(d => !d || !STUDY_SUBJECTS.includes(d.subject) || ![10, 20, 30].includes(d.minutes)))) throw new Error('INVALID_WEEKLY_PLAN');
+  if (weeklyPlan != null && (!Array.isArray(weeklyPlan) || weeklyPlan.length !== 7 || weeklyPlan.some(d => !d || !STUDY_SUBJECTS.includes(d.subject) || !isGoalMinutes(d.minutes)))) throw new Error('INVALID_WEEKLY_PLAN');
   return { subjects: [...new Set(subjects)], minutes, newCardsPerDay: NEW_CARDS_PER_DAY, weeklyPlan, revision: (previous.revision || 0) + 1 };
 }
 export function recallQueue(cards, states = [], at = Date.now(), introducedToday = 0, limit = 10, reviewCards = cards) {
@@ -125,25 +127,56 @@ const STEP_COPY = {
   recall: { purpose: 'Keeps what you have learned from fading before the exam.', done: 'Done when each card is answered or rated.' },
   learn: { purpose: 'Understand one concept, then try it straight away.', done: 'Done when you finish the lesson and its checks.' },
   resume_study: { purpose: 'Pick up from your last saved action.', done: 'Nothing you did is lost.' },
+  review: { purpose: 'Turns the mistakes in your saved papers into marks you keep.', done: 'Done when you have been through the mistakes you chose to look at.' },
   ordinary_practice: { purpose: 'Apply what you know under exam-style marking.', done: 'Done when you submit; your result shows the chapters to fix.' },
 };
-export function guidedSequence(plan, study, minutes = 20) {
-  const allocation = { 10: [2,3,5], 20: [4,6,10], 30: [5,10,15] }[minutes] || [4,6,10];
+// One step never claims more time than it really holds: a recall review is at most the ten cards a queue holds, one
+// lesson is a lesson, and a practice set is Quick practice's 20 questions. A goal of 30 minutes or less never reaches
+// these caps, so 10, 20 and 30 read exactly as before.
+const RECALL_STEP_MAX = 10;
+const LESSON_STEP_MAX = 25;
+const EXTRA_PRACTICE_SETS_MAX = 3;
+/**
+ * The session for a daily goal of any 5 to 999 minutes. `goal.attempts` is how many saved papers the student has: a
+ * review of mistakes is offered only when there are some. A goal longer than 30 minutes adds, after the steps above,
+ * a review block and more practice sets, so a long goal is a longer plan and never one enormous step.
+ */
+export function guidedSequence(plan, study, minutes = 20, goal = {}) {
+  const total = goalMinutesOr(Number(minutes), 20);
+  const allocation = allocateMinutes(total);
+  const recallMin = Math.min(allocation[0], RECALL_STEP_MAX), learnMin = Math.min(allocation[1], LESSON_STEP_MAX);
+  const practiceCount = Math.min(allocation[2], QUICK_PRACTICE_MAX);
   const sequence = [];
   const add = step => sequence.push({ ...STEP_COPY[step.kind], ...step });
-  if (plan.primary?.kind==='resume_session') add({ ...plan.primary, estimatedMinutes: allocation[2] });
-  if (study.active) add({ kind: 'resume_study', title: study.active.mode === 'learn' ? `Finish your lesson${study.active.title ? `: ${study.active.title}` : ''}` : 'Finish your recall session', href: `/study/${study.active.id}`, reason: 'Continue from your last saved action.', estimatedMinutes: allocation[study.active.mode==='learn'?1:0], mode: study.active.mode });
-  if (['fresh_check','repair'].includes(plan.primary?.kind)) add({ ...plan.primary, estimatedMinutes: allocation[2] });
+  if (plan.primary?.kind==='resume_session') add({ ...plan.primary, estimatedMinutes: practiceCount });
+  if (study.active) add({ kind: 'resume_study', title: study.active.mode === 'learn' ? `Finish your lesson${study.active.title ? `: ${study.active.title}` : ''}` : 'Finish your recall session', href: `/study/${study.active.id}`, reason: 'Continue from your last saved action.', estimatedMinutes: study.active.mode==='learn' ? learnMin : recallMin, mode: study.active.mode });
+  if (['fresh_check','repair'].includes(plan.primary?.kind)) add({ ...plan.primary, estimatedMinutes: practiceCount });
   if (study.active?.mode!=='recall' && study.queue?.items.length) {
     const due = study.queue.dueCount, fresh = study.queue.items.length - Math.min(due, study.queue.items.length);
-    add({ kind: 'recall', title: due ? `Review ${Math.min(due, study.queue.items.length)} due ${due === 1 ? 'card' : 'cards'}` : `Lock in ${fresh} new ${fresh === 1 ? 'card' : 'cards'}`, href: '/learn?recall=due', reason: study.queue.pausedNew ? 'Clear part of your review backlog first; new cards wait until it is smaller.' : due ? 'These are due now. Answer from memory first, then check.' : 'Cards from lessons you have read. Answer from memory first, then check.', estimatedMinutes: allocation[0] });
+    add({ kind: 'recall', title: due ? `Review ${Math.min(due, study.queue.items.length)} due ${due === 1 ? 'card' : 'cards'}` : `Lock in ${fresh} new ${fresh === 1 ? 'card' : 'cards'}`, href: '/learn?recall=due', reason: study.queue.pausedNew ? 'Clear part of your review backlog first; new cards wait until it is smaller.' : due ? 'These are due now. Answer from memory first, then check.' : 'Cards from lessons you have read. Answer from memory first, then check.', estimatedMinutes: recallMin });
   }
-  if (study.active?.mode!=='learn' && study.nextUnit) add({ kind: 'learn', title: `Learn: ${study.nextUnit.title}`, href: `/learn/${study.nextUnit.id}`, reason: study.nextUnit.reason || 'A short lesson with worked examples and a quick check.', estimatedMinutes: allocation[1], subject: study.nextUnit.subject, chapter: study.nextUnit.chapter });
+  if (study.active?.mode!=='learn' && study.nextUnit) add({ kind: 'learn', title: `Learn: ${study.nextUnit.title}`, href: `/learn/${study.nextUnit.id}`, reason: study.nextUnit.reason || 'A short lesson with worked examples and a quick check.', estimatedMinutes: learnMin, subject: study.nextUnit.subject, chapter: study.nextUnit.chapter });
+  const chapter = study.nextUnit?.chapter && study.nextUnit?.subject ? study.nextUnit : null;
+  const chapterQuery = chapter ? `&${new URLSearchParams({ subject: chapter.subject, chapter: chapter.chapter })}` : '';
   if (!sequence.some(s => ['resume_session','fresh_check','repair'].includes(s.kind))) {
-    const chapter = study.nextUnit?.chapter && study.nextUnit?.subject ? study.nextUnit : null;
     add(plan.primary?.kind==='ordinary_practice' && sequence.length
-      ? { ...plan.primary, title: `Practise ${allocation[2]} questions`, href: `/dashboard?mode=quick&count=${allocation[2]}${chapter ? `&${new URLSearchParams({ subject: chapter.subject, chapter: chapter.chapter })}` : ''}`, reason: `About ${allocation[2]} minutes of exam-style questions${chapter ? ` from ${chapter.chapter}` : ''}. Access and cost are shown before you start.`, estimatedMinutes: allocation[2] }
-      : { ...plan.primary, estimatedMinutes: allocation[2] });
+      ? { ...plan.primary, title: `Practise ${practiceCount} questions`, href: `/dashboard?mode=quick&count=${practiceCount}${chapterQuery}`, reason: `About ${practiceCount} minutes of exam-style questions${chapter ? ` from ${chapter.chapter}` : ''}. Access and cost are shown before you start.`, estimatedMinutes: practiceCount }
+      : { ...plan.primary, estimatedMinutes: practiceCount });
+  }
+  // A goal longer than 30 minutes: the time the steps above do not fill goes to a review of the mistakes, then to more
+  // practice (up to three more sets), so the plan grows with the goal. What is left after that is the student's to spend.
+  if (total > 30) {
+    let left = total - sequence.reduce((sum, s) => sum + (Number(s.estimatedMinutes) || 0), 0);
+    if (left >= 5 && goal?.attempts > 0) {
+      const block = Math.min(left, REVIEW_BLOCK_MAX);
+      add({ kind: 'review', title: 'Review the mistakes you made', href: '/review', reason: 'Go back over the questions you missed and fix the reason you missed them.', estimatedMinutes: block });
+      left -= block;
+    }
+    for (let extra = 0; extra < EXTRA_PRACTICE_SETS_MAX && left >= QUICK_PRACTICE_MAX / 2; extra += 1) {
+      const count = Math.min(left, QUICK_PRACTICE_MAX);
+      add({ kind: 'ordinary_practice', title: `Practise ${count} more questions`, href: `/dashboard?mode=quick&count=${count}${chapterQuery}`, reason: `About ${count} minutes of exam-style questions${chapter ? ` from ${chapter.chapter}` : ''}. Access and cost are shown before you start.`, estimatedMinutes: count, duration: plan.primary?.duration ?? total, availability: 'available' });
+      left -= count;
+    }
   }
   return sequence;
 }

@@ -2,6 +2,7 @@ import 'server-only';
 import { supabaseAdmin } from '@/lib/supabase';
 import { computeRhythm, localDay, weekStart, planGoalHistoryWrites, DEFAULT_TIMEZONE } from './rhythm';
 import { maskToStore, weekdaysOut } from '@/lib/studyWeekdays.mjs';
+import { isGoalMinutes } from '@/../data/goal_minutes';
 
 export const TIMEZONES = ['Asia/Kolkata', 'Asia/Dubai', 'Asia/Singapore', 'Asia/Kathmandu', 'Asia/Dhaka', 'Asia/Colombo', 'Asia/Karachi', 'Europe/London', 'America/New_York', 'America/Los_Angeles', 'Australia/Sydney', 'UTC'];
 export const CHANNEL_KEYS = ['check_due', 'weekly_plan', 'study_window', 'result_ready'];
@@ -51,15 +52,32 @@ export async function revokeDevice(userId, token) {
 
 // `weekdays`: the days the student chose (0 = Monday), or null when none are held or their count no longer
 // matches the goal (src/lib/studyWeekdays.mjs). The mask column is read only if the row has it.
+// `dailyMinutes`: the daily goal in minutes, a whole number from 5 to 999, or null when the student has not set one
+// (supabase/migrations/20261020120000_study_goal_daily_minutes.sql). A row that lacks the column, or holds a value
+// outside the range, reads as null: the app then keeps its own copy and the plan keeps its usual length.
 export const goalOut = row => {
   const daysPerWeek = row?.days_per_week ?? 4;
-  return { daysPerWeek, timezone: row?.timezone || 'Asia/Kolkata', pausedUntil: row?.paused_until || null, weekdays: weekdaysOut(row?.weekday_mask, daysPerWeek) };
+  return { daysPerWeek, timezone: row?.timezone || 'Asia/Kolkata', pausedUntil: row?.paused_until || null, weekdays: weekdaysOut(row?.weekday_mask, daysPerWeek), dailyMinutes: isGoalMinutes(row?.daily_minutes) ? row.daily_minutes : null };
 };
+
+/** Postgres undefined_column, or PostgREST's "column not in the schema cache", for daily_minutes. */
+export const missingMinutesColumn = (error) => Boolean(error) && (error.code === '42703' || error.code === 'PGRST204' || (/daily_minutes/.test(String(error.message || '')) && /does not exist|schema cache/.test(String(error.message || ''))));
 
 export async function getGoal(userId) {
   const { data, error } = await supabaseAdmin().from('study_goals').select('*').eq('user_id', userId).maybeSingle();
   if (error) throw fail('GOAL_UNAVAILABLE', error);
   return goalOut(data);
+}
+
+/**
+ * The account's daily goal in minutes for the learning plan, or null (none set, the column not applied yet, or the
+ * read failed: the plan then uses the usual length it always had, never an error).
+ */
+export async function getDailyMinutes(userId) {
+  try {
+    const { data, error } = await supabaseAdmin().from('study_goals').select('daily_minutes').eq('user_id', userId).maybeSingle();
+    return !error && isGoalMinutes(data?.daily_minutes) ? data.daily_minutes : null;
+  } catch { return null; }
 }
 
 const historyIn = rows => (rows || []).map(r => ({ effectiveWeek: r.effective_week, daysPerWeek: r.days_per_week }));
@@ -73,11 +91,27 @@ export async function loadGoalHistory(userId) {
 }
 
 /**
+ * A save of the daily minutes alone (a whole number from 5 to 999, or null to clear it): the days, the plan, the pause and the
+ * history are left exactly as they are. A student with no goal row yet gets one at the default 4 days. Refused with
+ * GOAL_MINUTES_NOT_ON_ACCOUNT before the daily_minutes column is applied, so the app keeps the goal on the phone.
+ */
+export async function saveDailyMinutes(userId, dailyMinutes) {
+  const row = { user_id: userId, daily_minutes: dailyMinutes, updated_at: new Date().toISOString() };
+  const { data, error } = await supabaseAdmin().from('study_goals').upsert(row, { onConflict: 'user_id' }).select('*').single();
+  if (missingMinutesColumn(error)) throw fail('GOAL_MINUTES_NOT_ON_ACCOUNT', error);
+  if (error) throw fail('GOAL_UNAVAILABLE', error);
+  return goalOut(data);
+}
+
+/**
  * `weekdays`: undefined keeps the stored plan while its count still matches the goal (and drops it when
  * it does not), null clears it, an array of validated weekdays (0 = Monday) replaces it. The plan and the
  * goal are written in one row, so the website and the app never see one without the other.
+ * `dailyMinutes`: undefined keeps the stored daily goal, null clears it, a whole number from 5 to 999 replaces it.
+ * Before the daily_minutes column is applied the days are still saved and the answer says `minutesOnAccount: false` and
+ * holds `dailyMinutes: null` (saveDailyMinutes, the minutes alone, is refused instead: GOAL_MINUTES_NOT_ON_ACCOUNT).
  */
-export async function saveGoal(userId, { daysPerWeek, pausedUntil, weekdays }) {
+export async function saveGoal(userId, { daysPerWeek, pausedUntil, weekdays, dailyMinutes }) {
   const db = supabaseAdmin();
   const [prev, tzRes, history] = await Promise.all([
     db.from('study_goals').select('*').eq('user_id', userId).maybeSingle(),
@@ -97,9 +131,17 @@ export async function saveGoal(userId, { daysPerWeek, pausedUntil, weekdays }) {
   const row = { user_id: userId, days_per_week: daysPerWeek, paused_until: pausedUntil ?? null, updated_at: new Date().toISOString() };
   const mask = maskToStore({ weekdays, daysPerWeek, previousMask: prev.data?.weekday_mask });
   if (mask !== undefined) row.weekday_mask = mask;
-  const { data, error } = await db.from('study_goals').upsert(row, { onConflict: 'user_id' }).select('*').single();
+  if (dailyMinutes !== undefined) row.daily_minutes = dailyMinutes;
+  let { data, error } = await db.from('study_goals').upsert(row, { onConflict: 'user_id' }).select('*').single();
+  let minutesOnAccount = true;
+  if (dailyMinutes !== undefined && missingMinutesColumn(error)) {
+    // The column is not applied yet: the days and the pause are still the student's to save.
+    delete row.daily_minutes;
+    minutesOnAccount = false;
+    ({ data, error } = await db.from('study_goals').upsert(row, { onConflict: 'user_id' }).select('*').single());
+  }
   if (error) throw fail('GOAL_UNAVAILABLE', error);
-  return goalOut(data);
+  return minutesOnAccount ? goalOut(data) : { ...goalOut(data), minutesOnAccount: false };
 }
 
 /**

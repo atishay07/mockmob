@@ -71,6 +71,9 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
 
 const STUDY_MINUTES = [10, 20, 30].map((n) => ({ value: n, label: `${n} minutes` }));
 const WEEK_MINUTES = [10, 20, 30].map((n) => ({ value: n, label: `${n} min` }));
+// A usual length of another size (any whole number of minutes from 5 to 999, kept by the app or set as the daily goal)
+// shows as its own choice, so the control never reads as nothing chosen and a save never rounds it.
+const withCustom = (options, value, unit) => (!Number.isInteger(value) || options.some((o) => o.value === value) ? options : [...options, { value, label: `${value} ${unit}` }].sort((a, b) => a.value - b.value));
 const WEEK_SUBJECTS = SUBJECTS.map(([id, title]) => ({ value: id, label: title }));
 
 function StudyPreferences({ prefs: initial, units, api, onOpenRun }) {
@@ -81,7 +84,10 @@ function StudyPreferences({ prefs: initial, units, api, onOpenRun }) {
   const [mixedUnits, setMixedUnits] = useState(reviewableUnits.slice(0,20).map(u => u.id));
   const save = async (plan = false) => {
     setSaving(true); setMessage(null);
-    try { const next = await api.put('/api/study/preferences', { subjects, minutes, expectedRevision: prefs.revision, ...(plan ? { weeklyPlan: weekly } : {}) }); setPrefs(next); setMessage({ ok: true, text: 'Saved. Today will plan around these choices.' }); }
+    try { const next = await api.put('/api/study/preferences', { subjects, minutes, expectedRevision: prefs.revision, ...(plan ? { weeklyPlan: weekly } : {}) }); setPrefs(next);
+      // The usual length is the daily goal when the account holds one, so the two change together.
+      try { const goal = await api.get('/api/me/goal'); if (goal?.dailyMinutes != null && goal.dailyMinutes !== minutes) await api.put('/api/me/goal', { dailyMinutes: minutes }); } catch { /* the preference is saved; the goal keeps its value */ }
+      setMessage({ ok: true, text: 'Saved. Today will plan around these choices.' }); }
     catch (e) { setMessage({ ok: false, text: friendlyError(e).text }); } finally { setSaving(false); }
   };
   const mixed = async () => {
@@ -91,13 +97,13 @@ function StudyPreferences({ prefs: initial, units, api, onOpenRun }) {
   };
   return <SmoothDetails className="sx-prefs" chevron summary={<span className="sx-prefs__title">Study preferences{prefs.premium ? ' and weekly plan' : ''}</span>}>
     <fieldset><legend>Subjects to plan for</legend>{SUBJECTS.map(([id, title]) => <label className="sx-check" key={id}><input type="checkbox" checked={subjects.includes(id)} onChange={e => setSubjects(e.target.checked ? [...subjects, id] : subjects.filter(s => s !== id))} /><span className="sx-check__mark" aria-hidden="true"><Check size={16} /></span><span>{title}</span></label>)}</fieldset>
-    <div className="sx-field"><span id="sx-usual-time">Usual study time</span><SegmentedControl labelledBy="sx-usual-time" value={minutes} onChange={setMinutes} options={STUDY_MINUTES} /></div>
+    <div className="sx-field"><span id="sx-usual-time">Usual study time</span><SegmentedControl labelledBy="sx-usual-time" value={minutes} onChange={setMinutes} options={withCustom(STUDY_MINUTES, minutes, 'minutes')} /></div>
     <div className="sx-actions"><button className="sx-secondary" type="button" disabled={saving || !subjects.length} onClick={() => save()}>Save preferences</button></div>
     <h3 className="sx-h3">Weekly plan and mixed revision</h3>
     {prefs.premium ? <>
       <div className="sx-week">{['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, i) => <div key={day}><span>{day}</span>
         <Listbox aria-label={`${day} subject`} sheetTitle={`${day} subject`} size="sm" value={weekly[i].subject} options={WEEK_SUBJECTS} onChange={(value) => setWeekly(weekly.map((d, j) => j === i ? { ...d, subject: value } : d))} />
-        <Listbox aria-label={`${day} minutes`} sheetTitle={`${day} minutes`} size="sm" value={weekly[i].minutes} options={WEEK_MINUTES} onChange={(value) => setWeekly(weekly.map((d, j) => j === i ? { ...d, minutes: value } : d))} /></div>)}</div>
+        <Listbox aria-label={`${day} minutes`} sheetTitle={`${day} minutes`} size="sm" value={weekly[i].minutes} options={withCustom(WEEK_MINUTES, weekly[i].minutes, 'min')} onChange={(value) => setWeekly(weekly.map((d, j) => j === i ? { ...d, minutes: value } : d))} /></div>)}</div>
       <div className="sx-actions"><button type="button" className="sx-secondary" disabled={saving || !subjects.length} onClick={() => save(true)}>Save weekly plan</button></div>
       <p className="sx-small">Review concepts you have already learned. New cards appear after you finish their lesson.</p>
       {!reviewableUnits.length ? <p className="sx-small">Finish a lesson first, then choose it here for mixed revision.</p> : null}

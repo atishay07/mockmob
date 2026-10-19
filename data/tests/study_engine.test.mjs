@@ -64,7 +64,7 @@ test('Free preferences stay free while saved weekly plans require existing Pro e
   const weekly=Array.from({length:7},()=>({subject:'english',minutes:20}));
   assert.throws(()=>preferences({weeklyPlan:weekly}),/PREMIUM_REQUIRED/);
   assert.deepEqual(preferences({weeklyPlan:weekly},undefined,true).weeklyPlan,weekly);
-  assert.throws(()=>preferences({subjects:[]}),/INVALID_SUBJECTS/);assert.throws(()=>preferences({minutes:5}),/INVALID_MINUTES/);
+  assert.throws(()=>preferences({subjects:[]}),/INVALID_SUBJECTS/);assert.equal(preferences({minutes:5}).minutes,5);assert.equal(preferences({minutes:999}).minutes,999);for(const bad of [4,1000,0,-20,20.5,'20',NaN])assert.throws(()=>preferences({minutes:bad}),/INVALID_MINUTES/,String(bad));
 });
 test('Today keeps active work and formal checks ahead of recall and allocates a realistic practice block',()=>{
   const study={active:{id:'saved',mode:'learn'},queue:{items:cards.slice(0,2)},nextUnit:{id:'u',title:'Concept'}};

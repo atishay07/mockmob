@@ -120,6 +120,8 @@ export default function Today() {
       const input = { minutes: n, expectedRevision: prefs.revision };
       if (prefs.premium && prefs.weeklyPlan) input.weeklyPlan = prefs.weeklyPlan.map((d, i) => (i === data.plan.data.study.weekday ? { ...d, minutes: n } : d));
       await api('/api/study/preferences', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input) });
+      // The usual length is the daily goal when the account holds one, so the two change together.
+      if (data.plan.data?.goalMinutes != null) await api('/api/me/goal', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ dailyMinutes: n }) }).catch(() => {});
       setChosen(n); data.setMinutes(n); setSaving('saved');
     } catch { setSaving('failed'); }
   }, [data]);

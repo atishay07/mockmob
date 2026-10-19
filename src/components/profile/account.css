@@ -200,6 +200,12 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
   transition-delay: var(--acct-delay, 0ms);
 }
 .app-shell .acct-day--wd { font-size: 13px; letter-spacing: 0; }
+/* The daily time chips: the same round keys as the weekdays, wide enough for "45 min" and "2 hours", wrapping on a phone. */
+.app-shell .acct-goal__mins { display: flex; flex-wrap: wrap; gap: 8px; max-width: 460px; min-width: 0; }
+.app-shell .acct-day--min { width: auto; min-width: 64px; padding: 0 16px; font-size: 14px; letter-spacing: 0; }
+.app-shell .acct-goal__own { max-width: 260px; }
+.app-shell .acct-goal__input { font-variant-numeric: tabular-nums; }
+.app-shell .acct-goal__split[data-tone='err'] { color: var(--a-bad-text); }
 @media (max-width: 420px) { .app-shell .acct-goal__days { gap: 1px; } .app-shell .acct-day--wd { font-size: 12px; } }
 @media (max-width: 340px) { .app-shell .acct-goal__days { gap: 1px; } .app-shell .acct-day--wd { font-size: 11px; } }
 .app-shell .acct-day:active:not(:disabled) { transform: scale(0.94); }
