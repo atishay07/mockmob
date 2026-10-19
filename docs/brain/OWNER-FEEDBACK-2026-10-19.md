@@ -405,3 +405,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 - Monthly Pro price on Play: "₹149 a month"
 - Credit packs on Play: "Keep ₹15 / ₹45 / ₹75 (Recommended)"
 **Ledger D136:** Play sells Pro as a monthly auto-renewing subscription at Rs 149 a month (web stays Rs 99 a month; the app never shows the web price); packs Rs 15 / 45 / 75 as one-time products. Do not create pro_cuet_2027 in Play Console.
+
+## Owner, 19 Oct about 8:10 pm IST (verbatim, screenshot: one-time products credits_49_300, credits_29_150, credits_10_50 each with 1 active purchase option)
+> "all done in the one-time product section. Now I think the subscription is left, and then the Google Cloud thing that you said."
+**Ledger:** the 3 credit packs are created and active in Play Console.
