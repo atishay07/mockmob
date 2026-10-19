@@ -69,6 +69,23 @@ abstract final class MobV3Copy {
   static const String chooseSubjects = 'Choose your subjects';
   static const String openSeat = 'Open seat';
 
+  // Den words added by the DEN builder (labels the spec leaves to the build).
+  static const String you = 'You';
+  static const String openSeatInvite = 'Open seat. Invite a friend to take it.';
+  static String pennantWord(int w) => w == 1 ? 'week' : 'weeks';
+  static String pennantSemantics(int w) => "${pennantWeeks(w)} in a row. Opens your Mob's chain.";
+  static String chainChipSemantics(int days) => 'Your chain, ${chainChip(days)} in a row. Opens your chain.';
+  static const String settingsSemantics = 'Mob settings';
+  static const String switchMob = 'Switch to another Mob';
+  static const String switcherTitle = 'Your Mobs';
+  static String shelfSemantics(String mob, List<String> items, String? next, int? nextAt) {
+    final have = items.isEmpty ? 'Nothing on it yet.' : '${_join(items)}.';
+    final coming = next == null || nextAt == null ? '' : ' Next: ${next.toLowerCase()} at $nextAt weeks.';
+    return "$mob's shelf. $have$coming Opens your shelf.";
+  }
+
+  static String stickerSemantics(StickerKind k) => 'Send the sticker ${sticker(k)}';
+
   static String denSubtitle(String subject, int size) => size <= 1 ? '$subject, just you' : '$subject, $size of you';
   static String chainChip(int days) => days == 1 ? '1 day' : '$days days';
   static String pennantWeeks(int w) => w == 1 ? '1 week' : '$w weeks';
