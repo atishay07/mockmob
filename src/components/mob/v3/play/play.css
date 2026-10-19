@@ -235,17 +235,22 @@ html[data-theme='light'] .mp-ready__lamp { background: linear-gradient(180deg, #
 .mp-pod__stage::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 64px; background: linear-gradient(180deg, transparent, color-mix(in srgb, var(--mp-desk) 70%, #000 30%)); z-index: -1; }
 html[data-theme='light'] .mp-pod__stage::after { background: linear-gradient(180deg, transparent, var(--mp-desk-2)); }
 .mp-pod__cone { position: absolute; top: 0; left: 50%; width: 100%; height: 100%; transform: translateX(-50%); transform-origin: 50% 0; z-index: -1; background: radial-gradient(ellipse 50% 100% at 50% 0%, var(--mp-lamp-core), var(--mp-lamp) 45%, transparent 75%); clip-path: polygon(40% 0, 60% 0, 100% 100%, 0 100%); opacity: 0.7; transition: transform 400ms var(--mp-emph), opacity 600ms var(--mp-ease); }
+/* The first place stands under the lamp with room to spare at every width (PODIUM_LAMP in playModel.mjs): the stage keeps
+   the lamp, the clearance and the crown hop above its tallest Fold, and grows instead of letting a head reach the lamp. */
+.mp-pod__stage--podium { padding-top: calc(var(--pod-bulb, 20px) + var(--pod-clear, 32px) + var(--pod-hop, 14px)); }
 .mp-pod__cone.is-narrow { transform: translateX(-50%) scaleX(0.62); opacity: 0.9; }
 .mp-pod__cone.is-swell { opacity: 1; transform: translateX(-50%) scaleX(0.7); }
-.mp-pod__bulb { position: absolute; top: 0; left: 50%; width: 54px; height: 20px; transform: translateX(-50%) scaleX(1.6); border-radius: 0 0 30px 30px; background: linear-gradient(180deg, #3a352a, #26231b); }
+.mp-pod__bulb { position: absolute; top: 0; left: 50%; width: 54px; height: var(--pod-bulb, 20px); transform: translateX(-50%) scaleX(1.6); border-radius: 0 0 30px 30px; background: linear-gradient(180deg, #3a352a, #26231b); }
 .mp-plinths { display: flex; align-items: flex-end; justify-content: center; gap: 6px; margin: 0; padding: 0; list-style: none; perspective: 700px; }
 .mp-plinth { display: grid; justify-items: center; width: clamp(88px, 27%, 150px); }
 .mp-plinth__fold { position: relative; z-index: 2; margin-bottom: -6px; opacity: 0; transform-origin: 50% 100%; }
 .mp-plinth.is-in .mp-plinth__fold { animation: mp-drop 220ms var(--mp-leave) 420ms forwards, mp-squash 400ms var(--mp-celebrate) 640ms both; }
-@keyframes mp-drop { from { opacity: 1; transform: translateY(-60px); } to { opacity: 1; transform: none; } }
+@keyframes mp-drop { from { opacity: 1; transform: translateY(calc(-1 * var(--drop, 60px))); } to { opacity: 1; transform: none; } }
+.mp-plinth__fold { --drop: var(--pod-drop, 60px); }
+.mp-plinth.is-first .mp-plinth__fold { --drop: var(--pod-first-drop, 36px); }
 @keyframes mp-squash { 0% { opacity: 1; transform: scale(1.08, 0.88); } 22% { opacity: 1; transform: scale(1.08, 0.88); } 100% { opacity: 1; transform: none; } }
 .mp-plinth.is-crowned .mp-plinth__fold { animation: mp-crown-hop 520ms var(--mp-celebrate) both; opacity: 1; }
-@keyframes mp-crown-hop { 0% { transform: none; } 40% { transform: translateY(-14px); } 100% { transform: none; } }
+@keyframes mp-crown-hop { 0% { transform: none; } 40% { transform: translateY(calc(-1 * var(--pod-hop, 14px))); } 100% { transform: none; } }
 .mp-plinth__block { position: relative; display: grid; place-items: start center; width: 100%; height: var(--h); padding-top: 10px; overflow: hidden; border-radius: 8px 8px 0 0; background: linear-gradient(180deg, var(--mp-paper), var(--mp-paper-2)); box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), 0 -1px 0 var(--mp-paper-edge); transform-origin: 50% 100%; transform: rotateX(90deg); opacity: 0; }
 .mp-plinth.is-in .mp-plinth__block { animation: mp-unfold 420ms var(--mp-emph) forwards; }
 @keyframes mp-unfold { from { transform: rotateX(90deg); opacity: 0.2; } to { transform: none; opacity: 1; } }

@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import {
   COPY, STICKERS, clock, day, when, stopwatch, momentSentence, nextQuestionIndex, rightStreak, paceChip, ghostAt,
-  rulerRacers, podiumLayout, countBases, shownMarks, PODIUM_END_MS, foldSrc, foldHeadSrc, FOLD_PAPER, joinNames, gameHref, GAME_VIEWS,
+  rulerRacers, podiumLayout, countBases, shownMarks, PODIUM_END_MS, PODIUM_LAMP, lampGaps, lampVars, foldSrc, foldHeadSrc, FOLD_PAPER, joinNames, gameHref, GAME_VIEWS,
 } from '../../src/components/mob/v3/play/playModel.mjs';
 import * as den from '../../src/components/mob/den/denRoutes.js';
 
@@ -132,6 +132,25 @@ test('the podium order is true in every frame (F10): each count rolls up from th
     }
     for (const p of layout.stage) assert.equal(shownMarks(p, PODIUM_END_MS), p.marks, 'every count lands on the server\'s marks');
   }
+});
+
+test('the first place stands under the lamp and never reaches its edge (owner leftover 20 Oct)', () => {
+  const g = lampGaps();
+  // At rest the Fold box sits clear + hop under the lamp; the hop still leaves 24 px or more; the drop starts below it.
+  assert.ok(g.rest >= 40, `rest gap ${g.rest}`);
+  assert.ok(g.hop >= 24, `hop gap ${g.hop}`);
+  assert.ok(g.dropStart >= PODIUM_LAMP.minGap, `the first place's drop starts ${g.dropStart} px under the lamp`);
+  assert.ok(PODIUM_LAMP.firstDrop < PODIUM_LAMP.drop && PODIUM_LAMP.firstDrop >= 24, 'the first place still drops, a shorter way');
+  const vars = lampVars();
+  assert.deepEqual(Object.keys(vars).sort(), ['--pod-bulb', '--pod-clear', '--pod-drop', '--pod-first-drop', '--pod-hop']);
+  // The stage reserves the lamp, the clearance and the hop above its tallest Fold; the drop and the hop read the same variables.
+  const css = readFileSync(path.join(PLAY_DIR, 'play.css'), 'utf8');
+  assert.match(css, /\.mp-pod__stage--podium \{ padding-top: calc\(var\(--pod-bulb, 20px\) \+ var\(--pod-clear, 32px\) \+ var\(--pod-hop, 14px\)\); \}/);
+  assert.match(css, /\.mp-plinth\.is-first \.mp-plinth__fold \{ --drop: var\(--pod-first-drop, 36px\); \}/);
+  assert.match(css, /@keyframes mp-crown-hop[^\n]*var\(--pod-hop, 14px\)/);
+  assert.match(css, /mp-drop \{ from \{[^}]*var\(--drop, 60px\)/);
+  const jsx = readFileSync(path.join(PLAY_DIR, 'Podium.jsx'), 'utf8');
+  assert.match(jsx, /style=\{LAMP_VARS\}/);
 });
 
 test('moments are the fixed positive kinds from the server', () => {
