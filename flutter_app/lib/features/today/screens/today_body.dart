@@ -30,6 +30,7 @@ import '../logic/today_reactions.dart';
 import '../widgets/also_slots.dart';
 import '../../social/social.dart' show MobTodayBlock;
 import '../../tools/estimate/range_today_card.dart' show RangeTodayBlock;
+import '../../tools/my_colleges/colleges_doors.dart' show TodayCollegesStrip;
 import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus;
 import '../widgets/colleges_sheet.dart' show showTodayCollegesSheet;
 import '../widgets/move_hero.dart';
@@ -785,8 +786,12 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         showMobi: !heroMobi,
         onMobi: () => callbacks.onTarget(const GoTo(AppRoutes.ask)),
       ),
-      // Header to the move: 18 (TODAY-1017 4.1).
-      const SizedBox(height: 18),
+      // Your colleges, one tap under the greeting (19 Oct PM, D126, the owner's H9): the strip opens the full list, or
+      // the chooser while none is chosen. It joins the first-paint entrance just before the move.
+      const SizedBox(height: MmSpace.s12),
+      const TodayEnter(delay: Duration(milliseconds: 40), rise: 8, child: TodayCollegesStrip()),
+      // Strip to the move: 16 (the header to the move kept 18 before the strip, TODAY-1017 4.1).
+      const SizedBox(height: MmSpace.s16),
       // The move rises 12 dp and fades (4.8); its object then scales in place and the number lands.
       TodayEnter(
         delay: const Duration(milliseconds: 80),

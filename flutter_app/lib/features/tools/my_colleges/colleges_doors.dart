@@ -101,7 +101,7 @@ abstract final class CollegesDoorCopy {
     final n = c.picks.length;
     final colleges = n == 1 ? '1 college' : '$n colleges';
     final what = courses.length == 1 && courses.first.isNotEmpty ? '$colleges for ${courses.first}' : colleges;
-    return '$what. Each number is the lowest score that got in at Round 1, 2026, ${TodayCopy.categoryWords(c.category)}.';
+    return '$what. Each number is the lowest score that got in at Round 1 in 2026, for the ${TodayCopy.categoryWords(c.category)} category.';
   }
 
   static String rowSemantics(LadderPick p) =>
