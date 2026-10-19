@@ -204,7 +204,7 @@ class _Selling extends ConsumerWidget {
     final personal = args.personal?.call(ref) ?? const <String>[];
 
     final features = <(String, String, String)>[
-      (BillingCopy.proFeatures[0].$1, BillingCopy.proFeatures[0].$2, 'paper-tile'),
+      (BillingCopy.proFeatures[0].$1, BillingCopy.proFeatures[0].$2, 'token-first-mock'),
       (BillingCopy.proFeatures[1].$1, BillingCopy.proFeatures[1].$2, 'hybrid-compass'),
       (BillingCopy.proFeatures[2].$1, BillingCopy.proFeatures[2].$2, 'hybrid-stopwatch'),
       (BillingCopy.proFeatures[3].$1, BillingCopy.proFeatures[3].$2, 'hybrid-metronome'),
@@ -370,9 +370,28 @@ class _Hero extends StatelessWidget {
     final top = MediaQuery.paddingOf(context).top;
     return Stack(
       children: [
-        Positioned.fill(child: LampBackdrop(height: 420 + top, parallax: false)),
+        // The desk and its lamp sit behind the seal only; the words below stand on clear ground.
+        Positioned(left: 0, right: 0, top: 0, child: LampBackdrop(height: top + 300, parallax: false)),
         // The lamp light crossing the whole hero once, after the page has risen.
-        Positioned.fill(child: IgnorePointer(child: _LightSweep(progress: sweep, color: MmLight.sweepColor(context)))),
+        // It fades out downward with the desk, so it never ends on a hard edge.
+        Positioned(
+          left: 0,
+          right: 0,
+          top: 0,
+          height: top + 360,
+          child: IgnorePointer(
+            child: ShaderMask(
+              blendMode: BlendMode.dstIn,
+              shaderCallback: (rect) => const LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFFFFFFFF), Color(0xFFFFFFFF), Color(0x00FFFFFF)],
+                stops: [0, 0.6, 1],
+              ).createShader(rect),
+              child: _LightSweep(progress: sweep, color: MmLight.sweepColor(context)),
+            ),
+          ),
+        ),
         _Gutter(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -759,11 +778,15 @@ class _PriceCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text.rich(
-              TextSpan(children: [
-                TextSpan(text: p.price, style: type.figure.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
-                if (p.period != null) TextSpan(text: '  ${p.period}', style: type.lead.copyWith(color: colors.ink2)),
-              ]),
+            // The period stays whole: on a narrow phone it goes under the figure, never split.
+            Wrap(
+              crossAxisAlignment: WrapCrossAlignment.end,
+              spacing: MmSpace.s8,
+              children: [
+                Text(p.price, style: type.figure.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
+                if (p.period != null)
+                  Padding(padding: const EdgeInsets.only(bottom: 6), child: Text(p.period!, style: type.lead.copyWith(color: colors.ink2))),
+              ],
             ),
             const SizedBox(height: MmSpace.s8),
             Text(BillingCopy.proRenews, style: type.small.copyWith(color: colors.ink2)),
@@ -794,24 +817,21 @@ class _PriceCard extends StatelessWidget {
     }
     return MmSurface.hero(
       lit: true,
-      child: Row(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(BillingCopy.proPagePriceHeading, style: type.cardTitle),
-                const SizedBox(height: MmSpace.s12),
-                MmOverlapSwitcher.fade(
-                  alignment: Alignment.topLeft,
-                  child: KeyedSubtree(key: ValueKey(p != null ? 'price' : (loading ? 'loading' : 'unavailable')), child: price),
-                ),
-              ],
-            ),
+          Row(
+            children: [
+              Expanded(child: Text(BillingCopy.proPagePriceHeading, style: type.cardTitle)),
+              const SizedBox(width: MmSpace.s8),
+              const ExcludeSemantics(child: _ArtFile('hybrid-deskbell', size: 44)),
+            ],
           ),
-          const SizedBox(width: MmSpace.s8),
-          const ExcludeSemantics(child: _ArtFile('hybrid-deskbell', size: 56)),
+          const SizedBox(height: MmSpace.s8),
+          MmOverlapSwitcher.fade(
+            alignment: Alignment.topLeft,
+            child: KeyedSubtree(key: ValueKey(p != null ? 'price' : (loading ? 'loading' : 'unavailable')), child: price),
+          ),
         ],
       ),
     );
@@ -1019,7 +1039,8 @@ class _StampedSeal extends StatelessWidget {
   final Animation<double> sweep;
   final bool animate;
 
-  static const double size = 156;
+  // The hero seal's own size, so the image the page already decoded is the one that stamps down.
+  static const double size = 148;
 
   @override
   Widget build(BuildContext context) {
