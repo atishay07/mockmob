@@ -11,12 +11,14 @@
 // The key is the viewport's one volt (data-page-primary steps the shell's Start key back to an outline).
 import { useContext, useEffect, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
-import { ChevronsUpDown, RotateCcw, Check, Repeat2, ChevronRight, Timer, Layers, ListChecks, MonitorCheck, Users, NotebookText, Brain, RefreshCw } from 'lucide-react';
+import { ChevronsUpDown, Plus, RotateCcw, Check, Repeat2, ChevronRight, Timer, Layers, ListChecks, MonitorCheck, Users, NotebookText, Brain, RefreshCw } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import MobiReact from '@/components/brand/MobiReact';
 import { useCountUpState } from '@/lib/motion/useCountUp';
 import { recallNumber, rememberNumber } from '@/lib/motion/numberMemory';
 import { keepTogether } from '@/lib/today/move.mjs';
+import { MorePanel } from '@/components/goal/DailyMinutes';
+import { isMinutes, isPreset, minutesChip } from '@/lib/goalMinutes.mjs';
 import { markLine, pathLeads, railCaption, railLine } from '@/lib/today/firstWeek.mjs';
 import TodaySheet from './TodaySheet';
 import { AuthContext } from '@/components/AuthProvider';
@@ -108,7 +110,9 @@ const hintVisits = () => { try { const v = window.localStorage.getItem(SWAP_HINT
 const countHint = (n) => { try { window.localStorage.setItem(SWAP_HINT_KEY, String(n)); } catch { /* this visit only */ } };
 export const swapLearned = () => { try { window.localStorage.setItem(SWAP_HINT_KEY, 'done'); } catch { /* it may nudge again */ } };
 
-const say = (s, current) => (s === 'saving' ? 'Saving…' : s === 'saved' ? 'Saved.' : s === 'local' ? 'Kept on this device for today.' : s === 'failed' ? `Not saved, so it stays at ${current} minutes.` : '');
+// A length as the card says it: minutes under an hour (any whole number, a repair can be 3), longer days as hours.
+const lenChip = (n) => (n < 60 ? `${n} min` : minutesChip(n));
+const say = (s, current) => (s === 'saving' ? 'Saving…' : s === 'saved' ? 'Saved.' : s === 'local' ? 'Kept on this device for today.' : s === 'failed' ? `Not saved, so it stays at ${lenChip(current)}.` : '');
 
 /**
  * `phase`: 'loading' | 'failed' | 'ready'. `lead`: the move on the card (leadOf, fitted to the chosen length).
@@ -119,6 +123,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   const online = useSyncExternalStore(subscribeOnline, onlineNow, () => true);
   const [sheet, setSheet] = useState(false);
   const [lenOpen, setLenOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
   const [hint, setHint] = useState(false); // the coached cell is moving now
   const [coach, setCoach] = useState(false); // this visit coaches the swap: the line says what a tap does
   const [lean, setLean] = useState(null); // desktop: the cell under the pointer ('l' or 'r'); the title leans 12 px toward it
@@ -227,9 +232,9 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
             {m.stake ? <span><b>{m.stake.value}</b> {m.stake.word}</span> : null}
             {minutes && lengths ? (
               <button type="button" className="tm__token" aria-expanded={lenOpen} aria-controls="tm-lengths" onClick={() => setLenOpen((v) => !v)}>
-                about {minutes} min<ChevronsUpDown size={15} strokeWidth={1.75} aria-hidden="true" />
+                about {lenChip(minutes)}<ChevronsUpDown size={15} strokeWidth={1.75} aria-hidden="true" />
               </button>
-            ) : minutes && !done ? <span>about <b>{minutes}</b> min</span> : null}
+            ) : minutes && !done ? <span>about <b>{minutes < 60 ? minutes : lenChip(minutes)}</b>{minutes < 60 ? ' min' : ''}</span> : null}
           </div>
         ) : null}
         {lengths ? (
@@ -241,6 +246,12 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
                     <b>{l.n} min</b><span>{l.line}</span>
                   </button>
                 ))}
+              </div>
+              <button type="button" className="tm__more-len" aria-expanded={moreOpen} aria-controls="tm-gm-panel" tabIndex={lenOpen ? 0 : -1} disabled={saving === 'saving'} onClick={() => setMoreOpen((v) => !v)}>
+                {isMinutes(chosen) && !isPreset(chosen) ? `A longer day: ${minutesChip(chosen)}` : 'More time'}<Plus size={14} strokeWidth={2.25} aria-hidden="true" />
+              </button>
+              <div className="gm gm--today">
+                <MorePanel open={moreOpen && lenOpen} value={chosen} busy={saving === 'saving'} onChoose={(n) => { setMoreOpen(false); onChoose?.(n); }} idPrefix="tm-gm" />
               </div>
               <p className="tm__len-status" role="status">{say(saving, current)}</p>
             </div>
@@ -254,9 +265,9 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
         {isPlan ? (
           <button type="button" className="tm__key" data-page-primary aria-haspopup="dialog" onClick={onPlan}>{m.key.label}</button>
         ) : offline ? (
-          <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</span>
+          <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{minutes ? <span className="tm__key-len">{lenChip(minutes)}</span> : null}</span>
         ) : (
-          <Link className="tm__key" data-page-primary data-outline={done || undefined} href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">{minutes} min</span> : null}</Link>
+          <Link className="tm__key" data-page-primary data-outline={done || undefined} href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">{lenChip(minutes)}</span> : null}</Link>
         )}
         {price}
       </div>

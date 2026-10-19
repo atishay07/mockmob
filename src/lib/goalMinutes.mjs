@@ -135,8 +135,8 @@ export const COPY = Object.freeze({
   own: 'Your own',
   ownLine: 'Any length, in steps of 15 minutes',
   use: 'Use',
-  minus: 'Less time',
-  plus: 'More time',
+  minus: 'Take off 15 minutes',
+  plus: 'Add 15 minutes',
 });
 
 /** Reads a device copy (JSON text) into minutes or null. */

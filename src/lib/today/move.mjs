@@ -19,6 +19,7 @@
 // The first week is not a checklist: it is this order, and the overline says "Day 3 of your first week" while
 // the first saved session is under 7 days old.
 import { TEST_MODES } from '../../../data/test_modes.js';
+import { isMinutes } from '../goalMinutes.mjs';
 import { FIRST_TIMED_COPY, firstTimedMockHref, shortestTimedPaper } from '../../../data/first_timed_mock.js';
 
 export const RETURNING_AFTER_DAYS = 7;
@@ -79,12 +80,12 @@ const pills = (second = 'else') => ({ length: true, second });
  *   subjectName id -> display name
  *   firstSubject the student's first subject id (day one), or null
  *   premium     Pro account (smart practice is a Pro mode)
- *   minutes     the chosen length (10, 20 or 30)
+ *   minutes     the chosen length (10, 20 or 30, or a longer day from More: any whole number from 5 to 999)
  *   now         epoch ms
  * Returns null while the facts that decide the first matching rule are still loading.
  */
 export function buildMove({ plan = null, planFailed = false, papers = null, rhythm = null, revise = null, facts = null, repaired = null, top = null, subjectName = (id) => id, firstSubject = null, premium = false, minutes = null, now = Date.now() } = {}) {
-  const length = [10, 20, 30].includes(minutes) ? minutes : [10, 20, 30].includes(plan?.minutes) ? plan.minutes : 10;
+  const length = isMinutes(minutes) ? minutes : isMinutes(plan?.minutes) ? plan.minutes : 10;
   const primary = plan?.primary || null;
 
   if (primary?.kind === 'resume_session') {
@@ -208,7 +209,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   }
 
   // Ordinary practice: the plan's own session, aimed at the chapter with the most marks open.
-  const count = length === 10 ? 10 : 20;
+  const count = length >= 20 ? 20 : 10;
   const href = primary?.kind === 'ordinary_practice' ? primary.href : `/dashboard?mode=quick&count=${count}`;
   const aim = top?.subject && top?.chapter ? `${href}${href.includes('?') ? '&' : '?'}${new URLSearchParams({ subject: top.subject, chapter: top.chapter })}` : href;
   return {
@@ -260,12 +261,12 @@ export function alternatives({ move, papers = null, revise = null, facts = null,
 }
 
 /**
- * The move at a length the student chose (Change length: 10, 20 or 30 minutes). Practice sets its question count
- * (Quick practice allows 20 at most; 30 minutes adds 10 of review, practiceForMinutes); a repair or Revise move takes
+ * The move at a length the student chose (Change length: 10, 20 or 30 minutes, or a longer day from More). Practice sets its
+ * question count (Quick practice allows 20 at most; 30 minutes adds 10 of review and a longer day up to 30, practiceFor); a repair or Revise move takes
  * as many as fit (about 3 minutes a repair, 1 a Revise question), never more than are open.
  */
 export function fitMove(move, chosen) {
-  if (!move || ![10, 20, 30].includes(chosen)) return move;
+  if (!move || !isMinutes(chosen)) return move;
   if (['repair', 'firstRepair', 'returning'].includes(move.id) && move.open > 0) {
     const n = Math.min(move.open, Math.max(1, Math.floor(chosen / 3)));
     // D15: one label for a mistake to repair; priority is shown by order and the why line ("start with three"), never by "first".
@@ -276,9 +277,9 @@ export function fitMove(move, chosen) {
     return { ...move, number: n, label: n === 1 ? 'mistake due back today' : 'mistakes due back today', key: { ...move.key, minutes: Math.max(5, Math.ceil(n / 5) * 5) } };
   }
   if (['practice', 'dayOne', 'weakest'].includes(move.id) || (move.id === 'returning' && !move.open)) {
-    const count = chosen === 10 ? 10 : 20;
+    const count = chosen >= 20 ? 20 : 10;
     const href = move.key.href.replace(/([?&])count=\d+/, `$1count=${count}`);
-    return { ...move, number: count, key: { ...move.key, href, minutes: chosen, label: ['dayOne', 'weakest'].includes(move.id) ? move.key.label : `Start ${count} questions` }, review: chosen === 30 ? 10 : 0 };
+    return { ...move, number: count, key: { ...move.key, href, minutes: chosen, label: ['dayOne', 'weakest'].includes(move.id) ? move.key.label : `Start ${count} questions` }, review: chosen >= 30 ? Math.min(chosen - 20, 30) : 0 };
   }
   return move;
 }

@@ -252,3 +252,45 @@ test('the pages use the shared picker where a student sets the daily time', () =
   assert.match(study, /<DailyMinutes/);
   assert.doesNotMatch(study, /STUDY_MINUTES|WEEK_MINUTES/);
 });
+
+import { fitMove } from '../../src/lib/today/move.mjs';
+import { readLength } from '../../src/lib/today/lead.mjs';
+
+test("Today's length: 10, 20 and 30 fit as they always did, and a longer day fits the same rules (a repair takes a third of the minutes, practice adds a review up to 30)", () => {
+  const practice = { id: 'practice', number: 20, key: { label: 'Start 20 questions', href: '/dashboard?mode=quick&count=20', minutes: 10 } };
+  assert.equal(fitMove(practice, 10).number, 10);
+  assert.equal(fitMove(practice, 20).number, 20);
+  assert.equal(fitMove(practice, 20).review, 0);
+  assert.equal(fitMove(practice, 30).review, 10);
+  assert.equal(fitMove(practice, 60).number, 20);
+  assert.equal(fitMove(practice, 60).review, 30);
+  assert.equal(fitMove(practice, 120).review, 30);
+  assert.equal(fitMove(practice, 60).key.minutes, 60);
+  assert.match(fitMove(practice, 60).key.href, /count=20/);
+  const repair = { id: 'repair', open: 40, number: 3, key: { label: 'Start repair', href: '/result/x', minutes: 10 } };
+  assert.equal(fitMove(repair, 30).number, 10);
+  assert.equal(fitMove(repair, 60).number, 20);
+  assert.equal(fitMove(repair, 120).number, 40);
+  assert.equal(fitMove({ ...repair, open: 12 }, 120).number, 12, 'never more than are open');
+  assert.equal(fitMove(practice, 'x'), practice);
+  assert.equal(fitMove(practice, 3), practice);
+});
+
+test('the kept length for today reads a longer day and still drops another day', () => {
+  const ok = (n) => Number.isInteger(n) && n >= 5 && n <= 999;
+  assert.equal(readLength('2026-10-20:90', '2026-10-20', ok), 90);
+  assert.equal(readLength('2026-10-20:90', '2026-10-20'), null, 'the default list is still 10, 20, 30');
+  assert.equal(readLength('2026-10-19:90', '2026-10-20', ok), null);
+  assert.equal(readLength('2026-10-20:2', '2026-10-20', ok), null);
+  assert.equal(readLength('2026-10-20:20', '2026-10-20'), 20);
+});
+
+test("Today's page asks for More time inside the length row and falls back honestly", () => {
+  const page = read('src/app/(app)/today/page.jsx');
+  assert.match(page, /sendableMinutes\(n\)/);
+  assert.match(page, /INVALID\[_ \]\(MINUTES\|WEEKLY\)/);
+  assert.match(page, /readLength\(window\.localStorage\.getItem\(LENGTH_KEY\), deviceDay\(\), isMinutes\)/);
+  const card = read('src/components/today/TodayMove.jsx');
+  assert.match(card, /<MorePanel/);
+  assert.match(card, /More time/);
+});

@@ -22,6 +22,7 @@ import MobEntry from '@/components/mob/MobEntry';
 import { api } from '@/lib/fetcher';
 import { getSubjectById } from '@/../data/subjects';
 import { alternatives as buildAlternatives, buildMove, clock, fitMove } from '@/lib/today/move.mjs';
+import { isMinutes, sendableMinutes } from '@/lib/goalMinutes.mjs';
 import { choiceMoves, keepLength, leadOf, pickChoices, pickKey, readLength, refit } from '@/lib/today/lead.mjs';
 import { firstWeekClock, firstWeekPath, stepOfDay, withFirstWeek } from '@/lib/today/firstWeek.mjs';
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
@@ -104,7 +105,7 @@ export default function Today() {
   const [saving, setSaving] = useState('');
   useEffect(() => {
     const t = window.setTimeout(() => {
-      try { const v = readLength(window.localStorage.getItem(LENGTH_KEY), deviceDay(), LENGTHS); if (v) setChosen(v); } catch { /* none kept */ }
+      try { const v = readLength(window.localStorage.getItem(LENGTH_KEY), deviceDay(), isMinutes); if (v) setChosen(v); } catch { /* none kept */ }
     }, 0);
     return () => window.clearTimeout(t);
   }, []);
@@ -116,11 +117,21 @@ export default function Today() {
       return;
     }
     setSaving('saving');
+    // A server that still holds only 10, 20 or 30 refuses a longer day (INVALID_MINUTES): it is sent the longest length it
+    // accepts, tonight keeps the real choice on this device, and the line says so ("Kept on this device for today.").
+    const put = (minutes) => {
+      const input = { minutes, expectedRevision: prefs.revision };
+      if (prefs.premium && prefs.weeklyPlan) input.weeklyPlan = prefs.weeklyPlan.map((d, i) => (i === data.plan.data.study.weekday ? { ...d, minutes } : d));
+      return api('/api/study/preferences', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input) });
+    };
     try {
-      const input = { minutes: n, expectedRevision: prefs.revision };
-      if (prefs.premium && prefs.weeklyPlan) input.weeklyPlan = prefs.weeklyPlan.map((d, i) => (i === data.plan.data.study.weekday ? { ...d, minutes: n } : d));
-      await api('/api/study/preferences', { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(input) });
-      setChosen(n); data.setMinutes(n); setSaving('saved');
+      try { await put(n); setChosen(n); data.setMinutes(n); setSaving('saved'); return; }
+      catch (e) {
+        if (e?.kind === 'network' || !/INVALID[_ ](MINUTES|WEEKLY)/i.test(`${e?.message} ${e?.body?.error || ''}`)) throw e;
+      }
+      await put(sendableMinutes(n));
+      setChosen(n); data.setMinutes(n); setSaving('local');
+      try { window.localStorage.setItem(LENGTH_KEY, keepLength(deviceDay(), n)); } catch { /* tonight only */ }
     } catch { setSaving('failed'); }
   }, [data]);
 
