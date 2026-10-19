@@ -189,6 +189,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 900));
     expect(find.text('Start Revise, 10 min'), findsOneWidget);
     expect(find.text('Start Revise, 10 min'), findsNothing);
-    expect(find.text("Tonight's move."), findsOneWidget);
+    // The note follows the clock ("Tonight's move." in the evening, "Today's move." earlier), so either is right.
+    expect(find.text("Tonight's move.").evaluate().length + find.text("Today's move.").evaluate().length, 1);
   });
 }
