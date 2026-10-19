@@ -18,7 +18,7 @@ import '../billing/billing_test_support.dart';
 import '../you/you_test_support.dart';
 
 /// Google Play's Pro price in these tests (D82: Rs 150 on Google Play). A fixture: the app never writes it.
-const String playProPrice = '₹150.00';
+const String playProPrice = '₹149.00';
 
 class NudgeRig {
   NudgeRig({this.on = true, this.pro = false, this.facts = ProFacts.empty, MemoryPrefsStore? prefs, FakePlayStore? store})

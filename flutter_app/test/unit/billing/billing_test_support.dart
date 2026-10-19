@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/config/app_config.dart';
+import 'package:mockmob/core/models/auth_me.dart' show PlaySubscriptionInfo;
 import 'package:mockmob/features/billing/data/billing_controller.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
 import 'package:mockmob/features/billing/data/play_store.dart';
@@ -146,10 +147,22 @@ const ApiError serverNotOpen = ApiError(kind: ApiErrorKind.notFound, code: 'not_
 const ApiError serverOffline = ApiError(kind: ApiErrorKind.network, code: 'network');
 const ApiError serverBroken = ApiError(kind: ApiErrorKind.server, code: 'server_error', status: 500);
 
+/// A subscription as `/api/auth/me` reports it.
+PlaySubscriptionInfo playSub({String state = 'active', bool active = true, bool? autoRenewing = true, DateTime? expiresAt, bool grace = false, bool hold = false}) =>
+    PlaySubscriptionInfo(
+      productId: 'pro_monthly',
+      state: state,
+      active: active,
+      autoRenewing: autoRenewing,
+      expiresAt: expiresAt ?? DateTime(2026, 11, 19, 15),
+      inGracePeriod: grace,
+      onHold: hold,
+    );
+
 /// The overrides for a Play billing test: the flag on, a signed-in user, the fakes, and a refresh
 /// that only counts.
 class BillingRig {
-  BillingRig({this.userId = 'user-1', this.on = true, FakePlayStore? store, FakeVerifier? verifier})
+  BillingRig({this.userId = 'user-1', this.on = true, FakePlayStore? store, FakeVerifier? verifier, this.subscription, this.manageOpens = true})
       : store = store ?? FakePlayStore(),
         verifier = verifier ?? FakeVerifier();
 
@@ -159,12 +172,25 @@ class BillingRig {
   final FakeVerifier verifier;
   int refreshes = 0;
 
+  /// The student's Google Play subscription as the server reports it (null: none, or read from the
+  /// controller's own verify answers).
+  final PlaySubscriptionInfo? subscription;
+
+  /// What opening Google Play's subscription page returns, and how often it was asked.
+  final bool manageOpens;
+  int manageOpened = 0;
+
   List<Override> get overrides => [
         appConfigProvider.overrideWithValue(on ? playOnConfig : playOffConfig),
         playStoreProvider.overrideWithValue(store),
         playVerifierProvider.overrideWithValue(verifier),
         playBillingUserIdProvider.overrideWithValue(userId),
         playBillingRefreshProvider.overrideWithValue(() async => refreshes++),
+        playManageSubscriptionProvider.overrideWithValue(() async {
+          manageOpened++;
+          return manageOpens;
+        }),
+        if (subscription != null) playSubscriptionProvider.overrideWithValue(subscription),
       ];
 
   ProviderContainer container() {

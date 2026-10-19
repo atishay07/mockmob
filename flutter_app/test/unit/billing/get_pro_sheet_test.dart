@@ -47,8 +47,8 @@ void main() {
     final rig = BillingRig();
     await _pump(tester, rig);
     await _settle(tester);
-    expect(find.text('₹149.00'), findsOneWidget);
-    expect(find.textContaining('One payment for the CUET 2027 cycle'), findsOneWidget);
+    expect(find.text('₹149.00 a month'), findsOneWidget);
+    expect(find.text('Renews every month. Cancel anytime in Google Play.'), findsOneWidget);
     expect(find.text('Pro includes'), findsOneWidget);
     for (final line in BillingCopy.proIncludes) {
       expect(find.text(line), findsOneWidget);
@@ -65,15 +65,15 @@ void main() {
     expect(find.text('This comes with Pro.'), findsOneWidget);
     expect(find.text('One benefit line.'), findsOneWidget);
     expect(find.text(BillingCopy.proIncludes.first), findsNothing);
-    expect(find.text('₹149.00'), findsOneWidget);
+    expect(find.text('₹149.00 a month'), findsOneWidget);
   });
 
   testWidgets('the price on screen is whatever Google Play returns, not a number from the app', (tester) async {
     final rig = BillingRig(store: FakePlayStore(prices: {...fixturePrices(), PlayProducts.proId: 'Rs 1,234.50'}));
     await _pump(tester, rig);
     await _settle(tester);
-    expect(find.text('Rs 1,234.50'), findsOneWidget);
-    expect(find.text('₹149.00'), findsNothing);
+    expect(find.text('Rs 1,234.50 a month'), findsOneWidget);
+    expect(find.text('₹149.00 a month'), findsNothing);
   });
 
   testWidgets('checking Google Play: no price yet, the key cannot be pressed', (tester) async {
@@ -82,13 +82,13 @@ void main() {
     await _pump(tester, rig);
     await _settle(tester);
     expect(find.text('Checking Google Play'), findsWidgets);
-    expect(find.text('₹149.00'), findsNothing);
+    expect(find.text('₹149.00 a month'), findsNothing);
     await tester.tap(find.text('Get Pro').first, warnIfMissed: false);
     await _settle(tester);
     expect(rig.store.buys, isEmpty);
     store.gate!.complete();
     await _settle(tester);
-    expect(find.text('₹149.00'), findsOneWidget);
+    expect(find.text('₹149.00 a month'), findsOneWidget);
   });
 
   testWidgets('Google Play not on this phone: says so, no price, a way to try again', (tester) async {
