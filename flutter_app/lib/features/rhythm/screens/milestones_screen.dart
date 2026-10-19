@@ -220,7 +220,12 @@ class MilestoneTimeline extends StatelessWidget {
                 dateOf: (d) => formatAchievedDate(d, zone, now),
                 progress: progress,
                 freshIds: freshIds,
-                onOpen: () => onOpen != null ? onOpen!(tracks[k].track.location) : context.push(tracks[k].track.location),
+                onOpen: () => onOpen != null
+                    ? onOpen!(tracks[k].track.location)
+                    // A door of Practice (Your papers, D126) is gone to, never pushed: a push would stack a second Practice.
+                    : AppRoutes.tabRoots.contains(tracks[k].track.location)
+                        ? context.go(tracks[k].track.location)
+                        : context.push(tracks[k].track.location),
                 onOpenBadge: (id) => showBadgeSheet(context, tracks: tracks, id: id, progress: progress, records: records, zone: zone, onGo: onOpen),
               ),
             ),

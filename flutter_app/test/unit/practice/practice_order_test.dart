@@ -5,6 +5,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/insights/ask_mobi.dart' show AskMobiCard;
 import 'package:mockmob/features/practice/copy.dart';
+import 'package:mockmob/features/practice/widgets/door_switch.dart' show PracticeDoorSwitch;
 import 'package:mockmob/features/practice/practice_routes.dart';
 import 'package:mockmob/features/practice/widgets/subject_tiles.dart';
 import 'package:mockmob/features/practice/widgets/suggestion_card.dart';
@@ -35,7 +36,7 @@ Future<void> _settle(WidgetTester tester) async {
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets("at 360 by 800 the strip, the card's key and the first mode share the first screen", (tester) async {
+  testWidgets("at 360 by 800 the door switch, the strip and the first two modes share the first screen; the card follows the modes (H6)", (tester) async {
     final mock = attemptOf(
       id: 'm1',
       subject: 'accountancy',
@@ -54,14 +55,16 @@ void main() {
     // The bar and its lift cover the foot of the screen.
     final barTop = 800 - MmBar.lift - MmBar.height;
     final strip = tester.getRect(find.byType(SubjectTiles));
-    final card = tester.getRect(find.byType(SuggestionCard));
     final quick = tester.getRect(find.text(PracticeCopy.quickTitle));
-    expect(strip.bottom, lessThanOrEqualTo(card.top), reason: 'the subjects lead, the card follows');
-    expect(card.bottom, lessThanOrEqualTo(quick.top), reason: 'the first mode sits under the card');
-    // ASK-MOBI-1019 B: Ask Mobi's card (in the old row's slot) starts above the bar; the first mode is one short
-    // scroll under it.
-    expect(tester.getRect(find.byType(AskMobiCard)).top, lessThan(barTop), reason: 'Ask Mobi is in the first view');
-    expect(quick.bottom, lessThanOrEqualTo(barTop + 260), reason: 'the first mode is one short scroll away');
+    final chapter = tester.getRect(find.text(PracticeCopy.chapterTitle));
+    expect(tester.getRect(find.byType(PracticeDoorSwitch)).bottom, lessThanOrEqualTo(strip.top), reason: 'the doors sit under the title');
+    expect(strip.bottom, lessThanOrEqualTo(quick.top), reason: 'the subjects lead, the ways to practise follow');
+    expect(quick.bottom, lessThan(barTop), reason: 'Quick practice is in the first view (H6: the ways to practise on top)');
+    expect(chapter.bottom, lessThan(barTop), reason: 'By chapter is in the first view');
+    final card = tester.getRect(find.byType(SuggestionCard, skipOffstage: false));
+    expect(card.top, greaterThan(quick.bottom), reason: 'the next set comes after the modes');
+    expect(tester.getRect(find.byType(AskMobiCard, skipOffstage: false)).top, greaterThan(card.top), reason: 'Ask Mobi stays under the card');
+    await tester.scrollUntilVisible(find.byType(SuggestionCard), 200, scrollable: find.byType(Scrollable).first);
     // No volt key in the page body: the bar's Start key holds the screen's one volt (17 Oct), so
     // the card's own key and the "Edit subjects" link are quieter than it.
     final lit = find.byWidgetPredicate((w) => w is KeyButton && w.variant == KeyVariant.primary);

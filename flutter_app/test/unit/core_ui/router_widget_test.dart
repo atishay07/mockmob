@@ -176,7 +176,7 @@ void main() {
     expect(tester.getCenter(_tab('Start')).dx, closeTo(bar.center.dx, 0.5));
   });
 
-  _test('/you builds inside the shell with the bar; its pages and Learn cover it', (tester) async {
+  _test('/you builds inside the shell with the bar; its pages and a lesson cover it, Learn is a door of Practice', (tester) async {
     final container = await _pump(tester);
     final router = _router(container);
     router.go(AppRoutes.you);
@@ -198,9 +198,14 @@ void main() {
       expect(find.byType(MmBottomBar), findsNothing, reason: '$page is a root page over the bar');
     }
 
+    // Since D126 Learn is a door of Practice: /learn opens it in place, with the bar.
     router.go(AppRoutes.learn);
     await _settle(tester);
-    expect(_location(container), '/learn');
+    expect(_location(container), '/practice?door=learn');
+    expect(find.byType(MmBottomBar), findsOneWidget);
+    // A lesson still covers the bar.
+    router.go(AppRoutes.learnUnit('u1'));
+    await _settle(tester);
     expect(find.byType(MmBottomBar), findsNothing);
 
     router.go(AppRoutes.today);
@@ -290,11 +295,11 @@ void main() {
     expect(_location(container), '/practice/papers/mistakes');
   });
 
-  _test('every old Review path lands on Your papers inside Practice, with its tail and query (D105, G20)', (tester) async {
+  _test('every old Review path lands on Your papers inside Practice, with its tail and query (D105, G20; the door since D126)', (tester) async {
     final container = await _pump(tester);
     final router = _router(container);
     for (final (from, to) in const [
-      ('/review', '/practice/papers'),
+      ('/review', '/practice?door=papers'),
       ('/review/mistakes', '/practice/papers/mistakes'),
       ('/review/record', '/practice/papers/record'),
       ('/review/insights', '/practice/papers/insights'),
@@ -306,14 +311,12 @@ void main() {
       expect(find.byType(MmBottomBar), findsOneWidget, reason: '$to keeps the bar, Practice open');
       expect(tester.takeException(), isNull, reason: from);
     }
+    // Since D126 Your papers is a door of Practice: its path opens Practice on that door, in place, with no back key.
     router.go('/practice/papers');
     await _settle(tester);
-    // Your papers is pushed inside Practice: it leads with a back key, which returns to Practice.
-    expect(find.byType(PushedBackKey), findsOneWidget);
-    final handled = await tester.binding.handlePopRoute();
-    await _settle(tester);
-    expect(handled, isTrue);
-    expect(_location(container), '/practice');
+    expect(_location(container), '/practice?door=papers');
+    expect(find.byType(PushedBackKey), findsNothing);
+    expect(find.byType(MmBottomBar), findsOneWidget);
   });
 
   _test("Your papers' covering pages: pushed from Your papers, Back returns there; opened by a link, Back lands on Practice", (tester) async {
@@ -328,7 +331,8 @@ void main() {
     expect(tester.takeException(), isNull);
     await tester.binding.handlePopRoute();
     await _settle(tester);
-    expect(_top(container), AppRoutes.papers);
+    // Your papers is a door of Practice (D126): Back lands on that door.
+    expect(_top(container), AppRoutes.papersDoor);
     expect(find.byType(MmBottomBar), findsOneWidget);
 
     // A link (or a notification) over a page that already covers the tab: no page is slotted in
@@ -385,7 +389,7 @@ void main() {
     final router = _router(container);
     router.go('/practice');
     await _settle(tester);
-    router.push('/practice/papers');
+    router.push('/practice/papers/mistakes');
     await _settle(tester);
 
     await tester.tap(_tab('Practice'));
@@ -882,8 +886,8 @@ void main() {
 
       container.read(_testAuth.notifier).set(_signedIn);
       await _settle(tester);
-      // The old Review path lands on Your papers inside Practice (D105).
-      expect(_location(container), '/practice/papers');
+      // The old Review path lands on Your papers, a door of Practice (D105, D126).
+      expect(_location(container), '/practice?door=papers');
     });
   });
 }

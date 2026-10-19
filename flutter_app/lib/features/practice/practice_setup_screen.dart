@@ -73,7 +73,7 @@ class _PracticeSetupScreenState extends ConsumerState<PracticeSetupScreen> {
                         pinKey: true,
                         exits: ComposerExits(
                           run: (id) => context.go(AppRoutes.run(id)),
-                          concepts: () => context.push(AppRoutes.learn),
+                          concepts: () => context.go(AppRoutes.learnDoor),
                           review: () => context.go(AppRoutes.review),
                         ),
                       ),

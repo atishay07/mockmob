@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/learn/copy.dart' show LearnCopy;
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/features/practice/widgets/length_dial.dart';
 import 'package:mockmob/features/practice/widgets/suggestion_card.dart';
@@ -90,6 +91,9 @@ void main() {
     await settle(tester);
     expect(find.text('Admission of a partner'), findsOneWidget);
     expect(find.text('It cost you 18 marks in Mock 1.'), findsOneWidget);
+    // Since D126 the next set follows the ways to practise (H6): scroll to it, as a student would.
+    await tester.ensureVisible(find.text('Show me'));
+    await tester.pump();
     await tester.tap(find.text('Show me'));
     await settle(tester);
     expect(router.state.uri.path, '/result/m1');
@@ -157,6 +161,8 @@ void main() {
     await settle(tester);
     expect(find.text('Mock 7, Accountancy'), findsOneWidget);
     expect(find.text('The clock ends at 11:47 PM.'), findsOneWidget);
+    await tester.ensureVisible(find.widgetWithText(KeyButton, 'Resume').first);
+    await tester.pump();
     await tester.tap(find.widgetWithText(KeyButton, 'Resume').first);
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/run/sess-7');
@@ -237,7 +243,7 @@ void main() {
     expect(quotes.calls.any((c) => c.subject == 'english' && c.mode == 'full'), isTrue);
   });
 
-  testWidgets('the Learn shelf shows lessons while study content is on, and opens one', (tester) async {
+  testWidgets('Learn is a door while study content is on: it shows the library in place, and a lesson opens', (tester) async {
     final router = await pumpRouted(
       tester,
       location: '/practice',
@@ -246,21 +252,24 @@ void main() {
       overrides: practiceOverrides(quotes: _quotes(), learn: catalog(due: 4)),
     );
     await settle(tester);
-    // The Learn row under the suggestion and the shelf's heading (D20).
-    expect(find.text('Learn'), findsNWidgets(2));
-    // The lesson Learn would open next leads the shelf and says so; due lessons follow.
-    expect(find.text('Read this next'), findsOneWidget);
-    expect(find.text('Vocabulary set 1'), findsOneWidget);
-    // Since 19 Oct the page above the shelf is taller (Ask Mobi's card in the old row's slot, ASK-MOBI-1019 B; Your
-    // papers first in "More ways in", D105), so the shelf can sit under the fold: scroll to it, as a student would.
-    await tester.ensureVisible(find.text('Vocabulary set 1'));
+    // D126: the Learn door under the title (the row and the shelf it replaces are inside it).
+    expect(find.byKey(const ValueKey('practice-door-learn')), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('practice-door-learn')));
+    await settle(tester);
+    expect(router.state.uri.toString(), '/practice?door=learn');
+    expect(find.text(LearnCopy.subtitle), findsOneWidget);
+    // The library's own search finds a lesson in another subject.
+    await tester.ensureVisible(find.byType(TextField));
+    await tester.enterText(find.byType(TextField), 'Vocabulary');
+    await settle(tester);
+    await tester.ensureVisible(find.text('Vocabulary set 1').first);
     await tester.pump();
-    await tester.tap(find.text('Vocabulary set 1'));
+    await tester.tap(find.text('Vocabulary set 1').first);
     await settle(tester);
     expect(router.state.uri.path, '/learn/eng-vocab');
   });
 
-  testWidgets('with study content switched off there is no Learn row or shelf and no "not available" line', (tester) async {
+  testWidgets('with study content switched off there is no Learn door and no "not available" line', (tester) async {
     await pumpRouted(
       tester,
       location: '/practice',

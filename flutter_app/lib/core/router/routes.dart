@@ -40,6 +40,20 @@ abstract final class AppRoutes {
   /// names it still lands on Your papers.
   static const String review = '/review';
 
+  /// Practice's three doors (19 Oct PM, D126, Practice C): the query parameter that names the door
+  /// Practice shows, and each door's place. [papers] alone and [learn] alone redirect to their door,
+  /// so every link that opened Your papers or Learn before opens that door in place, with the bar.
+  static const String practiceDoorParam = 'door';
+  static const String papersDoor = '/practice?door=papers';
+  static const String learnDoor = '/practice?door=learn';
+
+  /// Practice on [door] ('papers' or 'learn'; anything else is the Practise door), keeping the
+  /// other query parameters of [from] (Your papers' `?paper=`).
+  static String practiceDoorLocation(String door, {Uri? from}) {
+    final query = {...?from?.queryParameters, practiceDoorParam: door};
+    return Uri(path: practice, queryParameters: query).toString();
+  }
+
   /// Colleges: My colleges, Admission Compass and the CUET tools. No longer a tab (D105): a page
   /// pushed over the bar from Today's colleges card, You's Aim row and Review, so Back returns to
   /// where the student came from.
@@ -147,10 +161,17 @@ abstract final class AppRoutes {
   /// between Practice and Mob, the centre key, an action and not a tab).
   static const List<String> branchRoots = [today, practice, mob, you];
 
-  /// The places opened with `go`, never pushed: the four branch roots, then Your papers (inside
-  /// Practice) under its new and its old path. A push of a page that lives in another branch would
+  /// The places opened with `go`, never pushed: the four branch roots, then Your papers and Learn
+  /// (Practice's doors since D126) under their door, new and old paths. A push of a page that lives in another branch would
   /// stack it in the wrong place (or build the shell twice from a page outside it).
-  static const List<String> tabRoots = [...branchRoots, papers, review];
+  static const List<String> tabRoots = [...branchRoots, papers, review, learn, papersDoor, learnDoor];
+
+  /// Whether [location] opens with `go` (a tab, or a door of Practice under any of its paths, with or without a
+  /// query), never a push: a push of one of these would stack a second tab page. Anything deeper is pushed.
+  static bool opensWithGo(String location) {
+    final path = Uri.tryParse(location)?.path;
+    return path != null && (branchRoots.contains(path) || path == papers || path == review || path == learn);
+  }
 
   /// The debug-only design lab.
   static const String lab = '/lab';

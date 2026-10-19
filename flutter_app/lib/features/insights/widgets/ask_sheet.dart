@@ -166,7 +166,8 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
   void _go(String location) {
     final router = GoRouter.maybeOf(context);
     Navigator.of(context).maybePop();
-    router?.push(location);
+    // A tab or a door of Practice (Your papers, D126) is gone to: a push would stack a second one.
+    AppRoutes.opensWithGo(location) ? router?.go(location) : router?.push(location);
   }
 
   /// The fine print of a written reply: it can be wrong, what it cost, and Report this reply.

@@ -51,10 +51,14 @@ import '../widgets/your_papers.dart';
 /// by the same subject, so the strip, the rows and the chapters agree. A fresh account sees one friendly first step.
 ///
 /// [focusPaper] (a result's "See it in Your papers") opens the page on that paper's row and marks it for a moment.
+///
+/// [embedded] (19 Oct PM, D126): the page as Practice's Your papers door. Practice owns the title, Ask Mobi, the pull and
+/// the scroll, so the door is only the content, in Practice's own list; the offline or stale line sits at its top.
 class ReviewScreen extends ConsumerStatefulWidget {
-  const ReviewScreen({super.key, this.focusPaper});
+  const ReviewScreen({super.key, this.focusPaper, this.embedded = false});
 
   final String? focusPaper;
+  final bool embedded;
 
   @override
   ConsumerState<ReviewScreen> createState() => _ReviewScreenState();
@@ -122,11 +126,14 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     // (its branch is the live one and nothing is pushed over it). A Mob re-tap no longer scrolls Your papers unseen.
     _onScreen = TickerMode.valuesOf(context).enabled && (ModalRoute.of(context)?.isCurrent ?? true);
     _shellTab = StatefulNavigationShell.maybeOf(context)?.currentIndex;
-    ref.listen(tabReselectProvider, (_, event) {
-      if (event == null || !_onScreen) return;
-      if (_shellTab != null && event.tabIndex != _shellTab) return;
-      unawaited(MmScroll.toTop(context, _scroll));
-    });
+    // As a door, Practice's own list scrolls to the top on a re-tap.
+    if (!widget.embedded) {
+      ref.listen(tabReselectProvider, (_, event) {
+        if (event == null || !_onScreen) return;
+        if (_shellTab != null && event.tabIndex != _shellTab) return;
+        unawaited(MmScroll.toTop(context, _scroll));
+      });
+    }
     final colors = context.mmColors;
     final inputs = ref.watch(reviewInputsProvider);
     final index = ref.watch(reviewIndexProvider);
@@ -153,6 +160,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         ? attemptsReadFailed(attempts)
         : (index.attempts.isEmpty && inputs.unopened.isEmpty) ||
             (index.tonight == null && index.openGroups.isEmpty && (index.hasAnyMistake || index.attempts.isNotEmpty));
+
+    if (widget.embedded) return _door(context, index, inputs);
 
     // The offline line lives in the header row, which is tall enough for it: nothing below moves.
     final header = Padding(
@@ -211,6 +220,33 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     );
   }
 
+  /// The page as Practice's Your papers door: the stale or offline line, then the same content as the page, laid out in
+  /// Practice's list (no scaffold, no header, no scroll of its own). Loading and a failed read keep a fixed height, so the
+  /// switch above never jumps.
+  Widget _door(BuildContext context, ReviewIndex? index, ReviewInputs inputs) {
+    final attempts = inputs.attempts;
+    final notice = HeaderNotice.forAttempts(attempts, ref.watch(reviewClockProvider), offline: ref.watch(networkStatusProvider) == NetworkStatus.offline);
+    final List<Widget> body;
+    if (index == null) {
+      body = [
+        SizedBox(
+          height: 520,
+          child: attemptsReadFailed(attempts) ? ReviewLoadFailure(attempts: attempts, onRetry: _refresh) : const _ReviewSkeleton(),
+        ),
+      ];
+    } else {
+      body = _content(context, index, inputs);
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (notice != null)
+          Padding(padding: const EdgeInsets.fromLTRB(ReviewSpace.gutter, 0, ReviewSpace.gutter, MmSpace.s16), child: HeaderNotice(notice)),
+        ...body,
+      ],
+    );
+  }
+
   List<Widget> _content(BuildContext context, ReviewIndex index, ReviewInputs inputs) {
     final clock = ref.watch(reviewClockProvider);
     Widget gutter(Widget child, {double top = 0}) =>
@@ -222,8 +258,11 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
     if (index.attempts.isEmpty || record == null) {
       return [
         SizedBox(
-          // The first step is centred in what is left under the header and above the dock.
-          height: math.max(480.0, MediaQuery.sizeOf(context).height - MediaQuery.paddingOf(context).top - 72 - 96),
+          // The first step is centred in what is left under the header and above the dock (as a door, under Practice's
+          // title and its switch too).
+          height: widget.embedded
+              ? math.max(440.0, MediaQuery.sizeOf(context).height - MediaQuery.paddingOf(context).top - 72 - 96 - 76)
+              : math.max(480.0, MediaQuery.sizeOf(context).height - MediaQuery.paddingOf(context).top - 72 - 96),
           child: ReviewStateView(
             kind: StateViewKind.empty,
             pose: MobiPose.read,

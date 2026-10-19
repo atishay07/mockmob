@@ -13,8 +13,21 @@ abstract final class PracticeCopy {
   /// The subject strip's heading, first on the tab: the subject decides every mode's facts.
   static const String practiseIn = 'Practise in';
 
-  /// The modes' heading, under the suggestion.
+  /// The modes' heading, right under the subjects (H6: the ways to practise come first).
   static const String waysHeading = 'Ways to practise';
+
+  // Practice's three doors (19 Oct PM, D126, Practice C): the switch under the title.
+  static const String doorPractise = 'Practise';
+  static const String doorPapers = 'Your papers';
+  static const String doorLearn = 'Learn';
+  static const String doorsLabel = 'Practice sections';
+
+  /// What a screen reader says for the Your papers door, with the open mistakes its badge counts.
+  static String doorPapersSemantics(int open) =>
+      open <= 0 ? doorPapers : (open == 1 ? '$doorPapers, 1 mistake to repair' : '$doorPapers, $open mistakes to repair');
+
+  /// The suggestion's heading, under the ways to practise: the next set in the chosen subject.
+  static String upNextIn(String subject) => 'Up next in $subject';
   /// The lesson library keeps the name Learn (owner D20).
   static const String concepts = 'Learn';
   static const String moreHeading = 'More ways in';

@@ -3,8 +3,8 @@
 // holds wears a quiet Pro tag; with PLAY_BILLING off a tap opens a calm sheet ("NTA mode is part of
 // Pro. Pro is coming to the app soon.") with no price and no web link, and the open mode instead; with
 // PLAY_BILLING on it opens the Upgrade sheet; a Pro student uses it. Only a server that says a mode is
-// not offered takes its tile away. Plus Your papers (G20): the row that opens the Review screen inside
-// Practice, on every account.
+// not offered takes its tile away. Plus Your papers (G20): since D126 a door of Practice, under the title, on every
+// account.
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -278,7 +278,7 @@ void main() {
   });
 
   group('Your papers (G20): the Review screen lives inside Practice', () {
-    testWidgets('a fresh account sees the row and what it will hold; a tap opens Your papers', (tester) async {
+    testWidgets('a fresh account sees Your papers as a door under the title, in the first view', (tester) async {
       final router = await pumpRouted(
         tester,
         location: '/practice',
@@ -287,19 +287,16 @@ void main() {
         size: const Size(360, 800),
       );
       await _settle(tester);
-      // With nothing to repair yet it leads "More ways in", so the first screen stays the subjects, the start and the
-      // modes (v15.2's layout); it is on the page for every account (R3).
-      await tester.scrollUntilVisible(find.text(PracticeCopy.papersTitle), 200, scrollable: find.byType(Scrollable).first);
-      await tester.pump();
-      expect(find.text(PracticeCopy.papersTitle), findsOneWidget);
-      expect(find.text(PracticeCopy.papersNote(papers: 0, open: 0)), findsOneWidget);
-      expect(tester.getTopLeft(find.text(PracticeCopy.papersTitle)).dy, greaterThan(tester.getTopLeft(find.text(PracticeCopy.moreHeading)).dy));
-      await tester.tap(find.text(PracticeCopy.papersTitle));
-      await tester.pump(const Duration(milliseconds: 600));
-      expect(router.state.uri.path, '/practice/papers');
+      // D126 (Practice C): Your papers is one of three doors right under the title, for every account (R3).
+      final door = find.byKey(const ValueKey('practice-door-papers'));
+      expect(door, findsOneWidget);
+      expect(tester.getTopLeft(door).dy, lessThan(200));
+      expect(find.descendant(of: door, matching: find.text(PracticeCopy.doorPapers)), findsOneWidget);
+      // The tap itself is covered with Your papers' record in practice_doors_test.dart.
+      expect(router.state.uri.toString(), '/practice');
     });
 
-    testWidgets('with papers, the row counts them and the open mistakes', (tester) async {
+    testWidgets('with open mistakes, the door counts them, the same number as the bar badge', (tester) async {
       final mock = attemptOf(id: 'm1', subject: 'accountancy', completedAt: DateTime(2026, 10, 18, 19).millisecondsSinceEpoch, questions: chapterOf('Goodwill', wrong: 3));
       await pumpRouted(
         tester,
@@ -309,7 +306,7 @@ void main() {
         size: const Size(360, 800),
       );
       await _settle(tester);
-      expect(find.text(PracticeCopy.papersNote(papers: 1, open: 3)), findsOneWidget);
+      expect(find.descendant(of: find.byKey(const ValueKey('practice-door-papers')), matching: find.text('3')), findsOneWidget);
     });
 
     test('the line reads as plain sentences', () {

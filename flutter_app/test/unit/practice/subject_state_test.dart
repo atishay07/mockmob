@@ -108,7 +108,7 @@ void main() {
     expect(tester.widget<SubjectTiles>(find.byType(SubjectTiles)).selectedId, 'english');
   });
 
-  testWidgets('reading order: subjects, up next, ways to practise, the exam band, more ways in', (tester) async {
+  testWidgets('reading order (D126, H6): subjects, ways to practise, the exam band, up next, Ask Mobi, more ways in', (tester) async {
     await pumpRouted(
       tester,
       location: '/practice',
@@ -120,16 +120,15 @@ void main() {
 
     double top(Finder f) => tester.getTopLeft(f.first).dy;
     final strip = top(find.text(PracticeCopy.practiseIn));
-    final hero = top(find.byType(SuggestionCard));
     final ways = top(find.text(PracticeCopy.waysHeading));
     final quick = top(find.text(PracticeCopy.quickTitle));
-    expect(strip, lessThan(hero));
-    expect(hero, lessThan(ways));
+    final hero = top(find.byType(SuggestionCard, skipOffstage: false));
+    expect(strip, lessThan(ways));
     expect(ways, lessThan(quick));
-    // The first screen at 360x800 shows the subject choice and Up next (L08), above the 64 dp bar; Ask Mobi's
-    // card (ASK-MOBI-1019 B) starts there too, and the first mode is one short scroll under it.
-    expect(top(find.byType(AskMobiCard)), lessThan(800 - 64));
-    expect(quick, lessThan(800 - 64 + 260));
+    expect(quick, lessThan(hero), reason: 'the ways to practise come before the next set');
+    // The first screen at 360x800 shows the subject choice and the first two modes, above the 64 dp bar.
+    expect(quick, lessThan(800 - 64));
+    expect(hero, lessThan(top(find.byType(AskMobiCard, skipOffstage: false))));
 
     await tester.scrollUntilVisible(find.text(PracticeCopy.moreHeading), 200, scrollable: find.byType(Scrollable).first);
     await tester.pump();

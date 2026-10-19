@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
@@ -228,7 +229,7 @@ class _AskMessageViewState extends State<AskMessageView> {
           EvidencePill(attempts: cite.sessions, what: InsightsCopy.behindAnswer),
         for (final (label, location) in actions.take(2)) ...[
           const SizedBox(height: MmSpace.s8),
-          _ActionChip(label: label, onTap: () => context.push(location)),
+          _ActionChip(label: label, onTap: () => AppRoutes.opensWithGo(location) ? context.go(location) : context.push(location)),
         ],
       ],
     );

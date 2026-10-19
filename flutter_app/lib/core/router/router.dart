@@ -205,6 +205,19 @@ String? papersLocationFor(Uri uri) {
 
 String? _reviewToPapers(BuildContext context, GoRouterState state) => papersLocationFor(state.uri);
 
+/// Your papers and Learn are Practice's doors (19 Oct PM, D126, Practice C): `/practice/papers` alone
+/// opens Practice on Your papers, and `/learn` alone opens it on Learn, with the rest of the query
+/// kept (`?paper=` brings that paper's row into view). Their own pages keep their paths, so a
+/// mistake, a lesson or a run still opens as before. Null for any other path.
+String? practiceDoorFor(Uri uri) {
+  final path = uri.path.endsWith('/') && uri.path.length > 1 ? uri.path.substring(0, uri.path.length - 1) : uri.path;
+  if (path == AppRoutes.papers) return AppRoutes.practiceDoorLocation('papers', from: uri);
+  if (path == AppRoutes.learn) return AppRoutes.practiceDoorLocation('learn', from: uri);
+  return null;
+}
+
+String? _toPracticeDoor(BuildContext context, GoRouterState state) => practiceDoorFor(state.uri);
+
 /// A page over the bar that was opened with nothing under it (`go` from a screen outside the shell):
 /// system Back goes to Today instead of closing the app (L04). With a page under it, Back pops as
 /// usual.
@@ -253,10 +266,12 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
     MmTransition transition = MmTransition.push,
     bool root = false,
     List<RouteBase> routes = const [],
+    GoRouterRedirect? redirect,
   }) {
     return GoRoute(
       path: path,
       parentNavigatorKey: root ? rootKey : null,
+      redirect: redirect,
       pageBuilder: (context, state) =>
           mmPage<void>(context: context, state: state, child: builder(context, state), transition: transition),
       routes: routes,
@@ -324,8 +339,9 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('result/:attemptId', practiceResultScreen, transition: MmTransition.container, root: true),
             // Your papers (D105, G20): the Review screen, inside Practice with the bar under it, and
             // its own pages with the bar under them, so Back from a mistake lands on Your papers,
-            // then Practice.
-            page('papers', reviewScreen, routes: [
+            // then Practice. Since D126 Your papers is a door of Practice: the path alone opens that
+            // door ([practiceDoorFor]); the page here is only built under its own pages' links.
+            page('papers', reviewScreen, redirect: _toPracticeDoor, routes: [
               page('mistakes', reviewMistakesScreen),
               page('record', reviewRecordScreen),
               page('insights', reviewInsightsScreen),
@@ -411,7 +427,9 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
 
     // Learn is no longer a tab: its screens stay reachable from Practice (the Concepts shelf)
     // and from the mistakes they explain.
-    page(AppRoutes.learn, learnScreen, root: true, routes: [
+    // Since D126 Learn is a door of Practice: `/learn` alone opens that door ([practiceDoorFor]); the
+    // page here is only built under its own pages' links.
+    page(AppRoutes.learn, learnScreen, root: true, redirect: _toPracticeDoor, routes: [
       // "run" before the :unitId pattern.
       page('run/:runId', learnRunScreen, root: true, routes: [
         page('done', learnRunDoneScreen, transition: MmTransition.fade, root: true),
