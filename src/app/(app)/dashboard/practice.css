@@ -74,7 +74,8 @@ html[data-theme='light'] .app-shell .pr {
 }
 /* The shelf's sideways cue on a phone (owner G27, 19 Oct): railCue.js gives the subjects one width (--rail-item-w) so the
    last one in view is cut at about 60%, nudges the shelf 24 px once, and the chevron hint sits over the trailing fade while
-   subjects wait past the edge (a tap moves the shelf on). None of it exists from 1024 px, where every subject is in view. */
+   subjects wait past the edge. The hint is a picture, never a target (R11): a tap on it reaches the cut subject under it.
+   None of it exists from 1024 px, where every subject is in view. */
 .app-shell .pr .pr-shelf { position: relative; min-width: 0; }
 /* The page's phone gutter is 15 px, so the shelf bleeds by exactly that (16 px left the page 1 px wider than the screen). */
 @media (max-width: 1023px) { .app-shell .pr .pr-shelf > .pr-subjects { margin-inline: -15px; padding-left: 15px; } }
@@ -84,13 +85,12 @@ html[data-theme='light'] .app-shell .pr {
   border: 0; background: transparent; color: var(--a-ink-2); cursor: pointer; opacity: 0; pointer-events: none;
   transition: opacity var(--mm-dur-exit) var(--mm-ease-exit); -webkit-tap-highlight-color: transparent;
 }
-.app-shell .pr .pr-shelf[data-overflow]:not([data-at-end]) .pr-shelf__hint { opacity: 1; pointer-events: auto; transition: opacity var(--mm-dur-glide) var(--mm-ease-glide); }
+.app-shell .pr .pr-shelf[data-overflow]:not([data-at-end]) .pr-shelf__hint { opacity: 1; pointer-events: none; transition: opacity var(--mm-dur-glide) var(--mm-ease-glide); }
 .app-shell .pr .pr-shelf__disc {
   display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--a-line-strong); border-radius: 50%;
   background: color-mix(in srgb, var(--a-raised-2) 86%, transparent); box-shadow: inset 0 1px 0 var(--a-edge), 0 4px 10px -6px rgb(0 0 0 / 0.5);
   transition: transform var(--mm-press-lift-dur) var(--mm-press-lift);
 }
-.app-shell .pr .pr-shelf__hint:active .pr-shelf__disc { transform: scale(0.94); }
 @media (min-width: 1024px) { .app-shell .pr .pr-shelf__hint { display: none; } }
 .app-shell .pr .pr-subject {
   --pr-obj: 88px;

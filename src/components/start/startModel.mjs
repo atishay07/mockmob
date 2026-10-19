@@ -252,20 +252,28 @@ export function heroReason(primary, { count = null, minutes = null, named = fals
   const n = whole(count) || SESSION.quickCount;
   const timed = Math.round((n * TEST_MODES.quick.durationPerQuestionSec) / 60);
   const review = Math.max(0, (whole(minutes) || 0) - timed);
-  // When the title already names the set ("10 Economics questions"), the line starts at the time, not the count again.
+  // A following move's key already says the set ("Start 10 questions in Economics"), so the line starts at the time.
   const lead = named ? `About ${timed} minutes` : `${plural(n, 'question')}, about ${timed} minutes`;
   return review
     ? `${lead}, then ${review} minutes on why each miss happened.`
     : `${lead}. Then see why each miss happened.`;
 }
 
-/** A following move's title, naming the subject: '10 Economics questions', 'A Full mock in Economics'. */
-export function followingTitle(mode, count, name) {
-  const subject = name ? `${name} ` : '';
-  if (mode === 'full') return `A Full mock in ${name || 'your subject'}`;
-  if (mode === 'nta') return `NTA mode in ${name || 'your subject'}`;
-  const n = whole(count) || SESSION.quickCount;
-  return `${n} ${subject}${n === 1 ? 'question' : 'questions'}`;
+/**
+ * A following move's title: the mode, as the Practice page's card leads with it (owner G26, 19 Oct; R11 found the sheet
+ * still led with '10 Economics questions'). 'Quick practice', 'Full mock', 'NTA mode', 'Smart practice'. The chosen chip
+ * names the subject; the count and the subject are said once, on the key (followingKey).
+ */
+export function followingTitle(mode) {
+  return String(TEST_MODES[mode]?.label || TEST_MODES.quick.label);
+}
+
+/** A following move's key, in the Practice page's words: 'Start 10 questions in Economics', 'Start the full mock in Economics'. */
+export function followingKey(mode, count, name) {
+  const fallback = mode === 'smart' ? SESSION.smartCount : SESSION.quickCount;
+  const n = whole(count) || fallback;
+  const words = mode === 'full' ? 'the full mock' : mode === 'nta' ? 'the NTA paper' : `${n} ${n === 1 ? 'question' : 'questions'}`;
+  return `Start ${words}${name ? ` in ${name}` : ''}`;
 }
 
 /**
@@ -308,12 +316,12 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
   return {
     id: 'move',
     kind: String(primary.kind || 'next'),
-    title: followsSubject ? followingTitle(mode, count, subjectName(linked)) : String(primary.title),
+    title: followsSubject ? followingTitle(mode) : String(primary.title),
     planTitle: String(primary.title),
     followsSubject,
     reason: heroReason(primary, { count, minutes: plan?.minutes, named: followsSubject }),
     href: finalHref,
-    cta: known.cta,
+    cta: followsSubject ? followingKey(mode, count, subjectName(linked)) : known.cta,
     graphic: known.graphic === 'subject' && !linked && !subjectFor(subject) ? 'check' : known.graphic,
     subject: linked || (known.graphic === 'subject' ? subjectFor(subject)?.id || null : null),
     // The free first full mock was read for the chosen subject only: a hero linked to another subject prints no number.

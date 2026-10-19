@@ -227,13 +227,12 @@
   border: 0; background: transparent; color: var(--a-ink-2); cursor: pointer; opacity: 0; pointer-events: none;
   transition: opacity 200ms var(--rv8-ease);
 }
-.app-shell .rvw .rv8-filter[data-overflow]:not([data-at-end]) .rv8-filter__hint { opacity: 1; pointer-events: auto; transition: opacity 300ms var(--rv8-ease); }
+.app-shell .rvw .rv8-filter[data-overflow]:not([data-at-end]) .rv8-filter__hint { opacity: 1; pointer-events: none; transition: opacity 300ms var(--rv8-ease); }
 .app-shell .rv8-filter__disc {
   display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid var(--a-line-strong); border-radius: 50%;
   background: color-mix(in srgb, var(--a-raised-2) 86%, transparent); box-shadow: inset 0 1px 0 var(--a-edge), 0 4px 10px -6px rgb(0 0 0 / 0.5);
   transition: transform 160ms var(--rv8-ease);
 }
-.app-shell .rv8-filter__hint:active .rv8-filter__disc { transform: scale(0.94); }
 
 /* A paper asked for by ?paper= (the result's "See this paper") is marked for a moment; a subject with no papers yet says so
    and offers its first set. */

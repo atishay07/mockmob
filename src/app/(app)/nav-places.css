@@ -145,8 +145,8 @@ html .app-shell .arena-sheet > .arena-sheet__lead, html .app-shell .arena-sheet 
   .app-shell .arena-tabs::after { right: 0; background: linear-gradient(to left, var(--a-bg) 8%, transparent); }
   .app-shell .arena-tabs[data-overflow]:not([data-at-start])::before { opacity: 1; }
   .app-shell .arena-tabs[data-overflow]:not([data-at-end])::after { opacity: 1; }
-  /* The chevron: a small disc on the right fade while tabs wait past it; a tap moves the row on. Its 44 px target is the
-     fade's own strip, so it never covers the cut tab's word. */
+  /* The chevron: a small disc on the right fade while tabs wait past it. It is a picture, not a target (R11 G27: a tap on
+     the visible part of the cut tab hit the chevron and nothing opened): taps pass through it to the tab underneath. */
   .app-shell .arena-tabs__hint {
     position: absolute;
     top: 4px;
@@ -161,8 +161,6 @@ html .app-shell .arena-sheet > .arena-sheet__lead, html .app-shell .arena-sheet 
     background: none;
     opacity: 0;
     pointer-events: none;
-    cursor: pointer;
-    -webkit-tap-highlight-color: transparent;
     transition: opacity 200ms ease;
   }
   .app-shell .arena-tabs__disc {
@@ -178,8 +176,7 @@ html .app-shell .arena-sheet > .arena-sheet__lead, html .app-shell .arena-sheet 
     transition: transform 100ms var(--a-ease, ease-out);
   }
   .app-shell .arena-tabs__disc svg { width: 16px; height: 16px; }
-  .app-shell .arena-tabs[data-overflow]:not([data-at-end]) .arena-tabs__hint { opacity: 1; pointer-events: auto; }
-  .app-shell .arena-tabs__hint:active .arena-tabs__disc { transform: scale(0.92); }
+  .app-shell .arena-tabs[data-overflow]:not([data-at-end]) .arena-tabs__hint { opacity: 1; pointer-events: none; }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
   .app-shell .arena-tabs { --tabs-bleed: 20px; }
