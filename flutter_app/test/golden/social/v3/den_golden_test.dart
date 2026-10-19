@@ -23,7 +23,7 @@ Future<void> _settle(WidgetTester tester) async {
 void main() {
   setUpGoldenFonts();
 
-  const states = {'d1_quiet': 'quiet', 'd2_open': 'open', 'd3_played': 'played', 'd5_one': 'one', 'heavy': 'heavy'};
+  const states = {'d1_quiet': 'quiet', 'd2_open': 'open', 'd3_played': 'played', 'd5_one': 'one', 'd5_oneplayed': 'oneplayed', 'heavy': 'heavy'};
   for (final b in [Brightness.dark, Brightness.light]) {
     for (final e in states.entries) {
       testWidgets('den ${e.key} 360 ${_tag(b)}', (tester) async {

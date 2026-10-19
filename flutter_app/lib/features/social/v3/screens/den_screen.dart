@@ -493,7 +493,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
           if (_noticeText != null) {
             below
               ..add(const SizedBox(height: MmSpace.s12))
-              ..add(_PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!));
+              ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: _PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!)));
           }
           if (card.kind != DenCardKind.one) {
             below
@@ -730,7 +730,8 @@ class _TitleBlock extends StatelessWidget {
         const SizedBox(height: MmSpace.s2),
         Text(
           subtitle,
-          style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, shadows: [...halo, ...halo]),
+          // Label size, not caption: readable over the lit room at 360 dp (M1 owner note).
+          style: type.label.copyWith(color: colors.isNight ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600, shadows: [...halo, ...halo]),
         ),
       ],
     );

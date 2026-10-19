@@ -148,7 +148,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
         if (yours != null && g.closesAt != null) {
           children.add(
             Padding(
-              padding: const EdgeInsets.only(left: _HostLine.indent),
+              padding: const EdgeInsets.only(top: MmSpace.s4),
               child: Text(keepTimes(MobV3Copy.playedAt(yours, g.closesAt!, now)), style: type.body.copyWith(color: colors.ink2)),
             ),
           );
@@ -170,7 +170,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           ..add(const SizedBox(height: MmSpace.s4))
           ..add(
             Padding(
-              padding: const EdgeInsets.only(left: _HostLine.indent),
+              padding: const EdgeInsets.only(top: MmSpace.s4),
               child: Text(MobV3Copy.liveLine(g), style: type.body.copyWith(color: colors.ink2)),
             ),
           )
@@ -195,7 +195,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
         if (started != null && g.closesAt != null) {
           children.add(
             Padding(
-              padding: const EdgeInsets.only(left: _HostLine.indent),
+              padding: const EdgeInsets.only(top: MmSpace.s4),
               child: Text(keepTimes(MobV3Copy.roomStarted(started, g.closesAt!, now)), style: type.body.copyWith(color: colors.ink2)),
             ),
           );
@@ -250,6 +250,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
+        const SizedBox(height: MmSpace.s12),
         if (g != null) ...[_oneGame(context, g), const SizedBox(height: MmSpace.s24)],
         Semantics(
           header: true,
@@ -324,7 +325,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           if (line != null) ...[
             const SizedBox(height: MmSpace.s4),
             Padding(
-              padding: const EdgeInsets.only(left: _HostLine.indent),
+              padding: const EdgeInsets.only(top: MmSpace.s4),
               child: Text(keepTimes(line), style: type.body.copyWith(color: colors.ink2)),
             ),
           ],
@@ -352,7 +353,6 @@ class _HostLine extends ConsumerWidget {
   final bool live;
 
   static const double disc = 44;
-  static const double indent = disc + MmSpace.s12;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
