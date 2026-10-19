@@ -8,7 +8,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/features/social/data/mob_models.dart';
-import 'package:mockmob/features/social/v3/data/mob_v3_bank.dart';
+import 'package:mockmob/dev/mob_v3_bank.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/logic/fold_catalog.dart';

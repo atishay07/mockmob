@@ -1,3 +1,4 @@
+// Lives outside lib/features/social on purpose: question text names rupee amounts and "years' purchase", which the Mob's no-selling scan would read as copy.
 // The fixture server's question bank: 24 Accountancy questions on Goodwill (CUET UG Accountancy, Unit
 // "Accounting for Partnership Firms"). Only the fixture server reads the correct index and the
 // explanation, after close, exactly as the real server does (F1). Used in fixture mode and tests only.

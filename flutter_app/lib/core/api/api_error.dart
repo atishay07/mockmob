@@ -206,7 +206,9 @@ class ApiError implements Exception {
   /// numbers and a chapter name. Nothing else from the body is kept.
   static void _readMobSaid(Map<Object?, Object?> error, Object? code, Map<String, Object?> details) {
     final up = code is String ? code.toUpperCase() : null;
-    if (up == null || !mobMessageCodes.contains(up)) return;
+    if (up == null) return;
+    _readMobV3Detail(error, up, details);
+    if (!mobMessageCodes.contains(up)) return;
     final message = error['message'];
     if (message is String && message.trim().isNotEmpty && message.length <= 400) details['message'] = message.trim();
     final detail = error['detail'];
@@ -225,6 +227,30 @@ class ApiError implements Exception {
       };
     }
     if (out.isNotEmpty) details['detail'] = out;
+  }
+
+  /// Mob v3 (MOB-SERVER-A): RUN_EXPIRED carries the stored run as plain numbers (`details['run']`:
+  /// finished, marks, answered, count), and REVIEW_NOT_YET, FIX_NOT_YET and PODIUM_NOT_YET carry when
+  /// they open (`details['opensAt']`, an ISO time). Nothing else from the body is kept.
+  static void _readMobV3Detail(Map<Object?, Object?> error, String up, Map<String, Object?> details) {
+    final detail = error['detail'];
+    if (detail is! Map) return;
+    if (up == 'RUN_EXPIRED') {
+      final run = detail['run'];
+      if (run is! Map) return;
+      final out = <String, Object?>{};
+      if (run['finished'] is bool) out['finished'] = run['finished'];
+      for (final k in const ['marks', 'answered', 'count']) {
+        final v = run[k];
+        if (v is num) out[k] = v.toInt();
+      }
+      if (out.isNotEmpty) details['run'] = out;
+      return;
+    }
+    if (up == 'REVIEW_NOT_YET' || up == 'FIX_NOT_YET' || up == 'PODIUM_NOT_YET') {
+      final at = detail['opensAt'];
+      if (at is String && at.length <= 40 && DateTime.tryParse(at) != null) details['opensAt'] = at;
+    }
   }
 
   /// True when repeating the same call may succeed without the student changing anything.

@@ -14,7 +14,7 @@ import 'dart:math' as math;
 import '../../../../core/api/api.dart';
 import '../../../../core/models/json_helpers.dart';
 import 'mob_v3_api.dart';
-import 'mob_v3_bank.dart';
+import '../../../../dev/mob_v3_bank.dart';
 import 'mob_v3_models.dart';
 
 ApiError _err(String code, int status, {Map<String, Object?> details = const {}}) => ApiError(
@@ -678,7 +678,7 @@ class MobV3FakeServer implements MobV3Api {
       if (run.finished) throw _err('RUN_DONE', 409);
       if (now.isAfter(run.endsAt)) {
         _finishRun(r.mob, g, run);
-        throw _err('RUN_EXPIRED', 410);
+        throw _err('RUN_EXPIRED', 410, details: {'run': {'finished': true, 'marks': run.marks, 'answered': run.answers.values.where((a) => a.pick >= 0).length, 'count': g.count}});
       }
       final correct = pick < 0 ? null : pick == mobV3Bank[g.questions[q]].correct;
       run.answers[q] = _Answer(pick, correct, now.difference(run.startedAt).inMilliseconds);

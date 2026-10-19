@@ -117,4 +117,16 @@ void main() {
       if (MobV3Copy.errors.containsKey(e.key)) expect(said, body['message'], reason: e.key);
     }
   });
+
+  test('RUN_EXPIRED keeps the stored run; NOT_YET codes keep opensAt; nothing else is kept', () {
+    final e = ApiError.fromResponse(410, {
+      'error': {'code': 'RUN_EXPIRED', 'message': 'x', 'detail': {'run': {'finished': true, 'marks': 14, 'answered': 4, 'count': 5, 'picks': [1, 2]}, 'other': 'y'}},
+    });
+    expect(e.details['run'], {'finished': true, 'marks': 14, 'answered': 4, 'count': 5});
+    final r = ApiError.fromResponse(409, {
+      'error': {'code': 'REVIEW_NOT_YET', 'message': 'x', 'detail': {'opensAt': '2026-10-23T08:35:00.000Z'}},
+    });
+    expect(r.details['opensAt'], '2026-10-23T08:35:00.000Z');
+    expect(r.details.containsKey('message'), isFalse);
+  });
 }
