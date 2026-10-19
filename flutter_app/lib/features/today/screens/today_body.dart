@@ -118,7 +118,11 @@ class TodayBody extends StatefulWidget {
     this.retrying = false,
     this.skeletonDelay = const Duration(milliseconds: 400),
     this.prices = const {},
+    this.nameAsk,
   });
+
+  /// The one-time first-name card under the greeting (I11), when the screen has one.
+  final Widget? nameAsk;
 
   /// The price line of each move the card can show, by [priceKeyOf] (the screen reads the quotes
   /// and the wallet); a move without one shows no line.
@@ -789,6 +793,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         showMobi: !heroMobi,
         onMobi: () => callbacks.onTarget(const GoTo(AppRoutes.ask)),
       ),
+      // The one-time ask for a first name (I11), under the greeting it fills in.
+      ?widget.nameAsk,
       // Your colleges, one tap under the greeting (19 Oct PM, D126, the owner's H9): the strip opens the full list, or
       // the chooser while none is chosen. It joins the first-paint entrance just before the move. One 48 dp line with
       // 8 above and 12 below: the move moves down 50 dp from build 9 (the header to the move kept 18, TODAY-1017 4.1),

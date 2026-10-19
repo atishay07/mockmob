@@ -35,6 +35,7 @@ import 'lead_pick.dart' show todayPicks;
 import 'road_plan.dart';
 import 'study_log_store.dart';
 import 'today_profile.dart';
+import '../../../core/auth/display_name.dart' show shownFirstName;
 
 /// The plan Today reads. The client builds the card from the record, so the plan is used for
 /// `recordState` and the server's own repair action; one minutes key keeps it to one request.
@@ -220,12 +221,6 @@ final todayDraftProvider = FutureProvider<TodayDraft?>((ref) async {
   );
 });
 
-String? firstNameOf(String? name) {
-  final trimmed = name?.trim() ?? '';
-  if (trimmed.isEmpty) return null;
-  return trimmed.split(RegExp(r'\s+')).first;
-}
-
 /// When the last Try again ended with the record still not loaded (L01), or null. The screen sets
 /// it after a retry that changed nothing and clears it once the record is in hand.
 class TodayLastTried extends Notifier<DateTime?> {
@@ -282,7 +277,8 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
   return TodayInputs(
     now: now,
     timezone: zone,
-    firstName: firstNameOf(auth.name),
+    // The whole name is checked against the email before its first word is taken (I11).
+    firstName: shownFirstName(auth.name, email: auth.email),
     email: auth.email,
     isPro: auth.isPro,
     repairedToday: repairedToday,

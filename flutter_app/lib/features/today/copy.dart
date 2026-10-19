@@ -9,6 +9,7 @@ import '../../core/domain/cuet_dates.dart';
 import '../paper_reel/model/paper_reel_model.dart' show PaperReelModel;
 import 'logic/today_model.dart' show DurationChoice;
 import '../../core/copy/sentences.dart';
+import '../../core/auth/display_name.dart' show shownName;
 
 abstract final class TodayCopy {
   // Header.
@@ -33,13 +34,10 @@ abstract final class TodayCopy {
     return who == null ? salutation : '$salutation, $who';
   }
 
-  /// A first name that is really a handle ("app-e2e-student", "asha_v", "asha.v", "asha07") or the
-  /// email's own local part is never used in the greeting (acceptance 11).
-  static bool isHandleName(String name, {String? email}) {
-    if (RegExp(r'[0-9_.\-@]').hasMatch(name)) return true;
-    final local = email?.split('@').first.toLowerCase();
-    return local != null && local.isNotEmpty && name.toLowerCase() == local;
-  }
+  /// A first name that is really a handle ("app-e2e-student", "asha_v", "asha07") or the email's own
+  /// local part is never used in the greeting (acceptance 11). A real name with a dot or a hyphen
+  /// ("Mary-Ann") is (I11, 20 Oct). The rule is [shownName]'s, in one place.
+  static bool isHandleName(String name, {String? email}) => shownName(name, email: email) == null;
 
   static String updatedAt(DateTime time) => 'Updated ${formatTime12(time)}';
   static const String offlineSuffix = 'You are offline.';

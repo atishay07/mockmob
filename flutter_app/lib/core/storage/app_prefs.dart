@@ -42,6 +42,7 @@ class AppPrefs {
 
   /// The sheet after sign-in showed the swipe preview card (once per install).
   static const _swipePreviewSeen = 'onboarding_swipe_preview_seen';
+  static const _nameAskDone = 'today_name_ask_done';
 
   Future<bool> welcomeSeen() async => await _prefs.getBool(_welcomeSeen) ?? false;
   Future<void> setWelcomeSeen(bool v) => _prefs.setBool(_welcomeSeen, v);
@@ -176,4 +177,8 @@ class AppPrefs {
 
   Future<bool> swipePreviewSeen() async => await _prefs.getBool(_swipePreviewSeen) ?? false;
   Future<void> setSwipePreviewSeen(bool v) => _prefs.setBool(_swipePreviewSeen, v);
+
+  /// Today's one-time first-name card was saved or put away on this phone (I11).
+  Future<bool> nameAskDone() async => await _prefs.getBool(_nameAskDone) ?? false;
+  Future<void> setNameAskDone(bool v) => _prefs.setBool(_nameAskDone, v);
 }
