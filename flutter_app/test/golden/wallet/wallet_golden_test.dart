@@ -19,9 +19,9 @@ import '../you/you_golden_kit.dart' show loadMaterialIcons;
 /// The app's body font has no rupee sign (Android draws it from the system font), so the pictures
 /// use "Rs" fixtures: they only stand in for Google Play's own strings.
 final Map<String, String> goldenPrices = {
-  PlayProducts.proId: 'Rs 150.00',
+  PlayProducts.proId: 'Rs 149.00',
   'credits_10_50': 'Rs 15.00',
-  'credits_29_150': 'Rs 40.00',
+  'credits_29_150': 'Rs 45.00',
   'credits_49_300': 'Rs 75.00',
 };
 

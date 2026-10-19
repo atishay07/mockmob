@@ -56,7 +56,7 @@ void main() {
       expect(BillingCopy.periodWords(null), 'a month', reason: 'the base plan is monthly');
       expect(BillingCopy.periodWords('P1Y'), 'a year');
       expect(BillingCopy.periodWords('P2W'), isNull, reason: 'an unknown period says nothing rather than something wrong');
-      expect(BillingCopy.proTerms, 'Renews every month. Cancel anytime in Google Play.');
+      expect(BillingCopy.proTerms, 'Renews monthly. Cancel anytime in Google Play.');
       for (final line in [
         BillingCopy.proTerms,
         BillingCopy.subRenews('19 November'),
@@ -108,7 +108,7 @@ void main() {
       final c = await _pump(tester, rig);
       await _settle(tester);
       expect(find.text('₹149.00 a month'), findsOneWidget);
-      expect(find.text('Renews every month. Cancel anytime in Google Play.'), findsOneWidget);
+      expect(find.text('Renews monthly. Cancel anytime in Google Play.'), findsOneWidget);
       expect(find.text(BillingCopy.manageSubscription), findsNothing);
       rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
       await tester.tap(find.widgetWithText(KeyButton, 'Get Pro').first);
@@ -162,6 +162,23 @@ void main() {
       expect(find.text(BillingCopy.subPaused), findsOneWidget);
       await tester.tap(find.text(BillingCopy.manageSubscription));
       await _settle(tester);
+      expect(find.text(BillingCopy.manageOpenFailed), findsOneWidget);
+    });
+
+    testWidgets('the failure banner\'s Manage subscription: no chevron, and when Google Play does not open it says where to go', (tester) async {
+      final rig = BillingRig(manageOpens: false);
+      rig.verifier.failWith = _play(409, 'subscription_on_hold');
+      await _pump(tester, rig);
+      await _settle(tester);
+      rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
+      await tester.tap(find.widgetWithText(KeyButton, 'Get Pro').first);
+      await _settle(tester);
+      expect(find.text(BillingCopy.manageSubscription), findsOneWidget);
+      expect(find.byIcon(LucideIcons.chevronRight), findsNothing, reason: 'it opens another app; it does not go somewhere here');
+      expect(find.text(BillingCopy.manageOpenFailed), findsNothing);
+      await tester.tap(find.text(BillingCopy.manageSubscription));
+      await _settle(tester);
+      expect(rig.manageOpened, 1);
       expect(find.text(BillingCopy.manageOpenFailed), findsOneWidget);
     });
 

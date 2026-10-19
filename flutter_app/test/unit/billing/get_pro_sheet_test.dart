@@ -48,7 +48,7 @@ void main() {
     await _pump(tester, rig);
     await _settle(tester);
     expect(find.text('₹149.00 a month'), findsOneWidget);
-    expect(find.text('Renews every month. Cancel anytime in Google Play.'), findsOneWidget);
+    expect(find.text('Renews monthly. Cancel anytime in Google Play.'), findsOneWidget);
     expect(find.text('Pro includes'), findsOneWidget);
     for (final line in BillingCopy.proIncludes) {
       expect(find.text(line), findsOneWidget);
@@ -124,7 +124,7 @@ void main() {
     await _settle(tester);
     await tester.tap(find.text('Get Pro').first);
     await _settle(tester);
-    expect(find.text(BillingCopy.pending), findsOneWidget);
+    expect(find.text(BillingCopy.pendingPro), findsOneWidget, reason: 'Pro turns on; it is not added');
     expect(find.text('Pro is on'), findsNothing);
     expect(rig.verifier.calls, isEmpty);
   });
@@ -218,7 +218,7 @@ void main() {
   testWidgets('the words never name the website, a cheaper price or the web checkout', (tester) async {
     final all = [
       ...BillingCopy.proIncludes,
-      BillingCopy.proTerms, BillingCopy.googlePlayNote, BillingCopy.pending, BillingCopy.verifying, BillingCopy.cancelled,
+      BillingCopy.proTerms, BillingCopy.googlePlayNote, BillingCopy.pending, BillingCopy.pendingPro, BillingCopy.failEnded, BillingCopy.subRenewalOffNoDate, BillingCopy.subGraceNoDate, BillingCopy.verifying, BillingCopy.cancelled,
       BillingCopy.failStore, BillingCopy.failCouldNotConfirm, BillingCopy.failOffline, BillingCopy.failNotOpenYet,
       BillingCopy.proOnBody, BillingCopy.creditsAddedBody, BillingCopy.topUpsNote, BillingCopy.storeUnavailable,
       BillingCopy.storeUnreachable, BillingCopy.productUnavailable, BillingCopy.nothingToRestore,

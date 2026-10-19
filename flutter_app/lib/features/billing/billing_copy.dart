@@ -40,7 +40,7 @@ abstract final class BillingCopy {
         _ => null,
       };
 
-  static const proTerms = 'Renews every month. Cancel anytime in Google Play.';
+  static const proTerms = 'Renews monthly. Cancel anytime in Google Play.';
   static const manageSubscription = 'Manage subscription';
   static const getPro = 'Get Pro';
   static const googlePlayNote = 'Payment is handled by Google Play.';
@@ -65,6 +65,9 @@ abstract final class BillingCopy {
   static const opening = 'Opening Google Play';
   static const pending =
       'Google Play is still processing your payment. We add it to your account as soon as Google Play confirms it, so you can close this.';
+
+  /// The same wait for Pro: a subscription is not "added", it turns on.
+  static const pendingPro = 'Google Play is still processing your payment. Pro turns on as soon as Google Play confirms it, so you can close this.';
   static const verifying = 'Confirming your payment with MockMob. This takes a moment.';
   static const cancelled = 'No payment was made.';
   static const restoring = 'Checking Google Play for your purchases';
@@ -113,7 +116,7 @@ abstract final class BillingCopy {
   static const failOtherAccount =
       'This purchase was made while you were signed in to a different MockMob account, so it cannot be added here. Sign in to that account to use it.';
   static const failRefunded = 'Google Play says this purchase was cancelled or refunded, so nothing was added.';
-  static const failEnded = 'This can no longer be bought, so nothing was added. Google Play refunds a payment that is not confirmed within three days.';
+  static const failEnded = 'This plan or pack can no longer be bought, so nothing was added. Google Play refunds a payment that is not confirmed within three days.';
   static const failRefused = 'We could not accept this purchase, so nothing was added. If you were charged, Google Play refunds you within three days.';
 
   // Top-ups on the Wallet: one set of packs for the one credits balance.

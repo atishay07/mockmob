@@ -7,6 +7,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../billing_copy.dart';
 import '../data/billing_controller.dart';
+import '../data/play_products.dart';
 
 /// Where the purchase stands, in words, for the surface that started it. Honest about each stage:
 /// Google Play opening, a payment still pending, the server checking it, a cancel, a failure with
@@ -15,14 +16,29 @@ import '../data/billing_controller.dart';
 ///
 /// [ids] are the products this surface sells; a stage about another product is not shown here.
 /// A restore (no product) shows on every surface that asks for it with [showRestore].
-class BillingNotice extends ConsumerWidget {
+class BillingNotice extends ConsumerStatefulWidget {
   const BillingNotice({super.key, required this.ids, this.showRestore = false});
 
   final Set<String> ids;
   final bool showRestore;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BillingNotice> createState() => _BillingNoticeState();
+}
+
+class _BillingNoticeState extends ConsumerState<BillingNotice> {
+  /// Manage subscription on the failure banner did not open Google Play: one line says where it is.
+  bool _manageFailed = false;
+
+  Future<void> _manage() async {
+    final opened = await ref.read(playBillingProvider.notifier).manageSubscription();
+    if (mounted) setState(() => _manageFailed = !opened);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ids = widget.ids;
+    final showRestore = widget.showRestore;
     final s = ref.watch(playBillingProvider);
     final mine = s.productId != null ? ids.contains(s.productId) : showRestore;
     final stage = mine ? s.stage : BillingStage.idle;
@@ -41,7 +57,7 @@ class BillingNotice extends ConsumerWidget {
       case BillingStage.restoring:
         child = _Working(text: BillingCopy.restoring);
       case BillingStage.pending:
-        child = Text(BillingCopy.pending, style: type.small.copyWith(color: colors.ink2));
+        child = Text(s.productId == PlayProducts.proId ? BillingCopy.pendingPro : BillingCopy.pending, style: type.small.copyWith(color: colors.ink2));
       case BillingStage.cancelled:
         child = Text(BillingCopy.cancelled, style: type.small.copyWith(color: colors.ink2));
       case BillingStage.restoredNothing:
@@ -53,14 +69,24 @@ class BillingNotice extends ConsumerWidget {
         final finalAnswer = (s.failure?.isFinal ?? false) || s.failure == BillingFailure.notReady;
         // A subscription on hold or paused is fixed in Google Play: the way out is its own page.
         final inPlay = s.failure?.fixedInGooglePlay ?? false;
-        child = InlineBanner(
+        final banner = InlineBanner(
           message: billingFailureMessage(s.failure),
           tone: BannerTone.error,
           actionLabel: inPlay ? BillingCopy.manageSubscription : (finalAnswer ? null : BillingCopy.tryAgain),
-          onAction: inPlay
-              ? () => ref.read(playBillingProvider.notifier).manageSubscription()
-              : (finalAnswer ? null : () => ref.read(playBillingProvider.notifier).retry()),
+          onAction: inPlay ? _manage : (finalAnswer ? null : () => ref.read(playBillingProvider.notifier).retry()),
+          actionChevron: false,
         );
+        child = inPlay && _manageFailed
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  banner,
+                  const SizedBox(height: MmSpace.s8),
+                  Semantics(liveRegion: true, child: Text(BillingCopy.manageOpenFailed, style: type.small.copyWith(color: colors.ink2))),
+                ],
+              )
+            : banner;
     }
 
     return MmOverlapSwitcher.fade(

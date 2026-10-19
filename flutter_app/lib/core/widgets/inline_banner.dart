@@ -20,6 +20,7 @@ class InlineBanner extends StatelessWidget {
     this.actionLabel,
     this.onAction,
     this.compact = false,
+    this.actionChevron = true,
   });
 
   /// The 32 dp strip used for the offline cache-time banner.
@@ -27,12 +28,17 @@ class InlineBanner extends StatelessWidget {
       : tone = BannerTone.offline,
         actionLabel = null,
         onAction = null,
-        compact = true;
+        compact = true,
+        actionChevron = true;
 
   final String message;
   final BannerTone tone;
   final String? actionLabel;
   final VoidCallback? onAction;
+
+  /// The small chevron after the action's label. Off for an action that does something in place
+  /// (Try again) or opens another app (Manage subscription), rather than going somewhere here.
+  final bool actionChevron;
 
   /// A single-line, 32 dp strip with no action.
   final bool compact;
@@ -119,7 +125,7 @@ class InlineBanner extends StatelessWidget {
                     if (actionLabel != null && onAction != null)
                       // A pill, so the action reads as a button. The visible pill is 36 dp tall
                       // inside a 48 dp touch target; it starts at the message's left edge.
-                      Row(children: [_BannerAction(label: actionLabel!, onTap: onAction!)]),
+                      Row(children: [_BannerAction(label: actionLabel!, onTap: onAction!, chevron: actionChevron)]),
                   ],
                 ),
               ),
@@ -133,10 +139,11 @@ class InlineBanner extends StatelessWidget {
 
 /// The banner's action: a 36 dp outlined pill with a small chevron, in a 48 dp touch target.
 class _BannerAction extends ConsumerWidget {
-  const _BannerAction({required this.label, required this.onTap});
+  const _BannerAction({required this.label, required this.onTap, required this.chevron});
 
   final String label;
   final VoidCallback onTap;
+  final bool chevron;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -157,15 +164,17 @@ class _BannerAction extends ConsumerWidget {
               shape: mmShapeBorder(MmRadius.pillAll, side: BorderSide(color: colors.lineStrong)),
             ),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(MmSpace.s16, 0, MmSpace.s12, 0),
+              padding: EdgeInsets.fromLTRB(MmSpace.s16, 0, chevron ? MmSpace.s12 : MmSpace.s16, 0),
               child: SizedBox(
                 height: 36,
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Flexible(child: Text(label, style: type.button.copyWith(color: colors.ink))),
-                    const SizedBox(width: MmSpace.s4),
-                    ExcludeSemantics(child: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2)),
+                    if (chevron) ...[
+                      const SizedBox(width: MmSpace.s4),
+                      ExcludeSemantics(child: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink2)),
+                    ],
                   ],
                 ),
               ),
