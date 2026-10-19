@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
+import 'package:mockmob/features/billing/widgets/pro_page.dart' show ProPage;
 import 'package:mockmob/features/pro_nudge/copy.dart';
 import 'package:mockmob/features/pro_nudge/data/pro_benefits.dart';
 import 'package:mockmob/features/pro_nudge/data/pro_facts_provider.dart';
@@ -55,8 +56,8 @@ void _expectSheet(ProReason reason) {
   expect(find.text(ProNudgeCopy.head(reason).title), findsOneWidget);
   expect(find.text(ProNudgeCopy.head(reason).lede), findsOneWidget);
   expect(find.text(BillingCopy.getPro), findsWidgets);
-  // The line that answers the Mob part leads the benefits.
-  expect(find.text(ProNudgeCopy.leadBenefit(reason)!), findsOneWidget);
+  // Every upgrade opens the full-screen Pro page (owner I6, 20 Oct), headed by what asked for Pro.
+  expect(find.byType(ProPage), findsOneWidget);
 }
 
 RemoteState<MobRead> _locked() => mobState((m) {

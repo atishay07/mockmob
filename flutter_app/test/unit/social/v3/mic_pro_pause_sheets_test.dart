@@ -1,10 +1,13 @@
 // P3 Pass the mic, P4 Free and Pro in the Mob, P5 Exam pause days.
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/billing/widgets/pro_page.dart' show ProPage;
+import 'package:mockmob/features/pro_nudge/copy.dart';
 import 'package:mockmob/features/social/v3/widgets/free_pro_sheet.dart';
 import 'package:mockmob/features/social/v3/widgets/mic_sheet.dart';
 import 'package:mockmob/features/social/v3/widgets/pause_sheet.dart';
 
+import '../../billing/billing_test_support.dart' show BillingRig;
 import 'mob_v3_test_kit.dart';
 import 'sheets_test_kit.dart';
 
@@ -73,6 +76,14 @@ void main() {
       expect(find.text('Pro adds'), findsOneWidget);
       expect(keyLabel('See Pro plans'), findsOneWidget);
       expect(noText(t, _price), isTrue);
+    });
+
+    testWidgets('See Pro plans opens the Pro page with the hosting headline', (t) async {
+      await openSheet(t, showFreeProSheet, [...sheetOverrides(v3Server(scenario: 'quiet', billing: 'free'), nudges: true), ...BillingRig(on: true).overrides]);
+      await tapAt(t, keyLabel('See Pro plans'));
+      await t.pump(const Duration(seconds: 1));
+      expect(find.byType(ProPage), findsOneWidget);
+      expect(find.text(ProNudgeCopy.head(ProReason.mobHosting).title), findsOneWidget);
     });
 
     testWidgets('no key when the Pro nudges are off', (t) async {
