@@ -18,17 +18,21 @@
 /* The note */
 .app-shell .cmp .cmp-note { display: block; max-width: 78ch; margin: 0; padding: 0; border: 0; border-radius: 0; background: none; font-size: 13.5px; line-height: 1.6; color: var(--a-ink-3); }
 
-/* From your practice: a ruled row with the subject's object */
-.app-shell .cmp .cmp-bridge { padding: 16px 0; border: 0; border-top: 1px solid var(--a-line); border-bottom: 1px solid var(--a-line); border-radius: 0; background: none; }
+/* From your practice: the lit build's card again (owner G28, release 11 walk): its volt line and the volt wash from the top
+   edge (arena.css .cmp-bridge), with the subject's object. One card, nothing nested in it. */
 
 /* Official sources: one quiet disclosure */
 .app-shell .cmp .cmp-sources { padding: 0; border: 0; border-top: 1px solid var(--a-line); border-radius: 0; background: none; }
 .app-shell .cmp .cmp-sources ul { padding-left: 0; list-style: none; }
 .app-shell .cmp .cmp-sources li { color: var(--a-ink-3); }
 
-/* ---------- Compass Pro ---------- */
-.app-shell section.cpro { gap: 20px; padding: 22px 0 0; border: 0; border-top: 1px solid var(--a-line-strong); border-radius: 0; background: none; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none; }
-.app-shell section.cpro::before { display: none; }
+/* ---------- Compass Pro ----------
+   Restored 19 Oct (owner G28, release 11 walk) from deploy/1016-batch: the open Compass Pro (a Pro student's) is one card with
+   its volt line and the volt wash pooled in its top corner. What is inside stays de-slopped: no badge pill, the features a
+   ruled row, no cards inside the card. A Free student's quiet row (.cpro-quiet, arena.css) is unchanged. */
+.app-shell section.cpro:not(.cpro-quiet) { position: relative; isolation: isolate; gap: 20px; padding: clamp(18px, 3vw, 26px); overflow: hidden; border: 1px solid var(--a-volt-line); border-radius: 22px; background: var(--a-raised); box-shadow: inset 0 1px 0 var(--a-glass-top), var(--a-shadow-1); }
+.app-shell section.cpro:not(.cpro-quiet)::before { content: ''; position: absolute; z-index: -1; inset: -30% -20% auto 40%; height: 120%; background: radial-gradient(closest-side, var(--a-volt-wash), transparent); pointer-events: none; }
+.app-shell section.cpro.cpro-quiet::before { display: none; }
 .app-shell .cpro .cpro-head h2 { font-size: clamp(20px, 2.6vw, 24px); }
 .app-shell .cpro .cpro-grid { gap: 28px; }
 @media (min-width: 900px) { .app-shell .cpro .cpro-grid { gap: 40px; } }

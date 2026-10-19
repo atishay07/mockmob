@@ -51,7 +51,7 @@ export default function YourSheet({ user, greeting, mobi = null, plan = 'Free', 
         {mobi ? <span className="acct-sheet__mobi">{mobi}</span> : null}
         <div className="acct-sheet__id">
           <h2 id="acct-sheet-h">{greeting}</h2>
-          {user?.email ? <p className="acct-sheet__mail">Signed in as {user.email}</p> : null}
+          {/* The email that is signed in sits just above this card, beside its Sign out key (SignedInLine, release 11 walk). */}
           <p className="acct-sheet__tags">
             <span>{EXAM_LABEL}</span>
             <span data-tone={plan === 'Pro' ? 'pro' : undefined}>{plan === 'Pro' ? 'Pro plan' : 'Free plan'}</span>

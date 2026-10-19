@@ -5,26 +5,17 @@
 //   (which chapter cost the most, how many of the missed marks), Mobi's line, the four counts, the answer map
 //   (every question, one bubble, opens that answer), then the one next move with Repair's value and cost.
 // Mobi follows the server's recap tone (reaction.js, the app's table); never in NTA mode and never sleepy.
-import { useEffect, useState } from 'react';
 import { AlertTriangle } from 'lucide-react';
 import MobiReact from '@/components/brand/MobiReact';
+import { useCountUp } from '@/lib/motion/useCountUp';
+import { COUNT_UP_CURVE } from '@/lib/motion/countUpPlan';
 import { heroAct } from './heroAct.mjs';
 
-const still = () => {
-  try { return document.documentElement.dataset.motion === 'reduced' || window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return true; }
-};
-
-// The score counts up once on the first open (700 ms, ease-out); a return visit and reduced motion show it at once.
+// The score counts up once on the first open, on the motion tokens (owner G31; release 11 walk: this card rolled on its own
+// 700 ms ease-out, not the token, and the page's arrival swallowed half of it): the countUp duration (720 ms) on the
+// count-up curve, once the page has settled (countUpPlan.js). A return visit and reduced motion show it at once (useCountUp).
 function CountUp({ value, run }) {
-  const [shown, setShown] = useState(() => (run ? 0 : value));
-  useEffect(() => {
-    if (!run || !value || still()) { queueMicrotask(() => setShown(value)); return undefined; }
-    let raf; let start;
-    const step = (t) => { start ??= t; const p = Math.min((t - start) / 700, 1); setShown(Math.round(value * (1 - (1 - p) ** 3))); if (p < 1) raf = requestAnimationFrame(step); };
-    raf = requestAnimationFrame(step);
-    return () => cancelAnimationFrame(raf);
-  }, [value, run]);
-  return shown;
+  return useCountUp(value, { from: run ? 0 : undefined, enabled: run, curve: COUNT_UP_CURVE, settle: true });
 }
 
 /**

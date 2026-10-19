@@ -15,7 +15,7 @@
 .du-page .du-title span { display: inline; margin: 0; color: inherit; }
 
 /* ---------- Subjects pane ---------- */
-.du-app .du-side { background: var(--paper-raised); box-shadow: none; }
+/* The pane keeps the lit build's faint top light and its shadow (du.css; restored 19 Oct, owner G28, release 11 walk). */
 .du-app .du-count { font-family: var(--font-body); font-variant-numeric: tabular-nums; }
 .du-app .du-presets > span, .cp .du-presets > span { font-size: 0.8125rem; letter-spacing: 0; text-transform: none; font-weight: 600; }
 .du-app .du-preset, .cp .du-preset { border-radius: var(--r-2); border-color: var(--line-strong); background: transparent; }
@@ -75,8 +75,8 @@
 /* The count ring keeps its meaning; it loses the glow on the could-clear dot. */
 .du-app .du-clear { box-shadow: none; }
 
-/* The closing step: a ruled block, not a gradient card. */
-.du-app .du-cta { padding-inline: 0; border: 0; border-top: 1px solid var(--line-strong); border-radius: 0; background: none; }
+/* The closing step is the lit build's card again (du.css: its volt line and the volt wash from the top edge; restored 19 Oct,
+   owner G28, release 11 walk). One card, nothing nested in it. */
 
 /* ---------- Combo planner ---------- */
 .cp .cp-step { padding: clamp(0.25rem, 1vw, 0.5rem) 0 clamp(1rem, 3vw, 1.5rem); border: 0; border-top: 1px solid var(--line-strong); border-radius: 0; background: none; }

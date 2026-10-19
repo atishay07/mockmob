@@ -68,7 +68,7 @@ test('W-042: the lead holds for the rhythm, the road, the study days and the rec
 
 // ---- W-044: the cue leads below the card and never covers a control -----------------------------------------------------------
 
-test('W-044 (release 10): the cue is a 40 px glass circle centred above the dock, clear of it, out of the flow', () => {
+test('W-044 (release 10): the cue is a 44 px glass circle centred above the dock, clear of it, out of the flow', () => {
   const arena = css('src/app/(app)/arena.css');
   const dock = arena.match(/@media \(max-width: 1023px\) \{\s*html \.app-shell \.arena-dock \{([^}]*)\}/);
   assert.ok(dock, 'the phone dock rule');
@@ -83,9 +83,10 @@ test('W-044 (release 10): the cue is a 40 px glass circle centred above the dock
   assert.doesNotMatch(cue, /margin: -/, 'no negative margins pulling it over the card');
   assert.match(sheet, /@media \(min-width: 1024px\) \{ \.app-shell \.tcue \{ bottom: calc\(16px \+ env\(safe-area-inset-bottom\)\); \} \}/, 'no dock from 1024 px');
   const key = sheet.match(/\.app-shell \.tcue__key \{([^}]*)\}/)[1];
-  assert.match(key, /min-height: 40px/);
-  assert.match(key, /min-width: 40px/);
-  assert.match(sheet, /\.app-shell \.tcue__key::before \{ content: ''; position: absolute; inset: -2px;/, 'its tap area reaches 44 px');
+  // Release 11 walk: the key itself is the 44 px target (a 40 px box with a pseudo-element reach measured 40 x 40).
+  assert.match(key, /min-height: 44px/);
+  assert.match(key, /min-width: 44px/);
+  assert.match(sheet, /\.app-shell \.tcue__chev \{[^}]*width: 44px; height: 44px;/, 'the circle is the 44 px key');
   assert.doesNotMatch(key, /accent|volt|glow/);
   const comp = read('src/components/today/TodayCue.jsx');
   assert.match(comp, /Your week and road/);

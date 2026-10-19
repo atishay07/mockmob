@@ -8,7 +8,7 @@ import { TEST_MODES } from '../../../../data/test_modes.js';
 import { CUET_PUBLIC_ALLOWED_SUBJECTS } from '../../../../data/cuet_controls.js';
 import { learningPlan } from '../../../../data/learning_engine.js';
 import {
-  SESSION, SUBJECT_ART, START_SUBJECTS, artBox, balanceLine, costLine, dragOffset, dragOutcome, heroFromPlan, heroReason, morphFrom,
+  SESSION, SUBJECT_ART, START_SUBJECTS, artBox, balanceLine, costLine, dragOffset, dragOutcome, followingKey, followingTitle, heroFromPlan, heroReason, morphFrom,
   pickSubject, practiceHref, safeHref, sheetTitle, springEasing, startRequestFromSearch, startRows, startSubjects, subjectArt, subjectName,
 } from '../startModel.mjs';
 
@@ -100,13 +100,18 @@ test('practice links open Practice set up, never the test itself', () => {
 test('the hero is the live plan, with the chosen subject added to a bare practice link', () => {
   const plan = learningPlan({ minutes: 10 });
   const hero = heroFromPlan(plan, { subject: 'economics', balance: 40 });
-  // START-1017 D3: plain practice follows the chosen subject, so its title names it (the plan's own title is kept too).
+  // START-1017 D3: plain practice follows the chosen subject (the plan's own title is kept too). Owner G26 (R11): it leads
+  // with the mode, as Practice does; the count and the subject are said once, on the key.
   assert.equal(hero.followsSubject, true);
-  assert.equal(hero.title, '10 Economics questions');
+  assert.equal(hero.title, 'Quick practice');
+  assert.doesNotMatch(hero.title, /\d|Economics/, 'no count and no subject at the top of the sheet');
+  assert.equal(hero.cta, 'Start 10 questions in Economics');
   assert.equal(hero.planTitle, plan.primary.title);
-  assert.equal(heroFromPlan(plan, { subject: 'accountancy' }).title, '10 Accountancy questions');
+  const acc = heroFromPlan(plan, { subject: 'accountancy' });
+  assert.equal(acc.title, 'Quick practice', 'picking another subject never changes the lead');
+  assert.equal(acc.cta, 'Start 10 questions in Accountancy');
   // Plain practice: the planner's own reason (recovery release state) never reaches the student.
-  assert.equal(hero.reason, 'About 10 minutes. Then see why each miss happened.', 'the title names the set, so the line does not repeat the count');
+  assert.equal(hero.reason, 'About 10 minutes. Then see why each miss happened.', 'the key says the set, so the line does not repeat the count');
   assert.doesNotMatch(hero.reason, /recovery|calibration|ordinary|concept/i);
   assert.equal(hero.href, '/dashboard?mode=quick&count=10&subject=economics');
   assert.equal(hero.quick, true);
@@ -125,6 +130,15 @@ test('the hero is the live plan, with the chosen subject added to a bare practic
   assert.equal(heroFromPlan(learningPlan({ minutes: 30 }), { subject: 'economics' }).reason, 'About 20 minutes, then 10 minutes on why each miss happened.');
   assert.equal(heroReason({ kind: 'repair', reason: 'Pick up the activity you started.' }), 'Pick up the activity you started.');
   assert.equal(heroReason({ kind: 'repair' }), null);
+
+  // The key follows the mode in the Practice page's words.
+  assert.equal(followingTitle('full'), 'Full mock');
+  assert.equal(followingTitle('nta'), 'NTA mode');
+  assert.equal(followingTitle('smart'), 'Smart practice');
+  assert.equal(followingKey('full', null, 'Economics'), 'Start the full mock in Economics');
+  assert.equal(followingKey('nta', null, 'Economics'), 'Start the NTA paper in Economics');
+  assert.equal(followingKey('quick', 1, 'Economics'), 'Start 1 question in Economics');
+  assert.equal(followingKey('quick', 20, null), 'Start 20 questions');
 
   const resume = heroFromPlan({ primary: { kind: 'resume_session', title: 'Resume your practice', href: '/test?subject=economics&mode=quick&sessionId=s1', reason: 'Your active session is waiting.' } });
   assert.equal(resume.reason, 'Your active session is waiting.');

@@ -8,6 +8,7 @@
 // columns are sheet, name and appearance | plan, credits and goal, which keeps them level once the credits history is open;
 // on a phone the order is sheet, name, plan, credits, appearance, goal (account.css).
 // Below: community and help and privacy, then Account actions (Sign out, Sign out of other devices, Delete account).
+// A plain Sign out also sits under the title, beside the email that is signed in (release 11 walk, G29).
 // Every setting that was on this page is still here. The page paints at once: only the mock counts wait
 // for the server, and a failure there never hides a setting. Links to /profile#plan, #appearance, #goal,
 // #privacy, #delete and the rest land on their section. One Mobi on screen (lookMobiStore.js).
@@ -28,7 +29,7 @@ import PlanCredits from '@/components/profile/PlanCredits';
 import CreditsSection from '@/components/profile/CreditsSection';
 import GoalControl from '@/components/profile/GoalControl';
 import AccountLinks from '@/components/profile/AccountLinks';
-import SignOutControl from '@/components/profile/SignOutControl';
+import SignOutControl, { SignedInLine } from '@/components/profile/SignOutControl';
 import { anchorFromHash, mocksSummary } from '@/components/profile/accountModel.mjs';
 import { useAuth } from '@/components/AuthProvider';
 import { useToast } from '@/components/ToastProvider';
@@ -247,6 +248,9 @@ export default function ProfilePageClient() {
   return (
     <div className="student-page student-page--profile acct view">
       <ArenaHead title="Your account." lede="Your CUET plan, your access and how MockMob looks and feels. Your practice history stays with your account." />
+      {/* Who is signed in, with a plain Sign out, on the first screen (release 11 walk: the group below is 7.6 screens down a
+          phone). It is the same confirm as the Account actions row, the top bar and the phone's You sheet. */}
+      <SignedInLine email={user?.email || ''} />
 
       <div className="acct-grid">
         <div className="acct-col">

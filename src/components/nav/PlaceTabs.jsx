@@ -139,11 +139,6 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
     };
   }, [group.id]);
 
-  const step = () => {
-    const el = row.current;
-    if (el) el.scrollBy({ left: Math.round(el.clientWidth * 0.6), behavior: reducedMotion() ? 'auto' : 'smooth' });
-  };
-
   return (
     <nav className="arena-tabs" aria-label={group.label} data-place={group.id}
       data-overflow={edges.overflow || undefined} data-at-start={edges.start || undefined} data-at-end={edges.end || undefined}>
@@ -160,10 +155,11 @@ export default function PlaceTabs({ group, hrefOf, isActive, count = 0, countLab
           );
         })}
       </div>
-      {/* The chevron hint: a tap moves the row on. Keyboard users tab through the tabs themselves, so it is not a stop. */}
-      <button ref={hint} type="button" className="arena-tabs__hint" tabIndex={-1} aria-hidden="true" onClick={step}>
+      {/* The chevron hint is a picture, never a target (R11 G27): a tap on the cut tab under it opens that tab. A finger
+          swipes the row; keyboard users tab through the tabs themselves. */}
+      <span ref={hint} className="arena-tabs__hint" aria-hidden="true">
         <span className="arena-tabs__disc"><ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></span>
-      </button>
+      </span>
     </nav>
   );
 }

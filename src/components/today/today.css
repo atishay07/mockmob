@@ -59,9 +59,11 @@
 /* ---------- 2. Up next: the lead card ---------- */
 .app-shell .tm {
   position: relative; display: flex; flex-direction: column; min-width: 0; padding: 22px 22px 0;
-  border: 1px solid var(--a-line); border-radius: 28px; overflow: hidden;
-  /* Depth without light: a 2.5% neutral sheen at the top in Night (none in Day), the raised surface, a soft offset shadow. */
-  background: linear-gradient(180deg, var(--a-glass-top), transparent 160px), var(--a-raised);
+  border: 1px solid var(--a-volt-line); border-radius: 28px; overflow: hidden;
+  /* The lit build's next-step card (deploy/1016-batch 77713336, .na: restored 19 Oct, owner G28 and the release 11 walk): the
+     volt wash falls from the top edge over the raised surface, with its volt line. Under it the 2.5% neutral sheen in Night
+     (none in Day) and the soft offset shadow stay. A card wash, never a page glow (Night stays subtle). */
+  background: linear-gradient(180deg, var(--a-volt-wash), transparent 70%), linear-gradient(180deg, var(--a-glass-top), transparent 160px), var(--a-raised);
   box-shadow: inset 0 1px 0 var(--a-glass-top), var(--a-shadow-1);
   animation: today-rise-12 320ms var(--t-out) both;
 }
@@ -276,15 +278,14 @@ html[data-theme='light'] .app-shell .tm__key[data-outline]:not([aria-disabled='t
 @media (min-width: 1024px) { .app-shell .tcue { bottom: calc(16px + env(safe-area-inset-bottom)); } }
 .app-shell .tcue[data-seen] { opacity: 0; transform: translate(-50%, 8px) scale(0.92); pointer-events: none; }
 .app-shell .tcue[data-wait] { visibility: hidden; pointer-events: none; }
-/* Release 10 (W-044 restored): a 40 px glass circle centred above the dock, with the dock's own glass and blur so it reads over the
-   card's cells; its tap area reaches 44 px. */
+/* Release 10 (W-044 restored): a glass circle centred above the dock, with the dock's own glass and blur so it reads over the
+   card's cells. Release 11 walk: the key itself is the 44 px target (it measured 40 x 40, its reach drawn by a pseudo-element). */
 .app-shell .tcue__key {
-  position: relative; display: flex; align-items: center; justify-content: flex-end; min-width: 40px; min-height: 40px; padding: 0; border: 0; border-radius: 20px;
+  position: relative; display: flex; align-items: center; justify-content: flex-end; min-width: 44px; min-height: 44px; padding: 0; border: 0; border-radius: 22px;
   background: var(--dock-solid, var(--a-raised)); box-shadow: inset 0 0 0 1px var(--a-line), var(--a-shadow-1); color: var(--a-ink);
   font: 600 13.5px/1 var(--font-body); cursor: pointer; pointer-events: auto; -webkit-tap-highlight-color: transparent;
   transition: transform 120ms var(--t-out), background-color 150ms ease;
 }
-.app-shell .tcue__key::before { content: ''; position: absolute; inset: -2px; border-radius: 22px; }
 @supports ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
   .app-shell .tcue__key { background: var(--dock-glass, var(--a-raised)); -webkit-backdrop-filter: blur(32px) saturate(1.5); backdrop-filter: blur(32px) saturate(1.5); }
 }
@@ -293,7 +294,7 @@ html[data-theme='light'] .app-shell .tm__key[data-outline]:not([aria-disabled='t
 .app-shell .tcue__text { display: grid; grid-template-columns: 0fr; overflow: hidden; white-space: nowrap; transition: grid-template-columns 240ms var(--t-out), opacity 160ms ease; opacity: 0; }
 .app-shell .tcue__text > span { min-width: 0; overflow: hidden; }
 .app-shell .tcue[data-wide] .tcue__text { grid-template-columns: 1fr; opacity: 1; padding-left: 16px; }
-.app-shell .tcue__chev { display: grid; place-items: center; flex: 0 0 40px; width: 40px; height: 40px; color: var(--a-ink); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
+.app-shell .tcue__chev { display: grid; place-items: center; flex: 0 0 44px; width: 44px; height: 44px; color: var(--a-ink); animation: tcue-nudge 1400ms var(--t-out) 900ms 2 both; }
 .app-shell .tcue__key:active { transform: scale(0.94); }
 @media (hover: hover) and (pointer: fine) { .app-shell .tcue__key:hover { background: var(--a-hover); } }
 .app-shell .tcue__key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }

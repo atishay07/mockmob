@@ -184,8 +184,10 @@ test('the row of tabs: 44 px tall, only below 1024 px, edge fades and a chevron 
   assert.match(phone, /\.arena-tabs__row \{[^}]*overflow-x: auto/);
   assert.match(phone, /\.arena-tab\[aria-current='page'\]::after \{[^}]*background: var\(--a-select\)/, 'the sidebar’s volt bar');
   assert.match(phone, /\.arena-tabs\[data-overflow\]:not\(\[data-at-end\]\)::after \{ opacity: 1; \}/, 'the right fade while tabs wait past the edge');
-  assert.match(phone, /\.arena-tabs\[data-overflow\]:not\(\[data-at-end\]\) \.arena-tabs__hint \{ opacity: 1; pointer-events: auto; \}/, 'the chevron');
-  assert.match(phone, /\.arena-tabs__hint \{[^}]*width: 44px/, 'its target is 44 px');
+  // R11 G27: the chevron shows while tabs wait, and taps pass through it to the cut tab underneath.
+  assert.match(phone, /\.arena-tabs\[data-overflow\]:not\(\[data-at-end\]\) \.arena-tabs__hint \{ opacity: 1; pointer-events: none; \}/, 'the chevron');
+  assert.doesNotMatch(phone, /\.arena-tabs__hint \{ opacity: 1; pointer-events: auto/, 'the chevron never takes a tap');
+  assert.match(phone, /\.arena-tabs__hint \{[^}]*width: 44px/, 'its box is 44 px');
   // No volt fill: one volt key per viewport (W-075); the bar and the key are the only lime.
   assert.doesNotMatch(phone, /var\(--volt\)|#d2f000/i);
   // Reduced motion: the transitions stop (the nudge is not played at all, below).

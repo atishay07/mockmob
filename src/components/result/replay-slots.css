@@ -25,6 +25,13 @@
 .rs-q[data-v='wrong'] .rs-col i { background: var(--rs-wrong); }
 .rs-q[data-v='blank'] .rs-col i { background: transparent; box-shadow: inset 0 0 0 1.5px var(--a-ink-3); border-radius: 3px 3px 0 0; }
 .rs-q[data-v='held'] .rs-col i { background: transparent; box-shadow: inset 0 0 0 1.5px var(--a-ink-3); outline: 1.5px dotted var(--a-ink-3); outline-offset: -3px; }
+/* The lit build's textures (deploy/1016-batch replay.css, the replay's never-opened and held cells; restored 19 Oct, owner G28
+   and the release 11 walk): a blank column is hatched and a key held for re-check is dotted, in the slots and in the key.
+   Texture only: no glow, no wash. */
+.rs { --rs-hatch: rgba(244, 245, 240, 0.3); --rs-held-dot: var(--a-ink-3, #93a08f); }
+html[data-theme='light'] .rs { --rs-hatch: rgba(23, 32, 22, 0.32); --rs-held-dot: #56624f; }
+.rs-q[data-v='blank'] .rs-col i { background: repeating-linear-gradient(135deg, var(--rs-hatch) 0 1.5px, transparent 1.5px 4px); }
+.rs-q[data-v='held'] .rs-col i { background: radial-gradient(circle, var(--rs-held-dot) 0 0.9px, transparent 1.2px) 0 0 / 4px 4px; }
 .rs-q[data-changed] .rs-col::before { content: ''; position: absolute; left: 50%; bottom: calc(var(--h) * var(--f, 0) + 4px); transition: bottom 200ms var(--rs-ease); width: 8px; height: 8px; margin-left: -4px; border-radius: 50%; border: 2px solid var(--a-warn-text); box-sizing: border-box; z-index: 2; }
 .rs-q em { font: 600 11px/16px var(--font-body); font-style: normal; color: var(--a-ink-3); text-align: center; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .rs-q[data-sel] .rs-col { background: color-mix(in oklab, var(--a-ink) 8%, transparent); box-shadow: 0 0 0 1.5px var(--a-ink-2); }
@@ -49,7 +56,7 @@
 .rs-key i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
 .rs-key i[data-k='right'] { background: var(--rs-right); }
 .rs-key i[data-k='wrong'] { background: var(--rs-wrong); }
-.rs-key i[data-k='blank'] { box-shadow: inset 0 0 0 1.5px var(--a-ink-3); }
+.rs-key i[data-k='blank'] { box-shadow: inset 0 0 0 1.5px var(--a-ink-3); background: repeating-linear-gradient(135deg, var(--rs-hatch) 0 1.5px, transparent 1.5px 4px); }
 .rs-key i[data-k='changed'] { border-radius: 50%; border: 2px solid var(--a-warn-text); box-sizing: border-box; }
 .rs-key i[data-k='pace'] { width: 14px; height: 0; border-top: 1px dashed var(--a-ink-3); border-radius: 0; }
 .rs .rs-toggle { min-height: 44px; padding: 0; border: 0; background: none; cursor: pointer; font: 650 14px/1 var(--font-body); color: var(--a-ink); text-decoration: underline; text-underline-offset: 4px; text-decoration-color: var(--a-line-strong); }

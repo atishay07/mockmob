@@ -1,0 +1,38 @@
+/* The Sign out confirm (SignOutConfirm.jsx): one small centred modal for every Sign out key, at every width. Same shape
+   as the Mob's dialogs: fixed, inset 0, margin auto, as tall as its content, 16 px from the sides on a phone. Enter is a
+   short fade and a small rise from the centre; reduced motion shows it at once. */
+.so-dialog {
+  position: fixed; inset: 0; margin: auto; height: fit-content;
+  width: min(420px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 32px); overflow: auto; overscroll-behavior: contain;
+  padding: 0; border: 1px solid var(--a-line-strong);
+  border-radius: 18px; background: var(--a-raised); color: var(--a-ink); box-shadow: var(--a-shadow-2);
+}
+.so-dialog[open] { animation: so-dialog-in var(--mm-dur-card, 240ms) var(--mm-ease-out); }
+@keyframes so-dialog-in { from { opacity: 0; transform: translateY(8px) scale(0.97); } to { opacity: 1; transform: none; } }
+.so-dialog::backdrop { background: rgb(0 0 0 / 0.5); }
+.so-dialog__body { display: grid; gap: 10px; padding: 20px 20px 18px; }
+.so-dialog__title { margin: 0; font: 800 19px/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
+.so-dialog__text { margin: 0; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); text-wrap: pretty; }
+.so-dialog__keys { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.so-dialog__keys > .so-key { flex: 1 1 140px; }
+/* The message line stays in the dialog (an empty live region), so what it says later is announced; empty, it takes no room. */
+.so-dialog__note { margin: 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); }
+.so-dialog__note:empty { display: block; height: 0; margin-top: -10px; }
+.so-dialog__note[data-tone='err'] { color: var(--a-bad-text); }
+.so-key {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 0 16px;
+  border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink);
+  font: 650 15px/1.2 var(--font-body); cursor: pointer; touch-action: manipulation;
+  transition: background-color 160ms ease, border-color 160ms ease, transform 160ms var(--mm-ease-out);
+}
+.so-key:active:not(:disabled) { transform: scale(0.98); }
+.so-key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.so-key:disabled { opacity: 0.55; cursor: not-allowed; }
+.so-key--danger { border-color: color-mix(in srgb, var(--a-bad-text) 45%, transparent); color: var(--a-bad-text); }
+@media (hover: hover) and (pointer: fine) {
+  .so-key:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); }
+  .so-key--danger:hover:not(:disabled) { border-color: var(--a-bad-text); background: color-mix(in srgb, var(--a-bad-text) 10%, transparent); }
+}
+@media (prefers-reduced-motion: reduce) { .so-dialog[open] { animation: none; } .so-key { transition: none; } }
+:root[data-motion='reduced'] .so-dialog[open] { animation: none; }
+:root[data-motion='reduced'] .so-key { transition: none; }

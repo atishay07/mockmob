@@ -352,16 +352,17 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   .st-rail__arrow:active .st-rail__disc { transform: scale(var(--mm-pressed-scale)); transition-duration: 160ms, 160ms, var(--mm-spring-snappy-dur); transition-timing-function: ease, ease, var(--mm-spring-snappy); }
 }
 /* Touch (owner G27): the next arrow is the chevron hint, a smaller disc over the trailing fade while chips wait beyond the
-   edge. It leans with the first-open nudge (railCue.js) and a tap on it steps the row; at the end of the row it fades. */
+   edge. It leans with the first-open nudge (railCue.js); at the end of the row it fades. It is a picture, never a target
+   (R11: it covered the cut chip, so a tap there stepped the row instead of choosing the chip): taps pass through to the chip. */
 @media (hover: none), (pointer: coarse) {
   .st-rail__arrow--next { display: grid; }
   .st-rail__arrow--next .st-rail__disc { width: 32px; height: 32px; color: var(--a-ink-2); box-shadow: inset 0 1px 0 var(--a-edge), 0 4px 10px -6px var(--st-shadow); }
+  .st-rail__arrow--next { cursor: default; -webkit-tap-highlight-color: transparent; }
   .st-rail[data-overflow]:not([data-at-end]) .st-rail__arrow--next {
     opacity: 1;
-    pointer-events: auto;
+    pointer-events: none;
     transition: opacity var(--mm-dur-glide) var(--mm-ease-glide);
   }
-  .st-rail__arrow--next:active .st-rail__disc { transform: scale(var(--mm-pressed-scale)); }
 }
 .st-chip {
   position: relative;
@@ -414,7 +415,8 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
 
 /* The next move: the one lit card. The title runs the full width; under it, the reason and the go row on the left and
    the object on the right, standing on the card's floor in a pool of lamp light (START-1017 4.1). A move that follows
-   the subject names it in the title ("10 Economics questions"), and the words cross-fade when a chip changes them. */
+   the subject leads with its mode ("Quick practice", owner G26) and its key says the set ("Start 10 questions in
+   Economics"); the key's words cross-fade when a chip changes them. */
 .st-hero {
   position: relative;
   display: grid;
@@ -453,8 +455,9 @@ html:has(.st-sheet[open]) { overflow: hidden; scrollbar-gutter: stable; }
   border-radius: 14px;
   background: var(--volt);
   color: #182000;
-  font: 700 15px/1 var(--font-display);
+  font: 700 15px/1.2 var(--font-display);
   letter-spacing: -0.005em;
+  text-align: center;
   text-decoration: none;
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.38), 0 10px 24px -14px rgb(210 240 0 / 0.6);
 }

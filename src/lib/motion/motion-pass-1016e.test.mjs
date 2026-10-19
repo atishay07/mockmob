@@ -67,7 +67,8 @@ test('count-up callers take the token, and the roll is on the emphasized curve',
     assert.doesNotMatch(src, /duration: ?(7|8|9|1[0-9])\d\d\b/, file);
   }
   const hook = readFileSync(new URL('./useCountUp.js', import.meta.url), 'utf8');
-  assert.match(hook, /cubicAt\(curves\.emphasized, t\)/, 'the roll is on the emphasized curve again (deploy/1015-night)');
+  assert.match(hook, /curve = 'emphasized'/, 'the roll is on the emphasized curve again by default (deploy/1015-night)');
+  assert.match(hook, /const c = curves\[name\] \|\| curves\.emphasized;/, 'a named curve comes from the token file, never a literal');
 });
 
 test('a committed swipe keeps its speed on the lift spring and leaves within the app leave', () => {

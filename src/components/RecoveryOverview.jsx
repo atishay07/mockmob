@@ -51,10 +51,11 @@ const when = (ts) => {
 // F17: a wrong answer that already holds a saved repair is done work, so it is not "to review" again.
 const openOf = (a) => Math.max(0, (a.mistakes || 0) - (a.repaired || 0));
 
-/** Four ruled figures. Every figure carries what it is out of, so none stands alone. */
+/** Four ruled figures. Every figure carries what it is out of, so none stands alone. They rise in order, 45 ms apart
+ * (mk-stagger, owner G31): the lit build's stat strip entrance. */
 function Figures({ label, items }) {
   return (
-    <dl className="rv-figs" aria-label={label} data-n={items.length}>
+    <dl className="rv-figs mk-stagger" aria-label={label} data-n={items.length}>
       {items.map((item) => (
         <div key={item.label}>
           <dt>{item.label}</dt>

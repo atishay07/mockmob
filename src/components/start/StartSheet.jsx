@@ -272,12 +272,13 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
     </div>
   ) : hero ? (
     <section className="st-hero" data-rise aria-labelledby={`${titleId}-move`} data-graphic={hero.graphic} data-follows={hero.followsSubject || undefined}>
-      {/* The title names the subject when the move follows it; its words cross-fade when a chip changes it. */}
+      {/* A move that follows the chips leads with its mode, as Practice does (owner G26); its key says the set and the
+          subject ("Start 10 questions in Economics"), and those words cross-fade when a chip changes them. */}
       <h3 id={`${titleId}-move`} className="st-hero__title"><span key={hero.title} className="st-words">{hero.title}</span></h3>
       <div className="st-hero__text">
         {hero.reason ? <p className="st-hero__reason">{hero.reason}</p> : null}
         <div className="st-hero__go">
-          <Link className="st-cta mk-press" href={linkFor(hero.href)} onClick={onFollow} data-autofocus="" data-row="move">{hero.cta}</Link>
+          <Link className="st-cta mk-press" href={linkFor(hero.href)} onClick={onFollow} data-autofocus="" data-row="move"><span key={hero.cta} className="st-words">{hero.cta}</span></Link>
           <CostLine cost={hero.cost} />
         </div>
       </div>
@@ -334,8 +335,9 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                   </label>
                 ))}
               </div>
-              {/* Mouse: two arrow discs. Touch: the next arrow is a quiet chevron hint over the fade (owner G27), and a tap on it
-                  steps the row. Keyboard users move through the radio group. */}
+              {/* Mouse: two arrow discs over the fade's clear strip. Touch: the next arrow is a quiet chevron hint over the fade
+                  (owner G27) that taps pass through, so the cut chip under it is chosen (R11). Keyboard users move through the
+                  radio group. */}
               <button type="button" className="st-rail__arrow st-rail__arrow--prev" tabIndex={-1} aria-hidden="true" onClick={() => railStep(-1)}>
                 <span className="st-rail__disc"><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" /></span>
               </button>
