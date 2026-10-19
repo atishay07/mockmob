@@ -34,6 +34,7 @@ const str = (v) => (typeof v === 'string' ? v : undefined);
 
 /**
  * POST /api/billing/play/verify  body { productId, purchaseToken, orderId?, obfuscatedExternalAccountId?, packageName? }
+ * productId pro_monthly is the monthly subscription (purchases.subscriptionsv2); every other id is a one-time product.
  * deps: { enabled(), auth(request), rateLimit(request, opts), billing: { store, google, packageName, now?, log?, onGranted? } }
  */
 export async function handlePlayVerify(deps, request) {
@@ -63,7 +64,9 @@ export async function handlePlayVerify(deps, request) {
     packageName: str(b.packageName),
   });
   if (result.ok) return json(result, 200);
-  return json({ ok: false, error: result.message, code: result.code, ...(result.pending ? { pending: true } : {}) }, result.status);
+  // A subscription Google holds but that gives no access now (ended, on hold, paused) says so, with its dates.
+  const extra = { ...(result.pending ? { pending: true } : {}), ...(result.subscription ? { subscription: result.subscription } : {}), ...(result.pro ? { pro: result.pro } : {}) };
+  return json({ ok: false, error: result.message, code: result.code, ...extra }, result.status);
 }
 
 /**

@@ -70,7 +70,7 @@ function classify(status) {
 }
 
 /**
- * A client for the three purchases.products calls the server needs, plus the token cache.
+ * A client for the purchases.products and subscription calls the server needs, plus the token cache.
  * deps: { env, fetch, now } (all optional). Nothing is read from the env until the first call.
  */
 export function createPlayClient({ env = process.env, fetch: fetchImpl = globalThis.fetch, now = Date.now } = {}) {
@@ -148,6 +148,21 @@ export function createPlayClient({ env = process.env, fetch: fetchImpl = globalT
     acknowledge: (productId, purchaseToken) => call('POST', `${tokenPath(productId, purchaseToken)}:acknowledge`, {}),
     /** purchases.products.consume: acknowledges and lets the student buy the product again. */
     consume: (productId, purchaseToken) => call('POST', `${tokenPath(productId, purchaseToken)}:consume`),
+    /** purchases.subscriptionsv2.get: the subscription as Google holds it now (state, line items with expiryTime, links). */
+    getSubscriptionV2: (purchaseToken) => call('GET', `purchases/subscriptionsv2/tokens/${encodeURIComponent(purchaseToken)}`),
+    /**
+     * purchases.subscriptions.acknowledge: a new subscription (and each upgrade or resubscribe token) must be acknowledged
+     * within three days or Google refunds it. Renewals need none.
+     */
+    acknowledgeSubscription: (subscriptionId, purchaseToken) =>
+      call('POST', `purchases/subscriptions/${encodeURIComponent(subscriptionId)}/tokens/${encodeURIComponent(purchaseToken)}:acknowledge`, {}),
+    /**
+     * purchases.subscriptionsv2.cancel: stops the subscription's next payment. The student keeps access to the end of the
+     * period already paid. DEVELOPER_REQUESTED_STOP_PAYMENTS cannot be restored by the student (used when the account is
+     * deleted); USER_REQUESTED_STOP_RENEWALS can be. Google answers an empty body.
+     */
+    cancelSubscriptionV2: (purchaseToken, cancellationType = 'DEVELOPER_REQUESTED_STOP_PAYMENTS') =>
+      call('POST', `purchases/subscriptionsv2/tokens/${encodeURIComponent(purchaseToken)}:cancel`, { cancellationContext: { cancellationType } }),
   };
 }
 

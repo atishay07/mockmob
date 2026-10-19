@@ -8,6 +8,12 @@
 // Legal/financial rule: payment, order, receipt, credit-ledger and payout records are KEPT because
 // they are tied to money. The users row they reference is kept as an anonymised tombstone (a
 // delete would cascade into payments), and personal fields inside kept rows are minimised.
+//
+// Money rule (review 19 Oct night): a Google Play subscription keeps renewing until someone cancels it with Google, so
+// before anything is deleted, every subscription of the account that Google may still charge is cancelled with
+// purchases.subscriptionsv2.cancel (stopPlayRenewals). If that cannot be done, nothing is deleted and the request stays
+// pending, so a family is never charged every month for an account that no longer exists.
+import { RENEWING as PLAY_RENEWING } from '../payments/playSubscriptions.js';
 
 const DAY_MS = 86_400_000;
 
@@ -15,7 +21,9 @@ const RAW_ORDER_KEEP = ['id', 'entity', 'amount', 'amount_paid', 'amount_due', '
 const RAW_PAYMENT_KEEP = ['id', 'entity', 'amount', 'currency', 'status', 'order_id', 'subscription_id', 'method', 'captured', 'created_at'];
 const RAW_SUBSCRIPTION_KEEP = ['id', 'entity', 'plan_id', 'status', 'total_count', 'paid_count', 'current_start', 'current_end', 'start_at', 'end_at', 'created_at'];
 // Google Play purchase records keep what ties a Google order to what was granted; the account hash and developer payload go.
-const PLAY_RAW_KEEP = ['kind', 'orderId', 'productId', 'quantity', 'purchaseTimeMillis', 'purchaseState', 'consumptionState', 'acknowledgementState', 'purchaseType', 'regionCode', 'voided'];
+// Subscriptions (migration 20261019210000) store a record that is already non-personal (playSubscriptions.subscriptionRecord).
+const PLAY_RAW_KEEP = ['kind', 'orderId', 'productId', 'quantity', 'purchaseTimeMillis', 'purchaseState', 'consumptionState', 'acknowledgementState', 'purchaseType', 'regionCode', 'voided',
+  'subscriptionState', 'startTime', 'testPurchase', 'canceledReason', 'lineItems', 'via', 'notification', 'eventTimeMillis'];
 // Runtime AI receipts: token counts and error fields only; the reply ('response') is the student's content.
 const RUNTIME_RECEIPT_KEEP = ['usage', 'stopReason', 'error', 'errorKind', 'status', 'code', 'type'];
 
@@ -255,6 +263,55 @@ export function checkRunGuards({ apply = false, target, configuredUrl, env = {},
 //   run(request, steps, apply): Promise<{steps, unclassified}>   // the SQL function
 // }
 
+// ---------------------------------------------------------------------------------------------
+// Google Play subscriptions: stop the renewal before the account goes
+// ---------------------------------------------------------------------------------------------
+
+// Stored states after which Google takes no more payments, so there is nothing to ask Google about.
+const PLAY_ENDED_STATES = new Set(['SUBSCRIPTION_STATE_EXPIRED', 'SUBSCRIPTION_STATE_PENDING_PURCHASE_CANCELED']);
+const tokenTail = (token) => `...${String(token || '').slice(-8)}`;
+
+/** The account's subscription rows Google might still charge for (not replaced, not voided, not ended). */
+export function playRenewalCandidates(rows) {
+  return (rows || []).filter((r) => r && r.kind === 'pro_sub' && r.state === 'granted' && !r.superseded_by && !PLAY_ENDED_STATES.has(r.sub_state));
+}
+
+/**
+ * Cancels, with Google, every subscription of this account that Google may still charge for. Google is asked first
+ * (the stored state can be behind); a subscription that is active, in grace, on hold or paused is cancelled with
+ * DEVELOPER_REQUESTED_STOP_PAYMENTS (it cannot be restored; access already paid for runs to its date, and the account is
+ * deleted anyway). Returns one outcome per row: cancelled, renewal_already_off, or gone (Google no longer holds it).
+ * Throws a DeletionError when Google cannot be asked, so the caller deletes nothing and the request stays pending.
+ */
+export async function stopPlayRenewals({ adapter, google, userId }) {
+  if (!adapter?.listPlaySubscriptions) return [];
+  const candidates = playRenewalCandidates(await adapter.listPlaySubscriptions(userId));
+  if (!candidates.length) return [];
+  if (!google?.getSubscriptionV2 || !google?.cancelSubscriptionV2) {
+    throw new DeletionError('play_not_configured', `This account has ${candidates.length} Google Play subscription(s) that may still renew. Set GOOGLE_PLAY_SERVICE_ACCOUNT_JSON so they can be cancelled first; nothing was deleted.`);
+  }
+  const outcomes = [];
+  for (const row of candidates) {
+    const token = row.purchase_token;
+    let sub;
+    try {
+      sub = await google.getSubscriptionV2(token);
+    } catch (e) {
+      if (e?.code === 'purchase_not_found') { outcomes.push({ token: tokenTail(token), productId: row.product_id, outcome: 'gone' }); continue; }
+      throw new DeletionError('play_cancel_failed', `Google Play could not be asked about subscription ${tokenTail(token)}: ${e?.code || e?.message || e}. Nothing was deleted.`);
+    }
+    const state = sub?.subscriptionState || null;
+    if (!PLAY_RENEWING.has(state)) { outcomes.push({ token: tokenTail(token), productId: row.product_id, state, outcome: 'renewal_already_off' }); continue; }
+    try {
+      await google.cancelSubscriptionV2(token, 'DEVELOPER_REQUESTED_STOP_PAYMENTS');
+    } catch (e) {
+      throw new DeletionError('play_cancel_failed', `Google Play did not cancel subscription ${tokenTail(token)}: ${e?.code || e?.message || e}. Nothing was deleted.`);
+    }
+    outcomes.push({ token: tokenTail(token), productId: row.product_id, state, outcome: 'cancelled' });
+  }
+  return outcomes;
+}
+
 export function summarisePlan(steps) {
   const totals = { delete: 0, anonymise: 0, keep: 0 };
   for (const s of steps) if (s.present) totals[s.action] += Number(s.rows) || 0;
@@ -273,30 +330,37 @@ export async function planDeletion(adapter, request) {
     };
   });
   const unclassified = raw.unclassified || [];
+  const playToStop = adapter.listPlaySubscriptions ? playRenewalCandidates(await adapter.listPlaySubscriptions(request.user_id)).length : 0;
   return {
     requestId: request.id, userId: request.user_id, requestedAt: request.requested_at,
-    steps, unclassified, totals: summarisePlan(steps), blocked: unclassified.length > 0,
+    steps, unclassified, totals: summarisePlan(steps), blocked: unclassified.length > 0, playToStop,
   };
 }
 
 /**
- * Applies one request. Order: resolve the auth identity, delete the auth user (not-found counts as
+ * Applies one request. Order: stop every Google Play renewal (playRenewals: (userId) => outcomes, which throws when
+ * Google cannot be asked), resolve the auth identity, delete the auth user (not-found counts as
  * done), then run the data transaction and mark the request completed. The auth user goes first
  * because every later failure is retryable (the request stays pending and a repeat treats an
  * already-removed auth user as success), whereas a data transaction that committed with a live login
  * would let the person recreate an empty profile and leave the request unfinishable.
  * Refuses to touch anything when the plan is blocked by unclassified user data.
  */
-export async function executeDeletion({ adapter, request, deleteAuthUser, plan }) {
+export async function executeDeletion({ adapter, request, deleteAuthUser, plan, playRenewals = null }) {
   const p = plan || await planDeletion(adapter, request);
   if (p.blocked) {
     throw new DeletionError('unclassified_user_data', `Refusing: user data found in unclassified tables (${p.unclassified.map((u) => u.table).join(', ')}). Add them to DELETION_STEPS.`);
   }
+  if (!playRenewals && p.playToStop > 0) {
+    throw new DeletionError('play_not_configured', `This account has ${p.playToStop} Google Play subscription(s) that may still renew and no way to cancel them was given; nothing was deleted.`);
+  }
+  // First, so a failure leaves everything (the login included) in place and the request pending.
+  const play = playRenewals ? await playRenewals(request.user_id) : [];
   const user = await adapter.getUser(request.user_id);
   let auth = { deleted: false, skipped: true };
   if (deleteAuthUser) auth = { skipped: false, ...(await deleteAuthUser({ userId: request.user_id, email: user?.email || null })) };
   const result = await adapter.run(request, DELETION_STEPS, true);
-  return { requestId: request.id, userId: request.user_id, auth, steps: result.steps, totals: summarisePlan(result.steps) };
+  return { requestId: request.id, userId: request.user_id, auth, play, steps: result.steps, totals: summarisePlan(result.steps) };
 }
 
 /**
@@ -305,7 +369,7 @@ export async function executeDeletion({ adapter, request, deleteAuthUser, plan }
  * deterministic failure (missing grant, foreign key) would otherwise strip the login of every pending user
  * while their requests stay pending.
  */
-export async function processRequests({ adapter, due, apply, deleteAuthUser, onPlan, onDone, onFail }) {
+export async function processRequests({ adapter, due, apply, deleteAuthUser, playRenewals = null, onPlan, onDone, onFail }) {
   const results = [];
   let failed = 0;
   let aborted = false;
@@ -314,9 +378,9 @@ export async function processRequests({ adapter, due, apply, deleteAuthUser, onP
       const plan = await planDeletion(adapter, request);
       if (onPlan) onPlan(plan);
       if (!apply) { results.push({ ...plan, status: plan.blocked ? 'blocked' : 'planned' }); continue; }
-      const done = await executeDeletion({ adapter, request, deleteAuthUser, plan });
+      const done = await executeDeletion({ adapter, request, deleteAuthUser, plan, playRenewals });
       if (onDone) onDone(done);
-      results.push({ ...plan, status: 'completed', auth: done.auth });
+      results.push({ ...plan, status: 'completed', auth: done.auth, play: done.play });
     } catch (e) {
       failed += 1;
       const message = e instanceof DeletionError ? `${e.code}: ${e.message}` : String(e?.message || e);
@@ -336,6 +400,7 @@ export function formatPlan(plan) {
     lines.push(`  ${s.action.padEnd(9)} ${s.table.padEnd(30)} ${String(s.rows).padStart(6)}  ${s.why}${s.skippedColumns.length ? `  (cannot clear: ${s.skippedColumns.join(', ')})` : ''}`);
   }
   lines.push(`  totals: delete ${plan.totals.delete}, anonymise ${plan.totals.anonymise}, keep ${plan.totals.keep}`);
+  if (plan.playToStop) lines.push(`  Google Play: ${plan.playToStop} subscription(s) may still renew; their renewal is cancelled with Google before anything is deleted`);
   if (plan.blocked) lines.push(`  BLOCKED: unclassified tables hold this user's data: ${plan.unclassified.map((u) => `${u.table} (${u.rows})`).join(', ')}`);
   return lines.join('\n');
 }
@@ -356,6 +421,17 @@ export function supabaseAdapter(client) {
       const { data, error } = await client.from('users').select('id, email').eq('id', userId).maybeSingle();
       if (error) throw new DeletionError('user_lookup_failed', error.message);
       return data || null;
+    },
+    /** The account's Google Play subscription rows (migration 20261019210000); none on a database without them. */
+    async listPlaySubscriptions(userId) {
+      const { data, error } = await client.from('play_purchases')
+        .select('purchase_token, product_id, kind, state, sub_state, superseded_by')
+        .eq('user_id', userId).eq('kind', 'pro_sub');
+      if (error) {
+        if (error.code === '42P01' || error.code === '42703' || error.code === 'PGRST205' || error.code === 'PGRST204' || /play_purchases|schema cache|does not exist/i.test(error.message || '')) return [];
+        throw new DeletionError('play_lookup_failed', error.message);
+      }
+      return data || [];
     },
     async run(request, steps, apply) {
       const { data, error } = await client.rpc('account_deletion_run', {

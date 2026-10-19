@@ -139,7 +139,7 @@ function DeleteAccountSection() {
     <div className="acct-act acct-act--danger" id="delete" role="group" aria-labelledby="delete-account-title" data-open={open || undefined}>
       <div className="acct-act__text">
         <h3 id="delete-account-title">Delete account</h3>
-        <p>We delete your account and study records within 30 days. Payment records required by law are kept.</p>
+        <p>We delete your account and study records within 30 days. Payment records required by law are kept. A Google Play subscription is cancelled first, so no further payment is taken.</p>
       </div>
       {pending ? (
         <p className="acct-note" data-tone="ok" role="status">Deletion pending. You asked on {fmtDate(pending)} and we complete it within 30 days. To cancel, email support@mockmob.in.</p>

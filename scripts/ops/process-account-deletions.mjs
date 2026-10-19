@@ -11,15 +11,18 @@
 //        --user=<users.id>  restrict to one user     --limit=N  process at most N requests
 //        --json             machine-readable output
 // Env:   NEXT_PUBLIC_SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY (from the environment or .env.local),
-//        MOCKMOB_STAGING_SUPABASE_URL and MOCKMOB_PRODUCTION_SUPABASE_URL (the URLs --target is checked against).
+//        MOCKMOB_STAGING_SUPABASE_URL and MOCKMOB_PRODUCTION_SUPABASE_URL (the URLs --target is checked against),
+//        GOOGLE_PLAY_SERVICE_ACCOUNT_JSON (and PLAY_PACKAGE_NAME) when an account has a Google Play subscription: its
+//        renewal is cancelled with Google first; without the key such a request is refused and stays pending.
 // Needs migration 20261013120000_deletion_processor.sql applied on the target first.
 
 import fs from 'node:fs';
 import { createClient } from '@supabase/supabase-js';
 import {
   checkRunGuards, formatPlan, parseGraceDays, processRequests,
-  selectDueRequests, supabaseAdapter, supabaseAuthDeleter,
+  selectDueRequests, stopPlayRenewals, supabaseAdapter, supabaseAuthDeleter,
 } from '../../src/lib/server/accountDeletion.js';
+import { createPlayClient } from '../../src/lib/payments/playGoogle.js';
 
 function parseArgs(argv) {
   return Object.fromEntries(argv.map((arg) => {
@@ -60,11 +63,17 @@ async function main() {
   say(`${guard.apply ? 'APPLY' : 'DRY RUN'} on ${args.target}: ${due.length} due request(s), grace ${graceDays} day(s).`);
   const report = { mode: guard.apply ? 'apply' : 'dry-run', target: args.target, graceDays, requests: [] };
   const deleteAuthUser = guard.apply ? supabaseAuthDeleter(client) : null;
+  // Google Play renewals are stopped before anything is deleted (accountDeletion.js stopPlayRenewals).
+  const google = guard.apply && env.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON ? createPlayClient({ env }) : null;
+  const playRenewals = guard.apply ? (userId) => stopPlayRenewals({ adapter, google, userId }) : null;
 
   const run = await processRequests({
-    adapter, due, apply: guard.apply, deleteAuthUser,
+    adapter, due, apply: guard.apply, deleteAuthUser, playRenewals,
     onPlan: (plan) => say(formatPlan(plan)),
-    onDone: (done) => say(`  completed; auth user ${done.auth.deleted ? `removed (${done.auth.ids.join(', ')})` : 'not found (nothing to remove)'}`),
+    onDone: (done) => {
+      for (const p of done.play || []) say(`  Google Play subscription ${p.token}: ${p.outcome}${p.state ? ` (was ${p.state})` : ''}`);
+      say(`  completed; auth user ${done.auth.deleted ? `removed (${done.auth.ids.join(', ')})` : 'not found (nothing to remove)'}`);
+    },
     onFail: (request, message) => console.error(`  request ${request.id} FAILED, left pending: ${message}`),
   });
   report.requests = run.results;

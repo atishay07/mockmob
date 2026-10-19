@@ -18,7 +18,7 @@ export default function AccountDeletionPage() {
         <div className="eyebrow mb-3">Account</div>
         <h1 className="display-lg mb-5">Delete your MockMob account</h1>
         <p className="mb-3 text-zinc-300">This page covers the Android app <strong>MockMob: CUET UG Prep</strong> (package <code>in.mockmob.app</code>) and the MockMob website at mockmob.in.</p>
-        <p className="mb-10 text-zinc-400">Last updated: 14 October 2026</p>
+        <p className="mb-10 text-zinc-400">Last updated: 19 October 2026</p>
 
         <div className="legal-copy">
           <section>
@@ -38,6 +38,10 @@ export default function AccountDeletionPage() {
           <section>
             <h2>What we keep</h2>
             <p>Payment records that the law requires us to keep, such as invoices and payment references. We do not hold full card, UPI or bank credentials; Razorpay handles those.</p>
+          </section>
+          <section>
+            <h2>A Google Play subscription</h2>
+            <p>If you pay for Pro every month through Google Play, we cancel its renewal with Google Play before we delete your account, so no further payment is taken. You can also cancel it yourself at any time in the Play Store, under Payments and subscriptions.</p>
           </section>
           <section>
             <h2>How long it takes</h2>

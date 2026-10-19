@@ -669,17 +669,20 @@ export const Database = {
   },
 
   /**
-   * Google Play Pro purchases still in force for a user (play_purchases, kind pro, state granted): whether any exist and the
-   * latest date they run to. Read-only; a database without the table (migration 20261018190000 not applied) has none.
+   * Google Play Pro still in force for a user: one-time Pro (kind pro) and the monthly subscription (kind pro_sub, migration
+   * 20261019210000), state granted, running past now. A subscription row's access_until is Google's expiryTime while Google
+   * says it is in force and a past date otherwise (on hold, paused, expired, revoked, replaced), so the date alone decides.
+   * Returns whether any exist and the latest date they run to. Read-only; a database without the table has none.
    */
-  async getPlayProAccess(userId) {
+  async getPlayProAccess(userId, nowMs = Date.now()) {
     if (!userId) return { hasPlayPro: false, accessUntil: null };
     const { data, error } = await supabaseAdmin()
       .from('play_purchases')
       .select('access_until')
       .eq('user_id', userId)
-      .eq('kind', 'pro')
+      .in('kind', ['pro', 'pro_sub'])
       .eq('state', 'granted')
+      .gt('access_until', new Date(nowMs).toISOString())
       .limit(20);
     if (error) {
       if (error.code === '42P01' || error.code === 'PGRST205' || /play_purchases|schema cache|relation .* does not exist/i.test(error.message || '')) {
@@ -693,6 +696,41 @@ export const Database = {
       if (Number.isFinite(ms) && (accessUntil === null || ms > new Date(accessUntil).getTime())) accessUntil = new Date(ms).toISOString();
     }
     return { hasPlayPro: (data || []).length > 0, accessUntil };
+  },
+
+  /**
+   * The student's Google Play subscription as this server last heard it from Google (the newest pro_sub row that has not
+   * been replaced), for the plan screens: { productId, state, active, autoRenewing, expiresAt, inGracePeriod, onHold }, or
+   * null. Read-only; a database without the subscription columns (migration 20261019210000) has none.
+   */
+  async getPlaySubscription(userId, nowMs = Date.now()) {
+    if (!userId) return null;
+    const { data, error } = await supabaseAdmin()
+      .from('play_purchases')
+      .select('product_id, sub_state, expiry_time, auto_renewing, access_until, updated_at')
+      .eq('user_id', userId)
+      .eq('kind', 'pro_sub')
+      .eq('state', 'granted')
+      .is('superseded_by', null)
+      .order('updated_at', { ascending: false })
+      .limit(1);
+    if (error) {
+      if (error.code === '42P01' || error.code === '42703' || error.code === 'PGRST205' || error.code === 'PGRST204' || /play_purchases|schema cache|relation .* does not exist|column .* does not exist/i.test(error.message || '')) return null;
+      throw error;
+    }
+    const row = (data || [])[0];
+    if (!row) return null;
+    const state = typeof row.sub_state === 'string' && row.sub_state.startsWith('SUBSCRIPTION_STATE_') ? row.sub_state.slice(19).toLowerCase() : 'unknown';
+    const untilMs = row.access_until ? new Date(row.access_until).getTime() : NaN;
+    return {
+      productId: row.product_id,
+      state,
+      active: Number.isFinite(untilMs) && untilMs > nowMs,
+      autoRenewing: typeof row.auto_renewing === 'boolean' ? row.auto_renewing : null,
+      expiresAt: row.expiry_time || null,
+      inGracePeriod: state === 'in_grace_period',
+      onHold: state === 'on_hold',
+    };
   },
 
   /**
@@ -712,17 +750,20 @@ export const Database = {
       .like('plan_id', 'pro%')
       .limit(50);
     if (error) {
-      if (isMissingEntitlementSchema(error)) return { hasOtherPaid: await this.hasOtherPaidSubscriptionEvidence({ userId, excludingSubscriptionId, excludingPaymentId }), accessUntil: null };
+      if (isMissingEntitlementSchema(error)) return { hasOtherPaid: await this.hasOtherPaidSubscriptionEvidence({ userId, excludingSubscriptionId, excludingPaymentId }), accessUntil: null, hasUndatedPaid: true };
       throw error;
     }
     let accessUntil = null;
     let hasOtherPaid = false;
+    // A paid Pro payment with no access_until (a legacy record) is access with no known end: nothing may be shortened to a date.
+    let hasUndatedPaid = false;
     for (const row of data || []) {
       if (!isProPlanPayment(row)) continue; // a credit-pack payment is not Pro access (release 10 verifier M1)
       if (excludingSubscriptionId && row.subscription_id === excludingSubscriptionId) continue;
       if (excludingPaymentId && row.payment_id === excludingPaymentId) continue;
       hasOtherPaid = true;
       const ms = row.access_until ? new Date(row.access_until).getTime() : NaN;
+      if (!Number.isFinite(ms)) hasUndatedPaid = true;
       if (Number.isFinite(ms) && (accessUntil === null || ms > new Date(accessUntil).getTime())) accessUntil = new Date(ms).toISOString();
     }
     // Google Play Pro purchases in force count as other paid access: a Razorpay event must never shorten them.
@@ -731,7 +772,7 @@ export const Database = {
       hasOtherPaid = true;
       if (play.accessUntil && (accessUntil === null || new Date(play.accessUntil).getTime() > new Date(accessUntil).getTime())) accessUntil = play.accessUntil;
     }
-    return { hasOtherPaid, accessUntil };
+    return { hasOtherPaid, accessUntil, hasUndatedPaid };
   },
 
   async hasRefundPremiumRevocation({ userId, subscriptionId = null, paymentId = null } = {}) {

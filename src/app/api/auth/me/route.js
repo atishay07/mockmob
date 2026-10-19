@@ -58,6 +58,8 @@ export async function GET(request) {
     // One credits balance (18 Oct 2026): creditBalance is the one total every screen shows and prices against
     // (this month's free credits + bought/held credits). users.credit_balance alone is the fallback if the wallet read fails.
     const credits = await getUnifiedWallet(dbUser).catch(() => null);
+    // A Google Play subscription (monthly Pro bought in the app): its renewal is managed in Google Play, not here.
+    const playSubscription = await Database.getPlaySubscription(dbUser.id).catch(() => null);
     const user = {
       id: dbUser.id,
       name: dbUser.name || '',
@@ -73,6 +75,7 @@ export async function GET(request) {
       isPremium: Boolean(dbUser.isPremium),
       premiumUntil: dbUser.premiumUntil || null,
       razorpaySubscriptionId: dbUser.razorpaySubscriptionId || null,
+      playSubscription: playSubscription || null,
     };
 
     return jsonWithDiagnostics(diagnostics, {

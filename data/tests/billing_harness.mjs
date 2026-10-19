@@ -58,6 +58,9 @@ export function createFakeDatabase() {
   const payments = [];
   const events = new Map();
   const revocations = [];
+  // Google Play Pro in force (one-time Pro or a subscription row), as data/db.js getPlayProAccess reads it: { userId, accessUntil }.
+  const play = [];
+  const playInForce = (userId) => play.filter((r) => r.userId === userId && r.accessUntil && new Date(r.accessUntil).getTime() > Date.now());
   let seq = 0;
 
   const userOut = (row) => row && ({
@@ -82,6 +85,7 @@ export function createFakeDatabase() {
     _payments: payments,
     _events: events,
     _revocations: revocations,
+    _play: play,
     addUser(id, row = {}) {
       users.set(id, { id, subscription_status: 'free', is_premium: false, premium_until: null, razorpay_subscription_id: null, ...row });
       return users.get(id);
@@ -116,19 +120,26 @@ export function createFakeDatabase() {
     async updatePaymentBySubscriptionId(id, u) { const p = payments.find((x) => x.subscriptionId === id); if (p) patchPayment(p, u); return copy(p) || null; },
     async updatePaymentByOrderId(id, u) { const p = payments.find((x) => x.orderId === id); if (p) patchPayment(p, u); return copy(p) || null; },
     async hasOtherPaidSubscriptionEvidence({ userId, excludingSubscriptionId = null, excludingPaymentId = null } = {}) {
-      return payments.some((p) => p.userId === userId && paid(p) && p.subscriptionId !== excludingSubscriptionId && p.paymentId !== excludingPaymentId);
+      return payments.some((p) => p.userId === userId && paid(p) && p.subscriptionId !== excludingSubscriptionId && p.paymentId !== excludingPaymentId)
+        || playInForce(userId).length > 0;
     },
     async getOtherPaidAccess({ userId, excludingSubscriptionId = null, excludingPaymentId = null } = {}) {
       let hasOtherPaid = false;
       let accessUntil = null;
+      let hasUndatedPaid = false;
       for (const p of payments) {
         if (p.userId !== userId || !paid(p)) continue;
         if (excludingSubscriptionId && p.subscriptionId === excludingSubscriptionId) continue;
         if (excludingPaymentId && p.paymentId === excludingPaymentId) continue;
         hasOtherPaid = true;
+        if (!p.accessUntil) hasUndatedPaid = true;
         if (p.accessUntil && (!accessUntil || new Date(p.accessUntil) > new Date(accessUntil))) accessUntil = toIso(new Date(p.accessUntil).getTime());
       }
-      return { hasOtherPaid, accessUntil };
+      for (const r of playInForce(userId)) {
+        hasOtherPaid = true;
+        if (!accessUntil || new Date(r.accessUntil) > new Date(accessUntil)) accessUntil = toIso(new Date(r.accessUntil).getTime());
+      }
+      return { hasOtherPaid, accessUntil, hasUndatedPaid };
     },
     async hasRefundPremiumRevocation({ userId, subscriptionId = null, paymentId = null } = {}) {
       if (!userId || (!subscriptionId && !paymentId)) return false;

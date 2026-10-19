@@ -12,7 +12,7 @@ import {
   resolvePaidThrough,
 } from '@/lib/payments/entitlements';
 import { getPaymentPlan, getPlanAccessUntil, getPlanCheckoutAmount, isOneTimeAccessPlan } from '@/lib/payments/plans';
-import { settleUserEntitlement } from '@/lib/payments/settle';
+import { settleUserEntitlement, shrinkPremiumToOtherPaidAccess } from '@/lib/payments/settle';
 import { recordEarningIfApplicable } from '@/lib/payouts';
 import { Database } from '@/../data/db';
 import { countStepOnce } from '@/lib/server/funnelOnceStore';
@@ -296,7 +296,14 @@ async function keepRefundRevokedOrder({ orderId, paymentId, paymentRecord }) {
     userId: paymentRecord.userId,
     excludingPaymentId: paymentId,
   });
-  if (hasOtherPaidAccess) return;
+  if (hasOtherPaidAccess) {
+    // Pro stays for the other access, but never on the refunded payment's own date.
+    await shrinkPremiumToOtherPaidAccess({
+      userId: paymentRecord.userId,
+      excludingPaymentId: paymentId,
+    });
+    return;
+  }
 
   await Database.updateUser(paymentRecord.userId, {
     subscriptionStatus: 'cancelled',
@@ -319,7 +326,15 @@ async function keepRefundRevokedSubscription({ subscriptionId, paymentId, paymen
     excludingSubscriptionId: subscriptionId,
     excludingPaymentId: paymentId,
   });
-  if (hasOtherPaidAccess) return;
+  if (hasOtherPaidAccess) {
+    // Pro stays for the other access, but never on the refunded payment's own date.
+    await shrinkPremiumToOtherPaidAccess({
+      userId: paymentRecord.userId,
+      excludingSubscriptionId: subscriptionId,
+      excludingPaymentId: paymentId,
+    });
+    return;
+  }
 
   await Database.updateUser(paymentRecord.userId, {
     subscriptionStatus: 'cancelled',

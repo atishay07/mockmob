@@ -11,6 +11,9 @@ import { createCertSource } from '@/lib/payments/playRtdn';
 import { playBillingEnabled } from '@/lib/payments/playBilling';
 
 const COLUMNS = 'purchase_token,order_id,user_id,product_id,kind,state,granted,acknowledged_at,consumed_at,voided_at';
+// The subscription columns (migration 20261019210000). Read when present; a database without them still serves packs.
+const SUB_COLUMNS = `${COLUMNS},access_until,sub_state,expiry_time,auto_renewing,linked_purchase_token,superseded_by`;
+const missingColumn = (error) => /column .* does not exist|schema cache/i.test(error?.message || '') || error?.code === '42703' || error?.code === 'PGRST204';
 
 async function rpc(name, params) {
   const { data, error } = await supabaseAdmin().rpc(name, params);
@@ -21,7 +24,10 @@ async function rpc(name, params) {
 /** The play_purchases database, as the billing core wants it. */
 export const playStore = {
   async getByToken(purchaseToken) {
-    const { data, error } = await supabaseAdmin().from('play_purchases').select(COLUMNS).eq('purchase_token', purchaseToken).maybeSingle();
+    let { data, error } = await supabaseAdmin().from('play_purchases').select(SUB_COLUMNS).eq('purchase_token', purchaseToken).maybeSingle();
+    if (error && missingColumn(error)) {
+      ({ data, error } = await supabaseAdmin().from('play_purchases').select(COLUMNS).eq('purchase_token', purchaseToken).maybeSingle());
+    }
     if (error) throw error;
     return data || null;
   },
@@ -37,6 +43,13 @@ export const playStore = {
     const { error } = await supabaseAdmin().from('play_purchases').update(patch).eq('purchase_token', purchaseToken);
     if (error) throw error;
   },
+  /** One subscription, as Google holds it now, and the user's plan with it (mm_play_sync_subscription, one transaction). */
+  syncSubscription: (x) => rpc('mm_play_sync_subscription', {
+    p_user_id: x.userId || null, p_purchase_token: x.purchaseToken, p_product_id: x.productId, p_state: x.state,
+    p_expiry: x.expiresAt || null, p_auto_renewing: typeof x.autoRenewing === 'boolean' ? x.autoRenewing : null,
+    p_linked_token: x.linkedToken || null, p_order_id: x.orderId || null, p_base_plan_id: x.basePlanId || null,
+    p_raw: x.raw || {}, p_reason: x.reason || null,
+  }),
   revoke: (r) => rpc('mm_play_revoke_purchase', { p_purchase_token: r.purchaseToken, p_reason: r.reason || 'voided', p_order_id: r.orderId || null, p_raw: r.raw || {} }),
 };
 
@@ -63,7 +76,8 @@ export function playRtdnDeps() {
   return {
     enabled: () => playBillingEnabled(),
     certs,
-    billing: { store: playStore, packageName: google.packageName() },
+    // Subscriptions are re-read from Google on every notification, so the RTDN core gets the Google client too.
+    billing: { store: playStore, google, packageName: google.packageName() },
     claimEvent: ({ eventId, eventType, payload }) => Database.claimWebhookEvent({ eventId, eventType, payload, provider: 'google_play' }),
     markProcessed: (eventId, note) => Database.markWebhookEventProcessed(eventId, note),
     markFailed: (eventId, message) => Database.markWebhookEventFailed(eventId, message),
