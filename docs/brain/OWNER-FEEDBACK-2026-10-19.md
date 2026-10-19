@@ -470,3 +470,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 19 Oct about 9:29 pm IST, on marketing rigidity (verbatim)
 > "Okay, take the time, but the things that you are being rigid with, the proof and wordings which are used in marketing, are very common. Literally, if there are 10 COT apps on the Play Store, everyone claims that they are the best, they are number one, or something like that. That's very common. Unlimited mocks, we have to advertise it as a feature, and that's actually true. Every app has something behind the table. That doesn't mean Google will block the app or that it has some policy risk."
 **Ledger D143:** marketing copy may be bold and confident like other exam apps; "unlimited mocks" is advertised as a headline feature. Keep only Google's hard rule: no "#1/best/top" or prices in the app title, icon or developer name (Play's metadata policy enforces those); the description may use confident marketing language.
+
+## Owner, 19 Oct about 9:41 pm IST (verbatim)
+> "Okay, I have picked the event, and I have updated it in the listing. Now I am waiting just for the other things: all the graphics, posts, whatever."
+**Ledger D144:** "the event" = option A (dictation). Short description A and the v11b full description are pasted into the Play store listing by him. Waiting on the feature graphic and the 7 designed frames.
