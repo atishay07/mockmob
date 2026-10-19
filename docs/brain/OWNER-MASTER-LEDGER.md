@@ -478,33 +478,33 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 ### Owner at about 1:15 am, 19 Oct: v15.2 and release 10 hand check (G1-G33, verbatim in OWNER-FEEDBACK-2026-10-19.md)
 | # | Ask (short) | Status |
 |---|---|---|
-| G1 | First-open Mobi line and sub-line are broken English; rewrite in proper marketing English | OPEN |
-| G3 | College search: keyboard keeps cutting off, cannot search | OPEN |
-| G4 | Course list: BA (Hons) Business Economics listed as if a top DU course | OPEN |
+| G1 | First-open Mobi line and sub-line are broken English; rewrite in proper marketing English | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending |
+| G3 | College search: keyboard keeps cutting off, cannot search | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending; owner confirms on his phone |
+| G4 | Course list: BA (Hons) Business Economics listed as if a top DU course | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending |
 | G5 | Question: target multiple courses? | ANSWER |
-| G6 | College order: SRCC, Hindu, Hansraj, LSR (he says); we put LSR above Hansraj; check the data, show the basis | OPEN |
-| G7 | Only the first 3 colleges show on Today; 4th+ show nothing | OPEN |
-| G9 | Show "BCom (Hons) needs English + 3" before a pick, with the course's common sets (nice to have) | OPEN |
-| G11 | Bottom nav Today pill not evenly rounded | OPEN |
-| G12 | Suggested deck: a fresh account gets 1 card; bad end copy; clock animation; need 3-4 real cards | OPEN |
-| G13 | "Do this next" accepted animation: make it better | OPEN |
-| G15 | Practice lacks Smart mock and NTA mock (v15.2 hid NTA with billing off) | OPEN |
-| G16 | Fresh account is incomplete vs his old account: "bare minimum" for testing | OPEN |
-| G17 | The Mob is hidden inside You | OPEN |
-| G18 | Own range input: 900-920 fails, shows "0 of 4 clear" then "Within your range" | OPEN |
-| G19 | "I don't know my range": estimate from about 5 NTA mocks | OPEN |
-| G20 | Review: no subject choice, cluttered, no recent mocks, no clear history path | OPEN |
-| G21 | Ask Mobi: "Ask now" and "Ask your record", big and useful | OPEN |
-| G22 | No completion moment; weak result screen on mobile; reveal animation gone (regression) | OPEN |
+| G6 | College order: SRCC, Hindu, Hansraj, LSR (he says); we put LSR above Hansraj; check the data, show the basis | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending (data puts LSR 912.5 above Hansraj 907.5 for B.Com (Hons) UR) |
+| G7 | Only the first 3 colleges show on Today; 4th+ show nothing | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending (picks 4-5 were a You display cap, never lost) |
+| G9 | Show "BCom (Hons) needs English + 3" before a pick, with the course's common sets (nice to have) | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending |
+| G11 | Bottom nav Today pill not evenly rounded | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending |
+| G12 | Suggested deck: a fresh account gets 1 card; bad end copy; clock animation; need 3-4 real cards | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending |
+| G13 | "Do this next" accepted animation: make it better | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending |
+| G15 | Practice lacks Smart mock and NTA mock (v15.2 hid NTA with billing off) | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending (D101 visible but locked) |
+| G16 | Fresh account is incomplete vs his old account: "bare minimum" for testing | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending |
+| G17 | The Mob is hidden inside You | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending (Mob tab, D105) |
+| G18 | Own range input: 900-920 fails, shows "0 of 4 clear" then "Within your range" | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending |
+| G19 | "I don't know my range": estimate from about 5 NTA mocks | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending (D109 + C-dec 1 free first mock) |
+| G20 | Review: no subject choice, cluttered, no recent mocks, no clear history path | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending (D106 Your papers) |
+| G21 | Ask Mobi: "Ask now" and "Ask your record", big and useful | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending; web /mentor two doors building (C2-web) |
+| G22 | No completion moment; weak result screen on mobile; reveal animation gone (regression) | BUILT in app v15.3 (ui/v15.3-1019 125755f4); walk + verifier pending (D108 finish moment restored) |
 | G23 | PRINCIPLE: 16-17-year-olds, many new to apps and CBT; simple, obvious, guided | RULE |
-| G24 | Web IA: Mob inside Study, everything in Study, Planning inside Marks trends | OPEN |
-| G25 | Web: core stats gone from the top; Review order weird; "something is broken" | OPEN |
-| G26 | Web Practice: picking a subject shows "5 questions ... Biology" at the top instead of the mode | OPEN |
-| G27 | Web Start: sideways-scroll cue for the subject selector (asked before) | OPEN |
-| G28 | Web feels like an OLDER version: Full mock / NTA button gradient, textures and gradients gone | OPEN, investigate first |
-| G29 | Web: no visible "Sign out of this browser" | OPEN |
-| G30 | Homepage morphing text: basic; start the timed change only after the first screen settles | OPEN |
-| G31 | All animations feel faster and less refined than before | OPEN |
+| G24 | Web IA: Mob inside Study, everything in Study, Planning inside Marks trends | BUILT in web release 11 (deploy/web-1019-r11 3ae564a6, not pushed); verifier round 2 pending (nav A) |
+| G25 | Web: core stats gone from the top; Review order weird; "something is broken" | BUILT in web release 11 (deploy/web-1019-r11 3ae564a6, not pushed); verifier round 2 pending |
+| G26 | Web Practice: picking a subject shows "5 questions ... Biology" at the top instead of the mode | BUILT in web release 11 (deploy/web-1019-r11 3ae564a6, not pushed); verifier round 2 pending |
+| G27 | Web Start: sideways-scroll cue for the subject selector (asked before) | BUILT in web release 11 (deploy/web-1019-r11 3ae564a6, not pushed); verifier round 2 pending |
+| G28 | Web feels like an OLDER version: Full mock / NTA button gradient, textures and gradients gone | BUILT in web release 11 (deploy/web-1019-r11 3ae564a6, not pushed); verifier round 2 pending |
+| G29 | Web: no visible "Sign out of this browser" | BUILT in web release 11 (deploy/web-1019-r11 3ae564a6, not pushed); verifier round 2 pending |
+| G30 | Homepage morphing text: basic; start the timed change only after the first screen settles | BUILT in web release 11 (deploy/web-1019-r11 3ae564a6, not pushed); verifier round 2 pending (hero C OFF behind HERO_MOTION_V2; owner judges live) |
+| G31 | All animations feel faster and less refined than before | BUILT in web release 11 (deploy/web-1019-r11 3ae564a6, not pushed); verifier round 2 pending |
 | G32-G33 | Not satisfied; agents must think through every point, exceed it, and act, not loop | RULE |
 | KEEP | G2 first onboarding screen, G9 common sets and picks, G10 the bigger bar and animation, G14 Today | KEEP |
 
