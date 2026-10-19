@@ -209,34 +209,37 @@ class MmSheetScaffold extends StatelessWidget {
       final lift = liftWithKeyboard ? MediaQuery.viewInsetsOf(context).bottom : 0.0;
       return SafeArea(child: Padding(padding: EdgeInsets.only(bottom: lift), child: SizedBox.expand(child: column)));
     }
-    if (heightFactor == null && liftWithKeyboard) {
-      final inset = MediaQuery.viewInsetsOf(context).bottom;
-      if (inset > 0) {
-        // The sheet's own safe area ends where the keyboard starts; the column has what is left of
-        // the screen above the keys (under the status bar), and its body scrolls inside that.
-        return Padding(padding: EdgeInsets.only(bottom: inset), child: column);
-      }
-    }
+    // ONE tree shape for every keyboard state (I1, 20 Oct). The keyboard rising changes only the
+    // numbers below (a bottom padding, a height), never the widgets: a different parent with the
+    // keyboard up threw the whole body away as the keys rose, so a search field lost its text and
+    // its focus, the keyboard closed, and the tree flipped back ("my keyboard gets cut off again
+    // and again", G3; "unable to select or type anything", I1).
+    final media = MediaQuery.of(context);
+    final inset = media.viewInsets.bottom;
     if (heightFactor != null) {
-      final media = MediaQuery.of(context);
-      final inset = media.viewInsets.bottom;
       final full = media.size.height * heightFactor!;
-      if (inset <= 0) return SafeArea(top: false, child: SizedBox(height: full, child: column));
       // With the keyboard up the sheet rises onto it: the glass runs down behind the keys and the
       // column stops where they start, so a search field with its results shows them above the
       // keys instead of under them (v13 device walk: one partial row showed).
-      final view = View.of(context);
-      final statusBar = view.padding.top / view.devicePixelRatio;
+      final view = View.maybeOf(context);
+      final statusBar = view == null ? 0.0 : view.padding.top / view.devicePixelRatio;
       final room = media.size.height - inset - statusBar - MmSpace.s16;
+      final height = inset <= 0 ? full : (full < room ? full : room);
       return SafeArea(
         top: false,
         child: Padding(
           padding: EdgeInsets.only(bottom: inset),
-          child: SizedBox(height: full < room ? full : room, child: column),
+          child: SizedBox(height: height, child: column),
         ),
       );
     }
-    return SafeArea(top: false, child: column);
+    // A content-sized sheet with a text field ([liftWithKeyboard]): its own safe area ends where
+    // the keyboard starts (the system's bottom padding is 0 while the keys are up), and the column
+    // has what is left of the screen above the keys, its body scrolling inside that.
+    return SafeArea(
+      top: false,
+      child: Padding(padding: EdgeInsets.only(bottom: liftWithKeyboard ? inset : 0), child: column),
+    );
   }
 }
 
