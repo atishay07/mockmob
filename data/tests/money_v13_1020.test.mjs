@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs';
 import { CREDIT_PACKS } from '../../src/services/credits/creditPacks.mjs';
 import { walletBody } from '../../src/lib/server/wallet.js';
 import {
-  WALLET_V13_COPY, walletFromResponse, balanceSplit, priceRows, packValue, packCards, packWorth, proBridge, refillLine, packRows,
+  WALLET_COPY, WALLET_V13_COPY, walletFromResponse, balanceSplit, priceRows, packValue, packCards, packWorth, packsIntro, proBridge, refillLine, packRows,
 } from '../../src/components/wallet/walletModel.mjs';
 import { REPAIR_CREDIT_COST } from '../../data/mistake_repair.js';
 
@@ -35,15 +35,18 @@ test('best value is real maths: the cheapest per credit, with each saving rounde
 test('a pack is worded by what most buyers buy it for: Mobi answers and mistake repairs, never "1 full mock or 50 questions"', () => {
   // The words say N answers or repairs for N credits, which is true only while each costs 1 credit.
   assert.equal(REPAIR_CREDIT_COST, 1);
-  assert.match(file('src/services/usage/getDailyUsage.js'), /^  mentor_chat: 1,$/m, 'an Ask Mobi answer costs 1 credit');
-  assert.deepEqual(packCards(page()).map((c) => c.worth), [
-    '50 Ask Mobi answers, mistake repairs or practice questions',
-    '150 Ask Mobi answers, mistake repairs or practice questions',
-    '300 Ask Mobi answers, mistake repairs or practice questions',
-  ]);
-  assert.deepEqual(packCards(page({ paid: true, premiumUntil: '2027-07-31T18:29:59.000Z' })).map((c) => c.worth), [
-    '50 Ask Mobi answers or mistake repairs', '150 Ask Mobi answers or mistake repairs', '300 Ask Mobi answers or mistake repairs',
-  ], 'on Pro practice is included, so a pack is all Mobi');
+  assert.match(file('src/services/usage/getDailyUsage.js'), /^  mentor_chat: 1,$/m, 'a written answer from Mobi costs 1 credit');
+  const words = ['50 written answers from Mobi or mistake repairs', '150 written answers from Mobi or mistake repairs', '300 written answers from Mobi or mistake repairs'];
+  const pro = page({ paid: true, premiumUntil: '2027-07-31T18:29:59.000Z' });
+  assert.deepEqual(packCards(page()).map((c) => c.worth), words);
+  assert.deepEqual(packCards(pro).map((c) => c.worth), words, 'the same words on Free and Pro');
+  // Owner J3 (20 Oct 2026): no mock or question counts anywhere on a pack, on any plan, open or closed.
+  for (const data of [page(), pro, { ...page(), commerce: { open: true } }]) {
+    for (const card of packCards(data)) {
+      for (const t of Object.values(card)) if (typeof t === 'string') assert.doesNotMatch(t, /full mock|questions?\b/i, t);
+    }
+  }
+  assert.equal(packWorth(1), '1 written answer from Mobi or mistake repair');
   assert.equal(packWorth(null), null);
   assert.equal(packWorth(0), null);
   const client = file('src/app/(app)/wallet/WalletPageClient.jsx');
@@ -75,7 +78,7 @@ test('the balance is split honestly: free this month with the refill date, kept 
 test('what credits buy: the price list, with practice included on Pro', () => {
   const free = priceRows(page(), PRICES);
   assert.deepEqual(free.map((r) => [r.what, r.cost, r.note]), [
-    ['An Ask Mobi answer', '1 credit', null],
+    ['A written answer from Mobi', '1 credit', 'Answers from your marks are free'],
     ['A mistake repair', '1 credit', null],
     ['Deeper analysis', '3 credits', null],
     ['A practice question', '1 credit', null],
@@ -87,6 +90,23 @@ test('what credits buy: the price list, with practice included on Pro', () => {
   // The wallet page reads its numbers from the one price list, never typed in.
   const client = file('src/app/(app)/wallet/WalletPageClient.jsx');
   assert.match(client, /question: PRACTICE_PRICE\.perQuestion, fullMock: PRACTICE_PRICE\.full, analysis: DEEP_AI_CREDITS, reply: 1, repair: REPAIR_CREDIT_COST/);
+});
+
+test('the packs speak to who buys them: more from Mobi for a Pro student, and no top-up invitation while selling is closed', () => {
+  const pro = page({ paid: true, premiumUntil: '2027-07-31T18:29:59.000Z' });
+  const open = (d) => ({ ...d, commerce: { open: true } });
+  assert.deepEqual(packsIntro(open(pro)), {
+    heading: 'More from Mobi',
+    lead: 'Your 50 free credits come back every month. A top-up adds more written answers and mistake repairs, and its credits never expire.',
+  });
+  assert.deepEqual(packsIntro(open(page())), {
+    heading: 'Top up and keep going',
+    lead: 'Top-up credits pay for practice, written answers from Mobi and mistake repairs. They never expire.',
+  });
+  for (const d of [page(), pro]) assert.equal(packsIntro(d).heading, WALLET_COPY.packsHeadingClosed, 'closed: the heading names the packs only');
+  assert.match(packsIntro({ ...open(pro), credits: {} }).lead, /^Your free credits come back every month\./, 'an unknown allowance names no number');
+  const client = file('src/app/(app)/wallet/WalletPageClient.jsx');
+  assert.match(client, /<h2 className="wl-h" id="wl-packs-h">\{packsHead\.heading\}<\/h2>/);
 });
 
 test('the bridge to Pro names what /pricing sells today, and Pro students never see it', () => {
@@ -108,6 +128,7 @@ test('copy rules: plain warm English, no exclamation, no arrows, no em dash, no 
   const walk = (v) => { if (typeof v === 'string') strings.push(v); else if (v && typeof v === 'object') Object.values(v).forEach(walk); };
   const data = page();
   walk(WALLET_V13_COPY); walk(balanceSplit(data)); walk(priceRows(data, PRICES)); walk(packCards(data)); walk(proBridge(data, { rupees: 99, cycle: 'month' }));
+  walk(packsIntro({ ...data, commerce: { open: true } })); walk(packsIntro({ ...data, plan: { name: 'Pro' }, commerce: { open: true } }));
   const pricing = file('src/app/pricing/page.js');
   const outcomes = pricing.slice(pricing.indexOf('function proMoments'), pricing.indexOf('function previewOverrides'));
   assert.ok(outcomes.length > 200, 'the moments are found');

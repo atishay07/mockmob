@@ -2,7 +2,8 @@
 
 // Wallet (/wallet), version 13 (owner I9, 20 Oct 2026: "this top-up screen is extremely poor ... this wallet screen has to be redone").
 // ONE credits balance (owner D78) as the hero, split honestly into this month's free credits (with the refill date) and the credits a
-// student keeps; what each thing costs; the reload packs as cards with the real best-value maths; a clear bridge to Pro for Free
+// student keeps; what each thing costs; the reload packs as cards worded as Mobi's written answers and mistake repairs (owner J3: no
+// "1 full mock or 50 questions" lines), with the real best-value maths; a clear bridge to Pro for Free
 // students; and the last 20 lines of activity. Reads GET /api/wallet once (and again after a purchase). Every pack key calls the one
 // client function startWalletPurchase. While top-ups are closed (WALLET_COMMERCE_OPEN) the packs show their prices and the key says
 // "Top-ups open soon"; no order is made. All the words and numbers come from walletModel.mjs, which tests hold.
@@ -20,7 +21,7 @@ import { DEEP_AI_CREDITS, PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
 import { REPAIR_CREDIT_COST } from '@/../data/mistake_repair';
 import {
-  WALLET_COPY, WALLET_V13_COPY, WALLET_URL, balanceSplit, balanceTile, historyRow, packCards, priceRows, proBridge, walletFromResponse,
+  WALLET_COPY, WALLET_V13_COPY, WALLET_URL, balanceSplit, balanceTile, historyRow, packCards, packsIntro, priceRows, proBridge, walletFromResponse,
 } from '@/components/wallet/walletModel.mjs';
 import './wallet.css';
 
@@ -106,6 +107,7 @@ export default function WalletPageClient({ proOffer = null }) {
   const shown = useCountTo(split?.total ?? null);
   const bridge = data ? proBridge(data, proOffer) : null;
   const cards = data ? packCards(data, phases) : [];
+  const packsHead = data ? packsIntro(data) : null;
   const costs = data ? priceRows(data, PRICES) : [];
   const lines = data?.history ? data.history.map(historyRow) : null;
   const isPro = data?.plan?.name === 'Pro';
@@ -193,8 +195,8 @@ export default function WalletPageClient({ proOffer = null }) {
 
           <section className="wl-packs" aria-labelledby="wl-packs-h">
             <div className="wl-packs__head">
-              <h2 className="wl-h" id="wl-packs-h">{data.commerce.open ? WALLET_COPY.packsHeading : WALLET_COPY.packsHeadingClosed}</h2>
-              <p className="wl-note">{WALLET_V13_COPY.topUpsLead}</p>
+              <h2 className="wl-h" id="wl-packs-h">{packsHead.heading}</h2>
+              <p className="wl-note">{packsHead.lead}</p>
             </div>
             <ul className="wl-packgrid">
               {cards.map((card) => (

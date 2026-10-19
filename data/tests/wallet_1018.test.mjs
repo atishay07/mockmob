@@ -354,18 +354,18 @@ test('the balance: one figure, what a credit buys, the free allowance with its r
   assert.deepEqual([zero.figure, zero.state, zero.lines[0]], ['0', 'zero', 'You are out of credits. Your free credits come back on 1 November.']);
 
   const pro = balanceTile(bodyOf({ paid: true, premiumUntil: '2027-07-31T18:29:59.000Z' }));
-  assert.ok(pro.lines.includes('Practice is included with your Pro plan until 31 July 2027, so your credits go to Ask Mobi replies.'));
+  assert.ok(pro.lines.includes('Practice is included with your Pro plan until 31 July 2027, so your credits go to Mobi’s written answers and mistake repairs.'));
 });
 
 test('packs: price, size and value per credit; closed keys say Top-ups open soon, open keys say Add for; the featured pack is marked', () => {
   const closed = packRows(PAGE);
   assert.deepEqual(closed.map((r) => [r.title, r.price, r.value, r.perCredit, r.key, r.disabled, r.featured]), [
-    ['50 credits', '₹10', '1 full mock, or 50 questions', '₹0.20 a credit', 'Top-ups open soon', true, false],
-    ['150 credits', '₹29', '3 full mocks, or 150 questions', '₹0.19 a credit', 'Top-ups open soon', true, false],
-    ['300 credits', '₹49', '6 full mocks, or 300 questions', '₹0.16 a credit', 'Top-ups open soon', true, true],
+    ['50 credits', '₹10', '50 written answers from Mobi or mistake repairs', '₹0.20 a credit', 'Top-ups open soon', true, false],
+    ['150 credits', '₹29', '150 written answers from Mobi or mistake repairs', '₹0.19 a credit', 'Top-ups open soon', true, false],
+    ['300 credits', '₹49', '300 written answers from Mobi or mistake repairs', '₹0.16 a credit', 'Top-ups open soon', true, true],
   ]);
-  // An older server without the mock count still reads: the value falls back to the per-credit price.
-  assert.equal(packRows({ ...PAGE, packs: [{ ...PAGE.packs[0], fullMocks: undefined }] })[0].value, '₹0.20 a credit');
+  // A pack without a usable size still reads: the value falls back to the per-credit price.
+  assert.equal(packRows({ ...PAGE, packs: [{ ...PAGE.packs[0], credits: 0 }] })[0].value, '₹0.20 a credit');
   const open = packRows({ ...PAGE, commerce: { open: true } });
   assert.deepEqual(open.map((r) => [r.key, r.disabled]), [['Add for ₹10', false], ['Add for ₹29', false], ['Add for ₹49', false]]);
   assert.equal(packRows({ ...PAGE, commerce: { open: true } }, { credits_10_50: { status: 'working' } })[0].disabled, true);

@@ -12,7 +12,6 @@ const IST = (5 * 60 + 30) * 60 * 1000;
 
 const whole = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim() !== '')) && Number.isFinite(Number(v)) ? Math.trunc(Number(v)) : null;
 const fmt = (n) => n.toLocaleString('en-IN');
-const questions = (n) => `${fmt(n)} ${n === 1 ? 'question' : 'questions'}`;
 
 /** "1 November" or, with { year: true }, "1 November 2026", from "2026-11-01". Null when it is not a calendar date. */
 export function longDate(ymd, { year = false } = {}) {
@@ -27,7 +26,8 @@ export function longDate(ymd, { year = false } = {}) {
 export const WALLET_COPY = Object.freeze({
   title: 'Wallet',
   // True whether or not selling is open (release 10 verifier L5): held credits, bought or given, never expire.
-  lede: 'One balance pays for every practice question and every Ask Mobi reply. Credits you hold stay until you use them.',
+  // Mobi's answers from a student's own marks are free; a written answer costs 1 credit (src/components/ai/askDoors.mjs).
+  lede: 'One balance pays for practice and for Mobi’s written answers. Credits you hold stay until you use them.',
   loading: 'Reading your wallet',
   failed: 'Your wallet did not load. Nothing was spent.',
   retry: 'Try again',
@@ -36,23 +36,25 @@ export const WALLET_COPY = Object.freeze({
   openSoon: 'Top-ups open soon',
   openSoonNote: 'Top-ups open soon. Your free credits keep working until then.',
   historyHeading: 'Recent activity',
-  historyEmpty: 'No credit activity yet. Your first question or Ask Mobi reply shows up here.',
+  historyEmpty: 'No credit activity yet. Your first question or written answer from Mobi shows up here.',
   historyFailed: 'Your activity did not load. Your balances above are current.',
   heading: 'Credits',
   packsHeading: 'Top up and keep going',
   packsHeadingClosed: 'Credit packs',
+  // Most top-ups are bought by Pro students, for more from Mobi (owner, 20 Oct 2026).
+  packsHeadingPro: 'More from Mobi',
   proLink: 'See Pro',
   // Out of credits (release 10 verifier M5): a top-up is offered only while selling is open (commerce.open), and a Pro student,
   // whose practice needs no credits, is never told to top up to practise.
   zeroLine: ({ open = false, pro = false, renews = null } = {}) => {
     const back = renews ? `Your free credits come back on ${renews}.` : 'Your free credits come back next month.';
-    if (pro) return `You are out of credits for Ask Mobi replies; practice needs no credits with Pro. ${back}${open ? ' You can also top up for more replies.' : ''}`;
+    if (pro) return `You are out of credits for written answers from Mobi; practice needs no credits with Pro. ${back}${open ? ' You can also top up for more answers.' : ''}`;
     return open ? `You are out of credits. Top up to keep practising, or wait: ${back}` : `You are out of credits. ${back}`;
   },
   proLine: (offer) => `Get unlimited mocks: with Pro, practice never uses a credit${offer?.rupees ? `. ₹${offer.rupees}${offer.expires ? ` through ${offer.expires}` : ''}` : ''}.`,
   proNow: (until) => {
     const d = longDate(until, { year: true });
-    return d ? `Practice is included with your Pro plan until ${d}, so your credits go to Ask Mobi replies.` : 'Practice is included with your Pro plan, so your credits go to Ask Mobi replies.';
+    return d ? `Practice is included with your Pro plan until ${d}, so your credits go to Mobi’s written answers and mistake repairs.` : 'Practice is included with your Pro plan, so your credits go to Mobi’s written answers and mistake repairs.';
   },
 });
 
@@ -110,7 +112,7 @@ export function balanceTile(data) {
   return { state: total === 0 ? 'zero' : 'known', figure: fmt(total), lines };
 }
 
-/** The packs as rows: the price, the size, what it buys (full mocks or questions), the value per credit and the key's state. */
+/** The packs as rows: the price, the size, what it comes to (Mobi first, packWorth), the value per credit and the key's state. */
 export function packRows(data, phases = {}) {
   const open = Boolean(data?.commerce?.open);
   return (data?.packs || []).map((p) => {
@@ -119,9 +121,7 @@ export function packRows(data, phases = {}) {
       packId: p.packId,
       title: `${fmt(p.credits)} credits`,
       price: `₹${fmt(p.priceInr)}`,
-      value: whole(p.fullMocks) !== null && whole(p.credits) !== null
-        ? `${p.fullMocks === 1 ? '1 full mock' : `${fmt(p.fullMocks)} full mocks`}, or ${questions(p.credits)}`
-        : `₹${p.perCreditInr} a credit`,
+      value: packWorth(p.credits) || `₹${p.perCreditInr} a credit`,
       perCredit: `₹${p.perCreditInr} a credit`,
       featured: Boolean(p.featured),
       featuredLabel: 'Best value',
@@ -169,7 +169,6 @@ export const WALLET_V13_COPY = Object.freeze({
   buysTitle: 'What credits buy',
   costShows: 'The cost always shows before you start.',
   included: 'Included',
-  topUpsLead: 'Credits from a top-up are yours to keep. They never expire.',
   bestValue: 'Best value',
   proTitle: 'Pro makes practice unlimited',
   proBody: 'Practise as much as you like without spending credits, with Smart practice and the exam-day screen.',
@@ -218,7 +217,7 @@ export function priceRows(data, prices) {
   const credits = (n) => plural(n, 'credit', 'credits');
   // Mobi first: most top-ups pay for Mobi's written answers and mistake repairs (owner, 20 Oct 2026).
   return [
-    { key: 'reply', what: 'An Ask Mobi answer', cost: credits(prices.reply), note: null, included: false },
+    { key: 'reply', what: 'A written answer from Mobi', cost: credits(prices.reply), note: 'Answers from your marks are free', included: false },
     { key: 'repair', what: 'A mistake repair', cost: credits(prices.repair), note: null, included: false },
     { key: 'analysis', what: 'Deeper analysis', cost: credits(prices.analysis), note: null, included: false },
     { key: 'question', what: 'A practice question', cost: pro ? WALLET_V13_COPY.included : credits(prices.question), note: null, included: pro },
@@ -227,14 +226,29 @@ export function priceRows(data, prices) {
 }
 
 /**
- * What a pack comes to, Mobi first (owner, 20 Oct 2026: "1 full mock or 50 questions" undersold it; most top-ups are bought by Pro
- * students for Mobi's written answers and repairs). An Ask Mobi answer and a mistake repair are 1 credit each, so a pack of N
- * credits is N of them; on Free the same credits also pay for practice questions.
+ * What a pack comes to, Mobi first, on every plan (owner, 20 Oct 2026: "1 full mock or 50 questions" lines undersold it; most
+ * top-ups are bought by Pro students for Mobi's written answers and repairs). A written answer and a mistake repair are 1 credit
+ * each, so a pack of N credits is N of them. No mock or question counts: on Free, the price list above says what practice costs.
  */
-export function packWorth(credits, { pro = false } = {}) {
+export function packWorth(credits) {
   const n = whole(credits);
   if (n === null || n <= 0) return null;
-  return pro ? `${fmt(n)} Ask Mobi answers or mistake repairs` : `${fmt(n)} Ask Mobi answers, mistake repairs or practice questions`;
+  return n === 1 ? '1 written answer from Mobi or mistake repair' : `${fmt(n)} written answers from Mobi or mistake repairs`;
+}
+
+/**
+ * The packs' heading and the line under it. While top-ups are closed the heading never invites one (release 10 verifier M5).
+ * A Pro student, whose practice needs no credits, reads the packs as more from Mobi past this month's free credits.
+ */
+export function packsIntro(data) {
+  const open = data?.commerce?.open === true;
+  const pro = data?.plan?.name === 'Pro';
+  const allowance = whole(data?.credits?.freeAllowance);
+  const heading = !open ? WALLET_COPY.packsHeadingClosed : pro ? WALLET_COPY.packsHeadingPro : WALLET_COPY.packsHeading;
+  const lead = pro
+    ? `${allowance ? `Your ${fmt(allowance)} free credits` : 'Your free credits'} come back every month. A top-up adds more written answers and mistake repairs, and its credits never expire.`
+    : 'Top-up credits pay for practice, written answers from Mobi and mistake repairs. They never expire.';
+  return { heading, lead };
 }
 
 /**
@@ -268,11 +282,9 @@ export function packValue(packs) {
 /** The packs as cards: packRows plus what the pack comes to (Mobi first), the real best value and the saving against the dearest pack. */
 export function packCards(data, phases = {}) {
   const value = packValue(data?.packs);
-  const pro = data?.plan?.name === 'Pro';
-  const credits = Object.fromEntries((data?.packs || []).map((p) => [p.packId, p.credits]));
   return packRows(data, phases).map((row) => ({
     ...row,
-    worth: packWorth(credits[row.packId], { pro }) || row.value,
+    worth: row.value,
     best: value.bestId === row.packId,
     save: value.savePercent[row.packId] ? `Save ${value.savePercent[row.packId]}%` : null,
   }));

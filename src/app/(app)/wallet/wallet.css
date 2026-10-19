@@ -76,7 +76,7 @@
 .app-shell .wl-pack__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
 .app-shell .wl-pack__credits { font: 800 26px/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .wl-pack__tag { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--a-ink); color: var(--a-bg); font: 700 12.5px/1 var(--font-display); }
-.app-shell .wl-pack__value { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.app-shell .wl-pack__value { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
 .app-shell .wl-pack__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; margin: 10px 0 8px; }
 .app-shell .wl-pack__rupees { font: 800 34px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .wl-pack__per { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 13px; line-height: 1.4; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
