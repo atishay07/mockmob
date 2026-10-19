@@ -613,3 +613,20 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > If you think this is not useful and you just launched it because I said to go all out and, if you can, limit it as fast as possible, then you can suspend the useless parts (or maybe switch to a smaller model like Sonnet and Haiku for some of the tasks). The decision is up to you: how you want to proceed after 10 minutes, whatever your decide deems best for the project's efficiency, speed, accuracy, and quality."
 **Ledger D153:** a 10-minute checkpoint after the usage reset: the CTO reviews every running owner, keeps what is making real progress, suspends what is not, and may move work to Sonnet/Haiku. Fast usage is fine when it buys real progress.
+
+
+## Owner, 20 Oct about 1:49 am IST, on the early Wallet and Pro page (verbatim)
+> I can give some feedback right now: what's what's not.
+>
+> The practice was out of my time. The screen where everything Pro unlocks is rudimentary, but the direction that you have taken could be built into something good. The wallet can be made into something good, and one plan has everything in it. There's a bell next to it. It doesn't make sense. Can't delete something else.
+>
+> I don't know if we should write 150 marks or 50 questions. We are suppressing our value itself. Mostly, this won't be done by someone who is on the free plan. They already have the Pro plan. They are maybe topping up. Say less than 1% of users are using a feature. For most, 50 credits itself will be enough. They won't be using that AI feature most because I had told you before, but nothing was happening. The value that we are providing for 1 AI credit and what Mobie is providing, that's just not good enough. Why would someone use Mobie over ChatGPT or any AI chatbot which they can use for free?
+>
+> I wanted you to think about that and ideate on it. I had said this a week ago. Still, even in the latest version of Ask Mobie, it's not so useful. Anyway, write something good, something else in here, not this. Good direction, but needs some more work. I hope it will be done in 30, 40 minutes more. We have crossed all timelines that you have committed to. Even yourself, you said by 1:30 it will be done. Now it's even crossed that. I hope we are at least with some positive result.
+**Ledger J1-J6 ("(confirm)" = transcription guess):**
+- J1 Pro page: "Everything Pro unlocks" is rudimentary; the direction is good; build it into something much better.
+- J2 The bell beside "One plan, everything in it" makes no sense: remove it.
+- J3 Wallet: good direction; drop "1 full mock or 50 questions" style lines under packs (they undersell); most top-ups come from Pro students; 50 credits is enough for most.
+- J4 Ask Mobi: 1 credit for an AI reply is poor value; why would a student use Mobi over free ChatGPT? He asked a week ago to ideate on this; still not useful. Ideate and propose.
+- J5 Timelines: every committed time has slipped; he expects version 13 in 30-40 more minutes and a positive result.
+- J6 "The practice was out of my time" (confirm: unclear dictation).
