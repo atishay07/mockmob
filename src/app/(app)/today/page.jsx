@@ -42,6 +42,7 @@ import TodayQueue from '@/components/today/TodayQueue';
 import TodayColleges from '@/components/today/TodayColleges';
 import TodayCue from '@/components/today/TodayCue';
 import TodayMob from '@/components/today/TodayMob';
+import NameAsk from '@/components/profile/NameAsk';
 import { todayContext } from '@/components/ai/askContexts.mjs';
 import '@/components/today/today.css';
 
@@ -286,6 +287,8 @@ export default function Today() {
           <p className="today__date">{day ? <time className="today__in">{day}</time> : ' '}</p>
           <h1 className="today__hello">{hello ? <span className="today__in">{hello}</span> : <span className="sr-only">Today</span>}</h1>
         </header>
+        {/* One quiet ask while the account has no name worth showing (the app's name card, I11): never the email's prefix. */}
+        <NameAsk />
         <div className="today-grid">
           <div className="today-grid__main">
             {reelPaper ? (

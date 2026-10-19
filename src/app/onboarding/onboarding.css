@@ -152,6 +152,88 @@ html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow:
 /* The ink disc is a small mark: from 0.6 and nothing, on the icon-pop spring (WA-04). */
 @keyframes ob-disc { from { transform: scale(0.6); opacity: 0; } 40% { opacity: 1; } to { transform: scale(1); opacity: 1; } }
 
+/* ---------- Step 1 parity with the app: a DU course (optional), a subject search, the papers not here yet, the five-subject reason ---------- */
+.ob-course { display: grid; gap: 12px; padding: 18px 16px 16px; border: 1px solid var(--a-line); border-radius: 18px; background: var(--a-raised); box-shadow: inset 0 1px 0 var(--a-glass-top); }
+@media (min-width: 640px) { .ob-course { padding: 20px 22px 20px; } }
+.ob-course__head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.ob-course__head h2 { margin: 0; font-family: var(--font-display); font-size: 18px; font-weight: 700; line-height: 1.25; letter-spacing: -0.01em; color: var(--a-ink); }
+.ob-course__opt { flex: none; font-size: 12.5px; font-weight: 600; color: var(--a-ink-3); }
+.ob-course__lead { margin: -4px 0 0; max-width: 58ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2); text-wrap: pretty; }
+.ob-course__note { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
+.ob-course__link { min-height: 44px; padding: 0 4px; border: 0; background: none; cursor: pointer; color: var(--a-accent-text); font: 700 14px/1.2 inherit; text-decoration: underline; text-underline-offset: 3px; }
+.ob-course__link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-course__list { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 210px), 1fr)); gap: 8px; }
+.ob-course__opt-btn {
+  display: grid; align-content: center; gap: 2px; min-height: 58px; padding: 10px 14px; text-align: left; font: inherit; cursor: pointer;
+  border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-sunken); color: var(--a-ink);
+  transition: border-color 150ms ease, background-color 150ms ease, transform 100ms var(--a-ease);
+}
+.ob-course__opt-btn b { font: 700 15px/1.25 var(--font-display); }
+.ob-course__opt-btn span { font-size: 13px; color: var(--a-ink-3); }
+.ob-course__opt-btn:active:not(:disabled) { transform: scale(0.98); }
+.ob-course__opt-btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-course__opt-btn:disabled { opacity: 0.6; cursor: default; }
+.ob-course__opt-btn--wait { cursor: default; border-color: var(--a-line); }
+@media (hover: hover) and (pointer: fine) { .ob-course__opt-btn:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); } }
+.ob-course__chosen { display: grid; gap: 10px; }
+.ob-course__row { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.ob-course__name { display: grid; gap: 2px; margin: 0; min-width: 0; }
+.ob-course__name b { font: 700 17px/1.3 var(--font-display); color: var(--a-ink); overflow-wrap: anywhere; }
+.ob-course__name span { font-size: 13px; color: var(--a-ink-3); }
+.ob-course__change {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 14px; border-radius: 12px; cursor: pointer;
+  border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink); font: 600 14px/1.2 inherit;
+  transition: border-color 150ms ease, background-color 150ms ease;
+}
+.ob-course__change:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-course__change:disabled { opacity: 0.6; cursor: default; }
+@media (hover: hover) and (pointer: fine) { .ob-course__change:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); } }
+.ob-course__live { display: grid; gap: 8px; }
+.ob-course__rule { margin: 0; max-width: 62ch; font-size: 15px; line-height: 1.55; color: var(--a-ink); text-wrap: pretty; animation: ob-swap 240ms var(--a-ease) both; }
+.ob-course__fit { display: flex; align-items: flex-start; gap: 8px; margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
+.ob-course__fit svg { flex: none; margin-top: 2px; }
+.ob-course__fit[data-fit='yes'] { color: var(--a-accent-text); }
+.ob-course__fit[data-fit='no'] svg { color: var(--a-ink-3); }
+.ob-course__fit--wait { color: var(--a-ink-3); }
+
+/* A search field, the same one the college picker draws. 16 px type, so a phone never zooms the page on focus. */
+.ob-search { display: flex; align-items: center; gap: 10px; min-height: 52px; padding: 0 14px; border: 1px solid var(--a-line-strong); border-radius: 16px; background: var(--a-raised); color: var(--a-ink-3); transition: border-color 150ms ease; }
+.ob-search:focus-within { border-color: var(--a-ink); }
+.ob-search input { flex: 1; min-width: 0; height: 48px; border: 0; background: none; color: var(--a-ink); font: 500 16px/1.2 inherit; outline: none; }
+.ob-search input::placeholder { color: var(--a-ink-3); }
+.ob-course .ob-search { background: var(--a-sunken); }
+
+.ob-tile__need { color: var(--a-accent-text); font-weight: 600; }
+
+/* The CUET papers MockMob has no practice for: a quiet list under the tiles, never selectable. */
+.ob-notyet { display: grid; gap: 10px; padding-top: 8px; border-top: 1px solid var(--a-line); }
+.ob-notyet h2 { margin: 12px 0 0; font-family: var(--font-display); font-size: 16px; font-weight: 700; color: var(--a-ink); }
+.ob-notyet > p { margin: 0; max-width: 58ch; font-size: 14px; line-height: 1.5; color: var(--a-ink-3); }
+.ob-notyet__block { display: grid; gap: 8px; }
+.ob-notyet__block h3 { margin: 0; font-size: 13.5px; font-weight: 600; color: var(--a-ink-2); }
+.ob-notyet ul { display: flex; flex-wrap: wrap; gap: 6px; margin: 0; padding: 0; list-style: none; }
+.ob-notyet li { padding: 5px 12px; border: 1px solid var(--a-line-strong); border-radius: 999px; font-size: 13px; line-height: 1.4; color: var(--a-ink-3); }
+
+/* The five-subject reason: it rises inside the fixed bar, beside the key the student is about to press, so it is on screen
+   wherever on the long list the sixth tile was. One quiet swap key; the other way is to take one out. */
+.ob-capnote { flex: 1 0 100%; display: grid; gap: 4px; padding: 12px 14px; border: 1px solid var(--a-line-strong); border-radius: 14px; background: var(--a-raised); animation: ob-cap-in 240ms var(--a-ease) both; }
+.ob-capnote__title { margin: 0; font: 700 15px/1.3 var(--font-display); color: var(--a-ink); }
+.ob-capnote__body { margin: 0; max-width: 64ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); text-wrap: pretty; }
+.ob-capnote__keys { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 8px; margin-top: 4px; }
+.ob-capnote__swap {
+  min-height: 44px; padding: 0 16px; border-radius: 12px; cursor: pointer; font: 700 14px/1.2 var(--font-display); color: var(--a-ink);
+  border: 1px solid var(--a-line-strong); background: transparent; transition: border-color 150ms ease, background-color 150ms ease;
+}
+.ob-capnote__swap:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.ob-capnote__swap:disabled { opacity: 0.6; cursor: default; }
+@media (hover: hover) and (pointer: fine) { .ob-capnote__swap:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-hover); } }
+@keyframes ob-cap-in { from { opacity: 0; transform: translate3d(0, 8px, 0); } to { opacity: 1; transform: none; } }
+/* Room under the last tile for the taller bar while the reason is up. */
+.ob[data-cap] .ob-main { padding-bottom: calc(320px + env(safe-area-inset-bottom)); }
+@media (min-width: 768px) { .ob[data-cap] .ob-main { padding-bottom: calc(250px + env(safe-area-inset-bottom)); } }
+/* While a phone's keyboard is up for a search, the bar steps aside so it never sits on the results. */
+@media (max-width: 767px) { .ob:has(input[data-du-search]:focus) .ob-bar { display: none; } }
+
 /* ---------- Step 2: study days a week ---------- */
 .ob-days { display: grid; gap: 14px; justify-items: stretch; max-width: 680px; }
 
@@ -258,8 +340,6 @@ html[data-theme='light'] .ob-dial::after { background: radial-gradient(closest-s
 .ob-bar__sub { font-size: 13px; color: var(--a-ink-3); }
 .ob-count { display: inline-block; min-width: 1ch; }
 .ob-rule { margin: 8px 0 0; max-width: 50ch; font-size: 14px; line-height: 1.5; color: var(--a-ink-3, var(--a-ink-2)); text-wrap: pretty; }
-.ob-cap { font-size: 13px; color: var(--a-accent-text); }
-.ob-cap:empty { display: none; }
 
 /* Five slots: each pick drops into the next one; a sixth shakes them. */
 .ob-slots { display: inline-flex; gap: 5px; flex: none; }
@@ -294,11 +374,11 @@ html[data-theme='light'] .ob-slot[data-on] { box-shadow: inset 0 0 0 1px #9db400
 
 /* ---------- Reduced motion: the finished state, at once ---------- */
 @media (prefers-reduced-motion: reduce) {
-  .ob-step, .ob-tile, .ob-stage__swap, .ob-dial__arcs, .ob-slot[data-on], .ob-tile[data-selected] .ob-tile__art, .ob-tick--on::before { animation: none; }
+  .ob-step, .ob-tile, .ob-stage__swap, .ob-dial__arcs, .ob-slot[data-on], .ob-tile[data-selected] .ob-tile__art, .ob-tick--on::before, .ob-capnote, .ob-course__rule { animation: none; }
   .ob-dial__arc { animation: none; stroke-dashoffset: 0; opacity: 1; }
   .ob-track__thumb, .ob-track__n, .ob-progress__bar i, .ob-tile { transition: none; }
 }
-html[data-motion='reduced'] :is(.ob-step, .ob-tile, .ob-stage__swap, .ob-dial__arcs, .ob-slot[data-on], .ob-tick--on::before),
+html[data-motion='reduced'] :is(.ob-step, .ob-tile, .ob-stage__swap, .ob-dial__arcs, .ob-slot[data-on], .ob-tick--on::before, .ob-capnote, .ob-course__rule),
 html[data-motion='reduced'] .ob-tile[data-selected] .ob-tile__art { animation: none; }
 html[data-motion='reduced'] .ob-dial__arc { animation: none; stroke-dashoffset: 0; opacity: 1; }
 html[data-motion='reduced'] :is(.ob-track__thumb, .ob-track__n, .ob-progress__bar i, .ob-tile) { transition: none; }

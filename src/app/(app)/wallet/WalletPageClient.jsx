@@ -14,6 +14,7 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import { CreditMark } from '@/components/ui/Glyph';
 import { useAuth } from '@/components/AuthProvider';
 import { apiGet } from '@/lib/fetcher';
+import { shownName } from '@/lib/displayName.mjs';
 import { startWalletPurchase } from '@/lib/wallet/startWalletPurchase';
 import { announceWallet } from '@/components/useWalletSummary';
 import { walletFromResponse as aiWalletFromResponse } from '@/services/credits/aiWalletState';
@@ -87,7 +88,7 @@ export default function WalletPageClient({ proOffer = null }) {
 
   async function buy(pack) {
     setPhase(pack.packId, { status: 'working', message: '' });
-    const result = await startWalletPurchase(pack, { prefill: { name: user?.name, email: user?.email } });
+    const result = await startWalletPurchase(pack, { prefill: { name: shownName(user?.name, user?.email) || '', email: user?.email } });
     setPhase(pack.packId, { status: result.status === 'paid' ? 'paid' : result.status === 'dismissed' ? 'idle' : result.status, message: result.message });
     if (result.status === 'paid') {
       // Both balances come from the server again, and the top bar chips take them at once.
