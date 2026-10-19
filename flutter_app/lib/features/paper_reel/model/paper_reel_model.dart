@@ -66,9 +66,12 @@ class ReelMoment {
 
 /// The chapter where the most marks went.
 class ReelChapter {
-  const ReelChapter({required this.name, required this.lost, required this.paperMissed, this.paperMax, required this.wrong, required this.blank, required this.qids});
+  const ReelChapter({required this.name, required this.lost, required this.paperMissed, this.paperMax, required this.wrong, required this.blank, required this.qids, this.tied = 1});
 
   final String name;
+
+  /// How many chapters lost exactly as many marks as this one, itself included (1 when it stands alone).
+  final int tied;
 
   /// Marks missed against full marks (a wrong costs 6: the 5 not earned and the 1 taken).
   final int lost;
@@ -382,7 +385,8 @@ class PaperReelModel {
     for (final c in lost.keys) {
       if (best == null || lost[c]! > lost[best]!) best = c;
     }
-    return ReelChapter(name: best!, lost: lost[best]!, paperMissed: paperMissed, paperMax: paperMax, wrong: wrong[best] ?? 0, blank: blank[best] ?? 0, qids: qids[best]!);
+    final tied = lost.values.where((v) => v == lost[best]).length;
+    return ReelChapter(tied: tied, name: best!, lost: lost[best]!, paperMissed: paperMissed, paperMax: paperMax, wrong: wrong[best] ?? 0, blank: blank[best] ?? 0, qids: qids[best]!);
   }
 
   static ReelNextMove _nextMove(List<ReelQuestion> qs, ReelChapter? chapter) {

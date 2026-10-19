@@ -14,7 +14,7 @@ import '../../../core/router/routes.dart';
 import '../../review/data/mistake_index.dart' show buildReviewIndex;
 import '../../review/model/review_chapters.dart' show ChapterRow, chapterRows;
 import '../../review/model/review_record_adapter.dart' show reviewRecordOf;
-import '../../result/model/next_move.dart' show ChapterCost, MoveAnalysis, MoveRow, RowVerdict, costliest;
+import '../../result/model/next_move.dart' show ChapterCost, MoveAnalysis, MoveRow, RowVerdict, rankedChapterCosts, tiedAtTop;
 import '../copy.dart';
 import '../copy_glance.dart';
 import '../copy_pattern.dart' show PatternCopy;
@@ -473,6 +473,13 @@ List<ChapterRow> weakRowsOf(TodayInputs i) {
 /// The chapter that cost [a] the most marks, by the result's own rule ([costliest]): rows are the paper's questions with
 /// a recorded answer row, chapters the questions' own. Null when nothing with a chapter was missed.
 ChapterCost? costliestChapterOf(Attempt a) {
+  final ranked = rankedChapterCostsOf(a);
+  return ranked.isEmpty ? null : ranked.first;
+}
+
+/// Every chapter that lost marks in [a], most first, by the result's own rule ([rankedChapterCosts]); the chapters that tie
+/// with the first are [tiedAtTop] of it (owner I14: a tie is said, never broken silently).
+List<ChapterCost> rankedChapterCostsOf(Attempt a) {
   final rows = <MoveRow>[];
   for (var k = 0; k < a.questions.length; k++) {
     final q = a.questions[k];
@@ -486,7 +493,7 @@ ChapterCost? costliestChapterOf(Attempt a) {
       givenIndex: d.givenIndex,
     ));
   }
-  return costliest(MoveAnalysis(rows));
+  return rankedChapterCosts(MoveAnalysis(rows));
 }
 
 /// The last paper in full: right, wrong and blank in words, and its biggest leak.
@@ -501,12 +508,14 @@ PaperDetail? buildPaperDetail(TodayInputs i) {
   // "biggest" chapters on two screens (v15 walk, M6). Its figure is shown against what the whole paper missed.
   String? leak, leakChapter;
   TodayTarget? leakTarget;
-  final cost = costliestChapterOf(a);
+  final ranked = rankedChapterCostsOf(a);
+  final cost = ranked.isEmpty ? null : ranked.first;
   if (cost != null) {
+    final tiedWith = tiedAtTop(ranked).length - 1;
     leakChapter = cost.chapter;
     final breakdown = markBreakdownOf(a);
     final against = missedMarksDenominator(chapterMissed: cost.marks, paperMissed: breakdown.lost, paperMax: breakdown.max);
-    leak = GlanceCopy.leak(cost.chapter, cost.marks, against, cost.wrong, cost.blank);
+    leak = GlanceCopy.leak(cost.chapter, cost.marks, against, cost.wrong, cost.blank, tiedWith: tiedWith);
     final open = [for (final c in repairCandidates(a, repairedIds: i.repaired[a.id] ?? const {})) if (_chapterOf(c.chapter) == cost.chapter) c];
     if (open.isNotEmpty) leakTarget = GoTo(TodayLinks.repair(a.id, open.first.questionId, open.length));
   }

@@ -592,6 +592,18 @@ abstract final class ReviewCopy {
   /// The lead-in over a chapter that is not the costliest: its place in the ranking, in words.
   static String costliestNth(int rank) => 'Your ${ordinal(rank)} costliest chapter';
 
+  /// The lead-in over a chapter that shares its marks with others (owner I14): equal marks are one rank, said as a tie and
+  /// never as "2nd costliest". The first place reads "Tied for the most marks lost, with 3 other chapters"; a later one
+  /// "Tied for 5th, with 1 other chapter" (the next distinct value is ranked after the whole group).
+  static String costliestTied(int rank, int tied) {
+    final others = tied - 1;
+    final together = 'with $others other chapter${others == 1 ? '' : 's'}';
+    return rank == 1 ? 'Tied for the most marks lost, $together' : 'Tied for ${ordinal(rank)}, $together';
+  }
+
+  /// The one lead-in for a chapter's place: alone first, tied, or alone later.
+  static String chapterLead(int rank, {int tied = 1}) => tied > 1 ? costliestTied(rank, tied) : (rank == 1 ? loseMost : costliestNth(rank));
+
   /// "2nd", "3rd", "11th", "22nd".
   static String ordinal(int n) {
     final tens = n % 100;

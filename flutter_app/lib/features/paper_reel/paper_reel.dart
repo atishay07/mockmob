@@ -142,7 +142,7 @@ class _ReelBody extends StatelessWidget {
 
     return Semantics(
       container: true,
-      label: frame.isEnd ? ReelCopy.semantics(model.finalMarks, model.maxMarks, model.chapter?.name) : null,
+      label: frame.isEnd ? ReelCopy.semantics(model.finalMarks, model.maxMarks, model.chapter?.name, tied: model.chapter?.tied ?? 1) : null,
       child: Padding(
         padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16),
         child: Column(
@@ -385,7 +385,7 @@ class _ChapterCard extends StatelessWidget {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(ReelCopy.chapterKicker, style: type.label.copyWith(color: colors.ink3)),
+                Text(ReelCopy.chapterKickerFor(c.tied), style: type.label.copyWith(color: colors.ink3)),
                 const SizedBox(height: MmSpace.s4),
                 Text(c.name, style: type.title.copyWith(color: colors.ink), maxLines: 2, overflow: TextOverflow.ellipsis),
                 const SizedBox(height: MmSpace.s8),
