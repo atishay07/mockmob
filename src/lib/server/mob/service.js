@@ -207,6 +207,8 @@ export function createMobService(deps) {
         id: x.id, chapter: x.chapter || null, count, createdByYou: x.created_by === userId,
         createdAt: new Date(x.created_at).toISOString(), closesAt: new Date(x.closes_at).toISOString(), closed: extraTooLate(x),
         sat: (x.sittings || []).length, youSat: Boolean(mine), yourResultId: mine ? mine.session_id : null,
+        // The answers of an extra paper open at its close (src/lib/mob/paperHold.mjs): until then the result shows the marks.
+        answersOpen: extraClosed(x),
         compare: summary && summary.available ? summary : null,
       };
     });
