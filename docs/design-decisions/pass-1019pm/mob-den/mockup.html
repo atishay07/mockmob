@@ -1,0 +1,869 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Den, Mob mock-up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ---------- MockMob tokens (APP/lib/core/theme, MOB-FACTS section 4) ---------- */
+.night{
+  --ground:#12110E; --raised:#1B1A16; --raised2:#25231E; --sunken:#0D0C0A;
+  --line:#312E27; --lineStrong:#4A453B; --ink:#F4F0E6; --ink2:#BDB6A6; --ink3:#A09989; --ink4:#6A645A;
+  --volt:#D2F000; --voltInk:#0B1000; --voltEdge:#9DB400; --accentText:#D2F000;
+  --good:#C6E86E; --bad:#FFA396; --warn:#EDB75A; --lamp:#F2A93B;
+  --glass:rgba(27,26,22,.66); --edge:rgba(255,246,228,.14); --scrim:rgba(8,7,5,.62);
+  --shadow:0 1px 1px rgba(0,0,0,.25),0 18px 36px -20px rgba(0,0,0,.35);
+  --limb:#4A453E;
+  /* den scene */
+  --wall:#1C1A16; --wallLine:#23211C; --desk:#2A251F; --deskTop:#39322A; --deskEdge:#4A4136;
+  --sky:#1A202C; --moon:#F4F0E6; --shelf:#3A332A; --shade:#EFE4CC; --poolA:rgba(242,169,59,.30); --poolB:rgba(242,169,59,0);
+  --paper:#EDE5D3; --paperEdge:#BDB29C; --paperLine:#CFC5AF; --keyb:#1E1D19; --keycap:#34312B;
+  --m-rose:#FF7A8A; --m-blue:#6E8BFF; --m-violet:#B98CFF; --m-teal:#3FC6A8; --m-amber:#F2A93B; --m-sky:#56B8F0; --m-coral:#E58E5A; --m-green:#9FBF4A;
+}
+.day{
+  --ground:#F3EFE6; --raised:#FFFDF8; --raised2:#E9E4D8; --sunken:#EAE5DA;
+  --line:#D8D1C2; --lineStrong:#BDB4A2; --ink:#17150F; --ink2:#454036; --ink3:#655F53; --ink4:#8A8375;
+  --volt:#D2F000; --voltInk:#0B1000; --voltEdge:#9DB400; --accentText:#526700;
+  --good:#3D6600; --bad:#B0291F; --warn:#845400; --lamp:#C77F12;
+  --glass:rgba(255,253,248,.74); --edge:rgba(255,255,255,.85); --scrim:rgba(23,21,15,.38);
+  --shadow:0 1px 2px rgba(42,32,16,.06),0 14px 30px -18px rgba(42,32,16,.15);
+  --limb:#262421;
+  --wall:#ECE4D4; --wallLine:#E3DAC8; --desk:#CDBB9C; --deskTop:#DDCFB5; --deskEdge:#BBA683;
+  --sky:#CFE5F0; --moon:#F2C46B; --shelf:#C9B593; --shade:#FFFDF8; --poolA:rgba(242,196,107,.26); --poolB:rgba(242,196,107,0);
+  --paper:#FFFDF8; --paperEdge:#CFC6B4; --paperLine:#E2DACB; --keyb:#E3DED3; --keycap:#FFFDF8;
+  --m-rose:#B4243A; --m-blue:#3550C8; --m-violet:#6A3BC4; --m-teal:#0E7C66; --m-amber:#9A5B00; --m-sky:#0B6A9E; --m-coral:#A14A12; --m-green:#55741A;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0E0D0B}
+body{font-family:'Hanken Grotesk',system-ui,sans-serif;color:#F4F0E6;-webkit-font-smoothing:antialiased}
+.br{font-family:'Bricolage Grotesque',sans-serif}
+.t-display{font:800 36px/38px 'Bricolage Grotesque';letter-spacing:-.025em;font-variation-settings:'opsz' 96}
+.t-headline{font:750 28px/31px 'Bricolage Grotesque';letter-spacing:-.022em;font-variation-settings:'opsz' 72}
+.t-title{font:700 22px/27px 'Bricolage Grotesque';letter-spacing:-.015em;font-variation-settings:'opsz' 48}
+.t-fig{font-family:'Bricolage Grotesque';font-weight:750;font-stretch:75%;font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.t-sub{font:700 17px/22px 'Hanken Grotesk'}
+.t-body{font:400 16px/24px 'Hanken Grotesk'}
+.t-small{font:400 14px/20px 'Hanken Grotesk'}
+.t-cap{font:400 13px/18px 'Hanken Grotesk'}
+.t-label{font:600 13px/18px 'Hanken Grotesk'}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- phone ---------- */
+.phone{position:relative;width:360px;height:780px;overflow:hidden;background:var(--ground);color:var(--ink);border-radius:28px;flex:none}
+.solo .phone{border-radius:0}
+.status{height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 20px 0 24px;font:600 13px/1 'Hanken Grotesk';color:var(--ink);position:relative;z-index:5}
+.status .ico{display:flex;gap:6px;align-items:center}
+.scrollc{position:absolute;inset:32px 0 0 0;overflow:hidden}
+.pad{padding:0 16px}
+.hdr{display:flex;align-items:center;gap:12px;height:60px;padding:0 16px}
+.hdr .grow{flex:1;min-width:0}
+.iconbtn{width:44px;height:44px;border-radius:999px;display:grid;place-items:center;color:var(--ink);background:transparent;border:0}
+.iconbtn.ring{border:1px solid var(--line);background:var(--raised)}
+.askmobi{height:40px;border-radius:999px;border:1px solid var(--line);background:var(--raised);display:flex;align-items:center;gap:6px;padding:0 14px 0 8px;font:600 14px/1 'Hanken Grotesk';color:var(--ink)}
+.key{height:56px;border-radius:999px;background:var(--volt);color:var(--voltInk);font:650 16px/20px 'Hanken Grotesk';font-weight:650;display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 1px 0 var(--voltEdge)}
+.key2{height:48px;border-radius:999px;background:var(--raised);color:var(--ink);font:600 15px/20px 'Hanken Grotesk';display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--lineStrong);padding:0 18px}
+.textbtn{height:44px;display:flex;align-items:center;justify-content:center;font:600 15px/20px 'Hanken Grotesk';color:var(--ink2);text-decoration:underline;text-decoration-color:var(--lineStrong);text-underline-offset:4px}
+.card{background:var(--raised);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+.hair{height:1px;background:var(--line)}
+.muted{color:var(--ink3)}
+.ink2{color:var(--ink2)}
+.acc{color:var(--accentText)}
+
+/* bottom bar (H5: keep exactly) */
+.bar{position:absolute;left:16px;right:16px;bottom:12px;height:64px;border-radius:32px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--edge);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-around;z-index:20}
+.night .bar{border-color:rgba(255,246,228,.10)}
+.bar .slot{width:58px;height:52px;border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:500 12px/15px 'Hanken Grotesk';color:var(--ink2)}
+.bar .slot.on{background:var(--raised2);color:var(--ink);font-weight:700}
+.night .bar .slot.on svg{color:var(--volt)}
+.bar .start{width:64px;height:64px;border-radius:50%;background:var(--volt);color:var(--voltInk);display:flex;flex-direction:column;align-items:center;justify-content:center;font:700 12px/14px 'Hanken Grotesk';margin-top:-4px;box-shadow:0 0 0 1px var(--voltEdge),0 10px 20px -10px rgba(0,0,0,.5)}
+.fade-under{position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(to bottom,transparent,var(--ground) 70%);z-index:10;pointer-events:none}
+
+/* avatar disc */
+.disc{display:inline-grid;place-items:center;border-radius:50%;background:var(--raised2);overflow:hidden;flex:none;position:relative}
+.disc svg{display:block}
+.live-dot{position:absolute;width:12px;height:12px;border-radius:50%;background:var(--good);border:2px solid var(--ground);right:-1px;bottom:-1px}
+.pulse{position:absolute;inset:-2px;border-radius:50%;border:2px solid var(--good);animation:pulse 1800ms cubic-bezier(.23,1,.32,1) infinite}
+@keyframes pulse{0%{transform:scale(1);opacity:.7}100%{transform:scale(2.4);opacity:0}}
+
+/* idle life (lobby at rest) */
+.breathe{transform-box:fill-box;transform-origin:50% 100%;animation:breathe 3600ms cubic-bezier(.45,0,.55,1) infinite alternate}
+@keyframes breathe{from{transform:translateY(0) scale(1,1)}to{transform:translateY(-.8px) scale(1.012,1.028)}}
+.eyes{transform-box:fill-box;transform-origin:50% 50%;animation:blink 5200ms linear infinite}
+@keyframes blink{0%,93%,100%{transform:scaleY(1)}95.5%{transform:scaleY(.12)}}
+.sway{transform-box:view-box;transform-origin:164px 0px;animation:sway 6400ms cubic-bezier(.45,0,.55,1) infinite alternate}
+@keyframes sway{from{transform:rotate(-1.4deg)}to{transform:rotate(1.4deg)}}
+.glowpulse{animation:glowp 3200ms cubic-bezier(.45,0,.55,1) infinite alternate}
+@keyframes glowp{from{opacity:.86}to{opacity:1}}
+.wave-arm{transform-box:view-box;animation:wave 1400ms cubic-bezier(.45,0,.55,1) infinite alternate}
+@keyframes wave{from{transform:rotate(-6deg)}to{transform:rotate(10deg)}}
+.steam{animation:steam 2600ms cubic-bezier(.45,0,.55,1) infinite}
+@keyframes steam{0%{transform:translateY(2px);opacity:0}40%{opacity:.7}100%{transform:translateY(-5px);opacity:0}}
+
+/* results reveal (S4). tokens: emphasized 420 (.16,1,.3,1), settle 420, result 320, enter 360, stagger 45 */
+.rv-stack{transform-box:fill-box;transform-origin:50% 100%;animation:rvStack 420ms cubic-bezier(.16,1,.3,1) both}
+@keyframes rvStack{from{transform:scaleY(.04)}to{transform:scaleY(1)}}
+.rv-av{animation:rvAv 420ms cubic-bezier(.23,1,.32,1) both}
+@keyframes rvAv{0%{transform:translateY(-34px);opacity:0}55%{transform:translateY(2px);opacity:1}100%{transform:translateY(0);opacity:1}}
+.rv-name{animation:rvUp 260ms cubic-bezier(.23,1,.32,1) both}
+@keyframes rvUp{from{transform:translateY(6px);opacity:0}to{transform:none;opacity:1}}
+.rv-pop{transform-box:fill-box;transform-origin:50% 50%;animation:rvPop 420ms cubic-bezier(.16,1,.3,1) both}
+@keyframes rvPop{0%{transform:scale(.6) rotate(-14deg);opacity:0}60%{transform:scale(1.08) rotate(3deg);opacity:1}100%{transform:scale(1) rotate(0);opacity:1}}
+.rv-in{animation:rvIn 360ms cubic-bezier(.16,1,.3,1) both}
+@keyframes rvIn{from{transform:translateY(14px);opacity:0}to{transform:none;opacity:1}}
+.rv-tray{animation:rvTray 360ms cubic-bezier(.32,.72,0,1) both}
+@keyframes rvTray{from{transform:translateY(100%)}to{transform:none}}
+
+/* reaction (S4) */
+.react-fly{position:absolute;z-index:30;pointer-events:none}
+/* picker (S5) */
+.pk-out{animation:pkOut 200ms cubic-bezier(.4,.3,.8,.6) both}
+@keyframes pkOut{to{transform:translateY(18px) scale(.95);opacity:0}}
+.pk-in{animation:pkIn 360ms cubic-bezier(.16,1,.3,1) both}
+@keyframes pkIn{from{transform:translateY(22px) scale(.95);opacity:0}to{transform:none;opacity:1}}
+
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+
+/* gallery chrome */
+.gal{max-width:1600px;margin:0 auto;padding:40px 32px 80px}
+.gal h1{font:800 40px/44px 'Bricolage Grotesque';letter-spacing:-.025em;color:#F4F0E6}
+.gal .lede{font:400 17px/26px 'Hanken Grotesk';color:#BDB6A6;max-width:760px;margin-top:10px}
+.gal .note{font:500 13px/18px 'Hanken Grotesk';color:#A09989;margin-top:8px}
+.row{margin-top:48px}
+.row h2{font:700 22px/27px 'Bricolage Grotesque';color:#F4F0E6}
+.row .r2{font:400 15px/22px 'Hanken Grotesk';color:#BDB6A6;margin-top:4px;max-width:820px}
+.pair{display:flex;gap:28px;margin-top:18px;flex-wrap:wrap;align-items:flex-start}
+.pair .lab{font:600 12px/16px 'Hanken Grotesk';color:#A09989;margin-bottom:8px}
+.gbtn{font:600 14px/1 'Hanken Grotesk';background:#25231E;color:#F4F0E6;border:1px solid #4A453B;border-radius:999px;height:36px;padding:0 16px;cursor:pointer;margin-top:12px;margin-right:8px}
+.contact{display:grid;grid-template-columns:repeat(8,360px);gap:24px 20px;padding:28px;background:#0E0D0B}
+.contact .cl{font:600 15px/20px 'Hanken Grotesk';color:#BDB6A6;margin-bottom:8px}
+.sheet{padding:36px;width:1320px}
+.sheet h1{font:800 34px/38px 'Bricolage Grotesque';letter-spacing:-.02em;color:var(--ink)}
+.sheet .sl{font:400 16px/24px 'Hanken Grotesk';color:var(--ink2);margin-top:6px}
+.sgrid{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-top:24px}
+.scard{background:var(--raised);border:1px solid var(--line);border-radius:20px;padding:12px 12px 14px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative}
+.scard .nm{font:700 18px/22px 'Bricolage Grotesque';color:var(--ink);margin-top:2px}
+.scard .ln{font:400 13px/18px 'Hanken Grotesk';color:var(--ink2);margin-top:4px;min-height:36px}
+.scard .lk{position:absolute;top:10px;right:10px;font:600 11px/14px 'Hanken Grotesk';color:var(--ink3);display:flex;gap:4px;align-items:center}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script>
+/* =====================================================================
+   THE DEN — Mob direction mock-up. Illustrative fixture data only.
+   ===================================================================== */
+const Q = new URLSearchParams(location.search);
+let UID = 0; const uid = () => 'u' + (UID++);
+const f1 = n => (+n).toFixed(1);
+const pt = p => f1(p[0]) + ' ' + f1(p[1]);
+
+/* rounded polygon: soft folded-paper corners */
+function rp(pts, r){
+  const n = pts.length; let d = '';
+  for (let i = 0; i < n; i++){
+    const p = pts[i], a = pts[(i - 1 + n) % n], b = pts[(i + 1) % n];
+    const la = Math.hypot(a[0]-p[0], a[1]-p[1]), lb = Math.hypot(b[0]-p[0], b[1]-p[1]);
+    const rr = Math.min(r, la/2, lb/2);
+    const s = [p[0] + (a[0]-p[0])/la*rr, p[1] + (a[1]-p[1])/la*rr];
+    const e = [p[0] + (b[0]-p[0])/lb*rr, p[1] + (b[1]-p[1])/lb*rr];
+    d += (i ? 'L' : 'M') + pt(s) + 'Q' + pt(p) + ' ' + pt(e);
+  }
+  return d + 'Z';
+}
+const poly = (pts, fill, op=1, extra='') => `<path d="M${pts.map(pt).join('L')}Z" fill="${fill}" opacity="${op}" ${extra}/>`;
+const ln = (x1,y1,x2,y2,st,w=1.4,op=1,extra='') => `<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="${st}" stroke-width="${w}" opacity="${op}" stroke-linecap="round" ${extra}/>`;
+const rot = (p, c, deg) => { const a = deg*Math.PI/180, x = p[0]-c[0], y = p[1]-c[1]; return [c[0] + x*Math.cos(a) - y*Math.sin(a), c[1] + x*Math.sin(a) + y*Math.cos(a)]; };
+
+/* paper palette: base, light, deep. Mid-tones read on both grounds, like Mobi (same paper, only the light changes). */
+const PAL = {
+  rose:['#FF8796','#FFB8C1','#D9586B'], blue:['#7F98FF','#B0C0FF','#5670DE'], violet:['#BC93FF','#DAC3FF','#9064DD'],
+  teal:['#4CCBAE','#8DE4CF','#279B83'], amber:['#F4B04A','#FAD28C','#CC8820'], sky:['#5FBEF2','#A0DBF8','#2C93CC'],
+  coral:['#EA9764','#F5C29F','#C36B37'], green:['#A7C650','#CDE18F','#7B9A2A'], lime:['#D2F000','#EFFF7A','#A2BB00']
+};
+const COLOURS = ['rose','blue','violet','teal','amber','sky','coral','green'];
+
+/* ---------------- the family: 24 originals, each a different piece of exam stationery, folded ---------------- */
+const CH = {};
+function def(key, o){ CH[key] = Object.assign({key}, o); }
+
+def('patang',{name:'Patang',line:'Rises fastest when the wind is against it.',colour:'rose',eyes:'open',
+  visor:[60,52,46,24],top:[60,8],chest:[74,76],arms:[30,60,90,60],legs:[53,67,92],
+  draw:(P,g)=>({main:rp([[60,8],[101,49],[60,104],[19,49]],8),
+    over:poly([[60,0],[120,0],[120,130],[60,130]],P[2],.28)+ln(60,8,60,104,P[1],1.3,.7)+ln(19,49,101,49,P[1],1.3,.55),
+    front:`<path d="M55 7 L60 12 L65 7 L60 4Z" fill="${P[1]}"/><path d="M53 3 L58 8 M67 3 L62 8" stroke="${P[2]}" stroke-width="2.2" stroke-linecap="round"/>`})});
+
+def('dart',{name:'Dart',line:'Answers first, then checks every answer twice.',colour:'teal',eyes:'slant',
+  visor:[60,60,40,21],top:[60,7],chest:[74,78],arms:[36,68,84,68],legs:[44,76,92],
+  draw:(P)=>({main:rp([[60,6],[105,98],[60,80],[15,98]],6),
+    over:poly([[60,0],[120,0],[120,130],[60,130]],P[2],.30)+ln(60,8,60,80,P[1],1.4,.8)})});
+
+def('crane',{name:'Crane',line:'Folds it a hundred times until it is right.',colour:'violet',eyes:'lid',unlock:'Fix 3 Mob traps together',
+  visor:[60,66,38,20],top:[63,12],chest:[70,86],arms:[36,74,84,74],legs:[53,67,92],
+  draw:(P,g)=>({back:`<path d="${rp([[40,64],[6,20],[54,48]],5)}" fill="url(#${g})"/><path d="${rp([[80,64],[114,20],[66,48]],5)}" fill="url(#${g})"/>`+poly([[40,64],[6,20],[30,52]],P[2],.35)+poly([[80,64],[114,20],[90,52]],P[2],.35)
+     ,
+    main:rp([[60,30],[91,65],[60,101],[29,65]],7),
+    over:poly([[60,20],[100,20],[100,110],[60,110]],P[2],.26)+ln(60,30,60,101,P[1],1.2,.6)})});
+
+def('ticket',{name:'Ticket',line:'Always the first one into the exam hall.',colour:'amber',eyes:'smile',tilt:-6,
+  visor:[52,59,44,23],top:[60,22],chest:[66,86],arms:[20,66,100,66],legs:[48,72,98],
+  draw:(P)=>({main:'M26 22 H94 Q102 22 102 30 V50 A9 9 0 0 0 102 68 V90 Q102 98 94 98 H26 Q18 98 18 90 V68 A9 9 0 0 0 18 50 V30 Q18 22 26 22Z',
+    over:poly([[84,0],[120,0],[120,130],[84,130]],P[2],.22)+ln(84,26,84,94,P[1],1.8,.9,'stroke-dasharray="3 4"')+`<circle cx="94" cy="40" r="2.2" fill="${P[2]}"/><circle cx="94" cy="80" r="2.2" fill="${P[2]}"/>`})});
+
+def('dogear',{name:'Dog-ear',line:'Folds a corner on every question that tricked them.',colour:'sky',eyes:'open',
+  visor:[60,48,46,24],top:[60,12],chest:[82,72],arms:[24,62,98,62],legs:[50,72,104],
+  draw:(P)=>({main:rp([[22,12],[82,12],[100,30],[100,104],[22,104]],5),
+    over:poly([[82,8],[82,30],[104,30]],P[1],1)+ln(82,30,100,30,P[2],1.2,.6)+[78,86,94].map((y,i)=>ln(34,y,[86,74,80][i],y,P[1],2.4,.55)).join(''),
+    front:`<path d="M33 22 V6 a4 4 0 0 1 8 0 V20 a2.5 2.5 0 0 1 -5 0 V9" fill="none" stroke="#A39C8E" stroke-width="2" stroke-linecap="round"/>`})});
+
+def('pip',{name:'Pip',line:'Keeps everyone’s notes, and everyone’s secrets.',colour:'coral',eyes:'smile',
+  visor:[60,60,48,24],top:[60,8],chest:[86,84],arms:[16,68,104,68],legs:[48,72,98],
+  draw:(P,g)=>({back:`<path d="${rp([[15,38],[60,7],[105,38]],6)}" fill="${P[2]}"/><rect x="27" y="20" width="66" height="30" rx="3" fill="#FFF8EA"/>`+ln(35,29,72,29,'#D9D0BD',2.2)+ln(35,36,62,36,'#D9D0BD',2.2),
+    main:rp([[13,36],[107,36],[107,98],[13,98]],7),
+    over:ln(13,98,60,68,P[1],1.4,.75)+ln(107,98,60,68,P[1],1.4,.75)+poly([[13,98],[60,68],[107,98]],P[2],.18)})});
+
+def('naav',{name:'Naav',line:'Stays steady when the paper gets rough.',colour:'blue',eyes:'open',
+  visor:[60,80,50,21],top:[60,7],chest:[88,90],arms:[18,78,102,78],legs:[48,72,100],
+  draw:(P,g)=>({back:`<path d="${rp([[60,6],[95,64],[25,64]],6)}" fill="url(#${g})"/>`+poly([[60,8],[93,62],[60,62]],P[2],.30)+ln(60,8,60,62,P[1],1.3,.6),
+    main:rp([[5,60],[115,60],[94,101],[26,101]],7),
+    over:poly([[36,60],[60,73],[84,60]],P[2],.25)+ln(5,61,115,61,P[1],1.6,.7)})});
+
+def('teller',{name:'Teller',line:'Guesses wisely, never wildly.',colour:'green',eyes:'curious',
+  visor:[60,60,46,24],top:[60,14],chest:[88,90],arms:[16,70,104,70],legs:[48,72,106],
+  draw:(P)=>({main:rp([[14,14],[106,14],[106,106],[14,106]],10),
+    over:poly([[14,14],[60,14],[14,60]],P[2],.32)+poly([[106,106],[60,106],[106,60]],P[2],.32)+poly([[106,14],[106,60],[60,14]],P[1],.35)+poly([[14,106],[14,60],[60,106]],P[1],.35)
+      +`<path d="M60 14 L106 60 L60 106 L14 60Z" fill="none" stroke="${P[1]}" stroke-width="1.4" opacity=".8"/>`+ln(14,14,106,106,P[2],1,.35)+ln(106,14,14,106,P[2],1,.35)})});
+
+def('sticky',{name:'Sticky',line:'Remembers the formula so you don’t have to.',colour:'amber',eyes:'open',tilt:4,
+  visor:[58,58,48,24],top:[60,16],chest:[36,88],arms:[18,68,102,68],legs:[48,70,104],
+  draw:(P)=>({main:rp([[16,16],[104,16],[104,82],[82,104],[16,104]],5),
+    over:poly([[0,0],[120,0],[120,29],[0,29]],P[2],.18)+poly([[104,82],[82,104],[87,87]],P[1],1)+ln(87,87,104,82,P[2],1.2,.5)})});
+
+def('scroll',{name:'Scroll',line:'Reads the whole passage. Then reads it again.',colour:'violet',eyes:'lid',
+  visor:[60,57,46,23],top:[60,10],chest:[82,84],arms:[24,64,96,64],legs:[48,72,108],
+  draw:(P,g)=>({main:rp([[24,20],[96,20],[96,100],[24,100]],3),
+    over:[78,85].map((y,i)=>ln(34,y,[86,70][i],y,P[1],2.4,.55)).join(''),
+    front:`<rect x="15" y="9" width="90" height="20" rx="10" fill="url(#${g})"/><rect x="15" y="9" width="90" height="20" rx="10" fill="${P[2]}" opacity=".35"/><circle cx="25" cy="19" r="5" fill="none" stroke="${P[1]}" stroke-width="1.6"/>
+      <rect x="15" y="91" width="90" height="20" rx="10" fill="url(#${g})"/><rect x="15" y="91" width="90" height="20" rx="10" fill="${P[2]}" opacity=".45"/><circle cx="95" cy="101" r="5" fill="none" stroke="${P[1]}" stroke-width="1.6"/>`})});
+
+(function(){ /* Pankha: pleated paper fan */
+  const C=[60,106], R=64, a0=28, a1=152, n=8; const pts=[C];
+  for(let i=0;i<=n;i++){ const a=(a0+(a1-a0)*i/n)*Math.PI/180; pts.push([C[0]+R*Math.cos(a), C[1]-R*Math.sin(a)]); }
+  let pleats=''; for(let i=0;i<n;i+=2){ pleats+=poly([C,pts[i+1],pts[i+2]],'DEEP',.28); }
+  let ribs=''; for(let i=1;i<=n+1;i++){ ribs+=ln(C[0],C[1],pts[i][0],pts[i][1],'LIGHT',1,.55); }
+  def('pankha',{name:'Pankha',line:'Cools the room down before a big mock.',colour:'blue',eyes:'smile',
+    visor:[60,74,44,22],top:[60,42],chest:[84,92],arms:[22,86,98,86],legs:[53,67,100],
+    draw:(P)=>({main:rp(pts,5),over:(pleats+ribs).replaceAll('DEEP',P[2]).replaceAll('LIGHT',P[1])})});
+})();
+
+(function(){ /* Tara: folded star */
+  const C=[60,62], pts=[]; for(let i=0;i<10;i++){ const r=i%2?27:55, a=(-90+36*i)*Math.PI/180; pts.push([C[0]+r*Math.cos(a), C[1]+r*Math.sin(a)]); }
+  let sh=''; for(let i=0;i<10;i+=2){ sh+=poly([C,pts[i],pts[(i+1)%10]],'DEEP',.26); }
+  let cr=''; for(let i=0;i<10;i+=2){ cr+=ln(C[0],C[1],pts[i][0],pts[i][1],'LIGHT',1.1,.6); }
+  def('tara',{name:'Tara',line:'Saves the best for the hardest question.',colour:'rose',eyes:'smile',
+    visor:[60,64,40,21],top:[60,7],chest:[60,90],arms:[30,72,90,72],legs:[52,68,86],
+    draw:(P)=>({main:rp(pts,5),over:(sh+cr).replaceAll('DEEP',P[2]).replaceAll('LIGHT',P[1])})});
+})();
+
+def('tag',{name:'Tag',line:'Knows which chapter every question comes from.',colour:'green',eyes:'open',
+  visor:[60,64,48,24],top:[60,6],chest:[86,94],arms:[20,72,100,72],legs:[48,72,106],
+  draw:(P)=>({main:rp([[60,8],[103,36],[103,106],[17,106],[17,36]],7),
+    over:`<circle cx="60" cy="28" r="9.5" fill="${P[1]}" opacity=".55"/>`+poly([[60,0],[120,0],[120,130],[60,130]],P[2],.15),
+    front:`<circle cx="60" cy="28" r="4.6" fill="#141312"/><path d="M60 26 C 50 12, 74 8, 66 -4" fill="none" stroke="#A39C8E" stroke-width="2" stroke-linecap="round"/>`})});
+
+(function(){ /* Tally: receipt with torn zigzag */
+  const pts=[[28,6],[92,6],[92,98]]; let x=92, up=false; while(x>28){ x-=8; pts.push([Math.max(x,28), up?98:106]); up=!up; }
+  def('tally',{name:'Tally',line:'Counts every mark, including the minus ones.',colour:'sky',eyes:'slant',
+    visor:[60,36,44,22],top:[60,6],chest:[80,62],arms:[28,50,92,50],legs:[50,70,100],
+    draw:(P)=>({main:rp(pts,2),over:[62,70,78].map(y=>ln(36,y,66,y,P[1],2.2,.6)+ln(74,y,84,y,P[1],2.2,.6)).join('')+ln(36,88,84,88,P[2],1.4,.6,'stroke-dasharray="2 3"')+poly([[0,0],[120,0],[120,12],[0,12]],P[1],.25)})});
+})();
+
+def('ribbon',{name:'Ribbon',line:'Always remembers where you stopped.',colour:'rose',eyes:'curious',
+  visor:[60,44,40,22],top:[60,6],chest:[60,74],arms:[36,56,84,56],legs:[52,68,96],
+  draw:(P)=>({main:rp([[34,6],[86,6],[86,108],[60,91],[34,108]],5),
+    over:poly([[72,0],[90,0],[90,120],[72,120]],P[2],.30)+ln(72,6,72,100,P[1],1,.5),
+    front:`<circle cx="60" cy="4" r="3.2" fill="none" stroke="#A39C8E" stroke-width="2"/><path d="M58 0 L52 -6 M62 0 L68 -6 M60 0 V-7" stroke="#A39C8E" stroke-width="1.8" stroke-linecap="round"/>`})});
+
+(function(){ /* Hexa: an origami cube */
+  const C=[60,58], pts=[]; for(let i=0;i<6;i++){ const a=(-90+60*i)*Math.PI/180; pts.push([C[0]+52*Math.cos(a), C[1]+52*Math.sin(a)]); }
+  def('hexa',{name:'Hexa',line:'Builds every answer one step at a time.',colour:'teal',eyes:'open',
+    visor:[60,64,46,24],top:[60,6],chest:[86,88],arms:[18,68,102,68],legs:[50,70,104],
+    draw:(P)=>({main:rp(pts,6),
+      over:poly([C,pts[5],pts[0],pts[1]],P[1],.32)+poly([C,pts[1],pts[2],pts[3]],P[2],.30)+ln(C[0],C[1],pts[1][0],pts[1][1],P[1],1.2,.6)+ln(C[0],C[1],pts[3][0],pts[3][1],P[1],1.2,.6)+ln(C[0],C[1],pts[5][0],pts[5][1],P[1],1.2,.6)})});
+})();
+
+def('cutting',{name:'Cutting',line:'Runs on chai and practice papers.',colour:'coral',eyes:'smile',
+  visor:[60,60,48,24],top:[60,22],chest:[80,94],arms:[24,64,96,64],legs:[48,72,104],
+  draw:(P,g)=>({main:rp([[21,30],[99,30],[88,106],[32,106]],6),
+    over:poly([[0,82],[120,82],[120,94],[0,94]],P[2],.35)+poly([[78,0],[120,0],[120,130],[78,130]],P[2],.16),
+    front:`<rect x="13" y="21" width="94" height="16" rx="8" fill="${P[1]}"/><rect x="13" y="31" width="94" height="6" rx="3" fill="${P[2]}" opacity=".35"/>
+      <g class="steam"><path d="M48 16 C 42 10, 54 6, 48 -2" fill="none" stroke="#A39C8E" stroke-width="2.2" stroke-linecap="round" opacity=".7"/><path d="M68 16 C 62 10, 74 6, 68 -2" fill="none" stroke="#A39C8E" stroke-width="2.2" stroke-linecap="round" opacity=".55"/></g>`})});
+
+def('kandil',{name:'Kandil',line:'Lights up the den on late nights.',colour:'amber',eyes:'lid',unlock:'Answer 120 questions together in a week',
+  visor:[60,62,48,24],top:[60,12],chest:[84,92],arms:[20,70,100,70],legs:[48,72,104],
+  draw:(P,g,id)=>({defs:`<radialGradient id="kg${id}" cx=".5" cy=".55" r=".55"><stop offset="0" stop-color="#FFF1C2" stop-opacity=".95"/><stop offset="1" stop-color="#FFF1C2" stop-opacity="0"/></radialGradient>`,
+    main:rp([[40,22],[80,22],[102,46],[102,84],[80,106],[40,106],[18,84],[18,46]],8),
+    over:`<rect x="10" y="20" width="100" height="90" fill="url(#kg${id})" opacity=".75"/>`+[40,60,80].map(x=>`<path d="M${x} 24 Q ${x+(x-60)*.35} 64 ${x} 104" fill="none" stroke="${P[2]}" stroke-width="1.4" opacity=".5"/>`).join(''),
+    front:`<rect x="43" y="12" width="34" height="11" rx="3" fill="#2B2926"/><path d="M60 12 V-6" stroke="#A39C8E" stroke-width="2" stroke-linecap="round"/><rect x="43" y="104" width="34" height="7" rx="3" fill="#2B2926"/>`})});
+
+def('hop',{name:'Hop',line:'Jumps straight back after a wrong answer.',colour:'teal',eyes:'curious',
+  visor:[60,66,54,24],top:[60,44],chest:[88,88],arms:[16,72,104,72],legs:[46,74,96],
+  draw:(P,g)=>({back:`<circle cx="35" cy="40" r="15" fill="url(#${g})"/><circle cx="85" cy="40" r="15" fill="url(#${g})"/><circle cx="35" cy="40" r="15" fill="${P[2]}" opacity=".15"/>`+`<path d="M27 34 Q35 28 43 34" fill="none" stroke="${P[1]}" stroke-width="1.6"/><path d="M77 34 Q85 28 93 34" fill="none" stroke="${P[1]}" stroke-width="1.6"/>`,
+    main:rp([[11,46],[109,46],[100,98],[20,98]],14),
+    over:poly([[12,80],[32,100],[42,88]],P[2],.35)+poly([[108,80],[88,100],[78,88]],P[2],.35)+ln(30,50,90,50,P[1],1.2,.45)})});
+
+(function(){ /* Phirki: pinwheel */
+  const C=[60,56]; let blades='';
+  for(let k=0;k<4;k++){ const A=rot([58,3],C,90*k), B=rot([101,30],C,90*k), M=rot([77,13],C,90*k);
+    blades+=`<path d="${rp([C,A,B],4)}" fill="url(#GG)"/>`+poly([C,A,M],'LIGHT',.55); }
+  def('phirki',{name:'Phirki',line:'Spins faster whenever the Mob plays.',colour:'violet',eyes:'smile',unlock:'Play 5 Mob games in one week',
+    visor:[60,56,36,19],top:[60,3],chest:[60,84],arms:[34,66,86,66],legs:[54,66,76],
+    draw:(P,g)=>({back:blades.replaceAll('GG',g).replaceAll('LIGHT',P[1]),main:'M60 34 a22 22 0 1 1 -0.01 0Z',over:poly([[60,0],[120,0],[120,120],[60,120]],P[2],.25)})});
+})();
+
+def('ruled',{name:'Ruled',line:'Keeps neat working, even with a timer running.',colour:'sky',eyes:'open',
+  visor:[64,46,46,24],top:[63,10],chest:[86,86],arms:[24,60,102,60],legs:[52,74,106],
+  draw:(P)=>({main:rp([[24,10],[102,10],[102,106],[24,106]],4),
+    over:[72,80,88,96].map(y=>ln(24,y,102,y,P[1],1.2,.7)).join('')+ln(37,10,37,106,'#FF7A8A',1.4,.8),
+    front:[20,34,48,62,76,90].map(y=>`<ellipse cx="24" cy="${y}" rx="5" ry="3" fill="none" stroke="#3A3631" stroke-width="2.2"/>`).join('')})});
+
+def('admit',{name:'Admit',line:'Already pictures exam day, and smiles about it.',colour:'blue',eyes:'open',
+  visor:[60,42,40,21],top:[60,8],chest:[86,100],arms:[22,58,98,58],legs:[48,72,108],
+  draw:(P)=>({main:rp([[20,8],[100,8],[100,108],[20,108]],7),
+    over:`<rect x="32" y="19" width="56" height="45" rx="7" fill="${P[1]}" opacity=".5" stroke="${P[2]}" stroke-width="1.3"/>`+ln(32,76,88,76,P[1],2.4,.65)+ln(32,84,70,84,P[1],2.4,.65)
+      +[34,37,41,43,47,51,53,57,60,64,66,70,73,77,80,84].map((x,i)=>ln(x,93,x,101,P[2],i%3?1.2:2,.75)).join('')})});
+
+def('topi',{name:'Topi',line:'Has a plan for every paper, and wears it.',colour:'coral',eyes:'open',
+  visor:[60,54,42,22],top:[60,6],chest:[90,88],arms:[16,84,104,84],legs:[46,74,100],
+  draw:(P,g)=>({main:rp([[60,6],[107,82],[13,82]],7),
+    over:poly([[60,0],[120,0],[120,90],[60,90]],P[2],.25)+ln(60,8,60,76,P[1],1.3,.6),
+    front:`<path d="${rp([[7,74],[113,74],[113,100],[7,100]],6)}" fill="url(#${g})"/><path d="${rp([[7,74],[113,74],[113,100],[7,100]],6)}" fill="${P[2]}" opacity=".4"/>`+ln(9,80,111,80,P[1],1.3,.6)})});
+
+(function(){ /* Stamp: postage stamp with perforated edges */
+  let bites=''; for(let i=0;i<=8;i++){ const t=16+i*11; bites+=`<circle cx="${t}" cy="16" r="4"/><circle cx="${t}" cy="104" r="4"/><circle cx="16" cy="${t}" r="4"/><circle cx="104" cy="${t}" r="4"/>`; }
+  def('stamp',{name:'Stamp',line:'Seals every fix with a check.',colour:'green',eyes:'open',unlock:'Keep a 4-week Mob streak',
+    visor:[60,56,46,24],top:[60,16],chest:[86,88],arms:[16,66,104,66],legs:[48,72,104],
+    mask:bites,
+    draw:(P)=>({main:'M16 16 H104 V104 H16Z',
+      over:`<rect x="25" y="25" width="70" height="70" rx="3" fill="none" stroke="${P[1]}" stroke-width="1.8" opacity=".8"/>`+`<path d="M34 86 l5 5 l10 -11" fill="none" stroke="${P[2]}" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`
+        +`<path d="M70 30 q4 -3 8 0 t8 0 t8 0 M70 36 q4 -3 8 0 t8 0 t8 0" fill="none" stroke="${P[2]}" stroke-width="1.4" opacity=".7"/>`})});
+})();
+
+/* Mobi himself (host, never a member): the lime folded diamond with an antenna */
+def('mobi',{name:'Mobi',line:'',colour:'lime',eyes:'open',hidden:true,
+  visor:[60,58,50,26],top:[74,6],chest:[86,86],arms:[24,72,98,70],legs:[50,70,98],
+  draw:(P)=>({main:rp([[63,8],[110,56],[58,104],[11,54]],10),
+    over:poly([[110,56],[58,104],[80,64]],P[2],.55)+ln(80,64,104,58,P[1],1.3,.8),
+    front:`<path d="M80 22 L92 -2" stroke="#262421" stroke-width="3.4" stroke-linecap="round"/><circle cx="93" cy="-4" r="5" fill="#D2F000" stroke="#262421" stroke-width="1.2"/>`})});
+
+const ORDER = ['patang','dart','ticket','dogear','pip','naav','teller','sticky','scroll','pankha','tara','tag','tally','ribbon','hexa','cutting','hop','ruled','admit','topi','crane','kandil','phirki','stamp'];
+
+/* eyes */
+function eyesSVG(v, type){
+  const [cx,cy,w,h]=v, dx=w*.205, ew=Math.max(4.6,w*.122), eh=h*.47, c='#FFFAEE', y=cy+1;
+  const cap=(x,s=1)=>`<rect x="${f1(x-ew*s/2)}" y="${f1(y-eh*s/2)}" width="${f1(ew*s)}" height="${f1(eh*s)}" rx="${f1(ew*s/2)}" fill="${c}"/>`;
+  let e='';
+  if(type==='smile'){ e=[cx-dx,cx+dx].map(x=>`<path d="M${f1(x-ew*.75)} ${f1(y+eh*.18)} Q${f1(x)} ${f1(y-eh*.55)} ${f1(x+ew*.75)} ${f1(y+eh*.18)}" fill="none" stroke="${c}" stroke-width="${f1(ew*.62)}" stroke-linecap="round"/>`).join(''); }
+  else if(type==='slant'){ e=cap(cx-dx)+cap(cx+dx)+`<path d="M${f1(cx-dx-ew)} ${f1(y-eh*.75)} L${f1(cx-dx+ew)} ${f1(y-eh*.75)} L${f1(cx-dx+ew)} ${f1(y-eh*.05)}Z M${f1(cx+dx+ew)} ${f1(y-eh*.75)} L${f1(cx+dx-ew)} ${f1(y-eh*.75)} L${f1(cx+dx-ew)} ${f1(y-eh*.05)}Z" fill="#161513"/>`; }
+  else if(type==='lid'){ e=cap(cx-dx)+cap(cx+dx)+`<rect x="${f1(cx-dx-ew)}" y="${f1(y-eh*.75)}" width="${f1(dx*2+ew*2)}" height="${f1(eh*.62)}" fill="#161513"/>`+`<path d="M${f1(cx-dx-ew*.6)} ${f1(y-eh*.13)} H${f1(cx-dx+ew*.6)} M${f1(cx+dx-ew*.6)} ${f1(y-eh*.13)} H${f1(cx+dx+ew*.6)}" stroke="#D9D0BD" stroke-width="1.1" stroke-linecap="round"/>`; }
+  else if(type==='curious'){ e=cap(cx-dx,.9)+cap(cx+dx,1.2); }
+  else { e=cap(cx-dx)+cap(cx+dx); }
+  return `<g class="eyes">${e}</g>`;
+}
+
+/* accessories (one per character) */
+function accSVG(acc, c, P){
+  const [vx,vy,vw,vh]=c.visor, [tx,ty]=c.top, [chx,chy]=c.chest, hw=vw/2;
+  if(acc==='headphones') return `<rect x="${vx-hw-11}" y="${vy-9}" width="11" height="18" rx="5.5" fill="#2B2926"/><rect x="${vx+hw}" y="${vy-9}" width="11" height="18" rx="5.5" fill="#2B2926"/><rect x="${vx-hw-8.5}" y="${vy-5}" width="5" height="10" rx="2.5" fill="${P[1]}"/><rect x="${vx+hw+3.5}" y="${vy-5}" width="5" height="10" rx="2.5" fill="${P[1]}"/>`;
+  if(acc==='cap') return `<g transform="translate(${tx} ${ty})"><path d="M-17 2 C -17 -16, 17 -16, 17 2 Z" fill="#2B2926"/><path d="M8 1 Q 22 -1 28 4 Q 18 6 6 4Z" fill="#2B2926"/><path d="M-12 -6 Q 0 -14 10 -8" stroke="#45413B" stroke-width="2" fill="none" stroke-linecap="round"/><circle cx="0" cy="-13" r="2.4" fill="${P[1]}"/></g>`;
+  if(acc==='specs'){ const dx=vw*.205, r=vh*.42; return `<g fill="none" stroke="#F2C46B" stroke-width="1.8"><circle cx="${vx-dx}" cy="${vy+1}" r="${r}"/><circle cx="${vx+dx}" cy="${vy+1}" r="${r}"/><path d="M${vx-dx+r} ${vy} Q ${vx} ${vy-3} ${vx+dx-r} ${vy}"/></g>`; }
+  if(acc==='scarf') return `<g transform="translate(${chx-14} ${chy-6})"><path d="${rp([[-22,0],[30,0],[30,11],[-22,11]],5)}" fill="#F4F0E6"/><path d="M-6 0 v11 M6 0 v11 M18 0 v11" stroke="#FF7A8A" stroke-width="4"/><path d="${rp([[20,8],[30,8],[32,26],[22,26]],3)}" fill="#F4F0E6"/><path d="M22 14 h9 M23 20 h9" stroke="#FF7A8A" stroke-width="3"/></g>`;
+  if(acc==='pin') { let s=''; for(let i=0;i<10;i++){ const r=i%2?3.4:8, a=(-90+36*i)*Math.PI/180; s+=(i?'L':'M')+f1(chx+r*Math.cos(a))+' '+f1(chy+r*Math.sin(a)); } return `<path d="${s}Z" fill="#F2C46B" stroke="#2B2926" stroke-width="1.4" stroke-linejoin="round"/>`; }
+  return '';
+}
+
+/* render one character. mode: full | disc | bust ; pose: rest | wave | cheer | none */
+function avatarSVG(key, o={}){
+  const c=CH[key], P=PAL[o.colour||c.colour], id=uid(), g='g'+id;
+  const limb='var(--limb)';
+  const mode=o.mode||'full', pose=o.pose||(mode==='full'?'rest':'none');
+  const d=c.draw(P,g,id);
+  const vb = mode==='disc' ? (c.crop||'2 -6 116 116') : mode==='bust' ? '0 -10 120 112' : '0 -12 120 140';
+  let limbs='', front='';
+  if(mode==='full' && pose!=='none'){
+    const [lx,ly,rx,ry]=c.arms;
+    const arm=(x,y,ex,ey,cls='')=>`<g ${cls}><path d="M${x} ${y} Q ${(x+ex)/2+(ex<x?-3:3)} ${(y+ey)/2-2} ${ex} ${ey}" stroke="${limb}" stroke-width="7" fill="none" stroke-linecap="round"/><circle cx="${ex}" cy="${ey}" r="6.6" fill="${limb}"/><circle cx="${ex-2}" cy="${ey-2}" r="2" fill="#fff" opacity=".10"/></g>`;
+    const L = pose==='cheer' ? arm(lx+4,ly,lx-12,ly-20) : arm(lx+4,ly,lx-9,ly+15);
+    const R = pose==='cheer' ? arm(rx-4,ry,rx+12,ry-20) : pose==='wave' ? arm(rx-4,ry,rx+13,ry-18,`class="wave-arm" style="transform-origin:${rx-4}px ${ry}px"`) : arm(rx-4,ry,rx+9,ry+15);
+    limbs += L + R;
+    const [x1,x2,yb]=c.legs;
+    [x1,x2].forEach((x,i)=>{ const dir=i?1:-1;
+      limbs = `<path d="M${x} ${yb-6} L${x+dir*1.5} ${118}" stroke="${limb}" stroke-width="7.2" stroke-linecap="round"/>`
+        +`<path d="M${x-8+dir*2} ${124} Q ${x-8+dir*2} ${115} ${x+dir*2} ${115} Q ${x+9+dir*3} ${115} ${x+10+dir*3} ${121} Q ${x+10+dir*3} ${124} ${x+7+dir*2} ${124}Z" fill="${limb}"/>` + limbs; });
+    limbs = `<ellipse cx="60" cy="125" rx="30" ry="3.6" fill="#000" opacity=".22"/>` + limbs;
+  }
+  const tilt = c.tilt ? `transform="rotate(${c.tilt} 60 60)"` : '';
+  const masked = c.mask ? `mask="url(#m${id})"` : '';
+  const band = o.acc==='headphones' ? `<path d="M${c.visor[0]-c.visor[2]/2-5} ${c.visor[1]} C ${c.visor[0]-c.visor[2]/2-4} ${c.top[1]-8}, ${c.visor[0]+c.visor[2]/2+4} ${c.top[1]-8}, ${c.visor[0]+c.visor[2]/2+5} ${c.visor[1]}" fill="none" stroke="#2B2926" stroke-width="4.2" stroke-linecap="round"/>` : '';
+  const body = `<g ${tilt}>${band}${d.back||''}<g ${masked}><path d="${d.main}" fill="url(#${g})" stroke="url(#${g})" stroke-width="2.4" stroke-linejoin="round"/><g clip-path="url(#c${id})">${d.over||''}<path d="M10 -10 L70 -10 L10 60Z" fill="#fff" opacity=".07"/></g></g>${d.front||''}
+    <g><rect x="${c.visor[0]-c.visor[2]/2}" y="${c.visor[1]-c.visor[3]/2}" width="${c.visor[2]}" height="${c.visor[3]}" rx="${c.visor[3]/2}" fill="url(#v${id})"/>
+    <rect x="${c.visor[0]-c.visor[2]/2+.5}" y="${c.visor[1]-c.visor[3]/2+.5}" width="${c.visor[2]-1}" height="${c.visor[3]-1}" rx="${c.visor[3]/2}" fill="none" stroke="#000" stroke-opacity=".35"/>
+    <path d="M${c.visor[0]-c.visor[2]/2+c.visor[3]*.4} ${c.visor[1]-c.visor[3]*.28} Q ${c.visor[0]} ${c.visor[1]-c.visor[3]*.5} ${c.visor[0]+c.visor[2]/2-c.visor[3]*.4} ${c.visor[1]-c.visor[3]*.28}" stroke="#fff" stroke-opacity=".22" stroke-width="${f1(c.visor[3]*.16)}" fill="none" stroke-linecap="round"/>
+    ${eyesSVG(c.visor, o.eyes||c.eyes)}</g>${accSVG(o.acc, c, P)}</g>`;
+  const defs = `<defs><linearGradient id="${g}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${P[1]}"/><stop offset=".48" stop-color="${P[0]}"/><stop offset="1" stop-color="${P[2]}"/></linearGradient>
+    <linearGradient id="v${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2B2926"/><stop offset=".55" stop-color="#151413"/><stop offset="1" stop-color="#0B0A09"/></linearGradient>
+    <clipPath id="c${id}"><path d="${d.main}"/></clipPath>${c.mask?`<mask id="m${id}"><rect x="-10" y="-20" width="140" height="160" fill="#fff"/><g fill="#000">${c.mask}</g></mask>`:''}${d.defs||''}</defs>`;
+  const w=o.w||120, h=o.h||(mode==='full'?140*w/120:mode==='bust'?112*w/120:w);
+  const inner = o.still ? body : `<g class="breathe" style="animation-delay:${o.delay||0}ms">${body}</g>`;
+  return `<svg ${o.x!=null?`x="${o.x}" y="${o.y}"`:''} width="${w}" height="${h}" viewBox="${vb}" class="${o.cls||''}" aria-label="${c.name}" role="img">${defs}${limbs}${inner}${front}</svg>`;
+}
+function disc(key, size, o={}){ return `<span class="disc" style="width:${size}px;height:${size}px;${o.ring?`box-shadow:0 0 0 2px var(--ground),0 0 0 4px ${o.ring}`:''}">${avatarSVG(key,{mode:'disc',w:size,colour:o.colour,acc:o.acc,still:true})}${o.live?'<span class="live-dot"><span class="pulse"></span></span>':''}</span>`; }
+
+/* ---------------- icons ---------------- */
+const I = {
+  today:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/>',
+  practice:'<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V10M10 3h4M12 3v3.5"/>',
+  mob:'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="16.5" cy="9" r="2.6"/><path d="M15.6 14.1c2.7.1 4.9 2 4.9 4.9"/>',
+  you:'<circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/>',
+  close:'<path d="M6 6l12 12M18 6L6 18"/>', back:'<path d="M15 5l-7 7 7 7"/>', down:'<path d="M7 10l5 5 5-5"/>',
+  dice:'<rect x="4" y="4" width="16" height="16" rx="4"/><circle cx="9" cy="9" r="1.2" fill="currentColor"/><circle cx="15" cy="15" r="1.2" fill="currentColor"/><circle cx="15" cy="9" r="1.2" fill="currentColor"/><circle cx="9" cy="15" r="1.2" fill="currentColor"/>',
+  share:'<circle cx="18" cy="5.5" r="2.4"/><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="18.5" r="2.4"/><path d="M8.2 10.9l7.6-4.2M8.2 13.1l7.6 4.2"/>',
+  qr:'<rect x="4" y="4" width="6" height="6" rx="1"/><rect x="14" y="4" width="6" height="6" rx="1"/><rect x="4" y="14" width="6" height="6" rx="1"/><path d="M14 14h2v2h-2zM18 18h2v2h-2zM14 18h2M18 14h2"/>',
+  copy:'<rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/>',
+  lock:'<rect x="6" y="11" width="12" height="9" rx="2.5"/><path d="M8.5 11V8.5a3.5 3.5 0 0 1 7 0V11"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>', scan:'<path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3M7 12h10"/>',
+  sprint:'<path d="M3.5 12.5L20 5l-5.5 15-3.2-6.3z"/><path d="M11.3 13.7L20 5"/>',
+  race:'<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5l3-3M10 3h4"/>',
+  custom:'<path d="M5 7h9M18 7h1M5 17h3M12 17h7"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/>',
+  mock:'<rect x="6" y="3.5" width="12" height="16" rx="2"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/><path d="M4 7v12.5a1.5 1.5 0 0 0 1.5 1.5H15"/>',
+  rematch:'<path d="M5 11a7 7 0 0 1 12-4.6L19 8M19 4v4h-4M19 13a7 7 0 0 1-12 4.6L5 16M5 20v-4h4"/>',
+  clock:'<circle cx="12" cy="12" r="8"/><path d="M12 8v4l2.6 1.6"/>',
+  flame:'<path d="M12 21c-3.6 0-6-2.4-6-5.6 0-3.4 2.6-5.1 3.4-8.4 2 1.2 2.6 3.2 2.6 3.2s1.3-1.4 1.1-4.2C16.4 8 18 11.4 18 15.4 18 18.6 15.6 21 12 21z"/>',
+};
+const ico = (n, s=24, sw=1.8, extra='') => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" ${extra}>${I[n]}</svg>`;
+const mobiHead = s => `<span style="display:inline-grid;place-items:center;width:${s}px;height:${s}px">${avatarSVG('mobi',{mode:'disc',w:s,still:true})}</span>`;
+
+function statusBar(){ return `<div class="status"><span class="num">8:40 PM</span><span class="ico">
+  <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5L.6 3.8a10.5 10.5 0 0 1 14.8 0z" fill="currentColor"/></svg>
+  <svg width="14" height="12" viewBox="0 0 14 12"><path d="M13 .5v11H1z" fill="currentColor"/></svg>
+  <svg width="9" height="14" viewBox="0 0 9 14"><rect x="0" y="1.5" width="9" height="12.5" rx="1.6" fill="currentColor"/><rect x="2.5" y="0" width="4" height="2" rx=".6" fill="currentColor"/></svg></span></div>`; }
+function bottomBar(active='mob'){
+  const s=(k,l)=>`<div class="slot ${active===k?'on':''}">${ico(k,24,1.8)}<span>${l}</span></div>`;
+  return `<div class="bar">${s('today','Today')}${s('practice','Practice')}<div class="start"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Start</div>${s('mob','Mob')}${s('you','You')}</div>`;
+}
+
+/* ---------------- fixture (illustrative) ---------------- */
+const M = {
+  you:   {name:'Aarav', ch:'dart',   colour:'teal',   acc:'cap',        today:false, q:16},
+  riya:  {name:'Riya',  ch:'patang', colour:'rose',   acc:'',           today:true,  q:30},
+  kabir: {name:'Kabir', ch:'naav',   colour:'blue',   acc:'headphones', today:true,  q:26, here:true},
+  zoya:  {name:'Zoya',  ch:'pip',    colour:'violet', acc:'scarf',      today:false, q:12},
+};
+const MEMBERS = ['you','riya','kabir','zoya'];
+const mcol = k => `var(--m-${M[k].colour})`;
+
+/* ---------------- THE DEN scene (S1, S6) ---------------- */
+function denScene(o={}){
+  const W=328, H=o.h||224, deskY=H-52, seats=o.seats||MEMBERS.map(k=>M[k]);
+  const xs = o.xs || [52,128,204,280];
+  let av='', props='', names='', mitts='';
+  seats.forEach((m,i)=>{
+    const x=xs[i];
+    if(!m){ /* empty seat */
+      props+=`<g opacity=".9"><rect x="${x-22}" y="${deskY-50}" width="44" height="54" rx="14" fill="none" style="stroke:var(--lineStrong)" stroke-width="1.6" stroke-dasharray="4 5"/>
+        <path d="M${x} ${deskY-30} v14 M${x-7} ${deskY-23} h14" style="stroke:var(--ink3)" stroke-width="2" stroke-linecap="round"/></g>`;
+      names+=`<text x="${x}" y="${deskY+26}" text-anchor="middle" style="fill:var(--ink3);font:500 11.5px 'Hanken Grotesk'">Free seat</text>`;
+      return;
+    }
+    const w=88, sc=w/120;
+    av+=avatarSVG(m.ch,{mode:'full',pose:'rest',colour:m.colour,acc:m.acc,w,x:x-w/2,y:deskY-83,delay:i*-900});
+    const c=CH[m.ch]; const my=deskY+2;
+    
+    if(m.today){ /* open paper with a check stamp: practised today */
+      props+=`<g transform="translate(${x-14} ${deskY-5}) skewX(-14)"><rect width="30" height="11" rx="1.5" style="fill:var(--paper)"/><path d="M15 0v11" style="stroke:var(--paperEdge)" stroke-width="1"/><path d="M4 3.5h8M4 7h6M18 3.5h8" style="stroke:var(--paperLine)" stroke-width="1.2"/></g>
+        <g transform="translate(${x+16} ${deskY-14})"><circle r="8" fill="#D2F000" stroke="#0B1000" stroke-width="1.2"/><path d="M-3.6 .2l2.4 2.4 4.8-4.8" fill="none" stroke="#0B1000" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></g>`;
+    } else {
+      props+=`<g transform="translate(${x-12} ${deskY-4})"><rect width="24" height="7" rx="1.5" fill="${PAL[m.colour][2]}" opacity=".9"/><rect y="5" width="24" height="2" rx="1" style="fill:var(--paper)"/></g>`;
+    }
+    const lbl = m===M.you ? 'You' : m.name;
+    names+=`<text x="${x}" y="${deskY+24}" text-anchor="middle" style="fill:var(--ink);font:600 13px 'Hanken Grotesk'">${lbl}</text>`;
+    if(m.here) names+=`<g transform="translate(${x} ${deskY+40})"><rect x="-23" y="-7" width="46" height="15" rx="7.5" style="fill:var(--good)" opacity=".18"/><circle cx="-14" cy=".5" r="3.2" style="fill:var(--good)"/><circle cx="-14" cy=".5" r="3.2" fill="none" style="stroke:var(--good)" stroke-width="1.4"><animate attributeName="r" values="3.2;8" dur="1.8s" repeatCount="indefinite"/><animate attributeName="opacity" values=".8;0" dur="1.8s" repeatCount="indefinite"/></circle><text x="4" y="4.5" text-anchor="middle" style="font:700 10.5px 'Hanken Grotesk';fill:var(--good)">Here</text></g>`;
+  });
+  const night = o.theme==='night';
+  const sky = night ? `<circle cx="64" cy="34" r="9" style="fill:var(--moon)"/><circle cx="69" cy="30" r="8" style="fill:var(--sky)"/><circle cx="34" cy="28" r="1.2" fill="#F4F0E6" opacity=".7"/><circle cx="46" cy="50" r="1" fill="#F4F0E6" opacity=".5"/><circle cx="74" cy="56" r="1.1" fill="#F4F0E6" opacity=".6"/>`
+                    : `<circle cx="62" cy="36" r="10" style="fill:var(--moon)"/><path d="M26 58 q8 -8 18 -2 q6 -8 16 -2" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" opacity=".8"/>`;
+  const streak = o.streak===false ? '' : `<line x1="100" y1="0" x2="100" y2="16" style="stroke:var(--lineStrong)" stroke-width="1.2"/><line x1="138" y1="0" x2="138" y2="16" style="stroke:var(--lineStrong)" stroke-width="1.2"/>
+      <g transform="translate(92 14)" aria-label="4 weeks in a row">
+      <path d="M0 0 H54 V52 L27 62 L0 52Z" fill="#F2A93B"/><path d="M0 0 H54 V5 H0Z" fill="#000" opacity=".14"/>
+      <path d="M27 9 c-4 4 -7 6 -7 10 a7 7 0 0 0 14 0 c0 -3 -1.6 -5 -3.2 -6.4 c-.4 2 -1.4 3 -2.6 3.4 c.6 -2.6 -.2 -5 -1.2 -7z" fill="#2B1A04"/>
+      <text x="27" y="42" text-anchor="middle" style="font:800 14px 'Bricolage Grotesque';font-stretch:80%;fill:#2B1A04">4 weeks</text>
+      <text x="27" y="53" text-anchor="middle" style="font:600 9.5px 'Hanken Grotesk';fill:#2B1A04">in a row</text></g>`;
+  const shelf = o.shelf===false ? '' : `<g transform="translate(222 64)">
+      <rect x="0" y="0" width="94" height="6" rx="2" style="fill:var(--shelf)"/>
+      <g transform="translate(8 -26)"><rect x="0" y="0" width="22" height="22" rx="2" fill="#A7C650"/><rect x="3.5" y="3.5" width="15" height="15" rx="1" fill="none" stroke="#CDE18F" stroke-width="1.2"/><path d="M6.5 11.5l3 3 6-6.5" fill="none" stroke="#2F3D0B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <g transform="translate(34 -26) rotate(5 11 11)"><rect x="0" y="0" width="22" height="22" rx="2" fill="#5FBEF2"/><rect x="3.5" y="3.5" width="15" height="15" rx="1" fill="none" stroke="#A0DBF8" stroke-width="1.2"/><path d="M6.5 11.5l3 3 6-6.5" fill="none" stroke="#0B2E44" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></g>
+      <g transform="translate(64 -36)"><rect x="0" y="0" width="24" height="36" rx="6" fill="none" style="stroke:var(--lineStrong)" stroke-width="1.4" stroke-dasharray="3 3"/><path d="M8 13 h8 l3 4 v8 l-3 4 h-8 l-3 -4 v-8z" fill="none" style="stroke:var(--ink4)" stroke-width="1.4"/></g></g>`;
+  return `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" style="display:block;border-radius:24px" role="img" aria-label="${o.aria||'Your Mob at the den table'}">
+    <defs><radialGradient id="pool${o.k}" cx=".5" cy="0" r="1"><stop offset="0" style="stop-color:var(--poolA)"/><stop offset="1" style="stop-color:var(--poolB)"/></radialGradient></defs>
+    <rect width="${W}" height="${H}" style="fill:var(--wall)"/>
+    ${[40,80,120,160,200,240,280].map(x=>`<line x1="${x}" y1="0" x2="${x}" y2="${deskY}" style="stroke:var(--wallLine)" stroke-width="10"/>`).join('')}
+    <g transform="translate(${o.winX||0} 0)"><rect x="16" y="14" width="68" height="56" rx="12" style="fill:var(--sky)"/>${sky}<path d="M50 14v56M16 42h68" style="stroke:var(--wall)" stroke-width="3"/><rect x="16" y="14" width="68" height="56" rx="12" fill="none" style="stroke:var(--deskEdge)" stroke-width="3"/></g>
+    ${streak}${shelf}
+    <g class="glowpulse"><path d="M164 52 L${164-150} ${deskY+6} L${164+150} ${deskY+6}Z" fill="url(#pool${o.k})"/></g>
+    <g class="sway"><line x1="164" y1="0" x2="164" y2="34" style="stroke:var(--ink4)" stroke-width="1.6"/><path d="M154 34 h20 l9 18 h-38z" style="fill:var(--shade)"/><path d="M154 34 h20 l9 18 h-38z" fill="#000" opacity=".06"/><ellipse cx="164" cy="53" rx="8" ry="3" fill="#FFE7B0"/></g>
+    ${av}
+    <rect x="0" y="${deskY}" width="${W}" height="${H-deskY}" style="fill:var(--desk)"/>
+    <rect x="0" y="${deskY-4}" width="${W}" height="10" style="fill:var(--deskTop)"/><rect x="0" y="${deskY+6}" width="${W}" height="1.5" style="fill:var(--deskEdge)"/>
+    ${props}${mitts}${names}
+  </svg>`;
+}
+
+/* ======================= SCREENS ======================= */
+const S = {};
+
+/* S1 — Mob home: the den */
+S.s1 = t => `
+  ${statusBar()}
+  <div class="scrollc">
+    <div class="hdr" style="height:64px">
+      ${disc('dart',40,{colour:'teal',acc:'cap'})}
+      <div class="grow"><div style="display:flex;align-items:center;gap:4px"><span class="t-title">Chai Circle</span><span class="muted" style="margin-top:3px">${ico('down',18,2)}</span></div>
+        <div class="t-cap muted">Accountancy, 4 members</div></div>
+      <div class="askmobi">${mobiHead(24)}Ask Mobi</div>
+    </div>
+    <div class="pad">${denScene({theme:t,k:'s1'+t,h:218})}
+      <div class="t-small ink2" style="margin-top:12px;display:flex;align-items:center;gap:8px">
+        <span style="display:inline-grid;place-items:center;width:18px;height:18px;border-radius:50%;background:#D2F000;color:#0B1000">${ico('check',12,2.6)}</span>
+        <span>Riya and Kabir practised today.</span></div>
+      <div style="margin-top:18px;display:flex;gap:12px;align-items:flex-start">
+        ${disc('patang',40,{colour:'rose'})}
+        <div><div class="t-sub">Riya sent you a sprint</div><div class="t-small muted" style="margin-top:2px">5 Accountancy questions. Riya and Kabir have played. Open until 8:40 PM tomorrow.</div></div>
+      </div>
+      <button class="key" style="margin-top:14px">Play Riya’s sprint</button>
+      <div class="textbtn" style="margin-top:2px">Start a different game</div>
+      <div class="card" style="margin-top:8px;padding:16px 16px 14px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+          <div><div class="t-sub">This week’s quest</div><div class="t-small ink2" style="margin-top:2px">Answer 120 questions together.</div></div>
+          <div style="text-align:right;flex:none"><span class="t-fig" style="font-size:30px;line-height:30px">84</span><span class="t-cap muted"> of 120</span></div>
+        </div>
+        <div style="display:flex;gap:2px;height:10px;margin-top:12px;border-radius:5px;overflow:hidden;background:var(--sunken)">
+          ${MEMBERS.map(k=>`<div style="width:${M[k].q/120*100}%;background:${PAL[M[k].colour][0]}"></div>`).join('')}
+        </div>
+        <div style="display:flex;justify-content:space-between;margin-top:10px;align-items:center;gap:8px">
+          <div class="t-cap ink2" style="display:flex;align-items:center;gap:6px;white-space:nowrap">${avatarSVG('kandil',{mode:'disc',w:22,still:true})}Kandil unlocks for all of you</div>
+          <div class="t-cap muted" style="white-space:nowrap">Ends Sunday</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fade-under"></div>
+  ${bottomBar('mob')}`;
+
+/* S2 — play picker (sheet over the den) */
+S.s2 = t => {
+  const row=(icon,title,detail,sel,extra='')=>`<div style="display:flex;gap:14px;align-items:center;padding:9px 0;${sel?'':''}">
+      <div style="width:44px;height:44px;border-radius:14px;display:grid;place-items:center;flex:none;background:${sel?'#D2F000':'var(--raised2)'};color:${sel?'#0B1000':'var(--ink)'}">${ico(icon,22,1.9)}</div>
+      <div style="flex:1;min-width:0"><div class="t-sub">${title}</div><div class="t-small muted">${detail}</div></div>
+      <div style="width:22px;height:22px;border-radius:50%;flex:none;border:2px solid ${sel?'var(--ink)':'var(--lineStrong)'};display:grid;place-items:center">${sel?'<div style="width:10px;height:10px;border-radius:50%;background:var(--ink)"></div>':''}</div>
+    </div>${extra}`;
+  return `${statusBar()}
+  <div class="scrollc" style="filter:saturate(.9)"><div class="hdr" style="height:64px">${disc('dart',40,{colour:'teal',acc:'cap'})}<div class="grow"><span class="t-title">Chai Circle</span></div></div>
+    <div class="pad">${denScene({theme:t,k:'s2'+t,h:226})}</div></div>
+  <div style="position:absolute;inset:0;background:var(--scrim);z-index:15"></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;top:92px;background:var(--raised);border-radius:32px 32px 0 0;z-index:16;padding:10px 20px 0;box-shadow:0 -10px 40px -10px rgba(0,0,0,.4)">
+    <div style="width:36px;height:4px;border-radius:2px;background:var(--lineStrong);margin:0 auto 14px"></div>
+    <div class="t-title">Play with your Mob</div>
+    <div style="display:flex;gap:14px;align-items:center;margin-top:14px;padding:12px;border-radius:18px;background:var(--sunken)">
+      <div style="display:flex;align-items:center">${disc('naav',36,{colour:'blue',acc:'headphones',live:true})}</div>
+      <div class="t-small ink2" style="flex:1"><b style="color:var(--ink);font-weight:700">Kabir is here, so he plays live with you.</b> Riya and Zoya get 24 hours to play.</div>
+      <div style="display:flex">${disc('patang',28,{colour:'rose'})}<span style="margin-left:-8px">${disc('pip',28,{colour:'violet',acc:'scarf'})}</span></div>
+    </div>
+    <div style="margin-top:4px">
+      ${row('sprint','Sprint','5 questions, about 4 minutes.',false)}<div class="hair"></div>
+      ${row('race','Race','Most right answers in the time.',true,
+        `<div style="display:flex;gap:8px;margin:0 0 12px 58px"><div style="flex:1;height:40px;border-radius:12px;border:1px solid var(--lineStrong);display:grid;place-items:center" class="t-label ink2">5 minutes</div><div style="flex:1;height:40px;border-radius:12px;background:var(--ink);color:var(--ground);display:grid;place-items:center" class="t-label">10 minutes</div></div>`)}<div class="hair"></div>
+      ${row('custom','Custom','Choose a chapter and a length.',false)}<div class="hair"></div>
+      ${row('mock','Full mock together','This week’s paper or a full mock.',false)}<div class="hair"></div>
+      ${row('rematch','Rematch','Tuesday’s race with Riya and Zoya.',false)}
+    </div>
+    <div style="position:absolute;left:0;right:0;bottom:0;padding:12px 20px 16px;background:var(--raised);border-top:1px solid var(--line)">
+      <button class="key">Start a 10-minute race</button>
+      <div class="t-cap muted" style="text-align:center;margin-top:8px">Riya and Zoya can play until 8:40 PM tomorrow.</div>
+    </div>
+  </div>`;
+};
+
+/* S3 — in play: Riya's sprint. Ghosts (played earlier, real pace) + one live friend */
+S.s3 = t => {
+  const X=i=>30+i*67; const trackY=104;
+  const marker=(k,pos,kind)=>{ const m=M[k]; const x=X(pos); const w=kind==='you'?54:48;
+    return `<g opacity="${kind==='ghost'?.55:1}">${avatarSVG(m.ch,{mode:'full',pose:'rest',colour:m.colour,acc:m.acc,w,x:x-w/2,y:trackY-(136*w/120)+3,still:kind==='ghost',delay:-600})}</g>
+      ${kind==='ghost'?`<ellipse cx="${x}" cy="${trackY}" rx="16" ry="4" fill="none" style="stroke:var(--ink3)" stroke-width="1.4" stroke-dasharray="2.5 3"/>`:''}
+      ${kind==='live'?`<g transform="translate(${x} ${trackY-66})"><rect x="-17" y="-8" width="34" height="16" rx="8" style="fill:var(--good)"/><text x="0" y="4" text-anchor="middle" style="font:700 10px 'Hanken Grotesk';fill:var(--ground)">Live</text></g>`:''}
+      ${kind==='you'?`<g transform="translate(${x} ${trackY-74})"><text x="0" y="0" text-anchor="middle" style="font:700 11px 'Hanken Grotesk';fill:var(--ink)">You</text></g>`:''}`; };
+  const leg=(k,txt,kind)=>`<div style="display:flex;gap:8px;align-items:center;min-height:24px">
+      <span style="width:10px;height:10px;border-radius:50%;flex:none;${kind==='live'?'background:var(--good)':'border:1.5px dashed var(--ink3)'}"></span>
+      <span class="t-cap ink2"><b style="color:var(--ink);font-weight:700">${M[k].name}</b> ${txt}</span></div>`;
+  return `${statusBar()}
+  <div class="hdr" style="height:56px"><div class="iconbtn">${ico('close',24,2)}</div><div class="grow"><div class="t-sub">Riya’s sprint</div><div class="t-cap muted">Question 3 of 5</div></div>
+    <div style="display:flex;align-items:center;gap:6px;height:36px;padding:0 12px;border-radius:999px;background:var(--raised2)" class="t-label num" aria-label="Time so far 1 minute 12 seconds">${ico('clock',18,2)}1:12</div></div>
+  <div style="margin:2px 16px 0;border-radius:20px;background:var(--raised);border:1px solid var(--line);padding:0 0 10px">
+    <svg width="326" height="122" viewBox="0 -6 326 122" style="display:block" role="img" aria-label="Where everyone is: Zoya on question 2, you on question 3, Riya's earlier run on question 4">
+      <rect x="18" y="${trackY-2}" width="290" height="4" rx="2" style="fill:var(--sunken)"/><rect x="18" y="${trackY-2}" width="${X(2)-18}" height="4" rx="2" fill="#D2F000"/>
+      ${[0,1,2,3,4].map(i=>`<circle cx="${X(i)}" cy="${trackY}" r="${i===2?6:4.5}" style="fill:${i<2?'#D2F000':i===2?'var(--ink)':'var(--lineStrong)'}"/><text x="${X(i)}" y="${trackY+19}" text-anchor="middle" style="font:600 11px 'Hanken Grotesk';fill:${i===2?'var(--ink)':'var(--ink3)'}">Q${i+1}</text>`).join('')}
+      ${marker('riya',3.25,'ghost')}${marker('kabir',1.6,'ghost')}${marker('zoya',0.82,'live')}${marker('you',2.25,'you')}
+    </svg>
+    <div style="padding:0 14px;display:flex;flex-direction:column;gap:2px">
+      ${leg('zoya','is playing now.','live')}
+      ${leg('riya','played at 2:10 PM and scored 4 of 5.','ghost')}
+      ${leg('kabir','played at 4:55 PM and scored 3 of 5.','ghost')}
+      <div class="t-cap muted" style="margin-top:2px">They move at the pace they really played.</div>
+    </div>
+  </div>
+  <div class="pad" style="margin-top:14px">
+    <div class="t-label muted">Goodwill, Accountancy</div>
+    <div style="font:500 16px/24px 'Hanken Grotesk';margin-top:4px">Goodwill is three years’ purchase of the average profit of the last four years: ₹40,000, ₹50,000, ₹60,000 and ₹70,000. What is the goodwill?</div>
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px">
+      ${['₹1,50,000','₹1,65,000','₹1,80,000','₹2,10,000'].map((o,i)=>`<div style="height:50px;border-radius:16px;display:flex;align-items:center;gap:12px;padding:0 14px;border:${i===1?'2px solid var(--ink)':'1px solid var(--line)'};background:${i===1?'var(--raised2)':'var(--raised)'}">
+        <span style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:700 13px 'Hanken Grotesk';${i===1?'background:#D2F000;color:#0B1000':'background:var(--sunken);color:var(--ink2)'}">${'ABCD'[i]}</span><span class="t-body num">${o}</span></div>`).join('')}
+    </div>
+  </div>
+  <div style="position:absolute;left:16px;right:16px;bottom:14px;display:flex;gap:10px;align-items:center">
+    <div class="key2" style="width:96px;flex:none;height:56px">Skip</div><button class="key" style="flex:1">Next question</button></div>`;
+};
+
+/* S4 — results: podium of paper stacks */
+const STICKERS = [
+  {w:'Nice one', c:'#F4B04A', art:'<rect x="16" y="23" width="21" height="17" rx="6" fill="#2B2926"/><rect x="19.5" y="9" width="8" height="20" rx="4" fill="#2B2926" transform="rotate(-12 23.5 19)"/><path d="M22 30h11M22 35h11" stroke="#F4B04A" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>'},
+  {w:'So close', c:'#5FBEF2', art:'<circle cx="26" cy="26" r="14" fill="#FFF8EA" stroke="#2B2926" stroke-width="2"/><circle cx="26" cy="26" r="8.5" fill="none" stroke="#2B2926" stroke-width="2"/><circle cx="26" cy="26" r="3" fill="#2B2926"/><circle cx="32.5" cy="20" r="2.6" fill="#E04B5A" stroke="#2B2926" stroke-width="1.2"/>'},
+  {w:'Teach me', c:'#BC93FF', art:'<path d="M10 16 Q18 12 26 16 V34 Q18 30 10 34Z M26 16 Q34 12 42 16 V34 Q34 30 26 34Z" fill="#FFF8EA" stroke="#2B2926" stroke-width="2" stroke-linejoin="round"/>'},
+  {w:'Again?', c:'#4CCBAE', art:'<path d="M14 24a12 12 0 0 1 21-6l2 2M37 13v7h-7M38 28a12 12 0 0 1-21 6l-2-2M15 39v-7h7" fill="none" stroke="#2B2926" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>'},
+  {w:'Proud of us', c:'#FF8796', art:'<path d="M26 11l4.4 9 9.6 1.2-7 6.6 1.8 9.6L26 32.8l-8.8 4.6 1.8-9.6-7-6.6 9.6-1.2z" fill="#FFF8EA" stroke="#2B2926" stroke-width="2" stroke-linejoin="round"/>'},
+  {w:'Oof', c:'#A7C650', art:'<path d="M15 20 l6 -6 l7 4 l8 -3 l3 9 l-4 8 l-9 3 l-8 -4 z" fill="#FFF8EA" stroke="#2B2926" stroke-width="2" stroke-linejoin="round"/><path d="M21 14l3 9 7-4M18 31l9-5 3 9" fill="none" stroke="#2B2926" stroke-width="1.3"/>'},
+];
+const sticker = (s,i,size=52)=>`<svg width="${size}" height="${size}" viewBox="0 0 52 52" style="display:block;transform:rotate(${[-6,4,-3,6,-5,3][i]}deg)"><rect x="3" y="3" width="46" height="46" rx="14" fill="#FFFDF8"/><rect x="6" y="6" width="40" height="40" rx="11" fill="${s.c}"/><g transform="translate(0 0) scale(1)">${s.art}</g></svg>`;
+
+S.s4 = t => {
+  const floor=192, cols=[{k:'riya',x:50,h:62,rank:2,pose:'wave'},{k:'you',x:128,h:86,rank:1,pose:'cheer'},{k:'kabir',x:206,h:44,rank:3,pose:'rest'},{k:'zoya',x:284,h:0,rank:0,pose:'wave'}];
+  const order=[2,1,0,3]; /* reveal order: 3rd, 2nd, 1st, then Zoya */
+  const tStack={2:0,0:120,1:240,3:0}, tAv={2:360,0:480,1:600,3:720};
+  let stacks='', avs='', labels='';
+  cols.forEach((c,i)=>{
+    const top=floor-c.h;
+    if(c.h){ let sheets=''; for(let y=floor; y>top; y-=6){ const off=((y/6)%2?1.4:-1.2); sheets+=`<rect x="${c.x-34+off}" y="${y-6}" width="68" height="6" rx="1.2" style="fill:var(--paper);stroke:var(--paperEdge)" stroke-width=".8"/>`; }
+      stacks+=`<g class="rv-stack" style="animation-delay:${tStack[i]}ms">${sheets}</g><g class="rv-name" style="animation-delay:${tStack[i]+300}ms"><g transform="translate(${c.x} ${top+ Math.min(26,c.h/2)})"><rect x="-13" y="-11" width="26" height="26" rx="6" style="fill:var(--paper)"/><text y="8" text-anchor="middle" style="font:800 22px 'Bricolage Grotesque';font-stretch:75%;fill:#2B2926">${c.rank}</text></g></g>`; }
+    const w=c.rank===1?78:66, m=M[c.k];
+    avs+=`<g class="rv-av" style="animation-delay:${tAv[i]}ms">${avatarSVG(m.ch,{mode:'full',pose:c.pose,colour:m.colour,acc:m.acc,w,x:c.x-w/2,y:top-(136*w/120)+2})}</g>`;
+    if(c.rank===1) avs+=`<g class="rv-pop" style="animation-delay:900ms"><g transform="translate(${c.x+30} ${top-58})"><circle r="13" fill="#F2A93B"/><circle r="9.5" fill="none" stroke="#2B1A04" stroke-width="1.2" opacity=".5"/><path d="M-5 11 l-3 10 l8 -5 l8 5 l-3 -10" fill="#F2A93B"/><text y="4.5" text-anchor="middle" style="font:800 13px 'Bricolage Grotesque';fill:#2B1A04">1</text></g></g>`;
+    labels+=`<g class="rv-name" style="animation-delay:${tAv[i]+200}ms"><text x="${c.x}" y="${floor+20}" text-anchor="middle" style="font:700 14px 'Hanken Grotesk';fill:var(--ink)">${c.k==='you'?'You':m.name}</text><text x="${c.x}" y="${floor+37}" text-anchor="middle" style="font:500 13px 'Hanken Grotesk';fill:var(--ink3)" class="num">${{you:'4 of 5',riya:'4 of 5',kabir:'3 of 5',zoya:'2 of 5'}[c.k]}</text></g>`;
+  });
+  const hl=[['you','You','fastest right answer, in 11 seconds.'],['riya','Riya','no wrong answers, and one smart skip.'],['kabir','Kabir','changed question 3, and got it right.'],['zoya','Zoya','the only one to get question 5.']];
+  return `${statusBar()}
+  <div class="hdr" style="height:56px"><div class="iconbtn">${ico('close',24,2)}</div><div class="grow"><div class="t-sub">Riya’s sprint</div><div class="t-cap muted">Everyone has played</div></div></div>
+  <div class="pad" style="position:relative">
+    <svg width="328" height="234" viewBox="0 0 328 234" style="display:block;overflow:visible" id="podium-${t}" role="img" aria-label="Results: you first with 4 of 5, Riya second with 4 of 5, Kabir third with 3 of 5, Zoya 2 of 5">
+      <rect x="0" y="${floor}" width="328" height="1.5" style="fill:var(--line)"/>${stacks}${avs}${labels}
+    </svg>
+    <div class="t-cap muted rv-in" style="animation-delay:1000ms;text-align:center;margin-top:4px">You and Riya both got 4. You were 21 seconds faster.</div>
+    <div style="margin-top:8px">${hl.map((h,i)=>`<div class="rv-in" style="animation-delay:${1150+i*60}ms;display:flex;gap:10px;align-items:center;height:34px;${i?'border-top:1px solid var(--line)':''}"><span style="width:10px;height:10px;border-radius:3px;transform:rotate(45deg);flex:none;background:${PAL[M[h[0]].colour][0]}"></span><div class="t-small" style="white-space:nowrap"><b style="font-weight:700">${h[1]}:</b> <span class="ink2">${h[2]}</span></div></div>`).join('')}</div>
+    <div class="card rv-in" style="animation-delay:1500ms;margin-top:10px;padding:14px 16px 14px">
+      <div class="t-sub">The question your Mob missed most</div>
+      <div class="t-small ink2" style="margin-top:4px">Question 4: 3 of you picked ₹1,80,000. See why together, then check it with 2 new questions.</div>
+      <div style="display:flex;gap:10px;margin-top:12px"><button class="key" style="flex:1;height:52px">Fix it together</button><div class="key2" style="height:52px;flex:none">${ico('rematch',18,2)}Rematch</div></div>
+    </div>
+  </div>
+  <div class="rv-tray" style="animation-delay:1700ms;position:absolute;left:0;right:0;bottom:0;height:86px;background:var(--glass);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border-top:1px solid var(--line);display:flex;align-items:center;gap:6px;padding:0 12px 4px 16px;z-index:12">
+    <div class="t-label muted" style="width:44px;flex:none">React</div>
+    ${STICKERS.map((s,i)=>`<div class="stk" data-i="${i}" role="button" aria-label="${s.w}" style="width:46px;display:flex;flex-direction:column;align-items:center;gap:2px;cursor:pointer">${sticker(s,i,40)}<span style="font:600 9.5px/11px 'Hanken Grotesk';color:var(--ink2);white-space:nowrap">${s.w}</span></div>`).join('')}
+  </div>`;
+};
+
+/* S5 — avatar picker */
+S.s5 = t => {
+  const sel='dart';
+  const tiles = ORDER.map(k=>{ const c=CH[k], on=k===sel, lk=!!c.unlock;
+    return `<div class="pk-tile" data-k="${k}" style="position:relative;height:80px;border-radius:18px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;background:var(--raised);border:${on?'2px solid #D2F000':'1px solid var(--line)'};cursor:pointer">
+      <span style="opacity:${lk?.42:1}">${avatarSVG(k,{mode:'disc',w:48,still:true,colour:k==='dart'?'teal':undefined})}</span>
+      <span style="font:600 11.5px/14px 'Hanken Grotesk';color:${lk?'var(--ink3)':'var(--ink2)'}">${c.name}</span>
+      ${lk?`<span style="position:absolute;top:6px;right:6px;color:var(--ink3)">${ico('lock',14,2)}</span>`:''}</div>`; }).join('');
+  const sw = COLOURS.map(c=>`<div style="width:32px;height:32px;border-radius:50%;background:${PAL[c][0]};${c==='teal'?'box-shadow:0 0 0 2px var(--raised),0 0 0 4px var(--ink)':''}"></div>`).join('');
+  const accs=[['none','None'],['headphones','Headphones'],['cap','Cap'],['specs','Specs'],['scarf','Scarf'],['pin','Star pin']];
+  const accTiles = accs.map(([a,l])=>`<div style="flex:1;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--raised);border:${a==='cap'?'2px solid var(--ink)':'1px solid var(--line)'}" aria-label="${l}">
+     ${a==='none'?`<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" style="color:var(--ink3)"><circle cx="12" cy="12" r="8"/><path d="M6.5 17.5l11-11"/></svg>`:accIcon(a)}</div>`).join('');
+  return `${statusBar()}
+  <div class="hdr" style="height:56px"><div class="iconbtn">${ico('close',24,2)}</div><div class="grow t-sub">Your character</div></div>
+  <div style="position:relative;height:208px;margin:0 16px;border-radius:24px;overflow:hidden;background:var(--wall)">
+    <svg width="328" height="208" viewBox="0 0 328 208" style="position:absolute;inset:0"><ellipse cx="96" cy="182" rx="70" ry="12" style="fill:var(--desk)"/></svg>
+    <div id="pk-stage-${t}" style="position:absolute;left:30px;top:14px">${avatarSVG('dart',{mode:'full',pose:'wave',colour:'teal',acc:'cap',w:132})}</div>
+    <div style="position:absolute;left:182px;right:16px;top:44px"><div class="t-headline" id="pk-name-${t}">Dart</div><div class="t-small ink2" style="margin-top:6px" id="pk-line-${t}">Answers first, then checks every answer twice.</div></div>
+  </div>
+  <div class="pad" style="margin-top:14px"><div class="t-label ink2">Colour</div><div style="display:flex;justify-content:space-between;margin-top:8px">${sw}</div></div>
+  <div class="pad" style="margin-top:14px"><div class="t-label ink2">One extra</div><div style="display:flex;gap:6px;margin-top:8px">${accTiles}</div></div>
+  <div class="pad" style="margin-top:16px"><div style="display:flex;justify-content:space-between"><span class="t-label ink2">Characters</span><span class="t-cap muted">4 more come from Mob quests</span></div>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:8px">${tiles}</div></div>
+  <div style="position:absolute;left:0;right:0;bottom:0;padding:14px 16px 16px;background:linear-gradient(to bottom,transparent,var(--ground) 26%);z-index:5">
+    <div style="height:22px"></div><button class="key">Use Dart</button><div class="t-cap muted" style="text-align:center;margin-top:8px">Only people in your Mobs see your character.</div></div>`;
+};
+function accIcon(a){
+  const s='fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"';
+  const m={headphones:`<path d="M5 15v-3a7 7 0 0 1 14 0v3"/><rect x="3.5" y="13" width="4" height="7" rx="2"/><rect x="16.5" y="13" width="4" height="7" rx="2"/>`,
+    cap:`<path d="M4 15c0-5 3.6-8 8-8s8 3 8 8z"/><path d="M12 15h9"/>`, specs:`<circle cx="7" cy="13" r="3.5"/><circle cx="17" cy="13" r="3.5"/><path d="M10.5 12.5q1.5-1 3 0"/>`,
+    scarf:`<path d="M5 9h14v4H5z"/><path d="M14 13l1 7h3l-1-7"/>`, pin:`<path d="M12 4.5l2.3 4.7 5.2.7-3.8 3.6.9 5.1-4.6-2.4-4.6 2.4.9-5.1-3.8-3.6 5.2-.7z"/>`};
+  return `<svg width="24" height="24" viewBox="0 0 24 24" ${s} style="color:var(--ink)">${m[a]}</svg>`;
+}
+
+/* S6a — start a Mob */
+S.s6a = t => `${statusBar()}
+  <div class="hdr" style="height:56px"><div class="iconbtn">${ico('back',24,2)}</div><div class="grow t-sub">Start a Mob</div></div>
+  <div class="pad">
+    ${denScene({theme:t,k:'s6a'+t,h:178,seats:[M.you,null,null,null,null],xs:[46,118,177,236,295],streak:false,shelf:false,winX:228,aria:'Your den with four free seats'})}
+    <div class="t-label ink2" style="margin-top:20px">Your Mob’s name</div>
+    <div style="display:flex;gap:10px;margin-top:8px;align-items:center">
+      <div style="flex:1;height:60px;border-radius:18px;background:var(--raised);border:1px solid var(--lineStrong);display:flex;align-items:center;padding:0 16px" class="t-title">Chai Circle</div>
+      <div class="key2" style="height:60px;width:60px;padding:0;border-radius:18px" aria-label="Shuffle the name">${ico('dice',24,1.8)}</div>
+    </div>
+    <div class="t-cap muted" style="margin-top:6px">Names come from our list, so every Mob name is kind. Shuffle for another.</div>
+    <div class="t-label ink2" style="margin-top:18px">Subject you will play</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px;margin-top:8px">
+      ${['Accountancy','Business Studies','Economics','English'].map((s,i)=>`<div style="height:40px;padding:0 14px;border-radius:999px;display:flex;align-items:center;gap:6px;${i===0?'background:var(--ink);color:var(--ground)':'border:1px solid var(--lineStrong);color:var(--ink2)'}" class="t-label">${i===0?ico('check',16,2.4):''}${s}</div>`).join('')}
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:18px;padding:10px 12px;border-radius:18px;background:var(--sunken)">
+      ${disc('dart',44,{colour:'teal',acc:'cap'})}<div style="flex:1"><div class="t-label">You join as Aarav, playing Dart</div><div class="t-cap muted">First names only. Change it any time.</div></div><div class="t-label" style="text-decoration:underline;text-underline-offset:3px">Change</div>
+    </div>
+  </div>
+  <div style="position:absolute;left:16px;right:16px;bottom:16px"><button class="key">Start Chai Circle</button><div class="t-cap muted" style="text-align:center;margin-top:8px">Next, you can invite up to 4 friends.</div></div>`;
+
+/* S6b — a Mob of one: invite */
+function qr(n=21, s=4){ let r=''; let seed=7; const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
+  const fin=(x,y)=>`<rect x="${x*s}" y="${y*s}" width="${7*s}" height="${7*s}" fill="#17150F"/><rect x="${x*s+s}" y="${y*s+s}" width="${5*s}" height="${5*s}" fill="#FFFDF8"/><rect x="${x*s+2*s}" y="${y*s+2*s}" width="${3*s}" height="${3*s}" fill="#17150F"/>`;
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){ const inF=(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9); if(!inF&&rnd()>.52) r+=`<rect x="${x*s}" y="${y*s}" width="${s}" height="${s}" fill="#17150F"/>`; }
+  return `<svg width="${n*s}" height="${n*s}" viewBox="0 0 ${n*s} ${n*s}" style="display:block;background:#FFFDF8">${r}${fin(0,0)}${fin(n-7,0)}${fin(0,n-7)}</svg>`; }
+S.s6b = t => `${statusBar()}
+  <div class="scrollc">
+    <div class="hdr" style="height:64px">${disc('dart',40,{colour:'teal',acc:'cap'})}<div class="grow"><div class="t-title">Chai Circle</div><div class="t-cap muted" style="white-space:nowrap">Accountancy, just you</div></div><div class="askmobi">${mobiHead(24)}Ask Mobi</div></div>
+    <div class="pad">
+      ${denScene({theme:t,k:'s6b'+t,h:178,seats:[M.you,null,null,null,null],xs:[46,118,177,236,295],streak:false,shelf:false,winX:228,aria:'Your den with four free seats'})}
+      <div class="t-headline" style="margin-top:18px">Save a seat for a friend</div>
+      <div class="t-body ink2" style="margin-top:6px">Play together once one friend joins. A Mob holds 2 to 5 friends.</div>
+      <div style="margin-top:14px;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#12110E;display:flex;gap:12px;align-items:center;padding:12px" aria-label="Preview of the WhatsApp invite card">
+        <div style="flex:none;width:76px;height:76px;border-radius:14px;background:#1C1A16;display:grid;place-items:center">${avatarSVG('dart',{mode:'bust',w:66,colour:'teal',acc:'cap',still:true})}</div>
+        <div style="min-width:0"><div style="font:700 15px/20px 'Hanken Grotesk';color:#F4F0E6">Aarav saved you a seat in Chai Circle</div><div style="font:500 13px/18px 'Hanken Grotesk';color:#BDB6A6;margin-top:2px">Accountancy on MockMob. Code <b class="num" style="color:#D2F000;letter-spacing:.06em">K7P 2M9</b></div></div>
+      </div>
+      <div class="t-cap muted" style="margin-top:6px">This is the card your friends see in WhatsApp.</div>
+      <button class="key" style="margin-top:14px">${ico('share',20,2)}Invite on WhatsApp</button>
+      <div style="display:flex;gap:10px;margin-top:10px">
+        <div class="key2" style="flex:1">${ico('qr',18,2)}Show QR</div>
+        <div class="key2" style="flex:1">${ico('copy',18,2)}Copy code</div>
+      </div>
+    </div>
+  </div>
+  <div class="fade-under" style="height:90px"></div>
+  ${bottomBar('mob')}`;
+
+/* S6c — join with a code, keyboard open, field and key stay above it */
+function keyboard(){
+  const rows=['1234567890','QWERTYUIOP','ASDFGHJKL','ZXCVBNM'];
+  const k=(c,w=30)=>`<div style="width:${w}px;height:40px;border-radius:6px;background:var(--keycap);display:grid;place-items:center;font:500 18px 'Hanken Grotesk';color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.25)">${c}</div>`;
+  return `<div style="position:absolute;left:0;right:0;bottom:0;height:268px;background:var(--keyb);padding:10px 4px 0;display:flex;flex-direction:column;gap:9px;z-index:8">
+    ${rows.map((r,i)=>`<div style="display:flex;justify-content:center;gap:5px">${i===3?k('⇧',44):''}${[...r].map(c=>k(c)).join('')}${i===3?k('⌫',44):''}</div>`).join('')}
+    <div style="display:flex;justify-content:center;gap:5px">${k('?123',52)}${k(',',30)}${k('',150)}${k('.',30)}<div style="width:62px;height:40px;border-radius:20px;background:#D2F000;display:grid;place-items:center;color:#0B1000">${ico('check',20,2.4)}</div></div></div>`;
+}
+S.s6c = t => `${statusBar()}
+  <div class="hdr" style="height:56px"><div class="iconbtn">${ico('back',24,2)}</div><div class="grow t-sub">Join a Mob</div><div class="t-label" style="display:flex;gap:6px;align-items:center;padding-right:4px">${ico('scan',20,2)}Scan QR</div></div>
+  <div class="pad">
+    <div class="t-body ink2">Type the 6-character code your friend sent.</div>
+    <div style="display:flex;gap:8px;margin-top:12px" aria-label="Code, 6 characters">
+      ${'K7P2M9'.split('').map((c,i)=>`<div style="flex:1;height:58px;border-radius:14px;display:grid;place-items:center;font:800 26px 'Bricolage Grotesque';font-stretch:75%;background:var(--raised);border:${i===5?'2px solid var(--ink)':'1px solid var(--lineStrong)'};${i===2?'margin-right:8px':''}">${c}</div>`).join('')}
+    </div>
+    <div style="margin-top:14px;padding:12px 14px;border-radius:18px;background:var(--sunken);display:flex;gap:12px;align-items:center">
+      <div style="display:flex">${['patang','naav','pip'].map((k,i)=>`<span style="margin-left:${i?-10:0}px">${disc(k,34,{colour:M[['riya','kabir','zoya'][i]].colour,acc:M[['riya','kabir','zoya'][i]].acc})}</span>`).join('')}</div>
+      <div><div class="t-label">Chai Circle, Accountancy</div><div class="t-cap muted">Riya, Kabir and Zoya are in. 2 seats left.</div></div>
+    </div>
+    <button class="key" style="margin-top:14px">Join Chai Circle</button>
+    <div class="t-cap muted" style="text-align:center;margin-top:12px">Sitting together? Tap Scan QR and point it at their screen.</div>
+  </div>
+  ${keyboard()}`;
+
+/* ---------------- screen registry ---------------- */
+const SCREENS = [
+  ['s1','S1 Mob home, the den','What does a first-time student think this screen wants from them? "My friends are here; Riya sent me a sprint, so I tap Play."'],
+  ['s2','S2 Play picker','"Pick a game. Kabir is here and plays live; the others get 24 hours. Start the race."'],
+  ['s3','S3 In play, Riya’s sprint','"Answer this question. Riya and Kabir played earlier; Zoya is playing right now."'],
+  ['s4','S4 Results','"I came first on time. Now we fix question 4 together, or rematch."'],
+  ['s5','S5 Character picker','"Pick who I am in the Mob, give it a colour and one extra, then tap Use."'],
+  ['s6a','S6a Start a Mob','"Keep or shuffle the name, pick the subject, start."'],
+  ['s6b','S6b A Mob of one','"Nobody else is here yet. Send the WhatsApp invite."'],
+  ['s6c','S6c Join with a code','"Type the code, check it is the right Mob, join."'],
+];
+function phone(id, theme){ return `<div class="phone ${theme}" data-s="${id}" data-theme="${theme}">${S[id](theme)}</div>`; }
+
+/* ---------------- avatar sheet ---------------- */
+function avatarSheet(theme){
+  return `<div class="sheet ${theme}" style="background:var(--ground)"><h1>The paper folk</h1>
+   <div class="sl">24 originals in Mobi’s family. Each is a piece of exam stationery, folded into a friend: a soft paper body, Mobi’s dark visor with capsule eyes, rubber-hose arms and boots. 20 are open to everyone; 4 come from Mob quests (cosmetic only, never sold).</div>
+   <div class="sgrid">${ORDER.map(k=>{ const c=CH[k]; return `<div class="scard">${c.unlock?`<div class="lk">${ico('lock',12,2)}Mob quest</div>`:''}${avatarSVG(k,{mode:'full',pose:'rest',w:132,delay:-(ORDER.indexOf(k)*370)})}<div class="nm">${c.name}</div><div class="ln">${c.line}</div>
+     <div style="display:flex;gap:4px;margin-top:8px">${COLOURS.map(cl=>`<span style="width:10px;height:10px;border-radius:50%;background:${PAL[cl][0]};${cl===c.colour?'box-shadow:0 0 0 1.5px var(--raised),0 0 0 3px var(--ink)':''}"></span>`).join('')}</div>
+     ${c.unlock?`<div class="t-cap muted" style="margin-top:6px">${c.unlock}</div>`:''}</div>`; }).join('')}</div>
+   <div style="display:flex;gap:18px;margin-top:22px;align-items:center;flex-wrap:wrap">
+     <div class="t-label ink2" style="width:150px">Same character, eight papers and one extra each</div>
+     ${COLOURS.map((cl,i)=>avatarSVG('cutting',{mode:'full',pose:'rest',w:92,colour:cl,acc:['','headphones','cap','specs','scarf','pin','',''][i],still:true})).join('')}
+   </div></div>`;
+}
+
+/* ---------------- mount ---------------- */
+function mount(){
+  const root=document.getElementById('root');
+  if(Q.get('solo')){ document.body.classList.add('solo'); root.innerHTML=phone(Q.get('solo'), Q.get('theme')||'night'); }
+  else if(Q.get('sheet')){ root.innerHTML=avatarSheet(Q.get('theme')||'night'); }
+  else if(Q.get('contact')){
+    root.innerHTML=`<div class="contact">${['night','day'].map(th=>SCREENS.map(([id,l])=>`<div><div class="cl">${l}, ${th==='night'?'Night':'Day'}</div>${phone(id,th)}</div>`).join('')).join('')}</div>`;
+  } else {
+    root.innerHTML=`<div class="gal"><h1>The Den</h1>
+      <div class="lede">The Mob gets a home: a lamp-lit den where every friend is a paper character at the same table. What you see there is only what really happened: who practised today, who is here now, what the Mob earned together.</div>
+      <div class="note">Mock-up for the owner’s pick (R8). All names and numbers are illustrative fixtures. 360 x 780 dp, Night and Day. Tap a sticker on S4 to react; tap a character on S5 to choose it.</div>
+      ${SCREENS.map(([id,l,r2])=>`<div class="row"><h2>${l}</h2><div class="r2">${r2}</div>
+        ${id==='s4'?'<button class="gbtn" onclick="replay(\'s4\')">Replay the reveal</button>':''}${id==='s1'?'<button class="gbtn" onclick="replay(\'s1\')">Replay the lobby</button>':''}
+        <div class="pair"><div><div class="lab">Night</div>${phone(id,'night')}</div><div><div class="lab">Day</div>${phone(id,'day')}</div></div></div>`).join('')}
+      <div class="row"><h2>The paper folk, 24 characters</h2></div>${avatarSheet('night')}${avatarSheet('day')}
+    </div>`;
+  }
+  wire();
+}
+function replay(id){ document.querySelectorAll(`.phone[data-s="${id}"]`).forEach(p=>p.getAnimations({subtree:true}).forEach(a=>{a.cancel();a.play();})); }
+
+/* interactions: reaction sticker flies to Riya; picker swaps the character */
+function react(ph, i, auto){
+  const st = ph.querySelectorAll('.stk')[i]; const pod = ph.querySelector('svg[id^="podium"]'); if(!st||!pod) return;
+  const pr=ph.getBoundingClientRect(), sr=st.getBoundingClientRect(), dr=pod.getBoundingClientRect();
+  const el=document.createElement('div'); el.className='react-fly'; el.innerHTML=sticker(STICKERS[i],i,40);
+  const sx=sr.left-pr.left+3, sy=sr.top-pr.top, tx=dr.left-pr.left+ (50+16) , ty=dr.top-pr.top+ 30;
+  el.style.left=sx+'px'; el.style.top=sy+'px'; ph.appendChild(el);
+  const dx=tx-sx, dy=ty-sy;
+  el.animate([{transform:'translate(0,0) scale(1) rotate(0)'},{transform:`translate(${dx*.5}px,${dy*.62-40}px) scale(1.25) rotate(-10deg)`,offset:.55},{transform:`translate(${dx}px,${dy}px) scale(1.12) rotate(-8deg)`,offset:.86},{transform:`translate(${dx}px,${dy}px) scale(.92) rotate(-6deg)`}],
+    {duration:620,easing:'cubic-bezier(.15,.5,.5,1)',fill:'forwards',delay:auto?0:0});
+  return el;
+}
+function pick(ph, k){
+  const t=ph.dataset.theme, stage=ph.querySelector(`#pk-stage-${t}`), nm=ph.querySelector(`#pk-name-${t}`), lnn=ph.querySelector(`#pk-line-${t}`);
+  if(CH[k].unlock) return;
+  ph.querySelectorAll('.pk-tile').forEach(x=>x.style.border = x.dataset.k===k ? '2px solid #D2F000' : '1px solid var(--line)');
+  const old=stage.firstElementChild; old.classList.add('pk-out');
+  setTimeout(()=>{ stage.innerHTML=avatarSVG(k,{mode:'full',pose:'wave',w:132,colour:k==='dart'?'teal':undefined,acc:'cap'}); stage.firstElementChild.classList.add('pk-in');
+    nm.textContent=CH[k].name; lnn.textContent=CH[k].line; ph.querySelector('.key').textContent='Use '+CH[k].name; },200);
+}
+function wire(){
+  document.querySelectorAll('.phone[data-s="s4"] .stk').forEach(s=>s.addEventListener('click',e=>{ const ph=s.closest('.phone'); react(ph,+s.dataset.i); }));
+  document.querySelectorAll('.phone[data-s="s5"] .pk-tile').forEach(s=>s.addEventListener('click',()=>pick(s.closest('.phone'),s.dataset.k)));
+}
+
+/* frame tools for the capture script */
+window.__scrub = (ms) => { document.getAnimations().forEach(a=>{ a.pause(); a.currentTime = ms; }); document.querySelectorAll('svg').forEach(s=>{ try{ s.pauseAnimations(); s.setCurrentTime(ms/1000);}catch(e){} }); };
+window.__still = () => { document.getAnimations().forEach(a=>{ const it=a.effect.getComputedTiming().iterations; if(it===Infinity){ a.pause(); a.currentTime=0; } else a.finish(); }); document.querySelectorAll('svg').forEach(s=>{ try{s.pauseAnimations(); s.setCurrentTime(0);}catch(e){} }); };
+window.__react = (i) => { const ph=document.querySelector('.phone[data-s="s4"]'); return !!react(ph,i,true); };
+window.__pick = (k) => { const ph=document.querySelector('.phone[data-s="s5"]'); pick(ph,k); };
+mount();
+</script>
+</body>
+</html>

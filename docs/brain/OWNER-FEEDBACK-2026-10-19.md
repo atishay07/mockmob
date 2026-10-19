@@ -319,3 +319,10 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 - Daily goal: "A: a fourth 'More' bubble (Recommended)"
 - "Question stream": "Rename to 'Untimed questions' (Recommended)"
 **Ledger D126:** build Practice C (a Practise / Your papers / Learn switch under the title), Colleges A+B (a Colleges card at the top of You and a "Your colleges" strip on Today; Aim stays), goal step A (a fourth "More" bubble: 1 hour, 2 hours, own amount, no cap), and rename "Question stream" to "Untimed questions". Specs: docs/design-decisions/pass-1019pm/PRACTICE-COLLEGES-GOAL-1019PM.md and SMART-LAYER-1019PM.md.
+
+## Owner, 19 Oct about 5:10 pm IST, his Mob picks (verbatim answers)
+- Direction: "Den, with Arena's energy"
+- Podium inside one Mob game: "Yes, with the switch (Recommended)"
+- Who may start Mob games: "Pro only"
+- Weekly Mob streak and 6-character codes: "Yes to both (Recommended)"
+**Ledger D127:** build The Den (mob-den v2) with more of the Arena's race and podium punch in play and results; podium by CUET marks inside one game, ties share a place, nobody below third numbered, per-Mob "Show a podium" switch on by default; only Pro members START Mob games (sprints, races, rounds; Free members join and play; with billing off the start control is visible but locked, D101); weekly Mob streak (quest weeks in a row, never a warning or countdown); 6-character join codes (old 8-character codes keep working until they expire).
