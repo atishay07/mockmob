@@ -543,3 +543,8 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
 - The icons (D8): the proposal is in BADGES-ICONS-1018; it ships with the next app nav change, unless he objects.
 - Play Console account and upload key; Anthropic key; Avast HTTPS-scanning exception; 112 held questions; a Hindi reviewer; free first Repair; M-011 Vercel duplicates (his click).
+
+## C-dec 2 (CTO, 19 Oct 6:50 pm, under D111/D112 "designer's pick"): Mob v3 build-spec open points
+1. The weekly Mob paper holds its answers and explanations until it closes (Sunday 11:59 PM), like every Mob game (fairness; no leaks to friends who have not sat it).
+2. Free's weekly start covers one 24-hour Sprint or Your own round per Mob (no live rooms). 3. A passed mic allows a live room. 4. Live rooms open 6:00 AM to 11:00 PM (minors). 5. Quest size 15 questions per member. 6. Free starters: Dart, Dog-ear, Hexa, Kandil; Hop (redrawn) is the first quest prize. 7. Mob names from a fixed list of 24 (no "Night Owls"). 8. The 6-second podium tier and Mobi once per moment, as specified. 9. "Free members join and play everything" (D133) lifts the one-free-Mob-paper-a-week limit across Mobs.
+Spec: docs/design-decisions/pass-1019pm/mob-v3/MOB-BUILD-SPEC-V3.md. Production migration, the Realtime public-access setting and the flags wait for his yes.
