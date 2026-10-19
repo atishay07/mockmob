@@ -475,6 +475,9 @@ class MobV3FakeServer implements MobV3Api {
 
   // ---- The den and the Mob ---------------------------------------------------------------------------
 
+  /// The `GET /api/mob` body now, synchronously (tests and goldens seed the repository with it).
+  Json denNow() => _denJson();
+
   @override
   Future<Object?> den({String? mob}) async {
     if (mob != null) _selected = mob;
