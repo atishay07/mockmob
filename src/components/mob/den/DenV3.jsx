@@ -18,7 +18,7 @@ import { DenStage } from './DenStage';
 import { FoldHead } from './FoldFigure';
 import { FreeProSheet, PassMicSheet, PlayPicker, StartGameSheet } from './DenSheets';
 import { DenMoments } from './DenMoments';
-import { CHAIN_HREF, MOB_CHAIN_HREF, SHELF_HREF, gameHref, podiumHref } from './denRoutes';
+import { CHAIN_HREF, MOB_CHAIN_HREF, SHELF_HREF, gameCardHref, gameHref, podiumHref } from './denRoutes';
 import './den.css';
 
 const SEEN_KEY = 'mm:den:seen-notices';
@@ -105,8 +105,8 @@ function GameCard({ state, data, v3, now, onPicker, onStartGame, onAsk, onSticke
     key = <Link className="btn-volt md den-key" data-page-primary="" href={podiumHref(g.id)}>{DenCopy.seePodiumSoFar}</Link>;
   } else if (state.kind === 'live') {
     line = DenCopy.liveLine(g);
-    key = <Link className="btn-volt md den-key" data-page-primary="" href={`${gameHref(g.id)}?room=1`}>{DenCopy.joinRoom(g)}</Link>;
-    link = <Link className="mob-link" href={gameHref(g.id)}>{DenCopy.playLater(g.closesAt, now)}</Link>;
+    key = <Link className="btn-volt md den-key" data-page-primary="" href={gameCardHref(g.id)}>{DenCopy.joinRoom(g)}</Link>;
+    link = <Link className="mob-link" href={gameCardHref(g.id)}>{DenCopy.playLater(g.closesAt, now)}</Link>;
   } else {
     line = DenCopy.roomStarted(g.room?.startsAt || g.openedAt, g.closesAt, now);
     key = <Link className="btn-volt md den-key" data-page-primary="" href={gameHref(g.id)}>{DenCopy.playItNow}</Link>;
@@ -283,7 +283,7 @@ export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings }) {
       {sheet === 'start' ? (
         <StartGameSheet open onClose={() => setSheet(null)} data={data} v3={v3} mobName={mobName} preset={preset} run={mob.run} busy={mob.busy}
           onPassMic={() => setSheet('mic')}
-          onStarted={(game) => { setSheet(null); if (game?.id) router.push(gameHref(game.id)); else mob.load(); }} />
+          onStarted={(game) => { setSheet(null); if (game?.id) router.push(gameCardHref(game.id)); else mob.load(); }} />
       ) : null}
       {sheet === 'mic' ? <PassMicSheet open onClose={() => setSheet(null)} v3={v3} mobName={mobName} run={mob.run} busy={mob.busy} onPassed={(t) => { setSheet(null); say(t); mob.load(); }} /> : null}
       {sheet === 'freepro' ? <FreeProSheet open onClose={() => setSheet(null)} /> : null}
