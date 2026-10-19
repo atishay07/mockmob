@@ -1,7 +1,7 @@
 // Goldens for the owner's APK v8 notes on Practice and Start (15 Oct): the Practice tab's exam band
 // (one NTA entry, its palette glyph inside its own tile) at the narrowest phone with large text
-// and at the widest, and a Full mock's ticket as the stub tears and the stopwatch under it runs
-// its turn.
+// and at the widest, and a Full mock's ticket as the stub tears and the stopwatch under it eases
+// onto 12.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
@@ -119,7 +119,7 @@ void main() {
         await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/exam_band_430_$tag.png'));
       });
 
-      testWidgets('a Full mock starts: the stub tears and the stopwatch runs its turn', (tester) async {
+      testWidgets('a Full mock starts: the stub tears and the stopwatch eases onto 12 once', (tester) async {
         final tear = ValueNotifier(TicketTear.rest);
         addTearDown(tear.dispose);
         await pumpMockmob(
@@ -134,14 +134,14 @@ void main() {
         await tester.pump(const Duration(milliseconds: 200));
         tear.value = TicketTear.torn;
         await tester.pump();
-        // The five-frame sheet of the turn (AP2-01; 19 Oct H4): the stub gone and the dial in,
-        // still, at 240 ms, the hand on its way at 500, past the bottom near 800, resting on 12
-        // at 1140 when the paper opens.
+        // The frame sequence of the start (20 Oct, I3): the stub tearing, the dial in and still at
+        // ten to twelve at 150, the hands under way at 300 and 450, nearly on 12 at 600, and
+        // resting on 12 at 900, when the sheet lets go. One short forward ease, never a turn.
         var at = 0;
-        for (final ms in const [0, 240, 500, 800, 1140]) {
+        for (final ms in const [0, 150, 300, 450, 600, 900]) {
           await tester.pump(Duration(milliseconds: ms - at));
           at = ms;
-          await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mock_start_lap_${ms}ms_$tag.png'));
+          await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mock_start_ease_${ms}ms_$tag.png'));
         }
       });
       testWidgets('NTA mode starts: the exam sheet slides in and the mark settles', (tester) async {

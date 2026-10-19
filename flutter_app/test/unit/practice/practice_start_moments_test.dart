@@ -165,26 +165,26 @@ void main() {
     });
   });
 
-  group('the stopwatch laps once', () {
-    test('a lap runs the long hand one full turn back round to 12 while the small hand holds', () {
+  group('the stopwatch eases onto 12 once', () {
+    test('both hands ease forward from ten to twelve onto 12, and stop there', () {
       final sim = StopwatchSim()..jump(long: 0, short: 0, mode: StopwatchMode.done);
       sim.lap(1);
       const lead = StopwatchSim.lapLead;
       const half = 1 + lead + StopwatchSim.lapDuration / 2;
       expect(sim.mode, StopwatchMode.lap);
-      expect(sim.longAt(1), closeTo(0, 1e-9));
-      // It holds at 12 while the dial fades in.
-      expect(sim.longAt(1 + lead), closeTo(0, 1e-9));
+      // At rest at ten to twelve while the dial fades in.
+      expect(sim.longAt(1), closeTo(StopwatchSim.lapLong, 1e-9));
+      expect(sim.longAt(1 + lead), closeTo(StopwatchSim.lapLong, 1e-9));
+      expect(sim.shortAt(1 + lead), closeTo(StopwatchSim.lapShort, 1e-9));
       expect(sim.settledAt(half), isFalse);
       final mid = sim.longAt(half);
-      expect(mid, greaterThan(0));
-      expect(mid, lessThan(StopwatchSim.turn));
-      expect(sim.longAt(1 + StopwatchSim.lapLanded), closeTo(StopwatchSim.turn, 1e-9));
-      expect(sim.shortAt(half), closeTo(0, 1e-9));
+      expect(mid, greaterThan(StopwatchSim.lapLong));
+      expect(mid, lessThan(0));
+      expect(sim.longAt(1 + StopwatchSim.lapLanded), closeTo(0, 1e-9));
       expect(sim.shortAt(1 + StopwatchSim.lapLanded), closeTo(0, 1e-9));
       expect(sim.settledAt(1 + StopwatchSim.lapLanded), isTrue);
-      // The hand only ever goes forward.
-      var last = -1.0;
+      // The hands only ever go forward.
+      var last = -10.0;
       for (var i = 0; i <= 60; i++) {
         final a = sim.longAt(1 + StopwatchSim.lapLanded * i / 60);
         expect(a, greaterThanOrEqualTo(last - 1e-9));
@@ -192,18 +192,18 @@ void main() {
       }
     });
 
-    test('a Full mock holds 1140 ms: lead 240 + turn 800 + rest 100, under the T2 cap of 1200 ms', () {
+    test('a Full mock holds 900 ms: lead 240 + motion 450 + rest 210, under the T2 cap of 1200 ms', () {
       expect(StopwatchSim.lapLead, 0.24);
-      expect(StopwatchSim.lapDuration, 0.80);
-      expect(StopwatchSim.lapRest, 0.10);
-      expect(PracticeComposerKeys.clockHold, const Duration(milliseconds: 1140));
+      expect(StopwatchSim.lapDuration, 0.45);
+      expect(StopwatchSim.lapRest, 0.21);
+      expect(PracticeComposerKeys.clockHold, const Duration(milliseconds: 900));
       expect(PracticeComposerKeys.clockHold.inMilliseconds, lessThanOrEqualTo(1200));
       expect(PracticeComposerKeys.holdFor(PracticeMode.full), PracticeComposerKeys.clockHold);
       expect(PracticeComposerKeys.holdFor(PracticeMode.nta), const Duration(milliseconds: 620));
       expect(PracticeComposerKeys.holdFor(PracticeMode.quick), PracticeComposerKeys.tearHold);
-      // The hand is on 12 before the paper opens.
+      // The hands are on 12 before the paper opens.
       final sim = StopwatchSim()..lap(0);
-      expect(sim.longAt(PracticeComposerKeys.clockHold.inMilliseconds / 1000), closeTo(StopwatchSim.turn, 1e-9));
+      expect(sim.longAt(PracticeComposerKeys.clockHold.inMilliseconds / 1000), closeTo(0, 1e-9));
     });
   });
 
@@ -281,11 +281,12 @@ void main() {
     });
   });
 
-  test('the lap reads as a whole turn, not a flick: half the lap is past the quarter mark', () {
+  test('the start is a short move, never a turn: halfway through, the long hand is past half its way', () {
     final sim = StopwatchSim()..lap(0);
     const half = StopwatchSim.lapLead + StopwatchSim.lapDuration / 2;
-    expect(sim.longAt(half), greaterThan(StopwatchSim.turn / 4));
-    expect(sim.longAt(half), lessThan(StopwatchSim.turn * 0.9));
+    // An ease-out: more than half the way at half the time, and still short of 12.
+    expect(sim.longAt(half), greaterThan(StopwatchSim.lapLong / 2));
+    expect(sim.longAt(half), lessThan(0));
   });
 
   group('NTA mode starts with its own moment: the exam sheet slides in and the mark settles', () {
