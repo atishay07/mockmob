@@ -1,3 +1,4 @@
+import '../../review/model/your_papers.dart' show paperLocation;
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/chapter_breakdown.dart';
 import '../../../core/domain/marks.dart';
@@ -240,6 +241,10 @@ class LastPaper {
 /// The first words of the last-paper answer, so a reply can be traced back to its paper.
 const lastPaperLead = 'Your last paper was ';
 
+/// The same, when a newer paper has not been opened yet: the answer reads the newest paper the student has opened, and
+/// says so rather than calling it the last.
+const lastOpenedPaperLead = 'The last paper you opened was ';
+
 String _signed(int n) => n < 0 ? '−${-n}' : '$n';
 
 /// "Accountancy full mock", "Economics Quick 10".
@@ -267,11 +272,18 @@ String paperDay(DateTime at, DateTime now) {
   return formatDayMonth(a);
 }
 
-/// The latest paper with questions in it, newest first (the record's own order), or null.
-LastPaper? lastPaper(List<Attempt>? attempts, DateTime now) {
+/// The latest paper with questions in it whose result the student has opened (newest first, the record's own order), or
+/// null. A paper whose result is still sealed ([unopened]) is skipped: its score and its marks lost are the reveal, and
+/// the link would lead past the sealed sheet.
+LastPaper? lastPaper(List<Attempt>? attempts, DateTime now, {Set<String> unopened = const {}}) {
   Attempt? latest;
+  var skipped = false;
   for (final a in attempts ?? const <Attempt>[]) {
     if (a.total <= 0) continue;
+    if (unopened.contains(a.id)) {
+      skipped = true;
+      continue;
+    }
     if (latest == null || a.completedAt.isAfter(latest.completedAt)) latest = a;
   }
   if (latest == null) return null;
@@ -282,7 +294,8 @@ LastPaper? lastPaper(List<Attempt>? attempts, DateTime now) {
   final lines = mockLostLines(observedChapterBreakdown(latest), lost: lost);
   final on = day == 'today' || day == 'yesterday' ? day : 'on $day';
   // "Your last paper was the Accountancy full mock you sat today. It scored 34 of 50 marks."
-  final opening = '$lastPaperLead${paperPhrase(latest)} you sat $on. It scored $marks marks.';
+  final newerSealed = skipped && (attempts ?? const <Attempt>[]).any((a) => a.total > 0 && unopened.contains(a.id) && a.completedAt.isAfter(latest!.completedAt));
+  final opening = '${newerSealed ? lastOpenedPaperLead : lastPaperLead}${paperPhrase(latest)} you sat $on. It scored $marks marks.';
   final String reply;
   if (lost <= 0) {
     reply = '$opening It lost no marks at all.';
@@ -299,7 +312,7 @@ LastPaper? lastPaper(List<Attempt>? attempts, DateTime now) {
   return LastPaper(
     attempt: latest,
     preview: '$name, $marks, $day',
-    answer: RecordAnswer(reply, actions: [('See this paper', '/result/${latest.id}')]),
+    answer: RecordAnswer(reply, actions: [('See this paper', paperLocation(latest, sealed: false))]),
   );
 }
 

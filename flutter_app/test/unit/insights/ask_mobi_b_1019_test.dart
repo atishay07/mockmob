@@ -143,7 +143,28 @@ void main() {
       expect(last.attempt.id, 'a4', reason: 'the newest paper');
       expect(last.answer.reply, startsWith(lastPaperLead));
       expect(last.answer.reply, contains('Accountancy'));
-      expect(last.answer.actions.single.$2, '/result/a4');
+      expect(last.answer.actions.single.$2, '/practice/result/a4', reason: 'a practice set opens the practice result');
+    });
+
+    test('a paper whose result is still sealed is never read, scored or linked (verifier M4)', () {
+      // a4 (newest) and a3 are unopened: the answer is e1, a full mock, and says it is the last one opened.
+      final last = lastPaper(trendAttempts(), evening, unopened: {'a4', 'a3'})!;
+      expect(last.attempt.id, 'e1');
+      expect(last.answer.reply, startsWith(lastOpenedPaperLead));
+      expect(last.answer.reply, isNot(startsWith(lastPaperLead)));
+      expect(last.answer.actions.single.$2, '/result/e1', reason: 'a mock opens the mock result');
+      expect(last.preview, contains('Economics'));
+      // Only the newest is sealed: the next one is read and a practice set opens the practice result.
+      final next = lastPaper(trendAttempts(), evening, unopened: {'a4'})!;
+      expect(next.attempt.id, 'a3');
+      expect(next.answer.actions.single.$2, '/practice/result/a3');
+      // An unopened paper older than the one read changes nothing: it is still "your last paper".
+      final older = lastPaper(trendAttempts(), evening, unopened: {'a1'})!;
+      expect(older.attempt.id, 'a4');
+      expect(older.answer.reply, startsWith(lastPaperLead));
+      // Nothing opened yet: the ask is left out, never answered from a sealed paper.
+      expect(lastPaper(trendAttempts(), evening, unopened: {'a1', 'a2', 'e1', 'a3', 'a4'}), isNull);
+      expect(recordDoorAsks(rich(), pro: false, now: evening), hasLength(6));
     });
 
     test('the credit line is the wallet: of your 50 monthly, the real renewal day, or nothing invented', () {

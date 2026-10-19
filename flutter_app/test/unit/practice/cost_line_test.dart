@@ -55,6 +55,22 @@ void main() {
       expect(used.text, '50 credits. You have 120.');
     });
 
+    test('a quote that names first_full_mock_free never says "Free today", whatever allowance it carries', () {
+      final line = costLineFor(
+        PracticeQuote.fromJson({
+          'state': 'available',
+          'launchable': true,
+          'reasonCode': 'ok',
+          'creditCost': 0,
+          'creditBalance': 100,
+          'allowance': {'kind': 'daily_practice', 'state': 'available'},
+          'freeReason': 'first_full_mock_free',
+        }),
+      );
+      expect(line.text, 'Free: your first full mock in this subject is on us.');
+      expect(line.text, isNot('Free today'));
+    });
+
     test('credits are quoted with the balance', () {
       final line = costLineFor(q(cost: 50, balance: 120));
       expect(line.kind, CostKind.credits);
