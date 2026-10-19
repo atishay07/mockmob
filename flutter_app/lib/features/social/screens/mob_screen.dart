@@ -33,6 +33,7 @@ import '../widgets/mob_pro_entry.dart';
 import '../widgets/mob_ring.dart';
 import 'mob_sheets.dart';
 import '../v3/mob_v3_flags.dart' show mobV3EnabledProvider;
+import '../v3/logic/moment_queue.dart' show denSessionMemoryProvider;
 import '../v3/screens/den_screen.dart' show DenScreen;
 
 /// The Mob page (SOCIAL-SPEC sections 7, 8 and 15): the ring, one primary action, what the Mob has in
@@ -64,7 +65,10 @@ class _MobScreenState extends ConsumerState<MobScreen> {
     final state = ref.watch(mobRepositoryProvider);
     // Mob v3 (MOB-BUILD-SPEC-V3): the den, when the app's MOB_V3_ENABLED is on and the server sent
     // `v3`. With the flag off this branch never runs and the page below is unchanged.
-    if (ref.watch(mobV3EnabledProvider) && !mobDisabledError(state.error) && state.value != null && (state.value!.v3 != null || state.value!.mob == null)) {
+    // M13: switching Mobs reloads with no value; the den stays (faded out, then its skeleton) so the
+    // switch fades through den to den instead of flashing today's Mob page.
+    final switching = state.loading && state.value == null && ref.read(denSessionMemoryProvider).switchedAt != null;
+    if (ref.watch(mobV3EnabledProvider) && !mobDisabledError(state.error) && (switching || (state.value != null && (state.value!.v3 != null || state.value!.mob == null)))) {
       return DenScreen(asTab: widget.asTab);
     }
     final mob = mobDisabledError(state.error) ? null : state.value?.mob;

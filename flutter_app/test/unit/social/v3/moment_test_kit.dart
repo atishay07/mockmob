@@ -20,7 +20,7 @@ String fixtureWeek(MobV3FakeServer server) {
 }
 
 /// The fixture Mob's id (the Mob-scoped moment keys carry it).
-String fixtureMobId(MobV3FakeServer server) => (server.denNow()['mob'] as Map<String, dynamic>?)?['id'] as String? ?? 'mob-chai-0001';
+String fixtureMobId(MobV3FakeServer server) => (server.denNow()['mob'] as Map<String, dynamic>?)?['id'] as String? ?? MobV3FakeServer.chaiId;
 
 /// The server's quest key, `quest_done:<mobId>:<week>`.
 String questKey(MobV3FakeServer server) => dueMoments(server).firstWhere((k) => k.startsWith('quest_done:'), orElse: () => 'quest_done:${fixtureMobId(server)}:${fixtureWeek(server)}');

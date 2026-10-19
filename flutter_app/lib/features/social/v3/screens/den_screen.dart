@@ -330,6 +330,8 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     await ref.read(mobRepositoryProvider.notifier).select(id);
     if (!mounted) return;
     _memory.switchedAt = null;
+    // Reduced motion: no fade out, and the new Mob comes in on one 120 ms fade.
+    if (_reduced) _switch.value = 0;
     _switch.duration = _reduced ? MotionDurations.reducedFade : MotionDurations.fadeThroughIn;
     await _switch.animateTo(1, curve: MotionCurves.glide);
   }
@@ -490,6 +492,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
         return Stack(
           children: [
             FadeTransition(
+              key: const ValueKey('den-switch-fade'),
               opacity: _switch,
               child: FadeTransition(opacity: _fade, child: content),
             ),

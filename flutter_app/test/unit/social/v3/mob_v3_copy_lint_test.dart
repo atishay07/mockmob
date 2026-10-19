@@ -1,6 +1,7 @@
 // Copy lint C-1 to C-4 (spec 7.1) over every string literal in the Mob v3 code: no price or currency,
-// no exclamation marks, no counts of who has not played, no night-study words. The fixture bank
-// (question text with rupee amounts) is content, not copy, and is skipped.
+// no exclamation marks, no counts of who has not played, no night-study words. Every file under v3 is
+// scanned, with no exemption: the fixture bank (question text with rupee amounts, content and not
+// copy) lives in lib/dev, outside the Mob.
 
 import 'dart:io';
 
@@ -13,7 +14,7 @@ List<(String, String)> _strings() {
   final out = <(String, String)>[];
   final dir = Directory('lib/features/social/v3');
   for (final f in dir.listSync(recursive: true).whereType<File>()) {
-    if (!f.path.endsWith('.dart') || f.path.contains('mob_v3_bank')) continue;
+    if (!f.path.endsWith('.dart')) continue;
     for (final line in f.readAsLinesSync()) {
       final t = line.trimLeft();
       if (t.startsWith('//') || t.startsWith('import ') || t.startsWith('export ')) continue;

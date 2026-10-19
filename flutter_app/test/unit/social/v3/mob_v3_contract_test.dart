@@ -235,9 +235,9 @@ void main() {
 
     test('Free starts: one a week, then START_USED', () async {
       final f = MobV3FakeServer(scenario: 'quiet', billing: 'free');
-      final g = await f.openGame(mob: 'mob-chai-0001', format: GameFormat.sprint, mode: GameMode.async, count: 5);
+      final g = await f.openGame(mob: MobV3FakeServer.chaiId, format: GameFormat.sprint, mode: GameMode.async, count: 5);
       expect(g.count, 5);
-      expect(() => f.openGame(mob: 'mob-chai-0001', format: GameFormat.sprint, mode: GameMode.async, count: 5), throwsA(isA<ApiError>().having((e) => e.code, 'code', 'START_USED')));
+      expect(() => f.openGame(mob: MobV3FakeServer.chaiId, format: GameFormat.sprint, mode: GameMode.async, count: 5), throwsA(isA<ApiError>().having((e) => e.code, 'code', 'START_USED')));
     });
 
     test('billing off: anyone starts', () async {

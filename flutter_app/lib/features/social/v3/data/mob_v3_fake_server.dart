@@ -109,6 +109,10 @@ class MobV3FakeServer implements MobV3Api {
     _seed();
   }
 
+  /// Chai Circle's id. Mob ids are UUIDs, as the server's are: the app drops a Mob id that is not one
+  /// (`isMobId`), so a fixture id like "mob-chai-0001" made switching Mobs do nothing.
+  static const String chaiId = '0c4a1c1e-0000-4000-8000-000000000001';
+
   final String scenario;
   String billing;
   final DateTime Function() _clock;
@@ -139,6 +143,9 @@ class MobV3FakeServer implements MobV3Api {
 
   String _id(String p) => '$p-${(++_ids).toString().padLeft(4, '0')}';
 
+  /// A new Mob's id, UUID-shaped like the server's.
+  String _mobId() => '0c4a1c1e-0000-4000-9000-${(++_ids).toString().padLeft(12, '0')}';
+
   // ---- Seeding ---------------------------------------------------------------------------------------
 
   void _seed() {
@@ -151,12 +158,12 @@ class MobV3FakeServer implements MobV3Api {
     _seat = FoldKey.dart;
     final you = _Member('AARAV0000001', 'Aarav', 5, FoldKey.dart, you: true, owner: true);
     if (scenario == 'one') {
-      final mob = _Mob(id: 'mob-chai-0001', name: 'Chai Circle', nameKey: 0, members: [you]);
+      final mob = _Mob(id: chaiId, name: 'Chai Circle', nameKey: 0, members: [you]);
       mob.questAnswered = 0;
       _mobs.add(mob);
       return;
     }
-    final mob = _Mob(id: 'mob-chai-0001', name: 'Chai Circle', nameKey: 0, members: [
+    final mob = _Mob(id: chaiId, name: 'Chai Circle', nameKey: 0, members: [
       you,
       _Member('RIYA00000002', 'Riya', 3, FoldKey.patang),
       _Member('KABIR0000003', 'Kabir', 0, FoldKey.naav),
@@ -493,7 +500,7 @@ class MobV3FakeServer implements MobV3Api {
     if (nameKey < 0 || nameKey > 23) throw _err('NAME_KEY_INVALID', 422);
     _seat = fold;
     final you = _Member('AARAV0000001', name, colour, fold, you: true, owner: true);
-    final mob = _Mob(id: _id('mob'), name: _nameFor(nameKey), nameKey: nameKey, members: [you]);
+    final mob = _Mob(id: _mobId(), name: _nameFor(nameKey), nameKey: nameKey, members: [you]);
     _mobs.insert(0, mob);
     _selected = mob.id;
     return _denJson();
@@ -527,7 +534,7 @@ class MobV3FakeServer implements MobV3Api {
     final preview = await joinPreview(code);
     if (!preview.valid) throw _err(preview.status == 'expired' ? 'INVITE_EXPIRED' : 'INVITE_INVALID', 410);
     _seat = fold;
-    final mob = _Mob(id: _id('mob'), name: 'Steady Kites', nameKey: 3, members: [
+    final mob = _Mob(id: _mobId(), name: 'Steady Kites', nameKey: 3, members: [
       _Member('RIYA00000012', 'Riya', 3, FoldKey.patang, owner: true),
       _Member('KABIR0000013', 'Kabir', 0, FoldKey.naav),
       _Member('ZOYA00000014', 'Zoya', 6, FoldKey.cutting),

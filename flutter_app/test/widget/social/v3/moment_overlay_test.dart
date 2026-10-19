@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_den.dart';
+import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/screens/moment_overlay.dart';
 import 'package:mockmob/features/social/v3/widgets/moment_kit.dart';
@@ -133,7 +134,7 @@ void main() {
     testWidgets('never plays for another week, or for a quest key', (tester) async {
       final server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server);
-      await startMoment(tester, which, 'stitch:mob-chai-0001:2026-10-05');
+      await startMoment(tester, which, 'stitch:${MobV3FakeServer.chaiId}:2026-10-05');
       await pumpTo(tester, 800);
       expect(find.byType(StitchedMoment), findsNothing);
       which.value = null;
@@ -275,9 +276,9 @@ void main() {
     expect(prize.fold, FoldKey.hop);
     expect(weekItemOf(v3), 'desk_bell');
     final week = fixtureWeek(s);
-    expect(stitchAllowed(DenView(mob: null, v3: v3), MomentKey.parse('stitch:mob-chai-0001:$week')), isTrue);
-    expect(stitchAllowed(DenView(mob: null, v3: v3), MomentKey.parse('stitch:mob-chai-0001:2026-10-05')), isFalse);
+    expect(stitchAllowed(DenView(mob: null, v3: v3), MomentKey.parse('stitch:${MobV3FakeServer.chaiId}:$week')), isTrue);
+    expect(stitchAllowed(DenView(mob: null, v3: v3), MomentKey.parse('stitch:${MobV3FakeServer.chaiId}:2026-10-05')), isFalse);
     final heavy = MobV3.fromJson(v3Server().denNow()['v3'] as Map<String, dynamic>);
-    expect(stitchAllowed(DenView(mob: null, v3: heavy), MomentKey.parse('stitch:mob-chai-0001:$week')), isFalse);
+    expect(stitchAllowed(DenView(mob: null, v3: heavy), MomentKey.parse('stitch:${MobV3FakeServer.chaiId}:$week')), isFalse);
   });
 }
