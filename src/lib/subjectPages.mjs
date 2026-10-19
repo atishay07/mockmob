@@ -22,7 +22,7 @@ export const PAPER = Object.freeze({ questions: 50, minutes: 60, right: 5, wrong
 // the inventory and the syllabus use; `publicId` is the id Practice links with.
 export const SUBJECT_PAGES = Object.freeze([
   { slug: 'english', id: 'english', publicId: 'english', name: 'English', stream: 'Language and General Test' },
-  { slug: 'general-test', id: 'gat', publicId: 'general_test', name: 'General Test', stream: 'Language and General Test' },
+  { slug: 'general-test', id: 'gat', publicId: 'general_test', name: 'General Test', inName: 'the General Test', stream: 'Language and General Test' },
   { slug: 'accountancy', id: 'accountancy', publicId: 'accountancy', name: 'Accountancy', stream: 'Commerce' },
   { slug: 'business-studies', id: 'business_studies', publicId: 'business_studies', name: 'Business Studies', stream: 'Commerce' },
   { slug: 'economics', id: 'economics', publicId: 'economics', name: 'Economics', stream: 'Commerce' },

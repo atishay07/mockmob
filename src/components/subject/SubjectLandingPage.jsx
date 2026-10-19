@@ -114,7 +114,7 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
 
           <div className="mm-wrap mm-wrap--tight mm-article sj-body">
             <section className="mm-article__section" id="syllabus" aria-labelledby="syllabus-title">
-              <h2 className="mm-h2" id="syllabus-title">What CUET asks in {name}</h2>
+              <h2 className="mm-h2" id="syllabus-title">What CUET asks in {hub.inName || name}</h2>
               <p>
                 {units.length} unit{units.length === 1 ? '' : 's'} and {chapterTotal} chapters, from NTA’s CUET UG 2026 syllabus, the latest published.
                 NTA has not released the 2027 list yet.
