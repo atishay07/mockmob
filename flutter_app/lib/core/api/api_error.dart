@@ -73,6 +73,30 @@ abstract final class ApiCodes {
   // with a sentence written for the student.
   static const firstFullMockTaken = 'FIRST_FULL_MOCK_TAKEN';
   static const firstFullMockUnchecked = 'FIRST_FULL_MOCK_UNCHECKED';
+
+  /// The Google Play verify route's refusals (`POST /api/billing/play/verify`, PLAY-BILLING-PLAN-1018
+  /// contract step 4). That route sends its machine code as a top-level `code` beside a sentence in
+  /// `error`; only these codes are read from `code`, so no other route's answer changes.
+  static const Set<String> play = {
+    'unknown_product',
+    'bad_token',
+    'wrong_package',
+    'order_mismatch',
+    'account_mismatch',
+    'purchase_not_found',
+    'purchase_invalid',
+    'purchase_already_used',
+    'purchase_voided',
+    'purchase_canceled',
+    'product_mismatch',
+    'unsupported_quantity',
+    'product_expired',
+    'purchase_pending',
+    'play_unavailable',
+    'grant_unavailable',
+    'play_not_configured',
+    'user_not_found',
+  };
 }
 
 /// A failed API call. Carries a machine [code], never the server's own text: servers return
@@ -286,6 +310,9 @@ class ApiError implements Exception {
       if (nested is String && _machineCode.hasMatch(nested)) code ??= nested;
       _readMobSaid(error, nested, details);
     }
+    // The Play verify route (see [ApiCodes.play]).
+    final topCode = map['code'];
+    if (topCode is String && ApiCodes.play.contains(topCode)) code ??= topCode;
     final state = map['state'];
     if (state is String) details['state'] = state;
     final balance = map['balance'];

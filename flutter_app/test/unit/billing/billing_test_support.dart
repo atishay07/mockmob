@@ -68,7 +68,6 @@ class FakePlayStore implements PlayStore {
   List<PurchaseDetails> owned = [];
 
   final List<({String productId, bool consumable, String accountHash})> buys = [];
-  final List<({String productId, bool consumable})> finished = [];
   final List<String> restoreHashes = [];
 
   /// Called when the student's purchase sheet would open; a test may push stream events from it.
@@ -107,11 +106,6 @@ class FakePlayStore implements PlayStore {
   }
 
   @override
-  Future<void> finish(PurchaseDetails purchase, {required bool consumable}) async {
-    finished.add((productId: purchase.productID, consumable: consumable));
-  }
-
-  @override
   Future<void> restore({required String accountHash}) async {
     restoreHashes.add(accountHash);
     if (owned.isNotEmpty) stream.add(List.of(owned));
@@ -127,6 +121,12 @@ class FakeVerifier implements PlayVerifier {
   /// The server answers 2xx but says it did not grant.
   bool denies = false;
 
+  /// The server answers 202 `purchase_pending`: Google has not taken the money yet.
+  bool pending = false;
+
+  /// The body of a confirmation (for example `{'finished': false}`).
+  Map<String, dynamic> body = const {'ok': true, 'finished': true};
+
   /// While set, [verify] waits for it: the purchase is then "being confirmed".
   Completer<void>? gate;
   final List<({String userId, String productId, String purchaseToken, String orderId})> calls = [];
@@ -137,7 +137,8 @@ class FakeVerifier implements PlayVerifier {
     await gate?.future;
     final failure = failWith;
     if (failure != null) throw failure;
-    return PlayVerifyResult(confirmed: !denies);
+    if (pending) return const PlayVerifyResult.pending();
+    return PlayVerifyResult(confirmed: !denies, body: body);
   }
 }
 

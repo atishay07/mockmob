@@ -3,22 +3,33 @@ import '../../../core/api/api_error.dart';
 
 /// What the server answered to a purchase it verified with Google.
 class PlayVerifyResult {
-  const PlayVerifyResult({required this.confirmed, this.body = const {}});
+  const PlayVerifyResult({required this.confirmed, this.pending = false, this.body = const {}});
 
-  /// True when the server verified the purchase and granted it. Only this lets the app finish the
-  /// purchase and say it worked.
+  /// The server's 202 `purchase_pending`: Google Play has not taken the money yet. Nothing was
+  /// granted and nothing failed; the purchase is sent again once Google Play says it is paid.
+  const PlayVerifyResult.pending({this.body = const {}})
+      : confirmed = false,
+        pending = true;
+
+  /// True when the server verified the purchase and granted it. Only this lets the app say it
+  /// worked.
   final bool confirmed;
+
+  /// True for the server's 202 `purchase_pending`.
+  final bool pending;
   final Map<String, dynamic> body;
 }
 
-/// Sends a purchase to the server, which asks Google whether it is real and grants it.
+/// Sends a purchase to the server, which asks Google whether it is real, grants it and then
+/// acknowledges or consumes it with Google itself (the app never does).
 abstract class PlayVerifier {
   Future<PlayVerifyResult> verify({required String userId, required String productId, required String purchaseToken, required String orderId});
 }
 
 /// `POST /api/billing/play/verify` with `{productId, purchaseToken, orderId}`, signed in like the
 /// app's other calls. It answers 404 while the server's own flag is off, which reaches the caller
-/// as an [ApiError] of kind `notFound`.
+/// as an [ApiError] of kind `notFound` with no Play code; every refusal of a real purchase carries
+/// its code ([ApiCodes.play]).
 class ApiPlayVerifier implements PlayVerifier {
   ApiPlayVerifier(this._api);
 
@@ -30,13 +41,18 @@ class ApiPlayVerifier implements PlayVerifier {
     // dropped connection.
     final res = await _api.post(
       '/api/billing/play/verify',
-      body: {'productId': productId, 'purchaseToken': purchaseToken, 'orderId': orderId},
+      body: {'productId': productId, 'purchaseToken': purchaseToken, if (orderId.isNotEmpty) 'orderId': orderId},
       options: const ApiOptions(retries: 2),
       expectUserId: userId,
     );
-    final body = res.map;
-    // A 2xx is the server's yes, unless it says in the body that it did not grant.
-    final denied = body['ok'] == false || body['granted'] == false || body['verified'] == false;
+    return readVerifyAnswer(res.status, res.map);
+  }
+
+  /// A 2xx is the server's yes only when it says so: `ok: true`. The 202 `purchase_pending`
+  /// (`{ok: false, pending: true}`) is a wait, not a yes and not a failure.
+  static PlayVerifyResult readVerifyAnswer(int status, Map<String, dynamic> body) {
+    if (body['pending'] == true || body['code'] == 'purchase_pending' || status == 202) return PlayVerifyResult.pending(body: body);
+    final denied = body['ok'] != true || body['granted'] == false || body['verified'] == false;
     return PlayVerifyResult(confirmed: !denied, body: body);
   }
 }

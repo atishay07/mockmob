@@ -47,16 +47,14 @@ class BillingNotice extends ConsumerWidget {
       case BillingStage.restoredNothing:
         child = Text(BillingCopy.nothingToRestore, style: type.small.copyWith(color: colors.ink2));
       case BillingStage.failed:
+        // A final answer (another account's purchase, a refund, a pass that ended, a refusal) offers
+        // no Try again: sending it again cannot change it.
+        final finalAnswer = s.failure?.isFinal ?? false;
         child = InlineBanner(
-          message: switch (s.failure) {
-            BillingFailure.couldNotConfirm => BillingCopy.failCouldNotConfirm,
-            BillingFailure.offline => BillingCopy.failOffline,
-            BillingFailure.notOpenYet => BillingCopy.failNotOpenYet,
-            _ => BillingCopy.failStore,
-          },
+          message: billingFailureMessage(s.failure),
           tone: BannerTone.error,
-          actionLabel: BillingCopy.tryAgain,
-          onAction: () => ref.read(playBillingProvider.notifier).retry(),
+          actionLabel: finalAnswer ? null : BillingCopy.tryAgain,
+          onAction: finalAnswer ? null : () => ref.read(playBillingProvider.notifier).retry(),
         );
     }
 
@@ -72,6 +70,19 @@ class BillingNotice extends ConsumerWidget {
     );
   }
 }
+
+/// The sentence for each way a purchase can fail: what happened, and how to recover.
+String billingFailureMessage(BillingFailure? failure) => switch (failure) {
+      BillingFailure.couldNotConfirm => BillingCopy.failCouldNotConfirm,
+      BillingFailure.offline => BillingCopy.failOffline,
+      BillingFailure.notOpenYet => BillingCopy.failNotOpenYet,
+      BillingFailure.rateLimited => BillingCopy.failRateLimited,
+      BillingFailure.otherAccount => BillingCopy.failOtherAccount,
+      BillingFailure.refunded => BillingCopy.failRefunded,
+      BillingFailure.ended => BillingCopy.failEnded,
+      BillingFailure.refused => BillingCopy.failRefused,
+      BillingFailure.store || null => BillingCopy.failStore,
+    };
 
 class _Working extends StatelessWidget {
   const _Working({required this.text});

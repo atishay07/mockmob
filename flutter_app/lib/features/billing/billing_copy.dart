@@ -37,8 +37,11 @@ abstract final class BillingCopy {
 
   // Loading and availability.
   static const checkingStore = 'Checking Google Play';
-  static const storeUnavailable = 'Google Play is not available on this phone, so this cannot be bought here.';
-  static const storeUnreachable = 'We could not reach Google Play. Nothing was charged.';
+  // "Not ready" rather than "not on this phone": the usual cause is a Play Store that is signed out
+  // or out of date, which the student can fix.
+  static const storeUnavailable =
+      'Google Play is not ready on this phone, so nothing can be bought here just now. Open the Play Store, check that you are signed in, then try again.';
+  static const storeUnreachable = 'We could not reach Google Play. Nothing was charged. Check your connection and try again.';
   static const productUnavailable = 'This is not available to buy just now. Nothing was charged.';
 
   // The purchase.
@@ -61,12 +64,25 @@ abstract final class BillingCopy {
       'Your payment went through with Google Play, but we could not confirm it with MockMob yet. Try again. We also check each time you open the app.';
   static const failOffline = 'Your payment went through with Google Play. Connect to the internet to confirm it with MockMob, then try again.';
   static const failNotOpenYet =
-      'Your payment went through with Google Play, but MockMob cannot confirm purchases just now. It stays with Google Play and we check again each time you open the app.';
+      'Your payment went through with Google Play, but MockMob cannot confirm purchases just now. We check again each time you open the app, and if it is still not confirmed after three days, Google Play refunds it.';
+  static const failRateLimited =
+      'Your payment is safe with Google Play. We have checked it several times in the last few minutes, so wait a few minutes, then try again.';
+
+  // Final answers: trying again cannot change them, so these offer no Try again.
+  static const failOtherAccount =
+      'This purchase was made while you were signed in to a different MockMob account, so it cannot be added here. Sign in to that account to use it.';
+  static const failRefunded = 'Google Play says this purchase was cancelled or refunded, so nothing was added.';
+  static const failEnded = 'Pro for CUET 2027 can no longer be bought, so nothing was added. Google Play refunds a payment that is not confirmed within three days.';
+  static const failRefused = 'We could not accept this purchase, so nothing was added. If you were charged, Google Play refunds you within three days.';
 
   // Top-ups on the Wallet: one set of packs for the one credits balance.
   static const topUpsTitle = 'Top up';
   static const topUpsSoon = 'Top-ups open soon.';
   static const topUpsNote = 'Held credits do not expire.';
+
+  /// The server says new packs are paused (`/api/ai/credits` `checkout.open` false). The packs stay
+  /// listed but cannot be bought (never hidden, D101).
+  static const topUpsPaused = 'New credit packs are paused just now. Your credits are kept and still work.';
   static const getCredits = 'Add credits';
   static String packLabel(int credits) => credits == 1 ? '1 credit' : '$credits credits';
   static String packSemantics(int credits, String? price) => price == null ? packLabel(credits) : '${packLabel(credits)}, $price';

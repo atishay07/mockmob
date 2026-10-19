@@ -139,13 +139,12 @@ void main() {
     await _settle(tester);
     expect(find.text(BillingCopy.verifying), findsOneWidget);
     expect(find.text('Pro is on'), findsNothing);
-    expect(rig.store.finished, isEmpty);
 
     rig.verifier.gate!.complete();
     await _settle(tester);
     expect(find.text('Pro is on'), findsOneWidget);
     expect(find.text('Done'), findsWidgets);
-    expect(rig.store.finished, hasLength(1));
+    expect(rig.verifier.calls, hasLength(1));
     expect(rig.refreshes, 1);
   });
 
@@ -171,13 +170,12 @@ void main() {
     await _settle(tester);
     expect(find.text(BillingCopy.failCouldNotConfirm), findsOneWidget);
     expect(find.text('Pro is on'), findsNothing);
-    expect(rig.store.finished, isEmpty);
 
     rig.verifier.failWith = null;
     await tester.tap(find.text('Try again').first);
     await _settle(tester);
     expect(find.text('Pro is on'), findsOneWidget);
-    expect(rig.store.finished, hasLength(1));
+    expect(rig.verifier.calls, hasLength(2));
   });
 
   testWidgets('restore: nothing owned says so; owned Pro is confirmed by the server first', (tester) async {

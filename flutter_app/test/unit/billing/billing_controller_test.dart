@@ -74,7 +74,7 @@ void main() {
   });
 
   group('buying', () {
-    test('Pro: Google Play opens with the hashed account id; the server confirms; only then is it acknowledged', () async {
+    test('Pro: Google Play opens with the hashed account id; the server confirms (and acknowledges it itself)', () async {
       final rig = BillingRig();
       final c = await ready(rig);
       rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
@@ -90,33 +90,32 @@ void main() {
       expect(rig.verifier.calls.single.purchaseToken, 'token-${PlayProducts.proId}');
       expect(rig.verifier.calls.single.orderId, 'GPA.1234-5678');
       expect(rig.verifier.calls.single.userId, 'user-1');
-      expect(rig.store.finished.single, (productId: PlayProducts.proId, consumable: false));
       expect(st(c).stage, BillingStage.confirmed);
       expect(rig.refreshes, 1);
       expect(st(c).unconfirmed, 0);
     });
 
-    test('a credit pack is a consumable and is consumed after the server confirms', () async {
+    test('a credit pack is bought as a consumable; the server confirms it (and consumes it itself)', () async {
       final rig = BillingRig();
       final c = await ready(rig);
       rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
       await ctl(c).buy('credits_29_150');
       await settle();
       expect(rig.store.buys.single.consumable, isTrue);
-      expect(rig.store.finished.single, (productId: 'credits_29_150', consumable: true));
+      expect(rig.verifier.calls.single.productId, 'credits_29_150');
       expect(st(c).stage, BillingStage.confirmed);
     });
 
-    test('nothing is finished and nothing said before the server answers', () async {
+    test('nothing is said before the server answers', () async {
       final rig = BillingRig();
       final c = await ready(rig);
       var sawVerifying = false;
       c.listen(playBillingProvider, (_, next) {
         if (next.stage == BillingStage.verifying) {
           sawVerifying = true;
-          expect(rig.store.finished, isEmpty);
+          expect(next.stage, isNot(BillingStage.confirmed));
         }
-        if (next.stage == BillingStage.confirmed) expect(rig.store.finished, hasLength(1));
+        if (next.stage == BillingStage.confirmed) expect(rig.verifier.calls, hasLength(1));
       });
       rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
       await ctl(c).buy(PlayProducts.proId);
@@ -133,7 +132,6 @@ void main() {
       expect(st(c).stage, BillingStage.cancelled);
       expect(st(c).failure, isNull);
       expect(rig.verifier.calls, isEmpty);
-      expect(rig.store.finished, isEmpty);
     });
 
     test('an error from Google Play is a failure with a way out, and nothing is sent', () async {
@@ -211,7 +209,7 @@ void main() {
   });
 
   group('the server cannot confirm', () {
-    test('a server error: the purchase is not finished, it is held, and Try again sends it once more', () async {
+    test('a server error: the purchase is held, and Try again sends it once more', () async {
       final rig = BillingRig();
       rig.verifier.failWith = serverBroken;
       final c = await ready(rig);
@@ -220,7 +218,6 @@ void main() {
       await settle();
       expect(st(c).stage, BillingStage.failed);
       expect(st(c).failure, BillingFailure.couldNotConfirm);
-      expect(rig.store.finished, isEmpty);
       expect(st(c).unconfirmed, 1);
       expect(rig.refreshes, 0);
 
@@ -229,7 +226,6 @@ void main() {
       await settle();
       expect(rig.verifier.calls, hasLength(2));
       expect(rig.verifier.calls.last.purchaseToken, rig.verifier.calls.first.purchaseToken);
-      expect(rig.store.finished, hasLength(1));
       expect(st(c).stage, BillingStage.confirmed);
       expect(st(c).unconfirmed, 0);
     });
@@ -249,7 +245,6 @@ void main() {
       await settle();
       expect(st(c).stage, BillingStage.failed);
       expect(st(c).failure, BillingFailure.notOpenYet);
-      expect(rig.store.finished, isEmpty);
     });
 
     test('a 2xx that says it did not grant is not a confirmation', () async {
@@ -260,7 +255,6 @@ void main() {
       await ctl(c).buy(PlayProducts.proId);
       await settle();
       expect(st(c).stage, BillingStage.failed);
-      expect(rig.store.finished, isEmpty);
       expect(rig.refreshes, 0);
     });
 
@@ -272,7 +266,6 @@ void main() {
       first.store.onBuy = (p) => first.store.emit(purchase(p.id));
       await ctl(c1).buy(PlayProducts.proId);
       await settle();
-      expect(first.store.finished, isEmpty);
       final unfinished = purchase(PlayProducts.proId, status: PurchaseStatus.restored);
       c1.dispose();
 
@@ -283,7 +276,6 @@ void main() {
       await settle();
       expect(second.store.restoreHashes.single, playAccountHash('user-1'));
       expect(second.verifier.calls.single.purchaseToken, 'token-${PlayProducts.proId}');
-      expect(second.store.finished.single, (productId: PlayProducts.proId, consumable: false));
       expect(second.refreshes, 1);
       // The student never opened a sheet, so nothing on a sheet changed.
       expect(c2.read(playBillingProvider).stage, BillingStage.idle);
@@ -296,16 +288,14 @@ void main() {
       await settle();
       expect(rig.store.restoreHashes, hasLength(1));
       expect(rig.verifier.calls, isEmpty);
-      expect(rig.store.finished, isEmpty);
     });
 
-    test('a pack that is still owned is consumed on the quiet check, so it can be bought again', () async {
+    test('a pack that is still owned is sent on the quiet check, so the server can consume it and it can be bought again', () async {
       final rig = BillingRig(store: FakePlayStore()..owned = [purchase('credits_10_50', status: PurchaseStatus.restored, pendingComplete: false)]);
       final c = rig.container();
       c.listen(playBillingProvider, (_, _) {});
       await settle();
       expect(rig.verifier.calls.single.productId, 'credits_10_50');
-      expect(rig.store.finished.single, (productId: 'credits_10_50', consumable: true));
     });
 
     test('a failure on the quiet check shows nothing and is tried again next launch', () async {
@@ -314,7 +304,6 @@ void main() {
       final c = rig.container();
       c.listen(playBillingProvider, (_, _) {});
       await settle();
-      expect(rig.store.finished, isEmpty);
       expect(c.read(playBillingProvider).stage, BillingStage.idle);
       expect(c.read(playBillingProvider).unconfirmed, 1);
     });
@@ -349,7 +338,6 @@ void main() {
       await ctl(c).restore();
       await settle();
       expect(st(c).stage, BillingStage.failed);
-      expect(rig.store.finished, isEmpty);
     });
   });
 
