@@ -5,21 +5,21 @@
 
 export const STARTERS = Object.freeze(['dart', 'dogear', 'hexa', 'kandil']);
 
-// key -> { folds (corner count), colour, source (fold_unlocks.source), need (the count the rule asks for), scope, line }
+// key -> { folds (corner count), colour (the paper colour as RRGGBB, from the final art: the app's fold_catalog.dart says the same), source (fold_unlocks.source), need (the count the rule asks for), scope, line }
 // scope: 'starter' (none), 'mob' (earned by a Mob together: have is the best value across the student's Mobs), 'you'.
 export const FOLDS = Object.freeze({
-  dart: { folds: 1, colour: '56B8F0', source: null, need: 0, scope: 'starter', line: 'Answers first, then learns to check.' },
-  dogear: { folds: 1, colour: 'FF7A8A', source: null, need: 0, scope: 'starter', line: 'Learning to trust the first pick.' },
-  hexa: { folds: 1, colour: '3FC6A8', source: null, need: 0, scope: 'starter', line: 'Builds each answer step by step.' },
-  kandil: { folds: 1, colour: 'F2A93B', source: null, need: 0, scope: 'starter', line: 'Keeps the desk lit for everyone.' },
-  hop: { folds: 3, colour: 'teal', source: 'mob_quest', need: 1, scope: 'mob', line: 'Bounces back after a wrong one.' },
-  crane: { folds: 3, colour: 'B98CFF', source: 'mob_traps', need: 3, scope: 'mob', line: 'Folds it until it is right.' },
-  stamp: { folds: 3, colour: 'cream', source: 'mob_weeks', need: 4, scope: 'mob', line: 'Seals every fix that held.' },
-  naav: { folds: 2, colour: '6E8BFF', source: 'first_full_mock', need: 1, scope: 'you', line: 'Steady in the last ten minutes.' },
-  tally: { folds: 2, colour: 'coral-cream', source: 'clean_games', need: 3, scope: 'you', line: 'Counts the minus marks too.' },
-  patang: { folds: 2, colour: 'rose-red', source: 'beat_best', need: 1, scope: 'you', line: 'Rises against the wind.' },
-  sticky: { folds: 2, colour: 'sage', source: 'fixes_held', need: 5, scope: 'you', line: 'Remembers the formula for you.' },
-  cutting: { folds: 2, colour: 'E58E5A', source: 'came_back', need: 1, scope: 'you', line: 'Knows a break is part of the plan.' },
+  dart: { folds: 1, colour: '5FBEF2', source: null, need: 0, scope: 'starter', line: 'Answers first, then learns to check.' },
+  dogear: { folds: 1, colour: 'FF8FA0', source: null, need: 0, scope: 'starter', line: 'Learning to trust the first pick.' },
+  hexa: { folds: 1, colour: '5562D9', source: null, need: 0, scope: 'starter', line: 'Builds each answer step by step.' },
+  kandil: { folds: 1, colour: 'F4B04A', source: null, need: 0, scope: 'starter', line: 'Keeps the desk lit for everyone.' },
+  hop: { folds: 3, colour: '33BFA0', source: 'mob_quest', need: 1, scope: 'mob', line: 'Bounces back after a wrong one.' },
+  crane: { folds: 3, colour: 'B98CF5', source: 'mob_traps', need: 3, scope: 'mob', line: 'Folds it until it is right.' },
+  stamp: { folds: 3, colour: 'EFE6D2', source: 'mob_weeks', need: 4, scope: 'mob', line: 'Seals every fix that held.' },
+  naav: { folds: 2, colour: 'E3DCCB', source: 'first_full_mock', need: 1, scope: 'you', line: 'Steady in the last ten minutes.' },
+  tally: { folds: 2, colour: 'F2A07E', source: 'clean_games', need: 3, scope: 'you', line: 'Counts the minus marks too.' },
+  patang: { folds: 2, colour: 'E2404A', source: 'beat_best', need: 1, scope: 'you', line: 'Rises against the wind.' },
+  sticky: { folds: 2, colour: '9BAF8E', source: 'fixes_held', need: 5, scope: 'you', line: 'Remembers the formula for you.' },
+  cutting: { folds: 2, colour: 'B9814F', source: 'came_back', need: 1, scope: 'you', line: 'Knows a break is part of the plan.' },
 });
 export const FOLD_KEYS = Object.freeze(Object.keys(FOLDS));
 export const FINISHES = Object.freeze(['plain', 'foil']);
