@@ -455,6 +455,8 @@ class MobV3 {
     this.moments = const [],
     this.live = const LiveSwitch(),
     this.seat,
+    this.lastTrapChapter,
+    this.paperSatAt,
   });
 
   /// Null when the read has no v3 object (the server's MOB_V3_ENABLED is off): today's Mob shows.
@@ -475,6 +477,8 @@ class MobV3 {
         moments: asStringList(j['moments']),
         live: LiveSwitch.fromJson(asJson(j['live'])),
         seat: FoldKey.parse(j['seat']),
+        lastTrapChapter: asString(j['lastTrapChapter']),
+        paperSatAt: asDate(j['paperSatAt']),
       );
 
   final MobV3Name name;
@@ -496,6 +500,14 @@ class MobV3 {
 
   /// The student's seat Fold, when the server sends it beside the members (fresh account, no Mob).
   final FoldKey? seat;
+
+  /// Additive (SHEETS, 19 Oct): the chapter of the Mob's latest trap, the default of P2's "What it covers".
+  /// Null (a server that does not send it) means the whole subject.
+  final String? lastTrapChapter;
+
+  /// Additive (SHEETS, 19 Oct): when this student sat this week's Mob paper ("You sat it on Monday.").
+  /// Null says "You sat it this week." instead.
+  final DateTime? paperSatAt;
 
   MobV3Member? get you {
     for (final m in members) {

@@ -371,6 +371,9 @@ class MobV3FakeServer implements MobV3Api {
       ],
       'moments': _due(mob),
       'live': {'enabled': false, 'hoursOk': true},
+      // Additive fields the sheets read (P1 "You sat it on Monday.", P2 "What it covers").
+      'paperSatAt': mob.youSatPaper ? '${_week}T10:40:00.000Z' : null,
+      'lastTrapChapter': [for (final g in mob.games) if (g.closedAt(now) && g.chapter != null) g.chapter].lastOrNull,
     };
   }
 

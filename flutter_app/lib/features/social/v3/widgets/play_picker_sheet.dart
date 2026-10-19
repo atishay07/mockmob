@@ -1,7 +1,256 @@
-// P1 Play picker (spec 5.3). Owner: SHEETS agent.
-// STUB from the foundation commit: the owning agent replaces this file.
+// P1 Play picker (spec 5.3, Arena S5 plus Live 05's "Open now"). "Play with your Mob": what is open now (a row
+// for each open game and the weekly paper) and "Start a game" by what the server says this student may do.
+//
+// Plan words appear only when billing is on (`v3.starts.billingOn`): with it off there are no sections about
+// plans, no lock and no "Pro", only "Anyone in your Mob can start a game." With it on, a start left, a start
+// used (the tiles stay drawn, locked, with the reason above them), a mic passed to you, or Pro. A Live tile
+// shows only when `v3.live.enabled`. No price anywhere. "What Pro adds" shows only when the Pro nudges are on.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../../core/api/api.dart';
+import '../../../../core/theme/theme.dart';
+import '../../../../core/widgets/widgets.dart';
+import '../../../pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
+import '../../copy.dart' show MobCopy;
+import '../../data/mob_models.dart';
+import '../../data/mob_navigator.dart';
+import '../copy_v3.dart';
+import '../data/mob_v3_den.dart';
+import '../data/mob_v3_models.dart';
+import '../mob_v3_nav.dart';
+import 'free_pro_sheet.dart';
+import 'sheet_parts.dart';
+import 'start_game_sheet.dart';
 
-Future<void> showPlayPicker(BuildContext context) async {}
+/// Opens P1.
+Future<void> showPlayPicker(BuildContext context) => showMmSheet<void>(context: context, title: MobV3Copy.pickerTitle, builder: (_) => const PlayPickerBody());
+
+class PlayPickerBody extends ConsumerStatefulWidget {
+  const PlayPickerBody({super.key});
+
+  @override
+  ConsumerState<PlayPickerBody> createState() => _PlayPickerBodyState();
+}
+
+class _PlayPickerBodyState extends ConsumerState<PlayPickerBody> {
+  bool _sitting = false;
+  bool _asking = false;
+  bool _asked = false;
+  String? _note;
+
+  Future<void> _sit(Mob mob) async {
+    if (_sitting) return;
+    setState(() {
+      _sitting = true;
+      _note = null;
+    });
+    final route = ModalRoute.of(context);
+    final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob);
+    if (!mounted) return;
+    setState(() => _sitting = false);
+    if (failure != null) {
+      setState(() => _note = MobCopy.failure(failure, sell: false));
+    } else if (route != null && route.isActive) {
+      // The paper opened; the sheet has done its job.
+      Navigator.of(context, rootNavigator: true).removeRoute(route);
+    }
+  }
+
+  Future<void> _ask() async {
+    if (_asking || _asked) return;
+    setState(() {
+      _asking = true;
+      _note = null;
+    });
+    try {
+      await ref.read(mobV3ActionsProvider).sticker(StickerKind.again);
+      if (mounted) {
+        setState(() {
+          _asking = false;
+          _asked = true;
+        });
+      }
+    } on Object catch (e) {
+      if (mounted) {
+        setState(() {
+          _asking = false;
+          _note = MobV3Copy.error(e);
+        });
+      }
+    }
+  }
+
+  Future<void> _start(GameFormat format, int count, {GameMode mode = GameMode.async}) async {
+    final game = await showStartGame(context, prefill: StartGamePrefill(format: format, count: count, mode: mode));
+    // A game was opened and its run is on screen: this sheet is no longer under anything the student needs.
+    if (game != null && mounted) dropSheet(context);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final den = ref.watch(denViewProvider);
+    if (den == null) return const SizedBox.shrink();
+    final now = ref.watch(nowProvider)();
+    final v3 = den.v3;
+    final mob = den.mob;
+    final starts = v3.starts;
+    final mobName = v3.name.text.isEmpty ? MobV3Copy.title : v3.name.text;
+    final open = v3.openGames;
+    final paperRow = mob != null && (mob.week.youSat || !mob.week.closedAt(now));
+    final nudges = ref.watch(proNudgesOnProvider) && starts.billingOn;
+    final canAsk = v3.members.length > 1;
+
+    // The one volt key: the first thing to play, else the paper.
+    final firstPlayable = open.indexWhere((g) => g.yourRun != YourRun.finished);
+    final paperPrimary = paperRow && firstPlayable < 0 && !mob.week.youSat;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (open.isNotEmpty || paperRow) ...[
+          const MobSheetLabel(MobV3Copy.openNow, padding: EdgeInsets.only(top: MmSpace.s4, bottom: MmSpace.s4)),
+          for (var i = 0; i < open.length; i++) _GameRow(game: open[i], member: v3.member(open[i].host?.memberId ?? ''), now: now, primary: i == firstPlayable),
+          if (paperRow) _PaperRow(mob: mob, satAt: v3.paperSatAt, primary: paperPrimary, sitting: _sitting, onSit: () => _sit(mob)),
+        ],
+        const MobSheetLabel(MobV3Copy.startAGame),
+        ..._startBlock(context, starts, mobName, v3.live),
+        if (canAsk) ...[
+          const SizedBox(height: MmSpace.s24),
+          KeyButton.secondary(label: _asked ? MobV3Copy.stickerSent : MobV3Copy.askForGame, loading: _asking, onPressed: _asked ? null : _ask),
+        ],
+        if (_note != null) ...[
+          const SizedBox(height: MmSpace.s8),
+          MobLine(_note!, center: true),
+        ],
+        if (nudges) ...[
+          const SizedBox(height: MmSpace.s8),
+          Center(child: KeyButton.quiet(label: MobV3Copy.whatProAdds, onPressed: () => showFreeProSheet(context))),
+        ],
+        const SizedBox(height: MmSpace.s8),
+      ],
+    );
+  }
+
+  List<Widget> _startBlock(BuildContext context, StartRight starts, String mobName, LiveSwitch live) {
+    final billing = starts.billingOn;
+    final used = billing && !starts.can;
+    final pro = billing && starts.via == StartVia.pro;
+    final mic = billing && starts.can && starts.via == StartVia.mic;
+    final sentence = !billing
+        ? MobV3Copy.anyoneCanStart
+        : used
+            ? null
+            : mic
+                ? MobV3Copy.micPassed(starts.micFrom ?? MobV3Copy.aFriend)
+                : (pro ? null : MobV3Copy.startsLeft(mobName, starts.freeLeft ?? 1));
+    final showLive = live.enabled;
+    final liveOpen = starts.can && starts.liveAllowed && live.hoursOk;
+    final lockedByUse = used;
+
+    Widget tile({required IconData icon, required String title, required String line, required bool ok, String? tag, VoidCallback? onTap}) =>
+        MobTile(icon: icon, title: title, line: lockedByUse ? MobV3Copy.usedThisWeek : line, locked: !ok, tag: ok ? null : tag, onTap: ok ? onTap : null);
+
+    final tiles = <Widget>[
+      tile(icon: LucideIcons.send, title: MobV3Copy.sprint, line: MobV3Copy.sprintSub, ok: starts.can, onTap: () => _start(GameFormat.sprint, 5)),
+      tile(icon: LucideIcons.slidersHorizontal, title: MobV3Copy.ownRound, line: MobV3Copy.ownRoundSub, ok: starts.can, onTap: () => _start(GameFormat.round, 10)),
+      if (showLive)
+        tile(icon: LucideIcons.radio, title: MobV3Copy.live, line: MobV3Copy.liveSub, ok: liveOpen, tag: billing && !starts.liveAllowed && starts.can ? MobV3Copy.proTag : null, onTap: () => _start(GameFormat.sprint, 5, mode: GameMode.live)),
+      if (billing) MobTile(icon: LucideIcons.fileText, title: MobV3Copy.fullMock, line: MobV3Copy.fullMockSub, locked: true, tag: MobV3Copy.proTag),
+    ];
+    return [
+      if (sentence != null) ...[
+        MobLine(sentence),
+        const SizedBox(height: MmSpace.s12),
+      ],
+      if (used) ...[
+        const MobLine(MobV3Copy.startUsed),
+        const SizedBox(height: MmSpace.s4),
+        const MobLine(MobV3Copy.anyoneWithPro),
+        const SizedBox(height: MmSpace.s12),
+      ],
+      _TileGrid(children: tiles),
+    ];
+  }
+}
+
+/// Two tiles to a row, equal height, with a gap of 12.
+class _TileGrid extends StatelessWidget {
+  const _TileGrid({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final rows = <Widget>[];
+    for (var i = 0; i < children.length; i += 2) {
+      final a = children[i];
+      final b = i + 1 < children.length ? children[i + 1] : const SizedBox.shrink();
+      if (rows.isNotEmpty) rows.add(const SizedBox(height: MmSpace.s12));
+      rows.add(IntrinsicHeight(
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [Expanded(child: a), const SizedBox(width: MmSpace.s12), Expanded(child: b)],
+        ),
+      ));
+    }
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows);
+  }
+}
+
+class _GameRow extends StatelessWidget {
+  const _GameRow({required this.game, required this.member, required this.now, required this.primary});
+
+  final MobGameSummary game;
+  final MobV3Member? member;
+  final DateTime now;
+  final bool primary;
+
+  @override
+  Widget build(BuildContext context) {
+    final played = game.yourRun == YourRun.finished;
+    final host = game.host;
+    final m = member;
+    final lead = m != null
+        ? MemberHead.of(m)
+        : (host != null ? MemberHead(name: host.name) : const PaperChip(icon: LucideIcons.send));
+    return MobRow(
+      leading: lead,
+      title: MobV3Copy.gameTitle(game),
+      line: MobV3Copy.openRow(game, now),
+      trailing: played
+          ? RowKey(label: MobV3Copy.podiumKey, onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.podium(c, game.id)))
+          : RowKey(label: game.live ? MobV3Copy.joinGame : MobV3Copy.play, primary: primary, onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.run(c, game.id))),
+    );
+  }
+}
+
+class _PaperRow extends ConsumerWidget {
+  const _PaperRow({required this.mob, required this.satAt, required this.primary, required this.sitting, required this.onSit});
+
+  final Mob mob;
+  final DateTime? satAt;
+  final bool primary;
+  final bool sitting;
+  final VoidCallback onSit;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final week = mob.week;
+    final sat = week.youSat;
+    final id = week.yourResultId;
+    return MobRow(
+      leading: const PaperChip(icon: LucideIcons.fileText),
+      title: MobV3Copy.weeklyPaper,
+      line: sat ? MobV3Copy.satLine(satAt) : MobV3Copy.paperClock,
+      trailing: sat
+          ? (id == null ? null : RowKey(label: MobV3Copy.answers, onPressed: () {
+              ref.read(mobNavigatorProvider).openAnswers(context, id);
+              dropSheet(context);
+            }))
+          : RowKey(label: MobV3Copy.sitIt, primary: primary, loading: sitting, onPressed: onSit),
+    );
+  }
+}
