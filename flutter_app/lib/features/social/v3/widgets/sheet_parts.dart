@@ -104,12 +104,15 @@ class MemberHead extends StatelessWidget {
 
 /// A row of a sheet: a mark at the start, a title and a line, and a key (or nothing) at the end.
 class MobRow extends StatelessWidget {
-  const MobRow({super.key, required this.leading, required this.title, this.line, this.trailing});
+  const MobRow({super.key, required this.leading, required this.title, this.line, this.trailing, this.compactTitle = false});
 
   final Widget leading;
   final String title;
   final String? line;
   final Widget? trailing;
+
+  /// A smaller title (15 sp semibold) for a row whose title is a sentence.
+  final bool compactTitle;
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +129,7 @@ class MobRow extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: type.cardTitle),
+                Text(title, style: compactTitle ? type.labelLarge.copyWith(height: 1.3) : type.cardTitle),
                 if (line != null) ...[
                   const SizedBox(height: 2),
                   Text(line!, style: type.small.copyWith(color: colors.ink2)),
@@ -159,7 +162,7 @@ class RowKey extends StatelessWidget {
 /// A tile: icon at the top, a lock or a check at the top right, a title and a line. [locked] tiles stay
 /// drawn and say why through [line] (and their [tag]); they do not take a tap unless [onTap] is given.
 class MobTile extends StatelessWidget {
-  const MobTile({super.key, required this.icon, required this.title, required this.line, this.selected = false, this.locked = false, this.tag, this.onTap});
+  const MobTile({super.key, required this.icon, required this.title, required this.line, this.selected = false, this.locked = false, this.tag, this.onTap, this.wide = false});
 
   final IconData icon;
   final String title;
@@ -170,6 +173,9 @@ class MobTile extends StatelessWidget {
   /// "Pro", only passed when billing is on.
   final String? tag;
   final VoidCallback? onTap;
+
+  /// A slim full-width row (chip, words, tag and lock) instead of the tall tile.
+  final bool wide;
 
   @override
   Widget build(BuildContext context) {
@@ -184,7 +190,28 @@ class MobTile extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, MmSpace.s12),
-        child: Column(
+        child: wide
+            ? Row(
+                children: [
+                  PaperChip(icon: icon, size: 36, locked: locked),
+                  const SizedBox(width: MmSpace.s12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(title, style: type.labelLarge.copyWith(color: locked ? colors.ink2 : colors.ink, fontWeight: FontWeight.w700)),
+                        Text(line, style: type.small.copyWith(color: locked ? colors.ink3 : colors.ink2)),
+                      ],
+                    ),
+                  ),
+                  if (tag != null) ...[
+                    const SizedBox(width: MmSpace.s8),
+                    Text(tag!, style: type.label.copyWith(color: colors.ink2)),
+                  ],
+                  if (locked) ...[const SizedBox(width: MmSpace.s4), Icon(LucideIcons.lock, size: 16, color: colors.ink3)],
+                ],
+              )
+            : Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -236,4 +263,52 @@ class MobLine extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(text, textAlign: center ? TextAlign.center : TextAlign.start, style: context.mmType.small.copyWith(color: context.mmColors.ink2));
+}
+
+/// A text link: underlined words with an optional icon, one 48 dp target. For the quiet actions that are
+/// not keys ("Exam pause days", "Step out this week", "What Pro adds").
+class LinkKey extends StatelessWidget {
+  const LinkKey({super.key, required this.label, required this.onPressed, this.icon, this.alignment = Alignment.centerLeft});
+
+  final String label;
+  final VoidCallback? onPressed;
+  final IconData? icon;
+  final AlignmentGeometry alignment;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final on = onPressed != null;
+    return Align(
+      alignment: alignment,
+      heightFactor: 1,
+      child: MmPressable(
+        onTap: onPressed,
+        haptic: MmPressHaptic.selection,
+        semanticsLabel: label,
+        focusRadius: MmRadius.smallAll,
+        builder: (context, pressed, _) => ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: MmTarget.min),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (icon != null) ...[Icon(icon, size: 20, color: on ? colors.ink2 : colors.ink4), const SizedBox(width: MmSpace.s8)],
+              Flexible(
+                child: Text(
+                  label,
+                  style: type.labelLarge.copyWith(
+                    color: on ? (pressed ? colors.ink2 : colors.ink) : colors.ink3,
+                    decoration: TextDecoration.underline,
+                    decorationColor: colors.ink3,
+                    decorationThickness: 1,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
 }

@@ -25,61 +25,55 @@ import 'free_pro_sheet.dart';
 import 'sheet_parts.dart';
 import 'start_game_sheet.dart';
 
-/// Opens P1.
-Future<void> showPlayPicker(BuildContext context) => showMmSheet<void>(context: context, title: MobV3Copy.pickerTitle, builder: (_) => const PlayPickerBody());
-
-class PlayPickerBody extends ConsumerStatefulWidget {
-  const PlayPickerBody({super.key});
-
-  @override
-  ConsumerState<PlayPickerBody> createState() => _PlayPickerBodyState();
+/// Opens P1. The body scrolls; "Ask your Mob for a game" and "What Pro adds" stand pinned under it.
+Future<void> showPlayPicker(BuildContext context) {
+  final c = _PickerController();
+  return showMmSheet<void>(
+    context: context,
+    title: MobV3Copy.pickerTitle,
+    builder: (_) => _PickerBody(controller: c),
+    footer: (_) => _PickerFooter(controller: c),
+  );
 }
 
-class _PlayPickerBodyState extends ConsumerState<PlayPickerBody> {
+class _PickerController extends ChangeNotifier {
+  bool asking = false;
+  bool asked = false;
+  String? note;
+
+  void update(void Function() f) {
+    f();
+    notifyListeners();
+  }
+}
+
+class _PickerBody extends ConsumerStatefulWidget {
+  const _PickerBody({required this.controller});
+
+  final _PickerController controller;
+
+  @override
+  ConsumerState<_PickerBody> createState() => _PickerBodyState();
+}
+
+class _PickerBodyState extends ConsumerState<_PickerBody> {
   bool _sitting = false;
-  bool _asking = false;
-  bool _asked = false;
-  String? _note;
+
+  _PickerController get c => widget.controller;
 
   Future<void> _sit(Mob mob) async {
     if (_sitting) return;
-    setState(() {
-      _sitting = true;
-      _note = null;
-    });
+    setState(() => _sitting = true);
+    c.update(() => c.note = null);
     final route = ModalRoute.of(context);
     final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob);
     if (!mounted) return;
     setState(() => _sitting = false);
     if (failure != null) {
-      setState(() => _note = MobCopy.failure(failure, sell: false));
+      c.update(() => c.note = MobCopy.failure(failure, sell: false));
     } else if (route != null && route.isActive) {
       // The paper opened; the sheet has done its job.
       Navigator.of(context, rootNavigator: true).removeRoute(route);
-    }
-  }
-
-  Future<void> _ask() async {
-    if (_asking || _asked) return;
-    setState(() {
-      _asking = true;
-      _note = null;
-    });
-    try {
-      await ref.read(mobV3ActionsProvider).sticker(StickerKind.again);
-      if (mounted) {
-        setState(() {
-          _asking = false;
-          _asked = true;
-        });
-      }
-    } on Object catch (e) {
-      if (mounted) {
-        setState(() {
-          _asking = false;
-          _note = MobV3Copy.error(e);
-        });
-      }
     }
   }
 
@@ -100,8 +94,6 @@ class _PlayPickerBodyState extends ConsumerState<PlayPickerBody> {
     final mobName = v3.name.text.isEmpty ? MobV3Copy.title : v3.name.text;
     final open = v3.openGames;
     final paperRow = mob != null && (mob.week.youSat || !mob.week.closedAt(now));
-    final nudges = ref.watch(proNudgesOnProvider) && starts.billingOn;
-    final canAsk = v3.members.length > 1;
 
     // The one volt key: the first thing to play, else the paper.
     final firstPlayable = open.indexWhere((g) => g.yourRun != YourRun.finished);
@@ -117,18 +109,6 @@ class _PlayPickerBodyState extends ConsumerState<PlayPickerBody> {
         ],
         const MobSheetLabel(MobV3Copy.startAGame),
         ..._startBlock(context, starts, mobName, v3.live),
-        if (canAsk) ...[
-          const SizedBox(height: MmSpace.s24),
-          KeyButton.secondary(label: _asked ? MobV3Copy.stickerSent : MobV3Copy.askForGame, loading: _asking, onPressed: _asked ? null : _ask),
-        ],
-        if (_note != null) ...[
-          const SizedBox(height: MmSpace.s8),
-          MobLine(_note!, center: true),
-        ],
-        if (nudges) ...[
-          const SizedBox(height: MmSpace.s8),
-          Center(child: KeyButton.quiet(label: MobV3Copy.whatProAdds, onPressed: () => showFreeProSheet(context))),
-        ],
         const SizedBox(height: MmSpace.s8),
       ],
     );
@@ -156,9 +136,19 @@ class _PlayPickerBodyState extends ConsumerState<PlayPickerBody> {
     final tiles = <Widget>[
       tile(icon: LucideIcons.send, title: MobV3Copy.sprint, line: MobV3Copy.sprintSub, ok: starts.can, onTap: () => _start(GameFormat.sprint, 5)),
       tile(icon: LucideIcons.slidersHorizontal, title: MobV3Copy.ownRound, line: MobV3Copy.ownRoundSub, ok: starts.can, onTap: () => _start(GameFormat.round, 10)),
+    ];
+    final slim = <Widget>[
       if (showLive)
-        tile(icon: LucideIcons.radio, title: MobV3Copy.live, line: MobV3Copy.liveSub, ok: liveOpen, tag: billing && !starts.liveAllowed && starts.can ? MobV3Copy.proTag : null, onTap: () => _start(GameFormat.sprint, 5, mode: GameMode.live)),
-      if (billing) MobTile(icon: LucideIcons.fileText, title: MobV3Copy.fullMock, line: MobV3Copy.fullMockSub, locked: true, tag: MobV3Copy.proTag),
+        MobTile(
+          wide: true,
+          icon: LucideIcons.radio,
+          title: MobV3Copy.live,
+          line: MobV3Copy.liveSub,
+          locked: !liveOpen,
+          tag: !liveOpen && billing && !starts.liveAllowed && starts.can ? MobV3Copy.proTag : null,
+          onTap: liveOpen ? () => _start(GameFormat.sprint, 5, mode: GameMode.live) : null,
+        ),
+      if (billing) const MobTile(wide: true, icon: LucideIcons.fileText, title: MobV3Copy.fullMock, line: MobV3Copy.fullMockSub, locked: true, tag: MobV3Copy.proTag),
     ];
     return [
       if (sentence != null) ...[
@@ -172,6 +162,7 @@ class _PlayPickerBodyState extends ConsumerState<PlayPickerBody> {
         const SizedBox(height: MmSpace.s12),
       ],
       _TileGrid(children: tiles),
+      for (final w in slim) ...[const SizedBox(height: MmSpace.s12), w],
     ];
   }
 }
@@ -251,6 +242,58 @@ class _PaperRow extends ConsumerWidget {
               dropSheet(context);
             }))
           : RowKey(label: MobV3Copy.sitIt, primary: primary, loading: sitting, onPressed: onSit),
+    );
+  }
+}
+
+/// Pinned under the picker: ask the Mob for a game, and (only when Pro nudges are on) what Pro adds.
+class _PickerFooter extends ConsumerWidget {
+  const _PickerFooter({required this.controller});
+
+  final _PickerController controller;
+
+  Future<void> _ask(WidgetRef ref) async {
+    final c = controller;
+    if (c.asking || c.asked) return;
+    c.update(() {
+      c.asking = true;
+      c.note = null;
+    });
+    try {
+      await ref.read(mobV3ActionsProvider).sticker(StickerKind.again);
+      c.update(() {
+        c.asking = false;
+        c.asked = true;
+      });
+    } on Object catch (e) {
+      c.update(() {
+        c.asking = false;
+        c.note = MobV3Copy.error(e);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final den = ref.watch(denViewProvider);
+    final billing = den?.v3.starts.billingOn ?? false;
+    final nudges = ref.watch(proNudgesOnProvider) && billing;
+    final canAsk = (den?.v3.members.length ?? 0) > 1;
+    if (!canAsk && !nudges) return const SizedBox.shrink();
+    return ListenableBuilder(
+      listenable: controller,
+      builder: (context, _) => Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (canAsk) KeyButton.secondary(label: controller.asked ? MobV3Copy.stickerSent : MobV3Copy.askForGame, loading: controller.asking, onPressed: controller.asked ? null : () => _ask(ref)),
+          if (controller.note != null) ...[
+            const SizedBox(height: MmSpace.s8),
+            MobLine(controller.note!, center: true),
+          ],
+          if (nudges) LinkKey(label: MobV3Copy.whatProAdds, alignment: Alignment.center, onPressed: () => showFreeProSheet(context)),
+        ],
+      ),
     );
   }
 }

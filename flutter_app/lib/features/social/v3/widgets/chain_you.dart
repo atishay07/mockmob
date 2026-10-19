@@ -18,6 +18,7 @@ import 'chain_calendar.dart';
 import 'chain_paper.dart';
 import 'chain_strip.dart';
 import 'pause_sheet.dart';
+import 'sheet_parts.dart' show LinkKey;
 
 class ChainYouBody extends ConsumerStatefulWidget {
   const ChainYouBody({super.key, required this.chain});
@@ -134,15 +135,9 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
         const SizedBox(height: MmSpace.s24),
         Row(
           children: [
-            Expanded(
-              child: KeyButton.quiet(label: MobV3Copy.examPause, onPressed: () => showPauseSheet(context)),
-            ),
-            Expanded(
-              child: Align(
-                alignment: Alignment.centerRight,
-                child: KeyButton.quiet(label: MobV3Copy.hideChain, onPressed: _busy ? null : () => _hide(true)),
-              ),
-            ),
+            Expanded(child: LinkKey(label: MobV3Copy.examPause, icon: LucideIcons.pause, onPressed: () => showPauseSheet(context))),
+            const SizedBox(width: MmSpace.s12),
+            Flexible(child: LinkKey(label: MobV3Copy.hideChain, icon: LucideIcons.eyeOff, alignment: Alignment.centerRight, onPressed: _busy ? null : () => _hide(true))),
           ],
         ),
         if (_error != null) ...[

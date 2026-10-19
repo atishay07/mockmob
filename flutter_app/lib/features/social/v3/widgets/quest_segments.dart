@@ -41,7 +41,7 @@ class QuestSegments extends StatelessWidget {
             curve: Motion.glide,
             builder: (context, v, _) => CustomPaint(
               size: const Size(double.infinity, 14),
-              painter: _SegmentsPainter(fraction: v, count: segments, filled: ChainPaper.fill(context), empty: colors.raised2, edge: colors.line),
+              painter: _SegmentsPainter(fraction: v, count: segments, filled: colors.isNight ? ChainPaper.fill(context) : colors.ink, empty: colors.isNight ? colors.raised2 : colors.sunken, edge: colors.line),
             ),
           ),
         ),

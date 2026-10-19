@@ -24,15 +24,15 @@ class ChainPennant extends StatelessWidget {
   final bool showNext;
 
   static const int maxStitches = 12;
-  static const double ratio = 1.36;
+  static const double ratio = 1.46;
 
   /// The stitch marks, as centres in a pennant of [size], six to a row, filling left to right and row by row.
   static List<Offset> stitchCentres(Size size, int n) {
     final count = n.clamp(0, maxStitches + 1);
     final perRow = 6;
     final gapX = size.width * 0.115;
-    final rowY = size.height * 0.68;
-    final rowGap = size.height * 0.075;
+    final rowY = size.height * 0.735;
+    final rowGap = size.height * 0.07;
     final out = <Offset>[];
     for (var i = 0; i < count; i++) {
       final row = i ~/ perRow;
@@ -80,7 +80,7 @@ class ChainPennant extends StatelessWidget {
               Positioned(
                 left: 0,
                 right: 0,
-                top: 18 + height * 0.08,
+                top: 18 + height * 0.05,
                 child: MediaQuery.withNoTextScaling(
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
@@ -189,9 +189,9 @@ class _PennantPainter extends CustomPainter {
           ..strokeCap = StrokeCap.round);
         if (!night) {
           canvas.drawPath(p, Paint()
-            ..color = voltEdge.withValues(alpha: 0.55)
+            ..color = voltEdge
             ..style = PaintingStyle.stroke
-            ..strokeWidth = 1
+            ..strokeWidth = 1.2
             ..strokeCap = StrokeCap.round);
         }
       } else {

@@ -220,18 +220,16 @@ class _CoversRow extends ConsumerWidget {
         MobRow(
           leading: const PaperChip(icon: LucideIcons.bookOpen),
           title: text,
+          compactTitle: true,
           trailing: subjectId.isEmpty ? null : RowKey(label: MobV3Copy.change, onPressed: () => _change(context)),
         ),
         if (c.covers != _Covers.whole)
-          Align(
-            alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(
-              label: MobV3Copy.useWholeSubject,
-              onPressed: () => c.update(() {
-                c.covers = _Covers.whole;
-                c.chapter = null;
-              }),
-            ),
+          LinkKey(
+            label: MobV3Copy.useWholeSubject,
+            onPressed: () => c.update(() {
+              c.covers = _Covers.whole;
+              c.chapter = null;
+            }),
           ),
       ],
     );

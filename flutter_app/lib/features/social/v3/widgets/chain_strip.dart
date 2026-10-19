@@ -134,6 +134,7 @@ class _Cell extends StatelessWidget {
               height: ChainStrip.tileHeight,
               child: Stack(
                 alignment: Alignment.center,
+                fit: StackFit.expand,
                 children: [
                   Positioned.fill(
                     child: CustomPaint(
@@ -165,9 +166,12 @@ class _Cell extends StatelessWidget {
                   if (openToday)
                     Padding(
                       padding: const EdgeInsets.only(bottom: 8),
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(MobV3Copy.todayProgress(answered, needed), style: type.label.copyWith(color: ChainPaper.ink, fontSize: 12, height: 1.1)),
+                      child: SizedBox(
+                        width: 32,
+                        child: FittedBox(
+                          fit: BoxFit.scaleDown,
+                          child: Text(MobV3Copy.todayProgress(answered, needed), style: type.label.copyWith(color: ChainPaper.ink, fontSize: 12, height: 1.1)),
+                        ),
                       ),
                     ),
                 ],

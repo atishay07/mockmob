@@ -18,6 +18,7 @@ import 'chain_paper.dart';
 import 'chain_pennant.dart';
 import 'fold_puppet.dart';
 import 'quest_segments.dart';
+import 'sheet_parts.dart' show LinkKey;
 
 class ChainMobBody extends ConsumerStatefulWidget {
   const ChainMobBody({super.key, required this.den});
@@ -97,15 +98,10 @@ class _ChainMobBodyState extends ConsumerState<ChainMobBody> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Expanded(child: Text(MobV3Copy.questTitle, style: type.subhead)),
-                  const SizedBox(width: MmSpace.s12),
-                  Flexible(child: Text(MobV3Copy.questEnds, textAlign: TextAlign.end, style: type.small.copyWith(color: colors.ink2))),
-                ],
-              ),
-              const SizedBox(height: MmSpace.s4),
+              Text(MobV3Copy.questTitle, style: type.subhead),
+              const SizedBox(height: 2),
+              Text(MobV3Copy.questEnds, style: type.small.copyWith(color: colors.ink3)),
+              const SizedBox(height: MmSpace.s8),
               Text(MobV3Copy.questGoal(q.target), style: type.small.copyWith(color: colors.ink2)),
               const SizedBox(height: MmSpace.s12),
               Semantics(
@@ -158,10 +154,7 @@ class _ChainMobBodyState extends ConsumerState<ChainMobBody> {
         Text(MobV3Copy.countsLine(q.sizedFor, each), style: type.body.copyWith(color: colors.ink2)),
         if (!q.done) ...[
           const SizedBox(height: MmSpace.s4),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: KeyButton.quiet(label: q.youSteppedOut ? MobV3Copy.steppedOut : MobV3Copy.stepOut, onPressed: _busy ? null : _stepOut),
-          ),
+          LinkKey(label: q.youSteppedOut ? MobV3Copy.steppedOut : MobV3Copy.stepOut, onPressed: _busy ? null : _stepOut),
         ],
         if (_error != null) ...[
           const SizedBox(height: MmSpace.s8),
