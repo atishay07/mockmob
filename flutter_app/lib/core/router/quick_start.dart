@@ -591,8 +591,10 @@ class _StartRows extends ConsumerWidget {
       note: '50 questions, 60 minutes, timed like the exam.',
       onTap: () => go(StartLocations.fullMock(subject), act: startActFor('mock')),
     );
-    // The quote is for the default subject; the Pro tag and the gated note show only where it is known.
-    final ntaGated = nta != null && nta.proOnly && (subject == null || subject == nta.subject);
+    // Pro's is the mode, not one subject's copy of it: the quote was read for the default subject, but the Pro tag and
+    // the calm locked sheet hold whichever subject the rail shows (walk M2, 19 Oct: the tile used to open the NTA page
+    // with a locked banner after another subject was picked).
+    final ntaGated = nta != null && nta.proOnly;
     // NTA mode is always listed (D101, owner 19 Oct: "visible but locked"): locked for a Free student,
     // with a quiet Pro tag; it leaves only when the server says the mode is not offered at all.
     final ntaOption = nta == null

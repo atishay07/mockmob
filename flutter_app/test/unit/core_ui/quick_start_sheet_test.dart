@@ -11,7 +11,7 @@ import 'package:mockmob/core/widgets/materials/glass_surface.dart';
 
 import '../core_data/support/fixtures.dart';
 
-Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded = false, QuickRepair? repair, bool ntaProOnly = false}) async {
+Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded = false, QuickRepair? repair, bool ntaProOnly = false, List<String> subjects = const []}) async {
   tester.view.physicalSize = const Size(360, 640);
   tester.view.devicePixelRatio = 1;
   addTearDown(tester.view.reset);
@@ -57,6 +57,7 @@ Future<GoRouter> _pump(WidgetTester tester, {double textScale = 1, bool crowded 
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
+        if (subjects.isNotEmpty) startSubjectsProvider.overrideWithValue(subjects),
         resumeDraftProvider.overrideWith((ref) => crowded ? draft : null),
         resumeOfferProvider.overrideWith((ref) async => crowded ? ResumeOffer(draft: draft, answered: 12) : null),
         if (crowded) quickStartNtaProvider.overrideWith((ref) => QuickNta(location: '/exam/nta', subject: 'english', proOnly: ntaProOnly)),
@@ -129,6 +130,21 @@ void main() {
     expect(find.text('NTA mode is part of Pro'), findsOneWidget);
     expect(find.text('Pro is coming to the app soon.'), findsOneWidget);
     expect(find.text('nta screen'), findsNothing, reason: 'the exam-day page needs Pro');
+    expect(router.routerDelegate.currentConfiguration.uri.path, isNot('/exam/nta'));
+  });
+
+  testWidgets('M2 (walk, 19 Oct): after picking another subject NTA mode keeps its Pro tag and the calm locked sheet, and starts nothing', (tester) async {
+    final router = await _pump(tester, crowded: true, ntaProOnly: true, subjects: const ['accountancy', 'english']);
+    // The NTA quote was read for English; the rail is on Accountancy (the first chip, the one a student picks after English).
+    expect(find.text('Or start in Accountancy'), findsOneWidget);
+    final nta = find.text('NTA mode');
+    await tester.scrollUntilVisible(nta, 80, scrollable: find.byType(Scrollable).last);
+    expect(find.text('Pro'), findsOneWidget, reason: 'the Pro tag holds for every subject');
+    expect(find.text('The exam-day screen. Comes with Pro.'), findsOneWidget);
+    await tester.tap(nta);
+    await tester.pumpAndSettle();
+    expect(find.text('NTA mode is part of Pro'), findsOneWidget);
+    expect(find.text('nta screen'), findsNothing, reason: 'no instructions page with a locked banner');
     expect(router.routerDelegate.currentConfiguration.uri.path, isNot('/exam/nta'));
   });
 
