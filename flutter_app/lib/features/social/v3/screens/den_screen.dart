@@ -420,7 +420,7 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
             ..add(const InlineBanner.offlineStrip())
             ..add(const SizedBox(height: MmSpace.s12));
         }
-        if (_noticeText != null) {
+        if (_noticeText != null && view != null) {
           below
             ..add(_PassNotice(text: _noticeText!))
             ..add(const SizedBox(height: MmSpace.s12));
