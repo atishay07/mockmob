@@ -1,4 +1,5 @@
 import '../../../core/models/attempt.dart';
+import 'chapter_ties.dart';
 import 'insights_models.dart';
 import 'subject_names.dart';
 
@@ -75,7 +76,7 @@ class RecordEvidence {
   /// The sessions behind one finding of the server's readout, or empty when the phone cannot
   /// show them (the finding is then hidden).
   List<Attempt> forFinding(Finding f, PrepInsights v) => switch (f.id) {
-        'chapter' => v.ranked.isEmpty ? const [] : chapter(v.ranked.first.subject, v.ranked.first.chapter),
+        'chapter' => v.ranked.isEmpty ? const [] : chapter(costliestChapters(v.ranked).first.subject, costliestChapters(v.ranked).first.chapter),
         'thin' => v.thin.isEmpty ? const [] : chapter(v.thin.first.subject, v.thin.first.chapter),
         'changes' => changes,
         'pace' => pace,

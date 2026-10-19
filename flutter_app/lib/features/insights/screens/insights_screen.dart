@@ -24,6 +24,7 @@ import '../../pro_nudge/pro_nudge.dart' show ProReason;
 import '../widgets/insights_bits.dart';
 import '../widgets/ledger_hero.dart';
 import '../widgets/recovery_sections.dart';
+import '../data/chapter_ties.dart' show byMarksLost, costliestChapters;
 import '../widgets/record_sections.dart';
 import '../widgets/trend_chart.dart';
 
@@ -177,7 +178,7 @@ class InsightsScreen extends ConsumerWidget {
     VoidCallback? actionFor(Finding f) {
       // The chapter finding opens that chapter, not the whole subject.
       if (f.id == 'chapter' && v.ranked.isNotEmpty) {
-        final top = v.ranked.first;
+        final top = costliestChapters(v.ranked).first;
         return () => context.push(InsightsPaths.practiseChapter(canonicalSubjectId(top.subject), top.chapter));
       }
       final href = f.actionHref;
@@ -203,7 +204,7 @@ class InsightsScreen extends ConsumerWidget {
         section(
           InsightsCopy.chaptersHeading,
           ChaptersSection(
-            ranked: v.ranked,
+            ranked: byMarksLost(v.ranked),
             thin: v.thin,
             pro: inputs.pro,
             onPractise: (c) => context.push(InsightsPaths.practiseChapter(canonicalSubjectId(c.subject), c.chapter)),

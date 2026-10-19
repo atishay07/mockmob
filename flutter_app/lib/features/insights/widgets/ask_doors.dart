@@ -617,7 +617,7 @@ class _LeadTile extends ConsumerWidget {
     return MmPressable(
       semanticsLabel: t == null
           ? 'Ask: ${ask.text}. ${ask.preview ?? ''}. ${AskDoorCopy.free}'
-          : 'Ask: ${ask.text}. ${t.lost} ${AskDoorCopy.leadFigureLine(t.chapter)}. ${AskDoorCopy.free}',
+          : 'Ask: ${ask.text}. ${t.lost} ${AskDoorCopy.leadLine(t)}. ${AskDoorCopy.free}',
       focusRadius: radius,
       pressedScale: 0.98,
       onTap: () {
@@ -657,7 +657,7 @@ class _LeadTile extends ConsumerWidget {
                       Expanded(
                         child: Padding(
                           padding: const EdgeInsets.only(bottom: 2),
-                          child: Text(AskDoorCopy.leadFigureLine(t.chapter), style: type.small.copyWith(color: colors.ink2, fontSize: 14, height: 19 / 14)),
+                          child: Text(AskDoorCopy.leadLine(t), style: type.small.copyWith(color: colors.ink2, fontSize: 14, height: 19 / 14)),
                         ),
                       ),
                     ],

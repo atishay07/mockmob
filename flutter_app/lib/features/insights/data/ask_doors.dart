@@ -5,6 +5,7 @@ import '../../../core/domain/marks.dart';
 import '../../../core/models/attempt.dart';
 import '../widgets/ask_prompts.dart' show AskIntent;
 import 'ask_mock_lines.dart';
+import 'chapter_ties.dart';
 import 'insights_models.dart';
 import 'readout.dart' show RecordAnswer;
 import 'subject_names.dart';
@@ -78,6 +79,11 @@ abstract final class AskDoorCopy {
           : 'Mobi reads your $papers papers and answers from them.';
   static const recordTip = 'Tap a question and Mobi answers at once.';
   static String leadFigureLine(String chapter) => 'marks lost in $chapter, your biggest leak';
+
+  /// The figure's line for the lead: alone, "marks lost in Ray Optics, your biggest leak"; tied (owner I14), "marks lost in
+  /// each of Ray Optics and Optics, tied as your biggest leak".
+  static String leadLine(RecordLead lead) =>
+      lead.tied > 1 ? 'marks lost in ${lead.place}, tied as your biggest leak' : leadFigureLine(lead.chapter);
   static String seeAll(int n) => 'See all $n questions about your record';
   static const seeFewer = 'Show fewer questions';
   static const emptySay = 'Your record is empty for now.';
@@ -201,7 +207,7 @@ List<String> askNowStarters({PrepInsights? record, List<String> subjects = const
     if (!out.contains(s) && out.length < 3) out.add(s);
   }
 
-  final top = record != null && record.isReady && record.ranked.isNotEmpty ? record.ranked.first.chapter.trim() : null;
+  final top = record != null && record.isReady && record.ranked.isNotEmpty ? costliestChapters(record.ranked).first.chapter.trim() : null;
   if (top != null && top.isNotEmpty) add('Explain $top in simple words');
 
   final lists = [for (final s in subjects) ?askNowBank[canonicalSubjectId(s)]];
@@ -221,20 +227,33 @@ List<String> askNowStarters({PrepInsights? record, List<String> subjects = const
 
 // ---- Ask your record ----------------------------------------------------------------------
 
-/// The lead of the record door: the chapter that cost the most marks, with the figure.
+/// The lead of the record door: the chapter that cost the most marks, with the figure. When chapters tie for it
+/// ([tied] above 1) every one of them is named ([chapters]), never just the first (owner I14).
 class RecordLead {
-  const RecordLead({required this.lost, required this.chapter});
+  const RecordLead({required this.lost, required this.chapter, this.chapters = const []});
 
   final int lost;
+
+  /// The first of the tied chapters (the one a Practise key opens).
   final String chapter;
+
+  /// Every chapter that shares the first place, [chapter] first. Empty means [chapter] alone.
+  final List<String> chapters;
+
+  int get tied => chapters.length < 2 ? 1 : chapters.length;
+
+  /// After "in": "Ray Optics", "each of Ray Optics and Optics", "each of 4 chapters".
+  String get place => tied > 1 ? costliestPlace(chapters) : chapter;
 }
 
 /// The biggest leak in the record, or null when no chapter is ranked yet.
 RecordLead? recordLead(PrepInsights? record) {
   if (record == null || !record.isReady || record.ranked.isEmpty) return null;
-  final c = record.ranked.first;
+  final tied = costliestChapters(record.ranked);
+  final c = tied.first;
   if (c.lost <= 0 || c.chapter.trim().isEmpty) return null;
-  return RecordLead(lost: c.lost, chapter: c.chapter.trim());
+  final names = [for (final t in tied) if (t.chapter.trim().isNotEmpty) t.chapter.trim()];
+  return RecordLead(lost: c.lost, chapter: c.chapter.trim(), chapters: names.length > 1 ? names : const []);
 }
 
 /// The student's latest scored paper, read from its own answers on the phone: the line under the
@@ -346,7 +365,7 @@ List<DoorAsk> recordDoorAsks(PrepInsights? record, {required bool pro, LastPaper
       text: 'Where am I losing marks?',
       price: DoorPrice.free,
       intent: AskIntent.losing,
-      preview: lead == null ? 'Reads your wrong and blank answers' : '${lead.lost} marks lost in ${lead.chapter}',
+      preview: lead == null ? 'Reads your wrong and blank answers' : '${lead.lost} marks lost in ${lead.place}',
     ),
     DoorAsk(
       text: 'Which chapter should I practise?',

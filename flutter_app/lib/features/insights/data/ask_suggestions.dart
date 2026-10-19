@@ -1,6 +1,7 @@
 import '../copy.dart';
 import '../widgets/ask_prompts.dart' show recordPrompts;
 import 'ask_mobi_context.dart';
+import 'chapter_ties.dart';
 import 'insights_models.dart';
 import 'readout.dart';
 
@@ -90,7 +91,7 @@ List<AskSuggestion> suggestionsFor(AskMobiContext c, PrepInsights? v, {bool pro 
     ];
   }
   final previews = recordPrompts(v, pro: pro);
-  final top = ready && v.ranked.isNotEmpty ? v.ranked.first.chapter : null;
+  final top = ready && v.ranked.isNotEmpty ? costliestChapters(v.ranked).first.chapter : null;
   AskSuggestion paid(String text, String? preview) => AskSuggestion(text: text, price: AskPrice.credit, preview: preview);
   final losing = _recordAsk(InsightsCopy.promptLosing, v, pro: pro, preview: previews[0].preview);
   final chapter = _recordAsk(InsightsCopy.promptChapter, v, pro: pro, preview: previews[1].preview);
@@ -176,7 +177,7 @@ AskOpening? openingFor(AskMobiContext c, PrepInsights? v, {bool pro = false}) {
 /// record, or null when the record has none (nothing is invented).
 String? practicePreview(PrepInsights? v) {
   if (v == null || !v.isReady || v.ranked.isEmpty) return null;
-  final c = v.ranked.first;
+  final c = costliestChapters(v.ranked).first;
   if (c.n <= 0) return null;
   return AskSheetCopy.practiceLine(c.chapter, c.wrong, c.n);
 }
@@ -186,12 +187,14 @@ String? practicePreview(PrepInsights? v) {
 List<String> recordSummary(PrepInsights? v, {bool pro = false}) {
   if (v == null || !v.isReady) return const [];
   final l = v.ledger;
-  final top = v.ranked.isEmpty ? null : v.ranked.first;
+  // By marks lost, ties said (owner I14).
+  final tied = costliestChapters(v.ranked);
+  final top = tied.isEmpty ? null : tied.first;
   final p = v.pace;
   String sec(int s) => s >= 60 ? '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0')}' : '${s}s';
   return [
     AskSheetCopy.ledgerLine(l.net, l.gained, l.penalty, v.questions),
-    if (top != null) AskSheetCopy.leakLine(top.chapter, top.lost, top.wrong, top.n),
+    if (top != null) AskSheetCopy.leakLine(top.chapter, top.lost, top.wrong, top.n, tiedWith: tied.length - 1),
     if (pro && p.usable && p.medianSec != null) AskSheetCopy.paceLine(sec(p.medianSec!), p.questionsTimed),
   ];
 }
@@ -261,7 +264,10 @@ abstract final class AskSheetCopy {
   static const firstCheckHref = '/dashboard?mode=quick';
   static String ledgerLine(int net, int gained, int penalty, int questions) =>
       'Net $net marks from $questions answers: $gained gained, $penalty lost to wrong answers';
-  static String leakLine(String chapter, int lost, int wrong, int n) => 'Biggest leak: $chapter, $lost marks lost, $wrong wrong of $n';
+  /// With [tiedWith] other chapters that lost the same marks it says so, as Today's glance does (owner I14):
+  /// "Biggest leak: Ray Optics, tied with 1 other chapter, 6 marks lost, 1 wrong of 4".
+  static String leakLine(String chapter, int lost, int wrong, int n, {int tiedWith = 0}) =>
+      'Biggest leak: $chapter${tiedWith > 0 ? ', tied with $tiedWith other chapter${tiedWith == 1 ? '' : 's'}' : ''}, $lost marks lost, $wrong wrong of $n';
   static String paceLine(String median, int timed) => 'Pace: a typical question takes $median, over $timed timed answers';
   static const openCredits = 'Open credits';
   static const walletPaused = 'AI replies are paused. Record questions still work.';
