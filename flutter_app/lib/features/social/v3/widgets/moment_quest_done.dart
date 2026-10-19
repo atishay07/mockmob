@@ -160,8 +160,9 @@ class QuestDoneMomentState extends MomentStageState<QuestDoneMoment> {
                       ),
                     ),
                   ),
-                if (sealIn > 0)
-                  Opacity(
+                // Mounted from the first frame (hidden) so the seal still has decoded by its beat.
+                IgnorePointer(
+                  child: Opacity(
                     opacity: sealIn,
                     child: Transform.rotate(
                       angle: -2 * math.pi / 180 * (1 - sealP),
@@ -190,6 +191,7 @@ class QuestDoneMomentState extends MomentStageState<QuestDoneMoment> {
                       ),
                     ),
                   ),
+                ),
               ],
             ),
           ),

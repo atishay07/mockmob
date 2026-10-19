@@ -464,10 +464,10 @@ class ParcelIcon extends StatelessWidget {
             // The Fold's silhouette peeks over the back of the lid (the still's back edge is at 0.16).
             if (head != null)
               Positioned(
-                left: size * 0.3,
-                width: size * 0.4,
-                top: -size * 0.12,
-                height: size * 0.4,
+                left: size * 0.33,
+                width: size * 0.34,
+                top: -size * 0.02,
+                height: size * 0.34,
                 child: ColorFiltered(
                   colorFilter: ColorFilter.mode(silhouette, BlendMode.srcIn),
                   child: Image.asset(head, fit: BoxFit.contain, excludeFromSemantics: true, errorBuilder: (_, _, _) => const SizedBox.shrink()),
