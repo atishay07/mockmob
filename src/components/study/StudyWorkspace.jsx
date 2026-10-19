@@ -9,7 +9,10 @@ import LessonOverview from './LessonOverview';
 import StudyRun from './StudyRun';
 import { SUBJECTS, friendlyError } from './studyCopy';
 import { Listbox } from '@/components/ui/controls/Listbox';
-import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
+import DailyMinutes from '@/components/goal/DailyMinutes';
+import { MORE_CHOICES, PRESETS, isMinutes, minutesChip, sendableMinutes, savedMinutesLine } from '@/lib/goalMinutes.mjs';
+import { saveDailyMinutes, writeDeviceMinutes } from '@/lib/goalMinutesStore';
+import { useHeldMinutes } from '@/lib/useHeldMinutes';
 import { SmoothDetails } from '@/components/ui/controls/SmoothDetails';
 import './study.css';
 
@@ -69,19 +72,43 @@ export default function StudyWorkspace({ unitId = null, runId = null, preview = 
     prefsSlot={data.preferences ? <StudyPreferences prefs={data.preferences} units={data.units} api={api} onOpenRun={openRun} /> : null} />;
 }
 
-const STUDY_MINUTES = [10, 20, 30].map((n) => ({ value: n, label: `${n} minutes` }));
-const WEEK_MINUTES = [10, 20, 30].map((n) => ({ value: n, label: `${n} min` }));
+// The weekly plan's day lengths: 10, 20 and 30, an hour and two hours, and any other length already on a day (so a day
+// kept at 1 h 30 still reads as that, never as a blank).
+const weekMinutes = (current) => [...new Set([...PRESETS, ...MORE_CHOICES.map((c) => c.minutes), ...(isMinutes(current) ? [current] : [])])]
+  .sort((a, b) => a - b).map((n) => ({ value: n, label: minutesChip(n) }));
+// A server that still holds only 10, 20 or 30 refuses a longer day with a 422 (INVALID_MINUTES or INVALID_WEEKLY_PLAN).
+const refusedLonger = (e) => e?.kind !== 'network' && /INVALID[_ ](MINUTES|WEEKLY)/i.test(`${e?.message} ${e?.body?.error || ''}`);
 const WEEK_SUBJECTS = SUBJECTS.map(([id, title]) => ({ value: id, label: title }));
 
 function StudyPreferences({ prefs: initial, units, api, onOpenRun }) {
   const [prefs, setPrefs] = useState(initial);
-  const [subjects, setSubjects] = useState(initial.subjects), [minutes, setMinutes] = useState(initial.minutes), [saving, setSaving] = useState(false), [message, setMessage] = useState(null);
+  const [subjects, setSubjects] = useState(initial.subjects), [picked, setPicked] = useState(null), [saving, setSaving] = useState(false), [message, setMessage] = useState(null);
+  // The daily time shown is what the student chose here, else the one the account or this device holds, else the plan's usual.
+  const held = useHeldMinutes();
+  const minutes = picked ?? held.minutes ?? initial.minutes;
+  const setMinutes = setPicked;
   const [weekly, setWeekly] = useState(initial.weeklyPlan || Array.from({ length: 7 }, (_, i) => ({ subject: initial.subjects[i % initial.subjects.length], minutes: initial.minutes })));
   const reviewableUnits=units.filter(u=>u.read || u.memory?.reviewed);
   const [mixedUnits, setMixedUnits] = useState(reviewableUnits.slice(0,20).map(u => u.id));
   const save = async (plan = false) => {
     setSaving(true); setMessage(null);
-    try { const next = await api.put('/api/study/preferences', { subjects, minutes, expectedRevision: prefs.revision, ...(plan ? { weeklyPlan: weekly } : {}) }); setPrefs(next); setMessage({ ok: true, text: 'Saved. Today will plan around these choices.' }); }
+    const input = { subjects, minutes, expectedRevision: prefs.revision, ...(plan ? { weeklyPlan: weekly } : {}) };
+    try {
+      let next, where = 'account', planMinutes = null;
+      try { next = await api.put('/api/study/preferences', input); }
+      catch (e) {
+        // Today's server holds only 10, 20 and 30: send the longest it accepts for each length, keep the real choice on this
+        // device, and say so below (never "saved" for what the account does not hold).
+        if (!refusedLonger(e)) throw e;
+        planMinutes = sendableMinutes(minutes);
+        next = await api.put('/api/study/preferences', { ...input, minutes: planMinutes, ...(plan ? { weeklyPlan: weekly.map((d) => ({ ...d, minutes: sendableMinutes(d.minutes) })) } : {}), expectedRevision: prefs.revision });
+        where = 'device'; writeDeviceMinutes(minutes);
+      }
+      setPrefs(next);
+      // The account's daily goal outranks the usual time in the plan, so it follows what was just chosen (best effort).
+      if (where === 'account') saveDailyMinutes(minutes).catch(() => {});
+      setMessage({ ok: true, text: where === 'account' ? 'Saved. Today will plan around these choices.' : `Saved. ${savedMinutesLine(minutes, 'device', planMinutes)}` });
+    }
     catch (e) { setMessage({ ok: false, text: friendlyError(e).text }); } finally { setSaving(false); }
   };
   const mixed = async () => {
@@ -91,13 +118,13 @@ function StudyPreferences({ prefs: initial, units, api, onOpenRun }) {
   };
   return <SmoothDetails className="sx-prefs" chevron summary={<span className="sx-prefs__title">Study preferences{prefs.premium ? ' and weekly plan' : ''}</span>}>
     <fieldset><legend>Subjects to plan for</legend>{SUBJECTS.map(([id, title]) => <label className="sx-check" key={id}><input type="checkbox" checked={subjects.includes(id)} onChange={e => setSubjects(e.target.checked ? [...subjects, id] : subjects.filter(s => s !== id))} /><span className="sx-check__mark" aria-hidden="true"><Check size={16} /></span><span>{title}</span></label>)}</fieldset>
-    <div className="sx-field"><span id="sx-usual-time">Usual study time</span><SegmentedControl labelledBy="sx-usual-time" value={minutes} onChange={setMinutes} options={STUDY_MINUTES} /></div>
+    <div className="sx-field"><span id="sx-usual-time">Usual study time</span><DailyMinutes value={minutes} onChange={setMinutes} labelledBy="sx-usual-time" busy={saving} idPrefix="sx-gm" /></div>
     <div className="sx-actions"><button className="sx-secondary" type="button" disabled={saving || !subjects.length} onClick={() => save()}>Save preferences</button></div>
     <h3 className="sx-h3">Weekly plan and mixed revision</h3>
     {prefs.premium ? <>
       <div className="sx-week">{['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'].map((day, i) => <div key={day}><span>{day}</span>
         <Listbox aria-label={`${day} subject`} sheetTitle={`${day} subject`} size="sm" value={weekly[i].subject} options={WEEK_SUBJECTS} onChange={(value) => setWeekly(weekly.map((d, j) => j === i ? { ...d, subject: value } : d))} />
-        <Listbox aria-label={`${day} minutes`} sheetTitle={`${day} minutes`} size="sm" value={weekly[i].minutes} options={WEEK_MINUTES} onChange={(value) => setWeekly(weekly.map((d, j) => j === i ? { ...d, minutes: value } : d))} /></div>)}</div>
+        <Listbox aria-label={`${day} minutes`} sheetTitle={`${day} minutes`} size="sm" value={weekly[i].minutes} options={weekMinutes(weekly[i].minutes)} onChange={(value) => setWeekly(weekly.map((d, j) => j === i ? { ...d, minutes: value } : d))} /></div>)}</div>
       <div className="sx-actions"><button type="button" className="sx-secondary" disabled={saving || !subjects.length} onClick={() => save(true)}>Save weekly plan</button></div>
       <p className="sx-small">Review concepts you have already learned. New cards appear after you finish their lesson.</p>
       {!reviewableUnits.length ? <p className="sx-small">Finish a lesson first, then choose it here for mixed revision.</p> : null}
