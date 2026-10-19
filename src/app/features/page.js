@@ -32,7 +32,7 @@ const PARTS = [
     href: '/pricing', link: 'See Pro',
   },
   {
-    title: 'Review and Mistake Repair',
+    title: 'Your papers and mistake repair',
     body: 'Every miss from a session lands in Your papers with its explanation. Repair one, then a fresh question on the same idea comes back later to check the fix held.',
     href: '/signup', link: 'Create a free account',
   },

@@ -13,13 +13,13 @@ const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), '
 const code = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 
 // ---- 1. (verifier M1) the Revise count reads as a Revise count ---------------------------------------------------------------
-test('M1: the count beside Your papers and on the dock\'s Practice says "8 due", and a screen reader hears "8 due in Revise today"', () => {
-  assert.equal(dueBadge(8), '8 due');
-  assert.equal(dueBadge(1), '1 due');
-  assert.equal(dueBadge(140), '99+ due');
-  assert.equal(dueWords(8), '8 due in Revise today');
-  assert.equal(dueLabel('Your papers', 8), 'Your papers, 8 due in Revise today');
-  assert.equal(dueLabel('Practice', 1), 'Practice, 1 due in Revise today');
+test('M1: the count beside Your papers and on the dock\'s Practice says "8 to revise", and a screen reader hears "8 questions to revise today"', () => {
+  assert.equal(dueBadge(8), '8 to revise');
+  assert.equal(dueBadge(1), '1 to revise');
+  assert.equal(dueBadge(140), '99+ to revise');
+  assert.equal(dueWords(8), '8 questions to revise today');
+  assert.equal(dueLabel('Your papers', 8), 'Your papers, 8 questions to revise today');
+  assert.equal(dueLabel('Practice', 1), 'Practice, 1 question to revise today');
   const layout = code(read('src/app/(app)/AppLayoutClient.jsx'));
   const tabs = code(read('src/components/nav/PlaceTabs.jsx'));
   // Every place the count is drawn: the sidebar's Your papers, the dock's Practice and Practice's row of tabs.
@@ -231,7 +231,7 @@ test('walk 15: the new student is greeted without a name until a real first name
   const { greetName, greeting } = await import('../../src/lib/today/greeting.mjs');
   const email = 'walk-r11-web-1019a@example.com';
   // The app's cases (flutter_app lib/core/auth/display_name.dart), one for one.
-  for (const handle of ['walk-r11-web-1019a', 'app-e2e-student', 'asha_v', 'asha.v', 'asha07', 'Asha 07', 'a@b']) {
+  for (const handle of ['walk-r11-web-1019a', 'app-e2e-student', 'asha_v', 'asha07', 'Asha 07', 'a@b']) {
     assert.equal(shownName(handle, email), null, handle);
     assert.equal(shownFirstName(handle, email), null, handle);
     assert.equal(greetName(handle, email), '', handle);
@@ -263,4 +263,40 @@ test('walk 12: the Ask Mobi door has one line, "He explains any answer.", on the
   for (const old of ['He explains questions, results and your plan.', 'He knows your record.', 'Ask about a question, a result or your plan.']) {
     assert.doesNotMatch(shell, new RegExp(old.replace(/[.?]/g, '\$&')), old);
   }
+});
+
+// ---- fix pass C (release 11 verifier LOWs) --------------------------------------------------------------------------------
+test('fixc 1: no student-visible line names the old "Review" tab', () => {
+  assert.doesNotMatch(read('src/app/(app)/recovery/page.jsx'), /or open Review\./);
+  assert.match(read('src/app/(app)/recovery/page.jsx'), /or open Your papers\./);
+  assert.match(read('src/app/features/page.js'), /title: 'Your papers and mistake repair'/);
+  assert.doesNotMatch(read('src/app/features/page.js'), /Review and Mistake Repair/);
+  assert.match(read('src/components/landing/MistakeLab.jsx'), /<span>Your papers<\/span><span>Ask Mobi<\/span>/);
+  assert.match(read('src/components/landing/ProductScreens.jsx'), /\['Your papers', 'Saved mistake explanations'/);
+});
+
+test('fixc 2: Practice leaves key-held wrong answers out, so it agrees with Your papers', async () => {
+  const { repairsFor } = await import('../../src/app/(app)/dashboard/repairsLine.mjs');
+  const details = [0, 1, 2, 3].map((i) => ({ qid: `q${i + 1}`, isCorrect: false, givenIndex: 0 }));
+  const attempts = [{ id: 'a1', subject: 'accountancy', total: 4, correct: 0, completedAt: '2026-10-17T10:00:00Z', details }];
+  assert.equal(repairsFor({ attempts, repairs: [], subjectId: 'accountancy' }).open, 4, 'no key state known: all four');
+  assert.equal(repairsFor({ attempts, repairs: [], subjectId: 'accountancy', keyHeld: ['a1:q2'] }).open, 3, 'one key is being re-checked');
+  assert.equal(repairsFor({ attempts, repairs: [], subjectId: 'accountancy', keyHeld: new Set(['a1:q2', 'a1:q3']) }).open, 2);
+  const saved = [{ attemptId: 'a1', questionId: 'q1', subject: 'accountancy' }, { attemptId: 'a1', questionId: 'q2', subject: 'accountancy' }];
+  assert.equal(repairsFor({ attempts, repairs: saved, subjectId: 'accountancy', keyHeld: ['a1:q2'] }).open, 2, 'a held key with a saved repair is counted once, as held');
+  const src = code(read('src/app/(app)/dashboard/PracticeRepairs.jsx'));
+  assert.match(src, /apiGet\('\/api\/me\/review'\)/);
+  assert.match(src, /keyHeld: record\.keyHeld/);
+});
+
+test('fixc 3: real names with a hyphen or full stop are greeted; handles with digits, "_" or "@" and the email prefix are not', async () => {
+  const { shownFirstName, shownName } = await import('../../src/lib/displayName.mjs');
+  const email = 'walk-r11-web-1019a@example.com';
+  assert.equal(shownName('Anne-Marie', email), 'Anne-Marie');
+  assert.equal(shownFirstName('Anne-Marie Rao', email), 'Anne-Marie');
+  assert.equal(shownName('R. K. Sharma', email), 'R. K. Sharma');
+  assert.equal(shownFirstName('R. K. Sharma', email), 'R.');
+  for (const handle of ['asha07', 'asha_v', 'a@b', 'app-e2e-student', 'walk-r11-web-1019a']) assert.equal(shownName(handle, email), null, handle);
+  assert.equal(shownName('anne-marie', 'anne-marie@example.com'), null, 'an exact match with the email prefix is a handle');
+  assert.equal(shownName('asha.v', 'asha.v@example.com'), null);
 });

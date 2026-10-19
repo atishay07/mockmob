@@ -96,7 +96,7 @@ export function CompassScreen() {
 
 const PLAN = [
   ['Practice', 'Available ordinary questions', '10 min', 'now'],
-  ['Review', 'Saved mistake explanations', 'Alternative', 'next'],
+  ['Your papers', 'Saved mistake explanations', 'Alternative', 'next'],
   ['Choose', 'Another subject', 'Alternative', 'later'],
 ];
 

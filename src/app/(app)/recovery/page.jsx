@@ -16,7 +16,7 @@ export default function RecoveryJourney() {
     if (requestKey.current?.fingerprint !== fingerprint) requestKey.current = { fingerprint, key: crypto.randomUUID() };
     return requestKey.current.key;
   }
-  useEffect(() => { let alive=true; apiGet('/api/learning/plan').then(p => { if(alive) {setPlan(p);setEpisode(p.episodes.find(e => e.id === params.get('episode')) || null);} }).catch(() => {if(alive)setError('Check your connection and try again, or open Review.');}); return()=>{alive=false;}; },[params,planRetry]);
+  useEffect(() => { let alive=true; apiGet('/api/learning/plan').then(p => { if(alive) {setPlan(p);setEpisode(p.episodes.find(e => e.id === params.get('episode')) || null);} }).catch(() => {if(alive)setError('Check your connection and try again, or open Your papers.');}); return()=>{alive=false;}; },[params,planRetry]);
   async function start(conceptId) {
     setBusy(true); setError('');
     try {setEpisode(await apiPost('/api/recovery/episodes',{conceptId,requestKey:keyFor({conceptId})})); requestKey.current=null;}

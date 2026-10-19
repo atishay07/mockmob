@@ -19,20 +19,24 @@ import { useInsights } from '@/components/ai/useInsights';
 import { plural, repairsFor, REVIEW_WINDOW, sessionsWord } from './repairsLine.mjs';
 
 export default function PracticeRepairs({ userId, attempts, subjectId, subjectName }) {
-  const [record, setRecord] = useState({ state: 'loading', rows: null });
+  const [record, setRecord] = useState({ state: 'loading', rows: null, keyHeld: null });
   const [nonce, setNonce] = useState(0);
   const { insights } = useInsights(userId || null);
 
   useEffect(() => {
     if (!userId) return undefined;
     let alive = true;
-    apiGet('/api/me/repair-record?limit=100')
-      .then((body) => { if (alive) setRecord({ state: 'ready', rows: Array.isArray(body?.repairs) ? body.repairs : [] }); })
-      .catch(() => { if (alive) setRecord({ state: 'error', rows: null }); });
+    // The key-held refs come from Your papers' own record, so both places leave the same questions out (they are re-checked).
+    Promise.all([
+      apiGet('/api/me/repair-record?limit=100'),
+      apiGet('/api/me/review').then((body) => (Array.isArray(body?.items) ? body.items.filter((i) => i?.keyState && i.state !== 'blank').map((i) => `${i.attemptId || i.paper}:${i.qid}`) : [])).catch(() => []),
+    ])
+      .then(([body, keyHeld]) => { if (alive) setRecord({ state: 'ready', rows: Array.isArray(body?.repairs) ? body.repairs : [], keyHeld }); })
+      .catch(() => { if (alive) setRecord({ state: 'error', rows: null, keyHeld: null }); });
     return () => { alive = false; };
   }, [userId, nonce]);
 
-  const facts = useMemo(() => repairsFor({ attempts, repairs: record.rows, subjectId }), [attempts, record.rows, subjectId]);
+  const facts = useMemo(() => repairsFor({ attempts, repairs: record.rows, subjectId, keyHeld: record.keyHeld }), [attempts, record.rows, record.keyHeld, subjectId]);
   if (!subjectId) return null;
   const name = subjectName || 'this subject';
   // What the record says about the weakest chapter, with its denominator; left out when the record has none.
@@ -75,7 +79,7 @@ export default function PracticeRepairs({ userId, attempts, subjectId, subjectNa
           {record.state === 'ready' && facts.saved > 0 && facts.revisit ? (
             <> <Link className="pr-fix__revisit" href={`/result/${encodeURIComponent(facts.revisit.attemptId)}`}>{plural(facts.saved, 'saved repair')} to revisit</Link></>
           ) : null}
-          {record.state === 'error' ? <> <button type="button" className="pr-fix__retry" onClick={() => { setRecord({ state: 'loading', rows: null }); setNonce((n) => n + 1); }}>Check again</button></> : null}
+          {record.state === 'error' ? <> <button type="button" className="pr-fix__retry" onClick={() => { setRecord({ state: 'loading', rows: null, keyHeld: null }); setNonce((n) => n + 1); }}>Check again</button></> : null}
         </p>
       </div>
       <div className="pr-fix__acts">

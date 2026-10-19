@@ -335,7 +335,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const sheetIndex = new Map(sheetGroups.flatMap((group) => group.items).map((tab, i) => [tab.id, i]));
   // A lesson or recall run lives at /study/<id> but belongs to Learn (D20), so Learn stays the current place while you are in one.
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'));
-  // The Revise count is drawn as "8 due", never a bare number that reads as a paper count (verifier M1), and said in words.
+  // The Revise count is drawn as "8 to revise", never a bare number that reads as a paper count (verifier M1), and said in words.
   const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? dueLabel(tab.label, reviseBadge) : undefined);
   const hrefOf = (tab) => previewLinks?.[tab.id] || tab.href || `/${tab.id}`;
   // The account's name only when it is a real name (release 11 walk; the app's rule, src/lib/displayName.mjs), else "Account".
