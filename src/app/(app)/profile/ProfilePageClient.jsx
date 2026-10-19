@@ -28,6 +28,7 @@ import { AccountColleges } from '@/components/colleges/MyColleges';
 import PlanCredits from '@/components/profile/PlanCredits';
 import CreditsSection from '@/components/profile/CreditsSection';
 import GoalControl from '@/components/profile/GoalControl';
+import SetPasswordCard from '@/components/profile/SetPasswordCard';
 import AccountLinks from '@/components/profile/AccountLinks';
 import SignOutControl, { SignedInLine } from '@/components/profile/SignOutControl';
 import { anchorFromHash, mocksSummary } from '@/components/profile/accountModel.mjs';
@@ -301,6 +302,9 @@ export default function ProfilePageClient() {
               </Button>
             </div>
           </section>
+
+          {/* Set a password (20 Oct): a student who signed up with an email code adds one here and signs in with it in the app. */}
+          <SetPasswordCard email={user?.email || ''} />
 
           <div id="appearance" className="acct-anchor"><LookAndFeelCard /></div>
         </div>
