@@ -310,24 +310,24 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 > "so right now i gtg if you have anything for me hold it for next 1-2 hours when ill be back ill get to it until then continue working on other things. There's the lot left to do"
 **Ledger D125:** he is away about 1-2 hours; hold questions and deliverables for his return; keep working autonomously on the PM plan meanwhile.
 
-## Owner, 19 Oct about 4:45 pm IST (verbatim)
+## Owner, 19 Oct about 4:10 pm IST (verbatim)
 > "I am back. Can you tell me what all you have done? Is the new app ready, and what is needed from my side?"
 
-## Owner, 19 Oct about 4:55 pm IST, his picks (verbatim answers)
+## Owner, 19 Oct about 4:15 pm IST, his picks (verbatim answers)
 - Practice: "C: three doors"
 - Colleges: "A + B: You card and Today strip (Recommended)"
 - Daily goal: "A: a fourth 'More' bubble (Recommended)"
 - "Question stream": "Rename to 'Untimed questions' (Recommended)"
 **Ledger D126:** build Practice C (a Practise / Your papers / Learn switch under the title), Colleges A+B (a Colleges card at the top of You and a "Your colleges" strip on Today; Aim stays), goal step A (a fourth "More" bubble: 1 hour, 2 hours, own amount, no cap), and rename "Question stream" to "Untimed questions". Specs: docs/design-decisions/pass-1019pm/PRACTICE-COLLEGES-GOAL-1019PM.md and SMART-LAYER-1019PM.md.
 
-## Owner, 19 Oct about 5:10 pm IST, his Mob picks (verbatim answers)
+## Owner, 19 Oct about 4:30 pm IST, his Mob picks (verbatim answers)
 - Direction: "Den, with Arena's energy"
 - Podium inside one Mob game: "Yes, with the switch (Recommended)"
 - Who may start Mob games: "Pro only"
 - Weekly Mob streak and 6-character codes: "Yes to both (Recommended)"
 **Ledger D127:** build The Den (mob-den v2) with more of the Arena's race and podium punch in play and results; podium by CUET marks inside one game, ties share a place, nobody below third numbered, per-Mob "Show a podium" switch on by default; only Pro members START Mob games (sprints, races, rounds; Free members join and play; with billing off the start control is visible but locked, D101); weekly Mob streak (quest weeks in a row, never a warning or countdown); 6-character join codes (old 8-character codes keep working until they expire).
 
-## Owner, 19 Oct about 5:25 pm IST, on the Mob mock-ups (verbatim)
+## Owner, 19 Oct about 4:38 pm IST, on the Mob mock-ups (verbatim)
 > "Honestly, first, I'll talk about the character. The character that you mentioned, dated from SVG, is not very impressive, honestly. Just search what Jenbies are like these days and build something accordingly. This is fine, but they all need refinement. It would be better if you used an image generator and generated it like how you generated the question logo. Honestly, this Mobius paper family is a better direction, also, being able to start Pro is a good direction, but in general, in this feature, there should be exclusive Pro benefits and free benefits. Free should not be completely restrictive, but there should be a clear difference between the two.
 >
 > Also, coming to streak and all, there should be a proper streak system and more intuitive things which you can think of. Overall, what you have built, the design, I like. The basic core idea can be thought on more and refined a lot.
@@ -341,6 +341,6 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 - He likes the overall design and the core idea; refine it a lot more.
 - S7 (live play) looked cool; the other screens less so. Make every screen more premium, refined and gamified, with motion design thought through (motion graphics are crucial). Give the Mob a MockMob brand identity.
 
-## Owner, 19 Oct about 5:35 pm IST, clarifying "Jenbies" (verbatim)
+## Owner, 19 Oct about 4:42 pm IST, clarifying "Jenbies" (verbatim)
 > "I said what Gen Z likes these days. It captured something else. The GenMojie direction could be fine, but if adapted according to our taste and the overall profile of the brand, not exactly copied from Apple. Collectible toy figures are good, but I am not sure how we will be able to implement it. There should be some kind of direction to this, some storytelling and all. Also, it can happen. Obviously, everyone who uses this app won't know it, but maybe some social media marketing stuff and all."
 **Ledger D129:** "Jenbies" = "what Gen Z likes these days". Characters: a Genmoji-like soft 3D direction adapted to MockMob's taste and brand (never a copy of Apple); collectible-toy appeal is welcome if we find a way to implement it; give the characters a story (a world and lore) that can also carry social media marketing.
