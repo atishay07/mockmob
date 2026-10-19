@@ -680,3 +680,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > Most importantly, for the next 20 minutes, this account usage is 0% right now. You have the entire usage to use in the next 20 minutes, which is practically impossible. You won't be able to do it, but go as all out as you can in the next 20 minutes. Run like 100 parallel agents or however many workflows. Just set a timer for 20 minutes, and until then, keep everything going. After that, bring it back to normal pace, but these next 20 minutes are very important to make use of. Start immediately and very urgently."
 **Ledger D160:** blitz until about 4:05 am with maximum parallel agents (three workflows launched 3:45-3:48 am: 12 adversarial reviewers + synthesis; 12 builders incl. the app v13 release owner; 5 more owners), then normal pace toward the 10 am goal (version 13 signed in Desktop\MockMob-build-13, website healthy and improving).
+
+## Owner, 20 Oct about 3:52 am IST (verbatim)
+> "good but make sure to utilize this time more towards building stuff rather than reviews and testing and im going to sleep now so run autonomously for next 7-8 hrs. and now only 10 mins left to usage reset then return back to normal"
+**Ledger D161:** favour building over reviewing and testing in the remaining blitz minutes; run autonomously for the next 7-8 hours (until about 11 am-12 pm IST); after the usage reset at about 4 am, normal pace.
