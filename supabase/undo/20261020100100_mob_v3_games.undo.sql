@@ -33,6 +33,7 @@ begin
   return 'recorded';
 end $$;
 
+drop function if exists public.mob_trap_get(uuid, text);
 drop function if exists public.mob_weeks_list(uuid);
 drop function if exists public.mob_fix_answer(text, uuid, smallint, text, boolean, timestamptz);
 drop function if exists public.mob_fix_issue(text, uuid, smallint, text, text, timestamptz);

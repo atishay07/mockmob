@@ -530,6 +530,23 @@ begin
   return 'recorded';
 end $$;
 
+-- A game's trap and Fix it together state for one member: { q, question_id, opened_at, check_opens_at,
+-- check_closes_at, fixed_at, fixed_count (the Mob's fixed traps), now: { issued, answered, correct }, check: {...} }.
+-- Null when the game has no trap or the student is not in its Mob.
+create or replace function public.mob_trap_get(p_game_id uuid, p_user_id text)
+returns jsonb language sql security invoker stable set search_path = public as $$
+  select jsonb_build_object('q', t.q, 'question_id', t.question_id, 'opened_at', t.opened_at, 'check_opens_at', t.check_opens_at,
+    'check_closes_at', t.check_closes_at, 'fixed_at', t.fixed_at,
+    'fixed_count', (select count(*)::int from public.mob_traps x where x.mob_id = t.mob_id and x.fixed_at is not null),
+    'now', (select jsonb_build_object('answered', c.answered_at is not null, 'correct', c.correct) from public.mob_fix_checks c
+            where c.game_id = t.game_id and c.q = t.q and c.user_id = p_user_id and c.stage = 'now'),
+    'check', (select jsonb_build_object('answered', c.answered_at is not null, 'correct', c.correct) from public.mob_fix_checks c
+            where c.game_id = t.game_id and c.q = t.q and c.user_id = p_user_id and c.stage = 'check'))
+  from public.mob_traps t
+  where t.game_id = p_game_id and exists (select 1 from public.mob_members mm where mm.mob_id = t.mob_id and mm.user_id = p_user_id)
+  order by t.q limit 1
+$$;
+
 -- The Mob's weeks for the chain (computed in src/lib/mob/mobChain.mjs).
 create or replace function public.mob_weeks_list(p_mob_id uuid)
 returns jsonb language sql security invoker stable set search_path = public as $$
@@ -561,7 +578,7 @@ revoke all on function public.mob_ist_week(timestamptz), public.mob_room_send(uu
   public.mob_start_status(text, uuid, date), public.mob_mic_give(text, uuid, text, date, smallint),
   public.mob_fix_issue(text, uuid, smallint, text, text, timestamptz), public.mob_fix_answer(text, uuid, smallint, text, boolean, timestamptz),
   public.mob_record_sitting(text, uuid, date, text, numeric, numeric, smallint[], timestamptz, jsonb),
-  public.mob_extra_record(text, uuid, text, numeric, numeric, smallint[], timestamptz, jsonb), public.mob_weeks_list(uuid)
+  public.mob_extra_record(text, uuid, text, numeric, numeric, smallint[], timestamptz, jsonb), public.mob_weeks_list(uuid), public.mob_trap_get(uuid, text)
   from public, anon, authenticated;
 grant execute on function public.mob_ist_week(timestamptz), public.mob_room_send(uuid, text, jsonb), public.mob_room_maybe_done(uuid),
   public.mob_quest_week(uuid, date, timestamptz), public.mob_quest_tick(uuid, date, text, text, text, integer, timestamptz),
@@ -573,5 +590,5 @@ grant execute on function public.mob_ist_week(timestamptz), public.mob_room_send
   public.mob_start_status(text, uuid, date), public.mob_mic_give(text, uuid, text, date, smallint),
   public.mob_fix_issue(text, uuid, smallint, text, text, timestamptz), public.mob_fix_answer(text, uuid, smallint, text, boolean, timestamptz),
   public.mob_record_sitting(text, uuid, date, text, numeric, numeric, smallint[], timestamptz, jsonb),
-  public.mob_extra_record(text, uuid, text, numeric, numeric, smallint[], timestamptz, jsonb), public.mob_weeks_list(uuid)
+  public.mob_extra_record(text, uuid, text, numeric, numeric, smallint[], timestamptz, jsonb), public.mob_weeks_list(uuid), public.mob_trap_get(uuid, text)
   to service_role;

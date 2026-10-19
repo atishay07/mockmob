@@ -19,12 +19,17 @@ import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
 import { indexAtlas, trapForOption } from '@/../data/trap_atlas';
 import blocklist from '@/../data/mob_name_blocklist.json';
 import { EXTRA_LENGTHS } from '@/lib/mob/model.mjs';
+import { playBillingEnabled } from '@/lib/payments/playBilling';
 import { createMobService } from './service';
 
 export const mobEnabled = () => process.env.MOB_ENABLED === 'true';
 // The stop rule's switch (SOCIAL-SPEC section 13): MOB_INVITES_ENABLED=false pauses new invite links and joining by link.
 // Anything else, unset included, leaves invites on. Existing Mobs keep working either way.
 export const mobInvitesEnabled = () => process.env.MOB_INVITES_ENABLED !== 'false';
+// Mob v3 (MOB-BUILD-SPEC-V3): MOB_V3_ENABLED gates everything new (its four migrations must be applied first);
+// MOB_LIVE_ENABLED gates live rooms (Phase B). Both are read on every request.
+export const mobV3Enabled = () => process.env.MOB_V3_ENABLED === 'true';
+export const mobLiveEnabled = () => process.env.MOB_LIVE_ENABLED === 'true';
 const secret = () => process.env.MOB_ID_SECRET || process.env.NEXTAUTH_SECRET || process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 async function rpc(name, params) {
@@ -134,6 +139,7 @@ export function mobService() {
     rpc, secret: secret(), randomBytes: (n) => randomBytes(n), blocklist, subjectInfo,
     loadUser: (id) => Database.getUserById(id),
     validChapter, pickQuestionIds, loadQuestions, trapNameFor, findAttempts, chapterCounts, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
+    v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, billingOn: () => playBillingEnabled(),
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),
   });
@@ -142,7 +148,7 @@ export function mobService() {
 
 export function mobDeps() {
   return {
-    enabled: mobEnabled, auth: (request) => auth(request), rateLimit: checkPersistentRateLimit, giveBack: giveBackRateLimit, waitFor: rateLimitWait,
+    enabled: mobEnabled, v3Enabled: mobV3Enabled, auth: (request) => auth(request), rateLimit: checkPersistentRateLimit, giveBack: giveBackRateLimit, waitFor: rateLimitWait,
     cors: mobileOptions, service: mobService(),
   };
 }

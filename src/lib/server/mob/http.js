@@ -31,6 +31,16 @@ export const LIMITS = Object.freeze({
   // Both count successful actions only (success: true).
   create: { limit: 3, windowMs: WEEK, by: 'user', success: true },
   extra: { limit: 6, windowMs: DAY, by: 'user', success: true },
+  // Mob v3 (MOB-BUILD-SPEC-V3 2.5). read (above) also covers GET /game/[id], /podium, /review, /shelf and GET /api/me/chain.
+  gameOpen: { limit: 8, windowMs: DAY, by: 'user', success: true },
+  run: { limit: 30, windowMs: HOUR, by: 'user' },
+  answer: { limit: 150, windowMs: 10 * MIN, by: 'user' },
+  ticket: { limit: 20, windowMs: HOUR, by: 'user', success: true },
+  room: { limit: 20, windowMs: HOUR, by: 'user' },
+  sticker: { limit: 30, windowMs: HOUR, by: 'user', success: true },
+  mic: { limit: 10, windowMs: DAY, by: 'user', success: true },
+  fix: { limit: 40, windowMs: HOUR, by: 'user' },
+  chainWrite: { limit: 20, windowMs: DAY, by: 'user' },
 });
 
 /** The 429 sentence for each limit, with the real wait ("in 25 minutes", "on Fri 23 Oct, 9:40 PM"). */
@@ -43,6 +53,11 @@ export function limitMessage(name, wait) {
     case 'join': return `That was a lot of tries to join in an hour. You can try again ${wait}.`;
     case 'report': return `You sent ${l.limit} reports today, the most a day allows. You can send another ${wait}. To stop sharing a Mob with someone now, use Leave and block.`;
     case 'lookup': return `This invite was checked too many times from your network. Try again ${wait}.`;
+    case 'gameOpen': return `You started ${l.limit} games today, the most a day allows. You can start another ${wait}.`;
+    case 'sticker': return `You sent ${l.limit} stickers in an hour, the most an hour allows. You can send another ${wait}.`;
+    case 'mic': return `You tried to pass the mic ${l.limit} times today. You can try again ${wait}.`;
+    case 'chainWrite': return `You changed your chain settings ${l.limit} times today. You can change them again ${wait}.`;
+    case 'answer': return `That was a lot of answers in a short time. You can answer again ${wait}.`;
     default: return `Too many tries in a short time. Try again ${wait}.`;
   }
 }
@@ -67,12 +82,33 @@ export const ACTIONS = Object.freeze({
   history: ['GET', ['read'], (s, u, _b, p) => s.history(u, p.query || {})],
   extra: ['POST', ['extra', 'write'], (s, u, b) => s.createExtra(u, b), 201],
   chapters: ['GET', ['read'], (s, u, _b, p) => s.chapters(u, p.query || {})],
+  // Mob v3 (MOB-BUILD-SPEC-V3 3.2). Each needs MOB_V3_ENABLED=true (else 404 MOB_DISABLED, like the Mob being off).
+  settings: ['PATCH', ['write'], (s, u, b) => s.v3.settings(u, b), 200, { v3: true }],
+  profile: ['PUT', ['write'], (s, u, b) => s.v3.profile(u, b), 200, { v3: true }],
+  shelf: ['GET', ['read'], (s, u) => s.v3.shelf(u), 200, { v3: true }],
+  gameOpen: ['POST', ['write', 'gameOpen'], (s, u, b) => s.v3.openGame(u, b), 201, { v3: true }],
+  game: ['GET', ['read'], (s, u, _b, p) => s.v3.getGame(u, p.id), 200, { v3: true }],
+  run: ['POST', ['run'], (s, u, _b, p) => s.v3.startRun(u, p.id), 200, { v3: true }],
+  answer: ['POST', ['answer'], (s, u, b, p) => s.v3.answer(u, p.id, b), 200, { v3: true }],
+  finish: ['POST', ['run'], (s, u, _b, p) => s.v3.finish(u, p.id), 200, { v3: true }],
+  podium: ['GET', ['read'], (s, u, _b, p) => s.v3.podium(u, p.id), 200, { v3: true }],
+  review: ['GET', ['read'], (s, u, _b, p) => s.v3.review(u, p.id), 200, { v3: true }],
+  sticker: ['POST', ['sticker'], (s, u, b) => s.v3.sticker(u, b), 200, { v3: true }],
+  mic: ['POST', ['mic', 'write'], (s, u, b) => s.v3.mic(u, b), 200, { v3: true }],
+  stepOut: ['POST', ['write'], (s, u, b) => s.v3.stepOut(u, b), 200, { v3: true }],
+  fixStart: ['POST', ['fix'], (s, u, b) => s.v3.fixStart(u, b), 200, { v3: true }],
+  fixAnswer: ['POST', ['fix'], (s, u, b) => s.v3.fixAnswer(u, b), 200, { v3: true }],
+  seen: ['POST', ['write'], (s, u, b) => s.v3.seen(u, b), 200, { v3: true }],
+  chainGet: ['GET', ['read'], (s, u) => s.v3.chains.get(u), 200, { v3: true }],
+  chainPatch: ['PATCH', ['chainWrite'], (s, u, b) => s.v3.chains.patch(u, b), 200, { v3: true }],
+  pauseSet: ['POST', ['chainWrite'], (s, u, b) => s.v3.chains.pauseSet(u, b), 200, { v3: true }],
+  pauseClear: ['DELETE', ['chainWrite'], (s, u, b) => s.v3.chains.pauseClear(u, b), 200, { v3: true }],
 });
 
 const MAX_BODY = 4096;
 
 /**
- * deps: { enabled() -> boolean, auth(request) -> session | null, rateLimit(request, opts) -> { allowed, retryAfterSeconds? },
+ * deps: { enabled() -> boolean, v3Enabled() -> boolean (MOB_V3_ENABLED), auth(request) -> session | null, rateLimit(request, opts) -> { allowed, retryAfterSeconds? },
  *         giveBack(request, opts)  (optional) returns the count a success-only limit took,
  *         waitFor(request, opts) -> seconds | null  (optional) the real wait on a refused limit,
  *         now() -> ms (optional), service, cors(request) -> headers }
@@ -90,6 +126,8 @@ export async function handleMob(deps, action, request, params = {}) {
   const session = await deps.auth(request).catch(() => null);
   const userId = session?.user?.id || null;
   if (!flags.public && !userId) return fail('UNAUTHENTICATED');
+  // Mob v3 routes answer like a Mob that is off until MOB_V3_ENABLED=true (no dependency given: off).
+  if (flags.v3 && !(deps.v3Enabled ? deps.v3Enabled() === true : false)) return fail('MOB_DISABLED');
   // `?mob=` with nothing after it is a malformed request, not a Mob the student is not in (a client with no id leaves the key out).
   if (request.method === 'GET' && !flags.public && typeof query.mob === 'string' && !query.mob.trim()) {
     return Response.json({ error: { code: 'BAD_REQUEST', message: 'Something in the request was not right. Try again.' } }, { status: 400, headers });

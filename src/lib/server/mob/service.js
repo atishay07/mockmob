@@ -16,12 +16,15 @@
 // TODO(owner D-S4): an invite tied to credits is the owner's decision and is not built. Do not add one here.
 import { createHmac } from 'node:crypto';
 import {
-  CODE_ALPHABET, EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, EXTRA_OPEN_DAYS, FREE_MAX_MOBS, INVITE_DAYS, MAX_MEMBERSHIPS, MobError, PAPER_COUNT, PRO_MAX_MOBS,
+  EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, EXTRA_OPEN_DAYS, FREE_MAX_MOBS, INVITE_DAYS, MAX_MEMBERSHIPS, MobError, PAPER_COUNT, PRO_MAX_MOBS,
   REPORT_REASONS, SECONDS_PER_QUESTION, UUID_RE, buildView, checkColour, checkName, closesAt, codeFromBytes, computeTogether, computeTrap,
-  finishedInWindow, mobWeek, normalizeCode, picksFromAttempt, tooLateToStart, trapPayload,
+  displayCode, finishedInWindow, mobWeek, normalizeCode, picksFromAttempt, tooLateToStart, trapPayload,
 } from '../../mob/model.mjs';
+import { mobName, validNameKey } from '../../mob/names.mjs';
 import { buildCompare, compareSummary, sharingSet } from '../../mob/compare.mjs';
 import { detailFromAttempt } from './detail.js';
+import { memberIdFor } from './memberId.js';
+import { createMobV3Service } from './games.js';
 
 const DAY_MS = 86_400_000;
 const WEEK_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -53,13 +56,7 @@ export function thinBank({ ready, count, chapter = null, subjectName = 'This sub
   });
 }
 
-/** memberId: the first 12 Crockford characters of HMAC-SHA256(secret, mobId:userId). */
-export function memberIdFor(secret, mobId, userId) {
-  const digest = createHmac('sha256', String(secret || 'mob')).update(`${mobId}:${userId}`).digest();
-  let out = '';
-  for (let i = 0; i < 12; i += 1) out += CODE_ALPHABET[digest[i] & 31];
-  return out;
-}
+export { memberIdFor };
 
 /**
  * deps: {
@@ -103,6 +100,11 @@ export function createMobService(deps) {
     return (await loadUser(userId))?.isPremium === true;
   }
   const invitesOn = () => (deps.invitesEnabled ? deps.invitesEnabled() !== false : true);
+  // Mob v3 (MOB-BUILD-SPEC-V3): everything new needs MOB_V3_ENABLED=true and its migrations. Off, every route keeps the
+  // exact behaviour build 9 apps and today's web know.
+  const v3On = () => (deps.v3Enabled ? deps.v3Enabled() === true : false);
+  // eslint-disable-next-line prefer-const
+  let v3;
   // How many Mobs the student started and is still in. Null when the count cannot be read (the view falls back).
   const startedCount = async (userId) => {
     try {
@@ -231,11 +233,17 @@ export function createMobService(deps) {
     const unlocked = pro || summary?.access === 'sample';
     const mobs = (state.mobs || []).map((m) => ({ id: m.id, subject: m.subject, subjectName: subjectName(m.subject) }));
     const started = await startedCount(userId);
-    return buildView(state, {
+    const out = buildView(state, {
       userId, now: now(), memberIdFor: idFor(state.mob.id), cost: youSat ? null : { type: 'free' }, trap: unlocked ? trap : null, together: unlocked ? together : null,
       subjectName: subjectName(state.mob.subject), plan: { pro }, mobs, freeBlocked, started, invitesPaused: !invitesOn(),
       compare: summary && summary.available ? summary : null, extras: extrasFor(state, userId, { pro }),
     });
+    // v3: "Free members join and play everything" lifts the one free Mob paper a week (C-dec 2 item 9).
+    if (v3On() && out.mob) {
+      out.mob.week.paper.blocked = null;
+      out.mob.v3 = await v3.v3Block(userId, state, { pro });
+    }
+    return out;
   }
 
   /** The follow-up read after a write that already went through. If only this read fails, the write stays done: the error says
@@ -275,7 +283,7 @@ export function createMobService(deps) {
   // A Mob is for one of the student's own subjects: the ones on their account, resolved the way the server stores them.
   const ownSubjects = (user) => new Set((Array.isArray(user?.subjects) ? user.subjects : []).map((s) => deps.subjectInfo(s)).filter((x) => x?.ok).map((x) => x.id));
 
-  return {
+  const service = {
     view,
 
     /**
@@ -301,7 +309,15 @@ export function createMobService(deps) {
       if (!subject?.ok || !own.has(subject.id)) throw new MobError('SUBJECT_INVALID');
       const { name, colour } = nameAndColour(body, { required: true });
       const plan = startLimit(user);
-      const r = await call('mob_create', { p_user_id: userId, p_subject: subject.id, p_name: name, p_colour: colour, p_max_mobs: plan.max });
+      let r;
+      if (v3On()) {
+        if (body.nameKey !== undefined && body.nameKey !== null && !validNameKey(body.nameKey)) throw new MobError('NAME_KEY_INVALID');
+        const fold = await v3.checkFold(userId, body.fold);
+        r = await call('mob_create_named', { p_user_id: userId, p_subject: subject.id, p_name: name, p_colour: colour, p_max_mobs: plan.max, p_name_key: body.nameKey ?? null });
+        if (r?.status === 'created' && fold) await v3.sitAs(userId, fold);
+      } else {
+        r = await call('mob_create', { p_user_id: userId, p_subject: subject.id, p_name: name, p_colour: colour, p_max_mobs: plan.max });
+      }
       if (r?.status === 'limit') throw new MobError(plan.code);
       if (r?.status === 'ceiling') throw new MobError('MOB_CEILING');
       if (r?.status !== 'created') throw new MobError('UNAVAILABLE');
@@ -313,7 +329,7 @@ export function createMobService(deps) {
       if (!invitesOn()) throw new MobError('INVITES_PAUSED');
       const expires = new Date(now() + INVITE_DAYS * DAY_MS).toISOString();
       for (let attempt = 0; attempt < 3; attempt += 1) {
-        const code = codeFromBytes(deps.randomBytes(5));
+        const code = v3On() ? codeFromBytes(deps.randomBytes(4), 6) : codeFromBytes(deps.randomBytes(5));
         let r;
         try {
           r = await deps.rpc('mob_invite_new', { p_user_id: userId, p_mob_id: state.mob.id, p_code: code, p_expires_at: expires });
@@ -325,7 +341,7 @@ export function createMobService(deps) {
         if (r === 'full') throw new MobError('MOB_FULL');
         const out = await view(userId, { mobId: state.mob.id, sync: false });
         if (!out.mob?.invite) throw new MobError('UNAVAILABLE');
-        return out.mob.invite;
+        return v3On() ? { ...out.mob.invite, display: displayCode(out.mob.invite.code) } : out.mob.invite;
       }
       throw new MobError('UNAVAILABLE');
     },
@@ -339,7 +355,9 @@ export function createMobService(deps) {
       if (r?.status === 'expired') throw new MobError('INVITE_EXPIRED');
       if (r?.status === 'full') throw new MobError('MOB_FULL');
       if (r?.status !== 'valid') throw new MobError('INVITE_INVALID');
-      return { valid: true, code, subject: r.subject, subjectName: subjectName(r.subject) || r.subject, size: Number(r.size), seatsLeft: Number(r.seats_left), expiresAt: new Date(r.expires_at).toISOString(), ...(viewerId && r.inviter ? { inviter: r.inviter } : {}) };
+      const out = { valid: true, code, subject: r.subject, subjectName: subjectName(r.subject) || r.subject, size: Number(r.size), seatsLeft: Number(r.seats_left), expiresAt: new Date(r.expires_at).toISOString(), ...(viewerId && r.inviter ? { inviter: r.inviter } : {}) };
+      // v3 adds the Mob's name and the status word (judge F7: still no member names on the preview).
+      return v3On() ? { status: 'valid', ...out, name: mobName(r.name_key, out.subjectName).text } : out;
     },
 
     async join(userId, body) {
@@ -347,6 +365,7 @@ export function createMobService(deps) {
       if (!code) throw new MobError('INVITE_INVALID');
       if (!invitesOn()) throw new MobError('JOIN_PAUSED');
       const { name, colour } = nameAndColour(body, { required: true });
+      const fold = v3On() ? await v3.checkFold(userId, body.fold) : null;
       // Joining is not a plan limit: every plan joins up to the safety ceiling (the migration counts every membership).
       const r = await call('mob_join', { p_user_id: userId, p_code: code, p_name: name, p_colour: colour, p_max_mobs: MAX_MEMBERSHIPS, p_now: new Date(now()).toISOString() });
       const status = r?.status;
@@ -356,6 +375,7 @@ export function createMobService(deps) {
       if (status === 'full') throw new MobError('MOB_FULL');
       if (status === 'limit') throw new MobError('MOB_CEILING');
       if (status !== 'joined' && status !== 'already') throw new MobError('UNAVAILABLE');
+      if (fold) await v3.sitAs(userId, fold).catch(() => null);
       // Opening the link of a Mob you are already in just takes you there.
       return viewAfterWrite(userId, { mobId: r?.mob_id, sync: false });
     },
@@ -442,7 +462,8 @@ export function createMobService(deps) {
       if (tooLateToStart(state.week, now())) throw new MobError('WEEK_CLOSED');
       const pro = await isPro(userId);
       let claimed = false;
-      if (!pro) {
+      // v3 lifts the one free weekly paper across Mobs: mob_free_claim stays for old rows and the undo, but is not called.
+      if (!pro && !v3On()) {
         const c = await call('mob_free_claim', { p_user_id: userId, p_mob_id: state.mob.id, p_week: state.week });
         if (c === 'used') throw new MobError('FREE_PAPER_USED');
         claimed = c === 'new';
@@ -604,6 +625,11 @@ export function createMobService(deps) {
       } catch { return 'skipped'; }
     },
   };
+
+  v3 = createMobV3Service(deps, { view, thinBank });
+  service.v3 = v3;
+  service.v3On = v3On;
+  return service;
 
   async function startExtra(userId, state, body) {
     if (!validMobId(body.extra)) throw new MobError('EXTRA_NOT_FOUND');

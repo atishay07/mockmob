@@ -103,7 +103,7 @@ export const ERRORS = Object.freeze({
   UNAVAILABLE: [503, 'Your Mob did not load. Try again shortly.'],
   // Mob v3 (MOB-BUILD-SPEC-V3 3.2). MobCopy.failure in lib/features/social/copy.dart keeps the same sentences.
   START_PRO: [402, 'Starting games is part of Pro. You can play every game your Mob starts.'],
-  START_USED: [409, 'You started this week's game in this Mob. You can start another on Monday, or a friend with Pro can pass you the mic.'],
+  START_USED: [409, "You started this week's game in this Mob. You can start another on Monday, or a friend with Pro can pass you the mic."],
   START_FORMAT: [402, 'Live rooms are part of Pro. You can start this game for anytime in 24 hours.'],
   GAMES_OPEN_LIMIT: [409, 'Your Mob already has 3 games open. A new one can start when one closes.'],
   ROOM_OPEN_ALREADY: [409, 'A live room is already open in your Mob. Join it from the den.'],
@@ -129,7 +129,7 @@ export const ERRORS = Object.freeze({
   NAME_KEY_INVALID: [422, 'Choose one of the names.'],
   FOLD_INVALID: [422, 'Choose one of the Folds.'],
   FOLD_LOCKED: [409, 'You have not earned that Fold yet. Its card says how.'],
-  STEP_OUT_DONE: [409, 'This week's quest is already done, so there is nothing to step out of.'],
+  STEP_OUT_DONE: [409, "This week's quest is already done, so there is nothing to step out of."],
   FIX_NOT_YET: [409, 'This opens when the game closes.'],
   FIX_CLOSED: [410, 'This check has closed. A new trap brings a new one.'],
   PAUSE_PAST: [422, 'Pause days have to be after today.'],

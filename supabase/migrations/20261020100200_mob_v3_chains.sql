@@ -164,7 +164,9 @@ begin
     'fixes_held', (select coalesce(sum((e->>'n')::int), 0)::int from jsonb_array_elements(public.chain_fixes_held(p_user_id)) e),
     'chain_best', coalesce((select best_days from public.chain_prefs where user_id = p_user_id), 0),
     'unlocks', coalesce((select jsonb_agg(jsonb_build_object('fold', fold, 'finish', finish, 'mob_id', mob_id) order by earned_at) from public.fold_unlocks where user_id = p_user_id), '[]'::jsonb),
-    'seat', (select jsonb_build_object('fold', fold, 'finish', finish) from public.mob_profiles where user_id = p_user_id));
+    'seat', (select jsonb_build_object('fold', fold, 'finish', finish) from public.mob_profiles where user_id = p_user_id),
+    'seen', coalesce((select jsonb_agg(key) from public.mob_seen where user_id = p_user_id
+      and (key like 'reveal:%' or key like 'quest_done:%' or key like 'stitch:%')), '[]'::jsonb));
 end $$;
 
 alter table public.chain_prefs enable row level security;
