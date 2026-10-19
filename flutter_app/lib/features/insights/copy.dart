@@ -34,8 +34,8 @@ abstract final class InsightsCopy {
   static const kindNote = 'Worth knowing';
   static const ledgerNote = 'CUET marking: +5 right, −1 wrong, 0 blank.';
   static String accuracyLine(int pct, int low, int high, int n) => '$pct% right of $n answered. Likely range $low to $high%.';
-  static const signedOutTitle = 'Sign in to open the stream';
-  static const signedOutMessage = 'The stream picks questions from your own subjects and remembers what you answered, so it needs your account.';
+  static const signedOutTitle = 'Sign in to open Untimed questions';
+  static const signedOutMessage = 'Untimed questions come from your own subjects and remember what you answered, so they need your account.';
   static const signIn = 'Sign in';
   static const notNow = 'Not now';
   static String accuracyHeroLine(int low, int high) => 'of answered right, likely $low to $high%';
@@ -95,7 +95,7 @@ abstract final class InsightsCopy {
 
   static const trendFormats = 'Paper formats';
   static const savedSubjects = 'Saved subjects';
-  static const streamFilters = 'Stream filters';
+  static const streamFilters = 'Filters for untimed questions';
   static const chaptersHeading = 'Chapters costing you the most marks';
   static const chaptersCaption = 'Ranked once 4 or more questions are answered in a chapter.';
   static String chapterCounts(int r, int w, int b, int n) => '$r right, $w wrong, $b blank of ${_n(n, 'question')}';
@@ -171,8 +171,8 @@ abstract final class InsightsCopy {
   static const insightsEntryEmpty = 'Appears after your first session';
   static const savedEntryTitle = 'Saved questions';
   static String savedEntryNote(int n) => n == 0 ? 'Nothing saved yet' : '$n saved';
-  static const streamEntryTitle = 'Question stream';
-  static const streamEntryNote = 'Untimed. Answer, then see why.';
+  static const streamEntryTitle = 'Untimed questions';
+  static const streamEntryNote = 'One question at a time, with the reason after each answer.';
   static const findingShowMe = 'Show me, your record behind this';
 
   // ---- Saved -------------------------------------------------------------------------------
@@ -181,8 +181,8 @@ abstract final class InsightsCopy {
   static String savedHeld(int n) => '${_n(n, 'saved question')} held for a quality check and hidden for now.';
   static const savedPractise = 'Practise these';
   static const savedEmptyTitle = 'Nothing saved yet';
-  static const savedEmptyMessage = 'Save a question from the stream when it deserves another go. It waits here.';
-  static const savedEmptyAction = 'Open the question stream';
+  static const savedEmptyMessage = 'Save a question from Untimed questions when it deserves another go. It waits here.';
+  static const savedEmptyAction = 'Open Untimed questions';
   static const savedErrorTitle = 'Saved questions did not load';
   static const savedErrorMessage = 'Check your connection and try again.';
   static const remove = 'Remove';
@@ -197,7 +197,7 @@ abstract final class InsightsCopy {
   static String slotsLabel(int n, int limit) => '$n of $limit free save slots used';
 
   // ---- Stream ------------------------------------------------------------------------------
-  static const streamTitle = 'Question stream';
+  static const streamTitle = 'Untimed questions';
   static const savedStreamTitle = 'Saved, one at a time';
   static const allChapters = 'All chapters';
   static const anyDifficulty = 'Any difficulty';
