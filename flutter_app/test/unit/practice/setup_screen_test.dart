@@ -277,6 +277,8 @@ void main() {
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 500));
     await tester.pump(const Duration(milliseconds: 500));
+    // The stopwatch's hold (1140 ms since 19 Oct, H4) ends before the paper opens.
+    await tester.pump(const Duration(milliseconds: 300));
     expect(starter.started, hasLength(1));
     expect(starter.mockNumbers.single, 7);
     expect(starter.started.single.mode, PracticeMode.full);
