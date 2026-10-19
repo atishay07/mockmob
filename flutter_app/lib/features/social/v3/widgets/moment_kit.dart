@@ -153,7 +153,9 @@ abstract class MomentStageState<T extends StatefulWidget> extends State<T> with 
     if (!playing || _skipping) return;
     _skipping = true;
     particles.clear();
-    clock.animateTo(1, duration: MobBeat.skip, curve: Curves.easeOutCubic);
+    // 180 ms of motion after the first frame, so the end state is on screen within MobBeat.skip (200),
+    // as the podium does.
+    clock.animateTo(1, duration: MobBeat.skip - const Duration(milliseconds: 20), curve: Curves.easeOutCubic);
   }
 
   /// Haptics through the app's verbs, never on a Skip.

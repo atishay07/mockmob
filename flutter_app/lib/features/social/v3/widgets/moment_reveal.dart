@@ -156,12 +156,15 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
                 ),
               ),
             ),
-          if (foldOn)
-            Positioned(
-              left: 0,
-              right: 0,
-              top: 0,
-              height: RevealGeo.headroom + ParcelGeo.wallB * p,
+          // Built from the first frame (hidden until 900) so the large still has decoded by the time
+          // the Fold climbs out: mounting it at 900 showed an empty parcel for the first frames.
+          Positioned(
+            left: 0,
+            right: 0,
+            top: 0,
+            height: RevealGeo.headroom + ParcelGeo.wallB * p,
+            child: Opacity(
+              opacity: foldOn ? 1 : 0,
               child: ClipRect(
                 child: Stack(
                   clipBehavior: Clip.none,
@@ -179,6 +182,7 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
                 ),
               ),
             ),
+          ),
           Positioned(
             left: 40,
             top: RevealGeo.headroom,

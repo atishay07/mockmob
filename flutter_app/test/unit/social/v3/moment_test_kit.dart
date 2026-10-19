@@ -19,8 +19,14 @@ String fixtureWeek(MobV3FakeServer server) {
   return (v3['quest'] as Map<String, dynamic>)['week'] as String;
 }
 
-String questKey(MobV3FakeServer server) => dueMoments(server).firstWhere((k) => k.startsWith('quest_done:'), orElse: () => 'quest_done:mob-chai-0001:${fixtureWeek(server)}');
-String stitchKey(MobV3FakeServer server) => 'stitch:mob-chai-0001:${fixtureWeek(server)}';
+/// The fixture Mob's id (the Mob-scoped moment keys carry it).
+String fixtureMobId(MobV3FakeServer server) => (server.denNow()['mob'] as Map<String, dynamic>?)?['id'] as String? ?? 'mob-chai-0001';
+
+/// The server's quest key, `quest_done:<mobId>:<week>`.
+String questKey(MobV3FakeServer server) => dueMoments(server).firstWhere((k) => k.startsWith('quest_done:'), orElse: () => 'quest_done:${fixtureMobId(server)}:${fixtureWeek(server)}');
+
+/// The server's stitch key, `stitch:<mobId>:<week>` (built even when not due, for the negative tests).
+String stitchKey(MobV3FakeServer server) => dueMoments(server).firstWhere((k) => k.startsWith('stitch:'), orElse: () => 'stitch:${fixtureMobId(server)}:${fixtureWeek(server)}');
 
 List<String> dueMoments(MobV3FakeServer server) => [for (final m in (server.denNow()['v3'] as Map<String, dynamic>)['moments'] as List) m as String];
 
@@ -103,8 +109,11 @@ Future<ValueNotifier<String?>> pumpMomentHost(
 Future<void> startMoment(WidgetTester tester, ValueNotifier<String?> which, String key) async {
   which.value = key;
   await tester.pump();
-  for (var i = 0; i < 4; i++) {
-    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 120)));
+  // Images decode on the real event loop, and each step's continuation runs on the fake one: so
+  // alternate the two. A zero pump moves no fake time, so the moment's clock stays at 0.
+  for (var i = 0; i < 8; i++) {
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 80)));
+    await tester.pump();
   }
   // The first tick of the moment's clock (elapsed 0).
   await tester.pump();

@@ -353,7 +353,14 @@ class PaperSealPainter extends CustomPainter {
     }
     final path = outline(Size.square(s));
     if (o < 1) canvas.saveLayer(rect.inflate(s * 0.2), Paint()..color = Colors.white.withValues(alpha: o));
-    canvas.drawShadow(path, Colors.black, s * 0.05, false);
+    // A soft drop shadow under the paper. Not `drawShadow`: Skia's shadow tessellation of this
+    // 28-scallop concave outline never finished on the software rasteriser (the K2 golden hung).
+    canvas.drawPath(
+      path.shift(Offset(0, s * 0.025)),
+      Paint()
+        ..color = Colors.black.withValues(alpha: 0.24)
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, s * 0.03),
+    );
     canvas.drawPath(
       path,
       Paint()

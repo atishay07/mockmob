@@ -11,7 +11,12 @@ import '../../you/you_golden_kit.dart' show setUpGoldenFonts;
 
 String _tag(Brightness b) => b == Brightness.dark ? 'night' : 'day';
 
-Future<void> _shoot(WidgetTester tester, String file) => expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/$file.png'));
+Future<void> _shoot(WidgetTester tester, String file) async {
+  await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/$file.png'));
+  // A confirm haptic whose platform call resolved during the capture leaves its 90 ms second tap
+  // on the fake clock; let it run.
+  await tester.pump(const Duration(milliseconds: 100));
+}
 
 void main() {
   setUpGoldenFonts();
