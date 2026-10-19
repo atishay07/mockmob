@@ -278,7 +278,7 @@ class _LobbyStageState extends State<LobbyStage> with TickerProviderStateMixin {
                             style: context.mmType.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
                           ),
                           const SizedBox(height: 4),
-                          Opacity(opacity: tagOp, child: _tag(context, s)),
+                          Opacity(opacity: tagOp, child: FittedBox(fit: BoxFit.scaleDown, child: _tag(context, s))),
                         ],
                       ),
                     ),

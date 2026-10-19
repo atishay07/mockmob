@@ -301,10 +301,13 @@ class LiveRoom extends ChangeNotifier {
   Future<void> leave() async {
     if (_left) return;
     _left = true;
-    await _sub?.cancel();
+    final sub = _sub;
     _sub = null;
+    // The channel is dropped first, synchronously as far as it can go (its timers stop at once).
+    final gone = channel.leave();
+    await sub?.cancel();
     try {
-      await channel.leave();
+      await gone;
     } on Object {
       // Gone already.
     }

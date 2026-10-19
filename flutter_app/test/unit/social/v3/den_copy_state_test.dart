@@ -62,6 +62,7 @@ void main() {
   test('a room that already started: D4 "Play it now"', () {
     final v3 = MobV3.fromJson({
       'name': {'key': 0, 'text': 'Chai Circle'},
+      'live': {'enabled': true, 'hoursOk': true},
       'members': [
         {'memberId': 'A', 'name': 'Aarav', 'you': true},
         {'memberId': 'R', 'name': 'Riya'},

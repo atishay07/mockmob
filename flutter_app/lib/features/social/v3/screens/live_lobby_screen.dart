@@ -85,12 +85,14 @@ class _LiveLobbyScreenState extends ConsumerState<LiveLobbyScreen> with TickerPr
   Timer? _arrivalTimer;
   String? _arrival;
   int _arrivalsSeen = 0;
-  late final AnimationController _wash = AnimationController(vsync: this, duration: Duration(milliseconds: GoLiveWash.total.round()));
-  late final AnimationController _line = AnimationController(vsync: this, duration: const Duration(milliseconds: 280), value: 1);
+  late final AnimationController _wash;
+  late final AnimationController _line;
 
   @override
   void initState() {
     super.initState();
+    _wash = AnimationController(vsync: this, duration: Duration(milliseconds: GoLiveWash.total.round()));
+    _line = AnimationController(vsync: this, duration: const Duration(milliseconds: 280), value: 1);
     final den = ref.read(denViewProvider);
     _room = LiveRoom(
       gameId: widget.gameId,
