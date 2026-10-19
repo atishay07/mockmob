@@ -558,3 +558,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 - I14 The "costliest chapter" ranking with ties (6 and 6; four chapters at 12) is confusing: show ties honestly.
 - I15 "90% of yesterday's feedback is not in this build": audit every item against version 11.
 - I16 Strategy: an app "CUET Market" (confirm) looks professional and clean; gamified vs serious is two-edged and harder to scale to IPMAT/SSC; Duolingo-style vs exam prep. CUET caveats in depth (Accountancy Part A or Part B, e.g. computerised accounting vs company accounts) for the 15 subjects, shown before the first NTA mock; question quality everywhere (full mocks and quick practice).
+
+## Owner, 20 Oct about 12:05 am IST (verbatim)
+> "Can you at least show me the mockups of the MockV3? I want you to build version 12 in the next 1 hour only. Honestly, there are no major things in it that need proper planning or anything. Minor bug fixes can be easily done right now, and you have more than enough usage left right now: 50%, easily. Version 13 is understandable because it can take some time because of the plan screen and other layout changes, but submit version 12 right now."
+**Ledger D148:** version 12 (the bug fixes) within about an hour, tonight; show him the Mob v3 screens now. Version 13 (Pro page, Wallet, finish screen) can take longer. Done: fixes split across 4 parallel owners; Mob v3 built screens sent (MOB-V3-BUILT-1..3.png).
