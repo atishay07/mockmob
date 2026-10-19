@@ -15,13 +15,13 @@ html[data-theme='light'] .mp-page { --lv-volt-wash: rgba(190, 220, 0, 0.30); }
 html[data-theme='light'] .lv-dot { background: #8fae00; box-shadow: 0 0 0 3px rgba(143, 174, 0, 0.18); }
 @keyframes lv-dot { 50% { opacity: 0.55; } }
 
-.lv-lobby { position: relative; display: grid; gap: 0; min-height: calc(100dvh - 120px); padding-bottom: 8px; }
+.lv-lobby { position: relative; display: flex; flex-direction: column; min-height: calc(100dvh - 40px); padding-bottom: 4px; }
 .lv-lobby .mp-head { margin-bottom: 8px; }
 
 /* ---- The stage: the lamp-lit room, Folds standing on the floor band, tags under ---- */
 .lv-stage {
-  --fold: clamp(64px, calc((min(100vw, 760px) - 48px) / var(--n) - 10px), 120px);
-  position: relative; height: calc(var(--fold) + 168px); margin: 0 -16px; overflow: hidden; isolation: isolate;
+  --fold: clamp(72px, calc((min(100vw, 760px) - 32px) / var(--n) + 8px), 150px);
+  position: relative; flex: none; height: calc(var(--fold) + 176px); margin: 0 -16px; overflow: hidden; isolation: isolate;
   background: var(--mp-desk); border-block: 1px solid var(--a-line);
 }
 .lv-stage__room { position: absolute; inset: 0; z-index: 0; background:
@@ -29,15 +29,18 @@ html[data-theme='light'] .lv-dot { background: #8fae00; box-shadow: 0 0 0 3px rg
   linear-gradient(90deg, var(--mp-grid) 1px, transparent 1px) 0 0 / 28px 28px,
   var(--mp-desk); }
 /* The lamp: a shade at the top and its pool of light (the signature light, one per screen). */
-.lv-stage__lamp { position: absolute; left: 50%; top: 0; width: 96px; height: 22px; margin-left: -48px; border-radius: 0 0 48px 48px / 0 0 18px 18px; background: linear-gradient(180deg, #e9dfc8, #c9bb98); box-shadow: 0 8px 26px 6px var(--mp-lamp-core); }
-.lv-stage__cone { position: absolute; left: 50%; top: 14px; bottom: 56px; width: min(92%, 560px); transform: translateX(-50%); clip-path: polygon(41% 0, 59% 0, 100% 100%, 0 100%); background: radial-gradient(70% 90% at 50% 0%, var(--mp-lamp-core), var(--mp-lamp) 45%, transparent 100%); opacity: 0.9; }
+.lv-stage__lamp { position: absolute; left: 50%; top: 0; width: 74px; height: 40px; margin-left: -37px; }
+.lv-stage__lamp::before { content: ''; position: absolute; left: 50%; top: 0; width: 2px; height: 14px; margin-left: -1px; background: color-mix(in srgb, var(--a-ink-3) 70%, transparent); }
+.lv-stage__lamp::after { content: ''; position: absolute; left: 0; right: 0; top: 13px; height: 22px; clip-path: polygon(26% 0, 74% 0, 100% 100%, 0 100%); background: linear-gradient(180deg, #4a4335, #2b261d 70%); box-shadow: inset 0 -2px 0 #e9c98a; }
+html[data-theme='light'] .lv-stage__lamp::after { background: linear-gradient(180deg, #6b604b, #4a4234 70%); }
+.lv-stage__cone { position: absolute; left: 50%; top: 34px; bottom: 56px; width: min(96%, 620px); transform: translateX(-50%); clip-path: polygon(44% 0, 56% 0, 100% 100%, 0 100%); background: radial-gradient(70% 90% at 50% 0%, var(--mp-lamp-core), var(--mp-lamp) 45%, transparent 100%); opacity: 0.9; }
 .lv-stage__floor { position: absolute; left: 0; right: 0; bottom: 0; height: 78px; background: linear-gradient(180deg, color-mix(in srgb, var(--mp-desk-2) 80%, #000 20%), var(--mp-desk-2)); border-top: 1px solid color-mix(in srgb, var(--a-line) 70%, transparent); }
 html[data-theme='light'] .lv-stage { --mp-desk: #e3d6ba; --mp-desk-2: #d6c6a4; }
 html[data-theme='light'] .lv-stage__floor { background: linear-gradient(180deg, #d2c19c, #dccdab); }
 
-.lv-seats { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); align-items: end; height: 100%; margin: 0 auto; padding: 0 12px 10px; max-width: 640px; list-style: none; }
+.lv-seats { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); align-items: end; height: 100%; margin: 0 auto; padding: 0 8px 10px; max-width: 700px; list-style: none; }
 .lv-seat { display: grid; justify-items: center; align-content: end; gap: 4px; min-width: 0; }
-.lv-seat__fig { position: relative; display: grid; place-items: end center; width: var(--fold); height: var(--fold); margin-bottom: 10px; transform-origin: 50% 100%; animation: lv-hop 640ms var(--mp-celebrate) calc(var(--i) * 90ms) both; }
+.lv-seat__fig { position: relative; display: grid; place-items: end center; width: var(--fold); height: var(--fold); margin-bottom: 14px; transform-origin: 50% 100%; animation: lv-hop 640ms var(--mp-celebrate) calc(var(--i) * 90ms) both; }
 .lv-seat__fig .mp-fold { width: var(--fold) !important; height: var(--fold) !important; }
 .lv-seat__fig .mp-fold img { width: 100%; height: 100%; object-fit: contain; }
 .lv-seat__sway { display: block; transform-origin: 50% 96%; animation: lv-sway 6400ms ease-in-out calc(var(--i) * -1700ms) infinite; }
@@ -68,11 +71,10 @@ html[data-theme='light'] .lv-tag.is-host .lv-tag__dot { background: var(--mp-pap
 .lv-stage.is-skeleton .lv-seat__outline { animation: mp-pulse 1200ms ease-in-out infinite alternate; }
 
 /* ---- Under the stage ---- */
-.lv-under { display: grid; gap: 14px; padding: 18px 0 4px; }
+.lv-under { display: grid; gap: 14px; padding: 18px 0 8px; }
 .lv-stickers { display: grid; gap: 10px; }
-.lv-stickers__row { display: flex; gap: 8px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 6px; scrollbar-width: none; overscroll-behavior-x: contain; }
-.lv-stickers__row::-webkit-scrollbar { display: none; }
-.lv-chip { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 16px; border: 0; border-radius: 14px; background: linear-gradient(180deg, var(--mp-paper), var(--mp-paper-2)); color: var(--mp-paper-ink); font: 800 15px/1 var(--font-body); box-shadow: 0 1px 0 var(--mp-paper-edge), 0 6px 14px -10px rgba(0, 0, 0, 0.7); cursor: pointer; touch-action: manipulation; transition: transform 100ms var(--mp-ease), filter 150ms var(--mp-ease); }
+.lv-stickers__row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.lv-chip { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 0 14px; border: 0; border-radius: 14px; background: linear-gradient(180deg, var(--mp-paper), var(--mp-paper-2)); color: var(--mp-paper-ink); font: 800 15px/1 var(--font-body); box-shadow: 0 1px 0 var(--mp-paper-edge), 0 6px 14px -10px rgba(0, 0, 0, 0.7); cursor: pointer; touch-action: manipulation; transition: transform 100ms var(--mp-ease), filter 150ms var(--mp-ease); }
 .lv-chip:active:not(:disabled) { transform: scale(0.96) rotate(-1deg); }
 .lv-chip:disabled { opacity: 0.6; cursor: progress; }
 @media (hover: hover) and (pointer: fine) { .lv-chip:hover:not(:disabled) { filter: brightness(1.04); transform: translateY(-1px); } }
@@ -80,6 +82,7 @@ html[data-theme='light'] .lv-tag.is-host .lv-tag__dot { background: var(--mp-pap
 .lv-note { margin: 0; padding: 12px 14px; border-radius: 12px; border: 1px dashed var(--a-line-strong); font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
 
 .lv-dock { margin-top: auto; display: grid; gap: 8px; justify-items: stretch; }
+.lv-dock.mp-dock { margin-left: -16px; margin-right: -16px; }
 .lv-dock .mp-link { justify-self: center; }
 .lv-key { width: 100%; }
 .lv-key:disabled { opacity: 1; background: var(--a-raised-2); color: var(--a-ink-2); box-shadow: none; border-color: var(--a-line-strong); cursor: default; }
@@ -89,7 +92,7 @@ html[data-theme='light'] .lv-tag.is-host .lv-tag__dot { background: var(--mp-pap
 /* The quiet room (closed, refused, busy, away): one Fold in the lamp and one card. */
 .lv-lobby--notice { align-content: start; }
 .lv-stage--quiet { --fold: 112px; }
-.lv-quiet__fig { position: absolute; left: 50%; bottom: 40px; z-index: 1; transform: translateX(-50%); }
+.lv-quiet__fig { position: absolute; left: 50%; bottom: 44px; z-index: 1; transform: translateX(-50%); }
 .lv-notice { margin-top: 18px; }
 
 /* ---- M2, go live: a volt circle from the key, at most 40% of the screen (70 vmin across), gone by 900 ms ---- */
@@ -97,8 +100,12 @@ html[data-theme='light'] .lv-tag.is-host .lv-tag__dot { background: var(--mp-pap
 
 /* ---- L2 / M3, the countdown ---- */
 .lv-lobby.is-counting .lv-lobby__under { filter: saturate(0.8); }
-.lv-count { position: fixed; inset: 0; z-index: 60; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; padding: calc(28px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom)); color: #f4efe2; }
-.lv-count__scrim { position: absolute; inset: 0; z-index: -1; background: #0c0b08; opacity: calc(0.25 + 0.5 * var(--depth)); transition: opacity 600ms var(--mp-ease); }
+.lv-count { position: fixed; inset: 0; z-index: 200; display: grid; align-content: center; justify-items: center; gap: clamp(18px, 4vh, 36px); padding: calc(24px + env(safe-area-inset-top)) 16px calc(32px + env(safe-area-inset-bottom)); color: #f4efe2; isolation: isolate; }
+.lv-count__scrim { position: absolute; inset: 0; z-index: -1; background: #0c0b08; opacity: calc(0.55 + 0.3 * var(--depth)); transition: opacity 600ms var(--mp-ease); animation: lv-fade 300ms var(--mp-ease) both; }
+/* Go: the stage leaves (600 ms) while the first question rises underneath. */
+.lv-count.is-go .lv-count__scrim { opacity: 0; transition: opacity 560ms var(--mp-leave); }
+.lv-count.is-go .lv-count__heads, .lv-count.is-go .lv-count__line, .lv-count.is-go .lv-count__watch { opacity: 0; transition: opacity 300ms var(--mp-leave); }
+.lv-count.is-go .lv-tile--go { animation: lv-go 520ms var(--mp-celebrate) both, lv-out 200ms var(--mp-leave) 400ms forwards; }
 html[data-theme='light'] .lv-count__scrim { background: #241d10; }
 .lv-count__heads { display: flex; gap: 14px; margin: 0; padding: 0; list-style: none; }
 .lv-count__head { display: grid; justify-items: center; gap: 6px; animation: lv-head-in 360ms var(--mp-celebrate) calc(var(--i) * 90ms) both; }
@@ -130,9 +137,11 @@ html[data-theme='light'] .lv-count__scrim { background: #241d10; }
 
 @media (min-width: 900px) {
   .lv-stage { margin: 0; border: 1px solid var(--a-line); border-radius: 22px; }
-  .lv-stickers__row { margin: 0; padding: 2px 0 6px; flex-wrap: wrap; overflow: visible; }
+  .lv-stickers__row { display: flex; flex-wrap: wrap; }
+  .lv-chip { padding: 0 18px; }
   .lv-lobby { min-height: auto; }
-  .lv-dock { position: static; margin-top: 22px; padding: 0; background: none; }
+  .lv-dock, .lv-dock.mp-dock { position: static; margin: 22px 0 0; padding: 0; background: none; }
+  .lv-dock .lv-key { max-width: 420px; justify-self: center; }
   .lv-count__stage { width: 340px; }
 }
 
@@ -178,3 +187,4 @@ html[data-theme='light'] .lv-count__scrim { background: #241d10; }
   .lv-tag { animation: lv-fade 120ms linear both !important; }
 }
 @keyframes lv-fade { from { opacity: 0; } to { opacity: 1; } }
+@keyframes lv-out { to { opacity: 0; transform: rotate(-3deg) scale(0.96); } }

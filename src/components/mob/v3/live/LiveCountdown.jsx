@@ -12,11 +12,13 @@ import { BEAT_MS, LIVE_COPY, countdownAt } from './liveModel.mjs';
 const ARC_R = 41;
 const ARC_LEN = 2 * Math.PI * ARC_R;
 
-export function LiveCountdown({ startsAt, serverNow, heads, count, onOver }) {
+export function LiveCountdown({ startsAt, serverNow, heads, count, onGo, onOver }) {
   const [at, setAt] = useState(() => countdownAt(startsAt, serverNow()));
   const done = useRef(false);
+  const went = useRef(false);
   const over = useRef(onOver);
-  useEffect(() => { over.current = onOver; }, [onOver]);
+  const go = useRef(onGo);
+  useEffect(() => { over.current = onOver; go.current = onGo; }, [onOver, onGo]);
 
   useEffect(() => {
     let raf = 0;
@@ -27,6 +29,8 @@ export function LiveCountdown({ startsAt, serverNow, heads, count, onOver }) {
         last = next.stage;
         setAt(next);
       }
+      // Go: the run loads under the leaving stage, so the first question is there when it clears.
+      if ((next.stage === 'go' || next.stage === 'over') && !went.current) { went.current = true; go.current?.(); }
       if (next.stage === 'over') {
         if (!done.current) { done.current = true; over.current?.(); }
         return;

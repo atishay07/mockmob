@@ -128,7 +128,7 @@ export function roomReducer(state, action) {
       const next = { ...state, youId: action.memberId ?? state.youId, hostId: room.hostMemberId ?? state.hostId };
       if (room.state === 'running' && room.startsAt) {
         const sinceGo = (action.serverNowMs ?? 0) - Date.parse(room.startsAt);
-        return { ...next, startsAt: room.startsAt, phase: sinceGo >= GO_HOLD_MS ? 'live' : 'countdown' };
+        return { ...next, startsAt: room.startsAt, phase: sinceGo >= GO_HOLD_MS ? 'live' : 'countdown', counted: sinceGo < GO_HOLD_MS };
       }
       if (room.state === 'done') return { ...next, phase: 'live', done: true };
       if (room.state === 'cancelled') return { ...next, phase: 'cancelled', cancelledBy: next.hostId };
@@ -212,7 +212,7 @@ function applyEvent(state, event, payload, members) {
     case 'room.start':
       if (!START_PHASES.has(state.phase) && state.phase !== 'away' && state.phase !== 'fallback') return state;
       if (state.phase === 'fallback' || state.phase === 'away') return { ...state, startsAt: p.startsAt };
-      return { ...state, phase: 'countdown', startsAt: p.startsAt };
+      return { ...state, phase: 'countdown', startsAt: p.startsAt, counted: true };
     case 'progress':
       return withProgress(state, p.m, p.q, p.done);
     case 'room.done':

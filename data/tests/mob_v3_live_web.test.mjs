@@ -10,7 +10,7 @@ import {
   lobbySeats, presenceOk, presencePayload, readPresence, roomReducer, stillPlaying, topicFor,
 } from '../../src/components/mob/v3/live/liveModel.mjs';
 import { createFakeHub } from '../../src/components/mob/v3/live/liveHub.mjs';
-import { createRoomController } from '../../src/components/mob/v3/live/liveRoom.mjs';
+import { createRoomController } from '../../src/components/mob/v3/live/roomDriver.mjs';
 
 const LIVE_DIR = new URL('../../src/components/mob/v3/live/', import.meta.url);
 const MEMBERS = [
@@ -367,7 +367,7 @@ test('LV-18 a running room on reconnect resumes straight into the run with no co
 test('LV-19 the run page wires the live room only behind the server flag', () => {
   const game = readFileSync(new URL('../../src/components/mob/v3/play/MobGame.jsx', import.meta.url), 'utf8');
   assert.match(game, /liveRoomFor\(/);
-  assert.match(game, /live\?\.enabled/);
+  assert.match(game, /denLive\.current\?\.enabled === true/);
   const run = readFileSync(new URL('../../src/components/mob/v3/play/GameRun.jsx', import.meta.url), 'utf8');
   assert.match(run, /live\?\.onAnswered/);
   const api = readFileSync(new URL('../../src/components/mob/v3/play/playApi.js', import.meta.url), 'utf8');

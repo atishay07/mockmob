@@ -11,7 +11,7 @@ import { mobGameApi } from '../play/playApi';
 import GameRun from '../play/GameRun';
 import { errorSentence } from '../play/playModel.mjs';
 import { LIVE_COPY, everyoneDone, initialRoom, inRoom, liveRacers, lobbySeats, memberMap, stillPlaying } from './liveModel.mjs';
-import { createRoomController } from './liveRoom.mjs';
+import { createRoomController } from './roomDriver.mjs';
 import { openSupabaseRoom } from './liveChannel';
 import { LiveCountdown } from './LiveCountdown';
 import { LiveLobby, LiveNotice, LobbyStage } from './LiveLobby';
@@ -77,7 +77,20 @@ export default function LiveRoom({ game, members, me, hrefs, onGame, onAnytime, 
   const onAnswered = useCallback((n, done) => ctl.current?.answered(n, done), []);
   const count = game.count || 5;
   const racersFor = useCallback((you) => liveRacers(state, members, count, you), [state, members, count]);
+  const [countGone, setCountGone] = useState(false);
+  const onCountGo = useCallback(() => ctl.current?.go(), []);
+  const onCountOver = useCallback(() => { ctl.current?.go(); setCountGone(true); }, []);
+  const heads = seats.here.map((h) => ({ memberId: h.memberId, name: h.name, fold: h.fold, colour: h.colour }));
   const [wipe] = useState(() => Boolean(game.host?.you) && Date.now() - Date.parse(game.openedAt) < WIPE_WINDOW_MS);
+
+  // The countdown stays one element from room.start to 600 ms after Go, across the hand-off to the run underneath.
+  const counting = state.phase === 'countdown' || (state.phase === 'live' && state.counted && !countGone);
+  const withCount = (main) => (
+    <>
+      {main}
+      {counting && state.startsAt ? <LiveCountdown startsAt={state.startsAt} serverNow={serverNow} heads={heads} count={count} onGo={onCountGo} onOver={onCountOver} /> : null}
+    </>
+  );
 
   const anytime = (
     <button type="button" className="btn-volt md mp-key-primary" data-page-primary="" onClick={onAnytime}>{LIVE_COPY.playItNow}</button>
@@ -127,18 +140,16 @@ export default function LiveRoom({ game, members, me, hrefs, onGame, onAnytime, 
         stillPlayingLine: names.length ? LIVE_COPY.stillPlaying(names) : null,
         onAnswered,
       };
-      return <GameRun key={`live:${game.id}`} gameId={game.id} autoStart me={me} hrefs={hrefs} onGame={onGame} live={live} />;
+      return withCount(<GameRun key={`live:${game.id}`} gameId={game.id} autoStart me={me} hrefs={hrefs} onGame={onGame} live={live} />);
     }
     case 'countdown': {
-      const heads = seats.here.map((h) => ({ memberId: h.memberId, name: h.name, fold: h.fold, colour: h.colour }));
-      return (
-        <section className="lv-lobby is-counting" aria-hidden={false}>
+      return withCount(
+        <section className="lv-lobby is-counting">
           <div inert className="lv-lobby__under">
             <LiveHeadOnly game={game} hrefs={hrefs} />
             <LobbyStage seats={seats} />
           </div>
-          <LiveCountdown startsAt={state.startsAt} serverNow={serverNow} heads={heads} count={count} onOver={() => ctl.current?.go()} />
-        </section>
+        </section>,
       );
     }
     default:
