@@ -2,6 +2,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/domain/cuet_rules.dart' show kCuetMaxSubjects;
 import '../../../core/models/json_helpers.dart';
 import '../../../core/models/models.dart';
 import '../../../core/repositories/attempts_repository.dart';
@@ -216,13 +217,24 @@ String internalSubjectFor(String id, List<Subject>? catalog) {
 /// [selected] subject always present, so a subject chosen from "Other subjects" stays visible.
 /// Once the catalogue is known, a saved subject practice cannot start in is left out (the stale
 /// banner names it instead).
+///
+/// Never more than [kCuetMaxSubjects] tiles (I5, owner 19 Oct: "restrict it to five only. It can
+/// just change the last subject"): with five shown, a subject picked from More subjects takes the
+/// last tile's place instead of becoming a sixth.
 List<SubjectChoice> subjectChoices({required List<String> chosen, required String selected, List<Subject>? catalog}) {
   final supported = catalog == null ? null : {for (final s in catalog) s.id};
   final ids = <String>[
     for (final id in chosen.isEmpty ? launchSubjectIds : chosen)
       if (supported == null || supported.contains(id)) id,
   ];
-  if (!ids.contains(selected)) ids.add(selected);
+  if (ids.length > kCuetMaxSubjects) ids.removeRange(kCuetMaxSubjects, ids.length);
+  if (!ids.contains(selected)) {
+    if (ids.length >= kCuetMaxSubjects) {
+      ids[ids.length - 1] = selected;
+    } else {
+      ids.add(selected);
+    }
+  }
   return [for (final id in ids) SubjectChoice(id, subjectNameFor(id, catalog))];
 }
 

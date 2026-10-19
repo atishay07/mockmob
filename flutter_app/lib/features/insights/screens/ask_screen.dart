@@ -398,6 +398,10 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     void dropQuestion() => ref.read(askQuestionProvider.notifier).clear();
     final canReport = ref.watch(aiReplyReportAvailableProvider);
     final stage = !conversation && hand == null;
+    // On the doors the credit line ends the scrolling page (M4); the page's foot then clears the
+    // gesture bar itself.
+    final creditInScroll = stage && !(wallet?.empty ?? false);
+    final scrollBottom = creditInScroll ? MmSpace.s8 + (MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom) : MmSpace.s24;
 
     final attempts = inputs.attempts;
     final evidence = attempts == null || record == null ? null : RecordEvidence(attempts, now: now);
@@ -473,30 +477,43 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                     builder: (context, box) => SingleChildScrollView(
                       controller: _scroll,
                       keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-                      padding: EdgeInsets.fromLTRB(MmSpace.gutter, stage ? MmSpace.s4 : MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+                      padding: EdgeInsets.fromLTRB(MmSpace.gutter, stage ? MmSpace.s4 : MmSpace.s8, MmSpace.gutter, scrollBottom),
                       child: ConstrainedBox(
-                        constraints: BoxConstraints(minHeight: box.maxHeight - MmSpace.s8 - MmSpace.s24),
+                        constraints: BoxConstraints(minHeight: box.maxHeight - MmSpace.s8 - scrollBottom),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           // Short threads keep Mobi at the top and the last reply on the composer:
-                          // the space between is the thread's, never a dead band above it.
-                          mainAxisAlignment: conversation ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
+                          // the space between is the thread's, never a dead band above it. On the
+                          // doors the credit line closes the page the same way.
+                          mainAxisAlignment: conversation || creditInScroll ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
                           children: [
                             if (!conversation && hand != null)
                               ..._questionStage(record, name, hand, blockedQuestion, dropQuestion)
-                            else if (!conversation)
-                              ..._doors(
-                                inputs: inputs,
-                                name: name,
-                                subjects: auth.$2,
-                                pro: pro,
-                                now: now,
-                                compact: compact,
-                                offline: offline,
-                                busy: state.busy,
-                                note: (text) => _noteFor(text, wallet, renew),
-                              )
-                            else ...[
+                            else if (!conversation) ...[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                children: _doors(
+                                  inputs: inputs,
+                                  name: name,
+                                  subjects: auth.$2,
+                                  pro: pro,
+                                  now: now,
+                                  compact: compact,
+                                  offline: offline,
+                                  busy: state.busy,
+                                  note: (text) => _noteFor(text, wallet, renew),
+                                ),
+                              ),
+                              // M4 (walk 19 Oct): the credit line was pinned under the page and, at 360 dp, sat
+                              // over the "Ask your record" key and took a fifth of the screen. It now ends the
+                              // page and scrolls with the doors, so nothing is ever under it; the credits pill
+                              // in the header shows the balance at all times.
+                              if (creditInScroll)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: MmSpace.s24),
+                                  child: AskCreditLine(onTap: _openWallet, flush: true),
+                                ),
+                            ] else ...[
                               _head(record, name, size: 104, greet: hand == null),
                               // Back to the two doors at any time, once the reply has landed.
                               if (hand == null && !state.busy)
@@ -557,9 +574,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                 // Once a conversation starts (or a question is handed over) the composer takes the foot.
                 if (stage && (wallet?.empty ?? false))
                   SizedBox(height: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom)
-                else if (stage)
-                  AskCreditLine(onTap: _openWallet, bottomInset: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom)
-                else if (!blockedQuestion)
+                else if (!stage && !blockedQuestion)
                   _Composer(
                     controller: _text,
                     hint: hand != null ? InsightsCopy.askHintQuestion : AskDoorCopy.followUpHint,

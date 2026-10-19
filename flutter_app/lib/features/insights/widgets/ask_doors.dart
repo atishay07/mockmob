@@ -728,10 +728,14 @@ class _SeeAll extends StatelessWidget {
 /// details), then what costs what. Every number is the wallet's own; an unknown balance is never a
 /// zero, and a pause says so.
 class AskCreditLine extends ConsumerWidget {
-  const AskCreditLine({super.key, required this.onTap, this.bottomInset = 0});
+  const AskCreditLine({super.key, required this.onTap, this.bottomInset = 0, this.flush = false});
 
   final VoidCallback onTap;
   final double bottomInset;
+
+  /// At the end of a scrolling page (the doors, M4) rather than pinned under it: no ground of its
+  /// own and no side gutter (the page has one), only the hairline above it.
+  final bool flush;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -743,9 +747,11 @@ class AskCreditLine extends ConsumerWidget {
     final (first, second) = creditLineWords(wallet, renew: renew, oneBalance: one);
     final base = type.caption.copyWith(color: colors.ink3);
     return DecoratedBox(
-      decoration: BoxDecoration(color: colors.ground, border: Border(top: BorderSide(color: colors.line))),
+      decoration: BoxDecoration(color: flush ? null : colors.ground, border: Border(top: BorderSide(color: colors.line))),
       child: Padding(
-        padding: EdgeInsets.fromLTRB(MmSpace.gutter + 2, MmSpace.s4, MmSpace.gutter + 2, MmSpace.s12 + bottomInset),
+        padding: flush
+            ? EdgeInsets.fromLTRB(2, MmSpace.s4, 2, bottomInset)
+            : EdgeInsets.fromLTRB(MmSpace.gutter + 2, MmSpace.s4, MmSpace.gutter + 2, MmSpace.s12 + bottomInset),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,

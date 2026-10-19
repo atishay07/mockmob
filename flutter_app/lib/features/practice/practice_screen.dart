@@ -232,8 +232,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   }
 
   Future<void> _pickOther(List<SubjectChoice> others) async {
-    final id = await showOtherSubjects(context, others);
-    if (id != null) ref.read(practiceSubjectProvider.notifier).select(id);
+    final id = await pickOtherSubject(context, ref, others);
+    if (id != null && mounted) ref.read(practiceSubjectProvider.notifier).select(id);
   }
 
   /// Full mock and NTA mode side by side; a Full mock alone across the band when the exam-day
