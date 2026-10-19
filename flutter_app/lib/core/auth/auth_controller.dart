@@ -414,7 +414,9 @@ class AuthController extends Notifier<AuthSnapshot> {
     try {
       await ref.read(apiClientProvider).post(
             '/api/auth/email-login',
-            body: {'email': email.trim().toLowerCase()},
+            // `client: app` gets the emailed button on /app/login, the path the app's App Link claims
+            // (20 Oct, I2); the website keeps /auth/callback.
+            body: {'email': email.trim().toLowerCase(), 'client': 'app'},
             options: const ApiOptions(authenticated: false, retries: 0),
           );
     } on ApiError catch (e) {

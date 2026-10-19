@@ -78,6 +78,10 @@
                 <data android:pathPrefix="/analytics" />
                 <data android:pathPrefix="/join" />
                 <data android:pathPrefix="/mob" />
+                <!-- The emailed sign-in button for a code asked for in the app (20 Oct, I2):
+                     /app/login?token_hash=...; AuthService spends it. /auth/callback is never
+                     listed: website sign-ins on this phone stay in the browser. -->
+                <data android:path="/app/login" />
             </intent-filter>
 
             <!-- Browser sign-in callback (docs/AUTH.md): in.mockmob.app://login-callback?code=...

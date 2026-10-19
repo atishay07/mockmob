@@ -446,8 +446,11 @@ class AuthService implements ApiTokenProvider {
     if (!opened) throw const AccessException(AccessFailure.browserUnavailable);
   }
 
-  /// Handles a link that opened the app. Only `in.mockmob.app://login-callback` is acted on;
-  /// its code is exchanged once, with the verifier kept in secure storage. Nothing is logged.
+  /// Handles a link that opened the app. `in.mockmob.app://login-callback` (Google in the browser):
+  /// its code is exchanged once, with the verifier kept in secure storage. The emailed sign-in
+  /// link `https://www.mockmob.in/app/login?token_hash=` (20 Oct, I2): spent once with
+  /// `verifyOTP(tokenHash:)`, and only while nobody is signed in on this phone, so a link sent by
+  /// someone else can never swap the account under a signed-in student. Nothing is logged.
   Future<void> handleLink(Uri uri) async {
     final callback = AuthCallback.parse(uri);
     switch (callback) {
@@ -455,6 +458,20 @@ class AuthService implements ApiTokenProvider {
         return;
       case AuthCallbackError(:final cancelled):
         _oauth.add(cancelled ? const OAuthReturn(OAuthReturnKind.cancelled) : const OAuthReturn(OAuthReturnKind.failed, AccessFailure.googleUnavailable));
+      case AuthCallbackTokenHash(:final tokenHash, :final type):
+        if (_client.currentSession != null) return;
+        if (!_handledCodes.add(tokenHash)) return;
+        _oauth.add(const OAuthReturn(OAuthReturnKind.exchanging));
+        try {
+          final response = await _client.verifyOTP(tokenHash: tokenHash, type: type == 'email' ? OtpType.email : OtpType.magiclink);
+          await _arrived(response.session);
+          _oauth.add(const OAuthReturn(OAuthReturnKind.signedIn));
+        } on AuthRetryableFetchException {
+          _handledCodes.remove(tokenHash);
+          _oauth.add(const OAuthReturn(OAuthReturnKind.failed, AccessFailure.offline));
+        } on Object {
+          _oauth.add(const OAuthReturn(OAuthReturnKind.failed, AccessFailure.invalidCode));
+        }
       case AuthCallbackCode(:final code):
         if (!_handledCodes.add(code)) return;
         // Said before the exchange, which can take a while on a slow network, so the screen
