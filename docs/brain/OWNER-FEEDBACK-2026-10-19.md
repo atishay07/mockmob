@@ -326,3 +326,17 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 - Who may start Mob games: "Pro only"
 - Weekly Mob streak and 6-character codes: "Yes to both (Recommended)"
 **Ledger D127:** build The Den (mob-den v2) with more of the Arena's race and podium punch in play and results; podium by CUET marks inside one game, ties share a place, nobody below third numbered, per-Mob "Show a podium" switch on by default; only Pro members START Mob games (sprints, races, rounds; Free members join and play; with billing off the start control is visible but locked, D101); weekly Mob streak (quest weeks in a row, never a warning or countdown); 6-character join codes (old 8-character codes keep working until they expire).
+
+## Owner, 19 Oct about 5:25 pm IST, on the Mob mock-ups (verbatim)
+> "Honestly, first, I'll talk about the character. The character that you mentioned, dated from SVG, is not very impressive, honestly. Just search what Jenbies are like these days and build something accordingly. This is fine, but they all need refinement. It would be better if you used an image generator and generated it like how you generated the question logo. Honestly, this Mobius paper family is a better direction, also, being able to start Pro is a good direction, but in general, in this feature, there should be exclusive Pro benefits and free benefits. Free should not be completely restrictive, but there should be a clear difference between the two.
+>
+> Also, coming to streak and all, there should be a proper streak system and more intuitive things which you can think of. Overall, what you have built, the design, I like. The basic core idea can be thought on more and refined a lot.
+>
+> I'll just tell some things which are really right. This S7 later, which you are showing, was looking good with live play. It looks cool. Other screens didn't look as cool, honestly. Some of the design mockups I really liked, but in general, they can be made a lot more premium, refined, and gamified, with animations more thought through. Also, motion graphics and the entire motion design play a crucial role in here, so focus on that part also. Overall, give it a brand identity of Mockmob."
+
+**Ledger D128 ("(confirm)" = transcription guess):**
+- Characters: the code-drawn SVG characters are not impressive. Research current character trends ("Jenbies" (confirm): probably Genmoji-style 3D characters) and generate the characters with an image generator, like the earlier generated art. The Mobi paper family (the Den's paper folk) is the right direction; refine it a lot.
+- Pro starting games is right, but the Mob needs a clear Free versus Pro split: exclusive Pro benefits, and Free never completely restrictive.
+- A proper streak system, plus more intuitive mechanics we think of.
+- He likes the overall design and the core idea; refine it a lot more.
+- S7 (live play) looked cool; the other screens less so. Make every screen more premium, refined and gamified, with motion design thought through (motion graphics are crucial). Give the Mob a MockMob brand identity.
