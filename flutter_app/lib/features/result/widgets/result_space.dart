@@ -40,7 +40,8 @@ abstract final class ResultMotion {
 /// How much of the reveal plays, from the result's variant and the student's Celebrations
 /// setting (MOTION 1.2, P0-5, P0-6).
 enum RevealLevel {
-  /// Words only: the sheet opens with a quiet fade, the figure is simply there.
+  /// Words only: the sheet opens with a quiet fade, the figure is simply there (held marks, reduced motion,
+  /// Celebrations off).
   words,
 
   /// T1: the read inks the rows, the figure rolls, the meter fills. No light event, no cheer.
@@ -51,7 +52,9 @@ enum RevealLevel {
   celebrate;
 
   static RevealLevel of(RecapVariant variant, CelebrationMode mode, {required bool reduced}) {
-    if (reduced || !variant.celebratory || mode == CelebrationMode.off) return RevealLevel.words;
+    // A lower result is marked like any other (20 Oct, I13: every score is added up, counted and circled); only held
+    // marks, which have no figure yet, open on words.
+    if (reduced || variant == RecapVariant.held || mode == CelebrationMode.off) return RevealLevel.words;
     if (variant == RecapVariant.higher && mode == CelebrationMode.full) return RevealLevel.celebrate;
     return RevealLevel.plain;
   }

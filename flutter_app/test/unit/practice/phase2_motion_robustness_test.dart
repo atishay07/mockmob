@@ -196,8 +196,13 @@ void main() {
       expect(StampPainter.pieces, 14);
       expect(FinishCeremony.figureScale(FinishCeremony.settleEnd), 1);
       expect(FinishCeremony.stampDuration.inMilliseconds * FinishCeremony.settleEnd, closeTo(420, 1));
-      // The whole moment for ten questions: 200 in place, 400 of ink, then the stamp.
-      expect(FinishStage.durationFor(10) + FinishCeremony.stampDuration, lessThanOrEqualTo(const Duration(milliseconds: 1500)));
+      // The ink and the stamp for ten questions: 200 in place, 720 of ink, then the stamp (20 Oct, I13: the ink of a
+      // short set is given room to be seen; the marks being added up follow, FinishBeats.after).
+      expect(FinishStage.durationFor(10) + FinishCeremony.stampDuration, lessThanOrEqualTo(const Duration(milliseconds: 1800)));
+      // Five questions are no longer 200 ms of ink: 600 ms.
+      expect(FinishStage.durationFor(5) - FinishStage.lead, const Duration(milliseconds: 600));
+      // A long set is capped.
+      expect(FinishStage.durationFor(50) - FinishStage.lead, FinishStage.inkCap);
     });
 
     testWidgets('Full: a great set gets the ring and the burst', (tester) async {
@@ -225,8 +230,9 @@ void main() {
       await tester.pumpWidget(_finish(mode: CelebrationMode.off, tone: FinishTone.great));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 50));
-      // The figure shows the final count with no ink to wait for, and the counts line is there.
-      expect(find.text(PracticeCopy.countsLine(9, 1, 0)), findsOneWidget);
+      // The figure shows the final count with no ink to wait for, and the ledger's rows are there with their marks.
+      expect(find.text('9 right'), findsOneWidget);
+      expect(tester.widget<Text>(find.byKey(const ValueKey('ledger-value-0'))).data, '+45');
       expect(tester.widget<StampedFigure>(find.byType(StampedFigure)).stamp.value, 0);
       await tester.pump(const Duration(seconds: 3));
     });

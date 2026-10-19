@@ -221,8 +221,12 @@ void main() {
         await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(recovery: _telemetry())));
         await _settle(tester);
         // A mistake opens on a tap: its time, its change, the free answer, then the repair entry.
+        // The finish moment adds the marks up before the layers (20 Oct, I13): scroll until a row is built.
+        for (var i = 0; i < 20 && find.byType(MistakeSummary).evaluate().isEmpty; i++) {
+          await tester.drag(find.byType(Scrollable).first, const Offset(0, -300));
+          await tester.pump();
+        }
         final row = find.byType(MistakeSummary).first;
-        await tester.scrollUntilVisible(row, 300, scrollable: find.byType(Scrollable).first);
         await Scrollable.ensureVisible(tester.element(row), alignment: 0.0);
         await tester.pump();
         await tester.tap(row);

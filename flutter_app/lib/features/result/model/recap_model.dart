@@ -2,6 +2,10 @@ import '../../../core/domain/domain.dart';
 import '../../../core/models/models.dart';
 import '../../../core/platform/review_prompt.dart' show ReviewMoment;
 import '../../../core/widgets/bubbles/bubble_painter.dart' show BubbleState;
+import '../../practice/model/session_analysis.dart' show SessionAnalysis;
+import 'move_inputs.dart' show moveReviewsOf;
+import 'next_move.dart' show MoveAnalysis, MoveRow, RowVerdict, costliestLine;
+import 'paper_read.dart' show PaperRead, chapterHistoryOf, paperReadOf;
 import 'recap_variant.dart';
 import 'subject_names.dart';
 
@@ -42,7 +46,19 @@ class RecapModel {
     this.detailLoaded = true,
     this.mode = 'full',
     this.blanksInReview = false,
+    this.read,
+    this.readLead,
+    this.readLeadDetail,
   });
+
+  /// Mobi's read of the paper (Strengths, Weaknesses, Opportunity, Threats; 20 Oct, owner: "it doesn't do the SWOT
+  /// analysis"), from this paper's own numbers and the earlier papers in the subject. Null while there is nothing to
+  /// read (marks held, keys unavailable, no answers on record).
+  final PaperRead? read;
+
+  /// The v12 line over the read's chapters, ties said as ties, and its "together" detail for a tie.
+  final String? readLead;
+  final String? readLeadDetail;
 
   final String attemptId;
 
@@ -185,7 +201,47 @@ RecapModel buildRecapModel({
     }
   }
 
+  // The read: the paper's rows in paper order, the key reviews, the time per question and answer changes when the
+  // record has them, the last mock of the subject and each chapter's record in the earlier papers.
+  final reviews = moveReviewsOf(detail);
+  final rows = MoveAnalysis([
+    for (var i = 0; i < attempt.questions.length; i++)
+      MoveRow(
+        qid: attempt.questions[i].id,
+        number: i + 1,
+        chapter: attempt.questions[i].chapter,
+        verdict: switch (attempt.detailFor(attempt.questions[i].id)?.isCorrect) {
+          true => RowVerdict.correct,
+          false => RowVerdict.wrong,
+          null => RowVerdict.skipped,
+        },
+        givenIndex: attempt.detailFor(attempt.questions[i].id)?.givenIndex,
+      ),
+  ]);
+  final analysis = SessionAnalysis.of(attempt, serverTime: detail?.lab?.time);
+  Attempt? last;
+  for (final a in attempts) {
+    if (a.id == attempt.id || !a.isMock || a.subject != attempt.subject || a.total == 0 || !a.completedAt.isBefore(attempt.completedAt)) continue;
+    if (last == null || a.completedAt.isAfter(last.completedAt)) last = a;
+  }
+  final readable = held.isEmpty && !(detail?.reviewsUnavailable ?? false) && rows.rows.isNotEmpty;
+  final costly = costliestLine(rows, reviews: reviews);
+  final read = !readable
+      ? null
+      : paperReadOf(
+          rows,
+          reviews: reviews,
+          dwellMs: analysis.dwellMs,
+          changes: [for (final c in analysis.changes) c.markEffect],
+          previousShare: last == null ? null : last.correct / last.total,
+          subject: subjectDisplayName(attempt.subject),
+          history: chapterHistoryOf(attempts, attempt),
+        );
+
   return RecapModel(
+    read: read,
+    readLead: read == null ? null : costly.line,
+    readLeadDetail: read == null || costly.tied.length < 2 ? null : costly.detail,
     attemptId: attempt.id,
     subjectId: attempt.subject,
     subjectName: subjectDisplayName(attempt.subject),

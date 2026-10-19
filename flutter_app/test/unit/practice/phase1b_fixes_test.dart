@@ -91,6 +91,8 @@ void main() {
       tester,
       location: '/practice/result/p1',
       routes: _routes(),
+      // Tall enough that the list builds the layers under the moment and Mobi's read.
+      size: const Size(360, 2400),
       overrides: resultOverrides(
         attemptId: 'p1',
         detail: _detail([for (var i = 0; i < 6; i++) ('Goodwill', V.right), ('Goodwill', V.wrong), ('Goodwill', V.wrong)]),

@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -16,6 +17,8 @@ import '../widgets/evidence_link.dart';
 import '../widgets/marks_flow.dart';
 import '../widgets/result_space.dart';
 import '../result_nav.dart';
+import '../model/paper_read.dart' show PaperRead;
+import '../widgets/finish_reveal.dart' show FinishBeats, PaperReadCard;
 import 'card_page.dart';
 import 'recap_mobi.dart';
 
@@ -32,8 +35,11 @@ class BreakdownCard extends ConsumerStatefulWidget {
   ConsumerState<BreakdownCard> createState() => _BreakdownCardState();
 }
 
-class _BreakdownCardState extends ConsumerState<BreakdownCard> with SingleTickerProviderStateMixin {
+class _BreakdownCardState extends ConsumerState<BreakdownCard> with TickerProviderStateMixin {
   late final AnimationController _grow = AnimationController(vsync: this, duration: MarksFlow.duration);
+
+  /// Mobi's read under the flow: its blocks rise in once the ribbons have drawn.
+  late final AnimationController _read = AnimationController(vsync: this, duration: FinishBeats.after);
   Timer? _wait;
 
   /// Mobi beside the headline (a result that is not lower, held or NTA) glances at the ribbon the
@@ -46,7 +52,11 @@ class _BreakdownCardState extends ConsumerState<BreakdownCard> with SingleTicker
     if (_grow.status != AnimationStatus.dismissed) return;
     if (Motion.reduced(context)) {
       _grow.value = 1;
+      _read.value = 1;
     } else {
+      _grow.addStatusListener((s) {
+        if (s == AnimationStatus.completed && mounted && _read.value == 0) _read.forward();
+      });
       // After the headline and the lead have landed (the card page's stagger).
       _wait = Timer(const Duration(milliseconds: 260), () {
         if (mounted) _grow.forward();
@@ -58,6 +68,7 @@ class _BreakdownCardState extends ConsumerState<BreakdownCard> with SingleTicker
   void dispose() {
     _wait?.cancel();
     _grow.dispose();
+    _read.dispose();
     _mobi.dispose();
     super.dispose();
   }
@@ -73,6 +84,17 @@ class _BreakdownCardState extends ConsumerState<BreakdownCard> with SingleTicker
         if (cells[i] == want) i + 1,
     ];
     return numbers.isEmpty ? null : (wrongSide: wrongSide, numbers: numbers);
+  }
+
+  /// "Fix these": the answers the read names that are still open, in one repair run.
+  VoidCallback? _fix(PaperRead read) {
+    final open = {for (final c in widget.model.candidates) c.questionId};
+    final fixable = [
+      for (final q in read.fixQids)
+        if (open.contains(q)) q,
+    ];
+    if (fixable.isEmpty) return null;
+    return () => context.go(ResultNav.repair(widget.model, startQuestionId: fixable.first, runCount: fixable.length));
   }
 
   @override
@@ -143,6 +165,20 @@ class _BreakdownCardState extends ConsumerState<BreakdownCard> with SingleTicker
             if (at != null) _mobi.glance(at, hold: const Duration(milliseconds: 1400));
           },
         ),
+        // Mobi's read of the paper (20 Oct): what went well, where the marks leaked, the marks within reach with one key
+        // that repairs exactly those answers, and what to watch. A plain heading on an NTA paper (no Mobi there).
+        if (widget.model.read case final read?) ...[
+          const SizedBox(height: MmSpace.s24),
+          PaperReadCard(
+            read: read,
+            t: _read,
+            at: 0,
+            plain: widget.model.isNta,
+            lead: widget.model.readLead,
+            leadDetail: widget.model.readLeadDetail,
+            onFix: _fix(read),
+          ),
+        ],
       ],
     );
   }
