@@ -462,6 +462,13 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       labReady: detail?.lab != null,
       hour: now.hour,
     );
+    // The repair key (R4, walk 19 Oct): after a weak paper the volt key is a chapter set, and the mistake's own
+    // "Repair Qn" stays one tap away as a quiet key under it (the panel's text link keeps the cost and the detail).
+    final repairAlt = move.kind != MoveKind.repair && move.alt?.kind == AltKind.repair ? move.alt : null;
+    final repairTo = repairAlt == null ? null : MoveNav.forAlt(repairAlt, attemptId: attempt.id, subject: subjectId);
+    final repairKey = repairAlt == null || repairTo == null
+        ? null
+        : ResultFootAction(LayersCopy.repairKey(repairAlt.number!), () => _go(repairTo), note: '1 credit.');
     final notice = keyNotice(reviews, (qid) => model.questions.where((q) => q.qid == qid).firstOrNull?.number);
     final wrong = inRepairOrder(rows.rows.where((r) => r.verdict == RowVerdict.wrong).toList(), order);
     final byQid = {for (final q in model.questions) q.qid: q};
@@ -615,6 +622,13 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       Divider(height: 1, thickness: 1, color: colors.line),
       if (large) ...[
         const SizedBox(height: MmSpace.s24),
+        if (repairKey != null)
+          KeyButton.quiet(
+            key: const ValueKey('result-page-repair'),
+            label: repairKey.label,
+            semanticsLabel: '${repairKey.label}. ${repairKey.note}',
+            onPressed: repairKey.onPressed,
+          ),
         KeyButton.quiet(label: ResultFoot.seePaperLabel, onPressed: () => context.go(yourPapersLocation(attempt.id))),
         KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: _finish),
       ],
@@ -710,6 +724,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                     showFinish: !large,
                     onFinish: _finish,
                     onSeePaper: () => context.go(yourPapersLocation(attempt.id)),
+                    repair: repairKey,
                     // After a calm or good set only, and once the moment is over.
                     lateLine: isFresh != null && !staged && (tone == FinishTone.good || tone == FinishTone.great),
                   ),

@@ -19,7 +19,7 @@ class ResultFootAction {
 /// The pinned foot of a result (RESULT-1017 4.1): the next move as the screen's one volt key, its cost and balance
 /// under it, and on a practice set "Finish for now".
 class ResultFoot extends StatelessWidget {
-  const ResultFoot({super.key, required this.primary, this.onFinish, required this.showFinish, this.lateLine = false, this.onSeePaper});
+  const ResultFoot({super.key, required this.primary, this.onFinish, required this.showFinish, this.lateLine = false, this.onSeePaper, this.repair});
 
   /// "See it in Your papers" (G20, D106): a quiet key beside "Finish for now" that opens Your
   /// papers on this paper's row, so the student learns where every paper lives. Null hides it.
@@ -28,6 +28,12 @@ class ResultFoot extends StatelessWidget {
   /// The quiet key's words: where it goes, said plainly (a first-time student is already looking
   /// at the paper, so "See this paper" alone would not say what it opens).
   static const String seePaperLabel = 'See it in Your papers';
+
+  /// The mistake's own repair key ("Repair Q9", with its cost as the spoken note) when the one next move is
+  /// something else (a chapter set after a weak paper): a quiet key that leads the row under the volt one, so
+  /// the repair v15.2 offered is still one tap away and the volt key stays the one dominant move (D108, R4).
+  /// Null when the next move is the repair itself or there is nothing to repair.
+  final ResultFootAction? repair;
 
   final ResultFootAction primary;
   final VoidCallback? onFinish;
@@ -69,7 +75,7 @@ class ResultFoot extends StatelessWidget {
               ),
             ],
             if (lateLine) const LateNightLine(),
-            if (showFinish && (onFinish != null || onSeePaper != null)) ...[
+            if (showFinish && (onFinish != null || onSeePaper != null || repair != null)) ...[
               const SizedBox(height: MmSpace.s4),
               // The two quiet ways out share one row (they wrap to two only when the words need it),
               // so the foot is no taller than it was with "Finish for now" alone.
@@ -77,6 +83,13 @@ class ResultFoot extends StatelessWidget {
                 alignment: WrapAlignment.center,
                 spacing: MmSpace.s8,
                 children: [
+                  if (repair != null)
+                    KeyButton.quiet(
+                      key: const ValueKey('result-foot-repair'),
+                      label: repair!.label,
+                      semanticsLabel: repair!.note == null ? null : '${repair!.label}. ${repair!.note}',
+                      onPressed: repair!.onPressed,
+                    ),
                   if (onSeePaper != null) KeyButton.quiet(label: seePaperLabel, onPressed: onSeePaper!),
                   if (onFinish != null) KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: onFinish!),
                 ],

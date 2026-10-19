@@ -307,6 +307,37 @@ void main() {
     expect(router.state.uri.queryParameters, {'mode': 'chapter', 'subject': 'accountancy', 'count': '10', 'chapter': 'Goodwill'});
   });
 
+  testWidgets('R4: after a weak set the volt key is the chapter set, and "Repair Qn" (v15.2) stays one tap away as a quiet key', (tester) async {
+    final weak = [
+      ('Goodwill', V.right),
+      ('Goodwill', V.right),
+      for (var i = 0; i < 6; i++) ('Goodwill', V.wrong),
+      ('Admission of a partner', V.wrong),
+      ('Admission of a partner', V.blank),
+    ];
+    final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(weak), credits: const CreditFigures(ai: 68, practice: 40)));
+    await tester.pump(const Duration(milliseconds: 900));
+    // One dominant move: the chapter set is the only volt key; the repair is a quiet key next to "See it in Your papers".
+    final volt = find.widgetWithText(KeyButton, 'Practise 10 on Goodwill');
+    expect(volt, findsOneWidget);
+    final repair = find.byKey(const ValueKey('result-foot-repair'));
+    expect(repair, findsOneWidget);
+    expect(find.descendant(of: repair, matching: find.text('Repair Q3')), findsOneWidget);
+    expect(tester.getRect(repair).top, greaterThan(tester.getRect(volt).bottom), reason: 'it sits under the volt key');
+    expect(tester.getRect(repair).top, tester.getRect(find.widgetWithText(KeyButton, ResultFoot.seePaperLabel)).top, reason: 'on the same row as See it in Your papers');
+    await tester.tap(repair);
+    await tester.pump(const Duration(milliseconds: 500));
+    expect(router.state.uri.path, '/review/repair/p1/p1-q3');
+    expect(router.state.uri.queryParameters['count'], '1');
+  });
+
+  testWidgets('R4: when the next move is the repair itself there is no second repair key in the foot', (tester) async {
+    await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), credits: const CreditFigures(ai: 68, practice: 40)));
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(find.widgetWithText(KeyButton, 'Repair Q9'), findsOneWidget);
+    expect(find.byKey(const ValueKey('result-foot-repair')), findsNothing);
+  });
+
   testWidgets('Finish for now ends with one plain line, then returns to Today', (tester) async {
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
     await tester.pump(const Duration(milliseconds: 500));
