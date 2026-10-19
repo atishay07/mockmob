@@ -1,6 +1,6 @@
 # NOW: MockMob current state (overwrite at every handoff; git keeps the history)
 
-**Last written:** 20 Oct 2026, about 2:35 am IST, by session 801f0d1a (Claude Opus 5.5, CEO/CTO). The owner is asleep with FULL AUTONOMY for this session (D156: decide independently, no mock-ups or results to show, deploy when tests pass). His words are verbatim in `docs/brain/OWNER-FEEDBACK-2026-10-19.md` (to D157 and I1-I16, J1-J6). Decisions: `OWNER-MASTER-LEDGER.md` (C-dec 3 and 3b at the end).
+**Last written:** 20 Oct 2026, about 3:20 am IST (updated from 2:35 am), by session 801f0d1a (Claude Opus 5.5, CEO/CTO). The owner is asleep with FULL AUTONOMY for this session (D156: decide independently, no mock-ups or results to show, deploy when tests pass). His words are verbatim in `docs/brain/OWNER-FEEDBACK-2026-10-19.md` (to D157 and I1-I16, J1-J6). Decisions: `OWNER-MASTER-LEDGER.md` (C-dec 3 and 3b at the end).
 
 ## 1. Vision (stable)
 CUET UG 2027 prep for 16-17-year-olds. USP: unlimited mocks from one central bank. Score Recovery (find, fix, check the fix holds); Ask Mobi; the Mob. Premium, alive, smart. **The website is the main product** (D157); the app follows. Version 13 is the closed-test first impression for 14-15 testers starting 20 Oct (D155): no bugs, exceed expectations.
@@ -9,6 +9,7 @@ CUET UG 2027 prep for 16-17-year-olds. USP: unlimited mocks from one central ban
 R1-R8 (PLAN-1019 section 0). D150 build-and-look loop (agents capture visuals while building). D156 autonomy for this session. D157: Pro does NOT make Mobi free; credits bought mostly by Pro students; depth over volume; keep AI margins wide. Never sign in from a staging build (C1: it reached production; guard now in ui/v17-bugs). Production writes allowed this session only for the Mob v3 go-live (D152) and what the owner named.
 
 ## 3. Live now
+- **Web v13 + Mob v3 LIVE (3:13 am, D152):** main 65afa5d0, deployment dpl_4nA9juLKE9wFKjPHRAcdtfx7Ffha (rollback point dpl_F8qxHxpnXyZPqjCEAFrPrBbSnE9L). Mob v3 migrations core/games/chains/realtime applied on production (recorded as 20261019213134-213528), MOB_V3_ENABLED=true in Vercel Production, MOB_LIVE_ENABLED unset. Includes web Mob den/play, web Pro page + Wallet (J1/J3), /app/login email link page, assetlinks from ANDROID_CERT_SHA256 (unset: returns []), no email-prefix names. Smoke clean, 0 runtime errors.
 - **Web:** main 58793f9c = Play subscriptions LIVE (PLAY_BILLING_ENABLED=true set by him; deploy dpl_F8qxHxpnXyZPqjCEAFrPrBbSnE9L; RTDN works). Production migration 20261019210000 applied 9:51 pm. Licence-tester purchase proven end to end (Pro, 4 renewals, 50-credit pack, refund+revoke). Stray test auth user chai-fresh@example.com deleted (D151).
 - **Play Console:** listing uploaded (v11b text option A, feature graphic A, screenshot set 2 from Desktop\MockMob-store-listing\UPLOAD-THIS); internal testing has version 11 (link showed "Item not found": Google propagation; he used other routes); closed testing Alpha has version 11 IN REVIEW. Version 12 built (Desktop\MockMob-build-12) and SKIPPED by him (D154). Pro price shows Rs 150 (he set 150; D136 said 149; his call). Content rating (users interact: yes; purchases: yes) and Data safety (Purchase history) still need his update before Alpha review completes.
 
@@ -18,6 +19,12 @@ R1-R8 (PLAN-1019 section 0). D150 build-and-look loop (agents capture visuals wh
 - still working: ui/v17-wallet (owner J3: packs as Mobi answers/repairs), ui/v17-finish (SWOT-style paper read = Mobi's debrief + full-mock reveal), ui/v17-mobi + web/v13-mobi (Ask Mobi value per C-dec 3b: Where you stand, Fix it for good, doubt threads, mentor reads colleges).
 - **Integrator** (Sonnet) building ui/v17-release in wt-1020-app-rel: merges bugs, mob-switch, mob-art, mob-den, mob-play, pro-page; full tests; demo-mode emulator walk; screenshots tmp/walk-1020/app-v13. Then wallet, finish, mobi to merge.
 **Web** base web/1019pm-mob-v3 e2eb2462 (Mob v3 server + live main + v3Available). Branches: web/1020-fixes 55bcbad0 (app sign-in link page, assetlinks from ANDROID_CERT_SHA256, no email-prefix names), web/v13-mob-den 2e3cea79, web/v13-mob-play 8757518d, web/v13-money afea69dd (Pro page + Wallet, J1/J3). **Integrator** (Sonnet) building web/v13-release in wt-1020-web-rel (+ server folds.mjs colours); web/v13-mobi to merge after.
+
+## 4b. In flight at 3:20 am
+- App integrator: ui/v17-release (wt-1020-app-rel) has bugs, mob-switch, mob-art, mob-den, mob-play, pro-page merged (d915d22d); merging ui/v17-wallet 536de4b5, ui/v17-finish 6fdfff26, ui/v17-mobi (wt-1020-mobi); then full tests, demo walk, signed build 1.0.16+13 to Desktop\MockMob-build-13.
+- Web Mobi deployer: merging web/v13-mobi (wt-1020-web-mobi) into wt-1020-web-rel at 65afa5d0, suites, push main, smoke, STATUS.
+- Mobi owner finishing app tests on ui/v17-mobi.
+- Handoff prompt for a fresh account: docs/brain/NEXT-PROMPT-1020-AM.md.
 
 ## 5. Next (in order, autonomous)
 1. Finish merges (app ui/v17-release, web web/v13-release) incl. wallet, finish, mobi; full suites (app unit ~7k, web test:mob/billing/recovery/auth/app/subjects, next build --webpack).
