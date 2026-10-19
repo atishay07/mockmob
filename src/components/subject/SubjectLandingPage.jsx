@@ -118,7 +118,7 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
               <p>
                 {units.length} unit{units.length === 1 ? '' : 's'} and {chapterTotal} chapters, from NTA’s CUET UG 2026 syllabus, the latest published.
                 NTA has not released the 2027 list yet.
-                {bank?.units ? ' Beside each unit: how many questions the live bank holds for it.' : ''}
+                {bank?.units ? ' With each unit: how many questions the live bank holds for it.' : ''}
               </p>
               <ol className="sj-units">
                 {units.map((unit) => {
