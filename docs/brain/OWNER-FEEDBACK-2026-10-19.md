@@ -345,44 +345,44 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 > "I said what Gen Z likes these days. It captured something else. The GenMojie direction could be fine, but if adapted according to our taste and the overall profile of the brand, not exactly copied from Apple. Collectible toy figures are good, but I am not sure how we will be able to implement it. There should be some kind of direction to this, some storytelling and all. Also, it can happen. Obviously, everyone who uses this app won't know it, but maybe some social media marketing stuff and all."
 **Ledger D129:** "Jenbies" = "what Gen Z likes these days". Characters: a Genmoji-like soft 3D direction adapted to MockMob's taste and brand (never a copy of Apple); collectible-toy appeal is welcome if we find a way to implement it; give the characters a story (a world and lore) that can also carry social media marketing.
 
-## Owner, 19 Oct about 4:50 pm IST (verbatim)
+## Owner, 19 Oct about 4:45 pm IST (verbatim)
 > "Coming on to the two things that you need from my side:
 > 1. What is checklist part 1 and 2, step number 3? What exactly is this that you need from my side, and can you explain?
 > 2. Backing up the Mockmob keys: do you want me to copy that entire folder into a pen drive, or what exactly do you want me to do?"
 
-## Owner, 19 Oct about 5:00 pm IST (verbatim, with a Play Console screenshot of the MockMob app dashboard)
+## Owner, 19 Oct about 4:50 pm IST (verbatim, with a Play Console screenshot of the MockMob app dashboard)
 > "I am unable to set this billing up. I can't find the options that you are saying. Can you guide me through it? The play billing checklist file that we have created is also not opening, so guide me through that entire process. I have backed up the keys already, so mark it as done."
 **Ledger D130:** keys backed up (done). Guide him through Play Console step by step in chat, one step at a time with screenshots; the checklist file did not open for him.
 
-## Owner, 19 Oct about 5:05 pm IST (verbatim, with a screenshot of "Manage CampusMob Labs")
+## Owner, 19 Oct about 4:52 pm IST (verbatim, with a screenshot of "Manage CampusMob Labs")
 > "So it's showing this, and two questions:
 > 1. There are some play app settings under it. There's the option of just billing choices, so it's showing, "You are not eligible. Requirements to enroll," something like that.
 > 2. Can I change this name? I don't know when I kept this or what this is. Is it possible to change the name of this account?"
 
-## Owner, 19 Oct about 5:15 pm IST (verbatim, screenshot of Licence testing with "MockMob testers" ticked)
+## Owner, 19 Oct about 4:55 pm IST (verbatim, screenshot of Licence testing with "MockMob testers" ticked)
 > "Which one to select here, and after that, what are the next steps?"
 
 ## Owner, 19 Oct about 5:05 pm IST by Play's clock (verbatim, screenshot: Internal testing, release 10 (1.0.16) "Available to internal testers", released 19 Oct 17:03)
 > "anything else?"
 
-## Owner, 19 Oct about 5:10 pm IST (verbatim, screenshot: Monetise with Play, "To monetise this app, set up a merchant account")
+## Owner, 19 Oct about 5:20 pm IST (verbatim, screenshot: Monetise with Play, "To monetise this app, set up a merchant account")
 > "i have to setup merchant account only right?"
 
-## Owner, 19 Oct about 5:15 pm IST (verbatim, setting up the payments profile)
+## Owner, 19 Oct about 5:30 pm IST (verbatim, setting up the payments profile)
 > "just a few things:
 > * I have selected an individual account only right now, and I don't have business registration. This account is also individual, but I am later planning to get the business registered as a proper private limited. Right now, it's registered as a small business, so I can't open an organization account. Is that possible? I think it will require switching the account entirely, but let's see.
 > * Credit card statement theme: can I put Mockmob in there?
 > * Other than that, what do you sell? I couldn't find anything related to education or digital services, so I am selecting "Other" in there. I don't think this will also affect"
 
-## Owner, 19 Oct about 5:55 pm IST (verbatim)
+## Owner, 19 Oct about 5:50 pm IST (verbatim)
 > "I have already created the Gmail account and done everything. Can you set this up in the database with this account and the password, and disable the code stuff, leaving only the password for this account?"
 **Ledger D131:** the reviewer Gmail review.mockmob@gmail.com exists; no MockMob account with it on production yet (checked read-only). The agent may not create accounts or set passwords on the live app; he creates the account in the app and sets the password; then the agent grants it Pro on his yes.
 
-## Owner, 19 Oct about 6:15 pm IST (verbatim)
+## Owner, 19 Oct about 5:55 pm IST (verbatim)
 > "I am on the website right now. I can't find anywhere to set the password for the account. Have we set up just sign-in on the basis of email code only. And I'll get to this mob V3, as soon as I am completed with all this, remind me."
 **Ledger D132:** the website has no "set a password" page (code sign-in only); the app has You > Account > Password. Remind him about Mob v3 (characters finish, Arena base, Free starts) once the Play steps are done. Follow-up: add "Set a password" to the web /profile.
 
-## Owner, 19 Oct about 6:40 pm IST (verbatim, then his answers)
+## Owner, 19 Oct about 6:10 pm IST (verbatim, then his answers)
 > "Okay, I'm done with everything in the app. Now I'll do it later on. Still, nothing is left to do, but I'll first answer the questions that were dismissed and that you were asking me related to Mob V3. Can you send all that again?"
 - Character finish: "C lamp-lit paper (Recommended)"
 - Direction: "Yes, Arena + Live's best (Recommended)"
@@ -390,54 +390,60 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 - Streaks: "Yes, this system (Recommended)"
 **Ledger D133:** Play Console app setup done by him (Google Cloud Part 2 and products later). Mob v3: characters in finish C (B's stand on the shelf and in marketing); build Den Arena with Den Live's best (stage-lit podium, parcel climb-out, ruler race); Free gets 1 start per Mob per week plus Pass the mic (a Pro friend hands the start, 2 a week); Pro: every format, live rooms, full mock together, unlimited starts; while billing is off, starts stay open for everyone; the two-streak humane system as proposed.
 
-## Owner, 19 Oct about 7:35 pm IST (verbatim)
+## Owner, 19 Oct about 7:20 pm IST (verbatim)
 > "Now let me know what to do to finish the billing and start the closed testing. It is still not showing that I'm eligible for testing. It's showing two things are logged: Select Testers and Select Country and Regions.
 >
 > Though I have already set up, I don't know which one step is remaining in "Finish setting up your app." Obviously, that is "Set up your store listing," but that will also take some time, and many things I have to generate are not ready yet, like the graphics and all. Can you tell me what steps to do right now, what can be avoided, and which are the highest priority to proceed"
 **Ledger D134:** he wants the closed test started too. Prepare the whole store listing pack (text, icon, feature graphic, phone screenshots) for him to paste; give him a priority order.
 
-## Owner, 19 Oct about 7:45 pm IST (verbatim)
+## Owner, 19 Oct about 7:25 pm IST (verbatim)
 > "Okay, now I am on the Create One-Time Product page. Now guide me one step at a time for each product. What exactly do I have to do? Like product title, description, icon, and also it's asking for many other things. Think it through and guide me on each step."
 
-## Owner, 19 Oct about 7:50 pm IST (verbatim)
+## Owner, 19 Oct about 7:27 pm IST (verbatim)
 > "Just a question: why are we creating a full-on mockup until 31 July 2027? We are offering monthly subscriptions only, and I want to test the real flow of everything. What's the purpose of creating this?"
 **Ledger D135:** Pro on Play must be the MONTHLY subscription (the website sells Rs 99 a month, pro_monthly_99), not the one-time "until 31 July 2027" product from the 18 Oct plan. Play subscription support (server subscriptionsv2 verify, renewals and expiry via RTDN, app subscription flow) must be built. Credit packs stay one-time products.
 - Monthly Pro price on Play: "₹149 a month"
 - Credit packs on Play: "Keep ₹15 / ₹45 / ₹75 (Recommended)"
 **Ledger D136:** Play sells Pro as a monthly auto-renewing subscription at Rs 149 a month (web stays Rs 99 a month; the app never shows the web price); packs Rs 15 / 45 / 75 as one-time products. Do not create pro_cuet_2027 in Play Console.
 
-## Owner, 19 Oct about 8:10 pm IST (verbatim, screenshot: one-time products credits_49_300, credits_29_150, credits_10_50 each with 1 active purchase option)
+## Owner, 19 Oct about 7:40 pm IST (verbatim, screenshot: one-time products credits_49_300, credits_29_150, credits_10_50 each with 1 active purchase option)
 > "all done in the one-time product section. Now I think the subscription is left, and then the Google Cloud thing that you said."
 **Ledger:** the 3 credit packs are created and active in Play Console.
 
-## Owner, 19 Oct about 8:30 pm IST (verbatim, screenshot: subscription MockMob Pro, pro_monthly, base plan "monthly" auto-renewing, Active, 175 countries, tax "Digital app sales, Service")
+## Owner, 19 Oct about 7:50 pm IST (verbatim, screenshot: subscription MockMob Pro, pro_monthly, base plan "monthly" auto-renewing, Active, 175 countries, tax "Digital app sales, Service")
 > "Alton" (dictation of "All done")
 **Ledger:** the pro_monthly subscription (base plan monthly, Rs 149) is active in Play Console.
 
-## Owner, 19 Oct about 8:45 pm IST (verbatim)
+## Owner, 19 Oct about 7:55 pm IST (verbatim)
 > "play-billing@mockmob.iam.gserviceaccount.com"
 **Ledger:** Google Cloud project "mockmob" (existing); Google Play Android Developer API enabled; service account play-billing@mockmob.iam.gserviceaccount.com created.
 
-## Owner, 19 Oct about 9:05 pm IST (verbatim)
+## Owner, 19 Oct about 8:05 pm IST (verbatim)
 > "both are in Vercel"
 **Ledger:** GOOGLE_PLAY_SERVICE_ACCOUNT_JSON and PLAY_RTDN_TOKEN set in Vercel Production by him (no redeploy yet; PLAY_BILLING_ENABLED still unset).
 
-## Owner, 19 Oct about 9:10 pm IST (verbatim)
+## Owner, 19 Oct about 8:10 pm IST (verbatim)
 > "done, invited the service account"
 **Ledger:** play-billing@mockmob.iam.gserviceaccount.com invited in Play Console with app permissions for MockMob (up to 24 h to take effect).
 
-## Owner, 19 Oct about 9:25 pm IST (verbatim)
+## Owner, 19 Oct about 8:25 pm IST (verbatim)
 > "projects/mockmob/topics/play-rtdn anything else you need from my side?"
 **Ledger:** Pub/Sub topic projects/mockmob/topics/play-rtdn with Play's publisher grant and the push subscription to /api/billing/play/rtdn (token) created by him.
 
-## Owner, 19 Oct about 9:30 pm IST (verbatim)
+## Owner, 19 Oct about 8:30 pm IST (verbatim)
 > "Okay, I'll do step 8. Remind me to first prepare a handoff and a proper prompt, like we always do: all the things that need to be carried forward, and stop the processes at that stage point. Prepare a context-lossless prompt and the handoff. They should be very exact in terms of what all is done in the app and website, and what needs to be done. Every conversation that we had is properly recorded. The usage is at 98%"
 **Ledger D137:** all agents stopped at STOP POINT commits; NOW.md overwritten; next session starts from NEXT-PROMPT-1019-NIGHT.md; continuum checkpoint saved. He does Play step 8 (RTDN switch-on) himself.
 
-## Owner, 19 Oct about 9:40 pm IST (verbatim)
+## Owner, 19 Oct about 8:35 pm IST (verbatim)
 > "Just a small issue: I, by mistake, clicked on the "Send Test Notification".  i hope that wont cause any trouble let me know if anything is needed or if everything is confirmed setup  and according to that, update the handoff."
 **Ledger D138:** step 8 (RTDN in Play Console) is done; he also sent the test notification. Harmless: the endpoint answers 404 while PLAY_BILLING_ENABLED is off, so Pub/Sub keeps retrying with backoff until it is delivered after the billing switch-on (the server only logs a test notification; it grants nothing) or the message expires (7 days). Nothing to undo.
 
-## Owner, 19 Oct about 9:50 pm IST (verbatim)
+## Owner, 19 Oct about 8:38 pm IST (verbatim)
 > "I checked in the play console. It's just showing that the player billing account status is active, never expired. There's nothing else. Can you test it and update it right now only if it's done?"
 **Ledger D139:** the service account shows Active (never expires) in Play Console Users and permissions. A real API test is not possible tonight: the key exists only in Vercel Production (sensitive), and the server's Play routes answer 404 until PLAY_BILLING_ENABLED is on (needs his yes and the play-subs deploy). The first check runs in the next session right after the switch-on.
+
+**Time correction (19 Oct 8:50 pm IST, session 801f0d1a):** the headings from "4:45 pm" on were written up to an hour ahead of the real clock. They are now set from the git commit that recorded each message (a message always came a few minutes before its commit). The handoff that called itself "9:35 pm" was committed at 8:35 pm.
+
+## Owner, 19 Oct about 8:41 pm IST, started the night session (session 801f0d1a)
+He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) into a fresh session: billing first (finish the Play monthly subscription, merge, ask his yes for the production migration and the deploy with PLAY_BILLING_ENABLED=true, build version 11 selling, guide him one screen at a time through upload, install, a pack, Pro, a refund test, the store listing and the closed test), then the Mob v3 (merge the five helper branches, fix, test, emulator walk, the final Folds, live rooms; show him before anything goes live), then the NOW.md section 5 follow-ups.
+**Ledger D140:** the night order is billing, then the Mob v3, then the follow-ups. Every update ends with "Things needed from you right now:" or "Nothing needed from your side".
