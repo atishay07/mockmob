@@ -25,13 +25,6 @@ Future<SocialServer> _open(WidgetTester tester, {String code = '', SocialServer?
   return s;
 }
 
-/// Types into the boxes and waits past the typing pause.
-Future<void> _type(WidgetTester tester, String text) async {
-  await tester.enterText(_field, text);
-  await tester.pump(const Duration(milliseconds: 500));
-  await settleSocial(tester);
-}
-
 void main() {
   setUpAll(loadFoldManifestForTest);
 

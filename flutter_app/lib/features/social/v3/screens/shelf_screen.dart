@@ -38,14 +38,17 @@ class ShelfScreen extends ConsumerWidget {
         children: [
           Padding(
             padding: youGutter,
-            child: shelf.when(
-              data: (s) => _ShelfBody(shelf: s),
-              loading: () => const SkeletonGroup(
-                label: MobV3Copy.shelfLoading,
-                child: Column(children: [Skeleton(height: 64), SizedBox(height: MmSpace.s12), Skeleton(height: 220), SizedBox(height: MmSpace.s12), Skeleton(height: 220)]),
-              ),
-              error: (e, _) => _Failed(onRetry: () => ref.invalidate(shelfProvider)),
-            ),
+            // A read that failed shows the sentence at once, even while the provider is retrying it.
+            child: shelf.hasError && !shelf.hasValue
+                ? _Failed(onRetry: () => ref.invalidate(shelfProvider))
+                : shelf.when(
+                    data: (s) => _ShelfBody(shelf: s),
+                    loading: () => const SkeletonGroup(
+                      label: MobV3Copy.shelfLoading,
+                      child: Column(children: [Skeleton(height: 64), SizedBox(height: MmSpace.s12), Skeleton(height: 220), SizedBox(height: MmSpace.s12), Skeleton(height: 220)]),
+                    ),
+                    error: (e, _) => _Failed(onRetry: () => ref.invalidate(shelfProvider)),
+                  ),
           ),
         ],
       ),

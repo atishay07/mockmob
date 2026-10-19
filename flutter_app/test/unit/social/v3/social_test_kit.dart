@@ -12,7 +12,7 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
 import 'package:mockmob/features/social/data/mob_navigator.dart';
-import 'package:mockmob/features/social/data/mob_repository.dart' show mobActionsProvider, mobPrefsStoreProvider, mobRepositoryProvider;
+import 'package:mockmob/features/social/data/mob_repository.dart' show MobWrite, mobActionsProvider, mobPrefsStoreProvider, mobRepositoryProvider;
 import 'package:mockmob/features/social/v3/data/mob_v3_api.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
@@ -37,7 +37,7 @@ const AuthSnapshot noSubjectsAuth = AuthSnapshot(status: AuthStatus.signedIn, us
 /// The overrides every SOCIAL screen needs: the You overrides for [auth], the repository seeded with the
 /// server's den, the v3 flags on and the server as the Mob API. [actions] swaps the old Mob's actions (the
 /// show-score call, leave, remove), so a test can read what was asked.
-List<Override> socialOverrides(MobV3FakeServer server, {AuthSnapshot auth = aaravAuth, FakeMobActions Function(Ref ref)? actions, RecordingNavigator? nav}) => [
+List<Override> socialOverrides(MobV3FakeServer server, {AuthSnapshot auth = aaravAuth, FakeMobActions Function(Ref ref)? actions, RecordingNavigator? nav, List<Override> extra = const []}) => [
       ...youOverrides(auth: auth, now: v3Now),
       mobRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: MobRead.fromJson(server.denNow()), fetchedAt: v3Now)),
       mobPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
@@ -46,6 +46,7 @@ List<Override> socialOverrides(MobV3FakeServer server, {AuthSnapshot auth = aara
       mobV3EnabledProvider.overrideWithValue(true),
       mobV3FixturesProvider.overrideWithValue(true),
       mobV3FakeServerProvider.overrideWithValue(server),
+      ...extra,
     ];
 
 /// The fixture server, failing the named routes with the server's code, and recording every call.
@@ -116,6 +117,7 @@ class SocialServer extends MobV3FakeServer {
   @override
   Future<Shelf> shelf() async {
     calls.add('shelf');
+    _maybeFail('shelf');
     return super.shelf();
   }
 }
@@ -133,6 +135,7 @@ Future<void> pumpSocial(
   bool reduced = true,
   FakeMobActions Function(Ref ref)? actions,
   RecordingNavigator? nav,
+  List<Override> extra = const [],
 }) =>
     pumpMockmob(
       tester,
@@ -142,7 +145,7 @@ Future<void> pumpSocial(
       textScale: scale,
       wrapInScaffold: false,
       disableAnimations: reduced,
-      overrides: socialOverrides(server, auth: auth, actions: actions, nav: nav),
+      overrides: socialOverrides(server, auth: auth, actions: actions, nav: nav, extra: extra),
     );
 
 /// Lets a screen finish what it started (a sheet opening, a call to the fixture server).
@@ -150,5 +153,16 @@ Future<void> settleSocial(WidgetTester tester) async {
   for (var i = 0; i < 6; i++) {
     await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 20)));
     await tester.pump(const Duration(milliseconds: 120));
+  }
+}
+
+/// The old Mob's actions with `remove` recorded too (the shared fake leaves it to the network).
+class SocialMobActions extends FakeMobActions {
+  SocialMobActions(super.ref, {super.failure});
+
+  @override
+  MobWrite remove(String memberId) async {
+    calls.add('remove:$memberId');
+    return failure;
   }
 }

@@ -2,7 +2,6 @@
 // errors (FOLD_LOCKED, NAME_KEY_INVALID), the name chips six at a time, the first-time Fold cards and the
 // later "You play as", and the name field staying in view with the keyboard open.
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart' show FakeViewPadding;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/copy.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
