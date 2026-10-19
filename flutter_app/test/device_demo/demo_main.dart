@@ -71,6 +71,7 @@ import 'demo_insights.dart';
 import 'demo_questions.dart';
 import 'demo_repair.dart';
 import 'demo_session.dart';
+import 'demo_v13.dart';
 
 const _asha = AuthSnapshot(
   status: AuthStatus.signedIn,
@@ -307,13 +308,16 @@ List<Override> _overrides() {
 
     // Result and Review.
     recapProgressProvider.overrideWith((ref, id) async => null),
-    creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState()),
+    creditsRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: demoAiCredits, fetchedAt: DateTime.now())),
     repairApiProvider.overrideWithValue(_RepairApi()),
 
     // You.
     goalRepositoryProvider.overrideWith(() => you.FakeGoal(you.goalState(4))),
     consentRepositoryProvider.overrideWith(() => you.FakeConsent(you.consentState(AgeBand.adult))),
     notificationPrefsRepositoryProvider.overrideWith(() => notif_ui.FakePrefsRepo(notif.prefsWith(), cachedAt: now)),
+
+    // Version 13: the Wallet, the Pro page, Where you stand, a doubt thread and Fix it for good.
+    ...demoV13Overrides(),
   ];
 }
 

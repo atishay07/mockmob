@@ -23,11 +23,25 @@ RepairResponse? demoRepairResponse(AttemptDetail? paper, String questionId, {Dat
       'why_wrong': 'The answer is “${option(key)}”${chosen == null ? '' : ', not “${option(chosen)}”'}.',
       'key_idea': explanation,
       'next_step': 'Before you choose, say the rule of ${q.chapter ?? 'this chapter'} in one line.',
+      'why_right': explanation,
+      'rule': 'Before you choose, say the rule of ${q.chapter ?? 'this chapter'} in one line.',
       'generatedAt': (at ?? DateTime.now()).toUtc().toIso8601String(),
     },
     'charged': 1,
     'wallet': {'state': 'available', 'known': true, 'spendable': 8},
     'chosenIndex': chosen ?? -1,
     'keyIndex': key,
+    // Fix it for good (MOBI-CONTRACT 4): the pick, the key and the trap's record in Asha's own answers.
+    'mobi': {
+      'job': 'fix',
+      'price': 1,
+      'checks': 2,
+      'yourPick': chosen == null ? null : {'index': chosen, 'text': option(chosen)},
+      'key': {'index': key, 'text': option(key)},
+      'trap': {'type': 'near_miss', 'phrase': 'a close neighbour of the right answer'},
+      'history': {'caught': 3, 'chances': 7, 'line': 'This trap has caught you 3 times in 7 chances.'},
+      'crowd': null,
+      'steps': ['trap', 'why_your_option', 'why_key', 'rule', 'check_1', 'check_2'],
+    },
   });
 }
