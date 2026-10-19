@@ -6,7 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/auth_me.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:lucide_icons_flutter/lucide_icons.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, KeyVariant;
 import 'package:mockmob/features/billing/billing.dart';
 import 'package:mockmob/features/billing/data/billing_controller.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
@@ -40,6 +41,8 @@ Future<void> _settle(WidgetTester tester) async {
     await tester.pump(const Duration(milliseconds: 60));
   }
 }
+
+KeyButton _key(WidgetTester tester, String label) => tester.widget<KeyButton>(find.widgetWithText(KeyButton, label));
 
 ApiError _play(int status, String code) => ApiError.fromResponse(status, {'ok': false, 'error': 'x', 'code': code});
 
@@ -78,6 +81,9 @@ void main() {
       expect(subscriptionLine(playSub(state: 'canceled', autoRenewing: false, expiresAt: date)), BillingCopy.subRenewalOff('19 November'));
       expect(subscriptionLine(playSub(state: 'in_grace_period', grace: true, expiresAt: date)), BillingCopy.subGrace('19 November'));
       expect(subscriptionLine(const PlaySubscriptionInfo(productId: 'pro_monthly', state: 'active', active: true)), BillingCopy.subRenewsNoDate);
+      // No date from the server: never "renews every month" when renewal is off or a payment failed.
+      expect(subscriptionLine(const PlaySubscriptionInfo(productId: 'pro_monthly', state: 'canceled', active: true, autoRenewing: false)), BillingCopy.subRenewalOffNoDate);
+      expect(subscriptionLine(const PlaySubscriptionInfo(productId: 'pro_monthly', state: 'in_grace_period', active: true, inGracePeriod: true)), BillingCopy.subGraceNoDate);
     });
 
     test('the server\'s subscription block is read, and nothing else is', () {
@@ -120,11 +126,33 @@ void main() {
       await _pump(tester, rig);
       await _settle(tester);
       expect(find.text(BillingCopy.subOnHold), findsOneWidget);
+      expect(find.text(BillingCopy.subOnHoldTitle), findsOneWidget, reason: 'its own plain heading');
       expect(find.text('Get Pro'), findsNothing);
+      expect(_key(tester, BillingCopy.manageSubscription).variant, KeyVariant.primary);
+      expect(_key(tester, BillingCopy.close).variant, KeyVariant.quiet, reason: 'a visible way out');
       await tester.tap(find.text(BillingCopy.manageSubscription));
       await _settle(tester);
       expect(rig.manageOpened, 1);
       expect(find.text(BillingCopy.manageOpenFailed), findsNothing);
+    });
+
+    testWidgets('the sheet opened for a subscription on hold has no sales title, and Close leaves it', (tester) async {
+      final rig = BillingRig(subscription: playSub(state: 'on_hold', active: false, hold: true));
+      await pumpMockmob(
+        tester,
+        Builder(builder: (context) => Center(child: TextButton(onPressed: () => showGetProSheet(context), child: const Text('open')))),
+        size: kGoldenSize,
+        overrides: [...youOverrides(credits: creditsState()), ...rig.overrides],
+        disableAnimations: true,
+      );
+      await _settle(tester);
+      await tester.tap(find.text('open'));
+      await _settle(tester);
+      expect(find.text(BillingCopy.subOnHoldTitle), findsOneWidget);
+      expect(find.text(BillingCopy.proTitle), findsNothing, reason: 'no "Get Pro" above a payment problem');
+      await tester.tap(find.text(BillingCopy.close));
+      await _settle(tester);
+      expect(find.text(BillingCopy.subOnHoldTitle), findsNothing);
     });
 
     testWidgets('a paused subscription says so; when Google Play does not open, the sheet says how to get there', (tester) async {
@@ -183,11 +211,19 @@ void main() {
       expect(find.text(BillingCopy.manageSubscription), findsOneWidget);
     });
 
-    testWidgets('in a grace period: Pro stays on while Google Play retries the payment', (tester) async {
+    testWidgets('in a grace period: a warning that asks the student to act, with Manage subscription as the main key', (tester) async {
       final rig = BillingRig(subscription: playSub(state: 'in_grace_period', grace: true, expiresAt: DateTime(2026, 11, 19, 15)));
       await _pump(tester, rig, free: false);
       await _settle(tester);
       expect(find.text(BillingCopy.subGrace('19 November')), findsOneWidget);
+      expect(find.text(BillingCopy.subGraceTitle), findsOneWidget);
+      expect(find.text('Pro is on'), findsNothing, reason: 'a screen that asks for action never looks finished');
+      expect(_key(tester, BillingCopy.manageSubscription).variant, KeyVariant.primary);
+      expect(_key(tester, BillingCopy.done).variant, KeyVariant.quiet);
+      expect(find.byIcon(LucideIcons.check), findsNothing);
+      await tester.tap(find.text(BillingCopy.manageSubscription));
+      await _settle(tester);
+      expect(rig.manageOpened, 1);
     });
 
     testWidgets('Pro from the website: Pro is on, with no Manage subscription (nothing to manage in Google Play)', (tester) async {

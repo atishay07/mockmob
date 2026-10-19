@@ -5,6 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/repositories/student_actions.dart';
+import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/billing/data/billing_controller.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart';
@@ -40,6 +41,21 @@ void main() {
       expect(find.text('Get Pro'), findsWidgets);
       expect(find.bySemanticsLabel(RegExp('^${ProNudgeCopy.sheetLabel}')), findsWidgets);
       semantics.dispose();
+    });
+
+    testWidgets('a subscription on hold: its own heading, no sales headline, Manage subscription, and Not now leaves', (tester) async {
+      final rig = NudgeRig(subscription: playSub(state: 'on_hold', active: false, hold: true));
+      await pumpNudges(tester, const OpenSheetHost(reason: ProReason.firstSession), rig);
+      await tester.tap(find.text('open'));
+      await settleNudges(tester);
+      expect(find.text(BillingCopy.subOnHoldTitle), findsOneWidget);
+      expect(find.text(BillingCopy.subOnHold), findsOneWidget);
+      expect(find.text(ProNudgeCopy.head(ProReason.firstSession).title), findsNothing, reason: 'no sales headline above a payment problem');
+      expect(find.text('Get Pro'), findsNothing);
+      expect(find.text(BillingCopy.manageSubscription), findsOneWidget);
+      await tester.tap(find.text(ProNudgeCopy.notNow));
+      await settleNudges(tester);
+      expect(find.text(BillingCopy.subOnHoldTitle), findsNothing);
     });
 
     testWidgets('the website\'s price never appears: only what Google Play returns', (tester) async {

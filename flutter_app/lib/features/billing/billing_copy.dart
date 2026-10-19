@@ -82,10 +82,18 @@ abstract final class BillingCopy {
   static String subRenews(String date) => 'Everything Pro includes is open. Your subscription renews on $date. Cancel anytime in Google Play.';
   static const subRenewsNoDate = 'Everything Pro includes is open. Your subscription renews every month. Cancel anytime in Google Play.';
   static String subRenewalOff(String date) => 'Renewal is off, so nothing more will be charged. Pro stays on until $date.';
+  static const subRenewalOffNoDate = 'Renewal is off, so nothing more will be charged. Pro stays on until the end of this billing month.';
   static String subGrace(String date) =>
       "Google Play could not take this month's payment. Pro stays on until $date while Google Play tries again. Update your payment method in Google Play to keep it.";
+  static const subGraceNoDate =
+      "Google Play could not take this month's payment and is trying again. Update your payment method in Google Play to keep Pro.";
   static const subOnHold = 'Google Play could not take your monthly payment, so Pro is paused. Update your payment method in Google Play and Pro comes back.';
-  static const subPaused = 'Your subscription is paused in Google Play. Resume it there to turn Pro back on.';
+
+  // The headings of the views that need the student in Google Play: warnings, never a success.
+  static const subGraceTitle = 'Your payment did not go through';
+  static const subOnHoldTitle = 'Your Pro is paused';
+  static const subPausedTitle = 'Your subscription is paused';
+  static const subPaused ='Your subscription is paused in Google Play. Resume it there to turn Pro back on.';
   static const subEnded = 'This subscription has ended, so it does not include Pro any more. You can subscribe again.';
   static const manageOpenFailed = 'Google Play did not open. Open the Play Store, then Payments and subscriptions, then Subscriptions.';
   static String creditsAddedTitle(int? credits) => credits == null ? 'Credits added' : '$credits ${credits == 1 ? 'credit' : 'credits'} added';

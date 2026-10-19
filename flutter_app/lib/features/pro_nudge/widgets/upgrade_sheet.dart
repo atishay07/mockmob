@@ -11,7 +11,7 @@ import '../../billing/billing_copy.dart';
 import '../../billing/data/billing_controller.dart';
 import '../../billing/data/play_products.dart';
 import '../../billing/widgets/billing_notice.dart';
-import '../../billing/widgets/get_pro_sheet.dart' show ProPriceBlock, proMonthlyPrice, proPriceParts, proStatusView;
+import '../../billing/widgets/get_pro_sheet.dart' show ProPriceBlock, needsGooglePlay, proMonthlyPrice, proPriceParts, proStatusView;
 import '../../credits/data/credit_figures.dart';
 import '../copy.dart';
 import '../data/pro_benefits.dart';
@@ -29,7 +29,8 @@ bool showUpgradeSheetIfOn(BuildContext context, {required ProReason reason}) {
   if (!container.read(proNudgesOnProvider)) return false;
   unawaited(showMmSheet<void>(
     context: context,
-    title: ProNudgeCopy.head(reason).title,
+    // A subscription to fix in Google Play is not framed by a sales headline: its own heading leads.
+    title: needsGooglePlay(container.read(playSubscriptionProvider)) ? null : ProNudgeCopy.head(reason).title,
     builder: (sheet) => UpgradeSheetBody(reason: reason, onClose: () => Navigator.of(sheet).maybePop()),
   ));
   return true;
@@ -84,6 +85,7 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
       onDone: widget.onClose ?? () {},
       onManage: _manage,
       manageFailed: _manageFailed,
+      closeLabel: ProNudgeCopy.notNow,
     );
     if (status != null) return status;
 
