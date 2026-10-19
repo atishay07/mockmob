@@ -1,6 +1,11 @@
 "use client";
 // Score Recovery · Mistake Repair for one wrong answer. The server works the question and must
 // match the answer key before any repair is shown; a mismatch holds the question for review instead.
+//
+// v13 (C-dec 3 and 3b, D157): this is "Fix it for good", Mobi's flagship job, reached from "Ask Mobi about Q7" on a paper's
+// answers. The price is said before the tap ("Fix it for good, 1 credit", every plan). When the server sends the job
+// (`mobi`, fixForGood.mjs), the fix reads: your option and the key, why it looked right with your own history of that
+// trap, why the key is right, one rule, check 1 then check 2, then held (the server's words). Older payloads render as before.
 import { useContext, useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Wrench, Check, Copy, KeyRound, ChevronRight } from 'lucide-react';
@@ -19,6 +24,7 @@ import RepairMobi from './RepairMobi';
 import RepairCheck from './RepairCheck';
 import RepairAsk from './RepairAsk';
 import { RUN_COPY, arrowIntent, swipeIntent } from './repairRun';
+import { FIX_COPY, heldView, historyLine, isFixJob, pickLines, showSecondCheck } from './fixForGood.mjs';
 import './mistake-repair.css';
 
 const newRequestId = () => (globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`).replace(/[^A-Za-z0-9_-]/g, '').slice(0, 40).padEnd(16, '0');
@@ -47,12 +53,14 @@ function RepairStart({ chosen, number = null, onStart }) {
       </div>
     );
   }
+  // "Ask Mobi about Q7" is this job: the title names the question, the key names the job and its price before the tap.
   return (
     <>
-      <button type="button" className="mr-start" onClick={onStart}>
+      <p className="mr-ask-title">{FIX_COPY.askTitle(number)}</p>
+      <button type="button" className="mr-start" onClick={onStart} aria-label={`${FIX_COPY.startAria(number)}. ${FIX_COPY.startLine(chosen)}`}>
         <span className="mr-start__icon" aria-hidden="true"><Wrench size={18} strokeWidth={2.4} /></span>
-        <span className="mr-start__text"><b>{Number.isInteger(number) ? `Repair Q${number}` : 'Repair this mistake'}</b><small>Why {chosen ? `option ${chosen}` : 'your answer'} looked right, why the key is right and one rule to keep, then a new question to check it held</small></span>
-        <span className="mr-start__cost">1 credit</span>
+        <span className="mr-start__text"><b>{FIX_COPY.start}</b><small>{FIX_COPY.startLine(chosen)}</small></span>
+        <span className="mr-start__cost">{FIX_COPY.price}</span>
       </button>
       <RepairCost />
     </>
@@ -163,8 +171,17 @@ function AnotherWay({ text, style }) {
 // A finished repair (spec A.1): blocks 1 to 12 in order, one column. Exported so fixture payloads can be rendered
 // on their own (data/tests/repair_wiring.test.mjs): v1, v2 and v3 payloads each keep their own set of blocks.
 export function RepairDone({ state, attemptId = null, questionId = null, chosen = null, answer = null, number = null, scheme = 'cuet', insights = null, folded = true, onToggleFold, mobi = null, nextButton = null, next = null, from = null, onCheck = null, askContext = null }) {
+  // Fix it for good: check 1, then check 2, then held. The server marks both and says when the fix is held.
+  const [first, setFirst] = useState(null);
+  const [held, setHeld] = useState(null);
   const blocks = repairBlocks(state.repair);
   if (!blocks) return null;
+  const fix = isFixJob(state);
+  const picks = fix ? pickLines(state.mobi) : null;
+  const history = fix ? historyLine(state.mobi) : null;
+  const heldNow = fix ? heldView(held) : null;
+  // The row's chip follows the whole fix once the server says it held or slipped (never a second cheer: it is not new).
+  const onFixHeld = (h) => { setHeld(h); onCheck?.(questionId, { right: h.held, replayed: true }); };
   const fresh = state.status === 'explained';
   const stake = marksAtStake(scheme);
   const v3 = blocks.version === 3;
@@ -174,8 +191,8 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
   const showCheck = !!(state.check && attemptId && questionId);
   // Blocks 2 onwards rise in order on a fresh repair (50 ms apart); a stored repair renders at once.
   const order = [
-    'head', 'trap', 'wrong', v3 && 'right', v3 && blocks.others.length > 0 && 'others', !v3 && blocks.anotherWay && 'v2another',
-    'rule', v3 && blocks.anotherWay && 'another', !v3 && blocks.nextStep && 'nextStep', showCheck && 'ask', showCheck && 'check', record.length > 0 && 'record',
+    'head', picks && 'picks', 'trap', 'wrong', v3 && 'right', v3 && blocks.others.length > 0 && 'others', !v3 && blocks.anotherWay && 'v2another',
+    'rule', v3 && blocks.anotherWay && 'another', !v3 && blocks.nextStep && 'nextStep', showCheck && 'ask', showCheck && 'check', showCheck && fix && 'check2', heldNow && 'held', record.length > 0 && 'record',
     stake && 'marks', state.practiceHref && 'do', 'foot',
   ].filter(Boolean);
   const stagger = (id) => ({ '--mr-i': order.indexOf(id) });
@@ -191,7 +208,16 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
           <span className="mr-check"><KeyRound size={14} strokeWidth={2.4} aria-hidden="true" />{checkChip(answer)}</span>
         </div>
       </header>
-      <div className="mr-block" data-kind="trap" data-stagger style={stagger('trap')}><h5 className="mr-label">{REPAIR_COPY.whyLooked(chosen)}</h5><p>{blocks.tempting}</p></div>
+      {picks ? (
+        <dl className="mr-block mr-picks" data-stagger style={stagger('picks')}>
+          <div><dt>{FIX_COPY.yourOption}</dt><dd><b>{picks.pick.letter}</b> {picks.pick.text}</dd></div>
+          <div data-key=""><dt>{FIX_COPY.theKey}</dt><dd><b>{picks.key.letter}</b> {picks.key.text}</dd></div>
+        </dl>
+      ) : null}
+      <div className="mr-block" data-kind="trap" data-stagger style={stagger('trap')}>
+        <h5 className="mr-label">{REPAIR_COPY.whyLooked(chosen)}</h5><p>{blocks.tempting}</p>
+        {history ? <p className="mr-history">{history}</p> : null}
+      </div>
       <div className="mr-block" data-kind="wrong" data-stagger style={stagger('wrong')}><h5 className="mr-label">{REPAIR_COPY.whereBreaks}</h5><p>{blocks.wrong}</p></div>
       {v3 ? (
         <div className="mr-block" data-kind="right" data-stagger style={stagger('right')}>
@@ -212,7 +238,18 @@ export function RepairDone({ state, attemptId = null, questionId = null, chosen 
       {v3 && blocks.anotherWay ? <AnotherWay text={blocks.anotherWay} style={stagger('another')} /> : null}
       {!v3 && blocks.nextStep ? <div className="mr-block mr-next" data-stagger style={stagger('nextStep')}><h5 className="mr-label">{REPAIR_COPY.doThisNext}</h5><p>{blocks.nextStep}</p></div> : null}
       {showCheck ? <RepairAsk attemptId={attemptId} questionId={questionId} number={number} askContext={askContext} askHref={state.check.askHref} balance={state.charged && state.wallet?.known !== false ? state.wallet?.total ?? null : null} style={stagger('ask')} /> : null}
-      {showCheck ? <RepairCheck attemptId={attemptId} questionId={questionId} check={state.check} style={stagger('check')} onResult={onCheck ? (result) => onCheck(questionId, result) : undefined} /> : null}
+      {showCheck ? <RepairCheck attemptId={attemptId} questionId={questionId} check={state.check} style={stagger('check')} of={fix ? 2 : null} onHeld={fix ? onFixHeld : undefined}
+        onResult={(result) => { setFirst(result); onCheck?.(questionId, result); }} /> : null}
+      {showCheck && showSecondCheck({ fix, first }) ? (
+        <RepairCheck attemptId={attemptId} questionId={questionId} check={null} slot={2} of={2} style={stagger('check2')} onHeld={onFixHeld}
+          onResult={() => {}} />
+      ) : null}
+      {heldNow ? (
+        <p className="mr-held" data-held={heldNow.held || undefined} data-stagger style={stagger('held')} role="status">
+          <span className="mr-held__mark" aria-hidden="true">{heldNow.held ? <Check size={15} strokeWidth={2.6} /> : null}</span>
+          <span><b>{heldNow.title}.</b> {heldNow.line}</span>
+        </p>
+      ) : null}
       {record.length ? (
         <div className="mr-block mr-record" data-stagger style={stagger('record')}>
           <h5 className="mr-label">{REPAIR_COPY.fromRecord}</h5>

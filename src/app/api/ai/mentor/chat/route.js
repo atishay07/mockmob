@@ -16,6 +16,10 @@ import { studyTutorContext } from '@/lib/server/study';
 import {studyHelpReplay} from '@/../data/study_help';
 import { loadQuestionContext } from '@/services/recovery/askContext';
 import { buildCheckDeps } from '@/services/recovery/repairCheckDeps';
+import { openThread, followUpThread, resolveAnchor } from '@/services/mobi/doubtThread';
+import { buildThreadDeps, chapterCatalog } from '@/services/mobi/doubtThreadDeps';
+import { asksTonight } from '@/../data/mobi_tonight';
+import { readTonight } from '@/services/mobi/tonight';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -66,13 +70,34 @@ export async function POST(request) {
     questionContext = loaded.context;
   }
   const sessionId = typeof payload.sessionId === 'string' ? payload.sessionId : null;
+  // A doubt thread (C-dec 3, 20 Oct 2026): `threadId` marks the one follow-up of an open thread (free).
+  const threadId = typeof payload.threadId === 'string' && payload.threadId ? payload.threadId : null;
+  // A doubt sent from "Ask now" with its chapter (a starter or a chip), or marked replyKind 'doubt', is a doubt: it opens a
+  // thread and is never answered from the record by keywords (a chapter name like "Change in Profit Sharing Ratio" would trip them).
+  const doubt = (typeof payload.subject === 'string' && payload.subject.trim() !== '') || payload.replyKind === 'doubt';
 
   // 1. Questions about the student's own record are answered from the record: free, instant, no model.
   let insights = null;
+  let attempts = null;
   try {
-    if(!studyLesson && !questionContext) insights = computePrepOSInsights(await Database.getAttempts(userId, { limit: 60 }), { subjectNames: SUBJECT_NAMES });
+    if(!studyLesson && !questionContext) {
+      attempts = await Database.getAttempts(userId, { limit: 60 });
+      insights = computePrepOSInsights(attempts, { subjectNames: SUBJECT_NAMES });
+    }
   } catch { /* the record is unavailable; fall through to the plan or model path */ }
-  const fromRecord = !studyLesson && !questionContext && insights ? answerFromInsights(message, insights, { pro: isPaidUser(dbUser) }) : null;
+
+  // "What should I revise tonight?" is free (C-dec 3 item 2): the rules from the student's own repairs, the traps that catch
+  // them, the chapters that cost most and the Revise cards due. No model, no credit. The old app's text is caught too.
+  if (!studyLesson && !questionContext && !threadId && (payload.replyKind === 'tonight' || (!doubt && asksTonight(message)))) {
+    let pack;
+    try { pack = await readTonight({ userId, attempts: attempts || [], insights }); }
+    catch { pack = null; }
+    if (pack) {
+      const response = { reply: pack.reply, origin: 'record', confidence: 0, reason: 'From your own record. No credits used.', cards: [], actions: pack.actions, tonight: pack.tonight, mode, charge: NO_CHARGE, usage: NO_USAGE };
+      return reply(await persist({ userId, sessionId, message, response, mode }), response, dbUser, 'record');
+    }
+  }
+  const fromRecord = !studyLesson && !questionContext && !threadId && !doubt && insights ? answerFromInsights(message, insights, { pro: isPaidUser(dbUser) }) : null;
   if (fromRecord) {
     const response = {
       reply: fromRecord.reply, origin: 'record', confidence: 0, reason: 'From your own sessions. No credits used.', cards: [],
@@ -104,14 +129,40 @@ export async function POST(request) {
     return reply(await persist({ userId, sessionId, message, response, mode }), response, dbUser, 'paused');
   }
 
-  // 3. Model reply through the reserve -> execute -> commit | release lifecycle.
+  // 3. A follow-up inside an open doubt thread: free (the thread's credit covers it). One short call through the runtime
+  // guard, which still counts against the student's own monthly AI limit. A failure gives the follow-up back.
+  if (threadId && !studyLesson && !questionContext) {
+    const done = await followUpThread({ user: dbUser, threadId, message, requestId: payload.requestId, deps: buildThreadDeps({ user: dbUser }) });
+    if (done.http !== 200) return NextResponse.json(done.body, { status: done.http });
+    const response = { ...done.response, origin: 'model', mode, usage: { ...NO_USAGE, ...done.receipt }, charge: NO_CHARGE, thread: done.thread, checks: [], checksNote: null };
+    return reply(await persist({ userId, sessionId: threadId, message, response, mode, keepMeta: true }), response, dbUser, 'live');
+  }
+
+  // 4. Model reply through the reserve -> execute -> commit | release lifecycle.
   const compact = insights?.state === 'ready'
     ? { n: insights.questions, sessions: insights.sessions, ledger: insights.ledger, accuracy: insights.accuracy, topChapters: insights.chapters.ranked.slice(0, 3).map((c) => ({ chapter: c.chapter, n: c.n, right: c.right, wrong: c.wrong, skip: c.skip })), changes: insights.changes, pace: insights.pace.usable ? { medianSec: insights.pace.medianSec, n: insights.pace.questionsTimed } : null }
     : { n: 0 };
-  const out = await runModelReply({
-    user: dbUser, message, mode:studyLesson || questionContext ? 'revision' : mode, requestId: payload.requestId, creditCost: 1, tier: !studyLesson && !questionContext && SMART_MODES.has(mode) ? 'smart' : 'fast',
-    gateOpen: true, context: capContextBytes({ ...context, ...(questionContext ? { questionContext } : { recordInsights: compact }), ...(studyLesson ? {studyLesson} : {}) }).context, deps: buildReplyDeps({ user: dbUser }),
+  const runReply = ({ creditCost = 1, threadContext = null } = {}) => runModelReply({
+    user: dbUser, message, mode:studyLesson || questionContext ? 'revision' : mode, requestId: payload.requestId, creditCost, tier: !studyLesson && !questionContext && SMART_MODES.has(mode) ? 'smart' : 'fast',
+    gateOpen: true, context: capContextBytes({ ...context, ...(questionContext ? { questionContext } : { recordInsights: compact }), ...(studyLesson ? {studyLesson} : {}), ...(threadContext || {}) }).context, deps: buildReplyDeps({ user: dbUser }),
   });
+
+  // A typed doubt ("Ask now") opens a thread: 1 credit, on every plan (C-dec 3b), buys Mobi's answer, one follow-up and
+  // 2 real CUET questions from the verified bank on its chapter. Nothing is charged when the reply fails.
+  if (!studyLesson && !questionContext) {
+    const anchor = resolveAnchor({ subject: payload.subject, chapter: payload.chapter, message, catalog: chapterCatalog(dbUser) });
+    const opened = await openThread({ user: dbUser, message, requestId: payload.requestId, anchor, deps: { ...buildThreadDeps({ user: dbUser }), runReply } });
+    if (opened.http !== 200) return NextResponse.json(opened.body, { status: opened.http });
+    const out = opened.out;
+    const response = {
+      ...out.response, origin: 'model', mode, usage: { ...NO_USAGE, ...out.receipt },
+      charge: { kind: 'prepos_credit', creditUnits: 1, amount: out.charged, reference: out.operationKey },
+      thread: opened.thread, checks: opened.checks, checksNote: opened.checksNote,
+    };
+    return reply(await persist({ userId, sessionId: opened.threadId, message, response, mode, keepMeta: true }), response, dbUser, 'live');
+  }
+
+  const out = await runReply({ creditCost: 1 });
   if (out.status !== 'answered') {
     // A response lost in transit can be recovered from owner-bound history without another call.
     if(studyLesson && out.status==='duplicate') {
@@ -142,7 +193,7 @@ async function reply(sessionId, response, dbUser, runtimeState) {
   });
 }
 
-async function persist({ userId, sessionId, message, response, mode }) {
+async function persist({ userId, sessionId, message, response, mode, keepMeta = false }) {
   try {
     const sb = supabaseAdmin();
     let effectiveSessionId = sessionId;
@@ -154,7 +205,8 @@ async function persist({ userId, sessionId, message, response, mode }) {
       const { data } = await sb.from('mentor_sessions').insert({ user_id: userId, title: message.slice(0, 56), metadata: { mode } }).select('id').single();
       effectiveSessionId = data?.id || null;
     } else {
-      await sb.from('mentor_sessions').update({ updated_at: new Date().toISOString(), metadata: { mode } }).eq('id', effectiveSessionId).eq('user_id', userId);
+      // A thread's row keeps its metadata (the thread state lives there); other conversations record the mode as before.
+      await sb.from('mentor_sessions').update({ updated_at: new Date().toISOString(), ...(keepMeta ? {} : { metadata: { mode } }) }).eq('id', effectiveSessionId).eq('user_id', userId);
     }
     if (!effectiveSessionId) return null;
     await sb.from('mentor_messages').insert([

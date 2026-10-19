@@ -212,9 +212,9 @@ test('L10: Today paints without waiting for the free-first-mock read; a mock\'s 
 test('L6, L7, L8: "50 credits", full stops on the pricing rows, and the tour points at Ask Mobi where the You sheet draws it', async () => {
   const { ONE_CREDIT_LINE } = await import('../../src/lib/creditCopy.mjs');
   assert.match(ONE_CREDIT_LINE, /A full mock costs 50 credits[,.]/, 'L6: never a bare "costs 50"');
-  assert.match(ONE_CREDIT_LINE, /Deeper analysis costs 3 credits\./);
+  assert.match(ONE_CREDIT_LINE, /Everything Mobi reads from your record is free\./);
   const pricing = read('src/app/pricing/page.js');
-  assert.match(pricing, /3 a deeper analysis\.\$\{FIRST_FULL_MOCK_ON \? ' Your first Full mock in each subject is free\.' : ''\}`\]/, 'L7: the Free Credits row ends with a full stop either way');
+  assert.match(pricing, /Answers from your record are free\.\$\{FIRST_FULL_MOCK_ON \? ' Your first Full mock in each subject is free\.' : ''\}`\]/, 'L7: the Free Credits row ends with a full stop either way');
   assert.match(pricing, /'Practice needs none: every mode is included\. 50 free a month for Ask Mobi\.'\]/, 'and so does the Pro row beside it');
   // L8: the You sheet draws the account card (name, Sign out, Show me around, Guide), then Ask Mobi. The tour says so.
   const { TOUR_STEPS_ALL } = await import('../../src/lib/appTour.mjs');

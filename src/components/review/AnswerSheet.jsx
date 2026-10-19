@@ -1,7 +1,8 @@
 "use client";
 // The free answer sheet (LEARN-REVIEW-1017 5.5, L13): an open mistake never needs a credit to be understood. It opens in
 // place under its row. "Try it again" shows the question with the key hidden; "Show the answer" shows your pick, the
-// correct answer and the book explanation. Both are free and record nothing. "Repair Q{n}" is the paid step inside it and
+// correct answer and the book explanation. Both are free and record nothing. "Fix it for good, 1 credit" (v13, Mobi's job; it
+// was "Repair Q{n}") is the paid step inside it, its price said before the tap, and
 // runs the existing repair (recovery/MistakeRepair.jsx, which holds RepairCheck). A mistake that already has a saved repair
 // (repaired, held, slipped) opens that repair, free, and is never offered a paid one (F17).
 //
@@ -10,6 +11,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { apiGet } from '@/lib/fetcher';
 import MistakeRepair from '@/components/recovery/MistakeRepair';
+import { FIX_COPY } from '@/components/recovery/fixForGood.mjs';
 import { haveLine } from '@/lib/creditCopy.mjs';
 import { aiRenewsLine } from '@/../data/review_input.mjs';
 import { RETRY_COPY } from '@/../data/retry_first.mjs';
@@ -115,11 +117,11 @@ export default function AnswerSheet({ item, wallet, autoRepair = false, onChange
       {body}
       {showKeys ? (
         <FreeKeys mode={mode} onTry={() => setMode('try')} onShow={() => setMode('answer')} showAnswer={!item.keyState}>
-          {repairable && !noAi ? <button type="button" className="rvw-key mk-press" onClick={() => setMode('repair')}>Repair Q{item.number}, 1 credit</button> : null}
+          {repairable && !noAi ? <button type="button" className="rvw-key mk-press" onClick={() => setMode('repair')} aria-label={FIX_COPY.startAria(item.number)}>{FIX_COPY.startLabel}</button> : null}
         </FreeKeys>
       ) : null}
       {showKeys && repairable && noAi ? (
-        <p className="rvw-sheet__fine">A repair adds why {item.pick || 'your pick'} looked right, the trap, one rule and a Check it held, for 1 credit. {haveLine(0)}{aiRenewsLine(wallet) ? ` ${aiRenewsLine(wallet)}` : ''} <Link href="/wallet">See your credits</Link></p>
+        <p className="rvw-sheet__fine">{FIX_COPY.noCredits(item.pick)} {haveLine(0)}{aiRenewsLine(wallet) ? ` ${aiRenewsLine(wallet)}` : ''} <Link href="/wallet">See your credits</Link></p>
       ) : null}
     </div>
   );

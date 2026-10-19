@@ -6,27 +6,41 @@
 // turned a "Free" ask into a charged one. Here the outcomes are named, and a free ask has no path to 'paid'.
 import { answerFromInsights } from '../../../data/prepos_insights.js';
 import { productAskFor, recordSource } from './askSuggestions.mjs';
+import { JOB_COPY, isTonightAsk } from './mobiJobs.mjs';
 
 export const RECORD_NOT_READ = 'Your record could not be read just now. Nothing was charged.';
 export const RECORD_NO_ANSWER = 'Mobi could not answer that from your record just now. Nothing was charged.';
 
 /**
  * @param {object} a
- * @param {{text?: string, answer?: object, free?: boolean}|null} a.initial the ask the page handed over
+ * @param {{text?: string, answer?: object, free?: boolean, doubt?: {subject: string, chapter: string|null}}|null} a.initial the ask the
+ *   page handed over. `doubt`: an Ask now starter, a doubt tied to a chapter (1 credit, 2 check questions on that chapter).
  * @param {string} a.status the record's status in the panel: loading, ready, empty or unavailable
  * @param {object|null} a.insights the record
  * @param {boolean} a.pro
  * @param {object|null} a.wallet
  * @param {boolean} a.offline
  * @param {{open: boolean, why: string|null}} a.paid paidState(wallet)
- * @returns {{kind: 'none'|'wait'|'page'|'product'|'record'|'say'|'record-failed'|'paid', ...}}
+ * @returns {{kind: 'none'|'wait'|'page'|'product'|'record'|'tonight'|'say'|'record-failed'|'paid', ...}}
+ *
+ * v13 (C-dec 3, D157): "What should I revise tonight?" is read from the record by the server, free ('tonight'; offline it
+ * says so and that nothing was charged). An Ask now starter is a doubt: it skips the record's keyword answers (the "1 credit"
+ * it showed is what it costs) and carries its chapter as `anchor`.
  */
 export function planStart({ initial, status, insights, pro = false, wallet = null, offline = false, paid = { open: false, why: null } }) {
   if (!initial?.text) return { kind: 'none' };
   const text = String(initial.text).trim();
   if (initial.answer) return { kind: 'page', text, answer: initial.answer };
-  const product = productAskFor(text);
+  const doubt = initial.doubt && typeof initial.doubt === 'object' && typeof initial.doubt.subject === 'string' ? initial.doubt : null;
+  const product = doubt ? null : productAskFor(text);
   if (product) return { kind: 'product', text, product };
+  if (!doubt && isTonightAsk(text)) return offline ? { kind: 'record-failed', text, reply: JOB_COPY.tonightOffline } : { kind: 'tonight', text };
+  if (doubt) {
+    if (!wallet) return { kind: 'wait' };
+    if (offline) return { kind: 'say', text, reply: 'This was not sent because you are offline. No credit was used.', actions: [] };
+    if (!paid.open) return { kind: 'say', text, reply: paid.why, actions: [{ label: 'See your credits', route: '/wallet' }] };
+    return { kind: 'paid', text, anchor: { subject: doubt.subject, chapter: typeof doubt.chapter === 'string' ? doubt.chapter : null } };
+  }
   if (status === 'loading') return { kind: 'wait' };
   const fromRecord = status === 'ready' || status === 'empty' ? answerFromInsights(text, insights ?? { state: 'empty' }, { pro }) : null;
   if (fromRecord) return { kind: 'record', text, answer: { reply: fromRecord.reply, actions: (fromRecord.actions || []).slice(0, 1), source: recordSource(insights) } };

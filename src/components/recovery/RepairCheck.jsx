@@ -4,6 +4,10 @@
 // follow-up is not here: it belongs to the original mistake and lives in RepairAsk. The key stays visible: the answered rows show it.
 // Pure logic (requests, plans, lines, copy) is in data/repair_check_client.mjs; the contract is in
 // data/tests/fixtures/repair4/contract_check_v1.json.
+//
+// v13 "Fix it for good" (fixForGood.mjs): the fix ends with 2 checks. `slot` 2 is the second, different fresh question
+// (GET ...&slot=2, POST slot: 2), opened once check 1 is marked; `of` titles them "Check 1 of 2" and "Check 2 of 2". The
+// server says when the fix is held (held, heldLine) and onHeld passes that on; the screen never works it out itself.
 import { useEffect, useId, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Minus, Repeat } from 'lucide-react';
@@ -11,6 +15,7 @@ import {
   CHECK_COPY, checkAvailability, safeCheckHref, newCheckRequestId, requestCheck, submitCheck, planCheckLoad, planCheckAnswer,
   openRows, answeredRows, poolLine, reviseLine, leadLine,
 } from '@/../data/repair_check_client.mjs';
+import { FIX_COPY, heldFrom, slotHref, slotPayload } from './fixForGood.mjs';
 import './repair-check.css';
 
 function Verdict({ right, line, innerRef }) {
@@ -26,8 +31,9 @@ function Verdict({ right, line, innerRef }) {
 
 // onResult({ right, replayed }): the server marked this check (now, or earlier: replayed). Called once per marked answer,
 // only after the server's acknowledgement, so the result row's chip and Mobi's one cheer never run ahead of it.
-export default function RepairCheck({ attemptId, questionId, check, style, onResult }) {
-  const availability = checkAvailability(check);
+export default function RepairCheck({ attemptId, questionId, check, style, onResult, slot = 1, of = null, onHeld = null }) {
+  // The second check has no field of its own in the repair response: it is always asked for, and the server says if there is none.
+  const availability = slot === 2 ? { show: true, mode: 'load' } : checkAvailability(check);
   const titleId = useId();
   const stemId = useId();
   const [view, setView] = useState(() => (availability.mode === 'message'
@@ -39,15 +45,20 @@ export default function RepairCheck({ attemptId, questionId, check, style, onRes
   const inFlight = useRef(false);
   const focusVerdict = useRef(false);
   const verdict = useRef(null);
-  const href = safeCheckHref(check?.href, attemptId, questionId);
+  const href = slot === 2 ? slotHref(attemptId, questionId, 2) : safeCheckHref(check?.href, attemptId, questionId);
+  const heldSaid = useRef(onHeld);
+  useEffect(() => { heldSaid.current = onHeld; }, [onHeld]);
+  const tellHeld = (body) => { const h = heldFrom(body); if (typeof h.held === 'boolean') heldSaid.current?.(h); };
 
   async function load() {
     const mine = ++seq.current;
     requestId.current = null;
     setPick(null);
     setView({ phase: 'loading' });
-    const plan = planCheckLoad(await requestCheck(fetch, href));
+    const outcome = await requestCheck(fetch, href);
+    const plan = planCheckLoad(outcome);
     if (mine !== seq.current) return;
+    if (plan.state === 'answered' && outcome.kind === 'response') tellHeld(outcome.body);
     if (plan.state === 'ready') setView({ phase: 'ready', check: plan.check, pool: plan.check.pool ?? null });
     else if (plan.state === 'answered') setView({ phase: 'answered', check: plan.check, result: plan.result, replayed: true });
     else if (plan.state === 'none') setView({ phase: 'none', message: plan.message, canRetry: plan.canRetry });
@@ -84,8 +95,10 @@ export default function RepairCheck({ attemptId, questionId, check, style, onRes
     try {
       requestId.current ??= newCheckRequestId();
       setView({ phase: 'sending', check: open, pool: view.pool });
-      const plan = planCheckAnswer(await submitCheck(fetch, { attemptId, questionId, checkQuestionId: open.checkQuestionId, pick, requestId: requestId.current }));
+      const outcome = await submitCheck(fetch, slotPayload({ attemptId, questionId, checkQuestionId: open.checkQuestionId, pick, requestId: requestId.current }, slot));
+      const plan = planCheckAnswer(outcome);
       if (mine !== seq.current) return;
+      if (plan.state === 'answered' && outcome.kind === 'response') tellHeld(outcome.body);
       if (plan.state === 'answered') {
         focusVerdict.current = true;
         setView({ phase: 'answered', check: open, result: plan.result, replayed: plan.replayed });
@@ -109,8 +122,8 @@ export default function RepairCheck({ attemptId, questionId, check, style, onRes
   return (
     <section className="mr-chk" data-stagger style={style} data-phase={phase} aria-labelledby={titleId}>
       <header className="mr-chk__head">
-        <h5 className="mr-chk__title" id={titleId}>{CHECK_COPY.title}</h5>
-        {phase === 'none' || phase === 'loadError' ? null : <p className="mr-chk__lead">{leadLine(open?.basis)}</p>}
+        <h5 className="mr-chk__title" id={titleId}>{of ? FIX_COPY.check(slot) : CHECK_COPY.title}</h5>
+        {phase === 'none' || phase === 'loadError' ? null : <p className="mr-chk__lead">{slot === 2 ? FIX_COPY.secondLead : leadLine(open?.basis)}</p>}
       </header>
 
       {phase === 'loading' ? (

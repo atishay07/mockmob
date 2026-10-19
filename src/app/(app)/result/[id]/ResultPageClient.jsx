@@ -536,6 +536,9 @@ export default function ResultPageClient({ previewId = null }) {
     });
   };
   const askAbout = (row) => {
+    // v13: on an opened wrong answer that has not been fixed yet, "Ask Mobi about Q7" is the Fix it for good job itself, titled
+    // above its key in the repair (MistakeRepair's RepairStart), so the line is not drawn a second time here.
+    if (row.verdict === 'wrong' && Number.isInteger(row.d?.givenIndex) && !sealedOf(row) && !repairOutcomes[row.q.id]) return null;
     const context = hasExplanation(repairOutcomes[row.q.id]) ? null : askContextOf(row);
     return context ? <p className="ame-line"><AskMobiLink context={context}>{questionEntryLabel(row.number)}</AskMobiLink></p> : null;
   };

@@ -27,6 +27,8 @@ import {
   NOT_OFFERED_MESSAGE,
 } from '../../../data/repair_check.js';
 import { mistakeId } from './repairFlow.js';
+import { slotKeys } from './repairCheckStore.js';
+import { heldOf } from '../../../data/mobi_fix.js';
 
 const out = (http, body) => ({ http, body });
 // How many ranked candidates the publication gate (which needs the full row) looks at per read, and in total.
@@ -36,9 +38,9 @@ const ID_LIMIT = 160;
 const validId = (value) => typeof value === 'string' && value.length > 0 && value.length <= ID_LIMIT;
 
 /** Where the client finds the check and the Ask Mobi follow-up for one mistake. Relative links. */
-export function checkLinks(attemptId, questionId) {
+export function checkLinks(attemptId, questionId, slot = 1) {
   return {
-    href: `/api/recovery/check?attemptId=${encodeURIComponent(attemptId)}&questionId=${encodeURIComponent(questionId)}`,
+    href: `/api/recovery/check?attemptId=${encodeURIComponent(attemptId)}&questionId=${encodeURIComponent(questionId)}${slot === 2 ? '&slot=2' : ''}`,
     askHref: `/mentor?tab=ask&q=${encodeURIComponent(attemptId)}:${encodeURIComponent(questionId)}`,
   };
 }
@@ -63,8 +65,11 @@ async function prepare({ user, attemptId, questionId, deps, preloaded }) {
 }
 
 const hasRepair = (reservation) => !!reservation?.receipt?.repair;
-const offeredOf = (reservation) => {
-  const offer = reservation?.receipt?.offered;
+/** 1 or 2: Fix it for good asks two fresh questions (C-dec 3). Anything else is the first. */
+export const checkSlot = (value) => (Number(value) === 2 ? 2 : 1);
+const otherSlot = (slot) => (slot === 2 ? 1 : 2);
+const offeredOf = (reservation, slot = 1) => {
+  const offer = reservation?.receipt?.[slotKeys(slot).offered];
   return offer && typeof offer.checkQuestionId === 'string' && Array.isArray(offer.optionHashes) ? offer : null;
 };
 
@@ -98,7 +103,7 @@ const publicCheck = (stored) => ({
  * `ownOfferId` is the question this repair already offered: it is in the seen set because offering it wrote its `seen` row, so
  * it is let back in for this repair only. Returns { ok:true, selection } | { ok:false, status, reason, pool? }.
  */
-async function buildSelection({ user, p, deps, ownOfferId = null }) {
+async function buildSelection({ user, p, deps, ownOfferId = null, slot = 1 }) {
   const { current, eligible, attempt, id } = p;
   if (isPassageLinkedQuestion(current) || isPassageLinkedQuestion(eligible.question)) return { ok: false, status: 'none', reason: 'passage_format', pool: { ofChapter: 0, unseen: 0 } };
   if (!current.subject || !current.chapter) return { ok: false, status: 'none', reason: 'no_unseen', pool: { ofChapter: 0, unseen: 0 } };
@@ -114,6 +119,9 @@ async function buildSelection({ user, p, deps, ownOfferId = null }) {
   for (const q of attempt.questionsSnapshot || []) if (q?.id) seen.add(q.id);
   seen.add(current.id);
   if (ownOfferId && ownOfferId !== current.id) seen.delete(ownOfferId);
+  // The other check of the same repair is never this one's question, whatever its `seen` row says.
+  const other = slotKeys(otherSlot(slot));
+  for (const id of [p.reservation?.receipt?.[other.offered]?.checkQuestionId, p.reservation?.receipt?.[other.check]?.checkQuestionId]) if (id) seen.add(id);
   const selection = selectCheckQuestion({ mistake: current, candidates, seen, excluded, userId: user.id, mistakeKey: id });
   if (!selection.ok) return { ok: false, status: 'none', reason: selection.reason, pool: selection.pool };
   return { ok: true, selection };
@@ -124,8 +132,8 @@ async function buildSelection({ user, p, deps, ownOfferId = null }) {
  * same family, not a near copy), then the publication gate on full rows, walking down the ranked list.
  * Returns { ok:true, chosen, full, selection } | { ok:false, status:'none', reason, pool } | { ok:false, status:'failed', reason }.
  */
-async function findCheck({ user, p, deps }) {
-  const built = await buildSelection({ user, p, deps });
+async function findCheck({ user, p, deps, slot = 1 }) {
+  const built = await buildSelection({ user, p, deps, slot });
   if (!built.ok) return built;
   const { selection } = built;
   const full = new Map();
@@ -150,8 +158,8 @@ async function findCheck({ user, p, deps }) {
  * not seen anywhere else), pass the gate, and its options must still map one to one onto the offered hashes.
  * Returns { ok:true, full, order, basis, basisLine, selection } | { ok:false, status:'none', reason:'check_changed' } | { ok:false, status:'failed', reason }.
  */
-async function findOffered({ user, p, deps, offer }) {
-  const built = await buildSelection({ user, p, deps, ownOfferId: offer.checkQuestionId });
+async function findOffered({ user, p, deps, offer, slot = 1 }) {
+  const built = await buildSelection({ user, p, deps, ownOfferId: offer.checkQuestionId, slot });
   if (!built.ok) return built.status === 'failed' ? built : { ok: false, status: 'none', reason: 'check_changed' };
   const { selection } = built;
   if (!checkIsStillOffered(selection, offer.checkQuestionId)) return { ok: false, status: 'none', reason: 'check_changed' };
@@ -174,49 +182,51 @@ const readyBody = ({ view, basis, basisLine, pool, rule, links }) => ({
 });
 
 /** Makes sure the offered question's `seen` row is written before the question is shown. Throws when it cannot be. */
-async function ensureSeen({ user, p, deps, offer }) {
+async function ensureSeen({ user, p, deps, offer, slot = 1 }) {
   if (offer.recorded === true) return;
   await deps.recordSeen({ userId: user.id, questionId: offer.checkQuestionId, mistakeKey: p.id });
-  try { await deps.patchOffer({ operationKey: p.reservation.operation_key, userId: user.id, checkQuestionId: offer.checkQuestionId, patch: { recorded: true } }); }
+  try { await deps.patchOffer({ operationKey: p.reservation.operation_key, userId: user.id, checkQuestionId: offer.checkQuestionId, patch: { recorded: true }, ...(slot === 2 ? { slot } : {}) }); }
   catch { /* the row is written; at worst the next open writes one more `seen` row */ }
 }
 
 /** GET: the check question, the stored answer, or a plain reason. */
-export async function openCheck({ user, attemptId, questionId, deps, preloaded }) {
+export async function openCheck({ user, attemptId, questionId, deps, preloaded, slot: rawSlot = 1 }) {
   if (!validId(attemptId) || !validId(questionId)) return out(422, { ok: false, error: 'invalid_request', message: 'That check request was incomplete.' });
+  const slot = checkSlot(rawSlot);
+  const k = slotKeys(slot);
   const p = await prepare({ user, attemptId, questionId, deps, preloaded });
   if (p.fail) return p.fail;
-  const links = checkLinks(attemptId, questionId);
+  const links = { ...checkLinks(attemptId, questionId, slot), ...(slot === 2 ? { slot } : {}) };
   if (!hasRepair(p.reservation)) return failure(409, 'repair_first', 'repair_first', links);
-  const stored = p.reservation.receipt.check;
-  if (stored) return out(200, { ok: true, status: 'answered', charged: 0, check: publicCheck(stored), result: publicResult(stored), ...links });
+  const stored = p.reservation.receipt[k.check];
+  if (stored) return out(200, { ok: true, status: 'answered', charged: 0, check: publicCheck(stored), result: publicResult(stored), ...heldOf(p.reservation.receipt), ...links });
   const rule = ruleOf(p.reservation.receipt.repair);
 
-  let offer = offeredOf(p.reservation);
+  let offer = offeredOf(p.reservation, slot);
   // At most one lost race (another request offered first): its offer is then the one to show.
   for (let round = 0; round < 2; round += 1) {
     if (offer) {
-      const kept = await findOffered({ user, p, deps, offer });
+      const kept = await findOffered({ user, p, deps, offer, slot });
       if (kept.ok) {
-        try { await ensureSeen({ user, p, deps, offer }); } catch { return failure(503, 'none', 'check_unavailable', links); }
+        try { await ensureSeen({ user, p, deps, offer, slot }); } catch { return failure(503, 'none', 'check_unavailable', links); }
         return out(200, readyBody({ view: checkQuestionView(kept.full, kept.order), basis: kept.basis, basisLine: kept.basisLine, pool: kept.selection.pool, rule, links }));
       }
       if (kept.status === 'failed') return failure(503, 'none', kept.reason, links);
       // The offered question can no longer be offered (withdrawn, held, its options changed): another one replaces it below.
     }
-    const found = await findCheck({ user, p, deps });
+    const found = await findCheck({ user, p, deps, slot });
     if (!found.ok && found.status === 'failed') return failure(503, 'none', found.reason, links);
-    if (!found.ok) return out(200, { ok: true, status: 'none', charged: 0, reason: found.reason, message: checkReasonMessage(found.reason), pool: found.pool, ...links });
+    if (!found.ok) return out(200, { ok: true, status: 'none', charged: 0, reason: found.reason, message: checkReasonMessage(found.reason), pool: found.pool, ...(slot === 2 ? heldOf(p.reservation.receipt, { secondOffered: false }) : {}), ...links });
     const fresh = { checkQuestionId: found.chosen.id, optionHashes: optionTextHashes(found.full), offeredAt: new Date(deps.now()).toISOString(), recorded: false };
     let claimed;
-    try { claimed = await deps.claimOffer({ operationKey: p.reservation.operation_key, userId: user.id, offer: fresh, replaces: offer?.checkQuestionId ?? null }); }
+    try { claimed = await deps.claimOffer({ operationKey: p.reservation.operation_key, userId: user.id, offer: fresh, replaces: offer?.checkQuestionId ?? null, ...(slot === 2 ? { slot } : {}) }); }
     catch { return failure(503, 'none', 'check_unavailable', links); }
     if (claimed?.ok) {
-      try { await ensureSeen({ user, p, deps, offer: fresh }); } catch { return failure(503, 'none', 'check_unavailable', links); }
+      try { await ensureSeen({ user, p, deps, offer: fresh, slot }); } catch { return failure(503, 'none', 'check_unavailable', links); }
       const view = checkQuestionView(found.full, orderFromHashes(found.full, fresh.optionHashes));
       return out(200, readyBody({ view, basis: found.chosen.basis, basisLine: found.chosen.basisLine, pool: found.selection.pool, rule, links }));
     }
-    if (claimed?.existing && offeredOf({ receipt: { offered: claimed.existing } })) { offer = claimed.existing; continue; }
+    if (claimed?.existing && offeredOf({ receipt: { [k.offered]: claimed.existing } }, slot)) { offer = claimed.existing; continue; }
     return failure(503, 'none', 'check_unavailable', links);
   }
   return failure(503, 'none', 'check_unavailable', links);
@@ -262,7 +272,9 @@ async function statusOf({ user, attemptId, questionId, deps, preloaded, base }) 
 }
 
 /** POST: marks one answer. Idempotent per repair: the first stored answer is returned for every later request. */
-export async function answerCheck({ user, attemptId, questionId, checkQuestionId, pick, requestId, deps, preloaded }) {
+export async function answerCheck({ user, attemptId, questionId, checkQuestionId, pick, requestId, deps, preloaded, slot: rawSlot = 1 }) {
+  const slot = checkSlot(rawSlot);
+  const k = slotKeys(slot);
   if (!validId(attemptId) || !validId(questionId) || !validId(checkQuestionId) || !CHECK_REQUEST_ID.test(String(requestId || ''))) {
     return out(422, { ok: false, error: 'invalid_request', message: 'That check request was incomplete.' });
   }
@@ -274,16 +286,16 @@ export async function answerCheck({ user, attemptId, questionId, checkQuestionId
   // Only the question that was offered for this repair (or, once answered, the one that was answered) is accepted. Any other
   // id, a real bank question or not, is refused before anything is read about it, and nothing is written.
   const receipt = p.reservation.receipt;
-  const offer = offeredOf(p.reservation);
-  const acceptedId = receipt.check ? receipt.check.checkQuestionId : offer?.checkQuestionId;
+  const offer = offeredOf(p.reservation, slot);
+  const acceptedId = receipt[k.check] ? receipt[k.check].checkQuestionId : offer?.checkQuestionId;
   if (!acceptedId || acceptedId !== checkQuestionId) return failure(422, 'invalid_pick', 'invalid_pick', { message: NOT_OFFERED_MESSAGE });
 
-  const replay = (stored) => out(200, { ok: true, status: 'answered', replayed: true, charged: 0, result: publicResult(stored) });
-  if (receipt.check) return replay(receipt.check);
+  const replay = (stored) => out(200, { ok: true, status: 'answered', replayed: true, charged: 0, result: publicResult(stored), ...heldOf({ ...receipt, [k.check]: stored }) });
+  if (receipt[k.check]) return replay(receipt[k.check]);
 
   // The offered question must still be one that could be offered now (never seen elsewhere, not held, same chapter), pass the
   // gate, and have the options it was offered with: the pick is matched by their text.
-  const found = await findOffered({ user, p, deps, offer });
+  const found = await findOffered({ user, p, deps, offer, slot });
   if (!found.ok) return failure(found.status === 'failed' && found.reason === 'lookup_failed' ? 503 : 409, 'none', found.status === 'failed' ? found.reason : 'check_changed');
 
   const order = found.order;
@@ -302,7 +314,7 @@ export async function answerCheck({ user, attemptId, questionId, checkQuestionId
     options: view.options.map((o) => ({ ...o, isKey: o.index === marked.keyDisplay, isPick: o.index === pick })),
     answeredAt: new Date(nowMs).toISOString(), revise: null, progressRecorded: false,
   };
-  const claimed = await claim({ deps, user, reservation: p.reservation, check: { ...base, line: outcomeLine({ right: marked.right, basis: found.basis, revise: null }) } });
+  const claimed = await claim({ deps, user, reservation: p.reservation, slot, check: { ...base, line: outcomeLine({ right: marked.right, basis: found.basis, revise: null }) } });
   if (claimed.error) return failure(503, 'none', 'check_unavailable');
   if (!claimed.won) return replay(claimed.existing);
 
@@ -320,13 +332,14 @@ export async function answerCheck({ user, attemptId, questionId, checkQuestionId
     revise = placed?.count ? reviseSummary({ written: placed.count, dueDay: placed.dueDay || plan.dueDay, nowMs }) : reviseSummary({ written: 0 });
   } catch { revise = reviseSummary({ written: 0 }); }
   const final = { ...base, progressRecorded, revise, line: outcomeLine({ right: marked.right, basis: found.basis, revise }) };
-  try { await deps.patchCheck({ operationKey: p.reservation.operation_key, userId: user.id, patch: { progressRecorded, revise, line: final.line } }); } catch { /* the answer is stored; only the extras are missing on a reload */ }
-  return out(200, { ok: true, status: 'answered', replayed: false, charged: 0, result: publicResult(final) });
+  try { await deps.patchCheck({ operationKey: p.reservation.operation_key, userId: user.id, patch: { progressRecorded, revise, line: final.line }, ...(slot === 2 ? { slot } : {}) }); } catch { /* the answer is stored; only the extras are missing on a reload */ }
+  // Held (Fix it for good): every check right. It is read from the answers stored on the receipt, so the record reads it too.
+  return out(200, { ok: true, status: 'answered', replayed: false, charged: 0, result: publicResult(final), ...heldOf({ ...receipt, [k.check]: final }) });
 }
 
-async function claim({ deps, user, reservation, check }) {
+async function claim({ deps, user, reservation, check, slot = 1 }) {
   try {
-    const res = await deps.claimCheck({ operationKey: reservation.operation_key, userId: user.id, check });
+    const res = await deps.claimCheck({ operationKey: reservation.operation_key, userId: user.id, check, ...(slot === 2 ? { slot } : {}) });
     if (res?.ok) return { won: true };
     if (res?.existing) return { won: false, existing: res.existing };
     return { error: true };

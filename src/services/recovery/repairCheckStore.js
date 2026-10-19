@@ -20,6 +20,9 @@ const SESSION_SCAN = 40;
 const INTERACTION_PAGE = 500;
 const MISSING_TABLE = new Set(['42P01', 'PGRST205', 'PGRST204']);
 const isMissing = (error) => !!error && (MISSING_TABLE.has(error.code) || /schema cache|does not exist|relation .* does not exist/i.test(String(error.message || '')));
+// Fix it for good (C-dec 3, 20 Oct 2026) asks two fresh questions. The first lives where it always did (receipt.offered and
+// receipt.check); the second has its own keys (receipt.offered2 and receipt.check2), so a repair from before keeps working.
+export const slotKeys = (slot = 1) => (slot === 2 ? { offered: 'offered2', check: 'check2' } : { offered: 'offered', check: 'check' });
 const chunks = (list, size = CHUNK) => { const out = []; for (let i = 0; i < list.length; i += size) out.push(list.slice(i, i + size)); return out; };
 
 /**
@@ -178,24 +181,26 @@ export function createCheckStore({ db, recordProgress, readable = readablePracti
      * two requests racing for the same repair cannot both win: the loser reads the winner's answer back.
      * Returns { ok:true } | { ok:false, existing } | throws.
      */
-    async claimCheck({ operationKey, userId, check }) {
+    async claimCheck({ operationKey, userId, check, slot = 1 }) {
+      const k = slotKeys(slot);
       const row = await db.from('ai_credit_reservations').select('receipt').eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').maybeSingle();
       if (row.error || !row.data?.receipt) throw new Error('receipt_unavailable');
-      if (row.data.receipt.check) return { ok: false, existing: row.data.receipt.check };
-      const res = await db.from('ai_credit_reservations').update({ receipt: { ...row.data.receipt, check } })
-        .eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').is('receipt->check', null).select('operation_key');
+      if (row.data.receipt[k.check]) return { ok: false, existing: row.data.receipt[k.check] };
+      const res = await db.from('ai_credit_reservations').update({ receipt: { ...row.data.receipt, [k.check]: check } })
+        .eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').is(`receipt->${k.check}`, null).select('operation_key');
       if (res.error) throw new Error('receipt_write_failed');
       if (res.data?.length) return { ok: true };
       const again = await db.from('ai_credit_reservations').select('receipt').eq('operation_key', operationKey).eq('user_id', userId).maybeSingle();
-      if (again.data?.receipt?.check) return { ok: false, existing: again.data.receipt.check };
+      if (again.data?.receipt?.[k.check]) return { ok: false, existing: again.data.receipt[k.check] };
       throw new Error('receipt_write_failed');
     },
 
     /** Adds the extras (progress flag, Revise result, final line) to the stored answer. Best effort. */
-    async patchCheck({ operationKey, userId, patch }) {
+    async patchCheck({ operationKey, userId, patch, slot = 1 }) {
+      const k = slotKeys(slot);
       const row = await db.from('ai_credit_reservations').select('receipt').eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').maybeSingle();
-      if (row.error || !row.data?.receipt?.check) throw new Error('receipt_unavailable');
-      const receipt = { ...row.data.receipt, check: { ...row.data.receipt.check, ...patch } };
+      if (row.error || !row.data?.receipt?.[k.check]) throw new Error('receipt_unavailable');
+      const receipt = { ...row.data.receipt, [k.check]: { ...row.data.receipt[k.check], ...patch } };
       const res = await db.from('ai_credit_reservations').update({ receipt }).eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed');
       if (res.error) throw new Error('receipt_write_failed');
     },
@@ -206,30 +211,32 @@ export function createCheckStore({ db, recordProgress, readable = readablePracti
      * to offer cannot both win and an answer is never overwritten: the loser gets the winner's offer back.
      * Returns { ok:true } | { ok:false, existing } (the offer that is there now, or null when an answer was stored) | throws.
      */
-    async claimOffer({ operationKey, userId, offer, replaces = null }) {
+    async claimOffer({ operationKey, userId, offer, replaces = null, slot = 1 }) {
+      const k = slotKeys(slot);
       const read = async () => db.from('ai_credit_reservations').select('receipt').eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').maybeSingle();
       const row = await read();
       if (row.error || !row.data?.receipt) throw new Error('receipt_unavailable');
-      const current = row.data.receipt.offered || null;
-      if (row.data.receipt.check) return { ok: false, existing: null };
+      const current = row.data.receipt[k.offered] || null;
+      if (row.data.receipt[k.check]) return { ok: false, existing: null };
       if ((current?.checkQuestionId ?? null) !== replaces) return { ok: false, existing: current };
-      let update = db.from('ai_credit_reservations').update({ receipt: { ...row.data.receipt, offered: offer } })
-        .eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').is('receipt->check', null);
-      update = replaces === null ? update.is('receipt->offered', null) : update.eq('receipt->offered->>checkQuestionId', replaces);
+      let update = db.from('ai_credit_reservations').update({ receipt: { ...row.data.receipt, [k.offered]: offer } })
+        .eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').is(`receipt->${k.check}`, null);
+      update = replaces === null ? update.is(`receipt->${k.offered}`, null) : update.eq(`receipt->${k.offered}->>checkQuestionId`, replaces);
       const res = await update.select('operation_key');
       if (res.error) throw new Error('receipt_write_failed');
       if (res.data?.length) return { ok: true };
       const again = await read();
       if (again.error || !again.data?.receipt) throw new Error('receipt_write_failed');
-      return { ok: false, existing: again.data.receipt.check ? null : again.data.receipt.offered || null };
+      return { ok: false, existing: again.data.receipt[k.check] ? null : again.data.receipt[k.offered] || null };
     },
 
     /** Marks the offer as recorded (the \`seen\` row is written). Matches only while no answer is stored. Best effort for the caller. */
-    async patchOffer({ operationKey, userId, checkQuestionId, patch }) {
+    async patchOffer({ operationKey, userId, checkQuestionId, patch, slot = 1 }) {
+      const k = slotKeys(slot);
       const row = await db.from('ai_credit_reservations').select('receipt').eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').maybeSingle();
-      if (row.error || row.data?.receipt?.offered?.checkQuestionId !== checkQuestionId) throw new Error('receipt_unavailable');
-      const res = await db.from('ai_credit_reservations').update({ receipt: { ...row.data.receipt, offered: { ...row.data.receipt.offered, ...patch } } })
-        .eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').is('receipt->check', null);
+      if (row.error || row.data?.receipt?.[k.offered]?.checkQuestionId !== checkQuestionId) throw new Error('receipt_unavailable');
+      const res = await db.from('ai_credit_reservations').update({ receipt: { ...row.data.receipt, [k.offered]: { ...row.data.receipt[k.offered], ...patch } } })
+        .eq('operation_key', operationKey).eq('user_id', userId).eq('state', 'committed').is(`receipt->${k.check}`, null);
       if (res.error) throw new Error('receipt_write_failed');
     },
 

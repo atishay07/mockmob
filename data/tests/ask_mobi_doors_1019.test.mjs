@@ -105,19 +105,20 @@ test('the record asks: seven in the app\'s order, each priced, the Pro ones visi
     'Where am I losing marks?', 'Which chapter should I practise?', LAST_PAPER_ASK, 'What should I revise tonight?',
     'Am I too slow on wrong answers?', 'How is my week going?', 'Do I change answers too much?',
   ]);
-  assert.deepEqual(free.map((a) => a.price), ['free', 'free', 'free', 'credit', 'pro', 'free', 'pro']);
+  // v13 (C-dec 3 item 2, D157): "What should I revise tonight?" is read from the record by the server, free.
+  assert.deepEqual(free.map((a) => a.price), ['free', 'free', 'free', 'free', 'pro', 'free', 'pro']);
   assert.deepEqual(free.filter((a) => a.locked).map((a) => a.id), ['pace', 'changes'], 'visible, locked, never hidden (D101, R3)');
   assert.equal(free[4].preview, 'Timing from your timed papers');
   assert.equal(free[6].preview, 'From the answers you changed');
   assert.equal(free[0].preview, '75 marks to win back in Goodwill');
   assert.equal(free[1].preview, '3 chapters ranked from your answers');
-  assert.equal(free[3].preview, 'A written plan built from your record');
+  assert.equal(free[3].preview, 'Your chapters, rules and traps for tonight');
   assert.equal(free[5].preview, '3 papers, 30 questions in 7 days');
   const pro = recordDoorAsks(HEAVY, { pro: true, last, now: new Date(NOW) });
-  assert.deepEqual(pro.map((a) => a.price), ['free', 'free', 'free', 'credit', 'free', 'free', 'free']);
+  assert.deepEqual(pro.map((a) => a.price), ['free', 'free', 'free', 'free', 'free', 'free', 'free']);
   assert.equal(pro[4].preview, 'Wrong answers take 2:10, right ones 40s');
   assert.equal(pro[6].preview, '6 changes: 4 helped, 2 hurt');
-  // Free record answers stay free: the three price words are only these.
+  // Free record answers stay free: the three price words are only these (v13: no record ask costs a credit now).
   for (const a of free) assert.ok(['free', 'credit', 'pro'].includes(a.price));
   assert.equal(seeAll(free.length), 'See all 7 questions about your record');
 });

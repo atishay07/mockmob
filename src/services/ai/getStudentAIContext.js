@@ -5,6 +5,8 @@ import { buildAdmissionCompass } from '@/lib/admissionCompass';
 import { learningRecord } from '@/lib/server/learning';
 import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
 import { ONE_BALANCE_NOTE, oneBalanceForModel } from './creditsForModel.js';
+import { readStanding } from '@/services/mobi/standing';
+import { standingForModel } from '@/../data/mobi_standing';
 
 /**
  * Build a compact context object for the AI Mentor.
@@ -38,16 +40,19 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     bookmarkRows,
     voteRows,
     usageSnapshot,
-    targetRows,
   ] = await Promise.all([
     Database.getAttempts(userId, { memo: attemptsMemo }).catch(() => []),
     safeSelect('user_question_progress', userId),
     safeSelect('question_bookmarks', userId),
     safeSelect('question_votes', userId, 100),
     getUsageSnapshot(effectiveUser).catch(() => null),
-    // TODO: replace with real targets table once /admission-compass writes one.
-    Promise.resolve([]),
   ]);
+  // The student's own colleges (My colleges) with DU's 2026 Round 1 closing marks, and where their practice range stands
+  // against them (data/mobi_standing.js, the same read as "Where you stand"). Arithmetic on the record, never a prediction.
+  // The newest 60 papers, as the standing route reads. A failed read leaves both out; the rest of the context stands.
+  const standing = await readStanding(userId, { attempts: attempts.slice(0, 60) }).catch(() => null);
+  const standingView = standingForModel(standing);
+  const { colleges: targetColleges = [], ...collegeStanding } = standingView || {};
 
   const recentMockSummary = summarizeAttempts(attempts.slice(0, 5));
   const lastMockSummary = summarizeAttempt(attempts[0]);
@@ -57,7 +62,10 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
   const savedQuestionSummary = summarizeBookmarks(bookmarkRows);
   const skippedQuestionSummary = summarizeSkipped(progressRows);
 
+  // The older Compass summary carries estimated scores and chance labels. Once the honest standing is there, it is left out,
+  // so the model never quotes a chance beside the student's real cutoffs.
   let admissionCompassSummary = null;
+  if (!standingView) {
   try {
     const compass = buildAdmissionCompass({
       user: effectiveUser,
@@ -82,6 +90,7 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     };
   } catch (err) {
     admissionCompassSummary = { error: 'compass_unavailable' };
+  }
   }
 
   const recommendedDeterministicActions = buildDeterministicRecommendations({
@@ -111,9 +120,11 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     exam: 'CUET',
     selectedSubjects: Array.isArray(effectiveUser?.subjects) ? effectiveUser.subjects : [],
 
-    // TODO: persist DU target on user profile; surface here when available.
-    targetCourses: targetRows.targetCourses || [],
-    targetColleges: targetRows.targetColleges || [],
+    // My colleges, in the student's order: each with its 2026 Round 1 closing marks for the category used, where the practice
+    // range sits against it and the marks short. collegeStanding is the range and the chapters that close the gap fastest.
+    targetCourses: [...new Set(targetColleges.map((c) => c.programme).filter(Boolean))],
+    targetColleges,
+    collegeStanding: standingView ? collegeStanding : null,
 
     recentMockSummary,
     lastMockSummary,

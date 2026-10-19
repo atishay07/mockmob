@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { walletLine } from '../../src/components/ai/askSuggestions.mjs';
 import { creditTiles } from '../../src/components/profile/creditsModel.mjs';
-import { ONE_CREDIT_LINE, DEEP_AI_CREDITS } from '../../src/lib/creditCopy.mjs';
+import { ONE_CREDIT_LINE, MOBI_JOB_CREDITS } from '../../src/lib/creditCopy.mjs';
 import { CREDIT_PACKS } from '../../src/services/credits/creditPacks.mjs';
 import { FAQ_ITEMS } from '../../src/lib/helpFaq.mjs';
 import { WALLET_COPY, balanceTile, packsIntro } from '../../src/components/wallet/walletModel.mjs';
@@ -29,17 +29,17 @@ test('H2: free credits go BACK TO 50 on the reset date, never "50 more"', () => 
   assert.ok(!tile.lines.some((l) => /more on/.test(l)));
 });
 
-test('M3: one true sentence for what a credit buys; deeper analysis is 3 and matches the server price list', () => {
+test('M3: one true sentence for what a credit buys; a Mobi job is 1 credit and matches the server price list (C-dec 3, 20 Oct)', () => {
   // New contract (copy pass, 19 Oct): full sentences, and the first full mock in each subject is free (C-dec 1).
-  assert.equal(ONE_CREDIT_LINE, '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits, and your first one in each subject is free. Deeper analysis costs 3 credits. The cost shows before you start.');
+  assert.equal(ONE_CREDIT_LINE, '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 real CUET questions. A full mock costs 50 credits, and your first one in each subject is free. Everything Mobi reads from your record is free. The cost shows before you start.');
   const costs = read('src/services/usage/getDailyUsage.js');
-  for (const k of ['deep_mentor_analysis', 'mock_autopsy', 'trap_drill', 'custom_mock_plan', 'rival_weakness', 'deep_recovery_plan']) {
-    assert.match(costs, new RegExp(`${k}: ${DEEP_AI_CREDITS},`), k);
+  for (const k of ['deep_mentor_analysis', 'mock_autopsy', 'trap_drill', 'custom_mock_plan', 'deep_recovery_plan']) {
+    assert.match(costs, new RegExp(`${k}: ${MOBI_JOB_CREDITS},`), k);
   }
   for (const pack of CREDIT_PACKS) assert.ok(pack.description.endsWith(ONE_CREDIT_LINE));
-  assert.match(FAQ_ITEMS.find((f) => f.id === 'credits').answer.join(' '), /deeper analysis, like a mock autopsy or a trap drill, costs 3/);
+  assert.match(FAQ_ITEMS.find((f) => f.id === 'credits').answer.join(' '), /Mobi charges for finished jobs, never for talking\. 1 credit fixes a mistake for good/);
   assert.match(read('src/lib/server/wallet.js'), /return ONE_CREDIT_LINE;/);
-  assert.match(read('src/app/privacy/page.js'), /1 credit for a chat reply or 3 for deeper analysis/);
+  assert.match(read('src/app/privacy/page.js'), /1 credit for a Mobi job \(a doubt with its follow-up, or a mistake fixed for good\)/);
   for (const f of ['src/app/pricing/page.js', 'src/app/pricing/ai-credits/page.js']) assert.match(read(f), /\{ONE_CREDIT_LINE\}/, f);
   // The false sentence is gone from every place a student reads.
   for (const f of ['src/lib/creditCopy.mjs', 'src/lib/server/wallet.js', 'src/services/credits/creditPacks.mjs', 'src/lib/helpFaq.mjs', 'src/app/pricing/page.js',
