@@ -156,8 +156,9 @@ export function absoluteUrl(path = '/') {
 export function seoMetadata({ title, description, path = '/', images }) {
   const canonical = absoluteUrl(path);
   // A page's own images win; otherwise the site-wide card (an openGraph object here replaces the root's file-based
-  // image, so leaving images out would strip og:image from the page).
-  const imageFields = { images: Array.isArray(images) && images.length > 0 ? images : [DEFAULT_SHARE_IMAGE] };
+  // image, so leaving images out would strip og:image from the page). `images: false` leaves the field unset for a
+  // segment with its own opengraph-image file (cuet/[subject]): a config image here would replace that file's card.
+  const imageFields = images === false ? {} : { images: Array.isArray(images) && images.length > 0 ? images : [DEFAULT_SHARE_IMAGE] };
   return {
     title,
     description,

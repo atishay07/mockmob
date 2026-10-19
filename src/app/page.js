@@ -145,7 +145,7 @@ const TOUR = [
     points: ['The daily benchmark is free', 'Every mock earns points for accuracy and speed toward your standing'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See your standing' },
   ...(MOB_LIVE ? [{ id: 'mob', label: 'The Mob', icon: <Users size={18} aria-hidden="true" />, line: 'Prep with your friends, on the same questions', kicker: 'The Mob', title: 'Bring your friends. Race the same questions.',
     body: 'Start a Mob and share its code. Everyone gets the same five questions for 24 hours and races the runs before them. After the game, Fix it together takes you back to the question that caught you and gives you a fresh one like it.',
-    points: ['Play as a Fold, and earn new ones when your Mob finishes its weekly quest', 'Keep a chain going together, week after week', 'Turn sharing off and your marks stay private'], chip: 'Everyone gets the same questions for 24 hours.', href: '/mob', cta: 'Open the Mob' }] : []),
+    points: ['Play as a Fold, and earn new ones when your Mob finishes its weekly quest', 'Keep a chain going together, week after week', 'Turn sharing off and your marks stay private'], chip: 'Playing every game your Mob starts is free on every plan.', href: '/mob', cta: 'Open the Mob' }] : []),
 ];
 
 const faqs = [

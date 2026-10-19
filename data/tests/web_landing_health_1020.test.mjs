@@ -30,6 +30,11 @@ test('SEO: every page built with seoMetadata shares with a picture, and a page m
   assert.equal(DEFAULT_SHARE_IMAGE.width, 1200);
   const own = seoMetadata({ title: 'T', description: 'D', path: '/x', images: [{ url: '/own.png' }] });
   assert.deepEqual(own.openGraph.images, [{ url: '/own.png' }]);
+  // A segment with its own opengraph-image file opts out, or the config image would replace its card.
+  const file = seoMetadata({ title: 'T', description: 'D', path: '/cuet/english', images: false });
+  assert.equal(file.openGraph.images, undefined);
+  assert.equal(file.twitter.images, undefined);
+  assert.match(read('src/app/cuet/[subject]/page.js'), /images: false,/);
 });
 
 test('SEO: the share card speaks for the whole site (no "Commerce" only, no middle-dot meta) and says the USP truthfully', () => {
