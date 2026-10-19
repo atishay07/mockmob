@@ -24,7 +24,7 @@ import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show Mobi, TabRootHeader;
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, Mobi, TabRootHeader;
 import 'package:mockmob/features/insights/copy.dart';
 import 'package:mockmob/features/insights/data/ai_reply_report.dart' show insightsPrefsStoreProvider;
 import 'package:mockmob/features/insights/data/ask_controller.dart';
@@ -250,6 +250,36 @@ void main() {
       expect(find.descendant(of: now, matching: find.byType(AskStarterRow)), findsNWidgets(3));
       expect(find.text(AskDoorCopy.nowTip), findsOneWidget);
     });
+
+    for (final scale in [1.0, 1.3]) {
+      for (final heavy in [true, false]) {
+        testWidgets('M4: at 360 by 640 and text $scale every key of the doors scrolls clear of the credits footer (${heavy ? 'heavy' : 'fresh'} record)', (tester) async {
+          await pumpMockmob(
+            tester,
+            const AskScreen(),
+            brightness: Brightness.dark,
+            size: const Size(360, 640),
+            textScale: scale,
+            disableAnimations: true,
+            overrides: insightsOverrides(insights: heavy ? null : RemoteState(value: empty()), attempts: heavy ? null : const [], credits: monthly()),
+            wrapInScaffold: false,
+          );
+          await tester.pumpAndSettle();
+          final scroll = find.byType(Scrollable).first;
+          // To the end of the page, whatever its length at this text size.
+          final position = (tester.state(scroll) as ScrollableState).position;
+          position.jumpTo(position.maxScrollExtent);
+          await tester.pumpAndSettle();
+          final footerTop = tester.getRect(find.byType(AskCreditLine)).top;
+          final keys = find.descendant(of: find.byType(AskRecordDoor), matching: find.byWidgetPredicate((w) => w is KeyButton || w is AskStarterRow || w is AskPriceTag));
+          expect(keys, findsWidgets);
+          for (final k in keys.evaluate()) {
+            expect(tester.getRect(find.byWidget(k.widget)).bottom, lessThanOrEqualTo(footerTop + 0.5), reason: 'the end of the doors clears the footer');
+          }
+          expect(tester.getRect(find.byType(AskRecordDoor)).bottom, lessThanOrEqualTo(footerTop + 0.5), reason: 'the whole record door clears the footer once scrolled to the end');
+        });
+      }
+    }
 
     testWidgets('a starter sends at once with no sheet first (D53), and the wait says "Writing a reply"', (tester) async {
       final http = FakeHttpAdapter()
