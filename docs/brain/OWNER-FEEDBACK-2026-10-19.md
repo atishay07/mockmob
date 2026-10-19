@@ -630,3 +630,10 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 - J4 Ask Mobi: 1 credit for an AI reply is poor value; why would a student use Mobi over free ChatGPT? He asked a week ago to ideate on this; still not useful. Ideate and propose.
 - J5 Timelines: every committed time has slipped; he expects version 13 in 30-40 more minutes and a positive result.
 - J6 "The practice was out of my time" (confirm: unclear dictation).
+
+## Owner, 20 Oct about 1:52 am IST (verbatim)
+> "But the version 12 that you shipped and is in the files, does that have the mob feature that I said I want in version 12? Or is it like, what is all different about it from version 11? Can you list down, by the way, if it's worth posting to the Play Store?"
+
+## Owner, 20 Oct about 1:55 am IST (verbatim)
+> "Okay, nothing much was done on version 12, so I have decided to skip it only. I'll leave it to you to do with version 13. Can you just give me an update on the progress: what all is done and what all is left? Is it realistic for me to expect all that to be done in the next 20, 30 minutes?"
+**Ledger D154:** version 12 is skipped (not uploaded); version 13 carries everything.
