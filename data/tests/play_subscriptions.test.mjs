@@ -430,6 +430,16 @@ test('a Razorpay or one-time revoke weighs a Play subscription in force as other
     const r = (await q(w.d, 'select public.mm_play_revoke_purchase($1,$2,$3,$4) r', [T(27), 'voided', null, {}]))[0].r;
     assert.equal(r.revoked.keptForOtherPaidAccess, true);
     assert.equal((await userRow(w.d, 'u1')).is_premium, true);
+    // Found on the staging dry-run: the refunded pass's 31 July 2027 date must not live on behind the monthly subscription.
+    const subEnd = ms((await rowOf(w.d, T(28))).access_until);
+    assert.equal(ms((await userRow(w.d, 'u1')).premium_until), subEnd, 'premium_until shrinks to the subscription date');
+    w.set(T(28), 'u1', { state: SUB_STATE.expired, expiry: Date.now() - 1000, ack: true });
+    await w.notify(T(28), 12);
+    assert.equal((await userRow(w.d, 'u1')).is_premium, false, 'and a revoke of the subscription then switches Pro off');
+    w.set(T(28), 'u1', { ack: true });
+    await w.d.query("update public.play_purchases set revoked = null where purchase_token = $1", [T(28)]);
+    await w.notify(T(28), 1);
+    assert.equal((await userRow(w.d, 'u1')).is_premium, true, 'Google says it is back: Pro is back');
     // A subscription out of force is not evidence.
     w.set(T(28), 'u1', { state: SUB_STATE.expired, expiry: Date.now() - 1000, ack: true });
     await w.notify(T(28), 13);

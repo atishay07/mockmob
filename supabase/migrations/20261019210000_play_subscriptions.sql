@@ -229,8 +229,9 @@ end;
 $$;
 
 -- ---------------------------------------------------------------------------------------------------------------------
--- mm_play_revoke_purchase, as in 20261018190000 with two changes: a Play subscription in force counts as other paid Pro
--- access, and a revoke of a subscription row (by hand) takes the row out of force before Pro is weighed.
+-- mm_play_revoke_purchase, as in 20261018190000 with three changes: a Play subscription in force counts as other paid Pro
+-- access; a revoke of a subscription row (by hand) takes the row out of force; and when Pro is kept for other paid access,
+-- a premium_until that came from the voided purchase shrinks to the date the other access runs to.
 create or replace function public.mm_play_revoke_purchase(
   p_purchase_token text,
   p_reason text default 'voided',
@@ -246,6 +247,7 @@ declare
   v_wallet public.ai_credit_wallets%rowtype;
   v_take integer;
   v_other_paid boolean;
+  v_other_until timestamptz;
   v_balance integer;
   v_revoked jsonb;
 begin
@@ -287,6 +289,21 @@ begin
       update public.users
          set is_premium = false, subscription_status = 'cancelled', premium_until = null
        where id = v_row.user_id;
+    else
+      -- Kept for other paid access: a premium_until that came from the voided purchase itself shrinks to what the other
+      -- access runs to (when that has a date), so a refunded 2027 pass does not live on behind a monthly subscription.
+      select greatest(
+               (select max(access_until) from public.play_purchases
+                 where user_id = v_row.user_id and state = 'granted' and id <> v_row.id and superseded_by is null
+                   and kind in ('pro', 'pro_sub') and access_until > now()),
+               (select max(access_until) from public.payments
+                 where user_id = v_row.user_id and payment_id is not null and amount_paid > 0
+                   and status in ('captured', 'completed', 'paid') and plan_id like 'pro\_%' and access_until > now()))
+        into v_other_until;
+      if v_other_until is not null then
+        update public.users set premium_until = v_other_until
+         where id = v_row.user_id and premium_until is not distinct from v_row.access_until and v_row.access_until > v_other_until;
+      end if;
     end if;
     v_revoked := jsonb_build_object('kind', v_row.kind, 'reason', p_reason, 'proSwitchedOff', not v_other_paid,
                                     'keptForOtherPaidAccess', v_other_paid);
