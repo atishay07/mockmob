@@ -64,7 +64,7 @@ class _MobScreenState extends ConsumerState<MobScreen> {
     final state = ref.watch(mobRepositoryProvider);
     // Mob v3 (MOB-BUILD-SPEC-V3): the den, when the app's MOB_V3_ENABLED is on and the server sent
     // `v3`. With the flag off this branch never runs and the page below is unchanged.
-    if (ref.watch(mobV3EnabledProvider) && !mobDisabledError(state.error) && state.value?.v3 != null) {
+    if (ref.watch(mobV3EnabledProvider) && !mobDisabledError(state.error) && state.value != null && (state.value!.v3 != null || state.value!.mob == null)) {
       return DenScreen(asTab: widget.asTab);
     }
     final mob = mobDisabledError(state.error) ? null : state.value?.mob;
