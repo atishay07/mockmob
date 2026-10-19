@@ -45,7 +45,7 @@ import 'den_start_screen.dart';
 /// The den's clock (tests pin it). Defaults to the phone's clock.
 final denClockProvider = Provider<DateTime Function()>((ref) => DateTime.now);
 
-class DenScreen extends ConsumerStatefulWidget {
+class DenScreen extends ConsumerWidget {
   const DenScreen({super.key, this.asTab = false});
 
   /// The Mob tab's root: the account key leads the header and there is no back key.
@@ -62,10 +62,24 @@ class DenScreen extends ConsumerStatefulWidget {
   static const Duration replayAfter = Duration(seconds: 30);
 
   @override
-  ConsumerState<DenScreen> createState() => _DenScreenState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    // No Mob yet (D0): the start screen, whether or not the read carried v3.
+    final read = ref.watch(mobRepositoryProvider.select((s) => s.value));
+    if (read != null && read.mob == null) return const DenStartScreen();
+    return _DenRoom(asTab: asTab);
+  }
 }
 
-class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateMixin, WidgetsBindingObserver {
+class _DenRoom extends ConsumerStatefulWidget {
+  const _DenRoom({required this.asTab});
+
+  final bool asTab;
+
+  @override
+  ConsumerState<_DenRoom> createState() => _DenScreenState();
+}
+
+class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMixin, WidgetsBindingObserver {
   late final AnimationController _enter = AnimationController(vsync: this, duration: const Duration(milliseconds: 1100));
   late final AnimationController _fade = AnimationController(vsync: this, duration: MotionDurations.reducedFade, value: 1);
 
@@ -348,7 +362,6 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
   Widget build(BuildContext context) {
     final state = ref.watch(mobRepositoryProvider);
     final view = ref.watch(denViewProvider);
-    if (view != null && view.mob == null) return const DenStartScreen();
     final colors = context.mmColors;
     return Scaffold(
       backgroundColor: colors.ground,

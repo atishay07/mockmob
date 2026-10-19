@@ -147,7 +147,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
       case DenCardKind.played:
         final yours = _yourRunAt(g!);
         children
-          ..add(_HostLine(game: g, v3: v3, title: MobV3Copy.gameTitle(g)))
+          ..add(_HostLine(game: g, v3: v3, title: (g.title?.isNotEmpty ?? false) ? g.title! : MobV3Copy.gameTitle(g)))
           ..add(const SizedBox(height: MmSpace.s4));
         if (yours != null && g.closesAt != null) {
           children.add(

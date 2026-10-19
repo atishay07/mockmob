@@ -28,16 +28,13 @@ final momentPlayerProvider = Provider<MomentPlayer>(
   },
 );
 
-int _rank(String key) {
-  final kind = key.split(':').first;
-  return switch (kind) {
-    'quest_done' => 0,
-    'stitch' => 1,
-    'reveal' => 2,
-    'chain' => 3,
-    _ => 9,
-  };
-}
+int _rank(String key) => switch (MomentKey.parse(key).kind) {
+  'quest_done' => 0,
+  'stitch' => 1,
+  'reveal' => 2,
+  'chain' => 3,
+  _ => 9,
+};
 
 /// The moments to play, in the spec's order, without duplicates. Keys the den does not play as a
 /// full-screen moment (`rest:<day>` is K5's toast) are left out. Within a kind the server's order holds.

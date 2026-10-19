@@ -10,6 +10,11 @@ void main() {
     expect(keys, ['quest_done:2026-10-19', 'stitch:2026-10-19', 'reveal:hop', 'chain:14']);
   });
 
+  test('Mob-scoped keys order the same way', () {
+    final keys = momentOrder(['reveal:hop', 'stitch:mob-1:2026-10-19', 'quest_done:mob-1:2026-10-19'], ['chain:14']);
+    expect(keys, ['quest_done:mob-1:2026-10-19', 'stitch:mob-1:2026-10-19', 'reveal:hop', 'chain:14']);
+  });
+
   test('each moment is marked seen after it closes, one at a time', () async {
     final log = <String>[];
     final played = await runMomentQueue(
