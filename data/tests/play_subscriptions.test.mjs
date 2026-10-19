@@ -873,3 +873,117 @@ test('review: the Plan card shows the Razorpay cancel key beside Google Play whe
   assert.match(bothBranch, /Cancel the web renewal/);
   assert.match(bothBranch, /Your Google Play subscription stays as it is\./);
 });
+
+test('review: account deletion cancels every Play renewal with Google first, and deletes nothing when it cannot', async () => {
+  const { stopPlayRenewals, executeDeletion, planDeletion, playRenewalCandidates, formatPlan } = await import('../../src/lib/server/accountDeletion.js');
+  const rows = [
+    { purchase_token: T(200), product_id: 'pro_monthly', kind: 'pro_sub', state: 'granted', sub_state: SUB_STATE.active, superseded_by: null },
+    { purchase_token: T(201), product_id: 'pro_monthly', kind: 'pro_sub', state: 'granted', sub_state: SUB_STATE.canceled, superseded_by: null },
+    { purchase_token: T(202), product_id: 'pro_monthly', kind: 'pro_sub', state: 'granted', sub_state: SUB_STATE.hold, superseded_by: null },
+    { purchase_token: T(203), product_id: 'pro_monthly', kind: 'pro_sub', state: 'granted', sub_state: SUB_STATE.expired, superseded_by: null },
+    { purchase_token: T(204), product_id: 'pro_monthly', kind: 'pro_sub', state: 'granted', sub_state: SUB_STATE.active, superseded_by: T(200) },
+    { purchase_token: T(205), product_id: 'pro_monthly', kind: 'pro_sub', state: 'voided', sub_state: SUB_STATE.active, superseded_by: null },
+  ];
+  assert.deepEqual(playRenewalCandidates(rows).map((r) => r.purchase_token), [T(200), T(201), T(202)], 'ended, replaced and voided rows need nothing');
+
+  const google = fakeGoogle();
+  google.subs.set(T(200), subFor('u1'));
+  google.subs.set(T(201), subFor('u1', { state: SUB_STATE.canceled, autoRenew: false }));
+  google.subs.set(T(202), subFor('u1', { state: SUB_STATE.hold, expiry: Date.now() - 1000 }));
+  const cancels = [];
+  google.cancelSubscriptionV2 = async (token, type) => { cancels.push([token, type]); };
+  const calls = [];
+  const adapter = {
+    listPlaySubscriptions: async () => rows,
+    run: async (request, steps, apply) => { calls.push(['run', apply]); return { steps: [], unclassified: [] }; },
+    getUser: async () => ({ id: 'u1', email: 'u1@example.test' }),
+  };
+  const request = { id: 1, user_id: 'u1', requested_at: iso(Date.now() - DAY) };
+  const plan = await planDeletion(adapter, request);
+  assert.equal(plan.playToStop, 3);
+  assert.match(formatPlan(plan), /Google Play: 3 subscription\(s\) may still renew; their renewal is cancelled with Google before anything is deleted/);
+
+  const out = await executeDeletion({
+    adapter, request, plan, deleteAuthUser: async () => { calls.push(['auth']); return { deleted: true, ids: ['a'] }; },
+    playRenewals: (userId) => stopPlayRenewals({ adapter, google, userId }),
+  });
+  assert.deepEqual(cancels, [[T(200), 'DEVELOPER_REQUESTED_STOP_PAYMENTS'], [T(202), 'DEVELOPER_REQUESTED_STOP_PAYMENTS']], 'active and on hold are cancelled; a renewal already off is left');
+  assert.deepEqual(out.play.map((p) => p.outcome), ['cancelled', 'renewal_already_off', 'cancelled']);
+  assert.ok(out.play.every((p) => !p.token.includes(T(200).slice(0, 12))), 'the outcome carries only the end of the token');
+  assert.deepEqual(calls.map((c) => c[0]), ['run', 'auth', 'run'], 'renewals stopped before the login and the data go');
+
+  // Google down: nothing is deleted, the login stays, the request stays pending (the error propagates).
+  calls.length = 0;
+  google.unreachable = true;
+  await assert.rejects(executeDeletion({ adapter, request, plan, deleteAuthUser: async () => { calls.push(['auth']); return {}; }, playRenewals: (userId) => stopPlayRenewals({ adapter, google, userId }) }), (e) => e.code === 'play_cancel_failed');
+  assert.deepEqual(calls, []);
+  google.unreachable = false;
+  // Google refuses the cancel: the same.
+  google.cancelSubscriptionV2 = async () => { throw new PlayApiError('play_forbidden', 'no permission', 403); };
+  await assert.rejects(stopPlayRenewals({ adapter, google, userId: 'u1' }), (e) => e.code === 'play_cancel_failed');
+  // No Google key, or no canceller given at all: refused before anything is touched.
+  await assert.rejects(stopPlayRenewals({ adapter, google: null, userId: 'u1' }), (e) => e.code === 'play_not_configured');
+  await assert.rejects(executeDeletion({ adapter, request, plan, deleteAuthUser: async () => { calls.push(['auth']); return {}; } }), (e) => e.code === 'play_not_configured');
+  assert.deepEqual(calls, []);
+  // Google no longer knows a token: nothing to cancel.
+  const gone = fakeGoogle();
+  gone.cancelSubscriptionV2 = async () => { throw new Error('must not be called'); };
+  const only = { listPlaySubscriptions: async () => [rows[0]] };
+  assert.deepEqual((await stopPlayRenewals({ adapter: only, google: gone, userId: 'u1' })).map((p) => p.outcome), ['gone']);
+  // An account with no subscription needs no Google key.
+  assert.deepEqual(await stopPlayRenewals({ adapter: { listPlaySubscriptions: async () => [] }, google: null, userId: 'u1' }), []);
+
+  const script = file('scripts/ops/process-account-deletions.mjs');
+  assert.match(script, /stopPlayRenewals\(\{ adapter, google, userId \}\)/);
+  assert.match(script, /adapter, due, apply: guard\.apply, deleteAuthUser, playRenewals,/);
+});
+
+test('review: a notification for a deleted account alerts and stops the renewal instead of renewing quietly', async () => {
+  const w = await world();
+  try {
+    await w.d.exec('alter table public.users add column if not exists deleted_at timestamptz');
+    const cancels = [];
+    w.google.cancelSubscriptionV2 = async (token, type) => { cancels.push([token, type]); };
+    const logs = [];
+    w.deps.log = (level, ...args) => logs.push([level, args.join(' ')]);
+    w.set(T(210), 'u1');
+    await w.verify('u1', T(210));
+    // A live account renews quietly, as before.
+    w.set(T(210), 'u1', { expiry: Date.now() + 60 * DAY, ack: true });
+    assert.equal((await w.notify(T(210), 2)).ownerDeleted, undefined);
+    assert.deepEqual(cancels, []);
+    // The account is deleted (tombstone); Google renews anyway.
+    await w.d.query("update public.users set deleted_at = now() where id = 'u1'");
+    const out = await w.notify(T(210), 2);
+    assert.deepEqual(out.ownerDeleted, { renewalStopped: true });
+    assert.deepEqual(cancels, [[T(210), 'DEVELOPER_REQUESTED_STOP_PAYMENTS']]);
+    assert.ok(logs.some(([level, text]) => level === 'error' && /deleted account/.test(text)), 'an alert, not a quiet grant');
+    // The CANCELED that follows needs nothing more: a note, no second cancel.
+    w.set(T(210), 'u1', { state: SUB_STATE.canceled, expiry: Date.now() + 60 * DAY, autoRenew: false, ack: true });
+    const after = await w.notify(T(210), 3);
+    assert.deepEqual(after.ownerDeleted, { renewalStopped: false });
+    assert.equal(cancels.length, 1);
+    assert.ok(logs.some(([level, text]) => level === 'warn' && /already off/.test(text)));
+  } finally { await w.close(); }
+});
+
+test('review: the Google client cancels a subscription with subscriptionsv2.cancel and a developer cancellation', async () => {
+  const { privateKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
+  const key = { type: 'service_account', client_email: 'sa@x.iam.gserviceaccount.com', private_key: privateKey.export({ type: 'pkcs8', format: 'pem' }), token_uri: DEFAULT_TOKEN_URI };
+  const calls = [];
+  const fetch = async (url, init = {}) => {
+    calls.push({ url: String(url), method: init.method || 'GET', body: init.body });
+    if (String(url) === DEFAULT_TOKEN_URI) return new Response(JSON.stringify({ access_token: 't', expires_in: 3600 }), { status: 200 });
+    return new Response('', { status: 200 });
+  };
+  const client = createPlayClient({ env: { GOOGLE_PLAY_SERVICE_ACCOUNT_JSON: JSON.stringify(key) }, fetch });
+  await client.cancelSubscriptionV2(T(1));
+  assert.equal(calls[1].url, `${PLAY_API_BASE}/applications/in.mockmob.app/purchases/subscriptionsv2/tokens/${T(1)}:cancel`);
+  assert.equal(calls[1].method, 'POST');
+  assert.deepEqual(JSON.parse(calls[1].body), { cancellationContext: { cancellationType: 'DEVELOPER_REQUESTED_STOP_PAYMENTS' } });
+});
+
+test('review: the deletion page and the Profile delete step say a Google Play subscription is cancelled', () => {
+  assert.match(file('src/app/account-deletion/page.js'), /we cancel its renewal with Google Play before we delete your account, so no further payment is taken/);
+  assert.match(file('src/app/(app)/profile/ProfilePageClient.jsx'), /A Google Play subscription is cancelled first, so no further payment is taken\./);
+});

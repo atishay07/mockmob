@@ -227,7 +227,11 @@ begin
     'isPremium', case when v_touch_user then v_premium else true end,
     'premiumUntil', case when v_touch_user then v_new_until else null end,
     'keptForOtherPaidAccess', (not v_entitled) and v_premium,
-    'duplicatePro', v_duplicate, 'superseded', v_superseded, 'state', p_state
+    'duplicatePro', v_duplicate, 'superseded', v_superseded, 'state', p_state,
+    -- The owner's account was deleted (a tombstone, users.deleted_at, migration 20261013120000): the caller alerts and
+    -- stops the renewal rather than quietly renewing Pro for nobody (review 19 Oct night). Read through jsonb so a
+    -- database without the column still works.
+    'ownerDeleted', (to_jsonb(v_user) ->> 'deleted_at') is not null
   );
 end;
 $$;

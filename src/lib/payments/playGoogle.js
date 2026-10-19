@@ -156,6 +156,13 @@ export function createPlayClient({ env = process.env, fetch: fetchImpl = globalT
      */
     acknowledgeSubscription: (subscriptionId, purchaseToken) =>
       call('POST', `purchases/subscriptions/${encodeURIComponent(subscriptionId)}/tokens/${encodeURIComponent(purchaseToken)}:acknowledge`, {}),
+    /**
+     * purchases.subscriptionsv2.cancel: stops the subscription's next payment. The student keeps access to the end of the
+     * period already paid. DEVELOPER_REQUESTED_STOP_PAYMENTS cannot be restored by the student (used when the account is
+     * deleted); USER_REQUESTED_STOP_RENEWALS can be. Google answers an empty body.
+     */
+    cancelSubscriptionV2: (purchaseToken, cancellationType = 'DEVELOPER_REQUESTED_STOP_PAYMENTS') =>
+      call('POST', `purchases/subscriptionsv2/tokens/${encodeURIComponent(purchaseToken)}:cancel`, { cancellationContext: { cancellationType } }),
   };
 }
 

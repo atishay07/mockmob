@@ -32,6 +32,11 @@ export const SUB_STATE = Object.freeze({
 });
 /** The states in which Google says the student keeps access (until expiryTime). */
 const ENTITLING = new Set([SUB_STATE.active, SUB_STATE.grace, SUB_STATE.canceled]);
+/**
+ * The states in which Google may still take a payment: active (renews), grace and account hold (Google retries the
+ * charge), paused (resumes and charges). CANCELED, EXPIRED and the pending states take nothing more.
+ */
+export const RENEWING = new Set([SUB_STATE.active, SUB_STATE.grace, SUB_STATE.hold, SUB_STATE.paused]);
 const ACKNOWLEDGED = 'ACKNOWLEDGEMENT_STATE_ACKNOWLEDGED';
 
 /** subscriptionNotification.notificationType, from Google's RTDN reference (accessed 19 Oct 2026). */
@@ -313,8 +318,27 @@ export async function handleSubscriptionNotification(deps, { purchaseToken, noti
   if (r.acknowledged) await noteAcknowledged(store, token, row);
   else if (r.entitled) finished = await acknowledge({ store, google, productId: product.productId, token, log: deps.log });
 
+  // The account behind this subscription was deleted, yet Google may still charge for it (bought between the request and
+  // the deletion run, or the deletion's own cancel failed). Never renew quietly for nobody: alert, and stop the renewal.
+  let ownerDeleted = null;
+  if (synced.ownerDeleted) {
+    ownerDeleted = { renewalStopped: false };
+    if (RENEWING.has(r.state)) {
+      try {
+        await google.cancelSubscriptionV2(token, 'DEVELOPER_REQUESTED_STOP_PAYMENTS');
+        ownerDeleted.renewalStopped = true;
+      } catch (error) {
+        ownerDeleted.error = error?.code || 'cancel_failed';
+      }
+    }
+    // Already off (for example the deletion run's own cancel arriving as CANCELED) is a note; anything else is an alert.
+    const outcome = ownerDeleted.renewalStopped ? 'stopped with Google' : RENEWING.has(r.state) ? `NOT stopped (${ownerDeleted.error}): cancel it in Play Console` : 'already off';
+    log(RENEWING.has(r.state) ? 'error' : 'warn', `${type}: a subscription of a deleted account (state ${shortState(r.state)}); renewal ${outcome}`);
+  }
+
   return {
     action: 'synced', type, state: shortState(r.state), entitled: r.entitled, isPremium: Boolean(synced.isPremium),
     premiumUntil: synced.premiumUntil || null, finished, ...(bindTo ? { boundThrough: 'linked_token' } : {}),
+    ...(ownerDeleted ? { ownerDeleted } : {}),
   };
 }
