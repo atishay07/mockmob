@@ -346,6 +346,9 @@ abstract final class MobV3Copy {
   }
   static String friendFinished(String name) => '$name finished. Take your time.';
   static String ghostFinished(String name) => "$name's run reached the flag. Take your time.";
+
+  /// The same news once the student has finished too: nothing left to take time over.
+  static String ghostFinishedAfterYou(String name) => "$name's run reached the flag too.";
   static String playedAll(int n) => 'You played all $n.';
   static String marks(int m) => m == 1 || m == -1 ? '$m mark' : '$m marks';
   static String stillPlaying(List<String> names) => '${_join(names)} ${names.length == 1 ? 'is' : 'are'} still playing. The podium opens when the room ends.';

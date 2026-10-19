@@ -226,6 +226,8 @@ abstract final class PracticeCopy {
   // belong to Quick practice; a Full mock keeps the level; Smart practice and NTA mode choose for you.
   static const String fineTuneLabel = 'Fine-tune';
   static const String fineTuneQuick = 'For Quick practice you can pick the chapters and the difficulty.';
+  // By chapter shares Quick practice's controls, so it says them in its own name (walk 20 Oct: it said "Quick practice").
+  static const String fineTuneChapter = 'For By chapter practice you pick up to 12 chapters and the difficulty.';
   static const String fineTuneFull = 'For a Full mock you can set the difficulty. It covers every chapter, like the exam.';
   // Owner, 17 Oct night (N3): trust, not a shrug. NTA mode is built exactly as the exam is; Smart practice
   // is built from the student's own weak topics (it is not the NTA mix, so it does not say it is).

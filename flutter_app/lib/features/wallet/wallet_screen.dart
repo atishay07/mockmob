@@ -462,7 +462,7 @@ class _ProBridge extends StatelessWidget {
   }
 }
 
-/// What credits buy, as four tiles with the cost big. On Pro practice and full mocks are included.
+/// What credits buy, as four tiles with the cost big: Mobi's two jobs, then practice (included on Pro).
 class _Buys extends StatelessWidget {
   const _Buys({required this.pro, required this.firstMockFree});
 
@@ -473,16 +473,17 @@ class _Buys extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    // On Pro, practice and full mocks are included, so what credits are for (Mobi and analysis) comes first.
+    // Mobi first on every plan, as on the website (owner, 20 Oct: most top-ups pay for Mobi's written answers and
+    // mistake repairs). On Pro, practice and full mocks are included.
+    final mobi = <(IconData, int?, String, String?)>[
+      (LucideIcons.messageCircle, 1, WalletCopy.buyReply, WalletCopy.buyReplyNote),
+      (LucideIcons.wrench, 1, WalletCopy.buyRepair, null),
+    ];
     final practice = <(IconData, int?, String, String?)>[
       (LucideIcons.listChecks, pro ? null : 1, WalletCopy.buyQuestion, null),
       (LucideIcons.timer, pro ? null : 50, WalletCopy.buyMock, !pro && firstMockFree ? WalletCopy.buyMockFirstFree : null),
     ];
-    final mobi = <(IconData, int?, String, String?)>[
-      (LucideIcons.messageCircle, 1, WalletCopy.buyReply, null),
-      (LucideIcons.scanSearch, 3, WalletCopy.buyAnalysis, null),
-    ];
-    final tiles = pro ? [...mobi, ...practice] : [...practice, ...mobi];
+    final tiles = [...mobi, ...practice];
     return LayoutBuilder(
       builder: (context, c) {
         final w = (c.maxWidth - MmSpace.s12) / 2;

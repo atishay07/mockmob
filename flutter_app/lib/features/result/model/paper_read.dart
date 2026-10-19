@@ -258,7 +258,7 @@ abstract final class PaperReadCopy {
     return 'Every question right in ${names[0]}, ${names[1]} and ${names.length - 2} more chapters.';
   }
 
-  static String allRight(int n) => 'All $n right. Nothing to fix from this paper.';
+  static String allRight(int n) => 'You got all $n right, so there is nothing to fix from this paper.';
   static String bestChapter(String name, int right, int n) => '$right of $n right in $name.';
   static String quickAndSure(int n) => '$n right answers took under 30 seconds each.';
   static String changesHelped(int n, int marks) =>
@@ -276,7 +276,7 @@ abstract final class PaperReadCopy {
     ];
     return '${chapter == null ? '' : '$chapter: '}${parts.join(', and ')}.';
   }
-  static const String nothingLost = 'No marks lost.';
+  static const String nothingLost = 'You lost no marks on this paper.';
 
   static String reachWrong(int w, int scored, int would, {String? chapter, bool all = false}) {
     final answers = w == 1 ? 'the wrong answer' : 'the $w wrong answers';
@@ -284,11 +284,11 @@ abstract final class PaperReadCopy {
     return 'Fix $answers$where and this paper is ${_signed(would)}, not ${_signed(scored)}.';
   }
 
-  static String reachEvery(int wrong, int would) => 'Every wrong answer fixed: ${_signed(would)}.';
+  static String reachEvery(int wrong, int would) => 'With every wrong answer fixed, this paper is ${_signed(would)}.';
   static String reachBlank(int b, int scored, int would) => b == 1
       ? 'Answer the one you left, right, and this paper is ${_signed(would)}, not ${_signed(scored)}.'
       : 'Answer the $b you left, right, and this paper is ${_signed(would)}, not ${_signed(scored)}.';
-  static String reachAll(int max) => 'All $max marks. A harder set is the next step.';
+  static String reachAll(int max) => 'You took all $max marks, so a harder set is the next step.';
   static const String sixEach = 'Each wrong answer you fix is worth 6 marks: the 5 you missed and the 1 taken off.';
   static const String fiveEach = 'Each question answered right is worth 5 marks.';
 

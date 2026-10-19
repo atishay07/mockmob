@@ -109,6 +109,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   bool _actFired = true;
   GhostPace? _pace;
   final List<String> _toastQueue = [];
+  /// The name of the racer whose run just reached the flag, while its toast shows.
   String? _toast;
   Timer? _toastTimer;
 
@@ -492,13 +493,14 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   // ---- M6 a ghost reaches the flag: the toast ------------------------------------------------------
 
   void _onGhostFinished(RulerRacer r) {
-    _toastQueue.add(MobV3Copy.ghostFinished(r.name));
+    _toastQueue.add(r.name);
     if (_toast == null) _showNextToast();
   }
 
   void _showNextToast() {
     if (!mounted || _toastQueue.isEmpty) return;
-    setState(() => _toast = _toastQueue.removeAt(0));
+    final name = _toastQueue.removeAt(0);
+    setState(() => _toast = name);
     if (_reduced) {
       _toastC.duration = Motion.reducedFade;
     } else {
@@ -788,7 +790,10 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
               animation: _toastC,
               builder: (context, _) {
                 final v = Motion.glide.transform(_toastC.value);
-                final toast = _toast;
+                // Worded as it draws: "Take your time" only while the student is still playing (walk 20 Oct: it stayed
+                // on the finished screen).
+                final name = _toast;
+                final toast = name == null ? null : (_phase == _Phase.done ? MobV3Copy.ghostFinishedAfterYou(name) : MobV3Copy.ghostFinished(name));
                 return Stack(
                   children: [
                     Opacity(

@@ -9,7 +9,7 @@ import 'composer_parts.dart';
 
 /// The words Fine-tune opens with for [mode]: what this mode lets you set (owner, 17 Oct, F9).
 String fineTuneSentence(PracticeMode mode) => switch (mode.fineTune) {
-  FineTuneScope.chaptersAndLevel => PracticeCopy.fineTuneQuick,
+  FineTuneScope.chaptersAndLevel => mode == PracticeMode.chapter ? PracticeCopy.fineTuneChapter : PracticeCopy.fineTuneQuick,
   FineTuneScope.levelOnly => PracticeCopy.fineTuneFull,
   FineTuneScope.none => mode == PracticeMode.smart ? PracticeCopy.fineTuneSmart : PracticeCopy.fineTuneNta,
 };

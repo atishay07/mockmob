@@ -82,6 +82,13 @@ void main() {
       expect(find.text(PracticeCopy.difficultyLabel), findsOneWidget);
     });
 
+    testWidgets('By chapter: the same controls, said in its own name (walk 20 Oct)', (tester) async {
+      await tester.pumpWidget(_app(_block(PracticeMode.chapter)));
+      await tester.pump(const Duration(milliseconds: 400));
+      expect(find.text(PracticeCopy.fineTuneChapter), findsOneWidget);
+      expect(find.text(PracticeCopy.fineTuneQuick), findsNothing);
+    });
+
     testWidgets('Full mock: the difficulty alone, and it says every chapter is covered', (tester) async {
       await tester.pumpWidget(_app(_block(PracticeMode.full)));
       await tester.pump(const Duration(milliseconds: 400));

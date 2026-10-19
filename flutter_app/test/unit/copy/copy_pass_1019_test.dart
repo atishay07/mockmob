@@ -28,12 +28,14 @@ import 'package:mockmob/features/wallet/wallet_copy.dart';
 import 'package:mockmob/features/you/edit_copy.dart';
 import 'package:mockmob/features/you/help/faq.dart';
 
-/// The website's ONE_CREDIT_LINE (src/lib/creditCopy.mjs, web release 11), word for word, with the free first full mock
+/// The website's ONE_CREDIT_LINE (src/lib/creditCopy.mjs, web v13, C-dec 3), word for word, with the free first full mock
 /// switched off (FIRST_FULL_MOCK_ENABLED=false) and on.
-const _webOneCreditLineOff = '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits. '
-    'Deeper analysis costs 3 credits. The cost shows before you start.';
-const _webOneCreditLineOn = '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits, and your first one in '
-    'each subject is free. Deeper analysis costs 3 credits. The cost shows before you start.';
+const _webOneCreditLineOff = '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered '
+    'and tested on 2 real CUET questions. A full mock costs 50 credits. Everything Mobi reads from your record is free. The cost '
+    'shows before you start.';
+const _webOneCreditLineOn = '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered '
+    'and tested on 2 real CUET questions. A full mock costs 50 credits, and your first one in each subject is free. Everything '
+    'Mobi reads from your record is free. The cost shows before you start.';
 
 void main() {
   group('the place is Your papers (D105, D106): the old tab name is gone from every line that names it', () {

@@ -44,7 +44,7 @@ void main() {
     expect(r.fixQids, ['q1', 'q3', 'q9']);
     expect(r.fixChapter, 'Goodwill');
     // The rest of the reach, because Goodwill is not every wrong answer.
-    expect(r.reachNote, 'Every wrong answer fixed: 50.');
+    expect(r.reachNote, 'With every wrong answer fixed, this paper is 50.');
     expect(PaperReadCopy.fixKey(3), 'Fix these 3');
   });
 
@@ -73,9 +73,9 @@ void main() {
 
   test('all right: nothing lost and the next step', () {
     final r = paperReadOf(_rows([for (var i = 0; i < 5; i++) ('Goodwill', _V.r)]));
-    expect(r.strengths, ['All 5 right. Nothing to fix from this paper.']);
-    expect(r.leaks, ['No marks lost.']);
-    expect(r.reach, 'All 25 marks. A harder set is the next step.');
+    expect(r.strengths, ['You got all 5 right, so there is nothing to fix from this paper.']);
+    expect(r.leaks, ['You lost no marks on this paper.']);
+    expect(r.reach, 'You took all 25 marks, so a harder set is the next step.');
     expect(r.risks, isEmpty);
   });
 

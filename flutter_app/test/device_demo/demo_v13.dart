@@ -6,6 +6,7 @@
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
+import 'package:mockmob/features/credits/data/credits_data.dart' show meCreditsProvider;
 import 'package:mockmob/features/insights/data/mobi_api.dart' show mobiStandingProvider;
 import 'package:mockmob/features/review/data/fix_api.dart' show fixCheckApiProvider;
 import 'package:mockmob/features/review/data/repair_record_api.dart' show serverRepairsProvider;
@@ -16,6 +17,7 @@ import '../golden/review/fix_v13_golden_test.dart' as fix;
 import '../unit/billing/billing_test_support.dart' as billing;
 import '../unit/core_data/support/fakes.dart' as http;
 import '../unit/wallet/wallet_test_support.dart' as wallet;
+import '../unit/you/you_test_support.dart' as you;
 
 const _demoWallet = {'state': 'available', 'known': true, 'total': 46, 'includedMonthlyCredits': 50, 'bonusCredits': 6, 'spendable': 46};
 
@@ -94,6 +96,8 @@ List<Override> demoV13Overrides() {
   return [
     apiClientProvider.overrideWithValue(http.newApiClient(adapter, now: DateTime.now)),
     ...rig.overrides,
+    // The account sheet's credits tiles: the same 46 (40 of 50 free this month and 6 bought).
+    meCreditsProvider.overrideWith(() => you.FakeMeCredits(you.oneBalanceState(total: 46, freeLeft: 40, held: 6))),
     walletRepositoryProvider.overrideWith(() => wallet.FakeWalletRepo(wallet.walletState(wallet.walletBody()))),
     mobiStandingProvider.overrideWith((ref) async => mobi.ready),
     serverRepairsProvider.overrideWith((ref) async => const <String, DateTime>{}),

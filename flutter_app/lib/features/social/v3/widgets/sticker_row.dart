@@ -70,7 +70,11 @@ final stickerBusProvider = Provider<StickerBus>((ref) {
 });
 
 class StickerRow extends ConsumerStatefulWidget {
-  const StickerRow({super.key, this.kinds = StickerKind.results, this.gameId, this.label, this.grid = false});
+  const StickerRow({super.key, this.kinds = StickerKind.results, this.gameId, this.label, this.grid = false, this.flyHere = false});
+
+  /// The sticker flies from this row even while the den listens underneath: a screen pushed over the den (Everyone's
+  /// moment) would otherwise send it with nothing to see (walk 20 Oct).
+  final bool flyHere;
 
   /// Two rows of two when four stickers do not fit one row, so none sits alone on a second row
   /// (walk L9). Used by Everyone's moment.
@@ -108,7 +112,7 @@ class _StickerRowState extends ConsumerState<StickerRow> {
     setState(() => _note = null);
     final bus = ref.read(stickerBusProvider);
     final you = ref.read(denViewProvider)?.v3.you?.memberId ?? '';
-    if (bus.heard && you.isNotEmpty) {
+    if (!widget.flyHere && bus.heard && you.isNotEmpty) {
       bus.post(you, kind);
       return;
     }

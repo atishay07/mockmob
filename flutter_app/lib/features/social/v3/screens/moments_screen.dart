@@ -228,7 +228,7 @@ class MomentsView extends StatelessWidget {
                   _Rise(index: 1 + rows.length, child: card),
                   if (!aloneInMob) ...[
                     const SizedBox(height: MmSpace.s24),
-                    _Rise(index: 2 + rows.length, child: StickerRow(kinds: StickerKind.results, gameId: gameId, label: MobV3Copy.sendSticker, grid: true)),
+                    _Rise(index: 2 + rows.length, child: StickerRow(kinds: StickerKind.results, gameId: gameId, label: MobV3Copy.sendSticker, grid: true, flyHere: true)),
                   ],
                 ],
               ),
