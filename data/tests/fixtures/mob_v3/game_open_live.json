@@ -1,0 +1,35 @@
+{
+  "game": {
+    "id": "uuid-4",
+    "mobId": "uuid-2",
+    "format": "sprint",
+    "mode": "live",
+    "count": 5,
+    "secondsPerQuestion": 60,
+    "subjectName": "Accountancy",
+    "chapter": null,
+    "title": "Your sprint",
+    "host": {
+      "memberId": "member-2",
+      "name": "Riya",
+      "you": true
+    },
+    "openedAt": "2026-10-22T08:42:24.000Z",
+    "closesAt": "2026-10-23T08:42:24.000Z",
+    "closed": false,
+    "serverNow": "2026-10-22T08:42:24.000Z",
+    "room": {
+      "state": "lobby",
+      "startsAt": null,
+      "endsAt": null
+    },
+    "runs": [],
+    "you": {
+      "run": "none",
+      "marks": null,
+      "answered": 0
+    },
+    "ghosts": [],
+    "podiumReady": false
+  }
+}

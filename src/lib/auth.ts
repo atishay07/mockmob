@@ -72,6 +72,9 @@ function sessionFor(dbUser: any, supabaseId: string) {
       subjects: dbUser.subjects || [],
       role: dbUser.role || 'student',
       supabaseId,
+      // The Supabase identity id (auth.uid() for Realtime and RLS). It can differ from id for old email-keyed rows.
+      // Mob live rooms issue their Realtime ticket against it (MOB-BUILD-SPEC-V3 4.2).
+      authUid: supabaseId,
     },
   };
 }

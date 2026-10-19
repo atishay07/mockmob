@@ -121,6 +121,7 @@ export const ERRORS = Object.freeze({
   NOT_LIVE: [409, 'This game is played anytime, not live.'],
   ROOM_NOT_HOST: [403, 'Only the member who opened this room can start it.'],
   ROOM_STARTED: [409, 'This room has already started.'],
+  ROOM_CLOSED: [409, 'This live room has ended. The game is still open, so you can play it anytime before it closes.'],
   STICKER_INVALID: [422, 'Choose one of the stickers.'],
   MIC_LIMIT: [409, 'You passed the mic twice this week, the most a week allows. You can pass it again on Monday.'],
   MIC_SELF: [422, 'Pass the mic to a friend in your Mob.'],
