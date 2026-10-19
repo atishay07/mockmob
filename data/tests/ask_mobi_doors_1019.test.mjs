@@ -88,11 +88,11 @@ test('more ideas come from the student\'s own subjects, three at most, and a sub
   assert.deepEqual(moreStarters({ insights: FRESH, subjects: ['chemistry'] }), []);
 });
 
-test('the lead figure is the chapter with the most marks lost, in Your papers\' arithmetic (6 a wrong, 5 a blank), and never made up', () => {
-  assert.deepEqual(recordLead(HEAVY), { lost: 50 * 6 + 11 * 5, chapter: 'Share Capital' });
+test('the lead figure is the record\'s own top-ranked chapter and its own figure, never worked out a second way', () => {
+  assert.deepEqual(recordLead(HEAVY), { lost: 75, chapter: 'Goodwill' });
   assert.equal(recordLead(FRESH), null);
   assert.equal(recordLead({ state: 'ready', chapters: { ranked: [], thin: [] } }), null);
-  assert.equal(recordLead({ state: 'ready', chapters: { ranked: [chapter('Ratios', { wrong: 0, skip: 0 })], thin: [] } }), null);
+  assert.equal(recordLead({ state: 'ready', chapters: { ranked: [chapter('Ratios', { wrong: 0, skip: 0, open: 0 })], thin: [] } }), null);
 });
 
 const PAPER = { id: 'att_9', subject: 'accountancy', mode: 'full', correct: 30, wrong: 10, unattempted: 10, total: 50, marks: 140, maxMarks: 250, completedAt: NOW };
@@ -109,7 +109,7 @@ test('the record asks: seven in the app\'s order, each priced, the Pro ones visi
   assert.deepEqual(free.filter((a) => a.locked).map((a) => a.id), ['pace', 'changes'], 'visible, locked, never hidden (D101, R3)');
   assert.equal(free[4].preview, 'Timing from your timed papers');
   assert.equal(free[6].preview, 'From the answers you changed');
-  assert.equal(free[0].preview, '355 marks lost in Share Capital');
+  assert.equal(free[0].preview, '75 marks to win back in Goodwill');
   assert.equal(free[1].preview, '3 chapters ranked from your answers');
   assert.equal(free[3].preview, 'A written plan built from your record');
   assert.equal(free[5].preview, '3 papers, 30 questions in 7 days');
@@ -182,12 +182,12 @@ test('the last paper: its figures come from the paper, every type opens the one 
 
 test('the credit line is the true one-balance wallet in the app\'s final words', () => {
   const free = { state: 'available', known: true, total: 38, includedMonthlyCredits: 50, includedRemaining: 38, bonusCredits: 0, balanceCredits: 0, heldCredits: 0, resetAt: '2026-10-31T18:30:00.000Z' };
-  assert.equal(creditLine(free).first, '38 of your 50 free credits left · they refill 1 Nov');
+  assert.equal(creditLine(free).first, '38 of your 50 free credits left · they refill on 1 Nov');
   assert.equal(creditLine(free).second, 'Answers from your marks are free. A written answer uses 1 credit.');
   const bought = { ...free, total: 68, bonusCredits: 30 };
-  assert.equal(creditLine(bought).first, '68 credits left · free ones refill 1 Nov', 'bought credits make "of your 50" untrue');
-  assert.equal(creditLine({ ...free, total: 1, includedRemaining: 1 }).first, '1 of your 50 free credits left · they refill 1 Nov');
-  assert.equal(creditLine({ ...bought, total: 1 }).first, '1 credit left · free ones refill 1 Nov');
+  assert.equal(creditLine(bought).first, '68 credits left · free ones refill on 1 Nov', 'bought credits make "of your 50" untrue');
+  assert.equal(creditLine({ ...free, total: 1, includedRemaining: 1 }).first, '1 of your 50 free credits left · they refill on 1 Nov');
+  assert.equal(creditLine({ ...bought, total: 1 }).first, '1 credit left · free ones refill on 1 Nov');
   assert.equal(creditLine({ ...free, total: 0 }).first, 'You have no credits left. Your free credits refill on 1 Nov.');
   assert.equal(creditLine({ ...free, total: 0 }).second, 'Answers from your marks stay free.');
   assert.equal(creditLine({ state: 'paused', known: false }).first, 'Written answers are paused just now.');

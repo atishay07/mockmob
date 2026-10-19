@@ -25,7 +25,7 @@ import { analyseSession } from '../../../data/session_recovery.js';
 import AskMobiPanel from './AskMobiPanel';
 import {
   DOOR_COPY, askNowStarters, creditLine, fewerIdeasLabel, greeting, greetName, lastPaper, moreIdeasLabel, moreStarters, noteFor, paperIsOpen,
-  priceOfTyped, priceWord, recordDoorAsks, recordLead, recordLine, seeAll, seeFewer, clockStamp, costOf,
+  priceOfTyped, priceWord, recordDoorAsks, recordLead, recordLine, seeAll, seeFewer, clockStamp, costOf, leadFigureLine,
 } from './askDoors.mjs';
 import { exchangesFrom } from './mentorHistory.mjs';
 import './ask-doors.css';
@@ -133,7 +133,13 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
     const body = String(ask.text || '').trim();
     if (!body) return;
     threadCount.current += 1;
-    setThread({ key: threadCount.current, text: body, answer: ask.answer ? { reply: ask.answer.reply, actions: ask.answer.actions, source: 'From your last paper' } : null });
+    // `free`: the ask was shown as Free, so the panel answers it from the record (handed over below, already read) or not at all;
+    // it is never sent as a written reply. `record` is the record this page has read, so the panel does not read it a second time.
+    setThread({
+      key: threadCount.current, text: body, free: ask.free === true,
+      record: ready ? { status, insights } : null,
+      answer: ask.answer ? { reply: ask.answer.reply, actions: ask.answer.actions, source: 'From your last paper' } : null,
+    });
     setText('');
     window.requestAnimationFrame(() => threadRef.current?.scrollIntoView?.({ block: 'start', behavior: 'smooth' }));
   }
@@ -144,7 +150,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
       if (!openUpgrade({ trigger: 'review', opener: event.currentTarget })) router.push('/pricing');
       return;
     }
-    start({ text: ask.text, answer: ask.id === 'last' ? ask.answer : null });
+    start({ text: ask.text, answer: ask.id === 'last' ? ask.answer : null, free: ask.price === 'free' });
   }
 
   const visible = allOpen ? asks.slice(1) : asks.slice(1, 1 + SHOWN_AFTER_LEAD);
@@ -167,7 +173,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
             key={thread.key}
             form="page"
             context={{ kind: 'page', ref: null, label: null, number: null, chapter: null, lines: [] }}
-            initial={{ text: thread.text, answer: thread.answer }}
+            initial={{ text: thread.text, answer: thread.answer, free: thread.free, record: thread.record }}
             onClose={() => { setThread(null); setWaiting(false); }}
             onPending={setWaiting}
           />
@@ -185,7 +191,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img className="amd-bell" src="/brand/mascot/ask-deskbell.webp" alt="" width="70" height="64" />
             </header>
-            <form className="amd-field" data-focused={focused || undefined} onSubmit={(event) => { event.preventDefault(); start({ text }); }}>
+            <form className="amd-field" data-focused={focused || undefined} onSubmit={(event) => { event.preventDefault(); start({ text, free: price === 'free' }); }}>
               <label htmlFor="amd-field" className="sr-only">{DOOR_COPY.nowHint}</label>
               <textarea
                 id="amd-field"
@@ -197,7 +203,7 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
                 onChange={(event) => { setText(event.target.value); event.target.style.height = 'auto'; event.target.style.height = `${Math.min(event.target.scrollHeight, 132)}px`; }}
                 onFocus={() => setFocused(true)}
                 onBlur={() => setFocused(false)}
-                onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); start({ text }); } }}
+                onKeyDown={(event) => { if (event.key === 'Enter' && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); start({ text, free: price === 'free' }); } }}
               />
               <button type="submit" className="amd-send" disabled={!text.trim()} aria-label="Ask Mobi"><ArrowUp size={22} aria-hidden="true" /></button>
             </form>
@@ -308,4 +314,4 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
   );
 }
 
-const leadLine = (lead) => `marks lost in ${lead.chapter}, your biggest leak`;
+const leadLine = (lead) => leadFigureLine(lead.chapter);
