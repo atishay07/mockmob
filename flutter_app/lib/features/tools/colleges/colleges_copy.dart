@@ -43,7 +43,7 @@ abstract final class CollegesCopy {
 
   /// The sample row of the empty state (tagged "Example"): the first choice and what it will show.
   static const String sampleTitle = 'Your first choice';
-  static const String sampleNote = 'B.Com (Hons). Its lowest Round 1 score shows here.';
+  static const String sampleNote = 'Your course. Its lowest Round 1 score shows here.';
   static const String signedOut = 'Sign in to keep a list of colleges.';
   static const String signIn = 'Sign in';
 

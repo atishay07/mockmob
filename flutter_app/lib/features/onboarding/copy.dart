@@ -97,7 +97,7 @@ abstract final class OnboardingCopy {
 
   // Course and colleges.
   static const String courseTitle = 'Which seat are you after?';
-  static const String courseSupport = 'These are the DU commerce courses, with the number of colleges that offered seats in Round 1 of 2026.';
+  static const String courseSupport = 'These are the courses students choose most, with the number of colleges that offered seats in Round 1 of 2026.';
   static String collegesCount(int n) => n == 1 ? '1 college' : '$n colleges';
   static String collegesUnit(int n) => n == 1 ? 'college' : 'colleges';
   static const String notSure = 'Not sure yet';

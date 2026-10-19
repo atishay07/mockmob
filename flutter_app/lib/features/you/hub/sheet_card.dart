@@ -12,6 +12,7 @@ import '../../tools/data/my_colleges_actions.dart' show myCollegesProvider;
 import '../../tools/my_colleges/my_colleges_parts.dart' show MyCollegesFieldList, myCollegesHaveAny;
 import '../copy.dart';
 import '../data/student_target.dart';
+import '../data/subject_catalog.dart' show streamWordFor;
 import '../widgets/you_motion.dart';
 import '../widgets/you_page.dart' show youText;
 import 'hub_mobi.dart';
@@ -246,7 +247,7 @@ class _SheetCardState extends State<SheetCard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(YouCopy.sheetOverlineFor(year), style: type.caption.copyWith(color: colors.ink2)),
+                      Text(YouCopy.sheetOverlineFor(year, course: target.course, stream: streamWordFor(subjects)), style: type.caption.copyWith(color: colors.ink2)),
                       const SizedBox(height: MmSpace.s8),
                       _NameLine(title: title, style: type.display, onEdit: widget.onEditName),
                       if (target.stage != null) ...[

@@ -28,7 +28,7 @@ const Map<String, String> youSubjectNames = {
   'sociology': 'Sociology',
 };
 
-/// The groups of the editor, in the order a Commerce student meets them.
+/// The groups of the subjects editor, in a fixed order (the language and General Test first).
 enum SubjectGroup {
   core('Language and General Test'),
   commerce('Commerce'),
@@ -47,6 +47,28 @@ enum SubjectGroup {
         'history' || 'political_science' || 'geography' || 'psychology' || 'sociology' => humanities,
         _ => other,
       };
+}
+
+/// The stream word for the student's own subjects, for a label such as "CUET UG 2027, Science", or
+/// null when the subjects do not say (none yet, or only subjects every stream takes). Never a
+/// default: a science student is never called a Commerce student (owner, 19 Oct, I12).
+///
+/// Accountancy and Business Studies mark Commerce; Physics, Chemistry, Biology and Computer Science
+/// mark Science; History, Political Science, Geography, Psychology and Sociology mark Humanities.
+/// Economics and Mathematics are taken in more than one stream, so they mark none. Subjects from
+/// two or more streams read "Mixed subjects".
+String? streamWordFor(Iterable<String> subjectIds) {
+  final streams = <String>{
+    for (final id in subjectIds)
+      ?switch (id) {
+        'accountancy' || 'business_studies' => 'Commerce',
+        'physics' || 'chemistry' || 'biology' || 'computer_science' => 'Science',
+        'history' || 'political_science' || 'geography' || 'psychology' || 'sociology' => 'Humanities',
+        _ => null,
+      },
+  };
+  if (streams.isEmpty) return null;
+  return streams.length == 1 ? streams.first : 'Mixed subjects';
 }
 
 /// One subject the student may choose, or one they hold that practice cannot open.
