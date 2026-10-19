@@ -425,3 +425,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 9:10 pm IST (verbatim)
 > "done, invited the service account"
 **Ledger:** play-billing@mockmob.iam.gserviceaccount.com invited in Play Console with app permissions for MockMob (up to 24 h to take effect).
+
+## Owner, 19 Oct about 9:25 pm IST (verbatim)
+> "projects/mockmob/topics/play-rtdn anything else you need from my side?"
+**Ledger:** Pub/Sub topic projects/mockmob/topics/play-rtdn with Play's publisher grant and the push subscription to /api/billing/play/rtdn (token) created by him.
