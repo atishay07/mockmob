@@ -191,6 +191,18 @@ class ReviewIndex {
   ];
   int get openCount => groups.fold(0, (n, g) => n + g.openCount);
 
+  /// The chapters with an open mistake, each leaving out the mistakes of the papers in [sealed] (results not opened yet):
+  /// the same papers Your papers' strip and the bar's badge leave out, so a count read from these agrees with them.
+  List<ChapterGroup> get openGroupsShown {
+    if (sealed.isEmpty) return openGroups;
+    return [
+      for (final g in groups)
+        if (ChapterGroup(chapter: g.chapter, subjectId: g.subjectId, items: [for (final i in g.items) if (!sealed.contains(i.attemptId)) i]) case final shown
+            when shown.openCount > 0)
+          shown,
+    ];
+  }
+
   /// The open mistakes outside the papers in [sealed] (results not opened yet): what Your papers' strip, its chapter list
   /// and the bar's badge count.
   int get openShown => openCountExcept(sealed);

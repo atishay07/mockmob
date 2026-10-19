@@ -272,6 +272,30 @@ void main() {
       expect(_snap(stops, 390, 400), 400);
     });
   });
+
+  group('the first-view nudge (verifier L4)', () {
+    Widget rail({Key? key}) => _app(SizedBox(width: 300, child: ChipRail.labelled(key: key, labels: _labels, selected: null, onSelected: (_) {}, nudge: true)));
+
+    double offsetOf(WidgetTester tester) => tester.state<ScrollableState>(find.byType(Scrollable).first).position.pixels;
+
+    testWidgets('it happens once per app run: a rail built again stays still', (tester) async {
+      ChipRail.resetNudgeForTests();
+      await tester.pumpWidget(rail(key: const ValueKey('first')));
+      await tester.pump(const Duration(milliseconds: 700));
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(offsetOf(tester), greaterThan(1), reason: 'the first rail slid along');
+      await tester.pumpAndSettle();
+      expect(offsetOf(tester), closeTo(0, 0.5), reason: 'and came back');
+      // The same screen opened again builds a new rail: no second nudge.
+      await tester.pumpWidget(const SizedBox());
+      await tester.pumpWidget(rail(key: const ValueKey('second')));
+      await tester.pump(const Duration(milliseconds: 700));
+      await tester.pump(const Duration(milliseconds: 200));
+      expect(offsetOf(tester), closeTo(0, 0.5));
+      await tester.pumpAndSettle();
+      ChipRail.resetNudgeForTests();
+    });
+  });
 }
 
 List<double> _restsOf(WidgetTester tester) {

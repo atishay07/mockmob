@@ -52,8 +52,13 @@ class DoorAsk {
 abstract final class AskDoorCopy {
   // The greeting beside Mobi.
   static String greetFresh(String? name) => '${_hi(name)} Stuck on a CUET doubt? Ask me.';
-  static String greetHeavy(String? name, int papers) =>
-      '${_hi(name)} Ask me any doubt, or ask what ${papers == 1 ? 'your first paper says' : 'your $papers papers say'}.';
+  /// The server reads the student's last 60 papers at most (`GET /api/prepos/insights`), so a count at or over that is
+  /// said as "your last 60 papers", which is true whether the student has sat exactly 60 or many more.
+  static const recordReadCap = 60;
+  static String _papersSay(int papers) =>
+      papers == 1 ? 'your first paper says' : papers >= recordReadCap ? 'your last $recordReadCap papers say' : 'your $papers papers say';
+
+  static String greetHeavy(String? name, int papers) => '${_hi(name)} Ask me any doubt, or ask what ${_papersSay(papers)}.';
   static String _hi(String? name) => name == null ? 'Hi.' : 'Hi $name.';
 
   // Ask now.
@@ -66,7 +71,11 @@ abstract final class AskDoorCopy {
   // Ask your record.
   static const recordTitle = 'Ask your record';
   static String recordLine(int papers) =>
-      papers == 1 ? 'Mobi reads your first paper and answers from it.' : 'Mobi reads your $papers papers and answers from them.';
+      papers == 1
+          ? 'Mobi reads your first paper and answers from it.'
+          : papers >= recordReadCap
+          ? 'Mobi reads your last $recordReadCap papers and answers from them.'
+          : 'Mobi reads your $papers papers and answers from them.';
   static const recordTip = 'Tap a question and Mobi answers at once.';
   static String leadFigureLine(String chapter) => 'marks lost in $chapter, your biggest leak';
   static String seeAll(int n) => 'See all $n questions about your record';

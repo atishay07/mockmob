@@ -104,6 +104,14 @@ void main() {
       expect(AskDoorCopy.greetHeavy(null, 1), 'Hi. Ask me any doubt, or ask what your first paper says.');
     });
 
+    test('Mobi reads at most the last 60 papers, and the lines say so past that (verifier L5)', () {
+      expect(AskDoorCopy.recordLine(25), 'Mobi reads your 25 papers and answers from them.');
+      expect(AskDoorCopy.recordLine(60), 'Mobi reads your last 60 papers and answers from them.');
+      expect(AskDoorCopy.recordLine(61), 'Mobi reads your last 60 papers and answers from them.');
+      expect(AskDoorCopy.greetHeavy('Riya', 60), 'Hi Riya. Ask me any doubt, or ask what your last 60 papers say.');
+      expect(AskDoorCopy.greetHeavy('Riya', 59), 'Hi Riya. Ask me any doubt, or ask what your 59 papers say.');
+    });
+
     test('Ask now always has three starters: the weakest chapter first, then the student subjects', () {
       final heavy = askNowStarters(record: rich(), subjects: const ['accountancy', 'economics']);
       expect(heavy, hasLength(3));

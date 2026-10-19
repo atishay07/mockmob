@@ -52,7 +52,9 @@ class MistakesScreen extends ConsumerWidget {
         primary: index.attempts.isEmpty ? StateAction(ReviewCopy.emptyAction, () => startQuickTen(context)) : null,
       );
     } else {
-      final open = index.openGroups;
+      // Without the mistakes of a paper whose result is still sealed: its reveal is not spoiled here, and the count agrees
+      // with Your papers and the badge.
+      final open = index.openGroupsShown;
       // Closed chapters split by outcome, item by item: a repaired mistake is never listed under
       // "Set aside" and a set-aside one is never listed under "Repaired".
       final repaired = <ChapterGroup>[];
