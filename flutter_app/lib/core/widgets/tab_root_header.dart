@@ -35,13 +35,46 @@ class TabRootHeader extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 if (overline != null) Text(overline!, style: type.caption.copyWith(color: colors.ink2)),
-                if (title != null) Semantics(header: true, child: Text(title!, style: type.screenTitle, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                if (title != null) Semantics(header: true, child: _Title(title!, style: type.screenTitle)),
               ],
             ),
           ),
           if (trailing != null) ...[const SizedBox(width: MmSpace.s12), trailing!],
         ],
       ),
+    );
+  }
+}
+
+/// The screen's title: up to two lines (a title wider than the room beside the account key and the trailing key wraps
+/// at its words instead of being cut to "Practi..."), and where one word alone is wider than the room at large text
+/// the title takes the largest size that holds it whole, never below the normal size (walk L1, 19 Oct, text 1.6).
+class _Title extends StatelessWidget {
+  const _Title(this.text, {required this.style});
+
+  final String text;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    final base = MediaQuery.textScalerOf(context);
+    return LayoutBuilder(
+      builder: (context, box) {
+        var scaler = base;
+        if (box.maxWidth.isFinite) {
+          var widest = 0.0;
+          for (final word in text.split(RegExp(r'\s+'))) {
+            final painter = TextPainter(text: TextSpan(text: word, style: style), textDirection: TextDirection.ltr, textScaler: base, maxLines: 1)..layout();
+            if (painter.width > widest) widest = painter.width;
+            painter.dispose();
+          }
+          if (widest > box.maxWidth) {
+            final shrunk = base.scale(1) * (box.maxWidth / widest) * 0.98;
+            scaler = TextScaler.linear(shrunk < 1 ? 1 : shrunk);
+          }
+        }
+        return Text(text, style: style, textScaler: scaler, maxLines: 2, overflow: TextOverflow.ellipsis);
+      },
     );
   }
 }
