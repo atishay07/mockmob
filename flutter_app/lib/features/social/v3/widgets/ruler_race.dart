@@ -79,13 +79,13 @@ class _Geo {
 
   double numberX(int i) {
     final a = side + 18;
-    final b = poleX - 46;
+    final b = poleX - 56;
     if (count <= 1) return (a + b) / 2;
     return a + (i.clamp(1, count) - 1) * (b - a) / (count - 1);
   }
 
   /// Where a Fold that reached the flag stands: at the pole, which stands behind it.
-  double get flagStandX => poleX - 8;
+  double get flagStandX => poleX - 2;
 
   double slotX(int slot) => slot > count ? flagStandX : numberX(slot);
 }
@@ -490,7 +490,9 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
             pose: r.finished && !r.ghost ? FoldPose.cheer : FoldPose.idle,
             fallbackName: r.name,
             fallbackColour: r.colour,
-            semanticLabel: r.you ? MobV3Copy.tabYou : r.name,
+            semanticLabel: r.finished
+                ? MobV3Copy.rulerDone(r.you ? MobV3Copy.tabYou : r.name)
+                : MobV3Copy.rulerAt(r.you ? MobV3Copy.tabYou : r.name, r.at.clamp(1, widget.count), widget.count),
           ),
         ),
       ),
