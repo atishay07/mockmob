@@ -7,10 +7,16 @@
 // server answered with the goal AND the same days; until then the chips show what the server last
 // confirmed. A pause made in the app is sent back with the new days, so changing the days never ends it.
 // A goal held without chosen days (set in the app before this) shows its number and asks which days.
-// Rules in accountModel.mjs, tested in data/tests/you_account.test.mjs.
+// The daily time sits above the days (D126, owner H1): 10, 20, 30 and More (1 hour, 2 hours, your own in steps of 15
+// minutes). It saves with the days in one write; a server that cannot hold a longer day yet gets only what it accepts, the
+// choice stays on this device, and the note under the choices says exactly that (src/lib/goalMinutesStore.js).
+// Rules in accountModel.mjs, tested in data/tests/you_account.test.mjs; the minutes in data/tests/goal_minutes_web.test.mjs.
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { DrawnCheck } from '@/components/ui/DrawnCheck';
+import DailyMinutes from '@/components/goal/DailyMinutes';
 import { api } from '@/lib/fetcher';
+import { goalMinutesFromResponse, pickMinutes, savedMinutesLine } from '@/lib/goalMinutes.mjs';
+import { mirrorToPlan, promoteDeviceMinutes, readDeviceMinutes, saveDailyMinutes, writeDeviceMinutes } from '@/lib/goalMinutesStore';
 import {
   GOAL_COPY, GOAL_PATH, GOAL_WEEKDAYS, goalDaysNotChosenLine, goalErrorLine, goalFromServer, goalPauseLine, goalSaveBody, goalSavedLine,
   goalSplitLine, goalUncertainLine, goalWeekdaysLine, sameWeekdays, toggleWeekday,
@@ -20,6 +26,9 @@ import './account.css';
 export default function GoalControl({ onSaved = null }) {
   const [load, setLoad] = useState({ status: 'loading', goal: null });
   const [picked, setPicked] = useState([]);
+  // The daily time: what the student has chosen on screen, and what the account or this device holds.
+  const [minutes, setMinutes] = useState(null);
+  const [kept, setKept] = useState({ minutes: null, source: null });
   const [save, setSave] = useState({ phase: 'idle', message: '' });
   const [attempt, setAttempt] = useState(0);
   const busy = useRef(false);
@@ -33,13 +42,20 @@ export default function GoalControl({ onSaved = null }) {
         if (!goal) { setLoad({ status: 'error', goal: null }); return; }
         setLoad({ status: 'ready', goal });
         setPicked(goal.weekdays || []);
+        const held = pickMinutes(body.dailyMinutes, readDeviceMinutes());
+        setKept(held);
+        setMinutes((m) => m ?? held.minutes);
+        // A server that now knows the daily time and holds none takes what this device kept, once.
+        promoteDeviceMinutes(body).then((promoted) => { if (alive && promoted !== null) setKept({ minutes: promoted, source: 'account' }); });
       })
       .catch(() => { if (alive) setLoad({ status: 'error', goal: null }); });
     return () => { alive = false; };
   }, [attempt]);
 
   const goal = load.goal;
-  const dirty = picked.length > 0 && !sameWeekdays(picked, goal?.weekdays);
+  const daysDirty = picked.length > 0 && !sameWeekdays(picked, goal?.weekdays);
+  const minutesDirty = minutes !== null && minutes !== kept.minutes;
+  const dirty = daysDirty || minutesDirty;
 
   const toggle = useCallback((day) => {
     if (busy.current) return;
@@ -47,22 +63,48 @@ export default function GoalControl({ onSaved = null }) {
     setSave((s) => (s.phase === 'idle' ? s : { phase: 'idle', message: '' }));
   }, []);
 
+  const chooseMinutes = useCallback((n) => {
+    if (busy.current) return;
+    setMinutes(n);
+    setSave((s) => (s.phase === 'idle' ? s : { phase: 'idle', message: '' }));
+  }, []);
+
   async function submit() {
     if (busy.current || !dirty || !goal) return;
     busy.current = true;
     const sent = picked;
+    const wanted = minutesDirty ? minutes : null;
     setSave({ phase: 'saving', message: '' });
+    const parts = [];
     try {
-      const body = await api(GOAL_PATH, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(goalSaveBody(sent.length, goal.pausedUntil, Date.now(), sent)) });
-      const confirmedGoal = goalFromServer(body);
-      // A server that kept the number but not the days (an older deploy) has not saved what was chosen.
-      if (!confirmedGoal || !sameWeekdays(confirmedGoal.weekdays, sent)) { setSave({ phase: 'error', message: goalUncertainLine() }); return; }
-      setLoad({ status: 'ready', goal: { ...confirmedGoal, set: true } });
-      setPicked(confirmedGoal.weekdays);
-      setSave({ phase: 'saved', message: goalSavedLine(new Date()) });
-      onSaved?.(confirmedGoal);
+      let minutesWhere = null;
+      let planMinutes = null;
+      if (daysDirty) {
+        const body = await api(GOAL_PATH, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(goalSaveBody(sent.length, goal.pausedUntil, Date.now(), sent, wanted ?? undefined)) });
+        const confirmedGoal = goalFromServer(body);
+        // A server that kept the number but not the days (an older deploy) has not saved what was chosen.
+        if (!confirmedGoal || !sameWeekdays(confirmedGoal.weekdays, sent)) { setSave({ phase: 'error', message: goalUncertainLine() }); return; }
+        setLoad({ status: 'ready', goal: { ...confirmedGoal, set: true } });
+        setPicked(confirmedGoal.weekdays);
+        parts.push(goalSavedLine(new Date()));
+        onSaved?.(confirmedGoal);
+        if (wanted !== null) {
+          minutesWhere = goalMinutesFromResponse(body, wanted);
+          if (minutesWhere === 'account') writeDeviceMinutes(wanted);
+          else { writeDeviceMinutes(wanted); planMinutes = await mirrorToPlan(wanted); }
+        }
+      } else if (wanted !== null) {
+        const result = await saveDailyMinutes(wanted);
+        minutesWhere = result.where;
+        planMinutes = result.planMinutes;
+      }
+      if (wanted !== null) {
+        setKept({ minutes: wanted, source: minutesWhere });
+        parts.push(minutesWhere === 'account' ? (daysDirty ? '' : goalSavedLine(new Date())) : savedMinutesLine(wanted, 'device', planMinutes));
+      }
+      setSave({ phase: 'saved', message: parts.filter(Boolean).join(' ') });
     } catch (error) {
-      // Nothing was changed: the chips keep the choice so a retry is one tap.
+      // Nothing was changed: the chips and the time keep the choice so a retry is one tap.
       setSave({ phase: 'error', message: goalErrorLine(error) });
     } finally {
       busy.current = false;
@@ -95,7 +137,12 @@ export default function GoalControl({ onSaved = null }) {
 
   return (
     <div className="acct-goal">
-      <p className="acct-goal__q" id="acct-goal-q">{GOAL_COPY.question}</p>
+      <p className="acct-goal__q" id="acct-goal-m">{GOAL_COPY.minutesQuestion}</p>
+      <DailyMinutes
+        value={minutes} onChange={chooseMinutes} labelledBy="acct-goal-m" busy={saving} idPrefix="acct-gm"
+        note={kept.source === 'device' && minutes === kept.minutes && save.phase !== 'saved' ? savedMinutesLine(kept.minutes, 'device') : null}
+      />
+      <p className="acct-goal__q acct-goal__q--days" id="acct-goal-q">{GOAL_COPY.question}</p>
       <div className="acct-goal__days" role="group" aria-labelledby="acct-goal-q">
         {GOAL_WEEKDAYS.map((day) => (
           <button

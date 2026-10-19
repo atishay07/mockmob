@@ -8,6 +8,7 @@
 // Copy rules: sentence case, no "!", no em dash, no middle dots, 12-hour times.
 import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
 import { WEEKDAY_NAMES, WEEKDAY_SHORT, parseWeekdays, weekdaysLine } from '../../lib/studyWeekdays.mjs';
+import { cleanMinutes } from '../../lib/goalMinutes.mjs';
 
 // ---------------------------------------------------------------------------------------------
 // Your sheet: subjects (drawn with the shared SubjectObject, src/components/brand/SubjectObject.jsx)
@@ -100,7 +101,8 @@ export const GOAL_DAYS = Object.freeze([1, 2, 3, 4, 5, 6, 7]);
 export const GOAL_WEEKDAYS = Object.freeze(WEEKDAY_NAMES.map((name, index) => Object.freeze({ index, name, short: WEEKDAY_SHORT[index] })));
 
 export const GOAL_COPY = Object.freeze({
-  title: 'Weekly goal',
+  title: 'Your goal',
+  minutesQuestion: 'How long each day?',
   question: 'Which days do you want to study?',
   noDaysYet: 'Choose at least one day.',
   counts: 'A study day is a day you finish a scored session of at least 5 answers, or a Mistake Repair. Today and Progress plan around this number.',
@@ -176,9 +178,11 @@ export function activePause(pausedUntil, now = Date.now()) {
 }
 
 /** The body of a goal save. The server replaces the whole row, so a pause made in the app is sent back. */
-export function goalSaveBody(days, pausedUntil, now = Date.now(), weekdays = undefined) {
+export function goalSaveBody(days, pausedUntil, now = Date.now(), weekdays = undefined, dailyMinutes = undefined) {
   const body = { daysPerWeek: days, pausedUntil: activePause(pausedUntil, now) };
   if (Array.isArray(weekdays)) body.weekdays = [...weekdays].sort((a, b) => a - b);
+  // The daily time rides with the days in one write; a server that does not know the field ignores it.
+  if (cleanMinutes(dailyMinutes) !== null) body.dailyMinutes = dailyMinutes;
   return body;
 }
 
