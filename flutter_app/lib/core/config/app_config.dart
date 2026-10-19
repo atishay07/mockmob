@@ -70,6 +70,42 @@ class AppConfig {
 
   /// Path used for the light reachability ping while work is pending (cached at the edge).
   String get pingUrl => '${apiBaseUrl.replaceAll(RegExp(r'/+$'), '')}/api/stats';
+
+  // Origins (20 Oct, C1: a staging build sent its email sign-in to production). Every request the
+  // MockMob API client makes goes to [apiBaseUrl]'s own origin and nowhere else, and a build that is
+  // not production (its Supabase is not the production project) never talks to the production site,
+  // even when API_BASE_URL is missing and fell back to the production default.
+
+  /// The production website hosts.
+  static const Set<String> productionApiHosts = {'www.mockmob.in', 'mockmob.in'};
+
+  /// The production Supabase project's host.
+  static const String productionSupabaseHost = 'isrxrxzjocewrdureyhp.supabase.co';
+
+  static Uri? _parse(String url) {
+    final uri = Uri.tryParse(url.trim());
+    return uri == null || uri.host.isEmpty ? null : uri;
+  }
+
+  /// API_BASE_URL is the production website.
+  bool get apiIsProduction => productionApiHosts.contains(_parse(apiBaseUrl)?.host.toLowerCase());
+
+  /// SUPABASE_URL is the production project.
+  bool get supabaseIsProduction => _parse(supabaseUrl)?.host.toLowerCase() == productionSupabaseHost;
+
+  /// A production build: both origins are production. Anything else (staging Supabase, a relay on
+  /// localhost, a missing define) is a test build that must never reach production.
+  bool get isProductionBuild => apiIsProduction && supabaseIsProduction;
+
+  /// Whether the API client may send a request to [uri]: only to API_BASE_URL's own origin (scheme,
+  /// host and port), and never to a production host from a test build.
+  bool allowsApiRequest(Uri uri) {
+    final base = _parse(apiBaseUrl);
+    if (base == null) return false;
+    final host = uri.host.toLowerCase();
+    if (!isProductionBuild && productionApiHosts.contains(host)) return false;
+    return uri.scheme.toLowerCase() == base.scheme.toLowerCase() && host == base.host.toLowerCase() && uri.port == base.port;
+  }
 }
 
 /// How Google sign-in is offered. `auto` uses the native account sheet when a web client id is

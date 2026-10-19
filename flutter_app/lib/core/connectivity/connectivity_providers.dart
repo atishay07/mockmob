@@ -38,7 +38,11 @@ final connectivityMonitorProvider = Provider<ConnectivityMonitor>((ref) {
   final sub = connectivity.onConnectivityChanged.listen((r) => radio.add(_hasRadio(r)));
   final monitor = ConnectivityMonitor(
     radioPresent: radio.stream,
-    ping: () => _ping(ref.read(appConfigProvider).pingUrl),
+    // Same origin rule as the API client (20 Oct, C1): a test build never pings the production site.
+    ping: () {
+      final config = ref.read(appConfigProvider);
+      return config.allowsApiRequest(Uri.parse(config.pingUrl)) ? _ping(config.pingUrl) : Future.value(false);
+    },
     hasPendingWork: () => ref.read(pendingWorkProvider),
   );
   ref.listen(pendingWorkProvider, (previous, next) => monitor.pendingWorkChanged());
