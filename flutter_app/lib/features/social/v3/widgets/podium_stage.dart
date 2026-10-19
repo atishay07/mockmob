@@ -121,8 +121,16 @@ class PodiumPlan {
 
   bool get table => layout == PodiumLayout.table;
 
-  /// 0 third, 1 second, 2 first.
-  static int slotOf(int place) => (3 - place).clamp(0, 2);
+  /// The reveal step of a place: first is always step 2 (2200 ms, so its landing is the 2820 ms
+  /// climax); the places below take the steps before it from the earliest, lowest place first. With
+  /// third and second: 0 and 1. With only a (shared) second, or only a third: step 0, so the floor
+  /// is never left alone on stage for a beat with nothing coming (F11).
+  int stepOf(int place) {
+    if (place == 1) return 2;
+    final below = {for (final c in columns) if (c.place != null && c.place != 1) c.place!}.toList()..sort((a, b) => b.compareTo(a));
+    final i = below.indexOf(place);
+    return i < 0 ? 0 : i.clamp(0, 1);
+  }
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -327,7 +335,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
         if (!crossed(PodiumTimeline.land(slot)) || _skipping) continue;
         final members = [
           for (var i = 0; i < _plan.columns.length; i++)
-            if (PodiumPlan.slotOf(_plan.columns[i].place!) == slot) i,
+            if (_plan.stepOf(_plan.columns[i].place!) == slot) i,
         ];
         if (members.isEmpty) continue;
         if (slot == 2) {
@@ -346,7 +354,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           final c = geo.cols[i].centre;
           final top = geo.plinthTop(1);
           _particles.burst(PaperBurst(
-            origin: Offset(c, top - 40),
+            origin: Offset(c, top - 6),
             count: 40,
             speed: 300,
             spread: math.pi * 0.95,
@@ -464,8 +472,9 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
     final skipT = ms < keysAt ? 1.0 : 0.0;
 
     final night = c.isNight;
-    final scrimColour = night ? const Color(0xFF000000) : const Color(0xFF2B200F);
-    final scrimAlpha = night ? scrim : scrim * 0.5;
+    final scrimColour = night ? const Color(0xFF000000) : const Color(0xFF3B2A12);
+    // Day dims warm and lighter (the judge: Live's grey Day scrim read as dirt).
+    final scrimAlpha = night ? scrim : scrim * 0.32;
 
     final subline = _subline();
     final tie = p.tie;
@@ -556,14 +565,36 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
       ),
     );
 
+    // The stage takes the room the text leaves (up to 140 dp more), so the lamp hangs higher on a
+    // tall phone instead of leaving a hole above the keys; on a short phone or large text it scrolls.
     final body = LayoutBuilder(
       builder: (context, box) {
-        final stage = _stage(context, ms, box.maxWidth);
+        final parts = _stage(context, ms, box.maxWidth);
         return SingleChildScrollView(
           physics: const ClampingScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [headlineBlock, const SizedBox(height: MmSpace.s8), stage, lines, const SizedBox(height: MmSpace.s8)],
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: box.maxHeight),
+            child: IntrinsicHeight(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  headlineBlock,
+                  const SizedBox(height: MmSpace.s8),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: ConstrainedBox(
+                        constraints: BoxConstraints(minHeight: parts.height, maxHeight: parts.height + 140),
+                        child: parts.stage,
+                      ),
+                    ),
+                  ),
+                  parts.names,
+                  lines,
+                  const SizedBox(height: MmSpace.s8),
+                ],
+              ),
+            ),
           ),
         );
       },
@@ -595,7 +626,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
 
   // ---- The stage (lamp, plinths, Folds, floor, names) -----------------------------------------------
 
-  Widget _stage(BuildContext context, double ms, double width) {
+  ({Widget stage, Widget names, double height}) _stage(BuildContext context, double ms, double width) {
     final c = context.mmColors;
     final rm = _reduced;
     final lite = MobFx.lite(context);
@@ -613,13 +644,14 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
     final swell = (rm || table) ? 0.0 : _seg(ms, PodiumTimeline.climax, 600, MotionCurves.out);
     final strength = base * (0.55 + 0.45 * narrow) + (peak - base) * swell;
 
-    final children = <Widget>[
-      Positioned.fill(child: CustomPaint(painter: _GridPainter(colour: c.ink.withValues(alpha: night ? 0.04 : 0.05), floorY: geo.floorY))),
+    // Back layers fill the whole (stretchable) stage; the plinths, Folds and particles live in a
+    // box of the geometry's height on the floor, so their coordinates never change.
+    final back = <Widget>[
+      Positioned.fill(child: CustomPaint(painter: _GridPainter(colour: c.ink.withValues(alpha: night ? 0.04 : 0.05)))),
       Positioned.fill(
         child: CustomPaint(
           painter: _LampPainter(
             cx: geo.lampX,
-            floorY: geo.floorY,
             width: width,
             coneWidth: coneWidth,
             strength: strength,
@@ -631,7 +663,9 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           ),
         ),
       ),
-      // The floor line and the floor band under the plinths.
+    ];
+    final children = <Widget>[
+      // The floor line under the plinths.
       Positioned(left: 0, right: 0, top: geo.floorY, height: 1, child: ColoredBox(color: c.lineStrong)),
     ];
 
@@ -643,18 +677,18 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
 
     children.add(Positioned.fill(child: PaperParticles(controller: _particles)));
 
-    final stage = SizedBox(height: geo.height, child: Stack(clipBehavior: Clip.none, children: children));
-    final names = _nameBand(context, ms, geo);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
+    final stage = Stack(
+      clipBehavior: Clip.none,
       children: [
-        stage,
-        ColoredBox(
-          color: night ? Color.alphaBlend(const Color(0x14000000), c.ground) : Color.alphaBlend(const Color(0x0A3B2A12), c.ground),
-          child: Padding(padding: const EdgeInsets.only(top: 8, bottom: 10), child: names),
-        ),
+        ...back,
+        Positioned(left: 0, right: 0, bottom: 0, height: geo.height, child: Stack(clipBehavior: Clip.none, children: children)),
       ],
     );
+    final names = ColoredBox(
+      color: night ? Color.alphaBlend(const Color(0x14000000), c.ground) : Color.alphaBlend(const Color(0x0A3B2A12), c.ground),
+      child: Padding(padding: const EdgeInsets.only(top: 8, bottom: 10), child: _nameBand(context, ms, geo)),
+    );
+    return (stage: stage, names: names, height: geo.height);
   }
 
   /// Plinths, numerals, creases, sheen and the Folds on them; the floor members beside.
@@ -687,7 +721,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
       final m = _plan.columns[i];
       final col = geo.cols[i];
       final place = m.place!;
-      final slot = PodiumPlan.slotOf(place);
+      final slot = _plan.stepOf(place);
       final start = PodiumTimeline.slotStart[slot];
       final h = geo.plinthHeight(place);
       final first = place == 1;
@@ -865,7 +899,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
         t = rm ? _seg(ms, 300, 120) : _seg(ms, PodiumTimeline.tableLand, MotionDurations.engrave.inMilliseconds.toDouble(), MotionCurves.out);
         shown = m.marks ?? 0;
       } else {
-        final slot = PodiumPlan.slotOf(m.place!);
+        final slot = _plan.stepOf(m.place!);
         if (rm) {
           t = _seg(ms, PodiumTimeline.reducedSlot[slot], 120);
           shown = m.marks!;
@@ -1004,7 +1038,7 @@ class _Geometry {
       scale: scale,
       fold: math.min(84 * scale, pw * 1.12),
       firstFold: math.min(100 * scale, pw * 1.25),
-      floorFold: 60,
+      floorFold: 66,
     );
   }
 
@@ -1113,13 +1147,13 @@ class _IconKey extends StatelessWidget {
 
 /// Graph paper at 4% ink behind the stage, fading out toward the top.
 class _GridPainter extends CustomPainter {
-  _GridPainter({required this.colour, required this.floorY});
+  _GridPainter({required this.colour});
 
   final Color colour;
-  final double floorY;
 
   @override
   void paint(Canvas canvas, Size size) {
+    final floorY = size.height - 2;
     const step = 20.0;
     final p = Paint()..strokeWidth = 1;
     for (var y = floorY; y > 0; y -= step) {
@@ -1128,22 +1162,23 @@ class _GridPainter extends CustomPainter {
       canvas.drawLine(Offset(0, y), Offset(size.width, y), p);
     }
     final cx = size.width / 2;
-    for (var x = cx % step; x < size.width; x += step) {
-      p.shader = LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [colour, colour.withValues(alpha: 0)])
+    final v = Paint()
+      ..strokeWidth = 1
+      ..shader = LinearGradient(begin: Alignment.bottomCenter, end: Alignment.topCenter, colors: [colour, colour.withValues(alpha: 0)])
           .createShader(Rect.fromLTWH(0, 0, size.width, floorY));
-      canvas.drawLine(Offset(x, 0), Offset(x, floorY), p);
+    for (var x = cx % step; x < size.width; x += step) {
+      canvas.drawLine(Offset(x, 0), Offset(x, floorY), v);
     }
   }
 
   @override
-  bool shouldRepaint(_GridPainter old) => old.colour != colour || old.floorY != floorY;
+  bool shouldRepaint(_GridPainter old) => old.colour != colour;
 }
 
 /// The hanging lamp: cord, paper shade, bulb, and the cone of light to a pool on the floor.
 class _LampPainter extends CustomPainter {
   _LampPainter({
     required this.cx,
-    required this.floorY,
     required this.width,
     required this.coneWidth,
     required this.strength,
@@ -1155,7 +1190,6 @@ class _LampPainter extends CustomPainter {
   });
 
   final double cx;
-  final double floorY;
   final double width;
   final double coneWidth;
   final double strength;
@@ -1169,6 +1203,7 @@ class _LampPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    final floorY = size.height - 2;
     const shadeTop = 14.0;
     const shadeH = 20.0;
     final shadeBottom = shadeTop + shadeH;
@@ -1222,7 +1257,7 @@ class _LampPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_LampPainter old) =>
-      old.cx != cx || old.coneWidth != coneWidth || old.strength != strength || old.night != night || old.width != width || old.floorY != floorY;
+      old.cx != cx || old.coneWidth != coneWidth || old.strength != strength || old.night != night || old.width != width;
 }
 
 /// A paper plinth: rounded top, a dog-ear in the top-right corner, ruled lines on a final podium,
@@ -1301,8 +1336,8 @@ class _PlinthPainter extends CustomPainter {
       ..strokeWidth = 2.2
       ..strokeCap = StrokeCap.round;
     for (var i = 0; i < creases; i++) {
-      final x = w - 9 - i * 5.5;
-      canvas.drawLine(Offset(x, ear + 7), Offset(x - 1.5, ear + 15), crease);
+      final x = w - 9 - i * 5;
+      canvas.drawLine(Offset(x, ear + 7), Offset(x, ear + 16), crease);
     }
     if (foil > 0) {
       final band = Rect.fromLTWH(r * 0.4, 0, w - ear - r * 0.4, 3.5);
