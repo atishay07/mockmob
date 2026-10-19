@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/account_access/access_routes.dart';
 import '../../features/social/mob_routes.dart';
+import '../auth/auth_links.dart';
 import '../auth/auth_state.dart';
 import '../widgets/account/account_avatar.dart' show PushedPageMarker;
 import '../widgets/mm_sheet.dart';
@@ -130,6 +131,8 @@ class _AppLinkRouting {
 
   void _handle(Uri uri) {
     if (_disposed || uri.scheme != 'https') return;
+    // The emailed sign-in link is the auth service's (it signs in); never a page to open.
+    if (AuthLinks.isEmailLink(uri)) return;
     final now = DateTime.now();
     final at = _lastAt;
     if (uri == _last && at != null && now.difference(at) < const Duration(seconds: 3)) return;

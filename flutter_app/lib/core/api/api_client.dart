@@ -83,7 +83,9 @@ class ApiClient {
       ..contentType = Headers.jsonContentType
       ..responseType = ResponseType.json
       ..headers['Accept'] = 'application/json';
-    this.dio.interceptors.add(_AuthInterceptor(this));
+    this.dio.interceptors
+      ..add(_OriginGuard(config))
+      ..add(_AuthInterceptor(this));
   }
 
   final Dio dio;
@@ -230,6 +232,24 @@ class ApiClient {
   /// One shared refresh for any number of concurrent 401s.
   Future<bool> _refreshOnce() {
     return _refreshing ??= _tokens.refresh().whenComplete(() => _refreshing = null);
+  }
+}
+
+/// Refuses, before anything is sent, a request to any origin but API_BASE_URL's (an absolute URL
+/// passed as a path) and any request from a test build to the production site
+/// (20 Oct, C1). Runs before the bearer header is added, so no token leaves either.
+class _OriginGuard extends Interceptor {
+  _OriginGuard(this._config);
+
+  final AppConfig _config;
+
+  static const refused = ApiError(kind: ApiErrorKind.unknown, code: 'origin_refused');
+
+  @override
+  void onRequest(RequestOptions options, RequestInterceptorHandler handler) {
+    if (_config.allowsApiRequest(options.uri)) return handler.next(options);
+    if (kDebugMode) debugPrint('API request refused: ${options.uri.origin} is not the API origin of this build');
+    handler.reject(DioException(requestOptions: options, error: refused, type: DioExceptionType.unknown));
   }
 }
 

@@ -2,6 +2,7 @@
 // about the student's own record are answered on the phone: instantly, offline from the
 // cached record, and never billed. Keep the wording in step with the website.
 
+import 'chapter_ties.dart';
 import 'insights_models.dart';
 import 'subject_names.dart';
 
@@ -21,7 +22,9 @@ String _lostLine(ChapterLine c) =>
 List<Finding> readout(PrepInsights insights, {int limit = 4}) {
   if (!insights.isReady) return const [];
   final out = <Finding>[];
-  final top = insights.ranked.isEmpty ? null : insights.ranked.first;
+  // By marks lost; chapters that lost the same marks are said as a tie, never as one "most" (owner I14).
+  final tied = costliestChapters(insights.ranked);
+  final top = tied.isEmpty ? null : tied.first;
   if (top != null) {
     out.add(Finding(
       id: 'chapter',
@@ -29,7 +32,7 @@ List<Finding> readout(PrepInsights insights, {int limit = 4}) {
       n: top.n,
       // The chapter's own name, never its subject's, and Review's figure for it (6 a wrong answer, 5 a blank, of 5 a
       // question on offer), so Ask Mobi, Review and Today say one number for one chapter (final walk, H6).
-      headline: 'You lose the most marks in ${top.chapter}',
+      headline: costliestHeadline(tied),
       detail: '${top.chapter}: ${top.right} right, ${top.wrong} wrong, ${top.skip} left blank, of ${_plural(top.n, 'question')} over '
           '${_plural(top.sessions, 'session')}. ${_lostLine(top)}',
       actionLabel: 'Practise ${top.chapter}',

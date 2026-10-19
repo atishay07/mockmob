@@ -9,6 +9,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../data/chapter_ties.dart' show costliestChapters, costliestPlace;
 import '../data/insights_models.dart';
 import 'edge_fade.dart';
 import 'motion_bits.dart';
@@ -47,7 +48,9 @@ String _sec(int s) => s >= 60 ? '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0'
 /// The four record prompts of the stage, in order, each with a live line from [v].
 List<AskPrompt> recordPrompts(PrepInsights? v, {bool pro = false}) {
   final ready = v != null && v.isReady;
-  final top = ready && v.ranked.isNotEmpty ? v.ranked.first : null;
+  // By marks lost; a tie is said, never broken by list order (owner I14).
+  final tied = ready ? costliestChapters(v.ranked) : const <ChapterLine>[];
+  final top = tied.isEmpty ? null : tied.first;
   // Pace is part of Pro: a free account's tile says nothing of it.
   final p = ready && pro ? v.pace : null;
   final week = ready ? v.thisWeek : null;
@@ -60,7 +63,7 @@ List<AskPrompt> recordPrompts(PrepInsights? v, {bool pro = false}) {
     AskPrompt(
       intent: AskIntent.losing,
       text: InsightsCopy.promptLosing,
-      preview: top == null ? null : '${top.lost} marks lost in ${top.chapter}',
+      preview: top == null ? null : '${top.lost} marks lost in ${costliestPlace([for (final c in tied) c.chapter])}',
     ),
     AskPrompt(
       intent: AskIntent.chapter,
@@ -86,7 +89,7 @@ List<AskPrompt> moreRecordPrompts() => const [
 
 /// The two AI prompts, seeded with the student's weakest chapter when the record has one.
 List<AskPrompt> openPrompts(PrepInsights? v) {
-  final top = v != null && v.isReady && v.ranked.isNotEmpty ? v.ranked.first.chapter : null;
+  final top = v != null && v.isReady && v.ranked.isNotEmpty ? costliestChapters(v.ranked).first.chapter : null;
   return [
     AskPrompt(intent: AskIntent.explain, text: InsightsCopy.promptExplain(top)),
     AskPrompt(intent: AskIntent.plan, text: InsightsCopy.promptPlan(top)),
