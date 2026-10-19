@@ -175,7 +175,7 @@ Future<void> shareInviteCard(BuildContext context) async {
 }
 
 /// Fetches an invite and copies its code; returns the display code or null.
-Future<String?> copyInviteCode(BuildContext context) async {
+Future<String?> copyInviteCode(BuildContext context, {bool aboveBar = false}) async {
   final container = ProviderScope.containerOf(context, listen: false);
   final den = container.read(denViewProvider);
   if (den == null) return null;
@@ -183,10 +183,10 @@ Future<String?> copyInviteCode(BuildContext context) async {
     final invite = await container.read(mobV3ApiProvider).invite(den.mobId);
     await Clipboard.setData(ClipboardData(text: invite.display));
     container.read(hapticsProvider).confirm();
-    if (context.mounted) showMobToast(context, MobV3Copy.codeCopied);
+    if (context.mounted) showMobToast(context, MobV3Copy.codeCopied, aboveBar: aboveBar);
     return invite.display;
   } on Object catch (e) {
-    if (context.mounted) showMobToast(context, MobV3Copy.error(e));
+    if (context.mounted) showMobToast(context, MobV3Copy.error(e), aboveBar: aboveBar);
     return null;
   }
 }

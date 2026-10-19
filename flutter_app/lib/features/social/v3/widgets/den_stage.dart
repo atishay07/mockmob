@@ -66,6 +66,9 @@ abstract final class EnterDen {
   static const double idleAt = 700;
   static const double rise = 14;
 
+  /// How long Enter the den waits on its first frame for the room art to decode.
+  static const Duration waitForArt = Duration(milliseconds: 450);
+
   static final Curve _pop = SpringCurve(Springs.iconPop, settle: MotionSprings.iconPopDuration);
 
   /// The lamp pool's strength (0.6 to 1) and the dim over the room (62% to 0), glide 420.
@@ -75,13 +78,20 @@ abstract final class EnterDen {
   /// The room rises 14 dp from 120 on emphasized 360.
   static double roomDy(double ms) => rise * (1 - windowOf(ms, roomAt, roomLength, MotionCurves.emphasized));
 
-  /// The pennant swings in from 160: +2.4, -1.2, +0.4, 0 degrees, decaying on `out` over 900 ms.
+  /// The swing's turning points in degrees: it comes in from 4.8 and sways -2.4, +1.2, -0.4 to rest
+  /// (the spec's decaying 2.4, 1.2, 0.4 after a first swing). At 2.4 alone the tip
+  /// moved about 3 dp and the device walk saw no swing (M3, 19 Oct night).
+  static const List<double> pennantKeys = [4.8, -2.4, 1.2, -0.4, 0.0];
+
+  /// The pennant swings in from 160 on a decaying sway, on `out` over 900 ms.
   static double pennantAngle(double ms) {
-    if (ms < pennantAt) return 2.4 * math.pi / 180;
-    final p = windowOf(ms, pennantAt, pennantLength, MotionCurves.out);
-    const keys = [2.4, -1.2, 0.4, 0.0];
-    final x = p * 3;
-    final i = x.floor().clamp(0, 2);
+    const keys = pennantKeys;
+    if (ms < pennantAt) return keys.first * math.pi / 180;
+    // Even half-swings (a pendulum keeps its period while it decays): linear time, each half eased.
+    final p = windowOf(ms, pennantAt, pennantLength);
+    final n = keys.length - 1;
+    final x = p * n;
+    final i = x.floor().clamp(0, n - 1);
     final f = x - i;
     final eased = 0.5 - 0.5 * math.cos(math.pi * f);
     return (keys[i] + (keys[i + 1] - keys[i]) * eased) * math.pi / 180;
@@ -173,11 +183,22 @@ class DenStage extends ConsumerWidget {
         final bootsY = stageTop + stageH - DenSizes.tagBand;
         final members = v3?.members ?? const <MobV3Member>[];
         final size = DenSizes.foldSize(w, members.length);
-        final slots = <_Slot>[
-          for (var i = 0; i < members.length; i++) _Slot.member(members[i], i),
-          if (!skeleton && members.length < 5)
-            for (var i = members.length; i < 5; i++) _Slot.seat(i),
-        ];
+        // A Mob of one stands you in the middle of the lamp pool with two open seats each side (L4, 19 Oct
+        // night walk: at the left edge your Fold stood outside the light).
+        final alone = members.length == 1 && !skeleton;
+        final slots = alone
+            ? <_Slot>[const _Slot.seat(0), const _Slot.seat(1), _Slot.member(members.first, 2), const _Slot.seat(3), const _Slot.seat(4)]
+            : <_Slot>[
+                for (var i = 0; i < members.length; i++) _Slot.member(members[i], i),
+                if (!skeleton && members.length < 5)
+                  for (var i = members.length; i < 5; i++) _Slot.seat(i),
+              ];
+        int? posOf(String memberId) {
+          for (final sl in slots) {
+            if (sl.member?.memberId == memberId) return sl.index;
+          }
+          return null;
+        }
         // A Mob of one shows its four seats under one caption; a fuller Mob tags its one or two seats.
         final oneCaption = members.length <= 1;
         const side = MmSpace.gutter;
@@ -333,9 +354,9 @@ class DenStage extends ConsumerWidget {
                     ),
                 if (oneCaption && slots.length > 1)
                   Positioned(
-                    left: centreOf(1) - slotW / 2,
-                    width: slotW * (slots.length - 1),
-                    top: bootsY + 6,
+                    left: side,
+                    right: side,
+                    top: bootsY + (alone ? 26 : 6),
                     child: _EngraveTag(text: MobV3Copy.seatsOpen(slots.length - 1), ms: ms, quiet: true),
                   ),
                 // 8 the pennant and the shelf.
@@ -360,7 +381,7 @@ class DenStage extends ConsumerWidget {
                   ),
                 // 9 sticker flights from a member's Fold.
                 for (final f in flights.take(3))
-                  if (_indexOf(members, f.memberId) case final int i)
+                  if (posOf(f.memberId) case final int i)
                     Positioned(
                       left: centreOf(i) - 80,
                       width: 160,
@@ -377,13 +398,6 @@ class DenStage extends ConsumerWidget {
         );
       },
     );
-  }
-
-  static int? _indexOf(List<MobV3Member> members, String id) {
-    for (var i = 0; i < members.length; i++) {
-      if (members[i].memberId == id) return i;
-    }
-    return null;
   }
 
   List<Widget> _skeleton(BuildContext context, double w, double bootsY) {
@@ -725,11 +739,7 @@ class DenShelfView extends StatelessWidget {
     final next = shelf.nextItem;
     final things = <Widget>[
       for (final i in shelf.items.take(4)) DenObject(item: i, size: item),
-      if (next != null)
-        ColorFiltered(
-          colorFilter: ColorFilter.mode(colors.ink4, BlendMode.srcIn),
-          child: DenObject(item: next.item, size: item),
-        ),
+      if (next != null) DenObject(key: const ValueKey('den-shelf-next'), item: next.item, size: item, next: true),
     ];
     final width = math.max(96.0, things.length * (item + 6) + 18);
     final view = SizedBox(
@@ -791,13 +801,41 @@ class _PlankPainter extends CustomPainter {
 /// One den object (spec 0.4): the desk bell and the foil seal from the art set; the stamps and the
 /// brass lamp painted in paper and lamp.
 class DenObject extends StatelessWidget {
-  const DenObject({super.key, required this.item, this.size = 30});
+  const DenObject({super.key, required this.item, this.size = 30, this.next = false});
 
   final String item;
   final double size;
 
+  /// The next thing to earn: a quiet pencilled outline of its shape, never a grey block that reads as
+  /// a missing picture (M8, 19 Oct night walk). Art items show as a soft silhouette.
+  final bool next;
+
   @override
   Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    if (next) {
+      final art = _artFor(item);
+      if (art != null) {
+        return Opacity(
+          opacity: 0.55,
+          child: ColorFiltered(
+            colorFilter: ColorFilter.mode(colors.ink4, BlendMode.srcIn),
+            child: Image.asset(art, width: size, height: size, fit: BoxFit.contain, errorBuilder: (_, _, _) => SizedBox(width: size, height: size)),
+          ),
+        );
+      }
+      return CustomPaint(size: Size(size, size), painter: _OutlinePainter(colour: colors.ink3));
+    }
+    return _real();
+  }
+
+  static String? _artFor(String item) => switch (item) {
+    'desk_bell' => 'assets/art/hybrid-deskbell.webp',
+    'foil_seal' => 'assets/art/foil-seal.webp',
+    _ => null,
+  };
+
+  Widget _real() {
     final art = switch (item) {
       'desk_bell' => 'assets/art/hybrid-deskbell.webp',
       'foil_seal' => 'assets/art/foil-seal.webp',
@@ -814,6 +852,36 @@ class DenObject extends StatelessWidget {
     }
     return CustomPaint(size: Size(size, size), painter: _ObjectPainter(item));
   }
+}
+
+/// The next stamp to earn: a pencilled, dashed square with a faint plus, sitting on the plank.
+class _OutlinePainter extends CustomPainter {
+  _OutlinePainter({required this.colour});
+
+  final Color colour;
+
+  @override
+  void paint(Canvas canvas, Size s) {
+    final r = Rect.fromLTWH(s.width * 0.12, s.height * 0.16, s.width * 0.76, s.height * 0.76);
+    final p = Paint()
+      ..color = colour
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = 1.2;
+    for (final m in (Path()..addRRect(RRect.fromRectAndRadius(r, const Radius.circular(3)))).computeMetrics()) {
+      var d = 0.0;
+      while (d < m.length) {
+        canvas.drawPath(m.extractPath(d, math.min(d + 3.5, m.length)), p);
+        d += 6;
+      }
+    }
+    final c = r.center;
+    final arm = r.width * 0.16;
+    canvas.drawLine(c.translate(-arm, 0), c.translate(arm, 0), p);
+    canvas.drawLine(c.translate(0, -arm), c.translate(0, arm), p);
+  }
+
+  @override
+  bool shouldRepaint(_OutlinePainter old) => old.colour != colour;
 }
 
 class _ObjectPainter extends CustomPainter {

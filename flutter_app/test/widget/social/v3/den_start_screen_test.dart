@@ -3,6 +3,7 @@
 // later "You play as", and the name field staying in view with the keyboard open.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/features/social/copy.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
@@ -209,6 +210,53 @@ void main() {
       await settleSocial(tester);
       await tester.pumpAndSettle();
       expect(find.text(MobV3Copy.errors['NAME_KEY_INVALID']!), findsOneWidget);
+    });
+
+    testWidgets('H1: tap "Your name in the Mob" with the keyboard down, the keys rise: same field, focus kept, no jump to the top', (tester) async {
+      await _open(tester);
+      final scroll = find.descendant(of: find.byType(BottomSheet), matching: find.byType(Scrollable)).first;
+      final field = find.byType(TextField);
+      await tester.ensureVisible(field);
+      await tester.pumpAndSettle();
+      final scrolled = tester.state<ScrollableState>(scroll).position.pixels;
+      expect(scrolled, greaterThan(0), reason: 'the name field sits below the first view');
+      await tester.tap(field);
+      await tester.pump();
+      final before = tester.state<EditableTextState>(find.byType(EditableText));
+      expect(before.widget.focusNode.hasFocus, isTrue);
+      // The keyboard rises the way Android reports it: in steps, after the focus.
+      addTearDown(tester.view.resetViewInsets);
+      for (final h in [90.0, 200.0, 300.0]) {
+        tester.view.viewInsets = FakeViewPadding(bottom: h * 2);
+        await tester.pump(const Duration(milliseconds: 16));
+      }
+      await tester.pumpAndSettle();
+      final after = tester.state<EditableTextState>(find.byType(EditableText));
+      expect(identical(before, after), isTrue, reason: 'the keys rising must not rebuild the field');
+      expect(after.widget.focusNode.hasFocus, isTrue);
+      expect(tester.testTextInput.isVisible, isTrue, reason: 'the keyboard stays open');
+      expect(tester.state<ScrollableState>(scroll).position.pixels, greaterThan(0), reason: 'the sheet does not jump back to the top');
+      final rect = tester.getRect(field);
+      expect(rect.bottom, lessThanOrEqualTo(780 - 300), reason: 'the field is above the keys');
+      expect(rect.top, greaterThan(0));
+      tester.testTextInput.enterText('Aarav K');
+      await tester.pump();
+      expect(after.widget.controller.text, 'Aarav K');
+    });
+
+    testWidgets('M4: the chosen name and subject read at a glance (a filled chip with a tick)', (tester) async {
+      await _open(tester);
+      expect(find.descendant(of: find.byKey(const ValueKey('mob-name-0')), matching: find.byIcon(LucideIcons.check)), findsOneWidget);
+      expect(find.descendant(of: find.byKey(const ValueKey('mob-name-1')), matching: find.byIcon(LucideIcons.check)), findsNothing);
+      await tester.tap(find.text('Quiet Comets'));
+      await tester.pumpAndSettle();
+      expect(find.descendant(of: find.byKey(const ValueKey('mob-name-1')), matching: find.byIcon(LucideIcons.check)), findsOneWidget);
+      expect(find.descendant(of: find.byKey(const ValueKey('mob-name-0')), matching: find.byIcon(LucideIcons.check)), findsNothing);
+      // "Show six more" sits right under the chips, flush with them, above the note.
+      final more = tester.getRect(find.byKey(const ValueKey('mob-names-more')));
+      final chip = tester.getRect(find.byKey(const ValueKey('mob-name-0')));
+      expect(more.left, closeTo(chip.left, 1));
+      expect(more.top, lessThan(tester.getRect(find.text(MobV3Copy.namesKind)).top));
     });
 
     testWidgets('keyboard open: the name field stays above the keys', (tester) async {

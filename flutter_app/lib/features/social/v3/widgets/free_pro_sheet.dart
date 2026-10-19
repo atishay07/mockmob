@@ -112,6 +112,6 @@ class _PlansKey extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (!ref.watch(proNudgesOnProvider)) return const SizedBox.shrink();
-    return KeyButton(label: MobV3Copy.seePlans, onPressed: () => showUpgradeSheetIfOn(context, reason: ProReason.mobLimit));
+    return KeyButton(label: MobV3Copy.seePlans, onPressed: () => showUpgradeSheetIfOn(context, reason: ProReason.mobHosting));
   }
 }

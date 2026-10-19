@@ -209,8 +209,31 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     _entered = false;
     _fade.value = 1;
     _ms.value = 0;
-    _enter.forward(from: 0);
+    _enter.stop();
+    _enter.value = 0;
+    final run = ++_enterRun;
+    // M1 plays its full 1100 ms only once the room is on screen: started before the art had decoded,
+    // the first half ran over an empty room (a blank cream frame in Day) and the walk saw 0.5 s (M3).
+    // Held at its first frame (the dim room) for at most [EnterDen.waitForArt].
+    unawaited(_roomReady().then((_) {
+      if (!mounted || run != _enterRun) return;
+      _enter.forward(from: 0);
+    }));
     if (!inBuild) setState(() {});
+  }
+
+  int _enterRun = 0;
+
+  /// The room art and the Folds are decoded (or [EnterDen.waitForArt] passed).
+  Future<void> _roomReady() async {
+    final night = context.mmColors.isNight;
+    final view = ref.read(denViewProvider);
+    final folds = [for (final m in view?.v3.members ?? const <MobV3Member>[]) m.fold];
+    final ready = Future.wait<void>([
+      precacheImage(AssetImage(denRoomArt(night)), context).catchError((Object _) {}),
+      precacheFolds(context, folds).catchError((Object _) {}),
+    ]);
+    await Future.any<void>([ready, Future<void>.delayed(EnterDen.waitForArt)]);
   }
 
   bool _visible() {
@@ -389,9 +412,14 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
       builder: (context, box) {
         final w = box.maxWidth;
         final stageTop = top + DenScreen.headerRow;
-        final roomH = stageTop + DenSizes.stageHeight(w);
         final mob = view?.mob;
         final v3 = view?.v3;
+        // The stage keeps its 280 dp for the Folds; the tag band under their boots only keeps the room
+        // its names need (two lines at large text, a second caption line in a Mob of one). The rest
+        // goes to the card, so its key is on screen on first view at 360 dp (H5).
+        final tagNeed = MediaQuery.textScalerOf(context).scale(18) * ((v3?.members.length ?? 2) <= 1 ? 2 : 1) + 14;
+        final spare = (DenSizes.tagBand - tagNeed).clamp(0.0, DenSizes.tagBand);
+        final roomH = stageTop + DenSizes.stageHeight(w) - spare;
         final loading = view == null && state.value == null && state.error == null;
         final failed = view == null && !loading;
         final now = ref.watch(denClockProvider)();
@@ -435,11 +463,6 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
             ..add(const InlineBanner.offlineStrip())
             ..add(const SizedBox(height: MmSpace.s12));
         }
-        if (_noticeText != null && view != null) {
-          below
-            ..add(_PassNotice(text: _noticeText!))
-            ..add(const SizedBox(height: MmSpace.s12));
-        }
         if (loading) {
           below.add(
             SkeletonGroup(
@@ -465,6 +488,13 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
               child: DenCardView(key: ValueKey('${mob.id}:${card.kind.name}:${card.game?.id}'), card: card, v3: v3, mob: mob, now: now),
             ),
           );
+          // K5's pass notice sits under the card, never above it: the card's key is the one thing to
+          // tap and must be on screen on first view at 360 dp (H5, 19 Oct night walk).
+          if (_noticeText != null) {
+            below
+              ..add(const SizedBox(height: MmSpace.s12))
+              ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: _PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!)));
+          }
           if (card.kind != DenCardKind.one) {
             below
               ..add(const SizedBox(height: MmSpace.s20))
@@ -483,7 +513,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
           children: [
             room,
             Padding(
-              padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s4, MmSpace.gutter, MmSpace.s48 + bottom),
+              padding: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MmSpace.s48 + bottom),
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: below),
             ),
           ],
@@ -700,7 +730,8 @@ class _TitleBlock extends StatelessWidget {
         const SizedBox(height: MmSpace.s2),
         Text(
           subtitle,
-          style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, shadows: [...halo, ...halo]),
+          // Label size, not caption: readable over the lit room at 360 dp (M1 owner note).
+          style: type.label.copyWith(color: colors.isNight ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600, shadows: [...halo, ...halo]),
         ),
       ],
     );
@@ -719,7 +750,7 @@ class _TitleBlock extends StatelessWidget {
 /// K5: the inline pass notice ("Friday was covered by a rest pass. Your chain is still 12."), a paper
 /// note with a moon glyph. It slides in on glide and leaves on its own.
 class _PassNotice extends StatelessWidget {
-  const _PassNotice({required this.text});
+  const _PassNotice({super.key, required this.text});
 
   final String text;
 

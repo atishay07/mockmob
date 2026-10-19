@@ -157,10 +157,17 @@ class MobV3FakeServer implements MobV3Api {
     }
     _seat = FoldKey.dart;
     final you = _Member('AARAV0000001', 'Aarav', 5, FoldKey.dart, you: true, owner: true);
-    if (scenario == 'one') {
+    if (scenario == 'one' || scenario == 'oneplayed') {
       final mob = _Mob(id: chaiId, name: 'Chai Circle', nameKey: 0, members: [you]);
       mob.questAnswered = 0;
       _mobs.add(mob);
+      if (scenario == 'oneplayed') {
+        // A Mob of one after you played your own sprint (H2): it is still open, with your run.
+        final g = _Game(id: 'game-aarav-sprint', format: GameFormat.sprint, count: 5, chapter: 'Goodwill', hostId: 'AARAV0000001', openedAt: now.subtract(const Duration(minutes: 40)), questions: [0, 1, 2, 3, 4]);
+        _bake(g, 'AARAV0000001', [true, false, true, true, null], [40000, 82000, 121000, 160000, 199000], const Duration(minutes: 2));
+        mob.games.add(g);
+        mob.questAnswered = 5;
+      }
       return;
     }
     final mob = _Mob(id: chaiId, name: 'Chai Circle', nameKey: 0, members: [

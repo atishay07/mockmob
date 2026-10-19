@@ -49,14 +49,14 @@ void main() {
       SocialServer(scenario: 'one'),
     );
     expect(find.text('Aarav saved you a seat in Chai Circle'), findsOneWidget);
-    expect(find.text('An Accountancy Mob on MockMob. Code K7P 2M9.'), findsOneWidget);
+    expect(find.text('An Accountancy Mob on MockMob. Code K7P 2M9.'), findsOneWidget);
     // The wordmark is the painted logo, never live text.
     expect(find.text('mockmob'), findsNothing);
   });
 
   testWidgets('an article that fits the subject: An for a vowel, A for a consonant', (tester) async {
-    expect(MobV3Copy.inviteCardLineFor('Economics', 'K7P 2M9'), 'An Economics Mob on MockMob. Code K7P 2M9.');
-    expect(MobV3Copy.inviteCardLineFor('Business Studies', 'K7P 2M9'), 'A Business Studies Mob on MockMob. Code K7P 2M9.');
+    expect(MobV3Copy.inviteCardLineFor('Economics', 'K7P 2M9'), 'An Economics Mob on MockMob. Code K7P\u00A02M9.');
+    expect(MobV3Copy.inviteCardLineFor('Business Studies', 'K7P 2M9'), 'A Business Studies Mob on MockMob. Code K7P\u00A02M9.');
   });
 
   testWidgets('Copy the code puts the code on the clipboard and says so quietly', (tester) async {

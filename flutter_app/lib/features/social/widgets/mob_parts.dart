@@ -51,7 +51,7 @@ class ColourPicker extends StatelessWidget {
             for (var r = 0; r < MobColours.count ~/ perRow; r++)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [for (var i = r * perRow; i < (r + 1) * perRow; i++) dot(i), if (perRow < MobColours.count) const Spacer()],
+                children: [for (var i = r * perRow; i < (r + 1) * perRow; i++) dot(i)],
               ),
           ],
         );
@@ -149,12 +149,16 @@ class MobNote extends StatelessWidget {
 }
 
 /// A one-line message after a write, in the page (never a pop-up).
-void showMobToast(BuildContext context, String message) {
+void showMobToast(BuildContext context, String message, {bool aboveBar = false}) {
   final messenger = ScaffoldMessenger.maybeOf(context);
   if (messenger == null) return;
+  // On a tab root ([aboveBar]) the toast floats above the dock, never over it (L6, 19 Oct night walk).
+  final margin = aboveBar
+      ? EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, MediaQuery.viewPaddingOf(context).bottom + MmBar.lift + MmBar.height + MmSpace.s12)
+      : null;
   messenger
     ..hideCurrentSnackBar()
-    ..showSnackBar(SnackBar(content: Text(message), behavior: SnackBarBehavior.floating, duration: const Duration(seconds: 3)));
+    ..showSnackBar(SnackBar(content: Text(message), behavior: SnackBarBehavior.floating, margin: margin, duration: const Duration(seconds: 3)));
 }
 
 /// A switch row: the title, a small note under it, and the switch at the end, one 48 dp target high.

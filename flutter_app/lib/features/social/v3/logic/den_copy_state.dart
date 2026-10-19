@@ -37,7 +37,7 @@ class DenCard {
 
   final DenCardKind kind;
 
-  /// The game the card puts forward (D2, D3, D4).
+  /// The game the card puts forward (D2, D3, D4, and your own game in a Mob of one).
   final MobGameSummary? game;
 
   /// Other open games, for "2 more games are open" (opens the picker). Never a count of people.
@@ -52,9 +52,21 @@ class DenCard {
 
 /// The card for this read of the den.
 DenCard denCardFor(MobV3 v3, {bool paperSat = false}) {
-  if (v3.members.length <= 1) return DenCard(DenCardKind.one, paperSat: paperSat);
   final open = v3.openGames;
   bool notDone(MobGameSummary g) => g.yourRun != YourRun.finished;
+  if (v3.members.length <= 1) {
+    // A Mob of one still shows your own game (H2, 19 Oct night walk): the one you have not finished
+    // first, else the one you played, so its podium stays a tap away from the den.
+    MobGameSummary? yours;
+    for (final g in open) {
+      if (notDone(g)) {
+        yours = g;
+        break;
+      }
+    }
+    yours ??= open.isEmpty ? null : open.first;
+    return DenCard(DenCardKind.one, game: yours, paperSat: paperSat);
+  }
 
   for (final g in open) {
     final room = g.room;
