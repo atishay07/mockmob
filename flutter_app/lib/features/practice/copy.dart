@@ -27,16 +27,16 @@ abstract final class PracticeCopy {
   static const String papersTitle = 'Your papers';
 
   /// What the row says: every paper is kept here, newest first; with papers, how many and the open
-  /// mistakes, in one sentence each.
+  /// mistakes, in one whole sentence each (copy pass, 19 Oct: no "4 papers so far." fragments).
   static String papersNote({required int papers, required int open}) {
     final mistakes = open == 1 ? '1 mistake' : '$open mistakes';
     if (papers <= 0) {
       // The papers are not on the phone yet, but the open count of the account is known: say that.
-      return open > 0 ? '$mistakes to repair, with the papers they came from.' : 'Every paper you sit is kept here, newest first, with its answers.';
+      return open > 0 ? 'You have $mistakes to repair, with the papers they came from.' : 'Every paper you sit is kept here, newest first, with its answers.';
     }
-    final kept = papers == 1 ? '1 paper so far, with its answers.' : '$papers papers so far, newest first.';
-    if (open <= 0) return kept;
-    return '$kept $mistakes still to repair.';
+    if (open <= 0) return papers == 1 ? 'Your first paper is here, with every answer.' : 'All $papers papers are here, newest first.';
+    final kept = papers == 1 ? 'Your first paper is here.' : 'All $papers papers are here, newest first.';
+    return '$kept You have $mistakes to repair.';
   }
 
   /// The Learn row under the suggestion (D20): the lesson Learn would open next, and why.
@@ -297,11 +297,11 @@ abstract final class PracticeCopy {
   // and no way to buy elsewhere, and the open mode that comes closest.
   static String planGateTitle(String mode) => '$mode is part of Pro';
   static const String ntaGatedPlain =
-      'NTA mode is part of Pro. Pro opens in the app soon. Until then, a Full mock gives you the same 50 questions in 60 minutes.';
+      'NTA mode is part of Pro. Pro is coming to the app soon. Until then, a Full mock gives you the same 50 questions in 60 minutes.';
 
   // A Free student taps a mode Pro holds while Pro cannot be had here (D101): the calm sheet.
   static String lockedTitle(String mode) => '$mode is part of Pro';
-  static const String lockedSoon = 'Pro opens in the app soon.';
+  static const String lockedSoon = 'Pro is coming to the app soon.';
   static const String lockedNtaInstead = 'Until then, a Full mock gives you the same 50 questions in 60 minutes, timed like the exam.';
   static const String lockedSmartInstead = 'Until then, Quick practice and By chapter are open to you. You choose the subject, the chapters and how many questions.';
   static const String lockedNotNow = 'Not now';

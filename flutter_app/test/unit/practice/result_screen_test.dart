@@ -100,7 +100,7 @@ void main() {
     // The one receipt is the completion line (F11: said once). Opened again, it says when the paper was saved.
     expect(find.bySemanticsLabel('Saved today at 11:51 PM. You scored 39 of 50 marks.'), findsOneWidget);
     expect(find.textContaining('Recorded'), findsNothing);
-    expect(find.textContaining('Paper saved'), findsNothing);
+    expect(find.textContaining('Your paper is saved'), findsNothing);
     // The bar's line says what the missed marks went to, not the marks again.
     expect(find.text('1 wrong answer cost 6 of the 11 marks you missed.'), findsOneWidget);
     expect(find.textContaining('39 of 50 marks.'), findsNothing);
@@ -123,7 +123,7 @@ void main() {
     expect(find.text('Admission of a partner cost 6 of the 12 marks you missed.'), findsOneWidget);
   });
 
-  testWidgets('"Paper saved" is said only once the server\'s acknowledgement is held on this phone', (tester) async {
+  testWidgets('"Your paper is saved" is said only once the server\'s acknowledgement is held on this phone', (tester) async {
     final semantics = tester.ensureSemantics();
     final gate = Completer<DateTime?>();
     final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
@@ -131,11 +131,11 @@ void main() {
     await frames(tester, ms: 2600);
     // Fresh from the submit, but the acknowledgement is not read yet: the marks alone, never "saved".
     expect(find.bySemanticsLabel('You scored 39 of 50 marks.'), findsOneWidget);
-    expect(find.textContaining('Paper saved'), findsNothing);
+    expect(find.textContaining('Your paper is saved'), findsNothing);
     gate.complete(DateTime(2026, 10, 12, 23, 51));
     await tester.pump();
     await frames(tester, ms: 400);
-    expect(find.bySemanticsLabel('Paper saved. You scored 39 of 50 marks.'), findsOneWidget);
+    expect(find.bySemanticsLabel('Your paper is saved. You scored 39 of 50 marks.'), findsOneWidget);
     semantics.dispose();
   });
 
@@ -144,7 +144,7 @@ void main() {
     final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), pending: pending, receivedLater: Future.value(null)));
     await frames(tester, ms: 2600);
-    expect(find.textContaining('Paper saved'), findsNothing);
+    expect(find.textContaining('Your paper is saved'), findsNothing);
     expect(find.bySemanticsLabel('You scored 39 of 50 marks.'), findsOneWidget);
     semantics.dispose();
   });
@@ -396,7 +396,7 @@ void main() {
     await tester.tap(find.text('8 right, 1 wrong, 1 not attempted'));
     await tester.pump();
     await frames(tester, ms: 900);
-    expect(find.bySemanticsLabel('Paper saved. You scored 39 of 50 marks.'), findsOneWidget);
+    expect(find.bySemanticsLabel('Your paper is saved. You scored 39 of 50 marks.'), findsOneWidget);
     semantics.dispose();
   });
 
@@ -466,7 +466,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 900));
     final fold = find.text('Your rule and proof it stuck');
     await bringIn(tester, fold);
-    expect(find.text('Five new questions on Admission of a partner, where you went wrong, show whether your fix held.'), findsOneWidget);
+    expect(find.text('You went wrong on Admission of a partner. Five new questions on it show whether your fix held.'), findsOneWidget);
     await tester.tap(fold);
     await frames(tester);
     await bringIn(tester, find.widgetWithText(KeyButton, 'Try 5 fresh questions'));
@@ -731,7 +731,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 900));
       final fold = find.text('Your rule and proof it stuck');
       await bringIn(tester, fold);
-      expect(find.text('Five new questions on Admission of a partner, where you went wrong, show whether your fix held.'), findsOneWidget);
+      expect(find.text('You went wrong on Admission of a partner. Five new questions on it show whether your fix held.'), findsOneWidget);
       expect(find.textContaining('Five new questions on Comparative statements'), findsNothing);
     });
 

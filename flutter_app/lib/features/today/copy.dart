@@ -207,7 +207,7 @@ abstract final class TodayCopy {
   static const String stillLoading = 'Still loading. Your connection looks slow.';
   static const String tryAgain = 'Try again';
   static const String chooseSomethingElse = 'Choose something else';
-  static const String hiddenUntilTomorrow = 'Hidden until tomorrow. Your mistakes are still in Review.';
+  static const String hiddenUntilTomorrow = 'It is hidden until tomorrow. Every mistake is still in Your papers.';
   static const String connectToStart = 'Needs a connection to start.';
   static const String showMe = 'Show me';
 
@@ -695,8 +695,8 @@ abstract final class TodayCopy {
   // Done for today.
   static String doneRepairLabel(int total) => 'of $total repaired\ntonight';
   static String doneRepairWhy(String? chapter) => chapter == null
-      ? 'Every repair is saved in Review. Check it held opens there when a fix is due.'
-      : '$chapter is clear for now. Check it held opens in Review when a fix is due.';
+      ? 'Every repair is saved in Your papers. Check it held opens there when a fix is due.'
+      : '$chapter is clear for now. Check it held opens in Your papers when a fix is due.';
   static const String donePracticeLabel = 'minutes\npractised tonight';
   static String donePracticeWhy(DateTime at) => "Saved at ${formatTime12(at)}. Tomorrow's move is planned from it.";
 
@@ -714,7 +714,7 @@ abstract final class TodayCopy {
   static String warmUpKey(int n) => 'Start practice, $n questions';
 
   /// Under a failure's cause: what is still safe.
-  static const String safeLine = 'Your papers and mistakes are safe; Review still opens them.';
+  static const String safeLine = 'Every paper and every mistake is safe, and Your papers still opens them.';
 
   // This week (4.3).
   static const String weekTitle = 'This week';
@@ -724,7 +724,7 @@ abstract final class TodayCopy {
   static const String tonightCounts = 'Tonight counts.';
   /// Papers were finished today but none reached 5 answers, the rule of the server for a study day.
   static String shortPaperToday(int n) =>
-      'Today\'s paper had ${n == 0 ? 'no answers' : n == 1 ? '1 answer' : '$n answers'}. A paper counts from 5 answers.';
+      'Today\'s paper had ${n == 0 ? 'no answers' : n == 1 ? '1 answer' : '$n answers'}. A paper counts once you answer 5 questions in it.';
   static String weekGoalMet(int goal) => 'Goal met: $goal of $goal study days. Anything more this week is extra.';
   /// Back after a week or more (TODAY-1018 section 5): no shaming, no streak loss.
   static String weekNew(int goal) => 'A new week starts with one session. ${weekNewKey(goal)}';
@@ -769,12 +769,13 @@ abstract final class TodayCopy {
   // Your colleges on Today (19 Oct, D104): the three hardest to get into, labelled, and every one
   // a tap away. "Top" says what it means (the owner asked whether the three were first
   // preferences): the ones that need the most marks.
-  static String collegesTop(int of) => of > 3 ? 'Your top 3 of $of: the three that need the most marks.' : 'The one that needs the most marks comes first.';
-  static String collegeRowSub(String course, {required bool figure}) => figure ? '$course, 2026 Round 1.' : '$course. No Round 1 figure on file for your category.';
+  static String collegesTop(int of) => of > 3 ? 'These are your top 3 of $of, the colleges that need the most marks.' : 'The one that needs the most marks comes first.';
+  static String collegeRowSub(String course, {required bool figure}) =>
+      figure ? '$course, 2026 Round 1 cutoff.' : '$course. There is no 2026 Round 1 cutoff for your category.';
   static String seeAllCount(int n) => 'See all $n colleges';
   static const String seeAllSub = 'Every college you picked, with the marks it needs.';
   static String seeAllSemantics(int n) => 'See all $n colleges. Every college you picked, with the marks it needs.';
-  static const String collegesEmpty = 'Pick up to 8 colleges to see their 2026 cutoffs here.';
+  static const String collegesEmpty = 'Choose up to 8 colleges you are aiming for. The 3 that need the most marks show here, with their 2026 cutoffs.';
   static const String choose = 'Choose';
 
   // Today 1017, second half.

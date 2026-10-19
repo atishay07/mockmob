@@ -180,7 +180,7 @@ void main() {
     expect(find.text('1 recalled, 1 come back tomorrow'), findsOneWidget);
     expect(find.text('1 held on a new question.'), findsOneWidget);
     expect(_key('Revise 2 concept cards'), findsOneWidget);
-    expect(_key('Back to Review'), findsOneWidget);
+    expect(_key('Back to Your papers'), findsOneWidget);
   });
 
   testWidgets('a check left for later is still due, and the end says so', (tester) async {
@@ -198,7 +198,7 @@ void main() {
     await _tapKey(tester, 'Skip for today');
     expect(find.text('2 recalled'), findsOneWidget);
     expect(find.text('1 Check it held is still due. It stays in Revise.'), findsOneWidget);
-    expect(_key('Back to Review'), findsOneWidget);
+    expect(_key('Back to Your papers'), findsOneWidget);
     expect(find.textContaining('concept card'), findsNothing);
   });
 }

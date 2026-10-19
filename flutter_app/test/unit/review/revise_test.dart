@@ -227,7 +227,7 @@ void main() {
     expect(api.answers.map((a) => a.qid), ['r-q5', 'r-q1', 'r-q2', 'r-q3']);
     expect(find.text('3 recalled, 1 come back tomorrow'), findsOneWidget);
     expect(find.text('The next ones are due on Sat 17 Oct.'), findsOneWidget);
-    expect(keyLabelled('Back to Review'), findsOneWidget);
+    expect(keyLabelled('Back to Your papers'), findsOneWidget);
     // The head of today's run is gone at the end.
     expect(find.text('4 questions to revise today'), findsNothing);
     // From [4,1,1,1]: box 1 to box 2, back to box 1, box 2 to box 2 (the fake grades each in its own box), then the last box finished.
@@ -311,7 +311,7 @@ void main() {
     await pumpRevise(tester, api);
     expect(find.text('Nothing to revise today'), findsOneWidget);
     expect(find.text('The next ones are due on Sat 17 Oct.'), findsOneWidget);
-    expect(keyLabelled('Back to Review'), findsOneWidget);
+    expect(keyLabelled('Back to Your papers'), findsOneWidget);
     expect(find.text('About 5 minutes'), findsNothing, reason: 'no questions, no minutes');
     expect(find.text('Example'), findsNothing, reason: 'a student who has cards is not shown a sample');
   });

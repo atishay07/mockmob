@@ -46,7 +46,7 @@ import 'widgets/top_rows.dart';
 ///
 /// Every mode is always listed (D101, owner 19 Oct: "visible but locked"). A mode Pro holds shows to
 /// a Free student with a quiet Pro tag; a tap opens the Upgrade sheet with PLAY_BILLING on, and with
-/// it off a calm sheet that says Pro opens in the app soon and offers the open mode instead. Only a
+/// it off a calm sheet that says Pro is coming to the app soon and offers the open mode instead. Only a
 /// server that says a mode is not offered at all takes its tile away.
 class PracticeScreen extends ConsumerStatefulWidget {
   const PracticeScreen({super.key});

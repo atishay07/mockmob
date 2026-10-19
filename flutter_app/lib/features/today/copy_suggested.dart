@@ -141,10 +141,10 @@ abstract final class StarterCopy {
   static const String titleSubjectsNone = 'Add your subjects';
 
   /// The subject the student rated weakest in the setup.
-  static String weakestWhy(String subject, int n) => 'You rated $subject as your weakest subject, so start there. $n questions show where it stands today.';
+  static String weakestWhy(String subject, int n) => 'You rated $subject as your weakest subject, so start there. $n questions show where you stand in it today.';
 
   /// Any other subject, before a paper exists.
-  static String quickWhy(String subject, int n) => 'A quick $n in $subject shows where you stand right now.';
+  static String quickWhy(String subject, int n) => '$n quick questions in $subject show where you stand right now.';
 
   /// The language paper (English).
   static String languageWhy(String subject, int n) => 'Most DU courses count a language paper, and $subject is the usual one. $n questions keep it sharp.';
@@ -155,7 +155,7 @@ abstract final class StarterCopy {
 
   /// The Mob (it opens the Mob page; nothing starts from the deck).
   static const String mobCost = '10 questions a week, with friends';
-  static const String mobLine = 'Up to 5 of you get the same questions each week, free of credits.';
+  static const String mobLine = 'You and up to four friends sit the same 10 questions each week, and it costs no credits.';
   static const String mobKey = 'Open the Mob';
 
   /// Fewer subjects than DU counts: the way to add them.

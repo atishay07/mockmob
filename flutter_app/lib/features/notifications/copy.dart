@@ -220,7 +220,7 @@ abstract final class NotificationsCopy {
       'Your repair is ready: ${plural(mistakes, 'mistake')}, about $minutes minutes.';
   // Answers to a tap on a reminder's action: a silent replacement that takes itself away.
   static const String ackNotTonightTitle = 'Okay, no repair tonight';
-  static const String ackNotTonightBody = 'Your repair stays in Review whenever you want it.';
+  static const String ackNotTonightBody = 'The repair waits in Your papers until you are ready for it.';
   static const String ackMutedTitle = 'Reminders paused for 7 days';
   static const String ackMutedBody = 'Turn them back on in Notifications, under You.';
   static const String actionResume = 'Resume';

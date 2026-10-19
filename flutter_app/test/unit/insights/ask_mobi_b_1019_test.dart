@@ -1,6 +1,6 @@
 // Ask Mobi option B (ASK-MOBI-1019; the owner's D112 and D114; C-pick 2): Ask Mobi's own screen with
 // two big doors, "Ask now" and "Ask your record". These lock the build's contract:
-// * a fresh record says "Your record is empty for now." with one key; a heavy one leads with its
+// * a fresh record says "Your record starts with your first paper." with one key; a heavy one leads with its
 //   biggest leak as a real figure;
 // * every starter says "Free", "1 credit" or a Pro lock before the tap, and a tap sends at once with
 //   no consent sheet (D53);
@@ -98,8 +98,8 @@ void main() {
     test('the greetings are whole sentences, with no number words broken (finding 38)', () {
       expect(InsightsCopy.askGreeting(null, 1), "Hi. I've read your first paper. Ask me anything about it.");
       expect(InsightsCopy.askGreeting('Riya', 25), "Hi Riya. I've read your last 25 papers. Ask me anything about them.");
-      expect(InsightsCopy.askGreeting(null, 0), 'Hi. Ask me any CUET doubt, right now.');
-      expect(AskDoorCopy.greetFresh(null), 'Hi. Ask me any CUET doubt, right now.');
+      expect(InsightsCopy.askGreeting(null, 0), "Hi. Ask me any CUET doubt, any time you're stuck.");
+      expect(AskDoorCopy.greetFresh(null), "Hi. Ask me any CUET doubt, any time you're stuck.");
       expect(AskDoorCopy.greetHeavy('Riya', 25), 'Hi Riya. Ask me any doubt, or ask what your 25 papers say.');
       expect(AskDoorCopy.greetHeavy(null, 1), 'Hi. Ask me any doubt, or ask what your first paper says.');
     });
@@ -148,11 +148,11 @@ void main() {
 
     test('the credit line is the wallet: of your 50 monthly, the real renewal day, or nothing invented', () {
       final w = AskWallet.fromCredits(monthly());
-      expect(creditLineWords(w, renew: renewDay(w, evening)).$1, '38 of your 50 monthly credits left\u00a0· renews\u00a01\u00a0Nov');
+      expect(creditLineWords(w, renew: renewDay(w, evening)).$1, '38 of your 50 free credits left\u00a0· they refill\u00a01\u00a0Nov');
       expect(creditLineWords(w, renew: '1 November').$2, 'Answers from your marks are free. A written answer uses 1 credit.');
-      expect(creditLineWords(w, renew: '1 November', oneBalance: true).$1, '38 credits left\u00a0· free ones renew\u00a01\u00a0Nov');
+      expect(creditLineWords(w, renew: '1 November', oneBalance: true).$1, '38 credits left\u00a0· free ones refill\u00a01\u00a0Nov');
       expect(creditLineWords(null, renew: '1 November').$1, AskDoorCopy.creditsUnknown, reason: 'an unknown balance is never a zero');
-      expect(creditLineWords(w.withTotal(0), renew: '1 November').$1, 'No credits left. They renew on 1 November.');
+      expect(creditLineWords(w.withTotal(0), renew: '1 November').$1, 'You have no credits left. Your free credits refill on 1 November.');
     });
   });
 
@@ -187,7 +187,7 @@ void main() {
       expect(find.descendant(of: now, matching: find.text(AskDoorCopy.oneCredit)), findsNWidgets(2));
       expect(find.text(AskDoorCopy.nowTip), findsOneWidget);
       // The credit line is the wallet's own numbers.
-      expect(find.text('38 of your 50 monthly credits left\u00a0· renews\u00a01\u00a0Nov'), findsOneWidget);
+      expect(find.text('38 of your 50 free credits left\u00a0· they refill\u00a01\u00a0Nov'), findsOneWidget);
     });
 
     testWidgets('a heavy account: the record door leads with the real figure and says Free', (tester) async {

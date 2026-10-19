@@ -50,7 +50,7 @@ class DoorAsk {
 /// fragments, no exclamation marks, no arrows.
 abstract final class AskDoorCopy {
   // The greeting beside Mobi.
-  static String greetFresh(String? name) => '${_hi(name)} Ask me any CUET doubt, right now.';
+  static String greetFresh(String? name) => "${_hi(name)} Ask me any CUET doubt, any time you're stuck.";
   static String greetHeavy(String? name, int papers) =>
       '${_hi(name)} Ask me any doubt, or ask what ${papers == 1 ? 'your first paper says' : 'your $papers papers say'}.';
   static String _hi(String? name) => name == null ? 'Hi.' : 'Hi $name.';
@@ -70,13 +70,13 @@ abstract final class AskDoorCopy {
   static String leadFigureLine(String chapter) => 'marks lost in $chapter, your biggest leak';
   static String seeAll(int n) => 'See all $n questions about your record';
   static const seeFewer = 'Show fewer questions';
-  static const emptySay = 'Your record is empty for now.';
+  static const emptySay = 'Your record starts with your first paper.';
   static const emptyBody = 'Finish one practice paper and Mobi can show you where every mark went.';
   static const emptyKey = 'Practise 10 questions first';
   static const emptyAfter = 'After that, you can ask where you lose marks, which chapter to practise and what to revise tonight.';
   static const reading = 'Mobi is reading your record.';
   static const readFailed = 'Your record could not be read just now. Ask now still works.';
-  static const readOffline = 'You are offline, so your record has not loaded yet. It answers here once it has.';
+  static const readOffline = 'You are offline, so your record has not loaded yet. It loads here when you are back online.';
   static const tryAgain = 'Try again';
 
   // The record asks.
@@ -95,12 +95,14 @@ abstract final class AskDoorCopy {
   static const pro = 'Pro';
 
   // The line at the foot of the doors, in the design's words (ASK-MOBI-1019, "Credit line"). [day] is
-  // "1 Nov": its space never breaks, so the date is never split across two lines.
-  static String creditsOfMonthly(int left, int monthly, String day) => '$left of your $monthly monthly credits left\u00a0· renews\u00a0$day';
-  static String creditsLeft(int left, String day) => '${left == 1 ? '1 credit' : '$left credits'} left\u00a0· free ones renew\u00a0$day';
-  static String renews(String day) => 'They renew on $day.';
+  // "1 Nov": its space never breaks, so the date is never split across two lines. The free monthly
+  // credits "refill", the website's word (copy pass, 19 Oct: Help says they refill to 50 at the start
+  // of every month; "renew" is what a paid plan does).
+  static String creditsOfMonthly(int left, int monthly, String day) => '$left of your $monthly free credits left\u00a0· they refill\u00a0$day';
+  static String creditsLeft(int left, String day) => '${left == 1 ? '1 credit' : '$left credits'} left\u00a0· free ones refill\u00a0$day';
+  static String renews(String day) => 'Your free credits refill on $day.';
   static const creditsUnknown = 'See your credits';
-  static const creditsNone = 'No credits left.';
+  static const creditsNone = 'You have no credits left.';
   static const creditsPaused = 'Written answers are paused just now.';
   static const pausedSecond = 'Answers from your marks still work.';
   static const howItCosts = 'Answers from your marks are free. A written answer uses 1 credit.';
@@ -113,7 +115,7 @@ abstract final class AskDoorCopy {
   static const proChangesBody = 'With Pro, Mobi shows whether changing an answer helped you or cost you marks, from your timed papers.';
   static const proChaptersTitle = 'Every chapter is part of Pro';
   static const proChaptersBody = 'With Pro, your record ranks every chapter you have answered, not only the first three.';
-  static const proSoon = 'Pro opens in the app soon. Everything else on this screen works now.';
+  static const proSoon = 'Pro is coming to the app soon. Everything else on this screen works now.';
   static const proDone = 'Done';
 
   // Offline, above the doors.
@@ -127,7 +129,7 @@ abstract final class AskDoorCopy {
   // The Practice card.
   static const cardTitle = 'Ask Mobi';
   static const cardLineFresh = 'Stuck on a doubt? Ask now and Mobi explains it in plain words.';
-  static String cardLineHeavy(int lost, String chapter) => 'Stuck on a doubt? Ask now, or ask your record why $lost marks went in $chapter.';
+  static String cardLineHeavy(int lost, String chapter) => 'Stuck on a doubt? Ask now, or ask your record why you lost $lost marks in $chapter.';
   static const cardLineRecord = 'Stuck on a doubt? Ask now, or ask what your papers say.';
   static const cardNow = 'Ask now';
   static const cardRecord = 'Ask your record';
@@ -242,6 +244,18 @@ String _signed(int n) => n < 0 ? '−${-n}' : '$n';
 /// "Accountancy full mock", "Economics Quick 10".
 String paperName(Attempt a) => '${subjectDisplayName(a.subject)} ${modeLabel(a.mode, a.total)}';
 
+/// The paper inside a sentence (copy pass, 19 Oct): "the Accountancy full mock", "the Economics set of
+/// 10 questions". The row's short name ([paperName]) is a label; a reply says it as English.
+String paperPhrase(Attempt a) {
+  final subject = subjectDisplayName(a.subject);
+  return switch (a.mode) {
+    'full' => 'the $subject full mock',
+    'nta' => 'the $subject mock in NTA mode',
+    'smart' => 'the $subject Smart practice set',
+    _ => 'the $subject set of ${a.total} questions',
+  };
+}
+
 /// "today", "yesterday", "Thursday" within the week, otherwise "12 October".
 String paperDay(DateTime at, DateTime now) {
   final a = at.toLocal(), n = now.toLocal();
@@ -266,7 +280,8 @@ LastPaper? lastPaper(List<Attempt>? attempts, DateTime now) {
   final lost = markBreakdownOf(latest).lost;
   final lines = mockLostLines(observedChapterBreakdown(latest), lost: lost);
   final on = day == 'today' || day == 'yesterday' ? day : 'on $day';
-  final opening = '$lastPaperLead$name, $on, with $marks marks.';
+  // "Your last paper was the Accountancy full mock you sat today. It scored 34 of 50 marks."
+  final opening = '$lastPaperLead${paperPhrase(latest)} you sat $on. It scored $marks marks.';
   final String reply;
   if (lost <= 0) {
     reply = '$opening It lost no marks at all.';
@@ -278,7 +293,7 @@ LastPaper? lastPaper(List<Attempt>? attempts, DateTime now) {
     ].join(' and ');
     reply = '$opening It lost $lost marks${cause.isEmpty ? '' : ', from $cause'}.';
   } else {
-    reply = '$opening These chapters cost the most of the $lost marks it lost:\n${lines.join('\n')}';
+    reply = '$opening It lost $lost marks, and these chapters cost the most:\n${lines.join('\n')}';
   }
   return LastPaper(
     attempt: latest,

@@ -116,7 +116,7 @@ void main() {
       await pumpGate(tester, rig);
       expect(find.text('NTA mode comes with Pro'), findsNothing);
       expect(find.text('NTA mode is part of Pro'), findsOneWidget);
-      expect(find.textContaining('Pro opens in the app soon.'), findsOneWidget);
+      expect(find.textContaining('Pro is coming to the app soon.'), findsOneWidget);
       expect(find.text(ProNudgeCopy.gateAction), findsNothing);
       expect(find.text('Get Pro'), findsNothing);
     });

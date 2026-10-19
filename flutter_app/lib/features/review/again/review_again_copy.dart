@@ -43,7 +43,7 @@ abstract final class ReviewAgainCopy {
   static const heldWord = 'held';
   static String endFigureSpoken(int held, int total) => '$held of $total held';
   static String comeBackFirst(int n) => n == 1 ? '1 comes back first next time.' : '$n come back first next time.';
-  static const backToReview = 'Back to Review';
+  static const backToReview = 'Back to Your papers';
   static const anotherSet = 'Review again';
 
   /// The line over the figure. It never says "most" of a set that all held.

@@ -78,7 +78,7 @@ void main() {
     // The figures are the 2026 Round 1 minimum scores (owner decision, DU data audit U1-3): the note
     // names the year and the round instead of "last year", and never the portal's own wording.
     expect(all, isNot(contains('last year')));
-    expect(EditCopy.collegesNote('UR'), 'Pick up to eight. Each figure is the lowest Round 1 score in 2026 for unreserved, out of 1000.');
+    expect(EditCopy.collegesNote('UR'), 'Pick up to eight. Each figure is the lowest Round 1 score in 2026 for the unreserved category, out of 1000.');
     expect(EditCopy.noSeat, 'No seat in Round 1, 2026');
   });
 
@@ -93,7 +93,7 @@ void main() {
     expect(categoryTitle('PwBD'), 'PwBD');
     expect(categoryTitle('EWS'), 'EWS');
     expect(categoryTitle(null), 'Unreserved');
-    expect(EditCopy.collegesNote('SGC'), contains('for single girl child,'));
+    expect(EditCopy.collegesNote('SGC'), contains('for the single girl child category,'));
   });
 
   test('times are written in 12-hour form', () {

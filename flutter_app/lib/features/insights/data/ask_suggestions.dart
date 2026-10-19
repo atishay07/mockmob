@@ -196,21 +196,21 @@ List<String> recordSummary(PrepInsights? v, {bool pro = false}) {
   ];
 }
 
-/// The wallet line under the composer: "9 of 50 AI credits left · resets 1 Nov".
+/// The wallet line under the composer: "9 of 50 AI credits left · refills 1 Nov".
 ///
 /// [oneBalance]: the server keeps one credits balance (owner D78), so [total] is that one balance and the
-/// line says "108 credits left · free ones renew 1 Nov", never "AI credits".
+/// line says "108 credits left · free ones refill 1 Nov", never "AI credits".
 String walletLine({required int? total, int? includedMonthly, int? bonus, bool paused = false, String? resetsOn, bool oneBalance = false}) {
   if (paused) return AskSheetCopy.walletPaused;
   if (total == null) return AskSheetCopy.walletUnknown;
   if (oneBalance) {
     final left = '${InsightsCopy.credits(total)} left';
-    return resetsOn == null ? left : '$left · free ones renew $resetsOn';
+    return resetsOn == null ? left : '$left · free ones refill $resetsOn';
   }
   final left = includedMonthly != null && (bonus ?? 0) == 0 && total <= includedMonthly
       ? '$total of $includedMonthly credits left'
       : '${InsightsCopy.aiCredits(total)} left';
-  return resetsOn == null || includedMonthly == null ? left : '$left · resets $resetsOn';
+  return resetsOn == null || includedMonthly == null ? left : '$left · refills $resetsOn';
 }
 
 /// The words of the Ask Mobi sheet. Sentence case, no exclamation marks, no arrows.
@@ -269,7 +269,7 @@ abstract final class AskSheetCopy {
   static const recordFree = thisCosts;
   static const thisIsFree = 'Free, from your record';
   static const thisCosts = "An AI service writes Mobi's replies\u00a0·\u00a01\u00a0credit";
-  static String noCredits(String renew) => '0 credits left. They reset on $renew. Questions about your record stay free. Nothing is charged from here.';
+  static String noCredits(String renew) => 'You have no credits left. They refill on $renew. Questions about your record stay free. Nothing is charged from here.';
   static const paused = 'Written replies are paused just now. Questions about your record stay free. Nothing is charged from here.';
   static const blocked = 'Mobi cannot write replies right now. Questions about your record stay free. Nothing is charged from here.';
   static String hint(String? label) => label == null ? 'Ask about your record' : 'Ask about $label';

@@ -209,7 +209,7 @@ void main() {
         taskId: 'repair_ready:a1',
         channel: NotificationChannels.repairReady,
         title: 'Okay, no repair tonight',
-        body: 'Your repair stays in Review whenever you want it.',
+        body: 'The repair waits in Your papers until you are ready for it.',
         lasts: const Duration(milliseconds: 20),
       );
       expect(rig.gateway.shown, hasLength(1));

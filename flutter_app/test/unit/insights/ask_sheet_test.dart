@@ -176,8 +176,8 @@ void main() {
 
   group('lines', () {
     test('the credits line reads like the mock', () {
-      expect(walletLine(total: 9, includedMonthly: 10, bonus: 0, resetsOn: '1 Nov'), '9 of 10 credits left · resets 1 Nov');
-      expect(walletLine(total: 12, includedMonthly: 10, bonus: 4, resetsOn: '1 Nov'), '12 credits left · resets 1 Nov');
+      expect(walletLine(total: 9, includedMonthly: 10, bonus: 0, resetsOn: '1 Nov'), '9 of 10 credits left · refills 1 Nov');
+      expect(walletLine(total: 12, includedMonthly: 10, bonus: 4, resetsOn: '1 Nov'), '12 credits left · refills 1 Nov');
       expect(walletLine(total: null), AskSheetCopy.walletUnknown);
       expect(walletLine(total: 3, paused: true), AskSheetCopy.walletPaused);
     });

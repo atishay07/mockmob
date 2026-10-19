@@ -167,12 +167,12 @@ abstract final class RepairCandidates {
   static String keyLabel(RepairKeyScope scope) => 'Repair ${_mistakes(scope.count)}';
 
   /// The line under the key: "Principles of management, about 5 minutes." and, when the paper
-  /// has more in other chapters, "The other 4 are in Review."
+  /// has more in other chapters, "The other 4 are in Your papers."
   static String describe(RepairKeyScope scope) {
     final where = scope.hasNamedChapter ? shortChapterName(scope.chapter) : 'Questions with no chapter';
     final rest = scope.othersInPaper <= 0
         ? ''
-        : ' The other ${scope.othersInPaper} ${scope.othersInPaper == 1 ? 'is' : 'are'} in Review.';
+        : ' The other ${scope.othersInPaper} ${scope.othersInPaper == 1 ? 'is' : 'are'} in Your papers.';
     return '$where, about ${scope.minutes} minutes.$rest';
   }
 

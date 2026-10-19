@@ -53,7 +53,7 @@ void main() {
   testWidgets('with open mistakes the Your papers row says how many, and both rows sit in the first view, above Ways to practise', (tester) async {
     await pump(tester, openRepairs: 98);
     expect(find.text('Your papers'), findsOneWidget);
-    expect(find.text('98 mistakes to repair, with the papers they came from.'), findsOneWidget);
+    expect(find.text('You have 98 mistakes to repair, with the papers they came from.'), findsOneWidget);
     expect(find.byType(AskMobiCard), findsOneWidget);
     final viewport = tester.view.physicalSize.height / tester.view.devicePixelRatio;
     final repairs = tester.getTopLeft(find.text('Your papers')).dy;
@@ -74,9 +74,9 @@ void main() {
 
   testWidgets('one open mistake is said in the singular', (tester) async {
     await pump(tester, openRepairs: 1);
-    expect(find.text('1 mistake to repair, with the papers they came from.'), findsOneWidget);
-    expect(PracticeCopy.papersNote(papers: 1, open: 1), '1 paper so far, with its answers. 1 mistake still to repair.');
-    expect(PracticeCopy.papersNote(papers: 4, open: 0), '4 papers so far, newest first.');
+    expect(find.text('You have 1 mistake to repair, with the papers they came from.'), findsOneWidget);
+    expect(PracticeCopy.papersNote(papers: 1, open: 1), 'Your first paper is here. You have 1 mistake to repair.');
+    expect(PracticeCopy.papersNote(papers: 4, open: 0), 'All 4 papers are here, newest first.');
   });
 
   testWidgets('no open mistakes, or a count not read yet: Your papers leads "More ways in" instead (an unknown is never a zero)', (tester) async {

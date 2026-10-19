@@ -4,7 +4,7 @@
 abstract final class ChoicesCopy {
   // Course step (D41).
   /// G4, G5: the order is aspirant demand (never "top"), and the one course can change any time.
-  static const String courseSupport = 'Commerce students aim for these most. You can change your course any time.';
+  static const String courseSupport = 'These are the courses commerce students aim for most. You can change your course any time.';
   static const String moreCourses = 'More courses';
   static String moreCoursesNote(int n) => 'All $n DU courses that had seats in Round 1 of 2026';
   static const String moreCoursesTitle = 'Every DU course';
@@ -76,9 +76,11 @@ abstract final class ChoicesCopy {
   static const String sessionsUnit = 'sessions';
 
   // Colleges (19 Oct, G6/D103): the number beside each one on a list.
-  /// "907.5 of 1000 last year": the Round 1 closing mark of the DU CSAS list the data comes from,
-  /// for the student's course and category. A college with no seat for it says so plainly.
-  static String closingLast(String? score) => score == null ? 'No number from last year' : '$score of 1000 last year';
+  /// "2026 cutoff: 907.5 of 1000": the Round 1 closing mark of the DU CSAS list the data comes from,
+  /// for the student's course and category. A college with no seat for it says so plainly. The year
+  /// is named, not "last year" (copy pass 19 Oct: in October 2026, "last year" reads as 2025), and
+  /// "cutoff" is the word students use and the website prints.
+  static String closingLast(String? score) => score == null ? 'No 2026 cutoff for your category' : '2026 cutoff: $score of 1000';
 
   // Usage data (D49).
   static const String usageOffAnyTime = 'Turn it off any time in You, under Account and privacy.';

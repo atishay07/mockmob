@@ -21,7 +21,7 @@ abstract final class LearnCopy {
   static const String resumeHeading = 'Pick up where you left off';
   static const String resumeKey = 'Continue';
   static const String disabledTitle = 'Lessons are paused right now.';
-  static const String disabledMessage = 'Practice and Review are still open.';
+  static const String disabledMessage = 'Practice and Your papers are still open.';
   static const String disabledAction = 'Open Practice';
   static const String loadFailedTitle = 'We could not load Learn';
   static const String loadFailedMessage =

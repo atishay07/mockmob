@@ -306,11 +306,11 @@ void main() {
       expect(ResultCopy.repairScopeLine(all, 10), 'Principles of management.\nAbout 10 minutes.');
       const some = RepairKeyScope(chapter: 'Principles of management: planning', firstQuestionId: 'q2', count: 1, othersInPaper: 4);
       expect(ResultCopy.repairKey(some, 5), 'Repair 1 mistake');
-      expect(ResultCopy.repairScopeLine(some, 5), 'Principles of management.\nAbout 5 minutes. The other 4 are in Review.');
+      expect(ResultCopy.repairScopeLine(some, 5), 'Principles of management.\nAbout 5 minutes. The other 4 are in Your papers.');
       // A shorter length holds some of the chapter's wrong answers: the line says which, with the denominator.
       expect(
         ResultCopy.repairScopeLine(const RepairKeyScope(chapter: 'Admission of a partner', firstQuestionId: 'q', count: 3, othersInPaper: 12), 10, chapterTotal: 4),
-        'Admission of a partner, 3 of its 4 wrong answers.\nAbout 10 minutes. The other 12 are in Review.',
+        'Admission of a partner, 3 of its 4 wrong answers.\nAbout 10 minutes. The other 12 are in Your papers.',
       );
       expect(ResultCopy.readyToRepairOf(13, 15), '13 of 15 wrong answers ready to repair.');
       expect(ResultCopy.readyToRepairRest(2), 'The other 2 are repaired already, or their answer keys are being checked.');

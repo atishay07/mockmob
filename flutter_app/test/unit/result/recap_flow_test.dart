@@ -272,7 +272,7 @@ void main() {
       await _run(tester, 700);
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 100);
-      expect(find.text('Mock 7 is in your record. Your 15 mistakes are waiting in Review.'), findsOneWidget);
+      expect(find.text('Mock 7 is in your record. Your 15 mistakes are waiting in Your papers.'), findsOneWidget);
       // Mobi's act plus 900 ms (3.1 s at the longest), then the fade: Today takes over.
       await _run(tester, 4000);
       await tester.pumpAndSettle();
@@ -290,7 +290,7 @@ void main() {
       await tester.tap(find.text('Finish for now'));
       await _run(tester, 300);
       expect(find.byType(RecapMobi), findsNothing);
-      expect(find.text('Mock 7 is in your record. Your 15 mistakes are waiting in Review.'), findsOneWidget);
+      expect(find.text('Mock 7 is in your record. Your 15 mistakes are waiting in Your papers.'), findsOneWidget);
       await _run(tester, 2600);
       await tester.pumpAndSettle();
       expect(_at(router), '/today', reason: 'no Mobi act to wait for: the plain 2.2 seconds');

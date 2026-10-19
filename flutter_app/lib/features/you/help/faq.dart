@@ -31,7 +31,8 @@ abstract final class FaqCopy {
     id: 'credits',
     question: 'How do credits work?',
     answer: [
-      'Credits pay for mocks and practice sets, and for Ask Mobi replies and repair explanations. Your balance shows when it renews.',
+      'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. They refill to 50 at the start of every month, so unused free credits do not carry over.',
+      '1 credit buys 1 practice question or 1 Ask Mobi reply. A full mock costs 50, and your first one in each subject is free. The cost shows before you start.',
       'On Pro, practice is unlimited. Your credits still count for Ask Mobi and repairs.',
     ],
   );
@@ -57,8 +58,8 @@ abstract final class FaqCopy {
     id: 'study-days',
     question: 'What counts as a study day?',
     answer: [
-      'A day on which you finish a practice, a mock or a repair. Your weekly goal is how many study days you aim for in a week.',
-      'The weekdays you plan are your own and stay on this phone. MockMob counts only the days you finished something. Going away? Pause study days and your run is kept.',
+      'A study day is any day you answer at least 5 questions in a practice or a mock, or finish a repair. Your weekly goal is how many study days you aim for in a week.',
+      'The weekdays you plan are your own and stay on this phone. MockMob counts only the days that meet that rule. Going away? Pause study days and your run is kept.',
     ],
   );
 

@@ -229,12 +229,12 @@ abstract final class ResultCopy {
   static String readyToRepairOf(int n, int wrong) => '$n of ${plural(wrong, 'wrong answer')} ready to repair.';
   static String readyToRepairRest(int rest) =>
       '${rest == 1 ? 'The other one is' : 'The other $rest are'} repaired already, or ${rest == 1 ? 'its' : 'their'} answer ${rest == 1 ? 'key is' : 'keys are'} being checked.';
-  static String blanksInReview(int n) => '$n not attempted. ${n == 1 ? 'It is' : 'They are'} in Review.';
+  static String blanksInReview(int n) => '$n not attempted. ${n == 1 ? 'It is' : 'They are'} in Your papers.';
   static String blanksCount(int n) => '$n not attempted.';
   static const noMistakes = 'No wrong answers to repair from this mock.';
   static String walletShort(int needed, int balance) => balance <= 0
-      ? 'This repair needs $needed credits. You have none. Read the key explanations in Review.'
-      : 'This repair needs $needed credits. You have $balance. Start with ${plural(balance, 'mistake')}, or read the key explanations in Review.';
+      ? 'This repair needs $needed credits. You have none. Read the key explanations in Your papers.'
+      : 'This repair needs $needed credits. You have $balance. Start with ${plural(balance, 'mistake')}, or read the key explanations in Your papers.';
   static const tryAgain = 'Try again';
   static String chip(int minutes) => '$minutes min';
   static String chipLabel(int minutes, int mistakes) => '$minutes minutes, ${plural(mistakes, 'mistake')}';
@@ -251,7 +251,7 @@ abstract final class ResultCopy {
   static String repairScopeLine(RepairKeyScope scope, int minutes, {int? chapterTotal}) {
     final where = scope.hasNamedChapter ? shortChapterName(scope.chapter) : 'Questions with no chapter';
     final part = chapterTotal != null && scope.count < chapterTotal ? ', ${scope.count} of its ${plural(chapterTotal, 'wrong answer')}' : '';
-    final rest = scope.othersInPaper <= 0 ? '' : ' The other ${scope.othersInPaper} ${scope.othersInPaper == 1 ? 'is' : 'are'} in Review.';
+    final rest = scope.othersInPaper <= 0 ? '' : ' The other ${scope.othersInPaper} ${scope.othersInPaper == 1 ? 'is' : 'are'} in Your papers.';
     return '$where$part.\nAbout $minutes minutes.$rest';
   }
 
@@ -291,7 +291,7 @@ abstract final class ResultCopy {
   static String firstMockToken(DateTime at) => 'First full mock. Recorded on ${formatDayMonth(at)}.';
   static String finishLine(String mock, int mistakes) => mistakes == 0
       ? '$mock is in your record.'
-      : '$mock is in your record. Your ${plural(mistakes, 'mistake')} ${mistakes == 1 ? 'is' : 'are'} waiting in Review.';
+      : '$mock is in your record. Your ${plural(mistakes, 'mistake')} ${mistakes == 1 ? 'is' : 'are'} waiting in Your papers.';
 
   // ---- Full result (5.7) ----------------------------------------------------------------------
 
@@ -345,8 +345,8 @@ abstract final class ResultCopy {
   static const notFound = 'This result is not on this account.';
   static const loading = 'Loading your result';
   static const slowTitle = 'Your result is taking longer to load';
-  static const slowBody = 'It is saved to your account. Try again, or find it later in Review.';
-  static const backToReview = 'Go to Review';
+  static const slowBody = 'It is saved to your account. Try again, or find it later in Your papers.';
+  static const backToReview = 'Go to Your papers';
 
   // ---- After this mock: the plan and the read of the paper (SWOT) --------------------------------
   // The server writes every line of the read. These are only the headings and the buttons.

@@ -201,7 +201,7 @@ void main() {
       expect(uri.queryParameters['subject'], 'accountancy');
       expect(uri.queryParameters['chapter'], 'Partnership');
       expect(uri.queryParameters['count'], '10');
-      expect(GlanceCopy.weakDayOneKey('Partnership'), 'Practise Partnership, 10 questions');
+      expect(GlanceCopy.weakDayOneKey('Partnership'), 'Practise 10 questions on Partnership');
     });
 
     test('a subject MockMob does not rank has no key to offer', () {
@@ -227,7 +227,7 @@ void main() {
         expect(find.text(GlanceCopy.weakDayOneStart(const ['Partnership', 'Company Accounts'])), findsOneWidget);
         final key = find.byKey(WeakChaptersBlock.dayOneKey);
         expect(key, findsOneWidget);
-        expect(find.text('Practise Partnership, 10 questions'), findsOneWidget);
+        expect(find.text('Practise 10 questions on Partnership'), findsOneWidget);
         expect(tester.getSize(key).width, lessThanOrEqualTo(width - 32));
         await tester.tap(key);
         expect(targets, hasLength(1));

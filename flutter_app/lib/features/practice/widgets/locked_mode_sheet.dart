@@ -21,7 +21,7 @@ enum LockedMode {
 
 /// A Free student taps a mode Pro holds. With `PLAY_BILLING` on it opens the Upgrade sheet with the
 /// mode's own reason; with it off, a calm sheet that says the plain fact ("NTA mode is part of Pro.
-/// Pro opens in the app soon."), with no price and no link to buy elsewhere (anti-steering), and the
+/// Pro is coming to the app soon."), with no price and no link to buy elsewhere (anti-steering), and the
 /// open mode that comes closest, so the tap is never a dead end ([onInstead]).
 void openLockedMode(BuildContext context, {required LockedMode mode, required VoidCallback onInstead}) {
   if (showUpgradeSheetIfOn(context, reason: mode.reason)) return;

@@ -151,8 +151,8 @@ class _SheetRow extends StatelessWidget {
 /// The sheet's words: plain, every figure with its scale, the estimate's source said once.
 abstract final class TodayCollegesCopy {
   static String ledeNoEstimate(String category) =>
-      'The hardest to get into comes first, by its lowest Round 1 score in 2026 for $category. Add your estimate in Colleges to see how far you are from each.';
-  static String ledeWith(String range, String source) => 'The hardest to get into comes first. The gap under each is against your estimate of $range, $source.';
+      'The hardest to get into comes first, ranked by its lowest Round 1 score in 2026 for the $category category. Add your estimate in Colleges to see how far you are from each one.';
+  static String ledeWith(String range, String source) => 'The hardest to get into comes first. The gap under each one is measured against your estimate of $range, $source.';
   static String sourceWords(EstimateSource s) => switch (s) {
         EstimateSource.mocks => 'from your latest full mocks',
         EstimateSource.projection => 'from your practice projection',

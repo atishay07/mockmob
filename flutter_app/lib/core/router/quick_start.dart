@@ -609,7 +609,7 @@ class _StartRows extends ConsumerWidget {
             // No act: NTA mode is the exam as it is, with no Mobi in it.
             onTap: () {
               // Locked (D101): the Upgrade sheet with PLAY_BILLING on, otherwise the calm sheet that says
-              // Pro opens in the app soon and offers a Full mock instead.
+              // Pro is coming to the app soon and offers a Full mock instead.
               if (ntaGated) {
                 openLockedMode(context, mode: LockedMode.nta, onInstead: () => go(StartLocations.fullMock(subject), act: startActFor('mock')));
                 return;

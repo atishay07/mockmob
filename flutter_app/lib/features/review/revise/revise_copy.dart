@@ -35,8 +35,8 @@ abstract final class ReviseCopy {
 
   // The website's Revise page controls.
   static const String questionsADay = 'Questions a day';
-  static const String back = 'Review';
-  static const String backToReview = 'Back to Review';
+  static const String back = 'Your papers';
+  static const String backToReview = 'Back to Your papers';
 
   /// Under the end's key: the mistakes the student repaired, asked once more on the phone.
   static String reviewAgainMore(int n) => 'Review again: $n more you repaired';
