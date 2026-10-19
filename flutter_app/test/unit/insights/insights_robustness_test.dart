@@ -387,8 +387,8 @@ void main() {
       const AskMessage.reply('Accrual is income earned, not yet received.', origin: AskOrigin.model, requestId: 'r1'),
     ]);
 
-    testWidgets('it is not shown while the endpoint is not live', (tester) async {
-      expect(aiReplyReportLive, isFalse);
+    testWidgets('it is shown now that the endpoint is live (POST /api/ai/mentor/report, release 11)', (tester) async {
+      expect(aiReplyReportLive, isTrue);
       await pumpMockmob(
         tester,
         const AskScreen(),
@@ -401,7 +401,7 @@ void main() {
       await tester.tap(find.byIcon(LucideIcons.info));
       await tester.pumpAndSettle();
       expect(find.text(InsightsCopy.aiCaveat), findsOneWidget);
-      expect(find.text(InsightsCopy.reportReply), findsNothing);
+      expect(find.text(InsightsCopy.reportReply), findsOneWidget);
     });
 
     testWidgets('it is shown once the endpoint is live', (tester) async {

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/copy/formatters.dart' show formatDayMonth;
+import '../../../core/models/auth_me.dart' show PlaySubscriptionInfo;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -9,6 +11,7 @@ import '../../credits/data/credit_figures.dart';
 import '../billing_copy.dart';
 import '../data/billing_controller.dart';
 import '../data/play_products.dart';
+import '../data/play_store.dart' show billingPeriodOf;
 import 'billing_notice.dart';
 
 /// Opens the Get Pro sheet. Does nothing with `PLAY_BILLING` off, so a caller never needs its own
@@ -22,15 +25,19 @@ Future<void> showGetProSheet(BuildContext context, {String? reason, List<String>
   if (!container.read(playBillingEnabledProvider)) return;
   await showMmSheet<void>(
     context: context,
-    title: BillingCopy.proTitle,
+    // A payment problem to fix in Google Play is not framed by "Get Pro": its own heading leads.
+    title: needsGooglePlay(container.read(playSubscriptionProvider)) ? null : BillingCopy.proTitle,
     builder: (sheet) => GetProSheetBody(reason: reason, benefits: benefits),
   );
 }
 
-/// What Pro includes, the price Google Play shows, one key to buy and a Restore purchases link.
-/// Every state is honest: checking Google Play, Google Play unavailable, the product missing,
-/// Google Play open, a pending payment, the server confirming, a cancel, a failure with Try again.
-/// "Pro is on" appears only after the server confirmed the purchase.
+/// What Pro includes, the monthly price Google Play shows, one key to subscribe and a Restore
+/// purchases link. Every state is honest: checking Google Play, Google Play unavailable, the product
+/// missing, Google Play open, a pending payment, the server confirming, a cancel, a failure with Try
+/// again. "Pro is on" appears only after the server confirmed the purchase; for a Play subscriber it
+/// says when the subscription renews (or that renewal is off, or that a payment is being retried)
+/// and offers Manage subscription, which opens Google Play's own page. A subscription on hold or
+/// paused says so and offers Manage subscription instead of a second subscription.
 class GetProSheetBody extends ConsumerStatefulWidget {
   const GetProSheetBody({super.key, this.reason, this.benefits});
 
@@ -60,26 +67,38 @@ class _GetProSheetBodyState extends ConsumerState<GetProSheetBody> {
 
   void _close() => Navigator.of(context).maybePop();
 
+  bool _manageFailed = false;
+
+  Future<void> _manage() async {
+    final opened = await ref.read(playBillingProvider.notifier).manageSubscription();
+    if (mounted) setState(() => _manageFailed = !opened);
+  }
+
   @override
   Widget build(BuildContext context) {
     final s = ref.watch(playBillingProvider);
     final isPro = ref.watch(creditFiguresProvider.select((f) => f.isPro));
-    final confirmed = s.stage == BillingStage.confirmed && (s.productId == PlayProducts.proId || s.productId == null);
-    if (confirmed || (isPro && !s.busy)) {
-      return BillingConfirmed(title: BillingCopy.proOnTitle, body: BillingCopy.proOnBody, onDone: _close);
-    }
+    final status = proStatusView(
+      s: s,
+      isPro: isPro,
+      sub: ref.watch(playSubscriptionProvider),
+      onDone: _close,
+      onManage: _manage,
+      manageFailed: _manageFailed,
+    );
+    if (status != null) return status;
 
     final colors = context.mmColors;
     final type = context.mmType;
     final ctl = ref.read(playBillingProvider.notifier);
-    final price = s.priceOf(PlayProducts.proId);
+    final price = proMonthlyPrice(s);
     final working = s.stage == BillingStage.starting || s.stage == BillingStage.verifying;
     final loadingStore = s.productsLoading || (s.store == StoreAvailability.checking && s.products.isEmpty);
 
     // What the price area says.
     final Widget priceArea;
     if (price != null) {
-      priceArea = _PriceBlock(price: price);
+      priceArea = ProPriceBlock(parts: proPriceParts(s)!);
     } else if (loadingStore) {
       priceArea = const _PriceLoading();
     } else {
@@ -126,31 +145,6 @@ class _GetProSheetBodyState extends ConsumerState<GetProSheetBody> {
         const SizedBox(height: MmSpace.s4),
         Text(BillingCopy.googlePlayNote, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink3)),
       ],
-    );
-  }
-}
-
-class _PriceBlock extends StatelessWidget {
-  const _PriceBlock({required this.price});
-
-  final String price;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      container: true,
-      label: '${BillingCopy.proTitle}, $price. ${BillingCopy.proTerms}',
-      excludeSemantics: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(price, style: type.figureCompact.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
-          const SizedBox(height: MmSpace.s4),
-          Text(BillingCopy.proTerms, style: type.small.copyWith(color: colors.ink2)),
-        ],
-      ),
     );
   }
 }
@@ -217,6 +211,182 @@ class _IncludeRow extends StatelessWidget {
           Expanded(child: Text(text, style: context.mmType.body)),
         ],
       ),
+    );
+  }
+}
+
+/// Google Play's price for Pro with its period ("₹149.00 a month"), or null while Google Play has
+/// not returned it.
+String? proMonthlyPrice(PlayBillingState s) {
+  final parts = proPriceParts(s);
+  return parts == null ? null : BillingCopy.pricePer(parts.price, parts.period);
+}
+
+/// Google Play's price for Pro and its period words, apart, so the figure and "a month" can be set
+/// in their own sizes. Null while Google Play has not returned the price.
+({String price, String? period})? proPriceParts(PlayBillingState s) {
+  final details = s.products[PlayProducts.proId];
+  return details == null ? null : (price: details.price, period: BillingCopy.periodWords(billingPeriodOf(details)));
+}
+
+/// The price as the Pro sheets show it: Google Play's figure large, its period beside it in body
+/// text, and the renewal line under it. Read aloud as one sentence.
+class ProPriceBlock extends StatelessWidget {
+  const ProPriceBlock({super.key, required this.parts});
+
+  final ({String price, String? period}) parts;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final period = parts.period;
+    return Semantics(
+      container: true,
+      label: '${BillingCopy.proTitle}, ${BillingCopy.pricePer(parts.price, period)}. ${BillingCopy.proTerms}',
+      excludeSemantics: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text.rich(
+            TextSpan(children: [
+              TextSpan(text: parts.price, style: type.figureCompact.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
+              if (period != null) TextSpan(text: ' $period', style: type.body.copyWith(color: colors.ink2)),
+            ]),
+          ),
+          const SizedBox(height: MmSpace.s4),
+          Text(BillingCopy.proTerms, style: type.small.copyWith(color: colors.ink2)),
+        ],
+      ),
+    );
+  }
+}
+
+/// A subscription Google Play holds that gives no Pro now and is fixed there (account hold, paused).
+bool subscriptionHeld(PlaySubscriptionInfo? sub) => sub != null && !sub.active && (sub.onHold || sub.state == 'paused');
+
+/// The subscription needs the student in Google Play: held (no Pro now), or a payment Google Play is
+/// retrying (Pro on for now, lost when the grace period ends).
+bool needsGooglePlay(PlaySubscriptionInfo? sub) => subscriptionHeld(sub) || (sub != null && sub.active && sub.inGracePeriod);
+
+/// What a Pro sheet shows instead of selling, or null when it should sell:
+/// * Pro is on (just confirmed, or already Pro): for a Play subscriber, when it renews (or that
+///   renewal is off) and Manage subscription;
+/// * a payment Google Play is retrying (grace period): Pro is still on, but the sheet asks the
+///   student to act, with Manage subscription as its main key;
+/// * a subscription Google Play holds that gives no Pro now and is fixed there (on hold, paused):
+///   what happened and Manage subscription, never a second subscription.
+///
+/// [closeLabel] names the quiet key that leaves a payment problem ("Close" on the Get Pro sheet,
+/// "Not now" on the Upgrade sheet).
+Widget? proStatusView({
+  required PlayBillingState s,
+  required bool isPro,
+  required PlaySubscriptionInfo? sub,
+  required VoidCallback onDone,
+  required VoidCallback onManage,
+  required bool manageFailed,
+  String closeLabel = BillingCopy.close,
+}) {
+  final confirmed = s.stage == BillingStage.confirmed && (s.productId == PlayProducts.proId || s.productId == null);
+  if (confirmed || (isPro && !s.busy)) {
+    final playSub = sub != null && sub.active ? sub : null;
+    if (playSub != null && playSub.inGracePeriod) {
+      return _FixInGooglePlay(
+        title: BillingCopy.subGraceTitle,
+        message: subscriptionLine(playSub),
+        onManage: onManage,
+        failedToOpen: manageFailed,
+        closeLabel: BillingCopy.done,
+        onClose: onDone,
+      );
+    }
+    return BillingConfirmed(
+      title: BillingCopy.proOnTitle,
+      body: playSub == null ? BillingCopy.proOnBody : subscriptionLine(playSub),
+      onDone: onDone,
+      secondaryLabel: playSub == null ? null : BillingCopy.manageSubscription,
+      onSecondary: playSub == null ? null : onManage,
+      note: manageFailed ? BillingCopy.manageOpenFailed : null,
+    );
+  }
+  if (subscriptionHeld(sub) && !s.busy) {
+    return _FixInGooglePlay(
+      title: sub!.onHold ? BillingCopy.subOnHoldTitle : BillingCopy.subPausedTitle,
+      message: sub.onHold ? BillingCopy.subOnHold : BillingCopy.subPaused,
+      onManage: onManage,
+      failedToOpen: manageFailed,
+      closeLabel: closeLabel,
+      onClose: onDone,
+    );
+  }
+  return null;
+}
+
+/// The line under "Pro is on" for a Play subscriber, from Google Play's own state: renewing on a
+/// date, renewal off with the date Pro stays to, or a payment Google Play is retrying. Each has its
+/// own line for when the server sent no date.
+String subscriptionLine(PlaySubscriptionInfo sub) {
+  final until = sub.expiresAt?.toLocal();
+  final date = until == null ? null : formatDayMonth(until);
+  if (sub.inGracePeriod) return date == null ? BillingCopy.subGraceNoDate : BillingCopy.subGrace(date);
+  if (sub.autoRenewing == false) return date == null ? BillingCopy.subRenewalOffNoDate : BillingCopy.subRenewalOff(date);
+  return date == null ? BillingCopy.subRenewsNoDate : BillingCopy.subRenews(date);
+}
+
+/// A subscription that needs the student in Google Play: a payment it is retrying, or a subscription
+/// it holds that gives no Pro now (account hold, paused). A warning, never a success: what happened,
+/// Manage subscription (Google Play's own page) as the main key, and a quiet key to leave.
+class _FixInGooglePlay extends StatelessWidget {
+  const _FixInGooglePlay({
+    required this.title,
+    required this.message,
+    required this.onManage,
+    required this.failedToOpen,
+    required this.closeLabel,
+    required this.onClose,
+  });
+
+  final String title;
+  final String message;
+  final VoidCallback onManage;
+  final bool failedToOpen;
+  final String closeLabel;
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Semantics(
+          container: true,
+          liveRegion: true,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ExcludeSemantics(child: Icon(LucideIcons.triangleAlert, size: 24, color: colors.warnText)),
+              const SizedBox(height: MmSpace.s12),
+              Semantics(header: true, child: Text(title, style: type.title)),
+              const SizedBox(height: MmSpace.s8),
+              Text(message, style: type.body.copyWith(color: colors.ink2)),
+            ],
+          ),
+        ),
+        const SizedBox(height: MmSpace.s24),
+        KeyButton(label: BillingCopy.manageSubscription, onPressed: onManage),
+        if (failedToOpen) ...[
+          const SizedBox(height: MmSpace.s8),
+          Semantics(liveRegion: true, child: Text(BillingCopy.manageOpenFailed, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2))),
+        ],
+        const SizedBox(height: MmSpace.s4),
+        Center(child: KeyButton.quiet(label: closeLabel, onPressed: onClose)),
+        const SizedBox(height: MmSpace.s4),
+        Text(BillingCopy.googlePlayNote, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink3)),
+      ],
     );
   }
 }

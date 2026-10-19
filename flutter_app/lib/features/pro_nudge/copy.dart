@@ -104,14 +104,14 @@ abstract final class ProNudgeCopy {
 
   static const ProSheetHead _general = ProSheetHead(
     sheetTitle,
-    'Unlimited mocks, NTA mode on the exam-day screen, and Smart practice that hunts down your weak chapters, all for one price with no credits to count.',
+    'Unlimited mocks, NTA mode on the exam-day screen, and Smart practice that hunts down your weak chapters, all for one monthly price, with no credits to count.',
   );
 
   /// The headline and the line under it: what asked for Pro, and why it is worth having.
   static ProSheetHead head(ProReason reason) => switch (reason) {
         ProReason.firstSession => const ProSheetHead(
             'That is one paper done. Keep going without limits.',
-            'Pro takes the cap off: unlimited mocks, NTA mode and Smart practice, for one price.',
+            'Pro takes the cap off: unlimited mocks, NTA mode and Smart practice, for one monthly price.',
           ),
         ProReason.ntaMode => const ProSheetHead(
             'Sit the exam before the exam',

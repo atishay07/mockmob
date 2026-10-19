@@ -790,11 +790,12 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
         onMobi: () => callbacks.onTarget(const GoTo(AppRoutes.ask)),
       ),
       // Your colleges, one tap under the greeting (19 Oct PM, D126, the owner's H9): the strip opens the full list, or
-      // the chooser while none is chosen. It joins the first-paint entrance just before the move.
-      const SizedBox(height: MmSpace.s12),
+      // the chooser while none is chosen. It joins the first-paint entrance just before the move. One 48 dp line with
+      // 8 above and 12 below: the move moves down 50 dp from build 9 (the header to the move kept 18, TODAY-1017 4.1),
+      // not the 96 of the two-line strip, so the start of "Suggested for you" stays on the first screen.
+      const SizedBox(height: MmSpace.s8),
       const TodayEnter(delay: Duration(milliseconds: 40), rise: 8, child: TodayCollegesStrip()),
-      // Strip to the move: 16 (the header to the move kept 18 before the strip, TODAY-1017 4.1).
-      const SizedBox(height: MmSpace.s16),
+      const SizedBox(height: MmSpace.s12),
       // The move rises 12 dp and fades (4.8); its object then scales in place and the number lands.
       TodayEnter(
         delay: const Duration(milliseconds: 80),

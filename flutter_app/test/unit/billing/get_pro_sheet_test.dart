@@ -47,8 +47,8 @@ void main() {
     final rig = BillingRig();
     await _pump(tester, rig);
     await _settle(tester);
-    expect(find.text('₹149.00'), findsOneWidget);
-    expect(find.textContaining('One payment for the CUET 2027 cycle'), findsOneWidget);
+    expect(find.text('₹149.00 a month'), findsOneWidget);
+    expect(find.text('Renews monthly. Cancel anytime in Google Play.'), findsOneWidget);
     expect(find.text('Pro includes'), findsOneWidget);
     for (final line in BillingCopy.proIncludes) {
       expect(find.text(line), findsOneWidget);
@@ -65,15 +65,15 @@ void main() {
     expect(find.text('This comes with Pro.'), findsOneWidget);
     expect(find.text('One benefit line.'), findsOneWidget);
     expect(find.text(BillingCopy.proIncludes.first), findsNothing);
-    expect(find.text('₹149.00'), findsOneWidget);
+    expect(find.text('₹149.00 a month'), findsOneWidget);
   });
 
   testWidgets('the price on screen is whatever Google Play returns, not a number from the app', (tester) async {
     final rig = BillingRig(store: FakePlayStore(prices: {...fixturePrices(), PlayProducts.proId: 'Rs 1,234.50'}));
     await _pump(tester, rig);
     await _settle(tester);
-    expect(find.text('Rs 1,234.50'), findsOneWidget);
-    expect(find.text('₹149.00'), findsNothing);
+    expect(find.text('Rs 1,234.50 a month'), findsOneWidget);
+    expect(find.text('₹149.00 a month'), findsNothing);
   });
 
   testWidgets('checking Google Play: no price yet, the key cannot be pressed', (tester) async {
@@ -82,13 +82,13 @@ void main() {
     await _pump(tester, rig);
     await _settle(tester);
     expect(find.text('Checking Google Play'), findsWidgets);
-    expect(find.text('₹149.00'), findsNothing);
+    expect(find.text('₹149.00 a month'), findsNothing);
     await tester.tap(find.text('Get Pro').first, warnIfMissed: false);
     await _settle(tester);
     expect(rig.store.buys, isEmpty);
     store.gate!.complete();
     await _settle(tester);
-    expect(find.text('₹149.00'), findsOneWidget);
+    expect(find.text('₹149.00 a month'), findsOneWidget);
   });
 
   testWidgets('Google Play not on this phone: says so, no price, a way to try again', (tester) async {
@@ -124,7 +124,7 @@ void main() {
     await _settle(tester);
     await tester.tap(find.text('Get Pro').first);
     await _settle(tester);
-    expect(find.text(BillingCopy.pending), findsOneWidget);
+    expect(find.text(BillingCopy.pendingPro), findsOneWidget, reason: 'Pro turns on; it is not added');
     expect(find.text('Pro is on'), findsNothing);
     expect(rig.verifier.calls, isEmpty);
   });
@@ -218,7 +218,7 @@ void main() {
   testWidgets('the words never name the website, a cheaper price or the web checkout', (tester) async {
     final all = [
       ...BillingCopy.proIncludes,
-      BillingCopy.proTerms, BillingCopy.googlePlayNote, BillingCopy.pending, BillingCopy.verifying, BillingCopy.cancelled,
+      BillingCopy.proTerms, BillingCopy.googlePlayNote, BillingCopy.pending, BillingCopy.pendingPro, BillingCopy.failEnded, BillingCopy.subRenewalOffNoDate, BillingCopy.subGraceNoDate, BillingCopy.verifying, BillingCopy.cancelled,
       BillingCopy.failStore, BillingCopy.failCouldNotConfirm, BillingCopy.failOffline, BillingCopy.failNotOpenYet,
       BillingCopy.proOnBody, BillingCopy.creditsAddedBody, BillingCopy.topUpsNote, BillingCopy.storeUnavailable,
       BillingCopy.storeUnreachable, BillingCopy.productUnavailable, BillingCopy.nothingToRestore,

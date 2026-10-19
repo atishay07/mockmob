@@ -322,6 +322,7 @@ class AuthController extends Notifier<AuthSnapshot> {
           'creditBalance': user.creditBalance,
           'isPremium': user.isPremium,
           'premiumUntil': user.premiumUntil?.toIso8601String(),
+          if (user.playSubscription != null) 'playSubscription': user.playSubscription!.toJson(),
         },
         'needsOnboarding': me.needsOnboarding,
       }));
@@ -339,6 +340,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       needsOnboarding: me.needsOnboarding,
       creditBalance: user.creditBalance,
       profileFresh: !fromCache,
+      playSubscription: user.playSubscription,
     );
     // Start the pieces that listen for sign-out, consent and reconnect events, and send
     // anything left over from the last run.

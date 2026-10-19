@@ -281,13 +281,24 @@ void main() {
       expect(c2.read(playBillingProvider).stage, BillingStage.idle);
     });
 
-    test('a quiet check at start-up leaves a purchase that is already acknowledged alone', () async {
+    test('an active subscription is sent on the quiet check at start-up, once per run, so the server re-reads it from Google', () async {
       final rig = BillingRig(store: FakePlayStore()..owned = [purchase(PlayProducts.proId, status: PurchaseStatus.restored, pendingComplete: false)]);
+      rig.verifier.body = {
+        'ok': true,
+        'finished': true,
+        'subscription': {'productId': 'pro_monthly', 'state': 'canceled', 'active': true, 'autoRenewing': false, 'expiresAt': '2026-11-19T10:00:00.000Z'},
+      };
       final c = rig.container();
       c.listen(playBillingProvider, (_, _) {});
       await settle();
       expect(rig.store.restoreHashes, hasLength(1));
-      expect(rig.verifier.calls, isEmpty);
+      expect(rig.verifier.calls.single.productId, 'pro_monthly');
+      expect(st(c).stage, BillingStage.idle, reason: 'quiet: nothing on screen changes');
+      final sub = c.read(playSubscriptionProvider)!;
+      expect(sub.renewalOff, isTrue, reason: 'the server word on the subscription is kept');
+      await ctl(c).checkOnResume(minGap: Duration.zero);
+      await settle();
+      expect(rig.verifier.calls, hasLength(1), reason: 'not sent again in the same run');
     });
 
     test('a pack that is still owned is sent on the quiet check, so the server can consume it and it can be bought again', () async {

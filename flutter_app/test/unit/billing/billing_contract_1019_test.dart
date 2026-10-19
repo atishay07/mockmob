@@ -81,7 +81,7 @@ void main() {
       final pending = ApiPlayVerifier.readVerifyAnswer(202, {'ok': false, 'error': 'The payment is still pending.', 'code': 'purchase_pending', 'pending': true});
       expect(pending.pending, isTrue);
       expect(pending.confirmed, isFalse);
-      final yes = ApiPlayVerifier.readVerifyAnswer(200, {'ok': true, 'idempotent': false, 'productId': 'pro_cuet_2027', 'kind': 'pro', 'finished': true});
+      final yes = ApiPlayVerifier.readVerifyAnswer(200, {'ok': true, 'idempotent': false, 'productId': 'pro_monthly', 'kind': 'pro_sub', 'finished': true});
       expect(yes.confirmed, isTrue);
       expect(yes.pending, isFalse);
       expect(ApiPlayVerifier.readVerifyAnswer(200, const {}).confirmed, isFalse, reason: 'an empty 200 is not the server saying yes');
@@ -94,6 +94,9 @@ void main() {
         _playError(409, 'purchase_voided'): BillingFailure.refunded,
         _playError(409, 'purchase_canceled'): BillingFailure.refunded,
         _playError(409, 'product_expired'): BillingFailure.ended,
+        _playError(409, 'subscription_on_hold'): BillingFailure.subscriptionOnHold,
+        _playError(409, 'subscription_paused'): BillingFailure.subscriptionPaused,
+        _playError(409, 'subscription_ended'): BillingFailure.subscriptionEnded,
         _playError(400, 'bad_token'): BillingFailure.refused,
         _playError(400, 'wrong_package'): BillingFailure.refused,
         _playError(409, 'unsupported_quantity'): BillingFailure.refused,
@@ -105,7 +108,17 @@ void main() {
         const ApiError(kind: ApiErrorKind.network, code: 'network'): BillingFailure.offline,
       };
       table.forEach((error, failure) => expect(PlayBillingController.failureFor(error), failure, reason: '${error.status} ${error.code}'));
-      expect([for (final f in BillingFailure.values) if (f.isFinal) f], [BillingFailure.otherAccount, BillingFailure.refunded, BillingFailure.ended, BillingFailure.refused]);
+      expect([for (final f in BillingFailure.values) if (f.isFinal) f], [
+        BillingFailure.otherAccount,
+        BillingFailure.refunded,
+        BillingFailure.ended,
+        BillingFailure.subscriptionOnHold,
+        BillingFailure.subscriptionPaused,
+        BillingFailure.subscriptionEnded,
+        BillingFailure.refused,
+      ]);
+      expect([for (final f in BillingFailure.values) if (f.fixedInGooglePlay) f], [BillingFailure.subscriptionOnHold, BillingFailure.subscriptionPaused],
+          reason: 'fixed in Google Play: Manage subscription, not Try again');
       for (final f in BillingFailure.values) {
         final line = billingFailureMessage(f);
         expect(line, isNotEmpty);
@@ -326,7 +339,12 @@ void main() {
   group('the products', () {
     test('the app sells exactly the server\'s products, with the website catalogue\'s credits', () {
       // The server's map (src/lib/payments/playProducts.js, from src/services/credits/creditPacks.mjs).
-      expect(PlayProducts.ids, {'pro_cuet_2027', 'credits_10_50', 'credits_29_150', 'credits_49_300'});
+      // Owner D136: Pro on Play is the monthly subscription; the one-time pro_cuet_2027 is not sold.
+      expect(PlayProducts.ids, {'pro_monthly', 'credits_10_50', 'credits_29_150', 'credits_49_300'});
+      expect(PlayProducts.pro.isSubscription, isTrue);
+      expect(PlayProducts.pro.basePlanId, 'monthly');
+      expect(PlayProducts.byId('pro_cuet_2027'), isNull);
+      expect(PlayProducts.manageSubscriptionUrl.toString(), 'https://play.google.com/store/account/subscriptions?sku=pro_monthly&package=in.mockmob.app');
       expect({for (final p in PlayProducts.packs) p.id: p.credits}, {'credits_10_50': 50, 'credits_29_150': 150, 'credits_49_300': 300});
       expect(PlayProducts.pro.consumable, isFalse);
       expect(PlayProducts.packs.every((p) => p.consumable), isTrue);

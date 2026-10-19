@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/models/auth_me.dart' show PlaySubscriptionInfo;
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
 import 'package:mockmob/features/pro_nudge/copy.dart';
@@ -18,12 +19,12 @@ import '../billing/billing_test_support.dart';
 import '../you/you_test_support.dart';
 
 /// Google Play's Pro price in these tests (D82: Rs 150 on Google Play). A fixture: the app never writes it.
-const String playProPrice = '₹150.00';
+const String playProPrice = '₹149.00';
 
 class NudgeRig {
-  NudgeRig({this.on = true, this.pro = false, this.facts = ProFacts.empty, MemoryPrefsStore? prefs, FakePlayStore? store})
+  NudgeRig({this.on = true, this.pro = false, this.facts = ProFacts.empty, MemoryPrefsStore? prefs, FakePlayStore? store, PlaySubscriptionInfo? subscription})
       : prefs = prefs ?? MemoryPrefsStore(),
-        billing = BillingRig(on: on, store: store ?? FakePlayStore(prices: {...fixturePrices(), PlayProducts.proId: playProPrice}));
+        billing = BillingRig(on: on, subscription: subscription, store: store ?? FakePlayStore(prices: {...fixturePrices(), PlayProducts.proId: playProPrice}));
 
   final bool on;
   final bool pro;

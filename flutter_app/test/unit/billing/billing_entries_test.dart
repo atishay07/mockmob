@@ -8,6 +8,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, KeyVariant;
 import 'package:mockmob/features/credits/data/credits_data.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
@@ -63,6 +64,43 @@ void main() {
       await pumpPlan(tester, BillingRig(on: false), const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: 40));
       await _settle(tester);
       expect(find.text('Get Pro'), findsNothing);
+    });
+
+    testWidgets('a Play subscriber sees when Pro renews and Manage subscription; Google Play not opening says where to find it', (tester) async {
+      final rig = BillingRig(subscription: playSub(expiresAt: DateTime(2026, 11, 19, 15)), manageOpens: false);
+      await pumpPlan(tester, rig, const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', isPro: true));
+      await _settle(tester);
+      expect(find.text(BillingCopy.subRenews('19 November')), findsOneWidget);
+      expect(find.text(BillingCopy.manageOpenFailed), findsNothing);
+      await tester.tap(find.text(BillingCopy.manageSubscription));
+      await _settle(tester);
+      expect(rig.manageOpened, 1);
+      expect(find.text(BillingCopy.manageOpenFailed), findsOneWidget);
+    });
+
+    testWidgets('a subscription on hold or paused says so, with Manage subscription in place of Get Pro', (tester) async {
+      final rig = BillingRig(subscription: playSub(state: 'on_hold', active: false, hold: true));
+      await pumpPlan(tester, rig, const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: 40));
+      await _settle(tester);
+      expect(find.text(BillingCopy.subOnHold), findsOneWidget);
+      expect(find.text('Get Pro'), findsNothing, reason: 'never a second subscription');
+      await tester.tap(find.text(BillingCopy.manageSubscription));
+      await _settle(tester);
+      expect(rig.manageOpened, 1);
+
+      await pumpPlan(tester, BillingRig(subscription: playSub(state: 'paused', active: false)), const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: 40));
+      await _settle(tester);
+      expect(find.text(BillingCopy.subPaused), findsOneWidget);
+      expect(find.text(BillingCopy.manageSubscription), findsOneWidget);
+      expect(find.text('Get Pro'), findsNothing);
+    });
+
+    testWidgets('a payment Google Play is retrying: the line is a warning and Manage subscription is a real key', (tester) async {
+      final rig = BillingRig(subscription: playSub(state: 'in_grace_period', grace: true, expiresAt: DateTime(2026, 11, 19, 15)));
+      await pumpPlan(tester, rig, const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', isPro: true));
+      await _settle(tester);
+      expect(find.text(BillingCopy.subGrace('19 November')), findsOneWidget);
+      expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, BillingCopy.manageSubscription)).variant, KeyVariant.secondary);
     });
   });
 

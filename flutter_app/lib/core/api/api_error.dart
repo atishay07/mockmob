@@ -96,7 +96,14 @@ abstract final class ApiCodes {
     'grant_unavailable',
     'play_not_configured',
     'user_not_found',
+    // The monthly subscription (19 Oct 2026): Google holds it, but it gives no Pro now.
+    'subscription_on_hold',
+    'subscription_paused',
+    'subscription_ended',
   };
+
+  /// The Play verify refusals that carry the subscription's state (`subscription` in the body).
+  static const playSubscriptionStates = {'subscription_on_hold', 'subscription_paused', 'subscription_ended'};
 }
 
 /// A failed API call. Carries a machine [code], never the server's own text: servers return
@@ -122,6 +129,7 @@ class ApiError implements Exception {
   final Duration? retryAfter;
 
   /// Whitelisted structured fields only: `balance`, `review`, `reasonCode`, `state`, `charged`,
+  /// `subscription` for the Play subscription refusals in [ApiCodes.playSubscriptionStates],
   /// `message` for the Mistake Repair failure codes in [studentMessageCodes] and the Mob codes in
   /// [mobMessageCodes] (see [serverMessage]), and the Mob's BANK_THIN `detail`.
   final Map<String, Object?> details;
@@ -346,6 +354,10 @@ class ApiError implements Exception {
     if (balance is num) details['balance'] = balance;
     final charged = map['charged'];
     if (charged is num) details['charged'] = charged;
+    // A Play subscription that gives no Pro now (on hold, paused, ended): the server sends where it
+    // stands, so the app can say so without waiting for the profile.
+    final subscription = map['subscription'];
+    if (subscription is Map && ApiCodes.playSubscriptionStates.contains(code)) details['subscription'] = Map<String, Object?>.from(subscription);
     final message = map['message'];
     if (message is String && message.trim().isNotEmpty && message.length <= 400 && _studentMessageCodesLower.contains(code?.toLowerCase())) {
       details['message'] = message.trim();

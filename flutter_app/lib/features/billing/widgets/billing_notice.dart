@@ -7,6 +7,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../billing_copy.dart';
 import '../data/billing_controller.dart';
+import '../data/play_products.dart';
 
 /// Where the purchase stands, in words, for the surface that started it. Honest about each stage:
 /// Google Play opening, a payment still pending, the server checking it, a cancel, a failure with
@@ -15,14 +16,29 @@ import '../data/billing_controller.dart';
 ///
 /// [ids] are the products this surface sells; a stage about another product is not shown here.
 /// A restore (no product) shows on every surface that asks for it with [showRestore].
-class BillingNotice extends ConsumerWidget {
+class BillingNotice extends ConsumerStatefulWidget {
   const BillingNotice({super.key, required this.ids, this.showRestore = false});
 
   final Set<String> ids;
   final bool showRestore;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BillingNotice> createState() => _BillingNoticeState();
+}
+
+class _BillingNoticeState extends ConsumerState<BillingNotice> {
+  /// Manage subscription on the failure banner did not open Google Play: one line says where it is.
+  bool _manageFailed = false;
+
+  Future<void> _manage() async {
+    final opened = await ref.read(playBillingProvider.notifier).manageSubscription();
+    if (mounted) setState(() => _manageFailed = !opened);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final ids = widget.ids;
+    final showRestore = widget.showRestore;
     final s = ref.watch(playBillingProvider);
     final mine = s.productId != null ? ids.contains(s.productId) : showRestore;
     final stage = mine ? s.stage : BillingStage.idle;
@@ -41,7 +57,7 @@ class BillingNotice extends ConsumerWidget {
       case BillingStage.restoring:
         child = _Working(text: BillingCopy.restoring);
       case BillingStage.pending:
-        child = Text(BillingCopy.pending, style: type.small.copyWith(color: colors.ink2));
+        child = Text(s.productId == PlayProducts.proId ? BillingCopy.pendingPro : BillingCopy.pending, style: type.small.copyWith(color: colors.ink2));
       case BillingStage.cancelled:
         child = Text(BillingCopy.cancelled, style: type.small.copyWith(color: colors.ink2));
       case BillingStage.restoredNothing:
@@ -51,12 +67,26 @@ class BillingNotice extends ConsumerWidget {
         // no Try again: sending it again cannot change it.
         // Google Play not ready: the sheet's own Try again (beside the line that says how) is the way out.
         final finalAnswer = (s.failure?.isFinal ?? false) || s.failure == BillingFailure.notReady;
-        child = InlineBanner(
+        // A subscription on hold or paused is fixed in Google Play: the way out is its own page.
+        final inPlay = s.failure?.fixedInGooglePlay ?? false;
+        final banner = InlineBanner(
           message: billingFailureMessage(s.failure),
           tone: BannerTone.error,
-          actionLabel: finalAnswer ? null : BillingCopy.tryAgain,
-          onAction: finalAnswer ? null : () => ref.read(playBillingProvider.notifier).retry(),
+          actionLabel: inPlay ? BillingCopy.manageSubscription : (finalAnswer ? null : BillingCopy.tryAgain),
+          onAction: inPlay ? _manage : (finalAnswer ? null : () => ref.read(playBillingProvider.notifier).retry()),
+          actionChevron: false,
         );
+        child = inPlay && _manageFailed
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  banner,
+                  const SizedBox(height: MmSpace.s8),
+                  Semantics(liveRegion: true, child: Text(BillingCopy.manageOpenFailed, style: type.small.copyWith(color: colors.ink2))),
+                ],
+              )
+            : banner;
     }
 
     return MmOverlapSwitcher.fade(
@@ -83,6 +113,9 @@ String billingFailureMessage(BillingFailure? failure) => switch (failure) {
       BillingFailure.refunded => BillingCopy.failRefunded,
       BillingFailure.ended => BillingCopy.failEnded,
       BillingFailure.refused => BillingCopy.failRefused,
+      BillingFailure.subscriptionOnHold => BillingCopy.subOnHold,
+      BillingFailure.subscriptionPaused => BillingCopy.subPaused,
+      BillingFailure.subscriptionEnded => BillingCopy.subEnded,
       BillingFailure.store || null => BillingCopy.failStore,
     };
 
@@ -107,11 +140,18 @@ class _Working extends StatelessWidget {
 /// A calm confirmation: a check, what happened in one line and one line of what that means. Only
 /// built after the server confirmed.
 class BillingConfirmed extends StatelessWidget {
-  const BillingConfirmed({super.key, required this.title, required this.body, required this.onDone});
+  const BillingConfirmed({super.key, required this.title, required this.body, required this.onDone, this.secondaryLabel, this.onSecondary, this.note});
 
   final String title;
   final String body;
   final VoidCallback onDone;
+
+  /// A quiet second key under Done (Manage subscription for a Play subscriber).
+  final String? secondaryLabel;
+  final VoidCallback? onSecondary;
+
+  /// One line under the keys (what to do when Google Play did not open).
+  final String? note;
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +177,14 @@ class BillingConfirmed extends StatelessWidget {
         ),
         const SizedBox(height: MmSpace.s24),
         KeyButton(label: BillingCopy.done, onPressed: onDone),
+        if (secondaryLabel != null && onSecondary != null) ...[
+          const SizedBox(height: MmSpace.s4),
+          Center(child: KeyButton.quiet(label: secondaryLabel!, onPressed: onSecondary)),
+        ],
+        if (note != null) ...[
+          const SizedBox(height: MmSpace.s8),
+          Semantics(liveRegion: true, child: Text(note!, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2))),
+        ],
       ],
     );
   }

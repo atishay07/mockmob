@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 import 'package:flutter/widgets.dart' show AppLifecycleListener;
+import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart';
 
@@ -10,6 +11,7 @@ import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/config/app_config.dart';
+import '../../../core/models/auth_me.dart' show PlaySubscriptionInfo;
 import '../../../core/repositories/credits_repository.dart';
 import '../../credits/data/credits_data.dart';
 import '../../practice/data/practice_quote.dart';
@@ -53,6 +55,46 @@ final playBillingRefreshProvider = Provider<Future<void> Function()>((ref) {
     await quiet(() => ref.read(walletRepositoryProvider.notifier).refresh(force: true));
     await quiet(() async => ref.invalidate(practiceQuoteProvider));
   };
+});
+
+/// Opens Google Play's own page for the Pro subscription (change the payment method, turn renewal
+/// off, cancel). False when nothing could open it. Replaceable in tests.
+final playManageSubscriptionProvider = Provider<Future<bool> Function()>((ref) {
+  return () async {
+    try {
+      return await launchUrl(PlayProducts.manageSubscriptionUrl, mode: LaunchMode.externalApplication);
+    } on Object {
+      return false;
+    }
+  };
+});
+
+/// Reads the profile (`/api/auth/me`) again after the app came back to the front for a Play
+/// subscriber, who may have turned renewal off, fixed a payment or been refunded in Google Play.
+/// When the plan or the subscription changed, every other reader of the plan is read again too
+/// ([playBillingRefreshProvider]); otherwise nothing else is reloaded. Replaceable in tests.
+final playProfileRereadProvider = Provider<Future<void> Function()>((ref) {
+  return () async {
+    final before = ref.read(authSnapshotProvider);
+    try {
+      await ref.read(authSnapshotProvider.notifier).reload();
+    } on Object {
+      return; // The next resume or launch tries again.
+    }
+    final after = ref.read(authSnapshotProvider);
+    if (after.playSubscription != before.playSubscription || after.isPro != before.isPro) {
+      await ref.read(playBillingRefreshProvider)();
+    }
+  };
+});
+
+/// The student's Google Play subscription: the server's answer to this run's verify while it is the
+/// newest word, otherwise what `/api/auth/me` last said. A profile that arrives with a different
+/// subscription replaces the verify answer (the controller drops it), so the freshest answer wins.
+/// Null when there is none.
+final playSubscriptionProvider = Provider<PlaySubscriptionInfo?>((ref) {
+  final fromVerify = ref.watch(playBillingProvider.select((s) => s.subscription));
+  return fromVerify ?? ref.watch(authSnapshotProvider.select((s) => s.playSubscription));
 });
 
 /// The obfuscated account id sent to Google Play with every purchase: the SHA-256 of the MockMob
@@ -114,15 +156,35 @@ enum BillingFailure {
   /// Google Play cancelled or refunded it (`purchase_canceled`, `purchase_voided`).
   refunded,
 
-  /// The pass can no longer be bought (`product_expired`).
+  /// The product can no longer be bought (`product_expired`).
   ended,
+
+  /// The subscription is on account hold: Google Play could not take the payment
+  /// (`subscription_on_hold`). Fixed in Google Play (Manage subscription), not by trying again.
+  subscriptionOnHold,
+
+  /// The subscription is paused in Google Play (`subscription_paused`). Resumed there.
+  subscriptionPaused,
+
+  /// The subscription has ended (`subscription_ended`). A new subscription is the way back.
+  subscriptionEnded,
 
   /// The server refused the purchase for good (a token, product, package or quantity it does not
   /// accept). Nothing was added; Google refunds a purchase nobody confirms within three days.
   refused;
 
   /// The server's answer is final for this account: sending it again cannot change it.
-  bool get isFinal => this == otherAccount || this == refunded || this == ended || this == refused;
+  bool get isFinal =>
+      this == otherAccount ||
+      this == refunded ||
+      this == ended ||
+      this == refused ||
+      this == subscriptionOnHold ||
+      this == subscriptionPaused ||
+      this == subscriptionEnded;
+
+  /// Fixed in Google Play's own subscription page: the way out is Manage subscription.
+  bool get fixedInGooglePlay => this == subscriptionOnHold || this == subscriptionPaused;
 }
 
 class PlayBillingState {
@@ -135,6 +197,7 @@ class PlayBillingState {
     this.productId,
     this.failure,
     this.unconfirmed = 0,
+    this.subscription,
   });
 
   final StoreAvailability store;
@@ -155,6 +218,9 @@ class PlayBillingState {
   /// the next try and the next launch.
   final int unconfirmed;
 
+  /// The Pro subscription as the server last confirmed it in this run (from verify), or null.
+  final PlaySubscriptionInfo? subscription;
+
   /// Google Play's localized price string for [id], or null when Google did not return it.
   String? priceOf(String id) => products[id]?.price;
 
@@ -170,6 +236,7 @@ class PlayBillingState {
     Object? productId = _keep,
     Object? failure = _keep,
     int? unconfirmed,
+    Object? subscription = _keep,
   }) =>
       PlayBillingState(
         store: store ?? this.store,
@@ -180,12 +247,14 @@ class PlayBillingState {
         productId: identical(productId, _keep) ? this.productId : productId as String?,
         failure: identical(failure, _keep) ? this.failure : failure as BillingFailure?,
         unconfirmed: unconfirmed ?? this.unconfirmed,
+        subscription: identical(subscription, _keep) ? this.subscription : subscription as PlaySubscriptionInfo?,
       );
 
   static const Object _keep = Object();
 }
 
-/// Sells Pro and AI credit packs through Google Play Billing, and never grants anything itself.
+/// Sells Pro (the monthly subscription `pro_monthly`) and credit packs through Google Play Billing,
+/// and never grants anything itself.
 ///
 /// * A purchase Google Play reports as paid is sent to the server (`POST /api/billing/play/verify`).
 ///   Only the server's yes finishes it with Google Play (acknowledge, or consume for a pack) and
@@ -204,6 +273,14 @@ class PlayBillingController extends Notifier<PlayBillingState> {
   /// Purchase tokens the server confirmed, or refused for good, in this run of the app: a quiet
   /// check does not send them again (a student's Restore still does).
   final Set<String> _settled = {};
+
+  /// The subscription tokens among [_settled]: sent again after the student was in Google Play's
+  /// subscription page, where a cancel, a fixed payment or a resume changes them.
+  final Set<String> _settledSubscriptions = {};
+
+  /// The student opened Google Play's subscription page ([manageSubscription]); the next resume
+  /// reads the subscription again.
+  bool _manageOpened = false;
 
   /// Products Google Play reported as pending during the check that is running, or null when no
   /// check is running.
@@ -243,14 +320,22 @@ class PlayBillingController extends Notifier<PlayBillingState> {
     }
 
     ref.listen<String?>(playBillingUserIdProvider, (previous, next) {
-      if (next == null || (previous != null && previous != next)) _settled.clear();
+      if (next == null || (previous != null && previous != next)) {
+        _settled.clear();
+        _settledSubscriptions.clear();
+      }
       if (next == null) {
         _held.clear();
         _flow = false;
-        _set(stage: BillingStage.idle, productId: null, failure: null, unconfirmed: 0);
+        _set(stage: BillingStage.idle, productId: null, failure: null, unconfirmed: 0, subscription: null);
       } else if (previous != next) {
         unawaited(_syncOwned());
       }
+    });
+    // A profile read after this run's verify answer is the fresher word on the subscription (a cancel
+    // or a refund Google told the server about): it replaces the verify answer.
+    ref.listen<PlaySubscriptionInfo?>(authSnapshotProvider.select((s) => s.playSubscription), (previous, next) {
+      if (previous != next && state.subscription != null) _set(subscription: null);
     });
     // On every launch with a signed-in student: ask Google Play what this account owns, which sends
     // again anything the server could not confirm last time. Quiet.
@@ -270,14 +355,42 @@ class PlayBillingController extends Notifier<PlayBillingState> {
   /// The app came back to the front: a quiet check of what Google Play holds, at most once every
   /// [minGap]. Skipped while the student is in Google Play's own sheet (its result arrives on the
   /// purchase stream), except when the purchase is pending, which this check is for.
+  ///
+  /// A Play subscriber's profile is read again too, because the subscription can change in Google
+  /// Play while the app is away (renewal off, a refund). Back from Google Play's subscription page
+  /// ([manageSubscription]) the check always runs, and the subscription is sent to the server again,
+  /// which re-reads it from Google.
   Future<void> checkOnResume({Duration minGap = const Duration(seconds: 30)}) async {
     if (_store == null || ref.read(playBillingUserIdProvider) == null) return;
     if (_flow && state.stage != BillingStage.pending) return;
+    final fromManage = _manageOpened;
     final now = DateTime.now();
     final last = _lastResumeCheck;
-    if (last != null && now.difference(last) < minGap) return;
+    if (!fromManage && last != null && now.difference(last) < minGap) return;
     _lastResumeCheck = now;
+    _manageOpened = false;
+    if (fromManage) {
+      _settled.removeAll(_settledSubscriptions);
+      _settledSubscriptions.clear();
+    }
     await _syncOwned();
+    final known = state.subscription ?? ref.read(authSnapshotProvider).playSubscription;
+    if (_alive && (fromManage || known != null)) {
+      try {
+        await ref.read(playProfileRereadProvider)();
+      } on Object {
+        // Quiet: the next resume or launch reads it again.
+      }
+    }
+  }
+
+  /// Opens Google Play's own page for the Pro subscription ([playManageSubscriptionProvider]) and,
+  /// when it opened, reads the subscription again as soon as the app is back. False when nothing
+  /// could open it.
+  Future<bool> manageSubscription() async {
+    final opened = await ref.read(playManageSubscriptionProvider)();
+    if (opened) _manageOpened = true;
+    return opened;
   }
 
   void _set({
@@ -289,6 +402,7 @@ class PlayBillingController extends Notifier<PlayBillingState> {
     Object? productId = PlayBillingState._keep,
     Object? failure = PlayBillingState._keep,
     int? unconfirmed,
+    Object? subscription = PlayBillingState._keep,
   }) {
     if (!_alive) return;
     state = state.copyWith(
@@ -300,6 +414,7 @@ class PlayBillingController extends Notifier<PlayBillingState> {
       productId: productId,
       failure: failure,
       unconfirmed: unconfirmed,
+      subscription: subscription,
     );
   }
 
@@ -319,7 +434,8 @@ class PlayBillingController extends Notifier<PlayBillingState> {
       }
       reached = true;
       final response = await store.queryProducts(PlayProducts.ids);
-      final found = {for (final d in response.productDetails) d.id: d};
+      // A subscription comes back once per offer: only its base plan is sold (play_store.dart).
+      final found = sellableDetails(response.productDetails);
       _set(
         store: StoreAvailability.available,
         products: found,
@@ -505,7 +621,9 @@ class PlayBillingController extends Notifier<PlayBillingState> {
     // which stays owned until the server has consumed it. One the server already answered for good
     // in this run is not sent again unless the student asked (Restore).
     if (_settled.contains(token) && !includeCompleted) return;
-    final needsDelivery = p.pendingCompletePurchase || product.consumable || includeCompleted || _held.containsKey(token);
+    // An active subscription is sent on every check (once per run): the server re-reads it from
+    // Google, so a renewal, a cancel or a payment problem shows here without waiting for anything.
+    final needsDelivery = p.pendingCompletePurchase || product.consumable || product.isSubscription || includeCompleted || _held.containsKey(token);
     if (!needsDelivery) return;
     if (!_inFlight.add(token)) return;
 
@@ -536,17 +654,37 @@ class PlayBillingController extends Notifier<PlayBillingState> {
       // the app never does. If that step failed on the server (`finished: false`) the purchase is
       // still unfinished with Google Play, so the next check sends it again and the server finishes it.
       _held.remove(token);
-      if (result.body['finished'] != false) _settled.add(token);
+      if (result.body['finished'] != false) _settle(token, product);
       _set(unconfirmed: _held.length);
+      // The plan is read again when something changed: a purchase the student made, a first grant,
+      // a pack, or a subscription that is not what the profile already says. A quiet check that
+      // only confirmed the same subscription again reloads nothing.
+      var changed = interactive || !product.isSubscription || result.body['idempotent'] != true;
+      if (product.isSubscription) {
+        final info = PlaySubscriptionInfo.fromJson(result.body['subscription']);
+        if (info == null) {
+          changed = true;
+        } else {
+          _set(subscription: info);
+          if (info != ref.read(authSnapshotProvider).playSubscription) changed = true;
+        }
+      }
       if (interactive) _end(BillingStage.confirmed, product.id);
-      unawaited(ref.read(playBillingRefreshProvider)().catchError((Object _) {}));
+      if (changed) unawaited(ref.read(playBillingRefreshProvider)().catchError((Object _) {}));
     } on ApiError catch (e) {
       final failure = _failureFor(e);
       if (failure.isFinal) {
         // A final no: holding it would only send it again at every launch.
         _held.remove(token);
-        _settled.add(token);
+        _settle(token, product);
         _set(unconfirmed: _held.length);
+        if (failure == BillingFailure.subscriptionOnHold || failure == BillingFailure.subscriptionPaused || failure == BillingFailure.subscriptionEnded) {
+          // Google holds the subscription but it gives no Pro now. The server's answer says where it
+          // stands, so it replaces anything this run said before (an earlier "active"). Then the plan
+          // is read again so every screen says so (the server already switched Pro off).
+          _set(subscription: PlaySubscriptionInfo.fromJson(e.details['subscription']));
+          unawaited(ref.read(playBillingRefreshProvider)().catchError((Object _) {}));
+        }
       } else {
         _hold(p);
       }
@@ -557,6 +695,11 @@ class PlayBillingController extends Notifier<PlayBillingState> {
     } finally {
       _inFlight.remove(token);
     }
+  }
+
+  void _settle(String token, PlayProduct product) {
+    _settled.add(token);
+    if (product.isSubscription) _settledSubscriptions.add(token);
   }
 
   void _hold(PurchaseDetails p) {
@@ -578,6 +721,9 @@ class PlayBillingController extends Notifier<PlayBillingState> {
     if (e.hasCode('account_mismatch') || e.hasCode('purchase_already_used')) return BillingFailure.otherAccount;
     if (e.hasCode('purchase_voided') || e.hasCode('purchase_canceled')) return BillingFailure.refunded;
     if (e.hasCode('product_expired')) return BillingFailure.ended;
+    if (e.hasCode('subscription_on_hold')) return BillingFailure.subscriptionOnHold;
+    if (e.hasCode('subscription_paused')) return BillingFailure.subscriptionPaused;
+    if (e.hasCode('subscription_ended')) return BillingFailure.subscriptionEnded;
     const refusedCodes = {'unknown_product', 'bad_token', 'wrong_package', 'order_mismatch', 'product_mismatch', 'unsupported_quantity', 'purchase_invalid'};
     if (refusedCodes.any(e.hasCode)) return BillingFailure.refused;
     // A 404 with a Play code is about the purchase (Google has not seen it yet): try again. A bare

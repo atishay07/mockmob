@@ -183,6 +183,15 @@ void main() {
       expect(ProNudgeCopy.plainBenefits[2], contains('50 questions in 60 minutes'));
     });
 
+    test('Pro is a monthly subscription, so no line says "one price" as if it were one payment', () {
+      for (final r in ProReason.values) {
+        final lede = ProNudgeCopy.head(r).lede;
+        expect(lede, isNot(matches(RegExp(r'\bone price\b'))), reason: '$r: $lede');
+      }
+      expect(ProNudgeCopy.head(ProReason.firstSession).lede, contains('one monthly price'));
+      expect(ProNudgeCopy.head(ProReason.general).lede, contains('one monthly price'));
+    });
+
     test('every surface and every reason has its own words', () {
       for (final s in ProNudgeSurface.values) {
         expect(ProNudgeCopy.lineFor(s).trim(), isNotEmpty);

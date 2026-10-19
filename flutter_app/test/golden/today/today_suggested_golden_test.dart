@@ -89,6 +89,8 @@ void main() {
       await _tap(t, SuggestedStack.upNextKey);
     });
     todayGolden('today_suggested_fr5_360_text130', activeView, size: _small, textScale: 1.3, prices: fixturePrices, act: (t) async {
+      // The deck sits under the fold at 1.3x on a small phone: the list builds it once it is scrolled near.
+      await t.scrollUntilVisible(find.byKey(SuggestedStack.upNextKey), 200, scrollable: find.byType(Scrollable).first);
       await t.ensureVisible(find.byKey(SuggestedStack.upNextKey));
       await t.pump();
       await _tap(t, SuggestedStack.upNextKey);
