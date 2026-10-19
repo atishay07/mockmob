@@ -244,7 +244,7 @@ html[data-theme='light'] .mp-pod__stage::after { background: linear-gradient(180
 .mp-plinths { display: flex; align-items: flex-end; justify-content: center; gap: 6px; margin: 0; padding: 0; list-style: none; perspective: 700px; }
 .mp-plinth { display: grid; justify-items: center; width: clamp(88px, 27%, 150px); }
 .mp-plinth__fold { position: relative; z-index: 2; margin-bottom: -6px; opacity: 0; transform-origin: 50% 100%; }
-.mp-plinth.is-in .mp-plinth__fold { animation: mp-drop 220ms var(--mp-leave) 420ms forwards, mp-squash 400ms var(--mp-celebrate) 640ms both; }
+.mp-plinth.is-in .mp-plinth__fold { animation: mp-drop 220ms var(--mp-leave) 420ms forwards, mp-squash 400ms var(--mp-celebrate) 640ms forwards; }
 @keyframes mp-drop { from { opacity: 1; transform: translateY(calc(-1 * var(--drop, 60px))); } to { opacity: 1; transform: none; } }
 .mp-plinth__fold { --drop: var(--pod-drop, 60px); }
 .mp-plinth.is-first .mp-plinth__fold { --drop: var(--pod-first-drop, 36px); }

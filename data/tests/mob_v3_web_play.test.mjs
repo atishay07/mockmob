@@ -151,6 +151,9 @@ test('the first place stands under the lamp and never reaches its edge (owner le
   assert.match(css, /mp-drop \{ from \{[^}]*var\(--drop, 60px\)/);
   const jsx = readFileSync(path.join(PLAY_DIR, 'Podium.jsx'), 'utf8');
   assert.match(jsx, /style=\{LAMP_VARS\}/);
+  // The squash waits for the drop (fill forwards, not both): with both, its first frame held every Fold squashed in place
+  // through the drop, so the drop never showed.
+  assert.match(css, /mp-drop 220ms var\(--mp-leave\) 420ms forwards, mp-squash 400ms var\(--mp-celebrate\) 640ms forwards;/);
 });
 
 test('moments are the fixed positive kinds from the server', () => {
