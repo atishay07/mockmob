@@ -4,6 +4,7 @@
 // ever invents a figure the server did not send. Which plan may open what is decided on the server and
 // arrives in the view (`plan`, `compare.access`); the app only draws it and never grants anything.
 
+import '../../../core/models/attempt.dart' show MobHold;
 import '../../../core/models/json_helpers.dart';
 import '../v3/data/mob_v3_models.dart' show MobV3;
 
@@ -685,6 +686,7 @@ class MobCompare {
     this.questions = const [],
     this.mobId = '',
     this.yourResultId,
+    this.held,
   });
 
   factory MobCompare.fromJson(Json j) {
@@ -703,6 +705,7 @@ class MobCompare {
       questions: [for (final q in asJsonList(c['questions'])) MobCompareQuestion.fromJson(q)],
       mobId: asStringOr(c['mobId'], ''),
       yourResultId: asString(c['yourResultId']),
+      held: MobHold.fromJson(c['held']),
     );
   }
 
@@ -721,6 +724,10 @@ class MobCompare {
   final List<MobCompareQuestion> questions;
   final String mobId;
   final String? yourResultId;
+
+  /// Set while the paper is still open for the Mob (C-dec 2 item 1): the server sends picks and splits, but no key, no
+  /// right or wrong and no trap until [MobHold.until].
+  final MobHold? held;
 
   bool get isExtra => kind == 'extra';
 }

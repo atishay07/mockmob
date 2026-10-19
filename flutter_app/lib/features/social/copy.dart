@@ -162,6 +162,9 @@ abstract final class MobCopy {
   static String compareEmpty(MobCompareSummary c) => c.youShare ? sharedWaiting : shareToCompare;
 
   static String sideBySideTitle(MobCompare c) => c.isExtra ? '${c.chapter ?? 'Whole subject'}, ${countLabel(c.questions.length, 'question')}' : weekLabel(c.week);
+  /// The side-by-side while the paper is still open for the Mob (C-dec 2 item 1).
+  static String heldCompare(String short) =>
+      '${short.isNotEmpty ? '$short ' : 'The answers open when the paper closes. '}Until then you see what everyone picked and where you split, but not who was right.';
   static String sideBySideSat(MobCompare c) => '${c.sat} of ${c.size} sat.${c.hidden > 0 ? ' ${countLabel(c.hidden, 'member keeps', 'members keep')} their answers private.' : ''}';
   static const String backToMob = 'Back to your Mob';
   static const String sideBySideFoot = 'Seconds come from your device\'s own record of the paper. A question shows no time when the record did not keep one.';

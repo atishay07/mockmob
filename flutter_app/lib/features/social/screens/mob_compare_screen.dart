@@ -90,6 +90,10 @@ class _MobCompareScreenState extends ConsumerState<MobCompareScreen> {
                 const SizedBox(height: MmSpace.s8),
                 Text(d.teaser!.text, style: type.body.copyWith(color: colors.ink)),
               ],
+              if (d.held case final held?) ...[
+                const SizedBox(height: MmSpace.s8),
+                MobNote(MobCopy.heldCompare(held.short)),
+              ],
               if (d.access == MobCompareAccess.sample) ...[
                 const SizedBox(height: MmSpace.s8),
                 // Pro is named only where it can be had, with the key to the Upgrade sheet on it (D80).
