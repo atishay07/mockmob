@@ -5,6 +5,9 @@
 //
 // Screens read their words from here, never inline, so a copy pass touches one file.
 
+import '../../../core/api/api.dart';
+import '../copy.dart';
+import '../data/mob_repository.dart' show MobFailure, mobFailureFor;
 import 'data/mob_v3_models.dart';
 
 // ---------------------------------------------------------------------------------------------------
@@ -315,7 +318,7 @@ abstract final class MobV3Copy {
   static const String momentsTitle = "Everyone's moment";
   static String moment(PlayerMoment m, int count) => switch (m.kind) {
         MomentKind.allRight => 'All ${m.count ?? count} right.',
-        MomentKind.fastestRight => 'Fastest right answer: question ${m.q ?? 1} in ${m.seconds ?? 0} seconds.',
+        MomentKind.fastestRight => 'Fastest right answer: question ${m.number ?? 1} in ${m.seconds ?? 0} seconds.',
         MomentKind.quickestFinish => 'Quickest finish: all ${m.count ?? count} in ${MobTime.stopwatch(Duration(seconds: m.seconds ?? 0))}.',
         MomentKind.threeInARow => 'Three right in a row: questions ${m.from ?? 1} to ${m.to ?? 3}.',
         MomentKind.noMinus => 'No minus marks.',
@@ -561,10 +564,10 @@ abstract final class MobV3Copy {
     'PAUSE_LIMIT': 'You have used the 14 pause days this season allows.',
     'LENGTH_INVALID': 'Choose 5, 10, 15 or 20 questions.',
     'CHAPTER_INVALID': 'Choose a chapter of this subject.',
-    'BANK_THIN': 'There are not enough questions ready for that game.',
-    'INVITE_INVALID': 'That code does not look right. Check it with your friend.',
-    'INVITE_EXPIRED': 'That code has expired. Ask your friend for a new one.',
-    'MOB_FULL': 'This Mob is full: it has 5 members, the most a Mob can have.',
+    'BANK_THIN': 'There are not enough questions ready for that paper.',
+    'INVITE_INVALID': "This invite can't be used. Ask your friend for a new link.",
+    'INVITE_EXPIRED': "This invite can't be used. Ask your friend for a new link.",
+    'MOB_FULL': 'This Mob is full: it has 5 members, the most a Mob can have. Ask your friend to tell you if a seat opens, or start a Mob of your own.',
   };
 
   static const String offline = "You're offline. Nothing changed.";
@@ -576,6 +579,11 @@ abstract final class MobV3Copy {
     if (code != null) {
       final s = errors[code.toUpperCase()];
       if (s != null) return s;
+    }
+    // Today's Mob codes (join, create, names, rate limits) keep today's sentences.
+    if (e is ApiError) {
+      final f = mobFailureFor(e);
+      if (f != MobFailure.generic) return MobCopy.failure(f);
     }
     if (_offline(e)) return offline;
     return generic;

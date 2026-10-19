@@ -1,0 +1,117 @@
+{
+  "run": {
+    "startedAt": "2026-10-22T08:40:15.000Z",
+    "endsAt": "2026-10-22T08:46:15.000Z",
+    "serverNow": "2026-10-22T08:41:54.000Z",
+    "live": false,
+    "answers": [
+      {
+        "q": 0,
+        "pick": 1,
+        "correct": true,
+        "elapsedMs": 41000
+      },
+      {
+        "q": 1,
+        "pick": 3,
+        "correct": false,
+        "elapsedMs": 79000
+      },
+      {
+        "q": 2,
+        "pick": -1,
+        "correct": null,
+        "elapsedMs": 99000
+      }
+    ]
+  },
+  "questions": [
+    {
+      "q": 0,
+      "stem": "Goodwill question 14",
+      "options": [
+        "Option A of question 14",
+        "Option B of question 14",
+        "Option C of question 14",
+        "Option D of question 14"
+      ],
+      "passage": null
+    },
+    {
+      "q": 1,
+      "stem": "Goodwill question 15",
+      "options": [
+        "Option A of question 15",
+        "Option B of question 15",
+        "Option C of question 15",
+        "Option D of question 15"
+      ],
+      "passage": null
+    },
+    {
+      "q": 2,
+      "stem": "Goodwill question 16",
+      "options": [
+        "Option A of question 16",
+        "Option B of question 16",
+        "Option C of question 16",
+        "Option D of question 16"
+      ],
+      "passage": null
+    },
+    {
+      "q": 3,
+      "stem": "Goodwill question 17",
+      "options": [
+        "Option A of question 17",
+        "Option B of question 17",
+        "Option C of question 17",
+        "Option D of question 17"
+      ],
+      "passage": null
+    },
+    {
+      "q": 4,
+      "stem": "Goodwill question 18",
+      "options": [
+        "Option A of question 18",
+        "Option B of question 18",
+        "Option C of question 18",
+        "Option D of question 18"
+      ],
+      "passage": null
+    }
+  ],
+  "ghosts": [
+    {
+      "memberId": "member-2",
+      "name": "Riya",
+      "colour": 3,
+      "fold": "kandil",
+      "playedAt": "2026-10-22T08:37:30.000Z",
+      "arrivalsMs": [
+        30000,
+        60000,
+        90000,
+        120000,
+        150000
+      ],
+      "finishedMs": 150000
+    },
+    {
+      "memberId": "member-1",
+      "name": "Kabir",
+      "colour": 1,
+      "fold": "hexa",
+      "playedAt": "2026-10-22T08:40:15.000Z",
+      "arrivalsMs": [
+        33000,
+        66000,
+        99000,
+        132000,
+        165000
+      ],
+      "finishedMs": 165000
+    }
+  ]
+}
