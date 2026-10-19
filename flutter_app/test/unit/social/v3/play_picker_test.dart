@@ -82,6 +82,16 @@ void main() {
     expect(keyLabel('Start the sprint'), findsOneWidget);
   });
 
+  testWidgets('a Free start left and a mic held: both lines show', (t) async {
+    await _open(t, billing: 'free', nudges: true, edit: (d) {
+      final starts = v3Of(d)['starts'] as Map<String, dynamic>;
+      starts['mics'] = 1;
+      starts['micFrom'] = 'Riya';
+    });
+    expect(find.text('You have 1 start in Chai Circle this week.'), findsOneWidget);
+    expect(find.text('Riya passed you the mic. You can start one game, live or anytime.'), findsOneWidget);
+  });
+
   testWidgets('Pro: no sentence about starts, tiles open', (t) async {
     await _open(t, billing: 'pro', nudges: true);
     expect(find.textContaining('You have'), findsNothing);

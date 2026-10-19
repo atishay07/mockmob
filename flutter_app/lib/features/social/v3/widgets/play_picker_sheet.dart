@@ -119,13 +119,13 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
     final used = billing && !starts.can;
     final pro = billing && starts.via == StartVia.pro;
     final mic = billing && starts.can && starts.via == StartVia.mic;
-    final sentence = !billing
-        ? MobV3Copy.anyoneCanStart
-        : used
-            ? null
-            : mic
-                ? MobV3Copy.micPassed(starts.micFrom ?? MobV3Copy.aFriend)
-                : (pro ? null : MobV3Copy.startsLeft(mobName, starts.freeLeft ?? 1));
+    // A Free member with a start left and a mic held sees both lines (the start is used first).
+    final micAlso = billing && starts.can && starts.via == StartVia.freeWeekly && starts.mics > 0;
+    final sentences = <String>[
+      if (!billing) MobV3Copy.anyoneCanStart,
+      if (billing && !used && !mic && !pro) MobV3Copy.startsLeft(mobName, starts.freeLeft ?? 1),
+      if (mic || micAlso) MobV3Copy.micPassed(starts.micFrom ?? MobV3Copy.aFriend),
+    ];
     final showLive = live.enabled;
     final liveOpen = starts.can && starts.liveAllowed && live.hoursOk;
     final lockedByUse = used;
@@ -151,9 +151,9 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
       if (billing) const MobTile(wide: true, icon: LucideIcons.fileText, title: MobV3Copy.fullMock, line: MobV3Copy.fullMockSub, locked: true, tag: MobV3Copy.proTag),
     ];
     return [
-      if (sentence != null) ...[
-        MobLine(sentence),
-        const SizedBox(height: MmSpace.s12),
+      if (sentences.isNotEmpty) ...[
+        for (final line in sentences) ...[MobLine(line), const SizedBox(height: MmSpace.s4)],
+        const SizedBox(height: MmSpace.s8),
       ],
       if (used) ...[
         const MobLine(MobV3Copy.startUsed),

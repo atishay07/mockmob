@@ -21,6 +21,7 @@ Future<void> showFreeProSheet(BuildContext context) async {
   await showMmSheet<void>(
     context: context,
     title: MobV3Copy.freeProTitle,
+    heightFactor: 0.94,
     builder: (_) => const _FreeProBody(),
     footer: (_) => const _PlansKey(),
   );
@@ -89,7 +90,7 @@ class _List extends StatelessWidget {
         const SizedBox(height: MmSpace.s8),
         for (final t in items)
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
+            padding: const EdgeInsets.symmetric(vertical: 3),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
