@@ -54,7 +54,8 @@ void main() {
       expect(seen.where((c) => c == 60).length, lessThan(4), reason: 'it passes 60 and does not stop there');
       expect(find.text('70 answered. The quest needed 60.', findRichText: true), findsOneWidget);
       expect(find.text(MobV3Copy.questDoneLine('Chai Circle', 70, 60, 4)), findsOneWidget);
-      expect(find.text(MobV3Copy.openParcel), findsOneWidget);
+      // The week's stitch is due before the reveal (spec order), so K2's key goes to the pennant first.
+      expect(find.text(MobV3Copy.seePennant), findsOneWidget);
     });
 
     testWidgets('the bar is full from the target on, and folds away for the seal', (tester) async {
@@ -91,16 +92,29 @@ void main() {
       expect(QuestDoneMomentState.countAt(q, null, 1900), 70);
     });
 
-    testWidgets('Open the parcel plays the reveal of Hop in place; nothing is marked seen', (tester) async {
+    testWidgets('the spec order in place: quest done, then the pennant, then the parcel opens; each once; nothing is marked seen', (tester) async {
+      // Walk 19 Oct H3: K2's key played K4 first, then K3, then K4 again.
       final server = v3Server(scenario: 'questdone');
+      expect(dueMoments(server), containsAll([questKey(server), stitchKey(server), 'reveal:hop']));
       final which = await pumpMomentHost(tester, server: server);
       await startMoment(tester, which, questKey(server));
       await pumpTo(tester, 2000);
+      expect(find.text(MobV3Copy.openParcel), findsNothing, reason: 'the pennant comes before the parcel');
+      await tester.tap(find.text(MobV3Copy.seePennant));
+      await tester.pump();
+      await pumpTo(tester, 2000);
+      expect(find.byType(StitchedMoment), findsOneWidget);
+      expect(find.byType(RevealMoment), findsNothing);
+      expect(find.text(MobV3Copy.backToDen), findsNothing);
       await tester.tap(find.text(MobV3Copy.openParcel));
       await tester.pump();
       await pumpTo(tester, 400);
       expect(find.byType(RevealMoment), findsOneWidget);
-      expect(_container(tester).read(momentsShownProvider), [questKey(server)]);
+      expect(_container(tester).read(momentsShownProvider), [questKey(server), stitchKey(server)]);
+      await pumpTo(tester, 2000, from: 400);
+      await tester.tap(find.byWidgetPredicate((w) => w is Semantics && w.properties.label == MobV3Copy.close));
+      await tester.pump();
+      expect(_container(tester).read(momentsShownProvider), [questKey(server), stitchKey(server), 'reveal:hop']);
       expect(dueMoments(server), contains(questKey(server)), reason: 'the overlay never calls seen');
     });
   });
@@ -119,7 +133,11 @@ void main() {
       expect(find.text(MobV3Copy.stitchedLine('Chai Circle', 4, 4)), findsOneWidget);
       expect(find.text('A desk bell for your den'), findsOneWidget);
       expect(find.text(MobV3Copy.staysOnShelf), findsOneWidget);
-      expect(find.text(MobV3Copy.backToDen), findsOneWidget);
+      // The reveal of Hop is due too, so K3's key opens the parcel next (spec order); else it goes home.
+      expect(find.text(MobV3Copy.openParcel), findsOneWidget);
+      final card = tester.getRect(find.byKey(const ValueKey('k3-reward')));
+      final key = tester.getRect(find.byKey(const ValueKey('k3-key')));
+      expect(card.bottom, lessThanOrEqualTo(key.top), reason: 'walk M7: the reward card never hides behind the key');
     });
 
     testWidgets('never plays while the quest is not done', (tester) async {
@@ -153,7 +171,10 @@ void main() {
       final types = <Type>{};
       await pumpTo(tester, 2000, each: (_) => types.addAll(_painters(tester).map((p) => p.runtimeType)));
       expect(types.where((t) => RegExp('ray|sun|burst|beam|cone', caseSensitive: false).hasMatch('$t')), isEmpty, reason: '$types');
-      expect(types, containsAll(<Type>[LampFieldPainter, ParcelBackPainter, ParcelFrontPainter]));
+      expect(types, contains(LampFieldPainter));
+      // The final stills are the parcel (20 Oct); the painted parcel is only the fallback.
+      final images = [for (final i in tester.widgetList<Image>(find.byType(Image))) if (i.image is AssetImage) (i.image as AssetImage).assetName];
+      expect(images, contains(ParcelStills.open));
       expect(find.text(MobV3Copy.newOnShelf), findsOneWidget);
       expect(find.text('Hop'), findsOneWidget);
       expect(find.text(MobV3Copy.foldLine(FoldKey.hop)), findsOneWidget);
