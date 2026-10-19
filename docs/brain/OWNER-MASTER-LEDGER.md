@@ -522,6 +522,18 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D109 | "I don't know my range": estimate after one full mock per subject, progress per subject | PLANNED (A5) |
 | D110 | Ask Mobi ("Ask now" / "Ask your record", big): mock-up first | PLANNED (Wave B) |
 
+### Owner decisions, 19 Oct about 2 am to 3:20 am (D111-D117 and C-dec 1; verbatim in OWNER-FEEDBACK-2026-10-19.md)
+| # | Decision | Status |
+|---|---|---|
+| D111 | Explain plainly, ask only what is needed, then run the plan autonomously beyond his expectation | IN EFFECT |
+| D112 | If he is away when the mock-ups land, the CTO picks the recommendation and builds it | USED (C-pick 1-3) |
+| D113 | No Autopilot "Continue a session" while a session has live agents (it forked and duplicated 10 agents) | RULE |
+| D114 | Picks: web nav A, Ask Mobi B, homepage motion C judged live; the marketing copy matters most | BUILT: nav A and hero C (behind its flag) in release 11; Ask Mobi B in app v15.3 (web Ask Mobi B: next release); copy passes on both |
+| D115 | Push release 11 when it passes its verifier; the homepage motion ships OFF behind HERO_MOTION_V2, preview ?hero=v2 | VERIFIER round 1 GO (9 am); fixes running |
+| D116 | Resume order (merge A4a first, relaunch owners, merge early, copy pass, acceptance walks, verifier per platform, ship, ONE message) | IN PROGRESS |
+| D117 | Run the whole night autonomously; the phone install waits for him | IN PROGRESS |
+| C-dec 1 | Every student's first full mock in each subject is free (one per subject, ever; a started one counts) | BUILT in release 11 (W5); kill switch FIRST_FULL_MOCK_ENABLED being added |
+
 ## Waiting on the owner (updated 18 Oct about 3:45 am)
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
