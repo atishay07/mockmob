@@ -447,3 +447,10 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 8:41 pm IST, started the night session (session 801f0d1a)
 He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) into a fresh session: billing first (finish the Play monthly subscription, merge, ask his yes for the production migration and the deploy with PLAY_BILLING_ENABLED=true, build version 11 selling, guide him one screen at a time through upload, install, a pack, Pro, a refund test, the store listing and the closed test), then the Mob v3 (merge the five helper branches, fix, test, emulator walk, the final Folds, live rooms; show him before anything goes live), then the NOW.md section 5 follow-ups.
 **Ledger D140:** the night order is billing, then the Mob v3, then the follow-ups. Every update ends with "Things needed from you right now:" or "Nothing needed from your side".
+
+## Owner, 19 Oct about 9:05 pm IST, asked for progress (verbatim)
+> "What's the progress? Can you update me on everything that's going on right now? By when will the app be ready with the live billing and everything fully deployed?"
+
+## Owner, 19 Oct about 9:09 pm IST, conditional yes for production (verbatim)
+> "Yes: once the web fixes pass every test and you've shown me the results, apply the production migration 20261019210000 and deploy the website with billing on. I'll set PLAY_BILLING_ENABLED=true in Vercel when you tell me."
+**Ledger D141:** yes for migration 20261019210000 on production and the web deploy of play-subs with billing on, on two conditions: every web test passes after the review fixes, and he is shown the results first. He sets PLAY_BILLING_ENABLED=true in Vercel himself when told.
