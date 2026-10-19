@@ -8,7 +8,7 @@
    Only transform and opacity animate. Targets are 44 px or more.
    ========================================================================== */
 
-.den, .den-page, .den-k {
+.den, .den-page, .den-k, .join-v3 {
   --den-paper: #efe6d2;
   --den-paper-2: #e2d6bc;
   --den-paper-ink: #2b2318;
@@ -27,7 +27,7 @@
   --den-ease-pop: cubic-bezier(0.34, 1.4, 0.64, 1);
   --den-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
-html[data-theme='light'] :is(.den, .den-page, .den-k) {
+html[data-theme='light'] :is(.den, .den-page, .den-k, .join-v3) {
   --den-lamp-strength: 0.17;
   --den-tag: rgba(255, 252, 244, 0.86);
   --den-tag-ink: #2b2318;

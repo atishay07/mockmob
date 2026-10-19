@@ -3,18 +3,24 @@
 // it (P1, P3): the seats picture shows how many seats are taken, with no names. Signed out: sign in to join, with the
 // code kept for an hour on this device so it survives sign-in (T004), or try 5 sample questions first (T003, the
 // landing's guest sample). Signed in: who invited you, your name (prefilled, editable, T001) and colour, then Join.
-// States: checking, valid, full (MOB_FULL, its own words), paused (MOB_INVITES_ENABLED=false), invalid or expired, error.
-// Sharing inside the Mob is on by default; the page says so before anyone joins (rule 14).
+// States: checking, valid, full (MOB_FULL, its own words), paused (MOB_INVITES_ENABLED=false), invalid, expired (its own
+// words), error. Sharing inside the Mob is on by default; the page says so before anyone joins (rule 14).
+// Mob v3 (the server answers with the Mob's name): the page is the den's room with five seats, the Mob's name and subject,
+// your Fold, then Join (components/mob/join/). Signed out, the first key is sign-up and the invite waits for the account.
+// Without a name (v3 off) the weekly-paper page below stays as it was.
 import { useEffect, useId, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
 import { useAuth } from '@/components/AuthProvider';
-import { loginPathFor } from '@/lib/auth-redirect';
+import { signupPathFor, loginPathFor } from '@/lib/auth-redirect';
 import { ERRORS, COLOUR_COUNT, checkName, cleanName, initialOf, suggestName, inviteExpiryLine, normalizeCode } from '@/lib/mob/model.mjs';
+import { isV3Invite } from '@/lib/mob/v3/joinModel.mjs';
+import { DenCopy } from '@/lib/mob/v3/denCopy.mjs';
 import { mobFetch } from './useMob';
 import { MobSeats, PaperFacts, Promises } from './MobIntro';
 import { errorDetail } from './mobFormat';
+import { InviteIn, InviteOut, InviteNotice, InviteError, InviteLoading } from './join/JoinV3';
 import './mob.css';
 
 export const PENDING_KEY = 'mockmob_mob_join';
@@ -39,21 +45,7 @@ const JOIN_PROMISES = [
   ['Shared inside the Mob only', 'Members see each other\'s answers and scores. One switch turns yours off.'],
 ];
 
-/** The states that are not an invite: each with its own words and one way forward. */
-function StateCard({ title, line, signedIn, startOwn = false }) {
-  return (
-    <section className="glass mob-card mob-join__state">
-      <h1 className="mob-join__h1">{title}</h1>
-      <p className="mob-join__lede">{line}</p>
-      <div className="mob-join__actions">
-        {startOwn ? <Link className="mob-volt" href={signedIn ? '/mob' : loginPathFor('/mob')}>Start your own Mob</Link> : null}
-        <Link className={startOwn ? 'mob-link' : 'mob-key'} href="/">Go to MockMob</Link>
-      </div>
-    </section>
-  );
-}
-
-export default function JoinMob({ code: rawCode }) {
+export default function JoinMob({ code: rawCode, onJoined = null, codeHref = (c) => `/join/${c}` }) {
   const code = normalizeCode(rawCode);
   const router = useRouter();
   const { user, status: authStatus } = useAuth();
@@ -64,6 +56,7 @@ export default function JoinMob({ code: rawCode }) {
   const [errorCode, setErrorCode] = useState(null);
   const [editing, setEditing] = useState(false);
   const [joining, setJoining] = useState(false);
+  const [fold, setFold] = useState('dart');
   const [retry, setRetry] = useState(0);
   const nameId = useId();
 
@@ -73,7 +66,8 @@ export default function JoinMob({ code: rawCode }) {
     mobFetch(`/api/mob/join/${code}`).then((r) => {
       if (!alive) return;
       if (r.ok) setInvite({ status: 'valid', data: r.data, message: null });
-      else if (r.code === 'INVITE_INVALID' || r.code === 'INVITE_EXPIRED') setInvite({ status: 'invalid', data: null, message: null });
+      else if (r.code === 'INVITE_EXPIRED') setInvite({ status: 'expired', data: null, message: null });
+      else if (r.code === 'INVITE_INVALID') setInvite({ status: 'invalid', data: null, message: null });
       else if (r.code === 'MOB_FULL') setInvite({ status: 'full', data: null, message: null });
       else if (r.code === 'JOIN_PAUSED') setInvite({ status: 'paused', data: null, message: r.message });
       else setInvite({ status: 'error', data: null, message: r.message });
@@ -94,18 +88,20 @@ export default function JoinMob({ code: rawCode }) {
     if (opening) return;
     setOpening(true);
     rememberJoin(code);
-    router.push(loginPathFor(`/join/${code}`));
+    router.push(signupPathFor(`/join/${code}`));
   };
+  const v3 = invite.status === 'valid' && isV3Invite(invite.data);
   const join = async () => {
     setError(null);
     setErrorCode(null);
     const checked = checkName(name);
-    if (!checked.ok) { setEditing(true); setError(ERRORS.NAME_INVALID[1]); setErrorCode('NAME_INVALID'); return; }
+    if (!checked.ok) { setEditing(true); setError(v3 ? null : ERRORS.NAME_INVALID[1]); setErrorCode('NAME_INVALID'); return; }
     setJoining(true);
-    const r = await mobFetch('/api/mob/join', { method: 'POST', body: { code, name: checked.name, colour } });
+    const r = await mobFetch('/api/mob/join', { method: 'POST', body: v3 ? { code, name: checked.name, colour: 0, fold } : { code, name: checked.name, colour } });
     setJoining(false);
-    if (r.ok) { forgetJoin(); router.replace('/mob'); return; }
-    if (r.code === 'INVITE_INVALID' || r.code === 'INVITE_EXPIRED') { forgetJoin(); setInvite({ status: 'invalid', data: null, message: null }); return; }
+    if (r.ok) { forgetJoin(); if (onJoined) onJoined(); else router.replace('/mob'); return; }
+    if (r.code === 'INVITE_EXPIRED') { forgetJoin(); setInvite({ status: 'expired', data: null, message: null }); return; }
+    if (r.code === 'INVITE_INVALID') { forgetJoin(); setInvite({ status: 'invalid', data: null, message: null }); return; }
     if (r.code === 'MOB_FULL') { forgetJoin(); setInvite({ status: 'full', data: null, message: null }); return; }
     if (r.code === 'JOIN_PAUSED') { setInvite({ status: 'paused', data: null, message: r.message }); return; }
     setErrorCode(r.code);
@@ -118,34 +114,29 @@ export default function JoinMob({ code: rawCode }) {
   const wide = invite.status === 'valid' || invite.status === 'loading';
   // An email-code account has no name to offer (suggestName gives ''), so the editor starts open: the Join key never fails on its first tap.
   const showEditor = editing || (signedIn && !cleanName(name));
+  const nameFailed = Boolean(errorCode?.startsWith('NAME'));
+  const authLoading = authStatus === 'loading';
+  const openCode = (c) => router.push(codeHref(c));
   return (
-    <main className="mob-join">
-      <div className={wide ? 'mob-join__inner mob-join__inner--wide' : 'mob-join__inner'}>
+    <main className={v3 || invite.status !== 'valid' ? 'mob-join join-v3' : 'mob-join'}>
+      <div className={wide || ['invalid', 'expired', 'full', 'paused', 'error'].includes(invite.status) ? 'mob-join__inner mob-join__inner--wide' : 'mob-join__inner'}>
         <Logo className="mob-join__logo" height={28} />
-        {invite.status === 'loading' ? (
-          <div className="mob-join__skel" aria-busy="true" aria-label="Checking the invite">
-            <span className="mob-skel mob-skel--line" style={{ width: '70%', height: 36 }} />
-            <span className="mob-skel mob-skel--line" style={{ width: '50%' }} />
-            <span className="mob-skel mob-skel--ring" />
-          </div>
-        ) : null}
-        {invite.status === 'invalid' ? (
-          <StateCard title="This invite can't be used." line="The link has expired or a newer one replaced it. Ask your friend to send a new link." signedIn={signedIn} startOwn />
-        ) : null}
-        {invite.status === 'full' ? (
-          <StateCard title="This Mob is full." line="It has 5 members, the most a Mob can have. Ask your friend to tell you if a seat opens, or start a Mob of your own and invite your friends to it." signedIn={signedIn} startOwn />
-        ) : null}
-        {invite.status === 'paused' ? (
-          <StateCard title="Joining is paused for now." line="New members cannot join a Mob by link just now. Keep the link and try it again later." signedIn={signedIn} />
+        {invite.status === 'loading' ? <InviteLoading /> : null}
+        {['invalid', 'expired', 'full', 'paused'].includes(invite.status) ? (
+          <InviteNotice kind={invite.status} signedIn={signedIn} onCode={openCode} />
         ) : null}
         {invite.status === 'error' ? (
-          <section className="glass mob-card mob-join__state" role="alert">
-            <h1 className="mob-join__h1">The invite did not load.</h1>
-            <p className="mob-join__lede">{errorDetail(invite.message, 'The invite did not load')}</p>
-            <button type="button" className="mob-key" onClick={() => { setInvite({ status: 'loading', data: null, message: null }); setRetry((n) => n + 1); }}>Try again</button>
-          </section>
+          <InviteError message={errorDetail(invite.message, 'The invite did not load')} onRetry={() => { setInvite({ status: 'loading', data: null, message: null }); setRetry((n) => n + 1); }} />
         ) : null}
-        {invite.status === 'valid' && info ? (
+        {v3 && authLoading ? <InviteLoading /> : null}
+        {v3 && !authLoading && !signedIn ? (
+          <InviteOut info={info} opening={opening} onSignUp={signIn} signInHref={loginPathFor(`/join/${code}`)} />
+        ) : null}
+        {v3 && !authLoading && signedIn ? (
+          <InviteIn info={info} user={user} fold={fold} setFold={setFold} name={name} setName={setName} nameError={nameFailed ? (error || DenCopy.nameRule) : null}
+            error={nameFailed ? null : error} errorCode={errorCode} joining={joining} onJoin={join} />
+        ) : null}
+        {invite.status === 'valid' && info && !v3 ? (
           <div className="mob-join__grid">
             <div className="mob-join__visual">
               <MobSeats taken={info.size} label={`${info.size} of 5 seats taken in this Mob`} />

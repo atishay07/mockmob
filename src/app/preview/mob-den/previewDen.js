@@ -4,7 +4,7 @@
 //   ?den=quiet (D1) | open (D2, the default) | played (D3) | live (D4 lobby) | running (D4 room started) | one (D5)
 //        | ask (D1, your start used, billing on) | loading (D6) | failed (D6) | none (D0) | nosubjects (D0)
 //        | moments (K2, K3, K4, K1 in order) | notice (K5 pass notice) | past (quest past the goal)
-//   &billing=free | used | mic | pro (P1 with billing on) ; &view=chains | chains-mob | shelf | join
+//   &billing=free | used | mic | pro (P1 with billing on) ; &view=chains | chains-mob | shelf | join (&code=, &auth=out, &v3=off)
 import denGet from '@/../data/tests/fixtures/mob_v3/den_get.json';
 import chainFx from '@/../data/tests/fixtures/mob_v3/chain.json';
 import shelfFx from '@/../data/tests/fixtures/mob_v3/shelf.json';
@@ -152,9 +152,19 @@ export function installDenPreview() {
     if (p === '/api/mob' && method === 'POST') { state = denFixture(new URLSearchParams('den=one')); return json(state); }
     if (p === '/api/mob/join' && method === 'POST') { state = denFixture(new URLSearchParams('den=quiet')); return json(state); }
     if (p.startsWith('/api/mob/join/')) {
+      // /join/<code> states: 000000 expired, 111111 full, 222222 paused, 333333 invalid, 444444 did not load, 555555 one member, 666666 four members.
+      // ?v3=off answers the way the server does with Mob v3 off (no Mob name). Signed in (not ?auth=out) the lookup also names who made the link.
       const code = p.split('/').pop();
-      if (code === '000000') return json({ error: { code: 'INVITE_EXPIRED', message: 'This invite can\'t be used. Ask your friend for a new link.' } }, 410);
-      return json({ ...lookupFx, code, size: 3, seatsLeft: 2, name: 'Steady Kites' });
+      const bad = (status, c, message) => json({ error: { code: c, message } }, status);
+      if (code === '000000') return bad(410, 'INVITE_EXPIRED', "This invite can't be used. Ask your friend for a new link.");
+      if (code === '111111') return bad(409, 'MOB_FULL', 'This Mob is full.');
+      if (code === '222222') return bad(503, 'JOIN_PAUSED', 'Joining a Mob by link is paused for now. Try this link again later.');
+      if (code === '333333') return bad(404, 'INVITE_INVALID', "This invite can't be used. Ask your friend for a new link.");
+      if (code === '444444') return bad(503, 'UNAVAILABLE', 'Something went wrong on our side. Try again in a moment.');
+      const size = code === '555555' ? 1 : code === '666666' ? 4 : 3;
+      const out = { ...lookupFx, code, size, seatsLeft: 5 - size, name: 'Steady Kites', ...(params.get('auth') === 'out' ? {} : { inviter: 'Riya' }) };
+      if (params.get('v3') === 'off') { delete out.name; delete out.status; }
+      return json(out);
     }
     if (p === '/api/mob/invite') return json(inviteFx);
     if (p === '/api/mob/extra') return json(CHAPTERS);

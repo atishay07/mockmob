@@ -1,0 +1,67 @@
+/* ==========================================================================
+   /join/<code> on Mob v3  scope: .join-v3 (the public invite page; tokens come from .mob-join and den.css)
+   The den's own lamp-lit room (den.css) with five seats, the Mob's name over it, and the words and the one key beside or
+   under it. One volt thing per view (the key). No cards inside cards: the steps are ruled rows, the pick is the den's Fold
+   pick. Motion: the room and the Folds are the den's (the room rises, Folds pop 90 ms apart); the words rise once (360 ms,
+   60 ms step); a new Fold pick pops in again. Only transform and opacity animate. Reduced motion: 120 ms fades.
+   ========================================================================== */
+
+.join-v3 .mob-join__inner { gap: 20px; }
+.join-grid { display: grid; gap: 22px; align-items: start; min-width: 0; }
+@media (min-width: 960px) { .join-grid { grid-template-columns: minmax(0, 1.12fr) minmax(0, 1fr); gap: 52px; align-items: center; } }
+
+/* The room: the den's stage at the invite's own heights. cqw reads the stage, so the Folds fit five across at any width. */
+.join-stage.den-stage { --stage-h: 268px; --gutter: 14px; }
+.join-stage .den-floor { --fold: clamp(46px, 15cqw, 104px); }
+@media (min-width: 640px) { .join-stage.den-stage { --stage-h: 340px; --gutter: 22px; } }
+@media (min-width: 960px) { .join-stage.den-stage { --stage-h: 440px; --gutter: 24px; } .join-stage.den-stage .den-room__art { --art-w: 120cqw; } }
+.join-stage.den-stage[data-empty] { --stage-h: 214px; }
+@media (min-width: 640px) { .join-stage.den-stage[data-empty] { --stage-h: 300px; } }
+@media (min-width: 960px) { .join-stage.den-stage[data-empty] { --stage-h: 360px; } }
+.join-stage[data-empty] .den-room__lamp { opacity: calc(var(--den-lamp-strength) * 0.55); }
+.join-stage .den-stage__head { top: 14px; }
+.join-stage .den-stage__title { padding: 8px 12px 9px; border-radius: 12px; background: color-mix(in srgb, var(--a-bg) 58%, transparent); }
+html[data-theme='light'] .join-stage .den-stage__title { background: color-mix(in srgb, var(--a-bg) 70%, transparent); }
+.join-stage .den-stage__name { font-size: clamp(22px, 6.4cqw, 34px); }
+.join-stage .join-stage__you--swap.den-slot__fold { animation: den-fold-in 240ms var(--den-ease-pop) both; }
+.join-seat--yours { border-color: var(--a-select); color: var(--a-accent-text); background: var(--a-volt-wash); }
+.join-seat__tag { color: var(--a-accent-text); font-weight: 700; }
+html:not([data-theme='light']) .join-seat__tag { color: #e9f48a; }
+
+/* The words */
+.join-copy { display: grid; gap: 16px; align-content: start; min-width: 0; }
+.join-copy > * { animation: den-rise 360ms var(--den-ease-emph) both; }
+.join-copy > :nth-child(1) { animation-delay: 140ms; }
+.join-copy > :nth-child(2) { animation-delay: 200ms; }
+.join-copy > :nth-child(3) { animation-delay: 260ms; }
+.join-copy > :nth-child(4) { animation-delay: 320ms; }
+.join-copy > :nth-child(5) { animation-delay: 380ms; }
+.join-copy > :nth-child(6) { animation-delay: 440ms; }
+.join-h1 { margin: 0; font: 800 clamp(27px, 4.6vw, 38px)/1.12 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); overflow-wrap: anywhere; }
+.join-h2 { margin: 0 0 8px; font: 750 15px/1.3 var(--font-display); color: var(--a-ink); }
+.join-lede { margin: 0; max-width: 48ch; font-size: 16px; line-height: 1.55; color: var(--a-ink-2); }
+.join-block { display: grid; gap: 4px; min-width: 0; }
+
+.join-steps { display: grid; margin: 0; padding: 0; list-style: none; max-width: 52ch; border-top: 1px solid var(--a-line); }
+.join-steps li { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 4px 12px; align-items: baseline; padding: 12px 0; border-bottom: 1px solid var(--a-line); }
+.join-steps b { font: 800 15px/1.4 var(--font-display); color: var(--a-ink); }
+.join-steps span { font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
+
+.join-actions { display: grid; gap: 10px; justify-items: start; }
+.join-actions--row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 18px; }
+.join-key { min-height: 52px; padding: 0 26px; font-size: 16px; max-width: 100%; text-align: center; text-decoration: none; }
+.join-alt { margin: 0; font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
+.join-alt .mob-link { display: inline-flex; align-items: center; }
+
+/* A code typed again, for an invite that did not look right or has run out */
+.join-codeform { display: grid; gap: 6px; max-width: 420px; }
+.join-codeform .mob-label { margin: 0; }
+.join-codeform__row { display: flex; flex-wrap: wrap; gap: 10px; }
+.join-codeform__input { flex: 1 1 180px; min-width: 0; font-variant-numeric: tabular-nums; letter-spacing: 0.04em; }
+
+@media (prefers-reduced-motion: reduce) {
+  .join-v3 .join-copy > *, .join-v3 .join-stage * { animation-duration: 120ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 0ms !important; }
+  .join-v3 .den-fold--live .den-fold__img, .join-v3 .den-fold--live .den-fold__blink, .join-v3 .den-paperblock { animation: none !important; }
+}
+:root[data-motion='reduced'] .join-v3 :is(.join-copy > *, .join-stage *) { animation-duration: 120ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 0ms !important; }
+:root[data-motion='reduced'] .join-v3 :is(.den-fold--live .den-fold__img, .den-fold--live .den-fold__blink, .den-paperblock) { animation: none !important; }

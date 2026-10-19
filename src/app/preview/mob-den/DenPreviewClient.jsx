@@ -48,9 +48,10 @@ export default function DenPreviewClient() {
   }), [params]);
   const links = { mob: `/preview/mob-den?${params.toString()}` };
   if (view === 'join') {
-    // /join/<code>: the full page a friend's link opens (code 000000 is an expired invite; auth=out is signed out).
+    // /join/<code>: the full page a friend's link opens (auth=out is signed out; the codes 000000, 111111, 222222, 333333 and 444444 are the expired, full, paused,
+    // invalid and did-not-load states, see previewDen.js; joining opens the den).
     const joinAuth = params.get('auth') === 'out' ? { ...auth, user: null, status: 'unauthenticated', isAuthenticated: false } : auth;
-    return <AuthContext.Provider value={joinAuth}><JoinMob code={params.get('code') || '7KQ2M9XR'} /></AuthContext.Provider>;
+    return <AuthContext.Provider value={joinAuth}><JoinMob code={params.get('code') || 'MR1SNQ'} onJoined={() => router.push('/preview/mob-den?den=quiet')} codeHref={(c) => `/preview/mob-den?view=join&code=${c}${params.get('auth') === 'out' ? '&auth=out' : ''}`} /></AuthContext.Provider>;
   }
   const body = view === 'chains' || view === 'chains-mob' ? <DenChains user={auth.user} /> : view === 'shelf' ? <DenShelf user={auth.user} /> : <MobPage user={auth.user} />;
   return (
