@@ -35,10 +35,22 @@ export const BROADCASTS = Object.freeze({
 export const BROADCAST_KEYS = Object.freeze(['m', 'q', 'done', 'k', 'startsAt']);
 const MEMBER_RE = /^[0-9A-Z]{12}$/;
 
-/** True when a server broadcast has exactly its event's keys, with values of the right kind. */
-export function broadcastOk(event, payload) {
+// Supabase Realtime adds its own message id to every payload realtime.send delivers (seen on staging, 20 Oct): a random
+// uuid with nothing about anyone. Clients accept it and ignore it; the SQL never sends it.
+const TRANSPORT_ID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
+/**
+ * True when a server broadcast has exactly its event's keys, with values of the right kind. With { delivered: true } (a
+ * payload as a client receives it), Realtime's own `id` is allowed beside them.
+ */
+export function broadcastOk(event, payload, { delivered = false } = {}) {
   const keys = BROADCASTS[event];
   if (!keys || !payload || typeof payload !== 'object' || Array.isArray(payload)) return false;
+  if (delivered && 'id' in payload) {
+    if (!TRANSPORT_ID_RE.test(String(payload.id))) return false;
+    const { id: _transportId, ...rest } = payload;
+    payload = rest;
+  }
   const have = Object.keys(payload).sort();
   if (have.length !== keys.length || !keys.every((k) => have.includes(k))) return false;
   if ('m' in payload && !MEMBER_RE.test(payload.m)) return false;

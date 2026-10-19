@@ -135,6 +135,14 @@ test('live.mjs: server broadcasts carry only their own keys, never a name, a mar
     ['progress', { m: 'Riya', q: 3, done: false }], ['progress', { m: 'K7P2M9QXA1B2', q: 3, done: 'no' }], ['progress', { m: 'K7P2M9QXA1B2', q: 3 }],
     ['room.start', { startsAt: 'soon' }], ['room.done', { winner: 'K7P2M9QXA1B2' }], ['pick', { m: 'K7P2M9QXA1B2' }], ['progress', null], ['progress', []],
   ]) assert.equal(broadcastOk(event, payload), false, `${event} ${JSON.stringify(payload)}`);
+  // As delivered by Supabase Realtime (staging dry run, 20 Oct): its own message id rides along, and only that.
+  const id = 'ec77ed32-9ad2-4480-ac62-72a6b719d683';
+  assert.equal(broadcastOk('room.start', { id, startsAt: '2026-10-20T04:31:04+00:00' }, { delivered: true }), true);
+  assert.equal(broadcastOk('progress', { m: 'D4RC726VNHAM', q: 5, id, done: true }, { delivered: true }), true);
+  assert.equal(broadcastOk('room.done', { id }, { delivered: true }), true);
+  assert.equal(broadcastOk('room.done', { id }), false, 'the SQL itself never sends an id');
+  assert.equal(broadcastOk('room.done', { id: 'Riya' }, { delivered: true }), false, 'the transport id is a uuid, never a name');
+  assert.equal(broadcastOk('progress', { m: 'D4RC726VNHAM', q: 5, id, done: true, marks: 9 }, { delivered: true }), false);
 });
 
 test('live.mjs: presence is exactly { m, st, v: 1 } from a member of the room; anything else is ignored', () => {
