@@ -52,7 +52,11 @@ abstract final class ReviewCopy {
   static String mistakesCaption(int open, int chapters, String? subject) {
     final where = subject == null ? '' : ' in $subject';
     if (open == 0) return 'You have nothing left to repair$where. The chapters below still show where your marks went.';
-    return 'You have ${plural(open, 'mistake')} to repair$where, across ${plural(chapters, 'chapter')}. Start with the chapter that costs you the most marks.';
+    // Whole sentences no longer than the old fragments, so the caption keeps its line count at 360 dp (copy pass, 19 Oct).
+    final what = subject == null ? '' : '$subject ';
+    if (open == 1) return '1 ${what}mistake is waiting. Fix it before it costs you marks again.';
+    if (chapters <= 1) return '$open ${what}mistakes are waiting in one chapter. Fix them before they cost you marks again.';
+    return '$open ${what}mistakes are waiting in $chapters chapters. Start with the one that costs you the most marks.';
   }
 
   /// A fresh account with no papers: one friendly first step (D106).

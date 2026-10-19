@@ -288,7 +288,7 @@ void main() {
     expect(find.textContaining('admission.uod'), findsNothing);
     expect(find.text('Shri Ram College of Commerce'), findsOneWidget);
     // 19 Oct (D104): every college up to three shows on Today, hardest first; none is "saved" out of sight.
-    expect(find.text('B.Com (Hons), 2026 Round 1 cutoff.'), findsNWidgets(3));
+    expect(find.text('B.Com (Hons), 2026 Round 1.'), findsNWidgets(3));
     expect(find.textContaining('more saved'), findsNothing);
   });
 

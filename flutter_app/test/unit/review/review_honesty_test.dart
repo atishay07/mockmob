@@ -170,7 +170,7 @@ void main() {
       final index = buildReviewIndex(allAttempts, [repairedRecord]);
       expect(index.openCount, 7);
       expect(find.bySemanticsLabel(RegExp('^7 mistakes to repair')), findsOneWidget);
-      expect(find.textContaining(RegExp(r'^You have 7 mistakes to repair, across \d+ chapters')), findsOneWidget);
+      expect(find.textContaining(RegExp(r'^7 mistakes are waiting in \d+ chapters')), findsOneWidget);
       // The one repaired is in Saved repairs, further down.
       await tester.scrollUntilVisible(find.text(ReviewCopy.savedRepairsHeading), 300, scrollable: find.byType(Scrollable).first);
       expect(find.text(ReviewCopy.savedRepairsHeading), findsOneWidget);

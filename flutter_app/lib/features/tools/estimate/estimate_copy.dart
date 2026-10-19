@@ -58,8 +58,8 @@ abstract final class EstimateCopy {
 
   /// What the two words mean, with the student's own figures, under the headline.
   static String meaning(Estimate e, String category) => e.isPoint
-      ? 'Safe means a score of ${estimateFigure(e.low)} clears the 2026 Round 1 cutoff for the ${categoryWords(category)} category.'
-      : 'Safe means even ${estimateFigure(e.low)} clears the 2026 Round 1 cutoff for the ${categoryWords(category)} category. '
+      ? 'Safe means ${estimateFigure(e.low)} clears the Round 1, 2026 cutoff (${categoryWords(category)}).'
+      : 'Safe means even ${estimateFigure(e.low)} clears the Round 1, 2026 cutoff (${categoryWords(category)}). '
           'In reach means ${estimateFigure(e.high)} does.';
 
   // ---- Typing a range.
@@ -78,7 +78,7 @@ abstract final class EstimateCopy {
   // ---- From your mocks.
 
   static const String mocksTruth =
-      'These are raw marks out of 250 for each paper, averaged over your last 3 full mocks in that subject. The range shows how far one paper usually swings.';
+      'Each figure is your raw mark out of 250, averaged over your last 3 full mocks. The range shows how far one paper usually swings.';
 
   // ---- "I don't know my range yet".
 

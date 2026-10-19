@@ -122,7 +122,7 @@ void main() {
       const point = Estimate(source: EstimateSource.typed, low: 910, high: 910);
       expect(reachOf(point, [...mine, null]), const Reach(safe: 2, below: 2));
       expect(verdictWords(verdictFor(point, hindu)), 'Needs 9.9 more');
-      expect(EstimateCopy.meaning(point, 'UR'), 'Safe means a score of 910 clears the 2026 Round 1 cutoff for the unreserved category.');
+      expect(EstimateCopy.meaning(point, 'UR'), 'Safe means 910 clears the Round 1, 2026 cutoff (unreserved).');
       expect(verdictWords(verdictFor(point, 910)), 'Safe, right at the cutoff');
       const range = Estimate(source: EstimateSource.typed, low: 900, high: 920);
       expect(EstimateCopy.meaning(range, 'UR'), endsWith('In reach means 920 does.'));

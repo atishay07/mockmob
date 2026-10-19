@@ -191,7 +191,7 @@ void main() {
       expect([for (final w in tester.widgetList<PaperRowView>(find.byType(PaperRowView))) w.line.attemptId], ['q2', 'q1']);
       expect(find.bySemanticsLabel(RegExp('^2 papers sat')), findsOneWidget);
       expect(find.text(ReviewCopy.papersCaption(2, 'Economics')), findsOneWidget);
-      expect(find.textContaining('in Economics, across'), findsOneWidget);
+      expect(find.textContaining('Economics mistake'), findsOneWidget);
       await tester.tap(find.text(ReviewCopy.allSubjects));
       await tester.pumpAndSettle();
       expect(find.byType(PaperRowView), findsNWidgets(5));

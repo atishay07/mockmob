@@ -209,7 +209,7 @@ void main() {
     });
 
     test('the label says what "top" means', () {
-      expect(TodayCopy.collegesTop(5), 'These are your top 3 of 5, the colleges that need the most marks.');
+      expect(TodayCopy.collegesTop(5), 'Your top 3 of 5 need the most marks to get in.');
       expect(TodayCopy.seeAllCount(5), 'See all 5 colleges');
     });
 

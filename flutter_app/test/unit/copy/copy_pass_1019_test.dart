@@ -107,8 +107,8 @@ void main() {
       expect(ReviewCopy.papersCaption(1, null), 'This is your first paper. Tap it to see your marks and every answer explained.');
       expect(ReviewCopy.papersCaption(7, 'Accountancy'), 'You have sat 7 Accountancy papers. Tap one to see your marks and every answer explained.');
       expect(ReviewCopy.mistakesCaption(0, 0, null), 'You have nothing left to repair. The chapters below still show where your marks went.');
-      expect(ReviewCopy.mistakesCaption(7, 3, 'Economics'),
-          'You have 7 mistakes to repair in Economics, across 3 chapters. Start with the chapter that costs you the most marks.');
+      expect(ReviewCopy.mistakesCaption(7, 3, 'Economics'), '7 Economics mistakes are waiting in 3 chapters. Start with the one that costs you the most marks.');
+      expect(ReviewCopy.mistakesCaption(1, 1, null), '1 mistake is waiting. Fix it before it costs you marks again.');
       expect(PracticeCopy.papersNote(papers: 0, open: 3), 'You have 3 mistakes to repair, with the papers they came from.');
     });
 
@@ -126,10 +126,10 @@ void main() {
     });
 
     test('Today, the deck and the colleges', () {
-      expect(TodayCopy.collegesTop(5), 'These are your top 3 of 5, the colleges that need the most marks.');
+      expect(TodayCopy.collegesTop(5), 'Your top 3 of 5 need the most marks to get in.');
       expect(GlanceCopy.weakDayOneKey('Partnership'), 'Practise 10 questions on Partnership');
-      expect(StarterCopy.quickWhy('Economics', 10), '10 quick questions in Economics show where you stand right now.');
-      expect(StarterCopy.mobLine, 'You and up to four friends sit the same 10 questions each week, and it costs no credits.');
+      expect(StarterCopy.quickWhy('Economics', 10), '10 quick questions show where you stand right now.');
+      expect(StarterCopy.mobLine, 'You and up to four friends sit one free paper every week.');
       expect(MyCollegesCopy.lede, startsWith('This is the same list you see on the website.'));
       expect(EditCopy.collegesCap, 'You can pick eight at most. Remove one to add another.');
     });

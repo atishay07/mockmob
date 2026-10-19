@@ -769,9 +769,9 @@ abstract final class TodayCopy {
   // Your colleges on Today (19 Oct, D104): the three hardest to get into, labelled, and every one
   // a tap away. "Top" says what it means (the owner asked whether the three were first
   // preferences): the ones that need the most marks.
-  static String collegesTop(int of) => of > 3 ? 'These are your top 3 of $of, the colleges that need the most marks.' : 'The one that needs the most marks comes first.';
+  static String collegesTop(int of) => of > 3 ? 'Your top 3 of $of need the most marks to get in.' : 'The one that needs the most marks comes first.';
   static String collegeRowSub(String course, {required bool figure}) =>
-      figure ? '$course, 2026 Round 1 cutoff.' : '$course. There is no 2026 Round 1 cutoff for your category.';
+      figure ? '$course, 2026 Round 1.' : '$course. There is no 2026 Round 1 cutoff for your category.';
   static String seeAllCount(int n) => 'See all $n colleges';
   static const String seeAllSub = 'Every college you picked, with the marks it needs.';
   static String seeAllSemantics(int n) => 'See all $n colleges. Every college you picked, with the marks it needs.';

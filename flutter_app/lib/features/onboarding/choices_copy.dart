@@ -4,7 +4,7 @@
 abstract final class ChoicesCopy {
   // Course step (D41).
   /// G4, G5: the order is aspirant demand (never "top"), and the one course can change any time.
-  static const String courseSupport = 'These are the courses commerce students aim for most. You can change your course any time.';
+  static const String courseSupport = 'Commerce students aim for these most. You can change your course any time.';
   static const String moreCourses = 'More courses';
   static String moreCoursesNote(int n) => 'All $n DU courses that had seats in Round 1 of 2026';
   static const String moreCoursesTitle = 'Every DU course';

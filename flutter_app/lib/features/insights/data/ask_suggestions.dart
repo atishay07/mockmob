@@ -269,7 +269,7 @@ abstract final class AskSheetCopy {
   static const recordFree = thisCosts;
   static const thisIsFree = 'Free, from your record';
   static const thisCosts = "An AI service writes Mobi's replies\u00a0·\u00a01\u00a0credit";
-  static String noCredits(String renew) => 'You have no credits left. They refill on $renew. Questions about your record stay free. Nothing is charged from here.';
+  static String noCredits(String renew) => 'No credits left. They refill on $renew. Questions about your record stay free. Nothing is charged from here.';
   static const paused = 'Written replies are paused just now. Questions about your record stay free. Nothing is charged from here.';
   static const blocked = 'Mobi cannot write replies right now. Questions about your record stay free. Nothing is charged from here.';
   static String hint(String? label) => label == null ? 'Ask about your record' : 'Ask about $label';
