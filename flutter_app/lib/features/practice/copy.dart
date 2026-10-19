@@ -62,6 +62,14 @@ abstract final class PracticeCopy {
   static const String otherSubjectsTitle = 'More subjects';
   static const String otherSubjectsEmpty = 'No other subjects are open for practice right now.';
 
+  // I5: with five subjects on the sheet, a sixth from More subjects offers to swap the last one.
+  static const String swapTitle = 'Your sheet already has five subjects';
+  static String swapBody(String last, String next) =>
+      'CUET lets you take five subjects, so your sheet holds five. Swap $last for $next to make it one of your five, or practise $next just this once.';
+  static String swapKey(String last, String next) => 'Swap $last for $next';
+  static const String swapOnce = 'Just practise it once';
+  static const String swapFailed = 'We could not save the swap. Check your connection and try again.';
+
   // The suggestion at the top.
   static const String suggestedOverline = 'Your next practice';
 

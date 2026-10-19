@@ -279,7 +279,7 @@ class _PracticeComposerState extends ConsumerState<PracticeComposer> {
   }
 
   Future<void> _pickOtherSubject(List<SubjectChoice> others) async {
-    final id = await showOtherSubjects(context, others);
+    final id = await pickOtherSubject(context, ref, others);
     if (id != null && mounted) _pickSubject(id);
   }
 
