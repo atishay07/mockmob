@@ -94,6 +94,11 @@ class _PlanCardState extends ConsumerState<PlanCard> {
     if (mounted) setState(() => _manageFailed = !opened);
   }
 
+  Widget _manageFailedLine(MmType type, MmColors colors) => Padding(
+        padding: const EdgeInsets.only(top: MmSpace.s4),
+        child: Semantics(liveRegion: true, child: Text(BillingCopy.manageOpenFailed, style: type.small.copyWith(color: colors.ink2))),
+      );
+
   @override
   Widget build(BuildContext context) {
     final auth = widget.auth;
@@ -103,6 +108,7 @@ class _PlanCardState extends ConsumerState<PlanCard> {
     final until = auth.premiumUntil?.toLocal();
     final sub = ref.watch(playSubscriptionProvider);
     final playSub = sub != null && sub.active ? sub : null;
+    final held = subscriptionHeld(sub);
     final figures = ref.watch(creditFiguresProvider);
     // The same computation as the Account sheet and the Credits page: one figure on a one-balance server.
     final one = figures.oneBalance;
@@ -187,16 +193,31 @@ class _PlanCardState extends ConsumerState<PlanCard> {
           ],
           // Monthly Pro bought through Google Play: where it stands, and Google Play's own page to
           // change it (renewal, payment method, cancel).
+          // A payment Google Play is retrying is a warning with Manage subscription as a real key; a
+          // renewing (or renewal-off) subscription keeps the quiet key.
           if (pro && playSub != null) ...[
             const SizedBox(height: MmSpace.s8),
-            Text(subscriptionLine(playSub), style: type.small.copyWith(color: colors.ink2)),
-            const SizedBox(height: MmSpace.s4),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: KeyButton.quiet(label: BillingCopy.manageSubscription, onPressed: _manage),
-            ),
-            if (_manageFailed)
-              Semantics(liveRegion: true, child: Text(BillingCopy.manageOpenFailed, style: type.small.copyWith(color: colors.ink2))),
+            Text(subscriptionLine(playSub), style: type.small.copyWith(color: playSub.inGracePeriod ? colors.warnText : colors.ink2)),
+            if (playSub.inGracePeriod) ...[
+              const SizedBox(height: MmSpace.s12),
+              Align(alignment: Alignment.centerLeft, child: PillKey(label: BillingCopy.manageSubscription, onPressed: _manage)),
+            ] else ...[
+              const SizedBox(height: MmSpace.s4),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: KeyButton.quiet(label: BillingCopy.manageSubscription, onPressed: _manage),
+              ),
+            ],
+            if (_manageFailed) _manageFailedLine(type, colors),
+          ],
+          // A subscription Google Play holds that gives no Pro now (account hold, paused): what
+          // happened and how to fix it, in place of a second subscription.
+          if (!pro && held) ...[
+            const SizedBox(height: MmSpace.s8),
+            Text(sub!.onHold ? BillingCopy.subOnHold : BillingCopy.subPaused, style: type.small.copyWith(color: colors.warnText)),
+            const SizedBox(height: MmSpace.s12),
+            Align(alignment: Alignment.centerLeft, child: PillKey(label: BillingCopy.manageSubscription, onPressed: _manage)),
+            if (_manageFailed) _manageFailedLine(type, colors),
           ],
           // One quiet line (M-002): where the mocks come from, true on every plan.
           if (balance != null || pro) ...[
@@ -204,7 +225,8 @@ class _PlanCardState extends ConsumerState<PlanCard> {
             Text(PlanCopy.bankLine(pro: pro), style: type.small.copyWith(color: colors.ink2)),
           ],
           // Google Play's Get Pro for a Free student, when PLAY_BILLING is on; nothing otherwise.
-          if (!pro) const Align(alignment: Alignment.centerLeft, child: GetProEntry.key(topGap: MmSpace.s12)),
+          // A held subscription is fixed in Google Play, so it is not offered a second one.
+          if (!pro && !held) const Align(alignment: Alignment.centerLeft, child: GetProEntry.key(topGap: MmSpace.s12)),
         ],
       ),
     );
