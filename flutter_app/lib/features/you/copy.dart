@@ -9,8 +9,14 @@ import 'data/subject_catalog.dart' show youSubjectNames;
 abstract final class YouCopy {
   // The sheet card (identity first).
   static const hubTitle = 'You';
-  static const sheetOverline = 'CUET UG 2027, Commerce';
-  static String sheetOverlineFor(int year) => 'CUET UG $year, Commerce';
+  /// "CUET UG 2027, B.Sc (Prog) Physical Science with Computer Science": the course the student
+  /// chose, else the stream their subjects show ([streamWordFor]), else the exam alone. Never a
+  /// stream the student did not choose (I12).
+  static String sheetOverlineFor(int year, {String? course, String? stream}) {
+    final named = course?.trim() ?? '';
+    final what = named.isNotEmpty ? named : stream;
+    return what == null || what.isEmpty ? 'CUET UG $year' : 'CUET UG $year, $what';
+  }
   static const finishSheet = 'Add your course and colleges. Today plans the road from them.';
   static const finishSheetKey = 'Finish your plan';
   static const editSubjects = 'Edit';
@@ -349,7 +355,7 @@ abstract final class YouCopy {
   static const helpTerms = 'Terms of use';
   static const aboutHeading = 'About';
   // The non-affiliation sentence lives on the Terms page (critic finding 8); About keeps one line of truth.
-  static const helpAboutLine = 'Practice for CUET UG 2027 Commerce.';
+  static const helpAboutLine = 'Practice for CUET UG 2027.';
   static const sourcesHeading = 'Where the facts come from';
   static const sourceExam = 'Exam pattern and dates';
   static const sourceExamFrom = 'NTA, cuet.nta.nic.in';

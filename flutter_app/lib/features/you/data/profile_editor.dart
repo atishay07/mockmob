@@ -83,8 +83,16 @@ class ProfileEditor {
     final userId = _userId();
     final response =
         await _ref.read(apiClientProvider).patch('/api/users/${Uri.encodeComponent(userId)}', body: {'name': trimmed}, expectUserId: userId);
+    final stored = asString(response.map['name'])?.trim();
+    final saved = stored == null || stored.isEmpty ? trimmed : stored;
+    // The server answered: the name shows on You and Today at once, then the profile is read back (I11).
+    try {
+      await _ref.read(authSnapshotProvider.notifier).acknowledgeName(saved);
+    } on Object {
+      // The read back below brings it anyway.
+    }
     await _reloadProfile();
-    return asString(response.map['name']) ?? trimmed;
+    return saved;
   }
 
   /// Saves the study week: how many days to the goal (keeping any pause that is still running),

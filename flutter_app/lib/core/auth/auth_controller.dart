@@ -357,6 +357,46 @@ class AuthController extends Notifier<AuthSnapshot> {
     return state.userId;
   }
 
+  /// The name the server just acknowledged (`PATCH /api/users/{id}` answered with it): You and Today
+  /// show it at once, before the profile is read back. The cached profile keeps it too, so a read
+  /// back that fails falls back to the new name, never the old one (I11, 20 Oct: "when I add my name
+  /// it's not saving").
+  Future<void> acknowledgeName(String name) async {
+    final s = state;
+    final trimmed = name.trim();
+    if (!s.isSignedIn || trimmed.isEmpty) return;
+    state = AuthSnapshot(
+      status: s.status,
+      userId: s.userId,
+      email: s.email,
+      isPro: s.isPro,
+      premiumUntil: s.premiumUntil,
+      name: trimmed,
+      subjects: s.subjects,
+      needsOnboarding: s.needsOnboarding,
+      creditBalance: s.creditBalance,
+      sessionExpired: s.sessionExpired,
+      loadFailed: s.loadFailed,
+      retrying: s.retrying,
+      loadProblem: s.loadProblem,
+      profileFresh: s.profileFresh,
+      playSubscription: s.playSubscription,
+    );
+    try {
+      final prefs = ref.read(appPrefsProvider);
+      final raw = await prefs.cachedMe();
+      if (raw == null) return;
+      final json = Map<String, dynamic>.from(jsonDecode(raw) as Map);
+      final user = json['user'];
+      if (user is Map && user['id'] == s.userId) {
+        json['user'] = {...user, 'name': trimmed};
+        await prefs.setCachedMe(jsonEncode(json));
+      }
+    } on Object {
+      // The cache is a convenience; the server has the name and the state already shows it.
+    }
+  }
+
   /// Reloads the profile (after onboarding or any change that affects subjects or Pro status).
   Future<void> reload() async {
     if (state.loadFailed) {

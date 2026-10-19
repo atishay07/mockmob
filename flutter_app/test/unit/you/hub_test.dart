@@ -241,7 +241,7 @@ void main() {
     final edge = tester.getTopLeft(find.byType(AccountAvatar)).dx;
     expect(edge, 16);
     expect(tester.getTopLeft(find.text('You')).dx, 16 + AccountAvatarButton.visual + 12);
-    expect(tester.getTopLeft(find.text('CUET UG 2027, Commerce')).dx, edge);
+    expect(tester.getTopLeft(find.text('CUET UG 2027, B.Com (Hons)')).dx, edge);
     expect(tester.getTopLeft(find.text('Asha Verma')).dx, edge);
     expect(tester.getTopLeft(find.text('Badges, 0 of 16')).dx, edge);
     expect(tester.getTopLeft(find.text('Personal bests')).dx, edge);

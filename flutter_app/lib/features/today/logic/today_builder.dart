@@ -90,8 +90,10 @@ HeaderModel buildHeader(TodayInputs i) {
   final clock = i.clock();
   final week = i.week;
   final name = i.firstName;
-  // A name field that is really a handle ("app-e2e-student") is never read out (acceptance 11).
-  final usable = name == null || name.isEmpty || TodayCopy.isHandleName(name, email: i.email) ? null : name;
+  // A name field that is really a handle ("app-e2e-student") is never read out (acceptance 11). The
+  // provider has already held the whole name against the email (I11), so only the handle marks
+  // are checked here: the first word of "atishay jain" is still a name for atishay@...
+  final usable = name == null || name.isEmpty || TodayCopy.isHandleName(name) ? null : name;
   return HeaderModel(
     dateLine: formatWeekdayDate(clock),
     greeting: TodayCopy.greeting(clock.hour, usable, returning: i.attempts != null && i.attempts!.isNotEmpty && isAway(i)),

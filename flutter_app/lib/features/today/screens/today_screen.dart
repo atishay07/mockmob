@@ -33,6 +33,7 @@ import '../widgets/colleges_card.dart' show CollegesCardInfo, CollegesCardStatus
 import '../widgets/road_section.dart' show RoadActions;
 import '../widgets/today_celebration.dart';
 import 'today_body.dart';
+import '../widgets/name_ask.dart' show TodayNameAsk;
 
 class TodayScreen extends ConsumerStatefulWidget {
   const TodayScreen({super.key});
@@ -323,6 +324,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     final hasEnding = _endingFor(has: ending != null, painted: view.hero != null);
     return TodayBody(
       view: view,
+      nameAsk: const TodayNameAsk(),
       prices: _prices(view),
       retrying: _retrying,
       controller: _scroll,
