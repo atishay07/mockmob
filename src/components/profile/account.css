@@ -82,7 +82,6 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 .app-shell .acct-sheet__mobi { flex: none; display: grid; place-items: center; width: 72px; min-height: 72px; }
 .app-shell .acct-sheet__id { flex: 1; min-width: 0; display: grid; gap: 4px; }
 .app-shell .acct-sheet__id h2 { margin: 0; font: 800 clamp(24px, 3vw, 30px)/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); overflow-wrap: anywhere; }
-.app-shell .acct-sheet__mail { margin: 0; font-size: 13.5px; line-height: 1.45; color: var(--a-ink-3); overflow-wrap: anywhere; }
 .app-shell .acct-sheet__tags { display: flex; flex-wrap: wrap; gap: 2px 0; margin: 8px 0 0; font-size: 13px; font-weight: 600; color: var(--a-ink-2); }
 .app-shell .acct-sheet__tags > span + span { margin-left: 12px; padding-left: 12px; border-left: 1px solid var(--a-line-strong); }
 .app-shell .acct-sheet__tags > [data-tone='pro'] { color: var(--a-accent-text); }

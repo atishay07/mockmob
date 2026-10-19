@@ -94,7 +94,7 @@ export default function FeaturesPage() {
         </section>
 
         <section className="mm-section">
-          <div className="mm-wrap">
+          <div className="mm-wrap mm-wrap--tight">
             <ul className="ft-list">
               {PARTS.map((part) => (
                 <li key={part.title} className="ft-card" data-lead={LEAD.has(part.title) || undefined}>
@@ -123,7 +123,6 @@ export default function FeaturesPage() {
           --ft-dot-lead: rgba(110, 135, 0, 0.32); --ft-lead-line: #bccb7c;
         }
         @media (min-width: 720px) { .ft-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; } }
-        @media (min-width: 1080px) { .ft-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
         .ft-card {
           position: relative; isolation: isolate; overflow: hidden; display: flex; flex-direction: column; gap: 0.5rem;
           min-width: 0; padding: 1.5rem 1.5rem 1.25rem; border: 1px solid var(--line); border-radius: var(--r-3, 20px);
