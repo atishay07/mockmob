@@ -135,7 +135,7 @@ function Inner() {
     <AuthContext.Provider value={auth}>
       <RoleProvider>
         <AppLayoutClient previewRoute={`/mob/game/${GAME_ID}`} previewLinks={{ mob: '/preview/mob-play' }} mobEnabled>
-          <MobGame key={params.toString()} gameId={GAME_ID} view={view} autoStart={params.get('run') === 'play'} hrefFor={hrefFor} denHref="/preview/mob-play?view=run&run=ready" />
+          <MobGame key={params.toString()} gameId={GAME_ID} view={view} autoStart={params.get('run') === 'play'} hrefFor={hrefFor} denHref="/preview/mob-den" />
         </AppLayoutClient>
       </RoleProvider>
     </AuthContext.Provider>
