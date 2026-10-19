@@ -372,7 +372,6 @@ abstract final class MobV3Copy {
   static const String onlyYouTitle = "You're the first to finish.";
   static const String onlyYouLine = 'Places fill in as friends play.';
   static const String rematchAsked = 'You asked your Mob for a rematch.';
-  static const String back = 'Back';
   static String placeOf(int place) => switch (place) { 1 => 'First place', 2 => 'Second place', 3 => 'Third place', _ => 'Place $place' };
   static String podiumSemantics(String name, int? place, int? marks) =>
       '$name, ${place == null ? '' : '${placeOf(place).toLowerCase()}, '}${marks == null ? private.toLowerCase() : MobV3Copy.marks(marks)}';
