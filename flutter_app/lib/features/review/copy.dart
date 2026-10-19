@@ -49,9 +49,14 @@ abstract final class ReviewCopy {
   static const opensResult = 'Opens its result and answers';
 
   /// Mistakes to repair, under the papers.
-  static String mistakesCaption(int open, int chapters, String? subject) {
+  /// [rows] is how many chapter rows are listed below this caption: it says the chapters "below" only when there are some.
+  static String mistakesCaption(int open, int chapters, String? subject, {required int rows}) {
     final where = subject == null ? '' : ' in $subject';
-    if (open == 0) return 'You have nothing left to repair$where. The chapters below still show where your marks went.';
+    if (open == 0) {
+      return rows == 0
+          ? 'You have nothing left to repair$where.'
+          : 'You have nothing left to repair$where. The chapters below still show where your marks went.';
+    }
     // Whole sentences no longer than the old fragments, so the caption keeps its line count at 360 dp (copy pass, 19 Oct).
     final what = subject == null ? '' : '$subject ';
     if (open == 1) return '1 ${what}mistake is waiting. Fix it before it costs you marks again.';

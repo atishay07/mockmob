@@ -513,9 +513,10 @@ class _MoveSwapState extends State<MoveSwap> with TickerProviderStateMixin {
     _outgoing.add(out);
     out.controller.forward().whenCompleteOrCancel(() {
       if (!mounted) return;
+      // A swap under reduced motion disposes every leaving controller itself, which also ends this future: it is
+      // only disposed here when it is still listed, so a controller is never disposed twice.
       setState(() {
-        _outgoing.remove(out);
-        out.controller.dispose();
+        if (_outgoing.remove(out)) out.controller.dispose();
       });
     });
     _current = _SwapEntry(
