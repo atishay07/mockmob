@@ -353,3 +353,8 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 5:00 pm IST (verbatim, with a Play Console screenshot of the MockMob app dashboard)
 > "I am unable to set this billing up. I can't find the options that you are saying. Can you guide me through it? The play billing checklist file that we have created is also not opening, so guide me through that entire process. I have backed up the keys already, so mark it as done."
 **Ledger D130:** keys backed up (done). Guide him through Play Console step by step in chat, one step at a time with screenshots; the checklist file did not open for him.
+
+## Owner, 19 Oct about 5:05 pm IST (verbatim, with a screenshot of "Manage CampusMob Labs")
+> "So it's showing this, and two questions:
+> 1. There are some play app settings under it. There's the option of just billing choices, so it's showing, "You are not eligible. Requirements to enroll," something like that.
+> 2. Can I change this name? I don't know when I kept this or what this is. Is it possible to change the name of this account?"
