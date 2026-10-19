@@ -182,6 +182,8 @@ class _AskMessageViewState extends State<AskMessageView> {
         AskFailure.budgetReached => (InsightsCopy.failBudget(renew), InsightsCopy.creditNone, false),
         AskFailure.walletUnavailable => (InsightsCopy.failWallet, InsightsCopy.creditNone, true),
         AskFailure.interrupted => (InsightsCopy.failInterrupted, InsightsCopy.creditNotTwice, true),
+        AskFailure.threadFull => (InsightsCopy.failThreadFull, InsightsCopy.creditNone, false),
+        AskFailure.threadGone => (InsightsCopy.failThreadGone, InsightsCopy.creditNone, false),
       };
       // A plain line under Mobi's face, with one retry key: never a card holding a button.
       return Padding(

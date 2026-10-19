@@ -306,6 +306,7 @@ class AskNowDoor extends StatefulWidget {
     required this.focusNode,
     required this.starters,
     required this.onSend,
+    required this.onStarter,
     required this.note,
     this.shown = 2,
     this.busy = false,
@@ -314,7 +315,11 @@ class AskNowDoor extends StatefulWidget {
 
   final TextEditingController controller;
   final FocusNode focusNode;
-  final List<String> starters;
+  /// Doubts from the student's weak chapters (or their subjects), each sent with its subject and chapter.
+  final List<NowStarter> starters;
+
+  /// Sends a starter, with the subject and chapter its 2 check questions come from.
+  final ValueChanged<NowStarter> onStarter;
 
   /// How many starters show before the field is touched (0 says "Tap the box"); all of them show
   /// once it has had focus.
@@ -463,7 +468,7 @@ class _AskNowDoorState extends State<AskNowDoor> {
         MmFadeThrough(
           alignment: Alignment.centerLeft,
           child: Text(
-            count == 0 ? AskDoorCopy.nowTapBox : AskDoorCopy.nowTip,
+            count == 0 ? AskDoorCopy.nowTapBox : (widget.starters.any((s) => s.chapter != null) ? AskDoorCopy.nowTip : AskDoorCopy.nowTipFresh),
             key: ValueKey(count == 0),
             style: type.label.copyWith(color: colors.ink3),
           ),
@@ -476,7 +481,7 @@ class _AskNowDoorState extends State<AskNowDoor> {
                 const SizedBox(height: MmSpace.s8),
                 _maybeRise(
                   i,
-                  AskStarterRow(text: s, price: DoorPrice.credit, onTap: () => widget.onSend(s)),
+                  AskStarterRow(text: s.text, preview: s.preview, price: DoorPrice.credit, onTap: () => widget.onStarter(s)),
                 ),
               ],
             ],
@@ -508,7 +513,12 @@ class AskRecordDoor extends StatelessWidget {
     this.shown = 2,
     this.offline = false,
     this.animate = true,
+    this.standing,
   });
+
+  /// "Where you stand" (MOBI-CONTRACT 1): when present it leads the door, and the biggest leak becomes an ordinary
+  /// free row under it, so the door has one leading figure.
+  final Widget? standing;
 
   final RemoteState<PrepInsights> record;
 
@@ -566,16 +576,17 @@ class AskRecordDoor extends StatelessWidget {
     }
     final lead = asks.first;
     final top = recordLead(v);
-    final rest = asks.skip(1).toList();
+    final led = standing != null;
+    final rest = led ? asks : asks.skip(1).toList();
     final visible = expanded ? rest : rest.take(shown).toList();
     return _Door(
       title: AskDoorCopy.recordTitle,
       line: AskDoorCopy.recordLine(v.sessions),
       children: [
         const SizedBox(height: MmSpace.s16),
-        _LeadTile(ask: lead, top: top, onTap: () => onAsk(lead)),
+        if (led) standing! else _LeadTile(ask: lead, top: top, onTap: () => onAsk(lead)),
         const SizedBox(height: MmSpace.s16),
-        Text(AskDoorCopy.recordTip, style: type.label.copyWith(color: colors.ink3)),
+        Text(led ? AskDoorCopy.recordTipFree : AskDoorCopy.recordTip, style: type.label.copyWith(color: colors.ink3)),
         _GrowIn(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

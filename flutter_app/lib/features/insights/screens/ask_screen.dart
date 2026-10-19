@@ -28,6 +28,8 @@ import '../data/ask_wallet.dart';
 import '../data/evidence.dart';
 import '../data/insights_models.dart';
 import '../data/insights_repository.dart';
+import '../data/mobi_api.dart';
+import '../data/mobi_models.dart' show StandingStatus;
 import '../insights_paths.dart';
 import '../widgets/ask_doors.dart';
 import '../widgets/ask_marks.dart';
@@ -37,7 +39,9 @@ import '../widgets/answer_text.dart';
 import '../widgets/ask_prompts.dart';
 import '../widgets/ask_question_card.dart';
 import '../widgets/ask_wallet.dart';
+import '../widgets/doubt_thread.dart';
 import '../widgets/motion_bits.dart';
+import '../widgets/where_you_stand.dart';
 import 'insights_screen.dart';
 
 /// `/ask` (website Mentor), Ask Mobi's own screen (ASK-MOBI-1019 option B; the owner's D112 and
@@ -172,7 +176,11 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     super.dispose();
   }
 
-  Future<void> _send([String? text]) async {
+  Future<void> _send([String? text]) => _sendWith(text);
+
+  /// Sends [text] (or the field) with what it carries beside its words: a starter's subject and chapter, or the
+  /// free `tonight` plan.
+  Future<void> _sendWith(String? text, {String? subject, String? chapter, String? replyKind}) async {
     final message = (text ?? _text.text).trim();
     // A reply is still on its way: keep the draft where it is, nothing is sent.
     if (message.isEmpty || ref.read(askControllerProvider).busy) return;
@@ -191,7 +199,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
         return;
       }
     }
-    final sending = ref.read(askControllerProvider.notifier).send(message);
+    final sending = ref.read(askControllerProvider.notifier).send(message, subject: subject, chapter: chapter, replyKind: replyKind);
     _toEnd();
     final failure = await sending;
     _toEnd();
@@ -215,7 +223,22 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       _toEnd();
       return;
     }
-    _send(a.text);
+    // "What should I revise tonight?" is worked out by the server from the record, with no model: free.
+    _sendWith(a.text, replyKind: a.intent == AskIntent.plan ? tonightReplyKind : null);
+  }
+
+  /// Opens a chapter's practice from Where you stand (the web path maps to the app's own setup).
+  void _openPractice(String href) {
+    final location = InsightsPaths.locationFor(href);
+    if (location == null) return;
+    AppRoutes.opensWithGo(location) ? context.go(location) : context.push(location);
+  }
+
+  /// Back to the two doors with a fresh conversation (a new doubt is 1 credit; its price is on the key).
+  void _startOver() {
+    ref.read(askControllerProvider.notifier).startOver();
+    _settled = 0;
+    _stageGlanced = false;
   }
 
   /// The credit details, and a fresh read of the wallet behind them.
@@ -241,6 +264,11 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     // A question handed over from a repair is only ever answered by a written reply: the line never
     // says record questions are free, because a record answer cannot discuss it.
     if (ref.read(askQuestionProvider)?.ready ?? false) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
+    // A doubt under way: what is typed now is its one follow-up, and it is free.
+    if (ref.read(askControllerProvider).thread?.canFollowUp ?? false) {
+      return text.isNotEmpty && ref.read(askControllerProvider.notifier).answersOnPhone(text) ? InsightsCopy.askNoteFree : AskDoorCopy.followUpLeft;
+    }
+    if (text == AskDoorCopy.revise(ref.read(nowProvider)())) return InsightsCopy.askNoteFree;
     if (text.isEmpty) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteIdle(balance);
     if (ref.read(askControllerProvider.notifier).answersOnPhone(text)) return InsightsCopy.askNoteFree;
     final held = ref.read(insightsInputsProvider);
@@ -255,7 +283,10 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   String? _waitingNote(AskState state) {
     if (!state.busy) return null;
     final i = state.messages.indexWhere((m) => m.sending);
-    return i >= 0 && _waitsOnRecord(state, i) ? InsightsCopy.askNoteFree : AskDoorCopy.writingNote;
+    if (i < 0) return AskDoorCopy.writingNote;
+    final anchor = state.messages[i].anchor;
+    if (_waitsOnRecord(state, i) || anchor?.replyKind == tonightReplyKind) return InsightsCopy.askNoteFree;
+    return anchor?.isFollowUp ?? false ? AskDoorCopy.followUpWriting : AskDoorCopy.writingNote;
   }
 
   /// The pending reply at [i] answers a record ask that is waiting for the record to load.
@@ -522,11 +553,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                                     label: AskDoorCopy.startOver,
                                     expanded: false,
                                     minHeight: MmTarget.min,
-                                    onPressed: () {
-                                      ref.read(askControllerProvider.notifier).startOver();
-                                      _settled = 0;
-                                      _stageGlanced = false;
-                                    },
+                                    onPressed: _startOver,
                                   ),
                                 ),
                               Column(
@@ -553,6 +580,19 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                                         _toEnd();
                                       },
                                     ),
+                                    // What the doubt's credit bought: its 2 real CUET questions, under the answer.
+                                    if (state.thread case final t? when t.openedAt == i && hand == null) ...[
+                                      const SizedBox(height: MmSpace.s32),
+                                      DoubtChecks(
+                                        thread: t,
+                                        record: record,
+                                        onAnswer: (id, pick) {
+                                          ref.read(hapticsProvider).selection();
+                                          ref.read(askControllerProvider.notifier).answerCheck(id, pick);
+                                        },
+                                        onChapter: (subject, chapter) => ref.read(askControllerProvider.notifier).attachChecks(subject, chapter),
+                                      ),
+                                    ],
                                   ],
                                 ],
                               ),
@@ -574,10 +614,16 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                 // Once a conversation starts (or a question is handed over) the composer takes the foot.
                 if (stage && (wallet?.empty ?? false))
                   SizedBox(height: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom)
+                else if (!stage && hand == null && state.thread != null && !state.thread!.canFollowUp && !state.busy)
+                  DoubtClosed(onNew: _startOver, bottomInset: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom)
                 else if (!stage && !blockedQuestion)
                   _Composer(
                     controller: _text,
-                    hint: hand != null ? InsightsCopy.askHintQuestion : AskDoorCopy.followUpHint,
+                    hint: hand != null
+                        ? InsightsCopy.askHintQuestion
+                        : (state.thread?.canFollowUp ?? false)
+                            ? AskDoorCopy.followUpOneHint
+                            : AskDoorCopy.followUpHint,
                     busy: state.busy || (hand?.loading ?? false),
                     onSend: _send,
                     note: (text) => _waitingNote(state) ?? _noteFor(text, wallet, renew),
@@ -643,6 +689,17 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final ready = record != null && record.isReady;
     final last = lastPaper(inputs.attempts, now, unopened: inputs.unopened);
     final asks = recordDoorAsks(record, pro: pro, last: last, now: now);
+    // Where you stand leads the record door once there is a record to place (an empty standing leaves the door as
+    // it was; a slow or failed read says so in its own tile, with Try again).
+    final stand = ready ? ref.watch(mobiStandingProvider) : null;
+    final standing = stand == null || (stand.value?.status == StandingStatus.empty)
+        ? null
+        : WhereYouStand(
+            standing: stand,
+            onPractise: _openPractice,
+            onColleges: () => context.push(AppRoutes.colleges),
+            onRetry: () => ref.invalidate(mobiStandingProvider),
+          );
     return [
       if (offline) ...[
         const InlineBanner(message: AskDoorCopy.offline, tone: BannerTone.offline),
@@ -667,6 +724,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
           busy: busy,
           note: note,
           onSend: _send,
+          onStarter: (s) => _sendWith(s.text, subject: s.subject, chapter: s.chapter),
         ),
       ),
       const SizedBox(height: MmSpace.s12),
@@ -677,6 +735,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
         child: AskRecordDoor(
           record: inputs.insights,
           asks: asks,
+          standing: standing,
+          shown: standing == null ? 2 : 3,
           offline: offline,
           expanded: _allRecord,
           onToggle: () => setState(() => _allRecord = !_allRecord),
