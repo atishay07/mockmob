@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/models.dart';
+import 'package:mockmob/features/insights/ask_mobi.dart' show AskMobiCard;
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
@@ -125,9 +126,10 @@ void main() {
     expect(strip, lessThan(hero));
     expect(hero, lessThan(ways));
     expect(ways, lessThan(quick));
-    // The first screen at 360x800 shows the subject choice and the first mode (L08), above the
-    // 64 dp bar.
-    expect(quick, lessThan(800 - 64));
+    // The first screen at 360x800 shows the subject choice and Up next (L08), above the 64 dp bar; Ask Mobi's
+    // card (ASK-MOBI-1019 B) starts there too, and the first mode is one short scroll under it.
+    expect(top(find.byType(AskMobiCard)), lessThan(800 - 64));
+    expect(quick, lessThan(800 - 64 + 260));
 
     await tester.scrollUntilVisible(find.text(PracticeCopy.moreHeading), 200, scrollable: find.byType(Scrollable).first);
     await tester.pump();

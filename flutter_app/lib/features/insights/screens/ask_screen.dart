@@ -8,6 +8,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/auth/display_name.dart';
+import '../../../core/connectivity/connectivity_monitor.dart' show NetworkStatus;
+import '../../../core/connectivity/connectivity_providers.dart' show networkStatusProvider;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/credits_repository.dart';
@@ -19,33 +21,41 @@ import '../copy.dart';
 import '../data/ai_reply_report.dart';
 import '../data/ask_citation.dart';
 import '../data/ask_controller.dart';
+import '../data/ask_doors.dart';
 import '../data/ask_question.dart';
+import '../data/ask_suggestions.dart' show AskSheetCopy;
 import '../data/ask_wallet.dart';
 import '../data/evidence.dart';
 import '../data/insights_models.dart';
 import '../data/insights_repository.dart';
 import '../insights_paths.dart';
+import '../widgets/ask_doors.dart';
 import '../widgets/ask_marks.dart';
+import '../widgets/ask_mobi_button.dart' show AskDoor;
 import '../widgets/ask_messages.dart';
 import '../widgets/answer_text.dart';
 import '../widgets/ask_prompts.dart';
 import '../widgets/ask_question_card.dart';
 import '../widgets/ask_wallet.dart';
-import '../widgets/insights_bits.dart';
 import '../widgets/motion_bits.dart';
 import 'insights_screen.dart';
 
-/// `/ask` (website Mentor), Ask Mobi: a conversation with Mobi about the student's own record.
-/// Record questions are answered on the phone for free and cite the sessions behind them;
-/// anything else goes through the server's budget guard, and the reply says what it cost. A
-/// reply shows only when the server has answered.
+/// `/ask` (website Mentor), Ask Mobi's own screen (ASK-MOBI-1019 option B; the owner's D112 and
+/// D114). Before the first message it is two big stacked doors under Mobi's greeting:
 ///
-/// Before the first message the screen is a stage: Mobi on a pool of lamp light says one line
-/// about the record it has read, and the questions it can answer are laid out as prompts grouped
-/// by intent. Once the conversation starts Mobi moves into the header and acts (thinks while a
-/// reply is on its way, talks when it lands).
+/// * **Ask now**: any CUET doubt, typed or tapped from a starter. A starter sends at once, with no
+///   sheet in between (D53); its price ("1 credit") is on the row before the tap, and the line
+///   under the field says what the typed question will cost.
+/// * **Ask your record**: it leads with the student's biggest marks leak as a big figure, then the
+///   asks the record answers, each with its price. A fresh account sees plainly what the record
+///   needs and one key to start it. Pro asks stay visible with a quiet lock (D101).
+///
+/// The credit line at the foot is the wallet's own numbers. Record questions are answered on the
+/// phone for free and cite the sessions behind them; anything else goes through the server's budget
+/// guard, and the reply says what it cost. Replies are not streamed: while one is on its way the
+/// screen says "Writing a reply" and the reply rises in whole when it lands.
 class AskScreen extends ConsumerStatefulWidget {
-  const AskScreen({super.key, this.seed, this.questionRef});
+  const AskScreen({super.key, this.seed, this.questionRef, this.door});
 
   /// Text to start the composer with (from "Ask why" on a question). Never sent by itself.
   final String? seed;
@@ -53,6 +63,10 @@ class AskScreen extends ConsumerStatefulWidget {
   /// The repaired mistake Ask was handed (`<attemptId>:<questionId>`, from "Ask Mobi about Q3"):
   /// shown in a card, and sent with every message while it is there. Null for an ordinary visit.
   final String? questionRef;
+
+  /// The door the screen opens at (`?door=now|record`, from Practice's Ask Mobi card): Ask now with
+  /// its field ready to type in, or scrolled to the record door. Null opens at the top.
+  final AskDoor? door;
 
   @override
   ConsumerState<AskScreen> createState() => _AskScreenState();
@@ -65,19 +79,29 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     text: widget.seed != null && widget.seed!.length > askMaxChars ? widget.seed!.substring(0, askMaxChars) : widget.seed,
   );
   final ScrollController _scroll = ScrollController();
-  /// Mobi at the head of the thread: on the stage before the first message, then smaller above
-  /// the conversation, where it thinks while a reply is on its way and talks when one lands.
+
+  /// The Ask now door's field (the stage); the composer at the foot has its own once a
+  /// conversation starts. Both hold the same words.
+  final FocusNode _doorField = FocusNode();
+
+  /// Mobi at the head of the screen: beside his greeting before the first message, then above the
+  /// conversation, where he thinks while a reply is on its way and talks when one lands.
   final MobiController _stageMobi = MobiController();
 
-  /// The lead prompt tile and the follow-up rail, so Mobi can glance at what is new.
+  /// The Ask now door, the record door and the follow-up rail, so Mobi can glance at what is new
+  /// and Practice's "Ask your record" can open the screen at its door.
   final GlobalKey _leadTileKey = GlobalKey();
+  final GlobalKey _recordKey = GlobalKey();
   final GlobalKey _railKey = GlobalKey();
   Timer? _glanceTimer;
   bool _stageGlanced = false;
   bool _railShown = false;
 
-  /// Mobi waves hello the first time Ask opens each day (late at night he is sleepy or asleep) and
-  /// says his opening line once per app run; after that he is simply there. Asked once, here.
+  /// "See all 7 questions about your record" is open.
+  bool _allRecord = false;
+
+  /// Mobi waves hello the first time Ask opens each day (late at night he is sleepy or asleep);
+  /// after that he is simply there. Asked once, here.
   late final MobiAct _entrance = MobiRation.greeting('ask');
   late final bool _greets = MobiRation.speakOnce('ask');
 
@@ -88,10 +112,11 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   @override
   void initState() {
     super.initState();
+    _doorField.addListener(_onDoorFocus);
     // Local answers need the record; read it if nothing has yet.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      // Read again on every open (not only when none is held), so the caption's session count is the record's now.
+      // Read again on every open (not only when none is held), so the counts are the record's now.
       ref.read(insightsRepositoryProvider.notifier).refresh();
       // A question handed over from a repair is opened (its context read); an ordinary visit hands
       // nothing over, so an earlier question never rides along.
@@ -100,15 +125,48 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       } else {
         ref.read(askQuestionProvider.notifier).clear();
       }
+      // A door chosen on Practice's card is a new question: the last conversation is put away so the
+      // doors show (an ordinary open keeps it, with "Ask something new" one tap away).
+      if (widget.door != null && cleanQuestionRef(widget.questionRef) == null) {
+        ref.read(askControllerProvider.notifier).startOver();
+      }
       // A question that was on its way when the app closed comes back with Send again.
       ref.read(askControllerProvider.notifier).restoreInterrupted();
+      _openAtDoor();
     });
+  }
+
+  /// Opens at the door Practice's card asked for, once the route has risen into place.
+  void _openAtDoor() {
+    final door = widget.door;
+    if (door == null || cleanQuestionRef(widget.questionRef) != null) return;
+    final wait = Motion.of(context, const Duration(milliseconds: 320));
+    final glide = Motion.of(context, const Duration(milliseconds: 360));
+    Future<void>.delayed(wait, () {
+      if (!mounted || ref.read(askControllerProvider).messages.isNotEmpty) return;
+      switch (door) {
+        case AskDoor.now:
+          _doorField.requestFocus();
+        case AskDoor.record:
+          final target = _recordKey.currentContext;
+          if (target != null && target.mounted) Scrollable.ensureVisible(target, duration: glide, curve: Motion.glide, alignment: 0.04);
+      }
+    });
+  }
+
+  void _onDoorFocus() {
+    // Mobi leans in to listen while the student types, and stands at ease after.
+    if (!mounted || ref.read(askControllerProvider).busy) return;
+    _stageMobi.play(_doorField.hasFocus ? MobiAct.listen : MobiAct.idle);
   }
 
   @override
   void dispose() {
     _text.dispose();
     _scroll.dispose();
+    _doorField
+      ..removeListener(_onDoorFocus)
+      ..dispose();
     _glanceTimer?.cancel();
     _stageMobi.dispose();
     super.dispose();
@@ -122,6 +180,16 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (ref.read(askQuestionProvider)?.loading ?? false) return;
     ref.read(hapticsProvider).light();
     if (text == null) _text.clear();
+    // "Why did I lose marks in my last paper?" is answered from that paper's own breakdown on the
+    // phone: free, at once, and about that one paper, never the whole record.
+    if (message == AskDoorCopy.lastPaper && ref.read(askQuestionProvider) == null) {
+      final last = lastPaper(ref.read(insightsInputsProvider).attempts, ref.read(nowProvider)());
+      if (last != null) {
+        ref.read(askControllerProvider.notifier).answerLocally(message, last.answer);
+        _toEnd();
+        return;
+      }
+    }
     final sending = ref.read(askControllerProvider.notifier).send(message);
     _toEnd();
     final failure = await sending;
@@ -132,10 +200,33 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     }
   }
 
+  /// A record door ask: a Pro one explains Pro (never sends), one already answered on the phone
+  /// lands at once, and the rest go the way every question goes.
+  void _askRecord(DoorAsk a) {
+    if (a.locked) {
+      showAskProSheet(context, a.intent ?? AskIntent.pace);
+      return;
+    }
+    final answer = a.answer;
+    if (answer != null) {
+      ref.read(hapticsProvider).light();
+      ref.read(askControllerProvider.notifier).answerLocally(a.text, answer);
+      _toEnd();
+      return;
+    }
+    _send(a.text);
+  }
+
   /// The credit details, and a fresh read of the wallet behind them.
   void _openWallet() {
     ref.read(creditsRepositoryProvider.notifier).refresh();
     showAskWalletSheet(context);
+  }
+
+  /// Practise 10 questions: a quick 10 through setup, so its price shows before it starts.
+  void _practise() {
+    final location = InsightsPaths.locationFor(AskSheetCopy.firstCheckHref);
+    if (location != null) context.push(location);
   }
 
   /// The line under the field: what the question typed there will cost, before it is sent. A
@@ -150,7 +241,24 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (ref.read(askQuestionProvider)?.ready ?? false) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
     if (text.isEmpty) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteIdle(balance);
     if (ref.read(askControllerProvider.notifier).answersOnPhone(text)) return InsightsCopy.askNoteFree;
+    if (text == AskDoorCopy.lastPaper && lastPaper(ref.read(insightsInputsProvider).attempts, ref.read(nowProvider)()) != null) {
+      return InsightsCopy.askNoteFree;
+    }
     return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
+  }
+
+  /// The line under the composer while a reply is on its way: a record ask waiting for the record
+  /// says so; anything else is a written reply, and it says what it uses.
+  String? _waitingNote(AskState state) {
+    if (!state.busy) return null;
+    final i = state.messages.indexWhere((m) => m.sending);
+    return i >= 0 && _waitsOnRecord(state, i) ? InsightsCopy.askNoteFree : AskDoorCopy.writingNote;
+  }
+
+  /// The pending reply at [i] answers a record ask that is waiting for the record to load.
+  static bool _waitsOnRecord(AskState state, int i) {
+    final asked = i > 0 && state.messages[i - 1].fromStudent ? state.messages[i - 1].text : null;
+    return asked != null && AskController.isRecordAsk(asked);
   }
 
   /// Report this reply: the flag sheet, then the report through the outbox. The line after it
@@ -204,8 +312,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
       ..showSnackBar(SnackBar(content: Text(line), behavior: SnackBarBehavior.floating));
   }
 
-  /// Mobi looks at something that has just arrived (a prompt, the follow-ups), once the
-  /// arriving content has settled into place.
+  /// Mobi looks at something that has just arrived (a door, the follow-ups), once the arriving
+  /// content has settled into place.
   void _glanceAt(MobiController who, GlobalKey key, {Duration after = const Duration(milliseconds: 700)}) {
     _glanceTimer?.cancel();
     _glanceTimer = Timer(after, () {
@@ -262,25 +370,34 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final state = ref.watch(askControllerProvider);
     ref.listen<AskState>(askControllerProvider, (prev, next) => _react(prev, next));
     final wallet = ref.watch(askWalletProvider);
-    final renew = renewDay(wallet, ref.watch(nowProvider)());
+    final now = ref.watch(nowProvider)();
+    final renew = renewDay(wallet, now);
     final inputs = ref.watch(insightsInputsProvider);
     final record = inputs.insights.value;
     final pro = inputs.pro;
-    // Never "Hi g16-fresh-1019a": a handle or the email's own prefix is not a name (fresh-account walk, 19 Oct).
-    final name = shownFirstName(ref.watch(authSnapshotProvider.select((s) => s.name)), email: ref.watch(authSnapshotProvider.select((s) => s.email)));
+    final auth = ref.watch(authSnapshotProvider.select((s) => (s.name, s.subjects, s.email)));
+    // Never "Hi g16-fresh-1019a": a handle or the email's own prefix is not a name (fresh-account walk, 19 Oct; G16
+    // findings 4 and 38). One rule for every screen: core/auth/display_name.dart.
+    final name = shownFirstName(auth.$1, email: auth.$3);
     final pad = MediaQuery.paddingOf(context);
+    final size = MediaQuery.sizeOf(context);
+    final compact = size.width < 380 || size.height < 760;
     final conversation = state.messages.isNotEmpty;
     final hand = ref.watch(askQuestionProvider);
     final withQuestion = hand != null && hand.ready;
+    // Offline only when the app's connection monitor already says so (the shell runs it); the screen
+    // never starts the monitor itself.
+    final offline = ref.exists(networkStatusProvider) && ref.watch(networkStatusProvider) == NetworkStatus.offline;
     // A handed-over question can only be answered by a written reply. When those cannot be bought
     // (paused, no credits, unreadable) Mobi cannot answer it: the card says so once, and the
     // composer goes (a greyed-out field for a question that cannot be asked is a dead end).
     final blockedQuestion = withQuestion && wallet != null && wallet.cannotWrite;
     void dropQuestion() => ref.read(askQuestionProvider.notifier).clear();
     final canReport = ref.watch(aiReplyReportAvailableProvider);
+    final stage = !conversation && hand == null;
 
     final attempts = inputs.attempts;
-    final evidence = attempts == null || record == null ? null : RecordEvidence(attempts, now: ref.watch(nowProvider)());
+    final evidence = attempts == null || record == null ? null : RecordEvidence(attempts, now: now);
 
     // Messages before the first pending reply have settled; the pending one and later arrive
     // with motion. After this frame everything built so far counts as settled.
@@ -304,9 +421,9 @@ class _AskScreenState extends ConsumerState<AskScreen> {
 
     void sendPrompt(AskPrompt p) => _send(p.text);
 
-    // Mobi glances at the first prompt tile as the prompts arrive, and at the follow-ups when a
-    // reply brings new ones. Once each; the glance is a look, not a loop.
-    if (!conversation && !_stageGlanced) {
+    // Mobi glances at the Ask now door as the doors arrive, and at the follow-ups when a reply
+    // brings new ones. Once each; the glance is a look, not a loop.
+    if (stage && !_stageGlanced) {
       _stageGlanced = true;
       _glanceAt(_stageMobi, _leadTileKey, after: const Duration(milliseconds: 1400));
     }
@@ -334,8 +451,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                       pools: [
                         LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.26 : 0.18), center: const Alignment(-1, -1.1), radius: 1.05),
                         // The pool Mobi stands in: warm lamp and a breath of volt under it.
-                        LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.42 : 0.3), center: const Alignment(0, -0.05), radius: 0.52),
-                        LightPool(color: colors.voltGlow, center: const Alignment(0, 0.12), radius: 0.34, strength: 0.7),
+                        LightPool(color: colors.lamp.withValues(alpha: colors.isNight ? 0.42 : 0.3), center: const Alignment(-0.62, -0.42), radius: 0.52),
+                        LightPool(color: colors.voltGlow, center: const Alignment(-0.62, -0.3), radius: 0.3, strength: 0.7),
                       ],
                     ),
             ),
@@ -345,20 +462,15 @@ class _AskScreenState extends ConsumerState<AskScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                InsightsHeader(
-                  title: InsightsCopy.askTitle,
-                  caption: record != null && record.isReady ? InsightsCopy.askCaption(record.sessions) : null,
-                  fallback: AppRoutes.review,
-                  closes: true,
-                  trailing: AskCreditPill(onTap: _openWallet),
-                ),
+                _AskHeader(onCredits: _openWallet),
                 Expanded(
                   // A conversation sits on the composer: short threads fill upward from the
                   // bottom, never leaving a dead band under the last reply.
                   child: LayoutBuilder(
                     builder: (context, box) => SingleChildScrollView(
                       controller: _scroll,
-                      padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s24),
+                      keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+                      padding: EdgeInsets.fromLTRB(MmSpace.gutter, stage ? MmSpace.s4 : MmSpace.s8, MmSpace.gutter, MmSpace.s24),
                       child: ConstrainedBox(
                         constraints: BoxConstraints(minHeight: box.maxHeight - MmSpace.s8 - MmSpace.s24),
                         child: Column(
@@ -370,9 +482,33 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                             if (!conversation && hand != null)
                               ..._questionStage(record, name, hand, blockedQuestion, dropQuestion)
                             else if (!conversation)
-                              ..._stage(record, pro, name, sendPrompt)
+                              ..._doors(
+                                inputs: inputs,
+                                name: name,
+                                subjects: auth.$2,
+                                pro: pro,
+                                now: now,
+                                compact: compact,
+                                offline: offline,
+                                busy: state.busy,
+                                note: (text) => _noteFor(text, wallet, renew),
+                              )
                             else ...[
                               _head(record, name, size: 104, greet: hand == null),
+                              // Back to the two doors at any time, once the reply has landed.
+                              if (hand == null && !state.busy)
+                                Center(
+                                  child: KeyButton.secondary(
+                                    label: AskDoorCopy.startOver,
+                                    expanded: false,
+                                    minHeight: MmTarget.min,
+                                    onPressed: () {
+                                      ref.read(askControllerProvider.notifier).startOver();
+                                      _settled = 0;
+                                      _stageGlanced = false;
+                                    },
+                                  ),
+                                ),
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 children: [
@@ -386,6 +522,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                                     AskMessageView(
                                       message: m,
                                       animate: i >= settled,
+                                      pendingWords: m.sending && _waitsOnRecord(state, i) ? InsightsCopy.askReading : null,
                                       citation: citationFor(m, record, evidence),
                                       onReport: m.isModel && canReport ? () => _report(m) : null,
                                       onOpenRecord: m.isModel ? () => context.push(InsightsPaths.insights) : null,
@@ -412,20 +549,27 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                     child: FollowUpRail(key: _railKey, prompts: followUps, onTap: sendPrompt, delay: Duration(milliseconds: revealMs == 0 ? 0 : revealMs + 240)),
                   ),
                 if ((wallet?.empty ?? false) && hand == null) AskOutOfCredits(onDetails: _openWallet),
-                if (!blockedQuestion)
-                _Composer(
-                  controller: _text,
-                  hint: hand != null ? InsightsCopy.askHintQuestion : InsightsCopy.askHint,
-                  busy: state.busy || (hand?.loading ?? false),
-                  onSend: _send,
-                  note: (text) => _noteFor(text, wallet, renew),
-                  bottomInset: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom,
-                  // Mobi leans in to listen while the student types, and stands at ease after.
-                  onFocusChange: (focused) {
-                    if (!mounted || ref.read(askControllerProvider).busy) return;
-                    _stageMobi.play(focused ? MobiAct.listen : MobiAct.idle);
-                  },
-                ),
+                // The stage asks inside its Ask now door, and the credit line closes the screen; with no
+                // credits left the band above says it instead (once, not twice; the doors keep their room).
+                // Once a conversation starts (or a question is handed over) the composer takes the foot.
+                if (stage && (wallet?.empty ?? false))
+                  SizedBox(height: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom)
+                else if (stage)
+                  AskCreditLine(onTap: _openWallet, bottomInset: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom)
+                else if (!blockedQuestion)
+                  _Composer(
+                    controller: _text,
+                    hint: hand != null ? InsightsCopy.askHintQuestion : AskDoorCopy.followUpHint,
+                    busy: state.busy || (hand?.loading ?? false),
+                    onSend: _send,
+                    note: (text) => _waitingNote(state) ?? _noteFor(text, wallet, renew),
+                    bottomInset: MediaQuery.viewInsetsOf(context).bottom > 0 ? 0 : pad.bottom,
+                    // Mobi leans in to listen while the student types, and stands at ease after.
+                    onFocusChange: (focused) {
+                      if (!mounted || ref.read(askControllerProvider).busy) return;
+                      _stageMobi.play(focused ? MobiAct.listen : MobiAct.idle);
+                    },
+                  ),
               ],
             ),
           ),
@@ -434,8 +578,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     );
   }
 
-  /// Mobi and the line it says about the record it has read. The same widget before and after the
-  /// first message (only its size changes), so Mobi never restarts when the conversation begins.
+  /// Mobi above the conversation. The same controller as on the stage, so he never restarts when
+  /// the conversation begins.
   Widget _head(PrepInsights? record, String? name, {double size = 132, bool greet = true}) {
     final ready = record != null && record.isReady;
     return Center(
@@ -453,7 +597,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   }
 
   /// The stage with a question handed over: Mobi, the question card, and one line on what Mobi sees.
-  /// No prompt tiles: they are about the record, and a record answer cannot discuss the question.
+  /// No doors: they are about any doubt and the record, and this conversation is about one mistake.
   List<Widget> _questionStage(PrepInsights? record, String? name, AskQuestionHand hand, bool blocked, VoidCallback onDrop) => [
         _head(record, name, greet: false),
         const SizedBox(height: MmSpace.s24),
@@ -464,44 +608,137 @@ class _AskScreenState extends ConsumerState<AskScreen> {
         ],
       ];
 
-  /// The stage before the first message: Mobi and its line, then the prompts by intent. The first
-  /// prompt is the largest and the only lit one; the rest follow in a grid.
-  List<Widget> _stage(PrepInsights? record, bool pro, String? name, void Function(AskPrompt) send) {
-    final tiles = recordPrompts(record, pro: pro);
-    final open = openPrompts(record);
-    Duration d(int ms) => Duration(milliseconds: ms);
+  /// The stage before the first message: Mobi's greeting, then the two doors, stacked. The doors
+  /// rise 12 dp in turn (0 and 60 ms); their rows follow 40 ms apart, once per open.
+  List<Widget> _doors({
+    required InsightsInputs inputs,
+    required String? name,
+    required List<String> subjects,
+    required bool pro,
+    required DateTime now,
+    required bool compact,
+    required bool offline,
+    required bool busy,
+    required String Function(String) note,
+  }) {
+    final record = inputs.insights.value;
+    final ready = record != null && record.isReady;
+    final last = lastPaper(inputs.attempts, now);
+    final asks = recordDoorAsks(record, pro: pro, last: last, now: now);
     return [
-      _head(record, name),
-      const SizedBox(height: MmSpace.s24),
-      RiseIn(delay: d(300), dy: MmSpace.s12, child: const AskEyebrow(InsightsCopy.askGroupRecord, note: InsightsCopy.askGroupRecordNote)),
-      RiseIn(
-        key: _leadTileKey,
-        delay: d(380),
-        dy: MmSpace.s12,
-        child: PromptTile(prompt: tiles[0], lead: true, onTap: () => send(tiles[0])),
+      if (offline) ...[
+        const InlineBanner(message: AskDoorCopy.offline, tone: BannerTone.offline),
+        const SizedBox(height: MmSpace.s12),
+      ],
+      AskGreeting(
+        controller: _stageMobi,
+        entrance: _entrance,
+        size: compact ? 88 : 104,
+        line: ready ? AskDoorCopy.greetHeavy(name, record.sessions) : AskDoorCopy.greetFresh(name),
       ),
       const SizedBox(height: MmSpace.s12),
-      IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Expanded(child: RiseIn(delay: d(425), dy: MmSpace.s12, child: PromptTile(prompt: tiles[1], onTap: () => send(tiles[1])))),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(child: RiseIn(delay: d(470), dy: MmSpace.s12, child: PromptTile(prompt: tiles[2], onTap: () => send(tiles[2])))),
-          ],
+      RiseIn(
+        key: _leadTileKey,
+        dy: MmSpace.s12,
+        child: AskNowDoor(
+          controller: _text,
+          focusNode: _doorField,
+          starters: askNowStarters(record: record, subjects: subjects),
+          // ASK-MOBI-1019 B frames 2 and 3: a heavy record keeps its lead figure above the fold.
+          shown: ready ? (compact ? 0 : 1) : (compact ? 1 : 2),
+          busy: busy,
+          note: note,
+          onSend: _send,
         ),
       ),
       const SizedBox(height: MmSpace.s12),
-      RiseIn(delay: d(515), dy: MmSpace.s12, child: PromptTile(prompt: tiles[3], wide: true, onTap: () => send(tiles[3]))),
-      const SizedBox(height: MmSpace.s24),
-      RiseIn(delay: d(560), dy: MmSpace.s12, child: const AskEyebrow(InsightsCopy.askGroupOpen, note: InsightsCopy.askGroupOpenNote)),
-      for (final (i, p) in open.indexed) ...[
-        if (i > 0) const SizedBox(height: MmSpace.s8),
-        RiseIn(delay: d(605 + i * 45), dy: MmSpace.s12, child: PromptRow(prompt: p, onTap: () => send(p))),
-      ],
+      RiseIn(
+        key: _recordKey,
+        delay: const Duration(milliseconds: 60),
+        dy: MmSpace.s12,
+        child: AskRecordDoor(
+          record: inputs.insights,
+          asks: asks,
+          offline: offline,
+          expanded: _allRecord,
+          onToggle: () => setState(() => _allRecord = !_allRecord),
+          onAsk: _askRecord,
+          onPractise: InsightsPaths.locationFor(AskSheetCopy.firstCheckHref) == null ? null : _practise,
+          onRetry: () => ref.read(insightsRepositoryProvider.notifier).refresh(force: true),
+        ),
+      ),
     ];
   }
+}
 
+/// The header of Ask Mobi's screen: a labelled Back key (the owner's D43), the title and the true
+/// credit count, which opens the credit details.
+class _AskHeader extends StatelessWidget {
+  const _AskHeader({required this.onCredits});
+
+  final VoidCallback onCredits;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return SizedBox(
+      height: 58,
+      child: Row(
+        children: [
+          const SizedBox(width: MmSpace.gutter),
+          MmPressable(
+            semanticsLabel: 'Back',
+            haptic: MmPressHaptic.selection,
+            focusRadius: MmRadius.pillAll,
+            onTap: () => context.canPop() ? context.pop() : context.go(AppRoutes.review),
+            builder: (context, pressed, _) => SizedBox(
+              height: MmTarget.min,
+              child: Center(
+                child: FakeGlass(
+                  borderRadius: MmRadius.pillAll,
+                  pressed: pressed,
+                  grain: false,
+                  child: SizedBox(
+                    height: 44,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 16, 0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(LucideIcons.chevronLeft, size: 20, color: colors.ink),
+                          const SizedBox(width: MmSpace.s4),
+                          Text('Back', style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600)),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: MmSpace.s12),
+          // The title steps down to fit whole (never "Ask Mo..."); at large text the pill does too.
+          Expanded(
+            child: Semantics(
+              header: true,
+              child: FittedBox(
+                fit: BoxFit.scaleDown,
+                alignment: Alignment.centerLeft,
+                child: Text(InsightsCopy.askTitle, style: type.screenTitle, maxLines: 1, softWrap: false),
+              ),
+            ),
+          ),
+          const SizedBox(width: MmSpace.s8),
+          ConstrainedBox(
+            constraints: BoxConstraints(maxWidth: MediaQuery.sizeOf(context).width * 0.4),
+            child: FittedBox(fit: BoxFit.scaleDown, alignment: Alignment.centerRight, child: AskCreditPill(onTap: onCredits)),
+          ),
+          const SizedBox(width: MmSpace.gutter),
+        ],
+      ),
+    );
+  }
 }
 
 /// The composer: a floating glass pill with the field and the send disc, and the cost line under

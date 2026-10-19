@@ -210,7 +210,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 400));
       expect(find.text(PracticeCopy.refreshFailed), findsOneWidget);
       expect(find.text(PracticeCopy.retry), findsOneWidget);
-      expect(find.text(PracticeCopy.quickTitle), findsOneWidget, reason: 'what was on screen stays');
+      expect(find.text(PracticeCopy.quickTitle, skipOffstage: false), findsOneWidget, reason: 'what was on the page stays');
 
       fail = false;
       await tester.tap(find.text(PracticeCopy.retry));

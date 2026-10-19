@@ -45,6 +45,7 @@ class AskMessageView extends StatefulWidget {
     this.onCredits,
     this.renew,
     this.indented = true,
+    this.pendingWords,
   });
 
   /// False lays a failure at the start of the line (the Ask Mobi sheet frames it instead of
@@ -71,6 +72,11 @@ class AskMessageView extends StatefulWidget {
 
   /// Opens the record from a model reply ("check it against your record"); null hides the key.
   final VoidCallback? onOpenRecord;
+
+  /// What the wait says while this reply is on its way: "Writing a reply" unless the screen knows
+  /// better (a record ask waiting on the record says it is reading it). Replies are not streamed,
+  /// so the wait never pretends to type (ASK-MOBI-1019, C-pick 2).
+  final String? pendingWords;
 
   @override
   State<AskMessageView> createState() => _AskMessageViewState();
@@ -153,7 +159,7 @@ class _AskMessageViewState extends State<AskMessageView> {
       return bubble;
     }
 
-    if (m.sending) return const _Pending(face: _face);
+    if (m.sending) return _Pending(face: _face, words: widget.pendingWords ?? InsightsCopy.askThinking);
 
     if (m.failure case final failure?) {
       final renew = widget.renew ?? renewDay(null, DateTime.now());
@@ -274,9 +280,12 @@ class _AskMessageViewState extends State<AskMessageView> {
 /// bubbles rest half inked and the words change to say it is still working, so a long wait reads
 /// as a wait and not a hang (MOTION.md 1.1).
 class _Pending extends StatefulWidget {
-  const _Pending({required this.face});
+  const _Pending({required this.face, required this.words});
 
   final double face;
+
+  /// What is happening, until the patience runs out.
+  final String words;
 
   @override
   State<_Pending> createState() => _PendingState();
@@ -307,7 +316,7 @@ class _PendingState extends State<_Pending> {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final words = _still ? InsightsCopy.askStillThinking : InsightsCopy.askThinking;
+    final words = _still ? InsightsCopy.askStillThinking : widget.words;
     return Semantics(
       liveRegion: true,
       label: _still ? InsightsCopy.askStillThinking : InsightsCopy.askSending,

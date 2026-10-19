@@ -16,6 +16,7 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/router/action_router.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/insights/copy.dart';
+import 'package:mockmob/features/insights/data/ask_doors.dart' show AskDoorCopy;
 import 'package:mockmob/features/insights/data/ai_reply_report.dart' show insightsPrefsStoreProvider;
 import 'package:mockmob/features/insights/data/ask_controller.dart';
 import 'package:mockmob/features/insights/data/ask_question.dart';
@@ -322,8 +323,10 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.byType(AskQuestionCard), findsNothing);
       expect(find.text('Mobi cannot answer this question right now. Nothing was charged.'), findsNothing);
-      expect(find.byType(TextField), findsOneWidget, reason: 'the composer is back, for the record');
-      expect(find.text(InsightsCopy.askHint), findsOneWidget);
+      // ASK-MOBI-1019 B: the ordinary Ask is the two doors, and the field is Ask now's.
+      expect(find.byType(TextField), findsOneWidget, reason: 'the field is back');
+      expect(find.text(AskDoorCopy.nowHint), findsOneWidget);
+      expect(find.text(AskDoorCopy.recordTitle), findsOneWidget);
     });
 
     for (final b in Brightness.values) {

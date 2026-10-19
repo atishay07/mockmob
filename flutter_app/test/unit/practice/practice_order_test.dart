@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/insights/ask_mobi.dart' show AskMobiCard;
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 import 'package:mockmob/features/practice/widgets/subject_tiles.dart';
@@ -57,7 +58,10 @@ void main() {
     final quick = tester.getRect(find.text(PracticeCopy.quickTitle));
     expect(strip.bottom, lessThanOrEqualTo(card.top), reason: 'the subjects lead, the card follows');
     expect(card.bottom, lessThanOrEqualTo(quick.top), reason: 'the first mode sits under the card');
-    expect(quick.bottom, lessThanOrEqualTo(barTop), reason: 'the first mode shows above the bar');
+    // ASK-MOBI-1019 B: Ask Mobi's card (in the old row's slot) starts above the bar; the first mode is one short
+    // scroll under it.
+    expect(tester.getRect(find.byType(AskMobiCard)).top, lessThan(barTop), reason: 'Ask Mobi is in the first view');
+    expect(quick.bottom, lessThanOrEqualTo(barTop + 260), reason: 'the first mode is one short scroll away');
     // No volt key in the page body: the bar's Start key holds the screen's one volt (17 Oct), so
     // the card's own key and the "Edit subjects" link are quieter than it.
     final lit = find.byWidgetPredicate((w) => w is KeyButton && w.variant == KeyVariant.primary);

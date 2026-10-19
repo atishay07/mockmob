@@ -252,10 +252,13 @@ abstract final class InsightsCopy {
   static const askTitle = 'Ask Mobi';
   static String askCaption(int sessions) => 'Reads your last ${_n(sessions, 'session')}';
   static const askIntro = 'Ask about your marks, chapters, timing or week. Those answers come from your own sessions.';
+  /// Mobi's line above a conversation. [name] is a first name the student gave, never an email
+  /// prefix (see `shownFirstName` in core/auth/display_name.dart); with none he greets plainly.
   static String askGreeting(String? name, int? sessions) {
     final hi = name == null ? 'Hi.' : 'Hi $name.';
-    if (sessions == null || sessions == 0) return '$hi Ask me about your marks, chapters, pace or week.';
-    return '$hi I have read your last ${_n(sessions, 'session')}. Ask me anything about them.';
+    if (sessions == null || sessions == 0) return '$hi Ask me any CUET doubt, right now.';
+    if (sessions == 1) return "$hi I've read your first paper. Ask me anything about it.";
+    return "$hi I've read your last $sessions papers. Ask me anything about them.";
   }
 
   static const askGroupRecord = 'About your marks';
@@ -277,8 +280,10 @@ abstract final class InsightsCopy {
   static const previewPace = 'Needs timed answers';
   static const previewWeek = 'Counts your last 7 days';
   static const costCredit = '1 credit';
-  static const askThinking = 'Thinking it through';
-  static const askStillThinking = 'Still thinking. Long questions take a little longer.';
+  // Replies arrive whole (no streaming yet), so the wait says what is really happening.
+  static const askThinking = 'Writing a reply';
+  static const askReading = 'Reading your record';
+  static const askStillThinking = 'Still writing. A long answer takes a little longer.';
   static const sourceRecord = 'From your record';
   static const sourceModel = 'MockMob AI';
   static const sourcePaused = 'AI replies paused';

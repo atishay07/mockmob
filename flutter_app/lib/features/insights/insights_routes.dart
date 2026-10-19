@@ -26,6 +26,7 @@ import 'screens/ask_screen.dart';
 import 'screens/insights_screen.dart';
 import 'screens/saved_screen.dart';
 import 'screens/stream_screen.dart';
+import 'widgets/ask_mobi_button.dart' show AskDoor;
 
 export 'insights_paths.dart';
 export 'widgets/entry_points.dart' show InsightsCard, ReviewInsightsRows, InsightsEntry, SavedEntry, StreamEntry, EntryRow;
@@ -54,9 +55,11 @@ Widget practiceStreamScreen(BuildContext context, GoRouterState state) {
 }
 
 /// `/ask`. A String `extra` starts the composer with that text (never sends it). `?q=attemptId:questionId`
-/// hands over the repaired mistake "Ask Mobi about Q3" is about.
+/// hands over the repaired mistake "Ask Mobi about Q3" is about. `?door=now|record` (Practice's Ask
+/// Mobi card) opens at that door; any other value opens at the top.
 Widget askScreen(BuildContext context, GoRouterState state) => AskScreen(
       key: ValueKey(state.uri.toString()),
       seed: state.extra is String ? state.extra! as String : null,
       questionRef: state.uri.queryParameters['q'],
+      door: AskDoor.values.asNameMap()[state.uri.queryParameters['door']],
     );

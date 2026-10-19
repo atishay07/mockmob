@@ -2,7 +2,7 @@
 // shell adds the bar's clearance to a tab root's bottom padding (MmBarInsets); this pumps the tab
 // on a 360 by 800 dp phone with a 24 dp status bar and a 24 dp gesture inset, wrapped the way
 // the shell wraps it, and checks the last row ends above the bar's top edge once scrolled, and
-// that, at first view, the suggestion and the two rows under it (Repairs, Ask Mobi) are whole above the bar and the quick pair is one short scroll away on a
+// that, at first view, the suggestion and what sits under it (Your papers, Ask Mobi's card) are whole above the bar and the quick pair is one short scroll away on a
 // 360 by 800 phone.
 import 'dart:math' as math;
 
@@ -11,6 +11,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart';
+import 'package:mockmob/features/insights/ask_mobi.dart' show AskMobiCard;
+import 'package:mockmob/features/insights/data/ask_doors.dart' show AskDoorCopy;
 import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
 
@@ -103,6 +105,8 @@ void main() {
   // right under the suggestion, so at first view a 360 by 800 phone shows the suggestion, Repairs and Ask Mobi whole above
   // the bar, and the quick pair begins under them. No layout can hold both asks: the pair needed the whole first view on a
   // 780 phone. The pair stays reachable with one short scroll and then rests whole above the bar.
+  // Since 19 Oct the Repairs row is Your papers (D105, G20) and the Ask Mobi row is Ask Mobi's card (ASK-MOBI-1019 B), in
+  // the same slots; the card is taller, so the scroll to the pair is longer (accepted in the design).
   testWidgets('at first view the suggestion, Your papers and Ask Mobi are above the bar; the quick pair follows and is one short scroll away', (tester) async {
     const phone = Size(360, 800);
     tester.view.padding = const FakeViewPadding(top: 48, bottom: _gesture * 2);
@@ -112,13 +116,15 @@ void main() {
     }
     final barTop = phone.height - _gesture - MmBar.lift - MmBar.height;
     expect(tester.getRect(find.text('Your papers')).bottom, lessThanOrEqualTo(barTop), reason: 'Your papers (where Repairs was, D105) is whole above the bar at first view');
-    expect(tester.getRect(find.text('Ask Mobi what to practise')).bottom, lessThanOrEqualTo(barTop), reason: 'so is Ask Mobi');
-    final pair = tester.getRect(find.byKey(const ValueKey('choice-quick')));
-    expect(pair.top, greaterThan(tester.getRect(find.text('Ask Mobi what to practise')).bottom), reason: 'the pair comes after the two rows');
-    // One short scroll (about a third of a screen) brings the pair, titles and notes, above the bar.
+    // ASK-MOBI-1019 B: Ask Mobi's card took the old row's slot; its title and line are above the bar at first view.
+    final askTitle = find.descendant(of: find.byType(AskMobiCard), matching: find.text(AskDoorCopy.cardTitle));
+    expect(tester.getRect(askTitle).bottom, lessThanOrEqualTo(barTop), reason: 'so is Ask Mobi');
+    // One short scroll (under half a screen; the card is about 100 dp taller than the row it replaced) brings the
+    // pair, titles and notes, above the bar.
     final scrollable = find.byType(Scrollable).first;
-    await tester.drag(scrollable, const Offset(0, -220));
+    await tester.drag(scrollable, const Offset(0, -330));
     await tester.pump(const Duration(milliseconds: 400));
+    expect(tester.getRect(find.byKey(const ValueKey('choice-quick'))).top, greaterThan(tester.getRect(find.byType(AskMobiCard)).bottom), reason: 'the pair comes after the rows and the card');
     for (final (id, title, note) in const [('quick', 'Quick practice', PracticeCopy.quickLine), ('chapter', 'By chapter', PracticeCopy.chapterLine)]) {
       expect(tester.getRect(find.byKey(ValueKey('choice-$id'))).top, lessThanOrEqualTo(barTop - 120), reason: 'the $id card starts well above the bar after one scroll');
       expect(tester.getRect(find.text(title)).bottom, lessThanOrEqualTo(barTop - MmSpace.s24), reason: '$title rests above the bar after one scroll');

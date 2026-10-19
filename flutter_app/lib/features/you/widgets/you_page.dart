@@ -20,12 +20,17 @@ class YouPage extends StatelessWidget {
     this.lamp = true,
     this.footer,
     this.header,
+    this.trailing,
   });
 
   final String title;
 
-  /// Replaces the back-key header: a tab root's own row (the Mob tab's account key and title, D105).
+  /// Replaces the back-key header: a tab root's own row (the Mob tab's account key and title, D105). It carries its
+  /// own trailing action; [trailing] is for the back-key header.
   final Widget? header;
+
+  /// An action at the end of the back-key header row (Mob's "Ask Mobi").
+  final Widget? trailing;
   final List<Widget> children;
   final bool showBack;
 
@@ -84,7 +89,7 @@ class YouPage extends StatelessWidget {
       driver: MmStaggerDriver.route,
       child: CustomScrollView(
         slivers: [
-          SliverToBoxAdapter(child: header ?? YouHeader(title: title, showBack: showBack, large: large)),
+          SliverToBoxAdapter(child: header ?? YouHeader(title: title, showBack: showBack, large: large, trailing: trailing)),
           SliverList.list(children: [for (var i = 0; i < children.length; i++) MmStaggerItem(index: i, child: children[i])]),
           SliverToBoxAdapter(
             child: SizedBox(height: footer != null ? MmSpace.s24 : padBottom + MediaQuery.viewPaddingOf(context).bottom),

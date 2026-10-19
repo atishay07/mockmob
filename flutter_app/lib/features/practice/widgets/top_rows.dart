@@ -6,7 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/repositories/attempts_repository.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
-import '../../insights/ask_mobi.dart' show AskMobiPracticeRow;
+import '../../insights/ask_mobi.dart' show AskMobiCard;
 import '../../insights/widgets/entry_points.dart' show EntryRow;
 import '../../learn/data/catalog_repository.dart';
 import '../../learn/data/concepts_pick.dart';
@@ -17,11 +17,12 @@ import '../copy.dart';
 /// D5: "no one will be able to see it ever, the placement is really bad"): Your papers while mistakes wait to be
 /// repaired (D105, G20: the Review screen lives inside Practice now; it took the Repairs row's place and rule), Learn
 /// with the lesson it would open next and why (the owner's D20: Learn has a clear way in, without a new tab), and Ask
-/// Mobi what to practise.
+/// Mobi. Ask Mobi's card (ASK-MOBI-1019 B, D112) took the slot of the old "Ask Mobi what to practise" row: moved,
+/// nothing removed.
 ///
 /// Your papers is on the page for every account, a fresh one too (R3): here while there are open mistakes, where the
 /// Repairs row was, and otherwise first in "More ways in" ([YourPapersRow]), so a first-time student's first screen is
-/// the subjects, the start and the modes, as in v15.2. Plain rows with hairlines, no art, no card.
+/// the subjects, the start and the modes, as in v15.2. Plain rows with hairlines, then Ask Mobi's card.
 class PracticeTopRows extends ConsumerWidget {
   const PracticeTopRows({super.key});
 
@@ -46,8 +47,9 @@ class PracticeTopRows extends ConsumerWidget {
           ),
           line,
         ],
-        const AskMobiPracticeRow(),
-        line,
+        // Ask Mobi's card, in the old "Ask Mobi what to practise" row's slot (ASK-MOBI-1019 B).
+        const SizedBox(height: MmSpace.s16),
+        const AskMobiCard(),
       ],
     );
   }

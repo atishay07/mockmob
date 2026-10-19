@@ -12,6 +12,7 @@ import '../../core/motion/motion.dart';
 import '../../core/router/app_shell.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../insights/ask_mobi.dart' show AskMobiButton;
 import '../pro_nudge/pro_nudge.dart';
 import '../runner/runner_routes.dart' show NtaRoutes;
 import 'copy.dart';
@@ -276,11 +277,14 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                           child: TabRootHeader(
                             title: PracticeCopy.tabTitle,
                             // 44 dp Mobi, resident: no bubble on this tab, he reacts.
-                            trailing: PracticeMobi(
-                              controller: _mobi,
-                              entrance: _entrance,
-                              loading: quotesLoading || _refreshing,
-                              aim: _heroKey,
+                            trailing: AskMobiButton(
+                              // ASK-MOBI-1019 B: the labelled way in to Ask Mobi.
+                              figure: PracticeMobi(
+                                controller: _mobi,
+                                entrance: _entrance,
+                                loading: quotesLoading || _refreshing,
+                                aim: _heroKey,
+                              ),
                             ),
                           ),
                         ),
@@ -356,8 +360,8 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
                         child: Padding(padding: gutter, child: SuggestionHero(actionKey: _heroKey, compact: true)),
                       ),
                       const SizedBox(height: MmSpace.s16),
-                      // D2. Repairs (with how many are open) and Ask Mobi what to practise, where a student sees them:
-                      // right under the suggestion, not three screens down (D5).
+                      // D2. Your papers (while mistakes are open, with the count; D105) and Ask Mobi's card (ASK-MOBI-1019
+                      // B), where a student sees them: right under the suggestion, not three screens down (D5).
                       const MmStaggerItem(index: 2, child: Padding(padding: gutter, child: PracticeTopRows())),
                       const SizedBox(height: MmRhythm.group),
                       // E. Ways to practise, shortest to longest, in one deck: the quick pair, Smart

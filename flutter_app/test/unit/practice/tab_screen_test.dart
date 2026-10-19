@@ -251,6 +251,10 @@ void main() {
     // The lesson Learn would open next leads the shelf and says so; due lessons follow.
     expect(find.text('Read this next'), findsOneWidget);
     expect(find.text('Vocabulary set 1'), findsOneWidget);
+    // Since 19 Oct the page above the shelf is taller (Ask Mobi's card in the old row's slot, ASK-MOBI-1019 B; Your
+    // papers first in "More ways in", D105), so the shelf can sit under the fold: scroll to it, as a student would.
+    await tester.ensureVisible(find.text('Vocabulary set 1'));
+    await tester.pump();
     await tester.tap(find.text('Vocabulary set 1'));
     await settle(tester);
     expect(router.state.uri.path, '/learn/eng-vocab');
