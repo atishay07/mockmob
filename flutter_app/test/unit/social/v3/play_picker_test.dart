@@ -125,7 +125,7 @@ void main() {
     expect(find.text('Open now'), findsOneWidget);
     expect(find.text("Riya's sprint"), findsOneWidget);
     expect(find.text('5 questions. Open until 2:05 PM tomorrow.'), findsOneWidget);
-    await tapAt(t, keyLabel('Play'));
+    await tapToRun(t, keyLabel('Play'));
     expect(find.byType(GameRunScreen), findsOneWidget);
     expect(find.text('Play with your Mob'), findsNothing, reason: 'the sheet leaves when the run opens');
   });

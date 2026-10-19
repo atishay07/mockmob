@@ -53,6 +53,17 @@ Future<void> tapAt(WidgetTester t, Finder f) async {
   await t.pumpAndSettle();
 }
 
+/// Taps a key that opens the run: the run screen counts down and its Folds breathe, so it never
+/// settles; pump a second of frames instead.
+Future<void> tapToRun(WidgetTester t, Finder f) async {
+  await t.ensureVisible(f);
+  await t.pumpAndSettle();
+  await t.tap(f);
+  for (var i = 0; i < 60; i++) {
+    await t.pump(const Duration(milliseconds: 16));
+  }
+}
+
 class Host extends StatelessWidget {
   const Host({super.key, required this.open});
 

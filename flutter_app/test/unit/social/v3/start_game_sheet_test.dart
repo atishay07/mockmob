@@ -73,7 +73,7 @@ void main() {
   testWidgets('Start the sprint opens the game and the run at once, and returns the game', (t) async {
     final server = v3Server(scenario: 'quiet');
     await _open(t, server);
-    await tapAt(t, keyLabel('Start the sprint'));
+    await tapToRun(t, keyLabel('Start the sprint'));
     expect(_result, isNotNull);
     expect(_result!.count, 5);
     expect(find.byType(GameRunScreen), findsOneWidget);
@@ -85,7 +85,7 @@ void main() {
     await _open(t, server);
     await tapAt(t, find.text('Your own round'));
     await tapAt(t, find.byIcon(LucideIcons.plus));
-    await tapAt(t, keyLabel('Start the round'));
+    await tapToRun(t, keyLabel('Start the round'));
     expect(_result?.count, 15);
   });
 
@@ -127,7 +127,7 @@ void main() {
     expect(keyLabel('Start the sprint'), findsOneWidget, reason: 'now an anytime game');
     expect(find.text('Everyone gets the same questions for 24 hours and races the runs before them.'), findsOneWidget);
     // The next press opens it as anytime.
-    await tapAt(t, keyLabel('Start the sprint'));
+    await tapToRun(t, keyLabel('Start the sprint'));
     expect(server.openedModes, [GameMode.live, GameMode.async]);
     expect(_result, isNotNull);
   });

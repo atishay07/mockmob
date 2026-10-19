@@ -272,7 +272,12 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
             p.fade = true;
             p.controller.duration = Motion.reducedFade;
             p.controller.forward(from: 0);
-            if (r.ghost) widget.onFinishToast?.call(r);
+            // After this frame: didUpdateWidget runs inside the parent's build, and the toast sets state there.
+            if (r.ghost) {
+              WidgetsBinding.instance.addPostFrameCallback((_) {
+                if (mounted) widget.onFinishToast?.call(r);
+              });
+            }
           }
           continue;
         }
