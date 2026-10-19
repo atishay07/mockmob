@@ -4,7 +4,7 @@
 import { TEST_MODES, resolveCount, practiceCreditCost } from './test_modes.js';
 import { MODE_CAPABILITIES, LAUNCH_SUBJECT_IDS } from './capabilities.js';
 import { resolveSubject } from './subject_registry.js';
-import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_REASON, FIRST_FULL_MOCK_STATE, firstFullMockApplies, firstFullMockKind, isFullSampleKind } from './first_full_mock.js';
+import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_REASON, FIRST_FULL_MOCK_STATE, firstFullMockApplies, firstFullMockEnabled, firstFullMockKind, isFullSampleKind } from './first_full_mock.js';
 
 export const QUOTE_TTL_MS = 60_000;
 
@@ -56,7 +56,7 @@ export function buildPracticeQuote({ user, subject, mode: modeId, count, purpose
   // The first full mock in each subject is free (data/first_full_mock.js). Every Free quote past the subject and mode checks carries
   // the rule's state for this subject ('available' | 'used' | 'unknown'), whichever mode it is for, so the Practice screen can say
   // the Full mock is free while Quick practice or NTA mode is chosen. Pro has no such field: nothing is priced for Pro.
-  const firstState = isPremium ? null : [FIRST_FULL_MOCK_STATE.available, FIRST_FULL_MOCK_STATE.used, FIRST_FULL_MOCK_STATE.unknown].includes(firstFullMock) ? firstFullMock : null;
+  const firstState = isPremium || !firstFullMockEnabled() ? null : [FIRST_FULL_MOCK_STATE.available, FIRST_FULL_MOCK_STATE.used, FIRST_FULL_MOCK_STATE.unknown].includes(firstFullMock) ? firstFullMock : null;
   const common = {
     subject: subjectOut,
     mode: { id: mode.id, label: mode.label, capabilityId: capability.id, capabilityVersion: capability.version },

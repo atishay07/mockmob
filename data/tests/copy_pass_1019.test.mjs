@@ -26,13 +26,15 @@ const read = (path) => readFileSync(join(root, path), 'utf8');
 // ---- 1. the free first full mock -----------------------------------------------------------------------------------------
 
 test('every shared line that prices a full mock says the first one in each subject is free', () => {
-  assert.match(ONE_CREDIT_LINE, /A full mock costs 50, and your first one in each subject is free\./);
+  assert.match(ONE_CREDIT_LINE, /A full mock costs 50 credits, and your first one in each subject is free\./);
   assert.match(PRACTICE_PRICE_LINE, /A full mock costs 50 credits, and your first one in each subject is free\./);
   const knowledge = read('src/components/ai/assistantKnowledge.js');
   assert.doesNotMatch(knowledge, /a full mock 50/, 'Ask Mobi no longer says a bare "a full mock 50"');
-  assert.equal((knowledge.match(/your first full mock in each subject is free/g) || []).length, 2, 'the Credits guide entry and the instant credits answer');
+  // Release 11 (verifier L4): the clause is written once, behind the rule's switch, and both lines carry it.
+  assert.equal((knowledge.match(/your first full mock in each subject is free/g) || []).length, 1, 'one clause');
+  assert.equal((knowledge.match(/deeper analysis costs 3\$\{FIRST_FREE\}\./g) || []).length, 2, 'the Credits guide entry and the instant credits answer');
   const pricing = read('src/app/pricing/page.js');
-  assert.match(pricing, /3 a deeper analysis\. Your first Full mock in each subject is free'\]/, 'the Free plan’s Credits row');
+  assert.match(pricing, /3 a deeper analysis\.\$\{FIRST_FULL_MOCK_ON \? ' Your first Full mock in each subject is free\.' : ''\}`\]/, 'the Free plan’s Credits row, with its full stop (L7)');
   assert.match(pricing, /\['Full mock \(50 questions, 60 minutes\)', 'First one free in each subject, then 50 credits each', 'Unlimited'\]/);
   // The plan card says the price sentence once (it already carries the free first mock), not the rule a second time.
   assert.doesNotMatch(read('src/components/billing/PlanCard.jsx'), /FIRST_FULL_MOCK_COPY/);
@@ -90,7 +92,7 @@ test('Today, a mock move: free in its subject says so, unread or another subject
   const set = { id: 'practice', number: 20, subject: 'economics', key: { href: '/dashboard?mode=quick&count=20' } };
   assert.equal(priceLineOf(set, { balance: 90, firstFull: { subject: 'economics', state: 'available' } }), 'This set uses 20 credits. You have 90.');
   const page = read('src/app/(app)/today/page.jsx');
-  assert.match(page, /useFirstFullMock\(\{ userId, premium, subject: mockSubject \}\)/);
+  assert.match(page, /useFirstFullMockRead\(\{ userId, premium, subject: mockSubject \}\)/);
 });
 
 test('the quote read is shared per student and subject for a minute, a failed read is never kept, and a start forgets it', async () => {

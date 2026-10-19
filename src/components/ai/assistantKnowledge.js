@@ -2,6 +2,10 @@
 // build its own schedule, missions, benchmarks or entitlements. Every claim here must
 // match a shipped capability (see data/capabilities.js).
 import { CAPABILITIES } from '@/../data/capabilities';
+import { FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
+
+// The free first full mock (C-dec 1), said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
+const FIRST_FREE = FIRST_FULL_MOCK_ON ? ', and your first full mock in each subject is free' : '';
 
 export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your credits have not been used.';
 
@@ -66,7 +70,7 @@ export const FEATURE_GUIDE = [
     key: 'credits',
     name: 'Credits',
     route: '/pricing/ai-credits',
-    description: 'One credits balance pays for practice and Ask Mobi. A question or a chat reply costs 1 credit, a full mock costs 50 and deeper analysis costs 3, and your first full mock in each subject is free. Everyone gets 50 free credits a month, and they are used first.',
+    description: `One credits balance pays for practice and Ask Mobi. A question or a chat reply costs 1 credit, a full mock costs 50 and deeper analysis costs 3${FIRST_FREE}. Everyone gets 50 free credits a month, and they are used first.`,
     whenToUse: 'Use it to see your credits and what they pay for.',
     actionLabel: 'See your credits',
   },
@@ -101,7 +105,7 @@ export function deterministicReplyFor({ text, pathname }) {
     return reply(
       paused
         ? `${PREPOS_PAUSED_MESSAGE} Your credits still pay for practice sets and full mocks.`
-        : 'One credits balance pays for practice and Ask Mobi. A question or a chat reply costs 1 credit, a full mock costs 50 and deeper analysis costs 3, and your first full mock in each subject is free. The 50 free credits you get each month are used first.',
+        : `One credits balance pays for practice and Ask Mobi. A question or a chat reply costs 1 credit, a full mock costs 50 and deeper analysis costs 3${FIRST_FREE}. The 50 free credits you get each month are used first.`,
       'Wallet state comes from the server.',
       { label: 'See your credits', type: 'navigate', route: '/pricing/ai-credits' },
     );

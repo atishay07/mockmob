@@ -506,6 +506,9 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     toast.success('Starting your session…');
     const tonight = new URLSearchParams();
     for (const name of ['tonightKey','tonightMinutes']) if (searchParams.get(name)) tonight.set(name,searchParams.get(name));
+    // A full mock this quote called free says so to the server (firstFree=1): if it is not free by the time it starts (another
+    // device or tab took it), the start is refused and nothing is charged, never charged without a warning (verifier L1).
+    if (quoteFirstFree) tonight.set('firstFree', '1');
     const target = `${launchHref}&generationKey=${encodeURIComponent(launchingKeyRef.current)}${tonight.size ? `&${tonight}` : ''}`;
     // A Full mock or NTA paper opens on its start moment: the clock turns once, then the paper loads. Short sessions go now.
     if (mode.id === 'full' || mode.id === 'nta') {

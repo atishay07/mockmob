@@ -33,7 +33,8 @@ async function handle(request, operation, funnelKind = null) {
     return Response.json(result, { headers });
   } catch (error) {
     const message = error.message || 'SESSION_REQUEST_FAILED';
-    const status = /NOT_FOUND/.test(message) ? 404 : /MIGRATION|FAILED/.test(message) ? 503 : /CREDITS|PREMIUM/.test(message) ? 402 : 422;
+    // FIRST_FULL_MOCK_TAKEN (data/first_full_mock.js): the free full mock this start was quoted went elsewhere; nothing was charged.
+    const status = /FIRST_FULL_MOCK_TAKEN/.test(message) ? 409 : /FIRST_FULL_MOCK_UNCHECKED/.test(message) ? 503 : /NOT_FOUND/.test(message) ? 404 : /MIGRATION|FAILED/.test(message) ? 503 : /CREDITS|PREMIUM/.test(message) ? 402 : 422;
     // NTA refusals carry a sentence for the student and what the bank was short of.
     const extra = error.publicMessage ? { message: error.publicMessage, detail: error.publicDetail } : {};
     return Response.json({ error: message, ...extra }, { status, headers });
