@@ -153,13 +153,13 @@ void main() {
     expect(rig.refreshes, 1);
   });
 
-  testWidgets('flag on: the Pro row opens the Get Pro sheet', (tester) async {
+  testWidgets('flag on: the Pro row opens the Pro page', (tester) async {
     await _pump(tester, rig: BillingRig());
     await tester.ensureVisible(find.text(WalletCopy.proRowNote));
     await tester.tap(find.text(WalletCopy.proRowNote));
     await _settle(tester);
     await tester.pump(const Duration(milliseconds: 600));
-    expect(find.text('Pro includes'), findsOneWidget);
+    expect(find.text(BillingCopy.proPageTitle), findsOneWidget);
   });
 
   testWidgets('Pro: no Pro row, practice is unlimited, the packs are still there', (tester) async {

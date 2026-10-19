@@ -12,6 +12,7 @@ import 'package:mockmob/core/widgets/widgets.dart' show KeyButton, KeyVariant;
 import 'package:mockmob/features/credits/data/credits_data.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
+import 'package:mockmob/features/billing/widgets/pro_page.dart' show ProPage;
 import 'package:mockmob/features/insights/copy.dart';
 import 'package:mockmob/features/insights/screens/ask_screen.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
@@ -131,7 +132,7 @@ void main() {
       await tester.pump(const Duration(milliseconds: 50));
     }
 
-    testWidgets('flag on: the Pro gate has an Upgrade to Pro key that opens the Upgrade sheet on NTA mode', (tester) async {
+    testWidgets('flag on: the Pro gate has an Upgrade to Pro key that opens the Pro page on NTA mode', (tester) async {
       final rig = BillingRig();
       await pumpGate(tester, rig);
       expect(find.text('NTA mode comes with Pro'), findsOneWidget);
@@ -141,11 +142,15 @@ void main() {
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 700));
-      // The Upgrade sheet, with the gate's own headline and Google Play's key to buy.
-      expect(find.bySemanticsLabel(ProNudgeCopy.sheetLabel), findsOneWidget);
+      // The Pro page (owner I6, 20 Oct), headed by the gate's own headline, with Google Play's key to buy.
+      expect(find.byType(ProPage), findsOneWidget);
       expect(find.text(ProNudgeCopy.head(ProReason.ntaMode).title), findsOneWidget);
       expect(find.text(BillingCopy.getPro), findsWidgets);
-      // The free way out is still there.
+      // Closing it leaves the gate, whose free way out is still there.
+      await tester.tap(find.bySemanticsLabel(BillingCopy.proPageClose));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 700));
+      expect(find.byType(ProPage), findsNothing);
       expect(find.text('Take a Full mock instead'), findsWidgets);
     });
 

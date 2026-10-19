@@ -19,6 +19,7 @@ import '../billing_copy.dart';
 import '../data/billing_controller.dart';
 import '../data/play_products.dart';
 import 'billing_notice.dart';
+import 'pro_showcase.dart';
 import 'get_pro_sheet.dart' show ProStatus, ProStatusKind, proPriceParts, proStatusOf;
 
 /// What a caller can say on the Pro page: the moment that opened it. Every field is optional; with
@@ -203,13 +204,10 @@ class _Selling extends ConsumerWidget {
     final mobOn = ref.watch(mobV3EnabledProvider);
     final personal = args.personal?.call(ref) ?? const <String>[];
 
-    final features = <(String, String, String)>[
-      (BillingCopy.proFeatures[0].$1, BillingCopy.proFeatures[0].$2, 'token-first-mock'),
-      (BillingCopy.proFeatures[1].$1, BillingCopy.proFeatures[1].$2, 'hybrid-compass'),
-      (BillingCopy.proFeatures[2].$1, BillingCopy.proFeatures[2].$2, 'hybrid-stopwatch'),
-      (BillingCopy.proFeatures[3].$1, BillingCopy.proFeatures[3].$2, 'hybrid-metronome'),
-      if (mobOn) (BillingCopy.proFeatureMob.$1, BillingCopy.proFeatureMob.$2, 'hybrid-deskbell'),
-      (BillingCopy.proFeatures[4].$1, BillingCopy.proFeatures[4].$2, 'mobi-read'),
+    final also = <(String, String, String)>[
+      (BillingCopy.alsoDifficulty.$1, BillingCopy.alsoDifficulty.$2, 'hybrid-metronome'),
+      (BillingCopy.alsoInsights.$1, BillingCopy.alsoInsights.$2, 'mobi-read'),
+      if (mobOn) (BillingCopy.alsoMob.$1, BillingCopy.alsoMob.$2, 'group-desk'),
     ];
     final rows = [...BillingCopy.compareRows, if (mobOn) ...BillingCopy.compareMobRows];
 
@@ -246,14 +244,35 @@ class _Selling extends ConsumerWidget {
                                 ],
                                 item(_SectionHeading(BillingCopy.proPageUnlocksHeading)),
                                 const SizedBox(height: MmSpace.s12),
-                                for (final f in features) ...[
-                                  item(_FeatureTile(title: f.$1, line: f.$2, art: f.$3)),
-                                  const SizedBox(height: MmSpace.s12),
-                                ],
-                                const SizedBox(height: MmSpace.s20),
+                                item(const ProMoment(
+                                  eyebrow: BillingCopy.moment1Eyebrow,
+                                  title: BillingCopy.moment1Title,
+                                  line: BillingCopy.moment1Line,
+                                  stage: ProPaperFan(),
+                                )),
+                                const SizedBox(height: MmSpace.s16),
+                                item(const ProMoment(
+                                  eyebrow: BillingCopy.moment2Eyebrow,
+                                  title: BillingCopy.moment2Title,
+                                  line: BillingCopy.moment2Line,
+                                  stage: ProSmartChart(),
+                                  caption: BillingCopy.moment2Caption,
+                                )),
+                                const SizedBox(height: MmSpace.s16),
+                                item(const ProMoment(
+                                  eyebrow: BillingCopy.moment3Eyebrow,
+                                  title: BillingCopy.moment3Title,
+                                  line: BillingCopy.moment3Line,
+                                  stage: ProNtaMockup(),
+                                )),
+                                const SizedBox(height: MmSpace.s32),
+                                item(_SectionHeading(BillingCopy.proPageAlsoHeading)),
+                                const SizedBox(height: MmSpace.s12),
+                                item(ProAlsoGrid(items: also)),
+                                const SizedBox(height: MmSpace.s32),
                                 item(_SectionHeading(BillingCopy.proPageCompareHeading)),
                                 const SizedBox(height: MmSpace.s12),
-                                item(_Compare(rows: rows)),
+                                item(ProCompareTable(rows: rows)),
                                 const SizedBox(height: MmSpace.s32),
                                 item(_PriceCard(
                                   parts: parts,
@@ -613,146 +632,6 @@ class _ForYou extends StatelessWidget {
   }
 }
 
-/// One part of Pro: its art on a lit paper tile, its name and one line.
-class _FeatureTile extends StatelessWidget {
-  const _FeatureTile({required this.title, required this.line, required this.art});
-
-  final String title;
-  final String line;
-  final String art;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return MmSurface.plain(
-      padding: const EdgeInsets.all(MmSpace.s16),
-      semanticsLabel: '$title. $line',
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Container(
-            width: 64,
-            height: 64,
-            decoration: BoxDecoration(
-              color: colors.isNight ? colors.raised2 : colors.sunken,
-              borderRadius: MmRadius.smallAll,
-              border: Border.all(color: colors.line),
-            ),
-            child: Center(child: _ArtFile(art, size: 54)),
-          ),
-          const SizedBox(width: MmSpace.s16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: type.cardTitle),
-                const SizedBox(height: MmSpace.s4),
-                Text(line, style: type.small.copyWith(color: colors.ink2)),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-/// Free and Pro, side by side: what, then Free's cell and Pro's. Pro's column stands on a lit strip.
-class _Compare extends StatelessWidget {
-  const _Compare({required this.rows});
-
-  final List<(String, String?, String?)> rows;
-
-  static const double _col = 84;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final strip = colors.isNight ? colors.volt.withValues(alpha: 0.08) : colors.volt.withValues(alpha: 0.16);
-
-    Widget cell(String? value, {required bool pro}) {
-      final Widget child;
-      if (value == null) {
-        child = Semantics(
-          label: BillingCopy.compareIncluded,
-          child: Icon(LucideIcons.check, size: 20, color: pro ? (colors.isNight ? colors.volt : colors.accentText) : colors.ink2),
-        );
-      } else if (value.isEmpty) {
-        child = Semantics(label: BillingCopy.compareNotIncluded, child: Icon(LucideIcons.minus, size: 18, color: colors.ink4));
-      } else {
-        child = Text(
-          value,
-          textAlign: TextAlign.center,
-          style: (pro ? type.label : type.caption).copyWith(color: pro ? colors.ink : colors.ink2),
-        );
-      }
-      return SizedBox(width: _col, child: Center(child: child));
-    }
-
-    return ClipRRect(
-      borderRadius: MmRadius.panelAll,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          color: colors.raised,
-          borderRadius: MmRadius.panelAll,
-          border: Border.all(color: colors.line),
-        ),
-        child: Stack(
-          children: [
-            // Pro's lit column.
-            Positioned(top: 0, bottom: 0, right: MmSpace.s8, width: _col, child: ColoredBox(color: strip)),
-            Padding(
-              padding: const EdgeInsets.only(left: MmSpace.s16, right: MmSpace.s8),
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 48,
-                    child: Row(
-                      children: [
-                        const Expanded(child: SizedBox()),
-                        SizedBox(width: _col, child: Center(child: Text(BillingCopy.compareFree, style: type.labelLarge.copyWith(color: colors.ink2)))),
-                        SizedBox(
-                          width: _col,
-                          child: Center(
-                            child: Text(BillingCopy.comparePro, style: type.labelLarge.copyWith(color: colors.isNight ? colors.volt : colors.accentText, fontWeight: FontWeight.w800)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  for (final (i, r) in rows.indexed) ...[
-                    Container(height: 1, color: colors.line, margin: const EdgeInsets.only(right: _col * 2)),
-                    MergeSemantics(
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(minHeight: 52),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
-                                child: Text(r.$1, style: type.small.copyWith(color: colors.ink, fontWeight: i == 1 || i == 2 ? FontWeight.w600 : FontWeight.w400)),
-                              ),
-                            ),
-                            Semantics(label: BillingCopy.compareFree, child: cell(r.$2, pro: false)),
-                            Semantics(label: BillingCopy.comparePro, child: cell(r.$3, pro: true)),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ],
-                  const SizedBox(height: MmSpace.s8),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 /// The plan: its name, Google Play's own price large with its period beside it, and the renewal
 /// line. While Google Play is checked, a skeleton the price's height; when it cannot sell, why and
 /// Try again.
@@ -820,13 +699,7 @@ class _PriceCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Expanded(child: Text(BillingCopy.proPagePriceHeading, style: type.cardTitle)),
-              const SizedBox(width: MmSpace.s8),
-              const ExcludeSemantics(child: _ArtFile('hybrid-deskbell', size: 44)),
-            ],
-          ),
+          Text(BillingCopy.proPagePriceHeading, style: type.cardTitle),
           const SizedBox(height: MmSpace.s8),
           MmOverlapSwitcher.fade(
             alignment: Alignment.topLeft,

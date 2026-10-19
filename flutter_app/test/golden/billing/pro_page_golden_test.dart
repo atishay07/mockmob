@@ -86,7 +86,7 @@ void main() {
 
   // Selling.
   _golden('ready');
-  _golden('full', sizes: const [Size(360, 2500)]);
+  _golden('full', sizes: const [Size(360, 3300)]);
   _golden(
     'reason',
     args: ProPageArgs(

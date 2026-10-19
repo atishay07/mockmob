@@ -139,7 +139,7 @@ abstract final class BillingCopy {
     ('Unlimited mocks', 'Sit as many Full mocks as you want. Each one is built fresh from one central question bank, so every paper is new.'),
     ('Smart practice', 'Every set leans toward the chapters you miss, so each one fixes something.'),
     ('The exam-day screen', 'NTA mode: 50 questions in 60 minutes, laid out as you will meet it on the day.'),
-    ('Easy, Medium and Hard', 'Choose how hard each set is, and step up when you are ready.'),
+    ('Easy, Medium and Hard', 'Choose how hard each set is, then step up.'),
     ('Insights in detail', 'See where you changed answers and how your pace held up across a paper.'),
   ];
 
@@ -153,22 +153,53 @@ abstract final class BillingCopy {
   static const compareNotIncluded = 'Not included';
 
   /// The comparison rows: what, then Free's cell and Pro's cell. A null cell is a tick (included);
-  /// an empty one is a dash (not included).
+  /// an empty one is a dash (not included). One short line each, so the table reads at a glance.
   static const List<(String, String?, String?)> compareRows = [
-    ('Fresh papers from one central bank', null, null),
+    ('A new paper every time', null, null),
     ('Full mocks', '50 credits each', compareUnlimited),
     ('Quick practice', 'Uses credits', compareUnlimited),
     ('Smart practice', '', null),
-    ('NTA mode on the exam-day screen', '', null),
-    ('Easy, Medium and Hard', '', null),
-    ('Changed answers and pace in Insights', '', null),
+    ('Exam-day screen', '', null),
+    ('Easy, Medium, Hard', '', null),
+    ('Insights in detail', '', null),
   ];
 
   /// The Mob's rows, only when the Mob is on.
   static const List<(String, String?, String?)> compareMobRows = [
-    ('Play every game in your Mob', null, null),
-    ('Start games in a Mob', 'One a week', 'As many as you like'),
+    ('Play Mob games', null, null),
+    ('Start Mob games', 'One a week', compareUnlimited),
   ];
+
+  // The three moments of the showcase. Each picture is an illustration; nothing in it is the
+  // student's own record.
+  static const moment1Badge = 'A new paper every time';
+  static const moment1Eyebrow = 'Unlimited mocks';
+  static const moment1Title = 'Sit as many mocks as you want';
+  static const moment1Line =
+      'Each Full mock is built fresh from one central question bank, so every paper is new. On Free, each one costs 50 credits.';
+
+  static const moment2Eyebrow = 'Smart practice';
+  static const moment2Title = 'Every set aims at what you miss';
+  static const moment2Line = 'Smart practice reads your record and leans each set toward the chapters you miss, so every set fixes something.';
+  static const moment2Plain = 'Plain set';
+  static const moment2Smart = 'Smart set';
+  static const moment2Legend = 'Chapters you miss';
+  static const moment2Caption = 'An example set in Accountancy';
+
+  static const moment3Eyebrow = 'NTA mode';
+  static const moment3Title = 'Rehearse on the exam-day screen';
+  static const moment3Line = '50 questions in 60 minutes, on the screen you will meet on the day: the clock, the palette, Mark for Review.';
+  static const moment3Mode = 'NTA mode';
+  static const moment3Clock = '59:12';
+  static const moment3Question = 'Question 14 of 50';
+  static const moment3Mark = 'Mark for Review & Next';
+  static const moment3Save = 'Save & Next';
+  static const moment3Palette = 'Question palette';
+
+  static const proPageAlsoHeading = 'Also in Pro';
+  static const alsoDifficulty = ('Easy, Medium and Hard', 'Choose how hard each set is, then step up.');
+  static const alsoInsights = ('Insights in detail', 'Where you changed answers, and how your pace held up.');
+  static const alsoMob = ('Host your Mob', 'Start as many games as you like, open live rooms and start up to 3 Mobs.');
 
   static const proWelcome = 'Welcome to Pro';
 
