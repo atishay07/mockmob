@@ -50,8 +50,9 @@
   {
    "memberId": "R",
    "kind": "fastest_right",
-   "q": 5,
-   "seconds": 17
+   "q": 4,
+   "seconds": 17,
+   "number": 5
   }
  ],
  "trap": null

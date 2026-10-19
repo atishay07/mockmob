@@ -1,0 +1,31 @@
+{
+  "game": {
+    "id": "uuid-1",
+    "mobId": "uuid-2",
+    "format": "sprint",
+    "mode": "async",
+    "count": 5,
+    "secondsPerQuestion": 60,
+    "subjectName": "Accountancy",
+    "chapter": "Goodwill",
+    "title": "Your sprint",
+    "host": {
+      "memberId": "member-1",
+      "name": "Kabir",
+      "you": true
+    },
+    "openedAt": "2026-10-22T08:35:00.000Z",
+    "closesAt": "2026-10-23T08:35:00.000Z",
+    "closed": false,
+    "serverNow": "2026-10-22T08:35:00.000Z",
+    "room": null,
+    "runs": [],
+    "you": {
+      "run": "none",
+      "marks": null,
+      "answered": 0
+    },
+    "ghosts": [],
+    "podiumReady": false
+  }
+}
