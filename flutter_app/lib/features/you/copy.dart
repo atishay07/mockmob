@@ -34,7 +34,7 @@ abstract final class YouCopy {
 
   /// Papers were finished today but none reached 5 answers ([n] is the most on one paper).
   static String shortPaperToday(int n) =>
-      'Today\'s paper had ${n == 0 ? 'no answers' : n == 1 ? '1 answer' : '$n answers'}, so today does not count yet. A paper counts from 5 answers.';
+      'Today\'s paper had ${n == 0 ? 'no answers' : n == 1 ? '1 answer' : '$n answers'}, so today does not count yet. A paper counts once you answer 5 questions in it.';
   static String weekDaysLeft(int days) => days == 1 ? '1 day left this week' : '$days days left this week';
   static const weekNoDaysLeft = 'No days left this week';
   static String runInARow(int weeks) => '${plural(weeks, 'week')} at your goal in a row';

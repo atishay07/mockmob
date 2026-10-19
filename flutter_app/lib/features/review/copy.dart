@@ -32,12 +32,13 @@ abstract final class ReviewCopy {
   static const filterSpoken = 'Show papers from one subject';
 
   /// The list.
-  /// The list's heading under the page title ("Your papers"): the papers themselves.
-  static const yourPapersHeading = 'Papers';
+  /// The list's heading under the page title ("Your papers"): the website's words (copy pass, 19 Oct), which
+  /// answer the owner's "it does not show the recent mocks" (G20) and never repeat the page title.
+  static const yourPapersHeading = 'Recent papers';
   static String papersCaption(int n, String? subject) {
     const see = 'to see your marks and every answer explained.';
-    if (subject == null) return n == 1 ? 'Your first paper. Tap it $see' : 'All $n of your papers. Tap one $see';
-    return n == 1 ? 'Your one $subject paper so far. Tap it $see' : 'All $n of your $subject papers. Tap one $see';
+    if (subject == null) return n == 1 ? 'This is your first paper. Tap it $see' : 'You have sat $n papers. Tap one $see';
+    return n == 1 ? 'This is your only $subject paper so far. Tap it $see' : 'You have sat $n $subject papers. Tap one $see';
   }
 
   static String showAllPapers(int n) => 'Show all $n papers';
@@ -50,8 +51,12 @@ abstract final class ReviewCopy {
   /// Mistakes to repair, under the papers.
   static String mistakesCaption(int open, int chapters, String? subject) {
     final where = subject == null ? '' : ' in $subject';
-    if (open == 0) return 'Nothing left to repair$where. The chapters below still show where your marks went.';
-    return '${plural(open, 'mistake')}$where across ${plural(chapters, 'chapter')}. Start with the chapter that costs you the most marks.';
+    if (open == 0) return 'You have nothing left to repair$where. The chapters below still show where your marks went.';
+    // Whole sentences no longer than the old fragments, so the caption keeps its line count at 360 dp (copy pass, 19 Oct).
+    final what = subject == null ? '' : '$subject ';
+    if (open == 1) return '1 ${what}mistake is waiting. Fix it before it costs you marks again.';
+    if (chapters <= 1) return '$open ${what}mistakes are waiting in one chapter. Fix them before they cost you marks again.';
+    return '$open ${what}mistakes are waiting in $chapters chapters. Start with the one that costs you the most marks.';
   }
 
   /// A fresh account with no papers: one friendly first step (D106).
@@ -70,7 +75,7 @@ abstract final class ReviewCopy {
   /// The switch under the hero: what is waiting, and what is done.
   static const tabRepair = 'To repair';
   static const tabHistory = 'History';
-  static const sectionsLabel = 'Review sections';
+  static const sectionsLabel = 'Sections of Your papers';
   static const recordHeading = 'Repair record';
   static const pastHeading = 'Past results';
   static const seeRecord = 'See your record';
@@ -330,7 +335,7 @@ abstract final class ReviewCopy {
   static const pausedHeadline = 'Explanations are paused right now';
   static const pausedLine = 'The key explanations still work.';
   static const outOfCreditsHeadline = "You have used this month's credits";
-  static String renewsOn(String date) => 'credits renew on $date.';
+  static String renewsOn(String date) => 'credits refill on $date.';
 
   // ---- Try it once more (L13) -----------------------------------------------------------------
   //
@@ -460,14 +465,15 @@ abstract final class ReviewCopy {
   static const takingLonger = 'Taking longer than usual. Still trying.';
   static const keyExplanationLabel = 'Key explanation. No explanation credit used.';
   static const noKeyExplanation = 'There is no written explanation for this question yet.';
-  static const reviewedNote = 'Reviewed on this phone. It keeps its place in Review for a repair.';
+  static const reviewedNote = 'Reviewed on this phone. It keeps its place in Your papers for a repair.';
 
   static const heldForRecheck = 'Answer key under check. You were not charged.';
   static const setAsideCheck = 'Answer key under check. Nothing was charged.';
   static const notExplained = 'We could not explain this one. You were not charged. Try another.';
   static const outOfCredits = "You have used this month's credits.";
   /// One line, no box: used up, and when they come back.
-  static String creditsUsedLine(String? renewDate) => renewDate == null ? 'Credits used up for this month.' : 'Credits used up. They renew on $renewDate.';
+  static String creditsUsedLine(String? renewDate) =>
+      renewDate == null ? 'Your credits are used up for this month.' : 'Your credits are used up. They refill on $renewDate.';
   static const paused = 'Explanations are paused right now.';
   static const couldNotMake = 'The explanation could not be made. Try again.';
   // The server sends its own sentence for these (each says nothing was charged). These are the same
@@ -483,7 +489,7 @@ abstract final class ReviewCopy {
   static const offline = 'You are offline. Your place is kept.';
   static const cannotRepair = 'This one cannot be repaired here. The key explanation still works.';
   static const notFound = "We can't find this mistake any more. It may already be repaired.";
-  static const backToReview = 'Back to Review';
+  static const backToReview = 'Back to Your papers';
   static const keyNeedsConnection = 'The key explanation needs a connection the first time.';
   static const questionNeedsConnection = 'Connect to load this question.';
 
@@ -519,7 +525,7 @@ abstract final class ReviewCopy {
   /// Under the result's repair key when the paper's wrong answers span chapters: what the key
   /// opens (one chapter of this paper) and where the rest are.
   static String repairKeyNote(String chapter, int others) =>
-      '${shortChapter(chapter)}. The other $others ${others == 1 ? 'is' : 'are'} in Review.';
+      '${shortChapter(chapter)}. The other $others ${others == 1 ? 'is' : 'are'} in Your papers.';
 
   /// Under the ending's four steps: the same one line as everywhere else.
   static const checkedLater = lifeCaption;
@@ -540,8 +546,8 @@ abstract final class ReviewCopy {
       if (setAside > 0) '$setAside set aside',
       if (reviewed > 0) '$reviewed read with the key',
     ];
-    if (parts.isEmpty) return 'Nothing was charged. Your mistakes stay in Review.';
-    return '${parts.join(', ')}. They stay in Review.';
+    if (parts.isEmpty) return 'Nothing was charged. Every mistake stays in Your papers.';
+    return '${parts.join(', ')}. They stay in Your papers.';
   }
 
   // ---- Record ---------------------------------------------------------------------------
@@ -644,7 +650,7 @@ abstract final class ReviewCopy {
 
   /// Under the foot: what a repair costs, from the AI wallet (unknown never zero), and when credits renew at 0.
   static String repairCostFoot({int? aiCredits, String? renews}) =>
-      'Each repair is 1 credit${aiCredits == null ? '' : '; you have $aiCredits'}.${renews == null ? '' : ' They renew on $renews.'} '
+      'Each repair is 1 credit${aiCredits == null ? '' : '; you have $aiCredits'}.${renews == null ? '' : ' They refill on $renews.'} '
       'No charge if a repair cannot be written. Seeing the answer and trying again are free.';
   static String learnFirst(String lesson) => 'Learn the idea first: $lesson';
 

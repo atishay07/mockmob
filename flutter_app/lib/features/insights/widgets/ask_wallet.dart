@@ -102,7 +102,7 @@ abstract final class AskWalletCopy {
   static const renewNote = 'Unused free credits do not carry over.';
   static const allowanceOne = 'Practice, mocks and Ask Mobi spend the same credits, free ones first.';
   static const outTitleOne = 'No credits left';
-  static String outBodyOne(String renew) => 'Free credits renew on $renew. Questions about your record stay free.';
+  static String outBodyOne(String renew) => 'Free credits refill on $renew. Questions about your record stay free.';
 }
 
 class AskWalletSheet extends ConsumerWidget {

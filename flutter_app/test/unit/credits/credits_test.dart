@@ -252,7 +252,7 @@ void main() {
       expect(find.text(PlanCopy.bankFree), findsOneWidget, reason: 'one central bank, said quietly (M-002)');
       expect(_card('Practice credits, 40. For mocks and practice sets'), findsOneWidget);
       expect(_card('AI credits, 9. For Ask Mobi and repair explanations'), findsOneWidget);
-      expect(find.text('Renews 1 November'), findsOneWidget);
+      expect(find.text('Refills 1 November'), findsOneWidget);
       expect(find.text('Practice set'), findsOneWidget);
       expect(find.text('Repair, Q2 Accountancy'), findsOneWidget);
       // Two pools: no running "left" figure that could disagree with the cards above (final walk). The

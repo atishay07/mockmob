@@ -721,7 +721,12 @@ ReviewSummary reviewLine(ReviewRecord record, {List<ChapterRow>? rows, List<Save
   final lost = chapters.fold(0, (s, r) => s + r.lost);
   final wrong = chapters.fold(0, (s, r) => s + r.wrong);
   final blank = chapters.fold(0, (s, r) => s + r.blank);
-  final who = ctx.papers.length == 1 ? ctx.papers.first.name : 'Your ${ctx.papers.length} papers';
+  // One paper: a mock by its name ("Mock 3 lost 92 marks"); any other paper is "Quick practice", which names no one
+  // paper, so it is "Your practice set" (the website's reviewLine, copy pass 19 Oct, R6).
+  final one = ctx.papers.length == 1 ? ctx.papers.first.name : null;
+  final who = one == null
+      ? 'Your ${ctx.papers.length} papers'
+      : (RegExp(r'^Mock \d+$').hasMatch(one) ? one : 'Your practice set');
   final what = [if (wrong > 0) _plural(wrong, 'wrong answer'), if (blank > 0) '$blank left blank'].join(' and ');
   final fixed = repairs.isEmpty ? '' : ' ${repairs.length == 1 ? '1 is repaired' : '${repairs.length} are repaired'}.';
   return ReviewSummary(

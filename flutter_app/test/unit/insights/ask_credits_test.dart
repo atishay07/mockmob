@@ -373,7 +373,7 @@ void main() {
       await pump(tester, credits: serverCredits(total: 0, included: 0, bonus: 0));
       expect(find.byType(AskOutOfCredits), findsOneWidget);
       expect(find.text(InsightsCopy.outTitle), findsOneWidget);
-      expect(find.textContaining('They renew on 1 November'), findsWidgets);
+      expect(find.textContaining('They refill on 1 November'), findsWidgets);
       expect(find.textContaining(InsightsCopy.outPro), findsNothing);
     });
 

@@ -134,7 +134,7 @@ void main() {
       await _run(tester, 600);
       expect(find.text('Repair 2 mistakes'), findsOneWidget);
       expect(
-        find.text('Admission of a partner, 2 of its 4 wrong answers.\nAbout 5 minutes. The other 13 are in Review.'),
+        find.text('Admission of a partner, 2 of its 4 wrong answers.\nAbout 5 minutes. The other 13 are in Your papers.'),
         findsOneWidget,
         reason: 'the two in the run leave thirteen of the fifteen in Review, the chapter\'s other two among them',
       );

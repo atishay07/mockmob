@@ -24,7 +24,7 @@ void main() {
       expect(scope.othersInPaper, 2);
       expect(scope.minutes, 10);
       expect(RepairCandidates.keyLabel(scope), 'Repair 3 mistakes');
-      expect(RepairCandidates.describe(scope), 'Business environment, about 10 minutes. The other 2 are in Review.');
+      expect(RepairCandidates.describe(scope), 'Business environment, about 10 minutes. The other 2 are in Your papers.');
     });
 
     test('from a tapped mistake: that chapter only, singular words', () {
@@ -32,15 +32,15 @@ void main() {
       expect(scope.count, 1);
       expect(scope.othersInPaper, 4);
       expect(RepairCandidates.keyLabel(scope), 'Repair 1 mistake');
-      expect(RepairCandidates.describe(scope), 'Principles of management, about 5 minutes. The other 4 are in Review.');
-      expect(RepairCandidates.spoken(scope), 'Repair 1 mistake. Principles of management, about 5 minutes. The other 4 are in Review.');
+      expect(RepairCandidates.describe(scope), 'Principles of management, about 5 minutes. The other 4 are in Your papers.');
+      expect(RepairCandidates.spoken(scope), 'Repair 1 mistake. Principles of management, about 5 minutes. The other 4 are in Your papers.');
     });
 
     test("a shorter run counts the chapter's left-over mistakes among the others in Review", () {
       final scope = RepairCandidates.scopeOf(paper, limit: 2)!;
       expect(scope.count, 2);
       expect(scope.othersInPaper, 3);
-      expect(RepairCandidates.describe(scope), 'Business environment, about 10 minutes. The other 3 are in Review.');
+      expect(RepairCandidates.describe(scope), 'Business environment, about 10 minutes. The other 3 are in Your papers.');
     });
 
     test('a long chapter name is shortened at its colon; a whole-paper chapter has no note', () {

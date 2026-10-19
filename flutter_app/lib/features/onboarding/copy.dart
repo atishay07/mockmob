@@ -73,7 +73,7 @@ abstract final class OnboardingCopy {
   /// What Mobi says on arriving at each step: short, about the step, never about the student.
   static const Map<String, String> mobiArrive = {
     'stage': 'First, tell me where you are now.',
-    'course': 'Now, tell me where you want to get.',
+    'course': 'Now, tell me where you want to get in.',
     'subjects': 'Be honest about each one.',
     'worry': 'What costs you the most marks?',
     'question': "Here's one quick question. The clock is running.",
@@ -87,7 +87,7 @@ abstract final class OnboardingCopy {
   static const String weeksPlaceholder = 'The weeks left until May will show here.';
   static String weeksUnit(int year) => 'weeks to CUET, May $year';
   static const String datesNotOut = 'The dates are not out yet.';
-  static const String classElevenNote = "You're starting early.";
+  static const String classElevenNote = "You're starting early, which gives you time to get every chapter right.";
   static const String boardsNote = 'Board exams run from mid-February to early April, so your plan goes lighter then.';
   static const String trackToday = 'Today';
   static String trackMay(int year) => 'May $year';
@@ -97,14 +97,14 @@ abstract final class OnboardingCopy {
 
   // Course and colleges.
   static const String courseTitle = 'Which seat are you after?';
-  static const String courseSupport = 'These are DU commerce courses, with how many colleges offered seats in Round 1 of 2026.';
+  static const String courseSupport = 'These are the DU commerce courses, with the number of colleges that offered seats in Round 1 of 2026.';
   static String collegesCount(int n) => n == 1 ? '1 college' : '$n colleges';
   static String collegesUnit(int n) => n == 1 ? 'college' : 'colleges';
   static const String notSure = 'Not sure yet';
   static const String notSureNote = 'You can pick one later in Colleges.';
   static const String ladderTitle = 'Which colleges would you say yes to tomorrow?';
   /// D103: each rung's number is last year's closing mark for the course and category.
-  static const String ladderSupport = 'Each number is the lowest score that won a seat in Round 1 last year (2026), out of 1000.';
+  static const String ladderSupport = 'Each number is the lowest score that won a seat in Round 1 of 2026, out of 1000.';
   static String showing(String category) => 'Showing ${categoryWords(category)}';
   static const String categoryTitle = 'Category for the figures';
   static const String categoryNote = 'It only changes which figures you see.';
@@ -119,7 +119,7 @@ abstract final class OnboardingCopy {
 
   /// "3 of 8 picked.", then what Today does with them once there is a pick. The picks stand in
   /// order of last year's marks (D103), so Today's three are the ones that need the most (D104).
-  static const String pickedTail = 'Today shows the top 3.';
+  static const String pickedTail = 'Today shows your top 3.';
   static const String onToday = 'On Today';
   static String pickedSpoken(int picked, int of, {required bool tail}) =>
       tail ? '$picked of $of picked. $pickedTail' : '$picked of $of picked';

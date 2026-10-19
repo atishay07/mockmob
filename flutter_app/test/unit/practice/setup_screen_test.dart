@@ -296,7 +296,7 @@ void main() {
     // PLAY_BILLING off (D101, 19 Oct): the gate names Pro calmly, says it opens in the app soon, and has no price and no
     // way to buy elsewhere.
     expect(text('NTA mode is part of Pro'), findsOneWidget);
-    expect(text('Pro opens in the app soon. Everything else here is yours: Full mock, Quick practice and By chapter.'), findsOneWidget);
+    expect(text('Pro is coming to the app soon. Everything else here is yours: Full mock, Quick practice and By chapter.'), findsOneWidget);
     expect(text('Take a Full mock instead'), findsOneWidget);
     expect(find.textContaining('Rs'), findsNothing);
     expect(find.textContaining('Upgrade'), findsNothing);

@@ -106,7 +106,7 @@ void main() {
       expect(ReviewCopy.pastLine('3 October', 9, 250), '3 October, 9 of 250');
       expect(ReviewCopy.lateNight, 'Repair a little, then sleep.');
       expect(ReviewCopy.nothingRepaired(0, 0), contains('Nothing was charged'));
-      expect(ReviewCopy.nothingRepaired(1, 1), '1 set aside, 1 read with the key. They stay in Review.');
+      expect(ReviewCopy.nothingRepaired(1, 1), '1 set aside, 1 read with the key. They stay in Your papers.');
     });
 
     test('a time never splits across two lines', () {
@@ -155,7 +155,7 @@ void main() {
       final plan = EntryPlan.of(3, credits(2), clock);
       // One headline that says the whole shortfall; the options are the keys under it.
       expect(plan.headline, 'You have 2 credits, this repair needs 3');
-      expect(plan.line, 'credits renew on 1 November.');
+      expect(plan.line, 'credits refill on 1 November.');
       expect(plan.limit, 2);
       expect(plan.offerKeys, isTrue);
     });
@@ -164,7 +164,7 @@ void main() {
       final plan = EntryPlan.of(3, credits(0), clock);
       expect(plan.keyOnly, isTrue);
       expect(plan.headline, "You have used this month's credits");
-      expect(plan.line, 'credits renew on 1 November.');
+      expect(plan.line, 'credits refill on 1 November.');
     });
 
     test('paused explanations read the keys', () {

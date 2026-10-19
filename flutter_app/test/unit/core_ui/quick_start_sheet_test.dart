@@ -127,7 +127,7 @@ void main() {
     await tester.tap(nta);
     await tester.pumpAndSettle();
     expect(find.text('NTA mode is part of Pro'), findsOneWidget);
-    expect(find.text('Pro opens in the app soon.'), findsOneWidget);
+    expect(find.text('Pro is coming to the app soon.'), findsOneWidget);
     expect(find.text('nta screen'), findsNothing, reason: 'the exam-day page needs Pro');
     expect(router.routerDelegate.currentConfiguration.uri.path, isNot('/exam/nta'));
   });

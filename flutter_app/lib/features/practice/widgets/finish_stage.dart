@@ -57,7 +57,7 @@ class FinishStage extends ConsumerStatefulWidget {
 
   /// The server acknowledged this paper and the acknowledgement is held on this phone (the
   /// pending-result row the submit writes only after the server returned the attempt). Only then
-  /// does the completion line say "Paper saved.".
+  /// does the completion line say "Your paper is saved.".
   final bool confirmed;
 
   /// The student's clock, for "Saved today at 10:11 PM" on a result opened again.
@@ -326,7 +326,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     super.dispose();
   }
 
-  /// The first words of the completion line: "Paper saved." straight after the submit, once the
+  /// The first words of the completion line: "Your paper is saved." straight after the submit, once the
   /// server's acknowledgement is held here; "Saved today at 10:11 PM." on a result opened again;
   /// nothing while neither is known (the marks are said alone, never a claim before it is true).
   String? _savedText() {
@@ -502,9 +502,12 @@ class _InkSheet extends StatelessWidget {
 
 /// The words of the completion line (D108), read aloud before they were written (R6).
 abstract final class FinishCopy {
-  static const String paperSaved = 'Paper saved.';
+  /// Straight after the submit (copy pass, 19 Oct): a whole sentence, not "Paper saved.".
+  static const String paperSaved = 'Your paper is saved.';
 
-  /// "Saved today at 10:11 PM." or "Saved on Sunday, 18 October at 10:11 PM.", in the student's own day.
+  /// "Saved today at 10:11 PM." or "Saved on Sunday, 18 October at 10:11 PM.", in the student's own day. A receipt's
+  /// time stamp, kept short (copy pass, 19 Oct): the line beside the ring holds about 20 characters at 360 dp, and a
+  /// longer sentence would push the marks to a third line.
   static String savedWhen(DateTime at, DateTime now) {
     final sameDay = at.year == now.year && at.month == now.month && at.day == now.day;
     return sameDay ? 'Saved today at ${formatTime12(at)}.' : 'Saved on ${weekdayName(at.weekday)}, ${formatDayMonth(at)} at ${formatTime12(at)}.';
@@ -527,7 +530,7 @@ abstract final class FinishCopy {
 class CompletionLine extends StatefulWidget {
   const CompletionLine({super.key, required this.saved, required this.scored, required this.max, required this.run, this.animate = true});
 
-  /// "Paper saved." or "Saved today at 10:11 PM."; null while not known (the marks alone).
+  /// "Your paper is saved." or "Saved today at 10:11 PM."; null while not known (the marks alone).
   final String? saved;
   final int scored;
   final int max;
@@ -617,7 +620,7 @@ class _CompletionLineState extends State<CompletionLine> with TickerProviderStat
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Two lines, each whole: "Paper saved." then "You scored 34 of 50 marks." (at 360 dp one line left
+              // Two lines, each whole: "Your paper is saved." then "You scored 34 of 50 marks." (at 360 dp one line left
               // "marks." alone on the second).
               if (saved != null) Text(saved, style: style.copyWith(fontWeight: FontWeight.w600)),
               _scored(style, figureStyle, figureWidth),

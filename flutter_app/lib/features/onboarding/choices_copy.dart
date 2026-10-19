@@ -76,9 +76,11 @@ abstract final class ChoicesCopy {
   static const String sessionsUnit = 'sessions';
 
   // Colleges (19 Oct, G6/D103): the number beside each one on a list.
-  /// "907.5 of 1000 last year": the Round 1 closing mark of the DU CSAS list the data comes from,
-  /// for the student's course and category. A college with no seat for it says so plainly.
-  static String closingLast(String? score) => score == null ? 'No number from last year' : '$score of 1000 last year';
+  /// "2026 cutoff: 907.5 of 1000": the Round 1 closing mark of the DU CSAS list the data comes from,
+  /// for the student's course and category. A college with no seat for it says so plainly. The year
+  /// is named, not "last year" (copy pass 19 Oct: in October 2026, "last year" reads as 2025), and
+  /// "cutoff" is the word students use and the website prints.
+  static String closingLast(String? score) => score == null ? 'No 2026 cutoff for your category' : '2026 cutoff: $score of 1000';
 
   // Usage data (D49).
   static const String usageOffAnyTime = 'Turn it off any time in You, under Account and privacy.';

@@ -351,7 +351,8 @@ void main() {
 
     test('the answers say credits, one balance, and no wallet or pool names', () {
       final text = FaqCopy.all.expand((q) => [q.question, ...q.answer]).join('\n');
-      expect(text, contains('Credits pay for'));
+      // Copy pass, 19 Oct: the website's Help words (one balance, the free credits refill, the free first full mock).
+      expect(text, contains('One balance pays for everything'));
       for (final banned in ['explanation credit', 'wallet', 'practice credits', 'ai credits']) {
         expect(text.contains(banned), isFalse, reason: banned);
       }

@@ -234,7 +234,7 @@ void main() {
       expect(EstimateCopy.count(2, 5), '2 of 5 subjects done');
       expect(EstimateCopy.planNote(const Estimate(source: EstimateSource.mocks, low: 665, high: 765)), '665 to 765 out of 1000, from your full mocks');
       expect(EstimateCopy.planNote(const Estimate(source: EstimateSource.typed, low: 900, high: 920)), '900 to 920 out of 1000, typed by you');
-      expect(EstimateCopy.planFinding(2, 5), 'Your mocks are finding it: 2 of 5 done.');
+      expect(EstimateCopy.planFinding(2, 5), 'Your full mocks will set it. You have done 2 of 5 subjects.');
     });
 
     test('no line promises admission or calls the estimate certain', () {
@@ -369,7 +369,7 @@ void main() {
       final c = container(attempts: _fourMocks().take(2).toList());
       // Today has read the mocks by the time Your plan opens.
       expect(await card(c), isA<RangeCardSteps>());
-      expect(c.read(rangePlanNoteProvider), 'Your mocks are finding it: 2 of 5 done.');
+      expect(c.read(rangePlanNoteProvider), 'Your full mocks will set it. You have done 2 of 5 subjects.');
       // A range typed earlier reads from this phone without starting Compass.
       final typed = container(prefs: savedCompass('english,accountancy,business_studies,economics', score: '900')..values['mm.tools.compass.v1'] = '{"s":"english","c":"UR","score":"900","scoreHigh":"920"}');
       await typed.read(savedTypedEstimateProvider.future);

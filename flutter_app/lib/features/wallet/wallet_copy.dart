@@ -10,14 +10,19 @@ abstract final class WalletCopy {
 
   // The one balance.
   static const creditsName = 'Credits';
-  static const creditsFor = '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.';
+  /// Only while the server's own line (`buys`) has not loaded: the website's words, word for word (creditCopy
+  /// ONE_CREDIT_LINE, copy pass 19 Oct), so the line never changes when it loads. A full mock's price says the first
+  /// one in each subject is free (C-dec 1).
+  static const creditsFor =
+      '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50, and your first one in each subject is free. '
+      'Deeper analysis costs 3. The cost shows before you start.';
   static String freeLeft(int left, int of) => '$left of $of free credits left this month';
   static String held(int n) => n == 1 ? '1 held credit' : '$n held credits';
   static const heldNote = 'Held credits do not expire.';
   static const practiceUnlimitedNote = 'Practice is unlimited on Pro.';
 
-  /// "Resets 1 November, 12:00 AM".
-  static String resets(DateTime at) => 'Free credits reset ${formatDayMonth(at)}, ${formatTime12(at)}';
+  /// "Free credits refill on 1 November at 12:00 AM".
+  static String resets(DateTime at) => 'Free credits refill on ${formatDayMonth(at)} at ${formatTime12(at)}';
 
   // Loading and failure. A balance that did not load is never zero.
   static const notLoaded = 'Not loaded';

@@ -64,7 +64,7 @@ List<Finding> readout(PrepInsights insights, {int limit = 4}) {
           : (c.net > 0 ? 'Changing answers has gained ${c.net} marks net' : 'Changing answers has been about even'),
       detail: '${c.count} changes across ${_plural(c.sessionsWithTelemetry, 'timed session')}: ${c.gains} helped '
           '(${_sign(c.marksGained)} marks) and ${c.losses} hurt (−${c.marksLost}).',
-      actionLabel: 'See your replay in Review',
+      actionLabel: 'See your replay in Your papers',
       actionHref: '/review',
     ));
   }

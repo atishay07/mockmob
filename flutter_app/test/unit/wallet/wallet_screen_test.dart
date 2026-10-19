@@ -45,9 +45,9 @@ void main() {
     expect(find.text('Wallet'), findsOneWidget);
     expect(find.text('Credits'), findsOneWidget);
     expect(find.text('46'), findsWidgets);
-    expect(find.text('1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.'), findsOneWidget);
+    expect(find.text('1 credit buys 1 practice question or 1 chat reply. A full mock costs 50, and your first one in each subject is free. Deeper analysis costs 3. The cost shows before you start.'), findsOneWidget);
     expect(find.text('40 of 50 free credits left this month'), findsOneWidget);
-    expect(find.text('Free credits reset 1 November, 12:00 AM'), findsOneWidget);
+    expect(find.text('Free credits refill on 1 November at 12:00 AM'), findsOneWidget);
     expect(find.text('6 held credits. Held credits do not expire.'), findsOneWidget);
     // No second balance and no pool names.
     expect(find.text('Practice credits'), findsNothing);
@@ -68,7 +68,7 @@ void main() {
     expect(read.freeAllowance, 50);
     expect(read.held, 6);
     expect(read.resetAt, DateTime.utc(2026, 10, 31, 18, 30));
-    expect(read.buys, '1 credit = 1 question or 1 Ask Mobi reply. A full mock is 50.');
+    expect(read.buys, '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50, and your first one in each subject is free. Deeper analysis costs 3. The cost shows before you start.');
     expect(read.planIsPro, isFalse);
     expect(read.history, hasLength(4));
     expect(read.historyUnavailable, isFalse);

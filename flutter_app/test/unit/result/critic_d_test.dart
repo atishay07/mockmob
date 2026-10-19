@@ -46,7 +46,7 @@ void main() {
     testWidgets('the key is short and the chapter is the line above it, with its denominator', (tester) async {
       await open(tester, '/result/a7/recap/4', mock7(), detail());
       final key = tester.getRect(find.text('Repair 3 mistakes'));
-      final line = find.text('Admission of a partner, 3 of its 4 wrong answers.\nAbout 10 minutes. The other 12 are in Review.');
+      final line = find.text('Admission of a partner, 3 of its 4 wrong answers.\nAbout 10 minutes. The other 12 are in Your papers.');
       expect(line, findsOneWidget);
       expect(tester.getRect(line).bottom, lessThanOrEqualTo(key.top), reason: 'the chapter line sits above the key, never under or over it');
       expect(find.textContaining('The repair starts with'), findsNothing, reason: 'the chapter is said once, above the key');

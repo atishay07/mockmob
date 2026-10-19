@@ -38,8 +38,8 @@ void main() {
       final run = index.openIn('m7', plan.chapter);
       expect(run.length, plan.count);
       expect(run.first.questionId, plan.firstQid);
-      expect(ReviewCopy.repairKeyNote(plan.chapter, plan.others), 'Partnership. The other 2 are in Review.');
-      expect(ReviewCopy.repairKeyNote(plan.chapter, 1), 'Partnership. The other 1 is in Review.');
+      expect(ReviewCopy.repairKeyNote(plan.chapter, plan.others), 'Partnership. The other 2 are in Your papers.');
+      expect(ReviewCopy.repairKeyNote(plan.chapter, 1), 'Partnership. The other 1 is in Your papers.');
     });
 
     test('a repaired mistake is not offered again; the key follows what is still open', () {

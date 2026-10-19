@@ -78,7 +78,7 @@ abstract final class EstimateCopy {
   // ---- From your mocks.
 
   static const String mocksTruth =
-      'These are raw marks out of 250 a paper, the average of your last 3 full mocks in each. The range shows how far one paper usually swings.';
+      'Each figure is your raw mark out of 250, averaged over your last 3 full mocks. The range shows how far one paper usually swings.';
 
   // ---- "I don't know my range yet".
 
@@ -139,5 +139,5 @@ abstract final class EstimateCopy {
         EstimateSource.projection => 'from your practice projection',
       }}';
 
-  static String planFinding(int done, int total) => 'Your mocks are finding it: $done of $total done.';
+  static String planFinding(int done, int total) => 'Your full mocks will set it. You have done $done of $total subjects.';
 }

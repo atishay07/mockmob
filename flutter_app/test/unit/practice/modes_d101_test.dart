@@ -1,7 +1,7 @@
 // D101 and G15 (owner, 19 Oct: "visible but locked"): Practice always lists every mode, Quick
 // practice, By chapter, Smart practice, Full mock and NTA mode, on a fresh Free account too. A mode Pro
 // holds wears a quiet Pro tag; with PLAY_BILLING off a tap opens a calm sheet ("NTA mode is part of
-// Pro. Pro opens in the app soon.") with no price and no web link, and the open mode instead; with
+// Pro. Pro is coming to the app soon.") with no price and no web link, and the open mode instead; with
 // PLAY_BILLING on it opens the Upgrade sheet; a Pro student uses it. Only a server that says a mode is
 // not offered takes its tile away. Plus Your papers (G20): the row that opens the Review screen inside
 // Practice, on every account.
@@ -181,7 +181,7 @@ void main() {
       await _settle(tester);
       await _open(tester, PracticeCopy.ntaTitle);
       expect(find.text('NTA mode is part of Pro'), findsOneWidget);
-      expect(find.text('Pro opens in the app soon.'), findsOneWidget);
+      expect(find.text('Pro is coming to the app soon.'), findsOneWidget);
       expect(find.text(PracticeCopy.lockedNtaInstead), findsOneWidget);
       expect(find.text(PracticeCopy.takeFullInstead), findsOneWidget);
       expect(find.textContaining('mockmob.in'), findsNothing, reason: 'no web link (anti-steering)');
@@ -207,7 +207,7 @@ void main() {
       await _settle(tester);
       await _open(tester, PracticeCopy.smartTitle);
       expect(find.text('Smart practice is part of Pro'), findsOneWidget);
-      expect(find.text('Pro opens in the app soon.'), findsOneWidget);
+      expect(find.text('Pro is coming to the app soon.'), findsOneWidget);
       expect(find.text(PracticeCopy.takeQuickInstead), findsOneWidget);
     });
 
@@ -314,9 +314,9 @@ void main() {
 
     test('the line reads as plain sentences', () {
       expect(PracticeCopy.papersNote(papers: 0, open: 0), 'Every paper you sit is kept here, newest first, with its answers.');
-      expect(PracticeCopy.papersNote(papers: 1, open: 0), '1 paper so far, with its answers.');
-      expect(PracticeCopy.papersNote(papers: 4, open: 1), '4 papers so far, newest first. 1 mistake still to repair.');
-      expect(PracticeCopy.papersNote(papers: 4, open: 6), '4 papers so far, newest first. 6 mistakes still to repair.');
+      expect(PracticeCopy.papersNote(papers: 1, open: 0), 'Your first paper is here, with every answer.');
+      expect(PracticeCopy.papersNote(papers: 4, open: 1), 'All 4 papers are here, newest first. You have 1 mistake to repair.');
+      expect(PracticeCopy.papersNote(papers: 4, open: 6), 'All 4 papers are here, newest first. You have 6 mistakes to repair.');
     });
   });
 }

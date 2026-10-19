@@ -88,10 +88,10 @@ void main() {
     });
 
     test('the lines read as whole sentences', () {
-      expect(YouCopy.shortPaperToday(3), "Today's paper had 3 answers, so today does not count yet. A paper counts from 5 answers.");
+      expect(YouCopy.shortPaperToday(3), "Today's paper had 3 answers, so today does not count yet. A paper counts once you answer 5 questions in it.");
       expect(YouCopy.shortPaperToday(1), contains('had 1 answer,'));
       expect(YouCopy.shortPaperToday(0), contains('had no answers'));
-      expect(TodayCopy.shortPaperToday(3), "Today's paper had 3 answers. A paper counts from 5 answers.");
+      expect(TodayCopy.shortPaperToday(3), "Today's paper had 3 answers. A paper counts once you answer 5 questions in it.");
       expect(YouCopy.studyDayDefinition, 'A study day is any day you answer at least 5 questions in a practice or a mock, or finish a repair.');
     });
 

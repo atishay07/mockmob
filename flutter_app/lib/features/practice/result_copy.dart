@@ -32,6 +32,6 @@ abstract final class ResultCopy {
 
   /// A chapter only left blank: no repair to prove, so the card says what the set shows instead.
   static const String proveBlankTitle = 'Try the chapter you left blank';
-  static const String proveBlankNote = 'It shows where you stand on a chapter you did not answer.';
+  static const String proveBlankNote = 'A blank answer costs you marks too. This set shows where you really stand on the chapter.';
   static const String proveKey = 'Try 5 fresh questions';
 }

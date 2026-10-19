@@ -256,7 +256,7 @@ abstract final class InsightsCopy {
   /// prefix (see `shownFirstName` in core/auth/display_name.dart); with none he greets plainly.
   static String askGreeting(String? name, int? sessions) {
     final hi = name == null ? 'Hi.' : 'Hi $name.';
-    if (sessions == null || sessions == 0) return '$hi Ask me any CUET doubt, right now.';
+    if (sessions == null || sessions == 0) return '$hi Stuck on a CUET doubt? Ask me.';
     if (sessions == 1) return "$hi I've read your first paper. Ask me anything about it.";
     return "$hi I've read your last $sessions papers. Ask me anything about them.";
   }
@@ -330,7 +330,7 @@ abstract final class InsightsCopy {
         1 => '$aiWrites\u00a0·\u00a0your\u00a0last\u00a0credit',
         final n => '$aiWrites\u00a0·\u00a01\u00a0of\u00a0your\u00a0$n\u00a0credits',
       };
-  static String askNoteEmpty(String renew) => 'No credits left. They renew on $renew. Questions about your record stay free.';
+  static String askNoteEmpty(String renew) => 'No credits left. They refill on $renew. Questions about your record stay free.';
 
   // The balance in the header, and the sheet it opens.
   static const walletPillUnknown = 'Credits';
@@ -346,8 +346,8 @@ abstract final class InsightsCopy {
   static const walletIncluded = 'Included this month';
   static String walletIncludedValue(int left, int of) => '$left of $of left';
   static const walletPurchased = 'Purchased, never expire';
-  static const walletRenews = 'Renews';
-  static const walletRenewNote = 'Unused included credits do not carry over.';
+  static const walletRenews = 'Refills';
+  static const walletRenewNote = 'Unused free credits do not carry over.';
   static const walletHow = 'How Ask uses credits';
   static const walletHowRecord = 'Questions about your record are free.';
   static const walletHowModel = 'Other questions use 1 credit for a written reply.';
@@ -357,7 +357,7 @@ abstract final class InsightsCopy {
   static const walletHistoryEmpty = 'Nothing yet. Questions about your record never use a credit.';
   static const creditDetails = 'Credit details';
   static const outTitle = 'No credits left this month';
-  static String outBody(String renew) => 'They renew on $renew. Questions about your record stay free.';
+  static String outBody(String renew) => 'They refill on $renew. Questions about your record stay free.';
   static const outPro = 'Pro includes 50 credits a month.';
 
   /// What a reply cost, as the server reported it.
@@ -374,8 +374,8 @@ abstract final class InsightsCopy {
   static const failOffline = 'You are offline. Send it again when you are back.';
   static const failSlow = 'Taking longer than usual. Send it again in a moment.';
   static String failNoCredits(int? balance, String renew) => balance == null
-      ? 'That needs 1 credit. Yours renew on $renew. Questions about your record stay free.'
-      : 'That needs 1 credit and you have $balance. They renew on $renew. Questions about your record stay free.';
+      ? 'That needs 1 credit. Yours refill on $renew. Questions about your record stay free.'
+      : 'That needs 1 credit and you have $balance. They refill on $renew. Questions about your record stay free.';
   static const failPaused = 'AI replies are paused just now. Questions about your record still work.';
   static const failResend = 'That did not go through. Send it again.';
   static const failRate = 'That is a lot of questions in a minute. Wait a moment, then send again.';

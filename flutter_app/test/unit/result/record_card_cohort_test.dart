@@ -58,7 +58,7 @@ void main() {
     await pump(tester);
     expect(keyLabelled('Repair 3 mistakes'), findsOneWidget);
     // The chapter and how much of it the length holds sit above the key, with the denominator.
-    expect(find.text('Admission of a partner, 3 of its 4 wrong answers.\nAbout 10 minutes. The other 12 are in Review.'), findsOneWidget);
+    expect(find.text('Admission of a partner, 3 of its 4 wrong answers.\nAbout 10 minutes. The other 12 are in Your papers.'), findsOneWidget);
     expect(find.textContaining('Repair Q'), findsNothing);
   });
 

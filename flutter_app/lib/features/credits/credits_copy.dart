@@ -26,7 +26,7 @@ abstract final class CreditsCopy {
   static const practiceProMeaning = 'Practice is unlimited on Pro';
   static const aiMeaning = 'For Ask Mobi and repair explanations';
   static const unlimited = 'Unlimited';
-  static String renews(DateTime date) => 'Renews ${formatDayMonth(date)}';
+  static String renews(DateTime date) => 'Refills ${formatDayMonth(date)}';
 
   // The one credits balance.
   static const oneName = 'Credits';
@@ -40,8 +40,8 @@ abstract final class CreditsCopy {
   /// "38 of 50 free credits left this month".
   static String freeLeft(int left, int of) => '$left of $of free credits left this month';
 
-  /// "Free credits renew 1 November".
-  static String freeRenews(DateTime date) => 'Free credits renew ${formatDayMonth(date)}';
+  /// "Free credits refill on 1 November".
+  static String freeRenews(DateTime date) => 'Free credits refill on ${formatDayMonth(date)}';
 
   /// "70 held. They do not expire."
   static String held(int n) => '$n held. They do not expire.';

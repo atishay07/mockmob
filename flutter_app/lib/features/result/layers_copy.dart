@@ -115,9 +115,10 @@ abstract final class LayersCopy {
 
   static const planTeaserFallback = 'What went well, what cost marks, and the sets that come next.';
   static String ruleTeaser(String? rule) => rule == null ? 'No rule chosen for this mock.' : 'Your rule: $rule';
-  /// The proof is on the chapter of a wrong answer, the one a repair fixes: "Five new questions on Partnership
-  /// Fundamentals, where you went wrong, show whether your fix held."
-  static String proveTeaser(String chapter) => 'Five new questions on $chapter, where you went wrong, show whether your fix held.';
+  /// The proof is on the chapter of a wrong answer, the one a repair fixes: "You went wrong on Partnership
+  /// Fundamentals. Five new questions on it show whether your fix held." Two sentences, the same shape as the
+  /// blank chapter's line below (copy pass, 19 Oct: the old one-sentence form read as a tangle).
+  static String proveTeaser(String chapter) => 'You went wrong on $chapter. Five new questions on it show whether your fix held.';
 
   /// No fresh set for a wrong answer's chapter, but one for a chapter left blank: the fold says which and why, never
   /// "proof it stuck" for a chapter with nothing to repair (19 Oct walk, finding 29).
