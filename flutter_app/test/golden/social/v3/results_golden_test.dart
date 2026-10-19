@@ -29,7 +29,7 @@ void main() {
     for (final (name, widget) in [
       ('r8_open', const MomentsScreen(gameId: riyaGame)),
       ('r8_closed', const MomentsScreen(gameId: zoyaGame)),
-      ('r9_sheet', const FixTogetherScreen(gameId: zoyaGame, q: 4)),
+      ('r9_sheet', const FixTogetherScreen(gameId: zoyaGame, q: 3)),
     ]) {
       testWidgets('$name 360 ${_tag(b)}', (tester) async {
         await pumpMockmob(tester, widget, brightness: b, size: const Size(360, 780), wrapInScaffold: false, overrides: v3Overrides(server));
@@ -40,7 +40,7 @@ void main() {
     }
 
     testWidgets('r9_fresh_answered 360 ${_tag(b)}', (tester) async {
-      await pumpMockmob(tester, const FixTogetherScreen(gameId: zoyaGame, q: 4), brightness: b, size: const Size(360, 780), wrapInScaffold: false, overrides: v3Overrides(server));
+      await pumpMockmob(tester, const FixTogetherScreen(gameId: zoyaGame, q: 3), brightness: b, size: const Size(360, 780), wrapInScaffold: false, overrides: v3Overrides(server));
       await tester.pump(const Duration(milliseconds: 800));
       await tester.tap(find.text('Try a fresh question'));
       await tester.pump();

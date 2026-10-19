@@ -68,6 +68,17 @@ void main() {
       expect(_plain(tester, find.byKey(const ValueKey('moment-$riyaId'))), startsWith('Riya: '));
     });
 
+    testWidgets('"Fix question 4 together" opens Fix it together on the 0-based q 3', (tester) async {
+      await pump(tester, const MomentsScreen(gameId: zoyaGame));
+      await tester.tap(find.text('Fix question 4 together'));
+      await tester.pump();
+      await tester.pump(const Duration(milliseconds: 800));
+      final fix = tester.widget<FixTogetherScreen>(find.byType(FixTogetherScreen));
+      expect(fix.q, 3);
+      expect(find.text('Question 4'), findsOneWidget);
+      expect(find.byKey(const ValueKey('fix-bubble-1-struck')), findsOneWidget);
+    });
+
     testWidgets('open: the answers-open card and "Back to the den"', (tester) async {
       await pump(tester, const MomentsScreen(gameId: riyaGame));
       expect(find.text('The answers open when the game closes at 2:05 PM tomorrow. Fix it together starts then.'), findsOneWidget);
@@ -79,14 +90,14 @@ void main() {
 
   group('R9 Fix it together', () {
     testWidgets('refused before close', (tester) async {
-      await pump(tester, const FixTogetherScreen(gameId: riyaGame, q: 4));
+      await pump(tester, const FixTogetherScreen(gameId: riyaGame, q: 3));
       expect(find.text('This opens when the game closes.'), findsOneWidget);
       expect(find.text('Back'), findsOneWidget);
       expect(find.byKey(const ValueKey('fix-sheet')), findsNothing);
     });
 
     testWidgets('your pick only: one pencil strike (yours), the right one filled, no names', (tester) async {
-      await pump(tester, const FixTogetherScreen(gameId: zoyaGame, q: 4));
+      await pump(tester, const FixTogetherScreen(gameId: zoyaGame, q: 3));
       expect(find.text('Fix question 4 together'), findsOneWidget);
       expect(find.text('Chai Circle, one trap'), findsOneWidget);
       expect(find.text('Question 4'), findsOneWidget);
@@ -104,7 +115,7 @@ void main() {
     });
 
     testWidgets('the fresh question answers at once, with the why', (tester) async {
-      await pump(tester, const FixTogetherScreen(gameId: zoyaGame, q: 4));
+      await pump(tester, const FixTogetherScreen(gameId: zoyaGame, q: 3));
       await tester.tap(find.text('Try a fresh question'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 600));

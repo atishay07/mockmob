@@ -34,7 +34,7 @@ class FixTogetherScreen extends ConsumerStatefulWidget {
   const FixTogetherScreen({super.key, required this.gameId, required this.q});
   final String gameId;
 
-  /// 1-based trap question.
+  /// 0-based trap question (the server's `q`); the copy shows the trap's 1-based `number`.
   final int q;
 
   @override
@@ -126,13 +126,26 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
 
   ReviewQuestion? get _question {
     for (final x in widget.review.questions) {
-      if (x.q == widget.q - 1) return x;
+      if (x.q == widget.q) return x;
     }
     return null;
   }
 
   DateTime? get _checkOpens => widget.review.trap?.fix.check.opensAt;
-  bool get _checkOpen => _checkOpens != null && !widget.now.isBefore(_checkOpens!);
+
+  /// 1-based, for the copy ("Question 4").
+  int get _number => widget.review.trap?.number ?? widget.q + 1;
+
+  /// The server's check state (not_yet, open, closed, done); an older server sends only the dates.
+  String get _checkState {
+    final st = widget.review.trap?.fix.check.state;
+    if (st != null) return st;
+    final o = _checkOpens;
+    return o != null && !widget.now.isBefore(o) ? 'open' : 'not_yet';
+  }
+
+  bool get _checkOpen => _checkState == 'open';
+  bool get _checkNotYet => _checkState == 'not_yet';
 
   Future<void> _start() async {
     final which = _checkOpen ? 'check' : 'now';
@@ -218,7 +231,7 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(MobV3Copy.fixTogether(widget.q), style: type.subhead.copyWith(color: c.ink)),
+                      Text(MobV3Copy.fixTogether(_number), style: type.subhead.copyWith(color: c.ink)),
                       Text(MobV3Copy.fixSub(widget.mobName.isEmpty ? 'Your Mob' : widget.mobName), style: type.caption.copyWith(color: c.ink3)),
                     ],
                   ),
@@ -275,7 +288,7 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
               runSpacing: 4,
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                Text(MobV3Copy.question(widget.q), style: type.labelLarge.copyWith(color: paperInk2, fontWeight: FontWeight.w700)),
+                Text(MobV3Copy.question(_number), style: type.labelLarge.copyWith(color: paperInk2, fontWeight: FontWeight.w700)),
                 Text(MobV3Copy.whyLooked, style: type.labelLarge.copyWith(color: paperInk2)),
               ],
             ),
@@ -331,7 +344,7 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
               ],
             ],
           ),
-          if (opens != null && !_checkOpen) ...[
+          if (opens != null && _checkNotYet) ...[
             const SizedBox(height: MmSpace.s12),
             Text(MobV3Copy.checkOpens(opens), key: const ValueKey('fix-check-opens'), style: type.caption.copyWith(color: c.ink3, fontSize: 14)),
           ],
@@ -412,7 +425,7 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
               const SizedBox(height: MmSpace.s12),
               Text(MobV3Copy.fixTogetherDone, style: type.body.copyWith(color: c.ink)),
             ],
-            if (opens != null && !_checkOpen) ...[
+            if (opens != null && _checkNotYet) ...[
               const SizedBox(height: MmSpace.s16),
               Text(MobV3Copy.checkOpens(opens), style: type.caption.copyWith(color: c.ink3, fontSize: 14)),
             ],

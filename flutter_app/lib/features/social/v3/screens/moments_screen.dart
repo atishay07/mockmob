@@ -124,7 +124,7 @@ class MomentsView extends StatelessWidget {
               child: Text(MobV3Copy.trapCardTitle, style: type.cardTitle.copyWith(color: c.ink)),
             ),
             const SizedBox(height: 4),
-            Text(MobV3Copy.trapCaught(trap.q), style: type.body.copyWith(color: c.ink2)),
+            Text(MobV3Copy.trapCaught(trap.number), style: type.body.copyWith(color: c.ink2)),
             const SizedBox(height: MmSpace.s12),
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -176,7 +176,7 @@ class MomentsView extends StatelessWidget {
     }
 
     final key = trap != null
-        ? KeyButton(label: MobV3Copy.fixTogether(trap.q), onPressed: () => MobV3Nav.fix(context, gameId, trap.q))
+        ? KeyButton(label: MobV3Copy.fixTogether(trap.number), onPressed: () => MobV3Nav.fix(context, gameId, trap.q))
         : KeyButton(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst));
 
     final title = data.game?.title ?? '';
