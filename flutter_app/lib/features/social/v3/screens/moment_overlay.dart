@@ -1,12 +1,274 @@
-// K1 to K4 (M8 to M11): milestone, quest done, week stitched, reveal. Owner: MOMENTS agent.
-// STUB from the foundation commit: the owning agent replaces this file.
+// K1 to K4 (spec 5.3 M-sheets, 5.6 M8 to M11): the full-screen moments, one route over the shell
+// (MobV3Nav.moment pushes it with a fade, opaque false). Keys, as the server sends them in
+// `v3.moments` (or the chain's `due`):
+//   quest_done:<week>  K2 Quest done (M10)
+//   stitch:<week>      K3 Week stitched (M8); plays only once the server says the quest is done (F13)
+//   reveal:<fold>      K4 Reveal (M9)
+//   chain:<n>          K1 Milestone (M11)
+// Every moment has a visible Skip and a close X; any tap lands the end state in 200 ms. The overlay
+// never marks a moment seen: the den does that after it closes, for every key in
+// [momentsShownProvider] (K2's "Open the parcel" plays K4 in place, so one overlay can show two keys).
+// Every number on screen is a server field (the den read and the chain read).
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MomentOverlay extends StatelessWidget {
+import '../../../../core/motion/motion_tokens.g.dart';
+import '../../../../core/theme/theme.dart';
+import '../copy_v3.dart';
+import '../data/mob_v3_den.dart';
+import '../data/mob_v3_models.dart';
+import '../logic/fold_catalog.dart' show denItemsByWeek;
+import '../mob_v3_nav.dart';
+import '../widgets/moment_kit.dart';
+import '../widgets/moment_milestone.dart';
+import '../widgets/moment_quest_done.dart';
+import '../widgets/moment_reveal.dart';
+import '../widgets/moment_stitched.dart';
+import '../widgets/paper_particles.dart' show PaperParticlesController;
+
+/// Every moment key an overlay has shown (fully or skipped), in order. The den takes them after
+/// `MobV3Nav.moment` returns and marks them seen (`POST /seen`); the overlay never calls seen.
+class MomentsShown extends Notifier<List<String>> {
+  @override
+  List<String> build() => const [];
+
+  void add(String key) {
+    if (!state.contains(key)) state = [...state, key];
+  }
+
+  /// Returns the keys and clears them.
+  List<String> take() {
+    final out = state;
+    state = const [];
+    return out;
+  }
+}
+
+final momentsShownProvider = NotifierProvider<MomentsShown, List<String>>(MomentsShown.new);
+
+/// A parsed moment key.
+class MomentKey {
+  const MomentKey(this.kind, this.arg);
+
+  static MomentKey parse(String raw) {
+    final i = raw.indexOf(':');
+    if (i <= 0) return MomentKey(raw, '');
+    return MomentKey(raw.substring(0, i), raw.substring(i + 1));
+  }
+
+  final String kind;
+  final String arg;
+
+  @override
+  String toString() => '$kind:$arg';
+}
+
+/// What the finished quest's parcel held, from what the server sent: a `reveal:<fold>` due with it
+/// means the parcel held that Fold; else a den object the chain reached this week and the shelf now
+/// holds; else the week's stitch.
+QuestPrize questPrizeOf(MobV3 v3) {
+  for (final k in v3.moments) {
+    final m = MomentKey.parse(k);
+    if (m.kind == 'reveal') {
+      final f = FoldKey.parse(m.arg);
+      if (f != null) return QuestPrize(ParcelKind.fold, fold: f);
+    }
+  }
+  final item = weekItemOf(v3);
+  if (item != null) return QuestPrize(ParcelKind.item, item: item);
+  return const QuestPrize(ParcelKind.stitch);
+}
+
+/// The den object the Mob's chain reached at this week, when the server's shelf holds it.
+String? weekItemOf(MobV3 v3) {
+  for (final item in denItemsByWeek[v3.mobChain.weeks] ?? const <String>[]) {
+    if (item != 'stamp' && v3.shelf.items.contains(item)) return item;
+  }
+  return null;
+}
+
+/// F13: a stitch plays only after the server reported this week's quest done.
+bool stitchAllowed(MobV3 v3, String week) => v3.quest.done && (v3.quest.week == null || week.isEmpty || v3.quest.week == week);
+
+class MomentOverlay extends ConsumerStatefulWidget {
   const MomentOverlay({super.key, required this.momentKey});
+
   final String momentKey;
 
   @override
-  Widget build(BuildContext context) => const Scaffold(body: Center(child: Text('MomentOverlay')));
+  ConsumerState<MomentOverlay> createState() => _MomentOverlayState();
 }
+
+class _MomentOverlayState extends ConsumerState<MomentOverlay> {
+  late String _current = widget.momentKey;
+  bool _closing = false;
+  bool _sitting = false;
+  String? _error;
+
+  void _record(String key) => ref.read(momentsShownProvider.notifier).add(key);
+
+  void _close() {
+    if (_closing) return;
+    _closing = true;
+    _record(_current);
+    Navigator.of(context).maybePop();
+  }
+
+  /// Plays another due moment in place (K2 to K4 or K3), with a fade through.
+  void _playInPlace(String key) {
+    _record(_current);
+    setState(() {
+      _current = key;
+      _error = null;
+    });
+  }
+
+  Future<void> _playAs(FoldKey fold) async {
+    if (_sitting) return;
+    setState(() {
+      _sitting = true;
+      _error = null;
+    });
+    try {
+      await ref.read(mobV3ActionsProvider).sitAs(fold);
+      if (mounted) _close();
+    } on Object catch (e) {
+      if (mounted) {
+        setState(() {
+          _sitting = false;
+          _error = MobV3Copy.error(e);
+        });
+      }
+    }
+  }
+
+  void _shelf() {
+    if (_closing) return;
+    final nav = Navigator.of(context, rootNavigator: true);
+    _close();
+    MobV3Nav.shelf(nav.context);
+  }
+
+  void _closeLater() => WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _close();
+      });
+
+  @override
+  Widget build(BuildContext context) {
+    final den = ref.watch(denViewProvider);
+    final key = MomentKey.parse(_current);
+    final Widget child = switch (key.kind) {
+      'quest_done' => _questDone(den),
+      'stitch' => _stitch(den, key.arg),
+      'reveal' => _reveal(den, key.arg),
+      'chain' => _milestone(key.arg),
+      _ => _unknown(),
+    };
+    return Stack(
+      children: [
+        Positioned.fill(
+          child: AnimatedSwitcher(
+            duration: MotionDurations.fadeThroughIn,
+            reverseDuration: MotionDurations.fadeThroughOut,
+            child: KeyedSubtree(key: ValueKey(_current), child: child),
+          ),
+        ),
+        if (_error != null)
+          Positioned(
+            left: MmSpace.gutter,
+            right: MmSpace.gutter,
+            bottom: 96 + MediaQuery.paddingOf(context).bottom,
+            child: Text(_error!, style: context.mmType.small.copyWith(color: context.mmColors.badText), textAlign: TextAlign.center),
+          ),
+      ],
+    );
+  }
+
+  Widget _unknown() {
+    _closeLater();
+    return _Blank(onClose: _close);
+  }
+
+  Widget _questDone(DenView? den) {
+    if (den == null || !den.v3.quest.done) return _unknown();
+    final v3 = den.v3;
+    final prize = questPrizeOf(v3);
+    final stitchKey = v3.moments.firstWhere((k) => k.startsWith('stitch:'), orElse: () => '');
+    final String label;
+    final VoidCallback onKey;
+    switch (prize.kind) {
+      case ParcelKind.fold:
+        label = MobV3Copy.openParcel;
+        onKey = () => _playInPlace('reveal:${prize.fold!.name}');
+      case ParcelKind.item:
+        label = MobV3Copy.openParcel;
+        onKey = stitchKey.isNotEmpty ? () => _playInPlace(stitchKey) : _close;
+      case ParcelKind.stitch:
+        label = MobV3Copy.seePennant;
+        onKey = stitchKey.isNotEmpty ? () => _playInPlace(stitchKey) : _close;
+    }
+    return QuestDoneMoment(
+      mobName: v3.name.text,
+      members: v3.members,
+      quest: v3.quest,
+      week: v3.mobChain.weeks,
+      prize: prize,
+      keyLabel: label,
+      onKey: onKey,
+      onClose: _close,
+    );
+  }
+
+  Widget _stitch(DenView? den, String week) {
+    if (den == null || !stitchAllowed(den.v3, week)) return _unknown();
+    final v3 = den.v3;
+    return StitchedMoment(mobName: v3.name.text, members: v3.members, weeks: v3.mobChain.weeks, item: weekItemOf(v3), onKey: _close, onClose: _close);
+  }
+
+  Widget _reveal(DenView? den, String arg) {
+    final fold = FoldKey.parse(arg);
+    if (fold == null) return _unknown();
+    return RevealMoment(
+      mobName: den?.v3.name.text ?? '',
+      fold: fold,
+      playing: _sitting,
+      onPlayAs: () => _playAs(fold),
+      onShelf: _shelf,
+      onClose: _close,
+    );
+  }
+
+  Widget _milestone(String arg) {
+    final n = int.tryParse(arg);
+    if (n == null || n <= 0) return _unknown();
+    final chain = ref.watch(chainProvider);
+    return chain.when(
+      data: (c) => MilestoneMoment(days: n, chain: c, onKey: _close, onClose: _close),
+      loading: () => _Blank(onClose: _close),
+      error: (_, _) => _unknown(),
+    );
+  }
+}
+
+/// The frame with nothing in it yet (the chain is loading), or on the way out.
+class _Blank extends StatelessWidget {
+  const _Blank({required this.onClose});
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) => MomentFrame(
+        stageKey: GlobalKey(),
+        title: null,
+        lamp: const LampState(strength: 0.5),
+        playing: false,
+        onSkip: () {},
+        onClose: onClose,
+        body: const SizedBox.expand(),
+        particles: _blankParticles,
+        keys: const [],
+        keysT: 0,
+      );
+}
+
+final _blankParticles = PaperParticlesController();

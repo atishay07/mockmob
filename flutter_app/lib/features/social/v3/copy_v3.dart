@@ -424,6 +424,17 @@ abstract final class MobV3Copy {
   static String playAs(FoldKey f) => 'Play as ${foldName(f)}';
   static const String seeShelf = 'See your shelf';
   static String passNotice(String weekday, int days) => '$weekday was covered by a rest pass. Your chain is still $days.';
+  // Moment chrome (MOMENTS agent).
+  static const String close = 'Close';
+  static const String headYou = 'You';
+  static const String mobsChain = "The Mob's chain";
+  static const String yourChain = 'Your chain';
+  static String questDoneA11y(int answered, int target) => 'Quest done. $answered answered. The quest needed $target.';
+  static String parcelA11y(QuestParcel p) => switch (p.kind) {
+        ParcelKind.fold => "This week's parcel. ${foldName(p.fold ?? FoldKey.hop)} is folded inside.",
+        ParcelKind.item => "This week's parcel. ${itemName(p.item ?? '')} is inside.",
+        ParcelKind.stitch => "This week's stitch.",
+      };
 
   // ---- S1 Shelf ----
   static const String shelfTitle = 'Your shelf';
