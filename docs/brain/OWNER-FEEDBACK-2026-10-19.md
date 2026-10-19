@@ -462,3 +462,11 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > I need six or seven phone assets, basically screenshots also. You can do not exactly just screenshots: design it properly and make something good how professional apps usually do it"
 **Ledger D142:** rewrite the short and full descriptions with a real marketing mind (still truthful, Play policy); redesign the feature graphic with deep thought; make 6-7 designed phone assets (composed store frames, like professional apps), not raw screenshots. Options first (R8); he picks.
+
+## Owner, 19 Oct about 9:35 pm IST, on listing time (verbatim)
+> "All right, how much time will you take to write the descriptions and make the posters, graphics, whatever you call it?"
+> "Why is it taking 30, 40 minutes to generate some description and post it? That's barely 5 minutes' work. What are you doing for 30 minutes to generate it?"
+
+## Owner, 19 Oct about 9:29 pm IST, on marketing rigidity (verbatim)
+> "Okay, take the time, but the things that you are being rigid with, the proof and wordings which are used in marketing, are very common. Literally, if there are 10 COT apps on the Play Store, everyone claims that they are the best, they are number one, or something like that. That's very common. Unlimited mocks, we have to advertise it as a feature, and that's actually true. Every app has something behind the table. That doesn't mean Google will block the app or that it has some policy risk."
+**Ledger D143:** marketing copy may be bold and confident like other exam apps; "unlimited mocks" is advertised as a headline feature. Keep only Google's hard rule: no "#1/best/top" or prices in the app title, icon or developer name (Play's metadata policy enforces those); the description may use confident marketing language.
