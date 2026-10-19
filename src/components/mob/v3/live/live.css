@@ -1,0 +1,180 @@
+/* ==========================================================================
+   MOB V3, LIVE ROOMS (web)  scope: .mp-page (play.css tokens)
+   L1 lobby, L2 countdown, the live ruler (GameRun with `live`), R5 a friend finishing, R6 still playing.
+   Paper, a stamp, the lamp, exam stationery (the stopwatch), and one volt thing per screen: the key, or Go.
+   Motion (spec 5.6): M2 go live (a volt circle covering at most 40% of the screen at 22% / 30%, gone by 900 ms),
+   joiner hop-in with a 90 ms squash, tags engrave, lobby sway (stops 10 s after the last touch), M3 countdown,
+   M12 stickers. Only transform and opacity animate. Reduced motion: 120 ms fades, no hops, sway, ring or glints.
+   ========================================================================== */
+
+.mp-page { --lv-volt-wash: rgba(214, 245, 0, 0.22); }
+html[data-theme='light'] .mp-page { --lv-volt-wash: rgba(190, 220, 0, 0.30); }
+
+/* The "Live" dot in a header */
+.lv-dot { display: inline-block; width: 8px; height: 8px; margin: 0 7px 1px 1px; border-radius: 50%; background: var(--volt); box-shadow: 0 0 0 3px color-mix(in srgb, var(--volt) 22%, transparent); vertical-align: middle; animation: lv-dot 2400ms ease-in-out infinite; }
+html[data-theme='light'] .lv-dot { background: #8fae00; box-shadow: 0 0 0 3px rgba(143, 174, 0, 0.18); }
+@keyframes lv-dot { 50% { opacity: 0.55; } }
+
+.lv-lobby { position: relative; display: grid; gap: 0; min-height: calc(100dvh - 120px); padding-bottom: 8px; }
+.lv-lobby .mp-head { margin-bottom: 8px; }
+
+/* ---- The stage: the lamp-lit room, Folds standing on the floor band, tags under ---- */
+.lv-stage {
+  --fold: clamp(64px, calc((min(100vw, 760px) - 48px) / var(--n) - 10px), 120px);
+  position: relative; height: calc(var(--fold) + 168px); margin: 0 -16px; overflow: hidden; isolation: isolate;
+  background: var(--mp-desk); border-block: 1px solid var(--a-line);
+}
+.lv-stage__room { position: absolute; inset: 0; z-index: 0; background:
+  linear-gradient(var(--mp-grid) 1px, transparent 1px) 0 0 / 28px 28px,
+  linear-gradient(90deg, var(--mp-grid) 1px, transparent 1px) 0 0 / 28px 28px,
+  var(--mp-desk); }
+/* The lamp: a shade at the top and its pool of light (the signature light, one per screen). */
+.lv-stage__lamp { position: absolute; left: 50%; top: 0; width: 96px; height: 22px; margin-left: -48px; border-radius: 0 0 48px 48px / 0 0 18px 18px; background: linear-gradient(180deg, #e9dfc8, #c9bb98); box-shadow: 0 8px 26px 6px var(--mp-lamp-core); }
+.lv-stage__cone { position: absolute; left: 50%; top: 14px; bottom: 56px; width: min(92%, 560px); transform: translateX(-50%); clip-path: polygon(41% 0, 59% 0, 100% 100%, 0 100%); background: radial-gradient(70% 90% at 50% 0%, var(--mp-lamp-core), var(--mp-lamp) 45%, transparent 100%); opacity: 0.9; }
+.lv-stage__floor { position: absolute; left: 0; right: 0; bottom: 0; height: 78px; background: linear-gradient(180deg, color-mix(in srgb, var(--mp-desk-2) 80%, #000 20%), var(--mp-desk-2)); border-top: 1px solid color-mix(in srgb, var(--a-line) 70%, transparent); }
+html[data-theme='light'] .lv-stage { --mp-desk: #e3d6ba; --mp-desk-2: #d6c6a4; }
+html[data-theme='light'] .lv-stage__floor { background: linear-gradient(180deg, #d2c19c, #dccdab); }
+
+.lv-seats { position: relative; z-index: 1; display: grid; grid-template-columns: repeat(var(--n), minmax(0, 1fr)); align-items: end; height: 100%; margin: 0 auto; padding: 0 12px 10px; max-width: 640px; list-style: none; }
+.lv-seat { display: grid; justify-items: center; align-content: end; gap: 4px; min-width: 0; }
+.lv-seat__fig { position: relative; display: grid; place-items: end center; width: var(--fold); height: var(--fold); margin-bottom: 10px; transform-origin: 50% 100%; animation: lv-hop 640ms var(--mp-celebrate) calc(var(--i) * 90ms) both; }
+.lv-seat__fig .mp-fold { width: var(--fold) !important; height: var(--fold) !important; }
+.lv-seat__fig .mp-fold img { width: 100%; height: 100%; object-fit: contain; }
+.lv-seat__sway { display: block; transform-origin: 50% 96%; animation: lv-sway 6400ms ease-in-out calc(var(--i) * -1700ms) infinite; }
+.lv-lobby[data-still] .lv-seat__sway { animation-play-state: paused; }
+.lv-seat__shadow { position: absolute; left: 50%; bottom: -4px; width: 64%; height: 10px; transform: translateX(-50%); border-radius: 50%; background: rgba(0, 0, 0, 0.32); filter: blur(2px); z-index: -1; }
+html[data-theme='light'] .lv-seat__shadow { background: rgba(59, 42, 18, 0.2); }
+.lv-seat__name { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font: 800 15px/1.2 var(--font-display); color: var(--a-ink); }
+.lv-seat.is-you .lv-seat__name { text-decoration: underline; text-decoration-color: var(--mp-c); text-decoration-thickness: 2px; text-underline-offset: 4px; }
+.lv-seat__name.is-open { font-weight: 600; font-size: 13.5px; color: var(--a-ink-3); white-space: normal; text-align: center; }
+.lv-seat__outline { display: grid; place-items: center; width: calc(var(--fold) * 0.72); height: var(--fold); border: 2px dashed color-mix(in srgb, var(--a-ink-3) 65%, transparent); border-radius: 22px; font: 300 30px/1 var(--font-body); color: var(--a-ink-3); }
+.lv-seat.is-open .lv-seat__fig { animation: none; }
+.lv-seat.is-open { padding-bottom: 32px; }
+
+/* Paper tags: Host (outline), Here (dot), Ready (paper with a tick). They engrave whole, 360 ms after a hop. */
+.lv-tag { display: inline-flex; align-items: center; gap: 5px; min-height: 26px; padding: 0 10px; border-radius: 7px; font: 800 13px/1 var(--font-body); white-space: nowrap; animation: lv-engrave 280ms var(--mp-emph) calc(var(--i) * 90ms + 360ms) both; }
+.lv-tag.is-here { background: color-mix(in srgb, var(--mp-desk) 60%, #000 10%); border: 1px solid var(--a-line-strong); color: var(--a-ink); }
+.lv-tag__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--volt); }
+html[data-theme='light'] .lv-tag__dot { background: #8fae00; }
+.lv-tag.is-ready { background: linear-gradient(180deg, var(--mp-paper), var(--mp-paper-2)); color: var(--mp-paper-ink); box-shadow: 0 1px 0 var(--mp-paper-edge), 0 4px 10px -6px rgba(0, 0, 0, 0.6); transform: rotate(-2deg); }
+.lv-tag.is-host { border: 1.5px solid var(--mp-paper-2); color: var(--mp-paper); background: transparent; }
+.lv-tag.is-host .lv-tag__dot { background: var(--mp-paper); }
+html[data-theme='light'] .lv-tag.is-host { border-color: var(--mp-paper-ink-2); color: var(--mp-paper-ink); }
+html[data-theme='light'] .lv-tag.is-host .lv-tag__dot { background: var(--mp-paper-ink); }
+
+/* M12: a sticker floats 24 px up from the sender's Fold, holds, fades. */
+.lv-sticker { position: absolute; bottom: calc(100% + 6px); left: 50%; z-index: 3; display: inline-flex; align-items: center; gap: 6px; padding: 7px 11px; border-radius: 12px; background: linear-gradient(180deg, var(--mp-paper), var(--mp-paper-2)); color: var(--mp-paper-ink); font: 800 13.5px/1 var(--font-body); white-space: nowrap; box-shadow: 0 1px 0 var(--mp-paper-edge), 0 10px 22px -10px rgba(0, 0, 0, 0.7); animation: lv-sticker 2100ms var(--mp-ease) both; }
+
+.lv-stage.is-skeleton .lv-seat__outline { animation: mp-pulse 1200ms ease-in-out infinite alternate; }
+
+/* ---- Under the stage ---- */
+.lv-under { display: grid; gap: 14px; padding: 18px 0 4px; }
+.lv-stickers { display: grid; gap: 10px; }
+.lv-stickers__row { display: flex; gap: 8px; overflow-x: auto; margin: 0 -16px; padding: 2px 16px 6px; scrollbar-width: none; overscroll-behavior-x: contain; }
+.lv-stickers__row::-webkit-scrollbar { display: none; }
+.lv-chip { flex: none; display: inline-flex; align-items: center; gap: 8px; min-height: 46px; padding: 0 16px; border: 0; border-radius: 14px; background: linear-gradient(180deg, var(--mp-paper), var(--mp-paper-2)); color: var(--mp-paper-ink); font: 800 15px/1 var(--font-body); box-shadow: 0 1px 0 var(--mp-paper-edge), 0 6px 14px -10px rgba(0, 0, 0, 0.7); cursor: pointer; touch-action: manipulation; transition: transform 100ms var(--mp-ease), filter 150ms var(--mp-ease); }
+.lv-chip:active:not(:disabled) { transform: scale(0.96) rotate(-1deg); }
+.lv-chip:disabled { opacity: 0.6; cursor: progress; }
+@media (hover: hover) and (pointer: fine) { .lv-chip:hover:not(:disabled) { filter: brightness(1.04); transform: translateY(-1px); } }
+.lv-promise { color: var(--a-ink-2); }
+.lv-note { margin: 0; padding: 12px 14px; border-radius: 12px; border: 1px dashed var(--a-line-strong); font-size: 14px; line-height: 1.5; color: var(--a-ink-2); }
+
+.lv-dock { margin-top: auto; display: grid; gap: 8px; justify-items: stretch; }
+.lv-dock .mp-link { justify-self: center; }
+.lv-key { width: 100%; }
+.lv-key:disabled { opacity: 1; background: var(--a-raised-2); color: var(--a-ink-2); box-shadow: none; border-color: var(--a-line-strong); cursor: default; }
+.lv-dock__line { margin: 0; text-align: center; font-size: 13.5px; color: var(--a-ink-3); }
+.lv-error { bottom: calc(150px + env(safe-area-inset-bottom)); }
+
+/* The quiet room (closed, refused, busy, away): one Fold in the lamp and one card. */
+.lv-lobby--notice { align-content: start; }
+.lv-stage--quiet { --fold: 112px; }
+.lv-quiet__fig { position: absolute; left: 50%; bottom: 40px; z-index: 1; transform: translateX(-50%); }
+.lv-notice { margin-top: 18px; }
+
+/* ---- M2, go live: a volt circle from the key, at most 40% of the screen (70 vmin across), gone by 900 ms ---- */
+.lv-wipe { position: fixed; left: 50%; bottom: 60px; z-index: 50; width: 70vmin; height: 70vmin; margin: 0 0 -35vmin -35vmin; border-radius: 50%; background: var(--lv-volt-wash); pointer-events: none; transform: scale(0); opacity: 1; animation: lv-wipe 900ms var(--mp-ease) both; }
+
+/* ---- L2 / M3, the countdown ---- */
+.lv-lobby.is-counting .lv-lobby__under { filter: saturate(0.8); }
+.lv-count { position: fixed; inset: 0; z-index: 60; display: grid; grid-template-rows: auto 1fr auto; justify-items: center; padding: calc(28px + env(safe-area-inset-top)) 16px calc(40px + env(safe-area-inset-bottom)); color: #f4efe2; }
+.lv-count__scrim { position: absolute; inset: 0; z-index: -1; background: #0c0b08; opacity: calc(0.25 + 0.5 * var(--depth)); transition: opacity 600ms var(--mp-ease); }
+html[data-theme='light'] .lv-count__scrim { background: #241d10; }
+.lv-count__heads { display: flex; gap: 14px; margin: 0; padding: 0; list-style: none; }
+.lv-count__head { display: grid; justify-items: center; gap: 6px; animation: lv-head-in 360ms var(--mp-celebrate) calc(var(--i) * 90ms) both; }
+.lv-count:not(.is-wait) .lv-count__disc { animation: lv-bob 600ms ease-in-out infinite; }
+.lv-count__disc { display: grid; place-items: center; padding: 3px; border-radius: 50%; box-shadow: 0 0 0 2.5px var(--mp-c); background: #1a1712; }
+.lv-count__name { font: 800 14px/1.2 var(--font-display); color: #f4efe2; }
+.lv-count__stage { position: relative; display: grid; place-items: center; align-self: center; width: min(78vw, 320px); }
+.lv-count__watch { position: relative; width: 78%; transform-origin: 50% 0; }
+.lv-count:not(.is-wait) .lv-count__watch { animation: lv-tilt 1200ms ease-in-out infinite; }
+.lv-count__watch img { display: block; width: 100%; height: auto; filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.55)); }
+.lv-count__arc { position: absolute; left: 13.5%; top: 34.5%; width: 67%; height: 52%; transform: rotate(-90deg); overflow: visible; }
+.lv-count__arc-track { fill: none; stroke: rgba(31, 27, 18, 0.08); stroke-width: 6; }
+.lv-count__arc-fill { fill: none; stroke: var(--volt); stroke-width: 6; stroke-linecap: round; opacity: 0.85; transition: stroke-dashoffset 600ms linear; }
+.lv-count__numeral { position: absolute; left: 50%; top: 60%; width: 0; height: 0; display: grid; place-items: center; }
+.lv-tile { position: absolute; display: grid; place-items: center; width: clamp(132px, 38vw, 176px); aspect-ratio: 1; border-radius: 26px; background: linear-gradient(180deg, #f3ead6, #e6dbc2); color: #1f1b12; box-shadow: 0 2px 0 #c9b88f, 0 6px 0 -1px #b9a77c, 0 26px 40px -16px rgba(0, 0, 0, 0.75); transform: rotate(-3deg); animation: lv-stamp var(--beat) linear both; }
+.lv-tile__n { font: 900 clamp(84px, 24vw, 112px)/1 var(--font-display); font-stretch: condensed; letter-spacing: -0.04em; font-variant-numeric: tabular-nums; }
+.lv-tile--go { background: var(--volt); color: var(--volt-ink, #10120a); box-shadow: 0 2px 0 var(--volt-edge, #a8c400), 0 26px 40px -16px rgba(0, 0, 0, 0.7); animation: lv-go 520ms var(--mp-celebrate) both; }
+.lv-tile--go .lv-tile__n { font-size: clamp(64px, 18vw, 86px); }
+.lv-tile__ring { position: absolute; inset: -6px; border-radius: 30px; border: 3px solid var(--volt); animation: lv-ring 420ms var(--mp-ease) both; pointer-events: none; }
+.lv-tile__glint { position: absolute; left: 50%; top: 50%; width: 10px; height: 10px; margin: -5px; background: var(--volt); clip-path: polygon(50% 0, 62% 38%, 100% 50%, 62% 62%, 50% 100%, 38% 62%, 0 50%, 38% 38%); animation: lv-glint 520ms var(--mp-ease) both; }
+.lv-tile__glint { --dx: 0px; --dy: 0px; }
+.lv-tile__glint:nth-of-type(1) { --dx: -112px; --dy: -86px; }
+.lv-tile__glint:nth-of-type(2) { --dx: 118px; --dy: -74px; }
+.lv-tile__glint:nth-of-type(3) { --dx: -104px; --dy: 92px; }
+.lv-tile__glint:nth-of-type(4) { --dx: 110px; --dy: 98px; }
+.lv-count__line { margin: 0; max-width: 34ch; text-align: center; font: 700 16px/1.45 var(--font-body); color: #f4efe2; text-wrap: balance; }
+
+.mp-caption.is-busy { color: var(--a-ink-2); }
+
+@media (min-width: 900px) {
+  .lv-stage { margin: 0; border: 1px solid var(--a-line); border-radius: 22px; }
+  .lv-stickers__row { margin: 0; padding: 2px 0 6px; flex-wrap: wrap; overflow: visible; }
+  .lv-lobby { min-height: auto; }
+  .lv-dock { position: static; margin-top: 22px; padding: 0; background: none; }
+  .lv-count__stage { width: 340px; }
+}
+
+@keyframes lv-hop {
+  0% { transform: translateY(36px); opacity: 0; }
+  45% { transform: translateY(-18px); opacity: 1; }
+  70% { transform: translateY(0) scale(1.08, 0.88); }
+  84% { transform: translateY(0) scale(0.98, 1.02); }
+  100% { transform: none; opacity: 1; }
+}
+@keyframes lv-sway { 0%, 100% { transform: rotate(-2deg); } 50% { transform: rotate(2deg); } }
+@keyframes lv-engrave { from { clip-path: inset(0 100% 0 0); opacity: 0.4; } to { clip-path: inset(0 0 0 0); opacity: 1; } }
+@keyframes lv-sticker {
+  0% { transform: translate(-50%, 24px) scale(0.9); opacity: 0; }
+  14% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+  86% { transform: translate(-50%, 0) scale(1); opacity: 1; }
+  100% { transform: translate(-50%, -6px) scale(1); opacity: 0; }
+}
+@keyframes lv-wipe {
+  0%, 20% { transform: scale(0); opacity: 1; }
+  60% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+@keyframes lv-head-in { from { transform: translateY(-10px) scale(0.9); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes lv-bob { 0%, 100% { transform: translateY(0); } 30% { transform: translateY(-3px); } }
+@keyframes lv-tilt { 0%, 100% { transform: rotate(-1.5deg); } 50% { transform: rotate(1.5deg); } }
+/* A numeral: stamps 1.25 to 1 in 180 ms, holds, leaves at 460 to 600 ms (0.92 and gone). */
+@keyframes lv-stamp {
+  0% { transform: rotate(-3deg) scale(1.25); opacity: 0; animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1); }
+  30% { transform: rotate(-3deg) scale(1); opacity: 1; }
+  76.6% { transform: rotate(-3deg) scale(1); opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 1, 1); }
+  100% { transform: rotate(-3deg) scale(0.92); opacity: 0; }
+}
+@keyframes lv-go { from { transform: rotate(-3deg) scale(1.4); opacity: 0; } to { transform: rotate(-3deg) scale(1); opacity: 1; } }
+@keyframes lv-ring { from { transform: scale(0.6); opacity: 0.9; } to { transform: scale(1.6); opacity: 0; } }
+@keyframes lv-glint { from { transform: translate(0, 0) scale(0.4); opacity: 0; } 40% { opacity: 1; } to { transform: translate(var(--dx), var(--dy)) scale(1); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lv-seat__fig, .lv-seat__sway, .lv-count__disc, .lv-count__watch, .lv-tile__ring, .lv-tile__glint, .lv-wipe, .lv-dot { animation: none !important; }
+  .lv-wipe, .lv-tile__ring, .lv-tile__glint { display: none; }
+  .lv-tile, .lv-tile--go { animation: lv-fade 120ms linear both !important; }
+  .lv-sticker { animation: lv-fade 120ms linear both !important; transform: translate(-50%, 0); }
+  .lv-tag { animation: lv-fade 120ms linear both !important; }
+}
+@keyframes lv-fade { from { opacity: 0; } to { opacity: 1; } }
