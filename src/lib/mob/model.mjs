@@ -37,9 +37,10 @@ export const COLOUR_COUNT = 8;
 export const NAME_MAX = 18;
 export const TIMEZONE = 'Asia/Kolkata';
 export const SITE = 'https://www.mockmob.in';
-// Crockford base32 without I, L, O and U. 8 characters is 40 bits.
+// Crockford base32 without I, L, O and U. New codes are 6 characters (30 bits, Mob v3, D127) when MOB_V3_ENABLED is on;
+// old 8-character codes (40 bits) keep working until they expire.
 export const CODE_ALPHABET = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
-export const CODE_RE = /^[0-9A-HJKMNP-TV-Z]{8}$/;
+export const CODE_RE = /^(?:[0-9A-HJKMNP-TV-Z]{6}|[0-9A-HJKMNP-TV-Z]{8})$/;
 // SOCIAL-SPEC P3 reads ^[\p{L}][\p{L} .'-]{1,17}$; combining marks (\p{M}) are added after the first letter, because
 // Devanagari and other Indian scripts write vowel signs and the virama as marks (अनन्या would otherwise be refused).
 const NAME_RE = /^[\p{L}][\p{L}\p{M} .'-]{1,17}$/u;
@@ -100,6 +101,39 @@ export const ERRORS = Object.freeze({
   PAPER_UNAVAILABLE: [503, 'This week\'s paper could not be built just now. Nothing was charged. Try again shortly.'],
   MIGRATION: [503, 'Your Mob is not available just now. Try again shortly.'],
   UNAVAILABLE: [503, 'Your Mob did not load. Try again shortly.'],
+  // Mob v3 (MOB-BUILD-SPEC-V3 3.2). MobCopy.failure in lib/features/social/copy.dart keeps the same sentences.
+  START_PRO: [402, 'Starting games is part of Pro. You can play every game your Mob starts.'],
+  START_USED: [409, 'You started this week's game in this Mob. You can start another on Monday, or a friend with Pro can pass you the mic.'],
+  START_FORMAT: [402, 'Live rooms are part of Pro. You can start this game for anytime in 24 hours.'],
+  GAMES_OPEN_LIMIT: [409, 'Your Mob already has 3 games open. A new one can start when one closes.'],
+  ROOM_OPEN_ALREADY: [409, 'A live room is already open in your Mob. Join it from the den.'],
+  LIVE_OFF: [409, 'Live rooms are not on yet. Start it for anytime in 24 hours.'],
+  LIVE_HOURS: [409, 'Live rooms open from 6:00 AM to 11:00 PM. You can start it for anytime in 24 hours.'],
+  LIVE_BUSY: [503, 'Live is busy right now. Play now, and your Mob can catch up within 24 hours.'],
+  GAME_NOT_FOUND: [404, 'That game is not in your Mob.'],
+  GAME_CLOSED: [410, 'This game has closed. Its answers are open now.'],
+  RUN_DONE: [409, 'You already played this game. Your marks are on the podium.'],
+  RUN_EXPIRED: [410, 'Your time on this game ran out. Questions you did not answer count as skipped.'],
+  NO_RUN: [409, 'Start the game first.'],
+  Q_INVALID: [422, 'That question is not in this game.'],
+  PODIUM_NOT_YET: [409, 'Finish your run first, then you can see the podium.'],
+  REVIEW_NOT_YET: [409, 'The answers open for everyone when this game closes.'],
+  NOT_LIVE: [409, 'This game is played anytime, not live.'],
+  ROOM_NOT_HOST: [403, 'Only the member who opened this room can start it.'],
+  ROOM_STARTED: [409, 'This room has already started.'],
+  STICKER_INVALID: [422, 'Choose one of the stickers.'],
+  MIC_LIMIT: [409, 'You passed the mic twice this week, the most a week allows. You can pass it again on Monday.'],
+  MIC_SELF: [422, 'Pass the mic to a friend in your Mob.'],
+  BILLING_OFF: [409, 'Everyone can start games right now, so there is no mic to pass.'],
+  NOT_OWNER_SETTINGS: [403, 'Only the member who started the Mob can change this.'],
+  NAME_KEY_INVALID: [422, 'Choose one of the names.'],
+  FOLD_INVALID: [422, 'Choose one of the Folds.'],
+  FOLD_LOCKED: [409, 'You have not earned that Fold yet. Its card says how.'],
+  STEP_OUT_DONE: [409, 'This week's quest is already done, so there is nothing to step out of.'],
+  FIX_NOT_YET: [409, 'This opens when the game closes.'],
+  FIX_CLOSED: [410, 'This check has closed. A new trap brings a new one.'],
+  PAUSE_PAST: [422, 'Pause days have to be after today.'],
+  PAUSE_LIMIT: [409, 'You have used the 14 pause days this season allows.'],
 });
 
 export class MobError extends Error {
@@ -182,14 +216,18 @@ export function normalizeCode(raw) {
   return CODE_RE.test(code) ? code : null;
 }
 
-/** 8 Crockford characters from 5 random bytes (40 bits). */
-export function codeFromBytes(bytes) {
+/** `length` Crockford characters (8 from 5 random bytes, 40 bits; 6 from 4 bytes, the top 30 bits). */
+export function codeFromBytes(bytes, length = 8) {
+  const n = Math.ceil((length * 5) / 8);
   let bits = 0n;
-  for (let i = 0; i < 5; i += 1) bits = (bits << 8n) | BigInt(bytes[i] & 255);
+  for (let i = 0; i < n; i += 1) bits = (bits << 8n) | BigInt(bytes[i] & 255);
+  bits >>= BigInt(n * 8 - length * 5);
   let out = '';
-  for (let i = 7; i >= 0; i -= 1) out += CODE_ALPHABET[Number((bits >> BigInt(i * 5)) & 31n)];
+  for (let i = length - 1; i >= 0; i -= 1) out += CODE_ALPHABET[Number((bits >> BigInt(i * 5)) & 31n)];
   return out;
 }
+/** "K7P 2M9": a 6-character code in two groups of three (8-character codes are shown as they are). */
+export const displayCode = (code) => (typeof code === 'string' && code.length === 6 ? `${code.slice(0, 3)} ${code.slice(3)}` : code);
 
 export const inviteUrl = (code) => `${SITE}/join/${code}`;
 export const REPORT_REASONS = Object.freeze(['name', 'nudge', 'safety']);
