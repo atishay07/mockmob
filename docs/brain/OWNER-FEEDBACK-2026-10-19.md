@@ -650,3 +650,16 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 20 Oct about 2:06 am IST (verbatim)
 > "Yes, I didn't mean that I'll see the results. I just wanted to keep going and continue everything, not to be stopped by anything, and take decisions independently. From this point onwards, you don't need to show me any results in this session, like asking me to show mockups of something or designs, and asking for Google. Most of that part, I have already told you multiple times, and I think you understand my taste and preferences now. Based on that, you can take the decisions and keep on improving the app now."
 **Ledger D156:** option A and more: for the rest of this session the CTO decides independently, without showing results, mock-ups or designs and without asking; deploy the Mob v3 production steps and the website when tests pass; keep improving the app to his known taste.
+
+
+## Owner, 20 Oct about 2:14 am IST, on Mobi's value and AI credit costs (verbatim)
+> I just wanted to tell you one thing: whatever Mobi's value you are building upon, it should not be unrealistic in terms of the costs. One credit finishes an entire job. Just check how much it actually costs us and if we are able to sustain a very good margin on these AI credits.
+>
+> On the Pro plan, this can't be the case that Mobi just uses no credits. Essentially, only people who have the Pro plan are going to buy credits, as I said, so it should be mainly built around that only. It's not like we have to do a lot of work for very few credits to be valuable.
+>
+> If someone uses ChatGPT, it doesn't have the data that we have. We have to leverage the extra data that we have about the person and the knowledge base to make the entire platform smart, integrating Mobi into that smartness to help us. Many parts of it are already there. Instead of Mobi's mistake repair costing 1 credit, now a person can't go to ChatGPT and credit the mistake repair.
+>
+> When you are charging 1 credit for mistake repair, I told you this many weeks ago, when we were working on mistake repair, that it has to also be made more useful. All these usefulness things, I have said before also. Rather than doing more for a credit, it is more important to go more in depth and make the user feel its use and its usefulness.
+>
+> Just something my site and certain data do need, and surprise me with whatever you build. I don't think if I had done this usefulness thing many times with Claude, I think back when I was using Codex. Let's see if you can come up with something more innovative for all the things, and we can keep progressing on the website side also, side by side. I have been focused on the app the past few days, but the website is still the main product, not the app.
+**Ledger D157 (replaces C-dec 3 items 1-2 where they differ):** AI credit pricing must keep a very good margin: check the real cost per job. Pro does NOT make Mobi free: credits are mainly bought by Pro students, so the credit economy is built around Pro. Do not give more work per credit; make each credit's job deeper and more useful (Repair especially: he asked weeks ago). Leverage our data and knowledge base so the whole platform is smart, with Mobi woven in. Surprise him with innovation. The WEBSITE is the main product, not the app: keep it progressing side by side.

@@ -564,3 +564,9 @@ Spec: docs/design-decisions/pass-1019pm/mob-v3/MOB-BUILD-SPEC-V3.md. Production 
 2. Free: "What should I revise tonight?", the debrief after every paper, the score range against the student's colleges, last look, Daily 5, check-ins. Pro: Mobi jobs use no credits (fair use 10 a day), the week plan, the college gap by chapter, the pace coach.
 3. Crowd lines ("most students picked C") only at 30 or more answers on that question.
 4. Build order for version 13: (a) the debrief = the finish screen's analysis in Mobi's voice with one "Fix these" key; (b) "Fix it for good" (Repair becomes Mobi's job, reachable from "Ask Mobi about Q7"); (c) "Where you stand" leads the Ask your record door (score range vs the student's colleges, from the projection the web already has), and the mentor context finally reads the student's colleges. The pricing page's "3 credits for a deeper analysis" line goes.
+
+## C-dec 3b (CTO, 20 Oct, after D157): Mobi and AI credits, corrected
+- Pro does not make Mobi free. Credits are bought mostly by Pro students; every Mobi job costs credits on every plan (free monthly credits still apply).
+- Price each job from its real model cost with a wide margin (1 credit is about Rs 0.25 at the 300-pack price; a job's model cost must stay a small fraction of its credit price; measure it in the code's cost ledger).
+- Depth over volume: a credit buys a deeper, more useful job, not more jobs. Repair (1 credit) becomes the flagship: why YOUR option looked right using our trap atlas and your own history, the rule to keep, check questions, and a held check later.
+- What is computed from the record (no model call) stays free and is woven through the platform, not boxed in a chat. The website is the main product: every Mobi change lands on the web first or together.
