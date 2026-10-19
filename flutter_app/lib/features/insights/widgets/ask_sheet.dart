@@ -13,6 +13,7 @@ import '../../../core/router/routes.dart' show AppRoutes;
 import '../../../core/sync/sync_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../review/data/repair_record_api.dart' show serverRepairsProvider;
 import '../copy.dart';
 import '../data/ai_reply_report.dart';
 import '../data/ask_citation.dart';
@@ -285,6 +286,13 @@ class _AskMobiSheetState extends ConsumerState<AskMobiSheet> {
       if (ctx.kind == AskMobiKind.question) ...[
         _QuestionQuote(question: ctx.question, hand: hand),
         const SizedBox(height: MmSpace.s20),
+        if (fixTarget(ctx.question) case final fix?) ...[
+          FixItKey(
+            stored: ref.watch(serverRepairsProvider).value?.containsKey('${fix.attemptId}/${fix.questionId}') ?? false,
+            onTap: () => _go(AppRoutes.reviewFix(fix.attemptId, fix.questionId, number: ctx.question?.number)),
+          ),
+          const SizedBox(height: MmSpace.s24),
+        ],
       ] else if (newStudent) ...[
         _NewStudent(onStart: firstCheck == null ? null : () => _go(firstCheck)),
         const SizedBox(height: MmSpace.s24),
@@ -667,6 +675,58 @@ class _QuestionQuote extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The mistake "Fix it for good" can fix: a question from the student's own attempt that was answered wrong (or
+/// whose pick the opener did not say). Null for a right answer or a question that is not part of an attempt.
+({String attemptId, String questionId})? fixTarget(AskMobiQuestion? q) {
+  final ref = q?.ref;
+  if (ref == null) return null;
+  final cut = ref.indexOf(':');
+  if (cut <= 0 || cut >= ref.length - 1) return null;
+  final pick = q!.pickLetter, key = q.keyLetter;
+  if (pick != null && key != null && pick == key) return null;
+  return (attemptId: ref.substring(0, cut), questionId: ref.substring(cut + 1));
+}
+
+/// "Fix it for good · 1 credit" (MOBI-CONTRACT 4): Mobi's flagship job, priced before the tap. A fix already written
+/// says it opens free.
+class FixItKey extends StatelessWidget {
+  const FixItKey({super.key, required this.stored, required this.onTap});
+
+  final bool stored;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        KeyButton(
+          label: stored ? FixKeyCopy.openFix : FixKeyCopy.fix,
+          detail: stored ? FixKeyCopy.free : FixKeyCopy.price,
+          semanticsLabel: stored ? FixKeyCopy.openSpoken : FixKeyCopy.fixSpoken,
+          minHeight: 52,
+          onPressed: onTap,
+        ),
+        const SizedBox(height: MmSpace.s8),
+        Text(stored ? FixKeyCopy.storedLine : FixKeyCopy.line, style: type.small.copyWith(color: colors.ink2)),
+      ],
+    );
+  }
+}
+
+abstract final class FixKeyCopy {
+  static const fix = 'Fix it for good';
+  static const price = '· 1 credit';
+  static const fixSpoken = 'Fix it for good. 1 credit.';
+  static const openFix = 'Open your fix';
+  static const free = '· Free';
+  static const openSpoken = 'Open your fix. Free.';
+  static const line = 'Mobi shows why your option looked right, why the key is right and one rule to keep, then tests the fix on 2 fresh questions.';
+  static const storedLine = 'Mobi has already written this fix, so it opens free.';
 }
 
 /// A student with no sessions: the real Mobi, what Mobi will do, and one first step.

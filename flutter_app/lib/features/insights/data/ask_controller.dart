@@ -114,6 +114,9 @@ class AskAnchor {
 /// The reply kind that asks the server for tonight's revise plan from the record (free, no model).
 const tonightReplyKind = 'tonight';
 
+/// The reply kind of a doubt: 1 credit, a thread with one free follow-up and 2 real CUET questions.
+const doubtReplyKind = 'doubt';
+
 class AskMessage {
   const AskMessage.student(this.text)
       : fromStudent = true,
@@ -356,11 +359,14 @@ class AskController extends Notifier<AskState> {
     }
     final thread = state.thread;
     final followUp = questionRef == null && replyKind == null && thread != null && thread.canFollowUp ? thread.info.id : null;
+    // Anything that is not a follow-up, a question about a paper or tonight's plan is a doubt: the server opens a
+    // thread for it and never answers it from the record by its keywords (record asks were answered above, free).
+    final kind = replyKind ?? (followUp == null && questionRef == null && !isRecordAsk(text) ? doubtReplyKind : null);
     final anchor = AskAnchor.fromJson({
       'threadId': followUp,
       'subject': followUp == null ? subject : null,
       'chapter': followUp == null ? chapter : null,
-      'replyKind': replyKind,
+      'replyKind': kind,
     });
     _append([AskMessage.student(text), AskMessage.sending(anchor: anchor)]);
     final index = state.messages.length - 1;

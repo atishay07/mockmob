@@ -134,8 +134,9 @@ class WhereYouStand extends StatelessWidget {
           first != null && (first.gap ?? 0) > 0 ? StandCopy.closeFastest : StandCopy.mostOpen,
           style: type.label.copyWith(color: colors.ink2),
         ),
-        for (final c in s.closeFastest) ...[
-          const SizedBox(height: MmSpace.s8),
+        const SizedBox(height: MmSpace.s4),
+        for (final (i, c) in s.closeFastest.indexed) ...[
+          if (i > 0) Divider(height: 1, thickness: 1, color: colors.line),
           _ChapterKey(chapter: c, onTap: () => onPractise(s.practiceHref(c))),
         ],
       ],
@@ -249,8 +250,7 @@ class _ChapterKey extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
-    const radius = BorderRadius.all(Radius.circular(14));
-    final fill = Color.alphaBlend(colors.litTile, colors.raised);
+    const radius = BorderRadius.all(Radius.circular(10));
     return MmPressable(
       semanticsLabel: StandCopy.chapterSpoken(chapter),
       focusRadius: radius,
@@ -259,15 +259,13 @@ class _ChapterKey extends ConsumerWidget {
         ref.read(hapticsProvider).selection();
         onTap();
       },
-      builder: (context, pressed, _) => DecoratedBox(
-        decoration: ShapeDecoration(
-          color: pressed ? Color.alphaBlend(colors.litTile, fill) : fill,
-          shape: RoundedSuperellipseBorder(borderRadius: radius, side: BorderSide(color: colors.line)),
-        ),
+      // Flat rows on hairlines (no card inside the tile): the tile is the one raised step.
+      builder: (context, pressed, _) => ColoredBox(
+        color: pressed ? colors.litTile : Colors.transparent,
         child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 52),
+          constraints: const BoxConstraints(minHeight: 56),
           child: Padding(
-            padding: const EdgeInsets.fromLTRB(14, 10, 14, 10),
+            padding: const EdgeInsets.fromLTRB(0, 10, 2, 10),
             child: Row(
               children: [
                 Expanded(
@@ -302,13 +300,13 @@ abstract final class StandCopy {
 
   static String rangeSentence(int low, int high, int max) => 'Your practice puts you at $low to $high of $max.';
   static String ofMax(int max) => 'of $max';
-  static const fromFour = 'Your practice puts you here, across one language and three domain papers.';
+  static const fromFour = 'From your practice in one language and three domain papers.';
 
   /// "From your Accountancy paper." / "From your Accountancy and Economics papers."
   static String fromPapers(List<String> names, int count) {
     if (names.isEmpty) return count == 1 ? 'From the one paper you have practised enough.' : 'From the $count papers you have practised enough.';
     final joined = names.length == 1 ? names.single : '${names.sublist(0, names.length - 1).join(', ')} and ${names.last}';
-    return 'From your $joined ${names.length == 1 ? 'paper' : 'papers'}, out of ${names.length * 250}.';
+    return 'From your practice in $joined, the only ${names.length == 1 ? 'paper' : 'papers'} with enough answers so far.';
   }
 
   static String partialNext(List<String>? needed) => needed == null || needed.isEmpty
@@ -340,7 +338,7 @@ abstract final class StandCopy {
   static const closeFastest = 'These chapters close it fastest';
   static const mostOpen = 'Where your marks are most open';
   static const practise = 'Practise';
-  static String chapterLine(CloseChapter c) => '${c.subjectName}. ${c.marks} ${c.marks == 1 ? 'mark' : 'marks'} open here.';
+  static String chapterLine(CloseChapter c) => '${c.subjectName}, ${c.marks} ${c.marks == 1 ? 'mark' : 'marks'} open';
   static String chapterSpoken(CloseChapter c) => 'Practise ${c.chapter}, ${c.subjectName}. ${c.marks} marks open here.';
 
   static String thinLead(int min) => 'Mobi places you once a paper has $min answered questions. Here is what each subject still needs.';

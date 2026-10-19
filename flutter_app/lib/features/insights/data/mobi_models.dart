@@ -122,7 +122,7 @@ class StandingCollege {
 
 /// A chapter that closes the gap fastest: [marks] is its share of that paper's open marks.
 class CloseChapter {
-  const CloseChapter({required this.subject, required this.subjectName, required this.chapter, required this.marks, this.wrong, this.blank});
+  const CloseChapter({required this.subject, required this.subjectName, required this.chapter, required this.marks, this.wrong, this.blank, this.href});
 
   static CloseChapter? tryParse(Object? v) {
     if (v is! Map) return null;
@@ -138,6 +138,7 @@ class CloseChapter {
       marks: marks,
       wrong: asInt(j['wrong']),
       blank: asInt(j['blank']),
+      href: _text(j['href']),
     );
   }
 
@@ -147,6 +148,9 @@ class CloseChapter {
   final int marks;
   final int? wrong;
   final int? blank;
+
+  /// The server's own practice link for this chapter (`/test?subject=..&mode=quick&count=10&chapter=..`), or null.
+  final String? href;
 }
 
 /// A subject with practice that is still short of the 30 questions a range needs.
@@ -232,6 +236,7 @@ class MobiStanding {
 
   /// The web path that opens chapter practice for [c] (the app maps it to its own setup).
   String practiceHref(CloseChapter c) {
+    if (c.href case final h?) return h;
     final s = Uri.encodeQueryComponent(c.subject);
     final ch = Uri.encodeQueryComponent(c.chapter);
     final t = practiceLink;

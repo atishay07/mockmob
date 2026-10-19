@@ -219,6 +219,7 @@ class RepairResponse {
     this.keyIndex,
     this.pattern,
     this.check,
+    this.mobi,
   });
 
   /// Accepts only the four documented statuses and requires `key_idea` for `explained` and
@@ -241,6 +242,7 @@ class RepairResponse {
       keyIndex: asInt(j['keyIndex']),
       pattern: RepairPattern.tryParse(j['pattern']),
       check: status.countsAsRepaired ? RepairCheckInfo.tryParse(j['check']) : null,
+      mobi: status.countsAsRepaired ? MobiFix.tryParse(j['mobi']) : null,
     );
   }
 
@@ -263,4 +265,69 @@ class RepairResponse {
   /// "Check it held": what the server offers after the explanation (`explained` and `stored`
   /// only). Null on an older server and for any other outcome: the screen then renders nothing.
   final RepairCheckInfo? check;
+
+  /// "Fix it for good" (MOBI-CONTRACT 4): the job's own facts beside the repair. Null on an older server.
+  final MobiFix? mobi;
+}
+
+/// An option as the student saw it: its position (0-based) and words.
+class FixOption {
+  const FixOption({required this.index, this.text});
+
+  static FixOption? tryParse(Object? v) {
+    if (v is! Map) return null;
+    final j = asJson(v);
+    final index = asInt(j['index']);
+    if (index == null || index < 0) return null;
+    final t = asString(j['text'])?.trim();
+    return FixOption(index: index, text: t == null || t.isEmpty ? null : t);
+  }
+
+  final int index;
+  final String? text;
+
+  String get letter => index < 26 ? String.fromCharCode(65 + index) : '${index + 1}';
+}
+
+/// The `mobi` block of a repair (MOBI-CONTRACT 4): the pick and the key, the trap the pick set, and the student's
+/// own history with that trap ("This trap has caught you 4 times in 6 chances."). Every part is optional.
+class MobiFix {
+  const MobiFix({this.price = 1, this.checks = 2, this.yourPick, this.key, this.trapType, this.trapPhrase, this.historyLine, this.caught, this.chances});
+
+  static MobiFix? tryParse(Object? v) {
+    if (v is! Map) return null;
+    final j = asJson(v);
+    final trap = asJson(j['trap']);
+    final history = asJson(j['history']);
+    String? text(Object? x) {
+      final t = asString(x)?.trim();
+      return t == null || t.isEmpty ? null : t;
+    }
+
+    return MobiFix(
+      price: asInt(j['price']) ?? 1,
+      checks: (asInt(j['checks']) ?? 2).clamp(1, 2),
+      yourPick: FixOption.tryParse(j['yourPick']),
+      key: FixOption.tryParse(j['key']),
+      trapType: text(trap['type']),
+      trapPhrase: text(trap['phrase']),
+      historyLine: text(history['line']),
+      caught: asInt(history['caught']),
+      chances: asInt(history['chances']),
+    );
+  }
+
+  final int price;
+
+  /// How many check questions the job offers (2, or 1 on a server that has only the first).
+  final int checks;
+  final FixOption? yourPick;
+  final FixOption? key;
+  final String? trapType;
+  final String? trapPhrase;
+
+  /// The server's finished sentence about this trap in the student's own answers, or null.
+  final String? historyLine;
+  final int? caught;
+  final int? chances;
 }

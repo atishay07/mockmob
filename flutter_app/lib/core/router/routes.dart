@@ -110,6 +110,11 @@ abstract final class AppRoutes {
       '/review/repair/${Uri.encodeComponent(attemptId)}/${Uri.encodeComponent(questionId)}';
   static String reviewRepairEnding(String attemptId) => '/review/repair/${Uri.encodeComponent(attemptId)}/ending';
 
+  /// "Fix it for good" (MOBI-CONTRACT 4): the Repair as Mobi's job for one mistake, from "Ask Mobi about Q7". The repair
+  /// route with `?job=fix` (and `n=` for the question's number), so every link rule of the repair route holds.
+  static String reviewFix(String attemptId, String questionId, {int? number}) =>
+      '${reviewRepair(attemptId, questionId)}?job=fix${number == null ? '' : '&n=$number'}';
+
   // Learn.
   static String learnUnit(String unitId) => '/learn/${Uri.encodeComponent(unitId)}';
   static String learnRun(String runId) => '/learn/run/${Uri.encodeComponent(runId)}';

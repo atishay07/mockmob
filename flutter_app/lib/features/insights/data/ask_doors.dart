@@ -218,9 +218,9 @@ const List<String Function(String)> _chapterDoubts = [
   _whichTrap,
   _whatToRemember,
 ];
-String _explainIt(String c) => 'Explain $c the way CUET asks it.';
-String _whichTrap(String c) => 'Which trap do CUET questions on $c set most often?';
-String _whatToRemember(String c) => 'What should I remember about $c before a mock?';
+String _explainIt(String c) => 'I keep losing marks in $c. Explain it the CUET way.';
+String _whichTrap(String c) => 'Which trap catches me in $c, and how do I spot it?';
+String _whatToRemember(String c) => 'What must I remember about $c before a mock?';
 
 /// The three Ask now starters, in order. With a record they are doubts about the student's own weakest chapters
 /// (the ones that cost the most marks), each sending its subject and chapter. With no record (or fewer than three
