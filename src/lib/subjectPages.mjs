@@ -49,6 +49,10 @@ export function paperCode(page) {
   return officialSubjectCode(page?.publicId) || null;
 }
 
+// "Dual Nature of Radiation & Matter" names the unit "Dual Nature of Matter and Radiation": the same words in another order.
+const sameWords = (a, b) => norm(a).split(' ').sort().join(' ') === norm(b).split(' ').sort().join(' ');
+// The stored names keep their dashes ("An Imperial Capital — Vijayanagara"); the page prints a colon (house style: no dashes between clauses).
+const printable = (name) => String(name).replace(/\s+[—–-]\s+/g, ': ');
 const norm = (s) => String(s || '').toLowerCase().replace(/&/g, 'and').replace(/[^a-z0-9]+/g, ' ').trim();
 
 /**
@@ -69,10 +73,10 @@ export function syllabusUnits(subjectId) {
       const longer = names.find((other) => other !== chapter && norm(other).startsWith(`${norm(chapter)} `));
       if (longer) continue;
       const sources = [chapter, ...names.filter((other) => other !== chapter && norm(chapter).startsWith(`${norm(other)} `))];
-      merged.push({ name: chapter, sources });
+      merged.push({ name: printable(chapter), sources });
     }
-    const single = merged.length === 1 && norm(merged[0].name) === norm(unit.unit_name.replace(/^section [a-z0-9]+:\s*/i, ''));
-    units.push({ name: unit.unit_name, chapters: single ? [] : merged, sources: merged.flatMap((c) => c.sources) });
+    const single = merged.length === 1 && sameWords(merged[0].name, unit.unit_name.replace(/^section [a-z0-9]+:\s*/i, ''));
+    units.push({ name: printable(unit.unit_name), chapters: single ? [] : merged, sources: merged.flatMap((c) => c.sources) });
   }
   return units;
 }

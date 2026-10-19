@@ -84,6 +84,8 @@
   font-weight: 600;
 }
 
+#syllabus { scroll-margin-top: 1.5rem; }
+
 /* The article starts closer to the slip than to a header rule. */
 .sj-body { padding-top: 2.75rem; }
 

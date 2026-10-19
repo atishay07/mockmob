@@ -34,7 +34,10 @@ test('the syllabus leaves out the older "Existing coverage" units and prints dup
   for (const page of SUBJECT_PAGES) {
     const units = syllabusUnits(page.id);
     assert.ok(units.length > 0, page.slug);
-    for (const unit of units) assert.doesNotMatch(unit.name, /^existing/i, `${page.slug}: ${unit.name}`);
+    for (const unit of units) {
+      assert.doesNotMatch(unit.name, /^existing/i, `${page.slug}: ${unit.name}`);
+      for (const name of [unit.name, ...unit.chapters.map((c) => c.name)]) assert.doesNotMatch(name, /\s[—–-]\s/, `${page.slug}: no dashes printed: ${name}`);
+    }
   }
   const acc = syllabusUnits('accountancy');
   const dissolution = acc.find((u) => u.name === 'Dissolution of Partnership Firm');
@@ -43,6 +46,8 @@ test('the syllabus leaves out the older "Existing coverage" units and prints dup
   const chem = syllabusUnits('chemistry');
   assert.ok(!chem.some((u) => u.sources.includes('Solid State')), 'chapters dropped from the 2026 list are not shown');
   assert.equal(syllabusChapterCount(syllabusUnits('economics')), 18);
+  const dual = syllabusUnits('physics').find((u) => u.name === 'Dual Nature of Matter and Radiation');
+  assert.deepEqual(dual.chapters, [], 'the same words in another order is the same chapter');
 });
 
 test('bank counts come only from the stored inventory; unknown is null, never 0', () => {
