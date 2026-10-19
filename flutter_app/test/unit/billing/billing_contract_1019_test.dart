@@ -71,6 +71,8 @@ void main() {
       expect(e.code, 'account_mismatch');
       expect(e.kind, ApiErrorKind.forbidden);
       expect(_playError(404, 'purchase_not_found').code, 'purchase_not_found');
+      // Even when the sentence in `error` happens to be one word, the Play code is the code.
+      expect(ApiError.fromResponse(403, {'ok': false, 'error': 'Forbidden', 'code': 'account_mismatch'}).code, 'account_mismatch');
       // A route that is not the Play route keeps its old reading: an unknown top-level code is not taken.
       expect(ApiError.fromResponse(409, {'error': 'Conflict here', 'code': 'SOMETHING_ELSE'}).code, isNot('SOMETHING_ELSE'));
     });
@@ -172,7 +174,7 @@ void main() {
       await settle();
       expect(st(c).stage, BillingStage.failed);
       expect(st(c).failure, BillingFailure.notReady);
-      expect(billingFailureMessage(BillingFailure.notReady), BillingCopy.storeUnavailable);
+      expect(billingFailureMessage(BillingFailure.notReady), BillingCopy.restoreNotReady);
     });
 
     test('with no Google Play plugin at all, Restore still answers', () async {

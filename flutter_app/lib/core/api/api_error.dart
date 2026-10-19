@@ -312,7 +312,8 @@ class ApiError implements Exception {
     }
     // The Play verify route (see [ApiCodes.play]).
     final topCode = map['code'];
-    if (topCode is String && ApiCodes.play.contains(topCode)) code ??= topCode;
+    // It wins over a word in `error`: that route's `error` is a sentence for people, never the code.
+    if (topCode is String && ApiCodes.play.contains(topCode)) code = topCode;
     final state = map['state'];
     if (state is String) details['state'] = state;
     final balance = map['balance'];

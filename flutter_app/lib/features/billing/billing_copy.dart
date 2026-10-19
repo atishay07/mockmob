@@ -46,11 +46,16 @@ abstract final class BillingCopy {
 
   // The purchase.
   static const opening = 'Opening Google Play';
-  static const pending = 'Google Play is still processing your payment. It is added once Google Play confirms it. You can close this.';
+  static const pending =
+      'Google Play is still processing your payment. We add it to your account as soon as Google Play confirms it, so you can close this.';
   static const verifying = 'Confirming your payment with MockMob. This takes a moment.';
   static const cancelled = 'No payment was made.';
   static const restoring = 'Checking Google Play for your purchases';
   static const nothingToRestore = 'Google Play shows no purchase to restore for this account.';
+
+  /// Restore pressed while Google Play is not ready. Short, because the line above it already says
+  /// how to make Google Play ready.
+  static const restoreNotReady = 'Your purchases can be checked once Google Play is ready on this phone.';
 
   // Success: only ever shown after the server confirmed.
   static const proOnTitle = 'Pro is on';

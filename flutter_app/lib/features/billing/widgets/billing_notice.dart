@@ -49,7 +49,8 @@ class BillingNotice extends ConsumerWidget {
       case BillingStage.failed:
         // A final answer (another account's purchase, a refund, a pass that ended, a refusal) offers
         // no Try again: sending it again cannot change it.
-        final finalAnswer = s.failure?.isFinal ?? false;
+        // Google Play not ready: the sheet's own Try again (beside the line that says how) is the way out.
+        final finalAnswer = (s.failure?.isFinal ?? false) || s.failure == BillingFailure.notReady;
         child = InlineBanner(
           message: billingFailureMessage(s.failure),
           tone: BannerTone.error,
@@ -75,7 +76,7 @@ class BillingNotice extends ConsumerWidget {
 String billingFailureMessage(BillingFailure? failure) => switch (failure) {
       BillingFailure.couldNotConfirm => BillingCopy.failCouldNotConfirm,
       BillingFailure.offline => BillingCopy.failOffline,
-      BillingFailure.notReady => BillingCopy.storeUnavailable,
+      BillingFailure.notReady => BillingCopy.restoreNotReady,
       BillingFailure.notOpenYet => BillingCopy.failNotOpenYet,
       BillingFailure.rateLimited => BillingCopy.failRateLimited,
       BillingFailure.otherAccount => BillingCopy.failOtherAccount,
