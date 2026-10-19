@@ -377,3 +377,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 5:55 pm IST (verbatim)
 > "I have already created the Gmail account and done everything. Can you set this up in the database with this account and the password, and disable the code stuff, leaving only the password for this account?"
 **Ledger D131:** the reviewer Gmail review.mockmob@gmail.com exists; no MockMob account with it on production yet (checked read-only). The agent may not create accounts or set passwords on the live app; he creates the account in the app and sets the password; then the agent grants it Pro on his yes.
+
+## Owner, 19 Oct about 6:15 pm IST (verbatim)
+> "I am on the website right now. I can't find anywhere to set the password for the account. Have we set up just sign-in on the basis of email code only. And I'll get to this mob V3, as soon as I am completed with all this, remind me."
+**Ledger D132:** the website has no "set a password" page (code sign-in only); the app has You > Account > Password. Remind him about Mob v3 (characters finish, Arena base, Free starts) once the Play steps are done. Follow-up: add "Set a password" to the web /profile.
