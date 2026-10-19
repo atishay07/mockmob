@@ -607,3 +607,9 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 20 Oct about 1:28 am IST (verbatim)
 > "So it's a yes on me for both. As I said, right now you have the last 15 minutes left until your usage resets, so go all out. Focus on the website also. Run parallel workflows for all the features that you have, like different sections, everything. For the work website and deployment also, the website should also have the Mob B3, or even if you are calling it B4, with the fixes, that also works. Done, done. The backend is solved, frontend is solved, everything."
 **Ledger D152:** YES to (1) the 4 Mob v3 production migrations and (2) deploying the website with MOB_V3_ENABLED on, once all tests pass and he is shown the results. The WEBSITE must get Mob v3 too (with the fixes): front end and back end. Parallel workflows across every section.
+
+## Owner, 20 Oct about 1:32 am IST (verbatim)
+> "Also set a timer for 10 minutes so that, once the usage limit is reset, this workflow isn't continuing for the rest of the usage limit. If you think that this workflow is useful, then you can continue it. I don't have an issue with you eating up usage fast. It's actually making progress fast.
+>
+> If you think this is not useful and you just launched it because I said to go all out and, if you can, limit it as fast as possible, then you can suspend the useless parts (or maybe switch to a smaller model like Sonnet and Haiku for some of the tasks). The decision is up to you: how you want to proceed after 10 minutes, whatever your decide deems best for the project's efficiency, speed, accuracy, and quality."
+**Ledger D153:** a 10-minute checkpoint after the usage reset: the CTO reviews every running owner, keeps what is making real progress, suspends what is not, and may move work to Sonnet/Haiku. Fast usage is fine when it buys real progress.
