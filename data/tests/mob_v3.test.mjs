@@ -1046,3 +1046,24 @@ test('the migration headers say staging only and name their undo file', () => {
     assert.equal((sql.match(/security definer/g) || []).length, f.endsWith('realtime') ? 2 : 0, `${f}: only mob_room_ok is security definer`);
   }
 });
+
+test('GET /api/mob capability flag: v3Available is true when v3 is on (Mob or no Mob), absent when off; old keys unchanged', async () => {
+  const db = await database();
+  try {
+    const on = serviceFor(db, { v3: true });
+    const off = serviceFor(db, { v3: false });
+    assert.deepEqual(await on.view('nobody'), { mob: null, v3Available: true });
+    assert.deepEqual(await off.view('nobody'), { mob: null });
+    const mobId = await chaiCircle(db, on);
+    const withMob = await on.view('u1', { mobId });
+    assert.equal(withMob.v3Available, true);
+    assert.ok(withMob.mob && withMob.mob.v3, 'the v3 block rides with the flag');
+    const legacy = await off.view('u1', { mobId });
+    assert.equal('v3Available' in legacy, false);
+    assert.equal(legacy.mob.v3, undefined);
+    assert.deepEqual(Object.keys(legacy).sort(), Object.keys(withMob).filter((k) => k !== 'v3Available').sort(), 'no other top-level key moves');
+    const res = await handleMob({ enabled: () => true, v3Enabled: () => true, auth: async () => ({ user: { id: 'nobody' } }), rateLimit: async () => ({ allowed: true }), service: on }, 'get', new Request('https://x.test/api/mob'));
+    assert.equal(res.status, 200);
+    assert.deepEqual(await res.json(), { mob: null, v3Available: true }, 'the route passes the flag through');
+  } finally { await db.close(); }
+});

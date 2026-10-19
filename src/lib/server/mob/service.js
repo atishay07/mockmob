@@ -216,7 +216,8 @@ export function createMobService(deps) {
     const wanted = validMobId(mobId) ? mobId : null;
     let state = await readState(userId, week, wanted);
     if (!state && wanted) state = await readState(userId, week, null); // a Mob you have since left: show the one you have
-    if (!state) return { mob: null };
+    // v3Available: the capability flag the app reads to switch the new Mob on (also with no Mob). Absent while v3 is off.
+    if (!state) return v3On() ? { mob: null, v3Available: true } : { mob: null };
     if (sync) state = await syncSittings(state, userId);
     const pro = await isPro(userId);
     const youSat = (state.sittings || []).some((s) => s.user_id === userId);
@@ -242,6 +243,7 @@ export function createMobService(deps) {
       out.mob.week.paper.blocked = null;
       out.mob.v3 = await v3.v3Block(userId, state, { pro });
     }
+    if (v3On()) out.v3Available = true;
     return out;
   }
 
