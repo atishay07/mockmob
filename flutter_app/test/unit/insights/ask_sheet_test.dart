@@ -320,7 +320,9 @@ void main() {
       expect(find.byType(MobiMark), findsWidgets);
       // The glass orb and the live character are gone from a question sheet.
       expect(find.byType(MobiCharacter), findsNothing);
-      expect(find.text(AskSheetCopy.oneCredit), findsNWidgets(2));
+      // Two priced asks, and Mobi's flagship job above them: "Fix it for good, 1 credit" on a wrong answer (C-dec 3b).
+      expect(find.text(AskSheetCopy.oneCredit), findsNWidgets(3));
+      expect(find.text(FixKeyCopy.fix), findsOneWidget);
       expect(find.text(AskSheetCopy.free), findsOneWidget);
       expect(find.textContaining('9 of 10 credits left'), findsOneWidget);
       await tester.pump(const Duration(seconds: 13));
