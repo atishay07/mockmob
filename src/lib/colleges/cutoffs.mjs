@@ -43,11 +43,11 @@ const picked = (n) => `${n} picked`;
  *   ready, no figure:     "Your colleges, 5 picked"  /  "Open them to see the score each one needed last year"
  *   ready, none picked:   "Your colleges"            /  "Choose your colleges"  (a fresh account)
  * "Last year" is the 2026 Round 1 cutoff: the students sit CUET in 2027.
- *   error:                "Your colleges"            /  "Tap to open your list"
+ *   error:                "Your colleges"            /  "Your list did not load. Open Colleges to see it"
  */
 export function stripView({ state, rows }) {
   if (state === 'loading') return { kind: 'loading', label: 'Your colleges', line: '', figure: null };
-  if (state === 'error') return { kind: 'error', label: 'Your colleges', line: 'Tap to open your list', sub: '', figure: null };
+  if (state === 'error') return { kind: 'error', label: 'Your colleges', line: 'Your list did not load. Open Colleges to see it', sub: '', figure: null };
   const list = rows || [];
   if (!list.length) return { kind: 'empty', label: 'Your colleges', line: 'Choose your colleges', sub: 'See the score each one needed last year.', figure: null };
   const top = hardestOf(list);

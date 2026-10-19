@@ -46,7 +46,7 @@ test('strip copy: real figure in a plain sentence; a fresh account is asked to c
   assert.equal(empty.kind, 'empty');
   assert.equal(empty.line, 'Choose your colleges');
   assert.equal(stripView({ state: 'ready', rows: [{ college: 'X', cut: null }] }).line, 'Open them to see the score each one needed last year');
-  assert.equal(stripView({ state: 'error' }).line, 'Tap to open your list');
+  assert.equal(stripView({ state: 'error' }).line, 'Your list did not load. Open Colleges to see it');
   assert.equal(stripView({ state: 'loading' }).kind, 'loading');
   for (const v of [ready, empty]) assert.doesNotMatch(`${v.label} ${v.line} ${v.sub}`, /!|guarantee|chance/i, 'plain copy, no promise of a seat');
 });

@@ -563,7 +563,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       <header className="pr-head pr-head--solo">
         <div>
           <h1 className="display-md">{greetFirst ? `${greetFirst}, what are we practising?` : 'What are we practising?'}</h1>
-          <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to your record.</p>
+          <p>Pick a subject and a way to practise. Timed, marked +5 / −1, saved to your record.</p>
           {/* The balance under the lede at every width. The price is said once, on the mode tiles (and the card's own Cost line),
               not again here (release 9: it was stated about four times in the first fold). */}
           <p className="pr-head__credits">
