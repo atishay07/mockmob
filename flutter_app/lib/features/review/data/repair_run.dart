@@ -105,8 +105,9 @@ class RepairRun extends Notifier<RepairRunState?> {
     }
     state = s.copyWith(steps: steps, index: 0, phase: RepairPhase.working, keyOnly: keyOnly);
     _startedAtMs = ref.read(nowProvider)().millisecondsSinceEpoch;
+    // Only a log that is already running (Today built it): a repair never starts the log itself.
     try {
-      _source = ref.read(studyLogProvider.notifier).takeSource();
+      _source = ref.exists(studyLogProvider) ? ref.read(studyLogProvider.notifier).takeSource() : StudySource.practice;
     } on Object {
       _source = StudySource.practice;
     }
@@ -260,7 +261,7 @@ class RepairRun extends Notifier<RepairRunState?> {
   void _log(RepairRunState s, int repaired) {
     final start = _startedAtMs;
     _startedAtMs = null;
-    if (start == null) return;
+    if (start == null || !ref.exists(studyLogProvider)) return;
     try {
       final end = ref.read(nowProvider)().millisecondsSinceEpoch;
       ref.read(studyLogProvider.notifier).record(StudyLogEntry(

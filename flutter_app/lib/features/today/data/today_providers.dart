@@ -10,6 +10,7 @@ import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/connectivity/connectivity.dart';
+import '../../../core/copy/formatters.dart' show formatWeekdayDate;
 import '../../../core/domain/session_rules.dart';
 import '../../../core/models/models.dart' show Attempt;
 import '../../../core/repositories/repositories.dart';
@@ -24,6 +25,7 @@ import '../../social/data/mob_repository.dart' show currentMobProvider, mobAvail
 import '../../paper_reel/paper_reel.dart' show reelSeenProvider;
 import '../logic/move_builder.dart';
 import '../logic/study_log.dart' show StudySource;
+import '../logic/study_pattern.dart' show adviseLength;
 import '../logic/reel_pending.dart';
 import '../logic/today_builder.dart';
 import '../logic/today_clock.dart';
@@ -57,10 +59,6 @@ class TodayMinutes extends Notifier<int?> {
   }
 
   void choose(int minutes) => state = minutes;
-
-  /// The length the card offered before the student's first pick today (what Today suggested),
-  /// so the study log can tell a longer pick from the suggestion.
-  int? suggested;
 }
 
 final todayMinutesProvider = NotifierProvider<TodayMinutes, int?>(TodayMinutes.new);
@@ -432,12 +430,7 @@ class TodayActions {
     if (shown == MoveKind.revise) {
       unawaited(_ref.read(reviseCapProvider.notifier).set(minutes));
     } else {
-      final picker = _ref.read(todayMinutesProvider.notifier);
-      if (_ref.read(todayMinutesProvider) == null) {
-        final hero = _ref.read(todayViewProvider).hero;
-        picker.suggested = hero is MoveHero ? hero.selectedMinutes : null;
-      }
-      picker.choose(minutes);
+      _ref.read(todayMinutesProvider.notifier).choose(minutes);
     }
   }
 
@@ -467,11 +460,15 @@ class TodayActions {
     // The study log learns where the session came from and the length picked against the one offered.
     if (action.startsSession) {
       try {
+        // Light reads only (no Today view): the date line the picks are kept under, and what the
+        // plan offers by default when the student picked another length.
+        final day = TodayInputs(now: _ref.read(nowProvider)(), timezone: _ref.read(studentTimezoneProvider)).clock();
+        final fromDeck = todayPicks.of(formatWeekdayDate(day)) != null;
         final picked = _ref.read(todayMinutesProvider);
-        final fromDeck = todayPicks.of(_ref.read(todayViewProvider).header.dateLine) != null;
+        final offered = picked == null ? minutes : (adviseLength(_ref.read(studyPatternProvider)).pick(practiceChoices) ?? 10);
         _ref.read(studyLogProvider.notifier).noteTodayStart(
               source: fromDeck ? StudySource.todayDeck : StudySource.todayLead,
-              suggested: picked == null ? minutes : _ref.read(todayMinutesProvider.notifier).suggested,
+              suggested: offered,
               chosen: minutes,
             );
       } on Object {

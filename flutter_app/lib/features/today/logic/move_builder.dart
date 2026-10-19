@@ -18,7 +18,8 @@ import '../../../core/widgets/art/mm_art.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../practice/model/practice_selection.dart' show mockQuestionCount, practiceCounts;
 import '../copy.dart';
-import '../copy_pattern.dart' show PatternCopy;
+import '../../../core/copy/formatters.dart' show tonightOrToday;
+import '../copy_pattern.dart' show PatternCopy, PatternLine, goalLine, lengthLine;
 import '../copy_glance.dart' show GlanceCopy;
 import '../copy_suggested.dart' show StarterCopy;
 import 'links.dart';
@@ -231,7 +232,27 @@ String repairNumberLabel({required int n, required int chapterCount, required in
 /// read this, so they always name the same subject.
 String dayOneSubject(TodayInputs i) => i.profile?.weakestSubject ?? (i.subjects.isEmpty ? launchSubjectIds.first : i.subjects.first);
 
-MoveHero buildMove(TodayInputs i) => _withGoal(_asChosen(_buildMove(i), i), i);
+MoveHero buildMove(TodayInputs i) => withLengthInsight(_withGoal(_asChosen(_buildMove(i), i), i), i);
+
+/// The lines the length panel shows for [durations] (the plan picked [selected] by default when the
+/// student has not chosen): why, then today's progress. Empty when nothing true can be said.
+List<PatternLine> lengthPanelLines(StudyPattern p, LengthAdvice advice, {required List<DurationChoice> durations, required int selected, required String when}) {
+  final chips = [for (final d in durations) if (!d.fullMock) d.minutes];
+  final why = advice.fullMockLead && p.goalMinutes != null && durations.any((d) => d.fullMock)
+      ? PatternLine(PatternCopy.fullMockLead(p.goalMinutes!, when))
+      : lengthLine(p, advice, chip: advice.pick(chips) ?? selected, when: when);
+  return [?why, ?goalLine(p)];
+}
+
+/// The smart layer's lines for a move's length panel (not Revise: its round size is its own
+/// setting, and not day one: the first check keeps its ten).
+MoveHero withLengthInsight(MoveHero m, TodayInputs i) {
+  final p = i.pattern;
+  final attempts = i.attempts;
+  if (p == null || attempts == null || attempts.isEmpty || m.durations.length < 2 || m.kind == MoveKind.revise) return m;
+  final lines = lengthPanelLines(p, lengthAdviceFor(i), durations: m.durations, selected: m.selectedMinutes ?? m.durations.first.minutes, when: tonightOrToday(i.clock()));
+  return lines.isEmpty ? m : m.copyWith(lengthInsight: lines);
+}
 
 /// The daily goal is met: the card keeps a real move and asks "Goal met. Keep going?" (never a
 /// stop, SMART-LAYER-1019PM 2.1, rule 5).

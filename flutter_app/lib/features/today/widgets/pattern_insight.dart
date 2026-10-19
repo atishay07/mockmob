@@ -6,39 +6,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/copy/formatters.dart' show tonightOrToday;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy_pattern.dart';
 import '../data/study_log_store.dart';
-import '../data/today_providers.dart' show todayInputsProvider;
-import '../logic/move_builder.dart' show lengthAdviceFor;
 import '../logic/study_pattern.dart';
-import '../logic/today_model.dart' show DurationChoice;
 
-/// The lines the length panel shows for [durations] (the plan picked [selected] by default when the
-/// student has not chosen): why, then today's progress. Empty when nothing true can be said.
-List<PatternLine> lengthPanelLines(StudyPattern p, LengthAdvice advice, {required List<DurationChoice> durations, required int selected, required String when}) {
-  final chips = [for (final d in durations) if (!d.fullMock) d.minutes];
-  final why = advice.fullMockLead && p.goalMinutes != null && durations.any((d) => d.fullMock)
-      ? PatternLine(PatternCopy.fullMockLead(p.goalMinutes!, when))
-      : lengthLine(p, advice, chip: advice.pick(chips) ?? selected, when: when);
-  return [?why, ?goalLine(p)];
-}
+/// Under the length panel's title: the move's own insight lines ([MoveHero.lengthInsight]).
+class LengthInsight extends StatelessWidget {
+  const LengthInsight({super.key, required this.lines});
 
-/// Under the length panel's title. [durations] and [selected] are the panel's own.
-class LengthInsight extends ConsumerWidget {
-  const LengthInsight({super.key, required this.durations, required this.selected});
-
-  final List<DurationChoice> durations;
-  final int selected;
+  final List<PatternLine> lines;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final inputs = ref.watch(todayInputsProvider);
-    final p = inputs.pattern;
-    if (p == null || inputs.attempts == null || inputs.attempts!.isEmpty) return const SizedBox.shrink();
-    final lines = lengthPanelLines(p, lengthAdviceFor(inputs), durations: durations, selected: selected, when: tonightOrToday(inputs.clock()));
+  Widget build(BuildContext context) {
     if (lines.isEmpty) return const SizedBox.shrink();
     return Padding(
       padding: const EdgeInsets.only(bottom: MmSpace.s12),

@@ -13,6 +13,7 @@ import 'package:mockmob/features/today/logic/smart_cards.dart';
 import 'package:mockmob/features/today/logic/study_log.dart';
 import 'package:mockmob/features/today/logic/study_pattern.dart';
 import 'package:mockmob/features/today/logic/suggested_deck.dart';
+import 'package:mockmob/features/today/logic/today_builder.dart' show buildToday;
 import 'package:mockmob/features/today/logic/today_model.dart';
 
 import 'support/today_fixtures.dart';
@@ -159,6 +160,9 @@ void main() {
       expect(today.doneTodayMinutes, 120);
       final after = buildMove(ashaInputs(now: evening, attempts: [accountancyMock('clean', daysBefore(evening, 1))], pattern: today));
       expect(after.overline, PatternCopy.goalMetOverline);
+      // The card Today shows (its 1018 words) keeps the moment too.
+      final shown = buildToday(ashaInputs(now: evening, attempts: [accountancyMock('clean', daysBefore(evening, 1))], pattern: today)).hero! as MoveHero;
+      expect(shown.overline, PatternCopy.goalMetOverline);
       expect(after.primary.startsSession, isTrue, reason: 'never a stop: a real next move is one tap away');
       expect(goalLine(today)!.text, 'You have done 120 minutes today. Every extra paper still counts.');
     });

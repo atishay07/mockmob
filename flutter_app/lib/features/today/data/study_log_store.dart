@@ -24,8 +24,33 @@ import '../logic/study_log.dart';
 import '../logic/study_pattern.dart';
 import 'today_providers.dart' show todayStudentDayProvider;
 
-/// The phone's preferences (tests put a memory store here).
-final studyLogPrefsProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());
+/// The phone's preferences (tests put a memory store here). Opened on first use, so a place without
+/// the platform store (a widget test) reads an empty log instead of failing.
+final studyLogPrefsProvider = Provider<PrefsStore>((ref) => _LazyPrefs());
+
+class _LazyPrefs implements PrefsStore {
+  PrefsStore? _store;
+  PrefsStore get _s => _store ??= SharedPrefsStore();
+
+  @override
+  Future<bool?> getBool(String key) => _s.getBool(key);
+  @override
+  Future<int?> getInt(String key) => _s.getInt(key);
+  @override
+  Future<String?> getString(String key) => _s.getString(key);
+  @override
+  Future<List<String>?> getStringList(String key) => _s.getStringList(key);
+  @override
+  Future<void> setBool(String key, bool value) => _s.setBool(key, value);
+  @override
+  Future<void> setInt(String key, int value) => _s.setInt(key, value);
+  @override
+  Future<void> setString(String key, String value) => _s.setString(key, value);
+  @override
+  Future<void> setStringList(String key, List<String> value) => _s.setStringList(key, value);
+  @override
+  Future<void> remove(String key) => _s.remove(key);
+}
 
 /// Everything the store keeps for one account.
 class StudyLogState {
@@ -96,7 +121,10 @@ class StudyLogController extends Notifier<StudyLogState> {
   static PrefsStore? _hookStore;
 
   _PendingStart? _pending;
-  Timer? _saveTimer;
+
+  /// A write is queued for the end of this turn (several changes in one turn write once; no timer,
+  /// so nothing outlives the screen).
+  bool _saveQueued = false;
 
   /// How long a start asked for by Today waits for its session to begin.
   static const Duration pendingWindow = Duration(minutes: 3);
@@ -107,10 +135,6 @@ class StudyLogController extends Notifier<StudyLogState> {
   @override
   StudyLogState build() {
     final uid = ref.watch(userIdProvider);
-    ref.onDispose(() {
-      _saveTimer?.cancel();
-      _saveTimer = null;
-    });
     if (uid == null) return const StudyLogState();
     final store = ref.read(studyLogPrefsProvider);
     _signedInUser = uid;
@@ -128,6 +152,9 @@ class StudyLogController extends Notifier<StudyLogState> {
   }
 
   Future<void> _load(String uid, PrefsStore store) async {
+    // Never inside build: the provider's first state is in place before anything reads it.
+    await Future<void>.value();
+    if (!ref.mounted) return;
     StudyLogState loaded;
     try {
       final raw = await store.getString(studyLogKey(uid));
@@ -141,12 +168,18 @@ class StudyLogController extends Notifier<StudyLogState> {
       log: pruneLog([...loaded.log, ...state.log], _now()),
       contexts: [...loaded.contexts, ...state.contexts],
     );
-    ref.listen<List<Attempt>?>(attemptsRepositoryProvider.select((s) => s.value), (_, next) {
-      if (next != null) mergePapers(next);
-    }, fireImmediately: true);
-    ref.listen<int?>(dailyGoalProvider, (_, goal) {
-      if (goal != null && state.notes.goalSetAtMs == null) markGoalSet();
-    }, fireImmediately: true);
+    // The papers fill the log as they arrive, and a goal seen for the first time starts its clock.
+    // A read that fails here leaves the log as it is (it fills on the next read).
+    try {
+      ref.listen<List<Attempt>?>(attemptsRepositoryProvider.select((s) => s.value), (_, next) {
+        if (next != null) mergePapers(next);
+      }, fireImmediately: true);
+      ref.listen<int?>(dailyGoalProvider, (_, goal) {
+        if (goal != null && state.notes.goalSetAtMs == null) markGoalSet();
+      }, fireImmediately: true);
+    } on Object {
+      // Nothing to read from here; the log keeps what it has.
+    }
   }
 
   DateTime _now() => ref.read(nowProvider)();
@@ -158,10 +191,10 @@ class StudyLogController extends Notifier<StudyLogState> {
 
   void _scheduleSave() {
     final uid = state.userId;
-    if (uid == null || !state.loaded) return;
-    _saveTimer?.cancel();
-    _saveTimer = Timer(const Duration(milliseconds: 300), () {
-      _saveTimer = null;
+    if (uid == null || !state.loaded || _saveQueued) return;
+    _saveQueued = true;
+    scheduleMicrotask(() {
+      _saveQueued = false;
       unawaited(_save());
     });
   }
@@ -177,11 +210,7 @@ class StudyLogController extends Notifier<StudyLogState> {
   }
 
   /// Writes now (tests, and before the app goes to the background).
-  Future<void> flush() async {
-    _saveTimer?.cancel();
-    _saveTimer = null;
-    await _save();
-  }
+  Future<void> flush() => _save();
 
   /// The account's papers: every one the log does not hold becomes an entry (backfill on first
   /// read, then each new paper as it arrives), joined to how this phone started it.
