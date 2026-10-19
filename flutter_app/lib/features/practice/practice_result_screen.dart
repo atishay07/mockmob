@@ -396,7 +396,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     if (fresh.hasValue) _fresh ??= fresh.requireValue;
 
     if (attempt == null) {
-      return ResultNoAttempt(state: detailState, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true));
+      return ResultNoAttempt(state: detailState, onRetry: () => ref.read(attemptDetailProvider(id).notifier).restart());
     }
 
     final model = PracticeResultModel.from(attempt);
@@ -671,7 +671,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                 children: [
                                   // The failure is said first, where the page opens.
                                   if (failedKeys) ...[
-                                    ResultLoadFailed(onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
+                                    ResultLoadFailed(onRetry: () => ref.read(attemptDetailProvider(id).notifier).restart()),
                                     const SizedBox(height: MmSpace.s16),
                                   ],
                                   // The finish moment. It waits the few milliseconds it takes to know whether this is the

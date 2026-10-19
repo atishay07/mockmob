@@ -191,7 +191,7 @@ class _RecapFlowState extends ConsumerState<RecapFlow> {
           model: m,
           onBack: _back,
           onFinish: _finish,
-          onRetryKeys: () => ref.read(attemptDetailProvider(m.attemptId).notifier).refresh(force: true),
+          onRetryKeys: () => ref.read(attemptDetailProvider(m.attemptId).notifier).restart(),
           showSkipHint: _showSkipHint,
         );
     }

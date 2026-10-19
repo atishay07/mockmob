@@ -514,7 +514,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                           mobi: revealMobi,
                         ),
                 ),
-                ...annotations(context, model, data, corrected: false, onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
+                ...annotations(context, model, data, corrected: false, onRetry: () => ref.read(attemptDetailProvider(id).notifier).restart()),
                 // One quiet line under the marks: Mobi opens on where this paper's lost marks went, free.
                 if (askLines.isNotEmpty)
                   item(

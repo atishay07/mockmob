@@ -130,7 +130,10 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
   Future<void> refresh({bool force = false}) {
     final id = userId;
     final running = _inFlight;
+    final restart = _restartNext;
+    _restartNext = false;
     if (running != null && _inFlightFor == id) {
+      if (restart) return _start(id, true);
       if (!force) return running;
       final queued = _queued;
       if (queued != null && _queuedFor == id) return queued;
@@ -150,6 +153,20 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
 
   Future<void>? _queued;
   String? _queuedFor;
+
+  bool _restartNext = false;
+
+  /// The student's own "Try again" (walk M3, 19 Oct): a forced read that never waits behind a read that may be
+  /// stalled (a request can run 30 seconds and be tried again twice before it gives up): it starts a new read at
+  /// once. The older read may still land a value (a value is a value), but its failure is no longer the screen's
+  /// story. It goes through [refresh], so a screen's test double that overrides [refresh] still sees the call.
+  Future<void> restart() {
+    _restartNext = true;
+    return refresh(force: true);
+  }
+
+  /// Counts the reads started: only the newest one reports a failure.
+  int _epoch = 0;
 
   Future<void> _start(String? id, bool force) {
     late final Future<void> started;
@@ -177,6 +194,7 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
 
   Future<void> _refresh(String? id, bool force) async {
     if (id == null || !_current(id)) return;
+    final epoch = ++_epoch;
     if (state.value == null) {
       CachedValue<T>? cached;
       try {
@@ -204,10 +222,10 @@ abstract class RemoteNotifier<T> extends Notifier<RemoteState<T>> {
       }
       if (_current(id)) state = RemoteState(value: fetched.value, fetchedAt: at);
     } on ApiError catch (e) {
-      if (_current(id)) state = state.copyWith(loading: false, error: e, clearPrior: true);
+      if (_current(id) && epoch == _epoch) state = state.copyWith(loading: false, error: e, clearPrior: true);
     } on Object {
       // Never leave the screen on a spinner: an unexpected failure is a failed read.
-      if (_current(id)) state = state.copyWith(loading: false, error: const ApiError(kind: ApiErrorKind.unknown, code: 'unknown'), clearPrior: true);
+      if (_current(id) && epoch == _epoch) state = state.copyWith(loading: false, error: const ApiError(kind: ApiErrorKind.unknown, code: 'unknown'), clearPrior: true);
     }
   }
 

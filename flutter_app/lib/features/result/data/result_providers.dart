@@ -125,9 +125,34 @@ final recapDataProvider = Provider.autoDispose.family<RecapData, String>((ref, a
     fetchedAt: detailState.fetchedAt,
     stale: detailState.isStale,
     detailPending: detail == null && detailState.error == null,
-    listPending: listStale && listState.loading,
+    // The list that numbers the mock is waited for only so long: a heavy list on a slow line must not keep a result that
+    // is already in hand off the screen (walk M3, 19 Oct). Past [recapListWait] the cached list numbers it.
+    listPending: recapListPending(listStale: listStale, listLoading: listState.loading, gaveUp: ref.watch(recapListGaveUpProvider(attemptId))),
   );
 });
+
+/// Whether the reveal still waits for the list that numbers its mock: only while that list is being read after the
+/// result was finished, and only until the wait is over.
+bool recapListPending({required bool listStale, required bool listLoading, required bool gaveUp}) => listStale && listLoading && !gaveUp;
+
+/// How long a result waits for the attempts list that numbers its mock before it uses the list on the phone.
+const Duration recapListWait = Duration(seconds: 8);
+
+/// True once [recapListWait] has passed since this result was opened.
+final recapListGaveUpProvider = NotifierProvider.autoDispose.family<RecapListWait, bool, String>(RecapListWait.new);
+
+class RecapListWait extends Notifier<bool> {
+  RecapListWait(this.attemptId);
+
+  final String attemptId;
+
+  @override
+  bool build() {
+    final timer = Timer(recapListWait, () => state = true);
+    ref.onDispose(timer.cancel);
+    return false;
+  }
+}
 
 /// Asks for the attempts list once while [attemptId]'s result is open with a list older than it.
 final _listRecheckProvider = Provider.autoDispose.family<void, String>((ref, attemptId) {
@@ -142,9 +167,12 @@ final _listRecheckProvider = Provider.autoDispose.family<void, String>((ref, att
 });
 
 /// "Try again" on the result placeholder: reads the result and the list that numbers it again.
+///
+/// It asks again at once (`restart`): a "Try again" that waited behind the read it was meant to replace did nothing
+/// for as long as that read stalled (walk M3, 19 Oct: three taps and no result in a minute).
 void retryRecapData(WidgetRef ref, String attemptId) {
-  ref.read(attemptDetailProvider(attemptId).notifier).refresh(force: true);
-  ref.read(attemptsRepositoryProvider.notifier).refresh(force: true);
+  unawaited(ref.read(attemptDetailProvider(attemptId).notifier).restart().catchError((Object _) {}));
+  unawaited(ref.read(attemptsRepositoryProvider.notifier).restart().catchError((Object _) {}));
 }
 
 /// The ritual settings of 5.6.1, read once per sealed sheet.
