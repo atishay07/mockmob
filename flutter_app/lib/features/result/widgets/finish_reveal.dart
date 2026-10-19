@@ -59,8 +59,8 @@ abstract final class FinishRevealCopy {
   static const String wrongRule = '−1 each';
   static const String blankRule = '0 each';
 
-  static const String chaptersHead = 'Where the marks went';
-  static const String lostHead = 'Marks lost';
+  static const String chaptersHead = 'Marks lost by chapter';
+  static const String lostHead = 'Marks';
   static const String tied = 'Tied';
 
   /// "and 3 more chapters, 11 marks" under the first rows.

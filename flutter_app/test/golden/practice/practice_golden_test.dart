@@ -383,8 +383,12 @@ void main() {
         await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(_mixed), credits: const CreditFigures(ai: 68, practice: 40)));
         await _settle(tester);
         await _typed(tester);
+        // The finish moment adds the marks up before the layers (20 Oct, I13): scroll to any row, then take the first.
+        for (var i = 0; i < 20 && find.byType(MistakeSummary).evaluate().isEmpty; i++) {
+          await tester.drag(find.byType(Scrollable).first, const Offset(0, -200));
+          await tester.pump();
+        }
         final row = find.byType(MistakeSummary).first;
-        await tester.scrollUntilVisible(row, 200, scrollable: find.byType(Scrollable).first);
         await Scrollable.ensureVisible(tester.element(row), alignment: 0.2);
         await tester.pump();
         await tester.tap(row);

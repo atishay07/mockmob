@@ -88,11 +88,11 @@ AttemptDetail _detail(String mode, List<(String, V)> questions) => AttemptDetail
   'answerReviewState': 'ready',
 });
 
-Future<void> _pump(WidgetTester tester, Brightness b, String kind) {
+Future<void> _pump(WidgetTester tester, Brightness b, String kind, {Size size = const Size(360, 760)}) {
   final (mode, qs) = kinds[kind]!;
   final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
   final List<Override> overrides = resultOverrides(attemptId: 'p1', detail: _detail(mode, qs), pending: pending);
-  return pumpRouted(tester, location: '/practice/result/p1', routes: _routes(), brightness: b, size: const Size(360, 760), overrides: overrides);
+  return pumpRouted(tester, location: '/practice/result/p1', routes: _routes(), brightness: b, size: size, overrides: overrides);
 }
 
 Future<void> _frames(WidgetTester tester, int ms) async {
@@ -142,4 +142,20 @@ void main() {
     await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/reveal_quick10_poor_skip_day.png'));
     await tester.pump(const Duration(seconds: 6));
   });
+
+  // The whole moment on one tall page, to judge the chapters beat under the paper.
+  for (final kind in ['quick10_poor', 'quick10_blank', 'quick20_great']) {
+    for (final b in [Brightness.dark, Brightness.light]) {
+      final tag = b == Brightness.dark ? 'night' : 'day';
+      testWidgets('the whole moment, $kind, 360 by 1200, $tag', (tester) async {
+        await _pump(tester, b, kind, size: const Size(360, 1200));
+        await tester.pump();
+        await tester.pump();
+        await _frames(tester, 5200);
+        await settleImages(tester);
+        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/reveal_${kind}_whole_$tag.png'));
+        await tester.pump(const Duration(seconds: 4));
+      });
+    }
+  }
 }
