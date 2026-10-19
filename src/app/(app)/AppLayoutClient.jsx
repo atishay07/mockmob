@@ -73,7 +73,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const [tourTarget, setTourTarget] = useState(null);
   const tourSeenKey = user?.id ? `mockmob_app_tour_seen_${user.id}` : 'mockmob_app_tour_seen';
   const activePath = previewRoute || pathname;
-  const isTestRoute = activePath.startsWith('/test');
+  // A Mob game (/mob/game/<id>) is a focus place like the paper runner: no top bar, no dock (MOB-BUILD-SPEC-V3 R1).
+  const isTestRoute = activePath.startsWith('/test') || activePath.startsWith('/mob/game/');
   const wallet = useWalletSummary(user?.id);
   const mobOn = mobEnabled || Boolean(previewLinks?.mob);
   const studyOn = studyEnabled || previewRoute === '/learn';
