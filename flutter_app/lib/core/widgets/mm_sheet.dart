@@ -131,7 +131,7 @@ class _SheetMaterializeState extends State<_SheetMaterialize> {
 /// text scale it fills the screen and shows a Close key. Use inside [showMmSheet] or an
 /// [MmSheetPage].
 class MmSheetScaffold extends StatelessWidget {
-  const MmSheetScaffold({super.key, required this.child, this.title, this.onClose, this.footer, this.heightFactor});
+  const MmSheetScaffold({super.key, required this.child, this.title, this.onClose, this.footer, this.heightFactor, this.liftWithKeyboard = false});
 
   final Widget child;
   final String? title;
@@ -144,6 +144,12 @@ class MmSheetScaffold extends StatelessWidget {
 
   /// Defaults to popping the sheet.
   final VoidCallback? onClose;
+
+  /// For a content-sized sheet with a text field in it: with the keyboard up the sheet rises onto it
+  /// (the glass runs down behind the keys, the column stops where they start), so the field and the
+  /// key under it stay in view. A fixed-height sheet ([heightFactor]) already does this; a sheet
+  /// that pads for the keyboard itself leaves this off.
+  final bool liftWithKeyboard;
 
   @override
   Widget build(BuildContext context) {
@@ -199,7 +205,18 @@ class MmSheetScaffold extends StatelessWidget {
       ],
     );
 
-    if (large) return SafeArea(child: SizedBox.expand(child: column));
+    if (large) {
+      final lift = liftWithKeyboard ? MediaQuery.viewInsetsOf(context).bottom : 0.0;
+      return SafeArea(child: Padding(padding: EdgeInsets.only(bottom: lift), child: SizedBox.expand(child: column)));
+    }
+    if (heightFactor == null && liftWithKeyboard) {
+      final inset = MediaQuery.viewInsetsOf(context).bottom;
+      if (inset > 0) {
+        // The sheet's own safe area ends where the keyboard starts; the column has what is left of
+        // the screen above the keys (under the status bar), and its body scrolls inside that.
+        return Padding(padding: EdgeInsets.only(bottom: inset), child: column);
+      }
+    }
     if (heightFactor != null) {
       final media = MediaQuery.of(context);
       final inset = media.viewInsets.bottom;
@@ -296,6 +313,7 @@ Future<T?> showMmSheet<T>({
   bool useRootNavigator = true,
   WidgetBuilder? footer,
   double? heightFactor,
+  bool liftWithKeyboard = false,
 }) {
   final colors = context.mmColors;
   final large = _isLargeText(context);
@@ -319,7 +337,7 @@ Future<T?> showMmSheet<T>({
     builder: (context) => MmSheetReleaseTracker(
       child: MmSheetGlass(
         heightFactor: heightFactor,
-        child: MmSheetScaffold(title: title, footer: footer?.call(context), heightFactor: heightFactor, child: builder(context)),
+        child: MmSheetScaffold(title: title, footer: footer?.call(context), heightFactor: heightFactor, liftWithKeyboard: liftWithKeyboard, child: builder(context)),
       ),
     ),
   ));

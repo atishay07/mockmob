@@ -75,6 +75,35 @@ void main() {
     expect(codes, ['K7P2M9QX', 'K7P2M9QX']);
   });
 
+  for (final scale in [1.0, 1.3]) {
+    testWidgets('H1: with the keyboard up the code field and the Find their Mob key stay above it at 360 by 640, text $scale', (tester) async {
+      await pumpMockmob(
+        tester,
+        Builder(builder: (context) => Center(child: TextButton(onPressed: () => showJoinWithCodeSheet(context), child: const Text('open')))),
+        size: const Size(360, 640),
+        textScale: scale,
+        disableAnimations: true,
+      );
+      // A keyboard 280 dp tall (the walk's was about 300).
+      tester.view.viewInsets = const FakeViewPadding(bottom: 560);
+      addTearDown(tester.view.resetViewInsets);
+      await tester.tap(find.text('open'));
+      await tester.pumpAndSettle();
+      const keyboardTop = 640.0 - 280.0;
+      final field = tester.getRect(find.byKey(const ValueKey('mob-join-code-field')));
+      final key = tester.getRect(find.text(MobCopy.joinCodeKey));
+      expect(field.top, greaterThan(0), reason: 'the field is on screen');
+      expect(field.bottom, lessThanOrEqualTo(keyboardTop), reason: 'the field sits above the keyboard');
+      expect(key.bottom, lessThanOrEqualTo(keyboardTop), reason: 'the Find their Mob key sits above the keyboard');
+      // The pinned key still checks the field.
+      await tester.enterText(find.byKey(const ValueKey('mob-join-code-field')), 'abc');
+      await tester.tap(find.text(MobCopy.joinCodeKey));
+      await tester.pump();
+      expect(find.text(MobCopy.joinCodeWrong), findsOneWidget);
+      expect(tester.getRect(find.text(MobCopy.joinCodeKey)).bottom, lessThanOrEqualTo(keyboardTop), reason: 'the key holds its place when the error shows');
+    });
+  }
+
   test('every new Mob line is a full, plain sentence', () {
     for (final line in [MobCopy.joinCodeLead, MobCopy.joinCodeNote, MobCopy.joinCodeWrong]) {
       expect(line.trim(), endsWith('.'), reason: line);
