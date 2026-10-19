@@ -66,7 +66,7 @@ export function mayMorph({ reduced = false, hidden = false, inView = true, count
 // option C live. HeroType.jsx renders it, hero-motion.css holds its keyframes, and HeroLine.jsx picks between the two.
 //
 // The old line is selected from its end back to its start (as Shift+Home does), held a beat, then replaced by the new
-// line typed at a natural rhythm behind a solid brand-colour caret that blinks twice and leaves. Nothing glows and
+// line typed at a natural rhythm behind a solid brand-colour caret that blinks once and leaves. Nothing glows and
 // nothing loops (L-016, L-019). It runs only once the first screen has settled, and it pauses while the page moves.
 // ================================================================================================================
 
@@ -85,32 +85,34 @@ export function mayMorph({ reduced = false, hidden = false, inView = true, count
 //                         never "never repeats").
 export const HERO_PHRASES_V2 = Object.freeze(['No more guessing.', 'See the lost marks.', 'Know what to fix.', 'Fresh every time.']);
 
+// FASTER, 19 Oct (D119: "a bit too slow ... every 2-3 seconds it should be doing something new"). The same look and
+// the same phrases as the D112 pick; only the times are shorter, and the cycle now loops while the hero is on screen.
 // The timing rule (C-pick 3). Settled = the web fonts are ready AND the hero's entrance is done AND nothing has moved
 // the page for QUIET_MS AND the line is fully on screen AND the tab is visible. The first change comes READ_MS after
 // that, and each line holds HOLD_MS once it lands. Any scroll, wheel, touch or scroll key pauses the cycle (a change
 // already under way finishes); coming back on screen, or back to the tab, owes READ_MS again.
 export const RULE = Object.freeze({
   ENTRANCE_MS: 1000, // the hero's own entrance: the last data-hero rise ends about 960 ms after first paint
-  QUIET_MS: 1200,    // no scroll input for this long = the page has settled (page load counts as movement)
-  READ_MS: 1800,     // once settled, the student reads the current line once more before it changes
-  HOLD_MS: 3000,     // each line holds this long after it lands
+  QUIET_MS: 500,     // no scroll input for this long = the page has settled (page load counts as movement)
+  READ_MS: 600,      // once settled, the student reads the current line once more before it changes
+  HOLD_MS: 1300,     // each line holds this long after it lands
 });
 
 // One change, in ms from its start. The selection grows from the line's end to its start on out-quart, holds a beat,
-// and goes with the old line at the first keystroke; then each letter fades in over FADE_MS at a human rhythm.
+// and goes with the old line at the first keystroke; then each letter fades in over FADE_MS at a quick typist's rhythm.
 export const TYPE = Object.freeze({
-  SELECT_MS: 320,
+  SELECT_MS: 220,
   SELECT_EASE: 'cubic-bezier(0.25, 1, 0.5, 1)',
-  BEAT_MS: 200,
-  LETTER_MS: 46,
+  BEAT_MS: 100,
+  LETTER_MS: 30,
   JITTER: Object.freeze([0, 9, -6, 12, -3, 5, -8, 10, -4, 7, -5, 3]), // fixed, so every visit types the same way
-  SPACE_MS: 38, // after a space
-  STOP_MS: 110, // before the full stop
-  FADE_MS: 70,
+  SPACE_MS: 24, // after a space
+  STOP_MS: 70, // before the full stop
+  FADE_MS: 60,
   CARET_IN_MS: 100,
-  BLINK_AFTER_MS: 420, // after the last letter lands
-  BLINK_MS: Object.freeze([400, 500, 400, 160]), // off, on, off, on: two blinks
-  CARET_OUT_MS: 240, // then it fades away, inside the hold
+  BLINK_AFTER_MS: 200, // after the last letter lands
+  BLINK_MS: Object.freeze([260, 260]), // off, on: one blink, then it leaves
+  CARET_OUT_MS: 160, // then it fades away, inside the hold
   LAND_FALLBACK_MS: 1500, // a browser that never ends the last letter's animation still lands
 });
 
@@ -136,7 +138,7 @@ export function typingSchedule(phrase) {
 }
 
 /** The caret's keyframes for one change. It fades in at the line's start (its wrapper rides the selection's left
- * edge), jumps to the right of each letter as it lands, blinks twice and fades out. `edges` holds each letter's right
+ * edge), jumps to the right of each letter as it lands, blinks once and fades out. `edges` holds each letter's right
  * edge (x, px from the line's left) and its line offset (y, px), measured after layout. Each jump is instant: a pair of
  * keyframes half a millisecond apart, under linear easing. Returns { keyframes, duration }. */
 export function caretKeyframes(schedule, edges) {
@@ -151,24 +153,27 @@ export function caretKeyframes(schedule, edges) {
   push(replaceAt - 1, home, 1);
   times.forEach((ms, k) => { push(ms - 0.5, after(k - 1), 1); push(ms, after(k), 1); });
   const end = after(times.length - 1);
-  const [off1, on1, off2, on2] = TYPE.BLINK_MS;
+  // BLINK_MS alternates off, on (pairs): the caret is off for the first duration, then back on for the second, and the
+  // fade-out starts from solid.
   let t = blinkAt;
   push(t, end, 1); push(t + 1, end, 0);
-  t += off1; push(t, end, 0); push(t + 1, end, 1);
-  t += on1; push(t, end, 1); push(t + 1, end, 0);
-  t += off2; push(t, end, 0); push(t + 1, end, 1);
-  t += on2; push(t, end, 1);
+  TYPE.BLINK_MS.forEach((d, i) => {
+    t += d;
+    const wasOff = i % 2 === 0;
+    push(t, end, wasOff ? 0 : 1);
+    if (i < TYPE.BLINK_MS.length - 1) push(t + 1, end, wasOff ? 1 : 0);
+  });
   push(duration, end, 0);
   return { keyframes, duration };
 }
 
-/** How many changes one visit makes: one lap through the set and back to the line it started on, where it rests for
- * good (CTO addition, WCAG 2.2.2: it never loops forever). The resting line is "No more guessing.", the sentence screen
- * readers, search and Reduce motion get, so what is seen at rest and what is read always agree. */
+/** How many changes one visit makes when the cycle does NOT loop: one lap through the set and back to the line it
+ * started on, where it rests for good (CTO addition, WCAG 2.2.2). The 19 Oct speed-up loops instead (D119, the owner's
+ * newest words: a new line every 2-3 seconds while the hero is on screen), so createHeroCycle defaults to loop. */
 export const cycleChanges = (count) => (count > 1 ? count : 0);
 
 /**
- * The settle-and-pause controller. It is pure: the clock and the timers are passed in, so node --test drives it with
+ * The settle-and-pause controller (also drives ?hero=v3, HeroMelt.jsx, with its own HOLD_MS in `rule`). It is pure: the clock and the timers are passed in, so node --test drives it with
  * fake timers. The component reports what the page is doing; the controller calls onChange({ from, to, n }) when a
  * change starts and onLand({ index, n }) when it lands. The component reports each landing with landed() (from the
  * last letter's animationend); given `landMs(from, to)`, the controller lands by itself after that long (tests).
@@ -183,8 +188,11 @@ export function createHeroCycle({
   setTimer = (fn, ms) => setTimeout(fn, ms),
   clearTimer = (id) => clearTimeout(id),
   rule = RULE,
+  loop = true,
 } = {}) {
-  const total = cycleChanges(count);
+  // Looping (the default, D119): it keeps going for as long as the hero is fully on screen and the tab is visible; it
+  // pauses on scroll, off screen and in a hidden tab, and starts again after QUIET + READ. loop = false is one lap.
+  const total = loop ? (count > 1 ? Infinity : 0) : cycleChanges(count);
   let t0 = 0; // first paint (0 = not yet)
   let lastInput = 0; // the last scroll input
   let backAt = 0; // the line came back on screen, or the tab came back
@@ -278,6 +286,46 @@ export function createHeroCycle({
   };
 }
 
+// ================================================================================================================
+// ?hero=v3, last year's melt on today's line (D119, 19 Oct 2026). The owner remembers April's hero: "Stop grinding
+// alone. Rank up with the <mob. / best. / top 1%.>" where the words melted into each other (commit 4b2e26da,
+// src/components/ui/morphing-text.jsx). Here the same cross-morph runs on today's third line, "CUET 2027. / One mock. /
+// <phrase>", cycling HERO_PHRASES_V2. Only the motion differs from the hero: same face, size, weight, colours, lines.
+// Preview only (?hero=v3); students keep the released line until he picks.
+// The maths are that file's: the incoming phrase goes from blur(min(8 / f - 8, 100) px) and opacity f^0.4 up to sharp,
+// the outgoing one mirrors it on 1 - f, and f runs 0 to 1 linearly over MORPH_MS. It differs in what runs when: last
+// year's loop ran requestAnimationFrame for ever; here a frame loop runs only during a morph, and nothing runs in the
+// hold between two (the same settle, pause and visibility rules as option C, createHeroCycle).
+// ================================================================================================================
+export const MELT = Object.freeze({
+  MORPH_MS: 1000,   // the cross-morph (last year: 1.5 s)
+  HOLD_MS: 1200,    // each phrase holds this long once it has landed (last year: a 0.5 s cooldown): a new one every 2.2 s
+  BLUR_BASE: 8,     // last year's 8 in blur(8 / f - 8)
+  BLUR_MAX: 100,    // and its 100 px cap
+  OPACITY_POW: 0.4, // last year's f ** 0.4
+  REF_FONT_PX: 96,  // last year's type was 6rem on desktop; the blur scales with today's type so a phone's 40 px line
+                    // melts as softly as that did (px blur * clamp(font / REF, 0.4, 1))
+});
+
+/** The blur (px, before scaling) and opacity of one layer of the melt at fraction f. f is the layer's own progress:
+ * the incoming phrase takes f, the outgoing one 1 - f. At f = 1 it is sharp and solid; at f = 0 it is 100 px of blur and
+ * invisible. */
+export function meltLayer(f) {
+  const x = Math.min(1, Math.max(0, f));
+  const blur = x <= 0 ? MELT.BLUR_MAX : Math.min(MELT.BLUR_BASE / x - MELT.BLUR_BASE, MELT.BLUR_MAX);
+  return { blur, opacity: x ** MELT.OPACITY_POW };
+}
+
+/** Both layers at time `ms` into a morph: { incoming, outgoing, f }. */
+export function meltFrame(ms, morphMs = MELT.MORPH_MS) {
+  const f = Math.min(1, Math.max(0, ms / morphMs));
+  return { f, incoming: meltLayer(f), outgoing: meltLayer(1 - f) };
+}
+
+/** How much of last year's blur a line of this font size (px) gets: its size over last year's, never above 1 and never
+ * below 0.4 (a smaller blur on small type is the same softness; a tiny one would stop reading as a melt). */
+export const meltBlurScale = (fontPx) => Math.min(1, Math.max(0.4, (Number(fontPx) || MELT.REF_FONT_PX) / MELT.REF_FONT_PX));
+
 /** Which hero line the page mounts (D115: option C ships OFF, and the owner sees it LIVE on the production site
  *  through the preview link ?hero=v2 before it is switched on for everyone).
  *  'preview' the default on every build, production included. Everyone gets the released line (HeroMorph), served
@@ -297,4 +345,16 @@ export function heroMotionMode(env = {}) {
 /** Whether an address asks for option C: exactly ?hero=v2. */
 export function asksForHeroV2(search = '') {
   try { return new URLSearchParams(search).get('hero') === 'v2'; } catch { return false; }
+}
+
+/** Whether an address asks for the melt: exactly ?hero=v3 (D119; preview only). */
+export function asksForHeroV3(search = '') {
+  try { return new URLSearchParams(search).get('hero') === 'v3'; } catch { return false; }
+}
+
+/** The preview variant an address asks for, 'v3', 'v2' or '' (the released line). v3 wins if both were somehow set. */
+export function heroPreview(search = '') {
+  if (asksForHeroV3(search)) return 'v3';
+  if (asksForHeroV2(search)) return 'v2';
+  return '';
 }
