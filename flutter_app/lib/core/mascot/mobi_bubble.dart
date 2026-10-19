@@ -34,6 +34,25 @@ class MobiBubble extends StatefulWidget {
   /// content width and the line should read at arm's length (onboarding, D44).
   final bool large;
 
+  /// How tall a boxed bubble with [text] comes out at [maxWidth] (its box, padding and tail), under the
+  /// context's text scale: the room a screen has to leave above Mobi so the bubble never meets what is over it.
+  static double heightFor(BuildContext context, String text, {required double maxWidth, MobiTail tail = MobiTail.down, bool large = false}) {
+    final type = context.mmType;
+    final style = large
+        ? type.labelLarge.copyWith(fontSize: 17, height: 23 / 17)
+        : type.labelLarge.copyWith(fontSize: 15, height: 20 / 15);
+    final vertical = tail == MobiTail.down || tail == MobiTail.up;
+    final side = MmSpace.s16 * 2 + (vertical ? 0 : _BubblePainter.tailSize);
+    final painter = TextPainter(
+      text: TextSpan(text: text, style: style),
+      textDirection: TextDirection.ltr,
+      textScaler: MediaQuery.textScalerOf(context),
+    )..layout(maxWidth: (maxWidth - side).clamp(1.0, double.infinity));
+    final height = painter.height;
+    painter.dispose();
+    return height + MmSpace.s12 * 2 + (vertical ? _BubblePainter.tailSize : 0);
+  }
+
   @override
   State<MobiBubble> createState() => _MobiBubbleState();
 }

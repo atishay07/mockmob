@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/mascot/mobi_bubble.dart' show MobiBubble;
 import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
 import 'package:mockmob/features/onboarding/screens/onboarding_flow.dart';
@@ -90,6 +91,45 @@ void main() {
           expect(key.bottom, lessThanOrEqualTo(size.height));
           expect(find.text(OnboardingCopy.continuePlan).hitTestable(), findsOneWidget);
         });
+      }
+    }
+  });
+
+  group('M1 (walk, 19 Oct): the Mobi bubble never touches the wordmark', () {
+    const sizes = [Size(360, 800), Size(360, 780), Size(390, 844), Size(360, 860), Size(412, 915)];
+    for (final size in sizes) {
+      for (final scale in const [1.0, 1.3]) {
+        for (final late in const [false, true]) {
+          for (final night in const [true, false]) {
+            testWidgets('${size.width.toInt()} by ${size.height.toInt()}, text $scale, ${late ? 'late line' : 'welcome line'}, ${night ? 'Night' : 'Day'}', (tester) async {
+              // A status bar 28 dp tall and a gesture bar 16 dp, as on the walk's phone.
+              tester.view.padding = const FakeViewPadding(top: 56, bottom: 32);
+              await pumpMockmob(
+                tester,
+                WelcomeView(onStart: () {}, onHaveAccount: () {}, lateNight: late, entrance: late ? MobiAct.sleepy : MobiAct.hello),
+                size: size,
+                textScale: scale,
+                brightness: night ? Brightness.dark : Brightness.light,
+                disableAnimations: true,
+                overrides: onboardingOverrides(),
+                wrapInScaffold: false,
+              );
+              await tester.pump(const Duration(milliseconds: 400));
+              expect(tester.takeException(), isNull);
+              final wordmark = tester.getRect(find.byType(Wordmark));
+              final bubble = find.byType(MobiBubble);
+              if (bubble.evaluate().isEmpty) {
+                // No room for the bubble at this size: the line is plain text above the key, and nothing overlaps.
+                return;
+              }
+              final rect = tester.getRect(bubble);
+              expect(rect.top, greaterThanOrEqualTo(wordmark.bottom + 8), reason: 'the bubble ${rect.top} must clear the wordmark ${wordmark.bottom}');
+              expect(rect.bottom, lessThanOrEqualTo(size.height));
+              final line = late ? OnboardingCopy.lateNight : OnboardingCopy.mobiWelcome;
+              expect(find.text(line), findsOneWidget, reason: 'the whole line is still said, not cut');
+            });
+          }
+        }
       }
     }
   });

@@ -191,9 +191,20 @@ class _WelcomeViewState extends State<WelcomeView> {
     final wordmarkBottom = pad.top + MmSpace.s24 + 26 + MmSpace.s16;
     final room = LayoutBuilder(
       builder: (context, box) {
-        final layout = colors.isNight
-            ? WelcomeHeroLayout.of(size, room: box.maxHeight, topLimit: wordmarkBottom)
-            : WelcomeHeroLayout.day(size, room: box.maxHeight, topLimit: wordmarkBottom);
+        WelcomeHeroLayout build(double topLimit) => colors.isNight
+            ? WelcomeHeroLayout.of(size, room: box.maxHeight, topLimit: topLimit)
+            : WelcomeHeroLayout.day(size, room: box.maxHeight, topLimit: topLimit);
+        var layout = build(wordmarkBottom);
+        // The bubble rises from Mobi's head, so its height (4 lines at 360 dp) has to fit between the wordmark and his
+        // head. Where it would not, Mobi stands a little smaller (his feet stay put) and the bubble keeps its words
+        // whole, instead of running up over the wordmark (walk M1, 19 Oct; the screen keeps its look, G2).
+        if (sayLine != null) {
+          final width = math.max(0.0, layout.sheetX - WelcomeView.gutter);
+          if (width >= 160) {
+            final need = MobiBubble.heightFor(context, sayLine, maxWidth: width);
+            layout = build(wordmarkBottom + need + MmSpace.s4);
+          }
+        }
         final mobiSize = layout.mobiHeight;
         final mobiBox = mobiSize * 1.5;
         final bubbleMax = math.max(0.0, layout.sheetX - WelcomeView.gutter);
