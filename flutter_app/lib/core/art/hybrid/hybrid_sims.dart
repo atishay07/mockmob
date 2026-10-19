@@ -300,21 +300,29 @@ class StopwatchSim {
     _shortSpring = null;
   }
 
-  /// The hold before a [lap] turns, in seconds: the dial fades in (0.9 to 1) over it, so the turn
-  /// starts where the eye can already see it (APP-PASS AP2-01, M02; owner 15 Oct, "the clock
-  /// doing a 360").
-  static const double lapLead = 0.16;
+  /// The hold before a [lap] turns, in seconds. The dial fades in once the stub has cleared
+  /// (the last part of the 220 ms tear), so the hand starts only when the whole dial is in place
+  /// and still: no hand already moving under a half-faded face (19 Oct, H4; before: 160 ms, and
+  /// the turn began while the dial was still a ghost over the stub's "50").
+  static const double lapLead = 0.24;
 
-  /// How long a [lap]'s turn takes, in seconds: the motion system's sweep (700 ms). The ticket's
-  /// hold is lead + turn + a 60 ms rest (PracticeComposerKeys.clockHold, 920 ms, under the T2 cap
-  /// of 1200 ms). The paper's clock reads the server's end time, so the hold costs no time.
-  static const double lapDuration = 0.70;
+  /// How long a [lap]'s turn takes, in seconds: one calm sweep. It was 700 ms on the motion
+  /// system's sweep curve, a peak of about 935 degrees a second (16 degrees a frame), which read
+  /// as a spin; 800 ms on [lapCurve] peaks at about 645 (11 a frame) and eases onto 12.
+  static const double lapDuration = 0.80;
+
+  /// How long the hands rest on 12 before the sheet lets go, in seconds: long enough to read
+  /// "back at zero", the paper starts now. The ticket's hold is lead + turn + rest
+  /// (PracticeComposerKeys.clockHold, 1140 ms, under the T2 cap of 1200 ms). The paper's clock
+  /// reads the server's end time, so the hold costs no time.
+  static const double lapRest = 0.10;
 
   /// When the long hand reaches 12 again, in seconds after [lap] was called.
   static const double lapLanded = lapLead + lapDuration;
 
-  /// MotionCurves.sweep, (0.45, 0, 0.55, 1).
-  static const Cubic lapCurve = Cubic(0.45, 0, 0.55, 1);
+  /// An even ease, (0.3, 0, 0.7, 1): leaves 12 softly, runs evenly round the dial and settles
+  /// onto 12 without overshoot (the last 100 ms move it under 20 degrees).
+  static const Cubic lapCurve = Cubic(0.3, 0, 0.7, 1);
 
   double _lapEased(double t) {
     final p = (t - _start - lapLead) / lapDuration;

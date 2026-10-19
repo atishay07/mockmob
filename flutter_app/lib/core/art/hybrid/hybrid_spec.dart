@@ -76,8 +76,10 @@ class HybridSpec {
   /// The metronome's arm, as a share of the render's height.
   static const double metronomeArm = 0.48;
 
-  /// Near face-on stopwatch, white enamel face, lime marker at 12; the face is turned about
-  /// 4.4 degrees clockwise.
+  /// Near face-on stopwatch, white enamel face, lime marker at 12. The 12 tick under the lime
+  /// marker stands 6.5 degrees clockwise of straight up from the pin (measured on the file, 19 Oct:
+  /// tick at 301.5, 282.5 px, pin at 280.7, 464.6 px). It was 4.4 degrees, so a hand at rest or
+  /// landing on 12 stopped about 2 degrees short of the marker, to its left (H4).
   static const stopwatch = HybridSpec._(
     'stopwatch',
     596,
@@ -85,8 +87,11 @@ class HybridSpec {
     pivot: Offset(0.471, 0.605),
     radiusX: 0.341,
     radiusY: 0.260,
-    faceTilt: 0.0768,
+    faceTilt: stopwatchTwelve,
   );
+
+  /// The stopwatch's 12, in radians clockwise from straight up (see [stopwatch]).
+  static const double stopwatchTwelve = 0.1138;
 
   /// Wide brass desk bell with a lime stripe on its black base. [pivot] is where the base meets
   /// the desk (the bell rocks on it); [bellKnob] is the knob the rings start from.
