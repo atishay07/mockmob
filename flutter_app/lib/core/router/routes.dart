@@ -135,6 +135,9 @@ abstract final class AppRoutes {
   /// Credits: both balances, the plan and the history (the Credits feature owns the screen).
   static const String youCredits = '/you/credits';
 
+  /// The Pro page: every Get Pro and upgrade entry opens it (billing feature owns the screen).
+  static const String youPro = '/you/pro';
+
   static const String practiceStream = '/practice/stream';
 
   /// Ask your record.
@@ -235,6 +238,7 @@ abstract final class AppRoutes {
     practiceStream,
     ask,
     youCredits,
+    youPro,
     '/you/mob',
     '/join/:code',
     mob,

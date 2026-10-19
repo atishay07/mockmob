@@ -259,7 +259,7 @@ void main() {
   });
 
   group('flag on, entries', () {
-    testWidgets('Get Pro shows for a Free student and opens the sheet; a Pro student sees none', (tester) async {
+    testWidgets('Get Pro shows for a Free student and opens the Pro page; a Pro student sees none', (tester) async {
       final rig = BillingRig();
       await _pump(
         tester,
@@ -270,7 +270,8 @@ void main() {
       await tester.tap(find.text('Get Pro').first);
       await _settle(tester);
       await tester.pump(const Duration(milliseconds: 600));
-      expect(find.text('Pro includes'), findsOneWidget);
+      expect(find.text(BillingCopy.proPageTitle), findsOneWidget);
+      expect(find.text(BillingCopy.proPageUnlocksHeading), findsOneWidget);
     });
 
     testWidgets('a Pro student sees no Get Pro entry', (tester) async {

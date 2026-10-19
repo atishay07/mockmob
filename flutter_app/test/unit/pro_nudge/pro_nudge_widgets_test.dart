@@ -8,6 +8,7 @@ import 'package:mockmob/core/repositories/student_actions.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/billing/data/billing_controller.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
+import 'package:mockmob/features/billing/widgets/pro_page.dart' show ProPage;
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart';
 import 'package:mockmob/features/pro_nudge/data/pro_nudge_controller.dart' show proNudgeInOnboardingProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,13 +34,12 @@ void main() {
       final head = ProNudgeCopy.head(ProReason.ntaMode);
       expect(find.text(head.title), findsOneWidget);
       expect(find.text(head.lede), findsOneWidget);
-      expect(find.text(ProNudgeCopy.includesHeading), findsOneWidget);
-      for (final line in ProNudgeCopy.plainBenefits) {
-        expect(find.text(line), findsOneWidget);
-      }
-      expect(find.text('$playProPrice a month'), findsOneWidget);
+      // It opens the full-screen Pro page (owner I6, 20 Oct): the showcase, and Google Play's price.
+      expect(find.byType(ProPage), findsOneWidget);
+      expect(find.text(BillingCopy.proPageUnlocksHeading), findsOneWidget);
+      expect(find.text(BillingCopy.moment1Title), findsOneWidget);
+      expect(find.textContaining('$playProPrice a month'), findsWidgets);
       expect(find.text('Get Pro'), findsWidgets);
-      expect(find.bySemanticsLabel(RegExp('^${ProNudgeCopy.sheetLabel}')), findsWidgets);
       semantics.dispose();
     });
 
@@ -53,7 +53,7 @@ void main() {
       expect(find.text(ProNudgeCopy.head(ProReason.firstSession).title), findsNothing, reason: 'no sales headline above a payment problem');
       expect(find.text('Get Pro'), findsNothing);
       expect(find.text(BillingCopy.manageSubscription), findsOneWidget);
-      await tester.tap(find.text(ProNudgeCopy.notNow));
+      await tester.tap(find.text(BillingCopy.close));
       await settleNudges(tester);
       expect(find.text(BillingCopy.subOnHoldTitle), findsNothing);
     });
