@@ -31,6 +31,21 @@ class HybridInk {
     );
   }
 
+  /// Ink for a part drawn on a white enamel face (the stopwatch's hands). The face is part of
+  /// the photographed object, white in both themes, so its hands take the readable olive in both:
+  /// on Night the page's volt on that enamel is about 1.1:1 and the hand read as a hairline
+  /// outline; the olive is about 5.6:1 (19 Oct, H4).
+  factory HybridInk.onEnamel(BuildContext context) {
+    final c = context.mmColors;
+    return HybridInk(
+      fill: MmColors.light.accentText,
+      edge: const Color(0x8C14130F),
+      glint: c.lamp,
+      tail: const Color(0xFF6A5C46),
+      shadow: const Color(0x33000000),
+    );
+  }
+
   final Color fill;
   final Color edge;
   final Color glint;
@@ -590,7 +605,7 @@ class _HybridStopwatchState extends _HybridState<HybridStopwatch> {
     return frame(
       spec: HybridStopwatch.spec,
       height: widget.height,
-      part: _HandsPainter(clock: clock, hands: _hands, ink: HybridInk.of(context)),
+      part: _HandsPainter(clock: clock, hands: _hands, ink: HybridInk.onEnamel(context)),
     );
   }
 }

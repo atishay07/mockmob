@@ -225,6 +225,18 @@ class _TearStage extends StatefulWidget {
   /// The stopwatch's height under the stub, at most; a shorter ticket (large text) takes less.
   static const double clockHeight = 80;
 
+  /// How far in the timed paper's moment is at [torn] (pure, 0 to 1). The stopwatch ([clock])
+  /// comes in only once the stub is [clockFrom] of the way off, evenly (the torn progress already
+  /// rides the tear's curve), so its dial never shows as a ghost over the stub's "50" and never
+  /// pops; NTA's exam sheet keeps its own entrance over the first half of the tear on [Motion.out]
+  /// (its slide starts at the yes).
+  static double momentIn(double torn, {required bool clock}) =>
+      clock ? ((torn - clockFrom) / (1 - clockFrom)).clamp(0.0, 1.0) : Motion.out.transform((torn * 2).clamp(0.0, 1.0));
+
+  /// The share of the tear after which the stopwatch starts to fade in: from about 135 ms of the
+  /// 220 ms tear, fully in at its end.
+  static const double clockFrom = 0.5;
+
   /// The controller value at which the stub is lifted; 1 is torn off.
   static const double liftedAt = 0.35;
 
@@ -308,8 +320,11 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
                 ),
               ),
             // Mounted from the start (never painted at rest) so its render is decoded before
-            // the tear. Over the leaving stub, not under it: it fades in where the stub was as
-            // the stub slides off, so the whole turn is seen inside the short hold.
+            // the tear. The stopwatch fades in only once the stub is mostly off (the last 85 ms
+            // of the tear), so its dial is never a ghost over the stub's "50" (19 Oct, H4: it
+            // came in over the first half, with the count showing through its face), and its
+            // hand holds still until the dial is fully in (StopwatchSim.lapLead). NTA's exam
+            // sheet still comes in over the first half (see [_TearStage.momentIn]).
             if (widget.clock || widget.examSheet)
               Positioned(
                 // Keyed: the stub's copy comes and goes before it, and the moment must keep its
@@ -320,13 +335,14 @@ class _TearStageState extends State<_TearStage> with SingleTickerProviderStateMi
                 right: 0,
                 width: stub,
                 child: IgnorePointer(
-                  // In over the first half of the tear, so most of the turn is seen.
                   child: Opacity(
-                    opacity: cut ? Motion.out.transform((torn * 2).clamp(0.0, 1.0)) : 0,
+                    opacity: cut ? _TearStage.momentIn(torn, clock: widget.clock) : 0,
                     child: LayoutBuilder(
                       builder: (context, box) => Center(
                         child: Transform.scale(
-                          scale: 0.9 + 0.1 * Motion.out.transform((torn * 2).clamp(0.0, 1.0)),
+                          scale: widget.clock
+                              ? 0.96 + 0.04 * _TearStage.momentIn(torn, clock: true)
+                              : 0.9 + 0.1 * _TearStage.momentIn(torn, clock: false),
                           child: widget.clock
                               ? HybridStopwatch(
                                   height: math.min(_TearStage.clockHeight, math.max(0.0, box.maxHeight - MmSpace.s16)),

@@ -445,12 +445,12 @@ class PracticeComposerKeys extends ConsumerStatefulWidget {
   /// How long the sheet holds after the stub tears (the tear is 220 ms, the check 120 ms).
   static const Duration tearHold = Duration(milliseconds: 260);
 
-  /// A Full mock's hold: the dial fades in (160 ms), the long hand turns once (700 ms on the sweep
-  /// curve) and rests on 12 (60 ms): 920 ms, under the T2 cap of 1200 ms (MOTION.md 1.2; APP-PASS
-  /// AP2-01). It costs the student no time: the paper's clock counts down to the server's end
+  /// A Full mock's hold: the stub clears and the dial fades in, still (240 ms), the long hand turns
+  /// once in one calm sweep (800 ms) and rests on 12 (100 ms): 1140 ms, under the T2 cap of
+  /// 1200 ms (MOTION.md 1.2; APP-PASS AP2-01; 19 Oct H4, StopwatchSim.lapLead). It costs the student no time: the paper's clock counts down to the server's end
   /// time (RunnerSession.endsAt), set when the server started the session, not when the runner
   /// opens.
-  static final Duration clockHold = Duration(milliseconds: (StopwatchSim.lapLanded * 1000).round() + 60);
+  static final Duration clockHold = Duration(milliseconds: ((StopwatchSim.lapLanded + StopwatchSim.lapRest) * 1000).round());
 
   /// NTA mode's hold: the exam sheet's slide and the mark's settle (420 ms), then 200 ms held.
   static final Duration examSheetHold = ExamSheetStart.duration + const Duration(milliseconds: 200);

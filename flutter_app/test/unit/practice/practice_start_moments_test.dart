@@ -192,10 +192,11 @@ void main() {
       }
     });
 
-    test('a Full mock holds 920 ms: lead 160 + turn 700 + rest 60, under the T2 cap of 1200 ms', () {
-      expect(StopwatchSim.lapLead, 0.16);
-      expect(StopwatchSim.lapDuration, 0.70);
-      expect(PracticeComposerKeys.clockHold, const Duration(milliseconds: 920));
+    test('a Full mock holds 1140 ms: lead 240 + turn 800 + rest 100, under the T2 cap of 1200 ms', () {
+      expect(StopwatchSim.lapLead, 0.24);
+      expect(StopwatchSim.lapDuration, 0.80);
+      expect(StopwatchSim.lapRest, 0.10);
+      expect(PracticeComposerKeys.clockHold, const Duration(milliseconds: 1140));
       expect(PracticeComposerKeys.clockHold.inMilliseconds, lessThanOrEqualTo(1200));
       expect(PracticeComposerKeys.holdFor(PracticeMode.full), PracticeComposerKeys.clockHold);
       expect(PracticeComposerKeys.holdFor(PracticeMode.nta), const Duration(milliseconds: 620));
@@ -237,7 +238,10 @@ void main() {
 
       await _pump(tester, ticket(TicketTear.torn));
       expect(watch(tester).mode, StopwatchMode.lap);
+      // Not while the stub's "50" is still over its place (H4: no ghost of a dial over it).
       await tester.pump(const Duration(milliseconds: 120));
+      expect(clockOpacity(tester), 0);
+      await tester.pump(const Duration(milliseconds: 60));
       expect(clockOpacity(tester), greaterThan(0));
       await tester.pump(const Duration(milliseconds: 400));
       expect(clockOpacity(tester), closeTo(1, 1e-9));
