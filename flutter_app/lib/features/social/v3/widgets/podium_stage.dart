@@ -295,7 +295,8 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
     if (_c.value >= 1 || _skipping) return;
     _skipping = true;
     _particles.clear();
-    _c.animateTo(1, duration: MobBeat.skip, curve: Curves.easeOut);
+    // 180 ms of motion after the first frame, so the end state is on screen within MobBeat.skip (200).
+    _c.animateTo(1, duration: MobBeat.skip - const Duration(milliseconds: 20), curve: Curves.easeOut);
   }
 
   Haptics? get _haptics => hapticsOf(context);
