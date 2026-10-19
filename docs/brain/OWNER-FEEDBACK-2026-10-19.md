@@ -584,3 +584,22 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 20 Oct about 12:40 am IST (verbatim)
 > "Okay, just make sure this time, in the Vox agents, continuously capture the visuals. Also, see if anything looks out of place, or think if it's not, it can be made better. Continuously, they are working on it because if testing and working go hand in hand, we can always achieve a better result than anything else."
 **Ledger D150 (standing rule):** every building agent captures visuals continuously while it works (screens and motion frames on the emulator or goldens), looks at each one for anything out of place or anything that could be better, and improves it in the same loop: build and test hand in hand, not a walk at the end. ("Vox agents" = the agents, dictation.)
+
+
+## Owner, 20 Oct about 1:25 am IST (verbatim)
+> I mean, it's not so serious and mostly fine. Rather than being rigid about the rules, it's important to get the work done. If that test address got the work done, then that's what is important. You can delete it now.
+>
+> If you are not putting mob in this class, then there is no point in releasing version 12 right now, but I think, as I'm recording this message, you have already released it. If that is the case, then tell me: by when will version 13 be ready with, finally, all the things that we need? Every fix is everything, and you have 25% usage left in the next 17 minutes.
+>
+> You literally have the opportunity right now to go all out and fix all the things. I'll tell you what to do:
+>
+> * Make the completely fixed version of the mob feature.
+> * Fix all the UI/UX things that I told you. Fix the payment screen and the credits wallet.
+> * Fix all the bugs.
+>
+>  All this can be done in 30 minutes if you are using the max capabilities, spawning multiple agents, and handling everything efficiently without anything being misplaced here and there.
+>
+> What I want you to do right now is don't focus on anything else. Just right now, focus for the next 20, 30 minutes on going all out and building as much as you can. After that, you can focus on testing and improving things. Right now, your only goal should be to keep building and take the version 13 build level. Everything should be built in the next 27 units, and then we can focus on testing.
+>
+> What I'm saying right now stands above all the rules or anything that you have. I'm instructing you right now to go completely all into this.
+**Ledger D151:** yes to delete the stray test auth user chai-fresh@example.com on production. Version 13 now, all out: the fully fixed Mob v3, every UI/UX item he gave (the payment/Pro screen, the credits Wallet and top-up), all bugs; spawn many agents in parallel, build first, then test and improve. His instruction overrides the process rules (mock-ups first etc.) for this push; safety rules (production writes, accounts, his phone) still need his explicit yes.
