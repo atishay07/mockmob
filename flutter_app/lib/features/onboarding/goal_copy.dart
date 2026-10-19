@@ -32,7 +32,14 @@ abstract final class GoalCopy {
 
   /// Mobi's line under the bubbles in onboarding. There is no history yet, so it follows the
   /// choice alone and claims nothing about the student.
-  static String slotLine(int m) {
+  /// [inYou]: the goal sheet in You, where "You can change this any time in You" would point at
+  /// the screen the student is already on, so that sentence is left out.
+  static String slotLine(int m, {bool inYou = false}) {
+    final line = _slot(m);
+    return inYou ? line.replaceAll(' You can change this any time in You.', '') : line;
+  }
+
+  static String _slot(int m) {
     if (m <= 30) return 'Full mocks are in Practice whenever you want one. Tap More for an hour or longer.';
     if (m < 60) return 'That leaves room for a long practice and a repair. Full mocks are in Practice whenever you want one.';
     if (m == 60) return 'One hour fits a full mock, timed like the exam. You can change this any time in You.';

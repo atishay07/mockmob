@@ -53,7 +53,7 @@ Future<void> showDailyGoalSheet(BuildContext context) => showMmSheet<void>(
       return (line: line, header: GoalCopy.fromRecord, offer: null);
     }
   }
-  return (line: GoalCopy.slotLine(minutes), header: null, offer: null);
+  return (line: GoalCopy.slotLine(minutes, inYou: true), header: null, offer: null);
 }
 
 class DailyGoalSheet extends ConsumerStatefulWidget {

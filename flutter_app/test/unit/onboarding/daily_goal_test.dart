@@ -86,10 +86,11 @@ void main() {
 
     test('a new student gets the plain line for the choice, never a pattern', () {
       final slot = goalSlot(PatternFixtures.fresh().pattern(clock), 60);
-      expect(slot.line, GoalCopy.slotLine(60));
+      expect(slot.line, 'One hour fits a full mock, timed like the exam.', reason: 'in You it never says "change this in You"');
       expect(slot.header, isNull);
       expect(slot.offer, isNull);
       expect(goalSlot(null, 30).line, GoalCopy.slotLine(30));
+      expect(goalSlot(null, 90).line, '1 hour 30 minutes fits a full mock, with time left to repair what it finds.');
     });
 
     test('a regular student who keeps beating the goal is offered the raise, with its own numbers', () {
@@ -103,7 +104,7 @@ void main() {
       final p = PatternFixtures.irregular(clock).pattern(clock);
       final slot = goalSlot(p, 20);
       expect(slot.offer, isNull);
-      expect(slot.line, GoalCopy.slotLine(20));
+      expect(slot.line, GoalCopy.slotLine(20, inYou: true));
     });
   });
 
