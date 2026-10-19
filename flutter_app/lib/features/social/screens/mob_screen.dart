@@ -32,6 +32,8 @@ import '../widgets/mob_plan_widgets.dart';
 import '../widgets/mob_pro_entry.dart';
 import '../widgets/mob_ring.dart';
 import 'mob_sheets.dart';
+import '../v3/mob_v3_flags.dart' show mobV3EnabledProvider;
+import '../v3/screens/den_screen.dart' show DenScreen;
 
 /// The Mob page (SOCIAL-SPEC sections 7, 8 and 15): the ring, one primary action, what the Mob has in
 /// common (the free teaser, the Pro side-by-side), the shared trap, extra papers, the members in join
@@ -60,6 +62,11 @@ class _MobScreenState extends ConsumerState<MobScreen> {
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(mobRepositoryProvider);
+    // Mob v3 (MOB-BUILD-SPEC-V3): the den, when the app's MOB_V3_ENABLED is on and the server sent
+    // `v3`. With the flag off this branch never runs and the page below is unchanged.
+    if (ref.watch(mobV3EnabledProvider) && !mobDisabledError(state.error) && state.value?.v3 != null) {
+      return DenScreen(asTab: widget.asTab);
+    }
     final mob = mobDisabledError(state.error) ? null : state.value?.mob;
     return YouPage(
       title: MobCopy.title,

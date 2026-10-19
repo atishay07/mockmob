@@ -1,0 +1,68 @@
+{
+ "hidden": false,
+ "days": 14,
+ "practised": 13,
+ "rested": 1,
+ "madeUp": 0,
+ "best": 14,
+ "today": {
+  "answered": 2,
+  "needed": 5,
+  "done": false
+ },
+ "passes": {
+  "held": 2,
+  "max": 2,
+  "next": {
+   "kind": "days",
+   "at": 21
+  }
+ },
+ "week": [
+  {
+   "day": "2026-10-16",
+   "state": "rested"
+  },
+  {
+   "day": "2026-10-22",
+   "state": "today",
+   "answered": 2
+  }
+ ],
+ "calendar": [
+  {
+   "day": "2026-10-01",
+   "state": "practised"
+  }
+ ],
+ "milestones": [
+  {
+   "at": 3,
+   "reward": "rest_pass",
+   "done": true
+  },
+  {
+   "at": 30,
+   "reward": "foil",
+   "done": false,
+   "left": 16
+  }
+ ],
+ "makeUp": null,
+ "pause": {
+  "days": [],
+  "usedThisSeason": 0,
+  "max": 14
+ },
+ "notices": [
+  {
+   "key": "rest:2026-10-16",
+   "kind": "rested",
+   "day": "2026-10-16",
+   "days": 12
+  }
+ ],
+ "due": [
+  "chain:14"
+ ]
+}

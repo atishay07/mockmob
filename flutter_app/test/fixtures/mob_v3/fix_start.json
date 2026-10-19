@@ -1,0 +1,18 @@
+{
+ "question": {
+  "stem": "s",
+  "options": [
+   "a",
+   "b",
+   "c",
+   "d"
+  ],
+  "passage": null
+ },
+ "trap": {
+  "q": 3,
+  "why": "w",
+  "yourPick": 0,
+  "correctIndex": 2
+ }
+}

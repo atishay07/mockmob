@@ -8,6 +8,8 @@ import '../../../core/storage/prefs_store.dart';
 import '../../pro_nudge/data/pro_nudge_controller.dart' show proNudgesOnProvider;
 import '../copy.dart';
 import 'mob_models.dart';
+import '../v3/data/mob_v3_api.dart' show mobV3ApiProvider;
+import '../v3/mob_v3_flags.dart' show mobV3FixturesProvider;
 
 /// The phone-only memories of the Mob: which Mob is on screen, which sitters this student has
 /// already seen ink in, and whether this week's completed ring has had its Mobi moment.
@@ -27,7 +29,7 @@ class MobRepository extends JsonRemoteNotifier<MobRead> {
 
   /// One cache row per Mob, so choosing another never shows the one before.
   @override
-  String get cacheKey => 'mob-v2:${_selected ?? 'default'}';
+  String get cacheKey => '${ref.read(mobV3FixturesProvider) ? 'mob-v3fx' : 'mob-v2'}:${_selected ?? 'default'}';
 
   /// The Mob on screen (null: the server's default, the student's first).
   String? get selectedId => _selected;
@@ -70,7 +72,10 @@ class MobRepository extends JsonRemoteNotifier<MobRead> {
   Future<Object?> fetchJson() async {
     await _loadSelection();
     final id = _selected;
-    final body = (await ref.read(apiClientProvider).get('/api/mob', query: {'mob': ?id})).data;
+    // Mob v3 fixture mode (debug and walk builds with MOB_V3_FIXTURES=true): the fixture server answers.
+    final body = ref.read(mobV3FixturesProvider)
+        ? await ref.read(mobV3ApiProvider).den(mob: id)
+        : (await ref.read(apiClientProvider).get('/api/mob', query: {'mob': ?id})).data;
     // Remember a choice only when there is one to make (several Mobs).
     final mob = parse(body).mob;
     if (mob != null) await _remember(mob.mobs.length > 1 ? mob.id : null);

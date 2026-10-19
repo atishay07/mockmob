@@ -165,6 +165,8 @@ flutter:
   assets:
     - assets/art/
     - assets/mobi/
+    # Mob v3 Folds: stills, heads and folds.json (tool/fold_manifest.py).
+    - assets/folds/
     # DU 2026 data (the website's public /du/2026 files), so Compass and Combo work on a first
     # offline run.
     - assets/du/2026/

@@ -1,0 +1,10 @@
+{
+ "correct": true,
+ "correctIndex": 2,
+ "explanation": "e",
+ "fixedTogether": false,
+ "fixed": {
+  "count": 1,
+  "of": 3
+ }
+}
