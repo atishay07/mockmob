@@ -3,6 +3,7 @@
 // figures (D103, D104), "See all N" and "Admission Compass". B: a "Your colleges" strip under Today's greeting that
 // opens the full list. A fresh account with no colleges sees an honest invite on both, never an empty card.
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderParagraph;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -44,6 +45,9 @@ Future<GoRouter> _routed(WidgetTester tester, Widget child, YourColleges college
   overrides: [yourCollegesProvider.overrideWithValue(colleges)],
 );
 
+/// The strip's words (its icons are text too, so only the Text's own paragraph).
+final Finder _stripWords = find.descendant(of: find.descendant(of: find.byType(TodayCollegesStrip), matching: find.byType(Text)), matching: find.byType(RichText)).last;
+
 void main() {
   setUpAll(loadAppFonts);
 
@@ -77,39 +81,89 @@ void main() {
 
     test('the lines read as whole sentences, with the real figure and DU\'s short name', () {
       expect(shortCollegeName(_srcc), 'SRCC');
-      expect(CollegesDoorCopy.stripLine(_five), 'You picked 5. The hardest, SRCC, needed 924.3.');
-      expect(CollegesDoorCopy.stripLine(const YourColleges(status: YourCollegesStatus.some, picks: [_hindu])), 'You picked ${shortCollegeName(_hindu)}. It needed 919.9 in 2026.');
+      expect(CollegesDoorCopy.stripSentence(_five), 'You picked 5. The hardest, SRCC, needed 924.3 in 2026.');
+      expect(CollegesDoorCopy.stripSentence(const YourColleges(status: YourCollegesStatus.some, picks: [_hindu])), 'You picked ${shortCollegeName(_hindu)}. It needed 919.9 in 2026.');
       const noFigure = LadderPick(college: 'Hindu College', course: 'B.Com (Hons)');
-      expect(CollegesDoorCopy.stripLine(const YourColleges(status: YourCollegesStatus.some, picks: [noFigure, _ramjas])), 'You picked 2. Tap to see each 2026 cutoff.');
+      expect(CollegesDoorCopy.stripSentence(const YourColleges(status: YourCollegesStatus.some, picks: [noFigure, _ramjas])), 'You picked 2. Open the list to see each 2026 cutoff.');
+      // The strip's one line, longest first: each is true on its own, and the shortest still names the list.
+      expect([for (final l in CollegesDoorCopy.stripLines(_five)) l.text], [
+        'Your 5 colleges · SRCC needed 924.3 in 2026',
+        'Your 5 colleges · SRCC needed 924.3',
+        'Your colleges · SRCC needed 924.3',
+        'Your 5 colleges',
+        'Your colleges',
+      ]);
+      expect([for (final l in CollegesDoorCopy.stripLines(_none)) l.text], ['Choose your colleges · see 2026 cutoffs', 'Choose your colleges', 'Choose colleges']);
       expect(CollegesDoorCopy.cardLine(_five), '5 colleges for B.Com (Hons). Each number is the lowest score that got in at Round 1 in 2026, for the unreserved category.');
     });
   });
 
   group('B. Today\'s strip', () {
-    testWidgets('with colleges it names the hardest with its figure, and opens the full list', (tester) async {
+    String shown(WidgetTester tester) {
+      final text = tester.renderObject<RenderParagraph>(_stripWords);
+      return text.text.toPlainText();
+    }
+
+    testWidgets('with colleges it names the hardest with its figure on one line, and opens the full list', (tester) async {
       final router = await _routed(tester, const TodayCollegesStrip(), _five);
-      expect(find.text('Your colleges'), findsOneWidget);
-      expect(find.text('You picked 5. The hardest, SRCC, needed 924.3.'), findsOneWidget);
-      expect(tester.getSize(find.byKey(const ValueKey('today-colleges-strip'))).height, greaterThanOrEqualTo(TodayCollegesStrip.height));
+      expect(shown(tester), 'Your colleges · SRCC needed 924.3', reason: 'the longest line that fits at 360 dp');
+      expect(tester.getSize(find.byKey(const ValueKey('today-colleges-strip'))).height, TodayCollegesStrip.height);
+      expect(find.bySemanticsLabel('Your colleges. You picked 5. The hardest, SRCC, needed 924.3 in 2026.'), findsOneWidget, reason: 'the whole sentence for a screen reader');
       await tester.tap(find.byType(TodayCollegesStrip));
       await tester.pumpAndSettle();
       expect(router.state.uri.path, '/colleges');
     });
 
-    testWidgets('a fresh account sees an honest invite, never an empty strip', (tester) async {
+    testWidgets('a fresh account sees an honest invite on one line, never an empty strip', (tester) async {
       await _routed(tester, const TodayCollegesStrip(), _none);
-      expect(find.text('Choose your colleges'), findsOneWidget);
-      expect(find.text(CollegesDoorCopy.chooseLine), findsOneWidget);
-      expect(find.text('Your colleges'), findsNothing);
+      expect(shown(tester), 'Choose your colleges', reason: 'the longest invite that fits at 360 dp');
+      expect(find.textContaining('Your colleges'), findsNothing);
     });
 
     testWidgets('a list that did not load still opens Colleges, and says so', (tester) async {
       final router = await _routed(tester, const TodayCollegesStrip(), const YourColleges(status: YourCollegesStatus.failed));
-      expect(find.text(CollegesDoorCopy.failedLine), findsOneWidget);
+      expect(shown(tester), 'Your colleges · ${CollegesDoorCopy.failedRest}');
       await tester.tap(find.byType(TodayCollegesStrip));
       await tester.pumpAndSettle();
       expect(router.state.uri.path, '/colleges');
     });
+
+    // The strip is ONE line at every width and text size a phone gives it: it drops words, never wraps, never cuts.
+    for (final scale in const [1.0, 1.3, 1.6, 2.0]) {
+      for (final width in const [320.0, 360.0, 412.0]) {
+        for (final (name, colleges) in [
+          ('five', _five),
+          ('none', _none),
+          ('failed', const YourColleges(status: YourCollegesStatus.failed)),
+          ('loading', const YourColleges(status: YourCollegesStatus.loading)),
+        ]) {
+          testWidgets('one line: $name at $width dp, text $scale', (tester) async {
+            await pumpRouted(
+              tester,
+              location: '/',
+              size: Size(width, 780),
+              textScale: scale,
+              routes: [GoRoute(path: '/', builder: (c, s) => const Scaffold(body: Padding(padding: EdgeInsets.all(16), child: TodayCollegesStrip())))],
+              overrides: [yourCollegesProvider.overrideWithValue(colleges)],
+            );
+            expect(tester.takeException(), isNull);
+            final strip = tester.getRect(find.byKey(const ValueKey('today-colleges-strip')));
+            // Up to text 1.6 the strip is one line, 48 dp in every state, so nothing under it moves. At 2.0 on the
+            // narrowest phone even "Choose colleges" is too wide: there it wraps whole rather than cut a word.
+            final oneLine = scale <= 1.6 || width >= 360;
+            if (oneLine) expect(strip.height, TodayCollegesStrip.height, reason: 'the same height in every state, so nothing under it moves');
+            final paragraph = tester.renderObject<RenderParagraph>(_stripWords);
+            final line = paragraph.text.toPlainText();
+            expect(line, isNotEmpty);
+            expect(paragraph.didExceedMaxLines, isFalse, reason: 'nothing cut');
+            final painter = TextPainter(text: paragraph.text, textDirection: TextDirection.ltr, textScaler: paragraph.textScaler)..layout(maxWidth: oneLine ? double.infinity : paragraph.size.width);
+            expect(painter.width, lessThanOrEqualTo(paragraph.size.width + 0.5), reason: '"$line" fits whole, nothing faded or cut');
+            if (oneLine) expect(painter.computeLineMetrics().length, 1, reason: '"$line" is one line');
+            painter.dispose();
+          });
+        }
+      }
+    }
 
     testWidgets('it sits right under the greeting, above the move, and the colleges block at the end stays', (tester) async {
       await pumpMockmob(

@@ -72,27 +72,63 @@ String _score(num score) => score == score.roundToDouble() ? '${score.round()}' 
 abstract final class CollegesDoorCopy {
   static const String title = 'Your colleges';
   static const String chooseTitle = 'Choose your colleges';
-  static const String chooseLine = "See each college's 2026 cutoff.";
+  static const String chooseRest = 'see 2026 cutoffs';
   static const String chooseKey = 'Choose colleges';
   static const String chooseCardLine = 'Pick the colleges you want and see the lowest score each one took in 2026.';
-  static const String failedLine = 'Tap to open your list.';
+  static const String failedRest = 'open your list';
+  static const String noFigureRest = 'see each 2026 cutoff';
   static const String failedCardLine = 'Your colleges did not load. Open the list to try again.';
   static const String compass = 'Admission Compass';
   static const String openList = 'Open the list';
   static String seeAll(int n) => 'See all $n';
   static String seeAllSemantics(int n) => 'See all $n of your colleges';
 
-  /// Today's strip: how many, and the one that needs the most marks with its figure.
-  static String stripLine(YourColleges c) {
+  /// Today's strip, longest first: the strip shows the first that fits on one line. Each one is true on its own: the
+  /// figure is the lowest score that got in at Round 1 in 2026, so it is said as what the college needed.
+  static List<StripLine> stripLines(YourColleges c) {
+    switch (c.status) {
+      case YourCollegesStatus.none:
+        return const [StripLine(chooseTitle, ' · $chooseRest'), StripLine(chooseTitle), StripLine(chooseKey)];
+      case YourCollegesStatus.failed:
+        return const [StripLine(title, ' · $failedRest'), StripLine(title)];
+      case YourCollegesStatus.loading:
+        return const [StripLine(title)];
+      case YourCollegesStatus.some:
+        final n = c.picks.length;
+        final first = c.picks.first;
+        final needed = first.closingScore == null ? null : '${shortCollegeName(first)} needed ${_score(first.closingScore!)}';
+        final mine = n == 1 ? 'Your college' : 'Your $n colleges';
+        final short = n == 1 ? 'Your college' : title;
+        if (needed == null) return [StripLine(mine, ' · $noFigureRest'), StripLine(mine), StripLine(short)];
+        return [
+          StripLine(mine, ' · $needed in 2026'),
+          StripLine(mine, ' · $needed'),
+          StripLine(short, ' · $needed'),
+          StripLine(mine),
+          StripLine(short),
+        ];
+    }
+  }
+
+  /// The strip's whole sentence for a screen reader, whatever its line had room for.
+  static String stripSemantics(YourColleges c) => switch (c.status) {
+    YourCollegesStatus.none => '$chooseTitle. See the lowest score each college took in 2026.',
+    YourCollegesStatus.failed => '$title. Your list did not load. Open it to try again.',
+    YourCollegesStatus.loading => title,
+    YourCollegesStatus.some => '$title. ${stripSentence(c)}',
+  };
+
+  /// How many, and the one that needs the most marks with its figure, as a whole sentence.
+  static String stripSentence(YourColleges c) {
     final first = c.picks.first;
     final name = shortCollegeName(first);
     final figure = first.closingScore;
     if (c.picks.length == 1) {
-      return figure == null ? 'You picked $name. Tap to see its 2026 cutoff.' : 'You picked $name. It needed ${_score(figure)} in 2026.';
+      return figure == null ? 'You picked $name. Open the list to see its 2026 cutoff.' : 'You picked $name. It needed ${_score(figure)} in 2026.';
     }
     return figure == null
-        ? 'You picked ${c.picks.length}. Tap to see each 2026 cutoff.'
-        : 'You picked ${c.picks.length}. The hardest, $name, needed ${_score(figure)}.';
+        ? 'You picked ${c.picks.length}. Open the list to see each 2026 cutoff.'
+        : 'You picked ${c.picks.length}. The hardest, $name, needed ${_score(figure)} in 2026.';
   }
 
   /// You's card: how many, for which course, and what each number means.
@@ -112,13 +148,21 @@ void _openList(BuildContext context) => context.push(AppRoutes.colleges);
 
 void _choose(BuildContext context) => showMyCollegesSheet(context, adding: true);
 
-/// B. Today's strip, right under the greeting: one tap opens the full list (or, with none chosen, the chooser). 64 dp,
-/// the app's plain surface, one target, no new motion (it rides Today's own first-paint entrance).
+/// B. Today's strip, right under the greeting: ONE line, one tap. It opens the full list (or, with none chosen, the
+/// chooser). 48 dp, the app's plain surface, no new motion (it rides Today's own first-paint entrance). Its line never
+/// wraps: it says the most it can on one line at the width and text size it has ([CollegesDoorCopy.stripLines]), and a
+/// screen reader always hears the whole sentence. One line keeps the move card and the start of "Suggested for you" on
+/// Today's first screen (19 Oct PM: the two-line strip pushed the move down by about 90 dp).
 class TodayCollegesStrip extends ConsumerWidget {
   const TodayCollegesStrip({super.key});
 
-  /// The strip's height at text 1.0: it holds this from the first frame, so nothing under it moves when the list lands.
-  static const double height = 64;
+  /// The strip's height: one line plus its sides, and the tap target's minimum. It holds this from the first frame,
+  /// so nothing under it moves when the list lands (up to text 1.6 on a 320 dp phone; see [build]).
+  static const double height = 48;
+
+  static const double _side = MmSpace.s16;
+  static const double _icon = 20;
+  static const double _chevron = 18;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -126,47 +170,78 @@ class TodayCollegesStrip extends ConsumerWidget {
     final type = context.mmType;
     final c = ref.watch(yourCollegesProvider);
     final none = c.status == YourCollegesStatus.none;
-    final title = none ? CollegesDoorCopy.chooseTitle : CollegesDoorCopy.title;
-    final String? line = switch (c.status) {
-      YourCollegesStatus.some => CollegesDoorCopy.stripLine(c),
-      YourCollegesStatus.none => CollegesDoorCopy.chooseLine,
-      YourCollegesStatus.failed => CollegesDoorCopy.failedLine,
-      YourCollegesStatus.loading => null,
-    };
+    final lead = type.labelLarge;
+    final rest = type.small.copyWith(color: colors.ink2);
+    final scaler = MediaQuery.textScalerOf(context);
+    final direction = Directionality.of(context);
+    TextSpan span(StripLine l) => TextSpan(children: [TextSpan(text: l.lead, style: lead), if (l.rest != null) TextSpan(text: l.rest, style: rest)]);
     return MmSurface.plain(
       key: const ValueKey('today-colleges-strip'),
-      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
+      padding: const EdgeInsets.symmetric(horizontal: _side),
       onTap: () => none ? _choose(context) : _openList(context),
-      semanticsLabel: '$title. ${line ?? ''}'.trim(),
+      semanticsLabel: CollegesDoorCopy.stripSemantics(c),
       child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: height - MmSpace.s12 * 2),
+        constraints: const BoxConstraints(minHeight: height),
         child: Row(
           children: [
-            ExcludeSemantics(child: Icon(none ? LucideIcons.plus : LucideIcons.landmark, size: 24, color: colors.ink2)),
-            const SizedBox(width: MmSpace.s16),
+            ExcludeSemantics(child: Icon(none ? LucideIcons.plus : LucideIcons.landmark, size: _icon, color: colors.ink2)),
+            const SizedBox(width: MmSpace.s12),
             Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(title, style: type.labelLarge),
-                  const SizedBox(height: 2),
-                  MmOverlapSwitcher.fade(
-                    alignment: Alignment.topLeft,
-                    child: line == null
-                        ? const Padding(key: ValueKey('loading'), padding: EdgeInsets.only(top: 4), child: Skeleton.line(width: 180, height: 12))
-                        : Text(line, key: ValueKey(line), style: type.small.copyWith(color: colors.ink2)),
-                  ),
-                ],
+              child: LayoutBuilder(
+                builder: (context, box) {
+                  bool fits(StripLine l, double room) {
+                    final painter = TextPainter(text: span(l), textDirection: direction, textScaler: scaler, maxLines: 1)..layout();
+                    final ok = painter.width <= room;
+                    painter.dispose();
+                    return ok;
+                  }
+
+                  final options = CollegesDoorCopy.stripLines(c);
+                  final fit = options.where((l) => fits(l, box.maxWidth)).firstOrNull;
+                  // Only at the very largest text on the narrowest phones does even the shortest line not fit: then it
+                  // wraps whole and the strip grows, rather than cutting a word.
+                  final line = fit ?? options.last;
+                  // While the list is read, a short bar holds the place of the words that will land, when there is room.
+                  final loading = c.status == YourCollegesStatus.loading && fits(line, box.maxWidth - 84);
+                  return ExcludeSemantics(
+                    child: Row(
+                      children: [
+                        Flexible(
+                          child: MmOverlapSwitcher.fade(
+                            alignment: Alignment.centerLeft,
+                            child: fit == null
+                                ? Padding(key: ValueKey('${line.text}:wrap'), padding: const EdgeInsets.symmetric(vertical: MmSpace.s8), child: Text.rich(span(line)))
+                                : Text.rich(span(line), key: ValueKey(line.text), maxLines: 1, softWrap: false),
+                          ),
+                        ),
+                        if (loading) ...[const SizedBox(width: MmSpace.s12), const Skeleton.line(width: 72, height: 12)],
+                      ],
+                    ),
+                  );
+                },
               ),
             ),
             const SizedBox(width: MmSpace.s8),
-            ExcludeSemantics(child: Icon(LucideIcons.chevronRight, size: 20, color: colors.ink3)),
+            ExcludeSemantics(child: Icon(LucideIcons.chevronRight, size: _chevron, color: colors.ink3)),
           ],
         ),
       ),
     );
   }
+}
+
+/// One way to say the strip's line: the lead words ("Your 6 colleges") and, when there is room, the rest
+/// (" · SRCC needed 924.3").
+class StripLine {
+  const StripLine(this.lead, [this.rest]);
+
+  final String lead;
+  final String? rest;
+
+  String get text => rest == null ? lead : '$lead$rest';
+
+  @override
+  String toString() => text;
 }
 
 /// A. You's card, right under the name: the colleges that need the most marks (up to three) with their real Round 1
