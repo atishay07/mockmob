@@ -26,6 +26,8 @@ void main() {
   test('den: v3 sits inside the Mob', () {
     final read = MobRead.fromJson(sx('den_get.json'));
     expect(read.mob, isNotNull);
+    expect(read.v3Available, isTrue, reason: 'the server says it can serve the new Mob');
+    expect(read.serverV3, isTrue);
     final v3 = read.v3!;
     expect(v3.name.text, 'Chai Circle');
     expect(v3.members.length, 4);
