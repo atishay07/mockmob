@@ -19,7 +19,7 @@ import '../data/recovery_record.dart';
 import '../data/subject_names.dart';
 import '../data/trend.dart';
 import '../insights_paths.dart';
-import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider;
+import '../../pro_nudge/pro_nudge.dart' show ProReason;
 import '../widgets/insights_bits.dart';
 import '../widgets/ledger_hero.dart';
 import '../widgets/recovery_sections.dart';
@@ -240,11 +240,10 @@ class InsightsScreen extends ConsumerWidget {
     final c = v.changes;
     final p = v.pace;
     final quietWeek = v.thisWeek.sessions == 0 && v.lastWeek.sessions == 0;
-    // For a Free student these two sections are Pro rows: drawn only while Pro can be had here
-    // (PLAY_BILLING on), never as a Pro tag with no way to it (owner walk, 18 Oct).
-    final proOnSale = ref.watch(proNudgesOnProvider);
-    final showChanges = inputs.pro ? (c.count == 0 || ev.changes.isNotEmpty) : proOnSale;
-    final showPace = inputs.pro ? (!p.usable || ev.pace.isNotEmpty) : proOnSale;
+    // For a Free student these two sections are Pro rows, visible but locked (D101): a quiet Pro tag,
+    // and a tap that says what Pro adds (no price or link while PLAY_BILLING is off).
+    final showChanges = !inputs.pro || c.count == 0 || ev.changes.isNotEmpty;
+    final showPace = !inputs.pro || !p.usable || ev.pace.isNotEmpty;
     final showWeek = quietWeek || ev.lastTwoWeeks.isNotEmpty;
 
     return [

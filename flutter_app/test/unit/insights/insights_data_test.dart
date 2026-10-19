@@ -98,7 +98,7 @@ void main() {
 
     test('pace detail is Pro on a free account', () {
       final a = answerFromInsights('Am I too slow on wrong answers?', rich(), pro: false)!;
-      expect(a.reply, contains('not part of your plan'));
+      expect(a.reply, contains('is part of Pro'), reason: 'D101: Pro is named, visible but locked');
       final pro = answerFromInsights('Am I too slow on wrong answers?', rich())!;
       expect(pro.reply, contains('Your slowest question took 3:04, against a typical 41s'));
     });

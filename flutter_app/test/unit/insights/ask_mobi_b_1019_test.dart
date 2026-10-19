@@ -31,10 +31,12 @@ import 'package:mockmob/features/insights/data/ask_wallet.dart';
 import 'package:mockmob/features/insights/data/insights_models.dart';
 import 'package:mockmob/features/insights/insights_routes.dart' show askScreen;
 import 'package:mockmob/features/insights/screens/ask_screen.dart';
+import 'package:mockmob/features/insights/screens/insights_screen.dart';
 import 'package:mockmob/features/insights/widgets/ask_doors.dart';
 import 'package:mockmob/features/insights/widgets/ask_mobi_button.dart';
 import 'package:mockmob/features/insights/widgets/ask_mobi_card.dart';
 import 'package:mockmob/features/insights/widgets/ask_prompts.dart' show AskIntent;
+import 'package:mockmob/features/insights/widgets/insights_bits.dart' show ProRow;
 import 'package:mockmob/features/pro_nudge/copy.dart' show ProNudgeCopy, ProReason;
 import 'package:mockmob/features/today/logic/today_model.dart' show HeaderModel;
 import 'package:mockmob/features/today/widgets/today_header.dart';
@@ -360,6 +362,49 @@ void main() {
       await settleNudges(tester);
       expect(find.text(AskDoorCopy.proChangesTitle), findsOneWidget);
       expect(find.textContaining(playProPrice), findsNothing);
+    });
+  });
+
+  group('the record screen, Pro rows visible but locked (D101, R3)', () {
+    testWidgets('a Free student sees Changed answers, Pace and the locked chapters with billing off; a tap says what Pro adds, with no price', (tester) async {
+      await pumpMockmob(
+        tester,
+        const InsightsScreen(),
+        brightness: Brightness.dark,
+        size: const Size(384, 900),
+        disableAnimations: true,
+        overrides: insightsOverrides(),
+        wrapInScaffold: false,
+      );
+      await tester.pumpAndSettle();
+      final list = find.byType(Scrollable).first;
+      await tester.scrollUntilVisible(find.text(InsightsCopy.proMore(1)), 200, scrollable: list);
+      expect(find.text(InsightsCopy.proMore(1)), findsOneWidget, reason: 'the chapters past the free three');
+      await tester.scrollUntilVisible(find.text(InsightsCopy.proChanges), 200, scrollable: list);
+      expect(find.text(InsightsCopy.proChanges), findsOneWidget);
+      await tester.scrollUntilVisible(find.text(InsightsCopy.proPace), 200, scrollable: list);
+      expect(find.text(InsightsCopy.proPace), findsOneWidget);
+      await tester.tap(find.text(InsightsCopy.proPace));
+      await tester.pumpAndSettle();
+      expect(find.text(AskDoorCopy.proPaceTitle), findsOneWidget);
+      expect(find.textContaining('₹'), findsNothing);
+      expect(find.textContaining('mockmob.in'), findsNothing);
+    });
+
+    testWidgets('with billing off the chapters row opens the calm sheet', (tester) async {
+      await pumpNudges(tester, const Padding(padding: EdgeInsets.all(16), child: ProRow('1 more chapter with Pro', reason: ProReason.insightsChapters)), NudgeRig(on: false));
+      await tester.tap(find.byType(ProRow));
+      await settleNudges(tester);
+      expect(find.text(AskDoorCopy.proChaptersTitle), findsOneWidget);
+      expect(find.textContaining(playProPrice), findsNothing);
+    });
+
+    testWidgets('with billing on the same row opens the Upgrade sheet', (tester) async {
+      await pumpNudges(tester, const Padding(padding: EdgeInsets.all(16), child: ProRow('1 more chapter with Pro', reason: ProReason.insightsChapters)), NudgeRig(on: true));
+      await tester.tap(find.byType(ProRow));
+      await settleNudges(tester);
+      expect(find.text(ProNudgeCopy.head(ProReason.insightsChapters).title), findsOneWidget);
+      expect(find.text(AskDoorCopy.proChaptersTitle), findsNothing);
     });
   });
 

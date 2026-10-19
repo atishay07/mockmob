@@ -186,7 +186,7 @@ RecordAnswer? answerFromInsights(String text, PrepInsights insights, {bool pro =
   hit ??= found.isEmpty ? null : found.first;
   if (!pro && hit != null && (hit.id == 'changes' || hit.id == 'pace')) {
     return RecordAnswer(
-      '${hit.id == 'changes' ? 'Changed-answer detail' : 'Pace detail'} is not part of your plan. Your chapters, marks ledger and weekly summary are.',
+      '${hit.id == 'changes' ? 'Changed-answer detail' : 'Pace detail'} is part of Pro. Your chapters, marks ledger and weekly summary are free.',
     );
   }
   if (hit == null) {

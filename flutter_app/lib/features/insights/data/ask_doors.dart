@@ -111,6 +111,8 @@ abstract final class AskDoorCopy {
   static const proPaceBody = 'With Pro, Mobi shows how long you spend on the questions you get wrong, from your timed papers.';
   static const proChangesTitle = 'Changed answers are part of Pro';
   static const proChangesBody = 'With Pro, Mobi shows whether changing an answer helped you or cost you marks, from your timed papers.';
+  static const proChaptersTitle = 'Every chapter is part of Pro';
+  static const proChaptersBody = 'With Pro, your record ranks every chapter you have answered, not only the first three.';
   static const proSoon = 'Pro opens in the app soon. Everything else on this screen works now.';
   static const proDone = 'Done';
 
@@ -154,7 +156,7 @@ String? askGreetName(String? name, String? email) {
 /// from the record, so none is ever marked "1 credit" and then answered free, or the other way).
 const Map<String, List<String>> askNowBank = {
   'accountancy': [
-    'Explain sacrificing ratio in simple words',
+    'Explain the sacrificing ratio in simple words',
     'How is goodwill valued by the super profit method?',
     'What is the difference between shares and debentures?',
   ],

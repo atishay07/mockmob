@@ -812,14 +812,24 @@ String shortDay(String renew) {
 
 /// A Pro ask was tapped on Free. With Google Play billing on it opens the Upgrade sheet; with it
 /// off, a calm sheet says what Pro adds, with no price and no link (anti-steering).
-Future<void> showAskProSheet(BuildContext context, AskIntent intent) async {
+Future<void> showAskProSheet(BuildContext context, AskIntent intent) =>
+    showInsightsProSheet(context, intent == AskIntent.changes ? ProReason.insightsChanges : ProReason.insightsPace);
+
+/// Any Pro part of Ask or the record, tapped on Free (D101: visible but locked): the Upgrade sheet
+/// while Pro can be bought here (PLAY_BILLING on), otherwise a calm sheet that says what Pro adds,
+/// with no price and no link.
+Future<void> showInsightsProSheet(BuildContext context, ProReason reason) async {
   final container = ProviderScope.containerOf(context, listen: false);
-  final reason = intent == AskIntent.changes ? ProReason.insightsChanges : ProReason.insightsPace;
   if (container.read(proNudgesOnProvider) && showUpgradeSheetIfOn(context, reason: reason)) return;
-  final changes = intent == AskIntent.changes;
+  final (title, body) = switch (reason) {
+    ProReason.insightsChanges => (AskDoorCopy.proChangesTitle, AskDoorCopy.proChangesBody),
+    ProReason.insightsChapters => (AskDoorCopy.proChaptersTitle, AskDoorCopy.proChaptersBody),
+    _ => (AskDoorCopy.proPaceTitle, AskDoorCopy.proPaceBody),
+  };
+  if (!context.mounted) return;
   await showMmSheet<void>(
     context: context,
-    title: changes ? AskDoorCopy.proChangesTitle : AskDoorCopy.proPaceTitle,
+    title: title,
     builder: (sheet) {
       final type = sheet.mmType;
       final colors = sheet.mmColors;
@@ -827,7 +837,7 @@ Future<void> showAskProSheet(BuildContext context, AskIntent intent) async {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(changes ? AskDoorCopy.proChangesBody : AskDoorCopy.proPaceBody, style: type.body.copyWith(color: colors.ink)),
+          Text(body, style: type.body.copyWith(color: colors.ink)),
           const SizedBox(height: MmSpace.s12),
           Text(AskDoorCopy.proSoon, style: type.small.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s24),

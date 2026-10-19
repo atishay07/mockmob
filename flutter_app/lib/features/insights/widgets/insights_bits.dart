@@ -8,9 +8,10 @@ import '../../../core/art/art.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
+import '../../pro_nudge/pro_nudge.dart' show ProReason;
 import '../copy.dart';
 import '../data/subject_names.dart';
+import 'ask_doors.dart' show showInsightsProSheet;
 
 /// The top row of a pushed insights page: the app's one page header ([MmPageHeader]), the back arrow
 /// on the gutter, the title, a caption and an optional trailing key.
@@ -75,7 +76,8 @@ class ProRow extends ConsumerWidget {
 
   final String text;
 
-  /// Why Pro is on offer here. Null: the row never opens anything.
+  /// What the row is about. A tap opens the Upgrade sheet while Pro can be bought here and a calm
+  /// sheet (no price, no link) while it cannot (D101). Null: the row never opens anything.
   final ProReason? reason;
 
   @override
@@ -84,7 +86,7 @@ class ProRow extends ConsumerWidget {
     final type = context.mmType;
     // The tag only repeats what the text says, so a text that already names Pro is read once.
     final label = text.contains('Pro') ? '$text.' : '$text. Pro.';
-    final opens = reason != null && ref.watch(proNudgesOnProvider);
+    final opens = reason != null;
     Widget row() => DecoratedBox(
           decoration: ShapeDecoration(
             color: colors.sunken,
@@ -108,7 +110,7 @@ class ProRow extends ConsumerWidget {
         );
     if (opens) {
       return MmPressable(
-        onTap: () => showUpgradeSheetIfOn(context, reason: reason!),
+        onTap: () => showInsightsProSheet(context, reason!),
         semanticsLabel: label,
         focusRadius: MmRadius.keyAll,
         builder: (context, pressed, focused) => row(),
