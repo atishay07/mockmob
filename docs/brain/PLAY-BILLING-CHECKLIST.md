@@ -1,6 +1,6 @@
-# Google Play billing: your checklist to buy Pro and a credit pack as a tester
+# Google Play billing: your checklist to subscribe to Pro and buy a credit pack as a tester
 
-Written 19 Oct 2026 for Atishay. Goal: you buy MockMob Pro and a credit pack on your phone as a licence tester, see Pro unlock and the credits arrive, then refund Pro and see it switch off. Test purchases cost nothing.
+Written 19 Oct 2026 for Atishay; Part 4 rewritten the same evening for the monthly subscription (your decision D135/D136). Goal: on your phone, as a licence tester, you subscribe to MockMob Pro (Rs 149 a month), see Pro unlock, watch it renew, cancel it, buy a credit pack and see the credits arrive, then refund Pro and see it switch off. Test purchases cost nothing.
 
 **How to read this.** Each step says **YOU** or **US**. You do everything inside Play Console, Google Cloud and Vercel, because those are your accounts and agents never sign in to them. We build the app, prepare the database and check that each purchase landed. Tick the boxes as you go.
 
@@ -127,7 +127,7 @@ Use **one** Google Cloud project for all of Part 2. Make it with the same Google
 - [ ] **2.11 Switch on notifications in Play Console.** Open the MockMob app > **Monetize with Play** > **Monetization setup** > **Real-time developer notifications**:
   - Tick **Enable real-time notifications**.
   - **Topic name:** `projects/<project-id>/topics/play-rtdn`
-  - **Notification content:** **Get notifications for subscriptions and all voided purchases** (refunds are what we need. "Get all notifications for subscriptions and one-time products" also works, it just adds purchase messages that we only log).
+  - **Notification content:** **Get notifications for subscriptions and all voided purchases**. Pro is a subscription now, so these messages are how the server hears about every renewal, cancel and refund. ("Get all notifications for subscriptions and one-time products" also works. It only adds purchase messages that we log.)
   - Click **Save changes**. Do not click **Send test message** yet: our endpoint stays switched off until Part 5, so the test would only show a failure.
 
 **Send us:** the service account email, the full topic name, and "2.5 and 2.7 are in Vercel".
@@ -148,36 +148,73 @@ Use **one** Google Cloud project for all of Part 2. Make it with the same Google
 
 ---
 
-## Part 4. The four products (YOU, about 15 minutes, after Part 3)
+## Part 4. Pro (a monthly subscription) and the three credit packs (YOU, about 25 minutes, after Part 3)
 
-Play only lets you create products once a build with Play billing inside is published to a track, and once the payments profile is linked. Go to **Monetize with Play** > **Products** > **One-time products** > **Create one-time product**. Create these four, exactly. Product IDs can never be changed or reused, so copy them, do not retype them.
+Play only lets you create products once a build with Play billing inside is published to a track, and once the payments profile is linked. Product IDs can never be changed or reused, so copy them, do not retype them.
+
+**Do not create a one-time Pro product.** Pro on Play is only the monthly subscription below. If you already made a one-time Pro product, leave it **Inactive** and never activate it.
+
+### 4A. Pro: the monthly subscription
+
+- [ ] **4A.1** Go to **Monetize with Play** > **Products** > **Subscriptions**, then click **Create subscription**.
+- [ ] **4A.2** Fill in these two, then click **Create**:
+  ```
+  Product ID:  pro_monthly
+  Name:        MockMob Pro
+  ```
+- [ ] **4A.3** Click **Edit subscription details**. Under **Benefits**, add these four lines (Play allows four, each up to 40 characters, with no prices or trials), then click **Save changes**:
+  ```
+  Unlimited mocks from one question bank
+  Smart practice on the chapters you miss
+  The exam-day screen, as on the day
+  Easy, Medium and Hard sets
+  ```
+  Leave **Description** empty (students never see it) and leave **Icon** as it is.
+- [ ] **4A.4** Back on the subscription, click **Add base plan** and fill in:
+  ```
+  Base plan ID:    monthly
+  Type:            Auto-renewing
+  Billing period:  Monthly
+  ```
+  - **Grace period:** leave Google's default.
+  - **Account hold:** leave Google's default (on).
+  - **Resubscribe:** leave it **on**, so a student whose Pro ended can start again from the Play Store.
+  - **Billing plan and offer changes:** leave the default.
+  - Do **not** add an offer or a free trial. The app sells the base plan only.
+- [ ] **4A.5** Under **Price and availability**, click **Manage country/region availability**, tick **India**, and click **Apply**. (You may tick other countries too. Play converts the price for them.)
+- [ ] **4A.6** Click the pencil in the **Price** column for **India**, enter **149** (INR), and click **Save**. If Play shows the price both with and without tax, the price the student pays must read **₹149**.
+- [ ] **4A.7** Click **Save**, then **Activate**. **You should see** the base plan `monthly` as **Active** and the subscription `pro_monthly` as **Active**.
+
+### 4B. The three credit packs (one-time products)
+
+Go to **Monetize with Play** > **Products** > **One-time products** > **Create one-time product**. Create these three, exactly.
 
 | Product ID | Name | Description | Price (India) |
 |---|---|---|---|
-| `pro_cuet_2027` | `MockMob Pro until July 2027` | `Pro on MockMob until 31 July 2027, in the app and on the website.` | `₹150` |
 | `credits_10_50` | `50 MockMob credits` | `50 credits to use anywhere in MockMob.` | `₹15` |
 | `credits_29_150` | `150 MockMob credits` | `150 credits to use anywhere in MockMob.` | `₹45` |
 | `credits_49_300` | `300 MockMob credits` | `300 credits to use anywhere in MockMob.` | `₹75` |
 
 For each one:
-- [ ] **4.1** Fill in the Product ID, name and description from the table, then click to add a **purchase option**:
+- [ ] **4B.1** Fill in the Product ID, name and description from the table, then click to add a **purchase option**:
   ```
   Purchase option ID:  buy
   Type:                Buy
   ```
-- [ ] **4.2** Under **Advanced options**, leave **Quantities and limits** (multi-quantity) **off**. The server refuses a purchase of more than one at a time.
-- [ ] **4.3** Under **Pricing**, set **India** to the price in the table, in INR. Let Play fill in the other countries by itself.
-- [ ] **4.4** Click **Save**, then **Activate**. **You should see** the product listed as **Active**.
+- [ ] **4B.2** Under **Advanced options**, leave **Quantities and limits** (multi-quantity) **off**. The server refuses a purchase of more than one at a time.
+- [ ] **4B.3** Under **Pricing**, set **India** to the price in the table, in INR. Let Play fill in the other countries by itself.
+- [ ] **4B.4** Click **Save**, then **Activate**. **You should see** the product listed as **Active**.
 
-Keep one purchase option per product. The first "Buy" option is the one our billing library uses.
+Keep one purchase option per pack. The first "Buy" option is the one our billing library uses.
 
-**Send us:** "4 products active".
+**Send us:** "Pro subscription and 3 packs active".
 
 ---
 
 ## Part 5. Switch the server on (US with your OK, then YOU)
 
 - [x] **5.1 Done:** the `play_purchases` table is already on the production database (added 18 Oct, checked 19 Oct).
+- [ ] **5.1b US, with your OK:** one more database step for the subscription (migration `20261019210000_play_subscriptions`: a few new columns on `play_purchases` and the function that keeps Pro in step with Google). We ask you first, apply it and check it. It changes nothing for anyone until a subscription is bought.
 - [ ] **5.2 YOU:** In Vercel, add:
   ```
   Key:           PLAY_BILLING_ENABLED
@@ -193,13 +230,15 @@ Keep one purchase option per product. The first "Buy" option is the one our bill
 
 - [ ] **6.1 Install from Play.** On the phone, make sure the Play Store is signed in with the test Gmail (Play Store > your profile picture). Open the opt-in link from **Internal testing** > **Testers** > **Copy link**, tap **Become a tester**, then **Download it on Google Play**, and install MockMob.
   - First **uninstall the MockMob you have now**. It was signed with a different key, so Play cannot update it. Your progress is on the server, so you only sign in again.
-- [ ] **6.2 Sign in with a MockMob account that is not Pro.** The Buy Pro button stays hidden for an account that already has Pro. A fresh account is best. Your own account is fine only if it is Free.
-- [ ] **6.3 Buy Pro.** Open **Get Pro** and tap Buy. Google's sheet shows a "test purchase" notice. Choose **Test instrument, always approves** (some phones call it **Test card, always approves**) and confirm. **You should see** Pro switch on, and the Pro-only modes unlock.
+- [ ] **6.2 Sign in with a MockMob account that is not Pro.** The Get Pro button stays hidden for an account that already has Pro. A fresh account is best. Your own account is fine only if it is Free.
+- [ ] **6.3 Subscribe to Pro.** Open **Get Pro**. It shows **₹149.00 a month** and "Renews every month. Cancel anytime in Google Play." Tap **Get Pro**. Google's sheet shows a "test purchase" notice. Choose **Test instrument, always approves** (some phones call it **Test card, always approves**) and confirm. **You should see** Pro switch on at once, and the Pro-only modes unlock. Open Get Pro again: it says when Pro renews and shows **Manage subscription**.
+- [ ] **6.3b Watch it renew.** For a licence tester a "month" lasts about **5 minutes**, and a test subscription renews up to 6 times, then ends by itself. Leave the app for 10 minutes, then open Get Pro again: the renewal date has moved on. Tell us the time, and we check that the server heard each renewal.
+- [ ] **6.3c Cancel it.** In Get Pro, tap **Manage subscription**. Google Play opens on MockMob Pro. Tap **Cancel subscription**. Back in MockMob, Get Pro says "Renewal is off, so nothing more will be charged. Pro stays on until ..." About 5 minutes later Pro switches off by itself. Then subscribe again (6.3) for the refund test.
 - [ ] **6.4 Buy the 50-credit pack.** Open the credits page, buy **50 credits** the same way, and watch the balance go up by 50.
-- [ ] **6.5 Tell us.** We check that one row per purchase landed in `play_purchases` (read-only), that Pro runs until 31 July 2027 and the 50 credits are there. In Play Console, **Order management** shows both orders marked as test orders.
-- [ ] **6.6 The refund test.** In Play Console > **Order management**, search for the test Gmail, open the **Pro** order and click **Refund** (full refund. If Play offers "refund and revoke" or "remove entitlement", choose it). Within a few minutes Pro should switch off in the app, and you can buy it again.
+- [ ] **6.5 Tell us.** We check (read-only) that each subscription and the pack landed in `play_purchases`, that Pro's end date follows Google's renewal date, and that the 50 credits are there. In Play Console, **Order management** shows the orders marked as test orders.
+- [ ] **6.6 The refund test.** In Play Console > **Order management**, search for the test Gmail, open the newest **MockMob Pro** order and choose **Refund**, with **Revoke** (or "remove entitlement") ticked. Within a few minutes Pro should switch off in the app, and you can subscribe again.
 
-**Done when** you have bought Pro and a pack, seen Pro and the balance change, and seen the refund take Pro away.
+**Done when** you have subscribed to Pro and bought a pack, seen Pro and the balance change, seen Pro renew, cancelled it and seen it end on its date, and seen a refund take Pro away at once.
 
 **Plan B if the Play link is slow.** Licence testers can test billing in a build installed straight from a file, as long as the app exists in Play Console. We can send you an APK of the same build 10. Uninstall the current app first, as in 6.1.
 
@@ -227,7 +266,8 @@ Keep one purchase option per product. The first "Buy" option is the one our bill
 | Adding `google-play-developer-notifications@...` fails ("domain restricted sharing") | The same organisation rule | Use the **No organization** project. |
 | **Send test message** fails in Play Console | Wrong topic name, or the Publisher role is missing | Check 2.8 and 2.9. The topic name must be the full `projects/.../topics/play-rtdn`. |
 | Test message succeeds but our log shows nothing | The flag is off (the endpoint answers 404), the token in the URL differs from Vercel, or payload unwrapping is on | Check 5.2 and the redeploy, compare the token (re-copy it into both places), and turn payload unwrapping off. |
-| "You already own this item" on Pro | That Play account already owns Pro | Refund it as in 6.6, then buy again. |
+| "You're already subscribed" or "You already own this item" on Pro | That Play account already has the Pro subscription, perhaps for another MockMob account | Sign in to the MockMob account that subscribed. Or cancel it in Google Play and wait for it to end (about 5 minutes for a tester), or refund and revoke it as in 6.6. |
+| Get Pro says Google Play could not take your payment, so Pro is paused | A test card declined a renewal (account hold) | Tap **Manage subscription** and switch to **Test instrument, always approves**. Pro comes back within a few minutes. |
 | Upload rejected: "signed with the wrong key" | The build was signed with a different upload key than the app's first release | Tell us. We sign with the key you used before. |
 
 ---
@@ -237,6 +277,9 @@ Keep one purchase option per product. The first "Buy" option is the one our bill
 - Test Google Play Billing Library integration (licence testers, sideloaded builds, test instruments, 3-minute refund of unacknowledged tester purchases), last updated 16 Oct 2026: https://developer.android.com/google/play/billing/test
 - Integrate Google Play Billing: getting ready (a build with the billing library must be published to a track before products can be configured; RTDN setup, notification content options, Publisher role, "View financial data"), last updated 9 Sep 2026: https://developer.android.com/google/play/billing/getting-ready
 - Create a one-time product (Monetize with Play > Products > One-time products, purchase options, Buy, quantities and limits, pricing, Activate), Play Console Help: https://support.google.com/googleplay/android-developer/answer/16430488
+- Create and manage subscriptions (Monetize with Play > Products > Subscriptions, Create subscription, product ID up to 40 characters, name up to 55, up to 4 benefits of 40 characters with no prices or trials, Add base plan, base plan ID, Auto-renewing, billing period, grace period, account hold (default 60 days minus the grace period), resubscribe, Manage country/region availability, price, Activate), Play Console Help, accessed 19 Oct 2026: https://support.google.com/googleplay/android-developer/answer/140504
+- Test subscriptions (a monthly test subscription renews about every 5 minutes, up to 6 times; grace 5 minutes, account hold 10 minutes), accessed 19 Oct 2026: https://developer.android.com/google/play/billing/test
+- Subscription lifecycle (grace keeps access, account hold blocks it, a cancel keeps access to the paid date, a revoke ends it at once), accessed 19 Oct 2026: https://developer.android.com/google/play/billing/lifecycle/subscriptions
 - Create an in-app product (product ID rules: starts with a lowercase letter or number, then lowercase letters, numbers, underscores and periods; IDs cannot be changed or reused), Play Console Help: https://support.google.com/googleplay/android-developer/answer/1153481
 - Multiple purchase options and offers for one-time products (the first Buy option is the backwards-compatible one), last updated 9 Sep 2026: https://developer.android.com/google/play/billing/one-time-product-multi-purchase-options-offers
 - Set up an open, closed or internal test (Testing > Internal testing, email lists, up to 100 testers, available within minutes, a first test link can take several hours): https://support.google.com/googleplay/android-developer/answer/9845334
@@ -256,4 +299,4 @@ Keep one purchase option per product. The first "Buy" option is the one our bill
 - purchases.products resource (purchaseState, purchaseType 0 = test, obfuscatedExternalAccountId), Google Play Developer API reference via Context7: https://developers.google.com/android-publisher/api-ref/rest/v3/purchases.products
 - Play Billing Library 8 required for new apps and updates from 31 Aug 2026 (our plugin, in_app_purchase_android 0.5.4, uses billing 8.0.0): https://revenuecat.com/blog/engineering/play-billing-8-migration/
 
-From our code (wt-rel11 at 4af47969, wt-v15-3 at 4472b373): `src/lib/payments/playGoogle.js` (scope `https://www.googleapis.com/auth/androidpublisher`, the key needs `client_email` and `private_key`, raw JSON or base64), `playRtdn.js` (the `?token=` check, optional OIDC audience compared exactly), `playBilling.js` (reads `message.data`, so payload unwrapping must stay off; quantity must be 1), `flutter_app/lib/features/billing/data/play_products.dart` (the four IDs).
+From our code (wt-rel11 at 4af47969, wt-v15-3 at 4472b373): `src/lib/payments/playGoogle.js` (scope `https://www.googleapis.com/auth/androidpublisher`, the key needs `client_email` and `private_key`, raw JSON or base64), `playRtdn.js` (the `?token=` check, optional OIDC audience compared exactly), `playBilling.js` (reads `message.data`, so payload unwrapping must stay off; quantity must be 1), `flutter_app/lib/features/billing/data/play_products.dart` (pro_monthly on base plan monthly, and the three pack IDs).
