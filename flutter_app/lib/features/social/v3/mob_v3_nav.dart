@@ -9,6 +9,7 @@ import 'screens/fix_together_screen.dart';
 import 'screens/game_run_screen.dart';
 import 'screens/join_v3_screen.dart';
 import 'screens/moment_overlay.dart';
+import 'screens/mob_settings_v3_screen.dart';
 import 'screens/moments_screen.dart';
 import 'screens/podium_screen.dart';
 import 'screens/shelf_screen.dart';
@@ -28,6 +29,7 @@ abstract final class MobV3Nav {
   static Future<void> fix(BuildContext context, String gameId, int q) => _push(context, FixTogetherScreen(gameId: gameId, q: q), name: '/mob/game/$gameId/fix');
   static Future<void> chains(BuildContext context, {bool mobTab = false}) => _push(context, ChainsScreen(mobTab: mobTab), name: '/mob/chains');
   static Future<void> shelf(BuildContext context) => _push(context, const ShelfScreen(), name: '/mob/shelf');
+  static Future<void> settings(BuildContext context) => _push(context, const MobSettingsV3Screen(), name: '/mob/settings');
   static Future<void> join(BuildContext context, {String code = ''}) => _push(context, JoinV3Screen(code: code), name: '/join');
 
   /// Plays one moment key (`quest_done:<week>`, `stitch:<week>`, `reveal:<fold>`, `chain:<n>`).
