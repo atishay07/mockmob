@@ -829,18 +829,17 @@ class _MyCollegesRow extends ConsumerWidget {
     final view = ref.watch(myCollegesProvider);
     if (!view.ready) return const SizedBox.shrink();
     final n = view.colleges.length;
-    int? clears;
+    Reach? reach;
     final e = estimate;
     if (e != null && n > 0) {
-      var c = 0;
-      var known = 0;
+      // The same count and the same words as the estimate sheet: safe when the low end reaches the cutoff, in reach when
+      // only the high end does. A college whose figure is not known yet is left out until it is.
+      final figures = <double?>[];
       for (final m in view.colleges) {
         final f = ref.watch(collegeFigureProvider((m.programmeId, m.college, category)));
-        if (!f.known) continue;
-        known++;
-        if (f.figure != null && verdictFor(e, f.figure).v == Verdict.clears) c++;
+        if (f.known) figures.add(f.figure);
       }
-      if (known > 0) clears = c;
+      if (figures.isNotEmpty) reach = reachOf(e, figures);
     }
     return Padding(
       padding: const EdgeInsets.only(top: MmRhythm.section),
@@ -850,7 +849,7 @@ class _MyCollegesRow extends ConsumerWidget {
           ToolsLinkRow(
             icon: LucideIcons.listOrdered,
             title: ToolsCopy.myCollegesRow,
-            note: n == 0 ? ToolsCopy.myCollegesRowEmpty : ToolsCopy.myCollegesRowNote(n, clears),
+            note: n == 0 ? ToolsCopy.myCollegesRowEmpty : ToolsCopy.myCollegesRowNote(n, reach),
             onTap: () => showMyCollegesSheet(context),
           ),
         ],

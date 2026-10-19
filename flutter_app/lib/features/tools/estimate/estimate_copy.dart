@@ -31,6 +31,14 @@ abstract final class EstimateCopy {
     return 'Of your $n colleges, ${_parts(r)}.';
   }
 
+  /// The same two words in a few for a row's note: "1 safe, 2 in reach", or "none in reach yet". Empty when no
+  /// college has a Round 1 seat for the category (nothing to count).
+  static String reachShort(Reach r) {
+    if (r.total == 0) return '';
+    if (r.reachable == 0) return 'none in reach yet';
+    return [if (r.safe > 0) '${r.safe} safe', if (r.inReach > 0) '${r.inReach} in reach'].join(', ');
+  }
+
   /// "Of the 54 B.Com (Hons.) colleges, 3 are safe and 5 are in reach."
   static String courseReach(Reach r, String course) {
     final n = r.total;

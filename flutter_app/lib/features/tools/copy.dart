@@ -1,6 +1,8 @@
 // Every string the CUET tools show. Labels that come from the website's DU tools are verbatim.
 
 import '../../core/copy/copy.dart' show categoryWords, categoryWordsTitle;
+import 'estimate/estimate.dart' show Reach;
+import 'estimate/estimate_copy.dart';
 
 /// A category in the words a student says, for the start of a line or a chip: "Unreserved",
 /// "OBC", "Single girl child". One mapping with the rest of the app (`categoryWords`).
@@ -123,7 +125,12 @@ abstract final class ToolsCopy {
   static const previewUse = 'Use as my estimate';
   static const previewClose = 'Show my own estimate';
   static const myCollegesRow = 'My colleges';
-  static String myCollegesRowNote(int n, int? clears) => clears == null ? '$n of 8' : '$n of 8 · $clears clear on your estimate';
+  /// "4 of 8 · 1 safe, 2 in reach": the same two words as the estimate sheet ([EstimateCopy.reachShort]). [reach] is null
+  /// when there is no estimate, or no college has a cutoff figure yet.
+  static String myCollegesRowNote(int n, Reach? reach) {
+    final words = reach == null ? '' : EstimateCopy.reachShort(reach);
+    return words.isEmpty ? '$n of 8' : '$n of 8 · $words';
+  }
   static const myCollegesRowEmpty = 'Choose the colleges you are aiming for';
   static String openHeading(int n) => '$n open to you';
   static String allOpenHeading(int n) => 'All $n open to you';
