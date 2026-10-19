@@ -279,8 +279,8 @@ class _SaveViewState extends ConsumerState<SaveView> {
     // dimmed like a dead control, it still answers a tap by asking the question): volt on a key that
     // cannot work yet read as "broken" when it did nothing visible (walk 19 Oct, #17). The volt
     // comes back to it as the age is answered.
-    Widget signInKey({required String label, required VoidCallback? onPressed, bool loading = false}) => AnimatedSwitcher(
-          duration: Motion.of(context, Motion.fadeThroughIn),
+    Widget signInKey({required String label, required VoidCallback? onPressed, bool loading = false}) => MmOverlapSwitcher(
+          duration: Motion.fadeThroughIn,
           child: KeyButton(
             key: ValueKey(asks ? KeyVariant.secondary : KeyVariant.primary),
             label: label,
