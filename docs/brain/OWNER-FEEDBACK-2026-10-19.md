@@ -301,3 +301,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 - The MockMob app in Play Console: "Yes, it exists".
 - The Play purchases table on the live database: "Yes, add it now (Recommended)".
 **Ledger D123:** create the upload key now; the app already exists in Play Console; apply migration 20261018190000_play_purchases on production now (save, staging checked, undo ready, STATUS). Explain the licence tester plainly: no new account to buy; it is the Google account already signed in to the Play Store on his phone, added by him in Play Console.
+
+## Owner, 19 Oct about 3:45 pm IST (verbatim)
+> "my personal google account which i have on my phone and which is the google dev console also is atishay07jain@gmail.com if that is what you where asking"
+**Ledger D124:** licence tester and internal tester = atishay07jain@gmail.com (also his Play Console account). Fill it into PLAY-BILLING-CHECKLIST.md.
