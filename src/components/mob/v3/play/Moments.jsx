@@ -48,6 +48,7 @@ export default function Moments({ gameId, game, mobName, hrefs }) {
   const [review, setReview] = useState(null);
   const [error, setError] = useState(null);
   const [toast, setToast] = useState(null);
+  const [now] = useState(() => Date.now());
 
   useEffect(() => {
     let on = true;
@@ -81,7 +82,6 @@ export default function Moments({ gameId, game, mobName, hrefs }) {
       </section>
     );
   }
-  const now = Date.now();
   const byId = new Map((podium.places || []).map((p) => [p.memberId, p]));
   const count = game?.count || 5;
   const closed = !podium.soFar;

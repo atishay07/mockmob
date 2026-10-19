@@ -42,7 +42,7 @@ export function RulerRace({ count, racers, answered = 0, youPose = 'idle', youNo
             <li
               key={r.id}
               className={`mp-racer${r.ghost ? ' is-ghost' : ''}${r.you ? ' is-you' : ''}`}
-              style={{ left: `calc(${x}% + ${r.aside || 0}px)`, zIndex: 10 - r.depth, '--lift': `${r.lift || 0}px`, '--scale': r.scale ?? 1, '--bright': r.brightness ?? 1, '--mp-c': `var(--mob-c${Number(r.colour) % 8 || 0})` }}
+              style={{ left: `calc(${x}% + ${r.aside || 0}px)`, zIndex: 10 - r.depth, '--lift': `${r.lift || 0}px`, '--tag': `${(r.depth || 0) * -14}px`, '--scale': r.scale ?? 1, '--bright': r.brightness ?? 1, '--mp-c': `var(--mob-c${Number(r.colour) % 8 || 0})` }}
               aria-label={r.finished ? COPY.rulerDone(r.name) : COPY.rulerAt(r.name, r.at, count)}
             >
               <span className="mp-racer__body" key={`${r.at}-${r.finished}`}>

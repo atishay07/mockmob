@@ -29,10 +29,10 @@ export function FoldHead({ fold, size = 40, name = '', colour = 0 }) {
   const src = foldHeadSrc(fold);
   const ring = FOLD_PAPER[fold] || `var(--mob-c${Number(colour) % 8 || 0})`;
   if (!src || broken) {
-    return <span className="mp-head mp-head--disc" style={{ width: size, height: size, '--mp-c': `var(--mob-c${Number(colour) % 8 || 0})`, fontSize: Math.round(size * 0.42) }} aria-hidden="true">{String(name || '?').trim()[0]?.toUpperCase() || '?'}</span>;
+    return <span className="mp-headdisc mp-headdisc--disc" style={{ width: size, height: size, '--mp-c': `var(--mob-c${Number(colour) % 8 || 0})`, fontSize: Math.round(size * 0.42) }} aria-hidden="true">{String(name || '?').trim()[0]?.toUpperCase() || '?'}</span>;
   }
   return (
-    <span className="mp-head" style={{ width: size, height: size, '--mp-ring': ring }} aria-hidden="true">
+    <span className="mp-headdisc" style={{ width: size, height: size, '--mp-ring': ring }} aria-hidden="true">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img src={src} alt="" width={size} height={size} decoding="async" draggable="false" onError={() => setBroken(true)} />
     </span>

@@ -62,7 +62,8 @@ function makeServer(params) {
     return base;
   };
   const reviewBody = () => {
-    const r = shift(reviewFx, by);
+    // The review keeps its own dates (a Wednesday check after today), so the weekday in the copy is true.
+    const r = structuredClone(reviewFx);
     if (params.get('check') === 'open') r.trap.fix.check.state = 'open';
     return r;
   };

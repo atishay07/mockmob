@@ -71,7 +71,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
       const body = await mobGameApi.run(gameId);
       offset.current = Date.parse(body.run.serverNow) - Date.now();
       const stored = body.run.answers || [];
-      const n = body.questions?.length || count;
+      const n = body.questions?.length || 5;
       setRun(body.run);
       setQuestions(body.questions || []);
       setGhosts(body.ghosts || []);
@@ -100,11 +100,9 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
     } finally {
       starting.current = false;
     }
-  }, [gameId, count]);
+  }, [gameId]);
 
   const load = useCallback(async () => {
-    setPhase('loading');
-    setError(null);
     try {
       const { game: g } = await mobGameApi.game(gameId);
       setGame(g);
@@ -120,19 +118,22 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
     }
   }, [gameId, autoStart, begin, onGame]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => { let active = true; queueMicrotask(() => { if (active) load(); }); return () => { active = false; }; }, [load]);
 
   // A ghost reaching the flag during your run (M6): a quiet toast, never a count of who is still playing.
   useEffect(() => {
-    if (phase !== 'play') return;
-    for (const g of ghosts) {
-      if (flagged.current.has(g.memberId)) continue;
-      if (ghostAt(g, t, count).finished) {
+    if (phase !== 'play' || !run) return undefined;
+    const started = Date.parse(run.startedAt);
+    const h = setInterval(() => {
+      const at = Date.now() + offset.current - started;
+      for (const g of ghosts) {
+        if (flagged.current.has(g.memberId) || !ghostAt(g, at, count).finished) continue;
         flagged.current.add(g.memberId);
         setToast({ key: `${g.memberId}`, text: COPY.ghostFinished(g.name) });
       }
-    }
-  }, [t, ghosts, phase, count]);
+    }, 250);
+    return () => clearInterval(h);
+  }, [ghosts, phase, count, run]);
   useEffect(() => {
     if (!toast) return undefined;
     const h = setTimeout(() => setToast(null), 2800);
@@ -154,8 +155,13 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
 
   // Out of time: the server counts the rest as skipped.
   const endsMs = run ? Date.parse(run.endsAt) : 0;
+  const expired = useRef(false);
   useEffect(() => {
-    if (phase === 'play' && run && serverNow > endsMs && !sending && !result) finish();
+    if (phase === 'play' && run && serverNow > endsMs && !sending && !result && !expired.current) {
+      expired.current = true;
+      setNotice(COPY.timeUp);
+      finish();
+    }
   }, [phase, run, serverNow, endsMs, sending, result, finish]);
 
   const send = useCallback(async (p) => {
@@ -231,7 +237,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
   }), [me, answers, phase]);
   const racers = useMemo(() => rulerRacers({ count, ghosts, you, t }), [count, ghosts, you, t]);
   const pace = paceChip(answers, ghosts);
-  const title = COPY.gameTitle(game);
+  const title = game ? COPY.gameTitle(game) : '';
   const youPose = result?.correct === true ? 'cheer' : result?.correct === false ? 'shrug' : 'idle';
 
   // ---- Loading, failed, ready, closed ----
@@ -253,7 +259,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
         <div className="mp-card mp-card--center" role="alert">
           <h2 className="mp-h2">{COPY.loadFailed}</h2>
           <p className="mp-line">{error}</p>
-          <div className="mp-keys"><button type="button" className="btn-volt md mp-key-primary" onClick={() => (game ? begin() : load())}>{COPY.tryAgain}</button></div>
+          <div className="mp-keys"><button type="button" className="btn-volt md mp-key-primary" onClick={() => { setPhase('loading'); setError(null); if (game) begin(); else load(); }}>{COPY.tryAgain}</button></div>
         </div>
       </section>
     );
@@ -417,7 +423,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
 
 export function RunHead({ title, sub, hrefs, onClose, chip }) {
   return (
-    <header className="mp-head">
+    <div className="mp-head">
       {onClose ? (
         <button type="button" className="mp-icon" onClick={onClose} aria-label={COPY.closeRun}><X size={22} strokeWidth={2.2} aria-hidden="true" /></button>
       ) : (
@@ -428,7 +434,7 @@ export function RunHead({ title, sub, hrefs, onClose, chip }) {
         {sub ? <p className="mp-head__sub">{sub}</p> : null}
       </div>
       {chip || null}
-    </header>
+    </div>
   );
 }
 

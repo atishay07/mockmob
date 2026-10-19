@@ -196,6 +196,7 @@ export const COPY = Object.freeze({
   loadFailed: "Your game didn't load.",
   gameClosed: 'This game has closed. Its answers are open now.',
   fixNotYet: 'This opens when the game closes.',
+  timeUp: 'Your time on this game ran out. Questions you did not answer count as skipped.',
   fixClosedNone: 'No question caught most of your Mob in this game, so there is no trap to fix.',
   tryAgain: 'Try again',
   generic: "That didn't go through. Try again.",
@@ -293,7 +294,7 @@ export function rulerRacers({ count, ghosts, you, t }) {
       r.lift = i * 10;
       r.scale = i === 0 ? 1 : 0.86;
       r.brightness = i === 0 ? 1 : 0.7;
-      r.aside = i === 0 ? 0 : (i % 2 ? 1 : -1) * Math.ceil(i / 2) * 14;
+      r.aside = i === 0 ? 0 : (i % 2 ? 1 : -1) * Math.ceil(i / 2) * 30;
     });
   }
   return racers;

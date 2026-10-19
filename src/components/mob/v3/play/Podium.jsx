@@ -28,7 +28,8 @@ export default function Podium({ gameId, game, hrefs }) {
   const [error, setError] = useState(null);
   const [t, setT] = useState(0);
   const [skipped, setSkipped] = useState(false);
-  const [reduced, setReduced] = useState(false);
+  const [reduced] = useState(reducedMotion);
+  const [now] = useState(() => Date.now());
   const [toast, setToast] = useState(null);
   const [asking, setAsking] = useState(false);
   const start = useRef(0);
@@ -41,8 +42,8 @@ export default function Podium({ gameId, game, hrefs }) {
 
   useEffect(() => {
     if (!data) return undefined;
-    if (reducedMotion()) { setReduced(true); setT(PODIUM_END_MS); return undefined; }
     let raf = 0;
+    if (reduced) { raf = requestAnimationFrame(() => setT(PODIUM_END_MS)); return () => cancelAnimationFrame(raf); }
     start.current = performance.now();
     const step = (now) => {
       const next = Math.min(PODIUM_END_MS, now - start.current);
@@ -51,7 +52,7 @@ export default function Podium({ gameId, game, hrefs }) {
     };
     raf = requestAnimationFrame(step);
     return () => cancelAnimationFrame(raf);
-  }, [data]);
+  }, [data, reduced]);
 
   useEffect(() => {
     if (!toast) return undefined;
@@ -59,8 +60,7 @@ export default function Podium({ gameId, game, hrefs }) {
     return () => clearTimeout(h);
   }, [toast]);
 
-  const now = Date.now();
-  const layout = useMemo(() => (data ? podiumLayout(data, now) : null), [data]); // eslint-disable-line react-hooks/exhaustive-deps
+  const layout = useMemo(() => (data ? podiumLayout(data, now) : null), [data, now]);
 
   const skip = () => { start.current = performance.now() - PODIUM_END_MS; setSkipped(true); setT(PODIUM_END_MS); };
   const askRematch = async () => {
