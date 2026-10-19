@@ -13,14 +13,30 @@ import '../data/billing_controller.dart';
 import '../data/play_products.dart';
 import '../data/play_store.dart' show billingPeriodOf;
 import 'billing_notice.dart';
+import 'pro_page.dart';
 
-/// Opens the Get Pro sheet. Does nothing with `PLAY_BILLING` off, so a caller never needs its own
-/// check.
+/// Opens the Pro page, the full screen every Get Pro and upgrade entry leads to (owner I6, 20 Oct:
+/// "a separate screen for the Pro plan"). Does nothing with `PLAY_BILLING` off, so a caller never
+/// needs its own check.
 ///
-/// [reason] is one line above the price saying why the sheet opened (what the student was about to
-/// do); [benefits] replace the default list of what Pro includes with lines that fit that moment.
-/// Both are optional and plain sentences. The price and the keys are always Google Play's.
-Future<void> showGetProSheet(BuildContext context, {String? reason, List<String>? benefits}) async {
+/// [reason] becomes the page's line under its headline (what the student was about to do);
+/// [benefits] become lines about this moment over the showcase. Both are optional and plain
+/// sentences. The price and the keys are always Google Play's.
+Future<void> showGetProSheet(BuildContext context, {String? reason, List<String>? benefits}) {
+  final lines = benefits == null || benefits.isEmpty ? null : benefits;
+  return openProPage(
+    context,
+    args: ProPageArgs(
+      lede: reason == null || reason.trim().isEmpty ? null : reason,
+      personal: lines == null ? null : (_) => lines,
+      personalHeading: lines == null ? null : BillingCopy.proIncludesHeading,
+    ),
+  );
+}
+
+/// The old Get Pro sheet, for a surface that still wants Pro in a sheet. Every entry now opens the
+/// Pro page ([showGetProSheet]); this stays for the sheet's own states and tests.
+Future<void> showGetProBottomSheet(BuildContext context, {String? reason, List<String>? benefits}) async {
   final container = ProviderScope.containerOf(context, listen: false);
   if (!container.read(playBillingEnabledProvider)) return;
   await showMmSheet<void>(
@@ -288,36 +304,85 @@ Widget? proStatusView({
   required bool manageFailed,
   String closeLabel = BillingCopy.close,
 }) {
-  final confirmed = s.stage == BillingStage.confirmed && (s.productId == PlayProducts.proId || s.productId == null);
-  if (confirmed || (isPro && !s.busy)) {
-    final playSub = sub != null && sub.active ? sub : null;
-    if (playSub != null && playSub.inGracePeriod) {
+  final status = proStatusOf(s: s, isPro: isPro, sub: sub);
+  if (status == null) return null;
+  switch (status.kind) {
+    case ProStatusKind.grace:
       return _FixInGooglePlay(
-        title: BillingCopy.subGraceTitle,
-        message: subscriptionLine(playSub),
+        title: status.title,
+        message: status.message,
         onManage: onManage,
         failedToOpen: manageFailed,
         closeLabel: BillingCopy.done,
         onClose: onDone,
       );
+    case ProStatusKind.on:
+      return BillingConfirmed(
+        title: status.title,
+        body: status.message,
+        onDone: onDone,
+        secondaryLabel: status.canManage ? BillingCopy.manageSubscription : null,
+        onSecondary: status.canManage ? onManage : null,
+        note: manageFailed ? BillingCopy.manageOpenFailed : null,
+      );
+    case ProStatusKind.held:
+      return _FixInGooglePlay(
+        title: status.title,
+        message: status.message,
+        onManage: onManage,
+        failedToOpen: manageFailed,
+        closeLabel: closeLabel,
+        onClose: onDone,
+      );
+  }
+}
+
+/// What a Pro surface shows instead of selling.
+enum ProStatusKind {
+  /// Pro is on (server-confirmed, or the student already has it).
+  on,
+
+  /// Pro is on for now, but Google Play could not take the payment and is retrying.
+  grace,
+
+  /// A subscription Google Play holds that gives no Pro now (on hold, paused).
+  held,
+}
+
+/// One answer of [proStatusOf]: which view, its heading and its line, and whether Manage
+/// subscription (Google Play's own page) belongs on it.
+class ProStatus {
+  const ProStatus({required this.kind, required this.title, required this.message, required this.canManage});
+
+  final ProStatusKind kind;
+  final String title;
+  final String message;
+  final bool canManage;
+}
+
+/// The one decision behind every Pro surface (the sheets and the Pro page): null when it should
+/// sell, otherwise what to say. "Pro is on" only after the server confirmed, or for a student who is
+/// Pro already and has nothing in flight.
+ProStatus? proStatusOf({required PlayBillingState s, required bool isPro, required PlaySubscriptionInfo? sub}) {
+  final confirmed = s.stage == BillingStage.confirmed && (s.productId == PlayProducts.proId || s.productId == null);
+  if (confirmed || (isPro && !s.busy)) {
+    final playSub = sub != null && sub.active ? sub : null;
+    if (playSub != null && playSub.inGracePeriod) {
+      return ProStatus(kind: ProStatusKind.grace, title: BillingCopy.subGraceTitle, message: subscriptionLine(playSub), canManage: true);
     }
-    return BillingConfirmed(
+    return ProStatus(
+      kind: ProStatusKind.on,
       title: BillingCopy.proOnTitle,
-      body: playSub == null ? BillingCopy.proOnBody : subscriptionLine(playSub),
-      onDone: onDone,
-      secondaryLabel: playSub == null ? null : BillingCopy.manageSubscription,
-      onSecondary: playSub == null ? null : onManage,
-      note: manageFailed ? BillingCopy.manageOpenFailed : null,
+      message: playSub == null ? BillingCopy.proOnBody : subscriptionLine(playSub),
+      canManage: playSub != null,
     );
   }
   if (subscriptionHeld(sub) && !s.busy) {
-    return _FixInGooglePlay(
+    return ProStatus(
+      kind: ProStatusKind.held,
       title: sub!.onHold ? BillingCopy.subOnHoldTitle : BillingCopy.subPausedTitle,
       message: sub.onHold ? BillingCopy.subOnHold : BillingCopy.subPaused,
-      onManage: onManage,
-      failedToOpen: manageFailed,
-      closeLabel: closeLabel,
-      onClose: onDone,
+      canManage: true,
     );
   }
   return null;

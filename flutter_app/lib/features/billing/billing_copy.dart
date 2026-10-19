@@ -119,6 +119,59 @@ abstract final class BillingCopy {
   static const failEnded = 'This plan or pack can no longer be bought, so nothing was added. Google Play refunds a payment that is not confirmed within three days.';
   static const failRefused = 'We could not accept this purchase, so nothing was added. If you were charged, Google Play refunds you within three days.';
 
+  // The Pro page (owner I6, 19 Oct: a full screen of its own, "like you are getting everything in the
+  // world"). Every line is something Pro does in the app today; the price is only Google Play's.
+  static const proPageLabel = 'MockMob Pro';
+  static const proPageTitle = 'Practise without limits';
+  static const proPageLede =
+      'Unlimited mocks from one central bank, every one new. Smart practice on the chapters you miss. The exam-day screen, as you will meet it.';
+  static const proPageClose = 'Close';
+  static const proPageUnlocksHeading = 'Everything Pro unlocks';
+  static const proPageCompareHeading = 'Free and Pro, side by side';
+  static const proPagePriceHeading = 'One plan, everything in it';
+  static const proPageForYouHeading = 'Built around your prep';
+
+  /// Under Google Play's price on the Pro page (the owner's words for it, 20 Oct).
+  static const proRenews = 'Renews every month. Cancel anytime in Google Play.';
+
+  /// What each part of Pro does, as the page's showcase: a title and one line.
+  static const List<(String, String)> proFeatures = [
+    ('Unlimited mocks', 'Sit as many Full mocks as you want. Each one is built fresh from one central question bank, so every paper is new.'),
+    ('Smart practice', 'Every set leans toward the chapters you miss, so each one fixes something.'),
+    ('The exam-day screen', 'NTA mode: 50 questions in 60 minutes, laid out as you will meet it on the day.'),
+    ('Easy, Medium and Hard', 'Choose how hard each set is, and step up when you are ready.'),
+    ('Insights in detail', 'See where you changed answers and how your pace held up across a paper.'),
+  ];
+
+  /// The Mob's part of Pro, shown only when the Mob is on (its own words, MobV3Copy.proList).
+  static const proFeatureMob = ('Host your Mob', 'Start as many games as you like, open live rooms and start up to 3 Mobs.');
+
+  static const compareFree = 'Free';
+  static const comparePro = 'Pro';
+  static const compareUnlimited = 'Unlimited';
+  static const compareIncluded = 'Included';
+  static const compareNotIncluded = 'Not included';
+
+  /// The comparison rows: what, then Free's cell and Pro's cell. A null cell is a tick (included);
+  /// an empty one is a dash (not included).
+  static const List<(String, String?, String?)> compareRows = [
+    ('Fresh papers from one central bank', null, null),
+    ('Full mocks', '50 credits each', compareUnlimited),
+    ('Quick practice', 'Uses credits', compareUnlimited),
+    ('Smart practice', '', null),
+    ('NTA mode on the exam-day screen', '', null),
+    ('Easy, Medium and Hard', '', null),
+    ('Changed answers and pace in Insights', '', null),
+  ];
+
+  /// The Mob's rows, only when the Mob is on.
+  static const List<(String, String?, String?)> compareMobRows = [
+    ('Play every game in your Mob', null, null),
+    ('Start games in a Mob', 'One a week', 'As many as you like'),
+  ];
+
+  static const proWelcome = 'Welcome to Pro';
+
   // Top-ups on the Wallet: one set of packs for the one credits balance.
   static const topUpsTitle = 'Top up';
   static const topUpsSoon = 'Top-ups open soon.';

@@ -11,6 +11,7 @@ import '../../billing/billing_copy.dart';
 import '../../billing/data/billing_controller.dart';
 import '../../billing/data/play_products.dart';
 import '../../billing/widgets/billing_notice.dart';
+import '../../billing/widgets/pro_page.dart' show ProPageArgs, openProPage;
 import '../../billing/widgets/get_pro_sheet.dart' show ProPriceBlock, needsGooglePlay, proMonthlyPrice, proPriceParts, proStatusView;
 import '../../credits/data/credit_figures.dart';
 import '../copy.dart';
@@ -25,6 +26,29 @@ import '../data/pro_nudge_controller.dart';
 /// The sheet sells through Google Play Billing only: the price is Google Play's own string and the
 /// purchase is the billing controller's, so nothing here can grant Pro or show another price.
 bool showUpgradeSheetIfOn(BuildContext context, {required ProReason reason}) {
+  final container = ProviderScope.containerOf(context, listen: false);
+  if (!container.read(proNudgesOnProvider)) return false;
+  // Every upgrade opens the full-screen Pro page (owner I6, 20 Oct), headed by what asked for Pro,
+  // with the lines that are about this student when there are any.
+  final head = ProNudgeCopy.head(reason);
+  unawaited(openProPage(
+    context,
+    args: ProPageArgs(
+      headline: head.title,
+      lede: head.lede,
+      personal: (ref) {
+        final facts = ref.watch(proFactsProvider);
+        return ProBenefits.isPersonal(facts, reason: reason) ? ProBenefits.lines(facts, reason: reason) : const <String>[];
+      },
+      personalHeading: ProNudgeCopy.forYouHeading,
+    ),
+  ));
+  return true;
+}
+
+/// The old Upgrade sheet, kept for a surface that wants Pro in a sheet; every upgrade now opens the
+/// Pro page ([showUpgradeSheetIfOn]).
+bool showUpgradeBottomSheetIfOn(BuildContext context, {required ProReason reason}) {
   final container = ProviderScope.containerOf(context, listen: false);
   if (!container.read(proNudgesOnProvider)) return false;
   unawaited(showMmSheet<void>(

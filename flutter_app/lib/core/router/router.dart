@@ -8,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/account_access/access_routes.dart';
+import '../../features/billing/widgets/pro_page.dart' show proPageScreen;
 import '../../features/social/mob_routes.dart';
 import '../auth/auth_state.dart';
 import '../widgets/account/account_avatar.dart' show PushedPageMarker;
@@ -389,6 +390,7 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('subjects', youSubjectsScreen, root: true),
             page('sheet', youSheetScreen, root: true),
             page('credits', youCreditsScreen, root: true),
+            page('pro', proPageScreen, transition: MmTransition.rise, root: true),
             // The Mob was a page here before it had its tab (D105): the old path opens the tab.
             GoRoute(path: 'mob', redirect: (context, state) => AppRoutes.mob),
           ]),
