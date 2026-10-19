@@ -1,14 +1,17 @@
 // The two record rows that close Today (TODAY-1017 4.5): "Last paper" (the newest opened paper,
-// which opens its result) and "Your colleges" (the first of My colleges with its 2026 Round 1
-// cutoff, which opens Colleges). Rows on the ground with hairlines, never cards; each row is one
-// target the full width and at least 76 dp tall. The colleges row never shows an estimate or a
-// chance: the practice score and the DU score are different scales, and Colleges owns that.
+// which opens its result) and "Your colleges", which opens Colleges. Since 19 Oct (D104) the
+// colleges are the three hardest to get into of My colleges, each with its 2026 Round 1 cutoff,
+// and a "See all" row lists every one when there are more: nothing the student picked silently
+// disappears. Rows on the ground with hairlines, never cards; each row is one target the full
+// width and at least 76 dp tall. The rows never show an estimate or a chance: the practice score
+// and the DU score are different scales, and the See all sheet names the estimate's source.
 import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
+import '../logic/road_builder.dart' show todayCollegesShown;
 import '../logic/today_model.dart';
 import 'colleges_card.dart' show CollegesCardStatus;
 import 'today_pill.dart';
@@ -18,13 +21,14 @@ class TodayRows extends StatelessWidget {
   const TodayRows({
     super.key,
     this.lastPaper,
-    this.firstCollege,
+    this.colleges = const [],
     this.collegesSaved = 0,
     this.collegesStatus = CollegesCardStatus.ready,
     this.onPaper,
     this.onColleges,
     this.onChoose,
     this.onRetry,
+    this.onSeeAll,
     this.showColleges = true,
     this.headed = false,
   });
@@ -38,11 +42,14 @@ class TodayRows extends StatelessWidget {
   /// the window closes Today carries no CSAS figures.
   final bool showColleges;
 
-  /// The first of My colleges, or null when the list is empty.
-  final LadderRung? firstCollege;
+  /// The three hardest to get into of My colleges (D104), or none when the list is empty.
+  final List<LadderRung> colleges;
 
-  /// How many colleges are saved in all ("2 more saved").
+  /// How many colleges are saved in all ("Your top 3 of 5", "See all 5 colleges").
   final int collegesSaved;
+
+  /// "See all N colleges": the sheet that lists every one. Shown when there are more than three.
+  final VoidCallback? onSeeAll;
   final CollegesCardStatus collegesStatus;
   final void Function(TodayTarget target)? onPaper;
   final VoidCallback? onColleges;
@@ -83,16 +90,28 @@ class TodayRows extends StatelessWidget {
   Widget _colleges(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final first = firstCollege;
-    if (first != null) {
-      final more = collegesSaved - 1;
-      return _Row(
-        label: headed ? null : TodayCopy.collegesRowTitle,
-        title: first.college,
-        sub: TodayCopy.collegesSub(first.course, more < 0 ? 0 : more),
-        figure: first.score,
-        denominator: first.outOf == null ? null : TodayCopy.ofDenominator(first.outOf!),
-        onTap: onColleges,
+    if (colleges.isNotEmpty) {
+      final rule = Divider(height: 1, thickness: 1, color: colors.line);
+      final saved = collegesSaved < colleges.length ? colleges.length : collegesSaved;
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (final (k, c) in colleges.take(todayCollegesShown).indexed) ...[
+            if (k > 0) rule,
+            _Row(
+              label: headed || k > 0 ? null : TodayCopy.collegesRowTitle,
+              title: c.college,
+              sub: TodayCopy.collegeRowSub(c.course, figure: c.score.isNotEmpty),
+              figure: c.score,
+              denominator: c.score.isEmpty || c.outOf == null ? null : TodayCopy.ofDenominator(c.outOf!),
+              onTap: onColleges,
+            ),
+          ],
+          if (saved > todayCollegesShown) ...[
+            rule,
+            _SeeAllRow(count: saved, onTap: onSeeAll ?? onColleges),
+          ],
+        ],
       );
     }
     final Widget body;
@@ -215,6 +234,54 @@ class _Row extends StatelessWidget {
                   Text(denominator!, style: type.micro.copyWith(color: colors.ink3)),
                 ],
               ],
+            ),
+            const SizedBox(width: MmSpace.s8),
+            Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// "See all 5 colleges": the row under the three, the same height and hairlines as they have, with
+/// a line saying what the sheet holds.
+class _SeeAllRow extends StatelessWidget {
+  const _SeeAllRow({required this.count, this.onTap});
+
+  final int count;
+  final VoidCallback? onTap;
+
+  static const Key rowKey = ValueKey('today-colleges-see-all');
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      key: rowKey,
+      onTap: onTap,
+      semanticsLabel: TodayCopy.seeAllSemantics(count),
+      focusRadius: MmRadius.smallAll,
+      pressedScale: 0.99,
+      haptic: MmPressHaptic.selection,
+      builder: (context, pressed, _) => AnimatedContainer(
+        duration: const Duration(milliseconds: 100),
+        color: pressed ? colors.raised2.withValues(alpha: 0.6) : Colors.transparent,
+        constraints: const BoxConstraints(minHeight: TodayRows.minRow),
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(TodayCopy.seeAllCount(count), style: type.labelLarge.copyWith(fontSize: 16, fontWeight: FontWeight.w600, color: colors.ink)),
+                  const SizedBox(height: MmSpace.s2),
+                  Text(TodayCopy.seeAllSub, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(fontSize: 13.5, color: colors.ink2)),
+                ],
+              ),
             ),
             const SizedBox(width: MmSpace.s8),
             Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3),

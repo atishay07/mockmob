@@ -244,9 +244,10 @@ void main() {
     test('the words: one name per direction, the end says the passed cards wait, every count has its unit, "Both" for two', () {
       expect(SuggestedCopy.upNext, 'Do this next');
       expect(SuggestedCopy.notNow, 'Not now');
-      // The end shows only after every card was passed on, and they wait behind it (D96 fix pass).
-      expect(SuggestedCopy.allSeen(4), 'You passed all four. They wait here.');
-      expect(SuggestedCopy.allSeen(1), 'You passed this one. It waits here.');
+      // The end shows only after every card was seen, and they wait behind it (D96 fix pass; the
+      // words since 19 Oct, G12: whole sentences, true for one card or more).
+      expect(SuggestedCopy.allSeen(4), "You've seen all four.");
+      expect(SuggestedCopy.allSeen(1), 'That was the only card.');
       expect(SuggestedCopy.countFirst(4), '4 cards');
       expect(SuggestedCopy.moreAfter(2, 4), '2 more after this');
       expect(SuggestedCopy.moreAfter(0, 4), 'Last of 4');
@@ -542,7 +543,10 @@ void main() {
             return tester.getSize(find.byWidget(child)).height;
           }
 
-          final view = _view();
+          // The skeleton holds the usual tallest card: a cost line and a two-line title. A long subject
+          // name ("Business Studies, 10 questions") wraps its cost line at 1.3x on 412 dp, which is a
+          // line more than any placeholder can know, so this deck's subjects are short ones.
+          final view = buildToday(ashaInputs(now: _sunday, attempts: ashaRecord(_sunday), week: _week, reviseDue: 6, subjects: const ['accountancy', 'economics', 'english']));
           final landed = await heightOf(SuggestedStack(cards: buildSuggestedDeck(view.choices, glance: view.glance), onChoose: (_) {}, onMore: () {}));
           final loading = await heightOf(const SuggestedStackSkeleton(delay: Duration.zero));
           expect(loading, closeTo(landed, 1), reason: 'the week under it barely moves when Today lands');

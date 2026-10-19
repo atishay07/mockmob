@@ -58,10 +58,11 @@ final todayPicksProvider = NotifierProvider<_TodayPicksNotifier, Map<String, Str
 
 /// What the lead card shows: [view]'s own hero, or, when the student picked another move from
 /// the stack ([pickKey], a [MoveChoice.key]) and that move is a whole card, that card marked as
-/// the student's pick.
+/// the student's pick. A paper's reel in the lead card ([SealedHero]) gives way to a pick too: the
+/// paper waits in a row under it (19 Oct, the deck under the reel).
 TodayHero? shownHeroFor(TodayView view, String? pickKey) {
   final hero = view.hero;
-  if (hero is! MoveHero || pickKey == null) return hero;
+  if ((hero is! MoveHero && hero is! SealedHero) || pickKey == null) return hero;
   for (final c in view.choices) {
     if (c.key == pickKey && c.hero != null) return c.hero!.copyWith(overline: GlanceCopy.upNextPick(c.hero!.subjectLine));
   }
@@ -81,6 +82,6 @@ final todayLeadMoveProvider = Provider<MoveHero?>((ref) {
 final todayLeadIsPickProvider = Provider<bool>((ref) {
   final view = ref.watch(todayViewProvider);
   final key = ref.watch(todayPicksProvider)[view.header.dateLine];
-  if (key == null || view.hero is! MoveHero) return false;
+  if (key == null || (view.hero is! MoveHero && view.hero is! SealedHero)) return false;
   return view.choices.any((c) => c.key == key && c.hero != null);
 });

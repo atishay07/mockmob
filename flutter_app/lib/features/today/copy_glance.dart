@@ -47,7 +47,7 @@ abstract final class GlanceCopy {
     return '$head: $counted, of ${plural(asked, 'question')}. Marked +5 and −1, the CUET way.';
   }
   static const String mockLabel = 'questions in\n60 minutes';
-  static const String mockWhy = 'A full paper, timed like the real one. It shows where the marks go across every chapter at once.';
+  static const String mockWhy = 'It is timed like the real exam, so you see how you do against the clock. It shows where your marks go across every chapter at once.';
   static String otherSubjectLabel(String subject) => 'questions in\n$subject';
   static String otherSubjectWhy(String subject, int? days) => days == null
       ? 'You have not practised $subject yet. Ten questions show where it stands.'
@@ -262,6 +262,8 @@ abstract final class GlanceCopy {
   static String mistakeHead(int number, String paper, String when) => 'Q$number, $paper, $when';
   /// Day one, for a subject MockMob ranks chapters in: "Start with Partnership and Company Accounts. Your first paper shows where your marks go." The ranking holds no marks, so the line says where to start and never how much a chapter is worth.
   static String weakDayOneStart(List<String> chapters) => 'Start with ${chapters.join(' and ')}. Your first paper shows where your marks go.';
+  /// The key under it: ten questions on the first of those chapters.
+  static String weakDayOneKey(String chapter) => 'Practise $chapter, 10 questions';
   /// Day one, a subject with no ranking.
   static const String weakDayOne = 'Your weak chapters show here after your first paper: where the marks go, chapter by chapter.';
   static const String weakNone = 'No chapter stands out yet. Every chapter you have answered is holding.';

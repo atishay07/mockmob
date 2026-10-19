@@ -5,6 +5,7 @@
 // student's own choices only: no projections of marks or chances.
 import '../../../core/domain/cuet_dates.dart';
 import '../../onboarding/data/calendar.dart';
+import '../data/today_profile.dart' show hardestFirst;
 import '../copy.dart';
 import 'road_board.dart';
 import 'today_inputs.dart';
@@ -62,13 +63,26 @@ RoadModel? buildRoad(TodayInputs i) {
   final countdown = phase == RoadPhase.countdown;
   final weeks = countdown ? days ~/ 7 : 0;
   final profile = i.profile;
-  final picks = profile?.ladder.take(3).toList() ?? const [];
+  // Every college the student picked, hardest to get into first (the profile keeps that order);
+  // Today shows the first [todayCollegesShown] and lists the rest under "See all" (D104).
+  final picks = hardestFirst(profile?.ladder ?? const []);
   final toBoards = boardsStart.difference(today).inDays;
   final goal = i.week?.goal;
   // The same count onboarding gave: board weeks count two sessions at most.
   final sessions = goal == null || !countdown || weeks < 2
       ? null
       : CuetCalendar.sessionsBefore(expectedWindowStart.year, today.toLocal(), daysPerWeek: goal, boards: true);
+  final rungs = [
+    for (var k = 0; k < picks.length; k++)
+      LadderRung(
+        college: picks[k].college,
+        course: picks[k].course,
+        score: _score(picks[k].closingScore),
+        outOf: picks[k].outOf,
+        dream: k == 0,
+        programmeId: picks[k].programmeId,
+      ),
+  ];
   final week = i.week;
   final board = buildRoadBoard(
     today: today,
@@ -95,19 +109,13 @@ RoadModel? buildRoad(TodayInputs i) {
     goal: goal,
     plannedDays: week?.planned,
     category: profile?.category,
-    ladderSaved: profile?.ladder.length ?? 0,
-    ladder: [
-      for (var k = 0; k < picks.length; k++)
-        LadderRung(
-          college: picks[k].college,
-          course: picks[k].course,
-          score: _score(picks[k].closingScore),
-          outOf: picks[k].outOf,
-          dream: k == 0,
-          programmeId: picks[k].programmeId,
-        ),
-    ],
+    ladderSaved: picks.length,
+    ladder: rungs.take(todayCollegesShown).toList(),
+    colleges: rungs,
   );
 }
+
+/// How many of the student's colleges Today shows: the three hardest to get into (D104).
+const int todayCollegesShown = 3;
 
 String _score(num? score) => score == null ? '' : (score == score.roundToDouble() ? '${score.round()}' : score.toStringAsFixed(1));

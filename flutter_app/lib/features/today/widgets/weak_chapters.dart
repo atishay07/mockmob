@@ -28,6 +28,9 @@ class WeakChaptersBlock extends StatefulWidget {
   /// A row open from the start (goldens and tests).
   final int? initialOpen;
 
+  /// The day-one key (tests find it by this).
+  static const Key dayOneKey = ValueKey('today-weak-day-one-key');
+
   @override
   State<WeakChaptersBlock> createState() => _WeakChaptersBlockState();
 }
@@ -52,7 +55,28 @@ class _WeakChaptersBlockState extends State<WeakChaptersBlock> {
       final line = !w.dayOne
           ? GlanceCopy.weakNone
           : (w.startChapters.isEmpty ? GlanceCopy.weakDayOne : GlanceCopy.weakDayOneStart(w.startChapters));
-      body = Text(line, style: type.body.copyWith(color: colors.ink2));
+      // Day one names where to start, and the key under it starts there (19 Oct: the block had words
+      // and nothing to press).
+      final start = w.dayOne && w.startChapters.isNotEmpty ? w.startPractise : null;
+      body = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(line, style: type.body.copyWith(color: colors.ink2)),
+          if (start != null) ...[
+            const SizedBox(height: MmSpace.s12),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: _SmallKey(
+                key: WeakChaptersBlock.dayOneKey,
+                label: GlanceCopy.weakDayOneKey(w.startChapters.first),
+                icon: LucideIcons.play,
+                onTap: widget.onOpen == null ? null : () => widget.onOpen!(start),
+              ),
+            ),
+          ],
+        ],
+      );
     } else {
       // The bars are sized against the top chapter's marks (the rows come ranked by them).
       final top = w.rows.map((r) => r.marks).fold<int>(0, (a, b) => b > a ? b : a);
@@ -280,7 +304,7 @@ class _Mistake extends StatelessWidget {
 }
 
 class _SmallKey extends StatelessWidget {
-  const _SmallKey({required this.label, required this.icon, this.onTap});
+  const _SmallKey({super.key, required this.label, required this.icon, this.onTap});
 
   final String label;
   final IconData icon;
@@ -302,8 +326,9 @@ class _SmallKey extends StatelessWidget {
           widthFactor: 1,
           child: AnimatedContainer(
             duration: const Duration(milliseconds: 100),
-            height: 36,
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16),
+            // 36 dp for one line; a long chapter name wraps and the key grows with it.
+            constraints: const BoxConstraints(minHeight: 36),
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s8),
             decoration: ShapeDecoration(
               color: pressed ? colors.raised2 : Colors.transparent,
               shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
@@ -313,7 +338,7 @@ class _SmallKey extends StatelessWidget {
               children: [
                 Icon(icon, size: 13, color: colors.ink),
                 const SizedBox(width: MmSpace.s6),
-                Text(label, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink)),
+                Flexible(child: Text(label, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.labelLarge.copyWith(fontSize: 14, fontWeight: FontWeight.w600, color: colors.ink))),
               ],
             ),
           ),

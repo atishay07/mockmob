@@ -287,7 +287,9 @@ void main() {
     expect(find.textContaining('CSAS'), findsNothing);
     expect(find.textContaining('admission.uod'), findsNothing);
     expect(find.text('Shri Ram College of Commerce'), findsOneWidget);
-    expect(find.text('B.Com (Hons), 2026 Round 1. 2 more saved.'), findsOneWidget);
+    // 19 Oct (D104): every college up to three shows on Today, hardest first; none is "saved" out of sight.
+    expect(find.text('B.Com (Hons), 2026 Round 1.'), findsNWidgets(3));
+    expect(find.textContaining('more saved'), findsNothing);
   });
 
   testWidgets('the header Mobi keeps pointing at the move card through a scroll and a text-size change', (tester) async {

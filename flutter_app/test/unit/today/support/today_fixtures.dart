@@ -228,6 +228,8 @@ TodayInputs ashaInputs({
   String? firstName = 'Asha',
   String? email,
   OpenPaper? openPaper,
+  List<String> subjects = const ['accountancy', 'business_studies', 'economics', 'english'],
+  bool mobInvite = false,
 }) {
   final at = now ?? tuesdayEvening;
   return TodayInputs(
@@ -241,7 +243,8 @@ TodayInputs ashaInputs({
     openRepairs: openRepairs,
     reviewChapters: reviewChapters,
     isPro: isPro,
-    subjects: const ['accountancy', 'business_studies', 'economics', 'english'],
+    subjects: subjects,
+    mobInvite: mobInvite,
     attempts: attempts ?? ashaRecord(at),
     attemptsFetchedAt: at.subtract(attemptsAge),
     attemptsStale: attemptsStale ?? offline,

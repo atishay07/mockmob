@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/motion/motion.dart';
+import 'package:mockmob/core/router/quick_start.dart' show keepUnitsTogether;
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/art/mm_art.dart';
 import 'package:mockmob/features/today/copy_suggested.dart';
@@ -107,7 +108,7 @@ void main() {
         final art = tester.getRect(corner);
         final card = tester.getRect(top);
         expect(art.right, lessThanOrEqualTo(card.right), reason: 'the object stays on the card');
-        for (final text in [cards.first.title, if (cards.first.cost != null) cards.first.cost!]) {
+        for (final text in [cards.first.title, if (cards.first.cost != null) keepUnitsTogether(cards.first.cost!)]) {
           final words = tester.getRect(find.descendant(of: top, matching: find.text(text)));
           expect(words.right, lessThanOrEqualTo(art.left), reason: '"$text" wraps before the object');
         }
@@ -140,9 +141,10 @@ void main() {
     expect(find.ancestor(of: coach, matching: find.byType(MmOverlapSwitcher)), findsNothing);
   });
 
-  test('the end says the passed cards wait, as Not now promised; the count never says none are left', () {
+  test('the end says every card was seen (they all wait, as Not now promised); the count never says none are left', () {
     expect(SuggestedCopy.coachLeft, contains('It waits at the back'));
-    expect(SuggestedCopy.allSeen(3), 'You passed all three. They wait here.');
+    // 19 Oct, G12: "You passed all three. They wait here." read as bad English.
+    expect(SuggestedCopy.allSeen(3), "You've seen all three.");
     expect(SuggestedCopy.noneLeft, isNot(contains('None')));
     expect(SuggestedCopy.allSeen(3), isNot(contains('!')));
   });

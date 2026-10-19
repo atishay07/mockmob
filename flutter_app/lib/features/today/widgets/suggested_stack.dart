@@ -7,9 +7,10 @@
 // Taken from Tinder, without its meaning: the controls are not on the card. One fixed row under the
 // deck holds Not now, Undo and Do this next (the button names the outcome; the result is "Up next"). While a card is dragged, the button on that side grows
 // with the drag and lights at the threshold, and a stamp with the same words lands on the card.
-// Right is "Up next": the card flies up into the lead card, which swaps to it exactly as the old
-// choices did (the old move comes down into the deck marked Suggested), and a glass bar says so
-// with Undo. Left is "Not now": the card slides out and tucks in behind the deck. A tap on the card
+// Right is "Up next": the card lifts (to 1.03, its shadow deepening) and travels up into the lead
+// card on one spring; the lead card's words change as it arrives and the lead card settles under
+// it (19 Oct, G13: one continuous move). The lead swaps exactly as the old choices did (the old
+// move comes down into the deck marked Suggested), and a glass bar says so with Undo. Left is "Not now": the card slides out and tucks in behind the deck. A tap on the card
 // is Up next. Below the threshold it springs home. The threshold ticks a selection haptic both ways.
 //
 // The first run teaches itself ([DeckCoach]): a one-line intro says what the cards are; once the
@@ -37,6 +38,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/art/art.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
+import '../../../core/router/quick_start.dart' show keepUnitsTogether;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy_glance.dart';
@@ -74,8 +76,20 @@ const Duration deckBarHold = Duration(seconds: 5);
 /// The controls row's height: every button is a full 48 dp target.
 const double deckRowHeight = 48;
 
+/// The accepted card's lift as it leaves the deck (G13: 1.0 to 1.03, its shadow deepening).
+const double deckLiftScale = 1.03;
+
+/// How far along its spring the accepted card is when it reaches the lead card: the lead settles
+/// under it from here ([SuggestedStack.onLanded]).
+const double deckLandAt = 0.8;
+
+/// The accepted card's travel to the lead card: one spring, the approved landing spring
+/// ([Springs.settle]: 420 ms, bounce 0, so it never overshoots; within 2% of the lead by about
+/// 400 ms).
+SpringDescription get deckFlightSpring => Springs.settle;
+
 class SuggestedStack extends StatefulWidget {
-  const SuggestedStack({super.key, required this.cards, required this.onChoose, this.onUndoChoose, this.onMore, this.leadKey, this.closeBar});
+  const SuggestedStack({super.key, required this.cards, required this.onChoose, this.onUndoChoose, this.onMore, this.leadKey, this.closeBar, this.onLanded, this.endLine});
 
   /// The deck, in order: [buildSuggestedDeck]. The stack sinks kinds passed on often ([DeckMemory]).
   final List<SuggestedCard> cards;
@@ -97,6 +111,14 @@ class SuggestedStack extends StatefulWidget {
   /// pick's Undo goes with it: what the student started is no longer swapped away (round 2, item 5).
   final Listenable? closeBar;
 
+  /// The accepted card has reached the lead card (motion on): the screen lets the lead card settle
+  /// under it.
+  final VoidCallback? onLanded;
+
+  /// What the end card says about the card above it, when that is not the usual pick (a paper's reel
+  /// stands in the lead card): null keeps the pick lines.
+  final String? endLine;
+
   /// On the card on top of the deck.
   static const Key topKey = ValueKey('suggested-top');
 
@@ -117,10 +139,15 @@ class SuggestedStack extends StatefulWidget {
   /// instead of the reduced-motion form (both meanings at once).
   static bool debugCoachMotion = false;
 
+  /// Tests: every frame of an accepted card's flight (its spring progress, scale and opacity), so
+  /// a test can check the move is one continuous spring.
+  static void Function(({double progress, double scale, double opacity, Offset at}) frame)? debugFlightFrame;
+
   /// Resets the debug pins (tests).
   static void debugReset() {
     debugDemoPeak = null;
     debugCoachMotion = false;
+    debugFlightFrame = null;
     _SuggestedStackState._nudgedThisRun = false;
   }
 
@@ -130,12 +157,18 @@ class SuggestedStack extends StatefulWidget {
 
 /// A chosen card on its way up into the lead card.
 class _Flight {
-  _Flight({required this.card, required this.from, required this.lean, required this.to});
+  _Flight({required this.card, required this.from, required this.lean, required this.to, required this.stamp});
 
   final SuggestedCard card;
   final Offset from;
   final double lean;
+
+  /// Where the lead card was when the card left (the flight follows it live while it can measure).
   final Offset to;
+
+  /// The stamp's strength as the card left: a drag past the threshold keeps its stamp, a tap or the
+  /// button shows none, so nothing pops on as the card lifts.
+  final double stamp;
 }
 
 /// A passed-on card tucking in behind the deck, from where it left the screen's edge.
@@ -185,8 +218,11 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   /// The top card's sideways offset in dp (the finger, the demo and the commits drive it).
   late final AnimationController _x;
 
-  /// A chosen card flying into the lead card (0 to 1).
+  /// A chosen card flying into the lead card: its spring's progress, 0 to 1.
   late final AnimationController _fly;
+
+  /// The flight has reached the lead card (its landing was reported).
+  bool _landed = false;
 
   /// The new top card arriving after a pick: the old lead coming down into the deck.
   late final AnimationController _arrive;
@@ -268,7 +304,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   void initState() {
     super.initState();
     _x = AnimationController.unbounded(vsync: this)..addListener(_moved);
-    _fly = AnimationController(vsync: this, duration: const Duration(milliseconds: 340));
+    _fly = AnimationController.unbounded(vsync: this)..addListener(_flying);
     _arrive = AnimationController(vsync: this, duration: const Duration(milliseconds: 360), value: 1);
     _tuck = AnimationController(vsync: this, duration: const Duration(milliseconds: 200))..addListener(_tucked);
     _back = AnimationController(vsync: this, duration: const Duration(milliseconds: 300), value: 1);
@@ -319,6 +355,11 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
         _bar = null;
         if (bar != null) scheduleMicrotask(bar.close);
         _stopDemo(jump: true);
+        // A flight in progress ends where it was going: the pick is already made.
+        if (_flight != null) {
+          _fly.stop();
+          _flight = null;
+        }
       }
     }
     _armDemo();
@@ -396,6 +437,13 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
   void _tucked() {
     final behind = _tuck.value >= 0.5;
     if (behind != _tuckBehind) setState(() => _tuckBehind = behind);
+  }
+
+  /// The flight reached the lead card: the lead settles under it, once.
+  void _flying() {
+    if (_flight == null || _landed || _fly.value < deckLandAt) return;
+    _landed = true;
+    widget.onLanded?.call();
   }
 
   // The first run: the demo, and the returning visits' nudge.
@@ -694,8 +742,11 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       _revealLeadAfterSwap();
     } else {
       final x = _x.value;
-      _flight = _Flight(card: card, from: Offset(x, _liftY(x)), lean: _lean(x), to: _leadOffset());
-      _fly.forward(from: 0).whenCompleteOrCancel(() {
+      final stamp = x > 0 && card.swipeable ? (x.abs() / _threshold).clamp(0.0, 1.0) : 0.0;
+      _flight = _Flight(card: card, from: Offset(x, _liftY(x)), lean: _lean(x), to: _leadOffset(), stamp: stamp);
+      _landed = false;
+      _fly.value = 0;
+      _fly.animateWith(Motion.spring(deckFlightSpring, 0, 1)).whenCompleteOrCancel(() {
         if (mounted) setState(() => _flight = null);
       });
       _x.value = 0;
@@ -827,6 +878,14 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       return a - b;
     }
     return const Offset(0, -260);
+  }
+
+  /// The lead card's middle from the deck's, or [fallback] when it cannot be measured now.
+  Offset _leadOffsetOr(Offset fallback) {
+    final lead = widget.leadKey?.currentContext?.findRenderObject();
+    final deck = _deckKey.currentContext?.findRenderObject();
+    if (lead is RenderBox && deck is RenderBox && lead.attached && deck.attached && lead.hasSize && deck.hasSize) return _leadOffset();
+    return fallback;
   }
 
   void _again() => setState(() {
@@ -1018,7 +1077,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
               child: Padding(
                 padding: EdgeInsets.only(bottom: _peekRoom),
                 child: ended
-                    ? _EndCard(count: _pass.length, yourPick: _leadIsPick, height: _endHeight, onMore: widget.onMore)
+                    ? _EndCard(count: _pass.length, yourPick: _leadIsPick, line: widget.endLine, height: _endHeight, onMore: widget.onMore)
                     : LayoutBuilder(
                         builder: (context, box) {
                           _width = box.maxWidth;
@@ -1062,6 +1121,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
               final undo = _undo;
               return _DeckControls(
                 ended: ended,
+                count: _pass.length,
                 notNow: p > 0 && x < 0 ? p : 0,
                 upNext: p > 0 && x > 0 && right ? p : 0,
                 notNowLit: _demoSide == MmDragSide.left || (_past && x < 0),
@@ -1219,26 +1279,35 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
             child: AnimatedBuilder(
               animation: _fly,
               builder: (context, child) {
-                final t = Motion.inOut.transform(_fly.value);
-                final at = Offset.lerp(flight.from, flight.to, t)!;
-                final scale = 1 - 0.38 * t;
-                final fade = 1 - const Interval(0.4, 1, curve: Motion.exit).transform(_fly.value);
+                // One continuous move (G13): the spring carries the card from where it left the deck
+                // to the lead card's middle, measured live (the page may scroll and the lead card's
+                // height may ease as its words change). It lifts to 1.03 with a deeper shadow as it
+                // leaves, keeps the lift while it travels, and comes down to 1.0 as it fades into the
+                // lead card, which settles under it.
+                final p = _fly.value;
+                final pc = p.clamp(0.0, 1.0);
+                final to = _leadOffsetOr(flight.to);
+                final at = Offset.lerp(flight.from, to, p)!;
+                final rise = Motion.out.transform((pc / 0.3).clamp(0.0, 1.0));
+                final land = const Interval(0.75, 0.97, curve: Motion.leave).transform(pc);
+                final lift = rise * (1 - land);
+                final scale = 1 + (deckLiftScale - 1) * lift;
+                SuggestedStack.debugFlightFrame?.call((progress: p, scale: scale, opacity: 1 - land, at: at));
                 return Opacity(
-                  opacity: fade,
+                  opacity: (1 - land).clamp(0.0, 1.0),
                   child: Transform(
                     alignment: Alignment.center,
                     transform: Matrix4.translationValues(at.dx, at.dy, 0)
-                      ..rotateZ(flight.lean * (1 - t) * math.pi / 180)
+                      ..rotateZ(flight.lean * (1 - pc) * math.pi / 180)
                       ..scaleByDouble(scale, scale, 1, 1),
-                    child: child,
+                    child: _Stamped(
+                      yes: flight.stamp,
+                      no: 0,
+                      child: _DeckCard(card: flight.card, at: 0, of: n, wordsOpacity: 1 - 0.6 * flight.stamp, lift: lift),
+                    ),
                   ),
                 );
               },
-              child: _Stamped(
-                yes: 1,
-                no: 0,
-                child: _DeckCard(card: flight.card, at: 0, of: n, wordsOpacity: 0.4),
-              ),
             ),
           ),
         ),
@@ -1574,12 +1643,16 @@ class _DeckCard extends StatelessWidget {
     this.edge,
     this.onUpNext,
     this.onNotNow,
+    this.lift = 0,
   });
 
   final SuggestedCard card;
   final int at;
   final int of;
   final bool interactive;
+
+  /// How lifted the card is (0 at rest, 1 at the accepted card's full lift): its shadow deepens.
+  final double lift;
 
   /// Laid out only for its height (never painted): no art, which takes no height of its own.
   final bool measure;
@@ -1594,6 +1667,17 @@ class _DeckCard extends StatelessWidget {
   final Color? edge;
   final VoidCallback? onUpNext;
   final VoidCallback? onNotNow;
+
+  /// The card's own shadow, raised: further, softer and a little darker, in the same light.
+  static List<BoxShadow> _lifted(List<BoxShadow> rest) => [
+        for (final s in rest)
+          BoxShadow(
+            color: s.color.withValues(alpha: math.min(1.0, s.color.a * 1.4)),
+            offset: s.offset * 1.7,
+            blurRadius: s.blurRadius * 1.7,
+            spreadRadius: s.spreadRadius,
+          ),
+      ];
 
   static const _upNextAction = CustomSemanticsAction(label: SuggestedCopy.upNext);
   static const _notNowAction = CustomSemanticsAction(label: SuggestedCopy.notNow);
@@ -1618,7 +1702,7 @@ class _DeckCard extends StatelessWidget {
           ],
           if (card.cost != null)
             Text(
-              card.cost!,
+              keepUnitsTogether(card.cost!),
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: type.caption.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink3),
@@ -1649,7 +1733,7 @@ class _DeckCard extends StatelessWidget {
         color: colors.raised,
         borderRadius: MmRadius.panelAll,
         border: Border.all(color: edge ?? colors.line, width: edge == null ? 1 : 1.5),
-        boxShadow: colors.cardShadow,
+        boxShadow: lift <= 0 ? colors.cardShadow : BoxShadow.lerpList(colors.cardShadow, _lifted(colors.cardShadow), lift.clamp(0.0, 1.0)),
       ),
       child: Stack(
         // The deck's height reaches the card (one height for the pass); measured alone, the card
@@ -1824,7 +1908,13 @@ class _Art extends StatelessWidget {
     maxHeight: double.infinity,
     child: switch (card.art) {
       SuggestedArt.mobi => Mobi(pose: HeroArtView.poseFor(card.pose), size: _mobiSize),
-      SuggestedArt.stopwatch => const HybridStopwatch(height: _hybridHeight),
+      // A calm, still stopwatch (19 Oct, G12: its hands swept round each time the card moved to a
+      // new place in the deck, which read as an odd clock animation). The object holds its pose;
+      // the whole card answers the finger.
+      SuggestedArt.stopwatch => MediaQuery(
+          data: MediaQuery.of(context).copyWith(disableAnimations: true),
+          child: const HybridStopwatch(height: _hybridHeight),
+        ),
       SuggestedArt.bell => const HybridBell(height: _hybridHeight),
       // The lead card's object, unframed: an object on the card, not an icon. It stays still (no
       // lean or tap of its own), since the whole card answers the finger.
@@ -1881,6 +1971,7 @@ class _Stamp extends StatelessWidget {
 class _DeckControls extends StatelessWidget {
   const _DeckControls({
     required this.ended,
+    required this.count,
     required this.notNow,
     required this.upNext,
     required this.notNowLit,
@@ -1894,6 +1985,9 @@ class _DeckControls extends StatelessWidget {
   });
 
   final bool ended;
+
+  /// The cards in the deck ("See it again" over one card, "Go through them again" over more).
+  final int count;
 
   /// How far a drag toward each side has come (0 to 1).
   final double notNow;
@@ -1957,11 +2051,11 @@ class _DeckControls extends StatelessWidget {
                   child: _RowButton(
                     key: SuggestedStack.againKey,
                     icon: LucideIcons.refreshCw,
-                    label: SuggestedCopy.again,
+                    label: SuggestedCopy.againFor(count),
                     style: label,
                     filled: true,
                     onTap: onAgain,
-                    semanticsLabel: SuggestedCopy.again,
+                    semanticsLabel: SuggestedCopy.againFor(count),
                   ),
                 ),
               ],
@@ -2302,12 +2396,15 @@ class _UpNextBarState extends State<_UpNextBar> {
 /// The end of the deck: a dashed card with Mobi thinking, where the student stands, and every way
 /// to practise. The row under it offers Undo and Go through them again.
 class _EndCard extends StatelessWidget {
-  const _EndCard({required this.count, required this.yourPick, this.height, this.onMore});
+  const _EndCard({required this.count, required this.yourPick, this.line, this.height, this.onMore});
 
   final int count;
 
   /// The lead card is the student's own pick (else it is still the recommended move).
   final bool yourPick;
+
+  /// Replaces the pick line (the card above is not a move).
+  final String? line;
 
   /// The deck's height as it ended: the end card takes it, so nothing under it moves.
   final double? height;
@@ -2338,7 +2435,7 @@ class _EndCard extends StatelessWidget {
               ),
               const SizedBox(height: MmSpace.s2),
               Text(
-                yourPick ? SuggestedCopy.endYourPick : SuggestedCopy.endOurPick,
+                line ?? (yourPick ? SuggestedCopy.endYourPick : SuggestedCopy.endOurPick),
                 textAlign: TextAlign.center,
                 style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink2),
               ),

@@ -154,14 +154,14 @@ abstract final class TodayCopy {
   static String startRepair(int minutes) => 'Start repair, $minutes min';
   static String aajKaRepair(int minutes, String chapter) => 'Aaj ka repair: $minutes minutes, $chapter.';
   static String basedOn(DateTime date) => 'Marked on ${formatDayMonth(date)}.';
-  static const String earlySignal = 'From one paper. Another mock sharpens this.';
+  static const String earlySignal = 'This comes from one paper so far. Another mock will sharpen it.';
 
   // Other next-move states (spec 5.3 table, in this voice).
   static String staleLabel(int days) => '${pluralWord(days, 'day')}\nsince a mock';
   static String staleLine(DateTime date) => 'Your last mock was on ${formatDayMonth(date)}. A fresh set will update this.';
   static const String practiseToRefresh = 'Practise to refresh';
   static String thinLabel(int n) => '${pluralWord(n, 'question')}\nso far';
-  static const String thinLine = 'From one paper. Ten more questions sharpen this.';
+  static const String thinLine = 'You have only one paper so far. Ten more questions will sharpen the picture.';
   static const String checkThisSkill = 'Check this skill';
   static String repairedLabel(int n) => 'repaired\nfrom $n';
   static String repairedNumberLabel(String source) => 'repaired\nfrom $source';
@@ -264,6 +264,8 @@ abstract final class TodayCopy {
   static String sealedTitle(String label, String subject) => '$label, $subject';
   static String receivedAt(DateTime at) => 'Received at ${formatTime12(at)}. Your result is ready.';
   static const String openSheet = 'Open your sheet';
+  /// The row under the lead while a paper's result waits there (a card picked from the deck took the lead): one whole sentence that fits the row.
+  static const String sealedWaiting = 'Your result is waiting for you.';
 
   // The paper reel on Today (D29): a truthful play-back of the student's own marked paper.
   static String reelLine(String? subject) => subject == null
@@ -558,7 +560,7 @@ abstract final class TodayCopy {
     if (wrong == 0) return '$blank not attempted';
     return '$wrong wrong, $blank not attempted';
   }
-  static const String whyEarly = 'One paper so far. Each mock you add sharpens it.';
+  static const String whyEarly = 'You have one paper so far. Each mock you add sharpens the picture.';
   static const String whyRepair =
       'A repair walks you through each mistake with a worked explanation, then lets you try a similar question.';
   static const String seeMyAnswers = 'See my answers';
@@ -760,6 +762,15 @@ abstract final class TodayCopy {
   static String lastPaperName(String label, String subject) => '$label, $subject';
   static String lastPaperSub(String date, String? change) => change == null ? date : '$date, $change';
   static String collegesSub(String course, int more) => more > 0 ? '$course, 2026 Round 1. $more more saved.' : '$course, 2026 Round 1.';
+
+  // Your colleges on Today (19 Oct, D104): the three hardest to get into, labelled, and every one
+  // a tap away. "Top" says what it means (the owner asked whether the three were first
+  // preferences): the ones that need the most marks.
+  static String collegesTop(int of) => of > 3 ? 'Your top 3 of $of: the three that need the most marks.' : 'The one that needs the most marks comes first.';
+  static String collegeRowSub(String course, {required bool figure}) => figure ? '$course, 2026 Round 1.' : '$course. No Round 1 figure on file for your category.';
+  static String seeAllCount(int n) => 'See all $n colleges';
+  static const String seeAllSub = 'Every college you picked, with the marks it needs.';
+  static String seeAllSemantics(int n) => 'See all $n colleges. Every college you picked, with the marks it needs.';
   static const String collegesEmpty = 'Pick up to 8 colleges to see their 2026 cutoffs here.';
   static const String choose = 'Choose';
 

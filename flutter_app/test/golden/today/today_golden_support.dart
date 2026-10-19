@@ -14,6 +14,7 @@ import 'package:mockmob/features/social/data/mob_repository.dart' show mobReposi
 import 'package:mockmob/features/today/logic/today_model.dart';
 import 'package:mockmob/features/today/screens/today_body.dart';
 import 'package:mockmob/features/today/widgets/road_section.dart' show RoadActions;
+import 'package:mockmob/features/tools/estimate/estimate_providers.dart' show estimateProvider;
 
 import 'package:mockmob/features/practice/data/open_paper.dart' show Continued;
 
@@ -35,6 +36,8 @@ List<Override> get todayOverrides => [
       ...noOpenPaperOverrides,
       authSnapshotProvider.overrideWithBuild((ref, notifier) => ashaAuth),
       mobRepositoryProvider.overrideWithBuild((ref, notifier) => const RemoteState<MobRead>.idle()),
+      // The colleges sheet reads the student's estimate (none here): no Compass read in a golden.
+      estimateProvider.overrideWithValue(null),
     ];
 
 /// Saves that return at once: the road's tuners show as they do in the app.

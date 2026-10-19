@@ -57,11 +57,12 @@ TodayView buildToday(TodayInputs i) {
   // The paper reel stands alone (D29): play or skip is one tap, then the Up next card returns,
   // so the move is not a second row under it (the v13 row that sat half under the bar, D28).
   final also = <AlsoSlot>[
-    for (final h in heroes.skip(1)) _slotFor(h),
+    for (final h in heroes.skip(1)) alsoSlotFor(h),
     if (hero is! MoveHero && hero is! SealedHero) _moveSlot(move, lead: moveLeads),
   ];
   final road = buildRoad(i);
   final glance = buildGlance(i, lead: move, road: road);
+  final weakest = glance.weak.rows.isEmpty ? null : glance.weak.rows.first;
   return TodayView(
     header: header,
     hero: hero,
@@ -73,7 +74,12 @@ TodayView buildToday(TodayInputs i) {
     offline: i.offline,
     lastPaper: buildLastPaper(i),
     glance: glance,
-    choices: hero is MoveHero ? buildChoices(i, move, weakest: glance.weak.rows.isEmpty ? null : glance.weak.rows.first) : const [],
+    choices: switch (hero) {
+      MoveHero() => buildChoices(i, move, weakest: weakest),
+      // The reel stands in the lead card: the deck still shows what to do next (19 Oct).
+      SealedHero() => buildChoicesUnderReel(i, move, weakest: weakest),
+      _ => const [],
+    },
   );
 }
 
@@ -356,10 +362,11 @@ TodayHero? _sealed(TodayInputs i) {
   );
 }
 
-AlsoSlot _slotFor(TodayHero h) => switch (h) {
+/// The compact row for a hero that is not the lead (a paper waiting under a card the student picked).
+AlsoSlot alsoSlotFor(TodayHero h) => switch (h) {
       SealedHero() => AlsoSlot(
           title: h.title,
-          line: h.line,
+          line: TodayCopy.sealedWaiting,
           action: TodayAction(TodayCopy.openSheet, GoTo(AppRoutes.resultSealed(h.attemptId))),
         ),
       ResumeHero() => AlsoSlot(

@@ -24,6 +24,7 @@ import 'marks_trend.dart';
 import 'move_builder.dart';
 import 'road_board.dart';
 import 'road_builder.dart' show expectedWindowStart;
+import 'starter_cards.dart';
 import 'subjects.dart';
 import 'today_builder.dart' show buildLastPaper;
 import 'today_inputs.dart';
@@ -45,6 +46,7 @@ String choiceKeyOf(MoveHero m) => switch (m.kind) {
       MoveKind.weakest => 'weakest',
       MoveKind.firstMock || MoveKind.mock => 'mock',
       MoveKind.otherSubject => 'other',
+      MoveKind.practice => m.choiceKey ?? 'quick',
       _ => 'lead',
     };
 
@@ -60,6 +62,7 @@ String leadTitle(MoveHero m) => switch (m.kind) {
       MoveKind.weakest => GlanceCopy.titleWeakest,
       MoveKind.mock => GlanceCopy.titleMock,
       MoveKind.otherSubject => GlanceCopy.titleOtherSubject,
+      MoveKind.practice => m.title ?? m.summary,
       _ => switch (m.state) {
           NextMoveState.newUser || NextMoveState.subjectChanged => GlanceCopy.titleStart,
           NextMoveState.stale => GlanceCopy.titleRefresh,
@@ -105,8 +108,14 @@ String formatDayMonthShortLocal(DateTime d) => '${d.day} ${const ['Jan', 'Feb', 
 /// moves of a different kind from [lead], in the order Repair, Revise, the weakest chapter, a full
 /// mock (none in 14 days), another subject. Done for tonight keeps them too, for a student who
 /// wants more (its key shows the repairs).
+///
+/// 19 Oct, G12 (R1): every one of those but the mock and another subject needs a paper, so a fresh
+/// account got one card. With no paper yet the deck is the starter cards ([starterChoices], up to
+/// [starterDeckSize]), built from the subjects alone; a record that makes fewer than [deckMinimum]
+/// cards of its own (one paper, two) is topped up from them, so a deck is never short of four.
 List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakest, int limit = 4}) {
   if (lead.kind == MoveKind.failure || lead.state == NextMoveState.historyUnavailable) return const [];
+  if ((i.attempts ?? const <Attempt>[]).isEmpty) return starterChoices(i, lead);
   final leadKey = choiceKeyOf(lead);
   final out = <MoveChoice>[];
   void add(String key, MoveChoice? Function() build) {
@@ -146,7 +155,28 @@ List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakes
     if (other == null) return null;
     return MoveChoice(key: 'other', title: GlanceCopy.titleOtherSubject, line: GlanceCopy.choiceOtherLine(subjectName(other)), hero: presentMove(otherSubjectMoveFor(i, subject: other), i));
   });
+  // A light record (one paper, two) makes fewer than four cards of its own: the starter cards top it
+  // up after the record's own, so the deck never runs short (G12, and the first-paper finding).
+  if (out.length < deckMinimum) out.addAll(starterChoices(i, lead, existing: out, limit: math.min(limit, deckMinimum) - out.length));
   return out;
+}
+
+/// The deck while a sealed result stands in the lead card (the paper's reel, 19 Oct: "Today after the
+/// first paper" showed no deck at all, and nothing said what to do next). The move that will lead
+/// once the reel is played or put off comes first, as a card of its own, then the others as they
+/// would stand under it, so the student with one paper still has at least [deckMinimum] real cards
+/// and a card picked here replaces the reel in the lead (the reel waits in a row under it).
+List<MoveChoice> buildChoicesUnderReel(TodayInputs i, MoveHero move, {WeakChapter? weakest, int limit = 4}) {
+  final others = buildChoices(i, move, weakest: weakest, limit: limit);
+  if (move.kind == MoveKind.failure || move.kind == MoveKind.done || move.state == NextMoveState.historyUnavailable) return others;
+  final line = move.valueLine ?? move.summary;
+  // Its own kind's key (the deck learns by kind); a move with none ("lead") takes "next", because
+  // "lead" is what a pick of the lead card itself is called, which puts the recommended move back.
+  final kind = choiceKeyOf(move);
+  return [
+    MoveChoice(key: kind == 'lead' ? 'next' : kind, title: move.title ?? move.summary, line: line, hero: move),
+    ...others,
+  ];
 }
 
 List<Attempt> _opened(TodayInputs i) {
@@ -362,7 +392,15 @@ RoadLayers buildRoadLayers(TodayInputs i, {required RoadBoard board, MoveHero? l
 WeakChapters buildWeakChapters(TodayInputs i) {
   if (i.attempts == null) return WeakChapters(failed: i.attemptsFailed);
   final all = i.attempts!;
-  if (all.isEmpty) return WeakChapters(dayOne: true, startChapters: rankedChapters(canonicalSubject(dayOneSubject(i))) ?? const []);
+  if (all.isEmpty) {
+    final subject = canonicalSubject(dayOneSubject(i));
+    final chapters = rankedChapters(subject) ?? const <String>[];
+    return WeakChapters(
+      dayOne: true,
+      startChapters: chapters,
+      startPractise: chapters.isEmpty ? null : GoTo(TodayLinks.quick(subject: subject, chapter: chapters.first)),
+    );
+  }
   final opened = _opened(i);
   final ranked = weakRowsOf(i);
   final rows = <WeakChapter>[];

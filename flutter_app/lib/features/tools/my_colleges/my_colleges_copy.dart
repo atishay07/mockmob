@@ -10,7 +10,7 @@ abstract final class MyCollegesCopy {
   /// "3 of 8 colleges".
   static String count(int n) => '$n of ${MyColleges.maxColleges} colleges';
 
-  static const String lede = 'The same list on the website. Today shows your first 3, so put your top choices first.';
+  static const String lede = 'The same list on the website. Today shows the 3 that need the most marks, and lists every one under See all.';
 
   static const String empty = 'No colleges yet. Add the ones you are aiming for and they show on Today, in Compass and on the website.';
   static const String add = 'Add a college';

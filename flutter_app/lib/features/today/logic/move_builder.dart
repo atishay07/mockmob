@@ -19,6 +19,7 @@ import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../practice/model/practice_selection.dart' show mockQuestionCount, practiceCounts;
 import '../copy.dart';
 import '../copy_glance.dart' show GlanceCopy;
+import '../copy_suggested.dart' show StarterCopy;
 import 'links.dart';
 import 'subjects.dart';
 import 'today_inputs.dart';
@@ -39,7 +40,7 @@ List<DurationChoice> _practiceOptions() => [
     ];
 
 const String _mockNumberLabel = 'questions in\n60 minutes';
-const String _mockMeaning = 'A full paper, timed like the real one. It shows where the marks go across every chapter at once.';
+const String _mockMeaning = 'It is timed like the real exam, so you see how you do against the clock. It shows where your marks go across every chapter at once.';
 const String _mockKey = 'Start full mock, 60 min';
 
 /// A practice move whose pill reads "Full mock" is the full mock: its number, its sentence and its
@@ -282,7 +283,9 @@ MoveHero _buildMove(TodayInputs i) {
         kind: state == NextMoveState.newUser ? MoveKind.dayOne : MoveKind.other,
         headline: state == NextMoveState.subjectChanged ? TodayCopy.subjectChanged : (scheduled ? TodayCopy.checkSetFor(i.clock(at)) : null),
         number: '$count',
-        numberLabel: 'questions to your\nstarting point',
+        // "Find your starting point" is the title: the label gives the subject (19 Oct: the card said
+        // "starting point" twice).
+        numberLabel: 'questions in\n$name',
         meaning: framing == null ? TodayCopy.startingPointLine(name, count) : TodayCopy.startingPointWith(name, framing, count),
         durationPrompt: TodayCopy.practiceLength,
         durations: options,
@@ -836,22 +839,22 @@ MoveHero mockMoveFor(TodayInputs i, {required String subject}) => MoveHero(
       art: HeroArt.object(subject: canonicalSubject(subject)),
       number: '$mockQuestionCount',
       numberLabel: 'questions in\n60 minutes',
-      meaning: 'A full paper, timed like the real one. It shows where the marks go across every chapter at once.',
+      meaning: _mockMeaning,
       summary: TodayCopy.startTimedMock(60),
       primary: TodayAction('Start full mock, 60 min', GoTo(TodayLinks.fullMock(subject: subject)), startsSession: true, actionType: 'mock'),
     );
 
-/// The subject practised longest ago (never practised first), other than [except]; null with one
-/// subject only.
-String? otherSubjectFor(TodayInputs i, {String? except}) {
+/// The subject practised longest ago (never practised first), other than [except] and any in
+/// [skip]; null when no other subject is left.
+String? otherSubjectFor(TodayInputs i, {String? except, Iterable<String> skip = const []}) {
   final attempts = i.attempts ?? const <Attempt>[];
-  final skip = except == null ? null : canonicalSubject(except);
+  final skipped = {if (except != null) canonicalSubject(except), for (final s in skip) canonicalSubject(s)};
   final subjects = <String>[for (final s in i.subjects) canonicalSubject(s)];
   for (final a in attempts) {
     final s = canonicalSubject(a.subject);
     if (!subjects.contains(s)) subjects.add(s);
   }
-  final others = [for (final s in subjects) if (s != skip && s.isNotEmpty) s];
+  final others = [for (final s in subjects) if (!skipped.contains(s) && s.isNotEmpty) s];
   if (others.isEmpty) return null;
   DateTime? lastOf(String s) {
     for (final a in attempts) {
@@ -901,5 +904,33 @@ MoveHero otherSubjectMoveFor(TodayInputs i, {required String subject}) {
     selectedMinutes: count,
     summary: 'Practise $name',
     primary: TodayAction('Start practice, $count min', GoTo(TodayLinks.quick(subject: subject, count: count)), startsSession: true, actionType: 'practice'),
+  ), i);
+}
+
+/// [count] questions in [subject], or on one [chapter] of it, with no paper behind them: the
+/// suggested deck's starter cards (19 Oct, G12). [meaning] says why in the student's own terms
+/// (its first sentence is the card's evidence line). A whole move, so a swap shows it like any
+/// other: its length chips, its key and its price.
+MoveHero starterPracticeFor(TodayInputs i, {required String subject, String? chapter, required String Function(int count) meaning, required String title}) {
+  final options = _practiceOptions();
+  final count = _practiceCount(i, options);
+  final name = subjectName(subject);
+  return _asChosen(MoveHero(
+    state: NextMoveState.ready,
+    mood: TodayMood.normal,
+    kind: MoveKind.practice,
+    overline: TodayCopy.moveOverline(i.clock()),
+    subjectId: canonicalSubject(subject),
+    subjectLine: name,
+    art: HeroArt.object(subject: canonicalSubject(subject)),
+    title: title,
+    number: '$count',
+    numberLabel: chapter == null ? StarterCopy.numberIn(name) : StarterCopy.numberOn(chapter),
+    meaning: meaning(count),
+    durationPrompt: TodayCopy.practiceLength,
+    durations: options,
+    selectedMinutes: count,
+    summary: StarterCopy.summary(chapter ?? name),
+    primary: TodayAction(StarterCopy.key(count), GoTo(TodayLinks.quick(subject: subject, count: count, chapter: chapter)), startsSession: true, actionType: 'practice'),
   ), i);
 }
