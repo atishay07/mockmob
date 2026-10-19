@@ -113,9 +113,7 @@ abstract final class EnterDen {
 /// One slot on the floor: a member's Fold or an open seat.
 class _Slot {
   const _Slot.member(this.member, this.index) : seat = false;
-  const _Slot.seat(this.index)
-      : member = null,
-        seat = true;
+  const _Slot.seat(this.index) : member = null, seat = true;
 
   final MobV3Member? member;
   final int index;
@@ -217,15 +215,38 @@ class DenStage extends ConsumerWidget {
                             child: Image.asset(denRoomArt(night), fit: BoxFit.fill, filterQuality: FilterQuality.medium, gaplessPlayback: true, errorBuilder: (_, _, _) => const SizedBox.shrink()),
                           ),
                           // The art's own soft edges fade into the ground (top) and become the floor (bottom).
-                          Positioned(left: 0, right: 0, top: artTop - 2, height: 44 * s + 30, child: _Fade(colour: colors.ground, down: false)),
-                          Positioned(left: 0, right: 0, top: math.min(roomHeight, artTop + 860 * s) - 48, height: 48, child: _Fade(colour: colors.ground, down: true)),
-                          Positioned(left: 0, right: 0, top: math.min(roomHeight, artTop + 860 * s), bottom: -20, child: ColoredBox(color: colors.ground)),
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            top: artTop - 2,
+                            height: 44 * s + 30,
+                            child: _Fade(colour: colors.ground, down: false),
+                          ),
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            top: math.min(roomHeight, artTop + 860 * s) - 48,
+                            height: 48,
+                            child: _Fade(colour: colors.ground, down: true),
+                          ),
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            top: math.min(roomHeight, artTop + 860 * s),
+                            bottom: -20,
+                            child: ColoredBox(color: colors.ground),
+                          ),
                           // 3 the lamp light field over the pool.
                           Positioned.fill(
-                            child: CustomPaint(painter: _LampPool(centre: Offset(w / 2, bootsY - 4), width: w, strength: EnterDen.lamp(t), night: night)),
+                            child: CustomPaint(
+                              painter: _LampPool(centre: Offset(w / 2, bootsY - 4), width: w, strength: EnterDen.lamp(t), night: night),
+                            ),
                           ),
                           // The dim the room comes up from (62% to 0).
-                          if (EnterDen.dim(t) > 0.001) Positioned.fill(child: ColoredBox(color: colors.ground.withValues(alpha: EnterDen.dim(t)))),
+                          if (EnterDen.dim(t) > 0.001)
+                            Positioned.fill(
+                              child: ColoredBox(color: colors.ground.withValues(alpha: EnterDen.dim(t))),
+                            ),
                         ],
                       ),
                     ),
@@ -233,8 +254,16 @@ class DenStage extends ConsumerWidget {
                 ),
               ),
               // Day: the header sits over the bright room on a 40% ground scrim (5.5).
-              if (!night) Positioned(left: 0, right: 0, top: 0, height: stageTop + 64, child: _Scrim(colour: colors.ground)),
-              if (skeleton) ..._skeleton(context, w, bootsY)
+              if (!night)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  height: stageTop + 64,
+                  child: _Scrim(colour: colors.ground),
+                ),
+              if (skeleton)
+                ..._skeleton(context, w, bootsY)
               else if (v3 != null) ...[
                 // 5 Fold shadows.
                 for (final slot in slots)
@@ -244,7 +273,9 @@ class DenStage extends ConsumerWidget {
                       top: bootsY - size * 0.05,
                       width: size * 0.8,
                       height: size * 0.1,
-                      child: RepaintBoundary(child: _FoldShadow(ms: ms, index: slot.index, night: night)),
+                      child: RepaintBoundary(
+                        child: _FoldShadow(ms: ms, index: slot.index, night: night),
+                      ),
                     ),
                 // 6 Folds and open seats.
                 for (final slot in slots)
@@ -254,7 +285,11 @@ class DenStage extends ConsumerWidget {
                       top: bootsY - size * 0.9,
                       width: math.min(slotW - 6, size * 0.66),
                       height: size * 0.9,
-                      child: _Entering(ms: ms, index: slot.index, child: _OpenSeat(onTap: onOpenSeat)),
+                      child: _Entering(
+                        ms: ms,
+                        index: slot.index,
+                        child: _OpenSeat(onTap: onOpenSeat),
+                      ),
                     )
                   else
                     Positioned(
@@ -307,13 +342,21 @@ class DenStage extends ConsumerWidget {
                 Positioned(
                   right: side + 6,
                   top: stageTop - 6,
-                  child: RepaintBoundary(child: _PennantIn(ms: ms, weeks: v3!.mobChain.weeks, onTap: onPennant)),
+                  child: RepaintBoundary(
+                    child: _PennantIn(ms: ms, weeks: v3!.mobChain.weeks, onTap: onPennant),
+                  ),
                 ),
                 if (v3!.shelf.items.isNotEmpty || v3!.shelf.nextItem != null)
                   Positioned(
                     left: side,
                     top: stageTop + 92,
-                    child: RepaintBoundary(child: _Fading(ms: ms, at: EnterDen.pennantAt, child: DenShelfView(shelf: v3!.shelf, mobName: v3!.name.text, onTap: onShelf))),
+                    child: RepaintBoundary(
+                      child: _Fading(
+                        ms: ms,
+                        at: EnterDen.pennantAt,
+                        child: DenShelfView(shelf: v3!.shelf, mobName: v3!.name.text, onTap: onShelf),
+                      ),
+                    ),
                   ),
                 // 9 sticker flights from a member's Fold.
                 for (final f in flights.take(3))
@@ -345,9 +388,7 @@ class DenStage extends ConsumerWidget {
 
   List<Widget> _skeleton(BuildContext context, double w, double bootsY) {
     // D6: the room and the lamp, no Folds; the pennant as a paper block pulsing 1.0 to 0.6.
-    return [
-      Positioned(right: MmSpace.gutter + 6, top: stageTop + 10, child: const PaperPulse(width: 58, height: 82)),
-    ];
+    return [Positioned(right: MmSpace.gutter + 6, top: stageTop + 10, child: const PaperPulse(width: 58, height: 82))];
   }
 }
 
@@ -361,14 +402,10 @@ class _Fade extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: down ? [colour.withValues(alpha: 0), colour] : [colour, colour.withValues(alpha: 0)],
-          ),
-        ),
-      );
+    decoration: BoxDecoration(
+      gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: down ? [colour.withValues(alpha: 0), colour] : [colour, colour.withValues(alpha: 0)]),
+    ),
+  );
 }
 
 class _Scrim extends StatelessWidget {
@@ -378,12 +415,12 @@ class _Scrim extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => IgnorePointer(
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [colour.withValues(alpha: 0.4), colour.withValues(alpha: 0)]),
-          ),
-        ),
-      );
+    child: DecoratedBox(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [colour.withValues(alpha: 0.4), colour.withValues(alpha: 0)]),
+      ),
+    ),
+  );
 }
 
 /// The lamp light field (layer 3): a warm radial pool on the floor under the Folds.
@@ -408,7 +445,11 @@ class _LampPool extends CustomPainter {
     canvas.translate(-centre.dx, -centre.dy);
     final paint = Paint()
       ..shader = RadialGradient(
-        colors: [base.withValues(alpha: peak), base.withValues(alpha: peak * 0.55), base.withValues(alpha: 0)],
+        colors: [
+          base.withValues(alpha: peak),
+          base.withValues(alpha: peak * 0.55),
+          base.withValues(alpha: 0),
+        ],
         stops: const [0, 0.55, 1],
       ).createShader(Rect.fromCircle(center: centre, radius: rx));
     canvas.drawCircle(centre, rx, paint);
@@ -420,7 +461,10 @@ class _LampPool extends CustomPainter {
         ..shader = RadialGradient(
           center: Alignment.bottomCenter,
           radius: 0.9,
-          colors: [base.withValues(alpha: peak * 0.35), base.withValues(alpha: 0)],
+          colors: [
+            base.withValues(alpha: peak * 0.35),
+            base.withValues(alpha: 0),
+          ],
         ).createShader(Rect.fromLTWH(rect.left, rect.top - ry * 3.2, rect.width, ry * 3.4)),
     );
   }
@@ -443,7 +487,9 @@ class _FoldShadow extends StatelessWidget {
       valueListenable: ms,
       builder: (context, t, _) {
         final (o, sc) = EnterDen.shadow(t, index);
-        return CustomPaint(painter: _ShadowEllipse(opacity: o, scale: sc, night: night));
+        return CustomPaint(
+          painter: _ShadowEllipse(opacity: o, scale: sc, night: night),
+        );
       },
     );
   }
@@ -461,9 +507,12 @@ class _ShadowEllipse extends CustomPainter {
     if (opacity <= 0) return;
     final c = night ? Colors.black.withValues(alpha: 0.30 * opacity) : const Color(0xFF3B2A12).withValues(alpha: 0.16 * opacity);
     final r = Rect.fromCenter(center: size.center(Offset.zero), width: size.width * scale, height: size.height * scale);
-    canvas.drawOval(r, Paint()
-      ..color = c
-      ..maskFilter = MaskFilter.blur(BlurStyle.normal, size.height * 0.3));
+    canvas.drawOval(
+      r,
+      Paint()
+        ..color = c
+        ..maskFilter = MaskFilter.blur(BlurStyle.normal, size.height * 0.3),
+    );
   }
 
   @override
@@ -506,10 +555,10 @@ class _Fading extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => ValueListenableBuilder<double>(
-        valueListenable: ms,
-        child: child,
-        builder: (context, t, child) => Opacity(opacity: windowOf(t, at, 200), child: child),
-      );
+    valueListenable: ms,
+    child: child,
+    builder: (context, t, child) => Opacity(opacity: windowOf(t, at, 200), child: child),
+  );
 }
 
 /// The pennant swinging in about its pin (M1 from 160 ms).
@@ -610,7 +659,9 @@ class _OpenSeat extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final seat = CustomPaint(painter: _SeatPainter(edge: colors.isNight ? const Color(0x8CEDE5D3) : const Color(0x996B5F4A), plus: colors.isNight ? const Color(0xCCEDE5D3) : const Color(0xCC4A4234)));
+    final seat = CustomPaint(
+      painter: _SeatPainter(edge: colors.isNight ? const Color(0x8CEDE5D3) : const Color(0x996B5F4A), plus: colors.isNight ? const Color(0xCCEDE5D3) : const Color(0xCC4A4234)),
+    );
     if (onTap == null) return Semantics(label: MobV3Copy.openSeat, child: seat);
     return MmPressable(onTap: onTap, semanticsLabel: MobV3Copy.openSeatInvite, pressedScale: 0.95, focusRadius: BorderRadius.circular(18), builder: (context, pressed, _) => seat);
   }
@@ -674,7 +725,11 @@ class DenShelfView extends StatelessWidget {
     final next = shelf.nextItem;
     final things = <Widget>[
       for (final i in shelf.items.take(4)) DenObject(item: i, size: item),
-      if (next != null) ColorFiltered(colorFilter: ColorFilter.mode(colors.ink4, BlendMode.srcIn), child: DenObject(item: next.item, size: item)),
+      if (next != null)
+        ColorFiltered(
+          colorFilter: ColorFilter.mode(colors.ink4, BlendMode.srcIn),
+          child: DenObject(item: next.item, size: item),
+        ),
     ];
     final width = math.max(96.0, things.length * (item + 6) + 18);
     final view = SizedBox(
@@ -683,17 +738,30 @@ class DenShelfView extends StatelessWidget {
       child: Stack(
         clipBehavior: Clip.none,
         children: [
-          Positioned(left: 0, right: 0, bottom: 0, height: 6, child: CustomPaint(painter: _PlankPainter(night: colors.isNight))),
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            height: 6,
+            child: CustomPaint(painter: _PlankPainter(night: colors.isNight)),
+          ),
           Positioned(
             left: 9,
             bottom: 5,
-            child: Row(children: [for (final t in things) Padding(padding: const EdgeInsets.only(right: 6), child: t)]),
+            child: Row(
+              children: [for (final t in things) Padding(padding: const EdgeInsets.only(right: 6), child: t)],
+            ),
           ),
         ],
       ),
     );
     final label = MobV3Copy.shelfSemantics(mobName, [for (final i in shelf.items) MobV3Copy.itemName(i)], next == null ? null : MobV3Copy.itemName(next.item), next?.at);
-    if (onTap == null) return Semantics(label: label, child: ExcludeSemantics(child: view));
+    if (onTap == null) {
+      return Semantics(
+        label: label,
+        child: ExcludeSemantics(child: view),
+      );
+    }
     return MmPressable(onTap: onTap, semanticsLabel: label, pressedScale: 0.97, focusRadius: BorderRadius.circular(8), builder: (context, pressed, _) => view);
   }
 }
@@ -706,7 +774,12 @@ class _PlankPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final r = RRect.fromRectAndRadius(Offset.zero & size, const Radius.circular(2));
-    canvas.drawRRect(r.shift(const Offset(0, 3)), Paint()..color = Colors.black.withValues(alpha: night ? 0.45 : 0.14)..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3));
+    canvas.drawRRect(
+      r.shift(const Offset(0, 3)),
+      Paint()
+        ..color = Colors.black.withValues(alpha: night ? 0.45 : 0.14)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3),
+    );
     canvas.drawRRect(r, Paint()..color = night ? const Color(0xFF5A4A36) : const Color(0xFFC9B48E));
     canvas.drawRect(Rect.fromLTWH(0, 0, size.width, 1.5), Paint()..color = night ? const Color(0xFFB08A55) : const Color(0xFFE7D6B4));
   }
@@ -725,9 +798,19 @@ class DenObject extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final art = switch (item) { 'desk_bell' => 'assets/art/hybrid-deskbell.webp', 'foil_seal' => 'assets/art/foil-seal.webp', _ => null };
+    final art = switch (item) {
+      'desk_bell' => 'assets/art/hybrid-deskbell.webp',
+      'foil_seal' => 'assets/art/foil-seal.webp',
+      _ => null,
+    };
     if (art != null) {
-      return Image.asset(art, width: size, height: size, fit: BoxFit.contain, errorBuilder: (_, _, _) => SizedBox(width: size, height: size));
+      return Image.asset(
+        art,
+        width: size,
+        height: size,
+        fit: BoxFit.contain,
+        errorBuilder: (_, _, _) => SizedBox(width: size, height: size),
+      );
     }
     return CustomPaint(size: Size(size, size), painter: _ObjectPainter(item));
   }
@@ -745,7 +828,13 @@ class _ObjectPainter extends CustomPainter {
         final brass = Paint()..color = const Color(0xFFC9963E);
         canvas.drawRect(Rect.fromLTWH(s.width * 0.47, s.height * 0.38, s.width * 0.06, s.height * 0.5), brass);
         canvas.drawOval(Rect.fromLTWH(s.width * 0.28, s.height * 0.86, s.width * 0.44, s.height * 0.12), brass);
-        canvas.drawPath(Path()..moveTo(s.width * 0.2, s.height * 0.42)..quadraticBezierTo(s.width * 0.5, s.height * 0.02, s.width * 0.8, s.height * 0.42)..close(), Paint()..color = const Color(0xFFE0B25C));
+        canvas.drawPath(
+          Path()
+            ..moveTo(s.width * 0.2, s.height * 0.42)
+            ..quadraticBezierTo(s.width * 0.5, s.height * 0.02, s.width * 0.8, s.height * 0.42)
+            ..close(),
+          Paint()..color = const Color(0xFFE0B25C),
+        );
       case 'den_stamp_row':
         _stamp(canvas, Rect.fromLTWH(0, s.height * 0.2, s.width * 0.6, s.height * 0.6));
         _stamp(canvas, Rect.fromLTWH(s.width * 0.4, s.height * 0.32, s.width * 0.6, s.height * 0.6));
@@ -766,18 +855,32 @@ class _ObjectPainter extends CustomPainter {
         edge.addOval(Rect.fromCircle(center: c, radius: rad));
       }
     }
-    canvas.drawRect(r.shift(const Offset(1, 2)), Paint()..color = Colors.black.withValues(alpha: 0.25)..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2));
+    canvas.drawRect(
+      r.shift(const Offset(1, 2)),
+      Paint()
+        ..color = Colors.black.withValues(alpha: 0.25)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2),
+    );
     canvas.drawRect(r, Paint()..color = const Color(0xFFF1E8D4));
-    canvas.drawRect(r.deflate(r.width * 0.14), Paint()
-      ..color = const Color(0xFFC98A2E)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = r.width * 0.06);
+    canvas.drawRect(
+      r.deflate(r.width * 0.14),
+      Paint()
+        ..color = const Color(0xFFC98A2E)
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = r.width * 0.06,
+    );
     final t = Paint()
       ..color = const Color(0xFF1E1B15)
       ..style = PaintingStyle.stroke
       ..strokeWidth = r.width * 0.09
       ..strokeCap = StrokeCap.round;
-    canvas.drawPath(Path()..moveTo(r.left + r.width * 0.3, r.top + r.height * 0.52)..lineTo(r.left + r.width * 0.45, r.top + r.height * 0.66)..lineTo(r.left + r.width * 0.72, r.top + r.height * 0.36), t);
+    canvas.drawPath(
+      Path()
+        ..moveTo(r.left + r.width * 0.3, r.top + r.height * 0.52)
+        ..lineTo(r.left + r.width * 0.45, r.top + r.height * 0.66)
+        ..lineTo(r.left + r.width * 0.72, r.top + r.height * 0.36),
+      t,
+    );
   }
 
   @override
@@ -825,7 +928,11 @@ class _PaperPulseState extends State<PaperPulse> with SingleTickerProviderStateM
       child: Container(
         width: widget.width,
         height: widget.height,
-        decoration: BoxDecoration(color: colors.isNight ? colors.raised2 : colors.raised, borderRadius: BorderRadius.circular(widget.radius), border: Border.all(color: colors.line)),
+        decoration: BoxDecoration(
+          color: colors.isNight ? colors.raised2 : colors.raised,
+          borderRadius: BorderRadius.circular(widget.radius),
+          border: Border.all(color: colors.line),
+        ),
       ),
     );
   }

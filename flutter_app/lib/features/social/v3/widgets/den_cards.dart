@@ -128,7 +128,12 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
         children
           ..add(_HostLine(game: g, v3: v3, title: MobV3Copy.openedA(g)))
           ..add(const SizedBox(height: MmSpace.s4))
-          ..add(Padding(padding: const EdgeInsets.only(left: _HostLine.indent), child: Text(MobV3Copy.openLine(g, now), style: type.body.copyWith(color: colors.ink2))));
+          ..add(
+            Padding(
+              padding: const EdgeInsets.only(left: _HostLine.indent),
+              child: Text(keepTimes(MobV3Copy.openLine(g, now)), style: type.body.copyWith(color: colors.ink2)),
+            ),
+          );
         if (runs != null) {
           children
             ..add(const SizedBox(height: MmSpace.s12))
@@ -145,7 +150,12 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           ..add(_HostLine(game: g, v3: v3, title: MobV3Copy.gameTitle(g)))
           ..add(const SizedBox(height: MmSpace.s4));
         if (yours != null && g.closesAt != null) {
-          children.add(Padding(padding: const EdgeInsets.only(left: _HostLine.indent), child: Text(MobV3Copy.playedAt(yours, g.closesAt!, now), style: type.body.copyWith(color: colors.ink2))));
+          children.add(
+            Padding(
+              padding: const EdgeInsets.only(left: _HostLine.indent),
+              child: Text(keepTimes(MobV3Copy.playedAt(yours, g.closesAt!, now)), style: type.body.copyWith(color: colors.ink2)),
+            ),
+          );
         }
         children
           ..add(const SizedBox(height: MmSpace.s16))
@@ -162,13 +172,24 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
         children
           ..add(_HostLine(game: g!, v3: v3, title: MobV3Copy.liveOpened(g), live: true))
           ..add(const SizedBox(height: MmSpace.s4))
-          ..add(Padding(padding: const EdgeInsets.only(left: _HostLine.indent), child: Text(MobV3Copy.liveLine(g), style: type.body.copyWith(color: colors.ink2))))
+          ..add(
+            Padding(
+              padding: const EdgeInsets.only(left: _HostLine.indent),
+              child: Text(MobV3Copy.liveLine(g), style: type.body.copyWith(color: colors.ink2)),
+            ),
+          )
           ..add(const SizedBox(height: MmSpace.s16))
           ..add(KeyButton(label: MobV3Copy.joinRoom(g), onPressed: () => MobV3Nav.run(context, g.id)));
         if (g.closesAt != null) {
           children
             ..add(const SizedBox(height: MmSpace.s12))
-            ..add(Text(MobV3Copy.playLater(g.closesAt!, now), textAlign: TextAlign.center, style: type.label.copyWith(color: colors.ink2)));
+            ..add(
+              Text(
+                keepTimes(MobV3Copy.playLater(g.closesAt!, now)),
+                textAlign: TextAlign.center,
+                style: type.label.copyWith(color: colors.ink2),
+              ),
+            );
         }
       case DenCardKind.liveRunning:
         children
@@ -176,7 +197,12 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           ..add(const SizedBox(height: MmSpace.s4));
         final started = g.room?.startsAt;
         if (started != null && g.closesAt != null) {
-          children.add(Padding(padding: const EdgeInsets.only(left: _HostLine.indent), child: Text(MobV3Copy.roomStarted(started, g.closesAt!, now), style: type.body.copyWith(color: colors.ink2))));
+          children.add(
+            Padding(
+              padding: const EdgeInsets.only(left: _HostLine.indent),
+              child: Text(keepTimes(MobV3Copy.roomStarted(started, g.closesAt!, now)), style: type.body.copyWith(color: colors.ink2)),
+            ),
+          );
         }
         children
           ..add(const SizedBox(height: MmSpace.s16))
@@ -187,9 +213,17 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
     if (_note != null) {
       children
         ..add(const SizedBox(height: MmSpace.s8))
-        ..add(Text(_note!, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink2)));
+        ..add(
+          Text(
+            _note!,
+            textAlign: TextAlign.center,
+            style: type.caption.copyWith(color: colors.ink2),
+          ),
+        );
     }
-    return DenPaperCard(child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: children));
+    return DenPaperCard(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: children),
+    );
   }
 
   DateTime? _yourRunAt(MobGameSummary g) {
@@ -211,13 +245,13 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Semantics(header: true, child: Text(MobV3Copy.oneTitle, style: type.headline.copyWith(color: colors.ink))),
+        Semantics(
+          header: true,
+          child: Text(MobV3Copy.oneTitle, style: type.headline.copyWith(color: colors.ink)),
+        ),
         const SizedBox(height: MmSpace.s8),
         Text(MobV3Copy.oneLine, style: type.body.copyWith(color: colors.ink2)),
-        if (code != null) ...[
-          const SizedBox(height: MmSpace.s16),
-          InviteCardPreview(youName: v3.you?.name ?? '', mobName: v3.name.text, subjectName: mob.subjectName, display: displayCode(code)),
-        ],
+        if (code != null) ...[const SizedBox(height: MmSpace.s16), InviteCardPreview(youName: v3.you?.name ?? '', mobName: v3.name.text, subjectName: mob.subjectName, display: displayCode(code))],
         const SizedBox(height: MmSpace.s16),
         KeyButton(label: MobV3Copy.inviteWhatsApp, onPressed: () => shareInviteCard(context)),
         const SizedBox(height: MmSpace.s8),
@@ -229,17 +263,27 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           },
         ),
         const SizedBox(height: MmSpace.s8),
-        Text(MobV3Copy.inviteWorks, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink2)),
+        Text(
+          MobV3Copy.inviteWorks,
+          textAlign: TextAlign.center,
+          style: type.caption.copyWith(color: colors.ink2),
+        ),
         const SizedBox(height: MmSpace.s24),
         DenPaperCard(
-          child: Row(
+          padding: const EdgeInsets.all(MmSpace.s20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(child: Text(MobV3Copy.onePaper, style: type.body.copyWith(color: colors.ink2))),
-              const SizedBox(width: MmSpace.s12),
-              if (sat && mob.week.yourResultId != null)
-                KeyButton.secondary(label: MobV3Copy.answers, expanded: false, onPressed: _answers)
-              else if (!sat)
-                KeyButton.secondary(label: MobV3Copy.sitIt, expanded: false, loading: _sitting, onPressed: _sit),
+              Text(MobV3Copy.onePaper, style: type.body.copyWith(color: colors.ink2)),
+              if (!sat || mob.week.yourResultId != null) ...[
+                const SizedBox(height: MmSpace.s12),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: sat
+                      ? KeyButton.secondary(label: MobV3Copy.answers, expanded: false, onPressed: _answers)
+                      : KeyButton.secondary(label: MobV3Copy.sitIt, expanded: false, loading: _sitting, onPressed: _sit),
+                ),
+              ],
             ],
           ),
         ),
@@ -249,6 +293,9 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
     );
   }
 }
+
+/// Keeps a clock time whole on one line ("4:55 PM", never "4:55" and "PM" apart).
+String keepTimes(String s) => s.replaceAllMapped(RegExp(r'(\d) (AM|PM)'), (m) => '${m[1]} ${m[2]}');
 
 /// The host's head disc and the card title ("Riya opened a sprint").
 class _HostLine extends ConsumerWidget {
@@ -272,7 +319,12 @@ class _HostLine extends ConsumerWidget {
       children: [
         HeadDisc(member: host, size: disc, live: live),
         const SizedBox(width: MmSpace.s12),
-        Expanded(child: Semantics(header: true, child: Text(title, style: type.subhead.copyWith(color: colors.ink)))),
+        Expanded(
+          child: Semantics(
+            header: true,
+            child: Text(title, style: type.subhead.copyWith(color: colors.ink)),
+          ),
+        ),
       ],
     );
   }
@@ -305,18 +357,36 @@ class HeadDisc extends ConsumerWidget {
             Container(
               width: size,
               height: size,
-              decoration: BoxDecoration(color: tint, shape: BoxShape.circle, border: Border.all(color: colors.line)),
+              decoration: BoxDecoration(
+                color: tint,
+                shape: BoxShape.circle,
+                border: Border.all(color: colors.line),
+              ),
               clipBehavior: Clip.antiAlias,
               alignment: Alignment.center,
               child: head != null
-                  ? Transform.translate(offset: Offset(0, size * 0.06), child: Image.asset(head, width: size * 0.92, height: size * 0.92, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink()))
-                  : Text(m?.initial ?? '?', style: context.mmType.label.copyWith(color: colors.ink, fontSize: size * 0.4, fontWeight: FontWeight.w700)),
+                  ? Transform.translate(
+                      offset: Offset(0, size * 0.06),
+                      child: Image.asset(head, width: size * 0.92, height: size * 0.92, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink()),
+                    )
+                  : Text(
+                      m?.initial ?? '?',
+                      style: context.mmType.label.copyWith(color: colors.ink, fontSize: size * 0.4, fontWeight: FontWeight.w700),
+                    ),
             ),
             if (live)
               Positioned(
                 right: -1,
                 bottom: -1,
-                child: Container(width: size * 0.3, height: size * 0.3, decoration: BoxDecoration(color: colors.lamp, shape: BoxShape.circle, border: Border.all(color: colors.raised, width: 2))),
+                child: Container(
+                  width: size * 0.3,
+                  height: size * 0.3,
+                  decoration: BoxDecoration(
+                    color: colors.lamp,
+                    shape: BoxShape.circle,
+                    border: Border.all(color: colors.raised, width: 2),
+                  ),
+                ),
               ),
           ],
         ),
@@ -341,9 +411,15 @@ class _RunsRow extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          CustomPaint(size: const Size(double.infinity, 6), painter: _TickRule(colour: colors.line)),
+          CustomPaint(
+            size: const Size(double.infinity, 6),
+            painter: _TickRule(colour: colors.line),
+          ),
           const SizedBox(height: MmSpace.s8),
-          Text(text, style: type.label.copyWith(color: colors.ink2, fontWeight: FontWeight.w500)),
+          Text(
+            keepTimes(text),
+            style: type.label.copyWith(color: colors.ink2, fontWeight: FontWeight.w500),
+          ),
         ],
       ),
     );
@@ -412,10 +488,13 @@ class _CornerFold extends CustomPainter {
       ..lineTo(x, f)
       ..close();
     canvas.drawPath(path, Paint()..color = colour);
-    canvas.drawPath(path, Paint()
-      ..color = edge
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1);
+    canvas.drawPath(
+      path,
+      Paint()
+        ..color = edge
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1,
+    );
   }
 
   @override
@@ -450,12 +529,7 @@ class DenLink extends StatelessWidget {
               child: Text(
                 label,
                 textAlign: TextAlign.center,
-                style: type.button.copyWith(
-                  color: busy ? colors.ink3 : colors.ink,
-                  decoration: TextDecoration.underline,
-                  decorationColor: colors.ink3,
-                  decorationThickness: 1.2,
-                ),
+                style: type.button.copyWith(color: busy ? colors.ink3 : colors.ink, decoration: TextDecoration.underline, decorationColor: colors.ink3, decorationThickness: 1.2),
               ),
             ),
           ),

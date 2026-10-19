@@ -49,8 +49,14 @@ class Pennant extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text('$weeks', style: type.figureCompact.copyWith(color: ink, fontSize: width * 0.5, height: 1)),
-                    Text(MobV3Copy.pennantWord(weeks), style: type.label.copyWith(color: ink, fontSize: width * 0.19, height: 1.1, fontWeight: FontWeight.w700)),
+                    Text(
+                      '$weeks',
+                      style: type.figureCompact.copyWith(color: ink, fontSize: width * 0.5, height: 1),
+                    ),
+                    Text(
+                      MobV3Copy.pennantWord(weeks),
+                      style: type.label.copyWith(color: ink, fontSize: width * 0.19, height: 1.1, fontWeight: FontWeight.w700),
+                    ),
                   ],
                 ),
               ),
@@ -68,14 +74,14 @@ class Pennant extends StatelessWidget {
       );
     }
     final semantics = MobV3Copy.pennantSemantics(weeks);
-    if (onTap == null) return Semantics(label: semantics, image: true, child: ExcludeSemantics(child: body));
-    return MmPressable(
-      onTap: onTap,
-      semanticsLabel: semantics,
-      pressedScale: 0.97,
-      focusRadius: BorderRadius.circular(8),
-      builder: (context, pressed, _) => body,
-    );
+    if (onTap == null) {
+      return Semantics(
+        label: semantics,
+        image: true,
+        child: ExcludeSemantics(child: body),
+      );
+    }
+    return MmPressable(onTap: onTap, semanticsLabel: semantics, pressedScale: 0.97, focusRadius: BorderRadius.circular(8), builder: (context, pressed, _) => body);
   }
 }
 
@@ -139,7 +145,10 @@ class _PennantPainter extends CustomPainter {
         ..shader = LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [const Color(0x00000000), Colors.black.withValues(alpha: night ? 0.10 : 0.05)],
+          colors: [
+            const Color(0x00000000),
+            Colors.black.withValues(alpha: night ? 0.10 : 0.05),
+          ],
         ).createShader(Rect.fromLTWH(0, top, w, h)),
     );
     canvas.restore();
@@ -171,20 +180,20 @@ class _PennantPainter extends CustomPainter {
       ..lineTo(w - inset, shoulder - inset * 0.6);
     _dash(canvas, seamPath, seam, 3, 2.5);
 
-    // One stitch per week, a short ink cross-stitch row above the seam (max 12 drawn).
-    final n = math.min(weeks, 12);
+    // One cross-stitch per week inside the foot (up to 5 drawn; the figure carries the count).
+    final n = math.min(weeks, 5);
     if (n > 0) {
-      final rowY = shoulder - h * 0.08;
-      final span = w - 2 * (inset + 4);
-      final step = span / 12;
-      final start = cx - (n * step) / 2;
+      final rowY = shoulder + (h - (shoulder - top)) * 0.3;
+      const step = 6.5;
+      final start = cx - (n - 1) * step / 2;
       final p = Paint()
-        ..color = ink.withValues(alpha: 0.72)
-        ..strokeWidth = 1.3
+        ..color = ink.withValues(alpha: 0.7)
+        ..strokeWidth = 1.2
         ..strokeCap = StrokeCap.round;
       for (var i = 0; i < n; i++) {
-        final x = start + step * (i + 0.5);
-        canvas.drawLine(Offset(x - step * 0.28, rowY - 2.2), Offset(x + step * 0.28, rowY + 2.2), p);
+        final x = start + step * i;
+        canvas.drawLine(Offset(x - 2, rowY - 2), Offset(x + 2, rowY + 2), p);
+        canvas.drawLine(Offset(x - 2, rowY + 2), Offset(x + 2, rowY - 2), p);
       }
     }
   }

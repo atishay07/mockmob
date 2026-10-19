@@ -54,6 +54,10 @@ class DenScreen extends ConsumerStatefulWidget {
   /// The header's first row (the account key and the trailing keys).
   static const double headerRow = 56;
 
+  /// Bumped by tests to replay Enter the den once the room's images are in (frame goldens).
+  @visibleForTesting
+  static final ValueNotifier<int> debugReplay = ValueNotifier<int>(0);
+
   /// The den replays Enter the den when the tab comes back after this long hidden.
   static const Duration replayAfter = Duration(seconds: 30);
 
@@ -87,6 +91,7 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    DenScreen.debugReplay.addListener(_replay);
     _enter.addListener(_onEnterTick);
     _enter.addStatusListener((s) {
       if (s == AnimationStatus.completed) _afterEnter();
@@ -95,7 +100,7 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
       if (!mounted) return;
       _refresh(force: true);
       final view = ref.read(denViewProvider);
-      precacheFolds(context, [for (final m in view?.v3.members ?? const <MobV3Member>[]) m.fold]);
+      unawaited(precacheFolds(context, [for (final m in view?.v3.members ?? const <MobV3Member>[]) m.fold]).catchError((Object _) {}));
     });
   }
 
@@ -136,6 +141,7 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    DenScreen.debugReplay.removeListener(_replay);
     _bus?.removeListener(_onBus);
     _noticeTimer?.cancel();
     _enter.dispose();
@@ -152,6 +158,8 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
       // The repository keeps what it had and says so (the offline strip).
     }
   }
+
+  void _replay() => _playEnter();
 
   void _onEnterTick() {
     final ms = _enter.value * EnterDen.total;
@@ -223,13 +231,7 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
       if (keys.isEmpty) return;
       final player = ref.read(momentPlayerProvider);
       final actions = ref.read(mobV3ActionsProvider);
-      final played = await runMomentQueue(
-        keys: keys,
-        canPlay: _visible,
-        play: (k) => player(context, k),
-        seen: actions.seen,
-        played: _memory.playedMoments,
-      );
+      final played = await runMomentQueue(keys: keys, canPlay: _visible, play: (k) => player(context, k), seen: actions.seen, played: _memory.playedMoments);
       if (played.isNotEmpty && mounted) {
         ref.invalidate(chainProvider);
         unawaited(_refresh(force: true));
@@ -330,11 +332,7 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             for (var i = 0; i < mob.mobs.length; i++) ...[
-              KeyButton.option(
-                label: mob.mobs[i].active ? '${v3.name.text}, ${labels[i]}' : labels[i],
-                selected: mob.mobs[i].active,
-                onPressed: () => Navigator.of(sheet).pop(mob.mobs[i].id),
-              ),
+              KeyButton.option(label: mob.mobs[i].active ? '${v3.name.text}, ${labels[i]}' : labels[i], selected: mob.mobs[i].active, onPressed: () => Navigator.of(sheet).pop(mob.mobs[i].id)),
               const SizedBox(height: MmSpace.s8),
             ],
           ],
@@ -361,9 +359,7 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
             constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
             child: MmPullRefresh(
               onRefresh: () => ref.read(mobRepositoryProvider.notifier).refresh(force: true),
-              child: CustomScrollView(
-                slivers: [SliverToBoxAdapter(child: _body(context, state, view))],
-              ),
+              child: CustomScrollView(slivers: [SliverToBoxAdapter(child: _body(context, state, view))]),
             ),
           ),
         ),
@@ -430,16 +426,40 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
             ..add(const SizedBox(height: MmSpace.s12));
         }
         if (loading) {
-          below.add(SkeletonGroup(label: MobV3Copy.loading, child: const Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [PaperPulse(width: double.infinity, height: 196, radius: 24), SizedBox(height: MmSpace.s24), PaperPulse(width: double.infinity, height: 44, radius: 8)])));
+          below.add(
+            SkeletonGroup(
+              label: MobV3Copy.loading,
+              child: const Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  PaperPulse(width: double.infinity, height: 196, radius: 24),
+                  SizedBox(height: MmSpace.s24),
+                  PaperPulse(width: double.infinity, height: 44, radius: 8),
+                ],
+              ),
+            ),
+          );
         } else if (failed) {
           below.add(DenFailedCard(onRetry: () => _refresh(force: true)));
         } else if (mob != null && v3 != null) {
           final card = denCardFor(v3, paperSat: mob.week.youSat);
-          below.add(_Rise(ms: _ms, at: EnterDen.cardAt, child: DenCardView(key: ValueKey('${mob.id}:${card.kind.name}:${card.game?.id}'), card: card, v3: v3, mob: mob, now: now)));
+          below.add(
+            _Rise(
+              ms: _ms,
+              at: EnterDen.cardAt,
+              child: DenCardView(key: ValueKey('${mob.id}:${card.kind.name}:${card.game?.id}'), card: card, v3: v3, mob: mob, now: now),
+            ),
+          );
           if (card.kind != DenCardKind.one) {
             below
               ..add(const SizedBox(height: MmSpace.s20))
-              ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: QuestStrip(quest: v3.quest, mobName: v3.name.text, onTap: () => MobV3Nav.chains(context, mobTab: true))));
+              ..add(
+                _Rise(
+                  ms: _ms,
+                  at: EnterDen.questAt,
+                  child: QuestStrip(quest: v3.quest, mobName: v3.name.text, onTap: () => MobV3Nav.chains(context, mobTab: true)),
+                ),
+              );
           }
         }
 
@@ -448,7 +468,7 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
           children: [
             room,
             Padding(
-              padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, MmSpace.s48 + bottom),
+              padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s4, MmSpace.gutter, MmSpace.s48 + bottom),
               child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: below),
             ),
           ],
@@ -456,8 +476,17 @@ class _DenScreenState extends ConsumerState<DenScreen> with TickerProviderStateM
         // The header is chrome and never fades; only the den content comes in.
         return Stack(
           children: [
-            FadeTransition(opacity: _switch, child: FadeTransition(opacity: _fade, child: content)),
-            Positioned(left: MmSpace.gutter, right: MmSpace.gutter, top: top, height: DenScreen.headerRow, child: _HeaderRow(asTab: widget.asTab, chip: v3?.chainChip)),
+            FadeTransition(
+              opacity: _switch,
+              child: FadeTransition(opacity: _fade, child: content),
+            ),
+            Positioned(
+              left: MmSpace.gutter,
+              right: MmSpace.gutter,
+              top: top,
+              height: DenScreen.headerRow,
+              child: _HeaderRow(asTab: widget.asTab, chip: v3?.chainChip),
+            ),
           ],
         );
       },
@@ -480,7 +509,10 @@ class _Rise extends StatelessWidget {
       child: child,
       builder: (context, t, child) {
         final (o, dy) = EnterDen.block(t, at);
-        return Opacity(opacity: o, child: Transform.translate(offset: Offset(0, dy), child: child));
+        return Opacity(
+          opacity: o,
+          child: Transform.translate(offset: Offset(0, dy), child: child),
+        );
       },
     );
   }
@@ -567,13 +599,24 @@ class ChainChipKey extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                CustomPaint(size: const Size(18, 12), painter: _LinkGlyph(colour: colors.ink)),
+                CustomPaint(
+                  size: const Size(18, 12),
+                  painter: _LinkGlyph(colour: colors.ink),
+                ),
                 const SizedBox(width: MmSpace.s6),
                 Text.rich(
-                  TextSpan(children: [
-                    TextSpan(text: figure, style: type.figureCompact.copyWith(color: colors.ink, fontSize: 17, height: 1)),
-                    TextSpan(text: words.substring(figure.length), style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
-                  ]),
+                  TextSpan(
+                    children: [
+                      TextSpan(
+                        text: figure,
+                        style: type.figureCompact.copyWith(color: colors.ink, fontSize: 17, height: 1),
+                      ),
+                      TextSpan(
+                        text: words.substring(figure.length),
+                        style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
                   maxLines: 1,
                 ),
               ],
@@ -618,11 +661,18 @@ class _TitleBlock extends StatelessWidget {
   Widget build(BuildContext context) {
     final type = context.mmType;
     final colors = context.mmColors;
+    // The title sits over the lit room: a soft halo in the ground colour keeps it readable.
+    final halo = [Shadow(color: colors.ground.withValues(alpha: colors.isNight ? 0.85 : 0.9), blurRadius: 10)];
     final title = Row(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Flexible(child: Text(name, style: type.screenTitle.copyWith(color: colors.ink))),
+        Flexible(
+          child: Text(
+            name,
+            style: type.screenTitle.copyWith(color: colors.ink, shadows: halo),
+          ),
+        ),
         if (onSwitch != null) ...[const SizedBox(width: MmSpace.s4), Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2)],
       ],
     );
@@ -632,7 +682,10 @@ class _TitleBlock extends StatelessWidget {
       children: [
         Semantics(header: true, child: title),
         const SizedBox(height: MmSpace.s2),
-        Text(subtitle, style: type.caption.copyWith(color: colors.ink2)),
+        Text(
+          subtitle,
+          style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600, shadows: [...halo, ...halo]),
+        ),
       ],
     );
     if (onSwitch == null) return block;
@@ -663,17 +716,29 @@ class _PassNotice extends StatelessWidget {
       tween: Tween(begin: 0, end: 1),
       duration: reduced ? MotionDurations.reducedFade : MotionDurations.glide,
       curve: MotionCurves.glide,
-      builder: (context, v, child) => Opacity(opacity: v, child: Transform.translate(offset: Offset(0, reduced ? 0 : 8 * (1 - v)), child: child)),
+      builder: (context, v, child) => Opacity(
+        opacity: v,
+        child: Transform.translate(offset: Offset(0, reduced ? 0 : 8 * (1 - v)), child: child),
+      ),
       child: Semantics(
         liveRegion: true,
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: MmSpace.s12),
-          decoration: BoxDecoration(color: colors.raised, borderRadius: MmRadius.keyAll, border: Border.all(color: colors.line)),
+          decoration: BoxDecoration(
+            color: colors.raised,
+            borderRadius: MmRadius.keyAll,
+            border: Border.all(color: colors.line),
+          ),
           child: Row(
             children: [
-              CustomPaint(size: const Size(18, 18), painter: _MoonGlyph(colour: colors.lamp)),
+              CustomPaint(
+                size: const Size(18, 18),
+                painter: _MoonGlyph(colour: colors.lamp),
+              ),
               const SizedBox(width: MmSpace.s12),
-              Expanded(child: Text(text, style: type.body.copyWith(color: colors.ink))),
+              Expanded(
+                child: Text(text, style: type.body.copyWith(color: colors.ink)),
+              ),
             ],
           ),
         ),

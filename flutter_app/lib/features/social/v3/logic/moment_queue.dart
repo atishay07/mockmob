@@ -15,14 +15,28 @@ import '../copy_v3.dart';
 import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
 
-/// Plays one moment key and completes when it closes. Overridable in tests (a recording player).
-typedef MomentPlayer = Future<void> Function(BuildContext context, String key);
+/// Plays one moment key and completes when it closes, with the keys it actually showed (one overlay
+/// can show two: K2's "Open the parcel" plays K4 in place). An empty list means just [key].
+/// Overridable in tests (a recording player). When the moments overlay lands with its
+/// `momentsShownProvider`, this default reads it (`take()`) instead of returning [key].
+typedef MomentPlayer = Future<List<String>> Function(BuildContext context, String key);
 
-final momentPlayerProvider = Provider<MomentPlayer>((ref) => MobV3Nav.moment);
+final momentPlayerProvider = Provider<MomentPlayer>(
+  (ref) => (context, key) async {
+    await MobV3Nav.moment(context, key);
+    return [key];
+  },
+);
 
 int _rank(String key) {
   final kind = key.split(':').first;
-  return switch (kind) { 'quest_done' => 0, 'stitch' => 1, 'reveal' => 2, 'chain' => 3, _ => 9 };
+  return switch (kind) {
+    'quest_done' => 0,
+    'stitch' => 1,
+    'reveal' => 2,
+    'chain' => 3,
+    _ => 9,
+  };
 }
 
 /// The moments to play, in the spec's order, without duplicates. Keys the den does not play as a
@@ -41,29 +55,34 @@ List<String> momentOrder(List<String> mobMoments, List<String> chainDue) {
 }
 
 /// Plays [keys] one by one. [canPlay] is asked before each (false while the den is covered); [play]
-/// completes when the moment closes; [seen] runs after each close with that key only. Returns the keys
-/// that were played. Keys already played in this app run are skipped ([played] remembers them).
+/// completes when the moment closes, with the keys it showed; [seen] runs after each close with those
+/// keys only. Returns the keys that were shown. Keys already shown in this app run are skipped ([played]
+/// remembers them), so a moment shown inside another (K4 inside K2) does not play twice.
 Future<List<String>> runMomentQueue({
   required List<String> keys,
   required bool Function() canPlay,
-  required Future<void> Function(String key) play,
+  required Future<List<String>?> Function(String key) play,
   required Future<void> Function(List<String> keys) seen,
   Set<String>? played,
 }) async {
   final done = <String>[];
   for (final k in keys) {
     if (played != null && played.contains(k)) continue;
+    if (done.contains(k)) continue;
     if (!canPlay()) break;
     played?.add(k);
+    List<String>? shown;
     try {
-      await play(k);
+      shown = await play(k);
     } on Object {
       // A moment that failed to open is not marked seen: it comes back on the next open.
       played?.remove(k);
       break;
     }
-    done.add(k);
-    await seen([k]);
+    final keysShown = shown == null || shown.isEmpty ? [k] : shown;
+    played?.addAll(keysShown);
+    done.addAll(keysShown.where((x) => !done.contains(x)));
+    await seen(keysShown);
   }
   return done;
 }

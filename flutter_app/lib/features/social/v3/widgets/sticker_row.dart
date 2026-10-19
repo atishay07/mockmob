@@ -124,10 +124,7 @@ class _StickerRowState extends ConsumerState<StickerRow> {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (widget.label != null) ...[
-          Text(widget.label!, style: type.label.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s8),
-        ],
+        if (widget.label != null) ...[Text(widget.label!, style: type.label.copyWith(color: colors.ink2)), const SizedBox(height: MmSpace.s8)],
         LayoutBuilder(
           builder: (context, box) {
             return Wrap(
@@ -164,10 +161,7 @@ class _StickerRowState extends ConsumerState<StickerRow> {
             );
           },
         ),
-        if (_note != null) ...[
-          const SizedBox(height: MmSpace.s8),
-          Text(_note!, style: type.caption.copyWith(color: colors.ink2)),
-        ],
+        if (_note != null) ...[const SizedBox(height: MmSpace.s8), Text(_note!, style: type.caption.copyWith(color: colors.ink2))],
       ],
     );
   }
@@ -201,14 +195,28 @@ class PaperSticker extends StatelessWidget {
           color: paper,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(color: night ? const Color(0xFFF7F2E6) : const Color(0xFFE2D9C6), width: 1.5),
-          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: night ? 0.35 : 0.10), blurRadius: 6, offset: const Offset(0, 2))],
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: night ? 0.35 : 0.10),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
+          ],
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            CustomPaint(size: Size(g, g), painter: StickerGlyph(kind, ink: ink)),
+            CustomPaint(
+              size: Size(g, g),
+              painter: StickerGlyph(kind, ink: ink),
+            ),
             const SizedBox(width: MmSpace.s6),
-            Flexible(child: Text(MobV3Copy.sticker(kind), style: type.label.copyWith(color: ink, fontWeight: FontWeight.w700))),
+            Flexible(
+              child: Text(
+                MobV3Copy.sticker(kind),
+                style: type.label.copyWith(color: ink, fontWeight: FontWeight.w700),
+              ),
+            ),
           ],
         ),
       ),
@@ -240,7 +248,13 @@ class StickerGlyph extends CustomPainter {
       case StickerKind.niceOne:
         // A tick in an answer bubble.
         canvas.drawCircle(c, w * 0.44, fill..color = _lamp.withValues(alpha: 0.35));
-        canvas.drawPath(Path()..moveTo(w * 0.26, w * 0.52)..lineTo(w * 0.43, w * 0.68)..lineTo(w * 0.74, w * 0.34), p);
+        canvas.drawPath(
+          Path()
+            ..moveTo(w * 0.26, w * 0.52)
+            ..lineTo(w * 0.43, w * 0.68)
+            ..lineTo(w * 0.74, w * 0.34),
+          p,
+        );
       case StickerKind.soClose:
         // A ruler with two marks a hair apart.
         canvas.drawRRect(RRect.fromRectAndRadius(Rect.fromLTWH(w * 0.06, w * 0.34, w * 0.88, w * 0.36), Radius.circular(w * 0.06)), p..strokeWidth = w * 0.09);
@@ -256,14 +270,26 @@ class StickerGlyph extends CustomPainter {
         final body = Rect.fromCenter(center: Offset.zero, width: w * 0.86, height: w * 0.26);
         canvas.drawRect(Rect.fromLTRB(body.left + w * 0.18, body.top, body.right, body.bottom), fill..color = _lamp);
         canvas.drawRect(Rect.fromLTRB(body.left + w * 0.18, body.top, body.right, body.bottom), p..strokeWidth = w * 0.08);
-        canvas.drawPath(Path()..moveTo(body.left + w * 0.18, body.top)..lineTo(body.left, 0)..lineTo(body.left + w * 0.18, body.bottom), p);
+        canvas.drawPath(
+          Path()
+            ..moveTo(body.left + w * 0.18, body.top)
+            ..lineTo(body.left, 0)
+            ..lineTo(body.left + w * 0.18, body.bottom),
+          p,
+        );
         canvas.restore();
       case StickerKind.again:
         // A loop that comes round again.
         final r = Rect.fromCircle(center: c, radius: w * 0.34);
         canvas.drawArc(r, -math.pi * 0.35, math.pi * 1.6, false, p);
         final end = Offset(c.dx + w * 0.34 * math.cos(-math.pi * 0.35), c.dy + w * 0.34 * math.sin(-math.pi * 0.35));
-        canvas.drawPath(Path()..moveTo(end.dx - w * 0.2, end.dy - w * 0.04)..lineTo(end.dx, end.dy)..lineTo(end.dx + w * 0.02, end.dy + w * 0.2), p);
+        canvas.drawPath(
+          Path()
+            ..moveTo(end.dx - w * 0.2, end.dy - w * 0.04)
+            ..lineTo(end.dx, end.dy)
+            ..lineTo(end.dx + w * 0.02, end.dy + w * 0.2),
+          p,
+        );
       case StickerKind.goodLuck:
         // A four-point glint.
         final path = Path()
@@ -278,7 +304,11 @@ class StickerGlyph extends CustomPainter {
       case StickerKind.letsGo:
         // A pennant on its pole.
         canvas.drawLine(Offset(w * 0.24, w * 0.08), Offset(w * 0.24, w * 0.94), p);
-        final flag = Path()..moveTo(w * 0.24, w * 0.12)..lineTo(w * 0.88, w * 0.3)..lineTo(w * 0.24, w * 0.5)..close();
+        final flag = Path()
+          ..moveTo(w * 0.24, w * 0.12)
+          ..lineTo(w * 0.88, w * 0.3)
+          ..lineTo(w * 0.24, w * 0.5)
+          ..close();
         canvas.drawPath(flag, fill..color = _lamp);
         canvas.drawPath(flag, p..strokeWidth = w * 0.08);
       case StickerKind.oneSec:
@@ -352,7 +382,10 @@ class _StickerFlightState extends State<StickerFlight> with SingleTickerProvider
           }
           return Opacity(
             opacity: opacity.clamp(0.0, 1.0),
-            child: Transform.translate(offset: Offset(0, dy), child: Transform.scale(scale: scale, alignment: Alignment.bottomCenter, child: child)),
+            child: Transform.translate(
+              offset: Offset(0, dy),
+              child: Transform.scale(scale: scale, alignment: Alignment.bottomCenter, child: child),
+            ),
           );
         },
         child: PaperSticker(kind: widget.kind, small: true),

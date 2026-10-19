@@ -29,7 +29,7 @@ class QuestStrip extends ConsumerWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          ParcelIcon(parcel: quest.parcel, size: 44),
+          _QuestParcel(parcel: quest.parcel, size: 44),
           const SizedBox(width: MmSpace.s12),
           Expanded(
             child: Column(
@@ -41,7 +41,10 @@ class QuestStrip extends ConsumerWidget {
                   spacing: MmSpace.s8,
                   runSpacing: MmSpace.s2,
                   children: [
-                    Text(MobV3Copy.questTitle, style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+                    Text(
+                      MobV3Copy.questTitle,
+                      style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
+                    ),
                     _Count(quest: quest, text: count),
                   ],
                 ),
@@ -54,14 +57,13 @@ class QuestStrip extends ConsumerWidget {
       ),
     );
     final label = '${MobV3Copy.questTitle}. $count. ${MobV3Copy.parcelHolds(quest.parcel, mobName)}';
-    if (onTap == null) return Semantics(label: label, child: ExcludeSemantics(child: strip));
-    return MmPressable(
-      onTap: onTap,
-      semanticsLabel: label,
-      pressedScale: 0.98,
-      focusRadius: BorderRadius.circular(MmRadius.small),
-      builder: (context, pressed, _) => strip,
-    );
+    if (onTap == null) {
+      return Semantics(
+        label: label,
+        child: ExcludeSemantics(child: strip),
+      );
+    }
+    return MmPressable(onTap: onTap, semanticsLabel: label, pressedScale: 0.98, focusRadius: BorderRadius.circular(MmRadius.small), builder: (context, pressed, _) => strip);
   }
 }
 
@@ -81,7 +83,12 @@ class _Count extends StatelessWidget {
     final big = type.figureCompact.copyWith(color: colors.ink, fontSize: 20, height: 1.1);
     if (!text.startsWith(figure)) return Text(text, style: small);
     return Text.rich(
-      TextSpan(children: [TextSpan(text: figure, style: big), TextSpan(text: text.substring(figure.length), style: small)]),
+      TextSpan(
+        children: [
+          TextSpan(text: figure, style: big),
+          TextSpan(text: text.substring(figure.length), style: small),
+        ],
+      ),
     );
   }
 }
@@ -153,8 +160,8 @@ class _QuestBarPainter extends CustomPainter {
 
 /// The weekly parcel: a folded paper envelope with a wax-paper seal, and the true silhouette of what it
 /// holds peeking over the flap (spec 0.4: the parcel always shows its contents in advance).
-class ParcelIcon extends ConsumerWidget {
-  const ParcelIcon({super.key, required this.parcel, this.size = 44});
+class _QuestParcel extends ConsumerWidget {
+  const _QuestParcel({required this.parcel, this.size = 44});
 
   final QuestParcel parcel;
   final double size;
@@ -183,7 +190,10 @@ class ParcelIcon extends ConsumerWidget {
               ),
             Positioned(
               bottom: 0,
-              child: CustomPaint(size: Size(size, h), painter: _EnvelopePainter(night: colors.isNight)),
+              child: CustomPaint(
+                size: Size(size, h),
+                painter: _EnvelopePainter(night: colors.isNight),
+              ),
             ),
           ],
         ),
@@ -204,7 +214,12 @@ class _EnvelopePainter extends CustomPainter {
     final paper = night ? const Color(0xFFE6DCC6) : const Color(0xFFF1E6CF);
     final shade = night ? const Color(0xFFC9BB9C) : const Color(0xFFDCCCA9);
     final body = RRect.fromRectAndRadius(Rect.fromLTWH(0, 0, w, h), const Radius.circular(3));
-    canvas.drawRRect(body.shift(const Offset(0, 2)), Paint()..color = Colors.black.withValues(alpha: night ? 0.35 : 0.10)..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.5));
+    canvas.drawRRect(
+      body.shift(const Offset(0, 2)),
+      Paint()
+        ..color = Colors.black.withValues(alpha: night ? 0.35 : 0.10)
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2.5),
+    );
     canvas.drawRRect(body, Paint()..color = paper);
     // The lower flaps.
     final flaps = Path()
