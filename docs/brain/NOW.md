@@ -220,3 +220,21 @@ Every brief is in `docs/brain/briefs-1019/`.
 - About 120 to 290 app goldens were already stale at v15.2. Agents regenerated only their own; decide after the merges.
 
 **For his morning message:** the 2026 data puts LSR (912.5) above Hansraj (907.5) for B.Com (Hons), so D103 shows that order with the numbers. Colleges 4 and 5 were never lost from the account (it was a You display cap of 3, now 8).
+
+## 4d. Autopilot continuation (session a532e31c, account B), 19 Oct about 11:40 am (supersedes 4c where they differ)
+**How this session started:** Autopilot forked session 604ced81 at 11:08 am. That session is blocked by the Continuum hook (its account hit the limit). Its last three agents kept running on the old account and finished by 11:26: web fixer A, web fixer B, and the app copy pass. This session took over their results (read from their transcripts); nothing was duplicated.
+
+**Autopilot boundary:** NO push to main, NO deploy, NO Vercel env change, NO production DB write. Release 11 waits for the owner's "push" (D115 allowed it after the verifier, but this unattended run may not deploy).
+
+**Web: `deploy/web-1019-r11` (wt-rel11) at 3ae564a6.**
+- Merged so far: A4a, A4b, C3, W5, C1, the copy pass, web fixer A and web fixer B.
+- Fixer A (8 commits): the "8 due" badge, honest "first practice set", one repair number, Review renamed to Your papers, a 409 instead of a silent charge, the FIRST_FULL_MOCK_ENABLED kill switch, the true papers count, copy fixes, Today not waiting on the quote, no email-prefix names, one Ask Mobi line.
+- Fixer B (6 commits): G26 Start sheet leads with the mode; G27 the chevron never takes a tap; G28 lit gradients on Today/Colleges/Result/Features; G29 sign out in the first screen with one confirm everywhere; G31 count-up on the token; a 44 px cue.
+- **Running:** the full web suites and build on 3ae564a6; C2-web (Ask Mobi B on the web: /mentor with two doors, part of the D114 pick) in wt-1019-c2web (web/1019-c2-web).
+
+**App: `ui/v15.3-1019` (wt-v15-3) at 125755f4.**
+- Merged: A5, A2a (+ its 3 test fixes), A2b, A1, A3, C2 (via ui/1019-c2-merge), and the app copy pass.
+- **Running:** the full unit run on 125755f4; the app verifier (Opus, read-only) in wt-v153-verify.
+- **Next:** the app acceptance walk (fresh, then heavy) on the emulator against a 3104 staging site rebuilt at the final release 11 head, with the OTP shim (SHIM_TARGET=3104 SHIM_PORT=3114).
+
+**Disk:** 98.6 GB free after deleting finished worktrees' build output. A clean-up of about 5 GB of scratch folders older than 2 days, in the old session's temp folder, was blocked by Claude Code's safety check; it is on the owner's list.
