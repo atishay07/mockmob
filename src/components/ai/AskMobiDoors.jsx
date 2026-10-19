@@ -12,12 +12,11 @@
 //
 // Under the doors: the true credit line (the one balance) and "Your recent questions". Once something is asked, the doors
 // give way to the conversation (the same panel that docks beside a question or a mock) with "Ask something new" to come back.
-import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { ArrowUp, ChevronDown, ChevronRight, ChevronUp, Lock } from 'lucide-react';
-import { walletFromResponse } from '@/services/credits/aiWalletState';
-import { announceWallet, cachedWallet } from '@/components/useWalletSummary';
+import { useWalletSummary } from '@/components/useWalletSummary';
 import { openUpgrade } from '@/components/pro';
 import MobiReact from '@/components/brand/MobiReact';
 import { useMobiGate } from '@/lib/mobiHooks';
@@ -34,29 +33,6 @@ import './ask-doors.css';
 const subscribeOnline = (cb) => { window.addEventListener('online', cb); window.addEventListener('offline', cb); return () => { window.removeEventListener('online', cb); window.removeEventListener('offline', cb); }; };
 const onlineNow = () => navigator.onLine !== false;
 const SHOWN_AFTER_LEAD = 3;
-
-/** The wallet this page reads: what this tab read in the last five minutes paints at once; the server's answer replaces it. */
-function useWallet(userId) {
-  const [wallet, setWallet] = useState(null);
-  const sequence = useRef(0);
-  const read = useCallback(async () => {
-    const mine = ++sequence.current;
-    try {
-      const res = await fetch('/api/ai/credits', { cache: 'no-store' });
-      const next = walletFromResponse(await res.json(), { ok: res.ok });
-      if (mine === sequence.current) setWallet(next);
-      announceWallet(userId, next);
-    } catch { if (mine === sequence.current) setWallet(walletFromResponse(null, { ok: false })); }
-  }, [userId]);
-  useEffect(() => {
-    const fence = sequence;
-    let active = true;
-    const cached = cachedWallet(userId);
-    if (userId) Promise.resolve().then(() => { if (!active) return; if (cached) setWallet((prev) => prev || cached); read(); });
-    return () => { active = false; fence.current += 1; };
-  }, [read, userId]);
-  return wallet;
-}
 
 /** The newest paper, read from its own answers: the summary row first, then the saved paper for the chapters that cost the most. */
 function useLastPaper(enabled, userId) {
@@ -119,7 +95,8 @@ export default function AskMobiDoors({ user, insightsState, pro, onRetry }) {
   const insights = insightsState.insights;
   const ready = status === 'ready' && insights?.state === 'ready';
   const offline = !useSyncExternalStore(subscribeOnline, onlineNow, () => true);
-  const wallet = useWallet(userId);
+  // One balance everywhere: the shell's read, and every fresh read a reply makes, reach this page's credit line at once.
+  const wallet = useWalletSummary(userId).wallet;
   const paper = useLastPaper(ready, userId);
   const recent = useRecent(userId);
   const [now] = useState(() => Date.now());

@@ -44,11 +44,14 @@ export default function MentorRecordPage() {
     // Without it the view falls back to the dark defaults in prepos.css and reads near-white on near-white in Day (W-078).
     <div className="mrp pp-arena">
       <AskMobiDoors user={user} insightsState={insightsState} pro={pro} onRetry={() => setRecordTry((n) => n + 1)} />
-      <section id="record" className="mrp-record" aria-labelledby="mrp-record-title">
-        <h2 id="mrp-record-title">{DOOR_COPY.recordInFull}</h2>
-        <p>{DOOR_COPY.recordInFullLede}</p>
-        <RecordView state={insightsState} onNavigate={(route) => router.push(route)} pro={pro} />
-      </section>
+      {/* A new account has no record to show, and the record door already says so with its one key: the empty view would say it twice. */}
+      {insightsState.status === 'empty' ? null : (
+        <section id="record" className="mrp-record" aria-labelledby="mrp-record-title">
+          <h2 id="mrp-record-title">{DOOR_COPY.recordInFull}</h2>
+          <p>{DOOR_COPY.recordInFullLede}</p>
+          <RecordView state={insightsState} onNavigate={(route) => router.push(route)} pro={pro} />
+        </section>
+      )}
       <p className="mrp-foot"><Link href="/wallet" className="ame ame--text">Your credits and how they work</Link></p>
     </div>
   );

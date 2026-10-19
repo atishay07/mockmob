@@ -17,6 +17,7 @@ import { announceWallet, cachedWallet } from '@/components/useWalletSummary';
 import { answerFromInsights } from '../../../data/prepos_insights';
 import { creditCount, usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import { useInsights } from './useInsights';
+import { creditLine } from './askDoors.mjs';
 import MobiMark from './MobiMark';
 import {
   answerFree, inSentence, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
@@ -247,6 +248,8 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   const busy = Boolean(pending) || Boolean(retry);
   const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (paid.open && !offline));
   const line = walletLine(wallet);
+  // On the page the credit line says it once, in the page's words (askDoors.mjs creditLine), the same as under the doors.
+  const pageLine = onPage ? creditLine(wallet).first : null;
   const placeholder = onPage ? 'Ask a follow-up' : questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${inSentence(scoped.label)}` : 'Ask about your record';
   const sessions = sessionsLabel(insights, status);
   const summary = recordSummary(insights, { pro });
@@ -406,8 +409,10 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         <div className="amb-cost">
           {/* The balance, with the wallet one tap away (the balance, its rules and the packs live there). */}
           <Link href="/wallet" className="amb-cost__wallet" onClick={leave}>
-            {line.count !== null ? <b key={line.count} className="amb-num">{line.count}</b> : null}{line.count !== null ? ' ' : ''}{line.rest}
-            {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
+            {pageLine ? pageLine : <>
+              {line.count !== null ? <b key={line.count} className="amb-num">{line.count}</b> : null}{line.count !== null ? ' ' : ''}{line.rest}
+              {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
+            </>}
           </Link>
           <span className="amb-cost__price" aria-live="polite">
             {pending && onPage ? 'This reply uses 1 credit. A reply that fails uses none.' : !price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `An AI service writes it. ${usesLine({ what: 'This reply', cost: 1, pool: 'ai' })}` : 'Needs a written reply. Nothing is charged from here.'}
