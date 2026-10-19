@@ -106,6 +106,39 @@ void main() {
     expect(find.text('1 s behind Riya'), findsOneWidget);
   });
 
+  testWidgets('M2: the picked option stays in full view above the panel (the last option, small phone)', (tester) async {
+    final s = RecordingServer();
+    await pumpRun(tester, s, size: const Size(360, 640), textScale: 1.3);
+    await pastCountdown(tester);
+    // The last option on a small phone at large text: it sits low, where the panel lands.
+    await answerAt(tester, s, pick: 3, atSeconds: 30, next: false);
+    await tester.pump(const Duration(milliseconds: 400));
+    final opt = tester.getRect(option(3));
+    final panel = tester.getRect(find.byKey(const ValueKey('run-panel')));
+    expect(opt.bottom, lessThanOrEqualTo(panel.top + 0.5), reason: 'the option ($opt) is under the panel ($panel)');
+    expect(opt.top, greaterThanOrEqualTo(0));
+  });
+
+  testWidgets('M5: the tick draws over 450 ms from 120 ms, steadily', (tester) async {
+    final s = RecordingServer();
+    await _ready(tester, s);
+    final right = correctOf(0);
+    await tapOption(tester, right);
+    await tester.pump(const Duration(milliseconds: 120));
+    await tester.tap(find.byKey(const ValueKey('run-key-lock')));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+    // Sample the drawn share across the stroke through the option's own maths.
+    double drawnAt(double ms) => RunOption.tickCurve.transform(((ms - 120) / 450).clamp(0.0, 1.0));
+    expect(drawnAt(120), 0);
+    expect(drawnAt(120 + 112), inInclusiveRange(0.1, 0.25));
+    expect(drawnAt(120 + 225), closeTo(0.5, 0.02));
+    expect(drawnAt(120 + 338), inInclusiveRange(0.75, 0.9));
+    expect(drawnAt(570), 1);
+    await tester.pump(_feedback);
+    expect(_look(tester, right), RunOptionLook.right);
+  });
+
   testWidgets('R3 "Not this one" never highlights another option (F1)', (tester) async {
     final s = RecordingServer();
     await _ready(tester, s);

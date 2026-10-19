@@ -99,6 +99,10 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   late final AnimationController _qFade = AnimationController(vsync: this, value: 1);
   late final AnimationController _toastC = AnimationController(vsync: this, duration: Motion.glideDuration);
   late final AnimationController _chipPop = AnimationController(vsync: this, value: 1);
+
+  /// The run's scroll, so the picked option is kept in view above the feedback panel (walk M2).
+  final ScrollController _scroll = ScrollController();
+  final List<GlobalKey> _optionKeys = List.generate(8, (i) => GlobalKey(debugLabel: 'run-option-$i'));
   int _cdBeat = -1;
   FoldAct _youAct = FoldAct.none;
   int _youActId = 0;
@@ -142,6 +146,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     _lock.dispose();
     _fb.dispose();
     _qFade.dispose();
+    _scroll.dispose();
     _toastC.dispose();
     _chipPop.dispose();
     super.dispose();
@@ -397,6 +402,22 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     }
     if (r.correct == true && (_rs?.run.live ?? false)) hapticsOf(context)?.light();
     _fb.forward(from: 0);
+    if (pick >= 0) WidgetsBinding.instance.addPostFrameCallback((_) => _keepPickInView(pick));
+  }
+
+  /// The panel takes the bottom of the screen; on a long question the picked option would sit under
+  /// it with its tick and "+5" hidden (walk M2). Scroll it up so it stays in full view above the panel.
+  void _keepPickInView(int pick) {
+    if (!mounted || pick < 0 || pick >= _optionKeys.length) return;
+    final ctx = _optionKeys[pick].currentContext;
+    if (ctx == null) return;
+    Scrollable.ensureVisible(
+      ctx,
+      alignment: 1,
+      alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd,
+      duration: _reduced ? Duration.zero : const Duration(milliseconds: 300),
+      curve: Motion.glide,
+    );
   }
 
   int _streakAt(int q) {
@@ -439,6 +460,8 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       _lock.value = 0;
       _press.value = 0;
       _fb.value = 0;
+      // The next question starts at the top, ruler and stem in view.
+      if (_scroll.hasClients) _scroll.jumpTo(0);
       if (toDone) {
         _phase = _Phase.done;
       } else {
@@ -789,10 +812,12 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
           ),
           if (_pace != null) ...[
             const SizedBox(width: MmSpace.s8),
-            AnimatedBuilder(
-              animation: _chipPop,
-              builder: (context, child) => Transform.scale(scale: 0.86 + 0.14 * _chipPop.value, child: child),
-              child: _PaceChip(text: _pace!.text),
+            Flexible(
+              child: AnimatedBuilder(
+                animation: _chipPop,
+                builder: (context, child) => Transform.scale(scale: 0.86 + 0.14 * _chipPop.value, child: child),
+                child: _PaceChip(text: _pace!.text),
+              ),
             ),
           ],
         ],
@@ -817,6 +842,8 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       children: [
         Expanded(
           child: SingleChildScrollView(
+            key: const ValueKey('run-scroll'),
+            controller: _scroll,
             padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s4, MmSpace.gutter, MmSpace.s16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -849,7 +876,8 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
           children: [
             Expanded(child: Text(MobV3Copy.questionOf(_q + 1, _count), style: type.label.copyWith(color: colors.ink3))),
             const SizedBox(width: MmSpace.s8),
-            Text(MobV3Copy.marksRule, style: type.label.copyWith(color: colors.ink3)),
+            // Wraps at large text on a small phone instead of overflowing.
+            Flexible(child: Text(MobV3Copy.marksRule, textAlign: TextAlign.end, style: type.label.copyWith(color: colors.ink3))),
           ],
         ),
         const SizedBox(height: MmSpace.s8),
@@ -861,7 +889,9 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
         const SizedBox(height: MmSpace.s16),
         for (var i = 0; i < question.options.length; i++) ...[
           if (i > 0) const SizedBox(height: RunOption.gap),
-          RunOption(
+          KeyedSubtree(
+            key: i < _optionKeys.length ? _optionKeys[i] : null,
+            child: RunOption(
             key: ValueKey('run-option-$i'),
             letter: _letters[i.clamp(0, _letters.length - 1)],
             text: question.options[i],
@@ -873,6 +903,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
             delta: r?.delta,
             reduced: _reduced,
             onTap: locked ? null : () => _choose(i),
+          ),
           ),
         ],
       ],
