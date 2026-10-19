@@ -3,6 +3,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/core/repositories/repair_local_repository.dart';
+import 'package:mockmob/features/review/copy.dart';
 import 'package:mockmob/features/review/data/mistake_index.dart';
 import 'package:mockmob/features/review/screens/mistakes_screen.dart';
 import 'package:mockmob/features/review/screens/record_screen.dart';
@@ -164,18 +165,22 @@ void main() {
     testWidgets('the tab says how many of the mistakes found are repaired', (tester) async {
       await _pump(tester, const ReviewScreen(), records: [repairedRecord]);
       // Mock 7 has 5 wrong answers and 3 skipped, Mock 6 has 2 and the Quick practice 1; one is repaired.
-      // 8 wrong x 6 + 3 blank x 5 = 63 marks, and the sentence says so with the one repaired.
-      expect(find.text('Your 3 papers lost 63 marks: 8 wrong answers and 3 left blank. 1 is repaired.'), findsOneWidget);
-      // What is left is the chapters' own rows: 8 found less 1 repaired is 7, in the lead and More chapters together.
+      // What is left is the chapters' own rows: 8 found less 1 repaired is 7, in the lead and More chapters together, and the
+      // strip and the Mistakes to repair heading say the same 7 (Your papers, D106: one record for every number).
       final index = buildReviewIndex(allAttempts, [repairedRecord]);
       expect(index.openCount, 7);
+      expect(find.bySemanticsLabel(RegExp('^7 mistakes to repair')), findsOneWidget);
+      expect(find.textContaining(RegExp(r'^7 mistakes across \d+ chapters')), findsOneWidget);
+      // The one repaired is in Saved repairs, further down.
+      await tester.scrollUntilVisible(find.text(ReviewCopy.savedRepairsHeading), 300, scrollable: find.byType(Scrollable).first);
+      expect(find.text(ReviewCopy.savedRepairsHeading), findsOneWidget);
     });
 
     testWidgets('no mistakes found, no lead line', (tester) async {
       await _pump(tester, const ReviewScreen(), attempts: [_clean]);
       expect(find.textContaining(RegExp(r'\d+ repaired, \d+ found')), findsNothing);
-      // The past result writes its marks as the rest of the app does.
-      expect(find.text('12 October, 250 of 250'), findsOneWidget);
+      // The paper writes its marks as the rest of the app does: the figure, then "of 250".
+      expect(find.text('of 250'), findsWidgets);
       expect(find.textContaining(' / '), findsNothing);
     });
   });

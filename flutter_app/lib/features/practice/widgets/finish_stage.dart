@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/copy/formatters.dart' show formatSignedNumber, formatTime12, formatDayMonth, weekdayName;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -23,6 +24,12 @@ import 'numbered_sheet.dart';
 /// shards follow (no sweep, no flash); then Mobi, who has been reading the sheet, reacts once the
 /// number has landed, and the success haptic follows (allowed: the server already acknowledged).
 /// A mixed set gets the stamp alone and Mobi's calm line, never sad.
+///
+/// 19 Oct (owner D108, G22): restored on the practice result as it was at 68f63c11, with its
+/// durations unchanged, and refined with one completion line in place of the old receipt: "Paper
+/// saved. You scored 34 of 50 marks." It rises in as the figure lands, its marks count up from 0
+/// in tabular figures over [Motion.countUp] (720 ms, ease-out), and "Paper saved." is said only
+/// when the server's acknowledgement is held on this phone ([confirmed]).
 ///
 /// The Celebrations setting gates it: Quiet keeps the ink, the count and the stamp but no ring,
 /// shards or Mobi act; Off shows the end state at once, with the words. A tap anywhere skips to
@@ -44,7 +51,17 @@ class FinishStage extends ConsumerStatefulWidget {
     this.onCellTap,
     this.onSettled,
     this.onStampReplay,
+    this.confirmed = false,
+    this.now,
   });
+
+  /// The server acknowledged this paper and the acknowledgement is held on this phone (the
+  /// pending-result row the submit writes only after the server returned the attempt). Only then
+  /// does the completion line say "Paper saved.".
+  final bool confirmed;
+
+  /// The student's clock, for "Saved today at 10:11 PM" on a result opened again.
+  final DateTime? now;
 
   /// Called each time a tap on the settled figure plays the gentle stamp again (tests).
   @visibleForTesting
@@ -175,7 +192,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   /// The figure touches down: the medium haptic now, then (once the number has visibly landed)
   /// Mobi's turn and, for a good set, the success haptic.
   void _land() {
-    _landed = true;
+    setState(() => _landed = true);
     unawaited(ref.read(hapticsProvider).medium());
     _reactTimer = Timer(FinishStage.reactAfterLanding, () {
       if (!mounted) return;
@@ -309,6 +326,15 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     super.dispose();
   }
 
+  /// The first words of the completion line: "Paper saved." straight after the submit, once the
+  /// server's acknowledgement is held here; "Saved today at 10:11 PM." on a result opened again;
+  /// nothing while neither is known (the marks are said alone, never a claim before it is true).
+  String? _savedText() {
+    final at = widget.recordedAt;
+    if (widget.fresh) return widget.confirmed ? FinishCopy.paperSaved : null;
+    return at == null ? null : FinishCopy.savedWhen(at, widget.now ?? DateTime.now());
+  }
+
   /// Right answers inked so far: the figure counts up with the sheet.
   int _tally() {
     final exact = _ink.value * widget.cells.length;
@@ -394,22 +420,30 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
             ),
           ),
           const SizedBox(height: MmSpace.s12),
+          // The completion line (D108): it takes the old receipt's place, so the page still says
+          // once what was recorded. Its room is held from the first frame, so nothing moves when it
+          // rises in as the figure lands.
+          CompletionLine(
+            saved: _savedText(),
+            scored: m.scored,
+            max: m.max,
+            run: _landed || _reacted,
+            animate: !_still,
+          ),
+          const SizedBox(height: MmSpace.s12),
           // The bar's track is there from the first frame (no dead band) and fills with the ink,
           // bubble by bubble: each right bubble adds its marks, each wrong one what it cost, each
-          // blank what was left. It is full when the figure stamps. Its line comes in after
-          // Mobi's.
+          // blank what was left. It is full when the figure stamps. Its line (what the missed marks
+          // were lost to; the marks themselves are in the completion line) comes in after Mobi's.
           TweenAnimationBuilder<double>(
             tween: Tween(end: _marksOn ? 1 : 0),
             duration: Motion.of(context, Motion.emphasizedDuration),
             curve: Motion.out,
             builder: (context, reveal, _) => AnimatedBuilder(
               animation: _c,
-              builder: (context, _) => MarksBar(marks: m, reveal: reveal, fill: MarksFill.after(widget.cells, _inked)),
+              builder: (context, _) => MarksBar(marks: m, reveal: reveal, fill: MarksFill.after(widget.cells, _inked), headless: true),
             ),
           ),
-          const SizedBox(height: MmSpace.s12),
-          // The line keeps its height while the acknowledgement time is read, so nothing jumps.
-          SizedBox(height: MmSpace.s24, child: widget.recordedAt == null ? null : ReceiptLine(text: PracticeCopy.recordedLine(widget.recordedAt!))),
           // The late-night "good place to stop" line is not here any more: it sits under the pinned
           // key, with "Finish for now" (AP3-06, A14).
         ],
@@ -464,4 +498,211 @@ class _InkSheet extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The words of the completion line (D108), read aloud before they were written (R6).
+abstract final class FinishCopy {
+  static const String paperSaved = 'Paper saved.';
+
+  /// "Saved today at 10:11 PM." or "Saved on Sunday, 18 October at 10:11 PM.", in the student's own day.
+  static String savedWhen(DateTime at, DateTime now) {
+    final sameDay = at.year == now.year && at.month == now.month && at.day == now.day;
+    return sameDay ? 'Saved today at ${formatTime12(at)}.' : 'Saved on ${weekdayName(at.weekday)}, ${formatDayMonth(at)} at ${formatTime12(at)}.';
+  }
+
+  static const String scoredLead = 'You scored ';
+  static String scoredTail(int max) => ' of $max marks.';
+
+  /// The whole line, as TalkBack reads it once it has landed.
+  static String spoken(String? saved, int scored, int max) =>
+      [?saved, '$scoredLead${formatSignedNumber(scored)}${scoredTail(max)}'].join(' ');
+}
+
+/// "Paper saved. You scored 34 of 50 marks." (D108): a ringed check that draws itself, the saved
+/// words, and the marks counting up from 0 in tabular figures over [Motion.countUp] on an ease-out
+/// once [run] turns true. The line's room is laid out from the final figure from the first frame
+/// (the figure sits in a box as wide as its final digits), so it never wraps differently or moves
+/// anything while it counts. [animate] false (a result opened again, reduced motion, Celebrations
+/// off) shows it at rest.
+class CompletionLine extends StatefulWidget {
+  const CompletionLine({super.key, required this.saved, required this.scored, required this.max, required this.run, this.animate = true});
+
+  /// "Paper saved." or "Saved today at 10:11 PM."; null while not known (the marks alone).
+  final String? saved;
+  final int scored;
+  final int max;
+  final bool run;
+  final bool animate;
+
+  /// The figure shown at [t] (0 to 1) of the count.
+  static int figureAt(int scored, double t) => (scored * Motion.out.transform(t.clamp(0.0, 1.0))).round();
+
+  @override
+  State<CompletionLine> createState() => _CompletionLineState();
+}
+
+class _CompletionLineState extends State<CompletionLine> with TickerProviderStateMixin {
+  late final AnimationController _in = AnimationController(vsync: this, duration: Motion.card);
+  late final AnimationController _count = AnimationController(vsync: this, duration: Motion.countUp);
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.run) _start();
+  }
+
+  @override
+  void didUpdateWidget(CompletionLine old) {
+    super.didUpdateWidget(old);
+    if (widget.run && !old.run) _start();
+  }
+
+  void _start() {
+    if (!widget.animate) {
+      _in.value = 1;
+      _count.value = 1;
+      return;
+    }
+    _in.forward();
+    _count.forward();
+  }
+
+  @override
+  void dispose() {
+    _in.dispose();
+    _count.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final style = type.lead.copyWith(color: colors.ink);
+    final figureStyle = style.copyWith(fontWeight: FontWeight.w700);
+    final finalFigure = formatSignedNumber(widget.scored);
+    final scaler = MediaQuery.textScalerOf(context);
+    final probe = TextPainter(text: TextSpan(text: finalFigure, style: figureStyle), textDirection: TextDirection.ltr, textScaler: scaler)..layout();
+    final figureWidth = probe.width;
+    probe.dispose();
+    final saved = widget.saved;
+    final glyphColor = colors.accentText;
+    final line = Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 2),
+          child: SizedBox.square(
+            dimension: 20,
+            child: Stack(
+              children: [
+                CustomPaint(size: const Size.square(20), painter: _CompletionRing(color: glyphColor)),
+                if (widget.run)
+                  MmStrokeDraw(
+                    key: const ValueKey('completion-check'),
+                    size: const Size.square(20),
+                    path: _check,
+                    color: glyphColor,
+                    strokeWidth: 20 / 12,
+                    duration: const Duration(milliseconds: 260),
+                    delay: widget.animate ? const Duration(milliseconds: 90) : Duration.zero,
+                    animateFirst: widget.animate,
+                  ),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(width: MmSpace.s8),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Two lines, each whole: "Paper saved." then "You scored 34 of 50 marks." (at 360 dp one line left
+              // "marks." alone on the second).
+              if (saved != null) Text(saved, style: style.copyWith(fontWeight: FontWeight.w600)),
+              _scored(style, figureStyle, figureWidth),
+            ],
+          ),
+        ),
+      ],
+    );
+    return Semantics(
+      container: true,
+      liveRegion: widget.run,
+      label: widget.run ? FinishCopy.spoken(saved, widget.scored, widget.max) : null,
+      excludeSemantics: true,
+      child: AnimatedBuilder(
+        animation: _in,
+        child: line,
+        builder: (context, child) {
+          final t = Motion.out.transform(_in.value);
+          return Opacity(
+            opacity: t,
+            child: Transform.translate(offset: Offset(0, 8 * (1 - t)), child: child),
+          );
+        },
+      ),
+    );
+  }
+
+  /// "You scored 34 of 50 marks.", the figure counting up in a box as wide as its final digits.
+  Widget _scored(TextStyle style, TextStyle figureStyle, double figureWidth) => Text.rich(
+            TextSpan(
+              style: style,
+              children: [
+                TextSpan(text: FinishCopy.scoredLead),
+                WidgetSpan(
+                  alignment: PlaceholderAlignment.baseline,
+                  baseline: TextBaseline.alphabetic,
+                  child: SizedBox(
+                    width: figureWidth,
+                    child: AnimatedBuilder(
+                      animation: _count,
+                      builder: (context, _) => Text(
+                        formatSignedNumber(_count.value >= 1 ? widget.scored : CompletionLine.figureAt(widget.scored, _count.value)),
+                        key: const ValueKey('completion-figure'),
+                        style: figureStyle,
+                        textAlign: TextAlign.right,
+                        maxLines: 1,
+                        softWrap: false,
+                        overflow: TextOverflow.visible,
+                      ),
+                    ),
+                  ),
+                ),
+                TextSpan(text: FinishCopy.scoredTail(widget.max)),
+              ],
+            ),
+          );
+
+  /// Lucide's circle-check stroke ("m9 12 2 2 4-4") scaled to the box.
+  static Path _check(Size size) {
+    final k = size.width / 24;
+    return Path()
+      ..moveTo(9 * k, 12 * k)
+      ..lineTo(11 * k, 14 * k)
+      ..lineTo(15 * k, 10 * k);
+  }
+}
+
+class _CompletionRing extends CustomPainter {
+  const _CompletionRing({required this.color});
+
+  final Color color;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final k = size.width / 24;
+    canvas.drawCircle(
+      size.center(Offset.zero),
+      10 * k,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 2 * k
+        ..color = color,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_CompletionRing old) => old.color != color;
 }

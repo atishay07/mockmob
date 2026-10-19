@@ -10,7 +10,8 @@ import '../copy.dart';
 ///
 /// - Saved: an inked bubble with a check. Only when the server acknowledged every answer.
 /// - Saving: a turning ring.
-/// - On this phone: a phone outline, with the count while the network holds answers back.
+/// - Saved on this phone (a practice set, sent at submit) or answers on this phone: a phone outline, with the count
+///   while the network holds answers back.
 /// - Not saved yet: a retry arrow, tappable. The server refused the answers and will not be asked
 ///   again by itself; the answers are still on this phone.
 ///
@@ -34,9 +35,12 @@ class SaveGlyph extends StatelessWidget {
     SaveState.saved => RunnerCopy.saved,
     SaveState.saving => RunnerCopy.saving,
     SaveState.waitingForNetwork => short ? RunnerCopy.waitingShort(s.unsyncedAnswers) : RunnerCopy.waiting(s.unsyncedAnswers),
-    SaveState.onThisPhone => RunnerCopy.onThisPhone,
+    SaveState.onThisPhone => RunnerCopy.savedOnThisPhone,
     SaveState.notSaved => RunnerCopy.notSavedYet,
   };
+
+  /// What TalkBack reads: the words, or for a practice set what they mean.
+  static String spokenFor(SaveSnapshot s) => s.state == SaveState.onThisPhone ? RunnerCopy.savedOnThisPhoneSpoken : wordsFor(s);
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +68,7 @@ class SaveGlyph extends StatelessWidget {
       liveRegion: true,
       button: notSaved && onRetry != null,
       onTap: notSaved ? onRetry : null,
-      label: wordsFor(snapshot),
+      label: spokenFor(snapshot),
       excludeSemantics: true,
       child: Row(
         mainAxisSize: MainAxisSize.min,

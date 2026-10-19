@@ -530,7 +530,7 @@
       "label": "Practise 10 on Share Capital",
       "why": "Repairs use credits. You have 0.",
       "value": null,
-      "cost": "This set uses 10 practice credits. You have 40.",
+      "cost": "This set uses 10 credits. You have 40.",
       "late": null,
       "alt": {
         "kind": "credits",

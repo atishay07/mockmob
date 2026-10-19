@@ -375,10 +375,11 @@ String? haveLine(int? balance) => balance == null ? null : 'You have $balance.';
 /// "1 AI credit. You have 68. No charge if the repair cannot be written."
 String repairCostLine(int? aiCredits) => ['1 credit.', ?haveLine(aiCredits), 'No charge if the repair cannot be written.'].join(' ');
 
-/// The cost of a 10-question chapter set: Pro covers it; otherwise practice credits and the balance.
+/// The cost of a 10-question chapter set: Pro covers it; otherwise its credits and the balance. One credits balance
+/// (D78): "credits", never "practice credits" beside a repair's "credit".
 String practiceCostLine({bool isPremium = false, int? practiceCredits}) {
   if (isPremium) return 'Pro covers this set.';
-  return ['This set uses ${NextMoveRules.practiceCost} practice credits.', ?haveLine(practiceCredits)].join(' ');
+  return ['This set uses ${NextMoveRules.practiceCost} credits.', ?haveLine(practiceCredits)].join(' ');
 }
 
 /// The one next move, first rule that applies:

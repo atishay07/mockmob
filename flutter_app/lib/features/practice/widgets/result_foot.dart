@@ -19,7 +19,15 @@ class ResultFootAction {
 /// The pinned foot of a result (RESULT-1017 4.1): the next move as the screen's one volt key, its cost and balance
 /// under it, and on a practice set "Finish for now".
 class ResultFoot extends StatelessWidget {
-  const ResultFoot({super.key, required this.primary, this.onFinish, required this.showFinish, this.lateLine = false});
+  const ResultFoot({super.key, required this.primary, this.onFinish, required this.showFinish, this.lateLine = false, this.onSeePaper});
+
+  /// "See it in Your papers" (G20, D106): a quiet key beside "Finish for now" that opens Your
+  /// papers on this paper's row, so the student learns where every paper lives. Null hides it.
+  final VoidCallback? onSeePaper;
+
+  /// The quiet key's words: where it goes, said plainly (a first-time student is already looking
+  /// at the paper, so "See this paper" alone would not say what it opens).
+  static const String seePaperLabel = 'See it in Your papers';
 
   final ResultFootAction primary;
   final VoidCallback? onFinish;
@@ -61,9 +69,18 @@ class ResultFoot extends StatelessWidget {
               ),
             ],
             if (lateLine) const LateNightLine(),
-            if (showFinish && onFinish != null) ...[
+            if (showFinish && (onFinish != null || onSeePaper != null)) ...[
               const SizedBox(height: MmSpace.s4),
-              Align(child: KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: onFinish!)),
+              // The two quiet ways out share one row (they wrap to two only when the words need it),
+              // so the foot is no taller than it was with "Finish for now" alone.
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: MmSpace.s8,
+                children: [
+                  if (onSeePaper != null) KeyButton.quiet(label: seePaperLabel, onPressed: onSeePaper!),
+                  if (onFinish != null) KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: onFinish!),
+                ],
+              ),
             ],
           ],
         ),

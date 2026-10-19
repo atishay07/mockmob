@@ -29,7 +29,8 @@ import '../result/move_nav.dart';
 import '../result/widgets/fold_section.dart';
 import '../result/widgets/mistake_row.dart';
 import '../result/widgets/next_move_panel.dart';
-import '../result/widgets/result_head.dart';
+import '../result/widgets/result_head.dart' show CostliestBlock, ResultNotice;
+import '../review/your_papers_link.dart' show yourPapersLocation;
 import 'copy.dart';
 import '../pro_nudge/pro_nudge.dart' show ProNudgeRow, ProNudgeSurface;
 import 'data/default_subject.dart' show publicIdOf;
@@ -40,6 +41,7 @@ import 'model/finish_reaction.dart' show FinishMarks, FinishTone, finishToneFor;
 import 'model/practice_ask.dart';
 import 'model/practice_result_model.dart';
 import 'model/session_analysis.dart';
+import 'widgets/finish_stage.dart';
 import 'widgets/numbered_sheet.dart';
 import 'widgets/observations_panel.dart';
 import 'widgets/practice_app_bar.dart';
@@ -70,12 +72,19 @@ final finishFreshProvider = FutureProvider.autoDispose.family<bool, String>((ref
   }
 });
 
-/// `/practice/result/:attemptId` (RESULT-1017, packet A1): the result of Quick, Smart and chapter practice in four
-/// layers, the same order as a full mock's. (1) What happened in one glance: the one receipt, the marks with their
-/// denominator, the marks bar and the chapter that cost the most. (2) The one next move, chosen by stated rules, as the
-/// foot's volt key, with why and (for a repair) what a repair gives before paying. (3) The mistakes in repair order,
-/// each with its repair inline and its status. (4) Everything else, folded under plain names. Nothing is removed:
-/// what this set shows, the proof set, the answer map and the right answers all sit in the folds.
+/// `/practice/result/:attemptId`: the result of Quick, Smart and chapter practice.
+///
+/// It opens on the finish moment ([FinishStage], 19 Oct, owner D108 and G22: re-mounted as it was at 68f63c11, the
+/// parent of the v13 commit 1178a9e7 that unmounted it): the sheet inks in bubble by bubble, the figure counts up and is
+/// stamped with a medium haptic, a ring and 14 shards for a good set, then Mobi reacts and the success haptic follows,
+/// gated by the Celebrations setting. Its completion line ("Paper saved. You scored 34 of 50 marks.") counts the marks up
+/// and says "saved" only once the server's acknowledgement is held on this phone. The pinned foot carries the one next
+/// move as the volt key, with "See it in Your papers" and "Finish for now" as quiet keys under it.
+///
+/// Under the moment the RESULT-1017 layers follow, staged on the moment's `onSettled` so nothing below gives the
+/// result away while the figure still counts: the chapter that cost the most and any key notice, (2) the one next move
+/// with why and what a repair gives before paying, (3) the mistakes in repair order, each with its repair inline and
+/// its status, and (4) everything else folded under plain names. Nothing is removed.
 class PracticeResultScreen extends ConsumerStatefulWidget {
   const PracticeResultScreen({super.key, required this.attemptId});
 
@@ -96,10 +105,9 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
   bool _showAll = false;
   bool _blankOpen = false;
 
-  /// The arrival has ended: the layers below the head come in (a result opened again, or reduced
+  /// The finish moment has ended: the layers below it come in (a result opened again, or reduced
   /// motion, shows them at once).
   bool _settled = false;
-  Timer? _settleTimer;
 
   /// Whether the arrival plays, read once from the pending-result row on the first build that has
   /// it and then held, so marking the result opened can never flip it mid-arrival.
@@ -122,7 +130,6 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
   void dispose() {
     _list.removeListener(_onListChanged);
     _leaveTimer?.cancel();
-    _settleTimer?.cancel();
     _scroll.dispose();
     _list.dispose();
     super.dispose();
@@ -304,14 +311,6 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     if (first != null) _jumpTo(first);
   }
 
-  /// The arrival ends 520 ms in (the panel's cue in RESULT-1017 4.8); the layers below then rise in.
-  void _scheduleSettle(bool staged) {
-    if (!staged || _settleTimer != null) return;
-    _settleTimer = Timer(const Duration(milliseconds: 520), () {
-      if (mounted && !_settled) setState(() => _settled = true);
-    });
-  }
-
   /// One wrong (or blank) row: the plain row with the mistake's summary as its face and its repair inline.
   Widget _row(
     ResultQuestion q, {
@@ -426,7 +425,6 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final isFresh = _fresh;
     final reduced = Motion.reduced(context);
     final staged = isFresh == true && !_settled && !reduced;
-    _scheduleSettle(staged);
 
     // The rules' inputs: the paper's rows in the order this screen numbers them, the key reviews, the server's repair
     // order, what is repaired and checked, and the balances.
@@ -464,14 +462,20 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       labReady: detail?.lab != null,
       hour: now.hour,
     );
-    // The receipt waits for the time the server acknowledged; it never shows the attempt's own time meanwhile.
-    final receipt = receiptLine(subjectName: subjectName, mode: attempt.mode, at: recordedAt, duration: timeOnPaper(attempt), now: clock.now());
     final notice = keyNotice(reviews, (qid) => model.questions.where((q) => q.qid == qid).firstOrNull?.number);
     final wrong = inRepairOrder(rows.rows.where((r) => r.verdict == RowVerdict.wrong).toList(), order);
     final byQid = {for (final q in model.questions) q.qid: q};
     final shownWrong = _showAll ? wrong : wrong.take(_firstRows).toList();
     final repairCost = repairCostLine(state.aiCredits);
-    final proveChapter = model.wrong.isEmpty ? null : ref.watch(replayInventoryProvider(attempt.id)).value?.firstAvailable;
+    // The Prove step's chapter: a wrong answer's chapter (the one a repair fixes) first, or a chapter left blank, said as
+    // such; never a chapter the paper did not miss.
+    final prove = model.wrong.isEmpty && model.blank.isEmpty
+        ? null
+        : provePick(
+            ref.watch(replayInventoryProvider(attempt.id)).value,
+            wrongInRepairOrder: [for (final r in wrong) r.chapter],
+            blankChapters: [for (final q in model.blank) q.chapter],
+          );
     final m = rows.marks;
     // Where the lost marks went, from this set's own counts (Ask Mobi's first answer, free), and the set played back:
     // both as the full result has them, neither while a key is held or keys are unavailable (v15 walk, M4).
@@ -479,10 +483,13 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final keysOff = held.isNotEmpty || (detail?.reviewsUnavailable ?? false);
     final askLines = keysOff ? const <String>[] : mockLostLines(observedChapterBreakdown(attempt, excludeQuestionIds: held), lost: markBreakdownOf(attempt).lost);
     final reel = detail == null || held.isNotEmpty ? null : PaperReelModel.tryFrom(detail, subjectLabel: subjectName);
-    final tone = finishToneFor(
-      FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total),
-      previousAccuracy: _previousAccuracy(attempt),
-    );
+    final finishMarks = FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total);
+    final tone = finishToneFor(finishMarks, previousAccuracy: _previousAccuracy(attempt));
+    final costliest = costliestLine(rows, reviews: reviews);
+    // One chapter lost every missed mark: the moment's bar line has just said the figure and the panel below names the
+    // chapter, so the block would say it a second time (one thing at a time, D108).
+    final top = costliest.chapter == null ? null : _topChapter(rows, reviews);
+    final showCostliest = costliest.chapter != null && top != null && top.marks < rows.marks.gap;
 
     // What is below the head waits for the arrival, then rises in: the list never gives the result away while the score
     // still counts up.
@@ -490,13 +497,22 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       ignoring: staged || isFresh == null,
       child: AnimatedOpacity(
         opacity: staged || isFresh == null ? 0 : 1,
-        duration: isFresh == true ? Motion.of(context, const Duration(milliseconds: 280)) : Duration.zero,
+        duration: isFresh == true ? Motion.of(context, Motion.card) : Duration.zero,
         curve: Motion.out,
         child: child,
       ),
     );
 
     final layers = <Widget>[
+      // What the moment does not say: the chapter that cost the most (only when one did; the moment's bar line already
+      // says what the missed marks went to) and a key under re-check. Below the fold, so the moment stays one thing.
+      if (showCostliest || notice != null) ...[
+        const SizedBox(height: MmSpace.s24),
+        if (showCostliest)
+          CostliestBlock(costliest: costliest, notice: notice)
+        else
+          ResultNotice(text: notice!),
+      ],
       // One quiet line under the marks: Mobi opens on where this set's lost marks went, free (as on a mock).
       if (askLines.isNotEmpty) ...[
         const SizedBox(height: MmSpace.s12),
@@ -572,12 +588,12 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
           teaser: LayersCopy.answeredRight(m.right, m.answered),
           builder: (_) => ObservationsPanel(analysis: analysis, onShow: _showQuestions),
         ),
-      if (proveChapter != null)
+      if (prove != null)
         FoldSection(
           id: _Folds.proof,
-          title: LayersCopy.foldProof,
-          teaser: LayersCopy.proveTeaser(proveChapter),
-          builder: (_) => ProveCard(attemptId: attempt.id, subjectId: subjectId),
+          title: prove.ofWrong ? LayersCopy.foldProof : LayersCopy.foldFreshBlank,
+          teaser: prove.ofWrong ? LayersCopy.proveTeaser(prove.chapter) : LayersCopy.proveBlankTeaser(prove.chapter),
+          builder: (_) => ProveCard(attemptId: attempt.id, subjectId: subjectId, chapter: prove.chapter, ofWrong: prove.ofWrong),
         ),
       FoldSection(
         id: _Folds.every,
@@ -599,6 +615,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
       Divider(height: 1, thickness: 1, color: colors.line),
       if (large) ...[
         const SizedBox(height: MmSpace.s24),
+        KeyButton.quiet(label: ResultFoot.seePaperLabel, onPressed: () => context.go(yourPapersLocation(attempt.id))),
         KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: _finish),
       ],
     ];
@@ -643,17 +660,27 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                     ResultLoadFailed(onRetry: () => ref.read(attemptDetailProvider(id).notifier).refresh(force: true)),
                                     const SizedBox(height: MmSpace.s16),
                                   ],
-                                  // Layer 1: what happened. It waits the few milliseconds it takes to know whether this is
-                                  // the first open (so the arrival never plays twice or not at all), and for the rows.
+                                  // The finish moment. It waits the few milliseconds it takes to know whether this is the
+                                  // first open (so it never plays twice or not at all), and for the sheet's rows; meanwhile
+                                  // Mobi reads the sheet. Keyed by the number of bubbles, so rows that arrive late ink in
+                                  // from the start.
                                   if (isFresh != null && rowsSettled)
-                                    ResultHead(
-                                      receipt: receipt,
-                                      marks: m,
-                                      scored: attempt.marks,
-                                      max: attempt.maxMarks,
-                                      costliest: costliestLine(rows, reviews: reviews),
-                                      notice: notice,
-                                      arrival: isFresh,
+                                    FinishStage(
+                                      key: ValueKey('finish-${model.cells.length}'),
+                                      marks: finishMarks,
+                                      cells: model.cells,
+                                      tone: tone,
+                                      recordedAt: recordedAt,
+                                      fresh: isFresh,
+                                      // "Paper saved." only once the server's acknowledgement is held on this phone.
+                                      confirmed: receivedState.value != null,
+                                      now: clock.now(),
+                                      subject: subjectName,
+                                      chapter: chapter,
+                                      onCellTap: model.hasRows ? _tapCell : null,
+                                      onSettled: () {
+                                        if (mounted && !_settled) setState(() => _settled = true);
+                                      },
                                     )
                                   else
                                     const ResultReading(),
@@ -682,7 +709,8 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                     ),
                     showFinish: !large,
                     onFinish: _finish,
-                    // After a calm or good set only, and once the arrival is over.
+                    onSeePaper: () => context.go(yourPapersLocation(attempt.id)),
+                    // After a calm or good set only, and once the moment is over.
                     lateLine: isFresh != null && !staged && (tone == FinishTone.good || tone == FinishTone.great),
                   ),
                 ],
@@ -696,6 +724,9 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     );
   }
 }
+
+/// The chapter that cost the most marks (the screen's own `costliest` local names the line built from it).
+ChapterCost? _topChapter(MoveAnalysis rows, Map<String, String> reviews) => costliest(rows, reviews: reviews);
 
 /// The folds' names in the session's memory.
 abstract final class _Folds {

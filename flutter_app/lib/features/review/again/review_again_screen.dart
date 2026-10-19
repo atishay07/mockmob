@@ -153,7 +153,10 @@ class _ReviewAgainScreenState extends ConsumerState<ReviewAgainScreen> {
           pose: MobiPose.read,
           title: ReviewAgainCopy.emptyTitle,
           message: ReviewAgainCopy.emptyMessage,
-          primary: StateAction(ReviewAgainCopy.emptyAction, () => context.go(AppRoutes.review)),
+          // Nothing open to repair either: the key starts the set that finds mistakes, never a page with nothing in it.
+          primary: (ref.read(reviewIndexProvider)?.openCount ?? 0) > 0
+              ? StateAction(ReviewAgainCopy.emptyAction, () => context.go(AppRoutes.review))
+              : StateAction(ReviewCopy.emptyAction, () => startQuickTen(context)),
         );
       } else if (_done) {
         body = _End(

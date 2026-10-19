@@ -172,7 +172,10 @@ class TonightPick {
 
 /// Everything the Review tab shows, derived from the attempts list and the local repair records.
 class ReviewIndex {
-  const ReviewIndex({required this.groups, required this.attempts, this.blanks, this.tonight});
+  const ReviewIndex({required this.groups, required this.attempts, this.blanks, this.tonight, this.sealed = const {}});
+
+  /// The papers whose result is still sealed (not opened yet), as the index was built with them.
+  final Set<String> sealed;
 
   /// Chapters with at least one open mistake first (newest found first), then the rest.
   final List<ChapterGroup> groups;
@@ -187,6 +190,22 @@ class ReviewIndex {
       if (g.openCount > 0) g,
   ];
   int get openCount => groups.fold(0, (n, g) => n + g.openCount);
+
+  /// The open mistakes outside the papers in [sealed] (results not opened yet): what Your papers' strip, its chapter list
+  /// and the bar's badge count.
+  int get openShown => openCountExcept(sealed);
+
+  /// The open mistakes outside the papers in [sealed] (results not opened yet).
+  int openCountExcept(Set<String> sealed) {
+    if (sealed.isEmpty) return openCount;
+    var n = 0;
+    for (final g in groups) {
+      for (final i in g.items) {
+        if (i.stage.isOpen && !sealed.contains(i.attemptId)) n++;
+      }
+    }
+    return n;
+  }
   bool get hasAnyMistake => groups.isNotEmpty;
 
   /// Every wrong answer on record that is still counted (not-a-mistake answers are left out).
@@ -362,8 +381,8 @@ ReviewIndex buildReviewIndex(
           return t != 0 ? t : b.openCount - a.openCount;
         });
 
-  final index = ReviewIndex(groups: list, attempts: sorted, blanks: blanks);
-  return ReviewIndex(groups: list, attempts: sorted, blanks: blanks, tonight: _tonight(index, sorted, unopened));
+  final index = ReviewIndex(groups: list, attempts: sorted, blanks: blanks, sealed: unopened);
+  return ReviewIndex(groups: list, attempts: sorted, blanks: blanks, tonight: _tonight(index, sorted, unopened), sealed: unopened);
 }
 
 TonightPick? _tonight(ReviewIndex index, List<Attempt> newestFirst, Set<String> unopened) {

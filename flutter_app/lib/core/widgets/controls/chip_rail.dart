@@ -210,6 +210,7 @@ class ChipRail extends StatefulWidget {
     this.revealIndex,
     this.fadeExtent = fadeDp,
     this.semanticLabel,
+    this.nudge = false,
   });
 
   /// A rail of [MmChip]s from [labels]; [selected] is the chosen one (and the one revealed).
@@ -223,6 +224,7 @@ class ChipRail extends StatefulWidget {
     EdgeInsets padding = const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
     String? semanticLabel,
     bool bubbles = true,
+    bool nudge = false,
   }) {
     return ChipRail(
       key: key,
@@ -230,6 +232,7 @@ class ChipRail extends StatefulWidget {
       padding: padding,
       revealIndex: selected,
       semanticLabel: semanticLabel,
+      nudge: nudge,
       children: [
         for (var i = 0; i < labels.length; i++)
           MmChip(
@@ -257,6 +260,13 @@ class ChipRail extends StatefulWidget {
   final int? revealIndex;
   final double fadeExtent;
   final String? semanticLabel;
+
+  /// On its first view, when the chips run past the edge, the rail slides [nudgeDistance] dp along and back once, so a
+  /// student new to apps sees it moves sideways (owner, 19 Oct: the edge fade alone is not enough). Nothing under reduced
+  /// motion, and nothing when every chip fits.
+  final bool nudge;
+
+  static const double nudgeDistance = 24;
 
   @override
   State<ChipRail> createState() => _ChipRailState();
@@ -376,6 +386,29 @@ class _ChipRailState extends State<ChipRail> with SingleTickerProviderStateMixin
     // nudge (inside the start inset) is applied, to make its peek clean.
     if (stops.isNotEmpty && stops.first > 0.5 && _controller.offset < 0.5) _controller.jumpTo(stops.first);
     _settlePeek();
+    if (widget.nudge) _nudgeOnce();
+  }
+
+  bool _nudged = false;
+
+  /// The first view's one sideways nudge (see [ChipRail.nudge]): out on an ease-out, back on the emphasized curve,
+  /// after the page has had a moment to settle. A finger on the rail meanwhile wins.
+  Future<void> _nudgeOnce() async {
+    if (_nudged) return;
+    _nudged = true;
+    await Future<void>.delayed(const Duration(milliseconds: 600));
+    if (!mounted || !_controller.hasClients || Motion.reduced(context)) return;
+    final p = _controller.position;
+    if (p.maxScrollExtent < 0.5 || p.isScrollingNotifier.value) return;
+    final from = p.pixels;
+    final to = math.min(from + ChipRail.nudgeDistance, p.maxScrollExtent);
+    try {
+      await _controller.animateTo(to, duration: const Duration(milliseconds: 280), curve: Motion.out);
+      if (!mounted || !_controller.hasClients) return;
+      await _controller.animateTo(from, duration: const Duration(milliseconds: 360), curve: Motion.emphasized);
+    } on Object {
+      // A drag interrupted it: the student is already scrolling.
+    }
   }
 
   void _reveal(int index, {required bool animate}) {

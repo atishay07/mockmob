@@ -14,8 +14,17 @@ abstract final class LayersCopy {
     MoveKind.harder => 'Why a harder paper',
   };
 
-  /// The cost line under the foot key, broken at its sentence so the promise never leaves one word on a line.
-  static String? footNote(String? cost) => cost?.replaceFirst('. No charge', '.\nNo charge');
+  /// The cost line under the foot key: the cost and the balance on one line ("1 credit. You have 40."), so the pinned
+  /// foot stays small (19 Oct walk, finding 28: the foot held a quarter of the screen). A repair's promise ("No charge
+  /// if the repair cannot be written.") is said in the panel above, beside what the repair gives.
+  static String? footNote(String? cost) {
+    if (cost == null) return null;
+    final line = cost.replaceFirst(' $repairNoCharge', '').replaceFirst(repairNoCharge, '').trim();
+    return line.isEmpty ? null : line;
+  }
+
+  /// The repair's promise, under what a repair gives in the next-move panel.
+  static const repairNoCharge = 'No charge if the repair cannot be written.';
 
   /// The foot key while a repair needs the network and there is none.
   static const repairsNeedConnection = 'Repairs need a connection';
@@ -106,7 +115,14 @@ abstract final class LayersCopy {
 
   static const planTeaserFallback = 'What went well, what cost marks, and the sets that come next.';
   static String ruleTeaser(String? rule) => rule == null ? 'No rule chosen for this mock.' : 'Your rule: $rule';
-  static String proveTeaser(String chapter) => 'Five new questions on $chapter show whether a fix held.';
+  /// The proof is on the chapter of a wrong answer, the one a repair fixes: "Five new questions on Partnership
+  /// Fundamentals, where you went wrong, show whether your fix held."
+  static String proveTeaser(String chapter) => 'Five new questions on $chapter, where you went wrong, show whether your fix held.';
+
+  /// No fresh set for a wrong answer's chapter, but one for a chapter left blank: the fold says which and why, never
+  /// "proof it stuck" for a chapter with nothing to repair (19 Oct walk, finding 29).
+  static const foldFreshBlank = 'Five fresh questions';
+  static String proveBlankTeaser(String chapter) => 'You left $chapter blank. Five new questions on it show where you stand.';
   static String everyTeaser(int right, int wrong, int blank) => '$right right, $wrong wrong, $blank blank. Tap a bubble to open its question.';
   static String rightAnswers(int n) => n == 1 ? '1 right answer' : 'Right answers ($n)';
 

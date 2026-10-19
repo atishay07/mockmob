@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import '../../../core/art/art.dart' show EmblemSizes, SubjectEmblem;
@@ -83,10 +85,9 @@ class ChapterHero extends StatelessWidget {
                           children: [
                             Text(lead, maxLines: 2, overflow: TextOverflow.ellipsis, style: type.caption.copyWith(fontSize: 13.5, color: colors.ink2)),
                             const SizedBox(height: MmSpace.s4),
-                            Text(
-                              row.name,
+                            WholeWordTitle(
+                              text: row.name,
                               maxLines: large ? 5 : 3,
-                              overflow: TextOverflow.ellipsis,
                               style: type.title.copyWith(fontSize: 24, height: 27 / 24),
                             ),
                           ],
@@ -214,4 +215,46 @@ class LostBar extends StatelessWidget {
       ),
     );
   }
+}
+
+/// A title that breaks only between words (19 Oct walk, finding 31: "Partnership Fundamental / s" at 360 dp). When its
+/// longest word is wider than the room beside the art, the size steps down until that word fits on its own line (never
+/// below [minScale] of the style's size); the line height keeps its ratio, so the block stays in proportion.
+class WholeWordTitle extends StatelessWidget {
+  const WholeWordTitle({super.key, required this.text, required this.style, this.maxLines = 3, this.minScale = 0.72});
+
+  final String text;
+  final TextStyle style;
+  final int maxLines;
+  final double minScale;
+
+  /// The size at which every word of [text] fits [width], or [style]'s own size when it already does.
+  static double fittedSize(String text, TextStyle style, double width, TextScaler scaler, {double minScale = 0.72}) {
+    final size = style.fontSize ?? 14;
+    if (!width.isFinite || width <= 0) return size;
+    var widest = 0.0;
+    for (final word in text.split(RegExp(r'\s+'))) {
+      if (word.isEmpty) continue;
+      final painter = TextPainter(text: TextSpan(text: word, style: style), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)
+        ..layout();
+      if (painter.width > widest) widest = painter.width;
+      painter.dispose();
+    }
+    if (widest <= width) return size;
+    // A hair under the exact fit, so rounding never pushes the last letter onto its own line.
+    return math.max(size * minScale, size * (width / widest) * 0.98);
+  }
+
+  @override
+  Widget build(BuildContext context) => LayoutBuilder(
+    builder: (context, constraints) {
+      final fitted = fittedSize(text, style, constraints.maxWidth, MediaQuery.textScalerOf(context), minScale: minScale);
+      return Text(
+        text,
+        maxLines: maxLines,
+        overflow: TextOverflow.ellipsis,
+        style: fitted == style.fontSize ? style : style.copyWith(fontSize: fitted),
+      );
+    },
+  );
 }

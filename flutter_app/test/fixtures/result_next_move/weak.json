@@ -610,7 +610,7 @@
       "label": "Practise 10 on Share Capital",
       "why": "Share Capital: most answers in this chapter were wrong, so a chapter set comes before repairing single mistakes.",
       "value": null,
-      "cost": "This set uses 10 practice credits. You have 40.",
+      "cost": "This set uses 10 credits. You have 40.",
       "late": null,
       "alt": {
         "kind": "repair",

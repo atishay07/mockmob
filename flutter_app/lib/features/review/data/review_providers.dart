@@ -150,7 +150,9 @@ String subjectName(String id) => switch (id) {
   _ => id.replaceAll('_', ' ').replaceFirstMapped(RegExp('^.'), (m) => m[0]!.toUpperCase()),
 };
 
-/// Every mistake still open on the account, or null until the attempts list is read: the one count behind Review's
-/// "N left to repair" header, Today's Repairs tile and "N open in all" line, and Practice's Repairs row, so the screens
-/// can never print different numbers for the same queue (v15 walk, M6).
-final openRepairsProvider = Provider<int?>((ref) => ref.watch(reviewIndexProvider.select((index) => index?.openCount)));
+/// Every mistake still open on the account, or null until the attempts list is read: the one count behind Your papers'
+/// strip and its Mistakes to repair, Today's Repairs tile and "N open in all" line, the bar's badge and Practice's Repairs
+/// row, so the screens can never print different numbers for the same queue (v15 walk, M6). A paper whose result is still
+/// sealed is left out (19 Oct, D106): its mistakes are the reveal's to show, and the chapter list leaves it out too, so
+/// the strip, the chapters and the badge read the same number.
+final openRepairsProvider = Provider<int?>((ref) => ref.watch(reviewIndexProvider.select((index) => index?.openShown)));

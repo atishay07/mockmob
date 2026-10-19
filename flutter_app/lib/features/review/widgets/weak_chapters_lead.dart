@@ -38,7 +38,11 @@ String practisePathFor(ChapterRow row) {
 /// its mistakes under it; the other chapters follow as "More chapters", and a tap on one makes it the hero. Exactly one chapter
 /// is open at a time, so there is exactly one volt key in the content.
 class WeakChaptersLead extends ConsumerStatefulWidget {
-  const WeakChaptersLead({super.key, required this.body, required this.onRepair, this.initialOpen});
+  const WeakChaptersLead({super.key, required this.body, required this.onRepair, this.initialOpen, this.showSummary = true});
+
+  /// The sentence over everything ("Your 25 papers lost 3644 marks: ..."). Your papers leaves it out (19 Oct, D106): its
+  /// strip and its Mistakes to repair heading already say the counts, and the long sentence was what read as clutter.
+  final bool showSummary;
 
   final ChaptersBody body;
 
@@ -92,19 +96,21 @@ class _WeakChaptersLeadState extends ConsumerState<WeakChaptersLead> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // "Your 3 papers lost 220 marks: 30 wrong answers and 8 left blank. 9 are repaired."
-        summary.lost > 0
-            ? Text.rich(
-                TextSpan(
-                  style: lede,
-                  children: [
-                    TextSpan(text: '${summary.who} lost '),
-                    TextSpan(text: '${summary.lost} marks', style: lede.copyWith(fontWeight: FontWeight.w600, color: colors.ink)),
-                    TextSpan(text: ': ${summary.what}.${summary.fixed}'),
-                  ],
-                ),
-              )
-            : Text(summary.text, style: lede),
-        const SizedBox(height: ReviewSpace.item + 4),
+        if (widget.showSummary) ...[
+          summary.lost > 0
+              ? Text.rich(
+                  TextSpan(
+                    style: lede,
+                    children: [
+                      TextSpan(text: '${summary.who} lost '),
+                      TextSpan(text: '${summary.lost} marks', style: lede.copyWith(fontWeight: FontWeight.w600, color: colors.ink)),
+                      TextSpan(text: ': ${summary.what}.${summary.fixed}'),
+                    ],
+                  ),
+                )
+              : Text(summary.text, style: lede),
+          const SizedBox(height: ReviewSpace.item + 4),
+        ],
         KeyedSubtree(
           key: _hero,
           child: MmOverlapSwitcher(
