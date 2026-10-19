@@ -16,7 +16,7 @@ abstract final class MobCopy {
   /// The rules on the start page: two plain lines under the seat ring, never a bullet list (owner
   /// walk, 18 Oct, H12).
   static const List<String> promises = [
-    'The same 10 questions for all of you, fresh each week, free of credits on any plan.',
+    'The same 10 questions for all of you, fresh each week. Sitting the paper costs no credits, on any plan.',
     'Members see who sat and each other\'s answers, never who didn\'t. One switch keeps yours private.',
   ];
 
@@ -207,7 +207,7 @@ abstract final class MobCopy {
       s.chapter == null ? 'Make a ${s.count}-question paper on the whole subject' : 'Make a ${s.count}-question paper on ${s.chapter}';
   static const String lengthLabel = 'Length';
   static String questionsN(int n) => '$n questions';
-  static const String extraNote = 'Free of credits. Anyone in your Mob can sit it for 7 days. Your Mob can have 3 extra papers a week.';
+  static const String extraNote = 'It costs no credits. Anyone in your Mob can sit it for 7 days. Your Mob can have 3 extra papers a week.';
   static const String makePaper = 'Make the paper';
   static const String makingPaper = 'Making the paper';
   static const String sitIt = 'Sit it';
@@ -310,7 +310,7 @@ abstract final class MobCopy {
       ? 'A small group sitting one 10-question ${p.subjectName} paper each week. ${p.size} of $mobMaxSize seats taken.'
       : 'A small group, one paper a week. ${p.size} of $mobMaxSize seats taken.';
   static const List<String> joinFacts = [
-    'One paper a week, the same 10 questions for all of you, 10 minutes. Free of credits, on any plan.',
+    'One paper a week, the same 10 questions for all of you, 10 minutes. It costs no credits, on any plan.',
     'You see who sat, never who didn\'t. Never ranked, and you can leave any time.',
     'Shared inside the Mob only: members see each other\'s answers and scores. One switch turns yours off.',
   ];
@@ -362,7 +362,7 @@ abstract final class MobCopy {
   /// opened the card as a non sequitur). The moment's reason decides when the card shows; it is not
   /// the card's first line.
   static const String inviteMomentBody =
-      'Sit the same 10 questions as your friends each week, then see the questions your Mob got wrong together. Up to 5 of you, free of credits. Only people you send the link to can join.';
+      'Sit the same 10 questions as your friends each week, then see the questions your Mob got wrong together. Up to 5 of you, and it costs no credits. Only people you send the link to can join.';
   static const String inviteMomentWeek = 'You met your study goal for a week.';
   static String inviteMomentSessions(int n) => 'You have saved $n sessions.';
   static String todayTitle(Mob m) => m.several ? 'Your ${m.subjectName} Mob' : 'Your Mob';

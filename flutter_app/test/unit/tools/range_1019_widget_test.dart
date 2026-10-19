@@ -157,6 +157,31 @@ void main() {
     expect(find.byType(EstimateSheet), findsOneWidget, reason: 'Done keeps the sheet open on a range that is too wide');
   });
 
+  testWidgets('L5: a reversed pair ("920" then "900") shows in the order it is read, 900 then 920, once the student leaves the field', (tester) async {
+    await pumpColleges(tester);
+    await tester.tap(find.text(CollegesCopy.typeEstimate).first);
+    await settle(tester);
+    await tester.enterText(field(CollegesCopy.from), '920');
+    await tester.enterText(field(CollegesCopy.to), '900');
+    await settle(tester);
+    expect(find.text('All 4 of your colleges are in reach.'), findsOneWidget, reason: 'read as 900 to 920 straight away');
+    // The keyboard goes away: the fields show what is read.
+    FocusManager.instance.primaryFocus?.unfocus();
+    await settle(tester);
+    expect(tester.widget<TextField>(field(CollegesCopy.from)).controller!.text, '900');
+    expect(tester.widget<TextField>(field(CollegesCopy.to)).controller!.text, '920');
+    expect(find.text('All 4 of your colleges are in reach.'), findsOneWidget);
+  });
+
+  testWidgets('L5: Done on a reversed pair keeps 900 to 920 as the typed range', (tester) async {
+    await pumpColleges(tester);
+    await typeRange(tester, '920', '900');
+    await tester.tap(find.widgetWithText(KeyButton, CollegesCopy.done));
+    await settle(tester);
+    expect(find.byType(EstimateSheet), findsNothing);
+    expect(find.textContaining('900 to 920'), findsWidgets);
+  });
+
   testWidgets('"I don\'t know my range yet" clears a typed range and brings back Today\'s card', (tester) async {
     final prefs = MemoryPrefsStore();
     await pumpMockmob(

@@ -71,6 +71,23 @@ class DifficultyPicker extends ConsumerStatefulWidget {
     PracticeDifficulty.hard => PracticeCopy.difficultyHard,
   };
 
+  /// Whether four equal segments in [width] hold the longest level word whole, beside the bubble or the lock a segment
+  /// carries (the segmented control's own 4 dp rim, 14 sp words, a 10 dp bubble and 8 dp gap, or a 12 dp lock and 4 dp
+  /// gap), with a little air.
+  static bool segmentsFit(BuildContext context, double width) {
+    final style = context.mmType.labelLarge.copyWith(fontSize: 14);
+    final scaler = MediaQuery.textScalerOf(context);
+    var widest = 0.0;
+    for (final d in PracticeDifficulty.values) {
+      final painter = TextPainter(text: TextSpan(text: label(d), style: style), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout();
+      widest = painter.width > widest ? painter.width : widest;
+      painter.dispose();
+    }
+    const withBubble = 10 + MmSpace.s8;
+    const air = MmSpace.s8;
+    return (width - 8) / PracticeDifficulty.values.length >= widest + withBubble + air;
+  }
+
   /// Whether [d] is shut for a free account: every level but Balanced.
   static bool lockedFor(PracticeDifficulty d, {required bool isPro}) => !isPro && d != PracticeDifficulty.balanced;
 
@@ -104,16 +121,21 @@ class _DifficultyPickerState extends ConsumerState<DifficultyPicker> {
     // same choice reads as a wrapped row of chips there, with nothing cut and the Start key not
     // pushed out of sight.
     final value = isPro ? widget.value : PracticeDifficulty.balanced;
-    final control = MediaQuery.textScalerOf(context).scale(1) >= _listTextScale
-        ? _DifficultyChips(value: value, isPro: isPro, onChanged: widget.onChanged, onLockedTap: _locked)
-        : MmSegmented<PracticeDifficulty>(
-            semanticsLabel: PracticeCopy.difficultyLabel,
-            segments: [for (final d in PracticeDifficulty.values) MmSegment(d, DifficultyPicker.label(d), locked: DifficultyPicker.lockedFor(d, isPro: isPro))],
-            value: value,
-            onChanged: widget.onChanged,
-            onLockedTap: (_) => _locked(),
-            lockedHint: sell ? PracticeCopy.difficultyLockedHint : PracticeCopy.difficultyLockedHintPlain,
-          );
+    // The same choice reads as chips whenever four equal segments cannot hold the longest word whole: at 1.25x text and
+    // up, and on a narrow phone at normal size, where "Balanced" next to its bubble was cut to "Balanc..." (walk L3, 19
+    // Oct, 360 dp).
+    final control = LayoutBuilder(
+      builder: (context, box) => MediaQuery.textScalerOf(context).scale(1) >= _listTextScale || !DifficultyPicker.segmentsFit(context, box.maxWidth)
+          ? _DifficultyChips(value: value, isPro: isPro, onChanged: widget.onChanged, onLockedTap: _locked)
+          : MmSegmented<PracticeDifficulty>(
+              semanticsLabel: PracticeCopy.difficultyLabel,
+              segments: [for (final d in PracticeDifficulty.values) MmSegment(d, DifficultyPicker.label(d), locked: DifficultyPicker.lockedFor(d, isPro: isPro))],
+              value: value,
+              onChanged: widget.onChanged,
+              onLockedTap: (_) => _locked(),
+              lockedHint: sell ? PracticeCopy.difficultyLockedHint : PracticeCopy.difficultyLockedHintPlain,
+            ),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [

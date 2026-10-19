@@ -154,6 +154,10 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     final Estimate? seed = given?.estimate() ?? (_check ? current : typed);
     _from = TextEditingController(text: seed == null ? (widget.initialScore ?? '') : estimateFigure(seed.low));
     _to = TextEditingController(text: seed == null || seed.isPoint ? '' : estimateFigure(seed.high));
+    // A reversed pair ("920" then "900") is read as 900 to 920 straight away; once the student leaves a field the
+    // fields show it in that order too, so the sheet never says one thing and holds another (walk L5, 19 Oct).
+    _fromFocus.addListener(_leftField);
+    _toFocus.addListener(_leftField);
     if (!_check) {
       _source = _sourceNow(current);
       if (widget.typeOwn) {
@@ -172,8 +176,32 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
 
   String? _category;
 
+  void _leftField() {
+    if (!_fromFocus.hasFocus && !_toFocus.hasFocus) _normalise();
+  }
+
+  /// Two figures typed the wrong way round change places: the lower one is From.
+  void _normalise() {
+    if (!mounted) return;
+    double? figure(String text) {
+      final m = RegExp(r'\d+(?:\.\d+)?').firstMatch(text);
+      return m == null ? null : double.tryParse(m.group(0)!);
+    }
+
+    final f = figure(_from.text);
+    final t = figure(_to.text);
+    if (f == null || t == null || t >= f) return;
+    final from = _from.text;
+    setState(() {
+      _from.text = _to.text.trim();
+      _to.text = from.trim();
+    });
+  }
+
   @override
   void dispose() {
+    _fromFocus.removeListener(_leftField);
+    _toFocus.removeListener(_leftField);
     _from.dispose();
     _to.dispose();
     _fromFocus.dispose();
@@ -284,6 +312,7 @@ class _EstimateSheetState extends ConsumerState<EstimateSheet> {
     switch (_source) {
       case _Source.typed || null:
         setState(() => _strict = true);
+        _normalise();
         if (_fromError) {
           _fromShake.value++;
           _fromFocus.requestFocus();
