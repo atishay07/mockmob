@@ -179,5 +179,5 @@ test('the panel: no tabs, switch or dropdown before the first answer; the R4 saf
   assert.match(drawer, /const FLICK = 110;/);
   assert.match(drawer, /const CLOSE_SHARE = 0\.35;/);
   const host = read('src/components/ai/AskMobiHost.jsx');
-  assert.match(host, /isPlainClick\(event\)/, 'a modifier-click on the nav row still opens /mentor');
+  assert.doesNotMatch(host, /isPlainClick|isAskMobiNavHref/, 'the nav door is a plain link to /mentor, Ask Mobi’s own page (ASK-MOBI-1019 option B); the panel opens only for a question, a mock, Today or Practice');
 });

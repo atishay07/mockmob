@@ -146,7 +146,7 @@ test('copy, read aloud (R6): full sentences, no telegram style', () => {
   }
 });
 
-test('Mobi’s door sits at the sidebar’s foot above Night and Day, is the ordinary /mentor link and opens in place', () => {
+test('Mobi’s door sits at the sidebar’s foot above Night and Day, is the ordinary /mentor link and opens Ask Mobi’s own page', () => {
   const aside = layout.slice(layout.indexOf('<aside className="arena-sidebar"'), layout.indexOf('</aside>'));
   assert.ok(aside.indexOf('className="arena-mobi-door"') > aside.indexOf('{navGroups.map'), 'after the places');
   assert.ok(aside.indexOf('className="arena-mobi-door"') < aside.indexOf('className="arena-sidebar__foot"'), 'above the appearance row (D6)');
@@ -154,7 +154,7 @@ test('Mobi’s door sits at the sidebar’s foot above Night and Day, is the ord
   assert.match(aside, /<Image className="arena-mobi-door__face" src=\{MOBI_FACE\.src\}/);
   assert.match(places, /\.arena-mobi-door \{ display: none; \}/, 'drawn from 1024 px only; a phone has the sheet row');
   assert.equal(ASK_MOBI_NAV.href, '/mentor');
-  assert.match(read('src/components/ai/AskMobiHost.jsx'), /link\.matches\('\[data-tour="nav-mentor"\]'\)/, 'the host still opens the panel in place from a plain click');
+  assert.doesNotMatch(read('src/components/ai/AskMobiHost.jsx'), /data-tour="nav-mentor"/, 'the door is a plain link: it opens /mentor, Ask Mobi’s own page, and no longer the panel in place (1019 option B)');
 });
 
 test('Practice and the Mob get a row of tabs on a phone: Practice, Your papers, Learn, Explore, Saved; Your Mob, Your standing', () => {

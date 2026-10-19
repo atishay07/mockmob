@@ -1,6 +1,6 @@
 /* /mentor, "Your record" (ASK-MOBI-1018, P4). The page's own sections sit on the page in the Arena's Night and Day tokens;
    the only list here is Mobi's earlier questions, hairline rows with no boxes. */
-.app-shell .mrp { display: grid; gap: 24px; min-width: 0; max-width: 56rem; }
+.app-shell .mrp { display: grid; gap: 24px; min-width: 0; max-width: 68rem; }
 .app-shell .mrp-ask { margin-top: 0; }
 .app-shell .mrp-note { margin: 0; font-size: 14px; color: var(--a-ink-3); }
 

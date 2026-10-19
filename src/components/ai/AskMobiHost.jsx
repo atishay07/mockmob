@@ -4,15 +4,15 @@
 // opens the panel over the current page, already about what the student is looking at. The drawer and its panel load on
 // the first open (fetched once the page is idle), so the shell carries none of that code until a student asks.
 //
-// The navigation's own "Ask Mobi" row (the sidebar's Planning group, and More on a phone) is a plain link to /mentor. A
-// plain click on it opens the panel about the page instead; a modifier-click or middle-click still opens /mentor. The
-// listener sits here, in capture, so the row keeps its own link and the shell's file needs no change.
+// The navigation's own "Ask Mobi" door (the sidebar's foot, and the You sheet on a phone) is a plain link to /mentor, which is
+// now Ask Mobi's own page (ASK-MOBI-1019 option B, D114): two doors and the conversation, in the page. The docked panel stays
+// for asks about one question or one mock (a repair, a result, Today, Practice), where the page under it matters; it is no
+// longer opened by the navigation door.
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
-import { ASK_MOBI_EVENT, isAskMobiNavHref, isPlainClick, normalizeContext, openAskMobi, contextFromLegacy } from './askMobi.mjs';
+import { ASK_MOBI_EVENT, normalizeContext, contextFromLegacy } from './askMobi.mjs';
 
 const AssistantDrawer = dynamic(() => import('./AssistantDrawer'), { ssr: false });
-const NAV_ROW = '.arena-sidebar a[href], .arena-sheet a[href]';
 
 export default function AskMobiHost() {
   const [request, setRequest] = useState(null);
@@ -35,14 +35,8 @@ export default function AskMobiHost() {
       setRequest({ context, key: Date.now(), returnTo: typeof detail.returnTo === 'string' ? detail.returnTo : null });
       setOpen(true);
     };
-    const onNav = (event) => {
-      const link = event.target?.closest?.(NAV_ROW);
-      if (!link || !(link.matches('[data-tour="nav-mentor"]') || isAskMobiNavHref(link.getAttribute('href'))) || !isPlainClick(event)) return;
-      if (openAskMobi({ context: { kind: 'page' }, from: link })) event.preventDefault();
-    };
     window.addEventListener(ASK_MOBI_EVENT, onAsk);
-    document.addEventListener('click', onNav, true);
-    return () => { window.removeEventListener(ASK_MOBI_EVENT, onAsk); document.removeEventListener('click', onNav, true); };
+    return () => window.removeEventListener(ASK_MOBI_EVENT, onAsk);
   }, []);
 
   // The shell reads these: the docked form makes the main column give up the panel's width, and the nav row shows it open.

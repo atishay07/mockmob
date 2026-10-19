@@ -401,7 +401,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
           </nav>
         ))}
         {/* Mobi's own door, at the foot above Night and Day (D6): the one place in the navigation where a student talks to him.
-            A plain /mentor link, which AskMobiHost opens in place beside the page (a modifier-click still opens /mentor). */}
+            A plain link to /mentor, Ask Mobi's own page (two doors and the conversation; ASK-MOBI-1019, D114). The docked panel is for asks about
+            one question or one mock and is not opened from here. */}
         {!isTestRoute && (
           <Link href={previewLinks?.mentor || '/mentor'} className="arena-mobi-door" data-tour="nav-mentor" aria-current={isActive('mentor') ? 'page' : undefined}>
             <Image className="arena-mobi-door__face" src={MOBI_FACE.src} width={30} height={41} sizes="30px" alt="" />

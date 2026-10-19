@@ -327,6 +327,26 @@ export function creditLine(wallet) {
   return { first: `${wallet.total === 1 ? '1 credit' : `${wallet.total} credits`} left${free}`, second: DOOR_COPY.howItCosts, known: true };
 }
 
+/**
+ * The line under the field, before anything is sent: what the question in the field will cost and who writes the reply (the
+ * app's askNoteIdle, askNoteFree, askNoteCost, askNoteEmpty and askPausedLine). Said quietly; a tap or Send goes straight to the
+ * answer. `price` is priceOfTyped(): null (nothing typed), 'free' or 'credit'.
+ */
+export function noteFor(price, wallet) {
+  if (wallet?.state === 'paused') return 'AI replies are paused just now. Questions about your record still work.';
+  const empty = Boolean(wallet?.known) && Number.isFinite(wallet.total) && wallet.total <= 0;
+  if (price === 'free') return 'Free. Mobi answers this from your record.';
+  if (empty) {
+    const d = shortDate(wallet.resetAt);
+    return `No credits left.${d ? ` They refill on ${d}.` : ''} Questions about your record stay free.`;
+  }
+  const writes = 'An AI service writes Mobi’s replies';
+  const balance = wallet?.known && Number.isFinite(wallet.total) ? wallet.total : null;
+  if (balance === null) return `${writes} · 1 credit`;
+  if (balance === 1) return `${writes} · your last credit`;
+  return `${writes} · 1 of your ${balance} credits`;
+}
+
 // ---- Your recent questions ----------------------------------------------------------------------------------------
 
 /** "Thursday 15 Oct, 9:40 pm" in the device's own clock (12-hour). `timeZone` is for tests only. */
