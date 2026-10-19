@@ -137,6 +137,24 @@ void main() {
       expect(foldRuleOf(FoldKey.cutting).folds, 2);
       expect(chainMilestones[30], 'foil');
     });
+
+    test('the paper colours: the app catalog, the server catalog and the final art agree (20 Oct)', () {
+      final server = {for (final f in (fx('server/folds.json')['folds'] as List).cast<Map<String, dynamic>>()) f['key'] as String: f};
+      final art = (jsonDecode(File('assets/folds/folds.json').readAsStringSync()) as Map<String, dynamic>)['folds'] as Map<String, dynamic>;
+      for (final r in foldCatalog) {
+        final s = server[r.fold.name]!;
+        expect(s['colour'], r.paper, reason: '${r.fold.name}: server');
+        expect(s['folds'], r.folds, reason: '${r.fold.name}: server folds');
+        expect(s['source'], r.source, reason: '${r.fold.name}: server source');
+        expect((art[r.fold.name] as Map<String, dynamic>)['colour'], r.paper, reason: '${r.fold.name}: art');
+      }
+      // The four the spec's colour column had wrong.
+      expect(foldRuleOf(FoldKey.hexa).paper, '5562D9');
+      expect(foldRuleOf(FoldKey.naav).paper, 'E3DCCB');
+      expect(foldRuleOf(FoldKey.cutting).paper, 'B9814F');
+      expect(foldRuleOf(FoldKey.dogear).paper, 'FF8FA0');
+      expect(foldPaperArgb(FoldKey.hexa), 0xFF5562D9);
+    });
   });
 
   group('fixture server', () {

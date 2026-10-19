@@ -28,6 +28,9 @@ abstract final class ParcelStills {
   static const String open = 'assets/art/parcel-open.webp';
   static const List<String> all = [sealed, pop, open];
 
+  /// The square scalloped paper seal with a tick (K2, spec 5.7 `stamp-seal.webp`, 256 px).
+  static const String seal = 'assets/art/stamp-seal.webp';
+
   static bool? _available;
 
   /// Known after [resolve]; false until then (the painter draws).
