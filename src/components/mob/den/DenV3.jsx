@@ -1,0 +1,294 @@
+"use client";
+// The Den on the website (MOB-BUILD-SPEC-V3 5.3 D1 to D6, D5, P1 to P4, SET, K1 to K5), drawn only when the server sends
+// the `v3` block (MOB_V3_ENABLED). The app's own sentences (denCopy.mjs). Design notes:
+//   - One volt thing per screen: the card's key (or, for a Mob of one, the WhatsApp invite).
+//   - Paper, a seal, the lamp light, the one volt light and exam stationery on every view (spec 5.0).
+//   - Nobody is shown as not having played (F2): the runs row lists finished runs with times, nothing else.
+//   - No price and no plan in the Mob (F4): Pro words appear only when the server says billing is on.
+//   - Nothing is shown as done before the server answers: writes keep the last good view until their reply.
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { Copy, Moon, Package } from 'lucide-react';
+import { displayCode, inviteUrl, paperHref, resultHref } from '@/lib/mob/model.mjs';
+import { DenCopy, DEN_STICKERS, MobTime, STICKERS, denError } from '@/lib/mob/v3/denCopy.mjs';
+import { denState, momentQueue, passNotice, questSegments, whatsAppHref, yourRunAt } from '@/lib/mob/v3/denModel.mjs';
+import { mobFetch } from '../useMob';
+import { DenStage } from './DenStage';
+import { FoldHead } from './FoldFigure';
+import { FreeProSheet, PassMicSheet, PlayPicker, StartGameSheet } from './DenSheets';
+import { DenMoments } from './DenMoments';
+import { CHAIN_HREF, MOB_CHAIN_HREF, SHELF_HREF, gameHref, podiumHref } from './denRoutes';
+import './den.css';
+
+const SEEN_KEY = 'mm:den:seen-notices';
+const readSeen = () => { try { return JSON.parse(window.localStorage.getItem(SEEN_KEY) || '[]'); } catch { return []; } };
+const writeSeen = (keys) => { try { window.localStorage.setItem(SEEN_KEY, JSON.stringify(keys.slice(-30))); } catch { /* shown again next time */ } };
+
+/** The quest strip: the parcel's silhouette, the true count (past the goal too, F8), 12 segments. Opens the Mob chain. */
+export function QuestStrip({ quest, href }) {
+  if (!quest) return null;
+  const seg = questSegments(quest);
+  const past = quest.answered > quest.target;
+  const body = (
+    <>
+      <span className="den-quest__parcel" aria-hidden="true"><Package size={22} strokeWidth={1.6} /></span>
+      <span className="den-quest__main">
+        <span className="den-quest__top">
+          <span className="den-quest__title">{DenCopy.questTitle}</span>
+          <span className="den-quest__count">
+            {past ? DenCopy.questCount(quest) : <><b>{quest.answered}</b> of {quest.target} questions</>}
+          </span>
+        </span>
+        <span className="den-quest__bar" aria-hidden="true">
+          {Array.from({ length: seg.n }, (_, i) => (
+            <span key={i} className="den-quest__seg" data-full={i < seg.full || undefined} style={i === seg.full && seg.part > 0 ? { '--part': seg.part } : undefined} data-part={i === seg.full && seg.part > 0 || undefined} />
+          ))}
+        </span>
+      </span>
+    </>
+  );
+  return href
+    ? <Link className="den-quest den-rise" style={{ '--d': '465ms' }} href={href} aria-label={`${DenCopy.questTitle}. ${DenCopy.questCount(quest)}.`}>{body}</Link>
+    : <div className="den-quest den-rise" style={{ '--d': '465ms' }}>{body}</div>;
+}
+
+function StickerRow({ onSend, busy, sent }) {
+  return (
+    <div className="den-stickers" role="group" aria-label={DenCopy.stickerSent}>
+      {DEN_STICKERS.map((k) => (
+        <button key={k} type="button" className="den-stickerkey" onClick={() => onSend(k)} disabled={busy === 'sticker'} aria-label={DenCopy.stickerLabel(k)} data-sent={sent === k || undefined}>
+          {STICKERS[k]}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+/** The card under the room: the one game, or the quiet card, or the ask card (D1 to D4). */
+function GameCard({ state, data, v3, now, onPicker, onStartGame, onAsk, onSticker, busy, sentSticker }) {
+  const youId = data.you?.memberId;
+  const g = state.game ? { ...state.game, youId } : null;
+  const host = g ? (v3.members || []).find((m) => m.memberId === g.host?.memberId) : null;
+  const paper = data.week;
+  const paperLink = !paper.closed ? (paper.youSat
+    ? (paper.yourResultId ? <Link className="mob-link" href={resultHref(paper.yourResultId)}>{DenCopy.seeAnswers}</Link> : null)
+    : <Link className="mob-link" href={paperHref(data)}>{DenCopy.sitPaper}</Link>) : null;
+  const more = state.more > 0 ? <button type="button" className="mob-link" onClick={onPicker}>{DenCopy.moreOpen(state.more)}</button> : <button type="button" className="mob-link" onClick={onPicker}>{DenCopy.moreWays}</button>;
+
+  if (state.kind === 'quiet' || state.kind === 'ask') {
+    const ask = state.kind === 'ask';
+    return (
+      <section className="den-card den-rise" style={{ '--d': '420ms' }} aria-labelledby="den-card-h">
+        <span className="den-card__corner" aria-hidden="true" />
+        <h3 id="den-card-h" className="den-card__title">{ask ? DenCopy.askTitle : DenCopy.quietTitle}</h3>
+        <p className="den-card__line">{ask ? DenCopy.askLine : DenCopy.quietLine}</p>
+        <div className="den-card__keys">
+          {ask
+            ? <button type="button" className="btn-volt md den-key" data-page-primary="" onClick={onAsk} disabled={busy === 'sticker'}>{DenCopy.askKey}</button>
+            : <button type="button" className="btn-volt md den-key" data-page-primary="" onClick={onStartGame}>{DenCopy.startAGame}</button>}
+          {paperLink}
+        </div>
+      </section>
+    );
+  }
+  const title = state.kind === 'live' || state.kind === 'room_running' ? DenCopy.liveOpened(g) : state.kind === 'played' ? DenCopy.gameTitle(g) : DenCopy.openedA(g);
+  let line = null;
+  let key = null;
+  let link = more;
+  if (state.kind === 'open') {
+    line = DenCopy.openLine(g, now);
+    key = <Link className="btn-volt md den-key" data-page-primary="" href={gameHref(g.id)}>{DenCopy.playKey(g)}</Link>;
+  } else if (state.kind === 'played') {
+    const at = yourRunAt(g, youId);
+    line = at ? DenCopy.playedAt(at, g.closesAt, now) : null;
+    key = <Link className="btn-volt md den-key" data-page-primary="" href={podiumHref(g.id)}>{DenCopy.seePodiumSoFar}</Link>;
+  } else if (state.kind === 'live') {
+    line = DenCopy.liveLine(g);
+    key = <Link className="btn-volt md den-key" data-page-primary="" href={`${gameHref(g.id)}?room=1`}>{DenCopy.joinRoom(g)}</Link>;
+    link = <Link className="mob-link" href={gameHref(g.id)}>{DenCopy.playLater(g.closesAt, now)}</Link>;
+  } else {
+    line = DenCopy.roomStarted(g.room?.startsAt || g.openedAt, g.closesAt, now);
+    key = <Link className="btn-volt md den-key" data-page-primary="" href={gameHref(g.id)}>{DenCopy.playItNow}</Link>;
+  }
+  const runs = state.kind === 'open' ? DenCopy.runsSoFar(g.runs, now) : null;
+  return (
+    <section className="den-card den-rise" style={{ '--d': '420ms' }} aria-labelledby="den-card-h">
+      <span className="den-card__corner" aria-hidden="true" />
+      <header className="den-card__head">
+        {state.kind !== 'played' ? <FoldHead fold={host?.fold} name={g.host?.name} colour={host?.colour ?? 0} size={36} /> : null}
+        <h3 id="den-card-h" className="den-card__title">{title}</h3>
+      </header>
+      {line ? <p className="den-card__line">{line}</p> : null}
+      {runs ? <p className="den-card__runs">{runs}</p> : null}
+      <div className="den-card__keys">
+        {key}
+        {state.kind === 'played' ? <StickerRow onSend={onSticker} busy={busy} sent={sentSticker} /> : null}
+        {link}
+      </div>
+    </section>
+  );
+}
+
+/** D5. The invite card: the WhatsApp share with the card image, and the code to copy. */
+function InviteCard({ data, v3, mobName, run, busy, onNotice }) {
+  const [invite, setInvite] = useState(data.invite?.code ? { ...data.invite, display: data.invite.display || displayCode(data.invite.code) } : null);
+  const [copied, setCopied] = useState(false);
+  const [error, setError] = useState(null);
+  const make = useCallback(async () => {
+    setError(null);
+    const r = await run('/api/mob/invite', {}, { name: 'invite' });
+    if (!r.ok) { setError(denError(r)); return null; }
+    const next = { ...r.data, display: r.data.display || displayCode(r.data.code) };
+    setInvite(next);
+    return next;
+  }, [run]);
+  const you = data.you?.name || DenCopy.you;
+  const url = invite ? (invite.url || inviteUrl(invite.code)) : '';
+  const share = invite ? DenCopy.inviteShare(you, mobName, data.subjectName, invite.display, url) : '';
+  const copy = async () => {
+    const inv = invite || (await make());
+    if (!inv) return;
+    try { await navigator.clipboard.writeText(inv.display || inv.code); setCopied(true); onNotice?.(DenCopy.codeCopied); } catch { setError(DenCopy.generic); }
+  };
+  if (data.invitesPaused) return <p className="mob-note den-one__paused">{DenCopy.invitesPaused}</p>;
+  return (
+    <section className="den-one den-rise" style={{ '--d': '420ms' }} aria-labelledby="den-one-h">
+      <h3 id="den-one-h" className="den-one__title">{DenCopy.oneTitle}</h3>
+      <p className="den-one__line">{DenCopy.oneLine}</p>
+      <figure className="den-invite">
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img className="den-invite__art" src="/mob/art/group-desk.webp" alt="" width={600} height={400} decoding="async" />
+        <figcaption className="den-invite__text">
+          <b>{DenCopy.inviteCardTitle(you, mobName)}</b>
+          <span>{invite ? DenCopy.inviteCardLine(data.subjectName, invite.display) : DenCopy.inviteCardLineNoCode(data.subjectName)}</span>
+        </figcaption>
+      </figure>
+      <div className="den-card__keys">
+        {invite ? (
+          <a className="btn-volt md den-key" data-page-primary="" href={whatsAppHref(share)} target="_blank" rel="noopener noreferrer">{DenCopy.inviteWhatsApp}</a>
+        ) : (
+          <button type="button" className="btn-volt md den-key" data-page-primary="" onClick={make} disabled={busy === 'invite'}>{busy === 'invite' ? DenCopy.makingCode : DenCopy.inviteWhatsApp}</button>
+        )}
+        <button type="button" className="mob-key den-key" onClick={copy} disabled={busy === 'invite'}><Copy size={16} aria-hidden="true" />{DenCopy.copyCode}</button>
+      </div>
+      {invite ? <p className="den-one__code" aria-live="polite"><span className="den-code">{invite.display}</span>{copied ? <span className="mob-hint">{DenCopy.codeCopied}</span> : null}</p> : null}
+      <p className="mob-hint">{DenCopy.inviteWorks}</p>
+      <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
+    </section>
+  );
+}
+
+/** D5 below the invite: this week's paper and a sprint (your own ghost works later). */
+function OneExtras({ data, onStartGame, canStart }) {
+  const week = data.week;
+  return (
+    <section className="den-card den-card--plain den-rise" style={{ '--d': '465ms' }}>
+      {!week.closed && !week.youSat ? (
+        <div className="den-row">
+          <span className="den-row__text"><span>{DenCopy.onePaper}</span></span>
+          <Link className="mob-key den-row__key" href={paperHref(data)}>{DenCopy.sitIt}</Link>
+        </div>
+      ) : null}
+      {canStart ? <button type="button" className="mob-link" onClick={onStartGame}>{DenCopy.startSprint}</button> : null}
+    </section>
+  );
+}
+
+export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings }) {
+  const v3 = data.v3;
+  const router = useRouter();
+  const mobName = v3.name?.text || data.subjectName;
+  const [now, setNow] = useState(() => Date.now());
+  const [sheet, setSheet] = useState(null); // picker | start | mic | freepro
+  const [preset, setPreset] = useState(null);
+  const [toast, setToast] = useState(null);
+  const [error, setError] = useState(null);
+  const [sentSticker, setSentSticker] = useState(null);
+  const [chain, setChain] = useState(null);
+  const [seenNotices, setSeenNotices] = useState(() => (typeof window === 'undefined' ? [] : readSeen()));
+  const toastTimer = useRef(null);
+  useEffect(() => { const t = setInterval(() => setNow(Date.now()), 60_000); return () => clearInterval(t); }, []);
+  // The personal chain, for the pass notice (K5) and the milestone moment (K1). A failed read shows neither.
+  useEffect(() => {
+    let alive = true;
+    mobFetch('/api/me/chain').then((r) => { if (alive && r.ok) setChain(r.data); });
+    return () => { alive = false; };
+  }, [data.id]);
+  const say = useCallback((text) => {
+    setToast(text);
+    clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(null), 3200);
+  }, []);
+  useEffect(() => () => clearTimeout(toastTimer.current), []);
+
+  const state = useMemo(() => denState(v3), [v3]);
+  const moments = useMemo(() => momentQueue(v3.moments), [v3.moments]);
+  const notice = passNotice(chain, seenNotices);
+  const size = (v3.members || []).length;
+  const s = v3.starts || {};
+  const proNudges = Boolean(s.billingOn) && s.via !== 'pro';
+
+  const sticker = async (kind, game = null) => {
+    setError(null);
+    const r = await mob.run('/api/mob/sticker', { kind, ...(game ? { game } : {}) }, { name: 'sticker' });
+    if (!r.ok) { setError(denError(r)); return; }
+    setSentSticker(kind);
+    say(DenCopy.stickerSent);
+  };
+  const openStart = (p = {}) => { setPreset(p); setSheet('start'); };
+  const dismissNotice = () => {
+    if (!notice) return;
+    const next = [...seenNotices, notice.key];
+    setSeenNotices(next);
+    writeSeen(next);
+    mob.run('/api/mob/seen', { keys: [notice.key] }, { name: 'seen' });
+  };
+  // Stickers show over the sender's Fold for 1.8 s, newest 3 only, those sent in the last day (M12).
+  const recent = useMemo(() => (v3.reactions || []).filter((r) => now - Date.parse(r.at) < 86_400_000).slice(-3), [v3.reactions, now]);
+
+  return (
+    <div className="den" data-den-state={state.kind} data-one={state.one || undefined}>
+      <DenStage v3={v3} mobName={mobName} subtitle={DenCopy.denSubtitle(data.subjectName, size)}
+        chainHref={CHAIN_HREF} mobChainHref={MOB_CHAIN_HREF} shelfHref={SHELF_HREF} onSettings={onOpenSettings}
+        onOpenSeat={size < 5 ? () => document.getElementById('den-one-h')?.scrollIntoView({ behavior: 'smooth', block: 'center' }) : null}
+        stickers={recent} />
+
+      {notice ? (
+        <div className="den-notice den-rise" style={{ '--d': '380ms' }} role="status">
+          <Moon size={16} aria-hidden="true" className="den-notice__moon" />
+          <span>{DenCopy.passNotice(MobTime.weekdayOfKey(notice.day), notice.days ?? chain?.days ?? 0)}</span>
+          <button type="button" className="mob-link den-notice__ok" onClick={dismissNotice}>{DenCopy.close}</button>
+        </div>
+      ) : null}
+
+      {state.one ? <InviteCard data={data} v3={v3} mobName={mobName} run={mob.run} busy={mob.busy} onNotice={say} /> : null}
+      {state.one && !state.game ? (
+        <OneExtras data={data} canStart={s.can} onStartGame={() => openStart({ format: 'sprint' })} />
+      ) : (
+        <GameCard state={state} data={data} v3={v3} now={now} busy={mob.busy} sentSticker={sentSticker}
+          onPicker={() => setSheet('picker')} onStartGame={() => (s.billingOn ? setSheet('picker') : openStart({ format: 'sprint' }))}
+          onAsk={() => sticker('again')} onSticker={(k) => sticker(k, state.game?.id)} />
+      )}
+
+      <QuestStrip quest={v3.quest} href={MOB_CHAIN_HREF} />
+      <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
+      {toast ? <p className="den-toast" role="status" aria-live="polite">{toast}</p> : null}
+      {toolsSlot}
+
+      {sheet === 'picker' ? (
+        <PlayPicker open onClose={() => setSheet(null)} data={data} v3={v3} now={now} mobName={mobName} busy={mob.busy} proNudges={proNudges}
+          onStart={(p) => openStart(p)} onAsk={async () => { await sticker('again'); setSheet(null); }} onFreePro={() => setSheet('freepro')} />
+      ) : null}
+      {sheet === 'start' ? (
+        <StartGameSheet open onClose={() => setSheet(null)} data={data} v3={v3} mobName={mobName} preset={preset} run={mob.run} busy={mob.busy}
+          onPassMic={() => setSheet('mic')}
+          onStarted={(game) => { setSheet(null); if (game?.id) router.push(gameHref(game.id)); else mob.load(); }} />
+      ) : null}
+      {sheet === 'mic' ? <PassMicSheet open onClose={() => setSheet(null)} v3={v3} mobName={mobName} run={mob.run} busy={mob.busy} onPassed={(t) => { setSheet(null); say(t); mob.load(); }} /> : null}
+      {sheet === 'freepro' ? <FreeProSheet open onClose={() => setSheet(null)} /> : null}
+
+      {moments.length ? <DenMoments key={moments[0].key} queue={moments} v3={v3} data={data} chain={chain} mobName={mobName} run={mob.run} reload={mob.load} /> : null}
+    </div>
+  );
+}

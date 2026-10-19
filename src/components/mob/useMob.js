@@ -42,7 +42,7 @@ const UNSCOPED = new Set(['/api/mob', '/api/mob/join']);
  * select(id) shows another of your Mobs. { mobId } pins the first read to one Mob (a Mob paper's result). compare({ week, extra }) and history() read the Pro views for the Mob on screen.
  */
 export function useMob(userId, { mobId: pinned = null } = {}) {
-  const [state, setState] = useState({ status: 'idle', mob: null, error: null });
+  const [state, setState] = useState({ status: 'idle', mob: null, error: null, v3Available: false });
   const [busy, setBusy] = useState(null);
   const alive = useRef(true);
   const pinnedId = typeof pinned === 'string' && UUID_RE.test(pinned) ? pinned : null;
@@ -63,7 +63,8 @@ export function useMob(userId, { mobId: pinned = null } = {}) {
     setState((s) => ({ ...s, status: s.status === 'ready' ? 'ready' : 'loading', error: null }));
     const r = await mobFetch(`/api/mob${query({ mob: wanted })}`);
     if (!alive.current) return r;
-    if (r.ok) { adopt(r.data?.mob); setState({ status: 'ready', mob: r.data?.mob || null, error: null }); }
+    // v3Available: the server offers Mob v3 (MOB_V3_ENABLED) even with no Mob yet, so the empty page can show the den's start.
+    if (r.ok) { adopt(r.data?.mob); setState({ status: 'ready', mob: r.data?.mob || null, error: null, v3Available: Boolean(r.data?.v3Available || r.data?.mob?.v3) }); }
     else setState((s) => ({ ...s, status: r.code === 'MOB_DISABLED' ? 'disabled' : 'error', error: r.message }));
     return r;
   }, [adopt]);
@@ -82,7 +83,7 @@ export function useMob(userId, { mobId: pinned = null } = {}) {
     const r = await mobFetch(path, { method, body: sent });
     if (alive.current) {
       setBusy(null);
-      if (r.ok && r.data && Object.prototype.hasOwnProperty.call(r.data, 'mob')) { adopt(r.data.mob); setState({ status: 'ready', mob: r.data.mob, error: null }); }
+      if (r.ok && r.data && Object.prototype.hasOwnProperty.call(r.data, 'mob')) { adopt(r.data.mob); setState((st) => ({ status: 'ready', mob: r.data.mob, error: null, v3Available: Boolean(r.data.v3Available || r.data.mob?.v3 || st.v3Available) })); }
     }
     return r;
   }, [adopt]);
