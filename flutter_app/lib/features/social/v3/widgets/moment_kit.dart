@@ -155,7 +155,7 @@ abstract class MomentStageState<T extends StatefulWidget> extends State<T> with 
     particles.clear();
     // 180 ms of motion after the first frame, so the end state is on screen within MobBeat.skip (200),
     // as the podium does.
-    clock.animateTo(1, duration: MobBeat.skip - const Duration(milliseconds: 20), curve: Curves.easeOutCubic);
+    clock.animateTo(1, duration: MobBeat.skip - const Duration(milliseconds: 20), curve: MotionCurves.out);
   }
 
   /// Haptics through the app's verbs, never on a Skip.
@@ -478,11 +478,11 @@ class EngraveText extends StatelessWidget {
       // Each word takes 55% of the engrave, starting in order.
       final start = n == 1 ? 0.0 : i / (n - 1) * 0.45;
       final k = ((t - start) / 0.55).clamp(0.0, 1.0);
-      final eased = Curves.easeOut.transform(k);
+      final eased = MotionCurves.out.transform(k);
       spans.add(TextSpan(text: i == n - 1 ? words[i] : '${words[i]} ', style: TextStyle(color: colour.withValues(alpha: colour.a * eased))));
     }
     return Transform.translate(
-      offset: Offset(0, (1 - Curves.easeOut.transform(t.clamp(0.0, 1.0))) * 4),
+      offset: Offset(0, (1 - MotionCurves.out.transform(t.clamp(0.0, 1.0))) * 4),
       child: Text.rich(TextSpan(style: style, children: spans), textAlign: textAlign, maxLines: maxLines),
     );
   }
@@ -516,13 +516,13 @@ class RollNumber extends StatelessWidget {
           if (k < 0.55)
             Opacity(
               opacity: (1 - k / 0.55).clamp(0.0, 1.0),
-              child: Transform.translate(offset: Offset(0, -h * Curves.easeIn.transform(k / 0.55)), child: num(from)),
+              child: Transform.translate(offset: Offset(0, -h * MotionCurves.leave.transform(k / 0.55)), child: num(from)),
             ),
           if (k > 0.35)
             Opacity(
               opacity: ((k - 0.35) / 0.4).clamp(0.0, 1.0),
               child: Transform.translate(
-                offset: Offset(0, h * (1 - Curves.easeOut.transform(((k - 0.35) / 0.65).clamp(0.0, 1.0)))),
+                offset: Offset(0, h * (1 - MotionCurves.out.transform(((k - 0.35) / 0.65).clamp(0.0, 1.0)))),
                 child: Transform.scale(scale: stamp, child: num(to)),
               ),
             ),

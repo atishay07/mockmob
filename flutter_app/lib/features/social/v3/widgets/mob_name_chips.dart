@@ -40,10 +40,9 @@ class _MobNameChipsState extends State<MobNameChips> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        AnimatedSwitcher(
-          duration: Motion.reduced(context) ? Motion.reducedFade : Motion.ui,
-          switchInCurve: Motion.out,
-          layoutBuilder: (current, previous) => Stack(alignment: Alignment.topLeft, children: [...previous, ?current]),
+        MmOverlapSwitcher(
+          duration: Motion.ui,
+          alignment: Alignment.topLeft,
           child: Wrap(
             key: ValueKey(_page),
             spacing: MmSpace.s8,

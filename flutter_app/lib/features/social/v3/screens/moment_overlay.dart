@@ -13,7 +13,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../../core/motion/motion_tokens.g.dart';
+import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
@@ -154,9 +154,8 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     return Stack(
       children: [
         Positioned.fill(
-          child: AnimatedSwitcher(
-            duration: MotionDurations.fadeThroughIn,
-            reverseDuration: MotionDurations.fadeThroughOut,
+          child: MmOverlapSwitcher(
+            fit: StackFit.expand,
             child: KeyedSubtree(key: ValueKey(_current), child: child),
           ),
         ),

@@ -196,7 +196,6 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
   Widget build(BuildContext context) {
     final c = context.mmColors;
     final type = context.mmType;
-    final rm = Motion.reduced(context);
     final inQuestion = _stage == _Stage.question || _stage == _Stage.answered;
     final body = inQuestion ? _questionView(context) : _sheetView(context);
 
@@ -240,10 +239,10 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
             ),
           ),
           Expanded(
-            child: AnimatedSwitcher(
-              duration: rm ? const Duration(milliseconds: 120) : MotionDurations.enter,
-              switchInCurve: MotionCurves.emphasized,
-              switchOutCurve: Curves.easeOut,
+            // The question rises in over the sheet (reduced motion: the switcher's own 120 ms fade).
+            child: MmOverlapSwitcher.rise(
+              duration: MotionDurations.enter,
+              fit: StackFit.expand,
               child: KeyedSubtree(key: ValueKey(inQuestion), child: body),
             ),
           ),

@@ -263,7 +263,7 @@ class _TilePainter extends CustomPainter {
       // The tick, drawn in.
       final tick = MmPaths.check(Rect.fromCenter(center: rect.center.translate(0, 2), width: 24, height: 24));
       canvas.drawPath(
-        mmPathPrefix(tick, Curves.easeOut.transform(local)),
+        mmPathPrefix(tick, Motion.out.transform(local)),
         Paint()
           ..color = ink
           ..style = PaintingStyle.stroke

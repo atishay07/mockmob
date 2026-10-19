@@ -225,6 +225,9 @@ abstract final class MobV3Copy {
   static String joinCodeSemantics(String shown) => shown.isEmpty ? 'Mob code, empty' : 'Mob code, $shown';
   static const String joinChecking = 'Checking the code';
   static const String joinPaused = 'New members cannot join by code just now. Try this code again later.';
+  // J1 is the code screen: the server's invite sentences speak of a link, so the screen says code.
+  static const String joinCodeInvalid = 'That code does not look right. Check it with your friend.';
+  static const String joinCodeExpired = 'That code has expired. Ask your friend for a new one.';
   static const String joinStartOwn = 'Start your own Mob';
   static const String joinYourName = 'Your name in this Mob';
   static String joinPreviewLabel(String mob, String subject, int taken) => '$mob, $subject, ${seatsTaken(taken)}';

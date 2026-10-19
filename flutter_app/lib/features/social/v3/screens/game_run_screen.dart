@@ -867,7 +867,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
             text: question.options[i],
             look: _lookFor(i, picked, r, locked),
             dimmed: locked && picked != null && picked >= 0 && i != picked,
-            press: i == _pick && !locked ? Curves.easeOut.transform(_press.value) : 0,
+            press: i == _pick && !locked ? Motion.out.transform(_press.value) : 0,
             lock: _lock.value,
             fbMs: _fbMs,
             delta: r?.delta,

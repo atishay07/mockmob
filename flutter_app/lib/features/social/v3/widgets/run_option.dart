@@ -193,7 +193,7 @@ class RunOption extends StatelessWidget {
     );
 
     // Lock-in: the clip drops 8 dp onto the top right corner on snappy (140 of the 160).
-    final clipP = _clipped ? (reduced ? (lock > 0 ? 1.0 : 0.0) : Curves.easeOutCubic.transform((lock * 160 / 140).clamp(0.0, 1.0))) : 0.0;
+    final clipP = _clipped ? (reduced ? (lock > 0 ? 1.0 : 0.0) : Motion.out.transform((lock * 160 / 140).clamp(0.0, 1.0))) : 0.0;
     final dim = dimmed ? 1 - 0.4 * (reduced ? (lock > 0 ? 1.0 : 0.0) : lock.clamp(0.0, 1.0)) : 1.0;
 
     Widget out = Stack(

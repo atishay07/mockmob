@@ -125,10 +125,10 @@ class _JoinV3ScreenState extends ConsumerState<JoinV3Screen> {
         } else {
           _phase = _Phase.notValid;
           _sentence = switch (p.status) {
-            'expired' => MobV3Copy.errors['INVITE_EXPIRED'],
+            'expired' => MobV3Copy.joinCodeExpired,
             'full' => MobV3Copy.errors['MOB_FULL'],
             'paused' => MobV3Copy.joinPaused,
-            _ => MobV3Copy.errors['INVITE_INVALID'],
+            _ => MobV3Copy.joinCodeInvalid,
           };
         }
       });
@@ -140,12 +140,7 @@ class _JoinV3ScreenState extends ConsumerState<JoinV3Screen> {
         // (offline, a server fault) is a state of the call, and the student can try again.
         final ofCode = code == 'INVITE_INVALID' || code == 'INVITE_EXPIRED' || code == 'MOB_FULL' || code == 'JOIN_PAUSED' || code == 'NOT_FOUND';
         _phase = ofCode ? _Phase.notValid : _Phase.failed;
-        // The server's JOIN_PAUSED sentence speaks of a link; this screen is the code, so it says so.
-        _sentence = code == 'NOT_FOUND'
-            ? MobV3Copy.errors['INVITE_INVALID']
-            : code == 'JOIN_PAUSED'
-                ? MobV3Copy.joinPaused
-                : mobV3Say(e);
+        _sentence = _codeSentence(code) ?? mobV3Say(e);
       });
     }
   }
@@ -179,13 +174,21 @@ class _JoinV3ScreenState extends ConsumerState<JoinV3Screen> {
         } else if (code == 'INVITE_INVALID' || code == 'INVITE_EXPIRED' || code == 'MOB_FULL' || code == 'JOIN_PAUSED') {
           // The code stopped working, or the Mob filled, since the preview: the page now says so.
           _phase = _Phase.notValid;
-          _sentence = mobV3Say(e);
+          _sentence = _codeSentence(code) ?? mobV3Say(e);
         } else {
           _joinError = mobV3Say(e);
         }
       });
     }
   }
+
+  /// The server's invite sentences speak of a link; this screen is the code, so it says code.
+  static String? _codeSentence(String? code) => switch (code) {
+        'NOT_FOUND' || 'INVITE_INVALID' => MobV3Copy.joinCodeInvalid,
+        'INVITE_EXPIRED' => MobV3Copy.joinCodeExpired,
+        'JOIN_PAUSED' => MobV3Copy.joinPaused,
+        _ => null,
+      };
 
   @override
   Widget build(BuildContext context) {

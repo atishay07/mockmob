@@ -149,7 +149,7 @@ void main() {
   group('a code that does not work', () {
     testWidgets('expired', (tester) async {
       await _open(tester, code: 'EXP1RE');
-      expect(find.text(MobV3Copy.errors['INVITE_EXPIRED']!), findsOneWidget);
+      expect(find.text(MobV3Copy.joinCodeExpired), findsOneWidget);
       expect(find.text(MobV3Copy.joinStartOwn), findsOneWidget);
       expect(find.byKey(const ValueKey('j1-join')), findsNothing);
     });
@@ -164,7 +164,7 @@ void main() {
     testWidgets('invalid', (tester) async {
       final server = SocialServer(scenario: 'fresh', previews: {'K7P2M9': const JoinPreview(status: 'invalid')});
       await _open(tester, code: 'K7P2M9', server: server);
-      expect(find.text(MobV3Copy.errors['INVITE_INVALID']!), findsOneWidget);
+      expect(find.text(MobV3Copy.joinCodeInvalid), findsOneWidget);
     });
 
     testWidgets('paused', (tester) async {
@@ -231,7 +231,7 @@ void main() {
       await _open(tester, code: 'K7P2M9', server: server);
       await tester.tap(find.byKey(const ValueKey('j1-join')));
       await settleSocial(tester);
-      expect(find.text(MobV3Copy.errors['INVITE_EXPIRED']!), findsOneWidget);
+      expect(find.text(MobV3Copy.joinCodeExpired), findsOneWidget);
       expect(find.byKey(const ValueKey('j1-join')), findsNothing);
     });
 

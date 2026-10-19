@@ -32,7 +32,7 @@ abstract final class MobV3Nav {
   static Future<void> settings(BuildContext context) => _push(context, const MobSettingsV3Screen(), name: '/mob/settings');
   static Future<void> join(BuildContext context, {String code = ''}) => _push(context, JoinV3Screen(code: code), name: '/join');
 
-  /// Plays one moment key (`quest_done:<week>`, `stitch:<week>`, `reveal:<fold>`, `chain:<n>`).
+  /// Plays one moment key (`quest_done:<mobId>:<week>`, `stitch:<mobId>:<week>`, `reveal:<fold>`, `chain:<n>`).
   /// Completes when the moment closes (shown fully or skipped).
   static Future<void> moment(BuildContext context, String key) => Navigator.of(context, rootNavigator: true).push<void>(
         PageRouteBuilder<void>(

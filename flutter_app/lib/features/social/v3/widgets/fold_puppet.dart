@@ -15,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../../widgets/mob_ring.dart' show MobColours;
 import '../data/mob_v3_models.dart';
@@ -402,11 +403,12 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
         ],
       );
     }
-    return AnimatedSwitcher(
+    // The pose change cross-fades in 120 ms (spec 5.2), both stills on one stack.
+    return MmOverlapSwitcher(
       duration: const Duration(milliseconds: 120),
-      switchInCurve: Curves.linear,
-      switchOutCurve: Curves.linear,
-      layoutBuilder: (current, previous) => Stack(fit: StackFit.expand, children: [...previous, ?current]),
+      outDuration: const Duration(milliseconds: 120),
+      fit: StackFit.expand,
+      alignment: Alignment.center,
       child: KeyedSubtree(key: ValueKey('$path/${widget.locked}'), child: img),
     );
   }
