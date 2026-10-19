@@ -480,3 +480,12 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > For the screenshot set, I think set 2 looks very clean. Even though I really like the gradient and typography of set 1, they're both very similar. It doesn't really matter, so I'll go with set 2. Can you confirm if I am only allowed one feature graphic in the Play Store?"
 **Ledger D145:** feature graphic A for the main listing (B kept as the alternative for a store listing experiment); screenshot set 2. ("only allowed over 12" is a dictation garble of "only allows one".)
+
+## Owner, 19 Oct about 9:50 pm IST (verbatim)
+> "DONE also, can you confirm the feature graphic and all the screenshots? Where can I find all of that? Which have you approved?"
+> "I am asking: in which folder is everything stored? I need to upload everything to the Google Play Store listing."
+**Ledger:** PLAY_BILLING_ENABLED=true set by him in Vercel Production; main pushed 58793f9c (deploy dpl_F8qxHxpnXyZPqjCEAFrPrBbSnE9L), billing routes live at 9:54 pm; his test notification logged ("[play] test notification received"). Upload files collected in Desktop\MockMob-store-listing\UPLOAD-THIS.
+
+## Owner, 19 Oct about 9:59 pm IST (verbatim)
+> "I am officially all done. The Google Play listing has been done, and close testing alpha is also done. Now all that's left to do is to create a new release and then select 14-15 testers, and after 14 days we can apply for production, hopefully."
+**Ledger D146:** store listing uploaded; closed testing track (Alpha) set up. Next: a closed-testing release (version 11) and 14-15 testers; production access after the 14-day closed test.
