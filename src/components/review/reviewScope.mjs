@@ -12,6 +12,12 @@ import { SUBJECTS } from '../../../data/subjects.js';
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const KIND_WORDS = { 'full mock': ['full mock', 'full mocks'], 'NTA paper': ['NTA paper', 'NTA papers'], 'smart practice': ['smart practice set', 'smart practice sets'], practice: ['practice set', 'practice sets'] };
 export const kindWord = (kind, n) => (KIND_WORDS[kind] || ['paper', 'papers'])[n === 1 ? 0 : 1];
+// A mock has its own name ("Mock 2"); every other paper is called "Quick practice", which names no one paper. So a sentence
+// that points at one paper says "Mock 2", or "your practice set" / "your previous practice set" (R6: never "Quick practice
+// lost 15 marks" or "Up 5 marks on Quick practice").
+const named = (p) => /^Mock \d+$/.test(String(p?.name || ''));
+export const paperWho = (p) => (named(p) ? p.name : `Your ${kindWord(p?.kind, 1)}`);
+const paperBefore = (p) => (named(p) ? p.name : `your previous ${kindWord(p?.kind, 1)}`);
 
 /** The subject's id whether the record names it by id ('accountancy') or by name ('Accountancy'). */
 export const subjectKey = (value) => {
@@ -57,7 +63,7 @@ export function scopeOf(body, subject = 'all', name = '') {
   const lost = rows.reduce((t, r) => t + r.lost, 0);
   const wrong = rows.reduce((t, r) => t + r.wrong, 0);
   const blank = rows.reduce((t, r) => t + r.blank, 0);
-  const who = own.length === 1 ? own[0].name : `Your ${own.length} ${name} papers`;
+  const who = own.length === 1 ? paperWho(own[0]) : `Your ${own.length} ${name} papers`;
   const what = [wrong ? plural(wrong, 'wrong answer') : null, blank ? `${blank} left blank` : null].filter(Boolean).join(' and ');
   const fixed = saved.length ? ` ${saved.length === 1 ? '1 is repaired' : `${saved.length} are repaired`}.` : '';
   const held = saved.filter((x) => x.state === 'held').length;
@@ -86,9 +92,9 @@ export function statsOf(scope, scopeName = '') {
   const latestSubject = latest ? latest.subjectName || subjectLabel(latest.subject) : '';
   let trend = null;
   if (latest && diff === null) trend = { dir: 'first', text: `Your first ${kindWord(latest.kind, 1)} in ${latestSubject}` };
-  else if (latest && diff > 0) trend = { dir: 'up', text: `Up ${plural(diff, 'mark')} on ${before.name}` };
-  else if (latest && diff < 0) trend = { dir: 'down', text: `Down ${plural(-diff, 'mark')} on ${before.name}` };
-  else if (latest) trend = { dir: 'same', text: `The same marks as ${before.name}` };
+  else if (latest && diff > 0) trend = { dir: 'up', text: `Up ${plural(diff, 'mark')} on ${paperBefore(before)}` };
+  else if (latest && diff < 0) trend = { dir: 'down', text: `Down ${plural(-diff, 'mark')} on ${paperBefore(before)}` };
+  else if (latest) trend = { dir: 'same', text: `The same marks as ${paperBefore(before)}` };
   return {
     papers: papers.length,
     papersNote: papers.length ? [...kinds].map(([k, n]) => `${n} ${kindWord(k, n)}`).join(', ') : `No ${scopeName ? `${scopeName} ` : ''}papers yet`,

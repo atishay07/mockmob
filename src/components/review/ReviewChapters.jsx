@@ -272,7 +272,7 @@ function PapersList({ papers, stamps, scopeName, startHref, current, showTrend }
   const shown = all ? papers : papers.slice(0, PAPERS_SHOWN);
   return (
     <section className="rv8-sec rv8-papers" aria-labelledby="rv8-pp-h">
-      <div className="rv8-sechead"><h2 id="rv8-pp-h">Your papers</h2><span>Newest first</span></div>
+      <div className="rv8-sechead"><h2 id="rv8-pp-h">Recent papers</h2><span>Newest first</span></div>
       {papers.length ? (
         <ul className="rv8-pps">
           {shown.map((p) => (
@@ -476,7 +476,7 @@ export default function ReviewChapters({ body, onChanged }) {
   const startHref = `/dashboard?${new URLSearchParams({ subject: (subject === 'all' ? lead?.id : subject) || '', mode: 'quick', count: '10' })}`;
   return (
     <>
-      <h1 className="display-md rvw-title rv8-title">Review</h1>
+      <h1 className="display-md rvw-title rv8-title">Your papers</h1>
       <StatsStrip stats={stats} seen={subject === 'all' ? seen : null} scopeName={scopeName} />
       {subjects.length > 1 ? <SubjectFilter subjects={subjects} value={subject} total={(body.papers || []).length} onChange={pickSubject} /> : null}
       <div className="rv8-board">

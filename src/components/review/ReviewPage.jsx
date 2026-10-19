@@ -29,6 +29,9 @@ import './review-1017.css';
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 const joinNames = (list) => (list.length <= 1 ? list[0] || '' : `${list.slice(0, -1).join(', ')} and ${list[list.length - 1]}`);
 
+// The page's name is the nav's (D106, owner G20): Review keeps its route, /review, and is called Your papers everywhere.
+const PAGE_TITLE = 'Your papers';
+
 /** The cause a failed read names, in the student's words. */
 function causeOf(error) {
   if (error?.kind === 'network') return 'Your connection dropped';
@@ -69,8 +72,8 @@ function Empty({ wallet, dailySet }) {
   return (
     <section className="rvw-state" aria-labelledby="rvw-empty-h">
       <SceneVignette scene="nothingYet" interactive />
-      <h2 id="rvw-empty-h">Your mistakes gather here</h2>
-      <p>Every wrong answer lands here with its paper and time, priced in marks.</p>
+      <h2 id="rvw-empty-h">Your first paper lands here</h2>
+      <p>Every paper you sit shows up here with its marks. Each wrong answer is kept by chapter, with the marks it cost you, ready to repair.</p>
       <div className="rvw-sample" aria-label="An example of a row">
         <span className="rvw-badge" data-k="open">4</span>
         <b>Admission of a partner</b>
@@ -230,9 +233,9 @@ function ReviewInner({ tabParam }) {
 
   const onChanged = useCallback(() => { load({ quiet: true }); }, [load]);
 
-  if (read.status === 'loading') return <><h1 className="display-md rvw-title">Review</h1><Loading /></>;
-  if (read.status === 'down') return <><h1 className="display-md rvw-title">Review</h1><Failed cause={read.cause} at={read.at} onRetry={() => { setRetrying(true); load(); }} retrying={retrying} /></>;
-  if (body.state === 'empty') return <><h1 className="display-md rvw-title">Review</h1><Empty wallet={body.wallet} dailySet={dailySet} /></>;
+  if (read.status === 'loading') return <><h1 className="display-md rvw-title">{PAGE_TITLE}</h1><Loading /></>;
+  if (read.status === 'down') return <><h1 className="display-md rvw-title">{PAGE_TITLE}</h1><Failed cause={read.cause} at={read.at} onRetry={() => { setRetrying(true); load(); }} retrying={retrying} /></>;
+  if (body.state === 'empty') return <><h1 className="display-md rvw-title">{PAGE_TITLE}</h1><Empty wallet={body.wallet} dailySet={dailySet} /></>;
 
   // 19 Oct (owner G25, D106): the stats strip, the subject filter, Your papers, then Mistakes to repair by chapter
   // (ReviewChapters.jsx). A body without the 1018 part (an older server mid-deploy) keeps the 1017 page below, with its
@@ -241,7 +244,7 @@ function ReviewInner({ tabParam }) {
   const counts = body.counts || {};
   return (
     <>
-      <h1 className="display-md rvw-title">Review</h1>
+      <h1 className="display-md rvw-title">{PAGE_TITLE}</h1>
       <Segments tab={tab} onTab={onTab} open={counts.open ?? 0} papers={counts.papers ?? body.papers.length} />
       <div id="rvw-panel" role="tabpanel" aria-labelledby={tab === 'papers' ? 'rvw-tab-papers' : 'rvw-tab-mistakes'} className="rvw-view" key={tab}>
         {tab === 'papers' ? <PapersView body={body} /> : (
@@ -263,7 +266,7 @@ function ReviewInner({ tabParam }) {
 export default function ReviewPage({ tabParam = 'view' }) {
   return (
     <section className="rvw" aria-label="Review">
-      <Suspense fallback={<><h1 className="display-md rvw-title">Review</h1><Loading /></>}>
+      <Suspense fallback={<><h1 className="display-md rvw-title">{PAGE_TITLE}</h1><Loading /></>}>
         <ReviewInner tabParam={tabParam} />
       </Suspense>
     </section>

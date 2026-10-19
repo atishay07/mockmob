@@ -301,7 +301,9 @@ export function nextMove({ analysis, answerReviews = {}, repairOrder = null, rep
       };
     }
     const price = mock ? NEXT_MOVE_RULES.fullMockCost : NEXT_MOVE_RULES.practiceCost;
-    // Today's included 10-question set is the only price the allowance changes: a full mock is always 50 and has no free set.
+    // Today's included 10-question set is the only price the allowance changes. The first full mock in each subject is free
+    // (C-dec 1, data/first_full_mock.js), but this line follows a full mock or NTA paper in this same subject, and a saved full
+    // paper uses that subject's free one, so the next full mock here is always 50 (copy pass, 19 Oct: true as written).
     const daily = dailySetState(dailySet);
     const setLine = !mock && daily !== DAILY_SET.priced ? practiceCostLine({ isPremium, practiceCredits, dailySet: daily }) : null;
     const short = !setLine && Number.isFinite(practiceCredits) && practiceCredits < price ? price - practiceCredits : 0;

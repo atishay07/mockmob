@@ -1,7 +1,7 @@
 "use client";
 // Your colleges on Today (TODAY-1018 section 3 row 8; R3's row and data unchanged). The first saved college with its
 // 2026 Round 1 unreserved cutoff, the subject-rules fit against the student's subjects (the same engine and starting
-// subjects as Compass, so Today never disagrees with it) and "Open in Compass". No estimate and no chance against a
+// subjects as Compass, so Today never disagrees with it) and "Open in Colleges" (the page's one name, W-067). No estimate and no chance against a
 // cutoff here: the practice score and the DU score are different scales, and Compass owns that.
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -65,11 +65,13 @@ export default function TodayColleges({ userId, subjects = [], hold = false }) {
     return <section className="tc" aria-labelledby="tc-h">{head}<p className="tc__empty" role="status">Your colleges did not load. <button type="button" className="tm__inline" onClick={row.retry}>Try again</button></p></section>;
   }
   if (row.status === 'empty') {
-    // Colleges are picked in onboarding (owner, 16 Oct); a student who skipped it adds them on Account's one list.
+    // Colleges are picked in onboarding (owner, 16 Oct); a student who skipped it chooses them on the Colleges page (19 Oct, C1
+    // finding: the key used to open Account), where each course lists its colleges with Add to my colleges. Only the first choice
+    // is drawn on this card, so the line promises that and no more.
     return (
       <section className="tc" aria-labelledby="tc-h">
         {head}
-        <div className="tc__fit"><p>Pick up to 8 colleges to see their 2026 cutoffs here.</p><Link className="tm__pill" href="/profile#colleges"><Plus size={16} strokeWidth={1.75} aria-hidden="true" />Choose colleges</Link></div>
+        <div className="tc__fit"><p>Choose up to 8 colleges you are aiming for. Your first choice shows here with its 2026 cutoff.</p><Link className="tm__pill" href="/admission-compass"><Plus size={16} strokeWidth={1.75} aria-hidden="true" />Choose colleges</Link></div>
       </section>
     );
   }
@@ -88,7 +90,7 @@ export default function TodayColleges({ userId, subjects = [], hold = false }) {
       </Link>
       <div className="tc__fit">
         {fit ? <p data-fit={row.fit?.kind}>{fit}</p> : <span />}
-        <Link className="tm__pill" href={planHref}><Compass size={16} strokeWidth={1.75} aria-hidden="true" />Open in Compass</Link>
+        <Link className="tm__pill" href={planHref}><Compass size={16} strokeWidth={1.75} aria-hidden="true" />Open in Colleges</Link>
       </div>
     </section>
   );

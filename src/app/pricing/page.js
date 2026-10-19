@@ -42,7 +42,7 @@ const buildPlans = (offer) => [
     ctaLabel: 'Create a free account',
     terms: [
       ['Renewal', 'None, and no card needed'],
-      ['Credits', '100 to start, plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply, 3 a deeper analysis'],
+      ['Credits', '100 to start, plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply, 3 a deeper analysis. Your first Full mock in each subject is free'],
     ],
     features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', FIRST_FULL_MOCK_COPY.planItem, 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
       'Quick practice, 5 to 20 questions, 1 credit a question',
@@ -93,7 +93,7 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
     heading: 'Core test modes',
     rows: [
       ['Quick practice (5 to 20 questions)', '1 credit a question', 'Unlimited'],
-      ['Full mock (50 questions, 60 minutes)', '50 credits a mock', 'Unlimited'],
+      ['Full mock (50 questions, 60 minutes)', 'First one free in each subject, then 50 credits each', 'Unlimited'],
       ['A fresh paper each time, questions you have not answered first', true, true],
     ],
   },

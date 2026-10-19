@@ -55,7 +55,7 @@ test('D28: the server snapshot of the hour and the date is null, so the SSR HTML
 
 test('W-042: the lead holds for the rhythm, the road, the study days and the record, under the same 1.5 s cap', () => {
   const page = read('src/app/(app)/today/page.jsx');
-  assert.match(page, /const holdForPage = !waitedOut && \(\[data\.rhythm, data\.road, data\.goal, insights\]\.some\(\(r\) => r\.status === 'loading'\) \|\| Boolean\(userId && !premium && dailySet === 'unknown'\)\)/, 'the price line waits for the allowance read too, under the same cap');
+  assert.match(page, /const holdForPage = !waitedOut && \(\[data\.rhythm, data\.road, data\.goal, insights\]\.some\(\(r\) => r\.status === 'loading'\) \|\| Boolean\(userId && !premium && dailySet === 'unknown'\)\s*\|\| Boolean\(userId && !premium && mockSubject && mockLeads && firstFullState === 'unknown'\)\)/, 'the price line waits for the allowance read too (and a mock lead for its free-first-mock read), under the same cap');
   assert.match(page, /window\.setTimeout\(\(\) => setWaitedOut\(true\), 1500\)/, 'capped at 1.5 s, the same clock as holdForStep');
   assert.match(page, /const phase = holdForStep \|\| holdForPage \? 'loading' :/);
   // The glance column and Weak chapters wait on `landing`, which follows the lead's phase: they release together.

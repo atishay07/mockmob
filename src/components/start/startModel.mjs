@@ -17,6 +17,7 @@
 import { TEST_MODES, practiceCreditCost } from '../../../data/test_modes.js';
 import { DAILY_FREE_LINE, DAILY_FREE_SHORT, DAILY_SET, PRICE_AT_START_LINE, PRICE_AT_START_SHORT, dailySetState, isDailySet } from '../../lib/dailySet.mjs';
 import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
+import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_STATE } from '../../../data/first_full_mock.js';
 
 export const PRACTICE_HREF = '/dashboard';
 export const SUBJECT_KEY = 'mm:start-subject:v1';
@@ -182,11 +183,18 @@ export function sessionCost(mode, { pro = false, count = null } = {}) {
  * 'Free: today's included set.' and prints no number or balance; when the allowance has not been read, it prints no number
  * and says Practice shows the price before it starts. 'priced' (the default) is the price as before. Any other count, and
  * a full mock, are never changed by the allowance.
+ *
+ * The first full mock in each subject is free (C-dec 1, data/first_full_mock.js). `firstFullMock` is that rule's state for the
+ * row's subject, as the server quote said it (src/lib/useFirstFullMock.js): 'available' reads 'Your first one is free' (no
+ * number, no balance); 'unknown' (not read yet, or the read failed) prints no number and says Practice shows the price; 'used'
+ * and null (the default, for a caller that never reads it) print the price as before. Only a full mock reads it.
  */
-export function costLine(mode, { pro = false, balance = null, short = false, count = null, dailySet = DAILY_SET.priced } = {}) {
+export function costLine(mode, { pro = false, balance = null, short = false, count = null, dailySet = DAILY_SET.priced, firstFullMock = null } = {}) {
   const cost = sessionCost(mode, { pro, count });
   if (cost === null) return { text: short ? 'Needs Pro' : 'Needs Pro.', tone: 'locked' };
   if (pro) return { text: short ? 'Included with Pro' : 'Included with Pro.', tone: 'included' };
+  if (mode === 'full' && firstFullMock === FIRST_FULL_MOCK_STATE.available) return { text: short ? FIRST_FULL_MOCK_COPY.tile : FIRST_FULL_MOCK_COPY.price, tone: 'included' };
+  if (mode === 'full' && firstFullMock === FIRST_FULL_MOCK_STATE.unknown) return { text: short ? PRICE_AT_START_SHORT : PRICE_AT_START_LINE, tone: 'cost' };
   // The count the server resolves to (a stray count becomes the default set), because that is the set the allowance covers.
   const asked = whole(count) || SESSION.quickCount;
   if (isDailySet(mode, practiceCreditCost(mode, asked) === null ? TEST_MODES[mode]?.defaultCount : asked)) {
@@ -268,7 +276,7 @@ export function followingTitle(mode, count, name) {
  * }
  * A practice link without a subject takes the chosen subject, so it opens set up for it.
  */
-export function heroFromPlan(plan, { subject = null, pro = false, balance = null, tonightKey = null, dailySet = DAILY_SET.priced } = {}) {
+export function heroFromPlan(plan, { subject = null, pro = false, balance = null, tonightKey = null, dailySet = DAILY_SET.priced, firstFullMock = null } = {}) {
   const primary = plan?.primary;
   const href = safeHref(primary?.href);
   if (!primary || !href || !primary.title) return null;
@@ -308,7 +316,8 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
     cta: known.cta,
     graphic: known.graphic === 'subject' && !linked && !subjectFor(subject) ? 'check' : known.graphic,
     subject: linked || (known.graphic === 'subject' ? subjectFor(subject)?.id || null : null),
-    cost: practice && TEST_MODES[mode] ? costLine(mode, { pro, balance, count, dailySet }) : null,
+    // The free first full mock was read for the chosen subject only: a hero linked to another subject prints no number.
+    cost: practice && TEST_MODES[mode] ? costLine(mode, { pro, balance, count, dailySet, firstFullMock: firstFullMock === null ? null : linked && linked === subjectFor(subject)?.id ? firstFullMock : FIRST_FULL_MOCK_STATE.unknown }) : null,
     quick: practice && mode === 'quick' && count === SESSION.quickCount,
   };
 }
@@ -325,12 +334,13 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
  * @param {number|null} o.balance  credits, null when unknown
  * @param {string|null} o.tonightKey the key Today's plan uses to record tonight's practice
  * @param {'free'|'priced'|'unknown'} [o.dailySet] what the server quote said about today's included 10-question set
+ * @param {'available'|'used'|'unknown'|null} [o.firstFullMock] whether the chosen subject's first full mock is still free
  * @returns {{ hero: object|null, rows: object[], choose: object }}
  */
-export function startRows({ plan = null, subjects = [], subject = null, pro = false, balance = null, tonightKey = null, dailySet = DAILY_SET.priced } = {}) {
+export function startRows({ plan = null, subjects = [], subject = null, pro = false, balance = null, tonightKey = null, dailySet = DAILY_SET.priced, firstFullMock = null } = {}) {
   const chosen = subjectFor(subject)?.id || subjects[0] || null;
   const name = subjectName(chosen);
-  const hero = heroFromPlan(plan, { subject: chosen, pro, balance, tonightKey, dailySet });
+  const hero = heroFromPlan(plan, { subject: chosen, pro, balance, tonightKey, dailySet, firstFullMock });
   const rows = [];
   // Every session names what pressing it does (owner F5): 'Set up' opens Practice set up for it (nothing is spent there),
   // 'Pick chapters' opens it with the chapter list open, 'Open Practice' opens it to choose.
@@ -341,7 +351,7 @@ export function startRows({ plan = null, subjects = [], subject = null, pro = fa
       href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount }), graphic: 'subject', subject: chosen, cost: costLine('quick', { pro, balance, short: true, dailySet }), badge: String(SESSION.quickCount), go: 'start', action: 'Set up' });
   }
   rows.push({ id: 'full', title: 'Full mock', detail: `${SESSION.fullCount} ${name ? `${name} ` : ''}questions, ${SESSION.fullMinutes} minutes, a new paper every time`,
-    href: practiceHref({ subject: chosen, mode: 'full' }), graphic: 'stopwatch', subject: chosen, cost: costLine('full', { pro, balance, short: true }), go: 'start', action: 'Set up' });
+    href: practiceHref({ subject: chosen, mode: 'full' }), graphic: 'stopwatch', subject: chosen, cost: costLine('full', { pro, balance, short: true, firstFullMock }), go: 'start', action: 'Set up' });
   rows.push({ id: 'nta', title: 'NTA mode', detail: `The exam-day screen${name ? ` in ${name}` : ''}, ${SESSION.ntaCount} questions in ${SESSION.ntaMinutes} minutes`,
     // Locked: Practice shows the screen preview and what Pro adds, so the row still opens it. The outlined Pro tag
     // marks the lock on the tile; the cost line says it in words.

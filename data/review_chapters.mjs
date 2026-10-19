@@ -183,7 +183,10 @@ export function reviewLine(record, rows = chapterRows(record), saved = savedRepa
   const lost = rows.reduce((s, r) => s + r.lost, 0);
   const wrong = rows.reduce((s, r) => s + r.wrong, 0);
   const blank = rows.reduce((s, r) => s + r.blank, 0);
-  const who = ctx.papers.length === 1 ? ctx.papers[0].name : `Your ${ctx.papers.length} papers`;
+  // One paper: a mock by its name ("Mock 3 lost 92 marks"); any other paper is "Quick practice", which names no one paper, so it
+  // is "Your practice set" (copy pass, 19 Oct, R6).
+  const one = ctx.papers[0];
+  const who = ctx.papers.length === 1 ? (/^Mock \d+$/.test(String(one?.name || '')) ? one.name : 'Your practice set') : `Your ${ctx.papers.length} papers`;
   const what = [wrong ? plural(wrong, 'wrong answer') : null, blank ? `${blank} left blank` : null].filter(Boolean).join(' and ');
   const fixed = saved.length ? ` ${saved.length === 1 ? '1 is repaired' : `${saved.length} are repaired`}.` : '';
   return { lost, wrong, blank, who, what, fixed, text: lost ? `${who} lost ${lost} marks: ${what}.${fixed}` : `${who} lost no marks.` };

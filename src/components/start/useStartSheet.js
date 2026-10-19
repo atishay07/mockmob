@@ -9,6 +9,7 @@
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { SUBJECT_KEY, pickSubject, startRows, startSubjects } from './startModel.mjs';
 import { useDailySet } from '@/lib/useDailySet';
+import { useFirstFullMock } from '@/lib/useFirstFullMock';
 
 const FRESH_MS = 120_000;
 
@@ -70,7 +71,9 @@ export function useStartSheet({ open = false, user = null }) {
   const subject = pickSubject(subjects, chosen || null);
   // Today's included 10-question set, read from the server quote only while the sheet is open (the quote is shared and kept a minute).
   const dailySet = useDailySet({ userId: open ? userId : null, premium: pro, subject });
-  const model = useMemo(() => startRows({ plan: mine?.plan || null, subjects, subject, pro, balance, tonightKey, dailySet }), [mine, subjects, subject, pro, balance, tonightKey, dailySet]);
+  // Whether this subject's first full mock is still free (C-dec 1), from the server quote for its Full mock, read while the sheet is open.
+  const firstFullMock = useFirstFullMock({ userId: open ? userId : null, premium: pro, subject });
+  const model = useMemo(() => startRows({ plan: mine?.plan || null, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock }), [mine, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock]);
   const selectSubject = useCallback((id) => { setChosen(id); writeStored(id); }, []);
   const retry = useCallback(() => { fetched.current = { userId: null, at: 0 }; setRecord(null); setNonce((n) => n + 1); }, []);
 

@@ -30,13 +30,14 @@ test('H2: free credits go BACK TO 50 on the reset date, never "50 more"', () => 
 });
 
 test('M3: one true sentence for what a credit buys; deeper analysis is 3 and matches the server price list', () => {
-  assert.equal(ONE_CREDIT_LINE, '1 credit is 1 practice question or 1 chat reply; a full mock is 50 and deeper analysis is 3. The cost shows before you start.');
+  // New contract (copy pass, 19 Oct): full sentences, and the first full mock in each subject is free (C-dec 1).
+  assert.equal(ONE_CREDIT_LINE, '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50, and your first one in each subject is free. Deeper analysis costs 3. The cost shows before you start.');
   const costs = read('src/services/usage/getDailyUsage.js');
   for (const k of ['deep_mentor_analysis', 'mock_autopsy', 'trap_drill', 'custom_mock_plan', 'rival_weakness', 'deep_recovery_plan']) {
     assert.match(costs, new RegExp(`${k}: ${DEEP_AI_CREDITS},`), k);
   }
   for (const pack of CREDIT_PACKS) assert.ok(pack.description.endsWith(ONE_CREDIT_LINE));
-  assert.match(FAQ_ITEMS.find((f) => f.id === 'credits').answer.join(' '), /deeper analysis, like a mock autopsy or a trap drill, is 3/);
+  assert.match(FAQ_ITEMS.find((f) => f.id === 'credits').answer.join(' '), /deeper analysis, like a mock autopsy or a trap drill, costs 3/);
   assert.match(read('src/lib/server/wallet.js'), /return ONE_CREDIT_LINE;/);
   assert.match(read('src/app/privacy/page.js'), /1 credit for a chat reply or 3 for deeper analysis/);
   for (const f of ['src/app/pricing/page.js', 'src/app/pricing/ai-credits/page.js']) assert.match(read(f), /\{ONE_CREDIT_LINE\}/, f);

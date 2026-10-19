@@ -75,11 +75,11 @@ test('the result page links to Practice with the same subject and mode, and pric
 
 test('pricing says no limit on papers without calling Free unlimited, and names the bank only when counted', () => {
   assert.match(pricingBankLine(8197), /from a live bank of 8,197 questions/);
-  assert.match(pricingBankLine(8197), /Pro covers as many as you take; on Free, each one uses credits\./);
+  assert.match(pricingBankLine(8197), /Pro covers as many as you take\. On Free, each paper uses credits, except your first full mock in each subject, which is free\./);
   assert.doesNotMatch(pricingBankLine(null), /\d/);
   const faq = pricingBankFaq(8197);
   assert.equal(faq.q, 'How many mocks do I get per subject?');
-  assert.match(faq.a, /On Free, each paper uses credits: 1 credit a question\. A 10-question set is 10, a full mock 50\./);
+  assert.match(faq.a, /On Free, each paper uses credits\. A practice question costs 1 credit, so a 10-question set is 10 credits\. A full mock costs 50 credits, and your first one in each subject is free\./);
   assert.match(faq.a, /can bring back questions you have answered before/);
   assert.match(ONBOARDING_LEAD, /^Pick up to 5\./);
 });

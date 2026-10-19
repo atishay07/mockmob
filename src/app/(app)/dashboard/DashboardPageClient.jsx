@@ -21,6 +21,7 @@ import { LIFE, tapKeyframes } from '@/components/brand/ObjectLifeModel.mjs';
 import { TEST_MODES, fineTuneScope, resolveCount } from '@/../data/test_modes';
 import { countHint, dailySetFromQuote, isDailySet } from '@/lib/dailySet.mjs';
 import { forgetDailySet } from '@/lib/useDailySet';
+import { forgetFirstFullMock } from '@/lib/useFirstFullMock';
 import { useMyDailySet } from '@/components/useMyDailySet';
 import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_REASON, FIRST_FULL_MOCK_STATE } from '@/../data/first_full_mock';
 import { MODE_CAPABILITIES } from '@/../data/capabilities';
@@ -500,6 +501,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
     setIsLaunching(true);
     launchingKeyRef.current = launchingKeyRef.current || quote.idempotencyToken;
     forgetDailySet(user?.id); // starting a set may use today's included one: the next read asks the server again
+    forgetFirstFullMock(user?.id); // and a full mock may take the subject's free first one
     setLaunchSuccess(`Launching ${mode.label}…`);
     toast.success('Starting your session…');
     const tonight = new URLSearchParams();

@@ -131,8 +131,9 @@ test('the credits history names every Quick spend a Practice set and the full mo
 });
 
 // ---- the words ----------------------------------------------------------------------------------------------------
-test('one sentence says the price everywhere: "1 credit a question. A 10-question set is 10, a full mock 50."', () => {
-  assert.equal(PRACTICE_PRICE_LINE, '1 credit a question. A 10-question set is 10, a full mock 50.');
+test('one sentence says the price everywhere: "A practice question costs 1 credit ... your first one in each subject is free."', () => {
+  // New contract (copy pass, 19 Oct): two full sentences (R6), and the free first full mock in each subject (C-dec 1).
+  assert.equal(PRACTICE_PRICE_LINE, 'A practice question costs 1 credit, so a 10-question set is 10 credits. A full mock costs 50 credits, and your first one in each subject is free.');
   assert.equal(PRACTICE_PRICE_TAIL, '1 a question. A 10-question set is 10, a full mock 50.');
   assert.deepEqual({ ...PRACTICE_PRICE }, { perQuestion: 1, set: 10, setQuestions: 10, full: 50 });
   const pricing = file('src/app/pricing/page.js');
@@ -174,7 +175,7 @@ test('Today and the result page price a set by its size, a mock at 50', () => {
   const price = file('src/lib/today/priceLine.mjs');
   assert.match(price, /practiceCreditCost\('quick'/);
   assert.match(price, /practiceCreditCost\('full', TEST_MODES\.full\.fixedCount\)/);
-  assert.match(file('src/app/(app)/today/page.jsx'), /priceLineOf\(m, \{ premium, balance, dailySet \}\)/);
+  assert.match(file('src/app/(app)/today/page.jsx'), /priceLineOf\(m, \{ premium, balance, dailySet, firstFull \}\)/);
 });
 
 // ---- the database -------------------------------------------------------------------------------------------------
@@ -506,7 +507,7 @@ test('every web surface that prices a 10-question set reads the allowance (wirin
     'src/components/review/ReviewPage.jsx': /reviewMove\(record, \{ dailySet \}\)/,
     'src/components/review/ReviewChapters.jsx': /practiseLine\(wallet, allRepaired, dailySet\)/,
     'src/components/revise/ReviseRun.jsx': /practiceCredits: null, dailySet \}/,
-    'src/components/start/useStartSheet.js': /startRows\(\{[^}]*dailySet \}\)/,
+    'src/components/start/useStartSheet.js': /startRows\(\{[^}]*dailySet, firstFullMock \}\)/,
     'src/app/(app)/dashboard/DashboardPageClient.jsx': /countHint\(mode\.id, n, \{ isPremium, dailySet: dailyNow \}\)/,
   };
   for (const [rel, pattern] of Object.entries(surfaces)) assert.match(file(rel), pattern, rel);

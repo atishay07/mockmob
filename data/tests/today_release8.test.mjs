@@ -77,7 +77,7 @@ test('wired on Today: the path leads through withFirstWeek, the rail rides on th
   assert.match(page, /path=\{phase === 'ready' \? path : null\} onPlan=\{\(\) => setPlanAsk\(\(n\) => n \+ 1\)\}/);
   assert.match(page, /planAsk=\{planAsk\} onPlanSaved=\{\(\) => setPlanSaved\(true\)\}/);
   assert.match(read('src/lib/today/priceLine.mjs'), /\['resume', 'check', 'done', 'plan'\]\.includes\(m\.id\)/, 'Change plan is priced nowhere (the price line moved to src/lib/today/priceLine.mjs)');
-  assert.match(page, /priceLineOf\(m, \{ premium, balance, dailySet \}\)/);
+  assert.match(page, /priceLineOf\(m, \{ premium, balance, dailySet, firstFull \}\)/);
   assert.match(page, /first_scored_session'\)\?\.achievedAt/, 'the clock is the first scored session');
   assert.match(page, /sessions: everSessions/);
   // The card lands once: it holds, for 1.5 s at most, while the reads that decide today's step are loading.

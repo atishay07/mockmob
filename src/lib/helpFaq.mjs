@@ -14,9 +14,12 @@ export const FAQ_ITEMS = Object.freeze([
     id: 'credits',
     question: 'What are credits?',
     answer: Object.freeze([
-      'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. Credits you buy or earn are used after them and stay in your account.',
+      // One balance (D78), said as it works: the free 50 refill each IST calendar month and do not carry over
+      // (aiWalletState.js walletWindow, included_credits_used resets); bought and earned credits stay until spent.
+      'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. They refill to 50 at the start of every month, so unused free credits do not carry over.',
+      'Credits you buy or earn are used after the free ones, and they never expire. A credit pack is a one-time payment: it never renews and never charges you again.',
       PRACTICE_PRICE_LINE,
-      'One Ask Mobi chat reply is 1 credit; deeper analysis, like a mock autopsy or a trap drill, is 3. The cost shows before you start. On Pro, practice needs no credits at all, so your credits go to Ask Mobi.',
+      'An Ask Mobi chat reply costs 1 credit, and deeper analysis, like a mock autopsy or a trap drill, costs 3. The cost shows before you start. On Pro, practice needs no credits at all, so your credits go to Ask Mobi.',
     ]),
   }),
   Object.freeze({

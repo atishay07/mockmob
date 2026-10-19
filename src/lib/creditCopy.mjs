@@ -10,8 +10,9 @@ export const CREDITS = 'Credits';
 /** What deeper AI analysis costs (a mock autopsy, a trap drill, a plan, a rival analysis): CREDIT_COSTS in
  *  src/services/usage/getDailyUsage.js; data/tests/release10_verifier_1019.test.mjs holds the two together. */
 export const DEEP_AI_CREDITS = 3;
-/** What one credit buys, said one way everywhere (release 10 verifier M3: deeper analysis is 3, never "1 reply"). */
-export const ONE_CREDIT_LINE = `1 credit is 1 practice question or 1 chat reply; a full mock is ${practiceCreditCost('full', TEST_MODES.full.fixedCount)} and deeper analysis is ${DEEP_AI_CREDITS}. The cost shows before you start.`;
+/** What one credit buys, said one way everywhere (release 10 verifier M3: deeper analysis is 3, never "1 reply"). Since 19 Oct
+ *  (C-dec 1, data/first_full_mock.js) it says the first full mock in each subject is free wherever it says a full mock is 50. */
+export const ONE_CREDIT_LINE = `1 credit buys 1 practice question or 1 chat reply. A full mock costs ${practiceCreditCost('full', TEST_MODES.full.fixedCount)}, and your first one in each subject is free. Deeper analysis costs ${DEEP_AI_CREDITS}. The cost shows before you start.`;
 // Kept for older imports: both names are now the one name.
 export const PRACTICE_CREDITS = CREDITS;
 export const AI_CREDITS = CREDITS;
@@ -63,8 +64,9 @@ export const PRACTICE_PRICE = Object.freeze({
   setQuestions: SET,
   full: practiceCreditCost('full', TEST_MODES.full.fixedCount),
 });
-/** "1 credit a question. A 10-question set is 10, a full mock 50." (one credits balance, D78) */
-export const PRACTICE_PRICE_LINE = `${PRACTICE_PRICE.perQuestion} credit a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
+/** "A practice question costs 1 credit, so a 10-question set is 10 credits. A full mock costs 50 credits, and your first one in
+ *  each subject is free." (one credits balance, D78; the free first full mock, C-dec 1, 19 Oct; full sentences, R6) */
+export const PRACTICE_PRICE_LINE = `A practice question costs ${PRACTICE_PRICE.perQuestion} credit, so a ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set} credits. A full mock costs ${PRACTICE_PRICE.full} credits, and your first one in each subject is free.`;
 /** The same, for a place that already says "practice credits" before it: "1 a question. A 10-question set is 10, a full mock 50." */
 export const PRACTICE_PRICE_TAIL = `${PRACTICE_PRICE.perQuestion} a question. A ${PRACTICE_PRICE.setQuestions}-question set is ${PRACTICE_PRICE.set}, a full mock ${PRACTICE_PRICE.full}.`;
 

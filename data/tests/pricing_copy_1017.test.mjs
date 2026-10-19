@@ -31,7 +31,7 @@ test('W-093: signed-in pages carry no hedge or privacy filler lines', () => {
 
 test('W-094: onboarding says every mock is fresh from one live bank with no cap, and the landing line names no rival numbers', () => {
   // Release 9: "no cap" is Pro's, and the same breath says Free pays credits for each mock.
-  assert.match(ONBOARDING_LEAD, /^Pick up to 5\. Every mock is built fresh from one live question bank: no cap on Pro, and on Free each one uses credits\./);
+  assert.match(ONBOARDING_LEAD, /^Pick up to 5\. Every mock is built fresh from one live question bank, and your first full mock in each subject is free\. After that, each one uses credits on Free; on Pro there is no cap\./);
   const line = read('src/components/landing/QuestionBankLine.jsx');
   assert.doesNotMatch(line, /10 or 30|never runs out/);
   assert.match(line, /no fixed set to run out of/);

@@ -53,9 +53,12 @@ const FULL_MOCK_PRICE = practiceCreditCost('full', TEST_MODES.full.fixedCount);
 //   reason  the quote's own `reason` sentence under the price, so the card does not say the price line twice
 //   plan    the Free plan's line in sentences (Account > Plan)
 //   planItem the same line in the pricing page's Free list, whose items are fragments without a full stop
+//   tile    the Start sheet's Full mock row, a half-width tile on a phone (two lines at most at 390 px), under the row's own
+//           "Full mock" title and its subject, so "one" is the full mock in that subject (copy pass, 19 Oct)
 export const FIRST_FULL_MOCK_COPY = Object.freeze({
   price: 'Free: your first full mock in this subject is on us.',
   short: 'Free',
+  tile: 'Your first one is free',
   reason: `No credits are charged for this one. Your next full mock in this subject costs ${FULL_MOCK_PRICE} credits.`,
   plan: 'Your first full mock in every subject is free.',
   planItem: 'Your first full mock in every subject is free',
@@ -99,6 +102,18 @@ export function firstFullMockState(facts, { sessionId = null } = {}) {
 /** Is a start in this state free? 'available' (it will take the row) or 'mine' (it already holds it). */
 export function firstFullMockIsFree(state) {
   return state === FIRST_FULL_MOCK_STATE.available || state === FIRST_FULL_MOCK_STATE.mine;
+}
+
+/**
+ * The rule's state as a server quote (GET /api/practice/quote) says it, for screens that price a full mock without being
+ * Practice: 'available' when the quote prices this Full mock at 0 for this rule (freeReason) or says the free one is still there,
+ * 'used' when it says it was given, else 'unknown' (no quote, a Pro quote, a failed read). 'unknown' is never free.
+ */
+export function firstFullMockFromQuote(quote) {
+  if (!quote || typeof quote !== 'object') return FIRST_FULL_MOCK_STATE.unknown;
+  if (quote.freeReason === FIRST_FULL_MOCK_REASON) return FIRST_FULL_MOCK_STATE.available;
+  if (quote.firstFullMock === FIRST_FULL_MOCK_STATE.available || quote.firstFullMock === FIRST_FULL_MOCK_STATE.used) return quote.firstFullMock;
+  return FIRST_FULL_MOCK_STATE.unknown;
 }
 
 /** Is this allowance kind the full sample the rule folds in? */

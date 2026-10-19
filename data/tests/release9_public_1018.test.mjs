@@ -58,8 +58,9 @@ test('Credits: the page reads the real gates (runtimeAi for replies, aiCommerce 
 
 test('onboarding: "no cap" is said for Pro, and Free is told each mock uses credits', () => {
   assert.doesNotMatch(ONBOARDING_LEAD, /no cap on how many you take/);
-  assert.match(ONBOARDING_LEAD, /no cap on Pro/);
-  assert.match(ONBOARDING_LEAD, /on Free each one uses credits/);
+  // New contract (copy pass, 19 Oct): the free first full mock leads; the cap and the credits are still said in one breath.
+  assert.match(ONBOARDING_LEAD, /on Pro there is no cap/);
+  assert.match(ONBOARDING_LEAD, /each one uses credits on Free/);
   assert.equal(ONBOARDING_STEPS.subjects.lead, ONBOARDING_LEAD);
 });
 

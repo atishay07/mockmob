@@ -27,6 +27,7 @@ import { firstWeekClock, firstWeekPath, stepOfDay, withFirstWeek } from '@/lib/t
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
 import { priceLineOf } from '@/lib/today/priceLine.mjs';
 import { useMyDailySet } from '@/components/useMyDailySet';
+import { useFirstFullMock } from '@/lib/useFirstFullMock';
 import { greetingAt } from '@/lib/today/greeting.mjs';
 import { freshPaper, reelSeen } from '@/lib/today/paperReel.mjs';
 import { todayKeyIn } from '@/lib/today/week.mjs';
@@ -149,7 +150,13 @@ export default function Today() {
   const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : null;
   // Today's included 10-question set, read from the server quote like Practice does (src/lib/dailySet.mjs).
   const dailySet = useMyDailySet();
-  const priceOf = useCallback((m) => priceLineOf(m, { premium, balance, dailySet }), [premium, balance, dailySet]);
+  // The first full mock in each subject is free (C-dec 1): a mock move's price follows the server quote for its subject. The mock
+  // moves here (Your first full mock, A full mock instead) name one subject: the record's, else the last paper's, else the first
+  // of the student's subjects (move.mjs, lead.mjs), so one read prices them.
+  const mockSubject = facts?.subject || papersData?.[0]?.subject || (Array.isArray(user?.subjects) ? user.subjects[0] || null : null);
+  const firstFullState = useFirstFullMock({ userId, premium, subject: mockSubject });
+  const firstFull = useMemo(() => ({ subject: mockSubject, state: firstFullState }), [mockSubject, firstFullState]);
+  const priceOf = useCallback((m) => priceLineOf(m, { premium, balance, dailySet, firstFull }), [premium, balance, dailySet, firstFull]);
   const reviseSubjects = reviseData?.subjects;
   const finish = useCallback((m) => {
     if (!m || m.id === 'failed') return m;
@@ -193,7 +200,10 @@ export default function Today() {
   // from (the rhythm, the road, the study days, the record), under the same 1.5 s cap, so the lead, the week, the road and the
   // weak chapters appear together instead of the glance column arriving 240 to 400 ms after the lead.
   // The lead's price line waits for the allowance read too (a free set must never flash "uses 10 credits" first), under the same cap.
-  const holdForPage = !waitedOut && ([data.rhythm, data.road, data.goal, insights].some((r) => r.status === 'loading') || Boolean(userId && !premium && dailySet === 'unknown'));
+  // A mock in the lead waits for its subject's free-first-mock read the same way, so "Free" never lands after a "no price" line.
+  const mockLeads = [base, path?.move].some((m) => m && ['firstMock', 'mock'].includes(m.id));
+  const holdForPage = !waitedOut && ([data.rhythm, data.road, data.goal, insights].some((r) => r.status === 'loading') || Boolean(userId && !premium && dailySet === 'unknown')
+    || Boolean(userId && !premium && mockSubject && mockLeads && firstFullState === 'unknown'));
   // The other moves, each a whole move (Repair, Revise, the weakest chapter, a full mock, another subject).
   const subjects = user?.subjects;
   const pool = useMemo(() => (rec && rec.id !== 'failed' ? choiceMoves({

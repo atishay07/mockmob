@@ -15,10 +15,16 @@ test('Help carries the same six questions as the app, with unique ids', () => {
   for (const item of FAQ_ITEMS) assert.ok(item.question.endsWith('?') && item.answer.length >= 1, item.id);
 });
 
-test('credit words are the two names the site uses, and Credits are not said to renew', () => {
+test('the credits answer is true for the one balance: the free 50 refill monthly, bought credits never expire or renew', () => {
+  // New contract (copy pass, 19 Oct). The old line "Practice credits do not renew" belonged to the two balances; since the one
+  // balance (D78) the free 50 DO come back every month (aiWalletState.js), so the answer says what refills and what stays.
   const credits = FAQ_ITEMS.find((i) => i.id === 'credits').answer.join(' ');
   assert.ok(credits.includes(PRACTICE_CREDITS) && credits.includes(AI_CREDITS));
-  assert.match(credits, /Credits do not renew/);
+  assert.match(credits, /Every account gets 50 free credits each month, and they are used first\./);
+  assert.match(credits, /They refill to 50 at the start of every month, so unused free credits do not carry over\./);
+  assert.match(credits, /Credits you buy or earn are used after the free ones, and they never expire\./);
+  assert.match(credits, /A credit pack is a one-time payment: it never renews and never charges you again\./);
+  assert.match(credits, /your first one in each subject is free/, 'the full mock price says the first one in each subject is free');
   assert.doesNotMatch(credits, /each shows when it renews/i);
 });
 
