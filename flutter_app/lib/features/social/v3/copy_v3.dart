@@ -16,6 +16,7 @@ import 'data/mob_v3_models.dart';
 
 const List<String> _weekdaysLong = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const List<String> _monthsShort = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+const List<String> _monthsLong = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 DateTime _ist(DateTime at) => at.toUtc().add(const Duration(hours: 5, minutes: 30));
 
@@ -32,6 +33,12 @@ abstract final class MobTime {
     final t = _ist(at);
     return '${_weekdaysLong[t.weekday - 1]} ${t.day} ${_monthsShort[t.month - 1]}';
   }
+
+  /// "October" from a month number, 1 to 12.
+  static String monthName(int month) => _monthsLong[(month - 1).clamp(0, 11)];
+
+  /// "Monday" for the IST day of [at].
+  static String weekdayOf(DateTime at) => _weekdaysLong[_ist(at).weekday - 1];
 
   /// "Wednesday" from an IST day key `YYYY-MM-DD`.
   static String weekdayOfKey(String key) {
@@ -454,6 +461,48 @@ abstract final class MobV3Copy {
   static String pauseKey(int n) => n == 1 ? 'Pause 1 day' : 'Pause $n days';
   static const String clearDays = 'Clear these days';
 
+  // ---- Sheets and chains additions (P1 to P5, C1, C2) ----
+  static const String joinGame = 'Join';
+  static const String podiumKey = 'Podium';
+  static const String aFriend = 'A friend';
+  static const String usedThisWeek = 'Used this week';
+  static const String liveSub = 'Everyone at once';
+  static const String fullMockSub = '50 questions in 60 minutes';
+  static const String lockedWord = 'Locked';
+
+  /// "You sat it on Monday." when the server says when; else "You sat it this week."
+  static String satLine(DateTime? at) => at == null ? 'You sat it this week.' : satOn(MobTime.weekdayOf(at));
+
+  static String startSub(String mob, String subject) => '$mob, $subject';
+  static const String useWholeSubject = 'Use the whole subject';
+  static const String fewerQuestions = 'Fewer questions';
+  static const String moreQuestions = 'More questions';
+  static const String freeProTitle = 'Free and Pro in the Mob';
+  static const String pickDays = 'Choose days to pause';
+  static const String earlierMonth = 'Earlier month';
+  static const String laterMonth = 'Later month';
+
+  static const String chainsTitle = 'Chains';
+  static const String chainLoading = 'Loading your chain';
+  static const String chainFailed = "Your chain didn't load.";
+  static const List<String> dayInitials = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  static const String todayWord = 'Today';
+  static const String dayChosen = 'chosen';
+  static const String doneWord = 'Done';
+  static String dayStateWord(ChainDayState s) => switch (s) {
+        ChainDayState.practised => 'practised',
+        ChainDayState.rested => 'rested',
+        ChainDayState.madeUp => 'made up',
+        ChainDayState.paused => 'set aside for exams',
+        ChainDayState.open => 'open',
+        ChainDayState.today => 'today',
+        ChainDayState.missed || ChainDayState.none => 'not practised',
+      };
+  static String makeUpProgress(int answered, int needed) => 'You have answered $answered of $needed today.';
+  static String mobChainTitle(int weeks) => '$weeks ${weeksInARow(weeks)}';
+  static const String weeksWord = 'weeks';
+  static const String onTheWay = 'On the way';
+
   // ---- K1 to K5 moments ----
   static String milestoneLine(ChainState c) {
     final rested = c.rested > 0 ? ' and rested ${c.rested}' : '';
@@ -643,6 +692,9 @@ abstract final class MobV3Copy {
     if (_offline(e)) return offline;
     return generic;
   }
+
+  /// The server's code of a failure (START_USED, LIVE_BUSY...), or null.
+  static String? codeOf(Object e) => _codeOf(e);
 
   static String? _codeOf(Object e) {
     try {
