@@ -1,6 +1,6 @@
 // Goldens for R7 the podium (spec 7.3): open with a tie, closed, switch off and only you at 360 dp
 // Night and Day; the open podium also at 412 dp and at text scale 1.3; and the G-6 frame goldens of
-// the reveal at 400, 1000, 1600, 2200, 2820 and 4800 ms (Night and Day).
+// the reveal at 0, 400, 1000, 1600, 2200, 2820, 3700 and 4800 ms (Night and Day).
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -74,7 +74,7 @@ void main() {
       go.value = true;
       await tester.pump();
       var t = 0;
-      for (final at in const [400, 1000, 1600, 2200, 2820, 4800]) {
+      for (final at in const [0, 400, 1000, 1600, 2200, 2820, 3700, 4800]) {
         while (t + 16 <= at) {
           await tester.pump(const Duration(milliseconds: 16));
           t += 16;

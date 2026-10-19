@@ -8,7 +8,7 @@
 // to its end in 200 ms, and the order of marks is provable frame by frame (F10):
 //
 //   0-400     scrim to 35% and the lamp cone narrows to 62% (emphasized)
-//   120       the header (game title, "So far" or "Final")
+//   120       the header (game title, "So far" or "Final"), the headline and its line (H6)
 //   400       the collective line together with the floor members (marks static, never alone, F11)
 //   1000      third unfolds (rotateX 90 to 0, perspective 0.0015, emphasized 420)
 //   1600      second unfolds (shared places unfold together)
@@ -19,7 +19,7 @@
 //   +280      the numeral engraves (280)
 //   2820      first lands: the lamp swells to 60%, the foil sheen sweeps the plinth (sweep 700),
 //             40 paper bits and 8 glints over 1400; 3240 the winner hops once (FoldAct.bigHop)
-//   3700      the headline and the tie line
+//   3700      the tie line
 //   4200      keys rise; confirm haptic (the podium read is the server's ack)
 //   4200-4800 the scrim clears
 //
@@ -40,6 +40,7 @@ import '../../../../core/widgets/key_button.dart';
 import '../../../../core/widgets/pressable.dart';
 import '../copy_v3.dart';
 import '../data/mob_v3_models.dart';
+import 'fold_manifest.dart';
 import 'fold_puppet.dart';
 import 'mob_fx.dart';
 import 'paper_particles.dart';
@@ -152,7 +153,10 @@ abstract final class PodiumTimeline {
   static const double numeralAfterLanding = 280;
   static const double climax = 2820;
   static const double hop = 3240;
-  static const double headline = 3700;
+  /// The headline and its line come with the header (spec M7: "120 the title"); only the tie line
+  /// waits for the places it explains.
+  static const double headline = 120;
+  static const double tieLine = 3700;
   static const double keys = 4200;
   static const double scrimOutEnd = 4800;
 
@@ -276,7 +280,20 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
     _reduced = MobFx.reduced(context);
     _c.duration = Duration(milliseconds: _total.round());
     if (widget.autoplay) {
-      _c.forward();
+      // The reveal starts once the page has finished sliding in, so the lamp narrowing and the
+      // headline at 120 ms are seen, not spent under the route transition (walk H6).
+      final route = ModalRoute.of(context)?.animation;
+      if (route == null || route.status == AnimationStatus.completed) {
+        _c.forward();
+      } else {
+        void go(AnimationStatus s) {
+          if (s != AnimationStatus.completed) return;
+          route.removeStatusListener(go);
+          if (mounted && !_c.isAnimating && _c.value == 0) _c.forward();
+        }
+
+        route.addStatusListener(go);
+      }
     } else {
       _lastMs = _total;
       _c.value = 1;
@@ -463,9 +480,9 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
     }
     final headerT = rm ? _seg(ms, 0, 120) : _seg(ms, PodiumTimeline.header, 360, MotionCurves.emphasized);
     final collectiveT = rm ? _seg(ms, 0, 120) : _seg(ms, PodiumTimeline.collective, 280, MotionCurves.out);
-    final headlineAt = rm ? (table ? 300.0 : 900.0) : (table ? PodiumTimeline.header : PodiumTimeline.headline);
-    final headlineT = rm ? _seg(ms, headlineAt, 120) : _seg(ms, headlineAt, 360, MotionCurves.emphasized);
-    final tieT = headlineT;
+    final headlineT = rm ? _seg(ms, 0, 120) : _seg(ms, PodiumTimeline.headline, 360, MotionCurves.emphasized);
+    final tieAt = rm ? 900.0 : PodiumTimeline.tieLine;
+    final tieT = rm ? _seg(ms, tieAt, 120) : _seg(ms, tieAt, 360, MotionCurves.emphasized);
     final keysAt = rm ? (table ? 600.0 : 900.0) : (table ? PodiumTimeline.tableKeys : PodiumTimeline.keys);
     final keysT = rm ? _seg(ms, keysAt, 120) : _seg(ms, keysAt, 360, MotionCurves.emphasized);
     final showSkip = ms < keysAt && _c.value < 1;
@@ -711,7 +728,8 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           opacity: floorT,
           child: Transform.translate(
             offset: Offset(0, rm ? 0 : 14 * (1 - floorT)),
-            child: Center(child: _puppet(m, geo.floorFold, large: false)),
+            // The floor Fold always fits its column, so a wide one never stands off the edge (H6).
+            child: Center(child: _puppet(m, PodiumFit.size(FoldManifest.cached, m.fold, geo.floorFold, col.width), large: false)),
           ),
         ),
       ));
@@ -1062,6 +1080,14 @@ class _Geometry {
 // ---------------------------------------------------------------------------------------------------
 // Small pieces
 // ---------------------------------------------------------------------------------------------------
+
+/// The Fold size that keeps a Fold inside [width] (a wide Fold is drawn smaller, never cut off).
+abstract final class PodiumFit {
+  static double size(FoldManifest? m, FoldKey? fold, double size, double width) {
+    final w = FoldPuppet.widthFor(m, fold, size);
+    return w <= width ? size : size * width / w;
+  }
+}
 
 /// The numeral engraves left to right (engrave 280).
 class _Engrave extends StatelessWidget {
