@@ -105,7 +105,8 @@ test('the phone bar is five slots: Today, Practice, Start in the centre, Mob, Yo
   assert.match(bar, /tab\.id === 'dashboard' && reviseBadge \? <i className="arena-badge"/);
   assert.match(layout, /tab\.id === 'review' && reviseBadge \? <i className="arena-nav-link__count"/);
   assert.match(read('src/components/nav/PlaceTabs.jsx'), /const badge = tab\.id === 'review' && count \? count : 0;/);
-  assert.match(layout, /dueWords = reviseBadge \? `\$\{reviseBadge\} \$\{reviseBadge === 1 \? 'mistake' : 'mistakes'\} due back today` : ''/, 'a screen reader hears the count in words');
+  // Release 11 (verifier M1): drawn as "8 due" and heard as "Your papers, 8 due in Revise today" (web_fixa_1019.test.mjs).
+  assert.match(layout, /dueLabel\(tab\.label, reviseBadge\)/, 'a screen reader hears the count in words');
   // The bar marks the place a student is in: a page inside Practice (Your papers, Learn, Explore, Saved) marks Practice.
   assert.equal(dockPlaceOf('/review'), 'practice');
   assert.equal(dockPlaceOf('/study/abc'), 'practice');

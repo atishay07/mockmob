@@ -34,6 +34,7 @@ import Image from 'next/image';
 import mascot from '@/../public/brand/mascot/manifest.json';
 import PlaceTabs from '@/components/nav/PlaceTabs';
 import { useReviseBadge } from '@/lib/reviewRead';
+import { dueBadge, dueLabel } from '@/lib/nav/dueCount.mjs';
 import { VIEW_TRANSITION_PROPS } from '@/lib/motion/placeTransition';
 import { tourSteps } from '@/lib/appTour.mjs';
 import { HELP_DOOR, TOUR_LABEL } from '@/lib/helpDoor.mjs';
@@ -331,9 +332,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const sheetIndex = new Map(sheetGroups.flatMap((group) => group.items).map((tab, i) => [tab.id, i]));
   // A lesson or recall run lives at /study/<id> but belongs to Learn (D20), so Learn stays the current place while you are in one.
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'));
-  // The Revise count, in words, wherever it is drawn as a number.
-  const dueWords = reviseBadge ? `${reviseBadge} ${reviseBadge === 1 ? 'mistake' : 'mistakes'} due back today` : '';
-  const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? `${tab.label}, ${dueWords}` : undefined);
+  // The Revise count is drawn as "8 due", never a bare number that reads as a paper count (verifier M1), and said in words.
+  const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? dueLabel(tab.label, reviseBadge) : undefined);
   const hrefOf = (tab) => previewLinks?.[tab.id] || tab.href || `/${tab.id}`;
   const linkClass = (tab) => ['arena-nav-link', tab.place ? 'arena-nav-link--place' : '', tab.sub ? 'arena-nav-link--sub' : ''].filter(Boolean).join(' ');
   const renderNavLink = (tab, onNavigate, index = 0) => (
@@ -350,7 +350,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       >
         <AppIcon name={tab.icon} />
         <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
-        {tab.id === 'review' && reviseBadge ? <i className="arena-nav-link__count" aria-hidden="true">{reviseBadge > 99 ? '99+' : reviseBadge}</i> : null}
+        {tab.id === 'review' && reviseBadge ? <i className="arena-nav-link__count" aria-hidden="true">{dueBadge(reviseBadge)}</i> : null}
       </Link>
     </React.Fragment>
   );
@@ -536,7 +536,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 data-tour={`nav-${tab.id}`}
               >
                 <AppIcon name={tab.icon} size={24} /><span>{tab.label}</span>
-                {tab.id === 'dashboard' && reviseBadge ? <i className="arena-badge" aria-hidden="true">{reviseBadge > 99 ? '99+' : reviseBadge}</i> : null}
+                {tab.id === 'dashboard' && reviseBadge ? <i className="arena-badge" aria-hidden="true">{dueBadge(reviseBadge)}</i> : null}
               </Link>
             </React.Fragment>
           ))}
