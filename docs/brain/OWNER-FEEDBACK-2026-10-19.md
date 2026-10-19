@@ -402,3 +402,6 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 7:50 pm IST (verbatim)
 > "Just a question: why are we creating a full-on mockup until 31 July 2027? We are offering monthly subscriptions only, and I want to test the real flow of everything. What's the purpose of creating this?"
 **Ledger D135:** Pro on Play must be the MONTHLY subscription (the website sells Rs 99 a month, pro_monthly_99), not the one-time "until 31 July 2027" product from the 18 Oct plan. Play subscription support (server subscriptionsv2 verify, renewals and expiry via RTDN, app subscription flow) must be built. Credit packs stay one-time products.
+- Monthly Pro price on Play: "₹149 a month"
+- Credit packs on Play: "Keep ₹15 / ₹45 / ₹75 (Recommended)"
+**Ledger D136:** Play sells Pro as a monthly auto-renewing subscription at Rs 149 a month (web stays Rs 99 a month; the app never shows the web price); packs Rs 15 / 45 / 75 as one-time products. Do not create pro_cuet_2027 in Play Console.
