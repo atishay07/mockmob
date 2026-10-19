@@ -1,5 +1,5 @@
 // Goldens for the moments K1 to K4 (spec 7.3) at 360 dp, Night and Day: the end states, K2 also at
-// 412 and 1.3x text, and the frame goldens G-9 (the reveal at 300, 640, 900 and 1900 ms) and K2 at
+// 412 and 1.3x text, and the frame goldens G-9 (the reveal at 300, 640, 900, 1050, 1150, 1300 and 1900 ms: the Fold climbs all the way out) and K2 at
 // 0, 600, 1120 and 1900 ms.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -67,9 +67,10 @@ void main() {
       final which = await pumpMomentHost(tester, server: server, brightness: b);
       await startMoment(tester, which, 'reveal:hop');
       var at = 0;
-      for (final f in const [300, 640, 900, 1900]) {
+      for (final f in const [300, 640, 900, 1050, 1150, 1300, 1900]) {
         await pumpTo(tester, f, from: at);
-        at = f;
+        // _shoot moves the clock 100 ms on.
+        at = f + 100;
         await _shoot(tester, 'g9_reveal_${f}_${_tag(b)}');
       }
     });

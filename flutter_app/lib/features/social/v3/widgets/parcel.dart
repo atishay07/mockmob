@@ -28,10 +28,14 @@ abstract final class ParcelStills {
   static const String open = 'assets/art/parcel-open.webp';
   static const List<String> all = [sealed, pop, open];
 
+  /// The square scalloped paper seal with a tick (K2, spec 5.7 `stamp-seal.webp`, 256 px).
+  static const String seal = 'assets/art/stamp-seal.webp';
+
   static bool? _available;
 
-  /// Known after [resolve]; false until then (the painter draws).
-  static bool get available => _available ?? false;
+  /// True: the final stills are bundled (20 Oct; fold_assets_test fails the build if one goes missing).
+  /// Tests may switch them off to draw the painter.
+  static bool get available => _available ?? true;
 
   /// Reads the bundle's asset manifest once. True only when all three stills are bundled.
   static Future<bool> resolve([AssetBundle? bundle]) async {
@@ -305,9 +309,12 @@ void _drawFlap(Canvas canvas, Offset a, Offset b, Offset tip, double th, int i, 
 
 /// A square paper seal with scalloped edges, a stamped tick and a lamp-lit top edge. Never a disc.
 class PaperSealPainter extends CustomPainter {
-  const PaperSealPainter({this.opacity = 1, this.glow = 0});
+  const PaperSealPainter({this.opacity = 1, this.glow = 0, this.drawPaper = true});
 
   final double opacity;
+
+  /// False draws the warm bloom only (under the generated `stamp-seal.webp`).
+  final bool drawPaper;
 
   /// A warm bloom behind the seal as it lands, 0..1.
   final double glow;
@@ -337,7 +344,7 @@ class PaperSealPainter extends CustomPainter {
     return path..close();
   }
 
-  static void paintSeal(Canvas canvas, Size size, {double opacity = 1, double glow = 0, bool tick = true}) {
+  static void paintSeal(Canvas canvas, Size size, {double opacity = 1, double glow = 0, bool tick = true, bool drawPaper = true}) {
     if (opacity <= 0.001) return;
     final s = math.min(size.width, size.height);
     final rect = Offset.zero & Size.square(s);
@@ -351,6 +358,7 @@ class PaperSealPainter extends CustomPainter {
               .createShader(Rect.fromCircle(center: rect.center, radius: s * 0.95)),
       );
     }
+    if (!drawPaper) return;
     final path = outline(Size.square(s));
     if (o < 1) canvas.saveLayer(rect.inflate(s * 0.2), Paint()..color = Colors.white.withValues(alpha: o));
     // A soft drop shadow under the paper. Not `drawShadow`: Skia's shadow tessellation of this
@@ -413,7 +421,7 @@ class PaperSealPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final s = math.min(size.width, size.height);
     canvas.translate((size.width - s) / 2, (size.height - s) / 2);
-    paintSeal(canvas, Size.square(s), opacity: opacity, glow: glow);
+    paintSeal(canvas, Size.square(s), opacity: opacity, glow: glow, drawPaper: drawPaper);
   }
 
   @override
@@ -428,7 +436,11 @@ class PaperSealPainter extends CustomPainter {
 /// contents' silhouette in advance (spec 0.4): a Fold peeks over the back of the lid as a silhouette,
 /// an item's shape is pressed into a paper label on the wall, and a stitch shows as a dashed thread.
 class ParcelIcon extends StatelessWidget {
-  const ParcelIcon({super.key, required this.kind, this.fold, this.item, this.size = 56, this.semanticLabel});
+  const ParcelIcon({super.key, required this.kind, this.fold, this.item, this.size = 56, this.semanticLabel, this.still = false});
+
+  /// Draws the generated `parcel-sealed` still instead of the painter (K2, where the parcel is large and
+  /// the reveal that follows opens the same still).
+  final bool still;
 
   final ParcelKind kind;
   final FoldKey? fold;
@@ -443,6 +455,46 @@ class ParcelIcon extends StatelessWidget {
     final night = context.mmColors.isNight;
     final head = kind == ParcelKind.fold && fold != null ? (FoldManifest.cached?[fold]?.head) : null;
     final silhouette = context.mmColors.isNight ? const Color(0xFF5E5545) : const Color(0xFF7B6E58);
+    if (still && ParcelStills.available) {
+      final stillBody = SizedBox.square(
+        dimension: size,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            // The Fold's silhouette peeks over the back of the lid (the still's back edge is at 0.16).
+            if (head != null)
+              Positioned(
+                left: size * 0.33,
+                width: size * 0.34,
+                top: -size * 0.02,
+                height: size * 0.34,
+                child: ColorFiltered(
+                  colorFilter: ColorFilter.mode(silhouette, BlendMode.srcIn),
+                  child: Image.asset(head, fit: BoxFit.contain, excludeFromSemantics: true, errorBuilder: (_, _, _) => const SizedBox.shrink()),
+                ),
+              ),
+            Positioned.fill(
+              child: Image.asset(
+                ParcelStills.sealed,
+                fit: BoxFit.contain,
+                filterQuality: FilterQuality.medium,
+                excludeFromSemantics: true,
+                errorBuilder: (_, _, _) => CustomPaint(painter: ParcelBackPainter(ParcelPose.sealed, night: night)),
+              ),
+            ),
+            if (kind != ParcelKind.fold)
+              Positioned(
+                left: size * 0.36,
+                width: size * 0.3,
+                top: size * 0.66,
+                height: size * 0.17,
+                child: CustomPaint(painter: _LabelPainter(kind == ParcelKind.stitch)),
+              ),
+          ],
+        ),
+      );
+      return Semantics(label: semanticLabel, image: semanticLabel != null, excludeSemantics: true, child: RepaintBoundary(child: stillBody));
+    }
     final body = SizedBox.square(
       dimension: size,
       child: Stack(

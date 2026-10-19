@@ -1,8 +1,11 @@
 // The den's moment queue and K5 (spec 5.6 "Moment queue", 5.3 K5).
 
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/logic/moment_queue.dart';
+import 'package:mockmob/features/social/v3/screens/moment_overlay.dart';
 
 void main() {
   test('order: quest done, week stitched, reveal, then chain milestones; rest notices are not moments', () {
@@ -108,5 +111,80 @@ void main() {
   test('IST day key', () {
     expect(istDayKey(DateTime.utc(2026, 10, 22, 19, 0)), '2026-10-23');
     expect(istDayKey(DateTime.utc(2026, 10, 22, 15, 10)), '2026-10-22');
+  });
+
+  group('walk 19 Oct fixes', () {
+    ChainState chain(int days, {bool done = false, List<String> due = const []}) => ChainState.fromJson({
+          'days': days,
+          'today': {'answered': done ? 5 : 2, 'needed': 5, 'done': done},
+          'due': due,
+        });
+
+    test('K1: a stale chain read is read again when the den chip disagrees, so chain:14 plays', () async {
+      var fresh = 0;
+      final due = await chainDueFor(
+        const ChainChip(days: 14, todayDone: true),
+        cached: () async => chain(13),
+        fresh: () async {
+          fresh++;
+          return chain(14, done: true, due: ['chain:14']);
+        },
+      );
+      expect(due, ['chain:14']);
+      expect(fresh, 1);
+    });
+
+    test('K1: an up-to-date chain is not read twice', () async {
+      var fresh = 0;
+      final due = await chainDueFor(
+        const ChainChip(days: 14, todayDone: true),
+        cached: () async => chain(14, done: true, due: ['chain:14']),
+        fresh: () async {
+          fresh++;
+          return chain(14, done: true);
+        },
+      );
+      expect(due, ['chain:14']);
+      expect(fresh, 0);
+    });
+
+    testWidgets('H3: the default player returns every key the overlay showed in place, so none plays twice', (tester) async {
+      final container = ProviderContainer();
+      addTearDown(container.dispose);
+      // A stale record from before is dropped when the next moment starts.
+      container.read(momentsShownProvider.notifier).add('stale:1');
+      late BuildContext ctx;
+      await tester.pumpWidget(UncontrolledProviderScope(
+        container: container,
+        child: MaterialApp(home: Builder(builder: (c) {
+          ctx = c;
+          return const SizedBox();
+        })),
+      ));
+      final player = container.read(momentPlayerProvider);
+      final future = player(ctx, 'quest_done:m:w');
+      // The overlay shows K2, then K3 and K4 in place, and closes (with no den here it closes itself).
+      final shown = container.read(momentsShownProvider.notifier);
+      shown.add('quest_done:m:w');
+      shown.add('stitch:m:w');
+      shown.add('reveal:hop');
+      await tester.pumpAndSettle();
+      expect(await future, ['quest_done:m:w', 'stitch:m:w', 'reveal:hop']);
+
+      // The queue then skips the reveal it was going to play next.
+      final log = <String>[];
+      final memory = DenSessionMemory();
+      await runMomentQueue(
+        keys: ['quest_done:m:w', 'stitch:m:w', 'reveal:hop'],
+        canPlay: () => true,
+        play: (k) async {
+          log.add(k);
+          return ['quest_done:m:w', 'stitch:m:w', 'reveal:hop'];
+        },
+        seen: (k) async {},
+        played: memory.playedMoments,
+      );
+      expect(log, ['quest_done:m:w'], reason: 'each moment exactly once');
+    });
   });
 }

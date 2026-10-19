@@ -9,7 +9,7 @@
     {
       "key": "dart",
       "folds": 1,
-      "colour": "56B8F0",
+      "colour": "5FBEF2",
       "source": null,
       "need": 0,
       "scope": "starter",
@@ -18,7 +18,7 @@
     {
       "key": "dogear",
       "folds": 1,
-      "colour": "FF7A8A",
+      "colour": "FF8FA0",
       "source": null,
       "need": 0,
       "scope": "starter",
@@ -27,7 +27,7 @@
     {
       "key": "hexa",
       "folds": 1,
-      "colour": "3FC6A8",
+      "colour": "5562D9",
       "source": null,
       "need": 0,
       "scope": "starter",
@@ -36,7 +36,7 @@
     {
       "key": "kandil",
       "folds": 1,
-      "colour": "F2A93B",
+      "colour": "F4B04A",
       "source": null,
       "need": 0,
       "scope": "starter",
@@ -45,7 +45,7 @@
     {
       "key": "hop",
       "folds": 3,
-      "colour": "teal",
+      "colour": "33BFA0",
       "source": "mob_quest",
       "need": 1,
       "scope": "mob",
@@ -54,7 +54,7 @@
     {
       "key": "crane",
       "folds": 3,
-      "colour": "B98CFF",
+      "colour": "B98CF5",
       "source": "mob_traps",
       "need": 3,
       "scope": "mob",
@@ -63,7 +63,7 @@
     {
       "key": "stamp",
       "folds": 3,
-      "colour": "cream",
+      "colour": "EFE6D2",
       "source": "mob_weeks",
       "need": 4,
       "scope": "mob",
@@ -72,7 +72,7 @@
     {
       "key": "naav",
       "folds": 2,
-      "colour": "6E8BFF",
+      "colour": "E3DCCB",
       "source": "first_full_mock",
       "need": 1,
       "scope": "you",
@@ -81,7 +81,7 @@
     {
       "key": "tally",
       "folds": 2,
-      "colour": "coral-cream",
+      "colour": "F2A07E",
       "source": "clean_games",
       "need": 3,
       "scope": "you",
@@ -90,7 +90,7 @@
     {
       "key": "patang",
       "folds": 2,
-      "colour": "rose-red",
+      "colour": "E2404A",
       "source": "beat_best",
       "need": 1,
       "scope": "you",
@@ -99,7 +99,7 @@
     {
       "key": "sticky",
       "folds": 2,
-      "colour": "sage",
+      "colour": "9BAF8E",
       "source": "fixes_held",
       "need": 5,
       "scope": "you",
@@ -108,7 +108,7 @@
     {
       "key": "cutting",
       "folds": 2,
-      "colour": "E58E5A",
+      "colour": "B9814F",
       "source": "came_back",
       "need": 1,
       "scope": "you",

@@ -14,19 +14,35 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../copy_v3.dart';
 import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
+import '../screens/moment_overlay.dart' show momentsShownProvider;
 
 /// Plays one moment key and completes when it closes, with the keys it actually showed (one overlay
-/// can show two: K2's "Open the parcel" plays K4 in place). An empty list means just [key].
-/// Overridable in tests (a recording player). When the moments overlay lands with its
-/// `momentsShownProvider`, this default reads it (`take()`) instead of returning [key].
+/// can show several in place: K2 to K3 to K4). An empty list means just [key]. Overridable in tests (a
+/// recording player).
 typedef MomentPlayer = Future<List<String>> Function(BuildContext context, String key);
 
+/// The default player reads what the overlay recorded (`momentsShownProvider`), so a moment shown in
+/// place inside another (K4 after K3 after K2) is marked seen and never plays again (walk 19 Oct, H3:
+/// it used to return only [key], so K4 played a second time after K3).
 final momentPlayerProvider = Provider<MomentPlayer>(
   (ref) => (context, key) async {
+    final shown = ref.read(momentsShownProvider.notifier);
+    shown.take();
     await MobV3Nav.moment(context, key);
-    return [key];
+    final out = shown.take();
+    return out.isEmpty ? [key] : out;
   },
 );
+
+/// The chain's due milestones for the queue. The cached chain read goes stale when a run finishes
+/// today's five while the den is away: the den's chip says 14 days, the cached chain still 13 with no
+/// `chain:14` due, so K1 never fired (walk 19 Oct, M1). When the chip and the cache disagree, the chain
+/// is read again first.
+Future<List<String>> chainDueFor(ChainChip chip, {required Future<ChainState> Function() cached, required Future<ChainState> Function() fresh}) async {
+  var c = await cached();
+  if (!chip.hidden && (c.days != chip.days || c.todayDone != chip.todayDone)) c = await fresh();
+  return c.due;
+}
 
 int _rank(String key) => switch (MomentKey.parse(key).kind) {
   'quest_done' => 0,

@@ -18,7 +18,7 @@ import 'paper_particles.dart' show drawGlint;
 import 'parcel.dart';
 
 class StitchedMoment extends StatefulWidget {
-  const StitchedMoment({super.key, required this.mobName, required this.members, required this.weeks, this.item, required this.onKey, required this.onClose});
+  const StitchedMoment({super.key, required this.mobName, required this.members, required this.weeks, this.item, required this.onKey, required this.onClose, this.keyLabel});
 
   final String mobName;
   final List<MobV3Member> members;
@@ -31,12 +31,18 @@ class StitchedMoment extends StatefulWidget {
   final VoidCallback onKey;
   final VoidCallback onClose;
 
+  /// The key's words: "Back to the den", or "Open the parcel" when the reveal comes next (spec order:
+  /// quest done, week stitched, reveal).
+  final String? keyLabel;
+
   @override
   State<StitchedMoment> createState() => _StitchedMomentState();
 }
 
 class _StitchedMomentState extends MomentStageState<StitchedMoment> {
   final GlobalKey _stage = GlobalKey();
+  final GlobalKey _restKey = GlobalKey();
+  double? _restH;
 
   @override
   double get totalMs => 2000;
@@ -107,7 +113,42 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
     );
 
     final item = widget.item;
-    final body = SingleChildScrollView(
+    // M7 (walk 19 Oct): at 360 x 640 dp the reward card fell behind the key. The pennant gives way:
+    // it scales down until the title, line, heads and card fit above the key.
+    final body = LayoutBuilder(builder: (context, box) {
+      // The rest (title, line, heads, card) is measured after each layout; the first frame uses a
+      // close guess, so the pennant settles at its size before the moment is visible.
+      final rest = _restH ?? (item != null ? 480.0 : 360.0) * MediaQuery.textScalerOf(context).scale(1);
+      const natural = PennantPainter.height + PennantPainter.hang + MmSpace.s4;
+      final fit = ((box.maxHeight - rest - MmSpace.s4) / natural).clamp(0.5, 1.0);
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        final h = _restKey.currentContext?.size?.height;
+        if (h != null && (_restH == null || (h - _restH!).abs() > 1)) setState(() => _restH = h);
+      });
+      return _body(context, t, n, item, lift, swing, scale, pennant, fit, titleT, lineT, cardT, bell);
+    });
+
+    return MomentFrame(
+      stageKey: _stage,
+      title: widget.mobName,
+      subtitle: MobV3Copy.mobsChain,
+      lamp: lamp,
+      playing: playing,
+      onSkip: skip,
+      onClose: widget.onClose,
+      body: body,
+      particles: particles,
+      keysT: keysT,
+      keys: [momentKey(widget.keyLabel ?? MobV3Copy.backToDen, widget.onKey, key: const ValueKey('k3-key'))],
+    );
+  }
+
+  Widget _body(BuildContext context, double t, int n, String? item, double lift, double swing, double scale, Widget pennant, double fit, double titleT, double lineT, double cardT, double bell) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    const natural = PennantPainter.height + PennantPainter.hang;
+    return SingleChildScrollView(
       physics: const ClampingScrollPhysics(),
       padding: const EdgeInsets.symmetric(horizontal: MmSpace.momentGutter),
       child: Column(
@@ -118,9 +159,20 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
             child: Transform.rotate(
               angle: swing,
               alignment: Alignment.topCenter,
-              child: Transform.scale(scale: scale, alignment: Alignment.topCenter, child: pennant),
+              child: Transform.scale(
+                scale: scale,
+                alignment: Alignment.topCenter,
+                child: SizedBox(
+                  width: PennantPainter.width * fit,
+                  height: natural * fit,
+                  child: FittedBox(fit: BoxFit.contain, alignment: Alignment.topCenter, child: pennant),
+                ),
+              ),
             ),
           ),
+          Column(
+            key: _restKey,
+            children: [
           const SizedBox(height: MmSpace.s20),
           EngraveText('$n ${MobV3Copy.weeksInARow(n)}', style: type.headline.copyWith(color: colors.ink), t: titleT),
           const SizedBox(height: MmSpace.s8),
@@ -144,22 +196,10 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
             ),
           ],
           const SizedBox(height: MmSpace.s16),
+            ],
+          ),
         ],
       ),
-    );
-
-    return MomentFrame(
-      stageKey: _stage,
-      title: widget.mobName,
-      subtitle: MobV3Copy.mobsChain,
-      lamp: lamp,
-      playing: playing,
-      onSkip: skip,
-      onClose: widget.onClose,
-      body: body,
-      particles: particles,
-      keysT: keysT,
-      keys: [momentKey(MobV3Copy.backToDen, widget.onKey, key: const ValueKey('k3-key'))],
     );
   }
 }

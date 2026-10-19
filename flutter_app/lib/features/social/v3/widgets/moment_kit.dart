@@ -281,7 +281,9 @@ class MomentFrame extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16 + pad.bottom),
                         child: keys.length == 1
                             ? keys.first
-                            : Row(children: [for (var i = 0; i < keys.length; i++) ...[if (i > 0) const SizedBox(width: MmSpace.s12), Expanded(flex: i == keys.length - 1 ? 3 : 2, child: keys[i])]]),
+                            // Two keys share the row equally, so "See your shelf" never wraps at 360 dp and
+                            // both keys stand at one height (walk 19 Oct, M6).
+                            : Row(children: [for (var i = 0; i < keys.length; i++) ...[if (i > 0) const SizedBox(width: MmSpace.s12), Expanded(child: keys[i])]]),
                       ),
                     ),
                   ),

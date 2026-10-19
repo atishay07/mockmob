@@ -69,6 +69,26 @@ String? weekItemOf(MobV3 v3) {
   return null;
 }
 
+/// The week's stitch key to play next, when one is due, allowed (F13) and not shown yet.
+String? nextStitch(DenView den, {Set<String> shown = const {}}) {
+  for (final k in den.v3.moments) {
+    if (shown.contains(k)) continue;
+    final m = MomentKey.parse(k);
+    if (m.kind == 'stitch' && stitchAllowed(den, m)) return k;
+  }
+  return null;
+}
+
+/// The reveal key to play next, when the server sent one that has not been shown.
+String? nextReveal(MobV3 v3, {Set<String> shown = const {}}) {
+  for (final k in v3.moments) {
+    if (shown.contains(k)) continue;
+    final m = MomentKey.parse(k);
+    if (m.kind == 'reveal' && m.fold != null) return k;
+  }
+  return null;
+}
+
 /// F13: a stitch plays only after the server reported this week's quest done, for this Mob's week.
 bool stitchAllowed(DenView den, MomentKey key) {
   final v3 = den.v3;
@@ -175,23 +195,29 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     return _Blank(onClose: _close);
   }
 
+  /// The keys this overlay has shown so far, the current one included.
+  Set<String> get _shownHere => {...ref.read(momentsShownProvider), _current};
+
   Widget _questDone(DenView? den) {
     if (den == null || !den.v3.quest.done) return _unknown();
     final v3 = den.v3;
     final prize = questPrizeOf(v3);
-    final stitchKey = v3.moments.firstWhere((k) => k.startsWith('stitch:'), orElse: () => '');
+    // The spec's order (5.6): quest done, week stitched, reveal; each once. K2's key goes to the next
+    // one that is due: the stitch (when allowed), else the reveal.
+    final stitchKey = nextStitch(den, shown: _shownHere) ?? '';
+    final revealKey = nextReveal(v3, shown: _shownHere);
     final String label;
     final VoidCallback onKey;
-    switch (prize.kind) {
-      case ParcelKind.fold:
-        label = MobV3Copy.openParcel;
-        onKey = () => _playInPlace(v3.moments.firstWhere((k) => k == 'reveal:${prize.fold!.name}', orElse: () => 'reveal:${prize.fold!.name}'));
-      case ParcelKind.item:
-        label = MobV3Copy.openParcel;
-        onKey = stitchKey.isNotEmpty ? () => _playInPlace(stitchKey) : _close;
-      case ParcelKind.stitch:
-        label = MobV3Copy.seePennant;
-        onKey = stitchKey.isNotEmpty ? () => _playInPlace(stitchKey) : _close;
+    if (stitchKey.isNotEmpty) {
+      // With a Fold in the parcel the pennant comes first and K3's key opens the parcel.
+      label = prize.kind == ParcelKind.item ? MobV3Copy.openParcel : MobV3Copy.seePennant;
+      onKey = () => _playInPlace(stitchKey);
+    } else if (revealKey != null) {
+      label = MobV3Copy.openParcel;
+      onKey = () => _playInPlace(revealKey);
+    } else {
+      label = prize.kind == ParcelKind.stitch ? MobV3Copy.seePennant : MobV3Copy.openParcel;
+      onKey = _close;
     }
     return QuestDoneMoment(
       mobName: v3.name.text,
@@ -208,7 +234,16 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
   Widget _stitch(DenView? den, MomentKey key) {
     if (den == null || !stitchAllowed(den, key)) return _unknown();
     final v3 = den.v3;
-    return StitchedMoment(mobName: v3.name.text, members: v3.members, weeks: v3.mobChain.weeks, item: weekItemOf(v3), onKey: _close, onClose: _close);
+    final revealKey = nextReveal(v3, shown: _shownHere);
+    return StitchedMoment(
+      mobName: v3.name.text,
+      members: v3.members,
+      weeks: v3.mobChain.weeks,
+      item: weekItemOf(v3),
+      keyLabel: revealKey == null ? MobV3Copy.backToDen : MobV3Copy.openParcel,
+      onKey: revealKey == null ? _close : () => _playInPlace(revealKey),
+      onClose: _close,
+    );
   }
 
   Widget _reveal(DenView? den, FoldKey? fold) {
