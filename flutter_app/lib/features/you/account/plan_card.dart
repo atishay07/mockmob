@@ -36,6 +36,7 @@ class PlanCard extends ConsumerStatefulWidget {
 
 class _PlanCardState extends ConsumerState<PlanCard> {
   bool _retrying = false;
+  bool _manageFailed = false;
   MobiController? _ownMobi;
   MobiController get _mobi => widget.mobi ?? (_ownMobi ??= MobiController());
 
@@ -85,6 +86,12 @@ class _PlanCardState extends ConsumerState<PlanCard> {
     } finally {
       if (mounted) setState(() => _retrying = false);
     }
+  }
+
+  /// Opens Google Play's own subscription page; when it does not open, one line says where to find it.
+  Future<void> _manage() async {
+    final opened = await ref.read(playManageSubscriptionProvider)();
+    if (mounted) setState(() => _manageFailed = !opened);
   }
 
   @override
@@ -186,8 +193,10 @@ class _PlanCardState extends ConsumerState<PlanCard> {
             const SizedBox(height: MmSpace.s4),
             Align(
               alignment: Alignment.centerLeft,
-              child: KeyButton.quiet(label: BillingCopy.manageSubscription, onPressed: () => ref.read(playManageSubscriptionProvider)()),
+              child: KeyButton.quiet(label: BillingCopy.manageSubscription, onPressed: _manage),
             ),
+            if (_manageFailed)
+              Semantics(liveRegion: true, child: Text(BillingCopy.manageOpenFailed, style: type.small.copyWith(color: colors.ink2))),
           ],
           // One quiet line (M-002): where the mocks come from, true on every plan.
           if (balance != null || pro) ...[
