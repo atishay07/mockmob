@@ -218,3 +218,79 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 > "There was some kind of literature bug. A session was running on account A but autopilot came in took over automatically and consumed 50% usage of this account in 10 mins idk how's that even possible i have final stopped it and it has also it has created some handoff also so just check that also and update me on everything since last 10-15 hours what's the progress on everything and can you safely continue although I'm just curious how it can reach 50% usage in like 10-15 minutes, if you can find that out also, let me know. If any of it was worth it"
 
 **Ledger D118:** explain the Autopilot usage spike, report progress since last night, and continue safely.
+
+## Owner, 19 Oct about 1:50 pm IST, after release 11 went live and he opened ?hero=v2 (verbatim)
+> "The home page looks good to me, but it's a bit too slow. Increase the speed so that every 2-3 seconds, it should be doing something new.
+>
+> If there is any way for you to bring up the last year's website, and if you see it was integrated with something like "One mock, no more guessing" instead of "This is good," but "The best, the top 1%" was glassmorphism text. If by any chance that can be applied, or if this is also good, speed and animations need to be improved."
+
+**Ledger D119:**
+- He likes hero option C live ("looks good"), but it is too slow: something new must happen every 2-3 seconds.
+- Find last year's website hero, where a line like "The best, the top 1%" was set in glassmorphism text. If that treatment can be applied to today's hero ("One mock. No more guessing." and the changing phrase), try it; either way, speed and animation quality must improve.
+- The flag stays OFF for students until he says yes to the faster version (D115 still applies).
+
+## Owner, 19 Oct about 2:30 pm IST, after opening ?hero=v2 and ?hero=v3 (verbatim)
+> "I like the V2, the one with the typing animation, which is now faster, so that looks good. You can publish it, and I have connected my phone also, so you can install the APK on it."
+
+**Ledger D120:** publish hero v2 (option C, faster and looping) for everyone; v3 (last year's melt) is not chosen. Install v15.3 on his phone now that it is connected (main session only).
+
+## Owner, 19 Oct about 3:05 pm IST, after using v15.3 build 8 on his phone with a NEW account (verbatim)
+> "Okay, just one piece of feedback: the 6-out-of-7 screen is bigger. I just wanted that somehow we give people more options. 10, 20, 30 minutes is fine, and it perfectly goes with the UI also, but tastefully. Only if somehow you could implement a customized option also, wherein anyone can select everything.
+>
+> For example if someone wants to attempt at least 1 mock per day, which is like 1 hour, or even more than that, why are we stopping them? If someone wants to attempt 2 mocks a day and they want to take 2 hours, then we should not be stopping them, but it should be included tastefully. The entire smart layer around it should actually be smart, analyzing the entire patterns of the user: what they want, what they don't want. It should actually feel intelligent.
+>
+> Also, I don't know how, but somehow I just want to integrate right now only Google Play billing, and also that I can really see the flow of everything else also. I signed into a new account. It suggested for you: "How is it showing? Practice a week's chapter. You lost 96 marks in general science and environment. I mean, is it picking up information from something else? Okay, 30 April. Wow, this might be something cool."
+>
+> Again, in the set on full block, that card animation with the clock, the two arrows of the clocks, I'll check out. See, I'll tell you one thing that I really like, which I had seen before. Also, the bottom navbar is just awesome. It's amazing. It's as good as it can be. Exactly what I wanted, so it's perfect.
+>
+> The practice section needs not exactly a revamp, but what is important should be shown on top:
+> * Ways to practice should be on top of Next Chapter or whatever you are showing on top. That's higher priority.
+> * Your paper and learn section should not be hidden as it is in this UI right now. It seems like something extra. It should have some proper implementation in the UI.
+> * Questions in stream: what is this? Don't understand. Admission compass: okay, looks good, but where is that college section now? I am unable to find it in the app. It's really important, and there is no clear-cut access to it or understanding how to access it.
+>
+> Coming to the main thing: join with the code again. The keyboard is covering it, but the more important thing is the mob feature. The UI that you have built is still looking like a 2010 UI, very old, very basic. Overall, our app is very gamified and modern-looking, which can even be harmful to us, but I am going with that risk because it will be pleasing to some people. To some, it might not be, for those who are serious about their studies and want a professional look. This mob feature is completely a social feature, so this is actually where we can go all out and build the best gamification that we can.
+>
+> With that, I was coming to an example of what happened today, from which I was thinking about how we will be able to do something similar. I have written about Duolingo for a lot of time. I had even included it in one of our initial examples. Whenever I take any class or course in UI/UX, Duolingo is one of the prime case examples that they give us. I had never actually used Duolingo because I never wanted to learn the language, but just today I had started learning German. I installed the app and started learning German, and I'm totally addicted to it. I never thought that I'm addicted to learning a language. I always thought that learning a language is just such a boring concept.
+>
+> I know we can't actually do that with a competitive exam platform because Duolingo itself, because of all this gamification, can't market itself as something which you can receive proficiency in. It's for basic speaking and a very different thing. I know it's hard to do it in a competitive exam manner, so we can't do the entire app around something like that.
+>
+> I wanted you to build an experience like that, which has such clarity and is so amazing. I can't describe exactly what that is and how it was developed so perfectly. The mob thing, we can definitely go all out and hit this, and this can be one of our USPs. When people are giving CVT, they at least have one friend to give it with, so they can make a mob from 1 to 5 or 1 to 4, not 1, but at least 2 people and max 4 or 5 people, whatever.
+>
+> This entire UI should be an absolute 10/10. You can generate 10, 20, maybe emojis, not emoticons, but I'm saying emojis, kind of things, like something people can set in their profile: some different characters or something you can build, which they can set in the profile, just preset characters instead of adding their photos, if you understand what direction I'm taking, like making their own avatar, something like that. This is just one example.
+>
+> You need to think through this entire mob thing, and this should be extremely easy to use, fun, and not just simple features like one full practice mob or something like that. You can practice 5, you can do it for 5 minutes, 10 minutes, or however you want it. These are some examples that I'm giving, and remember, you have to think more than this and supplement with the things that you think about.
+>
+> Honestly, other than that, I don't have much app feedback right now because many things are still cluttered, but some of the UI things now are amazing. First of all, I want to focus on that billing part and making the pro mode credits and everything active, so that I can actually assess that part along with everything."
+
+**Ledger (19 Oct 3:05 pm), H1-H12; "(confirm)" = a transcription guess:**
+- **H1 Daily goal step (onboarding 6 of 7):** keep 10/20/30 min, add a tasteful custom option (1 hour = a mock a day, 2 hours = 2 mocks); never cap a motivated student. The smart layer must learn the student's real patterns and feel intelligent.
+- **H2 PRIORITY 1: Google Play billing now,** so he can see the whole flow (Pro, credits, everything active) and assess it.
+- **H3 RESOLVED by him (3:15 pm):** the "96 marks in General Science and Environment, 30 April" card came from an OLD account he used a year ago, so the data is real. No bug. He will test fresh accounts later with temp emails.
+- **H4 The clock animation on the full-mock card (two clock hands)** (confirm: still unwanted, as in G12).
+- **H5 The bottom bar is perfect. KEEP.**
+- **H6 Practice: "Ways to practise" goes ABOVE the next-chapter card.**
+- **H7 Practice: Your papers and Learn must not look hidden or extra; give them a proper place.**
+- **H8 Practice: "Questions in stream" (confirm the label) is not understood: rename or explain.**
+- **H9 Colleges: Admission Compass looks good, but the colleges section has no clear access in the app. Make it obvious.**
+- **H10 Join with a code: keyboard covers it** (fixed in build 9, not on his phone yet).
+- **H11 THE MOB, his main point:** the UI looks like 2010. Go all out on gamification here (Duolingo-level clarity and delight; he started German today and is hooked). A Mob is 2 to 5 friends. Preset avatar characters instead of photos. Flexible Mob play (5 questions, 5 or 10 minutes, any length), not only one weekly paper. Think beyond his examples. Extremely easy and fun. Target 10/10. A possible USP.
+- **H12 Overall:** many things still cluttered; some UI is now amazing. The app stays gamified (a risk he accepts).
+
+## Owner, 19 Oct about 3:25 pm IST, his answers to the six plan questions (verbatim)
+> "Now I want you to make the proper handoff with the plan and prompt. It doesn't have to be a very specific prompt with a lot of restrictions. Just make a basic prompt which could add its score and tell the overall vision and the direction in short. I want the agent to use its creative freedom to think of many things.
+>
+> The six questions that you have:
+> * Yes, I confirm the Google Play prices.
+> * What is an upload key?
+> * What do you mean by Google account?
+> * I'll buy from it as a tester.
+> * You can keep the clock animation from the full mockup card. Just fix it.
+> * I don't know the questions in stream, and what I meant by it was discarded because I honestly can't remember. I was using voice dictation. It can translate anything into any other thing, so I'm not sure at all.
+>
+> For the Abastar style, tell it to be creative. I can't exactly pinpoint an example, but tell it to use the taste that we have and its full creative freedom to develop something unique and interesting."
+
+**Ledger D121:** Play prices confirmed (Pro Rs 150; packs Rs 15/45/75). Upload key: explained to him (the signing file that proves updates come from him); the next session offers to generate it and says where it is kept. He buys as the licence tester from his own Google account (ask for the email). H4: KEEP the clock animation on the full-mock card, just fix it. H8 ("Questions in stream") is DROPPED (a dictation garble he cannot recall). Avatars: full creative freedom within our taste; unique and interesting. The handoff prompt is short, gives the vision and direction, and leaves room for creativity.
+
+## Owner, 19 Oct about 3:25 pm IST, started the PM work (D122)
+He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) into session 604ced81, his go to start the PM plan: "Think freely and propose ideas he has not asked for. Keep the rules that protect quality ... Check the account's usage before starting any agents, keep your own context lean, and ask him before any production write, deploy or paid step. Record his words verbatim, and end with one clear message on what changed and what he needs to do."
+**Ledger D122:** go for PLAN-1019-PM (A billing, B Mob mock-ups, C Practice/Colleges/goal); ask before any production write, deploy or paid step (this narrows the standing database grant for this run).

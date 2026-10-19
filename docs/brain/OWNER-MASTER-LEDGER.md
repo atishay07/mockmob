@@ -528,13 +528,17 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 | D111 | Explain plainly, ask only what is needed, then run the plan autonomously beyond his expectation | IN EFFECT |
 | D112 | If he is away when the mock-ups land, the CTO picks the recommendation and builds it | USED (C-pick 1-3) |
 | D113 | No Autopilot "Continue a session" while a session has live agents (it forked and duplicated 10 agents) | RULE |
-| D114 | Picks: web nav A, Ask Mobi B, homepage motion C judged live; the marketing copy matters most | BUILT: nav A and hero C (behind its flag) in release 11; Ask Mobi B in app v15.3 (web Ask Mobi B: next release); copy passes on both |
-| D115 | Push release 11 when it passes its verifier; the homepage motion ships OFF behind HERO_MOTION_V2, preview ?hero=v2 | VERIFIER round 1 GO (9 am); fixes running |
-| D116 | Resume order (merge A4a first, relaunch owners, merge early, copy pass, acceptance walks, verifier per platform, ship, ONE message) | IN PROGRESS |
-| D117 | Run the whole night autonomously; the phone install waits for him | IN PROGRESS |
-| C-dec 1 | Every student's first full mock in each subject is free (one per subject, ever; a started one counts) | BUILT in release 11 (W5); kill switch FIRST_FULL_MOCK_ENABLED being added |
+| D114 | Picks: web nav A, Ask Mobi B, homepage motion C judged live; the marketing copy matters most | LIVE (19 Oct 1:44 pm): nav A, Ask Mobi B on /mentor and in app v15.3, hero C (now ON, D120); copy passes on both |
+| D115 | Push release 11 when it passes its verifier; the homepage motion ships OFF behind HERO_MOTION_V2, preview ?hero=v2 | DONE: release 11 live 1:44 pm (a0eb6abe) after verifier round 2 + fixes |
+| D116 | Resume order (merge A4a first, relaunch owners, merge early, copy pass, acceptance walks, verifier per platform, ship, ONE message) | DONE 19 Oct about 3 pm (MESSAGE-1019.md); the device walk of build 9 waits on staging |
+| D117 | Run the whole night autonomously; the phone install waits for him | DONE: v15.3 build 8 installed 2:45 pm; build 9 (walk fixes) at next connect |
+| C-dec 1 | Every student's first full mock in each subject is free (one per subject, ever; a started one counts) | LIVE in release 11; kill switch FIRST_FULL_MOCK_ENABLED=false; app v15.3 sends firstFree and handles the race |
+| D118 | Explain the Autopilot usage spike; report progress; continue safely in a fresh session | DONE: explained in MESSAGE-1019 (a forked 600-800k conversation re-read on every step) |
+| D119 | Hero too slow: something new every 2-3 s; try last year's 'top 1%' melt | DONE: faster C (?hero=v2, a line every 2.3 s, looping) and the melt (?hero=v3) built and shown live |
+| D120 | He chose the faster typing hero (v2): publish it; install v15.3 on his connected phone | DONE: hero v2 ON for everyone (9fd48201); build 8 installed 2:45 pm |
 
-## Waiting on the owner (updated 18 Oct about 3:45 am)
+## Waiting on the owner (updated 19 Oct about 3 pm)
+- Connect the phone for v15.3 build 9 (the walk fixes). Confirm G3 (college search keyboard) on his phone. Keep or drop "An AI service writes Mobi's replies" under Ask now. Delete ~5 GB of old agent scratch (C: ~93 GB free).
 - Answered 3:50 am: M-001 first launch 3 s; M-006 bolder copy; D19 keep badges, refine; D22 Mob.
 - D32: confirm the kept landing element when he reviews the port live (wt-land3, port 3206).
 - The icons (D8): the proposal is in BADGES-ICONS-1018; it ships with the next app nav change, unless he objects.

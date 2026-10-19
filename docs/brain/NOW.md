@@ -1,287 +1,52 @@
 # NOW: MockMob current state (overwrite at every handoff; git keeps the history)
 
-**Last written:** 19 Oct 2026, about 3 am IST, by session 25ef3d95 (main, Claude Opus 5.5, CEO/CTO). Usage reached 90%. The owner asked for a safe stop and a complete handoff "so it has everything that it needs: every decision, vision, all of it".
-- **Agents:** at about 2:55 am every agent was told to commit and report. After that the main session stopped the rest and committed STOP POINTs in every dirty worktree. Read each worktree's git log for the final head.
-- **Integration branches:** nothing merged yet; both are untouched at their bases.
-- **The next-session prompt is `docs/brain/NEXT-PROMPT-1019.md`.**
+**Last written:** 19 Oct 2026, about 3 pm IST, by session 3e452b10 (Claude Opus 5.5, CEO/CTO, a FRESH session per the owner's 12 pm instruction). The owner is attended. His one message is `docs/brain/MESSAGE-1019.md`.
 
 ## 1. The vision (stable)
-- **MockMob:** prep for CUET UG 2027, Commerce first.
-  - The USP: **unlimited mocks from one central bank**.
-  - Score Recovery: find, repair and check each mistake.
-  - Ask Mobi.
-  - The Mob: friends sit the same weekly paper.
-  - One credits balance: 50 free a month plus packs. Pro is Rs 99 on the web and Rs 150 on Play.
-  - Per-question prices.
-- **Users (G23):** 16-17-year-olds, many new to mobile apps and to CBT. If the owner finds a screen confusing, they will too. A fresh account must be complete without Pro or payment. Nothing is hidden.
-- **Taste:**
-  - premium and alive (HIGH, Revolut, Fampay), Mobi alive, refined motion;
-  - refine, never rebuild; Night stays subtle; mock-ups before new layouts;
-  - **the marketing copy matters most (D114):** persuasive, plain, grammatical, true.
-- **KEEP:** the app's UI direction and Today, the bigger base and its animation, the common subject sets and picks, the first onboarding screen, swipe v2, release 9's Mob, one balance, per-question prices.
+- **MockMob:** prep for CUET UG 2027, Commerce first. The USP: **unlimited mocks from one central bank**. Score Recovery (find, repair, check each mistake), Ask Mobi, the Mob (friends sit the same weekly paper). One credits balance (50 free a month plus packs); Pro is Rs 99 on the web and Rs 150 on Play; per-question prices.
+- **Users (G23):** 16-17-year-olds, many new to apps and CBT. A fresh account must be complete without Pro or payment. Nothing is hidden.
+- **Taste:** premium and alive (HIGH, Revolut, Fampay), Mobi alive, refined motion; refine, never rebuild; Night stays subtle; mock-ups before new layouts; **the marketing copy matters most (D114)**.
 
-## 2. Why the earlier rounds failed, and the rules (PLAN-1019 section 0, R1-R8, word for word in every brief)
-**What went wrong:**
-- seeded-account checks;
-- hiding as a fix;
-- no comparison with the previous release, so polish was lost silently;
-- checklists over experience;
-- late merges with no owner;
-- unreviewed STOP POINT work in releases;
-- deadline pressure;
-- no voice check on copy.
+## 2. The rules (PLAN-1019 section 0; every brief carries them)
+R1 fresh account first; R2 the 17-year-old line on every screen; R3 never hide to fix; R4 a side by side against the previous release; R5 motion as frame sequences; R6 copy in his voice; R7 one owner per surface, early merges by the main session; R8 mock-ups first.
+**Cost rule (D118, 4e of the old NOW):** never continue a long conversation (Autopilot "Continue a session" or a 600k+ context) for real work; start a FRESH session from files. A fresh session finished release 11 and v15.3 today on about 30 points of one 5-hour window.
 
-**The rules:**
-- **R1** fresh account first;
-- **R2** the 17-year-old line on every screen;
-- **R3** never hide to fix;
-- **R4** a side by side against the previous release;
-- **R5** motion checked as frame sequences;
-- **R6** copy in his voice;
-- **R7** one owner per surface, and early merges by the main session;
-- **R8** mock-ups first.
+## 3. Decisions (his words verbatim in OWNER-FEEDBACK-2026-10-19.md)
+- D101 Pro-only modes visible but locked while PLAY_BILLING is off. D103 colleges by real closing marks with the number. D104 "Your top 3 of N" + "See all N". D105 app bar Today, Practice, Start, Mob, You. D106 Practice > Your papers. D108 the moment after Submit. D109 "I don't know my range". D111/D112 deliver beyond expectation; designer's pick when he is away. D114 picks: web nav A, Ask Mobi B, hero C, copy matters most. D115 push release 11 after its verifier. D118 explain the Autopilot spike (in MESSAGE-1019).
+- **D119 (1:50 pm):** hero too slow, something new every 2-3 s; try last year's "top 1%" melt. **D120 (2:30 pm):** he chose the faster typing hero (v2): published for everyone; install v15.3 on his phone.
+- **C-dec 1 (CTO):** every student's first full mock in each subject is free (one per subject, ever). Kill switch FIRST_FULL_MOCK_ENABLED=false.
 
-## 3. Every decision (his words verbatim in OWNER-FEEDBACK-2026-10-19.md)
-- **D101:** Pro-only modes (NTA, Smart practice) are VISIBLE but locked while PLAY_BILLING is off: a quiet Pro tag, a calm sheet, no price, no web link.
-- **D103:** colleges are ordered by last year's real closing marks per course and category, with the number shown.
-- **D104:** Today shows "Your top 3 of N" plus "See all N".
-- **D105:** the app bar becomes Today, Practice, Start, Mob, You. Review moves into Practice as "Your papers".
-- **D106:** Your papers holds the stats strip, a subject filter, papers newest first (a tap opens the result and answers), then Mistakes to repair by chapter.
-- **D108:** after Submit, restore FinishStage (from 68f63c11), then a completion line, the count-up, one next move and "See this paper".
-- **D109:** "I don't know my range": one full mock per subject of the student's set, with progress shown per subject, then the estimated range (with its spread) and the colleges it reaches.
-- **D111:** explain, then deliver autonomously beyond his expectation.
-- **D112:** if he is away, pick the designer's recommendation.
-- **D113:** no Autopilot tonight. "Continue a session" FORKS the session and duplicates live agents. Use "New run in a project" with a goal file.
-- **D114, his picks:**
-  - **web navigation A** (the same five places as the app; he likes B's clarity too: revisit later);
-  - **Ask Mobi B** (its own screen, two big doors: Ask now and Ask your record);
-  - **homepage motion C** ("select and type"); he judges it LIVE;
-  - **the marketing copy matters most.**
-- **D115:**
-  - **push release 11 live when it passes its verifier;**
-  - **the homepage motion ships OFF behind its flag** until he has seen it live and said yes.
-- **C-dec 1 (CTO):** **every student's first full mock in each subject is free** (one per subject, ever; a started free mock counts). Without it, a free student (about 90 credits, with a full mock costing 50) could never finish D109. It is reversible; tell him.
-- **Open for him:**
-  - G26: which screen showed "5 questions ... Biology" at the top? (Default: the web Practice card.)
-  - G3: confirm the college search keyboard on HIS phone (it works on the emulator).
-  - The hero's resting line: after one lap, rest on "No more guessing." (C3's choice) or on the last phrase.
-  - Older: the Razorpay test-card run, then WALLET_COMMERCE_OPEN; Play Console, then PLAY_BILLING_ENABLED; the PERSISTENT_LIMITS_ENABLED decision; W-044.
+## 4. Where everything stands (19 Oct about 3 pm)
+**Web: LIVE.** Release 11 on www.mockmob.in since 1:44 pm (main a0eb6abe), STATUS bbb676c5, hero previews 37935066, **hero v2 ON for everyone 9fd48201** (HERO_MOTION_V2_DEFAULT = true; HERO_MOTION_V2=0 brings back the old line). Rollback point: Vercel dpl_4EH82tptRMfagc6npWiwBSFeLbQh (release 10). No migration; no env change. Verifier round 1 GO; round 2 part A GO, part B NO-GO (badge, Free-ask charge) fixed by fixer D; main session restored the credit tick and caught a creditCount() shadowing bug before the push. Suites at a0eb6abe all green except test:study's wordnet licence gap (environment, also on release 10). Production smoke: every key page 200, no runtime errors.
+- Integration branch `deploy/web-1019-r11` in wt-rel11 == main 4af47969 (9fd48201 + the STATUS entry).
+- ?hero=v3 (last year's melt) still works as a preview; not chosen.
 
-## 4. Where every piece stands (about 3 am)
-**Live, untouched tonight:**
-- Web = main 23a7c090 (release 10).
-- App = v15.2 ab04b067 (1.0.15+7), on his phone (V2413, 10BF370PA6002XR).
+**App: v15.3.** Integration `ui/v15.3-1019` in wt-v15-3.
+- **On his phone:** build 8 (1.0.15+8, 818f594b), installed 2:45 pm (`tmp/apk/mockmob-v15.3-818f594b.apk`). It lacks the walk fixes.
+- **Final candidate:** build 9 (1.0.15+9, **4472b373**) = 818f594b + the acceptance walk fixes (ui/v153-walkfix 8d40d48a): H1 Join-with-a-code keyboard, the Repair Qn key restored (R4), M2 NTA Pro tag per subject, M5 accept move without page scroll, M1 Welcome bubble, M6 no email-prefix names, M3 result Try again restarts the read, LOWs. Release APK `tmp/apk/mockmob-v15.3-4472b373.apk` (39.8 MB) + zip + symbols; full unit run **6,672 passed, 0 failed** (`C:\Users\atish\Desktop\mockmob copy\v153-final-unit-4472b373.log`). **Install it the next time he connects:** `adb -s 10BF370PA6002XR install -r <apk>` (main session only).
+- Walk report: `tmp/walk-1019/APP-ACCEPTANCE-V153.md` (G1-G23 scoreboard, R2 lines, defects). NOT walked on a device yet: build 9's fixes, a full mock's sealed sheet and reveal, the range estimate end to end (G19), G13 frames after the fix.
+- Ask Mobi's credits footer is a fifth of a 360x640 screen (M4): nothing overlaps; a slimmer footer needs a mock-up first (R8).
 
-**Integration branches (empty):**
-- App: `ui/v15.3-1019` in `wt-v15-3` (base ab04b067).
-- Web: `deploy/web-1019-r11` in `wt-rel11` (base 23a7c090).
+**Staging:** 3101/3102/3103/3104 servers run; 3104 = release 11 at 3ae564a6. **The staging Supabase (onwkqxmjqjrhfbjjdydu) refuses SQL connections since about 1:45 pm** (connection timeout) while reporting ACTIVE_HEALTHY: check it first; the device walk needs it. OTP shim: `tmp/rig-1016e/otp-shim.mjs` (SHIM_TARGET=3104 SHIM_PORT=3114). After any emulator use restore `adb -e reverse tcp:3101 tcp:3101` (the walker could not).
 
-Every brief is in `docs/brain/briefs-1019/`.
+## 5. Next (in order)
+**NEW (3:15 pm): his feedback on build 8 (H1-H12, verbatim in OWNER-FEEDBACK-2026-10-19.md) is planned in `docs/brain/PLAN-1019-PM.md`: A Play billing (his priority 1), B the Mob 10/10 with mock-ups first, C Practice/Colleges/daily goal. The next FRESH session starts from `docs/brain/NEXT-PROMPT-1019-PM.md` and that plan (his answers to the six questions are in it, D121). Do not start sessions or waves on an account short of usage; he decides when.** A billing session was started by mistake at 3:14 pm and stopped within a minute (it changed nothing; check `git status` in wt-v15-3 and wt-rel11).
 
-| Brief | Owner and items | Branch, folder | State |
-|---|---|---|---|
-| 06 | A4a web polish: G28 (keycap volt key, card edge lights and washes, NTA tile gradient and outline in the 2x2 grid, the Start key light) and G31 (one motion token file shared with the app, count-up 720 ms, a calm 1% spring) | web/1019-a4a-polish, wt-1019-a4a, **25821e85** | **DONE and verified:** lint, test:app 756, today 120, recovery 604, build; R4 and R5 evidence in scratchpad/a4a. **MERGE FIRST.** Copy: the NTA kicker reads "The closest thing to exam day". Kept out on purpose: the page glow, the landing aurora (L-019), the PrepOS orb. |
-| 07 | A4b web UX: G29 sign out, G25 Review stats and D106, G26 ticket, G27 scroll cue | web/1019-a4b-ux, wt-1019-a4b | 4 commits by 2:55 am; report pending or STOP POINT |
-| 01 | A1 app shell and Practice: G11, G15/D101, G17/D105, G20 structure | ui/1019-a1-shell, wt-1019-a1 | big change (40 files), STOP POINT; review it first |
-| 02 | A2a onboarding and colleges: G1, G3, G4, G5, G6/D103, G9 | ui/1019-a2a-onboard, wt-1019-a2a | 2 commits + STOP POINT |
-| 03 | A2b Today and the deck: G7/D104, G12, G13 | ui/1019-a2b-today, wt-1019-a2b | 1 commit + STOP POINT |
-| 04 | A3 result and Your papers: G22/D108, G20/D106 | ui/1019-a3-result, wt-1019-a3 | 2 commits + STOP POINT |
-| 05 | A5 range: G18, G19/D109, C-dec 1 copy | ui/1019-a5-range, wt-1019-a5 | 3 commits + STOP POINT; next: the tools unit run, then range_1019 goldens |
-| 16 | C2 Ask Mobi B (app) | ui/1019-c2-ask, wt-1019-c2, **99431022 WIP** | Code written, NOT compiled. **Next:** analyze; the `door` query in insights_routes; header buttons in Today, Practice and Mob (you_page.dart gets a `trailing` parameter); the Practice card replaces the "Ask Mobi what to practise" row in top_rows.dart; the waiting text "Writing a reply"; update 6 old tests; new tests and goldens; the walk. "Do I change answers too much?" is locked for Free (the app already treats it as Pro): accepted. |
-| 15 | C1 web navigation A | web/1019-c1-nav, wt-1019-c1 | in progress, STOP POINT |
-| 17 | C3 homepage motion C behind the flag | web/1019-c3-hero, wt-1019-c3, **1c0957af WIP** | The flag (production = the current hero; preview `?hero=v2`), the timing controller and the component are written. **NOT DONE:** the option C CSS in hero-motion.css (exact values in its report and the prototype's hm.css), the tests, lint, build, strips and video. Phrase change in V2 only: "Every mark traced." becomes "See the lost marks." |
-| 18 | W5 first full mock per subject free (server) | web/1019-w5-firstmock, wt-1019-w5, **2cc8ff9e WIP** | **The rule is DONE in code:** data/first_full_mock.js and src/lib/server/firstFullMock.js; it writes a learning_allowances row `first_full_mock:<subject>` (the primary key is the lock); the quote gives creditCost 0 and freeReason "first_full_mock_free"; the line to show is "Free: your first full mock in this subject is on us." **NOT DONE:** its tests, the web copy (dashboard cost row and tile, the pricing Free list), the checks. |
-| 12 | G16 fresh-account baseline walk of v15.2 (no code) | tmp/walk-1019/baseline-v15.2, BASELINE-FINDINGS.md | partial |
-| 13 | Web baseline captures of release 10 (no code) | tmp/walk-1019/baseline-web-r10, BASELINE-WEB-FINDINGS.md | partial |
-
-**Done docs:**
-- web navigation (WEB-NAV-1019.md);
-- Ask Mobi (ASK-MOBI-1019.md);
-- hero motion (HERO-MOTION-1019.md);
-- ACCEPTANCE-1019.md (46 blocks plus the walk order);
-- the disk clean-up (105 GB free).
-
-## 5. What the next session does (in order)
-1. **Start-up:**
-   - Read sections 1-4.
-   - Check usage.
-   - Check no agent of session 25ef3d95 is alive (subagent transcripts under `~/.claude/projects/C--Users-atish-Desktop-mockmob-copy/25ef3d95-*/subagents/` written within 15 minutes).
-2. **Merge A4a into wt-rel11 now.** It is done and verified.
-3. **Relaunch every unfinished owner** from its brief word for word, plus: "RESUMED: review your commits and the STOP POINT first; then finish every item to its DONE WHEN; the notes in NOW.md section 4 say where you stopped."
-   - One agent per worktree. A1 first (the biggest change).
-   - Never merge unreviewed STOP POINT work blindly.
-4. **Merge each owner when it finishes (R7):**
-   - app into wt-v15-3, with analyze and the area's unit tests after each merge; never run flutter test and flutter build together;
-   - web into wt-rel11, with lint, test:app, test:today, test:recovery and the build after each merge.
-5. **One Opus copy pass** over every new line in both integration branches (D114), with a before/after list.
-6. **The checks, per ACCEPTANCE-1019.md (walk order at the end):**
-   - app: a fresh-account walk, then a heavy one (emulator, 360 dp, Night and Day), against a staging site running release 11 code (the rig launcher pattern on port 3104);
-   - the R2 line per screen;
-   - R4 against tmp/walk-1019;
-   - R5 frame sequences;
-   - web at 390 and 1440, Night and Day;
-   - one Opus verifier per platform, 2 rounds at most. The main session then decides.
-7. **Ship:**
-   - **Release 11:** push to main as a fast-forward from 23a7c090 when it passes (D115). The hero stays OFF; send him the preview `?hero=v2` link. Then check Vercel and write STATUS.
-   - **v15.3:** the release APK into tmp/apk/mockmob-v15.3-<sha>.apk plus a zip. Install it ONLY when he connects his phone (`adb -s 10BF370PA6002XR install -r`; main session only).
-8. **ONE message** (docs/brain/MESSAGE-1019.md):
-   - per G item: what changed and where to look;
-   - the picks;
-   - C-dec 1;
-   - the hero preview link;
-   - what is left;
-   - ending with "Things needed from you right now" or "Nothing needed from your side".
+1. When he connects: install build 9 (4472b373) and confirm versionCode 9.
+2. When staging answers: one emulator session on build 9: H1 join sheet, Repair Qn, NTA tag across subjects, accept frames (G13), a full mock's sealed sheet and reveal (G22), "I don't know my range" estimate (G19), Compass 900-920, a fresh first full mock free with the balance unchanged.
+3. Ask Mobi footer mock-up (2 options at 360 dp) for him.
+4. Known LOWs: durable-sessions free race (fix before LEARNING_SESSIONS_ENABLED); Colleges' two lit cards; test:study wordnet licence in a clean install.
+5. Older, his: Razorpay test-card run -> WALLET_COMMERCE_OPEN; Play Console -> PLAY_BILLING_ENABLED; PERSISTENT_LIMITS_ENABLED; staging RESEND_API_KEY; delete ~5 GB of agent scratch (C: ~93 GB free).
 
 ## 6. Commands and facts
-- **Common brief:** docs/brain/BRIEF-1019-COMMON.md (bases, tools, the emulator lock `C:\Users\atish\AppData\Local\Temp\mm-emu-lock`, staging rig, what agents return).
-- **Flutter:** `MOCKMOB_FLUTTER_SLOTS=4 bash tool/flutter_locked.sh <args>`. The release build is `build apk --release --target-platform android-arm64 --obfuscate --split-debug-info=build/symbols --dart-define-from-file=dart_defines/prod.json`.
-- **Staging:**
-  - 3101 (old rig), 3102 relay, 3103 (release 9 + the Mob);
-  - tmp/rig-1016e/RIG-READY.md;
-  - fresh accounts are NEW staging test students.
-- **Web:**
-  - node_modules is a junction;
-  - .env.local = PRODUCTION (preview fixtures only);
-  - one dev server per folder.
-- **IDs:**
-  - Vercel: prj_uSolddribHQDl1mM5AKxg3O9qCIu, team_V5PhMz9hqV42vblUMcvhYqoN.
-  - Supabase: production isrxrxzjocewrdureyhp, staging onwkqxmjqjrhfbjjdydu.
-- **Rules:**
-  - headless only; never sign in as him;
-  - only gpt-6-luna and Claude Haiku 5.5 at runtime;
-  - production DB under his grant (save, dry-run on staging, undo, STATUS);
-  - STOP POINTs at 95% usage;
-  - his words verbatim within the hour;
-  - never a ship time before the walk's issue count is known (D99).
+- Common brief: docs/brain/BRIEF-1019-COMMON.md (now includes the junction-safe worktree removal rule: `cmd /c rmdir <wt>\node_modules` FIRST).
+- Flutter: `MOCKMOB_FLUTTER_SLOTS=4 bash tool/flutter_locked.sh <args>`; release build `build apk --release --target-platform android-arm64 --obfuscate --split-debug-info=build/symbols --dart-define-from-file=dart_defines/prod.json`; never flutter test and build in one worktree at once (use two worktrees at the same sha).
+- Web: node_modules is a junction to mockmob-next\node_modules, installed today from release 11's lockfile (`npm ci --prefer-offline`; restore recipe in memory agent-swarm-resource-hygiene). Preview pages (/preview/...) exist only under `next dev`. Headless Chrome via playwright-core with `channel: 'chrome'`.
+- IDs: Vercel prj_uSolddribHQDl1mM5AKxg3O9qCIu, team_V5PhMz9hqV42vblUMcvhYqoN. Supabase production isrxrxzjocewrdureyhp, staging onwkqxmjqjrhfbjjdydu.
+- Practice on the web is /dashboard; the account page is /profile (/practice and /account never existed).
 
-## 7. Lessons from this night
-- **Autopilot's "Continue a session"** forked this session and ran 10 duplicate agents; he stopped it at 2:09 am.
-- **Usage:** 13-16 Opus agents burned about 88% of a 5-hour window in about 1 hour. Size waves to the account.
-- **The acceptance checklist caught a real product gap** (the range finder was unaffordable) before the build. Write acceptance steps first.
-- **Agents told to "commit and report"** at handoff leave usable WIP commits and exact continue-here notes. Prefer that over hard stops.
-
-## 4b. FINAL heads at about 3:05 am (all agents stopped; these supersede section 4's states)
-| Worktree | Head | Note |
-|---|---|---|
-| wt-1019-a1 | a07c9484 | STOP POINT over the A1 work. It was at "Now the Mob tab test". Review first. |
-| wt-1019-a2a | 4d557855 | "Onboarding copy pass and item tests (G1, G4, G6, G9)". Next: run the item tests, the emulator check of G3, the report. |
-| wt-1019-a2b | 8dac41bf | STOP POINT. It was adding the G13 tests. |
-| wt-1019-a3 | f0a4f21e | STOP POINT. It was adding goldens for the finish moment and Your papers. |
-| wt-1019-a5 | 1d99057c | G18 done in code (re-run test/unit/tools); G19 built. Next: range_1019 goldens, update the tools goldens, the emulator walk. Open: should the Today range card show by default on accounts with no range, or only on opt-in? |
-| wt-1019-c2 | 99431022 | WIP: Ask Mobi B; next steps in section 4. |
-| wt-1019-a4a | 25821e85 | **DONE**. Merge first. |
-| wt-1019-a4b | 0b395873 | All 4 items done in code. Lint passes; the new tests pass (startModel 16, review_page 15). Next: run test:app, today, recovery, auth and the build, the final captures and R4 against 23a7c090, the R2 lines and the copy list. Open: the one-line marks comparison above the papers was removed (the strip shows it); the trend chart shows only for All subjects. |
-| wt-1019-c1 | b7d71d72 | WIP: nav A built, unverified. Next: update the 7 old nav tests, a new web_nav_a_1019 test, sidebar compaction thresholds, trim the You sheet by 15 px (it scrolls at 390), the checks, the captures, a merge-tree check against a4a and a4b. "Practice" kept in place of "Practise". The Mobi door line is "He explains any answer." |
-| wt-1019-c3 | 1c0957af | WIP: hero C behind the flag; the CSS and tests are NOT done (section 4). |
-| wt-1019-w5 | 2cc8ff9e | WIP: the free first mock rule is done in code; tests and web copy are NOT done (section 4). |
-
-**G16 baseline walk** (partial, Night only): `tmp/walk-1019/BASELINE-FINDINGS.md` has 39 findings (9 HIGH, 18 MEDIUM, 12 LOW), 23 of them NEW. **The NEW HIGHs to fix:**
-1. **The staging OTP sign-in fails.** RESEND_API_KEY is blank on staging. The walker used a throwaway proxy (scratchpad). The rig needs a staging Resend key, or a documented test-login path.
-2. **The Suggested deck disappears from Today after the first paper.** A2b must fix it.
-
-**Also NEW (MEDIUM):**
-- the name shows as the email prefix;
-- "0 of 4 study days" after a paper;
-- Google looks active before the age question;
-- the fresh Weak chapters block has no action;
-- the confusing after-sign-in deck line;
-- the result's "proof it stuck" names an unrelated chapter;
-- "credits" means two pools with no label, and the practice balance still read 100 after a 10-credit set (check the server);
-- a Review chapter title breaks mid-word at 360;
-- the empty Repair button leads to an empty Review;
-- Ask Mobi is missing a full stop.
-
-**G7 evidence:** picks 4 and 5 look dropped from the ACCOUNT (You says 3 colleges), not just hidden on Today.
-
-**Web baseline:** captures of release 10 in tmp/walk-1019/baseline-web-r10 (partial; stopped at Practice).
-
-## 4c. Session 604ced81, 19 Oct about 4:50 am (supersedes 4 and 4b where they differ)
-**Paused for the usage window (86%; it resets at 7:30 am IST). Resume in this session; every owner is resumable with SendMessage.**
-
-**Web: release 11 is fully integrated and green.** `deploy/web-1019-r11` in wt-rel11 is at **9c6b3338**, with A4a, A4b, C3, W5 and C1 merged.
-- **Checks after the last merge:** lint 0; app 777; today 120; recovery 610; billing 344; dock 49; learning 357; mob 78; auth 110; 0 failures; `next build --webpack` OK.
-- **NOT done yet:** the Opus copy pass, the W1/W2 browser walks, the verifier, push.
-
-**App: v15.3 (`ui/v15.3-1019` in wt-v15-3) is at d299f5de,** with A5 and A2a merged; analyze is clean and tools, onboarding and You tests pass (764).
-- **Not merged** (each at a reviewed STOP POINT, with "Continue here" in its report):
-  - A1 a06513e2: code, tests and goldens done; the full unit run, profile APK and fresh walk remain.
-  - A2b 3ad3df32: fresh walk done; heavy walk and Day screens remain.
-  - A3 00e8b863: practice result moment and Your papers done on device; the full-mock reveal and the heavy filter remain.
-  - C2 02e7adbe: built and tested; the article fix, full unit run and walk remain. Also restore the insights Pro rows hidden by e3ca76be (D101).
-
-**Copy-pass notes:** tmp/feedback-1019/COPY-PASS-NOTES.md, plus:
-- about 27 app lines still say "in Review" (they should say "Your papers");
-- A3's key reads "See it in Your papers" (he said "See this paper"; ask him);
-- the bar labels hide on scroll (NAV-1017 approved this; ask him).
-
-**Infra:**
-- mockmob-hotfix\node_modules lost its scoped packages at 2:55 am. Every web worktree now links mockmob-next\node_modules (the common brief was updated).
-- The OTP shim is mockmob-next/tmp/rig-1016e/otp-shim.mjs (SHIM_TARGET/SHIM_PORT).
-- About 120 to 290 app goldens were already stale at v15.2. Agents regenerated only their own; decide after the merges.
-
-**For his morning message:** the 2026 data puts LSR (912.5) above Hansraj (907.5) for B.Com (Hons), so D103 shows that order with the numbers. Colleges 4 and 5 were never lost from the account (it was a You display cap of 3, now 8).
-
-## 4d. Autopilot continuation (session a532e31c, account B), 19 Oct about 11:40 am (supersedes 4c where they differ)
-**How this session started:** Autopilot forked session 604ced81 at 11:08 am. That session is blocked by the Continuum hook (its account hit the limit). Its last three agents kept running on the old account and finished by 11:26: web fixer A, web fixer B, and the app copy pass. This session took over their results (read from their transcripts); nothing was duplicated.
-
-**Autopilot boundary:** NO push to main, NO deploy, NO Vercel env change, NO production DB write. Release 11 waits for the owner's "push" (D115 allowed it after the verifier, but this unattended run may not deploy).
-
-**Web: `deploy/web-1019-r11` (wt-rel11) at 3ae564a6.**
-- Merged so far: A4a, A4b, C3, W5, C1, the copy pass, web fixer A and web fixer B.
-- Fixer A (8 commits): the "8 due" badge, honest "first practice set", one repair number, Review renamed to Your papers, a 409 instead of a silent charge, the FIRST_FULL_MOCK_ENABLED kill switch, the true papers count, copy fixes, Today not waiting on the quote, no email-prefix names, one Ask Mobi line.
-- Fixer B (6 commits): G26 Start sheet leads with the mode; G27 the chevron never takes a tap; G28 lit gradients on Today/Colleges/Result/Features; G29 sign out in the first screen with one confirm everywhere; G31 count-up on the token; a 44 px cue.
-- **Running:** the full web suites and build on 3ae564a6; C2-web (Ask Mobi B on the web: /mentor with two doors, part of the D114 pick) in wt-1019-c2web (web/1019-c2-web).
-
-**App: `ui/v15.3-1019` (wt-v15-3) at 125755f4.**
-- Merged: A5, A2a (+ its 3 test fixes), A2b, A1, A3, C2 (via ui/1019-c2-merge), and the app copy pass.
-- **Running:** the full unit run on 125755f4; the app verifier (Opus, read-only) in wt-v153-verify.
-- **Next:** the app acceptance walk (fresh, then heavy) on the emulator against a 3104 staging site rebuilt at the final release 11 head, with the OTP shim (SHIM_TARGET=3104 SHIM_PORT=3114).
-
-**Disk:** 98.6 GB free after deleting finished worktrees' build output. A clean-up of about 5 GB of scratch folders older than 2 days, in the old session's temp folder, was blocked by Claude Code's safety check; it is on the owner's list.
-
-## Things needed from you right now (Autopilot run, kept current; 19 Oct 11:45 am)
-1. **Release 11 push:** this unattended run may not deploy. Release 11 is verified (round 2 pending) on deploy/web-1019-r11. Say "push", or run the command that will be in MESSAGE-1019.md.
-2. **Phone:** connect it (USB debugging) for the v15.3 install. Only an attended session touches it.
-3. **Homepage motion:** see it live with ?hero=v2 after the push, then yes or no to switch it on (HERO_MOTION_V2=1).
-4. **Sign-in in Autopilot runs:** the run rules forbid sign-in and OTP codes, so the combined v15.3 walk could not sign up a NEW staging test student. Each owner's surface was walked on fresh accounts earlier, before Autopilot. Either allow staging test-student sign-ins in Autopilot runs, or a session with you present does the combined fresh signed-in walk.
-5. **Disk:** C: is at about 98 GB free (your rule: 100). The safety check blocked deleting about 5 GB of agent scratch folders, older than 2 days, in `C:\Users\atish\AppData\Local\Temp\claude\C--Users-atish-Desktop-mockmob-copy\604ced81-3aa7-4deb-b42c-f324ca5f51e2\scratchpad`. Please delete them yourself if you agree.
-6. **Your calls:**
-   - G3, the college search keyboard on YOUR phone;
-   - the result key "See it in Your papers" or "See this paper";
-   - the app bar labels hiding on scroll (NAV-1017) or always visible;
-   - the plain record tiles in Ask Mobi (the B frames) or v15.2's small pictograms;
-   - Colleges opening from the "Aim" row in You;
-   - the Start sheet key saying "Start..." when it opens Practice already set up;
-   - the focus ring on the switch track or the whole 44 px box;
-   - W-044, the Today cue.
-7. **Older:**
-   - the Razorpay test-card run, then WALLET_COMMERCE_OPEN;
-   - the Play Console setup, then PLAY_BILLING_ENABLED;
-   - the PERSISTENT_LIMITS_ENABLED decision;
-   - a staging RESEND_API_KEY (staging sign-in mail).
-
-## 4e. 19 Oct about 12:05 pm, session 25ef3d95: why Autopilot burned about 50% in minutes, and the state after it stopped
-- **Cause (measured from the transcripts):** Autopilot's run (session a532e31c) was a FORK of session 604ced81, so it carried that whole conversation: **612k-804k tokens of context on every turn.**
-  - From 11:09 to 11:49 it made 138 turns, re-reading about **100 million cached tokens**.
-  - Its 5 subagents added about **88 million more**.
-  - Cache reads are cheap per token, but they still count against the 5-hour limit.
-- **Rule:**
-  - NEVER continue a long conversation (Autopilot "Continue a session", or resuming a 600k+ context session) for real work.
-  - Always start a FRESH session from docs/brain/NEXT-PROMPT-1019.md. Everything it needs is in files, and it starts at about 30-60k tokens.
-  - Session 25ef3d95 itself is at about 830k context; do not run waves from it.
-- **Was it worth it?** Partly. It merged real work:
-  - release 11: fixers A and B and the copy pass, up to 3ae564a6;
-  - v15.3: A1, A2b, A3, C2 and the app copy pass, up to 125755f4.
-
-  A fresh session would have done the same for a fraction of the usage.
-- **Stopped at 11:49 (STOP POINTs):**
-  - wt-1019-c2web a851d6dc: C2-web, Ask Mobi B on the web, barely started;
-  - wt-v153-fix 5245cde4: app fix item 1, the free-first-mock race (tmp/autopilot-1019/APP-FIX-NOTES.md);
-  - the app acceptance walk (partial: tmp/walk-1019/APP-ACCEPTANCE-V153.md);
-  - the app verifier round 1;
-  - web verifier round 2: barely started.
-- **Leftover Flutter processes:** killed at 12:05 pm. Staging 3101, 3102, 3103 and **3104 (release 11 staging)** are still running.
-- **Next (a fresh session):** follow NEXT-PROMPT-1019.md, starting from:
-  - the full web suites on 3ae564a6, then web verifier round 2, then C2-web, then push (D115: the owner allowed the push after the verifier, in an attended session);
-  - app fix item 1 and the remaining verifier findings, then the full unit run, then the acceptance walk (fresh and heavy, OTP shim 3114 to 3104), then the release APK and the install when he connects.
-- **Disk:** 94 GB free (below his 100 GB rule); the 5 GB scratch delete needs him.
+## 7. Lessons from today
+- A fresh session from files is enough; keep the main context lean and agents on Sonnet unless taste or money needs Opus.
+- The shared node_modules was wiped a third time by a worktree removal following its junction; the rule is now in the common brief.
+- Tests missed a variable shadowing an imported function (creditCount); a real render in a dev server and reading the diff caught it. Render-check every component change before a push.
+- A verifier's own suggestion (the "8 to revise" badge) broke the layout: measure any copy change that widens a nav element.

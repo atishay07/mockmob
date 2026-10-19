@@ -1,96 +1,65 @@
-# MESSAGE-1019: the ONE message for the owner (DRAFT; final results fill the marked places)
+# Release 11 and app v15.3: what changed for every point you raised (19 Oct)
 
-Status of this draft: written 19 Oct about 11:45 am IST by the Autopilot continuation (session a532e31c). Places marked **[PENDING]** are filled after the app walk, the verifiers and the APK.
+**Website release 11 is live** on www.mockmob.in since 1:44 pm (main a0eb6abe, then the hero previews at 37935066). Two verifier rounds and a browser walk were done before the push, with no runtime errors since. **App v15.3** was walked on the emulator (a brand-new account, then a heavy one). Build 8 (818f594b) has been on your phone since 2:45 pm. Build 9 (4472b373) adds the walk's fixes and goes on the next time you connect.
 
----
+## Your picks, as built
+- **Web navigation A:** the same five places as the app: Today, Practice, Start, Mob, You. Mobi's door sits at the foot of the sidebar. (You leaned towards B's clarity too; we can revisit it.)
+- **Ask Mobi B:** its own screen with two big doors, **Ask now** and **Ask your record**, in the app and at www.mockmob.in/mentor.
+- **Homepage motion C:** you said it was good but slow, so I made it faster and also brought back last year's melt (April's "Rank up with the mob. / best. / top 1%.") as a second preview. You chose the faster typing version, and **it is live for everyone** on www.mockmob.in: the first change comes 1.6 s after the page appears, then a new line every 2.3 s, looping. It pauses while you scroll; phones set to reduce motion show "No more guessing." The melt stays at ?hero=v3 if you ever want to compare.
 
-Your 33 points from 1:15 am are worked through: every one is fixed, built, or answered below. Your picks are built: web navigation A, Ask Mobi B, and the homepage motion C (switched off until you see it).
+## The free first full mock (my decision as CTO)
+**Every student's first full mock in each subject is free** (one per subject, ever; a started one counts). Without it, a free student (about 90 credits, with a full mock costing 50) could never finish "I don't know my range", which needs one full mock per subject. It costs no AI money (the questions come from the bank). You can turn it off with one setting (FIRST_FULL_MOCK_ENABLED=false), and every "free" line disappears with it.
 
-**Release 11 (website)** is verified and ready to go live. Autopilot is not allowed to deploy, so it waits for your "push".
+## Every point, what changed, and where to look
+**App, first open and onboarding**
+- **G1** The first-open lines are full sentences now: "Find the marks you are losing. Win them back before CUET." Look: the first screen after install.
+- **G2** Kept as it was.
+- **G3** College search keeps the keyboard up while you type; "hans" finds Hansraj on the emulator. Please confirm on your phone.
+- **G4** Courses lead with what commerce students target most: B.Com (Hons), BA (Hons) Economics, B.Com, BMS, BBA (FIA), then BA (Hons) Business Economics.
+- **G5** One target course for now; change it any time in You > Plan.
+- **G6** Colleges are ordered by last year's real closing marks for your course and category, with the number shown. For B.Com (Hons), unreserved, the 2026 data puts **LSR (912.5) above Hansraj (907.5)**, so that is the order you will see. For BA (Hons) Economics, OBC, Hansraj (712.8) is above LSR (707.8): the order follows the category.
+- **G7** Today shows "Your top 3 of N" plus "See all N". Colleges 4 and 5 were never lost; You only displayed 3 (now up to 8).
+- **G9** The course's rule ("B.Com (Hons) needs a language, usually English, plus 3 subjects...") shows before the first pick, with the common sets as one-tap chips.
 
-**v15.3 (app)** is built: **[PENDING: APK path]**. It installs the moment you connect your phone.
+**App, shell and Today**
+- **G10, G14** Kept: the bigger bar, its animation and Today.
+- **G11** The Today pill is an even stadium at every text size.
+- **G12** A new account gets at least 4 real cards (a quick 10 in your weakest subject, a full mock, English, the Mob, and another subject when there is room). The broken lines are rewritten, and the odd clock animation is gone.
+- **G13** The accept animation is one spring now (lift, travel, settle). The walk caught it also scrolling the page under the card; in build 9 the page holds still while the card moves.
 
-## Why it is different this time
-I stopped testing on your old account only, stopped "fixing" things by hiding them, and compared every screen against the previous release.
+**App, Practice, Mob, results, Your papers, Ask Mobi**
+- **G15** Practice lists every mode again: Quick practice, Smart practice, Full mock and NTA mode. The Pro ones show a quiet Pro tag and a calm sheet ("Pro is coming to the app soon"), no price, no web link. The walk caught NTA mode losing its Pro tag after a subject change on the Start sheet; fixed in build 9.
+- **G16** A brand-new account was walked end to end on the emulator against a release 11 staging site; the gaps it found are fixed (starter cards, the free first full mock, no dead ends).
+- **G17** The bar is **Today, Practice, Start, Mob, You**. The Mob has its own tab with "Start a Mob / Join with a code". The walk caught the keyboard covering "Join with a code"; in build 9 the sheet rises above the keyboard.
+- **G18** "Type your own range" accepts 900-920, "900 to 920" and reversed ranges, and refuses a gap over 200 in plain words. Every screen, Compass included, uses the same two words: **safe** (the low end clears it) and **in reach** (only the high end does).
+- **G19** "I don't know my range yet": sit one full mock in each subject (progress shown per subject, and the first one in each is free), then you get an estimated range with its spread and the colleges it reaches. The estimate itself could not be run end to end on the emulator: the staging database stopped answering at about 1:45 pm. Unit tests cover it, and I will walk it once staging is back.
+- **G20** Review is now **Practice > Your papers**: a stats strip, a subject filter, papers newest first (a tap opens that paper), then Mistakes to repair by chapter.
+- **G21** Ask Mobi B, as above.
+- **G22** The moment after Submit is back: the finish animation from before, a completion line, the marks counting up, one next move and "See this paper". Walked on a 10-question paper: the finish moment matches the approved timing. On a full mock, the result did not load on the slow staging site and "Try again" did not retry; the retry is fixed in build 9, and the full-mock reveal still needs one walk on a device. The practice result's "Repair Q9" key from v15.2 is back (build 9).
+- **G23** Every screen got the "what does a first-time 17-year-old think this wants?" check; the lines are in tmp/walk-1019/APP-ACCEPTANCE-V153.md.
 
-Eight rules now bind every agent:
-1. A brand-new account first.
-2. "Would a first-time 17-year-old get this in 3 seconds?" on every screen.
-3. Never hide a feature.
-4. A side-by-side against the last release.
-5. Motion checked frame by frame.
-6. Copy in your voice.
-7. One owner per surface.
-8. Mock-ups first.
+**Website**
+- **G24** Navigation A (above). Every old address still works.
+- **G25** Your papers has the stats strip back on top, then papers newest first, then mistakes. Look: Practice > Your papers.
+- **G26** The Practice ticket leads with the mode, and the Start key says what it does ("Start 10 questions in Accountancy").
+- **G27** The subject row in Start shows a cut-off chip, nudges once and has a chevron, so it is clear it scrolls.
+- **G28** The gradients and textures are back where they were: the NTA mode button-card, the volt keycap keys, card edge lights, and the washes on Today, Colleges, the result and Features. No page-wide glow.
+- **G29** Sign out is on the first screen of Account, in the top bar and in the You sheet, with one confirm ("Stay signed in" is the safe default).
+- **G30** The homepage motion: the two previews above.
+- **G31** One motion file is shared by the app and the web again: the count-up takes 720 ms and the springs are calmer.
 
-That is how we found and restored what went backwards:
-- the result reveal (lost on 17 Oct);
-- the website gradients and NTA button (lost on 16 Oct);
-- the faster animations;
-- Review's stats.
+**G32, G33 (how we work):** every change now follows eight rules: a fresh account first, the 17-year-old check on every screen, never hiding a feature to fix it, a side-by-side with the previous release, motion checked frame by frame, copy in your voice, one owner per surface, and mock-ups first. Two independent verifiers checked the website before the push; the second one blocked it once (a badge that broke the sidebar and a "Free" Ask Mobi question that could be charged 1 credit), and both were fixed before it went live.
 
-## App v15.3: what changed, and where to look
-| # | What you said | What changed | Where to look |
-|---|---|---|---|
-| G1 | The first Mobi lines read as broken English | Every onboarding line is now a whole, persuasive sentence (about 90 lines, locked by a copy test) | The welcome screen and every onboarding step |
-| G2 | The first screen is fine | Kept as it was | |
-| G3 | The college search keyboard kept cutting off | The field keeps focus; results show above the keyboard. Typing "hans" shows Hansraj on the emulator | Onboarding, colleges step. **Please confirm on your phone** |
-| G4 | BA (Hons) Business Economics listed as a top course | New order: B.Com (Hons), BA (Hons) Economics, B.Com, BMS, BBA (FIA), then BA (Hons) Business Economics | Onboarding, course step |
-| G5 | Multiple target courses? | One target course, which you can change any time; the course step now says so | Course step; You > Plan |
-| G6 / D103 | Is LSR really above Hansraj? | Colleges are ordered by last year's real DU Round 1 closing marks, with the number beside each. For B.Com (Hons), unreserved: SRCC 924.3, Hindu 919.9, LSR 912.5, Hansraj 907.5. So the data does put LSR above Hansraj | Colleges step; Your colleges |
-| G7 / D104 | Only the first 3 colleges showed on Today | Today shows "Your top 3 of 5", with "See all 5". Colleges 4 and 5 were never lost: You only showed 3 (now up to 8) | Today, Your colleges |
-| G9 | Show the subject rule up front | The course's rule ("needs a language, usually English, plus 3 subjects") shows before the first pick, above the common sets | Subjects step |
-| G11 | The Today bubble was not evenly rounded | The pill is a perfect stadium at every size and text scale | The bottom bar |
-| G12 | A new account got one card | A new account gets 4 to 5 real cards from its subjects, and the deck stays after the first paper. The end card is plain English, and the clock is still | Today, the deck |
-| G13 | Make "Do this next" better | One smooth spring: a lift, then it lands in under half a second. Reduced motion is a crossfade | Swipe a card right |
-| G15 / D101 | No NTA mode or Smart option in Practice | Every mode is back: Quick practice, By chapter, Smart practice, Full mock and NTA mode. The Pro ones carry a quiet "Pro" tag and a calm sheet ("NTA mode is part of Pro. Pro opens in the app soon."), with no price | Practice |
-| G16 | A new account felt incomplete | A starter deck, a key on Weak chapters, "Start 10 questions" on empty pages, the Mob tab, Ask Mobi's empty-record door, and the range card | Sign up fresh and look around |
-| G17 / D105 | The Mob was hidden in You | The bar is now Today, Practice, Start, Mob, You. The Mob tab has "Join with a code" and "Start a Mob" | The bottom bar |
-| G18 | Typing 900-920 failed | The range box takes "900-920", "900 to 920" and a reversed range. "Safe" means your low end clears a college; "in reach" means your high end does. Every screen uses these words | You > Plan > Score range |
-| G19 / D109 | "I don't know my range" | Sit one full mock in each of your subjects, with progress shown per subject; then MockMob estimates your range and the colleges it reaches. Your first full mock in each subject is free | Today's range card; You > Plan |
-| G20 / D106 | Review was cluttered, with no recent mocks | Practice > Your papers: a stats strip, a subject filter, your papers newest first (tap one for its result and answers), then mistakes to repair by chapter | Practice > Your papers |
-| G21 / D110 (pick B) | Ask Mobi, big: "Ask now" and "Ask your record" | Mobi's own screen with two big doors: Ask now (type or tap a starter, "1 credit" shown first) and Ask your record (it leads with your biggest marks leak). There is a labelled Ask Mobi key in the Today, Practice and Mob headers | Any Ask Mobi key |
-| G22 / D108 | The result screen regressed; no reveal | The finish moment you approved is back exactly: the sheet inks in, the score is stamped, Mobi reacts. Then "Paper saved." (shown only once the server confirms), the count-up, and one next move. Frame timings match the approved version | Finish any practice set |
-| G23 | 17-year-olds new to CBT | Every screen was walked on a brand-new account and checked against the 3-second test | |
+## The Autopilot usage spike you asked about (D118)
+Autopilot's "Continue a session" copied the whole night's conversation (600-800k tokens) and re-read it on every step: 138 steps in 40 minutes, about 100 million cached tokens, plus 88 million from its 5 helpers. It did merge real work, but a fresh session does the same for a fraction of the cost, which is how today ran.
 
-**[PENDING: app walk scoreboard summary; app verifier verdict]**
-
-## Website release 11: what changed, and where to look
-| # | What you said | What changed | Where to look |
-|---|---|---|---|
-| G24 / D107 (pick A) | The Mob was inside Study; Planning was inside Marks trends | The same five places as the app: Today, Practice (Your papers, Learn, Explore, Saved), Start, Mob, You (Progress, Marks trend, Colleges, Wallet, Guide). Mobi has his own door at the foot of the sidebar. Every page keeps its link | The sidebar (desktop), the bottom bar (phone) |
-| G25 | The core stats were gone; Review was in a weird order | Your papers: the stats strip is back on top (papers sat, latest marks with trend, to repair, repaired), then subject chips, papers newest first, then mistakes to repair | /review |
-| G26 | "5 questions ... Biology" showed on top | The Practice card and the Start sheet lead with the mode. The key says exactly what you get: "Start 10 questions in Economics" | Practice; the Start sheet |
-| G27 | A sideways scroll cue | The next chip peeks out, the row nudges once, and a fade with a chevron hints. The chevron never takes the tap | The Start sheet subject row; the Practice tabs |
-| G28 | It felt like an older version; the NTA gradient button was gone | The lit look is back: the NTA tile gradient and outline, the volt keys, card edge lights, Today's lead card, Colleges, the result replay and the Features cards. Kept out on purpose (your landing rules): page-wide glow, the landing aurora | Practice; Today; Colleges |
-| G29 | No visible sign out | "Signed in as ... · Sign out" sits right under the Account title, and also in the top bar and the phone sheet, with one confirm everywhere | Account |
-| G30 (pick C) | The homepage morph was basic | "Select and type": the line is selected and retyped. It starts only after the page settles, pauses while you scroll, does one lap and rests on "No more guessing." It is **OFF** until you say yes | After the push: https://www.mockmob.in/?hero=v2 (videos now: mockmob-next/tmp/build-1019/hero-c3/video/) |
-| G31 | Animations felt faster | The count-up and the stagger are restored to the earlier timings, and the count-up waits for the page to settle | Any result; Your papers stats |
-| G21 web (pick B) | Ask Mobi | **[PENDING: C2-web]** /mentor becomes the two doors side by side | /mentor |
-
-Also in release 11:
-- **Your first full mock in each subject is free** (my decision, C-dec 1: without it, a free student could never afford "I don't know my range"). It has an off switch: FIRST_FULL_MOCK_ENABLED=false.
-- **A copy pass on every new line.** The help page's credits answer is now true.
-- **One repair number everywhere.** The Revise count reads "8 due".
-- **No email names.** The site never greets you by your email's first part.
-
-**[PENDING: web verifier round 2 verdict]**
-
-## What is left, honestly
-**[PENDING]**
+## What is left
+1. **Build 9 on your phone** (the walk's fixes): under a minute, the next time you connect it.
+2. **One more device walk,** once the staging database answers again (it has refused connections since about 1:45 pm while Supabase reports it healthy): build 9's fixed screens, a full mock's reveal, and the range estimate end to end.
+3. **Ask Mobi's credits footer** takes about a fifth of a small phone's screen. It does not hide anything, but a slimmer footer is a layout change, so it gets a mock-up first.
+4. **Known small items** (in STATUS): a Free-mock race that only exists if durable sessions are switched on (they are off in production), and two lit cards back to back at the foot of Colleges.
+5. **Older, waiting on you:** the Razorpay test-card run, then WALLET_COMMERCE_OPEN; the Play Console setup, then PLAY_BILLING_ENABLED; the PERSISTENT_LIMITS_ENABLED decision; a staging RESEND_API_KEY (staging sign-in mail).
 
 ## Things needed from you right now
-1. **Say "push" for release 11, or push it yourself:** `git -C "C:\Users\atish\Desktop\mockmob copy\wt-rel11" fetch origin && git -C "C:\Users\atish\Desktop\mockmob copy\wt-rel11" merge-base --is-ancestor origin/main HEAD && git -C "C:\Users\atish\Desktop\mockmob copy\wt-rel11" push origin HEAD:refs/heads/main` **[PENDING: final sha]**. Release 11 needs no database change.
-2. **Connect your phone** (USB debugging on). I install v15.3 with `adb -s 10BF370PA6002XR install -r <apk>`.
-3. **Look at the homepage motion live** (?hero=v2 after the push), and tell me yes or no to switch it on for everyone.
-4. **Confirm on your phone:** the college search keyboard (G3).
-5. **Decide:**
-   - **The result key:** "See it in Your papers", or your "See this paper"?
-   - **The bar labels:** hide them while scrolling (the approved NAV-1017 behaviour), or always show them?
-   - **W-044:** the Today cue.
-6. **Older items, still yours:**
-   - the Razorpay test-card run, then WALLET_COMMERCE_OPEN;
-   - the Play Console setup, then PLAY_BILLING_ENABLED;
-   - the PERSISTENT_LIMITS_ENABLED decision;
-   - a staging RESEND_API_KEY (sign-in on staging needs a workaround without it).
-7. **Disk:** Claude Code's safety check blocked me from deleting about 5 GB of agent scratch folders, older than 2 days, in `C:\Users\atish\AppData\Local\Temp\claude\C--Users-atish-Desktop-mockmob-copy\604ced81-...\scratchpad`. Delete them if you want C: back above 100 GB free.
+1. **Your phone:** connect it (USB debugging on) whenever it suits you, and I install build 9.
+2. **When you have a minute:** confirm G3 (college search) on your phone; on Ask Mobi, keep or drop the small line "An AI service writes Mobi's replies" under the Ask now box (one checker thought it reads like a disclaimer); and delete the 5 GB of old agent scratch folders listed in NOW.md (C: is at about 93 GB free, under your 100 GB rule).
