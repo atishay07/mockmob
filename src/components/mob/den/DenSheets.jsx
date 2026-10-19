@@ -24,14 +24,15 @@ function OpenNow({ data, v3, now, onClose }) {
     <section className="den-sheet__section" aria-labelledby="den-p1-open">
       <h3 id="den-p1-open" className="den-sheet__h">{DenCopy.openNow}</h3>
       <ul className="den-rows">
-        {games.map((g) => {
+        {games.map((g, i) => {
+          const lead = i === games.findIndex((x) => x.yourRun !== 'finished');
           const title = DenCopy.gameTitle({ ...g, youId: data.you?.memberId });
           const done = g.yourRun === 'finished';
           return (
             <li key={g.id} className="den-row">
               <span className="den-row__icon" aria-hidden="true"><Send size={18} /></span>
               <span className="den-row__text"><b>{title}</b><span>{DenCopy.openRow(g, now)}</span></span>
-              <Link className={done ? 'mob-key den-row__key' : 'btn-volt md den-row__key'} href={done ? podiumHref(g.id) : gameHref(g.id)} onClick={onClose}>{done ? DenCopy.podiumKey : DenCopy.play}</Link>
+              <Link className={!done && lead ? 'btn-volt md den-row__key' : 'mob-key den-row__key'} href={done ? podiumHref(g.id) : gameHref(g.id)} onClick={onClose}>{done ? DenCopy.podiumKey : DenCopy.play}</Link>
             </li>
           );
         })}

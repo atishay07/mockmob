@@ -50,14 +50,15 @@ html[data-theme='light'] :is(.den, .den-page, .den-k) {
 .den-stage[data-count='5'] { --fold: 64px; }
 @media (min-width: 412px) { .den-stage { --fold: 80px; } .den-stage[data-count='5'] { --fold: 72px; } }
 @media (min-width: 640px) { .den-stage { --stage-h: 360px; --fold: 96px; --gutter: 24px; } .den-stage[data-count='5'] { --fold: 88px; } }
-@media (min-width: 1024px) { .den-stage { --stage-h: 400px; --fold: 112px; --gutter: 32px; } .den-stage[data-count='5'] { --fold: 104px; } }
+@media (min-width: 1024px) { .den-stage { --stage-h: 440px; --fold: 136px; --gutter: 40px; } .den-stage[data-count='5'] { --fold: 128px; } .den-room__art { --art-w: 112cqw; } }
 .den-stage--skeleton { --stage-h: 318px; }
 
 .den-room { position: absolute; inset: 0; z-index: 0; animation: den-room-in 360ms var(--den-ease-emph) 120ms both; }
 /* The art: its lamp pool (790, 810 of 1536 x 1024) lands under the Folds' boots, centred. */
 .den-room__art {
-  position: absolute; width: 144.9cqw; height: 96.6cqw; left: -24.53cqw;
-  top: calc(var(--stage-h) - 52px - 76.4cqw);
+  --art-w: 144.9cqw;
+  position: absolute; width: var(--art-w); height: calc(var(--art-w) * 0.6667); left: calc(50cqw - var(--art-w) * 0.5143);
+  top: calc(var(--stage-h) - 52px - var(--art-w) * 0.5273);
   background-size: 100% 100%; background-repeat: no-repeat;
 }
 .den-room__art--night { background-image: url('/mob/art/scene-empty-nothing-night.webp'); }
@@ -137,6 +138,7 @@ html[data-theme='light'] .den-shelf__board { background: #9a7650; }
   display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end;
 }
 .den-slot { position: relative; display: grid; justify-items: center; align-content: end; min-width: 0; height: calc(var(--fold) + 50px); }
+.den-slot__fold.den-fold { width: var(--fold) !important; height: var(--fold) !important; }
 .den-slot__fold { animation: den-fold-in 420ms var(--den-ease-pop) calc(200ms + var(--i, 0) * 90ms) both; }
 .den-shadow {
   position: absolute; left: 50%; bottom: 44px; width: calc(var(--fold) * 0.62); height: calc(var(--fold) * 0.12); margin-left: calc(var(--fold) * -0.31);
@@ -148,7 +150,8 @@ html[data-theme='light'] .den-shelf__board { background: #9a7650; }
   font: 700 13px/18px var(--font-body); text-align: center; overflow-wrap: anywhere;
   animation: den-fade-in 280ms var(--den-ease-out) 420ms both;
 }
-.den-tag--seat { background: transparent; color: rgb(242 236 220 / 0.72); font-weight: 600; }
+.den-tag--seat { background: transparent; color: rgb(242 236 220 / 0.72); font-weight: 600; font-size: 12px; white-space: nowrap; padding: 3px 0; }
+.den-stage[data-seats='4'] .den-seat { margin-bottom: 30px; }
 html[data-theme='light'] .den-tag--seat { color: #5a4b35; }
 .den-slot--seat { align-content: end; }
 .den-seat {
@@ -157,7 +160,7 @@ html[data-theme='light'] .den-tag--seat { color: #5a4b35; }
   animation: den-fade-in 300ms var(--den-ease-out) calc(200ms + var(--i, 0) * 90ms) both;
 }
 span.den-seat { cursor: default; }
-.den-stage__seats { position: absolute; z-index: 3; right: var(--gutter); bottom: 12px; margin: 0; font: 600 12px/1.2 var(--font-body); color: rgb(242 236 220 / 0.8); }
+.den-stage__seats { position: absolute; z-index: 3; left: calc(var(--gutter) + (100% - 2 * var(--gutter)) / 5); right: var(--gutter); bottom: 12px; margin: 0; text-align: center; font: 600 12px/1.2 var(--font-body); color: rgb(242 236 220 / 0.8); }
 html[data-theme='light'] .den-stage__seats { color: #5a4b35; }
 .den-sticker {
   position: absolute; z-index: 4; bottom: calc(var(--fold) + 54px); left: 50%; transform: translateX(-50%); white-space: nowrap;

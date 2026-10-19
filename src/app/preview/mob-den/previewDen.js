@@ -48,7 +48,7 @@ function chaiCircle() {
     yourRun: 'none', podiumReady: false,
   }, {
     id: 'uuid-3', format: 'sprint', mode: 'async', count: 5, chapter: null, subjectName: 'Accountancy', title: "Kabir's sprint", host: { memberId: 'member-1', name: 'Kabir' },
-    openedAt: '2026-10-22T06:00:00.000Z', closesAt: '2026-10-23T06:00:00.000Z', closed: false, room: null, runs: [], yourRun: 'none', podiumReady: false,
+    openedAt: '2026-10-22T09:00:00.000Z', closesAt: '2026-10-23T09:00:00.000Z', closed: false, room: null, runs: [], yourRun: 'none', podiumReady: false,
   }];
   v3.quest = { ...v3.quest, answered: 51, target: 60, bySource: [{ label: "Monday's Mob paper", answered: 37 }, { label: "Riya's sprint", answered: 14 }] };
   v3.mobChain = { weeks: 3, best: 3, passes: 0, stitchedThisWeek: false, restarted: false, next: { at: 4, item: 'stamp' } };

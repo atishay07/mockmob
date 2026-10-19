@@ -126,7 +126,7 @@ function CodeBoxes({ chars, onChange, inputRef, describedBy }) {
   const boxes = Array.from({ length: n }, (_, i) => chars[i] || '');
   return (
     <div className="den-code-boxes" data-n={n} onClick={() => inputRef.current?.focus()}>
-      <input ref={inputRef} className="den-code-boxes__input" value={chars} inputMode="text" autoComplete="one-time-code" autoCapitalize="characters" spellCheck={false}
+      <input ref={inputRef} className="den-code-boxes__input" value={chars} autoFocus inputMode="text" autoComplete="one-time-code" autoCapitalize="characters" spellCheck={false}
         aria-label={DenCopy.joinCodeLabel} aria-describedby={describedBy} maxLength={64}
         onChange={(e) => onChange(parseJoinInput(e.target.value).chars)}
         onPaste={(e) => { e.preventDefault(); onChange(parseJoinInput(e.clipboardData.getData('text')).chars); }} />
