@@ -663,3 +663,10 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > Just something my site and certain data do need, and surprise me with whatever you build. I don't think if I had done this usefulness thing many times with Claude, I think back when I was using Codex. Let's see if you can come up with something more innovative for all the things, and we can keep progressing on the website side also, side by side. I have been focused on the app the past few days, but the website is still the main product, not the app.
 **Ledger D157 (replaces C-dec 3 items 1-2 where they differ):** AI credit pricing must keep a very good margin: check the real cost per job. Pro does NOT make Mobi free: credits are mainly bought by Pro students, so the credit economy is built around Pro. Do not give more work per credit; make each credit's job deeper and more useful (Repair especially: he asked weeks ago). Leverage our data and knowledge base so the whole platform is smart, with Mobi woven in. Surprise him with innovation. The WEBSITE is the main product, not the app: keep it progressing side by side.
+
+## Owner, 20 Oct about 3:12 am IST (verbatim)
+> "What's the update on everything? Can you tell how the work is going? What's the progress, and in how much more time will you be ready?"
+
+## Owner, 20 Oct about 3:14 am IST (verbatim)
+> "Okay, pace up a bit for the next 15-20 minutes at least, until I go to sleep. Try to do as much as you can. If possible, try to complete everything that's remaining in this session only. If that is not possible, then after the next 15 minutes, I will tell you to stop and prepare the handover for the next agent in a fresh account, so that it continues the work for a few hours and gets done with it."
+**Ledger D158:** pace up for 15-20 minutes; finish in this session if possible; otherwise he will say stop and a full handover goes to a fresh account to finish. (Live at 3:13 am: web v13 + Mob v3 on production, deployment dpl_4nA9juLKE9wFKjPHRAcdtfx7Ffha.)
