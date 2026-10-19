@@ -281,6 +281,48 @@ void main() {
       }
     }
 
+    // M4, the layout (V11 truth audit): the credit line was pinned under the page, so at 360 dp the
+    // "Ask your record" key sat under it at rest. Now the line ends the scrolling page: it is never over
+    // any key at any scroll position, and at 360 by 800 a student with papers sees both doors named on the first screen.
+    for (final height in [640.0, 800.0]) {
+      for (final scale in [1.0, 1.3]) {
+        for (final heavy in [true, false]) {
+          testWidgets('M4: at 360 by ${height.round()} and text $scale the credit line scrolls with the page and never covers a key (${heavy ? 'heavy' : 'fresh'} record)', (tester) async {
+            await pumpMockmob(
+              tester,
+              const AskScreen(),
+              brightness: Brightness.dark,
+              size: Size(360, height),
+              textScale: scale,
+              disableAnimations: true,
+              overrides: insightsOverrides(insights: heavy ? null : RemoteState(value: empty()), attempts: heavy ? null : const [], credits: monthly()),
+              wrapInScaffold: false,
+            );
+            await tester.pumpAndSettle();
+            final line = find.byType(AskCreditLine);
+            expect(line, findsOneWidget, reason: 'the credit line is still on the page (R3: moved, never hidden)');
+            expect(find.descendant(of: find.byType(SingleChildScrollView), matching: line), findsOneWidget, reason: 'it scrolls with the doors, never pinned over them');
+            final keys = find.descendant(of: find.byType(AskRecordDoor), matching: find.byWidgetPredicate((w) => w is KeyButton || w is AskStarterRow || w is AskPriceTag));
+            expect(keys, findsWidgets);
+            if (heavy && height == 800 && scale == 1.0) {
+              expect(tester.getRect(find.text(AskDoorCopy.recordTitle)).bottom, lessThanOrEqualTo(height), reason: 'both ways in are named on the first screen');
+            }
+            final position = (tester.state(find.byType(Scrollable).first) as ScrollableState).position;
+            for (var at = 0.0;; at = (at + 80).clamp(0.0, position.maxScrollExtent)) {
+              position.jumpTo(at);
+              await tester.pump();
+              final cover = tester.getRect(line);
+              for (final k in keys.evaluate()) {
+                final r = tester.getRect(find.byWidget(k.widget));
+                expect(r.overlaps(cover.deflate(0.5)), isFalse, reason: 'a key under the credit line at scroll $at');
+              }
+              if (at >= position.maxScrollExtent) break;
+            }
+          });
+        }
+      }
+    }
+
     testWidgets('a starter sends at once with no sheet first (D53), and the wait says "Writing a reply"', (tester) async {
       final http = FakeHttpAdapter()
         ..handler = ((o) => FakeReply(200, modelReply()))
