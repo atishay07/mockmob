@@ -167,7 +167,9 @@ export async function ensureDbUser(identity, db, { onCreated } = {}) {
     try {
       const row = {
         id: identity.id,
-        name: identity.name || identity.email.split('@')[0],
+        // No name until the student gives one (20 Oct, bug 3): the email's local part was stored here and read as a
+        // broken name ("walk-r11-web-1019a, what are we practising?"). users.name is NOT NULL, so "no name" is ''.
+        name: typeof identity.name === 'string' ? identity.name.trim() : '',
         email: identity.email,
         image: identity.image || null,
         subjects: [],

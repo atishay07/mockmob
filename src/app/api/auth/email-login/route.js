@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { resend } from '@/lib/resend';
-import { EMAIL_LOGIN_LIMITS, getSiteOrigin, pruneLocalBuckets } from '@/lib/server/emailLoginPolicy';
+import { EMAIL_LOGIN_LIMITS, getSiteOrigin, isAppClient, loginLinkPath, pruneLocalBuckets } from '@/lib/server/emailLoginPolicy';
 
 export const runtime = 'nodejs';
 
@@ -64,7 +64,7 @@ function escapeHtml(value) {
     .replace(/'/g, '&#039;');
 }
 
-function loginEmailHtml({ link, code }) {
+function loginEmailHtml({ link, code, forApp = false }) {
   const safeLink = escapeHtml(link);
   const safeCode = escapeHtml(code);
   const digits = String(code).length;
@@ -93,7 +93,9 @@ function loginEmailHtml({ link, code }) {
                   <p style="margin:0 0 8px;color:#a1a1aa;font-size:13px;">Your ${digits}-digit login code</p>
                   <p style="margin:0;color:#d2f000;font-size:34px;line-height:1;font-weight:900;letter-spacing:0.28em;">${safeCode}</p>
                 </div>
-                <p style="margin:18px 0 0;color:#a1a1aa;font-size:13px;line-height:1.6;">Using the MockMob app? Type this code in the app. The button opens the website.</p>
+                <p style="margin:18px 0 0;color:#a1a1aa;font-size:13px;line-height:1.6;">${forApp
+                  ? 'Tap the button on this phone to open the MockMob app, or type the code in the app.'
+                  : 'Using the MockMob app? Type this code in the app. The button opens the website.'}</p>
                 <p style="margin:12px 0 0;color:#71717a;font-size:12px;line-height:1.6;">This login is one-time use. If you did not request it, you can ignore this email.</p>
               </td>
             </tr>
@@ -180,7 +182,7 @@ export async function POST(request) {
       return NextResponse.json({ ok: false, message: 'Could not create a login code. Please try again.' }, { status: 500 });
     }
 
-    const loginUrl = new URL('/auth/callback', origin);
+    const loginUrl = new URL(loginLinkPath(body), origin);
     loginUrl.searchParams.set('token_hash', tokenHash);
     loginUrl.searchParams.set('type', verificationType);
 
@@ -188,7 +190,7 @@ export async function POST(request) {
       from: process.env.AUTH_EMAIL_FROM || 'MockMob <support@mockmob.in>',
       to: email,
       subject: 'Your MockMob login link and code',
-      html: loginEmailHtml({ link: loginUrl.toString(), code }),
+      html: loginEmailHtml({ link: loginUrl.toString(), code, forApp: isAppClient(body) }),
     });
 
     if (sendResult?.error) {

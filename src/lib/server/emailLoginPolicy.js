@@ -13,6 +13,23 @@ export function getSiteOrigin(request, env = process.env) {
   return configured || new URL(request.url).origin;
 }
 
+// Where the emailed button points (20 Oct, I2). The app's verified App Link claims `/app/login` on
+// www.mockmob.in, so a code asked for in the app gets a button that opens the app on that phone. The same path
+// is a website page too, so the button still signs in on the web when the app is not installed. Website
+// sign-ins keep `/auth/callback`, which the app never claims (a website sign-in on the same phone must stay in
+// the browser).
+export const APP_LOGIN_PATH = '/app/login';
+export const WEB_LOGIN_PATH = '/auth/callback';
+
+/** True when the request body says the MockMob app asked for the code. */
+export function isAppClient(body) {
+  return body?.client === 'app';
+}
+
+export function loginLinkPath(body) {
+  return isAppClient(body) ? APP_LOGIN_PATH : WEB_LOGIN_PATH;
+}
+
 const HOUR_MS = 60 * 60 * 1000;
 
 // Three limits, all persistent when PERSISTENT_LIMITS_ENABLED=true (Vercel):
