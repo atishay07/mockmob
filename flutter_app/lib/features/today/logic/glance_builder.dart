@@ -24,6 +24,7 @@ import 'marks_trend.dart';
 import 'move_builder.dart';
 import 'road_board.dart';
 import 'road_builder.dart' show expectedWindowStart;
+import 'smart_cards.dart' show smartChoices, withSmartChoices;
 import 'starter_cards.dart';
 import 'subjects.dart';
 import 'today_builder.dart' show buildLastPaper;
@@ -158,7 +159,8 @@ List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakes
   // A light record (one paper, two) makes fewer than four cards of its own: the starter cards top it
   // up after the record's own, so the deck never runs short (G12, and the first-paper finding).
   if (out.length < deckMinimum) out.addAll(starterChoices(i, lead, existing: out, limit: math.min(limit, deckMinimum) - out.length));
-  return out;
+  // The smart layer's cards ride on top: the untouched subject at position 2, a goal card after it.
+  return withSmartChoices(out, smartChoices(i, lead));
 }
 
 /// The deck while a sealed result stands in the lead card (the paper's reel, 19 Oct: "Today after the

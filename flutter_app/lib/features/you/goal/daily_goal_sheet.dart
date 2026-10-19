@@ -20,7 +20,6 @@ import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../onboarding/goal_copy.dart';
-import '../../onboarding/model/deck.dart' show Steps;
 import '../../onboarding/state/answers_controller.dart' show onboardingAnswersProvider;
 import '../../onboarding/widgets/goal_bubbles.dart';
 import '../../today/copy_pattern.dart' show PatternCopy;
@@ -28,7 +27,6 @@ import '../../today/data/study_log_store.dart';
 import '../../today/logic/study_pattern.dart';
 import '../data/goal_pause.dart';
 import '../data/student_target.dart' show daysForCount;
-import '../data/study_length.dart';
 
 /// Opens the goal sheet.
 Future<void> showDailyGoalSheet(BuildContext context) => showMmSheet<void>(
@@ -79,17 +77,9 @@ class _DailyGoalSheetState extends ConsumerState<DailyGoalSheet> {
       _saving = true;
       _error = null;
     });
-    // The daily time, on this phone: the step counts as answered, so Today and the goal read it.
-    final answers = ref.read(onboardingAnswersProvider.notifier);
-    final before = ref.read(dailyGoalProvider);
-    try {
-      answers.edit((a) => a.copyWith(minutes: minutes, days: days == a.days.length ? a.days : daysForCount(a.days, days)).mark(Steps.rhythm));
-    } on Object {
-      // The sheet could not be written; the server part still goes.
-    }
-    if (before != minutes) ref.read(studyLogProvider.notifier).markGoalSet();
-    // The server's study length holds 10, 20 or 30 only: it gets the nearest, never a refusal.
-    unawaited(ref.read(studyLengthProvider).save(sessionMinutesForServer(minutes)).then((_) {}, onError: (Object _) {}));
+    // The daily time, on this phone (and the nearest length the server holds, never a refusal).
+    final phoneDays = ref.read(onboardingAnswersProvider).value?.days;
+    ref.read(dailyGoalWriterProvider).set(minutes, days: phoneDays == null || days == phoneDays.length ? null : daysForCount(phoneDays, days));
     if (serverDays != null && days != serverDays) {
       try {
         final goal = ref.read(goalRepositoryProvider).value;

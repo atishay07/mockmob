@@ -11,9 +11,11 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../insights/ask_mobi.dart' show AskMobiLink, askMobiAboutToday, openAskMobi;
 import '../copy.dart';
+import '../copy_pattern.dart' show PatternLine, whyLines;
 import '../data/today_providers.dart';
 import '../logic/why_ask.dart';
 import '../logic/why_model.dart';
+import '../widgets/pattern_insight.dart' show PatternLines;
 
 class WhySheet extends ConsumerWidget {
   const WhySheet({super.key, required this.attemptId});
@@ -25,8 +27,10 @@ class WhySheet extends ConsumerWidget {
     final attempts = ref.watch(attemptsRepositoryProvider).value ?? const [];
     final inputs = ref.watch(todayInputsProvider);
     final model = buildWhy(attempts, attemptId, toDate: inputs.date);
+    final pattern = inputs.pattern;
     return WhySheetBody(
       model: model,
+      learned: pattern == null ? const [] : whyLines(pattern),
       onSeeAnswers: model == null
           ? null
           : () {
@@ -41,9 +45,13 @@ class WhySheet extends ConsumerWidget {
 }
 
 class WhySheetBody extends StatelessWidget {
-  const WhySheetBody({super.key, required this.model, this.onSeeAnswers, this.onAsk});
+  const WhySheetBody({super.key, required this.model, this.onSeeAnswers, this.onAsk, this.learned = const []});
 
   final WhyModel? model;
+
+  /// What the smart layer learned that orders the moves (his most-picked mode, the cards he keeps
+  /// passing on), each with "Not quite right?". Empty shows nothing.
+  final List<PatternLine> learned;
   final VoidCallback? onSeeAnswers;
 
   /// "Ask Mobi about today": a quiet line under See my answers. Null shows nothing.
@@ -77,6 +85,10 @@ class WhySheetBody extends StatelessWidget {
             if (m.early) ...[
               const SizedBox(height: MmSpace.s8),
               Text(TodayCopy.whyEarly, style: type.caption.copyWith(color: colors.ink3)),
+            ],
+            if (learned.isNotEmpty) ...[
+              const SizedBox(height: MmSpace.s16),
+              PatternLines(lines: learned),
             ],
             const SizedBox(height: MmSpace.s20),
             KeyButton.secondary(label: TodayCopy.seeMyAnswers, onPressed: onSeeAnswers),

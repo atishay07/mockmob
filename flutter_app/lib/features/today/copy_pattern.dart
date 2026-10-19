@@ -46,6 +46,7 @@ abstract final class PatternCopy {
   static String twoBlocks(int m, int goal) => 'You usually practise about ${_min(m)} at a time, so your $goal-minute goal is planned as two sittings.';
   static const String irregular = "Your study times change a lot, so I'll keep each plan short and easy to start.";
   static String shift(String windows) => 'Lately you practise in the $windows, so the plan now fits around that.';
+  static String fullMockLead(int goal, String when) => "Your $goal-minute goal has room for a full mock, so $when's plan leads with one.";
   static String longer(int chip, String when) => "You often choose a longer session than I suggest, so $when's plan is ${_min(chip)}.";
   static String stated(int m, int chip, String when) => chip == m
       ? "You told me your sittings run about ${_min(m)}, so $when's plan is ${_min(m)}."
@@ -75,6 +76,7 @@ abstract final class PatternCopy {
   static const String correctTime = 'I usually study at another time';
   static const String correctLength = 'My sessions are longer or shorter';
   static const String correctForget = 'Forget it and learn again';
+  static const String done = 'Done';
   static const String askTime = 'When do you usually study?';
   static const String askLength = 'About how long is one sitting for you?';
   static const String forgotTime = "Thanks. I've forgotten that, and I'll learn your times again from your next sessions.";

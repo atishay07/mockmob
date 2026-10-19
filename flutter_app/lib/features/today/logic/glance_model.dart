@@ -28,6 +28,19 @@ class MoveChoice {
   MoveChoice asSuggested() => MoveChoice(key: key, title: title, line: line, hero: hero, action: action, suggested: true);
 }
 
+/// How the suggested deck leans for this student (SMART-LAYER-1019PM 2.4): kinds he picked on 3
+/// days in a fortnight rise to just after the recommended card, kinds he kept passing on sink to
+/// the back, and his most-picked mode's card goes first among the rest. Never adds or removes a card.
+class DeckLean {
+  const DeckLean({this.liked = const {}, this.ignored = const {}, this.preferredKind});
+
+  final Set<String> liked;
+  final Set<String> ignored;
+  final String? preferredKind;
+
+  bool get isEmpty => liked.isEmpty && ignored.isEmpty && preferredKind == null;
+}
+
 /// What one day of the week says when it is tapped (6.3).
 class DayReadout {
   const DayReadout({required this.title, this.lines = const [], this.isToday = false});

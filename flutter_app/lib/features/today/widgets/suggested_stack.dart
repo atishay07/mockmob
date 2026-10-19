@@ -48,6 +48,8 @@ import '../logic/suggested_deck.dart';
 import 'glance_rows.dart' show GlanceLink;
 import 'hero_stage.dart' show HeroArtView;
 import 'today_type.dart';
+import '../data/study_log_store.dart' show recordDeckReaction, restoreDeckReaction;
+import '../logic/study_log.dart' show DeckReaction;
 
 /// A commit: past this share of the deck's width.
 const double deckCommitShare = 0.30;
@@ -191,6 +193,9 @@ sealed class _Undo {
 
   /// The kind's pass days before the commit.
   final List<int> memory;
+
+  /// The study log's reactions for the kind before the commit (null: nothing was recorded).
+  Map<int, DeckReaction>? reacted;
 }
 
 class _UndoNotNow extends _Undo {
@@ -663,7 +668,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       memory.passed(kind, DeckMemoryStore.today);
       unawaited(DeckMemoryStore.save());
     }
-    _undo = _UndoNotNow(top, kind, before);
+    _undo = _UndoNotNow(top, kind, before)..reacted = top.suggested ? null : recordDeckReaction(context, kind, DeckReaction.passed);
     final said = firstLeft ? SuggestedCopy.learnedLeft : null;
     if (_reduced) {
       _noteEnd();
@@ -720,6 +725,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     final hero = card.choice.hero;
     if (hero == null) {
       _x.value = 0;
+      if (!card.suggested) recordDeckReaction(context, DeckMemory.kindOf(card), DeckReaction.picked);
       widget.onChoose(card.choice);
       return;
     }
@@ -757,7 +763,8 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
       memory.picked(kind);
       unawaited(DeckMemoryStore.save());
     }
-    _undo = widget.onUndoChoose == null ? null : _UndoUpNext(card, kind, before, pass: _pass.copy(), cards: List.of(_cards), rawKeys: List.of(_rawKeys));
+    final reacted = card.suggested ? null : recordDeckReaction(context, kind, DeckReaction.picked);
+    _undo = widget.onUndoChoose == null ? null : (_UndoUpNext(card, kind, before, pass: _pass.copy(), cards: List.of(_cards), rawKeys: List.of(_rawKeys))..reacted = reacted);
     if (_said != null) setState(() => _said = null);
     if (_reduced) {
       _x.value = 0;
@@ -804,6 +811,7 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
     _undo = null;
     DeckMemoryStore.loaded?.restore(undo.kind, undo.memory);
     unawaited(DeckMemoryStore.save());
+    restoreDeckReaction(context, undo.kind, undo.reacted);
     switch (undo) {
       case _UndoNotNow():
         _tuck.stop();
@@ -1183,6 +1191,8 @@ class _SuggestedStackState extends State<SuggestedStack> with TickerProviderStat
                 notNowLit: _demoSide == MmDragSide.left || (_past && x < 0),
                 upNextLit: _demoSide == MmDragSide.right || (_past && x > 0),
                 title: top?.title,
+                notNowLabel: top?.notNowLabel,
+                upNextLabel: top?.upNextLabel,
                 undoTitle: undo?.card.title,
                 onNotNow: top == null || _leaving ? null : () => unawaited(_notNow()),
                 onUpNext: top == null || _leaving ? null : () => _upNext(top),
@@ -2033,6 +2043,8 @@ class _DeckControls extends StatelessWidget {
     required this.notNowLit,
     required this.upNextLit,
     required this.title,
+    this.notNowLabel,
+    this.upNextLabel,
     required this.undoTitle,
     required this.onNotNow,
     required this.onUpNext,
@@ -2053,6 +2065,10 @@ class _DeckControls extends StatelessWidget {
 
   /// The top card's title, for the buttons' words to a screen reader.
   final String? title;
+
+  /// The top card's own words for the two keys, when it has them (a goal card).
+  final String? notNowLabel;
+  final String? upNextLabel;
 
   /// The card Undo would bring back.
   final String? undoTitle;
@@ -2080,8 +2096,10 @@ class _DeckControls extends StatelessWidget {
         const side = 14 + 18 + 8 + 18;
         const bareSide = 16 + 16;
         final undoFull = 12 + 18 + 8 + w(SuggestedCopy.undo, undoLabel) + 12;
-        final noW = w(SuggestedCopy.notNow, label);
-        final upW = w(SuggestedCopy.upNext, label);
+        final noText = notNowLabel ?? SuggestedCopy.notNow;
+        final upText = upNextLabel ?? SuggestedCopy.upNext;
+        final noW = w(noText, label);
+        final upW = w(upText, label);
         // Tight (a 360 dp phone): the two outer buttons drop their icons first, since words in a
         // pill still read as a button, and every label stays whole ("Do this next", never
         // "Do this ..."). Only when even that cannot fit (360 dp at 1.3x text) does Undo keep only
@@ -2131,7 +2149,7 @@ class _DeckControls extends StatelessWidget {
                 child: _RowButton(
                   key: SuggestedStack.notNowKey,
                   icon: bare ? null : LucideIcons.x,
-                  label: SuggestedCopy.notNow,
+                  label: noText,
                   style: label,
                   grow: notNow,
                   lit: notNowLit,
@@ -2145,7 +2163,7 @@ class _DeckControls extends StatelessWidget {
                 child: _RowButton(
                   key: SuggestedStack.upNextKey,
                   icon: bare ? null : LucideIcons.arrowUpToLine,
-                  label: SuggestedCopy.upNext,
+                  label: upText,
                   style: label,
                   filled: true,
                   yes: true,

@@ -18,6 +18,7 @@ import '../copy.dart';
 import 'glance_builder.dart';
 import 'move_builder.dart';
 import 'road_builder.dart';
+import 'smart_cards.dart' show deckLeanOf;
 import 'subjects.dart';
 import 'today_clock.dart' show endedNoticeWindow;
 import 'today_inputs.dart';
@@ -75,6 +76,7 @@ TodayView buildToday(TodayInputs i) {
     offline: i.offline,
     lastPaper: buildLastPaper(i),
     glance: glance,
+    lean: deckLeanOf(i.pattern),
     choices: switch (hero) {
       MoveHero() => buildChoices(i, move, weakest: weakest),
       // The reel stands in the lead card: the deck still shows what to do next (19 Oct).

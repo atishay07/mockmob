@@ -6,6 +6,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api_providers.dart' show nowProvider;
@@ -16,6 +17,7 @@ import '../../../core/repositories/repositories.dart' show attemptsRepositoryPro
 import '../../../core/storage/prefs_store.dart';
 import '../../onboarding/model/deck.dart' show Steps;
 import '../../onboarding/state/answers_controller.dart' show onboardingAnswersProvider;
+import '../../you/data/study_length.dart' show sessionMinutesForServer, studyLengthProvider;
 import '../logic/study_log.dart';
 import '../logic/study_pattern.dart';
 import 'today_providers.dart' show todayStudentDayProvider;
@@ -298,6 +300,51 @@ class StudyLogController extends Notifier<StudyLogState> {
 }
 
 final studyLogProvider = NotifierProvider<StudyLogController, StudyLogState>(StudyLogController.new);
+
+/// Records a deck reaction from a widget without a ref (the suggested stack). Returns what [kind]
+/// held before, for an undo; null when there is no store here (a widget test without a scope).
+Map<int, DeckReaction>? recordDeckReaction(BuildContext context, String kind, DeckReaction r) {
+  try {
+    final log = ProviderScope.containerOf(context, listen: false).read(studyLogProvider.notifier);
+    final before = log.reactionsOf(kind);
+    log.react(kind, r);
+    return before;
+  } on Object {
+    return null;
+  }
+}
+
+/// Puts [kind]'s reactions back as [before] (the undo of a deck move).
+void restoreDeckReaction(BuildContext context, String kind, Map<int, DeckReaction>? before) {
+  if (before == null) return;
+  try {
+    ProviderScope.containerOf(context, listen: false).read(studyLogProvider.notifier).restoreReactions(kind, before);
+  } on Object {
+    // Nothing to restore without a store.
+  }
+}
+
+/// Writes the daily goal: on this phone (the pace step counts as answered, so Today and the goal
+/// sheet read it), the moment it was set (goal fit counts from there), and the nearest session
+/// length the server's study preferences hold (best effort; a long goal is never refused or lost).
+class DailyGoalWriter {
+  DailyGoalWriter(this._ref);
+
+  final Ref _ref;
+
+  void set(int minutes, {Set<int>? days}) {
+    final before = _ref.read(dailyGoalProvider);
+    try {
+      _ref.read(onboardingAnswersProvider.notifier).edit((a) => a.copyWith(minutes: minutes, days: days).mark(Steps.rhythm));
+    } on Object {
+      // The sheet could not be written now; the student can set it again.
+    }
+    if (before != minutes) _ref.read(studyLogProvider.notifier).markGoalSet();
+    unawaited(_ref.read(studyLengthProvider).save(sessionMinutesForServer(minutes)).then((_) {}, onError: (Object _) {}));
+  }
+}
+
+final dailyGoalWriterProvider = Provider<DailyGoalWriter>(DailyGoalWriter.new);
 
 /// The daily goal in minutes, as the student set it on this phone (onboarding's pace step or the
 /// goal sheet), or null when it was never set (a skipped step shows no goal anywhere, so nothing

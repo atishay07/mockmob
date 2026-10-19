@@ -38,6 +38,19 @@ class OpenAlternatives extends TodayTarget {
   const OpenAlternatives();
 }
 
+/// Make [minutes] the daily goal (the smart layer's goal cards, SMART-LAYER-1019PM 2.4).
+class SetDailyGoal extends TodayTarget {
+  const SetDailyGoal(this.minutes);
+
+  final int minutes;
+
+  @override
+  bool operator ==(Object other) => other is SetDailyGoal && other.minutes == minutes;
+
+  @override
+  int get hashCode => minutes.hashCode;
+}
+
 class TodayAction {
   const TodayAction(this.label, this.target, {this.startsSession = false, this.actionType, this.shortLabel});
 
@@ -680,7 +693,11 @@ class TodayView {
     this.lastPaper,
     this.choices = const [],
     this.glance,
+    this.lean = const DeckLean(),
   });
+
+  /// How the suggested deck leans for this student (the smart layer).
+  final DeckLean lean;
 
   /// The lead card's other moves (TODAY-1018 6.1): the best alternatives of a different kind, each
   /// one a whole move the card swaps to in place (or an action for a choice that only opens).
