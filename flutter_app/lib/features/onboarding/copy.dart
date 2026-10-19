@@ -170,7 +170,7 @@ abstract final class OnboardingCopy {
 
   // Rhythm.
   static const String rhythmTitle = 'Pick a pace you can keep.';
-  static const String minutesLabel = 'Each session';
+  static const String minutesLabel = 'Each study day';
   static const String daysLabel = 'Study days';
   static const String timeLabel = 'Around';
   static const String restDays = 'Dotted days are rest days.';

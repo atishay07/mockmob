@@ -8,6 +8,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../choices_copy.dart';
 import '../copy.dart';
+import '../goal_copy.dart';
 import '../data/calendar.dart';
 import '../model/answers.dart';
 import '../model/choices.dart';
@@ -15,10 +16,12 @@ import '../state/answers_controller.dart';
 import '../widgets/choice_tile.dart';
 import '../widgets/day_picker.dart';
 import '../widgets/entrance.dart';
+import '../widgets/goal_bubbles.dart';
 import '../widgets/runway_strip.dart';
 import '../widgets/step_layout.dart';
 
-/// Step 8: a pace the student can keep: minutes as three big bubbles (full mocks stay in Practice),
+/// Step 6 of 7: a pace the student can keep: minutes as three big bubbles and a fourth, More, for a
+/// longer day (H1, option A: 1 hour, 2 hours or their own length; full mocks stay in Practice),
 /// study days as a "days a week" slider synced both ways with the seven day bubbles, and a time of
 /// day as four tiles with their sky. What the choice adds up to rolls live, as the step's hero
 /// right under the title (v15 taste pass: below the fold the student dragged the slider and saw
@@ -68,10 +71,15 @@ class RhythmStep extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 label(OnboardingCopy.minutesLabel),
-                _MinuteBubbles(value: answers.minutes, onChanged: c.setMinutes),
+                // H1, option A (19 Oct): 10, 20 and 30 as they were, and More for a longer day.
+                GoalBubbles(value: answers.minutes, onChanged: c.setMinutes),
                 const SizedBox(height: MmSpace.s12),
-                // D46: the quick sessions stay; the full paper is never far.
-                Text(ChoicesCopy.fullMocksLine, style: type.caption.copyWith(color: colors.ink3)),
+                // Mobi's line (the smart layer's slot): with no history yet it follows the choice
+                // alone. D46: the quick sessions stay; the full paper is never far.
+                Semantics(
+                  liveRegion: true,
+                  child: Text(GoalCopy.slotLine(answers.minutes), style: type.caption.copyWith(color: colors.ink3)),
+                ),
               ],
             ),
           ),
@@ -271,75 +279,6 @@ class _Readout extends StatelessWidget {
           Text(ChoicesCopy.boardsCount, style: type.caption.copyWith(color: colors.ink3)),
         ],
       ],
-    );
-  }
-}
-
-/// 10, 20 and 30 minutes as three big answer bubbles with the figure inside; the chosen one is
-/// inked, its figure in the ink on volt. A radio group, 64 dp each.
-class _MinuteBubbles extends ConsumerWidget {
-  const _MinuteBubbles({required this.value, required this.onChanged});
-
-  final int value;
-  final ValueChanged<int> onChanged;
-
-  static const double _size = 64;
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      container: true,
-      label: OnboardingCopy.minutesLabel,
-      child: Row(
-        children: [
-          for (final m in const [10, 20, 30])
-            Expanded(
-              child: Builder(
-                builder: (context) {
-                  final on = m == value;
-                  return MmPressable(
-                    semanticsLabel: OnboardingCopy.minutesSpoken(m),
-                    selected: on,
-                    inMutuallyExclusiveGroup: true,
-                    pressedScale: 0.92,
-                    focusRadius: MmRadius.pillAll,
-                    onTap: () {
-                      if (on) return;
-                      ref.read(hapticsProvider).selection();
-                      GuideGlance.at(context);
-                      onChanged(m);
-                    },
-                    builder: (context, pressed, _) => Column(
-                      children: [
-                        SizedBox.square(
-                          dimension: _size,
-                          child: Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              Bubble(state: on ? BubbleState.filled : BubbleState.hollow, size: _size - 4, inkOrigin: const Offset(-0.3, 0.5)),
-                              Text(
-                                '$m',
-                                style: type.figureCompact.copyWith(
-                                  fontSize: 30,
-                                  height: 1,
-                                  color: on ? colors.voltInk : colors.ink,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        const SizedBox(height: MmSpace.s4),
-                        Text(OnboardingCopy.minutesUnit, style: type.caption.copyWith(color: on ? colors.ink : colors.ink3)),
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-        ],
-      ),
     );
   }
 }

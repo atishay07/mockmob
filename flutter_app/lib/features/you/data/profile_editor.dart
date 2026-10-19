@@ -125,7 +125,7 @@ class ProfileEditor {
     }
     _editAnswers((a) => a.copyWith(window: window));
     try {
-      await _ref.read(studyLengthProvider).save(minutes, expectUserId: userId);
+      await _ref.read(studyLengthProvider).save(sessionMinutesForServer(minutes), expectUserId: userId);
     } on ApiError catch (e) {
       throw WeekSaveError(WeekSavePart.length, e);
     }

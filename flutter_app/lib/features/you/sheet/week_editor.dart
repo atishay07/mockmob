@@ -212,7 +212,9 @@ class _WeekEditorState extends ConsumerState<WeekEditor> {
               const SizedBox(height: MmSpace.s8),
               MmSegmented<int>(
                 semanticsLabel: EditCopy.weekLength,
-                segments: [for (final m in const [10, 20, 30]) MmSegment(m, EditCopy.minutesLabel(m))],
+                // A longer daily goal (More, H1) stays on the control as its own segment, so saving
+                // the week never quietly turns it back into 30.
+                segments: [for (final m in {10, 20, 30, if (![10, 20, 30].contains(_start.minutes)) _start.minutes}) MmSegment(m, EditCopy.minutesLabel(m))],
                 value: _minutes,
                 onChanged: _saving ? null : (m) => _edit(() => _minutes = m),
               ),

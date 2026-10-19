@@ -14,6 +14,25 @@ const int kMaxColleges = MyColleges.maxColleges;
 /// The most "where do your marks go" picks (D45).
 const int kMaxWorries = 3;
 
+/// The daily goal's bounds in minutes (SMART-LAYER-1019PM 2.4). The top is input hygiene, longer
+/// than a waking day, never a cap on a motivated student.
+const int kMinGoalMinutes = 5;
+const int kMaxGoalMinutes = 999;
+
+/// The daily goal stored in a sheet, or null when [raw] is not a whole number of minutes from
+/// [kMinGoalMinutes] to [kMaxGoalMinutes]. 10, 20 and 30 stay legal, and so do 60, 90, 120 and any
+/// other length the student picked: a custom goal must never be reset to 20 on the next read.
+int? parseGoalMinutes(Object? raw) {
+  final n = switch (raw) {
+    int v => v,
+    double v when v.isFinite && v == v.roundToDouble() => v.toInt(),
+    String v => int.tryParse(v.trim()),
+    _ => null,
+  };
+  if (n == null || n < kMinGoalMinutes || n > kMaxGoalMinutes) return null;
+  return n;
+}
+
 /// The single real question, as answered.
 @immutable
 class WarmupResult {
@@ -103,7 +122,8 @@ class OnboardingAnswers {
   /// The primary pick, or null.
   Worry? get worry => worries.isEmpty ? null : worries.first;
 
-  /// 10, 20 or 30.
+  /// The daily goal in minutes: 10, 20 or 30 from the bubbles, or a longer day from More (1 hour,
+  /// 2 hours or the student's own, [kMinGoalMinutes] to [kMaxGoalMinutes]).
   final int minutes;
 
   /// Study days, 0 = Monday.
@@ -281,7 +301,7 @@ class OnboardingAnswers {
       confidence: confidence,
       worries: _worries(j),
       warmup: WarmupResult.fromJson(j['warmup']),
-      minutes: minutes is int && const [10, 20, 30].contains(minutes) ? minutes : 20,
+      minutes: parseGoalMinutes(minutes) ?? 20,
       days: days == null || days.isEmpty ? const {0, 1, 3, 5} : days,
       window: StudyTime.byName(j['window'] as String?) ?? StudyTime.evening,
       done: strings(j['done']).toSet(),
