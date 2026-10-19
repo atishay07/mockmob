@@ -1,0 +1,91 @@
+{
+  "questions": [
+    {
+      "q": 0,
+      "stem": "Goodwill question 7",
+      "options": [
+        "Option A of question 7",
+        "Option B of question 7",
+        "Option C of question 7",
+        "Option D of question 7"
+      ],
+      "passage": null,
+      "correctIndex": 2,
+      "explanation": "Why answer C is right for question 7.",
+      "yourPick": 2
+    },
+    {
+      "q": 1,
+      "stem": "Goodwill question 8",
+      "options": [
+        "Option A of question 8",
+        "Option B of question 8",
+        "Option C of question 8",
+        "Option D of question 8"
+      ],
+      "passage": null,
+      "correctIndex": 3,
+      "explanation": "Why answer D is right for question 8.",
+      "yourPick": 3
+    },
+    {
+      "q": 2,
+      "stem": "Goodwill question 9",
+      "options": [
+        "Option A of question 9",
+        "Option B of question 9",
+        "Option C of question 9",
+        "Option D of question 9"
+      ],
+      "passage": null,
+      "correctIndex": 0,
+      "explanation": "Why answer A is right for question 9.",
+      "yourPick": 0
+    },
+    {
+      "q": 3,
+      "stem": "Goodwill question 10",
+      "options": [
+        "Option A of question 10",
+        "Option B of question 10",
+        "Option C of question 10",
+        "Option D of question 10"
+      ],
+      "passage": null,
+      "correctIndex": 1,
+      "explanation": "Why answer B is right for question 10.",
+      "yourPick": 2
+    },
+    {
+      "q": 4,
+      "stem": "Goodwill question 11",
+      "options": [
+        "Option A of question 11",
+        "Option B of question 11",
+        "Option C of question 11",
+        "Option D of question 11"
+      ],
+      "passage": null,
+      "correctIndex": 2,
+      "explanation": "Why answer C is right for question 11.",
+      "yourPick": 2
+    }
+  ],
+  "trap": {
+    "q": 3,
+    "number": 4,
+    "caught": "most",
+    "fix": {
+      "now": "open",
+      "check": {
+        "opensAt": "2026-10-27T18:30:00.000Z",
+        "closesAt": "2026-11-01T18:29:59.000Z",
+        "state": "not_yet"
+      },
+      "fixed": {
+        "count": 0,
+        "of": 3
+      }
+    }
+  }
+}

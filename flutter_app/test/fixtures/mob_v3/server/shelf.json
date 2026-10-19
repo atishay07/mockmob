@@ -1,0 +1,209 @@
+{
+  "seat": {
+    "fold": "hexa",
+    "finish": "plain"
+  },
+  "folds": [
+    {
+      "key": "dart",
+      "owned": true,
+      "starter": true,
+      "folds": 1,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      }
+    },
+    {
+      "key": "dogear",
+      "owned": true,
+      "starter": true,
+      "folds": 1,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      }
+    },
+    {
+      "key": "hexa",
+      "owned": true,
+      "starter": true,
+      "folds": 1,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      }
+    },
+    {
+      "key": "kandil",
+      "owned": true,
+      "starter": true,
+      "folds": 1,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      }
+    },
+    {
+      "key": "hop",
+      "owned": false,
+      "folds": 3,
+      "rule": "mob_quest",
+      "have": 0,
+      "need": 1,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      },
+      "mob": "Chai Circle"
+    },
+    {
+      "key": "crane",
+      "owned": false,
+      "folds": 3,
+      "rule": "mob_traps",
+      "have": 0,
+      "need": 3,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      },
+      "mob": "Chai Circle"
+    },
+    {
+      "key": "stamp",
+      "owned": false,
+      "folds": 3,
+      "rule": "mob_weeks",
+      "have": 0,
+      "need": 4,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      },
+      "mob": "Chai Circle"
+    },
+    {
+      "key": "naav",
+      "owned": false,
+      "folds": 2,
+      "rule": "first_full_mock",
+      "have": 0,
+      "need": 1,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      }
+    },
+    {
+      "key": "tally",
+      "owned": false,
+      "folds": 2,
+      "rule": "clean_games",
+      "have": 0,
+      "need": 3,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      }
+    },
+    {
+      "key": "patang",
+      "owned": false,
+      "folds": 2,
+      "rule": "beat_best",
+      "have": 0,
+      "need": 1,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      }
+    },
+    {
+      "key": "sticky",
+      "owned": false,
+      "folds": 2,
+      "rule": "fixes_held",
+      "have": 0,
+      "need": 5,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      }
+    },
+    {
+      "key": "cutting",
+      "owned": false,
+      "folds": 2,
+      "rule": "came_back",
+      "have": 0,
+      "need": 1,
+      "finishes": {
+        "foil": {
+          "owned": false,
+          "rule": "chain_30",
+          "have": 1,
+          "need": 30
+        }
+      }
+    }
+  ],
+  "mobItems": [
+    {
+      "mobId": "uuid-2",
+      "name": "Chai Circle",
+      "items": [
+        {
+          "item": "den_stamp",
+          "owned": false,
+          "have": 0,
+          "need": 2
+        }
+      ]
+    }
+  ]
+}

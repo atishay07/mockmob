@@ -1,0 +1,19 @@
+{
+  "billingOn": true,
+  "can": true,
+  "via": "free_weekly",
+  "modes": [
+    "live",
+    "async"
+  ],
+  "formats": [
+    "sprint",
+    "round"
+  ],
+  "freeLeft": 1,
+  "mics": 1,
+  "micFrom": {
+    "memberId": "member-2",
+    "name": "Riya"
+  }
+}

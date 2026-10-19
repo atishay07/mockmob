@@ -1,0 +1,61 @@
+{
+  "soFar": true,
+  "closesAt": "2026-10-23T08:35:00.000Z",
+  "showPodium": true,
+  "headline": {
+    "kind": "together",
+    "right": 10,
+    "of": 15
+  },
+  "places": [
+    {
+      "memberId": "member-2",
+      "name": "Riya",
+      "fold": "kandil",
+      "colour": 3,
+      "marks": 20,
+      "you": false,
+      "place": 1
+    },
+    {
+      "memberId": "member-1",
+      "name": "Kabir",
+      "fold": "hexa",
+      "colour": 1,
+      "marks": 19,
+      "you": false,
+      "place": 2
+    },
+    {
+      "memberId": "member-3",
+      "name": "Aarav",
+      "fold": "dart",
+      "colour": 1,
+      "marks": 9,
+      "you": true,
+      "place": 3
+    }
+  ],
+  "tie": null,
+  "moments": [
+    {
+      "memberId": "member-2",
+      "kind": "fastest_right",
+      "q": 0,
+      "number": 1,
+      "seconds": 30
+    },
+    {
+      "memberId": "member-1",
+      "kind": "quickest_finish",
+      "count": 5,
+      "seconds": 165
+    },
+    {
+      "memberId": "member-3",
+      "kind": "finished_all",
+      "count": 5
+    }
+  ],
+  "trap": null
+}

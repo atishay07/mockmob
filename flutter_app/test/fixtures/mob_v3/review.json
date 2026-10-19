@@ -15,7 +15,7 @@
   }
  ],
  "trap": {
-  "q": 4,
+  "q": 3,
   "caught": "most",
   "fix": {
    "now": "open",
@@ -27,6 +27,7 @@
     "count": 0,
     "of": 3
    }
-  }
+  },
+  "number": 4
  }
 }
