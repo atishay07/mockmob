@@ -4,6 +4,7 @@
 //   ?wallet=down          the whole read fails (Try again)    ?wallet=zero      the balance is 0
 //   ?wallet=unknown       the balance could not be read       ?history=down|empty
 //   ?plan=pro             Pro: one line says practice is included, no Pro row
+//   ?offer=monthly        the bridge to Pro names the monthly price (pro_monthly_99), as the live site sells it
 import { packViews } from '@/lib/wallet/walletPacks.mjs';
 import { ONE_CREDIT_LINE } from '@/lib/creditCopy.mjs';
 
@@ -41,7 +42,7 @@ export function previewWallet(url, method, init, fixture, json) {
     ok: true,
     credits,
     plan: { name: pro ? 'Pro' : 'Free', until: pro ? '2027-07-31' : null },
-    proOffer: pro ? null : { rupees: 99, expires: '31 July 2027', planId: 'pro_cuet_2027' },
+    proOffer: pro ? null : fixture.get('offer') === 'monthly' ? { rupees: 99, expires: null, planId: 'pro_monthly_99' } : { rupees: 99, expires: '31 July 2027', planId: 'pro_cuet_2027' },
     packs: packViews(),
     commerce: { open, message: open ? null : 'Top-ups open soon.' },
     history,
