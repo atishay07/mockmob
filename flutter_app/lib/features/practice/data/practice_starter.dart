@@ -28,6 +28,15 @@ enum StartFailure {
   /// The paper this start asked for is over (its time ran out, or it was handed in): the key is
   /// forgotten and the next start is a new paper. No new charge was made.
   ended,
+
+  /// The start was quoted as the free first full mock, and it is not free now (another device or tab
+  /// started the subject's free one). Nothing was charged; the key is forgotten, and the screen asks
+  /// for a new quote so the price is on screen before the student starts again.
+  firstMockTaken,
+
+  /// Whether the free first full mock is still free could not be read just now. Nothing was charged;
+  /// the key is kept, so trying again is the same start and may still be free. Never retried by itself.
+  firstMockUnchecked,
 }
 
 sealed class StartOutcome {
@@ -64,6 +73,8 @@ StartFailure failureFor(ApiError e) {
   if (e.hasCode(ApiCodes.premiumRequired) || e.hasCode('DIFFICULTY_NOT_ALLOWED')) return StartFailure.notIncluded;
   if (e.isRateLimited) return StartFailure.rateLimited;
   if (e.hasCode(ApiCodes.sessionExpired) || e.hasCode(ApiCodes.sessionAlreadySubmitted)) return StartFailure.ended;
+  if (e.hasCode(ApiCodes.firstFullMockTaken)) return StartFailure.firstMockTaken;
+  if (e.hasCode(ApiCodes.firstFullMockUnchecked)) return StartFailure.firstMockUnchecked;
   return StartFailure.generic;
 }
 
@@ -76,6 +87,7 @@ bool _definitive(ApiError e) =>
     e.hasCode(ApiCodes.insufficientVerifiedContent) ||
     e.hasCode(ApiCodes.sessionAlreadySubmitted) ||
     e.hasCode(ApiCodes.sessionExpired) ||
+    e.hasCode(ApiCodes.firstFullMockTaken) ||
     e.hasCode('INVALID_CHAPTER') ||
     e.hasCode('SUBJECT_NOT_SUPPORTED');
 
@@ -148,11 +160,15 @@ class PracticeStarter implements PracticeStarting {
     final prior = s.isFreshCheck ? null : await _priorStart(draftKey, window);
     final purpose = s.isFreshCheck ? null : (quote == null ? prior?.purpose : launchPurposeFor(quote));
     final number = mockNumber ?? prior?.mockNumber;
+    // The quote the student saw said "free": the start says so too (`firstFree`), and the server refuses it
+    // rather than charging a price that was never on screen. A start made without a quote is the phone
+    // opening a paper it began, so it repeats what the try before it said.
+    final firstFree = !s.isFreshCheck && (quote == null ? prior?.firstFree == true : quote.quotesFirstFullMockFree);
     final generationKey = await drafts.generationKeyFor(
       draftKey,
       // A fresh check is free and keeps the ordinary quarter hour; it has nothing worth offering again.
       reuseFor: s.isFreshCheck ? const Duration(minutes: 15) : window,
-      start: s.isFreshCheck ? null : PendingStart.record(s, purpose: purpose, mockNumber: number),
+      start: s.isFreshCheck ? null : PendingStart.record(s, purpose: purpose, mockNumber: number, firstFree: firstFree),
     );
     _pendingChanged();
     final SessionView view;
@@ -161,7 +177,7 @@ class PracticeStarter implements PracticeStarting {
         '/api/sessions',
         // Subject, mode, length, chapters and difficulty exactly as chosen; the web sends every
         // value as a string and the server accepts both.
-        body: {'generationKey': generationKey, ...s.sessionFields, 'experience': s.isFreshCheck ? 'recovery' : 'practice', 'purpose': ?purpose},
+        body: {'generationKey': generationKey, ...s.sessionFields, 'experience': s.isFreshCheck ? 'recovery' : 'practice', 'purpose': ?purpose, if (firstFree) 'firstFree': '1'},
         options: const ApiOptions(retries: 0, receiveTimeout: Duration(seconds: 60)),
       );
       view = SessionView.fromJson(response.map);
@@ -170,7 +186,10 @@ class PracticeStarter implements PracticeStarting {
         await drafts.clearGenerationKey(draftKey);
         _pendingChanged();
       }
-      return StartFailed(failureFor(e));
+      final failure = failureFor(e);
+      // The server wrote these two sentences for the student (release 11): they are shown as they came.
+      final firstMock = failure == StartFailure.firstMockTaken || failure == StartFailure.firstMockUnchecked;
+      return StartFailed(failure, message: firstMock ? e.serverMessage : null);
     }
     if (view.questions.isEmpty || (view.meta.sessionId.isEmpty && view.id.isEmpty)) {
       return const StartFailed(StartFailure.generic);

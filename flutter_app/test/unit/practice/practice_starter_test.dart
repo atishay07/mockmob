@@ -14,9 +14,11 @@ import 'package:mockmob/core/sync/session/session_clock.dart';
 import 'package:mockmob/core/sync/session/session_engine.dart';
 import 'package:mockmob/core/sync/session/session_submitter.dart';
 import 'package:mockmob/core/sync/sync_providers.dart';
+import 'package:mockmob/features/practice/copy.dart';
 import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/model/practice_selection.dart';
+import 'package:mockmob/features/practice/widgets/failure_copy.dart';
 
 import '../core_data/support/fakes.dart';
 import '../core_data/support/fixtures.dart';
@@ -279,6 +281,117 @@ void main() {
     http.requests.clear();
     await starter.start(mock, quote: _quote(allowance: {'kind': 'full_sample:accountancy', 'state': 'used'}));
     expect(bodyOf(0).containsKey('purpose'), isFalse);
+  });
+
+  group('release 11: the free first full mock is never charged unseen (verifier M1)', () {
+    final mock = PracticeSelection(mode: PracticeMode.full, subjectId: 'accountancy');
+    PracticeQuote freeQuote({bool reason = true, bool allowance = true}) => PracticeQuote.fromJson({
+      'state': 'available',
+      'launchable': true,
+      'reasonCode': 'ok',
+      'creditCost': 0,
+      'creditBalance': 100,
+      if (allowance) 'allowance': {'kind': 'first_full_mock:accountancy', 'state': 'available'},
+      if (reason) 'freeReason': 'first_full_mock_free',
+      'subject': {'id': 'accountancy', 'name': 'Accountancy'},
+    });
+    const takenBody = {
+      'error': 'FIRST_FULL_MOCK_TAKEN',
+      'message': 'Your free full mock in this subject was already started on another device or tab, so this one is not free. It did not start, and nothing was charged. Check the price, then start again.',
+      'detail': {'retryable': false, 'requote': true, 'reason': 'taken'},
+    };
+    const uncheckedBody = {
+      'error': 'FIRST_FULL_MOCK_UNCHECKED',
+      'message': 'We could not check that this full mock is still free, so it did not start and nothing was charged. Try again in a moment.',
+      'detail': {'retryable': true, 'requote': true, 'reason': 'unchecked'},
+    };
+    FakeReply ok() => FakeReply(200, sessionViewJson(id: 'sess-9', count: 3, startedAt: 1000000, expiresAt: 1600000, serverNow: 1000000));
+
+    test('the quote reads freeReason, and an available first_full_mock allowance also says free', () {
+      expect(freeQuote().freeReason, 'first_full_mock_free');
+      expect(freeQuote().quotesFirstFullMockFree, isTrue);
+      expect(freeQuote(reason: false).quotesFirstFullMockFree, isTrue, reason: 'the allowance alone says it');
+      expect(freeQuote(allowance: false).quotesFirstFullMockFree, isTrue, reason: 'the reason alone says it');
+      expect(_quote().quotesFirstFullMockFree, isFalse);
+      expect(
+        _quote(allowance: {'kind': 'first_full_mock:accountancy', 'state': 'used'}).quotesFirstFullMockFree,
+        isFalse,
+        reason: 'a used allowance is not a free start',
+      );
+      expect(_quote(allowance: {'kind': 'daily_practice', 'state': 'available'}).quotesFirstFullMockFree, isFalse);
+    });
+
+    test('firstFree is sent, as the string 1, only when the quote said free', () async {
+      http.handler = (_) => ok();
+      await starter.start(mock, quote: freeQuote());
+      expect(bodyOf(0)['firstFree'], '1');
+
+      await drafts.delete(mock.draftKey('u1'));
+      http.requests.clear();
+      await starter.start(mock, quote: _quote());
+      expect(bodyOf(0).containsKey('firstFree'), isFalse, reason: 'a charged quote never claims to be free');
+
+      await drafts.delete(mock.draftKey('u1'));
+      http.requests.clear();
+      await starter.start(mock, quote: _quote(allowance: {'kind': 'daily_practice', 'state': 'available'}));
+      expect(bodyOf(0).containsKey('firstFree'), isFalse);
+    });
+
+    test('a resumed start (no quote) sends firstFree again, from the record kept beside its key', () async {
+      var calls = 0;
+      http.handler = (_) => ++calls == 1 ? const FakeReply.network() : ok();
+      final first = await starter.start(mock, quote: freeQuote());
+      expect(first, isA<StartFailed>().having((f) => f.failure, 'failure', StartFailure.offline));
+      expect(bodyOf(0)['firstFree'], '1');
+      await starter.start(mock);
+      expect(bodyOf(1)['firstFree'], '1', reason: 'the same paper, asked for again, says the same thing');
+      expect(bodyOf(1)['generationKey'], bodyOf(0)['generationKey']);
+    });
+
+    test('409 FIRST_FULL_MOCK_TAKEN: its own failure with the server sentence, the key forgotten, nothing retried by itself', () async {
+      http.handler = (_) => const FakeReply(409, takenBody);
+      final outcome = await starter.start(mock, quote: freeQuote());
+      expect(
+        outcome,
+        isA<StartFailed>()
+            .having((f) => f.failure, 'failure', StartFailure.firstMockTaken)
+            .having((f) => f.message, 'message', takenBody['message']),
+      );
+      expect(http.requests, hasLength(1), reason: 'no automatic second request, which would be charged');
+      http.handler = (_) => ok();
+      await starter.start(mock, quote: _quote());
+      expect(bodyOf(1)['generationKey'], isNot(bodyOf(0)['generationKey']), reason: 'the next start is a new start');
+      expect(bodyOf(1).containsKey('firstFree'), isFalse);
+    });
+
+    test('503 FIRST_FULL_MOCK_UNCHECKED: retryable, the server sentence, the key kept, nothing retried by itself', () async {
+      http.handler = (_) => const FakeReply(503, uncheckedBody);
+      final outcome = await starter.start(mock, quote: freeQuote());
+      expect(
+        outcome,
+        isA<StartFailed>()
+            .having((f) => f.failure, 'failure', StartFailure.firstMockUnchecked)
+            .having((f) => f.message, 'message', uncheckedBody['message']),
+      );
+      expect(http.requests, hasLength(1));
+      http.handler = (_) => ok();
+      await starter.start(mock, quote: freeQuote());
+      expect(bodyOf(1)['generationKey'], bodyOf(0)['generationKey'], reason: 'the retry is the same start');
+      expect(bodyOf(1)['firstFree'], '1');
+    });
+
+    test('the two codes map to their failures even without a sentence from the server', () {
+      expect(failureFor(const ApiError(kind: ApiErrorKind.conflict, code: 'FIRST_FULL_MOCK_TAKEN', status: 409)), StartFailure.firstMockTaken);
+      expect(failureFor(const ApiError(kind: ApiErrorKind.server, code: 'FIRST_FULL_MOCK_UNCHECKED', status: 503)), StartFailure.firstMockUnchecked);
+      expect(const StartFailureView(StartFailure.firstMockTaken).text, PracticeCopy.firstMockTaken);
+      expect(const StartFailureView(StartFailure.firstMockUnchecked).retryable, isTrue);
+      expect(const StartFailureView(StartFailure.firstMockTaken).retryable, isFalse);
+    });
+
+    test('the stock words are the web words, word for word', () {
+      expect(PracticeCopy.firstMockTaken, takenBody['message']);
+      expect(PracticeCopy.firstMockUnchecked, uncheckedBody['message']);
+    });
   });
 
   test('an earlier session with unsent answers never blocks the start; it stays owed', () async {

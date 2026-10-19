@@ -540,11 +540,15 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
         }
         if (!mounted) return;
         widget.exits.run(sessionId);
-      case LaunchNeedsLook(:final quote, :final costChanged):
+      case LaunchNeedsLook(:final quote, :final costChanged, :final message):
         _c.update(() {
           _c.starting = false;
           _c.tear = TicketTear.rest;
-          _c.costNote = costChanged ? PracticeCopy.costChanged(costLineText(quote)) : null;
+          _c.costNote = message != null
+              ? PracticeCopy.firstMockTakenNote(message, costLineText(quote))
+              : costChanged
+              ? PracticeCopy.costChanged(costLineText(quote))
+              : null;
         });
         ref.invalidate(practiceQuoteProvider(query));
       case LaunchFailed(:final failure, :final message):
@@ -553,6 +557,8 @@ class _PracticeComposerKeysState extends ConsumerState<PracticeComposerKeys> {
           _c.tear = TicketTear.rest;
           _c.failure = StartFailureView(failure, message: message);
         });
+        // The free one is gone: the price on screen must not stay "Free".
+        if (failure == StartFailure.firstMockTaken) ref.invalidate(practiceQuoteProvider(query));
       case LaunchOpenPaper(:final paper):
         // Nothing was charged. The paper that is open is said, and Start now continues it.
         _c.update(() {

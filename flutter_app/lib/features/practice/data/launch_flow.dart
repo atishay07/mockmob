@@ -6,6 +6,7 @@ import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/models/practice_quote.dart';
 import '../../../core/repositories/plan_repository.dart';
+import '../copy.dart';
 import '../model/cost_line.dart';
 import '../model/practice_selection.dart';
 import 'open_paper.dart';
@@ -28,10 +29,14 @@ class LaunchStarted extends LaunchResult {
 /// The student must look again: the fresh quote differs from what they saw (it is now blocked
 /// or costs more). Nothing was started or charged.
 class LaunchNeedsLook extends LaunchResult {
-  const LaunchNeedsLook(this.quote, {required this.costChanged});
+  const LaunchNeedsLook(this.quote, {required this.costChanged, this.message});
 
   final PracticeQuote quote;
   final bool costChanged;
+
+  /// The server's own sentence, when the look is needed because the free first full mock was taken
+  /// since the quote the student saw (FIRST_FULL_MOCK_TAKEN). Shown in place of the stock "changed" line.
+  final String? message;
 }
 
 class LaunchFailed extends LaunchResult {
@@ -112,6 +117,18 @@ Future<LaunchResult> _launchPractice(WidgetRef ref, PracticeSelection selection,
   }
 
   final outcome = await ref.read(practiceStarterProvider).start(selection, quote: quote, mockNumber: mockNumber);
+  // The free first full mock was started elsewhere between the quote and this start: nothing was charged and the
+  // key is forgotten. A new quote is read now, so the price the student must now pay is on screen before they can
+  // start again, never the "Free" they saw.
+  if (outcome case StartFailed(failure: StartFailure.firstMockTaken, :final message)) {
+    try {
+      final fresh = await requote(ref, selection.quoteQuery);
+      return LaunchNeedsLook(fresh, costChanged: true, message: message ?? PracticeCopy.firstMockTaken);
+    } on Object {
+      // No new price could be read: the sentence still says nothing was charged and to check the price.
+      return LaunchFailed(StartFailure.firstMockTaken, message: message);
+    }
+  }
   return _resultOf(ref, outcome);
 }
 
