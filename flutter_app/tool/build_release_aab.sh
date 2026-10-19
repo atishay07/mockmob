@@ -5,6 +5,14 @@
 #   bash tool/build_release_aab.sh            # build with the current pubspec version
 #   bash tool/build_release_aab.sh --bump     # raise the versionCode by one first (every upload needs this)
 #   bash tool/build_release_aab.sh --bump --name 1.1.0
+#   bash tool/build_release_aab.sh --bump --sell   # a bundle that sells Pro and credit packs
+#
+# --sell turns on Google Play Billing in the app (PLAY_BILLING=true). Without it the bundle sells
+# nothing: every Get Pro and top-up entry is drawn as it was before billing existed. The licence-
+# tester test on the internal track needs --sell. Ship a selling bundle to everyone only after the
+# server's PLAY_BILLING_ENABLED is true on production and the products are active in Play Console
+# (docs/brain/PLAY-BILLING-PLAN-1018.md, deploy order). The flag lives here, never in prod.json, so
+# a bundle sells only when someone asked for it on the command line.
 #
 # It refuses to build when the build would be rejected or unsafe:
 #   - android/key.properties is missing, or its keystore file is missing (a debug-signed bundle
@@ -18,11 +26,12 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 source tool/android_env.sh
 
-BUMP=0; NAME_ARG=()
+BUMP=0; NAME_ARG=(); SELL=0
 while [ $# -gt 0 ]; do
   case "$1" in
     --bump) BUMP=1 ;;
     --name) shift; NAME_ARG=(--name "$1") ;;
+    --sell) SELL=1 ;;
     *) echo "unknown option: $1" >&2; exit 2 ;;
   esac
   shift
@@ -51,6 +60,14 @@ done
 grep -q '"API_BASE_URL": *"https://www\.mockmob\.in"' dart_defines/prod.json || fail "API_BASE_URL must be https://www.mockmob.in (never the apex, never http)."
 grep -q "service_role\|SERVICE_ROLE" dart_defines/prod.json && fail "prod.json must never hold a service role key."
 grep -q '"GOOGLE_WEB_CLIENT_ID": *"[^"]\+"' dart_defines/prod.json || echo "note: GOOGLE_WEB_CLIENT_ID is empty, so Google sign-in is hidden in this build."
+grep -q '"PLAY_BILLING"' dart_defines/prod.json && fail "prod.json must not set PLAY_BILLING. Use --sell for a bundle that sells."
+BILLING_ARG=()
+if [ "$SELL" = 1 ]; then
+  BILLING_ARG=(--dart-define=PLAY_BILLING=true)
+  echo "SELLING bundle: Google Play Billing is ON (Pro and credit packs)."
+else
+  echo "note: this bundle does not sell (PLAY_BILLING off). Add --sell for the licence-tester or selling bundle."
+fi
 
 # 3. SDK pins.
 grep -q "maxOf(flutter.targetSdkVersion, 36)" android/app/build.gradle.kts || fail "targetSdk pin (36) was changed."
@@ -64,7 +81,7 @@ echo "Building MockMob $VERSION (versionCode $CODE)"
 
 # 5. Build.
 bash tool/flutter_locked.sh build appbundle --release \
-  --dart-define-from-file=dart_defines/prod.json \
+  --dart-define-from-file=dart_defines/prod.json "${BILLING_ARG[@]}" \
   --obfuscate --split-debug-info=build/symbols
 
 AAB=build/app/outputs/bundle/release/app-release.aab
@@ -79,7 +96,8 @@ python -I tool/check_16kb.py "$AAB"
 # 7. Archive what cannot be recreated later.
 OUT="build/release-archive/$CODE"
 mkdir -p "$OUT"
-cp "$AAB" "$OUT/mockmob-$VERSION.aab"
+SUFFIX=""; [ "$SELL" = 1 ] && SUFFIX="-sells"
+cp "$AAB" "$OUT/mockmob-$VERSION$SUFFIX.aab"
 [ -f build/app/outputs/mapping/release/mapping.txt ] && cp build/app/outputs/mapping/release/mapping.txt "$OUT/mapping.txt"
 [ -d build/symbols ] && cp -r build/symbols "$OUT/symbols"
-echo "Done. Upload $OUT/mockmob-$VERSION.aab to Play Console. Keep $OUT (symbols and mapping)."
+echo "Done. Upload $OUT/mockmob-$VERSION$SUFFIX.aab to Play Console. Keep $OUT (symbols and mapping)."
