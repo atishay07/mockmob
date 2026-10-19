@@ -169,6 +169,37 @@ void main() {
     await tester.pump(const Duration(milliseconds: 300));
   });
 
+  testWidgets('H6: the headline is up at 120 ms (+360), the tie line waits for 3700 ms', (tester) async {
+    await pumpLive(tester, open);
+    await tester.pump(const Duration(milliseconds: 100));
+    expect(_opacityOf(tester, find.byKey(const ValueKey('podium-headline'))), 0);
+    await tester.pump(const Duration(milliseconds: 420));
+    expect(_opacityOf(tester, find.byKey(const ValueKey('podium-headline'))), greaterThan(0.95));
+    if (find.byKey(const ValueKey('podium-tie')).evaluate().isNotEmpty) {
+      expect(_opacityOf(tester, find.byKey(const ValueKey('podium-tie'))), 0);
+    }
+    await tester.pump(const Duration(milliseconds: 3700 - 520 + 400));
+    if (find.byKey(const ValueKey('podium-tie')).evaluate().isNotEmpty) {
+      expect(_opacityOf(tester, find.byKey(const ValueKey('podium-tie'))), greaterThan(0.95));
+    }
+    await tester.pump(const Duration(seconds: 2));
+  });
+
+  testWidgets('H6: every Fold stands inside the screen, the floor Fold included', (tester) async {
+    await pumpLive(tester, open);
+    await tester.pump(const Duration(seconds: 5));
+    for (final e in find.byWidgetPredicate((w) => w.key is ValueKey<String> && (w.key! as ValueKey<String>).value.startsWith('podium-fold-')).evaluate()) {
+      final r = tester.getRect(find.byWidget(e.widget));
+      expect(r.left, greaterThanOrEqualTo(0), reason: '${e.widget.key} left');
+      expect(r.right, lessThanOrEqualTo(360), reason: '${e.widget.key} right');
+    }
+  });
+
+  test('PodiumFit draws a wide Fold smaller and leaves a narrow one alone', () {
+    expect(PodiumFit.size(null, null, 66, 66), 66); // fallback width 0.8 x size fits
+    expect(PodiumFit.size(null, null, 100, 40), closeTo(50, 0.01));
+  });
+
   testWidgets('the reveal stays inside the T4 ceiling', (tester) async {
     expect(PodiumTimeline.total, lessThanOrEqualTo(6000));
     expect(PodiumTimeline.tableTotal, lessThanOrEqualTo(6000));
@@ -243,6 +274,14 @@ void main() {
     expect(find.text('Places fill in as friends play.'), findsOneWidget);
     expect(find.byKey(const ValueKey('podium-fold-$youId')), findsOneWidget);
     expect(find.byWidgetPredicate((w) => w.key is ValueKey && '${(w.key as ValueKey).value}'.startsWith('podium-numeral')), findsNothing);
+  });
+
+  testWidgets('only you played: the line and the key are yours, not the Mob (walk M9)', (tester) async {
+    await pumpLive(tester, onlyYouPodium());
+    await tester.pump(const Duration(seconds: 5));
+    expect(find.text('You got 4 of 5 right.'), findsOneWidget);
+    expect(find.textContaining('together'), findsNothing);
+    expect(find.text('See your moment'), findsOneWidget);
   });
 
   testWidgets('private marks: the Fold stands with "Private" and no place', (tester) async {

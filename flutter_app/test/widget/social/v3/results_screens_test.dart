@@ -88,6 +88,26 @@ void main() {
     });
   });
 
+  group('R8 for one (walk M9, L9)', () {
+    testWidgets('only you played: "Your moment"; a Mob of one has no sticker row', (tester) async {
+      await pump(tester, MomentsView(data: (podium: onlyYouPodium(), game: null, review: null), gameId: riyaGame, mobName: 'Chai Circle', now: v3Now, mobSize: 1));
+      expect(find.text('Your moment'), findsOneWidget);
+      expect(find.text("Everyone's moment"), findsNothing);
+      expect(find.text('Send your Mob a sticker'), findsNothing);
+    });
+
+    testWidgets('friends in the Mob who have not played yet can still get a sticker, two rows of two', (tester) async {
+      await pump(tester, MomentsView(data: (podium: onlyYouPodium(), game: null, review: null), gameId: riyaGame, mobName: 'Chai Circle', now: v3Now, mobSize: 4));
+      expect(find.text('Send your Mob a sticker'), findsOneWidget);
+      final nice = tester.getTopLeft(find.text('Nice one'));
+      final again = tester.getTopLeft(find.text('Again?'));
+      final teach = tester.getTopLeft(find.text('Teach me'));
+      // 2 x 2: "Again?" never sits alone on a row.
+      expect((again.dy - teach.dy).abs(), lessThan(4));
+      expect(again.dy, greaterThan(nice.dy + 10));
+    });
+  });
+
   group('R9 Fix it together', () {
     testWidgets('refused before close', (tester) async {
       await pump(tester, const FixTogetherScreen(gameId: riyaGame, q: 3));

@@ -335,7 +335,15 @@ abstract final class MobV3Copy {
   static const String skippedLine = 'Skipped. No marks either way.';
   static const String nextQuestion = 'Next question';
   static const String seeHowYouDid = 'See how you did';
-  static String pace(int delta, String name) => delta.abs() < 1 ? 'Level with $name' : (delta > 0 ? '$delta s ahead of $name' : '${-delta} s behind $name');
+  static String pace(int delta, String name) => delta.abs() < 1 ? 'Level with $name' : (delta > 0 ? '${paceGap(delta)} ahead of $name' : '${paceGap(-delta)} behind $name');
+
+  /// A gap in seconds as read aloud: "4 s" under a minute, then "1 min" or "1 min 10 s" (walk M12).
+  static String paceGap(int seconds) {
+    if (seconds < 60) return '$seconds s';
+    final m = seconds ~/ 60;
+    final s = seconds % 60;
+    return s == 0 ? '$m min' : '$m min $s s';
+  }
   static String friendFinished(String name) => '$name finished. Take your time.';
   static String ghostFinished(String name) => "$name's run reached the flag. Take your time.";
   static String playedAll(int n) => 'You played all $n.';
@@ -363,7 +371,7 @@ abstract final class MobV3Copy {
   static const String optionRight = 'right, plus 5';
   static const String optionWrong = 'not this one, minus 1';
   static const String rulerLabel = 'Where everyone is on the ruler';
-  static String rulerAt(String name, int q, int n) => '$name is on question $q of $n';
+  static String rulerAt(String name, int q, int n) => name == tabYou ? 'You are on question $q of $n' : '$name is on question $q of $n';
   static String rulerDone(String name) => '$name reached the flag';
 
   // ---- R7 Podium ----
@@ -379,6 +387,11 @@ abstract final class MobV3Copy {
   }
 
   static String together(int right, int of) => 'Your Mob got $right of $of right together.';
+
+  /// Only you have played so far: the line is yours, not the Mob's (walk M9).
+  static String togetherYou(int right, int of) => 'You got $right of $of right.';
+  static const String yourMoment = 'See your moment';
+  static const String momentsTitleYou = 'Your moment';
   static String marksLine(int m) => marks(m);
   static const String private = 'Private';
   static const String everyonesMoment = "See everyone's moment";

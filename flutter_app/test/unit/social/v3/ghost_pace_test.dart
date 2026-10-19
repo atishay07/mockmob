@@ -2,6 +2,7 @@
 // Riya's sprint, including the flip from "4 s behind Kabir" to "4 s ahead of Kabir".
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/social/v3/copy_v3.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/logic/ghost_pace.dart';
 
@@ -70,5 +71,12 @@ void main() {
     final game = await server.game('game-riya-sprint');
     final kabir = game.ghosts.firstWhere((g) => g.name == 'Kabir');
     expect(kabir.arrivalsMs, _kabir.arrivalsMs);
+  });
+
+  test('past 59 s the gap reads in minutes (walk M12)', () {
+    expect(MobV3Copy.pace(70, 'Kabir'), '1 min 10 s ahead of Kabir');
+    expect(MobV3Copy.pace(-120, 'Riya'), '2 min behind Riya');
+    expect(MobV3Copy.pace(59, 'Zoya'), '59 s ahead of Zoya');
+    expect(MobV3Copy.pace(0, 'Zoya'), 'Level with Zoya');
   });
 }

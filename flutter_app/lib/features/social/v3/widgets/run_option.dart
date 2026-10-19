@@ -25,6 +25,9 @@ import 'run_paper.dart';
 enum RunOptionLook { idle, picked, locked, right, wrong }
 
 class RunOption extends StatelessWidget {
+  /// The tick's pen stroke over drawIn (450 ms): a gentle sine in-out, so it draws visibly the whole way.
+  static const Curve tickCurve = Curves.easeInOutSine;
+
   const RunOption({
     super.key,
     required this.letter,
@@ -94,10 +97,15 @@ class RunOption extends StatelessWidget {
         bubbleRing = bubbleFill;
         letterInk = colors.ground;
       case RunOptionLook.wrong:
-        face = Color.lerp(colors.raised, colors.wrongSurface, fb)!;
-        edge = Color.lerp(colors.ink, colors.wrongBorder, fb)!;
+        // Calm, never a red mark (walk M10): in Day the wrong surface is a light wash over the paper
+        // and the border a muted line; Night keeps its deep surface.
+        final night = colors.isNight;
+        final wrongFace = night ? colors.wrongSurface : Color.alphaBlend(colors.wrongSurface.withValues(alpha: 0.45), colors.raised);
+        final wrongEdge = night ? colors.wrongBorder : colors.wrongBorder.withValues(alpha: 0.55);
+        face = Color.lerp(colors.raised, wrongFace, fb)!;
+        edge = Color.lerp(colors.ink, wrongEdge, fb)!;
         edgeW = 1.5;
-        bubbleFill = Color.lerp(colors.ink, colors.wrongBorder, fb)!;
+        bubbleFill = Color.lerp(colors.ink, night ? colors.wrongBorder : colors.wrongBorder.withValues(alpha: 0.8), fb)!;
         bubbleRing = bubbleFill;
         letterInk = Color.lerp(colors.ground, colors.isNight ? colors.wrongText : colors.raised, fb)!;
     }
@@ -111,7 +119,8 @@ class RunOption extends StatelessWidget {
       final tickStart = reduced ? 0.0 : 120.0;
       final tickLen = reduced ? 120.0 : Motion.drawIn.inMilliseconds.toDouble();
       final tick = ((fbMs - tickStart) / tickLen).clamp(0.0, 1.0);
-      final drawn = reduced ? tick : Motion.inOut.transform(tick);
+      // A steady pen stroke over the whole 450 ms (walk M5: a steep in-out read as a 150 ms flick).
+      final drawn = reduced ? tick : RunOption.tickCurve.transform(tick);
       final floatT = ((fbMs - 160) / 700).clamp(0.0, 1.0);
       trailing = SizedBox(
         width: 28,

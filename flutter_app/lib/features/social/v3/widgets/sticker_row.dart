@@ -70,7 +70,11 @@ final stickerBusProvider = Provider<StickerBus>((ref) {
 });
 
 class StickerRow extends ConsumerStatefulWidget {
-  const StickerRow({super.key, this.kinds = StickerKind.results, this.gameId, this.label});
+  const StickerRow({super.key, this.kinds = StickerKind.results, this.gameId, this.label, this.grid = false});
+
+  /// Two rows of two when four stickers do not fit one row, so none sits alone on a second row
+  /// (walk L9). Used by Everyone's moment.
+  final bool grid;
 
   final List<StickerKind> kinds;
   final String? gameId;
@@ -127,10 +131,7 @@ class _StickerRowState extends ConsumerState<StickerRow> {
         if (widget.label != null) ...[Text(widget.label!, style: type.label.copyWith(color: colors.ink2)), const SizedBox(height: MmSpace.s8)],
         LayoutBuilder(
           builder: (context, box) {
-            return Wrap(
-              spacing: MmSpace.s8,
-              runSpacing: MmSpace.s8,
-              children: [
+            final cells = <Widget>[
                 for (var i = 0; i < widget.kinds.length; i++)
                   Stack(
                     clipBehavior: Clip.none,
@@ -157,8 +158,16 @@ class _StickerRowState extends ConsumerState<StickerRow> {
                           ),
                     ],
                   ),
-              ],
-            );
+              ];
+            if (widget.grid && cells.length == 4 && box.maxWidth < 480) {
+              Widget pair(int a) => Row(mainAxisSize: MainAxisSize.min, children: [cells[a], const SizedBox(width: MmSpace.s8), cells[a + 1]]);
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [pair(0), const SizedBox(height: MmSpace.s8), pair(2)],
+              );
+            }
+            return Wrap(spacing: MmSpace.s8, runSpacing: MmSpace.s8, children: cells);
           },
         ),
         if (_note != null) ...[const SizedBox(height: MmSpace.s8), Text(_note!, style: type.caption.copyWith(color: colors.ink2))],

@@ -159,9 +159,12 @@ class CountdownStage extends StatelessWidget {
       onTap: onSkip,
       child: LayoutBuilder(
         builder: (context, box) {
-          // The stopwatch takes what the column leaves: heads 64, the line about 44, Skip 48, gaps.
-          final room = box.maxHeight - 64 - 48 - 48 - 72;
-          final width = math.min(math.min(box.maxWidth * 0.72, 280.0), math.max(120.0, room * 596 / 768));
+          // The stopwatch takes what the column leaves: heads 64, the line (two lines at the reader's
+          // text size), Skip 48 and its 16, the gaps 24 and 16, and a little air. On a short phone at
+          // large text it draws smaller instead of overflowing.
+          final lineH = MediaQuery.textScalerOf(context).scale(type.body.fontSize ?? 16) * (type.body.height ?? 1.5) * 2;
+          final room = box.maxHeight - 64 - lineH - (onSkip == null ? 0 : 64) - 24 - 16 - 16;
+          final width = math.min(math.min(box.maxWidth * 0.72, 280.0), math.max(48.0, room * 596 / 768));
           return AnimatedBuilder(
             animation: ms,
             builder: (context, _) {
@@ -178,23 +181,39 @@ class CountdownStage extends StatelessWidget {
                   ),
                   child: Column(
                     children: [
-                      const Spacer(flex: 2),
-                      CountdownStopwatch(t: t, width: width, reduced: reduced),
-                      const SizedBox(height: MmSpace.s24),
-                      Transform.translate(
-                        offset: Offset(0, -CountdownTimeline.headBob(t, reduced: reduced)),
-                        child: _Heads(heads: heads),
-                      ),
-                      const SizedBox(height: MmSpace.s16),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: MmSpace.s24),
-                        child: Text(
-                          MobV3Copy.countdownNextN(count),
-                          textAlign: TextAlign.center,
-                          style: type.body.copyWith(color: colors.ink2),
+                      Expanded(
+                        child: Padding(
+                          // A little more air below than above, as the 2:3 spacers had it.
+                          padding: const EdgeInsets.only(bottom: MmSpace.s24),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              // The stopwatch gives way first on a short phone at large text, so the
+                              // column never overflows (it draws smaller instead).
+                              Flexible(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: CountdownStopwatch(t: t, width: width, reduced: reduced),
+                                ),
+                              ),
+                              const SizedBox(height: MmSpace.s24),
+                              Transform.translate(
+                                offset: Offset(0, -CountdownTimeline.headBob(t, reduced: reduced)),
+                                child: _Heads(heads: heads),
+                              ),
+                              const SizedBox(height: MmSpace.s16),
+                              Padding(
+                                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s24),
+                                child: Text(
+                                  MobV3Copy.countdownNextN(count),
+                                  textAlign: TextAlign.center,
+                                  style: type.body.copyWith(color: colors.ink2),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ),
-                      const Spacer(flex: 3),
                       if (onSkip != null)
                         Padding(
                           padding: const EdgeInsets.only(bottom: MmSpace.s16),
