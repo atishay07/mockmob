@@ -372,6 +372,11 @@ abstract final class MobV3Copy {
   }
 
   static String together(int right, int of) => 'Your Mob got $right of $of right together.';
+
+  /// Only you have played so far: the line is yours, not the Mob's (walk M9).
+  static String togetherYou(int right, int of) => 'You got $right of $of right.';
+  static const String yourMoment = 'See your moment';
+  static const String momentsTitleYou = 'Your moment';
   static String marksLine(int m) => marks(m);
   static const String private = 'Private';
   static const String everyonesMoment = "See everyone's moment";

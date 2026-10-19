@@ -77,6 +77,7 @@ class _MomentsScreenState extends ConsumerState<MomentsScreen> {
               data: d,
               gameId: widget.gameId,
               mobName: ref.watch(denViewProvider)?.v3.name.text ?? '',
+              mobSize: ref.watch(denViewProvider)?.v3.members.length,
               now: d.game?.serverNow ?? ref.read(nowProvider)(),
             );
           },
@@ -88,12 +89,15 @@ class _MomentsScreenState extends ConsumerState<MomentsScreen> {
 
 /// The loaded screen (public for tests and goldens).
 class MomentsView extends StatelessWidget {
-  const MomentsView({super.key, required this.data, required this.gameId, required this.mobName, required this.now});
+  const MomentsView({super.key, required this.data, required this.gameId, required this.mobName, required this.now, this.mobSize});
 
   final MomentsData data;
   final String gameId;
   final String mobName;
   final DateTime now;
+
+  /// Members in the Mob, when known: a Mob of one has nobody to send a sticker to (walk M9).
+  final int? mobSize;
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +108,8 @@ class MomentsView extends StatelessWidget {
     final fix = data.review?.trap?.fix;
     final count = data.game?.count ?? 5;
     final byId = {for (final x in p.places) x.memberId: x};
+    final onlyYou = p.places.length == 1 && p.places.first.you;
+    final aloneInMob = mobSize != null && mobSize! <= 1;
     final rows = <Widget>[];
     for (final m in p.moments) {
       final who = byId[m.memberId];
@@ -212,7 +218,7 @@ class MomentsView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _Rise(index: 0, child: Semantics(header: true, child: Text(MobV3Copy.momentsTitle, style: type.title.copyWith(color: c.ink)))),
+                  _Rise(index: 0, child: Semantics(header: true, child: Text(onlyYou ? MobV3Copy.momentsTitleYou : MobV3Copy.momentsTitle, style: type.title.copyWith(color: c.ink)))),
                   const SizedBox(height: MmSpace.s12),
                   for (var i = 0; i < rows.length; i++) ...[
                     if (i > 0) const SizedBox(height: MmSpace.s12),
@@ -220,8 +226,10 @@ class MomentsView extends StatelessWidget {
                   ],
                   const SizedBox(height: MmSpace.s24),
                   _Rise(index: 1 + rows.length, child: card),
-                  const SizedBox(height: MmSpace.s24),
-                  _Rise(index: 2 + rows.length, child: StickerRow(kinds: StickerKind.results, gameId: gameId, label: MobV3Copy.sendSticker)),
+                  if (!aloneInMob) ...[
+                    const SizedBox(height: MmSpace.s24),
+                    _Rise(index: 2 + rows.length, child: StickerRow(kinds: StickerKind.results, gameId: gameId, label: MobV3Copy.sendSticker, grid: true)),
+                  ],
                 ],
               ),
             ),

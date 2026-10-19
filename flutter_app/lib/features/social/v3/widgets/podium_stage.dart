@@ -554,7 +554,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           if (p.of > 0)
             Opacity(
               opacity: collectiveT,
-              child: Text(MobV3Copy.together(p.right, p.of), key: const ValueKey('podium-collective'), style: type.body.copyWith(color: c.ink)),
+              child: Text(_plan.onlyYou ? MobV3Copy.togetherYou(p.right, p.of) : MobV3Copy.together(p.right, p.of), key: const ValueKey('podium-collective'), style: type.body.copyWith(color: c.ink)),
             ),
           if (tie != null && !table) ...[
             const SizedBox(height: 6),
@@ -572,7 +572,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           ignoring: keysT < 0.5,
           child: Row(
             children: [
-              Expanded(child: KeyButton(label: MobV3Copy.everyonesMoment, onPressed: widget.onMoments)),
+              Expanded(child: KeyButton(label: _plan.onlyYou ? MobV3Copy.yourMoment : MobV3Copy.everyonesMoment, onPressed: widget.onMoments)),
               const SizedBox(width: MmSpace.s12),
               _IconKey(icon: LucideIcons.repeat, label: MobV3Copy.askRematch, onTap: widget.onRematch, ring: true),
             ],

@@ -276,6 +276,14 @@ void main() {
     expect(find.byWidgetPredicate((w) => w.key is ValueKey && '${(w.key as ValueKey).value}'.startsWith('podium-numeral')), findsNothing);
   });
 
+  testWidgets('only you played: the line and the key are yours, not the Mob (walk M9)', (tester) async {
+    await pumpLive(tester, onlyYouPodium());
+    await tester.pump(const Duration(seconds: 5));
+    expect(find.text('You got 4 of 5 right.'), findsOneWidget);
+    expect(find.textContaining('together'), findsNothing);
+    expect(find.text('See your moment'), findsOneWidget);
+  });
+
   testWidgets('private marks: the Fold stands with "Private" and no place', (tester) async {
     await pumpMockmob(tester, stage(privatePodium(), autoplay: false), brightness: Brightness.dark, overrides: v3Overrides(server));
     expect(find.text('Private'), findsOneWidget);

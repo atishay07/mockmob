@@ -58,8 +58,9 @@ void main() {
 
   test('spec 5.0: no loss or pressure words', () {
     final bad = RegExp(r'\blost\b|\bbehind\b(?! \$)|\blast place\b|waiting on you|\bhurry\b|streak at risk', caseSensitive: false);
-    // "behind" is allowed only in the ghost pace chip ("4 s behind Kabir", spec R4).
-    final hits = [for (final (f, s) in strings) if (bad.hasMatch(s) && !s.contains(' s behind ')) '$f: $s'];
+    // "behind" is allowed only in the ghost pace chip ("4 s behind Kabir", "1 min 10 s behind Kabir",
+    // spec R4): the bare " behind " between the gap and the name.
+    final hits = [for (final (f, s) in strings) if (bad.hasMatch(s) && !s.contains(' s behind ') && s != ' behind ') '$f: $s'];
     expect(hits, isEmpty);
   });
 }
