@@ -114,11 +114,11 @@ function harness({ persistent = true, rpcError = false, generateLinkError = null
   };
 }
 
-function post(email, ip = '203.0.113.7', headers = {}) {
+function post(email, ip = '203.0.113.7', headers = {}, extra = {}) {
   return new Request('https://www.mockmob.in/api/auth/email-login', {
     method: 'POST',
     headers: { 'content-type': 'application/json', 'x-forwarded-for': ip, ...headers },
-    body: JSON.stringify({ email }),
+    body: JSON.stringify({ email, ...extra }),
   });
 }
 
@@ -163,6 +163,24 @@ test('email-login: sends one mail with a pinned link, the app hint and the real 
       assert.match(mail.html, new RegExp(`>${'1234567890'.slice(0, otpLength)}<`));
     });
   }
+});
+
+test('email-login (20 Oct, I2): a code asked for in the app gets a button on /app/login, which the app claims', async () => {
+  await withRoute({}, async ({ POST, state }) => {
+    delete process.env.NEXT_PUBLIC_SITE_URL;
+    const res = await POST(post('app@example.com', '198.51.100.9', {}, { client: 'app' }));
+    assert.equal(res.status, 200);
+    const mail = state.sent[0];
+    assert.match(mail.html, /href="https:\/\/www\.mockmob\.in\/app\/login\?token_hash=hash_abc&amp;type=magiclink"/);
+    assert.doesNotMatch(mail.html, /\/auth\/callback\?/);
+    assert.match(mail.html, /Tap the button on this phone to open the MockMob app, or type the code in the app\./);
+    assert.doesNotMatch(mail.html, /The button opens the website\./);
+  });
+  await withRoute({}, async ({ POST, state }) => {
+    const res = await POST(post('web@example.com', '198.51.100.10', {}, { client: 'web' }));
+    assert.equal(res.status, 200);
+    assert.match(state.sent[0].html, /href="https:\/\/www\.mockmob\.in\/auth\/callback\?token_hash=/, 'website sign-ins keep the callback the app never claims');
+  });
 });
 
 test('email-login: any password on an unconfirmed account is cleared before the code is minted', async () => {
