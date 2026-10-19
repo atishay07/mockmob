@@ -2,7 +2,7 @@
 // Today, pass 1018 (docs/design-decisions/pass-1018/TODAY-1018.md; the owner's yes, 18 Oct 3:30 am, with D25 to D27).
 // The R3 Today's information and structure, refined and made to lead (D1 to D3); nothing R3 showed is lost.
 // Top to bottom on a phone:
-//   1. greeting and date
+//   1. greeting and date, with the Your colleges strip (D126 B: the colleges one tap away on the first screen)
 //   2. Up next: the recommended move with its reason, its stake and its minutes, and two other moves on the same card; in the first
 //      7 days its overline says the day and a rail of seven marks draws the chained path, whose step for today leads (release 8)
 //      a tap swaps the lead live (the pick is kept for the day in this tab, never written to the server)
@@ -40,6 +40,7 @@ import TodayWeak from '@/components/today/TodayWeak';
 import TodayPaper from '@/components/today/TodayPaper';
 import TodayQueue from '@/components/today/TodayQueue';
 import TodayColleges from '@/components/today/TodayColleges';
+import TodayCollegesStrip from '@/components/today/TodayCollegesStrip';
 import TodayCue from '@/components/today/TodayCue';
 import TodayMob from '@/components/today/TodayMob';
 import { todayContext } from '@/components/ai/askContexts.mjs';
@@ -285,6 +286,8 @@ export default function Today() {
         <header className="today__head">
           <p className="today__date">{day ? <time className="today__in">{day}</time> : ' '}</p>
           <h1 className="today__hello">{hello ? <span className="today__in">{hello}</span> : <span className="sr-only">Today</span>}</h1>
+          {/* Your colleges, one tap from the first screen every day (D126 B, owner H9); the block at the end stays. */}
+          <TodayCollegesStrip userId={userId} hold={landing} />
         </header>
         <div className="today-grid">
           <div className="today-grid__main">
