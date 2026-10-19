@@ -53,6 +53,7 @@ class AiCredits {
     this.tier,
     this.practiceBalance,
     this.oneBalance = false,
+    this.checkoutOpen,
   });
 
   factory AiCredits.fromJson(Json j) {
@@ -67,6 +68,7 @@ class AiCredits {
       // The one credits balance (owner D78, release 10): the server sends a known `credits` total, and the
       // wallet's own total is then that one balance. An older server sends no `credits` block.
       oneBalance: asBool(one['known']) == true && asInt(one['total']) != null,
+      checkoutOpen: asBool(asJson(j['checkout'])['open']),
     );
   }
 
@@ -82,6 +84,11 @@ class AiCredits {
   /// The server keeps one credits balance: the wallet's total is that balance, called "credits", never
   /// "AI credits".
   final bool oneBalance;
+
+  /// Whether new credit packs are on sale (`checkout.open`): false while the server pauses them,
+  /// null when it did not say. The app's Google Play packs follow it, so the app never sells a pack
+  /// the website has paused (PLAY-BILLING-PLAN-1018).
+  final bool? checkoutOpen;
 
   /// Explanation credits, or null when unknown. Never render null as zero.
   int? get explanationBalance => wallet?.balance;

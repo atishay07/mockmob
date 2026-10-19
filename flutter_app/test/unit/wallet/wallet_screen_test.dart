@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/json_helpers.dart' show Json;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
@@ -23,7 +24,7 @@ Future<void> _settle(WidgetTester tester) async {
   }
 }
 
-Future<void> _pump(WidgetTester tester, {required BillingRig rig, bool pro = false, double textScale = 1, RemoteState<WalletRead>? read}) async {
+Future<void> _pump(WidgetTester tester, {required BillingRig rig, bool pro = false, double textScale = 1, RemoteState<WalletRead>? read, RemoteState<AiCredits>? aiCredits}) async {
   await pumpMockmob(
     tester,
     const WalletScreen(),
@@ -31,7 +32,7 @@ Future<void> _pump(WidgetTester tester, {required BillingRig rig, bool pro = fal
     wrapInScaffold: false,
     disableAnimations: true,
     textScale: textScale,
-    overrides: walletOverrides(pro: pro, rig: rig, read: read),
+    overrides: walletOverrides(pro: pro, rig: rig, read: read, aiCredits: aiCredits),
   );
   await _settle(tester);
 }
@@ -151,6 +152,34 @@ void main() {
     expect(rig.verifier.calls.single.productId, 'credits_49_300');
     expect(find.text('300 credits added'), findsOneWidget);
     expect(rig.refreshes, 1);
+  });
+
+  testWidgets('flag on, packs paused on the server: the packs stay listed with their prices, say they are paused, and cannot be bought', (tester) async {
+    final rig = BillingRig();
+    rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
+    final paused = RemoteState<AiCredits>(value: AiCredits.fromJson({'ok': true, 'state': 'available', 'checkout': {'open': false, 'reason': 'New credit packs are paused.'}}));
+    await _pump(tester, rig: rig, aiCredits: paused);
+    expect(find.text(BillingCopy.topUpsPaused), findsOneWidget);
+    for (final label in ['50 credits', '150 credits', '300 credits']) {
+      expect(find.text(label), findsOneWidget, reason: '$label stays listed (D101)');
+    }
+    expect(find.text('₹75.00'), findsOneWidget);
+    await tester.ensureVisible(find.text('300 credits'));
+    await tester.tap(find.text('300 credits'));
+    await _settle(tester);
+    expect(rig.store.buys, isEmpty);
+    expect(rig.verifier.calls, isEmpty);
+  });
+
+  testWidgets('flag on, packs open on the server: no paused line, and a pack can be bought', (tester) async {
+    final rig = BillingRig();
+    final open = RemoteState<AiCredits>(value: AiCredits.fromJson({'ok': true, 'state': 'available', 'checkout': {'open': true, 'reason': null}}));
+    await _pump(tester, rig: rig, aiCredits: open);
+    expect(find.text(BillingCopy.topUpsPaused), findsNothing);
+    await tester.ensureVisible(find.text('50 credits'));
+    await tester.tap(find.text('50 credits'));
+    await _settle(tester);
+    expect(rig.store.buys.single.productId, 'credits_10_50');
   });
 
   testWidgets('flag on: the Pro row opens the Get Pro sheet', (tester) async {

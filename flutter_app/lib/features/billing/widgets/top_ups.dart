@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/repositories/credits_repository.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../you/widgets/you_row.dart' show RowFrame, YouPanel;
@@ -15,7 +16,9 @@ import 'billing_notice.dart';
 /// named afterwards. A balance is never edited here.
 ///
 /// With `PLAY_BILLING` off the rows are not drawn at all: one calm line says top-ups open soon, so
-/// there is no key that does nothing.
+/// there is no key that does nothing. While the server pauses new packs (`/api/ai/credits`
+/// `checkout.open` false) the rows stay listed with their prices but cannot be bought, under one
+/// line that says so (D101: visible but locked), so the app never sells a pack the website paused.
 class WalletTopUps extends ConsumerStatefulWidget {
   const WalletTopUps({super.key});
 
@@ -46,6 +49,7 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
     }
     final s = ref.watch(playBillingProvider);
     final ctl = ref.read(playBillingProvider.notifier);
+    final paused = ref.watch(creditsRepositoryProvider.select((r) => r.value?.checkoutOpen == false));
     final packs = PlayProducts.packs;
     final ids = {for (final p in packs) p.id};
     final loading = s.productsLoading || (s.store == StoreAvailability.checking && s.products.isEmpty);
@@ -58,6 +62,11 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
       body = Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (paused)
+            Padding(
+              padding: const EdgeInsets.only(bottom: MmSpace.s8),
+              child: Semantics(container: true, liveRegion: true, child: Text(BillingCopy.topUpsPaused, style: type.body.copyWith(color: colors.ink2))),
+            ),
           YouPanel(
             flat: true,
             margin: EdgeInsets.zero,
@@ -67,7 +76,7 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
                 _PackRow(
                   pack: pack,
                   price: s.priceOf(pack.id),
-                  enabled: !s.busy && s.priceOf(pack.id) != null,
+                  enabled: !paused && !s.busy && s.priceOf(pack.id) != null,
                   working: s.productId == pack.id && (s.stage == BillingStage.starting || s.stage == BillingStage.verifying),
                   onTap: () => ctl.buy(pack.id),
                 ),

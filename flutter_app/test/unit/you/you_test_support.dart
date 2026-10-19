@@ -389,6 +389,7 @@ List<Override> youOverrides({
   RemoteState<CreditsOverview>? credits,
   RemoteState<WalletRead>? wallet,
   Override? walletOverride,
+  RemoteState<AiCredits>? aiCredits,
   DateTime? now,
   NotificationPrefs? notificationPrefs,
   Override? notificationPrefsProvider,
@@ -428,7 +429,7 @@ List<Override> youOverrides({
     // `GET /api/wallet`: by default today's production answer (404, no wallet route), so nothing reaches the
     // network or the database.
     walletOverride ?? walletRepositoryProvider.overrideWithBuild((ref, n) => wallet ?? walletMissing),
-    creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
+    creditsRepositoryProvider.overrideWithBuild((ref, n) => aiCredits ?? const RemoteState<AiCredits>()),
     // Across your mocks on the hub (Mistake Lab v4 slice 3): settled, no network.
     rulesRepositoryProvider.overrideWithBuild((ref, n) => rules ?? const RemoteState()),
   ];
