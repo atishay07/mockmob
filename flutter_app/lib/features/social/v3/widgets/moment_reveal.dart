@@ -12,6 +12,7 @@ import '../../../../core/motion/motion_tokens.g.dart';
 import '../../../../core/theme/theme.dart';
 import '../copy_v3.dart';
 import '../data/mob_v3_models.dart';
+import 'fold_manifest.dart';
 import 'fold_puppet.dart';
 import 'moment_kit.dart';
 import 'paper_particles.dart';
@@ -77,6 +78,38 @@ abstract final class RevealGeo {
   }
 }
 
+/// Clips the Fold to what is above the open parcel's front rim (in stage coordinates, following the
+/// parcel's scale about its bottom centre), so no part of a Fold still inside the box shows below or
+/// through the box. The rim line sits 2% under the art's rim; the front still drawn over gives the
+/// true paper edge.
+class _AboveRimClipper extends CustomClipper<Path> {
+  const _AboveRimClipper({required this.scale});
+  final double scale;
+
+  @override
+  Path getClip(Size size) {
+    const p = RevealGeo.parcel;
+    Offset at(Offset f) => Offset(40 + p / 2 + (f.dx - 0.5) * p * scale, RevealGeo.headroom + p - (1 - f.dy - 0.02) * p * scale);
+    final rim = RevealGeo.frontRim.take(5).toList();
+    final first = at(rim.first);
+    final last = at(rim.last);
+    final path = Path()
+      ..moveTo(-400, -400)
+      ..lineTo(size.width + 400, -400)
+      ..lineTo(size.width + 400, last.dy);
+    for (final o in rim.reversed) {
+      final q = at(o);
+      path.lineTo(q.dx, q.dy);
+    }
+    return path
+      ..lineTo(-400, first.dy)
+      ..close();
+  }
+
+  @override
+  bool shouldReclip(_AboveRimClipper oldClipper) => oldClipper.scale != scale;
+}
+
 /// Clips to the open still's front (below the rim).
 class _FrontClipper extends CustomClipper<Path> {
   const _FrontClipper();
@@ -93,6 +126,25 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
 
   @override
   double get totalMs => 2000;
+
+  bool _warmed = false;
+
+  /// Every image the reveal swaps to is decoded before it is needed: the pop and open stills, and the
+  /// Fold's large idle and cheer. Swapping to an undecoded still showed an empty frame (or, with
+  /// gapless playback, the old still) on the beat.
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_warmed) return;
+    _warmed = true;
+    final paths = <String>[
+      if (ParcelStills.available) ...ParcelStills.all,
+      for (final p in const [FoldPose.idle, FoldPose.cheer]) ?FoldManifest.cached?[widget.fold]?.still(p)?.large,
+    ];
+    for (final a in paths) {
+      precacheImage(AssetImage(a), context, onError: (_, _) {});
+    }
+  }
 
   @override
   late final List<MomentCue> cues = [
@@ -207,16 +259,13 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
               ),
             ),
           // Built from the first frame (hidden until 900) so the large still has decoded by the time
-          // the Fold climbs: mounting it at 900 showed an empty parcel for the first frames. Clipped at
-          // the parcel's floor, so nothing of the Fold shows below the box while it is inside.
-          Positioned(
-            left: 0,
-            right: 0,
-            top: 0,
-            height: RevealGeo.headroom + 0.86 * p,
+          // the Fold climbs: mounting it at 900 showed an empty parcel for the first frames. Clipped
+          // above the front rim, so nothing of the Fold shows below or through the box while inside.
+          Positioned.fill(
             child: Opacity(
               opacity: foldOn ? 1 : 0,
-              child: ClipRect(
+              child: ClipPath(
+                clipper: stills ? _AboveRimClipper(scale: parcelScale * openSettle) : _AboveRimClipper(scale: parcelScale),
                 child: Stack(
                   clipBehavior: Clip.none,
                   children: [
@@ -239,14 +288,14 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
             ),
           ),
           // The front of the open parcel, over the Fold: it is inside the box until it climbs past the rim.
-          if (stills && openT > 0)
+          if (stills)
             parcelLayer(
               IgnorePointer(
                 child: ClipPath(
                   clipper: const _FrontClipper(),
                   child: Opacity(
                     opacity: openT,
-                    child: Image.asset(ParcelStills.open, fit: BoxFit.contain, filterQuality: FilterQuality.medium, excludeFromSemantics: true, gaplessPlayback: true),
+                    child: Image.asset(ParcelStills.open, fit: BoxFit.contain, filterQuality: FilterQuality.medium, excludeFromSemantics: true),
                   ),
                 ),
               ),
@@ -316,15 +365,16 @@ class _StillParcel extends StatelessWidget {
   Widget build(BuildContext context) {
     final pop = seg(t, 640, 60);
     final open = seg(t, 700, 60);
-    Widget still(String a, double o) => Opacity(opacity: o, child: Image.asset(a, fit: BoxFit.contain, filterQuality: FilterQuality.medium, gaplessPlayback: true, excludeFromSemantics: true));
+    // All three stay mounted from the first frame, so each is decoded before its beat.
+    Widget still(String a, double o) => Opacity(key: ValueKey(a), opacity: o, child: Image.asset(a, fit: BoxFit.contain, filterQuality: FilterQuality.medium, excludeFromSemantics: true));
     // The stills are the whole parcel (the generated pop still carries the lifting seal and the leak at
     // the seams; the open still its flaps), so nothing is painted under them.
     return Stack(
       fit: StackFit.expand,
       children: [
-        if (open < 1) still(ParcelStills.sealed, 1 - pop),
-        if (pop > 0 && open < 1) still(ParcelStills.pop, pop),
-        if (open > 0) still(ParcelStills.open, open),
+        still(ParcelStills.sealed, open >= 1 ? 0 : 1 - pop),
+        still(ParcelStills.pop, open >= 1 ? 0 : pop),
+        still(ParcelStills.open, open),
       ],
     );
   }
