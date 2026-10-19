@@ -558,3 +558,9 @@ Spec: docs/design-decisions/pass-1019pm/mob-v3/MOB-BUILD-SPEC-V3.md. Production 
 - D135/D136 Play Pro = monthly pro_monthly Rs 149; packs Rs 15/45/75: products ACTIVE in Play Console; server and app subscription support at a STOP POINT; production migration and billing deploy need his yes.
 - D134 store listing pack ready on his Desktop; closed test not started.
 - D137 handoff at 98% usage.
+
+## C-dec 3 (CTO, 20 Oct 2:15 am, under D156 "decide independently"): Ask Mobi's value (J4; proposal docs/design-decisions/pass-1020/ASK-MOBI-VALUE.md)
+1. The rule: Mobi never charges for talking. One credit buys a finished job: a mistake fixed and checked to hold (why YOUR option looked right, then 2 fresh check questions), or a doubt settled and then tested (a thread of up to 5 follow-ups that ends with 2 real CUET questions on it). Everything Mobi works out from the record is free.
+2. Free: "What should I revise tonight?", the debrief after every paper, the score range against the student's colleges, last look, Daily 5, check-ins. Pro: Mobi jobs use no credits (fair use 10 a day), the week plan, the college gap by chapter, the pace coach.
+3. Crowd lines ("most students picked C") only at 30 or more answers on that question.
+4. Build order for version 13: (a) the debrief = the finish screen's analysis in Mobi's voice with one "Fix these" key; (b) "Fix it for good" (Repair becomes Mobi's job, reachable from "Ask Mobi about Q7"); (c) "Where you stand" leads the Ask your record door (score range vs the student's colleges, from the projection the web already has), and the mentor context finally reads the student's colleges. The pricing page's "3 credits for a deeper analysis" line goes.
