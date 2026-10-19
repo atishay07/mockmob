@@ -100,7 +100,9 @@ test('reduced motion: no flight and no rise, a 120 ms fade in and out over the F
   const den = read('src/components/mob/den/DenV3.jsx');
   assert.match(den, /if \(to && prefersReduced\(\)\) \{/);
   // Neighbours' stickers never cover each other on a narrow stage; the end slots lean inwards.
-  assert.match(css, /@container \(max-width: 600px\) \{ \.den-slot:nth-child\(even\) \{ --sy: 40px; \} \}/);
+  assert.match(css, /@container \(max-width: 600px\) \{ \.den-slot\[data-lift\] \{ --sy: 40px; \} \}/);
+  assert.match(css, /\.den-floor:has\(\.den-sticker\) \{ z-index: 4; \}/);
+  assert.match(read('src/components/mob/den/DenStage.jsx'), /onStage\.has\(members\[i - 1\]\.memberId\) && !lifted\.has\(members\[i - 1\]\.memberId\)/);
   assert.match(css, /\.den-slot:first-child \{ --sx: -26%; \}/);
   assert.match(css, /\.den-slot:last-child \{ --sx: -74%; \}/);
 });

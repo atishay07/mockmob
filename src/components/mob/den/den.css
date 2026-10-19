@@ -138,6 +138,7 @@ html[data-theme='light'] .den-shelf__board { background: #9a7650; }
   position: absolute; z-index: 2; left: var(--gutter); right: var(--gutter); bottom: 6px; margin: 0; padding: 0; list-style: none;
   display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end;
 }
+.den-floor:has(.den-sticker) { z-index: 4; }
 .den-slot { position: relative; display: grid; justify-items: center; align-content: end; min-width: 0; height: calc(var(--fold) + 50px); }
 .den-slot__fold.den-fold { width: var(--fold) !important; height: var(--fold) !important; }
 .den-slot__fold { animation: den-fold-in 420ms var(--den-ease-pop) calc(200ms + var(--i, 0) * 90ms) both; }
@@ -166,10 +167,11 @@ html[data-theme='light'] .den-stage__seats { color: #5a4b35; }
 /* Stickers over the Folds (M12). The anchor is where a flight lands: bottom centre, just over the Fold's head. */
 .den-sticker-anchor { position: absolute; left: 50%; width: 0; height: 0; pointer-events: none; }
 .den-sticker { position: absolute; z-index: 4; left: 50%; white-space: nowrap; pointer-events: none; transform-origin: 50% 100%; }
-/* Spacing: on a narrow stage the slots are narrower than a sticker, so neighbours' stickers stand at two heights (every
-   other slot 40 px higher) and never cover each other; the end slots lean inwards so a sticker never runs off the room. */
+/* Spacing: on a narrow stage the slots are narrower than a sticker, so when two neighbours both hold one, the right one
+   stands 40 px higher (data-lift, DenStage) and they never cover each other; the end slots lean inwards so a sticker
+   never runs off the room. Stickers draw over the pennant and the shelf (the floor sits above them), never under. */
 .den-slot { --sy: 0px; --sx: -50%; }
-@container (max-width: 600px) { .den-slot:nth-child(even) { --sy: 40px; } }
+@container (max-width: 600px) { .den-slot[data-lift] { --sy: 40px; } }
 .den-slot:first-child { --sx: -26%; }
 .den-slot:last-child { --sx: -74%; }
 .den-sticker-anchor, .den-sticker { bottom: calc(var(--fold) + 54px + var(--sy)); }

@@ -81,6 +81,10 @@ export function DenStage({
   const weeks = v3?.mobChain?.weeks ?? 0;
   const onStage = new Map();
   for (const st of stickers) onStage.set(st.memberId, [...(onStage.get(st.memberId) || []), st]);
+  // Spacing: when the slot to the left also holds a sticker (and stands at the usual height), this one stands higher on a
+  // narrow stage (den.css), so neighbours never cover each other; a lone sticker always sits just over its Fold.
+  const lifted = new Set();
+  members.forEach((m, i) => { if (i > 0 && onStage.has(m.memberId) && onStage.has(members[i - 1].memberId) && !lifted.has(members[i - 1].memberId)) lifted.add(m.memberId); });
   const cls = `den-stage${skeleton ? ' den-stage--skeleton' : ''}${still ? ' den-stage--still' : ''}${warm ? ' den-stage--warm' : ''}${preview ? ' den-stage--preview' : ''}`;
   return (
     <div className={cls} data-count={Math.max(size, 1)} data-seats={seats} aria-hidden={skeleton || undefined}>
@@ -158,7 +162,7 @@ export function DenStage({
           }
           const { m, i } = slot;
           return (
-            <li key={m.memberId} className="den-slot" style={{ '--i': i }}>
+            <li key={m.memberId} className="den-slot" style={{ '--i': i }} data-lift={lifted.has(m.memberId) || undefined}>
               {/* Where a sticker sits over this Fold: the flight lands on this point (bottom centre). */}
               <span className="den-sticker-anchor" data-member={m.memberId} aria-hidden="true" />
               {(onStage.get(m.memberId) || []).map((st) => (
