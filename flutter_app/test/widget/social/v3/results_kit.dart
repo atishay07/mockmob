@@ -29,9 +29,19 @@ Future<void> playRiyaSprint(MobV3FakeServer s) async {
 }
 
 /// A heavy server with Riya's sprint played (the open podium with a tie).
+/// The run is played on a clock that moves 20 s per answer (so its moments carry real times), then
+/// the clock returns to [v3Now].
 Future<MobV3FakeServer> openServer() async {
-  final s = v3Server();
-  await playRiyaSprint(s);
+  var t = v3Now;
+  final s = MobV3FakeServer(scenario: 'heavy', clock: () => t)..answerDelay = Duration.zero;
+  await s.run(riyaGame);
+  const rights = [true, true, false, true, true];
+  for (var q = 0; q < 5; q++) {
+    t = t.add(Duration(seconds: 19 + q * 4));
+    final correct = mobV3Bank[q].correct;
+    await s.answer(riyaGame, q: q, pick: rights[q] ? correct : (correct + 1) % 4);
+  }
+  t = v3Now;
   return s;
 }
 
