@@ -47,10 +47,11 @@ class ComposerTicket extends StatelessWidget {
   final TicketTear tear;
 
   /// A timed paper (a Full mock): under the stub waits the stopwatch, and when the server says
-  /// yes and the stub tears away it is there, running one full turn round to 12 as the paper
-  /// starts (owner, APK v8: "the full mock can have some animation of its own, like the clock
-  /// doing a 360"). It plays inside the hold the ticket already has, so the paper's clock is
-  /// never held back by it.
+  /// yes and the stub tears away it is there, its hands easing from ten to twelve onto 12 as the
+  /// paper starts (owner, APK v8: "the full mock can have some animation of its own"; 19 Oct:
+  /// "keep the clock animation ... just fix it": the 360-degree turn read as a twitch on his
+  /// phone, so it is one short calm motion now, 20 Oct I3). It plays inside the hold the ticket
+  /// already has, so the paper's clock is never held back by it.
   final bool clock;
 
   /// NTA mode: under the stub waits the exam window's sheet, and on the server's yes it slides
@@ -215,7 +216,8 @@ class _TearStage extends StatefulWidget {
   final double stub;
   final Widget child;
 
-  /// The stopwatch waits under the stub and laps once it tears (see [ComposerTicket.clock]).
+  /// The stopwatch waits under the stub and, once it tears, eases from ten to twelve onto 12
+  /// (see [ComposerTicket.clock] and StopwatchSim.lap).
   final bool clock;
 
   /// The exam sheet waits under the stub and plays its start once it tears (see

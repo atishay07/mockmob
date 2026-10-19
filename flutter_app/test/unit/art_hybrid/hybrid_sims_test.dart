@@ -123,14 +123,14 @@ void main() {
       expect(sim.longAt(1), closeTo(2 * math.pi + math.pi / 2, 1e-9));
     });
 
-    test('done snaps both hands to 12 with a small bounce', () {
+    test('done brings both hands to 12 and stops there, no bounce (20 Oct, I3)', () {
       final sim = StopwatchSim()..jump(long: 3 * math.pi / 2, short: math.pi / 6);
       sim.done(0);
       var most = 0.0;
       for (var t = 0.0; t < 2; t += 1 / 240) {
         most = math.max(most, sim.longAt(t));
       }
-      expect(most, greaterThan(2 * math.pi), reason: 'it bounces past 12');
+      expect(most, lessThanOrEqualTo(2 * math.pi + 1e-6), reason: 'it never passes 12 and comes back');
       expect(sim.settledAt(3), isTrue);
       expect(sim.longAt(3), closeTo(2 * math.pi, 1e-9));
       expect(sim.shortAt(3), closeTo(0, 1e-9));

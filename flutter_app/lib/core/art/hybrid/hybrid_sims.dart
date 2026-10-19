@@ -6,6 +6,8 @@ import 'dart:math' as math;
 import 'package:flutter/animation.dart' show Cubic;
 import 'package:flutter/physics.dart';
 
+import '../../motion/motion_tokens.g.dart' show MotionCurves;
+
 double _deg(double d) => d * math.pi / 180;
 
 double _smooth(double x) {
@@ -202,11 +204,11 @@ enum StopwatchMode {
   /// The long hand sweeps on, one turn every 3 s.
   running,
 
-  /// Both hands go to 12 with a small bounce.
+  /// Both hands settle on 12, no bounce.
   done,
 
-  /// The start of a timed paper: the long hand runs one full turn round the dial and lands on
-  /// the 12 it left from while the small hand holds ([StopwatchSim.lap]).
+  /// The start of a timed paper: from their resting time (ten to twelve) both hands ease forward
+  /// onto 12 once, in one short calm motion ([StopwatchSim.lap]). Never a full turn.
   lap,
 }
 
@@ -225,8 +227,9 @@ class StopwatchSim {
   /// One turn of the long hand in running mode.
   static const double runPeriod = 3.0;
 
-  /// Slightly underdamped: a small bounce at 12.
-  static const SpringDescription snap = SpringDescription(mass: 1, stiffness: 260, damping: 20);
+  /// Critically damped: the hands come to 12 and stop there, no bounce (20 Oct, I3: the
+  /// underdamped spring bounced past 12 and back, one more twitch on the Getting ready dial).
+  static const SpringDescription snap = SpringDescription(mass: 1, stiffness: 260, damping: 32.25);
 
   StopwatchMode _mode = StopwatchMode.stages;
   double _start = 0;
@@ -285,48 +288,54 @@ class StopwatchSim {
     _start = now;
   }
 
-  /// One full turn of the long hand from where it stands: it holds for [lapLead] while the dial
-  /// fades in where the stub was, then turns over [lapDuration] on the sweep curve (slow away,
-  /// even through the bottom, soft onto 12), so the whole turn is seen and lands on the same place
-  /// one turn on. The small hand holds: the paper starts from zero.
+  /// The start of a timed paper: the hands stand at their resting time ([lapLong], [lapShort],
+  /// ten to twelve) for [lapLead] while the dial fades in where the stub was, then both ease
+  /// forward onto 12 together over [lapDuration] on [lapCurve], and stop. 60 degrees for the long
+  /// hand, 30 for the small one: one calm motion, never a turn (20 Oct, I3: the full 360-degree
+  /// turn in 800 ms on an 80 dp dial read as a twitch on the phone).
   void lap(double now) {
-    _longFrom = longAt(now);
-    _shortFrom = shortAt(now);
-    _longTo = _longFrom + turn;
-    _shortTo = _shortFrom;
+    _longFrom = lapLong;
+    _shortFrom = lapShort;
+    _longTo = 0;
+    _shortTo = 0;
     _mode = StopwatchMode.lap;
     _start = now;
     _longSpring = null;
     _shortSpring = null;
   }
 
-  /// The hold before a [lap] turns, in seconds. The dial fades in once the stub has cleared
-  /// (the last part of the 220 ms tear), so the hand starts only when the whole dial is in place
-  /// and still: no hand already moving under a half-faded face (19 Oct, H4; before: 160 ms, and
-  /// the turn began while the dial was still a ghost over the stub's "50").
+  /// The long hand's resting place before a [lap]: ten minutes before 12.
+  static const double lapLong = -turn / 6;
+
+  /// The small hand's resting place before a [lap]: one hour mark before 12.
+  static const double lapShort = -turn / 12;
+
+  /// The hold before a [lap] moves, in seconds. The dial fades in once the stub has cleared (the
+  /// last part of the 220 ms tear), so the hands move only when the whole dial is in place and
+  /// still, never under a half-faded face.
   static const double lapLead = 0.24;
 
-  /// How long a [lap]'s turn takes, in seconds: one calm sweep. It was 700 ms on the motion
-  /// system's sweep curve, a peak of about 935 degrees a second (16 degrees a frame), which read
-  /// as a spin; 800 ms on [lapCurve] peaks at about 645 (11 a frame) and eases onto 12.
-  static const double lapDuration = 0.80;
+  /// How long a [lap]'s motion takes, in seconds: 450 ms, inside the 400 to 600 ms the owner's
+  /// motion rules give one object's move.
+  static const double lapDuration = 0.45;
 
   /// How long the hands rest on 12 before the sheet lets go, in seconds: long enough to read
-  /// "back at zero", the paper starts now. The ticket's hold is lead + turn + rest
-  /// (PracticeComposerKeys.clockHold, 1140 ms, under the T2 cap of 1200 ms). The paper's clock
-  /// reads the server's end time, so the hold costs no time.
-  static const double lapRest = 0.10;
+  /// "at zero, the paper starts now". The ticket's hold is lead + motion + rest
+  /// (PracticeComposerKeys.clockHold, 900 ms, under the T2 cap of 1200 ms), so the hands are
+  /// still before the sheet starts to leave. The paper's clock reads the server's end time, so
+  /// the hold costs no time.
+  static const double lapRest = 0.21;
 
-  /// When the long hand reaches 12 again, in seconds after [lap] was called.
+  /// When the hands reach 12, in seconds after [lap] was called.
   static const double lapLanded = lapLead + lapDuration;
 
-  /// An even ease, (0.3, 0, 0.7, 1): leaves 12 softly, runs evenly round the dial and settles
-  /// onto 12 without overshoot (the last 100 ms move it under 20 degrees).
-  static const Cubic lapCurve = Cubic(0.3, 0, 0.7, 1);
+  /// The motion system's ease-out for things that settle (glide): it leaves at a gentle speed
+  /// (about 400 degrees a second at the start, under 7 a frame) and slows onto 12, no overshoot.
+  static const Cubic lapCurve = MotionCurves.glide;
 
   double _lapEased(double t) {
     final p = (t - _start - lapLead) / lapDuration;
-    // Lands exactly on 12, whatever the rounding of lead + turn.
+    // Lands exactly on 12, whatever the rounding of lead + motion.
     return p >= 1 - 1e-9 ? 1.0 : lapCurve.transform(p.clamp(0.0, 1.0));
   }
 
@@ -340,7 +349,7 @@ class StopwatchSim {
     _start = 0;
   }
 
-  double _eased(double t) => const Cubic(0.16, 1, 0.3, 1).transform(((t - _start) / sweep).clamp(0.0, 1.0));
+  double _eased(double t) => MotionCurves.emphasized.transform(((t - _start) / sweep).clamp(0.0, 1.0));
 
   double longAt(double t) {
     final dt = math.max(0.0, t - _start);
