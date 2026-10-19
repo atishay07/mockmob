@@ -130,27 +130,29 @@ class _ShelfBodyState extends ConsumerState<_ShelfBody> {
     final ordered = _ordered;
     final ownedList = [for (final f in ordered) if (f.owned || f.starter) f];
     final toEarn = [for (final f in ordered) if (!(f.owned || f.starter)) f];
-    Widget grid(List<ShelfFold> list) => LayoutBuilder(
-          builder: (context, box) {
-            const gap = MmSpace.s12;
-            final w = (box.maxWidth - gap) / 2;
-            return Wrap(
-              spacing: gap,
-              runSpacing: gap,
-              children: [
-                for (final f in list)
-                  SizedBox(
-                    width: w,
-                    child: FoldTile(
-                      fold: f,
-                      isSeat: f.key == shelf.seat,
-                      finish: f.key == shelf.seat ? shelf.seatFinish : FoldFinish.plain,
-                      onTap: () => showFoldDetail(context, fold: f, isSeat: f.key == shelf.seat, onSit: () => _sit(f.key)),
-                    ),
-                  ),
-              ],
-            );
-          },
+    Widget tile(ShelfFold f) => FoldTile(
+          fold: f,
+          isSeat: f.key == shelf.seat,
+          finish: f.key == shelf.seat ? shelf.seatFinish : FoldFinish.plain,
+          onTap: () => showFoldDetail(context, fold: f, isSeat: f.key == shelf.seat, onSit: () => _sit(f.key)),
+        );
+    // Two to a row, each row as tall as its taller card, so the plinths line up.
+    Widget grid(List<ShelfFold> list) => Column(
+          children: [
+            for (var i = 0; i < list.length; i += 2) ...[
+              if (i > 0) const SizedBox(height: MmSpace.s12),
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(child: tile(list[i])),
+                    const SizedBox(width: MmSpace.s12),
+                    Expanded(child: i + 1 < list.length ? tile(list[i + 1]) : const SizedBox.shrink()),
+                  ],
+                ),
+              ),
+            ],
+          ],
         );
     final foil = shelf.folds.isEmpty ? const FinishProgress() : shelf.folds.first.foil;
     return Column(

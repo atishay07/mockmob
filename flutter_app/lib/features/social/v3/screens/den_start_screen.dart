@@ -191,7 +191,10 @@ class StartMobModel extends ChangeNotifier {
   }
 }
 
-/// Opens D0a. Completes when the sheet closes (true when a Mob started).
+/// Opens D0a. Completes when the sheet closes (true when a Mob started). The model is not disposed by
+/// hand: the sheet rebuilds its body when the keyboard opens (a different tree shape), so a widget cannot
+/// own it, and a delayed dispose would leave a timer behind. It holds one text controller, no listener
+/// outlives the sheet, and it is collected with the route.
 Future<bool?> showStartMobSheet(BuildContext context) {
   final container = ProviderScope.containerOf(context, listen: false);
   final auth = container.read(authSnapshotProvider);
@@ -204,10 +207,10 @@ Future<bool?> showStartMobSheet(BuildContext context) {
   return showMmSheet<bool>(
     context: context,
     title: MobV3Copy.startSheetTitle,
-    liftWithKeyboard: true,
+    heightFactor: 0.92,
     builder: (_) => StartMobBody(model: model),
     footer: (sheet) => StartMobKey(model: model, onStarted: () => Navigator.of(sheet).pop(true)),
-  ).whenComplete(model.dispose);
+  );
 }
 
 /// The key pinned under the sheet: "Start Chai Circle", with what comes next under it.

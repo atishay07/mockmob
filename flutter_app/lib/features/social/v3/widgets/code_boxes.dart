@@ -167,28 +167,31 @@ class _Row extends StatelessWidget {
                 children: [
                   for (var i = 0; i < n; i++) ...[
                     if (i == half) const SizedBox(width: mid) else if (i > 0) const SizedBox(width: gap),
-                    AnimatedContainer(
-                      duration: Motion.reduced(context) ? Motion.reducedFade : Motion.ui,
-                      curve: Motion.out,
+                    // The width is not animated: going from six boxes to eight must never be wider than the room.
+                    SizedBox(
                       width: w,
                       height: height,
-                      alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: c.raised,
-                        borderRadius: MmRadius.keyAll,
-                        border: Border.all(
-                          color: state == CodeBoxState.bad
-                              ? c.wrongBorder
-                              : i == active
-                                  ? c.ink
-                                  : (state == CodeBoxState.ok ? c.lineStrong : c.line),
-                          width: i == active ? 2 : 1,
+                      child: AnimatedContainer(
+                        duration: Motion.reduced(context) ? Motion.reducedFade : Motion.ui,
+                        curve: Motion.out,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          color: c.raised,
+                          borderRadius: MmRadius.keyAll,
+                          border: Border.all(
+                            color: state == CodeBoxState.bad
+                                ? c.wrongBorder
+                                : i == active
+                                    ? c.ink
+                                    : (state == CodeBoxState.ok ? c.lineStrong : c.line),
+                            width: i == active ? 2 : 1,
+                          ),
                         ),
-                      ),
-                      child: Text(
-                        i < code.length ? code[i] : '',
-                        style: type.figureCompact.copyWith(fontSize: 30, height: 1, color: c.ink),
-                        textHeightBehavior: MmType.figureHeightBehavior,
+                        child: Text(
+                          i < code.length ? code[i] : '',
+                          style: type.figureCompact.copyWith(fontSize: 30, height: 1, color: c.ink),
+                          textHeightBehavior: MmType.figureHeightBehavior,
+                        ),
                       ),
                     ),
                   ],

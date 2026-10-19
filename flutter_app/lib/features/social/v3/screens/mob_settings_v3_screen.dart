@@ -94,7 +94,7 @@ class _MobSettingsV3ScreenState extends ConsumerState<MobSettingsV3Screen> {
     final share = _pending['share'] ?? mob.you.showScore;
     final mobName = v3.name.text.isEmpty ? den.subjectName : v3.name.text;
     return [
-      const GroupHeading(MobV3Copy.settingsTitle, top: MmSpace.s8),
+      const SizedBox(height: MmSpace.s8),
       if (v3.youOwn)
         MobSwitchRow(
           key: const ValueKey('set-podium'),

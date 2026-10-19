@@ -212,7 +212,7 @@ class _JoinV3ScreenState extends ConsumerState<JoinV3Screen> {
                 CodeBoxes(controller: _code, focusNode: _focus, state: boxState, autofocus: widget.code.isEmpty, onChanged: _onCode),
                 const SizedBox(height: MmSpace.s16),
                 AnimatedSize(
-                  duration: Motion.reduced(context) ? Duration.zero : Motion.ui,
+                  duration: Motion.reduced(context) ? Motion.reducedFade : Motion.ui,
                   curve: Motion.out,
                   alignment: Alignment.topCenter,
                   child: switch (_phase) {

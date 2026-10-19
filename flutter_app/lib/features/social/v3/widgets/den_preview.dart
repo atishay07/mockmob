@@ -14,7 +14,7 @@ import '../data/mob_v3_models.dart';
 import 'fold_puppet.dart';
 
 class DenPreview extends StatelessWidget {
-  const DenPreview({super.key, required this.fold, this.height = 236, this.fallbackName = ''});
+  const DenPreview({super.key, required this.fold, this.height = 288, this.fallbackName = ''});
 
   /// Your Fold (a starter on a fresh account).
   final FoldKey fold;
@@ -57,22 +57,33 @@ class DenPreview extends StatelessWidget {
                 left: MmSpace.gutter,
                 right: MmSpace.gutter,
                 bottom: 30,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
+                child: LayoutBuilder(
+                  builder: (context, box) {
+                    // The seats share what the Fold leaves: 46 dp each when it fits, narrower on a small phone.
+                    const foldW = 72.0;
+                    const gaps = MmSpace.s12 + 3 * MmSpace.s8;
+                    final seatW = ((box.maxWidth - foldW - gaps) / 4).clamp(34.0, 46.0);
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        FoldPuppet(fold: fold, size: 80, breathe: true, fallbackName: fallbackName),
-                        const SizedBox(height: MmSpace.s8),
+                        SizedBox(
+                          width: foldW,
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              FoldPuppet(fold: fold, size: 80, breathe: true, fallbackName: fallbackName),
+                              const SizedBox(height: MmSpace.s8),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(width: MmSpace.s12),
+                        for (var i = 0; i < 4; i++) ...[
+                          if (i > 0) const SizedBox(width: MmSpace.s8),
+                          Padding(padding: const EdgeInsets.only(bottom: MmSpace.s4), child: _Seat(width: seatW)),
+                        ],
                       ],
-                    ),
-                    const SizedBox(width: MmSpace.s12),
-                    for (var i = 0; i < 4; i++) ...[
-                      if (i > 0) const SizedBox(width: MmSpace.s8),
-                      const Padding(padding: EdgeInsets.only(bottom: MmSpace.s4), child: _Seat()),
-                    ],
-                  ],
+                    );
+                  },
                 ),
               ),
               Positioned(
@@ -90,14 +101,16 @@ class DenPreview extends StatelessWidget {
 
 /// A dashed paper seat: a rounded outline with a plus, waiting for a friend.
 class _Seat extends StatelessWidget {
-  const _Seat();
+  const _Seat({this.width = 46});
+
+  final double width;
 
   @override
   Widget build(BuildContext context) {
     final c = context.mmColors;
     return CustomPaint(
       painter: _DashedSeat(color: c.ink.withValues(alpha: c.isNight ? 0.5 : 0.42), fill: c.raised.withValues(alpha: c.isNight ? 0.22 : 0.4)),
-      child: SizedBox(width: 46, height: 62, child: Center(child: Icon(LucideIcons.plus, size: 18, color: c.ink2))),
+      child: SizedBox(width: width, height: 62, child: Center(child: Icon(LucideIcons.plus, size: 18, color: c.ink2))),
     );
   }
 }
