@@ -294,3 +294,10 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 ## Owner, 19 Oct about 3:25 pm IST, started the PM work (D122)
 He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) into session 604ced81, his go to start the PM plan: "Think freely and propose ideas he has not asked for. Keep the rules that protect quality ... Check the account's usage before starting any agents, keep your own context lean, and ask him before any production write, deploy or paid step. Record his words verbatim, and end with one clear message on what changed and what he needs to do."
 **Ledger D122:** go for PLAN-1019-PM (A billing, B Mob mock-ups, C Practice/Colleges/goal); ask before any production write, deploy or paid step (this narrows the standing database grant for this run).
+
+## Owner, 19 Oct about 3:35 pm IST, his answers to four billing questions (verbatim)
+- Licence tester account: "wdym by Google account will you buy with as the licence tester? like do i have to buy a google account or what exactly"
+- Upload key: "Yes, create it (Recommended)" (saved in C:\Users\atish\MockMob-keys, password beside it; he backs the folder up to Google Drive and a USB stick).
+- The MockMob app in Play Console: "Yes, it exists".
+- The Play purchases table on the live database: "Yes, add it now (Recommended)".
+**Ledger D123:** create the upload key now; the app already exists in Play Console; apply migration 20261018190000_play_purchases on production now (save, staging checked, undo ready, STATUS). Explain the licence tester plainly: no new account to buy; it is the Google account already signed in to the Play Store on his phone, added by him in Play Console.
