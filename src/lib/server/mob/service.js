@@ -103,7 +103,6 @@ export function createMobService(deps) {
   // Mob v3 (MOB-BUILD-SPEC-V3): everything new needs MOB_V3_ENABLED=true and its migrations. Off, every route keeps the
   // exact behaviour build 9 apps and today's web know.
   const v3On = () => (deps.v3Enabled ? deps.v3Enabled() === true : false);
-  // eslint-disable-next-line prefer-const
   let v3;
   // How many Mobs the student started and is still in. Null when the count cannot be read (the view falls back).
   const startedCount = async (userId) => {

@@ -341,6 +341,26 @@ test('SV-1 the four migrations apply twice, undo in reverse twice, and the schem
   } finally { await db.close(); }
 });
 
+test('SV-1 the 8-character check is found by its definition (staging names it mob_invites_code_check1) and comes back under that name', async () => {
+  const db = new PGlite();
+  try {
+    await db.exec('create role anon; create role authenticated; create role service_role bypassrls;');
+    await db.exec("create table public.users (id text primary key);");
+    await db.exec(STUBS);
+    await db.exec(BASE);
+    await db.exec('alter table public.mob_invites rename constraint mob_invites_code_check to mob_invites_code_check1');
+    await db.exec(v3Sql);
+    const checks = async () => (await db.query("select conname c from pg_constraint where conrelid='public.mob_invites'::regclass and contype='c' order by 1")).rows.map((r) => r.c);
+    assert.ok(!(await checks()).includes('mob_invites_code_check1'), 'dropped, so 6-character codes fit');
+    assert.ok((await checks()).includes('mob_invites_code_len'));
+    await db.exec(v3Undo);
+    await db.exec(v3Undo);
+    assert.ok((await checks()).includes('mob_invites_code_check1'), 'back under its own name');
+    assert.ok(!(await checks()).includes('mob_invites_code_check'));
+    assert.equal((await db.query("select count(*)::int n from mob_data_moves where key like 'v3_%'")).rows[0].n, 0);
+  } finally { await db.close(); }
+});
+
 test('SV-1 old 8-character codes still look up, join and expire; 6-character codes work beside them', async () => {
   const db = await database();
   try {

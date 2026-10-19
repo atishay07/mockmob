@@ -13,7 +13,19 @@
 -- Account deletion: src/lib/server/accountDeletion.js has a step for every new table that holds a user id.
 
 -- ---------- Codes ----------
-alter table public.mob_invites drop constraint if exists mob_invites_code_check;
+-- The 8-character check is found by its definition, not its name (on staging it is mob_invites_code_check1, because the
+-- parked v1 table kept the first name). Each one dropped is recorded in mob_data_moves so the undo puts back that name.
+do $$
+declare c record;
+begin
+  for c in select conname from pg_constraint
+           where conrelid = 'public.mob_invites'::regclass and contype = 'c' and conname <> 'mob_invites_code_len'
+             and pg_get_constraintdef(oid) like '%{8}%' and pg_get_constraintdef(oid) not like '%{6}%'
+  loop
+    insert into public.mob_data_moves (key) values ('v3_code_check:' || c.conname) on conflict do nothing;
+    execute format('alter table public.mob_invites drop constraint %I', c.conname);
+  end loop;
+end $$;
 alter table public.mob_invites drop constraint if exists mob_invites_code_len;
 alter table public.mob_invites add constraint mob_invites_code_len
   check (code ~ '^[0-9A-HJKMNP-TV-Z]{6}$' or code ~ '^[0-9A-HJKMNP-TV-Z]{8}$');

@@ -2,8 +2,8 @@
 -- so the Supabase CLI never applies it by itself. Apply it after 20261020100100_mob_v3_games.undo.sql.
 -- It drops exactly what the core added (the seat Folds, earned Folds, stickers, seen moments, step-outs, the name key
 -- and the podium switch, and the v3 functions) and puts back mob_state (20261017100000) and mob_invite_lookup
--- (20261017190000) as they were. Codes: the 8-character check comes back NOT VALID, so 6-character invites made while
--- v3 was on stay readable rows (they simply stop being created); delete them first if a strict check is wanted.
+-- (20261017190000) as they were. Codes: the 8-character check comes back under its old name; it is NOT VALID only when
+-- 6-character invites made while v3 was on remain (they stay readable rows and simply stop being created).
 -- Lost on undo: Folds earned, stickers, seen moments, step-outs and Mob names. Safe to run twice.
 
 drop function if exists public.mob_create_named(text, text, text, smallint, integer, smallint);
@@ -24,8 +24,23 @@ alter table public.mobs drop column if exists show_podium;
 alter table public.mobs drop column if exists name_key;
 
 alter table public.mob_invites drop constraint if exists mob_invites_code_len;
-alter table public.mob_invites drop constraint if exists mob_invites_code_check;
-alter table public.mob_invites add constraint mob_invites_code_check check (code ~ '^[0-9A-HJKMNP-TV-Z]{8}$') not valid;
+-- Put back each 8-character check the core dropped, under its own name (mob_invites_code_check, or ..._check1 on staging).
+do $$
+declare k record; n int := 0;
+begin
+  for k in select key from public.mob_data_moves where key like 'v3_code_check:%' loop
+    if not exists (select 1 from pg_constraint where conrelid = 'public.mob_invites'::regclass and conname = substr(k.key, 15)) then
+      -- Valid as before when every code is 8 characters; NOT VALID when 6-character invites made under v3 remain.
+      execute format('alter table public.mob_invites add constraint %I check (code ~ %L)%s', substr(k.key, 15), '^[0-9A-HJKMNP-TV-Z]{8}$',
+        case when exists (select 1 from public.mob_invites where code !~ '^[0-9A-HJKMNP-TV-Z]{8}$') then ' not valid' else '' end);
+    end if;
+    delete from public.mob_data_moves where key = k.key;
+    n := n + 1;
+  end loop;
+  if n = 0 and not exists (select 1 from pg_constraint where conrelid = 'public.mob_invites'::regclass and contype = 'c' and pg_get_constraintdef(oid) like '%{8}%') then
+    alter table public.mob_invites add constraint mob_invites_code_check check (code ~ '^[0-9A-HJKMNP-TV-Z]{8}$') not valid;
+  end if;
+end $$;
 
 -- mob_state as 20261017100000_mob.sql made it.
 create or replace function public.mob_state(p_user_id text, p_week date, p_mob_id uuid default null, p_now timestamptz default now())
