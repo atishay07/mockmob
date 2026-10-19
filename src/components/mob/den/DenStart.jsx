@@ -122,11 +122,13 @@ function StartSheet({ open, onClose, user, mob, fold, setFold }) {
 
 /** The code boxes: one real input under the six (or eight) painted boxes. Paste of a link or an old code is accepted. */
 function CodeBoxes({ chars, onChange, inputRef, describedBy }) {
+  // The dialog's showModal puts focus on its first control (Close); the code is what the student came to type.
+  useEffect(() => { const t = setTimeout(() => inputRef.current?.focus(), 30); return () => clearTimeout(t); }, [inputRef]);
   const n = joinBoxes(chars);
   const boxes = Array.from({ length: n }, (_, i) => chars[i] || '');
   return (
     <div className="den-code-boxes" data-n={n} onClick={() => inputRef.current?.focus()}>
-      <input ref={inputRef} className="den-code-boxes__input" value={chars} autoFocus inputMode="text" autoComplete="one-time-code" autoCapitalize="characters" spellCheck={false}
+      <input ref={inputRef} className="den-code-boxes__input" value={chars} inputMode="text" autoComplete="one-time-code" autoCapitalize="characters" spellCheck={false}
         aria-label={DenCopy.joinCodeLabel} aria-describedby={describedBy} maxLength={64}
         onChange={(e) => onChange(parseJoinInput(e.target.value).chars)}
         onPaste={(e) => { e.preventDefault(); onChange(parseJoinInput(e.clipboardData.getData('text')).chars); }} />

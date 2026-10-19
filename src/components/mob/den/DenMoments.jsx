@@ -5,6 +5,7 @@
 // after it has fully shown or been skipped. No sunburst, no rays, no rarity colour (F6); the parcel's warm leak is a
 // plain radial light. Mobi appears at most once per moment. Reduced motion: 120 ms fades, order and words kept.
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { useRouter } from 'next/navigation';
 import { X } from 'lucide-react';
 import { MOB_ITEMS } from '@/lib/mob/folds.mjs';
@@ -184,7 +185,8 @@ export function DenMoments({ queue, v3, chain, mobName, run, reload }) {
     : m.kind === 'stitch' ? <Stitched v3={v3} mobName={mobName} onDone={next} />
       : m.kind === 'reveal' ? <Reveal fold={m.fold} mobName={mobName} run={run} onDone={() => next()} />
         : <Milestone chain={chain} days={m.days} onDone={next} />;
-  return (
+  // A portal to <body>: the moment covers the whole app, header and tab bar included (a full-screen route in the app).
+  return createPortal(
     <div className="den-k" role="dialog" aria-modal="true" aria-labelledby="den-k-title" data-kind={m.kind} data-skipped={skipped || undefined} data-shown={shown || undefined}>
       <span className="den-k__lamp" aria-hidden="true" />
       <div className="den-k__chrome">
@@ -196,7 +198,8 @@ export function DenMoments({ queue, v3, chain, mobName, run, reload }) {
         {m.kind === 'stitch' ? <h2 className="sr-only" id="den-k-title">{DenCopy.weeksInARow(v3.mobChain?.weeks ?? 0)}</h2> : null}
         {body}
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
