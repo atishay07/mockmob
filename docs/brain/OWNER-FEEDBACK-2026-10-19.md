@@ -312,3 +312,10 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 
 ## Owner, 19 Oct about 4:45 pm IST (verbatim)
 > "I am back. Can you tell me what all you have done? Is the new app ready, and what is needed from my side?"
+
+## Owner, 19 Oct about 4:55 pm IST, his picks (verbatim answers)
+- Practice: "C: three doors"
+- Colleges: "A + B: You card and Today strip (Recommended)"
+- Daily goal: "A: a fourth 'More' bubble (Recommended)"
+- "Question stream": "Rename to 'Untimed questions' (Recommended)"
+**Ledger D126:** build Practice C (a Practise / Your papers / Learn switch under the title), Colleges A+B (a Colleges card at the top of You and a "Your colleges" strip on Today; Aim stays), goal step A (a fourth "More" bubble: 1 hour, 2 hours, own amount, no cap), and rename "Question stream" to "Untimed questions". Specs: docs/design-decisions/pass-1019pm/PRACTICE-COLLEGES-GOAL-1019PM.md and SMART-LAYER-1019PM.md.
