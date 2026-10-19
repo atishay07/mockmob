@@ -21,7 +21,7 @@ class AskMobiCard extends ConsumerWidget {
     final record = ref.watch(insightsRepositoryProvider).value;
     final lead = recordLead(record);
     final line = lead != null
-        ? AskDoorCopy.cardLineHeavy(lead.lost, lead.place)
+        ? AskDoorCopy.cardLineHeavy(lead.lost, lead.shortPlace)
         : (record != null && record.isReady ? AskDoorCopy.cardLineRecord : AskDoorCopy.cardLineFresh);
     // The screen reads the record again as it opens.
     void open(AskDoor door) => openAskMobiScreen(context, door: door);

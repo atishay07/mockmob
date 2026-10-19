@@ -78,7 +78,11 @@ void main() {
       final asks = recordDoorAsks(_record(two), pro: false, now: DateTime(2026, 10, 20, 21));
       expect(asks.first.preview, '6 marks lost in each of Optics and Ray Optics');
       final lead = recordLead(_record(four))!;
-      expect(AskDoorCopy.cardLineHeavy(lead.lost, lead.place), 'Stuck on a doubt? Ask now, or ask why you lost 12 marks in each of 4 chapters.');
+      expect(AskDoorCopy.cardLineHeavy(lead.lost, lead.shortPlace), 'Stuck on a doubt? Ask now, or ask why you lost 12 marks in each of 4 chapters.');
+      // Long tied names: the tight lines say the count; the answer names them.
+      final long = recordLead(_record([_c('Partnership: admission of a partner', wrong: 1), _c('Money and banking', wrong: 1)]))!;
+      expect(AskDoorCopy.leadLine(long), 'marks lost in each of 2 chapters, tied as your biggest leak');
+      expect(long.place, 'each of Partnership: admission of a partner and Money and banking');
       expect(recordPrompts(_record(two)).first.preview, '6 marks lost in each of Optics and Ray Optics');
       expect(recordPrompts(_record(single)).first.preview, '12 marks lost in Ray Optics');
     });

@@ -83,7 +83,7 @@ abstract final class AskDoorCopy {
   /// The figure's line for the lead: alone, "marks lost in Ray Optics, your biggest leak"; tied (owner I14), "marks lost in
   /// each of Ray Optics and Optics, tied as your biggest leak".
   static String leadLine(RecordLead lead) =>
-      lead.tied > 1 ? 'marks lost in ${lead.place}, tied as your biggest leak' : leadFigureLine(lead.chapter);
+      lead.tied > 1 ? 'marks lost in ${lead.shortPlace}, tied as your biggest leak' : leadFigureLine(lead.chapter);
   static String seeAll(int n) => 'See all $n questions about your record';
   static const seeFewer = 'Show fewer questions';
   static const emptySay = 'Your record is empty for now.';
@@ -244,6 +244,10 @@ class RecordLead {
 
   /// After "in": "Ray Optics", "each of Ray Optics and Optics", "each of 4 chapters".
   String get place => tied > 1 ? costliestPlace(chapters) : chapter;
+
+  /// [place] for a tight spot (the big figure's line, the card line): long tied names become their count, "each of 2
+  /// chapters", so the line stays short; the answer names them all.
+  String get shortPlace => tied > 1 && chapters.join().length > 32 ? 'each of $tied chapters' : place;
 }
 
 /// The biggest leak in the record, or null when no chapter is ranked yet.
