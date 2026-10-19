@@ -474,3 +474,9 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 19 Oct about 9:41 pm IST (verbatim)
 > "Okay, I have picked the event, and I have updated it in the listing. Now I am waiting just for the other things: all the graphics, posts, whatever."
 **Ledger D144:** "the event" = option A (dictation). Short description A and the v11b full description are pasted into the Play store listing by him. Waiting on the feature graphic and the 7 designed frames.
+
+## Owner, 19 Oct about 9:48 pm IST, store graphics picks (verbatim)
+> "A looks good to me in terms of the feature graphic, but B is also good. C, not so much. At least the Play Store only allowed over 12 feature graphics.
+>
+> For the screenshot set, I think set 2 looks very clean. Even though I really like the gradient and typography of set 1, they're both very similar. It doesn't really matter, so I'll go with set 2. Can you confirm if I am only allowed one feature graphic in the Play Store?"
+**Ledger D145:** feature graphic A for the main listing (B kept as the alternative for a store listing experiment); screenshot set 2. ("only allowed over 12" is a dictation garble of "only allows one".)
