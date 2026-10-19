@@ -193,7 +193,7 @@ export function DemoDrill() {
       <div className="mm-screen__bar">
         <span className="mm-screen__live" aria-hidden="true" />
         {question.subject}
-        <span className="mm-drill__progress" aria-label={`Question ${index + 1} of ${DRILL.length}`}>
+        <span className="mm-drill__progress" role="img" aria-label={`Question ${index + 1} of ${DRILL.length}`}>
           {DRILL.map((item, i) => (
             <span
               key={item.q}

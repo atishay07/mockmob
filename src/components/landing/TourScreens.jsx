@@ -306,6 +306,43 @@ export function BenchmarkScreen({ play }) {
   );
 }
 
+// ---------- 9. The Mob ----------
+// A sprint as the Mob shows it: three friends' runs on the same five questions (+5 / -1, so 25 is full marks), each as
+// the Fold they play as, then the week's quest, the chain and the fix that follows the game. Names and marks are
+// illustrative; the rules are the Mob's own (src/lib/mob/v3/denCopy.mjs: same questions for 24 hours, the weekly
+// quest, the chain in weeks, Fix it together shows only your own pick).
+const MOB_T = [...lineUp(3), 420];
+const MOB_RUNS = [
+  { fold: 'dart', name: 'Dart, you', marks: 19, you: true },
+  { fold: 'hexa', name: 'Hexa, Riya', marks: 15 },
+  { fold: 'kandil', name: 'Kandil, Aman', marks: 14 },
+];
+export function MobScreen({ play }) {
+  const step = useSteps(play, MOB_T);
+  return (
+    <Frame title="Economics sprint" step={step} right={<span className="ts__timer">5 questions</span>}>
+      <p className="ts__meta">Everyone gets the same questions for 24 hours.</p>
+      <div className="ts__lanes">
+        {MOB_RUNS.map((run, i) => (
+          <div key={run.fold} className="ts__lane ts__lane--fold" data-run={on(step >= 1)} data-target={run.you ? undefined : 'true'}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <span><img src={`/mob/folds/fold-${run.fold}-head@128.webp`} alt="" width={20} height={20} loading="lazy" decoding="async" />{run.name}</span>
+            <i><b style={{ '--w': `${Math.round((run.marks / 25) * 100)}%`, '--t': `${0.9 + i * 0.2}s` }} /></i>
+            <em>+{run.marks}</em>
+          </div>
+        ))}
+      </div>
+      <div className="ts__facts" data-in={on(step >= 2)}>
+        <p><b>38 of 60</b>questions in this week’s quest</p>
+        <p><b>4 weeks</b>in your Mob’s chain</p>
+      </div>
+      <ol className="ts__ladder" data-in={on(step >= 3)} aria-label="After the sprint">
+        <li data-mark="you"><span>Fix it together: Q3 caught you. Try a fresh one like it.</span></li>
+      </ol>
+    </Frame>
+  );
+}
+
 export const TOUR_SCREENS = {
   arena: PracticeScreen,
   repair: RepairScreen,
@@ -316,4 +353,5 @@ export const TOUR_SCREENS = {
   compass: CompassScreen,
   combo: ComboScreen,
   rival: BenchmarkScreen,
+  mob: MobScreen,
 };

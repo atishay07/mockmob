@@ -89,7 +89,7 @@ export function ExamComparator() {
                 <button type="button" className="lp-exam__save" onClick={() => next(false)}>Save &amp; Next</button>
               </div>
             </div>
-            <aside className="lp-exam__palette" aria-label="Preview question palette">
+            <div className="lp-exam__palette" role="group" aria-label="Preview question palette">
               <div className="lp-exam__palette-heading"><h4>Question Palette</h4><span>{Object.keys(answers).length}/5 answered</span></div>
               {/* Five live cells, 45 decorative ones, one cell geometry. The button is the hit
                   target and focus ring; the inner cell carries the exam shape, so NTA's clipped
@@ -99,7 +99,7 @@ export function ExamComparator() {
                 : <span key={i} className="lp-exam__num lp-exam__num--rest" aria-hidden="true"><span className="lp-exam__cell" data-state="unseen">{i + 1}</span></span>)}</div>
               <p className="lp-exam__palette-note">Tap 1 to 5 here. A full mock uses all 50.</p>
               <p className="lp-exam__legend-title">Legend</p><ul className="lp-exam__legend">{LEGEND.map(([state, name]) => <li key={state}><span data-state={state} aria-hidden="true">{state === 'review-answered' ? <Check size={10} /> : ''}</span>{name}</li>)}</ul>
-            </aside>
+            </div>
           </div>
           <div className="lp-exam__foot"><p role="status">{notice}</p><button type="button" onClick={reset}><RotateCcw size={14} />Reset preview</button></div>
         </div>

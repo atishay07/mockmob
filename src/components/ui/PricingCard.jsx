@@ -15,12 +15,16 @@ export function PricingCard({
   featured = false,
   footnote,
   terms = [],
+  // The plan name's heading level: the Pro card sits right under the page's h1 (an h2 there), the Free card under its
+  // own section heading (h3).
+  headingLevel = 3,
 }) {
+  const Name = headingLevel === 2 ? 'h2' : 'h3';
   return (
     <article className="mm-plan" data-featured={featured ? 'true' : 'false'}>
 
       <div className="mm-plan__head">
-        <h3 className="mm-plan__name">{name}</h3>
+        <Name className="mm-plan__name">{name}</Name>
         <p className="mm-plan__price mm-measure">
           {price}
           <span>{cycle}</span>

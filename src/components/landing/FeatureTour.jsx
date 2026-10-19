@@ -22,6 +22,7 @@ const LEDE = {
   compass: 'Your score against the published 2026 DU cutoffs, by college, category and round.',
   combo: 'Pick your DU goals and see which five-paper combinations the 2026 rules keep open.',
   rival: 'A short timed run against a fixed target for accuracy and pace.',
+  mob: 'Your friends get the same five questions for 24 hours, then you fix what caught you, together.',
 };
 
 function TourVideo({ slide, playing }) {
@@ -198,14 +199,14 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
             </span>)}
           </div>
 
-          <ul className="ft__track" ref={trackRef} aria-label="MockMob features" aria-live={paused ? 'polite' : 'off'} onScroll={readSwipe}
+          <div className="ft__track" ref={trackRef} aria-label="MockMob features" aria-live={paused ? 'polite' : 'off'} onScroll={readSwipe}
             onPointerDown={event => { programmaticRef.current = false; pointerRef.current = { x: event.clientX, y: event.clientY }; }}
             onPointerMove={event => { const start = pointerRef.current; if (!pinned && start && Math.abs(event.clientX - start.x) > 10 && Math.abs(event.clientX - start.x) > Math.abs(event.clientY - start.y)) setInteracting(true); }}
             onPointerUp={() => { pointerRef.current = null; setInteracting(false); }} onPointerCancel={() => { pointerRef.current = null; setInteracting(false); }}
             onTouchStart={() => { programmaticRef.current = false; }}
             onWheel={event => { if (Math.abs(event.deltaX) > Math.abs(event.deltaY)) programmaticRef.current = false; }}>
             {slides.map((slide, i) => { const Screen = TOUR_SCREENS[slide.id]; const on = active === i; return (
-              <li key={slide.id} className="ft__slide" role="group" aria-roledescription="slide" aria-label={(i + 1) + ' of ' + slides.length + ': ' + slide.label} aria-hidden={!on} inert={!on} data-index={i} data-active={on ? 'true' : 'false'} data-past={pinned && i < active ? 'true' : undefined}>
+              <div key={slide.id} className="ft__slide" role="group" aria-roledescription="slide" aria-label={(i + 1) + ' of ' + slides.length + ': ' + slide.label} aria-hidden={!on} inert={!on} data-index={i} data-active={on ? 'true' : 'false'} data-past={pinned && i < active ? 'true' : undefined}>
                 <article className="ft__card">
                   <div className="ft__media">
                     <div className="ft__shot">
@@ -221,9 +222,9 @@ function TourStage({ slides, step, pinned, reduced, goTo: storyGoTo }) {
                     <Link href={slide.href} className="lp-link ft__cta">{slide.cta}</Link>
                   </div>
                 </article>
-              </li>
+              </div>
             ); })}
-          </ul>
+          </div>
 
           <div className="ft__controls">
             <button type="button" className="ft__arrow" onClick={event => goTo(active - 1, { keyboard: event.detail === 0 })} aria-label="Previous feature"><ArrowLeft size={18} aria-hidden="true" /></button>

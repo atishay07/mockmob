@@ -4,7 +4,7 @@ import path from 'node:path';
 import { LOGO_B_LETTERS, LOGO_B_MOBI, LOGO_B_VIEWBOX } from '@/components/brand/logoB';
 
 export const runtime = 'nodejs';
-export const alt = 'mockmob. One mock tonight. A clearer next step. CUET UG 2027 Commerce practice, mistake review and DU subject rules, with an accountancy calculator, a business stamp and an economics scale under a desk lamp.';
+export const alt = 'mockmob. One mock tonight. A clearer next step. For CUET UG 2027: unlimited mocks on Pro, each built fresh from one central question bank. An accountancy calculator, a business case and an economics scale under a desk lamp.';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -50,12 +50,13 @@ export default async function OpengraphImage() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={logo} width={336} height={50} alt="" style={{ width: 336, height: 50 }} />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontSize: 24, color: '#B9B4A6', marginBottom: 18 }}>CUET UG 2027 · Commerce</span>
+          <span style={{ fontSize: 24, color: '#B9B4A6', marginBottom: 18 }}>For CUET UG 2027</span>
           <span style={{ fontSize: 76, lineHeight: 1.02, letterSpacing: -2 }}>One mock tonight.</span>
           <span style={{ fontSize: 76, lineHeight: 1.02, letterSpacing: -2, color: VOLT }}>A clearer next step.</span>
         </div>
-        {/* One plain line, not a row of pills (W-076). */}
-        <span style={{ display: 'flex', fontSize: 26, lineHeight: 1.3, color: '#D6D1C2' }}>Timed practice, mistake review and DU subject rules.</span>
+        {/* One plain line, not a row of pills (W-076): the USP, said as the pricing page says it (unlimited on Pro, one
+            central bank). The kicker no longer says Commerce: the site covers the 15 subjects behind most CUET papers. */}
+        <span style={{ display: 'flex', fontSize: 26, lineHeight: 1.3, color: '#D6D1C2' }}>Unlimited mocks on Pro, from one central question bank.</span>
       </div>
 
       {/* The still life: three subject objects on a lit desk, each on its own contact shadow. */}

@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { CAPABILITIES, recoveryReleased, newOfferReleased } from '@/../data/capabilities';
 import { priceLine, publicOffer } from '@/lib/payments/offer';
-import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, BookOpenText } from 'lucide-react';
+import { Check, History, Timer, Wrench, Radar, Sparkles, Compass, Combine, Trophy, Monitor, BookOpenText, Users } from 'lucide-react';
 import STUDY_RELEASE from '@/../data/study/release.json';
 import { SUBJECT_CLAIM } from '@/../data/subject_claim';
 import { NavBar } from '@/components/NavBar';
@@ -105,6 +105,9 @@ const SHELF = [
   { id: 'economics', name: 'Economics', href: '/cuet/economics', depth: 95, tilt: 4 },
 ].map((item) => ({ ...item, base: shelfBase(item.id), sizes: shelfSizes(item.id) }));
 
+// The Mob is marketed only while it is live for students: MOB_ENABLED opens /mob and MOB_V3_ENABLED its sprints,
+// quests, chains and Fix it together (the same switches the Mob's own route and API read).
+const MOB_LIVE = process.env.MOB_ENABLED === 'true' && process.env.MOB_V3_ENABLED === 'true';
 // Learn is marketed only while study content is switched on; counts come from the release proof.
 const STUDY_LIVE = process.env.STUDY_CONTENT_ENABLED === 'true' && process.env.STUDY_RECALL_ENABLED === 'true';
 const STUDY_LESSONS = Object.keys(STUDY_RELEASE.units || {}).length;
@@ -130,7 +133,7 @@ const TOUR = [
     points: ['Your weakest chapters, free after every mock', 'Built only from questions you attempted'], chip: 'Built from your attempts alone.', href: '/analytics', cta: 'See chapter review' },
   { id: 'prepos', label: 'Ask Mobi', icon: <Sparkles size={18} aria-hidden="true" />, line: 'Ask what to do tonight', kicker: 'Ask Mobi', title: 'Ask what to do tonight. Get one clear step.',
     body: 'Mobi reads your practice record and answers with the leak, the pace problem and a single next step: the same one you see on Today and in chapter review.',
-    points: ['Questions about your own record are free', 'AI replies use monthly credits: 50 on Free, 50 on Pro', 'Answers come from your record, not a generic plan'], chip: 'One step for tonight, the same on Today and in chapter review.', href: '/mentor', cta: 'Ask Mobi' },
+    points: ['Questions about your own record are free', 'One credit buys a whole Mobi job, a mistake fixed for good or a doubt answered and tested, and every plan gets 50 free credits a month', 'Answers come from your record, not a generic plan'], chip: 'One step for tonight, the same on Today and in chapter review.', href: '/mentor', cta: 'Ask Mobi' },
   { id: 'compass', label: 'DU Compass', icon: <Compass size={18} aria-hidden="true" />, line: 'Your shortlist against real DU cutoffs', kicker: 'Admission Compass', title: 'Test your DU shortlist against real cutoffs.',
     body: 'Compare a score with published 2026 DU cutoffs by college, category and round, free. With Pro, Compass turns your practice into a paper-by-paper range for your shortlist.',
     points: ['Programme eligibility rules, free', 'Pro: your practice projected onto your shortlist, and the paper to improve first'], chip: 'Your practice, set against DU’s published cutoffs.', href: '/admission-compass', cta: 'Open Compass' },
@@ -140,11 +143,15 @@ const TOUR = [
   { id: 'rival', label: 'Benchmarks', icon: <Trophy size={18} aria-hidden="true" />, line: 'Beat a target score under the clock', kicker: 'Benchmarks and your standing', title: 'Beat the score you’re aiming for.',
     body: 'Take a short timed run against a fixed target for accuracy and pace, set at daily, college or DU level. It shows whether you can hold that standard when the clock is running.',
     points: ['The daily benchmark is free', 'Every mock earns points for accuracy and speed toward your standing'], chip: 'Race a set target score against the clock.', href: '/leaderboard', cta: 'See your standing' },
+  ...(MOB_LIVE ? [{ id: 'mob', label: 'The Mob', icon: <Users size={18} aria-hidden="true" />, line: 'Prep with your friends, on the same questions', kicker: 'The Mob', title: 'Bring your friends. Race the same questions.',
+    body: 'Start a Mob and share its code. Everyone gets the same five questions for 24 hours and races the runs before them. After the game, Fix it together takes you back to the question that caught you and gives you a fresh one like it.',
+    points: ['Play as a Fold, and earn new ones when your Mob finishes its weekly quest', 'Keep a chain going together, week after week', 'Turn sharing off and your marks stay private'], chip: 'Everyone gets the same questions for 24 hours.', href: '/mob', cta: 'Open the Mob' }] : []),
 ];
 
 const faqs = [
   { question: 'Can I try it before signing up?', answer: 'Yes. Answer five CUET-style questions at the top of this page, each with the reasoning behind the answer. No account needed.' },
   { question: 'What is MockMob built for?', answer: 'Timed CUET UG practice, a clear read of every mistake, and one next step you can act on tonight. It covers the 15 subjects behind 19 of every 20 CUET papers, with DU eligibility and published cutoffs alongside. Every mock is built fresh from one live question bank, and Pro puts no cap on how many you take.' },
+  ...(MOB_LIVE ? [{ question: 'What is the Mob?', answer: 'Your study group inside MockMob. Start a Mob for a subject and share its code with friends. Everyone gets the same five questions for 24 hours, the podium shows how the runs compare, and after each game Fix it together gives you a fresh question like the one that caught you. A weekly quest and a chain keep the group going, and you can keep your marks private.' }] : []),
   { question: 'What is the Mistake Lab?', answer: 'After every mock, the Lab shows where your marks went: the time on each question, every answer you changed, the reason behind each miss, and a SWOT with the set to do next. Mistake Repair then fixes the reasoning, one mistake at a time.' },
   { question: 'What does Pro cost?', answer: OFFER.purchasable === 'monthly' ? `₹${OFFER.monthly.rupees} a month. It renews until you cancel in Account, and you keep Pro to the end of the month you paid for.` : `₹${OFFER.oneTime.rupees} once covers Pro through ${OFFER.oneTime.expires}, with no auto-renewal. Monthly Pro at ₹${OFFER.monthly.rupees} a month opens soon, and whoever pays now keeps the full term.` },
 ];
@@ -171,8 +178,12 @@ export default function LandingPage() {
               <div className="lp-hero__greeting"><p className="lp-hero__for" data-hero style={{ '--h': 0 }}>For CUET UG 2027</p><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
               <h1 className="lp-title">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
-                <span className="lp-title__line lp-title__brand">{HERO_LINES[0]}</span>
-                <span className="lp-title__line">{HERO_LINES[1]}</span>
+                {/* The two still lines run inline in the h1 with a break between them, so the browser counts them as one
+                    paint (largest contentful paint) at first render. Each was its own block before, and the typed third
+                    line, a new element every change, then out-sized either one and moved LCP to its first change
+                    (about 3.2 s on a desktop): the page looked done at 0.5 s but measured slow. */}
+                <span className="lp-title__line lp-title__line--run lp-title__brand">{HERO_LINES[0]}</span>{' '}<br />
+                <span className="lp-title__line lp-title__line--run">{HERO_LINES[1]}</span>
                 {heroMotion === 'v1' ? <HeroMorph /> : <HeroLine mode={heroMotion} />}
                 </>}
               </h1>
