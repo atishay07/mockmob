@@ -118,7 +118,7 @@ export function computeChain({ daily = [], pauses = [], fixesHeld = [], today, h
   const pauseDays = [...w.pausedDays].filter((d) => d > today).sort();
   const usedThisSeason = [...w.pausedDays].filter((d) => seasonStart(d) === season).length;
   return {
-    hidden: Boolean(hidden), days, practised: w.practised + (todayDone ? 1 : 0), rested: w.rested, madeUp: w.madeUp, best,
+    hidden: Boolean(hidden), days, practised: w.practised + (todayDone ? 1 : 0), rested: w.rested, madeUp: w.madeUp, paused: w.paused, best,
     today: { answered: answeredToday, needed: DAY_GOAL, done: todayDone },
     passes: { held: w.passes, max: PASS_MAX, next: nextPass(days, w.gifted) },
     week, calendar, milestones,

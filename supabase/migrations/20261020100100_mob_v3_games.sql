@@ -343,9 +343,12 @@ declare r public.mob_game_runs%rowtype;
 begin
   select * into r from public.mob_game_runs where game_id = p_game_id and user_id = p_user_id;
   if not found then return jsonb_build_object('status', 'no_run'); end if;
+  -- The live ruler hears the finish before the room can be done.
+  if r.live and r.finished_at is null then
+    perform public.mob_room_send(p_game_id, 'progress', jsonb_build_object('m', p_member_id, 'q', (select jsonb_array_length(question_ids) from public.mob_games where id = p_game_id), 'done', true));
+  end if;
   perform public.mob_run_seal(p_game_id, p_user_id, least(p_now, r.ends_at));
   select * into r from public.mob_game_runs where game_id = p_game_id and user_id = p_user_id;
-  if r.live then perform public.mob_room_send(p_game_id, 'progress', jsonb_build_object('m', p_member_id, 'q', (select jsonb_array_length(question_ids) from public.mob_games where id = p_game_id), 'done', true)); end if;
   return jsonb_build_object('status', 'finished', 'marks', r.marks, 'right_n', r.right_n, 'wrong_n', r.wrong_n, 'skipped_n', r.skipped_n);
 end $$;
 
