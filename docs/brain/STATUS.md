@@ -1719,3 +1719,9 @@ two v1 units back to `published` (no deletes are needed; v2 rows are ignored by 
 - Verified: learning 91/91, recovery 35/35, answer-integrity/payment-entitlements 18/18, eslint and production build. Isolated Chrome exercised real fullscreen entry/exits, warning progression, reload persistence, auto-submit, failure/retry, denial, and Quick Practice. Desktop/390px mobile compositions inspected; controlled visibility/blur events reached the real hook. JSON/screenshots retained locally in artifacts/corrective-checks/.
 - Remaining: corrective deployment verification, signed-in production result/NTA, real OS/tab/window switching, physical phones, screen readers and live Luna. A real headless tab switch did not expose focus change; synthetic events are not hardware proof. Strikes remain browser-only. AI commerce stays closed; entitlements and atomic RPCs untouched.
 - Rollback: revert the corrective code commit. No database rollback needed.
+
+### 2026-10-19 — Play reviewer account given Pro (production, owner request D131/D133)
+- Account review.mockmob@gmail.com (users.id 1cbee7ed-f731-4d33-b568-6b48a9fa758b), created and password set by the owner, used in Play Console "Sign-in details" for Google's reviewers.
+- Before: is_premium false, subscription_status 'free', premium_until null. After: true, 'active', 2027-07-31T18:29:59.999Z (the Pro CUET 2027 end).
+- Undo: `update public.users set is_premium=false, subscription_status='free', premium_until=null where id='1cbee7ed-f731-4d33-b568-6b48a9fa758b';`
+- Also confirmed today (read-only): migration 20261018190832 play_purchases is on production since 18 Oct (RLS on, no policies, service-role only, 0 rows; function bodies identical to staging).
