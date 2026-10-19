@@ -722,6 +722,9 @@ abstract final class TodayCopy {
   static String weekCounted(Iterable<int> days) => '${dayList(days)} counted.';
   static String tonightMakes(int n) => 'Tonight makes $n.';
   static const String tonightCounts = 'Tonight counts.';
+  /// Papers were finished today but none reached 5 answers, the rule of the server for a study day.
+  static String shortPaperToday(int n) =>
+      'Today\'s paper had ${n == 0 ? 'no answers' : n == 1 ? '1 answer' : '$n answers'}. A paper counts from 5 answers.';
   static String weekGoalMet(int goal) => 'Goal met: $goal of $goal study days. Anything more this week is extra.';
   /// Back after a week or more (TODAY-1018 section 5): no shaming, no streak loss.
   static String weekNew(int goal) => 'A new week starts with one session. ${weekNewKey(goal)}';

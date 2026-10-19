@@ -117,11 +117,19 @@ void main() {
     expect(router.canPop(), isTrue);
   });
 
-  testWidgets('PLAY_BILLING off: an NTA mode that needs Pro is left out, never a Pro tag or a gate (owner walk, 18 Oct)', (tester) async {
-    await _pump(tester, crowded: true, ntaProOnly: true);
-    expect(find.text('NTA mode'), findsNothing);
-    expect(find.text('Pro'), findsNothing);
-    expect(find.textContaining('Comes with Pro'), findsNothing);
+  testWidgets('D101 (owner, 19 Oct: "visible but locked"): an NTA mode that needs Pro is listed with a quiet Pro tag; with PLAY_BILLING off a tap opens the calm sheet', (tester) async {
+    final router = await _pump(tester, crowded: true, ntaProOnly: true);
+    final nta = find.text('NTA mode');
+    await tester.scrollUntilVisible(nta, 80, scrollable: find.byType(Scrollable).last);
+    expect(nta, findsOneWidget);
+    expect(find.text('Pro'), findsOneWidget);
+    expect(find.text('The exam-day screen. Comes with Pro.'), findsOneWidget);
+    await tester.tap(nta);
+    await tester.pumpAndSettle();
+    expect(find.text('NTA mode is part of Pro'), findsOneWidget);
+    expect(find.text('Pro opens in the app soon.'), findsOneWidget);
+    expect(find.text('nta screen'), findsNothing, reason: 'the exam-day page needs Pro');
+    expect(router.routerDelegate.currentConfiguration.uri.path, isNot('/exam/nta'));
   });
 
   group('Repair the next mistake (U3-1)', () {

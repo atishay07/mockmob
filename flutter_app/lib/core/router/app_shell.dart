@@ -14,7 +14,6 @@ import '../theme/theme.dart';
 import '../widgets/bar/bar_badges.dart';
 import '../widgets/bar/bar_insets.dart';
 import '../widgets/bar/bar_live.dart';
-import '../widgets/bar/bar_tabs.dart' show BarBranch;
 import '../widgets/bar/live_capsule.dart';
 import '../widgets/bar/mm_bar.dart';
 import '../widgets/bar/morph_sheet_route.dart';
@@ -41,12 +40,12 @@ class TabReselect extends Notifier<TabReselectEvent?> {
 
 final tabReselectProvider = NotifierProvider<TabReselect, TabReselectEvent?>(TabReselect.new);
 
-/// The scaffold around the five tab branches (Today, Practice, Review, Colleges, You; Start is
-/// the round key beside the tabs' capsule, not a tab), built to
+/// The scaffold around the four tab branches (D105: Today, Practice, Mob, You; Start is the round
+/// key in the middle of the tabs' capsule, not a tab), built to
 /// docs/design-decisions/pass-1017/NAV-1017.md section 6: content runs under the floating glass
 /// row, inside one `BackdropGroup` so the capsule, the key and the live capsule share a single
 /// backdrop snapshot, and one compaction controller moves all three. TalkBack and the keyboard
-/// reach the five tabs first, then the key. Tab roots get
+/// go left to right: Today, Practice, Start, Mob, You. Tab roots get
 /// the bar's clearance added to their bottom padding through `MediaQuery` (and [MmBarInsets]),
 /// so lists and `SafeArea`s clear it without changes.
 ///
@@ -255,7 +254,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     _upgradeTimer = Timer(PopupRules.firstActionDelay, () {
       _upgradeTimer = null;
       if (!mounted) return;
-      final calm = (ModalRoute.of(context)?.isCurrent ?? true) && AppRoutes.tabRoots.contains(GoRouterState.of(context).uri.path);
+      final calm = (ModalRoute.of(context)?.isCurrent ?? true) && AppRoutes.branchRoots.contains(GoRouterState.of(context).uri.path);
       if (calm) showFirstSessionUpgradeIfDue(context, ref);
     });
   }
@@ -268,6 +267,9 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
 
   // Tabs.
 
+  /// Whether [path] is Your papers or one of its pages (where the Review tab used to be).
+  static bool _onPapers(String path) => path == AppRoutes.papers || path.startsWith('${AppRoutes.papers}/');
+
   void _onTab(int branch) {
     if (branch != shell.currentIndex) {
       _expand();
@@ -276,7 +278,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     }
     // Re-tap: scroll to top at the tab root; deeper in the branch, pop to its root.
     final location = GoRouterState.of(context).uri.path;
-    if (location != AppRoutes.tabRoots[branch]) {
+    if (location != AppRoutes.branchRoots[branch]) {
       shell.goBranch(branch, initialLocation: true);
     } else {
       ref.read(tabReselectProvider.notifier).reselected(branch);
@@ -423,7 +425,8 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
       dismissed: ref.watch(barDismissalsProvider),
       todayCovers: ref.watch(todayHeroCoversProvider),
       onToday: shell.currentIndex == 0,
-      onReview: shell.currentIndex == BarBranch.review,
+      // Your papers (inside Practice since D105) already shows a result that is waiting.
+      onReview: _onPapers(GoRouterState.of(context).uri.path),
       // Tonight's move is never shown over the page: it repeated the hero's own action and made a
       // third floating layer at the thumb (v13 critic, clutter). Today still publishes it for its
       // own tests; the Start key's word and the hero carry the move.

@@ -16,6 +16,7 @@ abstract final class YouCopy {
   static const editSubjects = 'Edit';
   static const editSubjectsLabel = 'Edit subjects';
   static const sheetNameFallback = 'Your plan';
+  static const sheetNameAdd = 'Add your name';
   static String signedInAs(String email) => 'Signed in as $email';
   static const fieldCourse = 'Course';
   static const fieldColleges = 'Colleges';
@@ -27,7 +28,13 @@ abstract final class YouCopy {
   static String weekToGo(int left) => left == 1 ? '1 more study day reaches your goal' : '$left more study days reach your goal';
   static const weekReached = 'Goal reached this week';
   static const weekNone = 'No study days yet this week';
-  static const studyDayDefinition = 'A study day is any day you finish a practice, a mock or a repair.';
+  // The rule of the server (rhythm.js): a practice or a mock counts from 5 answers (fresh-account walk,
+  // 19 Oct: a 3-answer paper left the week at 0 with no reason given).
+  static const studyDayDefinition = 'A study day is any day you answer at least 5 questions in a practice or a mock, or finish a repair.';
+
+  /// Papers were finished today but none reached 5 answers ([n] is the most on one paper).
+  static String shortPaperToday(int n) =>
+      'Today\'s paper had ${n == 0 ? 'no answers' : n == 1 ? '1 answer' : '$n answers'}, so today does not count yet. A paper counts from 5 answers.';
   static String weekDaysLeft(int days) => days == 1 ? '1 day left this week' : '$days days left this week';
   static const weekNoDaysLeft = 'No days left this week';
   static String runInARow(int weeks) => '${plural(weeks, 'week')} at your goal in a row';
@@ -161,7 +168,7 @@ abstract final class YouCopy {
   // Goal editor.
   static const goalTitle = 'Weekly goal';
   static const goalQuestion = 'How many days a week do you want to study?';
-  static const goalCounts = 'A study day is a day you finish a practice, a mock or a repair.';
+  static const goalCounts = 'A study day is a day you answer at least 5 questions in a practice or a mock, or finish a repair.';
   static String goalFigure(int days) => days == 1 ? '1 day a week' : '$days days a week';
   static String goalUnit(int days) => days == 1 ? 'day a week' : 'days a week';
   static const goalEveryDay = 'Every day of the week. There are no rest days at this goal.';

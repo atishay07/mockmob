@@ -17,18 +17,17 @@ import '../screens/mob_sheets.dart' show InviteSheet;
 import 'mob_parts.dart';
 import 'mob_pro_entry.dart';
 
-/// The block with its 28 dp lead for Today's list. In a Mob: the card. In no Mob: nothing at all (no
-/// gap either), except one inline invitation after a week's run (a study week met, or 7 saved
-/// sessions), once, dismissable for good and gone after 7 days. Nothing either while the Mob is off
-/// on the server or has not been read.
+/// The block with its 28 dp lead for Today's list. In a Mob: nothing (D105: the Mob tab holds the
+/// week's paper, the ring and the invite, one tap away; [mobTodayBlockShows]). In no Mob: nothing at
+/// all (no gap either), except one inline invitation after a week's run (a study week met, or 7
+/// saved sessions), once, dismissable for good and gone after 7 days. Nothing either while the Mob
+/// is off on the server or has not been read.
 class MobTodayBlock extends ConsumerWidget {
   const MobTodayBlock({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (ref.watch(currentMobProvider) != null) {
-      return const Padding(padding: EdgeInsets.only(top: 28), child: MobTodayCard(padding: EdgeInsets.zero));
-    }
+    if (!mobTodayBlockShows(inMob: ref.watch(currentMobProvider) != null)) return const SizedBox.shrink();
     // The Mob was read and the student is in none: the invitation, only when there is a true reason.
     if (!ref.watch(mobAvailableProvider)) return const SizedBox.shrink();
     final reason = ref.watch(mobInviteReasonProvider);

@@ -62,7 +62,7 @@ void main() {
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: quotes, attempts: const []));
     await settle(tester);
     expect(find.text('Your starting point'), findsOneWidget);
-    expect(find.text('Ten questions shows where you stand.'), findsOneWidget);
+    expect(find.text('Ten questions show where you stand.'), findsOneWidget);
     // Costs never appear on the tab, and the defensive tails are gone.
     expect(find.textContaining('credit'), findsNothing);
     expect(find.text('Free today'), findsNothing);
@@ -162,15 +162,17 @@ void main() {
     expect(router.state.uri.path, '/run/sess-7');
   });
 
-  testWidgets('PLAY_BILLING off: an exam-day row that needs Pro is not drawn, so no Pro tag and no dead end', (tester) async {
+  // D101 (owner, 19 Oct: "visible but locked") replaces the 18 Oct rule that left the row out: a Pro-only mode is never
+  // hidden. With PLAY_BILLING off it is listed with a quiet Pro tag and no price; a tap opens the calm sheet
+  // (modes_d101_test).
+  testWidgets('PLAY_BILLING off: an exam-day row that needs Pro is listed, locked, with a quiet Pro tag and no price', (tester) async {
     await pumpRouted(tester, location: '/practice', routes: _routes(), overrides: practiceOverrides(quotes: _quotes()));
     await settle(tester);
     await _toExamBand(tester);
-    expect(find.text('NTA mode'), findsNothing);
-    expect(find.text('Pro'), findsNothing);
-    expect(find.text('The exam-day screen. Comes with Pro.'), findsNothing);
+    expect(find.text('NTA mode'), findsOneWidget);
     expect(find.text('Full mock'), findsOneWidget);
     expect(find.textContaining('Rs'), findsNothing);
+    expect(find.textContaining('₹'), findsNothing);
   });
 
   testWidgets('the exam-day row is shown only when the quote returns the mode', (tester) async {

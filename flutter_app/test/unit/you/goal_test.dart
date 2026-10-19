@@ -18,7 +18,7 @@ void main() {
   testWidgets('shows the saved goal, the rest-days line and a disabled Save', (tester) async {
     await _pump(tester, FakeGoal(goalState(4)));
     expect(find.bySemanticsLabel(RegExp('^Goal: 4 days a week')), findsOneWidget);
-    expect(find.text('A study day is a day you finish a practice, a mock or a repair.'), findsOneWidget);
+    expect(find.text('A study day is a day you answer at least 5 questions in a practice or a mock, or finish a repair.'), findsOneWidget);
     expect(find.text('Study'), findsOneWidget);
     expect(find.text('Rest'), findsOneWidget);
     expect(tester.widget<KeyButton>(find.byType(KeyButton)).onPressed, isNull);

@@ -58,12 +58,14 @@ const _marked = BarMarked(attemptId: 'a8', paper: 'Mock 8', subject: 'Accountanc
 
 void main() {
   group('slots', () {
-    test('five tabs in branch order; Start is the key beside them, not a slot', () {
-      expect(kBarSlots, 5);
+    test('four tabs in branch order; Start is the centre key between Practice and Mob, not a slot (D105)', () {
+      expect(kBarSlots, 4);
+      expect(kSlotsBeforeKey, 2);
       for (var b = 0; b < kBarTabs.length; b++) {
         expect(slotToBranch(branchToSlot(b)), b);
       }
-      expect([for (final t in kBarTabs) t.label], ['Today', 'Practice', 'Review', 'Colleges', 'You']);
+      expect([for (final t in kBarTabs) t.label], ['Today', 'Practice', 'Mob', 'You']);
+      expect([BarBranch.today, BarBranch.practice, BarBranch.mob, BarBranch.you], [0, 1, 2, 3]);
     });
 
     test('the glass is frost that shows shape (L33, F3, GLASS-1017 6.1): sigma 16 with a 1.5 saturation lift', () {
@@ -80,7 +82,7 @@ void main() {
         testWidgets('$name: icons, labels and the Start key share their lines', (tester) async {
           final notifier = ValueNotifier(compact);
           addTearDown(notifier.dispose);
-          await pumpMockmob(tester, _bar(branch: BarBranch.review, compact: notifier), size: Size(width, 780));
+          await pumpMockmob(tester, _bar(branch: BarBranch.mob, compact: notifier), size: Size(width, 780));
           await tester.pumpAndSettle();
           final bar = tester.getRect(find.byType(MmBottomBar));
           final geo = BarGeometry(width);
@@ -104,17 +106,17 @@ void main() {
               expect(rect.center.dy, closeTo(bar.top + MmBar.labelTop + MmBar.labelHeight / 2, 0.5), reason: label);
             }
           }
-          // (c) the Start key's circle shares the capsule's top and bottom; the lens rests on Review.
+          // (c) the Start key's circle shares the capsule's top and bottom, in its middle; the lens rests on Mob.
           final startBox = tester.getRect(find.byType(StartKeyFace));
           final circle = StartKeyFace.keyRect(startBox.size, e).shift(startBox.topLeft - bar.topLeft);
           final capsule = geo.capsuleShape(e).outerRect;
           expect(circle.top, closeTo(capsule.top, 0.01));
           expect(circle.bottom, closeTo(capsule.bottom, 0.01));
-          final lens = geo.lensRect(branchToSlot(BarBranch.review), collapse: e);
+          expect(circle.center.dx, closeTo(capsule.center.dx, 0.01), reason: 'Start is the centre key');
+          final lens = geo.lensRect(branchToSlot(BarBranch.mob), collapse: e);
           final painted = _lens(tester);
-          final review = lens;
-          expect(painted.left.value, closeTo(review.left, 0.01));
-          expect(painted.right.value, closeTo(review.right, 0.01));
+          expect(painted.left.value, closeTo(lens.left, 0.01));
+          expect(painted.right.value, closeTo(lens.right, 0.01));
           // (d) the content group centres on the pill (compact: the icons do).
           if (!compact) {
             final icon = tester.getRect(_iconOf(BarIconKind.today));
@@ -127,11 +129,11 @@ void main() {
       }
     }
 
-    testWidgets('at 1.3x text, Practice, Colleges and Start stay on one line inside their boxes', (tester) async {
+    testWidgets('at 1.3x text, Practice, Today and Start stay on one line inside their boxes', (tester) async {
       await pumpMockmob(tester, _bar(), size: const Size(360, 780), textScale: 1.3);
       final geo = BarGeometry(360);
       final bar = tester.getRect(find.byType(MmBottomBar));
-      for (final label in const ['Practice', 'Colleges', 'Start']) {
+      for (final label in const ['Practice', 'Today', 'Start']) {
         final rect = tester.getRect(find.text(label));
         expect(rect.height, lessThanOrEqualTo(MmBar.labelHeight + 0.01), reason: '$label never wraps');
         expect(rect.width, lessThanOrEqualTo((label == 'Start' ? StartKeyFace.labelWidth : geo.labelBoxWidth) + 0.01), reason: label);
@@ -141,7 +143,7 @@ void main() {
 
     testWidgets('a pressed tab sinks to 0.96 and comes back', (tester) async {
       await pumpMockmob(tester, _bar(), size: const Size(360, 780));
-      final gesture = await tester.startGesture(tester.getCenter(find.text('Colleges')));
+      final gesture = await tester.startGesture(tester.getCenter(find.text('Mob')));
       await tester.pump(const Duration(milliseconds: 120));
       final pressed = tester.widgetList<AnimatedScale>(find.byType(AnimatedScale)).where((w) => w.scale != 1);
       expect(pressed.single.scale, MmBottomBar.tabPressScale);
@@ -152,7 +154,7 @@ void main() {
   });
 
   group('scrubbing', () {
-    testWidgets('a drag from Today lands on Colleges, with a tick per tab crossed', (tester) async {
+    testWidgets('a drag from Today slides under the key and lands on You, with a tick per tab crossed', (tester) async {
       final driver = _Driver();
       final taps = <int>[];
       await pumpMockmob(
@@ -174,8 +176,8 @@ void main() {
       await tester.pump(const Duration(milliseconds: 120));
       await gesture.up();
       await tester.pumpAndSettle();
-      expect(taps, [3], reason: 'lands on Colleges (branch 3)');
-      expect(driver.calls.where((c) => c == 'selection').length, 3, reason: 'Practice, Review and Colleges crossed');
+      expect(taps, [3], reason: 'lands on You (branch 3)');
+      expect(driver.calls.where((c) => c == 'selection').length, 3, reason: 'Practice, Mob and You crossed');
     });
 
     testWidgets('a drag that starts on the Start key never scrubs the tabs', (tester) async {
@@ -210,15 +212,14 @@ void main() {
     test('one family: Lucide outline, the same names the web uses; no filled swap (D8)', () {
       expect(BarIconKind.today.glyph, const BarGlyph(LucideIcons.calendarCheck));
       expect(BarIconKind.practice.glyph, const BarGlyph(LucideIcons.timer));
-      expect(BarIconKind.review.glyph, const BarGlyph(LucideIcons.notebookText));
-      expect(BarIconKind.colleges.glyph, const BarGlyph(LucideIcons.landmark));
+      expect(BarIconKind.mob.glyph, const BarGlyph(LucideIcons.usersRound));
       expect(BarIconKind.you.glyph, const BarGlyph(LucideIcons.userRound));
       for (final kind in BarIconKind.values) {
         expect(kind.glyph.icon.fontFamily, 'Lucide', reason: '$kind: the family the rest of the app draws');
         expect(kind.glyph.icon.fontPackage, 'lucide_icons_flutter');
       }
-      expect({for (final kind in BarIconKind.values) kind.glyph.icon}.length, BarIconKind.values.length, reason: 'five distinct shapes');
-      expect([for (final t in kBarTabs) t.icon], BarIconKind.values, reason: 'Today, Practice, Review, Colleges, You');
+      expect({for (final kind in BarIconKind.values) kind.glyph.icon}.length, BarIconKind.values.length, reason: 'four distinct shapes');
+      expect([for (final t in kBarTabs) t.icon], BarIconKind.values, reason: 'Today, Practice, Mob, You');
     });
 
     test('colours: the accent when active (volt on Night, the olive text colour on Day), ink 2 at rest', () {
@@ -259,7 +260,7 @@ void main() {
         size: const Size(360, 780),
       );
       expect(_onOf(tester, BarIconKind.practice), 1);
-      expect(_onOf(tester, BarIconKind.review), 0);
+      expect(_onOf(tester, BarIconKind.mob), 0);
 
       final geo = BarGeometry(360);
       final from = geo.lensEdges(1).$2;
@@ -271,7 +272,7 @@ void main() {
       var highest = 0.0;
       for (var t = 4; t <= 800; t += 4) {
         await tester.pump(const Duration(milliseconds: 4));
-        final review = _onOf(tester, BarIconKind.review);
+        final review = _onOf(tester, BarIconKind.mob);
         final practice = _onOf(tester, BarIconKind.practice);
         if (arrivedAt == null && review > 0) {
           arrivedAt = t;
@@ -282,7 +283,7 @@ void main() {
         if (t >= 168) expect(practice, 0, reason: 'empties over 160 ms');
         final a = arrivedAt;
         if (a != null) {
-          final scale = _scaleOf(tester, BarIconKind.review);
+          final scale = _scaleOf(tester, BarIconKind.mob);
           lowest = scale < lowest ? scale : lowest;
           highest = scale > highest ? scale : highest;
           if (t - a <= 180) expect(review, lessThan(1), reason: 'still filling at ${t - a} ms');
@@ -292,7 +293,7 @@ void main() {
       expect(arrivedAt, isNotNull);
       expect(lowest, inInclusiveRange(0.9, 0.92), reason: 'settles from 0.9');
       expect(highest, lessThanOrEqualTo(1.01), reason: 'a calm spring, no visible overshoot');
-      expect(_scaleOf(tester, BarIconKind.review), closeTo(1, 0.001));
+      expect(_scaleOf(tester, BarIconKind.mob), closeTo(1, 0.001));
     });
 
     testWidgets('under reduced motion the icons swap at once', (tester) async {
@@ -305,9 +306,9 @@ void main() {
       );
       branch.value = 2;
       await tester.pump();
-      expect(_onOf(tester, BarIconKind.review), 1);
+      expect(_onOf(tester, BarIconKind.mob), 1);
       expect(_onOf(tester, BarIconKind.today), 0);
-      expect(_scaleOf(tester, BarIconKind.review), 1);
+      expect(_scaleOf(tester, BarIconKind.mob), 1);
     });
 
     testWidgets('icons are never clipped: 320 dp, compact, and text at 1.3x and 2.0x', (tester) async {
@@ -515,14 +516,23 @@ void main() {
       expect(c.read(barBadgesProvider).showReviewDot, isTrue);
     });
 
-    testWidgets('no badge on Today, Practice or Start, and two at most', (tester) async {
+    testWidgets("Review's count sits on Practice, where Your papers lives (D105); none on Today, the Mob or Start", (tester) async {
       await pumpMockmob(tester, _bar(badges: const BarBadges(reviewCount: 3, youDot: true)));
       expect(find.text('3'), findsOneWidget);
       final today = tester.getRect(find.text('Today'));
-      final practice = tester.getRect(find.text('Practice'));
+      final practiceIcon = tester.getRect(_iconOf(BarIconKind.practice));
+      final mobIcon = tester.getRect(_iconOf(BarIconKind.mob));
       final badge = tester.getRect(find.text('3'));
-      expect(badge.left, greaterThan(practice.right), reason: 'on Review, right of Practice');
+      expect(badge.center.dx, closeTo(practiceIcon.right + 2, 1.5), reason: "on Practice's icon, top right");
       expect(badge.left, greaterThan(today.right));
+      expect(badge.right, lessThan(mobIcon.left));
+    });
+
+    testWidgets('Practice speaks the count: "Practice, tab 2 of 4, 3 open mistakes to repair"', (tester) async {
+      final handle = tester.ensureSemantics();
+      await pumpMockmob(tester, _bar(badges: const BarBadges(reviewCount: 3)));
+      expect(find.bySemanticsLabel('Practice, tab 2 of 4, 3 open mistakes to repair'), findsOneWidget);
+      handle.dispose();
     });
   });
 
@@ -564,7 +574,7 @@ void main() {
       handle.dispose();
     });
 
-    testWidgets('semantic order runs Today, Practice, Review, Colleges, You, then Start', (tester) async {
+    testWidgets('semantic order runs left to right: Today, Practice, Start, Mob, You (D105)', (tester) async {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, _bar());
       final labels = <String>[];
@@ -578,12 +588,11 @@ void main() {
       walk(tester.getSemantics(find.byType(MmBottomBar)));
       final order = [for (final l in labels) if (l.contains(', tab ') || l == MmBottomBar.startSemanticsLabel) l];
       expect(order, [
-        'Today, tab 1 of 5',
-        'Practice, tab 2 of 5',
-        'Review, tab 3 of 5',
-        'Colleges, tab 4 of 5',
-        'You, tab 5 of 5',
+        'Today, tab 1 of 4',
+        'Practice, tab 2 of 4',
         MmBottomBar.startSemanticsLabel,
+        'Mob, tab 3 of 4',
+        'You, tab 4 of 4',
       ]);
       handle.dispose();
     });
@@ -592,11 +601,10 @@ void main() {
       final handle = tester.ensureSemantics();
       await pumpMockmob(tester, _bar(branch: 2));
       for (final (label, selected) in const [
-        ('Today, tab 1 of 5', false),
-        ('Practice, tab 2 of 5', false),
-        ('Review, tab 3 of 5', true),
-        ('Colleges, tab 4 of 5', false),
-        ('You, tab 5 of 5', false),
+        ('Today, tab 1 of 4', false),
+        ('Practice, tab 2 of 4', false),
+        ('Mob, tab 3 of 4', true),
+        ('You, tab 4 of 4', false),
       ]) {
         expect(
           tester.getSemantics(find.bySemanticsLabel(label)),

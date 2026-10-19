@@ -60,6 +60,7 @@ void main() {
     expect(forward('/practice/result/:attemptId', {'attemptId': 'a'}), Motion.emphasizedDuration);
     expect(forward('/result/:attemptId', {'attemptId': 'a'}), Motion.emphasizedDuration);
     expect(forward('/result/:attemptId/sealed', {'attemptId': 'a'}), Motion.emphasizedDuration);
-    expect(forward('/review/repair/:attemptId/:questionId', {'attemptId': 'a', 'questionId': 'q'}), Motion.emphasizedDuration);
+    // The repair page lives under Practice since D105 (the old /review path redirects there).
+    expect(forward('/practice/papers/repair/:attemptId/:questionId', {'attemptId': 'a', 'questionId': 'q'}), Motion.emphasizedDuration);
   });
 }

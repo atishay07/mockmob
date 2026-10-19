@@ -160,7 +160,7 @@ class MobRef {
     return MobRef(
       id: asStringOr(j['id'], ''),
       subject: subject,
-      subjectName: asString(j['subjectName']) ?? subjectNameOf(subject),
+      subjectName: mobSubjectName(asString(j['subjectName']), subject),
       active: asBool(j['active']) ?? false,
     );
   }
@@ -501,11 +501,7 @@ class Mob {
   bool get canInvite => seatsLeft > 0 && !invitesPaused;
 
   /// "Business Studies" from `business_studies` when the server sent no label.
-  String get subjectName {
-    final label = subjectLabel?.trim();
-    if (label != null && label.isNotEmpty) return label;
-    return subjectNameOf(subject);
-  }
+  String get subjectName => mobSubjectName(subjectLabel, subject);
 
   int get seatsLeft => (mobMaxSize - members.length).clamp(0, mobMaxSize);
   bool get alone => members.length <= 1;
@@ -514,6 +510,15 @@ class Mob {
   /// The trap shows only to a member who has sat, with 3 or more sitters (P7); the server also
   /// leaves it out for a free student outside the sample week.
   MobTrap? get visibleTrap => week.youSat && week.sat >= 3 ? trap : null;
+}
+
+/// The subject as the student says it: the server's label, except an official exam name with a
+/// slash ("Accountancy / Book-Keeping", fresh-account walk 19 Oct), which reads as the plain name
+/// ("Accountancy"); "Business Studies" from `business_studies` when there is no label.
+String mobSubjectName(String? label, String subject) {
+  final l = label?.trim();
+  if (l != null && l.isNotEmpty && !l.contains('/')) return l;
+  return subjectNameOf(subject);
 }
 
 /// "Business Studies" from `business_studies`.

@@ -35,6 +35,8 @@ CostLine costLineFor(PracticeQuote quote) {
   }
   if (quote.freeByAllowance) {
     final kind = quote.allowance!.kind;
+    // C-dec 1: the first full mock in each subject is free (the server prices it at 0 with this allowance).
+    if (kind.startsWith('first_full_mock:')) return const CostLine(CostKind.freeFirst, PracticeCopy.freeFirstFullMock);
     if (kind.startsWith('baseline:') || kind.startsWith('full_sample:')) {
       return CostLine(CostKind.freeFirst, PracticeCopy.freeFirstIn(quote.subjectName ?? 'this subject'));
     }
@@ -75,6 +77,28 @@ CreditsLow? creditsLowFor(PracticeQuote quote) {
 /// returns it: a quote that says the mode is unknown or unavailable hides the row.
 bool quoteOffersMode(PracticeQuote quote) =>
     quote.reasonCode != 'mode_unknown' && quote.reasonCode != 'mode_unavailable' && quote.reasonCode != 'unauthenticated';
+
+/// How a mode that Pro may hold (NTA mode, Smart practice) stands for one student (D101).
+enum ModeAccess {
+  /// Listed and open: a Pro student, or a quote that lets this student in.
+  open,
+
+  /// Listed with a quiet Pro tag; a tap opens the Upgrade sheet or, with PLAY_BILLING off, the calm
+  /// sheet. Never hidden.
+  locked,
+
+  /// The server says the mode is not offered here at all (unknown or switched off): no tile.
+  notOffered,
+}
+
+/// The mode's standing from its [quote], or, before the quote has answered, from the plan: a Free
+/// student's NTA mode and Smart practice are Pro's, so they are listed locked from the first frame
+/// (D101: every mode is always listed) and never pop in seconds later.
+ModeAccess practiceModeAccess(PracticeQuote? quote, {required bool isPro}) {
+  if (quote == null) return isPro ? ModeAccess.open : ModeAccess.locked;
+  if (!quoteOffersMode(quote)) return ModeAccess.notOffered;
+  return costLineFor(quote).kind == CostKind.proGated ? ModeAccess.locked : ModeAccess.open;
+}
 
 /// The words for a quote that cannot launch, chosen by [reasonCode] only: the server's own
 /// free-form `reason` is never shown.

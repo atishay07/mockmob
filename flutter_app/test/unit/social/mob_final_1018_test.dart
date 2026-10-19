@@ -80,15 +80,25 @@ void main() {
       expect(mobNameFrom(null), '');
     });
 
-    testWidgets('"app-e2e-student" prefills a valid name, and Start a Mob goes through untouched', (tester) async {
+    testWidgets('a real name prefills a valid first name, and Start a Mob goes through untouched', (tester) async {
       FakeMobActions? fake;
-      await _pump(tester, const MobScreen(), _overrides(noMobState(), name: 'app-e2e-student', actions: (ref) => fake = FakeMobActions(ref)));
-      expect(find.widgetWithText(TextField, 'App'), findsOneWidget);
+      await _pump(tester, const MobScreen(), _overrides(noMobState(), name: 'Asha Verma', actions: (ref) => fake = FakeMobActions(ref)));
+      expect(find.widgetWithText(TextField, 'Asha'), findsOneWidget);
       await tester.ensureVisible(find.text(MobCopy.startKey));
       await tester.tap(find.text(MobCopy.startKey));
       await tester.pumpAndSettle();
       expect(find.text(MobCopy.nameRule), findsNothing);
-      expect(fake!.calls.single, startsWith('create:accountancy:App:'));
+      expect(fake!.calls.single, startsWith('create:accountancy:Asha:'));
+    });
+
+    testWidgets('a handle or the email prefix prefills nothing: the field asks for a first name (19 Oct walk: "Fresh" from the email)', (tester) async {
+      for (final handle in ['app-e2e-student', 'asha.verma']) {
+        await _pump(tester, const MobScreen(), _overrides(noMobState(), name: handle));
+        final field = tester.widget<TextField>(find.byType(TextField));
+        expect(field.controller!.text, '', reason: handle);
+        expect(field.decoration!.hintText, MobCopy.nameHint);
+        await tester.pumpWidget(const SizedBox());
+      }
     });
 
     testWidgets('digits only: the field starts empty with its hint, never a name that fails', (tester) async {

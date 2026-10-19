@@ -53,23 +53,24 @@ void main() {
     await tester.pump(const Duration(milliseconds: 20));
     await gesture.moveBy(const Offset(30, 0));
     await tester.pump(const Duration(milliseconds: 16));
-    final review = tester.getCenter(find.text('Review'));
-    await gesture.moveTo(Offset(review.dx, from.dy));
+    final practice = tester.getCenter(find.text('Practice'));
+    await gesture.moveTo(Offset(practice.dx, from.dy));
     await _pumpFor(tester, const Duration(milliseconds: 200));
     expect(_lens(tester).lift.value, greaterThan(0.9));
-    expect(_iconScale(tester, BarIconKind.review), greaterThan(1.05), reason: 'magnified under the lens');
+    expect(_iconScale(tester, BarIconKind.practice), greaterThan(1.05), reason: 'magnified under the lens');
+    expect(_iconScale(tester, BarIconKind.mob), closeTo(1, 0.001), reason: 'across the key: untouched');
     expect(_iconScale(tester, BarIconKind.you), closeTo(1, 0.001), reason: 'two slots away: untouched');
     await gesture.up();
     await tester.pumpAndSettle();
     expect(_lens(tester).lift.value.abs(), lessThan(0.01));
-    expect(_iconScale(tester, BarIconKind.review), closeTo(1, 0.001));
+    expect(_iconScale(tester, BarIconKind.practice), closeTo(1, 0.001));
   });
 
   testWidgets('a scrub past You resists like a rubber band and lands on You', (tester) async {
-    await pumpMockmob(tester, _bar(branch: 3), size: const Size(390, 780));
+    await pumpMockmob(tester, _bar(branch: 2), size: const Size(390, 780));
     final geo = BarGeometry(390);
-    final colleges = tester.getCenter(find.text('Colleges'));
-    final gesture = await tester.startGesture(colleges);
+    final mob = tester.getCenter(find.text('Mob'));
+    final gesture = await tester.startGesture(mob);
     await tester.pump(const Duration(milliseconds: 20));
     for (var i = 0; i < 10; i++) {
       await gesture.moveBy(const Offset(15, 0));
@@ -77,7 +78,7 @@ void main() {
     }
     final lens = _lens(tester);
     final centre = (lens.left.value + lens.right.value) / 2;
-    final youCentre = geo.slotCenter(4);
+    final youCentre = geo.slotCenter(3);
     expect(centre, greaterThan(youCentre), reason: 'it gives past the end');
     expect(centre - youCentre, lessThan(0.55 * 1.2 * geo.slot), reason: 'but never as far as the finger');
     await gesture.up();
@@ -99,7 +100,7 @@ void main() {
   testWidgets('the Start key looks the same whatever the page shows (NAV 6.8)', (tester) async {
     await pumpMockmob(tester, _bar(), size: const Size(390, 780));
     final first = tester.widget<StartKeyFace>(find.byType(StartKeyFace));
-    for (final branch in [1, 2, 3, 4]) {
+    for (final branch in [1, 2, 3]) {
       await pumpMockmob(tester, _bar(branch: branch), size: const Size(390, 780));
       await tester.pumpAndSettle();
       final face = tester.widget<StartKeyFace>(find.byType(StartKeyFace));

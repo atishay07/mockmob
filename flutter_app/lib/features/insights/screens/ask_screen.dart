@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/auth/display_name.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/credits_repository.dart';
@@ -265,7 +266,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     final inputs = ref.watch(insightsInputsProvider);
     final record = inputs.insights.value;
     final pro = inputs.pro;
-    final name = _firstName(ref.watch(authSnapshotProvider.select((s) => s.name)));
+    // Never "Hi g16-fresh-1019a": a handle or the email's own prefix is not a name (fresh-account walk, 19 Oct).
+    final name = shownFirstName(ref.watch(authSnapshotProvider.select((s) => s.name)), email: ref.watch(authSnapshotProvider.select((s) => s.email)));
     final pad = MediaQuery.paddingOf(context);
     final conversation = state.messages.isNotEmpty;
     final hand = ref.watch(askQuestionProvider);
@@ -500,11 +502,6 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     ];
   }
 
-  static String? _firstName(String? full) {
-    final t = full?.trim() ?? '';
-    if (t.isEmpty) return null;
-    return t.split(RegExp(r'\s+')).first;
-  }
 }
 
 /// The composer: a floating glass pill with the field and the send disc, and the cost line under

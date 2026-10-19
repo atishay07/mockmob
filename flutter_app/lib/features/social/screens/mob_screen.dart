@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/auth/display_name.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/subject.dart' show isHiddenSubject;
 import '../../../core/motion/motion.dart';
@@ -24,6 +25,7 @@ import '../logic/mob_ring.dart';
 import '../mob_routes.dart';
 import '../widgets/mob_compare_card.dart';
 import '../widgets/mob_extras.dart';
+import '../widgets/mob_join_code.dart';
 import '../widgets/mob_parts.dart';
 import '../widgets/mob_plan_widgets.dart';
 import '../widgets/mob_pro_entry.dart';
@@ -35,7 +37,11 @@ import 'mob_sheets.dart';
 /// order, the invite, and the settings. Or, with no Mob, the start form. Every state is drawn: loading,
 /// failed, off, no Mob, alone, in a Mob, all sat, the week closed.
 class MobScreen extends ConsumerStatefulWidget {
-  const MobScreen({super.key});
+  const MobScreen({super.key, this.asTab = false});
+
+  /// The Mob tab's root (D105): the tab header (the account key and the title), no back key, and a
+  /// re-tap of the tab scrolls it to the top.
+  final bool asTab;
 
   @override
   ConsumerState<MobScreen> createState() => _MobScreenState();
@@ -56,6 +62,13 @@ class _MobScreenState extends ConsumerState<MobScreen> {
     final mob = mobDisabledError(state.error) ? null : state.value?.mob;
     return YouPage(
       title: MobCopy.title,
+      showBack: !widget.asTab,
+      header: widget.asTab
+          ? const Padding(
+              padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, MmSpace.s8),
+              child: TabRootHeader(title: MobCopy.title),
+            )
+          : null,
       children: [
         if (state.isStale)
           const Padding(
@@ -177,7 +190,10 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
   void initState() {
     super.initState();
     // Only a name that passes the screen's own rule is prefilled; otherwise the field starts empty.
-    final first = mobNameFrom(ref.read(authSnapshotProvider).name);
+    // Never a name made from the email (a fresh account's "g16-fresh-1019a" became "Fresh"): only a
+    // name the student gave is a prefill (fresh-account walk, 19 Oct).
+    final auth = ref.read(authSnapshotProvider);
+    final first = mobNameFrom(shownName(auth.name, email: auth.email));
     _name = TextEditingController(text: first);
     // A stable colour from the name, so two friends rarely start on the same one.
     _colour = first.isEmpty ? 0 : first.codeUnits.fold<int>(0, (a, b) => a + b) % MobColours.count;
@@ -243,10 +259,6 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
                 KeyButton(label: MobCopy.chooseSubjects, onPressed: () => openEditSubjects(context))
               else
                 KeyButton.secondary(label: MobCopy.addSubject, onPressed: () => openEditSubjects(context)),
-              if (!widget.another) ...[
-                const SizedBox(height: MmSpace.s12),
-                const MobNote(MobCopy.haveLink, center: true),
-              ],
             ],
           )
         : _formColumn(context, subjects);
@@ -293,10 +305,6 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
             const SizedBox(height: MmSpace.s8),
             KeyButton.secondary(label: MobCopy.chooseSubjects, onPressed: () => openEditSubjects(context)),
           ],
-        ],
-        if (!widget.another) ...[
-          const SizedBox(height: MmSpace.s12),
-          const MobNote(MobCopy.haveLink, center: true),
         ],
       ],
     );
@@ -348,18 +356,22 @@ class _StartMobFormState extends ConsumerState<StartMobForm> {
           children: [
             const SizedBox(height: MmSpace.s8),
             MmStaggerItem(index: 0, child: Text(MobCopy.pitch, style: type.headline.copyWith(color: colors.ink))),
-            const SizedBox(height: MmSpace.s20),
+            const SizedBox(height: MmSpace.s12),
+            // The two ways in, both in sight on a phone (D105): a friend's code here, your own Mob
+            // with the form below.
+            const MmStaggerItem(index: 1, child: JoinWithCodeRow()),
+            const SizedBox(height: MmSpace.s24),
             // The page's one picture: the Mob about to exist, the student's seat in their colour and
             // the seats that wait for friends, the same card as the Mob page's ring (H12).
-            MmStaggerItem(index: 1, child: _seatCard(context)),
+            MmStaggerItem(index: 2, child: _seatCard(context)),
             const SizedBox(height: MmSpace.s16),
             // The rules in two plain lines, not a list.
             MmStaggerItem(
-              index: 2,
+              index: 3,
               child: Text(MobCopy.promises.join(' '), style: type.body.copyWith(color: colors.ink2)),
             ),
             const SizedBox(height: MmSpace.s24),
-            MmStaggerItem(index: 3, child: form),
+            MmStaggerItem(index: 4, child: form),
           ],
         ),
       ),

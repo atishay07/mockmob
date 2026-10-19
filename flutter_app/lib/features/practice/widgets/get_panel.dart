@@ -455,7 +455,10 @@ class _ProGate extends ConsumerWidget {
                       child: Text(ref.watch(proNudgesOnProvider) ? PracticeCopy.proGateTitle(name) : PracticeCopy.planGateTitle(name), style: type.cardTitle),
                     ),
                     const SizedBox(height: MmSpace.s4),
-                    Text(PracticeCopy.proGateBody, style: type.small.copyWith(color: colors.ink2)),
+                    Text(
+                      ref.watch(proNudgesOnProvider) ? PracticeCopy.proGateBody : '${PracticeCopy.lockedSoon} ${PracticeCopy.proGateBody}',
+                      style: type.small.copyWith(color: colors.ink2),
+                    ),
                     // The Upgrade sheet with this mode's own reason, when PLAY_BILLING is on; nothing otherwise.
                     UpgradeEntry(reason: _reasonFor(mode), topGap: MmSpace.s12),
                   ],

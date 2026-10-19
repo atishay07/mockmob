@@ -19,21 +19,18 @@ class BarGlyph {
   int get hashCode => icon.hashCode;
 }
 
-/// The bar's five icons (DOCK.md section 4, revised 18 Oct 2026 for D8): the Lucide names the web
-/// uses for the same places (Glyph.jsx), outlined at rest and when active. The bar's character
-/// comes from its glass, the lens and the motion, not the glyphs.
+/// The bar's four icons (DOCK.md section 4, revised 18 Oct 2026 for D8 and 19 Oct for D105): the
+/// Lucide names the web uses for the same places (Glyph.jsx), outlined at rest and when active. The
+/// bar's character comes from its glass, the lens and the motion, not the glyphs.
 enum BarIconKind {
   /// CalendarCheck: the student's day.
   today(BarGlyph(LucideIcons.calendarCheck)),
 
-  /// Timer: timed practice.
+  /// Timer: timed practice (and Your papers inside it).
   practice(BarGlyph(LucideIcons.timer)),
 
-  /// NotebookText: going back over answers and mistakes.
-  review(BarGlyph(LucideIcons.notebookText)),
-
-  /// Landmark, a building with columns: the colleges the marks lead to.
-  colleges(BarGlyph(LucideIcons.landmark)),
+  /// UsersRound: the Mob, the same glyph as the Mob's rows everywhere else in the app.
+  mob(BarGlyph(LucideIcons.usersRound)),
 
   /// UserRound: the student's own study. Never their initial: the initial is the header avatar,
   /// which opens the account sheet, and two initials on one screen would point to two places.

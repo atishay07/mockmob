@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import '../../features/account_access/access_routes.dart';
 import '../../features/social/mob_routes.dart';
 import '../auth/auth_state.dart';
+import '../widgets/account/account_avatar.dart' show PushedPageMarker;
 import '../widgets/mm_sheet.dart';
 import 'action_router.dart';
 import 'app_shell.dart';
@@ -24,8 +25,9 @@ import 'transitions.dart';
 final intendedRouteProvider = Provider<IntendedRoute>((ref) => IntendedRoute());
 
 /// The app's router. Every route of spec 4.2 is declared here; screens come from `screens.dart`.
-/// The shell has five tabs (Today, Practice, Review, Colleges, You) under the bar, with Start as
-/// the bar's action between Practice and Review; Learn and the CUET tools are pushed over it.
+/// The shell has four tabs (Today, Practice, Mob, You) under the bar, with Start as the bar's centre
+/// key between Practice and Mob (D105). Your papers (the Review screen) lives inside Practice;
+/// Colleges, Learn and the CUET tools are pages pushed over the bar.
 final routerProvider = Provider<GoRouter>((ref) {
   final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
   final intended = ref.watch(intendedRouteProvider);
@@ -173,21 +175,72 @@ void _handleUnknown(Ref ref, Uri uri, GoRouter router) {
   }
 }
 
-/// Opens a native [location] from a link. A CUET tool page (`/tools/...`) is a root page with no
-/// tab under it, so it opens over the Colleges tab: Back then lands on Colleges, never out of the
-/// app (L04). `/profile` lands on You with the account sheet open (`?account=1`).
+/// Opens a native [location] from a link. Colleges and the CUET tool pages (`/tools/...`) are root
+/// pages with no tab under them, so they open over Today (a tool over Colleges): Back then lands on
+/// Colleges and Today, never out of the app (L04). `/profile` lands on You with the account sheet
+/// open (`?account=1`).
 void openNativeLocation(GoRouter router, String location) {
   final path = Uri.parse(location).path;
-  if (path.startsWith('${AppRoutes.tools}/')) {
-    router.go(AppRoutes.colleges);
-    unawaited(router.push<void>(location));
+  final tool = path.startsWith('${AppRoutes.tools}/');
+  final colleges = path == AppRoutes.colleges || path.startsWith('${AppRoutes.colleges}/');
+  if (tool || colleges || path == AppRoutes.tools) {
+    router.go(AppRoutes.today);
+    unawaited(router.push<void>(colleges ? location : AppRoutes.colleges));
+    if (tool) unawaited(router.push<void>(location));
     return;
   }
   router.go(location);
 }
 
-/// `/tools` alone redirects to the Colleges tab; its child pages (Compass, a programme, Combo,
-/// the 2027 guide) keep their paths.
+/// Every old Review path (`/review` and everything under it) lands on Your papers inside Practice
+/// with the same tail and query (D105): `/review/repair/a/q?count=3` opens
+/// `/practice/papers/repair/a/q?count=3`. Null for any other path.
+String? papersLocationFor(Uri uri) {
+  final path = uri.path;
+  if (path != AppRoutes.review && !path.startsWith('${AppRoutes.review}/')) return null;
+  var tail = path.substring(AppRoutes.review.length);
+  if (tail == '/') tail = '';
+  return uri.replace(path: '${AppRoutes.papers}$tail').toString();
+}
+
+String? _reviewToPapers(BuildContext context, GoRouterState state) => papersLocationFor(state.uri);
+
+/// A page over the bar that was opened with nothing under it (`go` from a screen outside the shell):
+/// system Back goes to Today instead of closing the app (L04). With a page under it, Back pops as
+/// usual.
+class _Backstop extends StatelessWidget {
+  const _Backstop({required this.child});
+
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final alone = !(ModalRoute.of(context)?.canPop ?? true);
+    return PopScope(
+      canPop: !alone,
+      onPopInvokedWithResult: (didPop, _) {
+        if (!didPop) GoRouter.of(context).go(AppRoutes.today);
+      },
+      child: PushedPageMarker(child: child),
+    );
+  }
+}
+
+/// The Review screen's own pages, under Your papers (and, as redirects, under the old `/review`).
+const List<String> _papersChildren = [
+  'mistakes',
+  'record',
+  'rules',
+  'revise',
+  'again',
+  'insights',
+  'saved',
+  'repair/:attemptId/ending',
+  'repair/:attemptId/:questionId',
+];
+
+/// `/tools` alone redirects to Colleges; its child pages (Compass, a programme, Combo, the 2027
+/// guide) keep their paths.
 String? toolsHubRedirect(BuildContext context, GoRouterState state) {
   final path = state.uri.path;
   return path == AppRoutes.tools || path == '${AppRoutes.tools}/' ? AppRoutes.colleges : null;
@@ -244,7 +297,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
     ]),
     sheet(AppRoutes.beforeYouStart, beforeYouStartScreen),
 
-    // The five tabs. Each branch keeps its own navigation stack and fades through on a switch.
+    // The four tabs (D105: Today, Practice, Mob, You; Start is the bar's centre key). Each branch
+    // keeps its own navigation stack and fades through on a switch.
     StatefulShellRoute(
       pageBuilder: (context, state, shell) => mmShellPage<void>(context: context, state: state, child: AppShell(shell: shell)),
       navigatorContainerBuilder: (context, shell, children) =>
@@ -268,30 +322,35 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('stream', practiceStreamScreen, root: true),
             page('start', practiceStartScreen, transition: MmTransition.container, root: true),
             page('result/:attemptId', practiceResultScreen, transition: MmTransition.container, root: true),
-          ]),
-        ]),
-        StatefulShellBranch(routes: [
-          tabRoot('/review', reviewScreen, routes: [
-            page('mistakes', reviewMistakesScreen),
-            page('record', reviewRecordScreen),
+            // Your papers (D105, G20): the Review screen, inside Practice with the bar under it, and
+            // its own pages with the bar under them, so Back from a mistake lands on Your papers,
+            // then Practice.
+            page('papers', reviewScreen, routes: [
+              page('mistakes', reviewMistakesScreen),
+              page('record', reviewRecordScreen),
+              page('insights', reviewInsightsScreen),
+              page('saved', reviewSavedScreen),
+            ]),
+            // Your papers' pages that cover the bar sit on Practice itself, not on Your papers: a link
+            // or a result opens them over a page that already covers the tab, and a tab out of sight
+            // must not gain a page under them (its navigator is not laid out, so the page flight that
+            // a new top page starts would have no size). Opened from Your papers they are pushed, so
+            // Back still returns there; opened by a link, Back lands on Practice, whose first row is
+            // Your papers.
             // The Rule book: over the dock, so the result page (outside the shell) can push it too.
-            page('rules', reviewRulesScreen, root: true),
-            page('revise', reviewReviseScreen, root: true),
+            page('papers/rules', reviewRulesScreen, root: true),
+            page('papers/revise', reviewReviseScreen, root: true),
             // Review again: repaired mistakes asked once more, key hidden. Over the dock like Revise.
-            page('again', reviewAgainScreen, root: true),
-            page('insights', reviewInsightsScreen),
-            page('saved', reviewSavedScreen),
+            page('papers/again', reviewAgainScreen, root: true),
             // Literal "ending" before the :questionId pattern.
-            page('repair/:attemptId/ending', reviewRepairEndingScreen, transition: MmTransition.rise, root: true),
-            page('repair/:attemptId/:questionId', reviewRepairScreen, transition: MmTransition.container, root: true),
+            page('papers/repair/:attemptId/ending', reviewRepairEndingScreen, transition: MmTransition.rise, root: true),
+            page('papers/repair/:attemptId/:questionId', reviewRepairScreen, transition: MmTransition.container, root: true),
           ]),
         ]),
-        // Colleges (app-ia-1016.md 5.1): My colleges, Admission Compass and the CUET tools.
+        // The Mob (D105, SOCIAL-SPEC section 8): your Mob, this week's paper and the invite, or the
+        // way to start one or join a friend's. The page lives in features/social.
         StatefulShellBranch(routes: [
-          tabRoot(AppRoutes.colleges, collegesScreen, routes: [
-            // Check a score (`?score=&category=`): a sheet over the tab (app-ia-1016.md 5.3).
-            sheet('cutoff', collegesCutoffScreen),
-          ]),
+          tabRoot(AppRoutes.mob, mobTabScreen),
         ]),
         // You: the student's study. Its own pages and the account pages (reached from the
         // account sheet) cover the bar (root pages), so their paths and transitions are unchanged.
@@ -314,16 +373,29 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
             page('subjects', youSubjectsScreen, root: true),
             page('sheet', youSheetScreen, root: true),
             page('credits', youCreditsScreen, root: true),
-            // The Mob (SOCIAL-SPEC section 8): one line, the page lives in features/social.
-            page('mob', mobScreen, root: true),
+            // The Mob was a page here before it had its tab (D105): the old path opens the tab.
+            GoRoute(path: 'mob', redirect: (context, state) => AppRoutes.mob),
           ]),
         ]),
       ],
     ),
 
+    // Every old Review path lands on Your papers inside Practice (D105), with the same tail.
+    GoRoute(path: AppRoutes.review, redirect: _reviewToPapers, routes: [
+      for (final child in _papersChildren) GoRoute(path: child, redirect: _reviewToPapers),
+    ]),
+
+    // Colleges (app-ia-1016.md 5.1): My colleges, Admission Compass and the CUET tools. A page over
+    // the bar since the Mob took its tab (D105), pushed from Today's colleges card, You's Aim row and
+    // Review, so Back returns to where the student came from.
+    page(AppRoutes.colleges, (context, state) => _Backstop(child: collegesScreen(context, state)), root: true, routes: [
+      // Check a score (`?score=&category=`): a sheet over Colleges (app-ia-1016.md 5.3).
+      sheet('cutoff', collegesCutoffScreen),
+    ]),
+
     // CUET tools: root pages over the bar, pushed from Colleges, Today's colleges card and
-    // Practice's More rows, so Back returns to the tab they came from. `/tools` itself is the
-    // Colleges tab now (a redirect); the child paths are unchanged (app-ia-1016.md D7).
+    // Practice's More rows, so Back returns to where they came from. `/tools` itself is Colleges
+    // (a redirect); the child paths are unchanged (app-ia-1016.md D7).
     GoRoute(path: AppRoutes.tools, redirect: toolsHubRedirect, routes: [
       page('compass', toolsCompassScreen, root: true, routes: [
         page(':groupId', toolsProgrammeScreen, root: true),
@@ -369,9 +441,8 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
 
     sheet(AppRoutes.permissionsNotifications, permissionsNotificationsScreen, footer: permissionsNotificationsFooter),
 
-    // The Mob's invite link (www.mockmob.in/join/<code>) and the web page's path.
+    // The Mob's invite link (www.mockmob.in/join/<code>).
     page('/join/:code', mobJoinScreen, root: true),
-    GoRoute(path: '/mob', redirect: (context, state) => MobPaths.mob),
 
     // Web alias. The redirect also catches it; this keeps the path "known" to the router.
     GoRoute(path: AppRoutes.dashboard, redirect: (context, state) => AppRoutes.today),

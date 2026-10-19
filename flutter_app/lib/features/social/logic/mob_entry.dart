@@ -119,6 +119,11 @@ MobEntry? mobEntryFor(MobEntryPlace place, Mob mob, {required DateTime now}) {
   }
 }
 
+/// Whether Today carries a Mob block at all (D105, 19 Oct): only while the student is in no Mob. A
+/// member has the Mob tab one tap away, with the week's paper, the ring and the invite, so Today
+/// does not repeat it; a student in no Mob may still see the one-time invitation below.
+bool mobTodayBlockShows({required bool inMob}) => !inMob;
+
 /// Today's one-time invitation for a student in no Mob, at the moment it is useful: a study week met,
 /// or 7 saved sessions. The true reason in words, or null (nothing to say yet).
 String? mobInviteMoment({required bool weekMet, required int sessions}) {

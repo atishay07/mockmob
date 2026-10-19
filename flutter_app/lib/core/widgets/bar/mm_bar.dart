@@ -22,10 +22,11 @@ import 'start_key.dart';
 
 export 'bar_badges.dart' show BarBadges;
 
-/// The bar's measures on one screen width (NAV-1017 section 6.1). One 64 dp row: the capsule of
-/// five equal slots (Today, Practice, Review, Colleges, You) from the row's left edge, then the
-/// key gap, then the 64 dp Start key. Every x here is in dp from the row's left edge, which is
-/// also the capsule's left edge; every y in dp from the expanded row's top.
+/// The bar's measures on one screen width (NAV-1017 section 6.1, D105 of 19 Oct). One 64 dp row,
+/// which is the capsule: its padding, two equal tab slots (Today, Practice), the key gap, the 64 dp
+/// Start key in the exact middle, the key gap, two more slots (Mob, You), its padding. Every x here
+/// is in dp from the row's left edge, which is also the capsule's left edge; every y in dp from the
+/// expanded row's top.
 class BarGeometry {
   BarGeometry(this.screenWidth)
     : width = MmBar.widthFor(screenWidth),
@@ -39,16 +40,16 @@ class BarGeometry {
   /// The row: the screen less 16 dp each side (8 below 360 dp), at most 440.
   final double width;
 
-  /// The key's gap from the capsule (8, or 6 below 360 dp).
+  /// The air between the key and the tab slot on each side of it (4, or 3 below 360 dp).
   final double keyGap;
 
   /// The capsule's inner padding, left and right of the slots (4, or 3 below 360 dp).
   final double pad;
 
-  /// The capsule's width: the row less the key and its gap.
+  /// The capsule's width: the whole row.
   final double capsuleWidth;
 
-  /// Every tab slot's width: (capsule - 2 x pad) / 5.
+  /// Every tab slot's width: (capsule - 2 x pad - 64 - 2 x gap) / 4.
   final double slot;
 
   /// The capsule's 64 dp box (expanded), and the band it paints at [collapse] (bottom anchored:
@@ -60,15 +61,17 @@ class BarGeometry {
     return RRect.fromRectAndRadius(Rect.fromLTWH(0, MmBar.height - h, capsuleWidth, h), Radius.circular(h / 2));
   }
 
-  /// The key's 64 dp box, and its circle at [collapse] (64 across expanded, 52 compact, bottom
-  /// anchored like the capsule, so both centres are y 32 expanded and y 38 compact).
-  Rect get keyBox => Rect.fromLTWH(capsuleWidth + keyGap, 0, MmBar.keySize, MmBar.height);
+  /// The key's 64 dp box in the middle of the row, and its circle at [collapse] (64 across
+  /// expanded, 52 compact, bottom anchored like the capsule, so both centres are y 32 expanded and
+  /// y 38 compact).
+  Rect get keyBox => Rect.fromLTWH(pad + slot * kSlotsBeforeKey + keyGap, 0, MmBar.keySize, MmBar.height);
 
   Rect keyCircle({double collapse = 0}) => StartKeyFace.keyRect(keyBox.size, collapse).shift(keyBox.topLeft);
 
-  double slotLeft(int index) => pad + slot * index;
+  /// The left edge of tab slot [index]: the two slots after the key start past it and its gaps.
+  double slotLeft(int index) => pad + slot * index + (index >= kSlotsBeforeKey ? MmBar.keySize + 2 * keyGap : 0);
 
-  double slotCenter(int index) => pad + slot * (index + 0.5);
+  double slotCenter(int index) => slotLeft(index) + slot / 2;
 
   /// The lens's width at rest: a slot less [MmBar.lensInset] each side.
   double get lensWidth => slot - 2 * MmBar.lensInset;
@@ -112,11 +115,24 @@ class BarGeometry {
   Rect get keyLabelRect =>
       Rect.fromCenter(center: Offset(keyBox.center.dx, MmBar.labelTop + MmBar.labelHeight / 2), width: StartKeyFace.labelWidth, height: MmBar.labelHeight);
 
-  /// The slot under [x] (dp from the capsule's left edge), clamped to the capsule.
-  int slotAt(double x) => ((x - pad) / slot).floor().clamp(0, kBarSlots - 1);
+  /// The slot under [x] (dp from the capsule's left edge), clamped to the capsule; over the key, the
+  /// nearer of the two slots beside it.
+  int slotAt(double x) {
+    for (var i = 0; i < kBarSlots; i++) {
+      final left = slotLeft(i);
+      if (x >= left && x < left + slot) return i;
+    }
+    return nearestSlot(x);
+  }
 
-  /// The slot whose centre is nearest [x].
-  int nearestSlot(double x) => ((x - pad) / slot - 0.5).round().clamp(0, kBarSlots - 1);
+  /// The slot whose centre is nearest [x] (a finger over the key goes to the nearer side).
+  int nearestSlot(double x) {
+    var best = 0;
+    for (var i = 1; i < kBarSlots; i++) {
+      if ((x - slotCenter(i)).abs() < (x - slotCenter(best)).abs()) best = i;
+    }
+    return best;
+  }
 }
 
 /// A spring for a 0-to-1 value of the bar (the lift, a settle, the gel, the stretch) that stops
@@ -141,11 +157,13 @@ abstract interface class StartDragTarget {
   void end({required bool open});
 }
 
-/// The bottom bar (NAV-1017 section 6, Option A1; GLASS-1017 sections 5.4 to 5.6): a frosted
-/// glass capsule of five tabs, Today, Practice, Review, Colleges and You, and beside it, 8 dp
-/// away on the same 64 dp row, the round volt Start key. The capsule and the key are one row:
-/// their tops, bottoms and centres are shared, and the key's glyph and word sit on the tabs' icon
-/// and label lines, so every icon and every word in the bar are aligned by construction (L31).
+/// The bottom bar (NAV-1017 section 6, GLASS-1017 sections 5.4 to 5.6, D105 of 19 Oct): one frosted
+/// glass capsule, Today, Practice, Start, Mob and You, with the round volt Start key in its exact
+/// middle, two tabs on each side. The capsule and the key are one row: their tops, bottoms and
+/// centres are shared, and the key's glyph and word sit on the tabs' icon and label lines, so every
+/// icon and every word in the bar are aligned by construction (L31). The lens under the open tab is
+/// a stadium (its ends half circles, G11) as wide as its slot, with even insets on both sides; on
+/// Today and You it shares the capsule's round end's centre, 4 dp inside it all the way round.
 ///
 /// * **Touch:** a finger landing anywhere on the capsule lifts the lens out of the glass (it grows
 ///   8%, clears, its rim light brightens, a hairline fringe shows its edge bending light) and a
@@ -158,9 +176,10 @@ abstract interface class StartDragTarget {
 /// * **Press an inactive tab:** the lens's near edge leans 0.18 of a slot toward it first.
 /// * **Scrub:** a horizontal drag on the capsule (never inside the system's back-gesture strips)
 ///   carries the lens 1:1 under the finger, keeping where it was grabbed, stretched up to 12% with
-///   speed, with a click at each slot boundary; past Today or You it resists like a rubber band. On
-///   release the finger's velocity is projected ([MmBar.projectionDecay]) and the lens lands on
-///   the nearest slot to that point on springs that carry the velocity and bounce a little.
+///   speed, with a click at each slot boundary; between Practice and Mob it slides under the key;
+///   past Today or You it resists like a rubber band. On release the finger's velocity is projected
+///   ([MmBar.projectionDecay]) and the lens lands on the nearest slot to that point on springs that
+///   carry the velocity and bounce a little.
 /// * **Start:** a tap opens the quick start sheet; a drag up pulls it open out of the key. The key
 ///   flexes like gel under the finger and never changes its look with the page (NAV 6.8).
 /// * **Compact** ([compact]): one controller shrinks the capsule (64 to 52 dp) and the key (64 to
@@ -190,7 +209,7 @@ class MmBottomBar extends ConsumerStatefulWidget {
     this.startStyle = MmBar.startKeyStyle,
   });
 
-  /// The open branch: 0 Today, 1 Practice, 2 Review, 3 Colleges, 4 You ([BarBranch]).
+  /// The open branch: 0 Today, 1 Practice, 2 Mob, 3 You ([BarBranch]).
   final int currentBranch;
 
   /// Called with a branch for every tab tap, including a re-tap of the open tab.
@@ -280,13 +299,11 @@ class MmBottomBar extends ConsumerStatefulWidget {
   static double project(double center, double velocity) =>
       center + velocity / 1000 * MmBar.projectionDecay / (1 - MmBar.projectionDecay);
 
-  /// At most two badges or dots show at once (HIG: badges for what matters); Review's count wins,
-  /// then Colleges' dot, then You's.
-  static ({bool review, bool colleges, bool you}) visibleBadges(BarBadges badges) {
+  /// The badges that show: Review's count (or its dot) on Practice, where Your papers lives now
+  /// (D105), and You's dot. Colleges has no tab any more, so its dot has nowhere to show.
+  static ({bool review, bool you}) visibleBadges(BarBadges badges) {
     final review = badges.reviewText != null || badges.showReviewDot;
-    final colleges = badges.collegesDot;
-    final you = badges.youDot && !(review && colleges);
-    return (review: review, colleges: colleges, you: you);
+    return (review: review, you: badges.youDot);
   }
 
   @override
@@ -448,7 +465,7 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
     }
   }
 
-  /// The widest of the five labels as drawn: 11 sp at the clamped text scale, never wider than
+  /// The widest of the four labels as drawn: 11 sp at the clamped text scale, never wider than
   /// the label box (the box scales a longer word down).
   double _measureLabels() {
     final style = _labelStyle(context.mmColors.ink, 1);
@@ -927,9 +944,13 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
 
   // Build.
 
+  /// A slot's place in the row, left to right, counting the key: Today 0, Practice 1, Start 2, Mob
+  /// 3, You 4. The entrance, TalkBack and the keyboard all go in this order.
+  static int _order(int slot) => slot < kSlotsBeforeKey ? slot : slot + 1;
+
   Widget _entering(int order, Widget child) {
     if (!widget.entrance) return child;
-    // Left to right, 30 ms apart; Start comes last.
+    // Left to right, 30 ms apart, the key in its place in the middle.
     final total = MmBottomBar.entranceDuration.inMilliseconds;
     final start = order * 30 / total;
     final curve = CurvedAnimation(parent: _enter, curve: Interval(start, (start + 300 / total).clamp(0.0, 1.0), curve: Motion.glide));
@@ -1011,16 +1032,15 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
           bottom: 0,
           width: geo.slot,
           child: _entering(
-            slot,
+            _order(slot),
             _tabSlot(
               branch: slotToBranch(slot),
               slot: slot,
               iconColors: iconColors,
               ring: ring,
-              badgeText: slotToBranch(slot) == BarBranch.review && shown.review ? badges.reviewText : null,
+              badgeText: slotToBranch(slot) == BarBranch.practice && shown.review ? badges.reviewText : null,
               dot: switch (slotToBranch(slot)) {
-                BarBranch.review => shown.review && badges.reviewText == null,
-                BarBranch.colleges => shown.colleges,
+                BarBranch.practice => shown.review && badges.reviewText == null,
                 BarBranch.you => shown.you,
                 _ => false,
               },
@@ -1028,7 +1048,6 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
                 slotToBranch(slot),
                 reviewCount: badges.reviewCount,
                 reviewDot: badges.showReviewDot,
-                collegesDot: shown.colleges,
                 youDot: shown.you,
               ),
             ),
@@ -1042,6 +1061,9 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       onPointerUp: _capsuleUp,
       onPointerCancel: _capsuleUp,
       child: GestureDetector(
+        // The tabs speak for themselves, as siblings of the Start key, so TalkBack reads the row left
+        // to right with the key in the middle (the scrub is a finger gesture, not an action).
+        excludeFromSemantics: true,
         dragStartBehavior: DragStartBehavior.down,
         onHorizontalDragStart: _scrubStart,
         onHorizontalDragUpdate: _scrubUpdate,
@@ -1058,7 +1080,8 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
         clipBehavior: Clip.none,
         children: [
           Positioned.fromRect(rect: geo.capsuleRect, child: capsule),
-          Positioned.fromRect(rect: geo.keyBox, child: _entering(kBarSlots, _key())),
+          // The key sits on the capsule, in its middle (D105): the lens passes under it.
+          Positioned.fromRect(rect: geo.keyBox, child: _entering(kSlotsBeforeKey, _key())),
         ],
       ),
     );
@@ -1172,11 +1195,11 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       button: true,
       selected: branch == _shown,
       label: semanticsLabel,
-      sortKey: OrdinalSortKey(slot.toDouble() + 1),
+      sortKey: OrdinalSortKey(_order(slot).toDouble() + 1),
       onTap: () => _tabTap(branch),
       child: ExcludeSemantics(
         child: FocusTraversalOrder(
-          order: NumericFocusOrder(slot.toDouble()),
+          order: NumericFocusOrder(_order(slot).toDouble()),
           child: FocusableActionDetector(
             actions: {ActivateIntent: CallbackAction<ActivateIntent>(onInvoke: (_) => _tabTap(branch))},
             onShowFocusHighlight: (on) => setState(() => _focusedSlot = on ? slot : (_focusedSlot == slot ? null : _focusedSlot)),
@@ -1275,12 +1298,12 @@ class MmBottomBarState extends ConsumerState<MmBottomBar> with TickerProviderSta
       container: true,
       button: true,
       label: widget.startHoldsResume ? MmBottomBar.resumeSemanticsLabel : MmBottomBar.startSemanticsLabel,
-      sortKey: OrdinalSortKey(kBarSlots.toDouble() + 1),
+      sortKey: OrdinalSortKey(kSlotsBeforeKey.toDouble() + 1),
       onTap: _startTap,
       customSemanticsActions: resume == null || onResume == null ? null : {CustomSemanticsAction(label: resume): onResume},
       child: ExcludeSemantics(
         child: FocusTraversalOrder(
-          order: NumericFocusOrder(kBarSlots.toDouble()),
+          order: NumericFocusOrder(kSlotsBeforeKey.toDouble()),
           child: FocusableActionDetector(
             actions: {ActivateIntent: CallbackAction<ActivateIntent>(onInvoke: (_) => _startTap())},
             onShowFocusHighlight: (on) => setState(() => _keyFocused = on),

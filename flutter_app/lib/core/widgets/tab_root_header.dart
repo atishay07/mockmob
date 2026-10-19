@@ -27,7 +27,8 @@ class TabRootHeader extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 56),
       child: Row(
         children: [
-          if (account) ...[const AccountAvatarButton(), const SizedBox(width: MmSpace.s12)],
+          // A tab root that shows as a pushed page (Colleges over the bar, D105) leads with Back.
+          if (account) ...[const TabRootLeading(), const SizedBox(width: MmSpace.s12)],
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

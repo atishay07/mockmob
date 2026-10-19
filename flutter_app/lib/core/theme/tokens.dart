@@ -103,14 +103,18 @@ abstract final class MmBar {
   /// Gap between the row's bottom edge and the gesture inset (or the 3-button bar).
   static const double lift = 12;
 
-  /// Padding inside the capsule, left and right of the five slots (3 below 360 dp).
+  /// Padding inside the capsule, left and right of the four tab slots (3 below 360 dp). With the
+  /// lens as wide as its slot, the lens on Today and on You sits 4 dp inside the capsule's round end
+  /// all the way round (the capsule's 32 dp end and the lens's 28 dp end share a centre).
   static const double pad = 4;
   static const double narrowPad = 3;
 
-  /// The Start key: a circle as tall as the row, and its gap from the capsule (6 below 360 dp).
+  /// The Start key (D105): a circle as tall as the row, in the middle of the capsule, two tabs on
+  /// each side; and the air between it and the tab slots beside it (3 below 360 dp), the same 4 dp
+  /// the lens keeps from the capsule's edges, so the lens has even insets wherever it rests.
   static const double keySize = 64;
-  static const double keyGap = 8;
-  static const double narrowKeyGap = 6;
+  static const double keyGap = 4;
+  static const double narrowKeyGap = 3;
 
   /// The key's look. The owner chose the lime-filled key (A1) on 17 Oct; the glass key (A) stays
   /// one switch away.
@@ -132,12 +136,13 @@ abstract final class MmBar {
   /// The backdrop's saturation lift under the glass (Apple's regular material, NAV 6.2).
   static const double saturation = 1.5;
 
-  /// The five tab slots, all the same width.
-  static const int slots = 5;
+  /// The four tab slots, all the same width.
+  static const int slots = 4;
 
-  /// The lens is a slot less this much on each side (1, not the 2 of NAV 6.1: the extra 2 dp of
-  /// width buy the lens's corners about 2 dp more radius around the label, see `BarLensPainter`).
-  static const double lensInset = 1;
+  /// The lens is a slot less this much on each side: none (G11, 19 Oct). The lens is a stadium (its
+  /// ends are half circles), as wide as its slot, so it is centred on its icon and word with even
+  /// insets on both sides.
+  static const double lensInset = 0;
 
   /// The label box is the lens less this much on each side, so a word never meets the lens's
   /// side.
@@ -199,10 +204,11 @@ abstract final class MmBar {
   /// The capsule's inner padding on a screen [screenWidth] wide.
   static double padFor(double screenWidth) => screenWidth < narrowBelow ? narrowPad : pad;
 
-  /// The capsule's width: the row less the key and its gap.
-  static double capsuleWidthFor(double screenWidth) => widthFor(screenWidth) - keySize - keyGapFor(screenWidth);
+  /// The capsule's width: the whole row (the Start key sits in its middle, D105).
+  static double capsuleWidthFor(double screenWidth) => widthFor(screenWidth);
 
-  /// Each tab slot's width: `(row - 64 - gap - 2 x pad) / 5` (45.6 dp at 320, 49.6 at 360, 60 at
-  /// 412, 72 from 472 up).
-  static double slotFor(double screenWidth) => (capsuleWidthFor(screenWidth) - 2 * padFor(screenWidth)) / slots;
+  /// Each tab slot's width: `(row - 2 x pad - 64 - 2 x gap) / 4` (57 dp at 320, 62 at 360, 75 at
+  /// 412, 90 from 472 up).
+  static double slotFor(double screenWidth) =>
+      (capsuleWidthFor(screenWidth) - 2 * padFor(screenWidth) - keySize - 2 * keyGapFor(screenWidth)) / slots;
 }

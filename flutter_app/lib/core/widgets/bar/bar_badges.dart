@@ -3,8 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'bar_live.dart';
 
-/// The bar's badges (DOCK.md section 5.6, app-ia-1016.md 4.4): real counts only, never on
-/// Today, Practice or Start, and nothing that counts streaks, credits or "new" content.
+/// The bar's badges (DOCK.md section 5.6, app-ia-1016.md 4.4): real counts only, never on Today,
+/// the Mob or Start, and nothing that counts streaks, credits or "new" content. Review's count and
+/// dot show on Practice, where Your papers lives since D105 (19 Oct).
 @immutable
 class BarBadges {
   const BarBadges({this.reviewCount = 0, this.reviewDot = false, this.collegesDot = false, this.youDot = false});
@@ -12,12 +13,13 @@ class BarBadges {
   /// Open mistakes to repair on the account (Review's index, the count Today and Practice print). Shown as "9+" above 9.
   final int reviewCount;
 
-  /// An 8 dp dot on Review: a marked result whose capsule was dismissed, until it is opened.
+  /// An 8 dp dot on Practice (Your papers): a marked result whose capsule was dismissed, until it is
+  /// opened.
   /// Never shown with [reviewCount].
   final bool reviewDot;
 
-  /// An 8 dp dot on Colleges: a saved college's cutoff data changed (once per data release),
-  /// until the tab is opened.
+  /// A saved college's cutoff data changed (once per data release). Colleges has no tab since D105,
+  /// so the bar draws no dot for it.
   final bool collegesDot;
 
   /// An 8 dp dot on You: sign-in needs renewing, or a sync has failed for over 24 hours.

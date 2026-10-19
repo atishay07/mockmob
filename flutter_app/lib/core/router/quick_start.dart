@@ -24,7 +24,7 @@ import '../widgets/materials/lit_edge.dart';
 import '../widgets/mobi.dart';
 import '../widgets/pressable.dart';
 import '../../features/practice/widgets/choice_deck.dart';
-import '../../features/pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
+import '../../features/practice/widgets/locked_mode_sheet.dart' show LockedMode, openLockedMode;
 import '../../features/practice/widgets/quick_start_deck.dart';
 import 'routes.dart';
 
@@ -102,8 +102,8 @@ class QuickNta {
   final String location;
   final String subject;
 
-  /// The quote says this needs Pro: the row carries a quiet Pro tag and still opens the
-  /// instructions page, which explains (there is no purchase path in the app).
+  /// The mode is Pro's for this student (D101): the row carries a quiet Pro tag and a tap opens the
+  /// Upgrade sheet (PLAY_BILLING on) or the calm sheet with a Full mock instead.
   final bool proOnly;
 }
 
@@ -593,9 +593,9 @@ class _StartRows extends ConsumerWidget {
     );
     // The quote is for the default subject; the Pro tag and the gated note show only where it is known.
     final ntaGated = nta != null && nta.proOnly && (subject == null || subject == nta.subject);
-    // A gated NTA mode shows to a Free student only while Pro can be had here (PLAY_BILLING on): with
-    // the flag off it is left out, so no row wears a Pro tag or leads to a gate (owner walk, 18 Oct).
-    final ntaOption = nta == null || (ntaGated && !ref.watch(proNudgesOnProvider))
+    // NTA mode is always listed (D101, owner 19 Oct: "visible but locked"): locked for a Free student,
+    // with a quiet Pro tag; it leaves only when the server says the mode is not offered at all.
+    final ntaOption = nta == null
         ? null
         : ChoiceOption(
             id: 'nta',
@@ -608,8 +608,12 @@ class _StartRows extends ConsumerWidget {
                 : 'The exam-day screen${subjectName == null ? '' : ' in $subjectName'}, as on the day.',
             // No act: NTA mode is the exam as it is, with no Mobi in it.
             onTap: () {
-              // A Free student on the gated mode meets the Upgrade sheet (PLAY_BILLING on); otherwise as before.
-              if (ntaGated && showUpgradeSheetIfOn(context, reason: ProReason.ntaMode)) return;
+              // Locked (D101): the Upgrade sheet with PLAY_BILLING on, otherwise the calm sheet that says
+              // Pro opens in the app soon and offers a Full mock instead.
+              if (ntaGated) {
+                openLockedMode(context, mode: LockedMode.nta, onInstead: () => go(StartLocations.fullMock(subject), act: startActFor('mock')));
+                return;
+              }
               go(StartLocations.nta(nta, subject));
             },
           );

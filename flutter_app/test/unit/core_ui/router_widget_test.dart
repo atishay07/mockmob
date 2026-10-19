@@ -19,7 +19,7 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/storage/storage_providers.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/bar/bar_badges.dart';
-import 'package:mockmob/core/widgets/account/account_avatar.dart' show AccountAvatarButton;
+import 'package:mockmob/core/widgets/account/account_avatar.dart' show AccountAvatarButton, PushedBackKey;
 import 'package:mockmob/core/widgets/bar/mm_bar.dart';
 import 'package:mockmob/features/account_access/access_routes.dart';
 import 'package:mockmob/features/account_access/screens/forgot_password_screen.dart';
@@ -119,6 +119,9 @@ Finder _tab(String label) => find.descendant(of: find.byType(MmBottomBar), match
 
 String _location(ProviderContainer container) => _router(container).routerDelegate.currentConfiguration.uri.toString();
 
+/// The top page's own location: a push leaves [_location] (the base) as it was.
+String _top(ProviderContainer container) => _router(container).state.uri.toString();
+
 String _sample(String template) => template.replaceAllMapped(RegExp(r':(\w+)'), (m) {
   return switch (m[1]) {
     'i' => '2',
@@ -162,11 +165,15 @@ void main() {
     expect(find.byType(MmBottomBar), findsOneWidget);
     expect(_tab('Today'), findsOneWidget);
     expect(_tab('Practice'), findsOneWidget);
-    expect(_tab('Start'), findsOneWidget, reason: 'the volt key in the middle slot');
-    expect(_tab('Review'), findsOneWidget);
-    expect(_tab('Colleges'), findsOneWidget, reason: 'Colleges is a place on the bar (app-ia D1, L32)');
+    expect(_tab('Start'), findsOneWidget, reason: 'the volt key in the middle (D105)');
+    expect(_tab('Mob'), findsOneWidget, reason: 'the Mob has its own tab (D105)');
     expect(_tab('You'), findsOneWidget, reason: 'You is a place on the bar (DOCK.md option A)');
+    expect(_tab('Review'), findsNothing, reason: 'Review lives inside Practice as Your papers (D105)');
+    expect(_tab('Colleges'), findsNothing, reason: 'Colleges is a page over the bar (D105)');
     expect(_tab('Learn'), findsNothing, reason: 'Learn is no longer a tab');
+    // Start sits in the exact middle of the bar, two tabs on each side.
+    final bar = tester.getRect(find.byType(MmBottomBar));
+    expect(tester.getCenter(_tab('Start')).dx, closeTo(bar.center.dx, 0.5));
   });
 
   _test('/you builds inside the shell with the bar; its pages and Learn cover it', (tester) async {
@@ -264,22 +271,102 @@ void main() {
     final container = await _pump(tester);
     final router = _router(container);
 
-    await tester.tap(_tab('Review'));
+    await tester.tap(_tab('Mob'));
     await _settle(tester);
-    expect(_location(container), '/review');
+    expect(_location(container), '/mob');
+    expect(find.byType(MmBottomBar), findsOneWidget);
 
     router.go('/review/mistakes');
     await _settle(tester);
-    expect(_location(container), '/review/mistakes');
+    expect(_location(container), '/practice/papers/mistakes', reason: 'an old Review path lands inside Practice');
 
+    await tester.tap(_tab('Mob'));
+    await _settle(tester);
+    expect(_location(container), '/mob');
+
+    // Back to Practice: its pushed screen is still there.
     await tester.tap(_tab('Practice'));
     await _settle(tester);
-    expect(_location(container), '/practice');
+    expect(_location(container), '/practice/papers/mistakes');
+  });
 
-    // Back to Review: its pushed screen is still there.
-    await tester.tap(_tab('Review'));
+  _test('every old Review path lands on Your papers inside Practice, with its tail and query (D105, G20)', (tester) async {
+    final container = await _pump(tester);
+    final router = _router(container);
+    for (final (from, to) in const [
+      ('/review', '/practice/papers'),
+      ('/review/mistakes', '/practice/papers/mistakes'),
+      ('/review/record', '/practice/papers/record'),
+      ('/review/insights', '/practice/papers/insights'),
+      ('/review/saved', '/practice/papers/saved'),
+    ]) {
+      router.go(from);
+      await _settle(tester);
+      expect(_location(container), to, reason: from);
+      expect(find.byType(MmBottomBar), findsOneWidget, reason: '$to keeps the bar, Practice open');
+      expect(tester.takeException(), isNull, reason: from);
+    }
+    router.go('/practice/papers');
     await _settle(tester);
-    expect(_location(container), '/review/mistakes');
+    // Your papers is pushed inside Practice: it leads with a back key, which returns to Practice.
+    expect(find.byType(PushedBackKey), findsOneWidget);
+    final handled = await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(handled, isTrue);
+    expect(_location(container), '/practice');
+  });
+
+  _test("Your papers' covering pages: pushed from Your papers, Back returns there; opened by a link, Back lands on Practice", (tester) async {
+    final container = await _pump(tester);
+    final router = _router(container);
+    router.go(AppRoutes.papers);
+    await _settle(tester);
+    unawaited(router.push(AppRoutes.reviewRepair('att1', 'q1')));
+    await _settle(tester);
+    expect(_top(container), '/practice/papers/repair/att1/q1', reason: 'the old path, pushed, lands inside Practice');
+    expect(find.byType(MmBottomBar), findsNothing, reason: 'a repair covers the bar');
+    expect(tester.takeException(), isNull);
+    await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(_top(container), AppRoutes.papers);
+    expect(find.byType(MmBottomBar), findsOneWidget);
+
+    // A link (or a notification) over a page that already covers the tab: no page is slotted in
+    // under it, and Back lands on Practice, whose first row is Your papers.
+    router.go(AppRoutes.practiceSetup('full'));
+    await _settle(tester);
+    router.go('/review/repair/att1/q1?count=2');
+    await _settle(tester);
+    expect(_location(container), '/practice/papers/repair/att1/q1?count=2');
+    expect(tester.takeException(), isNull, reason: 'no page flight in a tab that is out of sight');
+    final handled = await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(handled, isTrue, reason: 'never out of the app');
+    expect(Uri.parse(_location(container)).path, AppRoutes.practice);
+    expect(find.byType(MmBottomBar), findsOneWidget);
+  });
+
+  test('papersLocationFor keeps the tail and the query, and leaves other paths alone', () {
+    expect(papersLocationFor(Uri.parse('/review')), '/practice/papers');
+    expect(papersLocationFor(Uri.parse('/review/')), '/practice/papers');
+    expect(papersLocationFor(Uri.parse('/review/repair/a1/q2?count=3')), '/practice/papers/repair/a1/q2?count=3');
+    expect(papersLocationFor(Uri.parse('/review/again?keys=a/b')), '/practice/papers/again?keys=a/b');
+    expect(papersLocationFor(Uri.parse('/reviewer')), isNull);
+    expect(papersLocationFor(Uri.parse('/practice/papers')), isNull);
+  });
+
+  _test('the Mob is one tap away: /mob is a tab, and its old page path opens the tab', (tester) async {
+    final container = await _pump(tester);
+    final router = _router(container);
+    router.go('/you/mob');
+    await _settle(tester);
+    expect(_location(container), '/mob');
+    expect(find.byType(MmBottomBar), findsOneWidget);
+    router.go(AppRoutes.today);
+    await _settle(tester);
+    await tester.tap(_tab('Mob'));
+    await _settle(tester);
+    expect(_location(container), '/mob');
   });
 
   _test('the confirm pages inside Practice hide the dock, like the runner', (tester) async {
@@ -296,52 +383,53 @@ void main() {
   _test('re-tapping a tab pops to its root, then asks the screen to scroll to top', (tester) async {
     final container = await _pump(tester);
     final router = _router(container);
-    router.go('/review');
+    router.go('/practice');
     await _settle(tester);
-    router.push('/review/mistakes');
+    router.push('/practice/papers');
     await _settle(tester);
 
-    await tester.tap(_tab('Review'));
+    await tester.tap(_tab('Practice'));
     await _settle(tester);
-    expect(_location(container), '/review');
+    expect(_location(container), '/practice');
     expect(container.read(tabReselectProvider), isNull);
 
-    await tester.tap(_tab('Review'));
+    await tester.tap(_tab('Practice'));
     await _settle(tester);
     final event = container.read(tabReselectProvider);
-    expect(event?.tabIndex, 2);
+    expect(event?.tabIndex, 1);
   });
 
-  _test('/colleges is the fourth tab with the bar and the avatar; /tools redirects to it', (tester) async {
+  _test('Colleges is a page over the bar with a back key (D105); /tools opens it; Back never leaves the app', (tester) async {
     final container = await _pump(tester);
     final router = _router(container);
-    await tester.tap(_tab('Colleges'));
+    unawaited(router.push(AppRoutes.colleges));
     await _settle(tester);
-    expect(_location(container), AppRoutes.colleges);
-    expect(find.byType(MmBottomBar), findsOneWidget);
-    expect(find.byType(AccountAvatarButton), findsOneWidget, reason: 'the avatar on every tab root');
+    expect(_top(container), AppRoutes.colleges);
+    expect(find.byType(MmBottomBar), findsNothing, reason: 'a page over the bar');
+    expect(find.byType(PushedBackKey), findsOneWidget, reason: 'the way back is in sight');
+    expect(find.byType(AccountAvatarButton), findsNothing);
 
-    router.go(AppRoutes.today);
-    await _settle(tester);
-    router.go(AppRoutes.tools);
-    await _settle(tester);
-    expect(_location(container), AppRoutes.colleges, reason: '/tools is the Colleges tab now');
-
-    // The tool pages keep their paths, cover the bar, and Back returns to the tab.
+    // The tool pages keep their paths, cover the bar, and Back returns to Colleges, then Today.
     unawaited(router.push(AppRoutes.toolsCompass));
     await _settle(tester);
     expect(find.byType(CompassScreen), findsOneWidget);
-    expect(find.byType(MmBottomBar), findsNothing);
     await tester.binding.handlePopRoute();
     await _settle(tester);
-    expect(_location(container), AppRoutes.colleges);
+    expect(_top(container), AppRoutes.colleges);
+    await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(_top(container), AppRoutes.today);
     expect(find.byType(MmBottomBar), findsOneWidget);
 
-    // Back from Colleges goes to Today, as from every tab.
+    // Reached with nothing under it (/tools, or a go from a page outside the shell), Back goes to Today.
+    router.go(AppRoutes.tools);
+    await _settle(tester);
+    expect(_top(container), AppRoutes.colleges, reason: '/tools is Colleges');
+    expect(find.byType(PushedBackKey), findsOneWidget);
     final handled = await tester.binding.handlePopRoute();
     await _settle(tester);
-    expect(handled, isTrue);
-    expect(_location(container), AppRoutes.today);
+    expect(handled, isTrue, reason: 'never out of the app (L04)');
+    expect(_top(container), AppRoutes.today);
   });
 
   _test('a link to a CUET tool opens it over Colleges, so Back never leaves the app (L04)', (tester) async {
@@ -353,7 +441,11 @@ void main() {
     final handled = await tester.binding.handlePopRoute();
     await _settle(tester);
     expect(handled, isTrue);
-    expect(_location(container), AppRoutes.colleges);
+    expect(_top(container), AppRoutes.colleges);
+    final again = await tester.binding.handlePopRoute();
+    await _settle(tester);
+    expect(again, isTrue);
+    expect(_top(container), AppRoutes.today);
     expect(find.byType(MmBottomBar), findsOneWidget);
   });
 
@@ -371,9 +463,9 @@ void main() {
 
   _test('back from another tab goes to Today, then exits', (tester) async {
     final container = await _pump(tester);
-    await tester.tap(_tab('Review'));
+    await tester.tap(_tab('Mob'));
     await _settle(tester);
-    expect(_location(container), '/review');
+    expect(_location(container), '/mob');
 
     final handled = await tester.binding.handlePopRoute();
     await _settle(tester);
@@ -417,7 +509,7 @@ void main() {
     expect(told, isNotEmpty);
     expect(told.last, isTrue, reason: 'on Today the first press only arms closing');
 
-    for (final tab in ['Practice', 'Review', 'Colleges', 'You']) {
+    for (final tab in ['Practice', 'Mob', 'You']) {
       await tester.tap(_tab(tab));
       await _settle(tester);
       expect(told.last, isTrue, reason: 'Back on $tab goes to Today; Android must not close the app');
@@ -436,9 +528,9 @@ void main() {
     expect(told.last, isTrue, reason: 'past the window, back only arms again');
   });
 
-  _test('the avatar opens the account sheet from all five tab roots (L16, D5)', (tester) async {
+  _test('the avatar opens the account sheet from all four tab roots (L16, D5)', (tester) async {
     final container = await _pump(tester);
-    for (final root in AppRoutes.tabRoots) {
+    for (final root in AppRoutes.branchRoots) {
       _router(container).go(root);
       await _settle(tester);
       expect(find.byType(AccountAvatarButton), findsOneWidget, reason: 'one avatar on $root');
@@ -512,12 +604,13 @@ void main() {
     expect(_location(container), '/result/att9');
   });
 
-  _test('the tabs count to five and carry no badge by default', (tester) async {
+  _test('the tabs count to four and carry no badge by default', (tester) async {
     final container = await _pump(tester);
     final handle = tester.ensureSemantics();
-    expect(find.bySemanticsLabel('Review, tab 3 of 5'), findsOneWidget);
-    expect(find.bySemanticsLabel('Colleges, tab 4 of 5'), findsOneWidget);
-    expect(find.bySemanticsLabel('You, tab 5 of 5'), findsOneWidget);
+    expect(find.bySemanticsLabel('Today, tab 1 of 4'), findsOneWidget);
+    expect(find.bySemanticsLabel('Practice, tab 2 of 4'), findsOneWidget);
+    expect(find.bySemanticsLabel('Mob, tab 3 of 4'), findsOneWidget);
+    expect(find.bySemanticsLabel('You, tab 4 of 4'), findsOneWidget);
     expect(find.bySemanticsLabel(MmBottomBar.startSemanticsLabel), findsOneWidget);
     handle.dispose();
     expect(container.read(barBadgesProvider), BarBadges.none);
@@ -696,7 +789,7 @@ void main() {
       final calls = <String>[];
       await _pump(tester, extra: [todayActionsProvider.overrideWith((ref) => _ShownSpy(ref, calls))]);
       expect(calls, isEmpty, reason: 'the first show is the first read, not a return');
-      await tester.tap(_tab('Review'));
+      await tester.tap(_tab('Mob'));
       await _settle(tester);
       expect(calls, isEmpty, reason: 'leaving Today reads nothing');
       await tester.tap(_tab('Today'));
@@ -789,7 +882,8 @@ void main() {
 
       container.read(_testAuth.notifier).set(_signedIn);
       await _settle(tester);
-      expect(_location(container), '/review');
+      // The old Review path lands on Your papers inside Practice (D105).
+      expect(_location(container), '/practice/papers');
     });
   });
 }

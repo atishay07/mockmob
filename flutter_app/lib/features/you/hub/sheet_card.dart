@@ -225,7 +225,11 @@ class _SheetCardState extends State<SheetCard> {
     final onEdit = widget.onEdit;
     final onEditSubjects = widget.onEditSubjects;
     final trimmed = name?.trim();
-    final title = trimmed == null || trimmed.isEmpty ? YouCopy.sheetNameFallback : trimmed;
+    // No name the student gave (a fresh account's is the email prefix, which the hub leaves out): the
+    // name's place asks for one, and its tap opens the name editor (fresh-account walk, 19 Oct).
+    final title = trimmed == null || trimmed.isEmpty
+        ? (widget.onEditName != null ? YouCopy.sheetNameAdd : YouCopy.sheetNameFallback)
+        : trimmed;
     final year = target.stage?.cuetYear ?? 2027;
 
     return Column(
