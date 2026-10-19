@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
-import 'package:mockmob/core/art/art.dart' show HybridStopwatch;
+import 'package:mockmob/core/art/art.dart' show HybridStopwatch, StopwatchMode;
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/theme/theme.dart' show MmColors;
 import 'package:mockmob/core/widgets/widgets.dart' show Mobi;
@@ -238,6 +238,43 @@ void main() {
     // Seven letters a week, on all three weeks.
     expect(find.text('M'), findsNWidgets(3));
     expect(find.byType(HybridStopwatch), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('next week\'s stopwatch plays once per app run: scrolling back to it does not restart it (I3)', (tester) async {
+    AheadStopwatch.resetForTest();
+    final i = ashaInputs(now: sunday, attempts: ashaRecord(DateTime.utc(2026, 10, 9, 14, 10)), week: sundayWeek, reviseDue: 6);
+    final a = buildToday(i).glance!.ahead!;
+    final scroll = ScrollController();
+    addTearDown(scroll.dispose);
+    // Lazy, as Today is: the row is dropped when it scrolls far away and built again on the way back.
+    await pumpMockmob(
+      tester,
+      ListView(
+        controller: scroll,
+        children: [WeeksAheadBlock(ahead: a, onWeek: (_) {}), const SizedBox(height: 4000)],
+      ),
+      size: const Size(412, 800),
+      overrides: _overrides,
+    );
+    bool still() => MediaQuery.of(tester.element(find.byType(HybridStopwatch))).disableAnimations;
+    StopwatchMode mode() => tester.widget<HybridStopwatch>(find.byType(HybridStopwatch)).mode;
+    // The first time it is seen it plays the Full mock ticket's motion, ten to twelve onto 12.
+    expect(find.byType(HybridStopwatch), findsOneWidget);
+    expect(still(), isFalse);
+    expect(mode(), StopwatchMode.lap);
+    expect(AheadStopwatch.played, isTrue);
+    await tester.pump(const Duration(seconds: 2));
+
+    scroll.jumpTo(3000);
+    await tester.pump();
+    expect(find.byType(HybridStopwatch), findsNothing);
+    scroll.jumpTo(0);
+    await tester.pump();
+    // Built again, it holds its landed pose: no second sweep, no clock running for it.
+    expect(find.byType(HybridStopwatch), findsOneWidget);
+    expect(still(), isTrue);
+    await tester.pump(const Duration(seconds: 2));
     expect(tester.takeException(), isNull);
   });
 

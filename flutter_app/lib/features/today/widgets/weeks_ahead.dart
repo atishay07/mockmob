@@ -6,9 +6,10 @@
 // card. The rows draw in once, top to bottom, the first time the block comes into view (40 ms
 // apart, 220 ms ease-out, 6 dp and opacity); under reduced motion everything is in place at once.
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart' show SchedulerBinding;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/art/art.dart' show HybridStopwatch, StopwatchMode;
+import '../../../core/art/art.dart' show HybridStopwatch, StopwatchMode, StopwatchSim;
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -271,7 +272,7 @@ class _WeekRow extends StatelessWidget {
     );
     final thumb = w.next && w.mocks.isNotEmpty;
     final trailing = thumb
-        ? const Padding(padding: EdgeInsets.only(top: 2), child: SizedBox(width: 44, height: 44, child: HybridStopwatch(height: 44, mode: StopwatchMode.stages)))
+        ? const Padding(padding: EdgeInsets.only(top: 2), child: SizedBox(width: 44, height: 44, child: AheadStopwatch()))
         : (onTap == null ? null : Padding(padding: const EdgeInsets.only(top: 1), child: Icon(LucideIcons.chevronRight, size: 18, color: colors.ink3)));
     return MmPressable(
       onTap: onTap,
@@ -477,6 +478,55 @@ class _MilestoneRow extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Next week's stopwatch, when a full mock is suggested: the same motion as the Full mock ticket
+/// (its hands ease from ten to twelve onto 12 once), played once per app run. Today is a lazy
+/// list, so the row is built again each time it scrolls back into view, and the row's draw-in
+/// rebuilds it as it lands. A stopwatch built again while the first play is still under way
+/// carries on from where it was; once the play is over it holds its landed pose instead of moving
+/// again (20 Oct, I3: it re-swept on every scroll back, the G12 cause the deck card was fixed
+/// for). Reduced motion: still at 12.
+class AheadStopwatch extends StatefulWidget {
+  const AheadStopwatch({super.key, this.height = 44});
+
+  final double height;
+
+  /// The frame time of this run's first play.
+  static Duration? _first;
+
+  /// Whether this run has already started its play.
+  static bool get played => _first != null;
+
+  /// A fresh app run, for tests.
+  @visibleForTesting
+  static void resetForTest() => _first = null;
+
+  @override
+  State<AheadStopwatch> createState() => _AheadStopwatchState();
+}
+
+class _AheadStopwatchState extends State<AheadStopwatch> {
+  late final double _elapsed;
+
+  @override
+  void initState() {
+    super.initState();
+    final now = SchedulerBinding.instance.currentFrameTimeStamp;
+    final first = AheadStopwatch._first ??= now;
+    _elapsed = (now - first).inMicroseconds / Duration.microsecondsPerSecond;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (_elapsed < StopwatchSim.lapLanded) {
+      return HybridStopwatch(height: widget.height, mode: StopwatchMode.lap, elapsed: _elapsed);
+    }
+    return MediaQuery(
+      data: MediaQuery.of(context).copyWith(disableAnimations: true),
+      child: HybridStopwatch(height: widget.height, mode: StopwatchMode.lap),
     );
   }
 }
