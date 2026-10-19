@@ -409,3 +409,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 8:10 pm IST (verbatim, screenshot: one-time products credits_49_300, credits_29_150, credits_10_50 each with 1 active purchase option)
 > "all done in the one-time product section. Now I think the subscription is left, and then the Google Cloud thing that you said."
 **Ledger:** the 3 credit packs are created and active in Play Console.
+
+## Owner, 19 Oct about 8:30 pm IST (verbatim, screenshot: subscription MockMob Pro, pro_monthly, base plan "monthly" auto-renewing, Active, 175 countries, tax "Digital app sales, Service")
+> "Alton" (dictation of "All done")
+**Ledger:** the pro_monthly subscription (base plan monthly, Rs 149) is active in Play Console.
