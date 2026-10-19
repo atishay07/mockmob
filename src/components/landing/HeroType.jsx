@@ -108,8 +108,10 @@ export function HeroType({ phrases = HERO_PHRASES_V2 }) {
       else cycle.setInView(true);
     }
 
-    // First paint: the later of two frames after mount and the browser's own first-contentful-paint entry.
-    let raf = window.requestAnimationFrame(() => { raf = window.requestAnimationFrame(() => cycle.painted(performance.now())); });
+    // First paint: the browser's own first-contentful-paint entry (the hero's entrance has run since then, even when
+    // this chunk arrived later); two frames after mount stand in only where the browser gives no such entry.
+    const fcp = () => performance.getEntriesByName?.('first-contentful-paint')?.[0]?.startTime;
+    let raf = window.requestAnimationFrame(() => { raf = window.requestAnimationFrame(() => cycle.painted(fcp() ?? performance.now())); });
     let paints = null;
     try {
       paints = new PerformanceObserver((list) => list.getEntries().forEach((e) => { if (e.name === 'first-contentful-paint') cycle.painted(e.startTime); }));
