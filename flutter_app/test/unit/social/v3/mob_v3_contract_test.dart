@@ -81,6 +81,7 @@ void main() {
       expect([p.right, p.of], [15, 20]);
       final r = Review.fromJson(fx('review.json'));
       expect(r.trap!.caught, 'most');
+      expect(r.trap!.number, 4);
       expect(r.trap!.fix.fixedOf, 3);
       final s = Shelf.fromJson(fx('shelf.json'));
       expect(s.folds.last.mob, 'Chai Circle');
@@ -211,14 +212,15 @@ void main() {
     test('the closed game has its trap as "most", and moments never touch it (F3)', () async {
       final p = await s.podium('game-zoya-closed');
       expect(p.soFar, isFalse);
-      expect(p.trap!.q, 4);
+      expect(p.trap!.q, 3);
+      expect(p.trap!.number, 4);
       expect(p.trap!.caught, 'most');
       for (final m in p.moments) {
-        expect(m.q, isNot(4));
+        expect(m.number, isNot(4));
         if (m.kind == MomentKind.threeInARow) expect(m.from! > 4 || m.to! < 4, isTrue);
       }
       final r = await s.review('game-zoya-closed');
-      expect(r.trap!.q, 4);
+      expect(r.trap!.number, 4);
       expect(r.questions.length, 5);
     });
 

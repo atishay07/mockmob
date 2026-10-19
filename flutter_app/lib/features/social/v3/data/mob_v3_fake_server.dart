@@ -255,7 +255,7 @@ class MobV3FakeServer implements MobV3Api {
     return switch (billing) {
       'free' when !_freeStartUsed => {'billingOn': true, 'can': true, 'via': 'free_weekly', 'modes': liveModes, 'formats': ['sprint', 'round', 'rematch'], 'freeLeft': 1, 'mics': _micsHeld},
       'free' || 'used' when _micsHeld == 0 => {'billingOn': true, 'can': false, 'reason': 'used', 'via': 'none', 'modes': <String>[], 'formats': <String>[], 'freeLeft': 0, 'mics': 0},
-      'free' || 'used' || 'mic' => {'billingOn': true, 'can': true, 'via': 'mic', 'modes': ['async', 'live'], 'formats': ['sprint', 'round', 'rematch'], 'freeLeft': 0, 'mics': _micsHeld, 'micFrom': 'Riya'},
+      'free' || 'used' || 'mic' => {'billingOn': true, 'can': true, 'via': 'mic', 'modes': ['async', 'live'], 'formats': ['sprint', 'round', 'rematch'], 'freeLeft': 0, 'mics': _micsHeld, 'micFrom': {'memberId': 'RIYA00000002', 'name': 'Riya'}},
       'pro' => {'billingOn': true, 'can': true, 'via': 'pro', 'modes': liveModes, 'formats': ['sprint', 'round', 'rematch'], 'freeLeft': null, 'mics': 0, 'micsToGive': _micsToGive},
       _ => {'billingOn': false, 'can': true, 'via': 'open', 'modes': liveModes, 'formats': ['sprint', 'round', 'rematch'], 'freeLeft': null, 'mics': 0, 'micsToGive': null},
     };
@@ -319,8 +319,8 @@ class MobV3FakeServer implements MobV3Api {
   List<String> _due(_Mob mob) {
     final w = _week;
     return [
-      if (mob.questDoneAt != null && !_seen.contains('quest_done:$w')) 'quest_done:$w',
-      if (mob.questDoneAt != null && !_seen.contains('stitch:$w')) 'stitch:$w',
+      if (mob.questDoneAt != null && !_seen.contains('quest_done:${mob.id}:$w')) 'quest_done:${mob.id}:$w',
+      if (mob.questDoneAt != null && !_seen.contains('stitch:${mob.id}:$w')) 'stitch:${mob.id}:$w',
       if (mob.questDoneAt != null && !_seen.contains('reveal:hop') && _owned.contains(FoldKey.hop)) 'reveal:hop',
     ];
   }
@@ -799,14 +799,14 @@ class MobV3FakeServer implements MobV3Api {
         if (p >= 0 && p != correct) counts[p] = (counts[p] ?? 0) + 1;
       }
       for (final c in counts.values) {
-        if (c >= 2 && c * 2 >= runs.length) return {'q': q + 1, 'caught': 'most'};
+        if (c >= 2 && c * 2 >= runs.length) return {'q': q, 'number': q + 1, 'caught': 'most'};
       }
     }
     return null;
   }
 
   List<Json> _moments(_Game g, List<({String id, _Run run})> ordered, int? trapQ) {
-    final trapIdx = trapQ == null ? null : trapQ - 1;
+    final trapIdx = trapQ;
     int? fastestHolder;
     var fastest = (q: -1, ms: 1 << 30, id: '');
     for (final x in ordered) {
@@ -833,7 +833,7 @@ class MobV3FakeServer implements MobV3Api {
       Json? pick;
       final candidates = <Json Function()?>[
         x.run.right == g.count ? () => {'kind': 'all_right', 'count': g.count} : null,
-        fastestHolder == idx ? () => {'kind': 'fastest_right', 'q': fastest.q + 1, 'seconds': (fastest.ms / 1000).round()} : null,
+        fastestHolder == idx ? () => {'kind': 'fastest_right', 'q': fastest.q, 'number': fastest.q + 1, 'seconds': (fastest.ms / 1000).round()} : null,
         quickest?.id == x.id ? () => {'kind': 'quickest_finish', 'count': g.count, 'seconds': ((x.run.answers[g.count - 1]?.elapsedMs ?? 0) / 1000).round()} : null,
         () {
           for (var i = 0; i + 2 < g.count; i++) {
@@ -893,10 +893,11 @@ class MobV3FakeServer implements MobV3Api {
           ? null
           : {
               'q': trap['q'],
+              'number': trap['number'],
               'caught': 'most',
               'fix': {
                 'now': (g.fixes['now']?.containsKey(r.mob.you.id) ?? false) ? 'done' : 'open',
-                'check': {'opensAt': _iso(opens), 'closesAt': _iso(opens.add(const Duration(days: 5)).subtract(const Duration(seconds: 1)))},
+                'check': {'opensAt': _iso(opens), 'closesAt': _iso(opens.add(const Duration(days: 5)).subtract(const Duration(seconds: 1))), 'state': now.isBefore(opens) ? 'not_yet' : 'open'},
                 'fixed': {'count': r.mob.trapsFixed, 'of': 3},
               },
             },
@@ -936,12 +937,12 @@ class MobV3FakeServer implements MobV3Api {
     if (!g.closedAt(now)) throw _err('FIX_NOT_YET', 409, details: {'opensAt': _iso(g.closesAt)});
     final opens = _checkOpens(g);
     if (stage == 'check' && now.isBefore(opens)) throw _err('FIX_NOT_YET', 409, details: {'opensAt': _iso(opens)});
-    final trapQ = q - 1;
+    final trapQ = q;
     final bankIdx = g.questions[trapQ.clamp(0, g.count - 1)];
     final fresh = stage == 'now' ? 20 : 21;
     return FixStart.fromJson({
-      'question': {'stem': mobV3Bank[fresh].stem, 'options': mobV3Bank[fresh].options, 'passage': null},
-      'trap': {'q': q, 'why': mobV3Bank[bankIdx].explanation, 'yourPick': g.runs[r.mob.you.id]?.answers[trapQ]?.pick, 'correctIndex': mobV3Bank[bankIdx].correct},
+      'question': {'stem': mobV3Bank[fresh].stem, 'options': mobV3Bank[fresh].options, 'passage': null, 'answered': r.game.fixes[stage]?.containsKey(r.mob.you.id) ?? false},
+      'trap': {'q': q, 'number': q + 1, 'why': mobV3Bank[bankIdx].explanation, 'yourPick': g.runs[r.mob.you.id]?.answers[trapQ]?.pick, 'correctIndex': mobV3Bank[bankIdx].correct},
     });
   }
 
