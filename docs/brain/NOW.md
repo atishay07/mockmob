@@ -238,3 +238,24 @@ Every brief is in `docs/brain/briefs-1019/`.
 - **Next:** the app acceptance walk (fresh, then heavy) on the emulator against a 3104 staging site rebuilt at the final release 11 head, with the OTP shim (SHIM_TARGET=3104 SHIM_PORT=3114).
 
 **Disk:** 98.6 GB free after deleting finished worktrees' build output. A clean-up of about 5 GB of scratch folders older than 2 days, in the old session's temp folder, was blocked by Claude Code's safety check; it is on the owner's list.
+
+## Things needed from you right now (Autopilot run, kept current; 19 Oct 11:45 am)
+1. **Release 11 push:** this unattended run may not deploy. Release 11 is verified (round 2 pending) on deploy/web-1019-r11. Say "push", or run the command that will be in MESSAGE-1019.md.
+2. **Phone:** connect it (USB debugging) for the v15.3 install. Only an attended session touches it.
+3. **Homepage motion:** see it live with ?hero=v2 after the push, then yes or no to switch it on (HERO_MOTION_V2=1).
+4. **Sign-in in Autopilot runs:** the run rules forbid sign-in and OTP codes, so the combined v15.3 walk could not sign up a NEW staging test student. Each owner's surface was walked on fresh accounts earlier, before Autopilot. Either allow staging test-student sign-ins in Autopilot runs, or a session with you present does the combined fresh signed-in walk.
+5. **Disk:** C: is at about 98 GB free (your rule: 100). The safety check blocked deleting about 5 GB of agent scratch folders, older than 2 days, in `C:\Users\atish\AppData\Local\Temp\claude\C--Users-atish-Desktop-mockmob-copy\604ced81-3aa7-4deb-b42c-f324ca5f51e2\scratchpad`. Please delete them yourself if you agree.
+6. **Your calls:**
+   - G3, the college search keyboard on YOUR phone;
+   - the result key "See it in Your papers" or "See this paper";
+   - the app bar labels hiding on scroll (NAV-1017) or always visible;
+   - the plain record tiles in Ask Mobi (the B frames) or v15.2's small pictograms;
+   - Colleges opening from the "Aim" row in You;
+   - the Start sheet key saying "Start..." when it opens Practice already set up;
+   - the focus ring on the switch track or the whole 44 px box;
+   - W-044, the Today cue.
+7. **Older:**
+   - the Razorpay test-card run, then WALLET_COMMERCE_OPEN;
+   - the Play Console setup, then PLAY_BILLING_ENABLED;
+   - the PERSISTENT_LIMITS_ENABLED decision;
+   - a staging RESEND_API_KEY (staging sign-in mail).
