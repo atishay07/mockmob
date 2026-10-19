@@ -21,6 +21,13 @@ import 'package:mockmob/features/practice/data/open_paper.dart' show Continued;
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
 import '../../helpers/no_open_paper.dart';
+import 'package:mockmob/core/models/attempt.dart' show Attempt;
+import 'package:mockmob/core/repositories/repositories.dart' show attemptsRepositoryProvider;
+import 'package:mockmob/core/storage/prefs_store.dart' show MemoryPrefsStore;
+import 'package:mockmob/features/today/data/study_log_store.dart' show studyLogPrefsProvider;
+import 'package:mockmob/features/tools/my_colleges/colleges_doors.dart' show YourColleges, YourCollegesStatus, yourCollegesProvider;
+
+import '../rhythm/rhythm_test_kit.dart' show FakeAttemptsRepo;
 
 /// The Night Sheet golden frame: 384 by 853 logical px at DPR 2.
 const Size kTodaySize = Size(384, 853);
@@ -38,6 +45,12 @@ List<Override> get todayOverrides => [
       mobRepositoryProvider.overrideWithBuild((ref, notifier) => const RemoteState<MobRead>.idle()),
       // The colleges sheet reads the student's estimate (none here): no Compass read in a golden.
       estimateProvider.overrideWithValue(null),
+      // The colleges strip under the greeting (D126) draws its loading line, with no read of the student's sheet or list.
+      yourCollegesProvider.overrideWithValue(const YourColleges(status: YourCollegesStatus.loading)),
+      // The study log (the goal branch's smart layer) keeps itself on the phone and fills from the papers: a memory store
+      // and a list that has not been read, so no golden opens the phone's database.
+      studyLogPrefsProvider.overrideWithValue(MemoryPrefsStore()),
+      attemptsRepositoryProvider.overrideWith(() => FakeAttemptsRepo(const RemoteState<List<Attempt>>())),
     ];
 
 /// Saves that return at once: the road's tuners show as they do in the app.
