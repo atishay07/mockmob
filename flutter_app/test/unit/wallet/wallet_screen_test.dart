@@ -145,7 +145,9 @@ void main() {
     // Practice and full mocks are included on Pro; the top-up says what it is for, with no equivalence line.
     await tester.scrollUntilVisible(find.text(WalletCopy.costShows), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text(WalletCopy.includedOnPro), findsNWidgets(2));
-    expect(find.text(BillingCopy.topUpsLeadPro), findsOneWidget);
+    expect(find.text(BillingCopy.topUpsTitlePro), findsOneWidget);
+    expect(find.text(BillingCopy.topUpsLeadPro(50)), findsOneWidget);
+    expect(find.text(BillingCopy.packUse(150)), findsOneWidget);
     expect(find.textContaining('full mocks or'), findsNothing);
     expect(find.textContaining('full mock or'), findsNothing);
   });
@@ -158,7 +160,7 @@ void main() {
       }
       // Off: no top-up section at all (no "open soon" promise) and no purchase key of any kind.
       expect(find.text(BillingCopy.topUpsSoon), findsNothing);
-      expect(find.text(BillingCopy.topUpsTitle), on ? findsOneWidget : findsNothing);
+      expect(find.text(BillingCopy.topUpsTitleFree), on ? findsOneWidget : findsNothing);
       if (!on) expect(find.text('Get Pro'), findsNothing);
       expect(find.text('Add credits'), findsNothing);
     });
@@ -179,7 +181,11 @@ void main() {
     expect(tester.widget<PackCard>(find.byType(PackCard).at(2)).savePercent, 16);
     expect(tester.widget<PackCard>(find.byType(PackCard).at(0)).savePercent, isNull);
     expect(find.text(BillingCopy.bestValue), findsOneWidget);
+    expect(find.text(BillingCopy.topUpsTitleFree), findsOneWidget);
     expect(find.text(BillingCopy.topUpsLeadFree), findsOneWidget);
+    for (final n in [50, 150, 300]) {
+      expect(find.text(BillingCopy.packUse(n)), findsOneWidget, reason: '$n');
+    }
     expect(find.textContaining('questions'), findsNothing);
     expect(find.text('₹15.00'), findsOneWidget);
     expect(find.text('₹30.00'), findsOneWidget);
@@ -254,7 +260,8 @@ void main() {
     await _pump(tester, rig: rig);
     expect(find.text('46'), findsWidgets);
     expect(find.text(BillingCopy.topUpsSoon), findsNothing);
-    expect(find.text(BillingCopy.topUpsTitle), findsNothing);
+    expect(find.text(BillingCopy.topUpsTitleFree), findsNothing);
+    expect(find.text(BillingCopy.topUpsTitlePro), findsNothing);
     expect(find.byType(PackCard), findsNothing);
     expect(find.text('Get Pro'), findsNothing);
     expect(find.text(WalletCopy.proBridgeTitle), findsNothing);
@@ -339,7 +346,8 @@ void main() {
       WalletCopy.historyEmptyBody, WalletCopy.historyFailedBody, BillingCopy.topUpsSoon, BillingCopy.topUpsNote,
       WalletCopy.freeLeft(40, 50), WalletCopy.held(6), WalletCopy.resets(DateTime(2026, 11, 1)),
       WalletCopy.freePartNote(40, 50, DateTime(2026, 11, 1)), WalletCopy.keptPartNote, WalletCopy.lowNote, WalletCopy.proBridgeTitle,
-      WalletCopy.proBridgeBody, WalletCopy.proBridgeKey, WalletCopy.costShows, WalletCopy.buyMockFirstFree, BillingCopy.topUpsLeadPro, BillingCopy.topUpsLeadFree,
+      WalletCopy.proBridgeBody, WalletCopy.proBridgeKey, WalletCopy.costShows, WalletCopy.buyMockFirstFree, BillingCopy.topUpsLeadPro(50), BillingCopy.topUpsLeadPro(null), BillingCopy.topUpsLeadFree,
+      BillingCopy.topUpsTitlePro, BillingCopy.topUpsTitleFree, BillingCopy.packUse(150),
       BillingCopy.bestValue, BillingCopy.savePercent(16), BillingCopy.balanceNow(346),
     ];
     for (final s in all) {

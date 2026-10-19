@@ -72,7 +72,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
         // Top-ups are Google Play's: with PLAY_BILLING off there is nothing to buy, so the section is not
         // drawn at all (no "open soon" promise and no key that does nothing).
         if (ref.watch(playBillingEnabledProvider)) ...[
-          const SectionTitle(BillingCopy.topUpsTitle, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s8)),
+          SectionTitle(view.isPro ? BillingCopy.topUpsTitlePro : BillingCopy.topUpsTitleFree, padding: const EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s8)),
           const Padding(padding: youGutter, child: WalletTopUps()),
         ],
         const SectionTitle(WalletCopy.buysTitle, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s12)),

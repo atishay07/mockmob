@@ -128,10 +128,17 @@ abstract final class BillingCopy {
   /// listed but cannot be bought (never hidden, D101).
   static const topUpsPaused = 'New credit packs are paused just now. Your credits are kept and still work.';
   static const getCredits = 'Add credits';
-  /// What a top-up is for, by plan (owner, 20 Oct 1:45 am: most buyers are Pro students topping up for Mobi's
-  /// written answers and repairs; no "1 full mock or 50 questions" line, which undersells).
-  static const topUpsLeadPro = "For Mobi's written answers and repairs. Top-up credits never expire.";
-  static const topUpsLeadFree = "For practice, Mobi's written answers and repairs. Top-up credits never expire.";
+  /// The top-up section by plan (owner, 20 Oct 1:45 am: most buyers are Pro students topping up for Mobi;
+  /// no "1 full mock or 50 questions" line, which undersells). Pro does not make Mobi free (D157).
+  static const topUpsTitlePro = 'More from Mobi';
+  static const topUpsTitleFree = 'Top up and keep going';
+  /// Pro: the free monthly credits come back; a top-up adds more. [allowance] is the server's monthly figure.
+  static String topUpsLeadPro(int? allowance) => allowance == null
+      ? 'Your free credits come back every month. A top-up adds more that never expire.'
+      : 'Your $allowance free credits come back every month. A top-up adds more that never expire.';
+  static const topUpsLeadFree = 'Top-up credits never expire.';
+  /// What a pack is, in the website's words: written answers from Mobi or mistake repairs.
+  static String packUse(int credits) => '$credits written answers from Mobi or mistake repairs';
   static const bestValue = 'Best value';
   static String savePercent(int pct) => 'Save $pct%';
   static String balanceNow(int total) => 'Your balance is now $total.';
