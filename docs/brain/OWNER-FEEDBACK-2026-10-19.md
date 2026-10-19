@@ -344,3 +344,8 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 4:42 pm IST, clarifying "Jenbies" (verbatim)
 > "I said what Gen Z likes these days. It captured something else. The GenMojie direction could be fine, but if adapted according to our taste and the overall profile of the brand, not exactly copied from Apple. Collectible toy figures are good, but I am not sure how we will be able to implement it. There should be some kind of direction to this, some storytelling and all. Also, it can happen. Obviously, everyone who uses this app won't know it, but maybe some social media marketing stuff and all."
 **Ledger D129:** "Jenbies" = "what Gen Z likes these days". Characters: a Genmoji-like soft 3D direction adapted to MockMob's taste and brand (never a copy of Apple); collectible-toy appeal is welcome if we find a way to implement it; give the characters a story (a world and lore) that can also carry social media marketing.
+
+## Owner, 19 Oct about 4:50 pm IST (verbatim)
+> "Coming on to the two things that you need from my side:
+> 1. What is checklist part 1 and 2, step number 3? What exactly is this that you need from my side, and can you explain?
+> 2. Backing up the Mockmob keys: do you want me to copy that entire folder into a pen drive, or what exactly do you want me to do?"
