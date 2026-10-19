@@ -36,7 +36,7 @@ void main() {
       for (final line in ProNudgeCopy.plainBenefits) {
         expect(find.text(line), findsOneWidget);
       }
-      expect(find.text(playProPrice), findsOneWidget);
+      expect(find.text('$playProPrice a month'), findsOneWidget);
       expect(find.text('Get Pro'), findsWidgets);
       expect(find.bySemanticsLabel(RegExp('^${ProNudgeCopy.sheetLabel}')), findsWidgets);
       semantics.dispose();

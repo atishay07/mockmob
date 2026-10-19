@@ -64,6 +64,18 @@ void main() {
       await _settle(tester);
       expect(find.text('Get Pro'), findsNothing);
     });
+
+    testWidgets('a Play subscriber sees when Pro renews and Manage subscription; Google Play not opening says where to find it', (tester) async {
+      final rig = BillingRig(subscription: playSub(expiresAt: DateTime(2026, 11, 19, 15)), manageOpens: false);
+      await pumpPlan(tester, rig, const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', isPro: true));
+      await _settle(tester);
+      expect(find.text(BillingCopy.subRenews('19 November')), findsOneWidget);
+      expect(find.text(BillingCopy.manageOpenFailed), findsNothing);
+      await tester.tap(find.text(BillingCopy.manageSubscription));
+      await _settle(tester);
+      expect(rig.manageOpened, 1);
+      expect(find.text(BillingCopy.manageOpenFailed), findsOneWidget);
+    });
   });
 
   group('Practice', () {

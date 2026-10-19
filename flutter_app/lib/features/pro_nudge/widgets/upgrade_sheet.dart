@@ -11,6 +11,7 @@ import '../../billing/billing_copy.dart';
 import '../../billing/data/billing_controller.dart';
 import '../../billing/data/play_products.dart';
 import '../../billing/widgets/billing_notice.dart';
+import '../../billing/widgets/get_pro_sheet.dart' show ProPriceBlock, proMonthlyPrice, proPriceParts, proStatusView;
 import '../../credits/data/credit_figures.dart';
 import '../copy.dart';
 import '../data/pro_benefits.dart';
@@ -50,6 +51,13 @@ class UpgradeSheetBody extends ConsumerStatefulWidget {
 }
 
 class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
+  bool _manageFailed = false;
+
+  Future<void> _manage() async {
+    final opened = await ref.read(playManageSubscriptionProvider)();
+    if (mounted) setState(() => _manageFailed = !opened);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -67,10 +75,17 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
   Widget build(BuildContext context) {
     final s = ref.watch(playBillingProvider);
     final isPro = ref.watch(creditFiguresProvider.select((f) => f.isPro));
-    final confirmed = s.stage == BillingStage.confirmed && (s.productId == PlayProducts.proId || s.productId == null);
-    if (confirmed || (isPro && !s.busy)) {
-      return BillingConfirmed(title: BillingCopy.proOnTitle, body: BillingCopy.proOnBody, onDone: widget.onClose ?? () {});
-    }
+    // Pro on (with the subscription's renewal line and Manage subscription for a Play subscriber), or a
+    // subscription on hold or paused that is fixed in Google Play: the same answers as the Get Pro sheet.
+    final status = proStatusView(
+      s: s,
+      isPro: isPro,
+      sub: ref.watch(playSubscriptionProvider),
+      onDone: widget.onClose ?? () {},
+      onManage: _manage,
+      manageFailed: _manageFailed,
+    );
+    if (status != null) return status;
 
     final colors = context.mmColors;
     final type = context.mmType;
@@ -78,13 +93,13 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
     final facts = ref.watch(proFactsProvider);
     final personal = ProBenefits.isPersonal(facts, reason: widget.reason);
     final lines = ProBenefits.lines(facts, reason: widget.reason);
-    final price = s.priceOf(PlayProducts.proId);
+    final price = proMonthlyPrice(s);
     final working = s.stage == BillingStage.starting || s.stage == BillingStage.verifying;
     final loadingStore = s.productsLoading || (s.store == StoreAvailability.checking && s.products.isEmpty);
 
     final Widget priceArea;
     if (price != null) {
-      priceArea = _PriceBlock(price: price);
+      priceArea = ProPriceBlock(parts: proPriceParts(s)!);
     } else if (loadingStore) {
       priceArea = const _PriceLoading();
     } else {
@@ -136,31 +151,6 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
           ),
           const SizedBox(height: MmSpace.s4),
           Text(BillingCopy.googlePlayNote, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink3)),
-        ],
-      ),
-    );
-  }
-}
-
-class _PriceBlock extends StatelessWidget {
-  const _PriceBlock({required this.price});
-
-  final String price;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      container: true,
-      label: '${BillingCopy.proTitle}, $price. ${BillingCopy.proTerms}',
-      excludeSemantics: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(price, style: type.figureCompact.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
-          const SizedBox(height: MmSpace.s4),
-          Text(BillingCopy.proTerms, style: type.small.copyWith(color: colors.ink2)),
         ],
       ),
     );

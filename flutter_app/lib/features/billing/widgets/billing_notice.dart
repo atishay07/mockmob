@@ -51,11 +51,15 @@ class BillingNotice extends ConsumerWidget {
         // no Try again: sending it again cannot change it.
         // Google Play not ready: the sheet's own Try again (beside the line that says how) is the way out.
         final finalAnswer = (s.failure?.isFinal ?? false) || s.failure == BillingFailure.notReady;
+        // A subscription on hold or paused is fixed in Google Play: the way out is its own page.
+        final inPlay = s.failure?.fixedInGooglePlay ?? false;
         child = InlineBanner(
           message: billingFailureMessage(s.failure),
           tone: BannerTone.error,
-          actionLabel: finalAnswer ? null : BillingCopy.tryAgain,
-          onAction: finalAnswer ? null : () => ref.read(playBillingProvider.notifier).retry(),
+          actionLabel: inPlay ? BillingCopy.manageSubscription : (finalAnswer ? null : BillingCopy.tryAgain),
+          onAction: inPlay
+              ? () => ref.read(playManageSubscriptionProvider)()
+              : (finalAnswer ? null : () => ref.read(playBillingProvider.notifier).retry()),
         );
     }
 
@@ -83,6 +87,9 @@ String billingFailureMessage(BillingFailure? failure) => switch (failure) {
       BillingFailure.refunded => BillingCopy.failRefunded,
       BillingFailure.ended => BillingCopy.failEnded,
       BillingFailure.refused => BillingCopy.failRefused,
+      BillingFailure.subscriptionOnHold => BillingCopy.subOnHold,
+      BillingFailure.subscriptionPaused => BillingCopy.subPaused,
+      BillingFailure.subscriptionEnded => BillingCopy.subEnded,
       BillingFailure.store || null => BillingCopy.failStore,
     };
 
@@ -107,11 +114,18 @@ class _Working extends StatelessWidget {
 /// A calm confirmation: a check, what happened in one line and one line of what that means. Only
 /// built after the server confirmed.
 class BillingConfirmed extends StatelessWidget {
-  const BillingConfirmed({super.key, required this.title, required this.body, required this.onDone});
+  const BillingConfirmed({super.key, required this.title, required this.body, required this.onDone, this.secondaryLabel, this.onSecondary, this.note});
 
   final String title;
   final String body;
   final VoidCallback onDone;
+
+  /// A quiet second key under Done (Manage subscription for a Play subscriber).
+  final String? secondaryLabel;
+  final VoidCallback? onSecondary;
+
+  /// One line under the keys (what to do when Google Play did not open).
+  final String? note;
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +151,14 @@ class BillingConfirmed extends StatelessWidget {
         ),
         const SizedBox(height: MmSpace.s24),
         KeyButton(label: BillingCopy.done, onPressed: onDone),
+        if (secondaryLabel != null && onSecondary != null) ...[
+          const SizedBox(height: MmSpace.s4),
+          Center(child: KeyButton.quiet(label: secondaryLabel!, onPressed: onSecondary)),
+        ],
+        if (note != null) ...[
+          const SizedBox(height: MmSpace.s8),
+          Semantics(liveRegion: true, child: Text(note!, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2))),
+        ],
       ],
     );
   }

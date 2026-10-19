@@ -3,7 +3,8 @@
 ///
 /// Two rules the words keep (owner, 18 Oct 2026, and Google's anti-steering rule):
 /// * a price is only ever Google Play's own string, passed in by the caller. No price is written
-///   here and nothing says what it costs anywhere else.
+///   here and nothing says what it costs anywhere else. Pro is a monthly subscription that Google
+///   Play renews; it is managed and cancelled in Google Play.
 /// * nothing mentions the website's price, checkout or pricing page, or says it is cheaper
 ///   somewhere else.
 library;
@@ -24,7 +25,23 @@ abstract final class BillingCopy {
     'Changed-answer and pace detail in Insights.',
   ];
 
-  static const proTerms = 'One payment for the CUET 2027 cycle. It does not renew.';
+  /// Pro on Play is a monthly subscription (owner D135/D136). Google Play's own price string goes in
+  /// front of the period, for example "₹149.00 a month"; no price is written here.
+  static const perMonth = 'a month';
+  static String pricePer(String price, String? period) => period == null ? price : '$price $period';
+
+  /// The period words for Google Play's billing period (ISO 8601). Unknown periods say nothing.
+  static String? periodWords(String? isoPeriod) => switch (isoPeriod) {
+        'P1W' => 'a week',
+        'P1M' || null => perMonth,
+        'P3M' => 'every 3 months',
+        'P6M' => 'every 6 months',
+        'P1Y' => 'a year',
+        _ => null,
+      };
+
+  static const proTerms = 'Renews every month. Cancel anytime in Google Play.';
+  static const manageSubscription = 'Manage subscription';
   static const getPro = 'Get Pro';
   static const googlePlayNote = 'Payment is handled by Google Play.';
   static const restore = 'Restore purchases';
@@ -60,6 +77,17 @@ abstract final class BillingCopy {
   // Success: only ever shown after the server confirmed.
   static const proOnTitle = 'Pro is on';
   static const proOnBody = 'Your plan is up to date. Everything Pro includes is open.';
+
+  // A monthly subscription, as Google Play holds it. Dates are "12 November".
+  static String subRenews(String date) => 'Everything Pro includes is open. Your subscription renews on $date. Cancel anytime in Google Play.';
+  static const subRenewsNoDate = 'Everything Pro includes is open. Your subscription renews every month. Cancel anytime in Google Play.';
+  static String subRenewalOff(String date) => 'Renewal is off, so nothing more will be charged. Pro stays on until $date.';
+  static String subGrace(String date) =>
+      "Google Play could not take this month's payment. Pro stays on until $date while Google Play tries again. Update your payment method in Google Play to keep it.";
+  static const subOnHold = 'Google Play could not take your monthly payment, so Pro is paused. Update your payment method in Google Play and Pro comes back.';
+  static const subPaused = 'Your subscription is paused in Google Play. Resume it there to turn Pro back on.';
+  static const subEnded = 'This subscription has ended, so it does not include Pro any more. You can subscribe again.';
+  static const manageOpenFailed = 'Google Play did not open. Open the Play Store, then Payments and subscriptions, then Subscriptions.';
   static String creditsAddedTitle(int? credits) => credits == null ? 'Credits added' : '$credits ${credits == 1 ? 'credit' : 'credits'} added';
   static const creditsAddedBody = 'Your balance is up to date.';
 
@@ -77,7 +105,7 @@ abstract final class BillingCopy {
   static const failOtherAccount =
       'This purchase was made while you were signed in to a different MockMob account, so it cannot be added here. Sign in to that account to use it.';
   static const failRefunded = 'Google Play says this purchase was cancelled or refunded, so nothing was added.';
-  static const failEnded = 'Pro for CUET 2027 can no longer be bought, so nothing was added. Google Play refunds a payment that is not confirmed within three days.';
+  static const failEnded = 'This can no longer be bought, so nothing was added. Google Play refunds a payment that is not confirmed within three days.';
   static const failRefused = 'We could not accept this purchase, so nothing was added. If you were charged, Google Play refunds you within three days.';
 
   // Top-ups on the Wallet: one set of packs for the one credits balance.

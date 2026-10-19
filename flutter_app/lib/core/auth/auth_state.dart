@@ -4,6 +4,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../models/auth_me.dart' show PlaySubscriptionInfo;
 import 'auth_controller.dart';
 import 'load_problem.dart';
 
@@ -30,6 +31,7 @@ class AuthSnapshot {
     this.retrying = false,
     this.loadProblem,
     this.profileFresh = false,
+    this.playSubscription,
   });
 
   final AuthStatus status;
@@ -73,6 +75,9 @@ class AuthSnapshot {
   /// profile, for signed-out and for unknown.
   final bool profileFresh;
 
+  /// Monthly Pro bought through Google Play, as the server last heard it from Google, or null.
+  final PlaySubscriptionInfo? playSubscription;
+
   bool get isSignedIn => status == AuthStatus.signedIn;
 
   static const unknown = AuthSnapshot(status: AuthStatus.unknown);
@@ -94,10 +99,11 @@ class AuthSnapshot {
       other.loadFailed == loadFailed &&
       other.retrying == retrying &&
       other.loadProblem == loadProblem &&
-      other.profileFresh == profileFresh;
+      other.profileFresh == profileFresh &&
+      other.playSubscription == playSubscription;
 
   @override
-  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed, retrying, loadProblem, profileFresh);
+  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed, retrying, loadProblem, profileFresh, playSubscription);
 }
 
 /// The live session. Starts as [AuthSnapshot.unknown], then settles to signed in (with the
