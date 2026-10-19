@@ -701,3 +701,120 @@ test('wiring: the store calls the sync function, RTDN gets the Google client, db
   const pkg = JSON.parse(file('package.json'));
   assert.match(pkg.scripts['test:billing'], /data\/tests\/play_subscriptions\.test\.mjs/);
 });
+
+// ---- review fixes (19 Oct night) ------------------------------------------------------------------------------------
+test('review: an unbacked premium_until never carries itself forward (hold, web 2027 pass, recover, Razorpay refund, cancel, expiry: Pro off)', async () => {
+  const w = await world();
+  try {
+    const PASS = '2027-07-31T18:29:59.999Z';
+    w.set(T(90), 'u1', { expiry: Date.now() + 10 * DAY });
+    await w.verify('u1', T(90));
+    // Account hold: Pro off, so the web lets the student buy the 2027 pass (verify-payment writes the payment and the date).
+    w.set(T(90), 'u1', { state: SUB_STATE.hold, expiry: Date.now() - 1000, ack: true });
+    await w.notify(T(90), 5);
+    assert.equal((await userRow(w.d, 'u1')).is_premium, false);
+    await w.d.query("insert into public.payments values ('pw','u1','pay_w',29900,'captured',$1,'pro_cuet_2027')", [PASS]);
+    await w.d.query("update public.users set is_premium = true, subscription_status = 'active', premium_until = $1 where id = 'u1'", [PASS]);
+    // RECOVERED: the pass is backed by its payment, so 2027 stands.
+    const subEnd = Date.now() + 30 * DAY;
+    w.set(T(90), 'u1', { expiry: subEnd, ack: true });
+    await w.notify(T(90), 1);
+    assert.equal(ms((await userRow(w.d, 'u1')).premium_until), ms(PASS));
+    // A Razorpay refund of the pass, in the worst case (the route left users.premium_until at 2027).
+    await w.d.query("update public.payments set status = 'cancelled', amount_paid = 0, access_until = null where id = 'pw'");
+    w.set(T(90), 'u1', { state: SUB_STATE.canceled, expiry: subEnd, autoRenew: false, ack: true });
+    await w.notify(T(90), 3);
+    let u = await userRow(w.d, 'u1');
+    assert.equal(u.is_premium, true, 'the subscription is paid to its date');
+    assert.equal(ms(u.premium_until), subEnd, 'nothing backs 2027 any more, so the date is the subscription date');
+    w.set(T(90), 'u1', { state: SUB_STATE.expired, expiry: Date.now() - 1000, autoRenew: false, ack: true });
+    await w.notify(T(90), 13);
+    u = await userRow(w.d, 'u1');
+    assert.equal(u.is_premium, false, 'Pro is off when the subscription ends: no free Pro to 2027');
+    assert.ok(ms(u.premium_until) < Date.now());
+  } finally { await w.close(); }
+});
+
+test('review: a legacy Pro payment with no end date still backs a premium_until beyond the subscription', async () => {
+  const w = await world();
+  try {
+    const far = Date.now() + 200 * DAY;
+    await w.d.query("insert into public.payments values ('pl','u2','pay_l',29900,'captured',null,'pro_cuet_2026')");
+    await w.d.query("update public.users set is_premium = true, subscription_status = 'active', premium_until = $1 where id = 'u2'", [iso(far)]);
+    w.set(T(91), 'u2', { expiry: Date.now() + 5 * DAY });
+    await w.verify('u2', T(91));
+    w.set(T(91), 'u2', { state: SUB_STATE.expired, expiry: Date.now() - 1000, ack: true });
+    await w.notify(T(91), 13);
+    const u = await userRow(w.d, 'u2');
+    assert.deepEqual([u.is_premium, ms(u.premium_until)], [true, far]);
+  } finally { await w.close(); }
+});
+
+test('review: a Razorpay refund kept for other paid access lowers premium_until to that access (all four refund paths)', async () => {
+  const { loadBilling, resetWorld, signedWebhook, webhookEvent, subscriptionEntity, paymentEntity, hmac, TEST_ENV } = await import('./billing_harness.mjs');
+  const b = await loadBilling();
+  const PASS = '2027-07-31T18:29:59.999Z';
+  const playEnd = iso(Date.now() + 20 * DAY);
+  const fire = async (name, parts) => (await b.webhook.POST(signedWebhook(webhookEvent(name, parts)).request)).status;
+  const post = (handler, body) => handler.POST(new Request('http://localhost/x', { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) }));
+  const passHolder = (db) => {
+    db.addUser('u1', { subscription_status: 'active', is_premium: true, premium_until: PASS });
+    db.addPayment({ userId: 'u1', orderId: 'order_once', planId: 'pro_cuet_2027', amount: 9900, status: 'captured', paymentId: 'pay_once', amountPaid: 9900, accessUntil: PASS, rawOrder: { amount: 9900 } });
+    db._revocations.push({ userId: 'u1', metadata: { paymentId: 'pay_once' } });
+  };
+  const orderRow = (db) => db._payments.find((p) => p.orderId === 'order_once');
+
+  // 1. webhook, one-time order, with a Play subscription in force: Pro stays, on the Play date, not 2027.
+  let db = resetWorld();
+  passHolder(db);
+  db._play.push({ userId: 'u1', accessUntil: playEnd });
+  assert.equal(await fire('payment.captured', { payment: paymentEntity({ id: 'pay_once', order_id: 'order_once', invoice_id: null }) }), 200);
+  assert.equal(orderRow(db).status, 'cancelled');
+  assert.deepEqual([db.user('u1').isPremium, db.user('u1').premiumUntil], [true, playEnd]);
+
+  // 2. verify-payment, one-time order: the same.
+  db = resetWorld();
+  passHolder(db);
+  db._play.push({ userId: 'u1', accessUntil: playEnd });
+  globalThis.__mmSession = { user: { id: 'u1' } };
+  const res = await post(b.verify, { razorpay_order_id: 'order_once', razorpay_payment_id: 'pay_once', userId: 'u1', razorpay_signature: hmac('order_once|pay_once', TEST_ENV.RAZORPAY_KEY_SECRET) });
+  assert.equal(res.status, 409);
+  assert.equal(orderRow(db).status, 'cancelled');
+  assert.deepEqual([db.user('u1').isPremium, db.user('u1').premiumUntil], [true, playEnd]);
+
+  // 3. webhook, refunded monthly subscription, kept by Play: the Razorpay month's date goes, the Play date stays.
+  const rzpEnd = iso(Date.now() + 25 * DAY);
+  const playSoon = iso(Date.now() + 10 * DAY);
+  const monthly = (db, extra = {}) => {
+    db.addUser('u1', { subscription_status: 'active', is_premium: true, premium_until: rzpEnd, razorpay_subscription_id: 'sub_m1' });
+    db.addPayment({ userId: 'u1', subscriptionId: 'sub_m1', planId: 'pro_monthly_99', amount: 9900, status: 'captured', paymentId: 'pay_m1', amountPaid: 9900, accessUntil: rzpEnd, ...extra });
+    db._revocations.push({ userId: 'u1', metadata: { subscriptionId: 'sub_m1' } });
+    db._play.push({ userId: 'u1', accessUntil: playSoon });
+  };
+  db = resetWorld();
+  monthly(db, { razorpayPlanId: TEST_ENV.RAZORPAY_PLAN_ID_PRO_MONTHLY_99 });
+  await fire('subscription.charged', { subscription: subscriptionEntity(), payment: paymentEntity() });
+  assert.equal(db.payment('sub_m1').status, 'cancelled');
+  assert.deepEqual([db.user('u1').isPremium, db.user('u1').premiumUntil], [true, playSoon]);
+
+  // 4. verify-payment, refunded subscription: the same.
+  db = resetWorld();
+  monthly(db);
+  globalThis.__mmSession = { user: { id: 'u1' } };
+  await post(b.verify, { razorpay_subscription_id: 'sub_m1', razorpay_payment_id: 'pay_m1', userId: 'u1', razorpay_signature: hmac('pay_m1|sub_m1', TEST_ENV.RAZORPAY_KEY_SECRET) });
+  assert.equal(db.payment('sub_m1').status, 'cancelled');
+  assert.deepEqual([db.user('u1').isPremium, db.user('u1').premiumUntil], [true, playSoon]);
+
+  // Never shortened behind a legacy payment with no end date, and never raised.
+  db = resetWorld();
+  passHolder(db);
+  db.addPayment({ userId: 'u1', orderId: 'order_old', planId: 'pro_cuet_2026', amount: 9900, status: 'captured', paymentId: 'pay_old', amountPaid: 9900, accessUntil: null });
+  await fire('payment.captured', { payment: paymentEntity({ id: 'pay_once', order_id: 'order_once', invoice_id: null }) });
+  assert.equal(db.user('u1').premiumUntil, PASS, 'access with no known end: nothing is shortened');
+  db = resetWorld();
+  passHolder(db);
+  db._play.push({ userId: 'u1', accessUntil: '2028-01-01T00:00:00.000Z' });
+  await fire('payment.captured', { payment: paymentEntity({ id: 'pay_once', order_id: 'order_once', invoice_id: null }) });
+  assert.equal(db.user('u1').premiumUntil, PASS, 'a later other date never raises premium_until here');
+  globalThis.__mmSession = null;
+});

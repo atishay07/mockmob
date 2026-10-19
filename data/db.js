@@ -750,17 +750,20 @@ export const Database = {
       .like('plan_id', 'pro%')
       .limit(50);
     if (error) {
-      if (isMissingEntitlementSchema(error)) return { hasOtherPaid: await this.hasOtherPaidSubscriptionEvidence({ userId, excludingSubscriptionId, excludingPaymentId }), accessUntil: null };
+      if (isMissingEntitlementSchema(error)) return { hasOtherPaid: await this.hasOtherPaidSubscriptionEvidence({ userId, excludingSubscriptionId, excludingPaymentId }), accessUntil: null, hasUndatedPaid: true };
       throw error;
     }
     let accessUntil = null;
     let hasOtherPaid = false;
+    // A paid Pro payment with no access_until (a legacy record) is access with no known end: nothing may be shortened to a date.
+    let hasUndatedPaid = false;
     for (const row of data || []) {
       if (!isProPlanPayment(row)) continue; // a credit-pack payment is not Pro access (release 10 verifier M1)
       if (excludingSubscriptionId && row.subscription_id === excludingSubscriptionId) continue;
       if (excludingPaymentId && row.payment_id === excludingPaymentId) continue;
       hasOtherPaid = true;
       const ms = row.access_until ? new Date(row.access_until).getTime() : NaN;
+      if (!Number.isFinite(ms)) hasUndatedPaid = true;
       if (Number.isFinite(ms) && (accessUntil === null || ms > new Date(accessUntil).getTime())) accessUntil = new Date(ms).toISOString();
     }
     // Google Play Pro purchases in force count as other paid access: a Razorpay event must never shorten them.
@@ -769,7 +772,7 @@ export const Database = {
       hasOtherPaid = true;
       if (play.accessUntil && (accessUntil === null || new Date(play.accessUntil).getTime() > new Date(accessUntil).getTime())) accessUntil = play.accessUntil;
     }
-    return { hasOtherPaid, accessUntil };
+    return { hasOtherPaid, accessUntil, hasUndatedPaid };
   },
 
   async hasRefundPremiumRevocation({ userId, subscriptionId = null, paymentId = null } = {}) {

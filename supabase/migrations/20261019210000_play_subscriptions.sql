@@ -11,8 +11,9 @@
 --   public.mm_play_sync_subscription   writes Google's current record of one subscription (from verify or from a Real-time
 --                                   Developer Notification, always re-read from Google) and, in the same transaction,
 --                                   the user's plan columns. It weighs the student's other paid access (a Razorpay Pro
---                                   payment still running, another Play Pro in force, a premium_until set by something
---                                   else), so Play and Razorpay never switch each other off. Idempotent per token.
+--                                   payment still running, another Play Pro in force; a bare users.premium_until only
+--                                   with a legacy dateless payment behind it), so Play and Razorpay never switch each
+--                                   other off. Idempotent per token.
 --   public.mm_play_revoke_purchase  replaced: a Play subscription in force now also counts as other paid access, and a
 --                                   manual revoke of a subscription row takes it out of force.
 --
@@ -59,7 +60,6 @@ declare
   v_owner text;
   v_user public.users%rowtype;
   v_entitled boolean;
-  v_prev_own timestamptz;
   v_own_until timestamptz;
   v_other timestamptz;
   v_legacy_payment boolean;
@@ -100,7 +100,6 @@ begin
       return jsonb_build_object('ok', false, 'error', 'user_not_found'); -- the account was deleted
     end if;
     v_owner := v_row.user_id;
-    v_prev_own := v_row.access_until;
   else
     if coalesce(p_user_id, '') = '' then
       return jsonb_build_object('ok', false, 'error', 'unknown_purchase');
@@ -152,11 +151,11 @@ begin
      where user_id = v_owner and payment_id is not null and amount_paid > 0
        and status in ('captured', 'completed', 'paid') and plan_id like 'pro\_%' and access_until is null
   ) into v_legacy_payment;
-  -- premium_until set by something other than this row (a web plan, an older record) also stands: it is later than
-  -- anything this row ever gave, or this row never gave anything yet, or a paid record without a date backs it. A date
-  -- that is exactly one of this student's Play subscription expiry times came from Play, and Play rows speak for themselves.
-  if v_user.premium_until is not null and v_user.premium_until > v_now
-     and (v_legacy_payment or v_prev_own is null or v_user.premium_until > v_prev_own)
+  -- users.premium_until counts as other access only when something backs it. Every dated grant (Razorpay, one-time Play,
+  -- this function) writes a payments or play_purchases row running that long, and those are already weighed above; the one
+  -- marker for a date with no such row is a legacy captured Pro payment with no access_until. An unbacked date (a refunded
+  -- pass, an ended subscription's old date) never counts: it would carry itself forward on every sync (review 19 Oct night).
+  if v_legacy_payment and v_user.premium_until is not null and v_user.premium_until > v_now
      and not exists (select 1 from public.play_purchases
                       where user_id = v_owner and kind = 'pro_sub' and expiry_time = v_user.premium_until) then
     v_other := greatest(v_other, v_user.premium_until);
