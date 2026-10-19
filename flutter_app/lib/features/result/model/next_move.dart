@@ -137,11 +137,15 @@ class ChapterCost {
 
 /// Layer 1's finding: "Share Capital cost 29 of the 122 marks you missed." and its detail line.
 class CostliestLine {
-  const CostliestLine({required this.line, this.detail, this.chapter});
+  const CostliestLine({required this.line, this.detail, this.chapter, this.tied = const []});
 
   final String line;
   final String? detail;
   final String? chapter;
+
+  /// Every chapter that lost exactly as many marks as the costliest, in the order [rankedChapterCosts] puts them,
+  /// when two or more did (a tie). Empty when one chapter stands alone. [chapter] is the first of them.
+  final List<String> tied;
 }
 
 enum MoveKind { harder, practise, repair, check }
@@ -250,10 +254,11 @@ String receiptLine({required String subjectName, String? mode, DateTime? at, Dur
   return [if (first.isNotEmpty) first, if (tail.isNotEmpty) '$tail.'].join(' ');
 }
 
-/// The chapter that cost the most marks (6 per wrong, 5 per blank), leaving out questions whose key is held or
-/// corrected. Ties: more wrong answers first, then the chapter that comes earlier in the paper. Null when nothing
-/// was missed or the rows have no chapter.
-ChapterCost? costliest(MoveAnalysis a, {Map<String, String> reviews = const {}}) {
+/// Every chapter that lost marks (6 per wrong, 5 per blank), leaving out questions whose key is held or corrected,
+/// most marks first. The order inside equal marks (more wrong answers, then the chapter earlier in the paper) only
+/// fixes how names are listed: equal marks are one rank ([tiedAtTop], owner I14). Empty when nothing was missed or the
+/// rows have no chapter.
+List<ChapterCost> rankedChapterCosts(MoveAnalysis a, {Map<String, String> reviews = const {}}) {
   final by = <String, ChapterCost>{};
   for (var i = 0; i < a.rows.length; i++) {
     final r = a.rows[i];
@@ -273,7 +278,7 @@ ChapterCost? costliest(MoveAnalysis a, {Map<String, String> reviews = const {}})
         c.marks += NextMoveRules.gapBlank;
     }
   }
-  final list = [
+  return [
     for (final c in by.values)
       if (c.marks > 0) c,
   ]..sort((x, y) {
@@ -282,6 +287,18 @@ ChapterCost? costliest(MoveAnalysis a, {Map<String, String> reviews = const {}})
       final w = y.wrong.compareTo(x.wrong);
       return w != 0 ? w : x.firstAt.compareTo(y.firstAt);
     });
+}
+
+/// The chapters that share the top of [ranked] (the same marks lost as the first). One chapter when it stands alone.
+List<ChapterCost> tiedAtTop(List<ChapterCost> ranked) =>
+    ranked.isEmpty ? const [] : [for (final c in ranked) if (c.marks == ranked.first.marks) c];
+
+/// The chapter that cost the most marks (6 per wrong, 5 per blank), leaving out questions whose key is held or
+/// corrected. When chapters tie, this is the first of them (more wrong answers, then earlier in the paper): callers that
+/// say "the most" use [rankedChapterCosts] and [tiedAtTop] so a tie is said, not broken. Null when nothing was missed or
+/// the rows have no chapter.
+ChapterCost? costliest(MoveAnalysis a, {Map<String, String> reviews = const {}}) {
+  final list = rankedChapterCosts(a, reviews: reviews);
   return list.isEmpty ? null : list.first;
 }
 
@@ -291,7 +308,20 @@ CostliestLine costliestLine(MoveAnalysis a, {Map<String, String> reviews = const
   final m = a.marks;
   if (m.gap == 0) return const CostliestLine(line: 'Every question right.');
   if (m.answered == 0) return CostliestLine(line: 'All ${m.blank} were left blank: ${m.gapBlank} marks not earned.');
-  final c = costliest(a, reviews: reviews);
+  final ranked = rankedChapterCosts(a, reviews: reviews);
+  final c = ranked.isEmpty ? null : ranked.first;
+  final tied = tiedAtTop(ranked);
+  // Two or more chapters lost the same most marks: the line says so instead of naming one as the cost (owner I14).
+  if (tied.length > 1) {
+    final names = [for (final t in tied) t.chapter];
+    final each = tied.first.marks;
+    final line = ResultCopy.tiedCostliest(names, each);
+    // A negative score keeps the marks lost in the headline, so the tie line moves under it; otherwise the headline is the tie.
+    if (m.scored < 0) {
+      return CostliestLine(line: ResultCopy.negativeLoss(m.wrong, m.blank), detail: line, chapter: c!.chapter, tied: names);
+    }
+    return CostliestLine(line: line, detail: ResultCopy.tiedTogether(each * tied.length, m.gap), chapter: c!.chapter, tied: names);
+  }
   // A negative score makes the marks missed exceed the paper ("51 of 50"). Then the line says what was lost
   // and the chapter's own counts follow, never a figure bigger than the paper.
   if (m.scored < 0) {

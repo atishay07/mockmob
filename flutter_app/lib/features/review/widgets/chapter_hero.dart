@@ -24,6 +24,7 @@ class ChapterHero extends StatelessWidget {
     super.key,
     required this.row,
     required this.rank,
+    this.tied = 1,
     required this.practiseLabel,
     required this.practiseLine,
     required this.onPractise,
@@ -31,8 +32,11 @@ class ChapterHero extends StatelessWidget {
 
   final ChapterRow row;
 
-  /// 1 for the chapter that lost the most marks.
+  /// 1 for the chapter that lost the most marks. Chapters with equal marks share a rank (competition ranking).
   final int rank;
+
+  /// How many chapters lost the same marks as this one, itself included; 1 when it stands alone.
+  final int tied;
 
   /// "Practise 10 on this chapter".
   final String practiseLabel;
@@ -55,7 +59,7 @@ class ChapterHero extends StatelessWidget {
     final offer = row.offer;
     final counted = [if (row.wrong > 0) '${row.wrong} wrong', if (row.blank > 0) '${row.blank} left blank'].join(', ');
     final scope = ReviewCopy.chapterScope(questions: row.questions, papers: namePapers(row.papers), counted: counted);
-    final lead = rank == 1 ? ReviewCopy.loseMost : ReviewCopy.costliestNth(rank);
+    final lead = ReviewCopy.chapterLead(rank, tied: tied);
     final scopeStyle = type.small.copyWith(fontSize: 14.5, height: 21 / 14.5, color: colors.ink2);
     final spoken = '$lead ${row.name}. ${row.line.text}';
 

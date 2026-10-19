@@ -112,7 +112,7 @@ void main() {
     semantics.dispose();
   });
 
-  testWidgets('two chapters lost marks: under the moment, the one that cost the most', (tester) async {
+  testWidgets('two chapters lost the same marks: under the moment, the tie is said, not broken by paper order (owner I14)', (tester) async {
     final two = [
       for (var i = 0; i < 8; i++) ('Admission of a partner', V.right),
       ('Admission of a partner', V.wrong),
@@ -120,7 +120,21 @@ void main() {
     ];
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(two)));
     await tester.pump(const Duration(milliseconds: 900));
-    expect(find.text('Admission of a partner cost 6 of the 12 marks you missed.'), findsOneWidget);
+    expect(find.text('Admission of a partner and Goodwill each cost you 6 marks.'), findsOneWidget);
+    expect(find.text('Together they cost 12 of the 12 marks you missed.'), findsOneWidget);
+    expect(find.textContaining('cost 6 of the 12'), findsNothing);
+  });
+
+  testWidgets('two chapters lost different marks: the one that cost the most is named alone', (tester) async {
+    final two = [
+      for (var i = 0; i < 7; i++) ('Admission of a partner', V.right),
+      ('Admission of a partner', V.wrong),
+      ('Admission of a partner', V.wrong),
+      ('Goodwill', V.wrong),
+    ];
+    await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(two)));
+    await tester.pump(const Duration(milliseconds: 900));
+    expect(find.text('Admission of a partner cost 12 of the 18 marks you missed.'), findsOneWidget);
   });
 
   testWidgets('"Your paper is saved" is said only once the server\'s acknowledgement is held on this phone', (tester) async {
@@ -446,8 +460,10 @@ void main() {
     ];
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(questions)));
     await tester.pump(const Duration(milliseconds: 900));
-    // Planning and Staffing each cost 12; Planning comes first in the paper, so its first mistake leads.
-    expect(find.text('Planning cost 12 of the 30 marks you missed.'), findsOneWidget);
+    // Planning and Staffing each cost 12: the line says both (owner I14). Planning comes first in the paper, so its first
+    // mistake leads the key.
+    expect(find.text('Planning and Staffing each cost you 12 marks.'), findsOneWidget);
+    expect(find.text('Together they cost 24 of the 30 marks you missed.'), findsOneWidget);
     expect(find.widgetWithText(KeyButton, 'Repair Q4'), findsOneWidget);
     expect(find.text('All 5 repairs take about 15 minutes.'), findsOneWidget);
     expect(find.text('Your 5 mistakes'), findsOneWidget);

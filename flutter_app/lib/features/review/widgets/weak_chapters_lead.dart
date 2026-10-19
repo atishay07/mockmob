@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../core/domain/competition_rank.dart' show rankOf;
 import '../../../core/domain/tonight_pick.dart' show otherChapter;
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
@@ -79,6 +80,8 @@ class _WeakChaptersLeadState extends ConsumerState<WeakChaptersLead> {
     var at = rows.indexWhere((r) => r.id == _openId);
     if (at < 0) at = 0;
     final open = rows[at];
+    // The place by marks lost, not by list position: chapters that lost the same marks share a rank (owner I14).
+    final place = rankOf(open.lost, [for (final r in rows) r.lost]);
     final credits = ref.watch(creditFiguresProvider);
     final practice = credits.stale ? null : credits.practice;
     final inSubject = open.name == otherChapter;
@@ -120,7 +123,8 @@ class _WeakChaptersLeadState extends ConsumerState<WeakChaptersLead> {
               children: [
                 ChapterHero(
                   row: open,
-                  rank: at + 1,
+                  rank: place.rank,
+                  tied: place.tied,
                   practiseLabel: practiseLabel,
                   practiseLine: line,
                   onPractise: () => context.push(practisePathFor(open)),

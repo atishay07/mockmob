@@ -277,10 +277,13 @@ abstract final class GlanceCopy {
   /// "Biggest leak: Share Capital, 47 of the 245 marks you missed: 2 wrong and 7 left blank." The chapter is the one the
   /// result names as costliest (most marks, [marks] = 6 per wrong and 5 per blank), and the figure is shown against what
   /// the whole paper missed through the one rule ([missedMarksDenominator]); with no honest denominator it says "47 marks".
-  static String leak(String chapter, int marks, int? ofMissed, int wrong, int blank) {
+  /// With [tiedWith] other chapters that lost the same marks it says so: "Biggest leak: Ray Optics, tied with 1 other chapter,
+  /// 6 of the 12 marks you missed: 1 wrong." (owner I14), never naming one of two equal chapters as the only one.
+  static String leak(String chapter, int marks, int? ofMissed, int wrong, int blank, {int tiedWith = 0}) {
     final parts = [if (wrong > 0) '$wrong wrong', if (blank > 0) '$blank left blank'].join(' and ');
     final head = ofMissed == null ? '$marks marks' : '$marks of the $ofMissed marks you missed';
-    return 'Biggest leak: $chapter, $head${parts.isEmpty ? '' : ': $parts'}.';
+    final tie = tiedWith > 0 ? ', tied with $tiedWith other chapter${tiedWith == 1 ? '' : 's'}' : '';
+    return 'Biggest leak: $chapter$tie, $head${parts.isEmpty ? '' : ': $parts'}.';
   }
   static const String leakPrefix = 'Biggest leak: ';
   static const String repairLeak = 'Repair this leak';

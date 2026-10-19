@@ -136,6 +136,19 @@ abstract final class ResultCopy {
   /// "Financial Markets: 4 questions, 1 wrong, 3 blank, 21 marks."
   static String negativeChapterDetail(String chapter, int questions, int wrong, int blank, int marks) =>
       '$chapter: ${plural(questions, 'question')}, $wrong wrong, $blank blank, ${plural(marks, 'mark')}.';
+
+  /// Chapters that lost the same most marks, said as a tie (owner I14): "Electromagnetic Induction and Ray Optics each cost
+  /// you 6 marks." / "3 chapters each cost you 12 marks: A, B and C." / "4 chapters each cost you 12 marks: A, B and 2 more."
+  static String tiedCostliest(List<String> chapters, int each) {
+    final n = chapters.length;
+    if (n == 2) return '${chapters[0]} and ${chapters[1]} each cost you $each marks.';
+    final names = n <= 3 ? '${chapters.sublist(0, n - 1).join(', ')} and ${chapters[n - 1]}' : '${chapters[0]}, ${chapters[1]} and ${n - 2} more';
+    return '$n chapters each cost you $each marks: $names.';
+  }
+
+  /// The line under a tie: what the tied chapters cost together, against the marks missed.
+  static String tiedTogether(int together, int missed) => 'Together they cost $together of the $missed marks you missed.';
+
   static String allScored(int max) => 'All $max marks scored.';
   static const rowScored = 'Scored';
   static const rowTakenOff = 'Taken off by wrong answers';
