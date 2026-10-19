@@ -1,8 +1,8 @@
 // K1 to K4 (spec 5.3 M-sheets, 5.6 M8 to M11): the full-screen moments, one route over the shell
 // (MobV3Nav.moment pushes it with a fade, opaque false). Keys, as the server sends them in
 // `v3.moments` (or the chain's `due`):
-//   quest_done:<week>  K2 Quest done (M10)
-//   stitch:<week>      K3 Week stitched (M8); plays only once the server says the quest is done (F13)
+//   quest_done:<mobId>:<week>  K2 Quest done (M10)
+//   stitch:<mobId>:<week>      K3 Week stitched (M8); plays only once the server says the quest is done (F13)
 //   reveal:<fold>      K4 Reveal (M9)
 //   chain:<n>          K1 Milestone (M11)
 // Every moment has a visible Skip and a close X; any tap lands the end state in 200 ms. The overlay
@@ -47,33 +47,14 @@ class MomentsShown extends Notifier<List<String>> {
 
 final momentsShownProvider = NotifierProvider<MomentsShown, List<String>>(MomentsShown.new);
 
-/// A parsed moment key.
-class MomentKey {
-  const MomentKey(this.kind, this.arg);
-
-  static MomentKey parse(String raw) {
-    final i = raw.indexOf(':');
-    if (i <= 0) return MomentKey(raw, '');
-    return MomentKey(raw.substring(0, i), raw.substring(i + 1));
-  }
-
-  final String kind;
-  final String arg;
-
-  @override
-  String toString() => '$kind:$arg';
-}
-
 /// What the finished quest's parcel held, from what the server sent: a `reveal:<fold>` due with it
 /// means the parcel held that Fold; else a den object the chain reached this week and the shelf now
 /// holds; else the week's stitch.
 QuestPrize questPrizeOf(MobV3 v3) {
   for (final k in v3.moments) {
     final m = MomentKey.parse(k);
-    if (m.kind == 'reveal') {
-      final f = FoldKey.parse(m.arg);
-      if (f != null) return QuestPrize(ParcelKind.fold, fold: f);
-    }
+    final f = m.fold;
+    if (m.kind == 'reveal' && f != null) return QuestPrize(ParcelKind.fold, fold: f);
   }
   final item = weekItemOf(v3);
   if (item != null) return QuestPrize(ParcelKind.item, item: item);
@@ -88,8 +69,13 @@ String? weekItemOf(MobV3 v3) {
   return null;
 }
 
-/// F13: a stitch plays only after the server reported this week's quest done.
-bool stitchAllowed(MobV3 v3, String week) => v3.quest.done && (v3.quest.week == null || week.isEmpty || v3.quest.week == week);
+/// F13: a stitch plays only after the server reported this week's quest done, for this Mob's week.
+bool stitchAllowed(DenView den, MomentKey key) {
+  final v3 = den.v3;
+  if (key.kind != 'stitch' || !v3.quest.done) return false;
+  if (key.mobId != null && den.mobId.isNotEmpty && key.mobId != den.mobId) return false;
+  return v3.quest.week == null || key.week == null || v3.quest.week == key.week;
+}
 
 class MomentOverlay extends ConsumerStatefulWidget {
   const MomentOverlay({super.key, required this.momentKey});
@@ -160,9 +146,9 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     final key = MomentKey.parse(_current);
     final Widget child = switch (key.kind) {
       'quest_done' => _questDone(den),
-      'stitch' => _stitch(den, key.arg),
-      'reveal' => _reveal(den, key.arg),
-      'chain' => _milestone(key.arg),
+      'stitch' => _stitch(den, key),
+      'reveal' => _reveal(den, key.fold),
+      'chain' => _milestone(key.days),
       _ => _unknown(),
     };
     return Stack(
@@ -200,7 +186,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     switch (prize.kind) {
       case ParcelKind.fold:
         label = MobV3Copy.openParcel;
-        onKey = () => _playInPlace('reveal:${prize.fold!.name}');
+        onKey = () => _playInPlace(v3.moments.firstWhere((k) => k == 'reveal:${prize.fold!.name}', orElse: () => 'reveal:${prize.fold!.name}'));
       case ParcelKind.item:
         label = MobV3Copy.openParcel;
         onKey = stitchKey.isNotEmpty ? () => _playInPlace(stitchKey) : _close;
@@ -220,14 +206,13 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     );
   }
 
-  Widget _stitch(DenView? den, String week) {
-    if (den == null || !stitchAllowed(den.v3, week)) return _unknown();
+  Widget _stitch(DenView? den, MomentKey key) {
+    if (den == null || !stitchAllowed(den, key)) return _unknown();
     final v3 = den.v3;
     return StitchedMoment(mobName: v3.name.text, members: v3.members, weeks: v3.mobChain.weeks, item: weekItemOf(v3), onKey: _close, onClose: _close);
   }
 
-  Widget _reveal(DenView? den, String arg) {
-    final fold = FoldKey.parse(arg);
+  Widget _reveal(DenView? den, FoldKey? fold) {
     if (fold == null) return _unknown();
     return RevealMoment(
       mobName: den?.v3.name.text ?? '',
@@ -239,8 +224,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     );
   }
 
-  Widget _milestone(String arg) {
-    final n = int.tryParse(arg);
+  Widget _milestone(int? n) {
     if (n == null || n <= 0) return _unknown();
     final chain = ref.watch(chainProvider);
     return chain.when(

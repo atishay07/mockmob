@@ -19,6 +19,9 @@ String fixtureWeek(MobV3FakeServer server) {
   return (v3['quest'] as Map<String, dynamic>)['week'] as String;
 }
 
+String questKey(MobV3FakeServer server) => dueMoments(server).firstWhere((k) => k.startsWith('quest_done:'), orElse: () => 'quest_done:mob-chai-0001:${fixtureWeek(server)}');
+String stitchKey(MobV3FakeServer server) => 'stitch:mob-chai-0001:${fixtureWeek(server)}';
+
 List<String> dueMoments(MobV3FakeServer server) => [for (final m in (server.denNow()['v3'] as Map<String, dynamic>)['moments'] as List) m as String];
 
 /// A chain at a milestone: [days] in a row, one rested day four days ago, today done.

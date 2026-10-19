@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
+import 'package:mockmob/features/social/v3/data/mob_v3_den.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/screens/moment_overlay.dart';
 import 'package:mockmob/features/social/v3/widgets/moment_kit.dart';
@@ -38,7 +39,7 @@ void main() {
     testWidgets('the count rolls to the true total, never above it and never stopping at the target', (tester) async {
       final server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server);
-      await startMoment(tester, which, 'quest_done:${fixtureWeek(server)}');
+      await startMoment(tester, which, questKey(server));
       final seen = <int>[];
       seen.add(_count(tester)!);
       await pumpTo(tester, 1900, each: (ms) {
@@ -58,7 +59,7 @@ void main() {
     testWidgets('the bar is full from the target on, and folds away for the seal', (tester) async {
       final server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server);
-      await startMoment(tester, which, 'quest_done:${fixtureWeek(server)}');
+      await startMoment(tester, which, questKey(server));
       await pumpTo(tester, 640);
       final bar = tester.widget<CustomPaint>(find.byKey(const ValueKey('k2-bar'))).painter! as QuestBarPainter;
       expect(bar.fill, 1.0);
@@ -91,16 +92,15 @@ void main() {
 
     testWidgets('Open the parcel plays the reveal of Hop in place; nothing is marked seen', (tester) async {
       final server = v3Server(scenario: 'questdone');
-      final week = fixtureWeek(server);
       final which = await pumpMomentHost(tester, server: server);
-      await startMoment(tester, which, 'quest_done:$week');
+      await startMoment(tester, which, questKey(server));
       await pumpTo(tester, 2000);
       await tester.tap(find.text(MobV3Copy.openParcel));
       await tester.pump();
       await pumpTo(tester, 400);
       expect(find.byType(RevealMoment), findsOneWidget);
-      expect(_container(tester).read(momentsShownProvider), ['quest_done:$week']);
-      expect(dueMoments(server), contains('quest_done:$week'), reason: 'the overlay never calls seen');
+      expect(_container(tester).read(momentsShownProvider), [questKey(server)]);
+      expect(dueMoments(server), contains(questKey(server)), reason: 'the overlay never calls seen');
     });
   });
 
@@ -108,7 +108,7 @@ void main() {
     testWidgets('plays for a stitch key after quest.done, with the desk bell card', (tester) async {
       final server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server);
-      await startMoment(tester, which, 'stitch:${fixtureWeek(server)}');
+      await startMoment(tester, which, stitchKey(server));
       await pumpTo(tester, 600);
       final pen = _painters(tester).whereType<PennantPainter>().single;
       expect(pen.weeks, 4);
@@ -124,7 +124,7 @@ void main() {
     testWidgets('never plays while the quest is not done', (tester) async {
       final server = v3Server(scenario: 'heavy');
       final which = await pumpMomentHost(tester, server: server);
-      await startMoment(tester, which, 'stitch:${fixtureWeek(server)}');
+      await startMoment(tester, which, stitchKey(server));
       await pumpTo(tester, 800);
       expect(find.byType(StitchedMoment), findsNothing);
       expect(_painters(tester).whereType<PennantPainter>(), isEmpty);
@@ -133,12 +133,12 @@ void main() {
     testWidgets('never plays for another week, or for a quest key', (tester) async {
       final server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server);
-      await startMoment(tester, which, 'stitch:2026-10-05');
+      await startMoment(tester, which, 'stitch:mob-chai-0001:2026-10-05');
       await pumpTo(tester, 800);
       expect(find.byType(StitchedMoment), findsNothing);
       which.value = null;
       await tester.pump();
-      await startMoment(tester, which, 'quest_done:${fixtureWeek(server)}');
+      await startMoment(tester, which, questKey(server));
       await pumpTo(tester, 800);
       expect(_painters(tester).whereType<PennantPainter>(), isEmpty);
     });
@@ -242,7 +242,7 @@ void main() {
     testWidgets('K2 shows the end state with one 120 ms fade', (tester) async {
       final server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server, reduced: true);
-      await startMoment(tester, which, 'quest_done:${fixtureWeek(server)}');
+      await startMoment(tester, which, questKey(server));
       final state = tester.state<QuestDoneMomentState>(find.byType(QuestDoneMoment));
       expect(state.reducedPath, isTrue);
       expect(state.landed, isTrue);
@@ -274,8 +274,10 @@ void main() {
     expect(prize.kind, ParcelKind.fold);
     expect(prize.fold, FoldKey.hop);
     expect(weekItemOf(v3), 'desk_bell');
-    expect(stitchAllowed(v3, fixtureWeek(s)), isTrue);
+    final week = fixtureWeek(s);
+    expect(stitchAllowed(DenView(mob: null, v3: v3), MomentKey.parse('stitch:mob-chai-0001:$week')), isTrue);
+    expect(stitchAllowed(DenView(mob: null, v3: v3), MomentKey.parse('stitch:mob-chai-0001:2026-10-05')), isFalse);
     final heavy = MobV3.fromJson(v3Server().denNow()['v3'] as Map<String, dynamic>);
-    expect(stitchAllowed(heavy, fixtureWeek(s)), isFalse);
+    expect(stitchAllowed(DenView(mob: null, v3: heavy), MomentKey.parse('stitch:mob-chai-0001:$week')), isFalse);
   });
 }

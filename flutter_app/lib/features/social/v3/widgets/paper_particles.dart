@@ -103,7 +103,7 @@ class _Glint {
 }
 
 class _PaperParticlesState extends State<PaperParticles> with SingleTickerProviderStateMixin {
-  late final Ticker _ticker = createTicker(_tick);
+  late final Ticker _ticker;
   final List<_Bit> _bits = [];
   final List<_Glint> _glints = [];
   Duration _last = Duration.zero;
@@ -112,6 +112,8 @@ class _PaperParticlesState extends State<PaperParticles> with SingleTickerProvid
   @override
   void initState() {
     super.initState();
+    // Created here, not lazily: a lazy ticker made in dispose looks up an inactive tree.
+    _ticker = createTicker(_tick);
     widget.controller.addListener(_take);
   }
 

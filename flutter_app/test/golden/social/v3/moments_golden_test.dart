@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 
-import '../../../helpers/golden_harness.dart';
 import '../../../unit/social/v3/mob_v3_test_kit.dart';
 import '../../../unit/social/v3/moment_test_kit.dart';
 import '../../you/you_golden_kit.dart' show setUpGoldenFonts;
@@ -21,7 +20,7 @@ void main() {
     testWidgets('K2 quest done end 360 ${_tag(b)}', (tester) async {
       final server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server, brightness: b);
-      await startMoment(tester, which, 'quest_done:${fixtureWeek(server)}');
+      await startMoment(tester, which, questKey(server));
       await pumpTo(tester, 2200);
       await _shoot(tester, 'k2_quest_done_360_${_tag(b)}');
     });
@@ -29,7 +28,7 @@ void main() {
     testWidgets('K3 week stitched end 360 ${_tag(b)}', (tester) async {
       final server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server, brightness: b);
-      await startMoment(tester, which, 'stitch:${fixtureWeek(server)}');
+      await startMoment(tester, which, stitchKey(server));
       await pumpTo(tester, 2200);
       await _shoot(tester, 'k3_week_stitched_360_${_tag(b)}');
     });
@@ -44,18 +43,18 @@ void main() {
 
     testWidgets('K1 milestone end 360 ${_tag(b)}', (tester) async {
       final server = v3Server(scenario: 'heavy');
-      final which = await pumpMomentHost(tester, server: server, brightness: b, chain: chainAt(14));
+      final which = await pumpMomentHost(tester, server: server, brightness: b, chain: chainAt(14, reward: 'rest_pass'));
       await startMoment(tester, which, 'chain:14');
       await pumpTo(tester, 2200);
       await _shoot(tester, 'k1_milestone_360_${_tag(b)}');
     });
 
-    testWidgets('K1 milestone with a rest pass 360 ${_tag(b)}', (tester) async {
+    testWidgets('K1 milestone, no chip, long chain 360 ${_tag(b)}', (tester) async {
       final server = v3Server(scenario: 'heavy');
-      final which = await pumpMomentHost(tester, server: server, brightness: b, chain: chainAt(7, reward: 'rest_pass'));
-      await startMoment(tester, which, 'chain:7');
+      final which = await pumpMomentHost(tester, server: server, brightness: b, chain: chainAt(50, reward: 'ribbon'));
+      await startMoment(tester, which, 'chain:50');
       await pumpTo(tester, 2200);
-      await _shoot(tester, 'k1_milestone_rest_pass_360_${_tag(b)}');
+      await _shoot(tester, 'k1_milestone_50_360_${_tag(b)}');
     });
 
     testWidgets('G-9 reveal frames ${_tag(b)}', (tester) async {
@@ -73,7 +72,7 @@ void main() {
     testWidgets('K2 frames ${_tag(b)}', (tester) async {
       final server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server, brightness: b);
-      await startMoment(tester, which, 'quest_done:${fixtureWeek(server)}');
+      await startMoment(tester, which, questKey(server));
       var at = 0;
       for (final f in const [0, 600, 1120, 1900]) {
         await pumpTo(tester, f, from: at);
@@ -87,7 +86,7 @@ void main() {
     testWidgets('K2 quest done end ${shot.w.round()} x${shot.s} night', (tester) async {
       final MobV3FakeServer server = v3Server(scenario: 'questdone');
       final which = await pumpMomentHost(tester, server: server, size: Size(shot.w, 780), textScale: shot.s);
-      await startMoment(tester, which, 'quest_done:${fixtureWeek(server)}');
+      await startMoment(tester, which, questKey(server));
       await pumpTo(tester, 2200);
       await _shoot(tester, 'k2_quest_done_${shot.w.round()}${shot.s == 1 ? '' : '_x13'}_night');
     });
