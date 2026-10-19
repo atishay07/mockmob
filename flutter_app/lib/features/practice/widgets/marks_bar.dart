@@ -9,7 +9,10 @@ import '../model/finish_reaction.dart';
 /// the wrong answers cost and what was left on blanks, out of the paper's maximum. Each segment
 /// is a share of real marks, and the line under it says the same thing in words.
 class MarksBar extends StatelessWidget {
-  const MarksBar({super.key, required this.marks, this.reveal = 1, this.fill, this.headless = false});
+  const MarksBar({super.key, required this.marks, this.reveal = 1, this.fill, this.headless = false, this.lineless = false});
+
+  /// No line under the bar at all: the finish moment's ledger says it in rows (20 Oct, I13).
+  final bool lineless;
 
   /// The line under the bar leaves out the marks themselves ("34 of 50 marks.") and says only
   /// what the missed marks were lost to: the finish moment's completion line says the marks
@@ -96,7 +99,7 @@ class MarksBar extends StatelessWidget {
               ),
             ),
           ),
-          if (!headless || PracticeCopy.marksDetail(m).isNotEmpty) ...[
+          if (!lineless && (!headless || PracticeCopy.marksDetail(m).isNotEmpty)) ...[
             const SizedBox(height: MmSpace.s8),
             Opacity(
               opacity: reveal.clamp(0.0, 1.0),

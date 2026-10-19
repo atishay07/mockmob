@@ -115,7 +115,10 @@ class FinishStage extends ConsumerStatefulWidget {
   ConsumerState<FinishStage> createState() => _FinishStageState();
 }
 
-const double _mobiSize = 80;
+const double _mobiSize = 64;
+
+/// How far under the ledger the follow scroll looks (see [_FinishStageState._followToLedger]).
+const double _followRoom = 72;
 
 class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderStateMixin {
   late final AnimationController _c = AnimationController(vsync: this, duration: FinishStage.durationFor(widget.cells.length));
@@ -147,10 +150,6 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   bool _replay = false;
   Timer? _hushTimer;
 
-  /// The marks bar fills a beat after Mobi's line starts, so it never shows washed out under an
-  /// empty bubble.
-  bool _marksOn = false;
-  Timer? _marksTimer;
   bool _started = false;
 
   @override
@@ -179,7 +178,11 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     if (_settledOnce) return;
     _settledOnce = true;
     final settled = widget.onSettled;
-    if (settled != null) WidgetsBinding.instance.addPostFrameCallback((_) => settled());
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      settled?.call();
+      // The screen's pinned keys may grow as the moment ends (the late-night line): follow once more after that.
+      if (mounted && !_still) _followToLedger();
+    });
   }
 
   /// Brings the ledger into view as the marks start to be added up, so the moment's second half is never played
@@ -339,16 +342,11 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
     if (_mode == CelebrationMode.full) _mobi.react(widget.tone.act, key: 'practice-finish');
     _mobi.say(PracticeCopy.finishLine(widget.tone, widget.marks));
     if (_still) {
-      _marksOn = true;
       _totalOn = true;
       _after.value = 1;
       _settle();
     } else {
-      _marksTimer = Timer(const Duration(milliseconds: 260), () {
-        if (mounted) setState(() => _marksOn = true);
-      });
       if (_skipped) {
-        _marksOn = true;
         unawaited(_after.animateTo(1, duration: FinishBeats.skip, curve: Motion.out));
       } else {
         unawaited(_after.forward());
@@ -386,7 +384,6 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
 
   @override
   void dispose() {
-    _marksTimer?.cancel();
     _hushTimer?.cancel();
     _reactTimer?.cancel();
     _c.dispose();
@@ -435,7 +432,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
         children: [
           if (overline.isNotEmpty) Text(overline, style: type.caption.copyWith(color: colors.ink2)),
           // Room for the stamp's ring above the figure, so it never lands on the line over it.
-          const SizedBox(height: MmSpace.s16),
+          const SizedBox(height: MmSpace.s12),
           Semantics(
             header: true,
             label: PracticeCopy.figureSemantics(m.correct, m.total),
@@ -463,30 +460,9 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
             ),
           ),
           // And room under it, clear of the ring spreading out from behind the figure.
-          const SizedBox(height: MmSpace.s20),
-          if (widget.cells.isNotEmpty)
-            // The sheet, with the marks bar under its bubbles: the bar's track is there from the first frame and fills
-            // with the ink, bubble by bubble (each right bubble adds its marks, each wrong one what it cost, each blank
-            // what was left). Its line (what the missed marks were lost to) comes in after Mobi's.
-            _InkSheet(
-              cells: widget.cells,
-              reveal: _ink,
-              onCellTap: widget.onCellTap,
-              onCellLongPress: _cellSays,
-              stripKey: _sheetKey,
-              bar: TweenAnimationBuilder<double>(
-                tween: Tween(end: _marksOn ? 1 : 0),
-                duration: Motion.of(context, Motion.emphasizedDuration),
-                curve: Motion.out,
-                builder: (context, reveal, _) => AnimatedBuilder(
-                  animation: _c,
-                  builder: (context, _) => MarksBar(marks: m, reveal: reveal, fill: MarksFill.after(widget.cells, _inked), headless: true),
-                ),
-              ),
-            ),
-          const SizedBox(height: MmSpace.s8),
-          // Mobi sits under the sheet, reading it while it inks, then turns and says one line.
-          // The row keeps Mobi's height from the start, so nothing above it moves.
+          const SizedBox(height: MmSpace.s12),
+          // Mobi sits over the paper, reading it while it inks, then turns and says one line. The row keeps Mobi's
+          // height from the start, so nothing below it moves.
           ConstrainedBox(
             constraints: const BoxConstraints(minHeight: _mobiSize),
             child: Row(
@@ -498,16 +474,35 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
               ],
             ),
           ),
-          const SizedBox(height: MmSpace.s12),
-          // The marks added up (20 Oct, I13): +5 each right, -1 each wrong, 0 each not attempted, a rule, and the
-          // completion line (D108) as the total, counted up and circled by the marker. Every band gets it. Its room is
-          // held from the first frame, so nothing moves when the rows rise in.
+          const SizedBox(height: MmSpace.s8),
+          // The paper, marked (20 Oct, I13): the student's sheet inks bubble by bubble with the marks bar filling under
+          // it; then, on the same card, the marks are added up (+5 each right, -1 each wrong, 0 each not attempted), a
+          // rule, and the completion line (D108) as the total, counted up and circled by the marker. Every band gets
+          // it. Its room is held from the first frame, so nothing moves when the rows rise in.
+          Stack(
+            clipBehavior: Clip.none,
+            children: [
           FinishLedger(
-            key: _ledgerKey,
             right: m.correct,
             wrong: m.wrong,
             blank: m.blank,
             t: _after,
+            sheet: widget.cells.isEmpty
+                ? null
+                : Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      NumberedSheet(cells: widget.cells, reveal: _ink, onCellTap: widget.onCellTap, onCellLongPress: _cellSays, stripKey: _sheetKey),
+                      const SizedBox(height: MmSpace.s12),
+                      // The bar's track is there from the first frame and fills with the ink, bubble by bubble (each
+                      // right bubble adds its marks, each wrong one what it cost, each blank what was left). Its words
+                      // are the ledger's rows now, so it has no line of its own.
+                      AnimatedBuilder(
+                        animation: _c,
+                        builder: (context, _) => MarksBar(marks: m, fill: MarksFill.after(widget.cells, _inked), headless: true, lineless: true),
+                      ),
+                    ],
+                  ),
             footer: CompletionLine(
               saved: _savedText(),
               scored: m.scored,
@@ -518,10 +513,15 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
               circleColor: _celebrates ? colors.accentText : colors.ink,
             ),
           ),
+              // The follow scroll's mark: the ledger's foot plus room for the fade and the pinned keys that sit over the
+              // list's last 70 dp, so the circled total always lands in clear view.
+              Positioned(left: 0, right: 0, bottom: -_followRoom, height: _followRoom, child: SizedBox(key: _ledgerKey)),
+            ],
+          ),
+          const SizedBox(height: MmSpace.s20),
           // Where the marks went, chapter by chapter, ties shared and said (I14). Only when two or more chapters lost
           // marks.
           if (widget.chapters.length >= 2) ...[
-            const SizedBox(height: MmSpace.s20),
             FinishChapters(chapters: widget.chapters, t: _after),
           ],
           // The late-night "good place to stop" line is not here any more: it sits under the pinned
@@ -548,45 +548,6 @@ class _MobiSays extends StatelessWidget {
             child: MobiBubble(key: ValueKey(speech.id), speech: speech, tail: MobiTail.left, maxWidth: 280, delay: 0.04),
           ),
   );
-}
-
-/// The student's sheet on a solid card: one bubble per question, inking in order. Each bubble
-/// is a verdict, and a tap opens that question below (the rows are the accessible path).
-class _InkSheet extends StatelessWidget {
-  const _InkSheet({required this.cells, required this.reveal, this.onCellTap, this.onCellLongPress, this.stripKey, this.bar});
-
-  /// The marks bar, under the bubbles inside the same card.
-  final Widget? bar;
-
-  final List<QuestionCell> cells;
-  final Animation<double> reveal;
-  final ValueChanged<int>? onCellTap;
-  final ValueChanged<int>? onCellLongPress;
-  final Key? stripKey;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return DecoratedBox(
-      decoration: ShapeDecoration(
-        color: colors.raised,
-        shape: RoundedSuperellipseBorder(
-          borderRadius: MmRadius.panelAll,
-          side: BorderSide(color: colors.line),
-        ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(MmSpace.s16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            NumberedSheet(cells: cells, reveal: reveal, onCellTap: onCellTap, onCellLongPress: onCellLongPress, stripKey: stripKey),
-            if (bar != null) ...[const SizedBox(height: MmSpace.s12), bar!],
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 /// The words of the completion line (D108), read aloud before they were written (R6).
@@ -816,6 +777,7 @@ class _CompletionLineState extends State<CompletionLine> with TickerProviderStat
   Widget _ringed(Widget figure) {
     final color = widget.circleColor;
     if (color == null) return figure;
+    figure = Padding(padding: const EdgeInsets.symmetric(horizontal: 7), child: figure);
     return MarkerCircle(key: const ValueKey('completion-circle'), progress: _circleDraw, color: color, child: figure);
   }
 

@@ -122,7 +122,10 @@ TextStyle _tabular(TextStyle s) => s.copyWith(fontFeatures: const [FontFeature.t
 /// the column never jitters. [t] is the stage's after-landing controller; [footer] (the completion
 /// line with its circled total) sits under the rule.
 class FinishLedger extends StatelessWidget {
-  const FinishLedger({super.key, required this.right, required this.wrong, required this.blank, required this.t, required this.footer});
+  const FinishLedger({super.key, required this.right, required this.wrong, required this.blank, required this.t, required this.footer, this.sheet});
+
+  /// The student's sheet, inking, at the top of the same card: the paper and its marking are one thing.
+  final Widget? sheet;
 
   final int right;
   final int wrong;
@@ -159,16 +162,17 @@ class FinishLedger extends StatelessWidget {
         shape: RoundedSuperellipseBorder(borderRadius: MmRadius.panelAll, side: BorderSide(color: colors.line)),
       ),
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s16),
+        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s16),
         child: AnimatedBuilder(
           animation: t,
-          builder: (context, _) => Column(
+          child: sheet,
+          builder: (context, sheet) => Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Opacity(
-                opacity: FinishBeats.row(t.value, 0),
-                child: Text(FinishRevealCopy.ledgerHead, style: type.caption.copyWith(color: colors.ink2)),
-              ),
+              if (sheet != null) ...[sheet, const SizedBox(height: MmSpace.s16)],
+              // The head and the marking scheme (+5, -1, 0 each) are printed on the paper from the start, as on a real
+              // mark sheet: what is being added up is clear before the marks arrive, and the card is never an empty box.
+              Text(FinishRevealCopy.ledgerHead, style: type.caption.copyWith(color: colors.ink2)),
               const SizedBox(height: MmSpace.s8),
               Semantics(
                 container: true,
@@ -177,18 +181,21 @@ class FinishLedger extends StatelessWidget {
                 child: Column(
                   children: [
                     for (var i = 0; i < rows.length; i++)
-                      _rise(
-                        FinishBeats.row(t.value, i),
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 4),
+                          padding: const EdgeInsets.symmetric(vertical: 3),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.baseline,
                             textBaseline: TextBaseline.alphabetic,
                             children: [
-                              Expanded(child: Text(rows[i].$1, style: label, maxLines: 1, overflow: TextOverflow.ellipsis)),
+                              Expanded(
+                                child: _rise(
+                                  FinishBeats.row(t.value, i),
+                                  Text(rows[i].$1, style: label, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                ),
+                              ),
                               Text(rows[i].$2, style: rule),
                               const SizedBox(width: MmSpace.s16),
-                              SizedBox(
+                              _rise(FinishBeats.row(t.value, i), SizedBox(
                                 width: valueWidth,
                                 child: Text(
                                   _signedPlus((rows[i].$3 * FinishBeats.row(t.value, i)).round()),
@@ -198,11 +205,10 @@ class FinishLedger extends StatelessWidget {
                                   maxLines: 1,
                                   softWrap: false,
                                 ),
-                              ),
+                              )),
                             ],
                           ),
                         ),
-                      ),
                   ],
                 ),
               ),
@@ -352,8 +358,8 @@ class _MarkerPainter extends CustomPainter {
     final p = progress.value;
     if (p <= 0) return;
     final c = size.center(Offset.zero);
-    final rx = size.width / 2 + 9;
-    final ry = size.height / 2 + 3;
+    final rx = size.width / 2 + 1;
+    final ry = size.height / 2 + 2;
     // A loop of a little more than a full turn, starting top right, tilted by 6 degrees: a pen, not a compass.
     final path = Path();
     const turns = 1.08;
