@@ -364,3 +364,6 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 
 ## Owner, 19 Oct about 5:05 pm IST by Play's clock (verbatim, screenshot: Internal testing, release 10 (1.0.16) "Available to internal testers", released 19 Oct 17:03)
 > "anything else?"
+
+## Owner, 19 Oct about 5:10 pm IST (verbatim, screenshot: Monetise with Play, "To monetise this app, set up a merchant account")
+> "i have to setup merchant account only right?"
