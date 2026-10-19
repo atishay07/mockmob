@@ -8,7 +8,9 @@ import { Icon } from '@/components/ui/Icons';
 import { ProgressBar } from '@/components/ui/ProgressBar';
 import { PageSpinner, ErrorState, NoticeState } from '@/components/ui/Skeleton';
 import ArenaCompanion from '@/components/brand/ArenaCompanion';
-import { api, apiPost } from '@/lib/fetcher';
+import { api, apiGet, apiPost } from '@/lib/fetcher';
+import { firstMockNotice, isFirstMockRefusal } from '@/lib/firstMockNotice.mjs';
+import { forgetFirstFullMock } from '@/lib/useFirstFullMock';
 import { useAuth } from '@/components/AuthProvider';
 import { startMobPaper } from '@/components/mob/useMob';
 import { VoteControls } from '@/components/questions/VoteControls';
@@ -209,6 +211,8 @@ function TestRunner() {
   const [error, setError] = useState(null);
   // An NTA paper the bank cannot supply: { message, fullMockKey }.
   const [refusal, setRefusal] = useState(null);
+  // A full mock quoted free that is not free now (release 11 verifier L1): { title, message, price, retry }. Nothing was charged.
+  const [notFree, setNotFree] = useState(null);
   const [selectionMeta, setSelectionMeta] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [syncStatus, setSyncStatus] = useState('saved');
@@ -316,6 +320,7 @@ function TestRunner() {
       setLoading(true);
       setError(null);
       setRefusal(null);
+      setNotFree(null);
       setSelectionMeta(null);
       setPendingSubmission(false);
       autoSubmitTried.current = false;
@@ -375,7 +380,8 @@ function TestRunner() {
         if (generationKey) qs.set('generationKey', generationKey);
         qs.set('experience', launch.get('recoveryFrom') ? 'recovery' : 'practice');
         if (launch.get('recoveryFrom')) qs.set('recoveryFrom', launch.get('recoveryFrom'));
-        for (const name of ['sessionId','episodeId','purpose','tonightKey','tonightMinutes','variant']) if (launch.get(name)) qs.set(name, launch.get(name));
+        // firstFree=1: Practice's quote said this full mock is free, so the server refuses it rather than charge it if it is not now.
+        for (const name of ['sessionId','episodeId','purpose','tonightKey','tonightMinutes','variant','firstFree']) if (launch.get(name)) qs.set(name, launch.get(name));
         // Same key, saved draft gone: the receipt in the address makes the server return the original start.
         const receipt = new URLSearchParams(window.location.search).get('startReceipt');
         if (receipt) qs.set('startReceipt', receipt);
@@ -434,6 +440,18 @@ function TestRunner() {
         refreshSession({ silent: true });
       } catch (e) {
         if (!alive) return;
+        if (isFirstMockRefusal(e)) {
+          // The free full mock this start was quoted went elsewhere (or could not be checked); nothing was charged. Every surface
+          // forgets the free state, and a new quote puts the price on this page before the student starts again.
+          forgetFirstFullMock();
+          const fresh = e.message === 'FIRST_FULL_MOCK_TAKEN'
+            ? await apiGet(`/api/practice/quote?${new URLSearchParams({ subject: subjectId, mode: 'full', count: '50' })}`).catch(() => null)
+            : null;
+          if (!alive) return;
+          setNotFree(firstMockNotice(e, fresh, displayLabel(subjectId)));
+          setLoading(false);
+          return;
+        }
         if (e?.status === 402 && e?.body?.upgrade) {
           try { await refreshSession({ silent: true }); } catch {}
           setError('Not enough credits. Upgrade to Pro for unlimited mocks.');
@@ -885,6 +903,22 @@ function TestRunner() {
         actions={<>
           <Link href={fullMockHref(subjectId, user?.isPremium === true, refusal.fullMockKey)} className="ui-state__action ui-state__action--primary">Start a Full mock</Link>
           <Link href="/dashboard" className="ui-state__action">Back to dashboard</Link>
+        </>}
+      />
+    </div>
+  );
+
+  if (notFree) return (
+    <div className="container-narrow max-w-3xl px-4 pt-10">
+      <NoticeState
+        headingLevel={1}
+        title={notFree.title}
+        message={<>{notFree.message}{notFree.price ? <> <b>{notFree.price}</b></> : null}</>}
+        actions={<>
+          {notFree.retry
+            ? <button type="button" onClick={() => window.location.reload()} className="ui-state__action ui-state__action--primary">Try again</button>
+            : <Link href={`/dashboard?subject=${encodeURIComponent(subjectId || '')}&mode=full`} className="ui-state__action ui-state__action--primary">Set up a full mock</Link>}
+          <Link href="/dashboard" className="ui-state__action">Back to Practice</Link>
         </>}
       />
     </div>

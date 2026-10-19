@@ -2,6 +2,10 @@
 // build its own schedule, missions, benchmarks or entitlements. Every claim here must
 // match a shipped capability (see data/capabilities.js).
 import { CAPABILITIES } from '@/../data/capabilities';
+import { FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
+
+// The free first full mock (C-dec 1), said only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
+const FIRST_FREE = FIRST_FULL_MOCK_ON ? ', and your first full mock in each subject is free' : '';
 
 export const PREPOS_PAUSED_MESSAGE = 'AI features are paused for now. Your credits have not been used.';
 
@@ -24,11 +28,11 @@ export const FEATURE_GUIDE = [
   },
   {
     key: 'review',
-    name: 'Review',
+    name: 'Your papers',
     route: '/review',
-    description: 'Your wrong and skipped answers from past sessions, with explanations.',
+    description: 'Every paper you sat, with your wrong and skipped answers and their explanations.',
     whenToUse: 'Use it after a session, before practising the same chapter again.',
-    actionLabel: 'Open Review',
+    actionLabel: 'Open Your papers',
   },
   {
     key: 'radar',
@@ -66,7 +70,7 @@ export const FEATURE_GUIDE = [
     key: 'credits',
     name: 'Credits',
     route: '/pricing/ai-credits',
-    description: 'One credits balance pays for practice and Ask Mobi. A question or a chat reply costs 1 credit, a full mock costs 50 and deeper analysis costs 3, and your first full mock in each subject is free. Everyone gets 50 free credits a month, and they are used first.',
+    description: `One credits balance pays for practice and Ask Mobi. A question or a chat reply costs 1 credit, a full mock costs 50 and deeper analysis costs 3${FIRST_FREE}. Everyone gets 50 free credits a month, and they are used first.`,
     whenToUse: 'Use it to see your credits and what they pay for.',
     actionLabel: 'See your credits',
   },
@@ -78,7 +82,7 @@ export function pageHelpForPath(pathname = '/') {
   if (pathname.startsWith('/test')) return help('Active session', 'Stay with the questions. Mobi stays out of the way until you submit.', null);
   if (pathname.startsWith('/rival')) return help('Shadow Benchmark', 'A timed set against a simulated pace. It reports accuracy, pace and skips for this set only.', null);
   if (pathname.startsWith('/admission-compass')) return help('DU eligibility and cutoffs', FEATURE_GUIDE.find((f) => f.key === 'compass').description, null);
-  if (pathname.startsWith('/analytics')) return help('Marks trend', 'This page summarises your server-scored sessions. Review the chapters you missed more than once.', { label: 'Open Review', type: 'navigate', route: '/review' });
+  if (pathname.startsWith('/analytics')) return help('Marks trend', 'This page summarises your server-scored sessions. Review the chapters you missed more than once.', { label: 'Open Your papers', type: 'navigate', route: '/review' });
   if (pathname.startsWith('/saved')) return help('Saved questions', 'Saved questions are for short revision blocks.', null);
   if (pathname.startsWith('/pricing')) return help('Plans and credits', 'One credits balance pays for practice and Ask Mobi. Pro makes practice free of credits.', null);
   return help('MockMob', 'Mobi explains your next step and the tools. Your plan comes from your practice record.', { label: 'Open Today', type: 'navigate', route: '/today' });
@@ -101,7 +105,7 @@ export function deterministicReplyFor({ text, pathname }) {
     return reply(
       paused
         ? `${PREPOS_PAUSED_MESSAGE} Your credits still pay for practice sets and full mocks.`
-        : 'One credits balance pays for practice and Ask Mobi. A question or a chat reply costs 1 credit, a full mock costs 50 and deeper analysis costs 3, and your first full mock in each subject is free. The 50 free credits you get each month are used first.',
+        : `One credits balance pays for practice and Ask Mobi. A question or a chat reply costs 1 credit, a full mock costs 50 and deeper analysis costs 3${FIRST_FREE}. The 50 free credits you get each month are used first.`,
       'Wallet state comes from the server.',
       { label: 'See your credits', type: 'navigate', route: '/pricing/ai-credits' },
     );

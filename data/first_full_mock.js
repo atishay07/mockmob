@@ -25,8 +25,54 @@
 //   * Unknown is never free: a fact that could not be read prices the paper as before (50 credits), and leaves every other
 //     path exactly as it was.
 //   * A replay of the free start (the same generation key, so the same session id) is the same free paper, never a second
-//     free one and never a charge. A different start finds the row taken and is charged exactly as before.
+//     free one and never a charge.
+//   * A start launched from a quote that said "free" (Practice sends firstFree=1) is never charged without a warning (release 11
+//     verifier L1): when another device or tab took the subject's free row since that quote, or this start finds the row taken
+//     while it claims it, it is refused with FIRST_FULL_MOCK_TAKEN and nothing is charged. The client asks for a new quote and
+//     shows the price before the student starts again. A start sent without firstFree (the app's builds) that finds the row
+//     already taken before it claims is charged as before, which is the price its own quote then showed.
+//   * The kill switch (C-dec 1 promised it; verifier L4): FIRST_FULL_MOCK_ENABLED. ON when unset; "false" turns it off. Off, the
+//     server never grants the free first full mock (every Full mock is priced and charged as before this rule) and every line
+//     that says the first full mock is free is left out. next.config.mjs passes the variable into the builds, so a change takes
+//     a redeploy, as every environment variable on Vercel does.
 import { TEST_MODES, practiceCreditCost } from './test_modes.js';
+
+/** Is the rule on? `value` is FIRST_FULL_MOCK_ENABLED: unset or anything but "false" is on. */
+export function firstFullMockEnabled(value = switchValue()) {
+  return String(value ?? '').trim().toLowerCase() !== 'false';
+}
+// Written out as `process.env.FIRST_FULL_MOCK_ENABLED` so the build can put the value into the browser bundle (next.config.mjs).
+function switchValue() {
+  try { return process.env.FIRST_FULL_MOCK_ENABLED; } catch { return undefined; }
+}
+/** The switch as this build reads it: the words below are written once, when the module loads. */
+export const FIRST_FULL_MOCK_ON = firstFullMockEnabled();
+
+/**
+ * The refusals a start gets when the free first full mock it was quoted is not free now. Nothing is charged either way; the
+ * sessions route sends the sentence as `message` (src/app/api/sessions/route.js) and the client asks for a new quote.
+ *   FIRST_FULL_MOCK_TAKEN      409: the subject's free one was taken by another start (reason 'taken'), or the rule is off ('off')
+ *   FIRST_FULL_MOCK_UNCHECKED  503: whether it is still free could not be read just now; trying again may start it free
+ */
+export const FIRST_FULL_MOCK_TAKEN = 'FIRST_FULL_MOCK_TAKEN';
+export const FIRST_FULL_MOCK_UNCHECKED = 'FIRST_FULL_MOCK_UNCHECKED';
+export const FIRST_FULL_MOCK_REFUSAL_COPY = Object.freeze({
+  taken: 'Your free full mock in this subject was already started on another device or tab, so this one is not free. It did not start, and nothing was charged. Check the price, then start again.',
+  off: 'This full mock is not free any more. It did not start, and nothing was charged. Check the price, then start again.',
+  unchecked: 'We could not check that this full mock is still free, so it did not start and nothing was charged. Try again in a moment.',
+});
+export function firstFullMockTakenError(reason = 'taken') {
+  const message = reason === 'off' ? FIRST_FULL_MOCK_REFUSAL_COPY.off : FIRST_FULL_MOCK_REFUSAL_COPY.taken;
+  return Object.assign(new Error(FIRST_FULL_MOCK_TAKEN), { publicMessage: message, publicDetail: { retryable: false, requote: true, reason } });
+}
+export function firstFullMockUncheckedError() {
+  return Object.assign(new Error(FIRST_FULL_MOCK_UNCHECKED), { publicMessage: FIRST_FULL_MOCK_REFUSAL_COPY.unchecked, publicDetail: { retryable: true, requote: true, reason: 'unchecked' } });
+}
+/** Did the start say its quote was free? Practice sends firstFree=1 with a start whose quote carried freeReason. */
+export function quotedFirstFree(input) {
+  const v = input?.firstFree;
+  return v === true || v === 1 || v === '1' || v === 'true';
+}
 
 export const FIRST_FULL_MOCK_MODE = 'full';
 export const FIRST_FULL_MOCK_PERIOD = 'ever';
@@ -74,9 +120,9 @@ export function fullSampleKind(subject) {
   return firstFullMockKind(subject) ? `${FULL_SAMPLE_KIND_PREFIX}${subject}` : null;
 }
 
-/** Does the rule apply to this start at all? Free student, Full mock, not a Mob paper. */
+/** Does the rule apply to this start at all? The switch is on, a Free student, a Full mock, not a Mob paper. */
 export function firstFullMockApplies({ isPremium = false, modeId, mobPaper = null } = {}) {
-  return isPremium !== true && !mobPaper && modeId === FIRST_FULL_MOCK_MODE;
+  return firstFullMockEnabled() && isPremium !== true && !mobPaper && modeId === FIRST_FULL_MOCK_MODE;
 }
 
 /**

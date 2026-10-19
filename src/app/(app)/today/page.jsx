@@ -25,9 +25,9 @@ import { alternatives as buildAlternatives, buildMove, clock, fitMove } from '@/
 import { choiceMoves, keepLength, leadOf, pickChoices, pickKey, readLength, refit } from '@/lib/today/lead.mjs';
 import { firstWeekClock, firstWeekPath, stepOfDay, withFirstWeek } from '@/lib/today/firstWeek.mjs';
 import { firstTimedMockHref } from '@/../data/first_timed_mock';
-import { priceLineOf } from '@/lib/today/priceLine.mjs';
+import { priceLineOf, pricePending, priceSlotOf } from '@/lib/today/priceLine.mjs';
 import { useMyDailySet } from '@/components/useMyDailySet';
-import { useFirstFullMock } from '@/lib/useFirstFullMock';
+import { useFirstFullMockRead } from '@/lib/useFirstFullMock';
 import { greetingAt } from '@/lib/today/greeting.mjs';
 import { freshPaper, reelSeen } from '@/lib/today/paperReel.mjs';
 import { todayKeyIn } from '@/lib/today/week.mjs';
@@ -154,9 +154,14 @@ export default function Today() {
   // moves here (Your first full mock, A full mock instead) name one subject: the record's, else the last paper's, else the first
   // of the student's subjects (move.mjs, lead.mjs), so one read prices them.
   const mockSubject = facts?.subject || papersData?.[0]?.subject || (Array.isArray(user?.subjects) ? user.subjects[0] || null : null);
-  const firstFullState = useFirstFullMock({ userId, premium, subject: mockSubject });
-  const firstFull = useMemo(() => ({ subject: mockSubject, state: firstFullState }), [mockSubject, firstFullState]);
-  const priceOf = useCallback((m) => priceLineOf(m, { premium, balance, dailySet, firstFull }), [premium, balance, dailySet, firstFull]);
+  // The read never holds the page (release 11 verifier L10): the mock's price line keeps its space and fills when the read lands.
+  // With the rule's switch off (FIRST_FULL_MOCK_ENABLED=false) there is no read and a mock is priced as before.
+  const firstFullRead = useFirstFullMockRead({ userId, premium, subject: mockSubject });
+  const firstFull = useMemo(() => (firstFullRead.state === null ? null : { subject: mockSubject, state: firstFullRead.state, settled: firstFullRead.settled }), [mockSubject, firstFullRead.state, firstFullRead.settled]);
+  const priceOf = useCallback((m) => {
+    const pending = pricePending(m, { premium, firstFull });
+    return { priceLine: pending ? '' : priceLineOf(m, { premium, balance, dailySet, firstFull }), priceSlot: priceSlotOf(m, { premium, balance, firstFull }) };
+  }, [premium, balance, dailySet, firstFull]);
   const reviseSubjects = reviseData?.subjects;
   const finish = useCallback((m) => {
     if (!m || m.id === 'failed') return m;
@@ -164,7 +169,7 @@ export default function Today() {
     // Revise names no one subject; the lead card shows the objects of the subjects whose questions come back today.
     const extra = fitted.id === 'revise' ? { subjects: (reviseSubjects || []).slice(0, 3), free: true } : {};
     const out = { ...fitted, ...extra, base: m, subjectName: fitted.subject ? subjectName(fitted.subject) : '', mockHref: firstTimedMockHref(facts?.subject || fitted.subject || null) };
-    return { ...out, priceLine: priceOf(out) };
+    return { ...out, ...priceOf(out) };
   }, [chosen, facts, reviseSubjects, priceOf]);
   const regular = useMemo(() => (base && base.id !== 'failed' ? finish(leadOf(base)) : base), [base, finish]);
   // The first week (release 8, FEATURE-ADOPTION item 7): a chained path, one feature a day, drawn as a rail on the lead card. Today's step
@@ -200,10 +205,9 @@ export default function Today() {
   // from (the rhythm, the road, the study days, the record), under the same 1.5 s cap, so the lead, the week, the road and the
   // weak chapters appear together instead of the glance column arriving 240 to 400 ms after the lead.
   // The lead's price line waits for the allowance read too (a free set must never flash "uses 10 credits" first), under the same cap.
-  // A mock in the lead waits for its subject's free-first-mock read the same way, so "Free" never lands after a "no price" line.
-  const mockLeads = [base, path?.move].some((m) => m && ['firstMock', 'mock'].includes(m.id));
-  const holdForPage = !waitedOut && ([data.rhythm, data.road, data.goal, insights].some((r) => r.status === 'loading') || Boolean(userId && !premium && dailySet === 'unknown')
-    || Boolean(userId && !premium && mockSubject && mockLeads && firstFullState === 'unknown'));
+  // A mock in the lead does not wait for its subject's free-first-mock read (release 11 verifier L10): its price line keeps its
+  // space empty until the read lands (priceSlot, TodayMove), so "Free" never follows a "no price" line and nothing moves.
+  const holdForPage = !waitedOut && ([data.rhythm, data.road, data.goal, insights].some((r) => r.status === 'loading') || Boolean(userId && !premium && dailySet === 'unknown'));
   // The other moves, each a whole move (Repair, Revise, the weakest chapter, a full mock, another subject).
   const subjects = user?.subjects;
   const pool = useMemo(() => (rec && rec.id !== 'failed' ? choiceMoves({

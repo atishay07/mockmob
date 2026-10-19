@@ -20,6 +20,13 @@ const nextConfig = {
     // node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/viewTransition.md.
     viewTransition: true,
   },
+  // The free first full mock's kill switch (data/first_full_mock.js, C-dec 1, release 11 verifier L4): ON when unset, "false"
+  // turns it off. Passed into every bundle at build time, so the server's grant and every client line that says "free" read the
+  // same value; a change takes a redeploy. Documented for Next 16.2.4 in
+  // node_modules/next/dist/docs/01-app/03-api-reference/05-config/01-next-config-js/env.md.
+  env: {
+    FIRST_FULL_MOCK_ENABLED: process.env.FIRST_FULL_MOCK_ENABLED ?? '',
+  },
   poweredByHeader: false,
   compress: true,
   // Evidence gates load these versioned records at runtime, including in serverless feeds.

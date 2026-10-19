@@ -57,7 +57,7 @@ function NextWhy({ plan, top, planned }) {
     return (
       <aside className="na__why na__why--shape" aria-label="Tonight’s session">
         <p className="na__why-marks"><strong><Rolled value={planned} memoryKey="na-minutes-tonight" /></strong><span>minutes tonight</span></p>
-        <p className="na__why-detail">Marked +5 and −1, the CUET way. Every miss waits in Review with its explanation.</p>
+        <p className="na__why-detail">Marked +5 and −1, the CUET way. Every miss waits in Your papers with its explanation.</p>
       </aside>
     );
   }
@@ -115,7 +115,7 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
   const listen = () => { setListening(false); window.clearTimeout(listenTimer.current); window.requestAnimationFrame(() => { setListening(true); listenTimer.current = window.setTimeout(() => setListening(false), 950); }); };
   useEffect(() => {
     let alive = true;
-    apiGet(`/api/learning/plan${minutes===null?'':`?minutes=${minutes}`}`).then(p => { if (alive) { setPlan(p); setPlanKey(minutes); setError(''); } }).catch(() => { if (alive) setError('Your plan could not be loaded. Your saved attempts are still available in Review.'); });
+    apiGet(`/api/learning/plan${minutes===null?'':`?minutes=${minutes}`}`).then(p => { if (alive) { setPlan(p); setPlanKey(minutes); setError(''); } }).catch(() => { if (alive) setError('Your plan could not be loaded. Your saved attempts are still in Your papers.'); });
     return () => { alive = false; };
   }, [minutes, retryCount]);
   const retry = () => { setPlan(null); setError(''); setRetryCount(n => n + 1); };
@@ -170,7 +170,7 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
   // A plan that never loaded is the shared page-level failed state (as on Review, Progress and Weak chapters): one
   // figure, one sentence, one Try again, standing on its own rather than boxed inside the plan card.
   if (error && !plan) {
-    return <ErrorState scene="unreachable" title="Tonight’s plan did not load" message="Your saved sessions are safe in Review. Try again in a moment." onRetry={retry} />;
+    return <ErrorState scene="unreachable" title="Tonight’s plan did not load" message="Your saved sessions are safe in Your papers. Try again in a moment." onRetry={retry} />;
   }
 
   // Tonight's plan leads the page (the install prompt sits at the foot of Today, below the fold).

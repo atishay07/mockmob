@@ -36,7 +36,7 @@ function PracticeBridge({ userId }) {
       <span className="cmp-bridge__obj" aria-hidden="true"><SubjectObject id={top.subject} size={56} framed={false} /></span>
       <div>
         <b>Most marks open: {top.subjectName}</b>
-        <p>Cutoffs are history, but the subjects you drill are the ones you control. <Link href="/review">See the chapters to work on in Review</Link></p>
+        <p>Cutoffs are history, but the subjects you drill are the ones you control. <Link href="/review">See the chapters to work on in Your papers</Link></p>
         <Link href={`/dashboard?subject=${encodeURIComponent(top.subject)}&mode=quick`}>Practise {top.subjectName}</Link>
       </div>
     </aside>

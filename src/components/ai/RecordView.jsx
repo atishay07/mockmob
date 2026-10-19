@@ -86,8 +86,8 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
     return (
       <div className="pp-empty" role="alert">
         <StatusIcon kind="warning" size={20} />
-        <div><b>Your record could not be read just now.</b><p>Nothing was charged. Your attempts are safe, and Review still works.</p></div>
-        <button type="button" className="btn-outline sm" onClick={() => onNavigate('/review')}>Open Review</button>
+        <div><b>Your record could not be read just now.</b><p>Nothing was charged. Your attempts are safe, and Your papers still opens them.</p></div>
+        <button type="button" className="btn-outline sm" onClick={() => onNavigate('/review')}>Open Your papers</button>
       </div>
     );
   }
@@ -120,7 +120,7 @@ export default function RecordView({ state, onNavigate, pro = false, afterLedger
       <section aria-labelledby="pp-c" className="pp-inreview">
         <h3 id="pp-c" className="sr-only">Your weak chapters</h3>
         <a className="pp-inreview__row" href="/review" onClick={(e) => { e.preventDefault(); onNavigate('/review'); }}>
-          <b>Your weak chapters are in Review</b>
+          <b>Your weak chapters are in Your papers</b>
           <span>Each chapter with the marks it lost across your papers, its mistakes and a practice set for it.</span>
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg>
         </a>

@@ -19,7 +19,10 @@ import { publicInventory } from '@/lib/server/inventory';
 import { pricingBankFaq, pricingBankLine, pricingSubjectLine } from '@/lib/paperCopy.mjs';
 import { practiceBankSize } from '@/lib/practiceBank.mjs';
 import { ONE_CREDIT_LINE, PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
-import { FIRST_FULL_MOCK_COPY } from '@/../data/first_full_mock';
+import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
+
+// The free first full mock (C-dec 1), listed only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
+const FIRST_FREE_ITEMS = FIRST_FULL_MOCK_ON ? [FIRST_FULL_MOCK_COPY.planItem] : [];
 
 export function generateMetadata() {
   const offer = publicOffer();
@@ -42,13 +45,13 @@ const buildPlans = (offer) => [
     ctaLabel: 'Create a free account',
     terms: [
       ['Renewal', 'None, and no card needed'],
-      ['Credits', '100 to start, plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply, 3 a deeper analysis. Your first Full mock in each subject is free'],
+      ['Credits', `100 to start, plus 50 free every month: 1 a question in Quick practice, 50 a Full mock, 1 an Ask Mobi reply, 3 a deeper analysis.${FIRST_FULL_MOCK_ON ? ' Your first Full mock in each subject is free.' : ''}`],
     ],
-    features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', FIRST_FULL_MOCK_COPY.planItem, 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
+    features: newOfferReleased() ? ['One five-question baseline per launch subject', 'One included daily 10-question practice set', ...FIRST_FREE_ITEMS, 'One new complete recovery episode per week', 'Delayed checks for every started episode', '25 saved questions', 'Free DU eligibility and historical cutoffs'] : [
       'Quick practice, 5 to 20 questions, 1 credit a question',
       'Full mock, 50 questions in 60 minutes, 50 credits a mock',
       // The first full mock in each subject is free (data/first_full_mock.js), said right under the price it changes.
-      FIRST_FULL_MOCK_COPY.planItem,
+      ...FIRST_FREE_ITEMS,
       'Every paper built fresh from the live question bank',
       'Weekly progress tracking',
       '25 saved questions',
@@ -64,7 +67,7 @@ const buildPlans = (offer) => [
       : `Every mode, no limits. The ₹${offer.oneTime.rupees} you pay today is one payment: it covers you through ${offer.oneTime.expires} and does not renew.`,
     terms: [
       ['Renewal', offer.purchasable === 'monthly' ? 'Every month on the same date until you cancel in Account' : `None on this payment, which runs through ${offer.oneTime.expires}`],
-      ['Credits', 'Practice needs none: every mode is included. 50 free a month for Ask Mobi'],
+      ['Credits', 'Practice needs none: every mode is included. 50 free a month for Ask Mobi.'],
     ],
     ctaLabel: offer.purchasable === 'monthly' ? `Start Pro for ₹${offer.monthly.rupees}/month` : `Get access for ₹${offer.oneTime.rupees}`,
     planId: offer.purchasable === 'monthly' ? offer.monthly.planId : offer.oneTime.planId,

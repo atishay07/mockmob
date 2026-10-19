@@ -14,7 +14,7 @@ import { tonightMetadata } from '@/../data/study_progress';
 import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
 import { practiceCharge, spendWithLegacyFallback } from '@/../data/practice_charge';
-import { firstFullMockApplies } from '@/../data/first_full_mock';
+import { firstFullMockApplies, firstFullMockTakenError, firstFullMockUncheckedError, quotedFirstFree } from '@/../data/first_full_mock';
 import { firstFullMockFor, takeFirstFullMock } from './firstFullMock';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -93,6 +93,13 @@ export async function startPractice(userId, input, server = {}) {
     ? await firstFullMockFor(db, { userId, subject: selection.internalSubject, sessionId: id })
     : null;
   const charge = practiceCharge({ isPremium: user?.isPremium, mobPaper, modeId: mode.id, creditAction: practiceCreditAction(mode.id, count), count, purpose: input.purpose, subject: selection.internalSubject, firstFullMock });
+  // Launched from a quote that said this full mock is free (Practice sends firstFree=1), but it is not free now: another device
+  // or tab took the subject's free one since, or the rule was switched off. Refused, nothing charged, so the student sees the
+  // price before paying it (release 11 verifier L1); a replay of the free start is 'mine' and stays free.
+  if (quotedFirstFree(input) && charge.creditAction && charge.firstFullMock !== true) {
+    if (firstFullMock === 'unknown') throw firstFullMockUncheckedError();
+    throw firstFullMockTakenError(firstFullMock === 'used' ? 'taken' : 'off');
+  }
   if (durableLearningEnabled()) {
     const { quota } = charge;
     const { data, error } = await db.rpc('start_learning_session', { p_row: { ...row, request_key: input.generationKey, state: 'active' }, p_credit_action: charge.creditAction, p_quota_kind: quota, p_period: quota ? allowancePeriod(quota, created) : null });

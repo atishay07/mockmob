@@ -158,7 +158,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
           <div className="tm__head"><p className="tm__over">Up next</p><h2 id="tm-title" className="tm__title">{word} did not load</h2></div>
           <Art failed />
         </div>
-        <p className="tm__why">MockMob did not answer, so {word.toLowerCase()} could not be worked out. Your papers and mistakes are safe; Review still opens them.</p>
+        <p className="tm__why">MockMob did not answer, so {word.toLowerCase()} could not be worked out. Every paper and mistake is safe, and Your papers still opens them.</p>
         {triedAt ? <p className="tm__note" role="status">Tried again at {triedAt}. Still not loading.</p> : null}
         <button type="button" className="tm__key" data-page-primary onClick={onRetry}><RotateCcw size={18} strokeWidth={2} aria-hidden="true" />Try again</button>
         <div className="tm__or tm__or--one"><Link className="tm__choice" href="/dashboard"><span className="tm__choice-t">Practise anyway</span><span className="tm__choice-v">Pick a subject and a length yourself</span></Link></div>
@@ -186,7 +186,11 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
   const moved = Boolean(askContext && m.link && !m.link.href.startsWith('/mentor'));
   // "Done" keeps its key an outline (one more session is extra, never owed) and shows no length beside its minutes practised.
   const done = m.id === 'done';
-  const price = m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} /> : m.priceLine ? <p className="tm__price">{m.priceLine}</p> : m.free ? <p className="tm__price">Free. No credits.</p> : null;
+  // A mock's price line keeps its space while the free-first-mock read is on its way (release 11 verifier L10): the longest line
+  // it can show is laid out invisibly behind it, so the price lands in place and nothing under it moves.
+  const price = m.aiEach && m.open > 0 ? <RepairPrice each={m.aiEach} />
+    : m.priceSlot ? <p className="tm__price tm__price--slot"><span className="tm__price-room" aria-hidden="true">{m.priceSlot}</span><span>{m.priceLine}</span></p>
+      : m.priceLine ? <p className="tm__price">{m.priceLine}</p> : m.free ? <p className="tm__price">Free. No credits.</p> : null;
 
   return (
     <section className="tm" data-move={m.id} aria-labelledby="tm-title">

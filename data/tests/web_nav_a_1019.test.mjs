@@ -105,7 +105,8 @@ test('the phone bar is five slots: Today, Practice, Start in the centre, Mob, Yo
   assert.match(bar, /tab\.id === 'dashboard' && reviseBadge \? <i className="arena-badge"/);
   assert.match(layout, /tab\.id === 'review' && reviseBadge \? <i className="arena-nav-link__count"/);
   assert.match(read('src/components/nav/PlaceTabs.jsx'), /const badge = tab\.id === 'review' && count \? count : 0;/);
-  assert.match(layout, /dueWords = reviseBadge \? `\$\{reviseBadge\} \$\{reviseBadge === 1 \? 'mistake' : 'mistakes'\} due back today` : ''/, 'a screen reader hears the count in words');
+  // Release 11 (verifier M1): drawn as "8 due" and heard as "Your papers, 8 due in Revise today" (web_fixa_1019.test.mjs).
+  assert.match(layout, /dueLabel\(tab\.label, reviseBadge\)/, 'a screen reader hears the count in words');
   // The bar marks the place a student is in: a page inside Practice (Your papers, Learn, Explore, Saved) marks Practice.
   assert.equal(dockPlaceOf('/review'), 'practice');
   assert.equal(dockPlaceOf('/study/abc'), 'practice');
@@ -134,12 +135,12 @@ test('the You sheet: the account card, Ask Mobi with his face, Your progress, Yo
 });
 
 test('copy, read aloud (R6): full sentences, no telegram style', () => {
-  assert.match(layout, /rail: 'He explains any answer\.'/);
-  assert.match(layout, /sheet: 'He explains questions, results and your plan\.'/);
+  // Release 11 (walk item 12): one line for the one door, on the sidebar and on the phone's sheet (web_fixa_1019.test.mjs).
+  assert.match(layout, /const ASK_MOBI_NOTE = 'He explains any answer\.';/);
   assert.match(layout, /<span className="arena-sheet__lead-name">Ask Mobi<\/span>/);
   assert.equal(MOB_PAGES[0].label, 'Your Mob');
   assert.deepEqual(MOB_PAGES.map((tab) => tab.label), ['Your Mob', 'Your standing']);
-  for (const line of ['He explains any answer.', 'He explains questions, results and your plan.']) {
+  for (const line of ['He explains any answer.']) {
     assert.doesNotMatch(line, /[!—·]|\p{Extended_Pictographic}/u, line);
     assert.match(line, /^[A-Z].*\.$/, `${line} is a sentence`);
   }

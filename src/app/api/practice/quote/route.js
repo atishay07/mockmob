@@ -14,6 +14,7 @@ import { TEST_MODES, resolveCount } from '@/../data/test_modes';
 import { getUnifiedWallet } from '@/services/credits/unifiedWallet';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { firstFullMockFor } from '@/lib/server/firstFullMock';
+import { firstFullMockEnabled } from '@/../data/first_full_mock';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -56,7 +57,9 @@ export async function GET(request) {
   // Practice screen can say so on the Full mock tile whichever mode is chosen. The start route reads the same facts the same
   // way (src/lib/server/practiceSessions.js), so the quote and the start agree. A failed read is 'unknown': priced as before.
   const internalSubject = normalizeSubjectSelection({ subject }).internalSubject;
-  const firstFullMock = user.isPremium !== true && resolved.launch && internalSubject
+  // The kill switch (FIRST_FULL_MOCK_ENABLED=false): nothing is read and the quote carries no rule field, so every client prices
+  // a Full mock as before the rule.
+  const firstFullMock = firstFullMockEnabled() && user.isPremium !== true && resolved.launch && internalSubject
     ? firstFullMockFor(supabaseAdmin(), { userId: user.id, subject: internalSubject }).catch(() => 'unknown')
     : null;
 

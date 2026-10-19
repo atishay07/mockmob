@@ -9,7 +9,7 @@
 // nothing is priced for Pro.
 import { useEffect, useState } from 'react';
 import { TEST_MODES } from '../../data/test_modes.js';
-import { FIRST_FULL_MOCK_STATE, firstFullMockFromQuote } from '../../data/first_full_mock.js';
+import { FIRST_FULL_MOCK_ON, FIRST_FULL_MOCK_STATE, firstFullMockFromQuote } from '../../data/first_full_mock.js';
 
 const FRESH_MS = 60_000;
 // `${userId}|${subject}` -> { at, state } once read, { promise, at } while it is on its way
@@ -43,14 +43,26 @@ export function forgetFirstFullMock(userId = null) {
   for (const key of [...reads.keys()]) if (key.startsWith(`${userId}|`)) reads.delete(key);
 }
 
-export function useFirstFullMock({ userId = null, premium = false, subject = null } = {}) {
+/**
+ * { state, settled }: the rule's state for this student and subject, and whether the read has landed (a failed read is settled
+ * as 'unknown'). With the rule's switch off (FIRST_FULL_MOCK_ENABLED=false) nothing is read and the state is null, which every
+ * surface prices as before the rule.
+ */
+export function useFirstFullMockRead({ userId = null, premium = false, subject = null } = {}) {
   const [read, setRead] = useState({ key: null, state: FIRST_FULL_MOCK_STATE.unknown });
-  const key = userId && subject && !premium ? `${userId}|${subject}` : null;
+  const key = FIRST_FULL_MOCK_ON && userId && subject && !premium ? `${userId}|${subject}` : null;
   useEffect(() => {
     if (!key) return undefined;
     let live = true;
     readFirstFullMock(userId, subject).then((state) => { if (live) setRead({ key, state }); });
     return () => { live = false; };
   }, [key, userId, subject]);
-  return key && read.key === key ? read.state : FIRST_FULL_MOCK_STATE.unknown;
+  if (!FIRST_FULL_MOCK_ON) return { state: null, settled: true };
+  if (!key) return { state: FIRST_FULL_MOCK_STATE.unknown, settled: true };
+  return read.key === key ? { state: read.state, settled: true } : { state: FIRST_FULL_MOCK_STATE.unknown, settled: false };
+}
+
+/** The state alone: 'available' | 'used' | 'unknown', or null when the rule's switch is off. */
+export function useFirstFullMock(options = {}) {
+  return useFirstFullMockRead(options).state;
 }

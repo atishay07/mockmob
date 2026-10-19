@@ -31,7 +31,7 @@ test('H2: free credits go BACK TO 50 on the reset date, never "50 more"', () => 
 
 test('M3: one true sentence for what a credit buys; deeper analysis is 3 and matches the server price list', () => {
   // New contract (copy pass, 19 Oct): full sentences, and the first full mock in each subject is free (C-dec 1).
-  assert.equal(ONE_CREDIT_LINE, '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50, and your first one in each subject is free. Deeper analysis costs 3. The cost shows before you start.');
+  assert.equal(ONE_CREDIT_LINE, '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits, and your first one in each subject is free. Deeper analysis costs 3 credits. The cost shows before you start.');
   const costs = read('src/services/usage/getDailyUsage.js');
   for (const k of ['deep_mentor_analysis', 'mock_autopsy', 'trap_drill', 'custom_mock_plan', 'rival_weakness', 'deep_recovery_plan']) {
     assert.match(costs, new RegExp(`${k}: ${DEEP_AI_CREDITS},`), k);

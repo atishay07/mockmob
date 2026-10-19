@@ -31,6 +31,7 @@ import { SectionPosition } from '@/components/landing/SectionPosition';
 import { SubjectObject } from '@/components/brand/SubjectObject';
 import { objectStage } from '@/components/brand/ObjectLifeModel.mjs';
 import { subjectArt } from '@/../data/subject_art.mjs';
+import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
 import { publishedVoices } from '@/lib/voices';
 import { INSTAGRAM, STATS_AS_OF, rankedReels } from '@/lib/social';
 import { buildCompassShowcase, duIndexFacts } from '@/lib/du/showcase';
@@ -54,7 +55,8 @@ import './hero-motion.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   'Quick practice and Full mock on credits',
-  'Your first full mock in every subject is free',
+  // The free first full mock (C-dec 1), only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
+  ...(FIRST_FULL_MOCK_ON ? [FIRST_FULL_MOCK_COPY.planItem] : []),
   'Weekly progress tracking',
   '25 saved questions',
   'Your standing',

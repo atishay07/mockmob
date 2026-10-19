@@ -16,6 +16,7 @@
 
 import { usesLine, haveLine, PRACTICE_PRICE, PRACTICE_PRICE_LINE } from './creditCopy.mjs';
 import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
+import { FIRST_FULL_MOCK_ON } from '../../data/first_full_mock.js';
 
 const PUBLIC_ID = Object.freeze({ gat: 'general_test' });
 
@@ -120,7 +121,7 @@ function creditCountShort(balance) {
 /** Pricing: the one calm sentence under the plans' lead. The bank size is the stored daily count, or left out. */
 export function pricingBankLine(bankSize) {
   const bank = Number.isInteger(bankSize) && bankSize > 0 ? `a live bank of ${fmt(bankSize)} questions` : 'the live question bank';
-  return `There is no fixed set of mocks: each paper is built when you start it, from ${bank}, questions you have not answered first. Pro covers as many as you take. On Free, each paper uses credits, except your first full mock in each subject, which is free.`;
+  return `There is no fixed set of mocks: each paper is built when you start it, from ${bank}, questions you have not answered first. Pro covers as many as you take. On Free, each paper uses credits${FIRST_FULL_MOCK_ON ? ', except your first full mock in each subject, which is free' : ''}.`;
 }
 
 /** Pricing: what the bank covers. Only the subjects Practice offers are counted, never the thin or dropped ones. */
@@ -140,7 +141,9 @@ export function pricingBankFaq(bankSize) {
 /** Onboarding: the subjects step's lead, and the count on each subject tile. "No cap" is Pro's; Free pays credits
  *  for each mock, said in the same breath (release 9 audit: the lead was shown to Free students without it). Since 19 Oct the
  *  first full mock in each subject is free (C-dec 1), the best news a new student can read here, so it leads. */
-export const ONBOARDING_LEAD = 'Pick up to 5. Every mock is built fresh from one live question bank, and your first full mock in each subject is free. After that, each one uses credits on Free; on Pro there is no cap. Swap subjects any time.';
+export const ONBOARDING_LEAD = FIRST_FULL_MOCK_ON
+  ? 'Pick up to 5. Every mock is built fresh from one live question bank, and your first full mock in each subject is free. After that, each one uses credits on Free; on Pro there is no cap. Swap subjects any time.'
+  : 'Pick up to 5. Every mock is built fresh from one live question bank. Each one uses credits on Free; on Pro there is no cap. Swap subjects any time.';
 
 /** Onboarding: each step's headline and lead (M-006, 18 Oct: bolder and punchier, still true, no exclamation marks). */
 export const ONBOARDING_STEPS = Object.freeze({

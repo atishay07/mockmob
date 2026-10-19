@@ -2,7 +2,7 @@
 // Takes the Supabase client (the routes pass the admin client), so the tests run it over a real Postgres. No migration: it uses
 // two tables production already has, attempts (read) and learning_allowances (one row per free start, its primary key is the lock).
 import { toPublicSubjectId } from '../../../data/cuet_controls.js';
-import { FIRST_FULL_MOCK_PERIOD, FULL_PAPER_MODES, firstFullMockKind, firstFullMockState, fullSampleKind } from '../../../data/first_full_mock.js';
+import { FIRST_FULL_MOCK_PERIOD, FULL_PAPER_MODES, firstFullMockKind, firstFullMockState, firstFullMockTakenError, fullSampleKind } from '../../../data/first_full_mock.js';
 
 const UNIQUE_VIOLATION = '23505';
 const failed = (cause) => Object.assign(new Error('SESSION_CREATE_FAILED'), { cause });
@@ -75,12 +75,16 @@ export async function startAlreadyPaid(db, { userId, reference }) {
 
 /**
  * The device-held start's decision, after its question set is built: true when this start is the free one (charge nothing),
- * false when it is charged exactly as before. `state` is firstFullMockFor's answer for this session.
+ * false when it is charged exactly as before (not the rule's start, or a start paid before the rule shipped). `state` is
+ * firstFullMockFor's answer for this session. A start that read 'available' and then finds the row taken by another start in
+ * the moment between (another device or tab) throws FIRST_FULL_MOCK_TAKEN: its own read said free, so it is never charged
+ * without a warning (release 11 verifier L1); nothing is charged and the client asks for a new quote.
  */
 export async function takeFirstFullMock(db, { userId, subject, sessionId, reference, state }) {
   if (state === 'mine') return true;
   if (state !== 'available') return false;
   if (await startAlreadyPaid(db, { userId, reference })) return false;
   const claimed = await claimFirstFullMock(db, { userId, subject, sessionId });
+  if (claimed === 'taken') throw firstFullMockTakenError();
   return claimed === 'claimed' || claimed === 'mine';
 }

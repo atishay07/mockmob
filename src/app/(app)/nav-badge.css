@@ -1,11 +1,14 @@
 /* The Review count and More as the current tab (LEARN-REVIEW-1017 5.12 and 5.9; NAV-1017 badge position: centre at the icon's right + 2, icon top + 1).
-   The count is Revise due today, a plain neutral disc (ink on the dock's own colour, never lime: the Start key is the dock's one
-   lime fill). It appears with a small pop and is absent when nothing is due. Nothing here touches the Start key or the dock's size. */
+   The count is Revise due today, a plain neutral pill (ink on the dock's own colour, never lime: the Start key is the dock's one
+   lime fill). It says "8 due", never a bare number that reads as a paper count (release 11 verifier M1), on one line, and its
+   centre stays at the icon's right + 2 however wide the words are (`translate`, so the pop's own transform is untouched), so
+   the pill stays inside Practice's slot and clear of the Start key. It appears with a small pop and is absent when nothing is
+   due. Nothing here touches the Start key or the dock's size. */
 html .app-shell .arena-bottomnav a > i.arena-badge {
-  position: absolute; top: 3px; left: calc(50% + 5px);
+  position: absolute; top: 3px; left: calc(50% + 14px); translate: -50% 0;
   min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px;
   background: var(--a-ink); color: var(--a-bg);
-  font: 700 11px/18px var(--font-body); font-style: normal; text-align: center; font-variant-numeric: tabular-nums;
+  font: 700 11px/18px var(--font-body); font-style: normal; text-align: center; font-variant-numeric: tabular-nums; white-space: nowrap;
   box-shadow: 0 0 0 2px var(--dock-solid, var(--a-bg)); pointer-events: none;
   animation: arena-badge-pop 220ms var(--mk-spring, cubic-bezier(0.34, 1.56, 0.64, 1)) both;
 }

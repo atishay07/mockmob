@@ -213,7 +213,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   const aim = top?.subject && top?.chapter ? `${href}${href.includes('?') ? '&' : '?'}${new URLSearchParams({ subject: top.subject, chapter: top.chapter })}` : href;
   return {
     id: 'practice', overline: weekLine || moveWord, number: count, label: top?.chapter ? `questions on ${top.chapter}` : 'practice questions',
-    why: top?.chapter ? `${top.chapter} has ${plural(top.open, 'mark')} open in your record, over ${plural(top.sessions, 'session')}.${sparseClause}` : `Marked +5 and −1, the CUET way. Each miss waits in Review with its explanation.${sparseClause}`,
+    why: top?.chapter ? `${top.chapter} has ${plural(top.open, 'mark')} open in your record, over ${plural(top.sessions, 'session')}.${sparseClause}` : `Marked +5 and −1, the CUET way. Each miss waits in Your papers with its explanation.${sparseClause}`,
     key: { label: `Start ${count} questions`, href: aim, minutes: length },
     link: top?.chapter ? { label: 'See why', href: '/mentor?tab=record' } : null,
     pills: pills(), art: 'object', subject: top?.subject || last?.subject || null, firstWeek,

@@ -44,7 +44,7 @@ export const RUN_COPY = Object.freeze({
   mobiRepaired: 'Mobi, pleased with the repair',
   mobiNothing: 'Mobi, ready for another try',
   trySameAgain: 'Try the same mistakes again',
-  openReview: 'Open Review',
+  openReview: 'Open Your papers',
   firstRepair: 'This is your first repair.',
 });
 
@@ -237,7 +237,7 @@ export function endingFact({ left = 0, setAside = 0 } = {}) {
 }
 
 export function nothingLine({ setAside = 0 } = {}) {
-  return setAside > 0 ? `${setAside} set aside. They stay in Review.` : 'Your mistakes stay in Review.';
+  return setAside > 0 ? `${setAside} set aside. They stay in Your papers.` : 'Your mistakes stay in Your papers.';
 }
 
 /** "tonight" from 4:00 PM to 4:59 AM, otherwise "today" (the app's rule). */

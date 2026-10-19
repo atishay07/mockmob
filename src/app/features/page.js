@@ -27,7 +27,7 @@ const PARTS = [
   },
   {
     title: 'Review and Mistake Repair',
-    body: 'Every miss from a session lands in Review with its explanation. Repair one, then a fresh question on the same idea comes back later to check the fix held.',
+    body: 'Every miss from a session lands in Your papers with its explanation. Repair one, then a fresh question on the same idea comes back later to check the fix held.',
     href: '/signup', link: 'Create a free account',
   },
   {

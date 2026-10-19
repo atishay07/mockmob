@@ -358,9 +358,10 @@ async function getQuote(userId, { subject = 'english', mode = 'full', count = 50
   const res = await quoteRoute.GET(new Request(`http://localhost/api/practice/quote?${params}`));
   return { status: res.status, body: await res.json() };
 }
-async function start(userId, { key, subject = 'english', mode = 'full', count = 50, purpose = null } = {}) {
+async function start(userId, { key, subject = 'english', mode = 'full', count = 50, purpose = null, firstFree = false } = {}) {
   as(userId);
-  const body = { generationKey: key, subject, mode, count: String(count), experience: 'practice', ...(purpose ? { purpose } : {}) };
+  // firstFree: the start Practice sends when its quote said this full mock is free (release 11 verifier L1).
+  const body = { generationKey: key, subject, mode, count: String(count), experience: 'practice', ...(purpose ? { purpose } : {}), ...(firstFree ? { firstFree: '1' } : {}) };
   const res = await sessionsRoute.POST(new Request('http://localhost/api/sessions', { method: 'POST', body: JSON.stringify(body) }));
   return { status: res.status, body: await res.json() };
 }
@@ -451,9 +452,10 @@ test('an abandoned free start counts as used: never finished, the next full mock
   } finally { await d.close(); }
 });
 
-test('two starts of the same subject\'s first mock at the same moment: exactly one is free', async () => {
+test('two starts of the same subject\'s first mock at the same moment: exactly one is free, the other is refused and not charged', async () => {
   // Both starts read the facts before either writes the row (a gate holds the writes until both reads are in), so this is the
-  // real race; learning_allowances' primary key lets one write win, and the other start is charged as before.
+  // real race; learning_allowances' primary key lets one write win. The other start's own read said free, so it is refused with
+  // FIRST_FULL_MOCK_TAKEN and charged nothing (release 11 verifier L1: never 50 without a warning); its student re-quotes.
   let reads = 0; let release; const bothRead = new Promise((r) => { release = r; });
   const d = await routes({
     afterRead: (table) => { if (table === 'learning_allowances' && ++reads === 2) release(); },
@@ -463,14 +465,20 @@ test('two starts of the same subject\'s first mock at the same moment: exactly o
     await student(d, 'twin', { balance: 100 });
     const [a, b] = await Promise.all([start('twin', { key: key('t1') }), start('twin', { key: key('t2') })]);
     assert.equal(reads >= 2, true, 'both starts read the rule before either wrote');
-    assert.deepEqual([a.status, b.status], [200, 200]);
+    assert.deepEqual([a.status, b.status].sort(), [200, 409]);
+    const [won, lost] = a.status === 200 ? [a, b] : [b, a];
+    assert.equal(lost.body.error, 'FIRST_FULL_MOCK_TAKEN');
+    assert.match(lost.body.message, /already started on another device or tab, so this one is not free\. It did not start, and nothing was charged\./);
     assert.equal((await claims(d, 'twin')).length, 1, 'one free row');
-    const paid = await spends(d, 'twin');
-    assert.equal(paid.length, 1, 'one charge');
-    assert.equal(paid[0].credit_delta, -50);
+    assert.equal((await claims(d, 'twin'))[0].reference, won.body.meta.sessionId);
+    assert.deepEqual(await spends(d, 'twin'), [], 'no charge at all');
+    assert.equal(await balanceOf(d, 'twin'), 100);
+    // The refused student's new quote says the price, and a start from it (no longer quoted free) is charged what it said.
+    const q = await getQuote('twin');
+    assert.equal(q.body.creditCost, 50);
+    assert.equal(q.body.freeReason, undefined);
+    assert.equal((await start('twin', { key: key('t3') })).status, 200);
     assert.equal(await balanceOf(d, 'twin'), 50);
-    const freeId = (await claims(d, 'twin'))[0].reference;
-    assert.deepEqual(new Set([a.body.meta.sessionId, b.body.meta.sessionId]), new Set([freeId, paid[0].reference.replace(/^practice_/, '')]), 'one paper free, the other paid');
   } finally { await d.close(); }
 });
 
@@ -483,7 +491,7 @@ test('the same race with too few credits: one start is free, the other is refuse
   try {
     await student(d, 'poor', { balance: 40 });
     const results = await Promise.all([start('poor', { key: key('p1') }), start('poor', { key: key('p2') })]);
-    assert.deepEqual(results.map((r) => r.status).sort(), [200, 402]);
+    assert.deepEqual(results.map((r) => r.status).sort(), [200, 409], 'refused as taken before any price is asked');
     assert.equal(await balanceOf(d, 'poor'), 40);
     assert.equal((await claims(d, 'poor')).length, 1);
   } finally { await d.close(); }
@@ -637,4 +645,155 @@ test('durable sessions: start_learning_session takes the free row under the user
     delete process.env.LEARNING_SESSIONS_ENABLED;
     await d.close();
   }
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Release 11 verifier L1: a quote said free, another device took the free one, and this start was charged 50 without a word
+// ---------------------------------------------------------------------------------------------------------------------
+test('L1: quoted free, then another device takes the free one: this start (firstFree=1) is refused, nothing charged; the new quote shows 50', async () => {
+  const d = await routes();
+  try {
+    await student(d, 'two_devices', { balance: 120 });
+    // The phone's Practice and the laptop's Practice both quote the English full mock free.
+    for (const device of ['phone', 'laptop']) assert.equal((await getQuote('two_devices')).body.freeReason, 'first_full_mock_free', device);
+    const phone = await start('two_devices', { key: key('phone'), firstFree: true });
+    assert.equal(phone.status, 200);
+    assert.equal(await balanceOf(d, 'two_devices'), 120, 'the phone took the free one');
+    // The laptop starts from its (now stale) free quote: its own read says 'used', so it would have been charged 50.
+    const laptop = await start('two_devices', { key: key('laptop'), firstFree: true });
+    assert.equal(laptop.status, 409);
+    assert.equal(laptop.body.error, 'FIRST_FULL_MOCK_TAKEN');
+    assert.equal(laptop.body.detail.requote, true);
+    assert.equal(await balanceOf(d, 'two_devices'), 120, 'nothing charged without a warning');
+    assert.deepEqual(await spends(d, 'two_devices'), []);
+    // Reloading the refused page (same key, same firstFree) is refused again, never charged.
+    assert.equal((await start('two_devices', { key: key('laptop'), firstFree: true })).status, 409);
+    assert.equal(await balanceOf(d, 'two_devices'), 120);
+    // The re-quote shows the price; the start the student makes from it is charged exactly that.
+    const q = await getQuote('two_devices');
+    assert.deepEqual([q.body.creditCost, q.body.firstFullMock, q.body.freeReason], [50, 'used', undefined]);
+    assert.equal((await start('two_devices', { key: key('laptop2') })).status, 200);
+    assert.equal(await balanceOf(d, 'two_devices'), 70);
+    // The phone's own replay of its free paper (same key, firstFree) stays free.
+    const replay = await start('two_devices', { key: key('phone'), firstFree: true });
+    assert.equal(replay.status, 200);
+    assert.equal(replay.body.meta.sessionId, phone.body.meta.sessionId);
+    assert.equal(await balanceOf(d, 'two_devices'), 70);
+  } finally { await d.close(); }
+});
+
+test('L1: a failed read on a start quoted free is refused as unchecked (503, nothing charged); the app\'s start without firstFree is priced as before', async () => {
+  const d = await routes();
+  try {
+    await student(d, 'flaky', { balance: 100 });
+    globalThis.__ffm.client = pgClient(d, { fail: ({ table, op, where }) => (table === 'attempts' && op === 'select' && where.some((w) => w.includes("'mode'")) ? { code: '57014', message: 'timeout' } : null) });
+    const r = await start('flaky', { key: key('f1'), firstFree: true });
+    assert.equal(r.status, 503);
+    assert.equal(r.body.error, 'FIRST_FULL_MOCK_UNCHECKED');
+    assert.match(r.body.message, /could not check that this full mock is still free/);
+    assert.equal(await balanceOf(d, 'flaky'), 100);
+    assert.deepEqual(await claims(d, 'flaky'), []);
+    const app = await start('flaky', { key: key('f2') });
+    assert.equal(app.status, 200, 'unknown is never free, as before, for a start that was not quoted free');
+    assert.equal(await balanceOf(d, 'flaky'), 50);
+  } finally { await d.close(); }
+});
+
+test('L1: the client side: Practice sends firstFree=1 only from a free quote, the test page passes it on and turns the refusal into a re-quoted price', async () => {
+  const { firstMockNotice, isFirstMockRefusal, notFreePriceLine } = await import(pathToFileURL(path.join(ROOT, 'src', 'lib', 'firstMockNotice.mjs')).href);
+  const taken = Object.assign(new Error('FIRST_FULL_MOCK_TAKEN'), { status: 409, body: { error: 'FIRST_FULL_MOCK_TAKEN', message: 'Your free full mock in this subject was already started on another device or tab, so this one is not free. It did not start, and nothing was charged. Check the price, then start again.' } });
+  assert.equal(isFirstMockRefusal(taken), true);
+  assert.equal(isFirstMockRefusal(new Error('INSUFFICIENT_CREDITS')), false);
+  const notice = firstMockNotice(taken, { creditCost: 50, creditBalance: 135, launchable: true }, 'English');
+  assert.deepEqual(notice, { title: 'This full mock is not free now', message: taken.body.message, price: 'A full mock in English costs 50 credits. You have 135.', retry: false });
+  assert.equal(notFreePriceLine(null, 'English'), 'Practice shows the price before you start.', 'a failed re-quote names no number');
+  assert.equal(notFreePriceLine({ creditCost: 0, freeReason: 'first_full_mock_free' }), FIRST_FULL_MOCK_COPY.price);
+  const unchecked = firstMockNotice(Object.assign(new Error('FIRST_FULL_MOCK_UNCHECKED'), { body: {} }), null);
+  assert.deepEqual([unchecked.title, unchecked.retry, unchecked.price], ['This full mock did not start', true, '']);
+  const practice = file('src/app/(app)/dashboard/DashboardPageClient.jsx').replace(/\r\n/g, '\n');
+  assert.match(practice, /if \(quoteFirstFree\) tonight\.set\('firstFree', '1'\);\n\s+const target = `\$\{launchHref\}&generationKey=/);
+  const runner = file('src/app/(app)/test/TestPageClient.jsx');
+  assert.match(runner, /\['sessionId','episodeId','purpose','tonightKey','tonightMinutes','variant','firstFree'\]/);
+  assert.match(runner, /if \(isFirstMockRefusal\(e\)\) \{[\s\S]{0,400}forgetFirstFullMock\(\);[\s\S]{0,400}apiGet\(`\/api\/practice\/quote\?\$\{new URLSearchParams\(\{ subject: subjectId, mode: 'full', count: '50' \}\)\}`\)/);
+  assert.match(runner, /setNotFree\(firstMockNotice\(e, fresh, displayLabel\(subjectId\)\)\);/);
+  assert.match(file('src/app/api/sessions/route.js'), /\/FIRST_FULL_MOCK_TAKEN\/\.test\(message\) \? 409 : \/FIRST_FULL_MOCK_UNCHECKED\/\.test\(message\) \? 503 :/);
+});
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Release 11 verifier L4: the kill switch C-dec 1 promised, FIRST_FULL_MOCK_ENABLED (ON when unset; "false" turns it off)
+// ---------------------------------------------------------------------------------------------------------------------
+test('L4: FIRST_FULL_MOCK_ENABLED=false: the server never grants the free mock; unset and anything else keep it on', async () => {
+  const { firstFullMockEnabled } = await import('../first_full_mock.js');
+  for (const [value, on] of [[undefined, true], ['', true], ['true', true], ['1', true], ['false', false], [' FALSE ', false]]) assert.equal(firstFullMockEnabled(value), on, String(value));
+  const d = await routes();
+  try {
+    await student(d, 'switched', { balance: 100 });
+    process.env.FIRST_FULL_MOCK_ENABLED = 'false';
+    assert.equal(firstFullMockApplies({ isPremium: false, modeId: 'full' }), false);
+    const q = await getQuote('switched');
+    assert.deepEqual([q.body.creditCost, q.body.firstFullMock, q.body.freeReason, q.body.allowance], [50, undefined, undefined, null], 'priced as before the rule, with no rule fields');
+    assert.equal((await getQuote('switched', { mode: 'quick', count: 10 })).body.firstFullMock, undefined, 'no quote carries the state');
+    const quoted = await start('switched', { key: key('o1'), firstFree: true });
+    assert.equal(quoted.status, 409, 'a page still holding a free quote is refused, never charged silently');
+    assert.equal(quoted.body.detail.reason, 'off');
+    assert.match(quoted.body.message, /^This full mock is not free any more\./);
+    assert.equal(await balanceOf(d, 'switched'), 100);
+    const paid = await start('switched', { key: key('o2') });
+    assert.equal(paid.status, 200);
+    assert.equal(await balanceOf(d, 'switched'), 50, 'charged 50 as before the rule');
+    assert.deepEqual(await claims(d, 'switched'), [], 'no free row is written');
+    // Back on: the free one is still there (the paid start was not it).
+    delete process.env.FIRST_FULL_MOCK_ENABLED;
+    assert.equal((await getQuote('switched')).body.freeReason, 'first_full_mock_free');
+    assert.equal((await start('switched', { key: key('o3'), firstFree: true })).status, 200);
+    assert.equal(await balanceOf(d, 'switched'), 50);
+  } finally {
+    delete process.env.FIRST_FULL_MOCK_ENABLED;
+    await d.close();
+  }
+});
+
+test('L4: FIRST_FULL_MOCK_ENABLED=false hides every "first full mock free" line; unset shows them; next.config passes the switch into the builds', async () => {
+  const { execFileSync } = await import('node:child_process');
+  const href = (rel) => JSON.stringify(pathToFileURL(path.join(ROOT, rel)).href);
+  const probe = [
+    `const { ONE_CREDIT_LINE, PRACTICE_PRICE_LINE } = await import(${href('src/lib/creditCopy.mjs')});`,
+    `const { ONBOARDING_LEAD, pricingBankLine, pricingBankFaq } = await import(${href('src/lib/paperCopy.mjs')});`,
+    `const { FIRST_FULL_MOCK_ON } = await import(${href('data/first_full_mock.js')});`,
+    `const config = (await import(${href('next.config.mjs')})).default;`,
+    'console.log(JSON.stringify({ on: FIRST_FULL_MOCK_ON, lines: [ONE_CREDIT_LINE, PRACTICE_PRICE_LINE, ONBOARDING_LEAD, pricingBankLine(9000), pricingBankFaq(9000).a], env: config.env }));',
+  ].join('\n');
+  const run = (value) => {
+    const env = { ...process.env };
+    if (value === undefined) delete env.FIRST_FULL_MOCK_ENABLED; else env.FIRST_FULL_MOCK_ENABLED = value;
+    return JSON.parse(execFileSync(process.execPath, ['--input-type=module', '-e', probe], { env, cwd: ROOT, encoding: 'utf8' }).trim().split('\n').pop());
+  };
+  const free = /first (full mock|one)[^.]*free/i;
+  const on = run(undefined);
+  assert.equal(on.on, true);
+  for (const line of on.lines) assert.match(line, free, line);
+  assert.deepEqual(on.env, { FIRST_FULL_MOCK_ENABLED: '' });
+  const off = run('false');
+  assert.equal(off.on, false);
+  for (const line of off.lines) assert.doesNotMatch(line, free, line);
+  assert.deepEqual(off.lines.slice(0, 3), [
+    '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits. Deeper analysis costs 3 credits. The cost shows before you start.',
+    'A practice question costs 1 credit, so a 10-question set is 10 credits. A full mock costs 50 credits.',
+    'Pick up to 5. Every mock is built fresh from one live question bank. Each one uses credits on Free; on Pro there is no cap. Swap subjects any time.',
+  ]);
+  assert.deepEqual(off.env, { FIRST_FULL_MOCK_ENABLED: 'false' }, 'the build carries the switch to the browser');
+  // The pages that import the app's own modules (pricing, the landing, Ask Mobi's guide) gate the same lines on the same switch,
+  // and every surface that reads the rule's state stops reading it (null prices a full mock as before).
+  const pricing = file('src/app/pricing/page.js');
+  assert.match(pricing, /const FIRST_FREE_ITEMS = FIRST_FULL_MOCK_ON \? \[FIRST_FULL_MOCK_COPY\.planItem\] : \[\];/);
+  assert.equal((pricing.match(/\.\.\.FIRST_FREE_ITEMS/g) || []).length, 2);
+  assert.equal((pricing.match(/FIRST_FULL_MOCK_COPY\.planItem/g) || []).length, 1, 'only through the switch');
+  assert.match(file('src/app/page.js'), /\.\.\.\(FIRST_FULL_MOCK_ON \? \[FIRST_FULL_MOCK_COPY\.planItem\] : \[\]\),/);
+  assert.doesNotMatch(file('src/app/page.js'), /'Your first full mock in every subject is free'/);
+  assert.match(file('src/components/ai/assistantKnowledge.js'), /const FIRST_FREE = FIRST_FULL_MOCK_ON \? ', and your first full mock in each subject is free' : '';/);
+  const hook = file('src/lib/useFirstFullMock.js');
+  assert.match(hook, /const key = FIRST_FULL_MOCK_ON && userId && subject && !premium/);
+  assert.match(hook, /if \(!FIRST_FULL_MOCK_ON\) return \{ state: null, settled: true \};/);
+  assert.match(file('src/app/(app)/today/page.jsx'), /firstFullRead\.state === null \? null :/);
+  assert.match(file('src/app/api/practice/quote/route.js'), /const firstFullMock = firstFullMockEnabled\(\) && user\.isPremium !== true/);
 });

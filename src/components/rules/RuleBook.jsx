@@ -182,7 +182,7 @@ export default function RuleBook() {
   }, [sending, read, labels.inUse, toast]);
 
   const head = <ArenaHead title={book?.title || 'Your rules'} lede="Rules from your repairs and from how you take papers. Choose one to carry into your next mock." />;
-  const back = <Link className="rb-back" href="/review"><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Review</Link>;
+  const back = <Link className="rb-back" href="/review"><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Your papers</Link>;
 
   if (read.state === 'error' && !book) {
     return (
