@@ -177,6 +177,14 @@ abstract final class MobV3Copy {
   static const String marksNote = 'Your Mob sees your marks in games. One switch in Mob settings keeps them private.';
   static String startKey(String mobName) => 'Start $mobName';
   static const String startNext = 'Next, you can invite up to 4 friends.';
+  static const String startSheetTitle = 'Start a Mob';
+  static const String showFirstSix = 'Back to the first six';
+  static const String youTag = 'You';
+  static const String denPreviewLabel = 'Your den, with four seats waiting for friends.';
+  static const String changeFoldTitle = 'Change your Fold';
+  static const String foldPickerLabel = 'Fold';
+  static String foldCard(String name, String line) => '$name. $line';
+  static String creaseLabel(int folds) => switch (folds) { 1 => 'A starter Fold', 2 => 'Earned by you', _ => 'Earned with your Mob' };
 
   // ---- J1 Join ----
   static const String joinTitle = 'Join a Mob';
@@ -186,6 +194,13 @@ abstract final class MobV3Copy {
   static const String pickWho = "Pick who you'll be";
   static const String joinPrivacy = 'MockMob never asks for your contacts. Only your Mob sees your name. You can leave any time.';
   static String joinKey(String mobName) => 'Join $mobName';
+  static const String joinCodeLabel = 'Mob code';
+  static String joinCodeSemantics(String shown) => shown.isEmpty ? 'Mob code, empty' : 'Mob code, $shown';
+  static const String joinChecking = 'Checking the code';
+  static const String joinPaused = 'New members cannot join by code just now. Try this code again later.';
+  static const String joinStartOwn = 'Start your own Mob';
+  static const String joinYourName = 'Your name in this Mob';
+  static String joinPreviewLabel(String mob, String subject, int taken) => '$mob, $subject, ${seatsTaken(taken)}';
 
   // ---- P1 Play picker ----
   static const String pickerTitle = 'Play with your Mob';
@@ -438,6 +453,16 @@ abstract final class MobV3Copy {
     return '${foldName(f.key)}. $rule$count$where.';
   }
 
+  static const String shelfOwned = 'Yours';
+  static const String shelfToEarn = 'Still to earn';
+  static const String foilEarned = 'Foil edge. Earned.';
+  static const String foilWear = 'Wear it on your Fold';
+  static const String shelfFailed = "Your shelf didn't load.";
+  static const String shelfLoading = 'Loading your shelf';
+  static const String mobShelfOwned = 'On the shelf';
+  static String mobShelfNext(int? have, int? need) => have != null && need != null ? '${have.clamp(0, need)} of $need weeks in a row' : (need != null ? 'At $need weeks in a row' : 'Next on the shelf');
+  static String shelfSeatTag(String fold) => 'You play as $fold';
+
   // ---- Stickers ----
   static String sticker(StickerKind k) => switch (k) {
         StickerKind.niceOne => 'Nice one',
@@ -458,6 +483,14 @@ abstract final class MobV3Copy {
   static const String mobName = 'Mob name';
   static const String restingWeek = 'Resting this week';
   static const String shareMarks = 'Share my marks in games';
+  static const String settingsTitle = 'Mob settings';
+  static const String restingNote = 'The quest gets smaller without your name.';
+  static const String shareMarksNote = 'Off: your Fold stands on the podium with "Private" instead of marks, and you get no place. The collective line still counts your answers.';
+  static const String membersHeading = 'In this Mob';
+  static String memberRow(String name, bool you) => you ? '$name, you' : name;
+  static String memberMenu(String name) => 'More for $name';
+  static const String settingsFailed = "Your Mob's settings didn't load.";
+  static const String namePicked = 'The Mob name is changed.';
 
   // ---- Folds ----
   static String foldName(FoldKey f) => switch (f) {
@@ -554,6 +587,7 @@ abstract final class MobV3Copy {
     'INVITE_INVALID': 'That code does not look right. Check it with your friend.',
     'INVITE_EXPIRED': 'That code has expired. Ask your friend for a new one.',
     'MOB_FULL': 'This Mob is full: it has 5 members, the most a Mob can have.',
+    'JOIN_PAUSED': joinPaused,
   };
 
   static const String offline = "You're offline. Nothing changed.";
