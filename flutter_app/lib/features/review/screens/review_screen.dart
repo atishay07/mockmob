@@ -73,6 +73,10 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
   final GlobalKey _papersKey = GlobalKey(debugLabel: 'your-papers');
   final GlobalKey _mistakesKey = GlobalKey(debugLabel: 'mistakes-to-repair');
 
+  /// Read in build: whether this page is the one on screen, and the shell's current tab (null outside a shell).
+  bool _onScreen = true;
+  int? _shellTab;
+
   @override
   void initState() {
     super.initState();
@@ -112,8 +116,16 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // A second tap on the tab that shows this page scrolls it to the top. Which tab that is depends on the bar (Review
+    // was tab 2 on the old bar; under D105 Your papers lives inside Practice, and Start's slot and the Mob come after
+    // it), so it is never a fixed number: the tap must be on the shell's current tab, with this page the one on screen
+    // (its branch is the live one and nothing is pushed over it). A Mob re-tap no longer scrolls Your papers unseen.
+    _onScreen = TickerMode.valuesOf(context).enabled && (ModalRoute.of(context)?.isCurrent ?? true);
+    _shellTab = StatefulNavigationShell.maybeOf(context)?.currentIndex;
     ref.listen(tabReselectProvider, (_, event) {
-      if (event?.tabIndex == 2) unawaited(MmScroll.toTop(context, _scroll));
+      if (event == null || !_onScreen) return;
+      if (_shellTab != null && event.tabIndex != _shellTab) return;
+      unawaited(MmScroll.toTop(context, _scroll));
     });
     final colors = context.mmColors;
     final inputs = ref.watch(reviewInputsProvider);
@@ -418,7 +430,8 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
               lead: ReviewCopy.noteCollegesLead,
               text: ReviewCopy.noteColleges,
               actionLabel: ReviewCopy.noteCollegesAction,
-              onAction: () => context.go(AppRoutes.colleges),
+              // Pushed, not gone to: under D105 Colleges is a page over the bar (no longer a tab), so Back returns here.
+              onAction: () => context.push(AppRoutes.colleges),
             ),
             top: ReviewSpace.section,
           ),

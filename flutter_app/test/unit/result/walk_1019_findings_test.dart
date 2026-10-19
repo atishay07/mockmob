@@ -4,7 +4,9 @@
 // "On this phone" means. (29 is in practice/result_screen_test.dart, 35 in runner/runner_alive_test.dart.)
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart' show RenderParagraph;
+import 'package:flutter_riverpod/flutter_riverpod.dart' show ProviderScope;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/router/app_shell.dart' show tabReselectProvider;
 import 'package:mockmob/core/sync/session/save_state.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/key_button.dart' show KeyButton;
@@ -135,6 +137,40 @@ void main() {
 
     test('"You lose the most marks in" keeps "marks in" together, so "in" never sits alone', () {
       expect(ReviewCopy.loseMost, 'You lose the most marks in');
+    });
+  });
+
+  group('a second tap on the tab scrolls Your papers to the top only when it is the page on screen (D105)', () {
+    Future<void> pump(WidgetTester tester, {required bool live}) => pumpMockmob(
+      tester,
+      TickerMode(enabled: live, child: const ReviewScreen()),
+      size: const Size(360, 800),
+      disableAnimations: true,
+      wrapInScaffold: false,
+      overrides: reviewOverrides(attempts: [mock7, quick, mock6]),
+    );
+
+    double offset(WidgetTester tester) => tester.state<ScrollableState>(find.byType(Scrollable).first).position.pixels;
+
+    Future<void> scrollDownThenReselect(WidgetTester tester, int tab) async {
+      await tester.pump(const Duration(milliseconds: 600));
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -600));
+      await tester.pumpAndSettle();
+      expect(offset(tester), greaterThan(100));
+      ProviderScope.containerOf(tester.element(find.byType(ReviewScreen))).read(tabReselectProvider.notifier).reselected(tab);
+      await tester.pumpAndSettle();
+    }
+
+    testWidgets('on screen: any re-tap of its own tab (Practice under D105, or Review on the old bar) brings it to the top', (tester) async {
+      await pump(tester, live: true);
+      await scrollDownThenReselect(tester, 1);
+      expect(offset(tester), 0);
+    });
+
+    testWidgets('its branch offstage (a re-tap of the Mob tab): it stays where the student left it', (tester) async {
+      await pump(tester, live: false);
+      await scrollDownThenReselect(tester, 2);
+      expect(offset(tester), greaterThan(100));
     });
   });
 }
