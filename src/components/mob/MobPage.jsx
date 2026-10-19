@@ -32,6 +32,9 @@ import { useMob } from './useMob';
 import { pendingJoin } from './JoinMob';
 import { MobSeats, PaperFacts, Promises } from './MobIntro';
 import { errorDetail } from './mobFormat';
+import DenV3 from './den/DenV3';
+import DenStart from './den/DenStart';
+import { DenSettingsRows } from './den/DenSheets';
 import './mob.css';
 
 const COLOUR_NAMES = ['Teal', 'Sky', 'Violet', 'Rose', 'Amber', 'Green', 'Coral', 'Slate'];
@@ -370,6 +373,14 @@ function InMob({ data, mob, user }) {
   const reload = mob.load;
   const run = mob.run;
   const several = (data.mobs || []).length > 1;
+  const v3 = data.v3 || null;
+  const settingsRef = useRef(null);
+  const openSettings = useCallback(() => {
+    const el = settingsRef.current;
+    if (!el) return;
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    el.focus({ preventScroll: true });
+  }, []);
 
   useEffect(() => { if (sbs) headingRef.current?.focus({ preventScroll: false }); }, [sbs]);
 
@@ -425,6 +436,10 @@ function InMob({ data, mob, user }) {
     <>
       <MobSwitcher data={data} busy={Boolean(mob.busy)} onSelect={(id) => mob.select(id)} onStartAnother={() => setAnotherOpen(true)} />
 
+      {/* Mob v3 (MOB_V3_ENABLED): the server sends `v3`, and the den takes the place of the ring, the paper card and the
+          Pro views. Members, settings, report, leave and the dialogs below stay the same for both. */}
+      {v3 ? <DenV3 data={data} mob={mob} onOpenSettings={openSettings} /> : null}
+      {!v3 ? <>
       <section className="glass mob-card mob-ringcard" aria-labelledby="mob-ring-h">
         <h2 id="mob-ring-h" className="sr-only">This week</h2>
         <MobRing size={week.size} sat={week.sat} week={week.start} members={members} />
@@ -476,6 +491,7 @@ function InMob({ data, mob, user }) {
 
       <ExtrasCard data={data} run={run} busy={mob.busy} comparing={opening && opening !== 'week' ? opening : null}
         onCompare={(x) => openCompare(x.id, { extra: x.id })} />
+      </> : null}
 
       <section className="mob-card mob-plain" aria-labelledby="mob-members-h">
         <header className="mob-head">
@@ -494,23 +510,26 @@ function InMob({ data, mob, user }) {
           ))}
         </ol>
         {data.seatsLeft > 0 && data.invitesPaused ? <p className="mob-note">New invites are paused for now. Your Mob works as before.</p> : null}
-        {data.seatsLeft > 0 && !data.invitesPaused ? (
-          <button type="button" className={alone ? 'btn-volt md mob-invite-row' : 'mob-key mob-invite-row'} data-page-primary={alone ? '' : undefined} onClick={() => setInviteOpen(true)}>
+        {data.seatsLeft > 0 && !data.invitesPaused && !(v3 && alone) ? (
+          <button type="button" className={alone && !v3 ? 'btn-volt md mob-invite-row' : 'mob-key mob-invite-row'} data-page-primary={alone && !v3 ? '' : undefined} onClick={() => setInviteOpen(true)}>
             <UserPlus size={16} aria-hidden="true" />Invite a friend ({seatsLine(data.seatsLeft)})
           </button>
         ) : null}
         {data.seatsLeft <= 0 ? <p className="mob-note">Your Mob is full: 5 of 5.</p> : null}
       </section>
 
+      {!v3 ? <>
       <HistoryCard data={data} load={mob.history} comparing={opening && opening !== 'week' ? opening : null} onCompare={(w) => openCompare(w, { week: w })} />
       <ProNote data={data} />
+      </> : null}
 
       <section className="mob-card mob-plain" aria-labelledby="mob-settings-h">
-        <h2 id="mob-settings-h" className="mob-h2">Settings</h2>
+        <h2 id="mob-settings-h" className="mob-h2" tabIndex={-1} ref={settingsRef}>{v3 ? 'Mob settings' : 'Settings'}</h2>
         <div className="mob-settings">
+          {v3 ? <DenSettingsRows data={data} v3={v3} run={run} busy={mob.busy} mobName={v3.name?.text || data.subjectName} onNotice={setNotice} /> : null}
           {/* A Mob of one has nobody to show a score to or to be nudged by: the two switches arrive with the first friend. */}
           {!alone ? <>
-            <ToggleRow checked={you.showScore} onChange={(v) => toggle('showScore', v)} disabled={Boolean(mob.busy)} label={SHARE_LABEL} hint={SHARE_HINT} />
+            {!v3 ? <ToggleRow checked={you.showScore} onChange={(v) => toggle('showScore', v)} disabled={Boolean(mob.busy)} label={SHARE_LABEL} hint={SHARE_HINT} /> : null}
             <ToggleRow checked={you.nudgesMuted} onChange={(v) => toggle('nudgesMuted', v)} disabled={Boolean(mob.busy)} label="Mute nudges" hint="You will not see Sit it with me notes." />
           </> : null}
           <button type="button" className="mob-row-btn" onClick={() => setRenameOpen(true)}>Change name or colour</button>
@@ -544,7 +563,7 @@ export default function MobPage({ user }) {
   const mob = useMob(user?.id);
   const data = mob.mob;
   // The h1 never changes after focus lands on it (WA-01): "Your Mob" in every state, the state's phrase in the lede.
-  const lede = data
+  const lede = data?.v3 || (!data && mob.v3Available) ? null : data
     ? (data.week.size === 1 ? 'Invite a friend to start your ring. Same 10 questions for everyone, fresh each week.'
       : data.week.closed ? 'The ring shows who sat this week\'s paper. It never shows who did not.'
         : 'The ring fills as your Mob sits this week\'s paper. It shows who sat, never who has not.')
@@ -565,7 +584,7 @@ export default function MobPage({ user }) {
           <p className="mob-banner" role="alert">{mob.error} <button type="button" className="mob-link" onClick={() => mob.load()}>Try again</button></p>
         ) : null}
         {mob.status === 'disabled' ?<section className="glass mob-card"><p className="mob-note">The Mob is not available yet.</p></section> : null}
-        {mob.status === 'ready' && !data ? <NoMob user={user} mob={mob} /> : null}
+        {mob.status === 'ready' && !data ? (mob.v3Available ? <DenStart user={user} mob={mob} /> : <NoMob user={user} mob={mob} />) : null}
         {/* keyed by Mob: a different Mob starts clean, so no side-by-side of the one before stays open */}
         {data ? <InMob key={data.id} data={data} mob={mob} user={user} /> : null}
       </section>

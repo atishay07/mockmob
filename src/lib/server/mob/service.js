@@ -216,7 +216,9 @@ export function createMobService(deps) {
     const wanted = validMobId(mobId) ? mobId : null;
     let state = await readState(userId, week, wanted);
     if (!state && wanted) state = await readState(userId, week, null); // a Mob you have since left: show the one you have
-    if (!state) return { mob: null };
+    // v3Available tells the web's empty page to show the den's start (D0). Sent only while v3 is on, so the bytes with v3
+    // off are unchanged.
+    if (!state) return v3On() ? { mob: null, v3Available: true } : { mob: null };
     if (sync) state = await syncSittings(state, userId);
     const pro = await isPro(userId);
     const youSat = (state.sittings || []).some((s) => s.user_id === userId);
