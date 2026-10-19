@@ -42,6 +42,9 @@ enum ProReason {
   /// A Mob limit of Free the student just met: one Mob started, or one Mob paper a week.
   mobLimit,
 
+  /// The Mob's Free and Pro sheet (P4): Pro adds hosting games, never marks.
+  mobHosting,
+
   /// Any other Pro-only thing.
   general,
 }
@@ -158,6 +161,10 @@ abstract final class ProNudgeCopy {
             'Start up to 3 Mobs, one for each subject',
             "Free lets you start one Mob and sit one Mob paper a week. With Pro, start up to 3 Mobs and sit every Mob's weekly paper, with the full side-by-side after each one.",
           ),
+        ProReason.mobHosting => const ProSheetHead(
+            'Host games for your Mob',
+            'Free already plays every game your Mob starts. Pro lets you start as many games as you like, open live rooms, pass the mic to a friend and start up to 3 Mobs. Marks and rewards stay the same for everyone.',
+          ),
         ProReason.general => _general,
       };
 
@@ -166,6 +173,7 @@ abstract final class ProNudgeCopy {
   static String? leadBenefit(ProReason reason) => switch (reason) {
         ProReason.mob => 'The full side-by-side after every Mob paper, past weeks, and extra papers on a chapter you choose.',
         ProReason.mobLimit => "Up to 3 Mobs you start, and every Mob's weekly paper, not one a week.",
+        ProReason.mobHosting => 'Start as many Mob games as you like, live or anytime, and pass the mic to a friend.',
         _ => null,
       };
 

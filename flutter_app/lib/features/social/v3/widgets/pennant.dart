@@ -49,9 +49,10 @@ class Pennant extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
+                    // A brand-new Mob has no week yet: "New Mob", never "0 weeks" (L5, 19 Oct night walk).
                     Text(
-                      '$weeks',
-                      style: type.figureCompact.copyWith(color: ink, fontSize: width * 0.5, height: 1),
+                      weeks <= 0 ? MobV3Copy.pennantNew : '$weeks',
+                      style: type.figureCompact.copyWith(color: ink, fontSize: weeks <= 0 ? width * 0.36 : width * 0.5, height: weeks <= 0 ? 1.3 : 1),
                     ),
                     Text(
                       MobV3Copy.pennantWord(weeks),

@@ -82,8 +82,9 @@ abstract final class MobV3Copy {
   // Den words added by the DEN builder (labels the spec leaves to the build).
   static const String you = 'You';
   static const String openSeatInvite = 'Open seat. Invite a friend to take it.';
-  static String pennantWord(int w) => w == 1 ? 'week' : 'weeks';
-  static String pennantSemantics(int w) => "${pennantWeeks(w)} in a row. Opens your Mob's chain.";
+  static String pennantWord(int w) => w <= 0 ? 'Mob' : (w == 1 ? 'week' : 'weeks');
+  static const String pennantNew = 'New';
+  static String pennantSemantics(int w) => w <= 0 ? "A new Mob, no weeks yet. Opens your Mob's chain." : "${pennantWeeks(w)} in a row. Opens your Mob's chain.";
   static String chainChipSemantics(int days) => 'Your chain, ${chainChip(days)} in a row. Opens your chain.';
   static const String settingsSemantics = 'Mob settings';
   static const String switchMob = 'Switch to another Mob';
@@ -167,7 +168,8 @@ abstract final class MobV3Copy {
   static const String oneLine = 'A Mob is 2 to 5 friends. Send the card; they tap it and take a seat.';
   static String seatsOpen(int n) => n == 1 ? '1 open seat' : '$n open seats';
   static String inviteCardTitle(String you, String mob) => '$you saved you a seat in $mob';
-  static String inviteCardLineFor(String subject, String code) => '${_aAn(subject)} $subject Mob on MockMob. Code $code.';
+  /// The code never splits across lines ("K7P" and "2M9" apart, M11): its space is a no-break space.
+  static String inviteCardLineFor(String subject, String code) => '${_aAn(subject)} $subject Mob on MockMob. Code ${code.replaceAll(' ', '\u00A0')}.';
   static const String inviteWhatsApp = 'Invite on WhatsApp';
   static const String copyCode = 'Copy the code';
   static const String codeCopied = 'The code is copied.';
@@ -175,6 +177,17 @@ abstract final class MobV3Copy {
   static const String onePaper = "This week's Mob paper. 10 questions, 10 minutes. Sit it now; friends who join can too.";
   static const String sitIt = 'Sit it';
   static const String startSprint = 'Start a sprint';
+
+  /// D5 with your own game open (H2): "You played at 8:44 PM. It stays open until 2:05 PM tomorrow, so
+  /// friends who join can race your run."
+  static String onePlayedLine(DateTime at, DateTime? closes, DateTime now) => closes == null
+      ? 'You played at ${MobTime.when(at, now)}.'
+      : 'You played at ${MobTime.when(at, now)}. It stays open until ${MobTime.when(closes, now)}, so friends who join can race your run.';
+  static String oneOpenLine(MobGameSummary g, DateTime now) {
+    final what = g.chapter == null || g.chapter!.isEmpty ? '${g.count} ${g.subjectName} questions' : '${g.count} ${g.chapter} questions';
+    final until = g.closesAt == null ? '' : ' Open until ${MobTime.when(g.closesAt!, now)}.';
+    return '$what. Set the first run; friends who join race it.$until';
+  }
 
   /// The WhatsApp message beside the card image.
   static String inviteShare(String you, String mob, String subject, String display, String url) =>

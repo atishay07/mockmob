@@ -272,7 +272,7 @@ class StartMobBody extends ConsumerWidget {
             Wrap(
               spacing: MmSpace.s8,
               runSpacing: MmSpace.s4,
-              children: [for (final s in model.subjects) MmChip(label: _subjectLabel(s), showBubble: false, selected: model.subject == s, onTap: () => model.pickSubject(s))],
+              children: [for (final s in model.subjects) MobPickChip(label: _subjectLabel(s), selected: model.subject == s, onTap: () => model.pickSubject(s))],
             ),
             const SizedBox(height: MmSpace.s24),
             if (model.firstTime) ...[

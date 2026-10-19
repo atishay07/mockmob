@@ -51,7 +51,7 @@ class ColourPicker extends StatelessWidget {
             for (var r = 0; r < MobColours.count ~/ perRow; r++)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [for (var i = r * perRow; i < (r + 1) * perRow; i++) dot(i), if (perRow < MobColours.count) const Spacer()],
+                children: [for (var i = r * perRow; i < (r + 1) * perRow; i++) dot(i)],
               ),
           ],
         );

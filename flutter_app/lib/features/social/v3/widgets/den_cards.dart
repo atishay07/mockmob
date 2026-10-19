@@ -241,10 +241,12 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
     final mob = widget.mob;
     final code = mob.invite?.code;
     final sat = mob.week.youSat;
+    final g = card.game;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (g != null) ...[_oneGame(context, g), const SizedBox(height: MmSpace.s24)],
         Semantics(
           header: true,
           child: Text(MobV3Copy.oneTitle, style: type.headline.copyWith(color: colors.ink)),
@@ -287,9 +289,44 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
             ],
           ),
         ),
-        const SizedBox(height: MmSpace.s4),
-        DenLink(label: MobV3Copy.startSprint, onTap: () => showStartGame(context)),
+        if (g == null || g.yourRun == YourRun.finished) ...[
+          const SizedBox(height: MmSpace.s4),
+          DenLink(label: MobV3Copy.startSprint, onTap: () => showStartGame(context)),
+        ],
       ],
+    );
+  }
+
+  /// D5 with your own game open (H2): the D3 card for a Mob of one. Played: your time and the podium
+  /// so far. Not finished: play it. The invite stays the one volt key, so this key is the paper one.
+  Widget _oneGame(BuildContext context, MobGameSummary g) {
+    final type = context.mmType;
+    final colors = context.mmColors;
+    final now = widget.now;
+    final played = g.yourRun == YourRun.finished;
+    final at = _yourRunAt(g);
+    final line = played ? (at == null ? null : MobV3Copy.onePlayedLine(at, g.closesAt, now)) : MobV3Copy.oneOpenLine(g, now);
+    return DenPaperCard(
+      key: const ValueKey('den-one-game'),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _HostLine(game: g, v3: v3, title: (g.title?.isNotEmpty ?? false) ? g.title! : MobV3Copy.gameTitle(g)),
+          if (line != null) ...[
+            const SizedBox(height: MmSpace.s4),
+            Padding(
+              padding: const EdgeInsets.only(left: _HostLine.indent),
+              child: Text(keepTimes(line), style: type.body.copyWith(color: colors.ink2)),
+            ),
+          ],
+          const SizedBox(height: MmSpace.s16),
+          played
+              ? KeyButton.secondary(key: const ValueKey('den-one-podium'), label: MobV3Copy.seePodiumSoFar, onPressed: () => MobV3Nav.podium(context, g.id))
+              : KeyButton.secondary(key: const ValueKey('den-one-play'), label: MobV3Copy.playKey(g), onPressed: () => MobV3Nav.run(context, g.id)),
+          const SizedBox(height: MmSpace.s4),
+        ],
+      ),
     );
   }
 }
