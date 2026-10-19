@@ -14,7 +14,8 @@
 //
 // Every number comes from data/review_chapters.mjs through body.lose and from body.papers, so the strip, the rows and the
 // chapters agree: "To repair" is the sum of the chapters' "N mistakes to repair", "Repaired" is the Saved repairs count,
-// "Papers sat" is the rows under Your papers and "Latest marks" is the first of them. The open chapter's Practise is the
+// "Papers sat" is every paper the student sat (the server's count; the rows list the newest 40) and "Latest marks" is the
+// first row. The open chapter's Practise is the
 // page's one lime key (data-page-primary). Each mistake has one action (Repair / Check it held / See repair / Try it again,
 // section 7); tapping a row opens the free answer sheet in place, Repair is the paid step inside it.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
@@ -34,7 +35,7 @@ import { LessonLink, subjectId } from './ChapterRows';
 import MobEntry from '@/components/mob/MobEntry';
 import { useAuth } from '@/components/AuthProvider';
 import { useRailCue } from '@/components/start/railCue';
-import { firstOpen, scopeOf, statsOf, subjectLabel, subjectsOf } from './reviewScope.mjs';
+import { firstOpen, paperCountsOf, scopeOf, statsOf, subjectLabel, subjectsOf } from './reviewScope.mjs';
 import './review-1018.css';
 
 const SHOWN = 5;
@@ -266,7 +267,7 @@ function SavedRepairs({ saved, savedLine, byUid, wallet, openUid, setOpenUid, on
 
 /** Your papers (D106): newest first, the newest five and then all of them. A row is the paper, its subject, its marks out of
  *  the maximum and its day and 12-hour time; the whole row opens that paper's result and answers. ?paper= marks one row. */
-function PapersList({ papers, stamps, scopeName, startHref, current, showTrend }) {
+function PapersList({ papers, total = papers.length, stamps, scopeName, startHref, current, showTrend }) {
   const at = current ? papers.findIndex((p) => p.id === current) : -1;
   const [all, setAll] = useState(() => at >= PAPERS_SHOWN);
   const shown = all ? papers : papers.slice(0, PAPERS_SHOWN);
@@ -294,7 +295,7 @@ function PapersList({ papers, stamps, scopeName, startHref, current, showTrend }
       )}
       {papers.length > PAPERS_SHOWN && !all ? (
         <button type="button" className="rv8-seeall mk-press" aria-expanded={false} onClick={() => setAll(true)}>
-          <span><b>Show all {papers.length} papers</b></span>
+          <span><b>{total > papers.length ? `Show the newest ${papers.length} papers` : `Show all ${papers.length} papers`}</b></span>
           <Chev />
         </button>
       ) : null}
@@ -426,7 +427,8 @@ export default function ReviewChapters({ body, onChanged }) {
   const items = useMemo(() => body.items || [], [body.items]);
   const byUid = useMemo(() => new Map(items.map((i) => [i.uid, i])), [items]);
   const stamps = useMemo(() => new Map((lose.paperStamps || []).map((p) => [p.id, p.stamp])), [lose.paperStamps]);
-  const subjects = useMemo(() => subjectsOf(body.papers || [], user?.subjects), [body.papers, user?.subjects]);
+  const counts = useMemo(() => paperCountsOf(body), [body]);
+  const subjects = useMemo(() => subjectsOf(body.papers || [], user?.subjects, counts), [body.papers, user?.subjects, counts]);
   const [subject, setSubjectState] = useState(() => {
     const want = urlParam('subject');
     return want && subjects.some((x) => x.id === subjectId(want)) ? subjectId(want) : 'all';
@@ -478,10 +480,10 @@ export default function ReviewChapters({ body, onChanged }) {
     <>
       <h1 className="display-md rvw-title rv8-title">Your papers</h1>
       <StatsStrip stats={stats} seen={subject === 'all' ? seen : null} scopeName={scopeName} />
-      {subjects.length > 1 ? <SubjectFilter subjects={subjects} value={subject} total={(body.papers || []).length} onChange={pickSubject} /> : null}
+      {subjects.length > 1 ? <SubjectFilter subjects={subjects} value={subject} total={scopeOf(body, 'all').total ?? (body.papers || []).length} onChange={pickSubject} /> : null}
       <div className="rv8-board">
         <div className="rv8-main">
-          <PapersList key={`papers-${subject}`} papers={scope.papers} stamps={stamps} scopeName={scopeName} startHref={startHref} current={current} showTrend={subject === 'all'} />
+          <PapersList key={`papers-${subject}`} papers={scope.papers} total={stats.papers} stamps={stamps} scopeName={scopeName} startHref={startHref} current={current} showTrend={subject === 'all'} />
           <WeakChapters key={`chapters-${subject}`} rows={scope.rows} line={scope.line} scopeName={scopeName} hasPapers={scope.papers.length > 0} startHref={startHref} byUid={byUid} wallet={body.wallet} openId={openId} setOpenId={setOpenId} openUid={openUid} setOpenUid={setOpenUid} onChanged={onChanged} />
         </div>
         <div className="rv8-side">

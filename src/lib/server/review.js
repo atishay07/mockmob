@@ -168,7 +168,26 @@ export function buildReviewRecord({ userId, slim = [], heavy = new Map(), reserv
     papers, chapters: [...chapters.values()], chapterQuestions, items, revise,
     partial: slim.length > window.length || slim.length >= SLIM_PAGE,
     papersTotal: slim.length,
+    papersBySubject: paperCounts(slim),
   };
+}
+
+/**
+ * Every paper the slim read holds, counted per subject and kind: { [subject]: { total, kinds: { [kind]: n } } }. The list
+ * shows only the newest ATTEMPT_WINDOW papers, so "Papers sat" and "Your first practice set in English" are counted here, over
+ * the whole history (release 11 verifier L3 and M2), never over the window.
+ */
+export function paperCounts(slim = []) {
+  const out = {};
+  for (const a of slim) {
+    const subject = String(a?.subject || '');
+    if (!subject) continue;
+    const kind = paperKind(a.mode || null);
+    const g = out[subject] || (out[subject] = { total: 0, kinds: {} });
+    g.total += 1;
+    g.kinds[kind] = (g.kinds[kind] || 0) + 1;
+  }
+  return out;
 }
 
 async function readSlim(db, userId) {
@@ -255,7 +274,7 @@ export async function getReview(userId, deps = {}) {
   } catch (e) {
     return unavailable(e);
   }
-  return { http: 200, body: { ...reviewBody(record), partial: record.partial, papersTotal: record.papersTotal } };
+  return { http: 200, body: { ...reviewBody(record), partial: record.partial, papersTotal: record.papersTotal, papersBySubject: record.papersBySubject } };
 }
 
 function unavailable(error) {
