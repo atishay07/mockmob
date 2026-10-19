@@ -18,6 +18,7 @@ import 'package:mockmob/features/insights/data/insights_repository.dart';
 import 'package:mockmob/features/insights/data/saved_repository.dart';
 import 'package:mockmob/features/insights/data/stream_controller.dart';
 import 'package:mockmob/features/insights/screens/insights_screen.dart';
+import 'package:mockmob/features/review/data/repair_record_api.dart' show serverRepairsProvider;
 
 import '../../helpers/fonts.dart';
 import '../../helpers/golden_harness.dart';
@@ -92,6 +93,8 @@ List<Override> insightsOverrides({
       (ref, n) => RemoteState(value: credits ?? const AiCredits(state: 'available', wallet: AiWallet(known: true, spendable: 18))),
     ),
     saveControllerProvider.overrideWith(() => _FixedSave(marks)),
+    // The account's saved repairs (the sheet's "Fix it for good" key reads them): none, with no network.
+    serverRepairsProvider.overrideWith((ref) async => const <String, DateTime>{}),
     if (stream != null) streamControllerProvider.overrideWith(() => FixedStream(stream)),
     if (!realAsk) askControllerProvider.overrideWith(() => _FixedAsk(ask)),
   ];

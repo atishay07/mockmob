@@ -2,6 +2,7 @@
 // it looked right with the trap history, why the key is right, one rule, 2 fresh checks), then held when both are
 // right. 360 and 412 dp, Night and Day.
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/repair.dart';
 import 'package:mockmob/core/models/repair_check.dart';
@@ -99,7 +100,7 @@ Future<void> _answer(WidgetTester t, String option) async {
 void main() {
   for (final w in [360.0, 412.0]) {
     final dp = w.toInt();
-    final overrides = () => [
+    List<Override> overrides() => [
           ...reviewOverrides(),
           repairApiProvider.overrideWithValue(FakeRepairApi()),
           fixCheckApiProvider.overrideWithValue(FakeFixChecks()),
