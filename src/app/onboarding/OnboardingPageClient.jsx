@@ -25,6 +25,7 @@ import { loadIndex } from '@/lib/du/client';
 import { neededByEvery, toDuSubjectId } from '@/lib/du/courseRule.mjs';
 import { useAboveKeyboard } from '@/lib/du/useAboveKeyboard';
 import CourseFinder from './CourseFinder';
+import { SETS_LABEL, applySet, setMatches, setsFor } from './commonSets.mjs';
 import {
   LANGUAGE_PAPERS, NOT_YET_NOTE, NOT_YET_TITLE, OTHER_PAPERS, SEARCH_HINT, capCopy, noSubjectMatch, notYetSubjects, pickableSubjects, shortSubjectName, subjectCountLine, swapLast,
 } from './subjectPick.mjs';
@@ -230,6 +231,16 @@ export default function OnboardingPageClient({ preview = false }) {
     }
   };
 
+  // A common set, one tap: it replaces the picks; the same tap again puts it away.
+  const tapSet = (set) => {
+    if (saveLock.current) return;
+    const next = applySet(set, selected);
+    setSelected(next);
+    setCapAsk(null);
+    setNotice(null);
+    if (next.length) mobiAct(SCOPE, 'nod');
+  };
+
   // Swap: the most recent pick makes room for the one asked for. Nothing else moves.
   const swapForCap = () => {
     if (saveLock.current || !capAsk) return;
@@ -380,6 +391,7 @@ export default function OnboardingPageClient({ preview = false }) {
   const searching = subjectQuery.trim().length > 0;
   const group = courseId ? (rules?.groups || []).find((g) => g.id === courseId) || null : null;
   const needed = new Set(group ? neededByEvery(group) : []);
+  const sets = !edit ? setsFor({ group, rules, available: subjects.filter((x) => x.practice === 'supported').map((x) => x.id) }) : [];
   const capShown = step === 'subjects' && capAsk && !selected.includes(capAsk) && selected.length >= SUBJECT_CAP;
   const cap = capShown ? capCopy({ wantedName: shortSubjectName(find(capAsk)), lastName: shortSubjectName(find(selected[selected.length - 1])) }) : null;
   // Saved choices MockMob cannot launch stay visible so they can be removed; never offered as new picks.
@@ -447,6 +459,23 @@ export default function OnboardingPageClient({ preview = false }) {
               {/* The DU course, optional, with the subjects it takes (the app's course search). Not in edit mode: that is only the papers. */}
               {!edit ? (
                 <CourseFinder rules={rules} failed={rulesFailed} onRetry={() => setRulesTry((n) => n + 1)} courseId={courseId} onCourse={chooseCourse} picked={selected} disabled={busy} />
+              ) : null}
+
+              {sets.length > 0 && !searching ? (
+                <section className="ob-sets" aria-labelledby="ob-sets-h">
+                  <h2 id="ob-sets-h">{SETS_LABEL}</h2>
+                  <div className="ob-sets__list">
+                    {sets.map((set) => {
+                      const on = setMatches(set, selected);
+                      return (
+                        <button key={set.id} type="button" className="ob-set mk-press" aria-pressed={on} data-on={on || undefined} disabled={busy} onClick={() => tapSet(set)}>
+                          <b>{set.title}</b>
+                          <span>{set.subjects.map((id) => shortSubjectName(find(id))).join(', ')}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
               ) : null}
 
               <label className="ob-search">

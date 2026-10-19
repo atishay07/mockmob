@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { courseFit, courseRuleSentence, joinWords, neededByEvery, selectionFromSubjects, subjectWord } from '../../src/lib/du/courseRule.mjs';
 import { courseChoices, courseLine, offeredCourses } from '../../src/app/onboarding/courseChoice.mjs';
+import { COMMON_SETS, SETS_LABEL, applySet, setMatches, setsFor } from '../../src/app/onboarding/commonSets.mjs';
 import { capCopy, notYetSubjects, pickableSubjects, shortSubjectName, subjectMatches, swapLast } from '../../src/app/onboarding/subjectPick.mjs';
 import { NAME_ASK, NAME_MAX, checkName, nameFieldValue, shouldAskName } from '../../src/lib/nameAsk.mjs';
 import { shownFirstName, shownName } from '../../src/lib/displayName.mjs';
@@ -191,6 +192,33 @@ test('the page wires the course finder, the subject search, the not-yet list and
   const picker = read('src/components/colleges/CollegePicker.jsx');
   assert.match(picker, /initialCourseId = null/);
   assert.match(picker, /courses\.find\(\(g\) => g\.id === initialCourseId\)/);
+});
+
+// ---- common sets, one tap ------------------------------------------------------------------------------------------------------
+test('common sets: three before a course; with a course only the sets that keep it open; a tap replaces, the same tap puts it away', () => {
+  const available = pickableSubjects(catalogue).map((s) => s.id);
+  assert.equal(SETS_LABEL, 'Common sets, one tap');
+  assert.deepEqual(setsFor({ available }).map((s) => s.id), ['commerce', 'commerce-maths', 'commerce-test'], 'no course: the first three');
+  assert.deepEqual(setsFor({ available, max: 1 }).map((s) => s.id), ['commerce']);
+  const bms = setsFor({ group: group('bachelor-of-management-studies-bms'), rules, available });
+  assert.deepEqual(bms.map((s) => s.id), ['maths-test'], 'BMS needs Maths and the General Test: only that set keeps it open');
+  const econ = setsFor({ group: group('b-a-hons-economics'), rules, available });
+  assert.deepEqual(econ.map((s) => s.id), ['commerce-maths', 'maths-test'], 'Economics (Hons.) needs Maths');
+  assert.deepEqual(setsFor({ group: group('b-sc-hons-physics'), rules, available }), [], 'a science course gets none');
+  assert.deepEqual(setsFor({ available: ['english'] }), [], 'a set MockMob cannot fully practise is never offered');
+  for (const set of COMMON_SETS) assert.ok(set.subjects.length <= CUET_MAX_SUBJECTS, `${set.id} fits the five`);
+  const [commerce, withMaths] = COMMON_SETS;
+  assert.equal(setMatches(commerce, ['english', 'economics', 'business_studies', 'accountancy']), true, 'any order');
+  assert.equal(setMatches(commerce, ['english', 'economics', 'business_studies']), false);
+  assert.equal(setMatches(commerce, [...commerce.subjects, 'physics']), false);
+  assert.deepEqual(applySet(commerce, ['physics']), ['accountancy', 'business_studies', 'economics', 'english']);
+  assert.deepEqual(applySet(commerce, [...commerce.subjects]), []);
+  assert.deepEqual(applySet(withMaths, [...commerce.subjects]), [...withMaths.subjects]);
+  // The page offers them under the course, not while a search is typed, and not when only editing.
+  const page = read('src/app/onboarding/OnboardingPageClient.jsx');
+  assert.match(page, /const sets = !edit \? setsFor\(\{ group, rules, available:/);
+  assert.match(page, /\{sets\.length > 0 && !searching \? \(/);
+  assert.match(page, /onClick=\{\(\) => tapSet\(set\)\}/);
 });
 
 // ---- the name card: never an email prefix -----------------------------------------------------------------------------------
