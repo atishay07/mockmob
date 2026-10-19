@@ -40,10 +40,19 @@ export function missesOf(attempt) {
  * both what to revisit and what Ask Mobi is asked about: the panel opens on "the mistake you repaired" with its rule, so
  * it is only ever handed a repaired one. A miss still waiting goes to Review and its repair, not to a reply.
  */
-export function repairsFor({ attempts = [], repairs = null, subjectId }) {
+export function repairsFor({ attempts = [], repairs = null, subjectId, keyHeld = null }) {
+  // keyHeld: the "attemptId:questionId" refs whose answer key is being re-checked. Your papers leaves them out of every
+  // count (data/review_chapters.mjs), so Practice does too: one number everywhere.
+  const held = keyHeld instanceof Set ? keyHeld : new Set(keyHeld || []);
+  const heldByAttempt = new Map();
+  for (const ref of held) {
+    const attemptId = String(ref).split(':')[0];
+    heldByAttempt.set(attemptId, (heldByAttempt.get(attemptId) || 0) + 1);
+  }
   const savedByAttempt = new Map();
   for (const row of repairs || []) {
     if (!row?.attemptId) continue;
+    if (held.has(keyOf(row.attemptId, row.questionId))) continue;
     savedByAttempt.set(row.attemptId, (savedByAttempt.get(row.attemptId) || 0) + 1);
   }
   const newestFirst = [...attempts].sort((a, b) => (Date.parse(b?.completedAt) || Number(b?.completedAt) || 0) - (Date.parse(a?.completedAt) || Number(a?.completedAt) || 0));
@@ -51,7 +60,7 @@ export function repairsFor({ attempts = [], repairs = null, subjectId }) {
   const sessions = attempts.filter((a) => a?.subject === subjectId).length;
   for (const attempt of newestFirst.slice(0, REVIEW_WINDOW)) {
     const { wrong, blank } = missesOf(attempt);
-    const left = Math.max(0, wrong - (savedByAttempt.get(attempt.id) || 0));
+    const left = Math.max(0, wrong - (heldByAttempt.get(attempt.id) || 0) - (savedByAttempt.get(attempt.id) || 0));
     if (attempt.subject !== subjectId) { openElsewhere += left; continue; }
     listed += 1;
     open += left;

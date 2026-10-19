@@ -13,13 +13,13 @@ const read = (path) => readFileSync(new URL(`../../${path}`, import.meta.url), '
 const code = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
 
 // ---- 1. (verifier M1) the Revise count reads as a Revise count ---------------------------------------------------------------
-test('M1: the count beside Your papers and on the dock\'s Practice says "8 due", and a screen reader hears "8 due in Revise today"', () => {
-  assert.equal(dueBadge(8), '8 due');
-  assert.equal(dueBadge(1), '1 due');
-  assert.equal(dueBadge(140), '99+ due');
-  assert.equal(dueWords(8), '8 due in Revise today');
-  assert.equal(dueLabel('Your papers', 8), 'Your papers, 8 due in Revise today');
-  assert.equal(dueLabel('Practice', 1), 'Practice, 1 due in Revise today');
+test('M1: the count beside Your papers and on the dock\'s Practice says "8 to revise", and a screen reader hears "8 questions to revise today"', () => {
+  assert.equal(dueBadge(8), '8 to revise');
+  assert.equal(dueBadge(1), '1 to revise');
+  assert.equal(dueBadge(140), '99+ to revise');
+  assert.equal(dueWords(8), '8 questions to revise today');
+  assert.equal(dueLabel('Your papers', 8), 'Your papers, 8 questions to revise today');
+  assert.equal(dueLabel('Practice', 1), 'Practice, 1 question to revise today');
   const layout = code(read('src/app/(app)/AppLayoutClient.jsx'));
   const tabs = code(read('src/components/nav/PlaceTabs.jsx'));
   // Every place the count is drawn: the sidebar's Your papers, the dock's Practice and Practice's row of tabs.
