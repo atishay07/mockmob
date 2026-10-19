@@ -49,8 +49,9 @@ function PageTransition({ children }) {
 
 // Mobi's face on his door (the sidebar's foot and the phone's You sheet): the real mascot art, static, as on the logo.
 const MOBI_FACE = mascot.greeting;
-// The two lines under "Ask Mobi" (R6, read aloud): the sidebar's is short enough for one line at 232 px.
-const ASK_MOBI_NOTE = { rail: 'He explains any answer.', sheet: 'Ask about a question, a result or your plan.' };
+// The two lines under "Ask Mobi" (R6, read aloud): the sidebar's is short enough for one line at 232 px. One voice for both (copy
+// pass, 19 Oct): what he does, so the line under "Ask Mobi" never starts with "Ask" again.
+const ASK_MOBI_NOTE = { rail: 'He explains any answer.', sheet: 'He explains questions, results and your plan.' };
 
 // The Guide's stops live in src/lib/appTour.mjs (W-093), so the Guide page counts the tour that will run.
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
