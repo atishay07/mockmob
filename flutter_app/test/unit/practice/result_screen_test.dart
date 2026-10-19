@@ -122,7 +122,6 @@ void main() {
 
   testWidgets('two chapters lost the same marks: under the moment, the tie is said, not broken by paper order (owner I14)', (tester) async {
     final semantics = tester.ensureSemantics();
-    addTearDown(semantics.dispose);
     final two = [
       for (var i = 0; i < 8; i++) ('Admission of a partner', V.right),
       ('Admission of a partner', V.wrong),
@@ -136,6 +135,7 @@ void main() {
     expect(find.text('Tied'), findsNWidgets(2));
     expect(find.bySemanticsLabel('Goodwill, tied first, 6 marks lost'), findsOneWidget);
     expect(find.textContaining('cost 6 of the 12'), findsNothing);
+    semantics.dispose();
   });
 
   testWidgets('two chapters lost different marks: the one that cost the most is named alone', (tester) async {
