@@ -1,28 +1,31 @@
-// Practice's Repairs and Ask Mobi line (owner D5, 18 Oct): its counts agree with Review's (missed or blank, minus the
-// misses holding a saved repair, F17), it follows the chosen subject, and Ask Mobi names the newest unrepaired miss.
+// Practice's Repairs and Ask Mobi line (owner D5, 18 Oct): its counts agree with Your papers' "To repair" (the wrong answers,
+// minus the ones holding a saved repair, F17; blanks apart, release 11), it follows the chosen subject, and Ask Mobi names the
+// newest saved repair.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { existsSync, readFileSync } from 'node:fs';
 import { repairsFor, sessionsWord } from '../../src/app/(app)/dashboard/repairsLine.mjs';
 
-const det = (spec) => spec.split('').map((c, i) => ({ qid: `q${i + 1}`, isCorrect: c === 'r' ? true : c === 'w' ? false : null }));
+const det = (spec) => spec.split('').map((c, i) => ({ qid: `q${i + 1}`, isCorrect: c === 'r' ? true : c === 'w' ? false : null, ...(c === 'w' ? { givenIndex: 0 } : {}) }));
 const ATTEMPTS = [
   { id: 'a-old', subject: 'accountancy', correct: 8, total: 10, completedAt: '2026-10-10T10:00:00Z', details: det('rrrrrrrrww') },
   { id: 'a-new', subject: 'accountancy', correct: 7, total: 10, completedAt: '2026-10-17T10:00:00Z', details: det('rrwrwrrbrr') },
   { id: 'e-1', subject: 'economics', correct: 5, total: 10, completedAt: '2026-10-15T10:00:00Z', details: det('rwrwrbwrbr') },
 ];
 
-test('counts follow Review: missed or blank, minus saved repairs, per subject', () => {
+test('counts follow Your papers: wrong answers, minus saved repairs, per subject; blanks apart', () => {
   const repairs = [{ attemptId: 'a-new', questionId: 'q5', subject: 'accountancy' }];
   const acc = repairsFor({ attempts: ATTEMPTS, repairs, subjectId: 'accountancy' });
   assert.equal(acc.sessions, 2);
-  assert.equal(acc.open, 2 + 3 - 1); // a-old: two misses; a-new: two misses and a blank, one repaired
-  assert.equal(acc.openElsewhere, 5);
+  assert.equal(acc.open, 2 + 2 - 1); // a-old: two wrong; a-new: two wrong (and a blank, not a repair), one repaired
+  assert.equal(acc.blanks, 1);
+  assert.equal(acc.openElsewhere, 3);
   assert.equal(acc.saved, 1);
   assert.equal(acc.revisit.attemptId, 'a-new');
   const eco = repairsFor({ attempts: ATTEMPTS, repairs, subjectId: 'economics' });
-  assert.equal(eco.open, 5);
-  assert.equal(eco.openElsewhere, 4);
+  assert.equal(eco.open, 3);
+  assert.equal(eco.blanks, 2);
+  assert.equal(eco.openElsewhere, 3);
   assert.equal(acc.open + acc.openElsewhere, eco.open + eco.openElsewhere, 'both subjects add up to the same Review total');
 });
 

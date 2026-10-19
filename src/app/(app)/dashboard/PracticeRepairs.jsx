@@ -1,8 +1,9 @@
 "use client";
 // Repairs and Ask Mobi on Practice (owner D5, 18 Oct dawn: "no one will be able to see it ever; the placement is really
 // bad"). One ruled line under the subject shelf, about the subject the shelf has chosen, so it changes with the shelf:
-//   - the questions from that subject's sessions still waiting for a repair, with the way into Review where they are
-//     repaired (the count is Review's own: missed or blank, minus the ones that already hold a saved repair, F17);
+//   - the questions from that subject's sessions still waiting for a repair, with the way into Your papers where they are
+//     repaired (the count is Your papers' own "To repair": the wrong answers in its newest 40 papers, minus the ones that
+//     already hold a saved repair, F17; a blank is tried again free there, so it is named apart, never counted as a repair);
 //   - the repairs already saved, with the way back to the newest one (a saved repair reopens free on its result);
 //   - Ask Mobi, the page's one entry to it (ASK-MOBI-1018, D5): "Ask Mobi what to practise" opens the panel already about
 //     Practice, with the record's weakest chapter, and the line under it says what the record shows there.
@@ -15,7 +16,7 @@ import { apiGet } from '@/lib/fetcher';
 import AskMobiLink from '@/components/ai/AskMobiLink';
 import { ENTRY_LABELS, practiceContext, practicePreview } from '@/components/ai/askContexts.mjs';
 import { useInsights } from '@/components/ai/useInsights';
-import { plural, repairsFor, sessionsWord } from './repairsLine.mjs';
+import { plural, repairsFor, REVIEW_WINDOW, sessionsWord } from './repairsLine.mjs';
 
 export default function PracticeRepairs({ userId, attempts, subjectId, subjectName }) {
   const [record, setRecord] = useState({ state: 'loading', rows: null });
@@ -46,7 +47,7 @@ export default function PracticeRepairs({ userId, attempts, subjectId, subjectNa
     title = `No ${name} sessions yet`;
     detail = 'After a session, every question you miss waits here to be repaired.';
   } else if (record.state === 'error') {
-    title = `${plural(facts.open, 'question')} missed in ${name}`;
+    title = `${plural(facts.open, 'wrong answer')} in ${name}`;
     detail = 'Your saved repairs did not load, so some of these may already be repaired.';
     primary = { href: '/review', label: 'Review and repair' };
   } else if (facts.open) {
@@ -54,8 +55,11 @@ export default function PracticeRepairs({ userId, attempts, subjectId, subjectNa
     detail = `From ${sessionsWord(facts.sessions)}${facts.openElsewhere ? `, and ${facts.openElsewhere} more in other subjects` : ''}.`;
     primary = { href: '/review', label: 'Review and repair' };
   } else {
-    title = facts.saved ? `Every ${name} miss is repaired` : `Nothing to repair in ${name}`;
-    detail = facts.saved ? 'Each one holds a saved repair you can reopen for free.' : `Every answer in ${sessionsWord(facts.sessions)} was right.`;
+    title = facts.saved ? `Every wrong answer in ${name} is repaired` : `Nothing to repair in ${name}`;
+    const blank = facts.blanks ? `${plural(facts.blanks, 'question')} left blank: try ${facts.blanks === 1 ? 'it' : 'them'} again in Your papers, free.` : '';
+    detail = [facts.saved ? 'Each one holds a saved repair you can reopen for free.' : '', blank].filter(Boolean).join(' ')
+      || (facts.listed === facts.sessions ? `Every answer in ${sessionsWord(facts.sessions)} was right.` : `Nothing waits from your newest ${REVIEW_WINDOW} papers.`);
+    if (facts.blanks) primary = { href: '/review', label: 'Open Your papers' };
     if (facts.openElsewhere) {
       detail += ` ${plural(facts.openElsewhere, 'question')} still ${facts.openElsewhere === 1 ? 'waits' : 'wait'} in other subjects.`;
       primary = { href: '/review', label: 'Review and repair' };

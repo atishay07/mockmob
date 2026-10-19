@@ -107,3 +107,38 @@ test('L3: "Papers sat" for All subjects is the true total (papersTotal), with th
   const plain = statsOf(scopeOf({ papers: body.papers, lose: body.lose }, 'all'));
   assert.equal(plain.papers, 40);
 });
+
+// ---- 3. (walk, section 3 item 7) Practice and Your papers say one "to repair" number -------------------------------------
+test('walk 7: Practice\'s "to repair" and Your papers\' "To repair" are one number, counted one way (wrong answers; blanks apart)', async () => {
+  const { repairsFor, REVIEW_WINDOW } = await import('../../src/app/(app)/dashboard/repairsLine.mjs');
+  assert.equal(REVIEW_WINDOW, ATTEMPT_WINDOW, 'Practice counts the same newest papers as Your papers');
+  // The walk's student: a 10-question Accountancy quick, a 5-question English quick and a 50-question Accountancy full mock.
+  const spec = [
+    { id: 'acc-q', subject: 'accountancy', mode: 'quick', at: '2026-10-19T03:00:00Z', marks: 'rrwrbrwrrw' },
+    { id: 'eng-q', subject: 'english', mode: 'quick', at: '2026-10-19T03:30:00Z', marks: 'rwwbr' },
+    { id: 'acc-f', subject: 'accountancy', mode: 'full', at: '2026-10-19T04:30:00Z', marks: 'rwrbrwwrbrrwrrwbrrwrwrrbwrrrwbrwrrwrbrrwwrbrrrwrbw' },
+  ];
+  const details = (marks) => [...marks].map((c, i) => ({ qid: `q${i + 1}`, isCorrect: c === 'r' ? true : c === 'w' ? false : null, ...(c === 'w' ? { givenIndex: 2 } : {}) }));
+  const n = (marks, c) => [...marks].filter((x) => x === c).length;
+  const attempts = spec.map((p) => ({ id: p.id, subject: p.subject, correct: n(p.marks, 'r'), wrong: n(p.marks, 'w'), unattempted: n(p.marks, 'b'), total: p.marks.length, completedAt: p.at, details: details(p.marks) }));
+  const slim = [...spec].reverse().map((p) => ({ id: p.id, subject: p.subject, correct: n(p.marks, 'r'), wrong: n(p.marks, 'w'), unattempted: n(p.marks, 'b'), total: p.marks.length, completed_at: p.at, mode: p.mode }));
+  const heavy = new Map(spec.map((p) => [p.id, { details: details(p.marks), questions_snapshot: [...p.marks].map((_, i) => ({ id: `q${i + 1}`, chapter: `Chapter ${1 + (i % 4)}` })) }]));
+  const keyRows = new Map(spec.flatMap((p) => [...p.marks].map((_, i) => [`q${i + 1}`, { status: 'published', is_deleted: false }])));
+  const record = buildReviewRecord({ userId: 'walk', slim, heavy, cards: [], keyRows, now: Date.parse('2026-10-19T05:00:00Z') });
+  const body = { ...reviewBody(record), partial: record.partial, papersTotal: record.papersTotal, papersBySubject: record.papersBySubject };
+  const papersAll = statsOf(scopeOf(body, 'all')).toRepair;
+  const wrongs = spec.reduce((t, p) => t + n(p.marks, 'w'), 0);
+  assert.equal(papersAll, wrongs, 'Your papers: the wrong answers, never the blanks');
+  for (const subject of ['english', 'accountancy']) {
+    const practice = repairsFor({ attempts, repairs: [], subjectId: subject });
+    assert.equal(practice.open + practice.openElsewhere, papersAll, `${subject}: Practice's subject plus "more in other subjects" is Your papers' total`);
+    assert.equal(practice.open, statsOf(scopeOf(body, subject, subject)).toRepair, `${subject}: the same number as Your papers in that subject`);
+    assert.equal(practice.blanks, spec.filter((p) => p.subject === subject).reduce((t, p) => t + n(p.marks, 'b'), 0), 'blanks are counted apart');
+  }
+  // The line's words: "to repair" is the wrong answers; a subject with only blanks left never says "every answer was right".
+  const line = read('src/app/(app)/dashboard/PracticeRepairs.jsx');
+  assert.match(line, /title = `\$\{plural\(facts\.open, 'question'\)\} to repair in \$\{name\}`;/);
+  assert.match(line, /left blank: try \$\{facts\.blanks === 1 \? 'it' : 'them'\} again in Your papers, free\./);
+  const blanksOnly = repairsFor({ attempts: [{ id: 'b1', subject: 'english', correct: 3, wrong: 0, unattempted: 2, total: 5, completedAt: '2026-10-19T03:00:00Z', details: details('rrbbr') }], repairs: [], subjectId: 'english' });
+  assert.deepEqual([blanksOnly.open, blanksOnly.blanks], [0, 2]);
+});
