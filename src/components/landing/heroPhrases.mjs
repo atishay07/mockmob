@@ -334,7 +334,9 @@ export const meltBlurScale = (fontPx) => Math.min(1, Math.max(0.4, (Number(fontP
  *  'v2'      option C for everyone, served with the page: HERO_MOTION_V2=1, or HERO_MOTION_V2_DEFAULT = true below.
  *            This is the switch to flip after his OK.
  *  'v1'      the released line with the preview link turned off as well: HERO_MOTION_V2=0. */
-export const HERO_MOTION_V2_DEFAULT = false;
+// D120 (19 Oct 2026, about 2:30 pm): the owner saw the faster option C live and said "I like the V2 ... You can publish it".
+// Everyone gets option C now; HERO_MOTION_V2=0 brings the released line back without a code change.
+export const HERO_MOTION_V2_DEFAULT = true;
 export function heroMotionMode(env = {}) {
   const flag = String(env.HERO_MOTION_V2 ?? '').trim().toLowerCase();
   if (['1', 'true', 'on'].includes(flag)) return 'v2';

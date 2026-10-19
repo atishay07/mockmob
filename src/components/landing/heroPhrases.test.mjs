@@ -121,16 +121,16 @@ test('a screen reader hears the static sentence once; the letters are hidden and
 // Option C, "select and type" (G30; D112 C-pick 3; HERO-MOTION-1019.md), behind its flag (D115).
 // =================================================================================================================
 
-test('D115: option C ships OFF; everyone gets the released line, and ?hero=v2 previews it on any build', () => {
-  assert.equal(HERO_MOTION_V2_DEFAULT, false, 'the flag defaults to off');
-  // Production and every other build: the released line, with the preview link working.
-  assert.equal(heroMotionMode({}), 'preview');
-  assert.equal(heroMotionMode({ VERCEL_ENV: 'production', NODE_ENV: 'production' }), 'preview');
-  assert.equal(heroMotionMode({ VERCEL_ENV: 'preview' }), 'preview');
+test('D120: option C (faster, looping) is on for everyone; HERO_MOTION_V2=0 brings the released line back', () => {
+  assert.equal(HERO_MOTION_V2_DEFAULT, true, 'the owner published v2 on 19 Oct (D120)');
+  // Production and every other build: option C, served with the page.
+  assert.equal(heroMotionMode({}), 'v2');
+  assert.equal(heroMotionMode({ VERCEL_ENV: 'production', NODE_ENV: 'production' }), 'v2');
+  assert.equal(heroMotionMode({ VERCEL_ENV: 'preview' }), 'v2');
   // The switch-on after his OK, and the kill switch for the preview link.
   for (const on of ['1', 'true', 'on', ' ON ']) assert.equal(heroMotionMode({ HERO_MOTION_V2: on }), 'v2', on);
   for (const off of ['0', 'false', 'off']) assert.equal(heroMotionMode({ HERO_MOTION_V2: off }), 'v1', off);
-  assert.equal(heroMotionMode({ HERO_MOTION_V2: 'maybe' }), 'preview');
+  assert.equal(heroMotionMode({ HERO_MOTION_V2: 'maybe' }), 'v2');
   // Only exactly ?hero=v2 asks for it.
   assert.equal(asksForHeroV2('?hero=v2'), true);
   assert.equal(asksForHeroV2('?utm_source=x&hero=v2'), true);
@@ -487,9 +487,9 @@ test('v3 flag: exactly ?hero=v3 asks for the melt; v2 still works; the default i
   assert.equal(heroPreview('?hero=v3'), 'v3');
   assert.equal(heroPreview(''), '');
   assert.equal(heroPreview('?hero=v1'), '');
-  // The production default does not change: the released line, with both previews on a lazy chunk of their own.
-  assert.equal(HERO_MOTION_V2_DEFAULT, false);
-  assert.equal(heroMotionMode({}), 'preview');
+  // D120: the production default is option C for everyone; ?hero=v3 still previews the melt on a lazy chunk of its own.
+  assert.equal(HERO_MOTION_V2_DEFAULT, true);
+  assert.equal(heroMotionMode({}), 'v2');
   assert.equal(heroMotionMode({ HERO_MOTION_V2: '0' }), 'v1', 'the kill switch turns both previews off (HeroLine is never mounted)');
   assert.match(LINE_JSX, /const HeroMelt = lazy\(\(\) => import\('\.\/HeroMelt'\)/);
   assert.doesNotMatch(LINE_JSX, /from '\.\/HeroMelt'/, 'never a static import of the melt');
