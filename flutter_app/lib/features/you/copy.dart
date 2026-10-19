@@ -9,11 +9,12 @@ import 'data/subject_catalog.dart' show youSubjectNames;
 abstract final class YouCopy {
   // The sheet card (identity first).
   static const hubTitle = 'You';
-  /// "CUET UG 2027, B.Sc (Prog) Physical Science with Computer Science": the student's own course,
-  /// else the stream their subjects show ([streamWordFor]), else the exam alone. Never a stream the
-  /// student did not choose (I12).
+  /// "CUET UG 2027, B.Sc (Prog) Physical Science with Computer Science": the course the student
+  /// chose, else the stream their subjects show ([streamWordFor]), else the exam alone. Never a
+  /// stream the student did not choose (I12).
   static String sheetOverlineFor(int year, {String? course, String? stream}) {
-    final what = (course?.trim().isNotEmpty ?? false) ? course!.trim() : stream;
+    final named = course?.trim() ?? '';
+    final what = named.isNotEmpty ? named : stream;
     return what == null || what.isEmpty ? 'CUET UG $year' : 'CUET UG $year, $what';
   }
   static const finishSheet = 'Add your course and colleges. Today plans the road from them.';
