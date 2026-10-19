@@ -135,6 +135,10 @@ void main() {
     rig: () => BillingRig(store: FakePlayStore(prices: goldenPrices)),
     prepare: (tester, rig) async {
       rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
+      // The key sits below this 420 dp picture: bring it into view, or the tap misses and the
+      // picture shows the selling sheet instead of "Pro is on".
+      await tester.ensureVisible(find.text('Get Pro').first);
+      await tester.pump();
       await tester.tap(find.text('Get Pro').first);
       await _settle(tester);
     },
