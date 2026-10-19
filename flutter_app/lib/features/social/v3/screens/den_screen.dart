@@ -236,7 +236,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     try {
       List<String> due = const [];
       try {
-        due = (await ref.read(chainProvider.future)).due;
+        due = await chainDueFor(view.v3.chainChip, cached: () => ref.read(chainProvider.future), fresh: () => ref.refresh(chainProvider.future));
       } on Object {
         // No chain read: the Mob's own moments still play.
       }

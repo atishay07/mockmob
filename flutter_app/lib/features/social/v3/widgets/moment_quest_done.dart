@@ -167,11 +167,26 @@ class QuestDoneMomentState extends MomentStageState<QuestDoneMoment> {
                       angle: -2 * math.pi / 180 * (1 - sealP),
                       child: Transform.scale(
                         scale: lerpD(1.4, 1, sealP),
-                        child: CustomPaint(
-                          key: _seal,
-                          size: const Size.square(148),
-                          painter: PaperSealPainter(glow: sealGlow),
-                        ),
+                        child: ParcelStills.available
+                            ? SizedBox.square(
+                                key: _seal,
+                                dimension: 148,
+                                child: CustomPaint(
+                                  painter: PaperSealPainter(glow: sealGlow, drawPaper: false),
+                                  child: Image.asset(
+                                    ParcelStills.seal,
+                                    fit: BoxFit.contain,
+                                    filterQuality: FilterQuality.medium,
+                                    excludeFromSemantics: true,
+                                    errorBuilder: (_, _, _) => const CustomPaint(painter: PaperSealPainter()),
+                                  ),
+                                ),
+                              )
+                            : CustomPaint(
+                                key: _seal,
+                                size: const Size.square(148),
+                                painter: PaperSealPainter(glow: sealGlow),
+                              ),
                       ),
                     ),
                   ),
@@ -209,7 +224,8 @@ class QuestDoneMomentState extends MomentStageState<QuestDoneMoment> {
                   kind: widget.prize.kind,
                   fold: widget.prize.fold,
                   item: widget.prize.item,
-                  size: 92,
+                  size: 112,
+                  still: true,
                   semanticLabel: MobV3Copy.parcelA11y(widget.prize.parcel),
                 ),
               ),
