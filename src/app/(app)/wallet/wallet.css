@@ -44,7 +44,7 @@
 .app-shell .wl-part__num { font: 800 30px/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .wl-part__note { max-width: 44ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 
-/* ---- what credits buy: a price list, four cells across on a wide screen ------------------------------------------------- */
+/* ---- what credits buy: a price list, five cells across on a wide screen ------------------------------------------------- */
 .app-shell .wl-costs { display: grid; gap: 12px; min-width: 0; }
 .app-shell .wl-costlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
 .app-shell .wl-cost { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 10px 0; min-width: 0; }
@@ -55,7 +55,7 @@
 .app-shell .wl-cost__num { flex: none; font: 800 16px/1.2 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .app-shell .wl-cost[data-included] .wl-cost__num { color: var(--a-good-text); }
 @media (min-width: 900px) {
-  .app-shell .wl-costlist { grid-template-columns: repeat(4, minmax(0, 1fr)); border-block: 1px solid var(--a-line); }
+  .app-shell .wl-costlist { grid-template-columns: repeat(5, minmax(0, 1fr)); border-block: 1px solid var(--a-line); }
   .app-shell .wl-cost { flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 16px 20px 18px; }
   .app-shell .wl-cost:first-child { padding-left: 0; }
   .app-shell .wl-cost + .wl-cost { border-top: 0; border-left: 1px solid var(--a-line); }

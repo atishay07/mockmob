@@ -192,16 +192,39 @@ function ComparisonValue({ value, pro = false }) {
   return <span data-pro={pro ? 'true' : 'false'}>{value}</span>;
 }
 
-// What Pro opens, outcome first (owner I6, 20 Oct 2026: "If you are buying even a basic subscription, it should be like you are
-// getting everything in the world"). Every line is a fact the comparison table below also states; nothing here is a new promise.
-const PRO_OUTCOMES = newOfferReleased() ? null : [
-  { title: 'Unlimited mocks, every one new', body: 'Quick practice and Full mocks, as many as you take. Each paper is built when you start it from one central question bank, questions you have not answered first.' },
-  { title: 'The exam-day screen', body: 'NTA mode: 50 questions in 60 minutes on the screen you will sit on exam day, as many papers as you take.' },
-  { title: 'Practice aimed at you', body: 'Smart practice points every set at your weak chapters, and the difficulty selector lets you pick easy, medium, hard or auto.' },
-  { title: 'Every chapter, ranked', body: 'Full chapter review: every ranked chapter, with your pace and the answers you changed.' },
-  { title: 'Compass Pro', body: 'Your practice projected paper by paper against your DU shortlist, and the paper and chapter that can move your total most.' },
-  { title: 'No credits for practice', body: 'Practice never uses a credit on Pro, so your 50 free credits a month all go to Ask Mobi.' },
-];
+// What Pro opens (owner I6, 20 Oct 2026: "If you are buying even a basic subscription, it should be like you are getting everything
+// in the world"; then: not a plain list of equal rows, but fewer, bigger, outcome-led moments). Three moments, each led by a real
+// figure: the bank's own daily count (or, without it, no number at all), the exam-day paper's size and time, and the chapter
+// ranking. Every sentence is a fact the comparison table below also states; nothing here is a new promise.
+const fmtCount = (n) => n.toLocaleString('en-IN');
+function proMoments(bankSize) {
+  if (newOfferReleased()) return null;
+  const bank = Number.isInteger(bankSize) && bankSize > 0;
+  return [
+    {
+      key: 'mocks',
+      figure: bank ? fmtCount(bankSize) : 'Unlimited',
+      caption: bank ? 'questions in one central bank, at the last daily count' : 'mocks, all from one central bank',
+      title: 'As many mocks as you take, every one new.',
+      body: 'There is no fixed set of mocks. Each Quick practice and Full mock is built when you start it, from one central question bank, questions you have not answered first.',
+    },
+    {
+      key: 'exam',
+      figure: '60:00',
+      caption: 'on the clock for 50 questions, on the exam-day screen',
+      title: 'Sit the exam before exam day.',
+      body: 'NTA mode puts you on the screen you will sit on exam day, 50 questions in 60 minutes, as many papers as you take.',
+    },
+    {
+      key: 'chapters',
+      figure: 'Every chapter',
+      caption: 'ranked, with your pace and the answers you changed',
+      title: 'Practice that goes where your marks are.',
+      body: 'Smart practice aims every set at your weak chapters. Compass Pro projects your practice paper by paper against your DU shortlist and names the chapter that can move your total most.',
+    },
+  ];
+}
+const PRO_ALSO = 'Also with Pro: the difficulty selector, unlimited saved questions, and practice that never uses a credit, so your 50 free credits a month all go to Ask Mobi.';
 
 // Development only: /pricing?offer=monthly shows the page as the live site sells it (pro_monthly_99), and &pro=1 a signed-in Pro
 // student, with no sign-in and no plan env. Production ignores both.
@@ -230,7 +253,7 @@ export default async function PricingPage({ searchParams }) {
   const FAQS = buildFaqs(offer, bankSize);
   const [FREE_PLAN, PRO_PLAN] = PLANS;
   const monthly = offer.purchasable === 'monthly';
-  const proOutcomes = PRO_OUTCOMES || PRO_PLAN.features.map((feature) => ({ title: feature, body: null }));
+  const moments = proMoments(bankSize);
 
   return (
     <div className="mm mm-pro">
@@ -296,14 +319,31 @@ export default async function PricingPage({ searchParams }) {
           <div className="mm-wrap">
             <h2 className="mm-h2" id="pro-opens-h">Everything Pro opens.</h2>
             <p className="mm-body mm-section__intro">MockMob is free to start. Pro is the paid plan, and this is what it adds.</p>
-            <ul className="pro-opens__rows">
-              {proOutcomes.map((row) => (
-                <li key={row.title} className="pro-opens__row">
-                  <h3>{row.title}</h3>
-                  {row.body ? <p>{row.body}</p> : null}
-                </li>
-              ))}
-            </ul>
+            {moments ? (
+              <>
+                <ol className="pro-moments">
+                  {moments.map((m) => (
+                    <li key={m.key} className="pro-moment" data-moment={m.key}>
+                      <p className="pro-moment__figure">
+                        <span className="pro-moment__num">{m.figure}</span>
+                        <span className="pro-moment__cap">{m.caption}</span>
+                      </p>
+                      <div className="pro-moment__copy">
+                        <h3>{m.title}</h3>
+                        <p>{m.body}</p>
+                      </div>
+                    </li>
+                  ))}
+                </ol>
+                <p className="pro-also">{PRO_ALSO}</p>
+              </>
+            ) : (
+              <ul className="pro-opens__rows">
+                {PRO_PLAN.features.map((feature) => (
+                  <li key={feature} className="pro-opens__row"><h3>{feature}</h3></li>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
 

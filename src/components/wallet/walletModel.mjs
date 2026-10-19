@@ -216,12 +216,25 @@ export function balanceSplit(data) {
 export function priceRows(data, prices) {
   const pro = data?.plan?.name === 'Pro';
   const credits = (n) => plural(n, 'credit', 'credits');
+  // Mobi first: most top-ups pay for Mobi's written answers and mistake repairs (owner, 20 Oct 2026).
   return [
+    { key: 'reply', what: 'An Ask Mobi answer', cost: credits(prices.reply), note: null, included: false },
+    { key: 'repair', what: 'A mistake repair', cost: credits(prices.repair), note: null, included: false },
+    { key: 'analysis', what: 'Deeper analysis', cost: credits(prices.analysis), note: null, included: false },
     { key: 'question', what: 'A practice question', cost: pro ? WALLET_V13_COPY.included : credits(prices.question), note: null, included: pro },
     { key: 'mock', what: 'A full mock', cost: pro ? WALLET_V13_COPY.included : credits(prices.fullMock), note: !pro && prices.firstMockFree ? 'First one in each subject is free' : null, included: pro },
-    { key: 'analysis', what: 'Deeper analysis', cost: credits(prices.analysis), note: null, included: false },
-    { key: 'reply', what: 'An Ask Mobi reply', cost: credits(prices.reply), note: null, included: false },
   ];
+}
+
+/**
+ * What a pack comes to, Mobi first (owner, 20 Oct 2026: "1 full mock or 50 questions" undersold it; most top-ups are bought by Pro
+ * students for Mobi's written answers and repairs). An Ask Mobi answer and a mistake repair are 1 credit each, so a pack of N
+ * credits is N of them; on Free the same credits also pay for practice questions.
+ */
+export function packWorth(credits, { pro = false } = {}) {
+  const n = whole(credits);
+  if (n === null || n <= 0) return null;
+  return pro ? `${fmt(n)} Ask Mobi answers or mistake repairs` : `${fmt(n)} Ask Mobi answers, mistake repairs or practice questions`;
 }
 
 /**
@@ -252,11 +265,14 @@ export function packValue(packs) {
   return { bestId, savePercent };
 }
 
-/** The packs as cards: packRows plus the real best value and the saving against the smallest pack. */
+/** The packs as cards: packRows plus what the pack comes to (Mobi first), the real best value and the saving against the dearest pack. */
 export function packCards(data, phases = {}) {
   const value = packValue(data?.packs);
+  const pro = data?.plan?.name === 'Pro';
+  const credits = Object.fromEntries((data?.packs || []).map((p) => [p.packId, p.credits]));
   return packRows(data, phases).map((row) => ({
     ...row,
+    worth: packWorth(credits[row.packId], { pro }) || row.value,
     best: value.bestId === row.packId,
     save: value.savePercent[row.packId] ? `Save ${value.savePercent[row.packId]}%` : null,
   }));

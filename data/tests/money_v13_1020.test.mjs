@@ -7,13 +7,14 @@ import { readFileSync } from 'node:fs';
 import { CREDIT_PACKS } from '../../src/services/credits/creditPacks.mjs';
 import { walletBody } from '../../src/lib/server/wallet.js';
 import {
-  WALLET_V13_COPY, walletFromResponse, balanceSplit, priceRows, packValue, packCards, proBridge, refillLine, packRows,
+  WALLET_V13_COPY, walletFromResponse, balanceSplit, priceRows, packValue, packCards, packWorth, proBridge, refillLine, packRows,
 } from '../../src/components/wallet/walletModel.mjs';
+import { REPAIR_CREDIT_COST } from '../../data/mistake_repair.js';
 
 const file = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const UNIFIED = { known: true, total: 108, freeLeft: 38, freeAllowance: 50, held: 70, resetAt: '2026-10-31T18:30:00.000Z', parts: { included: 38, bonus: 30, balance: 40 } };
 const page = (over = {}) => walletFromResponse(walletBody({ unified: UNIFIED, paid: false, premiumUntil: null, history: [], env: {}, ...over }));
-const PRICES = { question: 1, fullMock: 50, analysis: 3, reply: 1, firstMockFree: true };
+const PRICES = { question: 1, fullMock: 50, analysis: 3, reply: 1, repair: 1, firstMockFree: true };
 
 test('best value is real maths: the cheapest per credit, with each saving rounded down against the dearest pack', () => {
   const data = page();
@@ -28,7 +29,26 @@ test('best value is real maths: the cheapest per credit, with each saving rounde
   const cards = packCards(data);
   assert.deepEqual(cards.map((c) => [c.packId, c.best, c.save]), [['credits_10_50', false, null], ['credits_29_150', false, 'Save 3%'], ['credits_49_300', true, 'Save 18%']]);
   // packCards only adds to packRows: every older field keeps its value.
-  assert.deepEqual(cards.map(({ best, save, ...row }) => row), packRows(data));
+  assert.deepEqual(cards.map(({ best, save, worth, ...row }) => row), packRows(data));
+});
+
+test('a pack is worded by what most buyers buy it for: Mobi answers and mistake repairs, never "1 full mock or 50 questions"', () => {
+  // The words say N answers or repairs for N credits, which is true only while each costs 1 credit.
+  assert.equal(REPAIR_CREDIT_COST, 1);
+  assert.match(file('src/services/usage/getDailyUsage.js'), /^  mentor_chat: 1,$/m, 'an Ask Mobi answer costs 1 credit');
+  assert.deepEqual(packCards(page()).map((c) => c.worth), [
+    '50 Ask Mobi answers, mistake repairs or practice questions',
+    '150 Ask Mobi answers, mistake repairs or practice questions',
+    '300 Ask Mobi answers, mistake repairs or practice questions',
+  ]);
+  assert.deepEqual(packCards(page({ paid: true, premiumUntil: '2027-07-31T18:29:59.000Z' })).map((c) => c.worth), [
+    '50 Ask Mobi answers or mistake repairs', '150 Ask Mobi answers or mistake repairs', '300 Ask Mobi answers or mistake repairs',
+  ], 'on Pro practice is included, so a pack is all Mobi');
+  assert.equal(packWorth(null), null);
+  assert.equal(packWorth(0), null);
+  const client = file('src/app/(app)/wallet/WalletPageClient.jsx');
+  assert.match(client, /<p className="wl-pack__value">\{card\.worth\}<\/p>/);
+  assert.doesNotMatch(client, /card\.value/, 'the mocks-and-questions line is not shown on the cards');
 });
 
 test('the balance is split honestly: free this month with the refill date, kept credits, unknown never 0', () => {
@@ -55,17 +75,18 @@ test('the balance is split honestly: free this month with the refill date, kept 
 test('what credits buy: the price list, with practice included on Pro', () => {
   const free = priceRows(page(), PRICES);
   assert.deepEqual(free.map((r) => [r.what, r.cost, r.note]), [
+    ['An Ask Mobi answer', '1 credit', null],
+    ['A mistake repair', '1 credit', null],
+    ['Deeper analysis', '3 credits', null],
     ['A practice question', '1 credit', null],
     ['A full mock', '50 credits', 'First one in each subject is free'],
-    ['Deeper analysis', '3 credits', null],
-    ['An Ask Mobi reply', '1 credit', null],
   ]);
-  assert.equal(priceRows(page(), { ...PRICES, firstMockFree: false })[1].note, null, 'the free first mock is said only while its switch is on');
+  assert.equal(priceRows(page(), { ...PRICES, firstMockFree: false })[4].note, null, 'the free first mock is said only while its switch is on');
   const pro = priceRows(page({ paid: true, premiumUntil: '2027-07-31T18:29:59.000Z' }), PRICES);
-  assert.deepEqual(pro.map((r) => r.cost), ['Included', 'Included', '3 credits', '1 credit']);
+  assert.deepEqual(pro.map((r) => r.cost), ['1 credit', '1 credit', '3 credits', 'Included', 'Included']);
   // The wallet page reads its numbers from the one price list, never typed in.
   const client = file('src/app/(app)/wallet/WalletPageClient.jsx');
-  assert.match(client, /question: PRACTICE_PRICE\.perQuestion, fullMock: PRACTICE_PRICE\.full, analysis: DEEP_AI_CREDITS/);
+  assert.match(client, /question: PRACTICE_PRICE\.perQuestion, fullMock: PRACTICE_PRICE\.full, analysis: DEEP_AI_CREDITS, reply: 1, repair: REPAIR_CREDIT_COST/);
 });
 
 test('the bridge to Pro names what /pricing sells today, and Pro students never see it', () => {
@@ -88,14 +109,23 @@ test('copy rules: plain warm English, no exclamation, no arrows, no em dash, no 
   const data = page();
   walk(WALLET_V13_COPY); walk(balanceSplit(data)); walk(priceRows(data, PRICES)); walk(packCards(data)); walk(proBridge(data, { rupees: 99, cycle: 'month' }));
   const pricing = file('src/app/pricing/page.js');
-  const outcomes = pricing.slice(pricing.indexOf('const PRO_OUTCOMES'), pricing.indexOf('function previewOverrides'));
+  const outcomes = pricing.slice(pricing.indexOf('function proMoments'), pricing.indexOf('function previewOverrides'));
+  assert.ok(outcomes.length > 200, 'the moments are found');
   strings.push(outcomes);
   for (const t of strings) {
     assert.doesNotMatch(t, /!(?!=)/, t);
     assert.doesNotMatch(t, /—|·|→|->|⟶/, t);
     assert.doesNotMatch(t, /\b(amazing|unlock|boost|supercharge|incredible|limited time|hurry|last chance|ends soon|only today|selling fast)\b/i, t);
   }
-  assert.doesNotMatch(outcomes, /₹\d/, 'the outcome rows name no price: the price comes from the offer');
+  assert.doesNotMatch(outcomes, /₹\d/, 'the moments name no price: the price comes from the offer');
+});
+
+test('Everything Pro opens is three big moments led by real figures, not a list of equal rows', () => {
+  const pricing = file('src/app/pricing/page.js');
+  assert.equal((pricing.match(/^\s+key: '(mocks|exam|chapters)',$/gm) || []).length, 3);
+  assert.match(pricing, /figure: bank \? fmtCount\(bankSize\) : 'Unlimited'/, 'the bank figure is the stored daily count, or no number at all');
+  assert.match(pricing, /<ol className="pro-moments">/);
+  assert.doesNotMatch(pricing, /PRO_OUTCOMES/);
 });
 
 test('the Pro page: one checkout, the price headline as h1, dev-only preview switches, honest checkout states', () => {

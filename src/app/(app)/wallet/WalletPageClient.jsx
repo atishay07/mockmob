@@ -18,13 +18,14 @@ import { announceWallet } from '@/components/useWalletSummary';
 import { walletFromResponse as aiWalletFromResponse } from '@/services/credits/aiWalletState';
 import { DEEP_AI_CREDITS, PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
+import { REPAIR_CREDIT_COST } from '@/../data/mistake_repair';
 import {
   WALLET_COPY, WALLET_V13_COPY, WALLET_URL, balanceSplit, balanceTile, historyRow, packCards, priceRows, proBridge, walletFromResponse,
 } from '@/components/wallet/walletModel.mjs';
 import './wallet.css';
 
 const EMPTY = { status: 'loading', data: null };
-const PRICES = Object.freeze({ question: PRACTICE_PRICE.perQuestion, fullMock: PRACTICE_PRICE.full, analysis: DEEP_AI_CREDITS, reply: 1, firstMockFree: FIRST_FULL_MOCK_ON });
+const PRICES = Object.freeze({ question: PRACTICE_PRICE.perQuestion, fullMock: PRACTICE_PRICE.full, analysis: DEEP_AI_CREDITS, reply: 1, repair: REPAIR_CREDIT_COST, firstMockFree: FIRST_FULL_MOCK_ON });
 
 function reducedMotion() {
   if (typeof window === 'undefined') return true;
@@ -202,7 +203,7 @@ export default function WalletPageClient({ proOffer = null }) {
                     <b className="wl-pack__credits">{card.title}</b>
                     {card.best ? <span className="wl-pack__tag">{WALLET_V13_COPY.bestValue}</span> : null}
                   </div>
-                  <p className="wl-pack__value">{card.value}</p>
+                  <p className="wl-pack__value">{card.worth}</p>
                   <p className="wl-pack__price">
                     <span className="wl-pack__rupees">{card.price}</span>
                     <span className="wl-pack__per">{card.perCredit}{card.save ? <span className="wl-pack__save">{card.save}</span> : null}</span>
