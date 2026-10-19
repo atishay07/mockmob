@@ -454,3 +454,11 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 19 Oct about 9:09 pm IST, conditional yes for production (verbatim)
 > "Yes: once the web fixes pass every test and you've shown me the results, apply the production migration 20261019210000 and deploy the website with billing on. I'll set PLAY_BILLING_ENABLED=true in Vercel when you tell me."
 **Ledger D141:** yes for migration 20261019210000 on production and the web deploy of play-subs with billing on, on two conditions: every web test passes after the review fixes, and he is shown the results first. He sets PLAY_BILLING_ENABLED=true in Vercel himself when told.
+
+## Owner, 19 Oct about 9:24 pm IST, on the version 11 store listing pack (verbatim)
+> "I was reading the short description and long description that it has written, and honestly it is not very impressive. It can do better than that by thinking like a marketing mind and properly thinking about what copy to write.
+>
+> The feature graphic is also kind of sloppy. A lot better can be done if you give it deep thought. We can do better than whatever you have created. Just think of it.
+>
+> I need six or seven phone assets, basically screenshots also. You can do not exactly just screenshots: design it properly and make something good how professional apps usually do it"
+**Ledger D142:** rewrite the short and full descriptions with a real marketing mind (still truthful, Play policy); redesign the feature graphic with deep thought; make 6-7 designed phone assets (composed store frames, like professional apps), not raw screenshots. Options first (R8); he picks.
