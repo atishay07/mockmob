@@ -13,7 +13,7 @@ const String aiReplyReportPath = '/api/ai/mentor/report';
 
 /// Flip to true in the build that ships with `POST /api/ai/mentor/report` on the server. Until
 /// then Ask shows no Report key.
-const bool aiReplyReportLive = false;
+const bool aiReplyReportLive = true;
 
 /// Whether the Report this reply key is shown. Tests replace it.
 final aiReplyReportAvailableProvider = Provider<bool>((ref) => aiReplyReportLive);
