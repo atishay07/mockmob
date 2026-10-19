@@ -54,6 +54,7 @@ import './hero-motion.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   'Quick practice and Full mock on credits',
+  'Your first full mock in every subject is free',
   'Weekly progress tracking',
   '25 saved questions',
   'Your standing',
