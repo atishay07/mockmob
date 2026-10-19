@@ -56,7 +56,9 @@ final _mixed = [
 Future<GoRouter> pumpResult(WidgetTester tester, List<dynamic> overrides) {
   FoldMemory.instance.reset();
   addTearDown(FoldMemory.instance.reset);
-  return pumpRouted(tester, location: '/practice/result/p1', routes: _routes(), overrides: List.castFrom(overrides));
+  // A tall phone: the finish moment (20 Oct, I13) adds the marks up on the paper before the layers, and these tests read
+  // the layers, not the fold. The moment's own layout at 360 by 760 is held by the reveal goldens.
+  return pumpRouted(tester, location: '/practice/result/p1', routes: _routes(), size: const Size(360, 1500), overrides: List.castFrom(overrides));
 }
 
 Finder get _page => find.byType(Scrollable).first;
@@ -93,7 +95,11 @@ void main() {
     // The restored moment (D108): the stamped figure of right answers, the counts and the sheet, with Mobi beside it.
     expect(find.byType(FinishStage), findsOneWidget);
     expect(find.bySemanticsLabel(RegExp('8 of 10 correct')), findsWidgets);
-    expect(find.text('8 right, 1 wrong, 1 not attempted'), findsOneWidget);
+    // The counts are the ledger's rows now (20 Oct, I13): each with its marks, +5, -1 and 0 each.
+    expect(find.text('8 right'), findsOneWidget);
+    expect(find.text('1 wrong'), findsOneWidget);
+    expect(find.text('1 not attempted'), findsOneWidget);
+    expect(find.text('+40'), findsOneWidget);
     expect(find.text('Accountancy practice, Admission of a partner, finished'), findsOneWidget);
     expect(find.byType(NumberedSheet), findsOneWidget);
     expect(find.byType(MobiCharacter), findsOneWidget);
@@ -101,9 +107,11 @@ void main() {
     expect(find.bySemanticsLabel('Saved today at 11:51 PM. You scored 39 of 50 marks.'), findsOneWidget);
     expect(find.textContaining('Recorded'), findsNothing);
     expect(find.textContaining('Your paper is saved'), findsNothing);
-    // The bar's line says what the missed marks went to, not the marks again.
-    expect(find.text('1 wrong answer cost 6 of the 11 marks you missed.'), findsOneWidget);
+    // The bar has no line of its own any more: the ledger says the marks in rows, and the total once.
+    expect(find.text('1 wrong answer cost 6 of the 11 marks you missed.'), findsNothing);
     expect(find.textContaining('39 of 50 marks.'), findsNothing);
+    // One chapter: no chapter list (the ledger has said it all).
+    expect(find.byKey(const ValueKey('finish-chapters')), findsNothing);
     // One chapter lost every missed mark: the bar's line has said it and the panel names the chapter, so the moment is
     // not followed by the same news a second time (one thing at a time).
     expect(find.textContaining('cost 11 of the 11 marks you missed'), findsNothing);
@@ -113,6 +121,8 @@ void main() {
   });
 
   testWidgets('two chapters lost the same marks: under the moment, the tie is said, not broken by paper order (owner I14)', (tester) async {
+    final semantics = tester.ensureSemantics();
+    addTearDown(semantics.dispose);
     final two = [
       for (var i = 0; i < 8; i++) ('Admission of a partner', V.right),
       ('Admission of a partner', V.wrong),
@@ -120,8 +130,11 @@ void main() {
     ];
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(two)));
     await tester.pump(const Duration(milliseconds: 900));
+    // The moment's last beat (I13, I14): the v12 tie line over the chapters, both ranked 1st and marked Tied.
     expect(find.text('Admission of a partner and Goodwill each cost you 6 marks.'), findsOneWidget);
     expect(find.text('Together they cost 12 of the 12 marks you missed.'), findsOneWidget);
+    expect(find.text('Tied'), findsNWidgets(2));
+    expect(find.bySemanticsLabel('Goodwill, tied first, 6 marks lost'), findsOneWidget);
     expect(find.textContaining('cost 6 of the 12'), findsNothing);
   });
 
@@ -135,6 +148,9 @@ void main() {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(two)));
     await tester.pump(const Duration(milliseconds: 900));
     expect(find.text('Admission of a partner cost 12 of the 18 marks you missed.'), findsOneWidget);
+    // Ranked by marks, no tie: 1 and 2, no Tied tag.
+    expect(find.text('Tied'), findsNothing);
+    expect(find.text('2'), findsWidgets);
   });
 
   testWidgets('"Your paper is saved" is said only once the server\'s acknowledgement is held on this phone', (tester) async {
@@ -170,15 +186,16 @@ void main() {
     await tester.pump();
     Text figure() => tester.widget<Text>(find.byKey(const ValueKey('completion-figure')));
     expect(figure().data, '0');
-    // Ten bubbles: 200 ms in place, 400 ms of ink, then the stamp lands 240 ms later (840 ms).
-    await frames(tester, ms: 820);
+    // Ten bubbles: 200 ms in place, 720 ms of ink, the stamp lands 240 ms later (1160 ms), the marks are added up from
+    // 160 ms after that, and the total starts counting 560 ms into that (about 1880 ms).
+    await frames(tester, ms: 1800);
     expect(figure().data, '0');
-    await frames(tester, ms: 400);
+    await frames(tester, ms: 480);
     final mid = int.parse(figure().data!);
     // An ease-out: well past half the marks a little after half the time.
     expect(mid, greaterThan(19));
     expect(mid, lessThan(39));
-    await frames(tester, ms: 600);
+    await frames(tester, ms: 700);
     expect(figure().data, '39');
     expect(figure().style!.fontFeatures, contains(const FontFeature.tabularFigures()));
     expect(CompletionLine.figureAt(39, 1), 39);
@@ -292,7 +309,8 @@ void main() {
     final all = [for (var i = 0; i < 10; i++) ('Goodwill', V.right)];
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(all)));
     await tester.pump(const Duration(milliseconds: 900));
-    expect(find.text('10 right. Nothing wrong, nothing left out.'), findsOneWidget);
+    expect(find.text('10 right'), findsOneWidget);
+    expect(find.text('0 wrong'), findsOneWidget);
     expect(find.text('No mistakes to repair'), findsOneWidget);
     expect(find.widgetWithText(KeyButton, 'Practise 10 harder in Accountancy'), findsOneWidget);
     await tester.tap(find.widgetWithText(KeyButton, 'Practise 10 harder in Accountancy'));
@@ -425,7 +443,7 @@ void main() {
     await tester.pump(const Duration(milliseconds: 420));
     await tester.pump(const Duration(milliseconds: 420));
     await tester.pump(const Duration(milliseconds: 600));
-    await frames(tester, ms: 900);
+    await frames(tester, ms: 3000);
     expect(find.bySemanticsLabel(RegExp('8 of 10 correct')), findsWidgets);
     expect(tester.widget<AnimatedOpacity>(layers.first).opacity, 1);
     // Opened once: the result is marked opened only after the moment read that it was fresh.
@@ -438,10 +456,14 @@ void main() {
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), pending: pending));
     await tester.pump();
     await tester.pump();
-    await tester.tap(find.text('8 right, 1 wrong, 1 not attempted'));
+    await tester.tap(find.byKey(const ValueKey('finish-figure')));
     await tester.pump();
-    await frames(tester, ms: 900);
+    // The end state lands in 200 ms (20 Oct, I13): every value on its final figure, never a jump cut.
+    await frames(tester, ms: 240);
     expect(find.bySemanticsLabel('Your paper is saved. You scored 39 of 50 marks.'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const ValueKey('completion-figure'))).data, '39');
+    expect(tester.widget<Text>(find.byKey(const ValueKey('ledger-value-0'))).data, '+40');
+    expect(tester.widget<Text>(find.byKey(const ValueKey('ledger-value-1'))).data, '−1');
     semantics.dispose();
   });
 
@@ -559,7 +581,8 @@ void main() {
     expect(find.text('8 right, 1 wrong, 1 blank. Tap a bubble to open its question.'), findsOneWidget);
     await tester.tap(fold);
     await frames(tester);
-    expect(find.byType(NumberedSheet), findsOneWidget);
+    // The moment's sheet and the fold's.
+    expect(find.byType(NumberedSheet), findsNWidgets(2));
     await tester.scrollUntilVisible(find.text('Right answers (8)'), 200, scrollable: _page);
     expect(find.text('Right answers (8)'), findsOneWidget);
   });

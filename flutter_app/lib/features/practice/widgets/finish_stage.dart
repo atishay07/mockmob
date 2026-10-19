@@ -55,7 +55,15 @@ class FinishStage extends ConsumerStatefulWidget {
     this.confirmed = false,
     this.now,
     this.chapters = const [],
+    this.chaptersLead,
+    this.chaptersDetail,
   });
+
+  /// Under the sentence, for a tie: what the tied chapters cost together.
+  final String? chaptersDetail;
+
+  /// The sentence over the chapters (the v12 costliest line, ties said as ties).
+  final String? chaptersLead;
 
   /// Where the marks went, chapter by chapter, ranked with ties shared ([finishChaptersOf]). Shown as the moment's
   /// last beat when two or more chapters lost marks.
@@ -324,7 +332,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
       }
     } else if (_after.isAnimating) {
       _skipped = true;
-      setState(() {});
+      setState(() => _totalOn = true);
       unawaited(_after.animateTo(1, duration: FinishBeats.skip, curve: Motion.out));
     }
   }
@@ -347,6 +355,8 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
       _settle();
     } else {
       if (_skipped) {
+        // The total lands with everything else, inside the skip's 200 ms.
+        _totalOn = true;
         unawaited(_after.animateTo(1, duration: FinishBeats.skip, curve: Motion.out));
       } else {
         unawaited(_after.forward());
@@ -522,7 +532,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
           // Where the marks went, chapter by chapter, ties shared and said (I14). Only when two or more chapters lost
           // marks.
           if (widget.chapters.length >= 2) ...[
-            FinishChapters(chapters: widget.chapters, t: _after),
+            FinishChapters(chapters: widget.chapters, t: _after, lead: widget.chaptersLead, leadDetail: widget.chaptersDetail),
           ],
           // The late-night "good place to stop" line is not here any more: it sits under the pinned
           // key, with "Finish for now" (AP3-06, A14).

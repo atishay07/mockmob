@@ -3,9 +3,13 @@ import 'dart:ui' show FontFeature, PathMetric;
 
 import 'package:flutter/material.dart';
 
+import 'package:lucide_icons_flutter/lucide_icons.dart' show LucideIcons;
+
 import '../../../core/copy/formatters.dart' show formatSignedNumber;
 import '../../../core/theme/theme.dart';
+
 import '../model/next_move.dart' show ChapterCost;
+import '../model/paper_read.dart';
 
 /// The second half of the finish moment (20 Oct, owner I13, G22, D108): after the sheet has inked
 /// and the figure has stamped, the marks are shown being added up, line by line, the way a paper
@@ -20,21 +24,23 @@ import '../model/next_move.dart' show ChapterCost;
 /// motion and a result opened again show the end state at once.
 abstract final class FinishBeats {
   /// From the landing of the figure to the end of the moment.
-  static const Duration after = Duration(milliseconds: 2100);
+  static const Duration after = Duration(milliseconds: _ms);
+  static const int _ms = 2400;
 
   /// A skip lands the end state in this long, never a jump cut.
   static const Duration skip = Duration(milliseconds: 200);
 
   /// Each ledger row rises in over this share of [after] (about 300 ms), 140 ms apart.
-  static const double rowSpan = 300 / 2100;
-  static const double rowGap = 140 / 2100;
+  static const double rowSpan = 300 / _ms;
+  static const double rowGap = 140 / _ms;
 
   /// The total's line starts here (after the three rows), and counts up on its own clock.
-  static const double totalAt = 560 / 2100;
+  static const double totalAt = 560 / _ms;
 
-  /// The chapters come in from here, 100 ms apart.
-  static const double chaptersAt = 1300 / 2100;
-  static const double chapterGap = 100 / 2100;
+  /// The read of the paper comes in from here, its blocks 120 ms apart.
+  static const double chaptersAt = 1500 / _ms;
+  static const double chapterGap = 100 / _ms;
+  static const double blockGap = 120 / _ms;
 
   /// Row [i]'s own 0 to 1 at [t] of [after].
   static double row(double t, int i) => Curves.easeOut.transform(((t - i * rowGap) / rowSpan).clamp(0.0, 1.0));
@@ -243,7 +249,14 @@ Widget _rise(double v, Widget child) => Opacity(
 /// "Tied". At most [maxRows]; the rest are one line. Shown only when two or more chapters lost marks
 /// (with one, the ledger has already said everything).
 class FinishChapters extends StatelessWidget {
-  const FinishChapters({super.key, required this.chapters, required this.t, this.maxRows = 4});
+  const FinishChapters({super.key, required this.chapters, required this.t, this.maxRows = 4, this.lead, this.leadDetail});
+
+  /// Under [lead], for a tie: "Together they cost 24 of the 30 marks you missed."
+  final String? leadDetail;
+
+  /// The one sentence over the rows (the v12 line, ties said as ties): "Ray Optics and Electromagnetic Induction each
+  /// cost you 6 marks." or "Share Capital cost 29 of the 122 marks you missed."
+  final String? lead;
 
   final List<FinishChapter> chapters;
   final Animation<double> t;
@@ -272,7 +285,24 @@ class FinishChapters extends StatelessWidget {
               ],
             ),
           ),
-          const SizedBox(height: MmSpace.s4),
+          if (lead != null) ...[
+            const SizedBox(height: MmSpace.s8),
+            Opacity(
+              opacity: FinishBeats.chapter(t.value, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Text(lead!, style: type.body.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
+                  if (leadDetail != null) ...[
+                    const SizedBox(height: 2),
+                    Text(leadDetail!, style: type.small.copyWith(color: colors.ink2)),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(height: MmSpace.s8),
+          ] else
+            const SizedBox(height: MmSpace.s4),
           for (var i = 0; i < shown.length; i++)
             _rise(
               FinishBeats.chapter(t.value, i),
@@ -390,4 +420,158 @@ class _MarkerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_MarkerPainter old) => old.progress != progress || old.color != color;
+}
+
+/// The read of the paper, as the moment's last beat (20 Oct, owner: "it doesn't do the SWOT analysis"): one compact
+/// card, four short blocks. Strengths, then Weaknesses (the chapters that lost marks, ranked, ties shared and marked,
+/// and any changed answers that cost marks), then the Opportunity (the marks within reach, as this paper's own
+/// arithmetic), then Risks (only when the numbers show one). The blocks rise in 120 ms apart on [t].
+class PaperReadCard extends StatelessWidget {
+  const PaperReadCard({super.key, required this.read, required this.t, this.maxChapters = 3});
+
+  final PaperRead read;
+  final Animation<double> t;
+  final int maxChapters;
+
+  /// Block [i]'s own 0 to 1 at [v].
+  static double beat(double v, int i) =>
+      Curves.easeOut.transform(((v - FinishBeats.chaptersAt - i * FinishBeats.blockGap) / FinishBeats.rowSpan).clamp(0.0, 1.0));
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final body = type.body.copyWith(color: colors.ink);
+    final r = read;
+    final blocks = <Widget>[
+      _ReadBlock(icon: LucideIcons.trendingUp, label: PaperReadCopy.strengths, tint: colors.goodText, children: [
+        for (final s in r.strengths) Text(s, style: body),
+      ]),
+      _ReadBlock(icon: LucideIcons.trendingDown, label: PaperReadCopy.weaknesses, tint: colors.wrongText, children: [
+        if (r.leakChapters.isNotEmpty) _ChapterTable(chapters: r.leakChapters, maxRows: maxChapters),
+        for (final s in r.leaks) Text(s, style: body),
+      ]),
+      _ReadBlock(icon: LucideIcons.target, label: PaperReadCopy.opportunity, tint: colors.accentText, children: [
+        Text(r.reach, style: body.copyWith(fontWeight: FontWeight.w600)),
+        if (r.reachNote != null) Text(r.reachNote!, style: type.small.copyWith(color: colors.ink2)),
+      ]),
+      if (r.risks.isNotEmpty)
+        _ReadBlock(icon: LucideIcons.triangleAlert, label: PaperReadCopy.risks, tint: colors.warnText, children: [
+          for (final s in r.risks) Text(s, style: body),
+        ]),
+    ];
+    return DecoratedBox(
+      key: const ValueKey('paper-read'),
+      decoration: ShapeDecoration(
+        color: colors.raised,
+        shape: RoundedSuperellipseBorder(borderRadius: MmRadius.panelAll, side: BorderSide(color: colors.line)),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s4),
+        child: AnimatedBuilder(
+          animation: t,
+          builder: (context, _) => Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Opacity(
+                opacity: beat(t.value, 0),
+                child: Text(PaperReadCopy.title, style: type.caption.copyWith(color: colors.ink2)),
+              ),
+              for (var i = 0; i < blocks.length; i++)
+                _rise(
+                  beat(t.value, i),
+                  Container(
+                    padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
+                    decoration: i == 0 ? null : BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
+                    child: blocks[i],
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ReadBlock extends StatelessWidget {
+  const _ReadBlock({required this.icon, required this.label, required this.tint, required this.children});
+
+  final IconData icon;
+  final String label;
+  final Color tint;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Semantics(
+      container: true,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              ExcludeSemantics(child: Icon(icon, size: 16, color: tint)),
+              const SizedBox(width: MmSpace.s8),
+              Text(label, style: type.small.copyWith(color: colors.ink2, fontWeight: FontWeight.w700, letterSpacing: 0.2)),
+            ],
+          ),
+          const SizedBox(height: MmSpace.s4),
+          for (var i = 0; i < children.length; i++) ...[
+            if (i > 0) const SizedBox(height: MmSpace.s4),
+            children[i],
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// The chapters that lost marks inside the Weaknesses block: rank, name, "Tied" when shared, marks lost.
+class _ChapterTable extends StatelessWidget {
+  const _ChapterTable({required this.chapters, required this.maxRows});
+
+  final List<FinishChapter> chapters;
+  final int maxRows;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final shown = chapters.take(maxRows).toList();
+    final rest = chapters.skip(maxRows).toList();
+    final value = _tabular(type.body.copyWith(color: colors.ink, fontWeight: FontWeight.w700));
+    final rank = _tabular(type.small.copyWith(color: colors.ink3, fontWeight: FontWeight.w600));
+    return Column(
+      key: const ValueKey('finish-chapters'),
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final c in shown)
+          Semantics(
+            container: true,
+            label: FinishRevealCopy.chapterSpoken(c),
+            excludeSemantics: true,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                children: [
+                  SizedBox(width: 20, child: Text('${c.rank}', style: rank)),
+                  Expanded(child: Text(c.name, style: type.body.copyWith(color: colors.ink), maxLines: 1, overflow: TextOverflow.ellipsis)),
+                  if (c.tied) ...[const SizedBox(width: MmSpace.s8), _TiedTag()],
+                  const SizedBox(width: MmSpace.s12),
+                  Text('−${c.lost}', style: value.copyWith(color: colors.wrongText)),
+                ],
+              ),
+            ),
+          ),
+        if (rest.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.only(left: 20, top: 2),
+            child: Text(FinishRevealCopy.more(rest.length, rest.fold(0, (s, c) => s + c.lost)), style: type.small.copyWith(color: colors.ink3)),
+          ),
+      ],
+    );
+  }
 }

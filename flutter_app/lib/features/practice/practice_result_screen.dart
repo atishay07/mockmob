@@ -697,6 +697,8 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                       chapter: chapter,
                                       onCellTap: model.hasRows ? _tapCell : null,
                                       chapters: chapters,
+                                      chaptersLead: costliest.line,
+                                      chaptersDetail: costliest.tied.length > 1 ? costliest.detail : null,
                                       onSettled: () {
                                         if (mounted && !_settled) setState(() => _settled = true);
                                       },
