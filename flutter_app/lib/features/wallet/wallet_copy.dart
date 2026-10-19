@@ -28,6 +28,31 @@ abstract final class WalletCopy {
   /// "Free credits refill on 1 November at 12:00 AM".
   static String resets(DateTime at) => 'Free credits refill on ${formatDayMonth(at)} at ${formatTime12(at)}';
 
+  // The balance, split honestly (I8: a new account shows 150 = 50 free this month + 100 kept welcome credits).
+  static const toSpend = 'credits to spend';
+  static const freePart = 'Free this month';
+  static String freePartNote(int left, int of, DateTime? refill) =>
+      refill == null ? '$left of $of left' : '$left of $of left. Refills ${formatDayMonth(refill)}';
+  static const keptPart = 'Kept credits';
+  static const keptPartNote = 'Your welcome credits and any top-ups. They do not expire.';
+  static const lowNote = 'You are running low. A top-up or Pro keeps you practising.';
+
+  // What credits buy: the server's price list, as tiles. The first full mock line only when the server says so.
+  static const buysTitle = 'What credits buy';
+  static const costShows = 'The cost always shows before you start.';
+  static const buyQuestion = 'A practice question';
+  static const buyMock = 'A full mock';
+  static const buyMockFirstFree = 'First one in each subject is free';
+  static const buyAnalysis = 'Deeper analysis';
+  static const buyReply = 'An Ask Mobi reply';
+  static const includedOnPro = 'Included';
+  static String creditsWord(int n) => n == 1 ? 'credit' : 'credits';
+
+  // The Pro bridge, for a Free student when Google Play is on.
+  static const proBridgeTitle = 'Pro makes practice unlimited';
+  static const proBridgeBody = 'Practise as much as you like without spending credits, with Smart practice and the exam-day screen.';
+  static const proBridgeKey = 'See Pro';
+
   // Loading and failure. A balance that did not load is never zero.
   static const notLoaded = 'Not loaded';
   static const checking = 'Checking';

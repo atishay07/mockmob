@@ -67,6 +67,9 @@ class FakeWalletRepo extends WalletRepository {
 
   @override
   Future<void> refresh({bool force = false}) async => refreshes++;
+
+  /// Stands in for the server's new figures after a confirmed top-up.
+  void serve(RemoteState<WalletRead> next) => state = next;
 }
 
 RemoteState<WalletRead> walletState([Map<String, Object?>? body]) =>

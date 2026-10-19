@@ -4,7 +4,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/features/wallet/data/wallet_data.dart';
 import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
 import 'package:mockmob/features/billing/widgets/get_pro_sheet.dart';
@@ -40,6 +43,7 @@ void _golden(
   Widget Function() screen, {
   BillingRig Function()? rig,
   bool pro = false,
+  RemoteState<WalletRead>? read,
   double height = 1500,
   bool padded = false,
   Prepare? prepare,
@@ -56,7 +60,7 @@ void _golden(
           size: Size(width, height),
           wrapInScaffold: padded,
           disableAnimations: true,
-          overrides: walletOverrides(pro: pro, rig: r),
+          overrides: walletOverrides(pro: pro, rig: r, read: read),
         );
         await _settle(tester);
         if (prepare != null) await prepare(tester, r);
@@ -73,10 +77,42 @@ void main() {
   });
   tearDown(disposeContainers);
 
-  // The Wallet.
-  _golden('wallet_play_on', () => const WalletScreen(), height: 1250);
-  _golden('wallet_play_off', () => const WalletScreen(), rig: () => BillingRig(on: false), height: 1000);
-  _golden('wallet_pro', () => const WalletScreen(), pro: true, height: 1250);
+  // The Wallet (version 13, I8 to I10): free, Pro, low, zero, buying and confirmed.
+  _golden('wallet_play_on', () => const WalletScreen(), height: 2050);
+  _golden('wallet_play_off', () => const WalletScreen(), rig: () => BillingRig(on: false), height: 1500);
+  _golden('wallet_pro', () => const WalletScreen(), pro: true, height: 1850);
+  _golden('wallet_new_account', () => const WalletScreen(), height: 1100, read: walletState(walletBody(freeLeft: 50, held: 100, history: false)));
+  _golden('wallet_low', () => const WalletScreen(), height: 1100, read: walletState(walletBody(freeLeft: 4, held: 2)));
+  _golden('wallet_zero', () => const WalletScreen(), height: 1100, read: walletState(walletBody(freeLeft: 0, held: 0)));
+  _golden(
+    'wallet_buying',
+    () => const WalletScreen(),
+    height: 1500,
+    prepare: (tester, rig) async {
+      rig.store.onBuy = (p) => rig.store.emit(purchase(p.id, status: PurchaseStatus.pending));
+      await tester.ensureVisible(find.text('300').first);
+      await tester.tap(find.text('300').first);
+      await _settle(tester);
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, 2000));
+      await _settle(tester);
+    },
+  );
+  _golden(
+    'wallet_confirmed',
+    () => const WalletScreen(),
+    height: 1500,
+    prepare: (tester, rig) async {
+      rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
+      await tester.ensureVisible(find.text('300').first);
+      await tester.tap(find.text('300').first);
+      await _settle(tester);
+      final repo = ProviderScope.containerOf(tester.element(find.byType(WalletScreen))).read(walletRepositoryProvider.notifier) as FakeWalletRepo;
+      repo.serve(walletState(walletBody(held: 306)));
+      await _settle(tester);
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, 2000));
+      await _settle(tester);
+    },
+  );
 
   // The Get Pro sheet's states. The last one is how another screen calls it: a reason line and its own benefit lines.
   _golden(

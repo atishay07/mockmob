@@ -9,7 +9,7 @@ import '../../core/widgets/widgets.dart';
 import '../billing/billing.dart';
 import '../credits/credits_copy.dart';
 import '../you/widgets/you_page.dart';
-import '../you/widgets/you_row.dart' show IconWell, YouPanel, YouRow;
+import '../you/widgets/you_row.dart' show IconWell, YouPanel;
 import 'data/wallet_data.dart';
 import 'wallet_copy.dart';
 
@@ -47,6 +47,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
   Widget build(BuildContext context) {
     final view = ref.watch(walletViewProvider);
     final billingOn = ref.watch(playBillingEnabledProvider) && ref.watch(playBillingUserIdProvider) != null;
+    final firstMockFree = ref.watch(firstFullMockFreeProvider);
 
     return YouPage(
       title: WalletCopy.title,
@@ -56,35 +57,26 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
             padding: EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
             child: InlineBanner(message: WalletCopy.stale),
           ),
-        _PlanLine(view: view),
-        const SizedBox(height: MmSpace.s16),
-        Padding(padding: youGutter, child: _Balance(view: view)),
+        const SizedBox(height: MmSpace.s8),
+        Padding(padding: youGutter, child: WalletBalanceCard(view: view)),
         if (view.failed)
           Padding(
             padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
             child: Align(alignment: Alignment.centerLeft, child: KeyButton.quiet(label: WalletCopy.tryAgain, onPressed: _reload)),
           ),
+        // The Pro bridge sits right under the balance for a Free student: the subscription is never hidden (I6, I9).
+        if (billingOn && !view.isPro) ...[
+          const SizedBox(height: MmSpace.s16),
+          Padding(padding: youGutter, child: _ProBridge(onTap: () => showGetProSheet(context))),
+        ],
         // Top-ups are Google Play's: with PLAY_BILLING off there is nothing to buy, so the section is not
         // drawn at all (no "open soon" promise and no key that does nothing).
         if (ref.watch(playBillingEnabledProvider)) ...[
-          const SectionTitle(BillingCopy.topUpsTitle, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s12)),
+          SectionTitle(view.isPro ? BillingCopy.topUpsTitlePro : BillingCopy.topUpsTitleFree, padding: const EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s8)),
           const Padding(padding: youGutter, child: WalletTopUps()),
         ],
-        if (billingOn && !view.isPro) ...[
-          const SizedBox(height: MmSpace.s24),
-          YouPanel(
-            flat: true,
-            children: [
-              YouRow(
-                flat: true,
-                icon: LucideIcons.sparkles,
-                title: WalletCopy.proRowTitle,
-                note: WalletCopy.proRowNote,
-                onTap: () => showGetProSheet(context),
-              ),
-            ],
-          ),
-        ],
+        const SectionTitle(WalletCopy.buysTitle, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s12)),
+        Padding(padding: youGutter, child: _Buys(pro: view.isPro, firstMockFree: firstMockFree)),
         const SectionTitle(WalletCopy.recent, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s4)),
         _history(context, view),
       ],
@@ -186,28 +178,209 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
   }
 }
 
-/// The plan: the Free pill alone, or the Pro pill with "Pro until 31 July 2027".
-class _PlanLine extends StatelessWidget {
-  const _PlanLine({required this.view});
+/// The balance as the hero: the one Credits figure (it counts to a new value when the server's figure
+/// moves, such as after a confirmed top-up), the plan tag, and the figure split honestly into this
+/// month's free credits with their refill date and the kept credits that do not expire (I8: a new
+/// account's 150 is 50 free this month plus 100 kept welcome credits). Information only.
+class WalletBalanceCard extends StatelessWidget {
+  const WalletBalanceCard({super.key, required this.view});
 
   final WalletView view;
+
+  /// At or under this many credits a Free student is told the balance is running low.
+  static const int lowAt = 10;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final type = context.mmType;
+    final total = view.total;
+    final free = view.freeLeft;
+    final allowance = view.freeAllowance;
+    final held = view.held;
+    final split = total != null && free != null && held != null;
     final until = view.proUntil;
-    final line = view.isPro ? (until == null ? CreditsCopy.planProActive : CreditsCopy.planUntil(until)) : null;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
-      child: Row(
-        children: [
-          Semantics(label: view.isPro ? WalletCopy.planPro : WalletCopy.planFree, excludeSemantics: true, child: _Tag(pro: view.isPro)),
-          if (line != null) ...[
-            const SizedBox(width: MmSpace.s12),
-            Expanded(child: Text(line, style: context.mmType.body.copyWith(color: colors.ink2))),
+    final low = total != null && !view.isPro && total <= lowAt;
+    final figureWords = total != null ? '$total' : (view.loading ? WalletCopy.checking : WalletCopy.notLoaded);
+    final spoken = [
+      '${WalletCopy.creditsName}, $figureWords',
+      view.isPro ? WalletCopy.planPro : WalletCopy.planFree,
+      if (split && allowance != null) '${WalletCopy.freePart}: ${WalletCopy.freePartNote(free, allowance, view.resetsAt)}',
+      if (split) '${WalletCopy.keptPart}: $held. ${WalletCopy.keptPartNote}',
+      if (low) WalletCopy.lowNote,
+      if (view.isPro) WalletCopy.practiceUnlimitedNote,
+    ].join('. ');
+
+    return MmSurface.hero(
+      lit: true,
+      semanticsLabel: spoken,
+      child: ExcludeSemantics(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(LucideIcons.wallet, size: 18, color: colors.ink2),
+                const SizedBox(width: MmSpace.s8),
+                Expanded(child: Text(WalletCopy.creditsName, style: type.labelLarge.copyWith(color: colors.ink2))),
+                _Tag(pro: view.isPro),
+              ],
+            ),
+            const SizedBox(height: MmSpace.s12),
+            if (total != null)
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.baseline,
+                textBaseline: TextBaseline.alphabetic,
+                children: [
+                  _BalanceFigure(value: total, style: type.figureHero),
+                  const SizedBox(width: MmSpace.s8),
+                  Flexible(child: Text(WalletCopy.toSpend, style: type.labelLarge.copyWith(color: colors.ink2))),
+                ],
+              )
+            else
+              Text(figureWords, style: type.title.copyWith(color: colors.ink3)),
+            if (split) ...[
+              const SizedBox(height: MmSpace.s16),
+              _SplitBar(free: free, kept: held),
+              const SizedBox(height: MmSpace.s16),
+              _Part(
+                dot: colors.volt,
+                title: WalletCopy.freePart,
+                figure: '$free',
+                note: allowance == null ? null : WalletCopy.freePartNote(free, allowance, view.resetsAt),
+              ),
+              const SizedBox(height: MmSpace.s12),
+              _Part(dot: colors.ink3, title: WalletCopy.keptPart, figure: '$held', note: WalletCopy.keptPartNote),
+            ],
+            if (low) ...[
+              const SizedBox(height: MmSpace.s12),
+              Text(WalletCopy.lowNote, style: type.small.copyWith(color: colors.warnText)),
+            ],
+            if (view.isPro) ...[
+              const SizedBox(height: MmSpace.s16),
+              Text(
+                until == null ? WalletCopy.practiceUnlimitedNote : '${CreditsCopy.planUntil(until)}. ${WalletCopy.practiceUnlimitedNote}',
+                style: type.small.copyWith(color: colors.ink),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
+    );
+  }
+}
+
+/// The hero figure. It shows the server's balance as it is; when a new figure from the server is higher
+/// (a confirmed top-up) it counts up to it in volt and then settles back to ink over 1.6 s. Under
+/// reduced motion it simply shows the new figure.
+class _BalanceFigure extends StatefulWidget {
+  const _BalanceFigure({required this.value, required this.style});
+
+  final int value;
+  final TextStyle style;
+
+  @override
+  State<_BalanceFigure> createState() => _BalanceFigureState();
+}
+
+class _BalanceFigureState extends State<_BalanceFigure> with SingleTickerProviderStateMixin {
+  late final AnimationController _glow = AnimationController(vsync: this, duration: const Duration(milliseconds: 1600));
+
+  @override
+  void didUpdateWidget(_BalanceFigure old) {
+    super.didUpdateWidget(old);
+    if (widget.value > old.value && !MediaQuery.disableAnimationsOf(context)) _glow.forward(from: 0);
+  }
+
+  @override
+  void dispose() {
+    _glow.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final accent = context.mmColors.accentText;
+    return AnimatedBuilder(
+      animation: _glow,
+      builder: (context, _) {
+        final v = _glow.value;
+        // Full volt while it counts (the first half), then an ease back to the figure's own ink.
+        final t = !_glow.isAnimating ? 0.0 : (v < 0.5 ? 1.0 : Curves.easeOut.transform(1 - (v - 0.5) / 0.5));
+        return MmCountUp(
+          value: widget.value,
+          fromZeroOnFirstBuild: false,
+          style: widget.style.copyWith(color: Color.lerp(widget.style.color, accent, t)),
+        );
+      },
+    );
+  }
+}
+
+/// The balance as one bar: this month's free credits in volt, the kept credits in quiet ink.
+class _SplitBar extends StatelessWidget {
+  const _SplitBar({required this.free, required this.kept});
+
+  final int free;
+  final int kept;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final empty = free + kept <= 0;
+    return ClipRRect(
+      borderRadius: MmRadius.pillAll,
+      child: SizedBox(
+        height: 8,
+        child: empty
+            ? ColoredBox(color: colors.line, child: const SizedBox.expand())
+            : Row(
+                children: [
+                  if (free > 0) Expanded(flex: free, child: ColoredBox(color: colors.volt, child: const SizedBox.expand())),
+                  if (free > 0 && kept > 0) const SizedBox(width: 2),
+                  if (kept > 0) Expanded(flex: kept, child: ColoredBox(color: colors.ink3, child: const SizedBox.expand())),
+                ],
+              ),
+      ),
+    );
+  }
+}
+
+class _Part extends StatelessWidget {
+  const _Part({required this.dot, required this.title, required this.figure, this.note});
+
+  final Color dot;
+  final String title;
+  final String figure;
+  final String? note;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: DecoratedBox(decoration: BoxDecoration(color: dot, shape: BoxShape.circle), child: const SizedBox(width: 10, height: 10)),
+        ),
+        const SizedBox(width: MmSpace.s12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(title, style: type.labelLarge),
+              if (note != null) ...[
+                const SizedBox(height: 2),
+                Text(note!, style: type.small.copyWith(color: colors.ink2)),
+              ],
+            ],
+          ),
+        ),
+        const SizedBox(width: MmSpace.s12),
+        Text(figure, style: type.title.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
+      ],
     );
   }
 }
@@ -237,48 +410,104 @@ class _Tag extends StatelessWidget {
   }
 }
 
-/// The one balance: the figure, what a credit buys, the free allowance with its reset, and the
-/// credits held. Information only.
-class _Balance extends StatelessWidget {
-  const _Balance({required this.view});
+/// The bridge to Pro for a Free student: one card that says what Pro changes and opens the Pro page.
+class _ProBridge extends StatelessWidget {
+  const _ProBridge({required this.onTap});
 
-  final WalletView view;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final known = view.total != null;
-    final figure = known ? '${view.total}' : (view.loading ? WalletCopy.checking : WalletCopy.notLoaded);
-    final lines = <String>[
-      view.buys ?? WalletCopy.creditsFor,
-      if (view.freeLeft != null && view.freeAllowance != null) WalletCopy.freeLeft(view.freeLeft!, view.freeAllowance!),
-      if (view.resetsAt != null) WalletCopy.resets(view.resetsAt!),
-      if (view.held != null && view.held! > 0) '${WalletCopy.held(view.held!)}. ${WalletCopy.heldNote}',
-      if (view.isPro) WalletCopy.practiceUnlimitedNote,
-    ];
-    return MmSurface.plain(
-      semanticsLabel: '${WalletCopy.creditsName}, $figure. ${lines.join(' ')}',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
+    return DecoratedBox(
+      position: DecorationPosition.foreground,
+      decoration: BoxDecoration(borderRadius: MmRadius.panelAll, border: Border.all(color: colors.lineStrong)),
+      child: MmSurface.plain(
+        onTap: onTap,
+        semanticsLabel: '${WalletCopy.proBridgeTitle}. ${WalletCopy.proBridgeBody} ${WalletCopy.proBridgeKey}',
+        child: ExcludeSemantics(
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Icon(LucideIcons.wallet, size: 18, color: colors.ink2),
-              const SizedBox(width: MmSpace.s8),
-              Text(WalletCopy.creditsName, style: type.labelLarge.copyWith(color: colors.ink2)),
+              DecoratedBox(
+                decoration: BoxDecoration(color: colors.volt, shape: BoxShape.circle),
+                child: Padding(padding: const EdgeInsets.all(10), child: Icon(LucideIcons.sparkles, size: 20, color: colors.voltInk)),
+              ),
+              const SizedBox(width: MmSpace.s16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(WalletCopy.proBridgeTitle, style: type.title),
+                    const SizedBox(height: MmSpace.s4),
+                    Text(WalletCopy.proBridgeBody, style: type.small.copyWith(color: colors.ink2)),
+                    const SizedBox(height: MmSpace.s12),
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(WalletCopy.proBridgeKey, style: type.labelLarge.copyWith(color: colors.accentText, fontWeight: FontWeight.w700)),
+                        const SizedBox(width: MmSpace.s4),
+                        Icon(LucideIcons.chevronRight, size: 18, color: colors.accentText),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
-          const SizedBox(height: MmSpace.s12),
-          Text(figure, style: known ? type.figure.copyWith(fontFeatures: const [FontFeature.tabularFigures()]) : type.title.copyWith(color: colors.ink3)),
-          const SizedBox(height: MmSpace.s12),
-          for (final (i, line) in lines.indexed)
-            Padding(
-              padding: const EdgeInsets.only(bottom: MmSpace.s4),
-              child: Text(line, style: (i == 0 ? type.body : type.small).copyWith(color: i == 0 ? colors.ink : colors.ink2)),
-            ),
-        ],
+        ),
       ),
+    );
+  }
+}
+
+/// What credits buy, as four tiles with the cost big. On Pro practice and full mocks are included.
+class _Buys extends StatelessWidget {
+  const _Buys({required this.pro, required this.firstMockFree});
+
+  final bool pro;
+  final bool firstMockFree;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    // On Pro, practice and full mocks are included, so what credits are for (Mobi and analysis) comes first.
+    final practice = <(IconData, int?, String, String?)>[
+      (LucideIcons.listChecks, pro ? null : 1, WalletCopy.buyQuestion, null),
+      (LucideIcons.timer, pro ? null : 50, WalletCopy.buyMock, !pro && firstMockFree ? WalletCopy.buyMockFirstFree : null),
+    ];
+    final mobi = <(IconData, int?, String, String?)>[
+      (LucideIcons.messageCircle, 1, WalletCopy.buyReply, null),
+      (LucideIcons.scanSearch, 3, WalletCopy.buyAnalysis, null),
+    ];
+    final tiles = pro ? [...mobi, ...practice] : [...practice, ...mobi];
+    return LayoutBuilder(
+      builder: (context, c) {
+        final w = (c.maxWidth - MmSpace.s12) / 2;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final (r, row) in [tiles.sublist(0, 2), tiles.sublist(2)].indexed) ...[
+              if (r > 0) const SizedBox(height: MmSpace.s12),
+              IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    for (final (i, t) in row.indexed) ...[
+                      if (i > 0) const SizedBox(width: MmSpace.s12),
+                      SizedBox(width: w, child: _BuyTile(icon: t.$1, cost: t.$2, what: t.$3, note: t.$4)),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+            const SizedBox(height: MmSpace.s12),
+            Text(WalletCopy.costShows, style: type.caption.copyWith(color: colors.ink3)),
+          ],
+        );
+      },
     );
   }
 }
@@ -308,7 +537,7 @@ class _HistoryRow extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const IconWell(LucideIcons.layers),
+              IconWell(entry.delta > 0 ? LucideIcons.plus : (entry.pool == 'ai' ? LucideIcons.messageCircle : LucideIcons.layers)),
               const SizedBox(width: MmSpace.s12),
               Expanded(
                 child: Column(
@@ -331,6 +560,54 @@ class _HistoryRow extends StatelessWidget {
                   ],
                 ],
               ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _BuyTile extends StatelessWidget {
+  const _BuyTile({required this.icon, required this.cost, required this.what, this.note});
+
+  final IconData icon;
+
+  /// Null on Pro for what Pro includes.
+  final int? cost;
+  final String what;
+  final String? note;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final c = cost;
+    return Semantics(
+      container: true,
+      label: '$what: ${c == null ? WalletCopy.includedOnPro : '$c ${WalletCopy.creditsWord(c)}'}${note == null ? '' : '. $note'}',
+      excludeSemantics: true,
+      child: DecoratedBox(
+        decoration: BoxDecoration(color: colors.raised, borderRadius: MmRadius.smallAll, border: Border.all(color: colors.line)),
+        child: Padding(
+          padding: const EdgeInsets.all(MmSpace.s12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Icon(icon, size: 18, color: colors.ink2),
+              const SizedBox(height: MmSpace.s8),
+              Text.rich(
+                TextSpan(children: [
+                  TextSpan(text: c == null ? WalletCopy.includedOnPro : '$c', style: type.title.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
+                  if (c != null) TextSpan(text: ' ${WalletCopy.creditsWord(c)}', style: type.small.copyWith(color: colors.ink2)),
+                ]),
+              ),
+              const SizedBox(height: 2),
+              Text(what, style: type.small.copyWith(color: colors.ink)),
+              if (note != null) ...[
+                const SizedBox(height: 2),
+                Text(note!, style: type.caption.copyWith(color: colors.goodText)),
+              ],
             ],
           ),
         ),

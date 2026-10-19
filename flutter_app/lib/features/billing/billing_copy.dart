@@ -212,6 +212,20 @@ abstract final class BillingCopy {
   /// listed but cannot be bought (never hidden, D101).
   static const topUpsPaused = 'New credit packs are paused just now. Your credits are kept and still work.';
   static const getCredits = 'Add credits';
+  /// The top-up section by plan (owner, 20 Oct 1:45 am: most buyers are Pro students topping up for Mobi;
+  /// no "1 full mock or 50 questions" line, which undersells). Pro does not make Mobi free (D157).
+  static const topUpsTitlePro = 'More from Mobi';
+  static const topUpsTitleFree = 'Top up and keep going';
+  /// Pro: the free monthly credits come back; a top-up adds more. [allowance] is the server's monthly figure.
+  static String topUpsLeadPro(int? allowance) => allowance == null
+      ? 'Your free credits come back every month. A top-up adds more that never expire.'
+      : 'Your $allowance free credits come back every month. A top-up adds more that never expire.';
+  static const topUpsLeadFree = 'Top-up credits never expire.';
+  /// What a pack is, in the website's words: written answers from Mobi or mistake repairs.
+  static String packUse(int credits) => '$credits written answers from Mobi or mistake repairs';
+  static const bestValue = 'Best value';
+  static String savePercent(int pct) => 'Save $pct%';
+  static String balanceNow(int total) => 'Your balance is now $total.';
   static String packLabel(int credits) => credits == 1 ? '1 credit' : '$credits credits';
   static String packSemantics(int credits, String? price) => price == null ? packLabel(credits) : '${packLabel(credits)}, $price';
 }
