@@ -51,7 +51,7 @@ export default function CourseFinder({ rules, failed, onRetry, courseId, onCours
         </div>
       ) : (
         <>
-          <p className="ob-course__lead">Search it and we show the CUET subjects it takes. Not sure yet? Skip this and pick your subjects. You can choose a course later in Colleges.</p>
+          <p className="ob-course__lead">Search it and we show the CUET subjects it takes. Not sure yet? Skip it. You can choose a course later in Colleges.</p>
           {failed ? (
             <p className="ob-course__note" role="status">The DU course list did not load. <button type="button" className="ob-course__link" onClick={onRetry}>Try again</button></p>
           ) : (
