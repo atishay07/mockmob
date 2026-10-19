@@ -1,0 +1,17 @@
+{
+  "billingOn": true,
+  "can": true,
+  "via": "pro",
+  "modes": [
+    "live",
+    "async"
+  ],
+  "formats": [
+    "sprint",
+    "round",
+    "rematch"
+  ],
+  "freeLeft": null,
+  "mics": 0,
+  "micsToGive": 2
+}

@@ -1,0 +1,87 @@
+{
+  "soFar": false,
+  "closesAt": "2026-10-22T06:35:00.000Z",
+  "showPodium": true,
+  "headline": {
+    "kind": "together",
+    "right": 15,
+    "of": 20
+  },
+  "places": [
+    {
+      "memberId": "member-2",
+      "name": "Riya",
+      "fold": "kandil",
+      "colour": 3,
+      "marks": 20,
+      "you": false,
+      "place": 1
+    },
+    {
+      "memberId": "member-3",
+      "name": "Aarav",
+      "fold": "dart",
+      "colour": 1,
+      "marks": 19,
+      "you": true,
+      "place": 2
+    },
+    {
+      "memberId": "member-1",
+      "name": "Kabir",
+      "fold": "hexa",
+      "colour": 1,
+      "marks": 19,
+      "you": false,
+      "place": 2
+    },
+    {
+      "memberId": "member-4",
+      "name": "Zoya",
+      "fold": "dogear",
+      "colour": 1,
+      "marks": 13,
+      "you": false,
+      "place": 4,
+      "floor": true
+    }
+  ],
+  "tie": {
+    "place": 2,
+    "names": [
+      "You",
+      "Kabir"
+    ],
+    "marks": 19
+  },
+  "moments": [
+    {
+      "memberId": "member-2",
+      "kind": "three_in_a_row",
+      "from": 1,
+      "to": 3
+    },
+    {
+      "memberId": "member-3",
+      "kind": "finished_all",
+      "count": 5
+    },
+    {
+      "memberId": "member-1",
+      "kind": "fastest_right",
+      "q": 0,
+      "number": 1,
+      "seconds": 10
+    },
+    {
+      "memberId": "member-4",
+      "kind": "finished_all",
+      "count": 5
+    }
+  ],
+  "trap": {
+    "q": 3,
+    "number": 4,
+    "caught": "most"
+  }
+}

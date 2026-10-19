@@ -1,0 +1,49 @@
+{
+ "seat": {
+  "fold": "dart",
+  "finish": "plain"
+ },
+ "folds": [
+  {
+   "key": "dart",
+   "owned": true,
+   "starter": true,
+   "folds": 1,
+   "finishes": {
+    "foil": {
+     "owned": false,
+     "rule": "chain_30",
+     "have": 14,
+     "need": 30
+    }
+   }
+  },
+  {
+   "key": "crane",
+   "owned": false,
+   "folds": 3,
+   "rule": "mob_traps",
+   "have": 1,
+   "need": 3,
+   "mob": "Chai Circle"
+  }
+ ],
+ "mobItems": [
+  {
+   "mobId": "x",
+   "name": "Chai Circle",
+   "items": [
+    {
+     "item": "den_stamp",
+     "owned": true
+    },
+    {
+     "item": "desk_bell",
+     "owned": false,
+     "have": 3,
+     "need": 4
+    }
+   ]
+  }
+ ]
+}

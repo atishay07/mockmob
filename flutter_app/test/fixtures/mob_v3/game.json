@@ -1,0 +1,60 @@
+{
+ "game": {
+  "id": "uuid",
+  "mobId": "uuid",
+  "format": "sprint",
+  "mode": "async",
+  "count": 5,
+  "secondsPerQuestion": 60,
+  "subjectName": "Accountancy",
+  "chapter": "Goodwill",
+  "title": "Riya's sprint",
+  "host": {
+   "memberId": "K7P2M9QXA1B2",
+   "name": "Riya",
+   "you": false
+  },
+  "openedAt": "2026-10-22T08:35:00Z",
+  "closesAt": "2026-10-23T08:35:00Z",
+  "closed": false,
+  "serverNow": "2026-10-22T15:10:00Z",
+  "room": {
+   "state": "lobby",
+   "startsAt": null,
+   "endsAt": null
+  },
+  "runs": [
+   {
+    "memberId": "K7P2M9QXA1B2",
+    "name": "Riya",
+    "colour": 3,
+    "fold": "patang",
+    "at": "2026-10-22T08:40:00Z",
+    "finished": true
+   }
+  ],
+  "you": {
+   "run": "none",
+   "marks": null,
+   "answered": 0
+  },
+  "ghosts": [
+   {
+    "memberId": "K7P2M9QXA1B2",
+    "name": "Riya",
+    "colour": 3,
+    "fold": "patang",
+    "playedAt": "2026-10-22T08:40:00Z",
+    "arrivalsMs": [
+     41000,
+     79000,
+     130000,
+     151000,
+     190000
+    ],
+    "finishedMs": 190000
+   }
+  ],
+  "podiumReady": true
+ }
+}

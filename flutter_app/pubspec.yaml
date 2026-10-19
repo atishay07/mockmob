@@ -101,6 +101,7 @@ flutter:
   # The navigation layer's glass (GLASS-1017 section 5.3): rim lensing, core blur, luminosity clamp.
   shaders:
     - shaders/mm_glass.frag
+    - shaders/foil_sheen.frag
 
   # To add assets to your application, add an assets section, like this:
   # assets:
@@ -165,6 +166,8 @@ flutter:
   assets:
     - assets/art/
     - assets/mobi/
+    # Mob v3 Folds: stills, heads and folds.json (tool/fold_manifest.py).
+    - assets/folds/
     # DU 2026 data (the website's public /du/2026 files), so Compass and Combo work on a first
     # offline run.
     - assets/du/2026/

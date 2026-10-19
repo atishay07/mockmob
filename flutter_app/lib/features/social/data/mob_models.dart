@@ -5,6 +5,7 @@
 // arrives in the view (`plan`, `compare.access`); the app only draws it and never grants anything.
 
 import '../../../core/models/json_helpers.dart';
+import '../v3/data/mob_v3_models.dart' show MobV3;
 
 /// At most 5 members (P2).
 const int mobMaxSize = 5;
@@ -531,14 +532,20 @@ String subjectNameOf(String subject) => subject
 /// `GET /api/mob` and every reply that carries the same shape (create, join, patch, remove): `{ mob:
 /// null }` or `{ mob: {...} }`.
 class MobRead {
-  const MobRead(this.mob);
+  const MobRead(this.mob, {this.v3});
 
   factory MobRead.fromJson(Json j) {
     final raw = j['mob'];
-    return MobRead(raw is Map ? Mob.fromJson(asJson(raw)) : null);
+    // Mob v3 (MOB-BUILD-SPEC-V3 3.1): the `v3` object beside the old keys; read only by the v3 den,
+    // which shows only when the app's MOB_V3_ENABLED is on. Old screens never look at it.
+    final v3 = j['v3'] ?? (raw is Map ? raw['v3'] : null);
+    return MobRead(raw is Map ? Mob.fromJson(asJson(raw)) : null, v3: MobV3.fromJsonOrNull(v3));
   }
 
   final Mob? mob;
+
+  /// Null when the server sends no v3 object (its MOB_V3_ENABLED is off).
+  final MobV3? v3;
 }
 
 /// One member's pick on one question, from the side-by-side.

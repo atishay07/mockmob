@@ -1,0 +1,59 @@
+{
+ "soFar": true,
+ "closesAt": "2026-10-23T08:35:00Z",
+ "showPodium": true,
+ "headline": {
+  "kind": "together",
+  "right": 15,
+  "of": 20
+ },
+ "places": [
+  {
+   "memberId": "R",
+   "name": "Riya",
+   "fold": "patang",
+   "colour": 3,
+   "marks": 20,
+   "place": 1,
+   "you": false
+  },
+  {
+   "memberId": "A",
+   "name": "Aarav",
+   "marks": 19,
+   "place": 2,
+   "you": true
+  },
+  {
+   "memberId": "K",
+   "name": "Kabir",
+   "marks": 19,
+   "place": 2
+  },
+  {
+   "memberId": "Z",
+   "name": "Zoya",
+   "marks": 13,
+   "place": 4,
+   "floor": true
+  }
+ ],
+ "tie": {
+  "place": 2,
+  "names": [
+   "You",
+   "Kabir"
+  ],
+  "marks": 19
+ },
+ "moments": [
+  {
+   "memberId": "R",
+   "kind": "fastest_right",
+   "q": 4,
+   "seconds": 17,
+   "number": 5
+  }
+ ],
+ "trap": null
+}

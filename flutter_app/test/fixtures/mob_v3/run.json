@@ -1,0 +1,30 @@
+{
+ "run": {
+  "startedAt": "2026-10-22T15:10:00Z",
+  "endsAt": "2026-10-22T15:16:00Z",
+  "serverNow": "2026-10-22T15:10:00Z",
+  "live": false,
+  "answers": [
+   {
+    "q": 0,
+    "pick": 1,
+    "correct": true,
+    "elapsedMs": 41000
+   }
+  ]
+ },
+ "questions": [
+  {
+   "q": 0,
+   "stem": "...",
+   "options": [
+    "a",
+    "b",
+    "c",
+    "d"
+   ],
+   "passage": null
+  }
+ ],
+ "ghosts": []
+}

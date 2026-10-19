@@ -13,6 +13,8 @@ import 'screens/mob_compare_screen.dart';
 import 'screens/mob_history_screen.dart';
 import 'screens/mob_join_screen.dart';
 import 'screens/mob_screen.dart';
+import 'v3/mob_v3_flags.dart';
+import 'v3/screens/join_v3_screen.dart';
 
 abstract final class MobPaths {
   static const String mob = '/mob';
@@ -24,7 +26,10 @@ Widget mobScreen(BuildContext context, GoRouterState state) => const MobScreen()
 /// The Mob tab's root (D105): the same page, with no back key.
 Widget mobTabScreen(BuildContext context, GoRouterState state) => const MobScreen(asTab: true);
 
-Widget mobJoinScreen(BuildContext context, GoRouterState state) => MobJoinScreen(code: state.pathParameters['code'] ?? '');
+Widget mobJoinScreen(BuildContext context, GoRouterState state) => MobV3Flags.enabledByDefine || MobV3Flags.fixturesByDefine
+    // Mob v3 (spec 5.3 J1): 6-character codes, a Fold pick, no names in the preview.
+    ? JoinV3Screen(code: state.pathParameters['code'] ?? '')
+    : MobJoinScreen(code: state.pathParameters['code'] ?? '');
 
 Future<void> _open(BuildContext context, String path, WidgetBuilder fallback) async {
   final router = GoRouter.maybeOf(context);

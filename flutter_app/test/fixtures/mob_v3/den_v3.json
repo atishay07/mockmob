@@ -1,0 +1,159 @@
+{
+ "mob": {
+  "id": "7a1c0d2e-0000-4000-8000-000000000001",
+  "subject": "accountancy",
+  "subjectName": "Accountancy",
+  "members": [
+   {
+    "memberId": "K7P2M9QXA1B2",
+    "name": "Riya",
+    "colour": 3
+   }
+  ],
+  "you": {
+   "memberId": "AARAV0000001",
+   "name": "Aarav",
+   "colour": 5,
+   "role": "owner"
+  },
+  "week": {
+   "start": "2026-10-18T18:30:00Z",
+   "closesAt": "2026-10-25T18:29:59Z",
+   "paper": {
+    "count": 10,
+    "durationSec": 600,
+    "cost": {
+     "type": "free"
+    }
+   },
+   "sat": 1,
+   "size": 4,
+   "youSat": true
+  }
+ },
+ "v3": {
+  "name": {
+   "key": 0,
+   "text": "Chai Circle"
+  },
+  "showPodium": true,
+  "youOwn": true,
+  "members": [
+   {
+    "memberId": "K7P2M9QXA1B2",
+    "name": "Riya",
+    "colour": 3,
+    "fold": "patang",
+    "finish": "plain",
+    "you": false,
+    "owner": false
+   }
+  ],
+  "games": [
+   {
+    "id": "uuid",
+    "format": "sprint",
+    "mode": "async",
+    "count": 5,
+    "chapter": "Goodwill",
+    "subjectName": "Accountancy",
+    "host": {
+     "memberId": "K7P2M9QXA1B2",
+     "name": "Riya"
+    },
+    "openedAt": "2026-10-22T08:35:00Z",
+    "closesAt": "2026-10-23T08:35:00Z",
+    "closed": false,
+    "room": null,
+    "runs": [
+     {
+      "memberId": "K7P2M9QXA1B2",
+      "name": "Riya",
+      "at": "2026-10-22T08:40:00Z"
+     }
+    ],
+    "yourRun": "none",
+    "podiumReady": false
+   }
+  ],
+  "quest": {
+   "week": "2026-10-19",
+   "target": 60,
+   "answered": 51,
+   "done": false,
+   "doneAt": null,
+   "sizedFor": 4,
+   "youSteppedOut": false,
+   "bySource": [
+    {
+     "label": "Monday's Mob paper",
+     "answered": 37
+    },
+    {
+     "label": "Riya's sprint",
+     "answered": 14
+    }
+   ],
+   "parcel": {
+    "kind": "fold",
+    "fold": "hop"
+   }
+  },
+  "mobChain": {
+   "weeks": 3,
+   "best": 3,
+   "passes": 0,
+   "stitchedThisWeek": false,
+   "next": {
+    "at": 4,
+    "item": "stamp"
+   }
+  },
+  "shelf": {
+   "items": [
+    "den_stamp"
+   ],
+   "nextItem": {
+    "at": 4,
+    "item": "desk_bell"
+   }
+  },
+  "starts": {
+   "billingOn": false,
+   "can": true,
+   "via": "open",
+   "modes": [
+    "live",
+    "async"
+   ],
+   "formats": [
+    "sprint",
+    "round",
+    "rematch"
+   ],
+   "freeLeft": null,
+   "mics": 0,
+   "micsToGive": null
+  },
+  "chainChip": {
+   "hidden": false,
+   "days": 13,
+   "todayDone": false
+  },
+  "reactions": [
+   {
+    "memberId": "K7P2M9QXA1B2",
+    "kind": "nice_one",
+    "at": "2026-10-22T09:00:00Z"
+   }
+  ],
+  "moments": [
+   "quest_done:2026-10-19",
+   "reveal:hop"
+  ],
+  "live": {
+   "enabled": true,
+   "hoursOk": true
+  }
+ }
+}

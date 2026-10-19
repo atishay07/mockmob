@@ -1,0 +1,20 @@
+{
+  "question": {
+    "stem": "Goodwill question 31",
+    "options": [
+      "Option A of question 31",
+      "Option B of question 31",
+      "Option C of question 31",
+      "Option D of question 31"
+    ],
+    "passage": null,
+    "answered": false
+  },
+  "trap": {
+    "q": 3,
+    "number": 4,
+    "why": "Why answer B is right for question 10.",
+    "yourPick": 2,
+    "correctIndex": 1
+  }
+}

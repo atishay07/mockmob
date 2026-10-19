@@ -39,6 +39,11 @@ abstract final class MotionDurations {
   static const Duration leave = Duration(milliseconds: 180);
   static const Duration momentT2 = Duration(milliseconds: 1200);
   static const Duration momentT3 = Duration(milliseconds: 2000);
+  static const Duration momentT4 = Duration(milliseconds: 6000);
+  static const Duration mobBeat = Duration(milliseconds: 600);
+  static const Duration mobHalfBeat = Duration(milliseconds: 300);
+  static const Duration mobSquashHold = Duration(milliseconds: 90);
+  static const Duration mobRollCallStep = Duration(milliseconds: 90);
   static const Duration handOffOut = Duration(milliseconds: 180);
   static const Duration handOffIn = Duration(milliseconds: 300);
   static const Duration drawIn = Duration(milliseconds: 450);
@@ -92,6 +97,8 @@ abstract final class MotionSprings {
 
 /// Distances, scales and shares (`numbers`) and whole counts (`counts`).
 abstract final class MotionNumbers {
+  static const double mobSquashX = 1.08;
+  static const double mobSquashY = 0.88;
   static const double pressedScale = 0.96;
   static const double enterRise = 14;
   static const double enterScale = 0.97;
@@ -187,6 +194,11 @@ const Map<String, Object> motionTokenTable = <String, Object>{
   'durations.leave': MotionDurations.leave,
   'durations.momentT2': MotionDurations.momentT2,
   'durations.momentT3': MotionDurations.momentT3,
+  'durations.momentT4': MotionDurations.momentT4,
+  'durations.mobBeat': MotionDurations.mobBeat,
+  'durations.mobHalfBeat': MotionDurations.mobHalfBeat,
+  'durations.mobSquashHold': MotionDurations.mobSquashHold,
+  'durations.mobRollCallStep': MotionDurations.mobRollCallStep,
   'durations.handOffOut': MotionDurations.handOffOut,
   'durations.handOffIn': MotionDurations.handOffIn,
   'durations.drawIn': MotionDurations.drawIn,
@@ -227,6 +239,8 @@ const Map<String, Object> motionTokenTable = <String, Object>{
   'springs.lensLift.bounce': MotionSprings.lensLiftBounce,
   'springs.lensDrop.ms': MotionSprings.lensDropDuration,
   'springs.lensDrop.bounce': MotionSprings.lensDropBounce,
+  'numbers.mobSquashX': MotionNumbers.mobSquashX,
+  'numbers.mobSquashY': MotionNumbers.mobSquashY,
   'numbers.pressedScale': MotionNumbers.pressedScale,
   'numbers.enterRise': MotionNumbers.enterRise,
   'numbers.enterScale': MotionNumbers.enterScale,

@@ -1,0 +1,33 @@
+{
+ "questions": [
+  {
+   "q": 0,
+   "stem": "...",
+   "options": [
+    "a",
+    "b",
+    "c",
+    "d"
+   ],
+   "correctIndex": 1,
+   "explanation": "...",
+   "yourPick": 1
+  }
+ ],
+ "trap": {
+  "q": 3,
+  "caught": "most",
+  "fix": {
+   "now": "open",
+   "check": {
+    "opensAt": "2026-10-27T18:30:00Z",
+    "closesAt": "2026-11-01T18:29:59Z"
+   },
+   "fixed": {
+    "count": 0,
+    "of": 3
+   }
+  },
+  "number": 4
+ }
+}
