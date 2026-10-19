@@ -90,7 +90,7 @@ abstract final class ProNudgeCopy {
   static const sheetTitle = 'Practise without limits';
   static const List<String> headlineOptions = [
     sheetTitle,
-    'Every mock you need. No credits, no cap.',
+    'Every mock you need, with no credits and no cap.',
     'Rehearse CUET until it feels familiar',
   ];
 
@@ -104,18 +104,18 @@ abstract final class ProNudgeCopy {
 
   static const ProSheetHead _general = ProSheetHead(
     sheetTitle,
-    'Unlimited mocks, NTA mode on the exam-day screen, and Smart practice that hunts down your weak chapters. One price, no credits to count.',
+    'Unlimited mocks, NTA mode on the exam-day screen, and Smart practice that hunts down your weak chapters, all for one price with no credits to count.',
   );
 
   /// The headline and the line under it: what asked for Pro, and why it is worth having.
   static ProSheetHead head(ProReason reason) => switch (reason) {
         ProReason.firstSession => const ProSheetHead(
-            'One paper down. Keep going without limits.',
+            'That is one paper done. Keep going without limits.',
             'Pro takes the cap off: unlimited mocks, NTA mode and Smart practice, for one price.',
           ),
         ProReason.ntaMode => const ProSheetHead(
             'Sit the exam before the exam',
-            'Rehearse on the exam-day screen, against the clock, as many times as you want. Original practice papers, not official ones.',
+            'Rehearse on the exam-day screen, against the clock, as many times as you want. These are original practice papers, not official ones.',
           ),
         ProReason.smartPractice => const ProSheetHead(
             'Stop guessing what to practise',
@@ -126,7 +126,7 @@ abstract final class ProNudgeCopy {
             'Pick easy, medium or hard for your sets. Warm up, or push where it is hardest.',
           ),
         ProReason.unlimitedMocks => const ProSheetHead(
-            'Every mock you need. No credits, no cap.',
+            'Every mock you need, with no credits and no cap.',
             'A fresh Full mock whenever your prep calls for one. With Pro, not one of them costs a credit.',
           ),
         ProReason.practiceCredits => const ProSheetHead(

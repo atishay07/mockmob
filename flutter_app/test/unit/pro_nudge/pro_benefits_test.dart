@@ -177,7 +177,7 @@ void main() {
     test('the same voice as the website: its headlines, its first-session words, its NTA paper', () {
       expect(ProNudgeCopy.sheetTitle, 'Practise without limits');
       expect(ProNudgeCopy.head(ProReason.general).title, ProNudgeCopy.sheetTitle);
-      expect(ProNudgeCopy.head(ProReason.firstSession).title, 'One paper down. Keep going without limits.');
+      expect(ProNudgeCopy.head(ProReason.firstSession).title, 'That is one paper done. Keep going without limits.');
       expect(ProNudgeCopy.head(ProReason.ntaMode).title, 'Sit the exam before the exam');
       expect(ProNudgeCopy.head(ProReason.ntaMode).lede, contains('not official ones'));
       expect(ProNudgeCopy.plainBenefits[2], contains('50 questions in 60 minutes'));
