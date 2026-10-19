@@ -20,6 +20,7 @@ import { getSubjectById } from '../../../data/subjects.js';
 import { repairFailureForKind, composeFailureMessage, WALLET_UNAVAILABLE } from '../../../data/repair_failures.js';
 import { PREPOS_PAUSED_MESSAGE } from '../prepos/modelReply.js';
 import { usesLine } from '../../lib/creditCopy.mjs';
+import { fixJob, trapHistoryFrom } from '../../../data/mobi_fix.js';
 
 export const REQUEST_ID = /^[A-Za-z0-9_-]{16,64}$/;
 const out = (http, body) => ({ http, body });
@@ -89,6 +90,17 @@ async function checkFor({ deps, user, attemptId, questionId, attempt, current, c
   } catch { return null; }
 }
 
+// Fix it for good (C-dec 3b): the student's own history of the trap their option set ("This trap has caught you 4 times in 6
+// chances"), from "Traps you meet". A free extra like the pattern line: never more than this, and any failure is no line.
+export const HISTORY_BUDGET_MS = 1_500;
+async function historyFor({ deps, userId, trapType }) {
+  if (typeof deps.trapRows !== 'function' || !trapType || trapType === 'other') return null;
+  try {
+    const rows = await hardStop(Promise.resolve().then(() => deps.trapRows(userId)), HISTORY_BUDGET_MS, null);
+    return trapHistoryFrom(rows, trapType);
+  } catch { return null; }
+}
+
 const timedOut = (stage) => ({ ok: false, data: null, raw: null, usage: null, fallbackUsed: false, failure: { stage, provider: null, model: null, kind: 'timeout', status: null, code: null } });
 
 export async function runRepair({ user, attemptId, questionId, requestId, startedAt, deps, config }) {
@@ -122,11 +134,13 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   try { stored = await deps.findStored(user.id, id); }
   catch { return out(503, { ok: false, error: 'repair_lookup_unavailable', charged: 0, message: 'We could not check your saved repairs just now. Nothing was charged. Try again in a moment.' }); }
   if (stored) {
-    const [pattern, check] = await Promise.all([
+    const [pattern, check, history] = await Promise.all([
       patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: stored.trap_type, subject: attempt.subject, chapter: eligible.question.chapter, at: stored.generatedAt }),
       checkFor({ deps, user, attemptId, questionId, attempt, current, committed: true }),
+      historyFor({ deps, userId: user.id, trapType: stored.trap_type }),
     ]);
-    return out(200, { ok: true, status: 'stored', repair: withLegacyAliases(stored), pattern, ...(check ? { check } : {}), charged: 0, ...base });
+    const mobi = fixJob({ repair: stored, question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, history });
+    return out(200, { ok: true, status: 'stored', repair: withLegacyAliases(stored), pattern, ...(check ? { check } : {}), mobi, charged: 0, ...base });
   }
 
   if (!deps.gateOpen()) return out(503, { ok: false, error: 'paused', charged: 0, message: PREPOS_PAUSED_MESSAGE });
@@ -259,11 +273,13 @@ export async function runRepair({ user, attemptId, questionId, requestId, starte
   // The pattern read and the wallet read run side by side; the pattern never waits more than 1.5 s.
   // The check (the fresh question that follows the explanation) is part of this same credit. Its availability is read here so
   // the client knows before asking; a repair that could not be saved has no receipt to hold a check, so it says so.
-  const [pattern, wallet, check] = await Promise.all([
+  const [pattern, wallet, check, , history] = await Promise.all([
     committed && v3 ? patternFor({ deps, userId: user.id, mistakeKey: `repair:${id}`, trapType: repair.trap_type, subject: attempt.subject, chapter: eligible.question.chapter, at: repair.generatedAt }) : null,
     deps.readWallet(user),
     checkFor({ deps, user, attemptId, questionId, attempt, current, committed, reservation: committed ? { operation_key: operationKey, receipt } : null }),
     committed && v3 ? fillAtlas({ deps, question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, trapType: repair.trap_type }) : null,
+    v3 ? historyFor({ deps, userId: user.id, trapType: repair.trap_type }) : null,
   ]);
-  return out(200, { ok: true, status: 'explained', repair: withLegacyAliases(repair), pattern, ...(check ? { check } : {}), charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });
+  const mobi = fixJob({ repair, question: eligible.question, chosenIndex: eligible.chosenIndex, keyIndex: eligible.keyIndex, history });
+  return out(200, { ok: true, status: 'explained', repair: withLegacyAliases(repair), pattern, ...(check ? { check } : {}), mobi, charged, wallet: wallet ? { total: wallet.total, state: wallet.state } : null, ...base });
 }

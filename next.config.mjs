@@ -32,6 +32,9 @@ const nextConfig = {
   // Evidence gates load these versioned records at runtime, including in serverless feeds.
   outputFileTracingIncludes: {
     '/*': ['./data/source_registry.json', './data/calibration_manifest.json', './data/question_factory_scope.json'],
+    // "Where you stand" and Ask Mobi's context read the DU Round 1 closing marks on the server (src/lib/server/duOfferings.js).
+    '/api/mobi/standing': ['./public/du/2026/offerings/*.json'],
+    '/api/ai/mentor/chat': ['./public/du/2026/offerings/*.json'],
   },
   trailingSlash: false,
   turbopack: {

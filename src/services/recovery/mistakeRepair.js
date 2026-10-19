@@ -17,6 +17,8 @@ import { findStoredRepair } from '@/lib/server/repairSaved';
 import { recordTrap } from '@/lib/server/trapAtlas';
 import { checkStatus } from './repairCheck';
 import { buildCheckDeps } from './repairCheckDeps';
+import { atlasForAttempts } from '@/lib/server/trapAtlas';
+import { buildTrapsMeet } from '@/../data/trap_atlas';
 
 async function withheldForRecheck(db, { questionId, userId, attemptId, firstIndex, blindIndex, model }) {
   // Same path as a student report: recorded, then withheld from practice until re-checked.
@@ -80,6 +82,13 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
         .order('created_at', { ascending: false }).limit(300);
       if (error) throw new Error('repair_traps_unavailable');
       return data || [];
+    },
+    // "Traps you meet" rows for Fix it for good's history line ("This trap has caught you 4 times in 6 chances"). No model.
+    trapRows: async (userId) => {
+      const attempts = await Database.getAttempts(userId);
+      let atlas = null;
+      try { atlas = await atlasForAttempts(attempts); } catch { atlas = null; }
+      return buildTrapsMeet({ attempts, atlas }).rows;
     },
     // Fills the trap atlas from this committed v3 repair (the trap type on the option the student chose). Never throws.
     recordTrap: (record) => recordTrap(record),

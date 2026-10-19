@@ -90,6 +90,7 @@
 
   "post": {
     "request": "POST /api/recovery/check",
+    "slot": "Fix it for good (20 Oct 2026): GET ?slot=2 and POST { slot: 2 } ask and mark a second, different fresh question on the same repair (receipt.offered2, receipt.check2). Without slot everything is the first check, as before. held is true when every offered check is right, false when one is wrong, null while one is open; heldLine says so.",
     "body": { "attemptId": "att_1", "questionId": "q_1", "checkQuestionId": "q_fresh_1", "pick": 2, "requestId": "req_0123456789abcdef" },
     "ok": {
       "http": 200,
@@ -98,6 +99,8 @@
         "status": "answered",
         "replayed": false,
         "charged": 0,
+        "held": null,
+        "heldLine": "One check right. Get the other one right to hold this fix.",
         "result": {
           "right": true,
           "checkQuestionId": "q_fresh_1",

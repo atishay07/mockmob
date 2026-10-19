@@ -158,7 +158,7 @@ test('the Ask hand-off: the chat route builds the context on the server before a
   assert.doesNotMatch(chat, /payload\.questionContext/, 'only the server-built context is used');
   assert.match(chat, /const context = studyLesson \|\| questionContext \? \{exam:'CUET',contextVersion:1\} : await getStudentAIContext/, 'no student context beyond the question');
   assert.match(chat, /\.\.\.\(questionContext \? \{ questionContext \} : \{ recordInsights: compact \}\)/, 'the record summary is not sent with a question');
-  assert.match(chat, /!studyLesson && !questionContext && insights/, 'no free record answer interrupts a question follow-up');
+  assert.match(chat, /!studyLesson && !questionContext && !threadId && insights/, 'no free record answer interrupts a question follow-up');
   assert.match(read('src/services/prepos/replyDeps.js'), /context\?\.questionContext \? `\\n\$\{QUESTION_RULES\}`/);
   const askRoute = read('src/app/api/recovery/ask-context/route.js');
   assert.match(askRoute, /checkPersistentRateLimit\(/);
