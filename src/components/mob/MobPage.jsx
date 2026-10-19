@@ -12,7 +12,7 @@
 //     free; the side-by-side, past weeks, extra papers and a second Mob are Pro. The one free side-by-side is the sample.
 //   - The page's volt key carries data-page-primary, so the Start key in the bar or sidebar steps back (rule 7, WB-05).
 //   - The effect of the loop is a hypothesis [I] to measure (rules 37 and 38): SOCIAL-SPEC section 13.
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Copy, Ellipsis, Share2, UserPlus } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
@@ -34,6 +34,8 @@ import { MobSeats, PaperFacts, Promises } from './MobIntro';
 import { errorDetail } from './mobFormat';
 import DenV3 from './den/DenV3';
 import DenStart from './den/DenStart';
+import DenSkeleton from './den/DenSkeleton';
+import { readDenShape, rememberMobKind } from './den/denShape';
 import { DenSettingsRows } from './den/DenSheets';
 import './mob.css';
 
@@ -357,7 +359,7 @@ function TogetherCard({ together }) {
   );
 }
 
-function InMob({ data, mob, user }) {
+function InMob({ data, mob, user, warm = false }) {
   const [inviteOpen, setInviteOpen] = useState(false);
   const [member, setMember] = useState(null);
   const [renameOpen, setRenameOpen] = useState(false);
@@ -438,7 +440,7 @@ function InMob({ data, mob, user }) {
 
       {/* Mob v3 (MOB_V3_ENABLED): the server sends `v3`, and the den takes the place of the ring, the paper card and the
           Pro views. Members, settings, report, leave and the dialogs below stay the same for both. */}
-      {v3 ? <DenV3 data={data} mob={mob} onOpenSettings={openSettings} /> : null}
+      {v3 ? <DenV3 data={data} mob={mob} onOpenSettings={openSettings} warm={warm} /> : null}
       {!v3 ? <>
       <section className="glass mob-card mob-ringcard" aria-labelledby="mob-ring-h">
         <h2 id="mob-ring-h" className="sr-only">This week</h2>
@@ -547,6 +549,35 @@ function InMob({ data, mob, user }) {
   );
 }
 
+// The den's remembered shape (per device) for D6. Read before the first paint on the client (a layout effect), so the
+// skeleton never shows one shape and then another; the server draws the den's usual shape.
+const DEFAULT_SHAPE = Object.freeze({ kind: 'den', switcher: false, blocks: {} });
+
+/** D6 while the Mob loads (or failed to): the den's own room and shape, unless this device last saw the older ring page. */
+function MobWaiting({ mob, onShown }) {
+  const [snap, setSnap] = useState(null);
+  useLayoutEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- one read of this device's store before the first paint
+    setSnap({ shape: readDenShape(), width: window.innerWidth });
+  }, []);
+  const shape = snap?.shape || DEFAULT_SHAPE;
+  const failed = mob.status === 'error';
+  useEffect(() => { if (!failed && shape.kind !== 'v2') onShown?.(); }, [failed, shape.kind, onShown]);
+  if (shape.kind === 'v2') {
+    return failed ? (
+      <section className="glass mob-card" role="alert">
+        <h2 className="mob-h3">Your Mob did not load</h2>
+        <p className="mob-note">{errorDetail(mob.error, 'Your Mob did not load')}</p>
+        <button type="button" className="mob-key" onClick={() => mob.load()}>Try again</button>
+      </section>
+    ) : <Loading />;
+  }
+  return (
+    <DenSkeleton shape={shape} width={snap?.width ?? 390}
+      failed={failed ? { message: errorDetail(mob.error, "Your Mob didn't load"), onRetry: () => mob.load() } : null} />
+  );
+}
+
 function Loading() {
   const [shown, setShown] = useState(false);
   useEffect(() => { const t = setTimeout(() => setShown(true), 250); return () => clearTimeout(t); }, []);
@@ -562,6 +593,15 @@ function Loading() {
 export default function MobPage({ user }) {
   const mob = useMob(user?.id);
   const data = mob.mob;
+  // The den came in over its own skeleton: its room is already up, so it does not rise again.
+  const [warm, setWarm] = useState(false);
+  const shown = useCallback(() => setWarm(true), []);
+  // Which page the Mob tab drew, for the next skeleton (the den writes its own shape).
+  useEffect(() => {
+    if (mob.status !== 'ready') return;
+    if (!data) rememberMobKind(mob.v3Available ? 'start' : 'v2');
+    else if (!data.v3) rememberMobKind('v2');
+  }, [mob.status, data, mob.v3Available]);
   // The h1 never changes after focus lands on it (WA-01): "Your Mob" in every state, the state's phrase in the lede.
   const lede = data?.v3 || (!data && mob.v3Available) ? null : data
     ? (data.week.size === 1 ? 'Invite a friend to start your ring. Same 10 questions for everyone, fresh each week.'
@@ -572,21 +612,14 @@ export default function MobPage({ user }) {
     <div className="student-page student-page--mob">
       <section className="pr ov mob-page" aria-busy={mob.status === 'loading' || undefined}>
         <ArenaHead title="Your Mob" lede={mob.status === 'ready' ? lede : null} />
-        {mob.status === 'idle' || mob.status === 'loading' ? (data ? null : <Loading />) : null}
-        {mob.status === 'error' && !data ? (
-          <section className="glass mob-card" role="alert">
-            <h2 className="mob-h3">Your Mob did not load</h2>
-            <p className="mob-note">{errorDetail(mob.error, 'Your Mob did not load')}</p>
-            <button type="button" className="mob-key" onClick={() => mob.load()}>Try again</button>
-          </section>
-        ) : null}
+        {(mob.status === 'idle' || mob.status === 'loading' || mob.status === 'error') && !data ? <MobWaiting mob={mob} onShown={shown} /> : null}
         {mob.status === 'error' && data ? (
           <p className="mob-banner" role="alert">{mob.error} <button type="button" className="mob-link" onClick={() => mob.load()}>Try again</button></p>
         ) : null}
         {mob.status === 'disabled' ?<section className="glass mob-card"><p className="mob-note">The Mob is not available yet.</p></section> : null}
         {mob.status === 'ready' && !data ? (mob.v3Available ? <DenStart user={user} mob={mob} /> : <NoMob user={user} mob={mob} />) : null}
         {/* keyed by Mob: a different Mob starts clean, so no side-by-side of the one before stays open */}
-        {data ? <InMob key={data.id} data={data} mob={mob} user={user} /> : null}
+        {data ? <InMob key={data.id} data={data} mob={mob} user={user} warm={warm} /> : null}
       </section>
     </div>
   );

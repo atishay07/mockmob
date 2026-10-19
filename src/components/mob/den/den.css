@@ -8,7 +8,7 @@
    Only transform and opacity animate. Targets are 44 px or more.
    ========================================================================== */
 
-.den, .den-page, .den-k {
+.den, .den-page, .den-k, .den-fly {
   --den-paper: #efe6d2;
   --den-paper-2: #e2d6bc;
   --den-paper-ink: #2b2318;
@@ -27,7 +27,7 @@
   --den-ease-pop: cubic-bezier(0.34, 1.4, 0.64, 1);
   --den-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
-html[data-theme='light'] :is(.den, .den-page, .den-k) {
+html[data-theme='light'] :is(.den, .den-page, .den-k, .den-fly) {
   --den-lamp-strength: 0.17;
   --den-tag: rgba(255, 252, 244, 0.86);
   --den-tag-ink: #2b2318;
@@ -51,7 +51,6 @@ html[data-theme='light'] :is(.den, .den-page, .den-k) {
 @media (min-width: 412px) { .den-stage { --fold: 80px; } .den-stage[data-count='5'] { --fold: 72px; } }
 @media (min-width: 640px) { .den-stage { --stage-h: 360px; --fold: 96px; --gutter: 24px; } .den-stage[data-count='5'] { --fold: 88px; } }
 @media (min-width: 1024px) { .den-stage { --stage-h: 440px; --fold: 136px; --gutter: 40px; } .den-stage[data-count='5'] { --fold: 128px; } .den-room__art { --art-w: 112cqw; } }
-.den-stage--skeleton { --stage-h: 318px; }
 
 .den-room { position: absolute; inset: 0; z-index: 0; animation: den-room-in 360ms var(--den-ease-emph) 120ms both; }
 /* The art: its lamp pool (790, 810 of 1536 x 1024) lands under the Folds' boots, centred. */
@@ -61,6 +60,8 @@ html[data-theme='light'] :is(.den, .den-page, .den-k) {
   top: calc(var(--stage-h) - 52px - var(--art-w) * 0.5273);
   background-size: 100% 100%; background-repeat: no-repeat;
 }
+/* The den came in over its skeleton: the room and the lamp are already up, so they do not rise or dim again. */
+.den-stage--warm .den-room, .den-stage--warm .den-room__lamp { animation: none; }
 .den-room__art--night { background-image: url('/mob/art/scene-empty-nothing-night.webp'); }
 .den-room__art--day { background-image: url('/mob/art/scene-empty-nothing-day.webp'); display: none; }
 html[data-theme='light'] .den-room__art--night { display: none; }
@@ -162,11 +163,34 @@ html[data-theme='light'] .den-tag--seat { color: #5a4b35; }
 span.den-seat { cursor: default; }
 .den-stage__seats { position: absolute; z-index: 3; left: calc(var(--gutter) + (100% - 2 * var(--gutter)) / 5); right: var(--gutter); bottom: 12px; margin: 0; text-align: center; font: 600 12px/1.2 var(--font-body); color: rgb(242 236 220 / 0.8); }
 html[data-theme='light'] .den-stage__seats { color: #5a4b35; }
-.den-sticker {
-  position: absolute; z-index: 4; bottom: calc(var(--fold) + 54px); left: 50%; transform: translateX(-50%); white-space: nowrap;
-  padding: 5px 10px; border-radius: 8px; background: var(--den-paper); color: var(--den-paper-ink); font: 700 12px/1.2 var(--font-body);
-  box-shadow: 0 6px 16px -8px rgb(0 0 0 / 0.6); animation: den-sticker 2400ms var(--den-ease-out) 1100ms both;
+/* Stickers over the Folds (M12). The anchor is where a flight lands: bottom centre, just over the Fold's head. */
+.den-sticker-anchor { position: absolute; left: 50%; width: 0; height: 0; pointer-events: none; }
+.den-sticker { position: absolute; z-index: 4; left: 50%; white-space: nowrap; pointer-events: none; transform-origin: 50% 100%; }
+/* Spacing: on a narrow stage the slots are narrower than a sticker, so neighbours' stickers stand at two heights (every
+   other slot 40 px higher) and never cover each other; the end slots lean inwards so a sticker never runs off the room. */
+.den-slot { --sy: 0px; --sx: -50%; }
+@container (max-width: 600px) { .den-slot:nth-child(even) { --sy: 40px; } }
+.den-slot:first-child { --sx: -26%; }
+.den-slot:last-child { --sx: -74%; }
+.den-sticker-anchor, .den-sticker { bottom: calc(var(--fold) + 54px + var(--sy)); }
+.den-sticker { transform: translateX(var(--sx)); }
+.den-sticker--rise { animation: den-sticker-rise 2520ms var(--den-ease-out) var(--delay, 0ms) both; }
+.den-sticker--landed { animation: den-sticker-landed 2260ms var(--den-ease-out) both; }
+
+/* A paper sticker: die-cut paper with a white sticker edge, a painted glyph and the enum's words, tilted a hair. */
+.den-psticker {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 6px 12px; border-radius: 14px;
+  background: #ede5d3; border: 1.5px solid #f7f2e6; color: #1e1b15; box-shadow: 0 2px 6px rgb(0 0 0 / 0.35);
+  font: 700 14px/1.2 var(--font-body); white-space: nowrap; transform: rotate(var(--tilt, 0deg));
 }
+html[data-theme='light'] .den-psticker { background: #fffdf8; border-color: #e2d9c6; box-shadow: 0 2px 6px rgb(59 42 18 / 0.14); }
+.den-psticker--small { min-height: 34px; padding: 5px 10px; border-radius: 12px; font-size: 13px; box-shadow: 0 6px 16px -6px rgb(0 0 0 / 0.55); }
+html[data-theme='light'] .den-psticker--small { box-shadow: 0 6px 14px -6px rgb(59 42 18 / 0.35); }
+.den-psticker__glyph { flex: none; display: block; overflow: visible; }
+.den-psticker__words { min-width: 0; }
+/* A flight from the key to the den: over everything, never catching a tap. */
+.den-fly { position: fixed; z-index: 1200; pointer-events: none; transform: translate(-50%, -100%); transform-origin: 50% 100%; will-change: transform, opacity; }
+.den-fly .den-psticker { transform: none; }
 
 /* A Fold. */
 .den-fold { position: relative; display: inline-block; flex: none; }
@@ -188,11 +212,30 @@ html[data-theme='light'] .den-stage__seats { color: #5a4b35; }
 .den-head[data-colour='7'] { border-color: var(--mob-c7); background: color-mix(in srgb, var(--mob-c7) 22%, var(--a-raised)); }
 .den-head img { width: 100%; height: 100%; object-fit: cover; }
 
-/* D6: the room with the lamp and a pulsing paper block. */
-.den-paperblock { display: block; width: 58px; height: 82px; border-radius: 6px; background: var(--den-paper); opacity: 0.2; animation: den-pulse 1200ms ease-in-out infinite alternate; }
-.den-skel { display: block; border-radius: 14px; background: var(--a-raised); border: 1px solid var(--a-line); animation: den-pulse 1200ms ease-in-out infinite alternate; }
-.den-skel--card { height: 168px; }
-.den-skel--strip { height: 64px; }
+/* D6: the room at its real size with the lamp; paper blocks for the words, the chip and the pennant; no Folds. Under it,
+   blocks the size of the card and the quest strip. Everything that waits pulses 1.0 to 0.6 on the 1200 ms sweep. */
+.den-paperblock {
+  display: inline-block; vertical-align: baseline; width: 64px; height: 105px; background: var(--den-paper); opacity: 0.22;
+  clip-path: polygon(9.4% 15.2%, 78% 15.2%, 90.6% 22.9%, 90.6% 76.2%, 50% 96.2%, 9.4% 76.2%);
+  animation: den-pulse 1200ms ease-in-out infinite alternate;
+}
+.den-skelbar { display: block; border-radius: 8px; background: rgb(242 236 220 / 0.2); animation: den-pulse 1200ms ease-in-out infinite alternate; }
+html[data-theme='light'] .den-skelbar { background: rgb(59 42 18 / 0.13); }
+.den-skelbar--name { width: min(170px, 46cqw); height: 26px; margin: 2px 0 6px; }
+.den-skelbar--sub { width: min(130px, 36cqw); height: 13px; animation-delay: 120ms; }
+.den-skelbar--chip { width: 96px; height: 44px; border-radius: 22px; animation-delay: 60ms; }
+.den-skelbar--tool { width: 44px; height: 44px; border-radius: 22px; animation-delay: 180ms; }
+.den-skel { display: block; border-radius: 18px; background: var(--a-raised); border: 1px solid var(--a-line); animation: den-pulse 1200ms ease-in-out infinite alternate; }
+.den-skel--card { height: 301px; }
+.den-skel--strip { height: 66px; border-radius: 16px; animation-delay: 160ms; }
+.den-skel-switch { display: none; }
+html[data-den-switch='1'] .den-skel-switch { display: flex; }
+.den-skel--tab { display: inline-block; width: 124px; height: 44px; border-radius: 12px; }
+.den-skel--tab-wide { width: 190px; border-style: dashed; animation-delay: 120ms; }
+.den-skel--lead { width: 100%; max-width: 56ch; height: 80px; margin-top: 4px; border-radius: 12px; }
+.den-skel--keys { height: 106px; animation-delay: 160ms; }
+@media (min-width: 640px) { .den-skel--lead { height: 54px; } .den-skel--keys { width: 360px; height: 48px; } }
+.den-stage--still :is(.den-skelbar, .den-paperblock) { animation: none; }
 
 /* ---------- Cards under the room ---------- */
 .den-rise { animation: den-rise 360ms var(--den-ease-emph) var(--d, 420ms) both; }
@@ -215,15 +258,16 @@ html[data-theme='light'] .den-stage__seats { color: #5a4b35; }
 }
 
 .den-stickers { display: flex; flex-wrap: wrap; gap: 8px; }
+/* The key is the paper sticker itself: it presses (0.94) and the sticker lifts off it when the server has it. */
 .den-stickerkey {
-  min-height: 44px; padding: 0 14px; border-radius: 10px; border: 1px solid var(--a-line-strong); background: var(--a-raised-2); color: var(--a-ink);
-  font: 700 14px/1 var(--font-body); cursor: pointer; transform: rotate(var(--tilt, -1deg));
-  transition: transform 120ms var(--den-ease-out), border-color 150ms var(--den-ease-out);
+  display: inline-grid; place-items: center; min-height: 44px; padding: 2px; border: 0; border-radius: 16px; background: transparent; color: inherit;
+  cursor: pointer; touch-action: manipulation; -webkit-tap-highlight-color: transparent;
+  transition: transform 140ms var(--den-ease-out);
 }
-.den-stickerkey:nth-child(2n) { --tilt: 1deg; }
-.den-stickerkey:active { transform: scale(0.96); }
-.den-stickerkey[data-sent] { border-color: var(--a-volt-line); }
+.den-stickerkey:active:not(:disabled) { transform: scale(0.94); }
+.den-stickerkey[data-sent] .den-psticker { box-shadow: 0 0 0 2px var(--a-volt-line), 0 2px 6px rgb(0 0 0 / 0.3); }
 .den-stickerkey:disabled { opacity: 0.6; cursor: not-allowed; }
+@media (hover: hover) and (pointer: fine) { .den-stickerkey:hover:not(:disabled) .den-psticker { transform: rotate(var(--tilt, 0deg)) translateY(-1px); } }
 
 .den-notice {
   display: flex; align-items: center; gap: 10px; min-height: 48px; padding: 8px 8px 8px 14px; border-radius: 14px;
@@ -508,7 +552,11 @@ html:has(.app-shell) .den-k { background: var(--a-bg); }
 @keyframes den-breathe { from { transform: scaleY(1); } to { transform: scaleY(1.028); } }
 @keyframes den-blink { 0%, 97.4% { opacity: 0; } 97.5%, 99.9% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes den-pulse { from { opacity: 1; } to { opacity: 0.6; } }
-@keyframes den-sticker { 0% { opacity: 0; transform: translate(-50%, 24px) scale(0.9); } 12% { opacity: 1; transform: translate(-50%, 0) scale(1); } 87% { opacity: 1; transform: translate(-50%, 0); } 100% { opacity: 0; transform: translate(-50%, -4px); } }
+/* M12: rise 24 px over the Fold, scale 0.9 to 1 (420 ms), hold 1800 ms, fade 300 ms. Landed (your own, after its flight):
+   a small settle, hold, fade. Reduced motion: a 120 ms fade in and out, no rise. */
+@keyframes den-sticker-rise { 0% { opacity: 0; transform: translate(var(--sx), 24px) scale(0.9); } 4.8% { opacity: 1; } 16.7% { opacity: 1; transform: translate(var(--sx), 0) scale(1); } 88.1% { opacity: 1; transform: translate(var(--sx), 0) scale(1); } 100% { opacity: 0; transform: translate(var(--sx), -4px) scale(1); } }
+@keyframes den-sticker-landed { 0% { opacity: 1; transform: translate(var(--sx), 0) scale(0.9); } 7.1% { transform: translate(var(--sx), 0) scale(1.04); } 12% { transform: translate(var(--sx), 0) scale(1); } 86.7% { opacity: 1; transform: translate(var(--sx), 0) scale(1); } 100% { opacity: 0; transform: translate(var(--sx), -4px) scale(1); } }
+@keyframes den-sticker-reduced { 0% { opacity: 0; } 5.9% { opacity: 1; } 94.1% { opacity: 1; } 100% { opacity: 0; } }
 @keyframes den-toast { from { opacity: 0; transform: translate(-50%, 12px); } to { opacity: 1; transform: translate(-50%, 0); } }
 @keyframes den-stamp { 0% { opacity: 0; transform: scale(1.4) rotate(0deg); } 60% { opacity: 1; transform: scale(0.98) rotate(2deg); } 100% { opacity: 1; transform: scale(1) rotate(0deg); } }
 @keyframes den-drop { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: none; } }
@@ -526,8 +574,10 @@ html:has(.app-shell) .den-k { background: var(--a-bg); }
   .den-fold--live .den-fold__img, .den-fold--live .den-fold__blink, .den-paperblock, .den-skel { animation: none !important; }
   .den-k__p--sealed, .den-k__p--pop { display: none; }
   .den-k__p--open { opacity: 1; animation: none !important; }
+  .den .den-stage .den-sticker { transform: translateX(var(--sx)); animation: den-sticker-reduced 2040ms linear var(--delay, 0ms) both !important; }
 }
 :root[data-motion='reduced'] :is(.den *, .den-k, .den-k *) { animation-duration: 120ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: 0ms !important; }
 :root[data-motion='reduced'] :is(.den-fold--live .den-fold__img, .den-fold--live .den-fold__blink, .den-paperblock, .den-skel) { animation: none !important; }
 :root[data-motion='reduced'] :is(.den-k__p--sealed, .den-k__p--pop) { display: none; }
 :root[data-motion='reduced'] .den-k__p--open { opacity: 1; animation: none !important; }
+:root[data-motion='reduced'] .den .den-stage .den-sticker { transform: translateX(var(--sx)); animation: den-sticker-reduced 2040ms linear var(--delay, 0ms) both !important; }

@@ -76,7 +76,9 @@ export function useMob(userId, { mobId: pinned = null } = {}) {
     return () => { cancelled = true; };
   }, [userId, load]);
 
+  const writes = useRef(0); // a quiet read that started before a write is dropped, so it never undoes the write's view
   const run = useCallback(async (path, body, { method = 'POST', name = path } = {}) => {
+    writes.current += 1;
     setBusy(name);
     const scoped = current.current && !UNSCOPED.has(path);
     const sent = scoped ? { mob: current.current, ...(body || {}) } : body;
@@ -88,11 +90,23 @@ export function useMob(userId, { mobId: pinned = null } = {}) {
     return r;
   }, [adopt]);
 
+  // A quiet read for the den's live updates: the view changes only when the reply is good and still names the Mob on
+  // screen; a failed read (offline for a moment, a limit) leaves everything as it was, with no banner.
+  const refresh = useCallback(async () => {
+    const id = current.current;
+    if (!id) return null;
+    const seq = writes.current;
+    const r = await mobFetch(`/api/mob${query({ mob: id })}`);
+    if (!alive.current || !r.ok || current.current !== id || r.data?.mob?.id !== id || writes.current !== seq) return r;
+    setState((s) => (s.status === 'ready' ? { status: 'ready', mob: r.data.mob, error: null, v3Available: Boolean(r.data?.v3Available || r.data?.mob?.v3 || s.v3Available) } : s));
+    return r;
+  }, []);
+
   const select = useCallback((id) => { current.current = id; writeSelected(id); return load(id); }, [load]);
   const compare = useCallback(({ week, extra } = {}) => mobFetch(`/api/mob/compare${query({ mob: current.current, week, extra })}`), []);
   const history = useCallback(() => mobFetch(`/api/mob/history${query({ mob: current.current })}`), []);
 
-  return { ...state, busy, load, run, select, compare, history, setMob: (mob) => { adopt(mob); setState({ status: 'ready', mob, error: null }); } };
+  return { ...state, busy, load, refresh, run, select, compare, history, setMob: (mob) => { adopt(mob); setState({ status: 'ready', mob, error: null }); } };
 }
 
 /** The runner's start for a Mob paper (/test?mob=1): the same reply as a practice start, or an Error with a plain sentence. */

@@ -212,6 +212,7 @@ export const DenCopy = Object.freeze({
   questCount: (q) => (q.answered > q.target ? `${q.answered} answered. The quest needed ${q.target}.` : `${q.answered} of ${q.target} questions`),
   passNotice: (weekday, days) => `${weekday} was covered by a rest pass. Your chain is still ${days}.`,
   stickerSent: 'Sent to your Mob.',
+  stickerRowLabel: 'Send your Mob a sticker',
   stickerLabel: (kind) => `Send the sticker ${STICKERS[kind] || ''}`,
   reactionLine: (name, kind) => `${name}: ${STICKERS[kind] || ''}`,
 
