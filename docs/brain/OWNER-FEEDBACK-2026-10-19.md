@@ -395,3 +395,6 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 >
 > Though I have already set up, I don't know which one step is remaining in "Finish setting up your app." Obviously, that is "Set up your store listing," but that will also take some time, and many things I have to generate are not ready yet, like the graphics and all. Can you tell me what steps to do right now, what can be avoided, and which are the highest priority to proceed"
 **Ledger D134:** he wants the closed test started too. Prepare the whole store listing pack (text, icon, feature graphic, phone screenshots) for him to paste; give him a priority order.
+
+## Owner, 19 Oct about 7:45 pm IST (verbatim)
+> "Okay, now I am on the Create One-Time Product page. Now guide me one step at a time for each product. What exactly do I have to do? Like product title, description, icon, and also it's asking for many other things. Think it through and guide me on each step."
