@@ -90,6 +90,28 @@ class _Geo {
   double slotX(int slot) => slot > count ? flagStandX : numberX(slot);
 }
 
+/// Depth on a shared number (spec 0.3, R1; walk H4). Row 0 is the earliest arrival, in front at full
+/// size. Row 1 (second and third arrivals) stands 10 dp up at 0.86 and 70% brightness; row 2 (fourth
+/// and fifth) 18 dp up at 0.76 and 60%. Later arrivals step aside, right then left, by about half a
+/// Fold, so each one shows a face.
+abstract final class RulerDepth {
+  static int row(int k) => k == 0 ? 0 : (k <= 2 ? 1 : 2);
+  static double scale(int row) => const [1.0, 0.86, 0.76][row.clamp(0, 2)];
+  static double brightness(int row) => const [1.0, 0.7, 0.6][row.clamp(0, 2)];
+  static double up(int row) => const [0.0, 10.0, 18.0][row.clamp(0, 2)];
+
+  /// The widest a Fold may be, as a share of its height (wide arms are drawn smaller).
+  static const double maxAspect = 1.0;
+
+  /// The sideways step of the k-th arrival, as a share of the Fold size. At the flag everyone
+  /// steps back left of the pole.
+  static double aside(int k, {bool atFlag = false}) {
+    const around = [0.0, 0.5, -0.5, 0.9, -0.9];
+    const flag = [0.0, -0.45, -0.85, -1.2, -1.5];
+    return (atFlag ? flag : around)[k.clamp(0, 4)];
+  }
+}
+
 class RulerRace extends StatefulWidget {
   const RulerRace({
     super.key,
@@ -393,17 +415,25 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
       }
     }
 
+    // Each group (Folds on one number) stands like a group photo: the earliest arrival in front at
+    // full size; later arrivals step back (10 dp up, 0.86, 70% brightness; a fourth and fifth one
+    // more row back) and aside, alternating right and left by about half a Fold, so every Fold
+    // shows a face. A group that would cross the card's edge shifts in whole, so nobody stacks on
+    // one spot at the edge (H4).
     final placed = <_Placed>[];
+    final byGroup = <int, List<_Placed>>{};
     for (final r in widget.racers) {
       final t = _tracks[r.id]!;
       final k = depth[r.id] ?? 0;
-      final scale = k == 0 ? 1.0 : 0.86;
-      final size = base * scale;
+      final row = RulerDepth.row(k);
+      final scale = RulerDepth.scale(row);
+      // A wide Fold (arms out) is drawn smaller so it is never wider than the others (Hop, H4).
+      final natural = FoldPuppet.widthFor(manifest, r.fold, base);
+      final fit = natural > base * RulerDepth.maxAspect ? base * RulerDepth.maxAspect / natural : 1.0;
+      final size = base * scale * fit;
       final w = FoldPuppet.widthFor(manifest, r.fold, size);
       final atFlag = t.slot > widget.count;
-      const asideRight = [0.0, 22, -22, 38, -38];
-      const asideFlag = [0.0, -24, -44, -62, -78];
-      final aside = (atFlag ? asideFlag : asideRight)[math.min(k, 4)] * (base / 64);
+      final aside = RulerDepth.aside(k, atFlag: atFlag) * base;
       double x;
       var lift = 0.0;
       var squash = 0.0;
@@ -423,8 +453,27 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
         case _MoveKind.none:
           x = toX;
       }
-      x = x.clamp(_Geo.side + w / 2 - 6, geo.width - _Geo.side - w / 2 + 6);
-      placed.add(_Placed(racer: r, depth: k, x: x, size: size, width: w, lift: lift, squash: squash));
+      final pl = _Placed(racer: r, depth: row, x: x, size: size, width: w, lift: lift, squash: squash);
+      placed.add(pl);
+      byGroup.putIfAbsent(t.slot, () => []).add(pl);
+    }
+    final lo = _Geo.side + 2.0;
+    final hi = geo.width - _Geo.side - 2.0;
+    for (final g in byGroup.values) {
+      var left = double.infinity;
+      var right = -double.infinity;
+      for (final p in g) {
+        left = math.min(left, p.x - p.width / 2);
+        right = math.max(right, p.x + p.width / 2);
+      }
+      var shift = 0.0;
+      if (left < lo) shift = lo - left;
+      if (right + shift > hi) shift = hi - right;
+      if (shift != 0) {
+        for (final p in g) {
+          p.x += shift;
+        }
+      }
     }
 
     // Paint order: the back row first.
@@ -469,8 +518,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
 
   Widget _fold(BuildContext context, _Placed p) {
     final r = p.racer;
-    final behind = p.depth > 0;
-    final top = _Geo.boots - p.size - (behind ? 10.0 * p.depth : 0);
+    final top = _Geo.boots - p.size - RulerDepth.up(p.depth);
     final sx = 1 + (MobBeat.squashX - 1) * p.squash;
     final sy = 1 - (1 - MobBeat.squashY) * p.squash;
     return Positioned(
@@ -489,7 +537,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
             size: p.size,
             phase: r.colour,
             ghost: r.ghost,
-            brightness: behind ? 0.7 : 1,
+            brightness: RulerDepth.brightness(p.depth),
             act: r.you ? widget.youAct : FoldAct.none,
             actId: r.you ? widget.youActId : 0,
             pose: r.finished && !r.ghost ? FoldPose.cheer : FoldPose.idle,
@@ -504,6 +552,9 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
     );
   }
 
+  /// Names sit in one row above every Fold, pushed apart so no two ever touch, each tied to its
+  /// Fold's head by a short hairline (a name tag on a string). One row means a name never lands on
+  /// another Fold's head (walk H4).
   List<Widget> _layoutLabels(BuildContext context, List<_Placed> placed, _Geo geo, bool compact) {
     final colors = context.mmColors;
     final type = context.mmType;
@@ -515,32 +566,29 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
       final text = p.racer.you ? MobV3Copy.tabYou : (compact ? (name.isEmpty ? '?' : name.characters.first.toUpperCase()) : name);
       final tp = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler)..layout();
       final extra = compact && !p.racer.you ? 10.0 : 0.0;
-      items.add((p: p, text: text, w: tp.width + extra + 6, h: tp.height));
+      items.add((p: p, text: text, w: tp.width + extra + 8, h: tp.height));
       tp.dispose();
     }
-    // Sort by the Fold's x and push right where two would touch; then pull back inside the card.
-    final order = [...items]..sort((a, b) => a.p.x.compareTo(b.p.x));
-    final lefts = <double>[];
-    for (var i = 0; i < order.length; i++) {
-      var l = order[i].p.x - order[i].w / 2;
-      if (i > 0) l = math.max(l, lefts[i - 1] + order[i - 1].w + 2);
-      lefts.add(l);
-    }
-    // Names stop short of the pole, so a pennant never sits on a name.
-    final maxRight = geo.poleX - 2;
-    for (var i = order.length - 1; i >= 0; i--) {
-      final limit = i == order.length - 1 ? maxRight : lefts[i + 1] - 2;
-      if (lefts[i] + order[i].w > limit) lefts[i] = limit - order[i].w;
-    }
-    for (var i = 0; i < order.length; i++) {
-      lefts[i] = math.max(lefts[i], _Geo.side - 4);
-    }
+    if (items.isEmpty) return const [];
+    final rows = RulerLabels.layout(
+      [for (final it in items) (x: it.p.x, w: it.w)],
+      minLeft: _Geo.side - 2,
+      maxRight: geo.poleX - 4,
+    );
+    final labelH = items.map((e) => e.h).reduce(math.max);
+    final base = compact ? 48.0 : 64.0;
+    // The row sits above the highest head (row 2 standing back), with room for the string.
+    final maxUp = placed.map((p) => RulerDepth.up(p.depth)).reduce(math.max);
+    final rowTop = math.max(2.0, _Geo.boots - base - maxUp - labelH - 10);
+    final strings = <({Offset from, Offset to, bool ghost})>[];
     final out = <Widget>[];
-    for (var i = 0; i < order.length; i++) {
-      final it = order[i];
+    for (var i = 0; i < items.length; i++) {
+      final it = items[i];
       final p = it.p;
-      final top = _Geo.boots - p.size - (p.depth > 0 ? 10.0 * p.depth : 0) - it.h - 1 - p.lift;
+      final left = rows[i];
       final ghost = p.racer.ghost;
+      final headTop = _Geo.boots - p.size - RulerDepth.up(p.depth) - p.lift + p.size * 0.08;
+      strings.add((from: Offset(left + it.w / 2, rowTop + labelH + 1), to: Offset(p.x, headTop), ghost: ghost));
       Widget text = Text(
         it.text,
         maxLines: 1,
@@ -559,13 +607,18 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
       }
       out.add(Positioned(
         key: ValueKey('ruler-name-${p.racer.id}'),
-        left: lefts[i],
-        top: math.max(2, top),
+        left: left,
+        top: rowTop,
         width: it.w,
         child: ExcludeSemantics(child: Center(child: text)),
       ));
     }
-    return out;
+    return [
+      Positioned.fill(
+        child: IgnorePointer(child: CustomPaint(painter: _StringPainter(strings: strings, colour: colors.ink3))),
+      ),
+      ...out,
+    ];
   }
 
   Widget _pennant(BuildContext context, _Geo geo, int i) {
@@ -602,7 +655,7 @@ class _Placed {
 
   final RulerRacer racer;
   final int depth;
-  final double x;
+  double x;
   final double size;
   final double width;
   final double lift;
@@ -726,18 +779,24 @@ class _RulerPainter extends CustomPainter {
         ..strokeCap = StrokeCap.round,
     );
     if (!pennants) {
+      // A blank paper flag waiting for the first finisher (walk L3: an empty dashed outline read as
+      // missing art): paper cloth, a soft fold down the middle and a pencil edge.
       final cloth = Path()
         ..moveTo(poleX + 1, geo.poleTop)
         ..lineTo(poleX + 23, geo.poleTop)
         ..lineTo(poleX + 18, geo.poleTop + 7)
         ..lineTo(poleX + 23, geo.poleTop + 14)
-        ..lineTo(poleX + 1, geo.poleTop + 14);
-      drawDashedPath(
-        canvas,
+        ..lineTo(poleX + 1, geo.poleTop + 14)
+        ..close();
+      canvas.drawPath(cloth, Paint()..color = paper.paper);
+      canvas.drawLine(Offset(poleX + 10, geo.poleTop + 1), Offset(poleX + 10, geo.poleTop + 13), Paint()
+        ..color = paper.paperLine
+        ..strokeWidth = 1);
+      canvas.drawPath(
         cloth,
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 1.4
+          ..strokeWidth = 1
           ..color = night ? const Color(0xFFA09989) : const Color(0xFF655F53),
       );
     }
@@ -758,4 +817,55 @@ class _RulerPainter extends CustomPainter {
     }
     return true;
   }
+}
+
+/// Lays name tags out in one row: each centred over its Fold, pushed right where two would touch,
+/// then pulled back left from the limit. Returns each tag's left edge, in the input order.
+abstract final class RulerLabels {
+  static const double gap = 4;
+
+  static List<double> layout(List<({double x, double w})> tags, {required double minLeft, required double maxRight}) {
+    final order = [for (var i = 0; i < tags.length; i++) i]..sort((a, b) {
+        final c = tags[a].x.compareTo(tags[b].x);
+        return c != 0 ? c : a.compareTo(b);
+      });
+    final lefts = List<double>.filled(tags.length, 0);
+    double? prevRight;
+    for (final i in order) {
+      var l = math.max(minLeft, tags[i].x - tags[i].w / 2);
+      if (prevRight != null) l = math.max(l, prevRight + gap);
+      lefts[i] = l;
+      prevRight = l + tags[i].w;
+    }
+    double? nextLeft;
+    for (final i in order.reversed) {
+      final limit = nextLeft == null ? maxRight : nextLeft - gap;
+      if (lefts[i] + tags[i].w > limit) lefts[i] = limit - tags[i].w;
+      nextLeft = lefts[i];
+    }
+    return lefts;
+  }
+}
+
+class _StringPainter extends CustomPainter {
+  _StringPainter({required this.strings, required this.colour});
+
+  final List<({Offset from, Offset to, bool ghost})> strings;
+  final Color colour;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    for (final s in strings) {
+      if (s.to.dy - s.from.dy < 3) continue;
+      final paint = Paint()
+        ..color = colour.withValues(alpha: s.ghost ? 0.45 : 0.7)
+        ..strokeWidth = 1
+        ..strokeCap = StrokeCap.round;
+      canvas.drawLine(s.from, s.to, paint);
+      canvas.drawCircle(s.to, 1.5, Paint()..color = colour.withValues(alpha: s.ghost ? 0.45 : 0.7));
+    }
+  }
+
+  @override
+  bool shouldRepaint(_StringPainter old) => true;
 }
