@@ -198,6 +198,8 @@ void main() {
     expect(rig.verifier.calls.single.productId, 'credits_49_300');
     expect(find.text('300 credits added'), findsOneWidget);
     expect(rig.refreshes, 1);
+    // Before the server's new figure arrives, no balance is named (the old one would be stale).
+    expect(find.textContaining('Your balance is now'), findsNothing);
     // The server's new figure arrives: the line says the new balance and the hero shows it.
     final repo = ProviderScope.containerOf(tester.element(find.byType(WalletScreen))).read(walletRepositoryProvider.notifier) as FakeWalletRepo;
     repo.serve(walletState(walletBody(held: 306)));

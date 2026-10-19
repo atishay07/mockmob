@@ -62,6 +62,10 @@ class WalletTopUps extends ConsumerStatefulWidget {
 class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
   bool get _on => ref.read(playBillingEnabledProvider);
 
+  /// The balance when the student tapped a pack. The confirmation names the new balance only once the
+  /// server's figure has moved from it, so it never says a stale number.
+  int? _totalAtBuy;
+
   @override
   void initState() {
     super.initState();
@@ -108,7 +112,10 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
               savePercent: value.savePercent[pack.id],
               enabled: !s.busy && s.priceOf(pack.id) != null,
               working: s.productId == pack.id && (s.stage == BillingStage.starting || s.stage == BillingStage.verifying || s.stage == BillingStage.pending),
-              onTap: () => ctl.buy(pack.id),
+              onTap: () {
+                _totalAtBuy = ref.read(walletViewProvider).total;
+                ctl.buy(pack.id);
+              },
             ),
           ],
         ],
@@ -160,7 +167,7 @@ class _WalletTopUpsState extends ConsumerState<WalletTopUps> {
         if (boughtPack != null)
           Padding(
             padding: const EdgeInsets.only(top: MmSpace.s12),
-            child: _Added(credits: boughtPack.credits, total: total),
+            child: _Added(credits: boughtPack.credits, total: total != null && total != _totalAtBuy ? total : null),
           ),
         const SizedBox(height: MmSpace.s12),
         Text(BillingCopy.googlePlayNote, style: type.caption.copyWith(color: colors.ink3)),

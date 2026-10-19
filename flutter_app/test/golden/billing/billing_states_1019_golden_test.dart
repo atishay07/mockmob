@@ -14,6 +14,7 @@ import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart';
+import 'package:mockmob/features/billing/widgets/top_ups.dart' show PackCard;
 import 'package:mockmob/features/wallet/wallet_screen.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -65,10 +66,13 @@ void _wallet(String name, BillingRig Function() makeRig, {RemoteState<AiCredits>
       final top = find.text('Top up');
       if (top.evaluate().isNotEmpty) await tester.ensureVisible(top);
       if (tapPack != null) {
-        await tester.ensureVisible(find.text(tapPack));
-        await tester.tap(find.text(tapPack));
+        final pack = find.descendant(of: find.byType(PackCard), matching: find.text(tapPack));
+        // Bring the pack to the upper part of the page, clear of anything pinned at the foot.
+        await Scrollable.ensureVisible(tester.element(pack), alignment: 0.3);
+        await tester.pump();
+        await tester.tap(pack);
         await settleNudges(tester, rounds: 12);
-        await tester.ensureVisible(find.text('Top up'));
+        await Scrollable.ensureVisible(tester.element(find.textContaining('credits added')), alignment: 0.7);
         await settleNudges(tester, rounds: 4);
       }
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/$file.png'));
@@ -102,5 +106,5 @@ void main() {
     final rig = BillingRig();
     rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
     return rig;
-  }, tapPack: '150 credits');
+  }, tapPack: '150');
 }
