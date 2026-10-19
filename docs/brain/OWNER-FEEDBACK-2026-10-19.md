@@ -367,3 +367,9 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 
 ## Owner, 19 Oct about 5:10 pm IST (verbatim, screenshot: Monetise with Play, "To monetise this app, set up a merchant account")
 > "i have to setup merchant account only right?"
+
+## Owner, 19 Oct about 5:15 pm IST (verbatim, setting up the payments profile)
+> "just a few things:
+> * I have selected an individual account only right now, and I don't have business registration. This account is also individual, but I am later planning to get the business registered as a proper private limited. Right now, it's registered as a small business, so I can't open an organization account. Is that possible? I think it will require switching the account entirely, but let's see.
+> * Credit card statement theme: can I put Mockmob in there?
+> * Other than that, what do you sell? I couldn't find anything related to education or digital services, so I am selecting "Other" in there. I don't think this will also affect"
