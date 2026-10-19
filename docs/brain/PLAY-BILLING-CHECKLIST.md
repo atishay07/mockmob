@@ -155,9 +155,9 @@ Play only lets you create products once a build with Play billing inside is publ
 | Product ID | Name | Description | Price (India) |
 |---|---|---|---|
 | `pro_cuet_2027` | `MockMob Pro until July 2027` | `Pro on MockMob until 31 July 2027, in the app and on the website.` | `₹150` |
-| `credits_10_50` | `50 MockMob credits` | `50 credits that do not expire.` | `₹15` |
-| `credits_29_150` | `150 MockMob credits` | `150 credits that do not expire.` | `₹45` |
-| `credits_49_300` | `300 MockMob credits` | `300 credits that do not expire.` | `₹75` |
+| `credits_10_50` | `50 MockMob credits` | `50 credits to use anywhere in MockMob.` | `₹15` |
+| `credits_29_150` | `150 MockMob credits` | `150 credits to use anywhere in MockMob.` | `₹45` |
+| `credits_49_300` | `300 MockMob credits` | `300 credits to use anywhere in MockMob.` | `₹75` |
 
 For each one:
 - [ ] **4.1** Fill in the Product ID, name and description from the table, then click to add a **purchase option**:
