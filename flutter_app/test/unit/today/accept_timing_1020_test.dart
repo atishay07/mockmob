@@ -6,11 +6,9 @@
 // overshoots by more than 4% and settles within 350 to 450 ms, the lead card's words wait for it
 // and the lead card settles under it. Reduced motion: a crossfade, no flight.)
 import 'package:flutter/material.dart';
-import 'package:flutter/physics.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
-import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/features/today/logic/suggested_deck.dart';
 import 'package:mockmob/features/today/logic/today_builder.dart';
 import 'package:mockmob/features/today/logic/today_inputs.dart';
@@ -51,8 +49,6 @@ Future<void> _pump(WidgetTester tester, {required bool animate, Size size = cons
   );
   await tester.pumpAndSettle();
 }
-
-String _heroTitle(WidgetTester tester) => tester.widget<MoveHeroCard>(find.byType(MoveHeroCard)).move.title!;
 
 void main() {
   setUpAll(loadAppFonts);
