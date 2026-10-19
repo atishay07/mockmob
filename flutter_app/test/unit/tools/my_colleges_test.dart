@@ -14,6 +14,7 @@ import 'package:mockmob/core/models/my_colleges.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/onboarding/state/answers_controller.dart';
 import 'package:mockmob/features/tools/copy.dart';
+import 'package:mockmob/features/tools/estimate/estimate.dart' show Reach;
 import 'package:mockmob/features/tools/data/my_colleges_actions.dart';
 import 'package:mockmob/features/tools/compass/compass_screen.dart';
 import 'package:mockmob/features/tools/compass/programme_screen.dart';
@@ -402,6 +403,52 @@ void main() {
       await tester.pumpAndSettle();
       expect(find.text('Hindu College'), findsOneWidget);
       expect(find.text(MyCollegesCopy.add), findsOneWidget);
+    });
+
+    // The real B.Com (Hons.) UR Round 1 figures in the fixture: SRCC 924.3, Hindu 919.9, Hansraj 907.5. LSR has no B.Com (Hons.)
+    // seat, so it is left out of the count (no seat is neither safe nor in reach), as on the estimate sheet.
+    for (final (low, high, note) in [
+      ('900', '920', '4 of 8 · 2 in reach'),
+      ('900', '925', '4 of 8 · 3 in reach'),
+      ('908', '925', '4 of 8 · 1 safe, 2 in reach'),
+      ('930', '930', '4 of 8 · 3 safe'),
+      ('800', '850', '4 of 8 · none in reach yet'),
+    ]) {
+      testWidgets('the Compass row says safe and in reach, in the words of the estimate sheet: $low to $high (verifier M3)', (tester) async {
+        final fake = FakeMyColleges(
+          start: [
+            mc('b-com-hons', 'Shri Ram College of Commerce', 'B.Com. (Hons.)'),
+            mc('b-com-hons', 'Hindu College', 'B.Com. (Hons.)'),
+            mc('b-com-hons', 'Lady Shri Ram College for Women', 'B.Com. (Hons.)'),
+            mc('b-com-hons', 'Hansraj College', 'B.Com. (Hons.)'),
+          ],
+        );
+        final prefs = MemoryPrefsStore()
+          ..values['mm.tools.compass.v1'] =
+              '{"s":"english,accountancy,business_studies,economics","c":"UR","score":"$low","scoreHigh":"$high"}';
+        await pumpMockmob(
+          tester,
+          const CompassScreen(),
+          size: const Size(384, 9000),
+          wrapInScaffold: false,
+          disableAnimations: true,
+          overrides: toolsOverrides(prefs: prefs, myColleges: fake),
+        );
+        await tester.pumpAndSettle();
+        await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 60)));
+        await tester.pumpAndSettle();
+        expect(find.text(note), findsOneWidget);
+        expect(find.textContaining('clear on your estimate'), findsNothing);
+      });
+    }
+
+    test('the row note names the two words, and says nothing it cannot count', () {
+      expect(ToolsCopy.myCollegesRowNote(4, const Reach(safe: 1, inReach: 2, below: 1)), '4 of 8 · 1 safe, 2 in reach');
+      expect(ToolsCopy.myCollegesRowNote(4, const Reach(safe: 4)), '4 of 8 · 4 safe');
+      expect(ToolsCopy.myCollegesRowNote(4, const Reach(inReach: 3, below: 1)), '4 of 8 · 3 in reach');
+      expect(ToolsCopy.myCollegesRowNote(4, const Reach(below: 4)), '4 of 8 · none in reach yet');
+      expect(ToolsCopy.myCollegesRowNote(4, const Reach()), '4 of 8', reason: 'no college has a seat for the category');
+      expect(ToolsCopy.myCollegesRowNote(4, null), '4 of 8');
     });
 
     testWidgets('a college row in a cutoff list carries the key, and the key follows the list', (tester) async {

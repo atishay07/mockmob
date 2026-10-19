@@ -183,7 +183,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     // "Why did I lose marks in my last paper?" is answered from that paper's own breakdown on the
     // phone: free, at once, and about that one paper, never the whole record.
     if (message == AskDoorCopy.lastPaper && ref.read(askQuestionProvider) == null) {
-      final last = lastPaper(ref.read(insightsInputsProvider).attempts, ref.read(nowProvider)());
+      final inputs = ref.read(insightsInputsProvider);
+      final last = lastPaper(inputs.attempts, ref.read(nowProvider)(), unopened: inputs.unopened);
       if (last != null) {
         ref.read(askControllerProvider.notifier).answerLocally(message, last.answer);
         _toEnd();
@@ -241,7 +242,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
     if (ref.read(askQuestionProvider)?.ready ?? false) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
     if (text.isEmpty) return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteIdle(balance);
     if (ref.read(askControllerProvider.notifier).answersOnPhone(text)) return InsightsCopy.askNoteFree;
-    if (text == AskDoorCopy.lastPaper && lastPaper(ref.read(insightsInputsProvider).attempts, ref.read(nowProvider)()) != null) {
+    final held = ref.read(insightsInputsProvider);
+    if (text == AskDoorCopy.lastPaper && lastPaper(held.attempts, ref.read(nowProvider)(), unopened: held.unopened) != null) {
       return InsightsCopy.askNoteFree;
     }
     return wallet?.empty ?? false ? InsightsCopy.askNoteEmpty(renew) : InsightsCopy.askNoteCost(balance);
@@ -623,7 +625,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   }) {
     final record = inputs.insights.value;
     final ready = record != null && record.isReady;
-    final last = lastPaper(inputs.attempts, now);
+    final last = lastPaper(inputs.attempts, now, unopened: inputs.unopened);
     final asks = recordDoorAsks(record, pro: pro, last: last, now: now);
     return [
       if (offline) ...[

@@ -18,6 +18,7 @@ import 'package:mockmob/features/review/model/review_record_adapter.dart';
 import 'package:mockmob/features/review/model/your_papers.dart';
 import 'package:mockmob/features/review/review_routes.dart' show reviewScreen;
 import 'package:mockmob/features/review/screens/review_screen.dart';
+import 'package:mockmob/features/review/widgets/mistake_map.dart' show mistakesSummaryOf;
 import 'package:mockmob/features/review/widgets/your_papers.dart';
 import 'package:mockmob/features/review/your_papers_link.dart';
 
@@ -149,6 +150,22 @@ void main() {
       expect(v.strip.toRepair, 2, reason: "Mock 1's two; Mock 2's five wait for its result to open");
       // The record behind the chapters leaves the sealed paper out too.
       expect(recordForSubject(reviewRecordOf(index, now: eveningUtc, unopened: {'m7'}), null).papers.map((p) => p.id), ['m6']);
+    });
+
+    test('the mistakes map counts what the strip and the badge count: a sealed paper is left out (verifier L6)', () {
+      final all = [mock6, mock7];
+      final index = buildReviewIndex(all, const [], unopened: {'m7'});
+      expect(index.openCount, greaterThan(index.openShown), reason: 'the sealed paper has open mistakes of its own');
+      expect(mistakesSummaryOf(index), ReviewCopy.mistakesSummary(index.openShown, index.openGroupsShown.length));
+      expect(index.openGroupsShown.fold<int>(0, (n, g) => n + g.openCount), index.openShown);
+      expect(index.openGroupsShown.every((g) => g.items.every((i) => i.attemptId != 'm7')), isTrue);
+      // Nothing sealed: the map is the whole index.
+      final open = buildReviewIndex(all, const []);
+      expect(mistakesSummaryOf(open), ReviewCopy.mistakesSummary(open.openCount, open.openGroups.length));
+      // Every paper sealed: no open mistake is counted at all.
+      final none = buildReviewIndex(all, const [], unopened: {'m6', 'm7'});
+      expect(none.openGroupsShown, isEmpty);
+      expect(none.openShown, 0);
     });
 
     test('the deep link carries the paper', () {

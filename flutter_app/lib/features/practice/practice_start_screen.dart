@@ -230,8 +230,13 @@ class _PracticeStartScreenState extends ConsumerState<PracticeStartScreen> {
     switch (result) {
       case LaunchStarted(:final sessionId):
         await _open(sessionId);
-      case LaunchNeedsLook(:final quote):
-        _stop(costLineFor(quote).text ?? PracticeCopy.unavailableFallback, StateViewKind.error);
+      case LaunchNeedsLook(:final quote, :final message):
+        _stop(
+          message != null
+              ? PracticeCopy.firstMockTakenNote(message, costLineFor(quote).text ?? '')
+              : costLineFor(quote).text ?? PracticeCopy.unavailableFallback,
+          StateViewKind.error,
+        );
       case LaunchFailed(:final failure, :final message):
         final offline = failure == StartFailure.offline;
         _stop(

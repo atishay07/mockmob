@@ -19,12 +19,13 @@ import 'collapsible.dart';
 import 'mistake_view.dart' show MissedTwiceGlyph;
 
 /// "12 mistakes across 4 chapters".
-String mistakesSummaryOf(ReviewIndex index) => ReviewCopy.mistakesSummary(index.openCount, index.openGroups.length);
+/// A paper whose result is still sealed is left out, as it is by Your papers' strip and the badge on the bar.
+String mistakesSummaryOf(ReviewIndex index) => ReviewCopy.mistakesSummary(index.openShown, index.openGroupsShown.length);
 
 /// The map's caption. When every open mistake is in one subject the subject is said here once,
 /// so the rows do not repeat it; across subjects each row carries its own.
 String mapCaptionOf(ReviewIndex index) {
-  final subjects = {for (final g in index.openGroups) g.subjectId};
+  final subjects = {for (final g in index.openGroupsShown) g.subjectId};
   final summary = mistakesSummaryOf(index);
   return subjects.length == 1 ? '${subjectName(subjects.first)}, $summary' : summary;
 }

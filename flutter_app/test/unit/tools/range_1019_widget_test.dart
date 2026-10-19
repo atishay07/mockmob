@@ -218,7 +218,10 @@ void main() {
     await settle(tester);
     expect(find.text(EstimateCopy.readyTitle), findsOneWidget);
     expect(find.text('665 to 765'), findsOneWidget);
-    expect(find.text(EstimateCopy.readyTruth(5)), findsOneWidget);
+    // Five subjects each have a mock, but DU adds up four papers: the line counts the mocks the estimate is built on (verifier L1).
+    final built = ProviderScope.containerOf(tester.element(find.byType(ListView))).read(estimateProvider)!.mocks;
+    expect(built, 4);
+    expect(find.text(EstimateCopy.readyTruth(built)), findsOneWidget);
     expect(find.text('None of your 4 colleges is in reach yet.'), findsOneWidget);
     await tester.tap(find.text(EstimateCopy.acceptKey));
     await settle(tester);

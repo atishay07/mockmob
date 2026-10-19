@@ -268,6 +268,13 @@ class ChipRail extends StatefulWidget {
 
   static const double nudgeDistance = 24;
 
+  /// The nudge happens once per app run, not once per rail: a rail built again (a tab opened a second time) stays still.
+  static bool _nudgedThisRun = false;
+
+  /// For tests: the next rail nudges again.
+  @visibleForTesting
+  static void resetNudgeForTests() => _nudgedThisRun = false;
+
   @override
   State<ChipRail> createState() => _ChipRailState();
 }
@@ -389,17 +396,17 @@ class _ChipRailState extends State<ChipRail> with SingleTickerProviderStateMixin
     if (widget.nudge) _nudgeOnce();
   }
 
-  bool _nudged = false;
 
   /// The first view's one sideways nudge (see [ChipRail.nudge]): out on an ease-out, back on the emphasized curve,
   /// after the page has had a moment to settle. A finger on the rail meanwhile wins.
   Future<void> _nudgeOnce() async {
-    if (_nudged) return;
-    _nudged = true;
+    if (ChipRail._nudgedThisRun) return;
     await Future<void>.delayed(const Duration(milliseconds: 600));
     if (!mounted || !_controller.hasClients || Motion.reduced(context)) return;
     final p = _controller.position;
-    if (p.maxScrollExtent < 0.5 || p.isScrollingNotifier.value) return;
+    // A rail that cannot move (every chip fits) has shown nothing, so it does not use up the run's one nudge.
+    if (p.maxScrollExtent < 0.5 || p.isScrollingNotifier.value || ChipRail._nudgedThisRun) return;
+    ChipRail._nudgedThisRun = true;
     final from = p.pixels;
     final to = math.min(from + ChipRail.nudgeDistance, p.maxScrollExtent);
     try {

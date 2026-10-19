@@ -23,13 +23,17 @@ import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/features/today/copy_suggested.dart';
 import 'package:mockmob/features/tools/estimate/estimate_copy.dart';
 import 'package:mockmob/features/tools/my_colleges/my_colleges_copy.dart';
+import 'package:mockmob/features/wallet/data/wallet_data.dart' show WalletRead;
 import 'package:mockmob/features/wallet/wallet_copy.dart';
 import 'package:mockmob/features/you/edit_copy.dart';
 import 'package:mockmob/features/you/help/faq.dart';
 
-/// The website's ONE_CREDIT_LINE (src/lib/creditCopy.mjs, web release 11), word for word.
-const _webOneCreditLine = '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50, and your first one in '
-    'each subject is free. Deeper analysis costs 3. The cost shows before you start.';
+/// The website's ONE_CREDIT_LINE (src/lib/creditCopy.mjs, web release 11), word for word, with the free first full mock
+/// switched off (FIRST_FULL_MOCK_ENABLED=false) and on.
+const _webOneCreditLineOff = '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits. '
+    'Deeper analysis costs 3 credits. The cost shows before you start.';
+const _webOneCreditLineOn = '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits, and your first one in '
+    'each subject is free. Deeper analysis costs 3 credits. The cost shows before you start.';
 
 void main() {
   group('the place is Your papers (D105, D106): the old tab name is gone from every line that names it', () {
@@ -72,15 +76,31 @@ void main() {
   });
 
   group('a full mock is priced truthfully (C-dec 1: the first one in each subject is free)', () {
-    test('the Wallet says the website\'s line until the server\'s own loads, so it never changes on load', () {
-      expect(WalletCopy.creditsFor, _webOneCreditLine);
+    test('the Wallet says the website\'s line with the free claim off until the server\'s own loads: it never claims what the server has not said', () {
+      expect(WalletCopy.creditsFor, _webOneCreditLineOff);
+      expect(WalletCopy.creditsFor, isNot(contains('free.')));
+      // The server's line with the rule on is that line plus the clause, and the app reads the clause as the signal.
+      expect(_webOneCreditLineOn, contains(WalletCopy.firstMockFreeClause));
+      expect(_webOneCreditLineOff, isNot(contains(WalletCopy.firstMockFreeClause)));
+      expect(WalletRead.fromJson({'credits': {'buys': _webOneCreditLineOn}}).firstFullMockFree, isTrue);
+      expect(WalletRead.fromJson({'credits': {'buys': _webOneCreditLineOff}}).firstFullMockFree, isFalse, reason: 'kill switch off');
+      expect(WalletRead.fromJson({'credits': {'buys': '1 credit buys 1 practice question or 1 chat reply.'}}).firstFullMockFree, isFalse, reason: 'older server');
+      expect(WalletRead.fromJson(const {}).firstFullMockFree, isFalse, reason: 'nothing loaded');
     });
 
-    test('Help says the first full mock is free and that free credits refill', () {
-      final answer = FaqCopy.credits.answer.join(' ');
-      expect(answer, contains('A full mock costs 50, and your first one in each subject is free.'));
-      expect(answer, contains('They refill to 50 at the start of every month'));
-      expect(answer, isNot(contains('renews')));
+    test('Help says the first full mock is free only when the server says so, and always that free credits refill', () {
+      for (final item in [FaqCopy.credits, FaqCopy.creditsWhenFirstFree]) {
+        final answer = item.answer.join(' ');
+        expect(answer, contains('A full mock costs 50 credits'));
+        expect(answer, contains('They refill to 50 at the start of every month'));
+        expect(answer, isNot(contains('renews')));
+      }
+      expect(FaqCopy.credits.answer.join(' '), isNot(contains('free.')), reason: 'no claim without the server');
+      expect(FaqCopy.creditsWhenFirstFree.answer.join(' '), contains('A full mock costs 50 credits, and your first one in each subject is free.'));
+      expect(FaqCopy.forServer(FaqCopy.quick, firstMockFree: false), same(FaqCopy.quick));
+      final on = FaqCopy.forServer(FaqCopy.quick, firstMockFree: true);
+      expect(on.map((i) => i.id), FaqCopy.quick.map((i) => i.id));
+      expect(on.firstWhere((i) => i.id == 'credits'), same(FaqCopy.creditsWhenFirstFree));
     });
 
     test('a free quote says free in the website\'s words; the range card says the plan line', () {
@@ -106,9 +126,10 @@ void main() {
       expect(ReviewCopy.yourPapersHeading, 'Recent papers');
       expect(ReviewCopy.papersCaption(1, null), 'This is your first paper. Tap it to see your marks and every answer explained.');
       expect(ReviewCopy.papersCaption(7, 'Accountancy'), 'You have sat 7 Accountancy papers. Tap one to see your marks and every answer explained.');
-      expect(ReviewCopy.mistakesCaption(0, 0, null), 'You have nothing left to repair. The chapters below still show where your marks went.');
-      expect(ReviewCopy.mistakesCaption(7, 3, 'Economics'), '7 Economics mistakes are waiting in 3 chapters. Start with the one that costs you the most marks.');
-      expect(ReviewCopy.mistakesCaption(1, 1, null), '1 mistake is waiting. Fix it before it costs you marks again.');
+      expect(ReviewCopy.mistakesCaption(0, 0, null, rows: 3), 'You have nothing left to repair. The chapters below still show where your marks went.');
+      expect(ReviewCopy.mistakesCaption(7, 3, 'Economics', rows: 3), '7 Economics mistakes are waiting in 3 chapters. Start with the one that costs you the most marks.');
+      expect(ReviewCopy.mistakesCaption(0, 0, 'Economics', rows: 0), 'You have nothing left to repair in Economics.', reason: 'no chapter rows, so none are said to be below');
+      expect(ReviewCopy.mistakesCaption(1, 1, null, rows: 1), '1 mistake is waiting. Fix it before it costs you marks again.');
       expect(PracticeCopy.papersNote(papers: 0, open: 3), 'You have 3 mistakes to repair, with the papers they came from.');
     });
 

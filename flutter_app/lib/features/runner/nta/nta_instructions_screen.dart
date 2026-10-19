@@ -90,8 +90,8 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
       case LaunchStarted(:final sessionId):
         setState(() => _phase = NtaPrepPhase.opening);
         context.go(AppRoutes.run(sessionId));
-      case LaunchNeedsLook(:final quote, costChanged: true):
-        _costChanged(quote);
+      case LaunchNeedsLook(:final quote, :final message, costChanged: true):
+        _costChanged(quote, message: message);
       case LaunchNeedsLook(:final quote):
         _fail(_gateText(quote, sell: ref.read(proNudgesOnProvider)));
       case LaunchFailed(:final failure, :final message):
@@ -132,9 +132,13 @@ class _NtaInstructionsScreenState extends ConsumerState<NtaInstructionsScreen> {
 
   /// The paper is open but costs more than when the page was opened. Nothing was started or
   /// charged; the new cost is on screen and the next Start takes it.
-  void _costChanged(PracticeQuote quote) {
+  void _costChanged(PracticeQuote quote, {String? message}) {
     _costShown = quote;
-    _fail(PracticeCopy.costChanged(costLineText(quote)).replaceAll('  ', ' '));
+    _fail(
+      message != null
+          ? PracticeCopy.firstMockTakenNote(message, costLineText(quote))
+          : PracticeCopy.costChanged(costLineText(quote)).replaceAll('  ', ' '),
+    );
   }
 
   void _fail(String message) {

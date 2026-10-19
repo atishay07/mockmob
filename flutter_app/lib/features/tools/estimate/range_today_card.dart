@@ -161,7 +161,7 @@ class RangeReadyCard extends ConsumerWidget {
           ),
         ),
         const SizedBox(height: MmSpace.s8),
-        Text(EstimateCopy.readyTruth(progress.mocks), style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink2)),
+        Text(EstimateCopy.readyTruth(e.mocks), style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink2)),
         const SizedBox(height: MmSpace.s12),
         Text(
           reach.total > 0 ? EstimateCopy.yourColleges(reach) : EstimateCopy.noColleges,

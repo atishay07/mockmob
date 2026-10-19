@@ -29,6 +29,7 @@ echo $$ > "$LOCK/pid"
 trap 'rm -rf "$LOCK"' EXIT INT TERM
 # Killed test runs leave flutter_tools.* copies (about 200 MB each) and the site's test suites leave
 # their fixtures in the temp folder; on 14 Oct they had filled the disk (52 GB). Sweep this
-# project's own leftovers older than 6 hours, in the background, before each run.
-( find "${TMP:-/tmp}" -maxdepth 1 -mindepth 1 -mmin +360 ! -name 'mockmob-flutter.lock*' \( -name 'flutter_tools.*' -o -name 'mockmob-*' -o -name 'mm_*' -o -name 'mm-*' -o -name 'authored-*' -o -name 'devtools-test*' -o -name 'ingest-test*' -o -name 'question-reorder*' -o -name 'heatmap-test*' \) -exec rm -rf {} + 2>/dev/null & )
+# project's own leftovers older than 6 hours, in the background, before each run. mm-emu-lock is the shared emulator
+# lock folder (it matches mm-*): a lock held for more than 6 hours must never be swept from under its owner.
+( find "${TMP:-/tmp}" -maxdepth 1 -mindepth 1 -mmin +360 ! -name 'mockmob-flutter.lock*' ! -name 'mm-emu-lock*' \( -name 'flutter_tools.*' -o -name 'mockmob-*' -o -name 'mm_*' -o -name 'mm-*' -o -name 'authored-*' -o -name 'devtools-test*' -o -name 'ingest-test*' -o -name 'question-reorder*' -o -name 'heatmap-test*' \) -exec rm -rf {} + 2>/dev/null & )
 flutter "$@"

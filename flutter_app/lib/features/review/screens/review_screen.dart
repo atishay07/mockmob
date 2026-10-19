@@ -343,7 +343,7 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
         gutter(
           KeyedSubtree(
             key: _mistakesKey,
-            child: _MistakesHead(open: view.strip.toRepair, chapters: body.rows.where((r) => r.open.isNotEmpty).length, subject: view.subject),
+            child: _MistakesHead(open: view.strip.toRepair, chapters: body.rows.where((r) => r.open.isNotEmpty).length, rows: body.rows.length, subject: view.subject),
           ),
           top: ReviewSpace.section,
         ),
@@ -459,10 +459,11 @@ class _ReviewScreenState extends ConsumerState<ReviewScreen> {
 /// "Mistakes to repair", with how many are open and across how many chapters: the same count as the strip above it and
 /// the badge on the bar, for the same subject.
 class _MistakesHead extends StatelessWidget {
-  const _MistakesHead({required this.open, required this.chapters, this.subject});
+  const _MistakesHead({required this.open, required this.chapters, required this.rows, this.subject});
 
   final int open;
   final int chapters;
+  final int rows;
   final String? subject;
 
   @override
@@ -476,7 +477,7 @@ class _MistakesHead extends StatelessWidget {
         const SizedBox(height: MmSpace.s16),
         Semantics(header: true, child: Text(ReviewCopy.mistakesHeading, style: type.title)),
         const SizedBox(height: MmSpace.s2),
-        Text(ReviewCopy.mistakesCaption(open, chapters, subject), style: type.small.copyWith(color: colors.ink2)),
+        Text(ReviewCopy.mistakesCaption(open, chapters, subject, rows: rows), style: type.small.copyWith(color: colors.ink2)),
       ],
     );
   }

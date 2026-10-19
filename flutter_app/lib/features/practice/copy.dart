@@ -289,6 +289,15 @@ abstract final class PracticeCopy {
   static const String offlineAutoStart =
       'You are offline. Your answers and drafts stay on this phone. This starts by itself when you are back online.';
   static const String quoteFailed = 'We could not check what this takes. Nothing was charged. Try again.';
+  // The free first full mock was not free when the start reached the server (release 11). The words match the
+  // server's own (FIRST_FULL_MOCK_REFUSAL_COPY), which is shown when it sends them; these stand in when it does not.
+  static const String firstMockTaken =
+      'Your free full mock in this subject was already started on another device or tab, so this one is not free. It did not start, and nothing was charged. Check the price, then start again.';
+  static const String firstMockUnchecked =
+      'We could not check that this full mock is still free, so it did not start and nothing was charged. Try again in a moment.';
+
+  /// The server's sentence, then the price the fresh quote now says, so the new price is read before Start.
+  static String firstMockTakenNote(String sentence, String line) => line.isEmpty ? sentence : '$sentence The price now: $line';
   static String costChanged(String line) => 'This changed while you were here. $line Check it and start again.';
 
   // Pro gate, warm and true. No prices, no purchase links.

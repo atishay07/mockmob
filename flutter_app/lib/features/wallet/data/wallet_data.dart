@@ -21,6 +21,7 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/models/json_helpers.dart';
 import '../../../core/repositories/json_remote_notifier.dart';
 import '../../../core/repositories/remote_state.dart';
+import '../wallet_copy.dart';
 
 class WalletEntry {
   const WalletEntry({required this.at, required this.what, required this.delta, this.balanceAfter});
@@ -97,6 +98,11 @@ class WalletRead {
   /// The server's one sentence on what a credit buys, so the words follow its price list.
   final String? buys;
 
+  /// The server says, in its own `buys` line, that the first full mock in each subject is free (release 11 with its
+  /// switch on). False when the line is missing, was written by an older server, or has the switch off: no screen of the
+  /// app may then say the first full mock is free.
+  bool get firstFullMockFree => buys?.contains(WalletCopy.firstMockFreeClause) ?? false;
+
   /// The server's own plan: true for Pro, false for Free, null when it sent none.
   final bool? planIsPro;
 
@@ -122,6 +128,10 @@ class WalletRepository extends JsonRemoteNotifier<WalletRead> {
 }
 
 final walletRepositoryProvider = NotifierProvider<WalletRepository, RemoteState<WalletRead>>(WalletRepository.new);
+
+/// Whether the server says the first full mock in each subject is free: the one signal the Help answer reads (the Wallet
+/// shows the server's own line). False until the server has said so.
+final firstFullMockFreeProvider = Provider<bool>((ref) => ref.watch(walletRepositoryProvider.select((s) => s.value?.firstFullMockFree ?? false)));
 
 const _ist = Duration(hours: 5, minutes: 30);
 

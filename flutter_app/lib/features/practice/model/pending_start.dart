@@ -17,6 +17,7 @@ class PendingStart {
     required this.selection,
     this.purpose,
     this.mockNumber,
+    this.firstFree = false,
   });
 
   /// The draft row (one per selection) the start belongs to.
@@ -36,6 +37,10 @@ class PendingStart {
   /// "Mock 7": the number the paper would carry.
   final int? mockNumber;
 
+  /// The quote the start was launched from said it was the free first full mock, so asking again says
+  /// so too: the server then refuses a start that would be charged instead of charging it unseen.
+  final bool firstFree;
+
   bool get isMock => selection.mode.isMock;
 
   /// How long this key is the one a start uses again: the length of the paper it may have opened,
@@ -43,7 +48,7 @@ class PendingStart {
   Duration get window => windowFor(selection);
 
   /// The record the starter writes beside a key.
-  static Map<String, Object?> record(PracticeSelection s, {String? purpose, int? mockNumber}) => {
+  static Map<String, Object?> record(PracticeSelection s, {String? purpose, int? mockNumber, bool firstFree = false}) => {
     'subject': s.subjectId,
     'mode': s.mode.name,
     'count': s.effectiveCount,
@@ -51,6 +56,7 @@ class PendingStart {
     'difficulty': s.difficulty.name,
     'purpose': ?purpose,
     'mockNumber': ?mockNumber,
+    if (firstFree) 'firstFree': true,
   };
 
   /// The selection a record describes, or null when it names something this build does not know.
@@ -79,6 +85,7 @@ class PendingStart {
       selection: selection,
       purpose: asString(stored.start['purpose']),
       mockNumber: asInt(stored.start['mockNumber']),
+      firstFree: stored.start['firstFree'] == true,
     );
   }
 

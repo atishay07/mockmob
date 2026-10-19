@@ -1,3 +1,4 @@
+import '../../../core/repositories/pending_result_repository.dart' show PendingResult, unopenedResultsProvider;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -34,6 +35,7 @@ class InsightsInputs {
     RemoteState<List<Attempt>>? attemptsState,
     RemoteState<RecoveryRecord>? recovery,
     this.pro = false,
+    this.unopened = const {},
   })  : attemptsState = attemptsState ?? RemoteState(value: attempts),
         recovery = recovery ?? const RemoteState<RecoveryRecord>.idle();
 
@@ -43,6 +45,10 @@ class InsightsInputs {
   /// failed, stale or ready.
   final RemoteState<List<Attempt>> attemptsState;
   final bool pro;
+
+  /// The attempts whose result has not been opened yet. Nothing here may say what such a paper scored or link past its
+  /// sealed sheet: the reveal belongs to the student.
+  final Set<String> unopened;
 
   /// Concept checks and the playbook (`GET /api/recovery`). Idle means not asked for: nothing
   /// is drawn for it.
@@ -64,6 +70,7 @@ final insightsInputsProvider = Provider<InsightsInputs>(
     attemptsState: ref.watch(attemptsRepositoryProvider),
     recovery: ref.watch(recoveryRecordRepositoryProvider),
     pro: ref.watch(insightsProProvider),
+    unopened: {for (final u in ref.watch(unopenedResultsProvider).value ?? const <PendingResult>[]) u.attemptId},
   ),
 );
 

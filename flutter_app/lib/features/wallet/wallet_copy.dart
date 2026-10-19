@@ -10,12 +10,16 @@ abstract final class WalletCopy {
 
   // The one balance.
   static const creditsName = 'Credits';
-  /// Only while the server's own line (`buys`) has not loaded: the website's words, word for word (creditCopy
-  /// ONE_CREDIT_LINE, copy pass 19 Oct), so the line never changes when it loads. A full mock's price says the first
-  /// one in each subject is free (C-dec 1).
+  /// Only while the server's own line (`buys`) has not loaded: the website's line with the free first full mock switched
+  /// off (creditCopy ONE_CREDIT_LINE), word for word. It makes no free claim: whether the first full mock in each subject
+  /// is free is the server's to say (release 11 can switch it off), and it says so in `buys` when it loads, in the words
+  /// of [firstMockFreeClause]. So this line is true on every server and only ever gains the clause.
   static const creditsFor =
-      '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50, and your first one in each subject is free. '
-      'Deeper analysis costs 3. The cost shows before you start.';
+      '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits. '
+      'Deeper analysis costs 3 credits. The cost shows before you start.';
+
+  /// The clause the server's `buys` line carries while the free first full mock is on (creditCopy FIRST_ONE_FREE).
+  static const firstMockFreeClause = ', and your first one in each subject is free';
   static String freeLeft(int left, int of) => '$left of $of free credits left this month';
   static String held(int n) => n == 1 ? '1 held credit' : '$n held credits';
   static const heldNote = 'Held credits do not expire.';

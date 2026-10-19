@@ -18,8 +18,10 @@ class StartFailureView {
     StartFailure.notIncluded => PracticeCopy.notIncluded,
     StartFailure.rateLimited => PracticeCopy.slowDown,
     StartFailure.ended => PracticeCopy.paperEnded,
+    StartFailure.firstMockTaken => PracticeCopy.firstMockTaken,
+    StartFailure.firstMockUnchecked => PracticeCopy.firstMockUnchecked,
   };
 
   /// A retry is pointless until the student changes something.
-  bool get retryable => failure == StartFailure.offline || failure == StartFailure.generic || failure == StartFailure.rateLimited;
+  bool get retryable => failure == StartFailure.offline || failure == StartFailure.generic || failure == StartFailure.rateLimited || failure == StartFailure.firstMockUnchecked;
 }

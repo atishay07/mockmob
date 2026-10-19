@@ -1,3 +1,4 @@
+import '../../review/model/your_papers.dart' show paperLocation;
 import '../../../core/copy/formatters.dart';
 import '../../../core/domain/chapter_breakdown.dart';
 import '../../../core/domain/marks.dart';
@@ -51,8 +52,13 @@ class DoorAsk {
 abstract final class AskDoorCopy {
   // The greeting beside Mobi.
   static String greetFresh(String? name) => '${_hi(name)} Stuck on a CUET doubt? Ask me.';
-  static String greetHeavy(String? name, int papers) =>
-      '${_hi(name)} Ask me any doubt, or ask what ${papers == 1 ? 'your first paper says' : 'your $papers papers say'}.';
+  /// The server reads the student's last 60 papers at most (`GET /api/prepos/insights`), so a count at or over that is
+  /// said as "your last 60 papers", which is true whether the student has sat exactly 60 or many more.
+  static const recordReadCap = 60;
+  static String _papersSay(int papers) =>
+      papers == 1 ? 'your first paper says' : papers >= recordReadCap ? 'your last $recordReadCap papers say' : 'your $papers papers say';
+
+  static String greetHeavy(String? name, int papers) => '${_hi(name)} Ask me any doubt, or ask what ${_papersSay(papers)}.';
   static String _hi(String? name) => name == null ? 'Hi.' : 'Hi $name.';
 
   // Ask now.
@@ -65,7 +71,11 @@ abstract final class AskDoorCopy {
   // Ask your record.
   static const recordTitle = 'Ask your record';
   static String recordLine(int papers) =>
-      papers == 1 ? 'Mobi reads your first paper and answers from it.' : 'Mobi reads your $papers papers and answers from them.';
+      papers == 1
+          ? 'Mobi reads your first paper and answers from it.'
+          : papers >= recordReadCap
+          ? 'Mobi reads your last $recordReadCap papers and answers from them.'
+          : 'Mobi reads your $papers papers and answers from them.';
   static const recordTip = 'Tap a question and Mobi answers at once.';
   static String leadFigureLine(String chapter) => 'marks lost in $chapter, your biggest leak';
   static String seeAll(int n) => 'See all $n questions about your record';
@@ -240,6 +250,10 @@ class LastPaper {
 /// The first words of the last-paper answer, so a reply can be traced back to its paper.
 const lastPaperLead = 'Your last paper was ';
 
+/// The same, when a newer paper has not been opened yet: the answer reads the newest paper the student has opened, and
+/// says so rather than calling it the last.
+const lastOpenedPaperLead = 'The last paper you opened was ';
+
 String _signed(int n) => n < 0 ? '−${-n}' : '$n';
 
 /// "Accountancy full mock", "Economics Quick 10".
@@ -267,11 +281,18 @@ String paperDay(DateTime at, DateTime now) {
   return formatDayMonth(a);
 }
 
-/// The latest paper with questions in it, newest first (the record's own order), or null.
-LastPaper? lastPaper(List<Attempt>? attempts, DateTime now) {
+/// The latest paper with questions in it whose result the student has opened (newest first, the record's own order), or
+/// null. A paper whose result is still sealed ([unopened]) is skipped: its score and its marks lost are the reveal, and
+/// the link would lead past the sealed sheet.
+LastPaper? lastPaper(List<Attempt>? attempts, DateTime now, {Set<String> unopened = const {}}) {
   Attempt? latest;
+  var skipped = false;
   for (final a in attempts ?? const <Attempt>[]) {
     if (a.total <= 0) continue;
+    if (unopened.contains(a.id)) {
+      skipped = true;
+      continue;
+    }
     if (latest == null || a.completedAt.isAfter(latest.completedAt)) latest = a;
   }
   if (latest == null) return null;
@@ -282,7 +303,8 @@ LastPaper? lastPaper(List<Attempt>? attempts, DateTime now) {
   final lines = mockLostLines(observedChapterBreakdown(latest), lost: lost);
   final on = day == 'today' || day == 'yesterday' ? day : 'on $day';
   // "Your last paper was the Accountancy full mock you sat today. It scored 34 of 50 marks."
-  final opening = '$lastPaperLead${paperPhrase(latest)} you sat $on. It scored $marks marks.';
+  final newerSealed = skipped && (attempts ?? const <Attempt>[]).any((a) => a.total > 0 && unopened.contains(a.id) && a.completedAt.isAfter(latest!.completedAt));
+  final opening = '${newerSealed ? lastOpenedPaperLead : lastPaperLead}${paperPhrase(latest)} you sat $on. It scored $marks marks.';
   final String reply;
   if (lost <= 0) {
     reply = '$opening It lost no marks at all.';
@@ -299,7 +321,7 @@ LastPaper? lastPaper(List<Attempt>? attempts, DateTime now) {
   return LastPaper(
     attempt: latest,
     preview: '$name, $marks, $day',
-    answer: RecordAnswer(reply, actions: [('See this paper', '/result/${latest.id}')]),
+    answer: RecordAnswer(reply, actions: [('See this paper', paperLocation(latest, sealed: false))]),
   );
 }
 

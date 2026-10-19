@@ -69,6 +69,10 @@ abstract final class ApiCodes {
   static const checkChanged = 'check_changed';
   static const invalidPick = 'invalid_pick';
   static const lookupFailed = 'lookup_failed';
+  // A start that was quoted free but is not free now (release 11). Neither charged anything; each is sent
+  // with a sentence written for the student.
+  static const firstFullMockTaken = 'FIRST_FULL_MOCK_TAKEN';
+  static const firstFullMockUnchecked = 'FIRST_FULL_MOCK_UNCHECKED';
 }
 
 /// A failed API call. Carries a machine [code], never the server's own text: servers return
@@ -162,7 +166,11 @@ class ApiError implements Exception {
     ApiCodes.checkChanged,
     ApiCodes.invalidPick,
     ApiCodes.lookupFailed,
+    ApiCodes.firstFullMockTaken,
+    ApiCodes.firstFullMockUnchecked,
   };
+
+  static final _studentMessageCodesLower = {for (final c in studentMessageCodes) c.toLowerCase()};
 
   /// The Mob's two sentences that carry a real figure: the 429 says the real wait ("You can start
   /// another in 25 minutes") and a thin chapter says how many questions are ready. Every other Mob
@@ -285,7 +293,7 @@ class ApiError implements Exception {
     final charged = map['charged'];
     if (charged is num) details['charged'] = charged;
     final message = map['message'];
-    if (message is String && message.trim().isNotEmpty && message.length <= 400 && studentMessageCodes.contains(code?.toLowerCase())) {
+    if (message is String && message.trim().isNotEmpty && message.length <= 400 && _studentMessageCodesLower.contains(code?.toLowerCase())) {
       details['message'] = message.trim();
     }
 
