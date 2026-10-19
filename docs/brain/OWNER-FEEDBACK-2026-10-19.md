@@ -417,3 +417,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 8:45 pm IST (verbatim)
 > "play-billing@mockmob.iam.gserviceaccount.com"
 **Ledger:** Google Cloud project "mockmob" (existing); Google Play Android Developer API enabled; service account play-billing@mockmob.iam.gserviceaccount.com created.
+
+## Owner, 19 Oct about 9:05 pm IST (verbatim)
+> "both are in Vercel"
+**Ledger:** GOOGLE_PLAY_SERVICE_ACCOUNT_JSON and PLAY_RTDN_TOKEN set in Vercel Production by him (no redeploy yet; PLAY_BILLING_ENABLED still unset).
