@@ -489,3 +489,16 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 19 Oct about 9:59 pm IST (verbatim)
 > "I am officially all done. The Google Play listing has been done, and close testing alpha is also done. Now all that's left to do is to create a new release and then select 14-15 testers, and after 14 days we can apply for production, hopefully."
 **Ledger D146:** store listing uploaded; closed testing track (Alpha) set up. Next: a closed-testing release (version 11) and 14-15 testers; production access after the 14-day closed test.
+
+## Owner, 19 Oct about 10:45 pm IST (verbatim)
+> "Everything else is fine. I'm just curious: how did the ChatGPT image run out? Was ChatGPT doing something else also, or how exactly is this possible? Just the image generation 5I usage limit ran out on the Plus plan. Not quite possible. I have generated 100, 200 images at once also, so not exactly possible. Are you using ChatGPT for something else also?
+>
+> Also, can you update me if this latest build is available? You have placed two builds in the MockMob Build 11 folder, both at the same time. Both have the same name. There is just a size difference between the two, so which one exactly to upload? When is the AV?
+>
+> Okay, I think that's for Google, right? I can now directly download it on my phone from the Google Play Store also, I think. Or do I need to load the APK only?"
+
+## Owner, 19 Oct about 10:50 pm IST (verbatim)
+> "Okay, I'll install the app and give you the feedback after that. This is my first time seeing the app after many changes, so let's see how it is finally.
+>
+> One final thing: is that image generator stopping you from doing everything, or was anything pending from the image generator side? If yes, I also have another Codex account with ChatGPT Plus on it. If you want, I can just swap the account for you if that has to be done right now."
+**Ledger D147:** he uploads version 11 (AAB) to internal testing and installs from Play, then gives feedback on the whole app. He offers a second Codex/ChatGPT Plus account for the image limit.
