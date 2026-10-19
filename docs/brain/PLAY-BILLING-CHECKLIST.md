@@ -18,7 +18,7 @@ An **upload key** is a private file on this PC that proves a new app build reall
 
 ## Part 0. Done (your answers, 19 Oct)
 
-- [x] **0.1 The upload key** is made: `C:\Users\atish\MockMob-keys\` (the key file, its password in `READ-ME-BACK-ME-UP.txt`, and `key.properties`). **Copy that whole folder to Google Drive and a USB stick** if you have not yet.
+- [x] **0.1 The upload key** is made: `C:\Users\atish\MockMob-keys\` (the key file, its password in `READ-ME-BACK-ME-UP.txt`, and `key.properties`). Backed up by him to a pen drive and Google Drive (19 Oct, done).
 - [x] **0.2 The test Google account** is `atishay07jain@gmail.com`, the account on your phone's Play Store and your Play Console account.
 - [x] **The MockMob app already exists** in Play Console.
 

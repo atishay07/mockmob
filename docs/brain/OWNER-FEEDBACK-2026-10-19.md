@@ -349,3 +349,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 > "Coming on to the two things that you need from my side:
 > 1. What is checklist part 1 and 2, step number 3? What exactly is this that you need from my side, and can you explain?
 > 2. Backing up the Mockmob keys: do you want me to copy that entire folder into a pen drive, or what exactly do you want me to do?"
+
+## Owner, 19 Oct about 5:00 pm IST (verbatim, with a Play Console screenshot of the MockMob app dashboard)
+> "I am unable to set this billing up. I can't find the options that you are saying. Can you guide me through it? The play billing checklist file that we have created is also not opening, so guide me through that entire process. I have backed up the keys already, so mark it as done."
+**Ledger D130:** keys backed up (done). Guide him through Play Console step by step in chat, one step at a time with screenshots; the checklist file did not open for him.
