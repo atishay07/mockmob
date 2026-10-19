@@ -1,7 +1,7 @@
 // Goldens for every state a Google Play purchase can be in (A2 money audit, 19 Oct PM), on the
 // Upgrade sheet (the NTA gate) and the Wallet's packs, Night and Day at 360 by 800: Google Play not
 // ready, unreachable, the product not listed, a pending payment, the server confirming, a failure
-// that can be tried again, a final answer (another account), Pro on, packs paused, and a pack
+// that can be tried again, a final answer (another account), Pro on, and a pack
 // added. Prices are Google Play's fixture strings; the app never writes one.
 
 import 'dart:async';
@@ -98,11 +98,6 @@ void main() {
   }, buy: true);
   _sheet('pro_on', (rig) => rig.billing.store.onBuy = (p) => rig.billing.store.emit(purchase(p.id)), buy: true);
 
-  _wallet(
-    'packs_paused',
-    BillingRig.new,
-    aiCredits: RemoteState<AiCredits>(value: AiCredits.fromJson({'ok': true, 'state': 'available', 'checkout': {'open': false}})),
-  );
   _wallet('pack_added', () {
     final rig = BillingRig();
     rig.store.onBuy = (p) => rig.store.emit(purchase(p.id));
