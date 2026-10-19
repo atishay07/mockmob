@@ -429,3 +429,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 9:25 pm IST (verbatim)
 > "projects/mockmob/topics/play-rtdn anything else you need from my side?"
 **Ledger:** Pub/Sub topic projects/mockmob/topics/play-rtdn with Play's publisher grant and the push subscription to /api/billing/play/rtdn (token) created by him.
+
+## Owner, 19 Oct about 9:30 pm IST (verbatim)
+> "Okay, I'll do step 8. Remind me to first prepare a handoff and a proper prompt, like we always do: all the things that need to be carried forward, and stop the processes at that stage point. Prepare a context-lossless prompt and the handoff. They should be very exact in terms of what all is done in the app and website, and what needs to be done. Every conversation that we had is properly recorded. The usage is at 98%"
+**Ledger D137:** all agents stopped at STOP POINT commits; NOW.md overwritten; next session starts from NEXT-PROMPT-1019-NIGHT.md; continuum checkpoint saved. He does Play step 8 (RTDN switch-on) himself.

@@ -548,3 +548,13 @@ His full message history is in `tmp/owner-corpus` (286 messages).
 1. The weekly Mob paper holds its answers and explanations until it closes (Sunday 11:59 PM), like every Mob game (fairness; no leaks to friends who have not sat it).
 2. Free's weekly start covers one 24-hour Sprint or Your own round per Mob (no live rooms). 3. A passed mic allows a live room. 4. Live rooms open 6:00 AM to 11:00 PM (minors). 5. Quest size 15 questions per member. 6. Free starters: Dart, Dog-ear, Hexa, Kandil; Hop (redrawn) is the first quest prize. 7. Mob names from a fixed list of 24 (no "Night Owls"). 8. The 6-second podium tier and Mobi once per moment, as specified. 9. "Free members join and play everything" (D133) lifts the one-free-Mob-paper-a-week limit across Mobs.
 Spec: docs/design-decisions/pass-1019pm/mob-v3/MOB-BUILD-SPEC-V3.md. Production migration, the Realtime public-access setting and the flags wait for his yes.
+
+## 19 Oct PM decisions (D121-D137; verbatim in OWNER-FEEDBACK-2026-10-19.md; state in NOW.md)
+- D121 Play prices; H4 keep and fix the clock (DONE, calm stopwatch, in v15.4); H8 dropped.
+- D123/D124 upload key created (folder MockMob-keys in his user folder, backed up); tester atishay07jain@gmail.com. DONE.
+- D126 Practice C, Colleges A+B, goal A, "Untimed questions": BUILT and merged in ui/v15.4-1019pm (not yet on his phone).
+- D127-D129, D133, C-dec 2: Mob v3 (Den Arena + Live moments, Folds finish C, Free/Pro starts, two streaks): spec done; server Phase A built (staging); app parts built, merge pending; final character art pending.
+- D131 reviewer account with Pro: DONE (STATUS has the undo).
+- D135/D136 Play Pro = monthly pro_monthly Rs 149; packs Rs 15/45/75: products ACTIVE in Play Console; server and app subscription support at a STOP POINT; production migration and billing deploy need his yes.
+- D134 store listing pack ready on his Desktop; closed test not started.
+- D137 handoff at 98% usage.
