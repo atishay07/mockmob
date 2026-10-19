@@ -339,6 +339,7 @@ abstract final class MobV3Copy {
       : '$host stepped away. The room stays open until ${MobTime.clock(roomUntil)}, and the game until ${MobTime.when(closes, now)}.';
   static String roomClosed(String host, DateTime closes, DateTime now) => '$host closed the room. The game stays open until ${MobTime.when(closes, now)}.';
   static String roomClosedYou(DateTime closes, DateTime now) => 'You closed the room. The game stays open until ${MobTime.when(closes, now)}.';
+  static String roomEnded(DateTime closes, DateTime now) => 'This room has ended. You can still play the game until ${MobTime.when(closes, now)}.';
   static const String liveBusyRun = 'Live is busy right now. Play now, and your Mob can catch up.';
   static const String openingRoom = 'Opening the room';
   static const String closeRoomTitle = 'Close this room?';
@@ -349,7 +350,6 @@ abstract final class MobV3Copy {
   static String roomStage(int here, int seats) => here == 1 ? 'The room, with you in it and $seats open ${seats == 1 ? 'seat' : 'seats'}' : 'The room, $here of you in it';
   static String tagFor(String name, String tag) => '$name, $tag';
   static String stickerFrom(String name, StickerKind k) => '$name sent ${sticker(k)}';
-  static const String podiumAfterRoom = 'The podium opens when the room ends.';
 
   // ---- R1 to R6 The run ----
   static String runsToRace(int n) => n == 0 ? 'Set the first run' : (n == 1 ? '1 run to race' : '$n runs to race');

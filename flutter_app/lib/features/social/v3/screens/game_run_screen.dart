@@ -639,7 +639,8 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   Widget _header(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final title = _game?.title ?? '';
+    // Live: the room's game view is there from the lobby, before the run is asked for at Go.
+    final title = _game?.title ?? widget.live?.game?.title ?? '';
     final live = widget.live;
     final sub = live != null ? MobV3Copy.liveInRoom(_liveRacerIds().length + 1) : (_rs == null ? null : MobV3Copy.runsToRace(_rs!.ghosts.length));
     final clock = MobTime.stopwatch(Duration(milliseconds: _rs == null ? 0 : _elapsedMs));

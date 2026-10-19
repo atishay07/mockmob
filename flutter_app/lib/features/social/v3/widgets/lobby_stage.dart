@@ -191,8 +191,9 @@ class _LobbyStageState extends State<LobbyStage> with TickerProviderStateMixin {
           builder: (context, box) {
             final w = box.maxWidth;
             final floorY = LobbyStage.height - LobbyStage.band;
-            final size = slots >= 5 ? 64.0 : 76.0;
             final slotW = (w - 2 * MmSpace.s12) / math.max(slots, 3);
+            // As big as the seat allows (the lamp's room is the point of the screen), 64 dp with five.
+            final size = slots >= 5 ? 64.0 : (slotW * 1.04).clamp(72.0, 104.0);
             final startX = MmSpace.s12 + (w - 2 * MmSpace.s12 - slotW * slots) / 2;
             double cx(int i) => startX + slotW * (i + 0.5);
             final children = <Widget>[
@@ -252,7 +253,6 @@ class _LobbyStageState extends State<LobbyStage> with TickerProviderStateMixin {
                             phase: s.colour + i,
                             sway: widget.idle && !reduced,
                             blink: widget.idle,
-                            mirror: i.isOdd,
                             fallbackName: s.name,
                             fallbackColour: s.colour,
                             semanticLabel: MobV3Copy.tagFor(s.you ? MobV3Copy.tabYou : s.name, s.tag),
@@ -435,7 +435,7 @@ class _LobbyStageState extends State<LobbyStage> with TickerProviderStateMixin {
   }
 }
 
-/// The lamp: a soft cone from the top centre onto a warm pool on the floor (26% Night, 17% Day).
+/// The lamp's pool on the floor under the Folds (26% Night, 17% Day); the room art carries the lamp itself.
 class _LobbyLight extends CustomPainter {
   _LobbyLight({required this.floorY, required this.night});
 
@@ -447,21 +447,6 @@ class _LobbyLight extends CustomPainter {
     final base = night ? const Color(0xFFF2A93B) : const Color(0xFFF2C46B);
     final peak = night ? 0.26 : 0.17;
     final cx = size.width / 2;
-    final cone = Path()
-      ..moveTo(cx - 26, 0)
-      ..lineTo(cx + 26, 0)
-      ..lineTo(cx + size.width * 0.46, floorY)
-      ..lineTo(cx - size.width * 0.46, floorY)
-      ..close();
-    canvas.drawPath(
-      cone,
-      Paint()
-        ..shader = LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [base.withValues(alpha: peak * 0.55), base.withValues(alpha: peak * 0.18)],
-        ).createShader(Rect.fromLTWH(0, 0, size.width, floorY)),
-    );
     final c = Offset(cx, floorY);
     final rx = size.width * 0.5;
     canvas.save();

@@ -366,7 +366,7 @@ class _LiveLobbyScreenState extends ConsumerState<LiveLobbyScreen> with TickerPr
     String? ended;
     if (room.phase == LivePhase.failed) ended = MobV3Copy.error(room.error ?? '');
     if (room.phase == LivePhase.cancelled && closes != null) ended = room.youHost ? MobV3Copy.roomClosedYou(closes, now) : MobV3Copy.roomClosed(room.hostName, closes, now);
-    if (room.phase == LivePhase.done) ended = MobV3Copy.podiumAfterRoom;
+    if (room.phase == LivePhase.done && closes != null) ended = MobV3Copy.roomEnded(closes, now);
     if (ended == null && room.busy && room.phase == LivePhase.lobby) ended = MobV3Copy.liveBusyRun;
     if (ended != null) {
       final closed = MobV3Copy.codeOf(room.error ?? '') == 'GAME_CLOSED';
@@ -378,7 +378,7 @@ class _LiveLobbyScreenState extends ConsumerState<LiveLobbyScreen> with TickerPr
             const Spacer(),
             Text(ended, key: const ValueKey('lobby-ended'), textAlign: TextAlign.center, style: type.lead.copyWith(color: colors.ink)),
             const Spacer(),
-            if (!closed && room.phase != LivePhase.done) ...[
+            if (!closed) ...[
               KeyButton(key: const ValueKey('lobby-play-now'), label: MobV3Copy.playItNow, onPressed: _playNow),
               const SizedBox(height: MmSpace.s8),
             ],
@@ -487,8 +487,11 @@ class _LiveLobbyScreenState extends ConsumerState<LiveLobbyScreen> with TickerPr
             const SizedBox(height: MmSpace.s8),
           ],
           ...keys,
-          const SizedBox(height: MmSpace.s4),
-          KeyButton.quiet(key: const ValueKey('lobby-later'), label: MobV3Copy.playLaterInstead, onPressed: _playLater),
+          // The host's way out is the close key above (it asks first); a guest can always play later.
+          if (!room.youHost) ...[
+            const SizedBox(height: MmSpace.s4),
+            KeyButton.quiet(key: const ValueKey('lobby-later'), label: MobV3Copy.playLaterInstead, onPressed: _playLater),
+          ],
         ],
       ),
     );
@@ -534,7 +537,7 @@ class _LobbyStickersState extends ConsumerState<_LobbyStickers> {
   }
 
   @override
-  Widget build(BuildContext context) => StickerRow(kinds: StickerKind.lobby, gameId: widget.gameId, label: MobV3Copy.sendASticker);
+  Widget build(BuildContext context) => StickerRow(kinds: StickerKind.lobby, gameId: widget.gameId, label: MobV3Copy.sendASticker, grid: true);
 }
 
 /// "Live" with a lamp-coloured dot that breathes (still in reduced motion).
