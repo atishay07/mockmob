@@ -34,7 +34,7 @@ export default function TodayQueue({ papers, repaired, repairRows, revise, dayOn
     <section className="tq" aria-labelledby="tq-h">
       {head}
       <div className="tq__grid">
-        <Link className="tq__tile" href="/review" aria-label={open == null ? 'Repairs: your open mistakes did not load. Open Review.' : `Repairs: ${open} open${toCheck ? `, ${toCheck} repaired and ready to check on fresh questions` : ''}. Open Review.`}>
+        <Link className="tq__tile" href="/review" aria-label={open == null ? 'Repairs: your open mistakes did not load. Open Your papers.' : `Repairs: ${open} open${toCheck ? `, ${toCheck} repaired and ready to check on fresh questions` : ''}. Open Your papers.`}>
           <span className="tq__h">Repairs</span>
           {open == null ? <span className="tq__s">Your open mistakes did not load.</span> : (
             <>

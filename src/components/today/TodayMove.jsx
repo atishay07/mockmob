@@ -158,7 +158,7 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
           <div className="tm__head"><p className="tm__over">Up next</p><h2 id="tm-title" className="tm__title">{word} did not load</h2></div>
           <Art failed />
         </div>
-        <p className="tm__why">MockMob did not answer, so {word.toLowerCase()} could not be worked out. Your papers and mistakes are safe; Review still opens them.</p>
+        <p className="tm__why">MockMob did not answer, so {word.toLowerCase()} could not be worked out. Every paper and mistake is safe, and Your papers still opens them.</p>
         {triedAt ? <p className="tm__note" role="status">Tried again at {triedAt}. Still not loading.</p> : null}
         <button type="button" className="tm__key" data-page-primary onClick={onRetry}><RotateCcw size={18} strokeWidth={2} aria-hidden="true" />Try again</button>
         <div className="tm__or tm__or--one"><Link className="tm__choice" href="/dashboard"><span className="tm__choice-t">Practise anyway</span><span className="tm__choice-v">Pick a subject and a length yourself</span></Link></div>

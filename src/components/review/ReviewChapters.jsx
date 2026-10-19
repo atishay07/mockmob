@@ -311,7 +311,7 @@ function Also() {
   const book = rules.state === 'ready' ? rules.data?.book : null;
   const ruleCount = book ? bookRules(book).length : null;
   return (
-    <section className="rv8-sec rv8-also" aria-label="Also in Review">
+    <section className="rv8-sec rv8-also" aria-label="Also in Your papers">
       <Link className="rv8-qrow mk-press" href="/review/rules">
         <b>Your rules{Number.isFinite(ruleCount) ? ` (${ruleCount})` : ''}</b>
         <span>{book?.active?.text ? `For your next mock: ${book.active.text}` : 'Rules from your repairs and from how you take papers. Choose one for your next mock.'}</span>

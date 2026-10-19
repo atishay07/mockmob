@@ -113,8 +113,9 @@ test('the ending says what is left and what is set aside, plainly', () => {
   assert.equal(endingFact({ left: 0, setAside: 0 }), 'Nothing left from this paper.');
   assert.equal(endingFact({ left: 2, setAside: 1 }), '2 left from this paper. 1 set aside while its key is checked.');
   assert.equal(endingFact({ left: 0, setAside: 3 }), 'Nothing left from this paper. 3 set aside while their keys are checked.');
-  assert.equal(nothingLine({ setAside: 0 }), 'Your mistakes stay in Review.');
-  assert.equal(nothingLine({ setAside: 2 }), '2 set aside. They stay in Review.');
+  // Release 11: the place is called Your papers (the nav, the tab and the page title).
+  assert.equal(nothingLine({ setAside: 0 }), 'Your mistakes stay in Your papers.');
+  assert.equal(nothingLine({ setAside: 2 }), '2 set aside. They stay in Your papers.');
   assert.equal(RUN_COPY.endingUnit(1), 'mistake repaired');
   assert.equal(RUN_COPY.endingUnit(3), 'mistakes repaired');
   assert.equal(tonightOrToday(new Date(2026, 9, 15, 15, 59)), 'today');

@@ -131,7 +131,7 @@ function ProgressOverview({ view }) {
             { label: 'Playbook entries', value: data.playbook.length, note: data.playbook.length ? 'saved from results' : 'None saved yet' },
           ]} /> : <div className="rv-empty"><b>No saved session yet</b><p>Your first scored session starts this record. The next step above is the quickest way in.</p></div>}
           {review.length > 0 ? (
-            <p className="rv-note rv-note--review"><b>{toReview ? `${count(toReview, 'question')} to look at in Review` : 'Nothing left to look at in Review'}</b><span>{toReview ? `From ${count(review.length, 'saved session').toLowerCase()}. ` : review.some((x) => (x.repaired || 0) > 0) ? 'Every miss has a repair saved. ' : 'Every saved answer was right. '}<Link className="pr-link" href="/review">Open Review</Link></span></p>
+            <p className="rv-note rv-note--review"><b>{toReview ? `${count(toReview, 'question')} to look at in Your papers` : 'Nothing left to look at in Your papers'}</b><span>{toReview ? `From ${count(review.length, 'saved session').toLowerCase()}. ` : review.some((x) => (x.repaired || 0) > 0) ? 'Every miss has a repair saved. ' : 'Every saved answer was right. '}<Link className="pr-link" href="/review">Open Your papers</Link></span></p>
           ) : null}
           {noteList}
         </section>

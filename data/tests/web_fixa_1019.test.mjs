@@ -142,3 +142,35 @@ test('walk 7: Practice\'s "to repair" and Your papers\' "To repair" are one numb
   const blanksOnly = repairsFor({ attempts: [{ id: 'b1', subject: 'english', correct: 3, wrong: 0, unattempted: 2, total: 5, completedAt: '2026-10-19T03:00:00Z', details: details('rrbbr') }], repairs: [], subjectId: 'english' });
   assert.deepEqual([blanksOnly.open, blanksOnly.blanks], [0, 2]);
 });
+
+// ---- 4. (walk, section 3 item 6) the place is "Your papers" everywhere a sentence names it ---------------------------------
+test('walk 6: no screen names the old place "Review" ("in Review", "Open Review", "Back to Review", a "Review" back link)', async () => {
+  const { readdirSync, statSync } = await import('node:fs');
+  const root = new URL('../../', import.meta.url);
+  const files = [];
+  const walk = (rel) => {
+    for (const name of readdirSync(new URL(rel, root))) {
+      const path = `${rel}${name}`;
+      if (statSync(new URL(path, root)).isDirectory()) { if (!['preview', 'landing', '__tests__', 'tests', 'admin'].includes(name)) walk(`${path}/`); continue; }
+      if (/\.(js|jsx|mjs)$/.test(name)) files.push(path);
+    }
+  };
+  walk('src/');
+  for (const name of readdirSync(new URL('data/', root))) if (/\.(js|mjs|json)$/.test(name)) files.push(`data/${name}`);
+  const stale = /\b(in|Open|Back to|Also in|stay in|safe in|still in|lands in|waits in) Review\b|\/>Review<\/Link>|Review still (opens|has|works)/;
+  const found = [];
+  for (const path of files) {
+    const text = path.endsWith('.json') ? read(path) : code(read(path));
+    text.split('\n').forEach((line, i) => { if (stale.test(line)) found.push(`${path}:${i + 1}: ${line.trim().slice(0, 120)}`); });
+  }
+  assert.deepEqual(found, [], 'every sentence names Your papers');
+  // A few of the lines the walk named, as they read now.
+  assert.match(read('data/mistake_lab.copy.json'), /"back": "Back to Your papers",/);
+  assert.match(read('src/components/RecoveryOverview.jsx'), /to look at in Your papers/);
+  assert.match(read('src/components/ai/RecordView.jsx'), /<b>Your weak chapters are in Your papers<\/b>/);
+  assert.match(read('src/components/today/TodayWeak.jsx'), /These questions are in Your papers\./);
+  assert.match(read('src/app/features/page.js'), /lands in Your papers with its explanation/);
+  assert.match(read('data/prepos_insights.js'), /See your replay in Your papers/);
+  // "Review" that means reviewing answers stays ("Review your mistakes", "Review and repair", NTA's "Mark for Review").
+  assert.match(read('src/app/(app)/dashboard/PracticeRepairs.jsx'), /label: 'Review and repair'/);
+});

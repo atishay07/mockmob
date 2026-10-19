@@ -412,7 +412,7 @@ function RunView({ queue, data, cap, onCap, source, backHref, schedule }) {
 
   return (
     <section className="pr rvs">
-      <Link className="rvs-back" href={backHref}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Review</Link>
+      <Link className="rvs-back" href={backHref}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Your papers</Link>
       <ArenaHead title={R.title} lede={finished ? null : headLine(queue.total, queue.minutes)} />
       {source ? (
         <p className="rvs-filter">{RUN.filtered[source] || null}{' '}<Link className="rvs-link" href={schedule.allHref}>{RUN.filtered.all}</Link></p>
@@ -485,7 +485,7 @@ export default function ReviseRun() {
 
   const backHref = pathname.startsWith('/preview') ? `${pathname}?${(() => { const q = new URLSearchParams(params.toString()); q.set('view', 'review'); q.delete('source'); return q.toString(); })()}` : '/review';
   const allHref = (() => { const q = new URLSearchParams(params.toString()); q.delete('source'); const s = q.toString(); return s ? `${pathname}?${s}` : pathname; })();
-  const back = <Link className="rvs-back" href={backHref}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Review</Link>;
+  const back = <Link className="rvs-back" href={backHref}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Your papers</Link>;
   const head = <ArenaHead title={R.title} />;
 
   if (read.state === 'error' || read.state === 'unavailable') {

@@ -264,7 +264,7 @@ export default function RhythmCard({ compact = false, mobi = !compact, between =
     return (
       <>
         <section className="rc rc--note" aria-label="Your study days">
-          <p role="alert">Your study days could not be loaded. Your saved sessions are still in Review.</p>
+          <p role="alert">Your study days could not be loaded. Your saved sessions are still in Your papers.</p>
           <button type="button" className="pr-link" onClick={() => { setState({ status: 'loading', rhythm: null, cheered: true, pick: null }); setAttempt((n) => n + 1); }}>Try again</button>
         </section>
         {between}

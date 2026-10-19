@@ -31,7 +31,7 @@ function paperTitle(attempt, subjectName) {
 
 function Mistakes({ chapter, state, repairRows, subjectName }) {
   if (state?.status !== 'ready') {
-    if (state?.status === 'error') return <p className="twk__note">These questions did not load. Review still has them.</p>;
+    if (state?.status === 'error') return <p className="twk__note">These questions did not load. Your papers still has them.</p>;
     return <div className="twk__wait" aria-hidden="true"><span /><span /></div>;
   }
   const rowOf = (m) => (repairRows || []).find((r) => r?.attemptId === m.attemptId && r?.questionId === m.qid) || null;
@@ -42,7 +42,7 @@ function Mistakes({ chapter, state, repairRows, subjectName }) {
     const stem = String(q?.question ?? q?.body ?? '').trim();
     return { ...m, stem, paper: paperTitle(attempt, subjectName), act: mistakeAction(m, attempt, rowOf(m)) };
   }).filter(Boolean);
-  if (!items.length) return <p className="twk__note">These questions are in Review.</p>;
+  if (!items.length) return <p className="twk__note">These questions are in Your papers.</p>;
   return (
     <ul className="twk__list">
       {items.map((k) => (
@@ -140,7 +140,7 @@ export default function TodayWeak({ insights, loadAttempt, repairRows = null, su
               <div className="twk__more" id={id} data-open={isOpen || undefined}>
                 <div>
                   {isOpen || stems[c.key] ? <Mistakes chapter={c} state={stems[c.key]} repairRows={repairRows} subjectName={subjectName} /> : null}
-                  <p className="twk__all"><Link className="tm__inline" href={`/review?${new URLSearchParams({ chapter: c.chapter, subject: c.subject })}`}>All {missed} in Review</Link></p>
+                  <p className="twk__all"><Link className="tm__inline" href={`/review?${new URLSearchParams({ chapter: c.chapter, subject: c.subject })}`}>All {missed} in Your papers</Link></p>
                 </div>
               </div>
             </li>

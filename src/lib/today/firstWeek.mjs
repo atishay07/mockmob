@@ -193,7 +193,7 @@ function aimLead(c) {
   if (weakest) return weakest;
   return leadOf({
     id: 'practice', overline: 'Up next', number: 10, label: 'practice questions',
-    why: 'Marked +5 and −1, the CUET way. Each miss waits in Review with its explanation.',
+    why: 'Marked +5 and −1, the CUET way. Each miss waits in Your papers with its explanation.',
     key: { label: 'Start 10 questions', href: '/dashboard?mode=quick&count=10', minutes: 10 },
     pills: pills(), art: 'object', subject,
   }, { now: c.now });

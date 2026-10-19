@@ -128,7 +128,7 @@ function AlsoInReview({ body, items, wallet, openUid, setOpenUid, onChanged }) {
   const toggle = (name) => setFold((f) => (f === name ? null : name));
   return (
     <section className="rvw-also" aria-labelledby="rvw-also-h">
-      <h2 id="rvw-also-h" className="rvw-h2">Also in Review</h2>
+      <h2 id="rvw-also-h" className="rvw-h2">Also in Your papers</h2>
       {repaired.length ? (
         <>
           <button type="button" className="rvw-row mk-press" aria-expanded={fold === 'repaired'} onClick={() => toggle('repaired')}>
@@ -170,7 +170,7 @@ function AlsoInReview({ body, items, wallet, openUid, setOpenUid, onChanged }) {
 
 function Segments({ tab, onTab, open, papers }) {
   return (
-    <div className="rvw-seg" role="tablist" aria-label="Review" data-tab={tab}>
+    <div className="rvw-seg" role="tablist" aria-label="Your papers" data-tab={tab}>
       <i className="rvw-seg__lens" aria-hidden="true" />
       <button type="button" role="tab" id="rvw-tab-mistakes" aria-controls="rvw-panel" aria-selected={tab === 'mistakes'} onClick={() => onTab('mistakes')}>Mistakes <small>{open} open</small></button>
       <button type="button" role="tab" id="rvw-tab-papers" aria-controls="rvw-panel" aria-selected={tab === 'papers'} onClick={() => onTab('papers')}>Papers <small>{papers}</small></button>
@@ -265,7 +265,7 @@ function ReviewInner({ tabParam }) {
 
 export default function ReviewPage({ tabParam = 'view' }) {
   return (
-    <section className="rvw" aria-label="Review">
+    <section className="rvw" aria-label="Your papers">
       <Suspense fallback={<><h1 className="display-md rvw-title">{PAGE_TITLE}</h1><Loading /></>}>
         <ReviewInner tabParam={tabParam} />
       </Suspense>

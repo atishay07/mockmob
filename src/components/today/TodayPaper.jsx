@@ -58,7 +58,7 @@ export default function TodayPaper({ papers, loadAttempt, subjectName = (id) => 
     return (
       <section className="tpp" aria-labelledby="tpp-h">
         <header className="tg__row"><h2 id="tpp-h" className="tg__h">Last paper</h2></header>
-        <p className="tpp__empty" role="status">Your papers did not load. Review still opens them.</p>
+        <p className="tpp__empty" role="status">Your last paper did not load here. It is safe in Your papers.</p>
       </section>
     );
   }
