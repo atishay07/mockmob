@@ -46,3 +46,32 @@ test('Pro does not make Mobi free (C-dec 3b): no page or route says so', () => {
     assert.doesNotMatch(text, /Included in Pro|fair use|no credits on Pro|Mobi jobs? (?:are )?free on Pro/i, file);
   }
 });
+
+test('the wallet price list has no deeper-analysis row, and every name taken from creditCopy exists', async () => {
+  const { priceRows } = await import('../../src/components/wallet/walletModel.mjs');
+  const rows = priceRows({ plan: { name: 'Pro' } }, { question: 1, fullMock: 50, reply: 1, repair: 1, firstMockFree: true });
+  assert.deepEqual(rows.map((r) => r.key), ['reply', 'repair', 'question', 'mock']);
+  assert.equal(rows.find((r) => r.key === 'reply').cost, '1 credit', 'Pro does not make a Mobi job free');
+  assert.equal(rows.find((r) => r.key === 'repair').cost, '1 credit', 'Pro does not make a Mobi job free');
+  assert.doesNotMatch(read('src/components/wallet/walletModel.mjs'), /Deeper analysis/);
+  const creditCopy = await import('../../src/lib/creditCopy.mjs');
+  for (const file of [...walk('src/app'), ...walk('src/components'), ...walk('src/lib'), ...walk('src/services')]) {
+    for (const m of read(file).matchAll(/import\s*\{([^}]*)\}\s*from\s*'(?:@\/lib\/|(?:\.\.?\/)+(?:lib\/)?)creditCopy\.mjs'/g)) {
+      for (const name of m[1].split(',').map((n) => n.trim().split(/\s+as\s+/)[0]).filter(Boolean)) {
+        assert.ok(name in creditCopy, `${file} imports ${name}, which creditCopy.mjs does not export`);
+      }
+    }
+  }
+});
+
+test('no Mobi job is priced by plan: the credit amount never reads Pro, and the models stay the two allowed', () => {
+  const strip = (t) => t.replace(/\/\*[\s\S]*?\*\//g, '').replace(/^\s*\/\/.*$/gm, '');
+  for (const file of ['src/services/mobi/doubtThread.js', 'src/services/mobi/doubtThreadDeps.js', 'src/services/mobi/standing.js', 'src/services/mobi/tonight.js', 'src/services/mobi/threadStore.js', 'src/app/api/mobi/standing/route.js', 'src/app/api/mobi/thread/route.js']) {
+    assert.doesNotMatch(strip(read(file)), /isPaidUser|isPremium|premiumUntil|planName/, `${file} does not price or gate by plan`);
+    assert.doesNotMatch(read(file), /gpt-(?!6-luna)|claude-(?!haiku-5-5)[a-z]+-\d/, `${file} names no model outside the two allowed`);
+  }
+  const chat = strip(read('src/app/api/ai/mentor/chat/route.js'));
+  assert.doesNotMatch(chat, /creditCost:\s*isPaid|isPaidUser\(dbUser\)\s*\?\s*0/, 'the chat route never makes a paid reply free on Pro');
+  assert.equal([...chat.matchAll(/creditCost\s*=\s*1\b|creditCost:\s*1\b|creditCost\s*:\s*THREAD_CREDIT_COST/g)].length >= 1, true);
+  assert.match(read('src/services/mobi/doubtThread.js'), /export const THREAD_CREDIT_COST = 1;/);
+});

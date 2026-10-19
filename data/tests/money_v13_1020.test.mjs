@@ -14,7 +14,7 @@ import { REPAIR_CREDIT_COST } from '../../data/mistake_repair.js';
 const file = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const UNIFIED = { known: true, total: 108, freeLeft: 38, freeAllowance: 50, held: 70, resetAt: '2026-10-31T18:30:00.000Z', parts: { included: 38, bonus: 30, balance: 40 } };
 const page = (over = {}) => walletFromResponse(walletBody({ unified: UNIFIED, paid: false, premiumUntil: null, history: [], env: {}, ...over }));
-const PRICES = { question: 1, fullMock: 50, analysis: 3, reply: 1, repair: 1, firstMockFree: true };
+const PRICES = { question: 1, fullMock: 50, reply: 1, repair: 1, firstMockFree: true };
 
 test('best value is real maths: the cheapest per credit, with each saving rounded down against the dearest pack', () => {
   const data = page();
@@ -80,16 +80,15 @@ test('what credits buy: the price list, with practice included on Pro', () => {
   assert.deepEqual(free.map((r) => [r.what, r.cost, r.note]), [
     ['A written answer from Mobi', '1 credit', 'Answers from your marks are free'],
     ['A mistake repair', '1 credit', null],
-    ['Deeper analysis', '3 credits', null],
     ['A practice question', '1 credit', null],
     ['A full mock', '50 credits', 'First one in each subject is free'],
   ]);
-  assert.equal(priceRows(page(), { ...PRICES, firstMockFree: false })[4].note, null, 'the free first mock is said only while its switch is on');
+  assert.equal(priceRows(page(), { ...PRICES, firstMockFree: false })[3].note, null, 'the free first mock is said only while its switch is on');
   const pro = priceRows(page({ paid: true, premiumUntil: '2027-07-31T18:29:59.000Z' }), PRICES);
-  assert.deepEqual(pro.map((r) => r.cost), ['1 credit', '1 credit', '3 credits', 'Included', 'Included']);
+  assert.deepEqual(pro.map((r) => r.cost), ['1 credit', '1 credit', 'Included', 'Included']);
   // The wallet page reads its numbers from the one price list, never typed in.
   const client = file('src/app/(app)/wallet/WalletPageClient.jsx');
-  assert.match(client, /question: PRACTICE_PRICE\.perQuestion, fullMock: PRACTICE_PRICE\.full, analysis: DEEP_AI_CREDITS, reply: 1, repair: REPAIR_CREDIT_COST/);
+  assert.match(client, /question: PRACTICE_PRICE\.perQuestion, fullMock: PRACTICE_PRICE\.full, reply: 1, repair: REPAIR_CREDIT_COST/);
 });
 
 test('the packs speak to who buys them: more from Mobi for a Pro student, and no top-up invitation while selling is closed', () => {

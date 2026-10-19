@@ -210,7 +210,7 @@ export function balanceSplit(data) {
 
 /**
  * What each thing costs, in credits, from the one price list (src/lib/creditCopy.mjs). On Pro, practice reads "Included".
- * prices: { question, fullMock, analysis, reply, firstMockFree }.
+ * prices: { question, fullMock, reply, repair, firstMockFree }. There is no 3-credit "deeper analysis" row (C-dec 3, 20 Oct 2026).
  */
 export function priceRows(data, prices) {
   const pro = data?.plan?.name === 'Pro';
@@ -219,7 +219,6 @@ export function priceRows(data, prices) {
   return [
     { key: 'reply', what: 'A written answer from Mobi', cost: credits(prices.reply), note: 'Answers from your marks are free', included: false },
     { key: 'repair', what: 'A mistake repair', cost: credits(prices.repair), note: null, included: false },
-    { key: 'analysis', what: 'Deeper analysis', cost: credits(prices.analysis), note: null, included: false },
     { key: 'question', what: 'A practice question', cost: pro ? WALLET_V13_COPY.included : credits(prices.question), note: null, included: pro },
     { key: 'mock', what: 'A full mock', cost: pro ? WALLET_V13_COPY.included : credits(prices.fullMock), note: !pro && prices.firstMockFree ? 'First one in each subject is free' : null, included: pro },
   ];

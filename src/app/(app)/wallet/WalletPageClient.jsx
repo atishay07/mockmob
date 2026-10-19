@@ -17,7 +17,7 @@ import { apiGet } from '@/lib/fetcher';
 import { startWalletPurchase } from '@/lib/wallet/startWalletPurchase';
 import { announceWallet } from '@/components/useWalletSummary';
 import { walletFromResponse as aiWalletFromResponse } from '@/services/credits/aiWalletState';
-import { DEEP_AI_CREDITS, PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
+import { PRACTICE_PRICE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
 import { REPAIR_CREDIT_COST } from '@/../data/mistake_repair';
 import {
@@ -26,7 +26,7 @@ import {
 import './wallet.css';
 
 const EMPTY = { status: 'loading', data: null };
-const PRICES = Object.freeze({ question: PRACTICE_PRICE.perQuestion, fullMock: PRACTICE_PRICE.full, analysis: DEEP_AI_CREDITS, reply: 1, repair: REPAIR_CREDIT_COST, firstMockFree: FIRST_FULL_MOCK_ON });
+const PRICES = Object.freeze({ question: PRACTICE_PRICE.perQuestion, fullMock: PRACTICE_PRICE.full, reply: 1, repair: REPAIR_CREDIT_COST, firstMockFree: FIRST_FULL_MOCK_ON });
 
 function reducedMotion() {
   if (typeof window === 'undefined') return true;
