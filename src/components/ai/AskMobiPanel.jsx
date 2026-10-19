@@ -17,6 +17,7 @@ import { announceWallet, cachedWallet } from '@/components/useWalletSummary';
 import { answerFromInsights } from '../../../data/prepos_insights';
 import { creditCount, usedLine, usesLine } from '@/lib/creditCopy.mjs';
 import { useInsights } from './useInsights';
+import { creditLine } from './askDoors.mjs';
 import MobiMark from './MobiMark';
 import {
   answerFree, inSentence, modeFor, openingFor, paidState, priceForText, productAskFor, recordSource, recordSummary, sessionsLabel,
@@ -38,13 +39,17 @@ export default function AskMobiPanel(props) {
   return <Panel key={user?.id || 'guest'} {...props} />;
 }
 
-function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title' }) {
+function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-title', initial = null, onPending = null }) {
   const router = useRouter();
   const { user } = useAuth();
   const userId = user?.id || null;
   const pro = isPaidUser(user);
   const offline = !useSyncExternalStore(subscribeOnline, onlineNow, () => true);
 
+  // On the /mentor page (form 'page') the panel is the conversation under Mobi's greeting: closing it is "Ask something new", and
+  // leaving through a link never runs that reset.
+  const onPage = form === 'page';
+  const leave = () => { if (!onPage) onClose?.(); };
   const [context, setContext] = useState(opened);
   const [recordTry, setRecordTry] = useState(0);
   const insightsState = useInsights(userId, recordTry);
@@ -127,7 +132,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   function navigate(route) {
     if (!route) return;
     router.push(route);
-    onClose?.();
+    leave();
   }
 
   function logLocal(message, response) {
@@ -203,12 +208,49 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
     }
   }
 
+  // The /mentor doors hand the panel one ask to run as it opens: a starter, a typed doubt or a record question (the page's own
+  // answer for "my last paper" comes with it). The same checks as typing here: a record answer waits for the record, a written
+  // reply waits for the wallet, and nothing is sent unless the wallet is open and the connection is up. A reply that cannot go
+  // says why, in the thread, and says that nothing was charged.
+  // The page's Mobi thinks while a written reply is on its way.
+  useEffect(() => { onPending?.(Boolean(pending)); }, [pending, onPending]);
+  const started = useRef(false);
+  const startNow = useRef(null);
+  useEffect(() => {
+    startNow.current = () => {
+      if (!initial?.text || started.current) return;
+      const text = String(initial.text).trim();
+      const say = (reply, actions = []) => {
+        started.current = true;
+        setTurns((prev) => [...prev, { id: `u_${Date.now()}`, role: 'user', text }, { id: `a_${Date.now()}`, role: 'assistant', response: { reply, origin: 'status', actions } }]);
+      };
+      if (initial.answer) { started.current = true; pushFree(text, initial.answer); return; }
+      const product = productAskFor(text);
+      if (product) { started.current = true; pushFree(text, answerFree(product, { context: scoped, insights, pro })); return; }
+      if (status === 'loading') return;
+      const fromRecord = status === 'ready' || status === 'empty' ? answerFromInsights(text, insights ?? { state: 'empty' }, { pro }) : null;
+      if (fromRecord) { started.current = true; pushFree(text, { reply: fromRecord.reply, actions: (fromRecord.actions || []).slice(0, 1), source: recordSource(insights) }); return; }
+      if (!wallet) return;
+      if (offline) { say('This was not sent because you are offline. No credit was used.'); return; }
+      if (!paid.open) { say(paid.why, [{ label: 'See your credits', route: '/wallet' }]); return; }
+      started.current = true;
+      sendPaid(text);
+    };
+  });
+  useEffect(() => {
+    let active = true;
+    Promise.resolve().then(() => { if (active) startNow.current?.(); });
+    return () => { active = false; };
+  }, [initial, status, wallet, offline]);
+
   const dropQuestion = () => { setContext((prev) => ({ ...prev, kind: 'page', ref: null, number: null, pickLabel: null, keyLabel: null })); setQuestionCtx(null); setAsked([]); };
   const price = priceForText(input, { insights, status, pro, hasQuestion: questionTyping });
   const busy = Boolean(pending) || Boolean(retry);
   const canSend = Boolean(input.trim()) && !busy && !opening && (price === 'free' || (paid.open && !offline));
   const line = walletLine(wallet);
-  const placeholder = questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${inSentence(scoped.label)}` : 'Ask about your record';
+  // On the page the credit line says it once, in the page's words (askDoors.mjs creditLine), the same as under the doors.
+  const pageLine = onPage ? creditLine(wallet).first : null;
+  const placeholder = onPage ? 'Ask a follow-up' : questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${inSentence(scoped.label)}` : 'Ask about your record';
   const sessions = sessionsLabel(insights, status);
   const summary = recordSummary(insights, { pro });
   const subjectChip = withQuestion || opening
@@ -224,7 +266,9 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
       <header className="amb-head">
         <MobiMark size={24} />
         <h2 id={titleId}>Ask Mobi</h2>
-        <button type="button" className="amb-icon" onClick={onClose} aria-label="Close Ask Mobi"><X /></button>
+        {onPage
+          ? <button type="button" className="amb-btn amb-btn--line amb-newask" onClick={onClose} disabled={Boolean(pending)}>Ask something new</button>
+          : <button type="button" className="amb-icon" onClick={onClose} aria-label="Close Ask Mobi"><X /></button>}
       </header>
 
       <div className="amb-ctx">
@@ -251,7 +295,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
             {summary.length ? (
               <dl>{summary.map((row) => <div key={row.id}><dt>{row.label}</dt><dd>{row.text}</dd></div>)}</dl>
             ) : <p>No sessions yet. After one session your record shows your marks ledger, your biggest leak and your pace.</p>}
-            <Link href="/mentor?tab=record" className="amb-link" onClick={() => onClose?.()}>Full record</Link>
+            <Link href="/mentor?tab=record" className="amb-link" onClick={leave}>Full record</Link>
           </section>
         ) : null}
 
@@ -276,7 +320,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           </figure>
         ) : null}
 
-        {isNew && !turns.length ? (
+        {isNew && !turns.length && !initial ? (
           <div className="amb-new">
             {/* The real character, never cropped. */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -300,7 +344,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         {pending ? (
           <p className="amb-reading" role="status" data-last="">
             <MobiMark size={20} blinking />
-            {pending.question ? `Reading ${qName}, your pick and the key` : 'Reading your question and your record'}
+            {pending.question ? `Reading ${qName}, your pick and the key` : onPage ? 'Writing a reply' : 'Reading your question and your record'}
           </p>
         ) : null}
 
@@ -324,7 +368,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
           <p className="amb-notice" role="status">{paid.why}</p>
         ) : null}
 
-        {!opening && !questionFailed && asks.length && !pending && !retry ? (
+        {!opening && !questionFailed && asks.length && !pending && !retry && !(initial && !turns.length) ? (
           <section className="amb-asks" aria-label={turns.length || first ? 'Ask next' : withQuestion ? 'Ask about this question' : 'You can ask now'}>
             <h3>{turns.length || first ? 'Ask next' : withQuestion ? 'Ask about this question' : 'You can ask now'}</h3>
             <ul>
@@ -364,12 +408,14 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         </div>
         <div className="amb-cost">
           {/* The balance, with the wallet one tap away (the balance, its rules and the packs live there). */}
-          <Link href="/wallet" className="amb-cost__wallet" onClick={() => onClose?.()}>
-            {line.count !== null ? <b key={line.count} className="amb-num">{line.count}</b> : null}{line.count !== null ? ' ' : ''}{line.rest}
-            {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
+          <Link href="/wallet" className="amb-cost__wallet" onClick={leave}>
+            {pageLine ? pageLine : <>
+              {line.count !== null ? <b key={line.count} className="amb-num">{line.count}</b> : null}{line.count !== null ? ' ' : ''}{line.rest}
+              {line.reset ? <><i aria-hidden="true"> · </i>{line.reset}</> : null}
+            </>}
           </Link>
           <span className="amb-cost__price" aria-live="polite">
-            {!price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `An AI service writes it. ${usesLine({ what: 'This reply', cost: 1, pool: 'ai' })}` : 'Needs a written reply. Nothing is charged from here.'}
+            {pending && onPage ? 'This reply uses 1 credit. A reply that fails uses none.' : !price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `An AI service writes it. ${usesLine({ what: 'This reply', cost: 1, pool: 'ai' })}` : 'Needs a written reply. Nothing is charged from here.'}
           </span>
         </div>
       </form>

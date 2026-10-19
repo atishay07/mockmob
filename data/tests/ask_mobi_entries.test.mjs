@@ -149,7 +149,7 @@ test('every entry is wired once, with its one label, and none adds a card or an 
   assert.doesNotMatch(read('src/app/(app)/dashboard/DashboardPageClient.jsx'), /PracticeAskRow/, 'one Ask Mobi entry on Practice, not two');
   assert.match(read('src/app/(app)/dashboard/PracticeRepairs.jsx'), /<AskMobiLink context=\{practiceContext\(insights\)\}[^>]*>[\s\S]*?\{ENTRY_LABELS\.practice\}/);
   const host = read('src/components/ai/AskMobiHost.jsx');
-  assert.match(host, /isAskMobiNavHref/, 'the Ask Mobi door in the navigation opens the panel in place');
+  assert.doesNotMatch(host, /isAskMobiNavHref/, 'the Ask Mobi door in the navigation goes to /mentor, Ask Mobi’s own page (1019 option B): the docked panel is for one question or one mock');
   const css = read('src/components/ai/ask-entry.css');
   assert.doesNotMatch(css, /background(-color)?:|box-shadow|linear-gradient|radial-gradient|text-shadow|backdrop-filter|#d2f000|var\(--volt/, 'a text button or a hairline row: no fill, no card, no glow, no accent');
 });
@@ -227,8 +227,8 @@ test('/mentor is "Your record" with no tabs, the old four-tab hub is gone, and t
   const view = read('src/components/ai/MentorRecordPage.jsx');
   assert.match(view, /if \(tab === 'plan'\) \{ router\.replace\('\/today'\)/, 'the next step lives on Today');
   assert.match(view, /if \(tab === 'tools'\) \{ router\.replace\('\/wallet'\)/, 'the old tools tab lands on the wallet (D76)');
-  assert.match(view, /title="Your record"/);
-  assert.match(view, /<AskMobiLink context=\{\{ kind: 'page' \}\}/, 'Mobi is one row away, and opens beside the record');
+  assert.match(view, /<AskMobiDoors/, 'Ask Mobi’s two doors lead the page (1019 option B)');
+  assert.match(view, /DOOR_COPY\.recordInFull/, 'the record view is still on the page, as Your record in full (R3)');
   assert.doesNotMatch(view, /role="tablist"|aria-pressed|SECTIONS/, 'no tabs');
   for (const gone of ['src/components/ai/MockMobAIHub.jsx', 'src/components/ai/AIMentorTerminal.jsx']) assert.equal(existsSync(new URL(`../../${gone}`, import.meta.url)), false, gone);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');

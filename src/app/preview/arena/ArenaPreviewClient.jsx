@@ -247,6 +247,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // (clear localStorage `mm:today-reel:v1` to see it again).
       const reel = fixture.get('reel');
       if ((reel === 'fresh' || reel === 'stable') && items.length) items[0] = { ...items[0], id: reel === 'stable' ? 'fxreel-stable' : (window.__previewReelId ||= `fxreel-${Date.now()}`), mode: 'quick', correct: 3, wrong: 6, unattempted: 1, total: 10, marks: 9, maxMarks: 50, completedAt: Date.now() - 20 * 60000 };
+      // ?sealed=1: the newest paper's result is still sealed, so Ask Mobi's page prints no score for it and leaves the last-paper ask out.
+      if (fixture.get('sealed') === '1' && items.length) items[0] = { ...items[0], sealed: true };
       return json({ items, nextCursor: null });
     }
     // Today's road on the account (GET and PUT /api/me/road). ?road=set has a date and a target; ?road=off is before the
@@ -532,7 +534,17 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
         : projectWallet({ included_monthly_credits: 50, included_credits_used: 12 + replyReceipts.size, bonus_credits: 30, period_start: walletWindow().periodStart, reset_at: walletWindow().resetAt }, { paid: page.get('plan') === 'pro', includedMonthlyCredits: 50, paidAiOpen: ['live', 'network', 'failure'].includes(page.get('ai')), practiceBalance: page.get('plan') === 'pro' ? 0 : previewBalancePart(page) });
       return json({ ok: true, state: wallet.state, message: wallet.message, wallet, practiceCredits: { balance: 40, label: 'Practice credits (Quick Practice and Full Mock)' } });
     }
-    if (url.pathname === '/api/ai/mentor/history') return json({ ok: true, session: null, messages: [] });
+    // Ask Mobi's page lists the earlier questions with what each cost and when (ASK-MOBI-1019): two saved exchanges, one written reply
+    // (1 credit) and one answered from the record, unless the account is new (?data=empty or ?record=empty). ?history=none has none.
+    if (url.pathname === '/api/ai/mentor/history') {
+      const none = state === 'empty' || fixture.get('record') === 'empty' || fixture.get('history') === 'none';
+      return json({ ok: true, session: null, messages: none ? [] : [
+        { id: 'h1', role: 'user', text: 'Where am I losing marks?', createdAt: '2026-10-14T14:42:00.000Z', response: null },
+        { id: 'h2', role: 'assistant', text: 'Partnership Fundamentals is where the most marks are open.', createdAt: '2026-10-14T14:42:01.000Z', response: { reply: 'Partnership Fundamentals is where the most marks are open.', origin: 'record', charge: { kind: 'none', amount: 0 } } },
+        { id: 'h3', role: 'user', text: 'Why is 19:11:10 right and 9:6:5 wrong?', createdAt: '2026-10-15T16:10:00.000Z', response: null },
+        { id: 'h4', role: 'assistant', text: 'The key reads the ratio as a share of the whole, so each side is divided by the total of the parts before it is compared.', createdAt: '2026-10-15T16:10:09.000Z', response: { reply: 'The key reads the ratio as a share of the whole, so each side is divided by the total of the parts before it is compared.', origin: 'model', charge: { kind: 'prepos_credit', amount: 1 } } },
+      ] });
+    }
     if (url.pathname === '/api/ai/mentor/local') return json({ ok: true, sessionId: 'preview-session' });
     if (url.pathname === '/api/ai/mentor/chat') {
       const body = JSON.parse(init.body || '{}');
@@ -692,7 +704,7 @@ function PreviewInner({ candidatePathway }) {
   const allLinks = { ...Object.fromEntries(views.map((name) => [routeNames[name] || name, previewHref(name)])), ...(params.get('study') === 'on' ? { learn: '/preview/study' } : {}) };
   const previewLinks = params.get('mob') === 'off' ? Object.fromEntries(Object.entries(allLinks).filter(([key]) => key !== 'mob')) : allLinks;
   const auth = useMemo(() => ({
-    user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
+    user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : params.get('name') === 'none' ? '' : params.get('name') === 'riya' ? 'Riya Sharma' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
       subjects: ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
       retiredSubjects: params.get('stale') === '1' ? ['teaching_aptitude'] : [],
       isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : (previewOneTotal(params) ?? previewBalancePart(params)), credits: pro ? null : { total: previewOneTotal(params) }, ...(MONTHLY || {}) },

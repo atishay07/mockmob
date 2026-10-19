@@ -1,55 +1,30 @@
 "use client";
 
-// /mentor, after the redesign (ASK-MOBI-1018, P4): the page is "Your record" (the marks ledger, the chapters costing the most,
-// pace) with Mobi's earlier questions under it, and no tabs. Mobi's composer is the panel, which this page opens beside the
-// record. Deep links keep working: ?tab=record is this page, ?tab=ask&q=<attempt>:<question> opens the panel on that question,
-// ?tab=plan goes to Today (where the next step lives) and ?tab=tools to the credits page (where the wallet and its rules live).
+// /mentor, Ask Mobi's front door (ASK-MOBI-1019, option B; the owner's D114): Mobi's greeting above two big doors, "Ask now" and
+// "Ask your record", with the true credit line and "Your recent questions" under them (AskMobiDoors). Nothing the page showed
+// before is gone (R3): the record view (the marks ledger, what stands out, the chapters costing the most, changed answers, pace and
+// the two weeks) is "Your record in full", under the doors, one tap from the record door; the earlier questions are "Your recent
+// questions", each opening to its saved reply. Deep links keep working: ?tab=record is this page, ?tab=ask&q=<attempt>:<question>
+// opens the docked panel on that question (the panel stays for asks about one question or one mock), ?tab=plan goes to Today and
+// ?tab=tools to the credits page.
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useAuth } from '@/components/AuthProvider';
 import { isPaidUser } from '@/services/credits/aiWalletState';
-import { AppIcon } from '@/components/ui/Glyph';
-import ArenaHead from '@/components/arena/ArenaHead';
 import RecordView from './RecordView';
-import AskMobiLink from './AskMobiLink';
+import AskMobiDoors from './AskMobiDoors';
 import { useInsights } from './useInsights';
 import { openAskMobi } from './askMobi.mjs';
-import { exchangesFrom } from './mentorHistory.mjs';
+import { DOOR_COPY } from './askDoors.mjs';
 import './mentor-page.css';
-
-function History() {
-  const [rows, setRows] = useState(null);
-  useEffect(() => {
-    let alive = true;
-    fetch('/api/ai/mentor/history', { cache: 'no-store' })
-      .then((res) => res.json().then((data) => ({ res, data })))
-      .then(({ res, data }) => { if (alive) setRows(res.ok && data?.ok ? exchangesFrom(data.messages) : []); })
-      .catch(() => { if (alive) setRows([]); });
-    return () => { alive = false; };
-  }, []);
-  if (!rows || !rows.length) return null;
-  return (
-    <section className="mrp-history" aria-labelledby="mrp-history-title">
-      <h2 id="mrp-history-title">Earlier questions</h2>
-      <ul>
-        {rows.map((row) => (
-          <li key={row.id}>
-            <b>{row.ask}</b>
-            {row.reply ? <p>{row.reply}</p> : null}
-            {row.source ? <span>{row.source}</span> : null}
-          </li>
-        ))}
-      </ul>
-    </section>
-  );
-}
 
 export default function MentorRecordPage() {
   const router = useRouter();
   const params = useSearchParams();
   const { user } = useAuth();
-  const insightsState = useInsights(user?.id || null);
+  const [recordTry, setRecordTry] = useState(0);
+  const insightsState = useInsights(user?.id || null, recordTry);
   const pro = isPaidUser(user);
   const tab = params.get('tab');
   const q = params.get('q');
@@ -68,14 +43,15 @@ export default function MentorRecordPage() {
     // pp-arena maps the record view's own tokens (--pp-ink and the rest) onto the Arena's Night and Day colours (arena.css).
     // Without it the view falls back to the dark defaults in prepos.css and reads near-white on near-white in Day (W-078).
     <div className="mrp pp-arena">
-      <ArenaHead title="Your record" lede="Where your marks went, from your own saved sessions." />
-      <AskMobiLink context={{ kind: 'page' }} variant="row" className="mrp-ask">
-        <span className="ame__icon" aria-hidden="true"><AppIcon name="prepos" size={20} /></span>
-        <b>Ask Mobi about your record</b>
-        <span>Questions about your record are free. A written reply costs 1 credit.</span>
-      </AskMobiLink>
-      <RecordView state={insightsState} onNavigate={(route) => router.push(route)} pro={pro} />
-      <History />
+      <AskMobiDoors user={user} insightsState={insightsState} pro={pro} onRetry={() => setRecordTry((n) => n + 1)} />
+      {/* A new account has no record to show, and the record door already says so with its one key: the empty view would say it twice. */}
+      {insightsState.status === 'empty' ? null : (
+        <section id="record" className="mrp-record" aria-labelledby="mrp-record-title">
+          <h2 id="mrp-record-title">{DOOR_COPY.recordInFull}</h2>
+          <p>{DOOR_COPY.recordInFullLede}</p>
+          <RecordView state={insightsState} onNavigate={(route) => router.push(route)} pro={pro} />
+        </section>
+      )}
       <p className="mrp-foot"><Link href="/wallet" className="ame ame--text">Your credits and how they work</Link></p>
     </div>
   );

@@ -6,9 +6,13 @@
 const REPLY_CAP = 260;
 
 /** Where a saved reply came from, in the words the panel uses; null for a service status (it is not an answer). */
-export function sourceOf(response) {
+export function originOf(response) {
   const r = response && typeof response === 'object' ? response : {};
-  const origin = r.origin || (r.runtimeState === 'live' || r.charge?.kind === 'prepos_credit' ? 'model' : r.runtimeState === 'record' ? 'record' : r.runtimeState === 'paused' ? 'status' : null);
+  return r.origin || (r.runtimeState === 'live' || r.charge?.kind === 'prepos_credit' ? 'model' : r.runtimeState === 'record' ? 'record' : r.runtimeState === 'paused' ? 'status' : null);
+}
+
+export function sourceOf(response) {
+  const origin = originOf(response);
   if (origin === 'model') return 'Written reply';
   if (origin === 'record') return 'From your record';
   if (origin === 'status') return null;
@@ -39,7 +43,11 @@ export function exchangesFrom(messages = [], { limit = 8 } = {}) {
     const next = list[i + 1];
     const answer = next && next.role === 'assistant' ? next : null;
     const reply = answer ? clip(answer.response?.reply ?? answer.text) : '';
-    rows.push({ id: String(m.id ?? i), ask, reply: reply || null, source: answer ? sourceOf(answer.response) : null });
+    // `at` (when it was asked), `origin` and `charged` (credits the reply used) feed the page's "Your recent questions" rows.
+    rows.push({
+      id: String(m.id ?? i), ask, reply: reply || null, source: answer ? sourceOf(answer.response) : null,
+      at: m.createdAt ?? null, origin: answer ? originOf(answer.response) : null, charged: Math.max(0, Number(answer?.response?.charge?.amount) || 0),
+    });
   }
   return rows.reverse().slice(0, Math.max(0, limit));
 }
