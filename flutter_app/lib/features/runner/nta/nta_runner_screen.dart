@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/auth/auth_state.dart';
+import '../../../core/auth/display_name.dart' show shownName;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/session.dart' show SessionEndReason, SessionVia;
 import '../../../core/router/routes.dart';
@@ -25,7 +26,11 @@ import 'nta_question_paper.dart';
 import 'nta_text_size.dart';
 
 /// The student's name for the candidate card: the account's own, or nothing.
-final ntaCandidateNameProvider = Provider<String?>((ref) => ref.watch(authSnapshotProvider).name);
+/// The candidate's name on the exam screens: the name the student gave, never the email's own prefix (walk M6, 19 Oct).
+final ntaCandidateNameProvider = Provider<String?>((ref) {
+  final auth = ref.watch(authSnapshotProvider);
+  return shownName(auth.name, email: auth.email);
+});
 
 /// NTA mode (NTA-MODE-SPEC): the exam-day screen over the same session engine as every other
 /// run. Adds the exam's keys, palette and question paper, and the three-warning integrity guard.

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/auth/display_name.dart' show shownName;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../data/profile_editor.dart';
@@ -17,6 +18,9 @@ Future<String?> showNameSheet(BuildContext context) => showMmSheet<String>(
       builder: (_) => const _NameBody(),
     );
 
+/// The name the student gave, or empty: never the email's own prefix (walk M6, 19 Oct).
+String _givenName(AuthSnapshot auth) => shownName(auth.name, email: auth.email) ?? '';
+
 class _NameBody extends ConsumerStatefulWidget {
   const _NameBody();
 
@@ -25,7 +29,7 @@ class _NameBody extends ConsumerStatefulWidget {
 }
 
 class _NameBodyState extends ConsumerState<_NameBody> {
-  late final TextEditingController _text = TextEditingController(text: ref.read(authSnapshotProvider).name?.trim() ?? '');
+  late final TextEditingController _text = TextEditingController(text: _givenName(ref.read(authSnapshotProvider)));
   bool _saving = false;
   String? _error;
 
@@ -68,7 +72,7 @@ class _NameBodyState extends ConsumerState<_NameBody> {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final unchanged = _text.text.trim() == (ref.read(authSnapshotProvider).name?.trim() ?? '');
+    final unchanged = _text.text.trim() == _givenName(ref.read(authSnapshotProvider));
     return Padding(
       padding: EdgeInsets.only(bottom: MediaQuery.viewInsetsOf(context).bottom),
       child: Column(

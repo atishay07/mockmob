@@ -161,6 +161,19 @@ void main() {
     expect(find.text(CreditsCopy.renews(DateTime(2026, 11, 1))), findsOneWidget);
   });
 
+  testWidgets('M6 (walk, 19 Oct): a name that is only the email own prefix is never shown as the student name', (tester) async {
+    await _pumpApp(
+      tester,
+      auth: const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', name: 'walk-v153-fresh-1019b', email: 'walk-v153-fresh-1019b@example.com', creditBalance: 24),
+    );
+    await _openSheet(tester);
+    expect(find.text('walk-v153-fresh-1019b'), findsNothing, reason: 'no email prefix as a name');
+    expect(find.text(AccountCopy.noName), findsOneWidget, reason: 'the title says what it is');
+    expect(find.text('walk-v153-fresh-1019b@example.com'), findsOneWidget, reason: 'the email sits under it, as under a name');
+    // A handle with no email match is no name either; a real name still shows.
+    expect(find.text('Asha Verma'), findsNothing);
+  });
+
   testWidgets('the avatar answers a finger anywhere in 48 dp', (tester) async {
     await _pumpApp(tester);
     final centre = tester.getCenter(find.byType(AccountAvatar));

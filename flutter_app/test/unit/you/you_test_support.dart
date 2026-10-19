@@ -84,11 +84,11 @@ final earnedMilestones = [
 ];
 
 /// A signed-in snapshot with the given plan.
-AuthSnapshot userWith({bool pro = false, DateTime? until}) => AuthSnapshot(
+AuthSnapshot userWith({bool pro = false, DateTime? until, String name = 'Asha Verma'}) => AuthSnapshot(
       status: AuthStatus.signedIn,
       userId: 'u1',
       email: 'asha.verma@example.com',
-      name: 'Asha Verma',
+      name: name,
       isPro: pro,
       premiumUntil: until,
     );

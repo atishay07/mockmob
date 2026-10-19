@@ -13,6 +13,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/auth/auth_state.dart';
+import '../../core/auth/display_name.dart' show shownName;
 import '../../core/motion/motion.dart' show MmOverlapSwitcher;
 import '../../core/router/routes.dart';
 import '../../core/theme/theme.dart';
@@ -233,15 +234,17 @@ class _Identity extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final name = auth.name?.trim();
+    // The name the student gave, never the email's own prefix (a fresh account's name is "walk-v153-fresh"): with none,
+    // the title says "Your account" and the email sits under it, as under a name (walk M6, 19 Oct).
+    final name = shownName(auth.name, email: auth.email);
     final email = auth.email?.trim();
-    final hasName = name != null && name.isNotEmpty;
+    final hasName = name != null;
     final hasEmail = email != null && email.isNotEmpty;
-    final primary = hasName ? name : (hasEmail ? email : AccountCopy.noName);
-    final secondary = hasName && hasEmail ? email : null;
+    final primary = hasName ? name : AccountCopy.noName;
+    final secondary = hasEmail ? email : null;
     return Row(
       children: [
-        AccountAvatar(initial: accountInitial(auth.name, auth.email), size: 56, pro: auth.isPro),
+        AccountAvatar(initial: accountInitial(shownName(auth.name, email: auth.email), auth.email), size: 56, pro: auth.isPro),
         const SizedBox(width: MmSpace.s16),
         Expanded(
           child: Column(

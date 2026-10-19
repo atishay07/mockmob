@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/auth/display_name.dart' show shownName;
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -103,7 +104,7 @@ class _SheetEditorScreenState extends ConsumerState<SheetEditorScreen> {
     final target = ref.watch(studentTargetProvider);
     final subjects = auth.subjects.isNotEmpty ? auth.subjects : target.subjects;
     final rated = subjects.where(target.confidence.containsKey).length;
-    final name = auth.name?.trim();
+    final name = shownName(auth.name, email: auth.email);
 
     // Three groups on the ground, not four cards: who you are, what you are aiming at, and the
     // week. Save is pinned at the foot, so it is always in reach however long the page is.

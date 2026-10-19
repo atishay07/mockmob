@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/auth/auth_state.dart';
+import '../../../core/auth/display_name.dart' show shownName;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -45,7 +46,7 @@ class _MobJoinScreenState extends ConsumerState<MobJoinScreen> {
   void initState() {
     super.initState();
     // Only a name that passes the screen's own rule is prefilled; otherwise the field starts empty.
-    final first = mobNameFrom(ref.read(authSnapshotProvider).name);
+    final first = mobNameFrom(shownName(ref.read(authSnapshotProvider).name, email: ref.read(authSnapshotProvider).email));
     _name = TextEditingController(text: first);
     _colour = first.isEmpty ? 3 : (first.codeUnits.fold<int>(0, (a, b) => a + b) + 3) % MobColours.count;
     _load();

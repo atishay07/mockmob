@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/auth/display_name.dart' show shownName;
 import '../../../core/router/routes.dart';
 import '../../../core/settings/changed_row.dart';
 import '../../../core/theme/theme.dart';
@@ -101,8 +102,9 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
   Widget build(BuildContext context) {
     final auth = ref.watch(authSnapshotProvider);
     final target = ref.watch(studentTargetProvider);
-    final name = auth.name?.trim();
-    final hasName = name != null && name.isNotEmpty;
+    // The name the student gave, never the email's own prefix (walk M6, 19 Oct).
+    final name = shownName(auth.name, email: auth.email);
+    final hasName = name != null;
     final subjects = auth.subjects.isNotEmpty ? auth.subjects : target.subjects;
     final nudge = ref.watch(passwordNudgeProvider).value ?? false;
     final phoneOn = ref.watch(accessMethodsProvider.select((m) => m.phone));

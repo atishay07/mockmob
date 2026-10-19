@@ -60,6 +60,20 @@ void main() {
       expect(find.text('Your plan and credits as of the last check.'), findsNothing);
     });
 
+    testWidgets('M6: with only the email prefix on the account the Name row says Add your name', (tester) async {
+      final auth = FakeAuth(userWith(name: 'asha.verma'));
+      await pumpMockmob(
+        tester,
+        const AccountScreen(),
+        wrapInScaffold: false,
+        disableAnimations: true,
+        size: const Size(360, 1700),
+        overrides: youOverrides(fakeAuth: auth, drafts: draftsWithUnsent(0)),
+      );
+      expect(find.text('asha.verma'), findsNothing);
+      expect(find.text('Add your name'), findsOneWidget);
+    });
+
     testWidgets('an unloaded credit balance has a Try again key that reads the profile again', (tester) async {
       final auth = await _pumpAccount(tester);
       final retry = find.text('Try again');
