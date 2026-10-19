@@ -201,8 +201,8 @@ void main() {
       await _playLaunch(tester, container, until: 2000);
       container.read(intendedRouteProvider).remember('/review');
       await tester.pump(const Duration(seconds: 4));
-      // An old Review link lands on Your papers inside Practice (D105).
-      expect(_location(container), '/practice/papers');
+      // An old Review link lands on Your papers, a door of Practice (D105, D126).
+      expect(_location(container), '/practice?door=papers');
     });
   });
 

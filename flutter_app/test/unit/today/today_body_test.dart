@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/tools/my_colleges/colleges_doors.dart' show TodayCollegesStrip;
 import 'package:mockmob/features/today/copy_suggested.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/haptics/haptics.dart';
@@ -277,13 +278,15 @@ void main() {
     expect(view.road, isNull);
     await pumpToday(tester, view);
     expect(find.text(TodayCopy.roadTitle), findsNothing);
-    expect(find.text(TodayCopy.collegesRowTitle), findsNothing);
+    // The road's colleges block goes with the road; the strip under the greeting (D126) stays, with no CSAS wording.
+    expect(find.text(TodayCopy.collegesRowTitle, skipOffstage: false).evaluate().length, lessThanOrEqualTo(1));
+    expect(find.descendant(of: find.byType(TodayCollegesStrip), matching: find.text(TodayCopy.collegesRowTitle)).evaluate().length, find.text(TodayCopy.collegesRowTitle, skipOffstage: false).evaluate().length);
     expect(find.textContaining('CSAS'), findsNothing);
   });
 
   testWidgets('the colleges row uses plain words, not portal names, and no estimate', (tester) async {
     await pumpToday(tester, buildToday(ashaInputs()));
-    await tester.scrollUntilVisible(find.text(TodayCopy.collegesRowTitle), 300, scrollable: find.byType(Scrollable).first);
+    await tester.scrollUntilVisible(find.text('Shri Ram College of Commerce'), 300, scrollable: find.byType(Scrollable).first);
     expect(find.textContaining('CSAS'), findsNothing);
     expect(find.textContaining('admission.uod'), findsNothing);
     expect(find.text('Shri Ram College of Commerce'), findsOneWidget);

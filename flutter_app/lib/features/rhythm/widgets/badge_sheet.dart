@@ -40,6 +40,9 @@ Future<void> showBadgeSheet(
         Navigator.of(sheet).pop();
         if (onGo != null) {
           onGo(location);
+        } else if (AppRoutes.tabRoots.contains(location)) {
+          // A tab or a door of Practice (Your papers, D126) is gone to, never pushed: a push would stack a second one.
+          GoRouter.maybeOf(context)?.go(location);
         } else {
           GoRouter.maybeOf(context)?.push(location);
         }

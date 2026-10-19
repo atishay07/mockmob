@@ -23,7 +23,7 @@ Future<void> showPracticeConfirm(BuildContext context, {required PracticeSelecti
 
     return ComposerExits(
       run: (id) => leaveTo(AppRoutes.run(id)),
-      concepts: () => leaveTo(AppRoutes.learn, push: true),
+      concepts: () => leaveTo(AppRoutes.learnDoor),
       review: () => leaveTo(AppRoutes.review),
       close: () => Navigator.of(sheetContext).maybePop(),
     );

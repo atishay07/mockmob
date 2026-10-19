@@ -227,7 +227,8 @@ class _AskScreenState extends ConsumerState<AskScreen> {
   /// Practise 10 questions: a quick 10 through setup, so its price shows before it starts.
   void _practise() {
     final location = InsightsPaths.locationFor(AskSheetCopy.firstCheckHref);
-    if (location != null) context.push(location);
+    if (location == null) return;
+    AppRoutes.opensWithGo(location) ? context.go(location) : context.push(location);
   }
 
   /// The line under the field: what the question typed there will cost, before it is sent. A

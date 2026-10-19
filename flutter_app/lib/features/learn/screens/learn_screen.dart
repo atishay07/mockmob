@@ -34,11 +34,16 @@ final pendingRunIdsProvider = FutureProvider.autoDispose<List<String>>(
 /// Learn row and shelf: one panel, Read this next, chosen from where marks are lost; the concept cards due as one
 /// quiet row (they are Revise's); a search; the subject switch; Where you lose marks; every chapter of the subject
 /// with its lessons, summary and practice; the study record; the offline switches.
+///
+/// [embedded] (19 Oct PM, D126): the library as Practice's Learn door. Practice owns the title, the pull and the scroll,
+/// so the door is only the content, on Practice's gutter; switched off, it draws nothing (Practice then has no Learn door).
 class LearnScreen extends ConsumerStatefulWidget {
-  const LearnScreen({super.key, this.slowAfter = const Duration(seconds: 15)});
+  const LearnScreen({super.key, this.slowAfter = const Duration(seconds: 15), this.embedded = false});
 
   /// How long the skeleton may stand in for a first load before it gives way to an error with Try again.
   final Duration slowAfter;
+
+  final bool embedded;
 
   @override
   ConsumerState<LearnScreen> createState() => _LearnScreenState();
@@ -169,6 +174,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
       kind = _slow || state.isFailedEmpty ? 'error' : 'skeleton';
     } else if (catalog.isDisabled) {
       _disarmSlow();
+      if (widget.embedded) return const SizedBox.shrink();
       _leave();
       body = const SizedBox.shrink();
       kind = 'leaving';
@@ -176,6 +182,20 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
       _disarmSlow();
       body = _content(catalog, state);
       kind = 'content';
+    }
+
+    if (widget.embedded) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (state.isStale && (state.error?.isOffline ?? false)) const InlineBanner.offlineStrip(),
+          // Skeleton to content is one cross-fade, as on the page.
+          MmOverlapSwitcher.fade(
+            alignment: Alignment.topCenter,
+            child: KeyedSubtree(key: ValueKey(kind), child: kind == 'content' ? body : SizedBox(height: 460, child: body)),
+          ),
+        ],
+      );
     }
 
     return LearnBackScope(
@@ -441,28 +461,7 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
 
     final record = recordLine(catalog);
 
-    return MmPullRefresh(
-      onRefresh: _pull,
-      child: ListView(
-        controller: _scroll,
-        physics: const AlwaysScrollableScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(
-          MmSpace.gutter,
-          MmSpace.s16,
-          MmSpace.gutter,
-          MmSpace.s32 + MediaQuery.paddingOf(context).bottom,
-        ),
-        children: [
-          Center(
-            child: ConstrainedBox(
-              constraints: const BoxConstraints(
-                maxWidth: MmSpace.contentMaxWidth,
-              ),
-              // One authored entrance when the content first arrives: the words, the panel that holds the one
-              // action, then the library in reading order. Never on scroll.
-              child: MmStagger(
-                enabled: !_afterSkeleton,
-                child: Column(
+    final Widget column = Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     MmStaggerItem(
@@ -587,7 +586,33 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                       ),
                     ],
                   ],
-                ),
+                );
+
+    // As a door: on Practice's gutter, in Practice's list; the door's own arrival is the entrance.
+    if (widget.embedded) return Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: column);
+
+    return MmPullRefresh(
+      onRefresh: _pull,
+      child: ListView(
+        controller: _scroll,
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(
+          MmSpace.gutter,
+          MmSpace.s16,
+          MmSpace.gutter,
+          MmSpace.s32 + MediaQuery.paddingOf(context).bottom,
+        ),
+        children: [
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(
+                maxWidth: MmSpace.contentMaxWidth,
+              ),
+              // One authored entrance when the content first arrives: the words, the panel that holds the one
+              // action, then the library in reading order. Never on scroll.
+              child: MmStagger(
+                enabled: !_afterSkeleton,
+                child: column,
               ),
             ),
           ),

@@ -248,9 +248,17 @@ void main() {
     testWidgets('$name: the more-below cue never overlaps a key, a line or the hero', (tester) async {
       await pumpBody(tester, buildToday(inputs), const Size(384, 853));
       await tester.pump();
-      final slot = find.byType(MoreBelowSlot);
+      // Since D126 the colleges strip sits under the greeting, so the cue's gap can sit under the fold: it is still
+      // built, and still never over a key or a line.
+      final slot = find.byType(MoreBelowSlot, skipOffstage: false);
       expect(slot, findsOneWidget);
-      final cueRect = tester.getRect(find.descendant(of: slot, matching: find.byType(MoreBelowCue)));
+      final cue = find.descendant(of: slot, matching: find.byType(MoreBelowCue), skipOffstage: false);
+      if (cue.evaluate().isEmpty) {
+        // The cue shows only while its gap is above the bar's line; here the gap is under it, so there is none to check.
+        expect(tester.getRect(slot).bottom, greaterThan(853 - 120), reason: 'no cue only when its gap is under the fold');
+        return;
+      }
+      final cueRect = tester.getRect(cue);
       final slotRect = tester.getRect(slot);
       expect(slotRect.contains(cueRect.topLeft) && slotRect.contains(cueRect.bottomRight - const Offset(0.01, 0.01)), isTrue,
           reason: 'the cue is drawn inside its own gap');

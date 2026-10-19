@@ -4,6 +4,9 @@
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../core/router/routes.dart';
+import '../review/your_papers_link.dart' show yourPapersFocusParam;
+import 'model/practice_door.dart';
 import 'model/practice_link.dart';
 import 'model/practice_selection.dart';
 import 'practice_result_screen.dart';
@@ -11,10 +14,15 @@ import 'practice_screen.dart';
 import 'practice_setup_screen.dart';
 import 'practice_start_screen.dart';
 
+export 'model/practice_door.dart' show PracticeDoor;
 export 'model/practice_link.dart' show PracticeLink;
 
-/// The Practice tab.
-Widget practiceScreen(BuildContext context, GoRouterState state) => const PracticeScreen();
+/// The Practice tab, on the door its address names (`?door=papers`, `?door=learn`; D126). Your papers
+/// keeps its `?paper=` (a result's "See it in Your papers" brings that row into view).
+Widget practiceScreen(BuildContext context, GoRouterState state) => PracticeScreen(
+  door: PracticeDoor.parse(state.uri.queryParameters[AppRoutes.practiceDoorParam]),
+  focusPaper: state.uri.queryParameters[yourPapersFocusParam],
+);
 
 /// `/practice/setup/:mode?...`. An unknown mode opens Quick practice.
 Widget practiceSetupScreen(BuildContext context, GoRouterState state) => PracticeSetupScreen(

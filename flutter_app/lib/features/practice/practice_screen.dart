@@ -12,7 +12,11 @@ import '../../core/motion/motion.dart';
 import '../../core/router/app_shell.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
-import '../insights/ask_mobi.dart' show AskMobiButton;
+import '../insights/ask_mobi.dart' show AskMobiButton, AskMobiCard;
+import '../learn/data/catalog_repository.dart' show learnCatalogProvider;
+import '../learn/screens/learn_screen.dart' show LearnScreen, pendingRunIdsProvider;
+import '../review/data/review_providers.dart' show openRepairsProvider;
+import '../review/screens/review_screen.dart' show ReviewScreen;
 import '../pro_nudge/pro_nudge.dart';
 import '../runner/runner_routes.dart' show NtaRoutes;
 import 'copy.dart';
@@ -20,9 +24,9 @@ import 'data/practice_catalog.dart';
 import 'data/practice_quote.dart';
 import 'data/suggestion.dart';
 import 'model/cost_line.dart';
+import 'model/practice_door.dart';
 import 'model/practice_selection.dart';
 import 'widgets/chapter_picker.dart';
-import 'widgets/concepts_shelf.dart';
 import 'widgets/confirm_sheet.dart';
 import 'widgets/locked_mode_sheet.dart';
 import 'widgets/choice_deck.dart';
@@ -35,7 +39,8 @@ import 'widgets/practice_mobi.dart';
 import 'widgets/stale_subjects_banner.dart';
 import 'widgets/subject_tiles.dart';
 import 'widgets/suggestion_hero.dart';
-import 'widgets/top_rows.dart';
+import 'widgets/door_stage.dart';
+import 'widgets/door_switch.dart';
 
 /// The Practice tab (L08, brief app-practice-review-1016 section 2): the subject first ("Practise
 /// in", the tiles), then "Up next in [subject]", the one lit start, about that same subject; then
@@ -48,8 +53,17 @@ import 'widgets/top_rows.dart';
 /// a Free student with a quiet Pro tag; a tap opens the Upgrade sheet with PLAY_BILLING on, and with
 /// it off a calm sheet that says Pro is coming to the app soon and offers the open mode instead. Only a
 /// server that says a mode is not offered at all takes its tile away.
+///
+/// Three doors (19 Oct PM, owner D126, Practice C): a switch under the title chooses Practise (the subjects, the ways to
+/// practise on top as H6 asked, up next, Ask Mobi and More ways in), Your papers (the Review screen, in place) or Learn
+/// (the lesson library, in place), so neither of the two reads as "something extra" (H7). [door] comes from the
+/// address (`?door=`), so the last door chosen is where a tab switch or a Back returns this session; [focusPaper] is
+/// Your papers' `?paper=`.
 class PracticeScreen extends ConsumerStatefulWidget {
-  const PracticeScreen({super.key});
+  const PracticeScreen({super.key, this.door = PracticeDoor.practise, this.focusPaper});
+
+  final PracticeDoor door;
+  final String? focusPaper;
 
   /// How long a pull waits for the server before it calls the refresh failed (a quote can take
   /// many seconds on this server, so the bound is past the ring's own 12 s "still refreshing"). A
@@ -72,10 +86,10 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
   PracticeQuote? _lastNta;
 
   // The page stages one entrance when it first opens (MmStagger), in reading order: header 0,
-  // subject strip 1, suggestion 2, "Ways to practise" 3, the deck 4, More 5. The deck waits for
-  // the blocks above it that once; it never rises again for a new subject.
+  // the door switch 1, subject strip 2, "Ways to practise" and the deck 3, up next 4, Ask Mobi 5,
+  // More 6. The deck waits for the blocks above it that once; it never rises again for a new subject.
   bool _entered = false;
-  static const int _deckSlot = 4;
+  static const int _deckSlot = 3;
 
   /// Mobi lives in the header: the screen drives his looks and his thinking, the widget owns his
   /// quiet clock and his tap. The entrance is decided once (a wave the first time today).
@@ -96,6 +110,47 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     super.initState();
     // Asked once, here: asking consumes the day's hello.
     _entrance = MobiRation.greeting('practice');
+  }
+
+  @override
+  void didUpdateWidget(PracticeScreen old) {
+    super.didUpdateWidget(old);
+    // A new door from a link (a result's "See it in Your papers", a lesson's way back) while the page is scrolled far
+    // down: the page returns to the top, so the door opens on its first lines, not partway down.
+    if (widget.door != old.door) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted || !_scroll.hasClients) return;
+        if (_scroll.offset > _switchBottom) _scroll.jumpTo(0);
+      });
+    }
+  }
+
+  /// How far down the switch ends: a scroll past this means the switch is out of sight.
+  static const double _switchBottom = 140;
+
+  /// The doors there are: Learn only while lessons are not switched off on the server (a catalog not read yet still
+  /// counts, so the switch does not grow a door after it lands).
+  bool _learnOpen(WidgetRef ref) => !(ref.watch(learnCatalogProvider.select((s) => s.value?.isDisabled ?? false)));
+
+  /// The door on show: the address's, unless it names Learn while Learn is switched off.
+  PracticeDoor _doorShown(bool learnOpen) => widget.door == PracticeDoor.learn && !learnOpen ? PracticeDoor.practise : widget.door;
+
+  /// A door chosen on the switch: the address changes, so the shell, Back and a later tab switch all keep it.
+  void _choose(PracticeDoor door) => context.go(door.location);
+
+  /// The pull, for the door on show.
+  Future<void> _pull(PracticeDoor door) async {
+    switch (door) {
+      case PracticeDoor.practise:
+        await _refresh();
+      case PracticeDoor.papers:
+        await ref.read(attemptsRepositoryProvider.notifier).refresh(force: true);
+      case PracticeDoor.learn:
+        ref.invalidate(pendingRunIdsProvider);
+        await ref.read(learnCatalogProvider.notifier).refresh();
+        final error = ref.read(learnCatalogProvider).error;
+        if (error != null) throw error;
+    }
   }
 
   @override
@@ -235,6 +290,209 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
     const gutter = EdgeInsets.symmetric(horizontal: MmSpace.gutter);
     final deckDelay = _entered ? Duration.zero : Motion.staggerStep * _deckSlot;
     _entered = true;
+    final learnOpen = _learnOpen(ref);
+    final door = _doorShown(learnOpen);
+
+    Widget practiseDoor() => Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (_refreshFailed) ...[
+          Padding(
+            padding: gutter,
+            child: PlainNotice(
+              message: PracticeCopy.refreshFailed,
+              tone: BannerTone.error,
+              actionLabel: PracticeCopy.retry,
+              onAction: _retryRefresh,
+            ),
+          ),
+          const SizedBox(height: MmSpace.s16),
+        ],
+        if (offline) ...[
+          const Padding(
+            padding: gutter,
+            child: PlainNotice(message: PracticeCopy.offlineStart, tone: BannerTone.offline),
+          ),
+          const SizedBox(height: MmSpace.s16),
+        ],
+        if (stale.isNotEmpty) ...[
+          Padding(
+            padding: gutter,
+            child: StaleSubjectsBanner(entries: stale),
+          ),
+          const SizedBox(height: MmSpace.s16),
+        ],
+        // C. The subject first (L08): the strip chooses the subject every block under it
+        // is about, so no mode ever sits above the control that chooses its subject.
+        MmStaggerItem(
+          index: 2,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Padding(
+                padding: gutter,
+                child: SectionHeading(
+                  title: PracticeCopy.practiseIn,
+                  action: PracticeCopy.editSubjects,
+                  onAction: () => openEditSubjects(context),
+                ),
+              ),
+              // Straight to the tiles: the heading row's key leaves about 8 under the words and
+              // the strip holds 4 more as room for the chosen tile's lift, so the words sit 12
+              // over the tiles without a spacer.
+              // The tiles' objects lean with the page's own scroll (not the strip's
+              // sideways one), as the objects in the cards below do.
+              MmParallax(
+                factor: 0,
+                lean: true,
+                child: SubjectTiles(
+                  choices: choices,
+                  selectedId: subject,
+                  countFor: (id) => counts?[internalSubjectFor(id, catalog)],
+                  onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
+                  onPickedAt: _lookAtTile,
+                  onMore: others.isEmpty ? null : () => _pickOther(others),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(height: MmRhythm.group),
+        // D. Ways to practise on top (H6, D126), shortest to longest, in one deck: the quick pair,
+        // Smart practice, then the exam band. Not keyed by subject: a new subject keeps the modes in
+        // place and only their notes cross-fade (L08).
+        const MmStaggerItem(
+          index: 3,
+          child: Padding(padding: gutter, child: SectionHeading(title: PracticeCopy.waysHeading)),
+        ),
+        const SizedBox(height: MmRhythm.item),
+        Padding(
+          padding: gutter,
+          child: ChoiceDeck(
+            startDelay: deckDelay,
+            bleed: MmSpace.gutter,
+            rows: [
+              ChoiceRow.pair(
+                ChoiceOption(
+                  id: 'quick',
+                  glyph: ChoiceGlyphKind.quick,
+                  title: PracticeCopy.quickTitle,
+                  note: PracticeCopy.quickLine,
+                  onTap: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
+                ),
+                ChoiceOption(
+                  id: 'chapter',
+                  glyph: ChoiceGlyphKind.chapter,
+                  title: PracticeCopy.chapterTitle,
+                  note: PracticeCopy.chapterLine,
+                  onTap: () => _chapter(subject),
+                ),
+                // Twins: one surface, the picked subject's light, one object size. The
+                // Start key below is the page's one volt, so neither tile leads.
+                matched: true,
+                light: SubjectLight.forSubject(subject),
+              ),
+              if (showSmart)
+                ChoiceRow.wide(
+                  ChoiceOption(
+                    id: 'smart',
+                    glyph: ChoiceGlyphKind.smart,
+                    title: PracticeCopy.smartTitle,
+                    tag: smartGated ? PracticeCopy.proTag : null,
+                    note: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
+                    onTap: () {
+                      // Locked for a Free student (D101): the Upgrade sheet with PLAY_BILLING on,
+                      // otherwise the calm sheet with Quick practice instead.
+                      if (smartGated) {
+                        openLockedMode(
+                          context,
+                          mode: LockedMode.smart,
+                          onInstead: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
+                        );
+                        return;
+                      }
+                      _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject));
+                    },
+                  ),
+                ),
+              ChoiceRow.band(
+                title: PracticeCopy.examBandTitle,
+                foot: PracticeCopy.bankLine(
+                  pro: auth.isPro,
+                  subject: subjectNameFor(subject, catalog),
+                  questions: counts?[internalSubjectFor(subject, catalog)],
+                ),
+                rows: [
+                  _examRow(
+                    full: ChoiceOption(
+                      id: 'full',
+                      glyph: ChoiceGlyphKind.mock,
+                      title: PracticeCopy.fullMockTitle,
+                      note: PracticeCopy.fullMockLine(questions: mockQuestionCount, minutes: fullMinutes),
+                      onTap: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
+                    ),
+                    nta: showNta
+                        ? ChoiceOption(
+                            id: 'nta',
+                            glyph: ChoiceGlyphKind.nta,
+                            title: PracticeCopy.ntaTitle,
+                            tag: ntaGated ? PracticeCopy.proTag : null,
+                            note: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
+                            // The exam's own instructions page: the clock starts only after it.
+                            onTap: () {
+                              // Locked for a Free student (D101): the Upgrade sheet with PLAY_BILLING
+                              // on, otherwise the calm sheet with a Full mock instead.
+                              if (ntaGated) {
+                                openLockedMode(
+                                  context,
+                                  mode: LockedMode.nta,
+                                  onInstead: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
+                                );
+                                return;
+                              }
+                              context.push(NtaRoutes.location(subject));
+                            },
+                          )
+                        : null,
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+        // The one Pro nudge on this page, under the mock rows: nothing with the flag off or for a Pro student.
+        const Padding(padding: gutter, child: ProNudgeRow(surface: ProNudgeSurface.practiceMocks, topGap: MmSpace.s4)),
+        // The exam band closes with its own rule, so the next section opens on air alone.
+        const SizedBox(height: MmSpace.s32),
+        // E. Up next in the lit subject: the one volt key on the page, after the modes (H6).
+        MmStaggerItem(
+          index: 4,
+          child: Padding(
+            padding: gutter,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                SectionHeading(title: PracticeCopy.upNextIn(subjectNameFor(subject, catalog))),
+                const SizedBox(height: MmRhythm.item),
+                SuggestionHero(actionKey: _heroKey, compact: true),
+              ],
+            ),
+          ),
+        ),
+        const SizedBox(height: MmSpace.s16),
+        // Ask Mobi's card (ASK-MOBI-1019 B, D112), under the suggestion as before.
+        const MmStaggerItem(index: 5, child: Padding(padding: gutter, child: AskMobiCard())),
+        const SizedBox(height: MmSpace.s32),
+        // F. More ways in: Review again, this week's Mob paper, Untimed questions and the Admission Compass.
+        MmStaggerItem(
+          index: 6,
+          child: Padding(
+            padding: gutter,
+            child: PracticeMoreRows(subject: subject),
+          ),
+        ),
+      ],
+    );
 
     return Scaffold(
       backgroundColor: colors.ground,
@@ -248,239 +506,73 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
             child: Center(
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-                // One authored entrance, in reading order: the header, the suggestion, the subject
-                // line and the quick pair, the heading, the subjects, then the longer modes (their
-                // own rows) and the shelves.
+                // One authored entrance, in reading order: the header, the door switch, then the
+                // door's blocks (on Practise: the subjects, the modes, up next, Ask Mobi, More).
                 child: MmStagger(
                   // The lead rises 8 dp here, not 14 (app-practice-review-1016 s2.8).
                   rise: 8,
                   // The app's own pull (MOTION.md C10): the ring is the only thing that answers it,
-                  // so the platform's stretch is off and the figures roll from what they showed.
+                  // so the platform's stretch is off and the figures roll from what they showed. It
+                  // reads again what the door on show holds.
                   child: MmPullRefresh(
-                    onRefresh: _refresh,
-                    onError: _onRefreshFailed,
+                    onRefresh: () => _pull(door),
+                    onError: door == PracticeDoor.practise ? _onRefreshFailed : null,
                     child: ScrollConfiguration(
                       // The top edge draws only the pull ring (MmPullRefresh drops the leading
                       // stretch); the bottom keeps the platform's stretch (AP1-11, MOTION.md C10).
                       behavior: ScrollConfiguration.of(context),
-                  child: ListView(
-                    // Back from a result or a setup lands where the student left the list.
-                    key: const PageStorageKey<String>('practice-tab-list'),
-                    controller: _scroll,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: EdgeInsets.only(top: MmRhythm.screenTop, bottom: bottom + MmSpace.s32),
-                    children: [
-                      MmStaggerItem(
-                        index: 0,
-                        child: Padding(
-                          padding: gutter,
-                          child: TabRootHeader(
-                            title: PracticeCopy.tabTitle,
-                            // 44 dp Mobi, resident: no bubble on this tab, he reacts.
-                            trailing: AskMobiButton(
-                              // ASK-MOBI-1019 B: the labelled way in to Ask Mobi.
-                              figure: PracticeMobi(
-                                controller: _mobi,
-                                entrance: _entrance,
-                                loading: quotesLoading || _refreshing,
-                                aim: _heroKey,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // 8 to the "Practise in" row: its 40 dp Edit subjects key holds air of its own above
-                      // the words; a notice under the header keeps the full 16.
-                      SizedBox(height: _refreshFailed || offline || stale.isNotEmpty ? MmSpace.s16 : MmSpace.s8),
-                      if (_refreshFailed) ...[
-                        Padding(
-                          padding: gutter,
-                          child: PlainNotice(
-                            message: PracticeCopy.refreshFailed,
-                            tone: BannerTone.error,
-                            actionLabel: PracticeCopy.retry,
-                            onAction: _retryRefresh,
-                          ),
-                        ),
-                        const SizedBox(height: MmSpace.s16),
-                      ],
-                      if (offline) ...[
-                        const Padding(
-                          padding: gutter,
-                          child: PlainNotice(message: PracticeCopy.offlineStart, tone: BannerTone.offline),
-                        ),
-                        const SizedBox(height: MmSpace.s16),
-                      ],
-                      if (stale.isNotEmpty) ...[
-                        Padding(
-                          padding: gutter,
-                          child: StaleSubjectsBanner(entries: stale),
-                        ),
-                        const SizedBox(height: MmSpace.s16),
-                      ],
-                      // C. The subject first (L08): the strip chooses the subject every block under it
-                      // is about, so no mode ever sits above the control that chooses its subject.
-                      MmStaggerItem(
-                        index: 1,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Padding(
+                      child: ListView(
+                        // Back from a result or a setup lands where the student left the list.
+                        key: const PageStorageKey<String>('practice-tab-list'),
+                        controller: _scroll,
+                        physics: const AlwaysScrollableScrollPhysics(),
+                        padding: EdgeInsets.only(top: MmRhythm.screenTop, bottom: bottom + MmSpace.s32),
+                        children: [
+                          MmStaggerItem(
+                            index: 0,
+                            child: Padding(
                               padding: gutter,
-                              child: SectionHeading(
-                                title: PracticeCopy.practiseIn,
-                                action: PracticeCopy.editSubjects,
-                                onAction: () => openEditSubjects(context),
-                              ),
-                            ),
-                            // Straight to the tiles: the heading row's key leaves about 8 under the words and
-                            // the strip holds 4 more as room for the chosen tile's lift, so the words sit 12
-                            // over the tiles without a spacer.
-                            // The tiles' objects lean with the page's own scroll (not the strip's
-                            // sideways one), as the objects in the cards below do.
-                            MmParallax(
-                              factor: 0,
-                              lean: true,
-                              child: SubjectTiles(
-                                choices: choices,
-                                selectedId: subject,
-                                countFor: (id) => counts?[internalSubjectFor(id, catalog)],
-                                onSelected: (id) => ref.read(practiceSubjectProvider.notifier).select(id),
-                                onPickedAt: _lookAtTile,
-                                onMore: others.isEmpty ? null : () => _pickOther(others),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: MmSpace.s16),
-                      // D. Up next in the lit subject: the one volt key on the page.
-                      MmStaggerItem(
-                        index: 2,
-                        child: Padding(padding: gutter, child: SuggestionHero(actionKey: _heroKey, compact: true)),
-                      ),
-                      const SizedBox(height: MmSpace.s16),
-                      // D2. Your papers (while mistakes are open, with the count; D105) and Ask Mobi's card (ASK-MOBI-1019
-                      // B), where a student sees them: right under the suggestion, not three screens down (D5).
-                      const MmStaggerItem(index: 2, child: Padding(padding: gutter, child: PracticeTopRows())),
-                      const SizedBox(height: MmRhythm.group),
-                      // E. Ways to practise, shortest to longest, in one deck: the quick pair, Smart
-                      // practice, then the exam band. Not keyed by subject: a new subject keeps the
-                      // modes in place and only their notes cross-fade (L08).
-                      const MmStaggerItem(
-                        index: 3,
-                        child: Padding(padding: gutter, child: SectionHeading(title: PracticeCopy.waysHeading)),
-                      ),
-                      const SizedBox(height: MmRhythm.item),
-                      Padding(
-                        padding: gutter,
-                        child: ChoiceDeck(
-                          startDelay: deckDelay,
-                          bleed: MmSpace.gutter,
-                          rows: [
-                            ChoiceRow.pair(
-                              ChoiceOption(
-                                id: 'quick',
-                                glyph: ChoiceGlyphKind.quick,
-                                title: PracticeCopy.quickTitle,
-                                note: PracticeCopy.quickLine,
-                                onTap: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
-                              ),
-                              ChoiceOption(
-                                id: 'chapter',
-                                glyph: ChoiceGlyphKind.chapter,
-                                title: PracticeCopy.chapterTitle,
-                                note: PracticeCopy.chapterLine,
-                                onTap: () => _chapter(subject),
-                              ),
-                              // Twins: one surface, the picked subject's light, one object size. The
-                              // Start key above is the page's one volt, so neither tile leads.
-                              matched: true,
-                              light: SubjectLight.forSubject(subject),
-                            ),
-                            if (showSmart)
-                              ChoiceRow.wide(
-                                ChoiceOption(
-                                  id: 'smart',
-                                  glyph: ChoiceGlyphKind.smart,
-                                  title: PracticeCopy.smartTitle,
-                                  tag: smartGated ? PracticeCopy.proTag : null,
-                                  note: smartGated ? PracticeCopy.smartGatedLine : PracticeCopy.smartLine,
-                                  onTap: () {
-                                    // Locked for a Free student (D101): the Upgrade sheet with PLAY_BILLING on,
-                                    // otherwise the calm sheet with Quick practice instead.
-                                    if (smartGated) {
-                                      openLockedMode(
-                                        context,
-                                        mode: LockedMode.smart,
-                                        onInstead: () => _confirm(PracticeSelection(mode: PracticeMode.quick, subjectId: subject)),
-                                      );
-                                      return;
-                                    }
-                                    _confirm(PracticeSelection(mode: PracticeMode.smart, subjectId: subject));
-                                  },
-                                ),
-                              ),
-                            ChoiceRow.band(
-                              title: PracticeCopy.examBandTitle,
-                              foot: PracticeCopy.bankLine(
-                                pro: auth.isPro,
-                                subject: subjectNameFor(subject, catalog),
-                                questions: counts?[internalSubjectFor(subject, catalog)],
-                              ),
-                              rows: [
-                                _examRow(
-                                  full: ChoiceOption(
-                                    id: 'full',
-                                    glyph: ChoiceGlyphKind.mock,
-                                    title: PracticeCopy.fullMockTitle,
-                                    note: PracticeCopy.fullMockLine(questions: mockQuestionCount, minutes: fullMinutes),
-                                    onTap: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
+                              child: TabRootHeader(
+                                title: PracticeCopy.tabTitle,
+                                // 44 dp Mobi, resident: no bubble on this tab, he reacts.
+                                trailing: AskMobiButton(
+                                  // ASK-MOBI-1019 B: the labelled way in to Ask Mobi.
+                                  figure: PracticeMobi(
+                                    controller: _mobi,
+                                    entrance: _entrance,
+                                    loading: quotesLoading || _refreshing,
+                                    aim: _heroKey,
                                   ),
-                                  nta: showNta
-                                      ? ChoiceOption(
-                                          id: 'nta',
-                                          glyph: ChoiceGlyphKind.nta,
-                                          title: PracticeCopy.ntaTitle,
-                                          tag: ntaGated ? PracticeCopy.proTag : null,
-                                          note: ntaGated ? PracticeCopy.ntaGatedLine : PracticeCopy.ntaLine,
-                                          // The exam's own instructions page: the clock starts only after it.
-                                          onTap: () {
-                                            // Locked for a Free student (D101): the Upgrade sheet with PLAY_BILLING
-                                            // on, otherwise the calm sheet with a Full mock instead.
-                                            if (ntaGated) {
-                                              openLockedMode(
-                                                context,
-                                                mode: LockedMode.nta,
-                                                onInstead: () => _confirm(PracticeSelection(mode: PracticeMode.full, subjectId: subject)),
-                                              );
-                                              return;
-                                            }
-                                            context.push(NtaRoutes.location(subject));
-                                          },
-                                        )
-                                      : null,
                                 ),
-                              ],
+                              ),
                             ),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(height: MmSpace.s12),
+                          // The three doors (D126): Practise, Your papers (with the open mistakes, the
+                          // bar badge's number) and Learn.
+                          MmStaggerItem(
+                            index: 1,
+                            child: Padding(
+                              padding: gutter,
+                              child: PracticeDoorSwitch(
+                                door: door,
+                                onChanged: _choose,
+                                papersCount: ref.watch(openRepairsProvider),
+                                showLearn: learnOpen,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: MmSpace.s20),
+                          PracticeDoorStage(
+                            door: door,
+                            builder: (context, d) => switch (d) {
+                              PracticeDoor.practise => practiseDoor(),
+                              PracticeDoor.papers => ReviewScreen(embedded: true, focusPaper: widget.focusPaper),
+                              PracticeDoor.learn => const LearnScreen(embedded: true),
+                            },
+                          ),
+                        ],
                       ),
-                      // The one Pro nudge on this page, under the mock rows: nothing with the flag off or for a Pro student.
-                      const Padding(padding: gutter, child: ProNudgeRow(surface: ProNudgeSurface.practiceMocks, topGap: MmSpace.s4)),
-                      // The exam band closes with its own rule, so the next section opens on air alone.
-                      const SizedBox(height: MmSpace.s32),
-                      // F. More ways in: the question stream and the Admission Compass.
-                      MmStaggerItem(
-                        index: 5,
-                        child: Padding(
-                          padding: gutter,
-                          child: PracticeMoreRows(subject: subject),
-                        ),
-                      ),
-                      const ConceptsShelf(),
-                    ],
-                  ),
                     ),
                   ),
                 ),

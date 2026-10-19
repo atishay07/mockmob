@@ -208,7 +208,7 @@ void main() {
   insightsGolden('saved_empty', () => const SavedScreen(), overrides: () => insightsOverrides(saved: const RemoteState(value: SavedList())));
   insightsGolden('saved_offline', () => const SavedScreen(), overrides: () => insightsOverrides(saved: const RemoteState<SavedList>(error: _offline)));
 
-  // ---- Question stream ----
+  // ---- Untimed questions ----
   insightsGolden('stream_question', () => const StreamScreen(), overrides: () => insightsOverrides(stream: _stream()));
   insightsGolden(
     'stream_right',

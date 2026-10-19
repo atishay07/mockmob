@@ -20,6 +20,7 @@ import '../../core/sync/pending_work.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../rhythm/copy.dart' show RhythmCopy;
+import '../tools/my_colleges/colleges_doors.dart' show YouCollegesCard;
 import '../rhythm/logic/milestone_tracks.dart';
 import '../rhythm/logic/week_view.dart' show WeekStatus, weeksInRhythmText;
 import '../rhythm/rhythm.dart';
@@ -323,6 +324,15 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           onEditSubjects: () => openYouPage(context, YouPaths.subjects),
                         ),
                       ),
+                      // Your colleges, right under the name (19 Oct PM, D126, the owner's H9: "no clear-cut access"):
+                      // the three that need the most marks with their 2026 Round 1 figures, See all and the Compass.
+                      // The Aim row further down stays (R3).
+                      const SizedBox(height: MmSpace.s16),
+                      const MmStaggerItem(
+                        index: 1,
+                        child: Padding(padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: YouCollegesCard()),
+                      ),
+                      const SizedBox(height: MmSpace.s8),
                             ],
                           ),
                         ),

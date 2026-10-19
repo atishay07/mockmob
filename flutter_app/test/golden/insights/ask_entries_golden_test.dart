@@ -7,6 +7,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/insights/ask_mobi.dart';
 import 'package:mockmob/features/insights/data/ask_question.dart';
 import 'package:mockmob/features/insights/data/ask_sheet_controller.dart';
+import 'package:mockmob/features/insights/copy.dart' show InsightsCopy;
 import 'package:mockmob/features/insights/insights_routes.dart' show EntryRow;
 import 'package:mockmob/features/result/full/answer_row.dart';
 
@@ -78,7 +79,7 @@ void main() {
         Divider(height: 1, color: colors.line),
         const AskMobiPracticeRow(),
         Divider(height: 1, color: colors.line),
-        EntryRow(icon: LucideIcons.layers, title: 'Question stream', note: 'One question at a time, no timer', onTap: () {}),
+        EntryRow(icon: LucideIcons.layers, title: InsightsCopy.streamEntryTitle, note: InsightsCopy.streamEntryNote, onTap: () {}),
         Divider(height: 1, color: colors.line),
         EntryRow(icon: LucideIcons.compass, title: 'Admission Compass', note: 'See which colleges your score reaches', onTap: () {}),
       ],

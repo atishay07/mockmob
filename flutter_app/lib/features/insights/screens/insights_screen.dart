@@ -182,7 +182,7 @@ class InsightsScreen extends ConsumerWidget {
       }
       final href = f.actionHref;
       final location = href == null ? null : InsightsPaths.locationFor(href);
-      return location == null ? null : () => context.push(location);
+      return location == null ? null : () => AppRoutes.opensWithGo(location) ? context.go(location) : context.push(location);
     }
 
     final head = <Widget>[

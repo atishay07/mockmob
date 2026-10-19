@@ -268,7 +268,8 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
   // Tabs.
 
   /// Whether [path] is Your papers or one of its pages (where the Review tab used to be).
-  static bool _onPapers(String path) => path == AppRoutes.papers || path.startsWith('${AppRoutes.papers}/');
+  static bool _onPapers(Uri uri) =>
+      uri.path == AppRoutes.papers || uri.path.startsWith('${AppRoutes.papers}/') || (uri.path == AppRoutes.practice && uri.queryParameters[AppRoutes.practiceDoorParam] == 'papers');
 
   void _onTab(int branch) {
     if (branch != shell.currentIndex) {
@@ -426,7 +427,7 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
       todayCovers: ref.watch(todayHeroCoversProvider),
       onToday: shell.currentIndex == 0,
       // Your papers (inside Practice since D105) already shows a result that is waiting.
-      onReview: _onPapers(GoRouterState.of(context).uri.path),
+      onReview: _onPapers(GoRouterState.of(context).uri),
       // Tonight's move is never shown over the page: it repeated the hero's own action and made a
       // third floating layer at the thumb (v13 critic, clutter). Today still publishes it for its
       // own tests; the Start key's word and the hero carry the move.
