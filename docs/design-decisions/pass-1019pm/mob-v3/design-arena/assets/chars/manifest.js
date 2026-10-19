@@ -1,0 +1,1 @@
+window.CHAR_FILES={"dart": "dart.webp", "patang": "patang.webp", "naav": "naav.webp", "hop": "hop.webp", "kandil": "kandil.webp", "crane": "crane.webp", "stamp": "stamp.webp", "dogear": "dogear.webp", "tally": "tally.webp", "cutting": "cutting.webp", "sticky": "sticky.webp", "hexa": "hexa.webp"};

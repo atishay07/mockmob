@@ -381,3 +381,11 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 ## Owner, 19 Oct about 6:15 pm IST (verbatim)
 > "I am on the website right now. I can't find anywhere to set the password for the account. Have we set up just sign-in on the basis of email code only. And I'll get to this mob V3, as soon as I am completed with all this, remind me."
 **Ledger D132:** the website has no "set a password" page (code sign-in only); the app has You > Account > Password. Remind him about Mob v3 (characters finish, Arena base, Free starts) once the Play steps are done. Follow-up: add "Set a password" to the web /profile.
+
+## Owner, 19 Oct about 6:40 pm IST (verbatim, then his answers)
+> "Okay, I'm done with everything in the app. Now I'll do it later on. Still, nothing is left to do, but I'll first answer the questions that were dismissed and that you were asking me related to Mob V3. Can you send all that again?"
+- Character finish: "C lamp-lit paper (Recommended)"
+- Direction: "Yes, Arena + Live's best (Recommended)"
+- Free starts: "1 free start per Mob a week + Pass the mic (Recommended)"
+- Streaks: "Yes, this system (Recommended)"
+**Ledger D133:** Play Console app setup done by him (Google Cloud Part 2 and products later). Mob v3: characters in finish C (B's stand on the shelf and in marketing); build Den Arena with Den Live's best (stage-lit podium, parcel climb-out, ruler race); Free gets 1 start per Mob per week plus Pass the mic (a Pro friend hands the start, 2 a week); Pro: every format, live rooms, full mock together, unlimited starts; while billing is off, starts stay open for everyone; the two-streak humane system as proposed.

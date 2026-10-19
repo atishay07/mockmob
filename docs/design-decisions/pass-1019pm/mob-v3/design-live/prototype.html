@@ -1,0 +1,1298 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mob v3 Den Live</title>
+<meta name="description" content="Clickable motion prototype of the Mob v3 'Den Live' direction. 360 x 780 dp, Night and Day. Every name, mark and time is an illustrative fixture.">
+<style>
+@font-face{font-family:'BCond';src:url(assets/fonts/BricolageCondensed-Bold.ttf);font-weight:700}
+@font-face{font-family:'BHead';src:url(assets/fonts/BricolageHeadline-SemiBold.ttf);font-weight:600}
+@font-face{font-family:'BTitle';src:url(assets/fonts/BricolageTitle-SemiBold.ttf);font-weight:600}
+@font-face{font-family:'Hanken';src:url(assets/fonts/HankenGrotesk-Regular.ttf);font-weight:400}
+@font-face{font-family:'Hanken';src:url(assets/fonts/HankenGrotesk-Medium.ttf);font-weight:500}
+@font-face{font-family:'Hanken';src:url(assets/fonts/HankenGrotesk-SemiBold.ttf);font-weight:600}
+@font-face{font-family:'Hanken';src:url(assets/fonts/HankenGrotesk-Bold.ttf);font-weight:700}
+
+/* ---------- tokens: exact app values (mm_colors.dart), Night default ---------- */
+.night{
+  --ground:#12110E; --raised:#1B1A16; --raised2:#25231E; --sunken:#0D0C0A; --floor:#0F0E0C;
+  --line:#312E27; --lineStrong:#4A453B; --ink:#F4F0E6; --ink2:#BDB6A6; --ink3:#A09989; --ink4:#6A645A;
+  --volt:#D2F000; --voltInk:#0B1000; --voltEdge:#9DB400; --accentText:#D2F000; --voltGlow:rgba(210,240,0,.14);
+  --good:#C6E86E; --goodSurf:#1C2410; --goodBorder:#5E7A1E; --wrongSurf:#2A1614; --wrongBorder:#7D3128; --wrongText:#FFC9C2;
+  --lamp:#F2A93B; --lampA:.26; --rim:#F2B865;
+  --glass:rgba(27,26,22,.72); --edge:rgba(255,246,228,.10); --scrim:rgba(8,7,5,.62);
+  --shadow:0 1px 1px rgba(0,0,0,.25),0 18px 36px -20px rgba(0,0,0,.45);
+  --wall:#171511; --grid:rgba(244,240,230,.035); --desk:#2A251F; --deskTop:#3A332A; --deskEdge:#4A4136;
+  --paper:#EDE5D3; --paperInk:#1E1B15; --paperLine:#CFC5AF; --paperEdge:#BDB29C;
+  --sky:#1A202C; --moon:#F4F0E6; --shade:#E9DFC8; --shadeIn:#7A5A2A;
+  --m-teal:#3FC6A8; --m-rose:#FF7A8A; --m-blue:#6E8BFF; --m-violet:#B98CFF; --m-amber:#F2A93B; --m-sky:#56B8F0; --m-coral:#E58E5A; --m-green:#9FBF4A;
+  --tint:#1B1A16; color-scheme:dark;
+}
+.day{
+  --ground:#F3EFE6; --raised:#FFFDF8; --raised2:#E9E4D8; --sunken:#EAE5DA; --floor:#EEEAE0;
+  --line:#D8D1C2; --lineStrong:#BDB4A2; --ink:#17150F; --ink2:#454036; --ink3:#655F53; --ink4:#8A8375;
+  --volt:#D2F000; --voltInk:#0B1000; --voltEdge:#9DB400; --accentText:#526700; --voltGlow:rgba(210,240,0,.22);
+  --good:#3D6600; --goodSurf:#EEF5DC; --goodBorder:#7FA02A; --wrongSurf:#FBE9E7; --wrongBorder:#B93225; --wrongText:#B0291F;
+  --lamp:#F2C46B; --lampA:.17; --rim:#FFFFFF;
+  --glass:rgba(255,253,248,.80); --edge:rgba(255,255,255,.85); --scrim:rgba(23,21,15,.38);
+  --shadow:0 1px 2px rgba(42,32,16,.06),0 14px 30px -18px rgba(42,32,16,.18);
+  --wall:#ECE5D6; --grid:rgba(23,21,15,.045); --desk:#CDBB9C; --deskTop:#DDCFB5; --deskEdge:#BBA683;
+  --paper:#FFFDF8; --paperInk:#17150F; --paperLine:#E2DACB; --paperEdge:#CFC6B4;
+  --sky:#CFE5F0; --moon:#F2C46B; --shade:#FFFDF8; --shadeIn:#E2B866;
+  --m-teal:#0E7C66; --m-rose:#B4243A; --m-blue:#3550C8; --m-violet:#6A3BC4; --m-amber:#9A5B00; --m-sky:#0B6A9E; --m-coral:#A14A12; --m-green:#55741A;
+  --tint:#FFFDF8; color-scheme:light;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0A0A09;color:#F4F0E6;font-family:'Hanken',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+body.shot{background:transparent}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+.num,.fig{font-variant-numeric:tabular-nums}
+
+/* ---------- prototype chrome (not part of the design) ---------- */
+.proto{display:flex;gap:32px;padding:24px;min-height:100vh;align-items:flex-start;justify-content:center}
+.nav{width:260px;flex:none;font:500 13px/18px 'Hanken';color:#BDB6A6;position:sticky;top:24px}
+.nav h1{font:600 20px/24px 'BTitle';color:#F4F0E6;margin-bottom:4px}
+.nav p{margin-bottom:14px;color:#A09989}
+.nav h2{font:700 12px/16px 'Hanken';color:#F4F0E6;margin:16px 0 6px}
+.nav .lnk{display:block;width:100%;text-align:left;padding:6px 10px;border-radius:10px;color:#BDB6A6}
+.nav .lnk:hover,.nav .lnk:focus-visible{background:#1B1A16;color:#F4F0E6;outline:none}
+.nav .lnk.on{background:#25231E;color:#F4F0E6}
+.nav .row{display:flex;gap:6px;flex-wrap:wrap}
+.nav .tg{padding:6px 12px;border-radius:999px;border:1px solid #4A453B;color:#F4F0E6}
+.nav .tg.on{background:#D2F000;color:#0B1000;border-color:#D2F000}
+.cues{position:fixed;right:20px;bottom:20px;display:flex;flex-direction:column;gap:6px;align-items:flex-end;pointer-events:none;z-index:999}
+.cue{font:600 12px/16px 'Hanken';background:#25231E;color:#F4F0E6;border:1px solid #4A453B;padding:6px 10px;border-radius:10px}
+.phonewrap{position:relative}
+.cap{font:500 12px/16px 'Hanken';color:#A09989;margin-top:10px;max-width:360px}
+
+/* ---------- phone ---------- */
+.phone{position:relative;width:360px;height:780px;overflow:hidden;background:var(--ground);color:var(--ink);border-radius:28px;flex:none;isolation:isolate}
+body.shot .phone{border-radius:0}
+.status{height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 20px 0 24px;font:600 13px/1 'Hanken';color:var(--ink);position:relative;z-index:30}
+.status .ico{display:flex;gap:5px;align-items:center}
+.scr{position:absolute;inset:0;display:flex;flex-direction:column}
+.pad{padding:0 16px}
+.t-title{font:600 22px/27px 'BTitle';letter-spacing:-.2px}
+.t-head{font:600 28px/31px 'BHead';letter-spacing:-.4px}
+.t-disp{font:600 36px/38px 'BHead';letter-spacing:-.6px}
+.t-sub{font:700 17px/22px 'Hanken'}
+.t-body{font:400 16px/24px 'Hanken'}
+.t-small{font:400 14px/20px 'Hanken'}
+.t-cap{font:400 13px/18px 'Hanken'}
+.t-label{font:600 13px/18px 'Hanken'}
+.fig{font-family:'BCond';font-weight:700;letter-spacing:-.5px}
+.ink2{color:var(--ink2)} .ink3{color:var(--ink3)} .acc{color:var(--accentText)}
+.key{height:56px;border-radius:999px;background:var(--volt);color:var(--voltInk);font:600 16px/20px 'Hanken';display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 0 var(--voltEdge),0 10px 22px -14px rgba(157,180,0,.9);position:relative;transition:transform 100ms cubic-bezier(.23,1,.32,1)}
+.key:active{transform:scale(.96)}
+.key2{height:48px;border-radius:999px;background:var(--raised);color:var(--ink);font:600 15px/20px 'Hanken';display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--lineStrong);padding:0 18px;white-space:nowrap}
+.tbtn{height:44px;display:flex;align-items:center;justify-content:center;gap:6px;font:600 15px/20px 'Hanken';color:var(--ink2);text-decoration:underline;text-decoration-color:var(--lineStrong);text-underline-offset:4px;width:100%}
+.iconbtn{width:44px;height:44px;border-radius:999px;display:grid;place-items:center;color:var(--ink)}
+.hair{height:1px;background:var(--line)}
+.card{background:var(--raised);border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow)}
+.pill{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px;border-radius:999px;background:var(--raised2);font:600 13px/1 'Hanken';color:var(--ink2);white-space:nowrap}
+.pro{display:inline-flex;align-items:center;gap:4px;height:22px;padding:0 8px;border-radius:999px;border:1px solid var(--lineStrong);font:700 12px/1 'Hanken';color:var(--ink2)}
+.sec{font:700 13px/18px 'Hanken';color:var(--ink3);margin:0 0 8px}
+.topbar{display:flex;align-items:center;gap:8px;height:56px;padding:0 12px 0 6px;position:relative;z-index:6}
+.topbar .grow{flex:1;min-width:0}
+.topbar .tt{font:600 18px/22px 'BTitle'}
+.topbar .st{font:400 13px/18px 'Hanken';color:var(--ink3)}
+
+/* bottom bar: the app's own (owner H5: keep) */
+.bar{position:absolute;left:16px;right:16px;bottom:12px;height:64px;border-radius:32px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--edge);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-around;z-index:20}
+.bar .slot{width:58px;height:52px;border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:500 12px/15px 'Hanken';color:var(--ink2)}
+.bar .slot.on{background:var(--raised2);color:var(--ink);font-weight:700}
+.night .bar .slot.on svg{color:var(--volt)}
+.bar .start{width:64px;height:64px;border-radius:50%;background:var(--volt);color:var(--voltInk);display:flex;flex-direction:column;align-items:center;justify-content:center;font:700 12px/14px 'Hanken';margin-top:-4px;box-shadow:0 0 0 1px var(--voltEdge),0 10px 20px -10px rgba(0,0,0,.5)}
+
+/* ---------- the den ---------- */
+.den{position:relative;overflow:hidden;background:var(--wall);flex:none}
+.den .grid{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:16px 16px;background-position:-1px -1px}
+.den .cone{position:absolute;left:0;right:0;top:0;transform-origin:50% 0;pointer-events:none}
+.den .cone i{position:absolute;inset:0;background:linear-gradient(180deg,color-mix(in srgb,var(--lamp) calc(var(--lampA)*140%),transparent),color-mix(in srgb,var(--lamp) calc(var(--lampA)*45%),transparent) 70%,transparent);clip-path:polygon(43% 0,57% 0,94% 100%,6% 100%)}
+.den .pool{position:absolute;left:50%;width:330px;height:64px;margin-left:-165px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--lamp) calc(var(--lampA)*160%),transparent),transparent);pointer-events:none}
+.den .lamp{position:absolute;left:50%;top:0;width:76px;margin-left:-38px;z-index:3}
+.den .deskt{position:absolute;left:0;right:0;background:var(--deskTop);height:12px}
+.den .deskf{position:absolute;left:0;right:0;bottom:0;background:var(--desk);border-top:1px solid var(--deskEdge)}
+.den .deskf::after{content:'';position:absolute;left:0;right:0;top:0;height:100%;background-image:repeating-linear-gradient(90deg,transparent 0 46px,rgba(0,0,0,.05) 46px 47px)}
+.ch{position:absolute;transform-origin:50% 100%;z-index:4}
+.cimg{position:absolute;left:50%;bottom:0;height:100%;width:auto;max-width:none;transform:translateX(-50%);display:block;user-select:none;pointer-events:none}
+.ch .br{position:relative;height:100%}
+.ch .br{transform-origin:50% 92%}
+.night .ch.lit .cimg{filter:drop-shadow(0 -1px 0 rgba(242,184,101,.35))}
+
+.ch.away .cimg{filter:saturate(.55) brightness(.6)}
+.day .ch.away .cimg{filter:saturate(.5) brightness(.95) opacity(.6)}
+.shadow{position:absolute;height:10px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.42),transparent);z-index:3;transform-origin:50% 50%}
+.day .shadow{background:radial-gradient(closest-side,rgba(59,42,18,.28),transparent)}
+.ntag{position:absolute;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px;z-index:5}
+.ntag .nm{font:700 14px/18px 'Hanken';color:var(--ink);white-space:nowrap}
+.here{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px 0 6px;border-radius:999px;background:var(--raised2);font:600 12px/1 'Hanken';color:var(--ink);white-space:nowrap;border:1px solid var(--line)}
+.here i{width:7px;height:7px;border-radius:50%;background:var(--volt);box-shadow:0 0 0 2px color-mix(in srgb,var(--volt) 25%,transparent)}
+.day .here i{background:#7FA02A}
+.stampt{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 9px;border-radius:6px;background:var(--volt);color:var(--voltInk);font:700 12px/1 'Hanken';transform:rotate(-4deg);box-shadow:0 0 0 1.5px var(--voltInk) inset,0 3px 8px -4px rgba(0,0,0,.5)}
+.pennant{position:absolute;z-index:2}
+.shelf{position:absolute;z-index:2}
+.seatgh{position:absolute;border:2px dashed var(--lineStrong);border-radius:22px 22px 10px 10px;display:grid;place-items:center;color:var(--ink3);z-index:3}
+
+/* ---------- paper pieces ---------- */
+.ticket{position:relative;background:var(--raised);border-radius:20px;border:1px solid var(--line);box-shadow:var(--shadow);
+  -webkit-mask:radial-gradient(circle 9px at 0 var(--notch,62px),transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 9px at 100% var(--notch,62px),transparent 98%,#000) right/51% 100% no-repeat;
+          mask:radial-gradient(circle 9px at 0 var(--notch,62px),transparent 98%,#000) left/51% 100% no-repeat,radial-gradient(circle 9px at 100% var(--notch,62px),transparent 98%,#000) right/51% 100% no-repeat}
+.perf{position:absolute;left:14px;right:14px;height:0;border-top:2px dashed var(--line)}
+.sticker{display:inline-flex;align-items:center;gap:6px;height:40px;padding:0 12px 0 8px;border-radius:12px;background:var(--paper);color:var(--paperInk);font:700 13px/1 'Hanken';box-shadow:0 0 0 2px #FFFDF8,0 6px 14px -8px rgba(0,0,0,.6);white-space:nowrap}
+.day .sticker{box-shadow:0 0 0 2px #FFFFFF,0 0 0 3px var(--line),0 6px 14px -8px rgba(42,32,16,.35)}
+.sticker svg{flex:none}
+.head{display:inline-block;border-radius:50%;flex:none;position:relative;overflow:hidden;background-repeat:no-repeat}
+.head.ring{box-shadow:0 0 0 2px var(--ground),0 0 0 4px var(--rc)}
+.lockln{display:flex;align-items:center;gap:6px;font:500 13px/18px 'Hanken';color:var(--ink3)}
+
+/* ---------- race strip ---------- */
+.strip{position:relative;height:132px;margin:0 16px;border-radius:22px;background:var(--wall);border:1px solid var(--line);overflow:hidden}
+.strip .grid{position:absolute;inset:0;background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:16px 16px}
+.strip .sglow{position:absolute;left:10%;right:10%;top:-40px;height:150px;border-radius:50%;background:radial-gradient(closest-side,color-mix(in srgb,var(--lamp) calc(var(--lampA)*120%),transparent),transparent)}
+.strip .ruler{position:absolute;left:12px;right:12px;top:98px;height:20px;border-radius:5px;background:var(--paper);box-shadow:0 6px 10px -6px rgba(0,0,0,.5);background-image:repeating-linear-gradient(90deg,var(--paperLine) 0 1px,transparent 1px 8px);background-size:100% 6px;background-repeat:repeat-x;background-color:var(--paper)}
+.strip .rq{position:absolute;top:100px;width:22px;height:16px;margin-left:-11px;border-radius:5px;font:700 12px/16px 'Hanken';text-align:center;color:#5C5545;z-index:2}
+.strip .rq.done{background:#1E1B15;color:#FFFDF8}
+.strip .flag{position:absolute;right:30px;top:66px;width:26px;height:32px;z-index:2}
+.strip .rf{position:absolute;top:18px;width:46px;margin-left:-23px;display:flex;flex-direction:column;align-items:center;z-index:3}
+.strip .rf .rl{font:700 12px/14px 'Hanken';color:var(--ink);white-space:nowrap;margin-bottom:2px}
+.strip .rf .rc{width:46px;height:58px;position:relative;transform-origin:50% 100%}
+
+.strip .rf .rs{position:absolute;bottom:-3px;left:8px;right:8px;height:6px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.4),transparent)}
+.strip .rf.ghost .rc{opacity:.42;filter:grayscale(.4)}
+.strip .rf .pen{position:absolute;left:-14px;top:4px;width:26px;height:40px;z-index:4}
+.strip .rf.ghost .rl{color:var(--ink3);font-weight:600}
+/* ---------- question ---------- */
+.qmeta{display:flex;justify-content:space-between;align-items:center;font:600 13px/18px 'Hanken';color:var(--ink3)}
+.qtext{font:400 17px/26px 'Hanken';color:var(--ink)}
+.opt{position:relative;display:flex;align-items:center;gap:12px;height:48px;border-radius:16px;border:1px solid var(--line);background:var(--raised);padding:0 14px;font:600 16px/20px 'Hanken';color:var(--ink);width:100%;text-align:left}
+.opt .bb{width:26px;height:26px;border-radius:50%;border:2px solid var(--lineStrong);display:grid;place-items:center;font:700 12px/1 'Hanken';color:var(--ink3);flex:none}
+.opt.sel{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+.opt.sel .bb{background:var(--ink);border-color:var(--ink);color:var(--ground)}
+.opt.right{background:var(--goodSurf);border-color:var(--goodBorder)}
+.opt.right .bb{background:var(--good);border-color:var(--good);color:var(--ground)}
+.opt.wrong{background:var(--wrongSurf);border-color:var(--wrongBorder)}
+.opt.wrong .bb{background:transparent;border-color:var(--wrongBorder);color:var(--wrongText)}
+.opt .clip{position:absolute;right:12px;top:-8px}
+.opt .delta{margin-left:auto;font:700 15px/1 'BCond';color:var(--ink2)}
+.tickp{position:absolute;right:16px;top:50%;margin-top:-11px}
+
+/* ---------- podium ---------- */
+.pblock{position:absolute;bottom:0;z-index:2;border-radius:12px 12px 0 0;background:var(--paper);transform-origin:50% 100%;box-shadow:inset 0 -14px 24px -18px rgba(0,0,0,.35)}
+.night .pblock{background:#E4DBC6}
+.pblock .pn{position:absolute;left:0;right:0;top:12px;text-align:center;font:700 34px/1 'BCond';color:#1E1B15}
+.pblock .fold{position:absolute;right:0;top:0;width:0;height:0}
+.pblock .sheen{position:absolute;inset:0;border-radius:12px 12px 0 0;overflow:hidden}
+.pblock .sheen i{position:absolute;top:-20%;bottom:-20%;width:50%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,236,200,.85),transparent);transform:skewX(-14deg)}
+.pname{position:absolute;text-align:center;transform:translateX(-50%);white-space:nowrap}
+.pname b{display:block;font:700 15px/19px 'Hanken';color:var(--ink)}
+.pname span{font:700 22px/24px 'BCond';color:var(--ink)}
+.pname .row1{display:block}
+.pname em{font:500 13px/18px 'Hanken';font-style:normal;color:var(--ink3)}
+
+/* ---------- particles ---------- */
+.bit{position:absolute;width:7px;height:5px;border-radius:1px;z-index:9;pointer-events:none}
+.glint{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;z-index:9;pointer-events:none}
+
+/* ---------- sheets and lists ---------- */
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--ground);border-radius:32px 32px 0 0;box-shadow:0 -20px 40px -20px rgba(0,0,0,.5);z-index:25}
+.grab{width:40px;height:4px;border-radius:2px;background:var(--lineStrong);margin:10px auto 0}
+.lrow{display:flex;align-items:center;gap:12px;min-height:52px;padding:6px 0}
+.lrow .ic{width:40px;height:40px;border-radius:12px;background:var(--raised2);display:grid;place-items:center;color:var(--ink);flex:none}
+.lrow .tx{flex:1;min-width:0}
+.lrow .tx b{display:block;font:700 15px/20px 'Hanken'}
+.lrow .tx span{display:block;font:400 13px/18px 'Hanken';color:var(--ink3)}
+.lrow.locked .ic{color:var(--ink3)}
+.lrow.locked .tx b{color:var(--ink2)}
+.seg{display:flex;padding:4px;border-radius:999px;background:var(--raised2);gap:4px}
+.seg div{flex:1;height:36px;border-radius:999px;display:grid;place-items:center;font:600 14px/1 'Hanken';color:var(--ink2)}
+.seg div.on{background:var(--raised);color:var(--ink);box-shadow:var(--shadow)}
+.fmt{border-radius:18px;border:1px solid var(--line);background:var(--raised);padding:12px;display:flex;flex-direction:column;gap:6px;min-height:96px}
+.fmt.on{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+.fmt b{font:700 15px/20px 'Hanken'} .fmt span{font:400 13px/18px 'Hanken';color:var(--ink3)}
+.cmp{width:100%;border-collapse:collapse;font:500 13.5px/18px 'Hanken'}
+.cmp td{padding:7px 0;border-bottom:1px solid var(--line);vertical-align:top}
+.cmp td:nth-child(2),.cmp td:nth-child(3){width:64px;text-align:center;color:var(--ink2)}
+.cmp th{font:700 13px/18px 'Hanken';color:var(--ink3);text-align:center;padding-bottom:6px}
+.cmp th:first-child{text-align:left}
+.qbar{position:relative;height:14px;border-radius:999px;background:var(--raised2);overflow:hidden;display:flex;gap:2px}
+.qbar i{display:block;height:100%;background:var(--volt);border-radius:2px}
+.qbar i:first-child{border-radius:999px 2px 2px 999px}
+.code6{display:flex;gap:6px}
+.code6 b{width:44px;height:56px;border-radius:12px;background:var(--raised);border:1px solid var(--lineStrong);display:grid;place-items:center;font:700 30px/1 'BCond';color:var(--ink)}
+.code6 b.gap{margin-left:8px}
+.code6 b.cur{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink) inset}
+.link7{display:flex;gap:4px;align-items:flex-end}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center}
+.cal span{font:600 11px/14px 'Hanken';color:var(--ink3);padding-bottom:2px}
+.cal i{height:30px;border-radius:9px;font:600 12px/30px 'Hanken';font-style:normal;color:var(--ink3);position:relative}
+.cal i.p{background:var(--raised2);color:var(--ink)}
+.cal i.c{background:color-mix(in srgb,var(--volt) 20%,var(--raised2));color:var(--ink);box-shadow:inset 0 -2px 0 color-mix(in srgb,var(--volt) 70%,transparent)}
+.day .cal i.c{background:#E7EFC6;box-shadow:inset 0 -2px 0 #9DB400}
+.cal i.r{background:var(--raised2);color:var(--ink2);border:1px dashed var(--lineStrong)}
+.cal i.t{border:2px solid var(--ink);color:var(--ink);line-height:26px}
+.cd-under .key,.cd-under .tbtn,.cd-under [data-sticker]{visibility:hidden}
+.skipbtn{position:absolute;right:12px;top:40px;z-index:40;height:32px;padding:0 12px;border-radius:999px;background:var(--raised2);font:600 13px/1 'Hanken';color:var(--ink2);border:1px solid var(--line)}
+.wrapline{text-wrap:pretty}
+</style>
+</head>
+<body>
+<div id="app"></div>
+<div class="cues" id="cues" aria-hidden="true"></div>
+<script>
+/* =====================================================================
+   MOB v3, "DEN LIVE". Clickable motion prototype.
+   Every name, mark and time is an illustrative fixture, consistent on
+   every screen. Monday 19 Oct. Chai Circle, Accountancy, 4 members in
+   join order: Aarav (you, Free plan), Riya (Pro), Kabir, Zoya.
+   Live sprint, opened by Riya at 8:02 PM; in the room: Riya, Kabir, you.
+   Answers: Q1 B, Q2 A, Q3 B, Q4 C, Q5 D. CUET marks: +5, -1, 0.
+     Riya  r s r r r  = 20 marks, finished in 2:10
+     You   r r r w r  = 19 marks
+     Kabir r s r w r  = 14 marks
+   Personal chain 12 days (best 23), rest pass used Friday 16 Oct.
+   Mob chain 4 weeks (best 6). Quest this week 41 of 60 questions.
+   ===================================================================== */
+const Q = new URLSearchParams(location.search);
+const THEME0 = Q.get('theme') || 'night';
+const SHOT = Q.get('shot') === '1';
+const RM = Q.get('rm') === '1' || (Q.get('rm') !== '0' && matchMedia('(prefers-reduced-motion: reduce)').matches);
+const CUES = Q.get('cues') !== '0';
+if (SHOT) document.body.classList.add('shot');
+
+/* ---------- characters: loaded from files so they can be swapped ----------
+   A generated image at assets/chars/<file>.webp wins (one image for both
+   themes). Otherwise the paper-folk fallback assets/chars/<theme>/<file>.png. */
+const M = {
+  you:   {name:'You',   real:'Aarav', ch:'dart',   col:'sky'},
+  riya:  {name:'Riya',  ch:'patang', col:'rose'},
+  kabir: {name:'Kabir', ch:'naav',   col:'blue'},
+  zoya:  {name:'Zoya',  ch:'cutting', col:'coral'},
+};
+let theme = THEME0;
+const charSrc = (file) => `assets/chars/${file}.webp`;
+const charFallback = (file) => `assets/chars/${theme}/${file}.png`;
+function charImg(file, cls=''){ return `<img class="cimg ${cls}" alt="" src="${charSrc(file)}" onerror="this.onerror=null;this.src='${charFallback(file)}'">`; }
+const pose = (m, p) => M[m].ch; /* the generated set has one pose per character; poses come later */
+/* head crop: a disc showing the top of the character */
+function head(m, s=32, o={}){
+  const file = o.file || M[m]?.ch || m;
+  const col = o.col || (M[m] ? `var(--m-${M[m].col})` : 'var(--ink4)');
+  return `<span class="head ${o.ring?'ring':''}" style="width:${s}px;height:${s}px;--rc:${col};background-color:color-mix(in srgb,${col} 26%,var(--raised2));${o.style||''}"><img alt="" src="${charSrc(file)}" onerror="this.onerror=null;this.src='${charFallback(file)}'" style="position:absolute;height:${s*1.75}px;width:auto;max-width:none;left:50%;top:${-s*.2}px;transform:translateX(-50%)"></span>`;
+}
+
+/* ---------- icons (lucide-style, 2 dp stroke) ---------- */
+const I = {
+  today:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/>',
+  practice:'<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V10M10 3h4M12 3v3.5"/>',
+  mob:'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="16.5" cy="9" r="2.6"/><path d="M15.6 14.1c2.7.1 4.9 2 4.9 4.9"/>',
+  you:'<circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/>',
+  close:'<path d="M6 6l12 12M18 6L6 18"/>', back:'<path d="M15 5l-7 7 7 7"/>', down:'<path d="M7 10l5 5 5-5"/>', right:'<path d="M9 5l7 7-7 7"/>',
+  lock:'<rect x="6" y="11" width="12" height="9" rx="2.5"/><path d="M8.5 11V8.5a3.5 3.5 0 0 1 7 0V11"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>',
+  sprint:'<path d="M3.5 12.5L20 5l-5.5 15-3.2-6.3z"/><path d="M11.3 13.7L20 5"/>',
+  race:'<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5l3-3M10 3h4"/>',
+  custom:'<path d="M5 7h9M18 7h1M5 17h3M12 17h7"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/>',
+  paper:'<rect x="5.5" y="3.5" width="13" height="17" rx="2"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/>',
+  mock:'<rect x="6" y="3.5" width="12" height="16" rx="2"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/><path d="M4 7v12.5a1.5 1.5 0 0 0 1.5 1.5H15"/>',
+  rematch:'<path d="M5 11a7 7 0 0 1 12-4.6L19 8M19 4v4h-4M19 13a7 7 0 0 1-12 4.6L5 16M5 20v-4h4"/>',
+  ghost:'<path d="M6 20V11a6 6 0 0 1 12 0v9l-2-1.5-2 1.5-2-1.5-2 1.5-2-1.5z"/><circle cx="10" cy="11" r=".6" fill="currentColor"/><circle cx="14" cy="11" r=".6" fill="currentColor"/>',
+  room:'<path d="M4 20h16M6 20V9l6-5 6 5v11"/><path d="M10 20v-5h4v5"/>',
+  hand:'<path d="M8 13V6.5a1.5 1.5 0 0 1 3 0V12M11 11V5a1.5 1.5 0 0 1 3 0v6M14 11V6.5a1.5 1.5 0 0 1 3 0V14a6 6 0 0 1-6 6h-.5A5.5 5.5 0 0 1 6 17.2L4.5 14a1.4 1.4 0 0 1 2.3-1.5L8 14"/>',
+  mic:'<rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21"/>',
+  sound:'<path d="M4 9.5h3.5L12 5v14l-4.5-4.5H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>',
+  share:'<circle cx="18" cy="5.5" r="2.4"/><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="18.5" r="2.4"/><path d="M8.2 10.9l7.6-4.2M8.2 13.1l7.6 4.2"/>',
+  copy:'<rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/>',
+  scan:'<path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3M7 12h10"/>',
+  chat:'<path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/>',
+  moon:'<path d="M19 14.5A7.5 7.5 0 0 1 9.5 5a7.5 7.5 0 1 0 9.5 9.5z"/>',
+  sticker:'<path d="M20 12V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h6"/><path d="M20 12l-8 8M20 12h-5a3 3 0 0 0-3 3v5"/>',
+  calendar:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  timer:'<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V9.5M10 3h4"/>',
+  bell:'<path d="M5 17h14M6.5 17a5.5 5.5 0 0 1 11 0M12 9.5V7.5M10.5 7.5h3"/><path d="M4 20h16"/>',
+  insight:'<path d="M4 19V5M4 19h16"/><path d="M8 15l3-4 3 2 4-6"/>',
+  theme:'<circle cx="12" cy="12" r="8"/><path d="M12 4v16M12 4a8 8 0 0 1 0 16"/>',
+  flag:'<path d="M6 21V4M6 4h11l-2.5 4L17 12H6"/>',
+};
+const ico = (n, s=24, sw=2, extra='') => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" ${extra} aria-hidden="true">${I[n]}</svg>`;
+/* four-point glint (EmblemSparkle shape) */
+const glintSVG = (c='#FFF4D6') => `<svg viewBox="-10 -10 20 20" width="14" height="14"><path d="M0-10C1 -2 2 -1 10 0C2 1 1 2 0 10C-1 2 -2 1 -10 0C-2 -1 -1 -2 0-10Z" fill="${c}"/></svg>`;
+/* paper clip */
+const clipSVG = `<svg width="14" height="30" viewBox="0 0 14 30"><path d="M4 9V5a3 3 0 0 1 6 0v17a5 5 0 0 1-10 0V9" fill="none" stroke="#8F8A80" stroke-width="2.2" stroke-linecap="round"/><path d="M4 9V5a3 3 0 0 1 6 0v17a5 5 0 0 1-10 0V9" fill="none" stroke="#E9E4D8" stroke-width=".8" stroke-linecap="round" transform="translate(-.6 -.4)"/></svg>`;
+
+function statusBar(time='8:02 PM'){ return `<div class="status"><span class="num">${time}</span><span class="ico">
+  <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5L.6 3.8a10.5 10.5 0 0 1 14.8 0z" fill="currentColor"/></svg>
+  <svg width="14" height="12" viewBox="0 0 14 12"><path d="M13 .5v11H1z" fill="currentColor"/></svg>
+  <svg width="9" height="14" viewBox="0 0 9 14"><rect x="0" y="1.5" width="9" height="12.5" rx="1.6" fill="currentColor"/><rect x="2.5" y="0" width="4" height="2" rx=".6" fill="currentColor"/></svg></span></div>`; }
+function bottomBar(active='mob'){
+  const s=(k,l)=>`<div class="slot ${active===k?'on':''}">${ico(k,24,1.8)}<span>${l}</span></div>`;
+  return `<nav class="bar" aria-label="Main">${s('today','Today')}${s('practice','Practice')}<div class="start"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Start</div>${s('mob','Mob')}${s('you','You')}</nav>`;
+}
+
+/* ---------- the Mob pennant (weekly chain): stitched paper, one volt stitch per week ---------- */
+function pennantSVG(n=4, o={}){
+  const w=o.w||58, h=o.h||78, st=o.stitches??n;
+  let stitches='';
+  for(let i=0;i<Math.min(st,8);i++){ const x=10+i*((w-20)/7); stitches+=`<path class="stitch s${i}" d="M${x} ${h-30} l4 -4" stroke="#D2F000" stroke-width="2.6" stroke-linecap="round"/>`; }
+  return `<svg width="${w}" height="${h+8}" viewBox="0 -8 ${w} ${h+8}" overflow="visible" aria-hidden="true">
+    <path d="M${w/2} -8 L${w/2} 0" stroke="var(--ink4)" stroke-width="1.5"/>
+    <path d="M2 2 H${w-2} V${h-14} L${w/2} ${h} L2 ${h-14} Z" fill="var(--paper)" stroke="var(--paperEdge)" stroke-width="1"/>
+    <path d="M6 6 H${w-6} V${h-16} L${w/2} ${h-5} L6 ${h-16} Z" fill="none" stroke="var(--paperLine)" stroke-width="1.2" stroke-dasharray="3 3"/>
+    <path d="M${w-14} 2 L${w-2} 14 L${w-14} 14 Z" fill="var(--paperLine)"/>
+    ${o.nostitch?'':`<path class="newstitch" d="M${10+(Math.min(st,8)-1)*((w-20)/7)} ${h-30} l4 -4" stroke="#D2F000" stroke-width="2.6" stroke-linecap="round" pathLength="1" style="display:none"/>`}
+    ${stitches}
+  </svg>`;
+}
+
+/* ---------- the den scene ---------- */
+/* o: h, deskY, lamp ('on','dim','narrow'), chars [{m, x, w, pose, away, lit, tag, here, stamp, cls}], wall {pennant, shelf, window, slips}, seats [x...] */
+function den(o){
+  const h=o.h||300, dy=o.deskY||h-74, lamp=o.lamp||'on';
+  const cone = lamp==='dim' ? '' : `<div class="cone" style="height:${dy+6}px;${lamp==='narrow'?'transform:scaleX(.7)':''}"><i></i></div><div class="pool" style="top:${dy-30}px"></div>`;
+  const shadeFill = lamp==='dim' ? 'var(--deskEdge)' : 'var(--shade)';
+  const lampSVG = `<div class="lamp" style="height:${Math.min(70,dy-120)}px"><svg width="76" height="${Math.min(70,dy-120)}" viewBox="0 0 76 ${Math.min(70,dy-120)}" overflow="visible">
+     <line x1="38" y1="0" x2="38" y2="${Math.min(70,dy-120)-22}" stroke="var(--ink4)" stroke-width="1.5"/>
+     <path d="M24 ${Math.min(70,dy-120)-22} h28 l10 18 h-48z" fill="${shadeFill}" />
+     <path d="M14 ${Math.min(70,dy-120)-4} h48" stroke="${lamp==='dim'?'var(--ink4)':'var(--shadeIn)'}" stroke-width="2"/>
+     ${lamp==='dim'?'':`<ellipse cx="38" cy="${Math.min(70,dy-120)-2}" rx="9" ry="3.5" fill="#FFF3D6"/>`}
+   </svg></div>`;
+  const wall = o.wall||{};
+  let deco='';
+  if(wall.window) deco+=`<svg class="win" style="position:absolute;left:22px;top:22px" width="66" height="58" viewBox="0 0 66 58"><rect x="1" y="1" width="64" height="56" rx="8" fill="var(--sky)" stroke="var(--deskEdge)" stroke-width="2"/><path d="M33 1v56M1 29h64" stroke="var(--deskEdge)" stroke-width="2"/><path d="M49 12a7 7 0 1 0 6 10 5.5 5.5 0 0 1-6-10z" fill="var(--moon)"/></svg>`;
+  if(wall.pennant) deco+=`<div class="pennant" style="left:${wall.window?100:22}px;top:14px" data-pennant>${pennantSVG(wall.pennant)}<div style="position:absolute;left:0;right:0;top:12px;text-align:center;color:#1E1B15"><div class="fig pn-num" style="font-size:30px;line-height:30px;height:30px;overflow:hidden">${wall.pennant}</div><div style="font:700 11px/13px 'Hanken'">weeks</div></div></div>`;
+  if(wall.shelf) deco+=`<div class="shelf" style="right:18px;top:54px;width:104px"><div style="display:flex;gap:6px;align-items:flex-end;padding:0 8px;height:34px"><img src="assets/art/token-held.webp" width="30" alt=""><img src="assets/art/foil-seal.webp" width="30" alt=""><span style="width:28px;height:28px;border:1.5px dashed var(--lineStrong);border-radius:50%"></span></div><div style="height:5px;border-radius:2px;background:var(--deskEdge);box-shadow:0 4px 6px -3px rgba(0,0,0,.4)"></div></div>`;
+  (wall.slips||[]).forEach(s=>{ deco+=`<div style="position:absolute;left:${s.x}px;top:${s.y}px;transform:rotate(${s.r||-3}deg);background:var(--paper);color:#1E1B15;border-radius:6px;padding:6px 9px 7px;font:600 12px/15px 'Hanken';box-shadow:0 6px 12px -8px rgba(0,0,0,.6);z-index:2;white-space:nowrap"><span style="position:absolute;left:50%;top:-4px;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:${s.pin||'var(--m-rose)'};box-shadow:0 1px 2px rgba(0,0,0,.4)"></span>${s.t}</div>`; });
+  let seats=''; (o.seats||[]).forEach(x=>{ seats+=`<div class="seatgh" style="left:${x-25}px;top:${dy-72}px;width:50px;height:72px">${ico('plus',20,2)}</div>`; });
+  let chars='', tags='';
+  (o.chars||[]).forEach((c,i)=>{
+    const w=c.w||76, hh=c.h||(w*1.32);
+    chars+=`<div class="shadow ${c.cls||''}-sh" data-sh="${c.m}" style="left:${c.x-w*.32}px;top:${dy-3}px;width:${w*.64}px"></div>`;
+    chars+=`<div class="ch ${c.away?'away':''} ${c.lit===false?'':'lit'} ${c.cls||''}" data-ch="${c.m}" style="left:${c.x-w/2}px;top:${dy+3-hh}px;width:${w}px;height:${hh}px"><div class="br">${charImg(pose(c.m,c.pose))}</div></div>`;
+    if(c.tag!==false){
+      tags+=`<div class="ntag" data-tag="${c.m}" style="left:${c.x}px;top:${dy+12}px"><span class="nm">${c.label||M[c.m].name}</span>${c.here?`<span class="here" data-here="${c.m}"><i></i>${c.here===true?'Here':c.here}</span>`:''}${c.stamp?`<span class="stampt" data-stamp="${c.m}">${ico('check',13,3)}${c.stamp}</span>`:''}${c.sub?`<span class="t-cap ink3" style="text-align:center;line-height:16px">${c.sub}</span>`:''}</div>`;
+    }
+  });
+  return `<div class="den" style="height:${h}px" data-den>
+    <div class="grid"></div>${cone}${deco}${lampSVG}
+    <div class="deskt" style="top:${dy}px"></div><div class="deskf" style="top:${dy+12}px"></div>
+    ${seats}${chars}${tags}${o.extra||''}
+  </div>`;
+}
+
+/* ---------- screens ---------- */
+const S = {};
+const DEN_HEADER = (sub='Accountancy, 4 of you') => `<div class="topbar" style="padding-left:16px">
+  ${head('you',40,{ring:false})}
+  <div class="grow"><div style="display:flex;align-items:center;gap:2px"><span class="t-title">Chai Circle</span>${ico('down',20,2,'style="color:var(--ink3)"')}</div><div class="st">${sub}</div></div>
+  <button class="pill" style="height:40px;padding:0 14px 0 6px;background:var(--raised);border:1px solid var(--line);color:var(--ink)"><img src="assets/art/mobi-greet.webp" alt="" style="width:30px;height:30px;object-fit:cover;object-position:50% 18%;border-radius:50%">Ask Mobi</button>
+</div>`;
+
+/* 01 The den, live: friends are in a room */
+S['den-live'] = () => `${statusBar('8:03 PM')}${DEN_HEADER()}
+  ${den({h:312, deskY:230, lamp:'on', wall:{pennant:4, shelf:true}, chars:[
+    {m:'zoya', x:48, away:true, lit:false},
+    {m:'riya', x:136, pose:'wave', here:'Host'},
+    {m:'kabir', x:224, here:true},
+    {m:'you', x:310, here:true, label:'You'}]})}
+  <div class="pad" style="margin-top:-6px;position:relative;z-index:6" data-rise>
+    <div class="ticket" style="--notch:82px;padding:14px 16px 14px">
+      <div style="display:flex;gap:12px;align-items:center">
+        <img src="assets/art/hybrid-stopwatch.webp" alt="" width="44" style="flex:none;margin:-4px 0">
+        <div style="flex:1"><div class="t-sub" style="display:flex;align-items:center;gap:8px"><span class="here livedot" style="height:22px;padding:0 7px 0 5px;border:0"><i></i>Live</span>Riya's sprint</div><div class="t-cap ink3" style="margin-top:2px">Opened 8:02 PM. 5 questions, about 4 minutes.</div></div>
+      </div>
+      <div class="perf" style="top:82px"></div>
+      <div style="height:22px"></div>
+      <button class="key" data-go="ready">Join the room</button>
+      <div class="t-cap ink3" style="text-align:center;margin-top:10px">Anyone who misses it can play until 8:02 PM tomorrow.</div>
+    </div>
+  </div>
+  <button class="pad" data-go="week" style="display:flex;align-items:center;gap:12px;margin-top:14px;text-align:left;width:100%">
+    <span class="t-label" style="flex:none">This week</span>
+    <span class="qbar" style="flex:1;height:10px"><i style="width:50%"></i><i style="width:16.6%"></i><i style="width:1.7%"></i></span>
+    <span class="fig" style="font-size:18px;flex:none">41<span class="t-cap ink3" style="font-family:Hanken"> of 60</span></span>
+    ${ico('right',18,2,'style="color:var(--ink3)"')}
+  </button>
+  ${bottomBar()}`;
+
+/* 02 The den, quiet: nobody else is in */
+S['den-quiet'] = () => `${statusBar('6:15 PM')}${DEN_HEADER()}
+  ${den({h:312, deskY:230, lamp:'dim', wall:{pennant:4, shelf:true, window:true}, chars:[
+    {m:'zoya', x:48, away:true, lit:false},
+    {m:'riya', x:136, away:true, lit:false, sub:'Played<br>4:10 PM'},
+    {m:'kabir', x:224, away:true, lit:false, sub:'Played<br>4:55 PM'},
+    {m:'you', x:310, here:true, label:'You', lit:false}]})}
+  <div class="pad" style="margin-top:-6px;position:relative;z-index:6">
+    <div class="ticket" style="--notch:118px;padding:16px">
+      <div class="t-sub">You're the first one here</div>
+      <div class="t-small ink2 wrapline" style="margin-top:4px">Riya's sprint is open until 4:10 PM tomorrow. Race Riya's and Kabir's runs now, at the pace they really played.</div>
+      <div class="perf" style="top:118px"></div>
+      <div style="height:24px"></div>
+      <button class="key" data-go="ghost">${ico('ghost',20,2)}Race their runs</button>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-top:8px">
+        <button class="tbtn" style="width:auto">${ico('sticker',18,2)}Ask for a live game</button>
+        <span class="t-cap ink3">Mob Time: Sun 8:00 PM</span>
+      </div>
+    </div>
+  </div>
+  ${bottomBar()}`;
+
+/* 03 Your chain: personal streak, week links, path, calendar */
+function links(){
+  const days=[['Tue','p'],['Wed','p'],['Thu','p'],['Fri','r'],['Sat','p'],['Sun','p'],['Mon','t']];
+  return `<div style="display:flex;justify-content:space-between;align-items:flex-end;position:relative">
+    <div style="position:absolute;left:20px;right:20px;top:23px;height:4px;border-radius:2px;background:repeating-linear-gradient(90deg,var(--lineStrong) 0 6px,transparent 6px 10px)"></div>
+    ${days.map(([d,s],i)=>`<div style="display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:1" data-link="${i}">
+      <svg width="40" height="50" viewBox="0 0 40 50">
+        ${s==='p'?`<rect x="3" y="3" width="34" height="44" rx="12" fill="var(--paper)" stroke="var(--paperEdge)"/><path d="M12 25l6 6 11-12" fill="none" stroke="#1E1B15" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><path d="M27 3h-2v8l3-2 3 2V3" fill="#D2F000" stroke="#9DB400" stroke-width=".8"/>`:''}
+        ${s==='r'?`<rect x="3" y="3" width="34" height="44" rx="12" fill="var(--raised2)" stroke="var(--lineStrong)" stroke-dasharray="3 3"/><path d="M23 18a7 7 0 1 0 5 10 6 6 0 0 1-5-10z" fill="var(--ink3)"/>`:''}
+        ${s==='t'?`<rect x="3" y="3" width="34" height="44" rx="12" fill="none" stroke="var(--ink)" stroke-width="2"/><rect x="9" y="33" width="22" height="5" rx="2.5" fill="var(--raised2)"/><rect x="9" y="33" width="9" height="5" rx="2.5" fill="var(--volt)"/><text x="20" y="25" text-anchor="middle" font-family="BCond" font-size="15" fill="var(--ink)">2/5</text>`:''}
+      </svg>
+      <span class="t-cap ${s==='t'?'':'ink3'}" style="font-weight:${s==='t'?700:400}">${s==='r'?'Rest':d}</span></div>`).join('')}
+  </div>`;
+}
+S['chain'] = () => `${statusBar('8:10 PM')}
+  <div class="topbar"><button class="iconbtn" data-go="den-live" aria-label="Back">${ico('back')}</button><div class="grow tt">Your chain</div><button class="iconbtn" aria-label="Calendar">${ico('calendar',22)}</button></div>
+  <div class="pad">
+    <div style="display:flex;align-items:flex-end;gap:12px">
+      <span class="fig" style="font-size:96px;line-height:80px" data-count="12">12</span>
+      <div style="padding-bottom:4px"><div class="t-sub">days in a row</div><div class="t-cap ink3">Your best is 23 days.</div></div>
+      <img src="assets/art/mobi-cheer.webp" alt="" style="width:62px;margin-left:auto;margin-bottom:-4px">
+    </div>
+    <div class="t-small ink2" style="margin:10px 0 16px">A day counts when you answer 5 questions, in any mode.</div>
+    ${links()}
+    <div style="display:flex;gap:12px;align-items:center;margin-top:16px;padding:12px 14px;border-radius:18px;background:var(--raised);border:1px solid var(--line)">
+      <svg width="44" height="34" viewBox="0 0 44 34"><rect x="2" y="6" width="26" height="22" rx="5" fill="var(--paper)" stroke="var(--paperEdge)" transform="rotate(-8 15 17)"/><rect x="14" y="4" width="26" height="22" rx="5" fill="var(--paper)" stroke="var(--paperEdge)" stroke-dasharray="3 2" opacity=".55" transform="rotate(6 27 15)"/><path d="M12 15a4 4 0 1 0 3 6 3.5 3.5 0 0 1-3-6z" fill="#1E1B15" transform="rotate(-8 15 17)"/></svg>
+      <div style="flex:1"><div class="t-label">1 of 2 rest passes</div><div class="t-cap ink3 wrapline">Friday was covered on its own. The next pass comes on day 14.</div></div>
+    </div>
+    <div class="sec" style="margin-top:20px">On the way</div>
+    <div style="position:relative;height:66px">
+      <div style="position:absolute;left:14px;right:14px;top:14px;height:3px;background:var(--line);border-radius:2px"></div>
+      <div style="position:absolute;left:14px;width:${(12-3)/(30-3)*100}%;top:14px;height:3px;background:var(--ink);border-radius:2px"></div>
+      ${[[3,'done'],[7,'done'],[14,'next'],[21,''],[30,'']].map(([d,s])=>{ const x=(d-3)/(30-3)*100; return `<div style="position:absolute;left:calc(14px + (100% - 28px) * ${x/100});top:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:4px">
+        <span style="width:30px;height:30px;border-radius:50%;display:grid;place-items:center;${s==='done'?'background:var(--ink);color:var(--ground)':s==='next'?'background:var(--raised);border:2px solid var(--ink);color:var(--ink)':'background:var(--raised2);color:var(--ink3)'};font:700 14px/1 BCond">${s==='done'?ico('check',15,3):d}</span>
+        <span class="t-cap ${s==='next'?'':'ink3'}" style="white-space:nowrap;${s==='next'?'font-weight:700':''}">${s==='next'?'2 more days':d+' days'}</span></div>`; }).join('')}
+    </div>
+    <div class="sec" style="margin-top:16px;display:flex;justify-content:space-between"><span>October</span><span style="font-weight:500">Rest days are dashed</span></div>
+    <div class="cal">${['M','T','W','T','F','S','S'].map(d=>`<span>${d}</span>`).join('')}
+      ${(()=>{ let o='<i></i><i></i><i></i>'; for(let d=1;d<=31;d++){ let c=''; if([1,2,4].includes(d))c='p'; if(d>=7&&d<=18)c='c'; if(d===16)c='r'; if(d===19)c='t'; o+=`<i class="${c}">${d}</i>`;} return o; })()}
+    </div>
+  </div>`;
+
+/* 04 This week together: Mob chain pennant + quest */
+S['week'] = () => `${statusBar('8:10 PM')}
+  <div class="topbar"><button class="iconbtn" data-go="den-live" aria-label="Back">${ico('back')}</button><div class="grow tt">This week together</div></div>
+  <div class="den" style="height:208px;margin:0 16px;border-radius:24px" data-den>
+    <div class="grid"></div><div class="cone" style="height:208px"><i></i></div>
+    <div data-pennant-big style="position:absolute;left:50%;top:18px;margin-left:-49px;transform-origin:50% 0">${pennantSVG(4,{w:98,h:132})}
+      <div style="position:absolute;left:0;right:0;top:20px;text-align:center;color:#1E1B15"><div class="fig pn-roll" style="font-size:52px;line-height:50px;height:50px;overflow:hidden;position:relative"><span class="pn-old" style="display:block">4</span><span class="pn-new" style="display:block;position:absolute;left:0;right:0;top:0;opacity:0">5</span></div><div style="font:700 13px/16px 'Hanken'">weeks in a row</div></div>
+    </div>
+    ${['you','riya','kabir','zoya'].map((m,i)=>`<div style="position:absolute;bottom:12px;left:${[14,60,228,274][i]}px">${head(m,40,{ring:true})}</div>`).join('')}
+  </div>
+  <div class="pad">
+    <div class="t-small ink2 wrapline" style="margin:12px 2px 0">Your Mob's chain grows each week you finish the quest together. Nobody can break it alone. Best run: 6 weeks.</div>
+    <div class="card" style="margin-top:14px;padding:16px;position:relative" data-quest>
+      <div class="qstamp" style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;z-index:3;pointer-events:none;opacity:0">
+        <div class="qfx" style="position:relative;width:112px;height:112px"><img class="qseal" src="assets/art/foil-seal.webp" alt="" width="112" style="display:block"></div>
+        <div class="qdone t-head">Quest done</div>
+        <div class="t-cap ink2 qdone2">60 of 60, together</div>
+      </div>
+      <div class="qbody">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div class="t-sub">This week's quest</div><div class="t-cap ink3">Answer 60 questions together by Sunday.</div></div>
+        <div style="text-align:right"><span class="fig q-num" style="font-size:34px;line-height:34px">41</span><div class="t-cap ink3">of 60</div></div>
+      </div>
+      <div style="position:relative;margin-top:14px;height:16px" data-qwrap>
+        <div class="qbar" style="height:16px"><i class="qs" style="width:50%"></i><i class="qs" style="width:16.6%"></i><i class="qs" style="width:1.7%"></i><i class="qs qlast" style="width:0%"></i></div>
+      </div>
+      <div class="qlist" style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between" class="t-small"><span>Monday's Mob paper, 3 of you</span><b class="num">30</b></div>
+        <div style="display:flex;justify-content:space-between" class="t-small"><span>Riya's sprint, 2 of you</span><b class="num">10</b></div>
+        <div style="display:flex;justify-content:space-between" class="t-small"><span>Practice members chose to count</span><b class="num">1</b></div>
+      </div>
+      </div>
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;margin-top:12px;padding:10px 14px;border-radius:18px;border:1.5px dashed var(--lineStrong)" data-parcel>
+      <div style="width:46px;height:56px;position:relative;flex:none"><img src="${charSrc('kandil')}" alt="" style="height:56px;filter:brightness(0) opacity(.35)"></div>
+      <div style="flex:1"><div class="t-label">Kandil comes to all your shelves</div><div class="t-cap ink3">when this quest is done. Sized for 4 of you; it starts again Monday.</div></div>
+    </div>
+  </div>`;
+
+/* 05 Play picker, Free view */
+S['picker'] = () => `${statusBar('8:03 PM')}
+  <div style="position:absolute;inset:0;opacity:.35;pointer-events:none">${DEN_HEADER()}${den({h:240,wall:{pennant:4},chars:[{m:'zoya',x:48,away:true,tag:false},{m:'riya',x:136,tag:false},{m:'kabir',x:224,tag:false},{m:'you',x:310,tag:false}]})}</div>
+  <div style="position:absolute;inset:0;background:var(--scrim);z-index:24"></div>
+  <div class="sheet" style="top:58px"><div class="grab"></div>
+    <div class="pad">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin:10px 0 2px"><div class="t-title">Play with your Mob</div><button class="iconbtn" style="margin-right:-10px" data-go="den-live" aria-label="Close">${ico('close')}</button></div>
+      <div class="sec" style="margin-top:6px">Open now</div>
+      <div class="ticket" style="--notch:40px;padding:12px 14px;display:flex;align-items:center;gap:12px">
+        ${head('riya',40,{ring:true})}
+        <div style="flex:1"><div class="t-label" style="font-size:15px">Riya's live sprint</div><div class="t-cap ink3">5 questions. Kabir is in the room.</div></div>
+        <button class="pill" style="background:var(--volt);color:var(--voltInk);height:36px;padding:0 14px" data-go="ready">Join</button>
+      </div>
+      <div class="sec" style="margin-top:16px;display:flex;justify-content:space-between;align-items:center"><span>Start a game</span><span class="pro">${ico('lock',12,2.4)}Pro</span></div>
+      ${[['sprint','Live sprint','5 questions, everyone at once'],['race','Live race','5 or 10 minutes, as many as you can'],['custom','Your own round','Any chapter, 5 to 20 questions'],['mock','Full mock together','50 questions in 60 minutes']].map(([i,t,s])=>`<div class="lrow locked"><span class="ic">${ico(i,20)}</span><div class="tx"><b>${t}</b><span>${s}</span></div>${ico('lock',18,2,'style="color:var(--ink3)"')}</div>`).join('')}
+      <div class="lockln" style="margin:2px 0 4px">${ico('lock',14,2)}<span>Pro members start games. Everyone plays them free.</span></div>
+      <div class="sec" style="margin-top:14px">Free for everyone</div>
+      ${[['ghost','Race your own ghost','Beat your last run on any Mob paper'],['room','Study Room','A shared 25-minute timer, no marks'],['hand','Ask for a game','Sends a "Play?" sticker to your Mob']].map(([i,t,s])=>`<div class="lrow"><span class="ic">${ico(i,20)}</span><div class="tx"><b>${t}</b><span>${s}</span></div>${ico('right',18,2,'style="color:var(--ink3)"')}</div>`).join('')}
+    </div>
+    <div class="pad" style="position:absolute;left:0;right:0;bottom:16px"><button class="tbtn" data-go="compare">See what Pro adds</button></div>
+  </div>`;
+
+/* 06 Start a game, Pro view (the host) */
+S['picker-pro'] = () => `${statusBar('8:01 PM')}
+  <div class="topbar"><button class="iconbtn" data-go="picker" aria-label="Close">${ico('close')}</button><div class="grow tt">Start a game</div><span class="pro" style="margin-right:6px">Pro</span></div>
+  <div class="pad">
+    <div class="seg" role="tablist"><div class="on">Live now</div><div>Over 24 hours</div></div>
+    <div class="t-cap ink3" style="margin:8px 2px 14px">Live opens a room now. Anyone who misses it gets 24 hours, and the room's runs come back as ghosts.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <div class="fmt on"><span style="color:var(--ink)">${ico('sprint',22)}</span><b>Sprint</b><span>5 questions, about 4 minutes</span></div>
+      <div class="fmt"><span style="color:var(--ink)">${ico('race',22)}</span><b>Race</b><span>5 or 10 minutes, as many as you can</span></div>
+      <div class="fmt"><span style="color:var(--ink)">${ico('custom',22)}</span><b>Your own round</b><span>Pick a chapter and a length</span></div>
+      <div class="fmt"><span style="color:var(--ink)">${ico('mock',22)}</span><b>Full mock</b><span>50 questions in 60 minutes</span></div>
+    </div>
+    <div class="lrow" style="margin-top:10px"><span class="ic">${ico('paper',20)}</span><div class="tx"><b>Goodwill</b><span>Where your Mob lost the most marks last week</span></div><span class="t-label ink2">Change</span></div>
+    <div class="hair"></div>
+    <div class="lrow"><span class="ic">${ico('mic',20)}</span><div class="tx"><b>Pass the mic</b><span>Let a friend host one game. 2 left this week.</span></div>${ico('right',18,2,'style="color:var(--ink3)"')}</div>
+  </div>
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px">
+    <div class="t-cap ink3" style="text-align:center;margin-bottom:10px">Only starting needs Pro. Everyone in your Mob plays free.</div>
+    <button class="key" data-moment="golive">Open the room</button>
+  </div>
+  <div class="golive-layer" style="position:absolute;inset:0;pointer-events:none;z-index:50"></div>`;
+
+/* 07 Free and Pro, side by side */
+S['compare'] = () => `${statusBar('8:04 PM')}
+  <div class="topbar"><button class="iconbtn" data-go="picker" aria-label="Back">${ico('back')}</button><div class="grow tt">Free and Pro in the Mob</div></div>
+  <div class="pad">
+    <div class="t-small ink2 wrapline" style="margin-bottom:12px">Free plays everything. Pro runs the room and sees deeper. Marks, timing and streak safety are the same for both.</div>
+    <table class="cmp"><tr><th></th><th>Free</th><th>Pro</th></tr>
+      ${[['Play every game your Mob starts','y','y'],['Live rooms, ghosts, Study Room','y','y'],['Your chain and rest passes','y','y'],['Characters, earned by playing','y','y'],['Start live games and rematches','n','y'],['Full mock together','n','y'],['Mob Insights: where marks slip','One line','Full'],['Past weeks and season recap','2 weeks','All'],['Den lamp themes','1','6'],['Mobs you can create','1','3']].map(([t,f,p])=>`<tr><td>${t}</td><td>${f==='y'?ico('check',18,2.6,'style="color:var(--ink)"'):f==='n'?'<span class="ink3">No</span>':f}</td><td>${p==='y'?ico('check',18,2.6,'style="color:var(--ink)"'):`<b style="color:var(--ink)">${p}</b>`}</td></tr>`).join('')}
+    </table>
+    <div class="t-cap ink3 wrapline" style="margin-top:12px">Pro is ₹99 on the web for the season, to 31 July 2027, or ₹150 on Google Play. Nothing in the Mob is ever for sale.</div>
+  </div>
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px"><button class="key">See Pro</button></div>`;
+
+/* 08 Ready up: the lobby */
+S['ready'] = () => `${statusBar('8:03 PM')}
+  <div class="topbar"><button class="iconbtn" data-go="den-live" aria-label="Leave the room">${ico('close')}</button><div class="grow"><div class="tt">Riya's live sprint</div><div class="st">Goodwill, 5 questions</div></div><button class="iconbtn" aria-label="Sound on">${ico('sound',22)}</button></div>
+  ${den({h:300, lamp:'on', wall:{pennant:4}, chars:[
+    {m:'riya', x:70, pose:'cheer', stamp:'Ready'},
+    {m:'kabir', x:162, stamp:'Ready'},
+    {m:'you', x:254, label:'You', here:true}], seats:[322],
+    extra:`<div class="sticker" data-sticker style="position:absolute;left:112px;top:62px;transform:rotate(-6deg);z-index:7">${ico('hand',18,2)}Good luck</div><div class="t-cap ink3" style="position:absolute;left:292px;top:${300-56}px;width:60px;text-align:center">Open seat</div>`})}
+  <div class="pad" style="margin-top:14px">
+    <div class="sec">Send a sticker</div>
+    <div style="display:flex;gap:10px;overflow:hidden;padding:2px">
+      ${[['hand','Good luck'],['sprint',"Let's go"],['timer','One sec'],['bell','Ready']].map(([i,t])=>`<button class="sticker">${ico(i,18,2)}${t}</button>`).join('')}
+    </div>
+    <div class="t-small ink2 wrapline" style="margin-top:16px">Everyone gets the same 5 questions and answers at their own pace. Friends see which question you're on, never what you picked.</div>
+  </div>
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px">
+    <button class="key" data-moment="countdown">I'm ready</button>
+    <div class="t-cap ink3" style="text-align:center;margin-top:10px">It starts when everyone here is ready.</div>
+  </div>`;
+
+/* the race strip: a lamp-lit desk with a paper ruler; characters walk it question by question */
+function strip(o){
+  const L=30, R=72, W=328-L-R; const xq = q => L + (q/4)*W;
+  let ticks=''; for(let i=0;i<5;i++) ticks+=`<span class="rq ${i<(o.mine??0)?'done':''}" style="left:${xq(i)}px">${i+1}</span>`;
+  const groups={}; Object.entries(o.pos).forEach(([m,q])=>{ (groups[q]=groups[q]||[]).push(m); });
+  let figs='';
+  Object.entries(groups).forEach(([q,ms])=>{ q=+q; ms.forEach((m,i)=>{ const spread=(i-(ms.length-1)/2)*34; const x=(q>=5?308:Math.max(xq(q),(ms.length-1)/2*34+26))+spread; const gh=o.ghost&&o.ghost.includes(m);
+    figs+=`<div class="rf ${gh?'ghost':''}" data-rh="${m}" style="left:${x}px">
+      <span class="rl">${m==='you'?'You':M[m].name}</span>
+      <div class="rc">${charImg(pose(m, q>=5?'cheer':'rest'))}</div><i class="rs"></i>
+      ${q>=5?`<svg class="pen" viewBox="0 0 26 40"><path d="M3 39V3" stroke="var(--ink2)" stroke-width="2.2" stroke-linecap="round"/><path class="pencloth" d="M4 3h19l-5 7 5 7H4z" fill="var(--m-${M[m].col})" stroke="rgba(0,0,0,.25)" stroke-width=".8" style="transform-origin:4px 10px"/></svg>`:''}</div>`; }); });
+  return `<div class="strip" data-strip>
+    <div class="grid"></div><div class="sglow"></div>
+    <div class="ruler"></div>${ticks}
+    <svg class="flag" viewBox="0 0 28 34"><path d="M4 33V3" stroke="var(--ink3)" stroke-width="2" stroke-linecap="round"/><path class="flagcloth" d="M5 3h18l-4 6 4 6H5z" fill="none" stroke="var(--ink3)" stroke-width="1.5" stroke-dasharray="3 2"/></svg>
+    ${figs}
+  </div>
+  ${o.note?`<div class="stripnote t-cap ink3" style="margin:8px 18px 0">${o.note}</div>`:''}`;
+}
+const QS = {
+  3:{t:"Goodwill is three years' purchase of the average profit of the last four years: ₹40,000, ₹50,000, ₹60,000 and ₹70,000. What is the goodwill?", o:['₹1,50,000','₹1,65,000','₹1,80,000','₹2,10,000'], a:1},
+  4:{t:'Average profit is ₹36,000, capital employed is ₹2,40,000 and the normal rate of return is 12%. What is goodwill by capitalising the average profit?', o:['₹3,00,000','₹2,40,000','₹60,000','₹36,000'], a:2},
+};
+function question(n, o={}){
+  const q=QS[n];
+  return `<div class="pad qwrap" data-q="${n}">
+    <div class="qmeta"><span>Question ${n} of 5</span><span>+5 if right, -1 if wrong</span></div>
+    <div class="qtext wrapline" style="margin:8px 0 14px">${q.t}</div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${q.o.map((t,i)=>{ let c=''; if(o.sel===i)c='sel'; if(o.right===i)c='right'; if(o.wrong===i)c='wrong';
+        return `<button class="opt ${c}" data-opt="${i}"><span class="bb">${'ABCD'[i]}</span>${t}
+          ${o.right===i?`<svg class="tickp" width="22" height="22" viewBox="0 0 24 24"><path class="tickpath" d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="var(--good)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" pathLength="1" style="stroke-dasharray:1;stroke-dashoffset:${o.drawn===false?1:0}"/></svg>`:''}
+          ${o.wrong===i?`<span class="delta" style="margin-right:2px">-1</span>`:''}
+          ${o.clip===i?`<span class="clip">${clipSVG}</span>`:''}
+        </button>`; }).join('')}
+    </div></div>`;
+}
+const RACE_TOP = (n, timer='3:12') => `<div class="topbar"><button class="iconbtn" aria-label="Leave">${ico('close')}</button><div class="grow"><div class="tt">Riya's live sprint</div><div class="st">Live, 3 of you in the room</div></div><span class="pill" style="height:34px;gap:6px;background:var(--raised);border:1px solid var(--line);color:var(--ink)"><img src="assets/art/hybrid-stopwatch.webp" alt="" width="20"> <span class="num">${timer}</span></span></div>`;
+
+/* 09 Countdown (frame at "2") */
+S['countdown'] = () => `
+  <div class="cd-under" style="position:absolute;inset:0">${S['ready']()}</div>
+  <div class="cd-scrim" style="position:absolute;inset:0;background:#080705;opacity:.72;z-index:40"></div>
+  <div class="cd-layer" style="position:absolute;inset:0;z-index:41;display:flex;flex-direction:column;align-items:center">
+    <div style="display:flex;gap:16px;margin-top:84px">${['riya','kabir','you'].map(m=>`<div style="display:flex;flex-direction:column;align-items:center;gap:6px">${head(m,44,{ring:true})}<span style="font:700 13px/1 Hanken;color:#F4F0E6">${M[m].name}</span></div>`).join('')}</div>
+    <div class="cd-stage" style="position:relative;width:220px;height:240px;margin-top:70px">
+      <div class="cd-tile" style="position:absolute;inset:10px;border-radius:28px;background:#EDE5D3;box-shadow:0 30px 60px -30px rgba(0,0,0,.8),inset 0 -6px 0 #CFC5AF;transform:rotate(-1.5deg)"></div>
+      ${[3,2,1].map(n=>`<div class="cd-n cd-${n}" style="position:absolute;inset:0;display:grid;place-items:center;font:700 150px/1 BCond;color:#1E1B15;opacity:${n===2?1:0}">${n}</div>`).join('')}
+      <div class="cd-go" style="position:absolute;inset:10px;border-radius:28px;background:#D2F000;display:grid;place-items:center;font:700 96px/1 BCond;color:#0B1000;opacity:0">Go</div>
+      <div class="cd-ring" style="position:absolute;left:50%;top:50%;width:240px;height:240px;margin:-120px;border-radius:50%;border:3px solid #D2F000;opacity:0"></div>
+    </div>
+    <img class="cd-met" src="assets/art/hybrid-metronome.webp" alt="" style="position:absolute;left:18px;bottom:110px;width:64px;transform-origin:50% 90%;transform:rotate(-4deg)">
+    <div style="position:absolute;top:470px;left:0;right:0;text-align:center;font:600 15px/20px Hanken;color:#BDB6A6">Question 1 of 5 is coming</div>
+  </div>`;
+
+/* 10 Live race */
+S['race'] = () => `${statusBar('8:05 PM')}${RACE_TOP(3)}
+  <div style="height:6px"></div>
+  ${strip({pos:{riya:3,kabir:2,you:2}, mine:2, note:"Where everyone is. Never what they picked."})}
+  <div style="height:12px"></div>
+  ${question(3,{sel:1})}
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px;display:flex;gap:10px">
+    <button class="key2" style="height:56px;flex:0 0 108px">Skip</button><button class="key" style="flex:1" data-moment="lockin">Lock in</button>
+  </div>`;
+
+/* 11 Right answer feedback */
+S['right'] = () => `${statusBar('8:05 PM')}${RACE_TOP(3,'2:58')}
+  <div style="height:6px"></div>
+  ${strip({pos:{riya:3,kabir:2,you:3}, mine:3, note:"Where everyone is. Never what they picked."})}
+  <div style="height:12px"></div>
+  ${question(3,{right:1})}
+  <div class="pad fb-line" style="margin-top:14px;display:flex;gap:10px;align-items:flex-start">
+    <span class="fig" style="font-size:26px;line-height:26px;color:var(--good)">+5</span>
+    <div class="t-small wrapline"><b>Right.</b> The average profit is ₹55,000, and three years of it is ₹1,65,000.</div>
+  </div>
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px"><button class="key">Next question</button></div>`;
+
+/* 12 Wrong answer feedback: calm, no shake, no red flash */
+S['wrong'] = () => `${statusBar('8:06 PM')}${RACE_TOP(4,'2:21')}
+  <div style="height:6px"></div>
+  ${strip({pos:{riya:4,kabir:3,you:4}, mine:4, note:"Saved to fix later. Nobody else sees this answer."})}
+  <div style="height:12px"></div>
+  ${question(4,{wrong:0, right:2})}
+  <div class="pad" style="margin-top:14px">
+    <div class="t-small wrapline"><b>Not this one. It was C.</b> ₹3,00,000 is the whole business. Take away ₹2,40,000 of capital and goodwill is ₹60,000.</div>
+  </div>
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px"><button class="key">Next question</button></div>`;
+
+/* 13 A friend finishes */
+S['friend-done'] = () => `${statusBar('8:06 PM')}${RACE_TOP(5,'1:54')}
+  <div style="height:6px"></div>
+  ${strip({pos:{riya:5,kabir:4,you:4}, mine:4, flag:'riya', note:'<b style="color:var(--ink)">Riya finished all 5.</b> Take your time.'})}
+  <div style="height:12px"></div>
+  ${question(3,{}).replace('Question 3 of 5','Question 5 of 5').replace(/Goodwill is three[^<]*/, 'When a partner retires, the gaining ratio is used to share which of these?').replace('₹1,50,000','Goodwill of the retiring partner').replace('₹1,65,000','General reserve').replace('₹1,80,000','Revaluation profit').replace('₹2,10,000','Capital balances')}
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px;display:flex;gap:10px">
+    <button class="key2" style="height:56px;flex:0 0 108px">Skip</button><button class="key" style="flex:1">Lock in</button>
+  </div>`;
+
+/* 14 Ghost race (async) */
+S['ghost'] = () => `${statusBar('6:17 PM')}
+  <div class="topbar"><button class="iconbtn" aria-label="Leave">${ico('close')}</button><div class="grow"><div class="tt">Riya's sprint</div><div class="st">Racing Riya's and Kabir's real runs</div></div></div>
+  <div style="height:6px"></div>
+  ${strip({pos:{riya:3,kabir:2,you:2}, ghost:['riya','kabir'], mine:2, note:`<span style="display:flex;justify-content:space-between;align-items:center"><span style="display:flex;gap:12px">${[['riya','Riya, 4:10 PM'],['kabir','Kabir, 4:55 PM']].map(([m,t])=>`<span style="display:flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;border:2px dashed var(--m-${M[m].col})"></span>${t}</span>`).join('')}</span><b style="color:var(--ink)">4 s ahead of Kabir</b></span>`})}
+  <div style="height:12px"></div>
+  ${question(3,{sel:1})}
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px;display:flex;gap:10px">
+    <button class="key2" style="height:56px;flex:0 0 108px">Skip</button><button class="key" style="flex:1">Lock in</button>
+  </div>`;
+
+/* 15 Podium */
+function podium(o={}){
+  const base=410, fl=56; // stage height, floor band
+  const B=[{m:'you',p:2,x:62,w:96,h:96,mk:19},{m:'riya',p:1,x:180,w:104,h:132,mk:20},{m:'kabir',p:3,x:298,w:96,h:72,mk:14}];
+  let s='';
+  B.forEach(b=>{
+    s+=`<div class="pblock pb${b.p}" style="left:${b.x-b.w/2}px;width:${b.w}px;height:${b.h}px;bottom:${fl}px">
+        <div class="sheen">${b.p===1?'<i></i>':''}</div><div class="pn">${b.p}</div>
+        <svg style="position:absolute;right:6px;top:6px" width="${b.p*7+4}" height="10" viewBox="0 0 ${b.p*7+4} 10">${Array.from({length:b.p},(_,i)=>`<path d="M${2+i*7} 1 l4 8" stroke="#8F8571" stroke-width="1.6" stroke-linecap="round"/>`).join('')}</svg></div>`;
+    const w=b.p===1?92:80, hh=w*1.35;
+    s+=`<div class="shadow psh${b.p}" style="left:${b.x-w*.3}px;bottom:${b.h+fl-4}px;width:${w*.6}px"></div>`;
+    s+=`<div class="ch lit pch${b.p}" style="left:${b.x-w/2}px;bottom:${b.h+fl-6}px;width:${w}px;height:${w*1.25}px"><div class="br">${charImg(pose(b.m,b.p===1?'cheer':'rest'))}</div></div>`;
+    s+=`<div class="pname pnm${b.p}" style="left:${b.x}px;top:${base-fl+6}px;z-index:6"><b>${M[b.m].name}</b><span class="fig" data-marks="${b.mk}">${b.mk}</span> <em>marks</em></div>`;
+  });
+  return `<div class="den pstage" style="height:${base}px" data-den>
+    <div class="grid"></div><div class="cone" style="height:${base}px;transform:scaleX(.62)"><i></i></div>
+    <div class="pool" style="top:${base-fl-60}px;width:240px;margin-left:-120px"></div>
+    <div class="lamp" style="height:40px"><svg width="76" height="40" viewBox="0 0 76 40"><line x1="38" y1="0" x2="38" y2="18" stroke="var(--ink4)" stroke-width="1.5"/><path d="M24 18 h28 l10 18 h-48z" fill="var(--shade)"/><path d="M14 36 h48" stroke="var(--shadeIn)" stroke-width="2"/><ellipse cx="38" cy="38" rx="9" ry="3.5" fill="#FFF3D6"/></svg></div>
+    <div class="deskf" style="top:${base-fl}px"></div>
+    ${s}<div class="fx" style="position:absolute;inset:0;pointer-events:none;z-index:9"></div>
+  </div>`;
+}
+S['podium'] = () => `${statusBar('8:07 PM')}
+  <div class="topbar"><button class="iconbtn" aria-label="Close" data-go="den-live">${ico('close')}</button><div class="grow"><div class="tt">Riya's live sprint</div><div class="st">3 of you played live</div></div><button class="skipbtn" style="position:static;opacity:0" data-skip>Skip</button></div>
+  <div class="pad p-title" style="margin:2px 0 6px"><div class="t-head">Riya is on top so far</div><div class="t-cap ink3" style="margin-top:4px">One more can play until 8:02 PM tomorrow, so places can still change.</div></div>
+  ${podium()}
+  <div class="pad p-keys" style="margin-top:14px">
+    <div class="t-small ink2" style="text-align:center;margin-bottom:12px">Together you got 11 of 15 right.</div>
+    <button class="key" data-go="moments">Fix question 4 together</button>
+    <button class="tbtn" style="margin-top:4px">${ico('sticker',18,2)}Ask for a rematch</button>
+  </div>`;
+
+/* 16 Results, scrolled: everyone's moment, fix it, stickers, rematch */
+S['moments'] = () => `${statusBar('8:08 PM')}
+  <div class="topbar"><button class="iconbtn" data-go="podium" aria-label="Back">${ico('back')}</button><div class="grow"><div class="tt">Riya's live sprint</div><div class="st">Results so far</div></div></div>
+  <div class="pad">
+    <div class="sec">Everyone's moment</div>
+    ${[['riya','Riya','finished first, all 5 in 2:10.'],['you','You','got question 3 right in 14 seconds.'],['kabir','Kabir','skipped question 2 instead of guessing. That kept a mark.']].map(([m,n,t])=>`<div class="lrow" style="align-items:flex-start">${head(m,40,{ring:true})}<div class="tx" style="padding-top:2px"><span style="color:var(--ink);font:400 15px/21px Hanken"><b style="display:inline;font-weight:700">${n}</b> ${t}</span></div></div>`).join('')}
+    <div class="ticket" style="--notch:132px;margin-top:14px;padding:16px">
+      <div style="display:flex;gap:12px;align-items:flex-start"><img src="assets/art/mobi-think.webp" alt="" width="54" style="flex:none;margin-top:-4px"><div><div class="t-sub">Fix it together</div><div class="t-small ink2 wrapline">Question 4 caught 2 of you. Each of you gets one fresh question like it, then one more on Wednesday.</div></div></div>
+      <div class="perf" style="top:132px"></div><div style="height:30px"></div>
+      <button class="key" data-go="fix">Fix question 4 together</button>
+    </div>
+    <div class="sec" style="margin-top:18px">Send your Mob a sticker</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;padding:2px">${[['bell','Nice one'],['hand','So close'],['paper','Teach me'],['rematch','Rematch?']].map(([i,t])=>`<button class="sticker">${ico(i,18,2)}${t}</button>`).join('')}</div>
+    <div class="lockln" style="margin-top:14px">${ico('lock',14,2)}<span>Riya can start a rematch with new questions. Your "Rematch?" sticker asks her.</span></div>
+  </div>`;
+
+/* 17 Fix it together (redone: the answer sheet, the path to Wednesday, the stamp shelf) */
+S['fix'] = () => `${statusBar('8:09 PM')}
+  <div class="topbar"><button class="iconbtn" data-go="moments" aria-label="Close">${ico('close')}</button><div class="grow"><div class="tt">Fix question 4 together</div><div class="st">2 of you, one trap</div></div></div>
+  <div class="den" style="height:262px;margin:0 16px;border-radius:24px" data-den>
+    <div class="grid"></div><div class="cone" style="height:262px;transform:scaleX(.9)"><i></i></div>
+    <div style="position:absolute;left:18px;right:96px;top:22px;bottom:18px;background:var(--paper);color:#1E1B15;border-radius:14px;padding:12px 14px;transform:rotate(-1.2deg);box-shadow:0 14px 24px -14px rgba(0,0,0,.7)">
+      <div style="display:flex;justify-content:space-between;font:700 12px/16px Hanken;color:#5C5545"><span>Question 4</span><span>Why it looked right</span></div>
+      <div style="display:flex;gap:10px;margin:8px 0 8px">${['A','B','C','D'].map((l,i)=>`<span style="width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font:700 12px/1 Hanken;${i===2?'background:#1E1B15;color:#FFFDF8':'border:1.6px solid #8F8571;color:#5C5545'};position:relative">${l}${i===0?'<svg style="position:absolute;inset:-3px" viewBox="0 0 32 32"><path d="M6 26L26 6" stroke="#8F8571" stroke-width="2" stroke-linecap="round"/></svg>':''}</span>`).join('')}</div>
+      <div style="font:400 13.5px/19px Hanken">₹36,000 at 12% is ₹3,00,000. That is the value of the <b>whole business</b>, not goodwill. Take away the capital employed, ₹2,40,000, and goodwill is <b>₹60,000</b>.</div>
+    </div>
+    <img src="assets/art/mobi-think.webp" alt="" style="position:absolute;right:8px;bottom:12px;width:92px">
+  </div>
+  <div class="pad" style="margin-top:16px">
+    <div style="display:flex;align-items:flex-start;gap:0;position:relative">
+      <div style="position:absolute;left:14px;right:calc(50% + 14px);top:13px;height:2px;background:var(--line)"></div>
+      ${[['Now','One fresh question like it, only for you.',true],['Wednesday','One more, to check the fix holds.',false]].map(([a,b,on])=>`<div style="flex:1;display:flex;flex-direction:column;gap:6px;position:relative"><span style="width:28px;height:28px;border-radius:50%;display:grid;place-items:center;${on?'background:var(--ink);color:var(--ground)':'background:var(--raised2);color:var(--ink3);border:1.5px dashed var(--lineStrong)'}">${on?ico('sprint',14,2.4):ico('calendar',14,2.2)}</span><div class="t-small" style="padding-right:10px"><b>${a}.</b> <span class="ink2">${b}</span></div></div>`).join('')}
+    </div>
+    <div style="margin-top:16px;padding:14px;border-radius:20px;background:var(--raised);border:1px solid var(--line)">
+      <div style="display:flex;justify-content:space-between;align-items:center"><div class="t-sub">The den shelf</div><span class="t-label ink3">0 of 2 have passed</span></div>
+      <div style="display:flex;align-items:flex-end;gap:14px;margin-top:10px;padding:0 4px">
+        <img src="assets/art/token-held.webp" alt="" width="46"><img src="assets/art/token-first-repair.webp" alt="" width="46">
+        <span style="width:46px;height:46px;border-radius:50%;border:2px dashed var(--lineStrong);display:grid;place-items:center;color:var(--ink3);font:700 13px/1 BCond">3</span>
+        <div style="margin-left:auto;opacity:.9"><img src="${charSrc('crane')}" alt="" style="width:62px;filter:brightness(0) opacity(${theme==='night'?.5:.25})"></div>
+      </div>
+      <div style="height:5px;border-radius:2px;background:var(--deskEdge);margin-top:2px"></div>
+      <div class="t-cap ink3 wrapline" style="margin-top:10px">When both of you pass on Wednesday, the third stamp goes up, and Crane comes to all your shelves.</div>
+    </div>
+  </div>
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px"><button class="key">Try a fresh question</button></div>`;
+
+/* 18 Streak milestone: 14 days */
+S['milestone'] = () => `${statusBar('7:42 PM')}
+  <div class="den" style="position:absolute;inset:0;height:780px" data-den><div class="grid"></div><div class="cone" style="height:520px;transform:scaleX(.9)"><i></i></div><div class="pool" style="top:500px"></div></div>
+  <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;z-index:5">
+    <div style="height:64px"></div>
+    <div class="ms-chain" style="position:relative;width:328px;height:210px">
+      ${Array.from({length:14},(_,i)=>{ const a=Math.PI*(1-(i/13)); const x=164+Math.cos(a)*136, y=200-Math.sin(a)*146; const last=i===13; const rest=i===8; const rot=(i/13)*24-12;
+        return `<span class="ms-link ml${i}" style="position:absolute;left:${x-14}px;top:${y-17}px;width:28px;height:34px;transform:rotate(${rot}deg)"><svg width="28" height="34" viewBox="0 0 28 34">
+          ${rest?`<rect x="1.5" y="1.5" width="25" height="31" rx="8" fill="none" stroke="var(--lineStrong)" stroke-width="1.5" stroke-dasharray="3 2.5"/><path d="M16 11a5.5 5.5 0 1 0 4 8 4.5 4.5 0 0 1-4-8z" fill="var(--ink3)"/>`
+          :`<rect x="1" y="1" width="26" height="32" rx="8" fill="${last?'#D2F000':'var(--paper)'}" stroke="${last?'#9DB400':'var(--paperEdge)'}"/><path d="M8 17.5l4 4 8-8.5" fill="none" stroke="${last?'#0B1000':'#1E1B15'}" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>`}
+        </svg></span>`; }).join('')}
+      <div style="position:absolute;left:0;right:0;top:86px;text-align:center"><div class="fig ms-num" style="font-size:96px;line-height:86px">14</div></div>
+    </div>
+    <div class="t-head" style="margin-top:12px">14 days in a row</div>
+    <div class="t-small ink2" style="margin-top:6px;text-align:center;max-width:280px">You practised 14 days in a row, with one rest day on 16 Oct.</div>
+    <div style="display:flex;gap:10px;margin-top:18px">
+      <span class="sticker" style="height:44px">${ico('moon',18,2)}A rest pass</span>
+      <span class="sticker" style="height:44px">${ico('paper',18,2)}Story page 3</span>
+    </div>
+    <img src="assets/art/mobi-cheer.webp" alt="" class="ms-mobi" style="width:118px;margin-top:20px">
+  </div>
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px;z-index:6;display:flex;gap:10px"><button class="key2" style="height:56px;flex:0 0 120px">${ico('share',18,2)}Share</button><button class="key" style="flex:1">Back to the den</button></div>`;
+
+/* 19 Character reveal (earned) */
+const parcelSVG = (open) => `<svg class="parcel" width="200" height="150" viewBox="0 0 200 150" overflow="visible">
+  <rect x="10" y="40" width="180" height="108" rx="12" fill="#E4DBC6" stroke="#BDB29C"/>
+  <g class="flap fl-l" style="transform-origin:10px 94px;${open?'transform:scaleX(.2) skewY(-8deg)':''}"><path d="M10 40 L100 100 L10 148Z" fill="#DCD2BB" stroke="#BDB29C" stroke-linejoin="round"/></g>
+  <g class="flap fl-r" style="transform-origin:190px 94px;${open?'transform:scaleX(.2) skewY(8deg)':''}"><path d="M190 40 L100 100 L190 148Z" fill="#DCD2BB" stroke="#BDB29C" stroke-linejoin="round"/></g>
+  <g class="flap fl-b" style="transform-origin:100px 148px;${open?'transform:scaleY(.25)':''}"><path d="M10 148 L100 92 L190 148Z" fill="#E9E1CF" stroke="#BDB29C" stroke-linejoin="round"/></g>
+  <g class="flap fl-t" style="transform-origin:100px 40px;${open?'transform:scaleY(-1)':''}"><path d="M10 40 L100 104 L190 40Z" fill="#EDE5D3" stroke="#BDB29C" stroke-linejoin="round"/><circle class="seal" cx="100" cy="92" r="13" fill="#D2F000" stroke="#9DB400" ${open?'opacity="0"':''}/></g>
+</svg>`;
+S['reveal'] = () => `${statusBar('8:11 PM')}
+  <div class="den" style="position:absolute;inset:0;height:780px" data-den><div class="grid"></div><div class="cone rv-cone" style="height:560px;transform:scaleX(.75)"><i></i></div><div class="pool" style="top:520px"></div></div>
+  <div class="rv-leak" style="position:absolute;left:50%;top:330px;width:300px;height:300px;margin-left:-150px;border-radius:50%;background:radial-gradient(closest-side,rgba(242,169,59,.55),transparent);z-index:2;opacity:.5"></div>
+  <div style="position:absolute;inset:0;z-index:5;display:flex;flex-direction:column;align-items:center">
+    <div style="height:56px"></div>
+    <div class="t-label ink3 rv-earn" style="text-align:center">Earned: your Mob fixed 3 traps together</div>
+    <div style="position:relative;width:240px;height:400px;margin-top:8px">
+      <div class="rv-parcel" style="position:absolute;left:20px;bottom:0">${parcelSVG(true)}</div>
+      <div class="shadow rv-sh" style="left:70px;bottom:104px;width:100px;z-index:1"></div>
+      <div class="rv-char" style="position:absolute;left:30px;bottom:92px;width:180px;height:190px;z-index:2;transform-origin:50% 100%">${charImg('crane')}</div>
+    </div>
+    <div class="t-disp rv-name" style="margin-top:14px">Crane</div>
+    <div class="t-small ink2 rv-line" style="margin-top:4px">Folds it a hundred times until it is right.</div>
+  </div>
+  <div class="fx" style="position:absolute;inset:0;pointer-events:none;z-index:9"></div>
+  <div class="pad rv-keys" style="position:absolute;left:0;right:0;bottom:20px;z-index:6;display:flex;gap:10px"><button class="key2" style="height:56px;flex:0 0 120px">${ico('share',18,2)}Share</button><button class="key" style="flex:1" data-go="shelf">Put Crane on the shelf</button></div>`;
+
+/* 20 The shelf (collection) */
+function shelfRow(items, lab){
+  return `<div style="position:relative;margin-top:10px"><div style="display:flex;justify-content:space-around;align-items:flex-end;height:92px;padding:0 6px">${items.map(it=>`<div style="display:flex;flex-direction:column;align-items:center;width:76px;position:relative">
+      ${it.lock?`<div style="width:62px;height:80px;position:relative"><img class="cimg" src="${charSrc(it.f)}" alt="" style="filter:brightness(0) opacity(${theme==='night'?.55:.22})"></div>`:`<div style="width:62px;height:80px;position:relative">${charImg(it.f)}</div>`}
+      ${it.new?`<span class="stampt" style="position:absolute;top:-6px;right:-6px;height:20px;font-size:11px">New</span>`:''}
+    </div>`).join('')}</div>
+    <div style="height:8px;border-radius:3px;background:var(--deskEdge);box-shadow:0 6px 8px -4px rgba(0,0,0,.45)"></div>
+    <div style="display:flex;justify-content:space-around;padding:6px 6px 0">${items.map(it=>`<div style="width:76px;text-align:center"><div class="t-label" style="font-size:13px;${it.lock?'color:var(--ink2)':''}">${it.n}</div><div class="t-cap ink3 wrapline" style="font-size:12px;line-height:16px">${it.s}</div></div>`).join('')}</div></div>`;
+}
+S['shelf'] = () => `${statusBar('8:12 PM')}
+  <div class="topbar"><button class="iconbtn" data-go="den-live" aria-label="Back">${ico('back')}</button><div class="grow"><div class="tt">Your shelf</div><div class="st">Earned by playing. Never sold.</div></div></div>
+  <div class="pad">
+    <div class="sec" style="display:flex;justify-content:space-between"><span>Earned</span><span>2 of 6</span></div>
+    ${shelfRow([{f:'crane',n:'Crane',s:'3 traps fixed together',new:true},{f:'stamp',n:'Stamp',s:'A 4-week Mob chain'},{f:'kandil',n:'Kandil',s:'41 of 60 this week',lock:true}])}
+    <div style="height:14px"></div>
+    ${shelfRow([{f:'hop',n:'Hop',s:'5 Mob games in a week: 2 of 5',lock:true},{f:'dart',n:'Foil Dart',s:'10 fixes that held: 6 of 10',lock:true},{f:'patang',n:'Lamp Patang',s:'Top of 3 podiums: 1 of 3',lock:true}])}
+    <div style="display:flex;gap:12px;align-items:center;margin-top:18px;padding:12px 14px;border-radius:18px;background:var(--raised);border:1px solid var(--line)">
+      <div style="display:flex">${['dogear','hexa','tally','sticky','kandil'].map((f,i)=>`<span style="margin-left:${i?-10:0}px">${head(null,32,{file:f,col:'var(--ink4)'})}</span>`).join('')}</div>
+      <div style="flex:1"><div class="t-label">8 more for everyone</div><div class="t-cap ink3">Pick any of them as you.</div></div>${ico('right',18,2,'style="color:var(--ink3)"')}
+    </div>
+    <div style="display:flex;gap:12px;align-items:center;margin-top:10px;padding:12px 14px;border-radius:18px;background:var(--raised);border:1px solid var(--line)">
+      <img src="assets/art/paper-tile.webp" alt="" width="34" height="34" style="border-radius:8px;flex:none">
+      <div style="flex:1"><div class="t-label">The story so far: 3 of 12 pages</div><div class="t-cap ink3">Each page comes from something you did.</div></div>${ico('right',18,2,'style="color:var(--ink3)"')}
+    </div>
+  </div>`;
+
+/* 21 Invite: 6-character code, WhatsApp card, QR */
+function qr(n=21, s=4){ let r=''; let seed=7; const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
+  for(let y=0;y<n;y++)for(let x=0;x<n;x++){ const f=(x<7&&y<7)||(x>n-8&&y<7)||(x<7&&y>n-8); if(f){ const ix=x>n-8?x-(n-7):x, iy=y>n-8?y-(n-7):y; if(ix===0||ix===6||iy===0||iy===6||(ix>1&&ix<5&&iy>1&&iy<5)) r+=`<rect x="${x*s}" y="${y*s}" width="${s}" height="${s}"/>`; } else if(rnd()>.52) r+=`<rect x="${x*s}" y="${y*s}" width="${s}" height="${s}"/>`; }
+  return `<svg width="${n*s}" height="${n*s}" viewBox="0 0 ${n*s} ${n*s}" fill="#17150F">${r}</svg>`; }
+S['invite'] = () => `${statusBar('9:10 PM')}
+  <div class="topbar"><button class="iconbtn" data-go="one" aria-label="Back">${ico('back')}</button><div class="grow tt">Save a seat for a friend</div></div>
+  <div class="pad">
+    <div class="ticket" style="--notch:118px;padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <div><div class="t-label ink3">Your Mob's code</div><div class="fig" style="font-size:44px;line-height:46px;letter-spacing:2px;margin-top:4px">K7P 2M9</div><div class="t-cap ink3">Works for 7 days, for up to 4 friends.</div></div>
+        <div style="background:#FFFDF8;padding:6px;border-radius:10px">${qr(21,3.6)}</div>
+      </div>
+      <div class="perf" style="top:118px"></div><div style="height:28px"></div>
+      <div style="display:flex;gap:10px"><button class="key2" style="flex:1">${ico('copy',18,2)}Copy the code</button><button class="key2" style="flex:1">${ico('scan',18,2)}Show QR</button></div>
+    </div>
+    <div class="sec" style="margin-top:18px">What your friend sees in WhatsApp</div>
+    <div style="border-radius:20px;overflow:hidden;border:1px solid var(--line);background:var(--raised)">
+      <div style="height:168px;position:relative;background:url(assets/art/group-desk.webp) center 58%/cover">
+        <div style="position:absolute;left:12px;top:10px;padding:5px 8px;border-radius:8px;background:rgba(18,17,14,.55)"><img src="assets/art/wordmark-white.svg" alt="mockmob" style="height:16px;display:block"></div>
+      </div>
+      <div style="padding:12px 14px"><div class="t-label" style="font-size:15px">Aarav saved you a seat in Chai Circle</div><div class="t-cap ink3">An Accountancy Mob on MockMob. Code K7P 2M9.</div></div>
+    </div>
+  </div>
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px"><button class="key">${ico('chat',20,2)}Invite on WhatsApp</button></div>`;
+
+/* 22 Join with a code */
+S['join'] = () => `${statusBar('9:14 PM')}
+  <div class="topbar"><button class="iconbtn" aria-label="Back">${ico('back')}</button><div class="grow tt">Join a Mob</div><button class="pill" style="height:36px;background:var(--raised);border:1px solid var(--line);color:var(--ink)">${ico('scan',16,2)}Scan QR</button></div>
+  <div class="pad">
+    <div class="t-small ink2">Type the 6-character code your friend sent.</div>
+    <div class="code6" style="margin-top:12px">${['K','7','P','2','M','9'].map((c,i)=>`<b class="${i===3?'gap':''} ${i===5?'cur':''}">${c}</b>`).join('')}</div>
+    <div class="ticket" style="--notch:84px;margin-top:18px;padding:14px 16px">
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="display:flex">${['you','riya','kabir'].map((m,i)=>`<span style="margin-left:${i?-10:0}px">${head(m,38,{ring:true})}</span>`).join('')}</div>
+        <div><div class="t-sub">Chai Circle</div><div class="t-cap ink3">Accountancy, 3 of 5 seats taken</div></div>
+      </div>
+      <div class="perf" style="top:84px"></div><div style="height:28px"></div>
+      <div class="t-small ink2">Aarav saved you a seat. Pick who you'll be:</div>
+      <div style="display:flex;gap:8px;margin-top:10px">${['dogear','hexa','tally','sticky','hop'].map((f,i)=>`<span style="padding:3px;border-radius:50%;${i===1?'box-shadow:0 0 0 2px var(--ink)':''}">${head(null,46,{file:f,col:'var(--ink4)'})}</span>`).join('')}</div>
+      <div style="margin-top:14px;height:52px;border-radius:14px;border:1px solid var(--lineStrong);background:var(--raised2);display:flex;align-items:center;padding:0 14px;justify-content:space-between"><span class="t-body">Ishaan</span><span class="t-cap ink3">First name only</span></div>
+    </div>
+    <div class="t-cap ink3 wrapline" style="margin-top:12px">MockMob never asks for your contacts. Only your Mob sees your name. You can leave any time.</div>
+  </div>
+  <div class="pad" style="position:absolute;left:0;right:0;bottom:20px"><button class="key">Join Chai Circle</button></div>`;
+
+/* 23 A Mob of one */
+S['one'] = () => `${statusBar('9:08 PM')}${DEN_HEADER('Accountancy, just you')}
+  ${den({h:300, lamp:'on', wall:{shelf:false}, chars:[{m:'you', x:62, label:'You', here:true, pose:'wave'}], seats:[142,198,254,310],
+     extra:`<div class="t-cap ink3" style="position:absolute;left:96px;right:8px;top:${300-56}px;text-align:center">4 open seats</div>`})}
+  <div class="pad" style="margin-top:16px">
+    <div class="t-head">It's just you for now</div>
+    <div class="t-small ink2 wrapline" style="margin-top:6px">Your den already works. Race your own ghost, keep your chain and sit this week's Mob paper. Friends join with your code.</div>
+    <div style="display:flex;gap:8px;margin-top:12px;align-items:center"><span class="pill" style="height:34px;background:var(--raised);border:1px solid var(--line);color:var(--ink)"><span class="fig" style="font-size:18px;letter-spacing:1px">K7P 2M9</span></span><span class="t-cap ink3">Your code</span></div>
+    <button class="key" style="margin-top:18px" data-go="invite">Invite a friend</button>
+    <button class="tbtn" style="margin-top:4px">${ico('ghost',18,2)}Race your own ghost</button>
+  </div>
+  ${bottomBar()}`;
+
+const SCREENS = [
+  ['den-live','The den, live'],['den-quiet','The den, quiet'],['chain','Your chain'],['week','This week together'],
+  ['picker','Play picker (Free)'],['picker-pro','Start a game (Pro)'],['compare','Free and Pro'],
+  ['ready','Ready up'],['countdown','Countdown'],['race','Live race'],['right','Right answer'],['wrong','Wrong answer'],['friend-done','A friend finishes'],
+  ['ghost','Ghost race (24 hours)'],['podium','Podium'],['moments','Everyone\'s moment'],['fix','Fix it together'],
+  ['milestone','Streak milestone'],['reveal','Character reveal'],['shelf','Your shelf'],['invite','Invite'],['join','Join with a code'],['one','A Mob of one'],
+];
+
+/* =====================================================================
+   MOTION ENGINE. Every moment is a set of Web Animations started at
+   t = 0 with delays, so the same timeline can be played live or seeked
+   frame by frame. Durations and curves are the app's tokens
+   (motion_tokens.g.dart) plus the kit's new mob.beat = 600 ms.
+   ===================================================================== */
+const EASE = {
+  glide:'cubic-bezier(.15,.5,.5,1)', out:'cubic-bezier(.23,1,.32,1)', emphasized:'cubic-bezier(.16,1,.3,1)',
+  exit:'cubic-bezier(.4,.3,.8,.6)', leave:'cubic-bezier(.5,0,.75,0)', sweep:'cubic-bezier(.45,0,.55,1)', inOut:'cubic-bezier(.77,0,.175,1)', linear:'linear'
+};
+/* spring (duration, bounce) as CSS linear(), the same model as the app's Springs */
+function spring(dur, bounce){
+  const z = 1 - bounce, w = 2*Math.PI/(dur/1000), wd = w*Math.sqrt(Math.max(1e-6,1-z*z));
+  const pts=[]; const N=48;
+  for(let i=0;i<=N;i++){ const t=(i/N)*(dur/1000)*1.0; let x;
+    if(z<1) x = 1 - Math.exp(-z*w*t)*(Math.cos(wd*t) + (z*w/wd)*Math.sin(wd*t)); else x = 1 - Math.exp(-w*t)*(1+w*t);
+    pts.push(+x.toFixed(4)); }
+  pts[pts.length-1]=1; return `linear(${pts.join(',')})`;
+}
+const SPR = { celebrate:[520,.22], iconPop:[420,.18], smooth:[360,.12], snappy:[220,0], settle:[420,0], dock:[360,.18] };
+const sp = n => spring(...SPR[n]);
+const BEAT = 600;
+
+let CUR = null, RAF = 0;
+function A(el, kf, o){
+  if(!el) return null;
+  let d = o.duration, delay = o.delay||0, easing = o.easing||EASE.out;
+  if(RM){ // fewer and gentler: keep opacity changes (order and timing are information), drop movement
+    const hasOp = kf.some(k=>'opacity' in k);
+    if(o.rmKeep){ /* keep as is (e.g. colour) */ }
+    else if(hasOp){ kf = kf.map(k=>({opacity:k.opacity, offset:k.offset})); d = Math.min(d,120); easing='linear'; }
+    else { kf = [kf[kf.length-1]]; kf = [Object.assign({},kf[0]), Object.assign({},kf[0])]; d = 1; }
+  }
+  const a = el.animate(kf, {duration:d, delay, easing, fill:'both', iterations:o.iterations||1, direction:o.direction||'normal'});
+  CUR.anims.push(a); return a;
+}
+function tick(fn){ CUR.tickers.push(fn); }
+/* one element, many beats: a timeline of [ms, props, easing-to-next] as a single animation, so segments never override each other */
+function TL(el, pts){ if(!el) return; const t0=pts[0][0], t1=pts[pts.length-1][0]; const kf=pts.map(([t,pr,ez])=>Object.assign({offset:(t-t0)/(t1-t0)}, pr, ez?{easing:ez}:{})); return A(el,kf,{duration:t1-t0, delay:t0, easing:'linear'}); }
+function cue(t, text){ CUR.cues.push([t,text]); }
+const $ = (s, r=document) => r.querySelector(s); const $$ = (s, r=document) => [...r.querySelectorAll(s)];
+let rnd = 1; const R = () => { rnd = (rnd*16807)%2147483647; return (rnd-1)/2147483646; };
+function particles(host, x, y, n, o={}){
+  if(RM || !host) return;
+  rnd = o.seed||11;
+  const cols = o.cols || ['#FFFDF8','#EDE5D3','#F2A93B','#D2F000','#FF7A8A','#6E8BFF'];
+  for(let i=0;i<n;i++){
+    const b=document.createElement('i'); b.className='bit'; b.style.left=x+'px'; b.style.top=y+'px'; b.style.background=cols[i%cols.length];
+    host.appendChild(b);
+    const ang = (o.spread||Math.PI)*(R()-.5) - Math.PI/2 + (o.dir||0), v = (o.v||120)*(.45+R()*.75);
+    const dx=Math.cos(ang)*v, dy=Math.sin(ang)*v, life=(o.life||1100)*(.6+R()*.5), rot=(R()-.5)*720;
+    A(b,[{transform:'translate(0,0) rotate(0) scale(1)',opacity:0},{transform:'translate(0,0) rotate(0) scale(1)',opacity:1,offset:.02},{transform:`translate(${dx*.7}px,${dy*.7}px) rotate(${rot*.6}deg) scaleY(.6)`,opacity:1,offset:.45},{transform:`translate(${dx}px,${dy+90}px) rotate(${rot}deg) scaleY(1)`,opacity:0}],{duration:life,delay:o.delay||0,easing:'cubic-bezier(.2,.6,.4,1)'});
+  }
+}
+function glints(host, pts, delay, o={}){
+  if(RM || !host) return;
+  pts.forEach(([x,y],i)=>{ const g=document.createElement('div'); g.className='glint'; g.innerHTML=glintSVG(o.c); g.style.left=x+'px'; g.style.top=y+'px'; host.appendChild(g);
+    A(g,[{transform:'scale(.3) rotate(0deg)',opacity:0},{transform:'scale(1.15) rotate(45deg)',opacity:1,offset:.35},{transform:'scale(.6) rotate(90deg)',opacity:0}],{duration:o.d||700,delay:delay+(o.step||40)*i,easing:EASE.out}); });
+}
+function engrave(el, delay, dur=280){ return A(el,[{clipPath:'inset(0 100% 0 0)',opacity:1},{clipPath:'inset(0 0% 0 0)',opacity:1}],{duration:dur,delay,easing:EASE.out}); }
+function rollNumber(el, from, to, delay, dur=720){
+  if(!el) return; const f = +from, t = +to;
+  tick(ms=>{ const p = Math.min(1,Math.max(0,(ms-delay)/(RM?1:dur))); const e = 1-Math.pow(1-p,3); el.textContent = Math.round(f + (t-f)*e); });
+}
+
+/* ---------- the ten signature moments ---------- */
+const MOMENTS = {};
+
+/* 1. Enter the den (T2, 1100 ms + idle) */
+MOMENTS.enter = { strip:[0,120,280,420,560,760,1000,1600], screen:'den-live', dur:2600, run(){
+  const ph=$('.phone'), den=$('[data-den]', ph);
+  A($('.scr',ph),[{opacity:0},{opacity:1}],{duration:200,easing:EASE.emphasized});
+  A($('.cone',den),[{opacity:0,transform:'scaleY(.55)'},{opacity:1,transform:'scaleY(1)'}],{duration:420,easing:EASE.glide});
+  A($('.pool',den),[{opacity:0},{opacity:1}],{duration:420,delay:80,easing:EASE.glide});
+  A($('.lamp',den),[{transform:'translateY(-10px)'},{transform:'translateY(0)'}],{duration:420,easing:sp('settle')});
+  ['.deskt','.deskf'].forEach(s=>A($(s,den),[{transform:'translateY(14px)'},{transform:'translateY(0)'}],{duration:360,delay:120,easing:EASE.out}));
+  $$('.ch',den).forEach((c,i)=>{
+    const d=200+45*i*2; // 90 ms apart reads as a roll call at 4 characters (kit: 45 per friend; doubled for 4 of you)
+    A(c,[{transform:'translateY(14px) scale(.92)',opacity:0},{transform:'translateY(0) scale(1)',opacity:1}],{duration:420,delay:d,easing:sp('iconPop')});
+    const sh=$(`[data-sh="${c.dataset.ch}"]`,den); A(sh,[{transform:'scaleX(.4)',opacity:0},{transform:'scaleX(1)',opacity:1}],{duration:360,delay:d+60,easing:EASE.out});
+    if(!c.classList.contains('away')) A($('.br',c),[{transform:'scaleY(1)'},{transform:'scaleY(1.02) translateY(-1px)'}],{duration:1200,delay:700+i*120,iterations:Infinity,direction:'alternate',easing:'ease-in-out'});
+  });
+  $$('.ntag',den).forEach((t,i)=>A(t,[{opacity:0,transform:'translateX(-50%) translateY(6px)'},{opacity:1,transform:'translateX(-50%) translateY(0)'}],{duration:280,delay:420+90*i,easing:EASE.out}));
+  $$('.here',den).forEach((h,i)=>engrave(h,700+60*i));
+  const pn=$('[data-pennant]',den); A(pn,[{transform:'rotate(-8deg)',opacity:0},{transform:'rotate(0deg)',opacity:1}],{duration:520,delay:260,easing:sp('celebrate')});
+  A($('.shelf',den),[{opacity:0},{opacity:1}],{duration:300,delay:300});
+  A($('[data-rise]',ph),[{transform:'translateY(14px)',opacity:0},{transform:'translateY(0)',opacity:1}],{duration:360,delay:300,easing:EASE.out});
+  A($('.ticket .here',ph),[{opacity:.35},{opacity:1}],{duration:BEAT,delay:1100,iterations:2,direction:'alternate',easing:'ease-in-out'});
+}};
+
+/* 2. Go live (T2, 900 ms, then real joiners) */
+MOMENTS.golive = { strip:[0,120,240,400,640,1500,1900,2500], screen:'picker-pro', dur:2900, run(){
+  const ph=$('.phone'), key=$('[data-moment="golive"]',ph), layer=$('.golive-layer',ph);
+  A(key,[{transform:'scale(1)'},{transform:'scale(.96)',offset:.45},{transform:'scale(1)'}],{duration:240,easing:EASE.out});
+  cue(140,'Haptic: light. Key released');
+  const r=key.getBoundingClientRect(), p=ph.getBoundingClientRect(); const cx=r.left-p.left+r.width/2, cy=r.top-p.top+r.height/2;
+  layer.innerHTML=`<div class="gl-next" style="position:absolute;inset:0;opacity:0"></div><div class="gl-wipe" style="position:absolute;inset:0;background:#D2F000;clip-path:circle(0px at ${cx}px ${cy}px);pointer-events:none"></div>`;
+  const next=$('.gl-next',layer); next.innerHTML = `<div class="scr" style="background:var(--ground)">${S['ready']().replace(/data-moment="countdown"/,'')}</div>`;
+  next.style.pointerEvents='auto';
+  // host view: you opened it, so the copy is yours
+  const tt=$('.tt',next); if(tt) tt.textContent='Your live sprint';
+  $$('.ch',next).forEach(c=>{ if(c.dataset.ch!=='you') { c.style.opacity=0; } });
+  $$('[data-tag]',next).forEach(t=>{ if(t.dataset.tag!=='you') t.style.opacity=0; });
+  $$('[data-sh]',next).forEach(t=>{ if(t.dataset.sh!=='you') t.style.opacity=0; });
+  const st=$('[data-sticker]',next); if(st) st.style.opacity=0;
+  A($('.gl-wipe',layer),[{clipPath:`circle(0px at ${cx}px ${cy}px)`},{clipPath:`circle(900px at ${cx}px ${cy}px)`}],{duration:360,delay:140,easing:EASE.out});
+  TL(next,[[0,{opacity:0}],[380,{opacity:0},EASE.out],[400,{opacity:1}]]);
+  TL($('.gl-wipe',layer),[[0,{opacity:.92}],[400,{opacity:.92},EASE.glide],[760,{opacity:.06}],[900,{opacity:.06},EASE.glide],[1500,{opacity:0}]]);
+  A($('.ch[data-ch="you"]',next),[{transform:'rotate(0deg)'},{transform:'rotate(-4deg)'}],{duration:240,delay:640,easing:EASE.out});
+  [['kabir',1300],['riya',2000]].forEach(([m,t])=>{
+    const c=$(`.ch[data-ch="${m}"]`,next), tg=$(`[data-tag="${m}"]`,next), sh=$(`[data-sh="${m}"]`,next);
+    A(c,[{opacity:0,transform:'translateY(36px) scale(1)'},{opacity:1,transform:'translateY(-18px) scale(1)',offset:.45},{transform:'translateY(0) scaleX(1.08) scaleY(.88)',offset:.62},{opacity:1,transform:'translateY(0) scale(1) rotate(4deg)'}],{duration:560,delay:t,easing:EASE.out});
+    A(sh,[{opacity:0,transform:'scaleX(.4)'},{opacity:1,transform:'scaleX(1)'}],{duration:300,delay:t+250});
+    A(tg,[{opacity:0},{opacity:1}],{duration:200,delay:t+300});
+    engrave($(`[data-stamp="${m}"]`,next),t+360);
+    cue(t,'Haptic: selection. Sound: woodblock. A friend joined');
+  });
+}};
+
+/* 3. Countdown (3 beats + Go, 3000 ms) */
+MOMENTS.countdown = { strip:[0,120,560,700,1300,1800,1960,2700], screen:'countdown', dur:3400, run(){
+  const ph=$('.phone');
+  A($('.cd-scrim',ph),[{opacity:0},{opacity:.5,offset:.33},{opacity:.62,offset:.66},{opacity:.72}],{duration:1800,easing:EASE.glide});
+  A($('.cd-layer',ph),[{opacity:0},{opacity:1}],{duration:200});
+  [3,2,1].forEach((n,i)=>{ const el=$(`.cd-${n}`,ph); const t=i*BEAT;
+    el.style.opacity=0;
+    TL(el,[[t,{opacity:0,transform:'scale(1.25)'},EASE.out],[t+180,{opacity:1,transform:'scale(1)'}],[t+460,{opacity:1,transform:'scale(1)'},EASE.leave],[t+600,{opacity:0,transform:'scale(.92)'}]]);
+    cue(t,`Haptic: selection. Sound: stopwatch tick (${n})`);
+  });
+  A($('.cd-tile',ph),[{transform:'rotate(-1.5deg)'},{transform:'rotate(1.5deg)',offset:.33},{transform:'rotate(-1.5deg)',offset:.66},{transform:'rotate(1.5deg)'}],{duration:1800,easing:EASE.inOut});
+  A($('.cd-met',ph),[{transform:'rotate(-5deg)'},{transform:'rotate(5deg)',offset:.33},{transform:'rotate(-5deg)',offset:.66},{transform:'rotate(5deg)'}],{duration:1800,easing:EASE.inOut});
+  A($('.cd-go',ph),[{opacity:0,transform:'scale(1.2)'},{opacity:1,transform:'scale(1)'}],{duration:180,delay:1800,easing:EASE.out});
+  TL($('.cd-ring',ph),[[0,{opacity:0,transform:'scale(.6)'}],[1799,{opacity:0,transform:'scale(.6)'}],[1800,{opacity:.9,transform:'scale(.6)'},EASE.out],[2220,{opacity:0,transform:'scale(1.6)'}]]);
+  cue(1800,'Haptic: light. Sound: bright woodblock. Go');
+  glints($('.cd-stage',ph),[[20,20],[200,30],[30,220],[205,210]],1820,{c:'#D2F000'});
+  // question rises
+  const q=document.createElement('div'); q.className='cd-q'; q.style.cssText='position:absolute;inset:0;z-index:60;background:var(--ground);opacity:0';
+  q.innerHTML = `${statusBar('8:04 PM')}${RACE_TOP(1,'5:00')}<div style="height:6px"></div>${strip({pos:{riya:0,kabir:0,you:0},mine:0,note:'Where everyone is. Never what they picked.'})}<div style="height:16px"></div>${question(3,{}).replace('Question 3 of 5','Question 1 of 5')}`;
+  ph.appendChild(q);
+  A(q,[{opacity:0},{opacity:1}],{duration:200,delay:2400,easing:EASE.out});
+  A($('.qwrap',q),[{transform:'translateY(14px)'},{transform:'translateY(0)'}],{duration:300,delay:2400,easing:EASE.glide});
+}};
+
+/* 4. Answer lock-in (T1, 320 ms) */
+MOMENTS.lockin = { strip:[0,120,200,560,660,800,1000,1300], screen:'race', dur:1500, run(){
+  const ph=$('.phone'); const opts=$$('.opt',ph); const b=opts[1];
+  b.classList.remove('sel');
+  A(b,[{transform:'scale(1)'},{transform:'scale(.96)'},{transform:'scale(1)'}],{duration:240,delay:100,easing:EASE.out});
+  cue(100,'Haptic: selection');
+  tick(ms=>{ b.classList.toggle('sel', ms>=180); });
+  const key=$('[data-moment="lockin"]',ph);
+  A(key,[{transform:'scale(1)'},{transform:'scale(.96)',offset:.4},{transform:'scale(1)'}],{duration:240,delay:520,easing:EASE.out});
+  const clip=document.createElement('span'); clip.className='clip'; clip.innerHTML=clipSVG; b.appendChild(clip);
+  A(clip,[{transform:'translateY(-8px)',opacity:0},{transform:'translateY(0)',opacity:1}],{duration:140,delay:640,easing:sp('snappy')});
+  cue(640,'Haptic: light. Sound: woodblock. Locked in');
+  opts.forEach((o,i)=>{ if(i!==1) A(o,[{opacity:1},{opacity:.6}],{duration:160,delay:640,easing:EASE.out}); });
+  const me=$('[data-rh="you"]',ph);
+
+  // you move to the next bubble
+  TL(me,[[640,{transform:'translateX(0) translateY(0) rotate(0deg)'},EASE.out],[760,{transform:'translateX(0) translateY(0) rotate(-3deg)'},EASE.out],[880,{transform:'translateX(0) translateY(0) rotate(0deg)'}],[900,{transform:'translateX(0) translateY(0) rotate(0deg)'},EASE.glide],[1050,{transform:'translateX(22px) translateY(-8px) rotate(0deg)'},EASE.glide],[1200,{transform:'translateX(44px) translateY(0) rotate(0deg)'}]]);
+  A($$('.rq',ph)[2],[{background:'transparent',color:'#5C5545'},{background:'#1E1B15',color:'#FFFDF8'}],{duration:200,delay:900,easing:EASE.out,rmKeep:true});
+}};
+
+/* 5. Right and wrong (T1, 560 ms each) */
+MOMENTS.rightwrong = { strip:[0,120,280,520,1500,1820,2000,2500], screen:'right', dur:3200, run(){
+  const ph=$('.phone'); const scr=$('.scr',ph);
+  // part 1: right
+  const b=$$('.opt',ph)[1]; b.classList.remove('right'); b.classList.add('sel');
+  tick(ms=>{ if(ms<1600){ b.classList.toggle('right', ms>=0); b.classList.toggle('sel', ms<0);} });
+  A(b,[{background:'var(--raised)'},{background:'var(--goodSurf)'}],{duration:200,easing:EASE.out,rmKeep:true});
+  const tp=$('.tickpath',ph); A(tp,[{strokeDashoffset:1},{strokeDashoffset:0}],{duration:450,delay:120,easing:EASE.out,rmKeep:true});
+  cue(0,'Haptic: light (live only). Sound: woodblock, a whole tone up');
+  const fb=$('.fb-line',ph); A(fb,[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:280,delay:160,easing:EASE.out});
+  const plus=document.createElement('div'); plus.className='fig'; plus.textContent='+5'; plus.style.cssText='position:absolute;right:56px;top:-6px;font-size:22px;color:var(--ink2)'; b.appendChild(plus);
+  A(plus,[{transform:'translateY(0)',opacity:0},{transform:'translateY(-4px)',opacity:1,offset:.2},{transform:'translateY(-12px)',opacity:0}],{duration:700,delay:120,easing:EASE.out});
+  const me=$('[data-rh="you"]',ph);
+  A(me,[{transform:'translateY(0) rotate(0)'},{transform:'translateY(-7px) rotate(-3deg)',offset:.4},{transform:'translateY(0) rotate(0)'}],{duration:420,delay:120,easing:EASE.out});
+  glints(b,[[300,12]],380,{c:'#D2F000'});
+  // part 2: wrong (swap to question 4 at 1600)
+  const w=document.createElement('div'); w.className='scr'; w.style.cssText='background:var(--ground);opacity:0;z-index:5'; w.innerHTML=S['wrong']();
+  ph.appendChild(w);
+  A(w,[{opacity:0},{opacity:1}],{duration:200,delay:1500,easing:EASE.out});
+  const wo=$$('.opt',w)[0], ro=$$('.opt',w)[2];
+  tick(ms=>{ wo.classList.toggle('wrong', ms>=1800); wo.classList.toggle('sel', ms<1800); ro.classList.toggle('right', ms>=1880); });
+  const dl=$('.delta',wo); A(dl,[{opacity:0},{opacity:1}],{duration:200,delay:1900});
+  A($('.tickpath',w),[{strokeDashoffset:1},{strokeDashoffset:0}],{duration:450,delay:1920,easing:EASE.out,rmKeep:true});
+  cue(1800,'No haptic. Sound: soft pat. No shake, no flash');
+  const me2=$('[data-rh="you"]',w);
+  A(me2,[{transform:'rotate(0)'},{transform:'rotate(6deg)',offset:.45},{transform:'rotate(0)'}],{duration:420,delay:1820,easing:EASE.out});
+  A($('.pad .t-small',w).parentElement,[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:280,delay:1980,easing:EASE.out});
+}};
+
+/* 6. A friend finishing (T1, 600 ms) */
+MOMENTS.friendfinish = { strip:[0,160,300,400,480,600,800,1100], screen:'friend-done', dur:1700, run(){
+  const ph=$('.phone'); const rh=$('[data-rh="riya"]',ph);
+  TL(rh,[[100,{transform:'translateX(-30px) translateY(0)'},EASE.glide],[400,{transform:'translateX(0) translateY(0)'},EASE.out],[570,{transform:'translateX(0) translateY(-8px)'},EASE.out],[820,{transform:'translateX(0) translateY(0)'}]]);
+  const pen=$('.pen',rh), cloth=$('.pencloth',rh);
+  TL(pen,[[0,{transform:'translateY(14px) scaleY(.3)',opacity:0}],[380,{transform:'translateY(14px) scaleY(.3)',opacity:0},EASE.out],[520,{transform:'translateY(0) scaleY(1)',opacity:1}]]);
+  TL(cloth,[[380,{transform:'scaleX(0)'},sp('iconPop')],[660,{transform:'scaleX(1)'},EASE.inOut],[900,{transform:'scaleX(.86) skewY(4deg)'},EASE.inOut],[1140,{transform:'scaleX(1) skewY(0deg)'}]]);
+  cue(380,'No haptic. Sound: a page flip');
+  const note=$('.stripnote',ph); engrave(note,560,280);
+
+}};
+
+/* 7. Podium reveal (T4, about 4800 ms) */
+MOMENTS.podium = { strip:[200,700,1300,1900,2300,2700,3700,4800], screen:'podium', dur:5200, run(){
+  const ph=$('.phone'), st=$('.pstage',ph), fx=$('.fx',st);
+  const sc=document.createElement('div'); sc.style.cssText='position:absolute;inset:0;background:#080705;z-index:1;pointer-events:none'; st.prepend(sc);
+  TL(sc,[[0,{opacity:0},EASE.emphasized],[400,{opacity:.35}],[4200,{opacity:.35},EASE.glide],[4800,{opacity:0}]]);
+  A($('.cone',st),[{transform:'scaleX(1.2)',opacity:.6},{transform:'scaleX(.62)',opacity:1}],{duration:400,easing:EASE.emphasized});
+  const order=[3,2,1], at={3:400,2:1000,1:1600};
+  order.forEach(p=>{
+    const t=at[p], bl=$(`.pb${p}`,st), ch=$(`.pch${p}`,st), sh=$(`.psh${p}`,st), nm=$(`.pnm${p}`,st);
+    A(bl,[{transform:'perspective(500px) rotateX(90deg)',opacity:0},{transform:'perspective(500px) rotateX(0deg)',opacity:1}],{duration:420,delay:t,easing:EASE.emphasized});
+    const land=t+420+80;
+    const drop=[[land-240,{transform:'translateY(-60px) scale(1)',opacity:0},EASE.leave],[land,{transform:'translateY(0) scale(1)',opacity:1},EASE.out],[land+90,{transform:'translateY(0) scaleX(1.08) scaleY(.88)',opacity:1},EASE.out],[land+220,{transform:'translateY(-3px) scaleX(.98) scaleY(1.03)',opacity:1},EASE.out],[land+340,{transform:'translateY(0) scale(1)',opacity:1}]];
+    if(p===1){ const h=2700; drop.push([h,{transform:'translateY(0) scale(1)',opacity:1},EASE.out],[h+200,{transform:'translateY(-14px) scaleX(.97) scaleY(1.04)',opacity:1},EASE.leave],[h+360,{transform:'translateY(0) scaleX(1.06) scaleY(.92)',opacity:1},EASE.out],[h+520,{transform:'translateY(0) scale(1)',opacity:1}]); }
+    TL(ch,drop);
+    A(sh,[{opacity:0,transform:'scaleX(.3)'},{opacity:1,transform:'scaleX(1)'}],{duration:240,delay:land});
+    cue(land,`Haptic: light. Sound: woodblock. Place ${p} lands`);
+    const r=bl.getBoundingClientRect(), s=st.getBoundingClientRect();
+    particles(fx, r.left-s.left+r.width/2, r.top-s.top, 10, {delay:land, v:90, life:900, seed:p*7});
+    A(nm,[{opacity:0,transform:'translateX(-50%) translateY(6px)'},{opacity:1,transform:'translateX(-50%) translateY(0)'}],{duration:280,delay:land+60,easing:EASE.out});
+    rollNumber($('[data-marks]',nm),0,+$('[data-marks]',nm).dataset.marks,land+60,720);
+    A($('.pn',bl),[{clipPath:'inset(0 100% 0 0)'},{clipPath:'inset(0 0 0 0)'}],{duration:280,delay:land+280,easing:EASE.out});
+  });
+  // first place flourish at 2200
+  const T1=2200, b1=$('.pb1',st), r1=b1.getBoundingClientRect(), s=st.getBoundingClientRect();
+  const sw=document.createElement('div'); sw.className='swell'; sw.style.cssText='position:absolute;left:0;right:0;top:0;height:'+(st.offsetHeight-56)+'px;transform:scaleX(.62);pointer-events:none;z-index:1;background:linear-gradient(180deg,rgba(242,169,59,.34),rgba(242,169,59,.10) 70%,transparent);clip-path:polygon(43% 0,57% 0,94% 100%,6% 100%)'; st.appendChild(sw);
+  TL(sw,[[0,{opacity:0}],[T1,{opacity:0},EASE.emphasized],[T1+500,{opacity:1}],[4600,{opacity:1},EASE.glide],[5200,{opacity:.55}]]);
+  A($('.pool',st),[{opacity:1,transform:'scale(1)'},{opacity:1,transform:'scale(1.25)'}],{duration:500,delay:T1,easing:EASE.emphasized});
+  if(!RM) A($('.sheen i',b1),[{left:'-60%'},{left:'120%'}],{duration:700,delay:T1+100,easing:EASE.sweep});
+  particles(fx, r1.left-s.left+r1.width/2, r1.top-s.top-40, 40, {delay:T1+120, v:210, life:1400, spread:Math.PI*1.3, seed:3});
+  glints(fx, [[110,120],[250,110],[150,60],[214,70],[96,200],[266,190],[180,40],[132,150]], T1+160, {step:70, d:800});
+  cue(T1,'Haptic: medium. Sound: the desk bell. First place');
+  // title and keys
+  A($('.p-title',ph),[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:360,delay:3500,easing:EASE.out});
+  engrave($('.p-title .t-head',ph),3500,420);
+  A($('.p-keys',ph),[{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'translateY(0)'}],{duration:360,delay:4200,easing:EASE.out});
+  cue(4400,'Haptic: confirm (after the server acknowledged)');
+
+  A($('[data-skip]',ph),[{opacity:1},{opacity:1,offset:.95},{opacity:0}],{duration:4600});
+}};
+
+/* 8. Streak extending (T3, 1800 ms): the Mob pennant gains a stitch */
+MOMENTS.streak = { strip:[0,180,360,520,760,960,1200,1800], screen:'week', dur:2400, run(){
+  const ph=$('.phone'), pn=$('[data-pennant-big]',ph);
+  TL(pn,[[0,{transform:'translateY(0) scale(1)'},EASE.out],[180,{transform:'translateY(-8px) scale(1)'}],[800,{transform:'translateY(-8px) scale(1)'},EASE.out],[960,{transform:'translateY(-8px) scale(1.03)'},sp('settle')],[1400,{transform:'translateY(0) scale(1)'}]]);
+  const o=$('.pn-old',pn), n=$('.pn-new',pn);
+  A(o,[{transform:'translateY(0)',opacity:1},{transform:'translateY(-50px)',opacity:0}],{duration:500,delay:180,easing:EASE.emphasized});
+  A(n,[{transform:'translateY(50px)',opacity:0},{transform:'translateY(0)',opacity:1}],{duration:500,delay:180,easing:EASE.emphasized});
+  // the new stitch draws (volt), drawIn 450
+  const svg=$('svg',pn); const ns=$('.newstitch',svg); const w=98,h=132; ns.setAttribute('d',`M${10+4*((w-20)/7)} ${h-30} l4 -4`); ns.style.display='';
+  A(ns,[{strokeDasharray:'1',strokeDashoffset:1},{strokeDasharray:'1',strokeDashoffset:0}],{duration:450,delay:300,easing:EASE.out,rmKeep:true});
+  // a thread line that runs along the border before the stitch
+  const thread=document.createElementNS('http://www.w3.org/2000/svg','path'); thread.setAttribute('d',`M6 6 H${w-6} V${h-16} L${w/2} ${h-5} L6 ${h-16} Z`); thread.setAttribute('fill','none'); thread.setAttribute('stroke','#D2F000'); thread.setAttribute('stroke-width','2.6'); thread.setAttribute('pathLength','1'); thread.style.strokeDasharray='1'; svg.appendChild(thread);
+  A(thread,[{strokeDashoffset:1,opacity:1},{strokeDashoffset:0,opacity:1,offset:.75},{strokeDashoffset:0,opacity:0}],{duration:800,delay:300,easing:EASE.sweep});
+  glints(pn,[[w/2+12,h-34],[w-14,20]],820,{c:'#FFF4D6',step:120});
+  cue(800,'Haptic: confirm (after the ack). Sound: two bell notes');
+}};
+
+/* 9. Character reveal (T3, 2000 ms), earned only */
+MOMENTS.reveal = { strip:[0,300,480,700,900,1200,1600,2200], screen:'reveal', dur:2900, run(){
+  const ph=$('.phone'), pc=$('.rv-parcel',ph), fx=$('.fx',ph);
+  pc.innerHTML=parcelSVG(false);
+  TL($('.rv-cone',ph),[[0,{opacity:.35,transform:'scaleX(.45)'}],[700,{opacity:.35,transform:'scaleX(.45)'},EASE.emphasized],[1200,{opacity:1,transform:'scaleX(.75)'}]]);
+  A($('.rv-leak',ph),[{opacity:0},{opacity:.9,offset:.4},{opacity:.5}],{duration:900,delay:560,easing:EASE.glide});
+  const svg=$('svg',pc);
+
+  TL(svg,[[200,{transform:'scale(1) rotate(0deg)'},EASE.out],[320,{transform:'scale(.94) rotate(0deg)'},EASE.inOut],[480,{transform:'scale(.97) rotate(-3deg)'},EASE.inOut],[640,{transform:'scale(.97) rotate(3deg)'},EASE.out],[760,{transform:'scale(1) rotate(0deg)'}]]);
+  cue(200,'Haptic: light. The parcel gathers');
+  const seal=$('.seal',svg); A(seal,[{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(1.4)'}],{duration:160,delay:640,easing:EASE.out});
+  [['.fl-t','scaleY(-1)'],['.fl-l','scaleX(.2) skewY(-8deg)'],['.fl-r','scaleX(.2) skewY(8deg)'],['.fl-b','scaleY(.25)']].forEach(([s,tf],i)=>A($(s,svg),[{transform:'none'},{transform:tf}],{duration:420,delay:660+60*i,easing:EASE.emphasized}));
+  cue(660,'Haptic: medium. It opens');
+  const ch=$('.rv-char',ph);
+  A(ch,[{transform:'translateY(90px) scale(.8)',opacity:0},{transform:'translateY(0) scale(1)',opacity:1}],{duration:620,delay:900,easing:sp('celebrate')});
+  A($('.rv-sh',ph),[{transform:'scaleX(.3)',opacity:0},{transform:'scaleX(1)',opacity:1}],{duration:500,delay:1000,easing:EASE.out});
+  const r=pc.getBoundingClientRect(), p=ph.getBoundingClientRect();
+  particles(fx, r.left-p.left+100, r.top-p.top+40, 22, {delay:900, v:180, life:1200, seed:5, cols:['#FFFDF8','#EDE5D3','#F2A93B','#B98CFF']});
+  glints(fx,[[110,230],[250,220],[90,330],[272,320],[180,170]],1200,{step:80});
+  A($('.rv-name',ph),[{opacity:0},{opacity:1}],{duration:10,delay:1400}); engrave($('.rv-name',ph),1400,280);
+  cue(1400,'Sound: one bell note');
+  A($('.rv-line',ph),[{opacity:0,transform:'translateY(6px)'},{opacity:1,transform:'translateY(0)'}],{duration:280,delay:1620,easing:EASE.out});
+  A($('.rv-earn',ph),[{opacity:0},{opacity:1}],{duration:280,delay:100});
+  A($('.rv-keys',ph),[{opacity:0,transform:'translateY(14px)'},{opacity:1,transform:'translateY(0)'}],{duration:360,delay:1900,easing:EASE.out});
+}};
+
+/* 10. Quest completing (T3, 1900 ms) */
+MOMENTS.quest = { strip:[0,200,520,880,1000,1140,1400,1900], screen:'week', dur:2700, run(){
+  const ph=$('.phone'), card=$('[data-quest]',ph), last=$('.qlast',card), segs=$$('.qs',card), num=$('.q-num',card);
+  A(last,[{width:'0%'},{width:'31.7%'}],{duration:300,easing:EASE.glide,rmKeep:true});
+  rollNumber(num,41,60,0,300);
+  cue(0,'Kabir answered the 60th question. The bar fills');
+  segs.forEach((s,i)=>A(s,[{transform:'translateY(0)',filter:'brightness(1)'},{transform:'translateY(-1px)',filter:'brightness(1.25)',offset:.5},{transform:'translateY(0)',filter:'brightness(1)'}],{duration:260,delay:320+45*i,easing:EASE.out}));
+  const body=$('.qbody',card), stamp=$('.qstamp',card), seal=$('.qseal',card);
+  // light first: a lamp sweep crosses the full bar
+  const sweep=document.createElement('i'); sweep.style.cssText='position:absolute;top:0;bottom:0;width:40%;left:-45%;background:linear-gradient(90deg,transparent,rgba(255,244,214,.9),transparent);pointer-events:none'; $('.qbar',card).appendChild(sweep);
+  A(sweep,[{left:'-45%'},{left:'110%'}],{duration:420,delay:420,easing:EASE.sweep});
+  TL(body,[[0,{opacity:1,filter:'blur(0px)'}],[760,{opacity:1,filter:'blur(0px)'},EASE.out],[1000,{opacity:.12,filter:'blur(1px)'}]]);
+  TL(stamp,[[0,{opacity:0}],[819,{opacity:0}],[820,{opacity:1}]]);
+  TL(seal,[[820,{transform:'scale(1.4) rotate(-8deg)',opacity:0},EASE.leave],[1000,{transform:'scale(.96) rotate(2deg)',opacity:1},EASE.out],[1140,{transform:'scale(1.02) rotate(-1deg)',opacity:1},sp('settle')],[1460,{transform:'scale(1) rotate(0deg)',opacity:1}]]);
+  cue(1000,'Haptic: medium, then confirm after the ack. Sound: the desk bell');
+  TL(card,[[1000,{transform:'translateY(0)'},EASE.out],[1060,{transform:'translateY(2px)'},EASE.out],[1260,{transform:'translateY(0)'}]]);
+  glints($('.qfx',card), Array.from({length:12},(_,i)=>{ const a=i/12*Math.PI*2; return [56+Math.cos(a)*70, 56+Math.sin(a)*70]; }), 1000, {step:16, d:640, c:'#FFF4D6'});
+  particles($('.qfx',card), 56, 40, 18, {delay:1000, v:150, life:1000, spread:Math.PI*1.6, seed:9});
+  engrave($('.qdone',card),1200,280);
+  A($('.qdone2',card),[{opacity:0},{opacity:1}],{duration:200,delay:1420});
+  const parcel=$('[data-parcel]',ph);
+  A(parcel,[{transform:'translateY(0)'},{transform:'translateY(-4px)',offset:.4},{transform:'translateY(0)'}],{duration:420,delay:1400,easing:EASE.out});
+  const im=$('img',parcel); A(im,[{filter:`brightness(0) opacity(.35)`},{filter:'none'}],{duration:420,delay:1400,easing:EASE.out,rmKeep:true});
+  A(parcel,[{borderColor:'var(--lineStrong)'},{borderColor:'var(--ink)'}],{duration:300,delay:1400,rmKeep:true});
+  const tl=$('.t-label',parcel); tick(ms=>{ tl.textContent = ms>=1500 ? 'Kandil is on the way to your shelf' : 'Kandil comes to all your shelves'; $('.t-cap',parcel).textContent = ms>=1500 ? 'Open the parcel in the den to meet Kandil.' : 'when this quest is done. Sized for 4 of you; it starts again Monday.'; });
+}};
+
+const MOMENT_LIST = [['enter','1. Enter the den'],['golive','2. Go live'],['countdown','3. Countdown'],['lockin','4. Answer lock-in'],['rightwrong','5. Right and wrong'],['friendfinish','6. A friend finishes'],['podium','7. Podium reveal'],['streak','8. Streak extends'],['reveal','9. Character reveal'],['quest','10. Quest complete']];
+
+/* ---------- run, seek, skip ---------- */
+function stopMoment(){ cancelAnimationFrame(RAF); if(CUR){ CUR.anims.forEach(a=>{ try{a.cancel()}catch(e){} }); } CUR=null; }
+function prepareMoment(name){
+  const m=MOMENTS[name]; render(m.screen, true);
+  CUR={name, anims:[], tickers:[], cues:[], dur:m.dur};
+  m.run();
+  return CUR;
+}
+function playMoment(name){
+  stopMoment(); prepareMoment(name);
+  const t0=performance.now(); const shown=new Set();
+  const loop=()=>{ if(!CUR) return; const ms=performance.now()-t0; CUR.tickers.forEach(f=>f(ms));
+    if(CUES) CUR.cues.forEach(([t,txt],i)=>{ if(ms>=t && !shown.has(i)){ shown.add(i); showCue(txt);} });
+    if(ms < CUR.dur+400) RAF=requestAnimationFrame(loop); };
+  RAF=requestAnimationFrame(loop);
+}
+function seekMoment(t){ if(!CUR) return; CUR.anims.forEach(a=>{ a.pause(); a.currentTime=t; }); CUR.tickers.forEach(f=>f(t)); }
+function skipMoment(){ if(!CUR) return; CUR.anims.forEach(a=>{ const ct=a.effect.getComputedTiming(); if(ct.iterations===Infinity) return; const end=ct.endTime, now=a.currentTime||0; const left=Math.max(1,end-now); a.updatePlaybackRate(left/200); }); }
+function showCue(txt){ const c=$('#cues'); const d=document.createElement('div'); d.className='cue'; d.textContent=txt; c.appendChild(d); setTimeout(()=>d.remove(),1400); }
+window.prepareMoment=prepareMoment; window.seekMoment=seekMoment; window.playMoment=playMoment;
+
+/* ---------- render ---------- */
+let current='den-live';
+function render(id, quiet){
+  current=id; if(!quiet) stopMoment();
+  const host=$('#phone');
+  host.className=`phone ${theme}`;
+  host.innerHTML=`<div class="scr">${S[id]()}</div>`;
+  $$('#nav .lnk').forEach(b=>b.classList.toggle('on', b.dataset.s===id));
+  host.querySelectorAll('[data-go]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); const to=b.dataset.go; if(to==='den-live') { playMoment('enter'); } else render(to); }));
+  host.querySelectorAll('[data-moment]').forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); const m=b.dataset.moment; playMoment(m); if(m==='countdown') setTimeout(()=>{ if(CUR&&CUR.name==='countdown'){} },0); }));
+  host.querySelectorAll('[data-opt]').forEach(b=>b.addEventListener('click',()=>{ host.querySelectorAll('.opt').forEach(o=>o.classList.remove('sel')); b.classList.add('sel'); }));
+  const sk=host.querySelector('[data-skip]'); if(sk) sk.addEventListener('click',e=>{ e.stopPropagation(); skipMoment(); });
+}
+function boot(){
+  const app=$('#app');
+  if(SHOT){ app.innerHTML=`<div id="phone" class="phone ${theme}"></div>`; }
+  else {
+    app.innerHTML=`<div class="proto"><aside class="nav" id="nav">
+      <h1>The Mob: Den Live</h1><p>Clickable motion prototype, 360 x 780 dp. Every name, mark and time is an illustrative fixture.</p>
+      <div class="row"><button class="tg ${theme==='night'?'on':''}" data-theme="night">Night</button><button class="tg ${theme==='day'?'on':''}" data-theme="day">Day</button><button class="tg ${RM?'on':''}" data-rm>Reduced motion</button></div>
+      <h2>Signature moments</h2>${MOMENT_LIST.map(([k,l])=>`<button class="lnk" data-m="${k}">${l}</button>`).join('')}
+      <h2>Screens</h2>${SCREENS.map(([k,l])=>`<button class="lnk" data-s="${k}">${l}</button>`).join('')}
+    </aside><div class="phonewrap"><div id="phone" class="phone ${theme}"></div><div class="cap">Tap anywhere during a show moment to skip it to its end in 200 ms. Haptic and sound cues appear bottom right.</div></div></div>`;
+    $$('#nav [data-s]').forEach(b=>b.addEventListener('click',()=>render(b.dataset.s)));
+    $$('#nav [data-m]').forEach(b=>b.addEventListener('click',()=>playMoment(b.dataset.m)));
+    $$('#nav [data-theme]').forEach(b=>b.addEventListener('click',()=>{ const u=new URL(location); u.searchParams.set('theme',b.dataset.theme); location=u; }));
+    $('#nav [data-rm]').addEventListener('click',()=>{ const u=new URL(location); u.searchParams.set('rm',RM?'0':'1'); location=u; });
+    $('#phone').addEventListener('pointerdown',()=>{ if(CUR) skipMoment(); });
+  }
+  const m=Q.get('moment'), s=Q.get('screen')||'den-live';
+  if(m){ if(Q.get('seek')==='1'){ prepareMoment(m); seekMoment(0); } else setTimeout(()=>playMoment(m), +(Q.get('wait')||300)); }
+  else render(s);
+}
+boot();
+</script>
+</body>
+</html>

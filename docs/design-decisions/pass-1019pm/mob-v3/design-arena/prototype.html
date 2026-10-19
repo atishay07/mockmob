@@ -1,0 +1,1405 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mob v3 Den Arena</title>
+<link rel="stylesheet" href="assets/fonts.css">
+<style>
+/* =====================================================================
+   Mob v3, "Den Arena". Clickable prototype with real motion.
+   Tokens: APP/lib/core/theme (mm_colors.dart), motion_tokens.g.dart,
+   BRAND-MOTION-KIT.md. Fixture is illustrative and consistent.
+   Assets load from ./assets so characters can be swapped as files:
+   assets/chars/<key>.webp, else assets/chars/fallback/<key>.svg.
+   ===================================================================== */
+.night{
+  --ground:#12110E; --raised:#1B1A16; --raised2:#25231E; --sunken:#0D0C0A; --floor:#0F0E0C;
+  --line:#312E27; --lineStrong:#4A453B; --ink:#F4F0E6; --ink2:#BDB6A6; --ink3:#A09989; --ink4:#6A645A;
+  --volt:#D2F000; --voltInk:#0B1000; --voltEdge:#9DB400; --accentText:#D2F000; --voltGlow:rgba(210,240,0,.14);
+  --good:#C6E86E; --goodSurf:rgba(198,232,110,.12); --goodBorder:rgba(198,232,110,.55);
+  --wrongSurf:#2A1614; --wrongBorder:#7D3128; --wrongText:#FFC9C2;
+  --lamp:#F2A93B; --rim:#F2B865; --pool:.26;
+  --glass:rgba(27,26,22,.74); --edge:rgba(255,246,228,.12); --scrim:rgba(8,7,5,.62);
+  --shadow:0 1px 1px rgba(0,0,0,.25),0 18px 36px -20px rgba(0,0,0,.45);
+  --paper:#EDE5D3; --paperInk:#2A251F; --paperEdge:#BDB29C; --felt:#1A1814;
+  --m-blue:#6E8BFF; --m-teal:#3FC6A8; --m-amber:#F2A93B; --m-rose:#FF7A8A; --m-violet:#B98CFF; --m-sky:#56B8F0; --m-coral:#E58E5A; --m-green:#9FBF4A;
+  --tint:#1B1A16; --keycap:#34312B; --keyb:#1E1D19;
+}
+.day{
+  --ground:#F3EFE6; --raised:#FFFDF8; --raised2:#E9E4D8; --sunken:#EAE5DA; --floor:#EEEAE0;
+  --line:#D8D1C2; --lineStrong:#BDB4A2; --ink:#17150F; --ink2:#454036; --ink3:#655F53; --ink4:#8A8375;
+  --volt:#D2F000; --voltInk:#0B1000; --voltEdge:#9DB400; --accentText:#526700; --voltGlow:rgba(210,240,0,.22);
+  --good:#3D6600; --goodSurf:#EEF5DC; --goodBorder:#8DB33A;
+  --wrongSurf:#FBE9E7; --wrongBorder:#B93225; --wrongText:#B0291F;
+  --lamp:#F2A93B; --rim:#F2C46B; --pool:.17;
+  --glass:rgba(255,253,248,.82); --edge:rgba(255,255,255,.85); --scrim:rgba(23,21,15,.40);
+  --shadow:0 1px 2px rgba(42,32,16,.06),0 14px 30px -18px rgba(42,32,16,.18);
+  --paper:#FFFDF8; --paperInk:#2A251F; --paperEdge:#CFC6B4; --felt:#E7E1D3;
+  --m-blue:#3550C8; --m-teal:#0E7C66; --m-amber:#9A5B00; --m-rose:#B4243A; --m-violet:#6A3BC4; --m-sky:#0B6A9E; --m-coral:#A14A12; --m-green:#55741A;
+  --tint:#FFFDF8; --keycap:#FFFDF8; --keyb:#E3DED3;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:#0B0A08}
+body{font-family:'Hanken',system-ui,sans-serif;-webkit-font-smoothing:antialiased;color:#F4F0E6}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+img{display:block}
+.num,.fig{font-variant-numeric:tabular-nums}
+.t-hero{font:700 96px/86px 'BCond';letter-spacing:-1px;font-variant-numeric:tabular-nums}
+.t-figure{font:700 52px/47px 'BCond';font-variant-numeric:tabular-nums}
+.t-fig{font-family:'BCond';font-weight:700;font-variant-numeric:tabular-nums}
+.t-display{font:650 36px/38px 'BHead';letter-spacing:-.8px}
+.t-headline{font:650 28px/31px 'BHead';letter-spacing:-.5px}
+.t-title{font:620 22px/27px 'BTitle';letter-spacing:-.3px}
+.t-sub{font:700 17px/22px 'Hanken'}
+.t-body{font:400 16px/24px 'Hanken'}
+.t-q{font:500 17px/26px 'Hanken'}
+.t-small{font:400 14px/20px 'Hanken'}
+.t-cap{font:400 13px/18px 'Hanken'}
+.t-label{font:600 13px/18px 'Hanken'}
+.ink2{color:var(--ink2)} .ink3{color:var(--ink3)} .acc{color:var(--accentText)}
+b{font-weight:700;color:var(--ink)}
+
+/* ---------- phone ---------- */
+.phone{position:relative;width:360px;height:780px;overflow:hidden;background:var(--ground);color:var(--ink);flex:none;isolation:isolate}
+.scr{position:absolute;inset:0}
+.status{position:absolute;top:0;left:0;right:0;height:32px;display:flex;align-items:center;justify-content:space-between;padding:0 20px 0 24px;font:600 13px/1 'Hanken';color:var(--ink);z-index:30}
+.status .ico{display:flex;gap:6px;align-items:center}
+.status.on-img{color:#F4F0E6}
+.hdr{position:absolute;top:32px;left:0;right:0;height:56px;display:flex;align-items:center;gap:4px;padding:0 8px;z-index:25}
+.hdr .ib{width:48px;height:48px;display:grid;place-items:center;border-radius:24px;color:var(--ink)}
+.hdr .tt{flex:1;min-width:0}
+.hdr .tt .t1{font:620 18px/22px 'BTitle';letter-spacing:-.2px}
+.hdr .tt .t2{font:400 13px/18px 'Hanken';color:var(--ink2)}
+.livepill{display:inline-flex;align-items:center;gap:6px;height:28px;padding:0 10px 0 9px;border-radius:14px;background:var(--raised2);font:700 13px/1 'Hanken'}
+.livepill i{width:8px;height:8px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px color-mix(in srgb,var(--good) 22%,transparent)}
+.clockpill{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:16px;background:var(--raised);border:1px solid var(--line);font:700 16px/1 'BCond';font-variant-numeric:tabular-nums;letter-spacing:.2px}
+
+.key{height:56px;border-radius:999px;background:var(--volt);color:var(--voltInk);font:650 16px/20px 'Hanken';display:flex;align-items:center;justify-content:center;gap:8px;width:100%;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -2px 0 rgba(0,0,0,.08),0 1px 0 var(--voltEdge),0 10px 24px -14px rgba(157,180,0,.7);position:relative;overflow:hidden}
+.key2{height:48px;border-radius:999px;background:var(--raised);color:var(--ink);font:600 15px/20px 'Hanken';display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid var(--lineStrong);padding:0 18px;white-space:nowrap}
+.key.off{background:var(--raised2);color:var(--ink3);box-shadow:none}
+.tbtn{height:44px;display:inline-flex;align-items:center;justify-content:center;gap:6px;font:600 15px/20px 'Hanken';color:var(--ink);text-decoration:underline;text-decoration-color:var(--lineStrong);text-underline-offset:5px}
+.chip{display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 12px;border-radius:16px;background:var(--raised2);font:600 13px/1 'Hanken';color:var(--ink);white-space:nowrap}
+.card{background:var(--raised);border-radius:24px;box-shadow:var(--shadow);position:relative}
+.night .card{box-shadow:inset 0 1px 0 rgba(255,246,228,.05),var(--shadow)}
+.day .card{border:1px solid var(--line)}
+.hair{height:1px;background:var(--line)}
+.note{position:absolute;z-index:60;left:50%;transform:translateX(-50%);top:4px;height:24px;padding:0 10px;border-radius:12px;background:#F2A93B;color:#1B1306;font:700 12px/24px 'Hanken';white-space:nowrap;border:1px dashed rgba(0,0,0,.45)}
+
+/* dock (the app's bar, unchanged) */
+.bar{position:absolute;left:16px;right:16px;bottom:12px;height:64px;border-radius:32px;background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--edge);box-shadow:var(--shadow);display:flex;align-items:center;justify-content:space-around;z-index:40}
+.night .bar{border-color:rgba(255,246,228,.10)}
+.bar .slot{width:58px;height:52px;border-radius:26px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font:500 12px/15px 'Hanken';color:var(--ink2)}
+.bar .slot.on{background:var(--raised2);color:var(--ink);font-weight:700}
+.night .bar .slot.on svg{color:var(--volt)}
+.bar .start{width:64px;height:64px;border-radius:50%;background:var(--volt);color:var(--voltInk);display:flex;flex-direction:column;align-items:center;justify-content:center;font:700 12px/14px 'Hanken';margin-top:-4px;box-shadow:0 0 0 1px var(--voltEdge),0 10px 20px -10px rgba(0,0,0,.5)}
+
+/* ---------- characters ---------- */
+.fw{position:absolute;width:0;height:0}                 /* anchor at the feet */
+.fw .sh{position:absolute;left:-30px;top:-7px;width:60px;height:14px;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.42),rgba(0,0,0,0));}
+.day .fw .sh{background:radial-gradient(closest-side,rgba(59,42,18,.22),rgba(59,42,18,0))}
+.fw .fx{position:absolute;bottom:0;left:0;transform-origin:50% 100%}
+.fw .fb{position:absolute;bottom:0;left:0;transform:translateX(-50%);transform-origin:50% 100%}
+.fw img{height:100%;width:auto;max-width:none;filter:drop-shadow(0 2px 0 rgba(0,0,0,.08))}
+.night .fw.lit img{filter:drop-shadow(0 0 0 transparent) drop-shadow(-1px -1px 0 rgba(242,184,101,.18))}
+.tag{position:absolute;transform:translateX(-50%);white-space:nowrap;font:700 13px/18px 'Hanken';color:var(--ink);text-align:center}
+.tag .sub{display:block;font:500 12px/15px 'Hanken';color:var(--ink2)}
+.on-img .tag,.night .tag.on-img{color:#F4F0E6;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.day .tag.on-img{color:var(--ink);text-shadow:0 1px 2px rgba(255,253,248,.9)}
+.head{position:relative;border-radius:50%;overflow:hidden;flex:none;display:inline-block}
+.head img{position:absolute;left:50%;top:0;height:200%;width:auto;transform:translate(-50%,-6%)}
+.head.fbk img{height:220%;transform:translate(-50%,-4%)}
+.ring{box-shadow:0 0 0 2px var(--ground),0 0 0 4px var(--mc)}
+.herepill{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:11px;background:rgba(18,17,14,.78);color:#F4F0E6;font:700 12px/1 'Hanken'}
+.herepill i{width:7px;height:7px;border-radius:50%;background:#C6E86E}
+
+/* ---------- den ---------- */
+.den{position:absolute;left:0;right:0;top:0;overflow:hidden}
+.den .img{position:absolute;inset:-2px;background-size:cover;background-position:50% 64%}
+.den .dim{position:absolute;inset:0;background:#000;opacity:0}
+.den .pool{position:absolute;left:50%;width:420px;height:150px;margin-left:-210px;border-radius:50%;background:radial-gradient(closest-side,rgba(242,169,59,.42),rgba(242,169,59,0));mix-blend-mode:screen;opacity:.0}
+.day .den .pool{background:radial-gradient(closest-side,rgba(242,196,107,.45),rgba(242,196,107,0));mix-blend-mode:multiply}
+.den .topscrim{position:absolute;left:0;right:0;top:0;height:120px;background:linear-gradient(rgba(10,9,7,.66),rgba(10,9,7,0))}
+.day .den .topscrim{background:linear-gradient(rgba(243,239,230,.92),rgba(243,239,230,0))}
+.den .floorfade{position:absolute;left:0;right:0;bottom:0;height:70px;background:linear-gradient(rgba(18,17,14,0),var(--ground))}
+.denhdr{position:absolute;top:32px;left:0;right:0;height:60px;display:flex;align-items:center;gap:10px;padding:0 12px 0 16px;z-index:25}
+.denhdr .nm{font:650 24px/28px 'BTitle';letter-spacing:-.4px;display:flex;align-items:center;gap:4px}
+.denhdr .sb{font:500 13px/18px 'Hanken';color:var(--ink2)}
+.night .denhdr .nm,.night .denhdr{color:#F4F0E6}
+.night .denhdr .sb{color:#CFC8B8}
+.chainchip{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px 0 8px;border-radius:18px;background:rgba(18,17,14,.62);border:1px solid rgba(255,246,228,.14);color:#F4F0E6;font:700 17px/1 'BCond';backdrop-filter:blur(12px)}
+.day .chainchip{background:rgba(255,253,248,.85);border-color:var(--line);color:var(--ink)}
+.chainchip small{font:600 12px/1 'Hanken';color:inherit;opacity:.8}
+.askm{width:40px;height:40px;border-radius:20px;display:grid;place-items:center;background:rgba(18,17,14,.62);border:1px solid rgba(255,246,228,.14)}
+.day .askm{background:rgba(255,253,248,.85);border-color:var(--line)}
+.askm img{height:30px}
+
+/* pennant (the Mob chain) */
+.pennant{position:absolute;transform-origin:50% 0}
+.pennant .cord{position:absolute;left:50%;top:-18px;width:1px;height:18px;background:rgba(255,246,228,.35)}
+.day .pennant .cord{background:rgba(23,21,15,.25)}
+.shelf{position:absolute;height:6px;border-radius:2px;background:linear-gradient(#5A4632,#3A2D20);box-shadow:0 6px 10px -4px rgba(0,0,0,.5)}
+.day .shelf{background:linear-gradient(#C9B593,#A99272)}
+
+/* ---------- quest strip ---------- */
+.qbar{position:relative;height:12px;border-radius:6px;background:var(--raised2);overflow:hidden}
+.qbar .f{position:absolute;left:0;top:0;bottom:0;border-radius:6px;background:var(--ink2)}
+.segbar{display:flex;gap:3px;height:14px}
+.segbar i{flex:1;border-radius:3px;background:var(--raised2);position:relative}
+.segbar i.on{background:var(--ink2)}
+.night .segbar i.on{background:#CFC8B8}
+
+/* ---------- lanes (race track) ---------- */
+.lanes{position:absolute;left:12px;right:12px;border-radius:24px;background:var(--felt);padding:10px 10px 8px;overflow:hidden}
+.night .lanes{background:linear-gradient(#1C1A16,#161512);box-shadow:inset 0 1px 0 rgba(255,246,228,.06)}
+.lanes .grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,246,228,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,246,228,.035) 1px,transparent 1px);background-size:12px 12px;pointer-events:none}
+.day .lanes .grid{background-image:linear-gradient(rgba(23,21,15,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(23,21,15,.045) 1px,transparent 1px)}
+.lane{position:relative;height:42px;display:flex;align-items:center}
+.lanes.c4 .lane{height:37px}.lanes.c4 .lane .tok .head{width:30px!important;height:30px!important;left:-15px;top:-15px}.lanes.c4 .lane .strip{height:26px}
+.lane+.lane{margin-top:4px}
+.lane .who{width:64px;font:700 13px/16px 'Hanken';color:var(--ink);white-space:nowrap;overflow:visible}
+.lane .who small{display:block;font:500 11px/14px 'Hanken';color:var(--ink3)}
+.lane .strip{position:relative;flex:1;height:30px;border-radius:15px;background:var(--raised2)}
+.night .lane .strip{background:#2A2722}
+.lane.me .strip{background:var(--raised);box-shadow:inset 0 0 0 1px var(--lineStrong)}
+.night .lane.me .strip{background:#34302A}
+.lane .bub{position:absolute;top:50%;width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:1.5px solid var(--ink4);background:transparent}
+.lane .bub.f{background:var(--mc);border-color:var(--mc)}
+.lane .flag{position:absolute;top:3px;right:6px;width:2px;height:24px;background:var(--ink3)}
+.lane .tok{position:absolute;top:50%;width:0;height:0}
+.lane .tok .head{position:absolute;left:-17px;top:-17px;width:34px;height:34px;background:color-mix(in srgb,var(--mc) 28%,var(--tint));box-shadow:0 0 0 2px var(--mc),0 4px 10px -4px rgba(0,0,0,.6)}
+.lane .tok.ghost .head{opacity:.78;box-shadow:0 0 0 2px var(--ground),0 0 0 3.5px var(--mc)}
+.lane .tok .pen{position:absolute;left:12px;top:-36px;width:2px;height:30px;background:var(--ink2);transform-origin:50% 100%}
+.lane .tok .pen b{position:absolute;left:2px;top:0;width:22px;height:15px;background:var(--mc);clip-path:polygon(0 0,100% 50%,0 100%);transform-origin:0 50%}
+.lane .tim{position:absolute;right:28px;top:50%;transform:translateY(-50%);font:600 11px/1 'Hanken';color:var(--ink3);white-space:nowrap}
+.pacechip{display:inline-flex;align-items:center;gap:6px;height:26px;padding:0 10px;border-radius:13px;background:var(--raised2);font:700 12px/1 'Hanken';color:var(--ink)}
+
+/* ---------- options ---------- */
+.opt{position:relative;display:flex;align-items:center;gap:12px;min-height:48px;padding:8px 14px 8px 9px;border-radius:16px;background:var(--raised);border:1.5px solid var(--line);font:500 16px/22px 'Hanken';box-shadow:0 2px 0 var(--line)}
+.night .opt{background:#1E1C18;border-color:#35322B;box-shadow:0 2px 0 #0B0A08}
+.opt .lt{width:30px;height:30px;border-radius:15px;display:grid;place-items:center;background:var(--raised2);font:700 13px/1 'Hanken';color:var(--ink2);flex:none}
+.opt.sel{border-color:var(--ink);box-shadow:0 2px 0 var(--ink3)}
+.opt.sel .lt{background:var(--ink);color:var(--ground)}
+.opt.right{background:var(--goodSurf);border-color:var(--goodBorder)}
+.opt.right .lt{background:var(--good);color:var(--ground)}
+.opt.wrong{background:var(--wrongSurf);border-color:var(--wrongBorder)}
+.opt.wrong .lt{background:var(--wrongBorder);color:#fff}
+.opt .clip{position:absolute;right:-6px;top:-10px;width:16px;height:30px}
+.opt .tick{position:absolute;right:14px;top:50%;margin-top:-12px}
+.opt .mk{position:absolute;right:46px;top:50%;margin-top:-10px;font:700 15px/20px 'BCond';color:var(--ink2);font-variant-numeric:tabular-nums}
+
+/* ---------- podium ---------- */
+.plinth{position:absolute;bottom:0;transform-origin:50% 100%;border-radius:10px 10px 0 0;background:linear-gradient(var(--paper),color-mix(in srgb,var(--paper) 86%,#000));box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.08)}
+.plinth .lines{position:absolute;inset:0;background:repeating-linear-gradient(transparent 0 9px,rgba(42,37,31,.10) 9px 10px);border-radius:inherit}
+.plinth .numr{position:absolute;left:0;right:0;top:12px;text-align:center;font:700 40px/40px 'BCond';color:var(--paperInk)}
+.plinth .fold{position:absolute;right:0;top:0;width:18px;height:18px;background:linear-gradient(225deg,var(--ground) 50%,rgba(0,0,0,.18) 50%,color-mix(in srgb,var(--paper) 70%,#000) 100%);border-top-right-radius:10px}
+.plinth .sheen{position:absolute;inset:0;border-radius:inherit;background:linear-gradient(105deg,rgba(255,255,255,0) 30%,rgba(242,184,101,.55) 48%,rgba(255,240,200,.75) 52%,rgba(255,255,255,0) 70%);background-size:300% 100%;background-position:120% 0;mix-blend-mode:soft-light;opacity:0}
+.marks{position:absolute;transform:translateX(-50%);text-align:center;white-space:nowrap}
+.marks .n{font:700 13px/16px 'Hanken';color:var(--ink)}
+.marks .v{font:700 15px/18px 'BCond';color:var(--ink2);font-variant-numeric:tabular-nums}
+
+/* ---------- sheet ---------- */
+.sheetbg{position:absolute;inset:0;background:var(--scrim);z-index:45}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:var(--ground);border-radius:32px 32px 0 0;z-index:46;padding:10px 16px 16px;box-shadow:0 -10px 40px -10px rgba(0,0,0,.5)}
+.night .sheet{background:#171612;box-shadow:inset 0 1px 0 rgba(255,246,228,.08),0 -10px 40px -10px rgba(0,0,0,.6)}
+.grab{width:40px;height:4px;border-radius:2px;background:var(--lineStrong);margin:0 auto 10px}
+.row{display:flex;align-items:center;gap:12px;min-height:56px;padding:6px 0}
+.row .ri{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:var(--raised2);color:var(--ink);flex:none}
+.row .rt{flex:1;min-width:0}
+.row .rt .a{font:700 15px/20px 'Hanken'}
+.row .rt .b{font:400 13px/18px 'Hanken';color:var(--ink2)}
+.row.lock .ri{color:var(--ink3)}
+.row.lock .rt .a{color:var(--ink2)}
+.lockt{display:inline-flex;align-items:center;gap:4px;height:24px;padding:0 8px;border-radius:12px;border:1px solid var(--lineStrong);font:600 12px/1 'Hanken';color:var(--ink2);white-space:nowrap}
+.minikey{height:36px;padding:0 14px;border-radius:18px;background:var(--raised2);font:650 14px/1 'Hanken';display:inline-flex;align-items:center;white-space:nowrap}
+.minikey.v{background:var(--volt);color:var(--voltInk)}
+
+/* ---------- stickers ---------- */
+.stk{display:inline-flex;flex-direction:column;align-items:center;gap:4px;width:72px}
+.stk .p{width:56px;height:56px;border-radius:14px;background:var(--paper);display:grid;place-items:center;transform:rotate(-3deg);box-shadow:0 2px 0 var(--paperEdge),0 8px 14px -8px rgba(0,0,0,.5);position:relative}
+.stk .p:after{content:"";position:absolute;right:0;top:0;width:12px;height:12px;background:linear-gradient(225deg,var(--ground) 50%,var(--paperEdge) 50%);border-top-right-radius:14px}
+.stk span{font:600 13px/16px 'Hanken';color:var(--ink);text-align:center}
+
+/* ---------- misc ---------- */
+.seal{position:absolute}
+.canvas{position:absolute;inset:0;pointer-events:none;z-index:50}
+.wash{position:absolute;inset:0;pointer-events:none;z-index:48;background:var(--volt);opacity:0}
+.spot{position:absolute;inset:0;pointer-events:none}
+.kbd{position:absolute;left:0;right:0;bottom:0;height:268px;background:var(--keyb);padding:8px 4px 0;z-index:30}
+.kbd .r{display:flex;justify-content:center;gap:5px;margin-bottom:9px}
+.kbd .k{width:32px;height:42px;border-radius:6px;background:var(--keycap);display:grid;place-items:center;font:400 19px/1 'Hanken';color:var(--ink);box-shadow:0 1px 0 rgba(0,0,0,.25)}
+.codebox{width:44px;height:56px;border-radius:12px;background:var(--raised);border:1.5px solid var(--line);display:grid;place-items:center;font:700 26px/1 'BCond';color:var(--ink)}
+.codebox.cur{border-color:var(--ink)}
+.dash{border:1.5px dashed var(--lineStrong);border-radius:50%}
+.cal{display:grid;grid-template-columns:repeat(7,1fr);gap:4px 0;text-align:center}
+.cal .h{font:600 11px/16px 'Hanken';color:var(--ink3)}
+.cal .d{height:36px;display:grid;place-items:center;position:relative;font:600 13px/1 'Hanken';color:var(--ink3)}
+.cal .d .c{width:32px;height:32px;border-radius:50%;display:grid;place-items:center}
+.cal .d.p .c{background:var(--raised2);color:var(--ink)}
+.cal .d.p .c svg{position:absolute;right:2px;bottom:2px}
+.cal .d.r .c{background:transparent;border:1.5px dashed var(--lineStrong);color:var(--ink2)}
+.cal .d.t .c{background:var(--volt);color:var(--voltInk);font-weight:800}
+.cal .d.run:before{content:"";position:absolute;left:0;right:0;top:50%;height:32px;margin-top:-16px;background:color-mix(in srgb,var(--raised2) 55%,transparent);z-index:-1}
+.cal .d.run.s:before{left:50%} .cal .d.run.e:before{right:50%}
+.ms{display:flex;align-items:flex-start;justify-content:space-between;position:relative}
+.ms .st{width:56px;display:flex;flex-direction:column;align-items:center;gap:6px;position:relative;z-index:1}
+.ms .st .b{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font:700 18px/1 'BCond';background:var(--raised2);color:var(--ink2);border:1.5px solid var(--line)}
+.ms .st.done .b{background:var(--paper);color:var(--paperInk);border-color:var(--paperEdge)}
+.ms .st.now .b{background:var(--volt);color:var(--voltInk);border-color:var(--voltEdge)}
+.ms .st.next .b{border-style:dashed;border-color:var(--lineStrong);background:transparent;color:var(--ink)}
+.ms .st span{font:500 11px/14px 'Hanken';color:var(--ink2);text-align:center}
+.ms .path{position:absolute;left:28px;right:28px;top:21px;height:2px;background:var(--line)}
+.ms .path i{position:absolute;left:0;top:0;bottom:0;background:var(--ink3)}
+.shelfrow{position:relative;display:flex;justify-content:space-around;align-items:flex-end;height:104px;padding:0 4px}
+.shelfrow:after{content:"";position:absolute;left:0;right:0;bottom:-2px;height:8px;border-radius:2px;background:linear-gradient(#4A3A2A,#2E241A);box-shadow:0 10px 14px -8px rgba(0,0,0,.6)}
+.day .shelfrow:after{background:linear-gradient(#D4C2A2,#B8A27F);box-shadow:0 8px 12px -8px rgba(59,42,18,.35)}
+.slotc{display:flex;flex-direction:column;align-items:center;width:92px;position:relative}
+.slotc .lbl{font:700 13px/16px 'Hanken';margin-top:12px;text-align:center}
+.slotc .rule{font:400 12px/15px 'Hanken';color:var(--ink2);text-align:center;margin-top:2px}
+.sil{filter:brightness(0) invert(1) opacity(.16)}
+.day .sil{filter:brightness(0) opacity(.18)}
+.wa{background:#0B141A;border-radius:18px;padding:10px;color:#E9EDEF}
+.day .wa{background:#EFEAE2;color:#111B21}
+.wa .bub2{background:#005C4B;border-radius:12px 4px 12px 12px;padding:8px;margin-left:36px}
+.day .wa .bub2{background:#D9FDD3}
+.lc{position:absolute;inset:0;pointer-events:none}
+.focusring:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+
+
+.flow{position:absolute;left:16px;right:16px;display:flex;flex-direction:column}
+.night{--segOn:#CFC8B8}.day{--segOn:#454036}
+.segbar i.on{background:var(--segOn)!important}
+.head img{height:190%!important;transform:translate(-50%,-12%)!important}
+.head.fbk img{height:230%!important;transform:translate(-50%,-22%)!important}
+.den .fw,.den .tag,.den .den-here{z-index:2}
+.den .tag{text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.day .den .tag{text-shadow:0 1px 2px rgba(255,253,248,.9)}
+.day .den .tag .sub{color:#454036}
+.night .den .tag .sub{color:#E3DCCB}
+/* day-specific: moments dim with warm ink, never grey */
+.night{--link:#EDE5D3}.day{--link:#CBBE9F}
+.day .cd-scrim,.day .pd-scrim,.day .rv-scrim{background:#3B2A12!important;filter:opacity(.28)}
+.day .chain-links-bg{background:transparent}
+/* ---------- gallery chrome (hidden in capture) ---------- */
+.app{display:flex;gap:28px;align-items:flex-start;justify-content:center;padding:28px}
+.side{width:300px;color:#E9E3D6;font:500 14px/20px 'Hanken'}
+.side h1{font:650 26px/30px 'BHead';margin-bottom:6px}
+.side p{color:#A09989;margin-bottom:12px}
+.side h2{font:700 13px/18px 'Hanken';color:#BDB6A6;margin:16px 0 6px}
+.side button{display:block;width:100%;text-align:left;padding:7px 10px;border-radius:10px;color:#E9E3D6;font:500 14px/18px 'Hanken'}
+.side button:hover,.side button.on{background:#25231E}
+.side .tg{display:flex;gap:6px;margin:8px 0}
+.side .tg button{width:auto;background:#1B1A16;border:1px solid #312E27}
+.capture .side{display:none}
+.capture .app{padding:0;display:block}
+.frame{border-radius:36px;overflow:hidden;box-shadow:0 0 0 10px #1B1A16,0 0 0 11px #312E27,0 40px 80px -30px rgba(0,0,0,.8)}
+.capture .frame{border-radius:0;box-shadow:none}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="side" id="side"></div>
+  <div class="frame"><div class="phone night" id="ph"></div></div>
+</div>
+<script src="assets/chars/manifest.js"></script>
+<script>
+/* =====================================================================
+   1. CONFIG: assets, cast, fixture (illustrative, consistent)
+   ===================================================================== */
+const Q = new URLSearchParams(location.search);
+const CAPTURE = Q.has('capture');
+if (CAPTURE) document.body.classList.add('capture');
+const RM_FORCED = Q.get('rm') === '1';
+const RM = () => RM_FORCED || matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+const ART = n => `assets/art/${n}`;
+/* The cast. Swap a character by replacing assets/chars/<key>.webp (any transparent image, feet at the bottom). */
+const CH = {
+  dart:   {name:'Dart',    fb:'dart',    line:'Answers first, then checks every answer twice.'},
+  patang: {name:'Patang',  fb:'patang',  line:'Rises fastest when the wind is against it.'},
+  naav:   {name:'Naav',    fb:'naav',    line:'Stays steady when the paper gets rough.'},
+  hop:    {name:'Hop',     fb:'hop',     line:'Jumps straight back after a wrong answer.'},
+  kandil: {name:'Kandil',  fb:'kandil',  line:'Lights up the den on late nights.'},
+  crane:  {name:'Crane',   fb:'crane',   line:'Folds it a hundred times until it is right.'},
+  stamp:  {name:'Stamp',   fb:'stamp',   line:'Seals every fix with a check.'},
+  dogear: {name:'Dog-ear', fb:'dogear',  line:'Folds a corner on every question that tricked them.'},
+  tally:  {name:'Tally',   fb:'tally',   line:'Counts every mark, including the minus ones.'},
+  cutting:{name:'Cutting', fb:'cutting', line:'Runs on chai and practice papers.'},
+  sticky: {name:'Sticky',  fb:'sticky',  line:'Remembers every formula, and shares it.'},
+  hexa:   {name:'Hexa',    fb:'hexa',    line:'Builds every answer one step at a time.'},
+};
+const HAS = window.CHAR_FILES || {};   /* filled by assets/chars/manifest.js when generated art exists */
+const charSrc = k => HAS[k] ? `assets/chars/${HAS[k]}` : `assets/chars/fallback/${CH[k].fb}.svg`;
+const isFb = k => !HAS[k];
+
+/* Fixture: Thursday 22 Oct. Chai Circle, Accountancy. Join order: Aarav (you, started it, Free), Riya (Pro), Kabir, Zoya. */
+const M = {
+  you:  {name:'Aarav', short:'You',   ch:'dart',   mc:'sky'},
+  riya: {name:'Riya',  short:'Riya',  ch:'patang', mc:'rose'},
+  kabir:{name:'Kabir', short:'Kabir', ch:'naav',   mc:'blue'},
+  zoya: {name:'Zoya',  short:'Zoya',  ch:'hop',    mc:'teal'},
+};
+/* Riya's sprint (async, opened 2:05 PM, open 24 hours). Seconds per question and pick (r right, w wrong, s skip). */
+const RUN = {
+  riya: {p:'rrrsr', t:[38,35,44,18,29], at:'2:10 PM'},   /* 20 marks, 2:44 */
+  you:  {p:'rrrwr', t:[30,34,41,52,17], at:'8:40 PM'},   /* 19 marks, 2:54 */
+  kabir:{p:'rrrwr', t:[26,42,55,33,31], at:'4:55 PM'},   /* 19 marks, 3:07 (changed Q3) */
+  zoya: {p:'wrrwr', t:[20,25,24,35,36], at:'6:30 PM'},   /* 13 marks, 2:20 */
+};
+const marks = k => [...RUN[k].p].reduce((s,c)=>s+(c==='r'?5:c==='w'?-1:0),0);
+const answered = k => [...RUN[k].p].filter(c=>c!=='s').length;
+/* progress in questions (0..5, fractional) at elapsed second T of a run */
+function prog(k,T){ let acc=0; const t=RUN[k].t; for(let i=0;i<t.length;i++){ if(T<acc+t[i]) return i+(T-acc)/t[i]; acc+=t[i]; } return 5; }
+const arrive = (k,q) => RUN[k].t.slice(0,q).reduce((a,b)=>a+b,0);
+/* Quest: questions answered in Mob games this week. Mob paper Mon-Tue: 37. Sprint before you: 4+5+5 = 14. */
+const QUEST = {target:60, paper:37};
+QUEST.beforeYou = QUEST.paper + answered('riya') + answered('kabir') + answered('zoya'); /* 51 */
+QUEST.afterYou  = QUEST.beforeYou + answered('you');                                     /* 56 */
+QUEST.afterLive = QUEST.afterYou + 5 + 5 + 4;                                            /* 70: live rematch, Riya 5, Kabir 5, you 4 */
+(function selfCheck(){
+  const ok = marks('riya')===20 && marks('you')===19 && marks('kabir')===19 && marks('zoya')===13 &&
+    QUEST.beforeYou===51 && QUEST.afterYou===56 && QUEST.afterLive===70 &&
+    Math.floor(prog('you',72))===2 && Math.floor(prog('kabir',72))===2 && Math.floor(prog('riya',72))===1 && Math.floor(prog('zoya',72))===3;
+  if(!ok) console.error('fixture self-check failed');
+})();
+
+/* =====================================================================
+   2. MOTION TOKENS (motion_tokens.g.dart + kit section 6)
+   ===================================================================== */
+const C = {
+  glide:'cubic-bezier(.15,.5,.5,1)', out:'cubic-bezier(.23,1,.32,1)', emph:'cubic-bezier(.16,1,.3,1)',
+  exit:'cubic-bezier(.4,.3,.8,.6)', leave:'cubic-bezier(.5,0,.75,0)', sweep:'cubic-bezier(.45,0,.55,1)',
+  drawer:'cubic-bezier(.32,.72,0,1)', inOut:'cubic-bezier(.77,0,.175,1)', lin:'linear'
+};
+const T = {press:100, release:140, exit:200, card:240, ink:260, engrave:280, glide:300, result:320, enter:360, emph:420,
+  drawIn:450, milestone:500, roll:500, sweep:700, countUp:720, stagger:45, beat:600, t2:1200, t3:2000, t4:6000};
+/* Springs as CSS linear() easings, simulated from (duration, bounce) the way Flutter's SpringDescription.withDurationAndBounce reads them */
+function springEase(dur, bounce){
+  const z = 1 - bounce, w = 2*Math.PI/(dur/1000), wd = w*Math.sqrt(Math.max(1e-6,1-z*z));
+  const x = t => z>=0.999 ? 1-(1+w*t)*Math.exp(-w*t) : 1-Math.exp(-z*w*t)*(Math.cos(wd*t)+(z*w/wd)*Math.sin(wd*t));
+  let end = dur/1000; for(let t=dur/1000; t<4; t+=0.005){ let ok=true; for(let s=t; s<t+0.25; s+=0.01){ if(Math.abs(1-x(s))>0.004){ok=false;break;} } if(ok){end=t;break;} }
+  const n=48, pts=[]; for(let i=0;i<=n;i++){ const t=end*i/n; pts.push((i===n?1:x(t)).toFixed(4)); }
+  return {e:`linear(${pts.join(',')})`, d:Math.round(end*1000)};
+}
+const SP = {
+  smooth:springEase(360,.12), snappy:springEase(220,0), settle:springEase(420,0), iconPop:springEase(420,.18),
+  celebrate:springEase(520,.22), release:springEase(300,.1)
+};
+
+/* =====================================================================
+   3. TIMELINE: every moment is seekable (frame strips) and skippable (any tap, 200 ms)
+   ===================================================================== */
+class TL {
+  constructor(){ this.anims=[]; this.fns=[]; this.dur=0; this.t=0; this.rate=1; this.raf=0; this.done=null; }
+  a(el, kf, o={}){ if(!el) return this; const els = el.length!==undefined && !(el instanceof Element) ? [...el] : [el];
+    els.forEach((e,i)=>{ const at=(o.at||0)+(o.st||0)*i; const d=o.d||T.card; const it=o.it||1;
+      const an=e.animate(kf,{duration:d, delay:at, easing:o.e||C.out, fill:'both', iterations:it, direction:o.dir||'normal', composite:o.comp||'replace'});
+      an.pause(); an.currentTime=0; this.anims.push(an); this.dur=Math.max(this.dur, at+d*it); });
+    return this; }
+  f(fn, at=0, d=0){ this.fns.push({fn,at,d}); this.dur=Math.max(this.dur, at+d); fn(0,0); return this; }
+  seek(t){ this.t=t; for(const a of this.anims) a.currentTime=t; for(const x of this.fns){ const p = x.d ? Math.max(0,Math.min(1,(t-x.at)/x.d)) : (t>=x.at?1:0); x.fn(p,t); } }
+  play(onDone){ this.done=onDone; let last=performance.now(); this.rate=1; this.seek(0);
+    const step=(now)=>{ const dt=now-last; last=now; const nt=Math.min(this.dur, this.t+dt*this.rate); this.seek(nt);
+      if(nt<this.dur) this.raf=requestAnimationFrame(step); else { this.raf=0; this.done&&this.done(); } };
+    this.raf=requestAnimationFrame(step); return this; }
+  skip(){ if(!this.raf) return; const rem=this.dur-this.t; if(rem>200) this.rate=rem/200; }
+  end(){ cancelAnimationFrame(this.raf); this.raf=0; this.seek(this.dur); }
+}
+window.__TL = null;
+
+/* deterministic particles: paper bits, glints, ring bursts (kit section 6: cap 60, 600 to 1400 ms, gravity plus 12% drag) */
+function rng(seed){ let s=seed>>>0||1; return ()=>{ s^=s<<13; s^=s>>>17; s^=s<<5; return ((s>>>0)%100000)/100000; }; }
+class Burst {
+  constructor(canvas){ this.cv=canvas; this.cx=canvas.getContext('2d'); this.items=[]; const dpr=window.devicePixelRatio||1; canvas.width=360*dpr; canvas.height=780*dpr; this.cx.setTransform(dpr,0,0,dpr,0,0); }
+  bits(at, x, y, n, o={}){ const r=rng(o.seed||7); const pal=o.pal||['#EDE5D3','#F2A93B','#D2F000'];
+    for(let i=0;i<n;i++){ const a=(o.a0??-170)+r()*((o.a1??-10)-(o.a0??-170)); const sp=(o.sp||220)*(0.45+r()*0.75); const rad=a*Math.PI/180;
+      this.items.push({k:'bit', floor:o.floor??9999, at:at+r()*(o.jit||60), x, y, vx:Math.cos(rad)*sp, vy:Math.sin(rad)*sp, life:600+r()*800, w:4+r()*4, h:3+r()*3, rot:r()*6.28, vr:(r()-.5)*14, c:pal[Math.floor(r()*pal.length)], fl:r()*6.28}); } return this; }
+  glints(at, x, y, n, rad, o={}){ const r=rng(o.seed||11); for(let i=0;i<n;i++){ const a=i/n*6.283+r()*.4; const d=rad*(0.7+r()*0.5);
+      this.items.push({k:'gl', at:at+i*(o.st||30), x:x+Math.cos(a)*d, y:y+Math.sin(a)*d, life:560+r()*300, s:5+r()*5, c:o.c||'#FFF3D0'}); } return this; }
+  ring(at, x, y, r0, r1, o={}){ this.items.push({k:'ring', at, x, y, r0, r1, life:o.d||420, c:o.c||'#D2F000', w:o.w||3}); return this; }
+  draw(t){ const c=this.cx; c.clearRect(0,0,360,780); for(const p of this.items){ const tau=(t-p.at)/1000; if(tau<0) continue; const L=p.life/1000; if(tau>L) continue; const u=tau/L;
+      if(p.k==='bit'){ const k=2.2, g=520; const fx=(1-Math.exp(-k*tau))/k; const x=p.x+p.vx*fx, y=p.y+p.vy*fx+0.5*g*tau*tau; if(y>p.floor) continue; const rot=p.rot+p.vr*tau; const flut=Math.cos(p.fl+tau*16);
+        c.save(); c.globalAlpha=u<.7?1:1-(u-.7)/.3; c.translate(x,y); c.rotate(rot); c.scale(1,Math.max(.15,Math.abs(flut))); c.fillStyle=p.c; c.fillRect(-p.w/2,-p.h/2,p.w,p.h); c.fillStyle='rgba(0,0,0,.18)'; c.fillRect(0,-p.h/2,p.w/2,p.h); c.restore(); }
+      else if(p.k==='gl'){ const s=p.s*Math.sin(Math.PI*u); c.save(); c.translate(p.x,p.y); c.globalAlpha=Math.sin(Math.PI*u); c.fillStyle=p.c; c.beginPath();
+        c.moveTo(0,-s); c.quadraticCurveTo(s*.12,-s*.12,s,0); c.quadraticCurveTo(s*.12,s*.12,0,s); c.quadraticCurveTo(-s*.12,s*.12,-s,0); c.quadraticCurveTo(-s*.12,-s*.12,0,-s); c.fill(); c.restore(); }
+      else if(p.k==='ring'){ const e=1-Math.pow(1-u,3); const rr=p.r0+(p.r1-p.r0)*e; c.save(); c.globalAlpha=(1-u)*.9; c.strokeStyle=p.c; c.lineWidth=p.w*(1-u*.6); c.beginPath(); c.arc(p.x,p.y,rr,0,6.283); c.stroke(); c.restore(); } } }
+}
+
+/* =====================================================================
+   4. DRAWING HELPERS
+   ===================================================================== */
+const I = {
+  today:'<rect x="4" y="5" width="16" height="15" rx="3"/><path d="M8 3v4M16 3v4M4 10h16M9 15l2 2 4-4"/>',
+  practice:'<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5V10M10 3h4M12 3v3.5"/>',
+  mob:'<circle cx="9" cy="8" r="3.2"/><path d="M3.5 19c0-3 2.5-5 5.5-5s5.5 2 5.5 5"/><circle cx="16.5" cy="9" r="2.6"/><path d="M15.6 14.1c2.7.1 4.9 2 4.9 4.9"/>',
+  you:'<circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-6 7-6s7 2.4 7 6"/>',
+  close:'<path d="M6 6l12 12M18 6L6 18"/>', back:'<path d="M15 5l-7 7 7 7"/>', down:'<path d="M7 10l5 5 5-5"/>', right:'<path d="M9 5l7 7-7 7"/>',
+  share:'<circle cx="18" cy="5.5" r="2.4"/><circle cx="6" cy="12" r="2.4"/><circle cx="18" cy="18.5" r="2.4"/><path d="M8.2 10.9l7.6-4.2M8.2 13.1l7.6 4.2"/>',
+  copy:'<rect x="8.5" y="8.5" width="11" height="11" rx="2.5"/><path d="M15.5 8.5V6.5a2 2 0 0 0-2-2h-7a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2h2"/>',
+  lock:'<rect x="6" y="11" width="12" height="9" rx="2.5"/><path d="M8.5 11V8.5a3.5 3.5 0 0 1 7 0V11"/>',
+  check:'<path d="M5 12.5l4.5 4.5L19 7.5"/>', scan:'<path d="M4 9V6a2 2 0 0 1 2-2h3M15 4h3a2 2 0 0 1 2 2v3M20 15v3a2 2 0 0 1-2 2h-3M9 20H6a2 2 0 0 1-2-2v-3M7 12h10"/>',
+  sprint:'<path d="M3.5 12.5L20 5l-5.5 15-3.2-6.3z"/><path d="M11.3 13.7L20 5"/>',
+  race:'<circle cx="12" cy="13.5" r="7"/><path d="M12 13.5l3-3M10 3h4"/>',
+  custom:'<path d="M5 7h9M18 7h1M5 17h3M12 17h7"/><circle cx="16" cy="7" r="2.2"/><circle cx="10" cy="17" r="2.2"/>',
+  paper:'<rect x="5.5" y="3.5" width="13" height="17" rx="2"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/>',
+  mock:'<rect x="6" y="3.5" width="12" height="16" rx="2"/><path d="M9 8h6M9 11.5h6M9 15h3.5"/><path d="M4 7v12.5a1.5 1.5 0 0 0 1.5 1.5H15"/>',
+  rematch:'<path d="M5 11a7 7 0 0 1 12-4.6L19 8M19 4v4h-4M19 13a7 7 0 0 1-12 4.6L5 16M5 20v-4h4"/>',
+  live:'<circle cx="12" cy="12" r="2.5"/><path d="M7.8 7.8a6 6 0 0 0 0 8.4M16.2 7.8a6 6 0 0 1 0 8.4M5 5a10 10 0 0 0 0 14M19 5a10 10 0 0 1 0 14"/>',
+  room:'<path d="M4 20V9l8-5 8 5v11"/><path d="M9 20v-6h6v6"/>',
+  sound:'<path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 9a4 4 0 0 1 0 6M18 6.5a7.5 7.5 0 0 1 0 11"/>',
+  link:'<path d="M9.5 14.5l5-5"/><path d="M11 6.5l1.6-1.6a4 4 0 0 1 5.7 5.7L16.7 12.2M13 17.5l-1.6 1.6a4 4 0 0 1-5.7-5.7l1.6-1.6"/>',
+  moon:'<path d="M18.5 14.5A7.5 7.5 0 0 1 9.5 5.5a7.5 7.5 0 1 0 9 9z"/>',
+  ticket:'<path d="M4 8a2 2 0 0 0 2-2h12a2 2 0 0 0 2 2v8a2 2 0 0 0-2 2H6a2 2 0 0 0-2-2z"/><path d="M14 6v12" stroke-dasharray="2 2.2"/>',
+  study:'<circle cx="12" cy="13" r="7"/><path d="M12 9v4h3M9 3h6"/>',
+  mic:'<rect x="9" y="3.5" width="6" height="11" rx="3"/><path d="M5.5 11.5a6.5 6.5 0 0 0 13 0M12 18v3"/>',
+  hall:'<rect x="3.5" y="5" width="17" height="11" rx="2"/><path d="M8 20h8M12 16v4"/>',
+  plus:'<path d="M12 5v14M5 12h14"/>', info:'<circle cx="12" cy="12" r="8.5"/><path d="M12 11v5M12 8v.2"/>',
+  eyeoff:'<path d="M3 3l18 18M10.6 6.1A9.6 9.6 0 0 1 12 6c5 0 8.5 4.5 9.5 6-.5.8-1.6 2.3-3.2 3.6M6.5 7.6C4.6 8.9 3.3 10.8 2.5 12c1 1.5 4.5 6 9.5 6 1.4 0 2.7-.4 3.9-.9"/>',
+  pause:'<rect x="6.5" y="5" width="3.5" height="14" rx="1"/><rect x="14" y="5" width="3.5" height="14" rx="1"/>',
+};
+const ico = (n,s=24,sw=1.8,x='') => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="${sw}" stroke-linecap="round" stroke-linejoin="round" ${x} aria-hidden="true">${I[n]}</svg>`;
+const mc = k => `var(--m-${M[k].mc})`;
+
+function statusBar(time, onImg){ return `<div class="status ${onImg?'on-img':''}"><span class="num">${time}</span><span class="ico">
+  <svg width="16" height="12" viewBox="0 0 16 12"><path d="M8 11.5L.6 3.8a10.5 10.5 0 0 1 14.8 0z" fill="currentColor"/></svg>
+  <svg width="14" height="12" viewBox="0 0 14 12"><path d="M13 .5v11H1z" fill="currentColor"/></svg>
+  <svg width="9" height="14" viewBox="0 0 9 14"><rect x="0" y="1.5" width="9" height="12.5" rx="1.6" fill="currentColor"/><rect x="2.5" y="0" width="4" height="2" rx=".6" fill="currentColor"/></svg></span></div>`; }
+function dock(active='mob'){ const s=(k,l)=>`<div class="slot ${active===k?'on':''}">${ico(k,24,1.8)}<span>${l}</span></div>`;
+  return `<nav class="bar" aria-label="Main">${s('today','Today')}${s('practice','Practice')}<div class="start"><svg width="22" height="22" viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>Start</div>${s('mob','Mob')}${s('you','You')}</nav>`; }
+
+/* a character standing with feet at (x,y); h = figure height */
+function fig(ch, x, y, h, o={}){ const fb=isFb(ch);
+  return `<div class="fw ${o.cls||''}" ${o.id?`id="${o.id}"`:''} style="left:${x}px;top:${y}px">
+    <div class="sh" style="transform:scaleX(${(o.shw||1)})"></div>
+    <div class="fx"><div class="fb" style="height:${fb?h*1.16:h}px;${fb?`margin-bottom:-${h*0.05}px`:''}"><img src="${charSrc(ch)}" alt="${o.alt||CH[ch].name}" style="${o.sil?'':''}" class="${o.sil?'sil':''}"></div></div></div>`; }
+function head(ch, s, o={}){ return `<span class="head ${isFb(ch)?'fbk':''} ${o.cls||''}" style="width:${s}px;height:${s}px;background:${o.bg||`color-mix(in srgb, ${o.mc||'var(--raised2)'} 26%, var(--tint))`};${o.ring?`box-shadow:0 0 0 2px var(--ground),0 0 0 4px ${o.ring}`:''};${o.ghost?'opacity:.8':''}"><img src="${charSrc(ch)}" alt="" style="${o.img||''}"></span>`; }
+const mhead = (k,s,o={}) => head(M[k].ch, s, Object.assign({mc:mc(k)}, o));
+
+/* the Mob chain pennant: stitched paper, one volt stitch per week */
+function pennant(weeks, o={}){ const w=o.w||64, h=o.h||88, n=Math.max(weeks, o.slots||weeks);
+  const st = [...Array(n)].map((_,i)=>{ const y=16+i*((h-40)/Math.max(1,n)); const on=i<weeks; return `<path class="stitch ${on?'':'off'}" data-i="${i}" d="M10 ${y.toFixed(1)} L${w-10} ${(y+3).toFixed(1)}" stroke="${on?'#D2F000':'rgba(42,37,31,.35)'}" stroke-width="${on?3:1.6}" stroke-linecap="round" ${on?'':'stroke-dasharray="3 4"'} pathLength="1"/>`; }).join('');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-label="${weeks} weeks in a row">
+    <defs><linearGradient id="pg${o.id||''}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F6EFDF"/><stop offset="1" stop-color="#D9CDB4"/></linearGradient></defs>
+    <path d="M2 2 H${w-2} V${h-22} L${w/2} ${h-2} L2 ${h-22} Z" fill="url(#pg${o.id||''})" stroke="#BDB29C" stroke-width="1"/>
+    <path d="M6 6 H${w-6} V${h-24} L${w/2} ${h-7} L6 ${h-24} Z" fill="none" stroke="rgba(42,37,31,.28)" stroke-width="1" stroke-dasharray="2.5 3"/>
+    <path d="M${w-16} 2 L${w-2} 16 L${w-16} 16 Z" fill="rgba(42,37,31,.10)"/>
+    ${st}</svg>`; }
+
+/* folded paper parcel (4 flaps) for the reveal */
+function parcel(w=150){ return `<div class="parcel" style="position:relative;width:${w}px;height:${w*0.78}px;perspective:600px">
+  <div class="pc-body" style="position:absolute;inset:0;border-radius:10px;background:linear-gradient(160deg,#F3EBDA,#D6C8AC);box-shadow:inset 0 1px 0 #fff,0 18px 30px -16px rgba(0,0,0,.6)"></div>
+  <div class="pc-rays" style="position:absolute;left:50%;top:50%;width:${w*2.4}px;height:${w*2.4}px;margin:-${w*1.2}px;border-radius:50%;background:repeating-conic-gradient(from 0deg,rgba(255,214,140,.32) 0deg 6deg,rgba(255,214,140,0) 6deg 22deg);-webkit-mask:radial-gradient(closest-side,#000 20%,transparent 100%);mask:radial-gradient(closest-side,#000 20%,transparent 100%);opacity:0;mix-blend-mode:screen"></div>
+  <div class="pc-leak" style="position:absolute;left:50%;top:50%;width:${w*1.4}px;height:${w*1.4}px;margin:-${w*0.7}px;border-radius:50%;background:radial-gradient(closest-side,rgba(255,214,140,.95),rgba(242,169,59,.35) 45%,rgba(242,169,59,0));opacity:0;mix-blend-mode:screen"></div>
+  ${['t','r','b','l'].map(s=>{ const tri={t:'polygon(0 0,100% 0,50% 58%)',r:'polygon(100% 0,100% 100%,44% 50%)',b:'polygon(0 100%,100% 100%,50% 44%)',l:'polygon(0 0,0 100%,56% 50%)'}[s];
+    const org={t:'50% 0',r:'100% 50%',b:'50% 100%',l:'0 50%'}[s]; const sh={t:'#EADFC8',r:'#DCCEB2',b:'#E4D7BC',l:'#D3C4A6'}[s];
+    return `<div class="pc-f pc-${s}" style="position:absolute;inset:0;clip-path:${tri};transform-origin:${org};background:linear-gradient(${s==='t'?180:s==='b'?0:s==='l'?90:270}deg,${sh},#C9B892);border-radius:10px"></div>`; }).join('')}
+  <div class="pc-seal" style="position:absolute;left:50%;top:50%;width:34px;height:34px;margin:-17px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#F7E3B0,#C98A28 60%,#8F5A12);box-shadow:0 2px 4px rgba(0,0,0,.4)"></div></div>`; }
+
+const sticker = (glyph,label)=>`<div class="stk"><div class="p">${glyph}</div><span>${label}</span></div>`;
+const G = { /* preset sticker glyphs, drawn locally (no emoji) */
+  nice:`<svg width="34" height="34" viewBox="0 0 34 34"><path d="M10 30V16l6-10c2 0 3 1.5 2.5 4L17 15h8.5c2 0 3.2 1.8 2.6 3.6l-2.8 9.2c-.4 1.3-1.6 2.2-3 2.2z" fill="#2A251F"/><rect x="4" y="16" width="5" height="14" rx="1.5" fill="#2A251F"/></svg>`,
+  close:`<svg width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="12" fill="none" stroke="#2A251F" stroke-width="3"/><circle cx="17" cy="17" r="6" fill="none" stroke="#2A251F" stroke-width="3"/><circle cx="22.5" cy="12.5" r="2.4" fill="#C2410C"/></svg>`,
+  teach:`<svg width="34" height="34" viewBox="0 0 34 34"><path d="M4 9c5-2 9-1 13 2 4-3 8-4 13-2v17c-5-2-9-1-13 2-4-3-8-4-13-2z" fill="none" stroke="#2A251F" stroke-width="2.6" stroke-linejoin="round"/><path d="M17 11v17" stroke="#2A251F" stroke-width="2.6"/></svg>`,
+  again:`<svg width="34" height="34" viewBox="0 0 34 34"><path d="M7 16a10 10 0 0 1 17-6.5L27 12M27 6v6h-6M27 18a10 10 0 0 1-17 6.5L7 22M7 28v-6h6" fill="none" stroke="#2A251F" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  proud:`<svg width="34" height="34" viewBox="0 0 34 34"><path d="M17 4l3.8 8 8.7 1.1-6.4 6 1.7 8.6L17 23.5l-7.8 4.2 1.7-8.6-6.4-6 8.7-1.1z" fill="#2A251F"/></svg>`,
+  luck:`<svg width="34" height="34" viewBox="0 0 34 34"><path d="M8 26c2-8 7-14 18-18-2 10-8 16-18 18z" fill="#2A251F"/><path d="M8 26l9-9" stroke="#EDE5D3" stroke-width="1.6"/></svg>`,
+};
+function qr(n=25, s=4){ let r=''; let seed=17; const rnd=()=>{seed=(seed*9301+49297)%233280;return seed/233280;};
+  const fin=(x,y)=>`<rect x="${x*s}" y="${y*s}" width="${7*s}" height="${7*s}" fill="currentColor"/><rect x="${(x+1)*s}" y="${(y+1)*s}" width="${5*s}" height="${5*s}" fill="var(--raised)"/><rect x="${(x+2)*s}" y="${(y+2)*s}" width="${3*s}" height="${3*s}" fill="currentColor"/>`;
+  for(let y=0;y<n;y++) for(let x=0;x<n;x++){ const inF=(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9); if(!inF && rnd()>.52) r+=`<rect x="${x*s}" y="${y*s}" width="${s}" height="${s}" fill="currentColor"/>`; }
+  return `<svg width="${n*s}" height="${n*s}" viewBox="0 0 ${n*s} ${n*s}" aria-label="QR code for K7P 2M9">${r}${fin(0,0)}${fin(n-7,0)}${fin(0,n-7)}</svg>`; }
+
+/* the den stage (generated room, lamp light, the Mob at the floor) */
+function denStage(o={}){ const h=o.h||372; const th=o.theme;
+  const img = th==='day' ? ART('scene-empty-nothing-day.webp') : ART('scene-empty-nothing-night.webp');
+  const seats = o.seats || ['you','riya','kabir','zoya']; const n=seats.length + (o.open||0);
+  const span = Math.min(316, 80*n), x0 = 180 - span/2 + span/n/2, gy = h - (o.tagRoom||44);
+  const lightTag = th==='night';
+  const figs = seats.map((k,i)=>{ const x=x0+i*span/n; const ch=k.ch||M[k].ch;
+    const tg = o.tags!==false ? `<div class="tag ${lightTag?'on-img':''} den-tag" style="left:${x}px;top:${gy+6}px">${k==='you'?'You':M[k].short}${o.sub&&o.sub[k]?`<span class="sub">${o.sub[k]}</span>`:''}</div>` : '';
+    const here = o.here&&o.here.includes(k) ? `<div class="den-here" style="position:absolute;left:${x}px;top:${gy-(o.fh||100)-26}px;transform:translateX(-50%);z-index:3"><span class="herepill"><i></i>Here</span></div>` : '';
+    return fig(ch, x, gy, o.fh||100, {cls:'den-fig lit', id:o.ids?`df-${k}`:''}) + here + tg; }).join('');
+  const open = [...Array(o.open||0)].map((_,i)=>{ const x=x0+(seats.length+i)*span/n; return `<div class="den-seat" style="position:absolute;left:${x-24}px;top:${gy-62}px;width:48px;height:62px;border:1.5px dashed ${th==='night'?'rgba(255,246,228,.5)':'rgba(23,21,15,.38)'};border-radius:24px 24px 12px 12px;display:grid;place-items:center;color:${th==='night'?'#E9E3D6':'#454036'};z-index:2" aria-label="Open seat">${ico('plus',20,1.8)}</div>`; }).join('');
+  return `<div class="den" style="height:${h}px">
+    <div class="img den-img" style="background-image:url('${img}')"></div>
+    <div class="dim den-dim"></div>
+    <div class="pool den-pool" style="top:${gy-96}px"></div>
+    <div class="topscrim"></div>
+    <div class="floorfade"></div>
+    ${o.wall||''}
+    ${figs}${open}
+  </div>`; }
+
+function denHeader(o){ return `<div class="denhdr">
+    <button class="focusring" style="display:flex;flex-direction:column;align-items:flex-start;flex:1;min-width:0;text-align:left;color:inherit" aria-label="Switch Mob">
+      <span class="nm">${o.name||'Chai Circle'}<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M7 10l5 5 5-5"/></svg></span>
+      <span class="sb">${o.sub||'Accountancy, 4 of you'}</span></button>
+    ${o.chain!=null?`<button class="chainchip focusring" aria-label="Your chain: ${o.chain} days in a row" data-go="chainYou">${linkGlyph(18)}${o.chain}<small>days</small></button>`:''}
+    <button class="askm focusring" aria-label="Ask Mobi"><img src="${ART('mobi-greet.webp')}" alt=""></button>
+  </div>`; }
+const linkGlyph = (s=18, c='currentColor') => `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="${c}" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><rect x="2.5" y="8" width="11" height="8" rx="4"/><rect x="10.5" y="8" width="11" height="8" rx="4"/></svg>`;
+function denWall(o){ /* the Mob chain pennant hangs on the wall; the shelf holds what the Mob earned */
+  const sx=o.sx||20, sy=o.sy||168;
+  return `<div class="pennant den-pennant" style="left:${o.px||262}px;top:${o.py||112}px;z-index:1"><div class="cord"></div>${pennant(o.weeks||3,{w:56,h:84,slots:4,id:'w'})}
+      <div style="position:absolute;left:0;right:0;top:9px;text-align:center;color:#2A251F"><div class="t-fig pen-num" style="font-size:26px;line-height:24px">${o.weeks||3}</div><div style="font:700 9px/10px 'Hanken'">weeks</div></div></div>
+    <div class="shelf" style="left:${sx}px;top:${sy}px;width:92px"></div>
+    <img src="${ART('token-held.webp')}" alt="Stamp: a fixed trap" style="position:absolute;left:${sx+4}px;top:${sy-27}px;height:27px">
+    <img src="${ART('token-first-repair.webp')}" alt="Stamp: a fixed trap" style="position:absolute;left:${sx+32}px;top:${sy-27}px;height:27px">
+    <img class="den-bell ${o.bell?'':'sil'}" src="${ART('hybrid-deskbell.webp')}" alt="${o.bell?'Desk bell':'Desk bell, earned at 4 weeks'}" style="position:absolute;left:${sx+60}px;top:${sy-25}px;height:25px">`; }
+
+/* =====================================================================
+   5. SCREENS. Copy is final wording. Times are IST, 12-hour.
+   ===================================================================== */
+const S = {}; const SCREEN_META = {};
+function def(id, meta, fn){ S[id]=fn; SCREEN_META[id]=meta; }
+function segs(v, n=12, tot=QUEST.target){ const per=tot/n; return [...Array(n)].map((_,i)=>`<i class="${v>=(i+1)*per?'on':''}" style="${v>i*per&&v<(i+1)*per?`background:linear-gradient(90deg,var(--segOn) ${(v-i*per)/per*100}%,var(--raised2) 0)`:''}"></i>`).join(''); }
+function parcelMini(s=44){ return `<svg width="${s}" height="${s}" viewBox="0 0 44 44" aria-label="This week's parcel"><rect x="3" y="9" width="38" height="28" rx="5" fill="#E6D9BE"/><path d="M3 12l19 13 19-13" fill="none" stroke="#B9A57E" stroke-width="1.4"/><path d="M3 37l15-12M41 37L26 25" stroke="#CDBB97" stroke-width="1.2"/><circle cx="22" cy="24" r="5" fill="#C98A28"/></svg>`; }
+function questStrip(v, top){ return `<button class="den-quest focusring" data-go="chainMob" style="position:absolute;left:16px;right:16px;top:${top}px;display:flex;align-items:center;gap:12px;text-align:left;padding:4px 2px" aria-label="This week's quest, ${v} of ${QUEST.target} questions">
+    <div style="position:relative;width:44px;height:44px;flex:none">${parcelMini()}</div>
+    <div style="flex:1">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="t-label">This week's quest</span><span class="t-cap ink2"><b class="t-fig" style="font-size:18px">${v}</b> of ${QUEST.target} questions</span></div>
+      <div class="segbar" style="margin-top:7px">${segs(v)}</div>
+    </div></button>`; }
+
+/* ---- S1 Den, quiet (async) ---- */
+def('denQuiet', {n:'S1', t:'The Den, quiet', time:'8:40 PM', still:['enterDen','end']}, th => `
+  ${statusBar('8:40 PM', th==='night')}
+  ${denStage({theme:th, sub:{riya:'Played',kabir:'Played',zoya:'Played'}, wall:denWall({weeks:3}), ids:true})}
+  ${denHeader({chain:13})}
+  <section class="card den-card" style="position:absolute;left:16px;right:16px;top:384px;padding:16px 16px 6px">
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="flex:none">${mhead('riya',44)}</div>
+      <div style="flex:1;min-width:0">
+        <div class="t-sub">Riya opened a sprint</div>
+        <div class="t-small ink2" style="margin-top:2px">5 Goodwill questions. Race the runs of Riya, Kabir and Zoya. Open until 2:05 PM tomorrow.</div>
+      </div></div>
+    <button class="key focusring" style="margin-top:14px" data-go="ghost" data-press>Play Riya's sprint</button>
+    <div style="text-align:center"><button class="tbtn focusring" data-go="pickerFree">More ways to play</button></div>
+  </section>
+  ${questStrip(QUEST.beforeYou, 616)}
+  ${dock()}`);
+
+/* ---- S2 Den, live (a room is open, real presence only) ---- */
+def('denLive', {n:'S2', t:'The Den, a live room is open', time:'8:52 PM'}, th => `
+  ${statusBar('8:52 PM', th==='night')}
+  ${denStage({theme:th, here:['riya','kabir'], wall:denWall({weeks:3}), ids:true})}
+  ${denHeader({chain:14})}
+  <section class="card den-card" style="position:absolute;left:16px;right:16px;top:384px;padding:16px 16px 6px">
+    <div style="display:flex;gap:12px;align-items:flex-start">
+      <div style="position:relative;flex:none">${mhead('riya',44)}<span style="position:absolute;right:-2px;bottom:-2px;width:14px;height:14px;border-radius:50%;background:var(--good);box-shadow:0 0 0 3px var(--raised)"></span></div>
+      <div style="flex:1;min-width:0">
+        <div class="t-sub">Riya opened a live room</div>
+        <div class="t-small ink2" style="margin-top:2px">A rematch with 5 new Goodwill questions. Riya and Kabir are in the room now.</div>
+      </div></div>
+    <button class="key focusring go-live-key" style="margin-top:14px" data-go="ready" data-moment="goLive">${ico('live',20,2)}Join Riya's room</button>
+    <div style="text-align:center"><button class="tbtn focusring" data-go="ghost">Play it later, until 8:52 PM tomorrow</button></div>
+  </section>
+  ${questStrip(QUEST.afterYou, 616)}
+  ${dock()}`);
+
+/* ---- S3 Your chain (personal, days) ---- */
+function chainTabs(on){ return `<div role="tablist" style="position:absolute;left:16px;right:16px;top:92px;height:44px;border-radius:22px;background:var(--raised2);display:flex;padding:4px">
+  ${[['you','You'],['mob','Chai Circle']].map(([k,l])=>`<button role="tab" aria-selected="${on===k}" class="focusring" data-go="${k==='you'?'chainYou':'chainMob'}" style="flex:1;border-radius:18px;font:700 14px/1 'Hanken';${on===k?'background:var(--raised);box-shadow:var(--shadow);color:var(--ink)':'color:var(--ink2)'}">${l}</button>`).join('')}</div>`; }
+function chainLinks(n=7, o={}){ /* the paper chain: interlocked links; today's link is the one lit thing */
+  const days=o.days||['F','S','S','M','T','W','T']; let out='';
+  for(let i=0;i<n;i++){ const x=8+i*42, last=i===n-1, y=i%2?5:0;
+    out+=`<g class="lk" data-i="${i}" transform="translate(${x},0)">
+      <rect x="0" y="${y+2}" width="50" height="28" rx="14" fill="none" stroke="rgba(0,0,0,.28)" stroke-width="6"/>
+      <rect x="0" y="${y}" width="50" height="28" rx="14" fill="none" stroke="${last?'#D2F000':'var(--link)'}" stroke-width="6"/>
+      <path d="M8 ${y+3} Q25 ${y-1} 42 ${y+3}" stroke="rgba(255,255,255,.55)" stroke-width="1.4" fill="none"/>
+      ${o.labels!==false?`<text x="25" y="${y+46}" text-anchor="middle" font-family="Hanken" font-weight="600" font-size="11" fill="var(--ink3)">${days[i]}</text>`:''}</g>`; }
+  return `<svg width="${16+n*42+10}" height="${o.labels===false?40:58}" viewBox="0 0 ${16+n*42+10} ${o.labels===false?40:58}" style="overflow:visible" aria-label="The last 7 days of your chain">${out}</svg>`; }
+def('chainYou', {n:'S3', t:'Your chain, days in a row', time:'8:46 PM'}, th => `
+  ${statusBar('8:46 PM')}
+  <div class="hdr"><button class="ib focusring" aria-label="Back" data-go="denQuiet">${ico('back')}</button><div class="tt"><div class="t1">Chains</div></div><button class="ib focusring" aria-label="How chains work">${ico('info',22)}</button></div>
+  ${chainTabs('you')}
+  <div class="flow" style="top:150px;gap:14px">
+    <div style="display:flex;align-items:flex-end;gap:12px">
+      <div class="t-hero chain-num" style="font-size:84px;line-height:72px">14</div>
+      <div style="padding-bottom:4px"><div class="t-sub">days in a row</div><div class="t-cap ink2">13 practised, 1 rested. Your best run.</div></div>
+    </div>
+    <div style="margin-left:-6px">${chainLinks(7)}</div>
+    <section class="card" style="padding:12px 14px;display:flex;align-items:center;gap:12px">
+      <div style="display:flex;gap:4px">${[0,1].map(()=>`<div style="width:28px;height:38px;border-radius:6px;background:var(--paper);box-shadow:0 2px 0 var(--paperEdge);display:grid;place-items:center;color:#2A251F">${ico('moon',15,2)}</div>`).join('')}</div>
+      <div style="flex:1"><div class="t-label">2 rest passes, the most you can hold</div><div class="t-cap ink2">Miss a day and one is used for you. Earn one every 7 days, and one for every 3 fixes that hold.</div></div>
+    </section>
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px"><span class="t-label">October</span><span class="t-cap ink3">Moon: a rest pass kept the chain</span></div>
+      <div class="cal">${['M','T','W','T','F','S','S'].map(d=>`<div class="h">${d}</div>`).join('')}${calDays()}</div>
+    </div>
+    <div class="ms"><div class="path"><i style="width:50%"></i></div>
+      ${[[3,'done','Rest pass'],[7,'done','Rest pass'],[14,'now','Page 2'],[21,'next','Rest pass'],[30,'','Foil Dart']].map(([d,c,l])=>`<div class="st ${c}"><div class="b">${d}</div><span>${l}</span></div>`).join('')}</div>
+  </div>
+  <div style="position:absolute;left:8px;right:8px;bottom:4px;display:flex;justify-content:space-between">
+    <button class="tbtn focusring" style="font-size:13px;text-decoration:none;color:var(--ink2)">${ico('pause',16)}Exam pause days</button><button class="tbtn focusring" style="font-size:13px;text-decoration:none;color:var(--ink2)">${ico('eyeoff',16)}Hide my chain</button></div>`);
+function calDays(){ /* Oct 2026 starts on a Thursday. Chain: 9 to 22, with 14 rested. Today is 22. */
+  let out=''; for(let i=0;i<3;i++) out+=`<div class="d"></div>`;
+  const prac=[2,3,5,6,7,9,10,11,12,13,15,16,17,18,19,20,21,22];
+  for(let d=1; d<=31; d++){ let cls='';
+    if(d===22) cls='t run e'; else if(d===14) cls='r run'; else if(prac.includes(d)) cls='p'+(d>=9?' run':'')+(d===9?' s':'');
+    if(cls.includes('run') && (d===12||d===19)) cls+=' s'; if(cls.includes('run') && (d===11||d===18)) cls+=' e';
+    out+=`<div class="d ${cls}"><div class="c" style="${d>22?'color:var(--ink4)':''}">${d===14?ico('moon',14,2):d}</div></div>`; }
+  return out; }
+
+/* ---- S4 The Mob's chain and this week's quest ---- */
+def('chainMob', {n:'S4', t:"The Mob's chain and this week's quest", time:'8:46 PM'}, th => chainMobBody(th, {weeks:3, q:QUEST.afterYou}));
+function chainMobBody(th, o){ const done=o.q>=QUEST.target;
+  return `${statusBar(o.time||'8:46 PM')}
+  <div class="hdr"><button class="ib focusring" aria-label="Back" data-go="denQuiet">${ico('back')}</button><div class="tt"><div class="t1">Chains</div></div><button class="ib focusring" aria-label="How chains work">${ico('info',22)}</button></div>
+  ${chainTabs('mob')}
+  <div class="flow" style="top:152px;gap:16px">
+    <div style="display:flex;gap:16px;align-items:flex-start">
+      <div class="pennant mob-pennant" style="position:relative;flex:none;margin-top:10px"><div class="cord" style="top:-10px;height:10px"></div>${pennant(o.weeks,{w:92,h:128,slots:4,id:'m'})}
+        <div style="position:absolute;left:0;right:0;top:12px;text-align:center;color:#2A251F"><div class="t-fig pen-num" style="font-size:44px;line-height:40px">${o.weeks}</div><div style="font:700 12px/14px 'Hanken'">weeks</div></div></div>
+      <div style="flex:1;padding-top:4px">
+        <div class="t-headline pen-title" style="font-size:26px;line-height:29px">${o.weeks} weeks in a row</div>
+        <div class="t-small ink2" style="margin-top:6px">A week is stitched each time Chai Circle finishes the weekly quest together. Nobody can break it alone.</div>
+        <div class="t-cap ink3" style="margin-top:6px">Best run: ${Math.max(o.weeks,3)} weeks</div>
+      </div></div>
+    <section class="card qcard" style="padding:16px">
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="t-sub">This week's quest</span><span class="t-cap ink2">${done?'Done':'Ends Sunday 11:59 PM'}</span></div>
+      <div class="t-small ink2" style="margin-top:2px">${done?`Chai Circle answered ${o.q}. The quest needed ${QUEST.target}.`:`Answer ${QUEST.target} questions together in Mob games.`}</div>
+      <div style="display:flex;align-items:baseline;gap:6px;margin:10px 0 8px"><span class="t-figure q-num" style="font-size:40px;line-height:36px">${o.q}</span><span class="t-small ink2">of ${QUEST.target} answered</span></div>
+      <div class="segbar qsegs">${segs(o.q)}</div>
+      <div style="display:flex;gap:12px;align-items:center;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)">
+        <div style="position:relative;width:56px;height:56px;flex:none;border-radius:14px;background:var(--raised2);display:grid;place-items:center;overflow:hidden">
+          <img src="${charSrc('kandil')}" alt="" class="${done?'':'sil'}" style="height:48px"></div>
+        <div class="t-small ink2">${done?`<b>Kandil</b> came out of this week's parcel, for all four of you.`:`<b>Kandil</b> is folded in this week's parcel. Finish the quest and all four of you get him.`}</div></div>
+    </section>
+    <div>
+      <div class="t-label" style="margin-bottom:4px">How it counts</div>
+      <div class="t-cap ink2">Every question answered in a Mob game or the Mob paper counts, right or wrong, so every answer helps. Sized for 4 of you: 15 each. Resting this week? <u>Step out</u> and the quest gets smaller, without your name.</div>
+    </div>
+    <div class="ms"><div class="path"><i style="width:${o.weeks>=4?'25%':'12%'}"></i></div>
+      ${[[2,'done','Den stamp'],[4,o.weeks>=4?'now':'next','Desk bell'],[8,'','Stamp joins'],[12,'','Lamp theme'],[20,'','Foil seal']].map(([d,c,l])=>`<div class="st ${c}"><div class="b">${d}</div><span>${l}</span></div>`).join('')}</div>
+  </div>`; }
+function bigPennant(weeks){ const w=150, h=212; const ys=[112,132,152,172];
+  const st=ys.map((y,i)=>{ const on=i<weeks; return `<path class="bp-st" data-i="${i}" d="M24 ${y} Q75 ${y+5} 126 ${y}" stroke="${on?'#B8D400':'rgba(42,37,31,.30)'}" stroke-width="${on?4:1.8}" stroke-linecap="round" fill="none" ${on?'pathLength="1"':'stroke-dasharray="3 5"'}/>${on?`<path d="M24 ${y} Q75 ${y+5} 126 ${y}" stroke="rgba(42,37,31,.55)" stroke-width="1" stroke-dasharray="2 7" fill="none" class="bp-hole" data-i="${i}"/>`:''}`; }).join('');
+  return `<svg width="${w}" height="${h}" viewBox="0 0 ${w} ${h}" aria-label="${weeks} weeks in a row" style="overflow:visible">
+    <defs><linearGradient id="bpg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#F7F0E0"/><stop offset="1" stop-color="#D8CBB0"/></linearGradient></defs>
+    <path d="M3 3 H${w-3} V${h-44} L${w/2} ${h-4} L3 ${h-44} Z" fill="url(#bpg)" stroke="#BDB29C"/>
+    <path d="M10 10 H${w-10} V${h-48} L${w/2} ${h-14} L10 ${h-48} Z" fill="none" stroke="rgba(42,37,31,.25)" stroke-dasharray="3 4"/>
+    <path d="M${w-26} 3 L${w-3} 26 L${w-26} 26 Z" fill="rgba(42,37,31,.12)"/>
+    ${st}</svg>`; }
+def('weekStitched', {n:'S19', t:"The Mob's chain: week 4 stitched", time:'9:01 PM', still:['streakExtend','end']}, th => `
+  ${statusBar('9:01 PM')}
+  <div class="ws-spot spot" style="background:radial-gradient(56% 36% at 50% 22%,rgba(242,169,59,${th==='night'?.30:.22}),rgba(242,169,59,0) 72%)"></div>
+  <div class="hdr"><button class="ib focusring" aria-label="Close" data-go="denQuiet">${ico('close')}</button><div class="tt"><div class="t1">Chai Circle</div><div class="t2">The Mob's chain</div></div><button class="ib focusring" aria-label="Share a card">${ico('share',22)}</button></div>
+  <div style="position:absolute;left:50%;top:92px;width:10px;height:10px;margin-left:-5px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#E8D2A0,#8F6A2A);z-index:2"></div>
+  <div class="ws-pen" style="position:absolute;left:50%;top:97px;margin-left:-75px;width:150px;transform-origin:50% 0">
+    <svg style="position:absolute;left:0;top:0" width="150" height="14" aria-hidden="true"><path d="M75 0 L18 12 M75 0 L132 12" stroke="${th==='night'?'rgba(255,246,228,.4)':'rgba(23,21,15,.3)'}" stroke-width="1.2"/></svg>
+    <div style="position:relative;top:10px">${bigPennant(4)}
+      <div style="position:absolute;left:0;right:0;top:16px;height:72px;overflow:hidden;text-align:center;color:#2A251F">
+        <div class="ws-n3 t-fig" style="position:absolute;left:0;right:0;font-size:72px;line-height:72px;opacity:0">3</div>
+        <div class="ws-n4 t-fig" style="position:absolute;left:0;right:0;font-size:72px;line-height:72px">4</div></div>
+      <div style="position:absolute;left:0;right:0;top:86px;text-align:center;font:800 13px/16px 'Hanken';color:#2A251F">weeks in a row</div>
+      <svg class="ws-needle" style="position:absolute;left:0;top:0;overflow:visible" width="150" height="212" aria-hidden="true"><g class="ws-ng" style="opacity:0"><path d="M0 0 L22 -3" stroke="#C9CCD1" stroke-width="2.4" stroke-linecap="round"/><ellipse cx="19" cy="-2.6" rx="2.4" ry="1" fill="none" stroke="#7D8288" stroke-width=".9"/></g></svg>
+    </div></div>
+  <div class="flow" style="top:346px;gap:10px;align-items:center;text-align:center">
+    <div class="t-headline ws-title">4 weeks in a row</div>
+    <div class="t-small ink2 ws-sub" style="margin:0 12px">Chai Circle finished this week's quest together, so week 4 is stitched for all four of you.</div>
+    <div class="ws-heads" style="display:flex;gap:14px;margin-top:4px">${['riya','kabir','zoya','you'].map(k=>`<div style="display:flex;flex-direction:column;align-items:center;gap:3px">${mhead(k,40,{ring:mc(k)})}<span class="t-cap" style="font-weight:600">${k==='you'?'You':M[k].name}</span></div>`).join('')}</div>
+  </div>
+  <section class="card ws-reward" style="position:absolute;left:16px;right:16px;top:560px;padding:12px 14px;display:flex;gap:14px;align-items:center">
+    <img class="ws-bell" src="${ART('hybrid-deskbell.webp')}" alt="Brass desk bell" style="width:66px;transform-origin:50% 90%">
+    <div style="flex:1"><div class="t-sub">A desk bell for your den</div><div class="t-cap ink2">It stays on your den's shelf. At 8 weeks, Stamp joins everyone's shelf.</div></div></section>
+  <div class="ws-key" style="position:absolute;left:16px;right:16px;bottom:16px"><button class="key focusring" data-go="denQuiet">Back to the den</button></div>
+  <canvas class="canvas"></canvas>`);
+
+/* ---- S5 Play picker, a Free member (Aarav) ---- */
+def('pickerFree', {n:'S5', t:'Play picker, Free member', time:'8:40 PM'}, th => `
+  ${statusBar('8:40 PM', th==='night')}
+  ${denStage({theme:th, sub:{riya:'Played',kabir:'Played',zoya:'Played'}, wall:denWall({weeks:3})})}
+  ${denHeader({chain:13})}
+  <div class="sheetbg"></div>
+  <div class="sheet" style="top:64px">
+    <div class="grab"></div>
+    <div style="display:flex;align-items:center"><div class="t-title" style="flex:1">Play with your Mob</div><button class="focusring" style="width:44px;height:44px;display:grid;place-items:center" aria-label="Close" data-go="denQuiet">${ico('close')}</button></div>
+    <div class="t-label ink2" style="margin:6px 0 0">Free for everyone in the Mob</div>
+    <div class="row"><div class="ri">${ico('sprint',20)}</div><div class="rt"><div class="a">Riya's sprint</div><div class="b">5 questions. Open until 2:05 PM tomorrow.</div></div><button class="minikey v focusring" data-go="ghost">Play</button></div>
+    <div class="row"><div class="ri">${ico('paper',20)}</div><div class="rt"><div class="a">This week's Mob paper</div><div class="b">You sat it on Monday.</div></div><button class="minikey focusring">Answers</button></div>
+    <div class="row"><div class="ri">${ico('study',20)}</div><div class="rt"><div class="a">Study room</div><div class="b">A shared 25-minute timer. No marks.</div></div><button class="minikey focusring">Start</button></div>
+    <div class="hair" style="margin:8px 0 12px"></div>
+    <div style="display:flex;align-items:center;gap:8px"><span class="t-label" style="flex:1">Start a new game</span><span class="lockt">${ico('lock',12,2)}Pro starts these</span></div>
+    <div class="t-cap ink2" style="margin:4px 0 10px">Anyone in your Mob with Pro can start one. Then everyone plays it free, as often as they like.</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      ${[['sprint','Sprint'],['race','Race'],['live','Live room'],['custom','Your own round'],['mock','Full mock together'],['rematch','Rematch']].map(([i,a])=>`<div style="display:flex;align-items:center;gap:8px;height:44px;padding:0 10px;border-radius:14px;border:1px solid var(--line);color:var(--ink2)"><span style="color:var(--ink3)">${ico(i,18)}</span><span class="t-label" style="flex:1;color:var(--ink2)">${a}</span><span style="color:var(--ink3)">${ico('lock',14,2)}</span></div>`).join('')}</div>
+    <div style="position:absolute;left:16px;right:16px;bottom:16px">
+      <button class="key2 focusring" style="width:100%">${G.again.replace(/#2A251F/g,'currentColor').replace('width="34" height="34"','width="22" height="22"')}Ask your Mob for a game</button>
+      <div style="text-align:center"><button class="tbtn focusring" data-go="proSheet" style="font-size:14px">What Pro adds</button></div></div>
+  </div>`);
+
+/* ---- S6 Play picker, a Pro member (Riya's phone) ---- */
+def('pickerPro', {n:'S6', t:"Play picker, Pro member (Riya's phone)", time:'8:50 PM'}, th => `
+  ${statusBar('8:50 PM')}
+  <div class="note" style="top:6px;left:auto;right:96px;transform:none">Riya's phone. She has Pro.</div>
+  <div class="hdr"><button class="ib focusring" aria-label="Close">${ico('close')}</button><div class="tt"><div class="t1">Start a game</div><div class="t2">Chai Circle, Accountancy</div></div></div>
+  <div class="flow" style="top:96px;gap:14px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+    ${[['sprint','Sprint','5 questions',1],['race','Race','5 or 10 minutes',0],['custom','Your own round','5 to 20 questions',0],['mock','Full mock','50 in 60 minutes',0]].map(([i,a,b,on])=>`
+      <button class="focusring" style="text-align:left;height:88px;border-radius:20px;padding:12px;background:var(--raised);border:${on?'2px solid var(--ink)':'1px solid var(--line)'};position:relative;box-shadow:${on?'0 3px 0 var(--ink3)':'0 2px 0 var(--line)'}">
+        <span style="display:grid;place-items:center;width:32px;height:32px;border-radius:11px;background:${on?'var(--ink)':'var(--raised2)'};color:${on?'var(--ground)':'var(--ink)'}">${ico(i,18)}</span>
+        <div class="t-sub" style="margin-top:6px;font-size:15px;line-height:19px">${a}</div><div class="t-cap ink2">${b}</div>
+        ${on?`<span style="position:absolute;right:12px;top:12px;color:var(--ink)">${ico('check',20,2.4)}</span>`:''}</button>`).join('')}
+    </div>
+    <div>
+      <div class="t-label" style="margin-bottom:8px">How your Mob plays it</div>
+      <div style="display:flex;height:48px;border-radius:24px;background:var(--raised2);padding:4px">
+        <button class="focusring" style="flex:1;border-radius:20px;background:var(--raised);box-shadow:var(--shadow);font:700 14px/1 'Hanken';display:flex;align-items:center;justify-content:center;gap:6px">${ico('live',16,2)}Live now</button>
+        <button class="focusring" style="flex:1;border-radius:20px;font:700 14px/1 'Hanken';color:var(--ink2)">Anytime in 24 hours</button></div>
+      <div class="t-cap ink2" style="margin-top:6px">Live starts everyone on one 3, 2, 1. Anyone who misses it gets the same questions for 24 hours.</div>
+    </div>
+    <div>
+      <div class="row" style="border-top:1px solid var(--line)"><div class="ri">${ico('custom',20)}</div><div class="rt"><div class="a">Admission of a partner</div><div class="b">The chapter of your Mob's last trap</div></div><button class="minikey focusring">Change</button></div>
+      <div class="row" style="border-top:1px solid var(--line)"><div class="ri">${ico('hall',20)}</div><div class="rt"><div class="a">Exam-hall rehearsal</div><div class="b">20 questions in the real CBT layout</div></div>${ico('right',18)}</div>
+      <div class="row" style="border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><div class="ri">${ico('mic',20)}</div><div class="rt"><div class="a">Pass the mic</div><div class="b">Let a friend start one game. 2 left this week.</div></div>${ico('right',18)}</div>
+    </div>
+  </div>
+  <div style="position:absolute;left:16px;right:16px;bottom:16px">
+    <button class="key focusring" data-press>Start a live sprint</button>
+    <div class="t-cap ink2" style="text-align:center;margin-top:6px">Everyone in Chai Circle plays it free. Marks count the same for all.</div></div>`);
+
+/* ---- S7 Free and Pro in the Mob ---- */
+def('proSheet', {n:'S7', t:'Free and Pro in the Mob', time:'8:41 PM'}, th => `
+  ${statusBar('8:41 PM')}
+  <div class="hdr"><button class="ib focusring" aria-label="Close" data-go="pickerFree">${ico('close')}</button><div class="tt"><div class="t1">Free and Pro in the Mob</div></div></div>
+  <div class="flow" style="top:92px;gap:12px">
+    <div class="t-small ink2">Pro never changes marks, chains or what you can earn. It adds hosting, and a closer look at where your Mob loses marks.</div>
+    <section class="card" style="padding:12px 16px">
+      <div class="t-sub" style="margin-bottom:2px">Free, always</div>
+      ${['Play every game your Mob starts, as often as you like','The weekly Mob paper, in every Mob you are in','Your chain, rest passes and make-up days','The podium, your marks and Fix it together','Every character and sticker you earn','Join 12 Mobs, start 1, and open a study room'].map(t=>`<div style="display:flex;gap:10px;padding:4px 0"><span style="color:var(--good);flex:none">${ico('check',18,2.4)}</span><span class="t-small">${t}</span></div>`).join('')}
+    </section>
+    <section style="padding:12px 16px;border-radius:24px;border:1.5px solid var(--lineStrong)">
+      <div class="t-sub" style="margin-bottom:2px">Pro adds</div>
+      ${['Start games: sprints, races, live rooms, rematches','Full mock together and exam-hall rehearsal','Mob insights: where your Mob loses marks','Every week side by side, past weeks and a recap','Start 3 Mobs, and pass the mic to a friend'].map(t=>`<div style="display:flex;gap:10px;padding:4px 0"><span style="color:var(--ink2);flex:none">${ico('plus',18,2.2)}</span><span class="t-small">${t}</span></div>`).join('')}
+    </section>
+  </div>
+  <div style="position:absolute;left:16px;right:16px;bottom:16px"><button class="key focusring">See Pro plans</button></div>`);
+
+/* ---- S8 Ready up (live room) ---- */
+function roomHeader(o={}){ return `<div class="hdr"><button class="ib focusring" aria-label="Leave the room" data-go="${o.back||'denLive'}">${ico('close')}</button>
+  <div class="tt"><div class="t1">${o.t||"Riya's room"}</div><div class="t2">${o.s||'Live sprint, 5 questions'}</div></div>
+  ${o.right||`<span class="livepill"><i></i>Live</span>`}<button class="ib focusring" aria-label="Sound is on" style="width:44px">${ico('sound',22)}</button></div>`; }
+def('ready', {n:'S8', t:'Live: ready up', time:'8:52 PM'}, th => readyBody(th, {you:false}));
+function readyBody(th, o){
+  const seats=[['riya',1,'Host'],['kabir',1,''],['you',o.you,'']];
+  return `${statusBar('8:52 PM')}
+  ${roomHeader()}
+  <div class="stage" style="position:absolute;left:0;right:0;top:88px;height:352px;overflow:hidden">
+    <div class="spot" style="background:radial-gradient(70% 62% at 50% 6%,rgba(242,169,59,${th==='night'?.24:.20}),rgba(242,169,59,0) 70%)"></div>
+    <img src="${ART(th==='night'?'scene-empty-nothing-night.webp':'scene-empty-nothing-day.webp')}" alt="" style="position:absolute;left:-96px;top:-16px;width:560px;opacity:${th==='night'?.7:.6}">
+    <div style="position:absolute;inset:0;background:linear-gradient(var(--ground),transparent 22%,transparent 70%,var(--ground))"></div>
+    ${seats.map(([k,r,sub],i)=>{ const x=62+i*80; return `<div class="rd-seat" data-k="${k}">
+      ${fig(M[k].ch, x, 296, 112, {cls:'rd-fig', id:`rd-${k}`})}
+      <div class="tag rd-tag on-img" style="left:${x}px;top:302px">${k==='you'?'You':M[k].name}${sub?`<span class="sub">${sub}</span>`:''}</div>
+      <div class="rd-ready" style="position:absolute;left:${x}px;top:148px;transform:translateX(-50%);opacity:${r?1:0}"><span class="herepill" style="background:var(--paper);color:#2A251F">${ico('check',13,3)}Ready</span></div></div>`; }).join('')}
+    <div style="position:absolute;left:276px;top:234px;width:48px;height:62px;border:1.5px dashed ${th==='night'?'rgba(255,246,228,.5)':'rgba(23,21,15,.38)'};border-radius:24px 24px 12px 12px;display:grid;place-items:center;color:${th==='night'?'#E9E3D6':'#454036'}">${ico('plus',20)}</div>
+    <div class="tag on-img" style="left:300px;top:302px;font-weight:500">Open seat</div>
+  </div>
+  <div class="flow" style="top:452px;gap:8px">
+    <div class="t-headline" style="font-size:24px;line-height:28px">${o.you?'You are ready. Riya starts when everyone here is ready.':'Riya starts when everyone here is ready.'}</div>
+    <div class="t-small ink2">Same 5 questions, same start. You see where friends are, never what they picked.</div>
+    <div style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:16px;background:var(--raised2);margin-top:4px">
+      <div style="flex:1"><div class="t-cap ink2">Room code</div><div class="t-fig" style="font-size:22px;line-height:24px;letter-spacing:1px">K7P 2M9</div></div>
+      <button class="minikey focusring" style="background:var(--raised)">${ico('share',16)}&nbsp;Send the code</button></div>
+  </div>
+  <div style="position:absolute;left:16px;right:16px;bottom:16px">
+    <button class="key focusring rd-key" data-go="countdown" data-moment="countdown">${o.you?'Waiting for Riya to start':"I'm ready"}</button>
+    <div class="t-cap ink2" style="text-align:center;margin-top:6px">Anyone in Chai Circle who misses it can play until 8:52 PM tomorrow.</div></div>`; }
+
+/* ---- S9 Countdown ---- */
+def('countdown', {n:'S9', t:'Live: 3, 2, 1, Go', time:'8:53 PM', still:['countdown',700]}, th => `
+  ${statusBar('8:53 PM')}
+  ${roomHeader()}
+  <div class="cd-scrim" style="position:absolute;inset:88px 0 0 0;background:#000;opacity:0"></div>
+  <div class="cd-spot spot" style="background:radial-gradient(60% 40% at 50% 36%,rgba(242,169,59,${th==='night'?.26:.20}),rgba(242,169,59,0) 70%)"></div>
+  <div class="cd-watch" style="position:absolute;left:50%;top:132px;width:270px;margin-left:-135px;transform-origin:50% 10%">
+    <img src="${ART('hybrid-stopwatch.webp')}" alt="" style="width:270px">
+    <svg class="cd-arcs" style="position:absolute;left:35px;top:103px" width="200" height="200" viewBox="0 0 200 200" aria-hidden="true"><circle cx="100" cy="100" r="88" fill="none" stroke="rgba(23,21,15,.10)" stroke-width="6"/><circle class="cd-arc" cx="100" cy="100" r="88" fill="none" stroke="#9DB400" stroke-width="6" stroke-linecap="round" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 100 100)"/></svg>
+    <div class="cd-nums" style="position:absolute;left:0;right:0;top:128px;height:150px">
+      ${['3','2','1'].map(n=>`<div class="cd-n" data-n="${n}" style="position:absolute;inset:0;display:grid;place-items:center;font:700 124px/1 'BCond';color:#17150F;opacity:${n==='3'?1:0}">${n}</div>`).join('')}
+      <div class="cd-go" style="position:absolute;left:50%;top:50%;width:136px;height:76px;margin:-38px 0 0 -68px;border-radius:38px;background:#D2F000;color:#0B1000;display:grid;place-items:center;font:700 54px/1 'BCond';opacity:0">Go</div></div>
+  </div>
+  <div class="cd-row" style="position:absolute;left:0;right:0;top:530px;display:flex;justify-content:center;gap:30px">
+    ${['riya','kabir','you'].map(k=>`<div class="cd-p" style="display:flex;flex-direction:column;align-items:center;gap:8px">${mhead(k,56,{ring:mc(k)})}<span class="t-label">${k==='you'?'You':M[k].name}</span></div>`).join('')}</div>
+  <div class="cd-cap t-small ink2" style="position:absolute;left:24px;right:24px;top:640px;text-align:center">Question 1 of 5 is next. +5 if right, -1 if wrong, 0 if you skip.</div>
+  <div class="cd-q card" style="position:absolute;left:16px;right:16px;top:300px;padding:16px;opacity:0"><div class="t-cap ink2">Question 1 of 5</div><div class="t-q" style="margin-top:6px">Goodwill is valued at two years' purchase of the average profit. The average profit is ₹48,000. What is the goodwill?</div></div>
+  <canvas class="canvas"></canvas>`);
+
+/* ---- S10 to S13: lanes and questions ---- */
+const LIVE_Q3 = {n:3, text:"Average profit is ₹60,000, the normal rate of return 10% and capital employed ₹5,00,000. What is goodwill by capitalising super profit?", opts:['₹50,000','₹1,00,000','₹6,00,000','₹10,000'], right:1};
+const LIVE_Q4 = {n:4, text:'A and B share profits 3:2. C joins for a 1/5 share, taken from A and B in their ratio. What is the new ratio?', opts:['3:2:1','12:8:5','3:2:5','9:6:5'], right:1};
+const tokLeft = p => `${8+Math.min(p,4.6)*18.4}%`;
+function lanes(rows, o={}){
+  return `<div class="lanes ${rows.length>3?'c4':''}" style="top:${o.top||92}px"><div class="grid"></div>
+    ${rows.map(r=>`<div class="lane ${r.k==='you'?'me':''}" data-k="${r.k}" style="--mc:${mc(r.k)}">
+        <div class="who">${r.k==='you'?'You':M[r.k].name}${r.sub?`<small>${r.sub}</small>`:''}</div>
+        <div class="strip">${[0,1,2,3,4].map(q=>`<div class="bub ${q<Math.floor(r.p+1e-6)?'f':''}" data-q="${q}" style="left:${8+q*18.4}%"></div>`).join('')}
+          <div class="flag" aria-hidden="true"></div>
+          <div class="tok ${r.ghost?'ghost':''}" style="left:${tokLeft(r.p)}">${head(M[r.k].ch,32,{mc:mc(r.k)})}
+            <div class="pen" style="display:${r.pen?'block':'none'}"><b></b></div></div>
+        </div></div>`).join('')}
+    ${o.foot?`<div class="t-cap ink3" style="padding:6px 2px 0">${o.foot}</div>`:''}</div>`; }
+function questionBlock(q, o={}){ return `
+  <div class="qblock" style="position:absolute;left:16px;right:16px;top:${o.top||244}px">
+    <div style="display:flex;justify-content:space-between;align-items:center"><span class="t-label">Question ${q.n} of 5</span><span class="chip" style="height:26px;font-size:12px">+5 if right, -1 if wrong</span></div>
+    <div class="t-q" style="margin-top:8px">${q.text}</div>
+    <div class="opts" style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+      ${q.opts.map((t,i)=>{ const st=o.state?.[i]||''; return `<div class="opt ${st}" data-i="${i}" role="radio" aria-checked="${st?'true':'false'}"><span class="lt">${'ABCD'[i]}</span><span style="flex:1">${t}</span>
+        ${st==='sel'?`<svg class="clip" viewBox="0 0 16 30" aria-hidden="true"><path d="M5 2h6a3 3 0 0 1 3 3v19a4 4 0 0 1-8 0V8" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round"/></svg>`:''}
+        ${st==='right'?`<svg class="tick" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--good)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path class="tk" d="M5 12.5l4.5 4.5L19 7.5" pathLength="1"/></svg><span class="mk mk-plus">+5</span>`:''}
+        ${st==='wrong'?`<span class="mk mk-minus" style="right:14px">-1</span>`:''}</div>`; }).join('')}
+    </div></div>`; }
+def('race', {n:'S10', t:'Live race: pick and lock in', time:'8:54 PM', still:['lockIn',1300]}, th => `
+  ${statusBar('8:54 PM')}
+  ${roomHeader({right:`<span class="clockpill">1:12</span>`})}
+  ${lanes([{k:'riya',p:3.4},{k:'kabir',p:2.5,pen:true,sub:'Locked in'},{k:'you',p:2.5}])}
+  ${questionBlock(LIVE_Q3,{state:{1:'sel'}})}
+  <div style="position:absolute;left:16px;right:16px;bottom:16px;display:flex;gap:10px">
+    <button class="key2 focusring" style="width:96px">Skip</button><button class="key focusring rc-key" style="flex:1" data-go="feedRight" data-moment="rightWrong">Lock in B</button></div>`);
+function feedPanel(kind){ /* the bottom panel that rises after lock-in */
+  if(kind==='right') return `<div class="fb-panel" style="position:absolute;left:0;right:0;bottom:0;height:168px;padding:16px;background:var(--raised);border-radius:28px 28px 0 0;box-shadow:0 -12px 30px -16px rgba(0,0,0,.5)">
+    <div class="fb-banner" style="display:flex;align-items:center;gap:12px">
+      <div class="combo" style="position:relative;width:56px;height:56px;flex:none;border-radius:50%;background:var(--paper);color:#2A251F;display:grid;place-items:center;transform:rotate(-8deg);box-shadow:inset 0 0 0 3px var(--paper),inset 0 0 0 5px #2A251F,inset 0 0 0 7px var(--paper),inset 0 0 0 8px rgba(42,37,31,.5),0 2px 0 var(--paperEdge)" aria-label="Three right in a row"><div style="text-align:center"><div style="font:700 24px/20px 'BCond'">3</div><div style="font:800 8px/9px 'Hanken'">in a row</div></div></div>
+      <div><div class="t-sub" style="color:var(--good)">Right. Three in a row.</div><div class="t-cap ink2">+5 marks. Your Mob only sees that you moved on.</div></div></div>
+    <button class="key focusring" style="margin-top:14px" data-go="feedWrong">Next question</button></div>`;
+  return `<div class="fb-panel" style="position:absolute;left:0;right:0;bottom:0;height:168px;padding:16px;background:var(--raised);border-radius:28px 28px 0 0;box-shadow:0 -12px 30px -16px rgba(0,0,0,.5)">
+    <div class="fb-banner"><div class="t-sub">Not this one.</div><div class="t-cap ink2" style="margin-top:2px">-1 mark. The right answer and why open for everyone when the room closes.</div></div>
+    <button class="key focusring" style="margin-top:14px" data-go="friendDone">Next question</button></div>`; }
+def('feedRight', {n:'S11', t:'Answer feedback: right, three in a row', time:'8:54 PM', still:['rightWrong',1500]}, th => `
+  ${statusBar('8:54 PM')}
+  ${roomHeader({right:`<span class="clockpill">1:19</span>`})}
+  ${lanes([{k:'riya',p:3.6},{k:'kabir',p:3.05},{k:'you',p:3.0}])}
+  ${questionBlock(LIVE_Q3,{state:{1:'right'}})}
+  ${feedPanel('right')}
+  <canvas class="canvas"></canvas>`);
+def('feedWrong', {n:'S11b', t:'Answer feedback: not this one', time:'8:55 PM'}, th => `
+  ${statusBar('8:55 PM')}
+  ${roomHeader({right:`<span class="clockpill">2:04</span>`})}
+  ${lanes([{k:'riya',p:4.5},{k:'kabir',p:4.0},{k:'you',p:4.0}])}
+  ${questionBlock(LIVE_Q4,{state:{0:'wrong'}})}
+  ${feedPanel('wrong')}`);
+def('friendDone', {n:'S12', t:'Live: a friend finishes', time:'8:55 PM', still:['friendFinish','end']}, th => `
+  ${statusBar('8:55 PM')}
+  ${roomHeader({right:`<span class="clockpill">2:31</span>`})}
+  ${lanes([{k:'riya',p:5,pen:true,sub:'Finished'},{k:'kabir',p:4.3},{k:'you',p:4.0}])}
+  <div class="fd-toast" style="position:absolute;left:16px;right:16px;top:248px;display:flex;align-items:center;gap:10px;padding:8px 12px;border-radius:16px;background:var(--raised2)">
+    ${mhead('riya',30)}<div class="t-small" style="flex:1"><b>Riya finished.</b> <span class="ink2">2 of you are still playing.</span></div></div>
+  ${questionBlock({n:5,text:'Goodwill is 3 years’ purchase of super profit. Average profit is ₹90,000, capital employed ₹6,00,000 and the normal rate 10%. What is the goodwill?',opts:['₹90,000','₹2,70,000','₹1,80,000','₹30,000']},{top:306})}
+  <div style="position:absolute;left:16px;right:16px;bottom:16px;display:flex;gap:10px"><button class="key2 focusring" style="width:96px">Skip</button><button class="key focusring" style="flex:1;background:var(--raised2);color:var(--ink3);box-shadow:none" disabled>Pick an answer</button></div>
+  <canvas class="canvas"></canvas>`);
+def('ghost', {n:'S13', t:'Async: the ghost race', time:'8:41 PM', still:['ghostRace','end']}, th => {
+  const Tn=72; const rows=['riya','kabir','zoya','you'].map(k=>({k, p:prog(k,Tn), ghost:k!=='you', sub:k==='you'?'Now':RUN[k].at}));
+  return `${statusBar('8:41 PM')}
+  ${roomHeader({t:"Riya's sprint", s:'3 of you have played', back:'denQuiet', right:`<span class="clockpill gh-clock">1:12</span>`})}
+  ${lanes(rows, {foot:'Each friend is where they were at this second of their own run.'})}
+  <div style="position:absolute;right:16px;top:300px"><span class="pacechip gh-chip">4 s ahead of Kabir</span></div>
+  ${questionBlock({n:3,text:"Goodwill is 3 years' purchase of the average profit of ₹40,000, ₹50,000, ₹60,000 and ₹70,000. What is the goodwill?",opts:['₹1,50,000','₹1,65,000','₹1,80,000','₹2,10,000']},{top:336, state:{1:'sel'}})}
+  <div style="position:absolute;left:16px;right:16px;bottom:16px;display:flex;gap:10px"><button class="key2 focusring" style="width:96px">Skip</button><button class="key focusring" style="flex:1" data-go="podium" data-moment="podium">Lock in B</button></div>`; });
+
+/* ---- S14 Podium ---- */
+function podiumStage(th){ const base=478;
+  const P=[ {k:'you', x:64, h:96, place:'2'}, {k:'riya', x:152, h:134, place:'1'}, {k:'kabir', x:240, h:96, place:'2'} ];
+  return `<div class="pd" style="position:absolute;left:0;right:0;top:0;height:${base+50}px">
+    <div class="pd-scrim" style="position:absolute;inset:0;background:#000;opacity:0"></div>
+    <div class="pd-spot spot" style="background:radial-gradient(48% 46% at 42% 62%,rgba(242,169,59,${th==='night'?.32:.24}),rgba(242,169,59,0) 72%);opacity:.7"></div>
+    <div style="position:absolute;left:0;right:0;top:${base}px;height:60px;background:linear-gradient(var(--floor),var(--ground))"></div>
+    <div style="position:absolute;left:12px;right:12px;top:${base}px;height:1px;background:var(--lineStrong)"></div>
+    ${P.map(p=>`<div class="plinth pd-b" data-k="${p.k}" style="left:${p.x-42}px;width:84px;height:${p.h}px;top:${base-p.h}px">
+        <div class="lines"></div><div class="fold"></div><div class="numr pd-num">${p.place}</div>${p.place==='1'?'<div class="sheen"></div>':''}
+        ${[...Array(+p.place)].map((_,i)=>`<div style="position:absolute;right:${6+i*5}px;top:24px;width:3px;height:10px;border-radius:1px;background:rgba(42,37,31,.25)"></div>`).join('')}</div>
+      ${fig(M[p.k].ch, p.x, base-p.h, p.place==='1'?122:106, {cls:'pd-fig', id:`pd-${p.k}`})}
+      <div class="marks pd-m" data-k="${p.k}" style="left:${p.x}px;top:${base+8}px"><div class="n">${p.k==='you'?'You':M[p.k].name}</div><div class="v"><span class="pd-v">${marks(p.k)}</span> marks</div></div>`).join('')}
+    ${fig(M.zoya.ch, 324, base, 70, {cls:'pd-fig pd-floor', id:'pd-zoya'})}
+    <div class="marks pd-m" data-k="zoya" style="left:324px;top:${base+8}px"><div class="n">Zoya</div><div class="v"><span class="pd-v">${marks('zoya')}</span> marks</div></div>
+  </div>`; }
+def('podium', {n:'S14', t:'Results: the podium reveal', time:'8:44 PM', still:['podium','end']}, th => `
+  ${statusBar('8:44 PM')}
+  <div class="hdr"><button class="ib focusring" aria-label="Close" data-go="denLive">${ico('close')}</button><div class="tt"><div class="t1">Riya's sprint</div><div class="t2">Everyone has played</div></div><button class="ib focusring" aria-label="Share">${ico('share',22)}</button></div>
+  ${podiumStage(th)}
+  <div class="pd-top" style="position:absolute;left:20px;right:20px;top:96px"><div class="t-headline" style="font-size:26px;line-height:30px">Your Mob got 15 of 20 right together.</div></div>
+  <div class="pd-tie" style="position:absolute;left:20px;right:20px;top:568px">
+    <div class="t-small ink2">You and Kabir tie on 19, so you share second. Riya skipped question 4 instead of guessing, and stayed on 20.</div>
+    <div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap">
+      <span class="chip">${parcelMini(18)}<span>Quest <b class="t-fig" style="font-size:15px">${QUEST.afterYou}</b> of ${QUEST.target}</span></span>
+      <span class="chip">${linkGlyph(16)}<span>Day 14 of your chain</span></span></div></div>
+  <div class="pd-keys" style="position:absolute;left:16px;right:16px;bottom:16px;display:flex;gap:10px">
+    <button class="key focusring" style="flex:1" data-go="results">See everyone's moment</button>
+    <button class="key2 focusring" aria-label="Ask Riya for a rematch" style="width:56px;padding:0">${ico('rematch',22)}</button></div>
+  <canvas class="canvas"></canvas>`);
+
+/* ---- S15 Results, everyone's moment, fix it together, stickers ---- */
+def('results', {n:'S15', t:"Results: everyone's moment, fix it together, stickers", time:'8:45 PM'}, th => `
+  ${statusBar('8:45 PM')}
+  <div class="hdr"><button class="ib focusring" aria-label="Close" data-go="denLive">${ico('close')}</button><div class="tt"><div class="t1">Riya's sprint</div><div class="t2">Everyone has played</div></div><button class="ib focusring" aria-label="Share">${ico('share',22)}</button></div>
+  <div class="flow" style="top:90px;gap:14px">
+    <div>
+      <div class="t-label" style="margin-bottom:2px">Everyone's moment</div>
+      ${[['riya','Skipped question 4, which most of you got wrong, instead of guessing.'],['you','Fastest right answer: question 5 in 17 seconds.'],['kabir','Changed question 3 to the right answer.'],['zoya','Quickest finish: all five in 2:20.']].map(([k,t])=>`
+        <div class="em-row" style="display:flex;gap:10px;align-items:center;padding:5px 0">${mhead(k,36)}<div class="t-small" style="flex:1"><b>${k==='you'?'You':M[k].name}:</b> <span class="ink2">${t}</span></div></div>`).join('')}
+    </div>
+    <section class="card" style="padding:14px 16px">
+      <div class="t-sub">The question your Mob missed most</div>
+      <div class="t-small ink2" style="margin-top:2px">On question 4, 3 of you picked ₹3,00,000. Nobody got it right this time.</div>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        ${[['Now','See why, then one fresh question.'],['Wednesday','One more checks the fix holds.']].map(([a,b],i)=>`<div style="flex:1;padding:8px 10px;border-radius:14px;background:var(--raised2)"><div class="t-label">${i+1}. ${a}</div><div class="t-cap ink2">${b}</div></div>`).join('')}</div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:10px"><div class="segbar" style="width:96px;height:10px">${[0,1,2].map(()=>'<i></i>').join('')}</div><span class="t-cap ink2">0 of 3 fixed. A stamp for the den at 3.</span></div>
+    </section>
+    <div>
+      <div class="t-label" style="margin-bottom:8px">Send your Mob a sticker</div>
+      <div style="display:flex;justify-content:space-between">${sticker(G.nice,'Nice one')}${sticker(G.close,'So close')}${sticker(G.teach,'Teach me')}${sticker(G.again,'Again?')}</div>
+    </div>
+  </div>
+  <div style="position:absolute;left:16px;right:16px;bottom:16px;display:flex;gap:10px">
+    <button class="key focusring" style="flex:1" data-go="milestone" data-moment="streakMilestone">Fix question 4 together</button>
+    <button class="key2 focusring" style="width:56px;padding:0" aria-label="Ask Riya for a rematch">${ico('rematch',22)}</button></div>`);
+
+/* ---- S16 Personal streak milestone ---- */
+def('milestone', {n:'S16', t:'Milestone: 14 days in a row', time:'8:45 PM', still:['streakMilestone','end']}, th => `
+  ${statusBar('8:45 PM')}
+  <div class="ml-spot spot" style="background:radial-gradient(70% 46% at 50% 26%,rgba(242,169,59,${th==='night'?.28:.22}),rgba(242,169,59,0) 70%)"></div>
+  <div class="hdr"><button class="ib focusring" aria-label="Close" data-go="denLive">${ico('close')}</button><div class="tt"></div><button class="ib focusring" aria-label="Share a card">${ico('share',22)}</button></div>
+  <div class="ml-mobi" style="position:absolute;left:50%;top:92px;margin-left:-60px;width:120px"><img src="${ART('mobi-cheer.webp')}" alt="Mobi cheering" style="width:120px"></div>
+  <div style="position:absolute;left:0;right:0;top:248px;display:flex;justify-content:center"><div class="ml-links">${chainLinks(7)}</div></div>
+  <div style="position:absolute;left:0;right:0;top:322px;text-align:center">
+    <div class="t-hero ml-num" style="font-size:112px;line-height:96px">14</div>
+    <div class="t-headline ml-title" style="margin-top:6px">days in a row</div>
+    <div class="t-small ink2 ml-sub" style="margin:8px 36px 0">You practised 13 of them and rested 1. It is your best run so far.</div></div>
+  <section class="card ml-page" style="position:absolute;left:16px;right:16px;top:548px;padding:12px;display:flex;gap:12px;align-items:center">
+    <div style="width:64px;height:80px;border-radius:8px;background:#1B1A16;overflow:hidden;flex:none;position:relative;box-shadow:0 2px 0 var(--paperEdge)"><div style="position:absolute;inset:0;background:radial-gradient(70% 50% at 50% 0%,rgba(242,169,59,.45),transparent)"></div><img src="${ART('mobi-read.webp')}" alt="" style="height:66px;position:absolute;left:10px;bottom:4px"></div>
+    <div style="flex:1"><div class="t-cap ink2">Page 2 of The Fold, the Mob's story</div><div class="t-sub" style="margin-top:2px">The lamp stays on</div><div class="t-cap ink2">Mobi keeps one lamp on for anyone still working.</div></div></section>
+  <div style="position:absolute;left:16px;right:16px;bottom:16px"><button class="key focusring" data-go="questDone" data-moment="questComplete">Read page 2</button>
+    <div style="text-align:center"><button class="tbtn focusring" data-go="denLive">Back to the den</button></div></div>
+  <canvas class="canvas"></canvas>`);
+
+/* ---- S18 Quest complete ---- */
+def('questDone', {n:'S18', t:'Quest done', time:'9:00 PM', still:['questComplete','end']}, th => `
+  ${statusBar('9:00 PM')}
+  <div class="qd-spot spot" style="background:radial-gradient(70% 46% at 50% 28%,rgba(242,169,59,${th==='night'?.26:.2}),rgba(242,169,59,0) 70%)"></div>
+  <div class="hdr"><button class="ib focusring" aria-label="Close" data-go="denQuiet">${ico('close')}</button><div class="tt"><div class="t1">Chai Circle</div><div class="t2">Riya's rematch just closed</div></div></div>
+  <div class="qd-barwrap" style="position:absolute;left:28px;right:28px;top:200px">
+    <div style="display:flex;justify-content:space-between;margin-bottom:8px"><span class="t-label">This week's quest</span><span class="t-cap ink2"><b class="t-fig qd-live" style="font-size:22px">${QUEST.afterYou}</b> of ${QUEST.target} answered</span></div>
+    <div class="segbar qd-segs" style="height:24px;gap:4px">${segs(QUEST.afterYou)}</div></div>
+  <div class="qd-seal" style="position:absolute;left:50%;top:104px;width:208px;height:208px;margin-left:-104px;opacity:0">
+    <img src="${ART('foil-seal.webp')}" alt="Quest seal" style="width:208px;height:208px">
+</div>
+  <div style="position:absolute;left:0;right:0;top:330px;text-align:center">
+    <div class="t-display qd-title">Quest done</div>
+    <div class="t-small ink2 qd-sub" style="margin:10px 34px 0">Chai Circle answered <b class="t-fig" style="font-size:18px">${QUEST.afterLive}</b> questions this week. The quest needed ${QUEST.target}, so week 4 of your chain is stitched.</div></div>
+  <div class="qd-heads" style="position:absolute;left:0;right:0;top:470px;display:flex;justify-content:center;gap:16px">${['riya','kabir','zoya','you'].map(k=>`<div style="display:flex;flex-direction:column;align-items:center;gap:4px">${mhead(k,46,{ring:mc(k)})}<span class="t-cap" style="font-weight:600">${k==='you'?'You':M[k].name}</span></div>`).join('')}</div>
+  <div class="qd-parcel" style="position:absolute;left:50%;top:568px;margin-left:-50px;opacity:0">${parcel(100)}</div>
+  <div style="position:absolute;left:16px;right:16px;bottom:16px"><button class="key focusring qd-key" data-go="reveal" data-moment="characterReveal">Open the parcel</button></div>
+  <canvas class="canvas"></canvas>`);
+
+/* ---- S17 Character reveal (earned) ---- */
+def('reveal', {n:'S17', t:'Character reveal, earned by the quest', time:'9:00 PM', still:['characterReveal','end']}, th => `
+  ${statusBar('9:00 PM')}
+  <div class="rv-scrim" style="position:absolute;inset:0;background:#000;opacity:0"></div>
+  <div class="rv-spot spot" style="background:radial-gradient(52% 34% at 50% 38%,rgba(242,169,59,${th==='night'?.36:.28}),rgba(242,169,59,0) 70%)"></div>
+  <div class="hdr"><button class="ib focusring" aria-label="Close" data-go="weekStitched">${ico('close')}</button><div class="tt"></div><button class="ib focusring" aria-label="Share a card">${ico('share',22)}</button></div>
+  <div style="position:absolute;left:40px;right:40px;top:398px;height:14px;border-radius:50%;background:radial-gradient(closest-side,${th==='night'?'rgba(242,169,59,.25)':'rgba(242,169,59,.22)'},transparent)"></div>
+  <div class="rv-parcel" style="position:absolute;left:50%;top:296px;margin-left:-80px">${parcel(160)}</div>
+  ${fig('kandil', 180, 404, 230, {cls:'rv-fig', id:'rv-kandil'})}
+  <div style="position:absolute;left:0;right:0;top:424px;text-align:center">
+    <div class="t-label ink2 rv-k">New on your shelf</div>
+    <div class="t-display rv-name" style="margin-top:2px">Kandil</div>
+    <div class="t-small ink2 rv-line" style="margin:4px 40px 0">${CH.kandil.line}</div></div>
+  <div class="rv-fact t-cap ink2" style="position:absolute;left:28px;right:28px;top:552px;text-align:center;padding:10px 12px;border-radius:14px;background:var(--raised2)">Chai Circle finished this week's quest, so all four of you get Kandil. Nobody can buy him.</div>
+  <div class="rv-keys" style="position:absolute;left:16px;right:16px;bottom:16px"><button class="key focusring" data-go="weekStitched" data-moment="streakExtend">Make Kandil your character</button>
+    <div style="text-align:center"><button class="tbtn focusring" data-go="shelf">See your shelf</button></div></div>
+  <canvas class="canvas"></canvas>`);
+
+/* ---- S20 The shelf (collection) ---- */
+def('shelf', {n:'S20', t:'Your shelf: earned and still locked', time:'9:02 PM'}, th => `
+  ${statusBar('9:02 PM')}
+  <div class="hdr"><button class="ib focusring" aria-label="Back" data-go="denQuiet">${ico('back')}</button><div class="tt"><div class="t1">Your shelf</div><div class="t2">Every one is earned. None can be bought.</div></div></div>
+  <div class="spot" style="background:radial-gradient(80% 30% at 50% 0%,rgba(242,169,59,${th==='night'?.14:.12}),transparent 70%)"></div>
+  <div class="flow" style="top:96px;gap:16px">
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="t-label">Earned with your Mob</span><span class="t-cap ink2">1 of 3</span></div>
+      <div class="shelfrow" style="margin-top:4px;height:112px">
+        ${['kandil','crane','stamp'].map((k,i)=>`<div class="slotc">${i===0?`<span style="position:absolute;top:0;right:4px;z-index:1" class="herepill"><i style="background:#D2F000"></i>New</span>`:''}<img src="${charSrc(k)}" alt="${i?CH[k].name+', locked':CH[k].name}" class="${i?'sil':''}" style="height:${i?84:100}px"></div>`).join('')}
+      </div>
+      <div style="display:flex;justify-content:space-around;margin-top:10px">${[['kandil','This week’s quest'],['crane','Fix 3 Mob traps: 1 of 3'],['stamp','8 Mob weeks in a row: 4 of 8']].map(([k,r])=>`<div style="width:104px;text-align:center"><div class="t-label">${CH[k].name}</div><div class="t-cap ink2">${r}</div></div>`).join('')}</div>
+    </div>
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="t-label">Foil editions, from long runs</span><span class="t-cap ink2">0 of 2</span></div>
+      <div style="display:flex;gap:10px;margin-top:8px">
+        ${[['dart','Foil Dart','30 days in a row: 14 of 30'],['hop','Foil Hop','10 fixes that held: 6 of 10']].map(([k,n,r])=>`<div style="flex:1;display:flex;gap:8px;align-items:center;padding:8px 10px;border-radius:16px;border:1.5px dashed var(--lineStrong)"><img src="${charSrc(k)}" alt="" class="sil" style="height:48px"><div><div class="t-label">${n}</div><div class="t-cap ink2">${r}</div></div></div>`).join('')}</div>
+    </div>
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline"><span class="t-label">Pick any of these, any time</span><span class="t-cap ink2">You play as Dart</span></div>
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px">
+        ${['dart','patang','naav','hop','dogear','tally','cutting','sticky','hexa','kandil'].map(k=>`<div style="display:flex;flex-direction:column;align-items:center;gap:2px;padding:6px 0;border-radius:16px;${k==='dart'?'background:var(--raised);box-shadow:0 0 0 2px var(--ink)':'background:var(--raised2)'}"><img src="${charSrc(k)}" alt="" style="height:46px"><span class="t-cap" style="font-weight:600;font-size:12px">${CH[k].name}</span></div>`).join('')}
+      </div>
+    </div>
+  </div>
+  <div style="position:absolute;left:16px;right:16px;bottom:16px"><button class="key focusring">Make Kandil your character</button></div>`);
+
+/* ---- S21 Start a Mob ---- */
+def('create', {n:'S21', t:'Start a Mob', time:'7:12 PM'}, th => `
+  ${statusBar('7:12 PM', th==='night')}
+  ${denStage({theme:th, h:262, seats:['you'], open:4, fh:88, tagRoom:36})}
+  <div class="hdr" style="color:${th==='night'?'#F4F0E6':'var(--ink)'}"><button class="ib focusring" aria-label="Back" style="color:inherit">${ico('back')}</button><div class="tt"><div class="t1">Start a Mob</div></div></div>
+  <div class="flow" style="top:272px;gap:10px">
+    <div class="t-label">Pick your Mob's name</div>
+    <div style="display:flex;flex-wrap:wrap;gap:8px">${['Chai Circle','Quiet Comets','Margin Makers','Steady Kites','Ledger Club','Night Owls'].map((n,i)=>`<span class="chip" style="height:36px;${i===0?'background:var(--ink);color:var(--ground)':''}">${n}</span>`).join('')}</div>
+    <div class="t-cap ink2">Names come from our list, so every Mob name is kind. <u>Show six more</u></div>
+    <div class="t-label" style="margin-top:4px">Subject you will play</div>
+    <div style="display:flex;gap:8px">${['Accountancy','Business Studies','Economics'].map((n,i)=>`<span class="chip" style="height:36px;${i===0?'background:var(--ink);color:var(--ground)':''}">${n}</span>`).join('')}</div>
+    <div style="display:flex;align-items:center;gap:12px;margin-top:4px;padding:10px 12px;border-radius:16px;background:var(--raised2)">${head('dart',40,{mc:mc('you')})}
+      <div style="flex:1"><div class="t-label">You join as Aarav, playing Dart</div><div class="t-cap ink2">First names only. Change it any time.</div></div><button class="minikey focusring" style="background:var(--raised)">Change</button></div>
+    <div class="t-cap ink2">Your Mob sees your marks in games. One switch keeps them private.</div>
+  </div>
+  <div style="position:absolute;left:16px;right:16px;bottom:16px"><button class="key focusring" data-go="mobOne">Start Chai Circle</button>
+    <div class="t-cap ink2" style="text-align:center;margin-top:6px">Next, you can invite up to 4 friends.</div></div>`);
+
+/* ---- S22 Join with a code ---- */
+def('join', {n:'S22', t:'Join with a 6-character code', time:'7:15 PM'}, th => `
+  ${statusBar('7:15 PM')}
+  <div class="hdr"><button class="ib focusring" aria-label="Back">${ico('back')}</button><div class="tt"><div class="t1">Join a Mob</div></div><button class="chip focusring" style="height:40px;margin-right:6px">${ico('scan',18)}Scan QR</button></div>
+  <div class="flow" style="top:96px;gap:12px">
+    <div class="t-small ink2">Type the 6-character code your friend sent.</div>
+    <div style="display:flex;gap:6px;align-items:center">${['K','7','P'].map(c=>`<div class="codebox">${c}</div>`).join('')}<div style="width:10px"></div>${['2','M','9'].map((c,i)=>`<div class="codebox ${i===2?'cur':''}">${c}</div>`).join('')}</div>
+    <div class="card" style="padding:12px 14px;display:flex;align-items:center;gap:12px">
+      <div style="display:flex;align-items:flex-end">${['patang','naav','hop'].map((k,i)=>`<img src="${charSrc(k)}" alt="" class="sil" style="height:40px;margin-left:${i?-8:0}px">`).join('')}<div class="dash" style="width:26px;height:26px;margin:0 0 4px 6px;border-radius:13px"></div></div>
+      <div><div class="t-sub">Chai Circle, Accountancy</div><div class="t-cap ink2">3 of 5 seats taken</div></div></div>
+    <button class="key focusring">Join Chai Circle</button>
+    <div class="t-cap ink2" style="text-align:center">Sitting together? Tap Scan QR and point it at their screen.</div>
+  </div>
+  <div class="kbd">${['1234567890','QWERTYUIOP','ASDFGHJKL','ZXCVBNM'].map((r,ri)=>`<div class="r">${ri===3?'<div class="k" style="width:44px">&#8679;</div>':''}${[...r].map(c=>`<div class="k">${c}</div>`).join('')}${ri===3?'<div class="k" style="width:44px">&#9003;</div>':''}</div>`).join('')}<div class="r"><div class="k" style="width:60px;font-size:14px">?123</div><div class="k" style="width:180px"></div><div class="k" style="width:60px;background:var(--volt);color:var(--voltInk)">${ico('check',20,2.4)}</div></div></div>`);
+
+/* ---- S23 A Mob of one ---- */
+def('mobOne', {n:'S23', t:'A Mob of one: save a seat', time:'7:13 PM'}, th => `
+  ${statusBar('7:13 PM', th==='night')}
+  ${denStage({theme:th, h:262, seats:['you'], open:4, fh:88, tagRoom:36})}
+  ${denHeader({sub:'Accountancy, just you'})}
+  <div class="flow" style="top:274px;gap:12px">
+    <div><div class="t-headline" style="font-size:26px;line-height:30px">Save a seat for a friend</div>
+      <div class="t-small ink2" style="margin-top:2px">A Mob is 2 to 5 friends. Send the card; they tap it and take a seat.</div></div>
+    <div class="wa"><div class="bub2">
+      <div style="display:flex;gap:10px;align-items:center;padding:8px;border-radius:8px;background:#12110E;color:#F4F0E6"><img src="${ART('icon-rounded-full.svg')}" alt="" style="width:34px;height:34px;border-radius:9px"><div><img src="${ART('wordmark-dark-transparent-full.svg')}" alt="mockmob" style="height:12px;width:auto"><div style="font:400 11px/14px 'Hanken';opacity:.8;margin-top:3px">Chai Circle, Accountancy</div></div></div>
+      <div style="font:600 13px/17px 'Hanken';margin-top:6px">Aarav saved you a seat in Chai Circle</div><div style="font:400 12px/16px 'Hanken';opacity:.85">Code K7P 2M9. Tap to join on MockMob.</div></div></div>
+    <div style="display:flex;gap:12px;align-items:center">
+      <div style="padding:6px;border-radius:12px;background:var(--raised);color:var(--ink);line-height:0">${qr(25,3)}</div>
+      <div style="flex:1"><div class="t-cap ink2">Your code</div><div class="t-fig" style="font-size:30px;line-height:32px;letter-spacing:1px">K7P 2M9</div><div class="t-cap ink2">Works for 7 days. Friends next to you can scan the QR.</div></div></div>
+    <div style="display:flex;gap:10px"><button class="key focusring" style="flex:1">${ico('share',20)}Invite on WhatsApp</button><button class="key2 focusring" style="width:56px;padding:0" aria-label="Copy the code">${ico('copy',20)}</button></div>
+    <div style="display:flex;align-items:center;gap:10px"><div class="t-small" style="flex:1"><b>This week's Mob paper.</b> <span class="ink2">10 questions, 10 minutes. Sit it now; friends who join can too.</span></div><button class="minikey focusring">Sit it</button></div>
+  </div>`);
+
+/* =====================================================================
+   6. MOMENTS (kit section 6). Each builds a TL on the mounted screen.
+   ===================================================================== */
+const $ = (s,r=document) => r.querySelector(s); const $$ = (s,r=document) => [...r.querySelectorAll(s)];
+const MOMENTS = {};
+function mo(id, meta, fn){ MOMENTS[id]={...meta, fn}; }
+function rmFade(tl, els, at=0){ tl.a(els, [{opacity:0},{opacity:1}], {at, d:120, e:C.out}); return tl; }
+function burstOf(ph){ const cv=$('canvas.canvas',ph); if(!cv) return null; const b=new Burst(cv); return b; }
+
+/* 1. Enter the Den (T2, 1100) */
+mo('enterDen', {screen:'denQuiet', t:'Enter the Den', tier:'T2 1100 ms'}, (ph, tl, rm) => {
+  const img=$('.den-img',ph), dim=$('.den-dim',ph), pool=$('.den-pool',ph);
+  if(rm){ rmFade(tl, ph.querySelector('.scr')); return; }
+  tl.a(dim, [{opacity:.62},{opacity:0}], {at:0, d:420, e:C.glide});                       /* light first */
+  tl.a(pool, [{opacity:0, transform:'scale(.6)'},{opacity:.9, transform:'scale(1)'}], {at:0, d:420, e:C.glide});
+  tl.a(img, [{transform:'translateY(14px) scale(1.03)'},{transform:'translateY(0) scale(1)'}], {at:120, d:T.enter, e:C.emph});
+  $$('.den-fig .fx',ph).forEach((f,i)=>{ tl.a(f, [{transform:'translateY(14px) scale(.92)', opacity:0},{transform:'translateY(0) scale(1)', opacity:1}], {at:200+i*T.stagger, d:SP.iconPop.d, e:SP.iconPop.e});
+    tl.a(f.parentElement.querySelector('.sh'), [{opacity:0, transform:'scaleX(.4)'},{opacity:1, transform:'scaleX(1)'}], {at:320+i*T.stagger, d:300, e:C.out}); });
+  tl.a($$('.den-tag',ph), [{opacity:0, transform:'translate(-50%,4px)'},{opacity:1, transform:'translate(-50%,0)'}], {at:420, st:T.stagger, d:T.engrave, e:C.out});
+  tl.a($$('.den-played',ph), [{opacity:0, transform:'translateY(-6px) rotate(-8deg)'},{opacity:1, transform:'none'}], {at:520, st:T.stagger, d:T.card, e:C.out});
+  tl.a($('.den-pennant',ph), [{transform:'rotate(-7deg)'},{transform:'rotate(4deg)'},{transform:'rotate(-2deg)'},{transform:'rotate(0)'}], {at:160, d:900, e:C.out});
+  tl.a($$('.denhdr > *',ph), [{opacity:0, transform:'translateY(-6px)'},{opacity:1, transform:'none'}], {at:160, st:T.stagger, d:T.enter, e:C.emph});
+  tl.a($('.den-card',ph), [{opacity:0, transform:'translateY(24px)'},{opacity:1, transform:'none'}], {at:420, d:T.enter, e:C.emph});
+  tl.a($('.den-quest',ph), [{opacity:0, transform:'translateY(16px)'},{opacity:1, transform:'none'}], {at:465, d:T.enter, e:C.emph});
+  /* idle starts at 700: breathe 1200 ms, phase offset 120 ms per character (2 cycles shown here) */
+  $$('.den-fig .fb',ph).forEach((f,i)=> tl.a(f, [{transform:'translateX(-50%) scaleY(1)'},{transform:'translateX(-50%) scaleY(1.02)'},{transform:'translateX(-50%) scaleY(1)'}], {at:700+i*120, d:T.t2, e:C.sweep, it:2}));
+});
+
+/* 2. Go live (T2, 900) then joiners hop in */
+mo('goLive', {screen:'denLive', next:'ready', t:'Go live', tier:'T2 900 ms + one hop per joiner'}, (ph, tl, rm) => {
+  const key=$('.go-live-key',ph); const r=key.getBoundingClientRect(), pr=ph.getBoundingClientRect(); const cx=r.left-pr.left+r.width/2, cy=r.top-pr.top+r.height/2;
+  const wash=document.createElement('div'); wash.className='wash'; ph.appendChild(wash);
+  if(rm){ tl.a(wash,[{opacity:0},{opacity:.12},{opacity:0}],{at:0,d:240}); tl.f(p=>{ if(p>=1&&!ph.dataset.sw){ ph.dataset.sw=1; swapTo(ph,'ready'); } }, 240, 1); return; }
+  tl.a(key, [{transform:'scale(1)'},{transform:'scale(.96)'}], {at:0, d:T.press, e:SP.snappy.e});
+  tl.a(key, [{transform:'scale(.96)'},{transform:'scale(1)'}], {at:180, d:SP.release.d, e:SP.release.e, comp:'replace'});
+  tl.a(wash, [{opacity:1, clipPath:`circle(0px at ${cx}px ${cy}px)`},{opacity:1, clipPath:`circle(900px at ${cx}px ${cy}px)`}], {at:180, d:T.enter, e:C.out});
+  $$('.den-fig .fx',ph).forEach((f,i,a)=>{ const dir = i < a.length/2 ? 4 : -4; tl.a(f, [{transform:'rotate(0)'},{transform:`rotate(${dir}deg)`}], {at:180, d:240, e:C.out}); });
+  /* the wash recedes to a 6% volt tint over the room, then clears once everyone has hopped in */
+  tl.a(wash, [{opacity:1},{opacity:1, offset:.16},{opacity:.06, offset:.30},{opacity:.06, offset:.55},{opacity:0, offset:.80},{opacity:0}], {at:0, d:2900, e:C.lin});
+  tl.f(p=>{ if(p>=1 && !ph.dataset.sw){ ph.dataset.sw=1; swapTo(ph,'ready',{noIdle:true}); } }, 540, 1);
+  /* joiners hop in on the beat: Riya, Kabir, then you */
+  tl.f((p,t)=>{ const seats=$$('.rd-seat',ph); if(!seats.length) return;
+    seats.forEach((s,i)=>{ const t0=900+i*T.beat; const u=Math.max(0,Math.min(1,(t-t0)/560)); const fx=s.querySelector('.fx'); const tg=s.querySelector('.rd-tag'); const rd=s.querySelector('.rd-ready');
+      if(!fx) return; const hop = u<=0?null: u<1 ? Math.sin(Math.PI*Math.min(1,u/0.8)) : 0;
+      const sq = u>0.8&&u<1 ? Math.sin(Math.PI*(u-0.8)/0.2) : 0;
+      fx.style.opacity = u<=0?0:1; fx.style.transform = u<=0?'translateY(40px)':`translateY(${(-hop*38).toFixed(1)}px) scale(${(1+sq*.08).toFixed(3)},${(1-sq*.12).toFixed(3)})`;
+      if(tg){ tg.style.opacity = u<0.6?0:Math.min(1,(u-0.6)/0.3); }
+      if(rd){ const v=s.dataset.k==='you'?0:1; rd.style.opacity = u<0.9?0:v; } }); }, 900, 1900);
+});
+
+/* 3. Countdown (3.0 s on the beat) */
+mo('countdown', {screen:'countdown', t:'Countdown 3, 2, 1, Go', tier:'3000 ms (time is information)'}, (ph, tl, rm) => {
+  const nums=$$('.cd-n',ph), go=$('.cd-go',ph), watch=$('.cd-watch',ph), arc=$('.cd-arc',ph), q=$('.cd-q',ph), scr=$('.cd-scrim',ph);
+  nums.forEach(n=>n.style.opacity=0);
+  if(rm){ nums.forEach((n,i)=>{ tl.a(n,[{opacity:0},{opacity:1}],{at:i*600,d:120}); tl.a(n,[{opacity:1},{opacity:0}],{at:i*600+480,d:120}); }); tl.a(go,[{opacity:0},{opacity:1}],{at:1800,d:120}); tl.a(q,[{opacity:0},{opacity:1}],{at:2400,d:120}); return; }
+  tl.a(scr, [{opacity:0},{opacity:.45}], {at:0, d:1800, e:C.lin});
+  nums.forEach((n,i)=>{ const at=i*T.beat;
+    tl.a(n, [{opacity:0, transform:'scale(1.25)'},{opacity:1, transform:'scale(1)'}], {at, d:180, e:C.out});
+    tl.a(n, [{opacity:1, transform:'scale(1)'},{opacity:0, transform:'scale(.92)'}], {at:at+460, d:140, e:C.leave, comp:'replace'});
+    tl.a(watch, [{transform:`rotate(${i%2?1.5:-1.5}deg)`},{transform:`rotate(${i%2?-1.5:1.5}deg)`}], {at, d:T.beat, e:C.inOut});
+    tl.a(arc, [{strokeDashoffset:1},{strokeDashoffset:0}], {at, d:T.beat, e:C.lin});
+    $$('.cd-p',ph).forEach((p,j)=> tl.a(p, [{transform:'translateY(0) scale(1)'},{transform:'translateY(-8px) scale(1.04,.96)'},{transform:'translateY(0) scale(1)'}], {at:at+j*30, d:360, e:C.out}));
+  });
+  tl.a(watch, [{transform:'rotate(1.5deg)'},{transform:'rotate(0)'}], {at:1800, d:200, e:C.out});
+  tl.a(go, [{opacity:0, transform:'scale(1.25)'},{opacity:1, transform:'scale(1)'}], {at:1800, d:180, e:C.out});
+  const b=burstOf(ph); if(b){ b.ring(1800, 180, 300, 30, 150, {d:420, c:'#D2F000', w:4}).glints(1820, 180, 300, 8, 96, {st:20}); tl.f((p,t)=>b.draw(t), 0, 3000); }
+  tl.a([watch, $('.cd-row',ph), $('.cd-cap',ph)], [{opacity:1, transform:'translateY(0)'},{opacity:0, transform:'translateY(-12px)'}], {at:2300, d:T.exit, e:C.exit});
+  tl.a(scr, [{opacity:.45},{opacity:0}], {at:2300, d:300, e:C.out, comp:'replace'});
+  tl.a(q, [{opacity:0, transform:'translateY(14px)'},{opacity:1, transform:'translateY(0)'}], {at:2400, d:T.glide, e:C.glide});
+});
+
+/* 4. Answer lock-in (T1, 320) and a friend's lock-in pennant */
+mo('lockIn', {screen:'race', t:'Answer lock-in', tier:'T1 320 ms'}, (ph, tl, rm) => {
+  const opts=$$('.opt',ph); const sel=opts[1]; const key=$('.rc-key',ph);
+  sel.classList.remove('sel'); $('.clip',sel)?.remove();
+  const clip=document.createElementNS('http://www.w3.org/2000/svg','svg'); clip.setAttribute('class','clip'); clip.setAttribute('viewBox','0 0 16 30'); clip.innerHTML='<path d="M5 2h6a3 3 0 0 1 3 3v19a4 4 0 0 1-8 0V8" fill="none" stroke="var(--ink)" stroke-width="2.2" stroke-linecap="round"/>'; sel.appendChild(clip);
+  const kab=$('.lane[data-k="kabir"] .pen',ph), kabSub=$('.lane[data-k="kabir"] .who small',ph);
+  kab.style.display='block';
+  tl.f(p=>{ sel.classList.toggle('sel', p>=1); key.textContent = p>=1 ? 'Lock in B' : 'Pick an answer'; key.classList.toggle('off', p<1); }, 300, 1);
+  if(rm){ tl.a(clip,[{opacity:0},{opacity:1}],{at:900,d:120}); tl.a(opts.filter(o=>o!==sel),[{opacity:1},{opacity:.6}],{at:900,d:120}); tl.a(kab,[{opacity:0},{opacity:1}],{at:1500,d:120}); return; }
+  tl.a(sel, [{transform:'scale(1)'},{transform:'scale(.96)'},{transform:'scale(1)'}], {at:200, d:240, e:C.out});
+  tl.a($('.lt',sel), [{transform:'translateY(0)'},{transform:'translateY(2px)'},{transform:'translateY(0)'}], {at:200, d:240, e:C.out});
+  tl.a(key, [{transform:'scale(1)'},{transform:'scale(.96)'},{transform:'scale(1)'}], {at:800, d:240, e:C.out});
+  tl.a(clip, [{opacity:0, transform:'translateY(-8px)'},{opacity:1, transform:'translateY(0)'}], {at:900, d:140, e:SP.snappy.e});
+  tl.a(opts.filter(o=>o!==sel), [{opacity:1},{opacity:.6}], {at:900, d:160, e:C.out});
+  tl.a($('.lane[data-k="you"] .tok .head',ph), [{transform:'rotate(0)'},{transform:'rotate(-3deg)'},{transform:'rotate(0)'}], {at:900, d:240, e:C.out});
+  tl.f(p=>{ key.textContent = p>=1 ? 'Locked in, checking' : (sel.classList.contains('sel')?'Lock in B':'Pick an answer'); }, 900, 1);
+  /* a friend locks in: a small pennant only, never what they picked */
+  tl.a(kab, [{transform:'scaleY(0)'},{transform:'scaleY(1)'}], {at:1500, d:SP.iconPop.d, e:SP.iconPop.e});
+  tl.a(kab.querySelector('b'), [{transform:'scaleX(.2)'},{transform:'scaleX(1)'}], {at:1600, d:280, e:SP.iconPop.e});
+  if(kabSub){ tl.f(p=>{ kabSub.style.opacity = p; }, 1600, T.engrave); }
+});
+
+/* 5. Right and wrong feedback (T1, 560 each) with the three-in-a-row stamp */
+mo('rightWrong', {screen:'feedRight', t:'Right, three in a row, then wrong', tier:'T1 560 ms each, stamp 520 ms'}, (ph, tl, rm) => {
+  const right=$$('.opt',ph)[1]; const tk=$('.tk',right); const plus=$('.mk-plus',right); const others=$$('.opt',ph).filter(o=>o!==right);
+  const combo=$('.combo',ph), banner=$('.fb-banner',ph); const tokYou=$('.lane[data-k="you"] .tok',ph); const bub=$('.lane[data-k="you"] .bub[data-q="2"]',ph);
+  if(rm){ tl.a(right,[{opacity:.6},{opacity:1}],{at:0,d:120}); tl.a(banner,[{opacity:0},{opacity:1}],{at:120,d:120}); queueWrong(ph, tl, 1400, true); return; }
+  tl.a($('.fb-panel',ph), [{transform:'translateY(100%)'},{transform:'translateY(0)'}], {at:160, d:T.enter, e:C.drawer});
+  tl.a(right, [{background:'var(--raised)', borderColor:'var(--ink)'},{background:'var(--goodSurf)', borderColor:'var(--goodBorder)'}], {at:0, d:200, e:C.out});
+  tl.a(tk, [{strokeDashoffset:1},{strokeDashoffset:0}], {at:120, d:T.drawIn, e:C.out}); tk.style.strokeDasharray='1';
+  tl.a(plus, [{opacity:0, transform:'translateY(0)'},{opacity:1, transform:'translateY(-6px)', offset:.3},{opacity:0, transform:'translateY(-12px)'}], {at:160, d:700, e:C.out});
+  tl.a(others, [{opacity:1},{opacity:.6}], {at:0, d:160, e:C.out});
+  tl.a(bub, [{background:'transparent'},{background:'var(--mc)'}], {at:200, d:200});
+  tl.a(tokYou, [{left:tokLeft(2.0)},{left:tokLeft(3.0)}], {at:240, d:T.glide, e:C.glide});
+  tl.a($('.head',tokYou), [{transform:'translateY(0) scale(1)'},{transform:'translateY(-10px) scale(.96,1.04)', offset:.45},{transform:'translateY(0) scale(1.06,.92)', offset:.8},{transform:'translateY(0) scale(1)'}], {at:240, d:420, e:C.out});
+  const b=burstOf(ph); const rr=right.getBoundingClientRect(), pr=ph.getBoundingClientRect();
+  if(b){ b.glints(260, rr.right-pr.left-26, rr.top-pr.top+rr.height/2, 4, 14, {st:30}); }
+  /* three in a row: one stamp, celebrated once; there is no counter that can break */
+  tl.a(banner, [{opacity:0, transform:'translateY(10px)'},{opacity:1, transform:'none'}], {at:300, d:T.enter, e:C.emph});
+  tl.a(combo, [{transform:'scale(1.4) rotate(-6deg)', opacity:0},{transform:'scale(1) rotate(2deg)', opacity:1, offset:.55},{transform:'scale(1) rotate(0)', opacity:1}], {at:560, d:SP.celebrate.d, e:C.out});
+  if(b){ const cr=combo.getBoundingClientRect(); b.glints(700, cr.left-pr.left+28, cr.top-pr.top+28, 8, 32, {st:22}); tl.f((p,t)=>b.draw(t), 0, 3600); }
+  queueWrong(ph, tl, 1900, false);
+});
+function queueWrong(ph, tl, at, rm){ /* swap to the next question and show a wrong answer, calm */
+  tl.f(p=>{ if(p>=1 && !ph.dataset.w){ ph.dataset.w=1; const scr=$('.scr',ph); scr.style.opacity=1; } }, at, 1);
+  tl.f((p,t)=>{ if(t<at) return; if(!ph.dataset.ws){ ph.dataset.ws=1; swapTo(ph,'feedWrong',{keepCanvas:false}); prepWrong(ph); } animWrong(ph, t-at, rm); }, at, 1600);
+}
+function prepWrong(ph){ const w=$$('.opt',ph)[0]; w.classList.remove('wrong'); w.classList.add('sel'); $('.mk-minus',w).style.opacity=0; ph.__wrong=w; const pn=$('.fb-panel',ph); if(pn) pn.style.transform='translateY(100%)'; }
+function animWrong(ph, t, rm){ const w=ph.__wrong; if(!w) return; const others=$$('.opt',ph).filter(o=>o!==w);
+  const u=(a,d)=>Math.max(0,Math.min(1,(t-a)/d)); const ease=x=>1-Math.pow(1-x,3);
+  if(t>=500){ w.classList.remove('sel'); w.classList.add('wrong'); }
+  w.style.opacity = rm ? (t<500?1:1) : 1;
+  others.forEach(o=>o.style.opacity = t<500?1: (1-.4*u(500,160)));
+  $('.mk-minus',w).style.opacity = u(560,200);
+  const tok=$('.lane[data-k="you"] .tok .head',ph); const tt=u(500,420); tok.style.transform = rm?'none':`rotate(${(Math.sin(Math.PI*tt)*6).toFixed(2)}deg)`;
+  const pn=$('.fb-panel',ph); if(pn) pn.style.transform = rm ? 'none' : `translateY(${((1-ease(u(420,T.enter)))*100).toFixed(1)}%)`; }
+
+/* 6. A friend finishing (T1, 600) */
+mo('friendFinish', {screen:'friendDone', t:'A friend finishes', tier:'T1 600 ms'}, (ph, tl, rm) => {
+  const lane=$('.lane[data-k="riya"]',ph), tok=$('.tok',lane), pen=$('.pen',lane), b5=$('.bub[data-q="4"]',lane), toast=$('.fd-toast',ph), sub=$('.who small',lane);
+  if(rm){ tl.a([pen,toast],[{opacity:0},{opacity:1}],{at:300,d:120}); return; }
+  tl.a(tok, [{left:tokLeft(4.4)},{left:tokLeft(5)}], {at:0, d:T.glide, e:C.glide});
+  tl.a(b5, [{background:'transparent', borderColor:'var(--ink4)'},{background:'var(--mc)', borderColor:'var(--mc)'}], {at:60, d:200});
+  tl.a(pen, [{transform:'scaleY(0)'},{transform:'scaleY(1)'}], {at:300, d:280, e:SP.iconPop.e});
+  const sweep=document.createElement('div'); sweep.style.cssText='position:absolute;inset:0;border-radius:15px;background:var(--mc);opacity:.22;transform-origin:0 50%;pointer-events:none'; $('.strip',lane).prepend(sweep);
+  tl.a(sweep, [{transform:'scaleX(0)', opacity:.35},{transform:'scaleX(1)', opacity:.22}], {at:120, d:T.glide, e:C.glide});
+  tl.a($('.head',tok), [{transform:'translateY(0) scale(1)'},{transform:'translateY(-9px) scale(.95,1.06)', offset:.4},{transform:'translateY(0) scale(1.06,.92)', offset:.75},{transform:'translateY(0) scale(1)'}], {at:240, d:SP.celebrate.d, e:C.out});
+  tl.a($('b',pen), [{transform:'scaleX(.1) skewY(8deg)'},{transform:'scaleX(1.1) skewY(-4deg)', offset:.6},{transform:'scaleX(1) skewY(0)'}], {at:420, d:480, e:C.out});
+  tl.a(sub, [{opacity:0},{opacity:1}], {at:420, d:T.engrave});
+  tl.a(toast, [{opacity:0, transform:'translateY(-10px)'},{opacity:1, transform:'none'}], {at:500, d:T.glide, e:C.glide});
+  const b=burstOf(ph); const lr=lane.getBoundingClientRect(), pr=ph.getBoundingClientRect();
+  if(b){ b.bits(360, lr.right-pr.left-20, lr.top-pr.top+8, 8, {seed:9, sp:120, pal:['#FF7A8A','#EDE5D3']}); tl.f((p,t)=>b.draw(t), 0, 1800); }
+});
+
+
+/* 6b. The ghost race (async): friends' recorded runs move at their real pace */
+mo('ghostRace', {screen:'ghost', t:'Ghost race, async', tier:'live-time, 12 s of race in 2.4 s'}, (ph, tl, rm) => {
+  const ks=['riya','kabir','zoya','you']; const T0=60, T1=72, D=2400; const clock=$('.gh-clock',ph), chip=$('.gh-chip',ph);
+  const setAt=(T)=>{ ks.forEach(k=>{ const lane=$(`.lane[data-k="${k}"]`,ph); const p=prog(k,T); $('.tok',lane).style.left=tokLeft(p); $$('.bub',lane).forEach((b,i)=>b.classList.toggle('f', i<Math.floor(p+1e-6))); });
+    const m=Math.floor(T/60), sec=Math.floor(T%60); clock.textContent=`${m}:${String(sec).padStart(2,'0')}`;
+    const myQ=Math.floor(prog('you',T)); const near=['kabir','riya','zoya'].map(k=>({k, d:arrive(k,myQ)-arrive('you',myQ)})).filter(x=>Math.floor(prog(x.k,T))===myQ || Math.abs(x.d)<=10).sort((a,b)=>Math.abs(a.d)-Math.abs(b.d))[0];
+    chip.textContent = near ? (near.d>=0?`${near.d} s ahead of ${M[near.k].name}`:`${-near.d} s behind ${M[near.k].name}`) : 'On your own pace'; };
+  if(rm){ tl.f(p=>setAt(p>=1?T1:T0), 0, 1); return; }
+  tl.f(p=>setAt(T0+(T1-T0)*p), 0, D);
+  ks.forEach(k=>{ const h=$(`.lane[data-k="${k}"] .tok .head`,ph); const a=arrive(k,Math.floor(prog(k,T1))); if(a>T0 && a<=T1){ const at=(a-T0)/(T1-T0)*D; tl.a(h, [{transform:'translateY(0) scale(1)'},{transform:'translateY(-6px) scale(.96,1.05)'},{transform:'translateY(0) scale(1.05,.95)'},{transform:'translateY(0) scale(1)'}], {at, d:360, e:C.out}); } });
+  tl.a(chip, [{transform:'scale(1)'},{transform:'scale(1.06)'},{transform:'scale(1)'}], {at:(64-T0)/(T1-T0)*D, d:300, e:C.out});
+});
+
+/* 7. Podium reveal (T4, about 4800) */
+mo('podium', {screen:'podium', t:'Podium reveal by CUET marks', tier:'T4 about 4800 ms, skip 200 ms'}, (ph, tl, rm) => {
+  const bl = k => $(`.pd-b[data-k="${k}"]`,ph), fg = k => $(`#pd-${k} .fx`,ph), mk = k => $(`.pd-m[data-k="${k}"]`,ph);
+  /* counters roll up from the mark of the place below, so the order is true at every frame */
+  const top=$('.pd-top',ph), tie=$('.pd-tie',ph), keys=$('.pd-keys',ph), scr=$('.pd-scrim',ph), spot=$('.pd-spot',ph);
+  const sh = k => $(`#pd-${k} .sh`,ph);
+  const setVal=(k,from,to,at,d)=>{ const el=$(`.pd-m[data-k="${k}"] .pd-v`,ph); tl.f(p=>{ const e=1-Math.pow(1-p,3); el.textContent=Math.round(from+(to-from)*e); }, at, d); };
+  if(rm){ /* order is information: three 120 ms fades, 300 ms apart */
+    [['zoya'],['you','kabir'],['riya']].forEach((g,i)=>{ g.forEach(k=>{ tl.a([bl(k),fg(k),mk(k),sh(k)].filter(Boolean), [{opacity:0},{opacity:1}], {at:i*300, d:120}); setVal(k,marks(k),marks(k),i*300,1); }); });
+    tl.a([top,tie,keys],[{opacity:0},{opacity:1}],{at:900,d:120}); return; }
+  tl.a(scr, [{opacity:0},{opacity:.35}], {at:0, d:400, e:C.emph});
+  tl.a(spot, [{opacity:.2, transform:'scale(1.4)'},{opacity:.7, transform:'scale(1)'}], {at:0, d:400, e:C.emph});
+  tl.a(top, [{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'none'}], {at:120, d:T.enter, e:C.emph});
+  /* fourth: on the floor, no numeral */
+  tl.a(fg('zoya'), [{opacity:0, transform:'translateY(14px)'},{opacity:1, transform:'none'}], {at:400, d:SP.iconPop.d, e:SP.iconPop.e}); tl.a(sh('zoya'), [{opacity:0},{opacity:1}], {at:480, d:200});
+  tl.a(mk('zoya'), [{opacity:0},{opacity:1}], {at:480, d:T.engrave}); setVal('zoya',0,13,480,T.countUp);
+  /* second, a tie: both unfold together */
+  const drop=(k,at,h)=>{ tl.a(fg(k), [{transform:`translateY(-${h}px)`},{transform:'translateY(0)'}], {at, d:220, e:'cubic-bezier(.55,0,1,.45)'}); tl.a(fg(k), [{opacity:0},{opacity:1}], {at, d:1, e:C.lin}); tl.a(sh(k), [{opacity:0, transform:'scaleX(.4)'},{opacity:1, transform:'scaleX(1)'}], {at:at+120, d:200, e:C.out});
+    tl.a($(`#pd-${k} .fb`,ph), [{transform:'translateX(-50%) scale(1)'},{transform:'translateX(-50%) scale(1.08,.88)', offset:.22},{transform:'translateX(-50%) scale(.98,1.03)', offset:.6},{transform:'translateX(-50%) scale(1)'}], {at:at+220, d:SP.celebrate.d, e:C.out}); };
+  ['you','kabir'].forEach(k=>{ tl.a(bl(k), [{transform:'perspective(500px) rotateX(90deg)', opacity:0},{transform:'perspective(500px) rotateX(0)', opacity:1}], {at:1000, d:T.emph, e:C.emph}); tl.a($('.pd-num',bl(k)), [{opacity:0},{opacity:1}], {at:1960, d:T.engrave}); drop(k,1300,60); setVal(k,13,19,1520,T.countUp); tl.a(mk(k),[{opacity:0},{opacity:1}],{at:1520,d:T.engrave}); });
+  /* first */
+  tl.a(bl('riya'), [{transform:'perspective(500px) rotateX(90deg)', opacity:0},{transform:'perspective(500px) rotateX(0)', opacity:1}], {at:2200, d:T.emph, e:C.emph});
+  drop('riya',2600,70); setVal('riya',19,20,2820,T.roll); tl.a(mk('riya'),[{opacity:0},{opacity:1}],{at:2820,d:T.engrave}); tl.a($('.pd-num',bl('riya')), [{opacity:0},{opacity:1}], {at:3100, d:T.engrave});
+  tl.a(spot, [{opacity:.7, transform:'scale(1)'},{opacity:1, transform:'scale(1.12)'}], {at:2820, d:600, e:C.out, comp:'replace'});
+  tl.a($('.sheen',bl('riya')), [{opacity:0, backgroundPosition:'120% 0'},{opacity:1, backgroundPosition:'50% 0', offset:.5},{opacity:0, backgroundPosition:'-20% 0'}], {at:2820, d:T.sweep, e:C.sweep});
+  tl.a($('#pd-riya .fx',ph), [{transform:'translateY(0)'},{transform:'translateY(-16px)'},{transform:'translateY(0)'}], {at:3240, d:420, e:C.out, comp:'replace'});
+  const b=burstOf(ph); if(b){ [['you',64,382],['kabir',240,382]].forEach(([k,x,y],i)=>b.bits(1520,x,y,10,{seed:3+i,sp:140,a0:-160,a1:-20,floor:476})); b.bits(2820,152,344,40,{seed:21,sp:300,floor:476}).glints(2840,152,300,8,70,{st:24}); tl.f((p,t)=>b.draw(t), 0, 4800); }
+  tl.a(tie, [{opacity:0, transform:'translateY(6px)'},{opacity:1, transform:'none'}], {at:3700, d:T.enter, e:C.emph});
+  tl.a(keys, [{opacity:0, transform:'translateY(16px)'},{opacity:1, transform:'none'}], {at:4200, d:T.enter, e:C.emph});
+  tl.f(()=>{}, 0, 4800);
+});
+
+/* 8. Streak extending (T3, about 2100): the Mob's pennant gets week 4, then the shelf reward */
+mo('streakExtend', {screen:'weekStitched', t:"The Mob's chain extends to week 4", tier:'T3 about 2100 ms'}, (ph, tl, rm) => {
+  const pen=$('.ws-pen',ph), n3=$('.ws-n3',ph), n4=$('.ws-n4',ph), st=$('.bp-st[data-i="3"]',ph), hole=$('.bp-hole[data-i="3"]',ph), ng=$('.ws-ng',ph);
+  const title=$('.ws-title',ph), sub=$('.ws-sub',ph), heads=$$('.ws-heads > div',ph), rew=$('.ws-reward',ph), bell=$('.ws-bell',ph), key=$('.ws-key',ph), spot=$('.ws-spot',ph);
+  st.style.strokeDasharray='1';
+  if(rm){ tl.a(n3,[{opacity:1},{opacity:0}],{at:0,d:120}); tl.a(n4,[{opacity:0},{opacity:1}],{at:0,d:120}); tl.a(st,[{strokeDashoffset:1},{strokeDashoffset:0}],{at:120,d:1});
+    tl.a([title,sub,...heads,rew,key],[{opacity:0},{opacity:1}],{at:120,d:120}); return; }
+  tl.a(spot, [{opacity:.35},{opacity:1}], {at:0, d:300, e:C.glide});
+  tl.a(pen, [{transform:'translateY(0) rotate(0)'},{transform:'translateY(-8px) rotate(-1.5deg)'}], {at:0, d:300, e:C.out});
+  tl.a(n3, [{transform:'translateY(0)', opacity:1},{transform:'translateY(-72px)', opacity:0}], {at:180, d:T.roll, e:C.out});
+  tl.a(n4, [{transform:'translateY(72px)', opacity:0},{transform:'translateY(0)', opacity:1}], {at:180, d:T.roll, e:C.out});
+  /* the needle sews the new stitch; the stitch draws behind it */
+  tl.a(st, [{strokeDashoffset:1},{strokeDashoffset:0}], {at:300, d:T.drawIn, e:C.inOut});
+  tl.f(p=>{ const e = p<=0?0:p>=1?1:(p<.5?4*p*p*p:1-Math.pow(-2*p+2,3)/2); const x=24+102*e, y=172+10*e*(1-e);
+    ng.setAttribute('transform',`translate(${x.toFixed(1)},${(y+2).toFixed(1)}) rotate(${(-8+16*Math.sin(e*Math.PI*6)).toFixed(1)})`); ng.style.opacity = (p<=0||p>=1)?0:1; }, 300, T.drawIn);
+  if(hole) tl.a(hole, [{opacity:0},{opacity:1}], {at:740, d:120});
+  tl.a(pen, [{transform:'translateY(-8px) rotate(-1.5deg) scale(1)'},{transform:'translateY(0) rotate(2.4deg) scale(1.03)', offset:.35},{transform:'translateY(0) rotate(-1.2deg) scale(1)', offset:.65},{transform:'translateY(0) rotate(.4deg) scale(1)', offset:.85},{transform:'translateY(0) rotate(0) scale(1)'}], {at:780, d:900, e:C.out});
+  tl.a(title, [{opacity:0, clipPath:'inset(0 100% 0 0)'},{opacity:1, clipPath:'inset(0 0 0 0)'}], {at:900, d:T.engrave, e:C.out});
+  tl.a(sub, [{opacity:0, transform:'translateY(6px)'},{opacity:1, transform:'none'}], {at:1000, d:T.enter, e:C.emph});
+  tl.a(heads, [{opacity:0, transform:'translateY(8px) scale(.92)'},{opacity:1, transform:'none'}], {at:1080, st:T.stagger, d:SP.iconPop.d, e:SP.iconPop.e});
+  tl.a(rew, [{opacity:0, transform:'translateY(18px)'},{opacity:1, transform:'none'}], {at:1300, d:T.enter, e:C.emph});
+  tl.a(bell, [{transform:'rotate(0)'},{transform:'rotate(-7deg)'},{transform:'rotate(5deg)'},{transform:'rotate(-3deg)'},{transform:'rotate(1deg)'},{transform:'rotate(0)'}], {at:1520, d:600, e:C.out});
+  tl.a(key, [{opacity:0, transform:'translateY(12px)'},{opacity:1, transform:'none'}], {at:1700, d:T.enter, e:C.emph});
+  const b=burstOf(ph); if(b){ const pr=ph.getBoundingClientRect(), r=pen.getBoundingClientRect(); const ox=r.left-pr.left, oy=r.top-pr.top+10;
+    [0,1,2,3].forEach(i=>b.glints(820+i*70, ox+30+i*30, oy+174, 1, 2, {seed:50+i})); b.glints(1560, 56, 600, 5, 26, {st:30}); tl.f((p,t)=>b.draw(t),0,2200); }
+  tl.f(()=>{},0,2100);
+});
+
+/* 9. Character reveal (T3, 2000), earned only */
+mo('characterReveal', {screen:'reveal', t:'Character reveal, earned', tier:'T3 about 2000 ms'}, (ph, tl, rm) => {
+  const pc=$('.rv-parcel .parcel',ph), flaps=$$('.pc-f',ph), leak=$('.pc-leak',ph), seal=$('.pc-seal',ph), body=$('.pc-body',ph), figw=$('#rv-kandil .fx',ph), sh=$('#rv-kandil .sh',ph);
+  const txt=[$('.rv-k',ph),$('.rv-name',ph),$('.rv-line',ph)], fact=$('.rv-fact',ph), keys=$('.rv-keys',ph), scr=$('.rv-scrim',ph), spot=$('.rv-spot',ph);
+  if(rm){ tl.a(pc,[{opacity:1},{opacity:0}],{at:0,d:120}); tl.a([figw,...txt,fact,keys],[{opacity:0},{opacity:1}],{at:120,d:120}); return; }
+  tl.a(scr, [{opacity:0},{opacity:.35}], {at:0, d:300, e:C.emph}); tl.a(spot, [{opacity:.3, transform:'scale(1.3)'},{opacity:1, transform:'scale(1)'}], {at:0, d:300, e:C.emph});
+  tl.a(pc, [{transform:'scale(1) rotate(0)'},{transform:'scale(.94) rotate(0)', offset:.2},{transform:'scale(.97) rotate(-3deg)', offset:.48},{transform:'scale(.97) rotate(3deg)', offset:.76},{transform:'scale(1) rotate(0)'}], {at:300, d:440, e:C.out});
+  tl.a(seal, [{transform:'scale(1)', opacity:1},{transform:'scale(1.2)', opacity:0}], {at:740, d:160, e:C.out});
+  const dirs={t:'rotateX(-180deg)',r:'rotateY(-180deg)',b:'rotateX(180deg)',l:'rotateY(180deg)'};
+  flaps.forEach((f,i)=>{ const s=f.className.match(/pc-(\w)$/)?.[1]||'t'; tl.a(f, [{transform:'none', opacity:1},{transform:`perspective(500px) ${dirs[s]}`, opacity:0}], {at:760+i*60, d:T.emph, e:C.emph}); });
+  tl.a(leak, [{opacity:0, transform:'scale(.4)'},{opacity:.9, transform:'scale(1)', offset:.4},{opacity:.5, transform:'scale(1.15)'}], {at:760, d:700, e:C.out});
+  tl.a(body, [{opacity:1, transform:'scale(1)'},{opacity:0, transform:'scale(.9) translateY(10px)'}], {at:900, d:200, e:C.exit});
+  tl.a($('.pc-rays',ph), [{opacity:0, transform:'rotate(0deg) scale(.6)'},{opacity:1, transform:'rotate(14deg) scale(1)', offset:.45},{opacity:0, transform:'rotate(30deg) scale(1.1)'}], {at:760, d:1300, e:C.out});
+  tl.a(figw, [{opacity:0, transform:'translateY(40px) scale(.92)'},{opacity:1, transform:'translateY(0) scale(1)'}], {at:1080, d:SP.celebrate.d, e:SP.celebrate.e});
+  tl.a(sh, [{opacity:0, transform:'scaleX(.3)'},{opacity:1, transform:'scaleX(1.6)'}], {at:1000, d:SP.celebrate.d, e:C.out});
+  tl.a(txt, [{opacity:0, clipPath:'inset(0 100% 0 0)'},{opacity:1, clipPath:'inset(0 0 0 0)'}], {at:1400, st:80, d:T.engrave, e:C.out});
+  tl.a(fact, [{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'none'}], {at:1700, d:T.enter, e:C.emph});
+  tl.a(keys, [{opacity:0, transform:'translateY(12px)'},{opacity:1, transform:'none'}], {at:1800, d:T.enter, e:C.emph});
+  const b=burstOf(ph); if(b){ b.glints(1060,180,290,10,80,{st:26}).bits(1000,180,330,24,{seed:13,sp:300,a0:-160,a1:-20,floor:396}); tl.f((p,t)=>b.draw(t),0,2600); }
+  tl.f(()=>{},0,2400);
+});
+
+/* 10. Quest completing (T3, 1900) */
+mo('questComplete', {screen:'questDone', t:'Quest complete: the seal stamps', tier:'T3 1900 ms'}, (ph, tl, rm) => {
+  const segsEl=$$('.qd-segs i',ph), seal=$('.qd-seal',ph), wrap=$('.qd-barwrap',ph), title=$('.qd-title',ph), sub=$('.qd-sub',ph), heads=$('.qd-heads',ph), par=$('.qd-parcel',ph), key=$('.qd-key',ph);
+  const per=QUEST.target/segsEl.length;
+  if(rm){ segsEl.forEach(s=>{s.classList.add('on'); s.style.background='';}); tl.a(wrap,[{opacity:1},{opacity:0}],{at:0,d:120}); tl.a([seal,title,sub,heads,par,key],[{opacity:0},{opacity:1}],{at:120,d:120}); return; }
+  const live=$('.qd-live',ph); tl.f(p=>{ const v=QUEST.afterYou+(QUEST.target-QUEST.afterYou)*Math.min(1,p); live.textContent=Math.round(v); segsEl.forEach((s,i)=>{ const on=v>=(i+1)*per; s.classList.toggle('on',on); s.style.background = (!on && v>i*per) ? `linear-gradient(90deg,var(--ink2) ${(v-i*per)/per*100}%,var(--raised2) 0)` : ''; }); }, 120, 600);
+  tl.a(wrap, [{transform:'scale(1)'},{transform:'scale(1.04)'},{transform:'scale(1)'}], {at:700, d:300, e:C.out});
+  segsEl.forEach((s,i)=> tl.a(s, [{transform:'translateY(0)', boxShadow:'0 0 0 0 rgba(210,240,0,0)'},{transform:'translateY(-1px)', boxShadow:'0 0 10px 2px rgba(210,240,0,.35)'},{transform:'translateY(0)', boxShadow:'0 0 0 0 rgba(210,240,0,0)'}], {at:760+i*T.stagger/2, d:300, e:C.out}));
+  tl.a(wrap, [{opacity:1, transform:'scale(1)'},{opacity:0, transform:'scale(.6,.2)'}], {at:1080, d:200, e:C.exit, comp:'replace'});
+  tl.a(seal, [{opacity:0, transform:'scale(1.4) rotate(-8deg)'},{opacity:1, transform:'scale(1) rotate(2deg)', offset:.5},{opacity:1, transform:'scale(1) rotate(0)'}], {at:1120, d:SP.celebrate.d, e:C.out});
+  tl.a(title, [{opacity:0, clipPath:'inset(0 100% 0 0)'},{opacity:1, clipPath:'inset(0 0 0 0)'}], {at:1160, d:T.engrave, e:C.out});
+  tl.a(sub, [{opacity:0, transform:'translateY(6px)'},{opacity:1, transform:'none'}], {at:1260, d:T.enter, e:C.emph});
+  tl.a($$('.qd-heads > div',ph), [{opacity:0, transform:'translateY(10px) scale(.92)'},{opacity:1, transform:'none'}], {at:1300, st:T.stagger, d:SP.iconPop.d, e:SP.iconPop.e});
+  tl.a(par, [{opacity:0, transform:'translateY(40px) rotate(-6deg)'},{opacity:1, transform:'translateY(0) rotate(0)'}], {at:1400, d:SP.celebrate.d, e:SP.celebrate.e});
+  tl.a(key, [{opacity:0, transform:'translateY(12px)'},{opacity:1, transform:'none'}], {at:1600, d:T.enter, e:C.emph});
+  const b=burstOf(ph); if(b){ b.glints(1140,180,212,12,110,{st:18}).ring(1100,180,212,40,150,{c:'#F2A93B',d:500}).bits(1120,180,212,16,{seed:31,sp:220,floor:322}); tl.f((p,t)=>b.draw(t),0,2600); }
+  tl.f(()=>{},0,2200);
+});
+
+/* 11. Personal milestone (T3): 14 days */
+mo('streakMilestone', {screen:'milestone', t:'Milestone: 14 days in a row', tier:'T3 2000 ms'}, (ph, tl, rm) => {
+  const lk=$$('.ml-links .lk',ph), num=$('.ml-num',ph), mobi=$('.ml-mobi',ph), title=$('.ml-title',ph), sub=$('.ml-sub',ph), page=$('.ml-page',ph), spot=$('.ml-spot',ph);
+  if(rm){ tl.a([...lk,num,mobi,title,sub,page],[{opacity:0},{opacity:1}],{at:0,d:120}); return; }
+  tl.a(spot, [{opacity:.2},{opacity:1}], {at:0, d:300, e:C.glide});
+  lk.forEach((l,i)=>{ const last=i===lk.length-1; tl.a(l, [{opacity:0, transform:`translate(${l.getAttribute('transform').match(/\(([^,]+)/)[1]}px,-18px) rotate(${last?-14:-6}deg)`},{opacity:1, transform:l.getAttribute('transform')+' rotate(0)'}], {at:120+i*70, d:last?520:300, e:last?SP.celebrate.e:C.out}); });
+  tl.f(p=>{ num.textContent = p<0.45 ? '13' : '14'; }, 600, 500);
+  tl.a(num, [{transform:'scale(1)'},{transform:'scale(1)'},{transform:'scale(1.25)', offset:.46},{transform:'scale(1)'}], {at:600, d:SP.celebrate.d+200, e:C.out});
+  tl.a(mobi, [{opacity:0, transform:'translateY(18px) scale(.92)'},{opacity:1, transform:'none'}], {at:820, d:SP.iconPop.d, e:SP.iconPop.e});
+  tl.a([title,sub], [{opacity:0, transform:'translateY(8px)'},{opacity:1, transform:'none'}], {at:1000, st:80, d:T.enter, e:C.emph});
+  tl.a(page, [{opacity:0, transform:'perspective(600px) rotateX(70deg)'},{opacity:1, transform:'perspective(600px) rotateX(0)'}], {at:1300, d:T.emph, e:C.emph});
+  const b=burstOf(ph); if(b){ b.glints(940,180,262,8,60,{st:24}).bits(900,180,262,20,{seed:41,sp:240,a0:-170,a1:-10,floor:318,pal:['#EDE5D3','#F2A93B','#D2F000']}); tl.f((p,t)=>b.draw(t),0,2400); }
+  tl.f(()=>{},0,2000);
+});
+
+/* =====================================================================
+   7. MOUNT, NAVIGATE, PLAY
+   ===================================================================== */
+let THEME = Q.get('theme')||'night'; const ph = $('#ph');
+function mount(id, o={}){ ph.className = `phone ${THEME}`; delete ph.dataset.sw; delete ph.dataset.w; delete ph.dataset.ws; ph.__w2=null; ph.__wrong=null;
+  ph.innerHTML = `<div class="scr" data-s="${id}">${S[id](THEME)}</div>`; ph.dataset.s=id; wire(); if(!o.noIdle) idle(); markSide(id); }
+function swapTo(ph, id, o={}){ const keep=[...ph.querySelectorAll('.wash')]; mount(id, o); keep.forEach(w=>ph.appendChild(w)); }
+function wire(){ $$('[data-go]',ph).forEach(b=>b.addEventListener('click',e=>{ e.stopPropagation(); if(window.__TL&&window.__TL.raf){ window.__TL.skip(); return; }
+  const m=b.dataset.moment; const to=b.dataset.go; if(m && MOMENTS[m]){ if(MOMENTS[m].screen===ph.dataset.s) play(m); else { mount(MOMENTS[m].screen||to,{noIdle:true}); play(m); } } else { mount(to); const em=Object.entries(MOMENTS).find(([k,v])=>v.screen===to && v.auto); } })); }
+ph.addEventListener('click',()=>{ if(window.__TL&&window.__TL.raf) window.__TL.skip(); });   /* any tap skips a show moment to its end in 200 ms */
+let idleTimer=0; function idle(){ clearTimeout(idleTimer); if(RM()) return;
+  $$('.den-fig .fb',ph).forEach((f,i)=>f.animate([{transform:'translateX(-50%) scaleY(1)'},{transform:'translateX(-50%) scaleY(1.02)'},{transform:'translateX(-50%) scaleY(1)'}],{duration:T.t2, delay:i*120, iterations:Infinity, easing:C.sweep}));
+  idleTimer=setTimeout(()=>ph.getAnimations({subtree:true}).forEach(a=>{ if(a.effect.getComputedTiming().iterations===Infinity) a.cancel(); }), 10000); }   /* loops stop 10 s after the last touch */
+function build(m){ const M_=MOMENTS[m]; const tl=new TL(); M_.fn(ph, tl, RM()); return tl; }
+function play(m, done){ if(window.__TL) window.__TL.end(); const tl=build(m); window.__TL=tl; tl.play(()=>{ done&&done(); }); return tl; }
+/* capture API for the recorder */
+window.__mount = (id, theme) => { THEME=theme||THEME; mount(id,{noIdle:true}); };
+window.__prep = (m, theme) => { THEME=theme||THEME; if(window.__TL) window.__TL.end(); mount(MOMENTS[m].screen,{noIdle:true}); const tl=build(m); window.__TL=tl; tl.seek(0); return tl.dur; };
+window.__seek = t => { window.__TL.seek(t); };
+window.__still = (id, theme) => { THEME=theme||THEME; const st=SCREEN_META[id].still; if(!st){ mount(id,{noIdle:true}); return 0; } if(window.__TL) window.__TL.end(); mount(id,{noIdle:true}); const tl=build(st[0]); window.__TL=tl; tl.seek(st[1]==='end'?tl.dur:st[1]); return 1; };
+window.__play = () => new Promise(r=>{ window.__TL.play(r); });
+window.__screens = () => Object.entries(SCREEN_META).map(([id,m])=>({id,...m}));
+window.__moments = () => Object.entries(MOMENTS).map(([id,m])=>({id,screen:m.screen,t:m.t,tier:m.tier}));
+
+/* side panel */
+function markSide(id){ $$('#side button[data-s]').forEach(b=>b.classList.toggle('on', b.dataset.s===id)); }
+function side(){ const sd=$('#side'); if(CAPTURE){ sd.innerHTML=''; return; }
+  sd.innerHTML = `<h1>Mob v3, Den Arena</h1><p>Clickable prototype. Tap the keys to move through the loop; a moment plays on its screen. Any tap skips a moment. Reduced motion: your system setting, or <a href="?rm=1" style="color:#D2F000">?rm=1</a>.</p>
+    <div class="tg"><button id="tn">Night</button><button id="td">Day</button></div>
+    <h2>Signature moments</h2>${Object.entries(MOMENTS).map(([k,m])=>`<button data-m="${k}">${m.t}<br><span style="color:#8A8375;font-size:12px">${m.tier}</span></button>`).join('')}
+    <h2>Screens</h2>${Object.entries(SCREEN_META).map(([k,m])=>`<button data-s="${k}">${m.n} ${m.t}</button>`).join('')}`;
+  $$('#side button[data-s]').forEach(b=>b.onclick=()=>mount(b.dataset.s));
+  $$('#side button[data-m]').forEach(b=>b.onclick=()=>{ mount(MOMENTS[b.dataset.m].screen,{noIdle:true}); play(b.dataset.m); });
+  $('#tn').onclick=()=>{ THEME='night'; mount(ph.dataset.s); }; $('#td').onclick=()=>{ THEME='day'; mount(ph.dataset.s); }; }
+side();
+const start = Q.get('s') || 'denQuiet';
+if(!CAPTURE){ mount(start,{noIdle:true}); if(Q.get('m')) play(Q.get('m')); else if(start==='denQuiet') play('enterDen'); }
+else mount(start,{noIdle:true});
+</script>
+</body>
+</html>
