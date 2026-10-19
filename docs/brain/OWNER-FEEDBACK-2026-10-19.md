@@ -358,3 +358,6 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 > "So it's showing this, and two questions:
 > 1. There are some play app settings under it. There's the option of just billing choices, so it's showing, "You are not eligible. Requirements to enroll," something like that.
 > 2. Can I change this name? I don't know when I kept this or what this is. Is it possible to change the name of this account?"
+
+## Owner, 19 Oct about 5:15 pm IST (verbatim, screenshot of Licence testing with "MockMob testers" ticked)
+> "Which one to select here, and after that, what are the next steps?"
