@@ -181,6 +181,7 @@ class MobGameSummary {
     this.runs = const [],
     this.yourRun = YourRun.none,
     this.podiumReady = false,
+    this.title,
   });
 
   factory MobGameSummary.fromJson(Json j) => MobGameSummary(
@@ -198,7 +199,11 @@ class MobGameSummary {
         runs: [for (final r in asJsonList(j['runs'])) FinishedRun.fromJson(r)],
         yourRun: YourRun.parse(j['yourRun']),
         podiumReady: asBool(j['podiumReady']) ?? false,
+        title: asString(j['title']),
       );
+
+  /// "Riya's sprint", when the server sends it.
+  final String? title;
 
   final String id;
   final GameFormat format;
@@ -294,7 +299,7 @@ class MilestoneRef {
 }
 
 class MobChainSummary {
-  const MobChainSummary({this.weeks = 0, this.best = 0, this.passes = 0, this.stitchedThisWeek = false, this.next});
+  const MobChainSummary({this.weeks = 0, this.best = 0, this.passes = 0, this.stitchedThisWeek = false, this.next, this.restarted = false});
 
   factory MobChainSummary.fromJson(Json j) => MobChainSummary(
         weeks: asInt(j['weeks']) ?? 0,
@@ -302,8 +307,11 @@ class MobChainSummary {
         passes: asInt(j['passes']) ?? 0,
         stitchedThisWeek: asBool(j['stitchedThisWeek']) ?? false,
         next: MilestoneRef.fromJson(j['next']),
+        restarted: asBool(j['restarted']) ?? false,
       );
 
+  /// A week was missed with no pass: "A new chain starts this week."
+  final bool restarted;
   final int weeks;
   final int best;
   final int passes;
@@ -356,7 +364,7 @@ class StartRight {
         mics: asInt(j['mics']) ?? 0,
         micsToGive: asInt(j['micsToGive']),
         reason: asString(j['reason']),
-        micFrom: asString(j['micFrom']),
+        micFrom: j['micFrom'] is Map ? asString(asJson(j['micFrom'])['name']) : asString(j['micFrom']),
       );
 
   final bool billingOn;
@@ -416,17 +424,18 @@ enum StickerKind {
 }
 
 class Reaction {
-  const Reaction({required this.memberId, required this.kind, this.at});
+  const Reaction({required this.memberId, required this.kind, this.at, this.game});
 
   static Reaction? fromJson(Json j) {
     final k = StickerKind.parse(j['kind']);
     if (k == null) return null;
-    return Reaction(memberId: asStringOr(j['memberId'], ''), kind: k, at: asDate(j['at']));
+    return Reaction(memberId: asStringOr(j['memberId'], ''), kind: k, at: asDate(j['at']), game: asString(j['game']));
   }
 
   final String memberId;
   final StickerKind kind;
   final DateTime? at;
+  final String? game;
 }
 
 class LiveSwitch {
@@ -819,12 +828,13 @@ enum MomentKind {
 }
 
 class PlayerMoment {
-  const PlayerMoment({required this.memberId, required this.kind, this.q, this.seconds, this.from, this.to, this.count});
+  const PlayerMoment({required this.memberId, required this.kind, this.q, this.number, this.seconds, this.from, this.to, this.count});
 
   factory PlayerMoment.fromJson(Json j) => PlayerMoment(
         memberId: asStringOr(j['memberId'], ''),
         kind: MomentKind.parse(j['kind']),
         q: asInt(j['q']),
+        number: asInt(j['number']) ?? (asInt(j['q']) == null ? null : asInt(j['q'])! + 1),
         seconds: asInt(j['seconds']),
         from: asInt(j['from']),
         to: asInt(j['to']),
@@ -834,8 +844,11 @@ class PlayerMoment {
   final String memberId;
   final MomentKind kind;
 
-  /// 1-based question number, as the server sends it for display.
+  /// 0-based question index (the server's `q`).
   final int? q;
+
+  /// 1-based question number for the copy ("question 5").
+  final int? number;
   final int? seconds;
   final int? from;
   final int? to;
@@ -843,18 +856,21 @@ class PlayerMoment {
 }
 
 class GameTrap {
-  const GameTrap({required this.q, this.caught = 'most'});
+  const GameTrap({required this.q, int? number, this.caught = 'most'}) : number = number ?? q + 1;
 
   static GameTrap? fromJson(Object? raw) {
     if (raw is! Map) return null;
     final j = asJson(raw);
     final q = asInt(j['q']);
     if (q == null) return null;
-    return GameTrap(q: q, caught: asStringOr(j['caught'], 'most'));
+    return GameTrap(q: q, number: asInt(j['number']), caught: asStringOr(j['caught'], 'most'));
   }
 
-  /// 1-based question number for display.
+  /// 0-based question index (the server's `q`).
   final int q;
+
+  /// 1-based question number for the copy ("Question 4 caught most of you.").
+  final int number;
 
   /// Only ever "most" (F3). Never a number.
   final String caught;
@@ -899,10 +915,13 @@ class Podium {
 }
 
 class FixCheck {
-  const FixCheck({this.opensAt, this.closesAt});
+  const FixCheck({this.opensAt, this.closesAt, this.state});
 
   final DateTime? opensAt;
   final DateTime? closesAt;
+
+  /// not_yet, open, closed, done (the server's; null from an older one).
+  final String? state;
 }
 
 class FixState {
@@ -913,7 +932,7 @@ class FixState {
     final f = asJson(j['fixed']);
     return FixState(
       now: asStringOr(j['now'], 'open'),
-      check: FixCheck(opensAt: asDate(c['opensAt']), closesAt: asDate(c['closesAt'])),
+      check: FixCheck(opensAt: asDate(c['opensAt']), closesAt: asDate(c['closesAt']), state: asString(c['state'])),
       fixedCount: asInt(f['count']) ?? 0,
       fixedOf: asInt(f['of']) ?? 3,
     );
@@ -949,17 +968,21 @@ class ReviewQuestion {
 }
 
 class ReviewTrap {
-  const ReviewTrap({required this.q, this.caught = 'most', this.fix = const FixState()});
+  const ReviewTrap({required this.q, int? number, this.caught = 'most', this.fix = const FixState()}) : number = number ?? q + 1;
 
   static ReviewTrap? fromJson(Object? raw) {
     if (raw is! Map) return null;
     final j = asJson(raw);
     final q = asInt(j['q']);
     if (q == null) return null;
-    return ReviewTrap(q: q, caught: asStringOr(j['caught'], 'most'), fix: FixState.fromJson(asJson(j['fix'])));
+    return ReviewTrap(q: q, number: asInt(j['number']), caught: asStringOr(j['caught'], 'most'), fix: FixState.fromJson(asJson(j['fix'])));
   }
 
+  /// 0-based question index.
   final int q;
+
+  /// 1-based question number for the copy.
+  final int number;
   final String caught;
   final FixState fix;
 }
@@ -974,13 +997,15 @@ class Review {
 }
 
 class FixStart {
-  const FixStart({required this.question, this.trapQ, this.why, this.yourPick, this.correctIndex});
+  const FixStart({required this.question, this.trapQ, this.trapNumber, this.why, this.yourPick, this.correctIndex, this.answered = false});
 
   factory FixStart.fromJson(Json j) {
     final t = asJson(j['trap']);
     return FixStart(
       question: GameQuestion.fromJson(asJson(j['question'])),
       trapQ: asInt(t['q']),
+      trapNumber: asInt(t['number']) ?? (asInt(t['q']) == null ? null : asInt(t['q'])! + 1),
+      answered: asBool(asJson(j['question'])['answered']) ?? false,
       why: asString(t['why']),
       yourPick: asInt(t['yourPick']),
       correctIndex: asInt(t['correctIndex']),
@@ -988,7 +1013,14 @@ class FixStart {
   }
 
   final GameQuestion question;
+  /// 0-based.
   final int? trapQ;
+
+  /// 1-based, for the copy.
+  final int? trapNumber;
+
+  /// The fresh question was already answered (a reopened screen shows the result).
+  final bool answered;
   final String? why;
   final int? yourPick;
   final int? correctIndex;
@@ -1337,3 +1369,33 @@ String normalizeJoinCode(String raw) {
 
 /// 6 (new) or 8 (old, until they expire) Crockford characters.
 bool isJoinCode(String code) => RegExp(r'^[0-9A-HJKMNP-TV-Z]{6}$').hasMatch(code) || RegExp(r'^[0-9A-HJKMNP-TV-Z]{8}$').hasMatch(code);
+
+/// A one-time moment key (spec 5.6 queue; server: `quest_done:<mobId>:<week>`, `stitch:<mobId>:<week>`,
+/// `reveal:<fold>`, `chain:<n>`; the older two-part forms are read too).
+class MomentKey {
+  const MomentKey(this.raw, this.kind, {this.mobId, this.week, this.fold, this.days});
+
+  factory MomentKey.parse(String raw) {
+    final parts = raw.split(':');
+    final kind = parts.first;
+    switch (kind) {
+      case 'quest_done' || 'stitch':
+        return parts.length >= 3 ? MomentKey(raw, kind, mobId: parts[1], week: parts[2]) : MomentKey(raw, kind, week: parts.length > 1 ? parts[1] : null);
+      case 'reveal':
+        return MomentKey(raw, kind, fold: FoldKey.parse(parts.length > 1 ? parts[1] : null));
+      case 'chain':
+        return MomentKey(raw, kind, days: parts.length > 1 ? int.tryParse(parts[1]) : null);
+      default:
+        return MomentKey(raw, kind);
+    }
+  }
+
+  final String raw;
+
+  /// quest_done, stitch, reveal, chain, rest.
+  final String kind;
+  final String? mobId;
+  final String? week;
+  final FoldKey? fold;
+  final int? days;
+}

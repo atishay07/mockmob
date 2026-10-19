@@ -28,8 +28,11 @@ class DenView {
 final denViewProvider = Provider<DenView?>((ref) {
   if (!ref.watch(mobV3EnabledProvider)) return null;
   final read = ref.watch(mobRepositoryProvider).value;
-  final v3 = read?.v3;
-  if (read == null || v3 == null) return null;
+  if (read == null) return null;
+  final v3 = read.v3;
+  // The server sends v3 inside the Mob, so a student with no Mob gets none: with the app flag on,
+  // the no-Mob state is the v3 start (D0) all the same.
+  if (v3 == null) return read.mob == null ? const DenView(mob: null, v3: MobV3(name: MobV3Name(text: ''))) : null;
   return DenView(mob: read.mob, v3: v3);
 });
 

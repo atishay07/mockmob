@@ -1,0 +1,722 @@
+{
+  "UNAUTHENTICATED": {
+    "status": 401,
+    "body": {
+      "error": {
+        "code": "UNAUTHENTICATED",
+        "message": "Sign in to use your Mob."
+      }
+    }
+  },
+  "MOB_DISABLED": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "MOB_DISABLED",
+        "message": "This page is not available."
+      }
+    }
+  },
+  "NOT_IN_MOB": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "NOT_IN_MOB",
+        "message": "You are not in a Mob."
+      }
+    }
+  },
+  "NOT_FOUND": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "NOT_FOUND",
+        "message": "That member is not in your Mob."
+      }
+    }
+  },
+  "INVITE_INVALID": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "INVITE_INVALID",
+        "message": "This invite can't be used. Ask your friend for a new link."
+      }
+    }
+  },
+  "INVITE_EXPIRED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "INVITE_EXPIRED",
+        "message": "This invite can't be used. Ask your friend for a new link."
+      }
+    }
+  },
+  "MOB_FULL": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "MOB_FULL",
+        "message": "This Mob is full: it has 5 members, the most a Mob can have. Ask your friend to tell you if a seat opens, or start a Mob of your own."
+      }
+    }
+  },
+  "ALREADY_IN_MOB": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "ALREADY_IN_MOB",
+        "message": "You are already in this Mob."
+      }
+    }
+  },
+  "MOB_LIMIT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "MOB_LIMIT",
+        "message": "You already started a Mob. Free lets you start one, and join as many as friends invite you to. Pro lets you start up to 3."
+      }
+    }
+  },
+  "MOB_LIMIT_PRO": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "MOB_LIMIT_PRO",
+        "message": "You already started 3 Mobs, the most Pro allows. You can still join any Mob a friend invites you to."
+      }
+    }
+  },
+  "MOB_CEILING": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "MOB_CEILING",
+        "message": "You are in 12 Mobs, the most one account can be in. Leave one to start or join another."
+      }
+    }
+  },
+  "INVITES_PAUSED": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "INVITES_PAUSED",
+        "message": "New invites are paused for now. Your Mob works as before."
+      }
+    }
+  },
+  "JOIN_PAUSED": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "JOIN_PAUSED",
+        "message": "Joining a Mob by link is paused for now. Try this link again later."
+      }
+    }
+  },
+  "WEEK_INVALID": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "WEEK_INVALID",
+        "message": "There is no Mob paper for that week."
+      }
+    }
+  },
+  "EXTRA_NOT_FOUND": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "EXTRA_NOT_FOUND",
+        "message": "That extra paper is not in your Mob."
+      }
+    }
+  },
+  "COMPARE_SIT_FIRST": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "COMPARE_SIT_FIRST",
+        "message": "Sit this paper first, then you can compare it with your Mob."
+      }
+    }
+  },
+  "NOT_SAT_THAT_WEEK": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "NOT_SAT_THAT_WEEK",
+        "message": "You did not sit that week's paper, so there is nothing of yours to compare."
+      }
+    }
+  },
+  "COMPARE_PAST_ALONE": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "COMPARE_PAST_ALONE",
+        "message": "Only one member sat that week's paper, so there is nothing to compare."
+      }
+    }
+  },
+  "BANK_THIN": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "BANK_THIN",
+        "message": "There are not enough questions ready for that paper."
+      }
+    }
+  },
+  "MOB_REQUIRED": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "MOB_REQUIRED",
+        "message": "Say which Mob this is for."
+      }
+    }
+  },
+  "PRO_REQUIRED": {
+    "status": 402,
+    "body": {
+      "error": {
+        "code": "PRO_REQUIRED",
+        "message": "This part of the Mob is included with Pro."
+      }
+    }
+  },
+  "COMPARE_UNAVAILABLE": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "COMPARE_UNAVAILABLE",
+        "message": "There is nothing to compare yet. It needs one more member to sit this paper."
+      }
+    }
+  },
+  "SHARE_FIRST": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "SHARE_FIRST",
+        "message": "Share your answers with your Mob to compare. Members who share see each other, never a ranking."
+      }
+    }
+  },
+  "COMPARE_WAITING": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "COMPARE_WAITING",
+        "message": "No one else has shared their answers yet. Your first comparison stays free until someone does."
+      }
+    }
+  },
+  "FREE_PAPER_USED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "FREE_PAPER_USED",
+        "message": "You already sat a Mob paper this week. Pro lets you sit one in every Mob."
+      }
+    }
+  },
+  "EXTRA_LIMIT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "EXTRA_LIMIT",
+        "message": "Your Mob already has 3 extra papers this week. It can make more next week."
+      }
+    }
+  },
+  "EXTRA_CLOSED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "EXTRA_CLOSED",
+        "message": "This extra paper has closed."
+      }
+    }
+  },
+  "CHAPTER_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "CHAPTER_INVALID",
+        "message": "Choose a chapter of this subject."
+      }
+    }
+  },
+  "LENGTH_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "LENGTH_INVALID",
+        "message": "Choose 5, 10, 15 or 20 questions."
+      }
+    }
+  },
+  "NOT_OWNER": {
+    "status": 403,
+    "body": {
+      "error": {
+        "code": "NOT_OWNER",
+        "message": "Only the member who started the Mob can remove someone."
+      }
+    }
+  },
+  "NOT_SAT_YET": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "NOT_SAT_YET",
+        "message": "Sit this week's paper first, then you can ask the others."
+      }
+    }
+  },
+  "ALREADY_NUDGED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "ALREADY_NUDGED",
+        "message": "You already asked the others this week."
+      }
+    }
+  },
+  "PAPER_ALREADY_SAT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "PAPER_ALREADY_SAT",
+        "message": "You already sat this week's paper. The next one opens Monday."
+      }
+    }
+  },
+  "EXTRA_ALREADY_SAT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "EXTRA_ALREADY_SAT",
+        "message": "You already sat this extra paper. Your answers are under See your answers."
+      }
+    }
+  },
+  "WEEK_CLOSED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "WEEK_CLOSED",
+        "message": "This week's paper closed. The next one opens Monday."
+      }
+    }
+  },
+  "PAPER_EXPIRED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "PAPER_EXPIRED",
+        "message": "Your time on this week's paper ran out. The next one opens Monday."
+      }
+    }
+  },
+  "CREDITS": {
+    "status": 402,
+    "body": {
+      "error": {
+        "code": "CREDITS",
+        "message": "You do not have enough credits for this paper."
+      }
+    }
+  },
+  "NAME_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "NAME_INVALID",
+        "message": "Use 2 to 18 letters for your name. Spaces, dots, apostrophes and hyphens are fine."
+      }
+    }
+  },
+  "NAME_REFUSED": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "NAME_REFUSED",
+        "message": "Choose a different name. Your Mob sees it."
+      }
+    }
+  },
+  "SUBJECT_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "SUBJECT_INVALID",
+        "message": "Choose one of your subjects."
+      }
+    }
+  },
+  "NO_SUBJECTS": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "NO_SUBJECTS",
+        "message": "Choose your CUET subjects first. A Mob sits one paper a week in one of them."
+      }
+    }
+  },
+  "COLOUR_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "COLOUR_INVALID",
+        "message": "Choose one of the 8 colours."
+      }
+    }
+  },
+  "REASON_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "REASON_INVALID",
+        "message": "Choose why you are reporting."
+      }
+    }
+  },
+  "BODY_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "BODY_INVALID",
+        "message": "Something in the request was not right. Try again."
+      }
+    }
+  },
+  "RATE_LIMITED": {
+    "status": 429,
+    "body": {
+      "error": {
+        "code": "RATE_LIMITED",
+        "message": "Too many tries in a short time. Try again in a few minutes."
+      }
+    }
+  },
+  "PAPER_UNAVAILABLE": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "PAPER_UNAVAILABLE",
+        "message": "This week's paper could not be built just now. Nothing was charged. Try again shortly."
+      }
+    }
+  },
+  "MIGRATION": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "MIGRATION",
+        "message": "Your Mob is not available just now. Try again shortly."
+      }
+    }
+  },
+  "UNAVAILABLE": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "UNAVAILABLE",
+        "message": "Your Mob did not load. Try again shortly."
+      }
+    }
+  },
+  "START_PRO": {
+    "status": 402,
+    "body": {
+      "error": {
+        "code": "START_PRO",
+        "message": "Starting games is part of Pro. You can play every game your Mob starts."
+      }
+    }
+  },
+  "START_USED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "START_USED",
+        "message": "You started this week's game in this Mob. You can start another on Monday, or a friend with Pro can pass you the mic."
+      }
+    }
+  },
+  "START_FORMAT": {
+    "status": 402,
+    "body": {
+      "error": {
+        "code": "START_FORMAT",
+        "message": "Live rooms are part of Pro. You can start this game for anytime in 24 hours."
+      }
+    }
+  },
+  "GAMES_OPEN_LIMIT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "GAMES_OPEN_LIMIT",
+        "message": "Your Mob already has 3 games open. A new one can start when one closes."
+      }
+    }
+  },
+  "ROOM_OPEN_ALREADY": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "ROOM_OPEN_ALREADY",
+        "message": "A live room is already open in your Mob. Join it from the den."
+      }
+    }
+  },
+  "LIVE_OFF": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "LIVE_OFF",
+        "message": "Live rooms are not on yet. Start it for anytime in 24 hours."
+      }
+    }
+  },
+  "LIVE_HOURS": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "LIVE_HOURS",
+        "message": "Live rooms open from 6:00 AM to 11:00 PM. You can start it for anytime in 24 hours."
+      }
+    }
+  },
+  "LIVE_BUSY": {
+    "status": 503,
+    "body": {
+      "error": {
+        "code": "LIVE_BUSY",
+        "message": "Live is busy right now. Play now, and your Mob can catch up within 24 hours."
+      }
+    }
+  },
+  "GAME_NOT_FOUND": {
+    "status": 404,
+    "body": {
+      "error": {
+        "code": "GAME_NOT_FOUND",
+        "message": "That game is not in your Mob."
+      }
+    }
+  },
+  "GAME_CLOSED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "GAME_CLOSED",
+        "message": "This game has closed. Its answers are open now."
+      }
+    }
+  },
+  "RUN_DONE": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "RUN_DONE",
+        "message": "You already played this game. Your marks are on the podium."
+      }
+    }
+  },
+  "RUN_EXPIRED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "RUN_EXPIRED",
+        "message": "Your time on this game ran out. Questions you did not answer count as skipped."
+      }
+    }
+  },
+  "NO_RUN": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "NO_RUN",
+        "message": "Start the game first."
+      }
+    }
+  },
+  "Q_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "Q_INVALID",
+        "message": "That question is not in this game."
+      }
+    }
+  },
+  "PODIUM_NOT_YET": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "PODIUM_NOT_YET",
+        "message": "Finish your run first, then you can see the podium."
+      }
+    }
+  },
+  "REVIEW_NOT_YET": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "REVIEW_NOT_YET",
+        "message": "The answers open for everyone when this game closes."
+      }
+    }
+  },
+  "NOT_LIVE": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "NOT_LIVE",
+        "message": "This game is played anytime, not live."
+      }
+    }
+  },
+  "ROOM_NOT_HOST": {
+    "status": 403,
+    "body": {
+      "error": {
+        "code": "ROOM_NOT_HOST",
+        "message": "Only the member who opened this room can start it."
+      }
+    }
+  },
+  "ROOM_STARTED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "ROOM_STARTED",
+        "message": "This room has already started."
+      }
+    }
+  },
+  "STICKER_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "STICKER_INVALID",
+        "message": "Choose one of the stickers."
+      }
+    }
+  },
+  "MIC_LIMIT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "MIC_LIMIT",
+        "message": "You passed the mic twice this week, the most a week allows. You can pass it again on Monday."
+      }
+    }
+  },
+  "MIC_SELF": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "MIC_SELF",
+        "message": "Pass the mic to a friend in your Mob."
+      }
+    }
+  },
+  "BILLING_OFF": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "BILLING_OFF",
+        "message": "Everyone can start games right now, so there is no mic to pass."
+      }
+    }
+  },
+  "NOT_OWNER_SETTINGS": {
+    "status": 403,
+    "body": {
+      "error": {
+        "code": "NOT_OWNER_SETTINGS",
+        "message": "Only the member who started the Mob can change this."
+      }
+    }
+  },
+  "NAME_KEY_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "NAME_KEY_INVALID",
+        "message": "Choose one of the names."
+      }
+    }
+  },
+  "FOLD_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "FOLD_INVALID",
+        "message": "Choose one of the Folds."
+      }
+    }
+  },
+  "FOLD_LOCKED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "FOLD_LOCKED",
+        "message": "You have not earned that Fold yet. Its card says how."
+      }
+    }
+  },
+  "STEP_OUT_DONE": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "STEP_OUT_DONE",
+        "message": "This week's quest is already done, so there is nothing to step out of."
+      }
+    }
+  },
+  "FIX_NOT_YET": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "FIX_NOT_YET",
+        "message": "This opens when the game closes."
+      }
+    }
+  },
+  "FIX_CLOSED": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "FIX_CLOSED",
+        "message": "This check has closed. A new trap brings a new one."
+      }
+    }
+  },
+  "PAUSE_PAST": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "PAUSE_PAST",
+        "message": "Pause days have to be after today."
+      }
+    }
+  },
+  "PAUSE_LIMIT": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "PAUSE_LIMIT",
+        "message": "You have used the 14 pause days this season allows."
+      }
+    }
+  }
+}
