@@ -37,3 +37,13 @@ R1-R8 (PLAN-1019 section 0). D150 build-and-look loop (agents capture visuals wh
 
 ## 6. Commands and facts
 Flutter: `MOCKMOB_FLUTTER_SLOTS=6 bash tool/flutter_locked.sh <args>` (slot max file %TEMP%\mockmob-flutter.lock.max = 6). Emulator lock %TEMP%\mm-emu-lock; AVD mockmob_budget -memory 3072; adb -e only; demo entry test/device_demo/demo_main.dart. Staging rig: 3104 (r11, shim 3114), 3105 (Mob v3 server, shim 3115), seed scripts/mob/seed-v3-staging.mjs (chai-* @example.com). Supabase prod isrxrxzjocewrdureyhp, staging onwkqxmjqjrhfbjjdydu. Vercel prj_uSolddribHQDl1mM5AKxg3O9qCIu / team_V5PhMz9hqV42vblUMcvhYqoN (env listing may be blocked by the permission classifier). Upload key fingerprint SHA-256 62:AC:58:08:...:EC:47. Codex images: account 2 signed in now.
+
+
+## HANDOFF 20 Oct about 4:00 am (D159): every agent STOPPED; exact leftovers
+- **Live (done):** main 48985a8d (deployment dpl_GNLLoKcKYZDo34nkpXbqMqnT5WSs): Play billing, web v13, Mob v3 (4 migrations on prod, MOB_V3_ENABLED on), Ask Mobi v13 web (credits buy jobs, Pro still pays, no migration). Rollback points: dpl_4nA9juLKE9wFKjPHRAcdtfx7Ffha (before Mobi), dpl_F8qxHxpnXyZPqjCEAFrPrBbSnE9L (before Mob v3).
+- **App release ui/v17-release (wt-1020-app-rel) head 72af5155, clean:** merged bugs 6b659e43, mob-switch 449e8fde, mob-art 9cc7e7dc, mob-den 6ea7f777, mob-play e8a0d38e, pro-page 6cb1c9d2, wallet 536de4b5, finish 6fdfff26 (+ golden regenerations on the merged Folds art). pubspec still 1.0.16+12. NOT done: merge ui/v17-mobi; full unit run after the last three merges; demo emulator walk; version 13 build (Desktop\MockMob-build-13 does not exist yet).
+- **ui/v17-mobi (wt-1020-mobi) head 096fa2db = STOP POINT** over 758b4547 (Where you stand, doubt thread, Fix it for good, goldens): its last 3 files were uncommitted work of a helper (App Ask Mobi v13 UI) stopped mid-way: review before merging.
+- **Folds art:** idle, cheer, think for all 12 + parcel + seal are in the app (mob-art) and web (public/mob/folds); shrug, wave, Patang think redo NOT generated (FINAL-ART.md section 6; Codex account 2 resets 5:38 am).
+- **Web leftovers (from the den/play owners):** D6 den room skeleton not wired; public /join/<code> page not v3-aware; sticker flights not live; podium first-place Fold head touches the lamp edge; signed-in walk of live Mobi flows not done (agents never sign in).
+- **Owner steps:** upload v13 to Alpha; content rating + Data safety; ANDROID_CERT_SHA256; 150 vs 50 credits; Pro 149/150.
+- **Next prompt:** docs/brain/NEXT-PROMPT-1020-AM.md (goal-first, 5-6 hour plan).
