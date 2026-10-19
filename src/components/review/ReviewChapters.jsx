@@ -358,7 +358,8 @@ function StatsStrip({ stats, seen, scopeName }) {
   const from = (k) => (seen && Number.isFinite(seen[k]) ? seen[k] : undefined);
   return (
     <section className="rv8-stats" aria-label={scopeName ? `Your record in ${scopeName}` : 'Your record'}>
-      <dl className="rv8-stats__row">
+      {/* The figures rise in order, 45 ms apart (mk-stagger, owner G31): the lit build's stat strip entrance. */}
+      <dl className="rv8-stats__row mk-stagger">
         <div data-k="papers">
           <dt>Papers sat</dt>
           <dd><b className="rv8-stats__fig"><Roll value={stats.papers} from={from('papers')} /></b><span className="rv8-stats__note">{stats.papersNote}</span></dd>

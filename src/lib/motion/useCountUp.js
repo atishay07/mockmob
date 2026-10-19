@@ -5,12 +5,15 @@ import { useMobiPrefs } from '@/lib/mobiPrefs';
 import { curves, durations } from './tokens.g.js';
 import { inkFor, numberDirection, recallNumber, rememberNumber } from './numberMemory';
 import { cubicAt } from './swap';
-import { planCountUp } from './countUpPlan.js';
+import { COUNT_UP_SETTLE, planCountUp, settleStep } from './countUpPlan.js';
 
 const useIsoLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 // The count-up curve: emphasized over 720 ms, as deploy/1015-night and the app (restored 19 Oct, owner G31: the
-// 420 ms ease-out roll of pass 1016e read as rushed).
-const emphasized = (t) => cubicAt(curves.emphasized, t);
+// 420 ms ease-out roll of pass 1016e read as rushed). A caller may name another curve from the token file (`curve`).
+const curveFor = (name) => {
+  const c = curves[name] || curves.emphasized;
+  return (t) => cubicAt(c, t);
+};
 
 /**
  * A number that rolls to its new value, with its tint: { value, ink }.
@@ -27,9 +30,13 @@ const emphasized = (t) => cubicAt(curves.emphasized, t);
  * data-ink with the .mk-num class, and the colour settles back over 200 ms). Without a memoryKey,
  * ink is always null. Under reduced motion there is no roll and no tint.
  *
- *   useCountUpState(value, { from, duration = 720, decimals = 0, enabled = true, memoryKey })
+ * With `settle` the roll waits (showing where it starts) until the page has stopped dropping frames (countUpPlan.js
+ * COUNT_UP_SETTLE), and a frame that still comes late moves the roll on by one smooth frame at most, so a number that
+ * arrives with its whole page is seen rolling from the start to the end.
+ *
+ *   useCountUpState(value, { from, duration = 720, decimals = 0, enabled = true, memoryKey, curve = 'emphasized', settle = false })
  */
-export function useCountUpState(value, { from, duration = durations.countUp, decimals = 0, enabled = true, memoryKey } = {}) {
+export function useCountUpState(value, { from, duration = durations.countUp, decimals = 0, enabled = true, memoryKey, curve = 'emphasized', settle = false } = {}) {
   const { reduced } = useMobiPrefs();
   const [shown, setShown] = useState(value);
   const [ink, setInk] = useState(null);
@@ -58,16 +65,28 @@ export function useCountUpState(value, { from, duration = durations.countUp, dec
     }
 
     const tint = key !== null ? inkFor(numberDirection(before, value)) : null;
+    const ease = curveFor(curve);
     let raf = 0;
     let timer = 0;
     let begin = 0;
+    let last = 0;
+    let elapsed = 0;
+    let wait = settle ? {} : null;
     shownRef.current = origin;
     setShown(origin);
     setInk(tint);
     const frame = (now) => {
-      if (!begin) begin = now;
-      const t = Math.min(1, (now - begin) / span);
-      const next = t >= 1 ? target : origin + (target - origin) * emphasized(t);
+      if (wait) {
+        wait = settleStep(wait, now);
+        if (!wait.ready) { raf = requestAnimationFrame(frame); return; }
+        wait = null;
+      }
+      if (!begin) { begin = now; last = now; }
+      // A settled roll never skips: a late frame moves it on by one smooth frame at most, so every part of the curve is drawn.
+      elapsed += settle ? Math.min(now - last, COUNT_UP_SETTLE.smoothMs) : now - last;
+      last = now;
+      const t = Math.min(1, elapsed / span);
+      const next = t >= 1 ? target : origin + (target - origin) * ease(t);
       shownRef.current = next;
       setShown(next);
       if (t < 1) raf = requestAnimationFrame(frame);
@@ -75,7 +94,7 @@ export function useCountUpState(value, { from, duration = durations.countUp, dec
     };
     raf = requestAnimationFrame(frame);
     return () => { cancelAnimationFrame(raf); window.clearTimeout(timer); };
-  }, [value, from, duration, enabled, reduced, key]);
+  }, [value, from, duration, enabled, reduced, key, curve, settle]);
 
   const n = Number(shown);
   return { value: Number.isFinite(n) ? Math.round(n * factor) / factor : shown, ink: reduced ? null : ink };
@@ -84,7 +103,7 @@ export function useCountUpState(value, { from, duration = durations.countUp, dec
 /**
  * The rolling value only (see useCountUpState for the rules and the memoryKey option).
  *
- *   useCountUp(value, { from, duration = 720, decimals = 0, enabled = true, memoryKey })
+ *   useCountUp(value, { from, duration = 720, decimals = 0, enabled = true, memoryKey, curve, settle })
  */
 export function useCountUp(value, options) {
   return useCountUpState(value, options).value;
