@@ -17,6 +17,7 @@
 // server environment) cannot be reproduced exactly in Postgres.
 import { readablePracticeQuestions } from './practice_library.js';
 import { eligibilitySnapshot, publicationEligibility } from './evidence_registry.js';
+import { CUET_ALLOWED_SUBJECT_SET } from './cuet_controls.js';
 
 export const INVENTORY_COLUMNS = Object.freeze([
   'id', 'subject', 'chapter', 'concept', 'concept_id', 'question', 'body', 'options', 'correct_index', 'correct_answer',
@@ -47,11 +48,17 @@ export async function readInventoryRows(db) {
 export async function countInventory(rows, db, { now = () => new Date() } = {}) {
   const visible = rows.filter(isInventoryVisible);
   const eligible = await readablePracticeQuestions(visible, db, { requireEvidence: false });
-  const subjectCounts = {}, recoverySubjectCounts = {};
+  const subjectCounts = {}, recoverySubjectCounts = {}, chapterCounts = {};
   const snapshot = eligible.length ? eligibilitySnapshot() : undefined;
   for (const q of eligible) {
     subjectCounts[q.subject] = (subjectCounts[q.subject] || 0) + 1;
+    // Per-chapter counts, for the subjects Practice offers only (the public subject pages print them per syllabus unit).
+    const chapter = typeof q.chapter === 'string' ? q.chapter.trim() : '';
+    if (chapter && CUET_ALLOWED_SUBJECT_SET.has(q.subject)) {
+      const counts = chapterCounts[q.subject] || (chapterCounts[q.subject] = {});
+      counts[chapter] = (counts[chapter] || 0) + 1;
+    }
     if (publicationEligibility(q, snapshot).eligible) recoverySubjectCounts[q.subject] = (recoverySubjectCounts[q.subject] || 0) + 1;
   }
-  return { state: 'available', bankSize: eligible.length, subjectCounts, recoverySubjectCounts, recoveryEligible: Object.values(recoverySubjectCounts).reduce((a,b)=>a+b,0), checkedAt: now().toISOString(), note: 'Ordinary library counts use the same publication and family-hold policies as practice. A count does not establish a complete mock blueprint or recovery pathway.' };
+  return { state: 'available', bankSize: eligible.length, subjectCounts, chapterCounts, recoverySubjectCounts, recoveryEligible: Object.values(recoverySubjectCounts).reduce((a,b)=>a+b,0), checkedAt: now().toISOString(), note: 'Ordinary library counts use the same publication and family-hold policies as practice. A count does not establish a complete mock blueprint or recovery pathway.' };
 }

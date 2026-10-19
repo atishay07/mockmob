@@ -22,6 +22,7 @@ const SUBJECT_LINKS = [
   ['Accountancy', '/cuet/accountancy'],
   ['Economics', '/cuet/economics'],
   ['Business Studies', '/cuet/business-studies'],
+  ['All 15 CUET subjects', '/cuet'],
   ['CUET 2027 guide', '/cuet-2027'],
 ];
 

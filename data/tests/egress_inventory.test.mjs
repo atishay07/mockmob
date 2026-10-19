@@ -33,7 +33,8 @@ async function countBefore(db) {
 }
 
 const holdsFor = (rows) => rows.filter((r) => r.family_id).filter((_, i) => i % 11 === 0).map((r) => ({ family_id: r.family_id }));
-const strip = ({ note, ...rest }) => rest;
+// chapterCounts (20 Oct 2026, the public subject pages) is new since the reference count; it is checked on its own below.
+const strip = ({ note, chapterCounts, ...rest }) => rest;
 
 test('the inventory column list is real columns, with the two signed records and no duplicates', () => {
   assert.equal(new Set(INVENTORY_COLUMNS).size, INVENTORY_COLUMNS.length);
@@ -51,6 +52,11 @@ test('the count is identical before and after over generated banks (including he
     // strict: any read of a column that is not in the select throws, so a hidden dependency fails loudly.
     const after = await countInventory(await readInventoryRows(fakeDb(tables, { strict: true })), fakeDb(tables, { strict: true }), { now: FIXED });
     assert.deepEqual(strip(after), before, `seed ${seed}`);
+    // Every counted question with a chapter, in an offered subject, is in exactly one chapter count.
+    for (const [subject, chapters] of Object.entries(after.chapterCounts)) {
+      const sum = Object.values(chapters).reduce((a, b) => a + b, 0);
+      assert.ok(sum <= after.subjectCounts[subject], `${subject} chapter counts never exceed the subject count`);
+    }
     counted += before.bankSize;
     assert.ok(before.recoveryEligible > 0, 'fixtures include evidence-eligible rows');
   }

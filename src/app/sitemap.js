@@ -13,6 +13,8 @@ export default function sitemap() {
       priority: route.priority,
     }));
 
+  // The CUET subjects index and the 15 subject pages (src/lib/subjectPages.mjs).
+  const subjectIndex = { url: absoluteUrl('/cuet'), lastModified: now, changeFrequency: 'weekly', priority: 0.85 };
   const subjectRoutes = SUBJECT_HUBS.map((hub) => ({
     url: absoluteUrl(`/cuet/${hub.slug}`),
     lastModified: now,
@@ -20,5 +22,5 @@ export default function sitemap() {
     priority: 0.85,
   }));
 
-  return [...staticRoutes, ...subjectRoutes];
+  return [...staticRoutes, subjectIndex, ...subjectRoutes];
 }

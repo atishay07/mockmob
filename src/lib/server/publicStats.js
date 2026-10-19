@@ -24,8 +24,10 @@ export function publicStatsView(inventory) {
     subjectCounts[id] = Math.trunc(n);
     bankSize += Math.trunc(n);
   }
+  // chapterCounts (per subject, per chapter) feed the public subject pages on the server; the visitor API stays as it was.
+  const { chapterCounts: _chapters, ...rest } = inventory;
   return {
-    ...inventory,
+    ...rest,
     bankSize,
     subjectCounts,
     publicSubjectCount: coveredPublicSubjects(subjectCounts, CUET_ALLOWED_SUBJECTS),
