@@ -1,5 +1,6 @@
+import 'package:flutter/foundation.dart' show TargetPlatform, defaultTargetPlatform, visibleForTesting;
 import 'package:in_app_purchase_android/billing_client_wrappers.dart' show PurchaseStateWrapper;
-import 'package:in_app_purchase_android/in_app_purchase_android.dart' show GooglePlayPurchaseDetails;
+import 'package:in_app_purchase_android/in_app_purchase_android.dart' show GooglePlayPurchaseDetails, InAppPurchaseAndroidPlatform;
 import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart';
 
 /// What the billing controller needs from Google Play, in one small seam. The real one is
@@ -31,9 +32,24 @@ abstract class PlayStore {
 /// The official `in_app_purchase` plugin, through its platform interface (so a test can hand it a
 /// fake platform).
 class PluginPlayStore implements PlayStore {
-  PluginPlayStore({InAppPurchasePlatform? platform}) : _platform = platform ?? InAppPurchasePlatform.instance;
+  PluginPlayStore({InAppPurchasePlatform? platform}) : _platform = platform ?? androidPlatform();
 
   final InAppPurchasePlatform _platform;
+
+  static bool _registered = false;
+
+  /// The plugin's Android implementation. It has no Dart plugin class, so Flutter never registers it
+  /// by itself: only `InAppPurchase.instance` does, and this app talks to the platform interface
+  /// instead. Without this call `InAppPurchasePlatform.instance` throws, and every surface said Google
+  /// Play was not ready on every phone (found on the emulator, 19 Oct PM). Registered once.
+  @visibleForTesting
+  static InAppPurchasePlatform androidPlatform({TargetPlatform? platform, void Function()? register}) {
+    if (!_registered && (platform ?? defaultTargetPlatform) == TargetPlatform.android) {
+      (register ?? InAppPurchaseAndroidPlatform.registerPlatform)();
+      _registered = true;
+    }
+    return InAppPurchasePlatform.instance;
+  }
 
   @override
   Stream<List<PurchaseDetails>> get purchases => _platform.purchaseStream.map((list) => [for (final p in list) settleStatus(p)]);

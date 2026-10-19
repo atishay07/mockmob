@@ -97,6 +97,10 @@ enum BillingFailure {
   /// No connection while confirming.
   offline,
 
+  /// Google Play is not ready on this phone (no Play Store, signed out, or out of date), so nothing
+  /// could be bought or restored.
+  notReady,
+
   /// The server does not take Play purchases yet (its flag is off: a 404 with no Play code).
   notOpenYet,
 
@@ -366,11 +370,19 @@ class PlayBillingController extends Notifier<PlayBillingState> {
   Future<void> restore() async {
     final store = _store;
     final userId = ref.read(playBillingUserIdProvider);
-    if (store == null || userId == null || state.busy) return;
+    if (userId == null || state.busy || !ref.read(playBillingEnabledProvider)) return;
+    if (store == null) {
+      // Never a key that does nothing: say why nothing can be restored here.
+      _end(BillingStage.failed, null, failure: BillingFailure.notReady);
+      return;
+    }
     _flow = true;
     _set(stage: BillingStage.restoring, productId: null, failure: null);
     try {
       await _syncOwned(includeCompleted: true, silent: false);
+    } on _PlayNotReady {
+      _end(BillingStage.failed, null, failure: BillingFailure.notReady);
+      return;
     } on Object {
       _end(BillingStage.failed, null, failure: BillingFailure.store);
       return;
@@ -420,7 +432,7 @@ class PlayBillingController extends Notifier<PlayBillingState> {
     var answered = false;
     try {
       if (!await store.isAvailable()) {
-        if (!silent) throw StateError('Google Play is not available');
+        if (!silent) throw const _PlayNotReady();
         return;
       }
       await store.restore(accountHash: playAccountHash(userId));
@@ -576,3 +588,7 @@ class PlayBillingController extends Notifier<PlayBillingState> {
 }
 
 final playBillingProvider = NotifierProvider<PlayBillingController, PlayBillingState>(PlayBillingController.new);
+
+class _PlayNotReady implements Exception {
+  const _PlayNotReady();
+}

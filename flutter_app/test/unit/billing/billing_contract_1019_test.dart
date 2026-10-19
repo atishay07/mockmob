@@ -9,6 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/config/app_config.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/repositories/credits_repository.dart';
 import 'package:mockmob/core/repositories/quote_repository.dart';
@@ -163,6 +164,35 @@ void main() {
     });
   });
 
+  group('Google Play not ready', () {
+    test('Restore says Google Play is not ready instead of doing nothing', () async {
+      final rig = BillingRig(store: FakePlayStore(available: false));
+      final c = await ready(rig);
+      await ctl(c).restore();
+      await settle();
+      expect(st(c).stage, BillingStage.failed);
+      expect(st(c).failure, BillingFailure.notReady);
+      expect(billingFailureMessage(BillingFailure.notReady), BillingCopy.storeUnavailable);
+    });
+
+    test('with no Google Play plugin at all, Restore still answers', () async {
+      final rig = BillingRig();
+      final c = ProviderContainer(overrides: [
+        appConfigProvider.overrideWithValue(playOnConfig),
+        playStoreProvider.overrideWith((ref) => throw StateError('no plugin')),
+        playVerifierProvider.overrideWithValue(rig.verifier),
+        playBillingUserIdProvider.overrideWithValue('user-1'),
+        playBillingRefreshProvider.overrideWithValue(() async {}),
+      ]);
+      addTearDownContainer(c);
+      c.listen(playBillingProvider, (_, _) {});
+      await settle();
+      expect(st(c).store, StoreAvailability.unavailable);
+      await ctl(c).restore();
+      expect(st(c).failure, BillingFailure.notReady);
+    });
+  });
+
   group('final answers', () {
     test('another account\'s purchase: said plainly, not held, and not sent again on a quiet check', () async {
       final rig = BillingRig();
@@ -298,6 +328,10 @@ void main() {
       expect({for (final p in PlayProducts.packs) p.id: p.credits}, {'credits_10_50': 50, 'credits_29_150': 150, 'credits_49_300': 300});
       expect(PlayProducts.pro.consumable, isFalse);
       expect(PlayProducts.packs.every((p) => p.consumable), isTrue);
+    });
+
+    test('the obfuscated account id matches the server\'s test vector: lowercase hex SHA-256, 64 characters', () {
+      expect(playAccountHash('abc'), 'ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad');
     });
   });
 }

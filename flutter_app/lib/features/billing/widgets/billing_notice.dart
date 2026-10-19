@@ -75,6 +75,7 @@ class BillingNotice extends ConsumerWidget {
 String billingFailureMessage(BillingFailure? failure) => switch (failure) {
       BillingFailure.couldNotConfirm => BillingCopy.failCouldNotConfirm,
       BillingFailure.offline => BillingCopy.failOffline,
+      BillingFailure.notReady => BillingCopy.storeUnavailable,
       BillingFailure.notOpenYet => BillingCopy.failNotOpenYet,
       BillingFailure.rateLimited => BillingCopy.failRateLimited,
       BillingFailure.otherAccount => BillingCopy.failOtherAccount,

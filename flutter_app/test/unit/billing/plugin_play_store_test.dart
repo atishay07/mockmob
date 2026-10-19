@@ -4,6 +4,7 @@
 
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show TargetPlatform;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:in_app_purchase_android/billing_client_wrappers.dart' show PurchaseStateWrapper, PurchaseWrapper;
 import 'package:in_app_purchase_android/in_app_purchase_android.dart' show GooglePlayPurchaseDetails;
@@ -121,6 +122,26 @@ void main() {
     await sub.cancel();
     expect(seen.firstWhere((p) => p.productID == 'pro_cuet_2027').status, PurchaseStatus.pending);
     expect(seen.firstWhere((p) => p.productID == 'credits_10_50').status, PurchaseStatus.restored);
+  });
+
+  test('the Android implementation is registered (once) before it is used: without it nothing could ever be bought', () {
+    var registrations = 0;
+    final android = _FakePlatform();
+    // Not Android: nothing is registered, and asking for the platform fails (the controller then says
+    // Google Play is not ready).
+    expect(() => PluginPlayStore.androidPlatform(platform: TargetPlatform.iOS, register: () => registrations++), throwsA(anything));
+    expect(registrations, 0);
+    final first = PluginPlayStore.androidPlatform(
+      platform: TargetPlatform.android,
+      register: () {
+        registrations++;
+        InAppPurchasePlatform.instance = android;
+      },
+    );
+    final second = PluginPlayStore.androidPlatform(platform: TargetPlatform.android, register: () => registrations++);
+    expect(registrations, 1);
+    expect(first, same(android));
+    expect(second, same(android));
   });
 
   test('buy returns what the platform says: false when the sheet could not open', () async {
