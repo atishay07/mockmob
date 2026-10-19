@@ -126,7 +126,7 @@ void main() {
           tester,
           _TicketFrame(tear: tear),
           brightness: b,
-          size: const Size(384, 260),
+          size: const Size(360, 260),
           wrapInScaffold: false,
           overrides: haptics,
         );
