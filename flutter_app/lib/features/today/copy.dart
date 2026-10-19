@@ -55,10 +55,10 @@ abstract final class TodayCopy {
 
   // Day one and new user (brief 11.11).
   static const String questionsUnit = 'questions';
-  static String startingPointLine(String subject, [int n = 10]) =>
-      '${_countLead(n)} CUET-style $subject questions, marked +5 and −1. The result shows where your marks go, chapter by chapter.';
-  static String startingPointWith(String subject, String framing, [int n = 10]) => '${_countLead(n)} CUET-style questions in $subject. $framing';
-  static String _countLead(int n) => switch (n) { 5 => 'Five', 10 => 'Ten', 20 => 'Twenty', _ => '$n' };
+  // The big number and its label already say "10 questions in Accountancy", so these lines do not say them again
+  // (20 Oct: the two-line title and the three-line body pushed "Suggested for you" off the first screen).
+  static String startingPointLine(String subject, [int n = 10]) => 'CUET-style, marked +5 and −1. It shows where your marks go, by chapter.';
+  static String startingPointWith(String subject, String framing, [int n = 10]) => 'CUET-style questions. $framing';
   static String checkSetFor(DateTime at) => 'Your check is set for ${formatTime12(at)}.';
   /// One wording at every text size: the chips above already say "10 min", and the key never
   /// has to swap to a shorter sentence when the text grows.
@@ -762,14 +762,14 @@ abstract final class TodayCopy {
   static const String collegesRowTitle = 'Your colleges';
   static String lastPaperName(String label, String subject) => '$label, $subject';
   static String lastPaperSub(String date, String? change) => change == null ? date : '$date, $change';
-  static String collegesSub(String course, int more) => more > 0 ? '$course, 2026 Round 1. $more more saved.' : '$course, 2026 Round 1.';
+  static String collegesSub(String course, int more) => more > 0 ? '${withoutStop(course)}, 2026 Round 1. $more more saved.' : '${withoutStop(course)}, 2026 Round 1.';
 
   // Your colleges on Today (19 Oct, D104): the three hardest to get into, labelled, and every one
   // a tap away. "Top" says what it means (the owner asked whether the three were first
   // preferences): the ones that need the most marks.
   static String collegesTop(int of) => of > 3 ? 'Your top 3 of $of need the most marks to get in.' : 'The one that needs the most marks comes first.';
   static String collegeRowSub(String course, {required bool figure}) =>
-      figure ? '$course, 2026 Round 1.' : '$course. There is no 2026 Round 1 cutoff for your category.';
+      figure ? '${withoutStop(course)}, 2026 Round 1.' : joinSentences([course, 'There is no 2026 Round 1 cutoff for your category']);
   static String seeAllCount(int n) => 'See all $n colleges';
   static const String seeAllSub = 'Every college you picked, with the marks it needs.';
   static String seeAllSemantics(int n) => 'See all $n colleges. Every college you picked, with the marks it needs.';

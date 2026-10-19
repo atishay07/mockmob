@@ -15,6 +15,7 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../core/copy/sentences.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/my_colleges.dart';
 import '../../../core/motion/motion.dart';
@@ -527,7 +528,7 @@ class _MyCollegesSheetState extends ConsumerState<MyCollegesSheet> {
         return ToolsRowFrame(
           key: ValueKey('programme-${g.id}'),
           padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s12),
-          semanticsLabel: '${g.name}. $note',
+          semanticsLabel: joinSentences([g.name, note]),
           onTap: g.hasCutoffs ? () => _openCourse(g.id) : null,
           child: Row(
             children: [

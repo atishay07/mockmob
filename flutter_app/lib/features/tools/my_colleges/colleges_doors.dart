@@ -10,6 +10,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/art/hybrid/hybrid.dart' show HybridCompass;
+import '../../../core/copy/sentences.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -137,11 +138,11 @@ abstract final class CollegesDoorCopy {
     final n = c.picks.length;
     final colleges = n == 1 ? '1 college' : '$n colleges';
     final what = courses.length == 1 && courses.first.isNotEmpty ? '$colleges for ${courses.first}' : colleges;
-    return '$what. Each number is the lowest score that got in at Round 1 in 2026, for the ${TodayCopy.categoryWords(c.category)} category.';
+    return '${endSentence(what)} Each number is the lowest score that got in at Round 1 in 2026, for the ${TodayCopy.categoryWords(c.category)} category.';
   }
 
   static String rowSemantics(LadderPick p) =>
-      p.closingScore == null ? '${p.college}, ${p.course}. No 2026 figure is published for your category.' : '${p.college}, ${p.course}. Closed at ${_score(p.closingScore!)} of ${p.outOf ?? DuCatalog.scale}.';
+      joinSentences(['${p.college}, ${p.course}', p.closingScore == null ? 'No 2026 figure is published for your category' : 'Closed at ${_score(p.closingScore!)} of ${p.outOf ?? DuCatalog.scale}']);
 }
 
 void _openList(BuildContext context) => context.push(AppRoutes.colleges);

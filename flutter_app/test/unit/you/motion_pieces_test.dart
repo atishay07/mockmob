@@ -84,7 +84,7 @@ void main() {
       expect(CelebrationPreview.actFor(CelebrationMode.full), MobiAct.celebrate);
       expect(CelebrationPreview.actFor(CelebrationMode.quiet), MobiAct.nod);
       expect(CelebrationPreview.actFor(CelebrationMode.off), isNull);
-      expect(CelebrationPreview.lineFor(CelebrationMode.off), 'No animation, the result just appears.');
+      expect(CelebrationPreview.lineFor(CelebrationMode.off), 'No animation. The result just appears.');
       expect(CelebrationPreview.lineFor(CelebrationMode.off), YouCopy.previewOff);
     });
 
