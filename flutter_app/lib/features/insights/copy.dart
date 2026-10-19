@@ -256,7 +256,7 @@ abstract final class InsightsCopy {
   /// prefix (see `shownFirstName` in core/auth/display_name.dart); with none he greets plainly.
   static String askGreeting(String? name, int? sessions) {
     final hi = name == null ? 'Hi.' : 'Hi $name.';
-    if (sessions == null || sessions == 0) return "$hi Ask me any CUET doubt, any time you're stuck.";
+    if (sessions == null || sessions == 0) return '$hi Stuck on a CUET doubt? Ask me.';
     if (sessions == 1) return "$hi I've read your first paper. Ask me anything about it.";
     return "$hi I've read your last $sessions papers. Ask me anything about them.";
   }
@@ -330,7 +330,7 @@ abstract final class InsightsCopy {
         1 => '$aiWrites\u00a0·\u00a0your\u00a0last\u00a0credit',
         final n => '$aiWrites\u00a0·\u00a01\u00a0of\u00a0your\u00a0$n\u00a0credits',
       };
-  static String askNoteEmpty(String renew) => 'You have no credits left. They refill on $renew. Questions about your record stay free.';
+  static String askNoteEmpty(String renew) => 'No credits left. They refill on $renew. Questions about your record stay free.';
 
   // The balance in the header, and the sheet it opens.
   static const walletPillUnknown = 'Credits';

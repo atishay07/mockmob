@@ -50,7 +50,7 @@ class DoorAsk {
 /// fragments, no exclamation marks, no arrows.
 abstract final class AskDoorCopy {
   // The greeting beside Mobi.
-  static String greetFresh(String? name) => "${_hi(name)} Ask me any CUET doubt, any time you're stuck.";
+  static String greetFresh(String? name) => '${_hi(name)} Stuck on a CUET doubt? Ask me.';
   static String greetHeavy(String? name, int papers) =>
       '${_hi(name)} Ask me any doubt, or ask what ${papers == 1 ? 'your first paper says' : 'your $papers papers say'}.';
   static String _hi(String? name) => name == null ? 'Hi.' : 'Hi $name.';
@@ -70,7 +70,7 @@ abstract final class AskDoorCopy {
   static String leadFigureLine(String chapter) => 'marks lost in $chapter, your biggest leak';
   static String seeAll(int n) => 'See all $n questions about your record';
   static const seeFewer = 'Show fewer questions';
-  static const emptySay = 'Your record starts with your first paper.';
+  static const emptySay = 'Your record is empty for now.';
   static const emptyBody = 'Finish one practice paper and Mobi can show you where every mark went.';
   static const emptyKey = 'Practise 10 questions first';
   static const emptyAfter = 'After that, you can ask where you lose marks, which chapter to practise and what to revise tonight.';
@@ -129,7 +129,8 @@ abstract final class AskDoorCopy {
   // The Practice card.
   static const cardTitle = 'Ask Mobi';
   static const cardLineFresh = 'Stuck on a doubt? Ask now and Mobi explains it in plain words.';
-  static String cardLineHeavy(int lost, String chapter) => 'Stuck on a doubt? Ask now, or ask your record why you lost $lost marks in $chapter.';
+  // Shorter than the old line, so the card's fixed height holds it at 360 dp (the longer draft overflowed by 5 px).
+  static String cardLineHeavy(int lost, String chapter) => 'Stuck on a doubt? Ask now, or ask why you lost $lost marks in $chapter.';
   static const cardLineRecord = 'Stuck on a doubt? Ask now, or ask what your papers say.';
   static const cardNow = 'Ask now';
   static const cardRecord = 'Ask your record';

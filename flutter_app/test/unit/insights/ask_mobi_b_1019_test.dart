@@ -1,6 +1,6 @@
 // Ask Mobi option B (ASK-MOBI-1019; the owner's D112 and D114; C-pick 2): Ask Mobi's own screen with
 // two big doors, "Ask now" and "Ask your record". These lock the build's contract:
-// * a fresh record says "Your record starts with your first paper." with one key; a heavy one leads with its
+// * a fresh record says "Your record is empty for now." with one key; a heavy one leads with its
 //   biggest leak as a real figure;
 // * every starter says "Free", "1 credit" or a Pro lock before the tap, and a tap sends at once with
 //   no consent sheet (D53);
@@ -98,8 +98,8 @@ void main() {
     test('the greetings are whole sentences, with no number words broken (finding 38)', () {
       expect(InsightsCopy.askGreeting(null, 1), "Hi. I've read your first paper. Ask me anything about it.");
       expect(InsightsCopy.askGreeting('Riya', 25), "Hi Riya. I've read your last 25 papers. Ask me anything about them.");
-      expect(InsightsCopy.askGreeting(null, 0), "Hi. Ask me any CUET doubt, any time you're stuck.");
-      expect(AskDoorCopy.greetFresh(null), "Hi. Ask me any CUET doubt, any time you're stuck.");
+      expect(InsightsCopy.askGreeting(null, 0), 'Hi. Stuck on a CUET doubt? Ask me.');
+      expect(AskDoorCopy.greetFresh(null), 'Hi. Stuck on a CUET doubt? Ask me.');
       expect(AskDoorCopy.greetHeavy('Riya', 25), 'Hi Riya. Ask me any doubt, or ask what your 25 papers say.');
       expect(AskDoorCopy.greetHeavy(null, 1), 'Hi. Ask me any doubt, or ask what your first paper says.');
     });

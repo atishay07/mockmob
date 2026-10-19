@@ -119,11 +119,10 @@ void main() {
     });
 
     test('Ask Mobi', () {
-      expect(AskDoorCopy.greetFresh('Riya'), "Hi Riya. Ask me any CUET doubt, any time you're stuck.");
-      expect(InsightsCopy.askGreeting(null, 0), "Hi. Ask me any CUET doubt, any time you're stuck.");
-      expect(AskDoorCopy.emptySay, 'Your record starts with your first paper.');
+      expect(AskDoorCopy.greetFresh('Riya'), 'Hi Riya. Stuck on a CUET doubt? Ask me.');
+      expect(InsightsCopy.askGreeting(null, 0), 'Hi. Stuck on a CUET doubt? Ask me.');
       expect(AskDoorCopy.creditsNone, 'You have no credits left.');
-      expect(AskDoorCopy.cardLineHeavy(34, 'Partnership'), 'Stuck on a doubt? Ask now, or ask your record why you lost 34 marks in Partnership.');
+      expect(AskDoorCopy.cardLineHeavy(34, 'Partnership'), 'Stuck on a doubt? Ask now, or ask why you lost 34 marks in Partnership.');
     });
 
     test('Today, the deck and the colleges', () {
