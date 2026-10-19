@@ -189,10 +189,9 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           if (state.isStale && (state.error?.isOffline ?? false)) const InlineBanner.offlineStrip(),
-          // Skeleton to content is one 200 ms cross-fade, as on the page.
-          AnimatedSwitcher(
-            duration: Motion.of(context, Motion.ui),
-            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
+          // Skeleton to content is one cross-fade, as on the page.
+          MmOverlapSwitcher.fade(
+            alignment: Alignment.topCenter,
             child: KeyedSubtree(key: ValueKey(kind), child: kind == 'content' ? body : SizedBox(height: 460, child: body)),
           ),
         ],
