@@ -14,6 +14,7 @@ import { useRole } from '@/lib/roleContext';
 import { AuthSessionScreen } from '@/components/auth/AuthSessionScreen';
 import { loginPathFor } from '@/lib/auth-redirect';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { SignOutButton } from '@/components/profile/SignOutConfirm';
 import AppearanceSwitch from '@/components/AppearanceSwitch';
 import { PipActor } from '@/components/brand/PipActor';
 import { StartKey, StartSheetHost } from '@/components/start';
@@ -60,7 +61,7 @@ const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'encouraging', 'celeb
 export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false, mobEnabled = false, contributeEnabled = false, offer = null }) {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, status, signOut, refreshSession } = useAuth();
+  const { user, status, refreshSession } = useAuth();
   const { isModerator } = useRole();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuOpener = useRef(null);
@@ -434,15 +435,12 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               <Avatar name={user?.name} size="sm" />
               <span>{user?.name ?? 'Account'}</span>
             </Link>
-            {/* Sign out in words, beside the account (owner G29, 19 Oct): an unlabelled glyph was missed. */}
-            <button
-              type="button"
-              onClick={async () => { await signOut(); router.push('/'); }}
-              className="arena-signout arena-desktop-only"
-            >
+            {/* Sign out in words, beside the account (owner G29, 19 Oct): an unlabelled glyph was missed. It asks first, with
+                the same confirm as the Account page (release 11 walk). */}
+            <SignOutButton className="arena-signout arena-desktop-only">
               <AppIcon name="signout" />
               <span>Sign out</span>
-            </button>
+            </SignOutButton>
             {/* Phones: the account sits where the app puts You. The menu itself is More, on the dock. */}
             <Link
               href={previewLinks?.profile || '/profile'}
@@ -486,15 +484,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
                 <span>{user?.name ?? 'Account'}</span>
               </Link>
               <div className="arena-sheet__tools">
-                {/* The phone's account menu says Sign out in words (owner G29). */}
-                <button
-                  type="button"
-                  onClick={async () => { await signOut(); router.push('/'); }}
-                  className="arena-signout"
-                >
+                {/* The phone's account menu says Sign out in words (owner G29), and asks first like every Sign out. */}
+                <SignOutButton className="arena-signout">
                   <AppIcon name="signout" />
                   <span>Sign out</span>
-                </button>
+                </SignOutButton>
               </div>
               <button type="button" className="arena-sheet__help arena-sheet__tour" onClick={startTour}>
                 <AppIcon name="guide" /> {TOUR_LABEL}

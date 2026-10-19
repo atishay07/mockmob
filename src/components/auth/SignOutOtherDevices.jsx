@@ -10,7 +10,7 @@ const RESULT_COPY = {
   failed: 'That did not work. Try again in a minute.',
 };
 
-// "Sign out of other devices": the second row of the account page's Account actions group (owner G29, 19 Oct), under the
+// "Sign out of other devices" (the heading and the key say the same words): the second row of the account page's Account actions group (owner G29, 19 Oct), under the
 // plain Sign out and above Delete account. It uses the group's row styles (src/components/profile/account.css, .acct-act).
 export function SignOutOtherDevicesSection() {
   const { signOutOtherDevices } = useAuth();
@@ -40,14 +40,13 @@ export function SignOutOtherDevicesSection() {
       </div>
       <div className="acct-act__keys">
         <button type="button" className="acct-key" disabled={busy} aria-busy={busy || undefined} onClick={run}>
-          {busy ? 'Signing out other devices' : 'Sign out other devices'}
+          {busy ? 'Signing out of other devices' : 'Sign out of other devices'}
         </button>
       </div>
-      {result && (
-        <p className="acct-note" data-tone={result === 'ok' ? 'ok' : 'err'} role={result === 'ok' ? 'status' : 'alert'}>
-          {RESULT_COPY[result] || RESULT_COPY.failed}
-        </p>
-      )}
+      {/* The message line is always mounted (an empty live region until there is news), so what it says is announced. */}
+      <p className="acct-note" data-tone={result ? (result === 'ok' ? 'ok' : 'err') : undefined} role="status" aria-live="polite">
+        {result ? RESULT_COPY[result] || RESULT_COPY.failed : ''}
+      </p>
     </div>
   );
 }

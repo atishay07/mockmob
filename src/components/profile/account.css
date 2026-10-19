@@ -146,6 +146,15 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 /* ---------- Account actions (owner G29, 19 Oct): Sign out, Sign out of other devices, Delete account ----------
    One card, three hairline-ruled rows. Each row: its name and one plain sentence, its key on the right from 640 px (under
    the words on a phone). Sign out leads; Delete account's key alone carries the danger tone. No nested cards. */
+/* Who is signed in, and a plain Sign out, under the page title (release 11 walk: the Account actions group sits 7.6
+   screens down a phone). The key is the same confirm as every other Sign out (SignOutConfirm.jsx). */
+.app-shell .acct-who {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px 16px;
+  margin: 0 0 20px; padding: 8px 8px 8px 16px; border: 1px solid var(--a-line); border-radius: 14px; background: var(--a-raised);
+}
+.app-shell .acct-who__text { flex: 1 1 200px; min-width: 0; margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); overflow-wrap: anywhere; }
+.app-shell .acct-who__text b { font-weight: 650; color: var(--a-ink); }
+.app-shell .acct-who__key { flex: none; }
 .app-shell .acct-actions { gap: 6px; }
 .app-shell .acct-actions__list { display: grid; }
 .app-shell .acct-actions__list > * + * { border-top: 1px solid var(--a-line); }
@@ -155,6 +164,8 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 .app-shell .acct-act h3 { margin: 0; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
 .app-shell .acct-act p { margin: 4px 0 0; max-width: 60ch; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
 .app-shell .acct-act > .acct-note, .app-shell .acct-act__confirm .acct-note { margin: 0; }
+/* An empty message line stays mounted (a live region waiting for news) and takes no room: it gives back the row gap. */
+.app-shell .acct-act > .acct-note:empty { margin-top: -12px; }
 .app-shell .acct-act__keys { display: flex; flex-wrap: wrap; gap: 10px; }
 .app-shell .acct-act__confirm { display: grid; gap: 12px; min-width: 0; max-width: 420px; }
 @media (min-width: 640px) {

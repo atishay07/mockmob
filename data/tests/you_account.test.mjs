@@ -148,7 +148,7 @@ test('the account page keeps every live setting and has one Mobi slot beside the
 test('copy rules: no exclamation marks, no em dashes, no middle dots in what students read', () => {
   const files = [
     'src/components/profile/accountModel.mjs', 'src/components/profile/YourSheet.jsx', 'src/components/profile/PlanCredits.jsx',
-    'src/components/profile/GoalControl.jsx', 'src/components/profile/SignOutControl.jsx', 'src/components/profile/AccountLinks.jsx',
+    'src/components/profile/GoalControl.jsx', 'src/components/profile/SignOutControl.jsx', 'src/components/profile/SignOutConfirm.jsx', 'src/components/profile/AccountLinks.jsx',
     'src/app/(app)/profile/ProfilePageClient.jsx', 'src/app/(app)/profile/LookAndFeelCard.jsx', 'src/app/(app)/profile/page.js',
   ];
   for (const file of files) {
@@ -168,7 +168,9 @@ test('G29 account actions: Sign out leads the group, then Sign out of other devi
   const at = (piece) => { const i = group.indexOf(piece); assert.ok(i > 0, `${piece} is in Account actions`); return i; };
   assert.ok(at('<SignOutControl />') < at('<SignOutOtherDevicesSection />') && at('<SignOutOtherDevicesSection />') < at('<DeleteAccountSection />'));
   assert.ok(!page.slice(0, page.indexOf('id="account-actions"')).includes('<SignOutControl />'), 'Sign out is no longer tucked inside the name card');
-  assert.match(read('src/components/profile/SignOutControl.jsx'), /title: 'Sign out'/);
+  // Release 11 walk: every Sign out key is the one confirm (SignOutConfirm.jsx), which holds the words.
+  assert.match(read('src/components/profile/SignOutConfirm.jsx'), /title: 'Sign out'/);
+  assert.match(read('src/components/profile/SignOutControl.jsx'), /<SignOutButton className="acct-key">/);
   const shell = read('src/app/(app)/AppLayoutClient.jsx');
   assert.equal((shell.match(/<span>Sign out<\/span>/g) || []).length, 2, 'the top bar and the phone More sheet both say Sign out in words');
   assert.ok(!/aria-label="Sign out"/.test(shell), 'no icon-only Sign out left');
