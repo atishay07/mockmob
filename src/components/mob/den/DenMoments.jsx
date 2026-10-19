@@ -133,10 +133,15 @@ function Milestone({ chain, days, onDone }) {
 }
 
 export function DenMoments({ queue, v3, chain, mobName, run, reload }) {
-  const playable = queue.filter((m) => (m.kind === 'chain' ? Boolean(chain) : true));
+  // "Open the parcel" (K2) leads straight into the reveal (K4) when the parcel holds a Fold; the stitch follows it.
+  const parcelFold = ['fold', 'item'].includes(v3.quest?.parcel?.kind);
+  const ordered = parcelFold && queue.some((m) => m.kind === 'quest_done') && queue.some((m) => m.kind === 'reveal')
+    ? [...queue.filter((m) => m.kind === 'quest_done'), ...queue.filter((m) => m.kind === 'reveal'), ...queue.filter((m) => m.kind !== 'quest_done' && m.kind !== 'reveal')]
+    : queue;
+  const playable = ordered.filter((m) => (m.kind === 'chain' ? Boolean(chain) : true));
   const [index, setIndex] = useState(0);
-  const [skipped, setSkipped] = useState(false);
-  const [shown, setShown] = useState(false);
+  const [skippedKey, setSkippedKey] = useState(null);
+  const [shownKey, setShownKey] = useState(null);
   const [gone, setGone] = useState(false);
   const closeRef = useRef(null);
   const m = playable[index] || null;
@@ -146,9 +151,7 @@ export function DenMoments({ queue, v3, chain, mobName, run, reload }) {
   useEffect(() => { const t = setTimeout(() => setReady(true), 1150); return () => clearTimeout(t); }, []);
   useEffect(() => {
     if (!m || !ready) return undefined;
-    setShown(false);
-    setSkipped(false);
-    const t = setTimeout(() => setShown(true), SHOW_MS[m.kind] || 2000);
+    const t = setTimeout(() => setShownKey(m.key), SHOW_MS[m.kind] || 2000);
     closeRef.current?.focus({ preventScroll: true });
     return () => clearTimeout(t);
   }, [m, ready]);
@@ -165,7 +168,9 @@ export function DenMoments({ queue, v3, chain, mobName, run, reload }) {
     setGone(true);
     reload?.();
   }, [m, seen, reload]);
-  const skip = () => { setSkipped(true); setShown(true); };
+  const skipped = Boolean(m) && skippedKey === m.key;
+  const shown = Boolean(m) && (shownKey === m.key || skipped);
+  const skip = () => { if (m) { setSkippedKey(m.key); setShownKey(m.key); } };
 
   useEffect(() => {
     if (!m || gone || !ready) return undefined;

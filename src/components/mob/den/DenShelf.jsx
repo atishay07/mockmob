@@ -26,7 +26,12 @@ export default function DenShelf({ user }) {
     const r = await mobFetch('/api/mob/shelf');
     setState(r.ok ? { status: 'ready', data: r.data } : { status: 'error', data: null });
   }, []);
-  useEffect(() => { if (user?.id) load(); }, [user?.id, load]);
+  useEffect(() => {
+    if (!user?.id) return undefined;
+    let cancelled = false;
+    Promise.resolve().then(() => { if (!cancelled) load(); });
+    return () => { cancelled = true; };
+  }, [user?.id, load]);
   const shelf = state.data;
   const owned = (shelf?.folds || []).filter((f) => f.owned);
   const locked = (shelf?.folds || []).filter((f) => !f.owned);

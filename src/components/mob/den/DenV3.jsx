@@ -206,10 +206,9 @@ export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings }) {
   const [error, setError] = useState(null);
   const [sentSticker, setSentSticker] = useState(null);
   const [chain, setChain] = useState(null);
-  const [seenNotices, setSeenNotices] = useState([]);
+  const [seenNotices, setSeenNotices] = useState(() => (typeof window === 'undefined' ? [] : readSeen()));
   const toastTimer = useRef(null);
   useEffect(() => { const t = setInterval(() => setNow(Date.now()), 60_000); return () => clearInterval(t); }, []);
-  useEffect(() => { setSeenNotices(readSeen()); }, []);
   // The personal chain, for the pass notice (K5) and the milestone moment (K1). A failed read shows neither.
   useEffect(() => {
     let alive = true;

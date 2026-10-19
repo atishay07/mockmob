@@ -258,7 +258,12 @@ export default function DenChains({ user }) {
     const r = await mobFetch('/api/me/chain');
     setChain(r.ok ? { status: 'ready', data: r.data } : { status: 'error', data: null });
   }, []);
-  useEffect(() => { if (user?.id) load(); }, [user?.id, load]);
+  useEffect(() => {
+    if (!user?.id) return undefined;
+    let cancelled = false;
+    Promise.resolve().then(() => { if (!cancelled) load(); });
+    return () => { cancelled = true; };
+  }, [user?.id, load]);
   const data = mob.mob;
   const hasMob = Boolean(data?.v3);
   const mobName = hasMob ? (data.v3.name?.text || data.subjectName) : '';

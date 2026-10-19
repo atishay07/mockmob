@@ -140,7 +140,7 @@ function CodeBoxes({ chars, onChange, inputRef, describedBy }) {
 /** J1. Join with a code. `initialCode` comes from a /join/<code> link. */
 export function JoinSheet({ open, onClose, user, mob, initialCode = '' }) {
   const [chars, setChars] = useState(() => parseJoinInput(initialCode).chars);
-  const [look, setLook] = useState({ status: 'idle', data: null, message: null });
+  const [answer, setAnswer] = useState({ code: null, status: 'idle', data: null, message: null });
   const [fold, setFold] = useState('dart');
   const [name, setName] = useState(() => suggestName(user?.name || '', user?.email || ''));
   const [nameError, setNameError] = useState(null);
@@ -148,10 +148,12 @@ export function JoinSheet({ open, onClose, user, mob, initialCode = '' }) {
   const inputRef = useRef(null);
   const nameId = useId();
   const code = parseJoinInput(chars).code;
+  // The lookup for the code on screen; a reply for an older code is ignored, so the boxes never show a stale preview.
+  const look = !code ? { status: 'idle', data: null, message: null } : answer.code === code ? answer : { status: 'loading', data: null, message: null };
   useEffect(() => {
-    if (!code) { setLook({ status: 'idle', data: null, message: null }); return undefined; }
+    if (!code) return undefined;
     let alive = true;
-    setLook({ status: 'loading', data: null, message: null });
+    const setLook = (v) => setAnswer({ code, ...v });
     mobFetch(`/api/mob/join/${code}`).then((r) => {
       if (!alive) return;
       if (r.ok && r.data?.valid !== false) setLook({ status: 'valid', data: r.data, message: null });
