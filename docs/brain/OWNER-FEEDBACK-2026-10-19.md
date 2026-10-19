@@ -502,3 +502,59 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > One final thing: is that image generator stopping you from doing everything, or was anything pending from the image generator side? If yes, I also have another Codex account with ChatGPT Plus on it. If you want, I can just swap the account for you if that has to be done right now."
 **Ledger D147:** he uploads version 11 (AAB) to internal testing and installs from Play, then gives feedback on the whole app. He offers a second Codex/ChatGPT Plus account for the image limit.
+
+
+## Owner, 19 Oct about 11:42 pm IST, after installing version 11 (verbatim, two messages)
+> Why am I getting the feeling that this is an older build? In the search courses, every course is still glitching. I'm unable to select or type anything there. Is this an older build? Is this supposed to happen? Is this fixed, or if this was unexpected, let me know. Another thing: the link is not working in the email. The code is working, but not the link. Many things in this are new, so I don't think this is an old build, like the color section, the section where they can choose a customized timing. Here again, set a full mock. In this card, the clock animation is still broken. The Mob feature in this is very old, so what version is this exactly? I'm confused.
+>
+> This looks to me like something similar to what I had already seen this morning, only with some improvements. Also, why am I able to add six subjects here instead of five? It's not an issue, but why? It will mess up our entire calculation of everything.
+>
+> The college section looks good to me. Now it's not allowing me to select more than five. I think it was some work that I was doing. I'm still able to. I'll tell you what's happening: if I go to edit subjects, five are chosen at most, but if I, in the practice section, add more subjects, I can add up to six. That's weird. If the five subjects have been fulfilled, there is no need to give the option to add more subjects. You can give it, but just restrict it to five only. It can just change the last subject, whatever it is.
+>
+> Honestly, there's not much for me to give feedback on here. I'll just test that payment and all. Through that, we have just a proof of concept of that. You need to improve the payments and touchscreen for sure. Whenever I'm clicking, stop guessing what to write. This is very basic and good enough, but you know how well other apps do with this. This is literally a main screen. It can't be this boring and just so simple. It should be how other apps present it. If you are buying even a basic subscription, it should be like you are getting everything in the world. Literally, that kind of screen should be here.
+>
+> Also, starting today, it's showing ₹150/5 minutes. It should show ₹150 per month. I don't know if this is because it's in testing right now or something. It's showing me some fright.
+>
+> Also, how do I have 150 credits on this account? I had noticed this previously. Also, have you changed something, like having 150 credits instead of 50 or what?
+>
+> Again this top-up screen is extremely poor, extremely bad. This wallet screen, all this has to be redone. The payment screen, pop-up screen: there should be a separate screen for the Plus plan, pro plan, where there should be a clear-cut distinction that this is not a free app. It's mainly a paid app only. It's like the subscription is hidden, the top-up is hidden. Still, I am topping up 50 credits. 50 credits were added, but this kind of testing is kind of useless until I'm doing a real payment. Not very useful.
+>
+> Also, in this version, it's not taking my name. It's showing me "Add your name." When I add my name, it's not saving, and even "Good evening" on the front screen, all that is without the name. Lacks that personalization touch.
+>
+> Another thing is, it's showing CUET UG Commerce. Why is it showing Commerce when I have selected my course as a BSc program in Physical Science with Computer Science here? Even my subjects are Physics, Chemistry, Biology, Computer Science, and Mathematics. Doesn't make sense. So many things need fixing right now. I'll just check the finish screen. Still very basic. Not implemented the things that I said
+
+> another weird thing is I did a 5-question quick practice. It's showing me your second-costliest chapter: Ray Optics and Optical Instruments, 6 marks lost. How is it the second-costliest chapter? There were just 2 questions wrong, both from different chapters, as far as I know. Kind of weird.
+>
+> The UI is good: each chapter, quick practice. It's switching: "You lost the most marks in electromagnetic induction, second costliest," but actually only 6 marks were lost in both.
+>
+> I am just doing the random test again. After doing more practice questions, it starts to make sense. I don't know how you can directly depict this. Honestly, even I don't know the way, because even after attempting more questions, many chapters will have the same number of marks lost, like 12, 12, 12. Right now I have 4 chapters with 12 marks lost. How can you rank them as the most costly chapter and the second most marks? That's why I was confused.
+>
+> Anyway, you have not implemented the finish screen also in this build, as far as I know. Honestly, I'll just stop assessing this build now because I don't think that many, like 90%, of the things that I gave us feedback on yesterday are implemented in this.
+>
+> Another thing which I wanted to tell you yesterday but I wasn't able to: I had downloaded this app called CUET Market, really one of the largest CUET market platforms in India. Overall, they have a very professional, clean UI and all that. I like artists more in every term.
+>
+> As I said yesterday also, it's a two-sided swap kind of thing, two-edge swap, whatever it is. If we make it more gamified, more cool, with an extremely enhanced UI, there will be a section of people who love it, mostly the casual users. It may be the serious users. For the serious users, it becomes friction, so that part is the very questionable part. Scaling it to more exams, like more serious competitive exams like IPMAT, SSC, and all, becomes difficult.
+>
+> I have always wanted to keep the mock app in the direction where Duolingo has to make it truly addictive, but I don't know if people will understand that. Especially, the main factor of Duolingo is that you are learning a new language and taking baby steps, and practicing for competitive exams is very different. That's kind of an irony.
+>
+> Anyway, the point that I was coming to is that in that app, immediately when I went to attempt the first accountancy mock, they asked me if I want to attempt part A or part B. As far as I remember, when I gave my CUET back in 2024, 2025, whenever, don't remember exactly, accountancy also had this kind of caveat. We had to select any one part, like it was computerized accounting or company accounts, as far as I remember, in my class 12th at that time.
+>
+> CUET has many caveats like this, which we have to go really in depth on. One of my reasons to go from 40, 50 subjects last year to just 15 this year is so that we have extreme depth and clarity, which no other platform has for CUET especially. The kind of confidence that that app, which I installed yesterday, gave me, we should be able to give the same from the first time. We can't give the same as when the first-time user enters the app because of all the things we have laid out, but at least when someone goes on and proceeds to give their first NTA mock, they should be able to see this. The full mock applies to both, and we need to overall improve the quality of questions everywhere, like full mocks and practice questions. The questions that go into casual practice and all should also be extremely good. Even the quick practice question quality matters in quick practice and all because it's one of the core areas of our app. NTA would obviously have truly premium questions reserved for that only, but yeah, still
+
+**Ledger I1-I16 (19 Oct about 11:42 pm); "(confirm)" = transcription guess:**
+- I1 College course search still glitches: cannot select or type (G3 not fixed on device).
+- I2 The sign-in email's link does not open the app (the code works).
+- I3 The full-mock card clock animation is still broken (H4).
+- I4 The Mob is the old one (Mob v3 is not in version 11 by design: he sees it before it goes live).
+- I5 Practice lets him add a 6th subject while Edit subjects caps at 5: cap at 5 everywhere (offer to swap the last one).
+- I6 Payments: Get Pro and the paywall are basic; must feel like "getting everything in the world", a full-screen plan page like other apps; clear Free vs Pro; the app reads as a paid product; subscription and top-up not hidden.
+- I7 Play's sheet shows Rs 150 / 5 minutes (licence-tester renewal period) (confirm the price; Rs 149 was set).
+- I8 Why 150 credits on a new account instead of 50?
+- I9 Top-up and Wallet screens are extremely poor: redo.
+- I10 The 50-credit test purchase worked (credits added); test purchases feel like a proof of concept only.
+- I11 The name does not save ("Add your name"); Today's "Good evening" has no name: personalisation missing.
+- I12 "CUET UG Commerce" shown for a science student (B.Sc. Physical Science with Computer Science; Physics, Chemistry, Biology, Computer Science, Mathematics).
+- I13 The finish screen after a paper is still very basic; his earlier asks are not built (D108).
+- I14 The "costliest chapter" ranking with ties (6 and 6; four chapters at 12) is confusing: show ties honestly.
+- I15 "90% of yesterday's feedback is not in this build": audit every item against version 11.
+- I16 Strategy: an app "CUET Market" (confirm) looks professional and clean; gamified vs serious is two-edged and harder to scale to IPMAT/SSC; Duolingo-style vs exam prep. CUET caveats in depth (Accountancy Part A or Part B, e.g. computerised accounting vs company accounts) for the 15 subjects, shown before the first NTA mock; question quality everywhere (full mocks and quick practice).
