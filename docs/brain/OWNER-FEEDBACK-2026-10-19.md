@@ -603,3 +603,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > What I'm saying right now stands above all the rules or anything that you have. I'm instructing you right now to go completely all into this.
 **Ledger D151:** yes to delete the stray test auth user chai-fresh@example.com on production. Version 13 now, all out: the fully fixed Mob v3, every UI/UX item he gave (the payment/Pro screen, the credits Wallet and top-up), all bugs; spawn many agents in parallel, build first, then test and improve. His instruction overrides the process rules (mock-ups first etc.) for this push; safety rules (production writes, accounts, his phone) still need his explicit yes.
+
+## Owner, 20 Oct about 1:28 am IST (verbatim)
+> "So it's a yes on me for both. As I said, right now you have the last 15 minutes left until your usage resets, so go all out. Focus on the website also. Run parallel workflows for all the features that you have, like different sections, everything. For the work website and deployment also, the website should also have the Mob B3, or even if you are calling it B4, with the fixes, that also works. Done, done. The backend is solved, frontend is solved, everything."
+**Ledger D152:** YES to (1) the 4 Mob v3 production migrations and (2) deploying the website with MOB_V3_ENABLED on, once all tests pass and he is shown the results. The WEBSITE must get Mob v3 too (with the fixes): front end and back end. Parallel workflows across every section.
