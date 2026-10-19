@@ -171,32 +171,45 @@ class _GoalMoreSheetState extends State<GoalMoreSheet> {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    Widget row(_Pick p, String title, String line, {Widget? trailing}) => Padding(
-          padding: const EdgeInsets.only(bottom: MmSpace.s12),
-          child: ChoiceTile(
-            selected: _pick == p,
-            onTap: () => setState(() => _pick = p),
-            semanticsLabel: p == _Pick.own ? GoalCopy.ownSpoken(_own) : '$title. $line',
-            bubble: trailing == null ? BubbleSpot.topRight : BubbleSpot.none,
-            minHeight: 72,
-            child: Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(title, style: type.labelLarge.copyWith(fontSize: 17, color: colors.ink)),
-                      const SizedBox(height: MmSpace.s2),
-                      Text(line, style: type.small.copyWith(color: colors.ink2)),
-                    ],
-                  ),
-                ),
-                ?trailing,
-              ],
+    // The stepper sits over the own row, outside its tap and its words, so each key is its own
+    // target for touch and for TalkBack.
+    const stepperWidth = 48.0 * 2 + 64;
+    Widget row(_Pick p, String title, String line, {Widget? trailing}) {
+      final tile = ChoiceTile(
+        selected: _pick == p,
+        onTap: () => setState(() => _pick = p),
+        semanticsLabel: p == _Pick.own ? GoalCopy.ownSpoken(_own) : '$title. $line',
+        bubble: trailing == null ? BubbleSpot.topRight : BubbleSpot.none,
+        minHeight: 72,
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(title, style: type.labelLarge.copyWith(fontSize: 17, color: colors.ink)),
+                  const SizedBox(height: MmSpace.s2),
+                  Text(line, style: type.small.copyWith(color: colors.ink2)),
+                ],
+              ),
             ),
-          ),
-        );
+            if (trailing != null) const SizedBox(width: stepperWidth + MmSpace.s4),
+          ],
+        ),
+      );
+      return Padding(
+        padding: const EdgeInsets.only(bottom: MmSpace.s12),
+        child: trailing == null
+            ? tile
+            : Stack(
+                children: [
+                  tile,
+                  Positioned(top: 0, bottom: 0, right: MmSpace.s12, child: Center(child: trailing)),
+                ],
+              ),
+      );
+    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,

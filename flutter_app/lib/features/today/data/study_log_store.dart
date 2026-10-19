@@ -6,6 +6,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart' show kReleaseMode;
 import 'package:flutter/widgets.dart' show BuildContext;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,6 +19,7 @@ import '../../../core/storage/prefs_store.dart';
 import '../../onboarding/model/deck.dart' show Steps;
 import '../../onboarding/state/answers_controller.dart' show onboardingAnswersProvider;
 import '../../you/data/study_length.dart' show sessionMinutesForServer, studyLengthProvider;
+import '../logic/pattern_fixtures.dart';
 import '../logic/study_log.dart';
 import '../logic/study_pattern.dart';
 import 'today_providers.dart' show todayStudentDayProvider;
@@ -360,9 +362,17 @@ final dailyGoalProvider = Provider<int?>((ref) {
 
 /// What the phone has learned, as of [nowProvider]'s time. Recomputed when the log, the goal or the
 /// subjects change; Today re-reads it on its own clock ticks.
+/// The device walk's fixture (SMART-LAYER-1019PM 2.8): `--dart-define=MM_PATTERN_FIXTURE=regular`
+/// in a debug or profile build shows that student's pattern. Release builds compile it out.
+const String patternFixtureName = String.fromEnvironment('MM_PATTERN_FIXTURE');
+
 final studyPatternProvider = Provider<StudyPattern>((ref) {
   // A new day starts today's minutes from zero.
   ref.watch(todayStudentDayProvider);
+  if (!kReleaseMode && patternFixtureName.isNotEmpty) {
+    final fixture = PatternFixtures.byName(patternFixtureName, ref.read(nowProvider)());
+    if (fixture != null) return fixture.pattern(ref.read(nowProvider)());
+  }
   final s = ref.watch(studyLogProvider);
   final goal = ref.watch(dailyGoalProvider);
   final subjects = ref.watch(authSnapshotProvider.select((a) => a.subjects));

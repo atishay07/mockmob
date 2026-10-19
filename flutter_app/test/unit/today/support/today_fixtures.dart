@@ -3,6 +3,7 @@ import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/core/models/learning_plan.dart';
 import 'package:mockmob/core/repositories/dismissal_repository.dart';
 import 'package:mockmob/features/today/data/today_profile.dart';
+import 'package:mockmob/features/today/logic/study_pattern.dart' show StudyPattern;
 import 'package:mockmob/features/today/logic/today_inputs.dart';
 import 'package:mockmob/features/practice/model/open_paper.dart' show OpenPaper;
 
@@ -230,6 +231,7 @@ TodayInputs ashaInputs({
   OpenPaper? openPaper,
   List<String> subjects = const ['accountancy', 'business_studies', 'economics', 'english'],
   bool mobInvite = false,
+  StudyPattern? pattern,
 }) {
   final at = now ?? tuesdayEvening;
   return TodayInputs(
@@ -264,5 +266,6 @@ TodayInputs ashaInputs({
     selectedMinutes: selectedMinutes,
     lastTriedAt: lastTriedAt,
     openPaper: openPaper,
+    pattern: pattern,
   );
 }
