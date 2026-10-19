@@ -16,7 +16,10 @@ import '../../../core/storage/prefs_store.dart';
 import '../../../core/widgets/art/mm_art.dart';
 import '../copy.dart';
 import '../copy_suggested.dart';
+import '../copy_pattern.dart' show PatternCopy;
+import 'smart_cards.dart' show isSmartChoice;
 import 'starter_cards.dart' show starterDeckSize, starterPoseFor;
+import 'study_pattern.dart' show PatternCards;
 import 'today_model.dart';
 
 /// Cards the deck holds at most: the lead's best alternatives (four from a record; up to five
@@ -41,7 +44,22 @@ enum SuggestedArt {
 
 /// One card of the deck.
 class SuggestedCard {
-  const SuggestedCard({required this.choice, required this.title, required this.line, this.cost, this.art = SuggestedArt.subject, this.subjectId, this.pose});
+  const SuggestedCard({
+    required this.choice,
+    required this.title,
+    required this.line,
+    this.cost,
+    this.art = SuggestedArt.subject,
+    this.subjectId,
+    this.pose,
+    this.notNowLabel,
+    this.upNextLabel,
+  });
+
+  /// The words of the two keys when this card is on top, when they are not the deck's own ("Keep my
+  /// goal" and "Use this goal" on a goal card).
+  final String? notNowLabel;
+  final String? upNextLabel;
 
   /// The choice behind the card: "Up next" swaps the lead card to it (or runs its action).
   final MoveChoice choice;
@@ -66,7 +84,7 @@ class SuggestedCard {
 
   /// This card with other art.
   SuggestedCard withArt(SuggestedArt art, {MmArt? pose}) =>
-      SuggestedCard(choice: choice, title: title, line: line, cost: cost, art: art, subjectId: subjectId, pose: pose);
+      SuggestedCard(choice: choice, title: title, line: line, cost: cost, art: art, subjectId: subjectId, pose: pose, notNowLabel: notNowLabel, upNextLabel: upNextLabel);
 
   /// A swipe may make this card the lead: a swipe never starts a session or spends a credit, so a
   /// card whose only action would start one waits for its button (TODAY-SWIPE-1018, safeguard).
@@ -77,22 +95,40 @@ class SuggestedCard {
 /// most [deckSize] cards: the recommended move stays first, then the weakest chapter, then the
 /// rest in their order. [glance] gives the weakest chapter's counts and Revise's due count;
 /// without it a card says what its move says.
-List<SuggestedCard> buildSuggestedDeck(List<MoveChoice> choices, {TodayGlance? glance}) {
-  final shown = choices.take(deckSize).toList();
+List<SuggestedCard> buildSuggestedDeck(List<MoveChoice> choices, {TodayGlance? glance, DeckLean lean = const DeckLean()}) {
+  // The smart layer's cards ride on top of the deck's own size (they never push a move out).
+  final shown = choices.take(deckSize + choices.where(isSmartChoice).length).toList();
   final suggested = [
     for (final c in shown)
       if (c.suggested) c,
   ];
+  String kind(MoveChoice c) => c.key;
+  bool liked(MoveChoice c) => !c.suggested && lean.liked.contains(kind(c)) && !lean.ignored.contains(kind(c));
+  bool ignored(MoveChoice c) => !c.suggested && lean.ignored.contains(kind(c));
+  final rising = [
+    for (final c in shown)
+      if (liked(c)) c,
+  ];
   final weakest = [
     for (final c in shown)
-      if (!c.suggested && c.key == 'weakest') c,
+      if (!c.suggested && c.key == 'weakest' && !liked(c) && !ignored(c)) c,
   ];
   final rest = [
     for (final c in shown)
-      if (!c.suggested && c.key != 'weakest') c,
+      if (!c.suggested && c.key != 'weakest' && !liked(c) && !ignored(c)) c,
+  ];
+  // His most-picked mode goes first among the rest, when nothing more urgent is ahead of it.
+  final pref = lean.preferredKind;
+  if (pref != null) {
+    final at = rest.indexWhere((c) => c.key == pref);
+    if (at > 0 && !isSmartChoice(rest.first)) rest.insert(0, rest.removeAt(at));
+  }
+  final sinking = [
+    for (final c in shown)
+      if (ignored(c)) c,
   ];
   return distinctArt([
-    for (final c in [...suggested, ...weakest, ...rest]) _card(c, glance),
+    for (final c in [...suggested, ...rising, ...weakest, ...rest, ...sinking]) _card(c, glance),
   ]);
 }
 
@@ -125,6 +161,31 @@ List<SuggestedCard> distinctArt(List<SuggestedCard> cards) {
 
 SuggestedCard _card(MoveChoice c, TodayGlance? glance) {
   final m = c.hero;
+  // The smart layer's goal cards: Mobi in the corner, the choice's own words, and the two keys say
+  // what they do with the goal.
+  if (c.key == PatternCards.raise || c.key == PatternCards.fit) {
+    return SuggestedCard(
+      choice: c,
+      title: c.title,
+      line: c.line,
+      art: SuggestedArt.mobi,
+      pose: c.key == PatternCards.raise ? MmArt.mobiPoint : MmArt.mobiThink,
+      notNowLabel: PatternCopy.keepMyGoal,
+      upNextLabel: PatternCopy.useThisGoal,
+    );
+  }
+  // A subject he chose and has left alone: its own title and evidence line, its practice as the move.
+  if (m != null && c.key.startsWith('untouched:')) {
+    final questions = _questions(m);
+    final subject = m.subjectLine ?? '';
+    return SuggestedCard(
+      choice: c,
+      title: c.title,
+      line: c.line,
+      cost: questions == null ? SuggestedCopy.costMinutes(subject, _minutes(m)) : SuggestedCopy.costQuestions(subject, questions),
+      subjectId: m.subjectId,
+    );
+  }
   if (m == null) {
     // A card that opens something (the Mob, adding subjects, the done state's repairs): Mobi
     // stands in its corner, greeting for the Mob.

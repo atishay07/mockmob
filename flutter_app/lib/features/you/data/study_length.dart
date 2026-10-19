@@ -49,3 +49,9 @@ class StudyLength {
 }
 
 final studyLengthProvider = Provider<StudyLength>(StudyLength.new);
+
+/// The study preferences on the server hold a session of 10, 20 or 30 minutes only
+/// (`data/study_engine.js` refuses anything else). A daily goal longer than that stays whole on
+/// this phone; the server gets the nearest length it holds, so a long goal is never refused and
+/// never written back as 20.
+int sessionMinutesForServer(int dailyMinutes) => dailyMinutes <= 10 ? 10 : (dailyMinutes <= 20 ? 20 : 30);

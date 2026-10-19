@@ -1,5 +1,6 @@
 // The Today screen as plain values. Built by `buildToday` (pure, unit tested) from the
 // repositories, rendered by `TodayBody`. Goldens build these directly from fixtures.
+import '../copy_pattern.dart' show PatternLine;
 import '../../../core/domain/next_move.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../../core/widgets/art/mm_art.dart';
@@ -36,6 +37,19 @@ class RetryLoad extends TodayTarget {
 /// Open the alternatives sheet.
 class OpenAlternatives extends TodayTarget {
   const OpenAlternatives();
+}
+
+/// Make [minutes] the daily goal (the smart layer's goal cards, SMART-LAYER-1019PM 2.4).
+class SetDailyGoal extends TodayTarget {
+  const SetDailyGoal(this.minutes);
+
+  final int minutes;
+
+  @override
+  bool operator ==(Object other) => other is SetDailyGoal && other.minutes == minutes;
+
+  @override
+  int get hashCode => minutes.hashCode;
 }
 
 class TodayAction {
@@ -152,9 +166,14 @@ class MoveHero extends TodayHero {
     this.title,
     this.valueLine,
     this.choiceKey,
+    this.lengthInsight = const [],
   });
 
   final NextMoveState state;
+
+  /// The smart layer's lines for the length panel (why the plan is this long, today's progress),
+  /// built from the student's own log with the move. Empty shows nothing.
+  final List<PatternLine> lengthInsight;
 
   /// The move's own title over the number (TODAY-1018: "Repair your last paper"); the subject
   /// then moves into the overline ("Up next, Accountancy"). Null keeps [subjectLine] as the title.
@@ -182,6 +201,7 @@ class MoveHero extends TodayHero {
     int? selectedMinutes,
     MoveKind? kind,
     bool dropSecondary = false,
+    List<PatternLine>? lengthInsight,
   }) => MoveHero(
         state: state,
         mood: mood,
@@ -212,6 +232,7 @@ class MoveHero extends TodayHero {
         title: title ?? this.title,
         valueLine: valueLine ?? this.valueLine,
         choiceKey: choiceKey ?? this.choiceKey,
+        lengthInsight: lengthInsight ?? this.lengthInsight,
       );
 
   /// Which move this is (see [MoveKind]).
@@ -680,7 +701,11 @@ class TodayView {
     this.lastPaper,
     this.choices = const [],
     this.glance,
+    this.lean = const DeckLean(),
   });
+
+  /// How the suggested deck leans for this student (the smart layer).
+  final DeckLean lean;
 
   /// The lead card's other moves (TODAY-1018 6.1): the best alternatives of a different kind, each
   /// one a whole move the card swaps to in place (or an action for a choice that only opens).

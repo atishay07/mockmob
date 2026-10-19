@@ -10,6 +10,7 @@ import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
 import '../../../core/connectivity/connectivity.dart';
+import '../../../core/copy/formatters.dart' show formatWeekdayDate;
 import '../../../core/domain/session_rules.dart';
 import '../../../core/models/models.dart' show Attempt;
 import '../../../core/repositories/repositories.dart';
@@ -23,12 +24,16 @@ import '../../rhythm/rhythm.dart';
 import '../../social/data/mob_repository.dart' show currentMobProvider, mobAvailableProvider;
 import '../../paper_reel/paper_reel.dart' show reelSeenProvider;
 import '../logic/move_builder.dart';
+import '../logic/study_log.dart' show StudySource;
+import '../logic/study_pattern.dart' show adviseLength;
 import '../logic/reel_pending.dart';
 import '../logic/today_builder.dart';
 import '../logic/today_clock.dart';
 import '../logic/today_inputs.dart';
 import '../logic/today_model.dart';
+import 'lead_pick.dart' show todayPicks;
 import 'road_plan.dart';
+import 'study_log_store.dart';
 import 'today_profile.dart';
 
 /// The plan Today reads. The client builds the card from the record, so the plan is used for
@@ -338,6 +343,7 @@ final todayInputsProvider = Provider<TodayInputs>((ref) {
     selectedMinutes: ref.watch(todayMinutesProvider),
     roadPlan: ref.watch(roadPlanProvider),
     lastTriedAt: ref.watch(todayLastTriedProvider),
+    pattern: ref.watch(studyPatternProvider),
   );
 });
 
@@ -451,6 +457,24 @@ class TodayActions {
   }
 
   void started(TodayAction action, {int? minutes}) {
+    // The study log learns where the session came from and the length picked against the one offered.
+    if (action.startsSession) {
+      try {
+        // Light reads only (no Today view): the date line the picks are kept under, and what the
+        // plan offers by default when the student picked another length.
+        final day = TodayInputs(now: _ref.read(nowProvider)(), timezone: _ref.read(studentTimezoneProvider)).clock();
+        final fromDeck = todayPicks.of(formatWeekdayDate(day)) != null;
+        final picked = _ref.read(todayMinutesProvider);
+        final offered = picked == null ? minutes : (adviseLength(_ref.read(studyPatternProvider)).pick(practiceChoices) ?? 10);
+        _ref.read(studyLogProvider.notifier).noteTodayStart(
+              source: fromDeck ? StudySource.todayDeck : StudySource.todayLead,
+              suggested: offered,
+              chosen: minutes,
+            );
+      } on Object {
+        // The log is a comfort; the start goes ahead.
+      }
+    }
     unawaited(_ref.read(analyticsClientProvider).track(
       AnalyticsEvents.nextMoveStarted,
       props: {'action_type': ?action.actionType, 'minutes': ?minutes, 'screen': 'today'},

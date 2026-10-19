@@ -18,9 +18,12 @@ import '../../../core/widgets/art/mm_art.dart';
 import '../../../core/widgets/bubbles/bubble_painter.dart';
 import '../../practice/model/practice_selection.dart' show mockQuestionCount, practiceCounts;
 import '../copy.dart';
+import '../../../core/copy/formatters.dart' show tonightOrToday;
+import '../copy_pattern.dart' show PatternCopy, PatternLine, goalLine, lengthLine;
 import '../copy_glance.dart' show GlanceCopy;
 import '../copy_suggested.dart' show StarterCopy;
 import 'links.dart';
+import 'study_pattern.dart';
 import 'subjects.dart';
 import 'today_inputs.dart';
 import 'today_model.dart';
@@ -48,7 +51,10 @@ const String _mockKey = 'Start full mock, 60 min';
 /// confirm and the NTA rules all live there). Any other pick, or a move without that row, is
 /// returned as it is.
 MoveHero _asChosen(MoveHero m, TodayInputs i) {
-  if (i.selectedMinutes != fullMockMinutes || !m.durations.any((d) => d.fullMock)) return m;
+  // A goal of an hour or more leads with a full mock (SMART-LAYER-1019PM 2.4, rule 5) until the
+  // student picks a length of their own.
+  final mock = i.selectedMinutes == fullMockMinutes || (i.selectedMinutes == null && lengthAdviceFor(i).fullMockLead);
+  if (!mock || !m.durations.any((d) => d.fullMock)) return m;
   return m.copyWith(
     kind: MoveKind.mock,
     number: '$mockQuestionCount',
@@ -62,10 +68,25 @@ MoveHero _asChosen(MoveHero m, TodayInputs i) {
   );
 }
 
-/// The practice length for a move: the student's chip, else [preferred] (10 unless the mood or
-/// the plan says otherwise).
-int _practiceCount(TodayInputs i, List<DurationChoice> options, {int preferred = 10}) =>
-    _pick(options, i.selectedMinutes == fullMockMinutes ? null : i.selectedMinutes, preferred: preferred).minutes;
+/// The practice length for a move: the student's chip, else the length the study pattern and the
+/// daily goal advise ([lengthAdviceFor]), else [preferred] (10 unless the mood or the plan says
+/// otherwise).
+int _practiceCount(TodayInputs i, List<DurationChoice> options, {int preferred = 10}) {
+  final selected = i.selectedMinutes == fullMockMinutes ? null : i.selectedMinutes;
+  final advised = selected == null ? lengthAdviceFor(i).pick([for (final o in options) if (!o.fullMock) o.minutes]) : null;
+  return _pick(options, selected, preferred: advised ?? preferred).minutes;
+}
+
+/// What the study pattern asks of today's default length (SMART-LAYER-1019PM 2.4). None on day
+/// one (the first check keeps the ten minutes onboarding promised) and before the pattern is read.
+/// Coming back after days away and late at night keep their short default (F11).
+LengthAdvice lengthAdviceFor(TodayInputs i) {
+  final p = i.pattern;
+  final attempts = i.attempts;
+  if (p == null || attempts == null || attempts.isEmpty) return LengthAdvice.none;
+  final shortDay = i.returning || isAway(i) || isLateNight(i.clock());
+  return adviseLength(p, shortDay: shortDay);
+}
 
 /// "Mock 7" for a mock, "Quick 10" for practice.
 String paperLabel(List<Attempt> all, Attempt a) {
@@ -183,6 +204,10 @@ DurationChoice _pick(List<DurationChoice> options, int? selected, {int preferred
 /// ordinary day, 10 when they are returning or it is late.
 int _repairPreferred(TodayMood mood) => mood == TodayMood.normal ? 20 : 10;
 
+/// The repair length the study pattern advises among [options], else [_repairPreferred].
+int _repairDefault(TodayInputs i, List<DurationChoice> options, TodayMood mood) =>
+    (i.selectedMinutes == null ? lengthAdviceFor(i).pick([for (final o in options) o.minutes]) : null) ?? _repairPreferred(mood);
+
 /// The length chip tonight's repair uses, or null when it has no chips. The card and the
 /// "Something else instead" sheet both read this, so they always highlight the same length.
 int? repairMinutesSelected(TodayInputs i, MoveFacts f) {
@@ -190,7 +215,7 @@ int? repairMinutesSelected(TodayInputs i, MoveFacts f) {
   if (tonight == null || f.dismissed) return null;
   final options = [for (final o in repairDurationOptions(tonight.items.length)) DurationChoice(minutes: o.minutes, mistakes: o.mistakes)];
   if (options.isEmpty) return null;
-  return _pick(options, i.selectedMinutes, preferred: _repairPreferred(moodOf(i, f))).minutes;
+  return _pick(options, i.selectedMinutes, preferred: _repairDefault(i, options, moodOf(i, f))).minutes;
 }
 
 /// The words beside the hero's repair number. One count per noun (owner recording, 15 Oct):
@@ -207,7 +232,34 @@ String repairNumberLabel({required int n, required int chapterCount, required in
 /// read this, so they always name the same subject.
 String dayOneSubject(TodayInputs i) => i.profile?.weakestSubject ?? (i.subjects.isEmpty ? launchSubjectIds.first : i.subjects.first);
 
-MoveHero buildMove(TodayInputs i) => _asChosen(_buildMove(i), i);
+MoveHero buildMove(TodayInputs i) => withLengthInsight(_withGoal(_asChosen(_buildMove(i), i), i), i);
+
+/// The lines the length panel shows for [durations] (the plan picked [selected] by default when the
+/// student has not chosen): why, then today's progress. Empty when nothing true can be said.
+List<PatternLine> lengthPanelLines(StudyPattern p, LengthAdvice advice, {required List<DurationChoice> durations, required int selected, required String when}) {
+  final chips = [for (final d in durations) if (!d.fullMock) d.minutes];
+  final why = advice.fullMockLead && p.goalMinutes != null && durations.any((d) => d.fullMock)
+      ? PatternLine(PatternCopy.fullMockLead(p.goalMinutes!, when))
+      : lengthLine(p, advice, chip: advice.pick(chips) ?? selected, when: when);
+  return [?why, ?goalLine(p)];
+}
+
+/// The smart layer's lines for a move's length panel (not Revise: its round size is its own
+/// setting, and not day one: the first check keeps its ten).
+MoveHero withLengthInsight(MoveHero m, TodayInputs i) {
+  final p = i.pattern;
+  final attempts = i.attempts;
+  if (p == null || attempts == null || attempts.isEmpty || m.durations.length < 2 || m.kind == MoveKind.revise) return m;
+  final lines = lengthPanelLines(p, lengthAdviceFor(i), durations: m.durations, selected: m.selectedMinutes ?? m.durations.first.minutes, when: tonightOrToday(i.clock()));
+  return lines.isEmpty ? m : m.copyWith(lengthInsight: lines);
+}
+
+/// The daily goal is met: the card keeps a real move and asks "Goal met. Keep going?" (never a
+/// stop, SMART-LAYER-1019PM 2.1, rule 5).
+MoveHero _withGoal(MoveHero m, TodayInputs i) {
+  if (i.pattern?.goalMet != true || m.overline.isEmpty || m.kind == MoveKind.failure) return m;
+  return m.copyWith(overline: PatternCopy.goalMetOverline);
+}
 
 MoveHero _buildMove(TodayInputs i) {
   final f = MoveFacts(i);
@@ -409,7 +461,7 @@ MoveHero _repair(TodayInputs i, MoveFacts f, Attempt b, TodayMood mood, String o
   final options = [for (final o in repairDurationOptions(chapterCount)) DurationChoice(minutes: o.minutes, mistakes: o.mistakes)];
   final choice = options.isEmpty
       ? DurationChoice(minutes: repairMinutes(chapterCount) ?? 5, mistakes: chapterCount)
-      : _pick(options, i.selectedMinutes, preferred: _repairPreferred(mood));
+      : _pick(options, i.selectedMinutes, preferred: _repairDefault(i, options, mood));
   // Back after a week: the few that cost the most first (tonight's pick is ordered that way),
   // three at most until the student picks a length of their own.
   final full = choice.mistakes ?? chapterCount;

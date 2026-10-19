@@ -15,6 +15,7 @@ import '../copy.dart';
 import '../model/pending_start.dart';
 import '../model/practice_selection.dart';
 import 'practice_notes.dart';
+import '../../today/data/study_log_store.dart' show studyLogProvider;
 
 /// Why a start did not happen. Each maps to exact copy in `PracticeCopy`.
 enum StartFailure {
@@ -299,6 +300,12 @@ final practiceStarterProvider = Provider<PracticeStarting>((ref) {
       );
       // Credits were spent (or an allowance used): read the balance again.
       unawaited(ref.read(authSnapshotProvider.notifier).reload());
+      // The study log learns the session's real mode (chapter practice is sent as quick).
+      try {
+        ref.read(studyLogProvider.notifier).noteSessionStarted(mode: s.mode.name);
+      } on Object {
+        // A comfort, never a reason to stop a start.
+      }
     },
   );
 });

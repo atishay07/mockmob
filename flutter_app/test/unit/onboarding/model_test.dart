@@ -75,7 +75,8 @@ void main() {
       final junk = OnboardingAnswers.fromJson({
         'v': 1,
         'course': 'nope',
-        'minutes': 17,
+        // Outside 5 to 999 minutes (a custom goal of any length inside it is kept, H1).
+        'minutes': 1000,
         'days': <int>[],
         'category': 'XYZ',
         'subjects': ['physics', 'astrology', 'english'],

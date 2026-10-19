@@ -15,6 +15,8 @@ import '../../credits/data/length_cost.dart';
 import '../../practice/model/practice_selection.dart' show QuoteQuery;
 import '../copy.dart';
 import '../logic/today_model.dart';
+import '../copy_pattern.dart' show PatternLine;
+import 'pattern_insight.dart' show LengthInsight;
 
 /// The pill: the chosen length and a small up-and-down mark, as tall as the key beside it.
 class LengthPill extends StatelessWidget {
@@ -48,7 +50,10 @@ class LengthPill extends StatelessWidget {
   /// [quote] is the quote the card's key launches with (`quoteQueryFor`): with it, each question-count
   /// row shows what it costs (final walk: no row had a price). Without it (a repair, a free check) the
   /// rows carry no price.
-  static Future<int?> openPanel(BuildContext context, {required List<DurationChoice> durations, required int selected, required String title, QuoteQuery? quote}) {
+  ///
+  /// [insight] adds the smart layer's line under the title: why the plan is this long and today's
+  /// progress toward the daily goal (SMART-LAYER-1019PM 2.5), with "Not quite right?".
+  static Future<int?> openPanel(BuildContext context, {required List<DurationChoice> durations, required int selected, required String title, QuoteQuery? quote, List<PatternLine> insight = const []}) {
     return showMmSheet<int>(
       context: context,
       builder: (sheetContext) => LengthPanel(
@@ -57,6 +62,7 @@ class LengthPill extends StatelessWidget {
         selected: selected,
         quote: quote,
         inSheet: true,
+        insight: insight,
         onPick: (m) => Navigator.of(sheetContext).pop(m),
       ),
     );
@@ -108,7 +114,10 @@ class LengthPill extends StatelessWidget {
 /// The lengths themselves: a quiet question, then one 48 dp row per length with what it gets.
 /// Public for goldens.
 class LengthPanel extends StatelessWidget {
-  const LengthPanel({super.key, required this.title, required this.durations, required this.selected, required this.onPick, this.inSheet = false, this.quote});
+  const LengthPanel({super.key, required this.title, required this.durations, required this.selected, required this.onPick, this.inSheet = false, this.quote, this.insight = const []});
+
+  /// The smart layer's lines under the title ([LengthInsight]).
+  final List<PatternLine> insight;
 
   final String title;
   final List<DurationChoice> durations;
@@ -138,6 +147,7 @@ class LengthPanel extends StatelessWidget {
           children: [
             ExcludeSemantics(child: Text(title, style: type.title)),
             const SizedBox(height: MmSpace.s12),
+            if (insight.isNotEmpty) LengthInsight(lines: insight),
             for (final d in durations) _LengthRow(choice: d, selected: d.minutes == selected, quote: quote, onTap: () => onPick(d.minutes)),
           ],
         ),

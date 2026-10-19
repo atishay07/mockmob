@@ -17,6 +17,7 @@ import '../../review/model/review_record_adapter.dart' show reviewRecordOf;
 import '../../result/model/next_move.dart' show ChapterCost, MoveAnalysis, MoveRow, RowVerdict, costliest;
 import '../copy.dart';
 import '../copy_glance.dart';
+import '../copy_pattern.dart' show PatternCopy;
 import '../../../core/copy/formatters.dart' show formatTime12;
 import '../../onboarding/data/chapter_order.dart' show rankedChapters;
 import 'links.dart';
@@ -24,6 +25,7 @@ import 'marks_trend.dart';
 import 'move_builder.dart';
 import 'road_board.dart';
 import 'road_builder.dart' show expectedWindowStart;
+import 'smart_cards.dart' show smartChoices, withSmartChoices;
 import 'starter_cards.dart';
 import 'subjects.dart';
 import 'today_builder.dart' show buildLastPaper;
@@ -82,7 +84,9 @@ MoveHero presentMove(MoveHero m, TodayInputs i) {
   if (m.kind == MoveKind.failure || m.state == NextMoveState.historyUnavailable) return m.copyWith(title: m.subjectLine);
   final day = i.firstWeekDay;
   final firstWeek = day != null && m.overline == TodayCopy.firstWeekOverline(day);
-  final overline = m.kind == MoveKind.done ? GlanceCopy.doneOverline : (firstWeek ? m.overline : GlanceCopy.upNext(m.subjectLine));
+  // "Goal met. Keep going?" stays: the daily goal's moment is the card's overline (SMART-LAYER 2.4).
+  final goalMet = m.overline == PatternCopy.goalMetOverline;
+  final overline = goalMet ? m.overline : (m.kind == MoveKind.done ? GlanceCopy.doneOverline : (firstWeek ? m.overline : GlanceCopy.upNext(m.subjectLine)));
   final n = int.tryParse(m.number ?? '');
   String? value;
   if (n != null) {
@@ -92,7 +96,9 @@ MoveHero presentMove(MoveHero m, TodayInputs i) {
       _ => null,
     };
   }
-  return m.copyWith(overline: overline, title: leadTitle(m), valueLine: value ?? m.valueLine, choiceKey: choiceKeyOf(m));
+  // A card swapped in from the deck carries the smart layer's length lines too.
+  final withLines = m.lengthInsight.isEmpty ? withLengthInsight(m, i) : m;
+  return withLines.copyWith(overline: overline, title: leadTitle(m), valueLine: value ?? m.valueLine, choiceKey: choiceKeyOf(m));
 }
 
 /// "Saturday" within the week, else "3 Oct".
@@ -158,7 +164,8 @@ List<MoveChoice> buildChoices(TodayInputs i, MoveHero lead, {WeakChapter? weakes
   // A light record (one paper, two) makes fewer than four cards of its own: the starter cards top it
   // up after the record's own, so the deck never runs short (G12, and the first-paper finding).
   if (out.length < deckMinimum) out.addAll(starterChoices(i, lead, existing: out, limit: math.min(limit, deckMinimum) - out.length));
-  return out;
+  // The smart layer's cards ride on top: the untouched subject at position 2, a goal card after it.
+  return withSmartChoices(out, smartChoices(i, lead));
 }
 
 /// The deck while a sealed result stands in the lead card (the paper's reel, 19 Oct: "Today after the

@@ -105,7 +105,7 @@ void main() {
       expect(tester.getTopLeft(find.text(order[i]).last).dy, greaterThan(tester.getTopLeft(find.text(order[i - 1]).last).dy), reason: order[i]);
     }
     // The pause row shows only while a pause is on (it is set on the Rhythm page).
-    for (final label in ['Weekly goal', 'Planned days', 'Your repair record', 'Aim']) {
+    for (final label in ['Your goal', 'Planned days', 'Your repair record', 'Aim']) {
       expect(find.text(label), findsOneWidget, reason: label);
     }
     // Moved to the account sheet (IA D5) or the Colleges tab: never repeated above the study.
@@ -120,10 +120,10 @@ void main() {
     expect(find.bySemanticsLabel(RegExp(r'^1 of 4 study days')), findsWidgets);
   });
 
-  testWidgets('the weekly goal row shows the goal in days a week', (tester) async {
+  testWidgets('the goal row (Your goal, H1) shows the study days; the daily time joins once it is set', (tester) async {
     await _pumpHub(tester);
     expect(find.text('4 days a week'), findsOneWidget);
-    expect(find.bySemanticsLabel(RegExp(r'^Weekly goal\. 4 days a week$')), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp(r'^Your goal\. 4 days a week$')), findsOneWidget);
   });
 
   testWidgets('planned days: a line asking for the weekdays until some are chosen', (tester) async {
@@ -174,10 +174,12 @@ void main() {
 
   testWidgets('rows and the week field open their screens', (tester) async {
     final router = await _pumpHub(tester);
-    await tester.tap(find.text('Weekly goal'));
+    // Your goal opens the goal sheet over You (H1, option A), not a page.
+    await tester.tap(find.text('Your goal'));
     await tester.pumpAndSettle();
-    expect(find.text('goal page'), findsOneWidget);
-    router.pop();
+    expect(find.text('Your daily goal'), findsOneWidget);
+    expect(find.text('Save my goal'), findsOneWidget);
+    await tester.tapAt(const Offset(20, 20));
     await tester.pumpAndSettle();
     await tester.tap(find.text('See rhythm'));
     await tester.pumpAndSettle();

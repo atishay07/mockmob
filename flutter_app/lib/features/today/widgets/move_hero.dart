@@ -210,6 +210,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                         selected: m.selectedMinutes ?? m.durations.first.minutes,
                         title: _lengthTitle(m),
                         quote: quoteQueryFor(m),
+                        insight: m.lengthInsight,
                       );
                       if (picked != null && picked != m.selectedMinutes) onMinutes(picked);
                     },
@@ -340,6 +341,7 @@ class _MoveHeroCardState extends State<MoveHeroCard> with SingleTickerProviderSt
                                     selected: m.selectedMinutes ?? m.durations.first.minutes,
                                     title: _lengthTitle(m),
                                     quote: quoteQueryFor(m),
+                                    insight: m.lengthInsight,
                                   );
                                   if (picked != null && picked != m.selectedMinutes) onMinutes(picked);
                                 },

@@ -11,6 +11,7 @@ import '../../practice/model/open_paper.dart' show OpenPaper;
 import '../../review/model/review_chapters.dart' show ChapterRow;
 import '../data/today_profile.dart';
 import 'road_board.dart' show RoadPlan;
+import 'study_pattern.dart' show StudyPattern;
 
 /// One question in today's Revise round: its id (to find the paper it was missed on), subject and
 /// chapter, as the server sends them.
@@ -125,7 +126,12 @@ class TodayInputs {
     this.openRepairs,
     this.reviewChapters,
     this.mobInvite = false,
+    this.pattern,
   });
+
+  /// What the phone has learned about how this student studies, with today's goal and progress
+  /// (SMART-LAYER-1019PM). Null keeps Today's own defaults (tests, and before it is read).
+  final StudyPattern? pattern;
 
   /// The Mob is on and the student is in none yet: the suggested deck may offer to start one
   /// ("Sit the same paper as your friends", 19 Oct, G12).

@@ -12,6 +12,8 @@ import '../../../core/models/repair.dart';
 import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/repair_local_repository.dart';
 import '../../../core/repositories/rhythm_repository.dart';
+import '../../today/data/study_log_store.dart' show studyLogProvider;
+import '../../today/logic/study_log.dart' show StudyLogEntry, StudyMode, StudySource;
 import '../../rhythm/rhythm.dart' show Celebration, CelebrationEvent, CelebrationScope, celebrationControllerProvider, rhythmPrefsProvider, rhythmVisibleProvider;
 import '../copy.dart';
 import 'mistake_index.dart';
@@ -29,6 +31,10 @@ class RepairRun extends Notifier<RepairRunState?> {
 
   @override
   RepairRunState? build() => null;
+
+  /// When the working run began on this phone (the study log's start), or null.
+  int? _startedAtMs;
+  String _source = StudySource.practice;
 
   RepairLocalRepository get _repo => ref.read(repairLocalRepositoryProvider);
 
@@ -98,6 +104,13 @@ class RepairRun extends Notifier<RepairRunState?> {
       steps = [for (final st in steps) st.item.stage.isOpen ? st.withTry(stage: TryStage.open) : st];
     }
     state = s.copyWith(steps: steps, index: 0, phase: RepairPhase.working, keyOnly: keyOnly);
+    _startedAtMs = ref.read(nowProvider)().millisecondsSinceEpoch;
+    // Only a log that is already running (Today built it): a repair never starts the log itself.
+    try {
+      _source = ref.exists(studyLogProvider) ? ref.read(studyLogProvider.notifier).takeSource() : StudySource.practice;
+    } on Object {
+      _source = StudySource.practice;
+    }
     unawaited(ref.read(analyticsClientProvider).track(AnalyticsEvents.repairStarted, props: {'count': steps.length}));
     if (!state!.current!.awaitingTry) unawaited(_loadCurrent());
   }
@@ -235,10 +248,35 @@ class RepairRun extends Notifier<RepairRunState?> {
     state = s.copyWith(phase: RepairPhase.ending);
     final repaired = s.repairedCount;
     unawaited(ref.read(analyticsClientProvider).track(AnalyticsEvents.repairCompleted, props: {'count': repaired}));
+    _log(s, repaired);
     if (repaired > 0) {
       // The week row and the wallet are the server's to update.
       unawaited(ref.read(rhythmRepositoryProvider.notifier).refresh());
       unawaited(ref.read(creditsRepositoryProvider.notifier).refresh());
+    }
+  }
+
+  /// The run goes into the study log: its time on this phone, and whether every mistake was done
+  /// ("Finish for now" leaves it unfinished).
+  void _log(RepairRunState s, int repaired) {
+    final start = _startedAtMs;
+    _startedAtMs = null;
+    if (start == null || !ref.exists(studyLogProvider)) return;
+    try {
+      final end = ref.read(nowProvider)().millisecondsSinceEpoch;
+      ref.read(studyLogProvider.notifier).record(StudyLogEntry(
+            id: 'repair:$attemptId:$start',
+            startedAtMs: start,
+            endedAtMs: end,
+            activeMs: end > start ? end - start : 0,
+            mode: StudyMode.repair,
+            subject: s.subjectId,
+            questions: s.steps.length,
+            source: _source,
+            finished: repaired >= s.steps.length,
+          ));
+    } on Object {
+      // The log is a comfort; the run's ending goes ahead.
     }
   }
 

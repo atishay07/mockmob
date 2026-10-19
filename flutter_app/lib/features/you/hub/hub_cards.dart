@@ -21,11 +21,14 @@ import '../../credits/credits.dart';
 import '../../credits/credits_screen.dart' show PlanTag;
 import '../../credits/widgets/credit_tile.dart';
 import '../../notifications/services/notification_providers.dart' show nextReminderProvider, notificationPermissionProvider;
+import '../../onboarding/goal_copy.dart';
 import '../../rhythm/rhythm.dart' show studyDayPlanProvider;
+import '../../today/data/study_log_store.dart' show dailyGoalProvider;
 import '../account/sign_out_key.dart';
 import '../appearance/theme_switch.dart';
 import '../copy.dart';
 import '../data/goal_pause.dart';
+import '../goal/daily_goal_sheet.dart';
 import '../help/faq.dart';
 import '../widgets/you_motion.dart';
 import '../widgets/you_page.dart' show youText;
@@ -135,6 +138,7 @@ class StudyDaysPanel extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final goal = ref.watch(goalRepositoryProvider).value;
+    final daily = ref.watch(dailyGoalProvider);
     final plan = ref.watch(studyDayPlanProvider);
     final now = ref.watch(nowProvider)();
     final pause = goal == null ? null : activePauseEnd(goal.pausedUntil, now);
@@ -142,14 +146,15 @@ class StudyDaysPanel extends ConsumerWidget {
       flat: true,
       inset: _flatInset,
       children: [
+        // "Your goal" (H1, option A): the daily time and the study days, one sheet.
         YouRow(
           flat: true,
           icon: LucideIcons.target,
           motion: YouIconMotion.ping,
           changeKey: ChangedRowKeys.rhythm,
-          title: YouCopy.goalTitle,
-          value: goal == null ? null : YouCopy.goalFigure(goal.daysPerWeek),
-          onTap: () => context.push(AppRoutes.youGoal),
+          title: GoalCopy.rowTitle,
+          value: goal == null && daily == null ? null : GoalCopy.rowValue(daily, goal?.daysPerWeek),
+          onTap: () => showDailyGoalSheet(context),
         ),
         _PlannedDaysRow(plan: plan, onTap: () => openYouPage(context, YouPaths.sheet)),
         // The pause is set on the Rhythm page (See rhythm); the hub shows it only while it is on, so the first screen holds the week, the goal and the badges (L17).

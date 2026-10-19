@@ -8,6 +8,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show MmPressable;
 import 'package:mockmob/features/onboarding/choices_copy.dart';
 import 'package:mockmob/features/onboarding/copy.dart';
+import 'package:mockmob/features/onboarding/goal_copy.dart';
 import 'package:mockmob/core/mascot/mascot.dart';
 import 'package:mockmob/features/onboarding/data/calendar.dart';
 import 'package:mockmob/features/onboarding/data/du_catalog.dart';
@@ -265,7 +266,9 @@ void main() {
 
     testWidgets('slider and day bubbles move together; the full-mocks line sits under the minutes', (tester) async {
       final c = await _flowAt(tester, studentUpTo(Steps.question, step: Steps.rhythm));
-      expect(find.text(ChoicesCopy.fullMocksLine), findsOneWidget);
+      // H1 (19 Oct): the line is Mobi's slot now; at 10 to 30 minutes it still says full mocks are in Practice.
+      expect(find.text(GoalCopy.slotLine(20)), findsOneWidget);
+      expect(GoalCopy.slotLine(20), startsWith(ChoicesCopy.fullMocksLine));
       expect(find.byType(RunwayStrip), findsOneWidget);
       final slider = find.byType(Slider);
       await tester.ensureVisible(slider);

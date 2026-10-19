@@ -11,6 +11,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
+import '../../../core/theme/theme.dart' show MmBar, MmSpace;
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
 import '../../paper_reel/paper_reel.dart';
 import '../../result/data/result_providers.dart' show resultActionsProvider;
@@ -18,7 +19,9 @@ import '../../rhythm/rhythm.dart';
 import '../../tools/compass/compass_controller.dart' show compassControllerProvider;
 import '../../tools/data/my_colleges_actions.dart' show MyCollegesStatus, myCollegesActionsProvider, myCollegesProvider;
 import '../../tools/my_colleges/my_colleges_sheet.dart' show showMyCollegesSheet;
+import '../copy_pattern.dart' show PatternCopy;
 import '../data/road_plan.dart' show roadPlanProvider;
+import '../data/study_log_store.dart' show dailyGoalWriterProvider;
 import '../data/today_providers.dart';
 import '../../practice/data/open_paper.dart' show paperContinuerProvider;
 import '../../practice/data/practice_quote.dart' show practiceQuoteProvider;
@@ -130,7 +133,25 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
         unawaited(_retry());
       case OpenAlternatives():
         unawaited(context.push(AppRoutes.todayAlternatives));
+      case SetDailyGoal(:final minutes):
+        _setGoal(minutes);
     }
+  }
+
+  /// A goal card's Up next: the new daily goal, said once over the dock.
+  void _setGoal(int minutes) {
+    ref.read(dailyGoalWriterProvider).set(minutes);
+    final media = MediaQuery.of(context);
+    ScaffoldMessenger.maybeOf(context)
+      ?..hideCurrentSnackBar()
+      ..showSnackBar(
+        SnackBar(
+          content: Text(PatternCopy.goalSaved(minutes)),
+          behavior: SnackBarBehavior.floating,
+          // Above the dock, never under it.
+          margin: EdgeInsets.fromLTRB(MmSpace.gutter, 0, MmSpace.gutter, media.viewPadding.bottom + MmBar.lift + MmBar.height + MmSpace.s12),
+        ),
+      );
   }
 
   /// A read that fails at once (offline, refused) would flip the key back before the eye sees

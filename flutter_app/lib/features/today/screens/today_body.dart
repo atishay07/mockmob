@@ -23,6 +23,7 @@ import '../copy_glance.dart';
 import '../copy_suggested.dart' show SuggestedCopy;
 import '../data/lead_pick.dart' show shownHeroFor, todayPicks;
 import '../logic/move_price.dart' show priceKeyOf;
+import '../logic/smart_cards.dart' show isSmartChoice;
 import '../logic/suggested_deck.dart' show DeckCoach, DeckMemoryStore, buildSuggestedDeck, deckSize;
 import '../logic/today_builder.dart' show alsoSlotFor;
 import '../logic/today_model.dart';
@@ -228,12 +229,14 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     final key = _pickKey;
     final all = widget.view.choices;
     // A paper's reel in the lead: the deck holds every move, and a pick takes the lead from the reel.
-    if (hero is SealedHero) return [for (final c in all) if (c.key != key) c].take(deckSize).toList();
+    // The smart layer's cards ride on top of the deck's size: they never push a move out.
+    final room = deckSize + all.where(isSmartChoice).length;
+    if (hero is SealedHero) return [for (final c in all) if (c.key != key) c].take(room).toList();
     if (hero is! MoveHero) return const [];
     final picked = key == null ? null : all.where((c) => c.key == key && c.hero != null).firstOrNull;
-    if (picked == null) return all.take(deckSize).toList();
+    if (picked == null) return all.take(room).toList();
     final lead = MoveChoice(key: 'lead', title: hero.title ?? hero.summary, line: hero.summary, hero: hero, suggested: true);
-    return [lead, ...all.where((c) => c.key != key)].take(deckSize).toList();
+    return [lead, ...all.where((c) => c.key != key)].take(room).toList();
   }
 
   /// "Suggested for you" under the lead card (D51): the other moves as a card stack. A card chosen
@@ -245,7 +248,7 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
     // The reel stands in the lead card (a paper to play back): the deck is still under it.
     final reel = widget.view.hero is SealedHero && hero is SealedHero;
     if (!reel && (hero is! MoveHero || hero.kind == MoveKind.failure || hero.state == NextMoveState.historyUnavailable)) return const SizedBox(width: double.infinity);
-    final cards = buildSuggestedDeck(_shownChoices, glance: widget.view.glance);
+    final cards = buildSuggestedDeck(_shownChoices, glance: widget.view.glance, lean: widget.view.lean);
     if (cards.isEmpty) return const SizedBox(width: double.infinity);
     return Padding(
       padding: const EdgeInsets.only(top: 28),
