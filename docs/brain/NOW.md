@@ -259,3 +259,29 @@ Every brief is in `docs/brain/briefs-1019/`.
    - the Play Console setup, then PLAY_BILLING_ENABLED;
    - the PERSISTENT_LIMITS_ENABLED decision;
    - a staging RESEND_API_KEY (staging sign-in mail).
+
+## 4e. 19 Oct about 12:05 pm, session 25ef3d95: why Autopilot burned about 50% in minutes, and the state after it stopped
+- **Cause (measured from the transcripts):** Autopilot's run (session a532e31c) was a FORK of session 604ced81, so it carried that whole conversation: **612k-804k tokens of context on every turn.**
+  - From 11:09 to 11:49 it made 138 turns, re-reading about **100 million cached tokens**.
+  - Its 5 subagents added about **88 million more**.
+  - Cache reads are cheap per token, but they still count against the 5-hour limit.
+- **Rule:**
+  - NEVER continue a long conversation (Autopilot "Continue a session", or resuming a 600k+ context session) for real work.
+  - Always start a FRESH session from docs/brain/NEXT-PROMPT-1019.md. Everything it needs is in files, and it starts at about 30-60k tokens.
+  - Session 25ef3d95 itself is at about 830k context; do not run waves from it.
+- **Was it worth it?** Partly. It merged real work:
+  - release 11: fixers A and B and the copy pass, up to 3ae564a6;
+  - v15.3: A1, A2b, A3, C2 and the app copy pass, up to 125755f4.
+
+  A fresh session would have done the same for a fraction of the usage.
+- **Stopped at 11:49 (STOP POINTs):**
+  - wt-1019-c2web a851d6dc: C2-web, Ask Mobi B on the web, barely started;
+  - wt-v153-fix 5245cde4: app fix item 1, the free-first-mock race (tmp/autopilot-1019/APP-FIX-NOTES.md);
+  - the app acceptance walk (partial: tmp/walk-1019/APP-ACCEPTANCE-V153.md);
+  - the app verifier round 1;
+  - web verifier round 2: barely started.
+- **Leftover Flutter processes:** killed at 12:05 pm. Staging 3101, 3102, 3103 and **3104 (release 11 staging)** are still running.
+- **Next (a fresh session):** follow NEXT-PROMPT-1019.md, starting from:
+  - the full web suites on 3ae564a6, then web verifier round 2, then C2-web, then push (D115: the owner allowed the push after the verifier, in an attended session);
+  - app fix item 1 and the remaining verifier findings, then the full unit run, then the acceptance walk (fresh and heavy, OTP shim 3114 to 3104), then the release APK and the install when he connects.
+- **Disk:** 94 GB free (below his 100 GB rule); the 5 GB scratch delete needs him.

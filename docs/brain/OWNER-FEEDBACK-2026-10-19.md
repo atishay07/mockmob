@@ -213,3 +213,8 @@ His message was the pasted next-session prompt (build PLAN-1019 Waves A and B, t
 > "keep running the entire night. I'm going to sleep now. If you have any questions or anything to say, tell right now."
 
 **Ledger D117:** run the whole night autonomously (D111, D112 apply): finish PLAN-1019, merge, copy pass, walks, verifiers, push release 11 (hero OFF) when it passes, build the v15.3 APK; the phone install waits for him in the morning. Pace agents so the usage window is not exhausted before the work is done.
+
+## Owner, 19 Oct about 12 pm IST (verbatim)
+> "There was some kind of literature bug. A session was running on account A but autopilot came in took over automatically and consumed 50% usage of this account in 10 mins idk how's that even possible i have final stopped it and it has also it has created some handoff also so just check that also and update me on everything since last 10-15 hours what's the progress on everything and can you safely continue although I'm just curious how it can reach 50% usage in like 10-15 minutes, if you can find that out also, let me know. If any of it was worth it"
+
+**Ledger D118:** explain the Autopilot usage spike, report progress since last night, and continue safely.
