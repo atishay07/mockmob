@@ -8,7 +8,7 @@ import { creditTiles } from '../../src/components/profile/creditsModel.mjs';
 import { ONE_CREDIT_LINE, DEEP_AI_CREDITS } from '../../src/lib/creditCopy.mjs';
 import { CREDIT_PACKS } from '../../src/services/credits/creditPacks.mjs';
 import { FAQ_ITEMS } from '../../src/lib/helpFaq.mjs';
-import { WALLET_COPY, balanceTile } from '../../src/components/wallet/walletModel.mjs';
+import { WALLET_COPY, balanceTile, packsIntro } from '../../src/components/wallet/walletModel.mjs';
 import { HEADLINE_OPTIONS } from '../../src/lib/proNudge.mjs';
 import { aiCreditsBreakdown, aiCreditsFaqs, aiCreditsStatusLine } from '../../src/app/pricing/ai-credits/aiCreditsCopy.mjs';
 import { readAttemptListSummary, resetSummaryRpcState, rpcIsMissing } from '../../src/lib/server/attemptListSummary.js';
@@ -60,7 +60,12 @@ test('M5: out of credits offers a top-up only while selling is open, and never t
     assert.equal(/top up/i.test(pro), open, 'a Pro top-up line, for replies, only while selling is open');
   }
   const client = read('src/app/(app)/wallet/WalletPageClient.jsx');
-  assert.match(client, /data\.commerce\.open \? WALLET_COPY\.packsHeading : WALLET_COPY\.packsHeadingClosed/);
+  // The packs' heading comes from packsIntro (walletModel.mjs): closed, it names the packs only and never says "top up".
+  assert.match(client, /packsIntro\(data\)/);
+  for (const plan of [{ name: 'Free', until: null }, { name: 'Pro', until: '2027-07-31' }]) {
+    assert.equal(packsIntro(body({ plan })).heading, WALLET_COPY.packsHeadingClosed);
+    assert.doesNotMatch(packsIntro(body({ plan })).heading, /top up/i);
+  }
   const mob = read('src/components/mob/MobPage.jsx');
   assert.doesNotMatch(mob, /Get credits to sit it|\/pricing\?reason=credits/);
   assert.match(mob, /href="\/wallet" data-pro-direct="">See your credits<\/Link>/);

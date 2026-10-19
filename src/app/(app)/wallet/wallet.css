@@ -1,78 +1,130 @@
 /* ==========================================================================
-   WALLET (/wallet)  scope: .app-shell
-   A ruled page on the arena tokens (--a-*), so Night and Daylight match. No boxes inside boxes, no glow, no lime (the shell's Start
-   key is the viewport's one lime key). 44 px targets, tabular numerals, sentence case. One balance and its packs side by side from 900 px; one column on a phone.
+   WALLET (/wallet), version 13  scope: .app-shell
+   On the arena tokens (--a-*), so Night and Daylight match. The balance is the hero: one big figure, a bar split into this month's
+   free credits and the credits you keep, and the two parts named under it. Then what each thing costs, the packs as three cards
+   (the best value by real maths gets the ink border), the bridge to Pro on an ink panel, and the activity list.
+   No glow and no lime (the shell's Start key stays the viewport's one lime key). 44 px targets, tabular numerals, sentence case.
    ========================================================================== */
-.app-shell .wl { display: grid; gap: 28px; align-content: start; }
+.app-shell .wl { display: grid; gap: 36px; align-content: start; }
+.app-shell .wl-h { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
 
-.app-shell .wl-cols { display: grid; gap: 32px; grid-template-columns: minmax(0, 1fr); }
+.app-shell .wl-loading { display: grid; gap: 24px; }
+.app-shell .wl-sk { display: block; min-height: 160px; border-radius: 20px; background: var(--a-sunken); }
+.app-shell .wl-sk--hero { min-height: 260px; }
+
+/* ---- the balance -------------------------------------------------------------------------------------------------------- */
+.app-shell .wl-hero {
+  display: grid; gap: 14px; min-width: 0; padding: 28px 28px 24px;
+  border: 1px solid var(--a-line); border-radius: 22px; background: var(--a-raised);
+  animation: wl-rise 420ms var(--a-ease, cubic-bezier(.2, .8, .2, 1)) both;
+}
+@media (max-width: 599px) { .app-shell .wl-hero { padding: 22px 18px 20px; border-radius: 18px; } }
+.app-shell .wl-hero__name { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 14px/1.3 var(--font-display); color: var(--a-ink-2); }
+.app-shell .wl-hero__figure { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 14px; margin: 0; min-width: 0; }
+.app-shell .wl-hero__num { font: 800 clamp(56px, 9vw, 84px)/0.95 var(--font-display); letter-spacing: -0.045em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .wl-hero__unit { font: 650 16px/1.3 var(--font-display); color: var(--a-ink-3); }
+.app-shell .wl-hero__unknown { font: 700 28px/1.2 var(--font-display); color: var(--a-ink-3); }
+.app-shell .wl-hero[data-state='zero'] .wl-hero__num { color: var(--a-ink-2); }
+.app-shell .wl-hero__lead { margin: 0; max-width: 60ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .wl-hero__foot { margin: 0; font-size: 13px; line-height: 1.5; color: var(--a-ink-3); }
+
+/* The split: free credits first (they are used first), then the ones you keep. Each part grows into place once. */
+.app-shell .wl-bar { display: flex; gap: 3px; height: 10px; margin-top: 6px; border-radius: 999px; overflow: hidden; background: var(--a-sunken); }
+.app-shell .wl-bar > span { flex: var(--share) 1 0; min-width: 6px; border-radius: 999px; transform-origin: left center; animation: wl-grow 700ms cubic-bezier(.2, .8, .2, 1) 120ms both; }
+.app-shell .wl-bar__free { background: var(--a-good-text); }
+.app-shell .wl-bar__kept { background: var(--a-ink-2); animation-delay: 220ms !important; }
+.app-shell .wl-parts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 32px; margin: 4px 0 0; }
+@media (max-width: 479px) { .app-shell .wl-parts { grid-template-columns: minmax(0, 1fr); } }
+.app-shell .wl-part { display: grid; gap: 2px; min-width: 0; align-content: start; }
+.app-shell .wl-part dt { display: flex; align-items: center; gap: 8px; font: 700 13.5px/1.3 var(--font-display); color: var(--a-ink-2); }
+.app-shell .wl-part__dot { width: 10px; height: 10px; border-radius: 50%; flex: none; }
+.app-shell .wl-part[data-part='free'] .wl-part__dot { background: var(--a-good-text); }
+.app-shell .wl-part[data-part='kept'] .wl-part__dot { background: var(--a-ink-2); }
+.app-shell .wl-part dd { margin: 0; }
+.app-shell .wl-part__num { font: 800 30px/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .wl-part__note { max-width: 44ch; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+
+/* ---- what credits buy: a price list, five cells across on a wide screen ------------------------------------------------- */
+.app-shell .wl-costs { display: grid; gap: 12px; min-width: 0; }
+.app-shell .wl-costlist { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: minmax(0, 1fr); }
+.app-shell .wl-cost { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 10px 0; min-width: 0; }
+.app-shell .wl-cost + .wl-cost { border-top: 1px solid var(--a-line); }
+.app-shell .wl-cost__what { display: grid; gap: 2px; min-width: 0; }
+.app-shell .wl-cost__what b { font: 650 15px/1.35 var(--font-display); color: var(--a-ink); }
+.app-shell .wl-cost__what span { font-size: 13px; line-height: 1.4; color: var(--a-good-text); }
+.app-shell .wl-cost__num { flex: none; font: 800 16px/1.2 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .wl-cost[data-included] .wl-cost__num { color: var(--a-good-text); }
 @media (min-width: 900px) {
-  .app-shell .wl-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0; }
-  .app-shell .wl-col + .wl-col { padding-left: 32px; border-left: 1px solid var(--a-line); }
-  .app-shell .wl-col:first-child { padding-right: 32px; }
+  .app-shell .wl-costlist { grid-template-columns: repeat(5, minmax(0, 1fr)); border-block: 1px solid var(--a-line); }
+  .app-shell .wl-cost { flex-direction: column; align-items: flex-start; justify-content: space-between; gap: 10px; padding: 16px 20px 18px; }
+  .app-shell .wl-cost:first-child { padding-left: 0; }
+  .app-shell .wl-cost + .wl-cost { border-top: 0; border-left: 1px solid var(--a-line); }
+  .app-shell .wl-cost__num { font-size: 22px; letter-spacing: -0.02em; }
 }
-.app-shell .wl-sk { display: block; min-height: 220px; border-radius: 12px; background: var(--a-sunken); }
 
-.app-shell .wl-col { display: grid; gap: 24px; align-content: start; min-width: 0; }
-
-/* The balance: a name, one big figure, then the lines that say what it is and when it renews. */
-.app-shell .wl-bal { display: grid; gap: 6px; min-width: 0; }
-.app-shell .wl-bal__name { display: flex; align-items: center; gap: 8px; margin: 0; font: 700 14px/1.3 var(--font-display); color: var(--a-ink-2); }
-.app-shell .wl-bal__figure { margin: 2px 0 6px; font: 800 44px/1.02 var(--font-display); letter-spacing: -0.035em; color: var(--a-ink); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
-.app-shell .wl-bal[data-state='unlimited'] .wl-bal__figure { font-size: 30px; letter-spacing: -0.02em; }
-.app-shell .wl-bal__unknown { font: 600 18px/1.3 var(--font-body); letter-spacing: 0; color: var(--a-ink-3); }
-.app-shell .wl-bal__line { margin: 0; max-width: 52ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-3); }
-.app-shell .wl-bal__line:first-of-type { color: var(--a-ink-2); }
-.app-shell .wl-bal[data-state='zero'] .wl-bal__figure { color: var(--a-ink-2); }
-
-/* The packs: a ruled list, the size and its value on the left, the price and its key on the right. */
-.app-shell .wl-packs { display: grid; gap: 4px; min-width: 0; }
-@media (max-width: 899px) { .app-shell .wl-col + .wl-col .wl-packs { padding-top: 20px; border-top: 1px solid var(--a-line); } }
-.app-shell .wl-packs__h { margin: 0 0 4px; font: 700 16px/1.3 var(--font-display); color: var(--a-ink); }
-.app-shell .wl-packlist { list-style: none; margin: 0; padding: 0; }
-.app-shell .wl-pack { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 4px 16px; padding: 14px 0; min-width: 0; }
-.app-shell .wl-pack + .wl-pack { border-top: 1px solid var(--a-line); }
-.app-shell .wl-pack__what { display: grid; gap: 2px; min-width: 0; }
-.app-shell .wl-pack__what b { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font: 700 15.5px/1.35 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
-.app-shell .wl-pack__what span { font-size: 13px; line-height: 1.45; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
-.app-shell .wl-pack__tag { font: 650 12.5px/1.2 var(--font-body); color: var(--a-ink-2); }
-.app-shell .wl-pack__buy { display: flex; align-items: center; gap: 12px; }
-.app-shell .wl-pack__price { font: 800 18px/1.2 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
-.app-shell .wl-pack__msg { grid-column: 1 / -1; margin: 4px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
+/* ---- the packs ---------------------------------------------------------------------------------------------------------- */
+.app-shell .wl-packs { display: grid; gap: 16px; min-width: 0; }
+.app-shell .wl-packs__head { display: grid; gap: 4px; }
+.app-shell .wl-packgrid { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .app-shell .wl-packgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.app-shell .wl-pack {
+  position: relative; display: grid; gap: 6px; align-content: start; min-width: 0; padding: 20px 20px 18px;
+  border: 1px solid var(--a-line); border-radius: 18px; background: var(--a-raised);
+  transition: border-color 160ms var(--a-ease), transform 160ms var(--a-ease);
+}
+.app-shell .wl-pack[data-best] { border: 2px solid var(--a-ink); padding: 19px 19px 17px; }
+.app-shell .wl-pack__top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 10px; }
+.app-shell .wl-pack__credits { font: 800 26px/1.1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .wl-pack__tag { display: inline-flex; align-items: center; min-height: 26px; padding: 0 10px; border-radius: 999px; background: var(--a-ink); color: var(--a-bg); font: 700 12.5px/1 var(--font-display); }
+.app-shell .wl-pack__value { margin: 0; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.app-shell .wl-pack__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 12px; margin: 10px 0 8px; }
+.app-shell .wl-pack__rupees { font: 800 34px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
+.app-shell .wl-pack__per { display: inline-flex; flex-wrap: wrap; align-items: baseline; gap: 4px 10px; font-size: 13px; line-height: 1.4; color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.app-shell .wl-pack__save { font: 700 13px/1.3 var(--font-display); color: var(--a-good-text); }
+.app-shell .wl-pack__key { width: 100%; gap: 8px; }
+.app-shell .wl-pack__msg { margin: 6px 0 0; font-size: 13.5px; line-height: 1.5; color: var(--a-ink-2); }
 .app-shell .wl-pack__msg[data-tone='good'] { color: var(--a-good-text); }
-@media (max-width: 479px) {
-  .app-shell .wl-pack { grid-template-columns: minmax(0, 1fr); }
-  .app-shell .wl-pack__buy { justify-content: space-between; }
-  .app-shell .wl-pack__buy .wl-key { flex: 1; }
-}
+.app-shell .wl-pack__msg[data-tone='bad'] { color: var(--a-bad-text); }
+@media (hover: hover) and (pointer: fine) { .app-shell .wl-pack:hover { border-color: var(--a-line-hover); } .app-shell .wl-pack[data-best]:hover { border-color: var(--a-ink); } }
 
-/* Keys: flat, outlined, 44 px. The featured pack is a solid ink key (never lime). Closed top-ups read as a quiet label, still legible. */
+/* Keys: flat, outlined, 44 px. The best-value pack and the Pro key are solid (ink, never lime). Closed top-ups read as a quiet label. */
 .app-shell .wl-key {
   display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 18px;
   border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink);
-  font: 700 14px/1.2 var(--font-display); cursor: pointer; touch-action: manipulation; white-space: nowrap;
+  font: 700 14px/1.2 var(--font-display); cursor: pointer; touch-action: manipulation; white-space: nowrap; text-decoration: none;
   transition: border-color 150ms var(--a-ease), background-color 150ms var(--a-ease), transform 100ms var(--a-ease);
 }
 .app-shell .wl-key[data-solid]:not(:disabled) { background: var(--a-ink); border-color: var(--a-ink); color: var(--a-bg); }
-.app-shell .wl-key:active:not(:disabled) { transform: scale(0.98); }
-.app-shell .wl-key:focus-visible, .app-shell .wl-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.app-shell .wl-key:active:not(:disabled) { transform: scale(0.97); }
+.app-shell .wl-key:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 .app-shell .wl-key:disabled { cursor: default; color: var(--a-ink-3); border-color: var(--a-line); background: transparent; }
 @media (hover: hover) and (pointer: fine) {
   .app-shell .wl-key:hover:not(:disabled):not([data-solid]) { border-color: var(--a-line-hover); background: var(--a-hover); }
-  .app-shell .wl-key[data-solid]:hover:not(:disabled) { opacity: 0.92; }
+  .app-shell .wl-key[data-solid]:hover:not(:disabled) { opacity: 0.9; }
 }
+.app-shell .wl-spin { width: 14px; height: 14px; border-radius: 50%; border: 2px solid currentColor; border-right-color: transparent; animation: wl-spin 700ms linear infinite; }
 
 .app-shell .wl-note { margin: 0; max-width: 62ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-3); }
-.app-shell .wl-pro { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 4px 16px; margin: 0; padding: 14px 0; border-block: 1px solid var(--a-line); font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
-.app-shell .wl-link { display: inline-flex; align-items: center; min-height: 44px; font: 700 14px/1.2 var(--font-display); color: var(--a-ink); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
-@media (hover: hover) and (pointer: fine) { .app-shell .wl-link:hover { text-decoration-color: var(--a-ink); } }
+
+/* ---- the bridge to Pro: an ink panel, the one place the page says what Pro changes ------------------------------------- */
+.app-shell .wl-pro {
+  display: grid; gap: 18px; align-items: center; padding: 26px 28px; border-radius: 22px;
+  background: var(--a-ink); color: var(--a-bg);
+}
+@media (min-width: 760px) { .app-shell .wl-pro { grid-template-columns: minmax(0, 1fr) auto; gap: 32px; } }
+@media (max-width: 599px) { .app-shell .wl-pro { padding: 22px 18px; border-radius: 18px; } }
+.app-shell .wl-pro__copy { display: grid; gap: 6px; min-width: 0; }
+.app-shell .wl-pro h2 { margin: 0; font: 800 24px/1.15 var(--font-display); letter-spacing: -0.025em; color: inherit; }
+.app-shell .wl-pro p { margin: 0; max-width: 58ch; font-size: 15px; line-height: 1.55; color: inherit; opacity: 0.82; }
+.app-shell .wl-pro .wl-pro__price { font: 700 15px/1.4 var(--font-display); opacity: 1; font-variant-numeric: tabular-nums; }
+.app-shell .wl-pro .wl-pro__key, .app-shell .wl-pro .wl-pro__key[data-solid] { background: var(--a-bg); border-color: var(--a-bg); color: var(--a-ink); padding: 0 26px; }
+.app-shell .wl-pro .wl-pro__key:focus-visible { outline-color: var(--a-bg); }
 
 .app-shell .wl-failed { display: grid; gap: 10px; justify-items: start; }
 .app-shell .wl-failed p { margin: 0; font-size: 14.5px; line-height: 1.5; color: var(--a-ink-2); }
 
-/* History: the same ruled rows as Account > Credits, with the date and the 12-hour time. */
+/* ---- history: ruled rows with the date and the 12-hour time --------------------------------------------------------------- */
 .app-shell .wl-history { display: grid; gap: 8px; min-width: 0; }
-.app-shell .wl-history h2 { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
 .app-shell .wl-list { list-style: none; margin: 0; padding: 0; }
 .app-shell .wl-line { display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 56px; padding: 10px 0; min-width: 0; }
 .app-shell .wl-line + .wl-line { border-top: 1px solid var(--a-line); }
@@ -84,5 +136,14 @@
 .app-shell .wl-line__num[data-sign='up'] b { color: var(--a-good-text); }
 .app-shell .wl-line__after { font-size: 12.5px; line-height: 1.4; color: var(--a-ink-3); }
 
-@media (prefers-reduced-motion: reduce) { .app-shell .wl-key { transition: none !important; } }
-:root[data-motion='reduced'] .app-shell .wl-key { transition: none !important; }
+@keyframes wl-rise { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes wl-grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes wl-spin { to { transform: rotate(360deg); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .wl-key, .app-shell .wl-pack { transition: none !important; }
+  .app-shell .wl-hero, .app-shell .wl-bar > span { animation: none !important; }
+  .app-shell .wl-spin { animation-duration: 2s; }
+}
+:root[data-motion='reduced'] .app-shell .wl-key, :root[data-motion='reduced'] .app-shell .wl-pack { transition: none !important; }
+:root[data-motion='reduced'] .app-shell .wl-hero, :root[data-motion='reduced'] .app-shell .wl-bar > span { animation: none !important; }

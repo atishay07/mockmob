@@ -1,0 +1,125 @@
+/* ==========================================================================
+   THE PRO PAGE (/pricing), version 13 (owner I6, 20 Oct 2026)
+   A night band carries the outcome, the real price and its terms, and the one checkout card; the paper below says everything
+   Pro opens as full-width ruled rows, then Free and Pro line by line, then Free itself. Volt is text only on the night band
+   (DESIGN.md, the Two Volts Rule); no glow, no blur, no eyebrow. The only motion is the reveal rise, off with reduced motion.
+   ========================================================================== */
+.mm-pro .pro-hero {
+  --pro-band: var(--slate, #101810);
+  --pro-ink: #f2f4ec;
+  --pro-ink-2: #bcc5b9;
+  --pro-ink-3: #9aa795;
+  --pro-line: rgba(244, 245, 240, 0.14);
+  background: var(--pro-band);
+  color: var(--pro-ink);
+  padding-block: clamp(2.5rem, 7vw, 5rem) clamp(3rem, 8vw, 5.5rem);
+}
+html[data-theme='dark'] .mm-pro .pro-hero {
+  --pro-band: #131c16;
+  border-block: 1px solid var(--line);
+}
+html[data-theme='dark'] .mm-pro .pro-hero .mm-plan {
+  background: #19231d;
+  border-color: var(--pro-ink);
+}
+
+.mm-pro .pro-hero__grid { display: grid; gap: 2.5rem; align-items: center; }
+@media (min-width: 960px) {
+  .mm-pro .pro-hero__grid {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    grid-template-areas: 'copy card' 'bank card';
+    column-gap: 4rem; row-gap: 1.75rem;
+  }
+  .mm-pro .pro-hero__copy { grid-area: copy; }
+  .mm-pro .pro-hero__card { grid-area: card; align-self: center; }
+  .mm-pro .pro-hero__bank { grid-area: bank; align-self: start; }
+}
+.mm-pro .pro-hero__copy { display: grid; gap: 1.25rem; min-width: 0; align-content: start; }
+
+.mm-pro .pro-hero__promise {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.75rem, 11vw, 4.75rem);
+  line-height: 0.95;
+  letter-spacing: -0.045em;
+  color: var(--pro-ink);
+  text-wrap: balance;
+  animation: pro-rise 520ms cubic-bezier(.2, .8, .2, 1) both;
+}
+.mm-pro .pro-hero__promise span { display: block; color: #d2f000; }
+.mm-pro .pro-hero__price { animation: pro-rise 520ms cubic-bezier(.2, .8, .2, 1) 80ms both; }
+.mm-pro .pro-hero .mm-h1 {
+  margin: 0;
+  font-size: clamp(1.625rem, 5vw, 2.375rem);
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  color: var(--pro-ink);
+  font-variant-numeric: tabular-nums;
+}
+.mm-pro .pro-hero__lead { margin: 0; max-width: 54ch; font-size: 1.0625rem; line-height: 1.6; color: var(--pro-ink-2); }
+.mm-pro .pro-hero__facts { display: grid; gap: 0.625rem; margin: 0.25rem 0 0; padding: 0; list-style: none; }
+.mm-pro .pro-hero__facts li { display: flex; gap: 0.625rem; align-items: flex-start; max-width: 60ch; font-size: 0.9375rem; line-height: 1.5; color: var(--pro-ink-2); }
+.mm-pro .pro-hero__facts li svg { flex: none; width: 18px; height: 18px; margin-top: 0.15rem; color: #d2f000; }
+.mm-pro .pro-hero__facts b { color: var(--pro-ink); font-weight: 700; }
+.mm-pro .pro-hero__bank {
+  margin: 0; padding-top: 1.25rem; border-top: 1px solid var(--pro-line);
+  max-width: 64ch; font-size: 0.875rem; line-height: 1.6; color: var(--pro-ink-3); font-variant-numeric: tabular-nums;
+}
+
+.mm-pro .pro-hero__card { min-width: 0; animation: pro-rise 560ms cubic-bezier(.2, .8, .2, 1) 160ms both; }
+.mm-pro .pro-hero__card .mm-plan { padding: 1.75rem; }
+.mm-pro .pro-hero__card .mm-plan__features { display: none; }
+.mm-pro .pro-hero__card .mm-plan__cta { margin-top: 1.25rem; }
+.mm-pro .pro-hero__card .mm-checkout__submit { min-height: 56px; font-size: 1.0625rem; }
+@media (max-width: 599px) { .mm-pro .pro-hero__card .mm-plan { padding: 1.25rem; } }
+
+/* Everything Pro opens: three big moments, each led by a real figure, alternating sides on a wide screen. Full-width rows on
+   hairlines (DESIGN.md: no bento, no icon tiles); the first moment is the largest because it is the promise. */
+.mm-pro .pro-moments { margin: 2.5rem 0 0; padding: 0; list-style: none; border-bottom: 1px solid var(--line); }
+.mm-pro .pro-moment { display: grid; gap: 1.25rem; padding: clamp(2rem, 5vw, 3.5rem) 0; border-top: 1px solid var(--line); }
+@media (min-width: 860px) {
+  .mm-pro .pro-moment { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 4rem; align-items: center; }
+  .mm-pro .pro-moment:nth-child(even) .pro-moment__figure { order: 2; }
+}
+.mm-pro .pro-moment__figure { display: grid; gap: 0.5rem; margin: 0; min-width: 0; }
+.mm-pro .pro-moment__num {
+  font-family: var(--font-display); font-weight: 800; font-size: min(clamp(3.25rem, 11vw, 6.5rem), 17cqi); line-height: 0.92;
+  letter-spacing: -0.05em; color: var(--ink); font-variant-numeric: tabular-nums; overflow-wrap: normal; hyphens: none;
+}
+.mm-pro .pro-moment[data-moment='mocks'] .pro-moment__num { font-size: min(clamp(3.75rem, 14vw, 8.5rem), 17cqi); }
+/* A word figure ("Unlimited", "Every chapter") never breaks inside a word: the figure scales to its own column (17cqi fits nine letters). */
+.mm-pro .pro-moment__figure { container-type: inline-size; }
+.mm-pro .pro-moment__cap { max-width: 30ch; font-family: var(--font-display); font-weight: 650; font-size: 1.0625rem; line-height: 1.35; color: var(--ink-2); }
+.mm-pro .pro-moment__copy { display: grid; gap: 0.75rem; min-width: 0; }
+.mm-pro .pro-moment__copy h3 {
+  margin: 0; font-family: var(--font-display); font-weight: 800; font-size: clamp(1.625rem, 4vw, 2.5rem);
+  line-height: 1.08; letter-spacing: -0.03em; color: var(--ink); text-wrap: balance;
+}
+.mm-pro .pro-moment__copy p { margin: 0; max-width: 52ch; font-size: 1.0625rem; line-height: 1.6; color: var(--ink-2); }
+.mm-pro .pro-also { margin: 1.5rem 0 0; max-width: 70ch; font-size: 1rem; line-height: 1.6; color: var(--ink-2); }
+/* The moments rise once as they scroll in, where the browser can tie motion to scroll; elsewhere they simply show. */
+@supports (animation-timeline: view()) {
+  .mm-pro .pro-moment { animation: pro-rise linear both; animation-timeline: view(); animation-range: entry 0% entry 40%; }
+}
+
+/* Fallback list (only when the newer recovery offer is released). */
+.mm-pro .pro-opens__rows { margin: 2rem 0 0; padding: 0; list-style: none; border-bottom: 1px solid var(--line); }
+.mm-pro .pro-opens__row { padding: 1.25rem 0; border-top: 1px solid var(--line); }
+.mm-pro .pro-opens__row h3 { margin: 0; font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; color: var(--ink); }
+
+/* Free and Pro: each column head carries its price, so the table says plainly that Pro is paid. */
+.mm-pro .pro-cmp__price { display: block; margin-top: 0.125rem; font-weight: 600; opacity: 0.8; font-variant-numeric: tabular-nums; }
+.mm-pro .pro-cmp__cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; margin: 2rem 0 0; }
+.mm-pro .pro-cmp__cta span { max-width: 52ch; font-size: 0.9375rem; line-height: 1.5; color: var(--ink-2); }
+
+.mm-pro .pro-free { margin-top: 2rem; }
+
+@keyframes pro-rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .mm-pro .pro-hero__promise, .mm-pro .pro-hero__price, .mm-pro .pro-hero__card, .mm-pro .pro-moment { animation: none; }
+}
+:root[data-motion='reduced'] .mm-pro .pro-hero__promise,
+:root[data-motion='reduced'] .mm-pro .pro-hero__price,
+:root[data-motion='reduced'] .mm-pro .pro-hero__card,
+:root[data-motion='reduced'] .mm-pro .pro-moment { animation: none; }

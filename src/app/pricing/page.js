@@ -20,6 +20,7 @@ import { pricingBankFaq, pricingBankLine, pricingSubjectLine } from '@/lib/paper
 import { practiceBankSize } from '@/lib/practiceBank.mjs';
 import { ONE_CREDIT_LINE, PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
+import './pro-page.css';
 
 // The free first full mock (C-dec 1), listed only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
 const FIRST_FREE_ITEMS = FIRST_FULL_MOCK_ON ? [FIRST_FULL_MOCK_COPY.planItem] : [];
@@ -191,22 +192,71 @@ function ComparisonValue({ value, pro = false }) {
   return <span data-pro={pro ? 'true' : 'false'}>{value}</span>;
 }
 
-export default async function PricingPage() {
+// What Pro opens (owner I6, 20 Oct 2026: "If you are buying even a basic subscription, it should be like you are getting everything
+// in the world"; then: not a plain list of equal rows, but fewer, bigger, outcome-led moments). Three moments, each led by a real
+// figure: the bank's own daily count (or, without it, no number at all), the exam-day paper's size and time, and the chapter
+// ranking. Every sentence is a fact the comparison table below also states; nothing here is a new promise.
+const fmtCount = (n) => n.toLocaleString('en-IN');
+function proMoments(bankSize) {
+  if (newOfferReleased()) return null;
+  const bank = Number.isInteger(bankSize) && bankSize > 0;
+  return [
+    {
+      key: 'mocks',
+      figure: bank ? fmtCount(bankSize) : 'Unlimited',
+      caption: bank ? 'questions in one central bank, at the last daily count' : 'mocks, all from one central bank',
+      title: 'As many mocks as you take, every one new.',
+      body: 'There is no fixed set of mocks. Each Quick practice and Full mock is built when you start it, from one central question bank, questions you have not answered first.',
+    },
+    {
+      key: 'exam',
+      figure: '60:00',
+      caption: 'on the clock for 50 questions, on the exam-day screen',
+      title: 'Sit the exam before exam day.',
+      body: 'NTA mode puts you on the screen you will sit on exam day, 50 questions in 60 minutes, as many papers as you take.',
+    },
+    {
+      key: 'chapters',
+      figure: 'Every chapter',
+      caption: 'ranked, with your pace and the answers you changed',
+      title: 'Practice that goes where your marks are.',
+      body: 'Smart practice aims every set at your weak chapters. Compass Pro projects your practice paper by paper against your DU shortlist and names the chapter that can move your total most.',
+    },
+  ];
+}
+const PRO_ALSO = 'Also with Pro: the difficulty selector, unlimited saved questions, and practice that never uses a credit, so your 50 free credits a month all go to Ask Mobi.';
+
+// Development only: /pricing?offer=monthly shows the page as the live site sells it (pro_monthly_99), and &pro=1 a signed-in Pro
+// student, with no sign-in and no plan env. Production ignores both.
+function previewOverrides(params) {
+  if (process.env.NODE_ENV === 'production' || !params) return {};
+  const base = publicOffer();
+  const offer = params.offer === 'monthly'
+    ? Object.freeze({ ...base, monthly: Object.freeze({ ...base.monthly, ready: true }), oneTime: Object.freeze({ ...base.oneTime, onSale: false }), purchasable: 'monthly' })
+    : null;
+  return { offer, pro: params.pro === '1' };
+}
+
+export default async function PricingPage({ searchParams }) {
+  const preview = previewOverrides(await searchParams);
   const session = await auth();
   // Aggregate funnel: a signed-in student viewed pricing (once per person; no-op while FUNNEL_ENABLED is off).
   if (session?.user?.id) countStepOnce(session.user.id, 'pricing_viewed', await headers().catch(() => null));
   const currentUser = session?.user?.id ? await Database.getUserById(session.user.id) : null;
-  const isCurrentUserPremium = Boolean(currentUser?.isPremium);
-  const offer = publicOffer();
+  const isCurrentUserPremium = Boolean(currentUser?.isPremium) || preview.pro === true;
+  const offer = preview.offer || publicOffer();
   // The stored daily count only (never a bank read on a request); without it the sentence names no number.
   const inventory = await publicInventory().catch(() => null);
   // Summed over the subjects Practice offers: the stored bankSize also holds subjects that are not offered or retired.
   const bankSize = practiceBankSize(inventory);
   const PLANS = buildPlans(offer);
   const FAQS = buildFaqs(offer, bankSize);
+  const [FREE_PLAN, PRO_PLAN] = PLANS;
+  const monthly = offer.purchasable === 'monthly';
+  const moments = proMoments(bankSize);
 
   return (
-    <div className="mm">
+    <div className="mm mm-pro">
       <JsonLd
         id="pricing-breadcrumb-json-ld"
         data={breadcrumbJsonLd([
@@ -221,65 +271,79 @@ export default async function PricingPage() {
       <NavBar />
 
       <main>
-        <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem', paddingBottom: '2rem' }}>
-          <div className="mm-wrap">
-            <h1 className="mm-h1">{priceHeadline(offer)}</h1>
-            <p className="mm-lead" style={{ marginTop: '1rem' }}>
-              {offer.purchasable === 'monthly'
-                ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and full chapter review. Cancel any time in Account.'
-                : `Start free and stay free if that is enough. One payment covers every mode to that date, and it never renews. Monthly Pro at ₹${offer.monthly.rupees} a month opens soon.`}
-            </p>
-            <p className="mm-body" style={{ marginTop: '0.875rem', maxWidth: '60ch', fontVariantNumeric: 'tabular-nums' }}>{pricingBankLine(bankSize)} {pricingSubjectLine()}</p>
+        {/* The Pro page (owner I6): the outcome, the real price and its terms, and one checkout, on the night band. */}
+        <section className="pro-hero" aria-labelledby="pro-price">
+          <div className="mm-wrap pro-hero__grid">
+            <div className="pro-hero__copy">
+              <p className="pro-hero__promise">
+                Unlimited mocks. <span>Every one a new paper.</span>
+              </p>
+              <div id="pro-price" className="pro-hero__price">
+                <h1 className="mm-h1">{priceHeadline(offer)}</h1>
+              </div>
+              <p className="pro-hero__lead">
+                {monthly
+                  ? 'Start free and stay free if that is enough. Go Pro when you want unlimited practice, every mode and full chapter review. Cancel any time in Account.'
+                  : `Start free and stay free if that is enough. One payment covers every mode to that date, and it never renews. Monthly Pro at ₹${offer.monthly.rupees} a month opens soon.`}
+              </p>
+              <ul className="pro-hero__facts">
+                {PRO_PLAN.terms.map(([label, value]) => (
+                  <li key={label}>
+                    <Icon name="check" aria-hidden="true" />
+                    <span><b>{label}.</b> {value}{/[.]$/.test(value) ? '' : '.'}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="pro-hero__card" id="plans">
+              <PricingCard
+                {...PRO_PLAN}
+                terms={[]}
+                features={[]}
+                ctaElement={
+                  <RazorpayPaymentButton
+                    planId={PRO_PLAN.planId}
+                    amount={PRO_PLAN.amount}
+                    label={PRO_PLAN.ctaLabel}
+                    billing={PRO_PLAN.billing}
+                    initialIsPremium={isCurrentUserPremium}
+                  />
+                }
+              />
+            </div>
+            <p className="pro-hero__bank">{pricingBankLine(bankSize)} {pricingSubjectLine()}</p>
           </div>
         </section>
 
-        <section className="mm-section" style={{ paddingTop: '1.5rem' }}>
+        <section className="mm-section pro-opens" aria-labelledby="pro-opens-h">
           <div className="mm-wrap">
-            <div className="mm-plans" id="plans">
-              {PLANS.map((plan) => {
-                const card = (
-                  <PricingCard
-                    key={plan.name}
-                    {...plan}
-                    ctaElement={
-                      plan.planId ? (
-                        <RazorpayPaymentButton
-                          planId={plan.planId}
-                          amount={plan.amount}
-                          label={plan.ctaLabel}
-                          billing={plan.billing}
-                          initialIsPremium={isCurrentUserPremium}
-                        />
-                      ) : null
-                    }
-                  />
-                );
-                if (plan.planId) return card;
-                // Side by side, the Free card is far shorter than Pro: how Free works fills that column with
-                // facts from the table below, instead of an empty band.
-                return (
-                  <div className="mm-plans__col" key={plan.name}>
-                    {card}
-                    <aside className="mm-plans__note" aria-label="How Free works">
-                      <h3>How Free works</h3>
-                      <ul>
-                        {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
-                      </ul>
-                      <a className="mm-link" href="#compare">Free and Pro, line by line</a>
-                    </aside>
-                    <details className="mm-plans__fold mm-faq">
-                      <summary>How Free works</summary>
-                      <div className="mm-faq__body">
-                        <ul>
-                          {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
-                        </ul>
-                        <a className="mm-link" href="#compare">Free and Pro, line by line</a>
+            <h2 className="mm-h2" id="pro-opens-h">Everything Pro opens.</h2>
+            <p className="mm-body mm-section__intro">MockMob is free to start. Pro is the paid plan, and this is what it adds.</p>
+            {moments ? (
+              <>
+                <ol className="pro-moments">
+                  {moments.map((m) => (
+                    <li key={m.key} className="pro-moment" data-moment={m.key}>
+                      <p className="pro-moment__figure">
+                        <span className="pro-moment__num">{m.figure}</span>
+                        <span className="pro-moment__cap">{m.caption}</span>
+                      </p>
+                      <div className="pro-moment__copy">
+                        <h3>{m.title}</h3>
+                        <p>{m.body}</p>
                       </div>
-                    </details>
-                  </div>
-                );
-              })}
-            </div>
+                    </li>
+                  ))}
+                </ol>
+                <p className="pro-also">{PRO_ALSO}</p>
+              </>
+            ) : (
+              <ul className="pro-opens__rows">
+                {PRO_PLAN.features.map((feature) => (
+                  <li key={feature} className="pro-opens__row"><h3>{feature}</h3></li>
+                ))}
+              </ul>
+            )}
           </div>
         </section>
 
@@ -293,8 +357,8 @@ export default async function PricingPage() {
             <div className="mm-cmp">
               <div className="mm-cmp__head" role="presentation">
                 <div>Feature</div>
-                <div>Free</div>
-                <div>Pro</div>
+                <div>Free <span className="pro-cmp__price">{FREE_PLAN.price}</span></div>
+                <div>Pro <span className="pro-cmp__price">{PRO_PLAN.price} {PRO_PLAN.cycle}</span></div>
               </div>
               {COMPARISON_GROUPS.map((group) => (
                 <React.Fragment key={group.heading}>
@@ -317,10 +381,45 @@ export default async function PricingPage() {
                 </React.Fragment>
               ))}
             </div>
+            {isCurrentUserPremium ? null : (
+              <p className="pro-cmp__cta">
+                <a className="mm-btn mm-btn--primary" href="#plans">{PRO_PLAN.ctaLabel}</a>
+                <span>{PRO_PLAN.footnote}</span>
+              </p>
+            )}
           </div>
         </section>
 
-        <section className="mm-section">
+        <section className="mm-section" aria-labelledby="free-plan-h">
+          <div className="mm-wrap">
+            <h2 className="mm-h2" id="free-plan-h">Or start free.</h2>
+            <p className="mm-body mm-section__intro">No card needed. Stay on Free as long as it is enough.</p>
+            <div className="mm-plans pro-free">
+              <div className="mm-plans__col">
+                <PricingCard {...FREE_PLAN} />
+                <details className="mm-plans__fold mm-faq">
+                  <summary>How Free works</summary>
+                  <div className="mm-faq__body">
+                    <ul>
+                      {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
+                    </ul>
+                    <a className="mm-link" href="#compare">Free and Pro, line by line</a>
+                  </div>
+                </details>
+              </div>
+              {/* Side by side, how Free works fills the second column with facts from the table above. */}
+              <aside className="mm-plans__note" aria-label="How Free works">
+                <h3>How Free works</h3>
+                <ul>
+                  {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
+                </ul>
+                <a className="mm-link" href="#compare">Free and Pro, line by line</a>
+              </aside>
+            </div>
+          </div>
+        </section>
+
+        <section className="mm-section mm-section--sunken">
           <div className="mm-wrap mm-wrap--tight">
             <h2 className="mm-h2">Ask Mobi, on the same credits.</h2>
             <p className="mm-body mm-section__intro">
@@ -336,7 +435,7 @@ export default async function PricingPage() {
           </div>
         </section>
 
-        <section className="mm-section mm-section--sunken">
+        <section className="mm-section">
           <div className="mm-wrap mm-wrap--tight">
             <h2 className="mm-h2">Questions people actually ask.</h2>
             <div className="mm-faqs">
