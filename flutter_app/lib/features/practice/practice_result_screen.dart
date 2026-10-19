@@ -29,6 +29,7 @@ import '../result/move_nav.dart';
 import '../result/widgets/fold_section.dart';
 import '../result/widgets/mistake_row.dart';
 import '../result/widgets/next_move_panel.dart';
+import '../result/widgets/finish_reveal.dart' show finishChaptersOf;
 import '../result/widgets/result_head.dart' show CostliestBlock, ResultNotice;
 import '../review/your_papers_link.dart' show yourPapersLocation;
 import 'copy.dart';
@@ -496,7 +497,10 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     // One chapter lost every missed mark: the moment's bar line has just said the figure and the panel below names the
     // chapter, so the block would say it a second time (one thing at a time, D108).
     final top = costliest.chapter == null ? null : _topChapter(rows, reviews);
-    final showCostliest = costliest.chapter != null && top != null && top.marks < rows.marks.gap;
+    // Where the marks went, chapter by chapter, ranked with ties shared (I13, I14): the moment's last beat. When it is
+    // shown there, the costliest block below would say the same thing again, so it gives way.
+    final chapters = finishChaptersOf(rankedChapterCosts(rows, reviews: reviews));
+    final showCostliest = costliest.chapter != null && top != null && top.marks < rows.marks.gap && chapters.length < 2;
 
     // What is below the head waits for the arrival, then rises in: the list never gives the result away while the score
     // still counts up.
@@ -692,6 +696,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                       subject: subjectName,
                                       chapter: chapter,
                                       onCellTap: model.hasRows ? _tapCell : null,
+                                      chapters: chapters,
                                       onSettled: () {
                                         if (mounted && !_settled) setState(() => _settled = true);
                                       },
