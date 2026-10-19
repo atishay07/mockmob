@@ -292,6 +292,22 @@ abstract final class MobV3Copy {
   static const String countdownNext = 'Question 1 of 5 is next. +5 if right, -1 if wrong, 0 if you skip.';
   static String countdownNextN(int n) => 'Question 1 of $n is next. +5 if right, -1 if wrong, 0 if you skip.';
   static const String go = 'Go';
+  // Added by the RUN builder (screen reader labels, the stamp, the figure's word).
+  static const String threeInARow = '3 in a row';
+  static String delta(int d) => d > 0 ? '+$d' : '$d';
+  static String marksWord(int m) => m == 1 || m == -1 ? 'mark' : 'marks';
+  static const String runLoading = 'Getting the questions ready';
+  static const String closeRun = 'Leave this run';
+  static const String back = 'Back';
+  static String runClock(String mmss) => 'Time on this run, $mmss';
+  static String optionLabel(String letter, String text) => 'Option $letter, $text';
+  static const String optionPicked = 'your pick';
+  static const String optionLocked = 'locked in';
+  static const String optionRight = 'right, plus 5';
+  static const String optionWrong = 'not this one, minus 1';
+  static const String rulerLabel = 'Where everyone is on the ruler';
+  static String rulerAt(String name, int q, int n) => '$name is on question $q of $n';
+  static String rulerDone(String name) => '$name reached the flag';
 
   // ---- R7 Podium ----
   static const String soFar = 'So far';
