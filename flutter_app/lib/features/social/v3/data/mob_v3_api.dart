@@ -42,6 +42,12 @@ abstract class MobV3Api {
   Future<Podium> podium(String id);
   Future<Review> review(String id);
 
+  /// Live rooms (Phase B, spec 3.2 and 4.2): the ticket that admits you to the room's private channel,
+  /// the host's start (Go lands 4 s later on the server clock) and the host's cancel (lobby only).
+  Future<RoomTicket> roomTicket(String id);
+  Future<RoomStartAck> roomStart(String id);
+  Future<void> roomCancel(String id);
+
   Future<void> sticker({required String mob, String? game, required StickerKind kind});
   Future<int?> mic({required String mob, required String to});
   Future<Object?> stepOut({required String mob, required bool on});
@@ -121,6 +127,17 @@ class HttpMobV3Api implements MobV3Api {
 
   @override
   Future<Review> review(String id) async => Review.fromJson(_j(await _api.get('/api/mob/game/$id/review')));
+
+  @override
+  Future<RoomTicket> roomTicket(String id) async => RoomTicket.fromJson(_j(await _api.post('/api/mob/game/$id/room/ticket', body: const <String, Object?>{})));
+
+  @override
+  Future<RoomStartAck> roomStart(String id) async => RoomStartAck.fromJson(_j(await _api.post('/api/mob/game/$id/room/start', body: const <String, Object?>{})));
+
+  @override
+  Future<void> roomCancel(String id) async {
+    await _api.post('/api/mob/game/$id/room/cancel', body: const <String, Object?>{});
+  }
 
   @override
   Future<void> sticker({required String mob, String? game, required StickerKind kind}) async {

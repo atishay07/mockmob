@@ -743,6 +743,37 @@ class RunStart {
   final List<Ghost> ghosts;
 }
 
+/// `POST /api/mob/game/[id]/room/ticket` (spec 3.2, 4.2): the private channel's topic, your member id in
+/// it and the room as the server sees it. The ticket is what lets Realtime admit you to the topic.
+class RoomTicket {
+  const RoomTicket({required this.topic, required this.memberId, this.expiresAt, this.room, this.serverNow});
+
+  factory RoomTicket.fromJson(Json j) => RoomTicket(
+        topic: asStringOr(j['topic'], ''),
+        memberId: asStringOr(j['memberId'], ''),
+        expiresAt: asDate(j['expiresAt']),
+        room: GameRoom.fromJson(j['room']),
+        serverNow: asDate(j['serverNow']),
+      );
+
+  /// `mob-room:<game id>`.
+  final String topic;
+  final String memberId;
+  final DateTime? expiresAt;
+  final GameRoom? room;
+  final DateTime? serverNow;
+}
+
+/// `POST /api/mob/game/[id]/room/start` (host only): Go lands on [startsAt], 4 s after [serverNow].
+class RoomStartAck {
+  const RoomStartAck({required this.startsAt, this.serverNow});
+
+  factory RoomStartAck.fromJson(Json j) => RoomStartAck(startsAt: asDate(j['startsAt']) ?? DateTime.now().toUtc(), serverNow: asDate(j['serverNow']));
+
+  final DateTime startsAt;
+  final DateTime? serverNow;
+}
+
 /// `POST /api/mob/game/[id]/answer`: your own right or wrong, your marks change. Never the correct option.
 class AnswerResult {
   const AnswerResult({this.correct, this.delta = 0, this.marks = 0, this.elapsedMs = 0, this.answered = 0, this.count = 5, this.finished = false, this.serverNow});

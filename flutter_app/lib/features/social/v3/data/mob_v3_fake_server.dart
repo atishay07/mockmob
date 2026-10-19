@@ -9,6 +9,7 @@
 //
 // Debug and test only. It never runs in a release build unless MOB_V3_FIXTURES=true is passed.
 
+import 'dart:async';
 import 'dart:math' as math;
 
 import '../../../../core/api/api.dart';
@@ -75,6 +76,12 @@ class _Game {
   final List<int> questions;
   final Map<String, _Run> runs = {};
   final Map<String, Map<String, bool>> fixes = {}; // stage -> member -> correct
+
+  // Live rooms (Phase B).
+  RoomState? roomState;
+  DateTime? roomStartsAt;
+  DateTime? roomEndsAt;
+
   DateTime get closesAt => openedAt.add(const Duration(hours: 24));
   bool closedAt(DateTime now) => !now.isBefore(closesAt);
 }
@@ -105,9 +112,18 @@ class _Mob {
 
 /// In-memory server with the contract's behaviour. One per app run ([mobV3FakeServerProvider]).
 class MobV3FakeServer implements MobV3Api {
-  MobV3FakeServer({this.scenario = 'heavy', this.billing = 'off', DateTime Function()? clock}) : _clock = clock ?? (() => DateTime.now().toUtc()) {
+  MobV3FakeServer({this.scenario = 'heavy', this.billing = 'off', DateTime Function()? clock, bool? live})
+      : _clock = clock ?? (() => DateTime.now().toUtc()),
+        liveOn = live ?? scenario == 'live' {
     _seed();
   }
+
+  /// The server's live switch (MOB_LIVE_ENABLED): on in the 'live' scenario.
+  bool liveOn;
+
+  /// Room changes the fixture server makes (start, cancel, done), for the scripted fixture channel.
+  final StreamController<(String, String)> _roomBus = StreamController<(String, String)>.broadcast(sync: true);
+  Stream<(String, String)> get roomChanges => _roomBus.stream;
 
   /// Chai Circle's id. Mob ids are UUIDs, as the server's are: the app drops a Mob id that is not one
   /// (`isMobId`), so a fixture id like "mob-chai-0001" made switching Mobs do nothing.
@@ -190,10 +206,25 @@ class MobV3FakeServer implements MobV3Api {
     final t = now;
     // Riya's sprint, open, three finished runs (D2). You have not played it.
     if (scenario == 'open' || scenario == 'heavy' || scenario == 'questdone' || scenario == 'live') {
-      final g = _Game(id: 'game-riya-sprint', format: GameFormat.sprint, count: 5, chapter: 'Goodwill', hostId: 'RIYA00000002', openedAt: t.subtract(const Duration(hours: 6, minutes: 35)), questions: [0, 1, 2, 3, 4], mode: scenario == 'live' ? GameMode.live : GameMode.async);
-      _bake(g, 'RIYA00000002', [true, true, true, true, null], [41000, 79000, 130000, 151000, 190000], const Duration(minutes: 5));
-      _bake(g, 'KABIR0000003', [true, true, false, true, true], [38000, 84000, 126000, 160000, 205000], const Duration(hours: 2, minutes: 45));
-      _bake(g, 'ZOYA00000004', [true, false, true, false, true], [52000, 101000, 150000, 199000, 236000], const Duration(hours: 4, minutes: 20));
+      final live = scenario == 'live';
+      final g = _Game(
+        id: 'game-riya-sprint',
+        format: GameFormat.sprint,
+        count: 5,
+        chapter: 'Goodwill',
+        hostId: 'RIYA00000002',
+        openedAt: live ? t.subtract(const Duration(minutes: 2)) : t.subtract(const Duration(hours: 6, minutes: 35)),
+        questions: [0, 1, 2, 3, 4],
+        mode: live ? GameMode.live : GameMode.async,
+      );
+      if (live) {
+        // A room Riya just opened: nobody has played it yet.
+        g.roomState = RoomState.lobby;
+      } else {
+        _bake(g, 'RIYA00000002', [true, true, true, true, null], [41000, 79000, 130000, 151000, 190000], const Duration(minutes: 5));
+        _bake(g, 'KABIR0000003', [true, true, false, true, true], [38000, 84000, 126000, 160000, 205000], const Duration(hours: 2, minutes: 45));
+        _bake(g, 'ZOYA00000004', [true, false, true, false, true], [52000, 101000, 150000, 199000, 236000], const Duration(hours: 4, minutes: 20));
+      }
       mob.games.add(g);
     }
     if (scenario == 'played' || scenario == 'heavy' || scenario == 'questdone') {
@@ -265,7 +296,7 @@ class MobV3FakeServer implements MobV3Api {
   // ---- Views -----------------------------------------------------------------------------------------
 
   Json _startsJson(_Mob mob) {
-    final liveModes = ['async'];
+    final liveModes = ['async', if (liveOn) 'live'];
     return switch (billing) {
       'free' when !_freeStartUsed => {'billingOn': true, 'can': true, 'via': 'free_weekly', 'modes': liveModes, 'formats': ['sprint', 'round', 'rematch'], 'freeLeft': 1, 'mics': _micsHeld},
       'free' || 'used' when _micsHeld == 0 => {'billingOn': true, 'can': false, 'reason': 'used', 'via': 'none', 'modes': <String>[], 'formats': <String>[], 'freeLeft': 0, 'mics': 0},
@@ -291,7 +322,7 @@ class MobV3FakeServer implements MobV3Api {
       'openedAt': _iso(g.openedAt),
       'closesAt': _iso(g.closesAt),
       'closed': g.closedAt(now),
-      'room': g.mode == GameMode.live ? {'state': 'lobby', 'startsAt': null} : null,
+      'room': _roomJson(mob, g),
       'runs': [
         for (final e in finished) {'memberId': e.key, 'name': mob.members.firstWhere((m) => m.id == e.key).name, 'at': _iso(e.value.finishedAt!)},
       ],
@@ -384,7 +415,7 @@ class MobV3FakeServer implements MobV3Api {
         for (final r in mob.reactions) {'memberId': r.memberId, 'kind': r.kind.wire, 'at': _iso(r.at ?? now)},
       ],
       'moments': _due(mob),
-      'live': {'enabled': false, 'hoursOk': true},
+      'live': {'enabled': liveOn, 'hoursOk': true},
       // Additive fields the sheets read (P1 "You sat it on Monday.", P2 "What it covers").
       'paperSatAt': mob.youSatPaper ? '${_week}T10:40:00.000Z' : null,
       'lastTrapChapter': [for (final g in mob.games) if (g.closedAt(now) && g.chapter != null) g.chapter].lastOrNull,
@@ -455,7 +486,7 @@ class MobV3FakeServer implements MobV3Api {
       'closesAt': _iso(g.closesAt),
       'closed': g.closedAt(now),
       'serverNow': _iso(now),
-      'room': null,
+      'room': _roomJson(mob, g),
       'runs': [
         for (final e in g.runs.entries)
           if (e.value.finished)
@@ -471,6 +502,17 @@ class MobV3FakeServer implements MobV3Api {
       'you': {'run': yourRun == null ? 'none' : (yourRun.finished ? 'finished' : 'playing'), 'marks': yourRun?.marks, 'answered': yourRun?.answers.length ?? 0},
       'ghosts': _ghosts(mob, g),
       'podiumReady': (yourRun?.finished ?? false) || g.closedAt(now),
+    };
+  }
+
+  Json? _roomJson(_Mob mob, _Game g) {
+    final st = g.roomState;
+    if (g.mode != GameMode.live || st == null) return null;
+    return {
+      'state': st.name,
+      'startsAt': g.roomStartsAt == null ? null : _iso(g.roomStartsAt!),
+      'endsAt': g.roomEndsAt == null ? null : _iso(g.roomEndsAt!),
+      'hostMemberId': g.hostId,
     };
   }
 
@@ -632,7 +674,10 @@ class MobV3FakeServer implements MobV3Api {
   @override
   Future<MobGame> openGame({required String mob, required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf}) async {
     final m = _mob(mob)!;
-    if (mode == GameMode.live) throw _err('LIVE_OFF', 409);
+    if (mode == GameMode.live && !liveOn) throw _err('LIVE_OFF', 409);
+    if (mode == GameMode.live && m.games.any((g) => g.mode == GameMode.live && (g.roomState == RoomState.lobby || g.roomState == RoomState.running))) {
+      throw _err('ROOM_OPEN_ALREADY', 409);
+    }
     if (![5, 10, 15, 20].contains(count)) throw _err('LENGTH_INVALID', 422);
     final open = m.games.where((g) => !g.closedAt(now)).length;
     if (open >= 3) throw _err('GAMES_OPEN_LIMIT', 409);
@@ -644,7 +689,8 @@ class MobV3FakeServer implements MobV3Api {
     final used = {for (final g in m.games) ...g.questions};
     final pool = [for (var i = 0; i < 20; i++) if (!used.contains(i)) i];
     final qs = <int>[...pool, for (var i = 0; i < 20; i++) i].take(count).toList();
-    final g = _Game(id: _id('game'), format: format, count: count, chapter: chapter ?? 'Goodwill', hostId: m.you.id, openedAt: now, questions: qs);
+    final g = _Game(id: _id('game'), format: format, count: count, chapter: chapter ?? 'Goodwill', hostId: m.you.id, openedAt: now, questions: qs, mode: mode);
+    if (mode == GameMode.live) g.roomState = RoomState.lobby;
     m.games.add(g);
     return MobGame.fromJson(_gameJson(m, g));
   }
@@ -663,13 +709,16 @@ class MobV3FakeServer implements MobV3Api {
     var run = g.runs[me];
     if (run != null && run.finished) throw _err('RUN_DONE', 409);
     if (g.closedAt(now) || now.add(Duration(seconds: g.count * 60)).isAfter(g.closesAt)) throw _err('GAME_CLOSED', 410);
-    run ??= g.runs[me] = _Run(now, now.add(Duration(seconds: g.count * 60 + 60)));
+    // A run started within 30 s of a live room's start is live, from the shared start (SV-16).
+    final liveStart = g.roomState == RoomState.running && g.roomStartsAt != null && now.difference(g.roomStartsAt!).inSeconds <= 30;
+    final startAt = liveStart ? g.roomStartsAt! : now;
+    run ??= g.runs[me] = _Run(startAt, startAt.add(Duration(seconds: g.count * 60 + 60)));
     return RunStart.fromJson({
       'run': {
         'startedAt': _iso(run.startedAt),
         'endsAt': _iso(run.endsAt),
         'serverNow': _iso(now),
-        'live': false,
+        'live': liveStart,
         'answers': [
           for (final e in run.answers.entries) {'q': e.key, 'pick': e.value.pick, 'correct': e.value.correct, 'elapsedMs': e.value.elapsedMs},
         ],
@@ -921,6 +970,96 @@ class MobV3FakeServer implements MobV3Api {
               },
             },
     });
+  }
+
+  // ---- Live rooms (Phase B) ----------------------------------------------------------------------------
+
+  @override
+  Future<RoomTicket> roomTicket(String id) async {
+    final r = _game(id);
+    final g = r.game;
+    if (!liveOn) throw _err('LIVE_OFF', 409);
+    if (g.mode != GameMode.live || g.roomState == null) throw _err('NOT_LIVE', 409);
+    if (g.closedAt(now)) throw _err('GAME_CLOSED', 410);
+    return RoomTicket.fromJson({
+      'topic': 'mob-room:${g.id}',
+      'memberId': r.mob.you.id,
+      'expiresAt': _iso(now.add(const Duration(minutes: 50))),
+      'room': _roomJson(r.mob, g),
+      'serverNow': _iso(now),
+    });
+  }
+
+  @override
+  Future<RoomStartAck> roomStart(String id) async {
+    final r = _game(id);
+    return _startRoom(r.game, r.mob.you.id);
+  }
+
+  /// The host's start, as the fixture room's host (a friend) or you.
+  RoomStartAck _startRoom(_Game g, String by) {
+    if (g.hostId != by) throw _err('ROOM_NOT_HOST', 403);
+    if (g.roomState != RoomState.lobby) throw _err('ROOM_STARTED', 409);
+    g.roomState = RoomState.running;
+    g.roomStartsAt = now.add(const Duration(milliseconds: 4000));
+    g.roomEndsAt = g.roomStartsAt!.add(Duration(seconds: g.count * 60 + 60));
+    _roomBus.add((g.id, 'start'));
+    return RoomStartAck(startsAt: g.roomStartsAt!, serverNow: now);
+  }
+
+  /// The fixture room's host starts it (the scripted channel plays Riya).
+  RoomStartAck startRoomAsHost(String gameId) {
+    final r = _game(gameId);
+    return _startRoom(r.game, r.game.hostId);
+  }
+
+  @override
+  Future<void> roomCancel(String id) async {
+    final r = _game(id);
+    final g = r.game;
+    if (g.hostId != r.mob.you.id) throw _err('ROOM_NOT_HOST', 403);
+    if (g.roomState != RoomState.lobby) throw _err('ROOM_STARTED', 409);
+    g.roomState = RoomState.cancelled;
+    _roomBus.add((g.id, 'cancel'));
+  }
+
+  /// The live phase ends (the last live finish).
+  void endRoom(String gameId) {
+    final g = _game(gameId).game;
+    if (g.roomState == RoomState.running) {
+      g.roomState = RoomState.done;
+      _roomBus.add((g.id, 'done'));
+    }
+  }
+
+  /// A friend's live answer (the scripted room plays them): stored like a real run, so the podium has it.
+  void liveAnswer(String gameId, String memberId, int q, {required bool? correct, required int elapsedMs}) {
+    final r = _game(gameId);
+    final g = r.game;
+    final start = g.roomStartsAt ?? now;
+    final run = g.runs.putIfAbsent(memberId, () => _Run(start, start.add(Duration(seconds: g.count * 60 + 60))));
+    final idx = mobV3Bank[g.questions[q]].correct;
+    run.answers[q] = _Answer(correct == null ? -1 : (correct ? idx : (idx + 1) % 4), correct, elapsedMs);
+    if (correct != null) r.mob.questAnswered += 1;
+    if (run.answers.length >= g.count) run.finishedAt ??= start.add(Duration(milliseconds: elapsedMs));
+  }
+
+  /// Whether you have finished this game (the scripted room ends the live phase after everyone).
+  bool youFinished(String gameId) {
+    final r = _game(gameId);
+    return r.game.runs[r.mob.you.id]?.finished ?? false;
+  }
+
+  /// The game's question count, host and room state, for the scripted room.
+  ({int count, String hostId, String youId, RoomState? state, DateTime? startsAt}) roomInfo(String gameId) {
+    final r = _game(gameId);
+    return (count: r.game.count, hostId: r.game.hostId, youId: r.mob.you.id, state: r.game.roomState, startsAt: r.game.roomStartsAt);
+  }
+
+  /// Mob member ids other than you, in order (the scripted room's friends).
+  List<String> friendIds(String gameId) {
+    final r = _game(gameId);
+    return [for (final m in r.mob.members) if (!m.you) m.id];
   }
 
   @override

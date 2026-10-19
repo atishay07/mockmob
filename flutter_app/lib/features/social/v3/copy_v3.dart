@@ -317,6 +317,40 @@ abstract final class MobV3Copy {
   static const String notForSale = 'Nothing you earn in the Mob is for sale.';
   static const String seePlans = 'See Pro plans';
 
+  // ---- L1 Live lobby and the live run (Phase B) ----
+  static String roomTitle(String host, {bool you = false}) => you ? 'Your room' : "$host's room";
+  static String roomSub(GameFormat f, int n) => 'Live ${gameKind(f)}, $n questions';
+  static const String liveDot = 'Live';
+  static const String tagHost = 'Host';
+  static const String tagHere = 'Here';
+  static const String tagReady = 'Ready';
+  static String lobbyLine(int n) => 'Same $n questions, same start. You see where friends are, never what they picked.';
+  static const String sendASticker = 'Send a sticker';
+  static const String imReady = "I'm ready";
+  static String waitingFor(String host) => 'Waiting for $host to start';
+  static const String startForEveryone = 'Start for everyone';
+  static const String startWhenReady = 'Start when everyone here is ready.';
+  static const String playLaterInstead = 'Play it later instead';
+  static const String onlyYouHere = "You're the first one here. Your Mob sees the room in the den.";
+  static String isHereNow(String name) => '$name is here now.';
+  static String isHereNowLine(String name) => '$name can play this one live with you.';
+  static String hostAway(String host, DateTime? roomUntil, DateTime closes, DateTime now) => roomUntil == null
+      ? '$host stepped away. The game stays open until ${MobTime.when(closes, now)}.'
+      : '$host stepped away. The room stays open until ${MobTime.clock(roomUntil)}, and the game until ${MobTime.when(closes, now)}.';
+  static String roomClosed(String host, DateTime closes, DateTime now) => '$host closed the room. The game stays open until ${MobTime.when(closes, now)}.';
+  static String roomClosedYou(DateTime closes, DateTime now) => 'You closed the room. The game stays open until ${MobTime.when(closes, now)}.';
+  static const String liveBusyRun = 'Live is busy right now. Play now, and your Mob can catch up.';
+  static const String openingRoom = 'Opening the room';
+  static const String closeRoomTitle = 'Close this room?';
+  static String closeRoomLine(DateTime closes, DateTime now) => 'Your Mob can still play the game until ${MobTime.when(closes, now)}.';
+  static const String keepRoomOpen = 'Keep the room open';
+  static const String closeRoom = 'Close the room';
+  static const String leaveRoom = 'Leave the room';
+  static String roomStage(int here, int seats) => here == 1 ? 'The room, with you in it and $seats open ${seats == 1 ? 'seat' : 'seats'}' : 'The room, $here of you in it';
+  static String tagFor(String name, String tag) => '$name, $tag';
+  static String stickerFrom(String name, StickerKind k) => '$name sent ${sticker(k)}';
+  static const String podiumAfterRoom = 'The podium opens when the room ends.';
+
   // ---- R1 to R6 The run ----
   static String runsToRace(int n) => n == 0 ? 'Set the first run' : (n == 1 ? '1 run to race' : '$n runs to race');
   static String liveInRoom(int n) => 'Live, $n of you in the room';
