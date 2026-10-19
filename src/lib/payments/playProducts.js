@@ -6,9 +6,13 @@
 // until its accessUntil, read from the web plan so the two cannot drift), and each PrepOS AI credit pack uses its web plan
 // id. Nothing here carries a price: a price is set in Play Console and the server never trusts one from a client.
 //
-// Not mapped on purpose (the web does not sell them as a one-off, or not at all):
-//   pro_monthly_99   the web's Rs 99 auto-renewing Razorpay subscription. A Play subscription would need
-//                    purchases.subscriptionsv2 and its own renewal and cancel handling; add it when the owner wants it.
+// Owner decision 19 Oct 2026 (D135/D136): Play sells Pro ONLY as the monthly auto-renewing subscription `pro_monthly`
+// (base plan `monthly`, Rs 149 a month in India, set in Play Console). It grants Pro until Google's expiryTime and is
+// kept in step with Google by playSubscriptions.js (verify, then every Real-time Developer Notification). The one-time
+// `pro_cuet_2027` is NOT created in Play Console; the server still accepts it, for safety only.
+//
+// Not mapped on purpose:
+//   pro_monthly_99   the web's Rs 99 Razorpay subscription. Play's id is pro_monthly; a web plan id is never a Play id.
 //   pro_cuet_2027_v2 not released on the web.
 //   pro_cuet_2026    legacy.
 import { PAYMENT_PLANS } from './plans.js';
@@ -30,8 +34,20 @@ const pro = (webPlanId) => ({
  */
 const pack = (productId, credits, legacy = false) => ({ productId, kind: 'ai_credits', webPlanId: productId, credits, finish: 'consume', ...(legacy ? { legacy: true } : {}) });
 
+/** The Play subscription id and its base plan (Play Console). */
+export const PLAY_SUBSCRIPTION_ID = 'pro_monthly';
+export const PLAY_SUBSCRIPTION_BASE_PLAN = 'monthly';
+
+/**
+ * Monthly Pro on Play: Pro while Google says the subscription is in force (expiryTime), acknowledged once, never consumed.
+ * webPlanId names the web plan it matches (the Rs 99 Razorpay monthly); the grant itself comes from Google's dates.
+ */
+const subscription = (productId, basePlanId) => ({ productId, kind: 'pro_sub', webPlanId: 'pro_monthly_99', basePlanId, finish: 'acknowledge' });
+
 export const PLAY_PRODUCTS = Object.freeze(Object.fromEntries([
-  pro('pro_cuet_2027'),
+  subscription(PLAY_SUBSCRIPTION_ID, PLAY_SUBSCRIPTION_BASE_PLAN),
+  // Not sold on Play (D136). Accepted for safety only: a purchase that somehow exists is still honoured.
+  { ...pro('pro_cuet_2027'), notSoldOnPlay: true },
   // The credit packs, read from the one web catalogue (src/services/credits/creditPacks.mjs), so ids and credits cannot drift
   // (release 10 integration). Today: credits_10_50 / credits_29_150 / credits_49_300 (50 / 150 / 300 credits).
   ...CREDIT_PACKS.map((p) => pack(p.playProductId, p.credits)),

@@ -2,7 +2,8 @@
 
 // Account > Plan. Says exactly what the student has: Free (credits), Pro that renews monthly
 // (with a two-step cancel), Pro whose renewal is off or whose last payment failed (access runs to the
-// paid date), or Pro access with a fixed end date and nothing to cancel.
+// paid date), or Pro access with a fixed end date and nothing to cancel. Monthly Pro bought in the Android app is billed
+// and renewed by Google Play, so the card says so and links to Google Play's subscription page instead of a cancel key.
 import { useState } from 'react';
 import Link from 'next/link';
 import { AppIcon, CreditAmount, StatusIcon } from '@/components/ui/Glyph';
@@ -19,6 +20,8 @@ const fmt = (iso) => new Date(iso).toLocaleDateString('en-IN', { day: 'numeric',
 // The price sentence already says the first full mock in each subject is free (creditCopy.mjs, C-dec 1), so it is said once.
 const FREE_COSTS = `On Free, you pay with credits. ${PRACTICE_PRICE_LINE} Your balance is under Credits.`;
 const LeadDate = ({ iso }) => <><strong>{fmt(iso)}</strong> (IST)</>;
+// Google Play's own page for this subscription (the same page the app's Manage subscription key opens).
+const PLAY_SUBSCRIPTIONS_URL = 'https://play.google.com/store/account/subscriptions?sku=pro_monthly&package=in.mockmob.app';
 
 export function PlanCard() {
   const { user, refreshSession } = useAuth();
@@ -37,6 +40,13 @@ export function PlanCard() {
   // A cancel is offered while Razorpay may still charge: renewing, or retrying after a failed payment.
   const canCancel = hasSubscription && (status === 'active' || status === 'past_due');
   const until = user?.premiumUntil || null;
+  // Monthly Pro bought in the Android app: Google Play bills it and holds its renewal, so it is managed there, not here.
+  const play = user?.playSubscription || null;
+  const playRenewing = Boolean(pro && play?.active && play.autoRenewing && !play.inGracePeriod);
+  const playRenewalOff = Boolean(pro && play?.active && play.autoRenewing === false);
+  const playRetrying = Boolean(pro && play?.active && play.inGracePeriod);
+  const playOnHold = Boolean(!pro && play?.onHold);
+  const playShown = playRenewing || playRenewalOff || playRetrying || playOnHold;
   // Not Pro but with an end date on record: Pro was held and has ended (the server clears isPremium at the end).
   const ended = !pro && Boolean(until);
 
@@ -63,7 +73,19 @@ export function PlanCard() {
         <span className="plan-card__meta">{pro ? 'Pro' : 'Free'}</span>
       </div>
 
-      {pro || paymentFailed ? (
+      {playShown ? (
+        <>
+          <p className="plan-card__lead">
+            {playRenewing && <>Pro renews every month through Google Play.{until ? <> Paid through <LeadDate iso={until} />. The next payment is due then.</> : null}</>}
+            {playRenewalOff && <>Renewal is off in Google Play, so no further payment will be taken. Pro stays active{until ? <> until <LeadDate iso={until} /></> : null}, then your account moves to Free.</>}
+            {playRetrying && <>Google Play could not take your latest monthly payment. Pro stays active{until ? <> until <LeadDate iso={until} /></> : null} while Google Play tries again. Update your payment method in Google Play to keep it.</>}
+            {playOnHold && <>Google Play could not take your monthly payment, so Pro is paused. Update your payment method in Google Play and Pro comes back.</>}
+          </p>
+          {pro && <div className="plan-card__row"><CreditAmount kind="practice" amount="unlimited" unit={false} /><span>Quick practice and Full mock</span></div>}
+          {playOnHold && <p className="plan-card__lead">{FREE_COSTS}</p>}
+          <a href={PLAY_SUBSCRIPTIONS_URL} className="plan-card__quiet" target="_blank" rel="noopener noreferrer">Manage it in Google Play</a>
+        </>
+      ) : pro || paymentFailed ? (
         <>
           {!cancelledNow && <p className="plan-card__lead">
             {renewing && <>Pro renews every month at ₹{MONTHLY_RUPEES}.{until ? <> Paid through <LeadDate iso={until} />. The next payment is due then.</> : null}</>}

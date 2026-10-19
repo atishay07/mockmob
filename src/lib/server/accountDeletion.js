@@ -15,7 +15,9 @@ const RAW_ORDER_KEEP = ['id', 'entity', 'amount', 'amount_paid', 'amount_due', '
 const RAW_PAYMENT_KEEP = ['id', 'entity', 'amount', 'currency', 'status', 'order_id', 'subscription_id', 'method', 'captured', 'created_at'];
 const RAW_SUBSCRIPTION_KEEP = ['id', 'entity', 'plan_id', 'status', 'total_count', 'paid_count', 'current_start', 'current_end', 'start_at', 'end_at', 'created_at'];
 // Google Play purchase records keep what ties a Google order to what was granted; the account hash and developer payload go.
-const PLAY_RAW_KEEP = ['kind', 'orderId', 'productId', 'quantity', 'purchaseTimeMillis', 'purchaseState', 'consumptionState', 'acknowledgementState', 'purchaseType', 'regionCode', 'voided'];
+// Subscriptions (migration 20261019210000) store a record that is already non-personal (playSubscriptions.subscriptionRecord).
+const PLAY_RAW_KEEP = ['kind', 'orderId', 'productId', 'quantity', 'purchaseTimeMillis', 'purchaseState', 'consumptionState', 'acknowledgementState', 'purchaseType', 'regionCode', 'voided',
+  'subscriptionState', 'startTime', 'testPurchase', 'canceledReason', 'lineItems', 'via', 'notification', 'eventTimeMillis'];
 // Runtime AI receipts: token counts and error fields only; the reply ('response') is the student's content.
 const RUNTIME_RECEIPT_KEEP = ['usage', 'stopReason', 'error', 'errorKind', 'status', 'code', 'type'];
 

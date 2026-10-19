@@ -31,7 +31,7 @@ const SERVICE_ACCOUNT = { type: 'service_account', client_email: 'play-billing@m
 
 // ---- the products ---------------------------------------------------------------------------------------------------
 test('the product map: web ids, server-decided grants, no price anywhere', () => {
-  assert.deepEqual(Object.keys(PLAY_PRODUCTS), ['pro_cuet_2027', 'credits_10_50', 'credits_29_150', 'credits_49_300', 'ai_credits_prepos_10_50', 'ai_credits_prepos_20_150', 'ai_credits_prepos_50_400']);
+  assert.deepEqual(Object.keys(PLAY_PRODUCTS), ['pro_monthly', 'pro_cuet_2027', 'credits_10_50', 'credits_29_150', 'credits_49_300', 'ai_credits_prepos_10_50', 'ai_credits_prepos_20_150', 'ai_credits_prepos_50_400']);
   const pro = getPlayProduct('pro_cuet_2027');
   assert.equal(pro.kind, 'pro');
   assert.equal(pro.finish, 'acknowledge', 'Pro is acknowledged, never consumed');
@@ -46,6 +46,7 @@ test('the product map: web ids, server-decided grants, no price anywhere', () =>
   assert.equal(getPlayProduct('practice_credits_49_300'), null);
   assert.equal(getPlayProduct('ai_credits_prepos_10_50').legacy, true);
   assert.equal(getPlayProduct('credits_10_50').legacy, undefined);
+  assert.equal(pro.notSoldOnPlay, true, 'D136: pro_cuet_2027 is not sold on Play, only still accepted');
   for (const p of Object.values(PLAY_PRODUCTS)) {
     assert.deepEqual(Object.keys(p).filter((k) => /price|amount|rupee|paise|inr/i.test(k)), [], `${p.productId} carries no price`);
   }
@@ -497,7 +498,7 @@ function rtdnWorld({ env = { PLAY_RTDN_TOKEN: 'rtdn-secret-token' }, enabled = t
   const log = [];
   const deps = {
     enabled: () => enabled, env,
-    billing: { store: w.store, packageName: 'in.mockmob.app', log: (...a) => log.push(a.join(' ')) },
+    billing: { store: w.store, google: w.google, packageName: 'in.mockmob.app', log: (...a) => log.push(a.join(' ')) },
     claimEvent: async ({ eventId }) => { if (events.has(eventId)) return events.get(eventId) === 'done' ? false : 'in_flight'; events.set(eventId, 'claimed'); return true; },
     markProcessed: async (id) => { events.set(id, 'done'); },
     markFailed: async (id) => { events.delete(id); },
@@ -542,7 +543,9 @@ test('RTDN: another package, a subscription void and a purchased message are ack
   const other = await r.post(push({ ...voidedFor(TOKEN), packageName: 'com.other.app' }, 'm-5'));
   assert.equal((await other.json()).reason, 'wrong_package');
   const sub = await r.post(push(voidedFor(TOKEN, { productType: 1 }), 'm-6'));
-  assert.equal((await sub.json()).action, 'ignored');
+  const subBody = await sub.json();
+  assert.equal(subBody.action, 'ignored');
+  assert.equal(subBody.reason, 'not_a_subscription', 'a subscription void naming a one-time purchase token touches nothing');
   const bought = await r.post(push({ version: '1.0', packageName: 'in.mockmob.app', oneTimeProductNotification: { version: '1.0', notificationType: 1, purchaseToken: TOKEN, sku: 'pro_cuet_2027' } }, 'm-7'));
   assert.equal((await bought.json()).action, 'logged');
   assert.equal(r.store.rows.get(TOKEN).state, 'granted', 'none of these touched the purchase');
@@ -896,7 +899,7 @@ test('the Play tables are server only in the account deletion plan and the test 
 
 test('data/db.js counts a Play Pro purchase as other paid access', () => {
   const src = file('data/db.js');
-  assert.match(src, /async getPlayProAccess\(userId\)/);
+  assert.match(src, /async getPlayProAccess\(userId, nowMs = Date\.now\(\)\)/);
   assert.match(src, /razorpayEvidence \|\| \(await this\.getPlayProAccess\(userId\)\)\.hasPlayPro/);
   assert.match(src, /const play = await this\.getPlayProAccess\(userId\);/);
   assert.match(src, /\.from\('play_purchases'\)/);

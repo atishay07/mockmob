@@ -12,33 +12,17 @@
 //   - After the grant the server acknowledges Pro (kept, never consumed) or consumes a credit pack (so it can be bought
 //     again). If Google cannot be reached at that moment the grant stands, the answer says finished:false, and the next
 //     replay finishes it.
-import { createHash } from 'node:crypto';
 import { getPlayProduct } from './playProducts.js';
+import { TOKEN_PATTERN, playAccountHash, fail, logger, playFailure } from './playShared.js';
+import { verifyPlaySubscription, handleSubscriptionNotification } from './playSubscriptions.js';
+
+export { TOKEN_PATTERN, playAccountHash };
 
 export const PLAY_FLAG = 'PLAY_BILLING_ENABLED';
 /** The flag is off unless it is exactly 'true', like MOB_ENABLED. */
 export const playBillingEnabled = (env = process.env) => env[PLAY_FLAG] === 'true';
 
 const PURCHASE_STATE = Object.freeze({ purchased: 0, canceled: 1, pending: 2 });
-export const TOKEN_PATTERN = /^[A-Za-z0-9._~-]{16,1024}$/;
-
-/**
- * The value the app sets as the purchase's obfuscated account id (BillingFlowParams.setObfuscatedAccountId) and sends back:
- * the lowercase hex SHA-256 of the signed-in user's id, UTF-8. One way, no personal data, 64 characters (Google's limit).
- */
-export const playAccountHash = (userId) => createHash('sha256').update(String(userId), 'utf8').digest('hex');
-
-const fail = (status, code, message, extra = {}) => ({ ok: false, status, code, message, ...extra });
-const logger = (log) => log || ((level, ...args) => console[level]?.('[play]', ...args));
-
-function playFailure(error) {
-  switch (error?.code) {
-    case 'purchase_not_found': return fail(404, 'purchase_not_found', 'Google Play has no such purchase.');
-    case 'purchase_invalid': return fail(400, 'purchase_invalid', 'Google Play rejected that purchase token.');
-    case 'play_not_configured': return fail(503, 'play_not_configured', 'Purchases are not available right now. Nothing was granted. Try again later.');
-    default: return fail(503, 'play_unavailable', 'Google Play could not be reached. Nothing was granted. Try again in a minute.');
-  }
-}
 
 /** One finishing step. Never throws: returns true when the purchase is now acknowledged (Pro) or consumed (pack). */
 async function finishPurchase({ store, google, product, token, purchase, log }) {
@@ -89,6 +73,8 @@ export async function verifyPlayPurchase(deps, input) {
 
   const product = getPlayProduct(productId);
   if (!product) return fail(400, 'unknown_product', 'That product is not sold on Google Play.');
+  // The monthly Pro subscription (owner D135/D136, 19 Oct 2026) has its own path: purchases.subscriptionsv2.
+  if (product.kind === 'pro_sub') return verifyPlaySubscription(deps, { ...input, product });
   if (typeof purchaseToken !== 'string' || !TOKEN_PATTERN.test(purchaseToken)) return fail(400, 'bad_token', 'The purchase token is missing or malformed.');
   if (input.packageName !== undefined && input.packageName !== null && input.packageName !== packageName) {
     return fail(400, 'wrong_package', 'That purchase is for a different app.');
@@ -183,7 +169,7 @@ export function decodePubSubMessage(body) {
 }
 
 /**
- * Act on one decoded notification. deps: { store, packageName, log? }.
+ * Act on one decoded notification. deps: { store, google, packageName, log? } (google: subscriptions are re-read from Google).
  * Returns { action: 'revoked' | 'already_voided' | 'tombstone' | 'test' | 'logged' | 'ignored', ... }. Throws only when the
  * database could not be reached, so the push is answered 5xx and Pub/Sub retries.
  */
@@ -200,7 +186,8 @@ export async function handlePlayNotification(deps, notification) {
   }
   const voided = notification.voidedPurchaseNotification;
   if (voided) {
-    if (Number(voided.productType) !== ONE_TIME) return { action: 'ignored', reason: 'subscription_void_not_sold' };
+    // A voided subscription order: Google's own record of the subscription decides what stays (playSubscriptions.js).
+    if (Number(voided.productType) !== ONE_TIME) return handleSubscriptionNotification(deps, { purchaseToken: voided.purchaseToken, voided, eventTimeMillis: notification.eventTimeMillis });
     const token = typeof voided.purchaseToken === 'string' ? voided.purchaseToken : '';
     if (!TOKEN_PATTERN.test(token)) return { action: 'ignored', reason: 'bad_token' };
     const result = await store.revoke({
@@ -211,6 +198,10 @@ export async function handlePlayNotification(deps, notification) {
     if (!result?.ok) throw new Error(`revoke failed: ${result?.error || 'unknown'}`);
     if (!result.found) return { action: 'tombstone' };
     return { action: result.idempotent ? 'already_voided' : 'revoked', kind: result.kind, revoked: result.revoked || null };
+  }
+  if (notification.subscriptionNotification) {
+    const n = notification.subscriptionNotification;
+    return handleSubscriptionNotification(deps, { purchaseToken: n.purchaseToken, notificationType: Number(n.notificationType) || null, eventTimeMillis: notification.eventTimeMillis });
   }
   if (notification.oneTimeProductNotification) {
     // 1 purchased, 2 a pending purchase was cancelled. Granting happens only through verify, which can bind the purchase
