@@ -72,7 +72,7 @@ function GameCard({ state, data, v3, now, onPicker, onStartGame, onAsk, onSticke
   const host = g ? (v3.members || []).find((m) => m.memberId === g.host?.memberId) : null;
   const paper = data.week;
   const paperLink = !paper.closed ? (paper.youSat
-    ? (paper.yourResultId ? <Link className="mob-link" href={resultHref(paper.yourResultId)}>{DenCopy.seeAnswers}</Link> : null)
+    ? (paper.yourResultId ? <Link className="mob-link" href={resultHref(paper.yourResultId)}>{DenCopy.seeMarks}</Link> : null)
     : <Link className="mob-link" href={paperHref(data)}>{DenCopy.sitPaper}</Link>) : null;
   const more = state.more > 0 ? <button type="button" className="mob-link" onClick={onPicker}>{DenCopy.moreOpen(state.more)}</button> : <button type="button" className="mob-link" onClick={onPicker}>{DenCopy.moreWays}</button>;
 

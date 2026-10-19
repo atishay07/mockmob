@@ -25,6 +25,8 @@ const UNAVAILABLE = () => fail(503, 'unavailable', 'Checking is unavailable righ
 export function checkAllowed(row) {
   if (!row || !CHECK_MODES.includes(row.mode)) return false;
   if (row.selection_meta?.episodeId) return false;
+  // A Mob paper keeps its keys until the paper closes for the Mob (src/lib/mob/paperHold.mjs): never checked answer by answer.
+  if (row.selection_meta?.mobPaper) return false;
   // Only ordinary practice reveals keys. Baseline diagnostics, fresh checks and any other purpose do not.
   const purpose = row.selection_meta?.learningPurpose;
   return purpose === undefined || purpose === null || purpose === 'ordinary_practice';

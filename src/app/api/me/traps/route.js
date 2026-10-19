@@ -6,6 +6,7 @@ import { atlasForAttempts, doubtedQuestionIds } from '@/lib/server/trapAtlas';
 import { loadCohortSnapshot } from '@/../data/cohort_picks';
 import { buildTrapsMeet } from '@/../data/trap_atlas';
 import COPY from '@/../data/mistake_lab.copy.json';
+import { openAttemptsOnly } from '@/lib/server/answerHold';
 
 export const dynamic = 'force-dynamic';
 const NO_STORE = { 'Cache-Control': 'no-store' };
@@ -21,7 +22,8 @@ export async function GET(request) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: NO_STORE });
   }
   try {
-    const attempts = await Database.getAttempts(session.user.id);
+    // A Mob paper still open for the Mob stays out until it closes (src/lib/mob/paperHold.mjs).
+    const attempts = openAttemptsOnly(await Database.getAttempts(session.user.id));
     let atlas = null;
     try { atlas = await atlasForAttempts(attempts); } catch (e) { console.warn('[api/me/traps] atlas skipped:', e?.message); }
     // Questions whose key is in doubt (held for re-check, or flagged by the key-quality loop) are no chance, as they get no tag.

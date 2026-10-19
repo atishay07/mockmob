@@ -108,7 +108,8 @@ test('only ?view=summary selects the summary; the route keeps the old response o
   assert.ok(summaryAt > 0 && fullAt > summaryAt, 'the summary branch comes before, and the old read is untouched');
   assert.ok(source.indexOf('finaliseExpiredSessionsForUser') < summaryAt, 'abandoned mocks are still finalised before either read');
   assert.ok(source.indexOf('forgetBadges(session.user.id)') < summaryAt, 'badges are still forgotten before either read');
-  assert.match(source, /return NextResponse\.json\(attempts\);/);
+  // The full list is the old one, except a Mob paper still open for the Mob, listed with its marks only (C-dec 2 item 1).
+  assert.match(source, /return NextResponse\.json\(attempts\.map\(\(a\) => attemptForClient\(a\)\)\);/);
 });
 
 // ---- the read: the table fallback and the database function ---------------------------------------------------

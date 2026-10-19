@@ -120,7 +120,7 @@ function ExtraRow({ x, data, onCompare, comparing }) {
       </div>
       <div className="mob-extra__actions">
         {!x.youSat && !x.closed ? <Link className="mob-key" href={paperHref(data, x)}>Sit it</Link> : null}
-        {x.youSat && x.yourResultId ? <Link className="mob-key" href={resultHref(x.yourResultId)}>See your answers</Link> : null}
+        {x.youSat && x.yourResultId ? <Link className="mob-key" href={resultHref(x.yourResultId)}>{Date.parse(x.closesAt) <= Date.now() ? 'See your answers' : 'See your marks'}</Link> : null}
         {x.youSat && cmp && cmp.access !== 'locked' && cmp.available ? (
           <button type="button" className="mob-key" onClick={() => onCompare(x)} disabled={comparing === x.id} aria-busy={comparing === x.id || undefined}>{comparing === x.id ? 'Opening' : 'Side by side'}</button>
         ) : null}

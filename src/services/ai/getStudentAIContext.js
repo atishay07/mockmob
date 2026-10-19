@@ -7,6 +7,7 @@ import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
 import { ONE_BALANCE_NOTE, oneBalanceForModel } from './creditsForModel.js';
 import { readStanding } from '@/services/mobi/standing';
 import { standingForModel } from '@/../data/mobi_standing';
+import { openAttemptsOnly } from '@/lib/server/answerHold';
 
 /**
  * Build a compact context object for the AI Mentor.
@@ -41,7 +42,8 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     voteRows,
     usageSnapshot,
   ] = await Promise.all([
-    Database.getAttempts(userId, { memo: attemptsMemo }).catch(() => []),
+    // A Mob paper still open for the Mob is not in the model's context until it closes (src/lib/mob/paperHold.mjs).
+    Database.getAttempts(userId, { memo: attemptsMemo }).then((rows) => openAttemptsOnly(rows)).catch(() => []),
     safeSelect('user_question_progress', userId),
     safeSelect('question_bookmarks', userId),
     safeSelect('question_votes', userId, 100),

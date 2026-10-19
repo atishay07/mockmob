@@ -468,7 +468,7 @@ function InMob({ data, mob, user }) {
             ) : null}
             {week.youSat ? (
               <>
-                {week.yourResultId ? <Link className={primary()} {...pageProps} href={resultHref(week.yourResultId)}>See your answers</Link> : null}
+                {week.yourResultId ? <Link className={primary()} {...pageProps} href={resultHref(week.yourResultId)}>See your marks</Link> : null}
                 {/* Everyone has sat: no dead button, only the line that says so. */}
                 {!alone && nudge.reason !== 'everyone_sat' ? (
                   <button type="button" className="mob-key" onClick={sendNudge} disabled={!nudge.canSend || mob.busy === 'nudge'} aria-describedby={nudgeReason ? 'mob-nudge-why' : undefined}>

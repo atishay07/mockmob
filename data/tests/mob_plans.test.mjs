@@ -11,7 +11,7 @@ import { PGlite } from '@electric-sql/pglite';
 import { readFileSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, FREE_MAX_MOBS, MAX_MEMBERSHIPS, PRO_MAX_MOBS, closesAt, costLine, teaserLine } from '../../src/lib/mob/model.mjs';
+import { EXTRA_LENGTHS, EXTRA_MAX_PER_WEEK, FREE_MAX_MOBS, MAX_MEMBERSHIPS, PRO_MAX_MOBS, closesAt, costLine, nextOpensAt, teaserLine } from '../../src/lib/mob/model.mjs';
 import { buildCompare, compareSummary, computeTeaser, sharingSet } from '../../src/lib/mob/compare.mjs';
 import { createMobService } from '../../src/lib/server/mob/service.js';
 import { LIMITS, handleMob } from '../../src/lib/server/mob/http.js';
@@ -444,32 +444,35 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     assert.equal(quiet.youShare, false);
     assert.equal(quiet.hidden, 2);
     assert.equal(quiet.questions.length, 10);
-    assert.deepEqual(quiet.questions[1].you, { picked: 'D', right: false, changed: 1, seconds: 10 });
+    // C-dec 2 item 1 (src/lib/mob/paperHold.mjs): the week is still open, so no key, no right or wrong and no trap yet.
+    assert.deepEqual(quiet.questions[1].you, { picked: 'D', right: null, changed: 1, seconds: 10 });
     assert.deepEqual(quiet.questions[1].others, []);
     // 18 Oct: the counts and the split are over the sitters you can read. Nobody shares, so only you: no counts, no split.
     assert.equal(quiet.questions[1].picks, null, "a member who keeps answers private is in nobody else's counts");
-    assert.equal(quiet.questions[1].trap.trapName, 'A look-alike term');
-    assert.deepEqual([quiet.questions[1].trap.option, quiet.questions[1].trap.count, quiet.questions[1].trap.of], ['D', 3, 3]);
+    assert.equal(quiet.questions[1].trap, null, 'the trap names a wrong option: it waits for the close');
     assert.equal(quiet.questions[4].split, null, 'a split needs 2 readable sitters');
     assert.equal(quiet.questions[0].stem, 'Question 1 stem');
-    assert.equal(quiet.questions[1].key, 'B');
+    assert.equal(quiet.questions[1].key, null, 'no key while the paper is open');
+    assert.equal(quiet.held.until, nextOpensAt(WEEK), 'the answers open when the next week opens');
+    assert.match(quiet.held.short, /^The answers open on Sunday \d+ \w+, 11:59 PM\.$/);
+    assert.equal(JSON.stringify(quiet).includes('"right":true') || JSON.stringify(quiet).includes('"right":false'), false, 'no right or wrong anywhere');
     // Sharing is reciprocal: Riya shares, Asha shares, Kabir keeps his private.
     await svc.patchMe('u1', { showScore: true });
     await svc.patchMe('u2', { showScore: true });
     const shared = (await svc.compare('u1', {})).compare;
     assert.equal(shared.youShare, true);
     assert.equal(shared.hidden, 1, 'Kabir keeps his answers private: counted, never named');
-    assert.deepEqual(shared.questions[1].others.map((o) => [o.name, o.picked, o.right, o.changed, o.seconds]), [['Asha', 'D', false, 0, 10]]);
+    assert.deepEqual(shared.questions[1].others.map((o) => [o.name, o.picked, o.right, o.changed, o.seconds]), [['Asha', 'D', null, 0, 10]]);
     const everything = JSON.stringify(shared);
     for (const leak of ['Kabir', 'Meera', '"u1"', '"u2"', 'u3', 'u4', 'att_u2', 'att_u3', 'att_u4', 'user_id', 'session_id']) assert.equal(everything.includes(leak), false, leak);
-    assert.equal(shared.questions[3].others[0].right, true);
+    assert.equal(shared.questions[3].others[0].right, null, 'no right or wrong while the paper is open');
     // Kabir (private) is the one who missed question 5: neither the split nor the counts of the two who share show it.
     assert.equal(shared.questions[4].split, false, "Kabir's miss is not in the split of Riya and Asha");
     assert.equal(shared.questions[1].picks, null, 'two readable sitters are too few for counts');
     // Free students: the teaser always, the side-by-side once.
     assert.equal((await svc.view('u2')).mob.compare.access, 'offer');
     assert.equal((await svc.view('u2')).mob.trap, null, 'the shared trap is part of the side-by-side, not the teaser');
-    assert.notEqual((await svc.view('u1')).mob.trap, null, 'Pro sees it');
+    assert.equal((await svc.view('u1')).mob.trap, null, 'Pro too: the trap waits for the close (C-dec 2 item 1)');
     await assert.rejects(svc.compare('u3', {}), expectCode('SHARE_FIRST'));
     assert.equal(await one(db, "select count(*)::int r from mob_samples where user_id = 'u3'"), 0, 'a refused open does not spend the sample');
     const first = (await svc.compare('u2', {})).compare;
@@ -477,7 +480,7 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     assert.deepEqual(first.questions[1].others.map((o) => o.name), ['Riya']);
     assert.equal((await svc.compare('u2', {})).compare.access, 'sample', 'opening the same week again stays free');
     assert.equal((await svc.view('u2')).mob.compare.access, 'sample');
-    assert.notEqual((await svc.view('u2')).mob.trap, null, 'the sample week unlocks the trap');
+    assert.equal((await svc.view('u2')).mob.trap, null, 'the sample week opens the side-by-side; the trap still waits for the close');
     // Past weeks and a second week's comparison are Pro.
     await assert.rejects(svc.history('u2', {}), expectCode('PRO_REQUIRED'));
     clock.now += 7 * DAY;
@@ -485,6 +488,17 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     for (const u of ['u1', 'u2', 'u3']) await svc.recordFromAttempt(u, sat(mob, WEEK2, u, right, { completedAt: clock.now + 60_000, session: `w2_${u}` }));
     await assert.rejects(svc.compare('u2', {}), expectCode('PRO_REQUIRED'));
     assert.equal((await svc.compare('u2', { week: WEEK })).compare.access, 'sample', 'the sample week stays openable');
+    // Week 1 has closed: its side-by-side is whole now, keys, right and wrong and the trap (C-dec 2 item 1).
+    const closed = (await svc.compare('u1', { week: WEEK })).compare;
+    assert.equal(closed.held, undefined);
+    assert.equal(closed.questions[1].key, 'B');
+    assert.deepEqual(closed.questions[1].you, { picked: 'D', right: false, changed: 1, seconds: 10 });
+    assert.deepEqual(closed.questions[1].others.map((o) => [o.name, o.picked, o.right]), [['Asha', 'D', false]]);
+    assert.equal(closed.questions[3].others[0].right, true);
+    assert.equal(closed.questions[1].trap.trapName, 'A look-alike term');
+    assert.deepEqual([closed.questions[1].trap.option, closed.questions[1].trap.count, closed.questions[1].trap.of], ['D', 3, 3]);
+    // Week 2 is open: held, with the same rule.
+    assert.equal((await svc.compare('u1', {})).compare.held.until, nextOpensAt(WEEK2));
     assert.equal((await svc.compare('u1', {})).compare.week, WEEK2);
     assert.equal((await svc.compare('u1', { week: WEEK })).compare.week, WEEK);
     for (const bad of ['2026-10-13', 'abc', '2030-01-05', '2026-10-26']) await assert.rejects(svc.compare('u1', { week: bad }), expectCode('WEEK_INVALID'), bad);
@@ -501,6 +515,14 @@ test('the side-by-side on a real Mob: reciprocal sharing, nobody named who keeps
     for (const u of ['u1', 'u2']) await svc.recordFromAttempt(u, sat(mob, WEEK2, u, bank5.map((q) => q.correctIndex), { extraId: extra.extraId, bank: bank5, completedAt: clock.now + 120_000 }));
     const ex = (await svc.compare('u1', { extra: extra.extraId })).compare;
     assert.deepEqual([ex.kind, ex.extraId, ex.chapter, ex.questions.length], ['extra', extra.extraId, 'Partnership Accounts', 5]);
+    // An extra paper holds until its own close (made + 7 days), then opens whole.
+    assert.equal(Date.parse(ex.held.until), clock.now + 7 * DAY);
+    assert.equal(ex.questions.every((q) => q.key === null && q.you.right === null), true);
+    clock.now += 7 * DAY;
+    const exClosed = (await svc.compare('u1', { extra: extra.extraId })).compare;
+    assert.equal(exClosed.held, undefined);
+    assert.equal(exClosed.questions.every((q) => typeof q.key === 'string' && q.you.right === true), true);
+    clock.now -= 7 * DAY;
     await assert.rejects(svc.compare('u2', { extra: extra.extraId }), expectCode('PRO_REQUIRED'), 'the sample was spent on the weekly paper of week 1');
     await assert.rejects(svc.compare('u4', { extra: extra.extraId }), expectCode('COMPARE_SIT_FIRST'));
     await assert.rejects(svc.compare('u5', { extra: extra.extraId }), expectCode('EXTRA_NOT_FOUND'));

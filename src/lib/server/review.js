@@ -25,6 +25,7 @@ import { reviewBody } from '../../../data/review_input.mjs';
 import { sourceLabels } from '../../components/recovery/repairRun.js';
 import { mistakeKey, repairIdFromOperationKey } from './repairRecord.js';
 import { repairFromReceipt, SAVED_WINDOW } from './repairSaved.js';
+import { attemptHold } from '../mob/paperHold.mjs';
 
 export const REVIEW_VERSION = 1;
 /** The newest papers Review reads: all are listed, those with a miss are read in full. Older papers are left out and `partial` says so. */
@@ -95,11 +96,16 @@ export function buildReviewRecord({ userId, slim = [], heavy = new Map(), reserv
   const repairs = repairsById(reservations);
   const cardOf = new Map((cards || []).map((c) => [c.question_id, c]));
 
+  // A Mob paper still open for the Mob (src/lib/mob/paperHold.mjs) is listed with its marks and when its answers open, and
+  // none of its questions becomes a mistake to fix until it closes.
+  const holds = new Map();
+  for (const a of window) { const hold = a.mobPaper ? attemptHold({ mobPaper: a.mobPaper }, now) : null; if (hold) holds.set(a.id, hold); }
   const papers = window.map((a) => ({
     id: a.id, name: labels.get(a.id) || 'Quick practice', subject: a.subject, subjectName: subjectName(a.subject),
     kind: paperKind(a.mode || null), mode: a.mode || null, at: iso(a.completed_at),
     questions: Number(a.total) || 0, right: Number(a.correct) || 0, wrong: Number(a.wrong) || 0, blank: Number(a.unattempted) || 0,
     score: (Number(a.correct) || 0) * 5 - (Number(a.wrong) || 0), of: (Number(a.total) || 0) * 5,
+    ...(holds.has(a.id) ? { held: { until: holds.get(a.id).until, line: holds.get(a.id).short } } : {}),
   }));
 
   const chapters = new Map();
@@ -108,7 +114,7 @@ export function buildReviewRecord({ userId, slim = [], heavy = new Map(), reserv
   // against the marks it had on offer. Only the papers with a miss are read in full; a paper with none lost no marks.
   const chapterQuestions = {};
   for (const a of window) {
-    const body = heavy.get(a.id);
+    const body = holds.has(a.id) ? null : heavy.get(a.id);
     if (!body) continue;
     const asked = {};
     for (const q of Array.isArray(body.questions_snapshot) ? body.questions_snapshot : []) {
@@ -192,7 +198,7 @@ export function paperCounts(slim = []) {
 
 async function readSlim(db, userId) {
   const res = await db.from('attempts')
-    .select('id,subject,correct,wrong,unattempted,total,completed_at,mode:selection_meta->>mode')
+    .select('id,subject,correct,wrong,unattempted,total,completed_at,mode:selection_meta->>mode,mobPaper:selection_meta->mobPaper')
     .eq('user_id', userId).order('completed_at', { ascending: false }).order('id').range(0, SLIM_PAGE - 1);
   if (res.error) throw fail('REVIEW_ATTEMPTS_UNAVAILABLE', res.error);
   return res.data || [];
@@ -248,7 +254,7 @@ export async function loadReviewRecord(userId, { db, wallet = null, readDueCards
   const c = await client(db);
   const slim = await readSlim(c, userId);
   const window = slim.slice(0, ATTEMPT_WINDOW);
-  const heavy = await readHeavy(c, userId, window.filter((a) => (Number(a.wrong) || 0) > 0 || (Number(a.unattempted) || 0) > 0).map((a) => a.id));
+  const heavy = await readHeavy(c, userId, window.filter((a) => ((Number(a.wrong) || 0) > 0 || (Number(a.unattempted) || 0) > 0) && !(a.mobPaper && attemptHold({ mobPaper: a.mobPaper }, now))).map((a) => a.id));
   const reservations = slim.some((a) => (Number(a.wrong) || 0) > 0) ? await readReservations(c, userId) : [];
   const wrongIds = [];
   for (const body of heavy.values()) {

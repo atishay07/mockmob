@@ -478,6 +478,7 @@ test('the service: start, invite, join, sit, ring, trap, nudge, leave and block,
     const papers = started.map((s) => JSON.stringify(s.server.mobPaper.questions));
     assert.equal(new Set(papers).size, 1, 'identical questions and option order');
     assert.equal(started[0].server.mobPaper.weekStart, WEEK);
+    assert.equal(started[0].server.mobPaper.holdUntil, nextOpensAt(WEEK), 'the start stamps when the answers open (C-dec 2 item 1)');
     assert.equal(new Set(started.map((s) => s.input.generationKey)).size, 3, 'one key per member');
     await svc.startPaper('u1', {});
     assert.equal(started[3].input.generationKey, started[0].input.generationKey, 'a retry resumes the same session');
@@ -501,8 +502,10 @@ test('the service: start, invite, join, sit, ring, trap, nudge, leave and block,
     assert.equal(await svc.recordFromAttempt('u3', attempt('u3', right)), 'recorded');
     asha = await svc.view('u2');
     assert.equal(asha.mob.week.sat, 3);
-    assert.deepEqual(asha.mob.trap, { questionNumber: 2, questionId: 'q2', option: 'D', count: 2, of: 3, trapName: 'A look-alike term', youPickedIt: true, youGotItRight: false });
-    assert.equal((await svc.view('u3')).mob.trap.youGotItRight, true);
+    // C-dec 2 item 1: the trap names a wrong option and whether you got it right, so it waits for the paper to close. The
+    // view is always the open week; the trap shows in that week's side-by-side once it closes (mob_plans.test.mjs).
+    assert.equal(asha.mob.trap, null, 'the trap waits for the close');
+    assert.equal((await svc.view('u3')).mob.trap, null);
     const meera = await svc.view('u4');
     assert.equal(meera.mob.trap, null, 'P7: the trap never spoils the paper for someone who has not sat');
     assert.ok(meera.mob.week.paper.cost);
