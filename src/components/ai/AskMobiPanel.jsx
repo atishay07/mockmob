@@ -265,6 +265,8 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
   // The credit line is the page's own words (askDoors.mjs creditLine), docked or on /mentor, so one balance reads one way
   // everywhere: "38 of your 50 free credits left · they refill on 1 Nov".
   const creditWords = creditLine(wallet).first;
+  // The balance keeps its tick: the leading number is keyed, so amb-num replays when a credit is spent (release 10's motion).
+  const balanceTick = /^(\d[\d,]*)([\s\S]*)$/.exec(creditWords || '');
   const placeholder = onPage ? 'Ask a follow-up' : questionTyping ? `Ask about ${qName}` : scoped.kind === 'mock' ? `Ask about ${inSentence(scoped.label)}` : 'Ask about your record';
   const sessions = sessionsLabel(insights, status);
   const summary = recordSummary(insights, { pro });
@@ -431,7 +433,7 @@ function Panel({ context: opened, onClose, form = 'dock', titleId = 'ask-mobi-ti
         <div className="amb-cost">
           {/* The balance, with the wallet one tap away (the balance, its rules and the packs live there). */}
           <Link href="/wallet" className="amb-cost__wallet" onClick={leave}>
-            {creditWords}
+            {balanceTick ? <><b key={balanceTick[1]} className="amb-num">{balanceTick[1]}</b>{balanceTick[2]}</> : creditWords}
           </Link>
           <span className="amb-cost__price" aria-live="polite">
             {pending && onPage ? 'This reply uses 1 credit. A reply that fails uses none.' : !price ? 'Record questions are free' : price === 'free' ? 'Free, from your record' : offline ? 'Needs a connection. Nothing is charged.' : paid.open ? `An AI service writes it. ${usesLine({ what: 'This reply', cost: 1, pool: 'ai' })}` : 'Needs a written reply. Nothing is charged from here.'}

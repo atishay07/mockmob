@@ -109,7 +109,11 @@ test('copy: the credit line says "refill on 1 Nov", and the docked panel says it
   assert.equal(creditLine({ ...WALLET, total: 138, bonusCredits: 100 }).first, `138 credits left${dot}free ones refill${NB}on${NB}1${NB}Nov`);
   const panel = code(read('src/components/ai/AskMobiPanel.jsx'));
   assert.match(panel, /const creditWords = creditLine\(wallet\)\.first;/);
-  assert.match(panel, /\{creditWords\}/);
+  assert.match(panel, /: creditWords\}/, 'the page\'s words are the fallback when the line has no leading number');
+  // Release 10's tick stays: the leading number is keyed, so .amb-num replays when a credit is spent.
+  assert.match(panel, /<b key=\{balanceTick\[1\]\} className="amb-num">\{balanceTick\[1\]\}<\/b>\{balanceTick\[2\]\}/);
+  // The tick's match must never shadow creditCount(), the "1 credit" label the record asks use.
+  assert.doesNotMatch(panel, /const creditCount\b/);
   assert.doesNotMatch(panel, /walletLine|free, back to/, 'the docked panel no longer has its own wording for the same balance');
   assert.doesNotMatch(code(read('src/components/ai/askDoors.mjs')), /refill \$\{d\}|refill \$\{d\}/, 'no "refill 1 Nov" without "on"');
 });
