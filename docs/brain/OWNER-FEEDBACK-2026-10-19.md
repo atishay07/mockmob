@@ -373,3 +373,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-PM.md` (same text) int
 > * I have selected an individual account only right now, and I don't have business registration. This account is also individual, but I am later planning to get the business registered as a proper private limited. Right now, it's registered as a small business, so I can't open an organization account. Is that possible? I think it will require switching the account entirely, but let's see.
 > * Credit card statement theme: can I put Mockmob in there?
 > * Other than that, what do you sell? I couldn't find anything related to education or digital services, so I am selecting "Other" in there. I don't think this will also affect"
+
+## Owner, 19 Oct about 5:55 pm IST (verbatim)
+> "I have already created the Gmail account and done everything. Can you set this up in the database with this account and the password, and disable the code stuff, leaving only the password for this account?"
+**Ledger D131:** the reviewer Gmail review.mockmob@gmail.com exists; no MockMob account with it on production yet (checked read-only). The agent may not create accounts or set passwords on the live app; he creates the account in the app and sets the password; then the agent grants it Pro on his yes.
