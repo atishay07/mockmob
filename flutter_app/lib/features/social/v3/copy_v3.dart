@@ -1502,3 +1502,19 @@ abstract final class MobV4SheetsCopy {
       '$name, ${hmSpoken(minutes)}${top ? ', studied the most' : ''}. Met their own daily goal on $goalDays of 7 days${goalDays >= 5 ? ', a tick' : ''}.';
   static String studying(String name, DateTime since) => '$name is studying, since ${MobTime.clock(since)}';
 }
+
+/// The Mob welcome (owner, 20 Oct 11:20 pm; V16-PLAN A3): the first time the Mob tab opens, three friends hop into
+/// the lamp-lit den before the explainer. The names are the mock-ups' own.
+abstract final class MobWelcomeCopy {
+  static const String headline = 'This is the Mob.';
+
+  /// The break after the first sentence keeps "alone" from standing on a line by itself.
+  static const String lede = 'Your friends, one room.\nQuick games, one paper a week, and a chain nobody breaks alone.';
+  static const String seeHow = 'See how it works';
+  static const String notNow = 'Not now';
+  static const String skip = 'Skip';
+  static const String skipLabel = 'Skip the welcome';
+  static const List<String> names = ['Riya', 'Kabir', 'Zoya'];
+  static const String openSeat = 'Open seat';
+  static const String roomLabel = 'A lamp-lit room. Riya, Kabir and Zoya hop in and wave, and one seat stays open for you.';
+}

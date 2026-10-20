@@ -28,6 +28,7 @@ import '../../data/mob_repository.dart' show mobRepositoryProvider;
 import '../copy_v3.dart';
 import '../data/mob_v3_api.dart';
 import '../logic/explainer_flow.dart';
+import '../logic/mob_welcome.dart' show mobWelcomeSeenProvider;
 import '../widgets/explainer/ex_kit.dart';
 import '../widgets/explainer/ex_slides.dart';
 import '../widgets/mob_fx.dart';
@@ -672,7 +673,10 @@ class _MobJoinGateState extends ConsumerState<MobJoinGate> {
   Future<void> _check() async {
     final seen = await ref.read(explainerSeenProvider).read();
     final inMob = ref.read(mobRepositoryProvider).value?.mob != null;
-    if (mounted) setState(() => _phase = !seen && !inMob ? _GatePhase.explainer : _GatePhase.join);
+    final explainer = !seen && !inMob;
+    // An invite that opens the explainer stands in for the Mob welcome too (V16 A3): it never plays after it.
+    if (explainer) await ref.read(mobWelcomeSeenProvider).mark();
+    if (mounted) setState(() => _phase = explainer ? _GatePhase.explainer : _GatePhase.join);
   }
 
   @override

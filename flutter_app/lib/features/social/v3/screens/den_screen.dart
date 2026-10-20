@@ -34,6 +34,7 @@ import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../logic/den_acts.dart';
 import '../logic/den_copy_state.dart';
+import '../logic/mob_welcome.dart' show mobWelcomeRunProvider;
 import '../logic/moment_queue.dart';
 import '../widgets/den_cards.dart';
 import '../widgets/den_stage.dart';
@@ -45,6 +46,7 @@ import '../widgets/v4_sheet_hooks.dart';
 import '../widgets/your_mobs_sheet.dart';
 import '../widgets/sticker_row.dart';
 import 'den_start_screen.dart';
+import 'mob_welcome_screen.dart' show MobWelcomeHook;
 import 'results_run.dart';
 
 /// The den's clock (tests pin it). Defaults to the phone's clock.
@@ -70,7 +72,7 @@ class DenScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     // No Mob yet (D0): the start screen, whether or not the read carried v3.
     final read = ref.watch(mobRepositoryProvider.select((s) => s.value));
-    if (read != null && read.mob == null) return const DenStartScreen();
+    if (read != null && read.mob == null) return DenStartScreen(asTab: asTab);
     return _DenRoom(asTab: asTab);
   }
 }
@@ -277,6 +279,9 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     if (!mounted) return;
     _entered = true;
     _flyRecentReactions();
+    // The Mob welcome (and the explainer it hands to) plays first; the moment queue waits for it to close.
+    await ref.read(mobWelcomeRunProvider).idle();
+    if (!mounted) return;
     await _runMoments();
     _pumpActs();
     if (mounted) await _maybeNotice();
@@ -551,16 +556,21 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     final state = ref.watch(mobRepositoryProvider);
     final view = ref.watch(denViewProvider);
     final colors = context.mmColors;
-    return Scaffold(
-      backgroundColor: colors.ground,
-      body: MobIdleScope(
-        child: Align(
-          alignment: Alignment.topCenter,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
-            child: MmPullRefresh(
-              onRefresh: () => ref.read(mobRepositoryProvider.notifier).refresh(force: true),
-              child: CustomScrollView(slivers: [SliverToBoxAdapter(child: _body(context, state, view))]),
+    // The Mob welcome (V16 A3): the first time this account's den shows on the tab, once the den has its Mob.
+    return MobWelcomeHook(
+      inMob: true,
+      enabled: widget.asTab && view?.mob != null,
+      child: Scaffold(
+        backgroundColor: colors.ground,
+        body: MobIdleScope(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: MmSpace.contentMaxWidth),
+              child: MmPullRefresh(
+                onRefresh: () => ref.read(mobRepositoryProvider.notifier).refresh(force: true),
+                child: CustomScrollView(slivers: [SliverToBoxAdapter(child: _body(context, state, view))]),
+              ),
             ),
           ),
         ),
