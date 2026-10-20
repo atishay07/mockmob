@@ -6,6 +6,7 @@ import { startPractice, finishPractice } from '@/lib/server/practiceSessions';
 import { countStepOnce } from '@/lib/server/funnelOnceStore';
 import { funnelStepsForSession } from '@/lib/server/funnelOnce';
 import { forgetBadges } from '@/lib/server/badgesStore';
+import { attemptForClient } from '@/lib/server/answerHold';
 
 const ORIGINS = new Set(['capacitor://localhost', 'https://localhost']);
 function cors(request) {
@@ -30,7 +31,9 @@ async function handle(request, operation, funnelKind = null) {
     // Aggregate funnel, once per person and never in the way of the answer (a no-op while FUNNEL_ENABLED is off).
     const funnelSteps = funnelStepsForSession({ kind: funnelKind, body, result });
     if (funnelSteps.length) countStepOnce(session.user.id, funnelSteps, request.headers);
-    return Response.json(result, { headers });
+    // A finished Mob paper still open for the Mob answers with its marks only (src/lib/mob/paperHold.mjs): no key, no
+    // explanation, no per-question right or wrong until the paper closes. Both finish paths (device ticket and durable) land here.
+    return Response.json(funnelKind === 'finish' ? attemptForClient(result) : result, { headers });
   } catch (error) {
     const message = error.message || 'SESSION_REQUEST_FAILED';
     // FIRST_FULL_MOCK_TAKEN (data/first_full_mock.js): the free full mock this start was quoted went elsewhere; nothing was charged.

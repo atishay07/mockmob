@@ -25,6 +25,7 @@ import { buildCompare, compareSummary, sharingSet } from '../../mob/compare.mjs'
 import { detailFromAttempt } from './detail.js';
 import { memberIdFor } from './memberId.js';
 import { createMobV3Service } from './games.js';
+import { attemptHold, heldCompare, holdStamp } from '../../mob/paperHold.mjs';
 
 const DAY_MS = 86_400_000;
 const WEEK_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -206,6 +207,8 @@ export function createMobService(deps) {
         id: x.id, chapter: x.chapter || null, count, createdByYou: x.created_by === userId,
         createdAt: new Date(x.created_at).toISOString(), closesAt: new Date(x.closes_at).toISOString(), closed: extraTooLate(x),
         sat: (x.sittings || []).length, youSat: Boolean(mine), yourResultId: mine ? mine.session_id : null,
+        // The answers of an extra paper open at its close (src/lib/mob/paperHold.mjs): until then the result shows the marks.
+        answersOpen: extraClosed(x),
         compare: summary && summary.available ? summary : null,
       };
     });
@@ -233,8 +236,12 @@ export function createMobService(deps) {
     const unlocked = pro || summary?.access === 'sample';
     const mobs = (state.mobs || []).map((m) => ({ id: m.id, subject: m.subject, subjectName: subjectName(m.subject) }));
     const started = await startedCount(userId);
+    // The shared trap names a wrong option and whether you got it right, so it waits for the paper to close like the answers
+    // (src/lib/mob/paperHold.mjs; MOB-BUILD-SPEC-V3 F3). This view is always the open week: the trap shows in the side-by-side
+    // of that week once it has closed. Together (counts only, never a key) and the teaser stay.
+    const weekHeld = attemptHold({ mobPaper: { mobId: state.mob.id, weekStart: state.week } }, now()) !== null;
     const out = buildView(state, {
-      userId, now: now(), memberIdFor: idFor(state.mob.id), cost: youSat ? null : { type: 'free' }, trap: unlocked ? trap : null, together: unlocked ? together : null,
+      userId, now: now(), memberIdFor: idFor(state.mob.id), cost: youSat ? null : { type: 'free' }, trap: unlocked && !weekHeld ? trap : null, together: unlocked ? together : null,
       subjectName: subjectName(state.mob.subject), plan: { pro }, mobs, freeBlocked, started, invitesPaused: !invitesOn(),
       compare: summary && summary.available ? summary : null, extras: extrasFor(state, userId, { pro }),
     });
@@ -483,7 +490,8 @@ export function createMobService(deps) {
         const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`paper:${state.mob.id}:${state.week}:${userId}`).digest('hex').slice(0, 40)}`;
         const input = { experience: 'practice', mode: 'quick', count: questions.length, subject: state.mob.subject, generationKey };
         if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
-        return await runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: state.week, questions } });
+        // holdUntil: the answers stay on the server until the paper closes (src/lib/mob/paperHold.mjs).
+        return await runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: state.week, holdUntil: holdStamp({ weekStart: state.week }), questions } });
       } catch (error) {
         await release();
         throw error;
@@ -537,7 +545,10 @@ export function createMobService(deps) {
         userId, memberIdFor: idFor(state.mob.id), access, kind, week, extra, trapName, nameOf: nameIn(state),
       });
       const mine = sittings.find((s) => s.user_id === userId);
-      return { compare: { ...out, mobId: state.mob.id, yourResultId: mine?.session_id || null } };
+      // While the paper is open for the Mob, the side-by-side shows picks, splits and time but no key, no right or wrong and
+      // no trap, and says when they open (src/lib/mob/paperHold.mjs). A past week or a closed extra paper is shown whole.
+      const hold = attemptHold({ mobPaper: { mobId: state.mob.id, weekStart: week, ...(extra ? { extraId: extra.id, holdUntil: new Date(extra.closes_at).toISOString() } : {}) } }, now());
+      return { compare: { ...(hold ? heldCompare(out, hold) : out), mobId: state.mob.id, yourResultId: mine?.session_id || null } };
     },
 
     /** Past weekly papers (Pro). GET /api/mob/history?mob=. */
@@ -643,7 +654,7 @@ export function createMobService(deps) {
     const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`extra:${extra.id}:${userId}`).digest('hex').slice(0, 40)}`;
     const input = { experience: 'practice', mode: 'quick', count: questions.length, subject: state.mob.subject, generationKey };
     if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
-    return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, questions } }, { extra: true });
+    return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, holdUntil: holdStamp({ extraClosesAt: extra.closes_at }), questions } }, { extra: true });
   }
 
   async function runStart(userId, input, server, { extra = false } = {}) {

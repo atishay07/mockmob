@@ -6,6 +6,7 @@ import { finaliseExpiredSessionsForUser, supabaseSessionStore } from '@/lib/serv
 import { reportFinalisedEpisodeCheck } from '@/lib/server/finaliseEpisodeCheck';
 import { forgetBadges } from '@/lib/server/badgesStore';
 import { isSummaryView, readAttemptListSummary, SUMMARY_UNAVAILABLE } from '@/lib/server/attemptListSummary';
+import { attemptForClient, heldAttemptView, readHeldMobPapersSafe } from '@/lib/server/answerHold';
 
 export async function GET(request) {
   try {
@@ -16,9 +17,14 @@ export async function GET(request) {
     if (finalised?.finalised) forgetBadges(session.user.id); // a result saved just now can earn a badge (BADGES-REFINE-1018)
     // ?view=summary (the Android app's list call): the same array with only what the app reads, never the heavy snapshot fields.
     // No param: the full attempts, byte for byte as before (the website and older apps).
-    if (isSummaryView(request)) return NextResponse.json(await readAttemptListSummary(supabaseAdmin(), session.user.id));
+    // A Mob paper still open for the Mob is listed with its marks only (src/lib/mob/paperHold.mjs). The summary rows no longer
+    // carry the Mob tag, so the held ones are read once beside them.
+    if (isSummaryView(request)) {
+      const [rows, held] = await Promise.all([readAttemptListSummary(supabaseAdmin(), session.user.id), readHeldMobPapersSafe(supabaseAdmin(), session.user.id, Date.now(), 'api/attempts')]);
+      return NextResponse.json(held.byId.size ? rows.map((r) => (held.byId.has(r.id) ? heldAttemptView(r, held.byId.get(r.id)) : r)) : rows);
+    }
     const attempts = await Database.getAttempts(session.user.id);
-    return NextResponse.json(attempts);
+    return NextResponse.json(attempts.map((a) => attemptForClient(a)));
   } catch (e) {
     if (e?.code === SUMMARY_UNAVAILABLE) {
       return NextResponse.json({ error: 'Your attempts are taking longer than usual to load. Try again in a moment.', retryable: true }, { status: 503, headers: { 'Retry-After': '5' } });

@@ -13,6 +13,7 @@ import { REVISE_RULES, REVISE_VERSION, addDays, boxCounts, capFrom, dayLabel, gr
 import COPY from '../../../data/mistake_lab.copy.json' with { type: 'json' };
 import { mergeQueue, headLine, mixLine } from '../../components/revise/reviseQueue.js';
 import { stampWhen } from '../../../data/review_input.mjs';
+import { readHeldMobPapersSafe } from './answerHold.js';
 
 const BATCH = 100;
 const CARD_COLUMNS = 'question_id,box,due_day,state,right_total,last_recalled_day,key_hash,wrong_at,created_at,updated_at';
@@ -67,7 +68,7 @@ async function loadQuestions(db, ids) {
 }
 
 /** Seed and reset cards from the student's newest wrong answers. Returns the cards after the write. */
-async function seed(db, userId, cards, now) {
+async function seed(db, userId, cards, now, held = new Set()) {
   const progress = await db.from('user_question_progress').select('question_id,last_correct,last_selected_key,last_attempted_at')
     .eq('user_id', userId).eq('last_correct', false).not('last_selected_key', 'is', null)
     .order('last_attempted_at', { ascending: false }).limit(REVISE_RULES.seedMax);
@@ -79,7 +80,8 @@ async function seed(db, userId, cards, now) {
   const questions = await loadQuestions(db, candidates.map((c) => c.question_id));
   const plan = planSeeds({
     progress: rows, cards,
-    usable: (qid) => eligibleQuestion(questions.get(qid)),
+    // A question of a Mob paper still open for the Mob is not seeded until the paper closes (src/lib/mob/paperHold.mjs).
+    usable: (qid) => !held.has(qid) && eligibleQuestion(questions.get(qid)),
     keyHashOf: (qid) => keyHashOf(questions.get(qid)),
   });
   if (!plan.length) return cards;
@@ -104,8 +106,10 @@ export async function getRevise(userId, { cap = REVISE_RULES.cap, db, now = Date
   const today = istDate(now);
   let cards;
   try { cards = await loadCards(client_, userId); } catch (e) { return unavailable(e); }
-  try { cards = await seed(client_, userId, cards, now); } catch { /* seeding failed: the cards already stored still work */ }
-  const due = todaysQueue({ cards, today, cap });
+  // The questions of the student's Mob papers that are still open for the Mob: not seeded, not asked, until they close.
+  const held = (await readHeldMobPapersSafe(client_, userId, now, 'revise')).qids;
+  try { cards = await seed(client_, userId, cards, now, held); } catch { /* seeding failed: the cards already stored still work */ }
+  const due = todaysQueue({ cards: held.size ? cards.filter((c) => !held.has(c.question_id)) : cards, today, cap });
   // Ask the first `room` due questions that may be asked: a due card whose question is under re-check or withdrawn is
   // skipped and the next due card takes its place.
   const items = [];
@@ -204,6 +208,10 @@ export async function answerRevise(userId, { questionId, choice } = {}, { db, no
   if (!card || card.state !== 'active' || card.due_day > today || queue.room <= 0) {
     const capped = queue.room <= 0;
     return { http: 409, body: { ok: false, error: capped ? 'cap_reached' : 'not_due', message: capped ? COPY.revise.capReached : COPY.revise.notDue } };
+  }
+  // A question of a Mob paper still open for the Mob is never graded here (the grade names its key): it waits for the close.
+  if ((await readHeldMobPapersSafe(client_, userId, now, 'revise answer')).qids.has(questionId)) {
+    return { http: 409, body: { ok: false, error: 'not_due', message: COPY.revise.notDue } };
   }
   let question;
   try { question = (await loadQuestions(client_, [questionId])).get(questionId); } catch (e) { return unavailable(e); }

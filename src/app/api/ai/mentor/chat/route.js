@@ -20,6 +20,7 @@ import { openThread, followUpThread, resolveAnchor } from '@/services/mobi/doubt
 import { buildThreadDeps, chapterCatalog } from '@/services/mobi/doubtThreadDeps';
 import { asksTonight } from '@/../data/mobi_tonight';
 import { readTonight } from '@/services/mobi/tonight';
+import { openAttemptsOnly } from '@/lib/server/answerHold';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -81,7 +82,8 @@ export async function POST(request) {
   let attempts = null;
   try {
     if(!studyLesson && !questionContext) {
-      attempts = await Database.getAttempts(userId, { limit: 60 });
+      // A Mob paper still open for the Mob is not in Mobi's record until it closes (src/lib/mob/paperHold.mjs).
+      attempts = openAttemptsOnly(await Database.getAttempts(userId, { limit: 60 }));
       insights = computePrepOSInsights(attempts, { subjectNames: SUBJECT_NAMES });
     }
   } catch { /* the record is unavailable; fall through to the plan or model path */ }

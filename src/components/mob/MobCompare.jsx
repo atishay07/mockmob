@@ -98,6 +98,8 @@ export function SideBySide({ data, mine, onBack, onShare, busy, headingRef }) {
         <h2 id="mob-sbs-h" className="mob-h2" tabIndex={-1} ref={headingRef}>Side by side: {title}</h2>
         <p className="mob-note">{data.sat} of {data.size} sat.{data.hidden > 0 ? ` ${countLabel(data.hidden, 'member keeps', 'members keep')} their answers private.` : ''}</p>
         {data.teaser ? <p className="mob-compare__teaser">{data.teaser.text}</p> : null}
+        {/* The paper is still open for the Mob (src/lib/mob/paperHold.mjs): picks and splits now, the answers when it closes. */}
+        {data.held ? <p className="mob-note mob-sbs__held"><b>{data.held.short}</b> Until then you see what everyone picked and where you split, but not who was right.</p> : null}
         {data.access === 'sample' ? <p className="mob-note">This is your free first side-by-side. Pro opens it every week, with past weeks and extra papers.</p> : null}
         {!data.youShare ? (
           <ToggleRow checked={false} onChange={() => onShare(true)} disabled={busy} label={SHARE_LABEL}

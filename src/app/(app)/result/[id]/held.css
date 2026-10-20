@@ -1,0 +1,21 @@
+/* A Mob paper's result while its answers are held (HeldResult.jsx). One panel in place of the answers: a hairline block,
+   not another card; the lock in a quiet disc; the line at reading width. It rises once with the page (mk-rise), and under
+   reduced motion it is simply there (motion-kit.css). Tokens only, so Night and Day match. */
+.rh-hold {
+  display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: start;
+  margin: 20px 0 4px; padding: 18px 0; border-block: 1px solid var(--a-line, #253026);
+}
+.rh-hold__icon {
+  display: inline-grid; place-items: center; width: 44px; height: 44px; border-radius: 50%;
+  background: var(--a-volt-wash, rgba(210, 240, 0, 0.07)); color: var(--a-accent-text, #d2f000);
+  border: 1px solid var(--a-volt-line, rgba(210, 240, 0, 0.5));
+}
+.rh-hold__text { display: grid; gap: 8px; min-width: 0; }
+.rh-hold__text h2 { margin: 0; font: 800 19px/1.25 var(--font-display, inherit); letter-spacing: -0.01em; color: var(--a-ink, #f2f4ec); text-wrap: balance; }
+.rh-hold__text p { margin: 0; max-width: 62ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); text-wrap: pretty; }
+.rh-hold__text .rh-hold__when { display: flex; gap: 8px; align-items: flex-start; font-size: 14px; color: var(--a-ink-3, #93a08f); }
+.rh-hold__when svg { flex: none; margin-top: 3px; }
+.rh-hold__when time { color: var(--a-ink, #f2f4ec); font-weight: 650; }
+@media (max-width: 480px) {
+  .rh-hold { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+}

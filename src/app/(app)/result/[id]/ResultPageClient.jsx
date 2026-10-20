@@ -53,6 +53,7 @@ import '@/components/recovery/result.css';
 import '@/components/result/result-1017.css';
 import { plainOptionTexts } from '@/../data/option_text';
 import { mobiReaction, answerReaction, repairCandidates, verdictWord } from './reaction';
+import HeldResult from './HeldResult';
 import { inRepairOrder } from '@/components/result/labLoop';
 import { useAuth } from '@/components/AuthProvider';
 import { useWalletSummary } from '@/components/useWalletSummary';
@@ -338,6 +339,10 @@ export default function ResultPageClient({ previewId = null }) {
     if (result.right && !result.replayed && !isNtaAttempt) setCheer(qid);
   }, [isNtaAttempt]);
 
+  // A Mob paper still open for the Mob (C-dec 2 item 1): the server sent the marks and when the answers open, nothing more.
+  // At that moment the page reads the result again and the full result takes this one's place.
+  const reopen = useCallback(() => setRetry((count) => count + 1), []);
+  if (attempt?.mobHold && !error) return <HeldResult attempt={attempt} subjectName={subjectName(attempt.subject)} celebrations={prefs.celebrations} onOpened={reopen} />;
   if (error) return <div className="container-narrow student-page student-page--result pt-8"><ErrorState scene="unreachable" title="This session did not load" message="Your recorded result is safe. Try again to see it." onRetry={() => { setError(null); setRetry((count) => count + 1); }} /></div>;
   if (!attempt || !analysis) return <ResultSkeleton />;
 

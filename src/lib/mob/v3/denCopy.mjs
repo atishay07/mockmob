@@ -143,6 +143,8 @@ export const DenCopy = Object.freeze({
   startAGame: 'Start a game',
   sitPaper: "Sit this week's paper",
   seeAnswers: 'See your answers',
+  // This week's paper: the answers open when it closes (src/lib/mob/paperHold.mjs), so the link promises the marks.
+  seeMarks: 'See your marks',
   askTitle: 'Ask your Mob for a game',
   askKey: 'Send "Again?"',
   askLine: 'Anyone with a start left can open one.',
@@ -261,6 +263,7 @@ export const DenCopy = Object.freeze({
   weeklyPaper: "This week's Mob paper",
   satLine: (at) => (at ? `You sat it on ${MobTime.weekdayOf(at)}.` : 'You sat it this week.'),
   answers: 'Answers',
+  marks: 'Your marks',
   paperClock: '10 questions, 10 minutes.',
   startsLeft: (mob, n) => (n === 1 ? `You have 1 start in ${mob} this week.` : `You have ${n} starts in ${mob} this week.`),
   startUsed: 'Your start this week is used. It comes back on Monday.',

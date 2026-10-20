@@ -41,7 +41,7 @@ function OpenNow({ data, v3, now, onClose }) {
             <span className="den-row__icon" aria-hidden="true"><FileText size={18} /></span>
             <span className="den-row__text"><b>{DenCopy.weeklyPaper}</b><span>{week.youSat ? DenCopy.satLine(null) : DenCopy.paperClock}</span></span>
             {week.youSat
-              ? (week.yourResultId ? <Link className="mob-key den-row__key" href={resultHref(week.yourResultId)}>{DenCopy.answers}</Link> : null)
+              ? (week.yourResultId ? <Link className="mob-key den-row__key" href={resultHref(week.yourResultId)}>{DenCopy.marks}</Link> : null)
               : <Link className="mob-key den-row__key" href={paperHref(data)}>{DenCopy.sitIt}</Link>}
           </li>
         ) : null}

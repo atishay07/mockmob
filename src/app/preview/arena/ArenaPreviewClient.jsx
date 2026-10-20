@@ -53,6 +53,8 @@ import { withActiveRule } from '@/components/result/labLoop';
 import MobPage from '@/components/mob/MobPage';
 import JoinMob from '@/components/mob/JoinMob';
 import { previewMob } from './previewMob';
+import { attemptHold, heldAttemptView } from '@/lib/mob/paperHold.mjs';
+import { mobWeek } from '@/lib/mob/model.mjs';
 import { previewFirstWeek } from './previewFirstWeek';
 import { previewReview } from './previewReview';
 import { previewWallet } from './previewWallet';
@@ -280,6 +282,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     }
     if (url.pathname.startsWith('/api/attempts/')) {
       if (state === 'empty') return json({ error: 'No fixture attempt' }, 404);
+      // &mobhold=1: a Mob paper the Mob is still sitting, as the server sends it (src/lib/mob/paperHold.mjs): marks only, the hold.
+      if (fixture.get('mobhold') === '1') {
+        const tag = { mobId: '00000000-0000-4000-8000-000000000001', weekStart: mobWeek(Date.now()) };
+        const held = { id: 'fixture-mob', userId: 'preview', subject: 'accountancy', score: 70, correct: 7, wrong: 2, unattempted: 1, total: 10, mode: 'quick', completedAt: Date.now() - 40 * 60_000, details: [], questionsSnapshot: [], selectionMeta: { mode: 'quick', mobPaper: tag } };
+        return json(heldAttemptView(held, attemptHold(held)));
+      }
       // Today's weak chapters open the record's own papers (p1, p2, p3) for their stems (previewRecord.js).
       const recordPaper = previewRecordAttempt(decodeURIComponent(url.pathname.split('/').pop()));
       if (recordPaper) return json(recordPaper);

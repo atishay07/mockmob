@@ -30,7 +30,7 @@ export function entryFor(where, data) {
   }
   if (where === 'practice') {
     if (open) return { title: `Mob paper, ${data.subjectName}, ${paperLine()}`, line: `${ringLine(week.sat, week.size)}. ${costLine(week.paper.cost)}`.trim(), href: paperHref(data), key: 'Sit it' };
-    if (week.youSat && week.yourResultId) return { title: `Mob paper, ${data.subjectName}: sat`, line: `${ringLine(week.sat, week.size)}.`, href: resultHref(week.yourResultId), key: 'See your answers' };
+    if (week.youSat && week.yourResultId) return { title: `Mob paper, ${data.subjectName}: sat`, line: `${ringLine(week.sat, week.size)}.`, href: resultHref(week.yourResultId), key: 'See your marks' }; // the answers open when the week closes (paperHold.mjs)
     return null;
   }
   // Today

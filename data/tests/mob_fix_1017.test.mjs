@@ -368,7 +368,7 @@ test('entry lines: one per page for a member, the invitation only on Today and o
   assert.equal(entryFor('review', view), null, 'Review says nothing to someone who has not sat');
   const sat = JSON.parse(read('data/tests/fixtures/mob/get_v1.json')).mob;
   assert.match(entryFor('review', sat).title, /trap: question \d+$/);
-  assert.equal(entryFor('practice', sat).key, 'See your answers');
+  assert.equal(entryFor('practice', sat).key, 'See your marks', "this week's answers open when the week closes (C-dec 2 item 1)");
   assert.equal(inviteMoment({ counts: { weeksMet: 0, sessions: 3 } }), null);
   assert.equal(inviteMoment({ counts: { weeksMet: 1, sessions: 3 } }), 'You met your study goal for a week.');
   assert.equal(inviteMoment({ counts: { weeksMet: 0, sessions: 7 } }), 'You have saved 7 sessions.');

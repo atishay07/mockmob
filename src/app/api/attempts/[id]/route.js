@@ -11,6 +11,7 @@ import { readCohortWithTime } from '@/lib/server/cohortStats';
 import { loadRuleSources } from '@/lib/server/ruleBook';
 import { atlasForAttempt } from '@/lib/server/trapAtlas';
 import { cardsFor } from '@/lib/server/revise';
+import { attemptHold, heldAttemptView } from '@/lib/server/answerHold';
 
 export async function GET(request, { params }) {
   try {
@@ -21,6 +22,10 @@ export async function GET(request, { params }) {
     if (!attempt || attempt.userId !== session.user.id) {
       return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
     }
+    // A Mob paper still open for the Mob: the marks and when the answers open, nothing else (no reviews, history, Lab or SWOT,
+    // each of which would name the paper's right and wrong answers). The same read after the close is the full result.
+    const hold = attemptHold(attempt);
+    if (hold) return NextResponse.json(heldAttemptView(attempt, hold), { headers: { 'Cache-Control': 'no-store' } });
     const reviews = await readAnswerReviews(attempt);
     // The student's attempts are read once for this request: the history below and the paper's "Mock 3" name share it.
     const memo = new Map();

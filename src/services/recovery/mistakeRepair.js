@@ -19,6 +19,7 @@ import { checkStatus } from './repairCheck';
 import { buildCheckDeps } from './repairCheckDeps';
 import { atlasForAttempts } from '@/lib/server/trapAtlas';
 import { buildTrapsMeet } from '@/../data/trap_atlas';
+import { openAttemptLoader, openAttemptsOnly } from '@/lib/server/answerHold';
 
 async function withheldForRecheck(db, { questionId, userId, attemptId, firstIndex, blindIndex, model }) {
   // Same path as a student report: recorded, then withheld from practice until re-checked.
@@ -52,7 +53,8 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
     // Every model call of a repair (the explanation and its blind key check) counts against this student's monthly limit.
     spendUser: spendUserFor,
     gateOpen: modelRepliesOpen,
-    loadAttempt: (id) => Database.getAttemptById(id),
+    // A Mob paper still open for the Mob reads as not found: no repair opens its key early (src/lib/mob/paperHold.mjs).
+    loadAttempt: openAttemptLoader((id) => Database.getAttemptById(id)),
     // The row without its signed evidence record (data/question_reads.js).
     loadQuestion: (id) => readQuestionRow(supabaseAdmin(), id),
     // Called only when the key changed since the snapshot: reads the full row for the verdict. Any read failure is "not eligible".
@@ -85,7 +87,7 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
     },
     // "Traps you meet" rows for Fix it for good's history line ("This trap has caught you 4 times in 6 chances"). No model.
     trapRows: async (userId) => {
-      const attempts = await Database.getAttempts(userId);
+      const attempts = openAttemptsOnly(await Database.getAttempts(userId));
       let atlas = null;
       try { atlas = await atlasForAttempts(attempts); } catch { atlas = null; }
       return buildTrapsMeet({ attempts, atlas }).rows;

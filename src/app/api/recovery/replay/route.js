@@ -6,6 +6,7 @@ import { LAUNCH_SUBJECTS } from '@/../shared/recoveryContract';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { studyExposures } from '@/lib/server/studyExposure';
 import { actionFromHref } from '@/lib/server/actionFields';
+import { isHeld } from '@/lib/server/answerHold';
 
 // Read-only inventory check. Launch rechecks evidence, freshness and access atomically.
 export async function GET(request) {
@@ -17,7 +18,8 @@ export async function GET(request) {
   if(!id || id.length>100)return Response.json({error:'Invalid attempt'},{status:422,headers});
   try{
     const attempt=await Database.getAttemptById(id);
-    if(!attempt || attempt.userId!==session.user.id)return Response.json({error:'Attempt not found'},{status:404,headers});
+    // A Mob paper still open for the Mob reads as not found until it closes (src/lib/mob/paperHold.mjs).
+    if(!attempt || attempt.userId!==session.user.id || isHeld(attempt))return Response.json({error:'Attempt not found'},{status:404,headers});
     const chapters=missedChapters(attempt);
     if(!LAUNCH_SUBJECTS.some(s=>s.id===attempt.subject))return Response.json({chapters:[],state:'unsupported'},{headers});
     const exposures=await studyExposures(session.user.id,replayExposures(await Database.getAttempts(session.user.id, { columns: ['questions_snapshot'] })));
