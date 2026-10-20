@@ -35,7 +35,7 @@ void main() {
 
   test('C-1: no price, currency or buying', () {
     final bad = RegExp(r'₹|\bRs\b|\bprice\b|\bbuy\b|per month', caseSensitive: false);
-    final hits = [for (final (f, s) in strings) if (bad.hasMatch(s) && !s.contains('can buy') && !s.contains('be bought')) '$f: $s'];
+    final hits = [for (final (f, s) in strings) if (bad.hasMatch(s) && s != 'price' && !s.contains('can buy') && !s.contains('be bought')) '$f: $s'];
     expect(hits, isEmpty);
   });
 

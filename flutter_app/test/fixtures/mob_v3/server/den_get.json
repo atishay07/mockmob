@@ -142,6 +142,7 @@
           "format": "sprint",
           "mode": "async",
           "count": 5,
+          "minutes": null,
           "chapter": "Goodwill",
           "subjectName": "Accountancy",
           "title": "Kabir's sprint",
@@ -178,6 +179,7 @@
           "format": "sprint",
           "mode": "async",
           "count": 5,
+          "minutes": null,
           "chapter": null,
           "subjectName": "Accountancy",
           "title": "Riya's sprint",
@@ -271,11 +273,22 @@
         "formats": [
           "sprint",
           "round",
-          "rematch"
+          "rematch",
+          "race"
+        ],
+        "locked": [
+          "mock"
         ],
         "freeLeft": null,
         "mics": 0,
-        "micsToGive": null
+        "micsToGive": null,
+        "mock": {
+          "costCredits": 50,
+          "sitCredits": 50,
+          "proRequiredToStart": true,
+          "canStart": false,
+          "proSitsFree": true
+        }
       },
       "chainChip": {
         "hidden": false,

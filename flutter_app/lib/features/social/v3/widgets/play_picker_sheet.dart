@@ -1,10 +1,14 @@
 // P1 Play picker (spec 5.3, Arena S5 plus Live 05's "Open now"). "Play with your Mob": what is open now (a row
 // for each open game and the weekly paper) and "Start a game" by what the server says this student may do.
 //
+// D167, D169, K9: every format starts in the one Start a game sheet (Sprint, Race, Your own round, Full mock
+// together). Here "Start a game" is one row that names them all, and one line on live and 24 hours. Live is not
+// a tile of its own: it is the start sheet's Anytime or Live choice.
+//
 // Plan words appear only when billing is on (`v3.starts.billingOn`): with it off there are no sections about
 // plans, no lock and no "Pro", only "Anyone in your Mob can start a game." With it on, a start left, a start
-// used (the tiles stay drawn, locked, with the reason above them), a mic passed to you, or Pro. A Live tile
-// shows only when `v3.live.enabled`. No price anywhere. "What Pro adds" shows only when the Pro nudges are on.
+// used (the tiles stay drawn, locked, with the reason above them), a mic passed to you, or Pro. No price
+// anywhere. "What Pro adds" shows only when the Pro nudges are on.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,6 +27,7 @@ import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
 import 'free_pro_sheet.dart';
 import 'sheet_parts.dart';
+import 'sit_mock_sheet.dart' show mockSitCost;
 import 'start_game_sheet.dart';
 
 /// Opens P1. The body scrolls; "Ask your Mob for a game" and "What Pro adds" stand pinned under it.
@@ -77,8 +82,9 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
     }
   }
 
-  Future<void> _start(GameFormat format, int count, {GameMode mode = GameMode.async}) async {
-    final game = await showStartGame(context, prefill: StartGamePrefill(format: format, count: count, mode: mode));
+  Future<void> _start(GameFormat format) async {
+    final count = switch (format) { GameFormat.round => 10, GameFormat.mock => 50, _ => 5 };
+    final game = await showStartGame(context, prefill: StartGamePrefill(format: format, count: count));
     // A game was opened and its run is on screen: this sheet is no longer under anything the student needs.
     if (game != null && mounted) dropSheet(context);
   }
@@ -104,17 +110,17 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
       children: [
         if (open.isNotEmpty || paperRow) ...[
           const MobSheetLabel(MobV3Copy.openNow, padding: EdgeInsets.only(top: MmSpace.s4, bottom: MmSpace.s4)),
-          for (var i = 0; i < open.length; i++) _GameRow(game: open[i], member: v3.member(open[i].host?.memberId ?? ''), now: now, primary: i == firstPlayable),
+          for (var i = 0; i < open.length; i++) _GameRow(game: open[i], member: v3.member(open[i].host?.memberId ?? ''), now: now, primary: i == firstPlayable, cost: mockSitCost(open[i], starts)),
           if (paperRow) _PaperRow(mob: mob, satAt: v3.paperSatAt, primary: paperPrimary, sitting: _sitting, onSit: () => _sit(mob)),
         ],
         const MobSheetLabel(MobV3Copy.startAGame),
-        ..._startBlock(context, starts, mobName, v3.live),
+        ..._startBlock(context, starts, mobName, v3.live, open),
         const SizedBox(height: MmSpace.s8),
       ],
     );
   }
 
-  List<Widget> _startBlock(BuildContext context, StartRight starts, String mobName, LiveSwitch live) {
+  List<Widget> _startBlock(BuildContext context, StartRight starts, String mobName, LiveSwitch live, List<MobGameSummary> open) {
     final billing = starts.billingOn;
     final used = billing && !starts.can;
     final pro = billing && starts.via == StartVia.pro;
@@ -125,30 +131,6 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
       if (!billing) MobV3Copy.anyoneCanStart,
       if (billing && !used && !mic && !pro) MobV3Copy.startsLeft(mobName, starts.freeLeft ?? 1),
       if (mic || micAlso) MobV3Copy.micPassed(starts.micFrom ?? MobV3Copy.aFriend),
-    ];
-    final showLive = live.enabled;
-    final liveOpen = starts.can && starts.liveAllowed && live.hoursOk;
-    final lockedByUse = used;
-
-    Widget tile({required IconData icon, required String title, required String line, required bool ok, String? tag, VoidCallback? onTap}) =>
-        MobTile(icon: icon, title: title, line: lockedByUse ? MobV3Copy.usedThisWeek : line, locked: !ok, tag: ok ? null : tag, onTap: ok ? onTap : null);
-
-    final tiles = <Widget>[
-      tile(icon: LucideIcons.send, title: MobV3Copy.sprint, line: MobV3Copy.sprintSub, ok: starts.can, onTap: () => _start(GameFormat.sprint, 5)),
-      tile(icon: LucideIcons.slidersHorizontal, title: MobV3Copy.ownRound, line: MobV3Copy.ownRoundSub, ok: starts.can, onTap: () => _start(GameFormat.round, 10)),
-    ];
-    final slim = <Widget>[
-      if (showLive)
-        MobTile(
-          wide: true,
-          icon: LucideIcons.radio,
-          title: MobV3Copy.live,
-          line: MobV3Copy.liveSub,
-          locked: !liveOpen,
-          tag: !liveOpen && billing && !starts.liveAllowed && starts.can ? MobV3Copy.proTag : null,
-          onTap: liveOpen ? () => _start(GameFormat.sprint, 5, mode: GameMode.live) : null,
-        ),
-      if (billing) const MobTile(wide: true, icon: LucideIcons.fileText, title: MobV3Copy.fullMock, line: MobV3Copy.fullMockSub, locked: true, tag: MobV3Copy.proTag),
     ];
     return [
       if (sentences.isNotEmpty) ...[
@@ -161,43 +143,30 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
         const MobLine(MobV3Copy.anyoneWithPro),
         const SizedBox(height: MmSpace.s12),
       ],
-      _TileGrid(children: tiles),
-      for (final w in slim) ...[const SizedBox(height: MmSpace.s12), w],
+      // D169: every format starts in the one Start a game sheet; this row names them all (K9).
+      MobRow(
+        key: const ValueKey('picker-start-row'),
+        leading: const PaperChip(icon: LucideIcons.plus),
+        title: MobV3Copy.chooseAGame,
+        line: MobV3Copy.startRowLine,
+        trailing: RowKey(label: MobV3Copy.startKey2, primary: open.isEmpty, onPressed: () => _start(GameFormat.sprint)),
+      ),
+      const SizedBox(height: MmSpace.s4),
+      MobLine(live.enabled ? MobV3Copy.waysLiveLine : MobV3Copy.waysLine),
     ];
   }
 }
 
-/// Two tiles to a row, equal height, with a gap of 12.
-class _TileGrid extends StatelessWidget {
-  const _TileGrid({required this.children});
-
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    final rows = <Widget>[];
-    for (var i = 0; i < children.length; i += 2) {
-      final a = children[i];
-      final b = i + 1 < children.length ? children[i + 1] : const SizedBox.shrink();
-      if (rows.isNotEmpty) rows.add(const SizedBox(height: MmSpace.s12));
-      rows.add(IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [Expanded(child: a), const SizedBox(width: MmSpace.s12), Expanded(child: b)],
-        ),
-      ));
-    }
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows);
-  }
-}
-
 class _GameRow extends StatelessWidget {
-  const _GameRow({required this.game, required this.member, required this.now, required this.primary});
+  const _GameRow({required this.game, required this.member, required this.now, required this.primary, this.cost = 0});
 
   final MobGameSummary game;
   final MobV3Member? member;
   final DateTime now;
   final bool primary;
+
+  /// Credits a Free member pays to sit this full mock (0: nothing, say nothing).
+  final int cost;
 
   @override
   Widget build(BuildContext context) {
@@ -210,10 +179,14 @@ class _GameRow extends StatelessWidget {
     return MobRow(
       leading: lead,
       title: MobV3Copy.gameTitle(game),
-      line: MobV3Copy.openRow(game, now),
+      line: MobV3Copy.openRow(game, now, cost: cost),
       trailing: played
-          ? RowKey(label: MobV3Copy.podiumKey, onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.podium(c, game.id)))
-          : RowKey(label: game.live ? MobV3Copy.joinGame : MobV3Copy.play, primary: primary, onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.run(c, game.id))),
+          ? RowKey(label: game.format == GameFormat.mock ? MobV3Copy.sheetsKey : MobV3Copy.podiumKey, onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.podium(c, game.id)))
+          : RowKey(
+              label: game.live ? MobV3Copy.joinGame : (game.format == GameFormat.mock ? MobV3Copy.sitIt : MobV3Copy.play),
+              primary: primary,
+              onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.play(c, game)),
+            ),
     );
   }
 }

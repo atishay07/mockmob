@@ -12,6 +12,10 @@
 //   the contact frame (hit-stop), then a paper pennant in its colour rises from the pole with 8 paper
 //   bits, and [RulerRace.onFinishToast] fires for the toast.
 // It never shows a pick, a mark or anyone's right or wrong: only where everyone is.
+//
+// A race (D167, [RulerRace.open]) has no flag: nobody finishes a race, the clock ends it. The ruler is
+// open-ended, numbered at 1 and every fifth, and its scale grows (420 ms on glide) as the leader nears the
+// end, so everyone stays on the card however many questions they reach.
 
 import 'dart:math' as math;
 
@@ -63,10 +67,16 @@ class RulerRacer {
 
 /// Geometry of the card, shared by the painter and the Folds.
 class _Geo {
-  _Geo(this.width, this.count);
+  _Geo(this.width, this.count, {double? scale, this.open = false}) : scale = scale ?? count.toDouble();
 
   final double width;
   final int count;
+
+  /// The numbers the ruler spans (a race's scale animates between whole counts).
+  final double scale;
+
+  /// A race: no flag pole; the ruler runs to the card's edge.
+  final bool open;
 
   static const double height = 160;
   static const double rulerTop = 118;
@@ -79,10 +89,13 @@ class _Geo {
 
   double numberX(int i) {
     final a = side + 18;
-    final b = poleX - 56;
-    if (count <= 1) return (a + b) / 2;
-    return a + (i.clamp(1, count) - 1) * (b - a) / (count - 1);
+    final b = open ? width - side - 22 : poleX - 56;
+    if (scale <= 1) return (a + b) / 2;
+    return a + (i.clamp(1, open ? 1 << 20 : count) - 1) * (b - a) / (scale - 1);
   }
+
+  /// The right edge name tags may reach.
+  double get labelLimit => open ? width - side + 2 : poleX - 4;
 
   /// Where a Fold that reached the flag stands: at the pole, which stands behind it.
   double get flagStandX => poleX - 2;
@@ -122,10 +135,14 @@ class RulerRace extends StatefulWidget {
     this.youActId = 0,
     this.onFinishToast,
     this.instant = false,
+    this.open = false,
   });
 
   final int count;
   final List<RulerRacer> racers;
+
+  /// A race: no flag and a scale that grows with the leader ([count] is the scale's whole numbers).
+  final bool open;
 
   /// How many questions you have answered: numbers 1 to [answered] are filled in ink.
   final int answered;
@@ -134,7 +151,7 @@ class RulerRace extends StatefulWidget {
   final FoldAct youAct;
   final int youActId;
 
-  /// Called when a ghost's toast should slide in (M6 at about 570 ms; at once in reduced motion).
+  /// Called when a friend's toast (a ghost's, or a live friend's) should slide in (M6 at about 570 ms; at once in reduced motion).
   final ValueChanged<RulerRacer>? onFinishToast;
 
   /// Places everyone with no animation (a resumed run: the Folds reappear where they are).
@@ -165,11 +182,12 @@ class _Track {
 }
 
 class _Pennant {
-  _Pennant({required this.id, required this.colour, required this.ghost, required this.controller});
+  _Pennant({required this.id, required this.colour, required this.ghost, required this.controller, this.you = false});
 
   final String id;
   final int colour;
   final bool ghost;
+  final bool you;
 
   /// Reduced motion: a 120 ms fade instead of the pop.
   bool fade = false;
@@ -213,6 +231,7 @@ abstract final class RulerFinish {
 }
 
 class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
+  late final AnimationController _scale = AnimationController.unbounded(vsync: this, value: widget.count.toDouble());
   final Map<String, _Track> _tracks = {};
   final List<_Pennant> _pennants = [];
   final Map<String, AnimationController> _fills = {};
@@ -221,7 +240,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
 
   bool get _reduced => MobFx.reduced(context);
 
-  int _slotOf(RulerRacer r) => r.finished ? widget.count + 1 : r.at.clamp(1, widget.count);
+  int _slotOf(RulerRacer r) => r.finished && !widget.open ? widget.count + 1 : r.at.clamp(1, widget.count);
 
   @override
   void initState() {
@@ -250,7 +269,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
     if (_pennants.any((p) => p.id == r.id)) return;
     final c = AnimationController(vsync: this, duration: const Duration(milliseconds: 420), value: animate ? 0 : 1);
     c.addListener(_tick);
-    _pennants.add(_Pennant(id: r.id, colour: r.colour, ghost: r.ghost, controller: c));
+    _pennants.add(_Pennant(id: r.id, colour: r.colour, ghost: r.ghost, controller: c, you: r.you));
     final fill = AnimationController(vsync: this, duration: const Duration(milliseconds: 160), value: animate ? 0 : 1)..addListener(_tick);
     _fills[r.id] = fill;
   }
@@ -262,6 +281,13 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
   @override
   void didUpdateWidget(RulerRace old) {
     super.didUpdateWidget(old);
+    if (old.count != widget.count) {
+      if (widget.instant || _reduced) {
+        _scale.value = widget.count.toDouble();
+      } else {
+        _scale.animateTo(widget.count.toDouble(), duration: Motion.emphasizedDuration, curve: Motion.glide);
+      }
+    }
     final ids = {for (final r in widget.racers) r.id};
     for (final id in [..._tracks.keys]) {
       if (!ids.contains(id)) _tracks.remove(id)?.controller.dispose();
@@ -295,7 +321,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
             p.controller.duration = Motion.reducedFade;
             p.controller.forward(from: 0);
             // After this frame: didUpdateWidget runs inside the parent's build, and the toast sets state there.
-            if (r.ghost) {
+            if (!r.you) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (mounted) widget.onFinishToast?.call(r);
               });
@@ -304,7 +330,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
           continue;
         }
         t.kind = _MoveKind.finish;
-        t.toastSent = !r.ghost;
+        t.toastSent = r.you;
         t.burstSent = false;
         t.controller
           ..duration = const Duration(milliseconds: 900)
@@ -325,6 +351,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
 
   @override
   void dispose() {
+    _scale.dispose();
     for (final t in _tracks.values) {
       t.controller.dispose();
     }
@@ -373,16 +400,18 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, box) {
-        final geo = _Geo(box.maxWidth, widget.count);
-        _geo = geo;
-        final listenables = <Listenable>[for (final t in _tracks.values) t.controller];
+        final listenables = <Listenable>[_scale, for (final t in _tracks.values) t.controller];
         return SizedBox(
           height: _Geo.height,
           child: ClipRRect(
             borderRadius: MmRadius.panelAll,
             child: AnimatedBuilder(
               animation: Listenable.merge(listenables),
-              builder: (context, _) => _card(context, geo),
+              builder: (context, _) {
+                final geo = _Geo(box.maxWidth, widget.count, scale: widget.open ? _scale.value : null, open: widget.open);
+                _geo = geo;
+                return _card(context, geo);
+              },
             ),
           ),
         );
@@ -432,7 +461,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
       final fit = natural > base * RulerDepth.maxAspect ? base * RulerDepth.maxAspect / natural : 1.0;
       final size = base * scale * fit;
       final w = FoldPuppet.widthFor(manifest, r.fold, size);
-      final atFlag = t.slot > widget.count;
+      final atFlag = !widget.open && t.slot > widget.count;
       final aside = RulerDepth.aside(k, atFlag: atFlag) * base;
       double x;
       var lift = 0.0;
@@ -484,7 +513,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
 
     final fills = <int, Color>{};
     for (final p in _pennants) {
-      if (!p.ghost) continue;
+      if (p.you) continue;
       final f = _fills[p.id];
       if (f == null || f.value <= 0) continue;
       fills[widget.count] = Color.lerp(paper.paper, MobColours.of(context, p.colour), f.value)!;
@@ -498,6 +527,8 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
             child: CustomPaint(
               painter: _RulerPainter(
                 count: widget.count,
+                scale: geo.scale,
+                open: widget.open,
                 answered: widget.answered,
                 fills: fills,
                 paper: paper,
@@ -543,9 +574,11 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
             pose: r.finished && !r.ghost ? FoldPose.cheer : FoldPose.idle,
             fallbackName: r.name,
             fallbackColour: r.colour,
-            semanticLabel: r.finished
-                ? MobV3Copy.rulerDone(r.you ? MobV3Copy.tabYou : r.name)
-                : MobV3Copy.rulerAt(r.you ? MobV3Copy.tabYou : r.name, r.at.clamp(1, widget.count), widget.count),
+            semanticLabel: widget.open
+                ? MobV3Copy.rulerOn(r.you ? MobV3Copy.tabYou : r.name, r.at)
+                : r.finished
+                    ? MobV3Copy.rulerDone(r.you ? MobV3Copy.tabYou : r.name)
+                    : MobV3Copy.rulerAt(r.you ? MobV3Copy.tabYou : r.name, r.at.clamp(1, widget.count), widget.count),
           ),
         ),
       ),
@@ -573,7 +606,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
     final rows = RulerLabels.layout(
       [for (final it in items) (x: it.p.x, w: it.w)],
       minLeft: _Geo.side - 2,
-      maxRight: geo.poleX - 4,
+      maxRight: geo.labelLimit,
     );
     final labelH = items.map((e) => e.h).reduce(math.max);
     final base = compact ? 48.0 : 64.0;
@@ -694,9 +727,11 @@ class _PennantPainter extends CustomPainter {
 }
 
 class _RulerPainter extends CustomPainter {
-  _RulerPainter({required this.count, required this.answered, required this.fills, required this.paper, required this.night, required this.line, required this.pennants});
+  _RulerPainter({required this.count, this.scale, this.open = false, required this.answered, required this.fills, required this.paper, required this.night, required this.line, required this.pennants});
 
   final int count;
+  final double? scale;
+  final bool open;
   final int answered;
   final Map<int, Color> fills;
   final RunPaper paper;
@@ -706,7 +741,7 @@ class _RulerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final geo = _Geo(size.width, count);
+    final geo = _Geo(size.width, count, scale: scale, open: open);
     final rect = Offset.zero & size;
     canvas.drawRect(rect, Paint()..color = paper.wall);
     // Graph paper.
@@ -744,7 +779,12 @@ class _RulerPainter extends CustomPainter {
     }
 
     // Numbers: answered ones filled in ink, a finisher's last number in their colour.
-    final show = <int>{for (var i = 1; i <= count; i++) if (count <= 10 || i == 1 || i == count || i % 5 == 0 || i <= answered + 1 && i >= answered) i};
+    // A race numbers 1 and every fifth (and where you are) on a scale that may be part-way between counts.
+    final top = open ? geo.scale.floor() : count;
+    final show = <int>{
+      for (var i = 1; i <= top; i++)
+        if (top <= 10 || i == 1 || (!open && i == count) || i % 5 == 0 || (i <= answered + 1 && i >= answered)) i,
+    };
     for (final i in show) {
       final cx = geo.numberX(i);
       final label = '$i';
@@ -768,6 +808,13 @@ class _RulerPainter extends CustomPainter {
       tp.dispose();
     }
 
+    // The card's hairline edge (a race has no flag: the clock ends it).
+    if (open) {
+      canvas.drawRRect(RRect.fromRectAndRadius(rect.deflate(0.5), const Radius.circular(MmRadius.panel)), Paint()
+        ..style = PaintingStyle.stroke
+        ..color = line);
+      return;
+    }
     // The flag pole at the end; its cloth is a dashed outline until someone reaches it.
     final poleX = geo.poleX;
     canvas.drawLine(
@@ -808,7 +855,7 @@ class _RulerPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_RulerPainter old) =>
-      old.count != count || old.answered != answered || old.night != night || old.pennants != pennants || !_sameFills(old.fills, fills) || old.line != line;
+      old.count != count || old.scale != scale || old.open != open || old.answered != answered || old.night != night || old.pennants != pennants || !_sameFills(old.fills, fills) || old.line != line;
 
   static bool _sameFills(Map<int, Color> a, Map<int, Color> b) {
     if (a.length != b.length) return false;

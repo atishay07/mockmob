@@ -347,7 +347,8 @@ void main() {
   group('no age gate, no selling', () {
     test('nothing in the Mob asks for an age, a consent, a price or a purchase', () {
       final files = Directory('lib/features/social').listSync(recursive: true).whereType<File>().where((f) => f.path.endsWith('.dart'));
-      final text = files.map((f) => f.readAsStringSync()).join('\n');
+      // Realtime's own channel calls (`.subscribe(`, `RealtimeSubscribeStatus`) are not selling anything.
+      final text = files.map((f) => f.readAsStringSync()).join('\n').replaceAll(RegExp(r'\.subscribe\(|RealtimeSubscribeStatus\.\w+'), '');
       expect(RegExp(r'\b(adult|minor|age_?band|ageGate|under.?18|dateOfBirth|consent)\b', caseSensitive: false).hasMatch(text), isFalse);
       expect(RegExp(r'pricing|checkout|purchase|subscribe|₹|rupee', caseSensitive: false).hasMatch(text), isFalse);
     });

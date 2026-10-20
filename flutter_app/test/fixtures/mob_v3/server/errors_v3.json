@@ -454,7 +454,7 @@
     "body": {
       "error": {
         "code": "START_FORMAT",
-        "message": "Live rooms are part of Pro. You can start this game for anytime in 24 hours."
+        "message": "Live rooms are part of Pro. You can start this game to play any time in the next 24 hours."
       }
     }
   },
@@ -481,7 +481,7 @@
     "body": {
       "error": {
         "code": "LIVE_OFF",
-        "message": "Live rooms are not on yet. Start it for anytime in 24 hours."
+        "message": "Live rooms are not on yet. Start it to play any time in the next 24 hours."
       }
     }
   },
@@ -490,7 +490,7 @@
     "body": {
       "error": {
         "code": "LIVE_HOURS",
-        "message": "Live rooms open from 6:00 AM to 11:00 PM. You can start it for anytime in 24 hours."
+        "message": "Live rooms open from 6:00 AM to 11:00 PM. You can start it to play any time in the next 24 hours."
       }
     }
   },
@@ -599,6 +599,15 @@
       "error": {
         "code": "ROOM_STARTED",
         "message": "This room has already started."
+      }
+    }
+  },
+  "ROOM_CLOSED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "ROOM_CLOSED",
+        "message": "This live room has ended. The game is still open, so you can play it any time before it closes."
       }
     }
   },
@@ -716,6 +725,69 @@
       "error": {
         "code": "PAUSE_LIMIT",
         "message": "You have used the 14 pause days this season allows."
+      }
+    }
+  },
+  "MINUTES_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "MINUTES_INVALID",
+        "message": "Choose a 5-minute or a 10-minute race."
+      }
+    }
+  },
+  "RUN_NOT_STARTED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "RUN_NOT_STARTED",
+        "message": "The room has not started yet. Your first question comes at Go."
+      }
+    }
+  },
+  "RUN_PAPER": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "RUN_PAPER",
+        "message": "This game is a full mock. Open it from its card to sit the paper."
+      }
+    }
+  },
+  "MOCK_TOO_LATE": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "MOCK_TOO_LATE",
+        "message": "This full mock closes in under an hour, so there is not time to sit it now. Its answers open when it closes."
+      }
+    }
+  },
+  "NO_TICKET": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "NO_TICKET",
+        "message": "Open the room first."
+      }
+    }
+  },
+  "MOCK_PRO_REQUIRED": {
+    "status": 403,
+    "body": {
+      "error": {
+        "code": "MOCK_PRO_REQUIRED",
+        "message": "Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: 50 credits, or free with Pro."
+      }
+    }
+  },
+  "MOCK_CREDITS": {
+    "status": 402,
+    "body": {
+      "error": {
+        "code": "MOCK_CREDITS",
+        "message": "Sitting this full mock costs 50 credits, and you have fewer than that. Add credits in your wallet, or get Pro to sit every full mock free. Nothing was charged."
       }
     }
   }

@@ -5,6 +5,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import 'copy_v3.dart';
+import 'data/mob_mock.dart';
+import 'data/mob_v3_den.dart';
+import 'data/mob_v3_models.dart';
 import 'logic/explainer_flow.dart';
 
 import 'screens/chains_screen.dart';
@@ -18,12 +22,48 @@ import 'screens/mob_settings_v3_screen.dart';
 import 'screens/moments_screen.dart';
 import 'screens/podium_screen.dart';
 import 'screens/shelf_screen.dart';
+import 'widgets/sit_mock_sheet.dart';
 
 abstract final class MobV3Nav {
   static Future<T?> _push<T>(BuildContext context, Widget page, {String? name}) =>
       Navigator.of(context, rootNavigator: true).push<T>(MaterialPageRoute<T>(builder: (_) => page, settings: RouteSettings(name: name)));
 
   static Future<void> run(BuildContext context, String gameId) => _push(context, GameRunScreen(gameId: gameId), name: '/mob/game/$gameId/run');
+
+  /// Plays a game the way its format plays (D167): a full mock in the app's mock runner, a live room that has
+  /// not started in its room (the game's ready phase), anything else in the run.
+  static Future<void> play(BuildContext context, MobGameSummary g) async {
+    if (g.format == GameFormat.mock) {
+      final messenger = ScaffoldMessenger.maybeOf(context);
+      // A Free member pays credits to sit (D174, D175): the price and the way to Pro are shown before the paper opens.
+      final starts = ProviderScope.containerOf(context, listen: false).read(denViewProvider)?.v3.starts;
+      final cost = starts == null ? 0 : mockSitCost(g, starts);
+      if (cost > 0) {
+        final go = await showSitMockSheet(context, cost: cost);
+        if (!go || !context.mounted) return;
+      }
+      final failed = await sitMobMock(context, g.id);
+      // The server refused for want of credits (nothing charged): the same sheet again, short, with Pro and credits
+      // (only when a price is known; otherwise its own sentence says it).
+      final price = cost > 0 ? cost : (starts?.freeMockPrice ?? 0);
+      if (failed != null && failed.short && price > 0 && context.mounted) {
+        await showSitMockSheet(context, cost: price, refused: true);
+        return;
+      }
+      if (failed != null) messenger?.showSnackBar(SnackBar(content: Text(failed.message), behavior: SnackBarBehavior.floating));
+      return;
+    }
+    if (g.mode == GameMode.live && g.room?.state == RoomState.lobby) return room(context, g.id);
+    return run(context, g.id);
+  }
+
+  /// A game's results: the podium (a full mock's carries everyone's mark sheets).
+  static String resultsKey(MobGameSummary g) => g.format == GameFormat.mock ? MobV3Copy.seeMarkSheets : MobV3Copy.seePodiumSoFar;
+
+  /// A live room (only when the server says live is on): the game screen in its ready phase. [opened]: you
+  /// just opened it, so the go-live wash plays.
+  static Future<void> room(BuildContext context, String gameId, {bool opened = false}) =>
+      _push(context, GameRunScreen(gameId: gameId, room: true, opened: opened), name: '/mob/game/$gameId/room');
 
   /// After a run the podium replaces the run screen (Back returns to the den, not to a finished run).
   static Future<void> podiumAfterRun(BuildContext context, String gameId) =>

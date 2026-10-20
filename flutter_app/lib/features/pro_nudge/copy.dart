@@ -45,6 +45,9 @@ enum ProReason {
   /// The Mob's Free and Pro sheet (P4): Pro adds hosting games, never marks.
   mobHosting,
 
+  /// Full mock together (D174, D175): Pro starts it and sits every one free; Free sits one a friend starts for credits.
+  mobFullMock,
+
   /// Any other Pro-only thing.
   general,
 }
@@ -165,6 +168,10 @@ abstract final class ProNudgeCopy {
             'Host games for your Mob',
             'Free already plays every game your Mob starts. Pro lets you start as many games as you like, pass the mic to a friend and start up to 3 Mobs. Marks and rewards stay the same for everyone.',
           ),
+        ProReason.mobFullMock => const ProSheetHead(
+            'Start a full mock for your Mob',
+            'Pro starts a full mock together and sits every one free. On Free you can sit a full mock your Mob starts for 50 credits. Marks and rewards stay the same for everyone.',
+          ),
         ProReason.general => _general,
       };
 
@@ -174,6 +181,7 @@ abstract final class ProNudgeCopy {
         ProReason.mob => 'The full side-by-side after every Mob paper, past weeks, and extra papers on a chapter you choose.',
         ProReason.mobLimit => "Up to 3 Mobs you start, and every Mob's weekly paper, not one a week.",
         ProReason.mobHosting => 'Start as many Mob games as you like, live or anytime, and pass the mic to a friend.',
+        ProReason.mobFullMock => 'Start a full mock together, and sit every full mock your Mob starts with no credits.',
         _ => null,
       };
 

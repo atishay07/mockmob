@@ -70,7 +70,8 @@ DenCard denCardFor(MobV3 v3, {bool paperSat = false}) {
 
   for (final g in open) {
     final room = g.room;
-    if (g.mode == GameMode.live && room != null && notDone(g) && (room.state == RoomState.lobby || room.state == RoomState.running)) {
+    // Live rooms show only while the server says live is on (Phase B); otherwise the game is an anytime one.
+    if (v3.live.enabled && g.mode == GameMode.live && room != null && notDone(g) && (room.state == RoomState.lobby || room.state == RoomState.running)) {
       return DenCard(room.state == RoomState.running ? DenCardKind.liveRunning : DenCardKind.live, game: g, moreOpen: open.length - 1, paperSat: paperSat);
     }
   }

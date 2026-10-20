@@ -9,6 +9,39 @@
 
 import '../../../../core/models/json_helpers.dart';
 
+/// Full mock together's price as the server says it (owner D174, D175; APP-API-CONTRACT 2.12), on the den's
+/// `starts.mock` and on a mock game as `price`. Every field is optional: a block the server does not send hides
+/// every number, and the app never fills in a number of its own.
+class MockPrice {
+  const MockPrice({this.costCredits, this.sitCredits, this.proRequiredToStart, this.canStart, this.proSitsFree});
+
+  factory MockPrice.fromJson(Object? raw) {
+    final j = asJson(raw);
+    return MockPrice(
+      costCredits: asInt(j['costCredits']),
+      sitCredits: asInt(j['sitCredits']),
+      proRequiredToStart: asBool(j['proRequiredToStart']),
+      canStart: asBool(j['canStart']),
+      proSitsFree: asBool(j['proSitsFree']),
+    );
+  }
+
+  /// What THIS member pays to start sitting it now: 0 for Pro and once begun, else the Free price.
+  final int? costCredits;
+
+  /// What a Free member pays (50), for "Free members sit one for 50 credits".
+  final int? sitCredits;
+
+  /// Starting one is Pro only (always true today).
+  final bool? proRequiredToStart;
+
+  /// This member's plan allows the start (Pro).
+  final bool? canStart;
+
+  /// Pro sits it free (always true today).
+  final bool? proSitsFree;
+}
+
 // ---------------------------------------------------------------------------------------------------
 // Folds
 // ---------------------------------------------------------------------------------------------------
@@ -107,9 +140,18 @@ class MobV3Person {
 enum GameFormat {
   sprint,
   round,
-  rematch;
+  rematch,
 
-  static GameFormat parse(Object? v) => switch (asString(v)) { 'round' => round, 'rematch' => rematch, _ => sprint };
+  /// D167: a timed race of 5 or 10 minutes, as many questions as you can (the server serves them one at a time).
+  race,
+
+  /// D167: Full mock together, the subject's full mock for the whole Mob within 24 hours, in the app's mock runner.
+  mock;
+
+  static GameFormat parse(Object? v) => switch (asString(v)) { 'round' => round, 'rematch' => rematch, 'race' => race, 'mock' => mock, _ => sprint };
+
+  /// Raced against a clock rather than a fixed number of questions.
+  bool get timed => this == race;
 }
 
 enum GameMode {
@@ -129,20 +171,36 @@ enum RoomState {
 }
 
 class GameRoom {
-  const GameRoom({required this.state, this.startsAt, this.endsAt, this.hostMemberId});
+  const GameRoom({required this.state, this.startsAt, this.endsAt, this.hostMemberId, this.roster = const {}});
 
   static GameRoom? fromJson(Object? raw) {
     if (raw is! Map) return null;
     final j = asJson(raw);
     final s = RoomState.parse(j['state']);
     if (s == null) return null;
-    return GameRoom(state: s, startsAt: asDate(j['startsAt']), endsAt: asDate(j['endsAt']), hostMemberId: asString(j['hostMemberId']));
+    return GameRoom(
+      state: s,
+      startsAt: asDate(j['startsAt']),
+      endsAt: asDate(j['endsAt']),
+      hostMemberId: asString(j['hostMemberId']),
+      roster: rosterOf(j['roster']),
+    );
   }
+
+  /// `[{memberId, st}]` to member id to `here` or `ready` (anything else is dropped).
+  static Map<String, String> rosterOf(Object? raw) => {
+        for (final r in asJsonList(raw))
+          if (asString(r['memberId']) case final id? when id.isNotEmpty)
+            if (asString(r['st']) case final st? when st == 'here' || st == 'ready') id: st,
+      };
 
   final RoomState state;
   final DateTime? startsAt;
   final DateTime? endsAt;
   final String? hostMemberId;
+
+  /// L-55: who the server saw in the room in the last 45 s, member id to `here` or `ready`.
+  final Map<String, String> roster;
 }
 
 /// One finished run, for the den's "Runs so far" row (F2: finished runs only, in time order).
@@ -182,6 +240,8 @@ class MobGameSummary {
     this.yourRun = YourRun.none,
     this.podiumReady = false,
     this.title,
+    this.minutes,
+    this.price,
   });
 
   factory MobGameSummary.fromJson(Json j) => MobGameSummary(
@@ -200,7 +260,16 @@ class MobGameSummary {
         yourRun: YourRun.parse(j['yourRun']),
         podiumReady: asBool(j['podiumReady']) ?? false,
         title: asString(j['title']),
+        minutes: asInt(j['minutes']),
+        price: j['price'] is Map ? MockPrice.fromJson(j['price']) : null,
       );
+
+  /// A full mock's price for THIS student (`price`): costCredits is what starting your sitting costs now. Null
+  /// on any other format and from a server that does not send it.
+  final MockPrice? price;
+
+  /// A race's length (5 or 10) or a mock's (60); null for a sprint or a round.
+  final int? minutes;
 
   /// "Riya's sprint", when the server sends it.
   final String? title;
@@ -352,6 +421,8 @@ class StartRight {
     this.micsToGive,
     this.reason,
     this.micFrom,
+    this.locked = const [],
+    this.mock,
   });
 
   factory StartRight.fromJson(Json j) => StartRight(
@@ -365,7 +436,38 @@ class StartRight {
         micsToGive: asInt(j['micsToGive']),
         reason: asString(j['reason']),
         micFrom: j['micFrom'] is Map ? asString(asJson(j['micFrom'])['name']) : asString(j['micFrom']),
+        locked: [for (final f in asStringList(j['locked'])) GameFormat.parse(f)],
+        mock: j['mock'] is Map ? MockPrice.fromJson(j['mock']) : null,
       );
+
+  /// Formats this student sees but may not start (Full mock together for Free while billing is on).
+  final List<GameFormat> locked;
+
+  /// Full mock together's price (`starts.mock`), present only while the server offers the format; null hides every price.
+  final MockPrice? mock;
+
+  /// What a Free member pays to sit a full mock a friend started, or null when the server says nothing.
+  int? get freeMockPrice => mock?.sitCredits ?? ((mock?.costCredits ?? 0) > 0 ? mock!.costCredits : null);
+
+  /// What THIS student pays to sit one (0 for Pro, billing on or off: the server reads the plan).
+  int get mockCost => mock?.costCredits ?? 0;
+
+  /// Pro sits a full mock free, as the server says (true unless it says otherwise).
+  bool get proSitsFree => mock?.proSitsFree != false;
+
+  /// Starting a full mock together is Pro only (D167, D174): the server's `locked` list or `proRequiredToStart`
+  /// with no `canStart`, whatever `billingOn` says.
+  bool get mockNeedsPro => locked.contains(GameFormat.mock) || (mock?.proRequiredToStart == true && mock?.canStart != true);
+
+  /// This student can start a full mock (the server's `canStart`, or Pro by the start right).
+  bool get mockCanStart => mock?.canStart ?? (via == StartVia.pro);
+
+  /// D167: a format shows when the server offers it or names it as locked; sprints and rounds always show
+  /// (an older server knows only those).
+  bool shows(GameFormat f) => f == GameFormat.sprint || f == GameFormat.round || formats.contains(f) || locked.contains(f) || (f == GameFormat.mock && mockNeedsPro);
+
+  /// The student may start [f] now.
+  bool allows(GameFormat f) => can && !locked.contains(f) && !(f == GameFormat.mock && mockNeedsPro) && (f == GameFormat.sprint || f == GameFormat.round || formats.contains(f));
 
   final bool billingOn;
   final bool can;
@@ -571,18 +673,21 @@ class GameRunRow {
 }
 
 class GameYou {
-  const GameYou({this.run = YourRun.none, this.marks, this.answered = 0});
+  const GameYou({this.run = YourRun.none, this.marks, this.answered = 0, this.resultId});
 
-  factory GameYou.fromJson(Json j) => GameYou(run: YourRun.parse(j['run']), marks: asInt(j['marks']), answered: asInt(j['answered']) ?? 0);
+  factory GameYou.fromJson(Json j) => GameYou(run: YourRun.parse(j['run']), marks: asInt(j['marks']), answered: asInt(j['answered']) ?? 0, resultId: asString(j['resultId']));
 
   final YourRun run;
   final int? marks;
   final int answered;
+
+  /// Full mock together: your own attempt, for the app's mark sheet.
+  final String? resultId;
 }
 
 /// A finished run of another member, raced as a ghost: arrival times only, no picks, no correctness.
 class Ghost {
-  const Ghost({required this.memberId, required this.name, this.colour = 0, this.fold, this.playedAt, this.arrivalsMs = const [], this.finishedMs});
+  const Ghost({required this.memberId, required this.name, this.colour = 0, this.fold, this.playedAt, this.arrivalsMs = const [], this.finishedMs, this.answered});
 
   factory Ghost.fromJson(Json j) => Ghost(
         memberId: asStringOr(j['memberId'], ''),
@@ -592,6 +697,7 @@ class Ghost {
         playedAt: asDate(j['playedAt']),
         arrivalsMs: [for (final v in (j['arrivalsMs'] is List ? j['arrivalsMs'] as List : const [])) ?asInt(v)],
         finishedMs: asInt(j['finishedMs']),
+        answered: asInt(j['answered']),
       );
 
   final String memberId;
@@ -599,6 +705,9 @@ class Ghost {
   final int colour;
   final FoldKey? fold;
   final DateTime? playedAt;
+
+  /// A race: how many questions the run answered (one arrival each).
+  final int? answered;
 
   /// `elapsed_ms` per answered question, in order.
   final List<int> arrivalsMs;
@@ -635,6 +744,8 @@ class MobGame {
     this.you = const GameYou(),
     this.ghosts = const [],
     this.podiumReady = false,
+    this.minutes,
+    this.price,
   });
 
   factory MobGame.fromJson(Json j) => MobGame(
@@ -657,7 +768,15 @@ class MobGame {
         you: GameYou.fromJson(asJson(j['you'])),
         ghosts: [for (final g in asJsonList(j['ghosts'])) Ghost.fromJson(g)],
         podiumReady: asBool(j['podiumReady']) ?? false,
+        minutes: asInt(j['minutes']),
+        price: j['price'] is Map ? MockPrice.fromJson(j['price']) : null,
       );
+
+  /// A full mock's price for you (`price`), as on [MobGameSummary.price].
+  final MockPrice? price;
+
+  /// A race's length (5 or 10) or a mock's (60); null for a sprint or a round.
+  final int? minutes;
 
   /// `{ game: {...} }` (POST /game, GET /game/[id]) or the bare object.
   factory MobGame.fromEnvelope(Json j) => MobGame.fromJson(j['game'] is Map ? asJson(j['game']) : j);
@@ -711,7 +830,7 @@ class GameQuestion {
 }
 
 class GameRun {
-  const GameRun({this.startedAt, this.endsAt, this.serverNow, this.live = false, this.answers = const []});
+  const GameRun({this.startedAt, this.endsAt, this.serverNow, this.live = false, this.answers = const [], this.minutes});
 
   factory GameRun.fromJson(Json j) => GameRun(
         startedAt: asDate(j['startedAt']),
@@ -719,8 +838,11 @@ class GameRun {
         serverNow: asDate(j['serverNow']),
         live: asBool(j['live']) ?? false,
         answers: [for (final a in asJsonList(j['answers'])) RunAnswer.fromJson(a)],
+        minutes: asInt(j['minutes']),
       );
 
+  /// A race: its length; [endsAt] is when its time is up.
+  final int? minutes;
   final DateTime? startedAt;
   final DateTime? endsAt;
   final DateTime? serverNow;
@@ -743,9 +865,40 @@ class RunStart {
   final List<Ghost> ghosts;
 }
 
+/// `POST /api/mob/game/[id]/room/ticket` (spec 3.2, 4.2): the private channel's topic, your member id in
+/// it and the room as the server sees it. The ticket is what lets Realtime admit you to the topic.
+class RoomTicket {
+  const RoomTicket({required this.topic, required this.memberId, this.expiresAt, this.room, this.serverNow});
+
+  factory RoomTicket.fromJson(Json j) => RoomTicket(
+        topic: asStringOr(j['topic'], ''),
+        memberId: asStringOr(j['memberId'], ''),
+        expiresAt: asDate(j['expiresAt']),
+        room: GameRoom.fromJson(j['room'] is Map ? {...asJson(j['room']), if (j['roster'] != null && asJson(j['room'])['roster'] == null) 'roster': j['roster']} : null),
+        serverNow: asDate(j['serverNow']),
+      );
+
+  /// `mob-room:<game id>`.
+  final String topic;
+  final String memberId;
+  final DateTime? expiresAt;
+  final GameRoom? room;
+  final DateTime? serverNow;
+}
+
+/// `POST /api/mob/game/[id]/room/start` (host only): Go lands on [startsAt], 4 s after [serverNow].
+class RoomStartAck {
+  const RoomStartAck({required this.startsAt, this.serverNow});
+
+  factory RoomStartAck.fromJson(Json j) => RoomStartAck(startsAt: asDate(j['startsAt']) ?? DateTime.now().toUtc(), serverNow: asDate(j['serverNow']));
+
+  final DateTime startsAt;
+  final DateTime? serverNow;
+}
+
 /// `POST /api/mob/game/[id]/answer`: your own right or wrong, your marks change. Never the correct option.
 class AnswerResult {
-  const AnswerResult({this.correct, this.delta = 0, this.marks = 0, this.elapsedMs = 0, this.answered = 0, this.count = 5, this.finished = false, this.serverNow});
+  const AnswerResult({this.correct, this.delta = 0, this.marks = 0, this.elapsedMs = 0, this.answered = 0, this.count = 5, this.finished = false, this.serverNow, this.next, this.endsAt});
 
   factory AnswerResult.fromJson(Json j) => AnswerResult(
         correct: asBool(j['correct']),
@@ -756,7 +909,15 @@ class AnswerResult {
         count: asInt(j['count']) ?? 5,
         finished: asBool(j['finished']) ?? false,
         serverNow: asDate(j['serverNow']),
+        next: j['next'] is Map ? GameQuestion.fromJson(asJson(j['next'])) : null,
+        endsAt: asDate(j['endsAt']),
       );
+
+  /// A race: the next question, served only now (null once the pool is used or the time is up).
+  final GameQuestion? next;
+
+  /// A race: when its time is up.
+  final DateTime? endsAt;
 
   final bool? correct;
   final int delta;
@@ -768,12 +929,36 @@ class AnswerResult {
   final DateTime? serverNow;
 }
 
+/// `POST /api/mob/game/[id]/finish`: the stored run (every format).
+class RunFinish {
+  const RunFinish({this.finished = true, this.marks = 0, this.answered, this.right, this.wrong, this.skipped});
+
+  factory RunFinish.fromJson(Json j) {
+    final r = j['run'] is Map ? asJson(j['run']) : j;
+    return RunFinish(
+      finished: asBool(r['finished']) ?? true,
+      marks: asInt(r['marks']) ?? 0,
+      answered: asInt(r['answered']),
+      right: asInt(r['right']),
+      wrong: asInt(r['wrong']),
+      skipped: asInt(r['skipped']),
+    );
+  }
+
+  final bool finished;
+  final int marks;
+  final int? answered;
+  final int? right;
+  final int? wrong;
+  final int? skipped;
+}
+
 // ---------------------------------------------------------------------------------------------------
 // The podium (spec 3.6), the review (3.7) and Fix it together
 // ---------------------------------------------------------------------------------------------------
 
 class PodiumPlace {
-  const PodiumPlace({required this.memberId, required this.name, this.fold, this.colour = 0, this.marks, this.place, this.you = false, this.floor = false, this.private = false});
+  const PodiumPlace({required this.memberId, required this.name, this.fold, this.colour = 0, this.marks, this.place, this.you = false, this.floor = false, this.private = false, this.answered});
 
   factory PodiumPlace.fromJson(Json j) => PodiumPlace(
         memberId: asStringOr(j['memberId'], ''),
@@ -785,12 +970,16 @@ class PodiumPlace {
         you: asBool(j['you']) ?? false,
         floor: asBool(j['floor']) ?? false,
         private: asBool(j['private']) ?? false,
+        answered: asInt(j['answered']),
       );
 
   final String memberId;
   final String name;
   final FoldKey? fold;
   final int colour;
+
+  /// A race: questions answered in the time (null when private).
+  final int? answered;
 
   /// Null when the member keeps marks private ("Private").
   final int? marks;
@@ -825,7 +1014,13 @@ enum MomentKind {
   quickestFinish('quickest_finish'),
   threeInARow('three_in_a_row'),
   noMinus('no_minus'),
-  finishedAll('finished_all');
+  finishedAll('finished_all'),
+
+  /// A race: the most questions answered in the time.
+  mostAnswered('most_answered'),
+
+  /// A race's fallback: raced the whole time.
+  raced('raced');
 
   const MomentKind(this.wire);
   final String wire;
@@ -840,7 +1035,7 @@ enum MomentKind {
 }
 
 class PlayerMoment {
-  const PlayerMoment({required this.memberId, required this.kind, this.q, this.number, this.seconds, this.from, this.to, this.count});
+  const PlayerMoment({required this.memberId, required this.kind, this.q, this.number, this.seconds, this.from, this.to, this.count, this.minutes});
 
   factory PlayerMoment.fromJson(Json j) => PlayerMoment(
         memberId: asStringOr(j['memberId'], ''),
@@ -851,10 +1046,14 @@ class PlayerMoment {
         from: asInt(j['from']),
         to: asInt(j['to']),
         count: asInt(j['count']),
+        minutes: asInt(j['minutes']),
       );
 
   final String memberId;
   final MomentKind kind;
+
+  /// A race's length, for "14 in 5 minutes".
+  final int? minutes;
 
   /// 0-based question index (the server's `q`).
   final int? q;
@@ -888,8 +1087,90 @@ class GameTrap {
   final String caught;
 }
 
+/// One syllabus unit (or English pattern section) of a full mock's mark sheet.
+class SheetSection {
+  const SheetSection({required this.key, required this.label, this.of = 0, this.marks, this.right, this.wrong, this.skipped});
+
+  factory SheetSection.fromJson(Json j) => SheetSection(
+        key: asStringOr(j['key'], ''),
+        label: asStringOr(j['label'], '').trim(),
+        of: asInt(j['of']) ?? 0,
+        marks: asInt(j['marks']),
+        right: asInt(j['right']),
+        wrong: asInt(j['wrong']),
+        skipped: asInt(j['skipped']),
+      );
+
+  final String key;
+  final String label;
+
+  /// The unit's questions on the paper (the server's `of`); its full marks are 5 a question ([fullMarks]).
+  final int of;
+
+  int get fullMarks => of * 5;
+  final int? marks;
+  final int? right;
+  final int? wrong;
+  final int? skipped;
+}
+
+/// Full mock together: one member's whole mark sheet (spec D167). Private members are counted with
+/// every number null, never named as missing.
+class MobSheet {
+  const MobSheet({
+    required this.memberId,
+    required this.name,
+    this.colour = 0,
+    this.fold,
+    this.you = false,
+    this.private = false,
+    this.marks,
+    this.of = 250,
+    this.right,
+    this.wrong,
+    this.skipped,
+    this.accuracy,
+    this.timeMs,
+    this.sections = const [],
+  });
+
+  factory MobSheet.fromJson(Json j) => MobSheet(
+        memberId: asStringOr(j['memberId'], ''),
+        name: asStringOr(j['name'], '').trim(),
+        colour: (asInt(j['colour']) ?? 0).clamp(0, 7),
+        fold: FoldKey.parse(j['fold']),
+        you: asBool(j['you']) ?? false,
+        private: asBool(j['private']) ?? false,
+        marks: asInt(j['marks']),
+        of: asInt(j['of']) ?? 250,
+        right: asInt(j['right']),
+        wrong: asInt(j['wrong']),
+        skipped: asInt(j['skipped']),
+        accuracy: asInt(j['accuracy']),
+        timeMs: asInt(j['timeMs']),
+        sections: [for (final s in asJsonList(j['sections'])) SheetSection.fromJson(s)],
+      );
+
+  final String memberId;
+  final String name;
+  final int colour;
+  final FoldKey? fold;
+  final bool you;
+  final bool private;
+  final int? marks;
+  final int of;
+  final int? right;
+  final int? wrong;
+  final int? skipped;
+
+  /// 0 to 100, of the questions answered; null when nothing was answered.
+  final int? accuracy;
+  final int? timeMs;
+  final List<SheetSection> sections;
+}
+
 class Podium {
-  const Podium({this.soFar = true, this.closesAt, this.showPodium = true, this.right = 0, this.of = 0, this.places = const [], this.tie, this.moments = const [], this.trap});
+  const Podium({this.soFar = true, this.closesAt, this.showPodium = true, this.right = 0, this.of = 0, this.places = const [], this.tie, this.moments = const [], this.trap, this.sheets = const []});
 
   factory Podium.fromJson(Json j) {
     final h = asJson(j['headline']);
@@ -903,8 +1184,12 @@ class Podium {
       tie: PodiumTie.fromJson(j['tie']),
       moments: [for (final m in asJsonList(j['moments'])) PlayerMoment.fromJson(m)],
       trap: GameTrap.fromJson(j['trap']),
+      sheets: [for (final s in asJsonList(j['sheets'])) MobSheet.fromJson(s)],
     );
   }
+
+  /// Full mock together: everyone's mark sheet, ordered by marks (empty for every other format).
+  final List<MobSheet> sheets;
 
   final bool soFar;
   final DateTime? closesAt;

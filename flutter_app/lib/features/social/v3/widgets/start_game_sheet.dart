@@ -1,34 +1,58 @@
-// P2 Start a game (spec 5.3, Arena S6). Pick Sprint (5 questions) or Your own round (10, 15 or 20), what it
-// covers (the chapter of your Mob's last trap, a chapter you choose, or the whole subject), how your Mob plays
-// it (Live now or Anytime in 24 hours, only when live is on) and start. On success the run opens at once
-// (this sheet does that; the caller does not), and the opened game is returned.
+// P2 Start a game: the one sheet where every Mob game starts (D167, D169; pass-1020 MOB-MINIMAL 3.2, A8).
 //
-// Errors are the server's sentences, inline under the key. LIVE_BUSY turns the sheet to anytime in 24 hours
-// with its sentence. The key under which "Everyone in <Mob> plays it free" stands is the screen's one volt.
-// Pass the mic shows only for Pro with billing on. No price anywhere.
+// Top to bottom, as the minimal Mob mock-ups draw it (`tmp/design-1020/mob-minimal/sheet-*.png`):
+// - "Start a game" and "Chai Circle · Accountancy";
+// - Anytime · 24 hours | Live · together now (only while the server's live switch is on), with its one line;
+//   a Free student's Live keeps its lock note, and outside 6 AM to 11 PM it says so;
+// - four rows, a radio and one line each: Sprint, Race (5 or 10 minute chips when chosen), Your own round
+//   (10, 15 or 20 chips when chosen) and Full mock together (the whole paper in 24 hours; dimmed with
+//   "Anytime only" in Live, and drawn locked with Pro when the server says so);
+// - what it covers: "The whole of Accountancy" or the chapter of the Mob's last trap, with Change (a full mock
+//   is always the whole paper);
+// - one key that names the action ("Start the sprint", "Open the room for a 10-minute race");
+// - the start allowance under it; Pass the mic for Pro with billing on; and the weekly Mob paper as the last row.
+//
+// On success the run opens at once (this sheet does that; the caller does not): an anytime game opens its run,
+// a live one its room (the game's ready phase), a full mock the app's mock runner. The opened game is returned.
+// Errors are the server's sentences, inline over the key; LIVE_BUSY turns the sheet to Anytime with its
+// sentence. No price in the Mob except Full mock together (D174, D175): Pro starts it and sits free, a Free member
+// sits one a friend starts for credits, so its row says so in plain words and carries one way to Pro.
+
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../../core/api/api.dart' show nowProvider;
+import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../practice/widgets/chapter_picker.dart' show showChapterPicker;
+import '../../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
+import '../../copy.dart' show MobCopy;
+import '../../data/mob_models.dart';
+import '../../data/mob_navigator.dart';
 import '../copy_v3.dart';
+import '../data/mob_mock.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
+import 'format_tiles.dart' show FormatLook, mobStartFormats;
 import 'mic_sheet.dart';
 import 'sheet_parts.dart';
 
-/// Prefill for a rematch or a picked tile.
+/// Prefill for a rematch or a picked format.
 class StartGamePrefill {
-  const StartGamePrefill({this.format = GameFormat.sprint, this.count = 5, this.chapter, this.rematchOf, this.mode = GameMode.async});
+  const StartGamePrefill({this.format = GameFormat.sprint, this.count = 5, this.chapter, this.rematchOf, this.mode = GameMode.async, this.minutes});
   final GameFormat format;
   final int count;
   final String? chapter;
   final String? rematchOf;
   final GameMode mode;
+
+  /// A race's length (5 or 10).
+  final int? minutes;
 }
 
 /// Opens P2; returns the opened game, or null when the sheet was closed.
@@ -48,9 +72,20 @@ enum _Covers { trap, chosen, whole }
 
 class _StartController extends ChangeNotifier {
   _StartController(StartGamePrefill p, MobV3? v3) {
-    // A rematch or a picked length: 5 is the sprint, anything else the round.
-    tile = p.count == 5 && p.format != GameFormat.round ? GameFormat.sprint : GameFormat.round;
-    count = tile == GameFormat.sprint ? 5 : (const [10, 15, 20].contains(p.count) ? p.count : 10);
+    // A race or a mock keeps its format; otherwise a length of 5 is the sprint and anything else the round.
+    tile = switch (p.format) {
+      GameFormat.race || GameFormat.mock => p.format,
+      _ => p.count == 5 && p.format != GameFormat.round ? GameFormat.sprint : GameFormat.round,
+    };
+    // A format this student cannot start opens on one they can (a rematch of a full mock by a Free member).
+    final starts = v3?.starts;
+    if (starts != null && !starts.allows(tile) && starts.allows(GameFormat.sprint)) tile = GameFormat.sprint;
+    count = switch (tile) {
+      GameFormat.round => const [10, 15, 20].contains(p.count) ? p.count : 10,
+      GameFormat.mock => 50,
+      _ => 5,
+    };
+    minutes = p.minutes == 10 ? 10 : 5;
     trapChapter = v3?.lastTrapChapter;
     if (p.chapter != null) {
       chapter = p.chapter;
@@ -62,23 +97,35 @@ class _StartController extends ChangeNotifier {
       covers = _Covers.whole;
     }
     final live = v3?.live;
-    mode = p.mode == GameMode.live && live != null && live.enabled && live.hoursOk && (v3?.starts.liveAllowed ?? false) ? GameMode.live : GameMode.async;
+    mode = p.mode == GameMode.live && tile != GameFormat.mock && live != null && live.enabled && live.hoursOk && (v3?.starts.liveAllowed ?? false) ? GameMode.live : GameMode.async;
   }
 
   late GameFormat tile;
   late int count;
+
+  /// A race's length.
+  late int minutes;
   late _Covers covers;
   String? chapter;
   String? trapChapter;
   late GameMode mode;
   bool busy = false;
   String? error;
+
+  /// The server's code behind [error] (MOCK_PRO_REQUIRED draws a way to Pro under it).
+  String? errorCode;
   String? modeNote;
 
   void update(void Function() f) {
     f();
     notifyListeners();
   }
+
+  void pick(GameFormat f) => update(() {
+        tile = f;
+        count = switch (f) { GameFormat.round => count == 5 || count == 50 ? 10 : count, GameFormat.mock => 50, _ => 5 };
+        error = null;
+      });
 }
 
 class _StartBody extends ConsumerWidget {
@@ -104,81 +151,396 @@ class _StartBody extends ConsumerWidget {
       listenable: controller,
       builder: (context, _) {
         final c = controller;
+        final live = c.mode == GameMode.live;
+        final mock = c.tile == GameFormat.mock;
+        final shown = [for (final f in mobStartFormats) if (starts.shows(f)) f];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(MobV3Copy.startSub(mobName, subject), style: type.small.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s16),
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: MobTile(
-                      icon: LucideIcons.send,
-                      title: MobV3Copy.sprint,
-                      line: MobV3Copy.sprintSub,
-                      selected: c.tile == GameFormat.sprint,
-                      onTap: () => c.update(() {
-                        c.tile = GameFormat.sprint;
-                        c.count = 5;
-                        c.error = null;
-                      }),
-                    ),
-                  ),
-                  const SizedBox(width: MmSpace.s12),
-                  Expanded(
-                    child: MobTile(
-                      icon: LucideIcons.slidersHorizontal,
-                      title: MobV3Copy.ownRound,
-                      line: MobV3Copy.ownRoundSubStart,
-                      selected: c.tile == GameFormat.round,
-                      onTap: () => c.update(() {
-                        c.tile = GameFormat.round;
-                        if (c.count == 5) c.count = 10;
-                        c.error = null;
-                      }),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            if (c.tile == GameFormat.round) ...[
-              const SizedBox(height: MmSpace.s12),
-              _Stepper(count: c.count, onChanged: (n) => c.update(() => c.count = n)),
-            ],
-            MobSheetLabel(MobV3Copy.whatItCovers, padding: const EdgeInsets.only(top: MmSpace.s24, bottom: MmSpace.s4)),
-            _CoversRow(controller: c, subject: subject, subjectId: den.mob?.subject ?? ''),
-            MobSheetLabel(MobV3Copy.howMobPlays, padding: const EdgeInsets.only(top: MmSpace.s24, bottom: MmSpace.s8)),
-            if (canLive) ...[
-              MmSegmented<GameMode>(
-                semanticsLabel: MobV3Copy.howMobPlays,
-                showBubbles: false,
-                lockedHint: MobV3Copy.lockedWord,
-                segments: [MmSegment(GameMode.live, MobV3Copy.liveNow, locked: !liveOk), const MmSegment(GameMode.async, MobV3Copy.anytime24)],
+            if (canLive)
+              _ModeSwitch(
                 value: c.mode,
+                liveLocked: !liveOk,
                 onChanged: (m) => c.update(() {
                   c.mode = m;
                   c.modeNote = null;
+                  // A full mock is anytime only: Live moves the choice to the race.
+                  if (m == GameMode.live && c.tile == GameFormat.mock) {
+                    c.tile = GameFormat.sprint;
+                    c.count = 5;
+                  }
                 }),
-                onLockedTap: (_) => c.update(() => c.modeNote = !v3.live.hoursOk ? MobV3Copy.liveHours : MobV3Copy.errors['START_FORMAT']),
+                onLockedTap: () => c.update(() => c.modeNote = !v3.live.hoursOk ? MobV3Copy.liveHours : MobV3Copy.errors['START_FORMAT']),
               ),
-              const SizedBox(height: MmSpace.s8),
-            ],
-            MobLine(c.mode == GameMode.live ? MobV3Copy.liveLineStart : MobV3Copy.asyncLineStart),
-            if (c.modeNote != null) ...[
-              const SizedBox(height: MmSpace.s4),
-              MobLine(c.modeNote!),
-            ],
+            Padding(
+              padding: EdgeInsets.only(top: canLive ? MmSpace.s8 : 0),
+              child: Text(
+                c.modeNote ?? (live ? MobV3Copy.liveModeLine : MobV3Copy.anytimeModeLine),
+                key: const ValueKey('start-mode-line'),
+                style: type.small.copyWith(color: colors.ink2),
+              ),
+            ),
+            const SizedBox(height: MmSpace.s8),
+            for (final f in shown)
+              _FormatRow(
+                key: ValueKey('format-${f.name}'),
+                format: f,
+                selected: c.tile == f,
+                // In Live a full mock stays drawn, dimmed, with "Anytime only"; Pro-only stays drawn, locked.
+                anytimeOnly: live && f == GameFormat.mock,
+                locked: !starts.allows(f) && starts.can,
+                proTag: starts.billingOn || starts.mockNeedsPro,
+                minutes: c.minutes,
+                count: c.count,
+                mockDetail: MobV3Copy.mockDetail,
+                // A Free member's mock row says what Pro does and what sitting costs, and opens Pro from the row.
+                proLine: f == GameFormat.mock && starts.mockNeedsPro ? MobV3Copy.mockProRow(starts.freeMockPrice, proSitsFree: starts.proSitsFree) : null,
+                onPro: f == GameFormat.mock && starts.mockNeedsPro && ref.watch(proNudgesOnProvider)
+                    ? () => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock)
+                    : null,
+                onTap: () {
+                  if (live && f == GameFormat.mock) return;
+                  if (!starts.allows(f) && starts.can) {
+                    c.update(() => c.error = f == GameFormat.mock ? MobV3Copy.mockPro(starts.freeMockPrice) : MobV3Copy.errors['START_PRO']);
+                    return;
+                  }
+                  c.pick(f);
+                },
+                onMinutes: (m) => c.update(() => c.minutes = m),
+                onCount: (n) => c.update(() => c.count = n),
+              ),
+            Divider(height: MmSpace.s16, thickness: 1, color: colors.line),
+            if (mock)
+              MobRow(leading: const PaperChip(icon: LucideIcons.bookOpen, size: 44), title: MobV3Copy.coversWhole(subject), compactTitle: true)
+            else
+              _CoversRow(controller: c, subject: subject, subjectId: den.mob?.subject ?? ''),
             if (starts.billingOn && starts.via == StartVia.pro && starts.micsToGive != null) ...[
-              const SizedBox(height: MmSpace.s16),
-              Divider(height: 1, thickness: 1, color: colors.line),
+              Divider(height: MmSpace.s16, thickness: 1, color: colors.line),
               _MicRow(left: starts.micsToGive!),
             ],
-            const SizedBox(height: MmSpace.s8),
+            const SizedBox(height: MmSpace.s4),
           ],
         );
       },
+    );
+  }
+}
+
+/// Anytime · 24 hours | Live · together now: a sunken track, the chosen half raised with an ink edge (the
+/// minimal Mob's segmented control). The thumb slides 220 ms on the app's ease-out; reduced motion jumps.
+class _ModeSwitch extends StatelessWidget {
+  const _ModeSwitch({required this.value, required this.onChanged, this.liveLocked = false, this.onLockedTap});
+
+  final GameMode value;
+  final ValueChanged<GameMode> onChanged;
+  final bool liveLocked;
+  final VoidCallback? onLockedTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final reduced = MediaQuery.disableAnimationsOf(context);
+    Widget half(GameMode m, String word, String detail, {bool locked = false}) {
+      final on = value == m;
+      final ink = locked ? colors.ink3 : colors.ink;
+      return Expanded(
+        child: MmPressable(
+          key: ValueKey('start-mode-${m.name}'),
+          onTap: locked ? onLockedTap : () => onChanged(m),
+          haptic: MmPressHaptic.selection,
+          semanticsLabel: '$word, $detail${locked ? '. ${MobV3Copy.lockedWord}' : ''}',
+          builder: (context, pressed, _) => AnimatedContainer(
+            duration: reduced ? Duration.zero : const Duration(milliseconds: 220),
+            curve: Motion.out,
+            height: 48,
+            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
+            alignment: Alignment.centerLeft,
+            decoration: BoxDecoration(
+              color: on ? colors.selectedSurface : Colors.transparent,
+              borderRadius: BorderRadius.circular(14),
+              border: Border.all(color: on ? colors.ink : Colors.transparent, width: 1.5),
+            ),
+            child: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: Alignment.centerLeft,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text.rich(
+                    TextSpan(children: [
+                      TextSpan(text: word, style: context.mmType.labelLarge.copyWith(color: ink, fontWeight: FontWeight.w700)),
+                      TextSpan(text: ' · $detail', style: context.mmType.caption.copyWith(color: colors.ink3)),
+                    ]),
+                    maxLines: 1,
+                  ),
+                  if (locked) ...[const SizedBox(width: MmSpace.s4), Icon(LucideIcons.lock, size: 12, color: colors.ink3)],
+                ],
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+
+    return Container(
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: colors.isNight ? colors.sunken : colors.raised2,
+        borderRadius: BorderRadius.circular(18),
+        border: Border.all(color: colors.line),
+      ),
+      child: Semantics(
+        container: true,
+        label: MobV3Copy.howMobPlays,
+        child: Row(
+          children: [
+            half(GameMode.async, MobV3Copy.modeAnytime, MobV3Copy.modeAnytimeDetail),
+            half(GameMode.live, MobV3Copy.modeLive, MobV3Copy.modeLiveDetail, locked: liveLocked),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// One way to play: its paper chip, title and line, and a radio; the chosen row lifts onto a raised surface and
+/// opens its chips (a race's minutes, a round's length) or, for a full mock, what the paper is.
+class _FormatRow extends StatelessWidget {
+  const _FormatRow({
+    super.key,
+    required this.format,
+    required this.selected,
+    required this.onTap,
+    required this.minutes,
+    required this.count,
+    required this.onMinutes,
+    required this.onCount,
+    required this.mockDetail,
+    this.proLine,
+    this.onPro,
+    this.anytimeOnly = false,
+    this.locked = false,
+    this.proTag = false,
+  });
+
+  final GameFormat format;
+  final bool selected;
+  final VoidCallback onTap;
+  final int minutes;
+  final int count;
+  final ValueChanged<int> onMinutes;
+  final ValueChanged<int> onCount;
+  final String mockDetail;
+
+  /// Under a locked Full mock together row: what Pro does and what sitting costs, with [onPro] opening Pro.
+  final String? proLine;
+  final VoidCallback? onPro;
+  final bool anytimeOnly;
+  final bool locked;
+  final bool proTag;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final reduced = MediaQuery.disableAnimationsOf(context);
+    final dim = anytimeOnly || locked;
+    final on = selected && !dim;
+    Widget? chips;
+    if (on && format == GameFormat.race) {
+      chips = _Chips<int>(
+        key: const ValueKey('start-minutes'),
+        values: const [5, 10],
+        label: MobV3Copy.minutesLabel,
+        value: minutes,
+        onChanged: onMinutes,
+      );
+    } else if (on && format == GameFormat.round) {
+      chips = _Chips<int>(
+        key: const ValueKey('start-count'),
+        values: const [10, 15, 20],
+        label: (n) => '$n',
+        semantics: MobV3Copy.lengthLabel,
+        value: count,
+        onChanged: onCount,
+      );
+    } else if (on && format == GameFormat.mock) {
+      chips = Text(mockDetail, key: const ValueKey('start-mock-line'), style: type.small.copyWith(color: colors.ink2));
+    }
+    final String? tag = anytimeOnly ? MobV3Copy.anytimeOnly : (locked && proTag ? MobV3Copy.proTag : null);
+    final row = AnimatedContainer(
+      duration: reduced ? Duration.zero : Motion.card,
+      curve: Motion.out,
+      padding: const EdgeInsets.fromLTRB(MmSpace.s12, 6, MmSpace.s12, 6),
+      constraints: const BoxConstraints(minHeight: 56),
+      decoration: BoxDecoration(color: on ? colors.raised2 : Colors.transparent, borderRadius: BorderRadius.circular(16)),
+      child: Opacity(
+        opacity: dim ? 0.45 : 1,
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            PaperChip(icon: FormatLook.icon(format), size: 36, locked: locked),
+            const SizedBox(width: MmSpace.s12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(FormatLook.title(format), style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+                  Text(MobV3Copy.formatRowLine(format), style: type.caption.copyWith(color: colors.ink3)),
+                  if (chips != null) ...[const SizedBox(height: MmSpace.s8), chips],
+                ],
+              ),
+            ),
+            const SizedBox(width: MmSpace.s8),
+            if (tag != null)
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: colors.lineStrong)),
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Text(tag, style: type.label.copyWith(color: colors.ink2)),
+                  if (locked) ...[const SizedBox(width: 3), Icon(LucideIcons.lock, size: 11, color: colors.ink3)],
+                ]),
+              )
+            else if (!locked)
+              _Radio(on: on),
+          ],
+        ),
+      ),
+    );
+    final tappable = Semantics(
+      container: true,
+      button: true,
+      inMutuallyExclusiveGroup: true,
+      selected: on,
+      enabled: !dim,
+      label: '${FormatLook.title(format)}. ${MobV3Copy.formatRowLine(format)}${tag != null ? '. $tag' : ''}',
+      child: MmPressable(
+        onTap: onTap,
+        haptic: MmPressHaptic.selection,
+        focusRadius: BorderRadius.circular(16),
+        builder: (context, pressed, _) => row,
+      ),
+    );
+    final line = proLine;
+    if (line == null) return tappable;
+    // Not dimmed with the row above it: this is the part a Free member is meant to read.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        tappable,
+        Padding(
+          padding: const EdgeInsets.only(left: MmSpace.s12 + 36 + MmSpace.s12, right: MmSpace.s12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(line, key: const ValueKey('start-mock-pro-line'), style: type.small.copyWith(color: colors.ink2)),
+              if (onPro != null) _AccentKey(key: const ValueKey('start-mock-pro'), label: MobV3Copy.seePlans, onPressed: onPro, padLeft: 0),
+            ],
+          ),
+        ),
+        const SizedBox(height: MmSpace.s4),
+      ],
+    );
+  }
+}
+
+/// The radio: a ring, or the volt dot with a voltInk centre when chosen (the one volt mark in the rows).
+class _Radio extends StatelessWidget {
+  const _Radio({required this.on});
+
+  final bool on;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return AnimatedContainer(
+      duration: MediaQuery.disableAnimationsOf(context) ? Duration.zero : Motion.press,
+      width: 22,
+      height: 22,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: on ? colors.volt : Colors.transparent,
+        border: on ? null : Border.all(color: colors.ink4, width: 1.8),
+      ),
+      alignment: Alignment.center,
+      child: on ? Container(width: 10, height: 10, decoration: BoxDecoration(shape: BoxShape.circle, color: colors.voltInk)) : null,
+    );
+  }
+}
+
+/// Small pill chips inside a chosen row (5 minutes, 10 minutes; 10, 15, 20).
+class _Chips<T> extends StatelessWidget {
+  const _Chips({super.key, required this.values, required this.label, required this.value, required this.onChanged, this.semantics});
+
+  final List<T> values;
+  final String Function(T) label;
+  final String Function(T)? semantics;
+  final T value;
+  final ValueChanged<T> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Wrap(
+      spacing: MmSpace.s8,
+      runSpacing: MmSpace.s8,
+      children: [
+        for (final v in values)
+          MmPressable(
+            key: ValueKey('start-chip-$v'),
+            onTap: () => onChanged(v),
+            haptic: MmPressHaptic.selection,
+            semanticsLabel: (semantics ?? label)(v),
+            builder: (context, pressed, _) {
+              final on = v == value;
+              return Container(
+                height: 36,
+                constraints: const BoxConstraints(minWidth: 48),
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                decoration: BoxDecoration(
+                  color: on ? colors.ink : Colors.transparent,
+                  borderRadius: BorderRadius.circular(18),
+                  border: Border.all(color: on ? colors.ink : colors.lineStrong, width: 1.5),
+                ),
+                child: Center(widthFactor: 1, child: Text(label(v), style: type.label.copyWith(color: on ? colors.ground : colors.ink2, fontWeight: FontWeight.w600))),
+              );
+            },
+          ),
+      ],
+    );
+  }
+}
+
+/// A quiet text key at the end of a row ("Change", "Sit it"), in the accent ink, 48 dp tall.
+class _AccentKey extends StatelessWidget {
+  const _AccentKey({super.key, required this.label, required this.onPressed, this.padLeft = MmSpace.s12});
+
+  final String label;
+  final VoidCallback? onPressed;
+  final double padLeft;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return MmPressable(
+      onTap: onPressed,
+      haptic: MmPressHaptic.selection,
+      semanticsLabel: label,
+      focusRadius: MmRadius.smallAll,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: MmTarget.min),
+        child: Padding(
+          padding: EdgeInsets.only(left: padLeft),
+          child: Center(
+            widthFactor: 1,
+            child: Text(label, style: context.mmType.labelLarge.copyWith(color: pressed || onPressed == null ? colors.ink2 : colors.accentText, fontWeight: FontWeight.w700)),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -218,10 +580,10 @@ class _CoversRow extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         MobRow(
-          leading: const PaperChip(icon: LucideIcons.bookOpen),
+          leading: const PaperChip(icon: LucideIcons.bookOpen, size: 44),
           title: text,
           compactTitle: true,
-          trailing: subjectId.isEmpty ? null : RowKey(label: MobV3Copy.change, onPressed: () => _change(context)),
+          trailing: subjectId.isEmpty ? null : _AccentKey(key: const ValueKey('start-change'), label: MobV3Copy.change, onPressed: () => _change(context)),
         ),
         if (c.covers != _Covers.whole)
           LinkKey(
@@ -231,46 +593,6 @@ class _CoversRow extends ConsumerWidget {
               c.chapter = null;
             }),
           ),
-      ],
-    );
-  }
-}
-
-class _Stepper extends StatelessWidget {
-  const _Stepper({required this.count, required this.onChanged});
-
-  final int count;
-  final ValueChanged<int> onChanged;
-
-  static const List<int> lengths = [10, 15, 20];
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final i = lengths.indexOf(count);
-    Widget step(IconData icon, String label, VoidCallback? onTap) => MmPressable(
-          onTap: onTap,
-          semanticsLabel: label,
-          haptic: MmPressHaptic.selection,
-          builder: (context, pressed, _) => Container(
-            width: 48,
-            height: 48,
-            decoration: BoxDecoration(shape: BoxShape.circle, color: pressed ? colors.raised2 : colors.raised, border: Border.all(color: onTap == null ? colors.line : colors.lineStrong)),
-            child: Icon(icon, size: 20, color: onTap == null ? colors.ink4 : colors.ink),
-          ),
-        );
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        step(LucideIcons.minus, MobV3Copy.fewerQuestions, i > 0 ? () => onChanged(lengths[i - 1]) : null),
-        const SizedBox(width: MmSpace.s20),
-        SizedBox(
-          width: 140,
-          child: Semantics(liveRegion: true, child: Text(MobV3Copy.lengthLabel(count), textAlign: TextAlign.center, style: type.cardTitle)),
-        ),
-        const SizedBox(width: MmSpace.s20),
-        step(LucideIcons.plus, MobV3Copy.moreQuestions, i >= 0 && i < lengths.length - 1 ? () => onChanged(lengths[i + 1]) : null),
       ],
     );
   }
@@ -290,7 +612,7 @@ class _MicRow extends StatelessWidget {
       semanticsLabel: '${MobV3Copy.passMic}. ${MobV3Copy.passMicRow(left)}',
       focusRadius: MmRadius.smallAll,
       builder: (context, pressed, _) => MobRow(
-        leading: const PaperChip(icon: LucideIcons.mic),
+        leading: const PaperChip(icon: LucideIcons.mic, size: 44),
         title: MobV3Copy.passMic,
         line: MobV3Copy.passMicRow(left),
         trailing: Icon(LucideIcons.chevronRight, size: 20, color: pressed ? colors.ink3 : colors.ink2),
@@ -299,31 +621,64 @@ class _MicRow extends StatelessWidget {
   }
 }
 
-class _StartKeys extends ConsumerWidget {
+class _StartKeys extends ConsumerStatefulWidget {
   const _StartKeys({required this.controller, required this.prefill});
 
   final _StartController controller;
   final StartGamePrefill prefill;
 
-  Future<void> _start(BuildContext context, WidgetRef ref) async {
+  @override
+  ConsumerState<_StartKeys> createState() => _StartKeysState();
+}
+
+class _StartKeysState extends ConsumerState<_StartKeys> {
+  bool _sitting = false;
+  String? _paperNote;
+
+  _StartController get controller => widget.controller;
+
+  Future<void> _start(BuildContext context) async {
     final c = controller;
     if (c.busy) return;
     c.update(() {
       c.busy = true;
       c.error = null;
+      c.errorCode = null;
     });
     final actions = ref.read(mobV3ActionsProvider);
+    final prefill = widget.prefill;
     try {
-      final format = prefill.rematchOf != null ? GameFormat.rematch : c.tile;
-      final game = await actions.openGame(format: format, mode: c.mode, count: c.count, chapter: c.chapter, rematchOf: prefill.rematchOf);
+      // A rematch of a sprint or round is a rematch; a race or a mock is opened again as itself.
+      final format = prefill.rematchOf != null && (c.tile == GameFormat.sprint || c.tile == GameFormat.round) ? GameFormat.rematch : c.tile;
+      final mock = c.tile == GameFormat.mock;
+      final game = await actions.openGame(
+        format: format,
+        mode: mock ? GameMode.async : c.mode,
+        count: c.count,
+        chapter: mock ? null : c.chapter,
+        rematchOf: format == GameFormat.rematch ? prefill.rematchOf : null,
+        minutes: c.tile == GameFormat.race ? c.minutes : null,
+      );
       c.update(() => c.busy = false);
       if (!context.mounted) return;
       // Open the run at once: this sheet leaves, the run rises over the den.
       final nav = Navigator.of(context, rootNavigator: true);
       nav.pop(game);
-      // The root navigator's own context outlives this sheet.
-      // ignore: use_build_context_synchronously
-      MobV3Nav.run(nav.context, game.id);
+      if (game.format == GameFormat.mock) {
+        // The full mock opens in the app's mock runner.
+        // ignore: use_build_context_synchronously
+        await sitMobMock(nav.context, game.id);
+        return;
+      }
+      // The root navigator's own context outlives this sheet. A live game opens its room (the game's ready
+      // phase) with the go-live wash; an anytime one opens the run.
+      if (game.mode == GameMode.live && game.room != null) {
+        // ignore: use_build_context_synchronously
+        unawaited(MobV3Nav.room(nav.context, game.id, opened: true));
+      } else {
+        // ignore: use_build_context_synchronously
+        unawaited(MobV3Nav.run(nav.context, game.id));
+      }
     } on Object catch (e) {
       final sentence = MobV3Copy.error(e);
       final code = MobV3Copy.codeOf(e);
@@ -338,9 +693,10 @@ class _StartKeys extends ConsumerWidget {
         c.update(() {
           c.busy = false;
           c.error = sentence;
+          c.errorCode = code?.toUpperCase();
         });
         // The right to start may have changed under us (used, a Mob already at three games): read the den again.
-        if (const {'START_USED', 'START_PRO', 'START_FORMAT', 'GAMES_OPEN_LIMIT'}.contains(code)) {
+        if (const {'START_USED', 'START_PRO', 'START_FORMAT', 'GAMES_OPEN_LIMIT', 'MOCK_PRO_REQUIRED'}.contains(code)) {
           try {
             await actions.refresh();
           } on Object {
@@ -351,30 +707,86 @@ class _StartKeys extends ConsumerWidget {
     }
   }
 
+  Future<void> _sit(Mob mob) async {
+    if (_sitting) return;
+    setState(() {
+      _sitting = true;
+      _paperNote = null;
+    });
+    final route = ModalRoute.of(context);
+    final failure = await ref.read(mobNavigatorProvider).sitPaper(context, ref, mob);
+    if (!mounted) return;
+    setState(() => _sitting = false);
+    if (failure != null) {
+      setState(() => _paperNote = MobCopy.failure(failure, sell: false));
+    } else if (route != null && route.isActive) {
+      Navigator.of(context, rootNavigator: true).removeRoute(route);
+    }
+  }
+
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  Widget build(BuildContext context) {
     final den = ref.watch(denViewProvider);
     final colors = context.mmColors;
     final type = context.mmType;
     final v3 = den?.v3;
+    final mob = den?.mob;
     final mobName = v3 == null || v3.name.text.isEmpty ? MobV3Copy.title : v3.name.text;
-    final can = v3?.starts.can ?? true;
+    final starts = v3?.starts;
+    final now = ref.watch(nowProvider)();
     return ListenableBuilder(
       listenable: controller,
       builder: (context, _) {
         final c = controller;
-        final label = c.mode == GameMode.live ? MobV3Copy.openRoom : (c.tile == GameFormat.sprint ? MobV3Copy.startTheSprint : MobV3Copy.startTheRound);
+        final can = starts == null || starts.allows(c.tile);
+        final live = c.mode == GameMode.live && c.tile != GameFormat.mock;
+        final label = live
+            ? MobV3Copy.openRoomFor(c.tile, minutes: c.minutes, count: c.count)
+            : switch (c.tile) {
+                GameFormat.race => MobV3Copy.startTheRace,
+                GameFormat.mock => MobV3Copy.startTheMock,
+                GameFormat.sprint => MobV3Copy.startTheSprint,
+                _ => MobV3Copy.startTheRound,
+              };
+        final allowance = starts == null ? MobV3Copy.startUnder(mobName) : MobV3Copy.allowance(starts, mobName, live: live, mock: c.tile == GameFormat.mock);
+        final paperOpen = mob != null && !mob.week.youSat && !mob.week.closedAt(now);
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (c.error != null) ...[
-              Text(c.error!, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink)),
+              Text(c.error!, key: const ValueKey('start-error'), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink)),
+              // Refused for want of Pro: the way to it, right under the sentence.
+              if (c.errorCode == 'MOCK_PRO_REQUIRED' && ref.watch(proNudgesOnProvider))
+                Center(
+                  child: _AccentKey(
+                    key: const ValueKey('start-error-pro'),
+                    label: MobV3Copy.seePlans,
+                    onPressed: () => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock),
+                    padLeft: 0,
+                  ),
+                ),
               const SizedBox(height: MmSpace.s8),
             ],
-            KeyButton(label: label, loading: c.busy, onPressed: can ? () => _start(context, ref) : null, disabledReason: can ? null : MobV3Copy.errors['START_USED']),
+            KeyButton(
+              key: const ValueKey('start-key'),
+              label: label,
+              loading: c.busy,
+              onPressed: can ? () => _start(context) : null,
+              disabledReason: can ? null : (starts.can ? MobV3Copy.mockPro(starts.freeMockPrice) : MobV3Copy.errors['START_USED']),
+            ),
             const SizedBox(height: MmSpace.s8),
-            Text(MobV3Copy.startUnder(mobName), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
+            Text(allowance, key: const ValueKey('start-allowance'), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
+            if (paperOpen) ...[
+              Divider(height: MmSpace.s20, thickness: 1, color: colors.line),
+              MobRow(
+                leading: const PaperChip(icon: LucideIcons.calendarDays, size: 44),
+                title: MobV3Copy.weeklyPaper,
+                line: MobV3Copy.paperRowLine,
+                trailing: _AccentKey(key: const ValueKey('start-sit-paper'), label: _sitting ? MobV3Copy.opening : MobV3Copy.sitIt, onPressed: _sitting ? null : () => _sit(mob)),
+              ),
+              if (_paperNote != null) MobLine(_paperNote!, center: true),
+            ],
           ],
         );
       },

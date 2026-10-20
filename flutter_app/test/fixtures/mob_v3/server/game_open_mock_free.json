@@ -1,0 +1,16 @@
+{
+  "status": 403,
+  "body": {
+    "error": {
+      "code": "MOCK_PRO_REQUIRED",
+      "message": "Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: 50 credits, or free with Pro.",
+      "detail": {
+        "costCredits": 50,
+        "sitCredits": 50,
+        "proRequiredToStart": true,
+        "canStart": false,
+        "proSitsFree": true
+      }
+    }
+  }
+}

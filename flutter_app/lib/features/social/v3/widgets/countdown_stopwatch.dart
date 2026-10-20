@@ -141,11 +141,14 @@ class CountdownHead {
 /// The whole countdown stage under the run header: the lamp, the scrim, the stopwatch, the heads,
 /// the line about question 1, and a visible Skip (every show moment has one; any tap skips).
 class CountdownStage extends StatelessWidget {
-  const CountdownStage({super.key, required this.ms, required this.count, this.heads = const [], this.onSkip, this.reduced = false});
+  const CountdownStage({super.key, required this.ms, required this.count, this.heads = const [], this.onSkip, this.reduced = false, this.line});
 
   /// The countdown clock in ms.
   final Animation<double> ms;
   final int count;
+
+  /// The line under the heads in place of "Question 1 of 5 is next..." (a race: its minutes start on Go).
+  final String? line;
   final List<CountdownHead> heads;
   final VoidCallback? onSkip;
   final bool reduced;
@@ -205,7 +208,7 @@ class CountdownStage extends StatelessWidget {
                               Padding(
                                 padding: const EdgeInsets.symmetric(horizontal: MmSpace.s24),
                                 child: Text(
-                                  MobV3Copy.countdownNextN(count),
+                                  line ?? MobV3Copy.countdownNextN(count),
                                   textAlign: TextAlign.center,
                                   style: type.body.copyWith(color: colors.ink2),
                                 ),

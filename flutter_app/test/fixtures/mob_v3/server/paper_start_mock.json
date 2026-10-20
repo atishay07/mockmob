@@ -1,0 +1,18 @@
+{
+  "id": "practice_x",
+  "input": {
+    "experience": "practice",
+    "mode": "full",
+    "count": 50,
+    "subject": "accountancy",
+    "generationKey": "mob_HMAC"
+  },
+  "mobPaper": {
+    "mobId": "uuid-6",
+    "weekStart": "2026-10-19",
+    "gameId": "uuid-8",
+    "holdUntil": "2026-10-23T08:49:02.000Z",
+    "creditAction": "attempt_full",
+    "questionCount": 50
+  }
+}

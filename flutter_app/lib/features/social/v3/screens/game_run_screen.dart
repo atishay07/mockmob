@@ -11,6 +11,17 @@
 // - a ghost reaching the flag: its pennant rises after a 70 ms hit-stop and a toast says so;
 // - R6: "You played all 5." with the marks the server sent, and "See the podium".
 //
+// A live room (D167, MOB-MINIMAL 3.3): the room's ready phase is the first phase of this same screen
+// (widgets/room_ready.dart): the Folds of whoever is here, I'm ready or Start for everyone; at the host's start
+// the 3, 2, 1 lands Go on the server's clock and the same runner follows. There is no lobby screen.
+//
+// A race (D167): the same screen against a clock. The 3, 2, 1 plays before the run is asked for (the
+// server starts the clock at /run); the header's stopwatch counts the minutes down; questions come one at a
+// time (each answer brings the next); after an answer its own tint and mark show for a beat and the next
+// question follows, with no key between them; the ruler is open-ended (no flag) and grows with the
+// leader; when the time is up the screen says so plainly ("Time is up. You answered 14 questions in 5
+// minutes.") with the server's marks, and the podium is by CUET marks.
+//
 // Truth: every mark on screen is the server's (AnswerResult.marks and .delta). The app computes only
 // the ghost pace chip (logic/ghost_pace.dart, spec R4). Answers retry with the same question and pick
 // (the server keeps the first), and "Saving your answer" shows only after 600 ms with no reply.
@@ -36,20 +47,38 @@ import '../data/mob_v3_api.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../logic/ghost_pace.dart';
+import '../logic/live_room.dart';
 import '../mob_v3_nav.dart';
 import '../widgets/countdown_stopwatch.dart';
 import '../widgets/fold_puppet.dart';
 import '../widgets/mob_fx.dart';
 import '../widgets/run_option.dart';
+import '../data/mob_room_channel.dart' show mobLiveClockProvider, mobRoomChannelFactoryProvider;
+import '../widgets/lobby_stage.dart' show LobbyStage;
+import '../widgets/room_ready.dart';
 import '../widgets/run_paper.dart';
 import '../widgets/ruler_race.dart';
 
-enum _Phase { loading, failed, countdown, play, done }
+enum _Phase { ready, loading, failed, countdown, play, done }
 
 class GameRunScreen extends ConsumerStatefulWidget {
-  const GameRunScreen({super.key, required this.gameId});
+  const GameRunScreen({super.key, required this.gameId, this.live, this.room = false, this.opened = false});
 
   final String gameId;
+
+  /// A live room already open elsewhere (tests): the countdown lands Go on the server's `startsAt`, friends
+  /// in the room walk the ruler from the server's `progress`, and the podium waits for the room to end. The
+  /// screen owns it from here and closes it on leaving.
+  final LiveRoom? live;
+
+  /// Open this game's live room: the screen starts in the room's ready phase and owns the room.
+  final bool room;
+
+  /// You just opened the room from the start sheet: the go-live wash plays.
+  final bool opened;
+
+  /// The ready phase lets go of the room this long after the last tap (spec 4.5).
+  static const Duration idle = Duration(minutes: 10);
 
   /// Feedback timeline length (M5: the stamp's glints end by about 1200 ms).
   static const Duration feedback = Duration(milliseconds: 1200);
@@ -65,6 +94,31 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   Object? _error;
   MobGame? _game;
   RunStart? _rs;
+
+  /// The live room this screen owns (opened here, or handed over); null for an anytime run.
+  LiveRoom? _live;
+  bool _starting = false;
+  String? _roomNote;
+  Timer? _idleTimer;
+  int _notStartedTries = 0;
+  late final AnimationController _wash = AnimationController(vsync: this, duration: Duration(milliseconds: GoLiveWash.total.round()));
+
+  /// The questions served so far (a race adds each one as the answer before it brings it).
+  final List<GameQuestion> _questions = [];
+
+  /// A race whose 3, 2, 1 plays before the run is asked for.
+  bool _raceFirst = false;
+
+  /// A race: its time ran out (on this clock, or the server said RUN_EXPIRED).
+  bool _timeUp = false;
+
+  /// A race: every question in the pool was answered before the time was up.
+  bool _poolDone = false;
+  Timer? _raceNext;
+  RunFinish? _finish;
+
+  /// The race's end is under way (once).
+  bool _ending = false;
 
   // The run.
   final Map<int, RunAnswer> _answers = {};
@@ -92,7 +146,16 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   List<int> _ghostReached = const [];
 
   // Motion.
-  late final AnimationController _cd = AnimationController(vsync: this, upperBound: CountdownTimeline.end);
+  // The countdown's clock runs below 0 in a live room: the wait before the first beat (Go lands on the
+  // server's startsAt, 4 s after the host's tap).
+  late final AnimationController _cd = AnimationController(vsync: this, value: 0, lowerBound: -_liveLead, upperBound: CountdownTimeline.end);
+  static const double _liveLead = 8000;
+  Timer? _cdHold;
+  bool _runAsked = false;
+
+  // Live: when each friend reached the number they stand on (run ms), for depth on a shared number.
+  final Map<String, int> _liveArrived = {};
+  final Map<String, int> _liveSeen = {};
   late final AnimationController _cdSkip = AnimationController(vsync: this, duration: MobBeat.skip);
   late final AnimationController _press = AnimationController(vsync: this, duration: Motion.press);
   late final AnimationController _lock = AnimationController(vsync: this, duration: const Duration(milliseconds: 160));
@@ -109,13 +172,44 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   int _youActId = 0;
   bool _actFired = true;
   GhostPace? _pace;
-  final List<String> _toastQueue = [];
-  /// The name of the racer whose run just reached the flag, while its toast shows.
-  String? _toast;
+  final List<({String name, bool ghost})> _toastQueue = [];
+  /// The racer whose run just reached the flag (a ghost, or a friend live in the room), while its toast shows.
+  ({String name, bool ghost})? _toast;
   Timer? _toastTimer;
 
   bool get _reduced => MobFx.reduced(context);
-  int get _count => _rs?.questions.length ?? _game?.count ?? 5;
+  MobGame? get _view => _game ?? _live?.game;
+
+  /// A timed race (D167).
+  bool get _race => _view?.format == GameFormat.race || _rs?.run.minutes != null;
+  int get _minutes => _rs?.run.minutes ?? _view?.minutes ?? 5;
+
+  /// A race's pool; every other format's question count.
+  int get _count => _race ? (_view?.count ?? math.max(_questions.length, 1)) : (_rs?.questions.length ?? _game?.count ?? 5);
+
+  /// A race: what is left on its clock (zero once it is up).
+  Duration get _left {
+    final ends = _rs?.run.endsAt;
+    if (ends == null) return Duration(minutes: _minutes);
+    final d = ends.difference(_serverNow);
+    return d.isNegative ? Duration.zero : d;
+  }
+
+  /// A race: the ruler's scale, whole fives from 10, a little ahead of whoever is furthest.
+  int get _window {
+    var lead = _answers.length + 1;
+    for (final r in _ghostReached) {
+      lead = math.max(lead, r + 1);
+    }
+    final live = _live;
+    if (live != null) {
+      for (final q in live.progress.values) {
+        lead = math.max(lead, q + 1);
+      }
+    }
+    final w = math.max(10, ((lead + 3) / 5).ceil() * 5);
+    return math.min(w, math.max(10, _count));
+  }
   int get _elapsedMs => _syncMs + (_tickNow - _syncAt).inMilliseconds;
   double get _fbMs => _fb.value * GameRunScreen.feedback.inMilliseconds;
 
@@ -134,11 +228,210 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
         if (s == AnimationStatus.completed && _phase == _Phase.countdown) _endCountdown();
       });
     _fb.addListener(_onFeedback);
-    WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+    _live = widget.live;
+    if (_live == null && widget.room) {
+      final den = ref.read(denViewProvider);
+      _live = LiveRoom(
+        gameId: widget.gameId,
+        api: ref.read(mobV3ApiProvider),
+        channel: ref.read(mobRoomChannelFactoryProvider)(widget.gameId),
+        members: den?.v3.members ?? const [],
+        clock: ref.read(mobLiveClockProvider),
+      );
+      _phase = _Phase.ready;
+      _bumpIdle();
+    }
+    _live?.addListener(_onLive);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      if (_phase == _Phase.ready) {
+        if (widget.opened && !MobFx.reduced(context)) _wash.forward(from: 0);
+        _live!.open();
+        return;
+      }
+      _begin();
+    });
+  }
+
+  // ---- The ready phase (the live room before the host's start) ----------------------------------------
+
+  void _bumpIdle() {
+    _idleTimer?.cancel();
+    if (_phase != _Phase.ready) return;
+    _idleTimer = Timer(GameRunScreen.idle, () {
+      if (!mounted || _phase != _Phase.ready) return;
+      _live?.leave();
+      Navigator.of(context).maybePop();
+    });
+  }
+
+  /// The host started: the 3, 2, 1 plays on the server's clock and the run follows.
+  void _toCountdown() {
+    _idleTimer?.cancel();
+    final until = _live?.msUntilGo();
+    setState(() => _phase = _Phase.countdown);
+    if (until == null) {
+      _load(keepPhase: true);
+      return;
+    }
+    _startLiveCountdown(until);
+  }
+
+  Future<void> _ready() async {
+    _bumpIdle();
+    await _live?.ready();
+  }
+
+  Future<void> _startRoom() async {
+    if (_starting) return;
+    _bumpIdle();
+    setState(() {
+      _starting = true;
+      _roomNote = null;
+    });
+    try {
+      await _live!.start();
+    } on Object catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _starting = false;
+        _roomNote = MobV3Copy.error(e);
+      });
+    }
+  }
+
+  Future<void> _playLater() async {
+    await _live?.leave();
+    if (mounted) Navigator.of(context).maybePop();
+  }
+
+  /// Play the same game now as an anytime game (the room was closed, ended, or live is busy).
+  Future<void> _playNow() async {
+    final room = _live;
+    _live = null;
+    room?.removeListener(_onLive);
+    await room?.leave();
+    room?.dispose();
+    if (!mounted) return;
+    setState(() => _phase = _Phase.loading);
+    await _begin();
+  }
+
+  Future<void> _closeRoom() async {
+    _bumpIdle();
+    final room = _live!;
+    if (!room.youHost || room.phase != LivePhase.lobby) {
+      await _playLater();
+      return;
+    }
+    final closes = room.game?.closesAt;
+    final close = await showMmSheet<bool>(
+      context: context,
+      title: MobV3Copy.closeRoomTitle,
+      builder: (sheet) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: MmSpace.sheetSide),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (closes != null) Text(MobV3Copy.closeRoomLine(closes, room.serverNow()), style: sheet.mmType.body.copyWith(color: sheet.mmColors.ink2)),
+            const SizedBox(height: MmSpace.s20),
+            KeyButton(label: MobV3Copy.keepRoomOpen, onPressed: () => Navigator.of(sheet).pop(false)),
+            const SizedBox(height: MmSpace.s8),
+            KeyButton.secondary(label: MobV3Copy.closeRoom, onPressed: () => Navigator.of(sheet).pop(true)),
+            const SizedBox(height: MmSpace.s16),
+          ],
+        ),
+      ),
+    );
+    if (close != true || !mounted) return;
+    try {
+      await room.cancel();
+      await ref.read(mobV3ActionsProvider).refresh();
+    } on Object catch (e) {
+      if (mounted) setState(() => _roomNote = MobV3Copy.error(e));
+      return;
+    }
+    if (mounted) Navigator.of(context).maybePop();
+  }
+
+  /// The ready phase's one sentence when the room cannot go on, or null while it can.
+  String? _roomEnded() {
+    final room = _live;
+    if (room == null) return null;
+    final closes = room.game?.closesAt;
+    final now = room.serverNow();
+    if (room.phase == LivePhase.failed) return MobV3Copy.error(room.error ?? '');
+    if (room.phase == LivePhase.cancelled && closes != null) return room.youHost ? MobV3Copy.roomClosedYou(closes, now) : MobV3Copy.roomClosed(room.hostName, closes, now);
+    if (room.phase == LivePhase.done && closes != null) return MobV3Copy.roomEnded(closes, now);
+    if (room.busy && room.phase == LivePhase.lobby) return MobV3Copy.liveBusyRun;
+    return null;
+  }
+
+  /// A live room still before (or just past) Go plays the countdown on the server clock and asks for
+  /// the run at Go; everything else loads the run at once.
+  Future<void> _begin() async {
+    if (!mounted) return;
+    final live = _live;
+    final until = live?.msUntilGo();
+    if (live != null && until != null && until > -(CountdownTimeline.exit - CountdownTimeline.go)) {
+      setState(() => _phase = _Phase.countdown);
+      _startLiveCountdown(until);
+      return;
+    }
+    if (live == null) {
+      // A race starts its clock at /run, so its 3, 2, 1 plays first, over the runs it races.
+      MobGame? g;
+      try {
+        g = await ref.read(mobV3ApiProvider).game(widget.gameId);
+      } on Object {
+        g = null;
+      }
+      if (!mounted) return;
+      if (g != null && g.format == GameFormat.race && g.you.run == YourRun.none && !g.closed) {
+        setState(() {
+          _game = g;
+          _raceFirst = true;
+          _phase = _Phase.countdown;
+        });
+        _startCountdown();
+        return;
+      }
+      if (g != null) _game = g;
+    }
+    _load();
+  }
+
+  bool get _isLive => _live != null && _phase != _Phase.ready;
+
+  void _onLive() {
+    final live = _live;
+    if (live == null || !mounted) return;
+    if (_phase == _Phase.ready) {
+      if (live.phase == LivePhase.started) {
+        _toCountdown();
+      } else {
+        setState(() {});
+      }
+      return;
+    }
+    for (final e in live.progress.entries) {
+      if (_liveSeen[e.key] != e.value) {
+        _liveSeen[e.key] = e.value;
+        _liveArrived[e.key] = _rs == null ? 0 : _elapsedMs;
+      }
+    }
+    setState(() {});
   }
 
   @override
   void dispose() {
+    _raceNext?.cancel();
+    _idleTimer?.cancel();
+    _wash.dispose();
+    _cdHold?.cancel();
+    _live?.removeListener(_onLive);
+    _live?.dispose();
     _slowTimer?.cancel();
     _toastTimer?.cancel();
     _ticker.dispose();
@@ -156,14 +449,15 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
 
   // ---- Loading -------------------------------------------------------------------------------------
 
-  Future<void> _load() async {
+  Future<void> _load({bool keepPhase = false}) async {
     if (!mounted) return;
     setState(() {
-      _phase = _Phase.loading;
+      if (!keepPhase) _phase = _Phase.loading;
       _error = null;
     });
     final api = ref.read(mobV3ApiProvider);
-    final gameF = api.game(widget.gameId).then<MobGame?>((g) => g, onError: (Object _) => null);
+    // The game view read before a race's 3, 2, 1 (or on the way in) is reused rather than read twice.
+    final gameF = _game != null ? Future<MobGame?>.value(_game) : api.game(widget.gameId).then<MobGame?>((g) => g, onError: (Object _) => null);
     RunStart rs;
     try {
       rs = await api.run(widget.gameId);
@@ -175,22 +469,45 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
         MobV3Nav.podiumAfterRun(context, widget.gameId);
         return;
       }
+      if (_code(e) == 'RUN_NOT_STARTED' && _notStartedTries < 8) {
+        // Asked a moment before Go on this phone's clock: ask again just after it.
+        _notStartedTries++;
+        await Future<void>.delayed(const Duration(milliseconds: 500));
+        if (mounted) await _load(keepPhase: true);
+        return;
+      }
+      if (_code(e) == 'RUN_EXPIRED') {
+        // A race whose time ran out while away: the stored run, said plainly.
+        _cd.stop();
+        setState(() {
+          _timeUp = true;
+          _finished = true;
+          _marks = _expiredMarks(e) ?? _marks;
+          _phase = _Phase.done;
+        });
+        return;
+      }
+      _cd.stop();
       setState(() {
         _phase = _Phase.failed;
         _error = e;
       });
       return;
     }
-    final game = await gameF;
+    final game = await gameF ?? _game;
     if (!mounted) return;
     final n = rs.questions.length;
+    _questions
+      ..clear()
+      ..addAll(rs.questions);
     _answers
       ..clear()
-      ..addEntries([for (final a in rs.run.answers) if (a.q >= 0 && a.q < n) MapEntry(a.q, a)]);
+      ..addEntries([for (final a in rs.run.answers) if (a.q >= 0 && (rs.run.minutes != null || a.q < n)) MapEntry(a.q, a)]);
     var q = 0;
     while (q < n && _answers.containsKey(q)) {
       q++;
     }
+    final race = rs.run.minutes != null || game?.format == GameFormat.race;
     final start = rs.run.startedAt;
     final now = rs.run.serverNow;
     setState(() {
@@ -199,14 +516,29 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       _q = math.min(q, math.max(0, n - 1));
       _syncMs = start != null && now != null ? math.max(0, now.difference(start).inMilliseconds) : 0;
       _syncAt = _tickNow;
-      _ghostReached = [for (final g in rs.ghosts) g.reachedAt(_syncMs).clamp(0, n)];
+      _ghostReached = [for (final g in rs.ghosts) g.reachedAt(_syncMs).clamp(0, race ? (game?.count ?? 1 << 20) : n)];
       _threeShown = _hasThree();
       _pace = GhostPaceCalc.afterAnswers(_answers.values.toList(), rs.ghosts);
       _instant = true;
-      if (q >= n && n > 0) {
+      if (race) {
+        // A race's run holds the served questions: the answered ones and the current one.
+        if (_raceFirst || _isLive) {
+          // The 3, 2, 1 is playing (or just played); it hands over to the first question.
+          if (_phase != _Phase.countdown) _phase = _Phase.play;
+        } else {
+          _phase = _Phase.play;
+        }
+        if (q >= n && _answers.length >= (game?.count ?? n) && n > 0) {
+          _poolDone = true;
+          _finished = true;
+          _phase = _Phase.done;
+        }
+      } else if (q >= n && n > 0) {
         _finished = true;
         _phase = _Phase.done;
-      } else if (_answers.isNotEmpty) {
+      } else if (_isLive && _phase == _Phase.countdown) {
+        // The live countdown is running on the server clock; it hands over to the question itself.
+      } else if (_isLive || _answers.isNotEmpty) {
         // A resumed run: the Fold reappears at its question with no animation, and no countdown.
         _phase = _Phase.play;
       } else {
@@ -217,7 +549,9 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (mounted) setState(() => _instant = false);
     });
-    if (_phase == _Phase.countdown) _startCountdown();
+    if (_phase == _Phase.countdown && !_isLive && !_raceFirst) _startCountdown();
+    // A race resumed after its time ran out ends at once.
+    if (race && _rs?.run.endsAt != null && _left == Duration.zero && _phase != _Phase.done) _raceTimeUp();
   }
 
   static String? _code(Object e) => e is ApiError ? e.code : null;
@@ -256,6 +590,12 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       _shownSecond = sec;
       changed = true;
     }
+    if (_race && _phase == _Phase.play && !_ending && !_sending && rs.run.endsAt != null && _left == Duration.zero) {
+      // The clock ran out on this phone: the race ends now (the server holds the same end).
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) _raceTimeUp();
+      });
+    }
     if (_ghostReached.length == rs.ghosts.length) {
       for (var i = 0; i < rs.ghosts.length; i++) {
         final r = rs.ghosts[i].reachedAt(el).clamp(0, _count);
@@ -284,10 +624,25 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     _cd.animateTo(end, duration: Duration(milliseconds: end.round()), curve: Curves.linear);
   }
 
+  /// Live (M3 on the server clock): Go lands [untilGo] ms from now. A late arrival joins at the current
+  /// beat; before the first beat the stopwatch waits with no numeral.
+  void _startLiveCountdown(int untilGo) {
+    _cdBeat = -1;
+    final end = CountdownTimeline.endFor(reduced: _reduced);
+    final t0 = (CountdownTimeline.go - untilGo).clamp(-_liveLead, end);
+    _cd.value = t0;
+    _onCountdown();
+    _cd.animateTo(end, duration: Duration(milliseconds: (end - t0).round()), curve: Curves.linear);
+  }
+
   void _onCountdown() {
     final t = _cd.value;
+    if ((_isLive || _raceFirst) && !_runAsked && t >= CountdownTimeline.go) {
+      _runAsked = true;
+      _load(keepPhase: true);
+    }
     final beat = t >= CountdownTimeline.go ? 3 : (t / CountdownTimeline.beat).floor();
-    if (beat > _cdBeat && _phase == _Phase.countdown && _cdSkip.value == 0) {
+    if (t >= 0 && beat > _cdBeat && _phase == _Phase.countdown && _cdSkip.value == 0) {
       _cdBeat = beat;
       final h = hapticsOf(context);
       if (beat < 3) {
@@ -300,6 +655,11 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
 
   void _skipCountdown() {
     if (_phase != _Phase.countdown || _cdSkip.isAnimating) return;
+    // A race skipped before Go asks for its run (and starts its clock) now.
+    if (_raceFirst && !_runAsked) {
+      _runAsked = true;
+      _load(keepPhase: true);
+    }
     _cdSkip.forward(from: 0).whenComplete(() {
       if (!mounted) return;
       _cd.stop();
@@ -309,7 +669,8 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
 
   void _endCountdown() {
     if (_phase != _Phase.countdown) return;
-    setState(() => _phase = _Phase.play);
+    // Live: the run was asked for at Go; if it is still on its way, the question skeleton shows.
+    setState(() => _phase = _rs == null ? _Phase.loading : (_finished ? _Phase.done : _Phase.play));
   }
 
   // ---- M4 pick and lock in -------------------------------------------------------------------------
@@ -367,7 +728,16 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       setState(() {
         _sending = false;
         _slow = false;
-        if (code == 'RUN_EXPIRED') {
+        if (code == 'RUN_EXPIRED' && _race) {
+          // A race's time ran out with this answer on its way: the stored run, said plainly.
+          _timeUp = true;
+          _marks = _expiredMarks(e) ?? _marks;
+          _finished = true;
+          _phase = _Phase.done;
+          _pick = null;
+          _sentPick = null;
+          _lock.value = 0;
+        } else if (code == 'RUN_EXPIRED') {
           // The server sends the stored run with it: R6 shows those marks (no refetch).
           _expired = MobV3Copy.error(e);
           _marks = _expiredMarks(e) ?? _marks;
@@ -391,6 +761,14 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       _marks = r.marks;
       _finished = r.finished;
       _answers[q] = RunAnswer(q: q, pick: pick, correct: r.correct, elapsedMs: r.elapsedMs);
+      // A race: the next question comes with this answer.
+      final next = r.next;
+      if (next != null && !_questions.any((x) => x.q == next.q)) _questions.add(next);
+      if (_race && next == null) {
+        // No next: the pool is used, or the time is up.
+        if (_answers.length >= _count) _poolDone = true;
+        _finished = r.finished || _poolDone;
+      }
       _sync(r);
       _threeNow = false;
       if (r.correct == true && !_threeShown && _streakAt(q) == 3) {
@@ -405,7 +783,69 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     }
     if (r.correct == true && (_rs?.run.live ?? false)) hapticsOf(context)?.light();
     _fb.forward(from: 0);
+    if (_race) {
+      // A race keeps moving: the answer's tint and mark show for a beat, then the next question.
+      _raceNext?.cancel();
+      final beat = pick < 0 ? 240 : (_reduced ? 420 : 760);
+      _raceNext = Timer(Duration(milliseconds: beat), () {
+        if (!mounted || _result == null) return;
+        if (r.next == null || _timeUp || _left == Duration.zero) {
+          _raceEnd();
+        } else {
+          _next();
+        }
+      });
+      return;
+    }
     if (pick >= 0) WidgetsBinding.instance.addPostFrameCallback((_) => _keepPickInView(pick));
+  }
+
+  /// The race's clock ran out here. An answer on its way decides it (the server keeps a 2 s grace); else the
+  /// run is finished on the server and the screen says how far you got.
+  void _raceTimeUp() {
+    if (_ending || _phase == _Phase.done) return;
+    _timeUp = true;
+    // An answer on its way decides it: its reply ends the race.
+    if (_sending) return;
+    _raceNext?.cancel();
+    _raceEnd();
+  }
+
+  /// The end of a race: the question fades, the end block comes in with the server's marks.
+  Future<void> _raceEnd() async {
+    if (_phase == _Phase.done || _ending) return;
+    _ending = true;
+    if (!_poolDone && _left == Duration.zero) _timeUp = true;
+    await _qFade.animateTo(0, duration: _reduced ? Motion.reducedFade : const Duration(milliseconds: 140), curve: Motion.leave);
+    if (!mounted) return;
+    setState(() {
+      _result = null;
+      _pick = null;
+      _sentPick = null;
+      _lock.value = 0;
+      _press.value = 0;
+      _fb.value = 0;
+      _phase = _Phase.done;
+      if (_scroll.hasClients) _scroll.jumpTo(0);
+    });
+    hapticsOf(context)?.light();
+    _refreshDen();
+    try {
+      final f = await ref.read(mobV3ApiProvider).finish(widget.gameId);
+      if (mounted) {
+        setState(() {
+          _finish = f;
+          _marks = f.marks;
+          _finished = true;
+        });
+      }
+    } on Object catch (e) {
+      // RUN_EXPIRED carries the stored run; anything else leaves the marks line to the podium.
+      final m = _expiredMarks(e);
+      if (mounted && m != null) setState(() => _marks = m);
+    }
+    if (!mounted) return;
+    await _qFade.animateTo(1, duration: _reduced ? Motion.reducedFade : const Duration(milliseconds: 200), curve: Motion.glide);
   }
 
   /// The panel takes the bottom of the screen; on a long question the picked option would sit under
@@ -447,10 +887,14 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     });
   }
 
-  bool get _lastQuestion => _q >= _count - 1 || _finished;
+  bool get _lastQuestion => _race ? (_result != null && _result!.next == null) : (_q >= _count - 1 || _finished);
 
   Future<void> _next() async {
     if (_result == null) return;
+    if (_race && (_result!.next == null || _left == Duration.zero)) {
+      await _raceEnd();
+      return;
+    }
     final toDone = _lastQuestion;
     // The question change is fade out 140, then fade in 200; never both at once (judge: Live's double exposure).
     await _qFade.animateTo(0, duration: _reduced ? Motion.reducedFade : const Duration(milliseconds: 140), curve: Motion.leave);
@@ -470,6 +914,8 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
         // The den behind this screen still shows the game as unplayed and the quest short of these answers (walk
         // 20 Oct): read it again now, so Back lands on what is true.
         _refreshDen();
+      } else if (_race) {
+        _q = _answers.length;
       } else {
         var q = _q + 1;
         while (q < _count - 1 && _answers.containsKey(q)) {
@@ -481,9 +927,10 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     if (toDone && !_finished && _expired == null) {
       try {
         final m = await ref.read(mobV3ApiProvider).finish(widget.gameId);
+        _finish = m;
         if (mounted) {
           setState(() {
-            _marks = m;
+            _marks = m.marks;
             _finished = true;
           });
         }
@@ -503,14 +950,14 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   // ---- M6 a ghost reaches the flag: the toast ------------------------------------------------------
 
   void _onGhostFinished(RulerRacer r) {
-    _toastQueue.add(r.name);
+    _toastQueue.add((name: r.name, ghost: r.ghost));
     if (_toast == null) _showNextToast();
   }
 
   void _showNextToast() {
     if (!mounted || _toastQueue.isEmpty) return;
-    final name = _toastQueue.removeAt(0);
-    setState(() => _toast = name);
+    final next = _toastQueue.removeAt(0);
+    setState(() => _toast = next);
     if (_reduced) {
       _toastC.duration = Motion.reducedFade;
     } else {
@@ -530,6 +977,10 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   // ---- Leaving -------------------------------------------------------------------------------------
 
   Future<void> _confirmLeave() async {
+    if (_phase == _Phase.ready) {
+      await _closeRoom();
+      return;
+    }
     if (_phase == _Phase.failed || _phase == _Phase.loading || _phase == _Phase.done) {
       Navigator.of(context).maybePop();
       return;
@@ -543,7 +994,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(MobV3Copy.leaveRunLine, style: sheet.mmType.body.copyWith(color: sheet.mmColors.ink2)),
+            Text(_race ? MobV3Copy.raceLeaveLine(_minutes) : MobV3Copy.leaveRunLine, style: sheet.mmType.body.copyWith(color: sheet.mmColors.ink2)),
             const SizedBox(height: MmSpace.s20),
             KeyButton(label: MobV3Copy.keepPlaying, onPressed: () => Navigator.of(sheet).pop(false)),
             const SizedBox(height: MmSpace.s8),
@@ -566,16 +1017,24 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       onPopInvokedWithResult: (didPop, _) {
         if (!didPop) _confirmLeave();
       },
-      child: Scaffold(
-        backgroundColor: colors.ground,
-        body: SafeArea(
-          child: MobIdleScope(
-            child: Column(
-              children: [
-                _header(context),
-                Expanded(child: _body(context)),
-              ],
-            ),
+      child: Listener(
+        onPointerDown: (_) => _bumpIdle(),
+        child: Scaffold(
+          backgroundColor: colors.ground,
+          body: Stack(
+            children: [
+              SafeArea(
+                child: MobIdleScope(
+                  child: Column(
+                    children: [
+                      _phase == _Phase.ready ? _readyHeader(context) : _header(context),
+                      Expanded(child: _body(context)),
+                    ],
+                  ),
+                ),
+              ),
+              if (widget.opened) Positioned.fill(child: IgnorePointer(child: GoLiveWashLayer(controller: _wash))),
+            ],
           ),
         ),
       ),
@@ -585,9 +1044,16 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
   Widget _header(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final title = _game?.title ?? '';
-    final sub = _rs == null ? null : MobV3Copy.runsToRace(_rs!.ghosts.length);
-    final clock = MobTime.stopwatch(Duration(milliseconds: _rs == null ? 0 : _elapsedMs));
+    // Live: the room's game view is there from the lobby, before the run is asked for at Go.
+    final title = _game?.title ?? _live?.game?.title ?? '';
+    final live = _live;
+    // A race's 3, 2, 1 plays before its run arrives: the runs to race come from the game view.
+    final ghosts = _rs?.ghosts.length ?? (_raceFirst ? _game?.ghosts.length : null);
+    final sub = live != null ? MobV3Copy.liveInRoom(_liveRacerIds().length + 1) : (ghosts == null ? null : MobV3Copy.runsToRace(ghosts));
+    // A race's stopwatch counts its minutes down; every other run counts up.
+    final race = _race;
+    final clock = race ? MobTime.stopwatch(_rs == null ? Duration(minutes: _minutes) : _left) : MobTime.stopwatch(Duration(milliseconds: _rs == null ? 0 : _elapsedMs));
+    final lastTen = race && _rs != null && _phase == _Phase.play && _left.inSeconds < 10;
     return Padding(
       padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
       child: Row(
@@ -609,15 +1075,17 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
               ],
             ),
           ),
-          if (_rs != null) ...[
+          if (_rs != null || (race && _phase == _Phase.countdown)) ...[
             const SizedBox(width: MmSpace.s8),
             Semantics(
-              label: MobV3Copy.runClock(clock),
+              label: race ? MobV3Copy.timeLeft(clock) : MobV3Copy.runClock(clock),
               excludeSemantics: true,
               child: Container(
+                key: const ValueKey('run-clock-chip'),
                 height: 36,
                 padding: const EdgeInsets.fromLTRB(8, 0, 12, 0),
-                decoration: ShapeDecoration(color: colors.raised, shape: StadiumBorder(side: BorderSide(color: colors.line))),
+                // The last ten seconds: the chip's edge turns ink. No red and no shake: the time is information.
+                decoration: ShapeDecoration(color: colors.raised, shape: StadiumBorder(side: BorderSide(color: lastTen ? colors.ink : colors.line, width: lastTen ? 1.5 : 1))),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
@@ -634,8 +1102,135 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     );
   }
 
+  Widget _readyHeader(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final room = _live!;
+    final game = room.game;
+    final title = game == null ? '' : MobV3Copy.roomTitle(room.hostName, you: room.youHost);
+    final sub = game == null ? '' : MobV3Copy.roomSub(game.format, game.count, minutes: game.minutes);
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s8, MmSpace.gutter, MmSpace.s8),
+      child: Row(
+        children: [
+          IconButton(
+            key: const ValueKey('lobby-close'),
+            tooltip: room.youHost ? MobV3Copy.closeRoom : MobV3Copy.leaveRoom,
+            onPressed: _closeRoom,
+            icon: Icon(LucideIcons.x, color: colors.ink, size: 24),
+            constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+          ),
+          const SizedBox(width: MmSpace.s4),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(title, key: const ValueKey('lobby-title'), style: type.title.copyWith(color: colors.ink, fontSize: 20, height: 24 / 20)),
+                if (sub.isNotEmpty) Text(sub, style: type.caption.copyWith(color: colors.ink2)),
+              ],
+            ),
+          ),
+          if (game != null) const LiveDot(),
+        ],
+      ),
+    );
+  }
+
+  Widget _readyBody(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final room = _live!;
+    if (room.phase == LivePhase.opening) {
+      return SkeletonGroup(
+        label: MobV3Copy.openingRoom,
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Skeleton(height: LobbyStage.height, radius: MmRadius.panel),
+              SizedBox(height: MmSpace.s24),
+              Skeleton(height: 18, width: 220),
+              SizedBox(height: MmSpace.s8),
+              Skeleton(height: 18),
+            ],
+          ),
+        ),
+      );
+    }
+    final ended = _roomEnded();
+    if (ended != null) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s24, MmSpace.gutter, MmSpace.s16),
+        child: Center(child: Text(ended, key: const ValueKey('lobby-ended'), textAlign: TextAlign.center, style: type.lead.copyWith(color: colors.ink))),
+      );
+    }
+    return RoomReadyBody(room: room, gameId: widget.gameId);
+  }
+
+  Widget _readyKeys(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final room = _live!;
+    const pad = EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s12);
+    if (room.phase == LivePhase.opening) return const SizedBox(height: MmSpace.s16);
+    final ended = _roomEnded();
+    if (ended != null) {
+      final closed = MobV3Copy.codeOf(room.error ?? '') == 'GAME_CLOSED';
+      return Padding(
+        padding: pad,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            if (!closed) ...[
+              KeyButton(key: const ValueKey('lobby-play-now'), label: MobV3Copy.playItNow, onPressed: _playNow),
+              const SizedBox(height: MmSpace.s8),
+            ],
+            KeyButton.secondary(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context).maybePop()),
+          ],
+        ),
+      );
+    }
+    final List<Widget> keys;
+    if (room.youHost) {
+      keys = [
+        KeyButton(key: const ValueKey('lobby-start'), label: MobV3Copy.startForEveryone, loading: _starting, onPressed: _startRoom),
+        const SizedBox(height: MmSpace.s8),
+        Text(MobV3Copy.startWhenReady, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
+      ];
+    } else {
+      keys = [
+        if (room.youReady)
+          KeyButton(key: const ValueKey('lobby-waiting'), label: MobV3Copy.waitingFor(room.hostName), onPressed: null)
+        else
+          KeyButton(key: const ValueKey('lobby-ready'), label: MobV3Copy.imReady, onPressed: _ready),
+        // The host's way out is the close key above (it asks first); a guest can always play later.
+        const SizedBox(height: MmSpace.s4),
+        KeyButton.quiet(key: const ValueKey('lobby-later'), label: MobV3Copy.playLaterInstead, onPressed: _playLater),
+      ];
+    }
+    return Padding(
+      padding: pad,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (_roomNote != null) ...[
+            Text(_roomNote!, key: const ValueKey('lobby-note'), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink)),
+            const SizedBox(height: MmSpace.s8),
+          ],
+          ...keys,
+        ],
+      ),
+    );
+  }
+
   Widget _body(BuildContext context) {
     switch (_phase) {
+      case _Phase.ready:
+        return Column(children: [Expanded(child: _readyBody(context)), _readyKeys(context)]);
       case _Phase.loading:
         return _loading(context);
       case _Phase.failed:
@@ -645,12 +1240,17 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       case _Phase.done:
         break;
     }
-    final run = _runBody(context);
+    // A race's 3, 2, 1 plays over a quiet question skeleton until its run arrives at Go.
+    final run = _rs == null ? _loading(context) : _runBody(context);
     if (_phase != _Phase.countdown) return run;
     final reduced = _reduced;
     final you = ref.watch(denViewProvider)?.v3.you;
+    final live = _live;
     final heads = <CountdownHead>[
-      for (final g in _rs!.ghosts) CountdownHead(name: g.name, fold: g.fold, colour: g.colour, ghost: true),
+      if (live != null)
+        for (final id in _liveRacerIds())
+          if (live.member(id) case final m?) CountdownHead(name: m.name, fold: m.fold, colour: m.colour),
+      for (final g in _ghostsShown()) CountdownHead(name: g.name, fold: g.fold, colour: g.colour, ghost: true),
       CountdownHead(name: you?.name ?? MobV3Copy.tabYou, fold: you?.fold ?? FoldKey.dart, colour: you?.colour ?? 0, you: true),
     ];
     return AnimatedBuilder(
@@ -678,7 +1278,9 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
                     count: _count,
                     heads: heads,
                     reduced: reduced,
-                    onSkip: _skipCountdown,
+                    line: _race ? MobV3Copy.countdownRace(_minutes) : null,
+                    // Live: Go is shared on the server clock, so there is nothing to skip to.
+                    onSkip: _isLive ? null : _skipCountdown,
                   ),
                 ),
               ),
@@ -739,17 +1341,46 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     );
   }
 
+  /// Friends racing in this live room (never you), in Mob order.
+  List<String> _liveRacerIds() {
+    final live = _live;
+    if (live == null) return const [];
+    return [for (final m in live.members) if (!m.you && m.memberId != live.youId && live.racers.contains(m.memberId)) m.memberId];
+  }
+
+  /// Recorded runs to race: in a live room, not of the friends racing live.
+  List<Ghost> _ghostsShown() {
+    // A race's 3, 2, 1 plays before the run is asked for: its ghosts come from the game view.
+    final ghosts = _rs?.ghosts ?? (_raceFirst ? _game?.ghosts : null);
+    if (ghosts == null) return const [];
+    final live = _liveRacerIds().toSet();
+    return [for (final g in ghosts) if (!live.contains(g.memberId)) g];
+  }
+
   List<RulerRacer> _racers() {
     final rs = _rs!;
     final n = _count;
     final you = ref.watch(denViewProvider)?.v3.you;
     final out = <RulerRacer>[];
+    final live = _live;
+    if (live != null) {
+      for (final id in _liveRacerIds()) {
+        final m = live.member(id);
+        if (m == null) continue;
+        final q = (live.progress[id] ?? 0).clamp(0, n);
+        // A race has no flag: a friend whose time is up stays where they got to.
+        final done = !_race && (live.finished.contains(id) || q >= n);
+        out.add(RulerRacer(id: id, name: m.name, fold: m.fold, colour: m.colour, at: math.min(q + 1, _race ? _window : n), arrivedMs: _liveArrived[id] ?? 0, finished: done));
+      }
+    }
+    final shown = _ghostsShown().map((g) => g.memberId).toSet();
     for (var i = 0; i < rs.ghosts.length; i++) {
       final g = rs.ghosts[i];
+      if (!shown.contains(g.memberId)) continue;
       final reached = i < _ghostReached.length ? _ghostReached[i] : 0;
-      final done = reached >= n;
+      final done = !_race && reached >= n;
       final arrived = reached == 0 || g.arrivalsMs.isEmpty ? 0 : g.arrivalsMs[math.min(reached, g.arrivalsMs.length) - 1];
-      out.add(RulerRacer(id: g.memberId, name: g.name, fold: g.fold, colour: g.colour, ghost: true, at: reached + 1, arrivedMs: arrived, finished: done));
+      out.add(RulerRacer(id: g.memberId, name: g.name, fold: g.fold, colour: g.colour, ghost: true, at: _race ? math.min(reached + 1, _window) : reached + 1, arrivedMs: arrived, finished: done));
     }
     var latest = 0;
     for (final a in _answers.values) {
@@ -762,9 +1393,9 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       fold: you?.fold ?? FoldKey.dart,
       colour: you?.colour ?? 0,
       you: true,
-      at: answered + 1,
+      at: _race ? math.min(answered + 1, _window) : answered + 1,
       arrivedMs: latest,
-      finished: answered >= n,
+      finished: !_race && answered >= n,
     ));
     return out;
   }
@@ -780,7 +1411,8 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       label: MobV3Copy.rulerLabel,
       child: RulerRace(
         key: const ValueKey('run-ruler'),
-        count: _count,
+        count: _race ? _window : _count,
+        open: _race,
         racers: racers,
         answered: _answers.length,
         youAct: _youAct,
@@ -802,13 +1434,22 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
                 final v = Motion.glide.transform(_toastC.value);
                 // Worded as it draws: "Take your time" only while the student is still playing (walk 20 Oct: it stayed
                 // on the finished screen).
-                final name = _toast;
-                final toast = name == null ? null : (_phase == _Phase.done ? MobV3Copy.ghostFinishedAfterYou(name) : MobV3Copy.ghostFinished(name));
+                final who = _toast;
+                final done = _phase == _Phase.done;
+                final toast = who == null
+                    ? null
+                    : who.ghost
+                        ? (done ? MobV3Copy.ghostFinishedAfterYou(who.name) : MobV3Copy.ghostFinished(who.name))
+                        : (done ? MobV3Copy.friendFinishedAfterYou(who.name) : MobV3Copy.friendFinished(who.name));
                 return Stack(
                   children: [
                     Opacity(
                       opacity: toast == null ? 1 : (1 - v).clamp(0.0, 1.0),
-                      child: Text(MobV3Copy.rulerCaption, style: type.caption.copyWith(color: colors.ink3)),
+                      child: Text(
+                        _live?.busy == true ? MobV3Copy.liveBusyRun : MobV3Copy.rulerCaption,
+                        key: const ValueKey('run-caption'),
+                        style: type.caption.copyWith(color: _live?.busy == true ? colors.ink2 : colors.ink3),
+                      ),
                     ),
                     if (toast != null)
                       Positioned.fill(
@@ -843,7 +1484,8 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     if (_phase == _Phase.done) {
       middle = _doneBlock(context);
     } else {
-      final question = rs.questions[_q.clamp(0, rs.questions.length - 1)];
+      final qs = _questions.isEmpty ? rs.questions : _questions;
+      final question = qs.firstWhere((x) => x.q == _q, orElse: () => qs[_q.clamp(0, qs.length - 1)]);
       middle = FadeTransition(
         opacity: _qFade,
         child: AnimatedBuilder(
@@ -889,7 +1531,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(child: Text(MobV3Copy.questionOf(_q + 1, _count), style: type.label.copyWith(color: colors.ink3))),
+            Expanded(child: Text(_race ? MobV3Copy.raceQuestion(_q + 1) : MobV3Copy.questionOf(_q + 1, _count), key: const ValueKey('run-question-of'), style: type.label.copyWith(color: colors.ink3))),
             const SizedBox(width: MmSpace.s8),
             // Wraps at large text on a small phone instead of overflowing.
             Flexible(child: Text(MobV3Copy.marksRule, textAlign: TextAlign.end, style: type.label.copyWith(color: colors.ink3))),
@@ -932,6 +1574,12 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     return locked ? RunOptionLook.locked : RunOptionLook.picked;
   }
 
+  /// A live room is still running with friends at their questions: the podium waits for it (R6).
+  bool get _podiumWaits {
+    final live = _live;
+    return live != null && live.liveOn && live.stillPlaying.isNotEmpty;
+  }
+
   Widget _doneBlock(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
@@ -943,11 +1591,20 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
         child: Column(
           children: [
             Text(
-              _expired ?? MobV3Copy.playedAll(_count),
+              _race ? (_poolDone ? MobV3Copy.poolDone(_count) : MobV3Copy.timeUp) : (_expired ?? MobV3Copy.playedAll(_count)),
               key: const ValueKey('run-done-title'),
               textAlign: TextAlign.center,
               style: (_expired == null ? type.title : type.lead).copyWith(color: colors.ink),
             ),
+            if (_race && !_poolDone) ...[
+              const SizedBox(height: MmSpace.s8),
+              Text(
+                MobV3Copy.racedLine(_finish?.answered ?? _answers.values.where((a) => a.pick >= 0).length, _minutes),
+                key: const ValueKey('run-done-raced'),
+                textAlign: TextAlign.center,
+                style: type.body.copyWith(color: colors.ink2),
+              ),
+            ],
             if (marks != null) ...[
               const SizedBox(height: MmSpace.s12),
               Semantics(
@@ -964,6 +1621,15 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
                 ),
               ),
             ],
+            if (_podiumWaits) ...[
+              const SizedBox(height: MmSpace.s16),
+              Text(
+                MobV3Copy.stillPlaying(_live!.stillPlaying),
+                key: const ValueKey('run-still-playing'),
+                textAlign: TextAlign.center,
+                style: type.body.copyWith(color: colors.ink2),
+              ),
+            ],
           ],
         ),
       ),
@@ -977,6 +1643,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     const pad = EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16);
 
     if (_phase == _Phase.done) {
+      if (_podiumWaits) return const SizedBox(height: MmSpace.s16);
       return Padding(
         padding: pad,
         child: KeyButton(
@@ -988,6 +1655,27 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     }
 
     final r = _result;
+    if (r != null && _race) {
+      // A race moves on by itself: the keys stay, quiet, so nothing jumps under the thumb.
+      return Padding(
+        padding: pad,
+        child: Row(
+          children: [
+            Expanded(flex: 2, child: KeyButton.secondary(key: const ValueKey('run-key-skip'), label: MobV3Copy.skip, onPressed: null)),
+            const SizedBox(width: MmSpace.s12),
+            // What you just did stays on the key, quiet, until the next question comes in.
+            Expanded(
+              flex: 3,
+              child: KeyButton(
+                key: const ValueKey('run-key-lock'),
+                label: (_sentPick ?? -1) >= 0 ? MobV3Copy.lockIn(_letters[_sentPick!.clamp(0, _letters.length - 1)]) : MobV3Copy.sheetSkipped,
+                onPressed: null,
+              ),
+            ),
+          ],
+        ),
+      );
+    }
     if (r != null) {
       return AnimatedBuilder(
         animation: _fb,

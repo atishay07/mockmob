@@ -222,9 +222,19 @@ class PodiumStage extends StatefulWidget {
     this.onRematch,
     this.onClose,
     this.autoplay = true,
+    this.below,
+    this.primaryLabel,
+    this.onPrimary,
   });
 
   final Podium podium;
+
+  /// Shown in the scroll under the lines once the stage has landed (Full mock together: the mark sheets).
+  final Widget? below;
+
+  /// The primary key in place of "Everyone's moment" (Full mock together: "Your mark sheet").
+  final String? primaryLabel;
+  final VoidCallback? onPrimary;
   final String gameTitle;
 
   /// The server's clock, for "Places can change until 2:05 PM tomorrow."
@@ -573,7 +583,13 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           ignoring: keysT < 0.5,
           child: Row(
             children: [
-              Expanded(child: KeyButton(label: _plan.onlyYou ? MobV3Copy.yourMoment : MobV3Copy.everyonesMoment, onPressed: widget.onMoments)),
+              Expanded(
+                child: KeyButton(
+                  key: const ValueKey('podium-primary'),
+                  label: widget.primaryLabel ?? (_plan.onlyYou ? MobV3Copy.yourMoment : MobV3Copy.everyonesMoment),
+                  onPressed: widget.primaryLabel != null ? widget.onPrimary : widget.onMoments,
+                ),
+              ),
               const SizedBox(width: MmSpace.s12),
               _IconKey(icon: LucideIcons.repeat, label: MobV3Copy.askRematch, onTap: widget.onRematch, ring: true),
             ],
@@ -609,6 +625,11 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
                   ),
                   parts.names,
                   lines,
+                  if (widget.below != null)
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(MmSpace.momentGutter - 4, MmSpace.s24, MmSpace.momentGutter - 4, 0),
+                      child: Opacity(opacity: keysT.clamp(0.0, 1.0), child: keysT <= 0 ? const SizedBox(height: 1) : widget.below!),
+                    ),
                   const SizedBox(height: MmSpace.s8),
                 ],
               ),
@@ -974,6 +995,8 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           Text(_name(m), textAlign: TextAlign.center, softWrap: true, style: type.labelLarge.copyWith(color: c.ink, fontWeight: FontWeight.w700)),
           const SizedBox(height: 2),
           marksText,
+          // A race: how many each answered in the time (the marks decide the place).
+          if (m.answered != null && !m.private) Text(MobV3Copy.answeredCount(m.answered!), key: ValueKey('podium-answered-${m.memberId}'), textAlign: TextAlign.center, style: type.caption.copyWith(color: c.ink3)),
         ],
       ),
     );

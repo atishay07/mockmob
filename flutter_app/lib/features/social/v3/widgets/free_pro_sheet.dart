@@ -12,6 +12,7 @@ import '../../../../core/widgets/widgets.dart';
 import '../../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
+import '../data/mob_v3_models.dart';
 import 'chain_paper.dart';
 
 Future<void> showFreeProSheet(BuildContext context) async {
@@ -20,20 +21,25 @@ Future<void> showFreeProSheet(BuildContext context) async {
   final billingOn = v3?.starts.billingOn ?? false;
   if (!billingOn) return;
   final live = v3?.live.enabled ?? false;
+  // The Full mock together lines appear only while the server offers it (formats on).
+  final mocks = v3?.starts.shows(GameFormat.mock) ?? false;
+  final price = v3?.starts.freeMockPrice;
   await showMmSheet<void>(
     context: context,
     title: MobV3Copy.freeProTitle,
     heightFactor: 0.94,
-    builder: (_) => _FreeProBody(live: live),
+    builder: (_) => _FreeProBody(live: live, mocks: mocks, price: price),
     footer: (_) => const _PlansKey(),
   );
 }
 
 class _FreeProBody extends StatelessWidget {
-  const _FreeProBody({required this.live});
+  const _FreeProBody({required this.live, this.mocks = false, this.price});
 
   /// The server's live switch: live rooms are sold only while it is on (L-04).
   final bool live;
+  final bool mocks;
+  final int? price;
 
   @override
   Widget build(BuildContext context) {
@@ -46,14 +52,14 @@ class _FreeProBody extends StatelessWidget {
         const SizedBox(height: MmSpace.s16),
         MmSurface.plain(
           padding: const EdgeInsets.all(MmSpace.s16),
-          child: _List(title: MobV3Copy.freeAlways, items: MobV3Copy.freeList, icon: LucideIcons.check, iconColor: colors.accentText),
+          child: _List(title: MobV3Copy.freeAlways, items: MobV3Copy.freeListFor(mocks: mocks, mockCost: price), icon: LucideIcons.check, iconColor: colors.accentText),
         ),
         const SizedBox(height: MmSpace.s12),
         DecoratedBox(
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(MmRhythm.plainRadius), border: Border.all(color: colors.lineStrong)),
           child: Padding(
             padding: const EdgeInsets.all(MmSpace.s16),
-            child: _List(title: MobV3Copy.proAdds, items: MobV3Copy.proListFor(live: live), icon: LucideIcons.plus, iconColor: colors.ink2),
+            child: _List(title: MobV3Copy.proAdds, items: MobV3Copy.proListFor(live: live, mocks: mocks), icon: LucideIcons.plus, iconColor: colors.ink2),
           ),
         ),
         const SizedBox(height: MmSpace.s16),

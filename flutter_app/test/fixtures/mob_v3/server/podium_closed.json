@@ -2,6 +2,8 @@
   "soFar": false,
   "closesAt": "2026-10-22T06:35:00.000Z",
   "showPodium": true,
+  "format": "sprint",
+  "minutes": null,
   "headline": {
     "kind": "together",
     "right": 15,
@@ -15,6 +17,7 @@
       "colour": 3,
       "marks": 20,
       "you": false,
+      "answered": 4,
       "place": 1
     },
     {
@@ -24,6 +27,7 @@
       "colour": 1,
       "marks": 19,
       "you": true,
+      "answered": 5,
       "place": 2
     },
     {
@@ -33,6 +37,7 @@
       "colour": 1,
       "marks": 19,
       "you": false,
+      "answered": 5,
       "place": 2
     },
     {
@@ -42,6 +47,7 @@
       "colour": 1,
       "marks": 13,
       "you": false,
+      "answered": 5,
       "place": 4,
       "floor": true
     }

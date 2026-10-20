@@ -96,7 +96,8 @@
         120000,
         150000
       ],
-      "finishedMs": 150000
+      "finishedMs": 150000,
+      "answered": 5
     },
     {
       "memberId": "member-1",
@@ -111,7 +112,8 @@
         132000,
         165000
       ],
-      "finishedMs": 165000
+      "finishedMs": 165000,
+      "answered": 5
     }
   ]
 }

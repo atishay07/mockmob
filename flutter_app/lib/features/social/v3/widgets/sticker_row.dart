@@ -164,7 +164,8 @@ class _StickerRowState extends ConsumerState<StickerRow> {
                   ),
               ];
             if (widget.grid && cells.length == 4 && box.maxWidth < 480) {
-              Widget pair(int a) => Row(mainAxisSize: MainAxisSize.min, children: [cells[a], const SizedBox(width: MmSpace.s8), cells[a + 1]]);
+              // Two to a row; a pair that does not fit at a large text size goes one under the other.
+              Widget pair(int a) => Wrap(spacing: MmSpace.s8, runSpacing: MmSpace.s8, children: [cells[a], cells[a + 1]]);
               return Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
