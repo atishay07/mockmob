@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../../core/motion/motion_tokens.g.dart';
+import '../../../../../dev/mob_explainer_sample.dart';
 import '../../../../../core/theme/theme.dart';
 import '../../../widgets/mob_ring.dart' show MobColours;
 import '../../copy_v3.dart';
@@ -16,6 +17,7 @@ import '../fold_puppet.dart';
 import '../mob_fx.dart';
 import '../moment_kit.dart' show MomentCurves, RollNumber, lerpD, seg;
 import '../moment_stitched.dart' show PennantPainter;
+import '../moment_reveal.dart' show RevealGeo;
 import '../parcel.dart' show ParcelStills;
 import '../pennant.dart';
 import '../podium_stage.dart' show PlinthPainter;
@@ -1626,7 +1628,7 @@ class _SlideFix extends StatelessWidget {
                       left: 16,
                       right: 16,
                       top: 40,
-                      child: Text(MobExplainerCopy.stem, style: _hanken(context, 13, colour: p.ink2, height: 18)),
+                      child: Text(MobExplainerSample.stem, style: _hanken(context, 13, colour: p.ink2, height: 18)),
                     ),
                     for (var i = 0; i < 4; i++) ...[
                       Positioned(
@@ -1649,7 +1651,7 @@ class _SlideFix extends StatelessWidget {
                         width: 64,
                         top: 109,
                         child: Text(
-                          MobExplainerCopy.options[i],
+                          MobExplainerSample.options[i],
                           textAlign: TextAlign.center,
                           style: _hanken(context, 11.5, w: FontWeight.w500, colour: p.ink2, height: 15),
                         ),
@@ -2326,7 +2328,7 @@ class _SlideShelf extends StatelessWidget {
     final ms = t.ms;
     final r = t.reduced;
     final rim = pt + ps * 0.5;
-    final hopBase = rim + 26;
+    final hopBase = rim + 22;
 
     final cone = r ? t.fade(0) : seg(ms, 0, 420, MotionCurves.emphasized);
     final bright = r ? 1.0 : (ms < 1000 ? 1.0 : _kf(((ms - 1000) / 1000).clamp(0.0, 1.0), const [0, 0.4, 1], const [1, 1.45, 1.15]));
@@ -2396,12 +2398,9 @@ class _SlideShelf extends StatelessWidget {
           ),
         ),
         // Hop climbs out, clipped at the box's rim.
-        Positioned(
-          left: 0,
-          top: 0,
-          width: ExStage.w,
-          height: rim + 2,
-          child: ClipRect(
+        Positioned.fill(
+          child: ClipPath(
+            clipper: const _AboveParcelRim(left: px - ps / 2, top: pt, size: ps),
             child: Stack(
               clipBehavior: Clip.none,
               children: [
@@ -2512,4 +2511,33 @@ class _SlideShelf extends StatelessWidget {
       ],
     );
   }
+}
+
+/// Keeps Hop above the open parcel's front rim (the still's own rim line, RevealGeo.frontRim), so the
+/// boots stand inside the box and the paper edge in front of them is the art's.
+class _AboveParcelRim extends CustomClipper<Path> {
+  const _AboveParcelRim({required this.left, required this.top, required this.size});
+  final double left;
+  final double top;
+  final double size;
+
+  @override
+  Path getClip(Size s) {
+    final rim = RevealGeo.frontRim.take(5).toList();
+    Offset at(Offset f) => Offset(left + f.dx * size, top + (f.dy + 0.02) * size);
+    final path = Path()
+      ..moveTo(0, 0)
+      ..lineTo(s.width, 0)
+      ..lineTo(s.width, at(rim.last).dy);
+    for (final o in rim.reversed) {
+      final q = at(o);
+      path.lineTo(q.dx, q.dy);
+    }
+    return path
+      ..lineTo(0, at(rim.first).dy)
+      ..close();
+  }
+
+  @override
+  bool shouldReclip(_AboveParcelRim old) => old.left != left || old.top != top || old.size != size;
 }

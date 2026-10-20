@@ -311,12 +311,12 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
                 final width = math.min(box.maxWidth, 520.0);
                 final height = box.maxHeight;
                 final natural = width * ExStage.h / ExStage.w;
-                var stageH = natural;
-                for (var i = 0; i < ExplainerFlow.slides; i++) {
-                  final room = height - _top - (i == _last ? _bottomFinal : _bottom) - _gap - _textNeed(context, i, width, billingOn);
-                  stageH = math.min(stageH, room);
-                }
-                stageH = stageH.clamp(math.min(150.0, natural), natural);
+                // Each slide's stage takes the room its own words leave (full width when they fit), so a
+                // long slide never shrinks the others.
+                final stageH = [
+                  for (var i = 0; i < ExplainerFlow.slides; i++)
+                    (height - _top - (i == _last ? _bottomFinal : _bottom) - _gap - _textNeed(context, i, width, billingOn)).clamp(math.min(150.0, natural), natural).toDouble(),
+                ];
                 return Center(
                   child: SizedBox(
                     width: width,
@@ -363,7 +363,7 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
     );
   }
 
-  Widget _trackView(BuildContext context, double width, double stageH, bool billingOn) {
+  Widget _trackView(BuildContext context, double width, List<double> stageH, bool billingOn) {
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onHorizontalDragStart: _onDragStart,
@@ -386,7 +386,7 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
                       top: 0,
                       bottom: 0,
                       width: width,
-                      child: Opacity(opacity: i == index ? _fade.value : 1, child: _slide(context, i, width, stageH, billingOn)),
+                      child: Opacity(opacity: i == index ? _fade.value : 1, child: _slide(context, i, width, stageH[i], billingOn)),
                     ),
               ],
             );

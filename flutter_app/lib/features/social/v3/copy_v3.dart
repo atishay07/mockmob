@@ -897,8 +897,7 @@ abstract final class MobExplainerCopy {
   static String plinth(String name, int marks) => '$name, $marks';
 
   // Slide 5: the trap and the path.
-  static const String stem = "Goodwill at 2 years' purchase of average profits of 30,000 is";
-  static const List<String> options = ['30,000', '45,000', '60,000', '90,000'];
+  // The sample question itself is content, in lib/dev/mob_explainer_sample.dart.
   static const String whyLead = 'Why it looked right.';
   static const String why = ' B counts 1.5 years of profit, not 2.';
   static const String now = 'Now';

@@ -181,7 +181,10 @@ void main() {
 
     testWidgets('Leave Mob asks first, then leaves through the old call', (tester) async {
       await _open(tester);
-      await tester.ensureVisible(find.text(MobCopy.leave));
+      // "How the Mob works" now sits above it: bring the row fully into view before the tap.
+      await tester.scrollUntilVisible(find.text(MobCopy.leave), 200, scrollable: find.byType(Scrollable).first);
+      await tester.drag(find.byType(Scrollable).first, const Offset(0, -200));
+      await tester.pumpAndSettle();
       await tester.tap(find.text(MobCopy.leave));
       await tester.pumpAndSettle();
       // The row and the confirm key say the same two words.

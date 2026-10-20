@@ -738,8 +738,7 @@ class AskController extends Notifier<AskState> {
     // A replayed doubt (the server's L-01 replay, `replayed: true`) brings the answers already given to its 2 questions.
     final results = asJson(body['results']);
     final marks = <String, CheckMark>{
-      for (final e in results.entries)
-        if (CheckMark.tryParse(e.value) case final m?) e.key: m,
+      for (final e in results.entries) e.key: ?CheckMark.tryParse(e.value),
     };
     final DoubtThread next;
     if (current != null && current.info.id == info.id) {

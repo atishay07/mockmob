@@ -338,7 +338,12 @@ class _MobSetupScreenState extends ConsumerState<MobSetupScreen> with SingleTick
     final reduced = MobFx.reduced(context);
     // The keyboard: the preview gives up some height so the field and the key stay in view.
     final keyboard = (MediaQuery.viewInsetsOf(context).bottom / 240).clamp(0.0, 1.0);
-    final previewH = lerpD(_SetupMotion.previewH, _SetupMotion.previewKeyboardH, keyboard);
+    // A short phone (walk 20 Oct: 731 dp of screen) gives the preview less height, so the four Fold cards
+    // and their lines stay above the key without scrolling.
+    final mq = MediaQuery.of(context);
+    final room = mq.size.height - mq.padding.vertical;
+    final fitH = (room - 592).clamp(_SetupMotion.previewKeyboardH, _SetupMotion.previewH);
+    final previewH = lerpD(fitH, _SetupMotion.previewKeyboardH, keyboard);
     final step = _step;
     final last = step == SetupStep.you;
     final showSubject = step == SetupStep.subject || step == SetupStep.you;
