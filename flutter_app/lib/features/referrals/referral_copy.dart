@@ -17,13 +17,13 @@ abstract final class ReferralCopy {
   static const String copied = 'Link copied. Send it to a friend.';
   static const String shareFailed = 'The share sheet did not open. Copy the link instead.';
   static String shareText(int reward, String link) =>
-      'Practising for CUET on MockMob. Join with my link and we both get $reward credits once you finish a practice: $link';
+      'Practising for CUET on MockMob. Join with my link and we both get $reward credits once you finish one practice: $link';
   static const String none = 'No friends on your link yet. One share starts it.';
   static const String paused = 'Invite rewards are on a short break. A practice done meanwhile still counts, and is paid when rewards return.';
   static String capReached(int cap, int reward) =>
       'That is $cap ${cap == 1 ? 'friend' : 'friends'} this month, the most one month pays for. New friends still get their $reward credits.';
   static String invitedJoined(int reward) => "You came in on a friend's link. Finish one practice and $reward credits land for both of you.";
-  static String invitedRewarded(int reward) => 'Your first practice paid off: you and your friend each got $reward credits.';
+  static String invitedRewarded(int reward) => 'That one practice paid off: you and your friend each got $reward credits.';
 
   static String _n(int n, String one, String many) => '$n ${n == 1 ? one : many}';
 
@@ -44,12 +44,12 @@ abstract final class ReferralCopy {
   static const String codeLabel = "Friend's code";
   static const String codeHint = 'K7P 2M9X';
   static const String codeAdd = 'Add code';
-  static String codeAdded(int reward) => 'Code added. Finish one practice and $reward credits land for both of you.';
+  static String codeAdded(int reward) => 'Code added. When you finish one practice, $reward credits land for both of you.';
   static const String codeBad = 'That code does not look quite right. Check it and try again.';
   static const String codeUnknown = 'No invite matches that code. Check it and try again.';
   static const String codeOwn = 'That one is your own code. Share it with a friend instead.';
   static const String codeUsed = "You already came in on a friend's invite, so another code cannot be added.";
-  static const String codeNotNew = 'Friend codes are for new accounts, before their first practice.';
+  static const String codeNotNew = 'Friend codes are for new accounts that have not practised yet.';
   static const String codeOffline = 'We could not check the code. Check your connection and try again.';
   static const String codeBusy = 'That is a lot of tries. Wait a few minutes and try again.';
   static const String codeOff = 'Invites are closed right now. Try again later.';
