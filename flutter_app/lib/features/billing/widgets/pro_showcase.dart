@@ -604,9 +604,11 @@ class ProCompareTable extends StatelessWidget {
       } else if (v.isEmpty) {
         child = Container(width: 12, height: 2, color: colors.ink4);
       } else {
-        child = Text(v, textAlign: TextAlign.center, style: type.caption.copyWith(color: pro ? colors.ink : colors.ink2, fontWeight: pro ? FontWeight.w700 : FontWeight.w500));
+        final words = Text(v, textAlign: TextAlign.center, style: type.caption.copyWith(color: pro ? colors.ink : colors.ink2, fontWeight: pro ? FontWeight.w700 : FontWeight.w500));
+        // A single word never breaks mid-word ("Unlimite d" at text 1.3): it scales down to fit its column instead.
+        child = v.contains(' ') ? words : FittedBox(fit: BoxFit.scaleDown, child: words);
       }
-      return SizedBox(width: _col, child: Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4), child: Center(child: child)));
+      return SizedBox(width: _col, child: Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.s2), child: Center(child: child)));
     }
 
     return DecoratedBox(
