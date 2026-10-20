@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:share_plus/share_plus.dart';
 
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../you/widgets/you_page.dart' show SectionTitle, youGutter, youText;
 import 'invite_code_row.dart';
+import 'invite_share.dart';
 import 'referral_copy.dart';
 import 'referral_data.dart';
 
@@ -74,7 +74,7 @@ class WalletInviteSection extends ConsumerWidget {
                 Text(line, style: type.caption.copyWith(color: colors.ink2)),
               ],
               const SizedBox(height: MmSpace.s16),
-              KeyButton(label: ReferralCopy.share, onPressed: () => _share(context, s)),
+              KeyButton(label: ReferralCopy.share, onPressed: () => shareInvite(context, ref, s)),
               const SizedBox(height: MmSpace.s8),
               KeyButton.secondary(label: ReferralCopy.copy, onPressed: () => _copy(context, s.link!)),
               const SizedBox(height: MmSpace.s8),
@@ -87,15 +87,6 @@ class WalletInviteSection extends ConsumerWidget {
         ),
       ],
     );
-  }
-
-  Future<void> _share(BuildContext context, ReferralStatus s) async {
-    final messenger = ScaffoldMessenger.maybeOf(context);
-    try {
-      await SharePlus.instance.share(ShareParams(text: ReferralCopy.shareText(s.reward, s.link!)));
-    } on Object {
-      messenger?.showSnackBar(const SnackBar(content: Text(ReferralCopy.shareFailed)));
-    }
   }
 
   Future<void> _copy(BuildContext context, String link) async {

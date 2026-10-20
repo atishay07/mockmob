@@ -57,6 +57,7 @@ import 'package:mockmob/features/review/data/repair_api.dart';
 import 'package:mockmob/features/review/data/review_providers.dart' show reviewIndexProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart' show studyDayPlanProvider;
 import 'package:mockmob/features/runner/data/runner_loader.dart';
+import 'package:mockmob/features/referrals/welcome_credits_trigger.dart' show welcomeCreditsDemoProvider;
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
 
@@ -75,6 +76,10 @@ import 'demo_v13.dart';
 
 /// `--dart-define=DEMO_NO_NAME=true`: the account has no name the student gave, so Today shows its one-time name card.
 const _demoNoName = bool.fromEnvironment('DEMO_NO_NAME');
+
+/// `--dart-define=DEMO_WELCOME_CREDITS=true` (the "fresh" scenario): the fixture student is a new account whose
+/// after-sign-in sheet has just closed, so the welcome-credits sheet opens on Today at every launch.
+const _demoWelcomeCredits = bool.fromEnvironment('DEMO_WELCOME_CREDITS');
 
 const _asha = AuthSnapshot(
   status: AuthStatus.signedIn,
@@ -210,6 +215,7 @@ List<Override> _overrides() {
     // Start, the bar's live capsule and its badges: the real app's own wiring.
     ...liveAppOverrides(),
     authSnapshotProvider.overrideWith(() => practice.FakeAuth(_asha)),
+    if (_demoWelcomeCredits) welcomeCreditsDemoProvider.overrideWithValue(true),
     networkStatusProvider.overrideWith(() => practice.FakeNetwork(NetworkStatus.online)),
     studentTimezoneProvider.overrideWithValue('Asia/Kolkata'),
     analyticsClientProvider.overrideWithValue(practice.FakeAnalytics()),

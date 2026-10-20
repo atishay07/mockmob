@@ -84,8 +84,8 @@ void main() {
 
     test('D165 + D182: 50 to start, 100 each once the friend finishes one practice', () {
       expect(WalletCopy.welcomeCredits, contains('50 credits'));
-      expect(ReferralCopy.how(100), contains('finishes one practice'));
-      expect(ReferralCopy.how(100), contains('you each get 100 credits'));
+      expect(ReferralCopy.how(100), contains('finish one practice'));
+      expect(ReferralCopy.how(100), contains('100 credits land for both of you'));
     });
   });
 
