@@ -33,7 +33,13 @@ class MonumentalNumber extends StatefulWidget {
     this.delay = Duration.zero,
     this.onLanded,
     this.memoryKey,
+    this.reserve = const [],
   });
+
+  /// Values this figure will pass through (a score adding up on a mark sheet): the number's box is as wide as the widest
+  /// of them and the number sits at its right, so the unit beside it never moves while the value changes. Empty: the
+  /// box is as wide as the value.
+  final List<String> reserve;
 
   /// The number as it should read ("183", "23", "4.5"). Non-digits are drawn as they are.
   final String value;
@@ -247,6 +253,12 @@ class _MonumentalNumberState extends State<MonumentalNumber> with TickerProvider
     }
 
     Widget number = row(style);
+    if (widget.reserve.isNotEmpty) {
+      // Each digit is one slot wide; anything else (the minus sign) is its own width.
+      double widthOf(String v) => v.characters.fold(0.0, (w, ch) => w + (_isDigit(ch) ? slot.width : _CapMetrics.of(ch, style).width));
+      final reserved = [widget.value, ...widget.reserve].map(widthOf).reduce((a, b) => a > b ? a : b);
+      number = SizedBox(width: reserved, child: Align(alignment: Alignment.topRight, child: number));
+    }
     if (widget.memoryKey != null) {
       // A remembered number keeps one structure, so its digits never remount: the tinted copy
       // rolls in step on top and fades out once the change has been seen.

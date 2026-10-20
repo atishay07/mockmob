@@ -30,7 +30,6 @@ import '../result/move_nav.dart';
 import '../result/widgets/fold_section.dart';
 import '../result/widgets/mistake_row.dart';
 import '../result/widgets/next_move_panel.dart';
-import '../result/widgets/finish_reveal.dart' show finishChaptersOf;
 import '../result/widgets/result_head.dart' show ResultNotice;
 import '../review/your_papers_link.dart' show yourPapersLocation;
 import 'copy.dart';
@@ -44,6 +43,7 @@ import 'model/practice_ask.dart';
 import 'model/practice_result_model.dart';
 import 'model/session_analysis.dart';
 import 'widgets/finish_stage.dart';
+import 'widgets/mark_sheet.dart' show chapterMarksOf;
 import 'widgets/numbered_sheet.dart';
 import 'widgets/observations_panel.dart';
 import 'widgets/practice_app_bar.dart';
@@ -495,9 +495,12 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
     final finishMarks = FinishMarks(correct: attempt.correct, wrong: attempt.wrong, blank: attempt.unattempted, total: attempt.total);
     final tone = finishToneFor(finishMarks, previousAccuracy: _previousAccuracy(attempt));
     final costliest = costliestLine(rows, reviews: reviews);
-    // Where the marks went, chapter by chapter, ranked with ties shared (I13, I14): the moment's last beat. When it is
-    // shown there, the costliest block below would say the same thing again, so it gives way.
-    final chapters = finishChaptersOf(rankedChapterCosts(rows, reviews: reviews));
+    // Every chapter of the paper with its marks (K7: the desktop's level or above), the chapter that missed the most
+    // first; with one chapter the sheet itself is that chapter's marks.
+    final chapterMarks = chapterMarksOf([for (final q in model.questions) (q.chapter, q.cell)]);
+    // Time on the questions, from the phone's (or the server's) own timing; nothing when it was not recorded.
+    final timedMs = [for (final q in model.questions) ?analysis.dwellMs[q.qid]];
+    final spent = timedMs.isEmpty ? null : Duration(milliseconds: timedMs.fold(0, (s, ms) => s + ms));
     // Mobi's read of the paper (20 Oct, owner: "it doesn't do the SWOT analysis"): the moment's last beat, from this
     // paper's own numbers and the student's earlier papers in the subject. It carries the chapters, so the costliest
     // block below gives way to it.
@@ -709,7 +712,9 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                       subject: subjectName,
                                       chapter: chapter,
                                       onCellTap: model.hasRows ? _tapCell : null,
-                                      chapters: chapters,
+                                      chapterMarks: chapterMarks,
+                                      spent: spent,
+                                      timed: timedMs.length,
                                       chaptersLead: costliest.line,
                                       chaptersDetail: costliest.tied.length > 1 ? costliest.detail : null,
                                       read: model.hasRows && !failedKeys ? read : null,

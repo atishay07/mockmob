@@ -99,10 +99,13 @@ void main() {
   }
 
   // The frame sequence of a great set (the ring and the shards play), Night, 360 dp.
-  for (final ms in [0, 300, 600, 840, 1100, 1500, 2200]) {
+  // 20 Oct, K7: the sheet set down and stamped (0, 300), marked (700, 1100), the score landing with the ring and the
+  // shards (1800) and circled (2400).
+  for (final ms in [0, 300, 700, 1100, 1500, 1800, 2400]) {
     testWidgets('frame at $ms ms, a great set, 360 dp, night', (tester) async {
       final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
       await _pump(tester, Brightness.dark, const Size(360, 760), resultOverrides(attemptId: 'p1', detail: _detail(_great), pending: pending));
+      await warmSheetStamp(tester);
       await tester.pump();
       await tester.pump();
       await _frames(tester, ms);

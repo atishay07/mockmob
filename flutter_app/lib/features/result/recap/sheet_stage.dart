@@ -258,6 +258,8 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
       return;
     }
     _announce();
+    // The figure is on the sheet from the first row the reader inks: it adds up with the tally from 0.
+    setState(() => _figureIn = true);
     _reveal.forward(from: 0);
   }
 
@@ -345,6 +347,8 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
           // Every score is circled once it is added up (I13), in volt after a result met with warmth, in ink otherwise.
           circle: _calm ? kAlwaysCompleteAnimation : _circle,
           circleWarm: m.variant.celebratory,
+          // The figure and the meter add up with the reader, as the tally under the sheet does (K7: true at every frame).
+          tally: _calm ? null : _tallyInk,
         ),
         // Nothing in the body reads the unfold, so it is not rebuilt on every frame of it.
         body: SheetBody(

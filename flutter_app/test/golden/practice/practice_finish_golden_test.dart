@@ -141,6 +141,7 @@ void main() {
         testWidgets('the finish moment at $ms ms', (tester) async {
           final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
           await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(), pending: pending, chapter: 'Admission of a partner'));
+          await warmSheetStamp(tester);
           // Two frames for the fresh check to resolve; the moment starts on the second.
           await tester.pump();
           await tester.pump();
@@ -159,9 +160,9 @@ void main() {
         });
       }
 
-      // The stamp (UI blitz, 14 Oct): the figure lands with an ink ring; a great set adds the
-      // burst of volt shards and the band of light over the sheet.
-      for (final (name, set, ms) in [('finish_stamp_mixed', _set, 1250), ('finish_stamp_great', _great, 1350)]) {
+      // The stamp (UI blitz, 14 Oct): the score lands on the mark sheet (20 Oct, K7: after the seal and the marking, about
+      // 1.7 s for ten); a great set adds the ring and the burst of volt shards behind it.
+      for (final (name, set, ms) in [('finish_stamp_mixed', _set, 1700), ('finish_stamp_great', _great, 1800)]) {
         testWidgets('the stamp, $name at $ms ms', (tester) async {
           final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
           await _pump(
@@ -170,6 +171,7 @@ void main() {
             b,
             resultOverrides(attemptId: 'p1', detail: _detail(questions: set), pending: pending, chapter: 'Admission of a partner'),
           );
+          await warmSheetStamp(tester);
           await tester.pump();
           await tester.pump();
           for (var t = 0; t < ms; t += 50) {

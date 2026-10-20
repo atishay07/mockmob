@@ -3,6 +3,10 @@
 // for every score, and the read of the paper on card 2. For a full mock and an NTA paper, each in four bands (good,
 // middling, poor, all left blank): a frame sequence of card 1 from the open (Night), card 1 settled (Night and Day),
 // and card 2 whole with the read (Night and Day).
+//
+// 20 Oct, owner K7 ("a proper reveal of the mark sheet"): the figure and the meter on the sheet now add up with the
+// reader, as the tally does, so every number is true at every frame; and a sequence straight from the submit for each
+// paper type and band: the sealed sheet ("Your paper is saved."), the tap that opens it, the unfold and the marking.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/models.dart';
@@ -91,8 +95,45 @@ Future<void> _pump(WidgetTester tester, String mode, String band, int card, Brig
   await tester.pump();
 }
 
+/// The sealed sheet straight after the submit, opened with a tap: its frames from the seal to the circled score.
+const List<(String, int)> kSubmitFrames = [
+  ('sealed', 0),
+  ('unfold', 220),
+  ('open', 520),
+  ('marking', 820),
+  ('adding', 1120),
+  ('landed', 1520),
+  ('circled', 2300),
+];
+
 void main() {
   setUpAll(loadAppFonts);
+
+  for (final mode in ['full', 'nta']) {
+    for (final band in _bands.keys) {
+      testWidgets('$mode, $band, from the submit: sealed, opened, marked, night', (tester) async {
+        final x = _mock(mode, band);
+        await pumpResultRoute(
+          tester,
+          location: '/result/a7/sealed',
+          brightness: Brightness.dark,
+          size: const Size(384, 853),
+          overrides: resultOverrides(attemptId: 'a7', data: _data(x.model, x.detail), ritual: const RecapRitual(sheetsOpened: 1)),
+        );
+        await settleImages(tester);
+        await _frames(tester, 1000);
+        await settleImages(tester);
+        var at = 0;
+        for (final (name, ms) in kSubmitFrames) {
+          if (name == 'unfold') await tester.tap(find.text('Open your result'));
+          await _frames(tester, ms - at);
+          at = ms;
+          await expectLater(find.byKey(resultGoldenKey), matchesGoldenFile('goldens/submit_${mode}_${band}_${ms.toString().padLeft(4, '0')}_${name}_night.png'));
+        }
+        await _frames(tester, 3000);
+      });
+    }
+  }
 
   for (final mode in ['full', 'nta']) {
     for (final band in _bands.keys) {

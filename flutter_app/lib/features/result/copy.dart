@@ -28,12 +28,13 @@ abstract final class ResultCopy {
 
   // ---- Sealed sheet (5.6.2) -------------------------------------------------------------
 
-  /// The sealed entry after the result was slow to load (a weak network, a busy server): what it truthfully is now.
-  /// It is not the marking-wait vocabulary ("Your sheet is back. Marked on the server."): the paper was marked the moment it
-  /// was handed in, and the owner rejected a screen that implies a wait for marking (D29, v15 walk M10).
-  static const sheetBack = 'Your result has loaded.';
+  /// The sealed sheet's head (20 Oct, owner K7: "Your paper is saved," then the score): the screen is reached only once
+  /// the server has acknowledged the submit, so it is saved. It is not the marking-wait vocabulary ("Your sheet is back.
+  /// Marked on the server."): the paper was marked the moment it was handed in, and the owner rejected a screen that
+  /// implies a wait for marking (D29, v15 walk M10).
+  static const sheetBack = 'Your paper is saved.';
 
-  static const openWhenReady = 'It is saved to your account.';
+  static const openWhenReady = 'Your marks are inside. Open it when you are ready.';
   static const openTab = 'Open your result';
   static const openWithoutReveal = 'Open without the reveal';
   static const dragHint = 'Swipe up to unfold';

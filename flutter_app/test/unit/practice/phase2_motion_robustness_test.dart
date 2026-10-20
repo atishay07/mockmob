@@ -17,6 +17,7 @@ import 'package:mockmob/features/practice/widgets/choice_glyphs.dart';
 import 'package:mockmob/features/practice/widgets/composer_ticket.dart';
 import 'package:mockmob/features/practice/widgets/finish_ceremony.dart';
 import 'package:mockmob/features/practice/widgets/finish_stage.dart';
+import 'package:mockmob/features/practice/widgets/mark_sheet.dart' show SheetScore;
 import 'package:mockmob/core/widgets/widgets.dart' show QuestionCell;
 import 'package:mockmob/features/rhythm/rhythm.dart' show CelebrationMode, celebrationModeProvider;
 
@@ -196,8 +197,8 @@ void main() {
       expect(StampPainter.pieces, 14);
       expect(FinishCeremony.figureScale(FinishCeremony.settleEnd), 1);
       expect(FinishCeremony.stampDuration.inMilliseconds * FinishCeremony.settleEnd, closeTo(420, 1));
-      // The ink and the stamp for ten questions: 200 in place, 720 of ink, then the stamp (20 Oct, I13: the ink of a
-      // short set is given room to be seen; the marks being added up follow, FinishBeats.after).
+      // The marking and the stamp for ten questions: 80 ms after the seal, 850 of ink, then the stamp (20 Oct, K7: the
+      // mark sheet reveal; the ink of a short set is given room to be seen).
       expect(FinishStage.durationFor(10) + FinishCeremony.stampDuration, lessThanOrEqualTo(const Duration(milliseconds: 1800)));
       // Five questions are no longer 200 ms of ink: 600 ms.
       expect(FinishStage.durationFor(5) - FinishStage.lead, const Duration(milliseconds: 600));
@@ -208,21 +209,21 @@ void main() {
     testWidgets('Full: a great set gets the ring and the burst', (tester) async {
       await tester.pumpWidget(_finish(mode: CelebrationMode.full, tone: FinishTone.great));
       await tester.pump();
-      expect(tester.widget<StampedFigure>(find.byType(StampedFigure)).burst, isTrue);
+      expect(tester.widget<SheetScore>(find.byType(SheetScore)).burst, isTrue);
       await tester.pump(const Duration(seconds: 3));
     });
 
     testWidgets('Quiet: the stamp alone, no ring or shards', (tester) async {
       await tester.pumpWidget(_finish(mode: CelebrationMode.quiet, tone: FinishTone.great));
       await tester.pump();
-      expect(tester.widget<StampedFigure>(find.byType(StampedFigure)).burst, isFalse);
+      expect(tester.widget<SheetScore>(find.byType(SheetScore)).burst, isFalse);
       await tester.pump(const Duration(seconds: 3));
     });
 
     testWidgets('A mixed set never bursts, even on Full', (tester) async {
       await tester.pumpWidget(_finish(mode: CelebrationMode.full, tone: FinishTone.mixed));
       await tester.pump();
-      expect(tester.widget<StampedFigure>(find.byType(StampedFigure)).burst, isFalse);
+      expect(tester.widget<SheetScore>(find.byType(SheetScore)).burst, isFalse);
       await tester.pump(const Duration(seconds: 3));
     });
 
@@ -230,10 +231,11 @@ void main() {
       await tester.pumpWidget(_finish(mode: CelebrationMode.off, tone: FinishTone.great));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 50));
-      // The figure shows the final count with no ink to wait for, and the ledger's rows are there with their marks.
-      expect(find.text('9 right'), findsOneWidget);
-      expect(tester.widget<Text>(find.byKey(const ValueKey('ledger-value-0'))).data, '+45');
-      expect(tester.widget<StampedFigure>(find.byType(StampedFigure)).stamp.value, 0);
+      // The score shows the final marks with no ink to wait for, and the tally its counts with their marks.
+      expect(tester.widget<Text>(find.byKey(const ValueKey('completion-figure'))).data, '44');
+      expect(find.text('+45'), findsOneWidget);
+      expect(find.text('−1'), findsOneWidget);
+      expect(tester.widget<SheetScore>(find.byType(SheetScore)).stamp.value, 0);
       await tester.pump(const Duration(seconds: 3));
     });
   });
