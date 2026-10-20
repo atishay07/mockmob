@@ -53,7 +53,7 @@ export async function revokeDevice(userId, token) {
 // `weekdays`: the days the student chose (0 = Monday), or null when none are held or their count no longer
 // matches the goal (src/lib/studyWeekdays.mjs). The mask column is read only if the row has it.
 // `dailyMinutes`: the daily goal in minutes, a whole number from 5 to 999, or null when the student has not set one
-// (supabase/migrations/20261020120000_study_goal_daily_minutes.sql). A row that lacks the column, or holds a value
+// (supabase/migrations/20261020110000_study_goal_daily_minutes.sql). A row that lacks the column, or holds a value
 // outside the range, reads as null: the app then keeps its own copy and the plan keeps its usual length.
 export const goalOut = row => {
   const daysPerWeek = row?.days_per_week ?? 4;
