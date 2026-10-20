@@ -44,7 +44,8 @@ test('the dock holds Today, Practice, the Start key, Mob and You; every other pa
   // And Learn keeps a second home on the Practice page, while the lessons are on.
   const practice = read('src/app/(app)/dashboard/DashboardPageClient.jsx');
   assert.match(practice, /\{studyEnabled && <ConceptsPanel \/>\}/);
-  assert.match(read('src/components/study/ConceptsPanel.jsx'), /<h2 id="pr-concepts">Concepts<\/h2>[\s\S]{0,900}href="\/learn"[^>]*>All concepts</);
+  // Named Learn there too (D126, owner H7), with the way to every lesson.
+  assert.match(read('src/components/study/ConceptsPanel.jsx'), /<h2 id="pr-concepts">Learn<\/h2>[\s\S]{0,900}href="\/learn"[^>]*>All lessons</);
   assert.match(read('src/app/(app)/dashboard/page.js'), /studyEnabled=\{process\.env\.STUDY_CONTENT_ENABLED === 'true'\}/);
 });
 

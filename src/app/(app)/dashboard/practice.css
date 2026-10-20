@@ -623,3 +623,61 @@ html[data-theme='light'] .app-shell .pr .pr-layout--1017 .ctl-seg:not([data-lens
 :root[data-motion='reduced'] .app-shell .pr .pr-tile:active { transform: none; }
 :root[data-motion='reduced'] .app-shell .pr :is(.pr-fix__go, .pr-fix__ask):active { transform: none; }
 :root[data-motion='reduced'] .app-shell .pr .pr-fix__text { animation-duration: 120ms; }
+
+/* ---------- Your papers and Learn (D126, owner H6 and H7, 20 Oct) ----------
+   Two proper places right under the practice setup, on the same raised surface as Fine-tune, each with its own head: an icon
+   plate, the place's name (as the nav and the row of tabs name it), one line of what it holds, and the way to the whole page.
+   Your papers holds the repairs line and Ask Mobi (owner D5) and the newest papers; Learn names the next lesson. Phones: one
+   column. From 1024 px: side by side, Your papers wider, aligned to the top. */
+.app-shell .pr .pr-doors { display: grid; gap: 16px; margin-top: 34px; align-items: start; min-width: 0; }
+@media (min-width: 1024px) {
+  .app-shell .pr .pr-doors[data-count='2'] { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); gap: 20px; }
+  .app-shell .pr .pr-doors { margin-top: 40px; }
+}
+.app-shell .pr .pr-door {
+  gap: 14px; padding: 18px 16px; border-top: 0; border-radius: 22px; background: var(--pr-surface);
+  box-shadow: inset 0 0 0 1px var(--a-line), inset 0 1px 0 var(--pr-cool-edge);
+}
+@media (min-width: 1024px) { .app-shell .pr .pr-door { padding: 20px 22px; } }
+.app-shell .pr .pr-door__head { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; gap: 12px; align-items: center; min-width: 0; }
+.app-shell .pr .pr-door__ico {
+  display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px;
+  background: color-mix(in srgb, var(--a-accent-text) 14%, transparent); color: var(--a-accent-text);
+}
+.app-shell .pr .pr-door__title { display: grid; gap: 2px; min-width: 0; }
+.app-shell .pr .pr-door__title h2 { margin: 0; font: 750 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); }
+.app-shell .pr .pr-door__title p { margin: 0; font-size: 13.5px; line-height: 1.4; color: var(--a-ink-2); text-wrap: pretty; font-variant-numeric: tabular-nums; }
+.app-shell .pr .pr-door__head .pr-door__all { align-self: center; min-height: 44px; display: inline-flex; align-items: center; padding-inline: 8px; margin-inline-end: -8px; white-space: nowrap; }
+/* The repairs line inside the card: a hairline above, no box of its own (no card in a card). */
+.app-shell .pr .pr-door .pr-fix { margin: 0; padding: 14px 0 0; border-top: 1px solid var(--a-line); background: none; box-shadow: none; border-radius: 0; }
+.app-shell .pr .pr-door .pr-recent { border-top: 1px solid var(--a-line); }
+/* Inside the card the line reads top to bottom at every width: what waits, then its two keys, then the Mobi note. */
+@media (min-width: 768px) { .app-shell .pr .pr-door--papers .pr-fix { grid-template-columns: minmax(0, 1fr); row-gap: 12px; } .app-shell .pr .pr-door--papers .pr-fix__acts { justify-content: start; } }
+/* Learn: the next lesson is the one raised row, with a chevron; All lessons sits under it. */
+.app-shell .pr .pr-door.cpn .cpn__lesson {
+  position: relative; display: grid; gap: 3px; margin: 0; padding: 14px 40px 14px 14px; border-radius: 16px;
+  background: var(--a-raised-2, var(--a-raised)); box-shadow: inset 0 0 0 1px var(--a-line);
+  transition: box-shadow 150ms var(--a-ease), transform 100ms var(--a-ease);
+}
+.app-shell .pr .pr-door.cpn .cpn__lesson small { font: 650 12px/1.2 var(--font-body); color: var(--a-accent-text); letter-spacing: 0.01em; }
+.app-shell .pr .pr-door.cpn .cpn__lesson b { text-decoration: none; font: 700 16px/1.3 var(--font-display); letter-spacing: -0.01em; }
+.app-shell .pr .pr-door.cpn .cpn__chev { position: absolute; right: 14px; top: 50%; translate: 0 -50%; color: var(--a-ink-3); transition: translate 150ms var(--a-ease); }
+.app-shell .pr .pr-door.cpn .cpn__lesson:active { transform: scale(0.985); }
+@media (hover: hover) and (pointer: fine) {
+  .app-shell .pr .pr-door.cpn .cpn__lesson:hover { box-shadow: inset 0 0 0 1px var(--a-line-strong); }
+  .app-shell .pr .pr-door.cpn .cpn__lesson:hover .cpn__chev { translate: 2px -50%; color: var(--a-ink); }
+  .app-shell .pr .pr-door.cpn .cpn__lesson:hover b { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--a-line-strong); }
+}
+.app-shell .pr .pr-door .cpn__wait { min-height: 1.45em; margin: 0; }
+.app-shell .pr .pr-door > .pr-door__all { justify-self: start; }
+/* The figures and the Pro panel follow; with Recent sessions and Learn moved up, the lower block is the Pro panel (and Add a question). */
+@media (min-width: 1024px) {
+  .app-shell .pr .pr-lower.pr-lower--1020 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .app-shell .pr .pr-lower.pr-lower--1020 .pr-lower__side > .pr-panel { grid-column: auto !important; grid-row: auto !important; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .pr .pr-door.cpn .cpn__lesson, .app-shell .pr .pr-door.cpn .cpn__chev { transition: none; }
+  .app-shell .pr .pr-door.cpn .cpn__lesson:active { transform: none; }
+}
+:root[data-motion='reduced'] .app-shell .pr .pr-door.cpn .cpn__lesson, :root[data-motion='reduced'] .app-shell .pr .pr-door.cpn .cpn__chev { transition: none; }
+:root[data-motion='reduced'] .app-shell .pr .pr-door.cpn .cpn__lesson:active { transform: none; }

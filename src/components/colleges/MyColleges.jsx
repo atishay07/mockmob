@@ -8,6 +8,8 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { ArrowDown, ArrowUp, Check, Plus, Trash2 } from 'lucide-react';
 import { useMyColleges } from './useMyColleges';
+import { useCollegeCutoffs } from './useCollegeCutoffs';
+import { cutoffFigure } from '@/lib/colleges/cutoffs.mjs';
 import {
   EMPTY_LINE, FULL_LINE, MAX_COLLEGES, countLine, entryKey, hasEntry, ladderView, moreLine,
 } from '@/lib/colleges/model.mjs';
@@ -76,9 +78,23 @@ export function TodayColleges({ userId }) {
   );
 }
 
-/** Account: the whole list, in order, with a way to reorder and remove. */
+/** One college's closing mark from last year, or a reserved line while the programme file is on its way. */
+function CutLine({ read, entry }) {
+  if (read.status !== 'ready') return <span className="mc-cut" aria-hidden="true">&nbsp;</span>;
+  const row = read.rows.find((r) => entryKey(r) === entryKey(entry));
+  const figure = cutoffFigure(row);
+  if (!figure) return <span className="mc-cut">No Round 1 cutoff published last year</span>;
+  return <span className="mc-cut">Needed <b>{figure}</b> of 1000 last year</span>;
+}
+
+/**
+ * You: the Colleges card (D126 A, owner H9: "where is that college section now?"). The whole list, in order, each college
+ * with the score it needed last year (DU's 2026 Round 1 unreserved cutoff), a way to reorder and remove, and Add colleges.
+ * The Compass line above it carries Open Colleges. On a phone both sit right under your sheet (account.css).
+ */
 export function AccountColleges({ userId, picker = null }) {
   const mine = useMyColleges(userId);
+  const cuts = useCollegeCutoffs(userId);
   const { colleges, busy } = mine;
   // The picker opens in place (the same one onboarding uses), so a student who skipped that step adds colleges here.
   const [adding, setAdding] = useState(false);
@@ -95,20 +111,21 @@ export function AccountColleges({ userId, picker = null }) {
   return (
     <section className="glass mc-card" id="colleges" aria-labelledby="mc-account-h" data-state={mine.status}>
       <header className="mc-head">
-        <h2 id="mc-account-h" className="mc-h2">My colleges</h2>
+        <h2 id="mc-account-h" className="mc-h2">Your colleges</h2>
         {mine.status === 'ready' ? <span className="mc-count">{countLine(colleges.length)}</span> : null}
       </header>
-      <p className="mc-lede">The same list in the app. Today shows the first one with its cutoff, so put your top choice first.</p>
+      {/* An empty list has its own line below, so the lede is about the list only once there is one. */}
+      {mine.status === 'ready' && !colleges.length ? null : <p className="mc-lede">Each with the lowest score that got in last year, out of 1000. Put your top choice first; the same list is in the app.</p>}
       {mine.status === 'loading' || mine.status === 'idle' ? <Loading /> : null}
       {mine.status === 'error' ? <Failed onRetry={mine.retry} /> : null}
       {mine.status === 'ready' && !colleges.length && !picker ? <Empty /> : null}
-      {mine.status === 'ready' && !colleges.length && picker && !adding ? <p className="mc-note">No colleges yet. Add the ones you are aiming for; the first shows on Today with its 2026 cutoff.</p> : null}
+      {mine.status === 'ready' && !colleges.length && picker && !adding ? <p className="mc-note">No colleges yet. Pick the ones you are aiming for and see the score each one needed last year.</p> : null}
       {mine.status === 'ready' && colleges.length && !adding ? (
         <ol className="mc-list">
           {colleges.map((c, i) => (
             <li key={entryKey(c)} className="mc-row mc-row--edit">
               <Place n={c.position} />
-              <span className="mc-name"><b>{c.college}</b>{c.programme ? <span>{c.programme}</span> : null}</span>
+              <span className="mc-name"><b>{c.college}</b>{c.programme ? <span>{c.programme}</span> : null}<CutLine read={cuts} entry={c} /></span>
               {/* aria-disabled, not disabled: a disabled button drops keyboard focus to the page after every move. */}
               <span className="mc-tools">
                 <button type="button" className="mc-icon" aria-disabled={busy || i === 0 || undefined} onClick={() => { if (!busy && i > 0) mine.move(i, i - 1); }} aria-label={`Move ${c.college} up`}><ArrowUp size={18} aria-hidden="true" /></button>
@@ -122,9 +139,12 @@ export function AccountColleges({ userId, picker = null }) {
       <div className="mc-foot">
         <p className="mc-notice" role="status" aria-live="polite">{mine.notice}{undo && mine.notice.startsWith('Removed') ? <> <button type="button" className="mc-undo" onClick={restore}>Undo</button></> : null}</p>
         {mine.status === 'ready' && picker ? (
-          <button type="button" className="mc-key" aria-expanded={adding} onClick={() => setAdding((v) => !v)}>
-            {adding ? <Check size={16} aria-hidden="true" /> : <Plus size={16} aria-hidden="true" />}{adding ? 'Done' : colleges.length < MAX_COLLEGES ? 'Add colleges' : 'Change colleges'}
-          </button>
+          <span className="mc-keys">
+            {/* Open Colleges (the Admission Compass) is the Compass line's key, right above this card on every width. */}
+            <button type="button" className="mc-key" aria-expanded={adding} onClick={() => setAdding((v) => !v)}>
+              {adding ? <Check size={16} aria-hidden="true" /> : <Plus size={16} aria-hidden="true" />}{adding ? 'Done' : !colleges.length ? 'Choose your colleges' : colleges.length < MAX_COLLEGES ? 'Add colleges' : 'Change colleges'}
+            </button>
+          </span>
         ) : mine.status === 'ready' && colleges.length ? (
           colleges.length < MAX_COLLEGES
             ? <Link className="mc-key" href={COMPASS_HREF}><Plus size={16} aria-hidden="true" />Add from Colleges</Link>

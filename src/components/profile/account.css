@@ -254,9 +254,10 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
 /* ---------- 17 Oct (W-052, W-053): balances at a glance, then Your progress; plan and billing lower ---------- */
 @media (max-width: 1023px) {
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #sheet { order: 1; }
-  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #progress-glance { order: 2; }
-  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--colleges { order: 3; }
-  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #colleges { order: 3; }
+  /* D126 A (owner H9): Your colleges comes right under your sheet, the Compass line with it; then Your progress. */
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--colleges { order: 2; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #colleges { order: 2; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #progress-glance { order: 3; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #goal { order: 4; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #plan { order: 5; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #credits { order: 6; }

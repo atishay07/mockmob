@@ -62,13 +62,17 @@ test('session counts read as words up to ten', () => {
   assert.equal(sessionsWord(12), 'your 12 sessions');
 });
 
-test('Practice draws the line under the subject shelf, and its one Ask Mobi entry opens the panel about Practice', () => {
+test('Practice draws the line in the Your papers card under the setup, and its one Ask Mobi entry opens the panel about Practice', () => {
   const page = readFileSync(new URL('../../src/app/(app)/dashboard/DashboardPageClient.jsx', import.meta.url), 'utf8');
   const line = readFileSync(new URL('../../src/app/(app)/dashboard/PracticeRepairs.jsx', import.meta.url), 'utf8');
+  // D126 (owner H6, 19 Oct): the ways to practise come straight after the subject; the line moved from between them into the
+  // Your papers card (H7), which sits right under the setup, so it is still on the page on every visit (owner D5).
   const shelf = page.indexOf('className="pr-subjects"');
   const fix = page.indexOf('<PracticeRepairs ');
   const modes = page.indexOf('pr-step--modes');
-  assert.ok(shelf > 0 && fix > shelf && fix < modes, 'between the shelf and the modes');
+  const papers = page.indexOf('className="pr-panel pr-door pr-door--papers"');
+  assert.ok(shelf > 0 && modes > shelf && papers > modes && fix > papers, 'the modes follow the shelf; the line is in Your papers');
+  assert.equal(page.match(/<PracticeRepairs /g).length, 1, 'drawn once');
   // ASK-MOBI-1018 (D5): the page's one Ask Mobi entry is this line's key, "Ask Mobi what to practise", with the record's weakest
   // chapter as its preview; the separate row the Ask Mobi branch drew under the shelf is not drawn, so there are never two.
   assert.match(line, /<AskMobiLink context=\{practiceContext\(insights\)\}/);

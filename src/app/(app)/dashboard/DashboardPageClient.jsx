@@ -563,7 +563,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       <header className="pr-head pr-head--solo">
         <div>
           <h1 className="display-md">{greetFirst ? `${greetFirst}, what are we practising?` : 'What are we practising?'}</h1>
-          <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to your record.</p>
+          <p>Pick a subject and a way to practise. Timed, marked +5 / −1, saved to your record.</p>
           {/* The balance under the lede at every width. The price is said once, on the mode tiles (and the card's own Cost line),
               not again here (release 9: it was stated about four times in the first fold). */}
           <p className="pr-head__credits">
@@ -635,13 +635,12 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
                 <span className="pr-shelf__disc"><ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></span>
               </button>
               </div>
-              {/* Repairs and Ask Mobi, about the subject the shelf has chosen (owner D5): what is waiting to be repaired, the
-                  saved repairs to revisit, and Mobi in place. It changes with the shelf, so it is seen on every visit. */}
-              <PracticeRepairs userId={user?.id} attempts={attempts} subjectId={selSubj} subjectName={subjectLabel} />
+              {/* The repairs line and Ask Mobi moved into the Your papers card right under the setup (D126, owner H6: the ways
+                  to practise come first, straight after the subject). */}
             </section>
 
             <section className="pr-step pr-step--modes" aria-labelledby="pr-s2">
-              <div className="pr-step__head"><h2 id="pr-s2">Mode</h2><span className="pr-hint">Every mode uses the same checked questions.</span></div>
+              <div className="pr-step__head"><h2 id="pr-s2">Ways to practise</h2><span className="pr-hint">Every mode uses the same checked questions.</span></div>
               {/* Four pressable tiles, one radio group: a ring in the corner fills to a tick on the chosen tile (owner F5:
                   the modes must feel like buttons that do something). Locked modes stay choosable so the quote can say why. */}
               <div className="pr-tiles" role="radiogroup" aria-labelledby="pr-s2" onKeyDown={onModeKey}>
@@ -825,6 +824,45 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         </div>
       )}
 
+      {/* Your papers and Learn, each a proper place on the page (D126, owner H7: "should not be hidden ... It seems like something
+          extra"). Right under the setup, before the figures: Your papers holds the repairs line and Ask Mobi for the chosen subject
+          (owner D5) and the newest papers; Learn names the next lesson. On a phone the row of tabs above the page opens both too. */}
+      {mySubs.length > 0 ? (
+        <div className="pr-doors" data-count={studyEnabled ? 2 : 1}>
+          <section className="pr-panel pr-door pr-door--papers" aria-labelledby="pr-recent">
+            <div className="pr-door__head">
+              <span className="pr-door__ico" aria-hidden="true"><AppIcon name="review" size={20} /></span>
+              <div className="pr-door__title">
+                <h2 id="pr-recent">Your papers</h2>
+                <p>{attempts.length ? `${attempts.length} ${attempts.length === 1 ? 'paper' : 'papers'} so far, every answer kept.` : 'Every paper you sit is kept here, newest first, with its answers.'}</p>
+              </div>
+              {attempts.length > 0 ? <Link href="/review" className="pr-link pr-door__all">See all</Link> : null}
+            </div>
+            {/* Repairs and Ask Mobi, about the subject the shelf has chosen (owner D5): what is waiting to be repaired, the
+                saved repairs to revisit, and Mobi in place. It changes with the shelf. */}
+            <PracticeRepairs userId={user?.id} attempts={attempts} subjectId={selSubj} subjectName={subjectLabel} />
+            {attempts.length > 0 ? (
+              <ul className="pr-recent">
+                {attempts.slice(0, 5).map((attempt) => {
+                  const subject = subjects.find((entry) => entry.id === attempt.subject);
+                  const tone = attempt.score >= 70 ? 'good' : attempt.score >= 40 ? 'mid' : 'low';
+                  return (
+                    <li key={attempt.id}>
+                      <Link href={`/result/${attempt.id}`}>
+                        <span className="pr-recent__icon" aria-hidden="true"><SubjectObject id={subject?.internalId || attempt.subject} size={56} framed={false} life={false} /></span>
+                        <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}<Sep />{attempt.correct}/{attempt.total} correct</i></span>
+                        <span className="pr-recent__score" data-tone={tone}><b>{attempt.score}%</b><small>of marks</small></span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : null}
+          </section>
+          {studyEnabled && <ConceptsPanel />}
+        </div>
+      ) : null}
+
       <ProFacts facts={{ sessions: status === 'ready' ? attempts.length : null, fullMocks: status === 'ready' ? fullMocksIn(attempts) : null, balance: isPremium ? null : balance }} />
       {/* Ruled figures from the student's own record. The bank size shows only when it is known. */}
       <dl className="pr-stats" data-count={statsAvailable || stats.state === 'loading' ? 4 : 3}>
@@ -834,32 +872,8 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
         <div><dt>Your standing</dt><dd>{rank ? <>#{rank}<small className="pr-stats__note">of {rankedOf.toLocaleString('en-IN')} {rankedOf === 1 ? 'student' : 'students'} ranked</small></> : <span className="pr-stats__wait">Not ranked yet</span>}</dd></div>
       </dl>
 
-      <div className="pr-lower">
-        <section className="pr-panel pr-panel--recent" aria-labelledby="pr-recent">
-          <div className="pr-panel__head"><h2 id="pr-recent">Recent sessions</h2>{attempts.length > 0 && <Link href="/review" className="pr-link">Review and repair</Link>}</div>
-          {attempts.length === 0 ? (
-            <p className="pr-empty">Your sessions appear here after you submit your first one.</p>
-          ) : (
-            <ul className="pr-recent">
-              {attempts.slice(0, 5).map((attempt) => {
-                const subject = subjects.find((entry) => entry.id === attempt.subject);
-                const tone = attempt.score >= 70 ? 'good' : attempt.score >= 40 ? 'mid' : 'low';
-                return (
-                  <li key={attempt.id}>
-                    <Link href={`/result/${attempt.id}`}>
-                      <span className="pr-recent__icon" aria-hidden="true"><SubjectObject id={subject?.internalId || attempt.subject} size={56} framed={false} life={false} /></span>
-                      <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}<Sep />{attempt.correct}/{attempt.total} correct</i></span>
-                      <span className="pr-recent__score" data-tone={tone}><b>{attempt.score}%</b><small>of marks</small></span>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
-          )}
-        </section>
-
+      <div className="pr-lower pr-lower--1020">
         <div className="pr-lower__side">
-        {studyEnabled && <ConceptsPanel />}
         <section className="pr-panel" aria-labelledby="pr-access">
           <div className="pr-panel__head"><h2 id="pr-access">{isPremium ? 'Your access' : 'MockMob Pro'}</h2></div>
           <p className="pr-panel__lead">{isPremium
