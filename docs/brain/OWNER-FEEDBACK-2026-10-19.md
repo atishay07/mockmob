@@ -691,3 +691,11 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 20 Oct about 11:20 am IST (verbatim)
 > "Done. Since so many hours is not the issue and consuming so much of the limit is not the issue if you have actually done useful work, is everything perfected now? Are the things and criteria that I had set in the goal all done now: perfecting the app, every part of the website, the Mob feature, the animations, and motion graphics?"
 **Ledger D162:** he reports his Play steps done (version 13 upload, content rating, data safety, ANDROID_CERT_SHA256: confirm each). Asks for an honest state against the goal: perfect app, every part of the website, the Mob, animations and motion graphics.
+
+## Owner, 20 Oct about 11:25 am IST (verbatim)
+> "I have not done those things. I'll do it right now.
+>
+> These welcome credits: I decided yesterday only to see the Pro prices, 149 for sure. That's fixed. Pro credits I have lifted because an agent suggested to me yesterday to give an extra 100 credits as a welcome bonus.
+>
+> Right now, I'll first open version 13 and see how every flow has changed. Many things have been improved according to that. I have decided on just one more clarification: when exactly did you get done with this version 13? At which time was this ready?"
+**Ledger D163:** his Play steps are NOT done yet (he is doing them now). Pro on Play stays Rs 149 (fixed). Welcome credits: keep the extra 100 welcome bonus (150 total) as decided yesterday (confirm wording "lifted" = kept). He is opening version 13 to see every flow.
