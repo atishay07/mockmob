@@ -50,9 +50,10 @@ test('W-097: pricing leads with Rs 99 a month and gives each plan its renewal, c
   const pricing = read('src/app/pricing/page.js');
   // Release 9: the Pro tag is what is charged today (priceTag: 'a month' once monthly billing opens, 'once' until then).
   assert.match(pricing, /\.\.\.priceTag\(offer\),/);
-  assert.equal((pricing.match(/\['Renewal'/g) || []).length, 2);
-  assert.equal((pricing.match(/\['Credits'/g) || []).length, 2);
-  assert.equal((pricing.match(/\['Credits'/g) || []).length, 2);
+  // v16 (owner, 20 Oct 11:20 pm): /pricing is rebuilt as the app's Pro page; the Free card keeps its terms; Pro's renewal is the plan card's one line.
+  assert.equal((pricing.match(/\['Renewal'/g) || []).length, 1);
+  assert.equal((pricing.match(/\['Credits'/g) || []).length, 1);
+  assert.match(pricing, /<p className="pro-plan__renew">\{terms\.renew\}<\/p>/);
   assert.match(pricing, /mm-plans__fold/, 'phones get How Free works as a folded block');
   assert.doesNotMatch(pricing, /originalPrice|<s>|countdown|only \d+ left/i);
 });

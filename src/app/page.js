@@ -408,7 +408,7 @@ export default function LandingPage() {
                   <li><Check size={16} aria-hidden="true" />Everything in Free</li>
                   {proPlan.map((item) => <li key={item}><Check size={16} aria-hidden="true" />{item}</li>)}
                 </ul>
-                <Link href="/pricing" className="mm-btn mm-btn--primary">{OFFER.purchasable === 'monthly' ? `Go Pro for ₹${OFFER.monthly.rupees}/month` : 'See Pro'}</Link>
+                <Link href="/pricing" className="mm-btn mm-btn--primary">Get Pro</Link>
               </div>
             </Reveal>
           </div>

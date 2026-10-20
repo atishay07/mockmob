@@ -148,7 +148,7 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
             ? <>Pro is <strong>₹{offer.monthly.rupees} a month</strong>, with unlimited Quick practice and Full mock. Renews monthly. Cancel anytime in Account.</>
             : offer?.oneTime
               ? <>Pro access is <strong>₹{offer.oneTime.rupees} once</strong>, through {offer.oneTime.expires}, with unlimited Quick practice and Full mock. No renewal.</>
-              : <>The price could not be read just now. See Pro shows the current price before any payment.</>}
+              : <>The price could not be read just now. Get Pro shows the current price before any payment.</>}
         </p>
 
         <div className="mmx-sheet__actions">
@@ -161,7 +161,7 @@ export function CreditsRemainingModal({ open, credits, onClose, offer = null }) 
               if (!openUpgrade({ trigger: 'credits' })) router.push('/pricing');
             }}
           >
-            See Pro
+            Get Pro
           </button>
           <button type="button" className="mmx-btn mmx-btn--quiet" onClick={onClose}>
             {isEmpty ? 'Not now' : 'Continue on free'}

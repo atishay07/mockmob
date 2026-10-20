@@ -16,9 +16,10 @@ test('/pricing never uses the retired names PrepOS, Radar or XP', () => {
 });
 
 test('the monthly card says what is charged, when, and how to stop it, above the button', () => {
-  assert.match(pricing, /is charged when you start, then every month on the same date until you cancel/);
-  assert.match(pricing, /Cancel any time in Account\. You keep Pro to the end of the month you paid for/);
-  assert.match(pricing, /The first payment is taken when you start/);
+  // v16 (owner, 20 Oct 11:20 pm): /pricing is rebuilt as the app's Pro page; the plan card says the renewal in one line, and the FAQ says when and how.
+  assert.match(pricing, /renew: 'Renews every month\. Cancel any time\.'/);
+  assert.match(pricing, /The first payment is taken when you start, and it renews on the same date each month until you cancel/);
+  assert.match(pricing, /you keep Pro until the end of the month you already paid for/);
 });
 
 test('before monthly opens, /pricing leads with what the button charges and still names the monthly model', () => {
@@ -28,8 +29,8 @@ test('before monthly opens, /pricing leads with what the button charges and stil
   // It never pushes "pay now".
   assert.doesNotMatch(pricing, /Pay once now/);
   assert.match(pricing, /\{priceHeadline\(offer\)\}/);
-  assert.match(pricing, /One payment covers every mode to that date, and it never renews\. Monthly Pro at ₹\$\{offer\.monthly\.rupees\} a month opens soon\./);
-  assert.match(pricing, /None on this payment, which runs through/);
+  assert.match(pricing, /renew: `One payment, through \$\{offer\.oneTime\.expires\}\. It does not renew\.`/);
+  assert.match(pricing, /soon: `Monthly Pro at ₹\$\{offer\.monthly\.rupees\} a month opens soon\.`/);
 });
 
 test('the comparison table has sentence-case labels and no thick coloured edge', () => {

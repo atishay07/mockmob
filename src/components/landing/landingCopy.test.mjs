@@ -31,7 +31,7 @@ test('the hero bank line keeps every fact in one sentence and says Pro has no ca
 test('"unlimited mocks" on Pro stays true only while the Pro list says unlimited', () => {
   assert.match(PAGE, /<h2 className="lp-h2">Start free\. Go Pro for unlimited mocks\.<\/h2>/);
   assert.match(PAGE, /'Unlimited Quick practice and Full mock'/, 'the Pro list still promises unlimited papers');
-  assert.match(read('../../app/pricing/page.js'), /Unlimited Quick practice and Full mocks/);
+  assert.match(read('../../app/pricing/page.js'), /\['Full mocks', [^\n]*'Unlimited'\],\n\s+\['Quick practice', '1 credit a question', 'Unlimited'\],/);
 });
 
 test('"from the official key, or not at all" stays true: a disagreement gives no repair and no charge', () => {

@@ -78,7 +78,11 @@ test('a11y: /pricing headings step down in order (the Pro card under the h1 is a
   const card = read('src/components/ui/PricingCard.jsx');
   assert.match(card, /headingLevel = 3,/);
   assert.match(card, /const Name = headingLevel === 2 \? 'h2' : 'h3';/);
-  assert.match(read('src/app/pricing/page.js'), /<PricingCard\n\s+\{\.\.\.PRO_PLAN\}\n\s+headingLevel=\{2\}/);
+  // v16: the h1 is the promise, each section an h2 (the plan card's title too), each card under it an h3.
+  const pricing = read('src/app/pricing/page.js');
+  assert.equal((pricing.match(/<h1 /g) || []).length, 1);
+  assert.match(pricing, /<h2 className="pro-plan__title" id="pro-price">\{PRO_COPY\.plan\}<\/h2>/);
+  assert.match(pricing, /<h2 className="pro-h2" id="pro-unlocks-h">[\s\S]*?<h3>\{moment1\.title\}<\/h3>/);
 });
 
 test('truth: the Mob is on the landing tour, the FAQ and the pricing table only while it is live', () => {
