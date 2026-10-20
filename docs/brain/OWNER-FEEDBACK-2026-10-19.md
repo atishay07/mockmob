@@ -886,7 +886,7 @@ Billing page: "Your grace period has started. Your organization went over its qu
 >
 > Quality first, then speed: this is the final build for testers. No walks, seeds or tests against Supabase staging or production (demo mode and local tests only). Check the time with `date`, record my words verbatim with real clock times, and end every update with "Things needed from you right now:" or "Nothing needed from your side"."
 
-## Owner, 20 Oct about 7:20 pm IST (verbatim, after seeing the Full mock sit sheet and the four "For you" lobby states in tmp/review-1020/sheets/lobby.png)
+## Owner, 20 Oct about 6:51 pm IST (verbatim, after seeing the Full mock sit sheet and the four "For you" lobby states in tmp/review-1020/sheets/lobby.png)
 > "On the screen I was seeing, what you have built, set the full mock one.
 >
 > 1. It should be "Subscribe to Pro" or "Get Pro", not "C Pro Plan". There is only one plan.
