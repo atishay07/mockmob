@@ -129,10 +129,13 @@ test('names six at a time from the kind list, and Folds with their art and fallb
   for (const key of Object.keys(FOLDS)) {
     assert.ok(FOLD_NAMES[key] && FOLD_RULES[key], key);
     assert.equal(FOLD_LINES[key], FOLDS[key].line, `${key}: the shelf line matches the server's earn table`);
-    for (const pose of ['idle', 'cheer', 'think']) assert.ok(existsSync(resolve(root, 'public', foldSrc(key, pose).slice(1))), `${key} ${pose}`);
+    for (const pose of ['idle', 'cheer', 'think', 'shrug', 'wave']) assert.ok(existsSync(resolve(root, 'public', foldSrc(key, pose).slice(1))), `${key} ${pose}`);
     assert.ok(existsSync(resolve(root, 'public', foldHeadSrc(key).slice(1))), `${key} head`);
   }
-  assert.equal(foldSrc('dart', 'shrug'), '/mob/folds/fold-dart-idle@256.webp', 'a pose with no art draws idle');
+  assert.equal(foldSrc('dart', 'shrug'), '/mob/folds/fold-dart-shrug@256.webp', 'shrug is drawn (20 Oct)');
+  assert.equal(foldSrc('dart', 'wave'), '/mob/folds/fold-dart-wave@256.webp');
+  assert.equal(foldSrc('stamp', 'wave'), '/mob/folds/fold-stamp-idle@256.webp', 'a pose with no art (Stamp wave) draws idle');
+  assert.equal(foldSrc('dart', 'sleep'), '/mob/folds/fold-dart-idle@256.webp', 'an unknown pose draws idle');
   assert.equal(foldSrc('mobi'), null, 'an unknown Fold has no art: the caller draws the initial disc');
   for (const f of ['scene-empty-nothing-night', 'scene-empty-nothing-day', 'group-desk', 'parcel-sealed', 'parcel-pop', 'parcel-open', 'stamp-seal']) assert.ok(existsSync(resolve(root, `public/mob/art/${f}.webp`)), f);
   assert.deepEqual(pickableFolds(fx('shelf')), ['dart', 'dogear', 'hexa', 'kandil']);

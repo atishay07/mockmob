@@ -190,15 +190,16 @@ test('every Fold has its web stills and head (public/mob/folds), with a fallback
   const dir = path.join(root, 'public/mob/folds');
   const files = new Set(readdirSync(dir));
   for (const key of Object.keys(FOLD_PAPER)) {
-    for (const pose of ['idle', 'cheer', 'think']) assert.ok(files.has(path.basename(foldSrc(key, pose))), `${key} ${pose}`);
+    for (const pose of ['idle', 'cheer', 'think', 'shrug', 'wave']) assert.ok(files.has(path.basename(foldSrc(key, pose))), `${key} ${pose}`);
     for (const size of [40, 64]) assert.ok(existsSync(path.join(root, 'public', foldHeadSrc(key, size))), `${key} head ${size}`);
   }
   // One set for the whole website: the den's names (fold-<key>-<pose>@<size>.webp), nothing else in the folder.
   assert.equal(foldSrc('dart', 'idle'), '/mob/folds/fold-dart-idle@256.webp');
   assert.equal(foldHeadSrc('dart', 40), '/mob/folds/fold-dart-head@128.webp');
   assert.equal(foldHeadSrc('dart', 64), '/mob/folds/fold-dart-head@256.webp');
-  for (const f of files) assert.match(f, /^fold-[a-z]+-(idle|cheer|think|head|idle-blink)@(128|256|512)\.webp$/, `${f} follows the one naming`);
-  assert.equal(foldSrc('dart', 'shrug'), '/mob/folds/fold-dart-think@256.webp', 'shrug falls back to think until it is drawn');
+  for (const f of files) assert.match(f, /^fold-[a-z]+-(idle|cheer|think|shrug|wave|head|idle-blink)@(128|256|512)\.webp$/, `${f} follows the one naming`);
+  assert.equal(foldSrc('dart', 'shrug'), '/mob/folds/fold-dart-shrug@256.webp', 'shrug is drawn (20 Oct)');
+  assert.equal(foldSrc('stamp', 'wave'), '/mob/folds/fold-stamp-idle@256.webp', 'Stamp has no wave yet: idle');
   assert.equal(foldSrc('unknown'), null, 'an unknown Fold gives no file, so the initial disc shows');
 });
 

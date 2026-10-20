@@ -21,11 +21,11 @@ export const FOLD_NAMES = Object.freeze({
   naav: 'Naav', tally: 'Tally', patang: 'Patang', sticky: 'Sticky', cutting: 'Cutting',
 });
 export const isFoldKey = (k) => typeof k === 'string' && Object.hasOwn(FOLD_PAPER, k);
-// Poses shipped on the web (public/mob/folds). Shrug and wave are not drawn yet; "not this one" uses think.
-export const FOLD_POSES = Object.freeze(['idle', 'cheer', 'think']);
+// Poses shipped on the web (public/mob/folds). Shrug and wave were drawn on 20 Oct; "not this one" now shrugs.
+export const FOLD_POSES = Object.freeze(['idle', 'cheer', 'think', 'shrug', 'wave']);
 // One set of Fold stills for the whole website: the den's (public/mob/folds/fold-<key>-<pose>@<size>.webp), so both
 // owners draw the same files. The run, podium and moments draw at most 120 px, so the 256 still covers them.
-export const foldSrc = (key, pose = 'idle') => (isFoldKey(key) ? denFoldSrc(key, pose === 'shrug' ? 'think' : pose, 256) : null);
+export const foldSrc = (key, pose = 'idle') => (isFoldKey(key) ? denFoldSrc(key, pose, 256) : null);
 export const foldHeadSrc = (key, size = 40) => (isFoldKey(key) ? denFoldHeadSrc(key, size > 48 ? 256 : 128) : null);
 
 // The one place the website's game URLs are built. The den links with these (denRoutes re-uses them) and MobGame.jsx

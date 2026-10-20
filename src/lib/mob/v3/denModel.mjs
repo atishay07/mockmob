@@ -3,7 +3,9 @@
 // which game the card carries, and the order the moments play in. Nothing here counts non-players (F2, spec 6.2).
 import { normalizeCode } from '../model.mjs';
 
-export const FOLD_POSES = Object.freeze(['idle', 'cheer', 'think']); // shipped stills (FINAL-ART.md); shrug and wave fall back to idle
+export const FOLD_POSES = Object.freeze(['idle', 'cheer', 'think', 'shrug', 'wave']); // shipped stills (FINAL-ART.md, shrug and wave 20 Oct)
+// Stills not drawn yet fall back to idle (spec 5.7): Stamp's wave stopped at the image limit on 20 Oct.
+export const FOLD_POSES_MISSING = Object.freeze({ stamp: Object.freeze(['wave']) });
 export const FOLD_KEYS_WEB = Object.freeze(['dart', 'dogear', 'hexa', 'kandil', 'hop', 'crane', 'stamp', 'naav', 'tally', 'patang', 'sticky', 'cutting']);
 export const STARTER_FOLDS = Object.freeze(['dart', 'dogear', 'hexa', 'kandil']);
 export const COLOUR_COUNT_V3 = 8;
@@ -11,7 +13,7 @@ export const COLOUR_COUNT_V3 = 8;
 /** The still for a Fold and a pose: a missing pose falls back to idle; an unknown Fold has no art (the caller draws the initial disc). */
 export function foldSrc(key, pose = 'idle', size = 256) {
   if (!FOLD_KEYS_WEB.includes(key)) return null;
-  const p = FOLD_POSES.includes(pose) ? pose : 'idle';
+  const p = FOLD_POSES.includes(pose) && !(FOLD_POSES_MISSING[key] || []).includes(pose) ? pose : 'idle';
   const s = size >= 512 && (p === 'idle' || p === 'cheer') ? 512 : 256;
   return `/mob/folds/fold-${key}-${p}@${s}.webp`;
 }
