@@ -44,7 +44,7 @@ export function SubjectLandingPage({ hub, units, bank, others }) {
     {
       icon: MessageCircleQuestion,
       title: `Ask Mobi about any ${name} doubt`,
-      body: 'Stuck on a concept? Ask Mobi. Your doubt is answered and tested on two real CUET questions, for one credit. Everything Mobi reads from your own record is free.',
+      body: 'Stuck on a concept? Ask Mobi. Your doubt is answered and tested on two new CUET-style questions, for one credit. Everything Mobi reads from your own record is free.',
     },
     {
       icon: Users,

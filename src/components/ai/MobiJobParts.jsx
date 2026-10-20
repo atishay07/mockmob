@@ -6,7 +6,7 @@
 //  * StandingCard / WhereYouStand: "Where you stand" leads the Ask your record door. GET /api/mobi/standing (free, no
 //    model): the range against the student's colleges, the first college's 2026 Round 1 closing marks and the gap, the 2 or
 //    3 chapters that close it fastest, and honest partial, thin, empty and no-colleges states. Always with the note.
-//  * DoubtChecks: the 2 real CUET questions that end a doubt, answered in place (POST /api/mobi/thread op 'answer'), marked
+//  * DoubtChecks: the 2 new CUET-style questions that end a doubt, answered in place (POST /api/mobi/thread op 'answer'), marked
 //    by the server with the key and the bank explanation. With none attached, chapter chips ask for them (op 'checks').
 //  * TonightBlock: "What should I revise tonight?", read from the record, free: chapters, rules, traps and the Revise count.
 import { useEffect, useId, useRef, useState } from 'react';

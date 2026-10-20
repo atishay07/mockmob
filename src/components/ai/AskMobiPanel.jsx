@@ -10,7 +10,7 @@
 // reused only after an unknown outcome so a retry can never charge twice, and the wallet broadcast to the top bar.
 //
 // v13 (C-dec 3 and 3b, D157): a written reply that opens a doubt is a finished job for 1 credit: Mobi's answer, one free
-// follow-up (sent with the thread's id) and 2 real CUET questions answered right here (DoubtChecks). After the follow-up the
+// follow-up (sent with the thread's id) and 2 new CUET-style questions answered right here (DoubtChecks). After the follow-up the
 // panel offers "Ask a new doubt (1 credit)". "What should I revise tonight?" is read from the record by the server, free
 // (replyKind 'tonight'). Every failure, and a full thread, says nothing was charged.
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';

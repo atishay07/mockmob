@@ -2,7 +2,7 @@
 //
 // Why a student picks Mobi over a free chatbot: Mobi works on the student's own record and acts. What it reads from the
 // record is free (Where you stand, What should I revise tonight). One credit buys a finished job, never talk: a doubt
-// settled and then tested on 2 real CUET questions (one follow-up included), or a mistake fixed for good. Pro does not make
+// settled and then tested on 2 new CUET-style questions (one follow-up included), or a mistake fixed for good. Pro does not make
 // Mobi free: every Mobi job costs 1 credit on every plan, so nothing here says "Included in Pro" or "fair use".
 //
 // Every figure below comes from the server's answer; a line with no figure behind it is left out, never made up.
@@ -27,11 +27,11 @@ export const JOB_COPY = Object.freeze({
   otherColleges: (n) => `Your other ${n === 1 ? 'college' : `${n} colleges`}`,
   tryAgain: 'Try again',
   // Ask now
-  creditBuys: '1 credit settles a doubt: Mobi’s answer, one follow-up, and 2 real CUET questions to test it.',
+  creditBuys: '1 credit settles a doubt: Mobi’s answer, one follow-up, and 2 new CUET-style questions to test it.',
   startersTip: 'From the chapters your practice says you miss. Each one is a doubt, for 1 credit.',
   startersTipFresh: 'Tap one to ask it now, for 1 credit.',
   // The thread
-  checksTitle: 'Test it on 2 real CUET questions',
+  checksTitle: 'Test it on 2 new CUET-style questions',
   checksLead: (chapter) => `New, checked questions${chapter ? ` on ${chapter}` : ''} that you have not seen. They come with this doubt, so there is no extra credit.`,
   checksFinding: (chapter) => (chapter ? `Finding 2 questions on ${chapter}.` : 'Finding 2 questions.'),
   checksFailed: 'The 2 questions could not be loaded just now. Nothing extra was charged.',
@@ -265,7 +265,7 @@ export function doubtStarters({ insights = null, subjects = [], limit = 3 } = {}
   for (let round = 0; out.length < limit && round < 3; round += 1) {
     for (const [subject, list] of lists) {
       const d = list[round];
-      if (d) add({ id: `fresh:${subjectKey(subject)}:${d.chapter}`, text: d.text, subject: String(subject), chapter: d.chapter, preview: `Then 2 real CUET questions on ${d.chapter}`, mine: false });
+      if (d) add({ id: `fresh:${subjectKey(subject)}:${d.chapter}`, text: d.text, subject: String(subject), chapter: d.chapter, preview: `Then 2 new CUET-style questions on ${d.chapter}`, mine: false });
     }
   }
   return out;
@@ -416,5 +416,5 @@ export function checksTally(results, total) {
   const marked = Object.values(results || {}).filter((r) => typeof r?.right === 'boolean');
   if (!total || marked.length < total) return null;
   const right = marked.filter((r) => r.right).length;
-  return right === total ? `${right} of ${total} right. The idea held on real CUET questions.` : `${right} of ${total} right. The explanation under each one shows the step.`;
+  return right === total ? `${right} of ${total} right. The idea held on new CUET-style questions.` : `${right} of ${total} right. The explanation under each one shows the step.`;
 }

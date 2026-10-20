@@ -203,8 +203,8 @@ test('render: tonight\'s set and the 2 questions of a doubt, from fixtures', asy
   inOrder(tonight, ['Chapters to look at', 'Share Capital', '38 marks lost', 'Your rules to keep', 'Read NOT twice.', 'Traps that catch you', 'A missed NOT or EXCEPT has caught you 4 times in 6 chances.', '2 Revise cards are due.', 'Open Revise']);
   const q = (id) => ({ checkQuestionId: id, subject: 'accountancy', chapter: 'Share Capital', question: `Which is right, ${id}?`, options: [0, 1, 2, 3].map((i) => ({ index: i, text: `Choice ${i}` })) });
   const checks = html(DoubtChecks, { threadId: 't1', checks: [q('a'), q('b')], subject: 'accountancy', chapter: 'Share Capital' });
-  inOrder(textOf(checks), ['Test it on 2 real CUET questions', 'on Share Capital', 'Question 1 of 2', 'Which is right, a?', 'A Choice 0', 'Check my answer', 'Question 2 of 2', 'Which is right, b?']);
+  inOrder(textOf(checks), ['Test it on 2 new CUET-style questions', 'on Share Capital', 'Question 1 of 2', 'Which is right, a?', 'A Choice 0', 'Check my answer', 'Question 2 of 2', 'Which is right, b?']);
   assert.equal((checks.match(/type="radio"/g) || []).length, 8);
-  const chips = textOf(html(DoubtChecks, { threadId: 't1', checks: [], note: 'Pick the chapter and Mobi adds 2 real CUET questions on it to test this.', subject: 'accountancy' }));
-  assert.match(chips, /Pick the chapter and Mobi adds 2 real CUET questions on it to test this\. Pick the chapter Partnership Fundamentals/);
+  const chips = textOf(html(DoubtChecks, { threadId: 't1', checks: [], note: 'Pick the chapter and Mobi adds 2 new CUET-style questions on it to test this.', subject: 'accountancy' }));
+  assert.match(chips, /Pick the chapter and Mobi adds 2 new CUET-style questions on it to test this\. Pick the chapter Partnership Fundamentals/);
 });

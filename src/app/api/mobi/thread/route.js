@@ -4,7 +4,7 @@ import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { readThread, attachThreadChecks, answerThreadCheck } from '@/services/mobi/doubtThread';
 import { buildThreadDeps, chapterCatalog } from '@/services/mobi/doubtThreadDeps';
 
-// A doubt thread's 2 real CUET questions (C-dec 3, 20 Oct 2026). Part of the thread's one credit: nothing here reserves,
+// A doubt thread's 2 new CUET-style questions (C-dec 3, 20 Oct 2026). Part of the thread's one credit: nothing here reserves,
 // charges or releases a credit, and no model is called. Bearer (app) or cookie (web).
 //   GET  ?threadId                                         the thread, its questions (no key) and any answers given
 //   POST { op:'checks', threadId, subject, chapter }        attaches the 2 questions once, when the doubt named no chapter

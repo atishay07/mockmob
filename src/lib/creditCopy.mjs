@@ -18,7 +18,7 @@ export const MOBI_JOB_CREDITS = 1;
 /** What one credit buys, said one way everywhere (release 10 verifier M3; C-dec 3: a job, never "1 reply"). Since 19 Oct
  *  (C-dec 1, data/first_full_mock.js) it says the first full mock in each subject is free wherever it says a full mock is 50,
  *  while the rule's switch is on. Each price names its unit, "50 credits" (release 11 verifier L6). */
-export const ONE_CREDIT_LINE = `1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 real CUET questions. A full mock costs ${practiceCreditCost('full', TEST_MODES.full.fixedCount)} credits${FIRST_ONE_FREE}. Everything Mobi reads from your record is free. The cost shows before you start.`;
+export const ONE_CREDIT_LINE = `1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 new CUET-style questions. A full mock costs ${practiceCreditCost('full', TEST_MODES.full.fixedCount)} credits${FIRST_ONE_FREE}. Everything Mobi reads from your record is free. The cost shows before you start.`;
 // Kept for older imports: both names are now the one name.
 export const PRACTICE_CREDITS = CREDITS;
 export const AI_CREDITS = CREDITS;

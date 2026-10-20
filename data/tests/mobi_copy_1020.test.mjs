@@ -22,7 +22,7 @@ function walk(dir, out = []) {
 
 test('one credit buys one practice question or one Mobi job; everything from the record is free', () => {
   assert.equal(MOBI_JOB_CREDITS, 1);
-  assert.match(ONE_CREDIT_LINE, /^1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 real CUET questions\./);
+  assert.match(ONE_CREDIT_LINE, /^1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 new CUET-style questions\./);
   assert.match(ONE_CREDIT_LINE, /Everything Mobi reads from your record is free\./);
   for (const pack of CREDIT_PACKS) assert.ok(pack.description.endsWith(ONE_CREDIT_LINE));
   assert.match(FAQ_ITEMS.find((f) => f.id === 'credits').answer.join(' '), /Mobi charges for finished jobs, never for talking\./);
@@ -74,4 +74,12 @@ test('no Mobi job is priced by plan: the credit amount never reads Pro, and the 
   assert.doesNotMatch(chat, /creditCost:\s*isPaid|isPaidUser\(dbUser\)\s*\?\s*0/, 'the chat route never makes a paid reply free on Pro');
   assert.equal([...chat.matchAll(/creditCost\s*=\s*1\b|creditCost:\s*1\b|creditCost\s*:\s*THREAD_CREDIT_COST/g)].length >= 1, true);
   assert.match(read('src/services/mobi/doubtThread.js'), /export const THREAD_CREDIT_COST = 1;/);
+});
+
+// L-02 (20 Oct): the bank is original CUET-style practice written for MockMob, not past papers, so nothing a student reads
+// (or the model is told) may call the 2 questions of a doubt "real CUET questions".
+test('L-02 no student-facing source calls the bank "real CUET questions"', () => {
+  const offenders = walk('src').filter((f) => /\.(m?js|jsx)$/.test(f)).filter((f) => /real CUET question/i.test(read(f)));
+  assert.deepEqual(offenders, []);
+  assert.match(ONE_CREDIT_LINE, /tested on 2 new CUET-style questions/);
 });

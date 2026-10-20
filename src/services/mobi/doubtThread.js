@@ -1,5 +1,5 @@
 // Mobi's doubt thread ("Ask now", C-dec 3 and 3b, 20 Oct 2026): one credit settles a doubt. It buys Mobi's answer, one
-// follow-up inside the same thread, and 2 real CUET questions from the verified bank on that chapter, which the student
+// follow-up inside the same thread, and 2 new CUET-style questions from the verified bank on that chapter, which the student
 // answers in the app and the server marks. Never a credit a message.
 //
 // No 'server-only' and no alias imports on purpose: src/services/mobi/doubtThreadDeps.js wires the database, the wallet and
@@ -28,7 +28,7 @@ const TEXT_CAP = 1500;
 export const THREAD_COPY = Object.freeze({
   full: 'This doubt has had its follow-up. Ask a new doubt to open a new one, for 1 credit.',
   notFound: 'That doubt could not be found. Ask it again as a new doubt. Nothing was charged.',
-  noChapter: 'Pick the chapter and Mobi adds 2 real CUET questions on it to test this.',
+  noChapter: 'Pick the chapter and Mobi adds 2 new CUET-style questions on it to test this.',
   noQuestions: 'There are no unseen checked questions left on this chapter for you just now. Nothing extra was charged.',
   checksUnavailable: 'The 2 questions could not be loaded just now. Open this doubt again to get them. Nothing extra was charged.',
   notOffered: 'That is not one of the questions offered on this doubt.',
@@ -296,7 +296,7 @@ export async function answerThreadCheck({ user, threadId, checkQuestionId, pick,
   const result = {
     right: marked.right, pick, key: { index: marked.keyDisplay, text: marked.keyText }, picked: { index: pick, text: marked.pickedText },
     explanation: bankExplanation(full),
-    line: marked.right ? 'Right. That is the idea from your doubt, used on a real CUET question.' : 'Not this time. The key and the book explanation are below.',
+    line: marked.right ? 'Right. That is the idea from your doubt, used on a new CUET-style question.' : 'Not this time. The key and the book explanation are below.',
     answeredAt: new Date(deps.now()).toISOString(),
   };
   let claim;

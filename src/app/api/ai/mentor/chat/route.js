@@ -150,7 +150,7 @@ export async function POST(request) {
   });
 
   // A typed doubt ("Ask now") opens a thread: 1 credit, on every plan (C-dec 3b), buys Mobi's answer, one follow-up and
-  // 2 real CUET questions from the verified bank on its chapter. Nothing is charged when the reply fails.
+  // 2 new CUET-style questions from the verified bank on its chapter. Nothing is charged when the reply fails.
   if (!studyLesson && !questionContext) {
     const anchor = resolveAnchor({ subject: payload.subject, chapter: payload.chapter, message, catalog: chapterCatalog(dbUser) });
     const opened = await openThread({ user: dbUser, message, requestId: payload.requestId, anchor, openKey: operationKeyFor(userId, payload.requestId), deps: { ...buildThreadDeps({ user: dbUser }), runReply } });

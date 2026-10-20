@@ -17,7 +17,7 @@
 //  * Ask your record LEADS with "Where you stand" (WhereYouStand, free on every plan): the range against the student's own
 //    colleges, the first college's 2026 Round 1 closing marks and the gap, and the chapters that close it fastest.
 //    "What should I revise tonight?" is Free: the server reads it from the record.
-//  * Ask now says what a credit buys (a doubt settled: the answer, one follow-up and 2 real CUET questions), and its starters
+//  * Ask now says what a credit buys (a doubt settled: the answer, one follow-up and 2 new CUET-style questions), and its starters
 //    are doubts about the chapters the student's own practice misses, each sent with its subject and chapter.
 import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import Link from 'next/link';

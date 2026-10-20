@@ -779,7 +779,7 @@ test('L4: FIRST_FULL_MOCK_ENABLED=false hides every "first full mock free" line;
   assert.equal(off.on, false);
   for (const line of off.lines) assert.doesNotMatch(line, free, line);
   assert.deepEqual(off.lines.slice(0, 3), [
-    '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 real CUET questions. A full mock costs 50 credits. Everything Mobi reads from your record is free. The cost shows before you start.',
+    '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 new CUET-style questions. A full mock costs 50 credits. Everything Mobi reads from your record is free. The cost shows before you start.',
     'A practice question costs 1 credit, so a 10-question set is 10 credits. A full mock costs 50 credits.',
     'Pick up to 5. Every mock is built fresh from one live question bank. Each one uses credits on Free; on Pro there is no cap. Swap subjects any time.',
   ]);

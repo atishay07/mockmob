@@ -1,5 +1,5 @@
 // Mobi v13 on the website, Ask now and tonight (C-dec 3 and 3b, D157). 1 credit settles a doubt: Mobi's answer, one free
-// follow-up and 2 real CUET questions answered in place. The starters are doubts about the student's own missed chapters,
+// follow-up and 2 new CUET-style questions answered in place. The starters are doubts about the student's own missed chapters,
 // sent with subject and chapter. "What should I revise tonight?" is free, read from the record. Failures say nothing was
 // charged. The pure model first, then the wiring.
 import test from 'node:test';
@@ -44,7 +44,7 @@ test('the starters are doubts about the student\'s own missed chapters, each sen
 test('a fresh account still gets doubts tied to a real chapter, so the 2 questions come from it', () => {
   const s = doubtStarters({ insights: FRESH, subjects: [] });
   assert.deepEqual(s.map((x) => x.text), ['Explain the sacrificing ratio in simple words', 'What is price elasticity of demand?', 'How do I find the main idea of a passage?']);
-  assert.ok(s.every((x) => !x.mine && x.chapter && x.preview === `Then 2 real CUET questions on ${x.chapter}`));
+  assert.ok(s.every((x) => !x.mine && x.chapter && x.preview === `Then 2 new CUET-style questions on ${x.chapter}`));
   for (const [subject, list] of Object.entries(FRESH_DOUBTS)) for (const d of list) {
     assert.ok(getCanonicalChapters(subject).includes(d.chapter), `${subject}: ${d.chapter} is a syllabus chapter`);
   }
@@ -104,7 +104,7 @@ test('the reply that opens a doubt: its thread and 2 questions, wherever the rou
   assert.deepEqual(top.thread, thread);
   assert.deepEqual(top.checks.map((q) => q.checkQuestionId), ['a', 'b'], 'two at most');
   assert.equal(top.checksNote, null);
-  const inner = threadFromReply({ ok: true, response: { reply: 'x', thread, checks: [Q('a', { options: [{ text: 'only one' }] })], checksNote: 'Pick the chapter and Mobi adds 2 real CUET questions on it to test this.' } });
+  const inner = threadFromReply({ ok: true, response: { reply: 'x', thread, checks: [Q('a', { options: [{ text: 'only one' }] })], checksNote: 'Pick the chapter and Mobi adds 2 new CUET-style questions on it to test this.' } });
   assert.deepEqual(inner.checks, [], 'a question without four options is left out');
   assert.match(inner.checksNote, /^Pick the chapter/);
   assert.equal(threadFromReply({ ok: true, reply: 'x' }).thread, null);
@@ -143,7 +143,7 @@ test('the 2 questions are marked by the server: the rows say pick and key in wor
   assert.equal(planThreadAnswer(ok({ ok: false, error: 'invalid_pick', message: 'That is not one of the questions offered on this doubt.' }, 422)).canRetry, false);
   assert.equal(checksTally({ a: wrong }, 2), null);
   assert.equal(checksTally({ a: wrong, b: { ...wrong, right: true } }, 2), '1 of 2 right. The explanation under each one shows the step.');
-  assert.equal(checksTally({ a: { right: true }, b: { right: true } }, 2), '2 of 2 right. The idea held on real CUET questions.');
+  assert.equal(checksTally({ a: { right: true }, b: { right: true } }, 2), '2 of 2 right. The idea held on new CUET-style questions.');
 });
 
 test('no questions attached: chapter chips (the student\'s own first), then op checks; a failure says nothing extra was charged', () => {
@@ -163,7 +163,7 @@ test('no questions attached: chapter chips (the student\'s own first), then op c
 });
 
 test('the words: what a credit buys, said plainly; no exclamation marks or arrows; never a Pro claim about Mobi', () => {
-  assert.equal(JOB_COPY.creditBuys, '1 credit settles a doubt: Mobi’s answer, one follow-up, and 2 real CUET questions to test it.');
+  assert.equal(JOB_COPY.creditBuys, '1 credit settles a doubt: Mobi’s answer, one follow-up, and 2 new CUET-style questions to test it.');
   assert.equal(JOB_COPY.newDoubt, 'Ask a new doubt (1 credit)');
   const lines = [
     ...Object.values(JOB_COPY).map((v) => (typeof v === 'function' ? v('Share Capital', 2) : v)),

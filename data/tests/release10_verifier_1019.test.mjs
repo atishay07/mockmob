@@ -31,7 +31,7 @@ test('H2: free credits go BACK TO 50 on the reset date, never "50 more"', () => 
 
 test('M3: one true sentence for what a credit buys; a Mobi job is 1 credit and matches the server price list (C-dec 3, 20 Oct)', () => {
   // New contract (copy pass, 19 Oct): full sentences, and the first full mock in each subject is free (C-dec 1).
-  assert.equal(ONE_CREDIT_LINE, '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 real CUET questions. A full mock costs 50 credits, and your first one in each subject is free. Everything Mobi reads from your record is free. The cost shows before you start.');
+  assert.equal(ONE_CREDIT_LINE, '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 new CUET-style questions. A full mock costs 50 credits, and your first one in each subject is free. Everything Mobi reads from your record is free. The cost shows before you start.');
   const costs = read('src/services/usage/getDailyUsage.js');
   for (const k of ['deep_mentor_analysis', 'mock_autopsy', 'trap_drill', 'custom_mock_plan', 'deep_recovery_plan']) {
     assert.match(costs, new RegExp(`${k}: ${MOBI_JOB_CREDITS},`), k);
