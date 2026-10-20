@@ -261,8 +261,9 @@ html[data-theme='light'] .app-shell .acct-key--volt:active:not(:disabled) { box-
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #plan { order: 5; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #credits { order: 6; }
   .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #name { order: 7; }
-  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #appearance { order: 8; }
-  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--end { order: 9; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #password { order: 8; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > #appearance { order: 9; }
+  .app-shell .acct-grid:not(.acct-grid--even) > .acct-col > .acct-moved--end { order: 10; }
 }
 
 /* The two balances under your name: two pressable figures, no pill fills, 44 px targets. */
@@ -308,3 +309,25 @@ html[data-theme='light'] .app-shell .acct-glance__ring-on { stroke: var(--a-sele
   .app-shell .acct-glance :is(.acct-glance__week, .acct-glance__badges, .acct-glance__best) { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
 .app-shell .mc-account-pick { padding-top: 6px; border-top: 1px solid var(--a-line); }
+
+/* ---------- Password (20 Oct): one field with Show, the rule beside it, Save password ---------- */
+.app-shell .acct-lead { margin: -6px 0 0; max-width: 60ch; font-size: 13.5px; line-height: 1.55; color: var(--a-ink-2); }
+.app-shell .acct-pw { display: grid; gap: 12px; min-width: 0; }
+.app-shell .acct-pw__user { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; overflow: hidden; clip: rect(0 0 0 0); opacity: 0; pointer-events: none; }
+.app-shell .acct-pw__box { position: relative; display: block; }
+.app-shell .acct-pw__box .input { width: 100%; padding-right: 76px; }
+.app-shell .acct-pw__show {
+  position: absolute; top: 50%; right: 4px; transform: translateY(-50%); min-width: 64px; min-height: 40px; padding: 0 12px; border: 0; border-radius: 10px;
+  background: transparent; color: var(--a-accent-text); font: 700 13.5px/1 var(--font-body); cursor: pointer; touch-action: manipulation;
+}
+.app-shell .acct-pw__show:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 1px; }
+.app-shell .acct-pw__show:disabled { opacity: 0.45; cursor: not-allowed; }
+@media (hover: hover) and (pointer: fine) { .app-shell .acct-pw__show:hover:not(:disabled) { background: var(--a-hover); } }
+.app-shell .acct-pw__rule { display: flex; align-items: center; gap: 8px; margin: 0; font-size: 13px; line-height: 1.4; color: var(--a-ink-3); transition: color 150ms var(--a-ease); }
+.app-shell .acct-pw__rule[data-met] { color: var(--a-good-text); }
+.app-shell .acct-pw__rule[data-tried] { color: var(--a-bad-text); }
+.app-shell .acct-pw__dot { flex: none; width: 14px; height: 14px; border-radius: 999px; border: 1.5px solid currentColor; opacity: 0.7; }
+.app-shell .acct-pw__note { flex: 1 1 220px; min-width: 0; align-items: flex-start; }
+.app-shell .acct-pw__note .drawn-check { margin-top: 3px; }
+@media (prefers-reduced-motion: reduce) { .app-shell .acct-pw__rule { transition: none; } }
+:root[data-motion='reduced'] .app-shell .acct-pw__rule { transition: none; }
