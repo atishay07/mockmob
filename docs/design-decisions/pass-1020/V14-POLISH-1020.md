@@ -8,7 +8,7 @@ Owner feedback after installing version 13 from the Play Store: `docs/brain/OWNE
   - Practice's drawn objects (`ChoiceGlyph`: bolt, book, target, stopwatch, speech bubble, answer sheet, arrows) took the page's ink as their body. Night gets paper-white porcelain; Day got near-black objects. This was the main defect, and it shows on Practice, the quick-start sheet and Today.
   - Tiles on a Day sheet used Day `raised2`, which is darker than the ground and reads as a grey hole (quick-start Full mock and NTA tiles).
   - The Mob's weekly quest bar filled in near-black blocks on Day.
-- **Decision.** On Day, the objects are the same porcelain objects as on Night. A Day keyline (warm ink at 30%) and a deeper drop hold their edge on cream. One object set serves both themes; the NTA palette was already identical. A Day tile on a sheet is the same lifted card as on the page: raised, a hairline and the card shadow. The Day quest bar fills in the parcel's kraft. Night is unchanged.
+- **Decision.** On Day, the objects are the same porcelain objects as on Night. A Day keyline (warm ink at 36%), a deeper shade and a deeper drop hold their edge on cream. The first walk showed the bolt too faint, so the shade went deeper. The NTA panel keeps one shading in both themes. One object set serves both themes; the NTA palette was already identical. A Day tile on a sheet is the same lifted card as on the page: raised, a hairline and the card shadow. The Day quest bar fills in the parcel's kraft. Night is unchanged.
 - **Alternatives tried** (prototype goldens): warm putty (washed out), graphite `ink3` (still reads dark), and porcelain without a keyline (the bolt and the bubble vanish on cream).
 
 ## K3 and K6: the plan strip near the top of You
@@ -17,10 +17,10 @@ Owner feedback after installing version 13 from the Play Store: `docs/brain/OWNE
   - Plan: "Free plan" and "Upgrade to Pro", which opens the Pro page. The half carries the Pro column's volt wash from the Pro page's table, so it is not a banner. A Pro student sees their plan and its date.
 - With Google Play off, there is no upgrade key that leads nowhere.
 - The old plan row at the very bottom of You is gone. The strip replaces it, so nothing shows twice.
-- Practice gets a credit line under the ways to practise, for Free students only. It shows the balance, a way to the Wallet and the one free full mock per subject.
+- Practice gets a credit line under the ways to practise, for Free students only. It shows the balance, a way to the Wallet and the one free full mock per subject. It reads through `practiceCreditFactsProvider` and `practiceFirstMockRuleProvider`, which the practice test harness sets to nothing known.
 
 ## K4: the Pro page table
-- The Free cell of Full mocks was cut off: three lines in a fixed 48 dp row. Rows now grow with their words, and row names wrap instead of ending in an ellipsis.
+- The Free cell of Full mocks was cut off: three lines in a fixed 48 dp row. Rows now grow with their words, and row names wrap instead of ending in an ellipsis. At text 1.3, a one-word cell ("Unlimited") scales to fit its column instead of breaking mid-word.
 - While the server's rule is on, the row reads "Full mocks", "Your first in each subject is free", "Then 50 credits".
 - Wherever a full mock is priced in credits, the price says "Only your first full mock in each subject is free" while the rule is on.
 
