@@ -37,6 +37,10 @@ export const mobGameApi = {
   fixStart: (game, q, stage) => call('/api/mob/fix/start', { method: 'POST', body: { game, q, stage } }),
   fixAnswer: (game, q, stage, pick) => call('/api/mob/fix/answer', { method: 'POST', body: { game, q, stage, pick } }),
   sticker: (mob, game, kind) => call('/api/mob/sticker', { method: 'POST', body: { mob, game, kind } }),
+  // Live rooms (spec 3.2, 4.2): the ticket that lets this session onto the room's private channel, and the host's keys.
+  ticket: (id) => call(`/api/mob/game/${enc(id)}/room/ticket`, { method: 'POST', body: {} }),
+  roomStart: (id) => call(`/api/mob/game/${enc(id)}/room/start`, { method: 'POST', body: {} }),
+  roomCancel: (id) => call(`/api/mob/game/${enc(id)}/room/cancel`, { method: 'POST', body: {} }),
 
 };
 

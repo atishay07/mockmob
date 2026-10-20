@@ -9,7 +9,11 @@
 //
 // Truth: every mark is the server's. The page computes only where the ghosts stand and the pace chip (spec R4).
 // Answers retry with the same question and pick (the server keeps the first), and "Saving your answer" shows
-// only after 600 ms with no reply. Live rooms come later: a live game is played here as an anytime run.
+// only after 600 ms with no reply.
+//
+// Live rooms (Phase B): LiveRoom passes `live` once the countdown lands. The ruler then shows the members in the room
+// moving on the server's progress broadcasts instead of ghosts, the header says who is in the room, each answer the
+// API acknowledges moves your Fold for everyone, and the end waits for the room ("Riya is still playing").
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { X } from 'lucide-react';
@@ -31,7 +35,7 @@ function useNow(active, every = 250) {
   return now;
 }
 
-export default function GameRun({ gameId, autoStart = false, me = null, hrefs, onGame }) {
+export default function GameRun({ gameId, autoStart = false, me = null, hrefs, onGame, live = null }) {
   const [phase, setPhase] = useState('loading');
   const [game, setGame] = useState(null);
   const [run, setRun] = useState(null);
@@ -79,6 +83,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
       const t0 = Date.parse(body.run.serverNow) - Date.parse(body.run.startedAt);
       flagged.current = new Set((body.ghosts || []).filter((g) => ghostAt(g, t0, n).finished).map((g) => g.memberId));
       const next = nextQuestionIndex(stored, n);
+      if (stored.length) live?.onAnswered?.(stored.length, next >= n);
       setIndex(next);
       if (next >= n) {
         const done = await mobGameApi.finish(gameId).catch(() => null);
@@ -100,6 +105,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
     } finally {
       starting.current = false;
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [gameId]);
 
   const load = useCallback(async () => {
@@ -122,7 +128,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
 
   // A ghost reaching the flag during your run (M6): a quiet toast, never a count of who is still playing.
   useEffect(() => {
-    if (phase !== 'play' || !run) return undefined;
+    if (phase !== 'play' || !run || live) return undefined;
     const started = Date.parse(run.startedAt);
     const h = setInterval(() => {
       const at = Date.now() + offset.current - started;
@@ -133,7 +139,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
       }
     }, 250);
     return () => clearInterval(h);
-  }, [ghosts, phase, count, run]);
+  }, [ghosts, phase, count, run, live]);
   useEffect(() => {
     if (!toast) return undefined;
     const h = setTimeout(() => setToast(null), 2800);
@@ -145,13 +151,15 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
     try {
       const body = await withRetry(() => mobGameApi.finish(gameId));
       setMarks(body?.run?.marks ?? marks);
+      live?.onAnswered?.(count, true);
       setPhase('done');
     } catch (e) {
       setError(errorSentence(e));
     } finally {
       setSending(false);
     }
-  }, [gameId, marks]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [gameId, marks, count]);
 
   // Out of time: the server counts the rest as skipped.
   const endsMs = run ? Date.parse(run.endsAt) : 0;
@@ -177,6 +185,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
       const nextAnswers = [...answers.filter((a) => a.q !== q), entry];
       setAnswers(nextAnswers);
       setMarks(body.marks);
+      live?.onAnswered?.(nextAnswers.length, Boolean(body.finished) || nextAnswers.length >= (questions.length || count));
       if (body.correct === null) {
         // A skip moves straight on; skipping costs nothing.
         advance(nextAnswers, body.finished);
@@ -235,8 +244,10 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
     fold: me?.fold, colour: me?.colour ?? 0, answered: answers.length,
     finished: phase === 'done', arrivedMs: answers.reduce((m, a) => Math.max(m, a.elapsedMs ?? 0), 0),
   }), [me, answers, phase]);
-  const racers = useMemo(() => rulerRacers({ count, ghosts, you, t }), [count, ghosts, you, t]);
-  const pace = paceChip(answers, ghosts);
+  const liveRacersFor = live?.racersFor;
+  const racers = useMemo(() => (liveRacersFor ? liveRacersFor(you) : rulerRacers({ count, ghosts, you, t })), [liveRacersFor, count, ghosts, you, t]);
+  const pace = live ? null : paceChip(answers, ghosts);
+  const shownToast = live ? live.toast : toast;
   const title = game ? COPY.gameTitle(game) : '';
   const youPose = result?.correct === true ? 'cheer' : result?.correct === false ? 'shrug' : 'idle';
 
@@ -324,9 +335,11 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
           {Number.isFinite(shown) ? (
             <p className="mp-figure"><span className="mp-figure__n">{shown}</span><span className="mp-figure__w">{COPY.marksWord(shown)}</span></p>
           ) : null}
-          {closesAt && !game?.closed ? <p className="mp-line">{COPY.placesCanChange(closesAt, serverNow)}</p> : null}
+          {live && !live.podiumOpen
+            ? <p className="mp-line" role="status">{live.stillPlayingLine}</p>
+            : closesAt && !game?.closed ? <p className="mp-line">{COPY.placesCanChange(closesAt, serverNow)}</p> : null}
           <div className="mp-keys mp-keys--done">
-            <Link className="btn-volt md mp-key-primary" data-page-primary="" href={hrefs.podium}>{COPY.seePodium}</Link>
+            {live && !live.podiumOpen ? null : <Link className="btn-volt md mp-key-primary" data-page-primary="" href={hrefs.podium}>{COPY.seePodium}</Link>}
             <Link className="mp-link" href={hrefs.den}>{COPY.backToDen}</Link>
           </div>
         </div>
@@ -341,14 +354,15 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
     <section className="mp-run mp-run--play">
       <RunHead
         title={title}
-        sub={COPY.runsToRace(ghosts.length)}
+        sub={live ? live.sub : COPY.runsToRace(ghosts.length)}
+        live={Boolean(live)}
         hrefs={hrefs}
         onClose={() => setLeaving(true)}
         chip={<span className="mp-clock" role="timer" aria-label={COPY.runClock(stopwatch(elapsed))}><StopwatchIcon />{stopwatch(elapsed)}</span>}
       />
       <RulerRace count={count} racers={racers} answered={answers.length} youPose={youPose} youNod={nod} />
       <div className="mp-under">
-        <p className="mp-caption">{COPY.rulerCaption}</p>
+        <p className={`mp-caption${live?.busy ? ' is-busy' : ''}`}>{live?.caption || COPY.rulerCaption}</p>
         {pace ? <span key={pace.text} className="mp-pace" aria-live="polite">{pace.text}</span> : null}
       </div>
       <div className={`mp-q${fading ? ' is-out' : ''}`} key={index}>
@@ -404,7 +418,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
           </div>
         )}
       </div>
-      {toast ? <p key={toast.key} className="mp-toast" role="status">{toast.text}</p> : null}
+      {shownToast ? <p key={shownToast.key} className="mp-toast" role="status">{shownToast.text}</p> : null}
       {leaving ? (
         <div className="mp-dialog" role="dialog" aria-modal="true" aria-labelledby="mp-leave-title">
           <div className="mp-dialog__card">
@@ -421,7 +435,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
   );
 }
 
-export function RunHead({ title, sub, hrefs, onClose, chip }) {
+export function RunHead({ title, sub, hrefs, onClose, chip, live = false }) {
   return (
     <div className="mp-head">
       {onClose ? (
@@ -431,7 +445,7 @@ export function RunHead({ title, sub, hrefs, onClose, chip }) {
       )}
       <div className="mp-head__text">
         <h1 className="mp-head__title">{title}</h1>
-        {sub ? <p className="mp-head__sub">{sub}</p> : null}
+        {sub ? <p className="mp-head__sub">{live ? <span className="lv-dot" aria-hidden="true" /> : null}{sub}</p> : null}
       </div>
       {chip || null}
     </div>
