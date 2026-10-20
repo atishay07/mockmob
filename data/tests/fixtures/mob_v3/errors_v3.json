@@ -454,7 +454,7 @@
     "body": {
       "error": {
         "code": "START_FORMAT",
-        "message": "Live rooms are part of Pro. You can start this game for anytime in 24 hours."
+        "message": "Live rooms are part of Pro. You can start this game to play any time in the next 24 hours."
       }
     }
   },
@@ -481,7 +481,7 @@
     "body": {
       "error": {
         "code": "LIVE_OFF",
-        "message": "Live rooms are not on yet. Start it for anytime in 24 hours."
+        "message": "Live rooms are not on yet. Start it to play any time in the next 24 hours."
       }
     }
   },
@@ -490,7 +490,7 @@
     "body": {
       "error": {
         "code": "LIVE_HOURS",
-        "message": "Live rooms open from 6:00 AM to 11:00 PM. You can start it for anytime in 24 hours."
+        "message": "Live rooms open from 6:00 AM to 11:00 PM. You can start it to play any time in the next 24 hours."
       }
     }
   },
@@ -607,7 +607,7 @@
     "body": {
       "error": {
         "code": "ROOM_CLOSED",
-        "message": "This live room has ended. The game is still open, so you can play it anytime before it closes."
+        "message": "This live room has ended. The game is still open, so you can play it any time before it closes."
       }
     }
   },

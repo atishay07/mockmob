@@ -22,7 +22,7 @@ import { FOIL_DAYS, FOLDS, FOLD_KEYS, FINISHES, STARTERS, isFold, mobShelf, parc
 import { MAX_OPEN_GAMES, MICS_PER_WEEK, inLiveHours, startRight, startsView } from '../../mob/starts.mjs';
 import { COUNTDOWN_MS, maxRooms, roomTidy, rosterOut, topicFor } from '../../mob/live.mjs';
 import {
-  COUNTS, MOCK_COUNT, MOCK_MINUTES, RACE_GRACE_MS, RACE_MINUTES, assignMoments, checkWindow, gameMs, gameTrap, ghostOf, mockTrap, placeRuns, publicQuestion,
+  COUNTS, MOCK_COUNT, MOCK_MINUTES, RACE_MINUTES, assignMoments, checkWindow, gameTrap, ghostOf, mockTrap, placeRuns, publicQuestion,
   racePool, tieFor, togetherLine,
 } from '../../mob/games.mjs';
 import { markSheet, orderSheets, sheetView } from '../../mob/sheets.mjs';

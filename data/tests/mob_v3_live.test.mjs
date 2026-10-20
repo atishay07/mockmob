@@ -567,7 +567,7 @@ test('routes: live actions are 404 with v3 off, 401 signed out, 409 LIVE_OFF bef
     assert.equal(off.status, 409, a);
     const body = await off.json();
     assert.equal(body.error.code, 'LIVE_OFF');
-    assert.equal(body.error.message, 'Live rooms are not on yet. Start it for anytime in 24 hours.');
+    assert.equal(body.error.message, 'Live rooms are not on yet. Start it to play any time in the next 24 hours.');
     assert.equal(off.headers.get('cache-control'), 'no-store');
     assert.deepEqual(limited, [], 'LIVE_OFF takes no rate-limit count');
     const missing = await handleMob(deps({ liveEnabled: undefined }), a, req(), { id: 'g' });
