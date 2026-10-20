@@ -5,7 +5,10 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
+import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
+import 'package:mockmob/features/social/v3/widgets/den_stage.dart';
 
 import '../../../helpers/golden_harness.dart';
 import '../../../unit/social/v3/mob_v3_test_kit.dart';
@@ -71,18 +74,38 @@ void main() {
   }
 
   // The studying desk arriving (4.2): bulb 0-150 ms, beam 150-450, two hops 450-1450, the tag 1450-1750.
+  deskStrip();
+}
+
+/// The studying desk's arrival as a frame strip (4.2): 0 (dark), 120 (bulb), 400 (beam), 700 (first hop),
+/// 1200 (second hop), 1500 (landed, think), 1800 (tag up). Pumped on its own over a plain ground.
+void deskStrip() {
   for (final b in [Brightness.dark, Brightness.light]) {
-    testWidgets('den v4 studying desk frames ${_tag(b)}', (tester) async {
-      await pumpDen(tester, _step('step4_open'), brightness: b, reduced: false, height: 760);
+    testWidgets('den v4 studying desk strip ${_tag(b)}', (tester) async {
+      loadFoldManifestForTest();
+      final riya = MobV3Member(memberId: 'R', name: 'Riya', colour: 3, fold: FoldKey.patang);
+      await pumpMockmob(
+        tester,
+        Builder(
+          builder: (context) => ColoredBox(
+            color: context.mmColors.ground,
+            child: SizedBox(
+              width: 360,
+              height: 220,
+              child: StudyDesk(member: riya, since: DateTime.utc(2026, 10, 22, 10, 22), size: 61, deskTop: const Offset(300, 110), width: 360, tagTop: 116),
+            ),
+          ),
+        ),
+        brightness: b,
+        size: const Size(360, 220),
+      );
       await settleImages(tester);
       var at = 0;
-      // The desk's own clock starts with the stage; step through it from where the pump left it.
-      for (final ms in [1900]) {
-        await tester.pump(Duration(milliseconds: ms - at));
+      for (final ms in [0, 120, 400, 700, 1200, 1500, 1800]) {
+        if (ms > at) await tester.pump(Duration(milliseconds: ms - at));
         at = ms;
+        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/den_v4_desk_${ms}ms_${_tag(b)}.png'));
       }
-      await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/den_v4_studying_settled_${_tag(b)}.png'));
-      await tester.pump(const Duration(seconds: 30));
     });
   }
 }
