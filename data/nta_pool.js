@@ -19,6 +19,7 @@
 import { assembleNtaPaper, getNtaBlueprint, NTA_TIME_BUDGET_MS } from './nta_engine.js';
 import { ntaAgentAdmissibleIds } from './nta_agent_scores.js';
 import { builtAtOfRows, ntaIndexFreshness } from './nta_index_freshness.js';
+import { readAttemptQuestionIds } from './attempt_question_ids.js';
 
 // Columns the engine, the hard gates and the session snapshot (questionOut in data/db.js) read.
 const SLIM_COLUMNS = [
@@ -220,9 +221,13 @@ export async function loadSeenQuestionIds(db, userId, subject, { signal } = {}) 
   if (!userId) return seen;
   const [progress, attempts] = await Promise.all([
     withSignal(db.from('user_question_progress').select('question_id').eq('user_id', userId).eq('subject', subject).gt('attempt_count', 0).limit(5000), signal),
-    withSignal(db.from('attempts').select('questions_snapshot').eq('user_id', userId).eq('subject', subject).order('completed_at', { ascending: false }).limit(40), signal),
+    // The newest 40 papers of the subject, as ids only through the database function (egress F13; migration 20261020150100); where it
+    // is not applied, the snapshots are read as before. An error of the function reads as an error of the old query: nothing seen.
+    readAttemptQuestionIds(db, { userId, subject, limit: 40, signal }).then((via) => (via ? { ids: via.rows ? via.rows.flatMap((row) => row.questionIds) : [] } : null))
+      .then((via) => via || withSignal(db.from('attempts').select('questions_snapshot').eq('user_id', userId).eq('subject', subject).order('completed_at', { ascending: false }).limit(40), signal)),
   ]);
   for (const row of progress.data || []) seen.add(row.question_id);
+  for (const id of attempts.ids || []) seen.add(id);
   for (const attempt of attempts.data || []) for (const question of attempt.questions_snapshot || []) if (question?.id) seen.add(question.id);
   return seen;
 }
@@ -242,11 +247,18 @@ export async function loadPreviousNtaPaperIds(db, userId, subject, { signal } = 
   if (!userId) return ids;
   const settle = (query) => Promise.resolve().then(() => withSignal(query(), signal)).catch((error) => ({ data: null, error }));
   const [attempts, sessions] = await Promise.all([
-    // NTA attempts only, newest first: a student with many other attempts in the subject keeps every NTA paper in view.
-    settle(() => db.from('attempts').select('questions_snapshot,selection_meta').eq('user_id', userId).eq('subject', subject).eq('selection_meta->>mode', 'nta').order('completed_at', { ascending: false }).limit(40)),
+    // NTA attempts only, newest first: a student with many other attempts in the subject keeps every NTA paper in view. Ids only, through
+    // the database function (egress F13; migration 20261020150100, same filter and limit); where it is not applied, the snapshots are read.
+    Promise.resolve().then(async () => {
+      const via = await readAttemptQuestionIds(db, { userId, subject, mode: 'nta', limit: 40, signal });
+      if (via?.error) return { data: null, error: via.error };
+      if (via) return { ids: via.rows.flatMap((row) => row.questionIds), error: null };
+      return withSignal(db.from('attempts').select('questions_snapshot,selection_meta').eq('user_id', userId).eq('subject', subject).eq('selection_meta->>mode', 'nta').order('completed_at', { ascending: false }).limit(40), signal);
+    }).catch((error) => ({ data: null, error })),
     settle(() => db.from('recovery_sessions').select('questions').eq('user_id', userId).eq('subject', subject).eq('mode', 'nta').order('created_at', { ascending: false }).limit(20)),
   ]);
   if (attempts?.error || sessions?.error) ids.lookupFailed = true;
+  for (const id of attempts?.ids || []) ids.add(id);
   for (const attempt of attempts?.data || []) {
     if (attempt?.selection_meta?.mode !== 'nta') continue;
     for (const question of attempt.questions_snapshot || []) if (question?.id) ids.add(question.id);

@@ -26,6 +26,7 @@ import { assertFullBankRead } from './full_bank_guard';
 import { selectPracticeQuestions } from './practice_pick';
 import { createPracticeSource, isMissingPhase1VoteSchema } from './practice_source';
 import { attemptMemoKeyFor, memoisedAttempts, readAttemptRows } from './attempt_reads';
+import { readAttemptQuestionIds } from './attempt_question_ids';
 import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
 import { retiredSubjectsIn, withoutRetiredSubjects } from './subject_claim';
@@ -1422,6 +1423,14 @@ export const Database = {
 
   async _recentQuestionIds(userId, subjectId, lastN) {
     if (!userId || !lastN) return new Set();
+    // Only the ids of the newest papers' questions are needed: the database function returns just those (egress F14, migration
+    // 20261020150100); where it is not applied the snapshots are read as before.
+    const viaFunction = await readAttemptQuestionIds(supabaseAdmin(), { userId, subject: subjectId, limit: lastN });
+    if (viaFunction?.error) {
+      console.warn('[mock] recency lookup failed:', viaFunction.error.message);
+      return new Set();
+    }
+    if (viaFunction) return new Set(viaFunction.rows.flatMap((row) => row.questionIds));
     const { data, error } = await supabaseAdmin()
       .from('attempts')
       .select('questions_snapshot')
