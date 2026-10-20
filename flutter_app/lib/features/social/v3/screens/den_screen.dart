@@ -728,7 +728,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
                     duration: MotionDurations.card,
                     curve: MotionCurves.glide,
                     alignment: Alignment.topCenter,
-                    child: AnimatedSwitcher(duration: MotionDurations.card, child: notice),
+                    child: MmOverlapSwitcher(duration: MotionDurations.card, child: notice),
                   ),
           );
         }

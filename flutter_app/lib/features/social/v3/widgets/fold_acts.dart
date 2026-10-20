@@ -78,7 +78,7 @@ double _arc(double p) => 4 * p * (1 - p);
 /// A landing squash at [t] ms after touching down: [sx]/[sy] at the low point for [hold] ms, then back.
 (double, double) _squash(double t, {double sx = 1.12, double sy = 0.86, double hold = 90}) {
   if (t < 0 || t > hold * 2) return (1, 1);
-  final k = t <= hold ? math.sin(math.pi / 2 * (t / hold)) : 1 - _seg(t, hold, hold, Curves.easeOut);
+  final k = t <= hold ? math.sin(math.pi / 2 * (t / hold)) : 1 - _seg(t, hold, hold, Motion.out);
   return (1 + (sx - 1) * k, 1 + (sy - 1) * k);
 }
 
@@ -102,7 +102,7 @@ abstract final class JoinAct {
     // Two hops: from the edge to half way, then onto the seat; 26 dp and 18 dp high.
     final p1 = _seg(ms, hop1, hopDur);
     final p2 = _seg(ms, hop2, hopDur);
-    final dx = fromDx * (1 - 0.5 * Curves.easeOut.transform(p1) - 0.5 * Curves.easeOut.transform(p2));
+    final dx = fromDx * (1 - 0.5 * Motion.out.transform(p1) - 0.5 * Motion.out.transform(p2));
     final dy = ms < hop2 ? -26 * _arc(p1) : -18 * _arc(p2);
     final (sx, sy) = _squash(ms - land);
     final glance = _seg(ms, glanceAt, 160) * (1 - _seg(ms, glanceAt + 900, 160));
@@ -167,7 +167,7 @@ abstract final class DeskAct {
       }
       final p1 = _seg(ms, hop1, hopDur);
       final p2 = _seg(ms, hop1 + hopDur, hopDur);
-      final along = 0.5 * Curves.easeInOut.transform(p1) + 0.5 * Curves.easeInOut.transform(p2);
+      final along = 0.5 * Motion.sweepCurve.transform(p1) + 0.5 * Motion.sweepCurve.transform(p2);
       final up = ms < hop1 + hopDur ? 20 * _arc(p1) : 16 * _arc(p2);
       final (sx, sy) = _squash(ms - landAt);
       return ActFrame(
@@ -178,16 +178,16 @@ abstract final class DeskAct {
         scaleY: sy,
         pose: ms >= landAt + 45 ? FoldPose.think : FoldPose.idle,
         bulb: _seg(ms, bulbAt, 150),
-        beam: _seg(ms, beamAt, 300, Curves.easeOut),
+        beam: _seg(ms, beamAt, 300, Motion.out),
         tag: _seg(ms, tagAt, 250, Motion.emphasized),
       );
     }
     // Back: the lamp dims over 600 ms while the tag leaves, then two hops home from 600.
-    final dim = 1 - _seg(ms, 0, dimDur, Curves.easeIn);
+    final dim = 1 - _seg(ms, 0, dimDur, Motion.leave);
     if (reduced) return ActFrame(dx: 0, dy: 0, bulb: dim, beam: dim, tag: 0);
     final p1 = _seg(ms, dimDur, hopDur);
     final p2 = _seg(ms, dimDur + hopDur, hopDur * 0.8);
-    final home = 0.5 * Curves.easeInOut.transform(p1) + 0.5 * Curves.easeInOut.transform(p2);
+    final home = 0.5 * Motion.sweepCurve.transform(p1) + 0.5 * Motion.sweepCurve.transform(p2);
     final up = ms < dimDur + hopDur ? 16 * _arc(p1) : 20 * _arc(p2);
     final (sx, sy) = _squash(ms - (dimDur + hopDur + hopDur * 0.8));
     return ActFrame(

@@ -227,13 +227,13 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
           _lastGlance = now;
           final dir = _rng.nextBool() ? 1.0 : -1.0;
           try {
-            await _glance.animateTo(dir, duration: const Duration(milliseconds: 160), curve: Curves.easeOutCubic).orCancel;
+            await _glance.animateTo(dir, duration: const Duration(milliseconds: 160), curve: Motion.out).orCancel;
           } on TickerCanceled {
             return;
           }
           if (!mounted) return;
           _glanceHold = Timer(Duration(milliseconds: 700 + _rng.nextInt(500)), () {
-            if (mounted) _glance.animateTo(0, duration: const Duration(milliseconds: 160), curve: Curves.easeInOutCubic);
+            if (mounted) _glance.animateTo(0, duration: const Duration(milliseconds: 160), curve: Motion.inOut);
           });
         }
         if (mounted && _loopsWanted) _glanceTimer ??= _scheduleGlance();

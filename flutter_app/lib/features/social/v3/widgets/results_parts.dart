@@ -6,6 +6,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../../widgets/mob_ring.dart' show MobColours;
 import '../data/mob_v3_models.dart';
@@ -293,7 +294,7 @@ class RunStepDots extends StatelessWidget {
             if (i > 0) const SizedBox(width: 5),
             AnimatedContainer(
               duration: reduced ? Duration.zero : const Duration(milliseconds: 240),
-              curve: Curves.easeOutCubic,
+              curve: Motion.out,
               width: i == index ? 18 : 6,
               height: 6,
               decoration: BoxDecoration(
