@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/sync/session/save_state.dart';
@@ -127,10 +126,15 @@ class _RunnerLayoutState extends State<RunnerLayout> {
   /// The mock's cells waiting for their option's wash to arrive (one per quick answer).
   final Set<Timer> _inkTimers = {};
 
+  /// Whether the question region has more below that the student has not scrolled to: the band under the
+  /// region says so while it holds no key (v16 walk I-11).
+  final ValueNotifier<bool> _moreBelow = ValueNotifier<bool>(false);
+
   @override
   void dispose() {
     _session.remaining.removeListener(_onRemaining);
     _stall.dispose();
+    _moreBelow.dispose();
     for (final t in _inkTimers) {
       t.cancel();
     }
@@ -297,6 +301,7 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                       }
 
                       return _ScrollFade(
+                        cue: _moreBelow,
                         // A sideways swipe moves between questions; past the last it opens the
                         // submit page, the same as the Next key there.
                         child: QuestionStage(
@@ -327,6 +332,7 @@ class _RunnerLayoutState extends State<RunnerLayout> {
                     selected: s.answerFor(q.id),
                     canAnswer: s.canAnswer,
                     onSelect: (option) => widget.onSelect(q.id, option),
+                    moreBelow: _moreBelow,
                   ),
                 ),
                 RunnerBottomBar(
@@ -403,9 +409,12 @@ class _PracticeNote extends StatelessWidget {
 /// option that runs under the bottom bar reads as scrollable and not as cut off. It is a scrim
 /// in the ground colour (nothing decorative), takes no touches, and is gone at the end.
 class _ScrollFade extends StatefulWidget {
-  const _ScrollFade({required this.child});
+  const _ScrollFade({required this.child, required this.cue});
 
   final Widget child;
+
+  /// Set while the "More below" cue should show (in the band under the region, never over an option).
+  final ValueNotifier<bool> cue;
 
   @override
   State<_ScrollFade> createState() => _ScrollFadeState();
@@ -440,7 +449,18 @@ class _ScrollFadeState extends State<_ScrollFade> {
   Widget build(BuildContext context) {
     final ground = context.mmColors.ground;
     return LayoutBuilder(
-      builder: (context, box) => Stack(
+      builder: (context, box) {
+        // The fade alone read as a stray smudge on a long stem (v15 walk). One small word and an arrow say it, until the
+        // first scroll: the student who has scrolled knows. It stands in the band under the region, where the Clear key
+        // goes once there is an answer: floating over the region it covered option D and left the band empty (v16 walk
+        // I-11). Only where the region is tall enough to show a line of the option it points at.
+        final show = _more && !_before && box.maxHeight >= _cueRoom;
+        if (widget.cue.value != show) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
+            if (mounted) widget.cue.value = show;
+          });
+        }
+        return Stack(
       children: [
         NotificationListener<ScrollMetricsNotification>(
           onNotification: (n) => _update(n.metrics),
@@ -488,55 +508,9 @@ class _ScrollFadeState extends State<_ScrollFade> {
             ),
           ),
         ),
-        // The fade alone read as a stray smudge on a long stem (v15 walk: only A and B showed, C clipped, and nothing said
-        // there was more). One small word and an arrow say it, until the first scroll: the student who has scrolled knows. It stands at
-        // the right edge, where an option's words rarely reach, so it never sits over the half-visible option it points at.
-        Positioned(
-          right: MmSpace.gutter,
-          bottom: MmSpace.s8,
-          child: IgnorePointer(
-            child: AnimatedOpacity(
-              key: const ValueKey('runner-more-options'),
-              // Only where the region is tall enough to hold a line and the cue apart: in a sliver of a window (large text on a small phone) it would sit on the words.
-              opacity: _more && !_before && box.maxHeight >= _cueRoom ? 1 : 0,
-              duration: Motion.of(context, Motion.ui),
-              curve: Motion.out,
-              child: const _MoreBelow(),
-            ),
-          ),
-        ),
       ],
-    ),
     );
-  }
-}
-
-/// "More below" with a down arrow: a small solid capsule, no glow, no motion of its own. It keeps its own size at any text size: a cue
-/// that grew with the words would cover the very option it points at.
-class _MoreBelow extends StatelessWidget {
-  const _MoreBelow();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final style = context.mmType.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600);
-    return ExcludeSemantics(
-      child: MediaQuery.withNoTextScaling(
-        child: DecoratedBox(
-          decoration: ShapeDecoration(color: colors.raised, shape: StadiumBorder(side: BorderSide(color: colors.line))),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12, vertical: MmSpace.s6),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(RunnerCopy.moreOptions, style: style),
-                const SizedBox(width: MmSpace.s4),
-                Icon(LucideIcons.chevronDown, size: 14, color: colors.ink2),
-              ],
-            ),
-          ),
-        ),
-      ),
+      },
     );
   }
 }
