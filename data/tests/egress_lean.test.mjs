@@ -314,16 +314,17 @@ test('memo: a slim read never shares an entry with a full read or with another p
   assert.equal(db.calls.length, 2, 'one read per shape');
 });
 
+// The six insight routes ask for 'insights' (egress review, 20 Oct 2026: the summary function is its second tier, so a missing lean function still gives the old read).
 test('sites: each narrowed route asks for the profile its builders were proved on', () => {
   const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
   const expect = [
     ['src/lib/server/learning.js', /getAttempts\(userId, \{ memo, slim: 'plan' \}\)/],
-    ['src/app/api/prepos/insights/route.js', /limit: 60, slim: 'summary'/],
-    ['src/app/api/compass/pro/route.js', /limit: 60, slim: 'summary'/],
-    ['src/services/mobi/standing.js', /limit: 60, slim: 'summary'/],
-    ['src/app/api/me/bests/route.js', /getAttempts\(session\.user\.id, \{ slim: 'summary', columns: \[/],
-    ['src/app/api/me/study-record/route.js', /getAttempts\(session\.user\.id, \{ slim: 'summary' \}\)/],
-    ['src/app/api/analytics/route.js', /getAttempts\(userId, \{ slim: 'summary' \}\)/],
+    ['src/app/api/prepos/insights/route.js', /limit: 60, slim: 'insights'/],
+    ['src/app/api/compass/pro/route.js', /limit: 60, slim: 'insights'/],
+    ['src/services/mobi/standing.js', /limit: 60, slim: 'insights'/],
+    ['src/app/api/me/bests/route.js', /getAttempts\(session\.user\.id, \{ slim: 'insights', columns: \[/],
+    ['src/app/api/me/study-record/route.js', /getAttempts\(session\.user\.id, \{ slim: 'insights' \}\)/],
+    ['src/app/api/analytics/route.js', /getAttempts\(userId, \{ slim: 'insights' \}\)/],
     ['src/app/api/ai/mentor/chat/route.js', /limit: 60, slim: 'history'/],
     ['src/app/api/me/rules/route.js', /slim: 'history'/],
     ['src/app/api/me/playbook/route.js', /getAttempts\(session\.user\.id, \{ slim: 'history' \}\)/],
