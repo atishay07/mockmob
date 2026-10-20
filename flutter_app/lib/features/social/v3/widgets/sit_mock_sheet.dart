@@ -87,7 +87,7 @@ class _SitBody extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     if (top != null) Text(top, key: const ValueKey('sit-have'), textAlign: TextAlign.end, style: quiet.copyWith(color: short ? colors.ink : colors.ink2, fontWeight: short ? FontWeight.w600 : null)),
-                    if (bottom != null) Text(bottom, textAlign: TextAlign.end, style: quiet.copyWith(color: colors.ink3)),
+                    Text(bottom, textAlign: TextAlign.end, style: quiet.copyWith(color: colors.ink3)),
                   ],
                 ),
               ),

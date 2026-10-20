@@ -36,20 +36,21 @@ class RecordingMoments {
 
 /// [state] replaces the repository's first read (D6: loading or failed).
 /// [auth] signs in a student of the test's own (for example with a credit balance); [nudges] turns the Pro ways on.
-List<Override> denOverrides(MobV3FakeServer server, {RecordingMoments? moments, RemoteState<MobRead>? state, AuthSnapshot? auth, bool? nudges}) => [
+/// [prefs] is the phone's store (the den's act memory lives there): pass one to open the den again on the same phone.
+List<Override> denOverrides(MobV3FakeServer server, {RecordingMoments? moments, RemoteState<MobRead>? state, AuthSnapshot? auth, bool? nudges, PrefsStore? prefs}) => [
   if (auth != null) ...[
     ...youOverrides(auth: auth, now: v3Now),
     mobRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: MobRead.fromJson(server.denNow()), fetchedAt: v3Now)),
-    mobPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+    mobPrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
     mobNavigatorProvider.overrideWithValue(RecordingNavigator()),
     mobActionsProvider.overrideWith((ref) => FakeMobActions(ref)),
     mobV3EnabledProvider.overrideWithValue(true),
     mobV3FixturesProvider.overrideWithValue(true),
     mobV3FakeServerProvider.overrideWithValue(server),
   ] else if (state == null)
-    ...v3Overrides(server)
+    ...v3Overrides(server, prefs: prefs)
   else ...[
-    ...mobOverrides(state, now: v3Now),
+    ...mobOverrides(state, now: v3Now, prefs: prefs),
     mobV3EnabledProvider.overrideWithValue(true),
     mobV3FixturesProvider.overrideWithValue(true),
     mobV3FakeServerProvider.overrideWithValue(server),
@@ -72,6 +73,7 @@ Future<void> pumpDen(
   RemoteState<MobRead>? state,
   AuthSnapshot? auth,
   bool? nudges,
+  PrefsStore? prefs,
 }) async {
   loadFoldManifestForTest();
   await pumpMockmob(
@@ -82,6 +84,6 @@ Future<void> pumpDen(
     textScale: textScale,
     wrapInScaffold: false,
     disableAnimations: reduced,
-    overrides: denOverrides(server, moments: moments, state: state, auth: auth, nudges: nudges),
+    overrides: denOverrides(server, moments: moments, state: state, auth: auth, nudges: nudges, prefs: prefs),
   );
 }

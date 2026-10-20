@@ -130,6 +130,10 @@ class ResultsRun extends ConsumerStatefulWidget {
   /// Achievement keys for a run outside a game ([showPending]).
   final List<String> pending;
 
+  /// How many results runs are on screen. The den holds its event acts while one shows (4.2: a friend joining never
+  /// plays under the podium).
+  static final ValueNotifier<int> onScreen = ValueNotifier<int>(0);
+
   static Route<void> route({String? gameId, List<String> pending = const []}) => PageRouteBuilder<void>(
         settings: RouteSettings(name: gameId != null ? '/mob/game/$gameId/results' : '/mob/results'),
         transitionDuration: const Duration(milliseconds: 240),
@@ -180,6 +184,18 @@ class _ResultsRunState extends ConsumerState<ResultsRun> {
   late final Future<({RunFacts? facts, List<RunScreen> screens})> _load = _fetch();
   int _index = 0;
   bool _leaving = false;
+
+  @override
+  void initState() {
+    super.initState();
+    ResultsRun.onScreen.value++;
+  }
+
+  @override
+  void dispose() {
+    if (ResultsRun.onScreen.value > 0) ResultsRun.onScreen.value--;
+    super.dispose();
+  }
 
   Future<({RunFacts? facts, List<RunScreen> screens})> _fetch() async {
     final gameId = widget.gameId;

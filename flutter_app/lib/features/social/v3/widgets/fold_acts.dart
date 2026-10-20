@@ -210,6 +210,10 @@ enum DenActKind { join, reaction, toDesk, fromDesk }
 /// Runs one den act on [child] whenever [actId] changes (the den bumps it on the real event). [builder] gets the
 /// frame to draw the Fold with (pose, name, glance, lamp and tag); the player applies the travel and squash about
 /// the boots itself. Reduced motion uses each act's reduced frames. Between acts the frame is the act's end state.
+///
+/// With a [clock] (0 to 1 over the act's [lengthFor]) the caller runs the act and the player only draws it: the den
+/// stage reads the same clock for the props that do not travel with the Fold (the seat outline, the name tag, the
+/// others' glance), so every part of the act stays on one timeline.
 class DenActPlayer extends StatefulWidget {
   const DenActPlayer({
     super.key,
@@ -222,7 +226,29 @@ class DenActPlayer extends StatefulWidget {
     this.deskDx = 0,
     this.deskDy = 0,
     this.onDone,
+    this.clock,
   });
+
+  /// The caller's clock for this act, 0 to 1 over [lengthFor] (null: the player runs its own).
+  final Animation<double>? clock;
+
+  /// An act's length in ms. Reduced motion: the join and the desk cross-fade in 120 ms; a reaction keeps its length,
+  /// because its reduced variant is the pose swap itself (each Fold in cheer for 1.2 s, then idle).
+  static double lengthFor(DenActKind kind, {bool reduced = false, int members = 1}) => switch (kind) {
+        DenActKind.reaction => ReactionAct.totalFor(members),
+        _ when reduced => 120,
+        DenActKind.join => JoinAct.total,
+        DenActKind.toDesk => DeskAct.total,
+        DenActKind.fromDesk => DeskAct.backTotal,
+      };
+
+  /// The frame of [kind] at [ms] (for the den stage, frame strips and tests).
+  static ActFrame frame(DenActKind kind, double ms, {int index = 0, double fromDx = -120, double deskDx = 0, double deskDy = 0, bool reduced = false}) => switch (kind) {
+        DenActKind.join => JoinAct.at(ms, fromDx: fromDx, reduced: reduced),
+        DenActKind.reaction => ReactionAct.at(ms, index: index, reduced: reduced),
+        DenActKind.toDesk => DeskAct.at(ms, toDesk: true, deskDx: deskDx, deskDy: deskDy, reduced: reduced),
+        DenActKind.fromDesk => DeskAct.at(ms, toDesk: false, deskDx: deskDx, deskDy: deskDy, reduced: reduced),
+      };
 
   final DenActKind kind;
 
@@ -253,29 +279,27 @@ class DenActPlayer extends StatefulWidget {
       };
 
   /// The frame of this act at [ms] (public for frame strips and tests).
-  ActFrame frameAt(double ms, {bool reduced = false}) => switch (kind) {
-        DenActKind.join => JoinAct.at(ms, fromDx: fromDx, reduced: reduced),
-        DenActKind.reaction => ReactionAct.at(ms, index: index, reduced: reduced),
-        DenActKind.toDesk => DeskAct.at(ms, toDesk: true, deskDx: deskDx, deskDy: deskDy, reduced: reduced),
-        DenActKind.fromDesk => DeskAct.at(ms, toDesk: false, deskDx: deskDx, deskDy: deskDy, reduced: reduced),
-      };
+  ActFrame frameAt(double ms, {bool reduced = false}) => frame(kind, ms, index: index, fromDx: fromDx, deskDx: deskDx, deskDy: deskDy, reduced: reduced);
 
   @override
   State<DenActPlayer> createState() => _DenActPlayerState();
 }
 
 class _DenActPlayerState extends State<DenActPlayer> with SingleTickerProviderStateMixin {
-  late final AnimationController _c = AnimationController(vsync: this, value: 1);
+  // Made on first use: a player on the caller's clock never needs its own.
+  AnimationController? _own;
+  AnimationController get _c => _own ??= AnimationController(vsync: this, value: 1);
 
   @override
   void didUpdateWidget(DenActPlayer old) {
     super.didUpdateWidget(old);
-    if (widget.actId != old.actId && widget.actId != 0) _play();
+    if (widget.clock == null && widget.actId != old.actId && widget.actId != 0) _play();
   }
 
+  double _length(bool reduced) => DenActPlayer.lengthFor(widget.kind, reduced: reduced, members: widget.members);
+
   void _play() {
-    final reduced = Motion.reduced(context);
-    final ms = reduced ? 120.0 : widget.totalMs;
+    final ms = _length(Motion.reduced(context));
     _c.duration = Duration(milliseconds: ms.round());
     _c.forward(from: 0).whenCompleteOrCancel(() {
       if (mounted) widget.onDone?.call();
@@ -284,17 +308,18 @@ class _DenActPlayerState extends State<DenActPlayer> with SingleTickerProviderSt
 
   @override
   void dispose() {
-    _c.dispose();
+    _own?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final reduced = Motion.reduced(context);
+    final clock = widget.clock ?? _c;
     return AnimatedBuilder(
-      animation: _c,
+      animation: clock,
       builder: (context, _) {
-        final ms = _c.value * (reduced ? 120 : widget.totalMs);
+        final ms = clock.value * _length(reduced);
         final f = widget.actId == 0 ? const ActFrame() : widget.frameAt(ms, reduced: reduced);
         return ActTransform(frame: f, child: widget.builder(context, f));
       },

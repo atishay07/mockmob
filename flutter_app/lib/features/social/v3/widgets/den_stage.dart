@@ -150,6 +150,8 @@ class DenStage extends ConsumerWidget {
     this.desk,
     this.deskLeaving = false,
     this.onDeskLeft,
+    this.act,
+    this.waiting = const {},
   });
 
   /// Null with [skeleton] (D6: the room and the lamp, no Folds).
@@ -187,6 +189,14 @@ class DenStage extends ConsumerWidget {
   final (StudyingNow?, MobV3Member?)? desk;
   final bool deskLeaving;
   final VoidCallback? onDeskLeft;
+
+  /// The event act playing now (4.2: a friend joins, a reaction), or null. The screen decides when (a real event,
+  /// once, one at a time); the stage draws it on the act's clock.
+  final DenActCue? act;
+
+  /// Newcomers waiting for their join act: their seat still shows (outline and tag) and their Fold is not drawn yet,
+  /// so a friend never stands in the den before they hop in.
+  final Set<String> waiting;
 
   /// The floor reflows (a member moves to or from the desk) over 360 ms; reduced motion: at once.
   static const Duration reflow = Duration(milliseconds: 360);
@@ -246,18 +256,95 @@ class DenStage extends ConsumerWidget {
           }
           return null;
         }
+        // The event acts (4.2). A newcomer waiting for their act keeps their seat; the one hopping in is [joinId].
+        final joinId = act?.kind == DenActKind.join ? act!.memberId : null;
+        final reacting = act?.kind == DenActKind.reaction;
+        final waits = {for (final m in members) if (waiting.contains(m.memberId) && m.memberId != joinId) m.memberId};
         // Every open seat carries its own tag (V4 3.1 step 9, the approved empty den): "Open seat" when one is
-        // left, "Open" when there are two or more.
-        final openSeats = slots.where((sl) => sl.seat).length;
+        // left, "Open" when there are two or more. A seat a newcomer is about to take still counts until it folds away.
+        final openSeats = slots.where((sl) => sl.seat).length + waits.length + (joinId != null && posOf(joinId) != null ? 1 : 0);
+        final seatLabel = openSeats >= 2 ? MobV4DenCopy.openShort : MobV3Copy.openSeat;
         const side = MmSpace.gutter;
         final slotW = slots.isEmpty ? 0.0 : (w - 2 * side) / slots.length;
         double centreOf(int i) => side + slotW * (i + 0.5);
+        final seatW = math.min(slotW - 6, size * 0.66);
+
+        // Who the act moves: the newcomer, or (a reaction) every Fold on the floor, the cheer rippling out from the
+        // sender's Fold, nearest first (ties: the left one first), 120 ms apart.
+        DenActCue? actOn(String id) => act != null && !waits.contains(id) && (id == joinId || reacting) ? act : null;
+        final rank = <String, int>{};
+        if (reacting) {
+          final lead = posOf(act!.memberId);
+          final order = [for (final sl in slots) if (!sl.seat && !waits.contains(sl.member!.memberId)) sl]
+            ..sort((a, b) {
+              final da = lead == null ? a.index : (a.index - lead).abs();
+              final db = lead == null ? b.index : (b.index - lead).abs();
+              return da != db ? da.compareTo(db) : a.index.compareTo(b.index);
+            });
+          for (var i = 0; i < order.length; i++) {
+            rank[order[i].member!.memberId] = math.min(i, math.max(0, act!.members - 1));
+          }
+        }
+        // The newcomer enters from the stage's right edge (members stand in join order, so the right is where the open
+        // seats are): just past the edge, two hops onto their seat.
+        double fromDxOf(int i) => w + size * 0.25 - centreOf(i);
+        // The others turn their eyes toward the newcomer while they land and wave (reduced motion: no glance).
+        final joinAt = joinId == null ? null : posOf(joinId);
+        Animation<double>? lookOf(_Slot slot) {
+          if (joinAt == null || reduced || waits.contains(slot.member!.memberId) || slot.member!.memberId == joinId) return null;
+          return _JoinLook(act!.clock, centreOf(joinAt) >= centreOf(slot.index) ? 1 : -1);
+        }
 
         // The art: the lamp pool (art 790, 810 of 1536 x 1024) lands under the Folds' boots, centred.
         final s = w / 1060;
         final artLeft = w / 2 - 790 * s;
         final artTop = bootsY - 810 * s;
         final night = colors.isNight;
+
+        // A member's Fold (layer 6). The newcomer hopping in is drawn over the desk and its tag (layer 6b), so the
+        // character leads the moment; the same key keeps its state when it moves between the two.
+        Widget foldOf(_Slot slot) => AnimatedPositioned(
+          key: ValueKey('den-fold-${slot.member!.memberId}'),
+          duration: move,
+          curve: MotionCurves.glide,
+          left: centreOf(slot.index) - size,
+          width: size * 2,
+          top: bootsY - size,
+          height: size,
+          child: _Entering(
+            ms: ms,
+            index: slot.index,
+            hidden: slot.member!.memberId == hiddenOnFloor || waits.contains(slot.member!.memberId),
+            child: Center(
+              child: waits.contains(slot.member!.memberId)
+                  ? const SizedBox.shrink()
+                  // The act's travel and squash about the boots; the Fold draws the frame's pose (4.2).
+                  : DenActPlayer(
+                      key: ValueKey('den-act-${slot.member!.memberId}'),
+                      kind: slot.member!.memberId == joinId ? DenActKind.join : DenActKind.reaction,
+                      actId: actOn(slot.member!.memberId)?.id ?? 0,
+                      clock: actOn(slot.member!.memberId)?.clock,
+                      index: rank[slot.member!.memberId] ?? 0,
+                      members: act?.members ?? 1,
+                      fromDx: fromDxOf(slot.index),
+                      builder: (context, f) => FoldPuppet(
+                        fold: slot.member!.fold,
+                        size: size,
+                        pose: f.pose,
+                        breathe: idle,
+                        blink: idle,
+                        phase: slot.index,
+                        shadow: false,
+                        finish: slot.member!.finish,
+                        fallbackName: slot.member!.name,
+                        fallbackColour: slot.member!.colour,
+                        acting: act != null,
+                        look: lookOf(slot),
+                      ),
+                    ),
+            ),
+          ),
+        );
 
         return SizedBox(
           height: roomHeight,
@@ -346,9 +433,53 @@ class DenStage extends ConsumerWidget {
                       width: size * 0.8,
                       height: size * 0.1,
                       child: Opacity(
-                        opacity: slot.member!.memberId == hiddenOnFloor ? 0 : 1,
-                        child: RepaintBoundary(
-                          child: _FoldShadow(ms: ms, index: slot.index, night: night),
+                        opacity: slot.member!.memberId == hiddenOnFloor || waits.contains(slot.member!.memberId) ? 0 : 1,
+                        // The rig's first layer (4.1): the shadow travels with the Fold on the floor and shrinks as it rises.
+                        child: _OnAct(
+                          cue: actOn(slot.member!.memberId),
+                          kind: slot.member!.memberId == joinId ? DenActKind.join : DenActKind.reaction,
+                          index: rank[slot.member!.memberId] ?? 0,
+                          fromDx: fromDxOf(slot.index),
+                          builder: (context, f, child) {
+                            final k = 1 - 0.4 * (-f.dy / 26).clamp(0.0, 1.0);
+                            return Opacity(
+                              opacity: f.opacity.clamp(0.0, 1.0),
+                              child: Transform.translate(offset: Offset(f.dx, 0), child: Transform.scale(scale: k, child: child)),
+                            );
+                          },
+                          child: RepaintBoundary(
+                            child: _FoldShadow(ms: ms, index: slot.index, night: night),
+                          ),
+                        ),
+                      ),
+                    ),
+                // The seat a newcomer takes: shown while they wait for their act, folding away flat onto the floor as
+                // they land (4.2). Under the Folds, so the newcomer stands in front of it.
+                for (final slot in slots)
+                  if (!slot.seat && (waits.contains(slot.member!.memberId) || slot.member!.memberId == joinId))
+                    AnimatedPositioned(
+                      key: ValueKey('den-waitseat-${slot.member!.memberId}'),
+                      duration: move,
+                      curve: MotionCurves.glide,
+                      left: centreOf(slot.index) - seatW / 2,
+                      top: bootsY - size * 0.9,
+                      width: seatW,
+                      height: size * 0.9,
+                      child: _Entering(
+                        ms: ms,
+                        index: slot.index,
+                        child: _OnAct(
+                          cue: slot.member!.memberId == joinId ? act : null,
+                          kind: DenActKind.join,
+                          builder: (context, f, child) {
+                            final v = slot.member!.memberId == joinId ? f.seat.clamp(0.0, 1.0) : 1.0;
+                            // Reduced motion: the outline only fades.
+                            return Opacity(
+                              opacity: v,
+                              child: reduced ? child : Transform(alignment: Alignment.bottomCenter, transform: Matrix4.diagonal3Values(1, 0.2 + 0.8 * v, 1), child: child),
+                            );
+                          },
+                          child: const _OpenSeat(),
                         ),
                       ),
                     ),
@@ -359,9 +490,9 @@ class DenStage extends ConsumerWidget {
                       key: ValueKey('den-seat-${slot.index}'),
                       duration: move,
                       curve: MotionCurves.glide,
-                      left: centreOf(slot.index) - math.min(slotW - 6, size * 0.66) / 2,
+                      left: centreOf(slot.index) - seatW / 2,
                       top: bootsY - size * 0.9,
-                      width: math.min(slotW - 6, size * 0.66),
+                      width: seatW,
                       height: size * 0.9,
                       child: _Entering(
                         ms: ms,
@@ -369,34 +500,8 @@ class DenStage extends ConsumerWidget {
                         child: _OpenSeat(onTap: onOpenSeat),
                       ),
                     )
-                  else
-                    AnimatedPositioned(
-                      key: ValueKey('den-fold-${slot.member!.memberId}'),
-                      duration: move,
-                      curve: MotionCurves.glide,
-                      left: centreOf(slot.index) - size,
-                      width: size * 2,
-                      top: bootsY - size,
-                      height: size,
-                      child: _Entering(
-                        ms: ms,
-                        index: slot.index,
-                        hidden: slot.member!.memberId == hiddenOnFloor,
-                        child: Center(
-                          child: FoldPuppet(
-                            fold: slot.member!.fold,
-                            size: size,
-                            breathe: idle,
-                            blink: idle,
-                            phase: slot.index,
-                            shadow: false,
-                            finish: slot.member!.finish,
-                            fallbackName: slot.member!.name,
-                            fallbackColour: slot.member!.colour,
-                          ),
-                        ),
-                      ),
-                    ),
+                  else if (slot.member!.memberId != joinId)
+                    foldOf(slot),
                 // 7 name tags: names only (F2).
                 for (final slot in slots)
                   if (!slot.seat)
@@ -407,7 +512,26 @@ class DenStage extends ConsumerWidget {
                       left: centreOf(slot.index) - slotW / 2 + 2,
                       width: slotW - 4,
                       top: bootsY + 6,
-                      child: _EngraveTag(text: slot.member!.you ? MobV3Copy.you : slot.member!.name, ms: ms),
+                      child: waits.contains(slot.member!.memberId)
+                          ? _EngraveTag(text: seatLabel, ms: ms, quiet: true)
+                          : slot.member!.memberId == joinId
+                              // The seat's tag leaves with the outline, then the newcomer's name engraves (4.2).
+                              ? _OnAct(
+                                  cue: act,
+                                  kind: DenActKind.join,
+                                  builder: (context, f, _) => Stack(
+                                    alignment: Alignment.topCenter,
+                                    children: [
+                                      if (f.seat > 0.001) Opacity(opacity: f.seat.clamp(0.0, 1.0), child: _EngraveTag(text: seatLabel, ms: ms, quiet: true)),
+                                      Semantics(
+                                        liveRegion: true,
+                                        label: MobV4DenCopy.joined(slot.member!.name),
+                                        child: ExcludeSemantics(child: _EngraveTag(text: slot.member!.name, ms: ms, engrave: f.name)),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : _EngraveTag(text: slot.member!.you ? MobV3Copy.you : slot.member!.name, ms: ms),
                     )
                   else
                     AnimatedPositioned(
@@ -417,11 +541,14 @@ class DenStage extends ConsumerWidget {
                       left: centreOf(slot.index) - slotW / 2 + 2,
                       width: slotW - 4,
                       top: bootsY + 6,
-                      child: _EngraveTag(text: openSeats >= 2 ? MobV4DenCopy.openShort : MobV3Copy.openSeat, ms: ms, quiet: true),
+                      child: _EngraveTag(text: seatLabel, ms: ms, quiet: true),
                     ),
                 // The studying desk (4.2): the art's own desk, right of the pennant, under a desk lamp.
                 if (studying != null && studier != null)
+                  // Keyed, like every layer after the Folds: a change in the floor (a seat taken, the newcomer moving
+                  // over the desk) must never rebuild the desk and replay its arrival.
                   Positioned.fill(
+                    key: const ValueKey('den-desk-layer'),
                     child: StudyDesk(
                       key: ValueKey('den-studying-${deskLeaving ? 'leave' : 'in'}-${studier.memberId}'),
                       member: studier,
@@ -440,6 +567,9 @@ class DenStage extends ConsumerWidget {
                       onLeft: onDeskLeft,
                     ),
                   ),
+                // 6b the newcomer hopping in, over the desk's tag.
+                for (final slot in slots)
+                  if (!slot.seat && slot.member!.memberId == joinId) foldOf(slot),
                 // 8 the pennant (the Mob's weekly streak, labelled with the Mob's name: D173 item 6).
                 AnimatedPositioned(
                   key: const ValueKey('den-pennant-spot'),
@@ -464,6 +594,7 @@ class DenStage extends ConsumerWidget {
                 for (final f in flights.take(3))
                   if (posOf(f.memberId) case final int i)
                     Positioned(
+                      key: ValueKey('den-flight-spot-${f.id}'),
                       left: centreOf(i) - 80,
                       width: 160,
                       top: bootsY - size - 52,
@@ -485,6 +616,63 @@ class DenStage extends ConsumerWidget {
     // D6: the room and the lamp, no Folds; the pennant as a paper block pulsing 1.0 to 0.6.
     return [Positioned(right: MmSpace.gutter + 6, top: stageTop + 10, child: const PaperPulse(width: 58, height: 82))];
   }
+}
+
+/// The event act now playing on the den (4.2): what plays, on whom, and its clock (0 to 1 over
+/// [DenActPlayer.lengthFor]). The screen owns the clock; the stage reads it for every part of the act.
+@immutable
+class DenActCue {
+  const DenActCue({required this.kind, required this.memberId, required this.id, required this.clock, this.members = 1});
+
+  /// [DenActKind.join] or [DenActKind.reaction].
+  final DenActKind kind;
+
+  /// The newcomer (join) or the friend whose sticker started the cheer (reaction).
+  final String memberId;
+
+  /// Bumped per act.
+  final int id;
+  final Animation<double> clock;
+
+  /// How many Folds cheer (a reaction's length follows it).
+  final int members;
+}
+
+/// Draws [builder] with the act's frame at the clock's time, or the rest frame with no act.
+class _OnAct extends StatelessWidget {
+  const _OnAct({required this.cue, required this.kind, required this.builder, this.index = 0, this.fromDx = 0, this.child});
+
+  final DenActCue? cue;
+  final DenActKind kind;
+  final int index;
+  final double fromDx;
+  final Widget Function(BuildContext context, ActFrame frame, Widget? child) builder;
+  final Widget? child;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = cue;
+    if (c == null) return builder(context, const ActFrame(), child);
+    final reduced = Motion.reduced(context);
+    final length = DenActPlayer.lengthFor(kind, reduced: reduced, members: c.members);
+    return AnimatedBuilder(
+      animation: c.clock,
+      child: child,
+      builder: (context, child) => builder(context, DenActPlayer.frame(kind, c.clock.value * length, index: index, fromDx: fromDx, reduced: reduced), child),
+    );
+  }
+}
+
+/// The others' eyes during a join: toward the newcomer ([dir] -1 left, 1 right) as far as the act's glance says.
+class _JoinLook extends Animation<double> with AnimationWithParentMixin<double> {
+  _JoinLook(this.parent, this.dir);
+
+  @override
+  final Animation<double> parent;
+  final double dir;
+
+  @override
+  double get value => dir * JoinAct.at(parent.value * JoinAct.total, fromDx: 0).glance;
 }
 
 class _Fade extends StatelessWidget {
@@ -732,11 +920,14 @@ class _PennantInState extends State<_PennantIn> {
 /// A name tag that engraves whole words, left to right, from 420 ms over 280 ms (never letters).
 /// Names wrap to two lines at large text and are never cut (5.5).
 class _EngraveTag extends StatelessWidget {
-  const _EngraveTag({required this.text, required this.ms, this.quiet = false});
+  const _EngraveTag({required this.text, required this.ms, this.quiet = false, this.engrave});
 
   final String text;
   final ValueListenable<double> ms;
   final bool quiet;
+
+  /// A name engraving again in an act (a newcomer's, 0 to 1 over 280 ms), word by word like Enter the den.
+  final double? engrave;
 
   @override
   Widget build(BuildContext context) {
@@ -754,7 +945,9 @@ class _EngraveTag extends StatelessWidget {
               for (var j = 0; j < words.length; j++)
                 TextSpan(
                   text: j == words.length - 1 ? words[j] : '${words[j]} ',
-                  style: style.copyWith(color: style.color!.withValues(alpha: style.color!.a * windowOf(t, EnterDen.tagsAt + step * j, step))),
+                  style: style.copyWith(
+                    color: style.color!.withValues(alpha: style.color!.a * windowOf(t, EnterDen.tagsAt + step * j, step) * (engrave == null ? 1 : windowOf(engrave! * EnterDen.tagsLength, step * j, step))),
+                  ),
                 ),
             ],
           ),

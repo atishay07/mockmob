@@ -8,6 +8,10 @@
 //
 // Reduced motion: a 120 ms fade of the den content and still Folds. Idle loops stop 10 s after the last
 // touch (MobIdleScope) and when the tab is hidden (TickerMode).
+//
+// The event acts (MOB-MINIMAL 4.2, logic/den_acts.dart): a friend who joined since this phone last saw the den hops
+// in from the edge, and a friend's new sticker makes the Mob cheer. Each plays once, one at a time with a quiet beat
+// between, after Enter the den and never under the results run or a sheet. A first open of a Mob plays none.
 
 import 'dart:async';
 import 'dart:math' as math;
@@ -28,10 +32,12 @@ import '../../data/mob_repository.dart';
 import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
+import '../logic/den_acts.dart';
 import '../logic/den_copy_state.dart';
 import '../logic/moment_queue.dart';
 import '../widgets/den_cards.dart';
 import '../widgets/den_stage.dart';
+import '../widgets/fold_acts.dart' show DenActKind, DenActPlayer;
 import '../widgets/fold_manifest.dart';
 import '../widgets/mob_fx.dart';
 import '../widgets/this_week_panel.dart';
@@ -102,6 +108,22 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
   StickerBus? _bus;
   int _flightIds = 100000;
 
+  // The event acts (4.2): the clock of the act playing, the queue, and this phone's memory of the Mob on screen.
+  late final AnimationController _actClock = AnimationController(vsync: this);
+  DenActCue? _cue;
+  DenEvent? _cueEvent;
+  final List<DenEvent> _acts = [];
+  Timer? _actTimer;
+  int _actIds = 0;
+  String? _actMob;
+
+  /// The den as this visit first drew it: the memory of a Mob this phone has never opened (no flood).
+  DenActMemory? _firstSeen;
+
+  /// This phone's memory of the Mob, once read.
+  DenActMemory? _actMemory;
+  MobV3? _actSeenV3;
+
   bool get _reduced => MobFx.reduced(context);
   DenSessionMemory get _memory => ref.read(denSessionMemoryProvider);
 
@@ -110,6 +132,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     DenScreen.debugReplay.addListener(_replay);
+    ResultsRun.onScreen.addListener(_pumpActs);
     _enter.addListener(_onEnterTick);
     _enter.addStatusListener((s) {
       if (s == AnimationStatus.completed) _afterEnter();
@@ -160,8 +183,11 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
     DenScreen.debugReplay.removeListener(_replay);
+    ResultsRun.onScreen.removeListener(_pumpActs);
     _bus?.removeListener(_onBus);
     _noticeTimer?.cancel();
+    _actTimer?.cancel();
+    _actClock.dispose();
     _enter.dispose();
     _fade.dispose();
     _switch.dispose();
@@ -246,14 +272,171 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     return ModalRoute.of(context)?.isCurrent ?? true;
   }
 
-  /// After Enter the den: fly recent stickers from friends, then the moment queue, then K5.
+  /// After Enter the den: fly recent stickers from friends, then the moment queue, then the event acts and K5.
   Future<void> _afterEnter() async {
     if (!mounted) return;
     _entered = true;
     _flyRecentReactions();
     await _runMoments();
+    _pumpActs();
     if (mounted) await _maybeNotice();
   }
+
+  // ---- The event acts (4.2) -------------------------------------------------------------------------------------
+
+  /// Keeps the act memory on the Mob on screen. Runs in build: a Mob seen for the first time in this visit is
+  /// remembered as first drawn, and its phone memory is read.
+  void _syncActs(String mobId, MobV3 v3) {
+    if (mobId != _actMob) {
+      _actTimer?.cancel();
+      _actTimer = null;
+      _acts.clear();
+      _actClock.stop();
+      _cue = null;
+      _cueEvent = null;
+      _actMob = mobId;
+      _firstSeen = DenActs.baseline(v3);
+      _actMemory = null;
+      _actSeenV3 = null;
+      final book = ref.read(denActBookProvider);
+      unawaited(book.load(mobId).then((stored) => _onActMemory(mobId, stored)));
+    }
+    if (!identical(v3, _actSeenV3) && _actMemory != null) {
+      _actSeenV3 = v3;
+      WidgetsBinding.instance.addPostFrameCallback((_) => _detectActs());
+    }
+  }
+
+  void _onActMemory(String mobId, DenActMemory? stored) {
+    if (!mounted || mobId != _actMob) return;
+    final memory = stored ?? _firstSeen!;
+    // A first open: everyone the den first drew is already there, and every sticker in it already seen.
+    if (stored == null) unawaited(ref.read(denActBookProvider).save(mobId, memory));
+    setState(() => _actMemory = memory);
+  }
+
+  /// Newcomers whose join act has not played: they keep their seat until it does.
+  Set<String> _waitingFor(MobV3 v3) {
+    final memory = _actMemory ?? _firstSeen;
+    if (memory == null) return const {};
+    final out = DenActs.newcomers(v3, memory);
+    if (_cueEvent?.kind == DenEventKind.join) out.remove(_cueEvent!.memberId);
+    return out;
+  }
+
+  /// Reads the events in the den since this phone last saw it and queues their acts.
+  void _detectActs() {
+    final mobId = _actMob;
+    final view = ref.read(denViewProvider);
+    var memory = _actMemory;
+    if (!mounted || mobId == null || memory == null || view == null || view.mobId != mobId) return;
+    final v3 = view.v3;
+    final now = ref.read(denClockProvider)();
+    final before = memory.encode();
+    memory = DenActs.tidy(memory, v3, now: now);
+    final found = DenActs.eventsSince(v3, memory, now: now);
+    for (final e in found.skipped) {
+      memory = DenActs.played(memory!, e);
+    }
+    final playing = _cueEvent?.key;
+    var changed = false;
+    for (final e in found.events) {
+      if (e.key == playing || _acts.contains(e)) continue;
+      if (e.kind == DenEventKind.reaction) {
+        // One cheer waits at a time: the newest sticker leads it.
+        _acts.removeWhere((x) => x.kind == DenEventKind.reaction);
+      } else if (_cueEvent?.kind == DenEventKind.join && _cueEvent!.memberId == e.memberId) {
+        continue;
+      }
+      _acts.add(e);
+      changed = true;
+      // The stills the act will show, decoded in the beat before it, so no pose swap ever draws an empty frame.
+      final folds = e.kind == DenEventKind.join ? [v3.member(e.memberId)?.fold] : [for (final m in v3.members) m.fold];
+      for (final pose in e.kind == DenEventKind.join ? const [FoldPose.idle, FoldPose.wave] : const [FoldPose.cheer]) {
+        unawaited(precacheFolds(context, folds, pose: pose).catchError((Object _) {}));
+      }
+    }
+    // Joins first (in join order), then the cheer; never more than the cap waiting.
+    final ordered = [for (final e in _acts) if (e.kind == DenEventKind.join) e, for (final e in _acts) if (e.kind == DenEventKind.reaction) e];
+    _acts
+      ..clear()
+      ..addAll(ordered);
+    while (_acts.length > DenActs.maxQueue) {
+      final dropped = _acts.removeAt(0);
+      memory = DenActs.played(memory!, dropped);
+      changed = true;
+    }
+    if (memory!.encode() != before) {
+      _actMemory = memory;
+      unawaited(ref.read(denActBookProvider).save(mobId, memory));
+      changed = true;
+    }
+    if (changed) setState(() {});
+    _pumpActs();
+  }
+
+  /// Acts wait for Enter the den, the moment queue, any results run, a sheet or another screen on top, and a hidden
+  /// tab. While they wait the den checks again every 600 ms.
+  bool get _actsHeld => !_entered || _queueRunning || ResultsRun.onScreen.value > 0 || !_visible();
+
+  void _pumpActs() {
+    if (!mounted || _cue != null || _actTimer != null || _acts.isEmpty) return;
+    if (_actsHeld) {
+      // A hidden tab does not poll: the den's return (didChangeDependencies, then _afterEnter) picks the queue up.
+      if (!TickerMode.valuesOf(context).enabled) return;
+      _actTimer = Timer(const Duration(milliseconds: 600), () {
+        _actTimer = null;
+        _pumpActs();
+      });
+      return;
+    }
+    // A quiet beat before every act.
+    _actTimer = Timer(DenActs.gap, _startAct);
+  }
+
+  void _startAct() {
+    _actTimer = null;
+    if (!mounted || _cue != null || _acts.isEmpty) return;
+    if (_actsHeld) return _pumpActs();
+    final view = ref.read(denViewProvider);
+    final mobId = _actMob;
+    final memory = _actMemory;
+    if (view == null || mobId == null || memory == null || view.mobId != mobId) return;
+    final e = _acts.removeAt(0);
+    // The friend left before their act: nothing to play.
+    if (view.v3.member(e.memberId) == null) return _pumpActs();
+    // Remembered as played when it starts: each event plays once.
+    _actMemory = DenActs.played(memory, e);
+    unawaited(ref.read(denActBookProvider).save(mobId, _actMemory!));
+    final reduced = _reduced;
+    final kind = e.kind == DenEventKind.join ? DenActKind.join : DenActKind.reaction;
+    final (_, studier) = _desk ?? DenStage.studierOf(view.v3);
+    final waiting = _waitingFor(view.v3);
+    final cheering = [for (final m in view.v3.members) if (!waiting.contains(m.memberId) && m.memberId != studier?.memberId) m].length;
+    final length = DenActPlayer.lengthFor(kind, reduced: reduced, members: cheering);
+    _actClock.duration = Duration(milliseconds: length.round());
+    setState(() {
+      _cueEvent = e;
+      _cue = DenActCue(kind: kind, memberId: e.memberId, id: ++_actIds, clock: _actClock, members: math.max(1, cheering));
+      // The sticker behind a cheer flies from its sender's Fold as the cheer starts (once a session, as every flight).
+      if (e.kind == DenEventKind.reaction && e.sticker != null && e.at != null) {
+        if (_memory.flownReactions.add(_flightKey(e.memberId, e.sticker!, e.at!))) {
+          _flights.add(StickerSend(memberId: e.memberId, kind: e.sticker!, id: ++_flightIds));
+          _trimFlights();
+        }
+      }
+    });
+    _actClock.forward(from: 0).whenCompleteOrCancel(() {
+      if (!mounted) return;
+      setState(() {
+        _cue = null;
+        _cueEvent = null;
+      });
+      _pumpActs();
+    });
+  }
+
+  static String _flightKey(String memberId, StickerKind kind, DateTime at) => '$memberId:${kind.wire}:${at.toIso8601String()}';
 
   /// Achievements earned outside a game (quest done, week stitched, a Fold earned, a streak milestone) play as the
   /// results run's own celebration screens (spec 3.4: the same screens everywhere), only while the den is in view.
@@ -302,12 +485,19 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     if (view == null) return;
     final you = view.v3.you?.memberId;
     final now = ref.read(denClockProvider)();
+    // A sticker waiting to lead a cheer flies with the cheer instead.
+    final held = {
+      for (final e in [?_cueEvent, ..._acts])
+        if (e.kind == DenEventKind.reaction && e.sticker != null && e.at != null) _flightKey(e.memberId, e.sticker!, e.at!),
+    };
     final fresh = <Reaction>[];
     for (final r in view.v3.reactions) {
       if (r.memberId == you) continue;
       final at = r.at;
       if (at == null || now.difference(at) > const Duration(hours: 12)) continue;
-      if (!_memory.flownReactions.add('${r.memberId}:${r.kind.wire}:${at.toIso8601String()}')) continue;
+      final key = _flightKey(r.memberId, r.kind, at);
+      if (held.contains(key)) continue;
+      if (!_memory.flownReactions.add(key)) continue;
       fresh.add(r);
     }
     if (fresh.isEmpty) return;
@@ -418,6 +608,8 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
           }
         }
         final deskBusy = _desk != null;
+        if (mob != null && v3 != null) _syncActs(mob.id, v3);
+        final waiting = v3 == null ? const <String>{} : _waitingFor(v3);
 
         final room = Stack(
           children: [
@@ -446,6 +638,8 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
                   });
                 }
               },
+              act: _cue,
+              waiting: waiting,
             ),
             if (mob != null && v3 != null)
               AnimatedPositioned(
@@ -457,7 +651,8 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
                 width: math.max(150, DenStage.pennantLeft(w, studying: deskBusy) - MmSpace.gutter - MmSpace.s12),
                 child: _TitleBlock(
                   name: v3.name.text.isEmpty ? mob.subjectName : v3.name.text,
-                  subtitle: MobV4DenCopy.subtitle(mob.subjectName, v3.members.length),
+                  // A newcomer waiting for their act is not counted until they hop in.
+                  subtitle: MobV4DenCopy.subtitle(mob.subjectName, v3.members.length - waiting.length),
                   onSwitch: _openYourMobs,
                 ),
               )
