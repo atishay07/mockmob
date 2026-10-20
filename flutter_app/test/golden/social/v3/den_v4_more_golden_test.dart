@@ -49,6 +49,18 @@ void main() {
       expect(find.byKey(const ValueKey('den-studying-tag')), findsOneWidget);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_long_name_studying_130_${_tag(b)}.png'));
     });
+    // The pennant's caption never cuts the Mob's name: with nothing under it, a long name takes a second line.
+    testWidgets('v4 den long name, nobody studying, text 1.3 ${_tag(b)}', (tester) async {
+      // No seeded study sharers: nobody is at the desk.
+      final server = v3Server(scenario: 'open')
+        ..renameFixtureMob('Accountancy Avengers')
+        ..seedSharers = false;
+      await pumpDen(tester, server, brightness: b, height: 900, textScale: 1.3);
+      await _settle(tester);
+      expect(find.byKey(const ValueKey('den-studying-tag')), findsNothing);
+      expect(find.text('Accountancy Avengers'), findsWidgets);
+      await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_long_name_130_${_tag(b)}.png'));
+    });
     testWidgets('v4 den hours sharing no minutes yet ${_tag(b)}', (tester) async {
       final server = v3Server(scenario: 'open')..studyMinutes.updateAll((_, _) => 0);
       server.denNow();
