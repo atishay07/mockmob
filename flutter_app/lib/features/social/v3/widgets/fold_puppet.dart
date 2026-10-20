@@ -69,6 +69,8 @@ class FoldPuppet extends ConsumerStatefulWidget {
     this.fallbackColour = 0,
     this.semanticLabel,
     this.brightness = 1,
+    this.look,
+    this.acting = false,
   });
 
   /// Null draws the member's initial disc (an old account with no Fold yet).
@@ -109,6 +111,14 @@ class FoldPuppet extends ConsumerStatefulWidget {
 
   /// 1 normal; 0.7 for the Fold standing behind on a shared ruler number (spec 0.3).
   final double brightness;
+
+  /// A glance an act asks for, -1 (left) .. 1 (right): the den's others turning toward a newcomer (4.2). Its size is
+  /// how far the eyes go; the Fold's own idle glance fades out under it, so the eyes never jump. Null: idle glances only.
+  final Animation<double>? look;
+
+  /// A den act is playing (4.2): no micro-act and no idle glance starts until it ends, so the act's own poses and
+  /// glances read clean.
+  final bool acting;
 
   /// The figure width for [size], from the art's box (for layout before the manifest loads, 0.8).
   static double widthFor(FoldManifest? m, FoldKey? fold, double size, {FoldPose pose = FoldPose.idle}) {
@@ -170,6 +180,11 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
   void didUpdateWidget(FoldPuppet old) {
     super.didUpdateWidget(old);
     if (widget.actId != old.actId && widget.act != FoldAct.none) _fire(widget.act);
+    // An act's pose (a wave, a cheer) wins over an idle think that happened to be showing.
+    if (widget.pose != old.pose && widget.pose != FoldPose.idle && _playing == FoldAct.none && _poseOverride == FoldPose.think) {
+      _thinkTimer?.cancel();
+      _poseOverride = null;
+    }
     if (widget.breathe != old.breathe || widget.sway != old.sway || widget.blink != old.blink || widget.locked != old.locked) _syncLoops();
   }
 
@@ -208,7 +223,7 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
         _glanceTimer = null;
         if (!mounted || !_loopsWanted) return;
         final now = DateTime.now();
-        if (now.difference(_lastGlance).inMilliseconds > 1800 && _playing == FoldAct.none) {
+        if (now.difference(_lastGlance).inMilliseconds > 1800 && _playing == FoldAct.none && !widget.acting) {
           _lastGlance = now;
           final dir = _rng.nextBool() ? 1.0 : -1.0;
           try {
@@ -228,7 +243,7 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
         _microTimer = null;
         if (!mounted || !_loopsWanted) return;
         final now = DateTime.now();
-        if (now.difference(_lastMicro).inMilliseconds > 4000 && _playing == FoldAct.none && widget.act == FoldAct.none) {
+        if (now.difference(_lastMicro).inMilliseconds > 4000 && _playing == FoldAct.none && widget.act == FoldAct.none && !widget.acting) {
           _lastMicro = now;
           final art = foldManifestOf(ref)?[widget.fold];
           final canThink = art?.poses.containsKey(FoldPose.think) ?? false;
@@ -386,7 +401,7 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
                   visor: still.visorColour ?? const Color(0xFF16151A),
                   side: side,
                   blink: _blink,
-                  glance: _glance,
+                  glance: widget.look == null ? _glance : _LookOver(idle: _glance, look: widget.look!),
                   reach: (size / 80).clamp(1.0, 2.5),
                 ),
               ),
@@ -519,6 +534,18 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
         ),
       ),
     );
+  }
+}
+
+/// An act's glance over the idle one: as the act's look grows (0 to 1 in size), the idle glance fades out under it, so
+/// a Fold mid idle-glance turns smoothly toward the newcomer and back, never with a jump.
+class _LookOver extends CompoundAnimation<double> {
+  _LookOver({required Animation<double> idle, required Animation<double> look}) : super(first: idle, next: look);
+
+  @override
+  double get value {
+    final l = next.value.clamp(-1.0, 1.0);
+    return first.value * (1 - l.abs()) + l;
   }
 }
 

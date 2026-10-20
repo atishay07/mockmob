@@ -1306,6 +1306,9 @@ String _pronoun(FoldKey f) => f == FoldKey.hop ? 'him' : 'it';
 abstract final class MobV4DenCopy {
   // Header
   static String subtitle(String subject, int members) => '$subject · $members of 5 seats';
+
+  /// A friend's join act, said to a screen reader as the newcomer lands (4.2).
+  static String joined(String name) => '$name joined';
   static String pennantLabel(String mob, int weeks) => weeks <= 0 ? '$mob, a new Mob. Opens This week.' : '$mob, ${MobV3Copy.pennantWeeks(weeks)} in a row. Opens This week.';
   static String titleSemantics(String mob, String subtitle) => '$mob. $subtitle. Opens Your Mobs.';
 

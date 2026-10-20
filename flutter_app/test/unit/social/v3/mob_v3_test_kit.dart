@@ -6,6 +6,7 @@ import 'dart:io';
 
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:mockmob/core/repositories/remote_state.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/social/data/mob_models.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_api.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
@@ -26,10 +27,10 @@ MobV3FakeServer v3Server({String scenario = 'heavy', String billing = 'off', Dat
 void loadFoldManifestForTest() => FoldManifest.setForTest(FoldManifest.parse(File(foldManifestAsset).readAsStringSync()));
 
 /// Every override a v3 screen needs. The repository starts with the server's den.
-List<Override> v3Overrides(MobV3FakeServer server, {DateTime? now}) {
+List<Override> v3Overrides(MobV3FakeServer server, {DateTime? now, PrefsStore? prefs}) {
   final at = now ?? v3Now;
   return [
-    ...mobOverrides(RemoteState(value: MobRead.fromJson(server.denNow()), fetchedAt: at), now: at),
+    ...mobOverrides(RemoteState(value: MobRead.fromJson(server.denNow()), fetchedAt: at), now: at, prefs: prefs),
     mobV3EnabledProvider.overrideWithValue(true),
     mobV3FixturesProvider.overrideWithValue(true),
     mobV3FakeServerProvider.overrideWithValue(server),

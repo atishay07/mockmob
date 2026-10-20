@@ -153,11 +153,12 @@ List<Override> mobOverrides(
   RecordingNavigator? nav,
   FakeMobActions Function(Ref ref)? actions,
   DateTime? now,
+  PrefsStore? prefs,
 }) =>
     [
       ...youOverrides(now: now ?? mobNow),
       mobRepositoryProvider.overrideWithBuild((ref, n) => state),
-      mobPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+      mobPrefsStoreProvider.overrideWithValue(prefs ?? MemoryPrefsStore()),
       mobNavigatorProvider.overrideWithValue(nav ?? RecordingNavigator()),
       mobActionsProvider.overrideWith((ref) => actions?.call(ref) ?? FakeMobActions(ref)),
     ];

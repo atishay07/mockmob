@@ -5,7 +5,8 @@
 //
 // The fixture Mob is the spec's: Chai Circle, Accountancy, Aarav (you, Dart), Riya (Patang), Kabir
 // (Naav), Zoya (Cutting). Times are relative to the phone's clock, so "Open until 2:05 PM tomorrow"
-// reads true whenever the walk runs.
+// reads true whenever the walk runs. In demo builds ([arrivals]) Meher (Kandil) joins a few seconds in and sends
+// "Let's go", so the den's friend-join and cheer acts have a real event to answer.
 //
 // Debug and test only. It never runs in a release build unless MOB_V3_FIXTURES=true is passed.
 
@@ -136,7 +137,7 @@ class _Mob {
 
 /// In-memory server with the contract's behaviour. One per app run ([mobV3FakeServerProvider]).
 class MobV3FakeServer implements MobV3Api {
-  MobV3FakeServer({this.scenario = 'heavy', this.billing = 'off', DateTime Function()? clock, bool? live})
+  MobV3FakeServer({this.scenario = 'heavy', this.billing = 'off', DateTime Function()? clock, bool? live, this.arrivals = false})
       : _clock = clock ?? (() => DateTime.now().toUtc()),
         liveOn = live ?? (scenario == 'live' || scenario == 'liverace' || scenario == 'formats') {
     _seed();
@@ -144,6 +145,24 @@ class MobV3FakeServer implements MobV3Api {
 
   /// The server's live switch (MOB_LIVE_ENABLED): on in the 'live' scenario.
   bool liveOn;
+
+  /// Demo builds (the app's fixture server, never the tests' unless they ask): in the 'heavy' scenario a fifth friend,
+  /// Meher, joins Chai Circle on the first den read [arrivalAfter] or more after the first one, and sends "Let's go", so
+  /// the den's friend-join and reaction acts (MOB-MINIMAL 4.2) have a real event to answer.
+  final bool arrivals;
+  static const Duration arrivalAfter = Duration(seconds: 3);
+  static const String newcomerId = 'MEHER0000005';
+  DateTime? _firstDenRead;
+  bool _arrived = false;
+
+  /// Meher joins and, a moment later, sends the Mob a sticker (the newest first, as the server lists them).
+  void arrive() {
+    final mob = _mobs.where((m) => m.id == chaiId).firstOrNull;
+    if (_arrived || mob == null || mob.members.length >= 5) return;
+    _arrived = true;
+    mob.members.add(_Member(newcomerId, 'Meher', 1, FoldKey.kandil));
+    mob.reactions.insert(0, Reaction(memberId: newcomerId, kind: StickerKind.letsGo, at: now));
+  }
 
   /// Room changes the fixture server makes (start, cancel, done), for the scripted fixture channel.
   final StreamController<(String, String)> _roomBus = StreamController<(String, String)>.broadcast(sync: true);
@@ -786,6 +805,10 @@ class MobV3FakeServer implements MobV3Api {
   @override
   Future<Object?> den({String? mob}) async {
     if (mob != null) _selected = mob;
+    if (arrivals && scenario == 'heavy') {
+      final first = _firstDenRead ??= now;
+      if (now.difference(first) >= arrivalAfter) arrive();
+    }
     return _denJson();
   }
 

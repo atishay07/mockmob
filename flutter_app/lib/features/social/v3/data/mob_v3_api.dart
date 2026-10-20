@@ -203,7 +203,8 @@ class HttpMobV3Api implements MobV3Api {
 }
 
 /// One fixture server per app run, so a game played in fixture mode is still there on the podium.
-final mobV3FakeServerProvider = Provider<MobV3FakeServer>((ref) => MobV3FakeServer(scenario: MobV3Flags.scenarioByDefine, billing: MobV3Flags.billingByDefine));
+/// Demo builds get the 'heavy' scenario's arrival (a friend joins and sends a sticker a few seconds in).
+final mobV3FakeServerProvider = Provider<MobV3FakeServer>((ref) => MobV3FakeServer(scenario: MobV3Flags.scenarioByDefine, billing: MobV3Flags.billingByDefine, arrivals: true));
 
 final mobV3ApiProvider = Provider<MobV3Api>((ref) {
   if (ref.watch(mobV3FixturesProvider)) return ref.watch(mobV3FakeServerProvider);
