@@ -122,6 +122,12 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
         const g = await mobGameApi.game(gameId).catch(() => null);
         if (g?.game) { setGame(g.game); setMarks(g.game.you?.marks ?? null); }
         setPhase('done');
+      } else if (e.code === 'RUN_NOT_STARTED' && Number.isFinite(Date.parse(e.detail?.startsAt))) {
+        // A live race asked a moment before Go (a clock a little ahead): ask again at Go, quietly.
+        const wait = Math.max(150, Date.parse(e.detail.startsAt) - Date.parse(e.detail.serverNow || new Date().toISOString()) + 150);
+        starting.current = false;
+        setTimeout(() => begin(), Math.min(wait, 5000));
+        return;
       } else if (e.code === 'GAME_CLOSED') {
         setNotice(errorSentence(e));
         setPhase('closed');
@@ -204,7 +210,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
       expired.current = true;
       clearTimeout(advanceTimer.current);
       // A race's end is its clock, and its done screen says so; a sprint says the rest count as skipped.
-      if (!race) setNotice(COPY.timeUp);
+      setNotice(race ? null : COPY.timeUp);
       finish();
     }
   }, [phase, run, serverNow, endsMs, sending, result, finish, race]);
@@ -438,7 +444,7 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
           </div>
           {notice ? <p className="mp-hint" role="status">{notice}</p> : null}
           {race ? <p className="mp-hint">{FORMAT_COPY.raceTime}</p> : null}
-          <h2 className="mp-h1">{race ? raceDoneTitle(tally?.answered ?? answers.length ?? game?.you?.answered, count, minutes) : COPY.playedAll(count)}</h2>
+          <h2 className="mp-h1">{race ? raceDoneTitle(tally?.answered ?? (answers.filter((x) => x.pick >= 0).length || game?.you?.answered || 0), count, minutes) : COPY.playedAll(count)}</h2>
           {Number.isFinite(shown) ? (
             <p className="mp-figure"><span className="mp-figure__n">{shown}</span><span className="mp-figure__w">{COPY.marksWord(shown)}</span></p>
           ) : null}

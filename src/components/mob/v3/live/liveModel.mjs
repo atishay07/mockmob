@@ -152,6 +152,9 @@ export function roomReducer(state, action) {
       if (!state.youId || !PRESENCE_POSTS.includes(action.st)) return state;
       return setPresence(state, state.youId, action.st, action.at ?? 0);
     }
+    case 'roster':
+      // The presence reply's roster (the server's last 45 s); your own seat stays as you last posted it.
+      return keepYou(withRoster(state, action.roster, action.members, action.at ?? 0), state);
     case 'prune': {
       // Anyone not heard from for 45 s has left the room on this page too (a closed tab never posts "left").
       const at = action.at ?? 0;
@@ -202,6 +205,17 @@ function setPresence(state, m, st, at) {
   heard.set(m, at);
   const seen = state.seen.has(m) ? state.seen : new Set([...state.seen, m]);
   return { ...state, presence, heard, seen };
+}
+
+/** After a roster: your own presence is what you last posted, whatever the roster's snapshot said. */
+function keepYou(next, before) {
+  const id = before.youId;
+  if (!id || !before.presence.has(id)) return next;
+  const presence = new Map(next.presence);
+  const heard = new Map(next.heard);
+  presence.set(id, before.presence.get(id));
+  heard.set(id, before.heard.get(id) ?? 0);
+  return { ...next, presence, heard };
 }
 
 /** The ticket's roster replaces what this page knew (it is the server's view of the last 45 s). */

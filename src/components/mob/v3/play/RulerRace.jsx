@@ -6,10 +6,10 @@
 // A timed race (D167) has no flag: the strip grows in fives with the leader and labels 1, every fifth and yours.
 // A Fold steps only when it moves on this screen: a resumed run or a reconnect draws everyone where they stand,
 // without replaying a step for each (the live client's leftover, 20 Oct).
-import { useEffect, useRef } from 'react';
+import { useState } from 'react';
 import { PlayFold } from './PlayFold';
 import { COPY, racerLabel } from './playModel.mjs';
-import { raceLabelled } from './formats.mjs';
+import { FORMAT_COPY, raceLabelled } from './formats.mjs';
 
 const RULER_FROM = 5;
 const RULER_SPAN = 80;
@@ -17,11 +17,17 @@ const FLAG_AT = 92;
 
 export function RulerRace({ count, racers, answered = 0, youPose = 'idle', youNod = 0, race = false }) {
   const compact = racers.length >= 5;
-  // Where each racer stood at the last paint: a step plays only when that changes after the first paint.
-  const seen = useRef(null);
+  // Where each racer stood before the latest move: a step plays only for a racer whose place changed on this screen.
+  // Derived state (set during render when the places change), so the first paint, a resume or a reconnect is still.
   const placeOf = (r) => `${r.at}-${r.finished}`;
-  const stepping = (r) => Boolean(seen.current) && seen.current.has(r.id) && seen.current.get(r.id) !== placeOf(r);
-  useEffect(() => { seen.current = new Map(racers.map((r) => [r.id, `${r.at}-${r.finished}`])); });
+  const places = racers.map((r) => `${r.id}=${placeOf(r)}`).join('|');
+  const [shown, setShown] = useState(places);
+  const [before, setBefore] = useState(null);
+  if (places !== shown) {
+    setBefore(new Map(shown.split('|').filter(Boolean).map((e) => e.split('='))));
+    setShown(places);
+  }
+  const stepping = (r) => Boolean(before) && before.has(r.id) && before.get(r.id) !== placeOf(r);
   const span = race ? RULER_SPAN + 8 : RULER_SPAN;
   const xOf = (i) => RULER_FROM + (i - 0.5) * (span / count);
   const size = compact ? 48 : 64;
@@ -41,7 +47,9 @@ export function RulerRace({ count, racers, answered = 0, youPose = 'idle', youNo
         )}
         <div className={`mp-ruler__strip${race ? ' mp-ruler__strip--race' : ''}`}>
           {Array.from({ length: count }, (_, k) => k + 1).map((n) => (race && !raceLabelled(n, count, answered + 1)
-            ? <span key={n} className={`mp-ruler__dot${n <= answered ? ' is-done' : ''}`} style={{ left: `${xOf(n)}%` }} />
+            // A dot right beside a label would touch it on a phone: those stay as ticks only.
+            ? (count > 12 && (raceLabelled(n - 1, count, answered + 1) || raceLabelled(n + 1, count, answered + 1)) ? null
+              : <span key={n} className={`mp-ruler__dot${n <= answered ? ' is-done' : ''}`} style={{ left: `${xOf(n)}%` }} />)
             : <span key={n} className={`mp-ruler__num${n <= answered ? ' is-done' : ''}${n === answered + 1 ? ' is-here' : ''}`} style={{ left: `${xOf(n)}%` }}>{n}</span>))}
           {Array.from({ length: count * (race ? 1 : 4) + 1 }, (_, k) => k).map((k) => (
             <span key={`t${k}`} className={`mp-ruler__tick${race || k % 4 === 0 ? ' is-major' : ''}`} style={{ left: `${RULER_FROM - span / count / 2 + (k * span) / (count * (race ? 1 : 4))}%` }} />
@@ -56,7 +64,7 @@ export function RulerRace({ count, racers, answered = 0, youPose = 'idle', youNo
               key={r.id}
               className={`mp-racer${r.ghost ? ' is-ghost' : ''}${r.you ? ' is-you' : ''}`}
               style={{ left: `calc(${x}% + ${r.aside || 0}px)`, zIndex: 10 - r.depth, '--lift': `${r.lift || 0}px`, '--tag': `${(r.depth || 0) * -14}px`, '--scale': r.scale ?? 1, '--bright': r.brightness ?? 1, '--mp-c': `var(--mob-c${Number(r.colour) % 8 || 0})` }}
-              aria-label={r.finished ? COPY.rulerDone(r.name) : COPY.rulerAt(r.name, r.at, count)}
+              aria-label={r.finished && !race ? COPY.rulerDone(r.name) : race ? FORMAT_COPY.rulerAt(r.name, r.at) : COPY.rulerAt(r.name, r.at, count)}
             >
               <span className={`mp-racer__body${stepping(r) ? '' : ' is-still'}`} key={placeOf(r)}>
                 <span className={`mp-racer__name${compact ? ' is-compact' : ''}`}>{racerLabel(r.name, compact)}</span>

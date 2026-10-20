@@ -225,3 +225,204 @@ test('the den links into the game screens by one contract (gameHref), and every 
     for (const m of readFileSync(f, 'utf8').matchAll(/\/mob\/folds\/(fold-[a-z0-9@.-]+\.webp)/g)) assert.ok(files.has(m[1]), `${path.relative(root, f)} names ${m[1]}, which is not in public/mob/folds`);
   }
 });
+
+// ---------------------------------------------------------------------------------------------------
+// D167 (20 Oct): a timed race and a full mock together, as two more tiles in the one "Start a game" sheet (D168: no new
+// screens). The race reuses the run, the podium and the moments; the full mock the full-mock runner and the podium.
+// ---------------------------------------------------------------------------------------------------
+const formats = await import('../../src/components/mob/v3/play/formats.mjs');
+const { FORMAT_COPY, formatTiles, startBody, raceClock, racePace, ghostCountAt, raceWindow, raceRacers, raceLabelled, mockRunnerHref, MOCK, RACE_MINUTES } = formats;
+
+test('D167 F-1 the tiles follow the server: billing off opens all four; a free member sees the full mock locked with Pro; no formats, no new tiles', () => {
+  const open = formatTiles({ billingOn: false, can: true, formats: ['sprint', 'round', 'rematch', 'race', 'mock'], locked: [] });
+  assert.deepEqual(open.map((t) => [t.format, t.can, t.locked, t.pro]), [['sprint', true, false, false], ['race', true, false, false], ['round', true, false, false], ['mock', true, false, false]]);
+  const free = formatTiles({ billingOn: true, can: true, via: 'free_weekly', formats: ['sprint', 'round', 'race'], locked: ['mock'] });
+  assert.deepEqual(free.map((t) => [t.format, t.can, t.pro]), [['sprint', true, false], ['race', true, false], ['round', true, false], ['mock', false, true]]);
+  // MOB_FORMATS_ENABLED off: the server offers neither, and the sheet shows today's two tiles only.
+  assert.deepEqual(formatTiles({ billingOn: false, can: true, formats: ['sprint', 'round'] }).map((t) => t.format), ['sprint', 'round']);
+  // Your start used: nothing can start, and with billing off no tile says Pro.
+  assert.equal(formatTiles({ billingOn: false, can: false, formats: ['sprint', 'race', 'mock'] }).some((t) => t.can || t.pro), false);
+});
+
+test('D167 F-2 the start body: a race is 5 or 10 minutes, a full mock is always anytime and the whole subject, live only when allowed', () => {
+  assert.deepEqual(startBody({ format: 'race', minutes: 10, mode: 'live', chapter: 'Goodwill', liveAllowed: true }), { format: 'race', minutes: 10, mode: 'live', chapter: 'Goodwill' });
+  assert.deepEqual(startBody({ format: 'race', minutes: 7, mode: 'live', liveAllowed: false }), { format: 'race', minutes: 5, mode: 'async', chapter: null });
+  assert.deepEqual(startBody({ format: 'mock', mode: 'live', chapter: 'Goodwill', liveAllowed: true }), { format: 'mock', mode: 'async' });
+  assert.deepEqual(startBody({ format: 'round', count: 15, mode: 'async' }), { format: 'round', mode: 'async', count: 15, chapter: null });
+  assert.deepEqual(startBody({ format: 'sprint', count: 20 }), { format: 'sprint', mode: 'async', count: 5, chapter: null });
+  assert.equal(startBody({ format: 'sprint', rematchOf: 'g1', count: 5 }).format, 'rematch');
+  assert.deepEqual([...RACE_MINUTES], [5, 10]);
+});
+
+test('D167 F-3 the race clock: time left in m:ss on the server clock; it warms in the last half-minute; never below zero', () => {
+  const ends = Date.parse('2026-10-22T08:45:00.000Z');
+  assert.deepEqual(raceClock(ends, ends - 272_000), { left: 272_000, text: '4:32', low: false, over: false });
+  assert.equal(raceClock(ends, ends - 29_500).low, true);
+  assert.equal(raceClock(ends, ends - 29_500).text, '0:30');
+  assert.deepEqual(raceClock(ends, ends + 5000), { left: 0, text: '0:00', low: false, over: true });
+});
+
+test('D167 F-4 the race pace chip: questions answered against the nearest ghost at the same moment of the run', () => {
+  const ghosts = [{ memberId: 'a', name: 'Riya', arrivalsMs: [9000, 18000, 27000, 36000, 45000] }, { memberId: 'b', name: 'Kabir', arrivalsMs: [15000, 30000] }];
+  assert.equal(ghostCountAt(ghosts[0], 27_000), 3);
+  assert.equal(ghostCountAt(ghosts[0], 26_999), 2);
+  assert.equal(racePace(0, 10_000, ghosts), null);
+  assert.equal(racePace(3, 27_000, ghosts).text, 'Level with Riya');
+  assert.equal(racePace(5, 30_000, ghosts).text, '2 questions ahead of Riya');
+  assert.equal(racePace(1, 40_000, [ghosts[0]]).text, '3 questions behind Riya');
+  assert.equal(racePace(3, 31_000, [ghosts[1]]).text, '1 question ahead of Kabir');
+});
+
+test('D167 F-5 the race ruler: no flag, a window that grows in fives with the leader, depth on a shared number, a ghost stops at its time', () => {
+  assert.equal(raceWindow(1, 30), 10);
+  assert.equal(raceWindow(9, 30), 15);
+  assert.equal(raceWindow(29, 30), 30);
+  assert.equal(raceWindow(80, 60), 60);
+  assert.equal(raceLabelled(1, 20, 7), true);
+  assert.equal(raceLabelled(15, 20, 7), true);
+  assert.equal(raceLabelled(7, 20, 7), true);
+  assert.equal(raceLabelled(8, 20, 7), false);
+  assert.equal(raceLabelled(8, 10, 2), true);
+  assert.equal(raceLabelled(15, 30, 3), false);
+  assert.equal(raceLabelled(20, 30, 3), true);
+  const ghosts = [{ memberId: 'r', name: 'Riya', fold: 'kandil', colour: 3, arrivalsMs: [10_000, 20_000, 30_000] }];
+  let view = raceRacers({ ghosts, you: { fold: 'dart', answered: 2, arrivedMs: 21_000 }, t: 25_000, minutes: 5, pool: 30 });
+  assert.equal(view.window, 10);
+  const at = Object.fromEntries(view.racers.map((r) => [r.name, [r.at, r.depth, r.finished]]));
+  assert.deepEqual(at, { Riya: [3, 0, false], You: [3, 1, false] });
+  // After the clock: everyone stands on their last answer, nobody at a flag.
+  view = raceRacers({ ghosts, you: { fold: 'dart', answered: 4, finished: true }, t: 300_000, minutes: 5, pool: 30 });
+  assert.deepEqual(view.racers.map((r) => [r.name, r.at, r.finished]), [['Riya', 3, false], ['You', 4, false]]);
+});
+
+test('D167 F-6 the words: plain, no exclamation marks, arrows, prices or pressure; the sheet says what each way to play is', () => {
+  const now = Date.parse('2026-10-22T08:42:24.000Z');
+  const race = { format: 'race', minutes: 5, count: 30, chapter: 'Goodwill', subjectName: 'Accountancy', closesAt: '2026-10-23T08:35:00.000Z', host: { name: 'Kabir', you: false }, runs: [{ name: 'Riya', at: '2026-10-22T08:37:30.000Z' }] };
+  const mock = { format: 'mock', minutes: 60, count: 50, chapter: null, subjectName: 'Accountancy', closesAt: '2026-10-23T08:35:00.000Z', host: { name: 'Riya', you: false }, runs: [] };
+  const lines = [];
+  for (const [k, v] of Object.entries(FORMAT_COPY)) {
+    if (typeof v === 'string') lines.push(v);
+    else if (/^race(OpenLine|Row)$/.test(k)) lines.push(v(race, now));
+    else if (/^mock(OpenLine|Row)$/.test(k)) lines.push(v(mock, now));
+    else if (k === 'raceLiveLine' || k === 'title' || k === 'playRace') lines.push(v(race));
+    else if (k === 'raceCounts' || k === 'sheetLine') lines.push(v({ right: 9, wrong: 3, skipped: 2 }));
+    else if (k === 'satSoFar') lines.push(String(v(race.runs, now)));
+    else if (k === 'sheetsWait') lines.push(v(mock.closesAt, now));
+    else if (k === 'outOf') lines.push(v(182, 250));
+    else if (k === 'startRowSub') lines.push(v(['sprint', 'round', 'race', 'mock']));
+    else if (k === 'startKey') for (const format of ['sprint', 'race', 'round', 'mock']) { lines.push(v({ format })); lines.push(v({ format, live: true, minutes: 10, count: 15 })); }
+    else if (k === 'sheetSub') lines.push(v('Chai Circle', 'Accountancy'));
+    else lines.push(String(v(5, 10)));
+  }
+  for (const l of lines) {
+    assert.doesNotMatch(l, /!/, l);
+    assert.doesNotMatch(l, /[←-⇿\u{1F300}-\u{1FAFF}]/u, l);
+    assert.doesNotMatch(l, /₹|\bRs\.?\s?\d|\bprice\b|per month|hurry|last chance|streak at risk|not played|hasn't played/i, l);
+  }
+  assert.equal(FORMAT_COPY.raceSub, 'As many as you can in 5 or 10 minutes');
+  assert.equal(FORMAT_COPY.mockSub, 'The whole paper, in 24 hours');
+  assert.equal(FORMAT_COPY.startKey({ format: 'race', minutes: 10, live: true }), 'Open the room for a 10-minute race');
+  assert.equal(FORMAT_COPY.startKey({ format: 'mock' }), 'Start the full mock');
+  assert.equal(FORMAT_COPY.startKey({ format: 'round', count: 15, live: true }), 'Open the room for a 15-question round');
+  assert.equal(FORMAT_COPY.startsLeft(1), '1 start left this week. Everyone plays free.');
+  assert.equal(FORMAT_COPY.usesStart(1), 'Uses your 1 start this week. Everyone plays free.');
+  assert.equal(FORMAT_COPY.startRowSub(['sprint', 'round', 'race', 'mock']), 'Sprint, race, round or full mock');
+  assert.equal(FORMAT_COPY.startRowSub(['sprint', 'round']), 'Sprint or round');
+  assert.equal(FORMAT_COPY.raceOpenLine(race, now), '5 minutes on Goodwill. Answer as many as you can. Race the runs so far. Open until 2:05 PM tomorrow.');
+  assert.equal(FORMAT_COPY.mockOpenLine(mock, now), '50 Accountancy questions in 60 minutes, like the real paper. Sit it by 2:05 PM tomorrow, then compare mark sheets.');
+  assert.equal(FORMAT_COPY.raceDone(14, 5), 'You answered 14 in 5 minutes.');
+  assert.equal(FORMAT_COPY.raceDone(1, 10), 'You answered 1 question in 10 minutes.');
+  assert.equal(FORMAT_COPY.title(race), "Kabir's race");
+  assert.equal(COPY.gameTitle({ ...mock, host: { name: 'Riya', you: false } }), "Riya's full mock");
+  assert.equal(momentSentence({ kind: 'most_answered', count: 21, minutes: 5 }, 30), 'Most answered: 21 in 5 minutes.');
+  assert.equal(momentSentence({ kind: 'raced', count: 14, minutes: 5 }, 30), 'Answered 14 in 5 minutes.');
+});
+
+test('D167 F-7 the full mock is sat in the existing full-mock runner, on the Mob\'s route, never with a price', () => {
+  const href = mockRunnerHref({ subject: 'accountancy', mobId: 'mob-1', gameId: 'game-9', memberId: 'member-3' });
+  const u = new URL(href, 'http://x');
+  assert.equal(u.pathname, '/test');
+  assert.deepEqual(Object.fromEntries(u.searchParams), { subject: 'accountancy', mode: 'full', count: String(MOCK.count), mob: '1', mobId: 'mob-1', game: 'game-9', generationKey: 'mob-game-game-9-member-3' });
+  const runner = readFileSync(path.join(root, 'src/app/(app)/test/TestPageClient.jsx'), 'utf8');
+  assert.match(runner, /gameId: launch\.get\('game'\)/);
+  const useMob = readFileSync(path.join(root, 'src/components/mob/useMob.js'), 'utf8');
+  assert.match(useMob, /\.\.\.\(gameId \? \{ game: gameId \} : \{\}\)/);
+  // After the paper, the result's Mob row leads to the game's mark sheets, never to this week's ring.
+  const row = readFileSync(path.join(root, 'src/components/mob/MobResultRow.jsx'), 'utf8');
+  assert.match(row, /if \(mobPaper\.gameId\)/);
+  assert.match(row, /gameHref\(mobPaper\.gameId, 'podium'\)/);
+});
+
+test('D167 F-8 no new screens: the race lives in the run, the full mock\'s card and mark sheets in the run and the podium; no answer shows early', () => {
+  const run = readFileSync(path.join(PLAY_DIR, 'GameRun.jsx'), 'utf8');
+  // The race counts 3, 2, 1 on the page before /run, so the server's clock starts at Go.
+  assert.match(run, /if \(isRace\(g\) && !live\) getSet\(\)/);
+  assert.match(run, /onGo=\{\(\) => \{ begin\(\); \}\}/);
+  // One question at a time: the answer's `next` joins the list; no Next key in a race.
+  assert.match(run, /body\.next && Number\.isInteger\(body\.next\.q\)/);
+  assert.match(run, /result && !result\.race \?/);
+  assert.match(run, /phase === 'mock' \|\| phase === 'mock-done'/);
+  const podium = readFileSync(path.join(PLAY_DIR, 'Podium.jsx'), 'utf8');
+  assert.match(podium, /function MarkSheets/);
+  assert.match(podium, /sh\.private \|\| !Number\.isFinite\(sh\.marks\)/);
+  for (const f of ['GameRun.jsx', 'Podium.jsx', 'formats.mjs']) {
+    const src = readFileSync(path.join(PLAY_DIR, f), 'utf8');
+    assert.doesNotMatch(src, /correctIndex|correct_index|explanation/, `${f} reads an answer`);
+  }
+  // No new routes or pages for the formats.
+  assert.equal(existsSync(path.join(root, 'src/app/(app)/mob/race')), false);
+  assert.equal(existsSync(path.join(root, 'src/app/(app)/mob/mock')), false);
+  const sheets = readFileSync(path.join(root, 'src/components/mob/den/DenSheets.jsx'), 'utf8');
+  // One sheet lists the ways to play (MOB-MINIMAL): the picker only leads into it. Live is one choice at its top, never a
+  // row; the full mock is dimmed "Anytime only" in Live, never hidden.
+  assert.equal((sheets.match(/<div className="den-formats"/g) || []).length, 1);
+  assert.doesNotMatch(sheets, /function FormatTile/);
+  assert.equal((sheets.match(/className="den-seg den-seg--mode"/g) || []).length, 1);
+  assert.match(sheets, /const anytimeOnly = t\.format === 'mock' && playsLive/);
+});
+
+test('D167 F-9 the den card and rows: a race says its minutes, a full mock opens its card (an hour-long paper never starts itself)', () => {
+  const den3 = readFileSync(path.join(root, 'src/components/mob/den/DenV3.jsx'), 'utf8');
+  assert.match(den3, /href=\{gameCardHref\(g\.id\)\}>\{FORMAT_COPY\.sitMock\}/);
+  assert.match(den3, /isRace\(g\) \? FORMAT_COPY\.raceOpenLine\(g, now\)/);
+  const sheets = readFileSync(path.join(root, 'src/components/mob/den/DenSheets.jsx'), 'utf8');
+  assert.match(sheets, /isMock\(g\) \? gameCardHref\(g\.id\) : gameHref\(g\.id\)/);
+});
+
+// The server's own D167 fixtures (web/1020-mob-formats). They live on the server branch; once both branches are merged
+// these run against them, so the client's reading of each shape is held by the server's real bodies.
+const FX_DIR = path.join(root, 'data/tests/fixtures/mob_v3');
+const haveFormatFixtures = existsSync(path.join(FX_DIR, 'game_open_race.json')) && existsSync(path.join(FX_DIR, 'podium_mock.json'));
+test('D167 F-10 contract: the client reads the server\'s race and mock bodies', { skip: haveFormatFixtures ? false : 'the server branch fixtures are not merged here yet' }, () => {
+  const raceGame = fx('game_open_race').game;
+  assert.equal(formats.isRace(raceGame), true);
+  assert.ok(RACE_MINUTES.includes(raceGame.minutes));
+  assert.ok(raceGame.count >= 20);
+  const run = fx('run_start_race');
+  assert.equal(run.questions.length, 1);
+  assert.ok(Date.parse(run.run.endsAt) - Date.parse(run.run.startedAt) === run.run.minutes * 60_000);
+  const ans = fx('answer_race');
+  assert.ok(Number.isInteger(ans.next.q) && Array.isArray(ans.next.options));
+  assert.ok(Number.isFinite(Date.parse(ans.endsAt)));
+  const fin = fx('finish_race').run;
+  assert.equal(FORMAT_COPY.raceCounts(fin), `${fin.right} right, ${fin.wrong} wrong, ${fin.skipped} skipped.`);
+  const g = fx('game_get_race').game;
+  assert.equal(g.ghosts[0].answered, g.ghosts[0].arrivalsMs.length);
+  assert.ok(racePace(1, 12_000, g.ghosts));
+  const podium = fx('podium_race');
+  for (const p of podium.places) assert.ok(p.answered === null || Number.isInteger(p.answered));
+  for (const m of podium.moments) assert.doesNotMatch(momentSentence(m, 30), /undefined|NaN/);
+  const mock = fx('game_open_mock').game;
+  assert.equal(formats.isMock(mock), true);
+  assert.equal(mock.count, MOCK.count);
+  assert.equal(mock.minutes, MOCK.minutes);
+  const sheets = fx('podium_mock').sheets;
+  for (const sh of sheets) {
+    if (sh.private) { assert.equal(sh.marks, null); continue; }
+    assert.equal(sh.of, MOCK.marks);
+    assert.equal(sh.sections.reduce((n, s) => n + s.of, 0), MOCK.count);
+  }
+  const den = fx('den_get_formats').mob.v3;
+  assert.deepEqual(formatTiles(den.starts).map((t) => [t.format, t.can, t.pro]), [['sprint', true, false], ['race', true, false], ['round', true, false], ['mock', false, true]]);
+  for (const game of den.games.filter((x) => x.format === 'race')) assert.ok(RACE_MINUTES.includes(game.minutes));
+});

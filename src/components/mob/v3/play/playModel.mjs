@@ -130,7 +130,7 @@ export const COPY = Object.freeze({
   optionRight: 'right, plus 5',
   optionWrong: 'not this one, minus 1',
   rulerLabel: 'Where everyone is on the ruler',
-  rulerAt: (name, q, n) => `${name} is on question ${q} of ${n}`,
+  rulerAt: (name, q, n) => `${name === 'You' ? 'You are' : `${name} is`} on question ${q} of ${n}`,
   rulerDone: (name) => `${name} reached the flag`,
   // The game card before a run (D2 and D4, and P2's line for anytime games).
   gameTitle: (game) => (game?.title ? game.title : !game?.host || game.host.you ? `Your ${kindWord(game?.format)}` : `${game.host.name}'s ${kindWord(game.format)}`),

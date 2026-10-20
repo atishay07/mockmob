@@ -5,7 +5,7 @@
 // appears in the picker or the start sheet (pro_nudge, spec 5.0). No price anywhere in the Mob (F4).
 import { useEffect, useId, useMemo, useState } from 'react';
 import Link from 'next/link';
-import { Check, ClipboardList, FileText, Lock, Minus, Plus, Radio, Send, SlidersHorizontal, Timer } from 'lucide-react';
+import { BookOpen, CalendarDays, Check, FileText, Lock, Plus, Radio, Send, SlidersHorizontal, Timer } from 'lucide-react';
 import { MobDialog } from '../MobDialog';
 import { mobFetch } from '../useMob';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
@@ -17,8 +17,8 @@ import { FoldFigure } from './FoldFigure';
 import { gameCardHref, gameHref, podiumHref } from './denRoutes';
 import { FORMAT_COPY, RACE_MINUTES, formatTiles, isMock, isRace, startBody } from '../v3/play/formats.mjs';
 
-// The four ways to play, one tile each, in the picker and the start sheet (D167, K9: every way to play is obvious).
-const FORMAT_ICON = { sprint: <Send size={18} />, round: <SlidersHorizontal size={18} />, race: <Timer size={18} />, mock: <ClipboardList size={18} /> };
+// The four ways to play, one row each in the Start a game sheet (D167, K9: every way to play is obvious).
+const FORMAT_ICON = { sprint: <Send size={18} />, round: <SlidersHorizontal size={18} />, race: <Timer size={18} />, mock: <FileText size={18} /> };
 const FORMAT_TITLE = { sprint: FORMAT_COPY.sprint, round: FORMAT_COPY.round, race: FORMAT_COPY.race, mock: FORMAT_COPY.mock };
 const FORMAT_SUB = { sprint: FORMAT_COPY.sprintSub, round: FORMAT_COPY.roundSub, race: FORMAT_COPY.raceSub, mock: FORMAT_COPY.mockSub };
 
@@ -44,7 +44,7 @@ function OpenNow({ data, v3, now, onClose }) {
         })}
         {!week.closed ? (
           <li className="den-row">
-            <span className="den-row__icon" aria-hidden="true"><FileText size={18} /></span>
+            <span className="den-row__icon" aria-hidden="true"><CalendarDays size={18} /></span>
             <span className="den-row__text"><b>{DenCopy.weeklyPaper}</b><span>{week.youSat ? DenCopy.satLine(null) : DenCopy.paperClock}</span></span>
             {week.youSat
               ? (week.yourResultId ? <Link className="mob-key den-row__key" href={resultHref(week.yourResultId)}>{DenCopy.marks}</Link> : null)
@@ -56,46 +56,22 @@ function OpenNow({ data, v3, now, onClose }) {
   );
 }
 
-function FormatTile({ icon, title, sub, selected = false, locked = false, lockWord = null, onClick, disabled = false }) {
-  return (
-    <button type="button" className="den-tile" aria-pressed={onClick ? selected : undefined} onClick={onClick} disabled={disabled || locked}
-      data-selected={selected || undefined} data-locked={locked || undefined}>
-      <span className="den-tile__icon" aria-hidden="true">{icon}</span>
-      {selected ? <Check className="den-tile__check" size={18} aria-hidden="true" /> : null}
-      {locked ? <span className="den-tile__lock">{lockWord ? <span>{lockWord}</span> : null}<Lock size={14} aria-hidden="true" /></span> : null}
-      <b className="den-tile__title">{title}</b>
-      <span className="den-tile__sub">{sub}</span>
-    </button>
-  );
-}
-
-/** P1. Play with your Mob: what is open now, then the four ways to start one. Live or anytime is chosen in the start sheet. */
-export function PlayPicker({ open, onClose, data, v3, now, mobName, onStart, onAsk, onFreePro, proNudges = false, busy }) {
+/**
+ * P1. Play with your Mob: what is open now, then one row into the Start a game sheet, which holds every way to play
+ * (MOB-MINIMAL 3.1: one sheet for starting, never two that both list the formats).
+ */
+export function PlayPicker({ open, onClose, data, v3, now, onStart, onAsk, onFreePro, proNudges = false, busy }) {
   const s = v3.starts || {};
   const billing = Boolean(s.billingOn);
-  const tiles = formatTiles(s);
-  let line = DenCopy.anyoneCanStart;
-  if (billing) {
-    if (s.micFrom && s.mics > 0) line = DenCopy.micPassed(s.micFrom.name);
-    else if (s.via === 'free_weekly' && s.freeLeft > 0) line = DenCopy.startsLeft(mobName, s.freeLeft);
-    else if (!s.can) line = DenCopy.startUsed;
-    else if (s.via === 'pro') line = null;
-  }
   return (
     <MobDialog open={open} onClose={onClose} title={DenCopy.pickerTitle} labelId="den-p1-h">
       <OpenNow data={data} v3={v3} now={now} onClose={onClose} />
-      <section className="den-sheet__section" aria-labelledby="den-p1-start">
-        <h3 id="den-p1-start" className="den-sheet__h">{DenCopy.startAGame}</h3>
-        {line ? <p className="mob-note">{line}</p> : null}
-        <div className="den-tiles den-tiles--four">
-          {tiles.map((t) => (
-            <FormatTile key={t.format} icon={FORMAT_ICON[t.format]} title={FORMAT_TITLE[t.format]} sub={FORMAT_SUB[t.format]} locked={t.locked} lockWord={t.pro ? FORMAT_COPY.proTag : null} onClick={() => onStart({ format: t.format })} />
-          ))}
-        </div>
-        {billing && !s.can && !(s.mics > 0) ? <p className="mob-hint">{DenCopy.anyoneWithPro}</p> : null}
-      </section>
+      <button type="button" className="den-row den-row--button den-row--start" onClick={() => onStart({})}>
+        <span className="den-row__icon den-row__icon--plus" aria-hidden="true"><Plus size={18} /></span>
+        <span className="den-row__text"><b>{DenCopy.startAGame}</b><span>{FORMAT_COPY.startRowSub(formatTiles(s).map((t) => t.format))}</span></span>
+      </button>
       <div className="den-sheet__foot">
-        {billing ? <button type="button" className="mob-key" onClick={onAsk} disabled={busy === 'sticker'}>{DenCopy.askForGame}</button> : null}
+        {billing && !s.can ? <button type="button" className="mob-key" onClick={onAsk} disabled={busy === 'sticker'}>{DenCopy.askForGame}</button> : null}
         {billing && proNudges ? <button type="button" className="mob-link" onClick={onFreePro}>{DenCopy.whatProAdds}</button> : null}
       </div>
     </MobDialog>
@@ -119,30 +95,33 @@ function useChapters(mobId, open) {
 const LENGTHS = [10, 15, 20];
 
 /**
- * P2. Start a game: the one sheet for every way to play (D167, D168). Four tiles (sprint, your own round, a timed race,
- * a full mock together), the one choice each needs (the round's length, the race's minutes), what it covers, and Live or
- * anytime. A full mock is the whole paper and anytime in 24 hours, so it has neither a chapter nor a live room.
- * `preset`: { format, mode, chapter, rematchOf } from the picker or a rematch.
+ * P2. Start a game: the one sheet for every way to play (D167, D168, MOB-MINIMAL 3.2). Top to bottom: Anytime or Live,
+ * the rows (Sprint; Race with 5 or 10 minute chips; Your own round with 10, 15 or 20; Full mock together, "Anytime only"
+ * in Live), what it covers with Change, one key naming the action, the start allowance, and this week's Mob paper.
+ * Every rule comes from the server's `starts` block. `preset`: { format, mode, chapter, rematchOf }.
  */
-export function StartGameSheet({ open, onClose, data, v3, mobName, preset, run, busy, onStarted, onPassMic }) {
+export function StartGameSheet({ open, onClose, data, v3, mobName, preset, run, busy, onStarted, onPassMic, onFreePro, proNudges = false }) {
   const s = v3.starts || {};
   const live = liveOffer(v3);
   const tiles = formatTiles(s);
-  const first = ['round', 'race', 'mock'].includes(preset?.format) ? preset.format : 'sprint';
+  const first = tiles.some((t) => t.format === preset?.format) ? preset.format : 'sprint';
   const [format, setFormat] = useState(first);
   const [count, setCount] = useState(10);
   const [minutes, setMinutes] = useState(5);
-  const [mode, setMode] = useState(preset?.mode === 'live' && live.can ? 'live' : 'async');
+  const [mode, setMode] = useState(preset?.mode === 'live' && live.can && first !== 'mock' ? 'live' : 'async');
   const [chapter, setChapter] = useState(preset?.chapter || '');
   const [choosing, setChoosing] = useState(false);
   const [error, setError] = useState(null);
   const chapters = useChapters(data.id, open && choosing);
   const selectId = useId();
+  const liveModes = (s.modes || []).includes('live');
+  const liveAllowed = live.can && liveModes;
+  const playsLive = mode === 'live' && liveAllowed;
+  // In Live the full mock is dimmed "Anytime only" (an hour-long paper is never one room); picking it goes back to Anytime.
+  const pick = (f) => { setFormat(f); if (f === 'mock') setMode('async'); };
   const mock = format === 'mock';
-  const liveAllowed = !mock && live.can && (s.modes || []).includes('live');
   const tile = tiles.find((t) => t.format === format);
-  // A rematch replays its game whatever the tiles say; otherwise the chosen tile must be startable.
-  const canStart = preset?.rematchOf ? s.can : Boolean(tile?.can);
+  const canStart = preset?.rematchOf ? s.can : Boolean(tile?.can) && !(mock && playsLive);
   const start = async () => {
     setError(null);
     const body = startBody({ format, count, minutes, mode, chapter: mock ? null : chapter, rematchOf: preset?.rematchOf || null, liveAllowed });
@@ -154,74 +133,97 @@ export function StartGameSheet({ open, onClose, data, v3, mobName, preset, run, 
     }
     onStarted?.(r.data?.game);
   };
-  const playsLive = mode === 'live' && liveAllowed;
-  const key = mock ? FORMAT_COPY.openTheMock : playsLive ? DenCopy.openRoom : format === 'race' ? FORMAT_COPY.startTheRace : format === 'round' ? DenCopy.startTheRound : DenCopy.startTheSprint;
-  const how = mock ? FORMAT_COPY.mockHow : format === 'race' ? (playsLive ? FORMAT_COPY.raceLiveHow : FORMAT_COPY.raceHow) : playsLive ? DenCopy.liveLineStart : DenCopy.asyncLineStart;
-  const shortest = format === 'round' ? count : format === 'race' ? 10 : 5;
+  const key = FORMAT_COPY.startKey({ format, count, minutes, live: playsLive });
+  const week = data.week;
+  // The start allowance under the key (billing on), else the line that everyone plays free.
+  let allowance = DenCopy.startUnder(mobName);
+  if (s.billingOn) {
+    if (s.micFrom && s.mics > 0) allowance = DenCopy.micPassed(s.micFrom.name);
+    else if (!s.can) allowance = DenCopy.startUsed;
+    else if (s.via === 'free_weekly' && s.freeLeft > 0) allowance = playsLive ? FORMAT_COPY.usesStart(s.freeLeft) : FORMAT_COPY.startsLeft(s.freeLeft);
+    if (tile?.pro && tile.locked) allowance = DenCopy.anyoneWithPro;
+  }
   return (
     <MobDialog open={open} onClose={onClose} title={DenCopy.startAGame} labelId="den-p2-h">
-      <p className="mob-note den-sheet__sub">{DenCopy.startSub(mobName, data.subjectName)}</p>
-      <div className="den-tiles den-tiles--four" role="group" aria-label={DenCopy.startAGame}>
-        {tiles.map((t) => (
-          <FormatTile key={t.format} icon={FORMAT_ICON[t.format]} title={FORMAT_TITLE[t.format]} sub={FORMAT_SUB[t.format]}
-            selected={format === t.format} locked={t.pro || (Boolean(s.can) && !t.can)} lockWord={t.pro ? FORMAT_COPY.proTag : null} onClick={() => setFormat(t.format)} />
-        ))}
+      <p className="mob-note den-sheet__sub">{FORMAT_COPY.sheetSub(mobName, data.subjectName)}</p>
+      {live.show ? (
+        <div className="den-mode">
+          <div className="den-seg den-seg--mode" role="radiogroup" aria-label={FORMAT_COPY.howTogether}>
+            <button type="button" role="radio" aria-checked={!playsLive} className="den-seg__opt" onClick={() => setMode('async')}>
+              <b>{FORMAT_COPY.anytime}</b><span>{FORMAT_COPY.anytimeTag}</span>
+            </button>
+            <button type="button" role="radio" aria-checked={playsLive} className="den-seg__opt" disabled={!liveAllowed} onClick={() => { setMode('live'); if (mock) setFormat('sprint'); }}>
+              <b>{FORMAT_COPY.live}</b><span>{FORMAT_COPY.liveTag}</span>
+            </button>
+          </div>
+          <p className="mob-note">{playsLive ? FORMAT_COPY.liveHow : FORMAT_COPY.anytimeHow}</p>
+          {!liveModes && s.billingOn ? <p className="mob-hint">{FORMAT_COPY.liveIsPro}</p> : null}
+          {!live.hoursOk ? <p className="mob-hint">{DenCopy.liveHours}</p> : null}
+        </div>
+      ) : <p className="mob-note">{FORMAT_COPY.anytimeHow}</p>}
+      <div className="den-formats" role="radiogroup" aria-label={DenCopy.startAGame}>
+        {tiles.map((t) => {
+          const anytimeOnly = t.format === 'mock' && playsLive;
+          const off = anytimeOnly || t.pro || (Boolean(s.can) && !t.can);
+          const on = format === t.format && !off;
+          return (
+            <div key={t.format} className="den-format" data-on={on || undefined} data-off={off || undefined}>
+              <button type="button" role="radio" aria-checked={on} className="den-format__pick" disabled={off} onClick={() => pick(t.format)}>
+                <span className="den-format__icon" aria-hidden="true">{FORMAT_ICON[t.format]}</span>
+                <span className="den-format__text"><b>{FORMAT_TITLE[t.format]}</b><span>{FORMAT_SUB[t.format]}</span></span>
+                {anytimeOnly ? <span className="den-format__tag">{FORMAT_COPY.anytimeOnly}</span>
+                  : t.pro ? <span className="den-format__tag"><Lock size={12} aria-hidden="true" />{FORMAT_COPY.proTag}</span>
+                    : <span className="den-format__radio" aria-hidden="true" />}
+              </button>
+              {on && t.format === 'race' ? (
+                <div className="den-format__chips" role="radiogroup" aria-label={FORMAT_COPY.howLong}>
+                  {RACE_MINUTES.map((m) => <button key={m} type="button" role="radio" aria-checked={minutes === m} className="den-pill" onClick={() => setMinutes(m)}>{FORMAT_COPY.minutes(m)}</button>)}
+                </div>
+              ) : null}
+              {on && t.format === 'round' ? (
+                <div className="den-format__chips" role="radiogroup" aria-label={DenCopy.lengthLabel(count)}>
+                  {LENGTHS.map((n) => <button key={n} type="button" role="radio" aria-checked={count === n} className="den-pill" aria-label={DenCopy.lengthLabel(n)} onClick={() => setCount(n)}>{n}</button>)}
+                </div>
+              ) : null}
+            </div>
+          );
+        })}
       </div>
-      {format === 'round' ? (
-        <div className="den-stepper den-choice" role="group" aria-label={DenCopy.lengthLabel(count)}>
-          <button type="button" className="mob-icon den-stepper__btn" aria-label={DenCopy.fewerQuestions} disabled={count <= LENGTHS[0]} onClick={() => setCount(LENGTHS[Math.max(0, LENGTHS.indexOf(count) - 1)])}><Minus size={18} aria-hidden="true" /></button>
-          <span className="den-stepper__value" aria-live="polite">{DenCopy.lengthLabel(count)}</span>
-          <button type="button" className="mob-icon den-stepper__btn" aria-label={DenCopy.moreQuestions} disabled={count >= LENGTHS[2]} onClick={() => setCount(LENGTHS[Math.min(2, LENGTHS.indexOf(count) + 1)])}><Plus size={18} aria-hidden="true" /></button>
+      <div className="den-covers den-covers--row">
+        <span className="den-format__icon" aria-hidden="true"><BookOpen size={18} /></span>
+        {mock ? <p className="den-covers__text">{FORMAT_COPY.mockCovers(data.subjectName)}</p>
+          : <p className="den-covers__text">{chapter ? DenCopy.coversChapter(chapter) : DenCopy.coversWhole(data.subjectName)}</p>}
+        {!mock && !choosing ? <button type="button" className="mob-link den-covers__change" onClick={() => setChoosing(true)} aria-label={`${DenCopy.change}: ${DenCopy.whatItCovers}`}>{DenCopy.change}</button> : null}
+      </div>
+      {!mock && choosing ? (
+        <div className="mob-field den-covers__pick">
+          <label className="mob-label" htmlFor={selectId}>{DenCopy.chapterLabel}</label>
+          <select id={selectId} className="mob-input mob-select" value={chapter} disabled={chapters.status === 'idle'} onChange={(e) => { setChapter(e.target.value); setChoosing(false); }}>
+            <option value="">{DenCopy.coversWhole(data.subjectName)}</option>
+            {chapters.chapters.filter((c) => !c.longest || c.longest >= (format === 'round' ? count : format === 'race' ? 10 : 5)).map((c) => <option key={c.chapter} value={c.chapter}>{c.chapter}</option>)}
+          </select>
         </div>
       ) : null}
-      {format === 'race' ? (
-        <div className="den-seg den-choice" role="radiogroup" aria-label={FORMAT_COPY.howLong}>
-          {RACE_MINUTES.map((m) => (
-            <button key={m} type="button" role="radio" aria-checked={minutes === m} className="den-seg__opt" onClick={() => setMinutes(m)}>{FORMAT_COPY.minutes(m)}</button>
-          ))}
-        </div>
-      ) : null}
-      <section className="den-sheet__section" aria-labelledby="den-p2-covers">
-        <h3 id="den-p2-covers" className="den-sheet__h">{DenCopy.whatItCovers}</h3>
-        {mock ? (
-          <p className="den-covers__text">{FORMAT_COPY.mockCovers(data.subjectName)}</p>
-        ) : !choosing ? (
-          <div className="den-covers">
-            <p className="den-covers__text">{chapter ? DenCopy.coversChapter(chapter) : DenCopy.coversWhole(data.subjectName)}</p>
-            <button type="button" className="mob-key" onClick={() => setChoosing(true)}>{DenCopy.change}</button>
-          </div>
-        ) : (
-          <div className="mob-field">
-            <label className="mob-label" htmlFor={selectId}>{DenCopy.chapterLabel}</label>
-            <select id={selectId} className="mob-input mob-select" value={chapter} disabled={chapters.status === 'idle'} onChange={(e) => setChapter(e.target.value)}>
-              <option value="">{DenCopy.coversWhole(data.subjectName)}</option>
-              {chapters.chapters.filter((c) => !c.longest || c.longest >= shortest).map((c) => <option key={c.chapter} value={c.chapter}>{c.chapter}</option>)}
-            </select>
-          </div>
-        )}
-        {chapter && !mock ? <button type="button" className="mob-link" onClick={() => { setChapter(''); setChoosing(false); }}>{DenCopy.useWholeSubject}</button> : null}
-      </section>
-      <section className="den-sheet__section" aria-labelledby="den-p2-how">
-        <h3 id="den-p2-how" className="den-sheet__h">{DenCopy.howMobPlays}</h3>
-        {live.show && !mock ? (
-          <div className="den-seg" role="radiogroup" aria-labelledby="den-p2-how">
-            <button type="button" role="radio" aria-checked={mode === 'live'} className="den-seg__opt" disabled={!liveAllowed} onClick={() => setMode('live')}>{DenCopy.liveNow}</button>
-            <button type="button" role="radio" aria-checked={mode !== 'live'} className="den-seg__opt" onClick={() => setMode('async')}>{DenCopy.anytime24}</button>
-          </div>
-        ) : null}
-        <p className="mob-note">{how}</p>
-        {live.show && !live.hoursOk && !mock ? <p className="mob-hint">{DenCopy.liveHours}</p> : null}
-      </section>
+      <div className="den-sheet__foot den-sheet__foot--key">
+        <button type="button" className="btn-volt md den-sheet__key" onClick={start} disabled={busy === 'game' || !canStart}>{busy === 'game' ? DenCopy.startingGame : key}</button>
+        <p className="mob-hint den-center">{allowance}</p>
+        {s.billingOn && proNudges && onFreePro ? <button type="button" className="mob-link den-center" onClick={onFreePro}>{DenCopy.whatProAdds}</button> : null}
+      </div>
       {s.billingOn && s.via === 'pro' && s.micsToGive > 0 && onPassMic ? (
         <button type="button" className="den-row den-row--button" onClick={onPassMic}>
           <span className="den-row__icon" aria-hidden="true"><Radio size={18} /></span>
           <span className="den-row__text"><b>{DenCopy.passMic}</b><span>{DenCopy.passMicRow(s.micsToGive)}</span></span>
         </button>
       ) : null}
-      <div className="den-sheet__foot den-sheet__foot--key">
-        <button type="button" className="btn-volt md den-sheet__key" onClick={start} disabled={busy === 'game' || !canStart}>{busy === 'game' ? DenCopy.startingGame : key}</button>
-        <p className="mob-hint den-center">{tile?.pro && tile.locked ? DenCopy.anyoneWithPro : DenCopy.startUnder(mobName)}</p>
-      </div>
+      {week && !week.closed ? (
+        <div className="den-row den-row--paper">
+          <span className="den-row__icon" aria-hidden="true"><CalendarDays size={18} /></span>
+          <span className="den-row__text"><b>{DenCopy.weeklyPaper}</b><span>{week.youSat ? DenCopy.satLine(null) : FORMAT_COPY.paperRow(week.paper?.count ?? 10)}</span></span>
+          {week.youSat
+            ? (week.yourResultId ? <Link className="mob-link den-row__link" href={resultHref(week.yourResultId)}>{DenCopy.marks}</Link> : null)
+            : <Link className="mob-link den-row__link" href={paperHref(data)}>{DenCopy.sitIt}</Link>}
+        </div>
+      ) : null}
       <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
     </MobDialog>
   );

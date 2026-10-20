@@ -949,7 +949,7 @@ function TestRunner() {
   const lowTime = timeLeft < 60;
   const isLastBlock = block.endIdx >= questions.length - 1;
   // A Mob paper (/test?mob=1) is the Mob's weekly paper, not Quick practice, whatever the mode in the address says.
-  const attemptLabel = isNtaMode ? 'NTA mode' : searchParams.get('mob') === '1' ? (searchParams.get('game') ? 'Mob full mock' : 'Mob paper') : mode.label;
+  const attemptLabel = isNtaMode ? 'NTA mode' : searchParams.get('mob') === '1' ? 'Mob paper' : mode.label;
   const subjectLabel = displayLabel(subjectId);
 
   const chipStateFor = (qid) => {

@@ -57,8 +57,11 @@ export function createRoomController({ gameId, mobId, members, api, openChannel,
     if (!api.presence) return false;
     posted = st;
     try {
-      await api.presence(gameId, st);
-      if (st !== 'left') dispatch({ type: 'self-presence', st, at: serverNow() });
+      const r = await api.presence(gameId, st);
+      if (st === 'left') return true;
+      // The reply carries the server's roster: take it as the room's truth now (it also covers a missed broadcast).
+      if (Array.isArray(r?.roster)) dispatch({ type: 'roster', roster: r.roster, members: memberIds, at: serverNow() });
+      dispatch({ type: 'self-presence', st, at: serverNow() });
       return true;
     } catch {
       return false;

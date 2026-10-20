@@ -381,7 +381,7 @@ export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings, war
         <OneExtras data={data} canStart={s.can} onStartGame={() => openStart({ format: 'sprint' })} />
       ) : (
         <GameCard state={state} data={data} v3={v3} now={now} busy={mob.busy} sentSticker={sentSticker}
-          onPicker={() => setSheet('picker')} onStartGame={() => (s.billingOn ? setSheet('picker') : openStart({ format: 'sprint' }))}
+          onPicker={() => setSheet('picker')} onStartGame={() => openStart({ format: 'sprint' })}
           onAsk={(el) => sticker('again', null, el)} onSticker={(k, el) => sticker(k, state.game?.id, el)} />
       )}
 
@@ -396,7 +396,7 @@ export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings, war
       ) : null}
       {sheet === 'start' ? (
         <StartGameSheet open onClose={() => setSheet(null)} data={data} v3={v3} mobName={mobName} preset={preset} run={mob.run} busy={mob.busy}
-          onPassMic={() => setSheet('mic')}
+          onPassMic={() => setSheet('mic')} onFreePro={() => setSheet('freepro')} proNudges={proNudges}
           onStarted={(game) => { setSheet(null); if (game?.id) router.push(gameCardHref(game.id)); else mob.load(); }} />
       ) : null}
       {sheet === 'mic' ? <PassMicSheet open onClose={() => setSheet(null)} v3={v3} mobName={mobName} run={mob.run} busy={mob.busy} onPassed={(t) => { setSheet(null); say(t); mob.load(); }} /> : null}

@@ -17,7 +17,8 @@ import { stopwatch, when } from './playModel.mjs';
 
 export const RACE_MINUTES = Object.freeze([5, 10]);
 export const MOCK = Object.freeze({ count: 50, minutes: 60, marks: 250 });
-export const FORMATS = Object.freeze(['sprint', 'round', 'race', 'mock']);
+// The sheet's order (MOB-MINIMAL 3.2): Sprint, Race, Your own round, Full mock together.
+export const FORMATS = Object.freeze(['sprint', 'race', 'round', 'mock']);
 // The race clock turns warm in its last half-minute (no pressure words; the colour only).
 export const RACE_LOW_MS = 30_000;
 // After an answer in a race, how long your option shows right or not before the next question rises.
@@ -38,13 +39,16 @@ export function formatWord(format) {
 
 /**
  * The format tiles of the "Start a game" sheet from the server's `starts` block: which can be started, and which are
- * locked (with billing on, a free member sees the full mock with the Pro tag; nothing here decides a plan).
+ * locked (with billing on, a free member sees the full mock with the Pro tag; nothing here decides a plan). The race
+ * and the full mock show only when the server offers them (MOB_FORMATS_ENABLED) or locks them for a plan, so a server
+ * without them shows today's two tiles and nothing that cannot be played.
  */
 export function formatTiles(starts) {
   const s = starts || {};
   const allowed = new Set(s.formats || []);
   const locked = new Set(s.locked || []);
-  return FORMATS.map((format) => ({
+  const shown = FORMATS.filter((f) => f === 'sprint' || f === 'round' || allowed.has(f) || locked.has(f));
+  return shown.map((format) => ({
     format,
     can: Boolean(s.can) && allowed.has(format) && !locked.has(format),
     locked: locked.has(format) || !s.can || !allowed.has(format),
@@ -119,8 +123,11 @@ export function raceWindow(furthest, pool) {
   return Math.min(cap, need);
 }
 
-/** Which numbers on a race ruler of `n` carry a label: 1, every 5th, and the one you are on. */
-export const raceLabelled = (k, n, here) => n <= 12 || k === 1 || k % 5 === 0 || k === here;
+/**
+ * Which numbers on a race ruler of `n` carry a label: all up to 12, then 1, every 5th and yours, and past 20 every
+ * 10th (a 390 px ruler of 30 has no room for 2-digit labels every fifth). The rest are dots.
+ */
+export const raceLabelled = (k, n, here) => n <= 12 || k === 1 || k === here || k % (n > 20 ? 10 : 5) === 0;
 
 /**
  * The racers on a race's ruler: you plus every ghost, each over the question it is on (answered + 1), stopping at its
@@ -168,24 +175,46 @@ const theirs = (g) => (!g?.host || g.host.you || (g.youId && g.host.memberId ===
 const what = (g) => g?.chapter || g?.subjectName || 'your subject';
 
 export const FORMAT_COPY = Object.freeze({
-  // The sheet's tiles: what each way to play is, in a line.
+  // The Start a game sheet (MOB-MINIMAL 3.2): what each way to play is, in a line.
   sprint: 'Sprint',
-  sprintSub: '5 questions, raced question by question',
+  sprintSub: '5 questions · about 5 minutes',
   round: 'Your own round',
   roundSub: '10, 15 or 20 questions',
-  race: 'Timed race',
-  raceSub: '5 or 10 minutes. As many as you can.',
+  race: 'Race',
+  raceSub: 'As many as you can in 5 or 10 minutes',
   mock: 'Full mock together',
-  mockSub: 'The full paper. Everyone sits it within 24 hours.',
-  // The sheet's choices under the tiles.
+  mockSub: 'The whole paper, in 24 hours',
+  sheetSub: (mob, subject) => `${mob} · ${subject}`,
+  howTogether: 'How your Mob plays it',
+  anytime: 'Anytime',
+  anytimeTag: '24 hours',
+  live: 'Live',
+  liveTag: 'together now',
+  anytimeHow: 'Open for 24 hours. Everyone races the runs that came before theirs.',
+  liveHow: 'Everyone starts together on 3, 2, 1. Anyone who misses it can play it later.',
+  liveIsPro: 'Live rooms are part of Pro. You can start this game to play any time in the next 24 hours.',
+  anytimeOnly: 'Anytime only',
   howLong: 'How long',
   minutes: (m) => `${m} minutes`,
-  raceHow: 'Everyone gets the same clock. Friends who play later race your run as a ghost.',
-  raceLiveHow: 'Live starts everyone on one 3, 2, 1, with the same clock. Anyone who misses it can race the runs for 24 hours.',
-  mockHow: `Everyone sits the full paper, ${MOCK.count} questions in ${MOCK.minutes} minutes, any time in the next 24 hours. Then you compare full mark sheets.`,
   mockCovers: (subject) => `The whole of ${subject}, like the real paper`,
-  startTheRace: 'Start the race',
-  openTheMock: 'Open the full mock',
+  /** The one key, naming the action: "Start the race", "Open the room for a 10-minute race". */
+  startKey: ({ format, count = 10, minutes = 5, live = false }) => {
+    if (format === 'mock') return 'Start the full mock';
+    if (!live) return `Start the ${format === 'race' ? 'race' : format === 'round' ? 'round' : 'sprint'}`;
+    if (format === 'race') return `Open the room for a ${minutes}-minute race`;
+    if (format === 'round') return `Open the room for a ${count}-question round`;
+    return 'Open the room for a sprint';
+  },
+  startsLeft: (n) => `${n === 1 ? '1 start' : `${n} starts`} left this week. Everyone plays free.`,
+  usesStart: (n) => `Uses ${n === 1 ? 'your 1 start' : `1 of your ${n} starts`} this week. Everyone plays free.`,
+  paperRow: (n) => `Already open · ${n} questions`,
+  /** The picker's one row into the sheet: the ways the server offers, named. */
+  startRowSub: (formats) => {
+    const words = { sprint: 'sprint', race: 'race', round: 'round', mock: 'full mock' };
+    const list = ['sprint', 'race', 'round', 'mock'].filter((f) => (formats || []).includes(f)).map((f) => words[f]);
+    const text = list.length <= 1 ? (list[0] || 'sprint') : `${list.slice(0, -1).join(', ')} or ${list[list.length - 1]}`;
+    return text.charAt(0).toUpperCase() + text.slice(1);
+  },
   proTag: 'Pro',
 
   // The game card and the den's rows.
@@ -212,7 +241,7 @@ export const FORMAT_COPY = Object.freeze({
   ofMarks: (of) => `of ${of}`,
   yourResult: 'Your result',
   resultRowTitle: "Your Mob's full mock",
-  resultRowLine: 'Your mark sheet sits beside your friends' on the podium. Places can change until the paper closes.',
+  resultRowLine: "Your mark sheet sits beside your friends' on the podium. Places can change until the paper closes.",
   /** Finished sittings only, names and times (F2): nobody who has not sat it is named or counted. Null with none. */
   satSoFar: (runs, now) => {
     const done = (runs || []).filter((r) => r.finished !== false);
@@ -223,6 +252,8 @@ export const FORMAT_COPY = Object.freeze({
   // The race run.
   getSet: 'Get set',
   questionN: (n) => `Question ${n}`,
+  // A race's ruler has no last number: "Riya is on question 9", "You are on question 3".
+  rulerAt: (name, q) => `${name === 'You' ? 'You are' : `${name} is`} on question ${q}`,
   timeLeft: (mmss) => `Time left, ${mmss}`,
   raceDone: (n, m) => (n === 0 ? `No answers in ${m} minutes.` : n === 1 ? `You answered 1 question in ${m} minutes.` : `You answered ${n} in ${m} minutes.`),
   raceAll: (n) => `You answered all ${n}.`,

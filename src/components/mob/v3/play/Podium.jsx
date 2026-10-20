@@ -200,7 +200,7 @@ function MarkSheets({ sheets, shown, closesAt, now }) {
                   <table className="mp-sheet__sections" aria-label={FORMAT_COPY.sectionsLabel(sh.you ? 'Your marks' : sh.name)}>
                     <tbody>
                       {sh.sections.map((sec) => (
-                        <tr key={sec.key}><th scope="row">{sec.label}</th><td>{FORMAT_COPY.outOf(sec.marks, sec.of)}</td></tr>
+                        <tr key={sec.key}><th scope="row">{sec.label}</th><td>{FORMAT_COPY.outOf(sec.marks, sec.of * 5)}</td></tr>
                       ))}
                     </tbody>
                   </table>

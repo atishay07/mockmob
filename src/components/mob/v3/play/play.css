@@ -426,7 +426,7 @@ html[data-theme='light'] .mp-clock--left.is-low { color: #a8570c; border-color: 
 .mp-sheet__meta { display: flex; flex-wrap: wrap; gap: 4px 12px; margin: 0; font-size: 12.5px; color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 .mp-sheet__sections { width: 100%; margin-top: 4px; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
 .mp-sheet__sections th { padding: 4px 0; text-align: left; font-weight: 600; color: var(--a-ink-2); }
-.mp-sheet__sections td { padding: 4px 0; text-align: right; color: var(--a-ink); }
+.mp-sheet__sections td { padding: 4px 0 4px 8px; text-align: right; color: var(--a-ink); white-space: nowrap; }
 .mp-sheet__sections tr + tr { border-top: 1px solid var(--a-line); }
 .mp-pod.is-done .mp-sheet, .mp-pod.is-skipped .mp-sheet { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {

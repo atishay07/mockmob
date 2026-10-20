@@ -44,8 +44,8 @@ const raceGhost = (memberId, name, colour, fold, every, minutes) => {
 };
 // A full mock's mark sheets (the server's podium "sheets"): marks of 250, counts, accuracy, time and sections.
 const MOCK_SHEETS = [
-  { memberId: 'member-2', name: 'Riya', colour: 3, fold: 'kandil', you: false, private: false, marks: 182, of: 250, right: 38, wrong: 8, skipped: 4, accuracy: 83, timeMs: 54 * 60_000, sections: [{ key: 'a', label: 'Section A', of: 125, marks: 96, right: 20, wrong: 4, skipped: 1 }, { key: 'b', label: 'Section B', of: 125, marks: 86, right: 18, wrong: 4, skipped: 3 }] },
-  { memberId: 'member-3', name: 'Aarav', colour: 1, fold: 'dart', you: true, private: false, marks: 163, of: 250, right: 34, wrong: 7, skipped: 9, accuracy: 83, timeMs: 58 * 60_000, sections: [{ key: 'a', label: 'Section A', of: 125, marks: 88, right: 18, wrong: 2, skipped: 5 }, { key: 'b', label: 'Section B', of: 125, marks: 75, right: 16, wrong: 5, skipped: 4 }] },
+  { memberId: 'member-2', name: 'Riya', colour: 3, fold: 'kandil', you: false, private: false, marks: 182, of: 250, right: 38, wrong: 8, skipped: 4, accuracy: 83, timeMs: 54 * 60_000, sections: [{ key: 'unit_5', label: 'Analysis of Financial Statements', of: 34, marks: 125, right: 26, wrong: 5, skipped: 3 }, { key: 'unit_1', label: 'Reconstitution of a Partnership firm', of: 16, marks: 57, right: 12, wrong: 3, skipped: 1 }] },
+  { memberId: 'member-3', name: 'Aarav', colour: 1, fold: 'dart', you: true, private: false, marks: 163, of: 250, right: 34, wrong: 7, skipped: 9, accuracy: 83, timeMs: 58 * 60_000, sections: [{ key: 'unit_5', label: 'Analysis of Financial Statements', of: 34, marks: 110, right: 23, wrong: 5, skipped: 6 }, { key: 'unit_1', label: 'Reconstitution of a Partnership firm', of: 16, marks: 53, right: 11, wrong: 2, skipped: 3 }] },
   { memberId: 'member-1', name: 'Kabir', colour: 1, fold: 'hexa', you: false, private: true, marks: null, of: 250, right: null, wrong: null, skipped: null, accuracy: null, timeMs: null, sections: null },
 ];
 // The preview's own answer key (the fixtures' bank is illustrative). The page never sees it before close.
