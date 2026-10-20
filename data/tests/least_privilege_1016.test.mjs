@@ -24,6 +24,8 @@ const UNDOS = [
 ];
 
 // ------------------------------------------------------------------ the caller audit, kept as a guard
+// The one browser file allowed to use Realtime (see the two tests below).
+const LIVE_CHANNEL = 'components/mob/v3/live/liveChannel.js';
 
 function walk(dir, out = []) {
   for (const name of readdirSync(dir)) {
@@ -43,9 +45,22 @@ test('no browser-side code reads or writes a table, calls an rpc, or uses storag
   for (const f of browserFiles) {
     const text = readFileSync(f, 'utf8');
     if (!/supabase/i.test(text) && !/createBrowserClient/.test(text)) continue;
-    if (/\b(supabase|sb|client)\s*\.\s*(from|rpc|storage|channel)\s*\(/.test(text) || /\.realtime\b/.test(text)) offenders.push(relative(decodeURIComponent(srcDir), f));
+    const name = relative(decodeURIComponent(srcDir), f).split(String.fromCharCode(92)).join('/');
+    // The one audited exception (Mob v3 live rooms, spec 4.2): a PRIVATE Realtime channel the room's RLS policy lets in
+    // only after the API issued a ticket. It may use .channel and .realtime and nothing else; it is checked below.
+    if (name === LIVE_CHANNEL) continue;
+    if (/\b(supabase|sb|client)\s*\.\s*(from|rpc|storage|channel)\s*\(/.test(text) || /\.realtime\b/.test(text)) offenders.push(name);
   }
   assert.deepEqual(offenders, [], 'client code must only call supabase.auth.*');
+});
+
+// Mob v3 live rooms (web/1020-web-live-client) listen on a private Realtime channel; that is the only browser use of the
+// public key beyond auth. It never reads or writes a table, calls an rpc or uses storage, and the channel is private.
+test('the live room channel is the one browser file that uses Realtime: private channel only, no table, rpc or storage', () => {
+  const text = read('src/' + LIVE_CHANNEL);
+  assert.match(text, /private:\s*true/, 'the channel is private (the RLS policy decides who may join)');
+  assert.doesNotMatch(text, /\.\s*(from|rpc|storage)\s*\(/, 'no table, rpc or storage call');
+  assert.doesNotMatch(text, /broadcast\s*\(|\.send\s*\(/, 'the page listens; it never broadcasts');
 });
 
 test('the browser client module and its two callers use only supabase.auth.*', () => {
