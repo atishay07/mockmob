@@ -78,11 +78,24 @@ export function arenaHomePath({ needsOnboarding } = {}) {
   return needsOnboarding ? '/onboarding' : '/today';
 }
 
-/** Where a signed-in student goes: onboarding first, then the saved page, then the arena's front door. */
+/** A friend's Mob invite (/join/<code>): the one saved page that survives a new account's onboarding. */
+export const isInvitePath = (path) => typeof path === 'string' && /^\/join\/[0-9A-Za-z%-]{4,24}(?:[?#]|$)/.test(path);
+
+/**
+ * Where a signed-in student goes: onboarding first, then the saved page, then the arena's front door. A friend's invite is
+ * the exception: a new student who signed up from it opens it first (the Fold and the seat are the reason they came), and
+ * onboarding follows from Today.
+ */
 export function postSignInPath({ needsOnboarding, store, now } = {}) {
   const next = takeNextPath({ store, now });
-  if (needsOnboarding) return arenaHomePath({ needsOnboarding });
+  if (needsOnboarding) return isInvitePath(next) ? next : arenaHomePath({ needsOnboarding });
   return next || arenaHomePath({ needsOnboarding });
+}
+
+/** `/signup?next=<current page>`: the invite page's first key, so a new student lands back on the invite after the account exists. */
+export function signupPathFor(currentPath) {
+  const next = safeNextPath(currentPath);
+  return next && next !== '/dashboard' ? `/signup?next=${encodeURIComponent(next)}` : '/signup';
 }
 
 /** `/login?next=<current page>` for a gate that found no session. */

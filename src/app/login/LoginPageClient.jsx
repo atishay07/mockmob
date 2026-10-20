@@ -8,7 +8,7 @@ import { SignupCard } from '@/components/ui/SignupCard';
 import { useAuth } from '@/components/AuthProvider';
 import { postSignInPath } from '@/lib/auth-redirect';
 
-export default function LoginPageClient() {
+export default function LoginPageClient({ invite = false }) {
   const router = useRouter();
   const { status, needsOnboarding } = useAuth();
   const destinationRef = useRef(null);
@@ -30,9 +30,13 @@ export default function LoginPageClient() {
 
   return (
     <AuthShell
-      title="Your next chapter is waiting."
-      lead="Open your recorded mocks, saved questions and next practice step."
-      points={[
+      title={invite ? 'Sign in to take your seat.' : 'Your next chapter is waiting.'}
+      lead={invite ? 'Your friend saved you a seat in a Mob. Sign in, and you come straight back to the invite to pick your Fold.' : 'Open your recorded mocks, saved questions and next practice step.'}
+      points={invite ? [
+        'Joining a Mob is free',
+        'Only your Mob sees your name',
+        'You can leave a Mob any time',
+      ] : [
         'Today opens on your next step, worked out from your own papers',
         'Your mocks, mistakes and repairs stay with your account',
         'You stay signed in on this device until you sign out',
