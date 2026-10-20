@@ -779,3 +779,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > About the gamification rule that we have been following throughout this app, this Mockmob section, as I said before, also can be a lot more gamified than other sections, which is not an issue. I am not telling you to exactly do something else right now or find a solution to anything. You can just note this, and if you can think of something creative or find some solution to making all this more useful, then let me know."
 **Ledger K10 (note, not an order):** a study-time app his whole class used (focus lock, tracked or logged study time, healthy competition) was simple and loved. The Mob can be more gamified than the rest of the app. Bring him creative ideas in this spirit; do not build without his yes.
+
+## Owner, 20 Oct about 2:22 pm IST (verbatim)
+> "yes, show Mob hours in the mock-ups"
+**Ledger D171:** include "Mob hours" (automatic, opt-in weekly study clock from real MockMob practice; one den line, a Mob bar, a weekly crown on the pennant, a Fold at the desk when a friend is studying now) in the minimal-Mob mock-ups for his judgement; not built until he approves.
