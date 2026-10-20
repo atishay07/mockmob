@@ -746,3 +746,6 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 20 Oct about 1:18 pm IST (verbatim answer)
 - Mob explainer prototype: "Yes, build it (Recommended)"
 **Ledger D166:** build the 7-slide Mob explainer and the one-question-per-screen setup (docs/design-decisions/pass-1020/mob-explainer) in the app (version 14) and on the website.
+
+## Owner, 20 Oct about 1:58 pm IST (verbatim)
+> "you can continue now"
