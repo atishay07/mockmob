@@ -33,8 +33,9 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     effectiveUser?.subscriptionStatus === 'active' ||
     effectiveUser?.isPremium === true;
 
-  // One read of the attempts for the whole context: the shared plan below reads the same ones.
-  const attemptsMemo = new Map();
+  // One read of the attempts for the whole context: the shared plan below reads the same ones, and so does the caller's own record
+  // read when it passes its memo (Ask Mobi's chat route, which has already read them for the free answers).
+  const attemptsMemo = options.memo instanceof Map ? options.memo : new Map();
   // Pull data in parallel; each branch swallows its own errors.
   const [
     attempts,
@@ -43,7 +44,10 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     usageSnapshot,
   ] = await Promise.all([
     // A Mob paper still open for the Mob is not in the model's context until it closes (src/lib/mob/paperHold.mjs).
-    Database.getAttempts(userId, { memo: attemptsMemo }).then((rows) => openAttemptsOnly(rows)).catch(() => []),
+    // 'insights_strict' (egress, 20 Oct 2026): every summary below reads marks, counts, subject and time, the standing reads each
+    // question's chapter and difficulty, and the plan its concept; nothing reads a stem, an option or an answer key, so the database
+    // sends about a tenth of each row (a student's whole history was 525 KB for 15 papers; a chatty tester was the largest reader).
+    Database.getAttempts(userId, { memo: attemptsMemo, slim: 'insights_strict' }).then((rows) => openAttemptsOnly(rows)).catch(() => []),
     // Only the columns the summaries below read (egress A12): progress counts and dwell, and the newest save's time. The votes read
     // that used to sit here was never used by anything, so it is gone.
     safeSelect('user_question_progress', userId, 500, PROGRESS_COLUMNS),

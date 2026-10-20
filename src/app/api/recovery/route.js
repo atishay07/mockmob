@@ -11,10 +11,14 @@ import { sourceLabels } from '@/components/recovery/repairRun.js';
 export async function GET(request) {
   const session=await auth(request);
   if(!session?.user)return Response.json({error:'Unauthorized'},{status:401});
-  // The record reads every attempt and the current copy of every question in them: the heaviest free read.
+  // The record reads every attempt and a verdict on every question in them. Egress, 20 Oct 2026: the attempts come through the 'record'
+  // profile (ids, concept, family, chapter and the evidence's content hash of each question, never its stem, options or key: about a
+  // tenth of a row), and the verdicts through a per-question cache (data/evidence_verdicts.js) that costs a stamp, not a 35 KB row, once warm.
+  // The response keeps its 'attempts' field, now carrying those lean attempts: neither the app (recovery_record.dart reads progress and
+  // playbook only) nor the website (RecoveryOverview reads ordinaryReview, progress, playbook and note) reads a question out of it.
   if(!(await checkPersistentRateLimit(request,{route:'/api/recovery:get',limit:40,keyParts:[session.user.id],fallback:'memory'})).allowed)return Response.json({error:'Too many requests'},{status:429,headers:{'Cache-Control':'no-store','Retry-After':'30'}});
   const memo=new Map(); // the learning record below reads the same attempts
-  const allAttempts=await Database.getAttempts(session.user.id,{memo});
+  const allAttempts=await Database.getAttempts(session.user.id,{memo,slim:'record'});
   // F17: each session names its paper ("Mock 3") and how many of its wrong answers already hold a saved repair; a failed read
   // leaves the count at zero (the list still loads) rather than failing the record.
   const repairedBy=await getRepairedCounts(supabaseAdmin(),session.user.id,allAttempts).catch(()=>({}));

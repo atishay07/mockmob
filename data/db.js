@@ -25,8 +25,8 @@ import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_re
 import { assertFullBankRead } from './full_bank_guard';
 import { selectPracticeQuestions } from './practice_pick';
 import { createPracticeSource, isMissingPhase1VoteSchema } from './practice_source';
-import { attemptMemoKeyFor, memoisedAttempts, readAttemptRows } from './attempt_reads';
-import { readAttemptQuestionIds } from './attempt_question_ids';
+import { attemptMemoKeyFor, attemptMemoTake, memoisedAttempts, readAttemptRows } from './attempt_reads';
+import { readAttemptQuestionIds, readExposedIds } from './attempt_question_ids';
 import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
 import { retiredSubjectsIn, withoutRetiredSubjects } from './subject_claim';
@@ -1607,15 +1607,26 @@ export const Database = {
   // =====================================================================
   /**
    * Every attempt of one student, newest first. `columns` (attempts column names) and `limit` (newest N) narrow the read;
-   * `memo` (one Map per request) makes a second read of the same shape free; `slim` reads a reduced snapshot through a
-   * database function. See data/attempt_reads.js. Without options
+   * `memo` (one Map per request) makes a second read of the same shape (or of a subset of it) free; `slim` reads a reduced
+   * snapshot through a database function. See data/attempt_reads.js. Without options
    * this is the old full read.
    */
   async getAttempts(userId, { columns, limit, memo, slim } = {}) {
     if (!userId) throw new Error('attempt_owner_required');
-    // `slim` ('summary' | 'plan' | 'history'): a database function reduces the snapshot before it is shipped (data/attempt_reads.js).
+    // `slim` ('summary' | 'plan' | 'record' | 'insights' | 'insights_strict' | 'history' | 'review'): a database function reduces the snapshot before it is shipped (data/attempt_reads.js).
     const load = async () => (await readAttemptRows(supabaseAdmin(), userId, { columns, limit, slim })).map(attemptOut);
-    return memoisedAttempts(memo, attemptMemoKeyFor(memo, userId, { columns, limit, slim }), load);
+    const key = attemptMemoKeyFor(memo, userId, { columns, limit, slim });
+    return memoisedAttempts(memo, key, load, { take: attemptMemoTake(key, { userId, columns, limit, slim }) });
+  },
+
+  /**
+   * Every question id and family id the student has met, for the "fresh questions only" starts (a recovery start from a paper, a
+   * mistake replay, a new learning episode): { questionIds, familyIds }. Only the ids are read (database function
+   * attempt_question_ids); where it is not applied the snapshots are read as before.
+   */
+  async getAttemptExposures(userId) {
+    if (!userId) throw new Error('attempt_owner_required');
+    return readExposedIds(supabaseAdmin(), { userId, readSnapshots: async () => (await Database.getAttempts(userId, { columns: ['questions_snapshot'] })).flatMap((a) => a.questionsSnapshot || []) });
   },
 
   async getAttemptById(id) {

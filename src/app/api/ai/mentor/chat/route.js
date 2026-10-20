@@ -80,17 +80,26 @@ export async function POST(request) {
   // 1. Questions about the student's own record are answered from the record: free, instant, no model.
   let insights = null;
   let attempts = null;
+  // One memo for the whole message (egress, 20 Oct 2026): the record read below, the model's context and the plan inside it share ONE
+  // read of the attempts. The record needs only each question's chapter and difficulty ('insights_strict'); the free Tonight pack
+  // also reads options and keys, so only that path reads the heavier 'history' profile (the newest 60, which is all it ever used).
+  const attemptsMemo = new Map();
+  const wantsTonight = !threadId && (payload.replyKind === 'tonight' || (!doubt && asksTonight(message)));
   try {
     if(!studyLesson && !questionContext) {
-      // A Mob paper still open for the Mob is not in Mobi's record until it closes (src/lib/mob/paperHold.mjs).
-      attempts = openAttemptsOnly(await Database.getAttempts(userId, { limit: 60, slim: 'history' })) // 'history': the lean rows keep the keys and the Mob tag the record answers and the tonight pack read;
+      // A Mob paper still open for the Mob is not in Mobi's record until it closes (src/lib/mob/paperHold.mjs). The newest 60 are taken
+      // before the hold filter, as the read with limit 60 always did.
+      const newest = wantsTonight
+        ? await Database.getAttempts(userId, { limit: 60, slim: 'history', memo: attemptsMemo }) // 'history': keeps the keys and the Mob tag the tonight pack reads
+        : (await Database.getAttempts(userId, { slim: 'insights_strict', memo: attemptsMemo })).slice(0, 60); // the model path then reuses this read
+      attempts = openAttemptsOnly(newest);
       insights = computePrepOSInsights(attempts, { subjectNames: SUBJECT_NAMES });
     }
   } catch { /* the record is unavailable; fall through to the plan or model path */ }
 
   // "What should I revise tonight?" is free (C-dec 3 item 2): the rules from the student's own repairs, the traps that catch
   // them, the chapters that cost most and the Revise cards due. No model, no credit. The old app's text is caught too.
-  if (!studyLesson && !questionContext && !threadId && (payload.replyKind === 'tonight' || (!doubt && asksTonight(message)))) {
+  if (!studyLesson && !questionContext && wantsTonight) {
     let pack;
     try { pack = await readTonight({ userId, attempts: attempts || [], insights }); }
     catch { pack = null; }
@@ -109,7 +118,7 @@ export async function POST(request) {
   }
 
   // Lesson help needs current teaching, not the student's unrelated record or personal details.
-  const context = studyLesson || questionContext ? {exam:'CUET',contextVersion:1} : await getStudentAIContext({ user: dbUser });
+  const context = studyLesson || questionContext ? {exam:'CUET',contextVersion:1} : await getStudentAIContext({ user: dbUser, options: { memo: attemptsMemo } });
   // The explicit free-record surface can never fall through to a billed model.
   if (payload.replyKind === 'record') {
     const next=context.sharedPlan?.primary;

@@ -129,9 +129,8 @@ export async function startEpisode(userId, input) {
   const p = (await releasedPathways()).find(p => p.id === input.conceptId);
   if (!p) throw new Error('PATHWAY_AWAITING_SOURCES_AND_CALIBRATION');
   // Legacy attempts are exposures too; server scoring is not required to have seen a family.
-  const history = await Database.getAttempts(userId, { columns: ['questions_snapshot'] }); // only the snapshots are read below
-  const seen = history.flatMap(a => a.questionsSnapshot || []);
-  const e = createEpisode(p, { id: randomUUID(), at: Date.now(), seenIds: seen.map(q => q.id), seenFamilies: seen.map(q => q.familyId).filter(Boolean) });
+  const seen = await Database.getAttemptExposures(userId); // the ids only (egress A9), not every paper whole
+  const e = createEpisode(p, { id: randomUUID(), at: Date.now(), seenIds: seen.questionIds, seenFamilies: seen.familyIds });
   const user = await Database.getUserById(userId);
   const { data, error: startError } = await db.rpc('start_learning_episode', { p_row: { id: e.id, user_id: userId, request_key: input.requestKey, concept_id: p.id, pathway: p, projection: e }, p_free_period: user?.isPremium ? null : allowancePeriod('weekly_episode', Date.now()) });
   if (startError) throw new Error(/weekly/.test(startError.message) ? 'WEEKLY_ALLOWANCE_USED' : /fresh/.test(startError.message) ? 'INSUFFICIENT_FRESH_CONTENT' : 'EPISODE_CREATE_FAILED');

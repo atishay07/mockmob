@@ -4,7 +4,12 @@
 // Counting reads every visible question (about 33 MB a run on 20 Oct 2026, 23.6 MB of it the signed evidence records) and the bank
 // changes only when the owner asks for content. The count is a pure function of:
 //   (1) the questions rows           every UPDATE bumps questions.updated_at (trigger trg_questions_updated_at, BEFORE UPDATE FOR EACH
-//                                    ROW, migration 0005) and an INSERT carries now() (questions.updated_at NOT NULL DEFAULT now());
+//                                    ROW, migration 0005) and an INSERT carries now() (questions.updated_at NOT NULL DEFAULT now()).
+//                                    A student's vote is an UPDATE too (upvotes, downvotes, score), and the count reads none of those
+//                                    but a floor on score, so a touched row alone does not force a recount: public.inventory_content_digest()
+//                                    (migration 20261020160000, when applied) is a digest of the 22 columns the count reads, stored beside
+//                                    the last full count; touched rows with an unchanged digest are a skip. Without the function, or on any
+//                                    error, a touched row is a recount as before;
 //   (2) the recovery_family_holds rows   (family_id)
 //   (3) deploy files                 data/calibration_manifest.json and data/source_registry.json (sharedEligibilitySnapshot)
 //   (4) the counting code            INVENTORY_LOGIC_VERSION below; data/tests/inventory_fingerprint.test.mjs pins a hash of the source
@@ -21,6 +26,9 @@ import { sharedEligibilitySnapshot } from './evidence_registry.js';
 /** Bump when any source file of the count changes (the pin test names which). */
 export const INVENTORY_LOGIC_VERSION = 'inventory-logic-1';
 export const FINGERPRINT_VERSION = 1;
+/** The database function that digests the columns the count reads (migration 20261020160000). */
+export const CONTENT_DIGEST_FUNCTION = 'inventory_content_digest';
+
 /** Margin before the previous read: a late-committing transaction carries an older now(), and Vercel's clock is not Postgres's. */
 export const SAFETY_MARGIN_MS = 15 * 60 * 1000;
 /** A full recount at least this often, as a backstop for writers that bypass triggers. */
@@ -71,6 +79,15 @@ async function headCount(query) {
 }
 
 /** The cheap probes: head counts (no body) and the holds ids. `since` (ms) adds the "touched since" count. Throws on any error. */
+/** The digest of everything the count reads from questions (one md5 text), or null when the function is missing or fails. Never throws. */
+export async function readContentDigest(db) {
+  if (typeof db?.rpc !== 'function') return null;
+  try {
+    const { data, error } = await db.rpc(CONTENT_DIGEST_FUNCTION);
+    return !error && typeof data === 'string' && /^[0-9a-f]{32}$/.test(data) ? data : null;
+  } catch { return null; }
+}
+
 export async function readProbes(db, { since = null } = {}) {
   const head = () => db.from('questions').select('id', { count: 'exact', head: true });
   const [candidateCount, totalRows, touched, holds] = await Promise.all([
@@ -96,7 +113,7 @@ const isFingerprint = (f) => f && f.v === FINGERPRINT_VERSION && Number.isFinite
   && Number.isInteger(f.totalRows) && typeof f.holdsHash === 'string' && typeof f.deployHash === 'string';
 
 /** Why the full count must run, or null when the stored count is still exact. */
-export function recountReason({ stored, probes, deploy, now }) {
+export function recountReason({ stored, probes, deploy, now, contentDigest = null }) {
   const prev = stored?.value?.fingerprint;
   if (!stored?.value || stored.value.state !== 'available') return 'no_stored_count';
   if (!isFingerprint(prev)) return 'no_fingerprint';
@@ -106,7 +123,8 @@ export function recountReason({ stored, probes, deploy, now }) {
   if (probes.candidateCount !== prev.candidateCount) return 'visible_set_changed';
   if (probes.totalRows !== prev.totalRows) return 'row_count_changed';
   if (probes.holdsHash !== prev.holdsHash) return 'holds_changed';
-  if (probes.touched !== 0) return 'rows_touched';
+  // A touched row is not a changed count: equal digests of the counted columns (see (1) above) are a skip, anything else a recount.
+  if (probes.touched !== 0 && !(typeof prev.contentDigest === 'string' && prev.contentDigest === contentDigest)) return 'rows_touched';
   if (prev.minExpiresAt !== null && prev.minExpiresAt !== undefined && now >= prev.minExpiresAt) return 'evidence_expired';
   if (!(now - prev.fullCountAt < FORCED_RECOUNT_MS) || now < prev.fullCountAt) return 'forced_recount';
   return null;
@@ -132,7 +150,14 @@ export async function refreshInventory(db, { now = Date.now, env = process.env, 
   const deploy = deployHash('snapshot' in rest ? { env, snapshot: rest.snapshot } : { env });
   let probes = null;
   try { probes = await readProbes(db, { since: isFingerprint(prev) ? prev.readAt : null }); } catch { probes = null; }
-  const reason = recountReason({ stored, probes, deploy, now: startedAt });
+  let reason = recountReason({ stored, probes, deploy, now: startedAt });
+  // Rows were touched and nothing else changed: ask the database whether the columns the count reads moved (a vote moves updated_at
+  // and nothing the count reads). Read before any row, so a change during the read shows next run.
+  let digest = null;
+  if (reason === 'rows_touched') {
+    digest = await readContentDigest(db);
+    if (digest) reason = recountReason({ stored, probes, deploy, now: startedAt, contentDigest: digest });
+  }
 
   const store = async (value) => {
     const { error } = await db.from('public_inventory_snapshot').upsert({ id: 'current', value, computed_at: value.checkedAt }).then((r) => r, (e) => ({ error: e }));
@@ -143,17 +168,19 @@ export async function refreshInventory(db, { now = Date.now, env = process.env, 
     const checkedAt = new Date(now()).toISOString();
     const value = { ...stored.value, checkedAt, fingerprint: { ...prev, readAt: startedAt } };
     await store(value);
-    log(`[inventory] skipped, unchanged (${probes.candidateCount} visible rows, full count of ${new Date(prev.fullCountAt).toISOString()}); no question rows read`);
+    log(`[inventory] skipped, unchanged (${probes.candidateCount} visible rows, full count of ${new Date(prev.fullCountAt).toISOString()}${probes.touched ? `; ${probes.touched} rows touched, counted columns equal` : ''}); no question rows read`);
     return { value: withoutFingerprint(value), skipped: true, reason: null };
   }
 
   // The probes before the read: a row that changes while the pages are read shows up as `touched` or a count difference next run.
+  if (probes && deploy && digest === null) digest = await readContentDigest(db);
   const rows = await readInventoryRows(db);
   const counted = await countInventory(rows, db);
   const fullCountAt = now();
   const fingerprint = probes && deploy ? {
     v: FINGERPRINT_VERSION, readAt: startedAt, fullCountAt, candidateCount: probes.candidateCount, totalRows: probes.totalRows, holdsHash: probes.holdsHash, deployHash: deploy,
     minExpiresAt: minFutureExpiry(rows, fullCountAt),
+    ...(digest ? { contentDigest: digest } : {}),
   } : undefined;
   const value = fingerprint ? { ...counted, fingerprint } : counted;
   await store(value);

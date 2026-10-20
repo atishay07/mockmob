@@ -1,6 +1,6 @@
 import { auth } from '@/lib/auth';
 import { Database } from '@/../data/db';
-import { missedChapters, replayExposures } from '@/../data/mistake_replay';
+import { missedChapters } from '@/../data/mistake_replay';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
 import { LAUNCH_SUBJECTS } from '@/../shared/recoveryContract';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
@@ -22,7 +22,8 @@ export async function GET(request) {
     if(!attempt || attempt.userId!==session.user.id || isHeld(attempt))return Response.json({error:'Attempt not found'},{status:404,headers});
     const chapters=missedChapters(attempt);
     if(!LAUNCH_SUBJECTS.some(s=>s.id===attempt.subject))return Response.json({chapters:[],state:'unsupported'},{headers});
-    const exposures=await studyExposures(session.user.id,replayExposures(await Database.getAttempts(session.user.id, { columns: ['questions_snapshot'] })));
+    const seen=await Database.getAttemptExposures(session.user.id); // the ids only (egress A9), not every paper whole
+    const exposures=await studyExposures(session.user.id,{excludeQuestionIds:seen.questionIds,excludeFamilyIds:seen.familyIds});
     const rows=[];
     for(const chapter of chapters){
       if(!isValidTopSyllabusPair(attempt.subject,chapter)){rows.push({chapter,state:'unavailable'});continue;}

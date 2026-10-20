@@ -4,8 +4,8 @@ import { createHash } from 'node:crypto';
 import { readFileSync, existsSync } from 'node:fs';
 import { dirname, resolve, relative, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { INVENTORY_SELECT, countInventory, readInventoryRows } from '../inventory_count.js';
-import { FORCED_RECOUNT_MS, INVENTORY_LOGIC_VERSION, SAFETY_MARGIN_MS, deployHash, minFutureExpiry, recountReason, refreshInventory, withoutFingerprint } from '../inventory_fingerprint.js';
+import { INVENTORY_COLUMNS, INVENTORY_SELECT, countInventory, readInventoryRows } from '../inventory_count.js';
+import { FORCED_RECOUNT_MS, INVENTORY_LOGIC_VERSION, SAFETY_MARGIN_MS, deployHash, minFutureExpiry, readContentDigest, recountReason, refreshInventory, withoutFingerprint } from '../inventory_fingerprint.js';
 import { servedInventory } from '../../src/lib/server/inventorySnapshot.js';
 import { sharedEligibilitySnapshot } from '../evidence_registry.js';
 import { SECRET, buildBank, projectRow, setFixtureSecret } from './helpers/egress_fixtures.mjs';
@@ -28,10 +28,23 @@ function world(seed = 7) {
   return { questions, holds, snapshot: null };
 }
 
-function fakeFor(state, { failHead = false } = {}) {
+// What public.inventory_content_digest() computes (migration 20261020160000; egress_review.test.mjs runs the real SQL): the counted columns of
+// the counted rows, with score reduced to the floor the count applies.
+const COUNTED_COLUMNS = INVENTORY_COLUMNS.filter((c) => c !== 'score');
+const digestOf = (state) => createHash('md5').update(state.questions.filter((r) => r.is_deleted === false && VISIBLE(r)).sort((a, b) => (a.id < b.id ? -1 : 1))
+  .map((r) => JSON.stringify([...COUNTED_COLUMNS.map((c) => r[c] ?? null), Number(r.score ?? 0) >= -2])).join('\n')).digest('hex');
+
+function fakeFor(state, { failHead = false, digest = false } = {}) {
   const calls = [];
   const db = {
     calls,
+    // digest: false = the function is not applied (PGRST202), 'fail' = it errors, true = it answers
+    rpc(fn) {
+      calls.push({ table: fn, kind: 'rpc', bytes: 32 });
+      if (digest === false) return Promise.resolve({ data: null, error: { code: 'PGRST202', message: 'Could not find the function' } });
+      if (digest === 'fail') return Promise.resolve({ data: null, error: { code: '57014', message: 'statement timeout' } });
+      return Promise.resolve({ data: digestOf(state), error: null });
+    },
     from(name) {
       const q = { select: '*', opts: {}, filters: [], or: false, order: null, range: null, inList: null };
       const rows = () => {
@@ -284,4 +297,119 @@ test('wiring: the refresh uses the fingerprint module, the served row loses the 
   assert.match(src('src/lib/server/inventory.js'), /assertFullBankRead\('the inventory refresh'\);\n  const db|assertFullBankRead\('the inventory refresh'\);/);
   assert.match(src('src/lib/server/inventorySnapshot.js'), /withoutFingerprint\(stored\.value\)/);
   assert.match(src('src/app/api/internal/refresh-inventory/route.js'), /inventory = await refreshInventorySnapshot\(\);/);
+});
+
+// ---- a vote touches updated_at and nothing the count reads (review: egress problem 5) -----------------------------------------------
+// The fixtures' deliberately stale records expire one real second before the bank is built, which is after BASE when this part of the file
+// runs (the suite has been going for seconds), so they would look "future" to the virtual clock: put them clearly in the past.
+function stableWorld(seed = 7) {
+  const w = world(seed);
+  for (const r of w.questions) {
+    const rec = r.evidence?.record;
+    if (rec && Date.parse(rec.expires_at) < BASE + 30 * MIN) r.evidence = { ...r.evidence, record: { ...rec, expires_at: new Date(BASE - 1000).toISOString() } };
+  }
+  return w;
+}
+const VOTE_AT = () => new Date(BASE + 5 * MIN).toISOString();
+// A vote on a question that is above the score floor stays above it.
+const vote = (s) => { const r = s.questions.find((x) => x.status === 'live' && x.is_deleted === false && Number(x.score ?? 0) >= -1); r.upvotes = (r.upvotes || 0) + 1; r.score = Number(r.score ?? 0) + 1; r.updated_at = VOTE_AT(); return r; };
+
+test('a vote on a question touches updated_at, and the digest of the counted columns keeps the skip: no question row is read', async () => {
+  const state = stableWorld();
+  const first = await run(state, { db: { digest: true } });
+  assert.equal(first.skipped, false);
+  assert.match(state.snapshot.value.fingerprint.contentDigest, /^[0-9a-f]{32}$/, 'the digest is stored beside the count');
+  assert.ok(!('contentDigest' in first.value) && !JSON.stringify(first.value).includes('contentDigest'), 'and never served');
+  vote(state);
+  const second = await run(state, { now: BASE + 10 * MIN, db: { digest: true } });
+  assert.equal(second.skipped, true, 'the vote alone does not recount');
+  assert.equal(bigReads(second.db).length, 0, 'zero question rows read');
+  const touchedProbe = second.db.calls.find((c) => c.kind === 'count' && c.filters.some((f) => f.startsWith('gte|updated_at')));
+  assert.ok(touchedProbe, 'the touched probe saw the vote');
+  assert.equal(second.db.calls.filter((c) => c.kind === 'rpc').length, 1, 'one digest call, 32 bytes');
+  assert.ok(totalBytes(second.db) < totalBytes(first.db) * 0.01);
+  same(state.snapshot.value, await fresh(state));
+  assert.equal(state.snapshot.value.fingerprint.contentDigest, digestOf(state));
+  // the touched window reaches 15 minutes before the last read, so the next run still sees the vote and skips the same way
+  const third = await run(state, { now: BASE + 30 * MIN, db: { digest: true } });
+  assert.equal(third.skipped, true);
+  assert.equal(bigReads(third.db).length, 0);
+  // and once the vote is behind that window nothing is touched and no digest is asked for
+  const fourth = await run(state, { now: BASE + 50 * MIN, db: { digest: true } });
+  assert.equal(fourth.skipped, true);
+  assert.equal(fourth.db.calls.filter((c) => c.kind === 'rpc').length, 0, 'an untouched bank asks for no digest');
+});
+
+test('a touched row that changes something the count reads still forces the full recount', async () => {
+  const changes = [
+    ['an edited explanation', (s) => { const r = s.questions.find((x) => x.status === 'live' && !x.family_id && x.is_deleted === false); r.explanation = 'The correct answer is A here.'; r.updated_at = VOTE_AT(); }],
+    ['a changed answer key', (s) => { const r = s.questions.find((x) => x.status === 'live' && x.is_deleted === false); r.correct_index = (Number(r.correct_index) + 1) % 4; r.updated_at = VOTE_AT(); }],
+    ['a vote that sinks a question below the score floor', (s) => { const r = s.questions.find((x) => x.status === 'live' && x.is_deleted === false); r.score = -3; r.downvotes = 3; r.updated_at = VOTE_AT(); }],
+    ['an edited evidence record', (s) => { const r = s.questions.find((x) => x.evidence && x.is_deleted === false && VISIBLE(x)); r.evidence = { ...r.evidence, record: { ...r.evidence.record, note: 'edited' } }; r.updated_at = VOTE_AT(); }],
+    ['a moderation flag', (s) => { const r = s.questions.find((x) => x.status === 'live' && x.is_deleted === false); r.verification_state = 'disputed'; r.updated_at = VOTE_AT(); }],
+  ];
+  for (const [name, change] of changes) {
+    const state = stableWorld();
+    await run(state, { db: { digest: true } });
+    change(state);
+    const next = await run(state, { now: BASE + 10 * MIN, db: { digest: true } });
+    assert.equal(next.skipped, false, name);
+    assert.equal(next.reason, 'rows_touched', name);
+    assert.ok(bigReads(next.db).length >= 1, name);
+    same(state.snapshot.value, await fresh(state));
+    assert.equal(state.snapshot.value.fingerprint.contentDigest, digestOf(state), name);
+  }
+});
+
+test('without the function, a stored digest or a working call, a touched row is the full recount it always was', async () => {
+  // function not applied
+  let state = stableWorld();
+  await run(state);
+  assert.ok(!('contentDigest' in state.snapshot.value.fingerprint), 'no digest stored when the function is missing');
+  vote(state);
+  let next = await run(state, { now: BASE + 10 * MIN });
+  assert.equal(next.reason, 'rows_touched');
+  assert.ok(bigReads(next.db).length >= 1);
+  // the previous count was made before the function existed: no digest to compare
+  state = stableWorld();
+  await run(state);
+  vote(state);
+  next = await run(state, { now: BASE + 10 * MIN, db: { digest: true } });
+  assert.equal(next.reason, 'rows_touched');
+  assert.equal(state.snapshot.value.fingerprint.contentDigest, digestOf(state), 'and this count stores one, so the next vote is a skip');
+  vote(state);
+  assert.equal((await run(state, { now: BASE + 20 * MIN, db: { digest: true } })).skipped, true);
+  // the function fails (timeout)
+  state = stableWorld();
+  await run(state, { db: { digest: true } });
+  vote(state);
+  next = await run(state, { now: BASE + 10 * MIN, db: { digest: 'fail' } });
+  assert.equal(next.reason, 'rows_touched');
+  assert.ok(bigReads(next.db).length >= 1);
+  assert.ok(!('contentDigest' in state.snapshot.value.fingerprint), 'a failed digest is not stored');
+  // a digest that is not 32 hex characters is no digest
+  assert.equal(await readContentDigest({ rpc: async () => ({ data: 'oops', error: null }) }), null);
+  assert.equal(await readContentDigest({ rpc: async () => { throw new Error('down'); } }), null);
+  assert.equal(await readContentDigest({}), null);
+});
+
+test('with equal digests the other reasons still win: an expired evidence record or a week-old count recounts', async () => {
+  let state = stableWorld();
+  await run(state, { db: { digest: true } });
+  vote(state);
+  let next = await run(state, { now: BASE + 61 * MIN, db: { digest: true } });
+  assert.equal(next.reason, 'evidence_expired');
+  state = stableWorld();
+  await run(state, { db: { digest: true } });
+  state.snapshot.value.fingerprint.minExpiresAt = null;
+  vote(state);
+  next = await run(state, { now: BASE + FORCED_RECOUNT_MS + 1000, db: { digest: true } });
+  assert.equal(next.reason, 'forced_recount');
+  const fp = { v: 1, readAt: BASE, fullCountAt: BASE, candidateCount: 3, totalRows: 4, holdsHash: 'h', deployHash: 'd', minExpiresAt: null, contentDigest: 'a'.repeat(32) };
+  const stored = { value: { state: 'available', fingerprint: fp } };
+  const probes = { candidateCount: 3, totalRows: 4, holdsHash: 'h', touched: 2 };
+  assert.equal(recountReason({ stored, probes, deploy: 'd', now: BASE + 5, contentDigest: 'a'.repeat(32) }), null);
+  assert.equal(recountReason({ stored, probes, deploy: 'd', now: BASE + 5, contentDigest: 'b'.repeat(32) }), 'rows_touched');
+  assert.equal(recountReason({ stored, probes, deploy: 'd', now: BASE + 5 }), 'rows_touched', 'no digest asked for, none compared');
+  assert.equal(recountReason({ stored, probes: { ...probes, holdsHash: 'x' }, deploy: 'd', now: BASE + 5, contentDigest: 'a'.repeat(32) }), 'holds_changed', 'a changed hold is not hidden by an equal digest');
 });
