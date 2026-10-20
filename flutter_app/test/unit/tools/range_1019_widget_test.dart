@@ -200,11 +200,12 @@ void main() {
       overrides: [...toolsOverrides(sheet: _five, prefs: prefs), quoteRepositoryProvider.overrideWithValue(_Quotes())],
     );
     await settle(tester);
-    // A fresh account with five subjects: the way, English first, free as the quote says.
+    // A fresh account with five subjects: the way, English first. D175: even a server that still quotes the old free
+    // first mock gets no free promise on the key or under it.
     expect(find.text(EstimateCopy.stepsTitle), findsOneWidget);
     expect(find.text('Sit one full mock in each subject and we’ll estimate your range. Start with English.'), findsOneWidget);
-    expect(find.text(EstimateCopy.sitFreeKey('English')), findsOneWidget);
-    expect(find.text(EstimateCopy.firstMockFree), findsOneWidget);
+    expect(find.text(EstimateCopy.sitKey('English')), findsOneWidget);
+    expect(find.textContaining('free'), findsNothing);
     expect(find.text(EstimateCopy.count(0, 5)), findsOneWidget);
 
     // A typed range puts the card away.
@@ -267,7 +268,6 @@ void main() {
     await settle(tester);
     expect(find.text(EstimateCopy.sitKey('English')), findsOneWidget);
     expect(find.text('50 credits. You have 90.'), findsOneWidget);
-    expect(find.text(EstimateCopy.firstMockFree), findsNothing);
     expect(find.textContaining('free'), findsNothing);
   });
 }

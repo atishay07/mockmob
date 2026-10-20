@@ -5,7 +5,6 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../wallet/data/wallet_data.dart' show firstFullMockFreeProvider;
 import '../widgets/you_motion.dart' show YouSizeEase;
 import '../widgets/you_page.dart' show youText;
 
@@ -29,33 +28,16 @@ class FaqItem {
 abstract final class FaqCopy {
   static const heading = 'Common questions';
 
-  /// What the app can always say. It makes no claim about the first full mock being free: that is the server's to say
-  /// (the free first full mock can be switched off, and an older server has no such rule), so the claim is added only by
-  /// [creditsWhenFirstFree], when the server's own credits line says it.
+  /// D175 (20 Oct): there is no free first full mock. On Free every full mock costs 50 credits; Pro includes full mocks.
   static const credits = FaqItem(
     id: 'credits',
     question: 'How do credits work?',
     answer: [
       'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. They refill to 50 at the start of every month, so unused free credits do not carry over.',
-      '1 credit buys 1 practice question or 1 Ask Mobi reply. A full mock costs 50 credits. The cost shows before you start.',
-      'On Pro, practice is unlimited. Your credits still count for Ask Mobi and repairs.',
+      '1 credit buys 1 practice question or 1 Ask Mobi reply. On Free, every full mock costs 50 credits. The cost shows before you start.',
+      'On Pro, practice and full mocks are unlimited. Your credits still count for Ask Mobi and repairs.',
     ],
   );
-
-  /// [credits] with the free first full mock, shown only while the server says it is on.
-  static const creditsWhenFirstFree = FaqItem(
-    id: 'credits',
-    question: 'How do credits work?',
-    answer: [
-      'One balance pays for everything: practice sets, full mocks, Ask Mobi replies and repair explanations. Every account gets 50 free credits each month, and they are used first. They refill to 50 at the start of every month, so unused free credits do not carry over.',
-      '1 credit buys 1 practice question or 1 Ask Mobi reply. A full mock costs 50 credits, and your first one in each subject is free. The cost shows before you start.',
-      'On Pro, practice is unlimited. Your credits still count for Ask Mobi and repairs.',
-    ],
-  );
-
-  /// [items] with the credits answer that matches what the server says about the free first full mock.
-  static List<FaqItem> forServer(List<FaqItem> items, {required bool firstMockFree}) =>
-      firstMockFree ? [for (final i in items) i.id == credits.id ? creditsWhenFirstFree : i] : items;
 
   static const history = FaqItem(
     id: 'history',
@@ -126,8 +108,7 @@ class _FaqListState extends ConsumerState<FaqList> {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    // The credits answer says the first full mock is free only while the server says so.
-    final items = FaqCopy.forServer(widget.items, firstMockFree: ref.watch(firstFullMockFreeProvider));
+    final items = widget.items;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: youText),
       child: DecoratedBox(

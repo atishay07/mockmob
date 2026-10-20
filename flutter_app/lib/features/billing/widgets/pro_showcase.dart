@@ -573,14 +573,10 @@ class _AlsoTile extends StatelessWidget {
 /// Free and Pro, side by side: one short line per row, a tick, a dash or a few words in each
 /// column, Pro's column lit. Read aloud row by row.
 class ProCompareTable extends StatelessWidget {
-  const ProCompareTable({super.key, required this.rows, this.notes = const {}});
+  const ProCompareTable({super.key, required this.rows});
 
   /// (what, Free, Pro): null is a tick, an empty string a dash, anything else its words.
   final List<(String, String?, String?)> rows;
-
-  /// A short line under a row's name (the first full mock in each subject, when the server says it is free), keyed by
-  /// the row's name.
-  final Map<String, String> notes;
 
   static const double _col = 80;
 
@@ -646,9 +642,7 @@ class ProCompareTable extends StatelessWidget {
                   Semantics(
                     container: true,
                     excludeSemantics: true,
-                    label: notes[r.$1] == null
-                        ? '${r.$1}. ${BillingCopy.compareFree}: ${said(r.$2)}. ${BillingCopy.comparePro}: ${said(r.$3)}.'
-                        : '${r.$1}. ${BillingCopy.compareFree}: ${notes[r.$1]}, ${said(r.$2).toLowerCase()}. ${BillingCopy.comparePro}: ${said(r.$3)}.',
+                    label: '${r.$1}. ${BillingCopy.compareFree}: ${said(r.$2)}. ${BillingCopy.comparePro}: ${said(r.$3)}.',
                     child: ConstrainedBox(
                       constraints: const BoxConstraints(minHeight: _row),
                       child: Padding(
@@ -656,19 +650,7 @@ class ProCompareTable extends StatelessWidget {
                         child: Row(
                           children: [
                             const SizedBox(width: MmSpace.s16),
-                            Expanded(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Text(r.$1, style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w500)),
-                                  if (notes[r.$1] case final note?) ...[
-                                    const SizedBox(height: 2),
-                                    Text(note, style: type.caption.copyWith(color: colors.ink2)),
-                                  ],
-                                ],
-                              ),
-                            ),
+                            Expanded(child: Text(r.$1, style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w500))),
                             cell(r.$2, pro: false),
                             cell(r.$3, pro: true),
                           ],

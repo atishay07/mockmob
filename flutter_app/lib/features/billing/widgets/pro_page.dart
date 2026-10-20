@@ -15,7 +15,6 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../credits/data/credit_figures.dart';
 import '../../social/v3/mob_v3_flags.dart' show mobV3EnabledProvider;
-import '../../wallet/data/wallet_data.dart' show firstFullMockFreeKnownProvider;
 import '../billing_copy.dart';
 import '../data/billing_controller.dart';
 import '../data/play_products.dart';
@@ -210,9 +209,7 @@ class _Selling extends ConsumerWidget {
       (BillingCopy.alsoInsights.$1, BillingCopy.alsoInsights.$2, 'mobi-read'),
       if (mobOn) (BillingCopy.alsoMob.$1, BillingCopy.alsoMob.$2, 'group-desk'),
     ];
-    // The first full mock in each subject is free while the server says so (C-dec 1, L-05).
-    final firstFree = ref.watch(firstFullMockFreeKnownProvider);
-    final rows = [...BillingCopy.compareRowsFor(firstFree: firstFree), if (mobOn) ...BillingCopy.compareMobRows];
+    final rows = [...BillingCopy.compareRows, if (mobOn) ...BillingCopy.compareMobRows];
 
     var i = 0;
     Widget item(Widget child) => MmStaggerItem(index: i++, child: child);
@@ -247,11 +244,11 @@ class _Selling extends ConsumerWidget {
                                 ],
                                 item(_SectionHeading(BillingCopy.proPageUnlocksHeading)),
                                 const SizedBox(height: MmSpace.s12),
-                                item(ProMoment(
+                                item(const ProMoment(
                                   eyebrow: BillingCopy.moment1Eyebrow,
                                   title: BillingCopy.moment1Title,
-                                  line: BillingCopy.moment1LineFor(firstFree: firstFree),
-                                  stage: const ProPaperFan(),
+                                  line: BillingCopy.moment1LineWithPrice,
+                                  stage: ProPaperFan(),
                                 )),
                                 const SizedBox(height: MmSpace.s16),
                                 item(const ProMoment(
@@ -275,7 +272,7 @@ class _Selling extends ConsumerWidget {
                                 const SizedBox(height: MmSpace.s32),
                                 item(_SectionHeading(BillingCopy.proPageCompareHeading)),
                                 const SizedBox(height: MmSpace.s12),
-                                item(ProCompareTable(rows: rows, notes: BillingCopy.compareNotesFor(firstFree: firstFree))),
+                                item(ProCompareTable(rows: rows)),
                                 const SizedBox(height: MmSpace.s32),
                                 item(_PriceCard(
                                   parts: parts,

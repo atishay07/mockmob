@@ -267,13 +267,14 @@ void main() {
           allowance: allowance,
         );
 
-    test('the first full mock free: the key says free and one true line says why', () {
-      final p = rangeMockPrice(q(reasonCode: firstFullMockFree, cost: 0));
-      expect(p.kind, RangeMockPriceKind.firstFree);
-      expect(p.isFree, isTrue);
-      expect(p.line, 'Your first full mock in every subject is free.');
-      expect(EstimateCopy.sitFreeKey('English'), 'Sit your free full mock in English');
-      expect(rangeMockPrice(q(allowance: const QuoteAllowance(kind: 'first_full_mock:english', state: 'available'), cost: 0)).kind, RangeMockPriceKind.firstFree);
+    test('D175: a quote that still carries the old free first full mock never makes the card say free', () {
+      final p = rangeMockPrice(q(reasonCode: 'first_full_mock_free', cost: 0));
+      expect(p.kind, isNot(RangeMockPriceKind.free));
+      expect(p.isFree, isFalse);
+      expect(p.line, isNull);
+      final byAllowance = rangeMockPrice(q(allowance: const QuoteAllowance(kind: 'first_full_mock:english', state: 'available'), cost: 0));
+      expect(byAllowance.isFree, isFalse);
+      expect(byAllowance.line, isNull);
     });
 
     test('a priced mock prints the Practice cost line; an unknown quote prints nothing; never free without the quote', () {
@@ -283,11 +284,8 @@ void main() {
       expect(priced.line, '50 credits. You have 90.');
       expect(rangeMockPrice(null).kind, RangeMockPriceKind.unknown);
       expect(rangeMockPrice(null).line, isNull);
-      // The reason alone is not enough: it must also charge nothing and be able to start.
-      expect(rangeMockPrice(q(reasonCode: firstFullMockFree)).isFree, isFalse);
-      expect(rangeMockPrice(q(reasonCode: firstFullMockFree, cost: 0, launchable: false)).isFree, isFalse);
       // A Pro account (no credit balance) is never told a mock is "free".
-      expect(rangeMockPrice(q(reasonCode: firstFullMockFree, cost: 0, balance: null)).kind, isNot(RangeMockPriceKind.firstFree));
+      expect(rangeMockPrice(q(reasonCode: 'first_full_mock_free', cost: 0, balance: null)).isFree, isFalse);
     });
   });
 

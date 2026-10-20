@@ -50,7 +50,6 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
   Widget build(BuildContext context) {
     final view = ref.watch(walletViewProvider);
     final billingOn = ref.watch(playBillingEnabledProvider) && ref.watch(playBillingUserIdProvider) != null;
-    final firstMockFree = ref.watch(firstFullMockFreeProvider);
 
     return YouPage(
       title: WalletCopy.title,
@@ -82,7 +81,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
           const Padding(padding: youGutter, child: WalletTopUps()),
         ],
         const SectionTitle(WalletCopy.buysTitle, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s12)),
-        Padding(padding: youGutter, child: _Buys(pro: view.isPro, firstMockFree: firstMockFree)),
+        Padding(padding: youGutter, child: _Buys(pro: view.isPro)),
         // D165: the invite offer, only once the server says it is live (off until then).
         if (ref.watch(referralOfferLiveProvider)) const Padding(padding: EdgeInsets.fromLTRB(youText, MmSpace.s24, youText, 0), child: _InviteOffer()),
         const SectionTitle(WalletCopy.recent, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s4)),
@@ -484,13 +483,12 @@ class _ProBridge extends StatelessWidget {
 }
 
 /// What credits buy, as one price list (K6, 20 Oct): what each thing is on the left and its cost in one right-aligned
-/// column, Mobi's two jobs first (most top-ups pay for doubts and fixes), then practice (included on Pro). Under it, while
-/// the server's rule is on, the one line on why the first full mock in each subject is free.
+/// column, Mobi's two jobs first (most top-ups pay for doubts and fixes), then practice (included on Pro). D175: a full
+/// mock is 50 credits on Free for every mock; there is no free first one.
 class _Buys extends StatelessWidget {
-  const _Buys({required this.pro, required this.firstMockFree});
+  const _Buys({required this.pro});
 
   final bool pro;
-  final bool firstMockFree;
 
   @override
   Widget build(BuildContext context) {
@@ -500,7 +498,7 @@ class _Buys extends StatelessWidget {
       const _BuyLine(LucideIcons.messageCircle, 1, WalletCopy.buyDoubt, WalletCopy.buyDoubtNote),
       const _BuyLine(LucideIcons.wrench, 1, WalletCopy.buyFix, WalletCopy.buyFixNote),
       _BuyLine(LucideIcons.listChecks, pro ? null : 1, WalletCopy.buyQuestion, null),
-      _BuyLine(LucideIcons.timer, pro ? null : 50, WalletCopy.buyMock, !pro && firstMockFree ? WalletCopy.buyMockFirstFree : null, good: true),
+      _BuyLine(LucideIcons.timer, pro ? null : 50, WalletCopy.buyMock, null),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -523,10 +521,6 @@ class _Buys extends StatelessWidget {
             ),
           ),
         ),
-        if (!pro && firstMockFree) ...[
-          const SizedBox(height: MmSpace.s12),
-          Text(WalletCopy.firstMockWhy, style: type.small.copyWith(color: colors.ink2)),
-        ],
         const SizedBox(height: MmSpace.s12),
         Text(WalletCopy.costShows, style: type.caption.copyWith(color: colors.ink3)),
       ],
@@ -535,7 +529,7 @@ class _Buys extends StatelessWidget {
 }
 
 class _BuyLine {
-  const _BuyLine(this.icon, this.cost, this.what, this.note, {this.good = false});
+  const _BuyLine(this.icon, this.cost, this.what, this.note);
 
   final IconData icon;
 
@@ -543,9 +537,6 @@ class _BuyLine {
   final int? cost;
   final String what;
   final String? note;
-
-  /// The note is good news (the free first full mock), said in the good ink.
-  final bool good;
 }
 
 /// One line of the price list: the icon in its well, what it is with its note, and the cost in a right-aligned column
@@ -580,7 +571,7 @@ class _BuyRow extends StatelessWidget {
                     Text(line.what, style: type.labelLarge.copyWith(fontSize: 16)),
                     if (note != null) ...[
                       const SizedBox(height: 2),
-                      Text(note, style: type.caption.copyWith(color: line.good ? colors.goodText : colors.ink2)),
+                      Text(note, style: type.caption.copyWith(color: colors.ink2)),
                     ],
                   ],
                 ),

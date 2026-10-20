@@ -38,24 +38,27 @@ void main() {
     test('a first-use allowance names the subject', () {
       final baseline = costLineFor(q(cost: 0, balance: 100, allowance: {'kind': 'baseline:accountancy', 'state': 'available'}));
       expect(baseline.text, 'Free, your first one in Accountancy');
+      // D175: a full mock's allowance (the old full sample) is never called free, whatever the subject.
       final sample = costLineFor(
         q(cost: 0, balance: 100, allowance: {'kind': 'full_sample:economics', 'state': 'available'}, subject: 'Economics'),
       );
-      expect(sample.text, 'Free, your first one in Economics');
+      expect(sample.kind, CostKind.none);
+      expect(sample.text, isNull);
     });
 
-    // C-dec 1 (release 11): the first full mock in each subject is free; the server prices it at 0 with this allowance.
-    test('the first full mock in a subject says it is on us, not "Free today"', () {
+    // D175 (20 Oct): the free first full mock is off. A server that still sent the old allowance would get no free
+    // promise from the app: neither "Free today" nor "on us".
+    test('a first full mock allowance never says free: no promise, not even "Free today"', () {
       final line = costLineFor(q(cost: 0, balance: 100, allowance: {'kind': 'first_full_mock:accountancy', 'state': 'available'}));
-      expect(line.kind, CostKind.freeFirst);
-      expect(line.isFree, isTrue);
-      expect(line.text, 'Free: your first full mock in this subject is on us.');
+      expect(line.kind, CostKind.none);
+      expect(line.isFree, isFalse);
+      expect(line.text, isNull);
       // Used up, it is an ordinary Full mock again.
       final used = costLineFor(q(cost: 50, balance: 120, allowance: {'kind': 'first_full_mock:accountancy', 'state': 'used'}));
       expect(used.text, '50 credits. You have 120.');
     });
 
-    test('a quote that names first_full_mock_free never says "Free today", whatever allowance it carries', () {
+    test('a quote that names first_full_mock_free still never says "Free today", whatever allowance it carries', () {
       final line = costLineFor(
         PracticeQuote.fromJson({
           'state': 'available',
@@ -67,7 +70,7 @@ void main() {
           'freeReason': 'first_full_mock_free',
         }),
       );
-      expect(line.text, 'Free: your first full mock in this subject is on us.');
+      expect(line.text, isNull);
       expect(line.text, isNot('Free today'));
     });
 

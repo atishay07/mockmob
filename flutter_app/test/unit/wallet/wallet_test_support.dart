@@ -33,7 +33,7 @@ Map<String, Object?> walletBody({
         'renewsOn': '2026-11-01',
         'parts': {'included': freeLeft, 'bonus': held, 'balance': 0},
         'label': 'Credits',
-        'buys': '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50, and your first one in each subject is free. Deeper analysis costs 3. The cost shows before you start.',
+        'buys': '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50. Deeper analysis costs 3. The cost shows before you start.',
       },
       'plan': {'name': pro ? 'Pro' : 'Free', 'until': pro ? '2027-07-31' : null},
       'proOffer': pro ? null : {'rupees': 99, 'expires': '2027-07-31', 'planId': 'pro_cuet_2027'},

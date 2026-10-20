@@ -22,6 +22,7 @@ import 'package:mockmob/features/wallet/data/wallet_data.dart';
 import 'package:mockmob/features/wallet/wallet_copy.dart';
 import 'package:mockmob/features/wallet/wallet_screen.dart';
 import 'package:mockmob/features/you/copy.dart';
+import 'package:mockmob/features/you/help/faq.dart' show FaqCopy;
 import 'package:mockmob/features/you/hub/plan_strip.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -49,15 +50,11 @@ void main() {
         YouCopy.stripCredits,
         YouCopy.stripFreePlan,
         YouCopy.stripOpensPro,
-        BillingCopy.compareFullMockFirstFree,
-        BillingCopy.compareFullMockFirstFreeNote,
-        WalletCopy.firstMockWhy,
+        BillingCopy.compareFullMockFree,
         WalletCopy.keptPartNoteReferrals,
         WalletCopy.welcomeCredits,
         WalletCopy.inviteTitle,
         WalletCopy.inviteBody,
-        PracticeCopy.firstFullMockRule,
-        PracticeCopy.creditLineRule,
         PracticeCopy.creditLine(46),
       ];
       for (final s in lines) {
@@ -67,9 +64,22 @@ void main() {
       }
     });
 
-    test('K6: the first free full mock is explained as a chance to sit a real paper and see the reveal before paying', () {
-      expect(WalletCopy.firstMockWhy, contains('first full mock in each subject is free'));
-      expect(WalletCopy.firstMockWhy, contains('before you pay'));
+    test('D175: no line promises a free first full mock', () {
+      final lines = [
+        BillingCopy.compareFullMockFree,
+        BillingCopy.moment1LineWithPrice,
+        WalletCopy.creditsFor,
+        PracticeCopy.creditLine(46),
+        PracticeCopy.firstMockTaken,
+        PracticeCopy.firstMockUnchecked,
+        ...FaqCopy.credits.answer,
+      ];
+      for (final s in lines) {
+        expect(s.toLowerCase(), isNot(contains('first one')), reason: s);
+        expect(s.toLowerCase(), isNot(contains('first full mock')), reason: s);
+        expect(s.toLowerCase(), isNot(contains('each subject')), reason: s);
+        expect(s.toLowerCase(), isNot(contains('on us')), reason: s);
+      }
     });
 
     test('D165: 50 to start, 100 each once the friend finishes a first practice', () {
@@ -80,21 +90,17 @@ void main() {
   });
 
   group('K4: the Full mocks row', () {
-    test('reads as one sentence while the server says the first one is free, and says nothing of it otherwise', () {
-      String freeCell(bool? firstFree) => BillingCopy.compareRowsFor(firstFree: firstFree).firstWhere((r) => r.$1 == 'Full mocks').$2!;
-      expect(freeCell(true), 'Then 50 credits');
-      expect(BillingCopy.compareNotesFor(firstFree: true), {'Full mocks': 'Your first in each subject is free'});
-      expect(BillingCopy.compareNotesFor(firstFree: false), isEmpty);
-      expect(BillingCopy.compareNotesFor(firstFree: null), isEmpty);
-      expect(freeCell(false), '50 credits each');
-      expect(freeCell(null), 'Uses credits');
+    test('D175: Free pays 50 credits for each full mock and Pro has them unlimited; no first one is free', () {
+      final row = BillingCopy.compareRows.firstWhere((r) => r.$1 == 'Full mocks');
+      expect(row.$2, '50 credits each');
+      expect(row.$3, BillingCopy.compareUnlimited);
     });
   });
 
   group('K4: the whole Pro page holds at 360 dp', () {
     for (final scale in [1.0, 1.3]) {
       for (final brightness in [Brightness.dark, Brightness.light]) {
-        testWidgets('text at $scale, $brightness: no overflow, and the Full mocks row says the rule', (tester) async {
+        testWidgets('text at $scale, $brightness: no overflow, and the Full mocks row says 50 credits each', (tester) async {
           final rig = BillingRig(store: FakePlayStore(prices: {'pro_monthly': 'Rs 149.00'}));
           await pumpMockmob(
             tester,
@@ -116,8 +122,9 @@ void main() {
           container.read(walletRepositoryProvider);
           await _settle(tester);
           expect(tester.takeException(), isNull);
-          expect(find.text(BillingCopy.compareFullMockFirstFreeNote), findsOneWidget);
-          expect(find.text(BillingCopy.compareFullMockFirstFree), findsOneWidget);
+          expect(find.text(BillingCopy.compareFullMockFree), findsOneWidget);
+          expect(find.textContaining('first one'), findsNothing);
+          expect(find.textContaining('each subject'), findsNothing);
         });
       }
     }
@@ -204,15 +211,12 @@ void main() {
       await _settle(tester);
     }
 
-    testWidgets('a Free student is told in one line why the first full mock in each subject is free', (tester) async {
+    testWidgets('D175: a Free student sees a full mock at 50 credits and no free-first line', (tester) async {
       await pump(tester);
-      expect(find.text(WalletCopy.firstMockWhy), findsOneWidget);
-      expect(find.text(WalletCopy.buyMockFirstFree), findsOneWidget);
-    });
-
-    testWidgets('a Pro student is not (practice is included)', (tester) async {
-      await pump(tester, pro: true);
-      expect(find.text(WalletCopy.firstMockWhy), findsNothing);
+      expect(find.text(WalletCopy.buyMock), findsOneWidget);
+      expect(find.textContaining('first full mock'), findsNothing);
+      expect(find.textContaining('First one'), findsNothing);
+      expect(find.textContaining('each subject'), findsNothing);
     });
 
     testWidgets('D165 is off until the server says so: no invite, the kept note as today', (tester) async {
@@ -236,7 +240,7 @@ void main() {
       await _settle(tester);
     }
 
-    testWidgets('a Free student sees the balance and the first-free rule', (tester) async {
+    testWidgets('a Free student sees the balance and a way to the Wallet, with no free-first line', (tester) async {
       await pump(tester, [
         ...youOverrides(
           credits: oneBalanceState(),
@@ -248,7 +252,8 @@ void main() {
       container.read(walletRepositoryProvider);
       await _settle(tester);
       expect(find.text(PracticeCopy.creditLine(108)), findsOneWidget);
-      expect(find.text(PracticeCopy.creditLineRule), findsOneWidget);
+      expect(find.textContaining('first full mock'), findsNothing);
+      expect(find.textContaining('each subject'), findsNothing);
     });
 
     testWidgets('a Pro student sees nothing (practice is unlimited)', (tester) async {

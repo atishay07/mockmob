@@ -53,10 +53,12 @@ void main() {
     expect(find.text('40 of 50 left. Refills 1 November'), findsOneWidget);
     expect(find.text(WalletCopy.keptPart), findsOneWidget);
     expect(find.text(WalletCopy.keptPartNote), findsOneWidget);
-    // What credits buy, as one price list; the first full mock is free only because the server's line says so.
+    // What credits buy, as one price list; D175: a full mock is 50 credits, with no free first one.
     await tester.scrollUntilVisible(find.text(WalletCopy.costShows), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text(WalletCopy.buysTitle), findsOneWidget);
-    expect(find.text(WalletCopy.buyMockFirstFree), findsOneWidget);
+    expect(find.text(WalletCopy.buyMock), findsOneWidget);
+    expect(find.textContaining('first full mock'), findsNothing);
+    expect(find.textContaining('First one'), findsNothing);
     expect(find.text(WalletCopy.costShows), findsOneWidget);
     // No second balance and no pool names.
     expect(find.text('Practice credits'), findsNothing);
@@ -89,13 +91,13 @@ void main() {
     expect(find.text(WalletCopy.lowNote), findsNothing);
   });
 
-  testWidgets('without the server saying so, no tile says the first full mock is free', (tester) async {
+  testWidgets('D175: even when an older server still sends a first-free clause, no tile says the first full mock is free', (tester) async {
     final body = walletBody();
-    (body['credits']! as Map<String, Object?>)['buys'] = '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits.';
+    (body['credits']! as Map<String, Object?>)['buys'] = '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits, and your first one in each subject is free.';
     await _pump(tester, rig: BillingRig(), read: walletState(body));
-    expect(find.text(WalletCopy.buyMockFirstFree), findsNothing);
-    // Nor the line on why it is free (K6).
-    expect(find.text(WalletCopy.firstMockWhy), findsNothing);
+    expect(find.textContaining('first one'), findsNothing);
+    expect(find.textContaining('first full mock'), findsNothing);
+    expect(find.textContaining('each subject'), findsNothing);
   });
 
   test('the read follows the server nested shape: credits, plan, history and historyState', () {
@@ -105,7 +107,7 @@ void main() {
     expect(read.freeAllowance, 50);
     expect(read.held, 6);
     expect(read.resetAt, DateTime.utc(2026, 10, 31, 18, 30));
-    expect(read.buys, '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50, and your first one in each subject is free. Deeper analysis costs 3. The cost shows before you start.');
+    expect(read.buys, '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50. Deeper analysis costs 3. The cost shows before you start.');
     expect(read.planIsPro, isFalse);
     expect(read.history, hasLength(4));
     expect(read.historyUnavailable, isFalse);
@@ -348,7 +350,7 @@ void main() {
       WalletCopy.historyEmptyBody, WalletCopy.historyFailedBody, BillingCopy.topUpsSoon, BillingCopy.topUpsNote,
       WalletCopy.freeLeft(40, 50), WalletCopy.held(6), WalletCopy.resets(DateTime(2026, 11, 1)),
       WalletCopy.freePartNote(40, 50, DateTime(2026, 11, 1)), WalletCopy.keptPartNote, WalletCopy.lowNote, WalletCopy.proBridgeTitle,
-      WalletCopy.proBridgeBody, WalletCopy.proBridgeKey, WalletCopy.costShows, WalletCopy.buyMockFirstFree, BillingCopy.topUpsLeadPro(50), BillingCopy.topUpsLeadPro(null), BillingCopy.topUpsLeadFree,
+      WalletCopy.proBridgeBody, WalletCopy.proBridgeKey, WalletCopy.costShows, BillingCopy.topUpsLeadPro(50), BillingCopy.topUpsLeadPro(null), BillingCopy.topUpsLeadFree,
       BillingCopy.topUpsTitlePro, BillingCopy.topUpsTitleFree, BillingCopy.packUse(150),
       BillingCopy.bestValue, BillingCopy.savePercent(16), BillingCopy.balanceNow(346),
     ];

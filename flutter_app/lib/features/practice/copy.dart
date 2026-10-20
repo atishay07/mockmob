@@ -285,18 +285,13 @@ abstract final class PracticeCopy {
   // Costs and free paths (the numbers always come from the quote).
   static const String freeToday = 'Free today';
   static String freeFirstIn(String subject) => 'Free, your first one in $subject';
-  /// C-dec 1 (release 11): the first full mock in each subject costs nothing (allowance `first_full_mock:<subject>`).
-  static const String freeFirstFullMock = 'Free: your first full mock in this subject is on us.';
+  // D175 (20 Oct): there is no free first full mock. Every full mock costs a Free member 50 credits, and the price in
+  // the quote is the only word on it.
 
-  /// Beside the credit price of a Full mock while the first-free rule of the server is on (K4, 20 Oct).
-  static const String firstFullMockRule = 'Only your first full mock in each subject is free.';
-
-  /// The credit line on Practice (K6, 20 Oct): the balance, a way to the Wallet, and the full mock rule while the server
-  /// says it is on. Free students only (practice is unlimited on Pro). No apostrophes in these notes: the copy rules test
-  /// reads every quoted span of this file.
+  /// The credit line on Practice (K6, 20 Oct): the balance and a way to the Wallet. Free students only (practice is
+  /// unlimited on Pro). No apostrophes in these notes: the copy rules test reads every quoted span of this file.
   static String creditLine(int balance) => 'You have ${plural(balance, 'credit')}';
   static const String creditLineWallet = 'Wallet';
-  static const String creditLineRule = 'Your first full mock in each subject is free, then 50 credits.';
   static String creditLineLabel(int balance) => 'You have ${plural(balance, 'credit')}. Opens your Wallet.';
   static String usesCredits(int cost, int? balance) =>
       balance == null ? '${plural(cost, 'credit')}.' : '${plural(cost, 'credit')}. You have $balance.';
@@ -323,12 +318,12 @@ abstract final class PracticeCopy {
   static const String offlineAutoStart =
       'You are offline. Your answers and drafts stay on this phone. This starts by itself when you are back online.';
   static const String quoteFailed = 'We could not check what this takes. Nothing was charged. Try again.';
-  // The free first full mock was not free when the start reached the server (release 11). The words match the
-  // server's own (FIRST_FULL_MOCK_REFUSAL_COPY), which is shown when it sends them; these stand in when it does not.
+  // A start the server refused over its price (a quote that said free, then was not): said plainly, with nothing
+  // charged. The server's own sentence is shown when it sends one; these stand in when it does not.
   static const String firstMockTaken =
-      'Your free full mock in this subject was already started on another device or tab, so this one is not free. It did not start, and nothing was charged. Check the price, then start again.';
+      'The price of this full mock changed while you were here, so it did not start and nothing was charged. Check the price, then start again.';
   static const String firstMockUnchecked =
-      'We could not check that this full mock is still free, so it did not start and nothing was charged. Try again in a moment.';
+      'We could not check the price of this full mock, so it did not start and nothing was charged. Try again in a moment.';
 
   /// The server's sentence, then the price the fresh quote now says, so the new price is read before Start.
   static String firstMockTakenNote(String sentence, String line) => line.isEmpty ? sentence : '$sentence The price now: $line';

@@ -35,9 +35,13 @@ CostLine costLineFor(PracticeQuote quote) {
   }
   if (quote.freeByAllowance) {
     final kind = quote.allowance!.kind;
-    // C-dec 1: the first full mock in each subject is free (the server prices it at 0 with this allowance).
-    if (kind.startsWith('first_full_mock:') || quote.freeReason == firstFullMockFreeReason) return const CostLine(CostKind.freeFirst, PracticeCopy.freeFirstFullMock);
-    if (kind.startsWith('baseline:') || kind.startsWith('full_sample:')) {
+    // D175: a full mock is never called free here. A full mock's allowance (the old first full mock or full sample) says
+    // nothing about price; the server's own figure below, or nothing, stands.
+    if (kind.startsWith('first_full_mock:') || kind.startsWith('full_sample:') || quote.freeReason == firstFullMockFreeReason) {
+      return const CostLine(CostKind.none);
+    }
+    // The free 5-question baseline check in a subject (not a full mock).
+    if (kind.startsWith('baseline:')) {
       return CostLine(CostKind.freeFirst, PracticeCopy.freeFirstIn(quote.subjectName ?? 'this subject'));
     }
     return const CostLine(CostKind.freeToday, PracticeCopy.freeToday);

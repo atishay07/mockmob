@@ -21,7 +21,6 @@ import 'package:mockmob/features/notifications/services/notification_providers.d
     show NextReminderNotifier, nextReminderProvider, notificationPermissionProvider;
 import 'package:mockmob/features/rhythm/data/study_days.dart' show PlannedDays, plannedDaysProvider;
 import 'package:mockmob/features/credits/credits_screen.dart' show CreditsScreen;
-import 'package:mockmob/features/wallet/data/wallet_data.dart' show firstFullMockFreeProvider;
 import 'package:mockmob/features/you/help/faq.dart';
 import 'package:mockmob/features/you/help/help_screen.dart';
 import 'package:mockmob/features/you/hub/hub_cards.dart';
@@ -333,15 +332,13 @@ void main() {
       expect(find.text(FaqCopy.nta.answer.first), findsNothing);
     });
 
-    testWidgets('the credits answer says the first full mock is free only when the server says so (release 11, M2)', (tester) async {
-      for (final free in [false, true]) {
-        await _pump(tester, extra: [firstFullMockFreeProvider.overrideWithValue(free)]);
-        await tester.tap(find.text(FaqCopy.credits.question));
-        await tester.pumpAndSettle();
-        final shown = (free ? FaqCopy.creditsWhenFirstFree : FaqCopy.credits).answer[1];
-        expect(find.text(shown), findsOneWidget, reason: 'free=$free');
-        expect(find.textContaining('first one in each subject is free'), free ? findsOneWidget : findsNothing, reason: 'free=$free');
-      }
+    testWidgets('D175: the credits answer says every full mock costs 50 credits on Free, with no free first one', (tester) async {
+      await _pump(tester);
+      await tester.tap(find.text(FaqCopy.credits.question));
+      await tester.pumpAndSettle();
+      expect(find.text(FaqCopy.credits.answer[1]), findsOneWidget);
+      expect(find.textContaining('On Free, every full mock costs 50 credits'), findsOneWidget);
+      expect(find.textContaining('first one in each subject is free'), findsNothing);
     });
 
     testWidgets('the Help page lists every question and opens the one asked for', (tester) async {

@@ -21,22 +21,11 @@ import 'package:mockmob/features/review/revise/revise_copy.dart';
 import 'package:mockmob/features/today/copy.dart';
 import 'package:mockmob/features/today/copy_glance.dart';
 import 'package:mockmob/features/today/copy_suggested.dart';
-import 'package:mockmob/features/tools/estimate/estimate_copy.dart';
 import 'package:mockmob/features/tools/my_colleges/my_colleges_copy.dart';
 import 'package:mockmob/features/wallet/data/wallet_data.dart' show WalletRead;
 import 'package:mockmob/features/wallet/wallet_copy.dart';
 import 'package:mockmob/features/you/edit_copy.dart';
 import 'package:mockmob/features/you/help/faq.dart';
-
-/// The website's ONE_CREDIT_LINE (src/lib/creditCopy.mjs, live web 48985a8d, C-dec 3), word for word, with the free first
-/// full mock switched off (FIRST_FULL_MOCK_ENABLED=false) and on. The app reads only its clause; it never shows this line
-/// (its own words are WalletCopy.creditsFor, L-02: never "real CUET questions" or "Mobi job").
-const _webOneCreditLineOff = '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered '
-    'and tested on 2 real CUET questions. A full mock costs 50 credits. Everything Mobi reads from your record is free. The cost '
-    'shows before you start.';
-const _webOneCreditLineOn = '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered '
-    'and tested on 2 real CUET questions. A full mock costs 50 credits, and your first one in each subject is free. Everything '
-    'Mobi reads from your record is free. The cost shows before you start.';
 
 void main() {
   group('the place is Your papers (D105, D106): the old tab name is gone from every line that names it', () {
@@ -78,41 +67,26 @@ void main() {
     });
   });
 
-  group('a full mock is priced truthfully (C-dec 1: the first one in each subject is free)', () {
-    test('the Wallet\'s own line makes no free-mock claim and no untrue one; the server\'s clause is the only free signal', () {
-      expect(WalletCopy.creditsFor, isNot(contains(WalletCopy.firstMockFreeClause)));
+  group('a full mock is priced truthfully (D175: no free first full mock; every full mock is 50 credits on Free)', () {
+    test('the Wallet\'s own line says a full mock costs 50 credits and makes no free-mock claim', () {
       expect(WalletCopy.creditsFor, contains('A full mock costs 50 credits.'));
       expect(WalletCopy.creditsFor, contains('2 new CUET-style questions'));
-      for (final banned in ['real CUET', 'Mobi job', 'Deeper analysis', 'chat reply']) {
+      for (final banned in ['real CUET', 'Mobi job', 'Deeper analysis', 'chat reply', 'first one', 'each subject']) {
         expect(WalletCopy.creditsFor, isNot(contains(banned)), reason: banned);
       }
-      // The server's line with the rule on is that line plus the clause, and the app reads the clause as the signal.
-      expect(_webOneCreditLineOn, contains(WalletCopy.firstMockFreeClause));
-      expect(_webOneCreditLineOff, isNot(contains(WalletCopy.firstMockFreeClause)));
-      expect(WalletRead.fromJson({'credits': {'buys': _webOneCreditLineOn}}).firstFullMockFree, isTrue);
-      expect(WalletRead.fromJson({'credits': {'buys': _webOneCreditLineOff}}).firstFullMockFree, isFalse, reason: 'kill switch off');
-      expect(WalletRead.fromJson({'credits': {'buys': '1 credit buys 1 practice question or 1 chat reply.'}}).firstFullMockFree, isFalse, reason: 'older server');
-      expect(WalletRead.fromJson(const {}).firstFullMockFree, isFalse, reason: 'nothing loaded');
+      // The server may still send a `buys` line (with or without an old first-free clause): it parses, and is not shown.
+      expect(WalletRead.fromJson({'credits': {'buys': '1 credit buys 1 practice question, and your first one in each subject is free.'}}).buys, isNotNull);
+      expect(WalletRead.fromJson(const {}).buys, isNull);
     });
 
-    test('Help says the first full mock is free only when the server says so, and always that free credits refill', () {
-      for (final item in [FaqCopy.credits, FaqCopy.creditsWhenFirstFree]) {
-        final answer = item.answer.join(' ');
-        expect(answer, contains('A full mock costs 50 credits'));
-        expect(answer, contains('They refill to 50 at the start of every month'));
-        expect(answer, isNot(contains('renews')));
-      }
-      expect(FaqCopy.credits.answer.join(' '), isNot(contains('free.')), reason: 'no claim without the server');
-      expect(FaqCopy.creditsWhenFirstFree.answer.join(' '), contains('A full mock costs 50 credits, and your first one in each subject is free.'));
-      expect(FaqCopy.forServer(FaqCopy.quick, firstMockFree: false), same(FaqCopy.quick));
-      final on = FaqCopy.forServer(FaqCopy.quick, firstMockFree: true);
-      expect(on.map((i) => i.id), FaqCopy.quick.map((i) => i.id));
-      expect(on.firstWhere((i) => i.id == 'credits'), same(FaqCopy.creditsWhenFirstFree));
-    });
-
-    test('a free quote says free in the website\'s words; the range card says the plan line', () {
-      expect(PracticeCopy.freeFirstFullMock, 'Free: your first full mock in this subject is on us.');
-      expect(EstimateCopy.firstMockFree, 'Your first full mock in every subject is free.');
+    test('Help says every full mock costs 50 credits on Free, Pro includes them, and free credits refill', () {
+      final answer = FaqCopy.credits.answer.join(' ');
+      expect(answer, contains('On Free, every full mock costs 50 credits'));
+      expect(answer, contains('On Pro, practice and full mocks are unlimited'));
+      expect(answer, contains('They refill to 50 at the start of every month'));
+      expect(answer, isNot(contains('renews')));
+      expect(answer, isNot(contains('first one')));
+      expect(answer, isNot(contains('each subject')));
     });
   });
 

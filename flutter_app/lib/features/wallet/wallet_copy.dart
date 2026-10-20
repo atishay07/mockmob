@@ -11,16 +11,13 @@ abstract final class WalletCopy {
   // The one balance.
   static const creditsName = 'Credits';
   /// What one credit buys, in the app's own words (20 Oct, L-02/L-20: one noun pair, "a doubt" and "a fix"; the 2
-  /// questions are new CUET-style questions from the checked bank, never "real CUET questions"). It makes no free
-  /// claim: whether the first full mock in each subject is free is the server's to say, in its `buys` line, in the words
-  /// of [firstMockFreeClause]. So this line is true on every server.
+  /// questions are new CUET-style questions from the checked bank, never "real CUET questions"). D175 (20 Oct): there
+  /// is no free first full mock, so a full mock costs 50 credits on Free and is included on Pro.
   static const creditsFor =
       '1 credit buys 1 practice question, 1 doubt or 1 fix. A doubt gets Mobi’s answer, a follow-up and 2 new CUET-style '
       'questions. A fix explains one mistake and tests it on 2 fresh questions. A full mock costs 50 credits. Everything '
       'Mobi reads from your record is free. The cost shows before you start.';
 
-  /// The clause the server's `buys` line carries while the free first full mock is on (creditCopy FIRST_ONE_FREE).
-  static const firstMockFreeClause = ', and your first one in each subject is free';
   static String freeLeft(int left, int of) => '$left of $of free credits left this month';
   static String held(int n) => n == 1 ? '1 held credit' : '$n held credits';
   static const heldNote = 'Held credits do not expire.';
@@ -47,17 +44,11 @@ abstract final class WalletCopy {
   static const inviteLabel = 'Invite a friend. When your friend joins and finishes their first practice, you both get 100 credits.';
   static const lowNote = 'You are running low. A top-up or Pro keeps you practising.';
 
-  // What credits buy: the server's price list, as tiles. The first full mock line only when the server says so.
+  // What credits buy: the server's price list, as tiles.
   static const buysTitle = 'What credits buy';
   static const costShows = 'What Mobi reads from your marks is free. The cost always shows before you start.';
   static const buyQuestion = 'A practice question';
   static const buyMock = 'A full mock';
-  static const buyMockFirstFree = 'First one in each subject is free';
-
-  /// Why the first full mock in each subject is free (K6, owner 20 Oct: "why was this decided?"), in one plain line under
-  /// the price list. Only while the server's rule is on.
-  static const firstMockWhy =
-      'Your first full mock in each subject is free, so you can sit a real exam-style paper and see your full reveal before you pay.';
   static const buysCostColumn = 'Cost';
   // What Mobi does for a credit, by one noun pair everywhere (L-20): a doubt and a fix. There is no 3-credit "deeper
   // analysis" (C-dec 3), Mobi never charges for talking, and what it reads from the record is free.

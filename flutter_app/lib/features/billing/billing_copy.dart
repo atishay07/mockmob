@@ -166,27 +166,9 @@ abstract final class BillingCopy {
     ('Insights in detail', 'This paper only', null),
   ];
 
-  /// The Free cell for full mocks, by what the server says about the first full mock (L-05, C-dec 1).
+  /// The Free cell for full mocks. D175 (20 Oct): there is no free first full mock; every full mock costs a Free member
+  /// 50 credits, and Pro includes them.
   static const compareFullMockFree = '50 credits each';
-
-  /// With the first-free rule on, the row reads as one sentence (K4, owner 20 Oct: the old "First free, then 50 credits"
-  /// was cut off in its narrow cell): "Full mocks", the line under it, then the Free cell.
-  static const compareFullMockFirstFree = 'Then 50 credits';
-  static const compareFullMockFirstFreeNote = 'Your first in each subject is free';
-
-  /// The line under a row's name, by row, when the server's rule calls for one ([firstFree] true only).
-  static Map<String, String> compareNotesFor({required bool? firstFree}) =>
-      firstFree == true ? const {'Full mocks': compareFullMockFirstFreeNote} : const {};
-
-  /// The comparison rows with the Free full-mock cell said truthfully: [firstFree] true when the server says the first
-  /// full mock in each subject is free, false when it says it is not, null while that is not known (a plain "Uses credits").
-  static List<(String, String?, String?)> compareRowsFor({required bool? firstFree}) => [
-        for (final r in compareRows)
-          if (r.$1 == 'Full mocks')
-            (r.$1, firstFree == null ? 'Uses credits' : (firstFree ? compareFullMockFirstFree : compareFullMockFree), r.$3)
-          else
-            r,
-      ];
 
   /// The Mob's rows, only when the Mob is on.
   static const List<(String, String?, String?)> compareMobRows = [
@@ -201,13 +183,8 @@ abstract final class BillingCopy {
   static const moment1Title = 'Sit as many mocks as you want';
   static const moment1Line = 'Each Full mock is built fresh from one central question bank, so every paper is new.';
 
-  /// [moment1Line] with what Free pays, only as the server says it (L-05): the first full mock in each subject is free
-  /// while its rule is on. Null [firstFree] (not known yet) says nothing about the price.
-  static String moment1LineFor({required bool? firstFree}) => switch (firstFree) {
-        true => '$moment1Line On Free, your first one in each subject is free, then each costs 50 credits.',
-        false => '$moment1Line On Free, each one costs 50 credits.',
-        null => moment1Line,
-      };
+  /// [moment1Line] with what Free pays (D175: every full mock is 50 credits on Free, with no free first one).
+  static const moment1LineWithPrice = '$moment1Line On Free, each one costs 50 credits.';
 
   static const moment2Eyebrow = 'Smart practice';
   static const moment2Title = 'Every set aims at what you miss';

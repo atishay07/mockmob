@@ -91,18 +91,14 @@ class RangeStepsCard extends ConsumerWidget {
           const SizedBox(height: MmSpace.s12),
           Text(EstimateCopy.soFar(soFar.estimate), style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink2)),
         ],
-        if (price.kind == RangeMockPriceKind.firstFree) ...[
-          const SizedBox(height: MmSpace.s12),
-          Text(EstimateCopy.firstMockFree, style: type.small.copyWith(fontSize: 14, height: 20 / 14, color: colors.ink)),
-        ],
         const SizedBox(height: MmSpace.s16),
         if (next != null) ...[
           KeyButton.secondary(
-            label: price.isFree ? EstimateCopy.sitFreeKey(rangeSubjectName(next)) : EstimateCopy.sitKey(rangeSubjectName(next)),
+            label: EstimateCopy.sitKey(rangeSubjectName(next)),
             onPressed: sit,
           ),
           // Practice's own cost line, under the key, before the press (W-060); none while unknown.
-          if (price.kind != RangeMockPriceKind.firstFree && price.line != null) ...[
+          if (price.line != null) ...[
             const SizedBox(height: MmSpace.s6),
             Text(price.line!, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink2)),
           ],

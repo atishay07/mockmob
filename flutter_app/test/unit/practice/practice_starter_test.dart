@@ -388,9 +388,13 @@ void main() {
       expect(const StartFailureView(StartFailure.firstMockTaken).retryable, isFalse);
     });
 
-    test('the stock words are the web words, word for word', () {
-      expect(PracticeCopy.firstMockTaken, takenBody['message']);
-      expect(PracticeCopy.firstMockUnchecked, uncheckedBody['message']);
+    // D175: the server's own refusal text is shown when it sends one; the stock words that stand in when it does not
+    // say nothing of a free mock (there is none now), only that the price changed and nothing was charged.
+    test('the stock words promise no free mock and say nothing was charged', () {
+      for (final line in [PracticeCopy.firstMockTaken, PracticeCopy.firstMockUnchecked]) {
+        expect(line.toLowerCase(), isNot(contains('free')));
+        expect(line, contains('nothing was charged'));
+      }
     });
   });
 

@@ -31,14 +31,13 @@ class _Auth extends AuthController {
 
 void main() {
   group('the Pro page prices only what is true', () {
-    test('L-05: the first full mock in each subject is free while the server says so; unknown names no price', () {
-      String freeCell(bool? firstFree) => BillingCopy.compareRowsFor(firstFree: firstFree).firstWhere((r) => r.$1 == 'Full mocks').$2!;
-      expect(freeCell(true), BillingCopy.compareFullMockFirstFree);
-      expect(freeCell(false), '50 credits each');
-      expect(freeCell(null), 'Uses credits');
-      expect(BillingCopy.moment1LineFor(firstFree: true), contains('your first one in each subject is free'));
-      expect(BillingCopy.moment1LineFor(firstFree: false), endsWith('On Free, each one costs 50 credits.'));
-      expect(BillingCopy.moment1LineFor(firstFree: null), isNot(contains('50 credits')));
+    test('L-05 / D175: a Free full mock is priced at 50 credits each, with no free first one', () {
+      final freeCell = BillingCopy.compareRows.firstWhere((r) => r.$1 == 'Full mocks').$2!;
+      expect(freeCell, '50 credits each');
+      expect(BillingCopy.compareRows.firstWhere((r) => r.$1 == 'Full mocks').$3, BillingCopy.compareUnlimited);
+      expect(BillingCopy.moment1LineWithPrice, endsWith('On Free, each one costs 50 credits.'));
+      expect(BillingCopy.moment1LineWithPrice.toLowerCase(), isNot(contains('first one')));
+      expect(BillingCopy.moment1LineWithPrice.toLowerCase(), isNot(contains('is free')));
     });
 
     test('L-04: no live rooms are sold while live is off', () {
