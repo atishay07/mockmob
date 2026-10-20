@@ -9,6 +9,13 @@
 
 import '../../../../core/models/json_helpers.dart';
 
+/// D174/D175: what a Free member pays to sit a full mock a friend started (Pro sits free, there is no free first
+/// mock). Only the fallback: the server's `cost_credits` wins whenever it sends one.
+const int kMockSitCredits = 50;
+
+/// A field the server may spell in snake_case or camelCase.
+Object? _either(Map<String, dynamic> j, String snake, String camel) => j.containsKey(snake) ? j[snake] : j[camel];
+
 // ---------------------------------------------------------------------------------------------------
 // Folds
 // ---------------------------------------------------------------------------------------------------
@@ -208,6 +215,7 @@ class MobGameSummary {
     this.podiumReady = false,
     this.title,
     this.minutes,
+    this.costCredits,
   });
 
   factory MobGameSummary.fromJson(Json j) => MobGameSummary(
@@ -227,7 +235,12 @@ class MobGameSummary {
         podiumReady: asBool(j['podiumReady']) ?? false,
         title: asString(j['title']),
         minutes: asInt(j['minutes']),
+        costCredits: asInt(_either(j, 'cost_credits', 'costCredits')),
       );
+
+  /// What sitting this game costs THIS student, in credits (a full mock for a Free member who has not started
+  /// it); 0 or null: nothing. Only the server's word; [StartRight.mockCost] is the fallback.
+  final int? costCredits;
 
   /// A race's length (5 or 10) or a mock's (60); null for a sprint or a round.
   final int? minutes;
@@ -383,6 +396,8 @@ class StartRight {
     this.reason,
     this.micFrom,
     this.locked = const [],
+    this.mockSitCredits,
+    this.mockProToStart,
   });
 
   factory StartRight.fromJson(Json j) => StartRight(
@@ -397,17 +412,38 @@ class StartRight {
         reason: asString(j['reason']),
         micFrom: j['micFrom'] is Map ? asString(asJson(j['micFrom'])['name']) : asString(j['micFrom']),
         locked: [for (final f in asStringList(j['locked'])) GameFormat.parse(f)],
+        // D174/D175 (server enforcement on web/1020-mob-fulltogether-price): `starts.mock` = { cost_credits,
+        // pro_required_to_start }, read both ways round and only when it is a map.
+        mockSitCredits: j['mock'] is Map ? asInt(_either(asJson(j['mock']), 'cost_credits', 'costCredits')) : null,
+        mockProToStart: j['mock'] is Map ? asBool(_either(asJson(j['mock']), 'pro_required_to_start', 'proRequiredToStart')) : null,
       );
 
   /// Formats this student sees but may not start (Full mock together for Free while billing is on).
   final List<GameFormat> locked;
 
+  /// What THIS student pays to sit a full mock a friend started (0 for Pro). Null when the server does not say.
+  final int? mockSitCredits;
+
+  /// The server's `pro_required_to_start` for a full mock. Null when it does not say.
+  final bool? mockProToStart;
+
+  /// Credits to sit a Mob full mock, as the owner set it (D174): 50 on Free while billing is on, nothing for Pro
+  /// and nothing while billing is off. The server's own number wins when it sends one.
+  int get mockCost => !billingOn || via == StartVia.pro ? 0 : (mockSitCredits ?? kMockSitCredits);
+
+  /// What a Free member pays to sit one (Pro's own price reads 0, so the Free price is the server's when it sent
+  /// one for a Free student, otherwise the owner's 50).
+  int get freeMockPrice => via != StartVia.pro && (mockSitCredits ?? 0) > 0 ? mockSitCredits! : kMockSitCredits;
+
+  /// Starting a full mock together is Pro only (D167), by the server's `locked` list or `pro_required_to_start`.
+  bool get mockNeedsPro => billingOn && via != StartVia.pro && (locked.contains(GameFormat.mock) || mockProToStart == true);
+
   /// D167: a format shows when the server offers it or names it as locked; sprints and rounds always show
   /// (an older server knows only those).
-  bool shows(GameFormat f) => f == GameFormat.sprint || f == GameFormat.round || formats.contains(f) || locked.contains(f);
+  bool shows(GameFormat f) => f == GameFormat.sprint || f == GameFormat.round || formats.contains(f) || locked.contains(f) || (f == GameFormat.mock && mockNeedsPro);
 
   /// The student may start [f] now.
-  bool allows(GameFormat f) => can && !locked.contains(f) && (f == GameFormat.sprint || f == GameFormat.round || formats.contains(f));
+  bool allows(GameFormat f) => can && !locked.contains(f) && !(f == GameFormat.mock && mockNeedsPro) && (f == GameFormat.sprint || f == GameFormat.round || formats.contains(f));
 
   final bool billingOn;
   final bool can;

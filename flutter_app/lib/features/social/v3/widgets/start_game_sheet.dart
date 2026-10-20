@@ -15,7 +15,8 @@
 // On success the run opens at once (this sheet does that; the caller does not): an anytime game opens its run,
 // a live one its room (the game's ready phase), a full mock the app's mock runner. The opened game is returned.
 // Errors are the server's sentences, inline over the key; LIVE_BUSY turns the sheet to Anytime with its
-// sentence. No price anywhere.
+// sentence. No price in the Mob except Full mock together (D174, D175): Pro starts it and sits free, a Free member
+// sits one a friend starts for credits, so its row says so in plain words and carries one way to Pro.
 
 import 'dart:async';
 
@@ -28,6 +29,7 @@ import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../practice/widgets/chapter_picker.dart' show showChapterPicker;
+import '../../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../../copy.dart' show MobCopy;
 import '../../data/mob_models.dart';
 import '../../data/mob_navigator.dart';
@@ -190,10 +192,15 @@ class _StartBody extends ConsumerWidget {
                 minutes: c.minutes,
                 count: c.count,
                 mockDetail: MobV3Copy.mockDetail,
+                // A Free member's mock row says what Pro does and what sitting costs, and opens Pro from the row.
+                proLine: f == GameFormat.mock && starts.mockNeedsPro ? MobV3Copy.mockProRow(starts.freeMockPrice) : null,
+                onPro: f == GameFormat.mock && starts.mockNeedsPro && ref.watch(proNudgesOnProvider)
+                    ? () => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock)
+                    : null,
                 onTap: () {
                   if (live && f == GameFormat.mock) return;
                   if (!starts.allows(f) && starts.can) {
-                    c.update(() => c.error = f == GameFormat.mock ? MobV3Copy.mockPro : MobV3Copy.errors['START_PRO']);
+                    c.update(() => c.error = f == GameFormat.mock ? MobV3Copy.mockPro(starts.freeMockPrice) : MobV3Copy.errors['START_PRO']);
                     return;
                   }
                   c.pick(f);
@@ -308,6 +315,8 @@ class _FormatRow extends StatelessWidget {
     required this.onMinutes,
     required this.onCount,
     required this.mockDetail,
+    this.proLine,
+    this.onPro,
     this.anytimeOnly = false,
     this.locked = false,
     this.proTag = false,
@@ -321,6 +330,10 @@ class _FormatRow extends StatelessWidget {
   final ValueChanged<int> onMinutes;
   final ValueChanged<int> onCount;
   final String mockDetail;
+
+  /// Under a locked Full mock together row: what Pro does and what sitting costs, with [onPro] opening Pro.
+  final String? proLine;
+  final VoidCallback? onPro;
   final bool anytimeOnly;
   final bool locked;
   final bool proTag;
@@ -394,7 +407,7 @@ class _FormatRow extends StatelessWidget {
         ),
       ),
     );
-    return Semantics(
+    final tappable = Semantics(
       container: true,
       button: true,
       inMutuallyExclusiveGroup: true,
@@ -407,6 +420,26 @@ class _FormatRow extends StatelessWidget {
         focusRadius: BorderRadius.circular(16),
         builder: (context, pressed, _) => row,
       ),
+    );
+    final line = proLine;
+    if (line == null) return tappable;
+    // Not dimmed with the row above it: this is the part a Free member is meant to read.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        tappable,
+        Padding(
+          padding: const EdgeInsets.only(left: MmSpace.s12 + 36 + MmSpace.s12, right: MmSpace.s12),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(child: Text(line, key: const ValueKey('start-mock-pro-line'), style: type.small.copyWith(color: colors.ink2))),
+              if (onPro != null) _AccentKey(key: const ValueKey('start-mock-pro'), label: MobV3Copy.seePlans, onPressed: onPro),
+            ],
+          ),
+        ),
+        const SizedBox(height: MmSpace.s4),
+      ],
     );
   }
 }
@@ -709,7 +742,7 @@ class _StartKeysState extends ConsumerState<_StartKeys> {
                 GameFormat.sprint => MobV3Copy.startTheSprint,
                 _ => MobV3Copy.startTheRound,
               };
-        final allowance = starts == null ? MobV3Copy.startUnder(mobName) : MobV3Copy.allowance(starts, mobName, live: live);
+        final allowance = starts == null ? MobV3Copy.startUnder(mobName) : MobV3Copy.allowance(starts, mobName, live: live, mock: c.tile == GameFormat.mock);
         final paperOpen = mob != null && !mob.week.youSat && !mob.week.closedAt(now);
         return Column(
           mainAxisSize: MainAxisSize.min,
@@ -724,7 +757,7 @@ class _StartKeysState extends ConsumerState<_StartKeys> {
               label: label,
               loading: c.busy,
               onPressed: can ? () => _start(context) : null,
-              disabledReason: can ? null : (starts.can ? MobV3Copy.mockPro : MobV3Copy.errors['START_USED']),
+              disabledReason: can ? null : (starts.can ? MobV3Copy.mockPro(starts.freeMockPrice) : MobV3Copy.errors['START_USED']),
             ),
             const SizedBox(height: MmSpace.s8),
             Text(allowance, key: const ValueKey('start-allowance'), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),

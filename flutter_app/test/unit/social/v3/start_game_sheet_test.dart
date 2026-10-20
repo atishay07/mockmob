@@ -196,7 +196,7 @@ void main() {
     expect(find.text('1 start left this week. Everyone plays free.'), findsOneWidget);
     expect(find.text('Pro'), findsOneWidget);
     await tapAt(t, find.text('Full mock together'));
-    expect(find.text('Starting a full mock together is part of Pro. You can sit every full mock your Mob starts, free.'), findsOneWidget);
+    expect(find.text('Starting a full mock together is part of Pro. On Free you can sit one a friend starts for 50 credits.'), findsOneWidget);
     expect(keyLabel('Start the sprint'), findsOneWidget, reason: 'the choice stays on what Free can start');
     expect(noText(t, _price), isTrue);
   });

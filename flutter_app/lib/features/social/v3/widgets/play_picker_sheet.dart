@@ -27,6 +27,7 @@ import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
 import 'free_pro_sheet.dart';
 import 'sheet_parts.dart';
+import 'sit_mock_sheet.dart' show mockSitCost;
 import 'start_game_sheet.dart';
 
 /// Opens P1. The body scrolls; "Ask your Mob for a game" and "What Pro adds" stand pinned under it.
@@ -109,7 +110,7 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
       children: [
         if (open.isNotEmpty || paperRow) ...[
           const MobSheetLabel(MobV3Copy.openNow, padding: EdgeInsets.only(top: MmSpace.s4, bottom: MmSpace.s4)),
-          for (var i = 0; i < open.length; i++) _GameRow(game: open[i], member: v3.member(open[i].host?.memberId ?? ''), now: now, primary: i == firstPlayable),
+          for (var i = 0; i < open.length; i++) _GameRow(game: open[i], member: v3.member(open[i].host?.memberId ?? ''), now: now, primary: i == firstPlayable, cost: mockSitCost(open[i], starts)),
           if (paperRow) _PaperRow(mob: mob, satAt: v3.paperSatAt, primary: paperPrimary, sitting: _sitting, onSit: () => _sit(mob)),
         ],
         const MobSheetLabel(MobV3Copy.startAGame),
@@ -157,12 +158,15 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
 }
 
 class _GameRow extends StatelessWidget {
-  const _GameRow({required this.game, required this.member, required this.now, required this.primary});
+  const _GameRow({required this.game, required this.member, required this.now, required this.primary, this.cost = 0});
 
   final MobGameSummary game;
   final MobV3Member? member;
   final DateTime now;
   final bool primary;
+
+  /// Credits a Free member pays to sit this full mock (0: nothing, say nothing).
+  final int cost;
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +179,7 @@ class _GameRow extends StatelessWidget {
     return MobRow(
       leading: lead,
       title: MobV3Copy.gameTitle(game),
-      line: MobV3Copy.openRow(game, now),
+      line: MobV3Copy.openRow(game, now, cost: cost),
       trailing: played
           ? RowKey(label: game.format == GameFormat.mock ? MobV3Copy.sheetsKey : MobV3Copy.podiumKey, onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.podium(c, game.id)))
           : RowKey(

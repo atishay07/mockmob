@@ -275,11 +275,11 @@ abstract final class MobV3Copy {
   // ---- P1 Play picker ----
   static const String pickerTitle = 'Play with your Mob';
   static const String openNow = 'Open now';
-  static String openRow(MobGameSummary g, DateTime now) {
+  static String openRow(MobGameSummary g, DateTime now, {int cost = 0}) {
     final until = 'Open until ${g.closesAt == null ? 'tomorrow' : MobTime.when(g.closesAt!, now)}.';
     return switch (g.format) {
       GameFormat.race => '${g.minutes ?? 5} minutes, as many as you can. $until',
-      GameFormat.mock => '${g.count} questions, ${g.minutes ?? 60} minutes. $until',
+      GameFormat.mock => '${g.count} questions, ${g.minutes ?? 60} minutes. $until${cost > 0 ? ' $cost credits to sit, free with Pro.' : ''}',
       _ => '${g.count} questions. $until',
     };
   }
@@ -312,7 +312,18 @@ abstract final class MobV3Copy {
   static const String chooseAGame = 'Choose a game';
   static const String startRowLine = 'Sprint, race, round or full mock';
   static const String startKey2 = 'Start';
-  static const String mockPro = 'Starting a full mock together is part of Pro. You can sit every full mock your Mob starts, free.';
+  /// D174/D175: Pro starts a full mock together and sits every one free; a Free member sits one a friend starts for
+  /// credits (no free first mock). Plain: what it is, what it costs, what Pro does.
+  static String mockPro(int cost) => 'Starting a full mock together is part of Pro. On Free you can sit one a friend starts for $cost credits.';
+  static String mockProRow(int cost) => 'Pro starts it and sits every one free. On Free you sit one a friend starts for $cost credits.';
+  static String mockAllowance(int cost) => 'You sit it free with Pro. Free members in your Mob sit it for $cost credits.';
+  static const String sitMockTitle = 'Sit the full mock';
+  static String sitMockCost(int cost, int? balance) => balance == null ? 'Sitting it costs $cost credits.' : 'Sitting it costs $cost credits. You have $balance.';
+  static String sitMockKey(int cost) => 'Sit it for $cost credits';
+  static String sitMockShort(int cost, int balance) => 'You need $cost credits to sit it and have $balance.';
+  static const String sitMockPro = 'With Pro you start full mocks together and sit every one free.';
+  static const String sitMockProKey = 'See Pro plans';
+  static const String sitMockOnce = 'You pay once. If you leave and come back, it opens where you were.';
 
   // ---- P2 Start a game ----
   static const String whatItCovers = 'What it covers';
@@ -359,8 +370,10 @@ abstract final class MobV3Copy {
   static const String opening = 'Opening';
 
   /// The start allowance under the key: what starting this costs this student, and that everyone plays free.
-  static String allowance(StartRight s, String mob, {bool live = false}) {
+  static String allowance(StartRight s, String mob, {bool live = false, bool mock = false}) {
     if (!s.billingOn) return everyonePlays(mob);
+    // A full mock together: Pro starts it, Pro sits free, Free pays to sit (D174, D175).
+    if (mock && s.via == StartVia.pro) return mockAllowance(s.freeMockPrice);
     if (!s.can) return startUsed;
     return switch (s.via) {
       StartVia.freeWeekly => (s.freeLeft ?? 1) == 1
@@ -398,11 +411,20 @@ abstract final class MobV3Copy {
     'The podium, your marks and Fix it together.',
     'Every Fold and sticker you earn.',
   ];
+  /// With full mocks together on (formats), what Free keeps and what the full mock costs is said plainly.
+  static List<String> freeListFor({required bool mocks, int mockCost = kMockSitCredits}) => !mocks
+      ? freeList
+      : [
+          'Play every sprint, race and round your Mob starts, as often as you like.',
+          'Sit a full mock together your Mob starts, for $mockCost credits.',
+          ...freeList.sublist(1),
+        ];
   static const String proAdds = 'Pro adds';
   /// What Pro adds in the Mob. Live rooms are named only while the server's live switch is on (L-04).
-  static List<String> proListFor({required bool live}) => [
+  static List<String> proListFor({required bool live, bool mocks = false}) => [
         live ? 'Start as many games as you like, live or anytime.' : 'Start as many games as you like.',
         if (live) 'Open live rooms.',
+        if (mocks) 'Start a full mock together, and sit every one free.',
         'Pass the mic to a friend, twice a week.',
         'Start up to 3 Mobs.',
       ];

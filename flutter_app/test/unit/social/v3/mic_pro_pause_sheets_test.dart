@@ -59,7 +59,9 @@ void main() {
       expect(find.text('Pro never changes marks, chains or what you can earn. It adds hosting.'), findsOneWidget);
       expect(find.text('Free, always'), findsOneWidget);
       for (final s in [
-        'Play every game your Mob starts, as often as you like.',
+        // The fixture offers Full mock together (formats on): Free's list says what sitting one costs (D174).
+        'Play every sprint, race and round your Mob starts, as often as you like.',
+        'Sit a full mock together your Mob starts, for 50 credits.',
         'The weekly Mob paper, in every Mob you are in.',
         'One start a week in each Mob.',
         'Your chain, rest passes and make-up days.',
@@ -67,6 +69,7 @@ void main() {
         'Every Fold and sticker you earn.',
         // Live rooms are not sold while the server's live switch is off (L-04).
         'Start as many games as you like.',
+        'Start a full mock together, and sit every one free.',
         'Pass the mic to a friend, twice a week.',
         'Start up to 3 Mobs.',
         'Nothing you earn in the Mob is for sale.',

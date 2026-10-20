@@ -1668,7 +1668,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
               flex: 3,
               child: KeyButton(
                 key: const ValueKey('run-key-lock'),
-                label: (_sentPick ?? -1) >= 0 ? MobV3Copy.lockIn(_letters[_sentPick!.clamp(0, _letters.length - 1)]) : MobV3Copy.skip,
+                label: (_sentPick ?? -1) >= 0 ? MobV3Copy.lockIn(_letters[_sentPick!.clamp(0, _letters.length - 1)]) : MobV3Copy.sheetSkipped,
                 onPressed: null,
               ),
             ),

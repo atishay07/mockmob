@@ -3,9 +3,11 @@
 // fade, so the den stays drawn behind until the moment covers it.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'copy_v3.dart';
 import 'data/mob_mock.dart';
+import 'data/mob_v3_den.dart';
 import 'data/mob_v3_models.dart';
 
 import 'screens/chains_screen.dart';
@@ -17,6 +19,7 @@ import 'screens/mob_settings_v3_screen.dart';
 import 'screens/moments_screen.dart';
 import 'screens/podium_screen.dart';
 import 'screens/shelf_screen.dart';
+import 'widgets/sit_mock_sheet.dart';
 
 abstract final class MobV3Nav {
   static Future<T?> _push<T>(BuildContext context, Widget page, {String? name}) =>
@@ -29,6 +32,13 @@ abstract final class MobV3Nav {
   static Future<void> play(BuildContext context, MobGameSummary g) async {
     if (g.format == GameFormat.mock) {
       final messenger = ScaffoldMessenger.maybeOf(context);
+      // A Free member pays credits to sit (D174, D175): the price and the way to Pro are shown before the paper opens.
+      final starts = ProviderScope.containerOf(context, listen: false).read(denViewProvider)?.v3.starts;
+      final cost = starts == null ? 0 : mockSitCost(g, starts);
+      if (cost > 0) {
+        final go = await showSitMockSheet(context, game: g, cost: cost);
+        if (!go || !context.mounted) return;
+      }
       final failed = await sitMobMock(context, g.id);
       if (failed != null) messenger?.showSnackBar(SnackBar(content: Text(failed), behavior: SnackBarBehavior.floating));
       return;
