@@ -22,6 +22,7 @@ import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../logic/mob_say.dart';
+import '../mob_v3_nav.dart';
 import '../widgets/fold_picker.dart';
 import '../widgets/mob_fx.dart';
 import '../widgets/mob_name_chips.dart';
@@ -167,6 +168,14 @@ class _MobSettingsV3ScreenState extends ConsumerState<MobSettingsV3Screen> {
         flat: true,
         inset: 28 + MmSpace.s16,
         children: [
+          YouRow(
+            key: const ValueKey('set-how'),
+            flat: true,
+            icon: LucideIcons.circleHelp,
+            title: MobExplainerCopy.howItWorks,
+            note: MobExplainerCopy.howItWorksLine,
+            onTap: () => MobV3Nav.howItWorks(context, replay: true),
+          ),
           YouRow(
             flat: true,
             icon: LucideIcons.pencil,

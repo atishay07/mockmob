@@ -1,6 +1,7 @@
-// Goldens for the SOCIAL slice of Mob v3 (spec 7.3): D0, D0a, J1 (valid, invalid), S1, SET and the invite
+// Goldens for the SOCIAL slice of Mob v3 (spec 7.3): D0, J1 (valid, invalid), S1, SET and the invite
 // card, at 360 dp Night and Day; D0 also at 412 dp and at 1.3x text. Compare with the arena references
-// S21 (create), S22 (join), S20 (shelf) and S23 (a Mob of one).
+// S21 (create), S22 (join), S20 (shelf) and S23 (a Mob of one). The setup that replaced the D0a sheet has
+// its own goldens (mob_setup_golden_test.dart).
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
@@ -41,14 +42,6 @@ void main() {
       await pumpMockmob(tester, const DenStartScreen(), brightness: b, wrapInScaffold: false, disableAnimations: true, overrides: socialOverrides(SocialServer(scenario: 'fresh'), auth: noSubjectsAuth));
       await tester.pump(const Duration(milliseconds: 500));
       await shot('d0_nosubjects_360', b);
-    });
-
-    testWidgets('D0a start sheet 360 ${_tag(b)}', (tester) async {
-      await pumpMockmob(tester, const DenStartScreen(), brightness: b, size: const Size(360, 860), wrapInScaffold: false, disableAnimations: true, overrides: socialOverrides(SocialServer(scenario: 'fresh')));
-      await tester.tap(find.byKey(const ValueKey('d0-start')));
-      await settleImages(tester);
-      await tester.pump(const Duration(milliseconds: 600));
-      await shot('d0a_360', b);
     });
 
     testWidgets('J1 join, valid code 360 ${_tag(b)}', (tester) async {

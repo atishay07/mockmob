@@ -804,6 +804,137 @@ abstract final class MobV3Copy {
 }
 
 // ---------------------------------------------------------------------------------------------------
+// The Mob explainer and the setup after it (owner D166 and K9, 20 Oct)
+// ---------------------------------------------------------------------------------------------------
+
+/// The seven slides the first time a student starts or joins a Mob, and the one-question setup. Every
+/// claim is true in the build (MOB-EXPLAINER.md section 5; K9: the game types and numbers are the
+/// server's `COUNTS`, `PAPER_COUNT` and `startRight`, the highlights are `assignMoments`). Live rooms are
+/// named only as "Coming soon". The fixture names, marks and question are the spec's own (5.3).
+abstract final class MobExplainerCopy {
+  static const int slideCount = 7;
+  static const String regionLabel = 'How the Mob works';
+  static const String skip = 'Skip';
+  static const String next = 'Next';
+  static const String startYourMob = 'Start your Mob';
+  static const String joinWithCode = 'Join with a code';
+  static const String backToMob = 'Back to your Mob';
+  static String joinNamed(String mob) => 'Join $mob';
+  static const String joinThisMob = 'Join this Mob';
+  static const String howItWorks = 'How the Mob works';
+  static const String howItWorksLine = 'Watch the 7 slides again';
+  static String slideLabel(int i, String title) => '${i + 1} of $slideCount: $title';
+  static String slideLive(int i, String title, String body) => '${i + 1} of $slideCount. $title. $body';
+
+  static const List<String> titles = [
+    'This is your Mob',
+    'Everyone sits as a Fold',
+    'Four ways to play',
+    'See who did best',
+    'Fix it together',
+    'Stitch a week together',
+    'Earned, never bought',
+  ];
+
+  static const String body1 = 'You and up to 4 friends. Start a quick game any time. Your friends get 24 hours to play the same questions, and you see who did best.';
+  static const String body2 =
+      "The Folds are paper friends. Each one was a mistake once, until someone fixed it. Mobi came from the very first fix, so he's the eldest. You start as one of these four.";
+
+  /// Who may start a game (`starts.mjs` startRight): with billing on, Pro starts anything and Free has
+  /// one start in each Mob a week plus any mic a Pro friend passes; with it off, anyone. Joining and
+  /// playing are never gated.
+  static const String body3BillingOn = 'With Pro you can start any game. On Free you get one start in each Mob every week, and a friend with Pro can pass you the mic. Joining and playing are always free.';
+  static const String body3BillingOff = 'Anyone in your Mob can start a game. Joining and playing are always free.';
+  static const String body4 = "After a game, the podium goes by CUET marks: +5 if right, −1 if wrong, 0 if you skip. Kabir skipped the one he wasn't sure of and beat Riya by a mark. Then everyone gets one highlight.";
+  static const String body5 =
+      "When a game closes, the question that caught most of you becomes your Mob's to fix. See why, try a fresh one, and on Wednesday one more checks it held. If 2 of you pass, it's fixed.";
+  static const String body6 =
+      "Answer 15 questions each in Mob games and papers, and the week is stitched onto your Mob's pennant. Nobody can break it alone. Your own chain needs 5 questions a day, and a rest pass covers a missed day.";
+  static const String body7 = "Your Mob's first weekly quest brings Hop to everyone in it. The rest come from real things you do, and each one goes on your shelf. None can be bought.";
+
+  static String body(int i, {required bool billingOn}) => switch (i) {
+        0 => body1,
+        1 => body2,
+        2 => billingOn ? body3BillingOn : body3BillingOff,
+        3 => body4,
+        4 => body5,
+        5 => body6,
+        _ => body7,
+      };
+
+  /// Slide 3 only: the one place live rooms appear.
+  static const String comingSoonLead = 'Coming soon.';
+  static const String comingSoon = 'Live rooms, where everyone starts on one 3, 2, 1.';
+
+  // Slide 1: the den.
+  static const String you = 'You';
+  static const String openSeat = 'Open seat';
+
+  // Slide 2: the answer sheet that becomes Mobi.
+  static const String sheetQuestion = 'Question 4';
+  static const String sheetMarks = '+5 / −1 / 0';
+  static const String mobiEldest = 'Mobi, the eldest';
+
+  // Slide 3: the four games, with the server's numbers (COUNTS sprint 5, round 10 to 20; PAPER_COUNT 10).
+  static const String sprint = 'Sprint';
+  static const String sprintFigure = '5';
+  static const String sprintLine = 'questions';
+  static const String ownRound = 'Your own round';
+  static const List<String> roundLengths = ['10', '15', '20'];
+  static const String ownRoundLine = 'Pick a chapter and a length';
+  static const String rematch = 'Rematch';
+  static const String rematchLine = 'The same chapter and length, one more go';
+  static const String open24 = 'Open for 24 hours';
+  static const String paper = "This week's Mob paper";
+  static const String paperFigure = '10';
+  static const String paperLine = 'questions in 10 minutes';
+  static const String paperFoot = 'The same paper for everyone. Until Sunday 11:59 PM';
+
+  // Slide 4: the marks, the podium, then one highlight each (assignMoments on the fixture runs).
+  static const String highlightKabir = 'Fastest right answer';
+  static const String highlightRiya = 'Quickest finish';
+  static const String highlightYou = 'No minus marks';
+  static String plinth(String name, int marks) => '$name, $marks';
+
+  // Slide 5: the trap and the path.
+  // The sample question itself is content, in lib/dev/mob_explainer_sample.dart.
+  static const String whyLead = 'Why it looked right.';
+  static const String why = ' B counts 1.5 years of profit, not 2.';
+  static const String now = 'Now';
+  static const String nowLine = 'See why, then one fresh question.';
+  static const String checkLine = 'One more checks the fix holds.';
+  static const String fixedTogether = 'Fixed together';
+  static const String trapsLine = '1 of 3 traps fixed. Crane comes at 3.';
+
+  // Slide 6: the quest and the chains.
+  static const String questOf = 'of 60 questions';
+  static const String questDone = 'Quest done';
+  static const String questDoneLine = 'Chai Circle answered 60. Week 4 is stitched.';
+  static const String yourChain = 'Your chain';
+  static const String daysInARow = 'days in a row';
+  static const String moonLegend = 'Moon: a rest pass kept the chain.';
+
+  // Slide 7: the shelf, each with its real rule (foldRule, short).
+  static const String hop = 'Hop';
+  static const List<String> shelfRules = ['3 traps fixed together', '4 weeks in a row', 'Beat your best', '5 fixes that held'];
+
+  // ---- The setup, one question a screen ----
+  static const String setupTitle = 'Start a Mob';
+  static String stepOf(int i, int n) => 'Step ${i + 1} of $n';
+  static const String back = 'Back';
+  static const String foldTitle = 'Who will you be?';
+  static const String foldLine = 'Pick your Fold. You sit as it in every Mob, and you can earn more.';
+  static const String nameTitle = 'Name your Mob';
+  static const String subjectTitle = "Pick the subject you'll play";
+  static const String subjectLine = 'A Mob plays in one of your CUET subjects. Every game in it uses that subject.';
+  static const String youTitle = 'What should your Mob call you?';
+  static const String typeYourName = 'Type your first name';
+  static const String yourMob = 'Your Mob';
+  static const String pickAFold = 'Pick a Fold';
+  static const String previewLabel = 'Your den. It changes as you answer.';
+}
+
+// ---------------------------------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------------------------------
 

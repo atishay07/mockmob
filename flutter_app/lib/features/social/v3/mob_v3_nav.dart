@@ -3,11 +3,16 @@
 // fade, so the den stays drawn behind until the moment covers it.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'logic/explainer_flow.dart';
 
 import 'screens/chains_screen.dart';
 import 'screens/fix_together_screen.dart';
 import 'screens/game_run_screen.dart';
 import 'screens/join_v3_screen.dart';
+import 'screens/mob_explainer_screen.dart';
+import 'screens/mob_setup_screen.dart';
 import 'screens/moment_overlay.dart';
 import 'screens/mob_settings_v3_screen.dart';
 import 'screens/moments_screen.dart';
@@ -31,6 +36,31 @@ abstract final class MobV3Nav {
   static Future<void> shelf(BuildContext context) => _push(context, const ShelfScreen(), name: '/mob/shelf');
   static Future<void> settings(BuildContext context) => _push(context, const MobSettingsV3Screen(), name: '/mob/settings');
   static Future<void> join(BuildContext context, {String code = ''}) => _push(context, JoinV3Screen(code: code), name: '/join');
+
+  /// D0 "Start a Mob": the explainer the first time on this phone for this account (D166), then the
+  /// one-question setup; straight to the setup after that.
+  static Future<void> startMob(BuildContext context) async {
+    final seen = await ProviderScope.containerOf(context, listen: false).read(explainerSeenProvider).read();
+    if (!context.mounted) return;
+    if (seen) return setup(context);
+    return _push(context, const MobExplainerScreen(via: ExplainerVia.start), name: '/mob/how');
+  }
+
+  /// D0 "Join with a code": the explainer the first time, then the code screen.
+  static Future<void> joinMob(BuildContext context) async {
+    final seen = await ProviderScope.containerOf(context, listen: false).read(explainerSeenProvider).read();
+    if (!context.mounted) return;
+    if (seen) return join(context);
+    return _push(context, const MobExplainerScreen(via: ExplainerVia.join), name: '/mob/how');
+  }
+
+  /// The one-question setup (after the explainer, or on its own once it was seen).
+  static Future<void> setup(BuildContext context) => _push(context, const MobSetupScreen(), name: '/mob/start');
+
+  /// "How the Mob works": from D0 it leads on to Start or Join; from Mob settings ([replay]) it ends
+  /// with one key back to the den.
+  static Future<void> howItWorks(BuildContext context, {bool replay = false}) =>
+      _push(context, MobExplainerScreen(via: replay ? ExplainerVia.replay : ExplainerVia.start), name: '/mob/how');
 
   /// Plays one moment key (`quest_done:<mobId>:<week>`, `stitch:<mobId>:<week>`, `reveal:<fold>`, `chain:<n>`).
   /// Completes when the moment closes (shown fully or skipped).

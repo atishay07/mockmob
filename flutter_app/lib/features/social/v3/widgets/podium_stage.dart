@@ -777,7 +777,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           children: [
             Positioned.fill(
               child: CustomPaint(
-                painter: _PlinthPainter(
+                painter: PlinthPainter(
                   paper: night ? const Color(0xFFE6DFCD) : const Color(0xFFFBF8F1),
                   paperLow: night ? const Color(0xFFCFC6B0) : const Color(0xFFEDE7DA),
                   edge: night ? null : c.lineStrong,
@@ -865,7 +865,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           alignment: Alignment.bottomCenter,
           transform: perspective,
           child: CustomPaint(
-            painter: _PlinthPainter(
+            painter: PlinthPainter(
               paper: night ? const Color(0xFFE6DFCD) : const Color(0xFFFBF8F1),
               paperLow: night ? const Color(0xFFCFC6B0) : const Color(0xFFEDE7DA),
               edge: night ? null : c.lineStrong,
@@ -1290,8 +1290,8 @@ class _LampPainter extends CustomPainter {
 /// A paper plinth: rounded top, a dog-ear in the top-right corner, ruled lines on a final podium,
 /// fold creases under the dog-ear (1, 2 or 3: the place, told twice, never by colour alone), and the
 /// foil rim along the top edge of a final first place.
-class _PlinthPainter extends CustomPainter {
-  _PlinthPainter({
+class PlinthPainter extends CustomPainter {
+  PlinthPainter({
     required this.paper,
     required this.paperLow,
     required this.ground,
@@ -1381,7 +1381,7 @@ class _PlinthPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_PlinthPainter old) =>
+  bool shouldRepaint(PlinthPainter old) =>
       old.paper != paper || old.ruled != ruled || old.creases != creases || old.foil != foil || old.edge != edge || old.ground != ground;
 }
 

@@ -79,7 +79,7 @@ class DenPreview extends StatelessWidget {
                         const SizedBox(width: MmSpace.s12),
                         for (var i = 0; i < 4; i++) ...[
                           if (i > 0) const SizedBox(width: MmSpace.s8),
-                          Padding(padding: const EdgeInsets.only(bottom: MmSpace.s4), child: _Seat(width: seatW)),
+                          Padding(padding: const EdgeInsets.only(bottom: MmSpace.s4), child: DenOpenSeat(width: seatW)),
                         ],
                       ],
                     );
@@ -99,18 +99,19 @@ class DenPreview extends StatelessWidget {
   }
 }
 
-/// A dashed paper seat: a rounded outline with a plus, waiting for a friend.
-class _Seat extends StatelessWidget {
-  const _Seat({this.width = 46});
+/// A dashed paper seat: a rounded outline with a plus, waiting for a friend (D0, and the setup's den).
+class DenOpenSeat extends StatelessWidget {
+  const DenOpenSeat({super.key, this.width = 46, this.height = 62});
 
   final double width;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     final c = context.mmColors;
     return CustomPaint(
       painter: _DashedSeat(color: c.ink.withValues(alpha: c.isNight ? 0.5 : 0.42), fill: c.raised.withValues(alpha: c.isNight ? 0.22 : 0.4)),
-      child: SizedBox(width: width, height: 62, child: Center(child: Icon(LucideIcons.plus, size: 18, color: c.ink2))),
+      child: SizedBox(width: width, height: height, child: Center(child: Icon(LucideIcons.plus, size: 18, color: c.ink2))),
     );
   }
 }

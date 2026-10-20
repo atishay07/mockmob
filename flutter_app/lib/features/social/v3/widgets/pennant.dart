@@ -3,6 +3,9 @@
 // (max 12 drawn). Pure paint plus two texts; the den swings it in (M1) by rotating it about the pin.
 //
 // Paper and ink only: the pennant is never the volt thing in the den (the primary key is).
+//
+// The setup (MobSetupScreen) hangs the same paper with the Mob's name and subject on it instead of the
+// weeks ([content], with a shorter [bodyRatio]); the den's look is unchanged.
 
 import 'dart:math' as math;
 
@@ -14,7 +17,7 @@ import '../../../../core/widgets/widgets.dart';
 import '../copy_v3.dart';
 
 class Pennant extends StatelessWidget {
-  const Pennant({super.key, required this.weeks, this.swing, this.width = 58, this.string = 18, this.onTap});
+  const Pennant({super.key, required this.weeks, this.swing, this.width = 58, this.string = 18, this.onTap, this.content, this.bodyRatio = 1.42, this.semanticsLabel});
 
   /// The Mob chain in weeks, as the server counts it.
   final int weeks;
@@ -27,43 +30,60 @@ class Pennant extends StatelessWidget {
   final double string;
   final VoidCallback? onTap;
 
-  double get height => width * 1.42 + string;
+  /// What the paper says instead of the weeks (the setup's Mob name and subject). It is laid out
+  /// inside the paper below the folded corner, at no text scaling (the pennant is art); no stitches
+  /// are drawn under it.
+  final Widget? content;
+
+  /// The paper's height over its width: 1.42 in the den, shorter for a name.
+  final double bodyRatio;
+
+  /// What TalkBack reads for [content] (the weeks have their own sentence).
+  final String? semanticsLabel;
+
+  double get height => width * bodyRatio + string;
 
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
-    final bodyH = width * 1.42;
+    final bodyH = width * bodyRatio;
     final ink = PennantPaper.ink(context);
+    final own = content;
     Widget body = SizedBox(
       width: width,
       height: height,
       child: CustomPaint(
-        painter: _PennantPainter(paper: PennantPaper.of(context), edge: PennantPaper.edge(context), ink: ink, string: string, weeks: weeks, night: context.mmColors.isNight),
-        child: Padding(
-          padding: EdgeInsets.only(top: string + bodyH * 0.12),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              // The figure and its word stay inside the paper at any text size (the pennant is art).
-              MediaQuery.withNoTextScaling(
+        painter: _PennantPainter(paper: PennantPaper.of(context), edge: PennantPaper.edge(context), ink: ink, string: string, weeks: own == null ? weeks : 0, night: context.mmColors.isNight),
+        child: own != null
+            ? Padding(
+                padding: EdgeInsets.fromLTRB(width * 0.08, string + width * 0.2, width * 0.08, 0),
+                child: MediaQuery.withNoTextScaling(child: Align(alignment: Alignment.topCenter, child: own)),
+              )
+            : Padding(
+                padding: EdgeInsets.only(top: string + bodyH * 0.12),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // A brand-new Mob has no week yet: "New Mob", never "0 weeks" (L5, 19 Oct night walk).
-                    Text(
-                      weeks <= 0 ? MobV3Copy.pennantNew : '$weeks',
-                      style: type.figureCompact.copyWith(color: ink, fontSize: weeks <= 0 ? width * 0.36 : width * 0.5, height: weeks <= 0 ? 1.3 : 1),
-                    ),
-                    Text(
-                      MobV3Copy.pennantWord(weeks),
-                      style: type.label.copyWith(color: ink, fontSize: width * 0.19, height: 1.1, fontWeight: FontWeight.w700),
+                    // The figure and its word stay inside the paper at any text size (the pennant is art).
+                    MediaQuery.withNoTextScaling(
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // A brand-new Mob has no week yet: "New Mob", never "0 weeks" (L5, 19 Oct night walk).
+                          Text(
+                            weeks <= 0 ? MobV3Copy.pennantNew : '$weeks',
+                            style: type.figureCompact.copyWith(color: ink, fontSize: weeks <= 0 ? width * 0.36 : width * 0.5, height: weeks <= 0 ? 1.3 : 1),
+                          ),
+                          Text(
+                            MobV3Copy.pennantWord(weeks),
+                            style: type.label.copyWith(color: ink, fontSize: width * 0.19, height: 1.1, fontWeight: FontWeight.w700),
+                          ),
+                        ],
+                      ),
                     ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
       ),
     );
     final turn = swing;
@@ -74,7 +94,7 @@ class Pennant extends StatelessWidget {
         builder: (context, a, child) => Transform.rotate(angle: a, alignment: Alignment.topCenter, child: child),
       );
     }
-    final semantics = MobV3Copy.pennantSemantics(weeks);
+    final semantics = own != null ? (semanticsLabel ?? '') : MobV3Copy.pennantSemantics(weeks);
     if (onTap == null) {
       return Semantics(
         label: semantics,

@@ -1,37 +1,27 @@
-// D0 No Mob and D0a Start a Mob (spec 5.3): the words, the states, the create flow with the server's own
-// errors (FOLD_LOCKED, NAME_KEY_INVALID), the name chips six at a time, the first-time Fold cards and the
-// later "You play as", and the name field staying in view with the keyboard open.
+// D0 No Mob (spec 5.3): the words, the states, the two ways in and the quiet "How the Mob works" link.
+// Start and Join show the Mob explainer the first time (its own tests); once it was seen on this phone
+// they go straight on. The one-question setup that replaced the D0a sheet has its own tests
+// (mob_setup_screen_test.dart).
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:lucide_icons_flutter/lucide_icons.dart';
-import 'package:mockmob/features/social/copy.dart';
+import 'package:mockmob/core/widgets/widgets.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
-import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
-import 'package:mockmob/features/social/v3/logic/mob_names.dart';
+import 'package:mockmob/features/social/v3/logic/explainer_flow.dart';
 import 'package:mockmob/features/social/v3/screens/den_start_screen.dart';
 import 'package:mockmob/features/social/v3/screens/join_v3_screen.dart';
-import 'package:mockmob/features/social/v3/widgets/fold_picker.dart';
+import 'package:mockmob/features/social/v3/screens/mob_setup_screen.dart';
 
 import '../../../unit/social/v3/mob_v3_test_kit.dart';
 import '../../../unit/social/v3/social_test_kit.dart';
 
-/// Taps a widget inside the scrolling sheet: scroll it into view first.
-Future<void> _tapVisible(WidgetTester tester, Finder f) async {
-  await tester.ensureVisible(f);
-  await tester.pumpAndSettle();
-  await tester.tap(f);
-}
-
-Future<SocialServer> _open(WidgetTester tester, {Map<String, String> failures = const {}, FoldKey? seat, bool tapStart = true}) async {
-  final server = SocialServer(scenario: 'fresh', failures: failures);
-  if (seat != null) await server.profile(seat);
-  server.calls.clear();
+Future<SocialServer> _open(WidgetTester tester, {bool seen = false}) async {
+  final server = SocialServer(scenario: 'fresh');
   await pumpSocial(tester, const DenStartScreen(), server);
   await tester.pumpAndSettle();
-  if (tapStart) {
-    await tester.tap(find.byKey(const ValueKey('d0-start')));
-    await settleSocial(tester);
-    await tester.pumpAndSettle();
+  if (seen) {
+    // The explainer was watched on this phone (the per-account flag in the Mob prefs).
+    await ProviderScope.containerOf(tester.element(find.byType(DenStartScreen))).read(explainerSeenProvider).mark();
   }
   return server;
 }
@@ -41,7 +31,7 @@ void main() {
 
   group('D0', () {
     testWidgets('says what a Mob is, with the two ways in, and nothing else is volt', (tester) async {
-      await _open(tester, tapStart: false);
+      await _open(tester);
       expect(find.text(MobV3Copy.title), findsOneWidget);
       expect(find.text(MobV3Copy.d0Lead), findsOneWidget);
       expect(find.text(MobV3Copy.startMob), findsOneWidget);
@@ -60,12 +50,32 @@ void main() {
       expect(find.text(MobV3Copy.joinWithCode), findsOneWidget);
     });
 
-    testWidgets('Join with a code opens J1', (tester) async {
-      await _open(tester, tapStart: false);
+    testWidgets('once the explainer was seen, Join with a code opens J1', (tester) async {
+      await _open(tester, seen: true);
       await tester.tap(find.byKey(const ValueKey('d0-join')));
+      await settleSocial(tester);
       await tester.pumpAndSettle();
       expect(find.byType(JoinV3Screen), findsOneWidget);
       expect(find.text(MobV3Copy.joinTitle), findsOneWidget);
+    });
+
+    testWidgets('once the explainer was seen, Start a Mob opens the one-question setup (no sheet)', (tester) async {
+      await _open(tester, seen: true);
+      await tester.tap(find.byKey(const ValueKey('d0-start')));
+      await settleSocial(tester);
+      await tester.pumpAndSettle();
+      expect(find.byType(MobSetupScreen), findsOneWidget);
+      expect(find.byType(BottomSheet), findsNothing);
+      expect(find.text(MobExplainerCopy.foldTitle), findsOneWidget);
+    });
+
+    testWidgets('"How the Mob works" is a quiet link under the two keys', (tester) async {
+      await _open(tester);
+      final how = find.byKey(const ValueKey('d0-how'));
+      expect(how, findsOneWidget);
+      expect(tester.widget<KeyButton>(how).variant, KeyVariant.quiet);
+      expect(find.text(MobExplainerCopy.howItWorks), findsOneWidget);
+      expect(tester.getRect(how).top, greaterThan(tester.getRect(find.byKey(const ValueKey('d0-join'))).bottom));
     });
 
     testWidgets('large text and a narrow phone: no overflow', (tester) async {
@@ -76,203 +86,9 @@ void main() {
     });
 
     testWidgets('motion reduced: nothing keeps drawing frames', (tester) async {
-      await _open(tester, tapStart: false);
+      await _open(tester);
       await tester.pumpAndSettle(); // would time out if a loop kept running
       expect(tester.binding.hasScheduledFrame, isFalse);
-    });
-  });
-
-  group('D0a', () {
-    testWidgets('title, name chips six at a time, the kind note, subjects, Fold cards and the key', (tester) async {
-      await _open(tester);
-      expect(find.text(MobV3Copy.pickName), findsOneWidget);
-      for (var i = 0; i < 6; i++) {
-        expect(find.text(mobNames[i]), findsOneWidget);
-      }
-      expect(find.text(mobNames[6]), findsNothing);
-      expect(find.text(MobV3Copy.namesKind), findsOneWidget);
-      expect(find.text(MobV3Copy.showSixMore), findsOneWidget);
-      expect(find.text(MobV3Copy.subjectYouPlay), findsOneWidget);
-      expect(find.text('Accountancy'), findsOneWidget);
-      expect(find.text('Business Studies'), findsOneWidget);
-      expect(find.text(MobV3Copy.startKey('Chai Circle')), findsOneWidget);
-      expect(find.text(MobV3Copy.startNext), findsOneWidget);
-      expect(find.text(MobV3Copy.marksNote), findsOneWidget);
-    });
-
-    testWidgets('Show six more pages through the 24 names, then goes back to the first six; Night Owls is gone', (tester) async {
-      await _open(tester);
-      final seen = <String>{};
-      for (var page = 0; page < 4; page++) {
-        for (var i = page * 6; i < page * 6 + 6; i++) {
-          expect(find.text(mobNames[i]), findsOneWidget, reason: 'page $page shows ${mobNames[i]}');
-          seen.add(mobNames[i]);
-        }
-        await tester.ensureVisible(find.textContaining('six'));
-        await tester.tap(find.textContaining('six'));
-        await tester.pumpAndSettle();
-      }
-      expect(seen.length, 24);
-      expect(seen.contains('Night Owls'), isFalse);
-      // Back on the first page after the fourth.
-      expect(find.text(mobNames[0]), findsOneWidget);
-      expect(find.text(MobV3Copy.showSixMore), findsOneWidget);
-    });
-
-    testWidgets('the last page offers the way back to the first six', (tester) async {
-      await _open(tester);
-      for (var i = 0; i < 3; i++) {
-        await tester.tap(find.text(MobV3Copy.showSixMore));
-        await tester.pumpAndSettle();
-      }
-      expect(find.text(MobV3Copy.showFirstSix), findsOneWidget);
-    });
-
-    testWidgets('choosing a name changes the key', (tester) async {
-      await _open(tester);
-      await tester.tap(find.text('Quiet Comets'));
-      await tester.pumpAndSettle();
-      expect(find.text(MobV3Copy.startKey('Quiet Comets')), findsOneWidget);
-      expect(find.text(MobV3Copy.startKey('Chai Circle')), findsNothing);
-    });
-
-    testWidgets('first time: the four starters with their lines, and no locked Fold', (tester) async {
-      await _open(tester);
-      expect(find.text(MobV3Copy.pickFold), findsOneWidget);
-      expect(find.byType(FoldCard), findsNWidgets(4));
-      for (final f in FoldKey.starters) {
-        expect(find.text(MobV3Copy.foldName(f)), findsOneWidget);
-        expect(find.text(MobV3Copy.foldLine(f)), findsOneWidget);
-      }
-      expect(find.text(MobV3Copy.foldName(FoldKey.hop)), findsNothing);
-    });
-
-    testWidgets('later: "You play as Dart" with Change, no cards; Change offers only owned Folds', (tester) async {
-      await _open(tester, seat: FoldKey.dart);
-      expect(find.text(MobV3Copy.pickFold), findsNothing);
-      expect(find.byType(FoldCard), findsNothing);
-      expect(find.text(MobV3Copy.youPlayAs('Dart')), findsOneWidget);
-      await _tapVisible(tester, find.byKey(const ValueKey('d0a-change-fold')));
-      await settleSocial(tester);
-      await tester.pumpAndSettle();
-      expect(find.text(MobV3Copy.changeFoldTitle), findsOneWidget);
-      // The fresh account owns the four starters only.
-      for (final f in FoldKey.starters) {
-        expect(find.text(MobV3Copy.foldName(f)), findsWidgets);
-      }
-      expect(find.text(MobV3Copy.foldName(FoldKey.hop)), findsNothing);
-      await _tapVisible(tester, find.text('Hexa').last);
-      await tester.pumpAndSettle();
-      expect(find.text(MobV3Copy.youPlayAs('Hexa')), findsOneWidget);
-    });
-
-    testWidgets('start: one call with the subject, the first name, the colour, the name key and the Fold', (tester) async {
-      final server = await _open(tester);
-      await _tapVisible(tester, find.text('Quiet Comets'));
-      await _tapVisible(tester, find.text('Hexa'));
-      await _tapVisible(tester, find.text('Economics'));
-      await tester.pumpAndSettle();
-      await tester.tap(find.byKey(const ValueKey('d0a-start')));
-      await settleSocial(tester);
-      await tester.pumpAndSettle();
-      final calls = server.calls.where((c) => c.startsWith('createMob')).toList();
-      expect(calls, hasLength(1));
-      expect(calls.single, 'createMob:economics:Aarav:3:1:hexa');
-      // The sheet closed.
-      expect(find.text(MobV3Copy.pickName), findsNothing);
-    });
-
-    testWidgets('a name that fails the rule is said under the field and nothing is sent', (tester) async {
-      final server = await _open(tester);
-      await tester.ensureVisible(find.byType(TextField));
-      await tester.enterText(find.byType(TextField), 'A');
-      await tester.tap(find.byKey(const ValueKey('d0a-start')));
-      await settleSocial(tester);
-      await tester.pumpAndSettle();
-      expect(find.text(MobCopy.nameRule), findsOneWidget);
-      expect(server.calls.where((c) => c.startsWith('createMob')), isEmpty);
-    });
-
-    testWidgets('FOLD_LOCKED: the server sentence, inline, and the sheet stays open', (tester) async {
-      await _open(tester, failures: {'createMob': 'FOLD_LOCKED'});
-      await tester.tap(find.byKey(const ValueKey('d0a-start')));
-      await settleSocial(tester);
-      await tester.pumpAndSettle();
-      expect(find.text(MobV3Copy.errors['FOLD_LOCKED']!), findsOneWidget);
-      expect(find.text(MobV3Copy.pickName), findsOneWidget);
-      // The key is back, ready for another try.
-      expect(find.text(MobV3Copy.startKey('Chai Circle')), findsOneWidget);
-    });
-
-    testWidgets('NAME_KEY_INVALID: the server sentence, inline', (tester) async {
-      await _open(tester, failures: {'createMob': 'NAME_KEY_INVALID'});
-      await tester.tap(find.byKey(const ValueKey('d0a-start')));
-      await settleSocial(tester);
-      await tester.pumpAndSettle();
-      expect(find.text(MobV3Copy.errors['NAME_KEY_INVALID']!), findsOneWidget);
-    });
-
-    testWidgets('H1: tap "Your name in the Mob" with the keyboard down, the keys rise: same field, focus kept, no jump to the top', (tester) async {
-      await _open(tester);
-      final scroll = find.descendant(of: find.byType(BottomSheet), matching: find.byType(Scrollable)).first;
-      final field = find.byType(TextField);
-      await tester.ensureVisible(field);
-      await tester.pumpAndSettle();
-      final scrolled = tester.state<ScrollableState>(scroll).position.pixels;
-      expect(scrolled, greaterThan(0), reason: 'the name field sits below the first view');
-      await tester.tap(field);
-      await tester.pump();
-      final before = tester.state<EditableTextState>(find.byType(EditableText));
-      expect(before.widget.focusNode.hasFocus, isTrue);
-      // The keyboard rises the way Android reports it: in steps, after the focus.
-      addTearDown(tester.view.resetViewInsets);
-      for (final h in [90.0, 200.0, 300.0]) {
-        tester.view.viewInsets = FakeViewPadding(bottom: h * 2);
-        await tester.pump(const Duration(milliseconds: 16));
-      }
-      await tester.pumpAndSettle();
-      final after = tester.state<EditableTextState>(find.byType(EditableText));
-      expect(identical(before, after), isTrue, reason: 'the keys rising must not rebuild the field');
-      expect(after.widget.focusNode.hasFocus, isTrue);
-      expect(tester.testTextInput.isVisible, isTrue, reason: 'the keyboard stays open');
-      expect(tester.state<ScrollableState>(scroll).position.pixels, greaterThan(0), reason: 'the sheet does not jump back to the top');
-      final rect = tester.getRect(field);
-      expect(rect.bottom, lessThanOrEqualTo(780 - 300), reason: 'the field is above the keys');
-      expect(rect.top, greaterThan(0));
-      tester.testTextInput.enterText('Aarav K');
-      await tester.pump();
-      expect(after.widget.controller.text, 'Aarav K');
-    });
-
-    testWidgets('M4: the chosen name and subject read at a glance (a filled chip with a tick)', (tester) async {
-      await _open(tester);
-      expect(find.descendant(of: find.byKey(const ValueKey('mob-name-0')), matching: find.byIcon(LucideIcons.check)), findsOneWidget);
-      expect(find.descendant(of: find.byKey(const ValueKey('mob-name-1')), matching: find.byIcon(LucideIcons.check)), findsNothing);
-      await tester.tap(find.text('Quiet Comets'));
-      await tester.pumpAndSettle();
-      expect(find.descendant(of: find.byKey(const ValueKey('mob-name-1')), matching: find.byIcon(LucideIcons.check)), findsOneWidget);
-      expect(find.descendant(of: find.byKey(const ValueKey('mob-name-0')), matching: find.byIcon(LucideIcons.check)), findsNothing);
-      // "Show six more" sits right under the chips, flush with them, above the note.
-      final more = tester.getRect(find.byKey(const ValueKey('mob-names-more')));
-      final chip = tester.getRect(find.byKey(const ValueKey('mob-name-0')));
-      expect(more.left, closeTo(chip.left, 1));
-      expect(more.top, lessThan(tester.getRect(find.text(MobV3Copy.namesKind)).top));
-    });
-
-    testWidgets('keyboard open: the name field stays above the keys', (tester) async {
-      await _open(tester);
-      // 300 dp of keyboard on a 780 dp phone (physical pixels at ratio 2).
-      tester.view.viewInsets = const FakeViewPadding(bottom: 600);
-      addTearDown(tester.view.resetViewInsets);
-      await tester.pumpAndSettle();
-      await _tapVisible(tester, find.byType(TextField));
-      await tester.pumpAndSettle();
-      final field = tester.getRect(find.byType(TextField));
-      expect(field.bottom, lessThanOrEqualTo(780 - 300), reason: 'the field must end above the keyboard');
-      expect(field.top, greaterThan(0));
-      // The pinned key is above the keys too.
-      final key = tester.getRect(find.byKey(const ValueKey('d0a-start')));
-      expect(key.bottom, lessThanOrEqualTo(780 - 300));
     });
   });
 }
