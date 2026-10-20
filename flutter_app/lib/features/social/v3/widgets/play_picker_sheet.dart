@@ -177,8 +177,12 @@ class _GameRow extends StatelessWidget {
       title: MobV3Copy.gameTitle(game),
       line: MobV3Copy.openRow(game, now),
       trailing: played
-          ? RowKey(label: MobV3Copy.podiumKey, onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.podium(c, game.id)))
-          : RowKey(label: game.live ? MobV3Copy.joinGame : MobV3Copy.play, primary: primary, onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.run(c, game.id))),
+          ? RowKey(label: game.format == GameFormat.mock ? MobV3Copy.sheetsKey : MobV3Copy.podiumKey, onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.podium(c, game.id)))
+          : RowKey(
+              label: game.live ? MobV3Copy.joinGame : (game.format == GameFormat.mock ? MobV3Copy.sitIt : MobV3Copy.play),
+              primary: primary,
+              onPressed: () => leaveSheetThen(context, (c) => MobV3Nav.play(c, game)),
+            ),
     );
   }
 }

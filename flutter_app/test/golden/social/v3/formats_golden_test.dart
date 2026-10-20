@@ -9,7 +9,9 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
+import 'package:mockmob/features/social/v3/widgets/mark_sheets.dart';
 import 'package:mockmob/features/social/v3/widgets/play_picker_sheet.dart';
+import 'package:mockmob/features/social/v3/widgets/podium_stage.dart';
 import 'package:mockmob/features/social/v3/widgets/start_game_sheet.dart';
 
 import '../../../helpers/golden_harness.dart';
@@ -56,6 +58,7 @@ Future<void> _sheet(
 void main() {
   setUpGoldenFonts();
   setUp(loadFoldManifestForTest);
+  setUpAll(() => FoilSheenProgram.enabled = false);
 
   for (final b in [Brightness.dark, Brightness.light]) {
     testWidgets('start sheet, anytime, sprint (${_tag(b)})', (t) async {
@@ -85,6 +88,42 @@ void main() {
   testWidgets('start sheet, Free, a round with its chips (night)', (t) async {
     await _sheet(t, 'start_free_round15', (c) => showStartGame(c, prefill: const StartGamePrefill(format: GameFormat.round, count: 15)), b: Brightness.dark, billing: 'free');
   });
+
+  for (final b in [Brightness.dark, Brightness.light]) {
+    testWidgets('race podium, answered under the marks (${_tag(b)})', (t) async {
+      final server = v3Server(scenario: 'raced');
+      final podium = await server.podium('game-kabir-race');
+      await pumpMockmob(t, PodiumStage(podium: podium, gameTitle: "Kabir's 5-minute race", now: v3Now, autoplay: false, onMoments: () {}, onRematch: () {}, onClose: () {}),
+          brightness: b, size: const Size(360, 780), overrides: v3Overrides(server));
+      await settleImages(t);
+      await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/formats/podium_race_360_${_tag(b)}.png'));
+    });
+
+    testWidgets('full mock together: podium and mark sheets side by side (${_tag(b)})', (t) async {
+      final server = v3Server(scenario: 'mockdone');
+      final podium = await server.podium('game-riya-mock');
+      await pumpMockmob(
+        t,
+        PodiumStage(
+          podium: podium,
+          gameTitle: "Riya's full mock",
+          now: v3Now,
+          autoplay: false,
+          onMoments: () {},
+          onRematch: () {},
+          onClose: () {},
+          below: MobMarkSheets(sheets: podium.sheets, animate: false),
+          primaryLabel: 'Your mark sheet',
+          onPrimary: () {},
+        ),
+        brightness: b,
+        size: const Size(360, 1700),
+        overrides: v3Overrides(server),
+      );
+      await settleImages(t);
+      await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/formats/podium_mock_sheets_360_${_tag(b)}.png'));
+    });
+  }
 
   // Keeps the fake server import used by the run goldens below.
   test('fixture scenarios exist', () {

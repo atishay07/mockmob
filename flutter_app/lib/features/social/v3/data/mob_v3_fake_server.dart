@@ -268,7 +268,7 @@ class MobV3FakeServer implements MobV3Api {
       _bake(g, 'AARAV0000001', [true, true, null, false, true], [39000, 77000, 118000, 151000, 190000], const Duration(hours: 9), trapPicks: {3: 1});
       mob.games.add(g);
     }
-    if (scenario == 'race' || scenario == 'liverace') {
+    if (scenario == 'race' || scenario == 'liverace' || scenario == 'raced') {
       // Kabir's 5-minute race: Riya and Kabir raced it; you have not (D167). 'liverace': a room Kabir just opened.
       final live = scenario == 'liverace';
       final g = _Game(
@@ -289,6 +289,11 @@ class MobV3FakeServer implements MobV3Api {
             [16000, 35000, 52000, 71000, 88000, 109000, 121000, 140000, 162000, 181000, 203000, 226000, 249000, 280000], const Duration(minutes: 8));
         _bakeRace(g, 'KABIR0000003', [true, false, true, true, null, true, true, true, false, true, true],
             [21000, 44000, 69000, 90000, 104000, 131000, 158000, 183000, 214000, 240000, 271000], const Duration(minutes: 50));
+        if (scenario == 'raced') {
+          // You raced it too: 12 answered, 10 right.
+          _bakeRace(g, 'AARAV0000001', [true, true, true, false, true, true, true, null, true, true, false, true, true],
+              [18000, 37000, 55000, 80000, 99000, 121000, 140000, 152000, 175000, 199000, 230000, 258000, 290000], const Duration(hours: 1, minutes: 20));
+        }
       }
       mob.games.add(g);
     }

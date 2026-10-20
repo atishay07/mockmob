@@ -4,6 +4,10 @@
 
 import 'package:flutter/material.dart';
 
+import 'copy_v3.dart';
+import 'data/mob_mock.dart';
+import 'data/mob_v3_models.dart';
+
 import 'screens/chains_screen.dart';
 import 'screens/fix_together_screen.dart';
 import 'screens/game_run_screen.dart';
@@ -20,6 +24,22 @@ abstract final class MobV3Nav {
       Navigator.of(context, rootNavigator: true).push<T>(MaterialPageRoute<T>(builder: (_) => page, settings: RouteSettings(name: name)));
 
   static Future<void> run(BuildContext context, String gameId) => _push(context, GameRunScreen(gameId: gameId), name: '/mob/game/$gameId/run');
+
+  /// Plays a game the way its format plays (D167): a full mock in the app's mock runner, a live room that has
+  /// not started in its room (the game's ready phase), anything else in the run.
+  static Future<void> play(BuildContext context, MobGameSummary g) async {
+    if (g.format == GameFormat.mock) {
+      final messenger = ScaffoldMessenger.maybeOf(context);
+      final failed = await sitMobMock(context, g.id);
+      if (failed != null) messenger?.showSnackBar(SnackBar(content: Text(failed), behavior: SnackBarBehavior.floating));
+      return;
+    }
+    if (g.mode == GameMode.live && g.room?.state == RoomState.lobby) return room(context, g.id);
+    return run(context, g.id);
+  }
+
+  /// A game's results: the podium (a full mock's carries everyone's mark sheets).
+  static String resultsKey(MobGameSummary g) => g.format == GameFormat.mock ? MobV3Copy.seeMarkSheets : MobV3Copy.seePodiumSoFar;
 
   /// L1, a live room's lobby (only when the server says live is on). [opened]: you just opened it, so
   /// the go-live wash plays.

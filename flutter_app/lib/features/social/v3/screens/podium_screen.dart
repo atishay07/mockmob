@@ -13,6 +13,7 @@ import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/key_button.dart';
 import '../../../../core/widgets/widgets.dart' show showMmSheet;
 import '../../copy.dart' show MobCopy;
+import '../../data/mob_navigator.dart' show mobNavigatorProvider;
 import '../../screens/mob_sheets.dart' show InviteSheet;
 import '../copy_v3.dart';
 import '../data/mob_v3_api.dart';
@@ -21,6 +22,7 @@ import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
 import '../widgets/fold_manifest.dart';
 import '../widgets/mob_fx.dart';
+import '../widgets/mark_sheets.dart';
 import '../widgets/podium_stage.dart';
 import '../widgets/start_game_sheet.dart';
 
@@ -66,7 +68,7 @@ class _PodiumScreenState extends ConsumerState<PodiumScreen> {
     if (den?.v3.starts.can ?? false) {
       await showStartGame(
         context,
-        prefill: StartGamePrefill(format: game?.format ?? GameFormat.sprint, count: game?.count ?? 5, chapter: game?.chapter, rematchOf: widget.gameId),
+        prefill: StartGamePrefill(format: game?.format ?? GameFormat.sprint, count: game?.count ?? 5, chapter: game?.chapter, rematchOf: widget.gameId, minutes: game?.minutes),
       );
       return;
     }
@@ -107,6 +109,9 @@ class _PodiumScreenState extends ConsumerState<PodiumScreen> {
             if (data == null) return const SizedBox.expand();
             final game = data.game;
             final now = game?.serverNow ?? ref.read(nowProvider)();
+            // Full mock together: the mark sheets side by side under the podium, and your own mark sheet as the key.
+            final mock = game?.format == GameFormat.mock || data.podium.sheets.isNotEmpty;
+            final resultId = game?.you.resultId;
             return PodiumStage(
               podium: data.podium,
               gameTitle: game?.title ?? '',
@@ -114,6 +119,9 @@ class _PodiumScreenState extends ConsumerState<PodiumScreen> {
               onClose: _close,
               onMoments: () => MobV3Nav.moments(context, widget.gameId),
               onRematch: () => _rematch(game),
+              below: mock && data.podium.sheets.isNotEmpty ? MobMarkSheets(sheets: data.podium.sheets) : null,
+              primaryLabel: mock && resultId != null ? MobV3Copy.yourMarkSheet : null,
+              onPrimary: mock && resultId != null ? () => ref.read(mobNavigatorProvider).openAnswers(context, resultId) : null,
             );
           },
         ),

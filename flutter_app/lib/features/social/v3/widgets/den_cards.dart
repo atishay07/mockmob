@@ -136,7 +136,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
         }
         children
           ..add(const SizedBox(height: MmSpace.s16))
-          ..add(KeyButton(key: const ValueKey('den-play-key'), label: MobV3Copy.playKey(g), onPressed: () => MobV3Nav.run(context, g.id)))
+          ..add(KeyButton(key: const ValueKey('den-play-key'), label: MobV3Copy.playKey(g), onPressed: () => MobV3Nav.play(context, g)))
           ..add(const SizedBox(height: MmSpace.s4))
           ..add(_moreLink() ?? DenLink(label: MobV3Copy.moreWays, onTap: () => showPlayPicker(context)));
       case DenCardKind.played:
@@ -154,7 +154,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
         }
         children
           ..add(const SizedBox(height: MmSpace.s16))
-          ..add(KeyButton(label: MobV3Copy.seePodiumSoFar, onPressed: () => MobV3Nav.podium(context, g.id)))
+          ..add(KeyButton(label: MobV3Nav.resultsKey(g), onPressed: () => MobV3Nav.podium(context, g.id)))
           ..add(const SizedBox(height: MmSpace.s16))
           ..add(StickerRow(gameId: g.id));
         final more = _moreLink();
@@ -328,8 +328,12 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           ],
           const SizedBox(height: MmSpace.s16),
           played
-              ? KeyButton.secondary(key: const ValueKey('den-one-podium'), label: MobV3Copy.seePodiumSoFar, onPressed: () => MobV3Nav.podium(context, g.id))
-              : KeyButton.secondary(key: const ValueKey('den-one-play'), label: mine ? 'Play your $kind' : MobV3Copy.playKey(g), onPressed: () => MobV3Nav.run(context, g.id)),
+              ? KeyButton.secondary(key: const ValueKey('den-one-podium'), label: MobV3Nav.resultsKey(g), onPressed: () => MobV3Nav.podium(context, g.id))
+              : KeyButton.secondary(
+                  key: const ValueKey('den-one-play'),
+                  label: mine ? '${g.format == GameFormat.mock ? 'Sit' : 'Play'} your $kind' : MobV3Copy.playKey(g),
+                  onPressed: () => MobV3Nav.play(context, g),
+                ),
           const SizedBox(height: MmSpace.s4),
         ],
       ),

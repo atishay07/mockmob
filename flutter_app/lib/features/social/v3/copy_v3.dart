@@ -532,8 +532,10 @@ abstract final class MobV3Copy {
   }
   static const String byUnit = 'By unit';
   static String unitOf(int of) => 'out of $of';
+  static String ofMarks(int of) => 'of $of';
   static const String yourMarkSheet = 'Your mark sheet';
   static const String seeMarkSheets = 'See the mark sheets';
+  static const String sheetsKey = 'Mark sheets';
   static const String sittingMock = 'Opening the paper';
   static String sheetSemantics(String name, MobSheet s) => s.private || s.marks == null
       ? '$name, private'
