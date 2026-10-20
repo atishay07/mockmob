@@ -25,8 +25,7 @@ class WelcomeCreditsTrigger {
     required this.modalOnTop,
     required this.open,
     this.poll = const Duration(milliseconds: 300),
-    DateTime Function()? now,
-  }) : _now = now ?? DateTime.now;
+  });
 
   final PrefsStore prefs;
   final String? Function() signedInAs;
@@ -40,18 +39,18 @@ class WelcomeCreditsTrigger {
   /// Opens the sheet; completes when it closes.
   final Future<void> Function() open;
 
-  /// How often the trigger looks while it waits.
+  /// How often the trigger looks while it waits. Time is counted in these looks (not the wall clock), so a phone whose
+  /// clock jumps cannot open it early or never.
   final Duration poll;
-  final DateTime Function() _now;
 
   String? _armedFor;
   bool? _flag;
   bool _closed = false;
   bool _sawSheet = false;
-  DateTime? _closedAt;
+  int _ticksSinceClosed = 0;
   bool _shown = false;
   bool _opening = false;
-  DateTime? _readySince;
+  int _readyTicks = 0;
   Timer? _timer;
 
   /// True once the sheet has opened in this run.
@@ -65,8 +64,8 @@ class WelcomeCreditsTrigger {
     _flag = ignoreFlag ? false : null;
     _closed = false;
     _sawSheet = false;
-    _closedAt = null;
-    _readySince = null;
+    _ticksSinceClosed = 0;
+    _readyTicks = 0;
     if (sheetClosed) this.sheetClosed();
     if (!ignoreFlag) unawaited(_readFlag(userId));
     _timer ??= Timer.periodic(poll, (_) => _tick());
@@ -76,7 +75,7 @@ class WelcomeCreditsTrigger {
   void sheetClosed() {
     if (_armedFor == null || _closed) return;
     _closed = true;
-    _closedAt = _now();
+    _ticksSinceClosed = 0;
   }
 
   Future<void> _readFlag(String userId) async {
@@ -94,7 +93,7 @@ class WelcomeCreditsTrigger {
     _timer?.cancel();
     _timer = null;
     _armedFor = null;
-    _readySince = null;
+    _readyTicks = 0;
   }
 
   void dispose() => _stop();
@@ -117,16 +116,21 @@ class WelcomeCreditsTrigger {
       modalOnTop: modalOnTop(),
       shownThisRun: _shown,
       shownForAccount: flag ?? false,
-      sinceClosed: _closedAt == null ? Duration.zero : _now().difference(_closedAt!),
+      sinceClosed: poll * _ticksSinceClosed,
     ));
+    if (_closed) _ticksSinceClosed++;
     switch (decision) {
       case WelcomeCreditsDecision.notOwed:
         _stop();
       case WelcomeCreditsDecision.wait:
-        _readySince = null;
+        _readyTicks = 0;
       case WelcomeCreditsDecision.show:
-        final since = _readySince ??= _now();
-        if (_now().difference(since) >= welcomeCreditsDelay) unawaited(_open(_armedFor!));
+        // Today has to stay clear for about [welcomeCreditsDelay] before the sheet rises.
+        if (poll * _readyTicks >= welcomeCreditsDelay) {
+          unawaited(_open(_armedFor!));
+        } else {
+          _readyTicks++;
+        }
     }
   }
 
