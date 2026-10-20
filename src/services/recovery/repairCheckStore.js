@@ -11,6 +11,7 @@ import { readablePracticeQuestions } from '../../../data/practice_library.js';
 import { PRACTICE_LIGHT_SELECT } from '../../../data/practice_pick.js';
 import { familyOf } from '../../../data/repair_check.js';
 import { readRowsCached } from '../../../data/question_row_cache.js';
+import { subjectMemoFor } from '../../../data/subject_token.js';
 
 // The same visibility filter practice uses (data/db.js VISIBLE_QUESTION_FILTER).
 const VISIBLE = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
@@ -62,15 +63,19 @@ export function createCheckStore({ db, recordProgress, readable = readablePracti
 
     /** Every published-looking question of the chapter, without the heavy evidence columns. */
     async loadChapterCandidates({ subject, chapter }) {
-      const rows = [];
-      for (let offset = 0; ; offset += 1000) {
-        const { data, error } = await db.from('questions').select(PRACTICE_LIGHT_SELECT).eq('subject', subject).eq('chapter', chapter)
-          .eq('is_deleted', false).or(VISIBLE).gte('score', -2).order('created_at', { ascending: false }).order('id').range(offset, offset + 999);
-        if (error) throw new Error('candidates_unavailable');
-        rows.push(...(data || []));
-        if (!data || data.length < 1000) break;
-      }
-      return rows;
+      // The chapter's rows are the same for every student and are read on every open and every submit of a check: kept five minutes
+      // per server, then revalidated with the subject token (two head counts) instead of read again (egress F10).
+      return subjectMemoFor(db, 'repair-check-chapters').get(db, JSON.stringify([subject, chapter]), subject, async () => {
+        const rows = [];
+        for (let offset = 0; ; offset += 1000) {
+          const { data, error } = await db.from('questions').select(PRACTICE_LIGHT_SELECT).eq('subject', subject).eq('chapter', chapter)
+            .eq('is_deleted', false).or(VISIBLE).gte('score', -2).order('created_at', { ascending: false }).order('id').range(offset, offset + 999);
+          if (error) throw new Error('candidates_unavailable');
+          rows.push(...(data || []));
+          if (!data || data.length < 1000) break;
+        }
+        return rows;
+      });
     },
 
     /**

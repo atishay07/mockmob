@@ -175,3 +175,20 @@ test('F6: the result page review reads twelve real columns, through the cache; a
   assert.equal(reviewReads().length, 0, 'no rows read on the second open');
   assert.ok(firstBytes > 0);
 });
+
+test('F7: the Saved list reads its questions through the cache, and its response order and fields are unchanged', async () => {
+  const { readFileSync } = await import('node:fs');
+  const route = readFileSync(new URL('../../src/app/api/bookmarks/route.js', import.meta.url), 'utf8');
+  assert.match(route, /await readRowsCached\(supabaseAdmin\(\), ids\)/);
+  assert.doesNotMatch(route, /\.select\('\*'\)\s*\.in\('id', ids\)/);
+  // The route maps `ids` through a Map of the readable rows, so the order of the rows read does not matter: a cached read in the
+  // stamp query's order gives the same list.
+  const bank = bankWithStamps(13);
+  const ids = bank.filter((r) => r.status === 'live').slice(0, 15).map((r) => r.id).reverse();
+  const db = fakeDb({ questions: bank, recovery_family_holds: [] }, { strict: false });
+  const plain = (await db.from('questions').select('*').in('id', ids)).data;
+  const cached = (await readRowsCached(db, ids)).data;
+  const listOf = (rows) => ids.map((id) => rows.find((r) => r.id === id)).filter(Boolean).map((row) => ({ id: row.id, body: row.question ?? row.body, options: row.options || [], correct_answer: row.correct_answer, explanation: row.explanation, score: row.score || 0 }));
+  assert.deepEqual(listOf(cached), listOf(plain));
+  assert.match(route, /question_id, created_at/);
+});

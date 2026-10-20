@@ -31,8 +31,10 @@ import { slotKeys } from './repairCheckStore.js';
 import { heldOf } from '../../../data/mobi_fix.js';
 
 const out = (http, body) => ({ http, body });
-// How many ranked candidates the publication gate (which needs the full row) looks at per read, and in total.
-export const VERIFY_BATCH = 12;
+// How many ranked candidates the publication gate (which needs the full row) looks at per read, and in total. The first candidate in
+// rank order that verifies is the one chosen whatever the batch size, so a small batch only saves bytes: the first open reads about
+// 105 KB of managed rows instead of 420 KB (egress F10).
+export const VERIFY_BATCH = 3;
 export const VERIFY_MAX = 96;
 const ID_LIMIT = 160;
 const validId = (value) => typeof value === 'string' && value.length > 0 && value.length <= ID_LIMIT;
@@ -138,8 +140,9 @@ async function findCheck({ user, p, deps, slot = 1 }) {
   const { selection } = built;
   const full = new Map();
   let verified = 0;
-  for (let at = 0; at < Math.min(selection.ranked.length, VERIFY_MAX); at += VERIFY_BATCH) {
-    const batch = selection.ranked.slice(at, at + VERIFY_BATCH).map((r) => r.id);
+  const size = Number.isInteger(deps.verifyBatch) && deps.verifyBatch > 0 ? deps.verifyBatch : VERIFY_BATCH; // deps.verifyBatch is for tests
+  for (let at = 0; at < Math.min(selection.ranked.length, VERIFY_MAX); at += size) {
+    const batch = selection.ranked.slice(at, at + size).map((r) => r.id);
     let rows;
     try { rows = await deps.verifyPublished(batch); } catch { return { ok: false, status: 'failed', reason: 'check_unavailable' }; }
     for (const [rowId, row] of rows) {

@@ -64,7 +64,7 @@ test('candidates: one subject and chapter, not deleted, visible by the practice 
   const rows = [{ id: 'a', subject: 'accountancy', chapter: 'C', is_deleted: false, score: 0 }, { id: 'b', subject: 'accountancy', chapter: 'Other', is_deleted: false, score: 0 }, { id: 'c', subject: 'accountancy', chapter: 'C', is_deleted: true, score: 0 }, { id: 'd', subject: 'accountancy', chapter: 'C', is_deleted: false, score: -5 }];
   const { store: s, db } = store({ questions: rows });
   assert.deepEqual((await s.loadChapterCandidates({ subject: 'accountancy', chapter: 'C' })).map((r) => r.id), ['a']);
-  const q = db.log[0];
+  const q = db.log.find((entry) => entry.orExpr); // the first request is the head count of the chapter memo (egress F10)
   assert.match(q.orExpr, /status\.eq\.live/);
   assert.deepEqual(q.filters.map((f) => f[0]).sort(), ['eq chapter', 'eq is_deleted', 'eq subject', 'gte score']);
 });
