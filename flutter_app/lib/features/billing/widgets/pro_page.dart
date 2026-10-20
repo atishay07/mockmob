@@ -432,6 +432,73 @@ class _Hero extends StatelessWidget {
   }
 }
 
+/// The Pro page's hero art on its own (D185), for a surface that sells Pro in less room, such as the first-session
+/// sheet: the lamp-lit desk with its answer sheet and the foil seal, in the page's own proportions and scaled to
+/// [height], its edges dissolving into whatever it stands on, and the "MockMob Pro" label under the seal at its
+/// own size.
+class ProHeroArt extends StatelessWidget {
+  const ProHeroArt({super.key, required this.height, this.sweep = kAlwaysCompleteAnimation, this.showLabel = true});
+
+  final double height;
+
+  /// The lamp light crossing the foil once; at rest by default.
+  final Animation<double> sweep;
+
+  /// The "MockMob Pro" label under the seal. Left out at large text, where the room goes to the words.
+  final bool showLabel;
+
+  /// The part of the page's hero the art keeps: from just above the seal to the foot of the answer sheet.
+  static const double _cropTop = 22;
+  static const Size _scene = Size(360, 236);
+
+  /// How far the label overlaps the foot of the scene.
+  static const double _labelRoom = 14;
+
+  @override
+  Widget build(BuildContext context) {
+    LinearGradient dissolve(Alignment begin, Alignment end, List<double> stops) => LinearGradient(
+          begin: begin,
+          end: end,
+          colors: const [Color(0x00FFFFFF), Color(0xFFFFFFFF), Color(0xFFFFFFFF), Color(0x00FFFFFF)],
+          stops: stops,
+        );
+    // The scene in the page's own coordinates, so it is the same picture at any size. Every edge dissolves, so
+    // the lamp's pool never ends on a line.
+    final scene = SizedBox.fromSize(
+      size: _scene,
+      child: ShaderMask(
+        blendMode: BlendMode.dstIn,
+        shaderCallback: (rect) => dissolve(Alignment.centerLeft, Alignment.centerRight, const [0, 0.22, 0.74, 1]).createShader(rect),
+        child: ShaderMask(
+          blendMode: BlendMode.dstIn,
+          shaderCallback: (rect) => dissolve(Alignment.topCenter, Alignment.bottomCenter, const [0, 0.12, 0.78, 1]).createShader(rect),
+          child: ClipRect(
+            child: Stack(
+              children: [
+                // A little softer than on the page: in less room the lamp's pool would read as a lit box.
+                const Positioned(left: 0, right: 0, top: -_cropTop, child: LampBackdrop(height: 300, parallax: false, strength: 0.75)),
+                Positioned(left: 0, right: 0, top: 52 - _cropTop, child: Center(child: _Seal(size: 148, sweep: sweep))),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    return ExcludeSemantics(
+      child: SizedBox(
+        height: height,
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            Positioned.fill(bottom: showLabel ? _labelRoom : 0, child: FittedBox(child: scene)),
+            if (showLabel) _ProLabel(text: BillingCopy.proPageLabel),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 /// "MockMob Pro" on a small pill with a volt dot: the plan's name, set like a stamp.
 class _ProLabel extends StatelessWidget {
   const _ProLabel({required this.text});

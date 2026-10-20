@@ -117,7 +117,7 @@ void main() {
 
     testWidgets('the email key answers at once: the line under the age says what is needed, and nothing opens', (tester) async {
       final calls = await pumpSave(tester);
-      expect(ageLine(tester), OnboardingCopy.ageNote);
+      expect(ageLine(tester), OnboardingCopy.ageNoteShort);
       await tester.tap(find.text(OnboardingCopy.useEmailCode));
       await tester.pumpAndSettle();
       expect(calls, isEmpty, reason: 'no sign-in before the age');
@@ -134,11 +134,11 @@ void main() {
 
     testWidgets('once the age is answered the keys work and the line goes back to the note', (tester) async {
       final calls = await pumpSave(tester, age: AgeAnswer.adult);
-      expect(ageLine(tester), OnboardingCopy.ageNote);
+      expect(ageLine(tester), OnboardingCopy.ageNoteShort);
       await tester.tap(find.text(OnboardingCopy.useEmailCode));
       await tester.pumpAndSettle();
       expect(calls, ['email']);
-      expect(ageLine(tester), OnboardingCopy.ageNote);
+      expect(ageLine(tester), OnboardingCopy.ageNoteShort);
     });
 
     testWidgets('the line under the age takes the same place: the keys do not move when it changes', (tester) async {

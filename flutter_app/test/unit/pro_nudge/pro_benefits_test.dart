@@ -120,9 +120,96 @@ void main() {
     });
   });
 
+  // D185 (owner): the first-session sheet is visual first, with no text wall: at most three rows of one short line
+  // each, the student's own facts first, one idea a row.
+  group("the first-session sheet's rows", () {
+    // One line at 360 dp at 1x text: the row's text is about 256 dp wide, some 36 characters of body text.
+    const oneLine = 34;
+
+    test('nothing known: the first three plain rows, in their short form', () {
+      final rows = ProBenefits.shortLines(ProFacts.empty, reason: ProReason.firstSession);
+      expect([for (final r in rows) r.text], ProNudgeCopy.plainBenefitsShort.take(3));
+      expect([for (final r in rows) r.id], ProBenefits.plainIds.take(3));
+    });
+
+    test("the student's facts lead, credits left first at the first-session ask, three rows at most", () {
+      const f = ProFacts(mocksTaken: 3, weakestChapter: 'Accounting Ratios', practiceCredits: 12, subjectCount: 4);
+      final rows = ProBenefits.shortLines(f, reason: ProReason.firstSession);
+      expect([for (final r in rows) r.text], [
+        ProNudgeCopy.creditsLeftShort(12),
+        ProNudgeCopy.weakestChapterShort('Accounting Ratios'),
+        ProNudgeCopy.mocksTakenShort(3),
+      ]);
+      expect(rows.first.text, startsWith('12 credits left'));
+    });
+
+    test('one idea a row: credits left and credits spent never both show', () {
+      final rows = ProBenefits.shortLines(const ProFacts(creditsUsed: 90, practiceCredits: 8), reason: ProReason.firstSession);
+      expect(rows.where((r) => r.id == 'left' || r.id == 'used' || r.id == 'plain-credits'), hasLength(1));
+      expect(rows, hasLength(ProBenefits.maxShort));
+      expect({for (final r in rows) r.text}, hasLength(rows.length));
+    });
+
+    test('a personal row stands in for its plain row', () {
+      final rows = ProBenefits.shortLines(const ProFacts(mocksTaken: 2), reason: ProReason.firstSession);
+      expect(rows.first.text, ProNudgeCopy.mocksTakenShort(2));
+      expect([for (final r in rows) r.text], isNot(contains(ProNudgeCopy.plainBenefitsShort[0])));
+    });
+
+    test('a chapter too long for one line gives the plain line, never a cut name', () {
+      const long = 'Accounting for Partnership Firms: Fundamentals';
+      final rows = ProBenefits.shortLines(const ProFacts(weakestChapter: long), reason: ProReason.firstSession);
+      expect(rows.first.text, ProNudgeCopy.weakestShort);
+      expect([for (final r in rows) r.text].join(), isNot(contains('Partnership')));
+    });
+
+    test("the Mob's reasons lead with their own row", () {
+      final rows = ProBenefits.shortLines(const ProFacts(mocksTaken: 2), reason: ProReason.mobLimit);
+      expect(rows.first.text, ProNudgeCopy.leadBenefitShort(ProReason.mobLimit));
+      expect(rows, hasLength(3));
+    });
+
+    test('every short line fits one line, and the headline too', () {
+      final lines = [
+        ...ProNudgeCopy.plainBenefitsShort,
+        for (final r in ProReason.values) ?ProNudgeCopy.leadBenefitShort(r),
+        ProNudgeCopy.weakestChapterShort('Accounting Ratios'),
+        ProNudgeCopy.weakestChapterShort('x' * ProNudgeCopy.shortChapterMax),
+        ProNudgeCopy.weakestShort,
+        ProNudgeCopy.creditsLeftShort(0),
+        ProNudgeCopy.creditsLeftShort(49),
+        ProNudgeCopy.creditsUsedShort(480, atLeast: true),
+        ProNudgeCopy.creditsUsedShort(1, atLeast: false),
+        ProNudgeCopy.mocksTakenShort(1),
+        ProNudgeCopy.mocksTakenShort(12),
+        ProNudgeCopy.subjectsShort(4),
+        ProNudgeCopy.collegesShort(1),
+        ProNudgeCopy.collegesShort(3),
+      ];
+      for (final l in lines) {
+        expect(l.length, lessThanOrEqualTo(oneLine), reason: l);
+      }
+      for (final r in ProReason.values) {
+        expect(ProNudgeCopy.sheetHeadline(r).length, lessThanOrEqualTo(ProNudgeCopy.sheetHeadlineMax), reason: '$r');
+      }
+      expect(ProNudgeCopy.sheetHeadline(ProReason.firstSession), ProNudgeCopy.sheetTitle);
+    });
+  });
+
   group('the copy keeps the rules', () {
     final all = <String>[
       ...ProNudgeCopy.headlineOptions,
+      ...ProNudgeCopy.plainBenefitsShort,
+      for (final r in ProReason.values) ...[ProNudgeCopy.sheetHeadline(r), ?ProNudgeCopy.leadBenefitShort(r)],
+      ProNudgeCopy.cancelAnytime,
+      ProNudgeCopy.weakestChapterShort('Ratios'),
+      ProNudgeCopy.weakestShort,
+      ProNudgeCopy.creditsLeftShort(0),
+      ProNudgeCopy.creditsLeftShort(12),
+      ProNudgeCopy.creditsUsedShort(80, atLeast: true),
+      ProNudgeCopy.mocksTakenShort(3),
+      ProNudgeCopy.subjectsShort(4),
+      ProNudgeCopy.collegesShort(2),
       ProNudgeCopy.sheetLabel,
       ProNudgeCopy.forYouHeading,
       ProNudgeCopy.includesHeading,

@@ -46,6 +46,14 @@ class ProBenefit {
   final int weight;
 }
 
+/// One row of the first-session sheet: what it speaks for ([id], which picks its icon) and its one short line.
+class ProBenefitLine {
+  const ProBenefitLine({required this.id, required this.text});
+
+  final String id;
+  final String text;
+}
+
 abstract final class ProBenefits {
   /// Below this many credits a Full mock cannot be taken, so "only N left" matters.
   static const int lowCredits = ProNudgeCopy.fullMockCredits;
@@ -101,6 +109,8 @@ abstract final class ProBenefits {
         ProReason.unlimitedMocks => {'mocks'},
         ProReason.smartPractice || ProReason.difficulty || ProReason.reviewChapter || ProReason.insightsChapters => {'weakest'},
         ProReason.practiceCredits => {'left', 'used'},
+        // The first-session sheet opens at a real limit (D181): credits left lead when they are low.
+        ProReason.firstSession => {'left'},
         _ => const {},
       };
 
@@ -125,6 +135,57 @@ abstract final class ProBenefits {
       if (!covered.contains(i)) out.add(plain[i]);
     }
     return out;
+  }
+
+  /// The most rows the first-session sheet shows (D185).
+  static const int maxShort = 3;
+
+  /// The ids of the plain rows, by their place in [ProNudgeCopy.plainBenefitsShort].
+  static const List<String> plainIds = ['plain-mocks', 'plain-credits', 'plain-nta', 'plain-smart'];
+
+  /// The first-session sheet's rows (D185): the same choice as [lines], the student's own facts first and most
+  /// relevant first, then the plain benefits they do not already speak for, each in a short form that fits one
+  /// line at 360 dp, at most [maxShort]. One idea a row: credits left and credits spent never both show.
+  static List<ProBenefitLine> shortLines(ProFacts f, {ProReason reason = ProReason.general}) {
+    final lead = ProNudgeCopy.leadBenefitShort(reason);
+    final out = <ProBenefitLine>[if (lead != null) ProBenefitLine(id: 'lead', text: lead)];
+    final covered = <int>{};
+    for (final b in personal(f, reason: reason, limit: 99)) {
+      if (out.length >= maxShort) break;
+      final stands = _standsFor[b.id];
+      // Left and spent both speak for "no credits to count": the first one says it.
+      if (stands == 1 && covered.contains(1)) continue;
+      final text = _short(b.id, f);
+      if (text == null) continue;
+      out.add(ProBenefitLine(id: b.id, text: text));
+      if (stands != null) covered.add(stands);
+    }
+    const plain = ProNudgeCopy.plainBenefitsShort;
+    for (var i = 0; i < plain.length && out.length < maxShort; i++) {
+      if (!covered.contains(i)) out.add(ProBenefitLine(id: plainIds[i], text: plain[i]));
+    }
+    return out;
+  }
+
+  /// One personal line in short, from the same facts as its long line.
+  static String? _short(String id, ProFacts f) {
+    switch (id) {
+      case 'weakest':
+        final chapter = f.weakestChapter?.trim();
+        if (chapter != null && chapter.isNotEmpty && chapter.length <= ProNudgeCopy.shortChapterMax) return ProNudgeCopy.weakestChapterShort(chapter);
+        return ProNudgeCopy.weakestShort;
+      case 'left':
+        return ProNudgeCopy.creditsLeftShort(f.practiceCredits ?? 0);
+      case 'used':
+        return ProNudgeCopy.creditsUsedShort(f.creditsUsed ?? 0, atLeast: f.creditsUsedAtLeast);
+      case 'mocks':
+        return ProNudgeCopy.mocksTakenShort(f.mocksTaken);
+      case 'colleges':
+        return ProNudgeCopy.collegesShort(f.targetColleges);
+      case 'subjects':
+        return ProNudgeCopy.subjectsShort(f.subjectCount);
+    }
+    return null;
   }
 
   /// Whether [lines] opens with the student's own lines (the heading then says "built around your prep").

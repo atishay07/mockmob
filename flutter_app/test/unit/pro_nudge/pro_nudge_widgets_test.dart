@@ -2,13 +2,16 @@
 // own price on the key and never the website's), the inline row (one action, dismissed for seven days),
 // the gate key, the first-session helper (once), and nothing at all with PLAY_BILLING off or for Pro.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/repositories/student_actions.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/billing/data/billing_controller.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
-import 'package:mockmob/features/billing/widgets/pro_page.dart' show ProPage;
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:mockmob/features/billing/widgets/pro_page.dart' show ProHeroArt, ProPage;
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart';
 import 'package:mockmob/features/pro_nudge/data/pro_nudge_controller.dart' show proNudgeInOnboardingProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -119,6 +122,103 @@ void main() {
       await tester.tap(find.text('open'));
       await settleNudges(tester);
       expect(opened, isFalse);
+    });
+  });
+
+  // D185 (owner): the first-session sheet stays a dismissible bottom sheet (D181), visual first: the Pro page's art,
+  // one short headline, at most three one-line rows, Google Play's price once, Get Pro and Not now pinned.
+  group('the first-session sheet', () {
+    Future<void> open(WidgetTester tester, NudgeRig rig, {Size size = const Size(360, 800), double textScale = 1}) async {
+      await pumpNudges(
+        tester,
+        Builder(
+          builder: (context) => Center(
+            child: TextButton(onPressed: () => showUpgradeBottomSheetIfOn(context, reason: ProReason.firstSession), child: const Text('open')),
+          ),
+        ),
+        rig,
+        size: size,
+        textScale: textScale,
+      );
+      await tester.tap(find.text('open'));
+      await settleNudges(tester, rounds: 14);
+    }
+
+    const facts = ProFacts(mocksTaken: 3, weakestChapter: 'Accounting Ratios', practiceCredits: 12, subjectCount: 4);
+
+    testWidgets("the art, one headline, three short rows with the student's facts first, and no paragraph", (tester) async {
+      await open(tester, NudgeRig(facts: facts));
+      expect(find.byType(ProHeroArt), findsOneWidget);
+      expect(find.text(ProNudgeCopy.sheetHeadline(ProReason.firstSession)), findsOneWidget);
+      for (final row in ProBenefits.shortLines(facts, reason: ProReason.firstSession)) {
+        expect(find.text(row.text), findsOneWidget);
+      }
+      expect(find.text(ProNudgeCopy.creditsLeftShort(12)), findsOneWidget);
+      // No lede, no heading over the rows, no long lines, no fine print said twice.
+      final head = ProNudgeCopy.head(ProReason.firstSession);
+      expect(find.text(head.lede), findsNothing);
+      expect(find.text(ProNudgeCopy.forYouHeading), findsNothing);
+      expect(find.text(ProNudgeCopy.creditsLeft(12)), findsNothing);
+      expect(find.text(BillingCopy.googlePlayNote), findsNothing);
+      expect(find.text(BillingCopy.proTerms), findsNothing);
+    });
+
+    testWidgets('each row is one line at 360 dp', (tester) async {
+      await open(tester, NudgeRig(facts: facts));
+      // Body text is 24 dp a line, the headline about 28.
+      for (final row in ProBenefits.shortLines(facts, reason: ProReason.firstSession)) {
+        expect(tester.getSize(find.text(row.text)).height, lessThanOrEqualTo(24 + 0.5), reason: row.text);
+      }
+      expect(tester.getSize(find.text(ProNudgeCopy.sheetHeadline(ProReason.firstSession))).height, lessThanOrEqualTo(30 + 0.5), reason: 'the headline is one line');
+    });
+
+    testWidgets("Google Play's price once, with a month and one line of terms; Get Pro buys it", (tester) async {
+      final rig = NudgeRig(facts: facts);
+      await open(tester, rig);
+      expect(find.textContaining('$playProPrice a month'), findsOneWidget);
+      expect(find.text(ProNudgeCopy.cancelAnytime), findsOneWidget);
+      await tester.tap(find.text(BillingCopy.getPro));
+      await settleNudges(tester);
+      expect(rig.billing.store.buys.single.productId, PlayProducts.proId);
+    });
+
+    testWidgets('Not now closes it', (tester) async {
+      await open(tester, NudgeRig(facts: facts));
+      await tester.tap(find.text(ProNudgeCopy.notNow));
+      await settleNudges(tester);
+      expect(find.byType(ProHeroArt), findsNothing);
+    });
+
+    testWidgets('Google Play unavailable: said plainly with Try again, no price, Get Pro waits', (tester) async {
+      await open(tester, NudgeRig(facts: facts, store: FakePlayStore(available: false)));
+      expect(find.text(BillingCopy.storeUnavailable), findsOneWidget);
+      expect(find.text(BillingCopy.tryAgain), findsWidgets);
+      expect(find.textContaining('a month'), findsNothing);
+      expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, BillingCopy.getPro)).onPressed, isNull);
+    });
+
+    testWidgets("checking Google Play: a skeleton holds the price's place and says what is happening", (tester) async {
+      await open(tester, NudgeRig(facts: facts, store: FakePlayStore()..gate = Completer<void>()));
+      expect(find.text(BillingCopy.checkingStore), findsOneWidget);
+      expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, BillingCopy.getPro)).onPressed, isNull);
+    });
+
+    testWidgets('a subscription on hold: its own heading and Manage subscription, no art and no sale', (tester) async {
+      await open(tester, NudgeRig(facts: facts, subscription: playSub(state: 'on_hold', active: false, hold: true)));
+      expect(find.text(BillingCopy.subOnHoldTitle), findsOneWidget);
+      expect(find.byType(ProHeroArt), findsNothing);
+      expect(find.text(BillingCopy.getPro), findsNothing);
+      expect(find.text(BillingCopy.manageSubscription), findsOneWidget);
+    });
+
+    testWidgets('on a 360 by 640 phone at 1.3x text, Get Pro and Not now are whole and on screen', (tester) async {
+      await open(tester, NudgeRig(facts: facts), size: const Size(360, 640), textScale: 1.3);
+      for (final label in [BillingCopy.getPro, ProNudgeCopy.notNow]) {
+        final key = tester.getRect(find.widgetWithText(KeyButton, label));
+        expect(key.bottom, lessThanOrEqualTo(640), reason: label);
+        expect(key.top, greaterThanOrEqualTo(0), reason: label);
+      }
+      expect(tester.getRect(find.textContaining('a month')).bottom, lessThanOrEqualTo(640));
     });
   });
 
@@ -274,7 +374,7 @@ void main() {
       await tester.tap(find.text('calm'));
       await settleNudges(tester);
       expect(opened, [false, false, true]);
-      expect(find.text(ProNudgeCopy.head(ProReason.firstSession).title), findsOneWidget);
+      expect(find.text(ProNudgeCopy.sheetHeadline(ProReason.firstSession)), findsOneWidget);
       expect(rig.prefs.values.keys.where((k) => k.endsWith('popup_shown')), hasLength(1));
       expect(c.read(upgradePopupDueProvider), isFalse);
     });

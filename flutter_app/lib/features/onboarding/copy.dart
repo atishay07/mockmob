@@ -231,6 +231,10 @@ abstract final class OnboardingCopy {
   /// Under the age question (D183): usage data is on for 18 or older and for "Rather not say", off only when the
   /// student says they are under 18, and anyone can turn it off in You.
   static const String ageNote = "Usage data is on unless you say you're under 18. Turn it off any time in You.";
+
+  /// The same rule in one short line, under the age question on the save step, where the pinned keys leave no room
+  /// for a second line (D185). The usage-data switch right after sign-in, and You, are where it is turned off.
+  static const String ageNoteShort = 'Usage data is on unless you say under 18.';
   /// Under the age question after a sign-in key was tapped before it was answered.
   static const String ageFirstLine = 'Answer this first, then sign in.';
 

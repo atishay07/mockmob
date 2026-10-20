@@ -187,6 +187,48 @@ abstract final class ProNudgeCopy {
     'Smart practice aims every set at the chapters you miss.',
   ];
 
+  // The first-session bottom sheet (D185): the art leads, then one short headline and at most three rows, each one
+  // line at 360 dp at text 1.0. A fact about the student, then what Pro does about it; never a sentence that wraps.
+
+  /// The longest headline that stays on one line in the sheet at 360 dp.
+  static const int sheetHeadlineMax = 24;
+
+  /// The sheet's one-line headline: the reason's own when it is short enough, otherwise the website's general one.
+  static String sheetHeadline(ProReason reason) {
+    final own = head(reason).title;
+    return own.length <= sheetHeadlineMax ? own : sheetTitle;
+  }
+
+  /// The one line of terms under Google Play's price.
+  static const cancelAnytime = 'Cancel anytime in Google Play.';
+
+  /// The longest chapter name a short line names; a longer one gives the plain line instead.
+  static const int shortChapterMax = 20;
+
+  static String weakestChapterShort(String chapter) => 'Sets aimed at $chapter';
+  static const weakestShort = 'Sets aimed at your weak chapters';
+  static String creditsLeftShort(int n) => n <= 0 ? 'No credits left. Pro needs none.' : '${_n(n, 'credit')} left. Pro needs none.';
+  static String creditsUsedShort(int n, {required bool atLeast}) => atLeast ? '$n+ credits used. Pro needs none.' : '${_n(n, 'credit')} used. Pro needs none.';
+  static String mocksTakenShort(int n) => '${_n(n, 'mock')} sat. Unlimited on Pro.';
+  static String subjectsShort(int n) => 'NTA mode in your $n subjects';
+  static String collegesShort(int n) => n == 1 ? 'Compass Pro for your college' : 'Compass Pro for your $n colleges';
+
+  /// The short form of [leadBenefit], for the Mob's reasons.
+  static String? leadBenefitShort(ProReason reason) => switch (reason) {
+        ProReason.mob => 'The full side-by-side, every week',
+        ProReason.mobLimit => 'Up to 3 Mobs, every weekly paper',
+        ProReason.mobHosting => 'Host Mob games, pass the mic',
+        _ => null,
+      };
+
+  /// [plainBenefits] in short, in the same order (unlimited, credits, NTA, Smart).
+  static const List<String> plainBenefitsShort = [
+    'Unlimited mocks, fresh every time',
+    'Sets and mocks use no credits',
+    'NTA mode, the exam-day screen',
+    'Smart practice on weak chapters',
+  ];
+
   // The inline rows. One line and one action each; the action opens the Upgrade sheet.
   /// The key on a Pro gate that stands shut.
   static const gateAction = 'Upgrade to Pro';
