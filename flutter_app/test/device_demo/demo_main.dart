@@ -68,6 +68,7 @@ import '../unit/today/support/today_fixtures.dart' as today;
 import '../unit/you/you_test_support.dart' as you;
 import 'demo_book.dart';
 import 'demo_insights.dart';
+import 'demo_nudges.dart';
 import 'demo_questions.dart';
 import 'demo_repair.dart';
 import 'demo_session.dart';
@@ -321,6 +322,9 @@ List<Override> _overrides() {
 
     // Version 13: the Wallet, the Pro page, Where you stand, a doubt thread and Fix it for good.
     ...demoV13Overrides(),
+
+    // Smart nudges (D191): one kind per walk (MOCKMOB_DEMO_NUDGE), none by default.
+    ...demoNudgeOverrides(),
   ];
 }
 

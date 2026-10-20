@@ -1,6 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import '../../../core/api/api_providers.dart' show nowProvider;
 import '../../../core/auth/auth_state.dart';
 import '../../../core/models/attempt.dart';
 import '../../../core/repositories/attempts_repository.dart';
@@ -77,6 +76,14 @@ final nudgeAwakeProvider = Provider<bool>((ref) {
   return ref.watch(nudgeCalmProvider);
 });
 
+/// The first usage session after onboarding (D181, [PopupRules.inFirstSession]): unknown counts as inside it, so no
+/// money nudge slips in early. Replaceable in tests and the demo.
+final nudgeFirstSessionProvider = Provider<bool>((ref) {
+  final pro = ref.watch(proNudgeProvider.select((p) => (loaded: p.loaded, at: p.saved.onboardedAt, launch: p.saved.onboardedLaunch)));
+  if (!pro.loaded) return true;
+  return PopupRules.inFirstSession(launchId: ref.watch(proNudgeLaunchProvider), now: ref.watch(nudgeClockProvider)(), onboardedAt: pro.at, onboardedLaunch: pro.launch);
+});
+
 String _day(DateTime at) => NudgeRules.dayKey(at);
 
 /// The share of the marks on offer, 0 to 100.
@@ -147,7 +154,7 @@ DateTime? _newestRepair(Iterable<DateTime?> times) {
 /// The account's data, assembled from what the app already reads. Null while asleep ([nudgeAwakeProvider]).
 final nudgeSignalsProvider = Provider<NudgeSignals?>((ref) {
   if (!ref.watch(nudgeAwakeProvider)) return null;
-  final now = ref.watch(nowProvider)();
+  final now = ref.watch(nudgeClockProvider)();
 
   // Credits and Pro: practice credits (or the one balance), null while loading, failed or a stale copy.
   final credit = ref.watch(creditFiguresProvider.select((f) => (
@@ -215,11 +222,9 @@ final nudgeFactsProvider = Provider<NudgeFacts?>((ref) {
   if (!s.loaded) return null;
   final signals = ref.watch(nudgeSignalsProvider);
   if (signals == null) return null;
-  final now = ref.watch(nowProvider)();
+  final now = ref.watch(nudgeClockProvider)();
   final signedIn = ref.watch(authSnapshotProvider.select((a) => a.status == AuthStatus.signedIn));
-  // The first usage session after onboarding (D181): unknown counts as inside it, so no money nudge slips in early.
-  final pro = ref.watch(proNudgeProvider.select((p) => (loaded: p.loaded, at: p.saved.onboardedAt, launch: p.saved.onboardedLaunch)));
-  final firstSession = !pro.loaded || PopupRules.inFirstSession(launchId: ref.watch(proNudgeLaunchProvider), now: now, onboardedAt: pro.at, onboardedLaunch: pro.launch);
+  final firstSession = ref.watch(nudgeFirstSessionProvider);
   return NudgeFacts(
     now: now,
     signedIn: signedIn,

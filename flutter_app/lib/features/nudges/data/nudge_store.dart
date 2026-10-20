@@ -8,6 +8,9 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/storage/prefs_store.dart';
 import '../nudge_rules.dart';
 
+/// The nudges' clock: the app's, replaceable alone (the demo walks the evening kinds at any hour).
+final nudgeClockProvider = Provider<DateTime Function()>((ref) => ref.watch(nowProvider));
+
 /// The phone's preferences, where the nudges remember what they showed. Replaceable in tests and the demo.
 final nudgePrefsProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());
 
@@ -120,7 +123,7 @@ class NudgeController extends Notifier<NudgeState> {
   /// The student closed [kind] with its X: it stays quiet for [NudgeRules.quietFor], and the shown event is seen.
   void dismiss(NudgeKind kind) {
     if (!state.loaded) return;
-    var memory = state.memory.dismiss(kind, ref.read(nowProvider)());
+    var memory = state.memory.dismiss(kind, ref.read(nudgeClockProvider)());
     final shown = state.shown;
     if (shown != null) memory = memory.seen(shown.eventId);
     state = state.copyWith(memory: memory, closed: true);

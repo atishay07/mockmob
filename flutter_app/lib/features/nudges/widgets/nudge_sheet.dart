@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../../core/motion/motion.dart';
@@ -10,10 +12,10 @@ import '../data/nudge_facts.dart' show NudgeView;
 import '../nudge_rules.dart' show NudgeKind;
 
 /// Opens the sheet for [view] (a friend's reward, a friend's game): the art, the title, one line, one key and a
-/// quiet second key. Completes when it closes.
-Future<void> showNudgeSheet(BuildContext context, NudgeView view, {required VoidCallback onKey, VoidCallback? onSecondary}) => showMmSheet<void>(
+/// quiet second key. Completes when it closes. [enter] plays the art's entrance (false: at rest, for goldens).
+Future<void> showNudgeSheet(BuildContext context, NudgeView view, {required VoidCallback onKey, VoidCallback? onSecondary, bool enter = true}) => showMmSheet<void>(
       context: context,
-      builder: (sheet) => NudgeSheetBody(view: view),
+      builder: (sheet) => NudgeSheetBody(view: view, enter: enter),
       footer: (sheet) => NudgeSheetKeys(
         view: view,
         onKey: () {
@@ -100,6 +102,7 @@ class _Rise extends StatefulWidget {
 class _RiseState extends State<_Rise> with SingleTickerProviderStateMixin {
   late final AnimationController _c = AnimationController(vsync: this, duration: Motion.card, value: widget.enter ? 0 : 1);
   bool _started = false;
+  Timer? _wait;
 
   @override
   void didChangeDependencies() {
@@ -107,13 +110,14 @@ class _RiseState extends State<_Rise> with SingleTickerProviderStateMixin {
     if (_started || !widget.enter) return;
     _started = true;
     if (Motion.reduced(context)) _c.duration = Motion.reducedFade;
-    Future<void>.delayed(widget.delay, () {
+    _wait = Timer(widget.delay, () {
       if (mounted) _c.forward();
     });
   }
 
   @override
   void dispose() {
+    _wait?.cancel();
     _c.dispose();
     super.dispose();
   }
@@ -133,7 +137,7 @@ class _RiseState extends State<_Rise> with SingleTickerProviderStateMixin {
   }
 }
 
-/// The den's floor under a Fold: a soft lit ellipse on the sheet.
+/// The den's floor under a Fold: a soft pool of the lamp's light on the sheet.
 class _Floor extends StatelessWidget {
   const _Floor({required this.width});
 
@@ -142,19 +146,31 @@ class _Floor extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    return SizedBox(
-      width: width,
-      height: 22,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.elliptical(width / 2, 11)),
-          gradient: RadialGradient(
-            colors: [colors.lamp.withValues(alpha: colors.isNight ? 0.22 : 0.18), colors.lamp.withValues(alpha: 0)],
-          ),
-        ),
-      ),
-    );
+    return CustomPaint(size: Size(width, 28), painter: _FloorPainter(colors.lamp.withValues(alpha: colors.isNight ? 0.20 : 0.16), colors.ink.withValues(alpha: colors.isNight ? 0.0 : 0.05)));
   }
+}
+
+class _FloorPainter extends CustomPainter {
+  const _FloorPainter(this.light, this.shade);
+
+  final Color light;
+  final Color shade;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = Offset.zero & size;
+    canvas.drawOval(rect.deflate(4), Paint()
+      ..color = light
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 10));
+    if (shade.a > 0) {
+      canvas.drawOval(Rect.fromCenter(center: rect.center, width: size.width * 0.7, height: size.height * 0.45), Paint()
+        ..color = shade
+        ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6));
+    }
+  }
+
+  @override
+  bool shouldRepaint(_FloorPainter old) => old.light != light || old.shade != shade;
 }
 
 /// The reward: the server's figure, big, over the coins, between two Folds cheering.
@@ -193,8 +209,10 @@ class _RewardStage extends StatelessWidget {
                   children: [
                     const CreditCoins(size: 48),
                     const SizedBox(height: MmSpace.s4),
+                    // Art, not reading text (the title says the figure): it keeps its size at any text scale.
                     Text(
                       '$reward',
+                      textScaler: TextScaler.noScaling,
                       style: type.figure.copyWith(color: colors.ink, height: 1, fontFeatures: const [FontFeature.tabularFigures()]),
                     ),
                     const SizedBox(height: MmSpace.s16),

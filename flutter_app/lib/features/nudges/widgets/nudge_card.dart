@@ -125,9 +125,9 @@ class _NudgeCardState extends State<NudgeCard> with TickerProviderStateMixin {
                       runSpacing: MmSpace.s4,
                       crossAxisAlignment: WrapCrossAlignment.center,
                       children: [
-                        KeyButton.secondary(key: const ValueKey('nudge-key'), label: view.key, expanded: false, minHeight: MmTarget.min, onPressed: widget.onKey),
+                        _CardKey(key: const ValueKey('nudge-key'), label: view.key, onTap: widget.onKey, filled: true),
                         if (secondary != null && widget.onSecondary != null)
-                          KeyButton.quiet(key: const ValueKey('nudge-secondary'), label: secondary, onPressed: widget.onSecondary),
+                          _CardKey(key: const ValueKey('nudge-secondary'), label: secondary, onTap: widget.onSecondary!),
                       ],
                     ),
                   ],
@@ -145,6 +145,50 @@ class _NudgeCardState extends State<NudgeCard> with TickerProviderStateMixin {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The card's keys: a compact pill (44 dp to touch, 40 dp drawn) for the one key, plain words for the quiet second
+/// one. Smaller than the lead card's key under it, so the note never outranks the move.
+class _CardKey extends StatelessWidget {
+  const _CardKey({super.key, required this.label, required this.onTap, this.filled = false});
+
+  final String label;
+  final VoidCallback onTap;
+  final bool filled;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmPressable(
+      onTap: onTap,
+      semanticsLabel: label,
+      focusRadius: MmRadius.pillAll,
+      haptic: MmPressHaptic.selection,
+      builder: (context, pressed, focused) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        child: Align(
+          widthFactor: 1,
+          heightFactor: 1,
+          child: Container(
+            constraints: const BoxConstraints(minHeight: 40),
+            padding: EdgeInsets.symmetric(horizontal: filled ? MmSpace.s16 : MmSpace.s12, vertical: MmSpace.s8),
+            decoration: filled
+                ? ShapeDecoration(
+                    color: colors.isNight ? colors.raised2 : colors.sunken,
+                    shape: StadiumBorder(side: BorderSide(color: colors.lineStrong)),
+                  )
+                : null,
+            child: Align(
+              widthFactor: 1,
+              heightFactor: 1,
+              child: Text(label, style: type.label.copyWith(color: filled ? colors.ink : colors.ink2, fontSize: 15, height: 20 / 15)),
+            ),
+          ),
         ),
       ),
     );
