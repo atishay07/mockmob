@@ -48,7 +48,6 @@ import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../logic/ghost_pace.dart';
 import '../logic/live_room.dart';
-import '../mob_v3_nav.dart';
 import '../widgets/countdown_stopwatch.dart';
 import '../widgets/fold_puppet.dart';
 import '../widgets/mob_fx.dart';
@@ -58,6 +57,7 @@ import '../widgets/lobby_stage.dart' show LobbyStage;
 import '../widgets/room_ready.dart';
 import '../widgets/run_paper.dart';
 import '../widgets/ruler_race.dart';
+import 'results_run.dart';
 
 enum _Phase { ready, loading, failed, countdown, play, done }
 
@@ -466,7 +466,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       if (!mounted) return;
       if (_code(e) == 'RUN_DONE') {
         // Already played: straight to the podium.
-        MobV3Nav.podiumAfterRun(context, widget.gameId);
+        ResultsRun.afterRun(context, widget.gameId);
         return;
       }
       if (_code(e) == 'RUN_NOT_STARTED' && _notStartedTries < 8) {
@@ -722,7 +722,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       final code = _code(e);
       if (code == 'RUN_DONE') {
         _refreshDen();
-        MobV3Nav.podiumAfterRun(context, widget.gameId);
+        ResultsRun.afterRun(context, widget.gameId);
         return;
       }
       setState(() {
@@ -1649,7 +1649,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
         child: KeyButton(
           key: const ValueKey('run-key-podium'),
           label: MobV3Copy.seePodium,
-          onPressed: () => MobV3Nav.podiumAfterRun(context, widget.gameId),
+          onPressed: () => ResultsRun.afterRun(context, widget.gameId),
         ),
       );
     }

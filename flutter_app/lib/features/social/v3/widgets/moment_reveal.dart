@@ -17,6 +17,7 @@ import 'fold_puppet.dart';
 import 'moment_kit.dart';
 import 'paper_particles.dart';
 import 'parcel.dart';
+import 'results_parts.dart' show RunStep;
 
 class RevealMoment extends StatefulWidget {
   const RevealMoment({super.key, required this.mobName, required this.fold, required this.onPlayAs, required this.onShelf, required this.onClose, this.playing = false});
@@ -337,6 +338,7 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
       ),
     );
 
+    final run = RunStep.maybeOf(context);
     return MomentFrame(
       stageKey: _stage,
       title: null,
@@ -347,10 +349,16 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
       body: body,
       particles: particles,
       keysT: keysT,
-      keys: [
-        momentKey(MobV3Copy.seeShelf, widget.onShelf, primary: false, key: const ValueKey('k4-shelf')),
-        momentKey(MobV3Copy.playAs(widget.fold), widget.onPlayAs, loading: widget.playing, key: const ValueKey('k4-play')),
-      ],
+      // In the results run (A10): "Sit as Hop" and Continue, as the mock-ups draw it; the shelf is one tap from the den.
+      keys: run != null
+          ? [
+              momentKey(MobV3Copy.playAs(widget.fold), widget.onPlayAs, primary: false, loading: widget.playing, key: const ValueKey('k4-play')),
+              momentKey(run.last ? MobV4ResultsCopy.toTheDen : MobV4ResultsCopy.continueKey, widget.onShelf, key: const ValueKey('k4-continue')),
+            ]
+          : [
+              momentKey(MobV3Copy.seeShelf, widget.onShelf, primary: false, key: const ValueKey('k4-shelf')),
+              momentKey(MobV3Copy.playAs(widget.fold), widget.onPlayAs, loading: widget.playing, key: const ValueKey('k4-play')),
+            ],
     );
   }
 }

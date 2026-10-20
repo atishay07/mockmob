@@ -26,6 +26,7 @@ import '../widgets/moment_quest_done.dart';
 import '../widgets/moment_reveal.dart';
 import '../widgets/moment_stitched.dart';
 import '../widgets/paper_particles.dart' show PaperParticlesController;
+import '../widgets/results_parts.dart' show RunStep;
 
 /// Every moment key an overlay has shown (fully or skipped), in order. The den takes them after
 /// `MobV3Nav.moment` returns and marks them seen (`POST /seen`); the overlay never calls seen.
@@ -108,9 +109,15 @@ bool stitchAllowed(DenView den, MomentKey key) {
 }
 
 class MomentOverlay extends ConsumerStatefulWidget {
-  const MomentOverlay({super.key, required this.momentKey});
+  const MomentOverlay({super.key, required this.momentKey, this.onDone});
 
   final String momentKey;
+
+  /// Set inside the results run (A10): this moment is one screen of the run. Its key and X call [onDone] (the run
+  /// moves on or leaves), and it never plays the next moment in place: the run already lists each one as a screen.
+  final VoidCallback? onDone;
+
+  bool get single => onDone != null;
 
   @override
   ConsumerState<MomentOverlay> createState() => _MomentOverlayState();
@@ -128,8 +135,16 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     if (_closing) return;
     _closing = true;
     _record(_current);
+    final done = widget.onDone;
+    if (done != null) {
+      done();
+      return;
+    }
     Navigator.of(context).maybePop();
   }
+
+  /// The key in the results run: Continue, or Back to the den on the last screen.
+  String get _runLabel => RunStep.maybeOf(context)?.last == false ? MobV4ResultsCopy.continueKey : MobV3Copy.backToDen;
 
   /// Plays another due moment in place (K2 to K4 or K3), with a fade through.
   void _playInPlace(String key) {
@@ -218,7 +233,10 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     final revealKey = parcelReveal(v3, shown: _shownHere);
     final String label;
     final VoidCallback onKey;
-    if (stitchKey.isNotEmpty) {
+    if (widget.single) {
+      label = _runLabel;
+      onKey = _close;
+    } else if (stitchKey.isNotEmpty) {
       // With a Fold in the parcel the pennant comes first and K3's key opens the parcel.
       label = prize.kind == ParcelKind.item ? MobV3Copy.openParcel : MobV3Copy.seePennant;
       onKey = () => _playInPlace(stitchKey);
@@ -250,8 +268,8 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       members: v3.members,
       weeks: v3.mobChain.weeks,
       item: weekItemOf(v3),
-      keyLabel: revealKey == null ? MobV3Copy.backToDen : MobV3Copy.openParcel,
-      onKey: revealKey == null ? _close : () => _playInPlace(revealKey),
+      keyLabel: widget.single ? _runLabel : (revealKey == null ? MobV3Copy.backToDen : MobV3Copy.openParcel),
+      onKey: widget.single || revealKey == null ? _close : () => _playInPlace(revealKey),
       onClose: _close,
     );
   }
@@ -268,7 +286,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       fold: fold,
       playing: _sitting,
       onPlayAs: () => _playAs(fold),
-      onShelf: _shelf,
+      onShelf: widget.single ? _close : _shelf,
       onClose: _close,
     );
   }

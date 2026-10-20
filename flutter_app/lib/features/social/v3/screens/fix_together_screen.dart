@@ -199,17 +199,32 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
     final inQuestion = _stage == _Stage.question || _stage == _Stage.answered;
     final body = inQuestion ? _questionView(context) : _sheetView(context);
 
+    final run = RunStep.maybeOf(context);
     final Widget key;
     if (_stage == _Stage.answered) {
-      key = KeyButton(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst));
+      key = run != null
+          ? KeyButton(key: const ValueKey('fix-continue'), label: run.last ? MobV4ResultsCopy.toTheDen : MobV4ResultsCopy.continueKey, onPressed: run.onNext)
+          : KeyButton(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst));
     } else if (_stage == _Stage.question) {
       key = const SizedBox.shrink();
     } else {
-      key = KeyButton(
+      final start = KeyButton(
         label: _checkOpen ? MobV3Copy.takeCheck : MobV3Copy.tryFresh,
         loading: _stage == _Stage.loading,
         onPressed: _start,
       );
+      // In the results run: "Later" moves on without fixing it (the den's Now card keeps it).
+      key = run == null
+          ? start
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                start,
+                const SizedBox(height: MmSpace.s4),
+                KeyButton.secondary(key: const ValueKey('fix-later'), label: MobV4ResultsCopy.later, onPressed: run.onNext),
+              ],
+            );
     }
 
     return SafeArea(
@@ -220,21 +235,25 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
             child: Row(
               children: [
                 MmPressable(
-                  onTap: () => Navigator.of(context).maybePop(),
-                  semanticsLabel: MobV3Copy.back,
+                  onTap: run?.onExit ?? () => Navigator.of(context).maybePop(),
+                  semanticsLabel: run != null ? MobV3Copy.close : MobV3Copy.back,
                   focusRadius: BorderRadius.circular(999),
                   builder: (context, pressed, _) => SizedBox(width: 48, height: 48, child: Icon(LucideIcons.x, color: pressed ? c.ink2 : c.ink)),
                 ),
                 const SizedBox(width: 4),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(MobV3Copy.fixTogether(_number), style: type.subhead.copyWith(color: c.ink)),
-                      Text(MobV3Copy.fixSub(widget.mobName.isEmpty ? 'Your Mob' : widget.mobName), style: type.caption.copyWith(color: c.ink3)),
-                    ],
+                  child: runHeaderMiddle(
+                    context,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(MobV3Copy.fixTogether(_number), style: type.subhead.copyWith(color: c.ink)),
+                        Text(MobV3Copy.fixSub(widget.mobName.isEmpty ? 'Your Mob' : widget.mobName), style: type.caption.copyWith(color: c.ink3)),
+                      ],
+                    ),
                   ),
                 ),
+                if (run != null) const SizedBox(width: 48),
               ],
             ),
           ),

@@ -25,6 +25,7 @@ import '../data/mob_v3_models.dart';
 import 'fold_manifest.dart';
 import 'mob_fx.dart';
 import 'paper_particles.dart';
+import 'results_parts.dart' show RunStep, runHeaderMiddle;
 
 // ---------------------------------------------------------------------------------------------------
 // Clock helpers
@@ -250,7 +251,10 @@ class MomentFrame extends StatelessWidget {
                       _CloseButton(onTap: onClose),
                       const SizedBox(width: MmSpace.s4),
                       Expanded(
-                        child: title == null
+                        // In the results run the step dots take the middle (the screen's own headline names it).
+                        child: RunStep.maybeOf(context) != null
+                            ? runHeaderMiddle(context, const SizedBox.shrink())
+                            : title == null
                             ? const SizedBox.shrink()
                             : Column(
                                 mainAxisSize: MainAxisSize.min,

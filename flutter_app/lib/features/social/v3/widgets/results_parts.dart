@@ -241,3 +241,76 @@ class SegmentProgress extends StatelessWidget {
     );
   }
 }
+
+/// The results run's step (MOB-MINIMAL 3.4, A10): set by `ResultsRun` around each of its screens. A screen that
+/// finds one shows the step dots in its header, an X to the den, and moves on with [onNext] instead of pushing the
+/// next screen itself. Outside a run (a podium opened from the den) there is none and the screens behave as before.
+class RunStep extends InheritedWidget {
+  const RunStep({super.key, required this.index, required this.total, required this.onNext, required this.onExit, this.onRematch, required super.child});
+
+  /// 0-based.
+  final int index;
+  final int total;
+
+  /// Continue: the next true screen, or the den after the last.
+  final VoidCallback onNext;
+
+  /// The X: back to the den from any screen.
+  final VoidCallback onExit;
+
+  /// Rematch on Everyone's moment: Start a game prefilled with this game (`rematchOf`).
+  final VoidCallback? onRematch;
+
+  bool get last => index >= total - 1;
+
+  static RunStep? maybeOf(BuildContext context) => context.dependOnInheritedWidgetOfExactType<RunStep>();
+
+  @override
+  bool updateShouldNotify(RunStep old) => old.index != index || old.total != total;
+}
+
+/// The step dots: one per true screen in this run, the current one a longer volt bar (the mock-ups' header).
+/// Read as "Step 2 of 4". The current dot stretches over the card duration; reduced motion jumps.
+class RunStepDots extends StatelessWidget {
+  const RunStepDots({super.key, required this.index, required this.total});
+
+  final int index;
+  final int total;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.mmColors;
+    final reduced = MediaQuery.disableAnimationsOf(context);
+    if (total <= 1) return const SizedBox.shrink();
+    return Semantics(
+      label: 'Step ${index + 1} of $total',
+      excludeSemantics: true,
+      child: Row(
+        key: const ValueKey('run-step-dots'),
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          for (var i = 0; i < total; i++) ...[
+            if (i > 0) const SizedBox(width: 5),
+            AnimatedContainer(
+              duration: reduced ? Duration.zero : const Duration(milliseconds: 240),
+              curve: Curves.easeOutCubic,
+              width: i == index ? 18 : 6,
+              height: 6,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                color: i == index ? (c.isNight ? c.volt : c.ink) : (i < index ? c.ink3 : c.ink4),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// A header's middle in a results run: the step dots centred, or [fallback] outside a run.
+Widget runHeaderMiddle(BuildContext context, Widget fallback) {
+  final step = RunStep.maybeOf(context);
+  if (step == null) return fallback;
+  return Center(child: RunStepDots(index: step.index, total: step.total));
+}

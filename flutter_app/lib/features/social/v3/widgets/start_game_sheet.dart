@@ -192,6 +192,8 @@ class _StartBody extends ConsumerWidget {
                 minutes: c.minutes,
                 count: c.count,
                 mockDetail: MobV3Copy.mockDetail,
+                mobName: mobName,
+                mockPrice: starts.freeMockPrice,
                 // A Free member's mock row says what Pro does and what sitting costs, and opens Pro from the row.
                 proLine: f == GameFormat.mock && starts.mockNeedsPro ? MobV3Copy.mockProRow(starts.freeMockPrice) : null,
                 onPro: f == GameFormat.mock && starts.mockNeedsPro && ref.watch(proNudgesOnProvider)
@@ -315,6 +317,8 @@ class _FormatRow extends StatelessWidget {
     required this.onMinutes,
     required this.onCount,
     required this.mockDetail,
+    this.mobName = '',
+    this.mockPrice = kMockSitCredits,
     this.proLine,
     this.onPro,
     this.anytimeOnly = false,
@@ -330,6 +334,10 @@ class _FormatRow extends StatelessWidget {
   final ValueChanged<int> onMinutes;
   final ValueChanged<int> onCount;
   final String mockDetail;
+
+  /// For the Full mock together rule box (MOB-V4-BUILD 1): the Mob's name and the Free sit price.
+  final String mobName;
+  final int mockPrice;
 
   /// Under a locked Full mock together row: what Pro does and what sitting costs, with [onPro] opening Pro.
   final String? proLine;
@@ -364,9 +372,11 @@ class _FormatRow extends StatelessWidget {
         onChanged: onCount,
       );
     } else if (on && format == GameFormat.mock) {
-      chips = Text(mockDetail, key: const ValueKey('start-mock-line'), style: type.small.copyWith(color: colors.ink2));
+      chips = MockRuleBox(key: const ValueKey('start-mock-line'), mobName: mobName, price: mockPrice);
     }
-    final String? tag = anytimeOnly ? MobV3Copy.anytimeOnly : (locked && proTag ? MobV3Copy.proTag : null);
+    final String? tag = anytimeOnly
+        ? MobV3Copy.anytimeOnly
+        : (locked && proTag ? (format == GameFormat.mock ? MobV4ResultsCopy.proStartsIt : MobV3Copy.proTag) : null);
     final row = AnimatedContainer(
       duration: reduced ? Duration.zero : Motion.card,
       curve: Motion.out,
@@ -440,6 +450,52 @@ class _FormatRow extends StatelessWidget {
         ),
         const SizedBox(height: MmSpace.s4),
       ],
+    );
+  }
+}
+
+/// The Full mock together rule (MOB-V4-BUILD 1, D175): who sits it and what it costs, in a sunken box under the
+/// chosen row. Pro starts it; Free members sit it for the server's credits. Never a free first mock.
+class MockRuleBox extends StatelessWidget {
+  const MockRuleBox({super.key, required this.mobName, required this.price});
+
+  final String mobName;
+  final int price;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final style = type.small.copyWith(color: colors.ink2);
+    Widget line(IconData icon, InlineSpan text) => Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(padding: const EdgeInsets.only(top: 2), child: Icon(icon, size: 16, color: colors.ink3)),
+            const SizedBox(width: MmSpace.s8),
+            Expanded(child: Text.rich(text, style: style)),
+          ],
+        );
+    return Container(
+      padding: const EdgeInsets.all(MmSpace.s12),
+      decoration: BoxDecoration(
+        color: colors.isNight ? colors.sunken : colors.ground,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: colors.line),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          line(LucideIcons.users, TextSpan(text: MobV4ResultsCopy.mockRuleWho(mobName))),
+          const SizedBox(height: MmSpace.s8),
+          line(
+            LucideIcons.check,
+            TextSpan(children: [
+              TextSpan(text: MobV4ResultsCopy.mockRuleIncluded, style: style.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+              TextSpan(text: ' ${MobV4ResultsCopy.mockRuleFree(price)}'),
+            ]),
+          ),
+        ],
+      ),
     );
   }
 }

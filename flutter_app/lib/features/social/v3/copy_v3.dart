@@ -997,6 +997,41 @@ abstract final class MobV3Copy {
 }
 
 // ---------------------------------------------------------------------------------------------------
+// V4-results (owner: V4-results; MOB-MINIMAL 3.2 rule box, 3.3 lobby, 3.4 results run; MOB-V4-BUILD 1)
+// ---------------------------------------------------------------------------------------------------
+
+abstract final class MobV4ResultsCopy {
+  // A8 the Full mock together rule box (Pro) and the Free row.
+  static String mockRuleWho(String mob) => 'Everyone in $mob can sit it within 24 hours, then you compare mark sheets.';
+  static const String mockRuleIncluded = 'Included with Pro.';
+  static String mockRuleFree(int cost) => 'Free members sit it for $cost credits.';
+  static const String proStartsIt = 'Pro starts it';
+  static const String mockFreeLine = 'Full mocks are Anytime only. A Pro friend starts one; you can still sit it.';
+  static const String getPro = 'Get Pro';
+
+  // A9 the full mock lobby's "For you" card.
+  static const String forYouIncluded = 'For you: included with Pro.';
+  static String forYouCredits(int cost) => 'For you: $cost credits';
+  static String youHave(int n) => 'You have $n credits.';
+  static String shortOf(int cost, int have) => '$cost credits. You have $have, so you need ${cost - have} more.';
+  static const String addCredits = 'Add credits';
+  static const String sitTheMock = 'Sit the full mock';
+  static String sitFor(int cost) => 'Sit it for $cost credits';
+  static const String notNow = 'Not now';
+  static const String mockOnceStarted = 'Once you start, you have 60 minutes. When the game closes, everyone\'s mark sheets are compared section by section.';
+  static const String factQuestions = 'questions';
+  static const String factMinutes = 'minutes';
+  static const String factMarks = 'marks each';
+
+  // A10 the results run.
+  static const String continueKey = 'Continue';
+  static const String later = 'Later';
+  static const String rematch = 'Rematch';
+  static String stepOf(int i, int n) => 'Step $i of $n';
+  static const String toTheDen = 'Back to the den';
+}
+
+// ---------------------------------------------------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------------------------------------------------
 

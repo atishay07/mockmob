@@ -181,9 +181,25 @@ class MomentsView extends StatelessWidget {
       card = const SizedBox.shrink();
     }
 
-    final key = trap != null
-        ? KeyButton(label: MobV3Copy.fixTogether(trap.number), onPressed: () => MobV3Nav.fix(context, gameId, trap.q))
-        : KeyButton(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst));
+    final run = RunStep.maybeOf(context);
+    // In the results run Fix it together is its own screen after this one: the trap card stays off here.
+    final Widget shownCard = run != null && trap != null ? const SizedBox.shrink() : card;
+    final Widget key;
+    if (run != null) {
+      key = Row(
+        children: [
+          if (run.onRematch != null && !aloneInMob) ...[
+            Expanded(child: KeyButton.secondary(key: const ValueKey('moments-rematch'), label: MobV4ResultsCopy.rematch, onPressed: run.onRematch)),
+            const SizedBox(width: MmSpace.s12),
+          ],
+          Expanded(child: KeyButton(key: const ValueKey('moments-continue'), label: run.last ? MobV4ResultsCopy.toTheDen : MobV4ResultsCopy.continueKey, onPressed: run.onNext)),
+        ],
+      );
+    } else {
+      key = trap != null
+          ? KeyButton(label: MobV3Copy.fixTogether(trap.number), onPressed: () => MobV3Nav.fix(context, gameId, trap.q))
+          : KeyButton(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst));
+    }
 
     final title = data.game?.title ?? '';
     return SafeArea(
@@ -194,21 +210,25 @@ class MomentsView extends StatelessWidget {
             child: Row(
               children: [
                 MmPressable(
-                  onTap: () => Navigator.of(context).maybePop(),
-                  semanticsLabel: MobV3Copy.back,
+                  onTap: run?.onExit ?? () => Navigator.of(context).maybePop(),
+                  semanticsLabel: run != null ? MobV3Copy.close : MobV3Copy.back,
                   focusRadius: BorderRadius.circular(999),
-                  builder: (context, pressed, _) => SizedBox(width: 48, height: 48, child: Icon(LucideIcons.arrowLeft, color: pressed ? c.ink2 : c.ink)),
+                  builder: (context, pressed, _) => SizedBox(width: 48, height: 48, child: Icon(run != null ? LucideIcons.x : LucideIcons.arrowLeft, color: pressed ? c.ink2 : c.ink)),
                 ),
                 const SizedBox(width: 4),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (title.isNotEmpty) Text(title, style: type.subhead.copyWith(color: c.ink)),
-                      Text(p.soFar ? MobV3Copy.soFar : MobV3Copy.finalLabel, style: type.caption.copyWith(color: c.ink3)),
-                    ],
+                  child: runHeaderMiddle(
+                    context,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (title.isNotEmpty) Text(title, style: type.subhead.copyWith(color: c.ink)),
+                        Text(p.soFar ? MobV3Copy.soFar : MobV3Copy.finalLabel, style: type.caption.copyWith(color: c.ink3)),
+                      ],
+                    ),
                   ),
                 ),
+                if (run != null) const SizedBox(width: 48),
               ],
             ),
           ),
@@ -225,7 +245,7 @@ class MomentsView extends StatelessWidget {
                     _Rise(index: 1 + i, child: rows[i]),
                   ],
                   const SizedBox(height: MmSpace.s24),
-                  _Rise(index: 1 + rows.length, child: card),
+                  _Rise(index: 1 + rows.length, child: shownCard),
                   if (!aloneInMob) ...[
                     const SizedBox(height: MmSpace.s24),
                     _Rise(index: 2 + rows.length, child: StickerRow(kinds: StickerKind.results, gameId: gameId, label: MobV3Copy.sendSticker, grid: true, flyHere: true)),

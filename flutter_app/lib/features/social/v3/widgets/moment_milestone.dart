@@ -15,6 +15,7 @@ import '../data/mob_v3_models.dart';
 import '../logic/fold_catalog.dart' show chainMilestones;
 import 'moment_kit.dart';
 import 'paper_particles.dart';
+import 'results_parts.dart' show RunStep;
 
 /// The days of the arc, oldest first: true where a rest pass kept the chain.
 List<bool> restedDays(ChainState c, int n) {
@@ -176,7 +177,7 @@ class _MilestoneMomentState extends MomentStageState<MilestoneMoment> {
       body: body,
       particles: particles,
       keysT: keysT,
-      keys: [momentKey(MobV3Copy.backToDen, widget.onKey, key: const ValueKey('k1-key'))],
+      keys: [momentKey(RunStep.maybeOf(context)?.last == false ? MobV4ResultsCopy.continueKey : MobV3Copy.backToDen, widget.onKey, key: const ValueKey('k1-key'))],
     );
   }
 }

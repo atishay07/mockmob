@@ -44,6 +44,7 @@ import 'fold_manifest.dart';
 import 'fold_puppet.dart';
 import 'mob_fx.dart';
 import 'paper_particles.dart';
+import 'results_parts.dart' show RunStep, runHeaderMiddle;
 
 // ---------------------------------------------------------------------------------------------------
 // The plan: who stands where, and what each count rolls up from. Pure, so tests can read it.
@@ -506,6 +507,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
 
     final subline = _subline();
     final tie = p.tie;
+    final run = RunStep.maybeOf(context);
 
     Widget fade(double t, Widget child, {double rise = 8}) => Opacity(
           opacity: t.clamp(0.0, 1.0),
@@ -521,13 +523,16 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           Expanded(
             child: fade(
               headerT,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(widget.gameTitle, style: type.subhead.copyWith(color: c.ink)),
-                  Text(p.soFar ? MobV3Copy.soFar : MobV3Copy.finalLabel, style: type.caption.copyWith(color: c.ink3)),
-                ],
+              runHeaderMiddle(
+                context,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(widget.gameTitle, style: type.subhead.copyWith(color: c.ink)),
+                    Text(p.soFar ? MobV3Copy.soFar : MobV3Copy.finalLabel, style: type.caption.copyWith(color: c.ink3)),
+                  ],
+                ),
               ),
             ),
           ),
@@ -583,15 +588,24 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           ignoring: keysT < 0.5,
           child: Row(
             children: [
-              Expanded(
-                child: KeyButton(
-                  key: const ValueKey('podium-primary'),
-                  label: widget.primaryLabel ?? (_plan.onlyYou ? MobV3Copy.yourMoment : MobV3Copy.everyonesMoment),
-                  onPressed: widget.primaryLabel != null ? widget.onPrimary : widget.onMoments,
+              if (run != null) ...[
+                // In the results run: one key, Continue; your mark sheet stays a quiet ring beside it for a full mock.
+                Expanded(child: KeyButton(key: const ValueKey('podium-primary'), label: MobV4ResultsCopy.continueKey, onPressed: run.onNext)),
+                if (widget.primaryLabel != null) ...[
+                  const SizedBox(width: MmSpace.s12),
+                  _IconKey(icon: LucideIcons.fileText, label: widget.primaryLabel!, onTap: widget.onPrimary, ring: true),
+                ],
+              ] else ...[
+                Expanded(
+                  child: KeyButton(
+                    key: const ValueKey('podium-primary'),
+                    label: widget.primaryLabel ?? (_plan.onlyYou ? MobV3Copy.yourMoment : MobV3Copy.everyonesMoment),
+                    onPressed: widget.primaryLabel != null ? widget.onPrimary : widget.onMoments,
+                  ),
                 ),
-              ),
-              const SizedBox(width: MmSpace.s12),
-              _IconKey(icon: LucideIcons.repeat, label: MobV3Copy.askRematch, onTap: widget.onRematch, ring: true),
+                const SizedBox(width: MmSpace.s12),
+                _IconKey(icon: LucideIcons.repeat, label: MobV3Copy.askRematch, onTap: widget.onRematch, ring: true),
+              ],
             ],
           ),
         ),
