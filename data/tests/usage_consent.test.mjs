@@ -98,6 +98,20 @@ test('D183 migration: the consent-gated insert collects for 18 or older and Rath
   } finally { await db.close(); }
 });
 
+test('D183 undo: one transaction that takes the consent table lock before it cleans up and swaps the check', () => {
+  const sql = D183_UNDO.split(/\r?\n/).filter((l) => !l.trim().startsWith('--')).join('\n');
+  const at = (re) => sql.search(re);
+  assert.ok(at(/^begin;$/m) >= 0, 'begins a transaction');
+  assert.match(sql.trimEnd(), /commit;$/, 'and commits at the end');
+  assert.equal((sql.match(/^begin;$/gm) || []).length, 1);
+  assert.equal((sql.match(/^commit;$/gm) || []).length, 1);
+  assert.match(sql, /lock table public\.usage_consent in share row exclusive mode;/);
+  const order = [/^begin;$/m, /lock table public\.usage_consent/, /^update public\.usage_consent/m, /^delete from public\.usage_events/m,
+    /add constraint usage_consent_adult_only/, /create or replace function public\.insert_usage_events/, /^commit;$/m].map(at);
+  assert.deepEqual(order, [...order].sort((a, b) => a - b), 'begin, lock, switch off, delete events, swap the check, replace the function, commit');
+  assert.ok(order.every((n) => n >= 0));
+});
+
 test('D183 undo: the adult-only rule comes back, non-adults who had it on are switched off with their events deleted, adults are kept', async () => {
   const db = await freshDatabase(['adult', 'unknown', 'minor']);
   try {
@@ -134,7 +148,7 @@ const NOW = Date.UTC(2026, 9, 12, 12);
 const ev = (o = {}) => ({ event_id: 'a1', name: 'app_opened', platform: 'android', occurred_at: new Date(NOW - 1000).toISOString(), props: { screen: 'home', minutes: 3 }, ...o });
 
 test('canCollect: 18 or older and Rather not say collect when allowed, never under 18, withdrawn, off or no row', () => {
-  assert.equal(POLICY_VERSION, '2026-10-12');
+  assert.equal(POLICY_VERSION, '2026-10-20'); // the privacy text a choice is made under: D183 moved it from 2026-10-12
   assert.deepEqual(AGE_BANDS, ['adult', 'minor', 'unknown']);
   assert.equal(canCollect({ analytics_allowed: true, age_band: 'adult', withdrawn_at: null }), true);
   assert.equal(canCollect({ analytics_allowed: true, age_band: 'unknown', withdrawn_at: null }), true); // Rather not say, D183
@@ -276,6 +290,31 @@ test('consent route: "Rather not say" with usage data on is accepted and keeps t
   assert.deepEqual([read.status, read.body.ageBand, read.body.analyticsAllowed], [200, 'unknown', true]);
 });
 
+test('consent route: a student who never answered reads as unknown, off, with no decision time and the current policy version', async () => {
+  await loadRoutes();
+  globalThis.__fakeSupabase = fakeSupabase();
+  as('u1');
+  const g = await reply(await getConsent());
+  assert.equal(g.status, 200);
+  assert.deepEqual({ ageBand: g.body.ageBand, analyticsAllowed: g.body.analyticsAllowed, decidedAt: g.body.decidedAt, withdrawnAt: g.body.withdrawnAt }, { ageBand: 'unknown', analyticsAllowed: false, decidedAt: null, withdrawnAt: null });
+  assert.equal(g.body.policyVersion, POLICY_VERSION);
+});
+
+test('consent route: every answer is stamped with the current policy version, and "Rather not say" with usage data off still reads as answered', async () => {
+  await loadRoutes();
+  globalThis.__fakeSupabase = fakeSupabase();
+  as('u1');
+  for (const [ageBand, analyticsAllowed] of [['unknown', true], ['unknown', false], ['adult', true], ['minor', false]]) {
+    const r = await reply(await put({ ageBand, analyticsAllowed }));
+    assert.equal(r.status, 200, `${ageBand} ${analyticsAllowed}`);
+    assert.equal(r.body.policyVersion, '2026-10-20', `${ageBand} ${analyticsAllowed}`);
+    assert.ok(r.body.decidedAt, `${ageBand} ${analyticsAllowed}: an off write keeps its decision time, or the app and the web would read it as never answered`);
+    const back = await reply(await getConsent());
+    assert.deepEqual([back.body.ageBand, back.body.analyticsAllowed], [ageBand, analyticsAllowed]);
+    assert.ok(back.body.decidedAt, `${ageBand} ${analyticsAllowed}: read back`);
+  }
+});
+
 test('consent route: 18 or older with usage data on is still accepted', async () => {
   await loadRoutes();
   globalThis.__fakeSupabase = fakeSupabase();
@@ -307,6 +346,7 @@ test('consent route: saying under 18 saves usage data off and deletes what was c
   const r = await reply(await put({ ageBand: 'minor', analyticsAllowed: false }));
   assert.equal(r.status, 200);
   assert.deepEqual([r.body.ageBand, r.body.analyticsAllowed, r.body.deletedEvents], ['minor', false, 4]);
+  assert.ok(r.body.decidedAt, 'saying under 18 keeps a decision time');
   assert.ok(r.body.withdrawnAt, 'turning usage data off after it was on records a withdrawal');
   assert.equal(sb.eventRows.get('u1'), 0);
 });
@@ -319,6 +359,7 @@ test('consent route: anyone can switch it off, and "Rather not say" keeps its ba
   const off = await reply(await put({ ageBand: 'unknown', analyticsAllowed: false }));
   assert.deepEqual([off.status, off.body.ageBand, off.body.analyticsAllowed, off.body.deletedEvents], [200, 'unknown', false, 2]);
   assert.ok(off.body.withdrawnAt);
+  assert.ok(off.body.decidedAt, '"Rather not say" with usage data off still reads as answered');
   const on = await reply(await put({ ageBand: 'unknown', analyticsAllowed: true }));
   assert.deepEqual([on.status, on.body.ageBand, on.body.analyticsAllowed, on.body.withdrawnAt], [200, 'unknown', true, null]);
 });
@@ -374,6 +415,10 @@ test('profile: three age answers, the switch follows D183, and the band the stud
   assert.match(section, /save\('adult', allowed\)/);
   assert.match(section, /save\('minor', false\)/);
   assert.match(section, /save\('unknown', allowed\)/);
+  // Each answer saves when it changes, so under 18 (which switches usage data off and deletes the events) is the last one:
+  // arrowing from 18 or older to Rather not say never passes through it.
+  const at = (label) => section.indexOf(`>${label}</label>`);
+  assert.ok(at('I am 18 or older') >= 0 && at('I am 18 or older') < at('Rather not say') && at('Rather not say') < at('I am under 18'), 'order: 18 or older, Rather not say, under 18');
   // "never answered" is the unknown band with no decision time
   assert.match(section, /const answered = ageBand !== 'unknown' \|\| !!decidedAt;/);
   assert.match(section, /const switchAvailable = answered && ageBand !== 'minor';/);
@@ -384,25 +429,43 @@ test('profile: three age answers, the switch follows D183, and the band the stud
   assert.doesNotMatch(section, /save\('adult', e\.target\.checked\)|save\('adult', false, \{ refocus/);
   // the two notes
   assert.match(section, /Usage data stays off because you said you are under 18\./);
-  assert.match(section, /Answer the age question to choose\./);
+  assert.match(section, /Usage data stays off until you choose an answer above\./);
+  assert.doesNotMatch(section, /Answer the age question to choose/);
+  // a save shows that it is running, and the count of deleted records is told only when something was deleted
+  assert.match(section, /setNote\(\{ type: null, message: 'Saving\.' \}\)/);
+  assert.match(section, /'Saved\. Usage data is off\.'/);
+  assert.match(section, /Saved\. Usage data is off and \$\{n\} earlier \$\{n === 1 \? 'record was' : 'records were'\} deleted\./);
+  assert.doesNotMatch(section, /collected \$\{n === 1/);
   // the old adult-only wording is gone
   assert.doesNotMatch(section, /Confirm you are 18 or older to turn this on|Only available to people who confirm|ageBand !== 'adult'/);
-  assert.match(section, /It can be on for anyone who is 18 or older or who chooses Rather not say, and it stays off for anyone who says they are under 18\./);
+  // the bullet speaks to the student, in two short sentences
+  assert.match(section, /<li>It can be on if you are 18 or older or choose Rather not say\. It stays off if you say you are under 18\.<\/li>/);
+  assert.doesNotMatch(section, /anyone who is 18 or older|for anyone who says/);
 });
 
 test('privacy page: the optional usage data section tells the D183 rule, and no legal page contradicts it', () => {
   const privacy = read('src/app/privacy/page.js');
   const section = privacy.slice(privacy.indexOf('<h2>Optional usage data'), privacy.indexOf('</section>', privacy.indexOf('<h2>Optional usage data')));
   assert.match(section, /<h2>Optional usage data \(updated 20 October 2026\)<\/h2>/);
-  assert.match(section, /on for people who say they are 18 or older and for people who choose Rather not say/);
-  assert.match(section, /off for anyone who says they are under 18/);
-  assert.match(section, /Anyone can turn it off at any time/);
-  assert.match(section, /Profile on the website/);
-  assert.match(section, /You, then Privacy, in the app/);
-  assert.match(section, /turning it off deletes what was collected/);
+  // The rule: it can be on for 18 or older and Rather not say, it is always off under 18, and it stays off until the question is answered.
+  assert.match(section, /Usage data can be on if you say you are 18 or older or choose Rather not say\./);
+  assert.match(section, /It is always off if you say you are under 18, and it stays off until you answer the age question\./);
+  // It never says "is on" as a plain fact: the app starts it on at setup, the website leaves it off until the student turns it on.
+  assert.doesNotMatch(section, /Usage data is on for|is on for people/);
+  assert.match(section, /In the app, it starts on when you answer 18 or older or Rather not say during setup\./);
+  assert.match(section, /If you only use the website, it stays off until you answer the age question in Profile and turn it on\./);
+  assert.doesNotMatch(section, /On the website you choose/);
+  assert.match(section, /You can turn it off at any time, in Profile on the website or in the app under You, then Privacy\./);
+  assert.match(section, /Turning it off deletes what was collected\./);
+  // D183 turns it off when a minor is known to use the app: a parent has a stated way to ask.
+  assert.match(section, /If your child is under 18 and uses MockMob, email support@mockmob\.in with the account email and we will turn usage data off for that account and delete what was collected\./);
+  // Crash reports ride on the same switch (appErrors.js canCollectErrors); they hold no account, so they are not deleted per student.
+  assert.match(section, /The app also sends crash reports with the error, the screen and basic phone details, but no account, device ID or IP address\./);
+  assert.match(section, /They cannot be linked to you, so turning usage data off does not delete them; we delete them after about 30 days\./);
   assert.match(section, /We never collect answers, marks, free text or contacts\./);
   assert.match(section, /first-party only: no third-party tracking and no advertising/);
-  assert.match(section, /We keep it for 180 days\./);
+  assert.match(section, /We keep usage data for 180 days\./);
+  assert.doesNotMatch(section, /!|→|->/, 'no exclamation marks or arrows');
   assert.doesNotMatch(section, /If you confirm you are 18 or older|off by default|have not said/);
   assert.match(privacy, /Last updated: 20 October 2026/);
   const deletion = read('src/app/account-deletion/page.js');

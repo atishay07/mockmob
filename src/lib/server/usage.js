@@ -2,7 +2,9 @@
 // D183 (owner, 20 Oct 2026): usage data is on for people who say they are 18 or older and for people who choose
 // "Rather not say" (age band 'unknown' with an answer); it is off only for a student who says they are under 18
 // (age band 'minor'). Anyone can switch it off, and switching it off deletes what was collected.
-export const POLICY_VERSION = '2026-10-12';
+// POLICY_VERSION is the date of the privacy text a choice was made under. It moved to 2026-10-20 with D183; rows saved
+// before that keep '2026-10-12', which is right, because each write stamps the version in force at the time.
+export const POLICY_VERSION = '2026-10-20';
 export const CONSENT_LABEL = 'Allow usage data to improve MockMob';
 export const AGE_BANDS = ['adult', 'minor', 'unknown'];
 export const MAX_BATCH = 50;

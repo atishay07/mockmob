@@ -7,6 +7,13 @@
 -- (analytics_allowed only when age_band = 'adult'), "usage_consent_minor_off" is dropped, and insert_usage_events collects
 -- for 'adult' only again.
 -- What it keeps: every adult's choice and every adult's collected events.
+-- It runs as one transaction (begin and commit below), so it either does all of it or none of it: a runner that sends the
+-- statements one at a time cannot leave the table with no consent check. The table lock comes first, so no consent row
+-- can be written between the clean-up and the new check; a write waits and then meets the adult-only rule.
+
+begin;
+
+lock table public.usage_consent in share row exclusive mode;
 
 update public.usage_consent
    set analytics_allowed = false, withdrawn_at = coalesce(withdrawn_at, now()), updated_at = now()
@@ -38,3 +45,5 @@ end $$;
 
 revoke all on function public.insert_usage_events(text, jsonb) from public, anon, authenticated;
 grant execute on function public.insert_usage_events(text, jsonb) to service_role;
+
+commit;
