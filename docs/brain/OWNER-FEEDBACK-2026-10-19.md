@@ -699,3 +699,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 >
 > Right now, I'll first open version 13 and see how every flow has changed. Many things have been improved according to that. I have decided on just one more clarification: when exactly did you get done with this version 13? At which time was this ready?"
 **Ledger D163:** his Play steps are NOT done yet (he is doing them now). Pro on Play stays Rs 149 (fixed). Welcome credits: keep the extra 100 welcome bonus (150 total) as decided yesterday (confirm wording "lifted" = kept). He is opening version 13 to see every flow.
+
+## Owner, 20 Oct about 11:35 am IST (verbatim)
+> "The issue is, I read your document later on, and in that, you had said not to send for review, but I had already sent for review. Version 11 yesterday was already approved. 13 is also already sent for review. I was also not able to find where the data safety and collection records exist in the Play Console. For the other steps, can  you guide me me to them?"
+**Ledger D164:** version 11 approved on the closed track; version 13 already sent for review. Guide him one screen at a time: Data safety (Policy and programs > App content), content rating, ANDROID_CERT_SHA256.
