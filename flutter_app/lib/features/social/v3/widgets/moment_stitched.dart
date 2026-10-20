@@ -9,6 +9,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 
+import '../../../../core/models/json_helpers.dart';
 import '../../../../core/motion/motion_tokens.g.dart';
 import '../../../../core/theme/theme.dart';
 import '../copy_v3.dart';
@@ -17,8 +18,77 @@ import 'moment_kit.dart';
 import 'paper_particles.dart' show drawGlint;
 import 'parcel.dart';
 
+// ---- Mob hours on the stitch (MOB-MINIMAL 3.4 item 5, 3.6; MOB HOURS CONTRACT `v3.hours`) ----------------
+// A minimal, tolerant reading of `v3.hours` for this one card. The den track parses the whole block as
+// `MobHours` in data/mob_v3_models.dart; the integrator points [StitchHours.of] at it (see v4-coord.md).
+
+/// One sharing member's week: their minutes and the days they met their own daily goal.
+class StitchHoursMember {
+  const StitchHoursMember({required this.memberId, required this.minutes, this.goalDays = 0});
+
+  final String memberId;
+  final int minutes;
+  final int goalDays;
+
+  /// The week tick: their own daily goal met on 5 of 7 days.
+  bool get tick => goalDays >= 5;
+}
+
+/// The Mob hours this card may show. Every field defaults to empty or 0; members with 0 minutes never appear.
+class StitchHours {
+  const StitchHours({this.topMemberId, this.members = const []});
+
+  /// `v3.hours` read both ways round (snake_case per the contract, camelCase tolerated). Null when absent or not a
+  /// map; a member without an id or with 0 minutes is dropped.
+  static StitchHours? fromJson(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final members = <StitchHoursMember>[];
+    for (final m in asJsonList(j['members'])) {
+      final id = asString(m['member_id'] ?? m['memberId']);
+      final minutes = asInt(m['minutes']) ?? 0;
+      if (id == null || minutes <= 0) continue;
+      members.add(StitchHoursMember(memberId: id, minutes: minutes, goalDays: asInt(m['goal_days'] ?? m['goalDays']) ?? 0));
+    }
+    return StitchHours(topMemberId: asString(j['top_member_id'] ?? j['topMemberId']), members: members);
+  }
+
+  /// Where the overlay reads the Mob's hours from the den. This branch's den model has no `hours` yet, so it
+  /// answers null (the card stays hidden); the integrator assigns it from `v3.hours` (MobHours).
+  static StitchHours? Function(MobV3 v3) of = (_) => null;
+
+  final String? topMemberId;
+  final List<StitchHoursMember> members;
+
+  StitchHoursMember? _of(String id) {
+    for (final m in members) {
+      if (m.memberId == id && m.minutes > 0) return m;
+    }
+    return null;
+  }
+
+  /// The crown: only a top member the server named, with minutes, who is in [mob].
+  StitchHoursMember? crownIn(List<MobV3Member> mob) {
+    final id = topMemberId;
+    if (id == null || !mob.any((x) => x.memberId == id)) return null;
+    return _of(id);
+  }
+
+  /// The sharing members of [mob] to show, in the Mob's head order (never a rank below the top).
+  List<(MobV3Member, StitchHoursMember)> shownIn(List<MobV3Member> mob) => [
+        for (final x in headOrder(mob))
+          if (_of(x.memberId) case final StitchHoursMember h) (x, h),
+      ];
+
+  /// The card shows when it has a crown or at least one tick.
+  bool showsIn(List<MobV3Member> mob) => crownIn(mob) != null || shownIn(mob).any((p) => p.$2.tick);
+}
+
 class StitchedMoment extends StatefulWidget {
-  const StitchedMoment({super.key, required this.mobName, required this.members, required this.weeks, this.item, required this.onKey, required this.onClose, this.keyLabel});
+  const StitchedMoment({super.key, required this.mobName, required this.members, required this.weeks, this.item, required this.onKey, required this.onClose, this.keyLabel, this.hours});
+
+  /// The week's Mob hours (null: the card is hidden).
+  final StitchHours? hours;
 
   final String mobName;
   final List<MobV3Member> members;
@@ -104,7 +174,8 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
               children: [
                 RollNumber(from: math.max(0, n - 1), to: n, t: roll, style: type.figureHero.copyWith(fontSize: 76, color: ink)),
                 const SizedBox(height: 2),
-                Text(MobV3Copy.weeksInARow(n), style: type.label.copyWith(color: ink.withValues(alpha: 0.8), fontSize: 14), textAlign: TextAlign.center),
+                // Part of the pennant's art (the headline says it in full), so it keeps its size inside the cloth at large text.
+                Text(MobV3Copy.weeksInARow(n), style: type.label.copyWith(color: ink.withValues(alpha: 0.8), fontSize: 14), textAlign: TextAlign.center, textScaler: TextScaler.noScaling),
               ],
             ),
           ),
@@ -174,17 +245,24 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
             key: _restKey,
             children: [
           const SizedBox(height: MmSpace.s20),
-          EngraveText('$n ${MobV3Copy.weeksInARow(n)}', style: type.headline.copyWith(color: colors.ink), t: titleT),
+          EngraveText(MobV4ResultsCopy.weekStitched(n), style: type.headline.copyWith(color: colors.ink), t: titleT),
           const SizedBox(height: MmSpace.s8),
           Opacity(
             opacity: lineT,
             child: Transform.translate(
               offset: Offset(0, (1 - lineT) * 6),
-              child: Text(MobV3Copy.stitchedLine(widget.mobName, n, widget.members.length), style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+              child: Text(MobV4ResultsCopy.weeksForMob(n, widget.mobName), style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
             ),
           ),
           const SizedBox(height: MmSpace.s16),
-          MemberHeads(members: widget.members, popAt: 1080, ms: t, size: 40),
+          // With Mob hours to show, the card carries the heads (crown and ticks); without, the heads as before.
+          if (widget.hours?.showsIn(widget.members) ?? false)
+            Opacity(
+              opacity: lineT,
+              child: Transform.translate(offset: Offset(0, (1 - lineT) * 10), child: _HoursCard(hours: widget.hours!, members: widget.members, week: n)),
+            )
+          else
+            MemberHeads(members: widget.members, popAt: 1080, ms: t, size: 40),
           if (item != null) ...[
             const SizedBox(height: MmSpace.s20),
             Opacity(
@@ -431,4 +509,168 @@ class PennantPainter extends CustomPainter {
   @override
   bool shouldRepaint(PennantPainter old) =>
       old.weeks != weeks || old.sew != sew || old.holes != holes || old.glints != glints || old.night != night || old.volt != volt;
+}
+
+/// The Mob hours card on the stitch: the crowned head and "Riya studied the most: 6 h 20 m", "Riya's crown goes on
+/// week 4's stitch."; a quiet ruler; each sharing member's head with a tick when they met their own daily goal on 5
+/// of 7 days, and what a tick means. The crown and ticks sit still (4.3). Never a rank below the top, never 0 minutes.
+class _HoursCard extends StatelessWidget {
+  const _HoursCard({required this.hours, required this.members, required this.week});
+
+  final StitchHours hours;
+  final List<MobV3Member> members;
+  final int week;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.mmColors;
+    final type = context.mmType;
+    final crown = hours.crownIn(members);
+    final crowned = crown == null ? null : members.firstWhere((m) => m.memberId == crown.memberId);
+    final shown = hours.shownIn(members);
+    final anyTick = shown.any((p) => p.$2.tick);
+    final tickFill = c.isNight ? c.volt : c.ink;
+    final tickInk = c.isNight ? const Color(0xFF0B0B0F) : c.raised;
+    return Container(
+      key: const ValueKey('k3-hours'),
+      width: double.infinity,
+      padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s12),
+      decoration: BoxDecoration(color: c.raised, borderRadius: BorderRadius.circular(MmRadius.panel), border: Border.all(color: c.line)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (crown != null && crowned != null)
+            Row(
+              key: const ValueKey('k3-crown'),
+              children: [
+                SizedBox(
+                  width: 52,
+                  height: 58,
+                  child: Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      Positioned(left: 0, bottom: 0, child: HeadDisc(member: crowned, size: 48)),
+                      const Positioned(left: 13, top: 0, child: CustomPaint(size: Size(22, 14), painter: CrownPainter())),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        crowned.you ? MobV4ResultsCopy.youStudiedMost(crown.minutes) : MobV4ResultsCopy.studiedMost(crowned.name, crown.minutes),
+                        style: type.body.copyWith(color: c.ink, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]),
+                      ),
+                      const SizedBox(height: 2),
+                      Text(crowned.you ? MobV4ResultsCopy.yourCrownOn(week) : MobV4ResultsCopy.crownOn(crowned.name, week), style: type.small.copyWith(color: c.ink2)),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          if (anyTick) ...[
+            if (crown != null) ...[
+              const SizedBox(height: MmSpace.s12),
+              CustomPaint(size: const Size(double.infinity, 8), painter: _RulerPainter(c.ink3)),
+              const SizedBox(height: MmSpace.s12),
+            ],
+            // One row: each sharing member shares the width (a Mob is at most 8, so heads never wrap to a second line).
+            Row(
+              children: [
+                for (final (m, h) in shown.take(8))
+                  Expanded(
+                    child: Column(
+                      key: ValueKey('k3-head-${m.memberId}${h.tick ? '-tick' : ''}'),
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SizedBox(
+                          width: shown.length > 5 ? 40 : 52,
+                          height: 44,
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Positioned(left: 6, top: 2, child: HeadDisc(member: m, size: shown.length > 5 ? 30 : 40)),
+                              if (h.tick)
+                                Positioned(
+                                  right: -4,
+                                  top: -4,
+                                  child: Container(
+                                    width: 22,
+                                    height: 22,
+                                    decoration: BoxDecoration(color: tickFill, shape: BoxShape.circle, border: Border.all(color: c.raised, width: 2)),
+                                    child: Icon(Icons.check_rounded, size: 14, color: tickInk),
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: MmSpace.s4),
+                        Text(m.you ? MobV3Copy.headYou : m.name, style: type.label.copyWith(color: c.ink2), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      ],
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: MmSpace.s8),
+            Text(MobV4ResultsCopy.tickMeans, style: type.small.copyWith(color: c.ink2)),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+/// The crown on the top member's head: a three-point paper crown in amber.
+class CrownPainter extends CustomPainter {
+  const CrownPainter();
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+    final path = Path()
+      ..moveTo(0, h)
+      ..lineTo(0, h * 0.25)
+      ..lineTo(w * 0.28, h * 0.62)
+      ..lineTo(w * 0.5, 0)
+      ..lineTo(w * 0.72, h * 0.62)
+      ..lineTo(w, h * 0.25)
+      ..lineTo(w, h)
+      ..close();
+    canvas.drawPath(path, Paint()..color = const Color(0xFFF2A93B));
+    canvas.drawPath(
+      path,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2
+        ..strokeJoin = StrokeJoin.round
+        ..color = const Color(0xFF8A5A12),
+    );
+  }
+
+  @override
+  bool shouldRepaint(CrownPainter old) => false;
+}
+
+/// A quiet measuring rule between the crown line and the heads (the den's Mob hours ruler), a tick every 6 dp.
+class _RulerPainter extends CustomPainter {
+  _RulerPainter(this.ink);
+  final Color ink;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final p = Paint()
+      ..color = ink.withValues(alpha: 0.5)
+      ..strokeWidth = 1;
+    var i = 0;
+    for (var x = 0.0; x <= size.width; x += 6) {
+      canvas.drawLine(Offset(x, size.height), Offset(x, i % 5 == 0 ? 0 : size.height * 0.5), p);
+      i++;
+    }
+  }
+
+  @override
+  bool shouldRepaint(_RulerPainter old) => old.ink != ink;
 }

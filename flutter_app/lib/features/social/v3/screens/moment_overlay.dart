@@ -26,6 +26,7 @@ import '../widgets/moment_quest_done.dart';
 import '../widgets/moment_reveal.dart';
 import '../widgets/moment_stitched.dart';
 import '../widgets/paper_particles.dart' show PaperParticlesController;
+import '../widgets/results_parts.dart' show RunStep;
 
 /// Every moment key an overlay has shown (fully or skipped), in order. The den takes them after
 /// `MobV3Nav.moment` returns and marks them seen (`POST /seen`); the overlay never calls seen.
@@ -108,9 +109,19 @@ bool stitchAllowed(DenView den, MomentKey key) {
 }
 
 class MomentOverlay extends ConsumerStatefulWidget {
-  const MomentOverlay({super.key, required this.momentKey});
+  const MomentOverlay({super.key, required this.momentKey, this.onDone, this.onExit});
 
   final String momentKey;
+
+  /// Set inside the results run (A10): this moment is one screen of the run. Its key and X call [onDone] (the run
+  /// moves on or leaves), and it never plays the next moment in place: the run already lists each one as a screen.
+  final VoidCallback? onDone;
+
+  /// Set inside the results run: the X on this screen leaves the run for the den (spec 3.4: an X on every screen
+  /// returns to the den). The shown key is recorded first, so the run marks it seen.
+  final VoidCallback? onExit;
+
+  bool get single => onDone != null;
 
   @override
   ConsumerState<MomentOverlay> createState() => _MomentOverlayState();
@@ -128,8 +139,29 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     if (_closing) return;
     _closing = true;
     _record(_current);
+    final done = widget.onDone;
+    if (done != null) {
+      done();
+      return;
+    }
     Navigator.of(context).maybePop();
   }
+
+  /// The X: inside the run it leaves for the den; on its own it closes like the key.
+  void _dismiss() {
+    final exit = widget.onExit;
+    if (exit == null) {
+      _close();
+      return;
+    }
+    if (_closing) return;
+    _closing = true;
+    _record(_current);
+    exit();
+  }
+
+  /// The key in the results run: Continue, or Back to the den on the last screen.
+  String get _runLabel => RunStep.maybeOf(context)?.last == false ? MobV4ResultsCopy.continueKey : MobV3Copy.backToDen;
 
   /// Plays another due moment in place (K2 to K4 or K3), with a fade through.
   void _playInPlace(String key) {
@@ -202,7 +234,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
 
   Widget _unknown() {
     _closeLater();
-    return _Blank(onClose: _close);
+    return _Blank(onClose: _dismiss);
   }
 
   /// The keys this overlay has shown so far, the current one included.
@@ -218,7 +250,10 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     final revealKey = parcelReveal(v3, shown: _shownHere);
     final String label;
     final VoidCallback onKey;
-    if (stitchKey.isNotEmpty) {
+    if (widget.single) {
+      label = _runLabel;
+      onKey = _close;
+    } else if (stitchKey.isNotEmpty) {
       // With a Fold in the parcel the pennant comes first and K3's key opens the parcel.
       label = prize.kind == ParcelKind.item ? MobV3Copy.openParcel : MobV3Copy.seePennant;
       onKey = () => _playInPlace(stitchKey);
@@ -237,7 +272,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       prize: prize,
       keyLabel: label,
       onKey: onKey,
-      onClose: _close,
+      onClose: _dismiss,
     );
   }
 
@@ -250,9 +285,10 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       members: v3.members,
       weeks: v3.mobChain.weeks,
       item: weekItemOf(v3),
-      keyLabel: revealKey == null ? MobV3Copy.backToDen : MobV3Copy.openParcel,
-      onKey: revealKey == null ? _close : () => _playInPlace(revealKey),
-      onClose: _close,
+      hours: StitchHours.of(v3),
+      keyLabel: widget.single ? _runLabel : (revealKey == null ? MobV3Copy.backToDen : MobV3Copy.openParcel),
+      onKey: widget.single || revealKey == null ? _close : () => _playInPlace(revealKey),
+      onClose: _dismiss,
     );
   }
 
@@ -268,8 +304,8 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       fold: fold,
       playing: _sitting,
       onPlayAs: () => _playAs(fold),
-      onShelf: _shelf,
-      onClose: _close,
+      onShelf: widget.single ? _close : _shelf,
+      onClose: _dismiss,
     );
   }
 
@@ -277,8 +313,8 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     if (n == null || n <= 0) return _unknown();
     final chain = ref.watch(chainProvider);
     return chain.when(
-      data: (c) => MilestoneMoment(days: n, chain: c, onKey: _close, onClose: _close),
-      loading: () => _Blank(onClose: _close),
+      data: (c) => MilestoneMoment(days: n, chain: c, onKey: _close, onClose: _dismiss),
+      loading: () => _Blank(onClose: _dismiss),
       error: (_, _) => _unknown(),
     );
   }

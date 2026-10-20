@@ -25,6 +25,7 @@ import '../data/mob_v3_models.dart';
 import 'fold_manifest.dart';
 import 'mob_fx.dart';
 import 'paper_particles.dart';
+import 'results_parts.dart' show RunStep, runHeaderMiddle, runRightSlot;
 
 // ---------------------------------------------------------------------------------------------------
 // Clock helpers
@@ -250,7 +251,10 @@ class MomentFrame extends StatelessWidget {
                       _CloseButton(onTap: onClose),
                       const SizedBox(width: MmSpace.s4),
                       Expanded(
-                        child: title == null
+                        // In the results run the step dots take the middle (the screen's own headline names it).
+                        child: RunStep.maybeOf(context) != null
+                            ? runHeaderMiddle(context, const SizedBox.shrink())
+                            : title == null
                             ? const SizedBox.shrink()
                             : Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -261,10 +265,15 @@ class MomentFrame extends StatelessWidget {
                                 ],
                               ),
                       ),
-                      AnimatedOpacity(
-                        opacity: playing ? 1 : 0,
-                        duration: MobBeat.skip,
-                        child: IgnorePointer(ignoring: !playing, child: SkipPill(onTap: onSkip)),
+                      // In a run the right slot mirrors the X side (4 + 48 + 4 = 12 + 44), so the dots stay centred.
+                      runRightSlot(
+                        context,
+                        width: 44,
+                        child: AnimatedOpacity(
+                          opacity: playing ? 1 : 0,
+                          duration: MobBeat.skip,
+                          child: IgnorePointer(ignoring: !playing, child: SkipPill(onTap: onSkip)),
+                        ),
                       ),
                       const SizedBox(width: MmSpace.s12),
                     ],
@@ -281,6 +290,12 @@ class MomentFrame extends StatelessWidget {
                         padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16 + pad.bottom),
                         child: keys.length == 1
                             ? keys.first
+                            // In the results run the secondary is the smaller (2 to 3), and at large text the keys
+                            // stack, the primary on top, so "Back to the den" never wraps (review fix 13).
+                            : RunStep.maybeOf(context) != null && keys.length == 2
+                            ? (MediaQuery.textScalerOf(context).scale(16) > 19
+                                ? Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.stretch, children: [keys[1], const SizedBox(height: MmSpace.s8), keys[0]])
+                                : Row(children: [Expanded(flex: 2, child: keys[0]), const SizedBox(width: MmSpace.s12), Expanded(flex: 3, child: keys[1])]))
                             // Two keys share the row equally, so "See your shelf" never wraps at 360 dp and
                             // both keys stand at one height (walk 19 Oct, M6).
                             : Row(children: [for (var i = 0; i < keys.length; i++) ...[if (i > 0) const SizedBox(width: MmSpace.s12), Expanded(child: keys[i])]]),

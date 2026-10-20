@@ -239,7 +239,8 @@ void main() {
     final hb = tester.getSize(find.ancestor(of: find.byKey(const ValueKey('podium-numeral-$kabirId')), matching: find.byType(SizedBox)).first).height;
     expect(ha, hb);
     expect(find.text('You and Kabir tie on 19, so you share second.'), findsOneWidget);
-    expect(find.text('Places can change until 2:05 PM tomorrow.'), findsOneWidget);
+    // Your place carries when places can change (MOB-MINIMAL 3.4 item 1).
+    expect(find.textContaining('You came 2nd with 19 marks. Places can change until 2:05 PM tomorrow.', findRichText: true), findsOneWidget);
     expect(find.text('So far'), findsOneWidget);
     // The floor holds Zoya with no numeral.
     expect(find.byKey(const ValueKey('podium-numeral-$zoyaId')), findsNothing);

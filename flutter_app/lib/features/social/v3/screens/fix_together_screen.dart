@@ -199,17 +199,48 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
     final inQuestion = _stage == _Stage.question || _stage == _Stage.answered;
     final body = inQuestion ? _questionView(context) : _sheetView(context);
 
+    final run = RunStep.maybeOf(context);
     final Widget key;
     if (_stage == _Stage.answered) {
-      key = KeyButton(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst));
+      key = run != null
+          ? KeyButton(key: const ValueKey('fix-continue'), label: run.last ? MobV4ResultsCopy.toTheDen : MobV4ResultsCopy.continueKey, onPressed: run.onNext)
+          : KeyButton(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst));
     } else if (_stage == _Stage.question) {
       key = const SizedBox.shrink();
     } else {
-      key = KeyButton(
-        label: _checkOpen ? MobV3Copy.takeCheck : MobV3Copy.tryFresh,
+      final start = KeyButton(
+        key: const ValueKey('fix-start'),
+        // In the run the one key names the job (3.4: one key per screen).
+        label: _checkOpen ? MobV3Copy.takeCheck : (run != null ? MobV3Copy.fixTogether(_number) : MobV3Copy.tryFresh),
         loading: _stage == _Stage.loading,
         onPressed: _start,
       );
+      // In the results run: "Later" moves on without fixing it (the den's Now card keeps it).
+      key = run == null
+          ? start
+          : Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                start,
+                const SizedBox(height: MmSpace.s4),
+                // A quiet 44 dp text link in ink2, never a second full key (the mock-up's "Later").
+                Center(
+                  child: MmPressable(
+                    key: const ValueKey('fix-later'),
+                    onTap: run.onNext,
+                    semanticsLabel: MobV4ResultsCopy.later,
+                    focusRadius: BorderRadius.circular(999),
+                    builder: (context, pressed, _) => ConstrainedBox(
+                      constraints: const BoxConstraints(minHeight: 44, minWidth: 88),
+                      child: Center(
+                        child: Text(MobV4ResultsCopy.later, style: type.body.copyWith(color: pressed ? c.ink3 : c.ink2)),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            );
     }
 
     return SafeArea(
@@ -220,21 +251,26 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
             child: Row(
               children: [
                 MmPressable(
-                  onTap: () => Navigator.of(context).maybePop(),
-                  semanticsLabel: MobV3Copy.back,
+                  onTap: run?.onExit ?? () => Navigator.of(context).maybePop(),
+                  semanticsLabel: run != null ? MobV3Copy.close : MobV3Copy.back,
                   focusRadius: BorderRadius.circular(999),
                   builder: (context, pressed, _) => SizedBox(width: 48, height: 48, child: Icon(LucideIcons.x, color: pressed ? c.ink2 : c.ink)),
                 ),
                 const SizedBox(width: 4),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(MobV3Copy.fixTogether(_number), style: type.subhead.copyWith(color: c.ink)),
-                      Text(MobV3Copy.fixSub(widget.mobName.isEmpty ? 'Your Mob' : widget.mobName), style: type.caption.copyWith(color: c.ink3)),
-                    ],
+                  child: runHeaderMiddle(
+                    context,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(MobV3Copy.fixTogether(_number), style: type.subhead.copyWith(color: c.ink)),
+                        Text(MobV3Copy.fixSub(widget.mobName.isEmpty ? 'Your Mob' : widget.mobName), style: type.caption.copyWith(color: c.ink3)),
+                      ],
+                    ),
                   ),
                 ),
+                // The X side is 4 + 48 + 4; with the 16 gutter a 40 slot centres the dots.
+                if (run != null) const SizedBox(width: 40),
               ],
             ),
           ),
@@ -269,8 +305,10 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
     const paperInk = Color(0xFF2A251F);
     const paperInk2 = Color(0xFF5C5446);
 
+    // In the results run the sheet lies flat and full width (the mock-up): one job, read without a stage.
+    final inRun = RunStep.maybeOf(context) != null;
     final sheet = Transform.rotate(
-      angle: Motion.reduced(context) ? 0 : -0.026,
+      angle: Motion.reduced(context) || inRun ? 0 : -0.026,
       child: Container(
         key: const ValueKey('fix-sheet'),
         padding: const EdgeInsets.fromLTRB(18, 16, 18, 18),
@@ -306,11 +344,21 @@ class _FixTogetherViewState extends ConsumerState<FixTogetherView> {
       ),
     );
 
+    // In the results run the header holds the step dots, so the screen names itself here.
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, MmSpace.s16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          if (inRun) ...[
+            Text(MobV3Copy.fixTitle, key: const ValueKey('fix-run-title'), style: type.display.copyWith(color: c.ink)),
+            const SizedBox(height: MmSpace.s8),
+            Text(MobV4ResultsCopy.fixRunSub, style: type.body.copyWith(color: c.ink2)),
+            const SizedBox(height: MmSpace.s16),
+          ],
+          if (inRun)
+            sheet
+          else
           ClipRRect(
             borderRadius: BorderRadius.circular(20),
             child: Stack(

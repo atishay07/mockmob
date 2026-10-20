@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
-import 'package:mockmob/features/social/v3/screens/podium_screen.dart';
+import 'package:mockmob/features/social/v3/screens/results_run.dart';
 import 'package:mockmob/features/social/v3/widgets/fold_puppet.dart';
 import 'package:mockmob/features/social/v3/widgets/run_option.dart';
 import 'package:mockmob/features/social/v3/widgets/ruler_race.dart';
@@ -228,7 +228,8 @@ void main() {
     await tester.tap(find.text('See the podium'));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 600));
-    expect(find.byType(PodiumScreen), findsOneWidget);
+    // V4 (A10): the run's end opens the results run, whose first screen is the podium.
+    expect(find.byType(ResultsRun), findsOneWidget);
   });
 
   testWidgets('resume from stored answers: no countdown, the Fold at its question, no animation', (tester) async {
@@ -261,7 +262,8 @@ void main() {
     final s = RecordingServer(scenario: 'played');
     await pumpRun(tester, s, gameId: 'game-kabir-round');
     await tester.pump(const Duration(milliseconds: 600));
-    expect(find.byType(PodiumScreen), findsOneWidget);
+    // V4 (A10): the run's end opens the results run, whose first screen is the podium.
+    expect(find.byType(ResultsRun), findsOneWidget);
   });
 
   testWidgets('GAME_CLOSED shows its sentence and Back', (tester) async {

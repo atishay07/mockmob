@@ -164,7 +164,8 @@ void main() {
 
     testWidgets('Free: the mock row says what Pro does and what sitting costs, with one way to Pro in the row', (t) async {
       await open(t);
-      expect(find.text('Pro starts it and sits every one free. Free members sit one for 50 credits.'), findsOneWidget);
+      // Review fix 11: the line leads with the price, one sentence each, and the tag never sits beside the title.
+      expect(find.text('On Free you sit one a friend starts for 50 credits. Pro starts them and sits them free.'), findsOneWidget);
       expect(find.byKey(const ValueKey('start-mock-pro')), findsOneWidget);
       expect(find.text('See Pro plans'), findsOneWidget);
       await tapAt(t, find.text('Full mock together'));
@@ -179,11 +180,12 @@ void main() {
       expect(find.byKey(const ValueKey('start-mock-pro')), findsNothing);
     });
 
-    testWidgets('Pro: the row is open, and under the key it says Pro sits free and Free pays 50', (t) async {
+    testWidgets('Pro: the row is open, the rule box states the price and the key line is the allowance', (t) async {
       await open(t, billing: 'pro');
       expect(find.byKey(const ValueKey('start-mock-pro-line')), findsNothing);
       await tapAt(t, find.text('Full mock together'));
-      expect(find.text('You sit it free with Pro. Free members in your Mob sit it for 50 credits.'), findsOneWidget);
+      // Review fix 3: the rule box says the price once; under the key the spec's allowance line.
+      expect(find.text('With Pro you can start as many games as you like.'), findsOneWidget);
       expect(keyLabel('Start the full mock'), findsOneWidget);
     });
 

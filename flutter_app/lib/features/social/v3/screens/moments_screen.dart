@@ -114,7 +114,7 @@ class MomentsView extends StatelessWidget {
     for (final m in p.moments) {
       final who = byId[m.memberId];
       if (who == null) continue;
-      rows.add(_MomentRow(place: who, sentence: MobV3Copy.moment(m, count)));
+      rows.add(_MomentRow(place: who, sentence: MobV4ResultsCopy.momentDid(m, count), pose: _poseFor(m.kind)));
     }
 
     final Widget card;
@@ -181,9 +181,26 @@ class MomentsView extends StatelessWidget {
       card = const SizedBox.shrink();
     }
 
-    final key = trap != null
-        ? KeyButton(label: MobV3Copy.fixTogether(trap.number), onPressed: () => MobV3Nav.fix(context, gameId, trap.q))
-        : KeyButton(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst));
+    final run = RunStep.maybeOf(context);
+    // In the results run Fix it together is its own screen after this one: the trap card stays off here.
+    final Widget shownCard = run != null && trap != null ? const SizedBox.shrink() : card;
+    final Widget key;
+    if (run != null) {
+      key = Row(
+        children: [
+          if (run.onRematch != null && !aloneInMob) ...[
+            // The secondary is the smaller of the two (2 to 3).
+            Expanded(flex: 2, child: KeyButton.secondary(key: const ValueKey('moments-rematch'), label: MobV4ResultsCopy.rematch, onPressed: run.onRematch)),
+            const SizedBox(width: MmSpace.s12),
+          ],
+          Expanded(flex: 3, child: KeyButton(key: const ValueKey('moments-continue'), label: run.last ? MobV4ResultsCopy.toTheDen : MobV4ResultsCopy.continueKey, onPressed: run.onNext)),
+        ],
+      );
+    } else {
+      key = trap != null
+          ? KeyButton(label: MobV3Copy.fixTogether(trap.number), onPressed: () => MobV3Nav.fix(context, gameId, trap.q))
+          : KeyButton(label: MobV3Copy.backToDen, onPressed: () => Navigator.of(context, rootNavigator: true).popUntil((r) => r.isFirst));
+    }
 
     final title = data.game?.title ?? '';
     return SafeArea(
@@ -194,21 +211,26 @@ class MomentsView extends StatelessWidget {
             child: Row(
               children: [
                 MmPressable(
-                  onTap: () => Navigator.of(context).maybePop(),
-                  semanticsLabel: MobV3Copy.back,
+                  onTap: run?.onExit ?? () => Navigator.of(context).maybePop(),
+                  semanticsLabel: run != null ? MobV3Copy.close : MobV3Copy.back,
                   focusRadius: BorderRadius.circular(999),
-                  builder: (context, pressed, _) => SizedBox(width: 48, height: 48, child: Icon(LucideIcons.arrowLeft, color: pressed ? c.ink2 : c.ink)),
+                  builder: (context, pressed, _) => SizedBox(width: 48, height: 48, child: Icon(run != null ? LucideIcons.x : LucideIcons.arrowLeft, color: pressed ? c.ink2 : c.ink)),
                 ),
                 const SizedBox(width: 4),
                 Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (title.isNotEmpty) Text(title, style: type.subhead.copyWith(color: c.ink)),
-                      Text(p.soFar ? MobV3Copy.soFar : MobV3Copy.finalLabel, style: type.caption.copyWith(color: c.ink3)),
-                    ],
+                  child: runHeaderMiddle(
+                    context,
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (title.isNotEmpty) Text(title, style: type.subhead.copyWith(color: c.ink)),
+                        Text(p.soFar ? MobV3Copy.soFar : MobV3Copy.finalLabel, style: type.caption.copyWith(color: c.ink3)),
+                      ],
+                    ),
                   ),
                 ),
+                // The X side is 4 + 48 + 4; with the 16 gutter a 40 slot centres the dots.
+                if (run != null) const SizedBox(width: 40),
               ],
             ),
           ),
@@ -218,14 +240,24 @@ class MomentsView extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _Rise(index: 0, child: Semantics(header: true, child: Text(onlyYou ? MobV3Copy.momentsTitleYou : MobV3Copy.momentsTitle, style: type.title.copyWith(color: c.ink)))),
-                  const SizedBox(height: MmSpace.s12),
+                  _Rise(
+                    index: 0,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Semantics(header: true, child: Text(onlyYou ? MobV3Copy.momentsTitleYou : MobV3Copy.momentsTitle, style: type.display.copyWith(color: c.ink))),
+                        const SizedBox(height: MmSpace.s8),
+                        Text(MobV4ResultsCopy.momentsSub, key: const ValueKey('moments-sub'), style: type.body.copyWith(color: c.ink2)),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: MmSpace.s16),
                   for (var i = 0; i < rows.length; i++) ...[
-                    if (i > 0) const SizedBox(height: MmSpace.s12),
+                    if (i > 0) Divider(height: 1, thickness: 1, color: c.line),
                     _Rise(index: 1 + i, child: rows[i]),
                   ],
                   const SizedBox(height: MmSpace.s24),
-                  _Rise(index: 1 + rows.length, child: card),
+                  _Rise(index: 1 + rows.length, child: shownCard),
                   if (!aloneInMob) ...[
                     const SizedBox(height: MmSpace.s24),
                     _Rise(index: 2 + rows.length, child: StickerRow(kinds: StickerKind.results, gameId: gameId, label: MobV3Copy.sendSticker, grid: true, flyHere: true)),
@@ -241,38 +273,67 @@ class MomentsView extends StatelessWidget {
   }
 }
 
+/// The Fold's pose for a moment: a cheer for a win of the run, a think for a careful one, idle for playing it through.
+FoldPose _poseFor(MomentKind k) => switch (k) {
+      MomentKind.allRight || MomentKind.threeInARow || MomentKind.mostAnswered || MomentKind.fastestRight || MomentKind.quickestFinish => FoldPose.cheer,
+      MomentKind.noMinus => FoldPose.think,
+      MomentKind.finishedAll || MomentKind.raced => FoldPose.idle,
+    };
+
+/// One member's moment (MOB-MINIMAL 3.4 item 2): their Fold in a fitting pose, the sentence, and their marks on the
+/// right in condensed tabular figures.
 class _MomentRow extends StatelessWidget {
-  const _MomentRow({required this.place, required this.sentence});
+  const _MomentRow({required this.place, required this.sentence, this.pose = FoldPose.idle});
 
   final PodiumPlace place;
   final String sentence;
+  final FoldPose pose;
 
   @override
   Widget build(BuildContext context) {
     final c = context.mmColors;
     final type = context.mmType;
     final name = place.you ? 'You' : place.name;
+    final marks = place.private ? null : place.marks;
+    final first = sentence;
     return Semantics(
-      label: MobV3Copy.momentRow(name, sentence),
+      label: marks == null ? '$name $sentence' : '$name $sentence ${MobV4ResultsCopy.marksUnit(marks)}',
       excludeSemantics: true,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          FoldHeadDisc(fold: place.fold, name: place.name, colour: place.colour, size: 44),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 2),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              width: 64,
+              child: Center(
+                child: FoldPuppet(fold: place.fold, size: 56, pose: pose, shadow: false, blink: false, fallbackName: place.name, fallbackColour: place.colour),
+              ),
+            ),
+            const SizedBox(width: MmSpace.s12),
+            Expanded(
               child: Text.rich(
                 TextSpan(children: [
-                  TextSpan(text: '$name: ', style: type.body.copyWith(color: c.ink, fontWeight: FontWeight.w700)),
-                  TextSpan(text: sentence, style: type.body.copyWith(color: c.ink2)),
+                  TextSpan(text: '$name ', style: type.body.copyWith(color: c.ink, fontWeight: FontWeight.w700)),
+                  TextSpan(text: first, style: type.body.copyWith(color: c.ink2)),
                 ]),
                 key: ValueKey('moment-${place.memberId}'),
               ),
             ),
-          ),
-        ],
+            if (marks != null) ...[
+              const SizedBox(width: MmSpace.s12),
+              Column(
+                key: ValueKey('moment-marks-${place.memberId}'),
+                crossAxisAlignment: CrossAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text('$marks', style: type.figureCompact.copyWith(color: c.ink, fontSize: 28, height: 1, fontFeatures: const [FontFeature.tabularFigures()])),
+                  Text(MobV4ResultsCopy.marksLabel, style: type.caption.copyWith(color: c.ink3)),
+                ],
+              ),
+            ],
+          ],
+        ),
       ),
     );
   }

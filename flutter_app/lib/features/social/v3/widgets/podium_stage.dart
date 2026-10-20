@@ -9,19 +9,20 @@
 //
 //   0-400     scrim to 35% and the lamp cone narrows to 62% (emphasized)
 //   120       the header (game title, "So far" or "Final"), the headline and its line (H6)
-//   400       the collective line together with the floor members (marks static, never alone, F11)
-//   1000      third unfolds (rotateX 90 to 0, perspective 0.0015, emphasized 420)
-//   1600      second unfolds (shared places unfold together)
-//   2200      first unfolds
+//   400       the collective line under the headline, with the floor members (marks static, F11)
+//   600       third unfolds (rotateX 90 to 0, perspective 0.0015, emphasized 420)
+//   1200      second unfolds (shared places unfold together)
+//   1800      first unfolds
 //   +400      each Fold drops 60 dp (220, leave), lands at +620: squash 90 ms (FoldAct.land), settle,
 //             10 paper bits stopped at the floor, light haptic (medium on first)
 //   landing   marks roll up with countUp 720 from the marks of the place below
 //   +280      the numeral engraves (280)
-//   2820      first lands: the lamp swells to 60%, the foil sheen sweeps the plinth (sweep 700),
-//             40 paper bits and 8 glints over 1400; 3240 the winner hops once (FoldAct.bigHop)
-//   3700      the tie line
-//   4200      keys rise; confirm haptic (the podium read is the server's ack)
-//   4200-4800 the scrim clears
+//   2420      first lands: the lamp swells to 60%, the foil sheen sweeps the plinth (sweep 700),
+//             40 paper bits and 8 glints over 1400; 2800 the winner hops once (FoldAct.bigHop)
+//   2900      the tie line
+//   3000      your place ("You came 3rd with 15 marks.")
+//   3200      keys rise; confirm haptic (the podium read is the server's ack)
+//   3200-3500 the scrim clears (MOB-MINIMAL 4.3: about 3.5 s)
 //
 // The table (the podium switch off, or only you finished) lands everyone together with no places.
 // Reduced motion: 120 ms fades 300 ms apart (third, second, first), about 1 s, no particles, no
@@ -44,6 +45,7 @@ import 'fold_manifest.dart';
 import 'fold_puppet.dart';
 import 'mob_fx.dart';
 import 'paper_particles.dart';
+import 'results_parts.dart' show RunStep, runHeaderMiddle, runRightSlot;
 
 // ---------------------------------------------------------------------------------------------------
 // The plan: who stands where, and what each count rolls up from. Pure, so tests can read it.
@@ -139,7 +141,7 @@ class PodiumPlan {
 // ---------------------------------------------------------------------------------------------------
 
 abstract final class PodiumTimeline {
-  static const double total = 4800;
+  static const double total = 3500;
   static const double tableTotal = 2300;
   static const double reducedTotal = 1020;
   static const double reducedTableTotal = 720;
@@ -147,18 +149,19 @@ abstract final class PodiumTimeline {
   static const double scrimIn = 400;
   static const double header = 120;
   static const double collective = 400;
-  static const List<double> slotStart = [1000, 1600, 2200];
+  static const List<double> slotStart = [600, 1200, 1800];
   static const double dropAfter = 400;
   static const double landAfter = 620;
   static const double numeralAfterLanding = 280;
-  static const double climax = 2820;
-  static const double hop = 3240;
+  static const double climax = 2420;
+  static const double hop = 2800;
   /// The headline and its line come with the header (spec M7: "120 the title"); only the tie line
   /// waits for the places it explains.
   static const double headline = 120;
-  static const double tieLine = 3700;
-  static const double keys = 4200;
-  static const double scrimOutEnd = 4800;
+  static const double tieLine = 2900;
+  static const double yourLine = 3000;
+  static const double keys = 3200;
+  static const double scrimOutEnd = 3500;
 
   static const double tableUnfold = 700;
   static const double tableDrop = 1100;
@@ -470,7 +473,32 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
     if (_plan.onlyYou) return p.soFar ? MobV3Copy.onlyYouLine : null;
     if (!p.soFar || p.closesAt == null) return null;
     if (_plan.table) return null;
+    // With a place of your own the card below says when places can change; without one it stays here.
+    if (_yourLine() != null) return null;
     return MobV3Copy.placesCanChange(p.closesAt!, widget.now);
+  }
+
+  /// Your place (MOB-MINIMAL 4.3): "You came 3rd with 15 marks.", and while the game is open when places can
+  /// change. The lowest place says "You finished with 15 marks." (never "last"). Null without a place or marks.
+  String? _yourLine() {
+    final p = widget.podium;
+    if (_plan.onlyYou || _plan.table) return null;
+    final you = [for (final x in p.places) if (x.you && !x.private) x].firstOrNull;
+    final place = you?.place;
+    final marks = you?.marks;
+    if (you == null || place == null || marks == null) return null;
+    final places = [for (final x in p.places) if (x.place != null) x.place!];
+    final lowest = places.length > 1 && place > 1 && place == places.reduce(math.max);
+    final line = lowest ? MobV4ResultsCopy.youFinished(marks) : MobV4ResultsCopy.youCame(place, marks);
+    if (p.soFar && p.closesAt != null) return '$line ${MobV3Copy.placesCanChange(p.closesAt!, widget.now)}';
+    return line;
+  }
+
+  /// "15 marks" inside your line, set in bold (the mock-up); null without a place.
+  String? _yourMarks() {
+    final you = [for (final x in widget.podium.places) if (x.you && !x.private) x].firstOrNull;
+    final marks = you?.marks;
+    return marks == null ? null : MobV4ResultsCopy.marksUnit(marks);
   }
 
   Widget _frame(BuildContext context, double ms) {
@@ -494,6 +522,9 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
     final headlineT = rm ? _seg(ms, 0, 120) : _seg(ms, PodiumTimeline.headline, 360, MotionCurves.emphasized);
     final tieAt = rm ? 900.0 : PodiumTimeline.tieLine;
     final tieT = rm ? _seg(ms, tieAt, 120) : _seg(ms, tieAt, 360, MotionCurves.emphasized);
+    final yourAt = rm ? 900.0 : PodiumTimeline.yourLine;
+    final yourT = rm ? _seg(ms, yourAt, 120) : _seg(ms, yourAt, 360, MotionCurves.emphasized);
+    final yourLine = _yourLine();
     final keysAt = rm ? (table ? 600.0 : 900.0) : (table ? PodiumTimeline.tableKeys : PodiumTimeline.keys);
     final keysT = rm ? _seg(ms, keysAt, 120) : _seg(ms, keysAt, 360, MotionCurves.emphasized);
     final showSkip = ms < keysAt && _c.value < 1;
@@ -506,6 +537,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
 
     final subline = _subline();
     final tie = p.tie;
+    final run = RunStep.maybeOf(context);
 
     Widget fade(double t, Widget child, {double rise = 8}) => Opacity(
           opacity: t.clamp(0.0, 1.0),
@@ -521,20 +553,28 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           Expanded(
             child: fade(
               headerT,
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(widget.gameTitle, style: type.subhead.copyWith(color: c.ink)),
-                  Text(p.soFar ? MobV3Copy.soFar : MobV3Copy.finalLabel, style: type.caption.copyWith(color: c.ink3)),
-                ],
+              runHeaderMiddle(
+                context,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(widget.gameTitle, style: type.subhead.copyWith(color: c.ink)),
+                    Text(p.soFar ? MobV3Copy.soFar : MobV3Copy.finalLabel, style: type.caption.copyWith(color: c.ink3)),
+                  ],
+                ),
               ),
             ),
           ),
-          AnimatedOpacity(
-            opacity: showSkip ? skipT : 0,
-            duration: const Duration(milliseconds: 160),
-            child: IgnorePointer(ignoring: !showSkip, child: _SkipPill(onTap: skip)),
+          // In a run the right slot mirrors the X side (4 + 48 + 4 = 16 gutter + 40), so the dots stay centred.
+          runRightSlot(
+            context,
+            width: 40,
+            child: AnimatedOpacity(
+              opacity: showSkip ? skipT : 0,
+              duration: const Duration(milliseconds: 160),
+              child: IgnorePointer(ignoring: !showSkip, child: _SkipPill(onTap: skip)),
+            ),
           ),
         ],
       ),
@@ -552,6 +592,14 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
               const SizedBox(height: 4),
               Text(subline, key: const ValueKey('podium-subline'), style: type.body.copyWith(color: c.ink2)),
             ],
+            // The collective line sits under the headline (the mock-up), arriving with the floor at 400.
+            if (p.of > 0) ...[
+              const SizedBox(height: 4),
+              Opacity(
+                opacity: collectiveT,
+                child: Text(_plan.onlyYou ? MobV3Copy.togetherYou(p.right, p.of) : MobV3Copy.together(p.right, p.of), key: const ValueKey('podium-collective'), style: type.body.copyWith(color: c.ink2)),
+              ),
+            ],
           ],
         ),
       ),
@@ -562,15 +610,22 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (p.of > 0)
-            Opacity(
-              opacity: collectiveT,
-              child: Text(_plan.onlyYou ? MobV3Copy.togetherYou(p.right, p.of) : MobV3Copy.together(p.right, p.of), key: const ValueKey('podium-collective'), style: type.body.copyWith(color: c.ink)),
-            ),
           if (tie != null && !table) ...[
-            const SizedBox(height: 6),
             fade(tieT, Text(MobV3Copy.tieLine(tie), key: const ValueKey('podium-tie'), style: type.body.copyWith(color: c.ink2)), rise: 6),
+            const SizedBox(height: MmSpace.s8),
           ],
+          if (yourLine != null)
+            fade(
+              yourT,
+              Container(
+                key: const ValueKey('podium-you'),
+                width: double.infinity,
+                padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s12, MmSpace.s16, MmSpace.s12),
+                decoration: BoxDecoration(color: c.raised, borderRadius: BorderRadius.circular(16), border: Border.all(color: c.line)),
+                child: _YourLine(line: yourLine, marks: _yourMarks()),
+              ),
+              rise: 6,
+            ),
         ],
       ),
     );
@@ -583,15 +638,24 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
           ignoring: keysT < 0.5,
           child: Row(
             children: [
-              Expanded(
-                child: KeyButton(
-                  key: const ValueKey('podium-primary'),
-                  label: widget.primaryLabel ?? (_plan.onlyYou ? MobV3Copy.yourMoment : MobV3Copy.everyonesMoment),
-                  onPressed: widget.primaryLabel != null ? widget.onPrimary : widget.onMoments,
+              if (run != null) ...[
+                // In the results run: one key, Continue; your mark sheet stays a quiet ring beside it for a full mock.
+                Expanded(child: KeyButton(key: const ValueKey('podium-primary'), label: MobV4ResultsCopy.continueKey, onPressed: run.onNext)),
+                if (widget.primaryLabel != null) ...[
+                  const SizedBox(width: MmSpace.s12),
+                  _IconKey(icon: LucideIcons.fileText, label: widget.primaryLabel!, onTap: widget.onPrimary, ring: true),
+                ],
+              ] else ...[
+                Expanded(
+                  child: KeyButton(
+                    key: const ValueKey('podium-primary'),
+                    label: widget.primaryLabel ?? (_plan.onlyYou ? MobV3Copy.yourMoment : MobV3Copy.everyonesMoment),
+                    onPressed: widget.primaryLabel != null ? widget.onPrimary : widget.onMoments,
+                  ),
                 ),
-              ),
-              const SizedBox(width: MmSpace.s12),
-              _IconKey(icon: LucideIcons.repeat, label: MobV3Copy.askRematch, onTap: widget.onRematch, ring: true),
+                const SizedBox(width: MmSpace.s12),
+                _IconKey(icon: LucideIcons.repeat, label: MobV3Copy.askRematch, onTap: widget.onRematch, ring: true),
+              ],
             ],
           ),
         ),
@@ -1225,6 +1289,50 @@ class _GridPainter extends CustomPainter {
   bool shouldRepaint(_GridPainter old) => old.colour != colour;
 }
 
+/// The podium's lamp before the results arrive (A10): the grid, the hanging lamp at rest and the close X, so the run
+/// is never an empty screen while its reads are on the way. A still frame (no motion to reduce).
+class PodiumLampFrame extends StatelessWidget {
+  const PodiumLampFrame({super.key, required this.onClose});
+
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.mmColors;
+    final night = c.isNight;
+    return Stack(
+      key: const ValueKey('run-loading'),
+      children: [
+        Positioned.fill(child: CustomPaint(painter: _GridPainter(colour: c.ink.withValues(alpha: night ? 0.04 : 0.05)))),
+        Positioned.fill(
+          child: LayoutBuilder(
+            builder: (context, box) => CustomPaint(
+              painter: _LampPainter(
+                cx: box.maxWidth / 2,
+                width: box.maxWidth,
+                coneWidth: 1,
+                strength: (night ? 0.26 : 0.20) * 0.55,
+                night: night,
+                blur: !MobFx.lite(context),
+                shade: night ? const Color(0xFFE9E2D0) : const Color(0xFFFFFDF8),
+                shadeEdge: night ? const Color(0xFF8F8670) : const Color(0xFFCFC6B2),
+                cord: c.ink3,
+              ),
+            ),
+          ),
+        ),
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(4, 4, MmSpace.gutter, 4),
+            child: Align(alignment: Alignment.topLeft, child: _IconKey(icon: LucideIcons.x, label: MobV3Copy.close, onTap: onClose)),
+          ),
+        ),
+        Semantics(liveRegion: true, label: MobV4ResultsCopy.loadingResults, child: const SizedBox.expand()),
+      ],
+    );
+  }
+}
+
 /// The hanging lamp: cord, paper shade, bulb, and the cone of light to a pool on the floor.
 class _LampPainter extends CustomPainter {
   _LampPainter({
@@ -1454,4 +1562,30 @@ class _SheenPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_SheenPainter old) => old.progress != progress || old.shader != shader;
+}
+
+/// Your place on the podium, centred, with the marks in bold ("You came 3rd with **15 marks**.").
+class _YourLine extends StatelessWidget {
+  const _YourLine({required this.line, this.marks});
+
+  final String line;
+  final String? marks;
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.mmColors;
+    final style = context.mmType.body.copyWith(color: c.ink2, fontFeatures: const [FontFeature.tabularFigures()]);
+    final m = marks;
+    final at = m == null ? -1 : line.indexOf(m);
+    if (m == null || at < 0) return Text(line, style: style, textAlign: TextAlign.center);
+    return Text.rich(
+      TextSpan(children: [
+        TextSpan(text: line.substring(0, at)),
+        TextSpan(text: m, style: style.copyWith(color: c.ink, fontWeight: FontWeight.w700)),
+        TextSpan(text: line.substring(at + m.length)),
+      ]),
+      style: style,
+      textAlign: TextAlign.center,
+    );
+  }
 }

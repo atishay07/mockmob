@@ -129,8 +129,8 @@ void main() {
       expect(pen.weeks, 4);
       expect(pen.sew, inExclusiveRange(0, 1), reason: 'the needle is sewing at 600 ms');
       await pumpTo(tester, 2000, from: 600);
-      expect(find.text('4 weeks in a row'), findsOneWidget);
-      expect(find.text(MobV3Copy.stitchedLine('Chai Circle', 4, 4)), findsOneWidget);
+      expect(find.text('Week 4, stitched'), findsOneWidget);
+      expect(find.text(MobV4ResultsCopy.weeksForMob(4, 'Chai Circle')), findsOneWidget);
       expect(find.text('A desk bell for your den'), findsOneWidget);
       expect(find.text(MobV3Copy.staysOnShelf), findsOneWidget);
       // The reveal of Hop is due too, so K3's key opens the parcel next (spec order); else it goes home.
