@@ -41,6 +41,8 @@ export const mobGameApi = {
   ticket: (id) => call(`/api/mob/game/${enc(id)}/room/ticket`, { method: 'POST', body: {} }),
   roomStart: (id) => call(`/api/mob/game/${enc(id)}/room/start`, { method: 'POST', body: {} }),
   roomCancel: (id) => call(`/api/mob/game/${enc(id)}/room/cancel`, { method: 'POST', body: {} }),
+  // Presence is server-only (L-55): here, ready or left, posted on join, ready, leave and every 20 s.
+  roomPresence: (id, st) => call(`/api/mob/game/${enc(id)}/room/presence`, { method: 'POST', body: { st } }),
 
 };
 

@@ -1,20 +1,27 @@
-// The room's driver (spec 4.2 to 4.5): ticket, then the channel, then presence and the server's events into the
-// reducer. No React here, so the tests drive it against the fake hub and a fake API. The page keeps one per room.
+// The room's driver (spec 4.2 to 4.5): ticket, then the channel, then the server's events into the reducer. No React
+// here, so the tests drive it against the fake hub and a fake API. The page keeps one per room.
 //
-//   api: { ticket(id), start(id), cancel(id), sticker(mobId, gameId, kind) } (playApi.js; errors carry the server's
-//        { code, message })
-//   openChannel: the adapter (liveChannel.js for Supabase, liveHub.mjs's fake)
-import { IDLE_DROP_MS, initialRoom, roomReducer } from './liveModel.mjs';
+//   api: { ticket(id), start(id), cancel(id), sticker(mobId, gameId, kind), presence(id, st) } (playApi.js; errors carry
+//        the server's { code, message })
+//   openChannel: the adapter (liveChannel.js for Supabase, liveHub.mjs's fake). It only listens.
+//
+// Presence is server-only (L-55, 20 Oct): this page posts { st } to /room/presence when it joins ('here', or 'ready' in a
+// running room), when you get ready, every 20 seconds while you are in the room, and 'left' when you go. The server
+// broadcasts each as "presence" { m, st }. Members not heard from for 45 seconds drop off this page's room.
+import { IDLE_DROP_MS, PRESENCE_EVERY_MS, initialRoom, roomReducer } from './liveModel.mjs';
 
 const REFUSALS = new Set(['LIVE_OFF', 'LIVE_HOURS', 'NOT_LIVE', 'GAME_CLOSED', 'LIVE_BUSY', 'NOT_IN_MOB', 'GAME_NOT_FOUND']);
+const IN_ROOM = new Set(['lobby', 'countdown', 'live']);
 
-export function createRoomController({ gameId, mobId, members, api, openChannel, now = () => Date.now(), onChange = () => {}, idleMs = IDLE_DROP_MS, timers = globalThis }) {
+export function createRoomController({ gameId, mobId, members, api, openChannel, now = () => Date.now(), onChange = () => {}, idleMs = IDLE_DROP_MS, everyMs = PRESENCE_EVERY_MS, timers = globalThis }) {
   let state = initialRoom({});
   let channel = null;
   let offset = 0;
   let idle = null;
+  let beat = null;
   let closed = false;
   let connecting = false;
+  let posted = null; // the last state this page told the server ('here' | 'ready' | 'left')
   const memberIds = new Set((members || []).map((m) => m.memberId));
 
   const dispatch = (action) => {
@@ -32,18 +39,50 @@ export function createRoomController({ gameId, mobId, members, api, openChannel,
   function onPhase(from, to) {
     if (to === 'lobby') touch();
     if (to !== 'lobby') clearIdle();
-    // A failed channel before the start, a closed room or a dropped seat: let go of the socket.
-    if (to === 'fallback' || to === 'away' || to === 'cancelled' || to === 'off') leaveChannel();
+    // In a running room you are ready by definition: say so once the countdown starts.
+    if ((to === 'countdown' || to === 'live') && posted === 'here') post('ready');
+    // A failed channel before the start, a closed room or a dropped seat: let go of the socket and the seat.
+    if (to === 'fallback' || to === 'away' || to === 'cancelled' || to === 'off') { leaveChannel(); stopBeat(); if (posted && posted !== 'left') post('left'); }
   }
 
   const handlers = {
-    presence: (s) => dispatch({ type: 'presence', state: s, members: memberIds }),
-    event: (event, payload) => dispatch({ type: 'event', event, payload, members: memberIds }),
+    event: (event, payload) => dispatch({ type: 'event', event, payload, members: memberIds, at: serverNow() }),
     status: (status) => {
       dispatch({ type: 'status', status });
       if (state.busy) leaveChannel();
     },
   };
+
+  async function post(st) {
+    if (!api.presence) return false;
+    posted = st;
+    try {
+      const r = await api.presence(gameId, st);
+      if (st === 'left') return true;
+      // The reply carries the server's roster: take it as the room's truth now (it also covers a missed broadcast).
+      if (Array.isArray(r?.roster)) dispatch({ type: 'roster', roster: r.roster, members: memberIds, at: serverNow() });
+      dispatch({ type: 'self-presence', st, at: serverNow() });
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
+  // Every 20 s while in the room: post again (the server's roster forgets after 45 s) and drop the silent.
+  function startBeat() {
+    stopBeat();
+    const tick = () => {
+      beat = null;
+      if (closed || !IN_ROOM.has(state.phase) || (state.phase === 'live' && state.done)) return;
+      post(state.readyAsked || state.phase !== 'lobby' ? 'ready' : 'here');
+      dispatch({ type: 'prune', at: serverNow() });
+      beat = timers.setTimeout(tick, everyMs);
+      beat?.unref?.();
+    };
+    beat = timers.setTimeout(tick, everyMs);
+    beat?.unref?.(); // Node (the tests) only: a waiting room never keeps the process alive.
+  }
+  function stopBeat() { if (beat) { timers.clearTimeout(beat); beat = null; } }
 
   async function leaveChannel() {
     const c = channel;
@@ -72,15 +111,16 @@ export function createRoomController({ gameId, mobId, members, api, openChannel,
       if (closed) return state;
       const serverNowMs = Date.parse(t.serverNow);
       offset = Number.isFinite(serverNowMs) ? serverNowMs - now() : 0;
-      dispatch({ type: 'ticket', room: t.room, memberId: t.memberId, serverNowMs: serverNow() });
-      if (!['lobby', 'countdown', 'live'].includes(state.phase) || (state.phase === 'live' && state.done)) return state;
+      dispatch({ type: 'ticket', room: t.room, memberId: t.memberId, serverNowMs: serverNow(), members: memberIds });
+      if (!IN_ROOM.has(state.phase) || (state.phase === 'live' && state.done)) return state;
       try {
         channel = await openChannel({ topic: t.topic, memberId: t.memberId, handlers });
       } catch {
         return dispatch({ type: 'status', status: 'CHANNEL_ERROR' });
       }
       if (closed) { leaveChannel(); return state; }
-      await channel.track(state.phase === 'lobby' ? 'here' : 'ready').catch(() => {});
+      await post(state.phase === 'lobby' ? 'here' : 'ready');
+      startBeat();
       return state;
     } finally {
       connecting = false;
@@ -100,8 +140,8 @@ export function createRoomController({ gameId, mobId, members, api, openChannel,
     async ready() {
       touch();
       if (!channel || state.phase !== 'lobby') return false;
-      const r = await channel.track('ready').catch(() => 'error');
-      if (r === 'error' || r === 'timed out') return false;
+      const ok = await post('ready');
+      if (!ok) return false;
       dispatch({ type: 'ready-asked' });
       return true;
     },
@@ -126,13 +166,18 @@ export function createRoomController({ gameId, mobId, members, api, openChannel,
     go() { dispatch({ type: 'go' }); },
     async rejoin() {
       await leaveChannel();
+      stopBeat();
+      posted = null;
       dispatch({ type: 'rejoin' });
       return connect();
     },
     async close() {
+      const was = posted;
       closed = true;
       clearIdle();
+      stopBeat();
       await leaveChannel();
+      if (was && was !== 'left' && api.presence) { posted = 'left'; await api.presence(gameId, 'left').catch(() => {}); }
     },
   };
 }

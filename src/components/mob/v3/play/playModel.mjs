@@ -89,7 +89,8 @@ export function joinNames(names) {
   return `${list.slice(0, -1).join(', ')} and ${list[list.length - 1]}`;
 }
 export const ordinal = (n) => ({ 1: 'first', 2: 'second', 3: 'third', 4: 'fourth', 5: 'fifth' }[n] || String(n));
-const kindWord = (format) => (format === 'round' ? 'round' : format === 'rematch' ? 'rematch' : 'sprint');
+// The word for a game: the two D167 formats (a timed race, a full mock together) beside the sprint, round and rematch.
+const kindWord = (format) => ({ round: 'round', rematch: 'rematch', race: 'race', mock: 'full mock' }[format] || 'sprint');
 
 export const COPY = Object.freeze({
   // R1
@@ -129,7 +130,7 @@ export const COPY = Object.freeze({
   optionRight: 'right, plus 5',
   optionWrong: 'not this one, minus 1',
   rulerLabel: 'Where everyone is on the ruler',
-  rulerAt: (name, q, n) => `${name} is on question ${q} of ${n}`,
+  rulerAt: (name, q, n) => `${name === 'You' ? 'You are' : `${name} is`} on question ${q} of ${n}`,
   rulerDone: (name) => `${name} reached the flag`,
   // The game card before a run (D2 and D4, and P2's line for anytime games).
   gameTitle: (game) => (game?.title ? game.title : !game?.host || game.host.you ? `Your ${kindWord(game?.format)}` : `${game.host.name}'s ${kindWord(game.format)}`),
@@ -228,6 +229,9 @@ export function momentSentence(m, count) {
     case 'quickest_finish': return `Quickest finish: all ${m.count ?? count} in ${stopwatch(m.seconds ?? 0)}.`;
     case 'three_in_a_row': return `Three right in a row: questions ${m.from ?? 1} to ${m.to ?? 3}.`;
     case 'no_minus': return 'No minus marks.';
+    // A timed race (D167): the most questions answered, and the plain fallback with the count and the clock.
+    case 'most_answered': return `Most answered: ${m.count ?? count} in ${m.minutes ?? 5} minutes.`;
+    case 'raced': return `Answered ${m.count ?? 0} in ${m.minutes ?? 5} minutes.`;
     default: return `Played all ${m?.count ?? count}.`;
   }
 }

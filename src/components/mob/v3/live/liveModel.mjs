@@ -2,9 +2,12 @@
 // Pure: the room's state machine, what a presence or a broadcast may carry, the countdown on the server clock, the
 // live ruler and every sentence. The components only draw, and the channel is an adapter (Supabase or a fake).
 //
-// Safety (spec 4.2 item 4, 4.4 and 6 items 2, 9 and 10):
-//   - Clients send presence only: exactly { m, st, v: 1 }. Nothing else ever leaves this page on the channel.
-//   - A broadcast is applied only when it is one of the five server events with exactly its own keys. A payload
+// Safety (spec 4.2 item 4, 4.4 and 6 items 2, 9 and 10; L-55, 20 Oct):
+//   - Presence is server-only. This page never tracks or sends anything on the channel: it posts { st } (here, ready
+//     or left) to /room/presence on joining, on ready, on leaving and every 20 seconds, and the server broadcasts
+//     "presence" { m, st }. The ticket and game.room carry the roster ([{ memberId, st }], seen in the last 45 s).
+//     A member not heard from for 45 seconds leaves the room on this page too.
+//   - A broadcast is applied only when it is one of the six server events with exactly its own keys. A payload
 //     with a pick, a name, a mark or right or wrong is dropped whole, never "cleaned".
 //   - Presence is shown only as Host, Here and Ready, and only inside the room. Nobody absent is named.
 //   - "Still playing" names only members present in the room; nothing counts who has not played.
@@ -20,19 +23,25 @@ export const IDLE_DROP_MS = 10 * 60_000;
 export const ROOM_SEATS = 5;
 export const STICKERS_MAX = 3;
 export const STICKER_HOLD_MS = 1800 + 300;
+// Presence on the server (L-55): this page posts every 20 s; a member silent for 45 s has left.
+export const PRESENCE_EVERY_MS = 20_000;
+export const PRESENCE_STALE_MS = 45_000;
+// The highest question count a progress event may carry: a 10-minute race serves up to 60 (D167).
+export const MAX_PROGRESS_Q = 200;
 
 // The countdown (M3): beats every 600 ms, Go lands on startsAt, the stage leaves 600 ms after Go.
 export const BEAT_MS = 600;
 export const COUNT_FROM = 3;
 export const GO_HOLD_MS = 600;
 
-export const LIVE_EVENTS = Object.freeze(['room.start', 'progress', 'room.done', 'room.cancel', 'sticker']);
+export const LIVE_EVENTS = Object.freeze(['room.start', 'progress', 'room.done', 'room.cancel', 'sticker', 'presence']);
 const EVENT_KEYS = Object.freeze({
   'room.start': ['startsAt'],
   progress: ['done', 'm', 'q'],
   'room.done': [],
   'room.cancel': [],
   sticker: ['k', 'm'],
+  presence: ['m', 'st'],
 });
 export const LOBBY_STICKERS = Object.freeze(['good_luck', 'lets_go', 'one_sec', 'ready']);
 export const STICKER_WORDS = Object.freeze({
@@ -40,6 +49,8 @@ export const STICKER_WORDS = Object.freeze({
   nice_one: 'Nice one', so_close: 'So close', teach_me: 'Teach me', again: 'Again?',
 });
 export const PRESENCE_STATES = Object.freeze(['here', 'ready']);
+// What this page may post to /room/presence, and what the server's presence broadcast may say.
+export const PRESENCE_POSTS = Object.freeze(['here', 'ready', 'left']);
 
 const memberSet = (ids) => (ids instanceof Set ? ids : new Set(ids || []));
 const isObj = (v) => Boolean(v) && typeof v === 'object' && !Array.isArray(v);
@@ -48,40 +59,28 @@ const isObj = (v) => Boolean(v) && typeof v === 'object' && !Array.isArray(v);
 // What may travel on the channel
 // ---------------------------------------------------------------------------------------------------
 
-/** The only thing this page sends: { m, st, v: 1 }. */
-export function presencePayload(memberId, st) {
-  if (!PRESENCE_STATES.includes(st)) throw new Error('presence state');
-  return { m: String(memberId), st, v: 1 };
-}
-
-/** True for a presence payload with exactly { m, st, v: 1 } and m one of the Mob's members. */
-export function presenceOk(payload, memberIds) {
-  if (!isObj(payload)) return false;
-  const keys = Object.keys(payload).sort().join(',');
-  if (keys !== 'm,st,v') return false;
-  if (payload.v !== 1 || !PRESENCE_STATES.includes(payload.st) || typeof payload.m !== 'string') return false;
-  return memberSet(memberIds).has(payload.m);
+/** The only thing this page sends about itself, and only to the API (POST /room/presence): { st }. */
+export function presenceBody(st) {
+  if (!PRESENCE_POSTS.includes(st)) throw new Error('presence state');
+  return { st };
 }
 
 /**
- * Read Supabase's presenceState() ({ key: [metas] }, each meta our payload plus `presence_ref`) into a Map of
- * memberId -> 'here' | 'ready'. Ready wins over here for the same member (two tabs). Anything else is ignored.
+ * The roster the ticket (and game.room) carries: [{ memberId, st }] for members seen in the last 45 s. Into a Map of
+ * memberId -> 'here' | 'ready'. An entry with any other key, an unknown member or another state is ignored.
  */
-export function readPresence(state, memberIds) {
+export function readRoster(roster, memberIds) {
   const out = new Map();
-  if (!isObj(state)) return out;
-  for (const [key, metas] of Object.entries(state)) {
-    for (const meta of Array.isArray(metas) ? metas : []) {
-      if (!isObj(meta)) continue;
-      const { presence_ref: _ref, ...payload } = meta;
-      if (!presenceOk(payload, memberIds) || payload.m !== key) continue;
-      if (out.get(payload.m) !== 'ready') out.set(payload.m, payload.st);
-    }
+  const ids = memberSet(memberIds);
+  for (const e of Array.isArray(roster) ? roster : []) {
+    if (!isObj(e) || Object.keys(e).sort().join(',') !== 'memberId,st') continue;
+    if (typeof e.memberId !== 'string' || !ids.has(e.memberId) || !PRESENCE_STATES.includes(e.st)) continue;
+    if (out.get(e.memberId) !== 'ready') out.set(e.memberId, e.st);
   }
   return out;
 }
 
-/** True when a server broadcast is one of the five events with exactly its keys and values of the right kind. */
+/** True when a server broadcast is one of the six events with exactly its keys and values of the right kind. */
 export function eventOk(event, payload, memberIds) {
   const keys = EVENT_KEYS[event];
   if (!keys) return false;
@@ -89,7 +88,8 @@ export function eventOk(event, payload, memberIds) {
   if (!isObj(p)) return false;
   if (Object.keys(p).sort().join(',') !== keys.join(',')) return false;
   if ('m' in p && !memberSet(memberIds).has(p.m)) return false;
-  if ('q' in p && !(Number.isInteger(p.q) && p.q >= 0 && p.q <= 20)) return false;
+  if ('q' in p && !(Number.isInteger(p.q) && p.q >= 0 && p.q <= MAX_PROGRESS_Q)) return false;
+  if ('st' in p && !PRESENCE_POSTS.includes(p.st)) return false;
   if ('done' in p && typeof p.done !== 'boolean') return false;
   if ('startsAt' in p && !(typeof p.startsAt === 'string' && Number.isFinite(Date.parse(p.startsAt)))) return false;
   if ('k' in p && !Object.hasOwn(STICKER_WORDS, p.k)) return false;
@@ -114,7 +114,7 @@ export function eventOk(event, payload, memberIds) {
  */
 export function initialRoom({ youId = null, hostId = null } = {}) {
   return {
-    phase: 'connecting', youId, hostId, startsAt: null, presence: new Map(), seen: new Set(), progress: new Map(),
+    phase: 'connecting', youId, hostId, startsAt: null, presence: new Map(), heard: new Map(), seen: new Set(), progress: new Map(),
     seq: 0, done: false, busy: false, connected: false, stickers: [], toasts: [], notice: null, cancelledBy: null, stickerSeq: 0,
   };
 }
@@ -125,7 +125,8 @@ export function roomReducer(state, action) {
   switch (action?.type) {
     case 'ticket': {
       const room = action.room || {};
-      const next = { ...state, youId: action.memberId ?? state.youId, hostId: room.hostMemberId ?? state.hostId };
+      const base = { ...state, youId: action.memberId ?? state.youId, hostId: room.hostMemberId ?? state.hostId };
+      const next = action.members ? withRoster(base, room.roster, action.members, action.serverNowMs ?? 0) : base;
       if (room.state === 'running' && room.startsAt) {
         const sinceGo = (action.serverNowMs ?? 0) - Date.parse(room.startsAt);
         return { ...next, startsAt: room.startsAt, phase: sinceGo >= GO_HOLD_MS ? 'live' : 'countdown', counted: sinceGo < GO_HOLD_MS };
@@ -146,14 +147,23 @@ export function roomReducer(state, action) {
       if (START_PHASES.has(state.phase)) return { ...state, connected: false, phase: 'fallback' };
       return { ...state, connected: false, busy: true };
     }
-    case 'presence': {
-      const presence = readPresence(action.state, action.members);
-      const seen = new Set(state.seen);
-      for (const id of presence.keys()) seen.add(id);
-      return { ...state, presence, seen };
+    case 'self-presence': {
+      // Your own post, acknowledged by the API (the server's broadcast of it may come later).
+      if (!state.youId || !PRESENCE_POSTS.includes(action.st)) return state;
+      return setPresence(state, state.youId, action.st, action.at ?? 0);
+    }
+    case 'roster':
+      // The presence reply's roster (the server's last 45 s); your own seat stays as you last posted it.
+      return keepYou(withRoster(state, action.roster, action.members, action.at ?? 0), state);
+    case 'prune': {
+      // Anyone not heard from for 45 s has left the room on this page too (a closed tab never posts "left").
+      const at = action.at ?? 0;
+      let next = state;
+      for (const [id, when] of state.heard) if (id !== state.youId && at - when > PRESENCE_STALE_MS) next = setPresence(next, id, 'left', at);
+      return next;
     }
     case 'event':
-      return applyEvent(state, action.event, action.payload, action.members);
+      return applyEvent(state, action.event, action.payload, action.members, action.at ?? 0);
     case 'self': {
       // Your own answer, acknowledged by the API (the server's progress broadcast may come later or not at all).
       return withProgress(state, state.youId, action.q, action.done);
@@ -185,6 +195,37 @@ export function roomReducer(state, action) {
   }
 }
 
+/** One member's presence: here or ready (and heard now), or gone ('left'). */
+function setPresence(state, m, st, at) {
+  const presence = new Map(state.presence);
+  const heard = new Map(state.heard);
+  if (st === 'left') { presence.delete(m); heard.delete(m); return { ...state, presence, heard }; }
+  if (presence.get(m) === st && heard.get(m) === at) return state;
+  presence.set(m, st);
+  heard.set(m, at);
+  const seen = state.seen.has(m) ? state.seen : new Set([...state.seen, m]);
+  return { ...state, presence, heard, seen };
+}
+
+/** After a roster: your own presence is what you last posted, whatever the roster's snapshot said. */
+function keepYou(next, before) {
+  const id = before.youId;
+  if (!id || !before.presence.has(id)) return next;
+  const presence = new Map(next.presence);
+  const heard = new Map(next.heard);
+  presence.set(id, before.presence.get(id));
+  heard.set(id, before.heard.get(id) ?? 0);
+  return { ...next, presence, heard };
+}
+
+/** The ticket's roster replaces what this page knew (it is the server's view of the last 45 s). */
+function withRoster(state, roster, members, at) {
+  const presence = readRoster(roster, members);
+  const heard = new Map([...presence.keys()].map((id) => [id, at]));
+  const seen = new Set([...state.seen, ...presence.keys()]);
+  return { ...state, presence, heard, seen };
+}
+
 function withProgress(state, m, q, done) {
   if (!m) return state;
   const prev = state.progress.get(m);
@@ -204,7 +245,7 @@ function pushSticker(state, m, k, local, at = 0) {
   return { ...state, stickers, stickerSeq };
 }
 
-function applyEvent(state, event, payload, members) {
+function applyEvent(state, event, payload, members, at = 0) {
   // `members` null: an action from this page (the host's own reply), already shaped.
   if (members !== null && !eventOk(event, payload, members)) return state;
   const p = payload || {};
@@ -220,6 +261,9 @@ function applyEvent(state, event, payload, members) {
     case 'room.cancel':
       if (!START_PHASES.has(state.phase)) return state;
       return { ...state, phase: 'cancelled', cancelledBy: state.hostId };
+    case 'presence':
+      // The server's broadcast of a member's post. Your own echo only confirms what the API already told this page.
+      return setPresence(state, p.m, p.st, at);
     case 'sticker': {
       // Your own sticker shows once: from the API's reply, not again from its echo.
       if (p.m === state.youId && state.stickers.some((s) => s.local && s.m === p.m && s.k === p.k)) return state;
@@ -370,14 +414,16 @@ export const lobbyClosesAt = (openedAt) => new Date(Date.parse(openedAt) + LOBBY
 // ---------------------------------------------------------------------------------------------------
 // Words (the owner's voice: plain, warm, grammatical; no exclamation marks, arrows, emoji or hype)
 // ---------------------------------------------------------------------------------------------------
-const kindWord = (format) => (format === 'round' ? 'round' : format === 'rematch' ? 'rematch' : 'sprint');
+const kindWord = (format) => ({ round: 'round', rematch: 'rematch', race: 'race' }[format] || 'sprint');
 
 export const LIVE_COPY = Object.freeze({
   roomTitle: (game) => (!game?.host || game.host.you ? 'Your room' : `${game.host.name}'s room`),
-  roomSub: (game) => `Live ${kindWord(game?.format)}, ${game?.count ?? 5} questions`,
+  // A timed race (D167) is told by its clock, every other game by its questions.
+  roomSub: (game) => (game?.format === 'race' ? `Live race, ${game?.minutes ?? 5} minutes` : `Live ${kindWord(game?.format)}, ${game?.count ?? 5} questions`),
   liveDot: 'Live',
   opening: 'Opening the room',
   sameStart: (n) => `Same ${n} questions, same start. You see where friends are, never what they picked.`,
+  sameClock: (minutes) => `Same ${minutes} minutes, same start. You see where friends are, never what they picked.`,
   tagHost: 'Host',
   tagHere: 'Here',
   tagReady: 'Ready',

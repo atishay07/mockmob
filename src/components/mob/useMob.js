@@ -110,8 +110,9 @@ export function useMob(userId, { mobId: pinned = null } = {}) {
 }
 
 /** The runner's start for a Mob paper (/test?mob=1): the same reply as a practice start, or an Error with a plain sentence. */
-export async function startMobPaper(startReceipt, { mobId, extraId } = {}) {
-  const body = { ...(startReceipt ? { startReceipt } : {}), ...(mobId ? { mob: mobId } : {}), ...(extraId ? { extra: extraId } : {}) };
+// gameId: a Mob's full mock together (D167), sat in the full-mock runner on the Mob's route (never charged).
+export async function startMobPaper(startReceipt, { mobId, extraId, gameId } = {}) {
+  const body = { ...(startReceipt ? { startReceipt } : {}), ...(mobId ? { mob: mobId } : {}), ...(extraId ? { extra: extraId } : {}), ...(gameId ? { game: gameId } : {}) };
   const r = await mobFetch('/api/mob/paper/start', { method: 'POST', body });
   if (r.ok) return r.data;
   throw Object.assign(new Error(r.message), { status: r.status, code: r.code });

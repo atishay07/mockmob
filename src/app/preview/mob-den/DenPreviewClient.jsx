@@ -18,10 +18,13 @@ export function previewGameHref(href) {
   const u = new URL(href, 'http://preview.local');
   if (!u.pathname.startsWith('/mob/game/')) return null;
   const view = u.searchParams.get('view');
-  if (view === 'podium') return '/preview/mob-play?view=podium';
-  if (view === 'moments') return '/preview/mob-play?view=moments&closed=1';
-  if (view === 'fix') return '/preview/mob-play?view=fix&closed=1';
-  return `/preview/mob-play?view=run&run=${u.searchParams.get('play') === '1' ? 'play' : 'ready'}`;
+  // The den preview's race (uuid-5) and full mock (uuid-6) open the game preview in that format (D167).
+  const id = decodeURIComponent(u.pathname.split('/')[3] || '');
+  const fmt = id === 'uuid-5' ? '&fmt=race' : id === 'uuid-6' ? '&fmt=mock' : '';
+  if (view === 'podium') return `/preview/mob-play?view=podium${fmt}`;
+  if (view === 'moments') return `/preview/mob-play?view=moments&closed=1${fmt}`;
+  if (view === 'fix') return `/preview/mob-play?view=fix&closed=1${fmt}`;
+  return `/preview/mob-play?view=run&run=${u.searchParams.get('play') === '1' ? 'play' : 'ready'}${fmt}`;
 }
 
 export default function DenPreviewClient() {

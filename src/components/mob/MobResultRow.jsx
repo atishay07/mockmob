@@ -7,6 +7,8 @@
 import Link from 'next/link';
 import { ringLine, togetherLine, trapLine } from '@/lib/mob/model.mjs';
 import { MobRing } from './MobRing';
+import { FORMAT_COPY } from './v3/play/formats.mjs';
+import { gameHref } from './v3/play/playModel.mjs';
 import { useMob } from './useMob';
 import { useMobEnabled } from './MobFlag';
 import './mob.css';
@@ -18,6 +20,22 @@ export function MobResultRow({ mobPaper }) {
   const data = mob.mob;
   if (!mobPaper) return null;
   if (mob.status === 'disabled') return null;
+  // A Mob's full mock together (D167): the way to the mark sheets, which line up on the game's podium. No ring here:
+  // the ring counts this week's paper, and a full mock is its own game.
+  if (mobPaper.gameId) {
+    return (
+      <section className="mob-result mob-result--plain" aria-labelledby="mob-result-h">
+        <div className="mob-result__text">
+          <h2 id="mob-result-h" className="mob-h3">{FORMAT_COPY.resultRowTitle}</h2>
+          <p className="mob-note">{FORMAT_COPY.resultRowLine}</p>
+          <div className="mob-result__keys">
+            <Link className="mob-key" href={gameHref(mobPaper.gameId, 'podium')}>{FORMAT_COPY.seeSheets}</Link>
+            <Link className="mob-link" href="/mob">Back to your Mob</Link>
+          </div>
+        </div>
+      </section>
+    );
+  }
   if (!data) {
     if (mob.status === 'error') {
       return (

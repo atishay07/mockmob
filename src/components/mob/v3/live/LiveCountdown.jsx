@@ -12,7 +12,8 @@ import { BEAT_MS, LIVE_COPY, countdownAt } from './liveModel.mjs';
 const ARC_R = 41;
 const ARC_LEN = 2 * Math.PI * ARC_R;
 
-export function LiveCountdown({ startsAt, serverNow, heads, count, onGo, onOver }) {
+// `line` and `headsLabel`: a timed race's own 3, 2, 1 (before /run, on this device's clock) says its clock and whose runs race.
+export function LiveCountdown({ startsAt, serverNow, heads, count, onGo, onOver, line = null, headsLabel = null }) {
   const [at, setAt] = useState(() => countdownAt(startsAt, serverNow()));
   const done = useRef(false);
   const went = useRef(false);
@@ -49,7 +50,7 @@ export function LiveCountdown({ startsAt, serverNow, heads, count, onGo, onOver 
   return (
     <div className={`lv-count is-${String(stage)}`} role="dialog" aria-modal="true" aria-labelledby="lv-count-n" style={{ '--beat': `${BEAT_MS}ms` }}>
       <div className="lv-count__scrim" aria-hidden="true" style={{ '--depth': counting ? Math.min(1, (filled + 1) / 4) : 0.2 }} />
-      <ul className="lv-count__heads" aria-label={LIVE_COPY.inRoom(heads.length)}>
+      <ul className="lv-count__heads" aria-label={headsLabel || LIVE_COPY.inRoom(heads.length)}>
         {heads.map((h, i) => (
           <li key={h.memberId} className="lv-count__head" style={{ '--i': i }} data-bob={counting ? String(stage) : undefined}>
             <span className="lv-count__disc" style={{ '--mp-c': `var(--mob-c${Number(h.colour) % 8 || 0})` }}><FoldHead fold={h.fold} name={h.name} colour={h.colour} size={52} /></span>
@@ -80,7 +81,7 @@ export function LiveCountdown({ startsAt, serverNow, heads, count, onGo, onOver 
           ) : <span id="lv-count-n" className="mp-sr">{LIVE_COPY.getSet}</span>}
         </div>
       </div>
-      <p className="lv-count__line">{LIVE_COPY.countdownLine(count)}</p>
+      <p className="lv-count__line">{line || LIVE_COPY.countdownLine(count)}</p>
     </div>
   );
 }

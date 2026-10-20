@@ -583,3 +583,44 @@ html:has(.app-shell) .den-k { background: var(--a-bg); }
 :root[data-motion='reduced'] :is(.den-k__p--sealed, .den-k__p--pop) { display: none; }
 :root[data-motion='reduced'] .den-k__p--open { opacity: 1; animation: none !important; }
 :root[data-motion='reduced'] .den .den-stage .den-sticker { transform: translateX(var(--sx)); animation: den-sticker-reduced 2040ms linear var(--delay, 0ms) both !important; }
+
+/* D167 and MOB-MINIMAL 3.2: the one Start a game sheet. Anytime or Live on top; one row per way to play, a radio at the
+   end; the picked row lifts onto a raised plate and opens its chips (the race's minutes, the round's length); the full
+   mock dims "Anytime only" in Live; then what it covers, the one key, the allowance and this week's paper. */
+.den-mode { display: grid; gap: 10px; }
+.den-seg--mode { align-items: center; }
+.den-seg--mode .den-seg__opt { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; column-gap: 6px; row-gap: 0; height: auto; min-height: 48px; padding: 6px 10px; font: 700 15px/1.2 var(--font-display); }
+.den-seg--mode .den-seg__opt span { font: 500 13px/1.2 var(--font-body); color: var(--a-ink-2); }
+.den-seg--mode .den-seg__opt span::before { content: '\00b7'; margin-right: 6px; }
+.den-seg--mode .den-seg__opt[aria-checked='true'] { box-shadow: var(--a-shadow-1), inset 0 0 0 1.5px var(--a-ink); }
+.den-formats { display: grid; gap: 2px; margin: 0 -10px; }
+.den-format { border-radius: 16px; transition: background-color 180ms var(--den-ease-out); }
+.den-format[data-on] { background: var(--a-raised-2); }
+.den-format__pick { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 14px; width: 100%; min-height: 64px; padding: 10px; border: 0; border-radius: 16px; background: transparent; color: var(--a-ink); text-align: left; cursor: pointer; }
+.den-format__pick:disabled { cursor: not-allowed; }
+.den-format[data-off] .den-format__icon, .den-format[data-off] .den-format__text { opacity: 0.45; }
+.den-format__icon { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 12px; background: var(--a-raised-2); border: 1px solid var(--a-line); color: var(--a-ink-2); transition: color 180ms var(--den-ease-out); }
+.den-format[data-on] .den-format__icon { color: var(--a-ink); background: var(--a-raised); }
+.den-format__text { display: grid; gap: 2px; min-width: 0; }
+.den-format__text b { font: 700 16px/1.25 var(--font-display); }
+.den-format__text span { font-size: 14px; line-height: 1.4; color: var(--a-ink-2); }
+.den-format__radio { position: relative; width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--a-line-strong); }
+.den-format[data-on] .den-format__radio { border-color: transparent; background: var(--volt); }
+.den-format[data-on] .den-format__radio::after { content: ''; position: absolute; inset: 7px; border-radius: 50%; background: #11140a; animation: den-radio-in 200ms var(--den-ease-out) both; }
+@keyframes den-radio-in { from { transform: scale(0.2); } to { transform: none; } }
+.den-format__tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--a-line-strong); font: 600 12px/1 var(--font-body); color: var(--a-ink-2); white-space: nowrap; }
+.den-format__chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 10px 12px 64px; animation: den-chips-in 220ms var(--den-ease-out) both; }
+@keyframes den-chips-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+.den-pill { min-width: 52px; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink); font: 650 15px/1 var(--font-body); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color 150ms var(--den-ease-out), color 150ms var(--den-ease-out), border-color 150ms var(--den-ease-out); }
+.den-pill[aria-checked='true'] { background: var(--a-ink); border-color: var(--a-ink); color: var(--a-raised); }
+.den-pill:active { transform: scale(0.97); }
+.den-covers--row { display: grid; grid-template-columns: 40px minmax(0, 1fr) auto; align-items: center; gap: 14px; min-height: 64px; padding: 4px 0; border-block: 1px solid var(--a-line); }
+.mob-link.den-covers__change { min-height: 44px; padding: 0 4px; font-size: 15px; color: var(--a-accent-text); text-decoration: none; }
+.den-covers__pick { max-width: none; }
+.den-sheet__foot--key .mob-link { justify-self: center; }
+.den-row--paper { border-top: 1px solid var(--a-line); padding-top: 12px; }
+.mob-link.den-row__link { min-height: 44px; padding: 0 4px; font-size: 15px; color: var(--a-accent-text); text-decoration: none; }
+.den-row--start .den-row__icon--plus { border: 1.5px solid var(--volt); color: var(--a-ink); background: transparent; }
+:is(.den-format__pick, .den-pill, .den-covers__change, .den-row__link):focus-visible { outline: 2px solid var(--a-focus, var(--volt)); outline-offset: 2px; }
+@media (prefers-reduced-motion: reduce) { .den-format__chips, .den-format[data-on] .den-format__radio::after { animation: none; } .den-format { transition: none; } }
+:root[data-motion='reduced'] :is(.den-format__chips, .den-format[data-on] .den-format__radio::after) { animation: none; }

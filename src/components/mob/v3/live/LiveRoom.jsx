@@ -10,6 +10,7 @@ import Link from 'next/link';
 import { mobGameApi } from '../play/playApi';
 import GameRun from '../play/GameRun';
 import { errorSentence } from '../play/playModel.mjs';
+import { FORMAT_COPY, isRace, raceMinutes } from '../play/formats.mjs';
 import { LIVE_COPY, everyoneDone, initialRoom, inRoom, liveRacers, lobbySeats, memberMap, stillPlaying } from './liveModel.mjs';
 import { createRoomController } from './roomDriver.mjs';
 import { openSupabaseRoom } from './liveChannel';
@@ -31,7 +32,7 @@ export default function LiveRoom({ game, members, me, hrefs, onGame, onAnytime, 
   useEffect(() => {
     const c = createRoomController({
       gameId: game.id, mobId: game.mobId, members: membersRef.current,
-      api: { ticket: api.ticket, start: api.roomStart, cancel: api.roomCancel, sticker: api.sticker },
+      api: { ticket: api.ticket, start: api.roomStart, cancel: api.roomCancel, sticker: api.sticker, presence: api.roomPresence },
       openChannel, onChange: (next) => { setState(next); setNow(c.serverNow()); },
     });
     ctl.current = c;
@@ -88,7 +89,7 @@ export default function LiveRoom({ game, members, me, hrefs, onGame, onAnytime, 
   const withCount = (main) => (
     <>
       {main}
-      {counting && state.startsAt ? <LiveCountdown startsAt={state.startsAt} serverNow={serverNow} heads={heads} count={count} onGo={onCountGo} onOver={onCountOver} /> : null}
+      {counting && state.startsAt ? <LiveCountdown startsAt={state.startsAt} serverNow={serverNow} heads={heads} count={count} onGo={onCountGo} onOver={onCountOver} line={isRace(game) ? FORMAT_COPY.raceRule(raceMinutes(game)) : null} /> : null}
     </>
   );
 

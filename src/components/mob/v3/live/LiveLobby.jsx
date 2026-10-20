@@ -104,7 +104,7 @@ export function LiveLobby({ game, seats, state, isHost, hostName, now, hrefs, bu
             ))}
           </div>
         </div>
-        <p className="mp-line lv-promise">{LIVE_COPY.sameStart(count)}</p>
+        <p className="mp-line lv-promise">{game?.format === 'race' ? LIVE_COPY.sameClock(game.minutes ?? 5) : LIVE_COPY.sameStart(count)}</p>
         {hostAway ? <p className="lv-note" role="status">{LIVE_COPY.hostAway(hostName, lobbyClosesAt(game.openedAt), game.closesAt, now)}</p>
           : alone ? <p className="lv-note" role="status">{LIVE_COPY.onlyYou}</p> : null}
       </div>
