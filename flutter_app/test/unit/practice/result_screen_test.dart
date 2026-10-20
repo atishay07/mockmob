@@ -218,6 +218,9 @@ void main() {
   testWidgets('"See it in Your papers" opens Your papers on this paper', (tester) async {
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed)));
     await tester.pump(const Duration(milliseconds: 900));
+    // It waits at the page's end (the foot is one key and one quiet link, v16 walk I-13).
+    await tester.ensureVisible(find.text(ResultFoot.seePaperLabel));
+    await tester.pump(const Duration(milliseconds: 300));
     await tester.tap(find.text(ResultFoot.seePaperLabel));
     await tester.pump(const Duration(milliseconds: 300));
     expect(router.state.uri.path, '/review');
@@ -367,14 +370,19 @@ void main() {
     ];
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(weak), credits: const CreditFigures(ai: 68, practice: 40)));
     await tester.pump(const Duration(milliseconds: 900));
-    // One dominant move: the chapter set is the only volt key; the repair is a quiet key next to "See it in Your papers".
+    // One dominant move: the chapter set is the only volt key; the repair is the foot's one quiet link (v16 walk I-13:
+    // "See it in Your papers" and "Finish for now" wait at the page's end, not in the foot).
     final volt = find.widgetWithText(KeyButton, 'Practise 10 on Goodwill');
     expect(volt, findsOneWidget);
     final repair = find.byKey(const ValueKey('result-foot-repair'));
     expect(repair, findsOneWidget);
     expect(find.descendant(of: repair, matching: find.text('Repair Q3')), findsOneWidget);
     expect(tester.getRect(repair).top, greaterThan(tester.getRect(volt).bottom), reason: 'it sits under the volt key');
-    expect(tester.getRect(repair).top, tester.getRect(find.widgetWithText(KeyButton, ResultFoot.seePaperLabel)).top, reason: 'on the same row as See it in Your papers');
+    final foot = find.byType(ResultFoot);
+    expect(find.descendant(of: foot, matching: find.byType(KeyButton)), findsNWidgets(2), reason: 'one volt key and one quiet link');
+    expect(find.descendant(of: foot, matching: find.text(ResultFoot.seePaperLabel)), findsNothing);
+    expect(find.descendant(of: find.byKey(const ValueKey('result-page-links')), matching: find.text(ResultFoot.seePaperLabel)), findsOneWidget);
+    expect(find.descendant(of: find.byKey(const ValueKey('result-page-links')), matching: find.text('Finish for now')), findsOneWidget);
     await tester.tap(repair);
     await tester.pump(const Duration(milliseconds: 500));
     expect(router.state.uri.path, '/review/repair/p1/p1-q3');
