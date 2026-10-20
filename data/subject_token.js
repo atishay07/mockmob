@@ -39,7 +39,8 @@ export const tokenUnchanged = (token, entry) => token.touched === 0 && token.cou
  *  - older, but younger than `maxAgeMs` and the token (and the optional `unchanged` check) says nothing changed: reused, and the
  *    bound starts again;
  *  - anything else, an error in the check included: `read()` runs again.
- * `capture(db)` runs BEFORE `read()` and its result is kept with the entry for `unchanged(db, entry)` (a holds token, an expiry);
+ * `capture(db)` runs BEFORE `read()` and its result is kept with the entry for `unchanged(db, entry, now)` (a holds token); `read(ctx)` may add to
+ * ctx.meta (an expiry found in the rows it read);
  * a failing capture stores the entry as not revalidatable. `copy` makes each caller's value its own. The memo never holds per-user
  * data: callers key it by what was asked (a subject and a chapter), nothing else.
  */
@@ -59,9 +60,10 @@ export function createSubjectMemo({ ttlMs = 5 * 60 * 1000, maxAgeMs = 24 * 60 * 
       let count = null;
       let meta = null;
       try { count = await subjectCount(db, subject); meta = capture ? await capture(db) : null; } catch { count = null; }
-      const value = await read();
+      const ctx = { meta }; // read() may add to the meta that unchanged() sees (an expiry it found in the rows)
+      const value = await read(ctx);
       entries.delete(key);
-      entries.set(key, { value: copy(value), checkedAt: now(), readAt, count, meta });
+      entries.set(key, { value: copy(value), checkedAt: now(), readAt, count, meta: ctx.meta });
       while (entries.size > max) entries.delete(entries.keys().next().value);
       return value;
     },

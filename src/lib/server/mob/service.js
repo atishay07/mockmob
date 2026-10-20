@@ -79,6 +79,9 @@ export { memberIdFor };
  */
 export function createMobService(deps) {
   const now = () => (deps.now ? deps.now() : Date.now());
+  // Reads that only need stems, options and keys (comparisons, the shared trap) use the light loader, kept two minutes (egress F12); the
+  // weekly and extra paper starts keep deps.loadQuestions, whose full rows the practice session stores.
+  const loadLight = (ids) => (deps.loadQuestionsLight || deps.loadQuestions)(ids);
   const call = async (name, params) => {
     try {
       return await deps.rpc(name, params);
@@ -182,7 +185,7 @@ export function createMobService(deps) {
     const wantsTogether = optedIn.has(userId) && sittings.some((s) => s.user_id !== userId && optedIn.has(s.user_id));
     if (sittings.length < 3 && !wantsTogether) return none;
     try {
-      const questions = await deps.loadQuestions(ids);
+      const questions = await loadLight(ids);
       const byId = new Map(questions.map((q) => [q.id, q]));
       const keys = ids.map((id) => (Number.isInteger(byId.get(id)?.correctIndex) ? byId.get(id).correctIndex : -1));
       const together = wantsTogether ? computeTogether(sittings, keys, { userId, optedIn }) : null;
@@ -567,7 +570,7 @@ export function createMobService(deps) {
           if (!claim?.allowed) throw new MobError('PRO_REQUIRED');
         }
       }
-      const questions = await deps.loadQuestions(ids).catch(() => []);
+      const questions = await loadLight(ids).catch(() => []);
       if (!Array.isArray(questions) || !questions.length) throw new MobError('UNAVAILABLE');
       const byId = new Map(questions.map((x) => [x.id, x]));
       const keys = ids.map((id) => (Number.isInteger(byId.get(id)?.correctIndex) ? byId.get(id).correctIndex : -1));

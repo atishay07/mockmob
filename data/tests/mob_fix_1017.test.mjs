@@ -421,8 +421,9 @@ test('first-impression layout: 8 colours as two rows of 4 on a phone, the paper 
 
 test('the chooser lengths come from the paper selector itself, and a stale length is dropped, never offered again', async () => {
   const wiring = read('src/lib/server/mob/deps.js');
-  assert.match(wiring, /readablePracticeQuestions\(rows\.filter\(\(row\) => row\.chapter && !isPassageLinkedQuestion\(row\)\)/, 'the same filters as the selector');
-  assert.match(wiring, /pickWithConstraints\(ranked, n, mode\)\.length >= n/, 'the same constraints as the selector, per length');
+  const counting = read('data/mob_chapter_counts.js'); // the computation moved here with the chapter memo (egress F11)
+  assert.match(counting, /readablePracticeQuestions\(rows\.filter\(\(row\) => row\.chapter && !isPassageLinkedQuestion\(row\)\)/, 'the same filters as the selector');
+  assert.match(counting, /pickWithConstraints\(ranked, n, mode\)\.length >= n/, 'the same constraints as the selector, per length');
   assert.match(wiring, /forgetChapterCounts/);
   const db = await database(6);
   const forgot = [];

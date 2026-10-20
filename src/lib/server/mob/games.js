@@ -53,6 +53,9 @@ export function createMobV3Service(deps, helpers = {}) {
       throw new MobError(missingSchema(error) ? 'MIGRATION' : 'UNAVAILABLE', { cause: error });
     }
   };
+  // Reads that only need a question's stem, options, key, explanation or passage (egress F12): the light loader, kept two minutes. The
+  // start of a paper keeps deps.loadQuestions (the full rows the practice session stores).
+  const loadLight = (ids, options) => (deps.loadQuestionsLight || deps.loadQuestions)(ids, options);
   const chains = createChainService({ rpc: deps.rpc, now });
   const billingOn = () => (deps.billingOn ? deps.billingOn() === true : false);
   const liveOn = () => (deps.liveEnabled ? deps.liveEnabled() === true : false);
@@ -95,7 +98,7 @@ export function createMobV3Service(deps, helpers = {}) {
     let trap = null;
     // A full mock's trap is its most-missed question (2 or more sitters); every other game's is the shared wrong option (3).
     if (Array.isArray(picks) && picks.length >= (g.format === 'mock' ? 2 : 3)) {
-      const questions = await deps.loadQuestions(g.question_ids).catch(() => []);
+      const questions = await loadLight(g.question_ids).catch(() => []);
       const byId = new Map((questions || []).map((x) => [x.id, x]));
       const keys = g.question_ids.map((id) => (Number.isInteger(byId.get(id)?.correctIndex) ? byId.get(id).correctIndex : -1));
       const t = g.format === 'mock' ? mockTrap(picks.map((p) => p.picks), keys) : gameTrap(picks.map((p) => p.picks), keys);
@@ -224,7 +227,7 @@ export function createMobV3Service(deps, helpers = {}) {
    * 'late' | ... (mob_mock_record). attempt: { id, correct, details, selectionMeta, completedAt (ms or ISO) }.
    */
   async function recordMockAttempt(userId, g, attempt) {
-    const questions = await deps.loadQuestions(g.question_ids).catch(() => []);
+    const questions = await loadLight(g.question_ids).catch(() => []);
     if (!Array.isArray(questions) || questions.length !== g.question_ids.length) return 'skipped';
     const keys = questions.map((q) => (Number.isInteger(q.correctIndex) ? q.correctIndex : -1));
     const picks = picksFromAttempt(g.question_ids, attempt);
@@ -407,7 +410,7 @@ export function createMobV3Service(deps, helpers = {}) {
     // No question is served at or after the end (the 2 s grace is only for an answer already on its way).
     const open = now() < Date.parse(r.ends_at);
     const ids = g.question_ids.slice(0, servedCount(g, (r.answers || []).length, open));
-    const questions = await deps.loadQuestions(ids).catch(() => []);
+    const questions = await loadLight(ids).catch(() => []);
     if (!Array.isArray(questions) || questions.length !== ids.length) throw new MobError('UNAVAILABLE');
     const view = await gameView(g, members, userId);
     return { run: runOut(r, g), questions: questions.map((q, i) => publicQuestion(q, i)), ghosts: view.ghosts };
@@ -421,7 +424,7 @@ export function createMobV3Service(deps, helpers = {}) {
     if (body.q < 0 || body.q >= g.question_ids.length) throw new MobError('Q_INVALID');
     let key = null;
     if (body.pick >= 0) {
-      const [question] = await deps.loadQuestions([g.question_ids[body.q]]).catch(() => []);
+      const [question] = await loadLight([g.question_ids[body.q]]).catch(() => []);
       key = question?.correctIndex;
       if (!Number.isInteger(key) || key < 0) throw new MobError('UNAVAILABLE');
       if (body.pick >= (question.options || []).length) throw new MobError('Q_INVALID');
@@ -444,7 +447,9 @@ export function createMobV3Service(deps, helpers = {}) {
     if (g.format === 'race') {
       const nextQ = Number(r.answered);
       const open = !out.finished && nextQ < g.question_ids.length && now() < Date.parse(r.ends_at);
-      const [question] = open ? await deps.loadQuestions([g.question_ids[nextQ]]).catch(() => []) : [];
+      // The five questions after it are read in the same batch when this one has to be read, only to warm the two-minute cache on the
+      // server (a race reads one batch for every six answers); the member is served exactly this question, never one ahead.
+      const [question] = open ? await loadLight([g.question_ids[nextQ]], { warm: g.question_ids.slice(nextQ + 1, nextQ + 6) }).catch(() => []) : [];
       out.next = question ? publicQuestion(question, nextQ) : null;
     }
     return out;
@@ -517,7 +522,7 @@ export function createMobV3Service(deps, helpers = {}) {
   async function review(userId, gameId) {
     const { g, state } = await loadGame(userId, gameId);
     if (!g.closed) throw new MobError('REVIEW_NOT_YET', { detail: { opensAt: iso(g.closes_at) } });
-    const questions = await deps.loadQuestions(g.question_ids).catch(() => []);
+    const questions = await loadLight(g.question_ids).catch(() => []);
     if (!Array.isArray(questions) || questions.length !== g.question_ids.length) throw new MobError('UNAVAILABLE');
     const picks = new Map((g.mine || []).map((a) => [a.q, a.pick]));
     const trap = await trapFor(g, userId);
@@ -612,7 +617,7 @@ export function createMobV3Service(deps, helpers = {}) {
   const validStage = (s) => s === 'now' || s === 'check';
   /** A fresh question like the trap one, only for you: the same chapter, never one of the game's own questions. */
   async function freshQuestionId(g, q, userId, stage) {
-    const [trapQ] = await deps.loadQuestions([g.question_ids[q]]).catch(() => []);
+    const [trapQ] = await loadLight([g.question_ids[q]]).catch(() => []);
     const chapter = trapQ?.chapter && deps.validChapter && deps.validChapter(g.subject, trapQ.chapter) ? trapQ.chapter : null;
     const key = `fix_${g.id}_${q}_${stage}_${memberIdFor(deps.secret, g.mob_id, userId)}`;
     // Never one of the game's own questions, nor one of another open game or held paper of the Mob (its key is shown).
@@ -651,8 +656,8 @@ export function createMobV3Service(deps, helpers = {}) {
   async function fixStart(userId, body = {}) {
     const { g, issued } = await fixIssue(userId, body);
     const [question, trapQ] = await Promise.all([
-      deps.loadQuestions([issued.question_id]).then((x) => x?.[0]).catch(() => null),
-      deps.loadQuestions([g.question_ids[body.q]]).then((x) => x?.[0]).catch(() => null),
+      loadLight([issued.question_id]).then((x) => x?.[0]).catch(() => null),
+      loadLight([g.question_ids[body.q]]).then((x) => x?.[0]).catch(() => null),
     ]);
     if (!question || !trapQ) throw new MobError('UNAVAILABLE');
     const mine = (g.mine || []).find((a) => a.q === body.q);
@@ -666,7 +671,7 @@ export function createMobV3Service(deps, helpers = {}) {
   async function fixAnswer(userId, body = {}) {
     if (!Number.isInteger(body.pick) || body.pick < 0 || body.pick > 3) throw new MobError('Q_INVALID');
     const { g, issued } = await fixIssue(userId, body);
-    const [question] = await deps.loadQuestions([issued.question_id]).catch(() => []);
+    const [question] = await loadLight([issued.question_id]).catch(() => []);
     if (!question || !Number.isInteger(question.correctIndex)) throw new MobError('UNAVAILABLE');
     const correct = body.pick === question.correctIndex;
     const r = await call('mob_fix_answer', { p_user_id: userId, p_game_id: g.id, p_q: body.q, p_stage: body.stage, p_correct: correct, p_now: nowIso() });
