@@ -346,7 +346,8 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
 
   Widget _topBar(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(left: MmSpace.s20, right: MmSpace.s8),
+      // The pill keeps the same 20 dp gutter as the wordmark and the slides (v16 walk I-06b: it sat 8 dp from the edge).
+      padding: const EdgeInsets.only(left: MmSpace.s20, right: MmSpace.s20),
       child: Row(
         children: [
           const ExcludeSemantics(child: Wordmark(height: 22)),

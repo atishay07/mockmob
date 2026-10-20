@@ -281,7 +281,9 @@ class WelcomeStage extends StatelessWidget {
                     child: Transform.rotate(
                       angle: pennantA,
                       alignment: Alignment.topCenter,
-                      child: Pennant(weeks: 1, stitch: PennantPaper.stitch(context)),
+                      // The same three weeks and three stitches as explainer slide 1, so the story the student is
+                      // about to be told matches the room they are standing in (v16 walk I-12: the room said 1 week).
+                      child: Pennant(weeks: 3, stitch: PennantPaper.stitch(context)),
                     ),
                   ),
                 ),
