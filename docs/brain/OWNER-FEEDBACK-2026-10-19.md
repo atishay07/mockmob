@@ -738,3 +738,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 - K6 Wallet: buried at the bottom and less loved than the Pro page; explain why the first full mock per subject is free while a full mock costs 50.
 - K7 Finish screen: more detailed but below the desktop's level; show everything (paper saved, score, the reveal); on submit run a proper mark-sheet reveal animation.
 - K8 Make the Mob ("host your Mob") so defensible that no competitor can copy it in a day or two.
+- Referral trigger: "After the friend's first practice (Recommended)"
+- Mob invite counts as referral: "Yes, one link does both (Recommended)"
+- Old accounts with 150: "Keep what they have (Recommended)"
+**Ledger D165:** new accounts get 50 welcome credits (no one-time 100); a referral gives both inviter and friend +100 once the friend signs up AND finishes one practice; the Mob invite link is also the referral link; existing accounts keep their credits.
