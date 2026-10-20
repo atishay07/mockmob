@@ -39,6 +39,7 @@ import '../widgets/v4_sheet_hooks.dart';
 import '../widgets/your_mobs_sheet.dart';
 import '../widgets/sticker_row.dart';
 import 'den_start_screen.dart';
+import 'results_run.dart';
 
 /// The den's clock (tests pin it). Defaults to the phone's clock.
 final denClockProvider = Provider<DateTime Function()>((ref) => DateTime.now);
@@ -254,25 +255,15 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     if (mounted) await _maybeNotice();
   }
 
+  /// Achievements earned outside a game (quest done, week stitched, a Fold earned, a streak milestone) play as the
+  /// results run's own celebration screens (spec 3.4: the same screens everywhere), only while the den is in view.
   Future<void> _runMoments() async {
-    if (_queueRunning) return;
-    final view = ref.read(denViewProvider);
-    if (view == null) return;
+    if (_queueRunning || !_visible()) return;
+    if (ref.read(denViewProvider) == null) return;
     _queueRunning = true;
     try {
-      List<String> due = const [];
-      try {
-        due = await chainDueFor(view.v3.chainChip, cached: () => ref.read(chainProvider.future), fresh: () => ref.refresh(chainProvider.future));
-      } on Object {
-        // No chain read: the Mob's own moments still play.
-      }
-      if (!mounted) return;
-      final keys = momentOrder(view.v3.moments, due);
-      if (keys.isEmpty) return;
-      final player = ref.read(momentPlayerProvider);
-      final actions = ref.read(mobV3ActionsProvider);
-      final played = await runMomentQueue(keys: keys, canPlay: _visible, play: (k) => player(context, k), seen: actions.seen, played: _memory.playedMoments);
-      if (played.isNotEmpty && mounted) {
+      final shown = await ResultsRun.showPending(context);
+      if (shown.isNotEmpty && mounted) {
         ref.invalidate(chainProvider);
         unawaited(_refresh(force: true));
       }

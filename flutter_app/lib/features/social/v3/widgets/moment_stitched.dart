@@ -19,8 +19,8 @@ import 'paper_particles.dart' show drawGlint;
 import 'parcel.dart';
 
 // ---- Mob hours on the stitch (MOB-MINIMAL 3.4 item 5, 3.6; MOB HOURS CONTRACT `v3.hours`) ----------------
-// A minimal, tolerant reading of `v3.hours` for this one card. The den track parses the whole block as
-// `MobHours` in data/mob_v3_models.dart; the integrator points [StitchHours.of] at it (see v4-coord.md).
+// A minimal, tolerant reading of `v3.hours` for this one card, taken from the den's `MobHours`
+// (data/mob_v3_models.dart).
 
 /// One sharing member's week: their minutes and the days they met their own daily goal.
 class StitchHoursMember {
@@ -53,9 +53,19 @@ class StitchHours {
     return StitchHours(topMemberId: asString(j['top_member_id'] ?? j['topMemberId']), members: members);
   }
 
-  /// Where the overlay reads the Mob's hours from the den. This branch's den model has no `hours` yet, so it
-  /// answers null (the card stays hidden); the integrator assigns it from `v3.hours` (MobHours).
-  static StitchHours? Function(MobV3 v3) of = (_) => null;
+  /// Where the overlay reads the Mob's hours from the den: `v3.hours` (MobHours). Null (absent, or nobody shares)
+  /// keeps the card hidden. Tests may swap it.
+  static StitchHours? Function(MobV3 v3) of = fromMobHours;
+
+  /// [MobHours] as this card reads it: only members with minutes, the server's top member id as it is.
+  static StitchHours? fromMobHours(MobV3 v3) {
+    final h = v3.hours;
+    if (h == null || h.offForEveryone) return null;
+    return StitchHours(
+      topMemberId: h.topMemberId,
+      members: [for (final m in h.members) if (m.minutes > 0) StitchHoursMember(memberId: m.memberId, minutes: m.minutes, goalDays: m.goalDays)],
+    );
+  }
 
   final String? topMemberId;
   final List<StitchHoursMember> members;

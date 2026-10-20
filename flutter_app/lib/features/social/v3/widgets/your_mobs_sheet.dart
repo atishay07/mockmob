@@ -13,7 +13,6 @@ import '../../widgets/mob_plan_widgets.dart' show MobSwitcher;
 import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../mob_v3_nav.dart';
-import '../screens/den_start_screen.dart' show showStartMobSheet;
 import 'free_pro_sheet.dart' show showFreeProSheet;
 
 /// What the sheet asks the den to do once it closes.
@@ -53,7 +52,7 @@ Future<void> showYourMobsSheet(BuildContext context, {Future<void> Function(Stri
         await container.read(mobRepositoryProvider.notifier).select(id);
       }
     case StartAnotherMob():
-      await showStartMobSheet(context);
+      await MobV3Nav.startMob(context);
     case JoinMobWithCode():
       await MobV3Nav.join(context);
     case StartAnotherWithPro():

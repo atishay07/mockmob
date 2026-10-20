@@ -132,7 +132,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
         // The price at the point of choice (D174, D175), the server's number and the student's balance. A Free
         // member also gets one honest way to Pro under the key; Pro reads "included". No price sent: no line.
         final cost = mockSitCost(g, v3.starts);
-        final priced = g.format == GameFormat.mock && g.yourRun == YourRun.none && v3.starts.billingOn && (g.costCredits != null || v3.starts.mockSitCredits != null);
+        final priced = g.format == GameFormat.mock && g.yourRun == YourRun.none && v3.starts.billingOn && (g.price != null || v3.starts.mock != null);
         final proSits = priced && v3.starts.via == StartVia.pro;
         final costStyle = type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w600, fontFeatures: const [FontFeature.tabularFigures()]);
         if (priced && (cost > 0 || proSits)) {
