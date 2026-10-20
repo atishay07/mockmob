@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/api/api.dart';
+import '../../../core/copy/formatters.dart' show formatSignedNumber;
 import '../../../core/models/models.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
@@ -13,6 +14,7 @@ import '../../../core/widgets/widgets.dart';
 import '../../rhythm/rhythm.dart' show LateNightLine;
 import '../copy.dart';
 import '../model/finish_reaction.dart';
+import 'mark_sheet.dart' show SheetCopy;
 import 'numbered_sheet.dart';
 import 'practice_app_bar.dart';
 import 'plain_notice.dart';
@@ -211,10 +213,11 @@ class _FiledSheet extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
+                          // The score in marks, as the mark sheet said it (K7): "27 of 50 marks".
                           Center(
                             child: MonumentalNumber(
-                              value: PracticeCopy.figureNumber(m.correct),
-                              unit: '  ${PracticeCopy.figureUnit(m.total)}',
+                              value: formatSignedNumber(m.scored),
+                              unit: '  ${SheetCopy.outOf(m.max)}',
                               style: type.figureCompact.copyWith(fontSize: 64),
                               roll: false,
                             ),

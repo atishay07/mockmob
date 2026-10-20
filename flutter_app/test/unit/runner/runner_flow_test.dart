@@ -233,10 +233,10 @@ void main() {
       await settle(tester);
       await tester.tap(find.text('Submit mock'));
       await _flush(tester);
-      await tester.pump(const Duration(milliseconds: 1400));
+      await tester.pump(SubmitPage.handOffDelay ~/ 2);
       final line = find.byKey(const ValueKey('submit-handoff-line'));
       expect(line, findsOneWidget);
-      expect(tester.widget<FractionallySizedBox>(line).widthFactor, closeTo(0.5, 0.1), reason: 'linear over 2,800 ms');
+      expect(tester.widget<FractionallySizedBox>(line).widthFactor, closeTo(0.5, 0.1), reason: 'linear over the hand-off');
       await tester.tap(find.text(RunnerCopy.receivedTitle));
       await tester.pump(SubmitPage.handOffDelay);
       await settle(tester);

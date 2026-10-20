@@ -37,10 +37,12 @@ class SubmitPage extends ConsumerStatefulWidget {
 
   final RunnerSession session;
 
-  /// How long "Answers received. Saved to your account at ..." stays before the result opens: long
-  /// enough to read the line, and for a tap on "See your answers" (or "Open your sheet") to land
-  /// before it goes by itself.
-  static const Duration handOffDelay = Duration(milliseconds: 2800);
+  /// How long the received sheet stays before the result opens. 20 Oct, owner K7: "When someone submits the paper,
+  /// instead of it, there should be a proper reveal of the mark sheet": the page is the hand-in beat only (the sheet
+  /// inks in 700 ms, Mobi hops as it ends, the receipt line lands by 780 ms), then the mark sheet reveal opens, which
+  /// itself says "Your paper is saved." with the time. A touch still stops it, and "See your answers" (or "Open your
+  /// sheet") is there for a tap.
+  static const Duration handOffDelay = Duration(milliseconds: 1200);
 
   /// How fast the hand-off line fades when a touch stops it.
   static const Duration handOffCancelFade = Duration(milliseconds: 120);
