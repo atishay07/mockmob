@@ -212,20 +212,30 @@ class _ResultsRunState extends ConsumerState<ResultsRun> {
     return (facts: facts, screens: runScreensFor(facts: facts, achievements: achievements));
   }
 
+  /// The screens of this run once loaded (for [_exit]'s seen mark).
+  List<RunScreen> _screens = const [];
+
+  /// The X (or the last key): back to the den. An achievement closed with its X counts as seen, so it never replays on
+  /// the next den open.
   void _exit() {
     if (_leaving) return;
     _leaving = true;
+    final screens = _screens;
+    if (screens.isNotEmpty) {
+      final current = screens[_index.clamp(0, screens.length - 1)];
+      if (current is AchievementStep) unawaited(_markSeen(current.key));
+    }
     Navigator.of(context).maybePop();
   }
 
   void _next(List<RunScreen> screens) {
     if (_leaving) return;
     final current = screens[_index];
-    if (current is AchievementStep) unawaited(_markSeen(current.key));
     if (_index >= screens.length - 1) {
       _exit();
       return;
     }
+    if (current is AchievementStep) unawaited(_markSeen(current.key));
     setState(() => _index++);
   }
 
@@ -280,6 +290,7 @@ class _ResultsRunState extends ConsumerState<ResultsRun> {
             final data = snap.data;
             if (data == null) return const SizedBox.expand();
             final screens = data.screens;
+            _screens = screens;
             if (screens.isEmpty) {
               WidgetsBinding.instance.addPostFrameCallback((_) => _exit());
               return const SizedBox.expand();
@@ -345,7 +356,7 @@ class _ResultsRunState extends ConsumerState<ResultsRun> {
           now: f.game?.serverNow ?? ref.read(nowProvider)(),
         );
       case AchievementStep(:final key):
-        return MomentOverlay(key: ValueKey('run-moment-$key'), momentKey: key, onDone: next);
+        return MomentOverlay(key: ValueKey('run-moment-$key'), momentKey: key, onDone: next, onExit: _exit);
     }
   }
 }

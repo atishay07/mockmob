@@ -109,13 +109,17 @@ bool stitchAllowed(DenView den, MomentKey key) {
 }
 
 class MomentOverlay extends ConsumerStatefulWidget {
-  const MomentOverlay({super.key, required this.momentKey, this.onDone});
+  const MomentOverlay({super.key, required this.momentKey, this.onDone, this.onExit});
 
   final String momentKey;
 
   /// Set inside the results run (A10): this moment is one screen of the run. Its key and X call [onDone] (the run
   /// moves on or leaves), and it never plays the next moment in place: the run already lists each one as a screen.
   final VoidCallback? onDone;
+
+  /// Set inside the results run: the X on this screen leaves the run for the den (spec 3.4: an X on every screen
+  /// returns to the den). The shown key is recorded first, so the run marks it seen.
+  final VoidCallback? onExit;
 
   bool get single => onDone != null;
 
@@ -141,6 +145,19 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       return;
     }
     Navigator.of(context).maybePop();
+  }
+
+  /// The X: inside the run it leaves for the den; on its own it closes like the key.
+  void _dismiss() {
+    final exit = widget.onExit;
+    if (exit == null) {
+      _close();
+      return;
+    }
+    if (_closing) return;
+    _closing = true;
+    _record(_current);
+    exit();
   }
 
   /// The key in the results run: Continue, or Back to the den on the last screen.
@@ -217,7 +234,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
 
   Widget _unknown() {
     _closeLater();
-    return _Blank(onClose: _close);
+    return _Blank(onClose: _dismiss);
   }
 
   /// The keys this overlay has shown so far, the current one included.
@@ -255,7 +272,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       prize: prize,
       keyLabel: label,
       onKey: onKey,
-      onClose: _close,
+      onClose: _dismiss,
     );
   }
 
@@ -270,7 +287,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       item: weekItemOf(v3),
       keyLabel: widget.single ? _runLabel : (revealKey == null ? MobV3Copy.backToDen : MobV3Copy.openParcel),
       onKey: widget.single || revealKey == null ? _close : () => _playInPlace(revealKey),
-      onClose: _close,
+      onClose: _dismiss,
     );
   }
 
@@ -287,7 +304,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       playing: _sitting,
       onPlayAs: () => _playAs(fold),
       onShelf: widget.single ? _close : _shelf,
-      onClose: _close,
+      onClose: _dismiss,
     );
   }
 
@@ -295,8 +312,8 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     if (n == null || n <= 0) return _unknown();
     final chain = ref.watch(chainProvider);
     return chain.when(
-      data: (c) => MilestoneMoment(days: n, chain: c, onKey: _close, onClose: _close),
-      loading: () => _Blank(onClose: _close),
+      data: (c) => MilestoneMoment(days: n, chain: c, onKey: _close, onClose: _dismiss),
+      loading: () => _Blank(onClose: _dismiss),
       error: (_, _) => _unknown(),
     );
   }
