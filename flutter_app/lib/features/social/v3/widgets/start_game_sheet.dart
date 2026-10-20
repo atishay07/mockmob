@@ -19,8 +19,10 @@
 // sits one a friend starts for credits, so its row says so in plain words and carries one way to Pro.
 
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
@@ -60,9 +62,13 @@ Future<MobGame?> showStartGame(BuildContext context, {StartGamePrefill prefill =
   final container = ProviderScope.containerOf(context, listen: false);
   final den = container.read(denViewProvider);
   final c = _StartController(prefill, den?.v3);
+  // The honest price must be in view before the tap (D175): a sheet that opens on the full mock, or with large text,
+  // takes 92% of the screen so the rule box and what it covers sit above the key.
+  final tall = c.tile == GameFormat.mock || MediaQuery.textScalerOf(context).scale(16) > 17.6;
   return showMmSheet<MobGame>(
     context: context,
     title: MobV3Copy.startAGame,
+    heightFactor: tall ? 0.92 : null,
     builder: (_) => _StartBody(controller: c, prefill: prefill),
     footer: (_) => _StartKeys(controller: c, prefill: prefill),
   );
@@ -202,9 +208,11 @@ class _StartBody extends ConsumerWidget {
                 count: c.count,
                 mockDetail: MobV3Copy.mockDetail,
                 mobName: mobName,
-                mockPrice: starts.freeMockPrice,
+                // A Pro viewer's own mock price is 0; the Free price shows only when the server sends it (never a
+                // client guess, MOB-V4-BUILD 1).
+                mockPrice: starts.via == StartVia.pro ? null : starts.freeMockPrice,
                 // A Free member's mock row says what Pro does and what sitting costs, and opens Pro from the row.
-                proLine: f == GameFormat.mock && starts.mockNeedsPro ? MobV3Copy.mockProRow(starts.freeMockPrice) : null,
+                proLine: f == GameFormat.mock && starts.mockNeedsPro ? MobV4ResultsCopy.mockFreeRow(starts.freeMockPrice) : null,
                 onPro: f == GameFormat.mock && starts.mockNeedsPro && ref.watch(proNudgesOnProvider)
                     ? () => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock)
                     : null,
@@ -339,7 +347,7 @@ class _FormatRow extends StatelessWidget {
     required this.onCount,
     required this.mockDetail,
     this.mobName = '',
-    this.mockPrice = kMockSitCredits,
+    this.mockPrice,
     this.proLine,
     this.onPro,
     this.anytimeOnly = false,
@@ -358,7 +366,9 @@ class _FormatRow extends StatelessWidget {
 
   /// For the Full mock together rule box (MOB-V4-BUILD 1): the Mob's name and the Free sit price.
   final String mobName;
-  final int mockPrice;
+
+  /// Null when the server has not sent the Free sit price for this viewer: the box then leaves the price out.
+  final int? mockPrice;
 
   /// Under a locked Full mock together row: what Pro does and what sitting costs, with [onPro] opening Pro.
   final String? proLine;
@@ -393,12 +403,12 @@ class _FormatRow extends StatelessWidget {
     final Widget? ruleBox = on && format == GameFormat.mock
         ? Padding(
             padding: const EdgeInsets.only(top: MmSpace.s8, bottom: MmSpace.s4),
-            child: MockRuleBox(key: const ValueKey('start-mock-line'), mobName: mobName, price: mockPrice, priced: proTag, detail: mockDetail),
+            child: _RevealOnShow(child: MockRuleBox(key: const ValueKey('start-mock-line'), mobName: mobName, price: mockPrice, priced: proTag, detail: mockDetail)),
           )
         : null;
     final String? tag = anytimeOnly
         ? MobV3Copy.anytimeOnly
-        : (locked && proTag ? (format == GameFormat.mock ? MobV4ResultsCopy.proStartsIt : MobV3Copy.proTag) : null);
+        : (locked && proTag && format != GameFormat.mock ? MobV3Copy.proTag : null);
     final row = AnimatedContainer(
       duration: reduced ? Duration.zero : Motion.card,
       curve: Motion.out,
@@ -473,17 +483,22 @@ class _FormatRow extends StatelessWidget {
         tappable,
         Padding(
           padding: const EdgeInsets.only(left: MmSpace.s12 + 36 + MmSpace.s12, right: MmSpace.s12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          // The line runs the full width (it never squeezes into a narrow column at large text), the way to Pro
+          // under it.
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Text(
-                  line,
-                  key: const ValueKey('start-mock-pro-line'),
-                  style: type.small.copyWith(color: colors.ink2),
-                ),
+              Text(
+                line,
+                key: const ValueKey('start-mock-pro-line'),
+                style: type.small.copyWith(color: colors.ink2),
               ),
-              if (onPro != null) _AccentKey(key: const ValueKey('start-mock-pro'), label: MobV3Copy.seePlans, onPressed: onPro),
+              // The key's own 12 dp lead-in is pulled back so its words line up with the line above.
+              if (onPro != null)
+                Transform.translate(
+                  offset: const Offset(-MmSpace.s12, 0),
+                  child: _AccentKey(key: const ValueKey('start-mock-pro'), label: MobV3Copy.seePlans, onPressed: onPro),
+                ),
             ],
           ),
         ),
@@ -493,13 +508,52 @@ class _FormatRow extends StatelessWidget {
   }
 }
 
+/// Scrolls its child into view once it appears (the Full mock rule box, D175: the price is seen before the tap).
+/// Motion.card, or a jump under reduced motion.
+class _RevealOnShow extends StatefulWidget {
+  const _RevealOnShow({required this.child});
+  final Widget child;
+
+  @override
+  State<_RevealOnShow> createState() => _RevealOnShowState();
+}
+
+class _RevealOnShowState extends State<_RevealOnShow> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final reduced = MediaQuery.disableAnimationsOf(context);
+      final box = context.findRenderObject();
+      final scrollable = Scrollable.maybeOf(context);
+      if (box == null || scrollable == null) return;
+      final position = scrollable.position;
+      // The box's bottom edge clears the sheet's 40 dp fade above the pinned key.
+      final reveal = RenderAbstractViewport.of(box).getOffsetToReveal(box, 1).offset + 40;
+      final target = math.min(reveal, position.maxScrollExtent);
+      if (target <= position.pixels + 0.5) return;
+      if (reduced) {
+        position.jumpTo(target);
+      } else {
+        position.animateTo(target, duration: Motion.card, curve: Motion.out);
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
+}
+
 /// The Full mock together rule (MOB-V4-BUILD 1, D175): who sits it and what it costs, in a sunken box under the
 /// chosen row. Pro starts it; Free members sit it for the server's credits. Never a free first mock.
 class MockRuleBox extends StatelessWidget {
   const MockRuleBox({super.key, required this.mobName, required this.price, this.priced = true, this.detail});
 
   final String mobName;
-  final int price;
+
+  /// The Free sit price from the server, or null when it was not sent (the clause is then left out).
+  final int? price;
 
   /// False while the server's billing is off: no credits or Pro words, the paper's own line ([detail]) instead.
   final bool priced;
@@ -544,7 +598,7 @@ class MockRuleBox extends StatelessWidget {
                     text: MobV4ResultsCopy.mockRuleIncluded,
                     style: style.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
                   ),
-                  TextSpan(text: ' ${MobV4ResultsCopy.mockRuleFree(price)}'),
+                  if (price != null) TextSpan(text: ' ${MobV4ResultsCopy.mockRuleFree(price!)}'),
                 ],
               ),
             ),
@@ -867,7 +921,11 @@ class _StartKeysState extends ConsumerState<_StartKeys> {
                 GameFormat.sprint => MobV3Copy.startTheSprint,
                 _ => MobV3Copy.startTheRound,
               };
-        final allowance = starts == null ? MobV3Copy.startUnder(mobName) : MobV3Copy.allowance(starts, mobName, live: live, mock: c.tile == GameFormat.mock);
+        final allowance = starts == null
+            ? MobV3Copy.startUnder(mobName)
+            : (c.tile == GameFormat.mock && starts.billingOn && starts.via == StartVia.pro)
+                ? MobV4ResultsCopy.proAllowance
+                : MobV3Copy.allowance(starts, mobName, live: live, mock: c.tile == GameFormat.mock);
         final paperOpen = mob != null && !mob.week.youSat && !mob.week.closedAt(now);
         return Column(
           mainAxisSize: MainAxisSize.min,

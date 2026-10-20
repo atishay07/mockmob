@@ -1006,6 +1006,8 @@ abstract final class MobV4ResultsCopy {
   static const String mockRuleIncluded = 'Included with Pro.';
   static String mockRuleFree(int cost) => 'Free members sit it for $cost credits.';
   static const String proStartsIt = 'Pro starts it';
+  static String mockFreeRow(int cost) => 'On Free you sit one a friend starts for $cost credits. Pro starts them and sits them free.';
+  static const String proAllowance = 'With Pro you can start as many games as you like.';
   static const String mockFreeLine = 'Full mocks are Anytime only. A Pro friend starts one; you can still sit it.';
   static const String getPro = 'Get Pro';
 

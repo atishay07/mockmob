@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/screens/results_run.dart';
 import 'package:mockmob/features/social/v3/widgets/podium_stage.dart';
@@ -78,13 +79,37 @@ void main() {
       });
     }
 
+    for (final scale in [1.0, 1.3]) {
+      testWidgets('start sheet, Free member, the mock row and See Pro plans (${_tag(b)}${_ts(scale)})', (t) async {
+        final server = v3Server(scenario: 'quiet', billing: 'free');
+        await pumpMockmob(
+          t,
+          Builder(builder: (c) => Center(child: TextButton(onPressed: () => showStartGame(c), child: const Text('open')))),
+          brightness: b,
+          size: const Size(360, 780),
+          textScale: scale,
+          disableAnimations: true,
+          overrides: [...v3Overrides(server), proNudgesOnProvider.overrideWithValue(true)],
+        );
+        await t.tap(find.text('open'));
+        await t.pumpAndSettle();
+        await settleImages(t);
+        final pro = find.byKey(const ValueKey('start-mock-pro'));
+        expect(pro, findsOneWidget);
+        await t.ensureVisible(pro);
+        await t.pumpAndSettle();
+        expect(t.getSize(pro).height, greaterThanOrEqualTo(44));
+        await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/results_run/start_free_mock_row_360_${_tag(b)}${_ts(scale)}.png'));
+      });
+    }
+
     testWidgets('start sheet, full mock rule box at 1.3 (${_tag(b)})', (t) async {
       final server = v3Server(scenario: 'quiet', billing: 'pro');
       await pumpMockmob(
         t,
         Builder(builder: (c) => Center(child: TextButton(onPressed: () => showStartGame(c, prefill: const StartGamePrefill(format: GameFormat.mock, count: 50)), child: const Text('open')))),
         brightness: b,
-        size: const Size(360, 900),
+        size: const Size(360, 780),
         textScale: 1.3,
         disableAnimations: true,
         overrides: v3Overrides(server),
