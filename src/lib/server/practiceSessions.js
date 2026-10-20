@@ -60,7 +60,7 @@ export async function startPractice(userId, input, server = {}) {
   }
   // Mathematics and Computer Science papers have two section-B variants; only NTA mode reads it.
   const ntaVariant = mode.id === 'nta' && /^[a-z]{2,12}$/.test(input.variant || '') ? input.variant : '';
-  const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : []), ...(mobPaper ? ['mob', mobPaper.mobId, mobPaper.weekStart, ...(mobPaper.extraId ? [mobPaper.extraId] : [])] : [])]);
+  const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : []), ...(mobPaper ? ['mob', mobPaper.mobId, mobPaper.weekStart, ...(mobPaper.extraId ? [mobPaper.extraId] : []), ...(mobPaper.gameId ? ['game', mobPaper.gameId] : [])] : [])]);
   const previous = await Database.getAttemptById(id);
   if (previous) throw new Error('SESSION_ALREADY_SUBMITTED');
   const { questions, meta } = mobPaper
@@ -86,7 +86,7 @@ export async function startPractice(userId, input, server = {}) {
   }
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,
     created_at: new Date(created).toISOString(), expires_at: new Date(created + resolveDurationSec(mode, questions) * 1000).toISOString(),
-    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart, ...(mobPaper.extraId ? { extraId: mobPaper.extraId } : {}), ...(typeof mobPaper.holdUntil === 'string' ? { holdUntil: mobPaper.holdUntil } : {}) } } : {}) } };
+    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice', ...(mobPaper ? { mobPaper: { mobId: mobPaper.mobId, weekStart: mobPaper.weekStart, ...(mobPaper.extraId ? { extraId: mobPaper.extraId } : {}), ...(mobPaper.gameId ? { gameId: mobPaper.gameId } : {}), ...(typeof mobPaper.holdUntil === 'string' ? { holdUntil: mobPaper.holdUntil } : {}) } } : {}) } };
   // The first full mock in each subject is free, once, from its start (data/first_full_mock.js). Its state for this very session
   // is read the way the quote reads it (src/lib/server/firstFullMock.js), after the set is built; unknown is charged as before.
   const firstFullMock = firstFullMockApplies({ isPremium: user?.isPremium === true, modeId: mode.id, mobPaper })

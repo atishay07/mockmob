@@ -1,0 +1,24 @@
+{
+  "run": {
+    "startedAt": "2026-10-22T08:49:01.500Z",
+    "endsAt": "2026-10-22T08:59:01.500Z",
+    "serverNow": "2026-10-22T08:49:02.000Z",
+    "live": true,
+    "minutes": 10,
+    "answers": []
+  },
+  "questions": [
+    {
+      "q": 0,
+      "stem": "Goodwill question 38",
+      "options": [
+        "Option A of question 38",
+        "Option B of question 38",
+        "Option C of question 38",
+        "Option D of question 38"
+      ],
+      "passage": null
+    }
+  ],
+  "ghosts": []
+}

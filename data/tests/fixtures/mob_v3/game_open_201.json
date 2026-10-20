@@ -5,6 +5,7 @@
     "format": "sprint",
     "mode": "async",
     "count": 5,
+    "minutes": null,
     "secondsPerQuestion": 60,
     "subjectName": "Accountancy",
     "chapter": "Goodwill",

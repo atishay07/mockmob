@@ -5,7 +5,8 @@
   "room": {
     "state": "lobby",
     "startsAt": null,
-    "hostMemberId": "member-2"
+    "hostMemberId": "member-2",
+    "roster": []
   },
   "serverNow": "2026-10-22T08:42:24.000Z"
 }

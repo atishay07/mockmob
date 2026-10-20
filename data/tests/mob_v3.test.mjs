@@ -100,9 +100,11 @@ function serviceFor(db, { clock = { now: NOW }, premium = false, billing = false
     subjectInfo: (s) => (['accountancy', 'economics'].includes(s) ? { ok: true, id: s, name: s === 'accountancy' ? 'Accountancy' : 'Economics' } : { ok: false }),
     loadUser: async (id) => ({ subjects: ['accountancy', 'economics'], isPremium: typeof premium === 'function' ? premium(id) : premium }),
     validChapter: (subject, chapter) => subject === 'accountancy' && ['Goodwill', 'Cash Flow Statement'].includes(chapter),
-    pickQuestionIds: async (_s, { count = 10, key = null } = {}) => {
+    // Like the bank: never an excluded id (the Mob's open games and held papers), as many as it has.
+    pickQuestionIds: async (_s, { count = 10, key = null, exclude = [] } = {}) => {
       const start = key ? hash(key) % 30 : 0;
-      return Array.from({ length: count }, (_, i) => BANK[(start + i) % BANK.length].id);
+      const skip = new Set(exclude);
+      return Array.from({ length: BANK.length }, (_, i) => BANK[(start + i) % BANK.length].id).filter((id) => !skip.has(id)).slice(0, count);
     },
     loadQuestions: async (ids) => ids.map((id) => BANK.find((q) => q.id === id)).filter(Boolean),
     trapNameFor: async () => null,
@@ -187,9 +189,11 @@ test('SV-3 start rules: every row of 3.3', () => {
   assert.deepEqual(r({ claimUsed: true }), { ok: false, code: 'START_USED' });
   assert.equal(startsView({ billingOn: false, pro: false, claimUsed: true, micsHeld: 0, liveOn: false }).can, true);
   assert.deepEqual(startsView({ billingOn: true, pro: false, claimUsed: false, micsHeld: 0, liveOn: true }),
-    { billingOn: true, can: true, via: 'free_weekly', modes: ['async'], formats: ['sprint', 'round'], freeLeft: 1, mics: 0 });
+    { billingOn: true, can: true, via: 'free_weekly', modes: ['async'], formats: ['sprint', 'round', 'race'], locked: ['mock'], freeLeft: 1, mics: 0 });
   assert.deepEqual(startsView({ billingOn: true, pro: false, claimUsed: true, micsHeld: 0, liveOn: true }),
-    { billingOn: true, can: false, reason: 'used', modes: [], formats: [], freeLeft: 0, mics: 0 });
+    { billingOn: true, can: false, reason: 'used', modes: [], formats: [], locked: ['race', 'mock'], freeLeft: 0, mics: 0 });
+  assert.deepEqual(startsView({ billingOn: true, pro: false, claimUsed: false, micsHeld: 0, liveOn: true, formatsOn: false }),
+    { billingOn: true, can: true, via: 'free_weekly', modes: ['async'], formats: ['sprint', 'round'], locked: [], freeLeft: 1, mics: 0 }, 'MOB_FORMATS_ENABLED off');
   assert.equal(startsView({ billingOn: true, pro: true, claimUsed: false, micsHeld: 0, micsGiven: 1, liveOn: true }).micsToGive, 1);
   assert.equal(startsView({ billingOn: true, pro: false, claimUsed: false, micsHeld: 0, liveOn: true }).micsToGive, undefined, 'only Pro sees mics to give');
   // Live hours, IST: 6:00 AM to 11:00 PM.
@@ -604,7 +608,7 @@ test('SV-3 and SV-4 Free and Pro starts on the server: billing flag, the weekly 
     await assert.rejects(on.v3.openGame('u2', { mob: mobId, format: 'round', count: 10 }), code('START_USED'));
     await assert.rejects(on.v3.openGame('u2', { mob: mobId, format: 'sprint', mode: 'live' }), code('START_PRO'));
     const used = (await on.view('u2', { mobId })).mob.v3.starts;
-    assert.deepEqual(used, { billingOn: true, can: false, reason: 'used', modes: [], formats: [], freeLeft: 0, mics: 0 });
+    assert.deepEqual(used, { billingOn: true, can: false, reason: 'used', modes: [], formats: [], locked: [], freeLeft: 0, mics: 0 });
     // Two taps on one free start: one game (the claim is taken under the Mob lock).
     const both = await Promise.allSettled([on.v3.openGame('u3', { mob: mobId, format: 'sprint' }), on.v3.openGame('u3', { mob: mobId, format: 'sprint' })]);
     assert.deepEqual(both.map((x) => x.status).sort(), ['fulfilled', 'rejected']);
@@ -662,7 +666,8 @@ test('SV-10, SV-11 the weekly quest: ticks with no user id, true past the goal, 
     assert.deepEqual(v.bySource, [{ label: "This week's Mob paper", answered: 8 }]);
     // Three sprints by three members: 4 + 5 * 5 answered... fill to 70 with game answers.
     for (const [u, n] of [['u2', 5], ['u3', 5], ['u4', 5]]) {
-      const g = (await svc.v3.openGame(u, { mob: mobId, format: 'round', count: 20 })).game;
+      // 10-question rounds: three open at once never share a question (nor the held weekly paper's), so 30 of the 40.
+      const g = (await svc.v3.openGame(u, { mob: mobId, format: 'round', count: 10 })).game;
       for (const p of ['u1', 'u2', 'u3', 'u4']) {
         await svc.v3.startRun(p, g.id);
         for (let q = 0; q < n; q += 1) { clock.now += 5000; await svc.v3.answer(p, g.id, { q, pick: 0 }); }
@@ -927,7 +932,7 @@ const req = (method = 'GET', body) => new Request('http://localhost/api/mob', { 
 const v3Actions = Object.keys(ACTIONS).filter((a) => ACTIONS[a][4]?.v3);
 
 test('routes: v3 actions are 404 MOB_DISABLED until MOB_V3_ENABLED, 401 signed out, and old actions are untouched', async () => {
-  assert.equal(v3Actions.length, 23, '20 Phase A actions and the 3 live room actions (Phase B)');
+  assert.equal(v3Actions.length, 24, '20 Phase A actions and the 4 live room actions (Phase B, presence since L-55)');
   const deps = (over = {}) => ({ enabled: () => true, v3Enabled: () => false, auth: async () => ({ user: { id: 'u1' } }), rateLimit: async () => ({ allowed: true }), cors: () => ({}), service: { v3: new Proxy({}, { get: () => async () => ({ ok: true }) }), chains: {} }, ...over });
   for (const a of v3Actions) {
     const off = await handleMob(deps(), a, req(ACTIONS[a][0], ACTIONS[a][0] === 'GET' ? undefined : {}), { id: 'x' });
@@ -943,7 +948,7 @@ test('routes: v3 actions are 404 MOB_DISABLED until MOB_V3_ENABLED, 401 signed o
   assert.equal(fine.headers.get('cache-control'), 'no-store');
   // Every route file wires its handler.
   const files = ['settings', 'profile', 'shelf', 'sticker', 'mic', 'step-out', 'seen', 'game', 'game/[id]', 'game/[id]/run', 'game/[id]/answer', 'game/[id]/finish',
-    'game/[id]/podium', 'game/[id]/review', 'game/[id]/room/ticket', 'game/[id]/room/start', 'game/[id]/room/cancel', 'fix/start', 'fix/answer'].map((f) => `src/app/api/mob/${f}/route.js`).concat(['src/app/api/me/chain/route.js', 'src/app/api/me/chain/pause/route.js']);
+    'game/[id]/podium', 'game/[id]/review', 'game/[id]/room/ticket', 'game/[id]/room/start', 'game/[id]/room/cancel', 'game/[id]/room/presence', 'fix/start', 'fix/answer'].map((f) => `src/app/api/mob/${f}/route.js`).concat(['src/app/api/me/chain/route.js', 'src/app/api/me/chain/pause/route.js']);
   const wired = new Set();
   for (const f of files) for (const m of read(f).matchAll(/handleMob\(mobDeps\(\), '(\w+)'/g)) wired.add(m[1]);
   assert.deepEqual([...wired].sort(), [...v3Actions].sort());

@@ -4,8 +4,8 @@
 export const PER_MEMBER = 15;
 export const questTarget = (members, stepOuts = 0) => Math.max(PER_MEMBER, PER_MEMBER * (Math.max(0, Number(members) || 0) - Math.max(0, Number(stepOuts) || 0)));
 
-const FORMAT_WORD = { sprint: 'sprint', round: 'round', rematch: 'rematch' };
-/** "Riya's sprint", "Your sprint". A game is named by its host, never by who played it. */
+const FORMAT_WORD = { sprint: 'sprint', round: 'round', rematch: 'rematch', race: 'race', mock: 'full mock' };
+/** "Riya's sprint", "Your race", "Riya's full mock". A game is named by its host, never by who played it. */
 export const gameTitle = (hostName, format, you = false) => `${you ? 'Your' : `${hostName || 'A friend'}'s`} ${FORMAT_WORD[format] || 'game'}`;
 
 /**

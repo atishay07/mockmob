@@ -5,6 +5,7 @@
     "format": "sprint",
     "mode": "live",
     "count": 5,
+    "minutes": null,
     "secondsPerQuestion": 60,
     "subjectName": "Accountancy",
     "chapter": null,
@@ -21,7 +22,8 @@
     "room": {
       "state": "running",
       "startsAt": "2026-10-22T08:42:28.000Z",
-      "endsAt": "2026-10-22T08:48:28.000Z"
+      "endsAt": "2026-10-22T08:48:28.000Z",
+      "roster": []
     },
     "runs": [
       {

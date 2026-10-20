@@ -1,0 +1,112 @@
+{
+  "game": {
+    "id": "uuid-8",
+    "mobId": "uuid-6",
+    "format": "mock",
+    "mode": "async",
+    "count": 50,
+    "minutes": 60,
+    "secondsPerQuestion": null,
+    "subjectName": "Accountancy",
+    "chapter": null,
+    "title": "Riya's full mock",
+    "host": {
+      "memberId": "member-6",
+      "name": "Riya",
+      "you": false
+    },
+    "openedAt": "2026-10-22T08:49:02.000Z",
+    "closesAt": "2026-10-23T08:49:02.000Z",
+    "closed": false,
+    "serverNow": "2026-10-22T09:41:02.000Z",
+    "room": null,
+    "runs": [
+      {
+        "memberId": "member-6",
+        "name": "Riya",
+        "colour": 3,
+        "fold": "kandil",
+        "at": "2026-10-22T09:37:02.000Z",
+        "finished": true
+      },
+      {
+        "memberId": "member-7",
+        "name": "Aarav",
+        "colour": 1,
+        "fold": "dart",
+        "at": "2026-10-22T09:41:02.000Z",
+        "finished": true
+      }
+    ],
+    "you": {
+      "run": "finished",
+      "marks": 148,
+      "answered": 44,
+      "resultId": "attempt_u2"
+    },
+    "ghosts": [
+      {
+        "memberId": "member-6",
+        "name": "Riya",
+        "colour": 3,
+        "fold": "kandil",
+        "playedAt": "2026-10-22T09:37:02.000Z",
+        "arrivalsMs": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "finishedMs": 0,
+        "answered": 50
+      }
+    ],
+    "podiumReady": true
+  }
+}

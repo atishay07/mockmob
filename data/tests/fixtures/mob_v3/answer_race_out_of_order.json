@@ -1,0 +1,9 @@
+{
+  "status": 422,
+  "body": {
+    "error": {
+      "code": "Q_INVALID",
+      "message": "That question is not in this game."
+    }
+  }
+}

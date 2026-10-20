@@ -89,7 +89,7 @@ function serviceFor(db, { clock = { now: NOW }, premium = false, billing = false
     subjectInfo: (s) => (s === 'accountancy' ? { ok: true, id: s, name: 'Accountancy' } : { ok: false }),
     loadUser: async (id) => ({ subjects: ['accountancy'], isPremium: typeof premium === 'function' ? premium(id) : premium }),
     validChapter: (_s, c) => c === 'Goodwill',
-    pickQuestionIds: async (_s, { count = 10, key = null } = {}) => { const start = key ? hash(key) % 30 : 0; return Array.from({ length: count }, (_, i) => BANK[(start + i) % 40].id); },
+    pickQuestionIds: async (_s, { count = 10, key = null, exclude = [] } = {}) => { const start = key ? hash(key) % 30 : 0; const skip = new Set(exclude); return Array.from({ length: 40 }, (_, i) => BANK[(start + i) % 40].id).filter((id) => !skip.has(id)).slice(0, count); },
     loadQuestions: async (ids) => ids.map((id) => BANK.find((q) => q.id === id)).filter(Boolean),
     trapNameFor: async () => null, findAttempts: async () => [], startPractice: async () => ({ id: 'practice_x' }),
     v3Enabled: () => true, billingOn: () => (typeof billing === 'function' ? billing() : billing), liveEnabled: () => (typeof live === 'function' ? live() : live),
@@ -356,7 +356,7 @@ test('ticket: needs the session authUid and membership; a live game only; lobby 
     assert.deepEqual(Object.keys(t).sort(), ['expiresAt', 'memberId', 'room', 'serverNow', 'topic']);
     assert.equal(t.topic, `mob-room:${g.id}`);
     assert.equal(t.memberId, memberIdFor('test-secret', mobId, 'u2'));
-    assert.deepEqual(t.room, { state: 'lobby', startsAt: null, hostMemberId: memberIdFor('test-secret', mobId, 'u1') });
+    assert.deepEqual(t.room, { state: 'lobby', startsAt: null, hostMemberId: memberIdFor('test-secret', mobId, 'u1'), roster: [] }, 'roster: nobody has said they are here yet');
     assert.equal(t.expiresAt, new Date(NOW + 50 * MIN).toISOString());
     assert.equal(await one(db, 'select auth_uid::text r from mob_room_tickets where user_id = $1', ['u2']), UID(2), 'the ticket is for the Supabase identity');
     assert.doesNotMatch(JSON.stringify(t), /u2|Aarav|Riya|EXPLAIN|correct/, 'no user id, no name, nothing of the paper');
@@ -567,7 +567,7 @@ test('routes: live actions are 404 with v3 off, 401 signed out, 409 LIVE_OFF bef
     assert.equal(off.status, 409, a);
     const body = await off.json();
     assert.equal(body.error.code, 'LIVE_OFF');
-    assert.equal(body.error.message, 'Live rooms are not on yet. Start it for anytime in 24 hours.');
+    assert.equal(body.error.message, 'Live rooms are not on yet. Start it to play any time in the next 24 hours.');
     assert.equal(off.headers.get('cache-control'), 'no-store');
     assert.deepEqual(limited, [], 'LIVE_OFF takes no rate-limit count');
     const missing = await handleMob(deps({ liveEnabled: undefined }), a, req(), { id: 'g' });

@@ -1,0 +1,37 @@
+{
+  "game": {
+    "id": "uuid-7",
+    "mobId": "uuid-6",
+    "format": "race",
+    "mode": "live",
+    "count": 60,
+    "minutes": 10,
+    "secondsPerQuestion": null,
+    "subjectName": "Accountancy",
+    "chapter": null,
+    "title": "Your race",
+    "host": {
+      "memberId": "member-6",
+      "name": "Riya",
+      "you": true
+    },
+    "openedAt": "2026-10-22T08:48:57.500Z",
+    "closesAt": "2026-10-23T08:48:57.500Z",
+    "closed": false,
+    "serverNow": "2026-10-22T08:48:57.500Z",
+    "room": {
+      "state": "lobby",
+      "startsAt": null,
+      "endsAt": null,
+      "roster": []
+    },
+    "runs": [],
+    "you": {
+      "run": "none",
+      "marks": null,
+      "answered": 0
+    },
+    "ghosts": [],
+    "podiumReady": false
+  }
+}

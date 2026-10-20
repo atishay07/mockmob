@@ -16,6 +16,8 @@
 //   extra paper   the extra paper's own closes_at (made + 7 days). The start stamps it into selection_meta.mobPaper.holdUntil;
 //                 an extra paper started before this change has no stamp and holds to the end of the following week, the
 //                 latest any extra paper made in that week can close.
+//   Mob full mock the game's closes_at (opened + 24 hours; Full mock together, D167), stamped the same way, with the
+//                 game's id in mobPaper.gameId.
 // No I/O and no clock reads except through `now`: data/tests/mob_paper_hold.test.mjs drives it.
 import { nextOpensAt } from './model.mjs';
 
@@ -41,7 +43,7 @@ export function holdUntilFor(tag) {
   if (!isObject(tag) || typeof tag.weekStart !== 'string' || !WEEK_RE.test(tag.weekStart)) return null;
   const stamped = typeof tag.holdUntil === 'string' ? Date.parse(tag.holdUntil) : NaN;
   if (Number.isFinite(stamped)) return stamped;
-  if (tag.extraId) return Date.parse(nextOpensAt(addDays(tag.weekStart, 7)));
+  if (tag.extraId || tag.gameId) return Date.parse(nextOpensAt(addDays(tag.weekStart, 7)));
   return Date.parse(nextOpensAt(tag.weekStart));
 }
 
@@ -82,7 +84,7 @@ export function opensIn(untilMs, now) {
 /** The copy of a held result, in one place for the server, the website and (mirrored) the app. */
 export function holdCopy(untilMs, kind = 'weekly') {
   const when = opensLabel(untilMs);
-  const paper = kind === 'extra' ? 'this extra paper' : 'this week\'s paper';
+  const paper = kind === 'mock' ? 'this Mob full mock' : kind === 'extra' ? 'this extra paper' : 'this week\'s paper';
   return {
     title: `The answers open on ${when.split(',')[0]}`,
     line: `${paper[0].toUpperCase()}${paper.slice(1)} stays open for your Mob until ${when}, so its answers and explanations stay closed until then and nobody can pass them on. Then you can see every answer, fix your mistakes and compare with your Mob.`,
@@ -92,15 +94,15 @@ export function holdCopy(untilMs, kind = 'weekly') {
 
 /**
  * The hold on one attempt (or raw row), or null when it is not a Mob paper or its paper has closed.
- * { until: ISO, kind: 'weekly' | 'extra', mobId, weekStart, extraId?, title, line, short }
+ * { until: ISO, kind: 'weekly' | 'extra' | 'mock', mobId, weekStart, extraId?, gameId?, title, line, short }
  */
 export function attemptHold(record, now = Date.now()) {
   const tag = mobTagOf(record);
   if (!tag) return null;
   const until = holdUntilFor(tag);
   if (!Number.isFinite(until) || now >= until) return null;
-  const kind = tag.extraId ? 'extra' : 'weekly';
-  return { until: new Date(until).toISOString(), kind, mobId: tag.mobId, weekStart: tag.weekStart, ...(tag.extraId ? { extraId: tag.extraId } : {}), ...holdCopy(until, kind) };
+  const kind = tag.gameId ? 'mock' : tag.extraId ? 'extra' : 'weekly';
+  return { until: new Date(until).toISOString(), kind, mobId: tag.mobId, weekStart: tag.weekStart, ...(tag.extraId ? { extraId: tag.extraId } : {}), ...(tag.gameId ? { gameId: tag.gameId } : {}), ...holdCopy(until, kind) };
 }
 
 /** True while a tagged paper (a Mob tag, or a hold) is held at `now`. */
@@ -122,7 +124,7 @@ export function heldAttemptView(attempt, hold) {
   const safeMeta = {};
   for (const key of SAFE_META) if (meta[key] !== undefined && meta[key] !== null) safeMeta[key] = meta[key];
   const tag = mobTagOf(a);
-  if (tag) safeMeta.mobPaper = { mobId: tag.mobId, weekStart: tag.weekStart, ...(tag.extraId ? { extraId: tag.extraId } : {}) };
+  if (tag) safeMeta.mobPaper = { mobId: tag.mobId, weekStart: tag.weekStart, ...(tag.extraId ? { extraId: tag.extraId } : {}), ...(tag.gameId ? { gameId: tag.gameId } : {}) };
   safeMeta.mobHold = hold;
   const out = {
     id: a.id, userId: a.userId, subject: a.subject,

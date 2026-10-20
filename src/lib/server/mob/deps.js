@@ -16,6 +16,7 @@ import { getMode } from '@/../data/test_modes';
 import { resolveSubject } from '@/../data/subject_registry';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
+import { ntaPatternFor } from '@/../data/nta_paper_pattern';
 import { indexAtlas, trapForOption } from '@/../data/trap_atlas';
 import blocklist from '@/../data/mob_name_blocklist.json';
 import { EXTRA_LENGTHS } from '@/lib/mob/model.mjs';
@@ -30,6 +31,9 @@ export const mobInvitesEnabled = () => process.env.MOB_INVITES_ENABLED !== 'fals
 // MOB_LIVE_ENABLED gates live rooms (Phase B). Both are read on every request.
 export const mobV3Enabled = () => process.env.MOB_V3_ENABLED === 'true';
 export const mobLiveEnabled = () => process.env.MOB_LIVE_ENABLED === 'true';
+// MOB_FORMATS_ENABLED: races and Full mock together (owner D167). Needs migration 20261020140000_mob_v3_formats first;
+// off, the picker offers only sprint, round and rematch and a race or mock start is refused (BODY_INVALID).
+export const mobFormatsEnabled = () => process.env.MOB_FORMATS_ENABLED === 'true';
 // MOB_LIVE_MAX_ROOMS: live rooms open across MockMob at once (default 30, read every request; see src/lib/mob/live.mjs).
 export const mobLiveMaxRooms = () => process.env.MOB_LIVE_MAX_ROOMS;
 const secret = () => process.env.MOB_ID_SECRET || process.env.NEXTAUTH_SECRET || process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
@@ -49,15 +53,38 @@ function subjectInfo(raw) {
 }
 
 /**
- * Questions for a Mob paper from the central bank: the quick selector, with no personal exclusions, so every Mob member
- * gets the same paper. `chapter` narrows an extra paper to one chapter of the subject; `key` varies the draw.
+ * Questions for a Mob paper from the central bank: the quick selector (a Full mock together: the full-mock selector, the
+ * CUET pattern), with no personal exclusions, so every Mob member gets the same paper. `chapter` narrows an extra paper to
+ * one chapter of the subject; `key` varies the draw. `exclude`: question ids that must not be drawn (the Mob's open and
+ * recent games and held papers, web-security 20 Oct #2): the draw asks for that many more and drops them, in order.
  */
-async function pickQuestionIds(subject, { mobId, week, count = 10, chapter = null, key = null }) {
-  const { questions } = await Database.getQuestions(subject, count, {
-    mode: 'quick', count, requestedCount: count, returnMeta: true, requireEvidence: false,
+async function pickQuestionIds(subject, { mobId, week, count = 10, chapter = null, key = null, mode = 'quick', exclude = [] }) {
+  const skip = new Set(Array.isArray(exclude) ? exclude : []);
+  const ask = Math.min(100, count + Math.min(skip.size, 40));
+  const { questions } = await Database.getQuestions(subject, ask, {
+    mode: mode === 'full' ? 'full' : 'quick', count: ask, requestedCount: ask, returnMeta: true, requireEvidence: false,
     chapters: chapter ? [chapter] : undefined, generationKey: `mob_${mobId}_${week}${key ? `_${key}` : ''}`,
   });
-  return (questions || []).map((q) => q.id);
+  return (questions || []).map((q) => q.id).filter((id) => !skip.has(id));
+}
+
+/**
+ * A paper's sections for the Mob's mark sheets: per question, its syllabus unit (English: its pattern section).
+ * { key, label } or null when the chapter is not on the syllabus.
+ */
+function sectionsFor(subject, questions) {
+  const pattern = ntaPatternFor(subject);
+  const english = pattern?.kind === 'language';
+  const units = new Map((pattern?.chapters || []).map((c) => [c.chapter, { key: `unit_${c.unitIndex}`, label: c.unit }]));
+  return (questions || []).map((q) => {
+    const chapter = String(q?.chapter || '').trim();
+    if (english) {
+      if (pattern.passages.chapters.includes(chapter)) return { key: pattern.passages.sectionId, label: pattern.passages.label };
+      const s = pattern.sections.find((x) => x.chapters.includes(chapter));
+      return s ? { key: s.id, label: s.label } : null;
+    }
+    return units.get(chapter) || null;
+  });
 }
 
 const validChapter = (subject, chapter) => isValidTopSyllabusPair(subject, chapter);
@@ -105,7 +132,8 @@ async function chapterCounts(subject) {
 
 /** The frozen paper's questions in paper order, canonical option order (quick papers never shuffle options). */
 async function loadQuestions(ids) {
-  const list = (ids || []).filter((id) => typeof id === 'string').slice(0, 20);
+  // A race's pool or a full mock (Full mock together): up to 60 questions.
+  const list = (ids || []).filter((id) => typeof id === 'string').slice(0, 60);
   if (!list.length) return [];
   const { data, error } = await supabaseAdmin().from('questions').select('*').in('id', list).eq('is_deleted', false).or(VISIBLE_QUESTION_FILTER);
   if (error) throw error;
@@ -124,13 +152,14 @@ async function trapNameFor(question, optionIndex) {
  * Finished attempts of Mob papers. A weekly paper's attempts carry { mobId, weekStart }; an extra paper's also carry its
  * extraId, so the two are told apart here. selection_meta comes with them for the time and changes the side-by-side keeps.
  */
-async function findAttempts(userIds, { mobId, week, extraId = null }) {
-  const tag = extraId ? { mobPaper: { mobId, extraId } } : { mobPaper: { mobId, weekStart: week } };
+async function findAttempts(userIds, { mobId, week, extraId = null, gameId = null }) {
+  const tag = gameId ? { mobPaper: { mobId, gameId } } : extraId ? { mobPaper: { mobId, extraId } } : { mobPaper: { mobId, weekStart: week } };
   const { data, error } = await supabaseAdmin().from('attempts').select('id,user_id,correct,total,details,selection_meta,completed_at')
     .in('user_id', userIds).contains('selection_meta', tag).limit(20);
   if (error) throw error;
+  // A weekly paper is neither an extra paper nor a Mob game's full mock (both carry the week too).
   return (data || [])
-    .filter((r) => Boolean(r.selection_meta?.mobPaper?.extraId) === Boolean(extraId))
+    .filter((r) => Boolean(r.selection_meta?.mobPaper?.extraId) === Boolean(extraId) && Boolean(r.selection_meta?.mobPaper?.gameId) === Boolean(gameId))
     .map((r) => ({ id: r.id, userId: r.user_id, correct: r.correct, total: r.total, details: r.details || [], selectionMeta: r.selection_meta || {}, completedAt: Date.parse(r.completed_at) }));
 }
 
@@ -140,8 +169,8 @@ export function mobService() {
   cached = createMobService({
     rpc, secret: secret(), randomBytes: (n) => randomBytes(n), blocklist, subjectInfo,
     loadUser: (id) => Database.getUserById(id),
-    validChapter, pickQuestionIds, loadQuestions, trapNameFor, findAttempts, chapterCounts, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
-    v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, liveMaxRooms: mobLiveMaxRooms, billingOn: () => playBillingEnabled(),
+    validChapter, pickQuestionIds, loadQuestions, trapNameFor, findAttempts, chapterCounts, sectionsFor, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
+    v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, formatsEnabled: mobFormatsEnabled, liveMaxRooms: mobLiveMaxRooms, billingOn: () => playBillingEnabled(),
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),
   });

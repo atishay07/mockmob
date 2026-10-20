@@ -104,11 +104,11 @@ export const ERRORS = Object.freeze({
   // Mob v3 (MOB-BUILD-SPEC-V3 3.2). MobCopy.failure in lib/features/social/copy.dart keeps the same sentences.
   START_PRO: [402, 'Starting games is part of Pro. You can play every game your Mob starts.'],
   START_USED: [409, "You started this week's game in this Mob. You can start another on Monday, or a friend with Pro can pass you the mic."],
-  START_FORMAT: [402, 'Live rooms are part of Pro. You can start this game for anytime in 24 hours.'],
+  START_FORMAT: [402, 'Live rooms are part of Pro. You can start this game to play any time in the next 24 hours.'],
   GAMES_OPEN_LIMIT: [409, 'Your Mob already has 3 games open. A new one can start when one closes.'],
   ROOM_OPEN_ALREADY: [409, 'A live room is already open in your Mob. Join it from the den.'],
-  LIVE_OFF: [409, 'Live rooms are not on yet. Start it for anytime in 24 hours.'],
-  LIVE_HOURS: [409, 'Live rooms open from 6:00 AM to 11:00 PM. You can start it for anytime in 24 hours.'],
+  LIVE_OFF: [409, 'Live rooms are not on yet. Start it to play any time in the next 24 hours.'],
+  LIVE_HOURS: [409, 'Live rooms open from 6:00 AM to 11:00 PM. You can start it to play any time in the next 24 hours.'],
   LIVE_BUSY: [503, 'Live is busy right now. Play now, and your Mob can catch up within 24 hours.'],
   GAME_NOT_FOUND: [404, 'That game is not in your Mob.'],
   GAME_CLOSED: [410, 'This game has closed. Its answers are open now.'],
@@ -121,7 +121,7 @@ export const ERRORS = Object.freeze({
   NOT_LIVE: [409, 'This game is played anytime, not live.'],
   ROOM_NOT_HOST: [403, 'Only the member who opened this room can start it.'],
   ROOM_STARTED: [409, 'This room has already started.'],
-  ROOM_CLOSED: [409, 'This live room has ended. The game is still open, so you can play it anytime before it closes.'],
+  ROOM_CLOSED: [409, 'This live room has ended. The game is still open, so you can play it any time before it closes.'],
   STICKER_INVALID: [422, 'Choose one of the stickers.'],
   MIC_LIMIT: [409, 'You passed the mic twice this week, the most a week allows. You can pass it again on Monday.'],
   MIC_SELF: [422, 'Pass the mic to a friend in your Mob.'],
@@ -135,6 +135,12 @@ export const ERRORS = Object.freeze({
   FIX_CLOSED: [410, 'This check has closed. A new trap brings a new one.'],
   PAUSE_PAST: [422, 'Pause days have to be after today.'],
   PAUSE_LIMIT: [409, 'You have used the 14 pause days this season allows.'],
+  // Races and Full mock together (owner D167, 20 Oct) and live presence through the API (L-55).
+  MINUTES_INVALID: [422, 'Choose a 5-minute or a 10-minute race.'],
+  RUN_NOT_STARTED: [409, 'The room has not started yet. Your first question comes at Go.'],
+  RUN_PAPER: [409, 'This game is a full mock. Open it from its card to sit the paper.'],
+  MOCK_TOO_LATE: [410, 'This full mock closes in under an hour, so there is not time to sit it now. Its answers open when it closes.'],
+  NO_TICKET: [409, 'Open the room first.'],
 });
 
 export class MobError extends Error {

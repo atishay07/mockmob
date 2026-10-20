@@ -9,12 +9,24 @@
 //   F2  Runs are finished runs with times; nothing names or counts a member who has not played.
 //   F3  The trap is "most of you"; no other member's pick is ever returned.
 //   Plan status: the API never says another member's plan; starts are decided from server facts only.
-import { MobError, UUID_RE, mobWeek } from '../../mob/model.mjs';
+// Formats (owner D167; D168/D169: two more formats in the same picker, through the same routes):
+//   race  5 or 10 minutes, as many as you can, one frozen pool served ONE question at a time (an answer must be for the
+//         next one), the clock the server's. Ghosts race your pace from their per-answer times.
+//   mock  Full mock together: one 50-question CUET paper for the Mob, open 24 hours, sat in the practice runner (mode
+//         full) with its answers held until the close; the podium compares full mark sheets. Pro starts it (billing on).
+//   Every format: no question of another open game or held paper is drawn, and a review never shows a key that sits in
+//   another open game or a held paper of the Mob (web-security 20 Oct #2).
+import { MobError, UUID_RE, mobWeek, picksFromAttempt } from '../../mob/model.mjs';
 import { mobName, validNameKey } from '../../mob/names.mjs';
 import { FOIL_DAYS, FOLDS, FOLD_KEYS, FINISHES, STARTERS, isFold, mobShelf, parcelFor, ruleProgress } from '../../mob/folds.mjs';
 import { MAX_OPEN_GAMES, MICS_PER_WEEK, inLiveHours, startRight, startsView } from '../../mob/starts.mjs';
-import { COUNTDOWN_MS, maxRooms, roomTidy, topicFor } from '../../mob/live.mjs';
-import { COUNTS, assignMoments, checkWindow, gameTrap, ghostOf, placeRuns, publicQuestion, tieFor, togetherLine } from '../../mob/games.mjs';
+import { COUNTDOWN_MS, maxRooms, roomTidy, rosterOut, topicFor } from '../../mob/live.mjs';
+import {
+  COUNTS, MOCK_COUNT, MOCK_MINUTES, RACE_MINUTES, assignMoments, checkWindow, gameTrap, ghostOf, mockTrap, placeRuns, publicQuestion,
+  racePool, tieFor, togetherLine,
+} from '../../mob/games.mjs';
+import { markSheet, orderSheets, sheetView } from '../../mob/sheets.mjs';
+import { detailFromAttempt } from './detail.js';
 import { gameTitle, questLabels, questView } from '../../mob/quest.mjs';
 import { computeMobChain } from '../../mob/mobChain.mjs';
 import { cameBack, chainChip } from '../../chain/chain.mjs';
@@ -44,6 +56,8 @@ export function createMobV3Service(deps, helpers = {}) {
   const chains = createChainService({ rpc: deps.rpc, now });
   const billingOn = () => (deps.billingOn ? deps.billingOn() === true : false);
   const liveOn = () => (deps.liveEnabled ? deps.liveEnabled() === true : false);
+  // Races and Full mock together (MOB_FORMATS_ENABLED; migration 20261020140000 first).
+  const formatsOn = () => (deps.formatsEnabled ? deps.formatsEnabled() === true : false);
   // MOB_LIVE_MAX_ROOMS (default 30): live rooms open across MockMob at once. 0 refuses every new room (LIVE_BUSY).
   const liveMaxRooms = () => maxRooms(deps.liveMaxRooms ? deps.liveMaxRooms() : undefined);
   const isPro = async (userId) => (deps.loadUser ? (await deps.loadUser(userId).catch(() => null))?.isPremium === true : false);
@@ -79,11 +93,12 @@ export function createMobV3Service(deps, helpers = {}) {
     if (!g?.closed || g.closed_settled_at) return;
     const picks = await call('mob_game_picks_closed', { p_game_id: g.id, p_now: nowIso() });
     let trap = null;
-    if (Array.isArray(picks) && picks.length >= 3) {
+    // A full mock's trap is its most-missed question (2 or more sitters); every other game's is the shared wrong option (3).
+    if (Array.isArray(picks) && picks.length >= (g.format === 'mock' ? 2 : 3)) {
       const questions = await deps.loadQuestions(g.question_ids).catch(() => []);
       const byId = new Map((questions || []).map((x) => [x.id, x]));
       const keys = g.question_ids.map((id) => (Number.isInteger(byId.get(id)?.correctIndex) ? byId.get(id).correctIndex : -1));
-      const t = gameTrap(picks.map((p) => p.picks), keys);
+      const t = g.format === 'mock' ? mockTrap(picks.map((p) => p.picks), keys) : gameTrap(picks.map((p) => p.picks), keys);
       if (t) {
         const w = checkWindow(Date.parse(g.closes_at));
         trap = { q: t.q, question_id: g.question_ids[t.q], check_opens_at: w.opensAt, check_closes_at: w.closesAt };
@@ -111,7 +126,7 @@ export function createMobV3Service(deps, helpers = {}) {
     const mine = (g.runs || []).find((r) => r.user_id === userId);
     const yourRun = !mine ? 'none' : mine.finished_at ? 'finished' : 'playing';
     return {
-      id: g.id, format: g.format, mode: g.mode, count: g.question_ids.length, chapter: g.chapter || null, subjectName: subjectName(g.subject),
+      id: g.id, format: g.format, mode: g.mode, count: g.question_ids.length, minutes: g.minutes ?? null, chapter: g.chapter || null, subjectName: subjectName(g.subject),
       title: gameTitle(host?.name, g.format, g.created_by === userId),
       host: host ? { memberId: host.memberId, name: host.name } : null,
       openedAt: iso(g.opened_at), closesAt: iso(g.closes_at), closed: g.closed === true,
@@ -143,15 +158,45 @@ export function createMobV3Service(deps, helpers = {}) {
       if (own && members.has(userId)) ghosts.push(ghostOf({ arrivals: own.arrivals, finishedAt: own.finished_at, startedAt: own.started_at }, members.get(userId)));
     }
     const yourRun = !mine ? 'none' : mine.finished_at ? 'finished' : 'playing';
+    const timed = g.format === 'race' || g.format === 'mock';
+    const room = g.room_state ? { state: g.room_state, startsAt: iso(g.room_starts_at), endsAt: iso(g.room_ends_at) } : null;
+    if (room && (g.room_state === 'lobby' || g.room_state === 'running')) room.roster = await rosterFor(g, members);
+    const you = { run: yourRun, marks: mine ? Number(mine.marks) : null, answered: mine ? answeredOf(mine, g) : 0 };
+    if (g.format === 'mock') you.resultId = mine?.finished_at && mine.session_id ? mine.session_id : null;
     return {
-      id: g.id, mobId: g.mob_id, format: g.format, mode: g.mode, count: g.question_ids.length, secondsPerQuestion: g.seconds_per_question,
+      id: g.id, mobId: g.mob_id, format: g.format, mode: g.mode, count: g.question_ids.length, minutes: g.minutes ?? null,
+      secondsPerQuestion: timed ? null : g.seconds_per_question,
       subjectName: subjectName(g.subject), chapter: g.chapter || null, title: gameTitle(host?.name, g.format, g.created_by === userId),
       host: host ? { memberId: host.memberId, name: host.name, you: g.created_by === userId } : null,
       openedAt: iso(g.opened_at), closesAt: iso(g.closes_at), closed: g.closed === true, serverNow: nowIso(),
-      room: g.room_state ? { state: g.room_state, startsAt: iso(g.room_starts_at), endsAt: iso(g.room_ends_at) } : null,
-      runs, you: { run: yourRun, marks: mine ? Number(mine.marks) : null, answered: mine ? Number(mine.answered) || 0 : 0 },
-      ghosts, podiumReady: yourRun === 'finished' || g.closed === true,
+      room, runs, you, ghosts, podiumReady: yourRun === 'finished' || g.closed === true,
     };
+  }
+
+  /** Questions answered in a run: right plus wrong (a skip or the unserved pool is not an answer). */
+  const answeredOf = (r, g) => (g.format === 'race' || g.format === 'mock' ? (Number(r.right_n) || 0) + (Number(r.wrong_n) || 0) : Number(r.answered) || 0);
+
+  /** Who is in a live room now (L-55): [{ memberId, st }], members of the Mob only. Never fails the read. */
+  async function rosterFor(g, members) {
+    const rows = await call('mob_room_roster', { p_game_id: g.id, p_now: nowIso() }).catch(() => []);
+    return rosterOut(rows, [...members.values()].map((m) => m.memberId));
+  }
+
+  /**
+   * Question ids no new draw may take and no review may open, for a Mob: every open game's (but `exceptGameId`), this
+   * week's paper while it is held, and the open extra papers. With recent: also games closed in the last 7 days.
+   */
+  function heldIds(state, { exceptGameId = null, recent = false } = {}) {
+    const out = new Set();
+    const t = now();
+    for (const g of state.games || []) {
+      if (String(g.id) === String(exceptGameId)) continue;
+      const open = Date.parse(g.closes_at) > t;
+      if (open || recent) for (const id of g.question_ids || []) out.add(id);
+    }
+    if (Array.isArray(state.paper?.question_ids)) for (const id of state.paper.question_ids) out.add(id);
+    for (const x of state.extras || []) if (Date.parse(x.closes_at) > t) for (const id of x.question_ids || []) out.add(id);
+    return out;
   }
 
   /** A game of a Mob you are in, with its Mob's members. GAME_NOT_FOUND otherwise. Settles a closed game once. */
@@ -161,27 +206,140 @@ export function createMobV3Service(deps, helpers = {}) {
     if (!g) throw new MobError('GAME_NOT_FOUND');
     const state = await readState(userId, g.mob_id);
     if (!state) throw new MobError('GAME_NOT_FOUND');
-    await ensureSettled(g);
-    await tidyRoom(g);
-    return { g, state, members: memberMap(state, userId) };
+    const members = memberMap(state, userId);
+    let game = g;
+    if (g.format === 'mock' && !g.closed_settled_at && (await syncMock(g, members))) {
+      game = (await call('mob_game_json', { p_game_id: gameId, p_user_id: userId, p_now: nowIso() })) || g;
+    }
+    await ensureSettled(game);
+    await tidyRoom(game);
+    return { g: game, state, members };
+  }
+
+  // ------------------------------------------------------------------ Full mock together
+
+  /**
+   * Put a finished full-mock attempt on its game: picks, right or wrong from the bank's key, CUET marks and the mark sheet
+   * (sections, the runner's seconds when it kept them). The time on the sheet is the server's. 'recorded' | 'exists' |
+   * 'late' | ... (mob_mock_record). attempt: { id, correct, details, selectionMeta, completedAt (ms or ISO) }.
+   */
+  async function recordMockAttempt(userId, g, attempt) {
+    const questions = await deps.loadQuestions(g.question_ids).catch(() => []);
+    if (!Array.isArray(questions) || questions.length !== g.question_ids.length) return 'skipped';
+    const keys = questions.map((q) => (Number.isInteger(q.correctIndex) ? q.correctIndex : -1));
+    const picks = picksFromAttempt(g.question_ids, attempt);
+    const answers = picks.map((pick, q) => ({ q, pick, correct: pick < 0 || keys[q] < 0 ? null : pick === keys[q] }));
+    const sections = deps.sectionsFor ? deps.sectionsFor(g.subject, questions) : [];
+    const sheet = markSheet({ sections, picks, keys, seconds: detailFromAttempt(g.question_ids, attempt)?.t ?? null });
+    const at = typeof attempt.completedAt === 'number' ? attempt.completedAt : Date.parse(attempt.completedAt);
+    if (!Number.isFinite(at)) return 'late';
+    return call('mob_mock_record', {
+      p_user_id: userId, p_game_id: g.id, p_session_id: String(attempt.id), p_answers: answers, p_sheet: sheet,
+      p_sat_at: new Date(at).toISOString(), p_now: nowIso(),
+    });
+  }
+
+  /** A sitting finished through the durable session path never passes the finish hook: a read records it. */
+  async function syncMock(g, members) {
+    if (!deps.findAttempts) return false;
+    const done = new Set((g.runs || []).filter((r) => r.finished_at).map((r) => r.user_id));
+    const missing = [...members.keys()].filter((u) => !done.has(u));
+    if (!missing.length) return false;
+    let recorded = 0;
+    try {
+      const attempts = await deps.findAttempts(missing, { mobId: g.mob_id, week: String(g.week_start).slice(0, 10), gameId: g.id });
+      for (const a of attempts || []) {
+        if (!missing.includes(a.userId)) continue;
+        if ((await recordMockAttempt(a.userId, g, a).catch(() => null)) === 'recorded') recorded += 1;
+      }
+    } catch { return false; }
+    return recorded > 0;
+  }
+
+  /** finishPractice's hook for a Mob full mock. Never throws. */
+  async function recordMock(userId, tag, attempt) {
+    try {
+      if (!validId(tag?.gameId)) return 'skipped';
+      const g = await call('mob_game_json', { p_game_id: tag.gameId, p_user_id: userId, p_now: nowIso() });
+      if (!g || g.format !== 'mock' || g.mob_id !== tag.mobId) return 'skipped';
+      const r = await recordMockAttempt(userId, g, attempt);
+      if (r === 'recorded') await checkUnlocks(userId).catch(() => null);
+      return r;
+    } catch { return 'skipped'; }
+  }
+
+  /**
+   * Before a member sits a Mob full mock (POST /api/mob/paper/start { mob, game }): the game and its frozen paper, or the
+   * refusal. The practice start itself is the Mob service's (no credits, the first free full mock untouched).
+   */
+  async function mockPaper(userId, state, gameId) {
+    if (!validId(gameId)) throw new MobError('GAME_NOT_FOUND');
+    const g = await call('mob_game_json', { p_game_id: gameId, p_user_id: userId, p_now: nowIso() });
+    if (!g || g.mob_id !== state.mob.id) throw new MobError('GAME_NOT_FOUND');
+    if (g.format !== 'mock') throw new MobError('BODY_INVALID');
+    const mine = (g.runs || []).find((r) => r.user_id === userId);
+    if (mine?.finished_at) throw new MobError('RUN_DONE');
+    if (g.closed) throw new MobError('GAME_CLOSED');
+    if (!mine && now() + MOCK_MINUTES * 60_000 > Date.parse(g.closes_at)) throw new MobError('MOCK_TOO_LATE');
+    const questions = await deps.loadQuestions(g.question_ids).catch(() => []);
+    if (!Array.isArray(questions) || questions.length !== g.question_ids.length) throw new MobError('PAPER_UNAVAILABLE');
+    return { g, questions };
+  }
+
+  /** The member opened the paper (after the practice start went through): the run reads as playing. */
+  async function mockBegin(userId, gameId) {
+    return call('mob_mock_begin', { p_user_id: userId, p_game_id: gameId, p_now: nowIso() }).catch(() => null);
+  }
+
+  const validChapterOf = (state, raw) => {
+    if (raw !== undefined && raw !== null && typeof raw !== 'string') throw new MobError('CHAPTER_INVALID');
+    const chapter = typeof raw === 'string' && raw.trim() ? raw.trim() : null;
+    if (chapter && (chapter.length > 120 || !deps.validChapter || !deps.validChapter(state.mob.subject, chapter))) throw new MobError('CHAPTER_INVALID');
+    return chapter;
+  };
+
+  /**
+   * The frozen paper of a new game: `count` questions (at least `least`), never one of another open game or held paper of
+   * this Mob, and if the bank allows, none of a game closed in the last 7 days either. drawMode 'full' is the full-mock
+   * selector (the CUET pattern).
+   */
+  async function drawPaper(state, { week, count, least, chapter, key, drawMode }) {
+    const strict = heldIds(state);
+    const wide = heldIds(state, { recent: true });
+    const draw = (exclude) => deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week, count, chapter, key, mode: drawMode, exclude: [...exclude] }).catch(() => []);
+    let picked = (await draw(wide)).filter((id) => !wide.has(id));
+    if (picked.length < least && wide.size > strict.size) picked = (await draw(strict)).filter((id) => !strict.has(id));
+    return [...new Set(picked)].slice(0, count);
   }
 
   async function openGame(userId, body = {}) {
     const state = await mustState(userId, body.mob);
     const mode = body.mode === undefined ? 'async' : body.mode;
-    if (!['live', 'async'].includes(mode) || !['sprint', 'round', 'rematch'].includes(body.format)) throw new MobError('BODY_INVALID');
-    let format = body.format; let count; let chapter = null; let rematchOf = null;
+    if (!['live', 'async'].includes(mode) || !['sprint', 'round', 'rematch', ...(formatsOn() ? ['race', 'mock'] : [])].includes(body.format)) throw new MobError('BODY_INVALID');
+    let format = body.format; let count; let least; let minutes = null; let chapter = null; let rematchOf = null; let drawMode = 'quick';
     if (format === 'rematch') {
       if (!validId(body.rematchOf)) throw new MobError('GAME_NOT_FOUND');
       const prev = await call('mob_game_json', { p_game_id: body.rematchOf, p_user_id: userId, p_now: nowIso() });
       if (!prev || prev.mob_id !== state.mob.id) throw new MobError('GAME_NOT_FOUND');
-      count = prev.question_ids.length; chapter = prev.chapter || null; rematchOf = prev.id;
+      if (prev.format === 'mock') throw new MobError('BODY_INVALID');
+      // A race's rematch is a race of the same minutes on the same chapter, with new questions.
+      if (prev.format === 'race') { format = 'race'; minutes = prev.minutes; ({ want: count, least } = racePool(minutes)); }
+      else { count = prev.question_ids.length; least = count; }
+      chapter = prev.chapter || null; rematchOf = prev.id;
+    } else if (format === 'race') {
+      if (!RACE_MINUTES.includes(body.minutes)) throw new MobError('MINUTES_INVALID');
+      minutes = body.minutes;
+      ({ want: count, least } = racePool(minutes));
+      chapter = validChapterOf(state, body.chapter);
+    } else if (format === 'mock') {
+      // Full mock together: the whole subject, the CUET pattern, 24 hours, never live.
+      if (mode !== 'async' || (body.chapter !== undefined && body.chapter !== null)) throw new MobError('BODY_INVALID');
+      count = MOCK_COUNT; least = MOCK_COUNT; minutes = MOCK_MINUTES; drawMode = 'full';
     } else {
       count = body.count === undefined ? (format === 'sprint' ? 5 : 10) : body.count;
       if (!COUNTS[format].includes(count)) throw new MobError('LENGTH_INVALID');
-      if (body.chapter !== undefined && body.chapter !== null && typeof body.chapter !== 'string') throw new MobError('CHAPTER_INVALID');
-      chapter = typeof body.chapter === 'string' && body.chapter.trim() ? body.chapter.trim() : null;
-      if (chapter && (chapter.length > 120 || !deps.validChapter || !deps.validChapter(state.mob.subject, chapter))) throw new MobError('CHAPTER_INVALID');
+      least = count;
+      chapter = validChapterOf(state, body.chapter);
     }
     const week = mobWeek(now());
     const pro = billingOn() ? await isPro(userId) : false;
@@ -189,18 +347,29 @@ export function createMobV3Service(deps, helpers = {}) {
     const right = startRight({ billingOn: billingOn(), pro, mode, format, claimUsed: status?.claim_used === true, micsHeld: Number(status?.mics) || 0, liveOn: liveOn(), inLiveHours: inLiveHours(now()) });
     if (!right.ok) throw new MobError(right.code);
     const key = `g${Array.from(deps.randomBytes(6), (b) => b.toString(16).padStart(2, '0')).join('')}`;
-    const picked = await deps.pickQuestionIds(state.mob.subject, { mobId: state.mob.id, week, count, chapter, key }).catch(() => []);
-    if (!Array.isArray(picked) || picked.length < count) {
-      throw helpers.thinBank ? helpers.thinBank({ ready: Array.isArray(picked) ? picked.length : 0, count, chapter, subjectName: subjectName(state.mob.subject) }) : new MobError('BANK_THIN');
+    const picked = await drawPaper(state, { week, count, least, chapter, key, drawMode });
+    if (picked.length < least) {
+      const where = chapter || subjectName(state.mob.subject);
+      if (format === 'race') throw new MobError('BANK_THIN', { message: `${where} has too few questions ready for a ${minutes}-minute race right now. Try the whole subject, or a sprint.`, detail: { ready: picked.length, asked: least } });
+      if (format === 'mock') throw new MobError('BANK_THIN', { message: `${where} does not have a full 50-question paper ready right now. Try a race or a round, or try again in a few days.`, detail: { ready: picked.length, asked: least } });
+      throw helpers.thinBank ? helpers.thinBank({ ready: picked.length, count, chapter, subjectName: subjectName(state.mob.subject) }) : new MobError('BANK_THIN');
     }
     const open = {
       p_user_id: userId, p_mob_id: state.mob.id, p_format: format, p_subject: state.mob.subject, p_chapter: chapter,
-      p_ids: picked.slice(0, count), p_via: right.via, p_week: week, p_rematch_of: rematchOf, p_now: nowIso(), p_max_open: MAX_OPEN_GAMES,
+      p_ids: picked.slice(0, count), p_via: right.via, p_week: week, p_rematch_of: rematchOf, p_now: nowIso(), p_max_open: MAX_OPEN_GAMES, p_minutes: minutes,
     };
-    // A live room opens under the global cap (mob_live_open, one lock for every live open). Refused, it claims nothing.
+    // A live room opens under the global cap (mob_live_open_v2, one lock for every live open). Refused, it claims nothing.
+    // Before migration 20261020140000 the question games still open through the first functions.
+    const openVia = async (v2, v1, params) => {
+      try { return await call(v2, params); } catch (error) {
+        if (!(error instanceof MobError) || error.code !== 'MIGRATION' || minutes !== null) throw error;
+        const { p_minutes: _minutes, ...rest } = params;
+        return call(v1, rest);
+      }
+    };
     const r = mode === 'live'
-      ? await call('mob_live_open', { ...open, p_max_rooms: liveMaxRooms() })
-      : await call('mob_game_open', { ...open, p_mode: mode });
+      ? await openVia('mob_live_open_v2', 'mob_live_open', { ...open, p_max_rooms: liveMaxRooms() })
+      : await openVia('mob_game_open_v2', 'mob_game_open', { ...open, p_mode: mode });
     const map = { not_member: 'NOT_IN_MOB', rematch_invalid: 'GAME_NOT_FOUND', open_limit: 'GAMES_OPEN_LIMIT', room_open: 'ROOM_OPEN_ALREADY', start_used: 'START_USED', mic_none: 'START_USED', busy: 'LIVE_BUSY' };
     if (r?.status !== 'ok') throw new MobError(map[r?.status] || 'UNAVAILABLE');
     try {
@@ -216,22 +385,32 @@ export function createMobV3Service(deps, helpers = {}) {
     return { game: await gameView(g, members, userId) };
   }
 
-  const runOut = (r) => ({
+  const runOut = (r, g) => ({
     startedAt: iso(r.started_at), endsAt: iso(r.ends_at), serverNow: nowIso(), live: r.live === true,
+    ...(g.format === 'race' ? { minutes: g.minutes } : {}),
     answers: (r.answers || []).map((a) => ({ q: a.q, pick: a.pick, correct: a.correct, elapsedMs: a.elapsed_ms })),
   });
 
+  /** A race serves its pool one question at a time: the answered ones and the next (none once the time is up). */
+  const servedCount = (g, answered, open) => (g.format === 'race' ? Math.min(g.question_ids.length, answered + (open ? 1 : 0)) : g.question_ids.length);
+
   async function startRun(userId, gameId) {
     const { g, members } = await loadGame(userId, gameId);
+    if (g.format === 'mock') throw new MobError('RUN_PAPER');
     const r = await call('mob_run_start', { p_user_id: userId, p_game_id: g.id, p_now: nowIso() });
     if (r?.status === 'not_member') throw new MobError('GAME_NOT_FOUND');
+    if (r?.status === 'paper') throw new MobError('RUN_PAPER');
+    if (r?.status === 'not_started') throw new MobError('RUN_NOT_STARTED', { detail: { startsAt: iso(r.starts_at), serverNow: nowIso() } });
     if (r?.status === 'closed') throw new MobError('GAME_CLOSED');
     if (r?.status === 'finished') throw new MobError('RUN_DONE');
     if (r?.status !== 'started' && r?.status !== 'resumed') throw new MobError('UNAVAILABLE');
-    const questions = await deps.loadQuestions(g.question_ids).catch(() => []);
-    if (!Array.isArray(questions) || questions.length !== g.question_ids.length) throw new MobError('UNAVAILABLE');
+    // No question is served at or after the end (the 2 s grace is only for an answer already on its way).
+    const open = now() < Date.parse(r.ends_at);
+    const ids = g.question_ids.slice(0, servedCount(g, (r.answers || []).length, open));
+    const questions = await deps.loadQuestions(ids).catch(() => []);
+    if (!Array.isArray(questions) || questions.length !== ids.length) throw new MobError('UNAVAILABLE');
     const view = await gameView(g, members, userId);
-    return { run: runOut(r), questions: questions.map((q, i) => publicQuestion(q, i)), ghosts: view.ghosts };
+    return { run: runOut(r, g), questions: questions.map((q, i) => publicQuestion(q, i)), ghosts: view.ghosts };
   }
 
   async function answer(userId, gameId, body = {}) {
@@ -247,28 +426,40 @@ export function createMobV3Service(deps, helpers = {}) {
       if (!Number.isInteger(key) || key < 0) throw new MobError('UNAVAILABLE');
       if (body.pick >= (question.options || []).length) throw new MobError('Q_INVALID');
     }
+    if (g.format === 'mock') throw new MobError('RUN_PAPER');
     const memberId = memberIdFor(deps.secret, g.mob_id, userId);
     const r = await call('mob_game_answer', { p_user_id: userId, p_game_id: g.id, p_q: body.q, p_pick: body.pick, p_correct_index: key, p_member_id: memberId, p_now: nowIso() });
     if (r?.status === 'no_run') throw new MobError('NO_RUN');
     if (r?.status === 'q_invalid') throw new MobError('Q_INVALID');
+    if (r?.status === 'not_started') throw new MobError('RUN_NOT_STARTED', { detail: { startsAt: iso(r.starts_at), serverNow: nowIso() } });
     if (r?.status === 'expired') throw new MobError('RUN_EXPIRED', { detail: { run: { finished: true, marks: Number(r.marks) || 0, answered: r.answered, count: r.count } } });
     if (r?.status === 'finished') throw new MobError('RUN_DONE');
     if (r?.status !== 'ok' && r?.status !== 'exists') throw new MobError('UNAVAILABLE');
     if (r.finished) await checkUnlocks(userId).catch(() => null);
-    return {
+    const out = {
       correct: r.correct, delta: r.correct === true ? 5 : r.correct === false ? -1 : 0, marks: Number(r.marks) || 0, elapsedMs: r.elapsed_ms,
-      answered: r.answered, count: r.count, finished: r.finished === true, serverNow: nowIso(),
+      answered: r.answered, count: r.count, finished: r.finished === true, serverNow: nowIso(), endsAt: iso(r.ends_at),
     };
+    // A race serves the next question with this answer: never one ahead, none once the pool is used or the time is up.
+    if (g.format === 'race') {
+      const nextQ = Number(r.answered);
+      const open = !out.finished && nextQ < g.question_ids.length && now() < Date.parse(r.ends_at);
+      const [question] = open ? await deps.loadQuestions([g.question_ids[nextQ]]).catch(() => []) : [];
+      out.next = question ? publicQuestion(question, nextQ) : null;
+    }
+    return out;
   }
 
   async function finish(userId, gameId) {
     if (!validId(gameId)) throw new MobError('GAME_NOT_FOUND');
     const g = await call('mob_game_json', { p_game_id: gameId, p_user_id: userId, p_now: nowIso() });
     if (!g) throw new MobError('GAME_NOT_FOUND');
+    if (g.format === 'mock') throw new MobError('RUN_PAPER');
     const r = await call('mob_run_finish', { p_user_id: userId, p_game_id: g.id, p_member_id: memberIdFor(deps.secret, g.mob_id, userId), p_now: nowIso() });
     if (r?.status !== 'finished') throw new MobError('NO_RUN');
     await checkUnlocks(userId).catch(() => null);
-    return { run: { finished: true, marks: Number(r.marks) || 0 } };
+    const right = Number(r.right_n) || 0; const wrong = Number(r.wrong_n) || 0;
+    return { run: { finished: true, marks: Number(r.marks) || 0, answered: right + wrong, right, wrong, skipped: Number(r.skipped_n) || 0 } };
   }
 
   /** The trap as the podium and review show it (after close only). */
@@ -291,9 +482,11 @@ export function createMobV3Service(deps, helpers = {}) {
     const trap = await trapFor(g, userId);
     const placed = placeRuns(finished.map((r) => ({ userId: r.user_id, marks: Number(r.marks), private: !members.get(r.user_id).showScore, finishedAt: r.finished_at, right: Number(r.right_n), wrong: Number(r.wrong_n) })));
     const ordered = [...placed].sort((a, b) => (showPodium ? (a.place ?? 99) - (b.place ?? 99) : 0) || Date.parse(a.finishedAt) - Date.parse(b.finishedAt));
+    const runOf = new Map(finished.map((r) => [r.user_id, r]));
     const places = ordered.map((r) => {
       const m = members.get(r.userId);
       const out = { memberId: m.memberId, name: m.name, fold: m.fold, colour: m.colour, marks: r.private && !m.you ? null : r.marks, you: m.you };
+      out.answered = r.private && !m.you ? null : (Number(runOf.get(r.userId)?.right_n) || 0) + (Number(runOf.get(r.userId)?.wrong_n) || 0);
       if (r.private) out.private = true;
       if (showPodium && r.place) { out.place = r.place; if (r.place > 3) out.floor = true; }
       return out;
@@ -301,27 +494,44 @@ export function createMobV3Service(deps, helpers = {}) {
     const nameOf = (u) => members.get(u)?.name || '';
     // L-10: a private run (not your own) gets only "finished", and stays out of the together line.
     const hidden = (r) => r.private && !members.get(r.userId).you;
-    const moments = assignMoments(placed.map((r) => ({ ...r, private: hidden(r), memberId: members.get(r.userId).memberId, place: showPodium ? r.place : null, answers: answersBy.get(r.userId) || [] })), { count, trapQ: trap ? trap.q : null });
-    return {
-      soFar: !g.closed, closesAt: iso(g.closes_at), showPodium,
-      headline: togetherLine(placed.map((r) => ({ userId: r.userId, right: r.right, private: hidden(r) })), count),
-      places, tie: showPodium ? tieFor(placed, userId, nameOf) : null, moments,
+    const moments = assignMoments(placed.map((r) => ({ ...r, private: hidden(r), memberId: members.get(r.userId).memberId, place: showPodium ? r.place : null, answers: answersBy.get(r.userId) || [] })), { count, trapQ: trap ? trap.q : null, format: g.format, minutes: g.minutes ?? null });
+    // A race's "of" is the questions answered (the pool is as many as you can), never the pool times the players.
+    const headline = g.format === 'race'
+      ? (() => { const counted = placed.filter((r) => !hidden(r)); return { kind: 'together', right: counted.reduce((s, r) => s + r.right, 0), of: counted.reduce((s, r) => s + r.right + r.wrong, 0) }; })()
+      : togetherLine(placed.map((r) => ({ userId: r.userId, right: r.right, private: hidden(r) })), count);
+    const out = {
+      soFar: !g.closed, closesAt: iso(g.closes_at), showPodium, format: g.format, minutes: g.minutes ?? null,
+      headline, places, tie: showPodium ? tieFor(placed, userId, nameOf) : null, moments,
       trap: trap ? { q: trap.q, number: trap.number, caught: 'most' } : null,
     };
+    // Full mock together: everyone's full mark sheet (counts and sections; never which question, before or after close).
+    if (g.format === 'mock') {
+      out.sheets = orderSheets(finished.map((r) => {
+        const m = members.get(r.user_id);
+        return { at: Date.parse(r.finished_at), view: sheetView(r, m, { hidden: !m.showScore && !m.you }) };
+      }));
+    }
+    return out;
   }
 
   async function review(userId, gameId) {
-    const { g } = await loadGame(userId, gameId);
+    const { g, state } = await loadGame(userId, gameId);
     if (!g.closed) throw new MobError('REVIEW_NOT_YET', { detail: { opensAt: iso(g.closes_at) } });
     const questions = await deps.loadQuestions(g.question_ids).catch(() => []);
     if (!Array.isArray(questions) || questions.length !== g.question_ids.length) throw new MobError('UNAVAILABLE');
     const picks = new Map((g.mine || []).map((a) => [a.q, a.pick]));
     const trap = await trapFor(g, userId);
+    // A question that also sits in another open game or a held paper of this Mob keeps its key until that one closes.
+    const elsewhere = heldIds(state, { exceptGameId: g.id });
+    // A race shows only the questions you were served (the rest of its pool stays unseen for a rematch's fairness).
+    const seen = g.format === 'race' ? Math.max(...(g.mine || []).map((a) => a.q + 1), 0) : questions.length;
     return {
-      questions: questions.map((q, i) => ({
-        ...publicQuestion(q, i), correctIndex: Number.isInteger(q.correctIndex) ? q.correctIndex : null, explanation: q.explanation || null,
-        yourPick: Number.isInteger(picks.get(i)) && picks.get(i) >= 0 ? picks.get(i) : null,
-      })),
+      questions: questions.slice(0, seen).map((q, i) => (elsewhere.has(g.question_ids[i])
+        ? { ...publicQuestion(q, i), correctIndex: null, explanation: null, held: true, yourPick: Number.isInteger(picks.get(i)) && picks.get(i) >= 0 ? picks.get(i) : null }
+        : {
+          ...publicQuestion(q, i), correctIndex: Number.isInteger(q.correctIndex) ? q.correctIndex : null, explanation: q.explanation || null,
+          yourPick: Number.isInteger(picks.get(i)) && picks.get(i) >= 0 ? picks.get(i) : null,
+        })),
       trap: trap ? {
         q: trap.q, number: trap.number, caught: 'most',
         fix: {
@@ -357,7 +567,23 @@ export function createMobV3Service(deps, helpers = {}) {
       throw new MobError(roomRefusal(r?.status, g));
     }
     const fresh = await call('mob_game_json', { p_game_id: g.id, p_user_id: userId, p_now: nowIso() });
-    return { topic: topicFor(g.id), memberId, expiresAt: iso(r.expires_at), room: roomOut(fresh || g, members), serverNow: nowIso() };
+    return { topic: topicFor(g.id), memberId, expiresAt: iso(r.expires_at), room: { ...roomOut(fresh || g, members), roster: await rosterFor(g, members) }, serverNow: nowIso() };
+  }
+
+  /**
+   * L-55: presence through the API. st: here | ready | left. The server broadcasts presence { m, st } on a change (the
+   * member id from the ticket) and answers with the roster. Clients call it on joining, on "I'm ready", on leaving and
+   * every 20 s while the lobby or the race is open (a member not heard from for 45 s drops off the roster).
+   */
+  async function roomPresence(userId, gameId, body = {}) {
+    if (!['here', 'ready', 'left'].includes(body.st)) throw new MobError('BODY_INVALID');
+    const { g, members } = await loadGame(userId, gameId);
+    if (g.mode !== 'live' || !g.room_state) throw new MobError('NOT_LIVE');
+    const r = await call('mob_room_presence', { p_user_id: userId, p_game_id: g.id, p_st: body.st, p_now: nowIso() });
+    const refusal = { not_member: 'GAME_NOT_FOUND', not_live: 'NOT_LIVE', room_closed: g.closed ? 'GAME_CLOSED' : 'ROOM_CLOSED', no_ticket: 'NO_TICKET' }[r?.status];
+    if (refusal) throw new MobError(refusal);
+    if (r?.status !== 'ok') throw new MobError('UNAVAILABLE');
+    return { ok: true, roster: rosterOut(r.roster, [...members.values()].map((m) => m.memberId)), serverNow: nowIso() };
   }
 
   /** The host starts the room: the countdown lands on serverNow + 4 s for everyone (room.start carries only startsAt). */
@@ -389,10 +615,12 @@ export function createMobV3Service(deps, helpers = {}) {
     const [trapQ] = await deps.loadQuestions([g.question_ids[q]]).catch(() => []);
     const chapter = trapQ?.chapter && deps.validChapter && deps.validChapter(g.subject, trapQ.chapter) ? trapQ.chapter : null;
     const key = `fix_${g.id}_${q}_${stage}_${memberIdFor(deps.secret, g.mob_id, userId)}`;
+    // Never one of the game's own questions, nor one of another open game or held paper of the Mob (its key is shown).
+    const state = await readState(userId, g.mob_id).catch(() => null);
+    const avoid = new Set([...g.question_ids, ...(state ? heldIds(state, { exceptGameId: g.id }) : [])]);
     for (const ch of chapter ? [chapter, null] : [null]) {
-      // A draw longer than the game, so at least one question is not one of the game's own.
-      const ids = await deps.pickQuestionIds(g.subject, { mobId: g.mob_id, week: g.week_start, count: Math.min(20, g.question_ids.length + 5), chapter: ch, key }).catch(() => []);
-      const fresh = (ids || []).find((id) => !g.question_ids.includes(id));
+      const ids = await deps.pickQuestionIds(g.subject, { mobId: g.mob_id, week: g.week_start, count: 10, chapter: ch, key, exclude: [...avoid] }).catch(() => []);
+      const fresh = (ids || []).find((id) => !avoid.has(id));
       if (fresh) return fresh;
     }
     return null;
@@ -583,7 +811,7 @@ export function createMobV3Service(deps, helpers = {}) {
     for (const u of unlocks) if (u.finish === 'plain' && !seen.has(`reveal:${u.fold}`)) moments.push(`reveal:${u.fold}`);
     for (const d of chain.due) moments.push(d);
     const micFrom = startStatus?.mic_from ? members.get(startStatus.mic_from) : null;
-    const starts = startsView({ billingOn: billingOn(), pro, claimUsed: startStatus?.claim_used === true, micsHeld: Number(startStatus?.mics) || 0, micsGiven: Number(startStatus?.mics_given) || 0, liveOn: liveOn() });
+    const starts = startsView({ billingOn: billingOn(), pro, claimUsed: startStatus?.claim_used === true, micsHeld: Number(startStatus?.mics) || 0, micsGiven: Number(startStatus?.mics_given) || 0, liveOn: liveOn(), formatsOn: formatsOn() });
     if (starts.mics > 0 && micFrom) starts.micFrom = { memberId: micFrom.memberId, name: micFrom.name };
     return {
       name: mobName(state.mob.name_key, subjectName(state.mob.subject)),
@@ -609,7 +837,7 @@ export function createMobV3Service(deps, helpers = {}) {
   return {
     v3Block, checkUnlocks, checkFold, sitAs, chains,
     openGame, getGame, startRun, answer, finish, podium, review, fixStart, fixAnswer, profile, shelf,
-    roomTicket, roomStart, roomCancel,
+    roomTicket, roomStart, roomCancel, roomPresence, mockPaper, mockBegin, recordMock,
 
     async settings(userId, body = {}) {
       if (body.nameKey !== undefined && body.nameKey !== null && !validNameKey(body.nameKey)) throw new MobError('NAME_KEY_INVALID');
