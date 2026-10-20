@@ -9,5 +9,12 @@
     "mock"
   ],
   "freeLeft": 0,
-  "mics": 0
+  "mics": 0,
+  "mock": {
+    "costCredits": 50,
+    "sitCredits": 50,
+    "proRequiredToStart": true,
+    "canStart": false,
+    "proSitsFree": true
+  }
 }

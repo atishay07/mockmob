@@ -4,6 +4,10 @@
 // A Mob paper (SOCIAL-SPEC section 15) is free of credits for every member: no credit action and no daily
 // allowance. Who may start one (a free student gets one weekly Mob paper a week, Pro has no such limit) is decided by
 // the Mob service before this is ever asked, and `mobPaper` can only come from the server, never from a request body.
+// The one exception is Full mock together (owner D174, 20 Oct 2026): a Free member pays the solo Full mock's price to sit
+// it. The Mob service says so with mobPaper.creditAction = 'attempt_full' on a game's paper (src/lib/mob/mockPrice.mjs);
+// it is charged here exactly as a solo Full mock is (same action, same ledger, same reference), never to Pro, never with a
+// daily allowance and never as the free first full mock. Any other action on a Mob paper is ignored (charges nothing).
 import { FIRST_FULL_MOCK_STATE, firstFullMockApplies, firstFullMockIsFree, firstFullMockKind, isFullSampleKind } from './first_full_mock.js';
 
 const FREE_SAMPLE_SUBJECTS = ['english', 'accountancy', 'economics', 'business_studies'];
@@ -20,8 +24,13 @@ const FREE_SAMPLE_SUBJECTS = ['english', 'accountancy', 'economics', 'business_s
  *                the full sample is the same one free full mock per subject (durable sessions only; data/first_full_mock.js).
  *   'unknown'    and null: exactly as before.
  */
+export const MOB_GAME_SIT_ACTION = 'attempt_full';
+
 export function practiceCharge({ isPremium = false, mobPaper = null, modeId, creditAction = null, count, purpose = null, subject, firstFullMock = null }) {
-  if (mobPaper) return { creditAction: null, quota: null };
+  if (mobPaper) {
+    const paidSit = isPremium !== true && Boolean(mobPaper.gameId) && modeId === 'full' && mobPaper.creditAction === MOB_GAME_SIT_ACTION;
+    return { creditAction: paidSit ? MOB_GAME_SIT_ACTION : null, quota: null };
+  }
   if (isPremium) return { creditAction: null, quota: null };
   let quota = null;
   if (modeId === 'quick' && count === 10) quota = 'daily_practice';

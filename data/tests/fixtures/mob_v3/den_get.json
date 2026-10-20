@@ -274,13 +274,21 @@
           "sprint",
           "round",
           "rematch",
-          "race",
+          "race"
+        ],
+        "locked": [
           "mock"
         ],
-        "locked": [],
         "freeLeft": null,
         "mics": 0,
-        "micsToGive": null
+        "micsToGive": null,
+        "mock": {
+          "costCredits": 50,
+          "sitCredits": 50,
+          "proRequiredToStart": true,
+          "canStart": false,
+          "proSitsFree": true
+        }
       },
       "chainChip": {
         "hidden": false,

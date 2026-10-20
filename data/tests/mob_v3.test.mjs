@@ -173,6 +173,8 @@ test('the earn table: 4 starters, 8 earned by stated rules, nothing for sale, Ka
   assert.doesNotMatch(JSON.stringify(FOLDS), /₹|Rs|price|buy|per month|rare|random/i, 'no price, no rarity');
 });
 
+// Full mock together's price for a Free member (owner D174): 50 credits to sit, only Pro starts it.
+const FREE_MOCK = { costCredits: 50, sitCredits: 50, proRequiredToStart: true, canStart: false, proSitsFree: true };
 test('SV-3 start rules: every row of 3.3', () => {
   const base = { billingOn: true, pro: false, mode: 'async', format: 'sprint', claimUsed: false, micsHeld: 0, liveOn: true, inLiveHours: true };
   const r = (over) => startRight({ ...base, ...over });
@@ -189,9 +191,9 @@ test('SV-3 start rules: every row of 3.3', () => {
   assert.deepEqual(r({ claimUsed: true }), { ok: false, code: 'START_USED' });
   assert.equal(startsView({ billingOn: false, pro: false, claimUsed: true, micsHeld: 0, liveOn: false }).can, true);
   assert.deepEqual(startsView({ billingOn: true, pro: false, claimUsed: false, micsHeld: 0, liveOn: true }),
-    { billingOn: true, can: true, via: 'free_weekly', modes: ['async'], formats: ['sprint', 'round', 'race'], locked: ['mock'], freeLeft: 1, mics: 0 });
+    { billingOn: true, can: true, via: 'free_weekly', modes: ['async'], formats: ['sprint', 'round', 'race'], locked: ['mock'], freeLeft: 1, mics: 0, mock: FREE_MOCK });
   assert.deepEqual(startsView({ billingOn: true, pro: false, claimUsed: true, micsHeld: 0, liveOn: true }),
-    { billingOn: true, can: false, reason: 'used', modes: [], formats: [], locked: ['race', 'mock'], freeLeft: 0, mics: 0 });
+    { billingOn: true, can: false, reason: 'used', modes: [], formats: [], locked: ['race', 'mock'], freeLeft: 0, mics: 0, mock: FREE_MOCK });
   assert.deepEqual(startsView({ billingOn: true, pro: false, claimUsed: false, micsHeld: 0, liveOn: true, formatsOn: false }),
     { billingOn: true, can: true, via: 'free_weekly', modes: ['async'], formats: ['sprint', 'round'], locked: [], freeLeft: 1, mics: 0 }, 'MOB_FORMATS_ENABLED off');
   assert.equal(startsView({ billingOn: true, pro: true, claimUsed: false, micsHeld: 0, micsGiven: 1, liveOn: true }).micsToGive, 1);

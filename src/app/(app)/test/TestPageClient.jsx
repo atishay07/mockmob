@@ -213,6 +213,8 @@ function TestRunner() {
   const [refusal, setRefusal] = useState(null);
   // A full mock quoted free that is not free now (release 11 verifier L1): { title, message, price, retry }. Nothing was charged.
   const [notFree, setNotFree] = useState(null);
+  // A Mob's Full mock together a Free member is short of credits for (owner D174): the server's sentence. Nothing charged.
+  const [mobShort, setMobShort] = useState(null);
   const [selectionMeta, setSelectionMeta] = useState(null);
   const [submitting, setSubmitting] = useState(false);
   const [syncStatus, setSyncStatus] = useState('saved');
@@ -321,6 +323,7 @@ function TestRunner() {
       setError(null);
       setRefusal(null);
       setNotFree(null);
+      setMobShort(null);
       setSelectionMeta(null);
       setPendingSubmission(false);
       autoSubmitTried.current = false;
@@ -440,6 +443,12 @@ function TestRunner() {
         refreshSession({ silent: true });
       } catch (e) {
         if (!alive) return;
+        if (e?.code === 'MOCK_CREDITS') {
+          // Full mock together: the price is on the game card; here, the two ways forward and the way back.
+          setMobShort({ message: e.message });
+          setLoading(false);
+          return;
+        }
         if (isFirstMockRefusal(e)) {
           // The free full mock this start was quoted went elsewhere (or could not be checked); nothing was charged. Every surface
           // forgets the free state, and a new quote puts the price on this page before the student starts again.
@@ -919,6 +928,21 @@ function TestRunner() {
             ? <button type="button" onClick={() => window.location.reload()} className="ui-state__action ui-state__action--primary">Try again</button>
             : <Link href={`/dashboard?subject=${encodeURIComponent(subjectId || '')}&mode=full`} className="ui-state__action ui-state__action--primary">Set up a full mock</Link>}
           <Link href="/dashboard" className="ui-state__action">Back to Practice</Link>
+        </>}
+      />
+    </div>
+  );
+
+  if (mobShort) return (
+    <div className="container-narrow max-w-3xl px-4 pt-10">
+      <NoticeState
+        headingLevel={1}
+        title="Not enough credits for this full mock"
+        message={mobShort.message}
+        actions={<>
+          <Link href="/wallet" className="ui-state__action ui-state__action--primary">Add credits</Link>
+          <Link href="/pricing" className="ui-state__action" data-pro-feature="mob_full_mock">Get Pro</Link>
+          <Link href="/mob" className="ui-state__action">Back to your Mob</Link>
         </>}
       />
     </div>

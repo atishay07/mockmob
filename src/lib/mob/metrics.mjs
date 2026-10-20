@@ -41,7 +41,7 @@ export function summariseMobMetrics(raw) {
     { label: 'Reports per 100 members, last 7 days', value: reportsPer100 === null ? few() : String(reportsPer100), note: `${n(r.reports_7d) < MIN_REPORTABLE ? few() : n(r.reports_7d)} reports` },
     { label: 'Blocks per 100 members, last 7 days', value: blocksPer100 === null ? few() : String(blocksPer100), note: 'Leave and block' },
     { label: 'Sat between 11 PM and 5 AM, last 7 days', value: show(late), note: 'late-night share of Mob papers' },
-    { label: 'Credits spent on Mob papers', value: '0', note: 'Mob papers cost no credits, on any plan' },
+    { label: 'Credits spent on weekly and extra Mob papers', value: '0', note: 'They cost no credits, on any plan. A Free member pays 50 to sit a Full mock together, charged as a Full mock' },
   ];
   const reasons = [];
   if (reportsPer100 !== null && reportsPer100 > STOP_REPORTS_PER_100) reasons.push(`Reports are ${reportsPer100} per 100 members this week, over ${STOP_REPORTS_PER_100}.`);

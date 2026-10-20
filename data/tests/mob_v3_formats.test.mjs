@@ -122,22 +122,29 @@ const KEYISH = /correctIndex|explanation|EXPLAIN-|"correct":(true|false)/;
 // Pure rules
 // ---------------------------------------------------------------------------------------------------------------
 
-test('start rules: a race is a free weekly start and a mic covers it; a full mock is Pro-only with billing on, never a mic', () => {
+test('start rules: a race is a free weekly start and a mic covers it; a full mock is Pro-only, billing on or off, never a mic (D174)', () => {
   const base = { billingOn: true, pro: false, mode: 'async', format: 'race', claimUsed: false, micsHeld: 0, liveOn: true, inLiveHours: true };
   const r = (over) => startRight({ ...base, ...over });
   assert.deepEqual(r({}), { ok: true, via: 'free_weekly' });
   assert.deepEqual(r({ claimUsed: true }), { ok: false, code: 'START_USED' });
   assert.deepEqual(r({ claimUsed: true, micsHeld: 1, mode: 'live' }), { ok: true, via: 'mic' }, 'a passed mic: a live race');
-  assert.deepEqual(r({ format: 'mock' }), { ok: false, code: 'START_PRO' }, 'Free, billing on: the mock is locked');
-  assert.deepEqual(r({ format: 'mock', micsHeld: 2, claimUsed: true }), { ok: false, code: 'START_PRO' }, 'a mic never opens a mock');
+  assert.deepEqual(r({ format: 'mock' }), { ok: false, code: 'MOCK_PRO_REQUIRED' }, 'Free, billing on: the mock is locked');
+  assert.deepEqual(r({ format: 'mock', micsHeld: 2, claimUsed: true }), { ok: false, code: 'MOCK_PRO_REQUIRED' }, 'a mic never opens a mock');
   assert.deepEqual(r({ format: 'mock', pro: true }), { ok: true, via: 'pro' });
-  assert.deepEqual(r({ format: 'mock', billingOn: false }), { ok: true, via: 'open' }, 'billing off: everyone starts everything');
+  assert.deepEqual(r({ format: 'mock', billingOn: false }), { ok: false, code: 'MOCK_PRO_REQUIRED' }, 'billing off: the mock still needs Pro (D174)');
+  assert.deepEqual(r({ format: 'mock', billingOn: false, pro: true }), { ok: true, via: 'open' }, 'billing off, Pro: open as before');
+  assert.deepEqual(r({ format: 'race', billingOn: false }), { ok: true, via: 'open' }, 'billing off: everything else as before');
   const free = startsView({ billingOn: true, pro: false, claimUsed: false, micsHeld: 0, liveOn: true });
   assert.deepEqual([free.formats, free.locked], [['sprint', 'round', 'race'], ['mock']]);
   assert.deepEqual(startsView({ billingOn: true, pro: false, claimUsed: true, micsHeld: 0, liveOn: true }).locked, ['race', 'mock'], 'used: race and mock still drawn, locked');
   assert.deepEqual(startsView({ billingOn: true, pro: false, claimUsed: true, micsHeld: 1, liveOn: true }).formats, ['sprint', 'round', 'rematch', 'race']);
   assert.deepEqual(startsView({ billingOn: true, pro: true, claimUsed: true, micsHeld: 0, liveOn: true }).locked, []);
-  assert.deepEqual(startsView({ billingOn: false, pro: false, claimUsed: true, micsHeld: 0, liveOn: false }).formats, ['sprint', 'round', 'rematch', 'race', 'mock']);
+  assert.deepEqual(startsView({ billingOn: false, pro: false, claimUsed: true, micsHeld: 0, liveOn: false }).formats, ['sprint', 'round', 'rematch', 'race'], 'billing off: no mock for Free');
+  assert.deepEqual(startsView({ billingOn: false, pro: false, claimUsed: true, micsHeld: 0, liveOn: false }).locked, ['mock']);
+  assert.deepEqual(startsView({ billingOn: false, pro: true, claimUsed: true, micsHeld: 0, liveOn: false }).formats, ['sprint', 'round', 'rematch', 'race', 'mock']);
+  assert.deepEqual(startsView({ billingOn: true, pro: false, claimUsed: false, micsHeld: 0, liveOn: true }).mock, { costCredits: 50, sitCredits: 50, proRequiredToStart: true, canStart: false, proSitsFree: true });
+  assert.deepEqual(startsView({ billingOn: true, pro: true, claimUsed: false, micsHeld: 0, liveOn: true }).mock, { costCredits: 0, sitCredits: 50, proRequiredToStart: true, canStart: true, proSitsFree: true });
+  assert.equal(startsView({ billingOn: true, pro: true, claimUsed: false, micsHeld: 0, liveOn: true, formatsOn: false }).mock, undefined, 'formats off: no mock block');
   assert.deepEqual(startsView({ billingOn: false, pro: false, claimUsed: true, micsHeld: 0, liveOn: false, formatsOn: false }).formats, ['sprint', 'round', 'rematch'], 'MOB_FORMATS_ENABLED off');
 });
 
@@ -531,14 +538,21 @@ const attemptFor = (userId, gameId, ids, plan, at, id = `att_${userId}`) => ({
 });
 const planOf = (pattern) => Array.from({ length: 50 }, (_, i) => pattern(i));
 
-test('full mock: Pro starts it with billing on (Free sees it locked); one 50-question paper; never live; a race or round still Free', async () => {
+test('full mock: Pro starts it (Free is refused MOCK_PRO_REQUIRED with the price); one 50-question paper; never live; a race or round still Free', async () => {
   const db = await database();
   const clock = { now: NOW };
   try {
     const svc = serviceFor(db, { clock, billing: true, premium: (u) => u === 'u1' });
     const mobId = await mobOf(svc, 'u1', ['u2']);
-    await assert.rejects(svc.v3.openGame('u2', { mob: mobId, format: 'mock' }), code('START_PRO'));
+    await assert.rejects(svc.v3.openGame('u2', { mob: mobId, format: 'mock' }), (e) => {
+      code('MOCK_PRO_REQUIRED')(e);
+      assert.equal(e.status, 403);
+      assert.deepEqual(e.extra.detail, { costCredits: 50, sitCredits: 50, proRequiredToStart: true, canStart: false, proSitsFree: true });
+      return true;
+    });
     assert.deepEqual((await svc.view('u2', { mobId })).mob.v3.starts.locked, ['mock']);
+    assert.deepEqual((await svc.view('u2', { mobId })).mob.v3.starts.mock, { costCredits: 50, sitCredits: 50, proRequiredToStart: true, canStart: false, proSitsFree: true });
+    assert.equal((await svc.view('u1', { mobId })).mob.v3.starts.mock.canStart, true);
     await assert.rejects(svc.v3.openGame('u1', { mob: mobId, format: 'mock', mode: 'live' }), code('BODY_INVALID'));
     await assert.rejects(svc.v3.openGame('u1', { mob: mobId, format: 'mock', chapter: 'Goodwill' }), code('BODY_INVALID'));
     const g = (await svc.v3.openGame('u1', { mob: mobId, format: 'mock' })).game;
@@ -554,26 +568,32 @@ test('full mock: Pro starts it with billing on (Free sees it locked); one 50-que
   } finally { await db.close(); }
 });
 
-test('full mock sitting: the practice runner in mode full, no credits, the same paper, held until close; the hand-in goes on the game', async () => {
+test('full mock sitting: the practice runner in mode full, Free pays 50 credits and Pro sits free (D174), the same paper, held until close; the hand-in goes on the game', async () => {
   const db = await database();
   const clock = { now: NOW };
   const practice = [];
   const attempts = [];
   try {
-    const svc = serviceFor(db, { clock, practice, attempts });
-    const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);
+    const svc = serviceFor(db, { clock, practice, attempts, premium: (u) => u === 'u1' });
+    const mobId = await mobOf(svc, 'u1', ['u2', 'u3', 'u4']);
     MOB = mobId;
     const g = (await svc.v3.openGame('u1', { mob: mobId, format: 'mock' })).game;
+    assert.deepEqual(g.price, { costCredits: 0, sitCredits: 50, proSitsFree: true }, 'Pro: free');
+    assert.deepEqual((await svc.v3.getGame('u2', g.id)).game.price, { costCredits: 50, sitCredits: 50, proSitsFree: true }, 'Free: 50 before sitting');
     const ids = await idsOf(db, g.id);
     const s = await svc.startPaper('u2', { mob: mobId, game: g.id });
     assert.deepEqual(s, { sessionId: 's_u2', mode: 'full', count: 50 });
     const call = practice.at(-1);
+    assert.equal(call.server.mobPaper.creditAction, 'attempt_full', 'Free: charged as a solo Full mock');
+    assert.equal((await svc.v3.getGame('u2', g.id)).game.price.costCredits, 0, 'started: a resume costs nothing more');
     assert.deepEqual([call.input.mode, call.input.count, call.input.subject], ['full', 50, 'accountancy']);
     assert.deepEqual(call.server.mobPaper.questions.map((q) => q.id), ids, 'the frozen paper, in order');
     assert.deepEqual([call.server.mobPaper.gameId, call.server.mobPaper.holdUntil, call.server.mobPaper.mobId], [g.id, g.closesAt, mobId]);
     assert.equal((await svc.v3.getGame('u2', g.id)).game.you.run, 'playing');
     await svc.startPaper('u3', { mob: mobId, game: g.id });
     assert.equal(practice.at(-1).server.mobPaper.questions[0].id, ids[0], 'the same for every member');
+    await svc.startPaper('u1', { mob: mobId, game: g.id });
+    assert.equal(practice.at(-1).server.mobPaper.creditAction, null, 'Pro sits free');
     // Hand-in through the finish hook: CUET marks, the sheet with sections, the server's time.
     clock.now += 40 * MIN;
     const plan2 = planOf((i) => (i < 30 ? 'r' : i < 40 ? 'w' : 's'));
@@ -593,7 +613,9 @@ test('full mock sitting: the practice runner in mode full, no credits, the same 
     assert.deepEqual([view.you.run, view.you.marks, view.you.resultId], ['finished', 70, 'att_u3']);
     // Too late to start: under 60 minutes left.
     clock.now = Date.parse(g.closesAt) - 59 * MIN;
-    await assert.rejects(svc.startPaper('u1', { mob: mobId, game: g.id }), code('MOCK_TOO_LATE'));
+    const before = practice.length;
+    await assert.rejects(svc.startPaper('u4', { mob: mobId, game: g.id }), code('MOCK_TOO_LATE'));
+    assert.equal(practice.length, before, 'refused before the practice start: nothing charged');
     await assert.rejects(svc.startPaper('u2', { mob: mobId, game: g.id }), code('RUN_DONE'));
     // A hand-in at or after the close is late.
     assert.equal(await svc.recordFromAttempt('u1', attemptFor('u1', g.id, ids, plan2, Date.parse(g.closesAt))), 'late');
@@ -604,7 +626,7 @@ test('full mock mark sheets: counts and sections so far, never which question; p
   const db = await database();
   const clock = { now: NOW };
   try {
-    const svc = serviceFor(db, { clock });
+    const svc = serviceFor(db, { clock, premium: (u) => u === 'u1' });
     const mobId = await mobOf(svc, 'u1', ['u2', 'u3']);
     MOB = mobId;
     const g = (await svc.v3.openGame('u1', { mob: mobId, format: 'mock' })).game;
@@ -642,7 +664,7 @@ test('full mock: a member who opened it and never handed it in leaves no run at 
   const db = await database();
   const clock = { now: NOW };
   try {
-    const svc = serviceFor(db, { clock });
+    const svc = serviceFor(db, { clock, premium: (u) => u === 'u1' });
     const mobId = await mobOf(svc, 'u1', ['u2']);
     const g = (await svc.v3.openGame('u1', { mob: mobId, format: 'mock' })).game;
     await svc.startPaper('u2', { mob: mobId, game: g.id });

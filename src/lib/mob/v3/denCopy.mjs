@@ -485,6 +485,9 @@ export const DEN_ERRORS = Object.freeze({
   LENGTH_INVALID: 'Choose 5, 10, 15 or 20 questions.',
   CHAPTER_INVALID: 'Choose a chapter of this subject.',
   BANK_THIN: 'There are not enough questions ready for that paper.',
+  // Full mock together's price (owner D174); the server's sentence carries the real figure and wins.
+  MOCK_PRO_REQUIRED: 'Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: 50 credits, or free with Pro.',
+  MOCK_CREDITS: 'Sitting this full mock costs 50 credits, and you have fewer than that. Add credits in your wallet, or get Pro to sit every full mock free. Nothing was charged.',
 });
 
 /** The sentence for a failed write: the server's message, else the den's own by code, else offline or the plain fallback. */

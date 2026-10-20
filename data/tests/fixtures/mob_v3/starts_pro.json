@@ -16,5 +16,12 @@
   "locked": [],
   "freeLeft": null,
   "mics": 0,
-  "micsToGive": 2
+  "micsToGive": 2,
+  "mock": {
+    "costCredits": 0,
+    "sitCredits": 50,
+    "proRequiredToStart": true,
+    "canStart": true,
+    "proSitsFree": true
+  }
 }

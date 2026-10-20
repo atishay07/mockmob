@@ -24,6 +24,9 @@ const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE
 // selector, and stamps selection_meta.mobPaper so the finish can record the sitting. A Mob paper charges no credits and
 // uses no daily allowance (SOCIAL-SPEC section 15: free of credits for every member); the Mob service decides who
 // may start one (one free weekly paper per student per week, Pro without that limit) before it ever calls this.
+// Except Full mock together (owner D174): a Free member's sitting carries mobPaper.creditAction 'attempt_full' and is
+// charged below exactly as a solo Full mock is (data/practice_charge.js), after the paper is built, under the same
+// `practice_<id>` / `recovery:<id>` reference, so a retry is never charged twice; Pro is never charged.
 export async function startPractice(userId, input, server = {}) {
   const mobPaper = server?.mobPaper && Array.isArray(server.mobPaper.questions) ? server.mobPaper : null;
   const db = supabaseAdmin();

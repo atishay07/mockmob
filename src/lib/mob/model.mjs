@@ -141,6 +141,10 @@ export const ERRORS = Object.freeze({
   RUN_PAPER: [409, 'This game is a full mock. Open it from its card to sit the paper.'],
   MOCK_TOO_LATE: [410, 'This full mock closes in under an hour, so there is not time to sit it now. Its answers open when it closes.'],
   NO_TICKET: [409, 'Open the room first.'],
+  // Full mock together's price (owner D174, 20 Oct; src/lib/mob/mockPrice.mjs). detail carries the numbers:
+  // { costCredits, sitCredits, proRequiredToStart, proSitsFree }.
+  MOCK_PRO_REQUIRED: [403, 'Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: 50 credits, or free with Pro.'],
+  MOCK_CREDITS: [402, 'Sitting this full mock costs 50 credits, and you have fewer than that. Add credits in your wallet, or get Pro to sit every full mock free. Nothing was charged.'],
 });
 
 export class MobError extends Error {
