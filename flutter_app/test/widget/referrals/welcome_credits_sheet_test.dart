@@ -99,6 +99,7 @@ void main() {
   testWidgets('the real balance is the hero (not always 50)', (tester) async {
     await _open(tester, status: () async => _live, balance: 62);
     expect(find.bySemanticsLabel(ReferralCopy.welcomeSemantics(62)), findsOneWidget);
+    expect(find.text(ReferralCopy.welcomeUnitHeld), findsOneWidget, reason: 'more than the welcome figure is not called welcome credits');
   });
 
   testWidgets('no balance read yet: the welcome figure 50', (tester) async {

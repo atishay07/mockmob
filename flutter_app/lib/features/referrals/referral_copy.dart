@@ -70,11 +70,15 @@ abstract final class ReferralCopy {
   /// The welcome figure when no balance has been read yet.
   static const int welcomeCredits = 50;
   static const String welcomeUnit = 'welcome credits, yours';
+
+  /// For an account that already holds more than the welcome figure (a returning student on a new phone): no "welcome".
+  static const String welcomeUnitHeld = 'credits, yours';
+  static String welcomeUnitFor(int credits) => credits > welcomeCredits ? welcomeUnitHeld : welcomeUnit;
   static const String welcomeWhat = "1 credit is 1 practice question. Mobi's fixes cost 1 too.";
   static String welcomeInviteTitle(int reward) => 'Bring a friend, you both get $reward more';
   static const String welcomeInviteHow = 'They sign up with your link and finish one practice.';
   static const String welcomeInvite = 'Invite a friend';
   static const String welcomeLater = 'Not now';
   static const String welcomeStart = 'Start practising';
-  static String welcomeSemantics(int credits) => '$credits welcome credits, yours.';
+  static String welcomeSemantics(int credits) => '$credits ${welcomeUnitFor(credits)}.';
 }

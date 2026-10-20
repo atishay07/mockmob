@@ -111,7 +111,7 @@ class _WelcomeCreditsSheetState extends ConsumerState<WelcomeCreditsSheet> {
         const SizedBox(height: MmSpace.s8),
         ExcludeSemantics(
           child: Text(
-            ReferralCopy.welcomeUnit,
+            ReferralCopy.welcomeUnitFor(credits),
             textAlign: TextAlign.center,
             style: type.labelLarge.copyWith(color: colors.accentText),
           ),
