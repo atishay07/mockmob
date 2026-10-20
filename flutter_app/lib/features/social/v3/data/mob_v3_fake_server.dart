@@ -1146,7 +1146,7 @@ class MobV3FakeServer implements MobV3Api {
             {
               'key': mockUnits[i].$1,
               'label': mockUnits[i].$2,
-              'of': mockUnits[i].$3 * 5,
+              'of': mockUnits[i].$3,
               'marks': 5 * s.units[i].$1 - s.units[i].$2,
               'right': s.units[i].$1,
               'wrong': s.units[i].$2,

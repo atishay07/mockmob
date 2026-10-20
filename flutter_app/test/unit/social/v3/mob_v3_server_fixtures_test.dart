@@ -131,4 +131,69 @@ void main() {
     expect(r.details['opensAt'], '2026-10-23T08:35:00.000Z');
     expect(r.details.containsKey('message'), isFalse);
   });
+
+  group('D167 formats (web/1020-mob-formats fixtures)', () {
+    Map<String, dynamic> body(String name) => ((sx(name)['body'] as Map)['error'] as Map).cast<String, dynamic>();
+
+    test('the den lists races and a full mock, and Free sees the mock locked', () {
+      final v3 = MobRead.fromJson(sx('den_get_formats.json')).v3!;
+      expect([for (final g in v3.games) (g.format, g.minutes, g.count)], [(GameFormat.mock, 60, 50), (GameFormat.race, 10, 60), (GameFormat.race, 5, 30)]);
+      final s = v3.starts;
+      expect(s.formats, contains(GameFormat.race));
+      expect(s.locked, [GameFormat.mock]);
+      expect(s.shows(GameFormat.mock), isTrue, reason: 'drawn, locked');
+      expect(s.allows(GameFormat.mock), isFalse);
+      expect(s.allows(GameFormat.race), isTrue);
+    });
+
+    test('a race: open, served one at a time, the next with each answer, finish, time up', () {
+      final open = MobGame.fromEnvelope(sx('game_open_race.json'));
+      expect([open.format, open.minutes, open.count], [GameFormat.race, 5, 30]);
+      final rs = RunStart.fromJson(sx('run_start_race.json'));
+      expect(rs.run.minutes, 5);
+      expect(rs.run.endsAt!.difference(rs.run.startedAt!), const Duration(minutes: 5));
+      expect(rs.questions.length, 1, reason: 'one question at a time');
+      expect(rs.ghosts.single.answered, 6);
+      final a = AnswerResult.fromJson(sx('answer_race.json'));
+      expect(a.next?.q, 1);
+      expect(a.endsAt, rs.run.endsAt);
+      expect(AnswerResult.fromJson(sx('answer_race_skip.json')).correct, isNull);
+      expect(jsonEncode(sx('answer_race.json')), isNot(contains('correctIndex')));
+      final f = RunFinish.fromJson(sx('finish_race.json'));
+      expect([f.marks, f.answered, f.right, f.wrong, f.skipped], [19, 5, 4, 1, 1]);
+      expect(body('answer_time_up.json')['code'], 'RUN_EXPIRED');
+      expect(body('run_not_started.json')['code'], 'RUN_NOT_STARTED');
+      expect(RunStart.fromJson(sx('run_start_live_race.json')).run.live, isTrue);
+    });
+
+    test('a race podium: answered per place and the race moments', () {
+      final p = Podium.fromJson(sx('podium_race.json'));
+      expect([for (final x in p.places) x.answered], [5, 2]);
+      expect(p.moments.first.kind, MomentKind.mostAnswered);
+      expect(MobV3Copy.moment(p.moments.first, 30), 'Most answered: 5 in 5 minutes.');
+      expect(MobV3Copy.moment(const PlayerMoment(memberId: 'm', kind: MomentKind.raced, count: 7, minutes: 10), 60), 'Raced 10 minutes and answered 7.');
+    });
+
+    test('full mock together: the game view names your result; the podium carries everyone\'s sheet by unit', () {
+      final g = MobGame.fromEnvelope(sx('game_get_mock.json'));
+      expect([g.format, g.minutes, g.count, g.you.resultId], [GameFormat.mock, 60, 50, 'attempt_u2']);
+      final p = Podium.fromJson(sx('podium_mock.json'));
+      expect(p.sheets, isNotEmpty);
+      final riya = p.sheets.first;
+      expect([riya.marks, riya.of, riya.right, riya.wrong, riya.skipped, riya.accuracy], [178, 250, 37, 7, 6, 84]);
+      expect(riya.sections.first.of, 34, reason: "a unit's of is its questions");
+      expect(riya.sections.first.fullMarks, 170);
+      expect(riya.sections.fold<int>(0, (s, u) => s + u.of), 50);
+      expect(jsonEncode(sx('podium_mock.json')), isNot(contains('correctIndex')));
+      expect(body('game_open_mock_free.json')['code'], 'START_PRO');
+      expect(sx('paper_start_mock.json')['input']['mode'], 'full');
+    });
+
+    test('presence: the ticket and the presence reply carry the roster', () {
+      final t = RoomTicket.fromJson(sx('room_ticket_race.json'));
+      expect(t.room!.roster, {'member-6': 'here'});
+      expect(GameRoom.rosterOf(sx('room_presence.json')['roster']), {'member-6': 'here', 'member-7': 'ready'});
+      expect(body('room_presence_no_ticket.json')['code'], 'NO_TICKET');
+    });
+  });
 }

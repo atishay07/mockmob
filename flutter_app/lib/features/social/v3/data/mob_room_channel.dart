@@ -40,7 +40,7 @@ enum RoomLink {
   /// Subscribing.
   connecting,
 
-  /// Subscribed: presence and broadcasts flow.
+  /// Joined: presence and broadcasts flow.
   joined,
 
   /// CHANNEL_ERROR, TIMED_OUT, too many connections, or the socket closed under us.
@@ -176,7 +176,7 @@ abstract class MobRoomChannel {
   /// Every event, in order. Broadcast: the lobby and then the run listen in turn.
   Stream<RoomEvent> get events;
 
-  /// Subscribes to the private [topic] (`mob-room:<id>`).
+  /// Joins the private [topic] (`mob-room:<id>`).
   Future<void> join(String topic);
 
   /// Sends (or updates) your presence.
@@ -184,7 +184,7 @@ abstract class MobRoomChannel {
 
   Future<void> untrack();
 
-  /// Untracks and unsubscribes. Safe to call twice.
+  /// Says you left and drops the channel. Safe to call twice.
   Future<void> leave();
 }
 

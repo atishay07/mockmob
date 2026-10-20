@@ -1039,8 +1039,10 @@ class SheetSection {
   final String key;
   final String label;
 
-  /// Full marks for the unit (5 per question).
+  /// The unit's questions on the paper (the server's `of`); its full marks are 5 a question ([fullMarks]).
   final int of;
+
+  int get fullMarks => of * 5;
   final int? marks;
   final int? right;
   final int? wrong;

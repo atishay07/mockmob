@@ -71,7 +71,8 @@ class _MobMarkSheetsState extends State<MobMarkSheets> with SingleTickerProvider
     final units = <String, ({String label, int of})>{};
     for (final s in sheets) {
       for (final u in s.sections) {
-        units.putIfAbsent(u.key, () => (label: u.label, of: u.of));
+        // The unit's full marks: 5 for each of its questions.
+        units.putIfAbsent(u.key, () => (label: u.label, of: u.fullMarks));
       }
     }
     return AnimatedBuilder(
