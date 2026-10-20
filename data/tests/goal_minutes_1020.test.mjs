@@ -572,17 +572,18 @@ test('the goal card: reads the daily time, saves it with or without the days, an
 });
 
 test('the website: the goal card carries the daily time, the usual-length controls keep it in step, and the preview serves it', () => {
+  // Merged with web/1020-web-goal-more: the goal card, the study preferences and Today use the shared DailyMinutes picker
+  // (10, 20, 30 and More) instead of the first chip row with a typed box; the server-side rules above are unchanged.
   const card = read('src/components/profile/GoalControl.jsx');
-  assert.match(card, /GOAL_MINUTES_CHIPS\.map/);
-  assert.match(card, /role="radiogroup"/);
-  assert.match(card, /\{ dailyMinutes: sentMinutes \}/, 'the time alone is its own write');
-  assert.match(card, /goalSaveBody\(sent\.length, goal\.pausedUntil, Date\.now\(\), sent, sentMinutes\)/);
-  assert.match(card, /GOAL_COPY\.minutesNotSaved/);
+  assert.match(card, /<DailyMinutes/);
+  assert.match(card, /goalSaveBody\(sent\.length, goal\.pausedUntil, Date\.now\(\), sent, wanted \?\? undefined\)/, 'the time rides with the days in one write');
+  assert.match(card, /saveDailyMinutes\(wanted\)/, 'the time alone is its own write that leaves the days and the pause as they are');
   assert.match(read('src/app/(app)/profile/ProfilePageClient.jsx'), />Your goal<\/h2>/);
   // changing the usual length on Today, on the plan card or in the study preferences moves the daily goal with it, when the account holds one
   assert.match(read('src/app/(app)/today/page.jsx'), /data\.plan\.data\?\.goalMinutes != null/);
   assert.match(read('src/components/LearningNextAction.jsx'), /plan\.goalMinutes!=null/);
-  assert.match(read('src/components/study/StudyWorkspace.jsx'), /goal\.dailyMinutes !== minutes/);
+  assert.match(read('src/components/study/StudyWorkspace.jsx'), /saveDailyMinutes\(minutes\)/);
   assert.match(read('src/components/start/startModel.mjs'), /isGoalMinutes\(Number\(plan\?\.minutes\)\)/);
-  assert.match(read('src/app/preview/arena/ArenaPreviewClient.jsx'), /dailyMinutes: Number\(fixture\.get\('minutes'\)\) \|\| null/);
+  // the preview serves the widened server on ?goalserver=new and today's server by default
+  assert.match(read('src/app/preview/arena/ArenaPreviewClient.jsx'), /goalserver/);
 });
