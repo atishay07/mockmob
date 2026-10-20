@@ -83,7 +83,7 @@ const DU_FACTS = duIndexFacts();
 
 // The statement scrubs word by word with the scroll (on phones it holds the screen while it does).
 // Words marked with * carry the accent.
-const STATEMENT = 'Your lost marks went somewhere. MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
+const STATEMENT = 'Your marks slipped somewhere. MockMob shows you *where, picks the chapter for *tonight, and keeps your DU *shortlist in sight.';
 // The four launch papers as the app's lamp-lit objects. Each lands on its shadow from its own height as the
 // statement scrolls: depth is how far it falls (px), tilt how far it turns on the way. base is where the
 // object's contact shadow ends, as a share of its square box, so on phones the name sits right under it.
