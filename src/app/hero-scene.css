@@ -1,0 +1,229 @@
+/* ==========================================================================
+   THE PHONE HERO AS THE APP'S WELCOME (V16, D191, 20 Oct). Loaded last on the landing; phones only (max-width 760 px).
+   The first screen reads as the app's welcome: a lamp-lit study (HeroScene.jsx) with Mobi standing in its light and
+   his line in a bubble, then the headline, the lead, one key, the second action as a quiet text link, and the three
+   reassurances as three short lines. Tablet and desktop never draw the scene or the bubble and are unchanged.
+   Motion, once on load and never again (W-076): the light comes on (300 ms), Mobi fades and rises 12 px (360 ms,
+   out curve), the title and the key follow 90 ms apart, the bubble last. Reduce motion: fades only.
+   LCP: the scene is SVG in the page (no request, no font); its box is reserved by the row's fixed height, so nothing
+   shifts; the h1 rises by transform only and is painted from the first frame.
+   ========================================================================== */
+
+.lp-scene,
+.lp-scene__bubble { display: none; }
+
+/* ---------- The room's colours: Day (the default theme), then Night ---------- */
+.lp-scene,
+.lp-scene__bubble {
+  --sc-wall-a: #f2ebdc; --sc-wall-b: #ebe1cd;
+  --sc-sky-a: #cfe2ea; --sc-sky-b: #f6eedc;
+  --sc-floor-a: #e6dac1; --sc-floor-b: #e2d6bc;
+  --sc-edge: rgba(122, 98, 58, 0.16);
+  --sc-shaft-a: rgba(255, 247, 220, 0.85); --sc-shaft-b: rgba(255, 238, 196, 0);
+  --sc-cone-a: transparent; --sc-cone-b: transparent; --sc-cone-c: transparent;
+  --sc-pool-a: rgba(255, 246, 216, 0.95); --sc-pool-b: rgba(255, 238, 196, 0.38); --sc-pool-c: rgba(255, 238, 196, 0);
+  --sc-glow-a: transparent; --sc-glow-b: transparent;
+  --sc-wood: #cfb68e;
+  --sc-book-1: #bba37c; --sc-book-2: #9db08a; --sc-book-3: #d8bc8f; --sc-book-4: #aca28d;
+  --sc-frame: #dccdb1;
+  --sc-hill-far: #c3d1aa; --sc-hill-near: #a9be8e; --sc-house: #efe2c6;
+  --sc-plant: #93aa7a; --sc-pot: #cdae8a;
+  --sc-paper: #fffbf2; --sc-dot: #cbbd9c; --sc-dot-fill: transparent; --sc-dot-on: #c8e000; --sc-dot-day: #c8e000; --sc-pin: #c0603e;
+  --sc-cord: #75695a; --sc-shade: #b0a389; --sc-bulb: #d9cfb8;
+  --sc-night: none; --sc-day: inline;
+  --sc-bubble-bg: #fff; --sc-bubble-ink: var(--ink); --sc-bubble-line: rgba(23, 32, 22, 0.08);
+  --sc-bubble-shadow: 0 10px 24px -14px rgba(60, 48, 24, 0.45);
+}
+:root[data-theme='dark'] .lp-scene,
+:root[data-theme='dark'] .lp-scene__bubble {
+  --sc-wall-a: #1c1914; --sc-wall-b: #14120e;
+  --sc-sky-a: #0b1524; --sc-sky-b: #1a283b;
+  --sc-floor-a: #191611; --sc-floor-b: #0f0e0b;
+  --sc-edge: rgba(255, 214, 150, 0.12);
+  --sc-cone-a: rgba(255, 208, 132, 0.34); --sc-cone-b: rgba(255, 192, 108, 0.13); --sc-cone-c: rgba(255, 182, 92, 0.03);
+  --sc-pool-a: rgba(255, 198, 112, 0.42); --sc-pool-b: rgba(255, 186, 100, 0.12); --sc-pool-c: rgba(255, 186, 100, 0);
+  --sc-glow-a: rgba(255, 216, 144, 0.5); --sc-glow-b: rgba(255, 200, 120, 0);
+  --sc-wood: #2c241c;
+  --sc-book-1: #3c3529; --sc-book-2: #4b3727; --sc-book-3: #2d3a34; --sc-book-4: #57472f;
+  --sc-frame: #100e0b;
+  --sc-plant: #1f2a1d; --sc-pot: #2a221b;
+  --sc-paper: #d8ceb6; --sc-dot: #8d846f; --sc-dot-day: transparent; --sc-pin: #b5563a;
+  --sc-cord: #0a0908; --sc-shade: #26231d; --sc-bulb: #ffe3a3;
+  --sc-night: inline; --sc-day: none;
+  --sc-bubble-bg: rgba(30, 31, 27, 0.94); --sc-bubble-ink: #f2f4ec; --sc-bubble-line: rgba(255, 255, 255, 0.09);
+  --sc-bubble-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.7);
+}
+
+.sc-stop-wall-a { stop-color: var(--sc-wall-a); } .sc-stop-wall-b { stop-color: var(--sc-wall-b); }
+.sc-stop-sky-a { stop-color: var(--sc-sky-a); } .sc-stop-sky-b { stop-color: var(--sc-sky-b); }
+.sc-stop-floor-a { stop-color: var(--sc-floor-a); } .sc-stop-floor-b { stop-color: var(--sc-floor-b); }
+.sc-stop-cone-a { stop-color: var(--sc-cone-a); } .sc-stop-cone-b { stop-color: var(--sc-cone-b); } .sc-stop-cone-c { stop-color: var(--sc-cone-c); }
+.sc-stop-shaft-a { stop-color: var(--sc-shaft-a); } .sc-stop-shaft-b { stop-color: var(--sc-shaft-b); }
+.sc-stop-pool-a { stop-color: var(--sc-pool-a); } .sc-stop-pool-b { stop-color: var(--sc-pool-b); } .sc-stop-pool-c { stop-color: var(--sc-pool-c); }
+.sc-stop-glow-a { stop-color: var(--sc-glow-a); } .sc-stop-glow-b { stop-color: var(--sc-glow-b); }
+.sc-night-only { display: var(--sc-night); }
+.sc-day-only { display: var(--sc-day); }
+.sc-wood rect { fill: var(--sc-wood); }
+.sc-book--1 { fill: var(--sc-book-1); } .sc-book--2 { fill: var(--sc-book-2); }
+.sc-book--3 { fill: var(--sc-book-3); } .sc-book--4 { fill: var(--sc-book-4); }
+.sc-frame { stroke: var(--sc-frame); fill: var(--sc-frame); }
+.sc-frame path { fill: none; }
+.sc-moon { fill: #f1e4bf; } .sc-moon-cut { fill: var(--sc-sky-a); }
+.sc-star { fill: rgba(241, 228, 191, 0.7); }
+.sc-city { fill: #0a1220; } .sc-litwin rect { fill: rgba(224, 169, 79, 0.75); }
+.sc-hill-far { fill: var(--sc-hill-far); } .sc-hill-near { fill: var(--sc-hill-near); } .sc-house { fill: var(--sc-house); }
+.sc-plant path { fill: var(--sc-plant); } .sc-plant .sc-pot { fill: var(--sc-pot); }
+.sc-paper { fill: var(--sc-paper); } .sc-pin { fill: var(--sc-pin); }
+.sc-dot { fill: var(--sc-dot-fill); stroke: var(--sc-dot); stroke-width: 1.2; }
+.sc-dot--day { fill: var(--sc-dot-day); stroke: var(--sc-dot-day); }
+:root[data-theme='dark'] .sc-dot--day { stroke: var(--sc-dot); }
+.sc-dot--on { fill: var(--sc-dot-on); stroke: var(--sc-dot-on); }
+.sc-edge { fill: var(--sc-edge); }
+.sc-cord { stroke: var(--sc-cord); } .sc-shade { fill: var(--sc-shade); } .sc-bulb { fill: var(--sc-bulb); }
+
+/* ---------- Phones: the welcome ---------- */
+@media (max-width: 760px) {
+  .lp .lp-hero { padding-top: 0; }
+
+  /* The row becomes the room: full bleed, its height fixed (44 svh, kept between 17 and 26 rem), so nothing moves
+     when the art paints. The scene, Mobi and the bubble share its one cell; "For CUET UG 2027" sits under it. */
+  .mm.lp .lp-hero__greeting {
+    --bleed: max(var(--gutter), env(safe-area-inset-left));
+    --scene-h: clamp(17rem, 44svh, 26rem);
+    --mobi-h: calc(var(--scene-h) * 0.45);
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: var(--scene-h) auto;
+    align-items: stretch;
+    gap: 0;
+    justify-self: stretch;
+    margin: 0 calc(-1 * var(--bleed)) 0.25rem;
+  }
+  .lp-scene {
+    display: block;
+    grid-area: 1 / 1;
+    position: relative;
+    overflow: hidden;
+    /* The room meets the site bar softly at the top and becomes the page at the floor. */
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 84%, transparent 100%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 7%, #000 84%, transparent 100%);
+  }
+  .lp-scene__art { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+
+  /* Mobi stands in the pool of light, his feet on the floor line (the drawing's floor is 42 of its 380 units up). */
+  .mm.lp .lp-hero__greeting .pip-seat {
+    grid-area: 1 / 1;
+    z-index: 1;
+    align-self: end;
+    justify-self: center;
+    display: block;
+    width: auto;
+    min-width: 0;
+    margin: 0 0 calc(var(--scene-h) * 0.085) 3%;
+  }
+  .mm.lp .lp-hero__greeting .pip-seat__art { width: calc(var(--mobi-h) * 0.7304); height: var(--mobi-h); margin: 0; }
+  .mm.lp .lp-hero__greeting .pip-seat__art::after { left: 18%; right: 18%; bottom: -4px; height: 10px; }
+  /* His line is the bubble on a phone; the caption stays for wider screens. */
+  .mm.lp .lp-hero__greeting .pip-seat figcaption { display: none; }
+  /* The guide's arrival rules hide a seat until it enters; this one is in view on load and arrives by the scene's own
+     motion below, so it is never hidden. */
+  [data-pip-guide='local'] .mm.lp .lp-hero__greeting .pip-seat[data-pip-station='hero']:not([data-pip-enter]):not([data-pip-reacting]) .pip-rig { visibility: visible; opacity: 1; }
+
+  .lp-scene__bubble {
+    display: block;
+    grid-area: 1 / 1;
+    z-index: 2;
+    align-self: start;
+    justify-self: start;
+    position: relative;
+    max-width: min(10.75rem, 48%);
+    margin: calc(var(--scene-h) * 0.19) 0 0 var(--bleed);
+    padding: 0.65rem 0.85rem;
+    border: 1px solid var(--sc-bubble-line);
+    border-radius: 16px;
+    background: var(--sc-bubble-bg);
+    box-shadow: var(--sc-bubble-shadow);
+    color: var(--sc-bubble-ink);
+    font: 600 0.875rem/1.4 var(--font-body);
+    letter-spacing: -0.005em;
+    text-wrap: balance;
+    transform-origin: 80% 100%;
+  }
+  /* The tail points down and right, at Mobi. */
+  .lp-scene__bubble::after {
+    content: '';
+    position: absolute;
+    right: 1.4rem;
+    bottom: -7px;
+    width: 14px;
+    height: 14px;
+    border-right: 1px solid var(--sc-bubble-line);
+    border-bottom: 1px solid var(--sc-bubble-line);
+    border-bottom-right-radius: 3px;
+    background: var(--sc-bubble-bg);
+    rotate: 45deg;
+  }
+
+  .mm.lp .lp-hero__greeting .lp-hero__for { grid-row: 2; padding-inline: var(--bleed); }
+
+  /* One key, then the second action as a quiet text link under it (the app's "Build my plan" and its text link).
+     By position, not by style: after the sample is answered the first key steps down to the secondary style. */
+  .lp .lp-cta .mm-actions { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+  .lp .lp-cta .mm-actions > a:first-child { min-height: 54px; font-size: 1rem; }
+  .lp .lp-cta .mm-actions > a:nth-child(2) {
+    min-height: 44px;
+    padding-block: 0.5rem;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+    color: var(--ink);
+    font-family: var(--font-body);
+    font-size: 0.9375rem;
+    font-weight: 650;
+    letter-spacing: 0;
+  }
+  .lp .lp-cta .mm-actions > a:nth-child(2):active { color: var(--ink-2); }
+  .lp .lp-cta .mm-actions > a:focus-visible { outline: 2px solid var(--focus-ring, var(--volt)); outline-offset: 2px; }
+
+  /* The three reassurances: three short lines. */
+  .lp .lp-trust { flex-direction: column; flex-wrap: nowrap; gap: 0.2rem; }
+  .lp .lp-trust li:nth-child(n) { order: 0; flex-basis: auto; }
+
+  /* The bank line follows the reassurances, so the first screen holds one lead line under the headline. */
+  .lp .lp-hero__copy > .lp-bank { order: 1; margin-top: 0.25rem; }
+}
+
+/* ---------- Phones: the entrance ---------- */
+@media (max-width: 760px) and (prefers-reduced-motion: no-preference) {
+  :root:not([data-motion='reduced']) .lp-scene .sc-light,
+  :root:not([data-motion='reduced']) .lp-scene .sc-bulb { animation: lp-scene-fade 300ms cubic-bezier(0.23, 1, 0.32, 1) backwards; }
+  /* backwards, not both: after the entrance the seat's own rules (the one-Mobi yield) own its opacity again. */
+  :root:not([data-motion='reduced']) .mm.lp .lp-hero__greeting .pip-seat__art { animation: lp-scene-mobi 360ms cubic-bezier(0.23, 1, 0.32, 1) 150ms backwards; }
+  /* He arrives by the scene's rise, then greets once. Nothing loops here: no float, no breath (W-076). */
+  :root:not([data-motion='reduced']) .mm.lp .lp-hero__greeting .pip-seat[data-pip-station='hero'] .pip-rig { animation: pip-wave 1300ms 560ms backwards; }
+  :root:not([data-motion='reduced']) .mm.lp .lp-hero__greeting .pip-seat[data-pip-station='hero'] .pip-rig__breath,
+  :root:not([data-motion='reduced']) .mm.lp .lp-hero__greeting .pip-seat[data-pip-station='hero'] .pip-seat__art::after { animation: none; }
+  :root:not([data-motion='reduced']) .lp-hero .lp-hero__for[data-hero] { animation-delay: 200ms; }
+  /* The title is the page's largest paint: it rises by transform only and is never invisible. */
+  :root:not([data-motion='reduced']) .lp-hero .lp-title { animation: lp-scene-rise 420ms cubic-bezier(0.23, 1, 0.32, 1) 240ms backwards; }
+  :root:not([data-motion='reduced']) .lp-hero .lp-cta[data-hero] { animation-delay: 330ms; }
+  :root:not([data-motion='reduced']) .lp-hero .lp-trust[data-hero] { animation-delay: 420ms; }
+  :root:not([data-motion='reduced']) .lp-scene__bubble { animation: lp-scene-bubble 260ms cubic-bezier(0.23, 1, 0.32, 1) 620ms backwards; }
+}
+@media (max-width: 760px) and (prefers-reduced-motion: reduce) {
+  .lp-scene .sc-light,
+  .mm.lp .lp-hero__greeting .pip-seat__art,
+  .lp-scene__bubble { animation: lp-scene-fade 240ms ease-out backwards; }
+  .lp-scene__bubble { animation-delay: 200ms; }
+}
+@media (max-width: 760px) {
+  :root[data-motion='reduced'] .lp-scene .sc-light,
+  :root[data-motion='reduced'] .mm.lp .lp-hero__greeting .pip-seat__art,
+  :root[data-motion='reduced'] .lp-scene__bubble { animation: lp-scene-fade 240ms ease-out backwards; }
+  :root[data-motion='reduced'] .lp-scene__bubble { animation-delay: 200ms; }
+}
+@keyframes lp-scene-fade { from { opacity: 0; } }
+@keyframes lp-scene-mobi { from { opacity: 0; transform: translate3d(0, 12px, 0); } }
+@keyframes lp-scene-rise { from { transform: translate3d(0, 12px, 0); } }
+@keyframes lp-scene-bubble { from { opacity: 0; transform: translate3d(0, 4px, 0) scale(0.94); } }

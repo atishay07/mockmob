@@ -14,6 +14,7 @@ import { CloseActions, DockLine } from '@/components/landing/CloseActions';
 import { DemoJump } from '@/components/landing/DemoJump';
 import { HashSettle } from '@/components/landing/HashSettle';
 import { HeroBackdrop } from '@/components/landing/HeroBackdrop';
+import { HeroScene } from '@/components/landing/HeroScene';
 import { HeroDockGate } from '@/components/landing/HeroDockGate';
 import { HeroMorph } from '@/components/landing/HeroMorph';
 import { HeroLine } from '@/components/landing/HeroLine';
@@ -52,6 +53,7 @@ import './tour-screens.css';
 import './lab-cinema.css';
 import './home.css';
 import './hero-motion.css';
+import './hero-scene.css';
 
 const freePlan = newOfferReleased() ? ['One baseline per launch subject', 'One included daily 10-question set', 'One new recovery episode per week', 'Fresh checks for started episodes', '25 saved questions'] : [
   'Quick practice and Full mock on credits',
@@ -175,7 +177,9 @@ export default function LandingPage() {
           <HeroBackdrop />
           <div className="mm-wrap lp-hero__grid">
             <div className="lp-hero__copy">
-              <div className="lp-hero__greeting"><p className="lp-hero__for" data-hero style={{ '--h': 0 }}>For CUET UG 2027</p><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /></div>
+              {/* Phones (max-width 760 px) stage this row as the app's welcome: the lamp-lit study (HeroScene), Mobi standing
+                  in its light and his line in a bubble (hero-scene.css). Wider screens never draw the scene or the bubble. */}
+              <div className="lp-hero__greeting"><HeroScene /><p className="lp-hero__for" data-hero style={{ '--h': 0 }}>For CUET UG 2027</p><MascotSeat station="hero" pose="greeting" label="Mobi’s on your side." note="Even at 11pm." eager /><p className="lp-scene__bubble">Hi, I’m Mobi. Let’s find yours.</p></div>
               <h1 className="lp-title">
                 {recoveryReleased() ? <><span className="lp-title__line">Find the mistake</span><span className="lp-title__line">behind the marks.</span></> : <>
                 {/* The two still lines run inline in the h1 with a break between them, so the browser counts them as one
