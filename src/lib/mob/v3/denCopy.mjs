@@ -339,7 +339,7 @@ export const DenCopy = Object.freeze({
     'Start up to 3 Mobs.',
   ],
   notForSale: 'Nothing you earn in the Mob is for sale.',
-  seePlans: 'See Pro plans',
+  seePlans: 'Get Pro',
 
   // SET
   settingsTitle: 'Mob settings',

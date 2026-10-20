@@ -137,7 +137,7 @@ test('price framing: once monthly billing opens, all three switch together to "â
 
 test('price framing: /pricing and the landing read the same helpers, and checkout still charges the one-time plan', () => {
   const pricing = read('src/app/pricing/page.js');
-  assert.match(pricing, /<h1 className="mm-h1">\{priceHeadline\(offer\)\}<\/h1>/);
+  assert.match(pricing, /<span className="pro-hero__price">\{priceHeadline\(offer\)\}<\/span>/);
   assert.match(pricing, /\.\.\.priceTag\(offer\),/);
   assert.doesNotMatch(pricing, /\{`Pro is â‚¹\$\{offer\.monthly\.rupees\} a month\.`\}/, 'the H1 no longer hard-codes "a month"');
   const home = read('src/app/page.js');

@@ -201,8 +201,9 @@ export const HEADLINE_OPTIONS = Object.freeze([
   'Practise until exam day feels familiar',
   'Every mock you need, from one central bank',
 ]);
-// The key's options; the first is the one in use. keyLabel fills in the price on sale, so the key always names it.
-export const KEY_LABEL_OPTIONS = Object.freeze(['Get Pro for ₹99', 'Get unlimited mocks for ₹99', 'Unlock Pro for ₹99']);
+// The key's words (D185, owner 20 Oct: the key always says Get Pro). The price is never inside the key: the sheet says it beside
+// the key (sheetPrice), as /pricing does.
+export const KEY_LABEL_OPTIONS = Object.freeze(['Get Pro']);
 
 const GENERIC = Object.freeze({
   title: HEADLINE_OPTIONS[0],
@@ -238,11 +239,9 @@ export function sheetHead(trigger) {
   return HEADS[trigger] || GENERIC;
 }
 
-/** The sheet's key: names the price on sale today, as /pricing does. */
-export function keyLabel(offer) {
-  if (offer?.purchasable === 'monthly' && offer.monthly) return `Start Pro for ₹${offer.monthly.rupees}/month`;
-  if (offer?.oneTime) return `Get Pro for ₹${offer.oneTime.rupees}`;
-  return 'Get Pro';
+/** The sheet's key: Get Pro, whatever is on sale (D185). The price sits beside it (sheetPrice). */
+export function keyLabel() {
+  return KEY_LABEL_OPTIONS[0];
 }
 
 // Each benefit: a plain line (always true) and, when the student's own fact is known, a personal line in its place.

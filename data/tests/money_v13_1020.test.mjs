@@ -129,7 +129,7 @@ test('copy rules: plain warm English, no exclamation, no arrows, no em dash, no 
   walk(WALLET_V13_COPY); walk(balanceSplit(data)); walk(priceRows(data, PRICES)); walk(packCards(data)); walk(proBridge(data, { rupees: 99, cycle: 'month' }));
   walk(packsIntro({ ...data, commerce: { open: true } })); walk(packsIntro({ ...data, plan: { name: 'Pro' }, commerce: { open: true } }));
   const pricing = file('src/app/pricing/page.js');
-  const outcomes = pricing.slice(pricing.indexOf('function proMoments'), pricing.indexOf('function previewOverrides'));
+  const outcomes = pricing.slice(pricing.indexOf('const PRO_COPY'), pricing.indexOf('function planTerms'));
   assert.ok(outcomes.length > 200, 'the moments are found');
   strings.push(outcomes);
   for (const t of strings) {
@@ -140,21 +140,25 @@ test('copy rules: plain warm English, no exclamation, no arrows, no em dash, no 
   assert.doesNotMatch(outcomes, /₹\d/, 'the moments name no price: the price comes from the offer');
 });
 
-test('Everything Pro opens is three big moments led by real figures, not a list of equal rows', () => {
+test('Everything Pro unlocks is the app’s three showcase cards, each with its picture, not a list of equal rows', () => {
+  // v16 (owner, 20 Oct 11:20 pm): /pricing is rebuilt as the app's Pro page; the moments mirror BillingCopy.moment1..3.
   const pricing = file('src/app/pricing/page.js');
-  assert.equal((pricing.match(/^\s+key: '(mocks|exam|chapters)',$/gm) || []).length, 3);
-  assert.match(pricing, /figure: bank \? fmtCount\(bankSize\) : 'Unlimited'/, 'the bank figure is the stored daily count, or no number at all');
-  assert.match(pricing, /<ol className="pro-moments">/);
+  assert.equal((pricing.match(/^\s+key: '(mocks|smart|exam)',$/gm) || []).length, 3);
+  assert.match(pricing, /<ul className="pro-shows">/);
+  for (const art of ['<PapersArt ', '<SmartArt ', '<NtaArt ']) assert.ok(pricing.includes(art), art);
   assert.doesNotMatch(pricing, /PRO_OUTCOMES/);
 });
 
 test('the Pro page: one checkout, the price headline as h1, dev-only preview switches, honest checkout states', () => {
   const pricing = file('src/app/pricing/page.js');
   assert.equal((pricing.match(/<RazorpayPaymentButton/g) || []).length, 1, 'one checkout on the page');
-  assert.match(pricing, /<h1 className="mm-h1">\{priceHeadline\(offer\)\}<\/h1>/);
+  // v16: the h1 is the app's promise; the price headline sits beside the hero's Get Pro key (D185: never inside it).
+  assert.match(pricing, /<h1 className="pro-hero__title" id="pro-title">\{PRO_COPY\.title\}<\/h1>/);
+  assert.match(pricing, /href="#plans">\{PRO_COPY\.key\}<\/a>\s+<span className="pro-hero__price">\{priceHeadline\(offer\)\}<\/span>/);
+  assert.match(pricing, /key: 'Get Pro',/);
   assert.match(pricing, /if \(process\.env\.NODE_ENV === 'production' \|\| !params\) return \{\};/, 'the preview switches never work in production');
-  assert.match(pricing, /<div className="pro-hero__card" id="plans">/, 'the dock and the table key land on the checkout');
-  assert.match(pricing, /Pro <span className="pro-cmp__price">\{PRO_PLAN\.price\} \{PRO_PLAN\.cycle\}<\/span>/, 'the table says plainly that Pro is paid');
+  assert.match(pricing, /<div className="pro-plan" id="plans">/, 'the dock, the hero key and the Upgrade sheet land on the checkout');
+  assert.match(pricing, /<span className="pro-plan__fig">\{PRO_PLAN\.price\}<\/span> <span className="pro-plan__cycle">\{PRO_PLAN\.cycle\}<\/span>/, 'the plan says plainly that Pro is paid');
   const css = file('src/app/pricing/pro-page.css');
   assert.doesNotMatch(css, /text-shadow|blur\(|backdrop-filter/);
   assert.match(css, /prefers-reduced-motion: reduce/);

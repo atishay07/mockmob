@@ -99,7 +99,7 @@ function formatCheckoutAmount(paise, currency = 'INR') {
 export function RazorpayPaymentButton({
   planId,
   amount,
-  label = 'Go Pro',
+  label = 'Get Pro',
   initialIsPremium = false,
   billing = 'once',
 }) {

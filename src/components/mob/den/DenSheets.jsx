@@ -273,7 +273,7 @@ export function PassMicSheet({ open, onClose, v3, mobName, run, busy, onPassed }
   );
 }
 
-/** P4. Free and Pro in the Mob (billing on only). "See Pro plans" opens the existing pricing page; no price here. */
+/** P4. Free and Pro in the Mob (billing on only). "Get Pro" opens the existing pricing page; no price here. */
 export function FreeProSheet({ open, onClose }) {
   return (
     <MobDialog open={open} onClose={onClose} title={DenCopy.freeProTitle} labelId="den-p4-h">

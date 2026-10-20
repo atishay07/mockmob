@@ -175,10 +175,12 @@ test('price and key follow offer.js: the one framing on sale today', () => {
   assert.equal(p.cycle, priceTag(live).cycle);
   const once = { purchasable: 'one_time', oneTime: { rupees: 99, expires: '31 July 2027' } };
   assert.deepEqual(sheetPrice(once), { figure: '₹99', cycle: 'once', terms: 'One payment covers you through 31 July 2027. No auto-renewal.' });
-  assert.equal(keyLabel(once), 'Get Pro for ₹99');
+  // D185: the key always says Get Pro; the price sits beside it (sheetPrice), never inside it.
+  assert.equal(keyLabel(once), 'Get Pro');
   const monthly = { purchasable: 'monthly', monthly: { rupees: 99 } };
   assert.equal(sheetPrice(monthly).cycle, 'a month');
-  assert.equal(keyLabel(monthly), 'Start Pro for ₹99/month');
+  assert.equal(keyLabel(monthly), 'Get Pro');
+  assert.equal(keyLabel(null), 'Get Pro');
   assert.equal(sheetPrice(null), null);
   assert.equal(CHECKOUT_HREF, '/pricing#plans');
 });
@@ -200,7 +202,7 @@ test('copy is true and in house style: no "!", no emoji, no countdown or scarcit
     assert.ok(!/never runs? out/i.test(line) || /practice never runs out/i.test(line), line);
   }
   assert.equal(HEADLINE_OPTIONS.length, 3);
-  assert.equal(KEY_LABEL_OPTIONS.length, 3);
+  assert.deepEqual([...KEY_LABEL_OPTIONS], ['Get Pro']);
   assert.equal(sheetHead('generic').title, HEADLINE_OPTIONS[0]);
   // NTA papers are original practice content, said wherever NTA mode is sold on its own.
   assert.match(sheetHead('nta').lede, /not official/);

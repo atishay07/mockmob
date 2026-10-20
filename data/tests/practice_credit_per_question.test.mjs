@@ -140,7 +140,7 @@ test('one sentence says the price everywhere: "A practice question costs 1 credi
   assert.match(pricing, /^ {2}PRACTICE_PRICE_LINE,$/m, '/pricing notes');
   assert.match(pricing, /1 a question in Quick practice, 50 a Full mock/);
   assert.match(pricing, /Quick practice, 5 to 20 questions, 1 credit a question/);
-  assert.match(pricing, /\['Quick practice \(5 to 20 questions\)', '1 credit a question', 'Unlimited'\]/);
+  assert.match(pricing, /\['Quick practice', '1 credit a question', 'Unlimited'\]/);
   assert.match(file('src/components/billing/PlanCard.jsx'), /\$\{PRACTICE_PRICE_LINE\}/);
   // Release 9: Practice says the price once (the mode tiles, and the card's Cost line), not again under the lede.
   assert.doesNotMatch(file('src/app/(app)/dashboard/DashboardPageClient.jsx'), /PRACTICE_PRICE_TAIL/);

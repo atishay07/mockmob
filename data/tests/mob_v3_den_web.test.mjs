@@ -181,7 +181,7 @@ test('safety (spec 6): no price in the Mob, no late-night framing, no count of n
     }
     assert.doesNotMatch(source, /isPremium|user\??\.plan|user\??\.tier|subscription/, `${file} reads the account's plan`);
   }
-  // Pro words only where the server's billing flag allows (P1, P4), and "See Pro plans" opens the existing pricing page.
+  // Pro words only where the server's billing flag allows (P1, P4), and "Get Pro" opens the existing pricing page.
   const sheets = read(`${denDir}/DenSheets.jsx`);
   assert.match(sheets, /href="\/pricing"/);
   // The D167 tiles carry the Pro tag only for a format the server locks with billing on (formatTiles' pro), and for the
