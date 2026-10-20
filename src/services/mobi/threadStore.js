@@ -25,6 +25,26 @@ export function createThreadStore({ db }) {
       if (error || !data?.id) throw new Error('thread_create_failed');
       return data.id;
     },
+    /**
+     * The thread a request opened, by its open key (L-01 replay): the persisted reply first (the chat route stores the
+     * whole response on the thread's row, keyed by its charge reference = the open key), else the thread row whose
+     * metadata.thread.openKey matches. Returns { threadId, thread, response } or null. Always scoped to the student.
+     */
+    async findOpened({ userId, openKey }) {
+      if (typeof openKey !== 'string' || !openKey) return null;
+      const { data: msg, error } = await db.from('mentor_messages').select('session_id,structured_payload').eq('user_id', userId).eq('role', 'assistant')
+        .eq('structured_payload->charge->>reference', openKey).limit(1).maybeSingle();
+      if (error) throw new Error('thread_read_failed');
+      if (msg?.session_id) {
+        const row = await read(msg.session_id, userId);
+        if (row?.metadata?.thread) return { threadId: row.id, thread: row.metadata.thread, response: msg.structured_payload || null };
+      }
+      const { data: rows, error: e2 } = await db.from('mentor_sessions').select('id,metadata').eq('user_id', userId)
+        .eq('metadata->thread->>openKey', openKey).limit(1);
+      if (e2) throw new Error('thread_read_failed');
+      const row = Array.isArray(rows) ? rows[0] : null;
+      return row?.metadata?.thread ? { threadId: row.id, thread: row.metadata.thread, response: null } : null;
+    },
     async loadThread({ id, userId }) {
       const row = await read(id, userId);
       return row ? { id: row.id, thread: row.metadata?.thread || null } : null;
