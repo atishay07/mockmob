@@ -283,7 +283,7 @@ class _SlideFold extends StatelessWidget {
 
   static const double sz = 168;
   static const double cx = 180;
-  static const double cy = 276;
+  static const double cy = 262;
   static const double mobiH = 196;
   static const double mobiW = mobiH * 375 / 512;
   static double get mobiTop => cy - 0.43 * mobiH;

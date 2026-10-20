@@ -374,7 +374,7 @@ class _MobSetupScreenState extends ConsumerState<MobSetupScreen> with SingleTick
                         subject: showSubject && _model.subject != null ? mobSubjectLabel(_model.subject!) : null,
                         tagName: last ? _model.name.text.trim() : null,
                         tagColour: _model.colour,
-                        fullHeight: _SetupMotion.previewH,
+                        fullHeight: fitH,
                       ),
                     ),
                     Expanded(
@@ -912,7 +912,11 @@ class _SetupPreviewState extends State<SetupPreview> with TickerProviderStateMix
             final floor = h - 26;
             // The pennant has the wall only at the full height; it fades as the keyboard takes it.
             final wall = ((h - (widget.fullHeight - 48)) / 48).clamp(0.0, 1.0);
-            const pennantW = 88.0;
+            // A short phone hands the preview less height (fullHeight): the pennant and the seats scale with
+            // it, so the wall keeps the Mob's name and nothing overlaps.
+            final k = (widget.fullHeight / 184).clamp(0.72, 1.0);
+            final pennantW = 88.0 * k;
+            final seatH = 52.0 * k;
             return Stack(
               clipBehavior: Clip.hardEdge,
               children: [
@@ -930,7 +934,7 @@ class _SetupPreviewState extends State<SetupPreview> with TickerProviderStateMix
                 // The lamp pool under the centre seat.
                 Positioned(left: cx - 130, top: floor - 34, width: 260, height: 64, child: CustomPaint(painter: _PoolPainter(night: c.isNight))),
                 for (final x in [-136.0, -76.0, 76.0, 136.0])
-                  Positioned(left: cx + x * s - 20, top: h - 82, child: DenOpenSeat(width: 40, height: 52)),
+                  Positioned(left: cx + x * s - 20, top: h - 30 - seatH, child: DenOpenSeat(width: 40, height: seatH)),
                 if (wall > 0)
                   Positioned(
                     left: math.min(cx + 118 * s, w - pennantW / 2 - 8) - pennantW / 2,
@@ -1027,7 +1031,8 @@ class _SetupPreviewState extends State<SetupPreview> with TickerProviderStateMix
             string: 10,
             bodyRatio: 0.92,
             semanticsLabel: label,
-            content: Column(
+            // The pennant is art: its words keep their size at any text scale, and shrink with it.
+            content: MediaQuery.withNoTextScaling(child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
                 ClipRect(
@@ -1038,7 +1043,7 @@ class _SetupPreviewState extends State<SetupPreview> with TickerProviderStateMix
                     textAlign: TextAlign.center,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: type.label.copyWith(fontSize: 12.5, height: 1.15, fontWeight: FontWeight.w700, color: name == null ? ink.withValues(alpha: 0.6) : ink),
+                    style: type.label.copyWith(fontSize: 12.5 * width / 88, height: 1.15, fontWeight: FontWeight.w700, color: name == null ? ink.withValues(alpha: 0.6) : ink),
                   ),
                 ),
                 if (subject != null)
@@ -1054,13 +1059,13 @@ class _SetupPreviewState extends State<SetupPreview> with TickerProviderStateMix
                           textAlign: TextAlign.center,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: type.caption.copyWith(fontSize: 10.5, height: 1.15, color: ink.withValues(alpha: 0.72)),
+                          style: type.caption.copyWith(fontSize: 10.5 * width / 88, height: 1.15, color: ink.withValues(alpha: 0.72)),
                         ),
                       ),
                     ),
                   ),
               ],
-            ),
+            )),
           ),
         );
       },
