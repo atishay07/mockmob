@@ -597,7 +597,7 @@ class ProCompareTable extends StatelessWidget {
       } else if (v.isEmpty) {
         child = Container(width: 12, height: 2, color: colors.ink4);
       } else {
-        child = Text(v, textAlign: TextAlign.center, maxLines: 2, style: type.caption.copyWith(color: pro ? colors.ink : colors.ink2, fontWeight: pro ? FontWeight.w700 : FontWeight.w500));
+        child = Text(v, textAlign: TextAlign.center, maxLines: 3, style: type.caption.copyWith(color: pro ? colors.ink : colors.ink2, fontWeight: pro ? FontWeight.w700 : FontWeight.w500));
       }
       return SizedBox(width: _col, child: Center(child: child));
     }

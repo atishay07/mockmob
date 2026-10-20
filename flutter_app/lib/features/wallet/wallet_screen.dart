@@ -4,6 +4,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/api/api_providers.dart' show nowProvider;
 import '../../core/copy/copy.dart';
+import '../../core/motion/motion.dart' show Motion;
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../billing/billing.dart';
@@ -306,7 +307,7 @@ class _BalanceFigureState extends State<_BalanceFigure> with SingleTickerProvide
       builder: (context, _) {
         final v = _glow.value;
         // Full volt while it counts (the first half), then an ease back to the figure's own ink.
-        final t = !_glow.isAnimating ? 0.0 : (v < 0.5 ? 1.0 : Curves.easeOut.transform(1 - (v - 0.5) / 0.5));
+        final t = !_glow.isAnimating ? 0.0 : (v < 0.5 ? 1.0 : Motion.glide.transform(1 - (v - 0.5) / 0.5));
         return MmCountUp(
           value: widget.value,
           fromZeroOnFirstBuild: false,

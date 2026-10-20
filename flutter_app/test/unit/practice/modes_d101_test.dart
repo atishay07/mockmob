@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mockmob/features/wallet/data/wallet_data.dart' show WalletRead, walletRepositoryProvider;
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/core/models/practice_quote.dart';
@@ -222,6 +223,8 @@ void main() {
           // The Upgrade sheet reads the plan from the credits overview, which would open the phone's database.
           meCreditsProvider.overrideWith(() => FakeMeCredits(creditsState())),
           creditsRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<AiCredits>()),
+          // The Pro page reads the Wallet's word on the free first full mock (L-05), which would open the database too.
+          walletRepositoryProvider.overrideWithBuild((ref, n) => const RemoteState<WalletRead>()),
           ...rig.overrides,
           // The nudges remember what they showed in the phone's preferences: in memory here.
           proNudgePrefsProvider.overrideWithValue(MemoryPrefsStore()),

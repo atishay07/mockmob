@@ -497,7 +497,7 @@ class _Seal extends StatelessWidget {
             AnimatedBuilder(
               animation: sweep,
               builder: (context, child) {
-                final t = Curves.easeInOutCubic.transform(sweep.value);
+                final t = Motion.sweepCurve.transform(sweep.value);
                 if (t <= 0 || t >= 1) return child!;
                 final c = -0.4 + 1.8 * t;
                 return ShaderMask(
@@ -930,7 +930,7 @@ class _StampedSeal extends StatelessWidget {
           animation: stamp,
           builder: (context, child) {
             final t = animate ? stamp.value : 1.0;
-            final drop = Curves.easeOutQuart.transform((t / 0.4).clamp(0.0, 1.0));
+            final drop = Motion.out.transform((t / 0.4).clamp(0.0, 1.0));
             final scale = 1.3 - 0.3 * drop;
             final opacity = (t / 0.18).clamp(0.0, 1.0);
             final ringT = ((t - 0.3) / 0.7).clamp(0.0, 1.0);
@@ -949,8 +949,8 @@ class _StampedSeal extends StatelessWidget {
                   ),
                 if (ringOn)
                   Container(
-                    width: size * (0.9 + 0.7 * Curves.easeOutCubic.transform(ringT)),
-                    height: size * (0.9 + 0.7 * Curves.easeOutCubic.transform(ringT)),
+                    width: size * (0.9 + 0.7 * Motion.glide.transform(ringT)),
+                    height: size * (0.9 + 0.7 * Motion.glide.transform(ringT)),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       border: Border.all(color: ring.withValues(alpha: (1 - ringT) * 0.8), width: 3 * (1 - ringT) + 1),

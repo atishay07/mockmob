@@ -56,7 +56,7 @@ http.FakeReply _serve(dynamic o) {
       'checks': first
           ? [
               _check('c1', 'A and B share profits 3:2. C is admitted for a 1/5 share, taken from A and B equally. What is the new ratio?',
-                  ['11:7:5', '13:7:5', '12:8:5', '3:2:1']),
+                  ['5:3:2', '13:7:5', '12:8:5', '3:2:1']),
               _check('c2', 'In the absence of a partnership deed, interest on a partner’s loan to the firm is allowed at',
                   ['6% a year', '12% a year', 'The bank rate', 'Nothing, unless agreed']),
             ]
@@ -64,21 +64,26 @@ http.FakeReply _serve(dynamic o) {
       'checksNote': null,
     });
   }
+  // Today's name card saves through the profile route.
+  if (path.contains('/api/users/') && '${o.method}'.toUpperCase() == 'PATCH') {
+    final body = o.data is Map ? o.data as Map : const {};
+    return http.FakeReply(200, {'ok': true, 'name': body['name']});
+  }
   if (path.contains('/api/mobi/thread')) {
     final body = o.data is Map ? o.data as Map : const {};
     final id = body['checkQuestionId'];
     final pick = body['pick'] is int ? body['pick'] as int : -1;
-    final key = id == 'c1' ? 1 : 0;
+    const key = 0;
     return http.FakeReply(200, {
       'ok': true,
       'replayed': false,
       'result': {
         'right': pick == key,
         'pick': pick,
-        'key': {'index': key, 'text': id == 'c1' ? '13:7:5' : '6% a year'},
+        'key': {'index': key, 'text': id == 'c1' ? '5:3:2' : '6% a year'},
         'picked': {'index': pick, 'text': ''},
         'explanation': id == 'c1'
-            ? 'A keeps 3/5 minus 1/10, which is 5/10; B keeps 2/5 minus 1/10, which is 3/10; C gets 2/10. Out of 25 that is 13:7:5.'
+            ? 'A keeps 3/5 minus 1/10, which is 5/10. B keeps 2/5 minus 1/10, which is 3/10. C gets 2/10. So the new ratio is 5:3:2.'
             : 'The Partnership Act allows 6% a year on a partner’s loan when the deed says nothing.',
         'line': pick == key ? 'Right. That is the rule CUET tests.' : 'Not this time. Read why, then the next one.',
       },

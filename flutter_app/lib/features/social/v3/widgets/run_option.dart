@@ -26,7 +26,7 @@ enum RunOptionLook { idle, picked, locked, right, wrong }
 
 class RunOption extends StatelessWidget {
   /// The tick's pen stroke over drawIn (450 ms): a gentle sine in-out, so it draws visibly the whole way.
-  static const Curve tickCurve = Curves.easeInOutSine;
+  static const Curve tickCurve = Motion.sweepCurve;
 
   const RunOption({
     super.key,

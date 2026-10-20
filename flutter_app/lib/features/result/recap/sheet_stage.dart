@@ -141,7 +141,7 @@ class _SheetStageState extends ConsumerState<SheetStage> with TickerProviderStat
       curve: const Interval(0, 0.16, curve: Motion.glide),
     );
     _tallyInk = _ReadInk(_scan, () => _rows);
-    _circle = CurvedAnimation(parent: _reveal, curve: const Interval(0.7, 0.92, curve: Curves.easeInOut));
+    _circle = CurvedAnimation(parent: _reveal, curve: const Interval(0.7, 0.92, curve: Motion.sweepCurve));
     _outsideWords = _Span(_open, 0.04, 0.22, flip: true);
     _insideWords = _Span(_open, 0.72, 0.98);
     _reveal.addListener(_onReveal);

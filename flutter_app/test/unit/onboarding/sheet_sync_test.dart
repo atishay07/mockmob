@@ -164,8 +164,9 @@ void main() {
     return c;
   }
 
+  // Every request now passes the API origin guard (C1, 20 Oct) first, a few more turns of the event loop each.
   Future<void> settle() async {
-    for (var i = 0; i < 40; i++) {
+    for (var i = 0; i < 200; i++) {
       await Future<void>.delayed(Duration.zero);
     }
   }

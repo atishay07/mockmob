@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart' show LucideIcons;
 
 import '../../../core/copy/formatters.dart' show formatSignedNumber;
+import '../../../core/motion/motion.dart' show Motion;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart' show KeyButton;
 
@@ -44,10 +45,10 @@ abstract final class FinishBeats {
   static const double blockGap = 120 / _ms;
 
   /// Row [i]'s own 0 to 1 at [t] of [after].
-  static double row(double t, int i) => Curves.easeOut.transform(((t - i * rowGap) / rowSpan).clamp(0.0, 1.0));
+  static double row(double t, int i) => Motion.glide.transform(((t - i * rowGap) / rowSpan).clamp(0.0, 1.0));
 
   /// Chapter row [i]'s own 0 to 1 at [t].
-  static double chapter(double t, int i) => Curves.easeOut.transform(((t - chaptersAt - i * chapterGap) / rowSpan).clamp(0.0, 1.0));
+  static double chapter(double t, int i) => Motion.glide.transform(((t - chaptersAt - i * chapterGap) / rowSpan).clamp(0.0, 1.0));
 }
 
 /// The words of the ledger and the chapters, read aloud before they were written.
@@ -237,7 +238,7 @@ class FinishLedger extends StatelessWidget {
               Align(
                 alignment: Alignment.centerLeft,
                 child: FractionallySizedBox(
-                  widthFactor: Curves.easeOut.transform(((t.value - FinishBeats.totalAt + 0.08) / 0.12).clamp(0.0, 1.0)),
+                  widthFactor: Motion.glide.transform(((t.value - FinishBeats.totalAt + 0.08) / 0.12).clamp(0.0, 1.0)),
                   child: Container(height: 1, color: colors.lineStrong),
                 ),
               ),
@@ -482,7 +483,7 @@ class PaperReadCard extends StatelessWidget {
   final double? at;
 
   /// Block [i]'s own 0 to 1 at [v], starting at [from].
-  static double beat(double v, int i, {double? from}) => Curves.easeOut.transform(
+  static double beat(double v, int i, {double? from}) => Motion.glide.transform(
     ((v - (from ?? FinishBeats.chaptersAt) - i * FinishBeats.blockGap) / FinishBeats.rowSpan).clamp(0.0, 1.0),
   );
 

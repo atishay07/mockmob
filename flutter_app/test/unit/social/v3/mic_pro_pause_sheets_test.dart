@@ -65,8 +65,8 @@ void main() {
         'Your chain, rest passes and make-up days.',
         'The podium, your marks and Fix it together.',
         'Every Fold and sticker you earn.',
-        'Start as many games as you like, live or anytime.',
-        'Open live rooms.',
+        // Live rooms are not sold while the server's live switch is off (L-04).
+        'Start as many games as you like.',
         'Pass the mic to a friend, twice a week.',
         'Start up to 3 Mobs.',
         'Nothing you earn in the Mob is for sale.',
