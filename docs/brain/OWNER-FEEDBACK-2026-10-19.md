@@ -947,3 +947,31 @@ Billing page: "Your grace period has started. Your organization went over its qu
 > 3. There is no invite thing also when making a new account.
 > 4. I'm still receiving random credits, like 150, 200, whatever. I just made a new account. I'll try again.
 > Also, can you clarify these for now? I'll give more feedback later."
+
+## Owner, 20 Oct 11:20 pm IST (verbatim, three pasted parts plus his own text): feedback on installed version 15 and the vision for version 16
+> "Okay, supposedly the delete account feature doesn't actually delete it, so that's why I was testing a deleted account. Anyway, leave all that.
+>
+> I tested with a fresh account using a temp mail. Credits are 50 to 39. When I open the credits section, it's showing that thing: "Invite a friend, you both get 100 credits." It's showing me only when it's not.
+>
+> As soon as I sign up and the first screen opens in the app, it should not necessarily give a walkthrough, but at least a pop-up should show after signing up: "Free 50 welcome credits. Want to earn extra? Invite your friends." Make it intuitive and interesting. Whatever you have built there is also very boring, like "Earn extra 100 credits, invite your friends," perhaps something like that.
+>
+> Second thing is that mob thing fix: it doesn't work. It doesn't show the animation itself, even on a fresh account, so that should be fixed. The "How it works" that you have built should have another welcome animation on top of that for the first time.
+>
+> Moving on to the other feedback, honestly, about that, nothing much right now. Everything looks good to me. Just include all this as the future vision for the next session, and also turn on the live mode in the mob. It can guide me on how to exactly do it."
+>
+> "Now, coming on to the website feedback. Honestly, the desktop version has been easier, but right now I'll focus on phone only because that's where the landing page matters the most.
+> * The pricing page needs an entire revamp.
+> * This "Get Access for 99", whatever that is, should be built like how it is on the app.
+> * Even the home landing page 0 section can be something like the app.
+> * I don't know if this question screen can be replaced or maybe subjects can be asked first. Make sure that there is a big button somewhere to select or, by default, you can select these subjects: finance, accounts, economics, and accountancy. You have selected commerce subjects and most students are of commerce only.
+> This is just the vision that I'm giving. Apart from this, one major fix that I pointed out last time also is when rolling down:
+> * The scroll animation: you lost your marks somewhere. Mockmob shows you where and picks where the chapter is. Whatever copy you have written, this needs to be improved and this needs to fill a bigger part of the screen. It has to be sized according to the mobile version.
+> * Actually this part, if I open it up on the website, is something that's good on the website. Some are good on mobile. This is perfectly aligned to the website size. On one part, half of the screen, this animation is scrolling through and other subjects are too but on phone it is too small.
+> * Inside Mistake Lab, the time thing is frozen. It should load after the first scroll. It is a free Vegas animation. Maybe it plays one time only when the page loads. Others are working, like changes, then repair, then swap. This one needs to be fixed.
+> * These bots inside Mockmob look good, but they can use some more effects, maybe in terms of building the UI more beautifully. In dark mode, the screen on which the things are displayed has a black background, so it's getting merged in some screens, not hampering the visibility exactly.
+> * If I have not mentioned already, tell it to guide me with whatever is needed in Razorpay to set everything up for the website. Later on for the app, right now for the website, because I think you are not changing it to monthly because of Razorpay only. Right now that's all."
+>
+> "Then, coming back to the app, it lacks smart pop-ups and, just in general, ways to direct people if they are not doing something, or maybe to get Pro, or maybe something else, like "Invite friend" (like many apps do). They use these kinds of things, as I had mentioned previously also.
+> That's my entire feedback for both the app and the website. I want all this done in the next session in a single pass because it's just some fine-tuning of some stuff. This will be the final version 16 of the app, which I'll post tonight.
+> Other than that, tell it to be creative and, apart from my direction, also find things that it can improve, perfect, or double down upon. That's what we need right now. Make the proper handoff and prompt, which I can give to it, and delete this. Whatever verification prompt you have given, I need a handover, and prompt verification is done for this build. Now, time for the next version."
+**Ledger D191:** version 15 verification is closed; version 16 (app 1.0.18+16) is the final closed-testing build, posted tonight, built in ONE pass in the next session from docs/brain/NEXT-PROMPT-1020-V16.md (app: welcome-credits + invite pop-up after sign-up, invite card only when true, Mob first-visit welcome animation before How it works, smart nudges/pop-ups, live mode on with owner guidance; web phone-first: pricing revamp, Get access like the app, hero like the app, subjects first with commerce preselected, scroll story bigger on phone with better copy, Mistake Lab timer animation, bot screens depth in dark mode, Razorpay monthly setup guidance; plus the team's own improvements). The verify prompt is withdrawn.
