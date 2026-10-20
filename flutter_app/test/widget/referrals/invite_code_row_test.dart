@@ -26,7 +26,7 @@ class FakeClaims implements ReferralClaimService {
   int calls = 0;
 
   @override
-  Future<ReferralClaimOutcome> claimPending() async {
+  Future<ReferralClaimOutcome> claimPending({bool fresh = false}) async {
     calls++;
     return outcome;
   }

@@ -2,6 +2,8 @@
 // on a first launch (Android only), `invite=<code>` is kept as the pending invite (source 'link'), a typed code is kept
 // (source 'code'), and the claim path hands it to the server once signed in and says plainly what the server answered.
 
+import 'dart:async';
+
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_providers.dart';
@@ -38,9 +40,24 @@ void main() {
       expect(inviteFromInstallReferrer('invite%3DK7P2M9X', now: now)?.code, 'K7P2M9X', reason: 'encoded twice');
     });
 
-    test('a Mob invite code is a Mob invite, as for a link opened in the app', () {
-      final m = inviteFromInstallReferrer('invite=ABCDEF', now: now)!;
-      expect([m.code, m.source, m.explicit], ['ABCDEF', 'mob_invite', true]);
+    test('the exact string the website sends (src/lib/referrals/friendInvite.mjs, playInviteUrl) is read, however Play hands it over', () {
+      // The Play url is ...&referrer=invite%3DK7P2M9X; Play gives the app the decoded invite=K7P2M9X.
+      final play = Uri.parse('https://play.google.com/store/apps/details?id=in.mockmob.app&referrer=invite%3DK7P2M9X');
+      expect(play.queryParameters['referrer'], 'invite=K7P2M9X');
+      expect(inviteFromInstallReferrer(play.queryParameters['referrer'], now: now)?.code, 'K7P2M9X');
+      // The website reads a code the Crockford way before it puts it in the url; the app does the same with anything it gets.
+      expect(inviteFromInstallReferrer('invite=07P2M9X', now: now)?.code, '07P2M9X');
+      expect(inviteFromInstallReferrer('invite=o7p2m9x', now: now)?.code, '07P2M9X');
+      expect(inviteFromInstallReferrer('  invite=K7P2M9X\n', now: now)?.code, 'K7P2M9X');
+      expect(inviteFromInstallReferrer('utm_source=google-play&utm_medium=organic&invite=K7P2M9X', now: now)?.code, 'K7P2M9X');
+      expect(inviteFromInstallReferrer('utm_source=a%20b&utm_term=100%&invite=K7P2M9X', now: now)?.code, 'K7P2M9X', reason: 'one bad pair never hides the invite');
+      expect(inviteFromInstallReferrer('invite=K7P2M9X&invite=Q2W3E4R', now: now)?.code, 'K7P2M9X', reason: 'the first one');
+      expect(inviteFromInstallReferrer('invite=%4B7P2M9X', now: now)?.code, 'K7P2M9X', reason: 'a percent-encoded character in the code');
+    });
+
+    test('only a friend code (7 characters) is read from a referrer: a Mob invite code is not what the website sends', () {
+      expect(inviteFromInstallReferrer('invite=ABCDEF', now: now), isNull);
+      expect(inviteFromInstallReferrer('invite=ABCDEFGH', now: now), isNull);
     });
 
     test('Play\'s own organic referrer, junk and codes of the wrong shape carry no invite', () {
@@ -49,6 +66,12 @@ void main() {
       expect(inviteFromInstallReferrer('', now: now), isNull);
       expect(inviteFromInstallReferrer('invite=', now: now), isNull);
       expect(inviteFromInstallReferrer('invite=SHORT', now: now), isNull);
+      expect(inviteFromInstallReferrer('invite=UUUUUUU', now: now), isNull, reason: 'U is not in the alphabet');
+      expect(inviteFromInstallReferrer('invite=K7P 2M9X Q', now: now), isNull);
+      expect(inviteFromInstallReferrer('invite', now: now), isNull);
+      expect(inviteFromInstallReferrer('=K7P2M9X', now: now), isNull);
+      expect(inviteFromInstallReferrer('invite%3D%ZZ', now: now), isNull);
+      expect(inviteFromInstallReferrer('invite[]=K7P2M9X', now: now), isNull);
       expect(inviteFromInstallReferrer('invite=K7P2M9X!', now: now), isNull);
       expect(inviteFromInstallReferrer('ref=K7P2M9X', now: now), isNull, reason: 'only invite= is an invite');
       expect(inviteFromInstallReferrer('%ZZ', now: now), isNull);
@@ -103,6 +126,26 @@ void main() {
       }
       expect(source.calls, InstallReferrerCapture.maxTries);
       expect(await store.read(), isNull);
+    });
+
+    test('a Play that never answers is dropped after a few seconds (the next launch asks again) and never blocks', () async {
+      final prefs = MemoryPrefsStore();
+      final store = PendingInviteStore(prefs, now: () => now);
+      final never = Completer<InstallReferrerRead>();
+      final source = _Source(() => never.future);
+      final capture = InstallReferrerCapture(
+        source: source,
+        store: store,
+        prefs: prefs,
+        now: () => now,
+        isAndroid: true,
+        readTimeout: const Duration(milliseconds: 30),
+      );
+      expect(InstallReferrerCapture.defaultReadTimeout, lessThanOrEqualTo(const Duration(seconds: 6)));
+      expect(await capture.run(), isNull);
+      expect(await store.read(), isNull);
+      expect(prefs.values[InstallReferrerCapture.triesKey], 1);
+      expect(prefs.values[InstallReferrerCapture.doneKey], isNull, reason: 'asked again on the next launch');
     });
 
     test('a referrer never replaces the invite already kept (the first friend keeps it), but a typed code does', () async {
@@ -203,6 +246,53 @@ void main() {
       out = await c.read(referralClaimServiceProvider).claimPending();
       expect([out.done, out.reason], [false, 'unavailable']);
       expect(await store.read(), isNotNull);
+    });
+
+    test('a 429 from the server is kept for later and says to wait; a slow server is dropped after a few seconds', () async {
+      final c = start();
+      final store = c.read(pendingInviteStoreProvider);
+      await store.captureCode('K7P2M9X');
+      http.replies.add(const FakeReply(429, {'ok': false, 'state': null, 'reason': 'rate_limited', 'done': false}));
+      var out = await c.read(referralClaimServiceProvider).claimPending();
+      expect([out.ok, out.done, out.reason], [false, false, 'rate_limited']);
+      expect(ReferralCopy.codeProblem(out.reason), ReferralCopy.codeBusy);
+      expect((await store.read())!.code, 'K7P2M9X', reason: 'kept for the next try');
+      expect(ReferralClaimService.timeout, lessThanOrEqualTo(const Duration(seconds: 10)));
+    });
+
+    test('never the inviter\'s own code: when the student\'s own code is known it is forgotten and not sent', () async {
+      final c = start();
+      c.listen(referralStatusProvider, (_, _) {});
+      http.replies.add(const FakeReply(200, {'ok': true, 'live': true, 'code': 'K7P2M9X', 'link': 'https://www.mockmob.in/r/K7P2M9X'}));
+      await c.read(referralStatusProvider.future);
+      final store = c.read(pendingInviteStoreProvider);
+      await store.captureCode('k7p 2m9x');
+      final before = http.requests.length;
+      final out = await c.read(referralClaimServiceProvider).claimPending();
+      expect([out.ok, out.done, out.reason], [false, true, 'self']);
+      expect(http.requests.length, before, reason: 'nothing was sent');
+      expect(await store.read(), isNull);
+    });
+
+    test('a code typed while another claim runs is handed over after it, and its answer is its own', () async {
+      final c = start();
+      final store = c.read(pendingInviteStoreProvider);
+      await store.capture(PendingInvite(code: 'Q2W3E4R', source: 'link', at: DateTime.now()));
+      final hold = Completer<void>();
+      http.hold = hold;
+      http.replies
+        ..add(const FakeReply(200, {'ok': true, 'state': 'joined', 'done': true}))
+        ..add(const FakeReply(200, {'ok': false, 'state': null, 'reason': 'already_referred', 'done': true}));
+      final service = c.read(referralClaimServiceProvider);
+      final running = service.claimPending();
+      await pumpEventQueue();
+      await store.captureCode('K7P2M9X');
+      final typed = service.claimPending(fresh: true);
+      hold.complete();
+      expect((await running).ok, isTrue);
+      final answer = await typed;
+      expect([answer.ok, answer.reason], [false, 'already_referred']);
+      expect(http.requests.map((r) => (r.body! as Map)['code']), ['Q2W3E4R', 'K7P2M9X']);
     });
 
     test('two callers at once make one request', () async {

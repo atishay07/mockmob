@@ -18,6 +18,8 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../core/api/api_client.dart' show ApiOptions;
+import '../../core/api/api_error.dart' show ApiError, ApiErrorKind;
 import '../../core/api/api_providers.dart';
 import '../../core/auth/auth_state.dart';
 import '../../core/models/json_helpers.dart';
@@ -144,6 +146,12 @@ class PendingInviteStore {
 
   Future<void> clear() => _prefs.remove(_key);
 
+  /// Forgets the kept invite only while it is still [code]: a code kept while a claim was running stays for its own claim.
+  Future<void> clearIfCode(String code) async {
+    final had = await read();
+    if (had != null && had.code == code) await clear();
+  }
+
   /// A random id for this install, for the server's same-phone check (it is hashed there; it names no one).
   Future<String> installId() async {
     final had = await _prefs.getString(_installKey);
@@ -248,6 +256,12 @@ class ReferralClaimOutcome {
 
   /// Nothing was kept, so there was nothing to hand over.
   static const ReferralClaimOutcome nothing = ReferralClaimOutcome(ok: false, done: true, reason: 'no_invite');
+
+  /// The kept code is the student's own: nothing is sent, and it is forgotten.
+  static const ReferralClaimOutcome own = ReferralClaimOutcome(ok: false, done: true, reason: 'self');
+
+  /// The server (or the app's own hold after a 429) asked for a wait: the invite is kept for the next try.
+  static const ReferralClaimOutcome rateLimited = ReferralClaimOutcome(ok: false, done: false, reason: 'rate_limited');
   static const ReferralClaimOutcome unavailable = ReferralClaimOutcome(ok: false, done: false, reason: 'unavailable');
 }
 
@@ -259,10 +273,16 @@ class ReferralClaimService {
   final Ref _ref;
   Future<ReferralClaimOutcome>? _inFlight;
 
-  /// Claims the kept invite for the signed-in student. Never throws.
-  Future<ReferralClaimOutcome> claimPending() {
+  /// How long the app waits for the server's answer. A claim runs beside everything else (never in front of start-up or
+  /// sign-in), and one that does not answer is kept for the next try.
+  static const Duration timeout = Duration(seconds: 8);
+
+  /// Claims the kept invite for the signed-in student. Never throws. A caller that arrives while a claim runs gets that
+  /// claim's answer, unless it has just kept a new code ([fresh], a code typed by hand): then it waits for the running claim
+  /// and hands its own over after it, so the answer it shows is about its own code.
+  Future<ReferralClaimOutcome> claimPending({bool fresh = false}) {
     final running = _inFlight;
-    if (running != null) return running;
+    if (running != null) return fresh ? running.then((_) => claimPending()) : running;
     final next = _run().whenComplete(() => _inFlight = null);
     return _inFlight = next;
   }
@@ -275,23 +295,35 @@ class ReferralClaimService {
       final store = _ref.read(pendingInviteStoreProvider);
       final pending = await store.read();
       if (pending == null) return ReferralClaimOutcome.nothing;
+      // Never the inviter's own code: when the student's own code is already known it is not sent (the server refuses it too).
+      if (_ref.exists(referralStatusProvider) && _ref.read(referralStatusProvider).value?.code == pending.code) {
+        await store.clearIfCode(pending.code);
+        return ReferralClaimOutcome.own;
+      }
       final age = DateTime.now().difference(pending.at).inSeconds;
-      final res = await _ref.read(apiClientProvider).post(
-        '/api/referrals/claim',
-        body: {
-          'code': pending.code,
-          'source': pending.source,
-          'linkAgeSeconds': age < 0 ? 0 : age,
-          'device': await store.installId(),
-        },
-        expectUserId: userId,
-      );
+      final res = await _ref
+          .read(apiClientProvider)
+          .post(
+            '/api/referrals/claim',
+            body: {
+              'code': pending.code,
+              'source': pending.source,
+              'linkAgeSeconds': age < 0 ? 0 : age,
+              'device': await store.installId(),
+            },
+            options: const ApiOptions(receiveTimeout: timeout),
+            expectUserId: userId,
+          )
+          .timeout(timeout);
       final j = asJson(res.data);
       final done = j['done'] == true;
-      if (done) await store.clear();
+      if (done) await store.clearIfCode(pending.code);
       final ok = j['ok'] == true;
       if (ok) _ref.invalidate(referralStatusProvider);
       return ReferralClaimOutcome(ok: ok, done: done, reason: ok ? null : (asString(j['reason']) ?? 'unavailable'), state: asString(j['state']));
+    } on ApiError catch (e) {
+      // Kept for the next try; a 429 says so plainly.
+      return e.kind == ApiErrorKind.rateLimited ? ReferralClaimOutcome.rateLimited : ReferralClaimOutcome.unavailable;
     } on Object {
       // Kept for the next try.
       return ReferralClaimOutcome.unavailable;

@@ -52,7 +52,7 @@ class _InviteCodeRowState extends ConsumerState<InviteCodeRow> {
         if (mounted) setState(() => _problem = ReferralCopy.codeBad);
         return;
       }
-      final outcome = await service.claimPending();
+      final outcome = await service.claimPending(fresh: true);
       if (!mounted) return;
       setState(() {
         if (outcome.ok) {
@@ -64,24 +64,28 @@ class _InviteCodeRowState extends ConsumerState<InviteCodeRow> {
     } on Object {
       if (mounted) setState(() => _problem = ReferralCopy.codeOffline);
     } finally {
-      if (mounted) setState(() => _busy = false);
+      if (mounted) {
+        setState(() => _busy = false);
+        // After a refusal the cursor goes back to the field, so the code can be fixed at once.
+        if (_problem != null) WidgetsBinding.instance.addPostFrameCallback((_) => mounted ? _focus.requestFocus() : null);
+      }
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final status = ref.watch(referralStatusProvider).value;
-    if (status == null || !status.live) return const SizedBox.shrink();
-    if (_added == null && status.invitedState != null) return const SizedBox.shrink();
     final colors = context.mmColors;
     final type = context.mmType;
 
+    // Once added, the answer stays on screen even while the status is read again (a read that fails must not take it away).
     if (_added != null) {
       return Padding(
         padding: const EdgeInsets.only(top: MmSpace.s8),
         child: _Line(icon: LucideIcons.circleCheck, color: colors.goodText, text: _added!),
       );
     }
+    if (status == null || !status.live || status.invitedState != null) return const SizedBox.shrink();
     if (!_open) {
       return Padding(
         padding: const EdgeInsets.only(top: MmSpace.s8),
@@ -110,35 +114,38 @@ class _InviteCodeRowState extends ConsumerState<InviteCodeRow> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
         children: [
-          Text(ReferralCopy.codeLabel, style: type.label.copyWith(color: colors.ink2)),
+          ExcludeSemantics(child: Text(ReferralCopy.codeLabel, style: type.label.copyWith(color: colors.ink2))),
           const SizedBox(height: MmSpace.s8),
-          TextField(
-            controller: _controller,
-            focusNode: _focus,
-            enabled: !_busy,
-            autocorrect: false,
-            enableSuggestions: false,
-            textCapitalization: TextCapitalization.characters,
-            textInputAction: TextInputAction.done,
-            onSubmitted: (_) => _submit(status),
-            onChanged: (_) {
-              if (_problem != null) setState(() => _problem = null);
-            },
-            // A pasted invite link works as well as a code, so the field takes any text up to a link's length.
-            inputFormatters: [LengthLimitingTextInputFormatter(120)],
-            cursorColor: colors.ink,
-            style: type.body.copyWith(color: colors.ink, letterSpacing: 1.5),
-            decoration: InputDecoration(
-              hintText: ReferralCopy.codeHint,
-              hintStyle: type.body.copyWith(color: colors.ink3, letterSpacing: 1.5),
-              filled: true,
-              fillColor: colors.raised,
-              isDense: true,
-              constraints: const BoxConstraints(minHeight: 56),
-              contentPadding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: 16),
-              enabledBorder: border(hasError ? colors.badText : colors.line, hasError ? 1.5 : 1),
-              disabledBorder: border(colors.line, 1),
-              focusedBorder: border(hasError ? colors.badText : colors.focusRing, 1.5),
+          Semantics(
+            label: ReferralCopy.codeLabel,
+            child: TextField(
+              controller: _controller,
+              focusNode: _focus,
+              enabled: !_busy,
+              autocorrect: false,
+              enableSuggestions: false,
+              textCapitalization: TextCapitalization.characters,
+              textInputAction: TextInputAction.done,
+              onSubmitted: (_) => _submit(status),
+              onChanged: (_) {
+                if (_problem != null) setState(() => _problem = null);
+              },
+              // A pasted invite link works as well as a code, so the field takes any text up to a link's length.
+              inputFormatters: [LengthLimitingTextInputFormatter(120)],
+              cursorColor: colors.ink,
+              style: type.body.copyWith(color: colors.ink, letterSpacing: 1.5),
+              decoration: InputDecoration(
+                hintText: ReferralCopy.codeHint,
+                hintStyle: type.body.copyWith(color: colors.ink3, letterSpacing: 1.5),
+                filled: true,
+                fillColor: colors.raised,
+                isDense: true,
+                constraints: const BoxConstraints(minHeight: 56),
+                contentPadding: const EdgeInsets.symmetric(horizontal: MmSpace.s16, vertical: 16),
+                enabledBorder: border(hasError ? colors.badText : colors.line, hasError ? 1.5 : 1),
+                disabledBorder: border(colors.line, 1),
+                focusedBorder: border(hasError ? colors.badText : colors.focusRing, 1.5),
+              ),
             ),
           ),
           if (_problem != null) ...[
