@@ -117,7 +117,7 @@ test('every claim on the slides is true in this build (the truth table)', () => 
   assert.deepEqual(COUNTS.sprint, [5], 'a sprint is 5 questions');
   assert.deepEqual(COUNTS.round, [10, 15, 20], 'your own round is 10, 15 or 20');
   assert.match(read('supabase/migrations/20261020100100_mob_v3_games.sql'), /p_now \+ interval '24 hours'/, 'a game is open 24 hours');
-  assert.match(read('src/lib/server/mob/games.js'), /count = prev\.question_ids\.length; chapter = prev\.chapter \|\| null;/, 'a rematch keeps the length and chapter');
+  assert.match(read('src/lib/server/mob/games.js'), /count = prev\.question_ids\.length; least = count;[\s\S]{0,20}chapter = prev\.chapter \|\| null; rematchOf = prev\.id;/, 'a rematch keeps the length and chapter (a race keeps its minutes: the formats server, D167)');
   assert.equal(PAPER_COUNT, 10); assert.equal(PAPER_COUNT * RUNNER_SECONDS_PER_QUESTION, 600, '10 questions in 10 minutes');
   assert.deepEqual([...STARTERS], ['dart', 'dogear', 'hexa', 'kandil'], 'you start as one of these four');
   assert.equal(PER_MEMBER, 15); assert.equal(DAY_GOAL, 5);
