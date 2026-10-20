@@ -80,6 +80,7 @@ class WalletInviteSection extends ConsumerWidget {
               const SizedBox(height: MmSpace.s8),
               Text(ReferralCopy.cap(s.monthlyCap), style: type.caption.copyWith(color: colors.ink3)),
               // A friend's code, for a student who was invited and did not follow the link (hidden once they joined with one).
+              const SizedBox(height: MmSpace.s8),
               const InviteCodeRow(),
             ],
           ),

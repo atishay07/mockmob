@@ -115,6 +115,8 @@ void main() {
   _golden('sheet_unknown_code', _sheet, add: true, answer: const ReferralClaimOutcome(ok: false, done: true, reason: 'unknown_code'));
   _golden('sheet_added', _sheet, add: true);
   _golden('wallet_closed', _wallet);
+  _golden('wallet_open', _wallet, openOnly: true);
+  _golden('wallet_added', _wallet, add: true);
   _golden('wallet_own_code', _wallet, add: true, answer: const ReferralClaimOutcome(ok: false, done: true, reason: 'self'));
   _golden('wallet_offline', _wallet, add: true, answer: ReferralClaimOutcome.unavailable);
 }
