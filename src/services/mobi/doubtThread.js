@@ -138,11 +138,39 @@ export async function offerChecks({ threadId, userId, anchor, deps }) {
 }
 
 /**
- * Opens a thread: the one charged step. The thread row is written first (nothing is charged if it cannot be), then the
- * reply runs through the reserve -> commit | release lifecycle (`deps.runReply`, runModelReply), then the 2 questions are
- * attached. A failed reply releases the credit and closes the thread row; nothing is charged.
+ * L-01 (20 Oct): a doubt whose reply was lost in transit comes back with the same requestId. Its credit was taken once
+ * (the reserve is keyed by the request), so the doubt it bought is replayed: the thread it opened, the stored reply, its
+ * questions and any answers already given. Never a second charge and never a second model call. `deps.findOpened`
+ * finds the thread by its open key (threadStore). Null when there is nothing to replay.
  */
-export async function openThread({ user, message, requestId, anchor = null, deps }) {
+export async function replayOpened({ user, openKey, deps }) {
+  if (!openKey || typeof deps.findOpened !== 'function') return null;
+  let found;
+  try { found = await deps.findOpened({ userId: user.id, openKey }); } catch { return null; }
+  if (!found?.threadId || !found.thread) return null;
+  const replyText = String(found.response?.reply || found.thread.reply || '').trim();
+  if (!replyText) return null;
+  const read = found.thread.state === 'open' ? await readThread({ user, threadId: found.threadId, deps }) : null;
+  const fresh = read?.http === 200 ? read.body : null;
+  return {
+    http: 200, replayed: true, threadId: found.threadId,
+    response: found.response?.reply ? found.response : { reply: replyText, cards: [], actions: [] },
+    thread: fresh ? fresh.thread : threadView(found.threadId, found.thread),
+    checks: fresh ? fresh.checks : [], results: fresh ? fresh.results : {},
+    checksNote: fresh ? null : THREAD_COPY.checksUnavailable,
+  };
+}
+
+/**
+ * Opens a thread: the one charged step. A retry of a doubt already answered replays it (replayOpened) before anything
+ * else. The thread row is written first (nothing is charged if it cannot be), then the reply runs through the
+ * reserve -> commit | release lifecycle (`deps.runReply`, runModelReply), then the 2 questions are attached. A failed
+ * reply releases the credit and closes the thread row; nothing is charged. `openKey` is the request's operation key
+ * (operationKeyFor(user.id, requestId)), the same key the reserve uses.
+ */
+export async function openThread({ user, message, requestId, anchor = null, openKey = null, deps }) {
+  const earlier = await replayOpened({ user, openKey, deps });
+  if (earlier) return earlier;
   const thread = {
     v: THREAD_VERSION, state: 'pending', followUpsUsed: 0, followUpsMax: THREAD_FOLLOW_UPS,
     subject: anchor?.subject ?? null, chapter: anchor?.chapter ?? null, doubt: clip(message), reply: null, checks: [], openedAt: new Date(deps.now()).toISOString(),
@@ -154,6 +182,11 @@ export async function openThread({ user, message, requestId, anchor = null, deps
   const out = await deps.runReply({ creditCost: THREAD_CREDIT_COST, threadContext: { thread: { chapter: thread.chapter, subject: thread.subject, part: 'opening' } } });
   if (out.status !== 'answered') {
     try { await deps.updateThread({ id: threadId, userId: user.id, thread: { ...thread, state: 'failed' } }); } catch { /* the row stays pending and is never usable */ }
+    // The same request was already answered (its first response was lost): replay that doubt, never "already answered".
+    if (out.status === 'duplicate') {
+      const again = await replayOpened({ user, openKey, deps });
+      if (again) return again;
+    }
     return { http: out.http, body: { ok: false, error: out.error || out.status, status: out.status, message: out.message, required: out.required, balance: out.balance, charged: 0 }, threadId: null };
   }
   const offered = await offerChecks({ threadId, userId: user.id, anchor, deps });

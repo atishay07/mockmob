@@ -151,8 +151,14 @@ export async function POST(request) {
   // 2 real CUET questions from the verified bank on its chapter. Nothing is charged when the reply fails.
   if (!studyLesson && !questionContext) {
     const anchor = resolveAnchor({ subject: payload.subject, chapter: payload.chapter, message, catalog: chapterCatalog(dbUser) });
-    const opened = await openThread({ user: dbUser, message, requestId: payload.requestId, anchor, deps: { ...buildThreadDeps({ user: dbUser }), runReply } });
+    const opened = await openThread({ user: dbUser, message, requestId: payload.requestId, anchor, openKey: operationKeyFor(userId, payload.requestId), deps: { ...buildThreadDeps({ user: dbUser }), runReply } });
     if (opened.http !== 200) return NextResponse.json(opened.body, { status: opened.http });
+    // L-01: the same doubt sent again after its response was lost. Its credit was taken once; replay what it bought
+    // (the reply, the thread as it stands now, its questions and answers). Nothing is charged and nothing is stored again.
+    if (opened.replayed) {
+      const replayed = { ...opened.response, origin: 'model', mode, replayed: true, thread: opened.thread, checks: opened.checks, checksNote: opened.checksNote, results: opened.results };
+      return reply(opened.threadId, replayed, dbUser, 'replayed');
+    }
     const out = opened.out;
     const response = {
       ...out.response, origin: 'model', mode, usage: { ...NO_USAGE, ...out.receipt },
@@ -198,8 +204,10 @@ async function persist({ userId, sessionId, message, response, mode, keepMeta = 
     const sb = supabaseAdmin();
     let effectiveSessionId = sessionId;
     if (effectiveSessionId) {
-      const { data: existing } = await sb.from('mentor_sessions').select('id').eq('id', effectiveSessionId).eq('user_id', userId).maybeSingle();
+      const { data: existing } = await sb.from('mentor_sessions').select('id,metadata').eq('id', effectiveSessionId).eq('user_id', userId).maybeSingle();
       effectiveSessionId = existing?.id || null;
+      // A paid doubt's row keeps its thread whatever is asked in the same panel afterwards (web-mobi #1, L-01).
+      if (existing?.metadata?.thread) keepMeta = true;
     }
     if (!effectiveSessionId) {
       const { data } = await sb.from('mentor_sessions').insert({ user_id: userId, title: message.slice(0, 56), metadata: { mode } }).select('id').single();
