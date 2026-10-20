@@ -215,6 +215,37 @@ class DenStage extends ConsumerWidget {
     return (null, null);
   }
 
+  /// How many lines the floor's name tags take at this width and text size (1 or 2): the screen keeps that much of the
+  /// tag band clear of the card, so a tag that wraps at large text ("Open" / "seat" at 1.3, v16 walk I-10) is never
+  /// cut by the card's top edge.
+  static int tagLinesFor(BuildContext context, double width, MobV3? v3) {
+    final all = v3?.members ?? const <MobV3Member>[];
+    if (all.isEmpty) return 1;
+    final studier = studierOf(v3).$2;
+    final floor = [for (final m in all) if (m.memberId != studier?.memberId) m];
+    final seats = all.length == 1 ? 4 : math.max(0, 5 - all.length);
+    final slots = floor.length + seats;
+    if (slots == 0) return 1;
+    final slotW = (width - 2 * MmSpace.gutter) / slots - 4;
+    final type = context.mmType;
+    final scaler = MediaQuery.textScalerOf(context);
+    int linesOf(String text, TextStyle style) {
+      final p = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler, textAlign: TextAlign.center, maxLines: 2)
+        ..layout(maxWidth: math.max(1, slotW));
+      final n = p.computeLineMetrics().length;
+      p.dispose();
+      return n;
+    }
+
+    final name = type.label.copyWith(fontWeight: FontWeight.w700);
+    var lines = 1;
+    for (final m in floor) {
+      lines = math.max(lines, linesOf(m.you ? MobV3Copy.you : m.name, name));
+    }
+    if (seats > 0) lines = math.max(lines, linesOf(seats >= 2 ? MobV4DenCopy.openShort : MobV3Copy.openSeat, type.label.copyWith(fontWeight: FontWeight.w600)));
+    return lines.clamp(1, 2);
+  }
+
   /// The pennant's left edge: by the desk's left when someone studies (the desk takes the right), else at
   /// the stage's right. The title block stops short of it.
   static double pennantLeft(double width, {required bool studying}) => studying ? width * 0.66 - pennantWidth / 2 : width - MmSpace.gutter - 6 - pennantWidth;
@@ -895,6 +926,9 @@ class _PennantInState extends State<_PennantIn> {
   Widget _withCaption(BuildContext context, Widget pennant) {
     final text = widget.caption;
     if (text == null || text.isEmpty) return pennant;
+    // The caption hangs clear of the pennant's point (v16 walk I-10: 2 dp under it, the name read as crossing the tip);
+    // with the studying tag right under it, it keeps closer.
+    final gap = widget.roomBelow ? MmSpace.s8 : MmSpace.s4;
     final colors = context.mmColors;
     final halo = [Shadow(color: colors.ground.withValues(alpha: colors.isNight ? 0.85 : 0.9), blurRadius: 6)];
     final style = context.mmType.caption.copyWith(fontSize: 10, height: 1.2, color: colors.isNight ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600, shadows: halo);
@@ -918,7 +952,7 @@ class _PennantInState extends State<_PennantIn> {
         mainAxisSize: MainAxisSize.min,
         children: [
           pennant,
-          const SizedBox(height: MmSpace.s2),
+          SizedBox(height: gap),
           SizedBox(
             width: DenStage.pennantWidth,
             child: ExcludeSemantics(
@@ -951,7 +985,7 @@ class _PennantInState extends State<_PennantIn> {
       mainAxisSize: MainAxisSize.min,
       children: [
         pennant,
-        const SizedBox(height: MmSpace.s2),
+        SizedBox(height: gap),
         SizedBox(
           width: DenStage.pennantWidth,
           height: line * (twoLines ? 2 : 1) + 1,
