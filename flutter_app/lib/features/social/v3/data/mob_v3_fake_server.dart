@@ -581,6 +581,9 @@ class MobV3FakeServer implements MobV3Api {
   final Set<String> studySharers = {};
   bool _sharersSeeded = false;
 
+  /// False: nobody in the fixture Mob shares (Mob hours reads "Off for everyone").
+  bool seedSharers = true;
+
   /// This week's minutes per member id (fixture: Riya 3 h 10 m, you 2 h 40 m, Kabir 1 h 55 m, Zoya 0).
   final Map<String, int> studyMinutes = {'RIYA00000002': 190, 'AARAV0000001': 160, 'KABIR0000003': 115, 'ZOYA00000004': 0};
   final Map<String, int> goalDays = {'RIYA00000002': 5, 'AARAV0000001': 4, 'KABIR0000003': 5, 'ZOYA00000004': 2};
@@ -598,8 +601,8 @@ class MobV3FakeServer implements MobV3Api {
   Json _hours(_Mob mob) {
     if (!_sharersSeeded) {
       _sharersSeeded = true;
-      if (scenario != 'quiet' && mob.members.length > 1) studySharers.addAll(mob.members.map((m) => m.id));
-      if (scenario == 'open' || scenario == 'heavy') studyingSince['RIYA00000002'] = now.subtract(const Duration(minutes: 20));
+      if (seedSharers && scenario != 'quiet' && mob.members.length > 1) studySharers.addAll(mob.members.map((m) => m.id));
+      if (seedSharers && (scenario == 'open' || scenario == 'heavy')) studyingSince['RIYA00000002'] = now.subtract(const Duration(minutes: 20));
     }
     final sharing = [for (final m in mob.members) if (studySharers.contains(m.id)) m];
     final listed = [for (final m in sharing) if ((studyMinutes[m.id] ?? 0) > 0) m]..sort((a, b) => (studyMinutes[b.id] ?? 0).compareTo(studyMinutes[a.id] ?? 0));

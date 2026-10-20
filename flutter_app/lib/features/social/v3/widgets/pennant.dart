@@ -98,6 +98,9 @@ class Pennant extends StatelessWidget {
 
 /// The pennant's paper and ink, the same in the den and the chain screens.
 abstract final class PennantPaper {
+  /// V4 den: the weekly stitches in volt, deepened on the light paper so they read in both themes.
+  static Color stitch(BuildContext context) => context.mmColors.isNight ? const Color(0xFFB8D400) : const Color(0xFF7FA300);
+
   static Color of(BuildContext context) => context.mmColors.isNight ? const Color(0xFFEDE5D3) : const Color(0xFFFFFDF8);
   static Color edge(BuildContext context) => context.mmColors.isNight ? const Color(0xFFBFB49C) : const Color(0xFFD9D0BE);
   static Color ink(BuildContext context) => const Color(0xFF1E1B15);
