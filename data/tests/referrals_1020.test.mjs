@@ -1,6 +1,6 @@
 // Friend referrals and the 50-credit welcome (owner D165, 20 Oct 2026). Money, so the real migration runs on an in-process
 // Postgres (PGlite) and every rule is driven through it: the welcome default, attribution, qualification on the first finished
-// practice, the idempotent +100 each, self-referral, replays, a friend who never practises, the monthly cap, the device and
+// practice (of any length, D182), the idempotent +100 each, self-referral, replays, a friend who never practises, the monthly cap, the device and
 // network holds, the kill switch, the Mob invite as a referral link, a failure that must not fail the practice, privileges and
 // the undo. Then the shared JS (codes, the pending-invite cookie, words) and the server glue, with no network.
 import test from 'node:test';
@@ -9,8 +9,8 @@ import { readFileSync } from 'node:fs';
 import { PGlite } from '@electric-sql/pglite';
 import { NextRequest, NextResponse } from 'next/server.js';
 import {
-  INVITE_COOKIE, REFERRAL_COPY, captureFromVisit, codeFromInput, decodeInviteCookie, encodeInviteCookie, inviteKind, normaliseInviteCode,
-  referralLink, referralView, referralsLive,
+  INVITE_COOKIE, REFERRAL_COPY, captureFromVisit, codeFromInput, decodeInviteCookie, encodeInviteCookie, inviteKind, inviteLanding,
+  isAndroidUserAgent, normaliseInviteCode, playInviteUrl, referralLink, referralView, referralsLive,
 } from '../../src/lib/referrals/friendInvite.mjs';
 import { claimInput, claimOutcome, claimReferral, hashFor, networkOf, readReferralStatus, referralBody } from '../../src/lib/server/referrals.js';
 import { applyInviteCapture } from '../../src/lib/server/sessionProxy.js';
@@ -21,6 +21,9 @@ import { WALLET_V13_COPY } from '../../src/components/wallet/walletModel.mjs';
 const file = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'utf8').replace(/\r\n/g, '\n');
 const MIGRATION = file('supabase/migrations/20261020130000_referrals.sql');
 const UNDO = file('supabase/undo/20261020130000_referrals.undo.sql');
+// D182 (20 Oct 2026, 5:45 pm IST): the reward fires on one finished practice of any length; this file replaces the 5-answer floor.
+const ANY_PRACTICE = file('supabase/migrations/20261020150000_referral_any_practice.sql');
+const ANY_PRACTICE_UNDO = file('supabase/undo/20261020150000_referral_any_practice.undo.sql');
 const ON = { REFERRALS_ENABLED: 'true', REFERRAL_HASH_SECRET: 'test-secret' };
 
 // The production shapes the migration touches, cut to the columns it reads (users.credit_balance DEFAULT 100 as on production).
@@ -46,6 +49,8 @@ async function db({ before = '' } = {}) {
   if (before) await d.exec(before);
   await d.exec(MIGRATION);
   await d.exec(MIGRATION); // re-runnable
+  await d.exec(ANY_PRACTICE);
+  await d.exec(ANY_PRACTICE); // re-runnable
   return d;
 }
 const one = async (d, sql, params = []) => (await d.query(sql, params)).rows[0];
@@ -109,6 +114,65 @@ test('a friend who signs up with the link and finishes one practice: +100 each, 
   assert.deepEqual((await status(d, 'B')).invited, { state: 'granted', rewarded: true, source: 'link' });
 });
 
+test('D182: one finished practice of any length qualifies, even a single answer; an empty one never does', async () => {
+  for (const answered of [1, 2, 4, 5, 20]) {
+    const d = await db();
+    await pair(d);
+    await practise(d, 'B', answered);
+    assert.equal((await ref(d, 'B')).state, 'granted', `${answered} answered`);
+    assert.deepEqual([await balance(d, 'A'), await balance(d, 'B'), (await ledger(d)).length], [100, 100, 2], `${answered} answered`);
+  }
+  // No answer in it: an empty submit, an abandoned set, a run where everything was skipped. Nothing is paid.
+  const d = await db();
+  await pair(d);
+  await practise(d, 'B', 0);
+  await d.query(`insert into public.attempts (id, user_id, correct, wrong, unattempted, total) values ('att-skipped', 'B', 0, 0, 10, 10)`);
+  await d.query(`insert into public.attempts (id, user_id, details) values ('att-none', 'B', '[{"qid":"q1","givenIndex":null}]')`);
+  await d.query(`insert into public.attempts (id, user_id) values ('att-null', 'B')`);
+  assert.deepEqual([(await ref(d, 'B')).state, await balance(d, 'A'), await balance(d, 'B'), (await ledger(d)).length], ['joined', 0, 0, 0]);
+  assert.equal((await val(d, `select public.mm_referral_qualify('B', 0, 'x')`)).reason, 'too_few_answers');
+  assert.equal((await val(d, `select public.mm_referral_qualify('B', null, 'x')`)).qualified, false);
+  // A single answer then pays, once, and a second practice pays nothing more.
+  await practise(d, 'B', 1);
+  assert.equal((await ref(d, 'B')).state, 'granted');
+  await practise(d, 'B', 1);
+  await practise(d, 'B', 30);
+  assert.deepEqual([await balance(d, 'A'), await balance(d, 'B'), (await ledger(d)).length], [100, 100, 2], 'once per friend');
+});
+
+test('D182: a one-practice reward keeps every abuse rule: self-referral, the same device, a reused device and the cap', async () => {
+  const d = await db();
+  await user(d, 'A', '30 days');
+  const code = await codeOf(d, 'A', 'devicehash-A');
+  assert.deepEqual(await attach(d, 'A', code), { ok: false, error: 'self' });
+  // A friend on the inviter's own device: qualifies on one answer, then is held, never paid.
+  await user(d, 'S');
+  await attach(d, 'S', code, { device: 'devicehash-A' });
+  await practise(d, 'S', 1);
+  const held = await ref(d, 'S');
+  assert.deepEqual([held.state, held.held_reason, held.referee_granted, held.referrer_granted], ['held', 'same_device', false, false]);
+  // The same friend device on a second account: the first earns, the second is held as a reused device.
+  await user(d, 'F1');
+  await attach(d, 'F1', code, { device: 'devicehash-F' });
+  await practise(d, 'F1', 1);
+  assert.equal((await ref(d, 'F1')).state, 'granted');
+  await user(d, 'F2');
+  await user(d, 'A2', '30 days');
+  await attach(d, 'F2', await codeOf(d, 'A2'), { device: 'devicehash-F' });
+  await practise(d, 'F2', 1);
+  assert.deepEqual([(await ref(d, 'F2')).state, (await ref(d, 'F2')).held_reason], ['held', 'device_reused']);
+  // The cap: 10 friends a month are paid to the inviter on one-answer practices; the 11th friend still gets their 100.
+  for (let i = 0; i < 10; i++) {
+    await user(d, `C${i}`);
+    await attach(d, `C${i}`, code, { device: `devicehash-C${i}`, ip: `iphash-network-${i}` });
+    await practise(d, `C${i}`, 1);
+  }
+  const at = await ref(d, 'C9');
+  assert.equal(at.state, 'granted');
+  assert.equal(at.referrer_capped, true, 'the 10 a month cap held: F1 + C0..C8 are 10, so C9 is the 11th');
+  assert.deepEqual([await balance(d, 'C9')], [100]);
+});
+
 test('replays pay nothing twice: the grant, the qualification, a second practice and the credit itself', async () => {
   const d = await db();
   await pair(d);
@@ -126,20 +190,20 @@ test('replays pay nothing twice: the grant, the qualification, a second practice
   assert.deepEqual(await attach(d, 'B', await codeOf(d, 'A')), { ok: true, idempotent: true, state: 'granted', source: 'link' });
 });
 
-test('a friend who never practises: joined, no credits; an answer count under 5 does not count', async () => {
+test('a friend who never practises: joined, no credits; a practice with no answer in it does not count', async () => {
   const d = await db();
   await pair(d);
-  await practise(d, 'B', 4); // e.g. a 1-question episode check or an abandoned set
-  await d.query(`insert into public.attempts (id, user_id, details) values ('att-details', 'B', '[{"qid":"q1","givenIndex":1},{"qid":"q2","givenIndex":null}]')`);
+  await practise(d, 'B', 0); // an abandoned set or an empty submit
+  await d.query(`insert into public.attempts (id, user_id, details) values ('att-details', 'B', '[{"qid":"q1","givenIndex":null},{"qid":"q2","givenIndex":null}]')`);
   const r = await ref(d, 'B');
   assert.deepEqual([r.state, r.qualified_at, r.referee_granted, r.referrer_granted], ['joined', null, false, false]);
   assert.deepEqual([await balance(d, 'A'), await balance(d, 'B'), (await ledger(d)).length], [0, 0, 0]);
   const s = await status(d, 'A');
   assert.deepEqual([s.joined, s.practised, s.rewarded, s.earned], [1, 0, 0, 0]);
   assert.deepEqual((await status(d, 'B')).invited, { state: 'joined', rewarded: false, source: 'link' });
-  // Answers counted from the details when correct and wrong are not stored: 5 answered qualifies.
-  await d.query(`insert into public.attempts (id, user_id, details) values ('att-d5', 'B', $1::jsonb)`,
-    [JSON.stringify([0, 1, 2, 3, 0].map((g, i) => ({ qid: `q${i}`, givenIndex: g })))]);
+  // Answers counted from the details when correct and wrong are not stored: one answered qualifies.
+  await d.query(`insert into public.attempts (id, user_id, details) values ('att-d1', 'B', $1::jsonb)`,
+    [JSON.stringify([null, 2, null].map((g, i) => ({ qid: `q${i}`, givenIndex: g })))]);
   assert.equal((await ref(d, 'B')).state, 'granted');
 });
 
@@ -310,8 +374,8 @@ test('the Mob invite link is also a referral link; a finished Mob game is a prac
   assert.deepEqual(await attach(d, 'm3', 'Q2W3E4'), { ok: false, error: 'unknown_code' });
   const game = await val(d, 'select gen_random_uuid()');
   await d.query(`insert into public.mob_game_runs (game_id, user_id) values ($1, 'm1')`, [game]);
-  await d.query(`update public.mob_game_runs set right_n = 2, wrong_n = 1, finished_at = now() where user_id = 'm1'`);
-  assert.equal((await ref(d, 'm1')).state, 'joined', '3 answers is not a practice');
+  await d.query(`update public.mob_game_runs set right_n = 0, wrong_n = 0, finished_at = now() where user_id = 'm1'`);
+  assert.equal((await ref(d, 'm1')).state, 'joined', 'a run with no answer is not a practice');
   const game2 = await val(d, 'select gen_random_uuid()');
   await d.query(`insert into public.mob_game_runs (game_id, user_id) values ($1, 'm1')`, [game2]);
   await d.query(`update public.mob_game_runs set right_n = 4, wrong_n = 2, finished_at = now() where game_id = $1`, [game2]);
@@ -337,6 +401,29 @@ test('a referral failure never fails the practice: the attempt is saved, nothing
   await practise(d, 'B');
   assert.equal((await ref(d, 'B')).state, 'granted');
   assert.deepEqual([await balance(d, 'A'), await balance(d, 'B')], [100, 100]);
+});
+
+test('D182 undo: puts the 5-answer floor back, keeps privileges, and the first undo still drops everything', async () => {
+  const d = await db();
+  await pair(d);
+  await d.exec(ANY_PRACTICE_UNDO);
+  await d.exec(ANY_PRACTICE_UNDO); // re-runnable
+  await user(d, 'C');
+  await attach(d, 'C', await codeOf(d, 'A'));
+  await practise(d, 'C', 4);
+  assert.equal((await ref(d, 'C')).state, 'joined', 'the floor is 5 again');
+  assert.equal((await val(d, `select public.mm_referral_qualify('C', 0, 'x')`)).reason, 'too_few_answers');
+  await practise(d, 'C', 5);
+  assert.equal((await ref(d, 'C')).state, 'granted');
+  assert.equal(await val(d, `select has_function_privilege('anon', 'public.mm_referral_qualify(text, integer, text)', 'execute')`), false);
+  assert.equal(await val(d, `select has_function_privilege('service_role', 'public.mm_referral_qualify(text, integer, text)', 'execute')`), true);
+  // Both undone, newest first: nothing left behind.
+  await d.exec(UNDO);
+  assert.equal(await val(d, `select count(*)::int from pg_proc where proname like 'mm_referral%'`), 0);
+  // The one-practice migration changes the one function and nothing else, and writes no data.
+  assert.deepEqual([...ANY_PRACTICE.matchAll(/^create (?:or replace )?(function|table|trigger|index)\s+(?:if not exists\s+)?(\S+)/gim)].map((m) => `${m[1]} ${m[2].replace(/\(.*/, '')}`), ['function public.mm_referral_qualify']);
+  const outsideTheFunction = ANY_PRACTICE.replace(/\$function\$[\s\S]*?\$function\$/, '');
+  assert.doesNotMatch(outsideTheFunction, /^\s*(?:insert into|update |delete from|alter table)/im);
 });
 
 test('privileges: RLS on with no policy, nothing for the browser roles, the functions for service_role only', async () => {
@@ -479,6 +566,58 @@ test('pricing and copy: no page promises the old 100; the invite line shows only
   assert.match(pricing, /REFERRAL_COPY\.pricingWelcome,\n\s+\.\.\.\(referralsLive\(\) \? \[REFERRAL_COPY\.pricingInvite\(\)\] : \[\]\),/);
   assert.equal(REFERRAL_COPY.pricingWelcome, 'New accounts start with this month’s 50 free credits.');
   for (const rel of ['src/components/wallet/walletModel.mjs', 'src/app/pricing/page.js']) assert.doesNotMatch(file(rel), /welcome credits/i, rel);
+});
+
+test('D182 the Android visitor goes to the Play listing with the code in the Install Referrer; everyone else keeps the sign-up path', () => {
+  const ANDROID = 'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Mobile Safari/537.36';
+  const DESKTOP = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36';
+  const IPHONE = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.0 Mobile/15E148 Safari/604.1';
+  const url = 'https://play.google.com/store/apps/details?id=in.mockmob.app&referrer=invite%3DK7P2M9X';
+  assert.equal(playInviteUrl('K7P2M9X'), url);
+  assert.equal(new URL(url).searchParams.get('referrer'), 'invite=K7P2M9X', 'the Install Referrer reads invite=<code>');
+  assert.equal(playInviteUrl('k7p 2m9x'), url, 'normalised first: lower case and spaces');
+  assert.equal(playInviteUrl('o7p2m9x'), 'https://play.google.com/store/apps/details?id=in.mockmob.app&referrer=invite%3D07P2M9X', 'the Crockford letters');
+  // Never a url from something that is not a friend code: wrong length, a Mob code, characters that could break out.
+  for (const bad of ['', null, undefined, 42, 'K7P2M9', 'K7P2M9XX', 'K7P2M9X&evil=1', 'K7P2M9X#x', '../etc', 'U7P2M9X', 'K7P2M9X%26x=1', 'https://evil.example/']) {
+    assert.equal(playInviteUrl(bad), null, String(bad));
+  }
+  assert.equal(playInviteUrl('K7P2M9X'.padEnd(5000, 'A')), null);
+
+  assert.equal(isAndroidUserAgent(ANDROID), true);
+  assert.equal(isAndroidUserAgent('mozilla android'), true);
+  for (const ua of [DESKTOP, IPHONE, '', null, undefined, 7]) assert.equal(isAndroidUserAgent(ua), false, String(ua));
+
+  assert.deepEqual(inviteLanding({ rawCode: 'k7p2m9x', userAgent: ANDROID, live: true }), { code: 'K7P2M9X', to: 'play', url });
+  // Desktop and iPhone: today's behaviour (sign-up with the invite banner).
+  assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9X', userAgent: DESKTOP, live: true }), { code: 'K7P2M9X', to: 'signup', url: null });
+  assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9X', userAgent: IPHONE, live: true }), { code: 'K7P2M9X', to: 'signup', url: null });
+  assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9X', live: true }), { code: 'K7P2M9X', to: 'signup', url: null }, 'no user agent');
+  // Invites off: nothing is captured and nobody is sent to Play with a referrer.
+  assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9X', userAgent: ANDROID, live: false }), { code: 'K7P2M9X', to: 'signup', url: null });
+  // An invalid code on Android is just sign-up, not a Play url.
+  assert.deepEqual(inviteLanding({ rawCode: 'nope', userAgent: ANDROID, live: true }), { code: null, to: 'signup', url: null });
+  assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9X&x=1', userAgent: ANDROID, live: true }), { code: null, to: 'signup', url: null });
+  // A Mob invite code pasted here still goes to its Mob page, on any device.
+  assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9', userAgent: ANDROID, live: true }), { code: 'K7P2M9', to: 'join', url: null });
+  assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9', userAgent: DESKTOP, live: true }), { code: 'K7P2M9', to: 'join', url: null });
+  assert.deepEqual(inviteLanding({ rawCode: 'K7P2M9', userAgent: DESKTOP, live: false }), { code: 'K7P2M9', to: 'signup', url: null });
+  // The route uses it, keeps the cookies on the redirect and varies on the user agent (the answer depends on it).
+  const route = file('src/app/r/[code]/route.js');
+  assert.match(route, /inviteLanding\(\{ rawCode: \(await params\)\?\.code, userAgent: request\.headers\.get\('user-agent'\)/);
+  assert.match(route, /landing\.to === 'play' \? NextResponse\.redirect\(landing\.url, 307\)/);
+  assert.match(route, /headers\.append\('Vary', 'User-Agent'\)/);
+  assert.match(route, /INVITE_COOKIE/);
+});
+
+test('D182 copy: every line that states the rule says one practice, none still says 5 answers or a first practice', () => {
+  const words = Object.values(REFERRAL_COPY).map((w) => (typeof w === 'function' ? w(100, 100) : w));
+  assert.equal(REFERRAL_COPY.how(), 'Share your link. When your friend signs up with it and finishes one practice, you each get 100 credits.');
+  assert.match(REFERRAL_COPY.pricingInvite(), /once they finish a practice\.$/);
+  assert.match(REFERRAL_COPY.shareText(), /when you finish one practice\.$/);
+  for (const w of words) assert.doesNotMatch(w, /\b(?:5|five) (?:answers?|questions?)\b|first practice/i, w);
+  for (const rel of ['src/app/pricing/page.js','src/app/api/referrals/claim/route.js', 'src/lib/server/referrals.js']) {
+    assert.doesNotMatch(file(rel), /at least 5 answers|5 answers/i, rel);
+  }
 });
 
 // ---- the server glue -----------------------------------------------------------------------------------------------------

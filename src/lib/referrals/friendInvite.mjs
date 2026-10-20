@@ -1,6 +1,7 @@
 // Friend referrals (owner D165, 20 Oct 2026): a referral gives BOTH the inviter and the friend +100 credits once the friend
-// signs up AND finishes one practice; the Mob invite link is also the referral link. The rules that move credits live in
-// the database (supabase/migrations/20261020130000_referrals.sql); this file holds the parts the website, the server and the
+// signs up AND finishes one practice of any length (D182, 20 Oct 2026, 5:45 pm IST: it was 5 answers at first); the Mob
+// invite link is also the referral link. The rules that move credits live in the database
+// (supabase/migrations/20261020130000_referrals.sql, the practice floor in 20261020150000_referral_any_practice.sql); this file holds the parts the website, the server and the
 // app share: the code formats, the pending-invite cookie, the switch and every word a student reads. Pure: no I/O, no
 // React, so data/tests/referrals_1020.test.mjs can hold it.
 // Not the creator codes: those are ?ref= on /pricing in the mm_ref cookie (src/lib/server/sessionProxy.js). A friend invite
@@ -53,6 +54,23 @@ export function codeFromInput(raw) {
 
 export const referralLink = (code, origin = SITE) => `${origin}/r/${code}`;
 
+export const ANDROID_PACKAGE = 'in.mockmob.app';
+
+/** True for an Android browser (the user agent says Android). Only used to send a friend's link to the Play Store listing. */
+export const isAndroidUserAgent = (ua) => typeof ua === 'string' && /android/i.test(ua.slice(0, 512));
+
+/**
+ * The Play Store listing with the invite in the Install Referrer (referrer=invite%3D<code>), so the app can read the code on
+ * its first launch and claim it after sign-in. Null unless the code is a valid friend referral code (7 characters, read the
+ * Crockford way); only the normalised code ever reaches the URL.
+ */
+export function playInviteUrl(rawCode) {
+  const code = normaliseInviteCode(typeof rawCode === 'string' ? rawCode.slice(0, 16) : rawCode);
+  if (!code || inviteKind(code) !== 'referral') return null;
+  const query = new URLSearchParams({ id: ANDROID_PACKAGE, referrer: `invite=${code}` });
+  return `https://play.google.com/store/apps/details?${query.toString()}`;
+}
+
 /** "K7P 2M9X": a 7-character code shown as 3 and 4, easier to read aloud. */
 export const displayReferralCode = (code) => (typeof code === 'string' && code.length === 7 ? `${code.slice(0, 3)} ${code.slice(3)}` : code);
 
@@ -71,6 +89,20 @@ export function decodeInviteCookie(value) {
   const code = normaliseInviteCode(m[1]);
   if (!code) return null;
   return { code, source: m[2], clickedAt: new Date(Number(m[3]) * 1000).toISOString() };
+}
+
+/**
+ * Where GET /r/<code> sends a visitor. { code, to: 'play' | 'join' | 'signup', url } where url is the Play listing for 'play'
+ * and null otherwise (the route builds the same-origin urls). 'play': an Android browser with a valid friend code while
+ * invites are on. 'join': a Mob invite code pasted here (while on). 'signup': everyone else, as before. code is the
+ * normalised code or null; nothing but it ever reaches a url.
+ */
+export function inviteLanding({ rawCode, userAgent = '', live = false } = {}) {
+  const code = normaliseInviteCode(String(rawCode || '').slice(0, 16));
+  if (!live || !code) return { code, to: 'signup', url: null };
+  if (inviteKind(code) === 'mob_invite') return { code, to: 'join', url: null };
+  const url = isAndroidUserAgent(userAgent) ? playInviteUrl(code) : null;
+  return url ? { code, to: 'play', url } : { code, to: 'signup', url: null };
 }
 
 /**
@@ -108,7 +140,7 @@ export const REFERRAL_COPY = Object.freeze({
   copy: 'Copy link',
   copied: 'Link copied',
   share: 'Share',
-  shareText: (reward = DEFAULT_REWARD) => `Practise for CUET with me on MockMob. Sign up with my link and we both get ${fmt(reward)} credits after your first practice.`,
+  shareText: (reward = DEFAULT_REWARD) => `Practise for CUET with me on MockMob. Sign up with my link and we both get ${fmt(reward)} credits when you finish one practice.`,
   codeLabel: 'Your invite code',
   loading: 'Reading your invites',
   failed: 'Your invites did not load. Try again shortly.',
@@ -124,7 +156,7 @@ export const REFERRAL_COPY = Object.freeze({
   invitedBanner: (reward = DEFAULT_REWARD) => `A friend invited you. Finish one practice after you sign up and you both get ${fmt(reward)} credits.`,
   // The friend's own side, in their Wallet.
   invitedJoined: (reward = DEFAULT_REWARD) => `You joined with a friend's invite. Finish one practice and you both get ${fmt(reward)} credits.`,
-  invitedRewarded: (reward = DEFAULT_REWARD) => `You and your friend each got ${fmt(reward)} credits for your first practice.`,
+  invitedRewarded: (reward = DEFAULT_REWARD) => `You and your friend each got ${fmt(reward)} credits for finishing one practice.`,
   // The Wallet's kept credits now: the old one-time 100 is gone for new accounts (D165).
   keptNote: 'Credits you earn or buy. They do not expire.',
   // Pricing.
