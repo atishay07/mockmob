@@ -344,7 +344,7 @@ export const DenCopy = Object.freeze({
   restingWeek: 'Resting this week',
   restingNote: 'The quest gets smaller without your name.',
   shareMarks: 'Share my marks in games',
-  shareMarksNote: 'Off: your Fold stands on the podium with "Private" instead of marks, and you get no place. The collective line still counts your answers.',
+  shareMarksNote: 'Off: your Fold stands on the podium with "Private" instead of marks, and you get no place. Your answers stay out of the Mob\'s total and nobody races your run as a ghost.',
   yourFold: 'Your Fold',
 
   // C1 Chain, You

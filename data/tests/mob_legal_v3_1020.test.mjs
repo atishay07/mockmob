@@ -53,7 +53,7 @@ test('what a member sees and the share switch are stated as the v3 and L-10 beha
   const p = plain(privacy);
   assert.match(p, /If you share your marks, they also see your marks and your place on the podium/);
   assert.match(p, /Nobody sees which option you picked on a question in a game/);
-  assert.match(p, /Places are on by default\. The member who started the Mob can switch places off for the whole Mob/);
+  assert.match(p, /Places are on by default\. The Mob's owner \(the member who started it, or after they leave, the member who has been in it longest\) can switch places off for the whole Mob/);
   assert.match(p, /A ghost replays the pace of another member's finished run/);
   assert.match(p, /A ghost never shows what that member picked or whether they were right/);
   assert.match(p, /turn off "Share my marks in games"/);
