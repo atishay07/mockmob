@@ -33,3 +33,30 @@ export function setMatches(set, selected) {
 export function applySet(set, selected) {
   return setMatches(set, selected) ? [] : [...set.subjects];
 }
+
+// ---------- The first screen's preset (W4, 20 Oct): most students take Commerce, so the four are ticked and one key accepts them ----------
+// Shown only to a student with no stored choice. Two quiet add chips put Mathematics or the General Test on top (the five-paper cap
+// still answers a sixth pick); "Pick my own" opens the full grid with nothing ticked. Same four as the app's first run. PURE.
+export const PRESET_TITLE = 'Most students take Commerce';
+export const PRESET_LEAD = 'Add Mathematics or the General Test if you take one too.';
+export const PRESET_KEY = 'These are my subjects';
+export const PRESET_OWN = 'Pick my own';
+export const PRESET_BASE = COMMON_SETS[0].subjects;
+export const PRESET_ADDS = Object.freeze(['mathematics', 'general_test']);
+
+/** True when MockMob can practise all four preset subjects (otherwise the grid is the first screen, as before). */
+export function presetAvailable(available = []) {
+  const have = new Set(available);
+  return PRESET_BASE.every((id) => have.has(id));
+}
+
+/** The add chips to offer: the ones MockMob can practise. */
+export function presetAdds(available = []) {
+  const have = new Set(available);
+  return PRESET_ADDS.filter((id) => have.has(id));
+}
+
+/** The label on an add chip: "Add Mathematics", and "Remove Mathematics" once it is in the set. */
+export function presetAddLabel(name, on) {
+  return `${on ? 'Remove' : 'Add'} ${name}`;
+}

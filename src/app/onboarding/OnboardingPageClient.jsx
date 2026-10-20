@@ -28,7 +28,7 @@ import { loadIndex } from '@/lib/du/client';
 import { neededByEvery, toDuSubjectId } from '@/lib/du/courseRule.mjs';
 import { useAboveKeyboard } from '@/lib/du/useAboveKeyboard';
 import CourseFinder from './CourseFinder';
-import { SETS_LABEL, applySet, setMatches, setsFor } from './commonSets.mjs';
+import { PRESET_BASE, PRESET_KEY, PRESET_LEAD, PRESET_OWN, PRESET_TITLE, SETS_LABEL, applySet, presetAddLabel, presetAdds, presetAvailable, setMatches, setsFor } from './commonSets.mjs';
 import {
   LANGUAGE_PAPERS, NOT_YET_NOTE, NOT_YET_TITLE, OTHER_PAPERS, SEARCH_HINT, capCopy, noSubjectMatch, notYetSubjects, pickableSubjects, shortSubjectName, subjectCountLine, swapLast,
 } from './subjectPick.mjs';
@@ -112,6 +112,8 @@ export default function OnboardingPageClient({ preview = false }) {
   // The sixth subject a student asked for (its id), while the reason and the swap are on screen.
   const [capAsk, setCapAsk] = useState(null);
   const [subjectQuery, setSubjectQuery] = useState('');
+  // The first screen offers Commerce ticked (W4); "Pick my own" puts it away for this visit.
+  const [ownPick, setOwnPick] = useState(false);
   const [rules, setRules] = useState(null);
   const [rulesFailed, setRulesFailed] = useState(false);
   const [rulesTry, setRulesTry] = useState(0);
@@ -134,6 +136,8 @@ export default function OnboardingPageClient({ preview = false }) {
   const goalRead = useRef(null);
   const pausedUntil = useRef(null);
   const headingRef = useRef(null);
+  const gridRef = useRef(null);
+  const presetSeeded = useRef(false);
   const firstPaint = useRef(true);
   const mobi = useMobiScope(SCOPE, 'hello');
   // A search field is never left under the on-screen keyboard (the colleges step's course and college searches too).
@@ -248,6 +252,16 @@ export default function OnboardingPageClient({ preview = false }) {
     if (next.length) mobiAct(SCOPE, 'nod');
   };
 
+  // "Pick my own": the full grid with nothing ticked. Focus moves to the grid so a keyboard or screen reader lands on it.
+  const pickOwn = () => {
+    if (saveLock.current) return;
+    setOwnPick(true);
+    setSelected([]);
+    setCapAsk(null);
+    setNotice(null);
+    window.setTimeout(() => gridRef.current?.focus({ preventScroll: true }), 0);
+  };
+
   // Swap: the most recent pick makes room for the one asked for. Nothing else moves.
   const swapForCap = () => {
     if (saveLock.current || !capAsk) return;
@@ -282,8 +296,9 @@ export default function OnboardingPageClient({ preview = false }) {
     window.setTimeout(() => { if (!preview) router.push(back || DONE_PATH); }, reducedMotion() ? 0 : 700);
   }, [preview, router, back, edit, user?.id]);
 
-  const saveSubjects = async () => {
-    if (selected.length === 0 || !user?.id || saveLock.current) return;
+  const saveSubjects = async (list) => {
+    const picks = Array.isArray(list) ? list : selected;
+    if (picks.length === 0 || !user?.id || saveLock.current) return;
     saveLock.current = true;
     setSaving(true);
     setError(null);
@@ -293,7 +308,7 @@ export default function OnboardingPageClient({ preview = false }) {
       const response = await fetch(`/api/users/${user.id}`, {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ subjects: selected }),
+        body: JSON.stringify({ subjects: picks }),
       });
       if (!response.ok) throw new Error(SUBJECTS_FAILED);
       if (edit) {
@@ -391,6 +406,19 @@ export default function OnboardingPageClient({ preview = false }) {
     setUrl('/onboarding');
   };
 
+  // A student with no stored choice sees Commerce ticked and one key to accept it. A stored choice (editing, or coming back from
+  // the days step) sees the grid as before, and so does a catalog that cannot practise all four.
+  const available = subjects.filter((x) => x.practice === 'supported').map((x) => x.id);
+  const presetMode = !edit && !ownPick && !savedThisVisit && savedSubjects === 0 && step === 'subjects' && catalogState === 'ready' && presetAvailable(available);
+  const presetNow = presetMode && entry === 'stay';
+  useEffect(() => {
+    if (!presetNow || presetSeeded.current) return undefined;
+    presetSeeded.current = true;
+    // After the seed above has run, so a student's stored picks (none, here) are never overwritten.
+    const id = window.setTimeout(() => setSelected((now) => (now.length ? now : [...PRESET_BASE])), 0);
+    return () => { window.clearTimeout(id); presetSeeded.current = false; };
+  }, [presetNow]);
+
   if (entry !== 'stay' || (catalogState === 'loading' && step === 'subjects')) {
     return <div className="app-shell onboarding-shell"><PageSpinner label={entry === 'stay' ? 'Loading your subject choices…' : 'Checking your account…'} /></div>;
   }
@@ -411,10 +439,12 @@ export default function OnboardingPageClient({ preview = false }) {
   // Saved choices MockMob cannot launch stay visible so they can be removed; never offered as new picks.
   const stale = selected.filter((id) => find(id)?.practice !== 'supported');
   const stepIndex = step === 'colleges' ? 3 : step === 'days' ? 2 : 1;
+  // The Commerce four show from the first frame; the seed above puts them in `selected` a moment later.
+  const presetPicks = selected.length ? selected : [...PRESET_BASE];
   const rhythm = dayRhythm(days);
 
   return (
-    <div className="app-shell onboarding-shell ob" data-step={step} data-cap={capShown || undefined}>
+    <div className="app-shell onboarding-shell ob" data-step={step} data-cap={capShown || undefined} data-preset={presetMode || undefined}>
       <header className="ob-top">
         <Logo />
         {!edit && (
@@ -440,8 +470,9 @@ export default function OnboardingPageClient({ preview = false }) {
               </button>
             )}
             <h1 ref={headingRef} tabIndex={-1} className="ob-title">{copy.title}</h1>
-            <p className="ob-lead">{copy.lead}</p>
-            {step === 'subjects' ? <p className="ob-rule">{SUBJECT_RULE_NOTE}</p> : null}
+            {/* On the preset, the key comes straight after the title; the lead and the five-paper note follow the card. */}
+            {presetMode ? null : <p className="ob-lead">{copy.lead}</p>}
+            {step === 'subjects' && !presetMode ? <p className="ob-rule">{SUBJECT_RULE_NOTE}</p> : null}
           </div>
           {/* One Mobi on the screen, beside the title (never over it); he stays put between steps. */}
           <div className="ob-mobi" aria-hidden="true"><MobiReact key={mobi.n} act={mobi.act} size={88} onDone={mobi.onDone} /></div>
@@ -470,12 +501,43 @@ export default function OnboardingPageClient({ preview = false }) {
                 </section>
               )}
 
+              {presetMode ? (
+                <section className="ob-preset" aria-labelledby="ob-preset-h">
+                  <h2 id="ob-preset-h" className="ob-preset__title">{PRESET_TITLE}</h2>
+                  {presetAdds(available).length > 0 ? <p className="ob-preset__lead">{PRESET_LEAD}</p> : null}
+                  <ul className="ob-preset__chips" aria-label="Your subjects">
+                    {presetPicks.map((id) => (
+                      <li key={id} className="ob-preset__chip"><Tick on />{shortSubjectName(find(id))}</li>
+                    ))}
+                  </ul>
+                  {presetAdds(available).length > 0 ? (
+                    <div className="ob-preset__adds" role="group" aria-label="Add a paper">
+                      {presetAdds(available).map((id) => (
+                        <button key={id} type="button" className="ob-preset__add mk-press" disabled={busy} onClick={() => toggleSubject(id)}>
+                          {presetAddLabel(shortSubjectName(find(id)), presetPicks.includes(id))}
+                        </button>
+                      ))}
+                    </div>
+                  ) : null}
+                  <Button variant="volt" size="lg" className="ob-primary ob-preset__key" disabled={busy} onClick={() => saveSubjects(presetPicks)}>
+                    {saving ? 'Saving subjects…' : finishing ? 'Saved' : PRESET_KEY}
+                  </Button>
+                  <button type="button" className="ob-quiet ob-preset__own" disabled={busy} onClick={pickOwn}>{PRESET_OWN}</button>
+                </section>
+              ) : null}
+              {presetMode ? (
+                <div className="ob-preset__after">
+                  <p className="ob-lead">{copy.lead}</p>
+                  <p className="ob-rule">{SUBJECT_RULE_NOTE}</p>
+                </div>
+              ) : null}
+
               {/* The DU course, optional, with the subjects it takes (the app's course search). Not in edit mode: that is only the papers. */}
-              {!edit ? (
+              {!edit && !presetMode ? (
                 <CourseFinder rules={rules} failed={rulesFailed} onRetry={() => setRulesTry((n) => n + 1)} courseId={courseId} onCourse={chooseCourse} picked={selected} disabled={busy} />
               ) : null}
 
-              {sets.length > 0 && !searching ? (
+              {sets.length > 0 && !searching && !presetMode ? (
                 <section className="ob-sets" aria-labelledby="ob-sets-h">
                   <h2 id="ob-sets-h">{SETS_LABEL}</h2>
                   <div className="ob-sets__list">
@@ -492,6 +554,7 @@ export default function OnboardingPageClient({ preview = false }) {
                 </section>
               ) : null}
 
+              {!presetMode ? (<>
               <label className="ob-search">
                 <span className="sr-only">Search subjects</span>
                 <Search size={18} aria-hidden="true" />
@@ -503,7 +566,7 @@ export default function OnboardingPageClient({ preview = false }) {
                 <p className="ob-empty" role="status">No subjects are open for practice right now. Check again in a little while.</p>
               )}
               {searching && supported.length === 0 && notYet.total === 0 ? <p className="ob-empty" role="status">{noSubjectMatch(subjectQuery.trim())}</p> : null}
-              <div className="ob-grid" role="group" aria-label="Subjects">
+              <div className="ob-grid" role="group" aria-label="Subjects" tabIndex={-1} ref={gridRef}>
                 {supported.map((s, index) => {
                   const isSelected = selected.includes(s.id);
                   const atCap = !isSelected && selected.length >= SUBJECT_CAP;
@@ -547,6 +610,7 @@ export default function OnboardingPageClient({ preview = false }) {
                   ) : null))}
                 </section>
               ) : null}
+              </>) : null}
             </>
           ) : step === 'colleges' ? (
             <section className="ob-colleges" aria-label="Your target colleges">
@@ -594,7 +658,8 @@ export default function OnboardingPageClient({ preview = false }) {
         </div>
       </main>
 
-      <footer className="ob-bar">
+      {presetMode && !capShown ? null : (
+      <footer className="ob-bar" data-preset={presetMode || undefined}>
         <div className="ob-bar__inner">
           {capShown ? (
             <div className="ob-capnote" role="status" key={capAsk}>
@@ -606,7 +671,7 @@ export default function OnboardingPageClient({ preview = false }) {
               </div>
             </div>
           ) : null}
-          {step === 'subjects' ? (
+          {presetMode ? null : step === 'subjects' ? (
             <div className="ob-bar__status">
               <span
                 className={`ob-slots ${shaking ? 'mk-shake' : ''}`}
@@ -640,6 +705,7 @@ export default function OnboardingPageClient({ preview = false }) {
               </span>
             </div>
           )}
+          {presetMode ? null : (
           <div className="ob-bar__actions">
             {step === 'days' && (
               <button type="button" className="ob-quiet" onClick={skipDays} disabled={busy}>Skip for now</button>
@@ -658,8 +724,10 @@ export default function OnboardingPageClient({ preview = false }) {
               </Button>
             )}
           </div>
+          )}
         </div>
       </footer>
+      )}
     </div>
   );
 }

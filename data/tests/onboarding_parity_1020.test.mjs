@@ -181,7 +181,7 @@ test('the page wires the course finder, the subject search, the not-yet list and
   assert.match(page, /notYetSubjects\(subjects, subjectQuery\)/);
   assert.match(page, /<CollegePicker userId=\{user\?\.id\} initialCourseId=\{courseId\} \/>/);
   assert.match(page, /Needed for \{group\.name\}/);
-  assert.match(page, /\{!edit \? \(\s*<CourseFinder/, 'editing subjects later is only the papers');
+  assert.match(page, /\{!edit && !presetMode \? \(\s*<CourseFinder/, 'editing subjects later is only the papers');
   assert.match(page, /useAboveKeyboard\(\);/, 'a search field is never left under the keyboard');
   assert.match(page, /data-du-search=""/);
   const finder = read('src/app/onboarding/CourseFinder.jsx');
@@ -217,7 +217,7 @@ test('common sets: three before a course; with a course only the sets that keep 
   // The page offers them under the course, not while a search is typed, and not when only editing.
   const page = read('src/app/onboarding/OnboardingPageClient.jsx');
   assert.match(page, /const sets = !edit \? setsFor\(\{ group, rules, available:/);
-  assert.match(page, /\{sets\.length > 0 && !searching \? \(/);
+  assert.match(page, /\{sets\.length > 0 && !searching && !presetMode \? \(/);
   assert.match(page, /onClick=\{\(\) => tapSet\(set\)\}/);
 });
 
