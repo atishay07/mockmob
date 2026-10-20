@@ -17,7 +17,7 @@ export default function TermsPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Terms of Service</h1>
-        <p className="mb-10 text-zinc-400">Last updated: {mobEnabledForLegal() ? '17 October 2026' : '2 October 2026'}</p>
+        <p className="mb-10 text-zinc-400">Last updated: 20 October 2026</p>
 
         <div className="legal-copy">
           <section>
@@ -35,6 +35,10 @@ export default function TermsPage() {
           <section>
             <h2>Premium access</h2>
             <p>Pro access unlocks premium features such as unlimited mocks, full chapter review, difficulty controls, bookmarks, and Admission Compass. Current season access ends 31 July 2027. Available inventory and reattempts are included; unlimited unique questions are not promised. Existing purchases keep their recorded expiry and rights. DU eligibility and historical cutoffs are free. Recovery is unavailable until its content and journey gates pass.</p>
+          </section>
+          <section>
+            <h2>Payments and buying in the app</h2>
+            <p>Payments on the website are handled by Razorpay. Purchases in the Android app are billed by Google Play, under Google Play&apos;s terms: Pro is a monthly subscription that renews until you cancel it in Google Play (Play Store, then Payments and subscriptions), and credit packs are one-time purchases. Play shows its own price before you buy. Refunds are described in the <a href="/refunds">Refund Policy</a>: Play purchases follow Google Play&apos;s refund policy. Deleting your account cancels the renewal of a Play subscription but does not refund the month you already paid for.</p>
           </section>
           <section>
             <h2>Exam affiliation</h2>

@@ -39,7 +39,7 @@ test('M3: one true sentence for what a credit buys; a Mobi job is 1 credit and m
   for (const pack of CREDIT_PACKS) assert.ok(pack.description.endsWith(ONE_CREDIT_LINE));
   assert.match(FAQ_ITEMS.find((f) => f.id === 'credits').answer.join(' '), /Mobi charges for finished jobs, never for talking\. 1 credit fixes a mistake for good/);
   assert.match(read('src/lib/server/wallet.js'), /return ONE_CREDIT_LINE;/);
-  assert.match(read('src/app/privacy/page.js'), /1 credit for a Mobi job \(a doubt with its follow-up, or a mistake fixed for good\)/);
+  assert.match(read('src/app/privacy/page.js'), /A doubt with its follow-up, or a mistake fixed for good, uses 1 credit/);
   for (const f of ['src/app/pricing/page.js', 'src/app/pricing/ai-credits/page.js']) assert.match(read(f), /\{ONE_CREDIT_LINE\}/, f);
   // The false sentence is gone from every place a student reads.
   for (const f of ['src/lib/creditCopy.mjs', 'src/lib/server/wallet.js', 'src/services/credits/creditPacks.mjs', 'src/lib/helpFaq.mjs', 'src/app/pricing/page.js',

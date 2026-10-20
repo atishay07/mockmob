@@ -18,7 +18,7 @@ export default function PrivacyPage() {
       <main className="container-narrow px-5 pb-20 pt-10">
         <div className="eyebrow mb-3">{'// Legal'}</div>
         <h1 className="display-lg mb-5">Privacy Policy</h1>
-        <p className="mb-10 text-zinc-400">Last updated: {mobEnabledForLegal() ? '17 October 2026' : '16 October 2026'}</p>
+        <p className="mb-10 text-zinc-400">Last updated: 20 October 2026</p>
 
         <div className="legal-copy">
           <section>
@@ -37,7 +37,7 @@ export default function PrivacyPage() {
           {APP_STREAM_AND_REPORT_LIVE ? (<>
           <section>
             <h2>Question stream activity (required in the app)</h2>
-            <p>When you are signed in, the Android app sends three kinds of event about the questions in the question stream: seen (a question was shown to you), attempted (you picked an answer; the event carries the option you picked and whether it was right) and skip (you moved on without answering). Each event carries your account, the question, how you were using the stream and how long the question was on screen. We need these to run the app: they update your learning progress, and they let us check that a like or a save comes from someone who actually saw the question. They are a required part of using the stream, separate from the optional usage data above, so turning that off does not stop them. They are first-party only, never used for advertising and never shared with anyone else. They are kept with your account and deleted with it, within 30 days of a deletion request.</p>
+            <p>When you are signed in, the Android app sends three kinds of event about the questions in the question stream: seen (a question was shown to you), attempted (you picked an answer; the event carries the option you picked, and we work out from it whether you were right) and skip (you moved on without answering). Each event carries your account, the question, how you were using the stream and, when the app sends it, how long the question was on screen. We need these to run the app: they update your learning progress, and they let us check that a like or a save comes from someone who actually saw the question. They are a required part of using the stream, separate from the optional usage data above, so turning that off does not stop them. They are first-party only, never used for advertising and never shared with anyone else. They are kept with your account and deleted with it, within 30 days of a deletion request.</p>
           </section>
           <section>
             <h2>Reporting an AI reply</h2>
@@ -48,15 +48,25 @@ export default function PrivacyPage() {
           {mobEnabledForLegal() ? <MobPrivacySection /> : null}
           <section>
             <h2>Android app</h2>
-            <p>The Android app stores your push notification token so we can send reminders, plus your notification preferences and study goal. These are linked to your account and removed when your account is deleted. You can turn notifications off in the app or in your phone settings.</p>
+            <p>The Android app keeps your notification preferences and study goal on your account, so your reminders match what you chose. The reminders themselves are scheduled on your phone by the app. MockMob does not send push notifications to your phone. You can turn reminders off in the app or in your phone settings. Your preferences and goal are removed when your account is deleted.</p>
           </section>
           <section>
             <h2>Deleting your account</h2>
             <p>Open Profile, then Delete account, or email support@mockmob.in from your account email. We delete your account and study records within 30 days. Payment records required by law are kept. Details are on the <a href="/account-deletion">account deletion page</a>.</p>
           </section>
           <section>
-            <h2>Practice events and optional AI</h2><p>New sessions may record answers, answer changes, visits and elapsed times. These are device observations and are not assumed to explain why a question was skipped. Session snapshots, learning observations and corrections preserve history. Core recovery does not require paid AI. Ask Mobi answers questions about your own record on the spot. Any other question you ask, with a short summary of your record, is sent to an AI service that writes the reply for MockMob; it uses 1 credit for a Mobi job (a doubt with its follow-up, or a mistake fixed for good), shown before you send it, and can be wrong. It does not need your full raw attempt history.</p></section><section><h2>Retention and requests</h2><p>Account and practice records remain while your account is active. Payment and fraud-prevention records may remain after a deletion request where reconciliation or legal obligations require them. Usage data is kept for 180 days. Deletion requests are handled within 30 days as described below. Request an export at support@mockmob.in.</p></section><section><h2>Payments</h2>
-            <p>Payments are handled by Razorpay. MockMob stores subscription and access status, but does not store full card, UPI, or bank credentials on our servers.</p>
+            <h2>Practice events and optional AI</h2>
+            <p>New sessions may record answers, answer changes, visits and elapsed times. These are device observations and are not assumed to explain why a question was skipped. Session snapshots, learning observations and corrections preserve history. Core recovery does not require paid AI. Ask Mobi answers questions about your own record on the spot. Any other question you ask, with a short summary of your record, is sent to an AI service that writes the reply for MockMob. A doubt with its follow-up, or a mistake fixed for good, uses 1 credit; the cost is shown before you send it, and the reply can be wrong. It does not need your full raw attempt history.</p>
+          </section>
+          <section>
+            <h2>Retention and requests</h2>
+            <p>Account and practice records remain while your account is active. Payment and fraud-prevention records may remain after a deletion request where reconciliation or legal obligations require them. Usage data is kept for 180 days. Deletion requests are handled within 30 days as described below. Request an export at support@mockmob.in.</p>
+          </section>
+          <section>
+            <h2>Payments</h2>
+            <p><b>On the website</b>, payments are handled by Razorpay. MockMob stores your subscription and access status and the payment references we need to match a payment to your account, but not your full card, UPI or bank credentials.</p>
+            <p style={{ marginTop: '0.75rem' }}><b>In the Android app</b>, Pro (a monthly subscription) and credit packs are bought with Google Play Billing. Google holds your payment method and takes the payment, so MockMob never sees your card or UPI details. When you buy, the app sends Google&apos;s purchase token for it to our server, and we check it with Google. To do that, the app also sends Google a one-way code made from your account id, which Google keeps with the purchase. For each Play purchase we store the token, Google&apos;s order number, what you bought, when, whether Google has acknowledged it or refunded it, what it gave you (Pro until a date, or a number of credits) and, for a subscription, its state and the date it runs to. Google tells us when a subscription renews, ends or is refunded, and we take back what a refunded purchase gave.</p>
+            <p style={{ marginTop: '0.75rem' }}>When you delete your account, we first cancel any Pro subscription of yours that Google could still charge. If that cannot be done, nothing is deleted yet and the request stays open. After deletion we keep the Play purchase record, cut down to what ties Google&apos;s order to what was given, because the law requires payment records. It is no longer linked to your name or email. Cancelling the renewal does not refund the month you already paid for.</p>
           </section>
           <section>
             <h2>Community content</h2>
