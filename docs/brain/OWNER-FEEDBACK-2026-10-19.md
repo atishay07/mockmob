@@ -936,3 +936,6 @@ Billing page: "Your grace period has started. Your organization went over its qu
 ## Owner, 20 Oct 9:19 pm IST (verbatim)
 > "if thats the case idts you need to worry about usage its at just 83% rn so plenty of head room to merge and finish everything up keep going till 98% easily"
 **Ledger D190:** for finishing version 15 tonight, usage may go to 98% before stopping.
+
+## Owner, 20 Oct 9:48 pm IST (verbatim)
+> "have you tested this build properly? because as i said before also this is the final version which will go in closed testing to has to be as perfect as possible if you have any doubts should i pass it through another agent first?"
