@@ -42,6 +42,7 @@ Future<void> _sheet(
   double height = 800,
   List<Override> extra = const [],
   int? balance,
+  double textScale = 1,
 }) async {
   final server = v3Server(scenario: scenario, billing: billing);
   await pumpMockmob(
@@ -49,6 +50,7 @@ Future<void> _sheet(
     _Host(open: open),
     brightness: b,
     size: Size(360, height),
+    textScale: textScale,
     disableAnimations: true,
     overrides: balance == null ? [...v3Overrides(server), proNudgesOnProvider.overrideWithValue(nudges), ...extra] : [...sheetOverridesWithBalance(server, balance: balance, nudges: nudges), ...extra],
   );
@@ -76,6 +78,20 @@ void main() {
         b: b,
         scenario: 'live',
         billing: 'pro',
+      );
+    });
+
+    // v16 walk I-14: at 1.3 the sheet takes 92% of the screen, the tag rides with the title, and the chosen row is
+    // scrolled clear of the pinned key.
+    testWidgets('start sheet, live, at 1.3 (${_tag(b)})', (t) async {
+      await _sheet(
+        t,
+        'start_live_13',
+        (c) => showStartGame(c, prefill: const StartGamePrefill(format: GameFormat.race, minutes: 10, mode: GameMode.live)),
+        b: b,
+        scenario: 'live',
+        billing: 'free',
+        textScale: 1.3,
       );
     });
 
