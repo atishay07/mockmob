@@ -36,6 +36,7 @@ import { cameBack, chainChip } from '../../chain/chain.mjs';
 import { createChainService } from '../chain.js';
 import { memberIdFor } from './memberId.js';
 import { createHoursReader } from './hours.js';
+import { denFixView } from '../../mob/denFix.mjs';
 
 export const STICKERS = Object.freeze(['nice_one', 'so_close', 'teach_me', 'again', 'good_luck', 'lets_go', 'one_sec', 'ready']);
 export const FIXED_FOR_CRANE = 3;
@@ -791,6 +792,25 @@ export function createMobV3Service(deps, helpers = {}) {
 
   // ------------------------------------------------------------------ the v3 block of GET /api/mob
 
+  /**
+   * `v3.fix` (docs/brain/APP-API-CONTRACT.md 2.14): the Fix it together step this member still has to take, from the Mob's real traps
+   * (public.mob_den_fix, migration 20261020152000_mob_den_fix: one small read of this Mob's open traps and this member's own two answers;
+   * src/lib/mob/denFix.mjs decides). Never throws: null (no `fix` key, the den's Now card skips both steps) when the migration is not
+   * applied, when the Mob is a Mob of one (a trap needs 3 sitters, 2 for a full mock), or when the read fails (logged with codes only).
+   * Must run after the settle loop of v3Block: a trap is made by the first read after its game closes.
+   */
+  async function denFixFor(userId, state) {
+    if ((state.members || []).length < 2) return null;
+    try {
+      return denFixView(await call('mob_den_fix', { p_mob_id: state.mob.id, p_user_id: userId, p_now: nowIso() }), now());
+    } catch (e) {
+      if (!(e instanceof MobError && e.code === 'MIGRATION')) {
+        console.warn('mob_den_fix_failed', [e?.code, e?.extra?.cause?.code].filter((c) => typeof c === 'string').join('/') || 'error');
+      }
+      return null;
+    }
+  }
+
   async function mobChainFor(mobId, storedBest) {
     const weeks = await call('mob_weeks_list', { p_mob_id: mobId });
     const c = computeMobChain({ weeks: weeks || [], currentWeek: mobWeek(now()), storedBest });
@@ -814,6 +834,8 @@ export function createMobV3Service(deps, helpers = {}) {
       await ensureSettled(g).catch(() => null);
       await tidyRoom(g); // a stale lobby never shows as "Join Riya's room"
     }
+    // Fix it together (v3.fix) starts once the traps exist (the loop above made them) and is awaited at the end, beside the other reads.
+    const fixRead = denFixFor(userId, state);
     const q = await call('mob_quest_week', { p_mob_id: state.mob.id, p_week: week, p_now: nowIso() });
     const factsBefore = await call('mob_unlock_facts', { p_user_id: userId });
     const thisMob = (factsBefore?.mobs || []).find((m) => m.mob_id === state.mob.id);
@@ -836,9 +858,10 @@ export function createMobV3Service(deps, helpers = {}) {
     const micFrom = startStatus?.mic_from ? members.get(startStatus.mic_from) : null;
     const starts = startsView({ billingOn: billingOn(), pro, claimUsed: startStatus?.claim_used === true, micsHeld: Number(startStatus?.mics) || 0, micsGiven: Number(startStatus?.mics_given) || 0, liveOn: liveOn(), formatsOn: formatsOn() });
     if (starts.mics > 0 && micFrom) starts.micFrom = { memberId: micFrom.memberId, name: micFrom.name };
-    const hours = await hoursRead;
+    const [hours, fix] = await Promise.all([hoursRead, fixRead]);
     return {
       ...(hours ? { hours } : {}),
+      ...(fix ? { fix } : {}),
       name: mobName(state.mob.name_key, subjectName(state.mob.subject)),
       showPodium: state.mob.show_podium !== false,
       youOwn: me?.owner === true,

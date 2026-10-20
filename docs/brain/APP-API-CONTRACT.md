@@ -8,6 +8,8 @@ Update 20 Oct 2026: section 2.12 adds Full mock together's price in the Mob (own
 
 Update 20 Oct 2026 (version 15): section 2.13 adds Mob hours (`mob.v3.hours`, `share_study_time` on `PATCH /api/mob/me`). Additive; the app hides every Mob hours element when `hours` is absent.
 
+Update 20 Oct 2026 (version 15, second additive revision): section 2.14 adds `mob.v3.fix`, the den's Fix it together and Wednesday check steps (state `ready` or `check`). Additive; the app skips both steps when `fix` is absent. It needs migration 20261020152000_mob_den_fix, which is not applied yet.
+
 Citations are `file:line` relative to the `mockmob-next` root. "Verified" means I re-read the source while composing this; other facts come from the reader notes and carry their original citations.
 
 Corrections made while composing (earlier reader notes were written against an older tree):
@@ -463,6 +465,35 @@ every 30 s by several members runs it about once a minute. Flipping a switch cha
 server instance. The minutes and "studying now" can therefore lag by up to a minute. The den read also starts the hours read at the
 beginning, beside the other den reads. A failure of the hours read (other than "migration not applied") leaves `hours` out of that
 response and is logged as `mob_hours_failed` with an error code and no ids.
+
+### 2.14 Mob: Fix it together on the den, `v3.fix` (additive, version 15, 20 Oct 2026)
+
+The den's Now card has two steps after a game closes with a trap: step 2 "Fix question N together" and step 3 "Take the check" (the Wednesday check). `GET /api/mob?mob=<id>` (and every route that answers with the den) gains an optional object `fix` on the den's `v3` block: `response.mob.v3.fix`. Server: `src/lib/mob/denFix.mjs` (the rules), `src/lib/server/mob/games.js` (`denFixFor`, called from `v3Block`), migration `supabase/migrations/20261020152000_mob_den_fix.sql` (undo `supabase/undo/20261020152000_mob_den_fix.undo.sql`; NOT applied anywhere). Needs `MOB_V3_ENABLED=true` like the rest of `v3`.
+
+**When the key is absent, the app skips steps 2 and 3** (the Fix it together entry stays on the podium and the review). Absent means: nothing is left for this member, the Mob is a Mob of one, the migration is not applied, or the read failed. It is never `null` and never a placeholder.
+
+```
+fix: {
+  gameId:        string,                // the game the trap is in (the id GET /api/mob/game/[id] and POST /api/mob/fix take)
+  question:      int,                   // 1-based: the number the student saw ("Question 4"); POST /api/mob/fix takes q = question - 1
+  state:         "ready" | "check",     // see below
+  checkOpensAt:  "ISO 8601 UTC"         // when this trap's Wednesday check opens (always present, also once it is open)
+}
+```
+
+**What decides the state.** A trap exists only when a closed game's picks made one (the shared wrong answer of 3 or more finished runs; a full mock's most-missed question with 2 or more). Nothing is invented: with no trap there is no `fix`, and `check` is only ever sent for a trap whose own check window (`check_opens_at` to `check_closes_at`, from `checkWindow`: the first Wednesday 12:00 AM IST at least 48 hours after the close, to the Sunday after at 11:59:59 PM IST) is open. For each open trap of the Mob (not yet fixed together, window not over), for the signed-in member:
+- `check`: the check window is open and this member has not answered the check.
+- `ready`: not `check`, and this member has not answered the fix question (the server takes a fix answer from the close to the end of the check window).
+- nothing: both answered, or the window is over, or the Mob already fixed the trap together (two members passed the check).
+The newest game with something left for this member decides (a finished newer game does not hide an older trap). The state matches what the app's Fix screen does with the same trap (it starts at the check while the check is open), so the card and the screen agree. Starting a question (`POST /api/mob/fix`) is not an answer: the card stays until the member answers.
+
+**Window.** The card lasts as long as the trap's window, up to 14 days after the close, which is longer than the den's own `games[]` (open and closed in the last 7 days): a trap's check opens up to 7 days after the close and stays open to the Sunday after, so `fix` can name a game that is no longer in `games[]`. The app must open the Fix screen from `gameId` and `question - 1`, not from `games[]`.
+
+**Server reads (egress).** One small call per den read, `public.mob_den_fix(p_mob_id, p_user_id, p_now)`: this Mob's open traps (at most 5, newest game first; a handful of columns each) with this member's own two facts, a range read on the new index `mob_traps (mob_id, check_closes_at)`; no table is read whole and no question row is read. It runs beside the den's other reads, after the step that makes a closed game's trap (the first den, podium or review read after the close makes it, once). A Mob of one makes no call. No cache. The answer is a few hundred bytes; the object sent to the app is under 160 bytes.
+
+**Privacy.** The object names no member, pick or answer: it says only which step is left for the asker. The server never says whether another member took a step.
+
+Fixtures: `data/tests/fixtures/mob_v3/den_fix_ready.json` and `den_fix_check.json`. Tests: `data/tests/mob_den_fix_1020.test.mjs` (rules, the migration with its undo on a real Postgres, the den through the service, the window past 7 days, the missing-migration and failed-read cases).
 
 ---
 

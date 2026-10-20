@@ -21,7 +21,7 @@ import { createMobService, memberIdFor } from '../../src/lib/server/mob/service.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
 const DIR = resolve(root, 'data/tests/fixtures/mob_v3');
-const MIGRATIONS = ['20261017100000_mob', '20261017190000_mob_fix_1017', '20261020100000_mob_v3_core', '20261020100100_mob_v3_games', '20261020100200_mob_v3_chains', '20261020100300_mob_v3_realtime', '20261020100400_mob_v3_live', '20261020140000_mob_v3_formats'];
+const MIGRATIONS = ['20261017100000_mob', '20261017190000_mob_fix_1017', '20261020100000_mob_v3_core', '20261020100100_mob_v3_games', '20261020100200_mob_v3_chains', '20261020100300_mob_v3_realtime', '20261020100400_mob_v3_live', '20261020140000_mob_v3_formats', '20261020152000_mob_den_fix'];
 const NOW = Date.parse('2026-10-22T08:35:00Z'); // Thursday 22 Oct, 2:05 PM IST
 // 200 questions: the first 40 on Goodwill (the story's chapter games), the rest across two more units for the full mock.
 const CHAPTERS = ['Goodwill', 'Cash Flow Statement', 'Ratios'];
@@ -210,6 +210,12 @@ async function story() {
   // After the close: the most-missed question is the trap, and Fix it together opens on it.
   clock.now = Date.parse(mock.closesAt) + 60_000;
   out['podium_mock_closed.json'] = await svc.v3.podium('u2', mock.id);
+  // Fix it together on the den (v3.fix, additive; migration 20261020152000_mob_den_fix): Zoya (u4) never took yesterday's fix, so the den says
+  // ready; Aarav (u2) took it, so he hears nothing until the trap's own Wednesday check opens, and then he is asked for the check.
+  out['den_fix_ready.json'] = (await svc.view('u4', { mobId })).mob.v3.fix;
+  assert.equal(Object.hasOwn((await svc.view('u2', { mobId })).mob.v3, 'fix'), false, 'Aarav did his part and the check is not open');
+  clock.now = Date.parse(out['review.json'].trap.fix.check.opensAt) + 60_000;
+  out['den_fix_check.json'] = (await svc.view('u2', { mobId })).mob.v3.fix;
   out['folds.json'] = foldCatalogJson();
   out['names.json'] = { names: [...MOB_NAMES] };
   out['errors_v3.json'] = Object.fromEntries(Object.keys(ERRORS).map((c) => [c, { status: ERRORS[c][0], body: errorBody(c) }]));
