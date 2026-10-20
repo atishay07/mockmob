@@ -6,6 +6,7 @@ import 'package:share_plus/share_plus.dart';
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../you/widgets/you_page.dart' show SectionTitle, youGutter, youText;
+import 'invite_code_row.dart';
 import 'referral_copy.dart';
 import 'referral_data.dart';
 
@@ -78,6 +79,9 @@ class WalletInviteSection extends ConsumerWidget {
               KeyButton.secondary(label: ReferralCopy.copy, onPressed: () => _copy(context, s.link!)),
               const SizedBox(height: MmSpace.s8),
               Text(ReferralCopy.cap(s.monthlyCap), style: type.caption.copyWith(color: colors.ink3)),
+              // A friend's code, for a student who was invited and did not follow the link (hidden once they joined with one).
+              const SizedBox(height: MmSpace.s8),
+              const InviteCodeRow(),
             ],
           ),
         ),

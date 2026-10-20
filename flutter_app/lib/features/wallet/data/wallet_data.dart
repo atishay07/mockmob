@@ -21,6 +21,7 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/models/json_helpers.dart';
 import '../../../core/repositories/json_remote_notifier.dart';
 import '../../../core/repositories/remote_state.dart';
+import '../../referrals/referral_data.dart' show referralStatusProvider;
 
 class WalletEntry {
   const WalletEntry({required this.at, required this.what, required this.delta, this.balanceAfter, this.pool});
@@ -128,10 +129,10 @@ class WalletRepository extends JsonRemoteNotifier<WalletRead> {
 final walletRepositoryProvider = NotifierProvider<WalletRepository, RemoteState<WalletRead>>(WalletRepository.new);
 
 /// D165: whether the server says the welcome and invite offer is live (50 credits for a new account; 100 credits each
-/// for a friend and the inviter once the friend finishes a first practice). No server field says so yet, so it is off
-/// and nothing about invites or the 50 is shown.
-// TODO(D165): read the referral server's live switch once web/1020-referrals ships one (for example in GET /api/wallet).
-final referralOfferLiveProvider = Provider<bool>((ref) => false);
+/// for a friend and the inviter once the friend finishes one practice, D182). It is the referral status the server gives
+/// (GET /api/referrals, `live`): off while signed out, while invites are off, while it loads and when the server cannot
+/// answer, so nothing about invites or the 50 is shown until it says so.
+final referralOfferLiveProvider = Provider<bool>((ref) => ref.watch(referralStatusProvider.select((a) => a.value?.live ?? false)));
 
 const _ist = Duration(hours: 5, minutes: 30);
 

@@ -35,13 +35,10 @@ abstract final class WalletCopy {
   static const keptPartNote = 'Your welcome credits and any top-ups. They do not expire.';
 
   // D165 (owner, 20 Oct): new accounts start with 50 credits, and an invite gives the friend and the inviter 100 credits
-  // each once the friend finishes a first practice. Ready, and shown only once the server says the offer is live
+  // each once the friend finishes one practice (D182). Shown only once the server says the offer is live
   // (`referralOfferLiveProvider`); until then nothing here is drawn.
   static const keptPartNoteReferrals = 'Welcome, invite and top-up credits. They do not expire.';
   static const welcomeCredits = 'New accounts start with 50 credits.';
-  static const inviteTitle = 'Invite a friend';
-  static const inviteBody = 'When your friend joins and finishes their first practice, you both get 100 credits.';
-  static const inviteLabel = 'Invite a friend. When your friend joins and finishes their first practice, you both get 100 credits.';
   static const lowNote = 'You are running low. A top-up or Pro keeps you practising.';
 
   // What credits buy: the server's price list, as tiles.

@@ -15,6 +15,8 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/billing/widgets/pro_page.dart';
 import 'package:mockmob/features/practice/copy.dart';
+import 'package:mockmob/features/referrals/referral_copy.dart';
+import 'package:mockmob/features/referrals/referral_data.dart' show ReferralStatus, referralStatusProvider;
 import 'package:mockmob/features/pro_nudge/copy.dart' show ProNudgeCopy;
 import 'package:mockmob/features/practice/widgets/choice_glyphs.dart';
 import 'package:mockmob/features/practice/widgets/practice_credit_line.dart';
@@ -53,8 +55,6 @@ void main() {
         BillingCopy.compareFullMockFree,
         WalletCopy.keptPartNoteReferrals,
         WalletCopy.welcomeCredits,
-        WalletCopy.inviteTitle,
-        WalletCopy.inviteBody,
         PracticeCopy.creditLine(46),
       ];
       for (final s in lines) {
@@ -82,10 +82,10 @@ void main() {
       }
     });
 
-    test('D165: 50 to start, 100 each once the friend finishes a first practice', () {
+    test('D165 + D182: 50 to start, 100 each once the friend finishes one practice', () {
       expect(WalletCopy.welcomeCredits, contains('50 credits'));
-      expect(WalletCopy.inviteBody, contains('finishes their first practice'));
-      expect(WalletCopy.inviteBody, contains('you both get 100 credits'));
+      expect(ReferralCopy.how(100), contains('finishes one practice'));
+      expect(ReferralCopy.how(100), contains('you each get 100 credits'));
     });
   });
 
@@ -221,15 +221,20 @@ void main() {
 
     testWidgets('D165 is off until the server says so: no invite, the kept note as today', (tester) async {
       await pump(tester);
-      expect(find.text(WalletCopy.inviteTitle), findsNothing);
+      expect(find.text(ReferralCopy.title(100)), findsNothing);
+      expect(find.text(ReferralCopy.haveCode), findsNothing);
       expect(find.text(WalletCopy.keptPartNote), findsOneWidget);
       expect(find.text(WalletCopy.keptPartNoteReferrals), findsNothing);
     });
 
-    testWidgets('D165 once live: the invite offer and the kept note that names invite credits', (tester) async {
-      await pump(tester, extra: [referralOfferLiveProvider.overrideWithValue(true)]);
-      expect(find.text(WalletCopy.inviteTitle), findsOneWidget);
-      expect(find.text(WalletCopy.inviteBody), findsOneWidget);
+    testWidgets('D165 once the server says invites are live: the one invite section, the code row and the kept note that names invite credits', (tester) async {
+      await pump(tester, extra: [
+        referralStatusProvider.overrideWith((ref) async => const ReferralStatus(live: true, code: 'K7P2M9X', link: 'https://www.mockmob.in/r/K7P2M9X')),
+      ]);
+      await tester.pump();
+      expect(find.text(ReferralCopy.title(100)), findsOneWidget, reason: 'one invite section, not two');
+      expect(find.text(ReferralCopy.how(100)), findsOneWidget);
+      expect(find.text(ReferralCopy.haveCode), findsOneWidget);
       expect(find.text(WalletCopy.keptPartNoteReferrals), findsOneWidget);
     });
   });

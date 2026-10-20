@@ -5,20 +5,26 @@
 //   https://www.mockmob.in/r/<7-character code>     a friend's invite link
 //   https://www.mockmob.in/join/<6 or 8 characters>  a Mob invite, which is also a friend invite
 //   https://www.mockmob.in/...?ref=<7 characters>    a friend's code on any other page (never /pricing: creator codes)
+//   the Play install referrer: invite=<7 characters>  a friend's link followed through Google Play (install_referrer.dart)
+//   a code typed by hand (source 'code'): the after-sign-in sheet and the Wallet (invite_code_row.dart)
 //
 // GET /api/referrals: {"ok": true, "live": true, "code", "link", "reward", "monthlyCap", "paused", "joined", "practised",
 //   "rewarded", "notCounted", "earned", "rewardedThisMonth", "capReached", "invited": {"state", "rewarded"} | null}, or
 //   {"ok": true, "live": false} while invites are off. Nothing about invites is drawn unless "live" is true.
 
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../core/api/api_client.dart' show ApiOptions;
+import '../../core/api/api_error.dart' show ApiError, ApiErrorKind;
 import '../../core/api/api_providers.dart';
 import '../../core/auth/auth_state.dart';
 import '../../core/models/json_helpers.dart';
 import '../../core/storage/prefs_store.dart';
+import 'install_referrer.dart';
 
 final RegExp _referralCode = RegExp(r'^[0-9A-HJKMNP-TV-Z]{7}$');
 final RegExp _mobCode = RegExp(r'^(?:[0-9A-HJKMNP-TV-Z]{6}|[0-9A-HJKMNP-TV-Z]{8})$');
@@ -32,6 +38,16 @@ String? normaliseInviteCode(String? raw) {
 }
 
 bool isFriendCode(String code) => _referralCode.hasMatch(code);
+
+/// The code in what a student typed or pasted: a bare code, or a whole invite link (https://www.mockmob.in/r/<code>).
+/// Null when there is none.
+String? inviteCodeFromInput(String? raw) {
+  final text = raw?.trim() ?? '';
+  if (text.isEmpty) return null;
+  final uri = Uri.tryParse(text);
+  if (uri != null && uri.hasScheme) return PendingInvite.fromUri(uri, DateTime.now())?.code;
+  return normaliseInviteCode(text);
+}
 
 /// One invite kept on the phone until it is claimed.
 class PendingInvite {
@@ -107,14 +123,34 @@ class PendingInviteStore {
   /// Keeps the invite [uri] carries. True when it was kept.
   Future<bool> captureUri(Uri uri) async {
     final next = PendingInvite.fromUri(uri, _now());
-    if (next == null) return false;
+    return next != null && await capture(next);
+  }
+
+  /// Keeps [next] by the same rules (a link never replaces the one kept; the same code is not kept twice). True when it
+  /// was kept.
+  Future<bool> capture(PendingInvite next) async {
     final had = await read();
     if (had != null && (had.code == next.code || !next.explicit)) return false;
     await _prefs.setString(_key, jsonEncode(next.toJson()));
     return true;
   }
 
+  /// Keeps a code typed by hand (source 'code'); it replaces a link's. Null when [raw] holds no code.
+  Future<PendingInvite?> captureCode(String? raw) async {
+    final code = inviteCodeFromInput(raw);
+    if (code == null) return null;
+    final next = PendingInvite(code: code, source: 'code', at: _now());
+    await capture(next);
+    return await read() ?? next;
+  }
+
   Future<void> clear() => _prefs.remove(_key);
+
+  /// Forgets the kept invite only while it is still [code]: a code kept while a claim was running stays for its own claim.
+  Future<void> clearIfCode(String code) async {
+    final had = await read();
+    if (had != null && had.code == code) await clear();
+  }
 
   /// A random id for this install, for the server's same-phone check (it is hashed there; it names no one).
   Future<String> installId() async {
@@ -205,41 +241,108 @@ final referralStatusProvider = FutureProvider.autoDispose<ReferralStatus>((ref) 
   }
 });
 
-/// Hands the kept invite to the server once a student is signed in (before any practice can run), then forgets it when
-/// the server has settled it either way. A failure keeps it for the next sign-in or launch. Started by the app's services.
-final referralClaimerProvider = Provider<void>((ref) {
-  var running = false;
-  Future<void> claim(String userId) async {
-    if (running) return;
-    running = true;
-    try {
-      final store = ref.read(pendingInviteStoreProvider);
-      final pending = await store.read();
-      if (pending == null) return;
-      final age = DateTime.now().difference(pending.at).inSeconds;
-      final res = await ref.read(apiClientProvider).post(
-        '/api/referrals/claim',
-        body: {
-          'code': pending.code,
-          'source': pending.source,
-          'linkAgeSeconds': age < 0 ? 0 : age,
-          'device': await store.installId(),
-        },
-        expectUserId: userId,
-      );
-      if (asJson(res.data)['done'] == true) await store.clear();
-    } on Object {
-      // Kept for the next try.
-    } finally {
-      running = false;
-    }
+/// What the server said to a claim. [done] means the invite is settled either way and was forgotten; a failure to reach
+/// the server is not done (the invite is kept for the next try).
+class ReferralClaimOutcome {
+  const ReferralClaimOutcome({required this.ok, required this.done, this.reason, this.state});
+
+  final bool ok;
+  final bool done;
+
+  /// The server's reason when [ok] is false: bad_code, unknown_code, self, already_referred, existing_account,
+  /// user_not_found, off, rate_limited or unavailable (nothing was said).
+  final String? reason;
+  final String? state;
+
+  /// Nothing was kept, so there was nothing to hand over.
+  static const ReferralClaimOutcome nothing = ReferralClaimOutcome(ok: false, done: true, reason: 'no_invite');
+
+  /// The kept code is the student's own: nothing is sent, and it is forgotten.
+  static const ReferralClaimOutcome own = ReferralClaimOutcome(ok: false, done: true, reason: 'self');
+
+  /// The server (or the app's own hold after a 429) asked for a wait: the invite is kept for the next try.
+  static const ReferralClaimOutcome rateLimited = ReferralClaimOutcome(ok: false, done: false, reason: 'rate_limited');
+  static const ReferralClaimOutcome unavailable = ReferralClaimOutcome(ok: false, done: false, reason: 'unavailable');
+}
+
+/// Hands the kept invite to the server (POST /api/referrals/claim) and forgets it when the server has settled it either
+/// way. One claim at a time: a second caller waits for the first.
+class ReferralClaimService {
+  ReferralClaimService(this._ref);
+
+  final Ref _ref;
+  Future<ReferralClaimOutcome>? _inFlight;
+
+  /// How long the app waits for the server's answer. A claim runs beside everything else (never in front of start-up or
+  /// sign-in), and one that does not answer is kept for the next try.
+  static const Duration timeout = Duration(seconds: 8);
+
+  /// Claims the kept invite for the signed-in student. Never throws. A caller that arrives while a claim runs gets that
+  /// claim's answer, unless it has just kept a new code ([fresh], a code typed by hand): then it waits for the running claim
+  /// and hands its own over after it, so the answer it shows is about its own code.
+  Future<ReferralClaimOutcome> claimPending({bool fresh = false}) {
+    final running = _inFlight;
+    if (running != null) return fresh ? running.then((_) => claimPending()) : running;
+    final next = _run().whenComplete(() => _inFlight = null);
+    return _inFlight = next;
   }
 
+  Future<ReferralClaimOutcome> _run() async {
+    try {
+      final snapshot = _ref.read(authSnapshotProvider);
+      final userId = snapshot.status == AuthStatus.signedIn ? snapshot.userId : null;
+      if (userId == null) return ReferralClaimOutcome.unavailable;
+      final store = _ref.read(pendingInviteStoreProvider);
+      final pending = await store.read();
+      if (pending == null) return ReferralClaimOutcome.nothing;
+      // Never the inviter's own code: when the student's own code is already known it is not sent (the server refuses it too).
+      if (_ref.exists(referralStatusProvider) && _ref.read(referralStatusProvider).value?.code == pending.code) {
+        await store.clearIfCode(pending.code);
+        return ReferralClaimOutcome.own;
+      }
+      final age = DateTime.now().difference(pending.at).inSeconds;
+      final res = await _ref
+          .read(apiClientProvider)
+          .post(
+            '/api/referrals/claim',
+            body: {
+              'code': pending.code,
+              'source': pending.source,
+              'linkAgeSeconds': age < 0 ? 0 : age,
+              'device': await store.installId(),
+            },
+            options: const ApiOptions(receiveTimeout: timeout),
+            expectUserId: userId,
+          )
+          .timeout(timeout);
+      final j = asJson(res.data);
+      final done = j['done'] == true;
+      if (done) await store.clearIfCode(pending.code);
+      final ok = j['ok'] == true;
+      if (ok) _ref.invalidate(referralStatusProvider);
+      return ReferralClaimOutcome(ok: ok, done: done, reason: ok ? null : (asString(j['reason']) ?? 'unavailable'), state: asString(j['state']));
+    } on ApiError catch (e) {
+      // Kept for the next try; a 429 says so plainly.
+      return e.kind == ApiErrorKind.rateLimited ? ReferralClaimOutcome.rateLimited : ReferralClaimOutcome.unavailable;
+    } on Object {
+      // Kept for the next try.
+      return ReferralClaimOutcome.unavailable;
+    }
+  }
+}
+
+final referralClaimServiceProvider = Provider<ReferralClaimService>((ref) => ReferralClaimService(ref));
+
+/// Hands the kept invite to the server once a student is signed in (before any practice can run), and reads the Play
+/// install referrer on a first launch. A failure keeps the invite for the next sign-in or launch. Started by the app's
+/// services.
+final referralClaimerProvider = Provider<void>((ref) {
   ref.listen<String?>(
     authSnapshotProvider.select((s) => s.status == AuthStatus.signedIn ? s.userId : null),
     (_, userId) {
-      if (userId != null) claim(userId);
+      if (userId != null) unawaited(ref.read(referralClaimServiceProvider).claimPending());
     },
     fireImmediately: true,
   );
+  ref.read(referralInstallReferrerProvider);
 });
