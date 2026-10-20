@@ -8,9 +8,10 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Repeat2 } from 'lucide-react';
 import { mobGameApi } from './playApi';
-import { PlayFold } from './PlayFold';
+import { FoldHead, PlayFold } from './PlayFold';
 import { RunHead } from './GameRun';
 import { COPY, FOLD_CREASES, PODIUM_END_MS, errorSentence, lampVars, podiumLayout, shownMarks } from './playModel.mjs';
+import { FORMAT_COPY, isMock, isRace } from './formats.mjs';
 
 const LAMP_VARS = lampVars();
 
@@ -72,6 +73,7 @@ export default function Podium({ gameId, game, hrefs }) {
   };
 
   const title = COPY.gameTitle(game);
+  const race = isRace(game);
   if (error) {
     const notYet = error.code === 'PODIUM_NOT_YET';
     return (
@@ -80,7 +82,7 @@ export default function Podium({ gameId, game, hrefs }) {
         <div className="mp-card mp-card--center" role="alert">
           <h2 className="mp-h2">{errorSentence(error)}</h2>
           <div className="mp-keys">
-            {notYet ? <Link className="btn-volt md mp-key-primary" href={hrefs.run}>{COPY.playKey(game)}</Link> : null}
+            {notYet ? <Link className="btn-volt md mp-key-primary" href={hrefs.run}>{isMock(game) ? FORMAT_COPY.sitMock : COPY.playKey(game)}</Link> : null}
             <Link className={notYet ? 'mp-link' : 'mp-key'} href={hrefs.den}>{COPY.backToDen}</Link>
           </div>
         </div>
@@ -126,6 +128,7 @@ export default function Podium({ gameId, game, hrefs }) {
                   </span>
                   <span className="mp-plinth__name">{p.shownName}</span>
                   <span className="mp-plinth__marks"><b>{marks ?? ' '}</b>{marks === null ? '' : ` ${COPY.marksWord(p.marks)}`}</span>
+                  {race && Number.isFinite(p.answered) ? <span className="mp-plinth__sub">{FORMAT_COPY.answeredOf(p.answered)}</span> : null}
                 </li>
               );
             })}
@@ -138,6 +141,7 @@ export default function Podium({ gameId, game, hrefs }) {
                 <PlayFold fold={p.fold} size={layout.mode === 'podium' ? 64 : 84} name={p.shownName} colour={p.colour} />
                 <span className="mp-plinth__name">{p.shownName}</span>
                 <span className="mp-plinth__marks">{p.private ? COPY.private : <><b>{p.marks}</b> {COPY.marksWord(p.marks)}</>}</span>
+                {race && !p.private && Number.isFinite(p.answered) ? <span className="mp-plinth__sub">{FORMAT_COPY.answeredOf(p.answered)}</span> : null}
               </li>
             ))}
           </ul>
@@ -152,11 +156,61 @@ export default function Podium({ gameId, game, hrefs }) {
         {layout.tieLine ? <p className={`mp-line mp-pod__tie${shown(T_TIE) ? ' is-in' : ''}`}>{layout.tieLine}</p> : null}
       </div>
 
+      {isMock(game) && Array.isArray(data.sheets) && data.sheets.length ? (
+        <MarkSheets sheets={data.sheets} shown={shown(T_TIE)} closesAt={data.soFar ? data.closesAt : null} now={now} />
+      ) : null}
+
       <div className={`mp-keys mp-keys--row mp-pod__keys${shown(T_KEYS) ? ' is-in' : ''}`}>
         <Link className="btn-volt md mp-key-primary" data-page-primary="" href={hrefs.moments}>{COPY.everyonesMoment}</Link>
         <button type="button" className="mp-icon mp-icon--ring" onClick={askRematch} disabled={asking} aria-label={COPY.askRematch} title={COPY.askRematch}><Repeat2 size={22} aria-hidden="true" /></button>
       </div>
       {toast ? <p className="mp-toast" role="status">{toast}</p> : null}
+    </section>
+  );
+}
+
+/**
+ * A full mock together's mark sheets, side by side under the podium (D167): each sitter's marks of 250, right, wrong and
+ * skipped, accuracy, the time taken and, for a paper in sections, each section's marks. A member who keeps marks private
+ * shows no numbers. They come in one after another once the podium has landed. No answer is shown here: the answers open
+ * for everyone at the close, on each result.
+ */
+function MarkSheets({ sheets, shown, closesAt, now }) {
+  return (
+    <section className={`mp-sheets${shown ? ' is-in' : ''}`} aria-labelledby="mp-sheets-h">
+      <h2 id="mp-sheets-h" className="mp-label">{FORMAT_COPY.sheetsTitle}</h2>
+      <ol className="mp-sheets__list">
+        {sheets.map((sh, i) => (
+          <li key={sh.memberId} className={`mp-sheet${sh.you ? ' is-you' : ''}`} style={{ '--i': i, '--mp-c': `var(--mob-c${Number(sh.colour) % 8 || 0})` }}>
+            <div className="mp-sheet__who">
+              <FoldHead fold={sh.fold} name={sh.name} colour={sh.colour} size={36} />
+              <b className="mp-sheet__name">{sh.you ? 'You' : sh.name}</b>
+            </div>
+            {sh.private || !Number.isFinite(sh.marks) ? (
+              <p className="mp-sheet__private">{FORMAT_COPY.privateSheet}</p>
+            ) : (
+              <>
+                <p className="mp-sheet__marks"><b>{sh.marks}</b> {FORMAT_COPY.ofMarks(sh.of || 250)}</p>
+                <p className="mp-sheet__line">{FORMAT_COPY.sheetLine(sh)}</p>
+                <p className="mp-sheet__meta">
+                  {Number.isFinite(sh.accuracy) ? <span>{FORMAT_COPY.accuracy(sh.accuracy)}</span> : null}
+                  {Number.isFinite(sh.timeMs) ? <span>{FORMAT_COPY.took(sh.timeMs)}</span> : null}
+                </p>
+                {Array.isArray(sh.sections) && sh.sections.length > 1 ? (
+                  <table className="mp-sheet__sections" aria-label={FORMAT_COPY.sectionsLabel(sh.you ? 'Your marks' : sh.name)}>
+                    <tbody>
+                      {sh.sections.map((sec) => (
+                        <tr key={sec.key}><th scope="row">{sec.label}</th><td>{FORMAT_COPY.outOf(sec.marks, sec.of)}</td></tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : null}
+              </>
+            )}
+          </li>
+        ))}
+      </ol>
+      {closesAt ? <p className="mp-hint">{FORMAT_COPY.sheetsWait(closesAt, now)}</p> : null}
     </section>
   );
 }

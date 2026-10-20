@@ -27,6 +27,7 @@ import { FoldHead } from './FoldFigure';
 import { FreeProSheet, PassMicSheet, PlayPicker, StartGameSheet } from './DenSheets';
 import { DenMoments } from './DenMoments';
 import { CHAIN_HREF, MOB_CHAIN_HREF, SHELF_HREF, gameCardHref, gameHref, podiumHref } from './denRoutes';
+import { FORMAT_COPY, isMock, isRace } from '../v3/play/formats.mjs';
 import './den.css';
 
 const SEEN_KEY = 'mm:den:seen-notices';
@@ -122,14 +123,17 @@ function GameCard({ state, data, v3, now, onPicker, onStartGame, onAsk, onSticke
   let key = null;
   let link = more;
   if (state.kind === 'open') {
-    line = DenCopy.openLine(g, now);
-    key = <Link className="btn-volt md den-key" data-page-primary="" href={gameHref(g.id)}>{DenCopy.playKey(g)}</Link>;
+    // A race starts on a 3, 2, 1 under its key; a full mock opens its card first (an hour-long paper never starts itself).
+    line = isRace(g) ? FORMAT_COPY.raceOpenLine(g, now) : isMock(g) ? FORMAT_COPY.mockOpenLine(g, now) : DenCopy.openLine(g, now);
+    key = isMock(g)
+      ? <Link className="btn-volt md den-key" data-page-primary="" href={gameCardHref(g.id)}>{FORMAT_COPY.sitMock}</Link>
+      : <Link className="btn-volt md den-key" data-page-primary="" href={gameHref(g.id)}>{DenCopy.playKey(g)}</Link>;
   } else if (state.kind === 'played') {
     const at = yourRunAt(g, youId);
     line = at ? DenCopy.playedAt(at, g.closesAt, now) : null;
-    key = <Link className="btn-volt md den-key" data-page-primary="" href={podiumHref(g.id)}>{DenCopy.seePodiumSoFar}</Link>;
+    key = <Link className="btn-volt md den-key" data-page-primary="" href={podiumHref(g.id)}>{isMock(g) ? FORMAT_COPY.seeSheetsSoFar : DenCopy.seePodiumSoFar}</Link>;
   } else if (state.kind === 'live') {
-    line = DenCopy.liveLine(g);
+    line = isRace(g) ? FORMAT_COPY.raceLiveLine(g) : DenCopy.liveLine(g);
     key = <Link className="btn-volt md den-key" data-page-primary="" href={gameCardHref(g.id)}>{DenCopy.joinRoom(g)}</Link>;
     link = <Link className="mob-link" href={gameCardHref(g.id)}>{DenCopy.playLater(g.closesAt, now)}</Link>;
   } else {

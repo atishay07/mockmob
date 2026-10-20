@@ -21,7 +21,7 @@ export { GAME_VIEWS, gameHref };
 
 export default function MobGame({ gameId, view = 'run', autoStart = false, hrefFor = null, denHref = '/mob', openChannel = undefined }) {
   const [game, setGame] = useState(null);
-  const [mob, setMob] = useState({ name: null, me: null, members: [] });
+  const [mob, setMob] = useState({ name: null, me: null, members: [], paper: null });
   // How the run view plays: 'pending' until the game (and, for a live room, the den's live flag) is known, then
   // 'live' (the room: lobby, countdown, live ruler) or 'run' (anytime). Decided once, so it never flips mid-run.
   const [runMode, setRunMode] = useState('pending');
@@ -74,7 +74,8 @@ export default function MobGame({ gameId, view = 'run', autoStart = false, hrefF
         denLive.current = v3?.live || null;
         if (v3) {
           const me = (v3.members || []).find((m) => m.you) || null;
-          setMob({ name: v3.name?.text || d.mob.subjectName || null, me: me ? { fold: me.fold, colour: me.colour, name: me.name } : null, members: v3.members || [] });
+          // paper: what a full mock's runner link needs (the Mob's subject and your member id); never anyone's plan.
+          setMob({ name: v3.name?.text || d.mob.subjectName || null, me: me ? { fold: me.fold, colour: me.colour, name: me.name } : null, members: v3.members || [], paper: { subject: d.mob.subject || null, mobId: d.mob.id || mobId, memberId: d.mob.you?.memberId || me?.memberId || null } });
         }
         decide();
       })
@@ -93,7 +94,7 @@ export default function MobGame({ gameId, view = 'run', autoStart = false, hrefF
       {v === 'run' && runMode === 'live' ? (
         <LiveRoom game={game} members={mob.members} me={mob.me} hrefs={hrefs} onGame={onGame} onAnytime={playAnytime} {...(openChannel ? { openChannel } : {})} />
       ) : null}
-      {v === 'run' && (runMode === 'run' || runMode === 'anytime') ? <GameRun key={`${gameId}:${runMode}`} gameId={gameId} autoStart={autoStart || runMode === 'anytime'} me={mob.me} hrefs={hrefs} onGame={onGame} /> : null}
+      {v === 'run' && (runMode === 'run' || runMode === 'anytime') ? <GameRun key={`${gameId}:${runMode}`} gameId={gameId} autoStart={autoStart || runMode === 'anytime'} me={mob.me} hrefs={hrefs} onGame={onGame} paper={mob.paper} /> : null}
       {v !== 'run' && !game ? (
         <section className="mp-run" aria-busy="true"><RunHead title={COPY.runLoading} sub="" hrefs={hrefs} /><div className="mp-skel mp-skel--rows" aria-hidden="true" /></section>
       ) : null}

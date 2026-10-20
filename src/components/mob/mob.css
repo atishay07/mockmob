@@ -417,3 +417,5 @@ html[data-theme='light'] .mob-volt { box-shadow: inset 0 0 0 1px rgb(82 103 0 / 
 .mob-page .ctl-toggle .mk-switch:focus-visible::before { outline: 2px solid var(--ctl-focus); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) { .mob-page .ctl-toggle .mk-switch::before { transition: none; } }
 :root[data-motion='reduced'] .mob-page .ctl-toggle .mk-switch::before { transition: none; }
+/* A Mob full mock's row under the result (D167): the mark sheets key beside the way back. */
+.mob-result__keys { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px; }

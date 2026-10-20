@@ -149,7 +149,8 @@ export const DenCopy = Object.freeze({
   askKey: 'Send "Again?"',
   askLine: 'Anyone with a start left can open one.',
 
-  gameKind: (format) => (format === 'round' ? 'round' : format === 'rematch' ? 'rematch' : 'sprint'),
+  // The word for a game, with the two D167 formats: a timed race and a full mock together.
+  gameKind: (format) => ({ round: 'round', rematch: 'rematch', race: 'race', mock: 'full mock' }[format] || 'sprint'),
   gameTitle(g) {
     const kind = DenCopy.gameKind(g.format);
     return !g.host || g.host.you || g.host.memberId === g.youId ? `Your ${kind}` : `${g.host.name}'s ${kind}`;

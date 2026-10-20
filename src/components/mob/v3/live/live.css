@@ -189,3 +189,8 @@ html[data-theme='light'] .lv-count__scrim { background: #241d10; }
 @keyframes lv-fade { from { opacity: 0; } to { opacity: 1; } }
 @keyframes lv-in { from { opacity: 0; } }
 @keyframes lv-out { to { opacity: 0; transform: rotate(-3deg) scale(0.96); } }
+
+/* The countdown's head discs stand on their own soft plate, so a lobby Fold under the scrim never shows through them
+   (the live client's leftover, 20 Oct). A timed race's own 3, 2, 1 uses the same stage over the run's skeleton. */
+.lv-count__heads { padding: 10px 16px 8px; border-radius: 22px; background: radial-gradient(closest-side, rgba(12, 11, 8, 0.86), rgba(12, 11, 8, 0.62)); }
+html[data-theme='light'] .lv-count__heads { background: radial-gradient(closest-side, rgba(36, 29, 16, 0.88), rgba(36, 29, 16, 0.64)); }

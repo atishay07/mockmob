@@ -583,3 +583,14 @@ html:has(.app-shell) .den-k { background: var(--a-bg); }
 :root[data-motion='reduced'] :is(.den-k__p--sealed, .den-k__p--pop) { display: none; }
 :root[data-motion='reduced'] .den-k__p--open { opacity: 1; animation: none !important; }
 :root[data-motion='reduced'] .den .den-stage .den-sticker { transform: translateX(var(--sx)); animation: den-sticker-reduced 2040ms linear var(--delay, 0ms) both !important; }
+
+/* D167: four ways to play in the picker and the start sheet (a 2 by 2 grid at every width). The one choice a format
+   needs (the round's length, the race's minutes) rises under the tiles when its tile is picked. */
+.den-tiles--four > :nth-child(3) { grid-column: auto; }
+.den-tiles--four .den-tile { min-height: 104px; }
+.den-tiles--four .den-tile__title { padding-right: 22px; }
+.den-tile[data-selected] .den-tile__icon { border-color: color-mix(in srgb, var(--a-select) 60%, transparent); color: var(--a-ink); }
+.den-choice { animation: den-choice-in 200ms var(--den-ease-out) both; }
+@keyframes den-choice-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .den-choice { animation: none; } }
+:root[data-motion='reduced'] .den-choice { animation: none; }

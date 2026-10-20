@@ -7,6 +7,8 @@
 //   &billing=free | used | mic | pro (P1 with billing on) ; &view=chains | chains-mob | shelf | join (&code=, &auth=out, &v3=off)
 //   &delay=<ms> holds the den's read that long (D6: the skeleton, then the den over it) ; &stickers=1 two friends' stickers
 //   window.__denPush('member-2', 'nice_one') adds a friend's sticker now; the den's next live read brings it in.
+//   D167: ?den=race (Kabir's 5-minute race is open) | mock (Riya's full mock is open) | mockplayed (you sat it); the
+//   starts offer the race and the full mock (with billing on, a free member sees the full mock with the Pro tag).
 import denGet from '@/../data/tests/fixtures/mob_v3/den_get.json';
 import chainFx from '@/../data/tests/fixtures/mob_v3/chain.json';
 import shelfFx from '@/../data/tests/fixtures/mob_v3/shelf.json';
@@ -109,8 +111,23 @@ export function denFixture(params, now = Date.now()) {
     v3.moments = [`chain:14`, `reveal:hop`, `stitch:uuid-2:2026-10-19`, `quest_done:uuid-2:2026-10-19`];
     if (params.get('only')) v3.moments = v3.moments.filter((k) => k.startsWith(params.get('only')));
   }
+  if (kind === 'race' || kind === 'mock' || kind === 'mockplayed') {
+    const kabir = { memberId: 'member-1', name: 'Kabir' };
+    const riya = { memberId: 'member-2', name: 'Riya' };
+    const race = { ...v3.games[1], id: 'uuid-5', format: 'race', minutes: 5, count: 30, chapter: 'Goodwill', title: "Kabir's race", host: kabir, runs: [{ memberId: 'member-1', name: 'Kabir', at: '2026-10-22T09:05:00.000Z' }] };
+    const mock = { ...v3.games[1], id: 'uuid-6', format: 'mock', minutes: 60, count: 50, chapter: null, title: "Riya's full mock", host: riya, runs: [{ memberId: 'member-2', name: 'Riya', at: '2026-10-22T09:10:00.000Z' }] };
+    if (kind === 'mockplayed') { mock.yourRun = 'finished'; mock.podiumReady = true; mock.runs.push({ memberId: 'member-3', name: 'Aarav', at: '2026-10-22T09:28:00.000Z' }); }
+    v3.games = kind === 'race' ? [race, mock] : [mock, race];
+  }
+  // The D167 formats: a timed race and a full mock together, offered by the server's starts block.
+  v3.starts = { ...v3.starts, formats: ['sprint', 'round', 'rematch', 'race', 'mock'], locked: [] };
   const billing = params.get('billing') || (kind === 'ask' ? 'used' : null);
-  if (billing) v3.starts = clone({ free: startsFree, used: startsUsed, mic: startsMic, pro: startsPro }[billing] || v3.starts);
+  if (billing) {
+    v3.starts = clone({ free: startsFree, used: startsUsed, mic: startsMic, pro: startsPro }[billing] || v3.starts);
+    const pro = billing === 'pro';
+    v3.starts.formats = [...new Set([...(v3.starts.formats || []), 'race', ...(pro ? ['mock'] : [])])];
+    v3.starts.locked = pro ? [] : ['mock'];
+  }
   if (params.get('live') === 'off') v3.live = { enabled: false, hoursOk: true };
   if (params.get('hours') === 'off') v3.live = { enabled: true, hoursOk: false };
   if (params.get('stickers') === '1') v3.reactions = [{ memberId: 'member-2', kind: 'nice_one', at: '2026-10-22T09:20:00.000Z' }, { memberId: 'member-1', kind: 'again', at: '2026-10-22T09:25:00.000Z' }];
