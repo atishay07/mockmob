@@ -7,11 +7,11 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/theme/theme.dart' show MmBar;
 import 'package:mockmob/core/widgets/account/account_avatar.dart' show AccountAvatarButton;
 import 'package:mockmob/core/widgets/widgets.dart';
-import 'package:mockmob/features/insights/ask_mobi.dart' show AskMobiButton;
 import 'package:mockmob/features/social/copy.dart';
 import 'package:mockmob/features/social/logic/mob_entry.dart';
 import 'package:mockmob/features/social/mob_routes.dart';
 import 'package:mockmob/features/social/screens/mob_screen.dart';
+import 'package:mockmob/features/social/widgets/mob_ask_key.dart';
 import 'package:mockmob/features/social/widgets/mob_join_code.dart';
 import 'package:mockmob/features/social/widgets/mob_today_card.dart';
 
@@ -30,8 +30,10 @@ void main() {
     expect(find.text(MobCopy.title), findsOneWidget);
     expect(find.bySemanticsLabel('Back'), findsNothing, reason: 'a tab root has no back key');
     expect(find.byType(AccountAvatarButton), findsOneWidget, reason: 'the account key, like every tab root');
-    // ASK-MOBI-1019 B: the Mob shows the labelled Ask Mobi key, at the end of the tab's own header.
-    expect(find.descendant(of: find.byType(TabRootHeader), matching: find.byType(AskMobiButton)), findsOneWidget);
+    // ASK-MOBI-1019 B: the Mob shows the Ask Mobi key at the end of the tab's own header (labelled while the title has
+    // room beside it; B1: it gives way before the title is ever cut).
+    expect(find.descendant(of: find.byType(TabRootHeader), matching: find.byType(MobAskKey)), findsOneWidget);
+    expect(find.bySemanticsLabel('Ask Mobi'), findsOneWidget);
     final join = find.byKey(const ValueKey('mob-join-with-code'));
     expect(join, findsOneWidget);
     expect(tester.getRect(join).bottom, lessThan(800 - MmBar.lift - MmBar.height), reason: 'Join with a code shows on the first screen at 360 by 800');
@@ -45,7 +47,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(TabRootHeader), findsNothing);
     expect(find.bySemanticsLabel('Back'), findsOneWidget);
-    expect(find.byType(AskMobiButton), findsOneWidget, reason: 'the Ask Mobi key either way (ASK-MOBI-1019 B)');
+    expect(find.byType(MobAskKey), findsOneWidget, reason: 'the Ask Mobi key either way (ASK-MOBI-1019 B)');
   });
 
   testWidgets('the code sheet: a wrong code says so plainly; a code or a whole link opens the Mob', (tester) async {

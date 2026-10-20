@@ -55,16 +55,15 @@ class _SitBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final colors = context.mmColors;
-    final type = context.mmType;
     final have = _balance(ref);
     final short = refused || (have != null && have < cost);
     final known = have != null && !(refused && have >= cost);
-    final figure = type.figureCompact.copyWith(color: colors.ink, fontSize: 30, height: 1, fontFeatures: const [FontFeature.tabularFigures()]);
-    final quiet = type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]);
     // The right side of the price: the balance, then one short word on what happens (charged once, or what is missing).
+    // Refused with the balance unknown, "Nothing was charged" joins "Not enough credits" only while it keeps to one line
+    // (normal text); the spoken label always says it.
+    final roomy = MediaQuery.textScalerOf(context).scale(14) <= 15.4;
     final (top, bottom) = short
-        ? (known ? MobV3Copy.sitYouHave(have) : MobV3Copy.sitNotEnough, known ? MobV3Copy.sitNeedMore(cost - have) : MobV3Copy.sitNothingCharged)
+        ? (known ? MobV3Copy.sitYouHave(have) : MobV3Copy.sitNotEnough, known ? MobV3Copy.sitNeedMore(cost - have) : (roomy ? MobV3Copy.sitNothingCharged : null))
         : (have == null ? null : MobV3Copy.sitYouHave(have), MobV3Copy.sitChargedOnce);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -76,23 +75,7 @@ class _SitBody extends ConsumerWidget {
           key: const ValueKey('sit-cost'),
           label: short ? MobV3Copy.sitMockShort(cost, known ? have : null) : MobV3Copy.sitPriceSemantics(cost, have),
           excludeSemantics: true,
-          child: Row(
-            children: [
-              const CreditCoins(size: 44, coins: 3),
-              const SizedBox(width: MmSpace.s12),
-              Expanded(child: Text(MobV3Copy.sitPriceFigure(cost), style: figure)),
-              const SizedBox(width: MmSpace.s8),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    if (top != null) Text(top, key: const ValueKey('sit-have'), textAlign: TextAlign.end, style: quiet.copyWith(color: short ? colors.ink : colors.ink2, fontWeight: short ? FontWeight.w600 : null)),
-                    Text(bottom, textAlign: TextAlign.end, style: quiet.copyWith(color: colors.ink3)),
-                  ],
-                ),
-              ),
-            ],
-          ),
+          child: MockPriceRow(cost: cost, top: top, bottom: bottom, strong: short),
         ),
         // Short of credits: how far the balance reaches toward the price.
         if (short && known) ...[
@@ -100,6 +83,61 @@ class _SitBody extends ConsumerWidget {
           _Reach(share: cost <= 0 ? 0 : (have / cost).clamp(0.0, 1.0)),
         ],
         const SizedBox(height: MmSpace.s8),
+      ],
+    );
+  }
+}
+
+/// The price as one figure beside the credit coins, the balance and one short word on the right (sit-v2): the figure
+/// keeps its own width and the right side takes all the rest, so its words end at the card's edge and "Nothing was
+/// charged" keeps to one line. The den's full mock card draws the same row, a size smaller.
+class MockPriceRow extends StatelessWidget {
+  const MockPriceRow({super.key, required this.cost, this.top, this.bottom, this.strong = false, this.coins = 44, this.figureSize = 30});
+
+  final int cost;
+
+  /// The balance ("You have 112"), or "Not enough credits".
+  final String? top;
+
+  /// What happens or what is missing ("Charged once", "38 more needed").
+  final String? bottom;
+
+  /// Short of credits: the top line in ink and bold.
+  final bool strong;
+  final double coins;
+  final double figureSize;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final figure = type.figureCompact.copyWith(color: colors.ink, fontSize: figureSize, height: 1, fontFeatures: const [FontFeature.tabularFigures()]);
+    final quiet = type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]);
+    return Row(
+      children: [
+        CreditCoins(size: coins, coins: 3),
+        const SizedBox(width: MmSpace.s12),
+        // The figure is the row's art: it grows with large text up to 1.3x and never past five of its own sizes (it then
+        // scales down whole), so it can never push the words off the row.
+        ConstrainedBox(
+          constraints: BoxConstraints(maxWidth: figureSize * 5),
+          child: FittedBox(
+            fit: BoxFit.scaleDown,
+            alignment: Alignment.centerLeft,
+            child: MediaQuery.withClampedTextScaling(maxScaleFactor: 1.3, child: Text(MobV3Copy.sitPriceFigure(cost), key: const ValueKey('sit-figure'), maxLines: 1, softWrap: false, style: figure)),
+          ),
+        ),
+        const SizedBox(width: MmSpace.s12),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (top != null) Text(top!, key: const ValueKey('sit-have'), textAlign: TextAlign.end, style: quiet.copyWith(color: strong ? colors.ink : colors.ink2, fontWeight: strong ? FontWeight.w600 : null)),
+              if (bottom != null) Text(bottom!, key: const ValueKey('sit-have-line'), textAlign: TextAlign.end, style: quiet.copyWith(color: colors.ink3)),
+            ],
+          ),
+        ),
       ],
     );
   }

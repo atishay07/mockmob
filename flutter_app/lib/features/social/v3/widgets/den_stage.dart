@@ -585,6 +585,8 @@ class DenStage extends ConsumerWidget {
                       label: MobV4DenCopy.pennantLabel(v3!.name.text, v3!.mobChain.weeks),
                       caption: v3!.name.text.isEmpty ? MobV4DenCopy.pennantCaptionFallback : v3!.name.text,
                       crown: v3!.hours?.topMemberId != null && (v3!.hours?.members.isNotEmpty ?? false),
+                      // The studying tag sits right under the pennant: its caption keeps to one line then.
+                      roomBelow: studying == null,
                     ),
                   ),
                 ),
@@ -834,10 +836,13 @@ class _Entering extends StatelessWidget {
 
 /// The pennant swinging in about its pin (M1 from 160 ms).
 class _PennantIn extends StatefulWidget {
-  const _PennantIn({required this.ms, required this.weeks, this.onTap, this.label, this.caption, this.crown = false});
+  const _PennantIn({required this.ms, required this.weeks, this.onTap, this.label, this.caption, this.crown = false, this.roomBelow = true});
 
   /// Under the foot, whose streak this is in words: the Mob's name (override 3). The semantics label says it too.
   final String? caption;
+
+  /// Nothing sits right under the caption (no studying tag), so a long name may take a second line.
+  final bool roomBelow;
 
   final ValueListenable<double> ms;
   final int weeks;
@@ -891,6 +896,56 @@ class _PennantInState extends State<_PennantIn> {
     if (text == null || text.isEmpty) return pennant;
     final colors = context.mmColors;
     final halo = [Shadow(color: colors.ground.withValues(alpha: colors.isNight ? 0.85 : 0.9), blurRadius: 6)];
+    final style = context.mmType.caption.copyWith(fontSize: 10, height: 1.2, color: colors.isNight ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600, shadows: halo);
+    // The caption's text grows with large text up to 1.15x (it is part of the pennant's art).
+    final scaler = MediaQuery.textScalerOf(context).clamp(maxScaleFactor: 1.15);
+    // The Mob's name is never cut mid-word (MOB-V4-BUILD override 3): it may reach 12 dp past each side of the pennant,
+    // wraps at its words onto a second line when nothing sits under it ("Accountancy" / "Avengers"), and with the
+    // studying tag under it keeps to one line of whole words ("Accountancy..."). A single word too long for the room
+    // shrinks whole instead.
+    const room = DenStage.pennantWidth + 24;
+    double widthOf(String s) {
+      final p = TextPainter(text: TextSpan(text: s, style: style), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout();
+      final w = p.width;
+      p.dispose();
+      return w;
+    }
+
+    if (widthOf(text) <= DenStage.pennantWidth) {
+      // The usual name fits under the pennant as it is.
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          pennant,
+          const SizedBox(height: MmSpace.s2),
+          SizedBox(
+            width: DenStage.pennantWidth,
+            child: ExcludeSemantics(
+              child: MediaQuery.withClampedTextScaling(
+                maxScaleFactor: 1.15,
+                child: Text(text, key: const ValueKey('den-pennant-caption'), textAlign: TextAlign.center, maxLines: 1, overflow: TextOverflow.ellipsis, style: style),
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+    final words = text.split(' ').where((w) => w.isNotEmpty).toList();
+    final wordFits = words.every((w) => widthOf(w) <= room);
+    final twoLines = widget.roomBelow && wordFits && widthOf(text) > room;
+    var shown = text;
+    if (!twoLines && widthOf(text) > room) {
+      // The most whole words that fit with the ellipsis; at least the first word.
+      shown = '${words.first}…';
+      for (var k = words.length - 1; k >= 1; k--) {
+        final candidate = '${words.take(k).join(' ')}…';
+        if (widthOf(candidate) <= room) {
+          shown = candidate;
+          break;
+        }
+      }
+    }
+    final line = scaler.scale(10) * 1.2;
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
@@ -898,16 +953,21 @@ class _PennantInState extends State<_PennantIn> {
         const SizedBox(height: MmSpace.s2),
         SizedBox(
           width: DenStage.pennantWidth,
-          child: ExcludeSemantics(
-            child: MediaQuery.withClampedTextScaling(
-              maxScaleFactor: 1.15,
-              child: Text(
-                text,
-                key: const ValueKey('den-pennant-caption'),
-                textAlign: TextAlign.center,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: context.mmType.caption.copyWith(fontSize: 10, height: 1.2, color: colors.isNight ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600, shadows: halo),
+          height: line * (twoLines ? 2 : 1) + 1,
+          child: OverflowBox(
+            // With the studier at the desk on the pennant's right, a wider caption grows to the left only.
+            alignment: widget.roomBelow ? Alignment.topCenter : Alignment.topRight,
+            minWidth: 0,
+            maxWidth: room,
+            child: ExcludeSemantics(
+              child: MediaQuery(
+                data: MediaQuery.of(context).copyWith(textScaler: scaler),
+                child: twoLines
+                    ? Text(shown, key: const ValueKey('den-pennant-caption'), textAlign: TextAlign.center, maxLines: 2, style: style)
+                    : FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(shown, key: const ValueKey('den-pennant-caption'), textAlign: TextAlign.center, maxLines: 1, softWrap: false, style: style),
+                      ),
               ),
             ),
           ),

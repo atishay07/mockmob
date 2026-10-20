@@ -63,8 +63,11 @@ Future<MobGame?> showStartGame(BuildContext context, {StartGamePrefill prefill =
   final den = container.read(denViewProvider);
   final c = _StartController(prefill, den?.v3);
   // The honest price must be in view before the tap (D175): a sheet that opens on the full mock, or with large text,
-  // takes 92% of the screen so the rule box and what it covers sit above the key.
-  final tall = c.tile == GameFormat.mock || MediaQuery.textScalerOf(context).scale(16) > 17.6;
+  // takes 92% of the screen so the rule box and what it covers sit above the key. So does a Free member's sheet, whose
+  // Full mock row carries its line and Get Pro: what the game covers stays in view above the key.
+  final starts = den?.v3.starts;
+  final freeMockLine = starts != null && starts.mockNeedsPro && starts.shows(GameFormat.mock);
+  final tall = c.tile == GameFormat.mock || freeMockLine || MediaQuery.textScalerOf(context).scale(16) > 17.6;
   return showMmSheet<MobGame>(
     context: context,
     title: MobV3Copy.startAGame,
@@ -215,7 +218,7 @@ class _StartBody extends ConsumerWidget {
                 // client guess, MOB-V4-BUILD 1).
                 mockPrice: starts.via == StartVia.pro ? null : starts.freeMockPrice,
                 // A Free member's mock row says what Pro does and what sitting costs, and opens Pro from the row.
-                proLine: f == GameFormat.mock && starts.mockNeedsPro ? MobV4ResultsCopy.mockFreeRow(starts.freeMockPrice, proSitsFree: starts.proSitsFree) : null,
+                proLine: f == GameFormat.mock && starts.mockNeedsPro ? MobV4ResultsCopy.mockFreeRow(starts.freeMockPrice) : null,
                 onPro: f == GameFormat.mock && starts.mockNeedsPro && ref.watch(proNudgesOnProvider)
                     ? () => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock)
                     : null,
@@ -233,7 +236,7 @@ class _StartBody extends ConsumerWidget {
             Divider(height: MmSpace.s16, thickness: 1, color: colors.line),
             if (mock)
               MobRow(
-                leading: const PaperChip(icon: LucideIcons.bookOpen, size: 44),
+                leading: const PaperChip(icon: LucideIcons.bookOpen, size: 36),
                 title: MobV3Copy.coversWhole(subject),
                 compactTitle: true,
               )
@@ -412,6 +415,9 @@ class _FormatRow extends StatelessWidget {
     final String? tag = anytimeOnly
         ? MobV3Copy.anytimeOnly
         : (locked && proTag && format != GameFormat.mock ? MobV3Copy.proTag : null);
+    // A Free member's Full mock together: the small "Pro starts it" tag beside the title (sheetlive mock-up), dimmed with
+    // the row; the line under the row says what sitting one costs.
+    final String? titleTag = format == GameFormat.mock && proLine != null && !anytimeOnly ? MobV4ResultsCopy.proStartsIt : null;
     // The icon lines up with the sheet's text column (the header), and the chosen row's raised paper bleeds 12 dp
     // past it on each side (review fix 15), as the mock-up draws it.
     final row = Stack(
@@ -447,10 +453,27 @@ class _FormatRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Text(
-                        FormatLook.title(format),
-                        style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
-                      ),
+                      if (titleTag == null)
+                        Text(
+                          FormatLook.title(format),
+                          style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
+                        )
+                      else
+                        // The tag follows the title on its line, and drops under it when the line is full (large text).
+                        Wrap(
+                          spacing: MmSpace.s8,
+                          runSpacing: 2,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [
+                            Text(FormatLook.title(format), style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+                            Container(
+                              key: const ValueKey('start-mock-pro-tag'),
+                              padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: colors.lineStrong)),
+                              child: Text(titleTag, style: type.label.copyWith(color: colors.ink2)),
+                            ),
+                          ],
+                        ),
                       Text(MobV3Copy.formatRowLine(format), style: type.caption.copyWith(color: colors.ink3)),
                       if (chips != null) ...[const SizedBox(height: MmSpace.s8), chips],
                     ],
@@ -489,7 +512,7 @@ class _FormatRow extends StatelessWidget {
       inMutuallyExclusiveGroup: true,
       selected: on,
       enabled: !dim,
-      label: '${FormatLook.title(format)}. ${MobV3Copy.formatRowLine(format)}${tag != null ? '. $tag' : ''}',
+      label: '${FormatLook.title(format)}. ${MobV3Copy.formatRowLine(format)}${tag != null ? '. $tag' : ''}${titleTag != null ? '. $titleTag' : ''}',
       child: MmPressable(onTap: onTap, haptic: MmPressHaptic.selection, focusRadius: BorderRadius.circular(16), builder: (context, pressed, _) => row),
     );
     final line = proLine;
@@ -515,7 +538,7 @@ class _FormatRow extends StatelessWidget {
               if (onPro != null)
                 Transform.translate(
                   offset: const Offset(-MmSpace.s12, 0),
-                  child: _AccentKey(key: const ValueKey('start-mock-pro'), label: MobV3Copy.seePlans, onPressed: onPro),
+                  child: _AccentKey(key: const ValueKey('start-mock-pro'), label: MobV4ResultsCopy.getPro, onPressed: onPro),
                 ),
             ],
           ),
@@ -774,10 +797,10 @@ class _CoversRow extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         MobRow(
-          leading: const PaperChip(icon: LucideIcons.bookOpen, size: 44),
+          leading: const PaperChip(icon: LucideIcons.bookOpen, size: 36),
           title: text,
           compactTitle: true,
-          trailing: subjectId.isEmpty ? null : _AccentKey(key: const ValueKey('start-change'), label: MobV3Copy.change, onPressed: () => _change(context)),
+          trailing: subjectId.isEmpty ? null : _AccentKey(key: const ValueKey('start-change'), label: MobV3Copy.change, padLeft: MmSpace.s4, onPressed: () => _change(context)),
         ),
         if (c.covers != _Covers.whole)
           LinkKey(

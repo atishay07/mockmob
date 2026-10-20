@@ -295,23 +295,42 @@ class MobHoursBlock extends StatelessWidget {
                   top: m.memberId == hours.topMember?.memberId,
                 ),
               const SizedBox(height: MmSpace.s8),
-              Text(
-                MobV4SheetsCopy.tickNote,
-                style: type.small.copyWith(color: c.ink2),
+              // The legend in one line: the tick itself, then what it means (D185: visual first).
+              Row(
+                key: const ValueKey('tw-tick-note'),
+                children: [
+                  const _TickBadge(),
+                  const SizedBox(width: MmSpace.s8),
+                  Flexible(
+                    child: Text(
+                      MobV4SheetsCopy.tickNote,
+                      style: type.small.copyWith(color: c.ink2),
+                    ),
+                  ),
+                ],
               ),
             ],
             if (!hours.meSharing) ...[
-              const SizedBox(height: MmSpace.s8),
-              Text(
-                MobV4SheetsCopy.hoursYouOff,
-                style: type.small.copyWith(color: c.ink2),
+              const SizedBox(height: MmSpace.s4),
+              // One line with its link: "Your hours are hidden. Mob settings" (the switch lives there).
+              Wrap(
+                key: const ValueKey('tw-hours-you-off'),
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: MmSpace.s8,
+                children: [
+                  Text(
+                    MobV4SheetsCopy.hoursYouOff,
+                    style: type.small.copyWith(color: c.ink2),
+                  ),
+                  if (onSettings != null)
+                    IntrinsicWidth(
+                      child: LinkKey(
+                        label: MobV4SheetsCopy.hoursSettingsLink,
+                        onPressed: () => onSettings!(context),
+                      ),
+                    ),
+                ],
               ),
-              if (onSettings != null)
-                LinkKey(
-                  label: MobV4SheetsCopy.hoursSettingsLink,
-                  icon: LucideIcons.settings,
-                  onPressed: () => onSettings!(context),
-                ),
             ],
           ],
         ],
@@ -481,12 +500,13 @@ class _TopLine extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // One line with the time, one short line under it (as on Week stitched).
               Text(
-                MobV4SheetsCopy.hoursTop(name),
-                style: type.labelLarge.copyWith(color: c.ink),
+                MobV4SheetsCopy.hoursTop(name, top.minutes),
+                style: type.labelLarge.copyWith(color: c.ink, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]),
               ),
               Text(
-                MobV4SheetsCopy.hoursTopLine(top.minutes),
+                MobV4SheetsCopy.hoursTopLine,
                 style: type.small.copyWith(color: c.ink2),
               ),
             ],
@@ -612,20 +632,31 @@ class _GoalTicks extends StatelessWidget {
           ],
           if (days >= _tickDays) ...[
             const SizedBox(width: MmSpace.s8),
-            Container(
-              width: 16,
-              height: 16,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: c.volt,
-                border: night ? null : Border.all(color: c.voltEdge),
-              ),
-              child: Icon(LucideIcons.check, size: 11, color: c.voltInk),
-            ),
+            const _TickBadge(),
           ],
         ],
       ),
+    );
+  }
+}
+
+/// The week's tick: a 16 dp volt disc with a dark check (the same tick as Week stitched draws on the heads).
+class _TickBadge extends StatelessWidget {
+  const _TickBadge();
+
+  @override
+  Widget build(BuildContext context) {
+    final c = context.mmColors;
+    return Container(
+      width: 16,
+      height: 16,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: c.volt,
+        border: c.isNight ? null : Border.all(color: c.voltEdge),
+      ),
+      child: Icon(LucideIcons.check, size: 11, color: c.voltInk),
     );
   }
 }

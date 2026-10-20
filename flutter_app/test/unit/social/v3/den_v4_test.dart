@@ -132,10 +132,11 @@ void main() {
   });
 
   group('review fixes', () {
-    test('an empty week says when: "15 each by Sunday stitches week 1"', () {
-      expect(MobV4DenCopy.questLine(const Quest(target: 60, sizedFor: 4), 0), '15 each by Sunday stitches week 1');
-      expect(MobV4DenCopy.questLine(const Quest(target: 15), 3), '15 by Sunday stitches week 4');
-      expect(MobV4DenCopy.questLine(const Quest(target: 60, answered: 51, sizedFor: 4), 3), '9 more stitches week 4');
+    test('an empty week says when: "15 each by Sunday to stitch week 1", and "week 1" never splits', () {
+      expect(MobV4DenCopy.questLine(const Quest(target: 60, sizedFor: 4), 0), '15\u00A0each by Sunday to stitch\u00A0week\u00A01');
+      expect(MobV4DenCopy.questLine(const Quest(target: 15), 3), '15 by Sunday to stitch\u00A0week\u00A04');
+      expect(MobV4DenCopy.questLine(const Quest(target: 60, answered: 51, sizedFor: 4), 3), '9 more stitches week\u00A04');
+      expect(MobV4DenCopy.hoursLine, 'Practice time, this\u00A0week');
     });
 
     test('screen readers hear hours and minutes as words', () {
@@ -147,10 +148,14 @@ void main() {
       expect(MobV4DenCopy.memberHoursSemantics('Riya', 190), 'Riya, 3 hours 10 minutes');
     });
 
-    test('the Free price line carries the balance or the shortfall', () {
-      expect(MobV4DenCopy.sitCostLine(50, null), 'For you: 50 credits.');
-      expect(MobV4DenCopy.sitCostLine(50, 120), 'For you: 50 credits. You have 120.');
-      expect(MobV4DenCopy.sitCostLine(50, 20), 'For you: 50 credits. You have 20, so you need 30 more.');
+    test('the Free price reads as on the sit sheet: the figure, the balance, what is missing', () {
+      expect(MobV3Copy.sitPriceFigure(50), '50 credits');
+      expect(MobV3Copy.sitYouHave(20), 'You have 20');
+      expect(MobV3Copy.sitNeedMore(30), '30 more needed');
+    });
+
+    test('the fresh card names every friend, never two of three', () {
+      expect(MobV4DenCopy.freshLine(['Riya', 'Kabir', 'Zoya']), 'Start the first game. Riya, Kabir and Zoya race your run any time in the next 24 hours.');
     });
 
     test('quest segments fill whole segments only', () {

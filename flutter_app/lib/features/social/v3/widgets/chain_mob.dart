@@ -11,6 +11,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../widgets/mob_ring.dart' show MobColours;
 import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
@@ -139,7 +140,8 @@ class _ChainMobBodyState extends ConsumerState<ChainMobBody> {
                 ),
               ),
               const SizedBox(height: MmSpace.s12),
-              QuestSegments(answered: q.answered, target: q.target, semanticsLabel: count),
+              // The Mob's member colours, as the den's This week panel draws the same bar.
+              QuestSegments(answered: q.answered, target: q.target, semanticsLabel: count, palette: [for (final m in v3.members) MobColours.of(context, m.colour)]),
               if (q.bySource.isNotEmpty) ...[
                 const SizedBox(height: MmSpace.s16),
                 Divider(height: 1, thickness: 1, color: colors.line),

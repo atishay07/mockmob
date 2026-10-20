@@ -229,7 +229,7 @@ void main() {
     final server = v3Server(scenario: 'quiet');
     await pumpDen(tester, server);
     await _open(tester);
-    expect(find.textContaining('was covered by a rest pass. Your chain is still 13.'), findsOneWidget);
+    expect(find.textContaining('was covered by a rest pass. Your chain is still\u00A013.'), findsOneWidget);
     final chain = await server.chain();
     expect(chain.notices, isEmpty);
     await tester.pump(const Duration(seconds: 7));

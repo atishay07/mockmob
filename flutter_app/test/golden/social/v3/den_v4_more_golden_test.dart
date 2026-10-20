@@ -49,6 +49,18 @@ void main() {
       expect(find.byKey(const ValueKey('den-studying-tag')), findsOneWidget);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_long_name_studying_130_${_tag(b)}.png'));
     });
+    // The pennant's caption never cuts the Mob's name: with nothing under it, a long name takes a second line.
+    testWidgets('v4 den long name, nobody studying, text 1.3 ${_tag(b)}', (tester) async {
+      // No seeded study sharers: nobody is at the desk.
+      final server = v3Server(scenario: 'open')
+        ..renameFixtureMob('Accountancy Avengers')
+        ..seedSharers = false;
+      await pumpDen(tester, server, brightness: b, height: 900, textScale: 1.3);
+      await _settle(tester);
+      expect(find.byKey(const ValueKey('den-studying-tag')), findsNothing);
+      expect(find.text('Accountancy Avengers'), findsWidgets);
+      await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_long_name_130_${_tag(b)}.png'));
+    });
     testWidgets('v4 den hours sharing no minutes yet ${_tag(b)}', (tester) async {
       final server = v3Server(scenario: 'open')..studyMinutes.updateAll((_, _) => 0);
       server.denNow();
@@ -60,19 +72,27 @@ void main() {
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_hours_no_minutes_${_tag(b)}.png'));
     });
     testWidgets('v4 den free member full mock now card ${_tag(b)}', (tester) async {
-      // Night: 120 credits (enough). Day: 20 credits (short by 30). Both with the Pro way under the key.
+      // Night: 120 credits (enough): Sit Riya's full mock, Get Pro under it. Day: 20 credits (short by 30): Get Pro and
+      // Add credits, as on the sit sheet (sit-v2).
       final balance = b == Brightness.dark ? 120 : 20;
       await pumpDen(tester, v3Server(scenario: 'mock', billing: 'free'), brightness: b, height: 1900, auth: AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: balance), nudges: true);
       await _settle(tester);
       expect(find.byKey(const ValueKey('den-sit-cost')), findsOneWidget);
-      expect(find.text(MobV4DenCopy.sitCostLine(50, balance)), findsOneWidget);
+      expect(find.text(MobV3Copy.sitPriceFigure(50)), findsOneWidget);
+      expect(find.text(MobV3Copy.sitYouHave(balance)), findsOneWidget);
+      expect(find.text(MobV3Copy.sitNeedMore(30)), b == Brightness.dark ? findsNothing : findsOneWidget);
       expect(find.byKey(const ValueKey('den-sit-pro')), findsOneWidget);
+      expect(find.text(MobV4ResultsCopy.getPro), findsOneWidget);
+      expect(find.byKey(const ValueKey('den-play-key')), b == Brightness.dark ? findsOneWidget : findsNothing);
+      expect(find.byKey(const ValueKey('den-add-credits')), b == Brightness.dark ? findsNothing : findsOneWidget);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_free_mock_card_${_tag(b)}.png'));
     });
     testWidgets('v4 den five sharing text 1.3 ${_tag(b)}', (tester) async {
       final server = v3Server(scenario: 'open')
         ..addFixtureMember('MEERA0000005', 'Meera', 4, FoldKey.crane, minutes: 95, goal: 3)
-        ..studyMinutes['ZOYA00000004'] = 50;
+        ..studyMinutes['ZOYA00000004'] = 50
+        // Five heads (3 + 2 at 1.3x): you share too (the switch is off by default).
+        ..setShareStudyTime(true);
       await pumpDen(tester, server, brightness: b, height: 2100, textScale: 1.3);
       await _settle(tester);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_five_sharing_130_${_tag(b)}.png'));

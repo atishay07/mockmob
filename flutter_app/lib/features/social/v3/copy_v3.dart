@@ -351,7 +351,7 @@ abstract final class MobV3Copy {
 
   // ---- P2 Start a game ----
   static const String whatItCovers = 'What it covers';
-  static String coversTrap(String chapter) => '$chapter, the chapter of your Mob\'s last trap';
+  static String coversTrap(String chapter) => '$chapter, the chapter your Mob tripped on';
   static String coversWhole(String subject) => 'The whole of $subject';
   static const String howMobPlays = 'How your Mob plays it';
   static const String liveNow = 'Live now';
@@ -380,7 +380,7 @@ abstract final class MobV3Copy {
   static String formatRowLine(GameFormat f) => switch (f) {
         GameFormat.race => 'As many as you can in 5 or 10 minutes',
         GameFormat.round || GameFormat.rematch => '10, 15 or 20 questions',
-        GameFormat.mock => '50 questions in 60 minutes · open 24 hours',
+        GameFormat.mock => '50 questions in 60 minutes · open\u00A024\u00A0hours',
         GameFormat.sprint => '5 questions · about 5 minutes',
       };
 
@@ -809,7 +809,7 @@ abstract final class MobV3Copy {
   }
   static String playAs(FoldKey f) => 'Play as ${foldName(f)}';
   static const String seeShelf = 'See your shelf';
-  static String passNotice(String weekday, int days) => '$weekday was covered by a rest pass. Your chain is still $days.';
+  static String passNotice(String weekday, int days) => '$weekday was covered by a rest pass. Your chain is still\u00A0$days.';
   // Moment chrome (MOMENTS agent).
   static const String close = 'Close';
   static const String headYou = 'You';
@@ -927,7 +927,7 @@ abstract final class MobV3Copy {
         FoldKey.hop => 'Bounces back after a wrong one.',
         FoldKey.crane => 'Folds it until it is right.',
         FoldKey.stamp => 'Seals every fix that held.',
-        FoldKey.naav => 'Steady in the last ten minutes.',
+        FoldKey.naav => 'Steady to the final minute.',
         FoldKey.tally => 'Counts the minus marks too.',
         FoldKey.patang => 'Rises against the wind.',
         FoldKey.sticky => 'Remembers the formula for you.',
@@ -1193,11 +1193,9 @@ abstract final class MobV4ResultsCopy {
   static const String mockRuleIncluded = 'Included with Pro.';
   static String mockRuleFree(int cost) => 'Free members sit it for $cost credits.';
   static const String proStartsIt = 'Pro starts it';
-  /// [cost] is the server's Free sit price; null leaves the number out (never a client guess, D175).
-  static String mockFreeRow(int? cost, {bool proSitsFree = true}) {
-    final pro = proSitsFree ? 'Pro starts them and sits them free.' : 'Pro starts them.';
-    return cost == null ? 'On Free you can sit one a friend starts. $pro' : 'On Free you sit one a friend starts for $cost credits. $pro';
-  }
+  /// [cost] is the server's Free sit price; null leaves the number out (never a client guess, D175). The tag beside the
+  /// title says who starts it ("Pro starts it"); this one short line says what sitting one costs.
+  static String mockFreeRow(int? cost) => cost == null ? 'You can sit one a friend starts.' : 'You can sit one for $cost\u00A0credits.';
   static const String proAllowance = 'With Pro you can start as many games as you like.';
   static const String mockFreeLine = 'Full mocks are Anytime only. A Pro friend starts one; you can still sit it.';
   static const String getPro = 'Get Pro';
@@ -1246,9 +1244,9 @@ abstract final class MobV4ResultsCopy {
       : '${_cap(_numberWord(n))} weeks in a row for $mob. Nobody can break it alone.';
   static String studiedMost(String name, int minutes) => '$name studied the most: ${hm(minutes)}';
   static String youStudiedMost(int minutes) => 'You studied the most: ${hm(minutes)}';
-  static String crownOn(String name, int week) => "$name's crown goes on week $week's stitch.";
-  static String yourCrownOn(int week) => "Your crown goes on week $week's stitch.";
-  static const String tickMeans = 'A tick: met their own daily goal on 5 of 7 days.';
+  static String crownOn(int week) => "The crown goes on week\u00A0$week's stitch.";
+  static String yourCrownOn(int week) => "Your crown goes on week\u00A0$week's stitch.";
+  static const String tickMeans = 'A tick: met their own daily goal on 5 of 7\u00A0days.';
   static String hm(int minutes) {
     final h = minutes ~/ 60;
     final m = minutes % 60;
@@ -1365,17 +1363,18 @@ abstract final class MobV4DenCopy {
   // This week panel (3.1 item 5, 3.6)
   static const String questTitle = "This week's quest";
   static String questLine(Quest q, int weeks) {
-    if (q.done || q.answered >= q.target) return 'Week ${weeks <= 0 ? 1 : weeks} is stitched';
+    if (q.done || q.answered >= q.target) return 'Week\u00A0${weeks <= 0 ? 1 : weeks} is stitched';
     final left = q.target - q.answered;
     final week = weeks + 1;
-    if (q.answered == 0) return '${q.sizedFor <= 1 ? '15' : '15 each'} by Sunday stitches week $week';
-    return '$left more ${left == 1 ? 'stitch' : 'stitches'} week $week';
+    // A wrap falls before "stitch week 1", never leaving "week 1" alone on a line.
+    if (q.answered == 0) return '${q.sizedFor <= 1 ? '15' : '15\u00A0each'} by Sunday to stitch\u00A0week\u00A0$week';
+    return '$left more ${left == 1 ? 'stitch' : 'stitches'} week\u00A0$week';
   }
 
   static String questOf(int target) => 'of $target';
   static String questSemantics(Quest q, int weeks) => "This week's quest. ${q.answered} of ${q.target} questions. ${questLine(q, weeks)}. Opens This week.";
   static const String hoursTitle = 'Mob hours';
-  static const String hoursLine = 'Practice time, this week';
+  static const String hoursLine = 'Practice time, this\u00A0week';
   static const String hoursOff = 'Off for everyone. Turn on "Show my study time" in Mob settings to share yours.';
 
   /// "7 h 45 m", "45 m", "10 h".
@@ -1428,15 +1427,10 @@ abstract final class MobV4DenCopy {
   /// The invite footer, true to the seats left (5 minus members).
   static String inviteWorksFor(int open) => open <= 1 ? 'Works for 7 days, for 1 friend.' : 'Works for 7 days, for up to $open friends.';
 
-  // Full mock price at the point of choice (D174, D175): the server's number, Free members only.
-  static String sitCostLine(int credits, int? balance) {
-    if (balance == null) return 'For you: $credits credits.';
-    if (balance < credits) return 'For you: $credits credits. You have $balance, so you need ${credits - balance} more.';
-    return 'For you: $credits credits. You have $balance.';
-  }
-
+  // Full mock price at the point of choice (D174, D175): the server's number, Free members only. The den card says it
+  // the way the sit sheet does (sit-v2): "50 credits", "You have 20", "30 more needed" (MobV3Copy.sitPriceFigure,
+  // sitYouHave, sitNeedMore), and its way to Pro is "Get Pro" (D185).
   static const String sitIncludedPro = 'For you: included with Pro.';
-  static const String sitFreeWithPro = 'Sit it free with Pro';
   static String sitCostSuffix(int credits) => ' · $credits credits for you';
 
   // Your shelf row (3.1 item 6, D170)
@@ -1467,7 +1461,7 @@ abstract final class MobV4SheetsCopy {
   static const String yourChainLinkLine = 'Your own daily chain, rest passes and pause days';
 
   static const String hoursTitle = 'Mob hours';
-  static const String hoursLine = 'Practice time, this week';
+  static const String hoursLine = 'Practice time, this\u00A0week';
 
   /// "7 h 45 m", "45 m", "10 h".
   static String hm(int minutes) {
@@ -1497,12 +1491,13 @@ abstract final class MobV4SheetsCopy {
   static String hoursNoMinutesYet(String mob) => 'No study time yet this week. It fills as $mob practises.';
   static const String thisWeekFailed = 'This week did not load.';
   static const String hoursOffEveryoneNote = 'Turn on "Show my study time to my Mob" in Mob settings to share yours.';
-  static const String hoursYouOff = 'Your study time is off. Turn on "Show my study time to my Mob" in Mob settings and your hours join this bar.';
+  static const String hoursYouOff = 'Your hours are hidden.';
   static const String hoursYouOn = 'You are sharing your study time. You can turn it off any time in Mob settings.';
   static const String hoursSettingsLink = 'Mob settings';
-  static String hoursTop(String name) => '$name studied the most';
-  static String hoursTopLine(int minutes) => '${hm(minutes)} this week. The crown goes on this week\'s stitch.';
-  static const String tickNote = 'A tick: met their own daily goal on 5 of 7 days.';
+  static String hoursTop(String name, int minutes) => '$name studied the most: ${MobV4ResultsCopy.hm(minutes)}';
+  static const String hoursTopLine = "The crown goes on this week's stitch.";
+  /// Beside the tick badge, which says "a tick" without words.
+  static const String tickNote = 'Met their own daily goal on 5 of 7\u00A0days';
   static String memberHoursSemantics(String name, int minutes, int goalDays, {required bool top}) =>
       '$name, ${hmSpoken(minutes)}${top ? ', studied the most' : ''}. Met their own daily goal on $goalDays of 7 days${goalDays >= 5 ? ', a tick' : ''}.';
   static String studying(String name, DateTime since) => '$name is studying, since ${MobTime.clock(since)}';

@@ -2,10 +2,12 @@
 // decided by logic/den_copy_state.dart; this file only draws it and wires its keys. One volt thing:
 // the card's primary key. Every sentence comes from MobV3Copy.
 
+import 'dart:async';
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../core/api/api.dart';
@@ -15,7 +17,8 @@ import '../../../../core/motion/motion_tokens.g.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../../core/auth/auth_state.dart';
-import '../../../pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
+import '../../../../core/router/routes.dart' show AppRoutes;
+import '../../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../../../referrals/invite_reward.dart' show InviteRewardLine;
 import '../../copy.dart';
 import '../../data/mob_models.dart';
@@ -28,10 +31,9 @@ import '../data/mob_v3_models.dart';
 import '../logic/den_copy_state.dart';
 import '../mob_v3_nav.dart';
 import 'fold_manifest.dart';
-import 'free_pro_sheet.dart' show showFreeProSheet;
 import 'invite_card.dart';
 import 'sheet_parts.dart' show LinkKey;
-import 'sit_mock_sheet.dart' show mockSitCost;
+import 'sit_mock_sheet.dart' show MockPriceRow, mockSitCost;
 import 'v4_sheet_hooks.dart';
 import 'start_game_sheet.dart';
 import 'sticker_row.dart';
@@ -106,7 +108,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
                 children: [
                   Semantics(header: true, child: Text(card.fresh ? MobV4DenCopy.freshTitle : MobV3Copy.quietTitle, style: type.subhead.copyWith(color: colors.ink))),
                   const SizedBox(height: MmSpace.s8),
-                  Text(card.fresh ? MobV4DenCopy.freshLine(friends.take(2).toList()) : MobV3Copy.quietLine, style: type.body.copyWith(color: colors.ink2)),
+                  Text(card.fresh ? MobV4DenCopy.freshLine(friends.take(4).toList()) : MobV3Copy.quietLine, style: type.body.copyWith(color: colors.ink2)),
                 ],
               ),
             ),
@@ -129,31 +131,63 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           ..add(const SizedBox(height: MmSpace.s12))
           // Full card width (not indented under the head disc): one line less at 360 dp (H5).
           ..add(Text(keepTimes(MobV4DenCopy.openLine(g, now)), style: type.body.copyWith(color: colors.ink2)));
-        // The price at the point of choice (D174, D175), the server's number and the student's balance. A Free
-        // member also gets one honest way to Pro under the key; Pro reads "included". No price sent: no line.
+        // The price at the point of choice (D174, D175), the server's number and the student's balance, drawn as the
+        // sit sheet draws it (sit-v2): the coins and "50 credits", then "You have 20" and "30 more needed" at the edge.
+        // A Free member also gets one way to Pro ("Get Pro"); Pro reads "included". No price sent: no line.
         final cost = mockSitCost(g, v3.starts);
         final priced = g.format == GameFormat.mock && g.yourRun == YourRun.none && v3.starts.billingOn && (g.price != null || v3.starts.mock != null);
         final proSits = priced && v3.starts.via == StartVia.pro;
-        final costStyle = type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w600, fontFeatures: const [FontFeature.tabularFigures()]);
-        if (priced && (cost > 0 || proSits)) {
-          final have = ref.watch(authSnapshotProvider.select((s) => s.creditBalance));
+        final have = priced && cost > 0 ? ref.watch(authSnapshotProvider.select((s) => s.creditBalance)) : null;
+        // Short of credits (the balance the app knows): the sit key gives way to Get Pro and Add credits, as on the sheet.
+        final short = have != null && have < cost;
+        if (priced && proSits) {
           children
             ..add(const SizedBox(height: MmSpace.s8))
-            ..add(Text(proSits ? MobV4DenCopy.sitIncludedPro : MobV4DenCopy.sitCostLine(cost, have), key: const ValueKey('den-sit-cost'), style: costStyle));
+            ..add(Text(MobV4DenCopy.sitIncludedPro, key: const ValueKey('den-sit-cost'), style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w600)));
+        } else if (priced && cost > 0) {
+          children
+            ..add(const SizedBox(height: MmSpace.s12))
+            ..add(
+              Semantics(
+                key: const ValueKey('den-sit-cost'),
+                label: short ? MobV3Copy.sitMockShort(cost, have) : MobV3Copy.sitPriceSemantics(cost, have),
+                excludeSemantics: true,
+                child: MockPriceRow(
+                  cost: cost,
+                  top: have == null ? null : MobV3Copy.sitYouHave(have),
+                  bottom: short ? MobV3Copy.sitNeedMore(cost - have) : null,
+                  strong: short,
+                  coins: 36,
+                  figureSize: 26,
+                ),
+              ),
+            );
         }
         final proWay = priced && cost > 0 && ref.watch(proNudgesOnProvider);
+        void getPro() => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock);
         if (raced.isNotEmpty) {
           children
             ..add(const SizedBox(height: MmSpace.s12))
             ..add(_RacedRow(members: [for (final r in raced) v3.member(r.memberId)], text: MobV4DenCopy.raced([for (final r in raced) r.name], mock: g.format == GameFormat.mock)));
         }
-        children
-          ..add(const SizedBox(height: MmSpace.s16))
-          ..add(KeyButton(key: const ValueKey('den-play-key'), label: MobV3Copy.playKey(g), onPressed: () => MobV3Nav.play(context, g)));
-        if (proWay) {
-          children
-            ..add(const SizedBox(height: MmSpace.s4))
-            ..add(LinkKey(key: const ValueKey('den-sit-pro'), label: MobV4DenCopy.sitFreeWithPro, alignment: Alignment.center, onPressed: () => showFreeProSheet(context)));
+        children.add(const SizedBox(height: MmSpace.s16));
+        if (short) {
+          // The sit key only when the balance covers it: short, Pro takes the primary place and credits the other.
+          if (proWay) {
+            children
+              ..add(KeyButton(key: const ValueKey('den-sit-pro'), label: MobV4ResultsCopy.getPro, onPressed: getPro))
+              ..add(const SizedBox(height: MmSpace.s8))
+              ..add(KeyButton.secondary(key: const ValueKey('den-add-credits'), label: MobV4ResultsCopy.addCredits, onPressed: () => _addCredits(context)));
+          } else {
+            children.add(KeyButton(key: const ValueKey('den-add-credits'), label: MobV4ResultsCopy.addCredits, onPressed: () => _addCredits(context)));
+          }
+        } else {
+          children.add(KeyButton(key: const ValueKey('den-play-key'), label: MobV3Copy.playKey(g), onPressed: () => MobV3Nav.play(context, g)));
+          if (proWay) {
+            children
+              ..add(const SizedBox(height: MmSpace.s4))
+              ..add(LinkKey(key: const ValueKey('den-sit-pro'), label: MobV4ResultsCopy.getPro, alignment: Alignment.center, onPressed: getPro));
+          }
         }
         children.add(const SizedBox(height: MmSpace.s4));
       case DenCardKind.fix:
@@ -269,6 +303,9 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, mainAxisSize: MainAxisSize.min, children: children),
     );
   }
+
+  /// The credits screen (balance, plan, history).
+  void _addCredits(BuildContext context) => unawaited(GoRouter.maybeOf(context)?.push<void>(AppRoutes.youCredits) ?? Future<void>.value());
 
   bool _mine(MobGameSummary g) => g.host == null || g.host!.you || g.host!.memberId == v3.you?.memberId;
 
