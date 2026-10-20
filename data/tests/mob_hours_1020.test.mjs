@@ -323,6 +323,9 @@ test('migration missing: the payload has no hours key at all, and the switch say
   assert.ok(!('hours' in den.mob.v3), 'hours is absent, not null or empty');
   assert.ok(!JSON.stringify(den).includes('"hours"'));
   await assert.rejects(svc.patchMe('u1', { mob, share_study_time: true }), code('MIGRATION'));
+  // A combined body is all-or-nothing: the switch fails for the schema, so the name is not written either (the app retries it whole).
+  await assert.rejects(svc.patchMe('u1', { mob, name: 'Rhea', share_study_time: true }), code('MIGRATION'));
+  assert.equal((await svc.view('u1', { mobId: mob, sync: false })).mob.you.name, 'Riya', 'a failed combined body leaves the name unchanged');
   // After applying it the key appears; after the undo it is gone again, run twice.
   await db.exec(hoursSql);
   assert.ok('hours' in (await svc.view('u1', { mobId: mob, sync: false })).mob.v3);

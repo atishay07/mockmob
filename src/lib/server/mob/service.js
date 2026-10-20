@@ -430,16 +430,18 @@ export function createMobService(deps) {
       const others = name !== undefined || colour !== undefined || Object.keys(flags).length > 0;
       if (!others && share === undefined) throw new MobError('BODY_INVALID');
       const state = await mustState(userId, body.mob);
+      // The switch goes first: it is the only call that can fail for a schema reason (migration missing, 503) and it proves
+      // membership too, so a body that fails here has written nothing, and the app can retry it whole.
+      if (share !== undefined) {
+        const r = await call('mob_share_study_time_set', { p_user_id: userId, p_mob_id: state.mob.id, p_share: share });
+        if (r !== 'ok') throw new MobError('NOT_IN_MOB');
+      }
       if (others) {
         const r = await call('mob_patch_me', {
           p_user_id: userId, p_mob_id: state.mob.id, p_name: name ?? null, p_colour: colour ?? null,
           p_show_score: flags.showScore ?? null, p_nudges_muted: flags.nudgesMuted ?? null,
         });
         if (r === 'not_member') throw new MobError('NOT_IN_MOB');
-      }
-      if (share !== undefined) {
-        const r = await call('mob_share_study_time_set', { p_user_id: userId, p_mob_id: state.mob.id, p_share: share });
-        if (r !== 'ok') throw new MobError('NOT_IN_MOB');
       }
       return view(userId, { mobId: state.mob.id, sync: false });
     },
