@@ -7,7 +7,6 @@ import '../../../core/api/api.dart';
 import '../../../core/auth/auth.dart';
 import '../../../core/connectivity/connectivity.dart' show networkRestoredProvider;
 import '../../../core/models/auth_me.dart' show AuthMe;
-import '../../../core/models/consent.dart' show AgeBand;
 import '../../../core/models/notification_prefs.dart' as prefs;
 import '../../../core/repositories/repositories.dart';
 import '../../../core/models/my_colleges.dart';
@@ -349,7 +348,7 @@ class SheetSync extends Notifier<SheetSyncState> {
     if (!consent.isLoaded) throw const ApiError(kind: ApiErrorKind.unknown, code: 'consent_not_loaded');
     // Set already (this answer, or one given before): the account keeps it, with its usage-data
     // choice as it is.
-    if (consent.consent.ageBand != AgeBand.unknown) return;
+    if (consent.consent.answered) return;
     _stillSignedInAs(userId);
     await repo.setAgeBand(age.band, expectUserId: userId);
   }

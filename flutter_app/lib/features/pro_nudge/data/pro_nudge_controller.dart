@@ -8,6 +8,7 @@ import '../../../core/auth/auth_state.dart';
 import '../../../core/repositories/student_actions.dart';
 import '../../../core/storage/prefs_store.dart';
 import '../../billing/billing.dart' show playBillingUserIdProvider;
+import '../../credits/data/credit_figures.dart' show creditFiguresProvider;
 import '../../billing/widgets/get_pro_entry.dart' show getProAvailableProvider;
 import '../copy.dart';
 import 'nudge_rules.dart';
@@ -33,8 +34,27 @@ final proNudgeInOnboardingProvider = Provider<bool>((ref) {
   return auth.status == AuthStatus.signedOut || auth.needsOnboarding;
 });
 
+/// Whether the student has met a real limit: a Free student with [ArmRules.creditsLimit] practice credits
+/// or fewer. False with the nudges off, for Pro, and while the figure is unknown or a stale copy. Overridden
+/// in tests; it reads the credits only when the nudges are on, so with the flag off nothing is touched.
+final proNudgeCreditsLowProvider = Provider<bool>((ref) {
+  if (!ref.watch(proNudgesOnProvider)) return false;
+  final f = ref.watch(creditFiguresProvider);
+  if (f.isPro || f.loading || f.failed || f.stale) return false;
+  return ArmRules.creditsMet(f.oneBalance ? f.total : f.practice);
+});
+
 class ProNudgeState {
-  const ProNudgeState({this.userId, this.loaded = false, this.saved = const ProNudgeSaved()});
+  const ProNudgeState({
+    this.userId,
+    this.loaded = false,
+    this.saved = const ProNudgeSaved(),
+    this.armed = false,
+    this.resultViewed = false,
+    this.todayReturns = 0,
+    this.away = false,
+    this.viewedThisRun = const {},
+  });
 
   final String? userId;
 
@@ -42,7 +62,35 @@ class ProNudgeState {
   final bool loaded;
   final ProNudgeSaved saved;
 
-  ProNudgeState copyWith({bool? loaded, ProNudgeSaved? saved}) => ProNudgeState(userId: userId, loaded: loaded ?? this.loaded, saved: saved ?? this.saved);
+  /// This run: the first-session sheet was armed by the second return to Today since the first viewed
+  /// result (D181). Not saved: the sheet belongs to the first session, which is one run. A real limit arms
+  /// it too, read live ([proNudgeCreditsLowProvider]).
+  final bool armed;
+
+  /// This run: the student viewed a result, so returns to Today now count.
+  final bool resultViewed;
+
+  /// Returns to Today since the first result viewed in this run. Another result never starts it again.
+  final int todayReturns;
+
+  /// The student is on a page, or was on one and has not reached a tab root since: the next arrival at
+  /// Today is a return ([ArmRules.step]). Kept here, not in the app shell, which a page opened with `go`
+  /// takes away and builds again.
+  final bool away;
+
+  /// The attempts whose result was counted as viewed in this run: each is counted once.
+  final Set<String> viewedThisRun;
+
+  ProNudgeState copyWith({bool? loaded, ProNudgeSaved? saved, bool? armed, bool? resultViewed, int? todayReturns, bool? away, Set<String>? viewedThisRun}) => ProNudgeState(
+        userId: userId,
+        loaded: loaded ?? this.loaded,
+        saved: saved ?? this.saved,
+        armed: armed ?? this.armed,
+        resultViewed: resultViewed ?? this.resultViewed,
+        todayReturns: todayReturns ?? this.todayReturns,
+        away: away ?? this.away,
+        viewedThisRun: viewedThisRun ?? this.viewedThisRun,
+      );
 }
 
 /// What the Pro nudges know: what was shown and dismissed (saved on the phone), and when onboarding
@@ -60,10 +108,36 @@ class ProNudgeController extends Notifier<ProNudgeState> {
   }
 
   Future<void> _load(String userId) async {
-    final saved = await ref.read(proNudgeStoreProvider).load(userId);
+    final ProNudgeSaved saved;
+    try {
+      saved = await ref.read(proNudgeStoreProvider).load(userId);
+    } on Object {
+      // The phone's preferences cannot be read: nothing is known, so no nudge shows (they wait for `loaded`).
+      return;
+    }
     if (!ref.mounted || state.userId != userId) return;
-    state = state.copyWith(loaded: true, saved: saved);
+    // What happened while the read was in flight (a Pro page opened, a result viewed) is kept, never replaced
+    // by the older copy that was read.
+    final now = state.saved;
+    state = state.copyWith(
+      loaded: true,
+      saved: saved.copyWith(
+        popupShown: saved.popupShown || now.popupShown,
+        resultsViewed: saved.resultsViewed > now.resultsViewed ? saved.resultsViewed : now.resultsViewed,
+        firstResultId: saved.firstResultId ?? now.firstResultId,
+      ),
+    );
     _noteOnboarded();
+  }
+
+  /// Saves one thing on the phone. Best effort, as everything here: a value that cannot be saved only means a
+  /// nudge may show once more, and a student's tap never waits for, or fails with, the phone's storage.
+  void _persist(Future<void> Function(ProNudgeStore store) write) {
+    try {
+      unawaited(write(ref.read(proNudgeStoreProvider)).catchError((Object _) {}));
+    } on Object {
+      // See above.
+    }
   }
 
   /// Onboarding finished in this run and the student is signed in and out of onboarding: the first
@@ -84,8 +158,46 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     );
     if (mark == null) return;
     state = state.copyWith(saved: saved.copyWith(onboardedAt: mark.at, onboardedLaunch: mark.launch, actionsAtOnboarded: mark.actions));
-    unawaited(ref.read(proNudgeStoreProvider).saveOnboarded(userId, at: mark.at, launch: mark.launch, actions: mark.actions));
+    _persist((store) => store.saveOnboarded(userId, at: mark.at, launch: mark.launch, actions: mark.actions));
   }
+
+  /// The student is looking at the result for [attemptId]: the result's Pro row is on the page on top (a
+  /// result built under the sealed sheet is not looked at yet). Counted once per attempt in a run. A new
+  /// student's first result is saved by its attempt, so that one result stays free of a Pro ask however
+  /// often it is opened (D181), and from the first one on, returns to Today count towards arming the
+  /// first-session sheet. A later result never starts that count again.
+  void noteResultViewed(String attemptId) {
+    final userId = state.userId;
+    if (userId == null || !state.loaded || state.viewedThisRun.contains(attemptId)) return;
+    final saved = state.saved;
+    final claimsFirst = saved.firstResultId == null && ArmRules.firstResult(onboardedAt: saved.onboardedAt, resultsViewed: saved.resultsViewed, firstResultId: null, attemptId: attemptId);
+    final count = saved.resultsViewed + 1;
+    state = state.copyWith(
+      saved: saved.copyWith(resultsViewed: count, firstResultId: claimsFirst ? attemptId : null),
+      resultViewed: true,
+      viewedThisRun: {...state.viewedThisRun, attemptId},
+    );
+    _persist((store) => store.saveResultsViewed(userId, count));
+    if (claimsFirst) _persist((store) => store.saveFirstResult(userId, attemptId));
+  }
+
+  /// The router's top location changed to [place] (the router reports every change). After a viewed
+  /// result, the [ArmRules.returnsToArm]th arrival at Today from a page arms the first-session sheet. A
+  /// sheet opened and closed, and a switch of tab, are not returns ([ArmRules.step]).
+  void notePlace(ShellPlace place) {
+    final move = ArmRules.step(away: state.away, to: place);
+    if (move.away == state.away && !move.returned) return;
+    if (!move.returned || state.userId == null || !state.resultViewed || state.armed) {
+      state = state.copyWith(away: move.away);
+      return;
+    }
+    final returns = state.todayReturns + 1;
+    state = state.copyWith(away: move.away, todayReturns: returns, armed: returns >= ArmRules.returnsToArm);
+  }
+
+  /// The student opened the full Pro page themselves (a locked mode, a Pro-only part). That was the Pro ask,
+  /// made at the moment they chose it, so the first-session sheet never follows it.
+  void upgradeOpened() => popupShown();
 
   /// The first-session pop-up's moment: checks the rules again with the clock as it is now and, when
   /// it is due, marks it shown (saved on the phone, never shown again for this account) and returns
@@ -101,7 +213,7 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     final userId = state.userId;
     if (userId == null || state.saved.popupShown) return;
     state = state.copyWith(saved: state.saved.copyWith(popupShown: true));
-    unawaited(ref.read(proNudgeStoreProvider).savePopupShown(userId));
+    _persist((store) => store.savePopupShown(userId));
   }
 
   /// The student closed an inline nudge: it stays quiet for [InlineRules.quietFor].
@@ -110,7 +222,7 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     if (userId == null) return;
     final at = ref.read(nowProvider)();
     state = state.copyWith(saved: state.saved.copyWith(dismissed: {...state.saved.dismissed, surface.key: at}));
-    unawaited(ref.read(proNudgeStoreProvider).saveDismissed(userId, surface, at));
+    _persist((store) => store.saveDismissed(userId, surface, at));
   }
 }
 
@@ -128,6 +240,7 @@ PopupInputs _inputs(Ref ref, ProNudgeState s, {required bool watch}) {
     onboardedLaunch: s.saved.onboardedLaunch,
     actions: get(studentActionsProvider),
     actionsAtOnboarded: s.saved.actionsAtOnboarded,
+    armed: s.armed || get(proNudgeCreditsLowProvider),
   );
 }
 

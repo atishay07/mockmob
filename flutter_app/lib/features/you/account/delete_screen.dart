@@ -4,10 +4,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/api/api_error.dart';
 import '../../../core/api/api_providers.dart';
 import '../../../core/auth/auth_state.dart';
+import '../../../core/auth/sign_out_cleanup.dart';
+import '../../../core/models/auth_me.dart' show PlaySubscriptionInfo;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/sync/pending_work.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../billing/billing.dart' show playBillingProvider, playSubscriptionProvider, subscriptionHeld;
+import '../../billing/billing_copy.dart';
 import '../copy.dart';
 import '../widgets/you_page.dart';
 import 'sign_out_flow.dart';
@@ -47,6 +51,12 @@ Future<DeletionReceipt> requestAccountDeletion(WidgetRef ref, {DateTime Function
   return DeletionReceipt(requestedAt: requestedAt, alreadyRequested: repeat);
 }
 
+/// Whether deleting the account would leave a Google Play subscription that can still charge the student:
+/// one that is active with renewal on (or not known to be off, a payment Google Play is retrying included),
+/// or one Google Play holds or has paused. A subscription that was cancelled in Google Play and only runs
+/// to its end charges nothing more, so no warning is owed. Deleting the account never cancels it.
+bool deleteLeavesPlayCharging(PlaySubscriptionInfo? sub) => sub != null && ((sub.active && !sub.renewalOff) || subscriptionHeld(sub));
+
 enum _Step { ask, sending, recorded, signingOut }
 
 /// Delete account (spec 5.12.4). One screen, one destructive key. The student is signed out
@@ -63,6 +73,7 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
   _Step _step = _Step.ask;
   String? _error;
   DeletionReceipt? _receipt;
+  bool _manageFailed = false;
   PendingWorkCount _pending = PendingWorkCount.none;
   bool _pendingUnknown = false;
   final TextEditingController _typed = TextEditingController();
@@ -102,6 +113,8 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
     });
     try {
       final receipt = await requestAccountDeletion(ref, now: ref.read(nowProvider));
+      // The request is with us: a question left waiting in Ask Mobi is not kept for an account that is going.
+      await forgetPendingAsk(ref.read(pendingAskPrefsProvider));
       if (!mounted) return;
       setState(() {
         _receipt = receipt;
@@ -125,6 +138,39 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         _error = YouCopy.deleteFailed;
       });
     }
+  }
+
+  /// Opens Google Play's own subscription page, as the plan card does; when it does not open, one line says
+  /// where to find it.
+  Future<void> _manage() async {
+    final opened = await ref.read(playBillingProvider.notifier).manageSubscription();
+    if (mounted) setState(() => _manageFailed = !opened);
+  }
+
+  /// Whether a Google Play subscription that can still charge the student is on this account.
+  bool get _playOwed => deleteLeavesPlayCharging(ref.watch(playSubscriptionProvider));
+
+  /// The warning, read before the student types DELETE and again once the request is recorded: deleting the
+  /// account does not stop Google Play charging for Pro, so the student is pointed at Google Play (it protects
+  /// teens from a charge they did not expect). Callers draw it only when [_playOwed].
+  Widget _playNotice(BuildContext context) {
+    final colors = context.mmColors;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        InlineBanner(
+          message: YouCopy.deletePlayNote,
+          tone: BannerTone.warning,
+          actionLabel: BillingCopy.manageSubscription,
+          onAction: _manage,
+          actionChevron: false,
+        ),
+        if (_manageFailed) ...[
+          const SizedBox(height: MmSpace.s8),
+          Semantics(liveRegion: true, child: Text(BillingCopy.manageOpenFailed, style: context.mmType.small.copyWith(color: colors.ink2))),
+        ],
+      ],
+    );
   }
 
   Future<void> _signOut() async {
@@ -181,6 +227,7 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
           const SizedBox(height: MmSpace.s12),
           Text(YouCopy.deleteQueued(_pending.queuedWrites), style: type.body.copyWith(color: colors.ink2)),
         ],
+        if (_playOwed) ...[const SizedBox(height: MmSpace.s16), _playNotice(context)],
         const SizedBox(height: MmSpace.group),
         Semantics(
           label: YouCopy.deleteTypeLabel,
@@ -247,6 +294,7 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         Text(YouCopy.deleteSignOutNote, style: type.small.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.group),
         if (_error != null) ...[InlineBanner(message: _error!, tone: BannerTone.error), const SizedBox(height: MmSpace.s16)],
+        if (_playOwed) ...[_playNotice(context), const SizedBox(height: MmSpace.s16)],
         KeyButton(label: YouCopy.signOut, loading: signingOut, onPressed: signingOut ? null : _signOut),
       ],
     );

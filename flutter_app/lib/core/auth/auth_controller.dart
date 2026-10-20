@@ -20,6 +20,7 @@ import 'auth_me_loader.dart';
 import 'auth_providers.dart';
 import 'auth_service.dart';
 import 'auth_state.dart';
+import 'sign_out_cleanup.dart';
 import 'sign_out_hooks.dart';
 
 /// Owns the session: reacts to Supabase auth events, loads the MockMob profile, detects an
@@ -553,6 +554,8 @@ class AuthController extends Notifier<AuthSnapshot> {
       final prefs = ref.read(appPrefsProvider);
       if (cleaned && !keepQueuedWork) await _bestEffort(() => prefs.setLastUserId(null));
       await _bestEffort(() => prefs.setCachedMe(null));
+      // Ask Mobi's remembered question in flight is this account's own words: it goes with the session.
+      await _bestEffort(() async => forgetPendingAsk(ref.read(pendingAskPrefsProvider)));
     } finally {
       if (tokensCleared) {
         // No token of this session is attributed to the account any more.

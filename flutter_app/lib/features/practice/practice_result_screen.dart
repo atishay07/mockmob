@@ -566,7 +566,7 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
         },
       ),
       // The one Pro nudge on this page: nothing with PLAY_BILLING off or for a Pro student.
-      const ProNudgeRow(surface: ProNudgeSurface.result, topGap: MmSpace.s8),
+      ProNudgeRow(surface: ProNudgeSurface.result, attemptId: attempt.id, topGap: MmSpace.s8),
       // Layer 3: the mistakes, in repair order, each with its repair inline.
       const SizedBox(height: MmSpace.group),
       MistakesHead(

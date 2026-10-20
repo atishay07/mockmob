@@ -14,6 +14,7 @@ import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/auth/auth.dart';
 import 'package:mockmob/core/auth/auth_providers.dart';
 import 'package:mockmob/core/auth/auth_service.dart';
+import 'package:mockmob/core/auth/sign_out_cleanup.dart';
 import 'package:mockmob/core/connectivity/connectivity_providers.dart' show networkRestoredProvider;
 import 'package:mockmob/core/models/consent.dart';
 import 'package:mockmob/core/notifications/notification_service.dart';
@@ -127,6 +128,12 @@ class _Consent extends ConsentRepository {
 
 class _MeApi extends Mock implements ApiClient {}
 
+/// Preferences that fail on every call, like a store the platform has taken away.
+class _BrokenStore extends MemoryPrefsStore {
+  @override
+  Future<void> remove(String key) => Future<void>.error(StateError('prefs gone'));
+}
+
 ApiResponse _me(String id, String email) => ApiResponse(200, {
       'user': {'id': id, 'email': email, 'name': 'Student', 'subjects': ['accountancy']},
       'needsOnboarding': false,
@@ -137,14 +144,18 @@ void main() {
   setUpAll(() => registerFallbackValue(const ApiOptions()));
 
   late MemoryPrefsStore store;
+
+  /// The preferences where Ask Mobi remembers a question that was on its way when the app was killed.
+  late PrefsStore askStore;
   late _FakeService service;
   late ProviderContainer container;
   late _MeApi api;
   late _Notifications notifications;
 
-  Future<_Auth> start({AppDatabase? database, SyncCoordinator? sync}) async {
+  Future<_Auth> start({AppDatabase? database, SyncCoordinator? sync, PrefsStore? ask}) async {
     final db = database ?? AppDatabase(NativeDatabase.memory());
     store = MemoryPrefsStore();
+    askStore = ask ?? MemoryPrefsStore();
     service = _FakeService();
     api = _MeApi();
     final restored = StreamController<void>.broadcast();
@@ -157,6 +168,7 @@ void main() {
       authServiceProvider.overrideWith((ref) async => service),
       appDatabaseProvider.overrideWithValue(db),
       appPrefsProvider.overrideWithValue(AppPrefs(store)),
+      pendingAskPrefsProvider.overrideWithValue(askStore),
       analyticsClientProvider.overrideWithValue(analytics),
       notificationServiceProvider.overrideWithValue(notifications),
       consentRepositoryProvider.overrideWith(_Consent.new),
@@ -425,6 +437,54 @@ void main() {
       await expectLater(auth.signOut(), throwsStateError);
       expect(service.log, ['cancelAll', 'signOutLocal']);
       expect(now().status, AuthStatus.signedIn);
+    });
+  });
+
+  // Ask Mobi remembers a question that was on its way when the app was killed. It is the account's own
+  // words, so it goes with the session: on sign-out and on account deletion alike.
+  group('a question waiting in Ask Mobi', () {
+    Future<void> remember() => askStore.setString(pendingAskPrefsKey, '{"text":"What is a tax?","requestId":"r1","userId":"a"}');
+
+    for (final keep in [true, false]) {
+      test('is forgotten on ${keep ? 'sign-out' : 'account deletion'}, and nothing else the phone keeps goes with it', () async {
+        final auth = await start();
+        await remember();
+        await askStore.setString('something_else', 'stays');
+        service.session = _session('a@x.com');
+        auth.seed(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'a', email: 'a@x.com'));
+        await auth.signOut(keepQueuedWork: keep);
+        expect(await askStore.getString(pendingAskPrefsKey), isNull);
+        expect(await askStore.getString('something_else'), 'stays');
+        expect(now().status, AuthStatus.signedOut);
+      });
+    }
+
+    test('a note that cannot be removed never stops the sign-out', () async {
+      final auth = await start(ask: _BrokenStore());
+      service.session = _session('a@x.com');
+      auth.seed(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'a', email: 'a@x.com'));
+      await auth.signOut();
+      expect(now().status, AuthStatus.signedOut);
+    });
+
+    test('stays when the tokens could not be cleared: the student is still signed in', () async {
+      final auth = await start();
+      await remember();
+      service.session = _session('a@x.com');
+      service.signOutError = StateError('storage');
+      auth.seed(const AuthSnapshot(status: AuthStatus.signedIn, userId: 'a', email: 'a@x.com'));
+      await expectLater(auth.signOut(), throwsStateError);
+      expect(await askStore.getString(pendingAskPrefsKey), isNotNull);
+    });
+
+    test('forgetPendingAsk removes only that note and never throws', () async {
+      final store = MemoryPrefsStore();
+      await store.setString(pendingAskPrefsKey, 'x');
+      await store.setString('other', 'y');
+      await forgetPendingAsk(store);
+      expect(await store.getString(pendingAskPrefsKey), isNull);
+      expect(await store.getString('other'), 'y');
+      await forgetPendingAsk(_BrokenStore());
     });
   });
 

@@ -22,8 +22,8 @@ class ConsentState {
 
   bool get isLoaded => status == ConsentStatus.loaded;
 
-  /// Analytics may queue and send only when the consent read succeeded, the student is an
-  /// adult who allowed it, and no withdrawal is pending. A failed or missing read means off.
+  /// Analytics may queue and send only when the consent read succeeded, the student did not say they are
+  /// under 18 and allowed it, and no withdrawal is pending. A failed or missing read means off.
   bool get analyticsActive => isLoaded && consent.canCollect && !withdrawalPending;
 
   ConsentState copyWith({ConsentStatus? status, Consent? consent, bool? withdrawalPending}) => ConsentState(
@@ -33,8 +33,9 @@ class ConsentState {
       );
 }
 
-/// `GET/PUT /api/me/consent`: age band and the usage-data switch. Usage data is off unless an
-/// adult turned it on. State changes on a turn-on only after the server acknowledges; a
+/// `GET/PUT /api/me/consent`: age band and the usage-data switch. Usage data is on for 18 or older and
+/// for "Rather not say", off only for under 18 (D183); the switch starts on in onboarding and anyone can
+/// turn it off. State changes on a turn-on only after the server acknowledges; a
 /// withdrawal closes the gate immediately, before the network call returns.
 class ConsentRepository extends Notifier<ConsentState> {
   String? _userId;
@@ -75,7 +76,7 @@ class ConsentRepository extends Notifier<ConsentState> {
       final server = Consent.fromJson(response.map);
       if (!ref.mounted) return;
       if (pending) {
-        state = ConsentState(status: ConsentStatus.loaded, consent: Consent(ageBand: server.ageBand), withdrawalPending: true);
+        state = ConsentState(status: ConsentStatus.loaded, consent: Consent(ageBand: server.ageBand, decidedAt: server.decidedAt), withdrawalPending: true);
         await _put(server.ageBand, false);
       } else {
         state = ConsentState(status: ConsentStatus.loaded, consent: server);
@@ -85,8 +86,9 @@ class ConsentRepository extends Notifier<ConsentState> {
     }
   }
 
-  /// Saves the answer to "Are you 18 or older?". Usage data stays off unless the student is
-  /// an adult who already allowed it. Throws `ApiError`.
+  /// Saves the answer to "Are you 18 or older?". Usage data is written off for "Not yet" (under 18). For
+  /// 18 or older and for "Rather not say" it keeps an earlier "allowed" and otherwise waits for the
+  /// switch the student sees next (on by default, saved when they continue). Throws `ApiError`.
   ///
   /// Each write is for [expectUserId] when given, else for the account this repository holds;
   /// it is never sent with another account's token ([ApiError.accountChanged]).
@@ -102,16 +104,29 @@ class ConsentRepository extends Notifier<ConsentState> {
       await load();
       if (!state.isLoaded) throw const ApiError(kind: ApiErrorKind.network, code: 'network');
     }
-    final keepOn = band == AgeBand.adult && state.consent.ageBand == AgeBand.adult && state.consent.analyticsAllowed;
+    final keepOn = band != AgeBand.minor && state.consent.ageBand != AgeBand.minor && state.consent.analyticsAllowed;
     return _put(band, keepOn, expectUserId);
   }
 
   /// Turns usage data on or off. On: the switch shows on only after the server acknowledges.
+  /// Throws `ApiError`.
   /// Off: collection stops at once and the queue is cleared before the call; the result carries
   /// `deletedEvents`. A 503 means the choice was saved but the delete failed: call again.
-  Future<Consent> setAnalyticsAllowed(bool allowed, {String? expectUserId}) {
-    return _put(allowed ? AgeBand.adult : state.consent.ageBand, allowed, expectUserId);
+  ///
+  /// The age band is always sent as the account holds it: this never changes a student's age answer
+  /// ("Rather not say" stays unknown, 18 or older stays adult). Only the student's own "18 or older" in
+  /// [setAgeBand] ever makes an account adult. Turning it on for a record that is under 18 or was never
+  /// answered (or not read yet) is refused before anything is sent ([usageNotForThisAge]): usage data
+  /// stays off and the record is untouched.
+  Future<Consent> setAnalyticsAllowed(bool allowed, {String? expectUserId}) async {
+    final c = state.consent;
+    if (allowed && !(state.isLoaded && c.switchAvailable)) throw usageNotForThisAge;
+    return _put(c.ageBand, allowed, expectUserId);
   }
+
+  /// The refusal of a turn-on for an account that is under 18, never answered the age question, or whose
+  /// record is not read. Nothing was sent.
+  static const ApiError usageNotForThisAge = ApiError(kind: ApiErrorKind.validation, code: 'usage_not_for_this_age');
 
   Future<Consent> _put(AgeBand band, bool allowed, [String? expectUserId]) async {
     final id = _userId;
@@ -123,7 +138,8 @@ class ConsentRepository extends Notifier<ConsentState> {
     if (!allowed) {
       // Close the gate before anything goes over the network. Listeners (the analytics
       // client) see this synchronously and drop the queue.
-      state = state.copyWith(consent: Consent(ageBand: band), withdrawalPending: true);
+      // The answer is kept (decidedAt), so "Rather not say" still reads as answered while the withdrawal is in flight.
+      state = state.copyWith(consent: Consent(ageBand: band, decidedAt: state.consent.decidedAt ?? DateTime.now()), withdrawalPending: true);
       for (final hook in List.of(_beforeWithdrawal)) {
         await hook();
       }

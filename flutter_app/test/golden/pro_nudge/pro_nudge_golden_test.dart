@@ -1,5 +1,6 @@
 // Goldens for the Pro nudges (D79 to D84), Night and Day, at 360 by 800 and 412 by 915 logical px,
-// at 1x and 1.3x text: the first-session Upgrade sheet with the student's own lines, the NTA gate's
+// at 1x and 1.3x text: the first-session Upgrade sheet (the dismissible bottom sheet with Not now, D181) with
+// the student's own lines, the NTA gate's
 // sheet with the plain lines, and the inline rows with the gate key. Google Play's Pro price is the
 // Rs 150 fixture (D82); the app never draws another.
 
@@ -37,6 +38,20 @@ Future<void> _tapOpen(WidgetTester tester) async {
   await settleNudges(tester);
 }
 
+/// A screen with one key that opens the first-session Upgrade bottom sheet, as the app shell does once the
+/// student is armed (a real limit, or the second return to a tab root after a result).
+class _OpenFirstSessionSheetHost extends StatelessWidget {
+  const _OpenFirstSessionSheetHost();
+
+  @override
+  Widget build(BuildContext context) => Center(
+        child: TextButton(
+          onPressed: () => showUpgradeBottomSheetIfOn(context, reason: ProReason.firstSession),
+          child: const Text('open'),
+        ),
+      );
+}
+
 class _Rows extends StatelessWidget {
   const _Rows();
 
@@ -58,7 +73,7 @@ void main() {
 
   _matrix(
     'pro_nudge_first_session',
-    () => const OpenSheetHost(reason: ProReason.firstSession),
+    () => const _OpenFirstSessionSheetHost(),
     () => NudgeRig(facts: const ProFacts(mocksTaken: 3, weakestChapter: 'Accounting Ratios', practiceCredits: 12, subjectCount: 4)),
     open: _tapOpen,
   );

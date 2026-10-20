@@ -548,7 +548,7 @@ class _FullResultScreenState extends ConsumerState<FullResultScreen> {
                   ),
                 ),
                 // The one Pro nudge on this page: nothing with PLAY_BILLING off or for a Pro student.
-                const ProNudgeRow(surface: ProNudgeSurface.result, topGap: MmSpace.s8),
+                ProNudgeRow(surface: ProNudgeSurface.result, attemptId: id, topGap: MmSpace.s8),
                 if (progress != null) ...[
                   const SizedBox(height: MmSpace.s12),
                   // A quiet text link, flush with the page's gutter, under the one next move: what happened

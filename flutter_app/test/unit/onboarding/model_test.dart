@@ -233,8 +233,11 @@ void main() {
       expect(OnboardingCopy.haveAccount, 'I already have an account');
     });
 
-    test('"Rather not say" keeps usage data off, like under 18', () {
+    test('"Rather not say" is the unknown band and keeps usage data on; only under 18 turns it off (D183)', () {
       expect(AgeAnswer.ratherNot.band, AgeBand.unknown);
+      expect(AgeAnswer.ratherNot.usageSwitch, isTrue);
+      expect(AgeAnswer.adult.usageSwitch, isTrue);
+      expect(AgeAnswer.minor.usageSwitch, isFalse);
       expect(AgeAnswer.minor.band, AgeBand.minor);
     });
   });

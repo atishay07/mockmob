@@ -194,6 +194,8 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     final location = uri.toString();
     if (_location != null && location != _location) _expand();
     _location = location;
+    // Returns to Today, which arm the first-session upgrade sheet (D181), are counted by the router itself
+    // (router.dart): this shell is taken away and built again when a result opened with `go` closes.
     _maybeOpenAccount(uri);
     _maybeUpgradePopup();
 
@@ -244,10 +246,11 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     });
   }
 
-  /// The first-session Upgrade sheet (Pro nudges, D81): once the student's first real action of the first
-  /// session is done and they are back on a tab root with nothing over it, it opens, after a short pause
-  /// so it never lands with the page. It is due only with `PLAY_BILLING` on, for a Free student, never in
-  /// onboarding and once ever; the provider says so. Anywhere else this tries again on the next change of
+  /// The first-session upgrade sheet (Pro nudges, D81, D181): once the student's first real action of the
+  /// first session is done, a real limit is met or they have come back to Today a second time since their
+  /// first result, and they are on a tab root with nothing over it, it opens, after a short pause so it never
+  /// lands with the page. It is due only with `PLAY_BILLING` on, for a Free student, never in onboarding
+  /// and once ever; the provider says so. Anywhere else this tries again on the next change of
   /// location.
   void _maybeUpgradePopup() {
     if (_upgradeTimer != null || !ref.read(upgradePopupDueProvider)) return;

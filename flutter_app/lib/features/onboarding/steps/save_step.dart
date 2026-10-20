@@ -255,15 +255,20 @@ class _SaveViewState extends ConsumerState<SaveView> {
             onSelected: w.onAge,
           ),
           const SizedBox(height: MmSpace.s8),
-          MmOverlapSwitcher(
-            alignment: Alignment.topLeft,
-            child: marked
-                ? Semantics(
-                    key: const ValueKey('asked'),
-                    liveRegion: true,
-                    child: Text(OnboardingCopy.ageFirstLine, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.warnText)),
-                  )
-                : Text(OnboardingCopy.ageNote, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.ink3)),
+          // Two caption lines high whichever line shows, so the keys below do not move when the note and the
+          // line that says what is needed swap.
+          ConstrainedBox(
+            constraints: BoxConstraints(minHeight: MediaQuery.textScalerOf(context).scale(type.caption.fontSize!) * type.caption.height! * 2),
+            child: MmOverlapSwitcher(
+              alignment: Alignment.topLeft,
+              child: marked
+                  ? Semantics(
+                      key: const ValueKey('asked'),
+                      liveRegion: true,
+                      child: Text(OnboardingCopy.ageFirstLine, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.warnText)),
+                    )
+                  : Text(OnboardingCopy.ageNote, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.ink3)),
+            ),
           ),
         ],
       ),

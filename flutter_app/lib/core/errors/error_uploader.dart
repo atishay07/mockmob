@@ -17,7 +17,8 @@ class ErrorGate {
 
   final bool signedIn;
 
-  /// The consent record loaded and says an adult allowed usage data, with no withdrawal pending.
+  /// The consent record loaded and says usage data is allowed (the student did not say they are under 18), with no
+  /// withdrawal pending.
   final bool consentActive;
 
   /// The consent record loaded and the answer is no (or a withdrawal is pending).
