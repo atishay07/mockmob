@@ -921,3 +921,6 @@ Billing page: "Your grace period has started. Your organization went over its qu
 >
 > Just for this review and verification, I personally think even high quality can do some of the basic tasks. It's not just about the cause, but about the speed also and managing everything efficiently. Can you explain: was there any reason to spawn the Opus agents you have added right now? Approximately 20 Opus agents are running. Is there any reason to only use Opus here? If you have a reason, then no problem. If you don't have any reason, then also just tell me honestly. No need to stop anything, but I just want to know."
 **Ledger D188:** usage is not a constraint (many agents allowed, even 100 when needed), but pick the model per task for SPEED and efficiency: cheaper/faster models for basic review, verification and capture; Opus only where judgement needs it (taste, motion, tricky logic). Answer given: the 11 verifiers and the walker were Opus by default (no model set), not by a deliberate choice.
+
+## Owner, 20 Oct 8:45 pm IST (verbatim)
+> "Are you done, or is there still something left? Because all this is overdue now."
