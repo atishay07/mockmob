@@ -128,7 +128,13 @@ void main() {
 
   group('K3 and K6: the plan strip on You', () {
     Future<void> pump(WidgetTester tester, {bool pro = false, bool playOn = true}) async {
-      final List<Override> overrides = [...youOverrides(credits: oneBalanceState(pro: pro)), ...BillingRig(on: playOn).overrides];
+      final List<Override> overrides = [
+        ...youOverrides(
+          credits: oneBalanceState(pro: pro),
+          walletOverride: walletRepositoryProvider.overrideWith(() => FakeWalletRepo(walletState(walletBody(pro: pro)))),
+        ),
+        ...BillingRig(on: playOn).overrides,
+      ];
       await pumpMockmob(
         tester,
         const Padding(padding: EdgeInsets.all(16), child: YouPlanStrip()),
