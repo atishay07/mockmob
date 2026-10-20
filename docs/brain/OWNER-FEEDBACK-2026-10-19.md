@@ -932,3 +932,7 @@ Billing page: "Your grace period has started. Your organization went over its qu
 ## Owner, 20 Oct 9:17 pm IST (verbatim)
 > "so will you be able to complete right now or not?"
 (Answer: yes, the signed build in this window, target about 10:15 pm; website already live with the 7 migrations.)
+
+## Owner, 20 Oct 9:19 pm IST (verbatim)
+> "if thats the case idts you need to worry about usage its at just 83% rn so plenty of head room to merge and finish everything up keep going till 98% easily"
+**Ledger D190:** for finishing version 15 tonight, usage may go to 98% before stopping.
