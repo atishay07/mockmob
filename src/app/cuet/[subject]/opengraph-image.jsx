@@ -4,6 +4,7 @@ import path from 'node:path';
 import { LOGO_B_LETTERS, LOGO_B_MOBI, LOGO_B_VIEWBOX } from '@/components/brand/logoB';
 import { subjectArt } from '@/../data/subject_art.mjs';
 import { SUBJECT_HUBS, getSubjectHub } from '@/lib/subjectHubs';
+import { FIRST_FULL_FREE, paperCode } from '@/lib/subjectPages.mjs';
 
 // The share picture for a CUET subject hub: the subject's own lamp-lit object (the app's render, a 480 px PNG
 // because Satori does not read WebP) standing on its contact shadow under the desk lamp. No model call.
@@ -40,6 +41,9 @@ export default async function OpengraphImage({ params }) {
   const picture = art ? await readFile(pub('art', 'subjects', 'og', `obj-${art.name}.png`)) : null;
   const logo = dataUri(Buffer.from(logoSvg()), 'image/svg+xml');
   const name = hub?.name || 'CUET subject';
+  const code = hub ? paperCode(hub) : null;
+  // The share picture's three facts: true for every subject page, and the free first mock only while the rule is on.
+  const chips = ['Fresh full mocks', 'Marked +5 / −1', FIRST_FULL_FREE ? 'First mock free' : 'Every miss explained'];
 
   // The object is contained in a 470 x 470 stage on the right and stands on its foot (shares of its own file).
   const stage = 470;
@@ -59,12 +63,12 @@ export default async function OpengraphImage({ params }) {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={logo} width={300} height={Math.round(300 * 0.156)} alt="" style={{ width: 300 }} />
         <div style={{ display: 'flex', flexDirection: 'column' }}>
-          <span style={{ fontSize: 24, color: '#B9B4A6', marginBottom: 18 }}>CUET UG 2027</span>
+          <span style={{ fontSize: 24, color: '#B9B4A6', marginBottom: 18 }}>{code ? `CUET UG 2027, paper ${code}` : 'CUET UG 2027'}</span>
           <span style={{ fontSize: name.length > 14 ? 84 : 104, lineHeight: 1, letterSpacing: -2 }}>{name}</span>
           <span style={{ fontSize: 46, lineHeight: 1.1, letterSpacing: -1, color: VOLT, marginTop: 10 }}>Mock tests and practice</span>
         </div>
         <div style={{ display: 'flex', gap: 14, fontSize: 22, color: '#D6D1C2' }}>
-          {['Timed sets', 'Chapter by chapter', 'Mistake review'].map((label) => (
+          {chips.map((label) => (
             <span key={label} style={{ display: 'flex', padding: '10px 18px', borderRadius: 999, border: '1.5px solid rgba(243, 239, 228, 0.18)' }}>{label}</span>
           ))}
         </div>
