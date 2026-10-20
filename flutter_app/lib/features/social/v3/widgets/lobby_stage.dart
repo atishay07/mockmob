@@ -62,7 +62,7 @@ abstract final class LobbyHop {
       return (dy: 18 - 36 * p, opacity: (ms / 120).clamp(0.0, 1.0), squash: 0);
     }
     if (ms < contact) {
-      final p = Curves.easeIn.transform((ms - rise) / (contact - rise));
+      final p = Motion.leave.transform((ms - rise) / (contact - rise));
       return (dy: -18 + 18 * p, opacity: 1, squash: 0);
     }
     if (ms < contact + squash) return (dy: 0, opacity: 1, squash: 1 - (ms - contact) / squash);
