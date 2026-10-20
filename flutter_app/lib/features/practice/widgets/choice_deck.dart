@@ -422,9 +422,11 @@ class _ChoicePressState extends ConsumerState<_ChoicePress> with SingleTickerPro
 }
 
 /// A tonal step above the ground the deck sits on: no hairline, the glass edge light along the top
-/// does the edging.
+/// does the edging. Day keeps `raised` on a sheet too: Day's `raised2` is darker than its ground and read as a
+/// grey hole on the cream sheet (K1, 20 Oct), so a Day tile on a sheet is the same lifted card as on the page, edged
+/// by a hairline.
 Color _tonalFill(MmColors colors, {required bool pressed, required bool onSheet}) {
-  final base = colors.isNight || onSheet ? colors.raised2 : colors.raised;
+  final base = colors.isNight ? colors.raised2 : colors.raised;
   return pressed ? Color.alphaBlend(colors.ink.withValues(alpha: 0.07), base) : base;
 }
 
@@ -785,8 +787,11 @@ class TileChoice extends StatelessWidget {
         return DecoratedBox(
           decoration: ShapeDecoration(
             color: fill,
-            shape: RoundedSuperellipseBorder(borderRadius: radius, side: secondary ? BorderSide(color: colors.lineStrong) : BorderSide.none),
-            shadows: secondary || colors.isNight || onSheet ? null : colors.cardShadow,
+            shape: RoundedSuperellipseBorder(
+              borderRadius: radius,
+              side: secondary ? BorderSide(color: colors.lineStrong) : (onSheet && !colors.isNight ? BorderSide(color: colors.line) : BorderSide.none),
+            ),
+            shadows: secondary || colors.isNight ? null : colors.cardShadow,
           ),
           child: CustomPaint(
             foregroundPainter: secondary

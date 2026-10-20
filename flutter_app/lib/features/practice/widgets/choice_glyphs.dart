@@ -107,8 +107,8 @@ class ChoiceGlyph extends StatelessWidget {
 
 /// Paints the object at gesture progress [t] (0 and 1 are the same resting pose).
 ///
-/// Colour: the body is the page's ink (paper on Night, charcoal on Daylight) shaded from a lit top
-/// left to a darker bottom right; faces and details are the opposite polarity; the accent is volt
+/// Colour: the body is porcelain in both themes (Night's paper ink; on Daylight the same porcelain with a keyline, never
+/// a charcoal object) shaded from a lit top left to a darker bottom right; faces and details are the opposite polarity; the accent is volt
 /// on Night and its readable olive on Daylight, except where it is a fill on [lit] objects.
 class ChoiceGlyphPainter extends CustomPainter {
   ChoiceGlyphPainter({required this.kind, required this.colors, required this.t, this.lit = false}) : super(repaint: t);
@@ -121,14 +121,24 @@ class ChoiceGlyphPainter extends CustomPainter {
   // Light and shade, not paint (SPACING.md 8.4 parity): white lifts a lit face and black deepens
   // a shaded one by a fraction, on whatever role colour they are mixed into, so the same object
   // reads in both themes. Night and Day differ only through the role colours ([_body], [_face],
-  // [_accent]) and the shade strength (Day drops cast 55% of Night's, see `_drop`).
+  // [_accent]) and the shade strength (Day drops cast 80% of Night's, see `_drop`, and Day adds a keyline).
   static const Color _white = Color(0xFFFFFFFF);
   static const Color _black = Color(0xFF000000);
 
-  Color get _body => colors.ink;
+  /// The object's material. Night: the page's paper ink. Day (K1, owner 20 Oct: "icons turning black can be optimized
+  /// better for day mode"): the same porcelain object as Night, not the page's charcoal ink inverted into a black
+  /// object, so Practice's objects are one set in both themes. A Day keyline ([_keyline]) and a deeper drop hold its
+  /// edge on cream.
+  Color get _body => colors.isNight ? colors.ink : dayPorcelain;
 
-  /// The face: the opposite polarity of the body, so details on it read.
-  Color get _face => colors.isNight ? colors.sunken : colors.ground;
+  /// The face: the opposite polarity of the body, so details on it read (a warm charcoal on Day's porcelain).
+  Color get _face => colors.isNight ? colors.sunken : dayFace;
+
+  /// Day's porcelain: Night's paper ink, so the object is the same object in both themes.
+  static const Color dayPorcelain = Color(0xFFF4F0E6);
+
+  /// Day's face on porcelain: a warm charcoal, a step softer than Night's sunken well.
+  static const Color dayFace = Color(0xFF2B2822);
 
   /// An accent on the face or on the tile behind the object.
   Color get _accent => colors.isNight ? colors.volt : colors.accentText;
@@ -166,13 +176,14 @@ class ChoiceGlyphPainter extends CustomPainter {
     canvas.drawPath(
       path.shift(Offset(0.2, dy)),
       Paint()
-        ..color = _black.withValues(alpha: colors.isNight ? alpha : alpha * 0.55)
+        ..color = _black.withValues(alpha: colors.isNight ? alpha : alpha * 0.8)
         ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.9),
     );
   }
 
   /// A thin light along the top left edge of a solid shape: the catch of the light.
-  void _rim(Canvas canvas, Path path, Rect r, {double width = 0.5, double alpha = 0.55}) {
+  void _rim(Canvas canvas, Path path, Rect r, {double width = 0.5, double alpha = 0.55, bool keyline = true}) {
+    if (keyline) _keyline(canvas, path);
     canvas.drawPath(
       path,
       Paint()
@@ -181,6 +192,13 @@ class ChoiceGlyphPainter extends CustomPainter {
         ..strokeJoin = StrokeJoin.round
         ..shader = ui.Gradient.linear(r.topLeft, r.bottomRight, [_white.withValues(alpha: alpha), _white.withValues(alpha: 0)]),
     );
+  }
+
+  /// Day only: a hairline of warm ink round a porcelain shape, so a light object keeps its edge on a cream tile.
+  /// Night needs none (paper on charcoal).
+  void _keyline(Canvas canvas, Path path, {double width = 0.65}) {
+    if (colors.isNight) return;
+    canvas.drawPath(path, _stroke(colors.ink.withValues(alpha: 0.3), width));
   }
 
   void _bubble(Canvas canvas, Offset c, double r, BubbleState state, {double fill = 1, Offset origin = Offset.zero}) =>
@@ -373,6 +391,7 @@ class ChoiceGlyphPainter extends CustomPainter {
     canvas
       ..drawRRect(crownStem, Paint()..color = Color.lerp(_body, _black, 0.4)!)
       ..drawRRect(crownCap, _solid(_body, crownCap.outerRect, hi: 0.2, lo: 0.3))
+      ..drawRRect(crownCap, _stroke(colors.isNight ? const Color(0x00000000) : colors.ink.withValues(alpha: 0.3), 0.65))
       // The side button.
       ..save()
       ..translate(19.1, 7.1)
@@ -508,7 +527,7 @@ class ChoiceGlyphPainter extends CustomPainter {
     // answer being put right, with a tick through it.
     final r = 7 * (1 - 0.12 * b);
     _bubble(canvas, c, r, BubbleState.filled);
-    _rim(canvas, disc, disc.getBounds(), alpha: 0.4);
+    _rim(canvas, disc, disc.getBounds(), alpha: 0.4, keyline: false);
     final tick = Path()
       ..moveTo(c.dx - r * 0.42, c.dy + r * 0.02)
       ..lineTo(c.dx - r * 0.1, c.dy + r * 0.36)
@@ -561,6 +580,11 @@ class ChoiceGlyphPainter extends CustomPainter {
       ..drawPath(heads.shift(const Offset(0.2, 0.9)), shadow..style = PaintingStyle.fill);
     final rect = Rect.fromCircle(center: c, radius: radius + 2.7);
     final sheen = ui.Gradient.linear(rect.topLeft, rect.bottomRight, [Color.lerp(_body, _white, 0.2)!, _body, Color.lerp(_body, _black, 0.3)!], const [0, 0.45, 1]);
+    // Day: the porcelain arrows' edge, a hairline under the stroke and round the heads.
+    if (!colors.isNight) {
+      canvas.drawPath(arcs, _stroke(colors.ink.withValues(alpha: 0.3), 3.6));
+      _keyline(canvas, heads, width: 1.2);
+    }
     canvas
       ..drawPath(arcs, _stroke(_body, 2.4)..shader = sheen)
       ..drawPath(heads, Paint()..isAntiAlias = true..shader = sheen)

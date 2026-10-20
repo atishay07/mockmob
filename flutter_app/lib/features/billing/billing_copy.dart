@@ -168,7 +168,15 @@ abstract final class BillingCopy {
 
   /// The Free cell for full mocks, by what the server says about the first full mock (L-05, C-dec 1).
   static const compareFullMockFree = '50 credits each';
-  static const compareFullMockFirstFree = 'First free, then 50 credits';
+
+  /// With the first-free rule on, the row reads as one sentence (K4, owner 20 Oct: the old "First free, then 50 credits"
+  /// was cut off in its narrow cell): "Full mocks", the line under it, then the Free cell.
+  static const compareFullMockFirstFree = 'Then 50 credits';
+  static const compareFullMockFirstFreeNote = 'Your first in each subject is free';
+
+  /// The line under a row's name, by row, when the server's rule calls for one ([firstFree] true only).
+  static Map<String, String> compareNotesFor({required bool? firstFree}) =>
+      firstFree == true ? const {'Full mocks': compareFullMockFirstFreeNote} : const {};
 
   /// The comparison rows with the Free full-mock cell said truthfully: [firstFree] true when the server says the first
   /// full mock in each subject is free, false when it says it is not, null while that is not known (a plain "Uses credits").

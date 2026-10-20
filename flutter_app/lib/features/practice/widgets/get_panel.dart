@@ -9,6 +9,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
 import '../../pro_nudge/pro_nudge.dart' show ProNudgeCopy, ProReason, UpgradeEntry, proNudgesOnProvider;
+import '../../wallet/data/wallet_data.dart' show firstFullMockFreeProvider;
 import '../copy.dart';
 import '../data/practice_quote.dart';
 import '../model/cost_line.dart';
@@ -160,7 +161,20 @@ class _GetPanelState extends State<GetPanel> {
     _held = q;
     // One key for the sheet's whole life: the rows rise in once, the first time, and a new quote replaces the figures in
     // place (a change of 5 to 20 questions is a number changing, not a panel arriving again).
-    return _Ticket(key: _ticketKey, selection: selection, quote: q, costText: costText, subjectName: subjectName);
+    // A Full mock that costs credits says the rule beside its price while the server's rule is on (K4, 20 Oct: the one
+    // free full mock per subject made clear wherever full mocks are priced).
+    return Consumer(
+      builder: (context, ref, _) {
+        final rule = selection.mode == PracticeMode.full && line.kind == CostKind.credits && ref.watch(firstFullMockFreeProvider);
+        return _Ticket(
+          key: _ticketKey,
+          selection: selection,
+          quote: q,
+          costText: rule && costText != null ? '$costText ${PracticeCopy.firstFullMockRule}' : costText,
+          subjectName: subjectName,
+        );
+      },
+    );
   }
 }
 
