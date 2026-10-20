@@ -111,6 +111,9 @@ class _StartController extends ChangeNotifier {
   late GameMode mode;
   bool busy = false;
   String? error;
+
+  /// The server's code behind [error] (MOCK_PRO_REQUIRED draws a way to Pro under it).
+  String? errorCode;
   String? modeNote;
 
   void update(void Function() f) {
@@ -188,12 +191,12 @@ class _StartBody extends ConsumerWidget {
                 // In Live a full mock stays drawn, dimmed, with "Anytime only"; Pro-only stays drawn, locked.
                 anytimeOnly: live && f == GameFormat.mock,
                 locked: !starts.allows(f) && starts.can,
-                proTag: starts.billingOn,
+                proTag: starts.billingOn || starts.mockNeedsPro,
                 minutes: c.minutes,
                 count: c.count,
                 mockDetail: MobV3Copy.mockDetail,
                 // A Free member's mock row says what Pro does and what sitting costs, and opens Pro from the row.
-                proLine: f == GameFormat.mock && starts.mockNeedsPro ? MobV3Copy.mockProRow(starts.freeMockPrice) : null,
+                proLine: f == GameFormat.mock && starts.mockNeedsPro ? MobV3Copy.mockProRow(starts.freeMockPrice, proSitsFree: starts.proSitsFree) : null,
                 onPro: f == GameFormat.mock && starts.mockNeedsPro && ref.watch(proNudgesOnProvider)
                     ? () => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock)
                     : null,
@@ -640,6 +643,7 @@ class _StartKeysState extends ConsumerState<_StartKeys> {
     c.update(() {
       c.busy = true;
       c.error = null;
+      c.errorCode = null;
     });
     final actions = ref.read(mobV3ActionsProvider);
     final prefill = widget.prefill;
@@ -689,9 +693,10 @@ class _StartKeysState extends ConsumerState<_StartKeys> {
         c.update(() {
           c.busy = false;
           c.error = sentence;
+          c.errorCode = code?.toUpperCase();
         });
         // The right to start may have changed under us (used, a Mob already at three games): read the den again.
-        if (const {'START_USED', 'START_PRO', 'START_FORMAT', 'GAMES_OPEN_LIMIT'}.contains(code)) {
+        if (const {'START_USED', 'START_PRO', 'START_FORMAT', 'GAMES_OPEN_LIMIT', 'MOCK_PRO_REQUIRED'}.contains(code)) {
           try {
             await actions.refresh();
           } on Object {
@@ -751,6 +756,16 @@ class _StartKeysState extends ConsumerState<_StartKeys> {
           children: [
             if (c.error != null) ...[
               Text(c.error!, key: const ValueKey('start-error'), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink)),
+              // Refused for want of Pro: the way to it, right under the sentence.
+              if (c.errorCode == 'MOCK_PRO_REQUIRED' && ref.watch(proNudgesOnProvider))
+                Center(
+                  child: _AccentKey(
+                    key: const ValueKey('start-error-pro'),
+                    label: MobV3Copy.seePlans,
+                    onPressed: () => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock),
+                    padLeft: 0,
+                  ),
+                ),
               const SizedBox(height: MmSpace.s8),
             ],
             KeyButton(

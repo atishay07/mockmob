@@ -313,14 +313,27 @@ abstract final class MobV3Copy {
   static const String startRowLine = 'Sprint, race, round or full mock';
   static const String startKey2 = 'Start';
   /// D174/D175: Pro starts a full mock together and sits every one free; a Free member sits one a friend starts for
-  /// credits (no free first mock). Plain: what it is, what it costs, what Pro does.
-  static String mockPro(int cost) => 'Starting a full mock together is part of Pro. On Free you can sit one a friend starts for $cost credits.';
-  static String mockProRow(int cost) => 'Pro starts it and sits every one free. Free members sit one for $cost credits.';
-  static String mockAllowance(int cost) => 'You sit it free with Pro. Free members in your Mob sit it for $cost credits.';
+  /// credits (no free first mock). Plain: what it is, what it costs, what Pro does. The price is the server's
+  /// (`starts.mock.sitCredits`); with none sent no price is named.
+  static String mockPro(int? price) => price == null
+      ? 'Starting a full mock together is part of Pro. Anyone in your Mob can sit one.'
+      : 'Starting a full mock together is part of Pro. On Free you can sit one a friend starts for $price credits.';
+  static String mockProRow(int? price, {bool proSitsFree = true}) {
+    final pro = proSitsFree ? 'Pro starts it and sits every one free.' : 'Pro starts it.';
+    return price == null ? pro : '$pro Free members sit one for $price credits.';
+  }
+
+  static String mockAllowance(int? price) => price == null ? 'You sit it free with Pro.' : 'You sit it free with Pro. Free members in your Mob sit it for $price credits.';
   static const String sitMockTitle = 'Sit the full mock';
   static String sitMockCost(int cost, int? balance) => balance == null ? 'Sitting it costs $cost credits.' : 'Sitting it costs $cost credits. You have $balance.';
   static String sitMockKey(int cost) => 'Sit it for $cost credits';
-  static String sitMockShort(int cost, int balance) => 'You need $cost credits to sit it and have $balance.';
+
+  /// Short of credits: what it costs, what the student has and what is missing. [have] null (the server refused
+  /// and the balance is not known here): says so without a number that may be wrong.
+  static String sitMockShort(int cost, int? have) => have != null && have < cost
+      ? 'It costs $cost credits and you have $have, so you need ${cost - have} more.'
+      : 'It costs $cost credits and you have fewer than that. Nothing was charged.';
+  static const String addCredits = 'Add credits';
   static const String sitMockPro = 'With Pro you start full mocks together and sit every one free.';
   static const String sitMockProKey = 'See Pro plans';
   static const String sitMockOnce = 'You pay once. If you leave and come back, it opens where you were.';
@@ -371,9 +384,9 @@ abstract final class MobV3Copy {
 
   /// The start allowance under the key: what starting this costs this student, and that everyone plays free.
   static String allowance(StartRight s, String mob, {bool live = false, bool mock = false}) {
+    // A full mock together: Pro starts it, Pro sits free, Free pays to sit (D174, D175), billing on or off.
+    if (mock && s.mockCanStart && s.mock != null) return mockAllowance(s.freeMockPrice);
     if (!s.billingOn) return everyonePlays(mob);
-    // A full mock together: Pro starts it, Pro sits free, Free pays to sit (D174, D175).
-    if (mock && s.via == StartVia.pro) return mockAllowance(s.freeMockPrice);
     if (!s.can) return startUsed;
     return switch (s.via) {
       StartVia.freeWeekly => (s.freeLeft ?? 1) == 1
@@ -412,11 +425,11 @@ abstract final class MobV3Copy {
     'Every Fold and sticker you earn.',
   ];
   /// With full mocks together on (formats), what Free keeps and what the full mock costs is said plainly.
-  static List<String> freeListFor({required bool mocks, int mockCost = kMockSitCredits}) => !mocks
+  static List<String> freeListFor({required bool mocks, int? mockCost}) => !mocks
       ? freeList
       : [
           'Play every sprint, race and round your Mob starts, as often as you like.',
-          'Sit a full mock together your Mob starts, for $mockCost credits.',
+          mockCost == null ? 'Sit a full mock together your Mob starts.' : 'Sit a full mock together your Mob starts, for $mockCost credits.',
           ...freeList.sublist(1),
         ];
   static const String proAdds = 'Pro adds';
@@ -909,6 +922,8 @@ abstract final class MobV3Copy {
   // ---- Errors (spec 3.2), by the server's code ----
   static const Map<String, String> errors = {
     'START_PRO': 'Starting games is part of Pro. You can play every game your Mob starts.',
+    'MOCK_PRO_REQUIRED': 'Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: 50 credits, or free with Pro.',
+    'MOCK_CREDITS': 'Sitting this full mock costs 50 credits, and you have fewer than that. Add credits in your wallet, or get Pro to sit every full mock free. Nothing was charged.',
     'START_USED': "You started this week's game in this Mob. You can start another on Monday, or a friend with Pro can pass you the mic.",
     'START_FORMAT': 'Live rooms are part of Pro. You can start this game to play any time in the next 24 hours.',
     'GAMES_OPEN_LIMIT': 'Your Mob already has 3 games open. A new one can start when one closes.',

@@ -16,6 +16,13 @@
   ],
   "freeLeft": 1,
   "mics": 1,
+  "mock": {
+    "costCredits": 50,
+    "sitCredits": 50,
+    "proRequiredToStart": true,
+    "canStart": false,
+    "proSitsFree": true
+  },
   "micFrom": {
     "memberId": "member-2",
     "name": "Riya"

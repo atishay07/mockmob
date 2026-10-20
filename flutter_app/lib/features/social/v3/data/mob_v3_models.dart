@@ -9,12 +9,38 @@
 
 import '../../../../core/models/json_helpers.dart';
 
-/// D174/D175: what a Free member pays to sit a full mock a friend started (Pro sits free, there is no free first
-/// mock). Only the fallback: the server's `cost_credits` wins whenever it sends one.
-const int kMockSitCredits = 50;
+/// Full mock together's price as the server says it (owner D174, D175; APP-API-CONTRACT 2.12), on the den's
+/// `starts.mock` and on a mock game as `price`. Every field is optional: a block the server does not send hides
+/// every number, and the app never fills in a number of its own.
+class MockPrice {
+  const MockPrice({this.costCredits, this.sitCredits, this.proRequiredToStart, this.canStart, this.proSitsFree});
 
-/// A field the server may spell in snake_case or camelCase.
-Object? _either(Map<String, dynamic> j, String snake, String camel) => j.containsKey(snake) ? j[snake] : j[camel];
+  factory MockPrice.fromJson(Object? raw) {
+    final j = asJson(raw);
+    return MockPrice(
+      costCredits: asInt(j['costCredits']),
+      sitCredits: asInt(j['sitCredits']),
+      proRequiredToStart: asBool(j['proRequiredToStart']),
+      canStart: asBool(j['canStart']),
+      proSitsFree: asBool(j['proSitsFree']),
+    );
+  }
+
+  /// What THIS member pays to start sitting it now: 0 for Pro and once begun, else the Free price.
+  final int? costCredits;
+
+  /// What a Free member pays (50), for "Free members sit one for 50 credits".
+  final int? sitCredits;
+
+  /// Starting one is Pro only (always true today).
+  final bool? proRequiredToStart;
+
+  /// This member's plan allows the start (Pro).
+  final bool? canStart;
+
+  /// Pro sits it free (always true today).
+  final bool? proSitsFree;
+}
 
 // ---------------------------------------------------------------------------------------------------
 // Folds
@@ -215,7 +241,7 @@ class MobGameSummary {
     this.podiumReady = false,
     this.title,
     this.minutes,
-    this.costCredits,
+    this.price,
   });
 
   factory MobGameSummary.fromJson(Json j) => MobGameSummary(
@@ -235,12 +261,12 @@ class MobGameSummary {
         podiumReady: asBool(j['podiumReady']) ?? false,
         title: asString(j['title']),
         minutes: asInt(j['minutes']),
-        costCredits: asInt(_either(j, 'cost_credits', 'costCredits')),
+        price: j['price'] is Map ? MockPrice.fromJson(j['price']) : null,
       );
 
-  /// What sitting this game costs THIS student, in credits (a full mock for a Free member who has not started
-  /// it); 0 or null: nothing. Only the server's word; [StartRight.mockCost] is the fallback.
-  final int? costCredits;
+  /// A full mock's price for THIS student (`price`): costCredits is what starting your sitting costs now. Null
+  /// on any other format and from a server that does not send it.
+  final MockPrice? price;
 
   /// A race's length (5 or 10) or a mock's (60); null for a sprint or a round.
   final int? minutes;
@@ -396,8 +422,7 @@ class StartRight {
     this.reason,
     this.micFrom,
     this.locked = const [],
-    this.mockSitCredits,
-    this.mockProToStart,
+    this.mock,
   });
 
   factory StartRight.fromJson(Json j) => StartRight(
@@ -412,31 +437,30 @@ class StartRight {
         reason: asString(j['reason']),
         micFrom: j['micFrom'] is Map ? asString(asJson(j['micFrom'])['name']) : asString(j['micFrom']),
         locked: [for (final f in asStringList(j['locked'])) GameFormat.parse(f)],
-        // D174/D175 (server enforcement on web/1020-mob-fulltogether-price): `starts.mock` = { cost_credits,
-        // pro_required_to_start }, read both ways round and only when it is a map.
-        mockSitCredits: j['mock'] is Map ? asInt(_either(asJson(j['mock']), 'cost_credits', 'costCredits')) : null,
-        mockProToStart: j['mock'] is Map ? asBool(_either(asJson(j['mock']), 'pro_required_to_start', 'proRequiredToStart')) : null,
+        mock: j['mock'] is Map ? MockPrice.fromJson(j['mock']) : null,
       );
 
   /// Formats this student sees but may not start (Full mock together for Free while billing is on).
   final List<GameFormat> locked;
 
-  /// What THIS student pays to sit a full mock a friend started (0 for Pro). Null when the server does not say.
-  final int? mockSitCredits;
+  /// Full mock together's price (`starts.mock`), present only while the server offers the format; null hides every price.
+  final MockPrice? mock;
 
-  /// The server's `pro_required_to_start` for a full mock. Null when it does not say.
-  final bool? mockProToStart;
+  /// What a Free member pays to sit a full mock a friend started, or null when the server says nothing.
+  int? get freeMockPrice => mock?.sitCredits ?? ((mock?.costCredits ?? 0) > 0 ? mock!.costCredits : null);
 
-  /// Credits to sit a Mob full mock, as the owner set it (D174): 50 on Free while billing is on, nothing for Pro
-  /// and nothing while billing is off. The server's own number wins when it sends one.
-  int get mockCost => !billingOn || via == StartVia.pro ? 0 : (mockSitCredits ?? kMockSitCredits);
+  /// What THIS student pays to sit one (0 for Pro, billing on or off: the server reads the plan).
+  int get mockCost => mock?.costCredits ?? 0;
 
-  /// What a Free member pays to sit one (Pro's own price reads 0, so the Free price is the server's when it sent
-  /// one for a Free student, otherwise the owner's 50).
-  int get freeMockPrice => via != StartVia.pro && (mockSitCredits ?? 0) > 0 ? mockSitCredits! : kMockSitCredits;
+  /// Pro sits a full mock free, as the server says (true unless it says otherwise).
+  bool get proSitsFree => mock?.proSitsFree != false;
 
-  /// Starting a full mock together is Pro only (D167), by the server's `locked` list or `pro_required_to_start`.
-  bool get mockNeedsPro => billingOn && via != StartVia.pro && (locked.contains(GameFormat.mock) || mockProToStart == true);
+  /// Starting a full mock together is Pro only (D167, D174): the server's `locked` list or `proRequiredToStart`
+  /// with no `canStart`, whatever `billingOn` says.
+  bool get mockNeedsPro => locked.contains(GameFormat.mock) || (mock?.proRequiredToStart == true && mock?.canStart != true);
+
+  /// This student can start a full mock (the server's `canStart`, or Pro by the start right).
+  bool get mockCanStart => mock?.canStart ?? (via == StartVia.pro);
 
   /// D167: a format shows when the server offers it or names it as locked; sprints and rounds always show
   /// (an older server knows only those).
@@ -721,6 +745,7 @@ class MobGame {
     this.ghosts = const [],
     this.podiumReady = false,
     this.minutes,
+    this.price,
   });
 
   factory MobGame.fromJson(Json j) => MobGame(
@@ -744,7 +769,11 @@ class MobGame {
         ghosts: [for (final g in asJsonList(j['ghosts'])) Ghost.fromJson(g)],
         podiumReady: asBool(j['podiumReady']) ?? false,
         minutes: asInt(j['minutes']),
+        price: j['price'] is Map ? MockPrice.fromJson(j['price']) : null,
       );
+
+  /// A full mock's price for you (`price`), as on [MobGameSummary.price].
+  final MockPrice? price;
 
   /// A race's length (5 or 10) or a mock's (60); null for a sprint or a round.
   final int? minutes;

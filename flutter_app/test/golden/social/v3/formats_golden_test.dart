@@ -58,8 +58,6 @@ Future<void> _sheet(
   await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/formats/${name}_360_${_tag(b)}.png'));
 }
 
-const _sitGame = MobGameSummary(id: 'game-riya-mock', format: GameFormat.mock, count: 50, minutes: 60, subjectName: 'Accountancy');
-
 void main() {
   setUpGoldenFonts();
   setUp(loadFoldManifestForTest);
@@ -97,12 +95,16 @@ void main() {
   // D174, D175: a Free member sitting a friend's full mock sees the price, the balance and the way to Pro.
   for (final b in [Brightness.dark, Brightness.light]) {
     testWidgets('sit the full mock, Free with enough credits (${_tag(b)})', (t) async {
-      await _sheet(t, 'sit_mock', (c) => showSitMockSheet(c, game: _sitGame, cost: 50), b: b, scenario: 'mock', billing: 'free', nudges: true, balance: 112, height: 700);
+      await _sheet(t, 'sit_mock', (c) => showSitMockSheet(c, cost: 50), b: b, scenario: 'mock', billing: 'free', nudges: true, balance: 112, height: 700);
     });
   }
 
+  testWidgets('sit the full mock, the server refused for credits (day)', (t) async {
+    await _sheet(t, 'sit_mock_refused', (c) => showSitMockSheet(c, cost: 50, refused: true), b: Brightness.light, scenario: 'mock', billing: 'free', nudges: true, balance: 112, height: 700);
+  });
+
   testWidgets('sit the full mock, Free short of credits (night)', (t) async {
-    await _sheet(t, 'sit_mock_short', (c) => showSitMockSheet(c, game: _sitGame, cost: 50), b: Brightness.dark, scenario: 'mock', billing: 'free', nudges: true, balance: 12, height: 700);
+    await _sheet(t, 'sit_mock_short', (c) => showSitMockSheet(c, cost: 50), b: Brightness.dark, scenario: 'mock', billing: 'free', nudges: true, balance: 12, height: 700);
   });
 
   for (final b in [Brightness.dark, Brightness.light]) {

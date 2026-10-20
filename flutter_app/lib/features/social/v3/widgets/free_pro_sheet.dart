@@ -23,7 +23,7 @@ Future<void> showFreeProSheet(BuildContext context) async {
   final live = v3?.live.enabled ?? false;
   // The Full mock together lines appear only while the server offers it (formats on).
   final mocks = v3?.starts.shows(GameFormat.mock) ?? false;
-  final price = v3?.starts.freeMockPrice ?? kMockSitCredits;
+  final price = v3?.starts.freeMockPrice;
   await showMmSheet<void>(
     context: context,
     title: MobV3Copy.freeProTitle,
@@ -34,12 +34,12 @@ Future<void> showFreeProSheet(BuildContext context) async {
 }
 
 class _FreeProBody extends StatelessWidget {
-  const _FreeProBody({required this.live, this.mocks = false, this.price = kMockSitCredits});
+  const _FreeProBody({required this.live, this.mocks = false, this.price});
 
   /// The server's live switch: live rooms are sold only while it is on (L-04).
   final bool live;
   final bool mocks;
-  final int price;
+  final int? price;
 
   @override
   Widget build(BuildContext context) {

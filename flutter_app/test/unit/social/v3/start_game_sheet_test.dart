@@ -51,7 +51,8 @@ void main() {
     expect(find.byKey(const ValueKey('start-mode-async')), findsNothing, reason: 'live is off: no choice to make');
     expect(find.text('Pass the mic'), findsNothing);
     expect(noText(t, _price), isTrue);
-    expect(noText(t, 'Pro'), isTrue);
+    // A Free member's full mock stays locked with Pro even with billing off (D174): its row is the only plan word.
+    expect(find.text('Pro'), findsOneWidget);
   });
 
   testWidgets('four ways to play, each with one line (K9)', (t) async {
@@ -115,7 +116,7 @@ void main() {
   });
 
   testWidgets('Full mock together: the whole paper, its line, Start the full mock, always 24 hours', (t) async {
-    final server = FailingServer(scenario: 'quiet', clock: () => v3Now);
+    final server = FailingServer(scenario: 'quiet', billing: 'pro', clock: () => v3Now);
     await _open(t, server, edit: liveOn);
     await tapAt(t, find.text('Full mock together'));
     expect(find.text('50 questions in 60 minutes, in the exam runner. Then your Mob compares mark sheets. Answers open for everyone when it closes.'), findsOneWidget);
@@ -137,7 +138,7 @@ void main() {
   });
 
   testWidgets('in Live the full mock stays drawn, dimmed, "Anytime only", and takes no tap', (t) async {
-    await _open(t, v3Server(scenario: 'quiet'), edit: liveOn);
+    await _open(t, v3Server(scenario: 'quiet', billing: 'pro'), edit: liveOn);
     await tapAt(t, find.byKey(const ValueKey('start-mode-live')));
     expect(find.text('Anytime only'), findsOneWidget);
     await tapAt(t, find.text('Full mock together'));
@@ -146,7 +147,7 @@ void main() {
   });
 
   testWidgets('choosing Live with the full mock chosen moves the choice to the sprint', (t) async {
-    await _open(t, v3Server(scenario: 'quiet'), edit: liveOn);
+    await _open(t, v3Server(scenario: 'quiet', billing: 'pro'), edit: liveOn);
     await tapAt(t, find.text('Full mock together'));
     await tapAt(t, find.byKey(const ValueKey('start-mode-live')));
     expect(_selected(t, GameFormat.sprint), isTrue);

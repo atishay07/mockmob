@@ -185,7 +185,7 @@ void main() {
       expect(riya.sections.first.fullMarks, 170);
       expect(riya.sections.fold<int>(0, (s, u) => s + u.of), 50);
       expect(jsonEncode(sx('podium_mock.json')), isNot(contains('correctIndex')));
-      expect(body('game_open_mock_free.json')['code'], 'START_PRO');
+      expect(body('game_open_mock_free.json')['code'], 'MOCK_PRO_REQUIRED');
       expect(sx('paper_start_mock.json')['input']['mode'], 'full');
     });
 

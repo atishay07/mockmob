@@ -1,12 +1,15 @@
 // Full mock together pricing (owner D174, D175): Pro starts it; a Free member pays 50 credits to sit one a friend
 // started; Pro sits free; there is no free first full mock. The app shows what the server will enforce, so these
-// tests pin the contract it assumes (starts.mock { cost_credits, pro_required_to_start }, games[].cost_credits),
-// the plain copy and the one honest way to Pro in the row and in the sit sheet.
+// tests pin the server's contract (APP-API-CONTRACT 2.12: starts.mock and a game's price, camelCase; the codes
+// MOCK_PRO_REQUIRED and MOCK_CREDITS), the plain copy and the one honest way to Pro in the row and in the sit sheet.
+
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
-import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
 import 'package:mockmob/features/social/v3/copy_v3.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/widgets/play_picker_sheet.dart';
@@ -17,95 +20,140 @@ import '../../../helpers/golden_harness.dart' show settleImages;
 import 'mob_v3_test_kit.dart';
 import 'sheets_test_kit.dart';
 
-StartRight _starts(Map<String, dynamic> j) => StartRight.fromJson(j);
-
-MobGameSummary _mock({YourRun yourRun = YourRun.none, int? cost}) => MobGameSummary(id: 'g1', format: GameFormat.mock, count: 50, minutes: 60, subjectName: 'Accountancy', yourRun: yourRun, costCredits: cost);
-
 final _price = RegExp(r'₹|\$|\bRs\b|per month', caseSensitive: false);
 
 void main() {
   setUp(loadFoldManifestForTest);
 
-  group('the contract the client assumes', () {
-    test('a Free member: the mock costs 50 to sit and Pro starts it, from the server or by default', () {
-      final withBlock = _starts({'billingOn': true, 'can': true, 'via': 'free_weekly', 'locked': ['mock'], 'mock': {'cost_credits': 50, 'pro_required_to_start': true}});
-      expect(withBlock.mockCost, 50);
-      expect(withBlock.mockNeedsPro, isTrue);
-      expect(withBlock.allows(GameFormat.mock), isFalse);
-      // Nothing sent: the owner's rule applies (the server enforces it before the formats switch is on).
-      final bare = _starts({'billingOn': true, 'can': true, 'via': 'free_weekly', 'locked': ['mock']});
-      expect(bare.mockCost, 50);
-      expect(bare.freeMockPrice, 50);
+  group('the server contract (APP-API-CONTRACT 2.12, camelCase)', () {
+    Map<String, dynamic> fx(String n) => jsonDecode(File('test/fixtures/mob_v3/server/$n.json').readAsStringSync()) as Map<String, dynamic>;
+
+    test("a Free member's starts: the mock is locked, priced 50, Pro starts it, Pro sits free", () {
+      final s = StartRight.fromJson(fx('starts_free'));
+      expect(s.mock?.costCredits, 50);
+      expect(s.mock?.sitCredits, 50);
+      expect(s.mock?.proRequiredToStart, isTrue);
+      expect(s.mock?.canStart, isFalse);
+      expect(s.mock?.proSitsFree, isTrue);
+      expect(s.mockNeedsPro, isTrue);
+      expect(s.mockCanStart, isFalse);
+      expect(s.mockCost, 50);
+      expect(s.freeMockPrice, 50);
+      expect(s.shows(GameFormat.mock), isTrue);
+      expect(s.allows(GameFormat.mock), isFalse);
     });
 
-    test('camelCase is read too, and the server\'s own number wins', () {
-      final s = _starts({'billingOn': true, 'can': true, 'via': 'mic', 'mock': {'costCredits': 40, 'proRequiredToStart': true}});
-      expect(s.mockCost, 40);
-      expect(s.freeMockPrice, 40);
-      expect(s.mockNeedsPro, isTrue, reason: 'pro_required_to_start alone locks the row');
+    test("a Pro member's starts: can start, pays nothing, still names the Free price", () {
+      final s = StartRight.fromJson(fx('starts_pro'));
+      expect(s.mock?.canStart, isTrue);
+      expect(s.mockNeedsPro, isFalse);
+      expect(s.mockCost, 0);
+      expect(s.freeMockPrice, 50);
+      expect(s.allows(GameFormat.mock), isTrue);
+    });
+
+    test('used and mic: still locked and priced', () {
+      for (final n in ['starts_used', 'starts_mic']) {
+        final s = StartRight.fromJson(fx(n));
+        expect(s.mockNeedsPro, isTrue, reason: n);
+        expect(s.mockCost, 50, reason: n);
+      }
+    });
+
+    test('billing off does not unlock it for a Free member: the den says locked, not billingOn', () {
+      final den = MobRead.fromJson(fx('den_get'));
+      final s = den.v3!.starts;
+      expect(s.billingOn, isFalse);
+      expect(s.mockNeedsPro, isTrue);
       expect(s.shows(GameFormat.mock), isTrue);
     });
 
-    test('a server that says 0 for a Free member is believed', () {
-      final s = _starts({'billingOn': true, 'can': true, 'via': 'free_weekly', 'mock': {'cost_credits': 0, 'pro_required_to_start': false}});
-      expect(s.mockCost, 0);
-      expect(s.mockNeedsPro, isFalse);
+    test('a block the server does not send hides every price, and the locked list alone still locks', () {
+      final bare = StartRight.fromJson({'billingOn': true, 'can': true, 'via': 'free_weekly', 'locked': ['mock']});
+      expect(bare.mock, isNull);
+      expect(bare.freeMockPrice, isNull);
+      expect(bare.mockCost, 0);
+      expect(bare.mockNeedsPro, isTrue);
+      final none = StartRight.fromJson({'billingOn': true, 'can': true, 'via': 'free_weekly', 'formats': ['sprint', 'round']});
+      expect(none.shows(GameFormat.mock), isFalse, reason: 'formats off: the row is not drawn');
+      expect(none.mockNeedsPro, isFalse);
     });
 
-    test('Pro and billing off pay nothing, and Pro still names the Free price', () {
-      final pro = _starts({'billingOn': true, 'can': true, 'via': 'pro', 'formats': ['sprint', 'round', 'race', 'mock'], 'mock': {'cost_credits': 0, 'pro_required_to_start': false}});
-      expect(pro.mockCost, 0);
-      expect(pro.freeMockPrice, kMockSitCredits);
-      expect(pro.mockNeedsPro, isFalse);
-      expect(pro.allows(GameFormat.mock), isTrue);
-      final off = _starts({'billingOn': false, 'can': true, 'via': 'open', 'formats': ['sprint', 'round', 'race', 'mock']});
-      expect(off.mockCost, 0);
-      expect(off.mockNeedsPro, isFalse);
+    test('a game carries price: costCredits is what starting costs you now', () {
+      final den = MobRead.fromJson(fx('den_get_formats'));
+      final mock = den.v3!.games.firstWhere((g) => g.format == GameFormat.mock);
+      expect(mock.price?.costCredits, 0, reason: 'already finished: never charged again');
+      expect(mock.price?.sitCredits, 50);
+      expect(mock.price?.proSitsFree, isTrue);
+      final race = den.v3!.games.firstWhere((g) => g.format == GameFormat.race);
+      expect(race.price, isNull, reason: 'other formats have no price');
+      final open = MobGame.fromEnvelope(fx('game_open_mock'));
+      expect(open.price?.costCredits, 0);
+      expect(open.price?.sitCredits, 50);
     });
 
-    test('the game carries cost_credits either way round; mockSitCost asks for nothing once begun, for Pro or for a free game', () {
-      expect(MobGameSummary.fromJson({'id': 'g', 'format': 'mock', 'cost_credits': 50}).costCredits, 50);
-      expect(MobGameSummary.fromJson({'id': 'g', 'format': 'mock', 'costCredits': 50}).costCredits, 50);
-      expect(MobGameSummary.fromJson({'id': 'g', 'format': 'mock'}).costCredits, isNull);
-      final free = _starts({'billingOn': true, 'can': true, 'via': 'free_weekly', 'locked': ['mock']});
-      expect(mockSitCost(_mock(), free), 50);
-      expect(mockSitCost(_mock(cost: 30), free), 30, reason: 'the game\'s own number wins');
-      expect(mockSitCost(_mock(cost: 0), free), 0);
-      expect(mockSitCost(_mock(yourRun: YourRun.playing), free), 0, reason: 'a paper already begun is not paid for twice');
-      expect(mockSitCost(_mock(yourRun: YourRun.finished), free), 0);
+    test("mockSitCost: the game's own costCredits; nothing once begun, for Pro, or with no price", () {
+      final free = StartRight.fromJson(fx('starts_free'));
+      MobGameSummary g({YourRun yourRun = YourRun.none, MockPrice? price}) => MobGameSummary(id: 'g1', format: GameFormat.mock, count: 50, minutes: 60, yourRun: yourRun, price: price);
+      const fifty = MockPrice(costCredits: 50, sitCredits: 50, proSitsFree: true);
+      expect(mockSitCost(g(price: fifty), free), 50);
+      expect(mockSitCost(g(price: const MockPrice(costCredits: 0, sitCredits: 50)), free), 0);
+      expect(mockSitCost(g(yourRun: YourRun.playing, price: fifty), free), 0);
+      expect(mockSitCost(g(yourRun: YourRun.finished, price: fifty), free), 0);
       expect(mockSitCost(const MobGameSummary(id: 'r', format: GameFormat.race), free), 0);
-      expect(mockSitCost(_mock(), _starts({'billingOn': true, 'can': true, 'via': 'pro'})), 0);
-      expect(mockSitCost(_mock(), _starts({'billingOn': false})), 0);
+      expect(mockSitCost(g(), StartRight.fromJson(fx('starts_pro'))), 0);
+    });
+
+    test("both error codes carry the server's sentence and a code the client branches on", () {
+      for (final code in ['MOCK_PRO_REQUIRED', 'MOCK_CREDITS']) {
+        final e = (fx('errors_v3')[code] as Map)['body']['error'] as Map;
+        final err = ApiError(kind: code == 'MOCK_CREDITS' ? ApiErrorKind.paymentRequired : ApiErrorKind.forbidden, code: code, status: code == 'MOCK_CREDITS' ? 402 : 403);
+        expect(MobV3Copy.error(err), e['message'], reason: code);
+      }
+      final refused = (fx('game_open_mock_free')['body'] as Map)['error'] as Map;
+      expect(refused['code'], 'MOCK_PRO_REQUIRED');
+      expect((refused['detail'] as Map)['sitCredits'], 50);
     });
   });
 
-  group('the fixture server', () {
-    test('Free pays once when the paper starts, Pro and the host pay nothing, and a short balance is CREDITS', () {
+  group('the fixture server follows the same contract', () {
+    test('Free pays once when the paper starts, Pro pays nothing, and a short balance is MOCK_CREDITS', () {
       final s = v3Server(scenario: 'mock', billing: 'free');
       expect(s.credits, 112);
       s.sitMock('game-riya-mock');
       expect(s.credits, 62);
-      // The game now says nothing is owed (the run exists).
       final again = MobGameSummary.fromJson((s.denNow()['v3'] as Map<String, dynamic>)['games'].firstWhere((g) => (g as Map)['id'] == 'game-riya-mock') as Map<String, dynamic>);
       expect(again.yourRun, YourRun.finished);
-      expect(again.costCredits, 0);
+      expect(again.price?.costCredits, 0);
 
       final pro = v3Server(scenario: 'mock', billing: 'pro')..credits = 0;
       pro.sitMock('game-riya-mock');
       expect(pro.credits, 0);
 
       final poor = v3Server(scenario: 'mock', billing: 'free')..credits = 49;
-      expect(() => poor.sitMock('game-riya-mock'), throwsA(isA<ApiError>().having((e) => e.code, 'code', 'CREDITS')));
+      expect(() => poor.sitMock('game-riya-mock'), throwsA(isA<ApiError>().having((e) => e.code, 'code', 'MOCK_CREDITS').having((e) => e.status, 'status', 402)));
       expect(poor.credits, 49, reason: 'a refusal charges nothing');
     });
 
-    test('the den says what the student pays and that starting is Pro only', () {
-      final free = (v3Server(scenario: 'mock', billing: 'free').denNow()['v3'] as Map<String, dynamic>)['starts'] as Map<String, dynamic>;
-      expect(free['mock'], {'pro_required_to_start': true, 'cost_credits': 50});
-      final pro = (v3Server(scenario: 'mock', billing: 'pro').denNow()['v3'] as Map<String, dynamic>)['starts'] as Map<String, dynamic>;
-      expect(pro['mock'], {'pro_required_to_start': false, 'cost_credits': 0});
-      final off = (v3Server(scenario: 'mock').denNow()['v3'] as Map<String, dynamic>)['starts'] as Map<String, dynamic>;
-      expect(off.containsKey('mock'), isFalse);
+    test('a Free member cannot start one: MOCK_PRO_REQUIRED, billing on or off', () async {
+      for (final billing in ['off', 'free']) {
+        final s = v3Server(scenario: 'quiet', billing: billing);
+        await expectLater(
+          s.openGame(mob: (s.denNow()['mob'] as Map<String, dynamic>)['id'] as String, format: GameFormat.mock, mode: GameMode.async, count: 50),
+          throwsA(isA<ApiError>().having((e) => e.code, 'code', 'MOCK_PRO_REQUIRED').having((e) => e.status, 'status', 403)),
+          reason: billing,
+        );
+      }
+    });
+
+    test('the den carries starts.mock and a price on every mock game', () {
+      Map<String, dynamic> starts(String b) => (v3Server(scenario: 'mock', billing: b).denNow()['v3'] as Map<String, dynamic>)['starts'] as Map<String, dynamic>;
+      const free = {'costCredits': 50, 'sitCredits': 50, 'proRequiredToStart': true, 'canStart': false, 'proSitsFree': true};
+      expect(starts('free')['mock'], free);
+      expect(starts('off')['mock'], free);
+      expect(starts('pro')['mock'], {'costCredits': 0, 'sitCredits': 50, 'proRequiredToStart': true, 'canStart': true, 'proSitsFree': true});
+      expect(starts('free')['locked'], ['mock']);
+      expect(starts('pro')['locked'], isEmpty);
     });
   });
 
@@ -139,10 +187,36 @@ void main() {
       expect(keyLabel('Start the full mock'), findsOneWidget);
     });
 
-    testWidgets('billing off: no credits and no Pro word on the mock row', (t) async {
+    testWidgets('billing off does not unlock it for a Free member: the row says Pro starts it', (t) async {
       await open(t, billing: 'off');
+      expect(find.text('Pro starts it and sits every one free. Free members sit one for 50 credits.'), findsOneWidget);
+    });
+
+    testWidgets('a start the server refuses for want of Pro says so, with the way to Pro under it', (t) async {
+      // A den that wrongly lets a Free member start (stale): the server's MOCK_PRO_REQUIRED has the last word.
+      await openSheet(
+        t,
+        (c) => showStartGame(c),
+        sheetOverrides(v3Server(scenario: 'quiet', billing: 'free'), nudges: true, edit: (den) {
+          final starts = v3Of(den)['starts'] as Map<String, dynamic>;
+          starts['locked'] = <String>[];
+          starts['formats'] = [...(starts['formats'] as List), 'mock'];
+          (starts['mock'] as Map<String, dynamic>)['canStart'] = true;
+        }),
+      );
       await tapAt(t, find.text('Full mock together'));
-      expect(noText(t, 'Pro'), isTrue);
+      await tapAt(t, keyLabel('Start the full mock'));
+      expect(find.text('Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: 50 credits, or free with Pro.'), findsOneWidget);
+      expect(find.byKey(const ValueKey('start-error-pro')), findsOneWidget);
+    });
+
+    testWidgets('no starts.mock block: no price anywhere, the row still says Pro starts it', (t) async {
+      await openSheet(
+        t,
+        (c) => showStartGame(c),
+        sheetOverrides(v3Server(scenario: 'quiet', billing: 'free'), nudges: true, edit: (den) => (v3Of(den)['starts'] as Map<String, dynamic>).remove('mock')),
+      );
+      expect(find.text('Pro starts it and sits every one free.'), findsOneWidget);
       expect(noText(t, RegExp(r'\bcredits\b')), isTrue);
     });
   });
@@ -150,7 +224,7 @@ void main() {
   group('the sit sheet', () {
     Future<void> openSit(WidgetTester t, {required int? balance, required bool nudges, int cost = 50}) => openSheet(
           t,
-          (c) => showSitMockSheet(c, game: _mock(), cost: cost),
+          (c) => showSitMockSheet(c, cost: cost),
           sheetOverridesWithBalance(v3Server(scenario: 'mock', billing: 'free'), balance: balance, nudges: nudges),
         );
 
@@ -168,7 +242,7 @@ void main() {
       bool? result;
       await openSheet(
         t,
-        (c) async => result = await showSitMockSheet(c, game: _mock(), cost: 50),
+        (c) async => result = await showSitMockSheet(c, cost: 50),
         sheetOverridesWithBalance(v3Server(scenario: 'mock', billing: 'free'), balance: 112, nudges: true),
       );
       await tapAt(t, keyLabel('Sit it for 50 credits'));
@@ -176,17 +250,30 @@ void main() {
       expect(find.text('Sit the full mock'), findsNothing);
     });
 
-    testWidgets('short of credits: it says so, and Pro is the key to press', (t) async {
+    testWidgets('short of credits: the shortfall, Pro first and Add credits beside it, no sit key', (t) async {
       await openSit(t, balance: 12, nudges: true);
-      expect(find.text('You need 50 credits to sit it and have 12.'), findsOneWidget);
+      expect(find.text('It costs 50 credits and you have 12, so you need 38 more.'), findsOneWidget);
       expect(keyLabel('Sit it for 50 credits'), findsNothing);
       expect(keyLabel('See Pro plans'), findsOneWidget);
+      expect(keyLabel('Add credits'), findsOneWidget);
     });
 
-    testWidgets('short of credits with the Pro nudges off: the sit key stays, quiet, with the reason', (t) async {
+    testWidgets('short of credits with the Pro nudges off: Add credits is the one key', (t) async {
       await openSit(t, balance: 12, nudges: false);
-      expect(t.widget<KeyButton>(keyLabel('Sit it for 50 credits')).onPressed, isNull);
+      expect(keyLabel('Add credits'), findsOneWidget);
       expect(keyLabel('See Pro plans'), findsNothing);
+      expect(keyLabel('Sit it for 50 credits'), findsNothing);
+    });
+
+    testWidgets('the server refused (MOCK_CREDITS) though the balance here looked enough: short, nothing charged', (t) async {
+      await openSheet(
+        t,
+        (c) => showSitMockSheet(c, cost: 50, refused: true),
+        sheetOverridesWithBalance(v3Server(scenario: 'mock', billing: 'free'), balance: 112, nudges: true),
+      );
+      expect(find.text('It costs 50 credits and you have fewer than that. Nothing was charged.'), findsOneWidget);
+      expect(keyLabel('Sit it for 50 credits'), findsNothing);
+      expect(keyLabel('Add credits'), findsOneWidget);
     });
 
     testWidgets('an unknown balance still names the price', (t) async {
@@ -216,12 +303,18 @@ void main() {
   test('the copy is plain: no exclamation mark, no emoji, no hype', () {
     final lines = [
       MobV3Copy.mockPro(50),
+      MobV3Copy.mockPro(null),
       MobV3Copy.mockProRow(50),
+      MobV3Copy.mockProRow(null),
       MobV3Copy.mockAllowance(50),
+      MobV3Copy.errors['MOCK_PRO_REQUIRED']!,
+      MobV3Copy.errors['MOCK_CREDITS']!,
+      MobV3Copy.addCredits,
       MobV3Copy.sitMockTitle,
       MobV3Copy.sitMockCost(50, 112),
       MobV3Copy.sitMockKey(50),
       MobV3Copy.sitMockShort(50, 12),
+      MobV3Copy.sitMockShort(50, null),
       MobV3Copy.sitMockPro,
       MobV3Copy.sitMockOnce,
       ...MobV3Copy.freeListFor(mocks: true),

@@ -169,11 +169,11 @@ class MobV3FakeServer implements MobV3Api {
   final Set<String> _seen = {};
   bool _freeStartUsed = false;
 
-  /// The fixture student's practice credits, for the Full mock together price (D174, D175): a Free member pays
-  /// [mockSitCredits] to sit a mock a friend started; Pro and billing off sit free. The tests may set it.
+  /// The fixture student's practice credits, for the Full mock together price (D174, D175; APP-API-CONTRACT 2.12):
+  /// a Free member pays [mockSitCredits] when the paper starts, Pro pays nothing, billing on or off. Tests may set it.
   int credits = 112;
   static const int mockSitCredits = 50;
-  bool get _mockCostsYou => billing != 'off' && billing != 'pro';
+  bool get _isPro => billing == 'pro';
   int _micsHeld = 0;
   int _micsToGive = 2;
   int _ids = 0;
@@ -404,21 +404,19 @@ class MobV3FakeServer implements MobV3Api {
   Json _startsJson(_Mob mob) {
     final liveModes = ['async', if (liveOn) 'live'];
     final base = _startsBase(liveModes);
-    // D167: races for everyone who may start; Full mock together for Pro (and for everyone while billing is off).
+    // D167: races for everyone who may start; Full mock together for Pro only, billing on or off (D174).
     final can = base['can'] == true;
-    final via = base['via'];
     return {
       ...base,
       'formats': [
         ...(base['formats'] as List),
         if (can) 'race',
-        if (can && (via == 'pro' || via == 'open')) 'mock',
+        if (can && _isPro) 'mock',
       ],
       // Shown and locked: a mock for Free; every new format while the start is used (so they stay drawn).
-      if (can && (via == 'free_weekly' || via == 'mic')) 'locked': ['mock'] else if (!can) 'locked': ['race', 'mock'],
-      // The contract the app assumes for the Full mock together price (web/1020-mob-fulltogether-price): what this
-      // student pays to sit a mock a friend started (0 for Pro), and that starting one is Pro only.
-      if (billing != 'off') 'mock': {'pro_required_to_start': billing != 'pro', 'cost_credits': _mockCostsYou ? mockSitCredits : 0},
+      if (!can) 'locked': ['race', 'mock'] else if (!_isPro) 'locked': ['mock'] else 'locked': <String>[],
+      // Full mock together's price (APP-API-CONTRACT 2.12): present while the formats are on.
+      'mock': {'costCredits': _isPro ? 0 : mockSitCredits, 'sitCredits': mockSitCredits, 'proRequiredToStart': true, 'canStart': _isPro, 'proSitsFree': true},
     };
   }
 
@@ -455,8 +453,8 @@ class MobV3FakeServer implements MobV3Api {
       'yourRun': yourRun == null ? 'none' : (yourRun.finished ? 'finished' : 'playing'),
       'podiumReady': (yourRun?.finished ?? false) || g.closedAt(now),
       'minutes': g.minutes,
-      // A full mock a Free member has not begun costs credits to sit; nothing once begun, for Pro or the host.
-      if (g.mock) 'cost_credits': _mockCostsYou && yourRun == null && g.hostId != you.id ? mockSitCredits : 0,
+      // A full mock a Free member has not begun costs credits to sit; nothing once begun, or for Pro.
+      if (g.mock) 'price': {'costCredits': !_isPro && yourRun == null ? mockSitCredits : 0, 'sitCredits': mockSitCredits, 'proSitsFree': true},
     };
   }
 
@@ -817,6 +815,7 @@ class MobV3FakeServer implements MobV3Api {
     if (format == GameFormat.race || format == GameFormat.mock) {
       final s = _startsJson(m);
       if (s['can'] != true) throw _err('START_USED', 409);
+      if (format == GameFormat.mock && !_isPro) throw _err('MOCK_PRO_REQUIRED', 403);
       if ((s['locked'] as List?)?.contains(format.name) ?? false) throw _err('START_PRO', 402);
       return _openTimed(m, format, mode, minutes ?? 60, chapter);
     }
@@ -879,9 +878,9 @@ class MobV3FakeServer implements MobV3Api {
     if (g.closedAt(now)) throw _err('GAME_CLOSED', 410);
     final me = r.mob.you.id;
     if (g.runs[me]?.finished ?? false) throw _err('RUN_DONE', 409);
-    // Pay once, when the paper is first started (D174, D175); the host (Pro) and Pro sit free.
-    if (g.runs[me] == null && _mockCostsYou && g.hostId != me) {
-      if (credits < mockSitCredits) throw _err('CREDITS', 402);
+    // Pay once, when the paper is first started (D174, D175); Pro sits free.
+    if (g.runs[me] == null && !_isPro) {
+      if (credits < mockSitCredits) throw _err('MOCK_CREDITS', 402);
       credits -= mockSitCredits;
     }
     g.runs[me] = _Run(now, now.add(const Duration(minutes: 60)))

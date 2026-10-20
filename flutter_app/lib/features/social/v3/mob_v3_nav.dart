@@ -36,11 +36,18 @@ abstract final class MobV3Nav {
       final starts = ProviderScope.containerOf(context, listen: false).read(denViewProvider)?.v3.starts;
       final cost = starts == null ? 0 : mockSitCost(g, starts);
       if (cost > 0) {
-        final go = await showSitMockSheet(context, game: g, cost: cost);
+        final go = await showSitMockSheet(context, cost: cost);
         if (!go || !context.mounted) return;
       }
       final failed = await sitMobMock(context, g.id);
-      if (failed != null) messenger?.showSnackBar(SnackBar(content: Text(failed), behavior: SnackBarBehavior.floating));
+      // The server refused for want of credits (nothing charged): the same sheet again, short, with Pro and credits
+      // (only when a price is known; otherwise its own sentence says it).
+      final price = cost > 0 ? cost : (starts?.freeMockPrice ?? 0);
+      if (failed != null && failed.short && price > 0 && context.mounted) {
+        await showSitMockSheet(context, cost: price, refused: true);
+        return;
+      }
+      if (failed != null) messenger?.showSnackBar(SnackBar(content: Text(failed.message), behavior: SnackBarBehavior.floating));
       return;
     }
     if (g.mode == GameMode.live && g.room?.state == RoomState.lobby) return room(context, g.id);
