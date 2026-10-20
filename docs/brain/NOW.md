@@ -80,8 +80,8 @@ His words today: OWNER-FEEDBACK-2026-10-19.md from "Owner, 20 Oct about 12:05 pm
 - ui/1020-v14-polish 44073e9f (wt-1020-v14-polish): K1 Day mode, K3 You plan strip (credits + Upgrade to Pro), K4 Pro table, K6 Wallet; done, tests green. MUST change: remove "your first in each subject is free" copy (D175).
 - ui/1020-finish-reveal 0942a34e (wt-1020-finish-reveal): K7 mark-sheet reveal on every paper; done, 7,138 tests. Remove any first-free wording.
 - ui/1020-referrals ed2a8b93 (wt-1020-referrals-app): D165 app side; done.
-- ui/1020-mob-explainer b22b0f24 (wt-1020-mob-explainer): D166/K9 explainer + one-question setup; builder may still be finishing (check its report).
-- ui/1020-mob-formats 9dab074d + 8 uncommitted (wt-1020-mob-formats-app): race, Full mock together, live client in the one Start a game sheet; builder still running at handoff: STOP POINT if stopped.
+- ui/1020-mob-explainer 1a7a622c (wt-1020-mob-explainer): D166/K9 explainer + one-question setup; builder STOPPED at 3:45 pm (usage 90%) just before its demo-mode emulator walk; code, tests and walk fixes 1-2 committed. Left: the demo walk of the explainer and setup, then merge.
+- ui/1020-mob-formats d1d2c095 = STOP POINT (wt-1020-mob-formats-app; 12 files were uncommitted): race, Full mock together and the live client in the one Start a game sheet; stopped at 3:45 pm while writing the race goldens and frame strips. Review the STOP POINT diff, finish the goldens and frame strips, full unit, then merge.
 - ui/1020-mob-live 99f5fde0 STOP POINT (merged into mob-formats as its live base); ui/1020-small-fixes ba19dbbb; ui/1020-paper-hold 422811e1.
 
 **DECISIONS WAITING / OPEN:**
@@ -92,3 +92,5 @@ His words today: OWNER-FEEDBACK-2026-10-19.md from "Owner, 20 Oct about 12:05 pm
 
 **NEXT (in order):** (1) Supabase egress plan above. (2) Version 15: merge v14-polish, finish-reveal, referrals, explainer, mob-formats (+ small-fixes, paper-hold) into a v15 branch; remove first-free copy; build Mob V4; full analyze + unit + touched goldens; demo-mode walk only (NO staging); signed build to Desktop\MockMob-build-15. (3) Enforce the Full mock together pricing on the server, then MOB_FORMATS_ENABLED=true. (4) Live rooms after his Realtime click.
 - **Supabase update (3:35 pm):** his Billing page shows the overage was in the PREVIOUS cycle and the last invoice is 21 Sep, so the cycle resets on the 21st: the quota refills 21 Oct, before the grace ends 22 Oct. Most likely no outage and no payment. BUT no second grace: the cycle 21 Oct-21 Nov must stay under 5 GB egress (~160 MB/day). He is confirming the "Upcoming invoice" date and sending the per-project egress split.
+
+- **All agents STOPPED at 3:45 pm (usage 90%).** Leftover Dart processes and the emulator were killed; the emulator lock was removed. Web explainer branch web/1020-mob-explainer c4546a70 is already merged and live.
