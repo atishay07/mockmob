@@ -18,7 +18,8 @@
 // Either way the subject's pool is cached in memory for NTA_POOL_CACHE_MS.
 import { assembleNtaPaper, getNtaBlueprint, NTA_TIME_BUDGET_MS } from './nta_engine.js';
 import { ntaAgentAdmissibleIds } from './nta_agent_scores.js';
-import { builtAtOfRows, ntaIndexFreshness } from './nta_index_freshness.js';
+import { builtAtOfRows, ntaIndexBuiltAt, ntaIndexFreshness } from './nta_index_freshness.js';
+import { subjectCount, subjectToken, tokenUnchanged } from './subject_token.js';
 import { readAttemptQuestionIds } from './attempt_question_ids.js';
 
 // Columns the engine, the hard gates and the session snapshot (questionOut in data/db.js) read.
@@ -34,6 +35,10 @@ export const NTA_SLIM_COLUMNS = SLIM_COLUMNS.join(',');
 export const NTA_POOL_COLUMNS = [...SLIM_COLUMNS, 'evidence', 'provenance'].join(',');
 export const NTA_INDEX_COLUMNS = 'question_id,subject,score,luna,gemini,content_hash,family_id,objective_tag,index_version,verified_at,signature';
 export const NTA_POOL_CACHE_MS = 5 * 60 * 1000;
+// An index-path pool older than the five minutes is reused, not read again, while nothing it reads has changed (egress F13): no question of
+// the subject written, added or removed since it was read, and the same index build. A pool older than an hour is read again whatever the
+// check says (the passage groups carry no stamp), as is any pool that did not come from a current index.
+export const NTA_POOL_REVALIDATE_MAX_MS = 60 * 60 * 1000;
 
 const MISSING_TABLE = new Set(['42P01', 'PGRST205']);
 const PAGE = 1000;
@@ -162,9 +167,21 @@ export async function loadNtaPool(db, subject, { signal, source = 'auto', agentS
 async function cachedPool(db, subject, { signal, cache = true, source, agentScores } = {}) {
   const hit = cache ? poolCache.get(subject) : null;
   if (hit && Date.now() - hit.at < NTA_POOL_CACHE_MS) return { rows: hit.rows, source: hit.source, indexStale: hit.indexStale, cached: true };
+  if (hit && hit.source === 'index' && !hit.indexStale && Number.isInteger(hit.count) && hit.builtAt !== null && hit.builtAt !== undefined && Date.now() - hit.readAt < NTA_POOL_REVALIDATE_MAX_MS) {
+    try {
+      const [token, built] = await Promise.all([subjectToken(db, subject, hit.readAt), ntaIndexBuiltAt(db, subject, { signal })]);
+      if (tokenUnchanged(token, hit) && built.builtAt === hit.builtAt) { hit.at = Date.now(); return { rows: hit.rows, source: hit.source, indexStale: hit.indexStale, cached: true }; }
+    } catch (error) { if (signal?.aborted) throw error; /* read it again */ }
+  }
+  // Taken before the read, so whatever arrives or changes while the pool is read shows next time.
+  const readAt = Date.now();
+  let count = null; let builtAt = null;
+  if (cache) {
+    try { [count, builtAt] = await Promise.all([subjectCount(db, subject), ntaIndexBuiltAt(db, subject, { signal }).then((r) => r.builtAt)]); } catch (error) { if (signal?.aborted) throw error; count = null; builtAt = null; }
+  }
   const pool = await loadNtaPool(db, subject, { signal, source, agentScores });
   const rows = await attachPassages(db, pool, { signal });
-  if (cache) poolCache.set(subject, { at: Date.now(), rows, source: pool.source, indexStale: pool.indexStale });
+  if (cache) poolCache.set(subject, { at: Date.now(), readAt, count, builtAt, rows, source: pool.source, indexStale: pool.indexStale });
   return { rows, source: pool.source, indexStale: pool.indexStale, cached: false };
 }
 

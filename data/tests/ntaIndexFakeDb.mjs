@@ -19,11 +19,13 @@ export function fakeDb(tables, { missing = [], failOn = null } = {}) {
     let max = null;
     let op = 'select';
     let payload = null;
+    let head = false;
     const query = {
-      select(value) { if (op === 'select') { columns = value; calls.push(['select', table, value]); } return query; },
+      select(value, options) { if (op === 'select') { columns = value; head = options?.head === true; calls.push(['select', table, value, ...(head ? ['head'] : [])]); } return query; },
       eq(column, value) { filters.push((row) => row[column] === value); return query; },
       is(column, value) { filters.push((row) => (row[column] ?? null) === value); return query; },
       gt(column, value) { filters.push((row) => Number(row[column]) > value); return query; },
+      gte(column, value) { filters.push((row) => (typeof value === 'string' ? String(row[column] ?? '') >= value : Number(row[column]) >= value)); return query; },
       in(column, values) { filters.push((row) => values.includes(row[column])); return query; },
       or() { filters.push((row) => row.evidence != null || Number(row.quality_score) > 0); return query; },
       order(column, { ascending = true, nullsFirst } = {}) { order = { column, ascending, nullsFirst }; return query; },
@@ -49,6 +51,7 @@ export function fakeDb(tables, { missing = [], failOn = null } = {}) {
           return Promise.resolve({ data: null, error: null }).then(resolve, reject);
         }
         let data = tables[table].filter((row) => filters.every((filter) => filter(row)));
+        if (head) return Promise.resolve({ data: null, count: data.length, error: null }).then(resolve, reject);
         if (order) {
           const { column, ascending } = order;
           // Nulls last either way, as nullsFirst:false asks.
