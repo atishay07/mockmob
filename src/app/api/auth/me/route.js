@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { authWithStatus } from '@/lib/auth';
 import { Database } from '@/../data/db';
 import { getUnifiedWallet } from '@/services/credits/unifiedWallet';
+import { pendingDeletionAt } from '@/lib/server/pendingDeletion.mjs';
+import { supabaseAdmin } from '@/lib/supabase';
 import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
 import {
   failRequestDiagnostics,
@@ -60,6 +62,9 @@ export async function GET(request) {
     const credits = await getUnifiedWallet(dbUser).catch(() => null);
     // A Google Play subscription (monthly Pro bought in the app): its renewal is managed in Google Play, not here.
     const playSubscription = await Database.getPlaySubscription(dbUser.id).catch(() => null);
+    // A deletion the student asked for and we have not processed yet (app v16, A2): the account keeps working until then, and
+    // the app says so instead of leaving odd credits unexplained.
+    const deletionRequestedAt = await pendingDeletionAt(dbUser.id, supabaseAdmin());
     const user = {
       id: dbUser.id,
       name: dbUser.name || '',
@@ -76,6 +81,7 @@ export async function GET(request) {
       premiumUntil: dbUser.premiumUntil || null,
       razorpaySubscriptionId: dbUser.razorpaySubscriptionId || null,
       playSubscription: playSubscription || null,
+      deletionRequestedAt,
     };
 
     return jsonWithDiagnostics(diagnostics, {
