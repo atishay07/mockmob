@@ -5,7 +5,8 @@
 //
 // MOB_V3_FIXTURES=true (debug and walk builds only) answers every Mob call from the in-app fixture
 // server (`data/mob_v3_fake_server.dart`), so the whole loop runs before the real server lands.
-// MOB_V3_SCENARIO picks the fixture account: fresh, one, quiet, open, played, live, heavy (default).
+// MOB_V3_SCENARIO picks the fixture account: fresh, one, quiet, open, played, live, heavy (default); the D167
+// formats: race, raced, liverace, mock, mockdone, and formats (an open race and full mock, live on: the walk).
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

@@ -783,7 +783,7 @@ class _RulerPainter extends CustomPainter {
     final top = open ? geo.scale.floor() : count;
     final show = <int>{
       for (var i = 1; i <= top; i++)
-        if ((!open && count <= 10) || i == 1 || (!open && i == count) || i % 5 == 0 || (i <= answered + 1 && i >= answered)) i,
+        if (top <= 10 || i == 1 || (!open && i == count) || i % 5 == 0 || (i <= answered + 1 && i >= answered)) i,
     };
     for (final i in show) {
       final cx = geo.numberX(i);

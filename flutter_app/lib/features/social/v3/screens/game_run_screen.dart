@@ -1047,7 +1047,9 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     // Live: the room's game view is there from the lobby, before the run is asked for at Go.
     final title = _game?.title ?? _live?.game?.title ?? '';
     final live = _live;
-    final sub = live != null ? MobV3Copy.liveInRoom(_liveRacerIds().length + 1) : (_rs == null ? null : MobV3Copy.runsToRace(_rs!.ghosts.length));
+    // A race's 3, 2, 1 plays before its run arrives: the runs to race come from the game view.
+    final ghosts = _rs?.ghosts.length ?? (_raceFirst ? _game?.ghosts.length : null);
+    final sub = live != null ? MobV3Copy.liveInRoom(_liveRacerIds().length + 1) : (ghosts == null ? null : MobV3Copy.runsToRace(ghosts));
     // A race's stopwatch counts its minutes down; every other run counts up.
     final race = _race;
     final clock = race ? MobTime.stopwatch(_rs == null ? Duration(minutes: _minutes) : _left) : MobTime.stopwatch(Duration(milliseconds: _rs == null ? 0 : _elapsedMs));
@@ -1661,7 +1663,15 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
           children: [
             Expanded(flex: 2, child: KeyButton.secondary(key: const ValueKey('run-key-skip'), label: MobV3Copy.skip, onPressed: null)),
             const SizedBox(width: MmSpace.s12),
-            Expanded(flex: 3, child: KeyButton(key: const ValueKey('run-key-lock'), label: MobV3Copy.pickAnAnswer, onPressed: null)),
+            // What you just did stays on the key, quiet, until the next question comes in.
+            Expanded(
+              flex: 3,
+              child: KeyButton(
+                key: const ValueKey('run-key-lock'),
+                label: (_sentPick ?? -1) >= 0 ? MobV3Copy.lockIn(_letters[_sentPick!.clamp(0, _letters.length - 1)]) : MobV3Copy.skip,
+                onPressed: null,
+              ),
+            ),
           ],
         ),
       );

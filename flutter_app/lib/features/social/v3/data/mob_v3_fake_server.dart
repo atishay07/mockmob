@@ -138,7 +138,7 @@ class _Mob {
 class MobV3FakeServer implements MobV3Api {
   MobV3FakeServer({this.scenario = 'heavy', this.billing = 'off', DateTime Function()? clock, bool? live})
       : _clock = clock ?? (() => DateTime.now().toUtc()),
-        liveOn = live ?? scenario == 'live' {
+        liveOn = live ?? (scenario == 'live' || scenario == 'liverace' || scenario == 'formats') {
     _seed();
   }
 
@@ -268,7 +268,7 @@ class MobV3FakeServer implements MobV3Api {
       _bake(g, 'AARAV0000001', [true, true, null, false, true], [39000, 77000, 118000, 151000, 190000], const Duration(hours: 9), trapPicks: {3: 1});
       mob.games.add(g);
     }
-    if (scenario == 'race' || scenario == 'liverace' || scenario == 'raced') {
+    if (scenario == 'race' || scenario == 'liverace' || scenario == 'raced' || scenario == 'formats') {
       // Kabir's 5-minute race: Riya and Kabir raced it; you have not (D167). 'liverace': a room Kabir just opened.
       final live = scenario == 'liverace';
       final g = _Game(
@@ -297,7 +297,7 @@ class MobV3FakeServer implements MobV3Api {
       }
       mob.games.add(g);
     }
-    if (scenario == 'mock' || scenario == 'mockdone') {
+    if (scenario == 'mock' || scenario == 'mockdone' || scenario == 'formats') {
       // Riya's Full mock together: Riya and Kabir sat it ('mockdone': you did too).
       final g = _Game(id: 'game-riya-mock', format: GameFormat.mock, count: 50, minutes: 60, chapter: null, hostId: 'RIYA00000002', openedAt: t.subtract(const Duration(hours: 5)), questions: const []);
       _bakeMock(g, 'RIYA00000002', [(14, 4, 2), (7, 2, 1), (8, 1, 1), (6, 3, 1)], const Duration(minutes: 54, seconds: 12), const Duration(minutes: 20));
