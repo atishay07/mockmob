@@ -885,3 +885,13 @@ Billing page: "Your grace period has started. Your organization went over its qu
 > Goal tonight: app version 15, all Mob modes, Mob V4 and the verified fixes merged, signed, walked in demo mode on the emulator in Night and Day, free of known bugs, in C:\Users\atish\Desktop\MockMob-build-15, so I can send it to Play closed-testing review tonight. Website release after the app.
 >
 > Quality first, then speed: this is the final build for testers. No walks, seeds or tests against Supabase staging or production (demo mode and local tests only). Check the time with `date`, record my words verbatim with real clock times, and end every update with "Things needed from you right now:" or "Nothing needed from your side"."
+
+## Owner, 20 Oct about 7:20 pm IST (verbatim, after seeing the Full mock sit sheet and the four "For you" lobby states in tmp/review-1020/sheets/lobby.png)
+> "On the screen I was seeing, what you have built, set the full mock one.
+>
+> 1. It should be "Subscribe to Pro" or "Get Pro", not "C Pro Plan". There is only one plan.
+> 2. Overall, the screen and all four screens for four different things that you have built look very basic. Try to make them better and more aligned with the app.
+> 3. In any screen, as I have mentioned many times previously, there should not be too much bombardment with text, like this text, big text, small text, bold text, and text inside a card. So just fully text-based
+>
+> so that should not be the case. There should be good UI/UX everywhere. Not like this."
+**Ledger D185:** the Pro key says "Get Pro" everywhere (one plan; never "See Pro plans"). The Full mock sit sheet (enough, short, refused) is redesigned: visual first (the paper's facts as figures, the price as one figure with the balance), one primary key, at most one short line of text per idea, no text boxes inside cards, no mix of big/small/bold paragraphs. Applies to every screen: no text bombardment.
