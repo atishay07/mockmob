@@ -48,7 +48,7 @@ html[data-theme='dark'] .mm-pro {
   --pro-plan-line: #3a3a2a;
 }
 
-.mm-pro .pro-wrap { width: min(100% - 2rem, 75rem); margin-inline: auto; }
+.mm-pro .pro-wrap { width: 100%; max-width: 1200px; margin-inline: auto; padding-inline: max(var(--gutter, 1rem), env(safe-area-inset-left)); }
 .mm-pro .pro-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .mm-pro .pro-sec { padding-block: 2.5rem; }
 .mm-pro .pro-h2 {
