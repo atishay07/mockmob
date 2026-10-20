@@ -163,5 +163,8 @@
         <intent>
             <action android:name="android.support.customtabs.action.CustomTabsService" />
         </intent>
+        <!-- play_install_referrer: reads the invite a friend's link left in the Play install referrer (the Play Store app
+             must be visible to bind to its referrer service on Android 11 and later). -->
+        <package android:name="com.android.vending" />
     </queries>
 </manifest>
