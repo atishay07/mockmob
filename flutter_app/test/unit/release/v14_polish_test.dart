@@ -27,6 +27,7 @@ import '../../helpers/golden_harness.dart';
 import '../billing/billing_test_support.dart';
 import '../wallet/wallet_test_support.dart';
 import '../you/you_test_support.dart';
+import '../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
 
 Future<void> _settle(WidgetTester tester) async {
   for (var i = 0; i < 6; i++) {
@@ -36,6 +37,9 @@ Future<void> _settle(WidgetTester tester) async {
 }
 
 void main() {
+  // The app's own fonts, so widths and line heights are the phone's (the test font is wider and would report
+  // overflows a phone never shows).
+  setUpGoldenFonts();
   tearDown(disposeContainers);
 
   group('the words', () {
@@ -153,6 +157,10 @@ void main() {
       await tester.tap(find.text(YouCopy.stripUpgrade));
       await _settle(tester);
       expect(find.byType(ProPage), findsOneWidget);
+      // The Pro page's light sweep runs on a timer: let it finish before the tree goes.
+      await tester.pump(const Duration(seconds: 5));
+      await tester.pumpWidget(const SizedBox());
+      await tester.pump(const Duration(seconds: 5));
     });
 
     testWidgets('the credits half opens the Wallet', (tester) async {
