@@ -27,9 +27,12 @@ class MobPaperStarted extends MobPaperOutcome {
 }
 
 class MobPaperFailed extends MobPaperOutcome {
-  const MobPaperFailed(this.failure);
+  const MobPaperFailed(this.failure, {this.cause});
 
   final MobFailure failure;
+
+  /// The server's error, when there was one (a Mob v3 game reads its own sentence from the code).
+  final Object? cause;
 }
 
 /// The key of a Mob paper's draft on the phone: one row per Mob and week (or extra paper), so it
@@ -52,15 +55,18 @@ class MobPaperLauncher {
 
   final Map<String, Future<MobPaperOutcome>> _inFlight = {};
 
-  Future<MobPaperOutcome> start(Mob mob, {MobExtra? extra}) {
-    final key = mobPaperDraftKey(userId: userId(), mobId: mob.id, paperKey: extra?.id ?? mob.week.key);
+  /// [gameId]: Full mock together (D167), the Mob v3 game whose paper this is. The server answers with a
+  /// full mock session (mode `full`, 50 questions, 60 minutes, no credits), so the app's own mock runner and
+  /// mark-sheet reveal take it.
+  Future<MobPaperOutcome> start(Mob mob, {MobExtra? extra, String? gameId}) {
+    final key = mobPaperDraftKey(userId: userId(), mobId: mob.id, paperKey: gameId == null ? (extra?.id ?? mob.week.key) : 'game:$gameId');
     // A second tap while a start is running joins the first.
-    return _inFlight[key] ??= _start(mob, extra, key).whenComplete(() {
+    return _inFlight[key] ??= _start(mob, extra, key, gameId).whenComplete(() {
       _inFlight.remove(key);
     });
   }
 
-  Future<MobPaperOutcome> _start(Mob mob, MobExtra? extra, String key) async {
+  Future<MobPaperOutcome> _start(Mob mob, MobExtra? extra, String key, String? gameId) async {
     try {
       // The paper is already on this phone and still open: carry on where it was.
       final saved = await drafts.byKey(key);
@@ -71,12 +77,12 @@ class MobPaperLauncher {
       try {
         final response = await api.post(
           '/api/mob/paper/start',
-          body: {'mob': mob.id, 'extra': ?extra?.id},
+          body: {'mob': mob.id, 'extra': ?extra?.id, 'game': ?gameId},
           options: const ApiOptions(retries: 0, receiveTimeout: Duration(seconds: 60)),
         );
         view = SessionView.fromJson(response.map);
       } on ApiError catch (e) {
-        return MobPaperFailed(mobFailureFor(e));
+        return MobPaperFailed(mobFailureFor(e), cause: e);
       }
       final id = view.meta.sessionId.isNotEmpty ? view.meta.sessionId : view.id;
       // A paper with no deadline after the server's own clock would anchor the timer at zero and
@@ -90,7 +96,8 @@ class MobPaperLauncher {
           StartSessionArgs(
             view: view,
             subject: mob.subject,
-            mode: 'quick',
+            // A Mob full mock runs as the full mock it is; every other Mob paper is a quick set.
+            mode: gameId != null && (view.meta.mode == 'full' || view.meta.mode == 'nta') ? view.meta.mode! : 'quick',
             count: view.questions.length,
             generationKey: await drafts.generationKeyFor(key),
             draftKey: key,

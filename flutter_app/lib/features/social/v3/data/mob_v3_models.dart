@@ -379,6 +379,7 @@ class StartRight {
     this.micsToGive,
     this.reason,
     this.micFrom,
+    this.locked = const [],
   });
 
   factory StartRight.fromJson(Json j) => StartRight(
@@ -392,7 +393,18 @@ class StartRight {
         micsToGive: asInt(j['micsToGive']),
         reason: asString(j['reason']),
         micFrom: j['micFrom'] is Map ? asString(asJson(j['micFrom'])['name']) : asString(j['micFrom']),
+        locked: [for (final f in asStringList(j['locked'])) GameFormat.parse(f)],
       );
+
+  /// Formats this student sees but may not start (Full mock together for Free while billing is on).
+  final List<GameFormat> locked;
+
+  /// D167: a format shows when the server offers it or names it as locked; sprints and rounds always show
+  /// (an older server knows only those).
+  bool shows(GameFormat f) => f == GameFormat.sprint || f == GameFormat.round || formats.contains(f) || locked.contains(f);
+
+  /// The student may start [f] now.
+  bool allows(GameFormat f) => can && !locked.contains(f) && (f == GameFormat.sprint || f == GameFormat.round || formats.contains(f));
 
   final bool billingOn;
   final bool can;

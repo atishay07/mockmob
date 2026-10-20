@@ -403,7 +403,8 @@ class MobV3FakeServer implements MobV3Api {
         if (can) 'race',
         if (can && (via == 'pro' || via == 'open')) 'mock',
       ],
-      if (can && (via == 'free_weekly' || via == 'mic')) 'locked': ['mock'],
+      // Shown and locked: a mock for Free; every new format while the start is used (so they stay drawn).
+      if (can && (via == 'free_weekly' || via == 'mic')) 'locked': ['mock'] else if (!can) 'locked': ['race', 'mock'],
     };
   }
 

@@ -1,10 +1,14 @@
 // P1 Play picker (spec 5.3, Arena S5 plus Live 05's "Open now"). "Play with your Mob": what is open now (a row
 // for each open game and the weekly paper) and "Start a game" by what the server says this student may do.
 //
+// D167, K9: "Start a game" shows every way the Mob plays as four tiles (Sprint, Race, Your own round, Full mock
+// together, widgets/format_tiles.dart) and one line on live and 24 hours. Live is not a tile of its own: it is
+// the start sheet's Live or Anytime choice.
+//
 // Plan words appear only when billing is on (`v3.starts.billingOn`): with it off there are no sections about
 // plans, no lock and no "Pro", only "Anyone in your Mob can start a game." With it on, a start left, a start
-// used (the tiles stay drawn, locked, with the reason above them), a mic passed to you, or Pro. A Live tile
-// shows only when `v3.live.enabled`. No price anywhere. "What Pro adds" shows only when the Pro nudges are on.
+// used (the tiles stay drawn, locked, with the reason above them), a mic passed to you, or Pro. No price
+// anywhere. "What Pro adds" shows only when the Pro nudges are on.
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +25,7 @@ import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
+import 'format_tiles.dart';
 import 'free_pro_sheet.dart';
 import 'sheet_parts.dart';
 import 'start_game_sheet.dart';
@@ -77,8 +82,9 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
     }
   }
 
-  Future<void> _start(GameFormat format, int count, {GameMode mode = GameMode.async}) async {
-    final game = await showStartGame(context, prefill: StartGamePrefill(format: format, count: count, mode: mode));
+  Future<void> _start(GameFormat format) async {
+    final count = switch (format) { GameFormat.round => 10, GameFormat.mock => 50, _ => 5 };
+    final game = await showStartGame(context, prefill: StartGamePrefill(format: format, count: count));
     // A game was opened and its run is on screen: this sheet is no longer under anything the student needs.
     if (game != null && mounted) dropSheet(context);
   }
@@ -126,30 +132,7 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
       if (billing && !used && !mic && !pro) MobV3Copy.startsLeft(mobName, starts.freeLeft ?? 1),
       if (mic || micAlso) MobV3Copy.micPassed(starts.micFrom ?? MobV3Copy.aFriend),
     ];
-    final showLive = live.enabled;
-    final liveOpen = starts.can && starts.liveAllowed && live.hoursOk;
-    final lockedByUse = used;
-
-    Widget tile({required IconData icon, required String title, required String line, required bool ok, String? tag, VoidCallback? onTap}) =>
-        MobTile(icon: icon, title: title, line: lockedByUse ? MobV3Copy.usedThisWeek : line, locked: !ok, tag: ok ? null : tag, onTap: ok ? onTap : null);
-
-    final tiles = <Widget>[
-      tile(icon: LucideIcons.send, title: MobV3Copy.sprint, line: MobV3Copy.sprintSub, ok: starts.can, onTap: () => _start(GameFormat.sprint, 5)),
-      tile(icon: LucideIcons.slidersHorizontal, title: MobV3Copy.ownRound, line: MobV3Copy.ownRoundSub, ok: starts.can, onTap: () => _start(GameFormat.round, 10)),
-    ];
-    final slim = <Widget>[
-      if (showLive)
-        MobTile(
-          wide: true,
-          icon: LucideIcons.radio,
-          title: MobV3Copy.live,
-          line: MobV3Copy.liveSub,
-          locked: !liveOpen,
-          tag: !liveOpen && billing && !starts.liveAllowed && starts.can ? MobV3Copy.proTag : null,
-          onTap: liveOpen ? () => _start(GameFormat.sprint, 5, mode: GameMode.live) : null,
-        ),
-      if (billing) const MobTile(wide: true, icon: LucideIcons.fileText, title: MobV3Copy.fullMock, line: MobV3Copy.fullMockSub, locked: true, tag: MobV3Copy.proTag),
-    ];
+    final lockedNote = widget.controller;
     return [
       if (sentences.isNotEmpty) ...[
         for (final line in sentences) ...[MobLine(line), const SizedBox(height: MmSpace.s4)],
@@ -161,33 +144,16 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
         const MobLine(MobV3Copy.anyoneWithPro),
         const SizedBox(height: MmSpace.s12),
       ],
-      _TileGrid(children: tiles),
-      for (final w in slim) ...[const SizedBox(height: MmSpace.s12), w],
+      FormatTiles(
+        starts: starts,
+        usedLine: used ? MobV3Copy.usedThisWeek : null,
+        onTap: _start,
+        // A locked full mock says why, once, under the keys.
+        onLockedTap: used ? null : (f) => lockedNote.update(() => lockedNote.note = f == GameFormat.mock ? MobV3Copy.mockPro : MobV3Copy.errors['START_PRO']),
+      ),
+      const SizedBox(height: MmSpace.s12),
+      MobLine(live.enabled ? MobV3Copy.waysLiveLine : MobV3Copy.waysLine),
     ];
-  }
-}
-
-/// Two tiles to a row, equal height, with a gap of 12.
-class _TileGrid extends StatelessWidget {
-  const _TileGrid({required this.children});
-
-  final List<Widget> children;
-
-  @override
-  Widget build(BuildContext context) {
-    final rows = <Widget>[];
-    for (var i = 0; i < children.length; i += 2) {
-      final a = children[i];
-      final b = i + 1 < children.length ? children[i + 1] : const SizedBox.shrink();
-      if (rows.isNotEmpty) rows.add(const SizedBox(height: MmSpace.s12));
-      rows.add(IntrinsicHeight(
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [Expanded(child: a), const SizedBox(width: MmSpace.s12), Expanded(child: b)],
-        ),
-      ));
-    }
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows);
   }
 }
 

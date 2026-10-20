@@ -1,7 +1,9 @@
-// P2 Start a game (spec 5.3, Arena S6). Pick Sprint (5 questions) or Your own round (10, 15 or 20), what it
-// covers (the chapter of your Mob's last trap, a chapter you choose, or the whole subject), how your Mob plays
-// it (Live now or Anytime in 24 hours, only when live is on) and start. On success the run opens at once
-// (this sheet does that; the caller does not), and the opened game is returned.
+// P2 Start a game (spec 5.3, Arena S6; D167). Pick Sprint (5 questions), Race (5 or 10 minutes, as many as you
+// can), Your own round (10, 15 or 20) or Full mock together (the subject's 50 questions in 60 minutes), what it
+// covers (the chapter of your Mob's last trap, a chapter you choose, or the whole subject; a full mock is always
+// the whole subject), how your Mob plays it (Live now or Anytime in 24 hours, only when live is on; a full mock
+// is always 24 hours) and start. On success the run opens at once (this sheet does that; the caller does not):
+// a live room opens in the den, a full mock in the app's mock runner. The opened game is returned.
 //
 // Errors are the server's sentences, inline under the key. LIVE_BUSY turns the sheet to anytime in 24 hours
 // with its sentence. The key under which "Everyone in <Mob> plays it free" stands is the screen's one volt.
@@ -15,20 +17,25 @@ import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../practice/widgets/chapter_picker.dart' show showChapterPicker;
 import '../copy_v3.dart';
+import '../data/mob_mock.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
+import 'format_tiles.dart';
 import 'mic_sheet.dart';
 import 'sheet_parts.dart';
 
 /// Prefill for a rematch or a picked tile.
 class StartGamePrefill {
-  const StartGamePrefill({this.format = GameFormat.sprint, this.count = 5, this.chapter, this.rematchOf, this.mode = GameMode.async});
+  const StartGamePrefill({this.format = GameFormat.sprint, this.count = 5, this.chapter, this.rematchOf, this.mode = GameMode.async, this.minutes});
   final GameFormat format;
   final int count;
   final String? chapter;
   final String? rematchOf;
   final GameMode mode;
+
+  /// A race's length (5 or 10).
+  final int? minutes;
 }
 
 /// Opens P2; returns the opened game, or null when the sheet was closed.
@@ -48,9 +55,20 @@ enum _Covers { trap, chosen, whole }
 
 class _StartController extends ChangeNotifier {
   _StartController(StartGamePrefill p, MobV3? v3) {
-    // A rematch or a picked length: 5 is the sprint, anything else the round.
-    tile = p.count == 5 && p.format != GameFormat.round ? GameFormat.sprint : GameFormat.round;
-    count = tile == GameFormat.sprint ? 5 : (const [10, 15, 20].contains(p.count) ? p.count : 10);
+    // A race or a mock keeps its format; otherwise a length of 5 is the sprint and anything else the round.
+    tile = switch (p.format) {
+      GameFormat.race || GameFormat.mock => p.format,
+      _ => p.count == 5 && p.format != GameFormat.round ? GameFormat.sprint : GameFormat.round,
+    };
+    // A format this student cannot start opens on one they can (a rematch of a full mock by a Free member).
+    final starts = v3?.starts;
+    if (starts != null && !starts.allows(tile) && starts.allows(GameFormat.sprint)) tile = GameFormat.sprint;
+    count = switch (tile) {
+      GameFormat.round => const [10, 15, 20].contains(p.count) ? p.count : 10,
+      GameFormat.mock => 50,
+      _ => 5,
+    };
+    minutes = p.minutes == 10 ? 10 : 5;
     trapChapter = v3?.lastTrapChapter;
     if (p.chapter != null) {
       chapter = p.chapter;
@@ -67,6 +85,9 @@ class _StartController extends ChangeNotifier {
 
   late GameFormat tile;
   late int count;
+
+  /// A race's length.
+  late int minutes;
   late _Covers covers;
   String? chapter;
   String? trapChapter;
@@ -104,49 +125,47 @@ class _StartBody extends ConsumerWidget {
       listenable: controller,
       builder: (context, _) {
         final c = controller;
+        final mock = c.tile == GameFormat.mock;
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(MobV3Copy.startSub(mobName, subject), style: type.small.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s16),
-            IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: MobTile(
-                      icon: LucideIcons.send,
-                      title: MobV3Copy.sprint,
-                      line: MobV3Copy.sprintSub,
-                      selected: c.tile == GameFormat.sprint,
-                      onTap: () => c.update(() {
-                        c.tile = GameFormat.sprint;
-                        c.count = 5;
-                        c.error = null;
-                      }),
-                    ),
-                  ),
-                  const SizedBox(width: MmSpace.s12),
-                  Expanded(
-                    child: MobTile(
-                      icon: LucideIcons.slidersHorizontal,
-                      title: MobV3Copy.ownRound,
-                      line: MobV3Copy.ownRoundSubStart,
-                      selected: c.tile == GameFormat.round,
-                      onTap: () => c.update(() {
-                        c.tile = GameFormat.round;
-                        if (c.count == 5) c.count = 10;
-                        c.error = null;
-                      }),
-                    ),
-                  ),
-                ],
-              ),
+            FormatTiles(
+              starts: starts,
+              selected: c.tile,
+              start: true,
+              onTap: (f) => c.update(() {
+                c.tile = f;
+                c.count = switch (f) { GameFormat.round => c.count == 5 || c.count == 50 ? 10 : c.count, GameFormat.mock => 50, _ => 5 };
+                // A full mock is always 24 hours.
+                if (f == GameFormat.mock) c.mode = GameMode.async;
+                c.error = null;
+                c.modeNote = null;
+              }),
+              onLockedTap: (f) => c.update(() => c.error = f == GameFormat.mock ? MobV3Copy.mockPro : MobV3Copy.errors['START_PRO']),
             ),
             if (c.tile == GameFormat.round) ...[
               const SizedBox(height: MmSpace.s12),
               _Stepper(count: c.count, onChanged: (n) => c.update(() => c.count = n)),
             ],
+            if (c.tile == GameFormat.race) ...[
+              MobSheetLabel(MobV3Copy.howLong, padding: const EdgeInsets.only(top: MmSpace.s24, bottom: MmSpace.s8)),
+              MmSegmented<int>(
+                key: const ValueKey('start-minutes'),
+                semanticsLabel: MobV3Copy.howLong,
+                showBubbles: false,
+                segments: [MmSegment(5, MobV3Copy.minutesLabel(5)), MmSegment(10, MobV3Copy.minutesLabel(10))],
+                value: c.minutes,
+                onChanged: (m) => c.update(() => c.minutes = m),
+              ),
+              const SizedBox(height: MmSpace.s8),
+              const MobLine(MobV3Copy.raceLineStart),
+            ],
+            if (mock) ...[
+              const SizedBox(height: MmSpace.s16),
+              MobLine(MobV3Copy.mockLineStart(subject), key: const ValueKey('start-mock-line')),
+            ] else ...[
             MobSheetLabel(MobV3Copy.whatItCovers, padding: const EdgeInsets.only(top: MmSpace.s24, bottom: MmSpace.s4)),
             _CoversRow(controller: c, subject: subject, subjectId: den.mob?.subject ?? ''),
             MobSheetLabel(MobV3Copy.howMobPlays, padding: const EdgeInsets.only(top: MmSpace.s24, bottom: MmSpace.s8)),
@@ -169,6 +188,7 @@ class _StartBody extends ConsumerWidget {
             if (c.modeNote != null) ...[
               const SizedBox(height: MmSpace.s4),
               MobLine(c.modeNote!),
+            ],
             ],
             if (starts.billingOn && starts.via == StartVia.pro && starts.micsToGive != null) ...[
               const SizedBox(height: MmSpace.s16),
@@ -314,13 +334,28 @@ class _StartKeys extends ConsumerWidget {
     });
     final actions = ref.read(mobV3ActionsProvider);
     try {
-      final format = prefill.rematchOf != null ? GameFormat.rematch : c.tile;
-      final game = await actions.openGame(format: format, mode: c.mode, count: c.count, chapter: c.chapter, rematchOf: prefill.rematchOf);
+      // A rematch of a sprint or round is a rematch; a race or a mock is opened again as itself.
+      final format = prefill.rematchOf != null && (c.tile == GameFormat.sprint || c.tile == GameFormat.round) ? GameFormat.rematch : c.tile;
+      final mock = c.tile == GameFormat.mock;
+      final game = await actions.openGame(
+        format: format,
+        mode: mock ? GameMode.async : c.mode,
+        count: c.count,
+        chapter: mock ? null : c.chapter,
+        rematchOf: format == GameFormat.rematch ? prefill.rematchOf : null,
+        minutes: c.tile == GameFormat.race ? c.minutes : null,
+      );
       c.update(() => c.busy = false);
       if (!context.mounted) return;
       // Open the run at once: this sheet leaves, the run rises over the den.
       final nav = Navigator.of(context, rootNavigator: true);
       nav.pop(game);
+      if (game.format == GameFormat.mock) {
+        // The full mock opens in the app's mock runner.
+        // ignore: use_build_context_synchronously
+        await sitMobMock(nav.context, game.id);
+        return;
+      }
       // The root navigator's own context outlives this sheet. A live game opens its lobby with the
       // go-live wash; an anytime one opens the run.
       if (game.mode == GameMode.live && game.room != null) {
@@ -364,12 +399,20 @@ class _StartKeys extends ConsumerWidget {
     final type = context.mmType;
     final v3 = den?.v3;
     final mobName = v3 == null || v3.name.text.isEmpty ? MobV3Copy.title : v3.name.text;
-    final can = v3?.starts.can ?? true;
+    final starts = v3?.starts;
     return ListenableBuilder(
       listenable: controller,
       builder: (context, _) {
         final c = controller;
-        final label = c.mode == GameMode.live ? MobV3Copy.openRoom : (c.tile == GameFormat.sprint ? MobV3Copy.startTheSprint : MobV3Copy.startTheRound);
+        final can = starts == null || starts.allows(c.tile);
+        final label = c.mode == GameMode.live && c.tile != GameFormat.mock
+            ? MobV3Copy.openRoom
+            : switch (c.tile) {
+                GameFormat.race => MobV3Copy.startTheRace,
+                GameFormat.mock => MobV3Copy.startTheMock,
+                GameFormat.sprint => MobV3Copy.startTheSprint,
+                _ => MobV3Copy.startTheRound,
+              };
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -378,7 +421,13 @@ class _StartKeys extends ConsumerWidget {
               Text(c.error!, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink)),
               const SizedBox(height: MmSpace.s8),
             ],
-            KeyButton(label: label, loading: c.busy, onPressed: can ? () => _start(context, ref) : null, disabledReason: can ? null : MobV3Copy.errors['START_USED']),
+            KeyButton(
+              key: const ValueKey('start-key'),
+              label: label,
+              loading: c.busy,
+              onPressed: can ? () => _start(context, ref) : null,
+              disabledReason: can ? null : (starts.can ? MobV3Copy.mockPro : MobV3Copy.errors['START_USED']),
+            ),
             const SizedBox(height: MmSpace.s8),
             Text(MobV3Copy.startUnder(mobName), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
           ],

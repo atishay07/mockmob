@@ -71,8 +71,8 @@ class MobV3Actions {
     await refresh();
   }
 
-  Future<MobGame> openGame({required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf}) async {
-    final g = await api.openGame(mob: mobId, format: format, mode: mode, count: count, chapter: chapter, rematchOf: rematchOf);
+  Future<MobGame> openGame({required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf, int? minutes}) async {
+    final g = await api.openGame(mob: mobId, format: format, mode: mode, count: count, chapter: chapter, rematchOf: rematchOf, minutes: minutes);
     await refresh();
     return g;
   }

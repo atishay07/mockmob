@@ -309,6 +309,7 @@ abstract final class MobV3Copy {
   /// K9: under the four ways to play, how each one can be played.
   static const String waysLiveLine = 'Sprints, races and rounds can be live now, on one 3, 2, 1, or open for 24 hours. A full mock is open for 24 hours.';
   static const String waysLine = 'Every game stays open for 24 hours. Friends who play later race the runs before them.';
+  static const String mockPro = 'Starting a full mock together is part of Pro. You can sit every full mock your Mob starts, free.';
 
   // ---- P2 Start a game ----
   static const String whatItCovers = 'What it covers';
