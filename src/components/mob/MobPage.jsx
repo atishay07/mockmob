@@ -38,6 +38,8 @@ import DenStart from './den/DenStart';
 import DenSkeleton from './den/DenSkeleton';
 import { readDenShape, rememberMobKind } from './den/denShape';
 import { DenSettingsRows } from './den/DenSheets';
+import { MobFlow } from './v3/explainer/MobFlow';
+import { EXPLAINER_COPY } from './v3/explainer/explainerModel.mjs';
 import './mob.css';
 
 const COLOUR_NAMES = ['Teal', 'Sky', 'Violet', 'Rose', 'Amber', 'Green', 'Coral', 'Slate'];
@@ -371,6 +373,7 @@ function InMob({ data, mob, user, warm = false }) {
   const [sbs, setSbs] = useState(null);
   const [opening, setOpening] = useState(null);
   const [cmpNotice, setCmpNotice] = useState(null);
+  const [replay, setReplay] = useState(false);
   const headingRef = useRef(null);
   const { week, you, members, nudge } = data;
   const alone = week.size === 1;
@@ -531,6 +534,12 @@ function InMob({ data, mob, user, warm = false }) {
         <h2 id="mob-settings-h" className="mob-h2" tabIndex={-1} ref={settingsRef}>{v3 ? 'Mob settings' : 'Settings'}</h2>
         <div className="mob-settings">
           {v3 ? <DenSettingsRows data={data} v3={v3} run={run} busy={mob.busy} mobName={v3.name?.text || data.subjectName} onNotice={setNotice} /> : null}
+          {/* D166: the explainer again, from the den. Never during a run, over a moment or as a push: only from this row. */}
+          {v3 ? (
+            <button type="button" className="mx-replayrow" data-explainer-replay="" onClick={() => setReplay(true)}>
+              <span className="mx-replayrow__text"><b>{EXPLAINER_COPY.replayRow}</b><span>{EXPLAINER_COPY.replayLine}</span></span>
+            </button>
+          ) : null}
           {/* A Mob of one has nobody to show a score to or to be nudged by: the two switches arrive with the first friend. */}
           {!alone ? <>
             {!v3 ? <ToggleRow checked={you.showScore} onChange={(v) => toggle('showScore', v)} disabled={Boolean(mob.busy)} label={SHARE_LABEL} hint={SHARE_HINT} /> : null}
@@ -546,6 +555,7 @@ function InMob({ data, mob, user, warm = false }) {
       <MemberDialog member={member} you={you} onClose={() => setMember(null)} run={run} busy={mob.busy} onLeft={reload} />
       {renameOpen ? <RenameDialog open={renameOpen} onClose={() => setRenameOpen(false)} you={you} run={run} busy={mob.busy} /> : null}
       <LeaveDialog open={leaveOpen} onClose={() => setLeaveOpen(false)} run={run} busy={mob.busy} onLeft={reload} several={several} subjectName={data.subjectName} />
+      {replay ? <MobFlow mode="replay" userId={user?.id} billingOn={Boolean(v3?.starts?.billingOn)} onClose={() => setReplay(false)} /> : null}
       {anotherOpen ? <StartAnotherDialog open={anotherOpen} onClose={() => setAnotherOpen(false)} user={user} mob={mob} skip={(data.mobs || []).map((m) => m.subject)} /> : null}
     </>
   );
@@ -592,7 +602,7 @@ function Loading() {
   );
 }
 
-export default function MobPage({ user }) {
+export default function MobPage({ user, billingOn = false }) {
   const mob = useMob(user?.id);
   const data = mob.mob;
   // The den came in over its own skeleton: its room is already up, so it does not rise again.
@@ -619,7 +629,7 @@ export default function MobPage({ user }) {
           <p className="mob-banner" role="alert">{mob.error} <button type="button" className="mob-link" onClick={() => mob.load()}>Try again</button></p>
         ) : null}
         {mob.status === 'disabled' ?<section className="glass mob-card"><p className="mob-note">The Mob is not available yet.</p></section> : null}
-        {mob.status === 'ready' && !data ? (mob.v3Available ? <DenStart user={user} mob={mob} /> : <NoMob user={user} mob={mob} />) : null}
+        {mob.status === 'ready' && !data ? (mob.v3Available ? <DenStart user={user} mob={mob} billingOn={billingOn} /> : <NoMob user={user} mob={mob} />) : null}
         {/* keyed by Mob: a different Mob starts clean, so no side-by-side of the one before stays open */}
         {data ? <InMob key={data.id} data={data} mob={mob} user={user} warm={warm} /> : null}
       </section>
