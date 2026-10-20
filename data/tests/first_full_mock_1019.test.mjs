@@ -143,7 +143,7 @@ test('the quote: used and unknown are priced 50 exactly as today (blocked below 
   assert.deepEqual(sampleUnknown.allowance, { kind: 'full_sample:english', state: 'available' }, 'unknown leaves the sample as before');
 });
 
-// The Android app (wt-v15-2/flutter_app at ab04b067, 1.0.15+7) reads the quote in lib/core/models/practice_quote.dart and
+// The Android app (flutter_app in this repo) reads the quote in lib/core/models/practice_quote.dart and
 // decides the price in lib/features/practice/data/launch_flow.dart and model/practice_selection.dart. This is that logic,
 // line for line, run on the quote this server sends: an old build sees 0 and starts with no purpose, and the server makes
 // that start free.
@@ -168,7 +168,7 @@ test('the old app builds read 0: free by allowance, no credit wait, no purpose; 
   const used = JSON.parse(JSON.stringify(quote({ firstFullMock: S.used, user: freeUser(120) })));
   assert.equal(app.effectiveCreditCost(used), 50);
   assert.equal(app.quoteSpendsCredits(used), true);
-  const appModel = readFileSync(path.join(ROOT, '..', 'wt-v15-2', 'flutter_app', 'lib', 'core', 'models', 'practice_quote.dart'), 'utf8');
+  const appModel = readFileSync(path.join(ROOT, 'flutter_app', 'lib', 'core', 'models', 'practice_quote.dart'), 'utf8');
   assert.match(appModel, /creditCost: asInt\(j\['creditCost'\]\)/);
   assert.match(appModel, /bool get freeByAllowance => allowance != null && allowance!\.isAvailable;/);
 });
