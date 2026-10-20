@@ -14,7 +14,17 @@ import '../../../../core/widgets/widgets.dart';
 import '../copy_v3.dart';
 
 class Pennant extends StatelessWidget {
-  const Pennant({super.key, required this.weeks, this.swing, this.width = 58, this.string = 18, this.onTap});
+  const Pennant({super.key, required this.weeks, this.swing, this.width = 58, this.string = 18, this.onTap, this.semanticsLabel, this.stitch, this.crown = false});
+
+  /// V4 den: "Chai Circle, 4 weeks in a row. Opens This week." (both streaks labelled, D173 item 6).
+  /// Null keeps the chain screens' label.
+  final String? semanticsLabel;
+
+  /// V4 den: the stitches' colour (volt on the wall). Null keeps the ink stitches.
+  final Color? stitch;
+
+  /// V4 den (Mob hours, 3.6): the latest stitch carries the week's top-hours crown.
+  final bool crown;
 
   /// The Mob chain in weeks, as the server counts it.
   final int weeks;
@@ -38,7 +48,7 @@ class Pennant extends StatelessWidget {
       width: width,
       height: height,
       child: CustomPaint(
-        painter: _PennantPainter(paper: PennantPaper.of(context), edge: PennantPaper.edge(context), ink: ink, string: string, weeks: weeks, night: context.mmColors.isNight),
+        painter: _PennantPainter(paper: PennantPaper.of(context), edge: PennantPaper.edge(context), ink: ink, string: string, weeks: weeks, night: context.mmColors.isNight, stitch: stitch, crown: crown ? context.mmColors.lamp : null),
         child: Padding(
           padding: EdgeInsets.only(top: string + bodyH * 0.12),
           child: Column(
@@ -74,7 +84,7 @@ class Pennant extends StatelessWidget {
         builder: (context, a, child) => Transform.rotate(angle: a, alignment: Alignment.topCenter, child: child),
       );
     }
-    final semantics = MobV3Copy.pennantSemantics(weeks);
+    final semantics = semanticsLabel ?? MobV3Copy.pennantSemantics(weeks);
     if (onTap == null) {
       return Semantics(
         label: semantics,
@@ -94,7 +104,10 @@ abstract final class PennantPaper {
 }
 
 class _PennantPainter extends CustomPainter {
-  _PennantPainter({required this.paper, required this.edge, required this.ink, required this.string, required this.weeks, required this.night});
+  _PennantPainter({required this.paper, required this.edge, required this.ink, required this.string, required this.weeks, required this.night, this.stitch, this.crown});
+
+  final Color? stitch;
+  final Color? crown;
 
   final Color paper;
   final Color edge;
@@ -188,13 +201,29 @@ class _PennantPainter extends CustomPainter {
       const step = 6.5;
       final start = cx - (n - 1) * step / 2;
       final p = Paint()
-        ..color = ink.withValues(alpha: 0.7)
-        ..strokeWidth = 1.2
+        ..color = stitch ?? ink.withValues(alpha: 0.7)
+        ..strokeWidth = stitch == null ? 1.2 : 1.6
         ..strokeCap = StrokeCap.round;
       for (var i = 0; i < n; i++) {
         final x = start + step * i;
         canvas.drawLine(Offset(x - 2, rowY - 2), Offset(x + 2, rowY + 2), p);
         canvas.drawLine(Offset(x - 2, rowY + 2), Offset(x + 2, rowY - 2), p);
+      }
+      // The latest stitch carries the week's top-hours crown: a small three-point paper crown above it.
+      final c = crown;
+      if (c != null) {
+        final x = start + step * (n - 1);
+        final y = rowY - 5.5;
+        final crownPath = Path()
+          ..moveTo(x - 3.2, y + 2.4)
+          ..lineTo(x - 3.2, y - 1.2)
+          ..lineTo(x - 1.4, y + 0.6)
+          ..lineTo(x, y - 2)
+          ..lineTo(x + 1.4, y + 0.6)
+          ..lineTo(x + 3.2, y - 1.2)
+          ..lineTo(x + 3.2, y + 2.4)
+          ..close();
+        canvas.drawPath(crownPath, Paint()..color = c);
       }
     }
   }
@@ -210,5 +239,5 @@ class _PennantPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_PennantPainter old) => old.weeks != weeks || old.paper != paper || old.night != night || old.string != string;
+  bool shouldRepaint(_PennantPainter old) => old.weeks != weeks || old.stitch != stitch || old.crown != crown || old.paper != paper || old.night != night || old.string != string;
 }

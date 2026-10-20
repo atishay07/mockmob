@@ -450,37 +450,6 @@ class HeadDisc extends ConsumerWidget {
   }
 }
 
-/// "Runs so far: Riya, 2:10 PM. Kabir, 4:55 PM." Finished runs as a row of their own, with a ruler-tick
-/// rule above it (exam stationery). Never a tag under a Fold (F2).
-class _RunsRow extends StatelessWidget {
-  const _RunsRow({required this.text});
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    final type = context.mmType;
-    final colors = context.mmColors;
-    return Padding(
-      padding: EdgeInsets.zero,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          CustomPaint(
-            size: const Size(double.infinity, 6),
-            painter: _TickRule(colour: colors.line),
-          ),
-          const SizedBox(height: MmSpace.s8),
-          Text(
-            keepTimes(text),
-            style: type.label.copyWith(color: colors.ink2, fontWeight: FontWeight.w500),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _TickRule extends CustomPainter {
   _TickRule({required this.colour});
 

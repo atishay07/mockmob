@@ -23,22 +23,20 @@ import '../../../../core/repositories/remote_state.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/account/account_avatar.dart' show PushedBackKey, TabRootLeading;
 import '../../../../core/widgets/widgets.dart';
-import '../../../insights/ask_mobi.dart' show AskKeyLabel, AskMobiButton;
 import '../../data/mob_models.dart';
 import '../../data/mob_repository.dart';
-import '../../widgets/mob_plan_widgets.dart' show MobSwitcher;
 import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../logic/den_copy_state.dart';
 import '../logic/moment_queue.dart';
-import '../mob_v3_nav.dart';
 import '../widgets/den_cards.dart';
 import '../widgets/den_stage.dart';
 import '../widgets/fold_manifest.dart';
-import '../widgets/invite_card.dart';
 import '../widgets/mob_fx.dart';
-import '../widgets/quest_bar.dart';
+import '../widgets/this_week_panel.dart';
+import '../widgets/v4_sheet_hooks.dart';
+import '../widgets/your_mobs_sheet.dart';
 import '../widgets/sticker_row.dart';
 import 'den_start_screen.dart';
 
@@ -359,29 +357,8 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     await _switch.animateTo(1, curve: MotionCurves.glide);
   }
 
-  Future<void> _openSwitcher(Mob mob, MobV3 v3) async {
-    final labels = MobSwitcher.labelsFor(mob.mobs);
-    final picked = await showMmSheet<String>(
-      context: context,
-      title: MobV3Copy.switcherTitle,
-      builder: (sheet) => Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.sheetSide, 0, MmSpace.sheetSide, MmSpace.s16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            for (var i = 0; i < mob.mobs.length; i++) ...[
-              KeyButton.option(label: mob.mobs[i].active ? '${v3.name.text}, ${labels[i]}' : labels[i], selected: mob.mobs[i].active, onPressed: () => Navigator.of(sheet).pop(mob.mobs[i].id)),
-              const SizedBox(height: MmSpace.s8),
-            ],
-          ],
-        ),
-      ),
-    );
-    if (picked == null || !mounted) return;
-    if (picked == mob.id) return;
-    await _switchTo(picked);
-  }
+  /// A11: the chevron by the Mob name always opens Your Mobs; switching fades through (M13).
+  Future<void> _openYourMobs() => showYourMobsSheet(context, onSwitch: _switchTo);
 
   @override
   Widget build(BuildContext context) {
@@ -437,9 +414,10 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
               onFlightDone: (id) {
                 if (mounted) setState(() => _flights.removeWhere((f) => f.id == id));
               },
-              onPennant: () => MobV3Nav.chains(context, mobTab: true),
-              onShelf: () => MobV3Nav.shelf(context),
-              onOpenSeat: () => shareInviteCard(context),
+              onPennant: () => V4Sheets.thisWeek(context),
+              onShelf: () => V4Sheets.shelf(context),
+              onOpenSeat: () => V4Sheets.invite(context),
+              now: now,
             ),
             if (mob != null && v3 != null)
               Positioned(
@@ -448,8 +426,8 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
                 width: math.max(160, w - MmSpace.gutter - 104),
                 child: _TitleBlock(
                   name: v3.name.text.isEmpty ? mob.subjectName : v3.name.text,
-                  subtitle: MobV3Copy.denSubtitle(mob.subjectName, v3.members.length),
-                  onSwitch: mob.mobs.length > 1 ? () => _openSwitcher(mob, v3) : null,
+                  subtitle: MobV4DenCopy.subtitle(mob.subjectName, v3.members.length),
+                  onSwitch: _openYourMobs,
                 ),
               )
             else
@@ -495,6 +473,9 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
               ..add(const SizedBox(height: MmSpace.s12))
               ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: _PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!)));
           }
+          below
+            ..add(const SizedBox(height: MmSpace.s12))
+            ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: DenRows(card: card, v3: v3, mob: mob, now: now)));
           if (card.kind != DenCardKind.one) {
             below
               ..add(const SizedBox(height: MmSpace.s20))
@@ -502,7 +483,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
                 _Rise(
                   ms: _ms,
                   at: EnterDen.questAt,
-                  child: QuestStrip(quest: v3.quest, mobName: v3.name.text, onTap: () => MobV3Nav.chains(context, mobTab: true)),
+                  child: ThisWeekPanel(v3: v3, onTap: () => V4Sheets.thisWeek(context)),
                 ),
               );
           }
@@ -579,16 +560,17 @@ class _HeaderRow extends StatelessWidget {
       children: [
         if (asTab) const TabRootLeading() else const PushedBackKey(),
         const Spacer(),
-        if (c != null && !c.hidden) ...[ChainChipKey(days: c.days, onTap: () => MobV3Nav.chains(context)), const SizedBox(width: MmSpace.s4)],
-        const AskMobiButton(label: AskKeyLabel.figureOnly),
-        _RoundKey(icon: LucideIcons.settings, label: MobV3Copy.settingsSemantics, onTap: () => MobV3Nav.settings(context)),
+        // Both streaks (D173 item 6): your daily chain here, the Mob's weekly pennant on the stage. Ask Mobi is
+        // not in the den (V4 2.2); it stays on Today and inside Fix it together.
+        if (c != null && !c.hidden) ...[ChainChipKey(key: const ValueKey('den-chain-chip'), days: c.days, onTap: () => YourChainSheet.show(context)), const SizedBox(width: MmSpace.s4)],
+        _RoundKey(key: const ValueKey('den-settings'), icon: LucideIcons.settings, label: MobV3Copy.settingsSemantics, onTap: () => V4Sheets.mobSettings(context)),
       ],
     );
   }
 }
 
 class _RoundKey extends StatelessWidget {
-  const _RoundKey({required this.icon, required this.label, required this.onTap});
+  const _RoundKey({super.key, required this.icon, required this.label, required this.onTap});
 
   final IconData icon;
   final String label;
@@ -719,7 +701,7 @@ class _TitleBlock extends StatelessWidget {
             style: type.screenTitle.copyWith(color: colors.ink, shadows: halo),
           ),
         ),
-        if (onSwitch != null) ...[const SizedBox(width: MmSpace.s4), Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2)],
+        if (onSwitch != null) ...[const SizedBox(width: MmSpace.s4), Icon(LucideIcons.chevronDown, size: 22, color: colors.ink)],
       ],
     );
     final block = Column(
@@ -738,7 +720,8 @@ class _TitleBlock extends StatelessWidget {
     if (onSwitch == null) return block;
     return MmPressable(
       onTap: onSwitch,
-      semanticsLabel: '$name. $subtitle. ${MobV3Copy.switchMob}',
+      key: const ValueKey('den-your-mobs'),
+      semanticsLabel: MobV4DenCopy.titleSemantics(name, subtitle),
       pressedScale: 0.98,
       haptic: MmPressHaptic.selection,
       focusRadius: BorderRadius.circular(MmRadius.small),

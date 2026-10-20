@@ -6,6 +6,7 @@
 // It fills once when it first appears (600 ms, segment after segment) and again, from where it was, when
 // the total changes; reduced motion draws the end state at once.
 
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 
 import '../../../../core/motion/motion.dart';
@@ -13,13 +14,17 @@ import '../../../../core/theme/theme.dart';
 import 'chain_paper.dart';
 
 class QuestSegments extends StatelessWidget {
-  const QuestSegments({super.key, required this.answered, required this.target, this.segments = 12, this.animate = true, this.semanticsLabel});
+  const QuestSegments({super.key, required this.answered, required this.target, this.segments = 12, this.animate = true, this.semanticsLabel, this.palette = const []});
 
   final int answered;
   final int target;
   final int segments;
   final bool animate;
   final String? semanticsLabel;
+
+  /// V4: filled segments take the Mob's member colours in turn (decoration only: a segment never says who
+  /// filled it). Empty keeps the paper fill.
+  final List<Color> palette;
 
   /// 0 to 1: how much of the bar is filled. Full at or past the target, empty with no target.
   static double fractionOf(int answered, int target) => target <= 0 ? 0 : (answered / target).clamp(0.0, 1.0);
@@ -41,7 +46,7 @@ class QuestSegments extends StatelessWidget {
             curve: Motion.glide,
             builder: (context, v, _) => CustomPaint(
               size: const Size(double.infinity, 14),
-              painter: _SegmentsPainter(fraction: v, count: segments, filled: colors.isNight ? ChainPaper.fill(context) : colors.ink, empty: colors.isNight ? colors.raised2 : colors.sunken, edge: colors.line),
+              painter: _SegmentsPainter(fraction: v, count: segments, palette: palette, filled: colors.isNight ? ChainPaper.fill(context) : colors.ink, empty: colors.isNight ? colors.raised2 : colors.sunken, edge: colors.line),
             ),
           ),
         ),
@@ -51,10 +56,11 @@ class QuestSegments extends StatelessWidget {
 }
 
 class _SegmentsPainter extends CustomPainter {
-  _SegmentsPainter({required this.fraction, required this.count, required this.filled, required this.empty, required this.edge});
+  _SegmentsPainter({required this.fraction, required this.count, this.palette = const [], required this.filled, required this.empty, required this.edge});
 
   final double fraction;
   final int count;
+  final List<Color> palette;
   final Color filled;
   final Color empty;
   final Color edge;
@@ -72,12 +78,12 @@ class _SegmentsPainter extends CustomPainter {
       if (part > 0) {
         canvas.save();
         canvas.clipRRect(rect);
-        canvas.drawRect(Rect.fromLTWH(x, 0, w * part, size.height), Paint()..color = filled);
+        canvas.drawRect(Rect.fromLTWH(x, 0, w * part, size.height), Paint()..color = palette.isEmpty ? filled : palette[i % palette.length]);
         canvas.restore();
       }
     }
   }
 
   @override
-  bool shouldRepaint(_SegmentsPainter old) => old.fraction != fraction || old.filled != filled || old.empty != empty || old.count != count;
+  bool shouldRepaint(_SegmentsPainter old) => old.fraction != fraction || old.filled != filled || old.empty != empty || old.count != count || !listEquals(old.palette, palette);
 }
