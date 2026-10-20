@@ -114,11 +114,14 @@ function fakeDb(attempts, { failOn = null } = {}) {
     const [col, ...keys] = path.replace(/->>/g, '->').split('->');
     return keys.reduce((v, k) => (v == null ? v : v[k]), row[col]);
   };
+  const calls = [];
   return {
+    calls,
     from(table) {
       assert.equal(table, 'attempts');
       const q = { cols: '', head: false, filters: [], sort: null, max: Infinity };
       const run = () => {
+        calls.push(q.cols);
         if (failOn && q.cols.includes(failOn)) return { data: null, error: { message: 'boom' }, count: null };
         let list = rows.filter((r) => q.filters.every((f) => f(r)));
         if (q.sort) list = [...list].sort((a, b) => b.completed_at - a.completed_at);
@@ -127,7 +130,7 @@ function fakeDb(attempts, { failOn = null } = {}) {
         if (q.head) return { data: null, error: null, count };
         const alias = q.cols.match(/(\w+):(\S+)/);
         const data = list.map((r) => {
-          if (alias) return { id: r.id, [alias[1]]: pick(r, alias[2]) };
+          if (alias) return { id: r.id, ...(q.cols.includes('selection_meta') ? { selection_meta: r.selection_meta } : {}), [alias[1]]: pick(r, alias[2]) };
           if (q.cols === 'subject') return { subject: r.subject };
           return { id: r.id, selection_meta: r.selection_meta, questions_snapshot: r.questions_snapshot };
         });
@@ -170,4 +173,20 @@ test('a failed read throws, so the page shows nothing instead of a wrong zero', 
     await assert.rejects(timedMockFacts(S3.USER, fakeDb([S3.PRACTICE], { failOn })), /TIMED_MOCK_UNAVAILABLE/, failOn);
   }
   await assert.rejects(timedMockFacts('', fakeDb([])), /attempt_owner_required/);
+});
+
+// Egress A14 (20 Oct 2026): the candidates are read newest first, one at a time, and the walk stops at the first readable paper.
+test('two readable timed mocks cost one candidate read (the answer is "at least one": timedMocks is 0 or 1)', async () => {
+  const { M1, M2, PRACTICE } = S3;
+  const second = { ...M1, id: 'm1-again', completedAt: M1.completedAt + 5000 };
+  const db = fakeDb([PRACTICE, M1, M2, second]);
+  const facts = await timedMockFacts(S3.USER, db);
+  assert.equal(facts.timedMocks, 1);
+  assert.equal(db.calls.filter((cols) => cols.includes('first:questions_snapshot')).length, 1, 'one candidate read, and it carries the first question id, not the snapshot');
+  assert.ok(!db.calls.some((cols) => cols.includes('questions_snapshot') && !cols.includes('first:')), 'the whole snapshot is never read');
+  assert.equal(firstTimedMockPrompt(facts, { surface: 'today' }), null, 'the same prompt decision as with a count of three');
+  // a first candidate that is not readable does not stop the walk
+  const empty = { ...M1, id: 'empty', questionsSnapshot: [], completedAt: M1.completedAt + 9000 };
+  const db2 = fakeDb([empty, M1]);
+  assert.equal((await timedMockFacts(S3.USER, db2)).timedMocks, 1);
 });

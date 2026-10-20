@@ -29,6 +29,7 @@ test('an edited question (same created_at, new content) makes the daily run rebu
   // Someone corrects a stem after the build. created_at and live_at do not move, so only the hash can tell.
   const edited = db.tables.questions.find((row) => row.id === indexed[0].id);
   edited.body = `${edited.body} (corrected)`;
+  edited.updated_at = new Date(CLOCK - 1000).toISOString(); // an UPDATE bumps updated_at (trigger trg_questions_updated_at): that is what the daily run's head count sees (egress F2)
   const drift = await ntaIndexDrift(db, 'chemistry');
   assert.deepEqual(drift.drifted, [edited.id]);
   assert.equal(drift.checked, indexed.length);

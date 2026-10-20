@@ -10,6 +10,12 @@ import { mistakeKey, repairIdFromOperationKey } from './repairRecord.js';
 
 export const SAVED_WINDOW = 500; // newest committed repairs scanned for one paper (the same documented limit as the repair record)
 
+// The readers below only need to know THAT a committed repair exists (the query already keeps rows whose receipt.repair is not null), when,
+// and which mistake: the repair body (explanation blocks, 2 to 3 KB a row) is not shipped (egress A10). A reader gets a stub receipt
+// carrying an empty repair object, which is all repairFromReceipt and buildRepairRecord test for.
+export const SAVED_REPAIR_SELECT = 'operation_key,updated_at';
+export const repairStubRows = (rows) => (Array.isArray(rows) ? rows : []).map((row) => ({ ...row, receipt: { repair: {} } }));
+
 export const lookupFailed = (cause) => Object.assign(new Error('repair_lookup_unavailable'), { code: 'repair_lookup_unavailable', cause });
 
 const iso = (v) => { const t = Date.parse(v); return Number.isFinite(t) ? new Date(t).toISOString() : null; };
@@ -66,11 +72,11 @@ export async function getSavedRepairs(db, userId, attempt) {
   if (!attempt?.id) return {};
   const wrong = (Array.isArray(attempt.details) ? attempt.details : []).some((d) => d?.isCorrect === false);
   if (!wrong) return {};
-  const res = await db.from('ai_credit_reservations').select('operation_key,updated_at,receipt')
+  const res = await db.from('ai_credit_reservations').select(SAVED_REPAIR_SELECT)
     .eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair')
     .not('receipt->repair', 'is', null).order('updated_at', { ascending: false }).limit(SAVED_WINDOW);
   if (res.error) throw lookupFailed(res.error);
-  return savedRepairsForAttempt({ userId, attempt, reservations: res.data || [] });
+  return savedRepairsForAttempt({ userId, attempt, reservations: repairStubRows(res.data) });
 }
 
 /**
@@ -97,9 +103,9 @@ export function repairedCounts({ userId, attempts, reservations }) {
 
 export async function getRepairedCounts(db, userId, attempts) {
   if (!(attempts || []).some((a) => (a?.details || []).some((d) => d?.isCorrect === false))) return {};
-  const res = await db.from('ai_credit_reservations').select('operation_key,receipt')
+  const res = await db.from('ai_credit_reservations').select('operation_key')
     .eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair')
     .not('receipt->repair', 'is', null).order('updated_at', { ascending: false }).limit(SAVED_WINDOW);
   if (res.error) throw lookupFailed(res.error);
-  return repairedCounts({ userId, attempts, reservations: res.data || [] });
+  return repairedCounts({ userId, attempts, reservations: repairStubRows(res.data) });
 }

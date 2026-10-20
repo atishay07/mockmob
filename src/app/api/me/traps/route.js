@@ -23,7 +23,7 @@ export async function GET(request) {
   }
   try {
     // A Mob paper still open for the Mob stays out until it closes (src/lib/mob/paperHold.mjs).
-    const attempts = openAttemptsOnly(await Database.getAttempts(session.user.id));
+    const attempts = openAttemptsOnly(await Database.getAttempts(session.user.id, { slim: 'history' }));
     let atlas = null;
     try { atlas = await atlasForAttempts(attempts); } catch (e) { console.warn('[api/me/traps] atlas skipped:', e?.message); }
     // Questions whose key is in doubt (held for re-check, or flagged by the key-quality loop) are no chance, as they get no tag.

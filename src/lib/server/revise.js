@@ -18,6 +18,12 @@ import { readHeldMobPapersSafe } from './answerHold.js';
 const BATCH = 100;
 const CARD_COLUMNS = 'question_id,box,due_day,state,right_total,last_recalled_day,key_hash,wrong_at,created_at,updated_at';
 const QUESTION_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,status,is_deleted,verification_state,explanation,passage_text';
+// What each read of the questions needs (egress F15): seeding reads only eligibility, the key hash and nothing it shows; the items a
+// student is asked add the passage; only answering reads the explanation.
+export const SEED_COLUMNS = 'id,subject,chapter,question,body,options,correct_index,correct_answer,status,is_deleted,verification_state';
+export const ITEM_COLUMNS = `${SEED_COLUMNS},passage_text`;
+/** How many due cards one read of the questions asks for: the room left, and a few extra for cards whose question cannot be asked. */
+export const itemChunk = (room, have, batch = 100) => Math.max(1, Math.min(batch, room - have + 4));
 
 // The `mode` column ('question' | 'again', migration 20261017160000) is read when it exists; code works before it is applied.
 const modeColumnMissing = (error) => /\bmode\b/i.test(error?.message || '') && /42703|column|schema cache/i.test(`${error?.code || ''} ${error?.message || ''}`);
@@ -56,11 +62,11 @@ async function loadCards(db, userId) {
   return res.data || [];
 }
 
-async function loadQuestions(db, ids) {
+async function loadQuestions(db, ids, columns = QUESTION_COLUMNS) {
   const list = [...new Set(ids)];
   const out = new Map();
   for (let i = 0; i < list.length; i += BATCH) {
-    const res = await db.from('questions').select(QUESTION_COLUMNS).in('id', list.slice(i, i + BATCH));
+    const res = await db.from('questions').select(columns).in('id', list.slice(i, i + BATCH));
     if (res.error) throw fail('REVISE_QUESTIONS_UNAVAILABLE', res.error);
     for (const row of res.data || []) out.set(row.id, row);
   }
@@ -77,7 +83,7 @@ async function seed(db, userId, cards, now, held = new Set()) {
   // First pass without the question rows: which wrong answers have no card yet, or were answered wrong again.
   const candidates = planSeeds({ progress: rows, cards });
   if (!candidates.length) return cards;
-  const questions = await loadQuestions(db, candidates.map((c) => c.question_id));
+  const questions = await loadQuestions(db, candidates.map((c) => c.question_id), SEED_COLUMNS);
   const plan = planSeeds({
     progress: rows, cards,
     // A question of a Mob paper still open for the Mob is not seeded until the paper closes (src/lib/mob/paperHold.mjs).
@@ -115,9 +121,13 @@ export async function getRevise(userId, { cap = REVISE_RULES.cap, db, now = Date
   const items = [];
   let skipped = 0;
   try {
-    for (let at = 0; at < due.due.length && items.length < due.room; at += BATCH) {
-      const chunk = due.due.slice(at, at + BATCH);
-      const questions = await loadQuestions(client_, chunk.map((c) => c.question_id));
+    // The due cards are walked in order until `room` can be asked, so reading a chunk of the room plus a few more, not a hundred, finds
+    // the same items (the loop below stops at `room` either way) and reads a few rows instead of up to a hundred.
+    for (let at = 0; at < due.due.length && items.length < due.room;) {
+      const size = itemChunk(due.room, items.length, BATCH);
+      const chunk = due.due.slice(at, at + size);
+      at += size;
+      const questions = await loadQuestions(client_, chunk.map((c) => c.question_id), ITEM_COLUMNS);
       for (const c of chunk) {
         if (items.length >= due.room) break;
         const row = questions.get(c.question_id);

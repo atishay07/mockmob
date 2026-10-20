@@ -15,7 +15,7 @@ export async function GET(request) {
   if (!session?.user?.id) return NextResponse.json({ error: 'Unauthorized' }, { status: 401, headers: NO_STORE });
   try {
     // A Mob paper still open for the Mob stays out until it closes (src/lib/mob/paperHold.mjs).
-    const attempts = openAttemptsOnly(await Database.getAttempts(session.user.id));
+    const attempts = openAttemptsOnly(await Database.getAttempts(session.user.id, { slim: 'history' }));
     const sources = await loadRuleSources(session.user.id, attempts);
     return NextResponse.json(rulesBody({ attempts, sources }), { headers: NO_STORE });
   } catch (e) {

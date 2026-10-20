@@ -121,7 +121,10 @@ test('a database failure is a 500 with a plain message and no student data', asy
   const originalError = console.error;
   console.error = () => {};
   try {
-    const response = await GET(request());
+    // A fresh copy of the route: the board rows are kept two minutes per server (egress A13), and a server that holds none has
+    // nothing to fall back on. (A server that does hold them keeps answering from them, which is the point of keeping them.)
+    const { GET: freshGET } = await import(`${pathToFileURL(path.join(ROOT, 'src/app/api/leaderboard/route.js')).href}?no-cached-board`);
+    const response = await freshGET(request());
     assert.equal(response.status, 500);
     const text = await response.text();
     for (const row of ROWS) assert.ok(!text.includes(row.name));

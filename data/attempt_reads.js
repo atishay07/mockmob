@@ -28,11 +28,85 @@ export function attemptLimit(limit) {
   return n;
 }
 
+// Slim reads (egress items A1, A3, A4, A5, A6, A7; 20 Oct 2026). The attempts table ships `questions_snapshot` (93% of the bytes),
+// so a caller that reads only a few fields of it asks Postgres to do the reduction:
+//   slim 'summary'  public.attempts_list_summary(p_user_id)            (applied on production 19 Oct)
+//   slim 'plan'     public.attempts_lean(p_user_id, 'plan')            (migration 20261020150000, written, NOT applied)
+//   slim 'history'  public.attempts_lean(p_user_id, 'history')         (same migration)
+//   slim 'review'   attempts_lean(p_user_id, 'review'[, p_ids]), else attempts_list_summary: the ids and chapters of each
+//                   question and its stem, for Review and the repair record (A6, A7)
+// They return the same twelve columns as the table, so attemptOut maps them unchanged. A function that is not there (PostgREST
+// PGRST202, Postgres 42883) is skipped, the next tier is tried, and the table read is the last tier; a missing function is not
+// asked again for five minutes. Any other error, a statement timeout (57014) above all, goes back to the caller: reading the whole
+// heavy table when the database is already under load would make it worse. The lean rows carry answer keys ('history'): they feed
+// pure builders and never go into a response body.
+const lean = (profile) => ({ fn: 'attempts_lean', args: (userId, ids) => ({ p_user_id: userId, p_profile: profile, ...(ids ? { p_ids: ids } : {}) }), filterIds: false });
+const listSummary = { fn: 'attempts_list_summary', args: (userId) => ({ p_user_id: userId }), filterIds: true };
+export const SLIM_PROFILES = Object.freeze({
+  summary: Object.freeze([listSummary]),
+  plan: Object.freeze([lean('plan')]),
+  history: Object.freeze([lean('history')]),
+  review: Object.freeze([lean('review'), listSummary]),
+});
+const SLIM_RETRY_MS = 5 * 60 * 1000;
+const slimMissingAt = new Map(); // function name -> when it was last found missing
+
+/** A function that is not there (PGRST202, 42883). Nothing else is "missing". */
+export function slimFunctionMissing(error) {
+  return error?.code === 'PGRST202' || error?.code === '42883';
+}
+
+export function slimProfile(slim) {
+  if (slim === undefined || slim === null) return null;
+  if (!Object.hasOwn(SLIM_PROFILES, slim)) throw new Error('attempt_slim_unknown');
+  return slim;
+}
+
+/** Test hook: forget which functions were missing. */
+export function resetSlimState() { slimMissingAt.clear(); }
+
+async function readTier(db, userId, tier, { ids, max, now }) {
+  const rows = [];
+  for (let offset = 0; ; offset += PAGE) {
+    const size = max === null ? PAGE : Math.min(PAGE, max - rows.length);
+    let q = db.rpc(tier.fn, tier.args(userId, ids));
+    if (ids && tier.filterIds) q = q.in('id', ids);
+    const { data, error } = await q.order('completed_at', { ascending: false }).order('id').range(offset, offset + size - 1);
+    if (error) {
+      if (slimFunctionMissing(error)) { slimMissingAt.set(tier.fn, now()); return null; }
+      throw error;
+    }
+    rows.push(...(data || []));
+    if (!data || data.length < size || (max !== null && rows.length >= max)) break;
+  }
+  return rows;
+}
+
+/**
+ * The raw rows of a slim read (newest first), or null when no function of the profile is there: the caller then reads the table.
+ * `ids` limits the read to those attempts of the student; `limit` is the newest N. Throws every error that is not "missing".
+ */
+export async function readSlimRows(db, userId, slim, { ids, limit, now = Date.now } = {}) {
+  if (!userId) throw new Error('attempt_owner_required');
+  if (!slimProfile(slim) || typeof db.rpc !== 'function') return null;
+  const max = attemptLimit(limit);
+  if (ids && !ids.length) return [];
+  for (const tier of SLIM_PROFILES[slim]) {
+    const missedAt = slimMissingAt.get(tier.fn);
+    if (missedAt !== undefined && now() - missedAt < SLIM_RETRY_MS) continue;
+    const rows = await readTier(db, userId, tier, { ids, max, now });
+    if (rows) return rows;
+  }
+  return null;
+}
+
 /** Raw rows, newest first (completed_at desc, id asc), paged by 1000. Throws the database error. */
-export async function readAttemptRows(db, userId, { columns, limit } = {}) {
+export async function readAttemptRows(db, userId, { columns, limit, slim, now = Date.now } = {}) {
   if (!userId) throw new Error('attempt_owner_required');
   const select = attemptSelect(columns);
   const max = attemptLimit(limit);
+  const viaFunction = await readSlimRows(db, userId, slim, { limit, now });
+  if (viaFunction) return viaFunction;
   const rows = [];
   for (let offset = 0; ; offset += PAGE) {
     const size = max === null ? PAGE : Math.min(PAGE, max - rows.length);
@@ -62,4 +136,14 @@ export function memoisedAttempts(memo, key, load) {
   return memo.get(key).then((value) => structuredClone(value));
 }
 
-export const attemptMemoKey = (userId, { columns, limit } = {}) => `${userId}|${attemptSelect(columns)}|${attemptLimit(limit) ?? ''}`;
+// A slim read never shares a memo entry with a full one (or with another profile): their rows differ.
+// A slim read in a request that already holds the full read of the same attempts takes the full rows from the memo (a superset: every
+// consumer of a slim profile reads only fields the full row has), so adding a slim read next to an old full one never adds a read.
+export function attemptMemoKeyFor(memo, userId, { columns, limit, slim } = {}) {
+  if (slimProfile(slim) && memo instanceof Map) {
+    const full = attemptMemoKey(userId, { columns, limit });
+    if (memo.has(full)) return full;
+  }
+  return attemptMemoKey(userId, { columns, limit, slim });
+}
+export const attemptMemoKey = (userId, { columns, limit, slim } = {}) => `${userId}|${attemptSelect(columns)}|${attemptLimit(limit) ?? ''}${slimProfile(slim) ? `|slim:${slim}` : ''}`;

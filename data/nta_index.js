@@ -136,6 +136,22 @@ export async function rebuildNtaIndexForSubjects(db, subjects, { secret, now, lo
 }
 
 export const NTA_INDEX_MAX_AGE_MS = 7 * 24 * 60 * 60 * 1000;
+/** Margin before the index's build time: a late-committing transaction carries an older now(), and clocks differ (egress F2). */
+export const NTA_TOUCH_MARGIN_MS = 15 * 60 * 1000;
+
+/**
+ * How many questions of the subject were inserted or updated since the index was built (a head count, no body). Content can only
+ * change through an UPDATE, and every UPDATE bumps questions.updated_at (trigger trg_questions_updated_at), so 0 means no indexed
+ * question's content can differ from what was scored: the drift read would find nothing. Returns null when it cannot be counted
+ * (then the caller reads the drift as before).
+ */
+export async function ntaTouchedCount(db, subject, builtAt) {
+  try {
+    const { count, error } = await db.from('questions').select('id', { count: 'exact', head: true }).eq('subject', subject)
+      .gte('updated_at', new Date(builtAt - NTA_TOUCH_MARGIN_MS).toISOString());
+    return error || !Number.isInteger(count) ? null : count;
+  } catch { return null; }
+}
 
 /**
  * Questions of the subject that are in the index but whose content is no longer the content that was scored
@@ -166,7 +182,7 @@ export async function ntaIndexDrift(db, subject) {
  * left alone (nothing to go stale; the first build is the owner's step). The run stops starting subjects after
  * deadlineMs and leaves the rest to the pool's full-read fallback and the next day.
  */
-export async function refreshStaleNtaIndexes(db, { secret, env = process.env, log = console.warn, now = () => Date.now(), deadlineMs = 240000, maxAgeMs = NTA_INDEX_MAX_AGE_MS, subjects = NTA_INDEX_SUBJECTS, rebuild = rebuildNtaIndexSubject, drift = ntaIndexDrift } = {}) {
+export async function refreshStaleNtaIndexes(db, { secret, env = process.env, log = console.warn, now = () => Date.now(), deadlineMs = 240000, maxAgeMs = NTA_INDEX_MAX_AGE_MS, subjects = NTA_INDEX_SUBJECTS, rebuild = rebuildNtaIndexSubject, drift = ntaIndexDrift, touched = ntaTouchedCount } = {}) {
   assertFullBankRead('the NTA index rebuild', { env, log });
   if (!secret) return { status: 'skipped', reason: 'no_signing_key', subjects: [] };
   const started = now();
@@ -196,6 +212,10 @@ export async function refreshStaleNtaIndexes(db, { secret, env = process.env, lo
         if (freshness.stale) {
           reason = 'newer_questions';
           detail = { newestQuestionAt: freshness.newestAt };
+        } else if (await touched(db, subject, builtAt) === 0) {
+          // Nothing of this subject was written since the build, so no indexed content can have changed: the drift read (the
+          // index rows and the questions without evidence, 0.3-0.5 MB) would find nothing. A vote or an edit makes the count
+          // non-zero and the drift read runs as before; so does any error.
         } else {
           const found = await drift(db, subject);
           if (found.drifted.length) { reason = 'content_changed'; detail = { driftedQuestions: found.drifted.length }; }

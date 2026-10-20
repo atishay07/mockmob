@@ -18,7 +18,9 @@
 // Either way the subject's pool is cached in memory for NTA_POOL_CACHE_MS.
 import { assembleNtaPaper, getNtaBlueprint, NTA_TIME_BUDGET_MS } from './nta_engine.js';
 import { ntaAgentAdmissibleIds } from './nta_agent_scores.js';
-import { builtAtOfRows, ntaIndexFreshness } from './nta_index_freshness.js';
+import { builtAtOfRows, ntaIndexBuiltAt, ntaIndexFreshness } from './nta_index_freshness.js';
+import { subjectCount, subjectToken, tokenUnchanged } from './subject_token.js';
+import { readAttemptQuestionIds } from './attempt_question_ids.js';
 
 // Columns the engine, the hard gates and the session snapshot (questionOut in data/db.js) read.
 const SLIM_COLUMNS = [
@@ -33,6 +35,10 @@ export const NTA_SLIM_COLUMNS = SLIM_COLUMNS.join(',');
 export const NTA_POOL_COLUMNS = [...SLIM_COLUMNS, 'evidence', 'provenance'].join(',');
 export const NTA_INDEX_COLUMNS = 'question_id,subject,score,luna,gemini,content_hash,family_id,objective_tag,index_version,verified_at,signature';
 export const NTA_POOL_CACHE_MS = 5 * 60 * 1000;
+// An index-path pool older than the five minutes is reused, not read again, while nothing it reads has changed (egress F13): no question of
+// the subject written, added or removed since it was read, and the same index build. A pool older than an hour is read again whatever the
+// check says (the passage groups carry no stamp), as is any pool that did not come from a current index.
+export const NTA_POOL_REVALIDATE_MAX_MS = 60 * 60 * 1000;
 
 const MISSING_TABLE = new Set(['42P01', 'PGRST205']);
 const PAGE = 1000;
@@ -161,9 +167,21 @@ export async function loadNtaPool(db, subject, { signal, source = 'auto', agentS
 async function cachedPool(db, subject, { signal, cache = true, source, agentScores } = {}) {
   const hit = cache ? poolCache.get(subject) : null;
   if (hit && Date.now() - hit.at < NTA_POOL_CACHE_MS) return { rows: hit.rows, source: hit.source, indexStale: hit.indexStale, cached: true };
+  if (hit && hit.source === 'index' && !hit.indexStale && Number.isInteger(hit.count) && hit.builtAt !== null && hit.builtAt !== undefined && Date.now() - hit.readAt < NTA_POOL_REVALIDATE_MAX_MS) {
+    try {
+      const [token, built] = await Promise.all([subjectToken(db, subject, hit.readAt), ntaIndexBuiltAt(db, subject, { signal })]);
+      if (tokenUnchanged(token, hit) && built.builtAt === hit.builtAt) { hit.at = Date.now(); return { rows: hit.rows, source: hit.source, indexStale: hit.indexStale, cached: true }; }
+    } catch (error) { if (signal?.aborted) throw error; /* read it again */ }
+  }
+  // Taken before the read, so whatever arrives or changes while the pool is read shows next time.
+  const readAt = Date.now();
+  let count = null; let builtAt = null;
+  if (cache) {
+    try { [count, builtAt] = await Promise.all([subjectCount(db, subject), ntaIndexBuiltAt(db, subject, { signal }).then((r) => r.builtAt)]); } catch (error) { if (signal?.aborted) throw error; count = null; builtAt = null; }
+  }
   const pool = await loadNtaPool(db, subject, { signal, source, agentScores });
   const rows = await attachPassages(db, pool, { signal });
-  if (cache) poolCache.set(subject, { at: Date.now(), rows, source: pool.source, indexStale: pool.indexStale });
+  if (cache) poolCache.set(subject, { at: Date.now(), readAt, count, builtAt, rows, source: pool.source, indexStale: pool.indexStale });
   return { rows, source: pool.source, indexStale: pool.indexStale, cached: false };
 }
 
@@ -220,9 +238,13 @@ export async function loadSeenQuestionIds(db, userId, subject, { signal } = {}) 
   if (!userId) return seen;
   const [progress, attempts] = await Promise.all([
     withSignal(db.from('user_question_progress').select('question_id').eq('user_id', userId).eq('subject', subject).gt('attempt_count', 0).limit(5000), signal),
-    withSignal(db.from('attempts').select('questions_snapshot').eq('user_id', userId).eq('subject', subject).order('completed_at', { ascending: false }).limit(40), signal),
+    // The newest 40 papers of the subject, as ids only through the database function (egress F13; migration 20261020150100); where it
+    // is not applied, the snapshots are read as before. An error of the function reads as an error of the old query: nothing seen.
+    readAttemptQuestionIds(db, { userId, subject, limit: 40, signal }).then((via) => (via ? { ids: via.rows ? via.rows.flatMap((row) => row.questionIds) : [] } : null))
+      .then((via) => via || withSignal(db.from('attempts').select('questions_snapshot').eq('user_id', userId).eq('subject', subject).order('completed_at', { ascending: false }).limit(40), signal)),
   ]);
   for (const row of progress.data || []) seen.add(row.question_id);
+  for (const id of attempts.ids || []) seen.add(id);
   for (const attempt of attempts.data || []) for (const question of attempt.questions_snapshot || []) if (question?.id) seen.add(question.id);
   return seen;
 }
@@ -242,11 +264,18 @@ export async function loadPreviousNtaPaperIds(db, userId, subject, { signal } = 
   if (!userId) return ids;
   const settle = (query) => Promise.resolve().then(() => withSignal(query(), signal)).catch((error) => ({ data: null, error }));
   const [attempts, sessions] = await Promise.all([
-    // NTA attempts only, newest first: a student with many other attempts in the subject keeps every NTA paper in view.
-    settle(() => db.from('attempts').select('questions_snapshot,selection_meta').eq('user_id', userId).eq('subject', subject).eq('selection_meta->>mode', 'nta').order('completed_at', { ascending: false }).limit(40)),
+    // NTA attempts only, newest first: a student with many other attempts in the subject keeps every NTA paper in view. Ids only, through
+    // the database function (egress F13; migration 20261020150100, same filter and limit); where it is not applied, the snapshots are read.
+    Promise.resolve().then(async () => {
+      const via = await readAttemptQuestionIds(db, { userId, subject, mode: 'nta', limit: 40, signal });
+      if (via?.error) return { data: null, error: via.error };
+      if (via) return { ids: via.rows.flatMap((row) => row.questionIds), error: null };
+      return withSignal(db.from('attempts').select('questions_snapshot,selection_meta').eq('user_id', userId).eq('subject', subject).eq('selection_meta->>mode', 'nta').order('completed_at', { ascending: false }).limit(40), signal);
+    }).catch((error) => ({ data: null, error })),
     settle(() => db.from('recovery_sessions').select('questions').eq('user_id', userId).eq('subject', subject).eq('mode', 'nta').order('created_at', { ascending: false }).limit(20)),
   ]);
   if (attempts?.error || sessions?.error) ids.lookupFailed = true;
+  for (const id of attempts?.ids || []) ids.add(id);
   for (const attempt of attempts?.data || []) {
     if (attempt?.selection_meta?.mode !== 'nta') continue;
     for (const question of attempt.questions_snapshot || []) if (question?.id) ids.add(question.id);

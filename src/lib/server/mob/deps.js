@@ -9,17 +9,14 @@ import { mobileOptions } from '@/lib/server/mobileCors';
 import { readAtlasRows } from '@/lib/server/trapAtlas';
 import { Database, questionOut } from '@/../data/db';
 import { VISIBLE_QUESTION_FILTER } from '@/../data/practice_source';
-import { readablePracticeQuestions } from '@/../data/practice_library';
-import { pickWithConstraints, rankCandidates } from '@/../data/mock_question_selector';
-import { isPassageLinkedQuestion } from '@/../data/nta_question_selector';
-import { getMode } from '@/../data/test_modes';
+import { cachedChapterCounts, forgetChapterCountsFor } from '@/../data/mob_chapter_counts';
+import { createMobQuestionLoaders } from '@/../data/mob_question_reads';
 import { resolveSubject } from '@/../data/subject_registry';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
 import { ntaPatternFor } from '@/../data/nta_paper_pattern';
 import { indexAtlas, trapForOption } from '@/../data/trap_atlas';
 import blocklist from '@/../data/mob_name_blocklist.json';
-import { EXTRA_LENGTHS } from '@/lib/mob/model.mjs';
 import { playBillingEnabled } from '@/lib/payments/playBilling';
 import { createMobService } from './service';
 
@@ -90,57 +87,20 @@ function sectionsFor(subject, questions) {
 const validChapter = (subject, chapter) => isValidTopSyllabusPair(subject, chapter);
 
 /**
- * For the extra-paper chooser: per chapter of a subject, the longest extra paper the bank can really build. A plain row
- * count was not enough (go/no-go check 17 Oct: "10 ready" built nothing): the paper's selector also drops passage-linked,
- * held and evidence-ineligible questions, takes one question per family and at most 2 per concept. So this reads the
- * subject's pool once, filters it exactly as the selector's full path does (data/practice_pick.js pickFromFullPool, quick
- * mode, no student: no recency, no progress), and runs the same rankCandidates and pickWithConstraints per chapter for
- * each length. `ready` is the longest length that fills, never a count the paper cannot reach.
- * Kept 30 minutes per subject on this instance (only a Pro opening the chooser reads it); a failed extra drops the
- * subject so the next look is fresh.
+ * For the extra-paper chooser: per chapter of a subject, the longest extra paper the bank can really build (data/mob_chapter_counts.js
+ * has the computation and the rule for keeping it: five minutes, then revalidated against the subject's rows, the family holds and
+ * the evidence expiry, a day at most; only a Pro opening the chooser reads it). A failed extra drops the subject so the next look is fresh.
  */
-const chapterCache = new Map();
-const CHAPTER_CACHE_MS = 30 * 60_000;
-export const forgetChapterCounts = (subject) => { chapterCache.delete(subject); };
-async function chapterCounts(subject) {
-  const hit = chapterCache.get(subject);
-  if (hit && hit.at > Date.now() - CHAPTER_CACHE_MS) return hit.rows;
-  const db = supabaseAdmin();
-  const rows = [];
-  for (let offset = 0; offset < 20_000; offset += 1000) {
-    const { data, error } = await db.from('questions').select('*').eq('subject', subject).eq('is_deleted', false)
-      .or(VISIBLE_QUESTION_FILTER).gte('score', -2).order('id').range(offset, offset + 999);
-    if (error) throw error;
-    rows.push(...(data || []));
-    if (!data || data.length < 1000) break;
-  }
-  const mode = getMode('quick');
-  const pool = await readablePracticeQuestions(rows.filter((row) => row.chapter && !isPassageLinkedQuestion(row)), db, { requireEvidence: false });
-  const byChapter = new Map();
-  for (const row of pool) { if (!byChapter.has(row.chapter)) byChapter.set(row.chapter, []); byChapter.get(row.chapter).push(row); }
-  const lengths = [...EXTRA_LENGTHS].sort((a, b) => b - a);
-  const out = [];
-  for (const [chapter, list] of byChapter) {
-    if (!isValidTopSyllabusPair(subject, chapter)) continue;
-    const ranked = rankCandidates(list, { mode });
-    const ready = lengths.find((n) => n <= list.length && pickWithConstraints(ranked, n, mode).length >= n) || 0;
-    out.push({ chapter, ready });
-  }
-  chapterCache.set(subject, { at: Date.now(), rows: out });
-  return out;
-}
+export const forgetChapterCounts = (subject) => forgetChapterCountsFor(supabaseAdmin(), subject);
+const chapterCounts = (subject) => cachedChapterCounts(supabaseAdmin(), subject);
 
-/** The frozen paper's questions in paper order, canonical option order (quick papers never shuffle options). */
-async function loadQuestions(ids) {
-  // A race's pool or a full mock (Full mock together): up to 60 questions.
-  const list = (ids || []).filter((id) => typeof id === 'string').slice(0, 60);
-  if (!list.length) return [];
-  const { data, error } = await supabaseAdmin().from('questions').select('*').in('id', list).eq('is_deleted', false).or(VISIBLE_QUESTION_FILTER);
-  if (error) throw error;
-  const rows = await Database._attachPassageMetadata(data || []);
-  const byId = new Map(rows.map((r) => [r.id, questionOut(r)]));
-  return list.map((id) => byId.get(id)).filter(Boolean);
-}
+// The frozen paper's questions in paper order, canonical option order (quick papers never shuffle options). Two loaders, because only the
+// start paths hand the rows to the practice session (data/mob_question_reads.js has the rule): `loadQuestions` reads the full rows
+// through the stamp cache, `loadQuestionsLight` serves every other read (keys, review, the race's next question, comparisons) from
+// the light columns kept two minutes.
+const questionLoaders = createMobQuestionLoaders({ db: () => supabaseAdmin(), attach: (rows) => Database._attachPassageMetadata(rows), toOut: questionOut });
+const loadQuestions = (ids) => questionLoaders.loadFull(ids);
+const loadQuestionsLight = (ids, options) => questionLoaders.loadLight(ids, options);
 
 async function trapNameFor(question, optionIndex) {
   if (!question?.id) return null;
@@ -169,7 +129,7 @@ export function mobService() {
   cached = createMobService({
     rpc, secret: secret(), randomBytes: (n) => randomBytes(n), blocklist, subjectInfo,
     loadUser: (id) => Database.getUserById(id),
-    validChapter, pickQuestionIds, loadQuestions, trapNameFor, findAttempts, chapterCounts, sectionsFor, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
+    validChapter, pickQuestionIds, loadQuestions, loadQuestionsLight, trapNameFor, findAttempts, chapterCounts, sectionsFor, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
     v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, formatsEnabled: mobFormatsEnabled, liveMaxRooms: mobLiveMaxRooms, billingOn: () => playBillingEnabled(),
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),

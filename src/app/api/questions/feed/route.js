@@ -73,7 +73,7 @@ export async function GET(request) {
     const buildQuery = (withVotes) => {
       let next = supabaseAdmin()
         .from('questions')
-        .select(withVotes ? `${baseSelect}, upvotes, downvotes, score` : baseSelect, { count: 'exact' })
+        .select(withVotes ? `${baseSelect}, upvotes, downvotes, score` : baseSelect) // no exact count: the count is discarded below (egress F8)
         .eq('is_deleted', false)
         .or('status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)')
         .eq('subject', subject);

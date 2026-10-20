@@ -184,7 +184,7 @@ export default function ProfilePageClient() {
   useEffect(() => {
     if (status === 'loading' || !user?.id) return undefined;
     let alive = true;
-    apiGet(`/api/attempts?userId=${user.id}`)
+    apiGet('/api/attempts?view=marks') // only the score of each paper is read (mocksSummary)
       .then((data) => { if (alive) setMocks({ status: 'ready', ...mocksSummary(data) }); })
       .catch(() => { if (alive) setMocks((m) => ({ ...m, status: 'error' })); });
     return () => { alive = false; };

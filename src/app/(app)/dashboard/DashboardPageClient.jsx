@@ -235,7 +235,7 @@ export default function DashboardPageClient({ studyEnabled = false } = {}) {
       try {
         const [subs, atts] = await Promise.all([
           apiGet('/api/subjects'),
-          apiGet(`/api/attempts?userId=${user.id}`),
+          apiGet('/api/attempts?view=summary'), // what this page reads (marks, details, mode); the whole snapshot of every paper stays on the server
         ]);
         if (!alive) return;
         setSubjects(subs);

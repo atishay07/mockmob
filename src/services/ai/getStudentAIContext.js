@@ -40,14 +40,14 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
     attempts,
     progressRows,
     bookmarkRows,
-    voteRows,
     usageSnapshot,
   ] = await Promise.all([
     // A Mob paper still open for the Mob is not in the model's context until it closes (src/lib/mob/paperHold.mjs).
     Database.getAttempts(userId, { memo: attemptsMemo }).then((rows) => openAttemptsOnly(rows)).catch(() => []),
-    safeSelect('user_question_progress', userId),
-    safeSelect('question_bookmarks', userId),
-    safeSelect('question_votes', userId, 100),
+    // Only the columns the summaries below read (egress A12): progress counts and dwell, and the newest save's time. The votes read
+    // that used to sit here was never used by anything, so it is gone.
+    safeSelect('user_question_progress', userId, 500, PROGRESS_COLUMNS),
+    safeSelect('question_bookmarks', userId, 500, 'created_at'),
     getUsageSnapshot(effectiveUser).catch(() => null),
   ]);
   // The student's own colleges (My colleges) with DU's 2026 Round 1 closing marks, and where their practice range stands
@@ -455,9 +455,11 @@ function buildDeterministicRecommendations({
 
 // ----- helpers -----
 
-async function safeSelect(table, userId, limit = 500) {
+export const PROGRESS_COLUMNS = 'subject,chapter,attempt_count,correct_count,skip_count,best_dwell_ms';
+
+async function safeSelect(table, userId, limit = 500, columns = '*') {
   try {
-    let q = supabaseAdmin().from(table).select('*').eq('user_id', userId);
+    let q = supabaseAdmin().from(table).select(columns).eq('user_id', userId);
     if (limit) q = q.limit(limit);
     const { data, error } = await q;
     if (error) return [];

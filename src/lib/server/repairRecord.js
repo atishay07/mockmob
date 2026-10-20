@@ -3,6 +3,8 @@
 // stored repair receipt, matched to the student's own attempts. Never returns keys or explanations.
 import { createHash } from 'node:crypto';
 import { RELEASE_GATES, recoveryReleased } from '../../../data/capabilities.js';
+import { readSlimRows } from '../../../data/attempt_reads.js';
+import { repairStubRows, SAVED_REPAIR_SELECT } from './repairSaved.js';
 
 export const DEFAULT_LIMIT = 50;
 export const MAX_LIMIT = 100;
@@ -74,13 +76,21 @@ export function buildRepairRecord({ userId, reservations, attempts, gates = RELE
 export async function getRepairRecord(userId, { limit = DEFAULT_LIMIT } = {}) {
   const { supabaseAdmin } = await import('../supabase');
   const db = supabaseAdmin();
-  const res = await db.from('ai_credit_reservations').select('operation_key,updated_at,receipt')
+  // The record needs that a repair exists, when and for which mistake, not its body (egress A10).
+  const res = await db.from('ai_credit_reservations').select(SAVED_REPAIR_SELECT)
     .eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair')
     .not('receipt->repair', 'is', null).order('updated_at', { ascending: false }).limit(RESERVATION_WINDOW);
   if (res.error) throw fail('REPAIR_RECORD_UNAVAILABLE', res.error);
   if (!res.data?.length) return [];
-  const att = await db.from('attempts').select('id,subject,completed_at,details,questions_snapshot')
-    .eq('user_id', userId).order('completed_at', { ascending: false }).limit(ATTEMPT_WINDOW);
-  if (att.error) throw fail('REPAIR_RECORD_UNAVAILABLE', att.error);
-  return buildRepairRecord({ userId, reservations: res.data, attempts: att.data || [], limit });
+  // Only each question's id and chapter are read from the snapshot (buildRepairRecord), so a database function reduces it before
+  // it ships (egress A7); the table read below is the same query as before, used when no function is there.
+  let attempts;
+  try { attempts = await readSlimRows(db, userId, 'review', { limit: ATTEMPT_WINDOW }); } catch (e) { throw fail('REPAIR_RECORD_UNAVAILABLE', e); }
+  if (!attempts) {
+    const att = await db.from('attempts').select('id,subject,completed_at,details,questions_snapshot')
+      .eq('user_id', userId).order('completed_at', { ascending: false }).limit(ATTEMPT_WINDOW);
+    if (att.error) throw fail('REPAIR_RECORD_UNAVAILABLE', att.error);
+    attempts = att.data || [];
+  }
+  return buildRepairRecord({ userId, reservations: repairStubRows(res.data), attempts, limit });
 }

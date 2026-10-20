@@ -4,6 +4,8 @@
 // (data/tests/practice_source.test.mjs). No 'server-only' import, so node:test can load it.
 import { readablePracticeQuestions } from './practice_library.js';
 import { PRACTICE_LIGHT_SELECT, PRACTICE_POOL_CACHE_MS } from './practice_pick.js';
+import { subjectCount, subjectToken, tokenUnchanged } from './subject_token.js';
+import { readRowsCached } from './question_row_cache.js';
 
 export const VISIBLE_QUESTION_FILTER = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
 
@@ -15,7 +17,10 @@ export function isMissingPhase1VoteSchema(error) {
 
 // Light subject pools for the slim session-start read, kept PRACTICE_POOL_CACHE_MS per server. A test passes its own.
 export const PRACTICE_CACHES = { pools: new Map() };
-const MAX_CACHED_POOLS = 40;
+// A pool is about 2 MB for the largest subject and a long-lived server keeps one per [subject, chapters, difficulty]: twelve bound it.
+const MAX_CACHED_POOLS = 12;
+// A pool older than this is read again whatever the check says.
+export const POOL_REVALIDATE_MAX_MS = 24 * 60 * 60 * 1000;
 
 /**
  * The `source` object selectPracticeQuestions works with. `hooks` are the per-student reads that stay in
@@ -75,17 +80,32 @@ export function createPracticeSource({ db, subjectId, mode, opts = {}, targetCou
     loadLightPool: async () => {
       const key = JSON.stringify([subjectId, opts.chapters || null, opts.chapter || null, mode.allowDifficultyOverride ? opts.difficulty || null : null]);
       const hit = caches.pools.get(key);
-      if (hit && clock() - hit.at < PRACTICE_POOL_CACHE_MS) return hit.value;
+      const now = clock();
+      if (hit && now - hit.at < PRACTICE_POOL_CACHE_MS) return hit.value;
+      // Past the five minutes, a pool whose subject has not changed (no row written since it was read, no row added or removed) is
+      // exactly what a new read would return: two head counts instead of the whole subject (egress F3). Anything else, an error
+      // or a pool older than a day reads again, as before. The freshness bound for an edit, a withdrawal or a vote is unchanged.
+      if (hit && hit.count !== null && hit.count !== undefined && now - hit.readAt < POOL_REVALIDATE_MAX_MS) {
+        try {
+          if (tokenUnchanged(await subjectToken(db, subjectId, hit.readAt), hit)) { hit.at = clock(); return hit.value; }
+        } catch { /* read it again */ }
+      }
+      const readAt = clock();
+      // The count is taken before the read, so a row that arrives or changes while the pool is read shows next time.
+      let count = null;
+      try { count = await subjectCount(db, subjectId); } catch { count = null; }
       const [rows, managedIds] = await Promise.all([readPool(PRACTICE_LIGHT_SELECT), readManagedIds()]);
       const value = { rows, managedIds };
-      caches.pools.set(key, { at: clock(), value });
+      caches.pools.set(key, { at: clock(), readAt, count, value });
       while (caches.pools.size > MAX_CACHED_POOLS) caches.pools.delete(caches.pools.keys().next().value);
       return value;
     },
     loadFullRows: async (ids) => {
       const rows = [];
       for (let i = 0; i < ids.length; i += 100) {
-        const { data, error } = await db.from('questions').select('*').in('id', ids.slice(i, i + 100));
+        // The newest-N window of managed rows is the same rows for every student: a row whose updated_at has not moved is not read
+        // again (data/question_row_cache.js; the verdicts are still computed fresh from the rows on every start).
+        const { data, error } = await readRowsCached(db, ids.slice(i, i + 100));
         if (error) throw error;
         rows.push(...(data || []));
       }

@@ -14,6 +14,7 @@
 //   * Every line says what happened in plain words, with the question and subject for a repair when they can be found.
 import { mistakeKey, repairIdFromOperationKey } from './repairRecord.js';
 import { subjectName } from '../../components/profile/accountModel.mjs';
+import { readSlimRows } from '../../../data/attempt_reads.js';
 import { REFERRAL_COPY } from '../referrals/friendInvite.mjs';
 
 export const PAGE_SIZE = 30;
@@ -319,9 +320,15 @@ export async function loadHistory({ userId, practiceBalance, aiBalance, total, p
   if (ids.size) {
     // Naming a repair is a nicety: if the attempts read fails the line still says "Repair".
     try {
-      const att = await client.from('attempts').select('id,subject,details,questions_snapshot')
-        .eq('user_id', userId).order('completed_at', { ascending: false }).limit(REPAIR_WINDOW);
-      if (!att.error) details = repairDetails({ userId, ids, attempts: att.data || [] });
+      // repairDetails reads a question's place in the snapshot and the paper's subject, nothing else (egress A7): a database
+      // function reduces the snapshot before it ships; the table read is the same query as before when no function is there.
+      let rows = await readSlimRows(client, userId, 'review', { limit: REPAIR_WINDOW });
+      if (!rows) {
+        const att = await client.from('attempts').select('id,subject,details,questions_snapshot')
+          .eq('user_id', userId).order('completed_at', { ascending: false }).limit(REPAIR_WINDOW);
+        rows = att.error ? null : att.data || [];
+      }
+      if (rows) details = repairDetails({ userId, ids, attempts: rows });
     } catch { /* keep the plain line */ }
   }
   return buildHistory({ practiceRows, aiRows, practiceBalance, aiBalance, total, periodStart, cursor, details, pageSize });

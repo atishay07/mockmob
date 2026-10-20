@@ -24,13 +24,22 @@ import { PRACTICE_LIGHT_SELECT } from './practice_pick.js';
 import { answerReview } from './answer_corrections.mjs';
 import { excludeHeldFamilies } from './evidence_holds.js';
 import { eligibilitySnapshot, publicationEligibility } from './evidence_registry.js';
+import { readRowsCached } from './question_row_cache.js';
 
 /** The one shared column list: every column except evidence and provenance, plus the json-path stubs. */
 export const QUESTION_READ_SELECT = PRACTICE_LIGHT_SELECT;
 
-export const readQuestionRows = (db, ids) => db.from('questions').select(QUESTION_READ_SELECT).in('id', ids);
+// The result page's per-question review (answerReview, sameQuestionText, sameQuestionContent, correctIndexOf) reads these twelve columns of
+// the current row and nothing else (egress F6, 20 Oct 2026); a strict fake in data/tests/egress_question_reads.test.mjs throws on any other.
+export const ANSWER_REVIEW_COLUMNS = Object.freeze(['id', 'is_deleted', 'status', 'verification_state', 'options', 'correct_index', 'correct_answer', 'question', 'body', 'explanation', 'passage_text', 'validated_at']);
+export const ANSWER_REVIEW_SELECT = ANSWER_REVIEW_COLUMNS.join(',');
+// Through the stamp cache (data/question_row_cache.js): opening the same result again reads the stamp, not the rows.
+export const readQuestionRows = (db, ids) => readRowsCached(db, ids, { select: ANSWER_REVIEW_SELECT, name: 'review' });
 export const readQuestionRow = (db, id) => db.from('questions').select(QUESTION_READ_SELECT).eq('id', id).maybeSingle();
-export const readFullQuestionRows = (db, ids) => db.from('questions').select('*').in('id', ids);
+// The full rows come through the stamp cache (data/question_row_cache.js): a row whose updated_at has not moved is not read again.
+// Verdicts are computed from the rows on every call.
+export const readFullQuestionRows = (db, ids) => readRowsCached(db, ids);
+// One row (the key check of one answer, a repair open) stays the plain read: a stamp query would be a second request for one row.
 export const readFullQuestionRow = (db, id) => db.from('questions').select('*').eq('id', id).maybeSingle();
 
 /** The one review state in which the evidence verdict changes the answer. */

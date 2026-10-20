@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import { auth } from '@/lib/auth';
 import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
+import { readRowsCached } from '@/../data/question_row_cache';
 
 export const dynamic = 'force-dynamic';
 
@@ -34,10 +35,9 @@ export async function GET(request) {
     const ids = (data || []).map((row) => row.question_id);
     let questions = [];
     if (ids.length > 0) {
-      const { data: questionRows, error: questionError } = await supabaseAdmin()
-        .from('questions')
-        .select('*')
-        .in('id', ids);
+      // Every saved question is read in full (the signed record decides what may be shown), but a row whose updated_at has not
+      // moved is not read again: opening the Saved list twice costs a stamp, not 35 KB a managed question (egress F7).
+      const { data: questionRows, error: questionError } = await readRowsCached(supabaseAdmin(), ids);
       if (questionError) throw questionError;
       const allowedRows=await readablePracticeQuestions(questionRows || [],supabaseAdmin());
       const byId = new Map(allowedRows.map((row) => [row.id, row]));

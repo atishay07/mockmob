@@ -83,7 +83,7 @@ export async function POST(request) {
   try {
     if(!studyLesson && !questionContext) {
       // A Mob paper still open for the Mob is not in Mobi's record until it closes (src/lib/mob/paperHold.mjs).
-      attempts = openAttemptsOnly(await Database.getAttempts(userId, { limit: 60 }));
+      attempts = openAttemptsOnly(await Database.getAttempts(userId, { limit: 60, slim: 'history' })) // 'history': the lean rows keep the keys and the Mob tag the record answers and the tonight pack read;
       insights = computePrepOSInsights(attempts, { subjectNames: SUBJECT_NAMES });
     }
   } catch { /* the record is unavailable; fall through to the plan or model path */ }

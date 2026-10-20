@@ -75,12 +75,13 @@ test('wiring: requests serve the stored row; only the daily cron recounts, behin
   const inventory = source('src/lib/server/inventory.js');
   assert.doesNotMatch(inventory, /\bafter\(|next\/server|scheduleRefresh/, 'no background refresh after a response');
   const serve = body(inventory, 'publicInventory');
-  assert.doesNotMatch(serve, /computeInventory|refreshInventorySnapshot|from\('questions'\)/, 'publicInventory never counts');
+  assert.doesNotMatch(serve, /computeInventory|refreshInventory|from\('questions'\)/, 'publicInventory never counts');
   assert.match(serve, /servedInventory\(/);
   const refresh = body(inventory, 'refreshInventorySnapshot');
   const guard = refresh.indexOf("assertFullBankRead('the inventory refresh')");
-  assert.ok(guard >= 0 && guard < refresh.indexOf('computeInventory('), 'the guard runs before any read');
-  assert.match(refresh, /if \(error\) throw new Error\('INVENTORY_STORE_FAILED'\)/, 'a failed write is reported, not ignored');
+  assert.ok(guard >= 0 && guard < refresh.indexOf('refreshInventory('), 'the guard runs before any read');
+  // the write moved with the count into data/inventory_fingerprint.js (egress F1): still reported, never ignored
+  assert.match(source('data/inventory_fingerprint.js'), /if \(error\) throw new Error\('INVENTORY_STORE_FAILED'\)/, 'a failed write is reported, not ignored');
 
   // The cron route is the only caller of the refresh.
   const callers = [];

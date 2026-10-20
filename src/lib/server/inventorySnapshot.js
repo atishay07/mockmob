@@ -6,6 +6,14 @@
 // it serves the stored row, and without a usable row it serves an "unavailable" fallback, which the
 // home page, dashboard, practice quote and app already handle.
 
+// The refresh stores a fingerprint of what the count depended on inside the value (data/inventory_fingerprint.js). It is the
+// cron's own bookkeeping and never leaves this module.
+const withoutFingerprint = (value) => {
+  if (!value || typeof value !== 'object' || !('fingerprint' in value)) return value;
+  const { fingerprint: _fingerprint, ...rest } = value;
+  return rest;
+};
+
 // The cron runs daily, within its hour on Hobby, so a normal row is at most about 25 hours old.
 // Older than 36 hours means a daily run failed: the counts are still served, marked stale, with a log line.
 export const SNAPSHOT_STALE_MS = 36 * 60 * 60 * 1000;
@@ -38,7 +46,7 @@ export async function servedInventory({ readStored, now = Date.now(), warn = con
   try { stored = await readStored(); } catch { stored = null; }
   const decision = snapshotDecision(stored, now);
   if (decision.use !== 'snapshot') return { value: inventoryFallback(decision.reason), memo: false };
-  if (!decision.stale) return { value: stored.value, memo: true };
+  if (!decision.stale) return { value: withoutFingerprint(stored.value), memo: true };
   warn(`[inventory] stored question counts are from ${stored.computed_at}, more than 36 hours old: the daily refresh has not run. Serving them marked stale.`);
-  return { value: { ...stored.value, stale: true }, memo: true };
+  return { value: { ...withoutFingerprint(stored.value), stale: true }, memo: true };
 }

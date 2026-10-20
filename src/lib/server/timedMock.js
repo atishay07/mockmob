@@ -24,10 +24,14 @@ export async function timedMockFacts(userId, db) {
       .in('selection_meta->>mode', TIMED_MOCK_MODES).order('completed_at', { ascending: false }).limit(60),
   ])).map(ok);
   const ids = (withClock.data || []).filter((row) => row?.tel === 'self_reported').map((row) => row.id).slice(0, CANDIDATES);
+  // The line only asks whether there is AT LEAST ONE readable paper (data/first_timed_mock.js tests timedMocks > 0), and paperTrace reads
+  // from the snapshot only that it is not empty. So the candidates are read newest first, one at a time, with the id of the first
+  // question standing for the snapshot, and the walk stops at the first readable one (egress A14): timedMocks is 0 or 1.
   let timedMocks = 0;
-  if (ids.length) {
-    const rows = ok(await db.from('attempts').select('id,selection_meta,questions_snapshot').eq('user_id', userId).in('id', ids)).data || [];
-    timedMocks = rows.filter((row) => paperTrace({ selectionMeta: row.selection_meta || {}, questionsSnapshot: row.questions_snapshot || [] }).state === 'ready').length;
+  for (const id of ids) {
+    const rows = ok(await db.from('attempts').select('id,selection_meta,first:questions_snapshot->0->>id').eq('user_id', userId).eq('id', id)).data || [];
+    const readable = rows.some((row) => paperTrace({ selectionMeta: row.selection_meta || {}, questionsSnapshot: row.first ? [{ id: row.first }] : [] }).state === 'ready');
+    if (readable) { timedMocks = 1; break; }
   }
   return { sessions: sessions.count ?? 0, mocks: mocks.count ?? 0, timedMocks, subject: newest.data?.[0]?.subject || null };
 }

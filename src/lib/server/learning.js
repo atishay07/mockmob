@@ -5,6 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { currentRegistry, publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
 import { excludeHeldFamilies } from '@/../data/evidence_holds';
+import { readRowsCached } from '@/../data/question_row_cache';
 import { validatePathway, createEpisode, advanceEpisode, publicEpisode, learningPlan, allowancePeriod, permittedStep } from '@/../data/learning_engine';
 import { tonightCompletion, studyMilestones } from '@/../data/study_progress';
 import { pathwayDigest } from '@/../data/pathway_validation';
@@ -13,6 +14,7 @@ import { withPlanActions } from './actionFields';
 import { guidedSequence, istDay } from '@/../data/study_engine';
 import { goalMinutesOr } from '@/../data/goal_minutes';
 import { getDailyMinutes } from './appPrefs';
+import { weakConcepts as weakConceptsOf, weakChapters as weakChaptersOf } from '@/../data/learning_weak';
 
 export const durableLearningEnabled = () => process.env.LEARNING_SESSIONS_ENABLED === 'true';
 const readManifest = () => JSON.parse(readFileSync(`${process.cwd()}/data/recovery_pathways.json`, 'utf8'));
@@ -38,7 +40,9 @@ export async function validateCurrentPathway(p) {
   if (p.state !== 'released' || !registered || registered.digest !== digest || registered.version !== p.version || registered.calibrationState !== 'released' || registered.ruleVersion !== p.ruleVersion || registered.sourceVersion !== p.sourceVersion) throw new Error('PATHWAY_EVIDENCE_UNAVAILABLE');
   const items = [...p.probes, ...p.repair, ...p.checks];
   const db = supabaseAdmin();
-  const { data, error } = await db.from('questions').select('*').in('id', items.map(i => i.questionId));
+  // Only when LEARNING_SESSIONS_ENABLED and RECOVERY_PATHWAYS_ENABLED are on: the same pathway rows are read on every learning record, so a
+  // row whose updated_at has not moved is not read again (data/question_row_cache.js); the verdicts below are still computed fresh.
+  const { data, error } = await readRowsCached(db, items.map(i => i.questionId));
   if (error) throw new Error('CONTENT_EVIDENCE_UNAVAILABLE');
   const current = await excludeHeldFamilies(data || [], db);
   for (const i of items) {
@@ -53,9 +57,11 @@ export async function learningRecord(userId, { subject, minutes, memo } = {}) {
   // usual length in the study preferences, then 10.
   minutes = goalMinutesOr(minutes, null);
   let usual = null;
+  let studyPrefs = null; // read once; studyRecord below reuses it
   if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
     try {
       const prefs=await getStudyPreferences(userId);
+      studyPrefs=prefs.state==='ready' ? prefs : null;
       const weekday=(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7;
       const weekly=prefs.premium ? prefs.weeklyPlan?.[weekday] : null;
       if(!subject) subject=weekly?.subject;
@@ -68,7 +74,9 @@ export async function learningRecord(userId, { subject, minutes, memo } = {}) {
   const goalMinutes = await getDailyMinutes(userId);
   if (minutes == null) minutes = goalMinutes ?? usual ?? undefined;
   const db = supabaseAdmin();
-  const attempts = await Database.getAttempts(userId, { memo }); // a caller that already read them in this request passes its memo
+  // The plan reads a few fields of each paper (ids, answers, the Tonight record, a question's chapter and concept), so the
+  // database reduces the snapshot before it ships (slim 'plan'; falls back to the whole row when the function is not applied).
+  const attempts = await Database.getAttempts(userId, { memo, slim: 'plan' }); // a caller that already read them in this request passes its memo
   const [episodeResult, sessionResult] = await Promise.all([
     db.from('learning_episodes').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
     db.from('recovery_sessions').select('id,subject,mode,expires_at,selection_meta').eq('user_id', userId).eq('state', 'active').gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).limit(1),
@@ -86,10 +94,9 @@ export async function learningRecord(userId, { subject, minutes, memo } = {}) {
   let suite = {};
   if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
     try {
-      const weakConcepts=attempts.flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>attempt.questionsSnapshot?.find(q=>q.id===answer.qid)?.conceptId).filter(Boolean));
-      // Chapters behind recent ordinary mistakes point to the matching lesson, if one is published.
-      const weakChapters=attempts.slice(0,10).flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>{const q=attempt.questionsSnapshot?.find(q=>q.id===answer.qid);return q?.chapter ? {subject:q.subject || attempt.subject,chapter:q.chapter} : null;}).filter(Boolean));
-      const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts,weakChapters});
+      const weakConcepts=weakConceptsOf(attempts);
+      const weakChapters=weakChaptersOf(attempts);
+      const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts,weakChapters,prefs:studyPrefs || undefined});
       if (study.state === 'ready') {
         const sequence = guidedSequence(plan,study,plan.minutes,{attempts:attempts.length});
         suite = { sequence, primary:sequence[0] || plan.primary, study:{dueCards:study.queue.dueCount,lessonsRead:study.progress.lessonsRead,preferences:study.preferences,weekday:(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7} };

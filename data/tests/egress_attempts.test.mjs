@@ -220,5 +220,5 @@ test('the copied mapper is the one in data/db.js', () => {
   for (const part of ["id: r.id,", "userId: r.user_id,", "details: r.details || [],", "questionsSnapshot: r.questions_snapshot || [],", "selectionMeta: r.selection_meta || {},", "mode: (r.selection_meta && r.selection_meta.mode) || null,", "formatId: formatIdFor({ subject: r.subject, total: r.total, questionsSnapshot: r.questions_snapshot || [], selectionMeta: r.selection_meta || {} }),", "completedAt: new Date(r.completed_at).getTime(),"]) {
     assert.ok(body.includes(part), part);
   }
-  assert.match(source, /async getAttempts\(userId, \{ columns, limit, memo \} = \{\}\)/);
+  assert.match(source, /async getAttempts\(userId, \{ columns, limit, memo, slim \} = \{\}\)/);
 });

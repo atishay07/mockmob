@@ -1,7 +1,7 @@
 import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import { PRACTICE_LIGHT_SELECT, PRACTICE_POOL_CACHE_MS, PRACTICE_QUESTION_COLUMNS, selectPracticeQuestions } from '../practice_pick.js';
-import { VISIBLE_QUESTION_FILTER, createPracticeSource } from '../practice_source.js';
+import { POOL_REVALIDATE_MAX_MS, VISIBLE_QUESTION_FILTER, createPracticeSource } from '../practice_source.js';
 import { getMode } from '../test_modes.js';
 import { bytesOf, legacyRow, managedRows, rng, setFixtureSecret } from './helpers/egress_fixtures.mjs';
 import { practiceFakeDb } from './helpers/practice_fake_db.mjs';
@@ -53,8 +53,10 @@ async function start(bank, { mode = 'quick', count = 10, opts = {}, slim = true,
 }
 
 const isPoolRead = (call) => call.table === 'questions' && call.columns === PRACTICE_LIGHT_SELECT;
-const isManagedScan = (call) => call.table === 'questions' && call.columns === 'id';
-const isPickRead = (call) => call.table === 'questions' && call.filters.length === 1 && call.filters[0] === 'in:id';
+const isManagedScan = (call) => call.table === 'questions' && call.columns === 'id' && !call.head;
+const isPickRead = (call) => call.table === 'questions' && call.columns === '*' && call.filters.length === 1 && call.filters[0] === 'in:id';
+// The stamp read of the row cache (egress F4): id and updated_at of the picked rows, about 70 bytes a row.
+const isStampRead = (call) => call.table === 'questions' && call.columns === 'id,updated_at' && call.filters.length === 1 && call.filters[0] === 'in:id';
 const isWholeSubjectRead = (call) => call.table === 'questions' && call.columns === '*' && call.rows > 100;
 
 test('the light select reads plain columns plus three json-path stubs, never the evidence or provenance record itself', () => {
@@ -82,8 +84,9 @@ test('a slim start sends the pool read in the light columns and reads full rows 
   const picks = db.calls.filter(isPickRead);
   assert.ok(picks.length >= 1 && picks.every((call) => call.columns === '*' && call.rows <= 100));
   assert.equal(db.calls.filter(isWholeSubjectRead).length, 0, 'no start reads the whole subject with every column');
-  const accounted = db.calls.filter((call) => isPoolRead(call) || isManagedScan(call) || isPickRead(call) || call.table === 'recovery_family_holds');
+  const accounted = db.calls.filter((call) => isPoolRead(call) || isManagedScan(call) || isPickRead(call) || isStampRead(call) || call.table === 'recovery_family_holds' || call.head);
   assert.equal(accounted.length, db.calls.length, 'every request is one of the known shapes');
+  assert.equal(db.calls.filter((call) => call.head).length, 1, 'a read takes the subject row count first: one head count, no body (egress F3)');
   assert.ok(pool.every((call) => !JSON.stringify(call).includes('physics')));
 });
 
@@ -118,7 +121,7 @@ test('before and after: same picks, same meta, a fraction of the bytes (measured
   console.log(lines.map((line) => `  [bytes] ${line}`).join('\n'));
 });
 
-test('the pool is kept for five minutes per server: a repeat start reads only the picked rows, and a late one reads the pool again', async () => {
+test('the pool is kept for five minutes per server: a repeat start reads only the picked rows', async () => {
   const bank = subjectBank(7);
   let now = 1_000_000;
   const caches = { pools: new Map() };
@@ -128,14 +131,84 @@ test('the pool is kept for five minutes per server: a repeat start reads only th
   const second = await start(bank, { count: 10, caches, clock: () => now });
   assert.equal(second.db.requests(isPoolRead), 0);
   assert.equal(second.db.requests(isManagedScan), 0);
+  assert.equal(second.db.requests((call) => call.head), 0, 'inside the five minutes nothing is asked');
   assert.deepEqual(second.result.selected.map((row) => row.id), first.result.selected.map((row) => row.id));
   assert.ok(second.db.bytes() < first.db.bytes() * 0.7, `${second.db.bytes()} vs ${first.db.bytes()}`);
-  now += 2;
-  const third = await start(bank, { count: 10, caches, clock: () => now });
-  assert.ok(third.db.requests(isPoolRead) >= 1);
   // Different chapters, or another difficulty, are separate pools.
   const chapter = await start(bank, { count: 10, caches, clock: () => now, opts: { chapter: 'Ratios' } });
   assert.ok(chapter.db.requests(isPoolRead) >= 1);
+});
+
+// Egress F3 (20 Oct 2026): after the five minutes, an unchanged subject is revalidated with two head counts instead of read again.
+test('after five minutes an unchanged subject costs two head counts and no pool read; the picks are the ones a fresh read gives', async () => {
+  const bank = subjectBank(7).map((row) => ({ ...row, updated_at: '2026-09-01T00:00:00.000Z' }));
+  let now = Date.parse('2026-10-20T10:00:00.000Z');
+  const caches = { pools: new Map() };
+  const first = await start(bank, { count: 10, caches, clock: () => now });
+  now += PRACTICE_POOL_CACHE_MS + 1000;
+  const late = await start(bank, { count: 10, caches, clock: () => now });
+  assert.equal(late.db.requests(isPoolRead), 0, 'no pool read');
+  assert.equal(late.db.requests(isManagedScan), 0, 'no managed-id scan');
+  const heads = late.db.calls.filter((call) => call.head);
+  assert.equal(heads.length, 2);
+  assert.ok(heads.every((call) => call.filters.includes('eq:subject') && call.bytes === 0));
+  assert.ok(heads.some((call) => call.filters.includes('gte:updated_at')));
+  // The picks equal those of a start with no cache at all (the old read), over the same bank.
+  const uncached = await start(bank, { count: 10, clock: () => now });
+  assert.deepEqual(late.result.selected.map((row) => row.id), uncached.result.selected.map((row) => row.id));
+  assert.deepEqual(late.result.selected.map((row) => row.id), first.result.selected.map((row) => row.id));
+  // and the entry is fresh again for five minutes
+  const soon = await start(bank, { count: 10, caches, clock: () => now + 1000 });
+  assert.equal(soon.db.requests((call) => call.head), 0);
+});
+
+test('a touched row, an insert, a hard delete, a count error or a pool older than a day each read the pool again', async () => {
+  const MIN = 60_000;
+  const cases = [
+    ['a row written since the read (a vote, an edit, a withdrawal)', (bank, at) => { const row = bank.find((r) => r.subject === SUBJECT && r.status === 'live'); row.score = 1; row.updated_at = new Date(at + MIN).toISOString(); }],
+    ['a row inserted', (bank, at) => { bank.push({ ...bank.find((r) => r.subject === SUBJECT && r.status === 'live'), id: 'q-new-1', updated_at: new Date(at + MIN).toISOString() }); }],
+    ['a row removed', (bank) => { bank.splice(bank.findIndex((r) => r.subject === SUBJECT), 1); }],
+  ];
+  for (const [name, change] of cases) {
+    const bank = subjectBank(9, { legacy: 120, managed: 30 }).map((row) => ({ ...row, updated_at: '2026-09-01T00:00:00.000Z' }));
+    const at = Date.parse('2026-10-20T10:00:00.000Z');
+    let now = at;
+    const caches = { pools: new Map() };
+    await start(bank, { count: 10, caches, clock: () => now });
+    change(bank, at);
+    now = at + PRACTICE_POOL_CACHE_MS + 2 * MIN;
+    const after = await start(bank, { count: 10, caches, clock: () => now });
+    assert.ok(after.db.requests(isPoolRead) >= 1, name);
+  }
+  // an error in the check reads again, exactly as before the check existed
+  const bank = subjectBank(9, { legacy: 120, managed: 30 }).map((row) => ({ ...row, updated_at: '2026-09-01T00:00:00.000Z' }));
+  let now = Date.parse('2026-10-20T10:00:00.000Z');
+  const caches = { pools: new Map() };
+  await start(bank, { count: 10, caches, clock: () => now });
+  now += PRACTICE_POOL_CACHE_MS + 1000;
+  const failing = await start(bank, { count: 10, caches, clock: () => now, failOn: ({ columns, filters }) => (columns === 'id' && filters.includes('gte:updated_at') ? { code: 'XX000', message: 'down' } : null) });
+  assert.ok(failing.db.requests(isPoolRead) >= 1, 'a count error');
+  // older than a day: read again even though nothing changed
+  const old = { pools: new Map() };
+  let t = Date.parse('2026-10-20T10:00:00.000Z');
+  await start(bank, { count: 10, caches: old, clock: () => t });
+  t += POOL_REVALIDATE_MAX_MS + 1000;
+  const aged = await start(bank, { count: 10, caches: old, clock: () => t });
+  assert.ok(aged.db.requests(isPoolRead) >= 1);
+  assert.equal(aged.db.calls.filter((call) => call.head && call.filters.includes('gte:updated_at')).length, 0, 'the day limit is checked before the revalidation counts');
+});
+
+test('a chapter-filtered pool is revalidated with the subject token like any other, and at most twelve pools are kept', async () => {
+  const bank = subjectBank(11, { legacy: 120, managed: 30 }).map((row) => ({ ...row, updated_at: '2026-09-01T00:00:00.000Z' }));
+  let now = Date.parse('2026-10-20T10:00:00.000Z');
+  const caches = { pools: new Map() };
+  await start(bank, { count: 10, caches, clock: () => now, opts: { chapter: 'Ratios' } });
+  now += PRACTICE_POOL_CACHE_MS + 1000;
+  const late = await start(bank, { count: 10, caches, clock: () => now, opts: { chapter: 'Ratios' } });
+  assert.equal(late.db.requests(isPoolRead), 0);
+  assert.equal(late.db.requests((call) => call.head), 2);
+  for (let i = 0; i < 20; i += 1) await start(bank, { count: 10, caches, clock: () => now, opts: { chapters: [`Chapter ${i}`] } });
+  assert.ok(caches.pools.size <= 12, `${caches.pools.size} pools kept`);
 });
 
 test('a database without the vote columns still serves the start: the pool read is repeated without the score filter', async () => {
