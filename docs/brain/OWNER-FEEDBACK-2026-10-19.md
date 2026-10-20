@@ -990,7 +990,7 @@ Billing page: "Your grace period has started. Your organization went over its qu
 **Ledger D193:** the website's monthly Pro stays ₹99 a month (D135/D136 confirmed); the Razorpay plan is ₹99; Play stays ₹149.
 **Ledger D194:** the welcome hero line "Every lost mark has a pattern." stays; the "lost/behind/last" rule applies everywhere else.
 
-## Owner, 21 Oct about 12:28 am IST (verbatim)
+## Owner, 21 Oct about 12:17 am IST (verbatim)
 > "Three things:
 > 1. This disk is full. Why did this happen? We had a standing rule: a few days back, I had performed a disk cleanup with Claude only. At that time, that agent confirmed to me that it will take care of the files and every agent will, from now on, follow practices that will not fill up the space again. We were able to free up 200 GB just from deleting all the useless stuff. Now, again, in just barely 2, 3 days, you have filled 200 GB again. How is this even possible? I hope you are able to clean it again.
 > 2. I have deactivated and disabled the "Allow public access to channels" in Supabase. You can check it.
@@ -1023,7 +1023,12 @@ Billing page: "Your grace period has started. Your organization went over its qu
 > But it's not like you handle all the stuff. By the way, it just affects the speed a lot."
 **Ledger D198:** never let one long-running agent gate the pipeline; Fable does the work itself and splits the rest into short parallel pieces (Sonnet quick tasks, Opus taste/motion).
 
-## Owner, 21 Oct about 3:55 am IST (verbatim)
+## Owner, 21 Oct about 3:36 am IST (verbatim)
 > "It's the final version of the app, ready. Is this version as close to perfection as you can do?"
 > "Looks good to me, everything that you have said. Right now, just give me the build so that I can quickly upload it to the Play Store and send it for review, so that from tomorrow morning we can start the closed testing."
 **Ledger D199:** version 16 ships as built; the three medium walk items (explainer slides text, Today date at 1.3, repairOpen note next to the repair hero) go to the next session.
+
+## Owner, 21 Oct about 3:58 am IST (verbatim)
+> "Is it possible that you can send the Google Play file right now only, because I really have to go to sleep right now, and before that, I have to send the app for review anyhow"
+> "everything is done so whatever you're doing if its not working then stop everything after 10-15 mins im going to sleep"
+(The bundle and OWNER-STEPS were sent at 3:52 am; the folder was completed by 4:05 am.)
