@@ -88,10 +88,32 @@ class ProNudgeController extends Notifier<ProNudgeState> {
   }
 
   Future<void> _load(String userId) async {
-    final saved = await ref.read(proNudgeStoreProvider).load(userId);
+    final ProNudgeSaved saved;
+    try {
+      saved = await ref.read(proNudgeStoreProvider).load(userId);
+    } on Object {
+      // The phone's preferences cannot be read: nothing is known, so no nudge shows (they wait for `loaded`).
+      return;
+    }
     if (!ref.mounted || state.userId != userId) return;
-    state = state.copyWith(loaded: true, saved: saved);
+    // What happened while the read was in flight (a Pro page opened, a result viewed) is kept, never replaced
+    // by the older copy that was read.
+    final now = state.saved;
+    state = state.copyWith(
+      loaded: true,
+      saved: saved.copyWith(popupShown: saved.popupShown || now.popupShown, resultsViewed: saved.resultsViewed > now.resultsViewed ? saved.resultsViewed : now.resultsViewed),
+    );
     _noteOnboarded();
+  }
+
+  /// Saves one thing on the phone. Best effort, as everything here: a value that cannot be saved only means a
+  /// nudge may show once more, and a student's tap never waits for, or fails with, the phone's storage.
+  void _persist(Future<void> Function(ProNudgeStore store) write) {
+    try {
+      unawaited(write(ref.read(proNudgeStoreProvider)).catchError((Object _) {}));
+    } on Object {
+      // See above.
+    }
   }
 
   /// Onboarding finished in this run and the student is signed in and out of onboarding: the first
@@ -112,7 +134,7 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     );
     if (mark == null) return;
     state = state.copyWith(saved: saved.copyWith(onboardedAt: mark.at, onboardedLaunch: mark.launch, actionsAtOnboarded: mark.actions));
-    unawaited(ref.read(proNudgeStoreProvider).saveOnboarded(userId, at: mark.at, launch: mark.launch, actions: mark.actions));
+    _persist((store) => store.saveOnboarded(userId, at: mark.at, launch: mark.launch, actions: mark.actions));
   }
 
   /// The student is looking at a result (the result's Pro row mounted). Counted on the phone, so the very
@@ -123,7 +145,7 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     if (userId == null || !state.loaded) return;
     final count = state.saved.resultsViewed + 1;
     state = state.copyWith(saved: state.saved.copyWith(resultsViewed: count), resultViewed: true, rootReturns: 0);
-    unawaited(ref.read(proNudgeStoreProvider).saveResultsViewed(userId, count));
+    _persist((store) => store.saveResultsViewed(userId, count));
   }
 
   /// The student arrived at a tab root (the app shell calls it when the location changes to one). After a
@@ -152,7 +174,7 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     final userId = state.userId;
     if (userId == null || state.saved.popupShown) return;
     state = state.copyWith(saved: state.saved.copyWith(popupShown: true));
-    unawaited(ref.read(proNudgeStoreProvider).savePopupShown(userId));
+    _persist((store) => store.savePopupShown(userId));
   }
 
   /// The student closed an inline nudge: it stays quiet for [InlineRules.quietFor].
@@ -161,7 +183,7 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     if (userId == null) return;
     final at = ref.read(nowProvider)();
     state = state.copyWith(saved: state.saved.copyWith(dismissed: {...state.saved.dismissed, surface.key: at}));
-    unawaited(ref.read(proNudgeStoreProvider).saveDismissed(userId, surface, at));
+    _persist((store) => store.saveDismissed(userId, surface, at));
   }
 }
 

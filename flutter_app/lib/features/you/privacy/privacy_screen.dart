@@ -11,9 +11,9 @@ import 'event_list_sheet.dart';
 import 'usage_data_card.dart';
 import 'usage_data_controller.dart';
 
-/// Privacy: usage data. Everyone sees the page; the switch is for everyone who did not say they are
-/// under 18 (18 or older and "Prefer not to say", D183) and anyone can switch it off here. For under 18
-/// (or an age never answered) it reads "Off for your account." with no switch.
+/// Privacy: usage data. Everyone sees the page; the switch is for everyone who answered the age question
+/// and did not say they are under 18 (18 or older and "Prefer not to say", D183), and anyone can switch it
+/// off here. For under 18 (or an age never answered) it reads "Off for your account." with no switch.
 class PrivacyScreen extends ConsumerWidget {
   const PrivacyScreen({super.key});
 
@@ -21,7 +21,7 @@ class PrivacyScreen extends ConsumerWidget {
     final band = await showAgeQuestionSheet(
       context,
       current: consent.consent.ageBand,
-      answered: consent.consent.decidedAt != null,
+      answered: consent.consent.answered,
     );
     if (band == null) return;
     await ref.read(usageDataControllerProvider.notifier).changeAge(band);

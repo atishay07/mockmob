@@ -343,7 +343,7 @@ abstract final class YouCopy {
       '${plural(count, 'study update')} waiting to send will be removed too.';
   static const deleteCancelNote =
       'To cancel, email support@mockmob.in from your account address before we finish.';
-  static const deletePlayNote = 'Deleting your account does not cancel Pro in Google Play. Cancel it there first so you are not charged again.';
+  static const deletePlayNote = 'Deleting your account does not cancel your Pro subscription in Google Play. Cancel it there to stop being charged.';
   static const deleteRequest = 'Request deletion';
   static const deleteKeep = 'Keep my account';
   static const deleteOffline = 'You are offline. Nothing was requested. Try again when you are connected.';

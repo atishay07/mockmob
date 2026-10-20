@@ -147,30 +147,29 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
     if (mounted) setState(() => _manageFailed = !opened);
   }
 
-  /// Above the key that sends the request, and again once it is recorded: deleting the account does not stop
-  /// Google Play charging for Pro, so the student is pointed at Google Play first (it protects teens from a
-  /// charge they did not expect). Nothing when there is no subscription that could still charge.
+  /// Whether a Google Play subscription that can still charge the student is on this account.
+  bool get _playOwed => deleteLeavesPlayCharging(ref.watch(playSubscriptionProvider));
+
+  /// The warning, read before the student types DELETE and again once the request is recorded: deleting the
+  /// account does not stop Google Play charging for Pro, so the student is pointed at Google Play (it protects
+  /// teens from a charge they did not expect). Callers draw it only when [_playOwed].
   Widget _playNotice(BuildContext context) {
-    if (!deleteLeavesPlayCharging(ref.watch(playSubscriptionProvider))) return const SizedBox.shrink();
     final colors = context.mmColors;
-    return Padding(
-      padding: const EdgeInsets.only(bottom: MmSpace.s16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          InlineBanner(
-            message: YouCopy.deletePlayNote,
-            tone: BannerTone.warning,
-            actionLabel: BillingCopy.manageSubscription,
-            onAction: _manage,
-            actionChevron: false,
-          ),
-          if (_manageFailed) ...[
-            const SizedBox(height: MmSpace.s8),
-            Semantics(liveRegion: true, child: Text(BillingCopy.manageOpenFailed, style: context.mmType.small.copyWith(color: colors.ink2))),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        InlineBanner(
+          message: YouCopy.deletePlayNote,
+          tone: BannerTone.warning,
+          actionLabel: BillingCopy.manageSubscription,
+          onAction: _manage,
+          actionChevron: false,
+        ),
+        if (_manageFailed) ...[
+          const SizedBox(height: MmSpace.s8),
+          Semantics(liveRegion: true, child: Text(BillingCopy.manageOpenFailed, style: context.mmType.small.copyWith(color: colors.ink2))),
         ],
-      ),
+      ],
     );
   }
 
@@ -228,6 +227,7 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
           const SizedBox(height: MmSpace.s12),
           Text(YouCopy.deleteQueued(_pending.queuedWrites), style: type.body.copyWith(color: colors.ink2)),
         ],
+        if (_playOwed) ...[const SizedBox(height: MmSpace.s16), _playNotice(context)],
         const SizedBox(height: MmSpace.group),
         Semantics(
           label: YouCopy.deleteTypeLabel,
@@ -252,7 +252,6 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         ),
         const SizedBox(height: MmSpace.group),
         if (_error != null) ...[InlineBanner(message: _error!, tone: BannerTone.error), const SizedBox(height: MmSpace.s16)],
-        _playNotice(context),
         // The safe choice is the dominant key. The destructive key sits flat beside it in weight,
         // stays off until DELETE is typed, and never carries Mobi.
         KeyButton(label: YouCopy.deleteKeep, onPressed: sending ? null : () => Navigator.of(context).maybePop()),
@@ -295,7 +294,7 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         Text(YouCopy.deleteSignOutNote, style: type.small.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.group),
         if (_error != null) ...[InlineBanner(message: _error!, tone: BannerTone.error), const SizedBox(height: MmSpace.s16)],
-        _playNotice(context),
+        if (_playOwed) ...[_playNotice(context), const SizedBox(height: MmSpace.s16)],
         KeyButton(label: YouCopy.signOut, loading: signingOut, onPressed: signingOut ? null : _signOut),
       ],
     );

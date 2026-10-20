@@ -335,12 +335,26 @@ void main() {
   });
 
   group('Consent', () {
-    test('collects only for an adult who allowed it and has not withdrawn', () {
+    test('collects for 18 or older and for Rather not say, once answered, allowed and not withdrawn (D183)', () {
+      const decided = '2026-10-12T10:00:00Z';
       expect(Consent.fromJson({'ageBand': 'adult', 'analyticsAllowed': true}).canCollect, isTrue);
       expect(Consent.fromJson({'ageBand': 'adult', 'analyticsAllowed': true, 'withdrawnAt': '2026-10-12T00:00:00Z'}).canCollect, isFalse);
-      expect(Consent.fromJson({'ageBand': 'minor', 'analyticsAllowed': true}).canCollect, isFalse);
-      expect(Consent.fromJson({'ageBand': 'unknown', 'analyticsAllowed': true}).canCollect, isTrue, reason: 'Rather not say is on (D183)');
+      expect(Consent.fromJson({'ageBand': 'adult', 'analyticsAllowed': false}).canCollect, isFalse, reason: 'anyone can switch it off');
+      expect(Consent.fromJson({'ageBand': 'unknown', 'analyticsAllowed': true, 'decidedAt': decided}).canCollect, isTrue, reason: 'Rather not say is on (D183)');
+      expect(Consent.fromJson({'ageBand': 'unknown', 'analyticsAllowed': true, 'decidedAt': decided, 'withdrawnAt': decided}).canCollect, isFalse);
+      expect(Consent.fromJson({'ageBand': 'unknown', 'analyticsAllowed': true}).canCollect, isFalse, reason: 'an age never answered collects nothing');
+      expect(Consent.fromJson({'ageBand': 'minor', 'analyticsAllowed': true, 'decidedAt': decided}).canCollect, isFalse, reason: 'under 18 is never collected');
       expect(Consent.fromJson({}).canCollect, isFalse);
+    });
+
+    test('answered and the switch: a band, or Rather not say (the unknown band with a decision); never for under 18', () {
+      const decided = '2026-10-12T10:00:00Z';
+      final never = Consent.fromJson({'ageBand': 'unknown', 'analyticsAllowed': false});
+      final ratherNot = Consent.fromJson({'ageBand': 'unknown', 'analyticsAllowed': false, 'decidedAt': decided});
+      final adult = Consent.fromJson({'ageBand': 'adult', 'analyticsAllowed': false});
+      final minor = Consent.fromJson({'ageBand': 'minor', 'analyticsAllowed': false});
+      expect([never.answered, ratherNot.answered, adult.answered, minor.answered], [false, true, true, true]);
+      expect([never.switchAvailable, ratherNot.switchAvailable, adult.switchAvailable, minor.switchAvailable], [false, true, true, false]);
     });
   });
 

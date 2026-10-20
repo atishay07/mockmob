@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/account_sheet/account_sheet.dart' show showAccountSheet;
-import '../../features/pro_nudge/pro_nudge.dart' show PopupRules, proNudgeProvider, showFirstSessionUpgradeIfDue, upgradePopupDueProvider;
+import '../../features/pro_nudge/pro_nudge.dart' show ArmRules, PopupRules, proNudgeProvider, showFirstSessionUpgradeIfDue, upgradePopupDueProvider;
 import '../haptics/haptics.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
@@ -75,8 +75,9 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
   double _up = 0;
   String? _location;
 
-  /// The path of the last location, to tell an arrival at a tab root from a change of query.
-  String? _path;
+  /// Whether the last location was a tab root with nothing over the shell, to tell a return to one (a page
+  /// closed over it) from a switch of tab. Null before the first location.
+  bool? _atRoot;
   bool _keyboardWasOpen = false;
   late final bool _entrance;
 
@@ -197,14 +198,17 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     final location = uri.toString();
     if (_location != null && location != _location) _expand();
     _location = location;
-    // An arrival at a tab root counts towards arming the first-session upgrade sheet (D181: the second
-    // return after a viewed result). After the frame, never while the tree is building.
-    if (_path != null && uri.path != _path && AppRoutes.branchRoots.contains(uri.path)) {
+    // A return to a tab root counts towards arming the first-session upgrade sheet (D181: the second return
+    // after a viewed result): a result, run or settings page closed over the shell, or a page of the tab closed.
+    // The shell's own location stays on the tab while a page is open over it, so the shell being on top is
+    // what is watched, not the path alone. After the frame, never while the tree is building.
+    final atRoot = ArmRules.atTabRoot(path: uri.path, shellOnTop: ModalRoute.of(context)?.isCurrent ?? true, roots: AppRoutes.branchRoots);
+    if (ArmRules.isTabRootReturn(wasAtRoot: _atRoot, nowAtRoot: atRoot)) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) ref.read(proNudgeProvider.notifier).noteTabRoot();
       });
     }
-    _path = uri.path;
+    _atRoot = atRoot;
     _maybeOpenAccount(uri);
     _maybeUpgradePopup();
 

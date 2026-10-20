@@ -20,7 +20,8 @@ class AnalyticsGate {
   /// The signed-in MockMob user id. Null when signed out.
   final String? userId;
 
-  /// The consent read succeeded and says an adult allowed usage data, with no withdrawal pending.
+  /// The consent read succeeded and says usage data is allowed (the student did not say they are under 18), with
+  /// no withdrawal pending.
   final bool consentActive;
 
   /// The server answered `collecting:false` for this user.
@@ -62,7 +63,7 @@ class ApiAnalyticsTransport implements AnalyticsTransport {
 /// Consent-gated usage-data client (design spec 5.12.3).
 ///
 /// Rules, each covered by a unit test:
-/// - nothing is queued or sent unless the consent record loaded and allows an adult,
+/// - nothing is queued or sent unless the consent record loaded and allows it (never for a student under 18),
 /// - the queue is cleared on withdrawal, sign-out and account switch ([discardAll]),
 /// - a flush sends only events tagged with the signed-in user's id,
 /// - sending stops when the server answers `collecting:false`,

@@ -12,7 +12,7 @@ import '../../billing/data/billing_controller.dart';
 import '../../billing/data/play_products.dart';
 import '../../billing/widgets/billing_notice.dart';
 import '../../billing/widgets/pro_page.dart' show ProPageArgs, openProPage;
-import '../../billing/widgets/get_pro_sheet.dart' show ProPriceBlock, needsGooglePlay, proMonthlyPrice, proPriceParts, proStatusView;
+import '../../billing/widgets/get_pro_sheet.dart' show ProPriceBlock, needsGooglePlay, proMonthlyPrice, proPriceParts, proStatusOf, proStatusView;
 import '../../credits/data/credit_figures.dart';
 import '../copy.dart';
 import '../data/pro_benefits.dart';
@@ -50,6 +50,9 @@ bool showUpgradeSheetIfOn(BuildContext context, {required ProReason reason}) {
 
 /// The Upgrade sheet: Pro in a dismissible bottom sheet with Not now. The first-session ask uses it (D181);
 /// every upgrade the student opens themselves is the full Pro page ([showUpgradeSheetIfOn]).
+///
+/// Get Pro and Not now are pinned under the scrolling body, so on a short phone, or with the student's four own
+/// lines, the way out is never below the fold.
 bool showUpgradeBottomSheetIfOn(BuildContext context, {required ProReason reason}) {
   final container = ProviderScope.containerOf(context, listen: false);
   if (!container.read(proNudgesOnProvider)) return false;
@@ -57,7 +60,8 @@ bool showUpgradeBottomSheetIfOn(BuildContext context, {required ProReason reason
     context: context,
     // A subscription to fix in Google Play is not framed by a sales headline: its own heading leads.
     title: needsGooglePlay(container.read(playSubscriptionProvider)) ? null : ProNudgeCopy.head(reason).title,
-    builder: (sheet) => UpgradeSheetBody(reason: reason, onClose: () => Navigator.of(sheet).maybePop()),
+    builder: (sheet) => UpgradeSheetBody(reason: reason, onClose: () => Navigator.of(sheet).maybePop(), keysPinned: true),
+    footer: (sheet) => UpgradeSheetKeys(onClose: () => Navigator.of(sheet).maybePop()),
   ));
   return true;
 }
@@ -68,10 +72,14 @@ bool showUpgradeBottomSheetIfOn(BuildContext context, {required ProReason reason
 /// Google Play unavailable, the product missing, a pending payment, the server confirming, a cancel, a
 /// failure with Try again. "Pro is on" appears only after the server confirmed the purchase.
 class UpgradeSheetBody extends ConsumerStatefulWidget {
-  const UpgradeSheetBody({super.key, required this.reason, this.onClose});
+  const UpgradeSheetBody({super.key, required this.reason, this.onClose, this.keysPinned = false});
 
   final ProReason reason;
   final VoidCallback? onClose;
+
+  /// The sheet draws Get Pro and Not now itself, pinned under this body ([UpgradeSheetKeys]); the body leaves
+  /// them out.
+  final bool keysPinned;
 
   @override
   ConsumerState<UpgradeSheetBody> createState() => _UpgradeSheetBodyState();
@@ -122,12 +130,12 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
     final personal = ProBenefits.isPersonal(facts, reason: widget.reason);
     final lines = ProBenefits.lines(facts, reason: widget.reason);
     final price = proMonthlyPrice(s);
-    final working = s.stage == BillingStage.starting || s.stage == BillingStage.verifying;
     final loadingStore = s.productsLoading || (s.store == StoreAvailability.checking && s.products.isEmpty);
 
     final Widget priceArea;
     if (price != null) {
-      priceArea = ProPriceBlock(parts: proPriceParts(s)!);
+      // Pinned under the body with the keys, next to Get Pro, when the sheet pins them.
+      priceArea = widget.keysPinned ? const SizedBox.shrink() : ProPriceBlock(parts: proPriceParts(s)!);
     } else if (loadingStore) {
       priceArea = const _PriceLoading();
     } else {
@@ -162,25 +170,81 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
             child: KeyedSubtree(key: ValueKey(price != null ? 'price' : (loadingStore ? 'loading' : 'unavailable')), child: priceArea),
           ),
           BillingNotice(ids: {PlayProducts.proId}, showRestore: true),
-          const SizedBox(height: MmSpace.s16),
-          KeyButton(
-            label: BillingCopy.getPro,
-            loading: working,
-            onPressed: price == null || s.busy ? null : () => ctl.buy(PlayProducts.proId),
-          ),
-          const SizedBox(height: MmSpace.s4),
-          // A Wrap, so at large text on a narrow phone the second key goes under the first instead of off the edge.
-          Wrap(
-            alignment: WrapAlignment.center,
-            children: [
-              KeyButton.quiet(label: ProNudgeCopy.notNow, onPressed: widget.onClose),
-              KeyButton.quiet(label: BillingCopy.restore, onPressed: s.busy ? null : () => ctl.restore()),
-            ],
-          ),
-          const SizedBox(height: MmSpace.s4),
-          Text(BillingCopy.googlePlayNote, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink3)),
+          if (!widget.keysPinned) ...[
+            const SizedBox(height: MmSpace.s16),
+            UpgradeBuyKeys(onClose: widget.onClose),
+            const SizedBox(height: MmSpace.s4),
+            // Pinned, the note stands under the keys with them ([UpgradeSheetKeys]).
+            Text(BillingCopy.googlePlayNote, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink3)),
+          ],
         ],
       ),
+    );
+  }
+}
+
+/// Get Pro and, under it, Not now and Restore purchases: the sheet's keys. They stand in the body of the full
+/// sheet and, in the first-session bottom sheet, pinned under the scrolling body ([UpgradeSheetKeys]).
+class UpgradeBuyKeys extends ConsumerWidget {
+  const UpgradeBuyKeys({super.key, required this.onClose});
+
+  final VoidCallback? onClose;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final s = ref.watch(playBillingProvider);
+    final ctl = ref.read(playBillingProvider.notifier);
+    final price = proMonthlyPrice(s);
+    final working = s.stage == BillingStage.starting || s.stage == BillingStage.verifying;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        KeyButton(
+          label: BillingCopy.getPro,
+          loading: working,
+          onPressed: price == null || s.busy ? null : () => ctl.buy(PlayProducts.proId),
+        ),
+        const SizedBox(height: MmSpace.s4),
+        // A Wrap, so at large text on a narrow phone the second key goes under the first instead of off the edge.
+        Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            KeyButton.quiet(label: ProNudgeCopy.notNow, onPressed: onClose),
+            KeyButton.quiet(label: BillingCopy.restore, onPressed: s.busy ? null : () => ctl.restore()),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+/// The footer of the first-session bottom sheet: [UpgradeBuyKeys] while Pro can be bought, nothing while the sheet
+/// shows a status instead (Pro is on, or a subscription is fixed in Google Play), which has its own keys.
+class UpgradeSheetKeys extends ConsumerWidget {
+  const UpgradeSheetKeys({super.key, required this.onClose});
+
+  final VoidCallback onClose;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final status = proStatusOf(
+      s: ref.watch(playBillingProvider),
+      isPro: ref.watch(creditFiguresProvider.select((f) => f.isPro)),
+      sub: ref.watch(playSubscriptionProvider),
+    );
+    if (status != null) return const SizedBox.shrink();
+    // The price stands next to the key that buys it, in view whatever the body has scrolled to.
+    final parts = proPriceParts(ref.watch(playBillingProvider));
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (parts != null) ...[ProPriceBlock(parts: parts), const SizedBox(height: MmSpace.s12)],
+        UpgradeBuyKeys(onClose: onClose),
+        const SizedBox(height: MmSpace.s4),
+        Text(BillingCopy.googlePlayNote, textAlign: TextAlign.center, style: context.mmType.caption.copyWith(color: context.mmColors.ink3)),
+      ],
     );
   }
 }

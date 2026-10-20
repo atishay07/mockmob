@@ -99,6 +99,15 @@ abstract final class ArmRules {
   /// Whether [credits] is a real limit. Null (not known, or a stale copy) is never one.
   static bool creditsMet(int? credits) => credits != null && credits <= creditsLimit;
 
+  /// Whether the student is on a tab root with nothing over the shell: the location is one of [roots] and
+  /// the shell is the page on top ([shellOnTop]; a result, a run or a settings page opened over it says no).
+  static bool atTabRoot({required String path, required bool shellOnTop, required List<String> roots}) => shellOnTop && roots.contains(path);
+
+  /// Whether the student came back to a tab root: they are on one now and a moment ago they were not (they
+  /// closed a result or another page, or went home from one). Switching from one tab to another is not a
+  /// return, and neither is the first location the app shows ([wasAtRoot] null).
+  static bool isTabRootReturn({required bool? wasAtRoot, required bool nowAtRoot}) => wasAtRoot == false && nowAtRoot;
+
   /// Whether the very first result the student ever sees stays free of a Pro ask: the inline "Go
   /// unlimited" row waits for the second. A student who signed straight in (no onboarding mark on this
   /// phone) is not new, so this never holds for them.

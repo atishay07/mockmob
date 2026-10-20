@@ -227,7 +227,10 @@ abstract final class OnboardingCopy {
     return out.toString();
   }
   static const String ageQuestion = 'One quick question: are you 18 yet?';
-  static const String ageNote = "Usage tracking is on unless you're under 18. You can turn it off any time in You.";
+
+  /// Under the age question (D183): usage data is on for 18 or older and for "Rather not say", off only when the
+  /// student says they are under 18, and anyone can turn it off in You.
+  static const String ageNote = "Usage data is on unless you say you're under 18. Turn it off any time in You.";
   /// Under the age question after a sign-in key was tapped before it was answered.
   static const String ageFirstLine = 'Answer this first, then sign in.';
 

@@ -110,6 +110,25 @@ void main() {
       expect(ArmRules.returnsToArm, 2);
     });
 
+    test('a return is coming back to a tab root from a page over it: a switch of tab and the first location are not returns', () {
+      const roots = ['/today', '/practice', '/mob', '/you'];
+      bool at(String path, {bool top = true}) => ArmRules.atTabRoot(path: path, shellOnTop: top, roots: roots);
+      expect(at('/today'), isTrue);
+      expect(at('/today', top: false), isFalse, reason: 'a result or a run is open over the shell');
+      expect(at('/practice/result/a'), isFalse, reason: 'a deeper page of the tab');
+      expect(at('/practice/papers'), isFalse);
+      // The result is closed (the shell is on top again, the path never left the tab): a return.
+      expect(ArmRules.isTabRootReturn(wasAtRoot: false, nowAtRoot: true), isTrue);
+      // Home from a page opened over the shell (go): a return too.
+      expect(ArmRules.isTabRootReturn(wasAtRoot: at('/practice', top: false), nowAtRoot: at('/today')), isTrue);
+      // Tab to tab, both roots: not a return.
+      expect(ArmRules.isTabRootReturn(wasAtRoot: at('/today'), nowAtRoot: at('/practice')), isFalse);
+      // Nothing came before (the first location), or the student is not at a root now.
+      expect(ArmRules.isTabRootReturn(wasAtRoot: null, nowAtRoot: true), isFalse);
+      expect(ArmRules.isTabRootReturn(wasAtRoot: true, nowAtRoot: false), isFalse);
+      expect(ArmRules.isTabRootReturn(wasAtRoot: false, nowAtRoot: false), isFalse);
+    });
+
     test('the very first result is the one with no Pro ask: only for a student onboarded on this phone who has viewed none', () {
       expect(ArmRules.firstResult(onboardedAt: onboarded, resultsViewed: 0), isTrue);
       expect(ArmRules.firstResult(onboardedAt: onboarded, resultsViewed: 1), isFalse);

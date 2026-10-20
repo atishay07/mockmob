@@ -46,7 +46,7 @@ class Consent {
   /// The usage-data switch is shown: the student answered and did not say they are under 18.
   bool get switchAvailable => answered && ageBand != AgeBand.minor;
 
-  /// The server collects only for a student who did not say they are under 18, who allowed it and has
-  /// not withdrawn.
-  bool get canCollect => ageBand != AgeBand.minor && analyticsAllowed && withdrawnAt == null;
+  /// The server collects only for a student who answered and did not say they are under 18, who allowed it and
+  /// has not withdrawn.
+  bool get canCollect => switchAvailable && analyticsAllowed && withdrawnAt == null;
 }

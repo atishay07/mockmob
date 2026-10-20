@@ -25,6 +25,27 @@ class _Flag extends Notifier<bool> {
   void set(bool v) => state = v;
 }
 
+/// Preferences that fail on every call, like a phone whose store has been taken away.
+class _BrokenPrefs extends MemoryPrefsStore {
+  @override
+  Future<bool?> getBool(String key) => Future<bool?>.error(StateError('prefs gone'));
+
+  @override
+  Future<int?> getInt(String key) => Future<int?>.error(StateError('prefs gone'));
+
+  @override
+  Future<String?> getString(String key) => Future<String?>.error(StateError('prefs gone'));
+
+  @override
+  Future<void> setBool(String key, bool value) => Future<void>.error(StateError('prefs gone'));
+
+  @override
+  Future<void> setInt(String key, int value) => Future<void>.error(StateError('prefs gone'));
+
+  @override
+  Future<void> setString(String key, String value) => Future<void>.error(StateError('prefs gone'));
+}
+
 /// One run of the app on a phone whose preferences are [prefs].
 class Run {
   Run(
@@ -352,6 +373,44 @@ void main() {
       await r.settled();
       expect(r.verdict, PopupVerdict.alreadyShown);
       expect(r.take(), isFalse);
+      r.close();
+    });
+
+    test('arming belongs to the first session: a restart after the first result leaves nothing armed and no sheet', () async {
+      final r1 = await afterFirstPaper();
+      r1.ctl.noteResultViewed();
+      r1.ctl.noteTabRoot();
+      await r1.settled();
+      r1.close();
+
+      // The next run: the result was viewed (kept), the returns and the arming are not, and it is not the first session.
+      final r2 = await Run(prefs, launch: 'L2').settled();
+      expect(r2.container.read(proNudgeProvider).saved.resultsViewed, 1);
+      expect(r2.container.read(proNudgeProvider).armed, isFalse);
+      r2.act();
+      r2.setCreditsLow(true);
+      expect(r2.verdict, PopupVerdict.notFirstSession);
+      expect(r2.due, isFalse);
+      r2.close();
+    });
+
+    test('an ask opened while what the phone saved is still being read is kept when the read lands', () async {
+      final r = Run(prefs, launch: 'L1');
+      r.ctl.upgradeOpened();
+      await r.settled();
+      expect(r.container.read(proNudgeProvider).saved.popupShown, isTrue);
+      expect(prefs.values.keys.where((k) => k.endsWith('popup_shown')), hasLength(1));
+      r.close();
+    });
+
+    test('preferences that cannot be read or written: no nudge shows, and nothing a tap does ever throws', () async {
+      final r = await Run(_BrokenPrefs(), launch: 'L1').settled();
+      expect(r.container.read(proNudgeProvider).loaded, isFalse);
+      expect(r.visible(ProNudgeSurface.result), isFalse);
+      r.ctl.upgradeOpened();
+      r.ctl.dismiss(ProNudgeSurface.result);
+      r.ctl.noteResultViewed();
+      await r.settled();
       r.close();
     });
 

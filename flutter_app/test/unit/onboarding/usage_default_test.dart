@@ -99,11 +99,12 @@ void main() {
 
   test('who can be collected (D183): anyone who did not say under 18, who allowed it and never withdrew', () {
     expect(const Consent(ageBand: AgeBand.adult, analyticsAllowed: true).canCollect, isTrue);
-    expect(const Consent(ageBand: AgeBand.unknown, analyticsAllowed: true).canCollect, isTrue, reason: '"Rather not say" is on');
+    expect(Consent(ageBand: AgeBand.unknown, analyticsAllowed: true, decidedAt: DateTime(2026, 10, 12)).canCollect, isTrue, reason: '"Rather not say" is on');
+    expect(const Consent(ageBand: AgeBand.unknown, analyticsAllowed: true).canCollect, isFalse, reason: 'an age never answered collects nothing');
     expect(const Consent(ageBand: AgeBand.minor, analyticsAllowed: true).canCollect, isFalse, reason: 'under 18 is never collected');
     expect(const Consent(ageBand: AgeBand.adult).canCollect, isFalse);
     expect(const Consent(ageBand: AgeBand.unknown).canCollect, isFalse, reason: 'not allowed yet');
-    expect(Consent(ageBand: AgeBand.unknown, analyticsAllowed: true, withdrawnAt: DateTime(2026, 10, 12)).canCollect, isFalse);
+    expect(Consent(ageBand: AgeBand.unknown, analyticsAllowed: true, decidedAt: DateTime(2026, 10, 12), withdrawnAt: DateTime(2026, 10, 12)).canCollect, isFalse);
   });
 
   test('the age answer: "Rather not say" is answered once the server stamped it, and gets the switch (D183)', () {

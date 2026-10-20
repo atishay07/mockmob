@@ -229,6 +229,8 @@ void main() {
       phase: SheetSyncPhase.saved,
       colleges: CollegesMove.moved,
       showUsage: true,
+      // The switch starts on for 18 or older and for "Rather not say" (D183); only "Not yet" never sees it.
+      usageOn: true,
       startLabel: 'Start now, about 10 minutes',
       laterLabel: 'Tomorrow at 8:00 PM',
       onStart: () {},
