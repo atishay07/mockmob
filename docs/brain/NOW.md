@@ -64,3 +64,30 @@ Blitz (D160/D161) results, all local branches, nothing pushed or deployed since 
 
 ## 20 Oct ~12:30 pm: owner Play/Vercel steps DONE
 Version 11 approved on the closed track; version 13 sent for review (he sent it before reading the steps; fine). Content rating redone (interact yes, digital purchases yes, no loot boxes, online/AI content yes, educational yes); Data safety Purchase history added. ANDROID_CERT_SHA256 set in Vercel Production and redeployed (dpl_13vbidun9MJtWKaNPub88Hj5NfSY): live assetlinks.json lists the Play app-signing key B2:45:68:DA:...:05:C9 and the upload key 62:AC:58:08:...:EC:47. Pro on Play stays Rs 149; welcome bonus 100 kept (150 total). Play "Automatic protection" (block unofficial installs) is ON: testers install from Play, not the APK. Next: his feedback on version 13; then the improvement list (real-device walk, Folds life, live rooms, remaining review items, smart layer).
+
+## HANDOFF 20 Oct PM (session 604ced81, written ~3:45 pm at account usage 85%, context 86%)
+His words today: OWNER-FEEDBACK-2026-10-19.md from "Owner, 20 Oct about 12:05 pm IST" (K1-K11, D165-D176).
+
+**LIVE (production):**
+- Website main bd9e03ea7 (code fb1e22e5, deployment dpl_2juF25MkVrVzCqrWFMXDwiGMHjBP; a docs-only build dpl_Fo9PLU76SS13bfLGP4sHbDXqKk1A was still BUILDING: confirm it reaches READY with FIRST_FULL_MOCK_ENABLED=false). Contains: the 11 am release (36492ed2), referral credits (2ffaf29d, REFERRALS_ENABLED=true; 50 welcome, +100 each after the friend's 5 answers; migration referrals applied, total credit_balance unchanged 112311/1545 users), web Mob explainer, Mob formats server + web client with MOB_FORMATS_ENABLED and MOB_LIVE_ENABLED UNSET; migrations 20261020095603 mob_v3_live and 20261020095712 mob_v3_formats applied (hashes match).
+- D175: FIRST_FULL_MOCK_ENABLED=false (env aldFAoz9qJXBPpAQ): no free first full mock; /pricing line gone.
+- ANDROID_CERT_SHA256 set (Play key B2:45:68:DA...05:C9 + upload key); assetlinks live.
+- App version 13 (1.0.16+13) in closed-testing review (version 11 approved). Play Console: content rating redone, data safety Purchase history added.
+
+**SUPABASE (URGENT, K11/D176):** org xnhuqcazqyqvnsodmqyf egress 14.42 GB of 5.5 GB (Free); grace until 22 Oct, then 402s on production AND staging until the quota refills at the next billing cycle (or an upgrade). Owner refuses $25 Pro during testing. Cause: staging (onwkqxmjqjrhfbjjdydu) is in the SAME org and agent walks, seeds and test runs hammered it; no weekly usage check. Done: agents told not to use staging. Waiting on him: billing-cycle end date (Billing > Upcoming invoice) and egress split per project (Usage > Egress). Next: move staging to its own free org (dashboard project transfer, he clicks); cut production egress (top queries, select only needed columns, caching); add a usage check to every session; never run agent walks against staging until the new cycle; if the cycle resets after ~22 Oct, tell him plainly the outage window and that Pro for one month (downgrade after reset, credited) is the only instant fix.
+
+**APP BRANCHES (all from ui/v17-release fe076156 = version 13 source; none merged; nothing on a phone yet):**
+- ui/1020-v14-polish 44073e9f (wt-1020-v14-polish): K1 Day mode, K3 You plan strip (credits + Upgrade to Pro), K4 Pro table, K6 Wallet; done, tests green. MUST change: remove "your first in each subject is free" copy (D175).
+- ui/1020-finish-reveal 0942a34e (wt-1020-finish-reveal): K7 mark-sheet reveal on every paper; done, 7,138 tests. Remove any first-free wording.
+- ui/1020-referrals ed2a8b93 (wt-1020-referrals-app): D165 app side; done.
+- ui/1020-mob-explainer b22b0f24 (wt-1020-mob-explainer): D166/K9 explainer + one-question setup; builder may still be finishing (check its report).
+- ui/1020-mob-formats 9dab074d + 8 uncommitted (wt-1020-mob-formats-app): race, Full mock together, live client in the one Start a game sheet; builder still running at handoff: STOP POINT if stopped.
+- ui/1020-mob-live 99f5fde0 STOP POINT (merged into mob-formats as its live base); ui/1020-small-fixes ba19dbbb; ui/1020-paper-hold 422811e1.
+
+**DECISIONS WAITING / OPEN:**
+- Mob V4 (docs/design-decisions/pass-1020/MOB-MINIMAL.md "MOB-V4"; mock-ups tmp/design-1020/mob-minimal): APPROVED to build (D174), with Mob hours YES, a clear Pro call to action for Free members in Full mock together, both streaks visible, results as a short sequence plus celebration screens. NOT built yet.
+- Full mock together rule: Pro starts; Free members pay 50 credits (no free first mock now, D175); Pro sits free. The SERVER currently lets everyone sit free: enforce the rule before MOB_FORMATS_ENABLED=true.
+- Live rooms: owner must turn OFF Supabase Realtime "Allow public access"; app live client must ship; then MOB_LIVE_ENABLED=true.
+- Stamp's wave pose and a desk-lamp image still to generate (Codex image route, FINAL-ART.md section 6).
+
+**NEXT (in order):** (1) Supabase egress plan above. (2) Version 15: merge v14-polish, finish-reveal, referrals, explainer, mob-formats (+ small-fixes, paper-hold) into a v15 branch; remove first-free copy; build Mob V4; full analyze + unit + touched goldens; demo-mode walk only (NO staging); signed build to Desktop\MockMob-build-15. (3) Enforce the Full mock together pricing on the server, then MOB_FORMATS_ENABLED=true. (4) Live rooms after his Realtime click.
