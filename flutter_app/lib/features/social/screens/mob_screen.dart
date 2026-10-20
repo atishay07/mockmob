@@ -11,7 +11,6 @@ import '../../../core/motion/motion.dart';
 import '../../../core/repositories/remote_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
-import '../../insights/ask_mobi.dart' show AskMobiButton;
 import '../../practice/widgets/stale_subjects_banner.dart' show openEditSubjects;
 import '../../pro_nudge/pro_nudge.dart' show ProReason, UpgradeEntry, proNudgesOnProvider;
 import '../../you/data/subject_catalog.dart' show youSubjectNames;
@@ -24,6 +23,7 @@ import '../data/mob_repository.dart';
 import '../data/mob_seen.dart';
 import '../logic/mob_ring.dart';
 import '../mob_routes.dart';
+import '../widgets/mob_ask_key.dart';
 import '../widgets/mob_compare_card.dart';
 import '../widgets/mob_extras.dart';
 import '../widgets/mob_join_code.dart';
@@ -76,13 +76,14 @@ class _MobScreenState extends ConsumerState<MobScreen> {
       title: MobCopy.title,
       showBack: !widget.asTab,
       // ASK-MOBI-1019 B: the Mob shows the Ask Mobi key either way, in the tab's own row or the pushed page's header.
+      // B1: the key gives way (Ask, then Mobi's mark) before the title is ever cut or broken at large text.
       header: widget.asTab
           ? const Padding(
               padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, MmSpace.s8),
-              child: TabRootHeader(title: MobCopy.title, trailing: AskMobiButton()),
+              child: TabRootHeader(title: MobCopy.title, trailing: MobAskKey(title: MobCopy.title)),
             )
           : null,
-      trailing: const AskMobiButton(),
+      trailing: const MobAskKey(title: MobCopy.title),
       children: [
         if (state.isStale)
           const Padding(

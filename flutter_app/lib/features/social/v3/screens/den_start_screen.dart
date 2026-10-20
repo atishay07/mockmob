@@ -14,10 +14,10 @@ import '../../../../core/auth/display_name.dart' show shownName;
 import '../../../../core/models/subject.dart' show isHiddenSubject;
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
-import '../../../insights/ask_mobi.dart' show AskMobiButton;
 import '../../../practice/widgets/stale_subjects_banner.dart' show openEditSubjects;
 import '../../data/mob_models.dart' show mobNameFrom;
 import '../../data/mob_repository.dart' show mobRepositoryProvider;
+import '../../widgets/mob_ask_key.dart';
 import '../copy_v3.dart';
 import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
@@ -59,7 +59,7 @@ class DenStartScreen extends ConsumerWidget {
                     bottom: false,
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(MmSpace.gutter, MmRhythm.screenTop, MmSpace.gutter, MmSpace.s8),
-                      child: const TabRootHeader(title: MobV3Copy.title, trailing: AskMobiButton()),
+                      child: const TabRootHeader(title: MobV3Copy.title, trailing: MobAskKey(title: MobV3Copy.title)),
                     ),
                   ),
                 ),

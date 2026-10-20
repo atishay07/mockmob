@@ -671,7 +671,10 @@ class ChainChipKey extends StatelessWidget {
       focusRadius: MmRadius.pillAll,
       builder: (context, pressed, _) => SizedBox(
         height: MmTarget.min,
+        // widthFactor 1: the key is as wide as its capsule, so the header's Align can set it beside the gear (a bare
+        // Center filled the free room and the capsule drifted to its middle).
         child: Center(
+          widthFactor: 1,
           child: Container(
             height: 36,
             padding: const EdgeInsets.symmetric(horizontal: MmSpace.s12),
