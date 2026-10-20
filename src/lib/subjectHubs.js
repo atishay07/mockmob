@@ -38,7 +38,7 @@ const HUB_WORDS = {
       'CUET General Test 501: GK, current affairs, reasoning, numerical ability and quantitative reasoning. Fresh full mocks marked +5/−1. Your first mock is free.',
     h1: 'CUET General Test mock tests and practice',
     intro:
-      'The General Test is the widest paper in CUET: general knowledge, current affairs, mental ability, arithmetic and logical reasoning in one sitting. Nothing in it is hard on its own. The marks go to whoever switches between them fastest without slipping.',
+      'The General Test (NTA’s 2026 list calls it the General Aptitude Test) is the widest paper in CUET: general knowledge, current affairs, mental ability, arithmetic and logical reasoning in one sitting. Nothing in it is hard on its own. The marks go to whoever switches between them fastest without slipping.',
     essay: {
       heading: 'Where General Test marks are won',
       body: [
@@ -162,7 +162,7 @@ const HUB_WORDS = {
       {
         question: 'Are Mathematics and Applied Mathematics the same CUET paper?',
         answer:
-          'They share one paper code, 319. The syllabus MockMob follows lists the core Mathematics units and an Applied Mathematics unit.',
+          'They share one paper code, 319. NTA’s 2026 syllabus for it has a Mathematics section and an Applied Mathematics section.',
       },
       {
         question: 'How do I get faster at CUET Mathematics?',
@@ -181,20 +181,20 @@ const HUB_WORDS = {
     essay: {
       heading: 'Where Physics marks are won',
       body: [
-        'Electrostatics, current electricity and magnetism make up a large part of the syllabus, and their numericals repeat the same few relationships. Solve enough of them under time and the setup becomes automatic.',
-        'Optics, dual nature, atoms, nuclei and semiconductors are shorter and more conceptual: direct statements, graphs and quick calculations. They are some of the cheapest marks in the paper if you have read the NCERT text closely.',
+        'Electrostatics, current electricity and magnetism are the first three units of the syllabus, and their numericals repeat the same few relationships. Solve enough of them under time and the setup becomes automatic.',
+        'Optics, dual nature, atoms, nuclei and semiconductors are shorter and more conceptual: direct statements, graphs and quick calculations. They can be quick marks if you have read the NCERT text closely.',
       ],
     },
     faqs: [
       {
         question: 'Is NCERT enough for CUET Physics?',
         answer:
-          'The syllabus is the Class 12 NCERT syllabus, so the book is the base. The gap is speed and accuracy on objective questions, which timed practice closes.',
+          'NTA sets domain subjects as per the NCERT syllabus, so the Class 12 book is the base. The gap is speed and accuracy on objective questions, which timed practice closes.',
       },
       {
         question: 'Which Physics chapters should I start with?',
         answer:
-          'Start with electrostatics and current electricity, since they carry the most chapters, then do short timed sets on the modern physics chapters, where marks come quickest.',
+          'Start with electrostatics, current electricity and magnetism, the first three units, then do short timed sets on the modern physics chapters, which are shorter.',
       },
     ],
   },
@@ -228,10 +228,10 @@ const HUB_WORDS = {
   biology: {
     title: 'CUET Biology Mock Test 2027: Syllabus, Free Mock and Practice | MockMob',
     description:
-      'CUET Biology 304: reproduction, genetics, evolution, biotechnology and ecology. NCERT-line questions in fresh full mocks marked +5/−1. Your first mock is free.',
+      'CUET Biology 304: reproduction, genetics, evolution, biotechnology and ecology. NCERT-based questions in fresh full mocks marked +5/−1. Your first mock is free.',
     h1: 'CUET Biology mock tests and practice',
     intro:
-      'CUET Biology is an NCERT-line paper. Questions lift terms, diagrams and examples straight from the Class 12 book, then change one word in an option. Students who read closely score high; students who revised from notes fall for the swapped word.',
+      'CUET Biology is an NCERT-line paper. The syllabus is built from the terms, diagrams and examples in the Class 12 book. Close readers have the edge, because an option that changes one word of the book is an easy trap for anyone who revised from notes.',
     essay: {
       heading: 'Where Biology marks are won',
       body: [
@@ -243,7 +243,7 @@ const HUB_WORDS = {
       {
         question: 'Is NCERT enough for CUET Biology?',
         answer:
-          'The paper follows the Class 12 NCERT syllabus closely, so the book is the core. Pair close reading with timed objective practice, because the traps are in the wording.',
+          'NTA sets domain subjects as per the NCERT syllabus, so the Class 12 book is the core. Pair close reading with timed objective practice, because near-miss options are easy to fall for.',
       },
       {
         question: 'Which Biology chapters are the most reliable marks?',
@@ -258,12 +258,12 @@ const HUB_WORDS = {
       'CUET Computer Science and Informatics Practices 308: Python, SQL, networks, data structures and Pandas. Fresh full mocks marked +5/−1. First mock free.',
     h1: 'CUET Computer Science mock tests and practice',
     intro:
-      'CUET Computer Science asks you to run code in your head. Predict the output of a Python snippet, the result of a SQL query, the state of a stack after five operations. Reading code is a skill of its own, and it only grows with practice.',
+      'CUET Computer Science is Python, SQL and data structures, so much of it comes down to running code in your head: predicting the output of a Python snippet, the result of a SQL query, the state of a stack after five operations. Reading code is a skill of its own, and it only grows with practice.',
     essay: {
       heading: 'Where Computer Science marks are won',
       body: [
         'Databases and networks are the shared part of the syllabus: SQL queries, keys, joins, network types, devices and protocols. These are quick marks for anyone who has written queries rather than only read about them.',
-        'Python, file handling, exceptions, stacks, queues, searching and sorting carry the output questions. Trace each snippet line by line, with the loop variables written down, until you can do it under time without slipping.',
+        'Python, file handling, exceptions, stacks, queues, searching and sorting are where output questions are most likely. Trace each snippet line by line, with the loop variables written down, until you can do it under time without slipping.',
       ],
     },
     faqs: [
@@ -275,7 +275,7 @@ const HUB_WORDS = {
       {
         question: 'Does CUET Computer Science ask code output questions?',
         answer:
-          'Yes. Predicting the output of Python code and the result of SQL queries is a regular question type, so practise tracing code under time.',
+          'It can. The syllabus covers Python and SQL, so expect to predict the output of code or the result of a query, and practise tracing code under time.',
       },
     ],
   },
@@ -356,7 +356,7 @@ const HUB_WORDS = {
       {
         question: 'Is NCERT enough for CUET Geography?',
         answer:
-          'The Class 12 NCERT books are the syllabus. Read them closely, then practise objective questions under time to catch the near-miss options.',
+          'NTA sets domain subjects as per the NCERT syllabus, and the Geography units follow the Class 12 NCERT books. Read them closely, then practise objective questions under time to catch the near-miss options.',
       },
     ],
   },
@@ -393,7 +393,7 @@ const HUB_WORDS = {
       'CUET Sociology 326: Indian society, social institutions, inequality, change and development. Fresh full mocks marked +5/−1, every miss explained. First mock free.',
     h1: 'CUET Sociology mock tests and practice',
     intro:
-      'CUET Sociology asks you to recognise ideas in their own words: caste, family, market, community and the thinkers behind each view. It reads easily and marks strictly, because the options are paraphrases of the NCERT text.',
+      'CUET Sociology asks you to recognise ideas in their own words: caste, family, market, community and the thinkers behind each view. It reads easily, and the syllabus follows the NCERT text, so the options reward knowing what the book says.',
     essay: {
       heading: 'Where Sociology marks are won',
       body: [
@@ -401,11 +401,12 @@ const HUB_WORDS = {
         'Social Change and Development in India covers structural and cultural change, democracy, rural and industrial society, globalisation, media and movements. Statement questions here reward knowing exactly what the book says, which timed sets reveal fast.',
       ],
     },
+    syllabusNote: 'NTA lists nine topic units for Sociology. The groups below follow the two NCERT books those topics come from.',
     faqs: [
       {
         question: 'Is NCERT enough for CUET Sociology?',
         answer:
-          'The two Class 12 NCERT books are the syllabus. Read them closely, including the boxed examples, and practise objective questions under time.',
+          'NTA sets domain subjects as per the NCERT syllabus, and the Sociology topics follow the two Class 12 NCERT books. Read them closely, including the boxed examples, and practise objective questions under time.',
       },
       {
         question: 'Which Sociology chapters should I revise first?',
