@@ -219,6 +219,10 @@ abstract final class ActionRouter {
         if (s.length == 1) return AppRoutes.youWithAccount;
       case 'onboarding':
         if (s.length == 1 && q['edit'] == 'true') return AppRoutes.youSubjects;
+      // A friend's invite link (owner D165): the code is kept by the link handler; the link itself opens Today, and a
+      // student who is signed out signs in first. Never the website's sign-up page.
+      case 'r':
+        if (s.length == 2) return AppRoutes.today;
     }
 
     // Hrefs that already name a native route (for example from a notification payload or a

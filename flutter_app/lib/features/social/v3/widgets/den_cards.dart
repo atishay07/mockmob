@@ -10,6 +10,7 @@ import '../../../../core/haptics/haptics.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
+import '../../../referrals/invite_reward.dart' show InviteRewardLine;
 import '../../copy.dart';
 import '../../data/mob_models.dart';
 import '../../data/mob_navigator.dart';
@@ -272,6 +273,8 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           textAlign: TextAlign.center,
           style: type.caption.copyWith(color: colors.ink2),
         ),
+        // D165: the Mob invite link is also a friend invite (you both get 100 credits), once the server says it is live.
+        const InviteRewardLine(),
         const SizedBox(height: MmSpace.s24),
         DenPaperCard(
           padding: const EdgeInsets.all(MmSpace.s20),

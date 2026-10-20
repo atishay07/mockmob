@@ -9,6 +9,7 @@ import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
 import '../billing/billing.dart';
 import '../credits/credits_copy.dart';
+import '../referrals/invite_reward.dart' show WalletInviteSection;
 import '../you/widgets/you_page.dart';
 import '../you/widgets/you_row.dart' show IconWell, YouPanel;
 import 'data/wallet_data.dart';
@@ -70,6 +71,9 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
           const SizedBox(height: MmSpace.s16),
           Padding(padding: youGutter, child: _ProBridge(onTap: () => showGetProSheet(context))),
         ],
+        // Earn before you buy (owner D165): invite a friend and you both get 100 credits. Nothing until the server says
+        // invites are live.
+        const WalletInviteSection(),
         // Top-ups are Google Play's: with PLAY_BILLING off there is nothing to buy, so the section is not
         // drawn at all (no "open soon" promise and no key that does nothing).
         if (ref.watch(playBillingEnabledProvider)) ...[
