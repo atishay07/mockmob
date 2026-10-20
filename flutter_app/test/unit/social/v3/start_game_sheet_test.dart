@@ -159,4 +159,70 @@ void main() {
     expect(find.text('10 questions'), findsOneWidget);
     expect(keyLabel('Start the round'), findsOneWidget);
   });
+
+  // ---- D167: races and Full mock together, rows of the one start sheet ----
+
+  testWidgets('four ways to play in one sheet: Sprint, Race, Your own round, Full mock together', (t) async {
+    await _open(t, v3Server(scenario: 'quiet'));
+    for (final title in ['Sprint', 'Race', 'Your own round', 'Full mock together']) {
+      expect(find.text(title), findsOneWidget, reason: title);
+    }
+    expect(find.text('5 or 10 minutes, as many as you can'), findsOneWidget);
+    expect(find.text('50 questions in 60 minutes'), findsOneWidget);
+  });
+
+  testWidgets('Race: how long (5 or 10 minutes), its rule, what it covers, and Start the race sends the minutes', (t) async {
+    final server = FailingServer(scenario: 'quiet', clock: () => v3Now);
+    await _open(t, server);
+    await tapAt(t, find.text('Race'));
+    expect(find.text('How long'), findsOneWidget);
+    expect(find.text('Answer as many as you can before the time is up. +5 if right, -1 if wrong, 0 if you skip.'), findsOneWidget);
+    expect(find.text('What it covers'), findsOneWidget);
+    expect(keyLabel('Start the race'), findsOneWidget);
+    await tapAt(t, find.text('10 minutes'));
+    await tapToRun(t, keyLabel('Start the race'));
+    expect(server.openedFormats, [GameFormat.race]);
+    expect(server.openedMinutes, [10]);
+    expect(_result?.format, GameFormat.race);
+    expect(_result?.minutes, 10);
+    expect(_result?.count, 60, reason: 'the pool: 6 a minute');
+    expect(find.byType(GameRunScreen), findsOneWidget, reason: 'the race opens at once');
+  });
+
+  testWidgets('a race can be live: the Live or Anytime choice stays, and the key opens the room', (t) async {
+    await _open(t, v3Server(scenario: 'quiet'), edit: liveOn);
+    await tapAt(t, find.text('Race'));
+    expect(find.text('Live now'), findsOneWidget);
+    await tapAt(t, find.text('Live now'));
+    expect(keyLabel('Open the room'), findsOneWidget);
+  });
+
+  testWidgets('Full mock together: the whole subject, no live choice, its line, Start the full mock', (t) async {
+    final server = FailingServer(scenario: 'quiet', clock: () => v3Now);
+    await _open(t, server, edit: liveOn);
+    await tapAt(t, find.text('Full mock together'));
+    expect(find.text('What it covers'), findsNothing, reason: 'a full mock is the whole subject');
+    expect(find.text('Live now'), findsNothing, reason: 'a full mock is always 24 hours');
+    expect(
+      find.text('The whole Accountancy paper, 50 questions in 60 minutes, in the exam runner. Your Mob has 24 hours to sit it, then you compare mark sheets. Answers open for everyone when it closes.'),
+      findsOneWidget,
+    );
+    await tapAt(t, keyLabel('Start the full mock'));
+    expect(server.openedFormats, [GameFormat.mock]);
+    expect(server.openedModes, [GameMode.async]);
+    expect(find.text('Start a game'), findsNothing, reason: 'the sheet left for the mock runner');
+  });
+
+  testWidgets('Free: Full mock together is drawn locked with Pro, and says why when tapped', (t) async {
+    await _open(t, v3Server(scenario: 'quiet', billing: 'free'));
+    expect(find.text('Pro'), findsOneWidget);
+    await tapAt(t, find.text('Full mock together'));
+    expect(find.text('Starting a full mock together is part of Pro. You can sit every full mock your Mob starts, free.'), findsOneWidget);
+    expect(keyLabel('Start the sprint'), findsOneWidget, reason: 'the selection stays on what Free can start');
+  });
+
+  testWidgets('a race rematch prefill opens on the race of the same length', (t) async {
+    await _open(t, v3Server(scenario: 'quiet'), prefill: const StartGamePrefill(format: GameFormat.race, count: 30, minutes: 10, rematchOf: 'game-x'));
+    expect(keyLabel('Start the race'), findsOneWidget);
+  });
 }
