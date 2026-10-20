@@ -15,182 +15,30 @@ import '../../../../core/haptics/haptics.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../you/widgets/you_page.dart';
-import '../../widgets/mob_parts.dart' show MobNote, showMobToast;
+import '../../widgets/mob_parts.dart' show showMobToast;
 import '../copy_v3.dart';
 import '../data/mob_v3_api.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
-import '../logic/fold_catalog.dart';
 import '../logic/mob_say.dart';
-import '../widgets/fold_picker.dart';
 import '../widgets/fold_puppet.dart';
 import '../widgets/mob_fx.dart';
+import '../widgets/shelf_sheet.dart' show ShelfBody;
 
-class ShelfScreen extends ConsumerWidget {
+class ShelfScreen extends StatelessWidget {
   const ShelfScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final shelf = ref.watch(shelfProvider);
-    return MobIdleScope(
-      child: YouPage(
-        title: MobV3Copy.shelfTitle,
-        children: [
-          Padding(
-            padding: youGutter,
-            // A read that failed shows the sentence at once, even while the provider is retrying it.
-            child: shelf.hasError && !shelf.hasValue
-                ? _Failed(onRetry: () => ref.invalidate(shelfProvider))
-                : shelf.when(
-                    data: (s) => _ShelfBody(shelf: s),
-                    loading: () => const SkeletonGroup(
-                      label: MobV3Copy.shelfLoading,
-                      child: Column(children: [Skeleton(height: 64), SizedBox(height: MmSpace.s12), Skeleton(height: 220), SizedBox(height: MmSpace.s12), Skeleton(height: 220)]),
-                    ),
-                    error: (e, _) => _Failed(onRetry: () => ref.invalidate(shelfProvider)),
-                  ),
-          ),
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) => MobIdleScope(
+        child: YouPage(
+          title: MobV3Copy.shelfTitle,
+          children: const [Padding(padding: youGutter, child: ShelfBody())],
+        ),
+      );
 }
 
-class _Failed extends StatelessWidget {
-  const _Failed({required this.onRetry});
-
-  final VoidCallback onRetry;
-
-  @override
-  Widget build(BuildContext context) {
-    final type = context.mmType;
-    final c = context.mmColors;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(MobV3Copy.shelfFailed, style: type.title.copyWith(color: c.ink)),
-        const SizedBox(height: MmSpace.s16),
-        KeyButton.secondary(label: MobV3Copy.tryAgain, onPressed: onRetry),
-      ],
-    );
-  }
-}
-
-class _ShelfBody extends ConsumerStatefulWidget {
-  const _ShelfBody({required this.shelf});
-
-  final Shelf shelf;
-
-  @override
-  ConsumerState<_ShelfBody> createState() => _ShelfBodyState();
-}
-
-class _ShelfBodyState extends ConsumerState<_ShelfBody> {
-  String? _error;
-  bool _busy = false;
-
-  Shelf get shelf => widget.shelf;
-
-  ShelfFold? _fold(FoldKey k) {
-    for (final f in shelf.folds) {
-      if (f.key == k) return f;
-    }
-    return null;
-  }
-
-  /// Every Fold in the catalogue, owned first (in catalogue order), then the ones still to earn.
-  List<ShelfFold> get _ordered {
-    final all = [for (final r in foldCatalog) _fold(r.fold) ?? ShelfFold(key: r.fold, starter: r.source == null, folds: r.folds)];
-    return [...all.where((f) => f.owned || f.starter), ...all.where((f) => !(f.owned || f.starter))];
-  }
-
-  Future<void> _sit(FoldKey f) async {
-    if (_busy) return;
-    setState(() {
-      _busy = true;
-      _error = null;
-    });
-    try {
-      await ref.read(mobV3ActionsProvider).sitAs(f);
-      ref.read(hapticsProvider).confirm();
-      ref.invalidate(shelfProvider);
-    } on Object catch (e) {
-      if (mounted) setState(() => _error = mobV3Say(e));
-    } finally {
-      if (mounted) setState(() => _busy = false);
-    }
-  }
-
-  Future<void> _change() async {
-    final f = await showFoldChooser(context, selected: shelf.seat);
-    if (f != null && f != shelf.seat) await _sit(f);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.mmColors;
-    final type = context.mmType;
-    final ordered = _ordered;
-    final ownedList = [for (final f in ordered) if (f.owned || f.starter) f];
-    final toEarn = [for (final f in ordered) if (!(f.owned || f.starter)) f];
-    Widget tile(ShelfFold f) => FoldTile(
-          fold: f,
-          isSeat: f.key == shelf.seat,
-          finish: f.key == shelf.seat ? shelf.seatFinish : FoldFinish.plain,
-          onTap: () => showFoldDetail(context, fold: f, isSeat: f.key == shelf.seat, onSit: () => _sit(f.key)),
-        );
-    // Two to a row, each row as tall as its taller card, so the plinths line up.
-    Widget grid(List<ShelfFold> list) => Column(
-          children: [
-            for (var i = 0; i < list.length; i += 2) ...[
-              if (i > 0) const SizedBox(height: MmSpace.s12),
-              IntrinsicHeight(
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(child: tile(list[i])),
-                    const SizedBox(width: MmSpace.s12),
-                    Expanded(child: i + 1 < list.length ? tile(list[i + 1]) : const SizedBox.shrink()),
-                  ],
-                ),
-              ),
-            ],
-          ],
-        );
-    final foil = shelf.folds.isEmpty ? const FinishProgress() : shelf.folds.first.foil;
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(MobV3Copy.shelfLead, style: type.body.copyWith(color: c.ink2)),
-        const SizedBox(height: MmSpace.s16),
-        _SeatRow(seat: shelf.seat, busy: _busy, onChange: _change),
-        if (_error != null) ...[
-          const SizedBox(height: MmSpace.s12),
-          InlineBanner(message: _error!, tone: BannerTone.error),
-        ],
-        const SizedBox(height: MmSpace.s24),
-        _Heading(MobV3Copy.shelfOwned),
-        grid(ownedList),
-        if (toEarn.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.s24),
-          _Heading(MobV3Copy.shelfToEarn),
-          grid(toEarn),
-        ],
-        const SizedBox(height: MmSpace.s32),
-        _Heading(MobV3Copy.finishes),
-        _FinishRow(foil: foil, seat: shelf.seat, seatFinish: shelf.seatFinish),
-        for (final m in shelf.mobItems) ...[
-          const SizedBox(height: MmSpace.s32),
-          _Heading(MobV3Copy.mobShelf(m.name)),
-          for (final item in m.items) _MobItemRow(item: item),
-        ],
-      ],
-    );
-  }
-}
-
-class _Heading extends StatelessWidget {
-  const _Heading(this.text);
+class ShelfHeading extends StatelessWidget {
+  const ShelfHeading(this.text, {super.key});
 
   final String text;
 
@@ -199,34 +47,6 @@ class _Heading extends StatelessWidget {
         padding: const EdgeInsets.only(bottom: MmSpace.s12),
         child: Semantics(header: true, child: Text(text, style: context.mmType.title.copyWith(color: context.mmColors.ink))),
       );
-}
-
-class _SeatRow extends StatelessWidget {
-  const _SeatRow({required this.seat, required this.busy, required this.onChange});
-
-  final FoldKey seat;
-  final bool busy;
-  final VoidCallback onChange;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.mmColors;
-    final type = context.mmType;
-    return DecoratedBox(
-      decoration: BoxDecoration(color: c.raised, borderRadius: MmRadius.panelAll, border: Border.all(color: c.line)),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s8, MmSpace.s8),
-        child: Row(
-          children: [
-            FoldHeadDisc(fold: seat, size: 44),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(child: Text(MobV3Copy.youPlayAs(MobV3Copy.foldName(seat)), style: type.subhead.copyWith(color: c.ink))),
-            KeyButton.quiet(key: const ValueKey('s1-change'), label: MobV3Copy.change, onPressed: busy ? null : onChange),
-          ],
-        ),
-      ),
-    );
-  }
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -270,7 +90,7 @@ class FoldTile extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Center(child: _OnPlinth(fold: fold.key, locked: !_have, finish: finish)),
+                    Center(child: OnPlinth(fold: fold.key, locked: !_have, finish: finish)),
                     const SizedBox(height: MmSpace.s12),
                     Text.rich(
                       TextSpan(children: [
@@ -313,8 +133,8 @@ class _SeatStamp extends StatelessWidget {
   }
 }
 
-class _OnPlinth extends StatelessWidget {
-  const _OnPlinth({required this.fold, required this.locked, required this.finish});
+class OnPlinth extends StatelessWidget {
+  const OnPlinth({super.key, required this.fold, required this.locked, required this.finish});
 
   final FoldKey fold;
   final bool locked;
@@ -401,78 +221,12 @@ class CreasePainter extends CustomPainter {
 // The Fold's detail
 // ---------------------------------------------------------------------------------------------------
 
-Future<void> showFoldDetail(BuildContext context, {required ShelfFold fold, required bool isSeat, required Future<void> Function() onSit}) {
-  return showMmSheet<void>(
-    context: context,
-    title: MobV3Copy.foldName(fold.key),
-    builder: (sheet) => _FoldDetail(fold: fold, isSeat: isSeat, onSit: onSit),
-  );
-}
-
-class _FoldDetail extends StatefulWidget {
-  const _FoldDetail({required this.fold, required this.isSeat, required this.onSit});
-
-  final ShelfFold fold;
-  final bool isSeat;
-  final Future<void> Function() onSit;
-
-  @override
-  State<_FoldDetail> createState() => _FoldDetailState();
-}
-
-class _FoldDetailState extends State<_FoldDetail> {
-  bool _busy = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final c = context.mmColors;
-    final type = context.mmType;
-    final f = widget.fold;
-    final have = f.owned || f.starter;
-    final name = MobV3Copy.foldName(f.key);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Center(child: FoldPuppet(fold: f.key, size: 224, large: true, locked: !have, blink: have, fallbackName: name)),
-        const SizedBox(height: MmSpace.s16),
-        Text(MobV3Copy.foldLine(f.key), textAlign: TextAlign.center, style: type.subhead.copyWith(color: c.ink)),
-        if (!have) ...[
-          const SizedBox(height: MmSpace.s8),
-          Text(MobV3Copy.lockedRule(f), textAlign: TextAlign.center, style: type.body.copyWith(color: c.ink2)),
-        ],
-        const SizedBox(height: MmSpace.s8),
-        MobNote(MobV3Copy.creaseLabel(f.folds), center: true),
-        if (have) ...[
-          const SizedBox(height: MmSpace.s16),
-          if (widget.isSeat)
-            MobNote(MobV3Copy.shelfSeatTag(name), center: true)
-          else
-            KeyButton(
-              key: const ValueKey('s1-play-as'),
-              label: MobV3Copy.playAs(f.key),
-              loading: _busy,
-              onPressed: _busy
-                  ? null
-                  : () async {
-                      setState(() => _busy = true);
-                      await widget.onSit();
-                      if (context.mounted) Navigator.of(context).pop();
-                    },
-            ),
-        ],
-        const SizedBox(height: MmSpace.s8),
-      ],
-    );
-  }
-}
-
 // ---------------------------------------------------------------------------------------------------
 // Finishes and the Mob's shelf
 // ---------------------------------------------------------------------------------------------------
 
-class _FinishRow extends ConsumerWidget {
-  const _FinishRow({required this.foil, required this.seat, required this.seatFinish});
+class ShelfFinishRow extends ConsumerWidget {
+  const ShelfFinishRow({super.key, required this.foil, required this.seat, required this.seatFinish});
 
   final FinishProgress foil;
   final FoldKey seat;
@@ -500,7 +254,7 @@ class _FinishRow extends ConsumerWidget {
             ),
             if (!foil.owned) ...[
               const SizedBox(height: MmSpace.s12),
-              ExcludeSemantics(child: _ProgressBar(value: need == 0 ? 0 : have / need)),
+              ExcludeSemantics(child: ShelfProgressBar(value: need == 0 ? 0 : have / need)),
             ] else ...[
               const SizedBox(height: MmSpace.s8),
               Row(
@@ -530,8 +284,8 @@ class _FinishRow extends ConsumerWidget {
   }
 }
 
-class _ProgressBar extends StatelessWidget {
-  const _ProgressBar({required this.value});
+class ShelfProgressBar extends StatelessWidget {
+  const ShelfProgressBar({super.key, required this.value});
 
   final double value;
 
@@ -555,8 +309,8 @@ class _ProgressBar extends StatelessWidget {
   }
 }
 
-class _MobItemRow extends StatelessWidget {
-  const _MobItemRow({required this.item});
+class ShelfMobItemRow extends StatelessWidget {
+  const ShelfMobItemRow({super.key, required this.item});
 
   final ShelfItem item;
 

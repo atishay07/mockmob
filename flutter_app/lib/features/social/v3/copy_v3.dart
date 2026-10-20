@@ -754,7 +754,8 @@ abstract final class MobV3Copy {
         ChainDayState.missed || ChainDayState.none => 'not practised',
       };
   static String makeUpProgress(int answered, int needed) => 'You have answered $answered of $needed today.';
-  static String mobChainTitle(int weeks) => '$weeks ${weeksInARow(weeks)}';
+  /// "3 weeks in a row", with "in a row" held together (non-breaking spaces) so a narrow column never leaves one word alone.
+  static String mobChainTitle(int weeks) => '$weeks ${weeks == 1 ? 'week' : 'weeks'} in a row';
   static const String weeksWord = 'weeks';
   static const String onTheWay = 'On the way';
 
@@ -831,6 +832,31 @@ abstract final class MobV3Copy {
   static const String mobShelfOwned = 'On the shelf';
   static String mobShelfNext(int? have, int? need) => have != null && need != null ? '${have.clamp(0, need)} of $need weeks in a row' : (need != null ? 'At $need weeks in a row' : 'Next on the shelf');
   static String shelfSeatTag(String fold) => 'You play as $fold';
+
+  // ---- V4-sheets A6/A7: the Shelf sheet and the Mob settings sheet ----
+  static const String shelfTapHint = 'Tap a Fold to see it. Tap one of yours to play as it.';
+  static const String shelfHideFold = 'Hide';
+  static String shelfHideFoldFor(String fold) => 'Hide $fold';
+  static const String studyTimeTitle = 'Show my study time to my Mob';
+  static const String studyTimeNote =
+      'Your Mob sees how long you practise each week, as hours and minutes. Turn it off any time. It never changes marks, chains or what you earn.';
+  static const String howMobWorks = 'How the Mob works';
+  static const String howMobWorksLine = 'Watch the slides again';
+  static const String freeProRowLine = 'What Free and Pro each give your Mob';
+  static const String youHeading = 'About you';
+  static const String changeMeLine = 'Your name and colour in this Mob';
+  static const String leaveMobLine = 'Come back any time with a new code';
+  static const String settingsMobHeading = 'This Mob';
+  static const String mockRuleHeading = 'Full mock together';
+  /// [credits] is the server's Free sit price; null leaves the number out (never a client guess, D175).
+  static String mockRuleFor(int? credits) => credits == null
+      ? 'A Pro member starts a full mock together. Everyone in the Mob can sit it within 24 hours. Pro members sit it free. Free members pay in credits, charged once when they start.'
+      : 'A Pro member starts a full mock together. Everyone in the Mob can sit it within 24 hours. Pro members sit it free. Free members sit it for $credits credits, charged once when they start.';
+  static const String getPro = 'Get Pro';
+  static const String proIncluded = 'You have Pro, so every full mock is included.';
+  static const String hideMenu = 'Hide the menu';
+  static String memberMenuTitle(String name) => name;
+  static const String savedWord = 'Saved';
 
   // ---- Stickers ----
   static String sticker(StickerKind k) => switch (k) {
@@ -1317,4 +1343,56 @@ abstract final class MobV4DenCopy {
         FoldKey.sticky => '5 fixes that held',
         FoldKey.cutting => 'come back after a break',
       };
+}
+
+// ---------------------------------------------------------------------------------------------------
+// V4-sheets (owner: V4-sheets, pass-1020 MOB-MINIMAL 3.5 This week and Your chain, 3.6 Mob hours)
+// ---------------------------------------------------------------------------------------------------
+
+abstract final class MobV4SheetsCopy {
+  static const String yourChainTitle = 'Your chain';
+  static const String thisWeekTitle = 'This week';
+  static String yourChainLink(int? days) => days == null ? 'Your chain' : (days == 1 ? 'Your chain, 1 day' : 'Your chain, $days days');
+  static const String yourChainLinkLine = 'Your own daily chain, rest passes and pause days';
+
+  static const String hoursTitle = 'Mob hours';
+  static const String hoursLine = 'Practice time, this week';
+
+  /// "7 h 45 m", "45 m", "10 h".
+  static String hm(int minutes) {
+    final m = minutes < 0 ? 0 : minutes;
+    final h = m ~/ 60;
+    final r = m % 60;
+    if (h == 0) return '$r m';
+    if (r == 0) return '$h h';
+    return '$h h $r m';
+  }
+
+  /// The same figure for screen readers: "7 hours 45 minutes".
+  static String hmSpoken(int minutes) {
+    final m = minutes < 0 ? 0 : minutes;
+    final h = m ~/ 60;
+    final r = m % 60;
+    final hs = h == 1 ? '1 hour' : '$h hours';
+    final rs = r == 1 ? '1 minute' : '$r minutes';
+    if (h == 0) return rs;
+    if (r == 0) return hs;
+    return '$hs $rs';
+  }
+
+  static String hoursOf(int target) => 'of ${hm(target)}';
+  static String hoursSemantics(int total, int target) => 'Mob hours. ${hmSpoken(total)} of practice this week, of ${hmSpoken(target)}.';
+  static const String hoursOffEveryone = 'Nobody is sharing study time yet.';
+  static String hoursNoMinutesYet(String mob) => 'No study time yet this week. It fills as $mob practises.';
+  static const String thisWeekFailed = 'This week did not load.';
+  static const String hoursOffEveryoneNote = 'Turn on "Show my study time to my Mob" in Mob settings to share yours.';
+  static const String hoursYouOff = 'Your study time is off. Turn on "Show my study time to my Mob" in Mob settings and your hours join this bar.';
+  static const String hoursYouOn = 'You are sharing your study time. You can turn it off any time in Mob settings.';
+  static const String hoursSettingsLink = 'Mob settings';
+  static String hoursTop(String name) => '$name studied the most';
+  static String hoursTopLine(int minutes) => '${hm(minutes)} this week. The crown goes on this week\'s stitch.';
+  static const String tickNote = 'A tick: met their own daily goal on 5 of 7 days.';
+  static String memberHoursSemantics(String name, int minutes, int goalDays, {required bool top}) =>
+      '$name, ${hmSpoken(minutes)}${top ? ', studied the most' : ''}. Met their own daily goal on $goalDays of 7 days${goalDays >= 5 ? ', a tick' : ''}.';
+  static String studying(String name, DateTime since) => '$name is studying, since ${MobTime.clock(since)}';
 }

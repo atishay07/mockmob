@@ -9,16 +9,20 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../core/theme/theme.dart';
 import '../copy_v3.dart';
 import 'chain_paper.dart';
 
 class ChainPennant extends StatelessWidget {
-  const ChainPennant({super.key, required this.weeks, this.width = 96, this.showNext = true});
+  const ChainPennant({super.key, required this.weeks, this.width = 96, this.showNext = true, this.crown = false});
 
   final int weeks;
   final double width;
+
+  /// A small lamp crown at the latest stitch: the week's crown (Mob hours, someone studied the most). Still, no motion.
+  final bool crown;
 
   /// A faint dashed mark where the next week's stitch will go.
   final bool showNext;
@@ -77,6 +81,18 @@ class ChainPennant extends StatelessWidget {
                   ),
                 ),
               ),
+              if (crown && drawn > 0)
+                Builder(
+                  builder: (context) {
+                    final at = stitchCentres(Size(width, height), drawn)[drawn - 1];
+                    return Positioned(
+                      key: const ValueKey('pennant-crown'),
+                      left: at.dx - 7,
+                      top: 18 + at.dy - 5 - 14 - 1,
+                      child: Icon(LucideIcons.crown, size: 14, color: colors.lamp),
+                    );
+                  },
+                ),
               Positioned(
                 left: 0,
                 right: 0,

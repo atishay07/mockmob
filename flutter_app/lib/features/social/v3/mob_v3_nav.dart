@@ -11,18 +11,16 @@ import 'data/mob_v3_den.dart';
 import 'data/mob_v3_models.dart';
 import 'logic/explainer_flow.dart';
 
-import 'screens/chains_screen.dart';
 import 'screens/fix_together_screen.dart';
 import 'screens/game_run_screen.dart';
 import 'screens/join_v3_screen.dart';
 import 'screens/mob_explainer_screen.dart';
 import 'screens/mob_setup_screen.dart';
 import 'screens/moment_overlay.dart';
-import 'screens/mob_settings_v3_screen.dart';
 import 'screens/moments_screen.dart';
 import 'screens/podium_screen.dart';
-import 'screens/shelf_screen.dart';
 import 'widgets/sit_mock_sheet.dart';
+import 'widgets/v4_sheet_hooks.dart';
 
 abstract final class MobV3Nav {
   static Future<T?> _push<T>(BuildContext context, Widget page, {String? name}) =>
@@ -72,9 +70,12 @@ abstract final class MobV3Nav {
   static Future<void> podium(BuildContext context, String gameId) => _push(context, PodiumScreen(gameId: gameId), name: '/mob/game/$gameId/podium');
   static Future<void> moments(BuildContext context, String gameId) => _push(context, MomentsScreen(gameId: gameId), name: '/mob/game/$gameId/moments');
   static Future<void> fix(BuildContext context, String gameId, int q) => _push(context, FixTogetherScreen(gameId: gameId, q: q), name: '/mob/game/$gameId/fix');
-  static Future<void> chains(BuildContext context, {bool mobTab = false}) => _push(context, ChainsScreen(mobTab: mobTab), name: '/mob/chains');
-  static Future<void> shelf(BuildContext context) => _push(context, const ShelfScreen(), name: '/mob/shelf');
-  static Future<void> settings(BuildContext context) => _push(context, const MobSettingsV3Screen(), name: '/mob/settings');
+  // The chains, the Shelf and Mob settings are sheets over the den (Mob V4): no page route is ever pushed, so no
+  // blank page slides in and Back from a sheet is simply the den.
+  static Future<void> chains(BuildContext context, {bool mobTab = false}) =>
+      (mobTab ? V4Sheets.thisWeek : V4Sheets.yourChain)(Navigator.of(context, rootNavigator: true).context);
+  static Future<void> shelf(BuildContext context) => V4Sheets.shelf(Navigator.of(context, rootNavigator: true).context);
+  static Future<void> settings(BuildContext context) => V4Sheets.mobSettings(Navigator.of(context, rootNavigator: true).context);
   static Future<void> join(BuildContext context, {String code = ''}) => _push(context, JoinV3Screen(code: code), name: '/join');
 
   /// D0 "Start a Mob": the explainer the first time on this phone for this account (D166), then the

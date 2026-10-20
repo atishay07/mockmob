@@ -172,3 +172,32 @@ class _PauseKeys extends ConsumerWidget {
     );
   }
 }
+
+/// The exam pause days in place (Mob V4: no sheet opens over the chain sheet): the same calendar and keys as
+/// [showPauseSheet], drawn as a block of the page.
+class PauseInline extends StatefulWidget {
+  const PauseInline({super.key});
+
+  @override
+  State<PauseInline> createState() => _PauseInlineState();
+}
+
+class _PauseInlineState extends State<PauseInline> {
+  final _PauseController _c = _PauseController();
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          _PauseBody(controller: _c),
+          const SizedBox(height: MmSpace.s8),
+          _PauseKeys(controller: _c),
+        ],
+      );
+}

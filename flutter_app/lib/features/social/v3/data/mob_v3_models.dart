@@ -1789,11 +1789,23 @@ class MobHours {
   /// everyone". Sharing with no minutes yet (Monday morning) is not off: it reads "0 m of 2 h 30 m".
   bool get offForEveryone => targetMinutes <= 0;
 
+  /// Somebody shares, but nobody has any minutes yet this week (the list only holds members with minutes).
+  bool get noMinutesYet => targetMinutes > 0 && members.isEmpty;
+
+  /// The week's crowned member: the listed member `top_member_id` names, else the one with the most minutes.
+  /// Never someone who is not in [members] (the server lists only members who share), so a stale id cannot name
+  /// a member who opted out.
+  MobHoursMember? get topMember {
+    if (members.isEmpty) return null;
+    for (final m in members) {
+      if (m.memberId == topMemberId) return m;
+    }
+    return members.first;
+  }
+
   /// 0..1 of the week's target, for the bar.
   double get share => targetMinutes <= 0 ? 0 : (totalMinutes / targetMinutes).clamp(0.0, 1.0);
 }
-
-
 
 /// `v3.fix` (V4-den, additive): the Mob's open Fix it together. `ready`: the trap is chosen and the fix is
 /// open ("Fix question 4 together"); `check`: the Wednesday check is open ("Take the check").

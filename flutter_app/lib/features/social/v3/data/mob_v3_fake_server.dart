@@ -574,15 +574,15 @@ class MobV3FakeServer implements MobV3Api {
   /// The server has shipped Mob hours (`v3.hours`); off hides every Mob hours element in the app.
   bool hoursShipped = true;
 
-  /// Who shares their study time (default off for everyone; the fixture Mob has four who share, except in
-  /// 'quiet' and Mobs of one, where nobody does).
+  /// Who shares their study time (default off for everyone; in the fixture Mob the others share and you do not,
+  /// except in 'quiet' and Mobs of one, where nobody does).
   final Set<String> studySharers = {};
   bool _sharersSeeded = false;
 
   /// False: nobody in the fixture Mob shares (Mob hours reads "Off for everyone").
   bool seedSharers = true;
 
-  /// This week's minutes per member id (fixture: Riya 3 h 10 m, you 2 h 40 m, Kabir 1 h 55 m, Zoya 0).
+  /// This week's minutes per member id (fixture: Riya 3 h 10 m, you 2 h 40 m, Kabir 1 h 55 m, Zoya 0; yours counts only once you share).
   final Map<String, int> studyMinutes = {'RIYA00000002': 190, 'AARAV0000001': 160, 'KABIR0000003': 115, 'ZOYA00000004': 0};
   final Map<String, int> goalDays = {'RIYA00000002': 5, 'AARAV0000001': 4, 'KABIR0000003': 5, 'ZOYA00000004': 2};
 
@@ -606,10 +606,36 @@ class MobV3FakeServer implements MobV3Api {
     on ? studySharers.add(mob.you.id) : studySharers.remove(mob.you.id);
   }
 
+  /// Demo and goldens (V4-sheets): the week has only just begun, nobody has any minutes yet.
+  void startOfWeek() {
+    for (final k in studyMinutes.keys.toList()) {
+      studyMinutes[k] = 0;
+    }
+    studyingSince.clear();
+  }
+
+  /// Demo and goldens (V4-sheets): only you share, so the week's list holds just you.
+  void onlyYouShare() {
+    final mob = _mob();
+    if (mob == null) return;
+    _sharersSeeded = true;
+    studySharers
+      ..clear()
+      ..add(mob.you.id);
+  }
+
+  @override
+  Future<Object?> studyShare({required String mob, required bool on}) async {
+    _mob(mob);
+    setShareStudyTime(on);
+    return _denJson();
+  }
+
   Json _hours(_Mob mob) {
     if (!_sharersSeeded) {
       _sharersSeeded = true;
-      if (seedSharers && scenario != 'quiet' && mob.members.length > 1) studySharers.addAll(mob.members.map((m) => m.id));
+      // The others share; you do not: the switch is off by default for everyone (minors' privacy), so a fresh demo shows it off.
+      if (seedSharers && scenario != 'quiet' && mob.members.length > 1) studySharers.addAll(mob.members.where((m) => !m.you).map((m) => m.id));
       if (seedSharers && (scenario == 'open' || scenario == 'heavy')) studyingSince['RIYA00000002'] = now.subtract(const Duration(minutes: 20));
     }
     final sharing = [for (final m in mob.members) if (studySharers.contains(m.id)) m];

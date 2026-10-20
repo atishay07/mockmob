@@ -1,10 +1,11 @@
 // S1 Your shelf (spec 5.3, D133): every Fold with the real rule and count for the ones not yet earned,
-// the creases, the finishes, the Mob's shelf, the owned-only Change, and the detail sheet.
+// the creases, the finishes, the Mob's shelf, and the Fold's detail and Play as in place (A6).
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/screens/shelf_screen.dart';
+import 'package:mockmob/features/social/v3/widgets/shelf_sheet.dart' show FoldDetailInline;
 
 import '../../../unit/social/v3/mob_v3_test_kit.dart';
 import '../../../unit/social/v3/social_test_kit.dart';
@@ -28,7 +29,9 @@ void main() {
     expect(find.text(MobV3Copy.shelfTitle), findsOneWidget);
     expect(find.text(MobV3Copy.shelfLead), findsOneWidget);
     expect(find.text(MobV3Copy.youPlayAs('Dart')), findsOneWidget);
-    expect(find.text(MobV3Copy.change), findsOneWidget);
+    // A6: no Change key and no chooser sheet; the Fold you play as changes by tapping one of yours.
+    expect(find.text(MobV3Copy.shelfTapHint), findsOneWidget);
+    expect(find.byKey(const ValueKey('s1-change')), findsNothing);
   });
 
   testWidgets('all twelve Folds: four owned, eight locked', (tester) async {
@@ -81,43 +84,42 @@ void main() {
     expect(find.text('3 of 12 weeks in a row'), findsOneWidget);
   });
 
-  testWidgets('Change offers the Folds you own and nothing else, and sits you as the one you pick', (tester) async {
-    final server = await _open(tester);
-    await tester.tap(find.byKey(const ValueKey('s1-change')));
-    await settleSocial(tester);
-    await tester.pumpAndSettle();
-    expect(find.text(MobV3Copy.changeFoldTitle), findsOneWidget);
-    // In the chooser, each owned name appears once more than on the shelf; a locked Fold is not offered.
-    expect(find.text('Hexa'), findsNWidgets(2));
-    expect(find.text('Crane'), findsNothing);
-    await tester.tap(find.text('Hexa').last);
-    await settleSocial(tester);
-    await tester.pumpAndSettle();
-    expect(server.calls, contains('profile:hexa:plain'));
-    expect(find.text(MobV3Copy.youPlayAs('Hexa')), findsOneWidget);
-  });
-
   testWidgets('FOLD_LOCKED from the server is said in a sentence, and you still play as the same Fold', (tester) async {
     await _open(tester, server: SocialServer(failures: {'profile': 'FOLD_LOCKED'}));
-    await tester.tap(find.byKey(const ValueKey('s1-change')));
-    await settleSocial(tester);
+    await tester.tap(find.byType(FoldTile).at(2));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Hexa').last);
+    await tester.tap(find.byKey(const ValueKey('s1-play-as')));
     await settleSocial(tester);
     await tester.pumpAndSettle();
     expect(find.text(MobV3Copy.errors['FOLD_LOCKED']!), findsOneWidget);
     expect(find.text(MobV3Copy.youPlayAs('Dart')), findsOneWidget);
   });
 
-  testWidgets('tapping a locked Fold opens its big still with its line and its rule, and no way to play as it', (tester) async {
+  testWidgets('tapping a locked Fold opens its big still in place with its line and its rule, and no way to play as it', (tester) async {
     await _open(tester);
     await tester.tap(find.byType(FoldTile).at(5));
     await settleSocial(tester);
     await tester.pumpAndSettle();
     expect(find.text(MobV3Copy.foldLine(FoldKey.crane)), findsOneWidget);
-    // The card behind the sheet says it too: once on the card, once in the sheet.
+    // The card says it too: once on the card, once in the detail under its row.
     expect(find.text('Crane. Your Mob fixes 3 traps together. 1 of 3, in Chai Circle.'), findsNWidgets(2));
     expect(find.byKey(const ValueKey('s1-play-as')), findsNothing);
+  });
+
+  testWidgets('the detail opens under the tapped row and Hide closes it', (tester) async {
+    await _open(tester);
+    expect(find.byKey(const ValueKey('s1-detail-dogear')), findsNothing);
+    await tester.tap(find.byType(FoldTile).at(1));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('s1-detail-dogear')), findsOneWidget);
+    // One detail at a time: another tap moves it.
+    await tester.tap(find.byType(FoldTile).at(2));
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('s1-detail-dogear')), findsNothing);
+    expect(find.byType(FoldDetailInline), findsOneWidget);
+    await tester.tap(find.text(MobV3Copy.shelfHideFold));
+    await tester.pumpAndSettle();
+    expect(find.byType(FoldDetailInline), findsNothing);
   });
 
   testWidgets('tapping an owned Fold offers Play as, and the key sits you as it', (tester) async {

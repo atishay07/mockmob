@@ -29,6 +29,9 @@ abstract class MobV3Api {
   /// `PATCH /api/mob/settings`. Returns the `GET` shape.
   Future<Object?> settings({required String mob, bool? showPodium, int? nameKey});
 
+  /// `PATCH /api/mob/me` with `{share_study_time}` (Mob hours, default off). Returns the `GET` shape.
+  Future<Object?> studyShare({required String mob, required bool on});
+
   /// `PUT /api/mob/profile`.
   Future<void> profile(FoldKey fold, {FoldFinish finish = FoldFinish.plain});
 
@@ -92,6 +95,10 @@ class HttpMobV3Api implements MobV3Api {
 
   @override
   Future<InviteV3> invite(String mob) async => InviteV3.fromJson(_j(await _api.post('/api/mob/invite', body: {'mob': mob})));
+
+  @override
+  Future<Object?> studyShare({required String mob, required bool on}) async =>
+      (await _api.patch('/api/mob/me', body: {'mob': mob, 'share_study_time': on})).data;
 
   @override
   Future<Object?> settings({required String mob, bool? showPodium, int? nameKey}) async =>

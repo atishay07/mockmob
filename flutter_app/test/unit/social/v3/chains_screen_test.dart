@@ -1,4 +1,4 @@
-// C1 and C2, the chains: the figure and its words, the strip, passes, make-up, a new chain after a break, the
+// C1 and C2, the chains (now the Your chain and This week sheets, opened through the old route): the figure and its words, the strip, passes, make-up, a new chain after a break, the
 // calendar, the milestones, "Exam pause days", "Hide my chain" and its hidden state; C2's pennant, quest
 // (56 of 60, and 70 of 60 with the bar full), what filled it by game, the parcel, how it counts, step out and
 // the path of den items. Nothing counts down, warns, or says "N of you" about a game.
@@ -25,9 +25,9 @@ void main() {
   group('C1 You', () {
     testWidgets('the figure, its words, today, the passes, the calendar and the milestones', (t) async {
       await _screen(t, v3Server());
-      expect(find.text('Chains'), findsOneWidget);
-      expect(find.text('You'), findsOneWidget);
-      expect(find.text('Chai Circle'), findsOneWidget);
+      // The Chains screen is a redirect now: the Your chain sheet rises, with no tabs.
+      expect(find.text('Your chain'), findsOneWidget);
+      expect(find.text('Chai Circle'), findsNothing);
       expect(find.text('days in a row'), findsOneWidget);
       expect(find.text('12 practised and 1 rested. Your best run.'), findsOneWidget);
       expect(find.text('2 of 5'), findsOneWidget);
@@ -85,7 +85,7 @@ void main() {
   group('C2 the Mob', () {
     testWidgets('the pennant, the quest at 51 of 60, what filled it, the parcel, how it counts, the path', (t) async {
       await _screen(t, v3Server(), mobTab: true);
-      expect(find.text('3 weeks in a row'), findsOneWidget);
+      expect(find.text('3 weeks in a row'), findsOneWidget);
       expect(find.text('A week is stitched each time Chai Circle finishes the weekly quest. Nobody can break it alone.'), findsOneWidget);
       expect(find.text('Best run: 3 weeks'), findsOneWidget);
       expect(find.text("This week's quest"), findsOneWidget);
@@ -113,7 +113,7 @@ void main() {
       await _screen(t, v3Server(scenario: 'questdone'), mobTab: true);
       expect(find.text('70 answered. The quest needed 60.', findRichText: true), findsOneWidget);
       expect(find.text('70 of 60 answered', findRichText: true), findsNothing);
-      expect(find.text('4 weeks in a row'), findsOneWidget);
+      expect(find.text('4 weeks in a row'), findsOneWidget);
       expect(find.text('Kabir\'s round'), findsOneWidget);
       // Done: no parcel line and no step-out to offer.
       expect(find.textContaining('is folded in this week'), findsNothing);
