@@ -11,6 +11,7 @@
 // the finished screen with the same marks. Only opacity and transform move. All numbers come from
 // labStory.mjs (one sample Accountancy mock), so the scenes cannot disagree with each other or with
 // the replay further down the page. Words on the screens are the product's own.
+import { useEffect, useRef, useState } from 'react';
 import { ArrowLeftRight, Check, LayoutGrid, Minus, ShieldCheck, Timer, Wrench, X } from 'lucide-react';
 import { labStory, REPAIR, repairRecordLine, signed } from './labStory.mjs';
 import { SubjectObject } from '@/components/brand/SubjectObject';
@@ -275,8 +276,26 @@ function ScreenBar({ label }) {
 
 function Stage({ step, pinned, reduced, goTo }) {
   const ready = pinned && !reduced;
+  // The first scene opens on step one, so its screen was already "on" while the lab was still far below
+  // the reader and its story played unseen: the Time screen met the reader finished and still. It waits
+  // in its first frame (data-armed) while the lab is out of the window and plays when half of it is in,
+  // each time the lab comes back. It resets only once the lab is wholly out of view, so nothing visibly
+  // rewinds. Without script, or before hydration, the screen is shown finished.
+  const gridRef = useRef(null);
+  const [armed, setArmed] = useState(true);
+  useEffect(() => {
+    const node = gridRef.current;
+    if (!node || typeof IntersectionObserver === 'undefined') return undefined;
+    const io = new IntersectionObserver((entries) => {
+      const entry = entries[entries.length - 1];
+      if (entry.intersectionRatio >= 0.5) setArmed(true);
+      else if (!entry.isIntersecting) setArmed(false);
+    }, { threshold: [0, 0.5] });
+    io.observe(node);
+    return () => io.disconnect();
+  }, []);
   return (
-    <div className="mm-wrap lc__grid" data-ready={ready ? 'true' : 'false'}>
+    <div className="mm-wrap lc__grid" ref={gridRef} data-ready={ready ? 'true' : 'false'}>
       <ol className="lc__rail" aria-label="Mistake Lab, scene by scene">
         {SCENES.map(({ key, tab, Icon }, i) => {
           const state = i < step ? 'done' : i === step ? 'on' : 'off';
@@ -309,7 +328,7 @@ function Stage({ step, pinned, reduced, goTo }) {
         const Panel = PANELS[key];
         const on = pinned ? step === i : true;
         return (
-          <article key={key} className="lc-scene" data-ss-step={i} data-on={on ? 'true' : 'false'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
+          <article key={key} className="lc-scene" data-ss-step={i} data-on={on ? 'true' : 'false'} data-armed={i === 0 && !armed ? 'false' : 'true'} data-past={pinned && i < step ? 'true' : undefined} aria-labelledby={`lc-scene-${key}`}>
             <div className="lc-scene__copy">
               <p className="lc-scene__step"><span>{String(i + 1).padStart(2, '0')}</span>{tab}</p>
               <h3 className="lc-scene__title" id={`lc-scene-${key}`}>{title}</h3>

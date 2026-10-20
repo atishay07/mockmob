@@ -358,28 +358,31 @@ html[data-theme='light'] .lc {
 .lc .lcp-swot__q { --lc-at: calc(400ms + var(--i, 0) * 110ms); }
 
 /* Off (and before the scene first comes on): every mark of the story waits in its first frame. */
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lct__pace, .lct__pace-label, .lct__key, .lct__base, .lct__over, .lct__delta, .lct__sum,
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) :is(.lct__pace, .lct__pace-label, .lct__key, .lct__base, .lct__over, .lct__delta, .lct__sum,
   .lcc__row, .lcc__badge, .lcc__chip, .lcc__line, .lcc__head, .lcc__cross, .lcc__arrow small, .lcc__end, .lcc__net, .lcc-sum p,
   .lcp-clock__dot, .lcp-clock__span, .lcp-clock__q, .lcp-net__fill, .lcp-net__gap, .lcp-net__mark,
   .lcp-q__badge, .lcp-q__opts li, .lcp-q__opts em, .lcp-check, .lcp-block, .lcr-record, .lcp-plan, .lcp-swot__q),
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcc__chip, .lcp-q__letter)::after {
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) :is(.lcc__chip, .lcp-q__letter)::after {
   transition-duration: 0s; transition-delay: var(--lc-reset);
 }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lct__pace { transform: scaleY(0); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lct__base, .lct__over, .lcc__line, .lcp-clock__span, .lcp-net__fill, .lcp-net__gap) { transform: scaleX(0); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lct__pace-label, .lct__key, .lcc__head, .lcc__arrow small, .lcp-clock__q, .lcp-q__opts em) { opacity: 0; }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lct__delta { opacity: 0; transform: translate3d(-0.35rem, 0, 0); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lct__sum, .lcc__row, .lcc-sum p, .lcp-check, .lcp-block, .lcr-record, .lcp-plan) { opacity: 0; transform: translate3d(0, 0.6rem, 0); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-swot__q { opacity: 0; transform: translate3d(0, 0.6rem, 0) scale(0.97); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcc__badge, .lcp-q__badge, .lcc__cross) { opacity: 0; transform: scale(0.6); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcc__end[data-end='to'] { opacity: 0; transform: translate3d(-0.7rem, 0, 0) scale(0.92); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcc__net { opacity: 0; transform: scale(0.7); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] :is(.lcc__chip, .lcp-q__letter)::after { transform: scaleX(0); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-clock__dot { opacity: 0; transform: scale(0.6); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-net__mark { opacity: 0; transform: translate3d(-50%, 0.4rem, 0); }
-.lc__grid[data-ready='true'] .lc-scene[data-on='false'] .lcp-q__opts li[data-state] { border-color: var(--s-line); background: transparent; }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lct__pace { transform: scaleY(0); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) :is(.lct__base, .lct__over, .lcc__line, .lcp-clock__span, .lcp-net__fill, .lcp-net__gap) { transform: scaleX(0); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) :is(.lct__pace-label, .lct__key, .lcc__head, .lcc__arrow small, .lcp-clock__q, .lcp-q__opts em) { opacity: 0; }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lct__delta { opacity: 0; transform: translate3d(-0.35rem, 0, 0); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) :is(.lct__sum, .lcc__row, .lcc-sum p, .lcp-check, .lcp-block, .lcr-record, .lcp-plan) { opacity: 0; transform: translate3d(0, 0.6rem, 0); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-swot__q { opacity: 0; transform: translate3d(0, 0.6rem, 0) scale(0.97); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) :is(.lcc__badge, .lcp-q__badge, .lcc__cross) { opacity: 0; transform: scale(0.6); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcc__end[data-end='to'] { opacity: 0; transform: translate3d(-0.7rem, 0, 0) scale(0.92); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcc__net { opacity: 0; transform: scale(0.7); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) :is(.lcc__chip, .lcp-q__letter)::after { transform: scaleX(0); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-clock__dot { opacity: 0; transform: scale(0.6); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-net__mark { opacity: 0; transform: translate3d(-50%, 0.4rem, 0); }
+.lc__grid[data-ready='true'] .lc-scene:is([data-on='false'], [data-armed='false']) .lcp-q__opts li[data-state] { border-color: var(--s-line); background: transparent; }
+/* The Time screen waiting for the lab to come into view resets at once (it is out of the window, and a delayed
+   reset would never run on a section the browser has not drawn). */
+.lc__grid[data-ready='true'] .lc-scene[data-armed='false'] :is(*, *::after) { transition: none !important; }
 /* The clock sweep plays once each time the Changes screen comes on. */
-.lc__grid[data-ready='true'] .lc-scene[data-on='true'] .lcp-clock__sweep i { animation: lc-sweep var(--lc-sweep) linear both; }
+.lc__grid[data-ready='true'] .lc-scene[data-on='true'][data-armed='true'] .lcp-clock__sweep i { animation: lc-sweep var(--lc-sweep) linear both; }
 @keyframes lc-sweep {
   0% { transform: translate3d(-100%, 0, 0); opacity: 1; }
   92% { transform: translate3d(0, 0, 0); opacity: 1; }

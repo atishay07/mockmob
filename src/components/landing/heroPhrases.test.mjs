@@ -166,7 +166,8 @@ test('option C phrases: the same first line, one phrase reworded in his voice, e
     assert.doesNotMatch(phrase, /!|never|guarantee|unlimited|best|#1|unlock|supercharg|seamless/i);
   }
   // "See the lost marks." is the page's own promise and what the result shows.
-  assert.match(PAGE, /Your lost marks went somewhere\. MockMob shows you \*where/);
+  assert.match(PAGE, /Your marks slipped somewhere\. MockMob shows you \*where/);
+  assert.doesNotMatch(PAGE, /Your lost marks went somewhere/);
   assert.match(PAGE, /label="Let’s find the lost marks\."/);
   assert.match(read('labStory.mjs'), /You missed \$\{gap\} marks\. Here’s where they went\./);
 });
