@@ -307,7 +307,9 @@ class _SlideFold extends StatelessWidget {
     final sheetRot = lerpD(tilt, 0, shrink);
     final sheetScale = lerpD(1, 0.64, shrink);
     final wrapOut = r ? 1 - seg(ms, t.at(1500), 120) : 1 - seg(ms, 2640, 120);
-    final flatO = r ? 1.0 : _kf(((ms - 1560) / 700).clamp(0.0, 1.0), const [0, 0.5, 1], const [1, 1, 0]);
+    final flatO = r ? 1.0 : 1 - seg(ms, 1560, 120);
+    // Before the fold the sheet is one piece (no seams on the diagonals); from 1560 it is the diamond and four flaps.
+    final folding = !r && ms >= 1560;
     final tint = r ? 0.0 : seg(ms, 2300, 200);
     final visorK = r ? 0.0 : seg(ms, 2440, 200, MotionCurves.out);
 
@@ -342,7 +344,7 @@ class _SlideFold extends StatelessWidget {
     final mShadow = r ? t.fade(1500) : seg(ms, 2700, 300, MotionCurves.out);
 
     final t0 = r ? 2000.0 : 3000.0;
-    const ring = [(FoldKey.dogear, 104.0, 66.0), (FoldKey.hexa, 258.0, 66.0), (FoldKey.dart, 44.0, 64.0), (FoldKey.kandil, 318.0, 64.0)];
+    const ring = [(FoldKey.dogear, 98.0, 66.0), (FoldKey.hexa, 264.0, 66.0), (FoldKey.dart, 36.0, 64.0), (FoldKey.kandil, 324.0, 64.0)];
     final landed = ms >= ExSlides.lengthMs[1] - 1;
 
     return Stack(
@@ -409,10 +411,12 @@ class _SlideFold extends StatelessWidget {
                       ),
                     ),
                     Positioned.fill(
-                      child: ClipPath(
-                        clipper: const _Diamond(),
-                        child: ColoredBox(color: p.paper, child: content(crease: true)),
-                      ),
+                      child: folding
+                          ? ClipPath(clipper: const _Diamond(), child: ColoredBox(color: p.paper, child: content(crease: true)))
+                          : DecoratedBox(
+                              decoration: BoxDecoration(color: p.paper, borderRadius: BorderRadius.circular(3)),
+                              child: content(crease: true),
+                            ),
                     ),
                     // The fix: a volt tick on C.
                     Positioned.fill(
@@ -423,7 +427,7 @@ class _SlideFold extends StatelessWidget {
                         ),
                       ),
                     ),
-                    ...flaps,
+                    if (folding) ...flaps,
                     Positioned.fill(
                       child: _o(
                         tint,
@@ -788,7 +792,7 @@ class _SlideGames extends StatelessWidget {
   final ExTime t;
   final ExFx fx;
 
-  static const List<Rect> slots = [Rect.fromLTWH(16, 44, 158, 148), Rect.fromLTWH(186, 44, 158, 148), Rect.fromLTWH(16, 202, 158, 164), Rect.fromLTWH(186, 202, 158, 164)];
+  static const List<Rect> slots = [Rect.fromLTWH(16, 40, 158, 138), Rect.fromLTWH(186, 40, 158, 138), Rect.fromLTWH(16, 186, 158, 184), Rect.fromLTWH(186, 186, 158, 184)];
   static const List<double> stackTilt = [-7, -2.5, 3, 8];
   static const List<double> restTilt = [-1.2, 0.9, 0.7, -1];
 
@@ -818,7 +822,7 @@ class _SlideGames extends StatelessWidget {
         scale = 1;
       } else {
         final k = seg(ms, 520 + i * 110.0, 420, MotionCurves.emphasized);
-        o = so;
+        o = 1;
         at = Offset.lerp(centre + Offset(0, sdy), slot.center, k)!;
         rot = lerpD(stackTilt[i], restTilt[i], k) * _deg;
         scale = lerpD(0.84, 1, k);
@@ -850,7 +854,8 @@ class _SlideGames extends StatelessWidget {
             painter: ExLampPainter(cx: 180, coneW: 360, coneH: 380, lampA: p.lampA, cone: cone, scaleX: r ? 1 : lerpD(0.75, 1, cone), shade: r ? t.fade(0) : seg(ms, 0, 300, MotionCurves.out)),
           ),
         ),
-        ...cards,
+        // The stack rises as one piece (no card shows through another), then each card is dealt.
+        Positioned.fill(child: _o(r ? 1 : so, Stack(clipBehavior: Clip.none, children: cards))),
       ],
     );
   }
@@ -908,7 +913,7 @@ class _GameCard extends StatelessWidget {
             left: 12,
             top: 11,
             right: 12,
-            bottom: 34,
+            bottom: i == 3 ? 56 : 34,
             child: ClipRect(
               child: OverflowBox(
                 alignment: Alignment.topLeft,
@@ -1966,7 +1971,7 @@ class _SlideStitch extends StatelessWidget {
     final doneO = t.engraveO(1900);
     final doneLine = t.fade(2000, 240);
     final (qo, qdy) = t.rise(160);
-    final (co, cdy) = t.rise(260);
+    final (co, cdy) = t.rise(3050);
 
     const pennantW = 118.0;
     const scale = pennantW / PennantPainter.width;
@@ -2016,7 +2021,7 @@ class _SlideStitch extends StatelessWidget {
                       children: [
                         Positioned.fill(
                           child: CustomPaint(
-                            painter: PennantPainter(weeks: 4, sew: sew, holes: holes, glints: glintK, night: fx.night, volt: c.volt, voltEdge: c.voltEdge),
+                            painter: PennantPainter(weeks: ms >= t.at(sw) ? 4 : 3, sew: ms >= t.at(sw) ? sew : 1, holes: ms >= t.at(sw) ? holes : 1, glints: glintK, night: fx.night, volt: c.volt, voltEdge: c.voltEdge),
                           ),
                         ),
                         Positioned(
@@ -2312,7 +2317,7 @@ class _SlideShelf extends StatelessWidget {
   static const double px = 180;
   static const double ps = 156;
   static const double pt = 88;
-  static const double shelfY = 336;
+  static const double shelfY = 346;
 
   @override
   Widget build(BuildContext context) {
@@ -2321,7 +2326,7 @@ class _SlideShelf extends StatelessWidget {
     final ms = t.ms;
     final r = t.reduced;
     final rim = pt + ps * 0.5;
-    final hopBase = rim + 16;
+    final hopBase = rim + 26;
 
     final cone = r ? t.fade(0) : seg(ms, 0, 420, MotionCurves.emphasized);
     final bright = r ? 1.0 : (ms < 1000 ? 1.0 : _kf(((ms - 1000) / 1000).clamp(0.0, 1.0), const [0, 0.4, 1], const [1, 1.45, 1.15]));
@@ -2395,7 +2400,7 @@ class _SlideShelf extends StatelessWidget {
           left: 0,
           top: 0,
           width: ExStage.w,
-          height: rim + 4,
+          height: rim + 2,
           child: ClipRect(
             child: Stack(
               clipBehavior: Clip.none,
@@ -2448,7 +2453,7 @@ class _SlideShelf extends StatelessWidget {
         ),
         _sparks(
           t,
-          bursts: [ExBurst(x: px, y: rim - 10, n: fx.bits(22), at: 1200, floor: pt + ps - 6, seed: 31, up: 220)],
+          bursts: [ExBurst(x: px, y: rim - 10, n: fx.bits(22), at: 1200, floor: pt + ps - 22, seed: 31, up: 220)],
           glints: [const ExGlints(x: px, y: 116, n: 6, r: 74, at: 1350)],
         ),
         // The shelf.
