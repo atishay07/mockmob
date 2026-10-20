@@ -1,0 +1,9 @@
+{
+  "status": 402,
+  "body": {
+    "error": {
+      "code": "START_PRO",
+      "message": "Starting games is part of Pro. You can play every game your Mob starts."
+    }
+  }
+}

@@ -727,5 +727,50 @@
         "message": "You have used the 14 pause days this season allows."
       }
     }
+  },
+  "MINUTES_INVALID": {
+    "status": 422,
+    "body": {
+      "error": {
+        "code": "MINUTES_INVALID",
+        "message": "Choose a 5-minute or a 10-minute race."
+      }
+    }
+  },
+  "RUN_NOT_STARTED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "RUN_NOT_STARTED",
+        "message": "The room has not started yet. Your first question comes at Go."
+      }
+    }
+  },
+  "RUN_PAPER": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "RUN_PAPER",
+        "message": "This game is a full mock. Open it from its card to sit the paper."
+      }
+    }
+  },
+  "MOCK_TOO_LATE": {
+    "status": 410,
+    "body": {
+      "error": {
+        "code": "MOCK_TOO_LATE",
+        "message": "This full mock closes in under an hour, so there is not time to sit it now. Its answers open when it closes."
+      }
+    }
+  },
+  "NO_TICKET": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "NO_TICKET",
+        "message": "Open the room first."
+      }
+    }
   }
 }

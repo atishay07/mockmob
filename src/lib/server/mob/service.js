@@ -497,6 +497,7 @@ export function createMobService(deps) {
      */
     async startPaper(userId, body = {}) {
       const state = await mustState(userId, body.mob, { sync: true });
+      if (body.game !== undefined && body.game !== null) return startMock(userId, state, body);
       if (body.extra !== undefined && body.extra !== null) return startExtra(userId, state, body);
       if ((state.sittings || []).some((s) => s.user_id === userId)) throw new MobError('PAPER_ALREADY_SAT');
       if (tooLateToStart(state.week, now())) throw new MobError('WEEK_CLOSED');
@@ -656,6 +657,8 @@ export function createMobService(deps) {
       try {
         const tag = attempt?.selectionMeta?.mobPaper;
         if (!tag?.mobId || !tag?.weekStart) return 'skipped';
+        // A Mob game's full mock (Full mock together) is recorded on its game, not as the week's paper.
+        if (tag.gameId) return v3On() ? await v3.recordMock(userId, tag, attempt) : 'skipped';
         if (tag.extraId) {
           const extra = await call('mob_extra_get', { p_user_id: userId, p_extra_id: tag.extraId });
           if (!extra || extra.mob_id !== tag.mobId) return 'skipped';
@@ -689,14 +692,30 @@ export function createMobService(deps) {
     return runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(extra.week_start).slice(0, 10), extraId: extra.id, holdUntil: holdStamp({ extraClosesAt: extra.closes_at }), questions } }, { extra: true });
   }
 
-  async function runStart(userId, input, server, { extra = false } = {}) {
+  /**
+   * Full mock together: sit the Mob's frozen 50-question paper in the practice runner (mode full, 60 minutes). The same
+   * questions in the same order for every member, no credits and never the first free full mock (a Mob paper), the
+   * answers held until the game closes. A retry resumes the same session. Pro starts the game; everyone sits it.
+   */
+  async function startMock(userId, state, body) {
+    if (!v3On()) throw new MobError('MOB_DISABLED');
+    const { g, questions } = await v3.mockPaper(userId, state, body.game);
+    const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`game:${g.id}:${userId}`).digest('hex').slice(0, 40)}`;
+    const input = { experience: 'practice', mode: 'full', count: questions.length, subject: g.subject, generationKey };
+    if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
+    const out = await runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(g.week_start).slice(0, 10), gameId: g.id, holdUntil: new Date(g.closes_at).toISOString(), questions } }, { game: true });
+    await v3.mockBegin(userId, g.id);
+    return out;
+  }
+
+  async function runStart(userId, input, server, { extra = false, game = false } = {}) {
     try {
       return await deps.startPractice(userId, input, server);
     } catch (error) {
       const m = String(error?.message || '');
       if (/CREDITS/.test(m)) throw new MobError('CREDITS');
       if (/SESSION_EXPIRED/.test(m)) throw new MobError('PAPER_EXPIRED');
-      if (/ALREADY_SUBMITTED/.test(m)) throw new MobError(extra ? 'EXTRA_ALREADY_SAT' : 'PAPER_ALREADY_SAT');
+      if (/ALREADY_SUBMITTED/.test(m)) throw new MobError(game ? 'RUN_DONE' : extra ? 'EXTRA_ALREADY_SAT' : 'PAPER_ALREADY_SAT');
       if (/INSUFFICIENT_PRACTICE_CONTENT|SUBJECT_NOT_SUPPORTED/.test(m)) throw new MobError('PAPER_UNAVAILABLE');
       if (/MIGRATION/.test(m)) throw new MobError('MIGRATION');
       if (error instanceof MobError) throw error;

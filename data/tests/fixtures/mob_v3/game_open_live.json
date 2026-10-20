@@ -5,6 +5,7 @@
     "format": "sprint",
     "mode": "live",
     "count": 5,
+    "minutes": null,
     "secondsPerQuestion": 60,
     "subjectName": "Accountancy",
     "chapter": null,
@@ -21,7 +22,8 @@
     "room": {
       "state": "lobby",
       "startsAt": null,
-      "endsAt": null
+      "endsAt": null,
+      "roster": []
     },
     "runs": [],
     "you": {

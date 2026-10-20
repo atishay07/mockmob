@@ -1,0 +1,9 @@
+{
+  "status": 409,
+  "body": {
+    "error": {
+      "code": "RUN_PAPER",
+      "message": "This game is a full mock. Open it from its card to sit the paper."
+    }
+  }
+}

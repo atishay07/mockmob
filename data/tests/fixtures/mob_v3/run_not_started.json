@@ -1,0 +1,13 @@
+{
+  "status": 409,
+  "body": {
+    "error": {
+      "code": "RUN_NOT_STARTED",
+      "message": "The room has not started yet. Your first question comes at Go.",
+      "detail": {
+        "startsAt": "2026-10-22T08:49:01.500Z",
+        "serverNow": "2026-10-22T08:48:57.500Z"
+      }
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "run": {
+    "startedAt": "2026-10-22T08:43:55.000Z",
+    "endsAt": "2026-10-22T08:48:55.000Z",
+    "serverNow": "2026-10-22T08:43:55.000Z",
+    "live": false,
+    "minutes": 5,
+    "answers": []
+  },
+  "questions": [
+    {
+      "q": 0,
+      "stem": "Goodwill question 8",
+      "options": [
+        "Option A of question 8",
+        "Option B of question 8",
+        "Option C of question 8",
+        "Option D of question 8"
+      ],
+      "passage": null
+    }
+  ],
+  "ghosts": [
+    {
+      "memberId": "member-6",
+      "name": "Riya",
+      "colour": 3,
+      "fold": "kandil",
+      "playedAt": "2026-10-22T08:43:55.000Z",
+      "arrivalsMs": [
+        11000,
+        22000,
+        33000,
+        44000,
+        55000,
+        66000
+      ],
+      "finishedMs": 66000,
+      "answered": 6
+    }
+  ]
+}

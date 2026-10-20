@@ -2,8 +2,9 @@
 // that the server, the web and the app share. The database keeps the same numbers in 20261020100400_mob_v3_live.sql
 // (a test reads both and keeps them equal).
 //   - One private Realtime channel per room: topic mob-room:<game id>. Access is by a ticket the API issues.
-//   - Clients send presence only, { m, st, v }. Every other event comes from the server and carries no name, no mark,
-//     no pick and no right or wrong (F1, section 6 item 10).
+//   - Clients send NOTHING on the channel (L-55, 20 Oct): presence goes through POST /room/presence and the server
+//     broadcasts presence { m, st }. Every event comes from the server and carries no name, no mark, no pick and no right
+//     or wrong (F1, section 6 item 10). The room's roster is the members heard from in the last ROSTER_SECONDS.
 //   - A lobby nobody starts closes after 15 minutes; then the game is simply a 24-hour game.
 //   - At most MOB_LIVE_MAX_ROOMS rooms (default 30, so 150 connections at 5 a room) are open across MockMob at once.
 export const TOPIC_PREFIX = 'mob-room:';
@@ -31,8 +32,13 @@ export const BROADCASTS = Object.freeze({
   'room.done': Object.freeze([]),
   'room.cancel': Object.freeze([]),
   sticker: Object.freeze(['m', 'k']),
+  presence: Object.freeze(['m', 'st']),
 });
-export const BROADCAST_KEYS = Object.freeze(['m', 'q', 'done', 'k', 'startsAt']);
+export const BROADCAST_KEYS = Object.freeze(['m', 'q', 'done', 'k', 'startsAt', 'st']);
+// A race's pool or a full mock reaches 60 questions; progress q is how many are answered (a race) or the question number.
+export const MAX_Q = 60;
+export const ROSTER_SECONDS = 45;
+export const PRESENCE_SENT = Object.freeze(['here', 'ready', 'left']);
 const MEMBER_RE = /^[0-9A-Z]{12}$/;
 
 // Supabase Realtime adds its own message id to every payload realtime.send delivers (seen on staging, 20 Oct): a random
@@ -54,7 +60,8 @@ export function broadcastOk(event, payload, { delivered = false } = {}) {
   const have = Object.keys(payload).sort();
   if (have.length !== keys.length || !keys.every((k) => have.includes(k))) return false;
   if ('m' in payload && !MEMBER_RE.test(payload.m)) return false;
-  if ('q' in payload && !(Number.isInteger(payload.q) && payload.q >= 1 && payload.q <= 20)) return false;
+  if ('q' in payload && !(Number.isInteger(payload.q) && payload.q >= 1 && payload.q <= MAX_Q)) return false;
+  if ('st' in payload && !PRESENCE_SENT.includes(payload.st)) return false;
   if ('done' in payload && typeof payload.done !== 'boolean') return false;
   if ('startsAt' in payload && !Number.isFinite(Date.parse(payload.startsAt))) return false;
   if ('k' in payload && typeof payload.k !== 'string') return false;
@@ -64,8 +71,9 @@ export function broadcastOk(event, payload, { delivered = false } = {}) {
 export const PRESENCE_STATES = Object.freeze(['here', 'ready']);
 
 /**
- * A presence payload a client may send, and every client applies before showing it: exactly { m, st, v: 1 }, with m one
- * of the room's member ids. Anything else is ignored, so a stray key can never carry a name or a mark.
+ * A presence entry as the room shows it: exactly { m, st, v: 1 }, with m one of the room's member ids. Anything else is
+ * ignored, so a stray key can never carry a name or a mark. (Since L-55 no client sends presence on the channel; the
+ * clients still apply this to anything that arrives.)
  */
 export function presenceOk(payload, memberIds) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) return false;
@@ -93,4 +101,15 @@ export function ticketExpiry(now, roomEndsAt = null) {
   const cap = now + TICKET_MAX_MINUTES * 60_000;
   const end = roomEndsAt ? Math.min(Date.parse(roomEndsAt), cap) : cap;
   return end + TICKET_TAIL_MINUTES * 60_000;
+}
+
+/**
+ * The roster as the API sends it: [{ memberId, st }] from mob_room_roster rows [{ m, st }], members of the room only, in
+ * the order of `memberIds` (the Mob's member list), so every device lists the room the same way.
+ */
+export function rosterOut(rows, memberIds) {
+  const order = [...(memberIds || [])];
+  const at = new Map(order.map((m, i) => [m, i]));
+  return (Array.isArray(rows) ? rows : []).filter((r) => r && MEMBER_RE.test(r.m) && at.has(r.m) && PRESENCE_STATES.includes(r.st))
+    .sort((a, b) => at.get(a.m) - at.get(b.m)).map((r) => ({ memberId: r.m, st: r.st }));
 }

@@ -13,14 +13,20 @@ import { ERRORS, errorBody } from '../../src/lib/mob/model.mjs';
 import { MOB_NAMES } from '../../src/lib/mob/names.mjs';
 import { foldCatalogJson } from '../../src/lib/mob/folds.mjs';
 import { createMobService, memberIdFor } from '../../src/lib/server/mob/service.js';
+// Formats (owner D167) add: game_open_race, run_start_race, answer_race(_skip, _out_of_order), answer_time_up, finish_race,
+// game_get_race, podium_race, game_open_live_race, room_ticket_race, room_presence(_no_ticket), run_not_started,
+// run_start_live_race, game_open_mock(_free), paper_start_mock, run_start_mock, game_get_mock, podium_mock(_closed),
+// den_get_formats. Error fixtures are { status, body } as the route sends them.
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
 const DIR = resolve(root, 'data/tests/fixtures/mob_v3');
-const MIGRATIONS = ['20261017100000_mob', '20261017190000_mob_fix_1017', '20261020100000_mob_v3_core', '20261020100100_mob_v3_games', '20261020100200_mob_v3_chains', '20261020100300_mob_v3_realtime', '20261020100400_mob_v3_live'];
+const MIGRATIONS = ['20261017100000_mob', '20261017190000_mob_fix_1017', '20261020100000_mob_v3_core', '20261020100100_mob_v3_games', '20261020100200_mob_v3_chains', '20261020100300_mob_v3_realtime', '20261020100400_mob_v3_live', '20261020140000_mob_v3_formats'];
 const NOW = Date.parse('2026-10-22T08:35:00Z'); // Thursday 22 Oct, 2:05 PM IST
-const BANK = Array.from({ length: 40 }, (_, i) => ({
-  id: `q${i + 1}`, correctIndex: i % 4, question: `Goodwill question ${i + 1}`, chapter: 'Goodwill', explanation: `Why answer ${'ABCD'[i % 4]} is right for question ${i + 1}.`,
+// 200 questions: the first 40 on Goodwill (the story's chapter games), the rest across two more units for the full mock.
+const CHAPTERS = ['Goodwill', 'Cash Flow Statement', 'Ratios'];
+const BANK = Array.from({ length: 200 }, (_, i) => ({
+  id: `q${i + 1}`, correctIndex: i % 4, question: `${i < 40 ? 'Goodwill' : CHAPTERS[i % 3]} question ${i + 1}`, chapter: i < 40 ? 'Goodwill' : CHAPTERS[i % 3], explanation: `Why answer ${'ABCD'[i % 4]} is right for question ${i + 1}.`,
   options: ['A', 'B', 'C', 'D'].map((t) => ({ key: t, text: `Option ${t} of question ${i + 1}` })),
 }));
 const keyOf = (id) => BANK.find((q) => q.id === id).correctIndex;
@@ -54,10 +60,19 @@ async function story() {
     loadUser: async (id) => ({ subjects: ['accountancy'], isPremium: flags.pro.has(id) }),
     validChapter: (_s, c) => c === 'Goodwill',
     // Fix questions: a fixed draw (their key carries a memberId, which changes with the Mob's random id).
-    pickQuestionIds: async (_s, { count = 10, key = null } = {}) => { const start = key?.startsWith('fix_') ? 30 : key ? hash(key) % 30 : 0; return Array.from({ length: count }, (_, i) => BANK[(start + i) % 40].id); },
+    // Like the bank: never an excluded id; a chapter narrows the draw.
+    pickQuestionIds: async (_s, { count = 10, key = null, exclude = [], chapter = null } = {}) => {
+      const pool = chapter ? BANK.filter((q) => q.chapter === chapter) : BANK;
+      const start = key?.startsWith('fix_') ? 30 : key ? hash(key) % 30 : 0;
+      const skip = new Set(exclude);
+      return Array.from({ length: pool.length }, (_, i) => pool[(start + i) % pool.length].id).filter((id) => !skip.has(id)).slice(0, count);
+    },
+    sectionsFor: (_s, qs) => qs.map((q) => ({ Goodwill: { key: 'unit_1', label: 'Reconstitution of a Partnership firm' }, 'Cash Flow Statement': { key: 'unit_5', label: 'Analysis of Financial Statements' }, Ratios: { key: 'unit_5', label: 'Analysis of Financial Statements' } })[q.chapter] || null),
     loadQuestions: async (ids) => ids.map((id) => BANK.find((q) => q.id === id)).filter(Boolean),
-    trapNameFor: async () => null, findAttempts: async () => [], startPractice: async () => ({ id: 'practice_x' }),
-    v3Enabled: () => true, billingOn: () => flags.billing, liveEnabled: () => true,
+    trapNameFor: async () => null, findAttempts: async () => [],
+    // The practice start's own response is today's SessionView; this echo shows what the Mob passes it for a full mock.
+    startPractice: async (_u, input, server) => ({ id: 'practice_x', input, mobPaper: server?.mobPaper ? { ...server.mobPaper, questions: undefined, questionCount: server.mobPaper.questions.length } : null }),
+    v3Enabled: () => true, billingOn: () => flags.billing, liveEnabled: () => true, formatsEnabled: () => true,
   });
   const out = {};
   // Chai Circle: Riya (owner, u1), Aarav (you, u2), Kabir (u3), Zoya (u4).
@@ -134,6 +149,67 @@ async function story() {
   clock.now += 21_000;
   await svc.v3.answer('u1', live.id, { q: 0, pick: keyOf((await ids(live.id))[0]) });
   out['game_live_running.json'] = await svc.v3.getGame('u2', live.id);
+  // ---- Formats (owner D167): a second Mob of Riya's, with a race, a live race and a full mock open together.
+  const mob2 = (await svc.create('u1', { subject: 'accountancy', name: 'Riya', colour: 3, nameKey: 1, fold: 'kandil' })).mob.id;
+  const inv2 = await svc.invite('u1', { mob: mob2 });
+  for (const [u, name, fold] of [['u2', 'Aarav', 'dart'], ['u3', 'Kabir', 'hexa']]) await svc.join(u, { code: inv2.code, name, colour: 1, fold });
+  const errorOf = async (p) => { try { await p; return null; } catch (e) { return { status: ERRORS[e.code][0], body: errorBody(e.code, { message: e.extra?.message, detail: e.extra?.detail }) }; } };
+  // A 5-minute race (Kabir, Free: his weekly start in this Mob). Riya races first; Aarav races against her ghost.
+  out['game_open_race.json'] = await svc.v3.openGame('u3', { mob: mob2, format: 'race', minutes: 5 });
+  const race = out['game_open_race.json'].game;
+  const rq = await ids(race.id);
+  await svc.v3.startRun('u1', race.id);
+  for (const [q, p] of ['r', 'r', 'w', 'r', 's', 'r'].entries()) { clock.now += 11_000; await svc.v3.answer('u1', race.id, { q, pick: p === 'r' ? keyOf(rq[q]) : p === 'w' ? (keyOf(rq[q]) + 1) % 4 : -1 }); }
+  out['finish_race.json'] = await svc.v3.finish('u1', race.id);
+  out['run_start_race.json'] = await svc.v3.startRun('u2', race.id);
+  const raceStart = clock.now;
+  clock.now += 9000;
+  out['answer_race.json'] = await svc.v3.answer('u2', race.id, { q: 0, pick: keyOf(rq[0]) });
+  clock.now += 7000;
+  out['answer_race_skip.json'] = await svc.v3.answer('u2', race.id, { q: 1, pick: -1 });
+  out['answer_race_out_of_order.json'] = await errorOf(svc.v3.answer('u2', race.id, { q: 5, pick: 0 }));
+  out['game_get_race.json'] = await svc.v3.getGame('u2', race.id);
+  clock.now += 8000;
+  await svc.v3.answer('u2', race.id, { q: 2, pick: keyOf(rq[2]) });
+  // Time up: 5 minutes after the start, plus the 2 s grace.
+  clock.now = raceStart + 5 * 60_000 + 2500;
+  out['answer_time_up.json'] = await errorOf(svc.v3.answer('u2', race.id, { q: 3, pick: keyOf(rq[3]) }));
+  out['podium_race.json'] = await svc.v3.podium('u2', race.id);
+  // A live race (Riya, Pro): the room, presence through the API (L-55), and Go.
+  out['game_open_live_race.json'] = await svc.v3.openGame('u1', { mob: mob2, format: 'race', minutes: 10, mode: 'live' });
+  const liveRace = out['game_open_live_race.json'].game;
+  await svc.v3.roomTicket('u1', '1a2b3c4d-5e6f-4a1b-8c2d-3e4f5a6b7c8d', liveRace.id);
+  await svc.v3.roomPresence('u1', liveRace.id, { st: 'here' });
+  out['room_ticket_race.json'] = await svc.v3.roomTicket('u2', '6f1d2c3b-4a59-4e87-9d10-2b3c4d5e6f70', liveRace.id);
+  out['room_presence.json'] = await svc.v3.roomPresence('u2', liveRace.id, { st: 'ready' });
+  out['room_presence_no_ticket.json'] = await errorOf(svc.v3.roomPresence('u3', liveRace.id, { st: 'here' }));
+  const go = await svc.v3.roomStart('u1', liveRace.id);
+  out['run_not_started.json'] = await errorOf(svc.v3.startRun('u2', liveRace.id));
+  clock.now = Date.parse(go.startsAt) + 500;
+  out['run_start_live_race.json'] = await svc.v3.startRun('u2', liveRace.id);
+  // Full mock together (Riya, Pro): 50 questions, the CUET pattern, 24 hours; sat in the practice runner.
+  out['game_open_mock_free.json'] = await errorOf(svc.v3.openGame('u3', { mob: mob2, format: 'mock' }));
+  out['game_open_mock.json'] = await svc.v3.openGame('u1', { mob: mob2, format: 'mock' });
+  const mock = out['game_open_mock.json'].game;
+  const mq = await ids(mock.id);
+  out['paper_start_mock.json'] = await svc.startPaper('u2', { mob: mob2, game: mock.id });
+  await svc.startPaper('u1', { mob: mob2, game: mock.id });
+  out['run_start_mock.json'] = await errorOf(svc.v3.startRun('u2', mock.id));
+  const handIn = (u, plan, at) => ({
+    id: `attempt_${u}`, correct: plan.filter((x) => x === 'r').length, total: 50, completedAt: at,
+    details: mq.map((qid, i) => ({ qid, givenIndex: plan[i] === 'r' ? keyOf(qid) : plan[i] === 'w' ? (keyOf(qid) + 1) % 4 : -1 })),
+    selectionMeta: { mode: 'full', mobPaper: { mobId: mob2, weekStart: '2026-10-19', gameId: mock.id } },
+  });
+  clock.now += 48 * 60_000;
+  await svc.recordFromAttempt('u1', handIn('u1', mq.map((_, i) => (i === 9 ? 'w' : i < 38 ? 'r' : i < 44 ? 'w' : 's')), clock.now));
+  clock.now += 4 * 60_000;
+  await svc.recordFromAttempt('u2', handIn('u2', mq.map((_, i) => (i === 9 ? 's' : i < 33 ? 'r' : i < 45 ? 'w' : 's')), clock.now));
+  out['game_get_mock.json'] = await svc.v3.getGame('u2', mock.id);
+  out['podium_mock.json'] = await svc.v3.podium('u2', mock.id);
+  out['den_get_formats.json'] = await svc.view('u2', { mobId: mob2 });
+  // After the close: the most-missed question is the trap, and Fix it together opens on it.
+  clock.now = Date.parse(mock.closesAt) + 60_000;
+  out['podium_mock_closed.json'] = await svc.v3.podium('u2', mock.id);
   out['folds.json'] = foldCatalogJson();
   out['names.json'] = { names: [...MOB_NAMES] };
   out['errors_v3.json'] = Object.fromEntries(Object.keys(ERRORS).map((c) => [c, { status: ERRORS[c][0], body: errorBody(c) }]));
@@ -151,6 +227,8 @@ function normalise(all) {
     s = swap(s, /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/g, 'uuid');
     s = swap(s, /(?<="(?:memberId|hostMemberId|m)": ")[0-9A-Z]{12}(?=")/g, 'member');
     s = s.replace(/(quest_done|stitch):[^:"]+:/g, '$1:uuid-mob:');
+    // A full mock's practice key is an HMAC of the game id (random per run).
+    s = s.replace(/("generationKey": "mob_)[0-9a-f]{40}"/g, '$1HMAC"');
     // Sticker times come from the database clock.
     s = s.replace(/("at": ")[^"]+(",\s*"game")|("kind": "nice_one",\s*"at": ")[^"]+"/g, (m) => m.replace(/\d{4}-\d{2}-\d{2}T[^"]+/, 'DB-TIME'));
     out[name] = `${s}\n`;
@@ -208,9 +286,42 @@ test('the shapes spec section 3 names are all there', async () => {
   assert.match(f['invite.json'].code, /^[0-9A-HJKMNP-TV-Z]{6}$/);
   has(f['lookup.json'], ['status', 'subject', 'subjectName', 'name', 'size', 'seatsLeft'], 'lookup');
   assert.equal(f['lookup.json'].name, 'Chai Circle');
-  assert.deepEqual(f['starts_used.json'], { billingOn: true, can: false, reason: 'used', modes: [], formats: [], freeLeft: 0, mics: 0 });
+  assert.deepEqual(f['starts_used.json'], { billingOn: true, can: false, reason: 'used', modes: [], formats: [], locked: ['race', 'mock'], freeLeft: 0, mics: 0 });
   assert.deepEqual([f['starts_mic.json'].via, f['starts_mic.json'].mics, f['starts_mic.json'].micFrom.name], ['free_weekly', 1, 'Riya'], 'the free start is used first; the mic waits');
   assert.equal(f['starts_pro.json'].via, 'pro');
+  // Formats (owner D167).
+  const race = f['game_open_race.json'].game;
+  assert.deepEqual([race.format, race.minutes, race.count, race.secondsPerQuestion], ['race', 5, 30, null]);
+  assert.deepEqual(f['run_start_race.json'].questions.map((q) => q.q), [0], 'a race serves one question at a time');
+  assert.equal(f['run_start_race.json'].run.minutes, 5);
+  has(f['answer_race.json'], ['correct', 'delta', 'marks', 'elapsedMs', 'answered', 'count', 'finished', 'serverNow', 'endsAt', 'next'], 'race answer');
+  assert.equal(f['answer_race.json'].next.q, 1);
+  assert.equal(f['answer_race_out_of_order.json'].body.error.code, 'Q_INVALID');
+  assert.deepEqual([f['answer_time_up.json'].status, f['answer_time_up.json'].body.error.code], [410, 'RUN_EXPIRED']);
+  has(f['game_get_race.json'].game.ghosts[0], ['memberId', 'name', 'colour', 'fold', 'playedAt', 'arrivalsMs', 'finishedMs', 'answered'], 'race ghost');
+  assert.deepEqual(f['finish_race.json'].run, { finished: true, marks: 19, answered: 5, right: 4, wrong: 1, skipped: 1 });
+  has(f['podium_race.json'].places[0], ['memberId', 'name', 'marks', 'answered'], 'race place');
+  assert.deepEqual(f['room_presence.json'].roster.map((r) => r.st).sort(), ['here', 'ready']);
+  assert.equal(f['room_presence_no_ticket.json'].body.error.code, 'NO_TICKET');
+  has(f['room_ticket_race.json'].room, ['state', 'startsAt', 'hostMemberId', 'roster'], 'ticket room');
+  assert.equal(f['run_not_started.json'].body.error.code, 'RUN_NOT_STARTED');
+  assert.ok(f['run_not_started.json'].body.error.detail.startsAt);
+  assert.equal(f['run_start_live_race.json'].run.live, true);
+  const mock = f['game_open_mock.json'].game;
+  assert.deepEqual([mock.format, mock.mode, mock.count, mock.minutes, mock.room], ['mock', 'async', 50, 60, null]);
+  assert.equal(f['game_open_mock_free.json'].body.error.code, 'START_PRO');
+  assert.deepEqual([f['paper_start_mock.json'].input.mode, f['paper_start_mock.json'].mobPaper.questionCount, f['paper_start_mock.json'].mobPaper.holdUntil], ['full', 50, mock.closesAt]);
+  assert.equal(f['run_start_mock.json'].body.error.code, 'RUN_PAPER');
+  has(f['game_get_mock.json'].game.you, ['run', 'marks', 'answered', 'resultId'], 'mock you');
+  has(f['podium_mock.json'].sheets[0], ['memberId', 'name', 'colour', 'fold', 'you', 'private', 'marks', 'of', 'right', 'wrong', 'skipped', 'accuracy', 'timeMs', 'sections'], 'sheet');
+  has(f['podium_mock.json'].sheets[0].sections[0], ['key', 'label', 'of', 'marks', 'right', 'wrong', 'skipped', 'accuracy', 'timeMs'], 'sheet section');
+  assert.deepEqual(f['podium_mock_closed.json'].trap, { q: 38, number: 39, caught: 'most' }, 'the most-missed question (both missed; both picked wrong beats one blank)');
+  const den2 = f['den_get_formats.json'].mob.v3;
+  assert.deepEqual(den2.games.map((g) => [g.format, g.minutes]).sort(), [['mock', 60], ['race', 10], ['race', 5]]);
+  assert.deepEqual(den2.starts.locked, ['mock']);
+  for (const name of ['game_open_race.json', 'run_start_race.json', 'answer_race.json', 'answer_race_skip.json', 'game_get_race.json', 'podium_race.json', 'run_start_live_race.json', 'game_open_mock.json', 'game_get_mock.json', 'podium_mock.json', 'room_presence.json', 'room_ticket_race.json']) {
+    assert.doesNotMatch(JSON.stringify(f[name]), /correctIndex|explanation|Why answer/, name);
+  }
   // F1: before close, no key or explanation anywhere in the open game's files.
   for (const name of ['game_open_201.json', 'game_get.json', 'run_start.json', 'run_resume.json', 'answer_right.json', 'answer_wrong.json', 'finish.json', 'podium_so_far.json']) {
     assert.doesNotMatch(JSON.stringify(f[name]), /correctIndex|explanation|Why answer/, name);

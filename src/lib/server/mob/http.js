@@ -41,6 +41,8 @@ export const LIMITS = Object.freeze({
   mic: { limit: 10, windowMs: DAY, by: 'user', success: true },
   fix: { limit: 40, windowMs: HOUR, by: 'user' },
   chainWrite: { limit: 20, windowMs: DAY, by: 'user' },
+  // L-55: live presence through the API, a heartbeat every 20 s while a room is open (180 an hour) plus the changes.
+  presence: { limit: 240, windowMs: HOUR, by: 'user' },
 });
 
 /** The 429 sentence for each limit, with the real wait ("in 25 minutes", "on Fri 23 Oct, 9:40 PM"). */
@@ -107,6 +109,7 @@ export const ACTIONS = Object.freeze({
   roomTicket: ['POST', ['ticket'], (s, u, _b, p) => s.v3.roomTicket(u, p.authUid, p.id), 200, { v3: true, live: true }],
   roomStart: ['POST', ['room'], (s, u, _b, p) => s.v3.roomStart(u, p.id), 200, { v3: true, live: true }],
   roomCancel: ['POST', ['room'], (s, u, _b, p) => s.v3.roomCancel(u, p.id), 200, { v3: true, live: true }],
+  roomPresence: ['POST', ['presence'], (s, u, b, p) => s.v3.roomPresence(u, p.id, b), 200, { v3: true, live: true }],
 });
 
 const MAX_BODY = 4096;

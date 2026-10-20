@@ -1,6 +1,10 @@
 {
   "run": {
     "finished": true,
-    "marks": 9
+    "marks": 9,
+    "answered": 3,
+    "right": 2,
+    "wrong": 1,
+    "skipped": 2
   }
 }
