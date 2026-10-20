@@ -7,7 +7,7 @@
 //                                    ROW, migration 0005) and an INSERT carries now() (questions.updated_at NOT NULL DEFAULT now()).
 //                                    A student's vote is an UPDATE too (upvotes, downvotes, score), and the count reads none of those
 //                                    but a floor on score, so a touched row alone does not force a recount: public.inventory_content_digest()
-//                                    (migration 20261020160000, when applied) is a digest of the 22 columns the count reads, stored beside
+//                                    (migration 20261020160100, when applied) is a digest of the 22 columns the count reads, stored beside
 //                                    the last full count; touched rows with an unchanged digest are a skip. Without the function, or on any
 //                                    error, a touched row is a recount as before;
 //   (2) the recovery_family_holds rows   (family_id)
@@ -26,7 +26,7 @@ import { sharedEligibilitySnapshot } from './evidence_registry.js';
 /** Bump when any source file of the count changes (the pin test names which). */
 export const INVENTORY_LOGIC_VERSION = 'inventory-logic-1';
 export const FINGERPRINT_VERSION = 1;
-/** The database function that digests the columns the count reads (migration 20261020160000). */
+/** The database function that digests the columns the count reads (migration 20261020160100). */
 export const CONTENT_DIGEST_FUNCTION = 'inventory_content_digest';
 
 /** Margin before the previous read: a late-committing transaction carries an older now(), and Vercel's clock is not Postgres's. */

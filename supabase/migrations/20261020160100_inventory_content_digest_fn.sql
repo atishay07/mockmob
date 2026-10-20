@@ -16,7 +16,7 @@
 -- The column list must stay equal to INVENTORY_COLUMNS in data/inventory_count.js (data/tests/inventory_fingerprint.test.mjs checks it).
 --
 -- Security: security invoker, execute granted to service_role only (it reads signed evidence records).
--- Rollback: supabase/undo/20261020160000_inventory_content_digest_fn.undo.sql (drops the function; the code falls back to the full count).
+-- Rollback: supabase/undo/20261020160100_inventory_content_digest_fn.undo.sql (drops the function; the code falls back to the full count).
 
 create or replace function public.inventory_content_digest()
  returns text

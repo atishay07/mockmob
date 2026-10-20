@@ -28,7 +28,7 @@ function world(seed = 7) {
   return { questions, holds, snapshot: null };
 }
 
-// What public.inventory_content_digest() computes (migration 20261020160000; egress_review.test.mjs runs the real SQL): the counted columns of
+// What public.inventory_content_digest() computes (migration 20261020160100; egress_review.test.mjs runs the real SQL): the counted columns of
 // the counted rows, with score reduced to the floor the count applies.
 const COUNTED_COLUMNS = INVENTORY_COLUMNS.filter((c) => c !== 'score');
 const digestOf = (state) => createHash('md5').update(state.questions.filter((r) => r.is_deleted === false && VISIBLE(r)).sort((a, b) => (a.id < b.id ? -1 : 1))

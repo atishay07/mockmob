@@ -556,7 +556,7 @@ test('inventory digest: the real function over a real table; a vote above the fl
       correct_answer text, explanation text, passage_text text, family_id text, question_type text, status text, verification_state text, exploration_state text,
       score integer, is_deleted boolean not null default false, legacy_screening jsonb, evidence jsonb, provenance jsonb,
       upvotes integer default 0, downvotes integer default 0, updated_at timestamptz not null default now(), quality_score numeric, tags text[]);`);
-  await db.exec(read('supabase/migrations/20261020160000_inventory_content_digest_fn.sql'));
+  await db.exec(read('supabase/migrations/20261020160100_inventory_content_digest_fn.sql'));
   const insert = (id, over = {}) => db.query(`insert into public.questions(id, subject, chapter, question, body, options, correct_index, correct_answer, explanation, family_id, status, verification_state, exploration_state, score, is_deleted, evidence)
     values ($1,'accountancy','Partnership','Q','Q',$2,1,'B','Because',$3,$4,$5,$6,$7,$8,$9)`,
     [id, JSON.stringify(['a', 'b', 'c', 'd']), over.family ?? `f-${id}`, over.status ?? 'live', over.verification ?? 'verified', over.exploration ?? 'active', over.score ?? 0, over.deleted ?? false, JSON.stringify(over.evidence ?? { record: { content_hash: `h-${id}` }, signature: 's' })]);
@@ -615,7 +615,7 @@ test('inventory digest: the real function over a real table; a vote above the fl
 });
 
 test('inventory digest: the SQL reads exactly the columns the count reads, and the undo drops it', () => {
-  const sql = read('supabase/migrations/20261020160000_inventory_content_digest_fn.sql');
+  const sql = read('supabase/migrations/20261020160100_inventory_content_digest_fn.sql');
   const select = sql.slice(sql.indexOf('select\n      q.id'), sql.indexOf('from public.questions q'));
   const columns = [...select.matchAll(/q\.(\w+)/g)].map((m) => m[1]);
   assert.deepEqual([...new Set(columns)].sort(), [...INVENTORY_COLUMNS].sort(), 'the same 22 columns as INVENTORY_COLUMNS (score as its floor)');
@@ -624,6 +624,6 @@ test('inventory digest: the SQL reads exactly the columns the count reads, and t
   assert.match(sql, /security invoker/);
   assert.match(sql, /revoke all on function public\.inventory_content_digest\(\) from public, anon, authenticated;/);
   assert.match(sql, /grant execute on function public\.inventory_content_digest\(\) to service_role;/);
-  assert.match(read('supabase/undo/20261020160000_inventory_content_digest_fn.undo.sql'), /drop function if exists public\.inventory_content_digest\(\);/);
+  assert.match(read('supabase/undo/20261020160100_inventory_content_digest_fn.undo.sql'), /drop function if exists public\.inventory_content_digest\(\);/);
   assert.match(read('data/practice_library.js'), /Number\(row\.score \?\? 0\) >= -2/, 'the floor the digest reduces score to is still the count\'s own');
 });
