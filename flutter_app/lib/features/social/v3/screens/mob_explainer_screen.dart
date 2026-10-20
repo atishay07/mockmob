@@ -289,7 +289,7 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
 
     final w = width - 40;
     var need = h(MobExplainerCopy.titles[i], type.headline, w) + 10 + h(MobExplainerCopy.body(i, billingOn: billingOn), type.body, w);
-    if (i == 2) need += 14 + 20 + h('${MobExplainerCopy.comingSoonLead} ${MobExplainerCopy.comingSoon}', type.caption.copyWith(fontSize: 13.5), w - 26);
+    if (i == 2) need += 14 + 20 + h('${MobExplainerCopy.everyWeekLead}${MobExplainerCopy.everyWeek}', type.caption.copyWith(fontSize: 13.5), w - 26);
     return need + 18;
   }
 
@@ -472,7 +472,7 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
                           opacity: co,
                           child: Transform.translate(
                             offset: Offset(0, cdy),
-                            child: const Padding(padding: EdgeInsets.only(top: 14), child: _ComingSoon()),
+                            child: const Padding(padding: EdgeInsets.only(top: 14), child: _EveryWeek()),
                           ),
                         ),
                     ],
@@ -594,9 +594,10 @@ class _Dots extends StatelessWidget {
   }
 }
 
-/// "Coming soon. Live rooms, where everyone starts on one 3, 2, 1." in a dashed paper box.
-class _ComingSoon extends StatelessWidget {
-  const _ComingSoon();
+/// "Every week. The Mob paper ... and Mob hours ..." in a dashed paper box (K9: every way to play, nothing that
+/// is not in the build).
+class _EveryWeek extends StatelessWidget {
+  const _EveryWeek();
 
   @override
   Widget build(BuildContext context) {
@@ -610,13 +611,13 @@ class _ComingSoon extends StatelessWidget {
           TextSpan(
             children: [
               TextSpan(
-                text: MobExplainerCopy.comingSoonLead,
+                text: MobExplainerCopy.everyWeekLead,
                 style: TextStyle(color: c.ink, fontWeight: FontWeight.w600),
               ),
-              TextSpan(text: ' ${MobExplainerCopy.comingSoon}'),
+              const TextSpan(text: MobExplainerCopy.everyWeek),
             ],
           ),
-          key: const ValueKey('ex-coming-soon'),
+          key: const ValueKey('ex-every-week'),
           style: type.caption.copyWith(fontSize: 13.5, color: c.ink2),
         ),
       ),

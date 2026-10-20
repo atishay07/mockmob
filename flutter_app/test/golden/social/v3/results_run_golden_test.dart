@@ -100,7 +100,7 @@ void main() {
     });
 
     for (final scale in [1.0, 1.3]) {
-      testWidgets('start sheet, Free member, the mock row and See Pro plans (${_tag(b)}${_ts(scale)})', (t) async {
+      testWidgets('start sheet, Free member, the mock row and Get Pro (${_tag(b)}${_ts(scale)})', (t) async {
         final server = v3Server(scenario: 'quiet', billing: 'free');
         await pumpMockmob(
           t,

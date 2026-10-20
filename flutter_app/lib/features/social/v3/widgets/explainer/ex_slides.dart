@@ -785,8 +785,8 @@ class _GridPaper extends CustomPainter {
 }
 
 // ---------------------------------------------------------------------------------------------------
-// 3. Four ways to play (K9): the four games are dealt onto the desk under the lamp, each with its
-// real numbers; then each card shows its own detail.
+// 3. Ways to play (K9): the four games are dealt onto the desk under the lamp, each with its real
+// numbers (sprint, race, your own round, full mock together); then each card shows its own detail.
 // ---------------------------------------------------------------------------------------------------
 
 class _SlideGames extends StatelessWidget {
@@ -841,7 +841,7 @@ class _SlideGames extends StatelessWidget {
               angle: rot,
               child: Transform.scale(
                 scale: scale,
-                child: _GameCard(i: i, t: t, paper: p),
+                child: _GameCard(i: i, t: t, paper: p, billingOn: fx.billingOn),
               ),
             ),
           ),
@@ -864,10 +864,11 @@ class _SlideGames extends StatelessWidget {
 }
 
 class _GameCard extends StatelessWidget {
-  const _GameCard({required this.i, required this.t, required this.paper});
+  const _GameCard({required this.i, required this.t, required this.paper, required this.billingOn});
   final int i;
   final ExTime t;
   final ExPaper paper;
+  final bool billingOn;
 
   @override
   Widget build(BuildContext context) {
@@ -875,12 +876,12 @@ class _GameCard extends StatelessWidget {
     final label = _hanken(context, 14, w: FontWeight.w600, colour: paper.ink, height: 18);
     final line = _hanken(context, 12.5, colour: paper.ink2, height: 16);
     final foot = _hanken(context, 11.5, w: FontWeight.w500, colour: paper.ink2, height: 15);
-    Widget footRow(String text) => Row(
+    Widget footRow(String text, IconData icon) => Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.only(top: 1.5),
-          child: Icon(LucideIcons.clock, size: 12, color: paper.ink2),
+          child: Icon(icon, size: 12, color: paper.ink2),
         ),
         const SizedBox(width: 5),
         Expanded(child: Text(text, style: foot)),
@@ -888,15 +889,15 @@ class _GameCard extends StatelessWidget {
     );
     final detail = switch (i) {
       0 => _sprint(context, land),
-      1 => _round(context, land),
-      2 => _rematch(context, land),
-      _ => _paper(context, land),
+      1 => _chips(context, land, MobExplainerCopy.raceLengths),
+      2 => _chips(context, land, MobExplainerCopy.roundLengths),
+      _ => _mock(context, land),
     };
-    final (title, sub, footText) = switch (i) {
-      0 => (MobExplainerCopy.sprint, null, MobExplainerCopy.open24),
-      1 => (MobExplainerCopy.ownRound, MobExplainerCopy.ownRoundLine, MobExplainerCopy.open24),
-      2 => (MobExplainerCopy.rematch, MobExplainerCopy.rematchLine, MobExplainerCopy.open24),
-      _ => (MobExplainerCopy.paper, null, MobExplainerCopy.paperFoot),
+    final (title, sub, footText, footIcon) = switch (i) {
+      0 => (MobExplainerCopy.sprint, null, MobExplainerCopy.open24, LucideIcons.clock),
+      1 => (MobExplainerCopy.race, MobExplainerCopy.raceLine, MobExplainerCopy.open24, LucideIcons.clock),
+      2 => (MobExplainerCopy.ownRound, MobExplainerCopy.ownRoundLine, MobExplainerCopy.open24, LucideIcons.clock),
+      _ => (MobExplainerCopy.mock, null, MobExplainerCopy.mockFoot(billingOn: billingOn), LucideIcons.users),
     };
     return DecoratedBox(
       decoration: paper.sheet(radius: 8),
@@ -936,7 +937,7 @@ class _GameCard extends StatelessWidget {
               ),
             ),
           ),
-          Positioned(left: 12, right: 12, bottom: 10, child: footRow(footText)),
+          Positioned(left: 12, right: 12, bottom: 10, child: footRow(footText, footIcon)),
         ],
       ),
     );
@@ -971,8 +972,9 @@ class _GameCard extends StatelessWidget {
     );
   }
 
-  // Your own round: the length chips, the pick sliding from 10 to 15.
-  Widget _round(BuildContext context, double land) {
+  // A race (5 or 10 minutes) or your own round (10, 15 or 20 questions): the length chips, the pick sliding
+  // from the first to the second.
+  Widget _chips(BuildContext context, double land, List<String> lengths) {
     final (ho, hs) = t.pop(land + 200, from: 0.6);
     final move = t.reduced ? (t.ms >= t.at(land + 520) ? 1.0 : 0.0) : seg(t.ms, land + 520, 360, exSmooth);
     const chipW = 36.0;
@@ -998,7 +1000,7 @@ class _GameCard extends StatelessWidget {
               ),
             ),
           ),
-          for (var j = 0; j < 3; j++)
+          for (var j = 0; j < lengths.length; j++)
             Positioned(
               left: j * (chipW + gap),
               top: 0,
@@ -1009,7 +1011,7 @@ class _GameCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(13),
                   border: Border.all(color: paper.ink2.withValues(alpha: 0.55)),
                 ),
-                child: Center(child: Text(MobExplainerCopy.roundLengths[j], style: _figure(context, 15, j == pickIndex && ho > 0.5 ? paper.paper : paper.ink))),
+                child: Center(child: Text(lengths[j], style: _figure(context, 15, j == pickIndex && ho > 0.5 ? paper.paper : paper.ink))),
               ),
             ),
         ],
@@ -1017,23 +1019,8 @@ class _GameCard extends StatelessWidget {
     );
   }
 
-  // Rematch: a loop drawn round.
-  Widget _rematch(BuildContext context, double land) {
-    final (share, o) = t.draw(land + 200, 420);
-    return SizedBox(
-      width: 30,
-      height: 30,
-      child: _o(
-        o,
-        CustomPaint(
-          painter: _LoopPainter(share: share, colour: paper.ink),
-        ),
-      ),
-    );
-  }
-
-  // The Mob paper: "10 questions in 10 minutes", a clock's hand sweeping ten minutes.
-  Widget _paper(BuildContext context, double land) {
+  // Full mock together: "50 questions in 60 minutes", a clock's hand sweeping the hour.
+  Widget _mock(BuildContext context, double land) {
     final sweep = t.reduced ? (t.ms >= t.at(land + 200) ? 1.0 : 0.0) : seg(t.ms, land + 200, 900, MotionCurves.inOut);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1041,7 +1028,7 @@ class _GameCard extends StatelessWidget {
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(MobExplainerCopy.paperFigure, style: _figure(context, 44, paper.ink)),
+            Text(MobExplainerCopy.mockFigure, style: _figure(context, 44, paper.ink)),
             const SizedBox(width: 10),
             SizedBox(
               width: 30,
@@ -1053,7 +1040,7 @@ class _GameCard extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 4),
-        Text(MobExplainerCopy.paperLine, style: _hanken(context, 12.5, colour: paper.ink2, height: 16)),
+        Text(MobExplainerCopy.mockLine, style: _hanken(context, 12.5, colour: paper.ink2, height: 16)),
       ],
     );
   }
@@ -1106,41 +1093,6 @@ class _DogEar extends CustomPainter {
 
   @override
   bool shouldRepaint(_DogEar old) => old.back != back || old.ground != ground;
-}
-
-class _LoopPainter extends CustomPainter {
-  _LoopPainter({required this.share, required this.colour});
-  final double share;
-  final Color colour;
-  @override
-  void paint(Canvas canvas, Size size) {
-    if (share <= 0) return;
-    final c = size.center(Offset.zero);
-    final rad = size.width * 0.36;
-    final p = Paint()
-      ..color = colour
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 2.4
-      ..strokeCap = StrokeCap.round;
-    const start = -math.pi / 2 + 0.5;
-    final sweep = (2 * math.pi - 1.0) * share;
-    canvas.drawArc(Rect.fromCircle(center: c, radius: rad), start, sweep, false, p);
-    if (share > 0.9) {
-      final a = start + sweep;
-      final tip = c + Offset(math.cos(a), math.sin(a)) * rad;
-      final dir = Offset(-math.sin(a), math.cos(a));
-      final n = Offset(math.cos(a), math.sin(a));
-      final head = Path()
-        ..moveTo(tip.dx + dir.dx * 5, tip.dy + dir.dy * 5)
-        ..lineTo(tip.dx - n.dx * 4.5, tip.dy - n.dy * 4.5)
-        ..lineTo(tip.dx + n.dx * 4.5, tip.dy + n.dy * 4.5)
-        ..close();
-      canvas.drawPath(head, Paint()..color = colour);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_LoopPainter old) => old.share != share || old.colour != colour;
 }
 
 class _ClockPainter extends CustomPainter {

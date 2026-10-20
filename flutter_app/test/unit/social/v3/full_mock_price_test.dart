@@ -167,7 +167,7 @@ void main() {
       // Review fix 11: the line leads with the price, one sentence each, and the tag never sits beside the title.
       expect(find.text('On Free you sit one a friend starts for 50 credits. Pro starts them and sits them free.'), findsOneWidget);
       expect(find.byKey(const ValueKey('start-mock-pro')), findsOneWidget);
-      expect(find.text('See Pro plans'), findsOneWidget);
+      expect(find.text('Get Pro'), findsOneWidget);
       await tapAt(t, find.text('Full mock together'));
       expect(find.text('Starting a full mock together is part of Pro. On Free you can sit one a friend starts for 50 credits.'), findsOneWidget);
       expect(noText(t, _price), isTrue);
@@ -236,7 +236,7 @@ void main() {
       expect(find.text('Sitting it costs 50 credits. You have 112.'), findsOneWidget);
       expect(find.text('With Pro you start full mocks together and sit every one free.'), findsOneWidget);
       expect(keyLabel('Sit it for 50 credits'), findsOneWidget);
-      expect(keyLabel('See Pro plans'), findsOneWidget);
+      expect(keyLabel('Get Pro'), findsOneWidget);
       expect(noText(t, _price), isTrue);
     });
 
@@ -256,14 +256,14 @@ void main() {
       await openSit(t, balance: 12, nudges: true);
       expect(find.text('It costs 50 credits and you have 12, so you need 38 more.'), findsOneWidget);
       expect(keyLabel('Sit it for 50 credits'), findsNothing);
-      expect(keyLabel('See Pro plans'), findsOneWidget);
+      expect(keyLabel('Get Pro'), findsOneWidget);
       expect(keyLabel('Add credits'), findsOneWidget);
     });
 
     testWidgets('short of credits with the Pro nudges off: Add credits is the one key', (t) async {
       await openSit(t, balance: 12, nudges: false);
       expect(keyLabel('Add credits'), findsOneWidget);
-      expect(keyLabel('See Pro plans'), findsNothing);
+      expect(keyLabel('Get Pro'), findsNothing);
       expect(keyLabel('Sit it for 50 credits'), findsNothing);
     });
 

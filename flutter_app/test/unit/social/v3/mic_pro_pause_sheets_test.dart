@@ -77,13 +77,13 @@ void main() {
         expect(find.text(s), findsOneWidget, reason: s);
       }
       expect(find.text('Pro adds'), findsOneWidget);
-      expect(keyLabel('See Pro plans'), findsOneWidget);
+      expect(keyLabel('Get Pro'), findsOneWidget);
       expect(noText(t, _price), isTrue);
     });
 
     testWidgets('See Pro plans opens the Pro page with the hosting headline', (t) async {
       await openSheet(t, showFreeProSheet, [...sheetOverrides(v3Server(scenario: 'quiet', billing: 'free'), nudges: true), ...BillingRig(on: true).overrides]);
-      await tapAt(t, keyLabel('See Pro plans'));
+      await tapAt(t, keyLabel('Get Pro'));
       await t.pump(const Duration(seconds: 1));
       expect(find.byType(ProPage), findsOneWidget);
       expect(find.text(ProNudgeCopy.head(ProReason.mobHosting).title), findsOneWidget);
@@ -91,7 +91,7 @@ void main() {
 
     testWidgets('no key when the Pro nudges are off', (t) async {
       await openSheet(t, showFreeProSheet, sheetOverrides(v3Server(scenario: 'quiet', billing: 'free')));
-      expect(keyLabel('See Pro plans'), findsNothing);
+      expect(keyLabel('Get Pro'), findsNothing);
     });
 
     testWidgets('with billing off the sheet does not open and no plan word shows', (t) async {

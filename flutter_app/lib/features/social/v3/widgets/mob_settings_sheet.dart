@@ -224,8 +224,8 @@ class _MobSettingsBodyState extends ConsumerState<MobSettingsBody> {
           _DisclosureRow(
             key: const ValueKey('set-how'),
             icon: LucideIcons.circleHelp,
-            title: MobV3Copy.howMobWorks,
-            note: MobV3Copy.howMobWorksLine,
+            title: MobExplainerCopy.howItWorks,
+            note: MobExplainerCopy.howItWorksLine,
             onTap: () => howItWorks(context),
           ),
         ],

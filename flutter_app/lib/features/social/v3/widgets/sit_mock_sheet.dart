@@ -1,7 +1,7 @@
 // Sitting a Full mock together costs a Free member credits (D174, D175): the one question asked before the paper
-// opens. A small sheet, not a screen (D169): what the paper is, what it costs and what the student has, the key
-// that says the price ("Sit it for 50 credits"), and one clear way to Pro ("With Pro you start full mocks together
-// and sit every one free", See Pro plans). Pro, a paper already begun and a game the server prices at 0 never see
+// opens. A small sheet, not a screen (D169), visual first (D185): the paper's facts as figures, the price as one
+// figure beside the credit coins with the balance (a meter when short), the key that says the price ("Sit it for
+// 50 credits"), and one clear way to Pro (Get Pro, "With Pro, every full mock is free."). Pro, a paper already begun and a game the server prices at 0 never see
 // it: those open straight in the runner.
 //
 // The price is the server's: the game's `price.costCredits` (APP-API-CONTRACT 2.12). The server charges on the
@@ -20,8 +20,10 @@ import '../../../../core/router/routes.dart' show AppRoutes;
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
+import '../../../wallet/widgets/credit_coins.dart';
 import '../copy_v3.dart';
 import '../data/mob_v3_models.dart';
+import 'mock_for_you.dart' show MockFactsRow;
 
 /// What sitting [g] costs this student now: the game's own `price.costCredits` (0 for Pro, 0 once begun). Nothing
 /// when the server sends no price, for a paper already begun (`yourRun`) or for a game that is not a full mock.
@@ -57,28 +59,71 @@ class _SitBody extends ConsumerWidget {
     final type = context.mmType;
     final have = _balance(ref);
     final short = refused || (have != null && have < cost);
+    final known = have != null && !(refused && have >= cost);
+    final figure = type.figureCompact.copyWith(color: colors.ink, fontSize: 30, height: 1, fontFeatures: const [FontFeature.tabularFigures()]);
+    final quiet = type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]);
+    // The right side of the price: the balance, then one short word on what happens (charged once, or what is missing).
+    final (top, bottom) = short
+        ? (known ? MobV3Copy.sitYouHave(have) : MobV3Copy.sitNotEnough, known ? MobV3Copy.sitNeedMore(cost - have) : null)
+        : (have == null ? null : MobV3Copy.sitYouHave(have), MobV3Copy.sitChargedOnce);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(MobV3Copy.mockDetail, key: const ValueKey('sit-what'), style: type.body.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s16),
-        Text(
-          short ? MobV3Copy.sitMockShort(cost, have) : MobV3Copy.sitMockCost(cost, have),
+        // What the paper is, as figures: 50 questions | 60 minutes | +5 -1 marks each.
+        const MockFactsRow(),
+        const SizedBox(height: MmSpace.s20),
+        Semantics(
           key: const ValueKey('sit-cost'),
-          style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
+          label: short ? MobV3Copy.sitMockShort(cost, known ? have : null) : MobV3Copy.sitPriceSemantics(cost, have),
+          excludeSemantics: true,
+          child: Row(
+            children: [
+              const CreditCoins(size: 44, coins: 3),
+              const SizedBox(width: MmSpace.s12),
+              Expanded(child: Text(MobV3Copy.sitPriceFigure(cost), style: figure)),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  if (top != null) Text(top, key: const ValueKey('sit-have'), style: quiet.copyWith(color: short ? colors.ink : colors.ink2, fontWeight: short ? FontWeight.w600 : null)),
+                  if (bottom != null) Text(bottom, style: quiet.copyWith(color: colors.ink3)),
+                ],
+              ),
+            ],
+          ),
         ),
-        if (!short) ...[
-          const SizedBox(height: MmSpace.s4),
-          Text(MobV3Copy.sitMockOnce, style: type.small.copyWith(color: colors.ink2)),
+        // Short of credits: how far the balance reaches toward the price.
+        if (short && known) ...[
+          const SizedBox(height: MmSpace.s12),
+          _Reach(share: cost <= 0 ? 0 : (have / cost).clamp(0.0, 1.0)),
         ],
-        const SizedBox(height: MmSpace.s16),
-        Container(
-          padding: const EdgeInsets.all(MmSpace.s12),
-          decoration: BoxDecoration(borderRadius: BorderRadius.circular(MmRhythm.plainRadius), border: Border.all(color: colors.lineStrong)),
-          child: Text(MobV3Copy.sitMockPro, key: const ValueKey('sit-pro-line'), style: type.body.copyWith(color: colors.ink)),
-        ),
         const SizedBox(height: MmSpace.s8),
       ],
+    );
+  }
+}
+
+/// A slim meter: the balance against the price, volt on a quiet track.
+class _Reach extends StatelessWidget {
+  const _Reach({required this.share});
+
+  final double share;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    return ExcludeSemantics(
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(3),
+        child: SizedBox(
+          height: 6,
+          child: Stack(
+            children: [
+              Positioned.fill(child: ColoredBox(color: colors.line)),
+              FractionallySizedBox(widthFactor: share, heightFactor: 1, child: ColoredBox(color: colors.volt)),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }
@@ -101,10 +146,11 @@ class _SitKeys extends ConsumerWidget {
     final have = _balance(ref);
     final short = refused || (have != null && have < cost);
     final pro = ref.watch(proNudgesOnProvider);
-    final proKey = KeyButton(
-      key: const ValueKey('sit-pro'),
-      label: MobV3Copy.sitMockProKey,
-      onPressed: () => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock),
+    void getPro() => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock);
+    // One short line under Get Pro says what Pro changes here (D185: Get Pro, one plan).
+    final proLine = Padding(
+      padding: const EdgeInsets.only(top: MmSpace.s8),
+      child: Text(MobV3Copy.sitProFree, key: const ValueKey('sit-pro-line'), textAlign: TextAlign.center, style: context.mmType.small.copyWith(color: context.mmColors.ink2)),
     );
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -112,16 +158,20 @@ class _SitKeys extends ConsumerWidget {
       children: [
         if (short) ...[
           // Short of credits: Pro is the way forward and takes the primary place; credits are the other way.
-          if (pro) proKey,
-          if (pro) const SizedBox(height: MmSpace.s8),
+          if (pro) ...[
+            KeyButton(key: const ValueKey('sit-pro'), label: MobV3Copy.sitMockProKey, onPressed: getPro),
+            const SizedBox(height: MmSpace.s8),
+          ],
           pro
               ? KeyButton.secondary(key: const ValueKey('sit-add-credits'), label: MobV3Copy.addCredits, onPressed: () => _addCredits(context))
               : KeyButton(key: const ValueKey('sit-add-credits'), label: MobV3Copy.addCredits, onPressed: () => _addCredits(context)),
+          if (pro) proLine,
         ] else ...[
           KeyButton(key: const ValueKey('sit-key'), label: MobV3Copy.sitMockKey(cost), onPressed: () => Navigator.of(context).pop(true)),
           if (pro) ...[
             const SizedBox(height: MmSpace.s8),
-            KeyButton.secondary(key: const ValueKey('sit-pro'), label: MobV3Copy.sitMockProKey, onPressed: () => showUpgradeSheetIfOn(context, reason: ProReason.mobFullMock)),
+            KeyButton.secondary(key: const ValueKey('sit-pro'), label: MobV3Copy.sitMockProKey, onPressed: getPro),
+            proLine,
           ],
         ],
       ],

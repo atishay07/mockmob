@@ -69,21 +69,24 @@ void main() {
         expect(_index(tester), i);
         expect(find.text(MobExplainerCopy.titles[i]), findsOneWidget, reason: 'slide ${i + 1} title');
         expect(find.text(MobExplainerCopy.body(i, billingOn: false)), findsOneWidget, reason: 'slide ${i + 1} body');
-        expect(find.byKey(const ValueKey('ex-coming-soon')), i == 2 ? findsOneWidget : findsNothing);
+        expect(find.byKey(const ValueKey('ex-every-week')), i == 2 ? findsOneWidget : findsNothing);
         if (i < 6) await _next(tester);
       }
       // Slide 3 names the four games with their real numbers.
     });
 
-    testWidgets('slide 3 shows the four games with their numbers', (tester) async {
+    testWidgets('slide 3 shows the real ways to play with their numbers, and no Coming soon (K9)', (tester) async {
       await _open(tester, ExplainerVia.start);
       await _next(tester);
       await _next(tester);
-      for (final s in [MobExplainerCopy.sprint, MobExplainerCopy.ownRound, MobExplainerCopy.rematch, MobExplainerCopy.paper, MobExplainerCopy.paperLine, MobExplainerCopy.ownRoundLine]) {
+      for (final s in [MobExplainerCopy.sprint, MobExplainerCopy.race, MobExplainerCopy.raceLine, MobExplainerCopy.ownRound, MobExplainerCopy.ownRoundLine, MobExplainerCopy.mock, MobExplainerCopy.mockLine]) {
         expect(find.text(s), findsOneWidget, reason: s);
       }
       expect(find.text(MobExplainerCopy.open24), findsNWidgets(3));
-      expect(find.textContaining('Live rooms'), findsOneWidget);
+      expect(find.textContaining('Mob paper'), findsOneWidget);
+      expect(find.textContaining('Mob hours'), findsOneWidget);
+      expect(find.textContaining('Coming soon'), findsNothing);
+      expect(find.textContaining('Live rooms'), findsNothing);
     });
 
     testWidgets('who can start: billing off says anyone; billing on names Pro, Free and the mic', (tester) async {

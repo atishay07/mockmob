@@ -335,8 +335,18 @@ abstract final class MobV3Copy {
       : 'It costs $cost credits and you have fewer than that. Nothing was charged.';
   static const String addCredits = 'Add credits';
   static const String sitMockPro = 'With Pro you start full mocks together and sit every one free.';
-  static const String sitMockProKey = 'See Pro plans';
+  static const String sitMockProKey = 'Get Pro';
   static const String sitMockOnce = 'You pay once. If you leave and come back, it opens where you were.';
+
+  // The sit sheet, visual first (D185, owner 20 Oct 6:51 pm: no text bombardment): the facts as figures, the price
+  // as one figure, at most one short line per idea.
+  static String sitPriceFigure(int cost) => '$cost credits';
+  static String sitYouHave(int have) => 'You have $have';
+  static const String sitChargedOnce = 'Charged once';
+  static String sitNeedMore(int more) => '$more more needed';
+  static const String sitNotEnough = 'Not enough credits';
+  static const String sitProFree = 'With Pro, every full mock is free.';
+  static String sitPriceSemantics(int cost, int? have) => have == null ? 'Sitting it costs $cost credits.' : 'Sitting it costs $cost credits. You have $have.';
 
   // ---- P2 Start a game ----
   static const String whatItCovers = 'What it covers';
@@ -442,7 +452,8 @@ abstract final class MobV3Copy {
         'Start up to 3 Mobs.',
       ];
   static const String notForSale = 'Nothing you earn in the Mob is for sale.';
-  static const String seePlans = 'See Pro plans';
+  /// The one way to Pro in the Mob (D185: one plan, so never "See Pro plans").
+  static const String seePlans = 'Get Pro';
 
   // ---- L1 Live lobby and the live run (Phase B) ----
   static String roomTitle(String host, {bool you = false}) => you ? 'Your room' : "$host's room";
@@ -1043,8 +1054,8 @@ abstract final class MobV3Copy {
 
 /// The seven slides the first time a student starts or joins a Mob, and the one-question setup. Every
 /// claim is true in the build (MOB-EXPLAINER.md section 5; K9: the game types and numbers are the
-/// server's `COUNTS`, `PAPER_COUNT` and `startRight`, the highlights are `assignMoments`). Live rooms are
-/// named only as "Coming soon". The fixture names, marks and question are the spec's own (5.3).
+/// server's `COUNTS`, `PAPER_COUNT`, `startRight` and the Full mock together price, the highlights are
+/// `assignMoments`). The fixture names, marks and question are the spec's own (5.3).
 abstract final class MobExplainerCopy {
   static const int slideCount = 7;
   static const String regionLabel = 'How the Mob works';
@@ -1063,7 +1074,7 @@ abstract final class MobExplainerCopy {
   static const List<String> titles = [
     'This is your Mob',
     'Everyone sits as a Fold',
-    'Four ways to play',
+    'Ways to play',
     'See who did best',
     'Fix it together',
     'Stitch a week together',
@@ -1077,8 +1088,9 @@ abstract final class MobExplainerCopy {
   /// Who may start a game (`starts.mjs` startRight): with billing on, Pro starts anything and Free has
   /// one start in each Mob a week plus any mic a Pro friend passes; with it off, anyone. Joining and
   /// playing are never gated.
-  static const String body3BillingOn = 'With Pro you can start any game. On Free you get one start in each Mob every week, and a friend with Pro can pass you the mic. Joining and playing are always free.';
-  static const String body3BillingOff = 'Anyone in your Mob can start a game. Joining and playing are always free.';
+  static const String body3BillingOn =
+      'With Pro you can start any game. On Free you get one start in each Mob every week, and a friend with Pro can pass you the mic. Joining is free, and so is playing, apart from sitting a full mock.';
+  static const String body3BillingOff = 'Anyone in your Mob can start a sprint, a race or a round. A full mock together is started by a Pro member. Joining and playing are free.';
   static const String body4 = "After a game, the podium goes by CUET marks: +5 if right, −1 if wrong, 0 if you skip. Kabir skipped the one he wasn't sure of and beat Riya by a mark. Then everyone gets one highlight.";
   static const String body5 =
       "When a game closes, the question that caught most of you becomes your Mob's to fix. See why, try a fresh one, and on Wednesday one more checks it held. If 2 of you pass, it's fixed.";
@@ -1096,9 +1108,9 @@ abstract final class MobExplainerCopy {
         _ => body7,
       };
 
-  /// Slide 3 only: the one place live rooms appear.
-  static const String comingSoonLead = 'Coming soon.';
-  static const String comingSoon = 'Live rooms, where everyone starts on one 3, 2, 1.';
+  /// Slide 3, under the cards: what every Mob has each week besides its games (K9).
+  static const String everyWeekLead = 'Every week.';
+  static const String everyWeek = " The Mob paper, the same 10 questions in 10 minutes for everyone, and Mob hours, your practice time together.";
 
   // Slide 1: the den.
   static const String you = 'You';
@@ -1109,20 +1121,22 @@ abstract final class MobExplainerCopy {
   static const String sheetMarks = '+5 / −1 / 0';
   static const String mobiEldest = 'Mobi, the eldest';
 
-  // Slide 3: the four games, with the server's numbers (COUNTS sprint 5, round 10 to 20; PAPER_COUNT 10).
+  // Slide 3: the four games, with the server's numbers (COUNTS sprint 5, round 10 to 20, race 5 or 10 minutes,
+  // full mock 50 in 60; the Free sit price, 50 credits, D174, D175: the explainer runs before any Mob is read).
   static const String sprint = 'Sprint';
   static const String sprintFigure = '5';
   static const String sprintLine = 'questions';
+  static const String race = 'Race';
+  static const List<String> raceLengths = ['5', '10'];
+  static const String raceLine = 'minutes, as many as you can';
   static const String ownRound = 'Your own round';
   static const List<String> roundLengths = ['10', '15', '20'];
   static const String ownRoundLine = 'Pick a chapter and a length';
-  static const String rematch = 'Rematch';
-  static const String rematchLine = 'The same chapter and length, one more go';
   static const String open24 = 'Open for 24 hours';
-  static const String paper = "This week's Mob paper";
-  static const String paperFigure = '10';
-  static const String paperLine = 'questions in 10 minutes';
-  static const String paperFoot = 'The same paper for everyone. Until Sunday 11:59 PM';
+  static const String mock = 'Full mock together';
+  static const String mockFigure = '50';
+  static const String mockLine = 'questions in 60 minutes';
+  static String mockFoot({required bool billingOn}) => billingOn ? 'Pro starts it. Free members sit it for 50 credits.' : 'A Pro member starts it. Everyone can sit it.';
 
   // Slide 4: the marks, the podium, then one highlight each (assignMoments on the fixture runs).
   static const String highlightKabir = 'Fastest right answer';
