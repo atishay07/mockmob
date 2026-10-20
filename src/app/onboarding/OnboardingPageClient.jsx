@@ -18,6 +18,9 @@ import { Logo } from '@/components/Logo';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { Button } from '@/components/ui/Button';
 import CollegePicker from '@/components/colleges/CollegePicker';
+import DailyMinutes from '@/components/goal/DailyMinutes';
+import { goalMinutesFromResponse, pickMinutes } from '@/lib/goalMinutes.mjs';
+import { mirrorToPlan, readDeviceMinutes, writeDeviceMinutes } from '@/lib/goalMinutesStore';
 import { useAuth } from '@/components/AuthProvider';
 import { noteOnboardedNow } from '@/components/pro/proNudgeStore';
 import { ErrorState, PageSpinner } from '@/components/ui/Skeleton';
@@ -104,6 +107,9 @@ export default function OnboardingPageClient({ preview = false }) {
   const saveLock = useRef(false);
   const refreshing = useRef(null);
   const touchedDays = useRef(false);
+  // The daily time is optional: nothing is chosen until the student chooses (or already holds one from before).
+  const [minutes, setMinutes] = useState(null);
+  const touchedMinutes = useRef(false);
   const goalRead = useRef(null);
   const pausedUntil = useRef(null);
   const headingRef = useRef(null);
@@ -162,6 +168,7 @@ export default function OnboardingPageClient({ preview = false }) {
         if (!goal) return;
         pausedUntil.current = goal.pausedUntil ?? null;
         if (!touchedDays.current && DAY_OPTIONS.includes(goal.daysPerWeek)) setDays(goal.daysPerWeek);
+        if (!touchedMinutes.current) setMinutes(pickMinutes(goal.dailyMinutes, readDeviceMinutes()).minutes);
       })
       .catch(() => { /* the default stays; saving still works */ });
     return () => controller.abort();
@@ -270,9 +277,16 @@ export default function OnboardingPageClient({ preview = false }) {
       const response = await fetch(GOAL_PATH, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(goalBody(days, pausedUntil.current)),
+        body: JSON.stringify({ ...goalBody(days, pausedUntil.current), ...(minutes ? { dailyMinutes: minutes } : {}) }),
       });
       if (!response.ok) throw new Error(DAYS_FAILED);
+      // The days are saved. The daily time goes with them when the server holds it; otherwise it stays on this device and the
+      // plan is pointed at the longest length the server accepts. Neither can hold up the first run.
+      if (minutes) {
+        const body = await response.json().catch(() => null);
+        writeDeviceMinutes(minutes);
+        if (goalMinutesFromResponse(body, minutes) !== 'account') mirrorToPlan(minutes);
+      }
       toColleges('cheer');
     } catch {
       setError(DAYS_FAILED);
@@ -462,6 +476,11 @@ export default function OnboardingPageClient({ preview = false }) {
                     <span>{STUDY_DAY_RULE}</span>
                   </p>
                 </div>
+              </div>
+
+              <div className="ob-time">
+                <p className="ob-time__q" id="ob-time-q">How long each day? <span>Optional</span></p>
+                <DailyMinutes value={minutes} onChange={(n) => { touchedMinutes.current = true; setMinutes(n); }} labelledBy="ob-time-q" busy={busy} idPrefix="ob-gm" />
               </div>
             </section>
           )}

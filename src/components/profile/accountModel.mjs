@@ -9,6 +9,7 @@
 import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
 import { GOAL_MINUTES_MAX, GOAL_MINUTES_MIN, isGoalMinutes, minutesLine } from '../../../data/goal_minutes.js';
 import { WEEKDAY_NAMES, WEEKDAY_SHORT, parseWeekdays, weekdaysLine } from '../../lib/studyWeekdays.mjs';
+import { cleanMinutes } from '../../lib/goalMinutes.mjs';
 
 // ---------------------------------------------------------------------------------------------
 // Your sheet: subjects (drawn with the shared SubjectObject, src/components/brand/SubjectObject.jsx)

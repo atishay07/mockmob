@@ -154,6 +154,10 @@ html[data-theme='light'] .ob-tick--on::before { background: #c9e600; box-shadow:
 
 /* ---------- Step 2: study days a week ---------- */
 .ob-days { display: grid; gap: 14px; justify-items: stretch; max-width: 680px; }
+/* The daily time (D126): optional, under the week ring, in the same quiet voice as the track above it. */
+.ob-time { display: grid; gap: 10px; margin-top: 8px; min-width: 0; }
+.ob-time__q { margin: 0; font: 700 16px/1.35 var(--font-display); color: var(--a-ink); }
+.ob-time__q span { margin-left: 6px; font: 500 13px/1 var(--font-body); color: var(--a-ink-3); }
 
 /* The 1 to 7 track: one volt thumb that slides to the choice with a small overshoot. */
 .ob-track {

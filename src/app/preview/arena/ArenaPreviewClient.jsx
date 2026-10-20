@@ -627,17 +627,29 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return json(state === 'empty' ? previewBadgesBody('none') : previewBadgesBody(fixture.get('badges')));
     }
     // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.
-    if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: fixture.get('weekdays') === 'none' ? null : [0, 1, 3, 5], dailyMinutes: Number(fixture.get('minutes')) || null });
+    // The daily time (D126): ?goalserver=new answers like the widened server (dailyMinutes 5-999 on the goal and in the study
+    // preferences, minutes alone accepted); the default answers like today's server (10, 20 or 30 only, no dailyMinutes field).
+    const goalNew = fixture.get('goalserver') === 'new';
+    if (url.pathname === '/api/me/goal' && method === 'GET') return json({ ...(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: fixture.get('weekdays') === 'none' ? null : [0, 1, 3, 5] }), ...(goalNew ? { dailyMinutes: window.__previewMinutes ?? null } : {}) });
     if (url.pathname === '/api/me/goal' && method === 'PUT') {
       if (state === 'save-error') return json({ error: 'Fixture goal save failure' }, 503);
       const body = JSON.parse(init.body || '{}');
-      const was = window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: fixture.get('weekdays') === 'none' ? null : [0, 1, 3, 5], dailyMinutes: Number(fixture.get('minutes')) || null };
-      // The daily minutes alone leave the days and the pause as they are; sent with the days they are saved with them.
-      const dailyMinutes = body.dailyMinutes === undefined ? was.dailyMinutes ?? null : body.dailyMinutes;
-      if (body.daysPerWeek === undefined && body.weekdays === undefined) { window.__previewGoal = { ...was, dailyMinutes }; return json(window.__previewGoal); }
+      const minutesOnly = body.dailyMinutes !== undefined && body.daysPerWeek === undefined && body.weekdays === undefined;
+      if (minutesOnly && !goalNew) return json({ error: 'invalid_request', message: 'Choose between 1 and 7 days a week.' }, 422);
+      if (goalNew && body.dailyMinutes !== undefined) window.__previewMinutes = body.dailyMinutes;
+      if (minutesOnly) return json({ ...(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: [0, 1, 3, 5] }), dailyMinutes: window.__previewMinutes ?? null });
       const weekdays = Array.isArray(body.weekdays) ? body.weekdays : (window.__previewGoal?.daysPerWeek === body.daysPerWeek ? window.__previewGoal.weekdays ?? null : null);
-      window.__previewGoal = { daysPerWeek: Array.isArray(body.weekdays) ? body.weekdays.length : body.daysPerWeek, timezone: 'Asia/Kolkata', pausedUntil: body.pausedUntil ?? null, weekdays, dailyMinutes };
-      return json(window.__previewGoal);
+      window.__previewGoal = { daysPerWeek: Array.isArray(body.weekdays) ? body.weekdays.length : body.daysPerWeek, timezone: 'Asia/Kolkata', pausedUntil: body.pausedUntil ?? null, weekdays };
+      return json({ ...window.__previewGoal, ...(goalNew ? { dailyMinutes: window.__previewMinutes ?? null } : {}) });
+    }
+    if (url.pathname === '/api/study/preferences' && fixture.get('study') !== 'off') {
+      const prefs = window.__previewPrefs || { subjects: ['english', 'accountancy', 'business_studies', 'economics'], minutes: 20, newCardsPerDay: 5, weeklyPlan: null, revision: 0 };
+      if (method === 'GET') return json({ ...prefs, premium: false, state: 'ready' });
+      const body = JSON.parse(init.body || '{}');
+      const ok = goalNew ? Number.isInteger(body.minutes) && body.minutes >= 5 && body.minutes <= 999 : [10, 20, 30].includes(body.minutes);
+      if (body.minutes !== undefined && !ok) return json({ error: 'INVALID_MINUTES', message: 'INVALID MINUTES' }, 422);
+      window.__previewPrefs = { ...prefs, ...(body.minutes !== undefined ? { minutes: body.minutes } : {}), revision: prefs.revision + 1 };
+      return json({ ...window.__previewPrefs, premium: false, state: 'ready' });
     }
     // Usage data choice (Account): an adult with usage data off; a save echoes the choice, nothing is stored or deleted.
     if (url.pathname === '/api/me/consent' && method === 'GET') return json(window.__previewConsent || { ageBand: 'adult', analyticsAllowed: false, policyVersion: 'preview', decidedAt: null, withdrawnAt: null });

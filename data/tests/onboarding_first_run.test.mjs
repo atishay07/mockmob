@@ -45,7 +45,7 @@ test('the page wires the live rules and saves the goal the server checks', () =>
   assert.ok(page.includes('onboardingEntry({ status, savedSubjects, edit, inFlow: savedThisVisit || arrivedForDays })'));
   // The flag that keeps the student on the days step is set before the session refresh resolves.
   assert.ok(page.indexOf('setSavedThisVisit(true)') < page.indexOf('refreshing.current = Promise.resolve(refreshSession())'));
-  assert.ok(page.includes("method: 'PUT'") && page.includes('JSON.stringify(goalBody(days, pausedUntil.current))'));
+  assert.ok(page.includes("method: 'PUT'") && page.includes('JSON.stringify({ ...goalBody(days, pausedUntil.current), ...(minutes ? { dailyMinutes: minutes } : {}) })'));
   assert.equal(GOAL_PATH, '/api/me/goal');
   const route = read('src/app/api/me/goal/route.js');
   assert.ok(route.includes('export async function PUT'));

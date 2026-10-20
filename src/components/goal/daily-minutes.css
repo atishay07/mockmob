@@ -1,0 +1,96 @@
+/* ==========================================================================
+   DAILY MINUTES  -  src/components/goal/DailyMinutes.jsx
+   10, 20, 30 and a "More" choice that opens a quiet panel: 1 hour, 2 hours, or your own in steps of 15 minutes.
+   Tokens are the controls' (--ctl-*, set on :root, Night and Day). The choices are the site's SegmentedControl, so the
+   lens, the keyboard and the focus ring are the ones students already know. Motion answers the action: the panel
+   opens on a grid-row ease (180 to 260 ms) and its content settles with opacity and a small rise; transform and opacity
+   carry the keys. Reduced motion: no movement, the panel simply shows.
+   ========================================================================== */
+
+.gm { display: grid; gap: 10px; min-width: 0; container: gm / inline-size; }
+.gm__track { min-width: 0; }
+.gm .gm__seg { width: 100%; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); flex-wrap: nowrap; }
+.gm .gm__seg .ctl-seg__opt { min-width: 0; padding: 0 6px; width: 100%; }
+.gm__more { display: inline-flex; align-items: center; gap: 4px; }
+.gm__more svg { flex: none; opacity: 0.75; }
+.gm__more--set { font-variant-numeric: tabular-nums; }
+
+/* The panel */
+.gm__panel {
+  display: grid; grid-template-rows: 0fr; margin-top: -2px;
+  transition: grid-template-rows 240ms var(--ctl-ease, ease-out);
+}
+.gm__panel[data-open] { grid-template-rows: 1fr; }
+.gm__panel-in { min-height: 0; overflow: hidden; opacity: 0; transform: translate3d(0, -4px, 0); transition: opacity 180ms ease, transform 240ms var(--ctl-ease, ease-out); }
+.gm__panel[data-open] .gm__panel-in { opacity: 1; transform: none; transition-delay: 40ms; }
+.gm__rows { display: grid; gap: 8px; padding: 2px 2px 4px; }
+
+.gm__row, .gm__own {
+  display: grid; gap: 2px; min-width: 0; text-align: left; margin: 0;
+  padding: 12px 14px; border: 1px solid var(--ctl-line-strong); border-radius: 12px;
+  background: var(--ctl-surface); box-shadow: var(--ctl-edge); color: var(--ctl-ink);
+}
+.gm__row {
+  cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; font: inherit;
+  transition: border-color 150ms ease, background-color 150ms ease, transform 160ms var(--ctl-ease, ease-out);
+}
+.gm__row:active:not(:disabled) { transform: scale(0.985); }
+.gm__row:focus-visible, .gm__use:focus-visible, .gm__step:focus-visible, .gm__read:focus-visible { outline: 2px solid var(--ctl-focus); outline-offset: 2px; }
+.gm__row[aria-pressed='true'] { border-color: var(--ctl-seg-pick-line); background: var(--ctl-seg-pick-bg); }
+.gm__row:disabled { opacity: 0.55; cursor: progress; }
+@media (hover: hover) and (pointer: fine) {
+  .gm__row:hover:not(:disabled):not([aria-pressed='true']) { border-color: var(--ctl-line-hover); background: var(--ctl-hover); }
+}
+.gm__row-t { font: 750 15px/1.25 var(--font-display); letter-spacing: -0.01em; color: var(--ctl-ink); }
+.gm__row-l { font: 500 13px/1.4 var(--font-body); color: var(--ctl-ink-3); overflow-wrap: anywhere; }
+
+/* Your own: the words, the stepper and its key on one row where they fit, stacked on a phone */
+.gm__own { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+.gm__own-text { display: grid; gap: 2px; min-width: 0; }
+.gm__stepper { display: grid; grid-template-columns: 44px minmax(0, 1fr) 44px; align-items: center; gap: 6px; min-width: 0; }
+.gm__step {
+  display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; padding: 0; margin: 0;
+  border: 1px solid var(--ctl-line-strong); border-radius: 12px; background: var(--ctl-sunken); color: var(--ctl-ink);
+  cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; user-select: none; -webkit-user-select: none;
+  transition: background-color 150ms ease, border-color 150ms ease, transform 140ms var(--ctl-ease, ease-out), opacity 150ms ease;
+}
+.gm__step:active:not([aria-disabled='true']):not(:disabled) { transform: scale(0.94); }
+.gm__step[aria-disabled='true'] { opacity: 0.4; cursor: not-allowed; }
+.gm__step:disabled { opacity: 0.55; cursor: progress; }
+@media (hover: hover) and (pointer: fine) { .gm__step:hover:not([aria-disabled='true']):not(:disabled) { border-color: var(--ctl-line-hover); } }
+.gm__read {
+  display: block; min-width: 0; padding: 10px 6px; border-radius: 10px; text-align: center;
+  font: 800 18px/1.2 var(--font-display); letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--ctl-ink);
+  overflow-wrap: anywhere; user-select: none; -webkit-user-select: none;
+}
+.gm__use {
+  min-height: 44px; margin: 0; padding: 0 16px; border: 1px solid var(--ctl-line-strong); border-radius: 12px;
+  background: transparent; color: var(--ctl-ink); font: 700 14px/1.2 var(--font-display); cursor: pointer;
+  -webkit-tap-highlight-color: transparent; touch-action: manipulation;
+  transition: background-color 150ms ease, border-color 150ms ease, transform 140ms var(--ctl-ease, ease-out);
+}
+.gm__use:active:not(:disabled) { transform: scale(0.98); }
+.gm__use:disabled { opacity: 0.55; cursor: progress; }
+@media (hover: hover) and (pointer: fine) { .gm__use:hover:not(:disabled) { border-color: var(--ctl-line-hover); background: var(--ctl-hover); } }
+.gm__own[data-set] { border-color: var(--ctl-seg-pick-line); }
+.gm__stop { margin: 0; min-height: 0; font: 500 12.5px/1.4 var(--font-body); color: var(--ctl-ink-3); }
+.gm__stop:empty { display: none; }
+
+/* Wide enough inside its own card (not the screen): the words, the stepper and its key share one row. */
+@container gm (min-width: 500px) {
+  .gm__own { grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; column-gap: 14px; }
+  .gm__stepper { grid-template-columns: 44px 148px 44px; }
+  .gm__stop { grid-column: 1 / -1; }
+}
+
+/* The one line under the choices, and the page's note beneath it */
+.gm__line { margin: 0; font: 500 13.5px/1.5 var(--font-body); color: var(--ctl-ink-2); max-width: 56ch; overflow-wrap: anywhere; }
+.gm__note { margin: 0; font: 500 13.5px/1.5 var(--font-body); color: var(--ctl-ink-2); max-width: 56ch; overflow-wrap: anywhere; }
+.gm__note[data-tone='ok'] { color: var(--ctl-accent-text); }
+.gm__note[data-tone='err'] { color: #b4231a; }
+:root[data-theme='dark'] .gm__note[data-tone='err'] { color: #ff9b8f; }
+
+:root[data-motion='reduced'] :is(.gm__panel, .gm__panel-in, .gm__row, .gm__step, .gm__use) { transition: none !important; }
+@media (prefers-reduced-motion: reduce) {
+  .gm__panel, .gm__panel-in, .gm__row, .gm__step, .gm__use { transition: none !important; }
+}

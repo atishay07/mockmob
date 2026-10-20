@@ -14,6 +14,7 @@
     "test:nta-e2e": "node --use-system-ca --test data/tests/nta_e2e_session.test.mjs data/tests/nta_e2e_state.test.mjs",
     "test:question-reorder": "node --test data/tests/question_reorder.test.mjs",
     "test:authored-publish": "node --test data/tests/authored_publish.test.mjs data/tests/authored_w2.test.mjs data/tests/authored_w3.test.mjs data/tests/authored_w3_accept.test.mjs data/tests/authored_w3_final.test.mjs data/tests/authored_w4_accept.test.mjs data/tests/authored_w4_final.test.mjs",
+    "test:goal-minutes": "node --test data/tests/goal_minutes_web.test.mjs",
     "test:study": "node --test data/tests/study_engine.test.mjs data/tests/goal_minutes_1020.test.mjs data/tests/study_content.test.mjs data/tests/study_database.test.mjs data/tests/study_feel.test.mjs",
     "test:attempt-reads": "node --test data/tests/egress_attempts.test.mjs",
     "test:health-auth-board": "node --test data/tests/health_auth_board.test.mjs",

@@ -206,9 +206,10 @@ export const pickKey = (dayKey) => `mm:today-pick:v1:${dayKey}`;
  * `2026-10-18:20`, so "Kept on this device for today" is true: another day, or an old value with no day, reads as none.
  */
 export const keepLength = (dayKey, minutes) => `${dayKey}:${minutes}`;
+/** `allowed` is a list of lengths or a test (a longer day from More is any whole number from 5 to 999). */
 export function readLength(raw, dayKey, allowed = [10, 20, 30]) {
   const m = /^(\d{4}-\d{2}-\d{2}):(\d+)$/.exec(String(raw ?? ''));
   if (!m || m[1] !== dayKey) return null;
   const n = Number(m[2]);
-  return allowed.includes(n) ? n : null;
+  return (typeof allowed === 'function' ? allowed(n) : allowed.includes(n)) ? n : null;
 }
