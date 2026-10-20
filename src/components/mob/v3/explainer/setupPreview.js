@@ -9,7 +9,7 @@ import { ART, E, TL, fold, h, icon, img, motionKit } from './motion';
 export function buildSetupPreview(el, { reduced = false } = {}) {
   el.innerHTML = '';
   const H = 184;
-  const sc = h('div', { class: 'mx-scene' }, [img(ART.sceneNight, 'mx-night', 'object-position:58% 66%'), img(ART.sceneDay, 'mx-day', 'object-position:58% 66%')]);
+  const sc = h('div', { class: 'mx-scene' }, [img(ART.sceneNight, 'mx-th-night', 'object-position:58% 66%'), img(ART.sceneDay, 'mx-th-day', 'object-position:58% 66%')]);
   el.append(sc);
   el.append(h('div', { class: 'mx-pool', style: `left:30px;top:${H - 98}px;width:300px;height:90px` }));
   el.append(h('div', { class: 'mx-stage-fade', style: 'height:44px' }));

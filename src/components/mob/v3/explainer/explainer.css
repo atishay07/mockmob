@@ -26,7 +26,7 @@ html[data-theme='light'] .mx {
   --mx-lamp-a: 0.17;
   --mx-good: #3d6600; --mx-good-fill: #5e8a12; --mx-bad-surface: #fbe9e7; --mx-bad-border: #b93225; --mx-bad-text: #b0291f;
   --mx-paper: #fffaf0; --mx-paper-ink: #2b2318; --mx-paper-ink2: #5f5240; --mx-paper-back: #ece4d2;
-  --mx-sil: #c6cbbd; --mx-shadow-a: 0.2; --mx-scrim: rgba(23, 32, 22, 0.46);
+  --mx-sil: #c6cbbd; --mx-shadow-a: 0.2; --mx-scrim: rgba(23, 32, 22, 0.38);
   color-scheme: light;
 }
 
@@ -34,7 +34,7 @@ html[data-theme='light'] .mx {
 .mx-overlay { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; overscroll-behavior: contain; }
 .mx-overlay[data-fit='phone'] { background: var(--mx-ground); }
 .mx-overlay[data-fit='panel'] { background: var(--mx-scrim); }
-.mx-frame { position: relative; overflow: hidden; background: var(--mx-ground); }
+.mx-frame { position: relative; overflow: hidden; background: var(--mx-ground); outline: none; }
 .mx-overlay[data-fit='panel'] .mx-frame { border-radius: 30px; box-shadow: 0 0 0 1px var(--mx-edge), 0 40px 90px -30px rgba(0, 0, 0, 0.7); }
 .mx-canvas {
   position: absolute; left: 0; top: 0; width: 360px; height: 780px; transform-origin: 0 0; overflow: hidden;
@@ -107,9 +107,9 @@ html[data-theme='light'] .mx {
 /* stage furniture */
 .mx-scene { position: absolute; inset: 0; overflow: hidden; }
 .mx-scene img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 56% 60%; }
-.mx-day { display: none; }
-html[data-theme='light'] .mx .mx-day { display: block; }
-html[data-theme='light'] .mx .mx-night { display: none; }
+.mx-scene .mx-th-day { display: none; }
+html[data-theme='light'] .mx .mx-scene .mx-th-day { display: block; }
+html[data-theme='light'] .mx .mx-scene .mx-th-night { display: none; }
 .mx-stage-fade { position: absolute; left: 0; right: 0; bottom: 0; height: 90px; background: linear-gradient(to bottom, transparent, var(--mx-ground)); pointer-events: none; }
 .mx-pool { position: absolute; border-radius: 50%; pointer-events: none; background: radial-gradient(closest-side, rgb(var(--mx-lamp) / calc(var(--mx-lamp-a) * 1.6)), rgb(var(--mx-lamp) / 0)); }
 .mx-lamp { position: absolute; pointer-events: none; }
@@ -279,7 +279,8 @@ html[data-theme='light'] .mx .mx-seat { background: rgba(255, 253, 248, 0.4); }
 .mx-ppen { position: absolute; left: 262px; top: 14px; width: 84px; height: 72px; transform-origin: 50% 0; }
 .mx-ppen__name { position: absolute; left: 4px; right: 4px; top: 10px; font-weight: 700; font-size: 12px; line-height: 14px; color: var(--mx-paper-ink); }
 .mx-ppen__name.is-empty { color: var(--mx-paper-ink2); font-weight: 600; }
-.mx-ppen__sub { position: absolute; left: 4px; right: 4px; top: 42px; font-weight: 500; font-size: 10.5px; line-height: 12px; color: var(--mx-paper-ink2); }
+.mx-ppen__sub { position: absolute; left: 4px; right: 4px; top: 40px; font-weight: 500; font-size: 10.5px; line-height: 12px; color: var(--mx-paper-ink2);
+  display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; line-clamp: 2; overflow: hidden; overflow-wrap: anywhere; }
 
 /* "You play as <Fold>" with Change (a student who already sits as a Fold, D168) */
 .mx-playas { display: flex; align-items: center; gap: 10px; margin-top: 10px; min-height: 44px; }
@@ -287,7 +288,8 @@ html[data-theme='light'] .mx .mx-seat { background: rgba(255, 253, 248, 0.4); }
 .mx-playas__text { flex: 1; font-weight: 600; font-size: 15px; color: var(--mx-ink); }
 
 /* D0: the replay link under the two keys */
-.den-start__how { display: flex; justify-content: center; }
+.den-start__how { display: flex; justify-content: center; margin: -4px 0 0; }
+@media (min-width: 640px) { .den-start__how { justify-content: flex-start; margin-left: -8px; } }
 .den-start__how .mob-link { min-height: 44px; display: inline-flex; align-items: center; padding: 0 8px; }
 
 /* Mob settings: the replay row */

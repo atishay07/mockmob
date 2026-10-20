@@ -47,8 +47,7 @@ export function MobFlow({ mode = 'start', screen: first = 'explainer', userId, m
     (el.querySelector('.mx-pane__title') || el.querySelector('button'))?.focus({ preventScroll: true });
   }, [screen, first, reduced]);
   return (
-    <ExplainerFrame label={screen === 'explainer' ? 'How the Mob works' : 'Start a Mob'} onEscape={() => closeRef.current?.('d0')}
-      initialFocus={screen === 'explainer' ? '[data-explainer-next]' : null}>
+    <ExplainerFrame label={screen === 'explainer' ? 'How the Mob works' : 'Start a Mob'} onEscape={() => closeRef.current?.('d0')}>
       <div ref={body} key={screen} className="mx-abs" style={{ inset: 0 }} data-screen={screen}>
         {screen === 'explainer' ? (
           <MobExplainer mode={mode} mobName={mobName} billingOn={billingOn} reduced={reduced} startSlide={startSlide} onApi={onApi}

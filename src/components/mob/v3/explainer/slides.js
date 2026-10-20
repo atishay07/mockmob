@@ -11,7 +11,7 @@ const PEOPLE = Object.freeze({
 const FOLD_NAME = Object.freeze({ dart: 'Dart', dogear: 'Dog-ear', hexa: 'Hexa', kandil: 'Kandil', hop: 'Hop' });
 
 function scene(cls = '') {
-  return h('div', { class: `mx-scene ${cls}`.trim() }, [img(ART.sceneNight, 'mx-night'), img(ART.sceneDay, 'mx-day')]);
+  return h('div', { class: `mx-scene ${cls}`.trim() }, [img(ART.sceneNight, 'mx-th-night'), img(ART.sceneDay, 'mx-th-day')]);
 }
 
 // 1. This is your Mob: the lamp comes on, the pennant swings in, friends hop into their seats.
@@ -127,7 +127,7 @@ function b2(st, tl, { K, T }) {
     K.bits(tl, st, { x: cx, y: cy - 10, n: 18, at: T.bits, floor: mobiBase + 2, seed: 21, up: 140 });
     K.glints(tl, st, { x: cx, y: cy - 20, n: 6, r: 70, at: T.mobi + 60, color: '#F2D9A0', rot: 0.3 });
   }
-  const ring = [{ k: 'dogear', x: 104, size: 82 }, { k: 'hexa', x: 258, size: 82 }, { k: 'dart', x: 44, size: 80 }, { k: 'kandil', x: 318, size: 80 }];
+  const ring = [{ k: 'dogear', x: 97, size: 82 }, { k: 'hexa', x: 264, size: 82 }, { k: 'dart', x: 44, size: 80 }, { k: 'kandil', x: 318, size: 80 }];
   ring.forEach((r, i) => {
     const f = fold(r.k, { x: r.x, base: mobiBase + 2, size: r.size, z: 200, poses: ['wave'] }); st.append(f.root);
     const t0 = T[`starter${i}`];
@@ -234,7 +234,7 @@ function b4(st, tl, { K, T }) {
     const mk = h('div', { class: 'mx-fig mx-abs', style: 'right:14px;top:2px;font-size:28px;line-height:32px;text-align:right;width:44px', text: '0' }); row.append(mk); markEls.push(mk);
     const cellsWrap = h('div', { class: 'mx-abs', style: 'inset:0' }); row.append(cellsWrap);
     r.cells.forEach((c, ci) => {
-      const cx = 132 + ci * 30; const el = h('div', { class: `mx-mcell mx-mcell--${c}`, style: `left:${cx}px` });
+      const cx = 112 + ci * 30; const el = h('div', { class: `mx-mcell mx-mcell--${c}`, style: `left:${cx}px` });
       if (c === 'r') el.innerHTML = TICK('var(--mx-ground)', 3.4); else if (c === 'w') el.textContent = '−1'; else el.textContent = '0';
       cellsWrap.append(el); K.pop(tl, el, cellAt(ci, ri), 0.5);
       if (c === 's' && r.who === 'kabir') {

@@ -48,7 +48,8 @@ export function ExplainerFrame({ label, onEscape, children, initialFocus = null,
     if (!fit || !overlay.current) return;
     const el = overlay.current;
     if (!el.contains(document.activeElement)) {
-      const first = (initialFocus && el.querySelector(initialFocus)) || el.querySelector(FOCUSABLE);
+      // The dialog itself takes focus (its label is read); Tab then reaches Skip, Next and the keys in order.
+      const first = (initialFocus && el.querySelector(initialFocus)) || el.querySelector('.mx-frame');
       first?.focus({ preventScroll: true });
     }
   }, [fit, initialFocus]);
@@ -72,7 +73,7 @@ export function ExplainerFrame({ label, onEscape, children, initialFocus = null,
   return createPortal(
     <div ref={overlay} className={`mx mx-overlay ${className}`.trim()} data-fit={fit.fit} id={id}
       onPointerDown={(e) => { if (fit.fit === 'panel' && e.target === e.currentTarget) escRef.current?.(); }}>
-      <div className="mx-frame" role="dialog" aria-modal="true" aria-label={label} style={{ width: DESIGN_W * s, height: DESIGN_H * s }}>
+      <div className="mx-frame" role="dialog" aria-modal="true" aria-label={label} tabIndex={-1} style={{ width: DESIGN_W * s, height: DESIGN_H * s }}>
         <div className="mx-canvas" style={{ transform: `scale(${s})` }}>
           <FrameScale.Provider value={s}>{children}</FrameScale.Provider>
         </div>
