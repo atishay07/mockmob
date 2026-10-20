@@ -97,7 +97,9 @@ class _StartController extends ChangeNotifier {
       covers = _Covers.whole;
     }
     final live = v3?.live;
-    mode = p.mode == GameMode.live && tile != GameFormat.mock && live != null && live.enabled && live.hoursOk && (v3?.starts.liveAllowed ?? false) ? GameMode.live : GameMode.async;
+    mode = p.mode == GameMode.live && tile != GameFormat.mock && live != null && live.enabled && live.hoursOk && (v3?.starts.liveAllowed ?? false)
+        ? GameMode.live
+        : GameMode.async;
   }
 
   late GameFormat tile;
@@ -119,10 +121,14 @@ class _StartController extends ChangeNotifier {
   }
 
   void pick(GameFormat f) => update(() {
-        tile = f;
-        count = switch (f) { GameFormat.round => count == 5 || count == 50 ? 10 : count, GameFormat.mock => 50, _ => 5 };
-        error = null;
-      });
+    tile = f;
+    count = switch (f) {
+      GameFormat.round => count == 5 || count == 50 ? 10 : count,
+      GameFormat.mock => 50,
+      _ => 5,
+    };
+    error = null;
+  });
 }
 
 class _StartBody extends ConsumerWidget {
@@ -150,7 +156,10 @@ class _StartBody extends ConsumerWidget {
         final c = controller;
         final live = c.mode == GameMode.live;
         final mock = c.tile == GameFormat.mock;
-        final shown = [for (final f in mobStartFormats) if (starts.shows(f)) f];
+        final shown = [
+          for (final f in mobStartFormats)
+            if (starts.shows(f)) f,
+        ];
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -212,7 +221,11 @@ class _StartBody extends ConsumerWidget {
               ),
             Divider(height: MmSpace.s16, thickness: 1, color: colors.line),
             if (mock)
-              MobRow(leading: const PaperChip(icon: LucideIcons.bookOpen, size: 44), title: MobV3Copy.coversWhole(subject), compactTitle: true)
+              MobRow(
+                leading: const PaperChip(icon: LucideIcons.bookOpen, size: 44),
+                title: MobV3Copy.coversWhole(subject),
+                compactTitle: true,
+              )
             else
               _CoversRow(controller: c, subject: subject, subjectId: den.mob?.subject ?? ''),
             if (starts.billingOn && starts.via == StartVia.pro && starts.micsToGive != null) ...[
@@ -268,10 +281,18 @@ class _ModeSwitch extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text.rich(
-                    TextSpan(children: [
-                      TextSpan(text: word, style: context.mmType.labelLarge.copyWith(color: ink, fontWeight: FontWeight.w700)),
-                      TextSpan(text: ' · $detail', style: context.mmType.caption.copyWith(color: colors.ink3)),
-                    ]),
+                    TextSpan(
+                      children: [
+                        TextSpan(
+                          text: word,
+                          style: context.mmType.labelLarge.copyWith(color: ink, fontWeight: FontWeight.w700),
+                        ),
+                        TextSpan(
+                          text: ' · $detail',
+                          style: context.mmType.caption.copyWith(color: colors.ink3),
+                        ),
+                      ],
+                    ),
                     maxLines: 1,
                   ),
                   if (locked) ...[const SizedBox(width: MmSpace.s4), Icon(LucideIcons.lock, size: 12, color: colors.ink3)],
@@ -355,13 +376,7 @@ class _FormatRow extends StatelessWidget {
     final on = selected && !dim;
     Widget? chips;
     if (on && format == GameFormat.race) {
-      chips = _Chips<int>(
-        key: const ValueKey('start-minutes'),
-        values: const [5, 10],
-        label: MobV3Copy.minutesLabel,
-        value: minutes,
-        onChanged: onMinutes,
-      );
+      chips = _Chips<int>(key: const ValueKey('start-minutes'), values: const [5, 10], label: MobV3Copy.minutesLabel, value: minutes, onChanged: onMinutes);
     } else if (on && format == GameFormat.round) {
       chips = _Chips<int>(
         key: const ValueKey('start-count'),
@@ -372,8 +387,15 @@ class _FormatRow extends StatelessWidget {
         onChanged: onCount,
       );
     } else if (on && format == GameFormat.mock) {
-      chips = MockRuleBox(key: const ValueKey('start-mock-line'), mobName: mobName, price: mockPrice);
+      // The rule box spans the raised row under its title (below), as the mock-up draws it.
+      chips = null;
     }
+    final Widget? ruleBox = on && format == GameFormat.mock
+        ? Padding(
+            padding: const EdgeInsets.only(top: MmSpace.s8, bottom: MmSpace.s4),
+            child: MockRuleBox(key: const ValueKey('start-mock-line'), mobName: mobName, price: mockPrice),
+          )
+        : null;
     final String? tag = anytimeOnly
         ? MobV3Copy.anytimeOnly
         : (locked && proTag ? (format == GameFormat.mock ? MobV4ResultsCopy.proStartsIt : MobV3Copy.proTag) : null);
@@ -383,38 +405,54 @@ class _FormatRow extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(MmSpace.s12, 6, MmSpace.s12, 6),
       constraints: const BoxConstraints(minHeight: 56),
       decoration: BoxDecoration(color: on ? colors.raised2 : Colors.transparent, borderRadius: BorderRadius.circular(16)),
-      child: Opacity(
-        opacity: dim ? 0.45 : 1,
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            PaperChip(icon: FormatLook.icon(format), size: 36, locked: locked),
-            const SizedBox(width: MmSpace.s12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(FormatLook.title(format), style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
-                  Text(MobV3Copy.formatRowLine(format), style: type.caption.copyWith(color: colors.ink3)),
-                  if (chips != null) ...[const SizedBox(height: MmSpace.s8), chips],
-                ],
-              ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Opacity(
+            opacity: dim ? 0.45 : 1,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                PaperChip(icon: FormatLook.icon(format), size: 36, locked: locked),
+                const SizedBox(width: MmSpace.s12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        FormatLook.title(format),
+                        style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
+                      ),
+                      Text(MobV3Copy.formatRowLine(format), style: type.caption.copyWith(color: colors.ink3)),
+                      if (chips != null) ...[const SizedBox(height: MmSpace.s8), chips],
+                    ],
+                  ),
+                ),
+                const SizedBox(width: MmSpace.s8),
+                if (tag != null)
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(color: colors.lineStrong),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(tag, style: type.label.copyWith(color: colors.ink2)),
+                        if (locked) ...[const SizedBox(width: 3), Icon(LucideIcons.lock, size: 11, color: colors.ink3)],
+                      ],
+                    ),
+                  )
+                else if (!locked)
+                  _Radio(on: on),
+              ],
             ),
-            const SizedBox(width: MmSpace.s8),
-            if (tag != null)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: colors.lineStrong)),
-                child: Row(mainAxisSize: MainAxisSize.min, children: [
-                  Text(tag, style: type.label.copyWith(color: colors.ink2)),
-                  if (locked) ...[const SizedBox(width: 3), Icon(LucideIcons.lock, size: 11, color: colors.ink3)],
-                ]),
-              )
-            else if (!locked)
-              _Radio(on: on),
-          ],
-        ),
+          ),
+          ?ruleBox,
+        ],
       ),
     );
     final tappable = Semantics(
@@ -424,12 +462,7 @@ class _FormatRow extends StatelessWidget {
       selected: on,
       enabled: !dim,
       label: '${FormatLook.title(format)}. ${MobV3Copy.formatRowLine(format)}${tag != null ? '. $tag' : ''}',
-      child: MmPressable(
-        onTap: onTap,
-        haptic: MmPressHaptic.selection,
-        focusRadius: BorderRadius.circular(16),
-        builder: (context, pressed, _) => row,
-      ),
+      child: MmPressable(onTap: onTap, haptic: MmPressHaptic.selection, focusRadius: BorderRadius.circular(16), builder: (context, pressed, _) => row),
     );
     final line = proLine;
     if (line == null) return tappable;
@@ -443,7 +476,13 @@ class _FormatRow extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Expanded(child: Text(line, key: const ValueKey('start-mock-pro-line'), style: type.small.copyWith(color: colors.ink2))),
+              Expanded(
+                child: Text(
+                  line,
+                  key: const ValueKey('start-mock-pro-line'),
+                  style: type.small.copyWith(color: colors.ink2),
+                ),
+              ),
               if (onPro != null) _AccentKey(key: const ValueKey('start-mock-pro'), label: MobV3Copy.seePlans, onPressed: onPro),
             ],
           ),
@@ -468,13 +507,16 @@ class MockRuleBox extends StatelessWidget {
     final type = context.mmType;
     final style = type.small.copyWith(color: colors.ink2);
     Widget line(IconData icon, InlineSpan text) => Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(padding: const EdgeInsets.only(top: 2), child: Icon(icon, size: 16, color: colors.ink3)),
-            const SizedBox(width: MmSpace.s8),
-            Expanded(child: Text.rich(text, style: style)),
-          ],
-        );
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 2),
+          child: Icon(icon, size: 16, color: colors.ink3),
+        ),
+        const SizedBox(width: MmSpace.s8),
+        Expanded(child: Text.rich(text, style: style)),
+      ],
+    );
     return Container(
       padding: const EdgeInsets.all(MmSpace.s12),
       decoration: BoxDecoration(
@@ -489,10 +531,15 @@ class MockRuleBox extends StatelessWidget {
           const SizedBox(height: MmSpace.s8),
           line(
             LucideIcons.check,
-            TextSpan(children: [
-              TextSpan(text: MobV4ResultsCopy.mockRuleIncluded, style: style.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
-              TextSpan(text: ' ${MobV4ResultsCopy.mockRuleFree(price)}'),
-            ]),
+            TextSpan(
+              children: [
+                TextSpan(
+                  text: MobV4ResultsCopy.mockRuleIncluded,
+                  style: style.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
+                ),
+                TextSpan(text: ' ${MobV4ResultsCopy.mockRuleFree(price)}'),
+              ],
+            ),
           ),
         ],
       ),
@@ -519,7 +566,13 @@ class _Radio extends StatelessWidget {
         border: on ? null : Border.all(color: colors.ink4, width: 1.8),
       ),
       alignment: Alignment.center,
-      child: on ? Container(width: 10, height: 10, decoration: BoxDecoration(shape: BoxShape.circle, color: colors.voltInk)) : null,
+      child: on
+          ? Container(
+              width: 10,
+              height: 10,
+              decoration: BoxDecoration(shape: BoxShape.circle, color: colors.voltInk),
+            )
+          : null,
     );
   }
 }
@@ -559,7 +612,13 @@ class _Chips<T> extends StatelessWidget {
                   borderRadius: BorderRadius.circular(18),
                   border: Border.all(color: on ? colors.ink : colors.lineStrong, width: 1.5),
                 ),
-                child: Center(widthFactor: 1, child: Text(label(v), style: type.label.copyWith(color: on ? colors.ground : colors.ink2, fontWeight: FontWeight.w600))),
+                child: Center(
+                  widthFactor: 1,
+                  child: Text(
+                    label(v),
+                    style: type.label.copyWith(color: on ? colors.ground : colors.ink2, fontWeight: FontWeight.w600),
+                  ),
+                ),
               );
             },
           ),
@@ -589,7 +648,10 @@ class _AccentKey extends StatelessWidget {
           padding: const EdgeInsets.only(left: MmSpace.s12),
           child: Center(
             widthFactor: 1,
-            child: Text(label, style: context.mmType.labelLarge.copyWith(color: pressed || onPressed == null ? colors.ink2 : colors.accentText, fontWeight: FontWeight.w700)),
+            child: Text(
+              label,
+              style: context.mmType.labelLarge.copyWith(color: pressed || onPressed == null ? colors.ink2 : colors.accentText, fontWeight: FontWeight.w700),
+            ),
           ),
         ),
       ),
@@ -798,14 +860,19 @@ class _StartKeysState extends ConsumerState<_StartKeys> {
                 GameFormat.sprint => MobV3Copy.startTheSprint,
                 _ => MobV3Copy.startTheRound,
               };
-        final allowance = starts == null ? MobV3Copy.startUnder(mobName) : MobV3Copy.allowance(starts, mobName, live: live, mock: c.tile == GameFormat.mock);
+        final allowance = starts == null ? MobV3Copy.startUnder(mobName) : MobV3Copy.allowance(starts, mobName, live: live, mock: c.tile == GameFormat.mock && starts.via != StartVia.pro);
         final paperOpen = mob != null && !mob.week.youSat && !mob.week.closedAt(now);
         return Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             if (c.error != null) ...[
-              Text(c.error!, key: const ValueKey('start-error'), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink)),
+              Text(
+                c.error!,
+                key: const ValueKey('start-error'),
+                textAlign: TextAlign.center,
+                style: type.small.copyWith(color: colors.ink),
+              ),
               const SizedBox(height: MmSpace.s8),
             ],
             KeyButton(
@@ -816,14 +883,23 @@ class _StartKeysState extends ConsumerState<_StartKeys> {
               disabledReason: can ? null : (starts.can ? MobV3Copy.mockPro(starts.freeMockPrice) : MobV3Copy.errors['START_USED']),
             ),
             const SizedBox(height: MmSpace.s8),
-            Text(allowance, key: const ValueKey('start-allowance'), textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
+            Text(
+              allowance,
+              key: const ValueKey('start-allowance'),
+              textAlign: TextAlign.center,
+              style: type.small.copyWith(color: colors.ink2),
+            ),
             if (paperOpen) ...[
               Divider(height: MmSpace.s20, thickness: 1, color: colors.line),
               MobRow(
                 leading: const PaperChip(icon: LucideIcons.calendarDays, size: 44),
                 title: MobV3Copy.weeklyPaper,
                 line: MobV3Copy.paperRowLine,
-                trailing: _AccentKey(key: const ValueKey('start-sit-paper'), label: _sitting ? MobV3Copy.opening : MobV3Copy.sitIt, onPressed: _sitting ? null : () => _sit(mob)),
+                trailing: _AccentKey(
+                  key: const ValueKey('start-sit-paper'),
+                  label: _sitting ? MobV3Copy.opening : MobV3Copy.sitIt,
+                  onPressed: _sitting ? null : () => _sit(mob),
+                ),
               ),
               if (_paperNote != null) MobLine(_paperNote!, center: true),
             ],

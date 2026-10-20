@@ -122,7 +122,18 @@ class FoldPuppet extends ConsumerStatefulWidget {
 class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStateMixin {
   late final Ticker _loop = createTicker(_onLoop);
   late final AnimationController _act = AnimationController(vsync: this);
-  late final AnimationController _blink = AnimationController(vsync: this, duration: const Duration(milliseconds: 120));
+  late final AnimationController _blink = AnimationController(vsync: this, duration: const Duration(milliseconds: 150));
+
+  /// The glance: -1 (left) .. 0 .. 1 (right), moving the eyes' contents inside their windows (4.1, 4.2).
+  late final AnimationController _glance = AnimationController(vsync: this, lowerBound: -1, upperBound: 1, value: 0);
+  Timer? _glanceTimer;
+  Timer? _glanceHold;
+  Timer? _thinkTimer;
+  Timer? _microTimer;
+
+  /// One Fold at a time across the den: the last glance and the last micro-act (4.2).
+  static DateTime _lastGlance = DateTime.fromMillisecondsSinceEpoch(0);
+  static DateTime _lastMicro = DateTime.fromMillisecondsSinceEpoch(0);
   final ValueNotifier<double> _loopT = ValueNotifier<double>(0);
   Timer? _blinkTimer;
   late math.Random _rng;
@@ -172,11 +183,65 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
     }
     if (on && widget.blink) {
       _blinkTimer ??= _scheduleBlink();
+      _glanceTimer ??= _scheduleGlance();
     } else {
       _blinkTimer?.cancel();
       _blinkTimer = null;
+      _glanceTimer?.cancel();
+      _glanceTimer = null;
+      if (_glance.value != 0) _glance.value = 0;
+    }
+    // Micro-acts only where the Fold idles (the den breathes): a 3 degree nod or a 1.6 s think, one Fold at a time,
+    // every 10 to 16 s. They stop with the other loops (12 s after the last touch, under a sheet, hidden, reduced motion).
+    if (on && widget.breathe) {
+      _microTimer ??= _scheduleMicro();
+    } else {
+      _microTimer?.cancel();
+      _microTimer = null;
     }
   }
+
+  /// A glance: 160 ms out by 1 to 2.5 dp, a 0.7 to 1.2 s hold, 160 ms back; every 8 to 14 s, never two Folds at once.
+  Timer _scheduleGlance() => Timer(Duration(milliseconds: 8000 + _rng.nextInt(6000)), () async {
+        _glanceTimer = null;
+        if (!mounted || !_loopsWanted) return;
+        final now = DateTime.now();
+        if (now.difference(_lastGlance).inMilliseconds > 1800 && _playing == FoldAct.none) {
+          _lastGlance = now;
+          final dir = _rng.nextBool() ? 1.0 : -1.0;
+          try {
+            await _glance.animateTo(dir, duration: const Duration(milliseconds: 160), curve: Curves.easeOutCubic).orCancel;
+          } on TickerCanceled {
+            return;
+          }
+          if (!mounted) return;
+          _glanceHold = Timer(Duration(milliseconds: 700 + _rng.nextInt(500)), () {
+            if (mounted) _glance.animateTo(0, duration: const Duration(milliseconds: 160), curve: Curves.easeInOutCubic);
+          });
+        }
+        if (mounted && _loopsWanted) _glanceTimer ??= _scheduleGlance();
+      });
+
+  Timer _scheduleMicro() => Timer(Duration(milliseconds: 10000 + _rng.nextInt(6000)), () {
+        _microTimer = null;
+        if (!mounted || !_loopsWanted) return;
+        final now = DateTime.now();
+        if (now.difference(_lastMicro).inMilliseconds > 4000 && _playing == FoldAct.none && widget.act == FoldAct.none) {
+          _lastMicro = now;
+          final art = foldManifestOf(ref)?[widget.fold];
+          final canThink = art?.poses.containsKey(FoldPose.think) ?? false;
+          if (canThink && widget.pose == FoldPose.idle && _rng.nextBool()) {
+            setState(() => _poseOverride = FoldPose.think);
+            _thinkTimer?.cancel();
+            _thinkTimer = Timer(const Duration(milliseconds: 1600), () {
+              if (mounted && _playing == FoldAct.none && _poseOverride == FoldPose.think) setState(() => _poseOverride = null);
+            });
+          } else {
+            _fire(FoldAct.nod);
+          }
+        }
+        _microTimer = _scheduleMicro();
+      });
 
   Timer _scheduleBlink() => Timer(Duration(milliseconds: 4000 + _rng.nextInt(3000)), () {
         _blinkTimer = null;
@@ -225,6 +290,11 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
   void dispose() {
     _awake?.removeListener(_syncLoops);
     _blinkTimer?.cancel();
+    _glanceTimer?.cancel();
+    _glanceHold?.cancel();
+    _thinkTimer?.cancel();
+    _microTimer?.cancel();
+    _glance.dispose();
     _loop.dispose();
     _act.dispose();
     _blink.dispose();
@@ -308,7 +378,15 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
               width: side,
               height: side,
               child: IgnorePointer(
-                child: CustomPaint(painter: _LidPainter(_blink, still.eyes, still.visorColour ?? const Color(0xFF16151A))),
+                child: EyeWindows(
+                  path: path,
+                  eyes: still.eyes,
+                  visor: still.visorColour ?? const Color(0xFF16151A),
+                  side: side,
+                  blink: _blink,
+                  glance: _glance,
+                  reach: (size / 80).clamp(1.0, 2.5),
+                ),
               ),
             ),
         ],
@@ -441,32 +519,71 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
   }
 }
 
-class _LidPainter extends CustomPainter {
-  _LidPainter(this.blink, this.eyes, this.colour) : super(repaint: blink);
+/// Eye windows (MOB-MINIMAL 4.1): each eye box from folds.json is a clipped window filled with the pose's visor
+/// colour that redraws that eye from the same still. Moving the window's content [reach] dp is a glance; squashing it
+/// to 8% for 150 ms is a blink of the real eye shape. Draws nothing while the eyes rest (no cost at idle).
+class EyeWindows extends StatelessWidget {
+  const EyeWindows({super.key, required this.path, required this.eyes, required this.visor, required this.side, required this.blink, required this.glance, this.reach = 1.5});
 
-  final Animation<double> blink;
+  final String path;
+
+  /// Normalised to the still's square.
   final List<Rect> eyes;
-  final Color colour;
+  final Color visor;
+  final double side;
+  final Animation<double> blink;
+  final Animation<double> glance;
+  final double reach;
+
+  /// The eye's height factor at blink progress [v]: 1 -> 0.08 -> 1.
+  static double openness(double v) => v <= 0 || v >= 1 ? 1 : 1 - 0.92 * math.sin(v * math.pi);
 
   @override
-  void paint(Canvas canvas, Size size) {
-    // The eye scales y 1 -> 0.1 -> 1 over 120 ms: lids close from top and bottom to a 10% slit.
-    final v = blink.value;
-    if (v <= 0 || v >= 1) return;
-    final k = math.sin(v * math.pi); // 0 -> 1 -> 0
-    final closed = 0.9 * k;
-    final paint = Paint()..color = colour;
-    for (final e in eyes) {
-      final r = Rect.fromLTWH(e.left * size.width, e.top * size.height, e.width * size.width, e.height * size.height).inflate(size.width * 0.004);
-      final lid = r.height * closed / 2;
-      final rr = Radius.circular(r.width * 0.3);
-      canvas.drawRRect(RRect.fromRectAndCorners(Rect.fromLTWH(r.left, r.top, r.width, lid), bottomLeft: rr, bottomRight: rr), paint);
-      canvas.drawRRect(RRect.fromRectAndCorners(Rect.fromLTWH(r.left, r.bottom - lid, r.width, lid), topLeft: rr, topRight: rr), paint);
-    }
-  }
-
-  @override
-  bool shouldRepaint(_LidPainter old) => old.eyes != eyes || old.colour != colour;
+  Widget build(BuildContext context) => AnimatedBuilder(
+        animation: Listenable.merge([blink, glance]),
+        builder: (context, _) {
+          final open = openness(blink.value);
+          final dx = glance.value * reach;
+          if (open >= 1 && dx.abs() < 0.01) return const SizedBox.shrink();
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              for (final e in eyes)
+                Positioned(
+                  left: e.left * side,
+                  top: e.top * side,
+                  width: e.width * side,
+                  height: e.height * side,
+                  child: ClipRect(
+                    child: ColoredBox(
+                      color: visor,
+                      // The eye is cut out first, then squashed about its centre, so only the eye's own pixels fold
+                      // to the 8% slit (never the paper around it).
+                      child: Transform(
+                        transform: Matrix4.diagonal3Values(1, open, 1),
+                        origin: Offset(e.width * side / 2, e.height * side / 2),
+                        child: ClipRect(
+                          child: Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              Positioned(
+                                left: -e.left * side + dx,
+                                top: -e.top * side,
+                                width: side,
+                                height: side,
+                                child: Image.asset(path, width: side, height: side, fit: BoxFit.contain, filterQuality: FilterQuality.medium, gaplessPlayback: true, errorBuilder: (context, _, _) => const SizedBox.shrink()),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          );
+        },
+      );
 }
 
 class _ShadowPainter extends CustomPainter {
