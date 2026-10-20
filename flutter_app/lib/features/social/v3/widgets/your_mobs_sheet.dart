@@ -58,7 +58,6 @@ class YourMobsBody extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final type = context.mmType;
     final colors = context.mmColors;
     final view = ref.watch(denViewProvider);
     final mob = view?.mob;
@@ -82,13 +81,9 @@ class YourMobsBody extends ConsumerWidget {
             Divider(height: 1, color: colors.line),
           ],
           const SizedBox(height: MmSpace.s16),
-          if (plan.canStartAnother)
-            KeyButton.secondary(key: const ValueKey('your-mobs-start'), label: MobV4DenCopy.startAnother, onPressed: () => Navigator.of(context).pop(const StartAnotherMob()))
-          else
-            Padding(
-              padding: const EdgeInsets.only(bottom: MmSpace.s8),
-              child: Text(MobV4DenCopy.planLimit(plan.maxMobs), style: type.caption.copyWith(color: colors.ink2)),
-            ),
+          // Start another Mob shows only when the server says the plan allows it (no sentence about limits that
+          // could contradict Join with a code).
+          if (plan.canStartAnother) KeyButton.secondary(key: const ValueKey('your-mobs-start'), label: MobV4DenCopy.startAnother, onPressed: () => Navigator.of(context).pop(const StartAnotherMob())),
           const SizedBox(height: MmSpace.s8),
           KeyButton.secondary(key: const ValueKey('your-mobs-join'), label: MobV4DenCopy.joinWithCode, onPressed: () => Navigator.of(context).pop(const JoinMobWithCode())),
         ],
