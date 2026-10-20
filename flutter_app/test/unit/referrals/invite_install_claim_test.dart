@@ -295,6 +295,23 @@ void main() {
       expect(http.requests.map((r) => (r.body! as Map)['code']), ['Q2W3E4R', 'K7P2M9X']);
     });
 
+    test('starting the claimer never throws into the app, even when the phone\'s storage cannot be opened', () async {
+      final http = FakeHttpAdapter();
+      final c = ProviderContainer(retry: (_, _) => null, overrides: [
+        apiClientProvider.overrideWithValue(newApiClient(http)),
+        referralPrefsProvider.overrideWith((ref) => throw StateError('storage unavailable')),
+        authSnapshotProvider.overrideWithBuild(
+          (ref, n) => const AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1'),
+        ),
+      ]);
+      addTearDown(c.dispose);
+      expect(() => c.read(referralClaimerProvider), returnsNormally);
+      await pumpEventQueue();
+      expect(http.requests, isEmpty);
+      final out = await c.read(referralClaimServiceProvider).claimPending();
+      expect([out.ok, out.done], [false, false], reason: 'asked again later');
+    });
+
     test('two callers at once make one request', () async {
       final c = start();
       await c.read(pendingInviteStoreProvider).captureCode('K7P2M9X');

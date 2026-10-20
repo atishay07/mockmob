@@ -142,16 +142,23 @@ class InstallReferrerCapture {
 final installReferrerSourceProvider = Provider<InstallReferrerSource>((ref) => const PlayInstallReferrerSource());
 
 /// Reads the install referrer on a first launch and, when it carried an invite, hands it over at once if the student is
-/// already signed in (otherwise the claimer does it at sign-in). Started by [referralClaimerProvider].
+/// already signed in (otherwise the claimer does it at sign-in). Started by [referralClaimerProvider]. Nothing runs while the
+/// provider is being built (the work starts a moment after, so start-up never waits for it) and nothing it does can throw
+/// into the app: a phone whose storage or Play cannot answer simply keeps no invite.
 final referralInstallReferrerProvider = Provider<void>((ref) {
-  final capture = InstallReferrerCapture(
-    source: ref.read(installReferrerSourceProvider),
-    store: ref.read(pendingInviteStoreProvider),
-    prefs: ref.read(referralPrefsProvider),
-  );
   unawaited(
-    capture.run().then((invite) async {
-      if (invite != null) await ref.read(referralClaimServiceProvider).claimPending();
-    }).catchError((Object _) {}),
+    Future<void>.microtask(() async {
+      try {
+        final capture = InstallReferrerCapture(
+          source: ref.read(installReferrerSourceProvider),
+          store: ref.read(pendingInviteStoreProvider),
+          prefs: ref.read(referralPrefsProvider),
+        );
+        final invite = await capture.run();
+        if (invite != null) await ref.read(referralClaimServiceProvider).claimPending();
+      } on Object {
+        // Never reaches the student; the next launch asks again where that is allowed.
+      }
+    }),
   );
 });
