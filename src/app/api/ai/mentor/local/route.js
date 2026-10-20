@@ -35,15 +35,18 @@ export async function POST(request) {
   try {
     const sb = supabaseAdmin();
     let effectiveSessionId = typeof body.sessionId === 'string' ? body.sessionId : null;
+    let keepThread = false;
 
     if (effectiveSessionId) {
       const { data: existing } = await sb
         .from('mentor_sessions')
-        .select('id')
+        .select('id,metadata')
         .eq('id', effectiveSessionId)
         .eq('user_id', session.user.id)
         .maybeSingle();
       effectiveSessionId = existing?.id || null;
+      // A paid doubt's row keeps its thread (metadata.thread): a free ask in the same panel only touches updated_at.
+      keepThread = Boolean(existing?.metadata?.thread);
     }
 
     if (!effectiveSessionId) {
@@ -61,7 +64,7 @@ export async function POST(request) {
     } else {
       await sb
         .from('mentor_sessions')
-        .update({ updated_at: new Date().toISOString(), metadata: { mode: body.mode || 'guide' } })
+        .update({ updated_at: new Date().toISOString(), ...(keepThread ? {} : { metadata: { mode: body.mode || 'guide' } }) })
         .eq('id', effectiveSessionId)
         .eq('user_id', session.user.id);
     }

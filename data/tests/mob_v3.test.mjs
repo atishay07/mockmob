@@ -12,7 +12,7 @@ import { CODE_RE, ERRORS, codeFromBytes, displayCode, normalizeCode } from '../.
 import { MOB_NAMES, mobName, validNameKey } from '../../src/lib/mob/names.mjs';
 import { FOLDS, FOLD_KEYS, STARTERS, earnedBy, mobShelf, parcelFor, ruleProgress } from '../../src/lib/mob/folds.mjs';
 import { startRight, startsView, inLiveHours } from '../../src/lib/mob/starts.mjs';
-import { assignMoments, checkWindow, gameTrap, ghostPace, marksFor, placeRuns, publicQuestion, tieFor } from '../../src/lib/mob/games.mjs';
+import { assignMoments, checkWindow, gameTrap, ghostPace, marksFor, placeRuns, publicQuestion, tieFor, togetherLine } from '../../src/lib/mob/games.mjs';
 import { questLabels, questTarget } from '../../src/lib/mob/quest.mjs';
 import { computeMobChain } from '../../src/lib/mob/mobChain.mjs';
 import { createMobService, memberIdFor } from '../../src/lib/server/mob/service.js';
@@ -1065,5 +1065,98 @@ test('GET /api/mob capability flag: v3Available is true when v3 is on (Mob or no
     const res = await handleMob({ enabled: () => true, v3Enabled: () => true, auth: async () => ({ user: { id: 'nobody' } }), rateLimit: async () => ({ allowed: true }), service: on }, 'get', new Request('https://x.test/api/mob'));
     assert.equal(res.status, 200);
     assert.deepEqual(await res.json(), { mob: null, v3Available: true }, 'the route passes the flag through');
+  } finally { await db.close(); }
+});
+
+// L-10 (20 Oct): "Share my marks" off must not leak results through moments, the together line or ghosts.
+test('L-10 a private run: only "finished", out of the together line and out of ghosts (pure rules)', () => {
+  const ans = (spec) => spec.map(([q, correct, ms]) => ({ q, correct, elapsedMs: ms, pick: correct === null ? -1 : 0 }));
+  const runs = [
+    { userId: 'you', memberId: 'Y', place: 1, finishedAt: '2026-10-22T09:00:00Z', right: 3, wrong: 2, answers: ans([[0, true, 30000], [1, false, 50000], [2, true, 70000], [3, false, 80000], [4, true, 100000]]) },
+    { userId: 'kabir', memberId: 'K', place: null, private: true, finishedAt: '2026-10-22T10:00:00Z', right: 5, wrong: 0, answers: ans([[0, true, 2000], [1, true, 4000], [2, true, 6000], [3, true, 8000], [4, true, 10000]]) },
+  ];
+  const moments = assignMoments(runs, { count: 5 });
+  assert.deepEqual(moments.find((m) => m.memberId === 'K'), { memberId: 'K', kind: 'finished_all', count: 5 }, 'no "All 5 right", no "No minus marks", no fastest for a private run');
+  const you = moments.find((m) => m.memberId === 'Y');
+  assert.notEqual(you.kind, 'fastest_right', 'nobody else is named fastest when the private run truly was');
+  assert.notEqual(you.kind, 'quickest_finish');
+  assert.deepEqual(togetherLine(runs.map((r) => ({ userId: r.userId, right: r.right, private: r.private === true })), 5), { kind: 'together', right: 3, of: 5 }, 'the private 5 is not in the sum, and "of" stays true');
+  assert.deepEqual(togetherLine([{ right: 3 }, { right: 4 }], 5), { kind: 'together', right: 7, of: 10 });
+});
+
+test('L-10 the service: 2 finishers, one private: podium, moments, together line and ghosts give nothing away', async () => {
+  const db = await database();
+  const clock = { now: NOW };
+  try {
+    const svc = serviceFor(db, { clock });
+    const mobId = await chaiCircle(db, svc);
+    await svc.patchMe('u3', { mob: mobId, showScore: false });
+    const g = (await svc.v3.openGame('u1', { mob: mobId, format: 'sprint', mode: 'async' })).game;
+    await play(svc, clock, 'u1', g.id, ['r', 'w', 'r', 'w', 'r']);
+    await play(svc, clock, 'u3', g.id, ['r', 'r', 'r', 'r', 'r'], 2);
+    const p = await svc.v3.podium('u1', g.id);
+    const kabirId = memberIdFor('test-secret', mobId, 'u3');
+    const kabir = p.places.find((x) => x.memberId === kabirId);
+    assert.equal(kabir.marks, null);
+    assert.equal(kabir.private, true);
+    assert.deepEqual(p.moments.find((m) => m.memberId === kabirId), { memberId: kabirId, kind: 'finished_all', count: 5 });
+    assert.deepEqual(p.headline, { kind: 'together', right: 3, of: 5 }, "Riya cannot subtract her own 3 to get Kabir's 5");
+    const ghosts = (await svc.v3.getGame('u1', g.id)).game.ghosts;
+    assert.equal(ghosts.some((x) => x.memberId === kabirId), false, "Kabir's pace is not replayed to anyone");
+    const leak = JSON.stringify({ p, ghosts });
+    assert.doesNotMatch(leak, /all_right|no_minus|fastest_right|quickest_finish|three_in_a_row/, 'no fact about the private run, and none borrowed from it');
+    // Kabir's own view: his own facts and his own marks are his.
+    const own = await svc.v3.podium('u3', g.id);
+    assert.equal(own.places.find((x) => x.you).marks, 25);
+    assert.equal(own.moments.find((m) => m.memberId === kabirId).kind, 'all_right');
+    assert.deepEqual(own.headline, { kind: 'together', right: 8, of: 10 });
+    // Sharing back on: Kabir is a ghost again and counts in the line.
+    await svc.patchMe('u3', { mob: mobId, showScore: true });
+    assert.equal((await svc.v3.getGame('u1', g.id)).game.ghosts.some((x) => x.memberId === kabirId), true);
+    assert.deepEqual((await svc.v3.podium('u1', g.id)).headline, { kind: 'together', right: 8, of: 10 });
+  } finally { await db.close(); }
+});
+
+// L-09 (20 Oct): blocking someone separates the two students in every Mob they share, in the same request.
+test('L-09 leave and block separates you in every Mob you share; a report with block does the same', async () => {
+  const db = await database();
+  try {
+    const svc = serviceFor(db, { premium: (id) => id === 'u1' });
+    const x = await chaiCircle(db, svc); // u1 Riya owns X; u2 Aarav, u3 Kabir, u4 Zoya
+    // Y: Aarav's own Mob, Riya joins it. Z: Riya's second Mob (Pro), Aarav joins it. W: Riya and Kabir only.
+    const y = (await svc.create('u2', { subject: 'economics', name: 'Aarav', colour: 1 })).mob.id;
+    await svc.join('u1', { code: (await svc.invite('u2', { mob: y })).code, name: 'Riya', colour: 3 });
+    const z = (await svc.create('u1', { subject: 'economics', name: 'Riya', colour: 3 })).mob.id;
+    await svc.join('u2', { code: (await svc.invite('u1', { mob: z })).code, name: 'Aarav', colour: 1 });
+    const w = (await svc.create('u3', { subject: 'economics', name: 'Kabir', colour: 2 })).mob.id;
+    await svc.join('u1', { code: (await svc.invite('u3', { mob: w })).code, name: 'Riya', colour: 3 });
+    const inMob = async (mob, user) => Boolean(await one(db, 'select 1 r from mob_members where mob_id=$1::uuid and user_id=$2', [mob, user]));
+
+    const out = await svc.leave('u1', { mob: x, block: memberIdFor('test-secret', x, 'u2') });
+    assert.deepEqual(out, { left: true, separatedMobs: 2 });
+    assert.equal(await inMob(x, 'u1'), false, 'Riya left the Mob she blocked from');
+    assert.equal(await inMob(x, 'u2'), true, 'the others stay in X');
+    assert.equal(await inMob(y, 'u1'), false, 'in Aarav\'s Mob, Riya leaves');
+    assert.equal(await inMob(y, 'u2'), true);
+    assert.equal(await inMob(z, 'u1'), true, 'in her own Mob, Riya stays the owner');
+    assert.equal(await inMob(z, 'u2'), false, 'and Aarav is removed');
+    assert.equal(await one(db, "select role r from mob_members where mob_id=$1::uuid and user_id='u1'", [z]), 'owner');
+    assert.equal(await inMob(w, 'u1'), true, 'a Mob without Aarav is untouched');
+    // Neither can come back into a Mob the other is in.
+    await assert.rejects(svc.join('u2', { code: (await svc.invite('u1', { mob: z })).code, name: 'Aarav', colour: 1 }), code('INVITE_INVALID'));
+    await assert.rejects(svc.join('u1', { code: (await svc.invite('u2', { mob: y })).code, name: 'Riya', colour: 3 }), code('INVITE_INVALID'));
+    // Nothing shared is left between them.
+    assert.equal(await one(db, "select count(*)::int r from mob_members a join mob_members b on a.mob_id=b.mob_id where a.user_id='u1' and b.user_id='u2'"), 0);
+
+    // A report with block: Kabir reports Zoya in X and blocks her; they also share Zoya's Mob V.
+    const v = (await svc.create('u4', { subject: 'economics', name: 'Zoya', colour: 1 })).mob.id;
+    await svc.join('u3', { code: (await svc.invite('u4', { mob: v })).code, name: 'Kabir', colour: 2 });
+    const rep = await svc.report('u3', { mob: x, memberId: memberIdFor('test-secret', x, 'u4'), reason: 'safety', block: true });
+    assert.deepEqual(rep, { reported: true, left: true, separatedMobs: 1 });
+    assert.equal(await inMob(x, 'u3'), false);
+    assert.equal(await inMob(v, 'u3'), false);
+    assert.equal(await inMob(w, 'u3'), true, 'Kabir keeps his own Mob W, where Zoya never was');
+    // Leave without block separates nothing else.
+    assert.deepEqual(await svc.leave('u1', { mob: w }), { left: true });
   } finally { await db.close(); }
 });

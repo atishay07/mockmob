@@ -272,6 +272,31 @@ export function createMobService(deps) {
     return sync ? syncSittings(state, userId) : state;
   }
 
+  /**
+   * L-09 (20 Oct): a block separates the two students in EVERY Mob they share, in the same request as the block. Member
+   * ids differ per Mob, so the blocker could never find those Mobs alone. In a Mob the blocker owns, the blocked member
+   * is removed (the owner keeps their Mob); in any other Mob the blocker leaves. From then on the block row keeps either
+   * of them out of a Mob the other is in (mob_join). `state` is the blocker's state in the Mob they blocked from (it is
+   * left by the caller). Returns how many other Mobs were separated.
+   */
+  async function separateEverywhere(userId, blockedId, state) {
+    let separated = 0;
+    for (const other of state.mobs || []) {
+      const otherId = other?.id;
+      if (!validMobId(otherId) || otherId === state.mob.id) continue;
+      const there = await readState(userId, state.week || mobWeek(now()), otherId);
+      if (!there?.mob || there.mob.id !== otherId) continue;
+      const members = there.members || [];
+      if (!members.some((m) => m.user_id === blockedId)) continue;
+      const owner = members.find((m) => m.user_id === userId)?.role === 'owner';
+      const r = owner
+        ? await call('mob_remove', { p_actor: userId, p_mob_id: otherId, p_target: blockedId })
+        : await call('mob_leave', { p_user_id: userId, p_mob_id: otherId });
+      if (r === 'removed' || r === 'left' || r === 'left_and_closed') separated += 1;
+    }
+    return separated;
+  }
+
   const nameAndColour = (body, { required }) => {
     const out = {};
     if (body.name !== undefined || required) {
@@ -408,14 +433,16 @@ export function createMobService(deps) {
 
     async leave(userId, body = {}) {
       const state = await mustState(userId, body.mob);
+      let separated = 0;
       if (body.block !== undefined && body.block !== null) {
         const target = memberByMemberId(state, body.block);
         if (!target || target.user_id === userId) throw new MobError('NOT_FOUND');
         await call('mob_block', { p_blocker: userId, p_blocked: target.user_id });
+        separated = await separateEverywhere(userId, target.user_id, state);
       }
       const r = await call('mob_leave', { p_user_id: userId, p_mob_id: state.mob.id });
       if (r === 'not_member') throw new MobError('NOT_IN_MOB');
-      return { left: true };
+      return separated ? { left: true, separatedMobs: separated } : { left: true };
     },
 
     async remove(userId, body = {}) {
@@ -436,9 +463,14 @@ export function createMobService(deps) {
       if (!target || target.user_id === userId) throw new MobError('NOT_FOUND');
       const r = await call('mob_report', { p_reporter: userId, p_mob_id: state.mob.id, p_reported: target.user_id, p_reason: body.reason });
       if (r !== 'reported') throw new MobError('NOT_FOUND');
-      if (body.block === true) await call('mob_block', { p_blocker: userId, p_blocked: target.user_id });
+      let separated = 0;
+      if (body.block === true) {
+        await call('mob_block', { p_blocker: userId, p_blocked: target.user_id });
+        separated = await separateEverywhere(userId, target.user_id, state);
+      }
       if (body.alsoLeave === true || body.block === true) await call('mob_leave', { p_user_id: userId, p_mob_id: state.mob.id });
-      return { reported: true, left: body.alsoLeave === true || body.block === true };
+      const out = { reported: true, left: body.alsoLeave === true || body.block === true };
+      return separated ? { ...out, separatedMobs: separated } : out;
     },
 
     async nudge(userId, body = {}) {

@@ -4,11 +4,11 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  openThread, followUpThread, answerThreadCheck, attachThreadChecks, readThread, resolveAnchor, chooseThreadChecks,
+  openThread, followUpThread, answerThreadCheck, attachThreadChecks, readThread, resolveAnchor, chooseThreadChecks, replayOpened,
   THREAD_FOLLOW_UPS, THREAD_CHECKS, THREAD_CREDIT_COST, THREAD_FOLLOW_UP_MAX_TOKENS, THREAD_COPY,
 } from '../../src/services/mobi/doubtThread.js';
 import { createThreadStore } from '../../src/services/mobi/threadStore.js';
-import { runModelReply } from '../../src/services/prepos/modelReply.js';
+import { runModelReply, operationKeyFor } from '../../src/services/prepos/modelReply.js';
 
 const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
 const user = { id: 'u1' };
@@ -240,4 +240,108 @@ test('the chat route: a doubt opens a thread at 1 credit; a follow-up is free; a
   assert.match(chat, /charge: NO_CHARGE, thread: done\.thread/, 'the follow-up reply says nothing was charged');
   // Every follow-up still goes through the runtime guard with the student's own cap (generate -> generateAIResponse with the spend user).
   assert.match(read('src/services/prepos/replyDeps.js'), /generate: \(\{ requestKey, tier, mode, message, context, maxTokens = null \}\) => generateAIResponse\(\{\s*requestKey, tier, \.\.\.spendUserFor\(user\)/);
+});
+
+// L-01 (20 Oct): a paid doubt whose reply is lost in transit is replayed on retry (same requestId): one charge, one model
+// call, the same thread, its questions and answers. Before this, the retry made a new empty row and answered 409 duplicate.
+function keyedHarness(opts = {}) {
+  const h = harness(opts);
+  const ops = new Map();
+  let replyCalls = 0;
+  const replyDeps = {
+    reserve: async ({ amount, operationKey }) => {
+      if (ops.has(operationKey)) return { ok: true, idempotent: true, state: ops.get(operationKey) };
+      ops.set(operationKey, 'reserved'); h.wallet.reserved += amount; h.calls.push(['reserve', amount]); return { ok: true };
+    },
+    markExecuting: async () => ({ ok: true }),
+    commit: async (key) => { ops.set(key, 'committed'); h.wallet.committed += 1; h.calls.push(['commit']); return { ok: true }; },
+    release: async (key) => { ops.set(key, 'released'); h.wallet.released += 1; return { ok: true }; },
+    generate: async () => { replyCalls += 1; return { ok: true, data: { reply: 'Share premium is ...', cards: [], actions: [] }, usage: { provider: 'openai', model: 'gpt-6-luna', inputTokens: 2000, outputTokens: 300 } }; },
+    sanitize: (d) => ({ reply: d.reply, cards: [], actions: [] }),
+  };
+  h.deps.runReply = ({ creditCost }) => runModelReply({ user, message: 'Explain share premium', requestId: REQ, creditCost, gateOpen: true, deps: replyDeps });
+  // The store's fallback path: the thread row whose metadata.thread.openKey matches.
+  h.deps.findOpened = async ({ userId, openKey }) => {
+    for (const [id, s] of h.sessions) if (s.user === userId && s.thread?.openKey === openKey) return { threadId: id, thread: s.thread, response: null };
+    return null;
+  };
+  return { ...h, replyCalls: () => replyCalls };
+}
+const KEY = operationKeyFor(user.id, REQ);
+
+test('L-01 a retry with the same requestId replays the paid doubt: one charge, one model call, the same thread and questions', async () => {
+  const h = keyedHarness();
+  const first = await openThread({ user, message: 'Explain share premium', requestId: REQ, anchor, openKey: KEY, deps: h.deps });
+  assert.equal(first.http, 200);
+  // The student answers one question, then the response of the opening is "lost" and the app retries the same request.
+  const c = first.checks[0];
+  await answerThreadCheck({ user, threadId: first.threadId, checkQuestionId: c.checkQuestionId, pick: 0, requestId: 'req_answer_00000009', deps: h.deps });
+  const again = await openThread({ user, message: 'Explain share premium', requestId: REQ, anchor, openKey: KEY, deps: h.deps });
+  assert.equal(again.http, 200);
+  assert.equal(again.replayed, true);
+  assert.equal(again.threadId, first.threadId, 'the same thread, never a new one');
+  assert.equal(again.response.reply, 'Share premium is ...');
+  assert.deepEqual(again.checks.map((x) => x.checkQuestionId), first.checks.map((x) => x.checkQuestionId));
+  assert.ok(again.results[c.checkQuestionId], 'the answer already given comes back');
+  assert.equal(again.thread.followUpsLeft, 1);
+  assert.equal(h.sessions.size, 1, 'no empty row for the retry');
+  assert.equal(h.wallet.reserved, 1);
+  assert.equal(h.wallet.committed, 1, 'charged once');
+  assert.equal(h.replyCalls(), 1, 'the model ran once');
+});
+
+test('L-01 a retry that races the first write still replays (duplicate reserve), and a fresh requestId is a new doubt', async () => {
+  const h = keyedHarness();
+  const first = await openThread({ user, message: 'Explain share premium', requestId: REQ, anchor, openKey: KEY, deps: h.deps });
+  // The first lookup misses (as if the thread row was not readable yet); the duplicate reserve then replays it.
+  const real = h.deps.findOpened;
+  let calls = 0;
+  h.deps.findOpened = async (a) => (++calls === 1 ? null : real(a));
+  const again = await openThread({ user, message: 'Explain share premium', requestId: REQ, anchor, openKey: KEY, deps: h.deps });
+  assert.equal(again.http, 200);
+  assert.equal(again.replayed, true);
+  assert.equal(again.threadId, first.threadId);
+  assert.equal(h.wallet.committed, 1);
+  assert.equal(h.replyCalls(), 1);
+  const extra = [...h.sessions.entries()].filter(([id]) => id !== first.threadId);
+  assert.deepEqual(extra.map(([, s]) => s.thread.state), ['failed'], "the retry's own row is closed, never usable");
+  // No replay without a key match: nothing to replay is a normal open.
+  assert.equal(await replayOpened({ user, openKey: operationKeyFor(user.id, 'req_another_0000000001'), deps: h.deps }), null);
+});
+
+test('L-01 the store finds the opened thread by the persisted reply, else by the thread row, always for this student', async () => {
+  const filters = [];
+  const thread = { state: 'open', openKey: KEY, reply: 'stored', followUpsUsed: 0, checks: [] };
+  const sessionRow = { id: '22222222-2222-4222-8222-222222222222', metadata: { mode: 'mentor', thread } };
+  const tables = {
+    mentor_messages: { maybeSingle: { data: { session_id: sessionRow.id, structured_payload: { reply: 'Saved reply', charge: { reference: KEY } } }, error: null } },
+    mentor_sessions: { maybeSingle: { data: sessionRow, error: null }, list: { data: [sessionRow], error: null } },
+  };
+  const db = { from: (t) => ({
+    select() { return this; }, eq(k, v) { filters.push([t, k, v]); return this; }, limit() { return this; },
+    maybeSingle: async () => tables[t].maybeSingle,
+    then(resolve) { resolve(tables[t].list); },
+  }) };
+  const store = createThreadStore({ db });
+  const found = await store.findOpened({ userId: 'u1', openKey: KEY });
+  assert.equal(found.threadId, sessionRow.id);
+  assert.equal(found.response.reply, 'Saved reply');
+  assert.ok(filters.some((f) => f[0] === 'mentor_messages' && f[1] === 'user_id' && f[2] === 'u1'));
+  assert.ok(filters.some((f) => f[0] === 'mentor_messages' && f[1] === 'structured_payload->charge->>reference' && f[2] === KEY));
+  tables.mentor_messages.maybeSingle = { data: null, error: null };
+  const byRow = await store.findOpened({ userId: 'u1', openKey: KEY });
+  assert.equal(byRow.threadId, sessionRow.id);
+  assert.equal(byRow.response, null);
+  assert.ok(filters.some((f) => f[0] === 'mentor_sessions' && f[1] === 'metadata->thread->>openKey' && f[2] === KEY));
+  assert.equal(await store.findOpened({ userId: 'u1', openKey: '' }), null);
+});
+
+test('L-01 the chat route replays a retried doubt without storing it again; free asks never wipe a thread', () => {
+  const chat = read('src/app/api/ai/mentor/chat/route.js');
+  assert.match(chat, /openKey: operationKeyFor\(userId, payload\.requestId\)/);
+  assert.match(chat, /if \(opened\.replayed\) \{[\s\S]*?return reply\(opened\.threadId, replayed, dbUser, 'replayed'\);/);
+  assert.match(chat, /if \(existing\?\.metadata\?\.thread\) keepMeta = true;/);
+  const local = read('src/app/api/ai/mentor/local/route.js');
+  assert.match(local, /keepThread = Boolean\(existing\?\.metadata\?\.thread\);/);
+  assert.match(local, /\.\.\.\(keepThread \? \{\} : \{ metadata: \{ mode: body\.mode \|\| 'guide' \} \}\)/);
 });
