@@ -238,7 +238,8 @@ test('walk 15: the new student is greeted without a name until a real first name
     assert.equal(shownFirstName(handle, email), null, handle);
     assert.equal(greetName(handle, email), '', handle);
   }
-  assert.equal(shownName('Walk', 'walk@example.com'), null, 'the email\'s own local part is not a name');
+  assert.equal(shownName('walk', 'walk@example.com'), null, 'the email\'s own local part is not a name');
+  assert.equal(shownName('Walk', 'walk@example.com'), 'Walk', 'a capital the email never had is a name the student typed (the app\'s I11 rule)');
   assert.equal(shownName('  ', email), null);
   assert.equal(shownName('Asha Rao', email), 'Asha Rao');
   assert.equal(shownFirstName('Asha Rao', email), 'Asha');

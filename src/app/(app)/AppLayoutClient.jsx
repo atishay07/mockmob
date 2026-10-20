@@ -438,7 +438,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             )}
             <span className="arena-theme arena-sm-up"><ThemeToggle /></span>
             <Link href="/profile" className="arena-profile arena-desktop-only">
-              <Avatar name={user?.name} size="sm" />
+              <Avatar name={accountName || user?.email} size="sm" />
               <span>{accountName ?? 'Account'}</span>
             </Link>
             {/* Sign out in words, beside the account (owner G29, 19 Oct): an unlabelled glyph was missed. It asks first, with
@@ -455,7 +455,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
               aria-current={isActive('profile') ? 'page' : undefined}
               onClick={() => setMobileMenuOpen(false)}
             >
-              <Avatar name={user?.name} size="sm" />
+              <Avatar name={accountName || user?.email} size="sm" />
             </Link>
           </div>
         </div>
@@ -486,7 +486,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             <span className="arena-sheet__handle" aria-hidden="true" />
             <div className="arena-sheet__account">
               <Link href={previewLinks?.profile || '/profile'} className="arena-sheet__who" onClick={() => setMobileMenuOpen(false)}>
-                <Avatar name={user?.name} size="sm" />
+                <Avatar name={accountName || user?.email} size="sm" />
                 <span>{accountName ?? 'Account'}</span>
               </Link>
               <div className="arena-sheet__tools">

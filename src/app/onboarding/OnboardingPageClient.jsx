@@ -1,7 +1,9 @@
 "use client";
 
 // The first run, in three steps: which subjects, how many study days a week, then the colleges you are aiming for
-// (optional, saved to My colleges as you pick; firstRun.js).
+// (optional, saved to My colleges as you pick; firstRun.js). Subjects hold the app's version 13 parity: an optional DU course
+// search that shows the subjects the course takes (CourseFinder), a subject search with the CUET papers MockMob cannot practise
+// listed and never hidden, and a sixth pick answered with the reason and one tap to swap (subjectPick.mjs).
 // One primary per screen. Subjects save on Next and the server confirms before the page moves on;
 // the days step saves the weekly goal Today's week ring is drawn from. Then the student lands on
 // Practice, as before. /onboarding?edit=true (Edit subjects on Practice and You) is subjects only.
@@ -21,6 +23,15 @@ import CollegePicker from '@/components/colleges/CollegePicker';
 import DailyMinutes from '@/components/goal/DailyMinutes';
 import { goalMinutesFromResponse, pickMinutes } from '@/lib/goalMinutes.mjs';
 import { mirrorToPlan, readDeviceMinutes, writeDeviceMinutes } from '@/lib/goalMinutesStore';
+import { Search } from 'lucide-react';
+import { loadIndex } from '@/lib/du/client';
+import { neededByEvery, toDuSubjectId } from '@/lib/du/courseRule.mjs';
+import { useAboveKeyboard } from '@/lib/du/useAboveKeyboard';
+import CourseFinder from './CourseFinder';
+import { SETS_LABEL, applySet, setMatches, setsFor } from './commonSets.mjs';
+import {
+  LANGUAGE_PAPERS, NOT_YET_NOTE, NOT_YET_TITLE, OTHER_PAPERS, SEARCH_HINT, capCopy, noSubjectMatch, notYetSubjects, pickableSubjects, shortSubjectName, subjectCountLine, swapLast,
+} from './subjectPick.mjs';
 import { useAuth } from '@/components/AuthProvider';
 import { noteOnboardedNow } from '@/components/pro/proNudgeStore';
 import { ErrorState, PageSpinner } from '@/components/ui/Skeleton';
@@ -42,6 +53,10 @@ import './onboarding.css';
 const SCOPE = 'onboarding';
 const reducedMotion = () => getMobiPrefs().reduced;
 // A failed save keeps the student's choices on screen and names the way forward.
+// The course a student looked up stays for this visit (the colleges step opens on it); never kept beyond the tab.
+const COURSE_KEY = 'mm:ob:course:v1';
+const readCourse = () => { try { return window.sessionStorage.getItem(COURSE_KEY) || null; } catch { return null; } };
+const writeCourse = (id) => { try { if (id) window.sessionStorage.setItem(COURSE_KEY, id); else window.sessionStorage.removeItem(COURSE_KEY); } catch { /* private window: the choice lasts this page only */ } };
 const SUBJECTS_FAILED = 'Your subjects did not save. Your choices are still selected. Try again.';
 const DAYS_FAILED = 'Your days did not save. Try again, or skip for now.';
 
@@ -94,7 +109,13 @@ export default function OnboardingPageClient({ preview = false }) {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);
   const [notice, setNotice] = useState(null);
-  const [capHit, setCapHit] = useState(false);
+  // The sixth subject a student asked for (its id), while the reason and the swap are on screen.
+  const [capAsk, setCapAsk] = useState(null);
+  const [subjectQuery, setSubjectQuery] = useState('');
+  const [rules, setRules] = useState(null);
+  const [rulesFailed, setRulesFailed] = useState(false);
+  const [rulesTry, setRulesTry] = useState(0);
+  const [courseId, setCourseId] = useState(null);
   const [shaking, setShaking] = useState(false);
   const [finishing, setFinishing] = useState(false);
   // ?step=days or ?step=colleges reopens that step after a reload (the subjects are saved by then).
@@ -115,6 +136,8 @@ export default function OnboardingPageClient({ preview = false }) {
   const headingRef = useRef(null);
   const firstPaint = useRef(true);
   const mobi = useMobiScope(SCOPE, 'hello');
+  // A search field is never left under the on-screen keyboard (the colleges step's course and college searches too).
+  useAboveKeyboard();
   const shownCount = useCountUp(selected.length, { duration: 420 });
 
   const savedSubjects = user?.subjects?.length || 0;
@@ -148,6 +171,18 @@ export default function OnboardingPageClient({ preview = false }) {
       .catch((failure) => { if (failure.name !== 'AbortError') setCatalogState('error'); });
     return () => controller.abort();
   }, [retry]);
+
+  // The DU course list, for the course search, its subject rule and the colleges step (cached by the DU client).
+  useEffect(() => {
+    let alive = true;
+    loadIndex().then((data) => { if (alive) { setRules(data); setRulesFailed(false); } }).catch(() => { if (alive) setRulesFailed(true); });
+    return () => { alive = false; };
+  }, [rulesTry]);
+  useEffect(() => {
+    const id = window.setTimeout(() => setCourseId(readCourse()), 0);
+    return () => window.clearTimeout(id);
+  }, []);
+  const chooseCourse = (id) => { setCourseId(id); writeCourse(id); };
 
   // The live rules: signed out goes to sign-up; a member who already has subjects goes to Practice.
   useEffect(() => {
@@ -188,17 +223,37 @@ export default function OnboardingPageClient({ preview = false }) {
     setNotice(null);
     if (selected.includes(id)) {
       setSelected(selected.filter((x) => x !== id));
-      setCapHit(false);
+      setCapAsk(null);
     } else if (selected.length < SUBJECT_CAP) {
       const next = selected.length + 1;
       setSelected([...selected, id]);
+      setCapAsk(null);
       if (next === 1) mobiAct(SCOPE, 'nod');
       else if (next === 3) mobiAct(SCOPE, 'read', { hold: 1800 });
     } else {
-      setCapHit(true);
+      // A sixth pick is answered with the reason and one tap to swap, beside the Next key where the student is looking.
+      setCapAsk(id);
       setShaking(true);
       mobiAct(SCOPE, 'oops');
     }
+  };
+
+  // A common set, one tap: it replaces the picks; the same tap again puts it away.
+  const tapSet = (set) => {
+    if (saveLock.current) return;
+    const next = applySet(set, selected);
+    setSelected(next);
+    setCapAsk(null);
+    setNotice(null);
+    if (next.length) mobiAct(SCOPE, 'nod');
+  };
+
+  // Swap: the most recent pick makes room for the one asked for. Nothing else moves.
+  const swapForCap = () => {
+    if (saveLock.current || !capAsk) return;
+    setSelected(swapLast(selected, capAsk));
+    setCapAsk(null);
+    mobiAct(SCOPE, 'nod');
   };
 
   const chooseDays = (value) => {
@@ -251,7 +306,7 @@ export default function OnboardingPageClient({ preview = false }) {
       setSavedThisVisit(true);
       setDir('fwd');
       setWanted('days');
-      setCapHit(false);
+      setCapAsk(null);
       mobiAct(SCOPE, 'nod');
       refreshing.current = Promise.resolve(refreshSession()).catch(() => null);
       setUrl('/onboarding?step=days');
@@ -345,14 +400,21 @@ export default function OnboardingPageClient({ preview = false }) {
 
   const busy = saving || finishing;
   const find = (id) => subjects.find((s) => s.id === id);
-  const supported = subjects.filter((s) => s.practice === 'supported');
+  const supported = pickableSubjects(subjects, subjectQuery);
+  const notYet = notYetSubjects(subjects, subjectQuery);
+  const searching = subjectQuery.trim().length > 0;
+  const group = courseId ? (rules?.groups || []).find((g) => g.id === courseId) || null : null;
+  const needed = new Set(group ? neededByEvery(group) : []);
+  const sets = !edit ? setsFor({ group, rules, available: subjects.filter((x) => x.practice === 'supported').map((x) => x.id) }) : [];
+  const capShown = step === 'subjects' && capAsk && !selected.includes(capAsk) && selected.length >= SUBJECT_CAP;
+  const cap = capShown ? capCopy({ wantedName: shortSubjectName(find(capAsk)), lastName: shortSubjectName(find(selected[selected.length - 1])) }) : null;
   // Saved choices MockMob cannot launch stay visible so they can be removed; never offered as new picks.
   const stale = selected.filter((id) => find(id)?.practice !== 'supported');
   const stepIndex = step === 'colleges' ? 3 : step === 'days' ? 2 : 1;
   const rhythm = dayRhythm(days);
 
   return (
-    <div className="app-shell onboarding-shell ob" data-step={step}>
+    <div className="app-shell onboarding-shell ob" data-step={step} data-cap={capShown || undefined}>
       <header className="ob-top">
         <Logo />
         {!edit && (
@@ -408,9 +470,39 @@ export default function OnboardingPageClient({ preview = false }) {
                 </section>
               )}
 
-              {supported.length === 0 && (
+              {/* The DU course, optional, with the subjects it takes (the app's course search). Not in edit mode: that is only the papers. */}
+              {!edit ? (
+                <CourseFinder rules={rules} failed={rulesFailed} onRetry={() => setRulesTry((n) => n + 1)} courseId={courseId} onCourse={chooseCourse} picked={selected} disabled={busy} />
+              ) : null}
+
+              {sets.length > 0 && !searching ? (
+                <section className="ob-sets" aria-labelledby="ob-sets-h">
+                  <h2 id="ob-sets-h">{SETS_LABEL}</h2>
+                  <div className="ob-sets__list">
+                    {sets.map((set) => {
+                      const on = setMatches(set, selected);
+                      return (
+                        <button key={set.id} type="button" className="ob-set mk-press" aria-pressed={on} data-on={on || undefined} disabled={busy} onClick={() => tapSet(set)}>
+                          <b>{set.title}</b>
+                          <span>{set.subjects.map((id) => shortSubjectName(find(id))).join(', ')}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </section>
+              ) : null}
+
+              <label className="ob-search">
+                <span className="sr-only">Search subjects</span>
+                <Search size={18} aria-hidden="true" />
+                <input type="search" value={subjectQuery} onChange={(event) => setSubjectQuery(event.target.value)} placeholder={SEARCH_HINT} autoComplete="off" spellCheck={false} enterKeyHint="search" data-du-search="" />
+              </label>
+              <p className="sr-only" role="status">{searching ? (supported.length + notYet.total ? subjectCountLine(supported.length + notYet.total) : noSubjectMatch(subjectQuery.trim())) : ''}</p>
+
+              {subjects.filter((s) => s.practice === 'supported').length === 0 && (
                 <p className="ob-empty" role="status">No subjects are open for practice right now. Check again in a little while.</p>
               )}
+              {searching && supported.length === 0 && notYet.total === 0 ? <p className="ob-empty" role="status">{noSubjectMatch(subjectQuery.trim())}</p> : null}
               <div className="ob-grid" role="group" aria-label="Subjects">
                 {supported.map((s, index) => {
                   const isSelected = selected.includes(s.id);
@@ -431,6 +523,7 @@ export default function OnboardingPageClient({ preview = false }) {
                       <span className="ob-tile__art" aria-hidden="true"><SubjectObject id={s.internalId || s.id} size={76} lit priority={index < 6} /></span>
                       <span className="ob-tile__name">{s.name}</span>
                       <span className="ob-tile__meta">
+                        {needed.has(toDuSubjectId(s.id)) && group ? <span className="ob-tile__need">Needed for {group.name}</span> : null}
                         {s.officialCode ? <span>CUET code {s.officialCode}</span> : null}
                         {Array.isArray(s.chapters) && s.chapters.length > 0 ? <span>{s.chapters.length} chapters</span> : null}
                         {tileCount(bankCount(stats, s.internalId, s.id)) ? <span>{tileCount(bankCount(stats, s.internalId, s.id))}</span> : null}
@@ -440,10 +533,24 @@ export default function OnboardingPageClient({ preview = false }) {
                   );
                 })}
               </div>
+
+              {/* The CUET papers MockMob cannot practise yet: listed so a student knows they exist, never hidden, never pickable. */}
+              {notYet.total > 0 ? (
+                <section className="ob-notyet" aria-labelledby="ob-notyet-h">
+                  <h2 id="ob-notyet-h">{NOT_YET_TITLE}</h2>
+                  <p>{NOT_YET_NOTE}</p>
+                  {[[OTHER_PAPERS, notYet.papers], [LANGUAGE_PAPERS, notYet.languages]].map(([label, list]) => (list.length ? (
+                    <div key={label} className="ob-notyet__block">
+                      <h3>{label}</h3>
+                      <ul aria-label={`${label}, no practice here yet`}>{list.map((x) => <li key={x.id}>{x.name}</li>)}</ul>
+                    </div>
+                  ) : null))}
+                </section>
+              ) : null}
             </>
           ) : step === 'colleges' ? (
             <section className="ob-colleges" aria-label="Your target colleges">
-              <CollegePicker userId={user?.id} />
+              <CollegePicker userId={user?.id} initialCourseId={courseId} />
             </section>
           ) : (
             <section className="ob-days" aria-labelledby="ob-days-title">
@@ -489,6 +596,16 @@ export default function OnboardingPageClient({ preview = false }) {
 
       <footer className="ob-bar">
         <div className="ob-bar__inner">
+          {capShown ? (
+            <div className="ob-capnote" role="status" key={capAsk}>
+              <p className="ob-capnote__title">{cap.title}</p>
+              <p className="ob-capnote__body">{cap.body}</p>
+              <div className="ob-capnote__keys">
+                <button type="button" className="ob-capnote__swap mk-press" onClick={swapForCap} disabled={busy}>{cap.swap}</button>
+                <button type="button" className="ob-quiet" onClick={() => setCapAsk(null)}>{cap.keep}</button>
+              </div>
+            </div>
+          ) : null}
           {step === 'subjects' ? (
             <div className="ob-bar__status">
               <span
@@ -506,7 +623,6 @@ export default function OnboardingPageClient({ preview = false }) {
                 {selected.length === 0
                   ? <span>Pick at least 1 subject</span>
                   : <><span aria-hidden="true"><b className="ob-count">{shownCount}</b> of {SUBJECT_CAP} picked</span><span className="sr-only">{pickedLine(selected.length)}</span></>}
-                <span className="ob-cap" role="status">{capHit && selected.length >= SUBJECT_CAP ? "That's five, the most CUET allows. Remove one to swap." : ''}</span>
               </span>
             </div>
           ) : step === 'colleges' ? (

@@ -16,8 +16,9 @@ import './colleges.css';
 // The courses most commerce students start from, shown before anything is typed.
 const QUICK = ['b-com-hons', 'b-com', 'b-a-hons-economics', 'bachelor-of-management-studies-bms', 'b-a-hons-business-economics', 'b-a-programme'];
 
-/** `userId`: the signed-in student. `compact`: the Account variant (no lede, fewer quick courses). */
-export default function CollegePicker({ userId, compact = false }) {
+/** `userId`: the signed-in student. `compact`: the Account variant (no lede, fewer quick courses). `initialCourseId`: a course the student
+ *  already chose (the subjects step's course search), opened here once its colleges can be listed. */
+export default function CollegePicker({ userId, compact = false, initialCourseId = null }) {
   const mine = useMyColleges(userId);
   const [index, setIndex] = useState(null);
   const [failed, setFailed] = useState(false);
@@ -27,6 +28,7 @@ export default function CollegePicker({ userId, compact = false }) {
   const [rows, setRows] = useState({ id: null, list: null, failed: false });
   const [filter, setFilter] = useState('');
   const listRef = useRef(null);
+  const opened = useRef(null);
 
   useEffect(() => {
     let alive = true;
@@ -36,6 +38,13 @@ export default function CollegePicker({ userId, compact = false }) {
 
   // Only courses DU actually offers in a college (some groups have no 2026 rows).
   const courses = useMemo(() => (index?.groups || []).filter((g) => g.offerings > 0), [index]);
+  // The course asked for on arrival opens once (a student who then picks another course keeps that one).
+  useEffect(() => {
+    if (!initialCourseId || opened.current === initialCourseId || !courses.length) return;
+    const group = courses.find((g) => g.id === initialCourseId);
+    opened.current = initialCourseId;
+    if (group) window.setTimeout(() => setCourse((now) => now || group), 0);
+  }, [initialCourseId, courses]);
   const found = useMemo(() => {
     if (!courses.length) return [];
     if (!deferred.trim()) return QUICK.map((id) => courses.find((g) => g.id === id)).filter(Boolean).slice(0, compact ? 4 : 6);

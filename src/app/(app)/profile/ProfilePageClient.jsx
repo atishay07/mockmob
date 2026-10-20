@@ -40,6 +40,7 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import InstallPractice from '@/components/InstallPractice';
 import TodayCompass from '@/components/du/TodayCompass';
 import { shownFirstName } from '@/lib/displayName.mjs';
+import { NAME_MAX, nameFieldValue } from '@/lib/nameAsk.mjs';
 import './profile-privacy.css';
 import '@/components/profile/account.css';
 
@@ -210,9 +211,12 @@ export default function ProfilePageClient() {
     return () => window.clearTimeout(id);
   }, [user?.id]);
 
-  const currentName = draftName ?? (user?.name || '');
+  // The name card starts from the name the student gave. An account made by email code has none (or, on an older one, the email's
+  // own prefix, which is not a name): the field is empty and asks for a first name, never filled with an address fragment.
+  const shownOwn = nameFieldValue(user);
+  const currentName = draftName ?? shownOwn;
   const trimmed = currentName.trim();
-  const dirty = trimmed.length > 0 && trimmed !== (user?.name || '');
+  const dirty = trimmed.length > 0 && trimmed !== shownOwn;
   const hi = shownFirstName(user?.name, user?.email);
 
   async function saveName() {
@@ -282,11 +286,12 @@ export default function ProfilePageClient() {
                 className="input"
                 value={currentName}
                 onChange={(e) => setDraftName(e.target.value)}
-                placeholder="Enter your display name"
+                placeholder={shownOwn ? 'Enter your display name' : 'Your first name'}
                 autoComplete="name"
+                maxLength={NAME_MAX}
                 aria-describedby="profile-name-help"
               />
-              <span id="profile-name-help" className="acct-field__help">Your initials are your avatar. They update when you save your name.</span>
+              <span id="profile-name-help" className="acct-field__help">{shownOwn ? 'Your initials are your avatar. They update when you save your name.' : 'Add your first name. Mobi uses it on Today, and your initial becomes your avatar.'}</span>
             </label>
             <label className="acct-field">
               <span>Email</span>

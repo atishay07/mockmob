@@ -1,5 +1,6 @@
 'use client';
 import { CAPABILITIES } from '@/../data/capabilities';
+import { shownName } from '@/lib/displayName.mjs';
 
 import { useState } from 'react';
 import { CheckCircle2, Loader2, ShieldCheck, WalletCards } from 'lucide-react';
@@ -65,7 +66,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
         amount: serverPack.amountPaise,
         currency: 'INR',
         prefill: {
-          name: user.name || '',
+          name: shownName(user.name, user.email) || '',
           email: user.email || '',
         },
         notes: {

@@ -1,5 +1,8 @@
 import { scoreSession } from '../../../../data/recovery';
-import { getSubjectById } from '../../../../data/subjects';
+import { getSubjectById, SUBJECTS as CATALOGUE } from '../../../../data/subjects';
+import { toPublicSubjectId } from '../../../../data/cuet_controls';
+import { resolveSubject } from '../../../../data/subject_registry';
+import { withoutRetiredSubjects } from '../../../../data/subject_claim';
 // Original examples for layout and interaction checks. Never content-bank records.
 const SUBJECTS = [
   { id: 'accountancy', name: 'Accountancy', practice: 'supported' },
@@ -36,6 +39,13 @@ const MORE_SUBJECTS = [
   { id: 'general_test', name: 'General Test', practice: 'supported' },
 ];
 export const FULL_SUBJECTS = [...SUBJECTS, ...MORE_SUBJECTS].map((subject) => ({ ...subject, chapters: EXAMPLES.map((question) => question.chapter) }));
+// ?catalog=live: the subject list exactly as /api/subjects sends it (the real catalogue and registry, practice state and all),
+// so the first run's picker, its search and its "Not on MockMob yet" list can be checked with the real papers.
+export const LIVE_SUBJECTS = withoutRetiredSubjects(CATALOGUE).map((subject) => {
+  const id = toPublicSubjectId(subject.id);
+  const registry = resolveSubject(id);
+  return { ...subject, id, internalId: subject.id, officialCode: registry.code, officialName: registry.officialName, practice: registry.renamedFrom ? 'merged' : registry.practice, practiceReason: registry.reason };
+});
 export const FIXTURE_SUBJECTS = SUBJECTS.map((subject) => ({ ...subject, chapters: (SUBJECT_EXAMPLES[subject.id] || EXAMPLES).map((question) => question.chapter) }));
 export const fixtureFeed = (subject, long = false) => Array.from({ length: 29 }, (_, index) => {
   const example = (SUBJECT_EXAMPLES[subject] || EXAMPLES)[index % 2];

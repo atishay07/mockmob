@@ -7,6 +7,7 @@ import { getUsageSnapshot } from '@/services/usage/getDailyUsage';
 import { ONE_BALANCE_NOTE, oneBalanceForModel } from './creditsForModel.js';
 import { readStanding } from '@/services/mobi/standing';
 import { standingForModel } from '@/../data/mobi_standing';
+import { shownName } from '@/lib/displayName.mjs';
 
 /**
  * Build a compact context object for the AI Mentor.
@@ -114,7 +115,8 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
   return {
     sharedPlan: sharedPlan ? {primary:sharedPlan.primary,alternatives:sharedPlan.alternatives,pathwayState:sharedPlan.pathwayState,...(sharedPlan.sequence ? {sequence:sharedPlan.sequence,study:sharedPlan.study} : {})} : null,
     userId,
-    displayName: effectiveUser?.name || 'Student',
+    // A name the student gave, never the email's own prefix or a handle (src/lib/displayName.mjs): Mobi must not say it.
+    displayName: shownName(effectiveUser?.name, effectiveUser?.email) || 'Student',
     planType: isPaid ? 'paid' : 'free',
     isPaid,
     exam: 'CUET',

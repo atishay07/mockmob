@@ -87,5 +87,7 @@ test('profile and onboarding copy', () => {
   assert.ok(!profile.includes('Open Today ↗'));
   assert.ok(!profile.includes('Profile updated successfully.'));
   const onboarding = read('src/app/onboarding/OnboardingPageClient.jsx');
-  assert.ok(onboarding.includes("That's five, the most CUET allows. Remove one to swap."));
+  // A sixth pick is answered with the reason and a swap, in the fixed bar (subjectPick.mjs capCopy; onboarding_parity_1020.test.mjs).
+  assert.ok(onboarding.includes('capCopy({ wantedName') && onboarding.includes('{cap.title}') && onboarding.includes('{cap.swap}'));
+  assert.ok(read('src/app/onboarding/subjectPick.mjs').includes('is the most CUET allows'));
 });

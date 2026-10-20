@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import { AlertCircle, BadgeCheck, CheckCircle2, Loader2, ShieldCheck, Tag } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { setCheckoutStatus } from '@/lib/payments/checkoutStatus';
+import { shownName } from '@/lib/displayName.mjs';
 
 const REF_STORAGE_KEY = 'mm_ref';
 const CODE_PATTERN = /^(offer_[A-Za-z0-9]{6,64}|[a-z0-9._-]{1,64})$/;
@@ -190,7 +191,7 @@ export function RazorpayPaymentButton({
           name: 'MockMob',
           description: `${plan.name}, ₹${Math.round(plan.amount / 100)} a month, cancel anytime`,
           subscription_id: subscription.id,
-          prefill: { name: user.name || '', email: user.email || '' },
+          prefill: { name: shownName(user.name, user.email) || '', email: user.email || '' },
           notes: { userId: user.id, planId },
           theme: { color: '#d2f000' },
           handler: async (response) => {
@@ -254,7 +255,7 @@ export function RazorpayPaymentButton({
         amount: plan.amount,
         currency: plan.currency,
         prefill: {
-          name: user.name || '',
+          name: shownName(user.name, user.email) || '',
           email: user.email || '',
         },
         notes: {

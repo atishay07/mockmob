@@ -44,6 +44,7 @@ import TodayColleges from '@/components/today/TodayColleges';
 import TodayCollegesStrip from '@/components/today/TodayCollegesStrip';
 import TodayCue from '@/components/today/TodayCue';
 import TodayMob from '@/components/today/TodayMob';
+import NameAsk from '@/components/profile/NameAsk';
 import { todayContext } from '@/components/ai/askContexts.mjs';
 import '@/components/today/today.css';
 
@@ -305,6 +306,8 @@ export default function Today() {
           {/* Your colleges, one tap from the first screen every day (D126 B, owner H9); the block at the end stays. */}
           <TodayCollegesStrip userId={userId} hold={landing} />
         </header>
+        {/* One quiet ask while the account has no name worth showing (the app's name card, I11): never the email's prefix. */}
+        <NameAsk />
         <div className="today-grid">
           <div className="today-grid__main">
             {reelPaper ? (
