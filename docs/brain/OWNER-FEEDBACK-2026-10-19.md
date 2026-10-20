@@ -863,3 +863,14 @@ Billing page: "Your grace period has started. Your organization went over its qu
 **Ledger D181:** no Pro ask on the first result; a dismissible sheet appears only at a real limit (10 credits or fewer, a locked mode tapped) or on the second return to Today (L-23, P9).
 **Ledger D182:** referral credit (+100 each) triggers when the friend finishes ANY one practice (server threshold relaxed from 5 answers; app and web copy say "finishes one practice").
 **Ledger D183:** usage data is ON for 18+ and for "Rather not say"; OFF only when the student says they are under 18; anyone can switch it off in You > Privacy. (Before: off for under-18 AND "Rather not say".)
+
+## Owner, 20 Oct about 5:58 pm IST (verbatim)
+> "The 16 feedbacks, 16 fix packages, whatever you have said. I am not sure if you have checked it properly. I think many of these things are already done:
+> * Sign-in-by-email link that is working now
+> * Finish screens telling the TruThon perfect papers. Not sure what that is
+> * The name that disappears from today is now working
+> * A warning that deletes the account. I don't know, again, what that is
+> * Mobis overlapping paid order
+> * Paper notes per subject
+> Check for yourself. Literally, I don't remember 90% of the things that you said are my feedback that I ever said. Take all of the sweep that you have done with a pinch of salt. Just believe in your assumption. If you think everything in the app is good, you can release it. Keep the pace up, keep going, and keep building."
+**Ledger D184:** the auto sweep (V15-OWNER-SWEEP.md) is advisory only; verify each claim in code before acting. Checked 6:00 pm: email link cold start IS handled (router.dart:99 getInitialLink); perfect paper handled (paper_read.dart:131); name rule works as intended. Built tonight only what is verified and his decisions: D181, D182 (+ Play Install Referrer so invites reach Play installs), D183, the delete-account Play warning (CTO call), the Mob explainer slide 3 (K9). Everything else waits for the emulator walk to show it.
