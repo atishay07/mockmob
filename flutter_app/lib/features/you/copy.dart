@@ -266,12 +266,15 @@ abstract final class YouCopy {
       'plain labels such as the subject or the kind of practice.';
   static const offForAccount = 'Off for your account.';
   static const offForAccountNote = 'Usage data stays off because you said you are under 18.';
-  static const offUnansweredNote = 'Usage data stays off until you answer the age question below.';
+  static const offUnansweredNote = 'Usage data stays off until you answer the age question.';
   static const operationalHeading = 'What this switch does not cover';
   static const operationalNote =
       'Your sessions, scores, notification settings and plan are kept to run your account. Google '
       'Play also reports crashes and performance to us. This switch controls neither.';
   static const changeAnswer = 'Change my age answer';
+
+  /// The same key for a student who never answered: there is no answer to change yet.
+  static const answerAge = 'Answer the age question';
   static const ageQuestion = 'Are you 18 or older?';
   static const ageYes = 'Yes';
   static const ageNo = 'No';

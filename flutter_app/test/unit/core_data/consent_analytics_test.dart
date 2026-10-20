@@ -246,11 +246,80 @@ void main() {
     expect(http.requests.last.body, {'ageBand': 'unknown', 'analyticsAllowed': false});
   });
 
-  test('an under-18 record that is turned on becomes 18 or older, as before', () async {
-    await loadConsent(FakeReply(200, consent(band: 'minor', allowed: false)));
-    http.replies.add(FakeReply(200, consent()));
-    await repo().setAnalyticsAllowed(true);
-    expect(http.requests.last.body, {'ageBand': 'adult', 'analyticsAllowed': true});
+  // The age band is the student's own answer: turning usage data on never changes it (review v15, consent).
+  group('turning usage data on never changes the age answer', () {
+    List<Object?> puts() => [for (final r in http.requests) if (r.method == 'PUT') r.body];
+
+    test('an under-18 record is never made 18 or older: the turn-on is refused and nothing is sent', () async {
+      await loadConsent(FakeReply(200, consent(band: 'minor', allowed: false)));
+      await expectLater(repo().setAnalyticsAllowed(true), throwsA(ConsentRepository.usageNotForThisAge));
+      expect(puts(), isEmpty);
+      final state = container.read(consentRepositoryProvider);
+      expect(state.consent.ageBand, AgeBand.minor);
+      expect(state.consent.analyticsAllowed, isFalse);
+      expect(state.analyticsActive, isFalse);
+      expect(await analytics().track(AnalyticsEvents.appOpened), isFalse);
+    });
+
+    test('an age never answered is never made 18 or older either: refused, nothing sent, still unanswered', () async {
+      await loadConsent(const FakeReply(200, {'ageBand': 'unknown', 'analyticsAllowed': false, 'decidedAt': null, 'withdrawnAt': null}));
+      await expectLater(repo().setAnalyticsAllowed(true), throwsA(ConsentRepository.usageNotForThisAge));
+      expect(puts(), isEmpty);
+      final state = container.read(consentRepositoryProvider);
+      expect(state.consent.answered, isFalse);
+      expect(state.consent.ageBand, AgeBand.unknown);
+      expect(state.analyticsActive, isFalse);
+    });
+
+    test('a record not read yet is never written on a turn-on', () async {
+      http.replies
+        ..add(const FakeReply(503, {'error': 'unavailable'}))
+        ..add(const FakeReply(503, {'error': 'unavailable'}));
+      await loadConsent(const FakeReply(503, {'error': 'unavailable'}));
+      final before = http.requests.length;
+      await expectLater(repo().setAnalyticsAllowed(true), throwsA(ConsentRepository.usageNotForThisAge));
+      expect(http.requests.length, before, reason: 'no PUT');
+    });
+
+    test('"Rather not say" stays unknown and turns on', () async {
+      await loadConsent(FakeReply(200, consent(band: 'unknown', allowed: false)));
+      http.replies.add(FakeReply(200, consent(band: 'unknown')));
+      await repo().setAnalyticsAllowed(true);
+      expect(puts().single, {'ageBand': 'unknown', 'analyticsAllowed': true});
+      expect(container.read(consentRepositoryProvider).consent.ageBand, AgeBand.unknown);
+      expect(container.read(consentRepositoryProvider).analyticsActive, isTrue);
+    });
+
+    test('18 or older stays adult, on and off again', () async {
+      await loadConsent(FakeReply(200, consent(allowed: false)));
+      http.replies.add(FakeReply(200, consent()));
+      await repo().setAnalyticsAllowed(true);
+      http.replies.add(FakeReply(200, consent(allowed: false, deleted: 0)));
+      await repo().setAnalyticsAllowed(false);
+      expect(puts(), [
+        {'ageBand': 'adult', 'analyticsAllowed': true},
+        {'ageBand': 'adult', 'analyticsAllowed': false},
+      ]);
+    });
+
+    test('an under-18 record can still be switched off: the band is sent as it is held', () async {
+      await loadConsent(FakeReply(200, consent(band: 'minor', allowed: false)));
+      http.replies.add(FakeReply(200, consent(band: 'minor', allowed: false, deleted: 0)));
+      await repo().setAnalyticsAllowed(false);
+      expect(puts().single, {'ageBand': 'minor', 'analyticsAllowed': false});
+    });
+
+    test('only the student\'s own "18 or older" makes an under-18 record adult', () async {
+      await loadConsent(FakeReply(200, consent(band: 'minor', allowed: false)));
+      http.replies.add(FakeReply(200, consent(allowed: false)));
+      await repo().setAgeBand(AgeBand.adult);
+      http.replies.add(FakeReply(200, consent()));
+      await repo().setAnalyticsAllowed(true);
+      expect(puts(), [
+        {'ageBand': 'adult', 'analyticsAllowed': false},
+        {'ageBand': 'adult', 'analyticsAllowed': true},
+      ]);
+    });
   });
 
   test('changing the age answer to a minor withdraws usage data first', () async {

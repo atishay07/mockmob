@@ -6,7 +6,7 @@ import '../copy.dart';
 /// a lost value only means a nudge may show once more. Everything is a plain key in the phone's
 /// preferences, so it survives a restart.
 class ProNudgeSaved {
-  const ProNudgeSaved({this.popupShown = false, this.onboardedAt, this.onboardedLaunch, this.actionsAtOnboarded = 0, this.resultsViewed = 0, this.dismissed = const {}});
+  const ProNudgeSaved({this.popupShown = false, this.onboardedAt, this.onboardedLaunch, this.actionsAtOnboarded = 0, this.resultsViewed = 0, this.firstResultId, this.dismissed = const {}});
 
   /// The first-session pop-up was shown. Once ever.
   final bool popupShown;
@@ -20,19 +20,33 @@ class ProNudgeSaved {
   /// Real actions already taken in that run when onboarding finished (only later ones count).
   final int actionsAtOnboarded;
 
-  /// How many results the student has viewed on this phone since this was added (D181: the very first
-  /// result carries no Pro ask).
+  /// How many results the student has viewed on this phone since this was added, each attempt counted
+  /// once per run. Only "none yet" is read: it marks the next result as the first.
   final int resultsViewed;
+
+  /// The attempt of the student's very first result (D181: it carries no Pro ask, however often it is
+  /// opened). Null until a new student views their first result on this phone.
+  final String? firstResultId;
 
   /// When each inline nudge was last dismissed, by [ProNudgeSurface.key].
   final Map<String, DateTime> dismissed;
 
-  ProNudgeSaved copyWith({bool? popupShown, DateTime? onboardedAt, String? onboardedLaunch, int? actionsAtOnboarded, int? resultsViewed, Map<String, DateTime>? dismissed}) => ProNudgeSaved(
+  ProNudgeSaved copyWith({
+    bool? popupShown,
+    DateTime? onboardedAt,
+    String? onboardedLaunch,
+    int? actionsAtOnboarded,
+    int? resultsViewed,
+    String? firstResultId,
+    Map<String, DateTime>? dismissed,
+  }) =>
+      ProNudgeSaved(
         popupShown: popupShown ?? this.popupShown,
         onboardedAt: onboardedAt ?? this.onboardedAt,
         onboardedLaunch: onboardedLaunch ?? this.onboardedLaunch,
         actionsAtOnboarded: actionsAtOnboarded ?? this.actionsAtOnboarded,
         resultsViewed: resultsViewed ?? this.resultsViewed,
+        firstResultId: firstResultId ?? this.firstResultId,
         dismissed: dismissed ?? this.dismissed,
       );
 }
@@ -57,11 +71,14 @@ class ProNudgeStore {
       onboardedLaunch: await _prefs.getString(_k(userId, 'onboarded_launch')),
       actionsAtOnboarded: await _prefs.getInt(_k(userId, 'onboarded_actions')) ?? 0,
       resultsViewed: await _prefs.getInt(_k(userId, 'results_viewed')) ?? 0,
+      firstResultId: await _prefs.getString(_k(userId, 'first_result')),
       dismissed: dismissed,
     );
   }
 
   Future<void> saveResultsViewed(String userId, int count) => _prefs.setInt(_k(userId, 'results_viewed'), count);
+
+  Future<void> saveFirstResult(String userId, String attemptId) => _prefs.setString(_k(userId, 'first_result'), attemptId);
 
   Future<void> savePopupShown(String userId) => _prefs.setBool(_k(userId, 'popup_shown'), true);
 

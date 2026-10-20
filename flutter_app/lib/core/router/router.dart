@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/account_access/access_routes.dart';
 import '../../features/billing/widgets/pro_page.dart' show proPageScreen;
+import '../../features/pro_nudge/pro_nudge.dart' show ArmRules, ShellPlace, proNudgeProvider;
 import '../../features/referrals/referral_data.dart' show pendingInviteStoreProvider;
 import '../../features/social/mob_routes.dart';
 import '../auth/auth_links.dart';
@@ -35,6 +36,8 @@ final routerProvider = Provider<GoRouter>((ref) {
   final rootKey = GlobalKey<NavigatorState>(debugLabel: 'root');
   final intended = ref.watch(intendedRouteProvider);
   final refresh = _AuthRefresh();
+  // The routes whose page is a modal sheet: reaching one is never a page the student left (D181 arming).
+  final sheets = <RouteBase>{};
   // Who was signed in last, and whether the student just chose to sign out: the redirect that
   // follows must not remember the screen they left (see resolveRedirect).
   final startAuth = ref.read(authSnapshotProvider);
@@ -63,12 +66,14 @@ final routerProvider = Provider<GoRouter>((ref) {
       return resolveRedirect(auth: auth, uri: state.uri, intended: intended, explicitSignOut: leaving, leavingUserId: lastUserId);
     },
     onException: (context, state, router) => _handleUnknown(ref, state.uri, router),
-    routes: _routes(rootKey),
+    routes: _routes(rootKey, sheets),
   );
 
   final links = _AppLinkRouting(ref, router, intended)..start(ref.read(appLinkSourceProvider));
+  final places = _PlaceReporter(ref, router, sheets);
 
   ref.onDispose(() {
+    places.dispose();
     links.dispose();
     refresh.dispose();
     router.dispose();
@@ -163,6 +168,53 @@ class _AppLinkRouting {
   void dispose() {
     _disposed = true;
     unawaited(_sub?.cancel());
+  }
+}
+
+/// Tells the Pro nudges where the student is after every change of the router's location, so returns to
+/// Today are counted for the first-session sheet (D181): coming back to Today from a page, a result or a run
+/// is a return, however the page closed (a pop, or `go` home, which builds the shell again); a sheet the
+/// router opens is reported as one, and a sheet or dialog opened without the router never changes the
+/// location. Reported a moment later, never while the tree is building.
+class _PlaceReporter {
+  _PlaceReporter(this._ref, this._router, this._sheets) {
+    _router.routerDelegate.addListener(_changed);
+  }
+
+  final Ref _ref;
+  final GoRouter _router;
+  final Set<RouteBase> _sheets;
+  bool _disposed = false;
+
+  void _changed() {
+    final ShellPlace place;
+    try {
+      final config = _router.routerDelegate.currentConfiguration;
+      if (config.isEmpty || config.isError) return;
+      place = ArmRules.placeOf(
+        // The top page's own location: a pushed page's, not the one under it.
+        path: _router.state.uri.path,
+        sheet: _sheets.contains(config.last.route),
+        today: AppRoutes.today,
+        roots: AppRoutes.branchRoots,
+      );
+    } on Object {
+      // Counting returns is a convenience: it never gets in the way of navigating.
+      return;
+    }
+    scheduleMicrotask(() {
+      if (_disposed) return;
+      try {
+        _ref.read(proNudgeProvider.notifier).notePlace(place);
+      } on Object {
+        // As above.
+      }
+    });
+  }
+
+  void dispose() {
+    _disposed = true;
+    _router.routerDelegate.removeListener(_changed);
   }
 }
 
@@ -267,7 +319,7 @@ String? toolsHubRedirect(BuildContext context, GoRouterState state) {
   return path == AppRoutes.tools || path == '${AppRoutes.tools}/' ? AppRoutes.colleges : null;
 }
 
-List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
+List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey, Set<RouteBase> sheets) {
   GoRoute page(
     String path,
     GoRouterWidgetBuilder builder, {
@@ -287,12 +339,14 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey) {
   }
 
   GoRoute sheet(String path, GoRouterWidgetBuilder builder, {GoRouterWidgetBuilder? footer}) {
-    return GoRoute(
+    final route = GoRoute(
       path: path,
       parentNavigatorKey: rootKey,
       pageBuilder: (context, state) =>
           MmSheetPage<void>(key: state.pageKey, footer: footer?.call(context, state), child: builder(context, state)),
     );
+    sheets.add(route);
+    return route;
   }
 
   GoRoute tabRoot(String path, GoRouterWidgetBuilder builder, {List<RouteBase> routes = const []}) {

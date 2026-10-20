@@ -155,48 +155,123 @@ void main() {
   });
 
   // D181 (owner, 20 Oct 2026): no Pro ask rides along with the student's very first result. The inline
-  // "Go unlimited" row on a result waits for the second one; it is counted on the phone, so a restart does not
-  // bring the first one back.
+  // "Go unlimited" row on a result waits for the next one. Which result is the first is decided by its attempt and
+  // saved on the phone, and a result is seen only when its page is the one on top (review v15).
   group('the result row and the first result (D181)', () {
     const user = 'mm.pronudge.v2.user-1';
     final onboardedAt = DateTime(2026, 10, 18, 19).millisecondsSinceEpoch;
-    const row = Padding(padding: EdgeInsets.all(16), child: ProNudgeRow(surface: ProNudgeSurface.result));
+    Widget rowFor(String attemptId) => Padding(padding: const EdgeInsets.all(16), child: ProNudgeRow(surface: ProNudgeSurface.result, attemptId: attemptId));
+    final row = rowFor('a1');
 
-    NudgeRig onboardedStudent({int viewed = 0}) {
+    NudgeRig onboardedStudent({int viewed = 0, String? first}) {
       final rig = NudgeRig();
       rig.prefs.values['$user.onboarded_at'] = onboardedAt;
       rig.prefs.values['$user.onboarded_launch'] = 'L1';
       if (viewed > 0) rig.prefs.values['$user.results_viewed'] = viewed;
+      if (first != null) rig.prefs.values['$user.first_result'] = first;
       return rig;
     }
 
-    testWidgets('a student onboarded on this phone: the first result has no row, and it counts as viewed', (tester) async {
+    testWidgets('a student onboarded on this phone: the first result has no row, and it is saved by its attempt', (tester) async {
       final rig = onboardedStudent();
       await pumpNudges(tester, row, rig);
       expect(find.textContaining(ProNudgeCopy.afterResult), findsNothing);
       expect(tester.getSize(find.byType(ProNudgeRow)).height, 0, reason: 'no row and no space');
       expect(rig.prefs.values['$user.results_viewed'], 1);
-      expect(containerOf(tester).read(proNudgeProvider).resultViewed, isTrue, reason: 'returns to a tab root count from here');
-      // The same result rebuilt (a rotation, a theme change) does not bring the row back.
+      expect(rig.prefs.values['$user.first_result'], 'a1');
+      expect(containerOf(tester).read(proNudgeProvider).resultViewed, isTrue, reason: 'returns to Today count from here');
+    });
+
+    testWidgets('the first result taken away and built again (same run) stays without the row, and is counted once', (tester) async {
+      final rig = onboardedStudent();
+      final shown = ValueNotifier(true);
+      addTearDown(shown.dispose);
+      await pumpNudges(tester, ValueListenableBuilder<bool>(valueListenable: shown, builder: (_, on, _) => on ? row : const SizedBox()), rig);
+      expect(find.textContaining(ProNudgeCopy.afterResult), findsNothing);
+      for (var i = 0; i < 2; i++) {
+        shown.value = false;
+        await settleNudges(tester, rounds: 3);
+        shown.value = true;
+        await settleNudges(tester, rounds: 3);
+        expect(find.textContaining(ProNudgeCopy.afterResult), findsNothing);
+      }
+      expect(rig.prefs.values['$user.results_viewed'], 1);
+      expect(rig.prefs.values['$user.first_result'], 'a1');
+    });
+
+    testWidgets('the first result opened again in a later run stays without the row', (tester) async {
+      final rig = onboardedStudent(viewed: 1, first: 'a1');
       await pumpNudges(tester, row, rig);
       expect(find.textContaining(ProNudgeCopy.afterResult), findsNothing);
     });
 
-    testWidgets('the second result carries the row, and it opens the Pro page', (tester) async {
-      final rig = onboardedStudent(viewed: 1);
-      await pumpNudges(tester, row, rig);
+    for (final sameKey in [false, true]) {
+      final kept = sameKey ? ' (the same page kept)' : '';
+      testWidgets('a first mock: the result built under the sealed sheet is not seen, and the reveal brings no row$kept', (tester) async {
+        final rig = onboardedStudent();
+        final sealed = ValueNotifier(true);
+        addTearDown(sealed.dispose);
+        await pumpNudges(
+          tester,
+          ValueListenableBuilder<bool>(
+            valueListenable: sealed,
+            builder: (_, on, _) => Navigator(
+              pages: [
+                // The full result is the page under the sealed sheet (`/result/:id` under `/result/:id/sealed`); the reveal
+                // hands over with `go`, which builds it again (a new key) or keeps it.
+                MaterialPage<void>(key: ValueKey(sameKey || !on ? 'full' : 'full-under-seal'), child: Scaffold(body: row)),
+                if (on) const MaterialPage<void>(key: ValueKey('sealed'), child: Scaffold(body: Center(child: Text('sealed')))),
+              ],
+              onDidRemovePage: (_) {},
+            ),
+          ),
+          rig,
+        );
+        expect(find.text('sealed'), findsOneWidget);
+        expect(rig.prefs.values.containsKey('$user.results_viewed'), isFalse, reason: 'built under the seal: not seen yet');
+        expect(rig.prefs.values.containsKey('$user.first_result'), isFalse);
+
+        sealed.value = false;
+        await settleNudges(tester);
+        expect(find.text('sealed'), findsNothing);
+        expect(find.textContaining(ProNudgeCopy.afterResult), findsNothing, reason: 'the first visible result carries no Pro ask');
+        expect(rig.prefs.values['$user.results_viewed'], 1);
+        expect(rig.prefs.values['$user.first_result'], 'a1');
+      });
+    }
+
+    testWidgets('the second attempt carries the row, and it opens the Pro page', (tester) async {
+      final rig = onboardedStudent(viewed: 1, first: 'a1');
+      await pumpNudges(tester, rowFor('a2'), rig);
       expect(find.textContaining(ProNudgeCopy.afterResult), findsOneWidget);
       expect(find.textContaining(ProNudgeCopy.goUnlimited), findsOneWidget);
       expect(rig.prefs.values['$user.results_viewed'], 2);
+      expect(rig.prefs.values['$user.first_result'], 'a1', reason: 'never replaced');
       await tester.tap(find.textContaining(ProNudgeCopy.afterResult));
       await settleNudges(tester);
       expect(find.byType(ProPage), findsOneWidget);
+    });
+
+    testWidgets('the first result, then the second, in one run: no row, then the row', (tester) async {
+      final rig = onboardedStudent();
+      final id = ValueNotifier('a1');
+      addTearDown(id.dispose);
+      await pumpNudges(tester, ValueListenableBuilder<String>(valueListenable: id, builder: (_, a, _) => rowFor(a)), rig);
+      expect(find.textContaining(ProNudgeCopy.afterResult), findsNothing);
+      id.value = 'a2';
+      await settleNudges(tester);
+      expect(find.textContaining(ProNudgeCopy.afterResult), findsOneWidget);
+      id.value = 'a1';
+      await settleNudges(tester);
+      expect(find.textContaining(ProNudgeCopy.afterResult), findsNothing, reason: 'back on the first result');
+      expect(rig.prefs.values['$user.results_viewed'], 2);
     });
 
     testWidgets('a student who signed straight in is not new: the row is there on their first result', (tester) async {
       final rig = NudgeRig();
       await pumpNudges(tester, row, rig);
       expect(find.textContaining(ProNudgeCopy.afterResult), findsOneWidget);
+      expect(rig.prefs.values.containsKey('$user.first_result'), isFalse);
     });
 
     testWidgets('other places are not results: they keep their row on the first day and count nothing', (tester) async {
@@ -261,13 +336,15 @@ void main() {
       await settleNudges(tester);
       expect(opened, [false, false]);
 
-      // The student views the result, comes back to a tab root once (not enough), then a second time (armed).
+      // The student views the result, comes back to Today once (not enough), then a second time (armed).
       final ctl = c.read(proNudgeProvider.notifier);
-      ctl.noteResultViewed();
-      ctl.noteTabRoot();
+      ctl.notePlace(ShellPlace.page);
+      ctl.noteResultViewed('a1');
+      ctl.notePlace(ShellPlace.today);
       await settleNudges(tester);
       expect(c.read(upgradePopupDueProvider), isFalse);
-      ctl.noteTabRoot();
+      ctl.notePlace(ShellPlace.page);
+      ctl.notePlace(ShellPlace.today);
       await settleNudges(tester);
       expect(c.read(upgradePopupDueProvider), isTrue);
 

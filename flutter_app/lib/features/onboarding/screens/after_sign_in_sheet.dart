@@ -31,7 +31,9 @@ import '../widgets/usage_data_card.dart';
 /// and a student who continues with it on is saved as allowed (`analyticsAllowed: true`, once the
 /// server acknowledges). It is shown to 18 or older and to "Rather not say"; only "Not yet" (under
 /// 18) never sees it and stays off. Nothing is sent before they continue, and nothing is collected
-/// before the server agrees. An account that turned it off before starts off.
+/// before the server agrees. An account that turned it off before starts off. The switch is shown
+/// from the account's record once the age answer is saved there, never from this phone's answer
+/// alone, and turning it on never changes the age answer the account holds.
 class AfterSignInSheet extends ConsumerStatefulWidget {
   const AfterSignInSheet({super.key});
 
@@ -80,6 +82,13 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
     final neverOff = consent.isLoaded && consent.consent.withdrawnAt == null && !consent.withdrawalPending;
     return _usageChoice ?? neverOff;
   }
+
+  /// After a sealed sheet the switch follows the account's own record as the server holds it: read,
+  /// answered, and not under 18 (D183). The answer given on this phone is not enough on its own: an
+  /// account that already said under 18, or whose age answer the server has not acknowledged yet, sees
+  /// no switch (it appears once the sheet's age write lands), and "Not yet" here hides it as well.
+  static bool _sealedUsage(OnboardingAnswers answers, ConsentState consent) =>
+      consent.isLoaded && consent.consent.switchAvailable && (answers.age?.usageSwitch ?? true);
 
   /// Saves "allowed" for an adult continuing with the switch on and the server not yet on. False
   /// when that write failed: the switch shows off with the reason, and the student stays to see
@@ -216,7 +225,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
         phase: sync.phase,
         offline: sync.offline,
         colleges: ref.watch(collegesMoveProvider),
-        showUsage: _usageVisible = answers.age?.usageSwitch ?? false,
+        showUsage: _usageVisible = _sealedUsage(answers, consent),
         usageOn: usageOn,
         usageBusy: _usageBusy,
         eventsOpen: _eventsOpen,

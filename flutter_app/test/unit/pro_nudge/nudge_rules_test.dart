@@ -106,33 +106,55 @@ void main() {
       expect(ArmRules.creditsMet(null), isFalse);
     });
 
-    test('the sheet arms on the second return to a tab root after a result', () {
+    test('the sheet arms on the second return to Today since the first result', () {
       expect(ArmRules.returnsToArm, 2);
     });
 
-    test('a return is coming back to a tab root from a page over it: a switch of tab and the first location are not returns', () {
+    test('where the student is: Today, another tab root, a page, or a sheet the router opened', () {
       const roots = ['/today', '/practice', '/mob', '/you'];
-      bool at(String path, {bool top = true}) => ArmRules.atTabRoot(path: path, shellOnTop: top, roots: roots);
-      expect(at('/today'), isTrue);
-      expect(at('/today', top: false), isFalse, reason: 'a result or a run is open over the shell');
-      expect(at('/practice/result/a'), isFalse, reason: 'a deeper page of the tab');
-      expect(at('/practice/papers'), isFalse);
-      // The result is closed (the shell is on top again, the path never left the tab): a return.
-      expect(ArmRules.isTabRootReturn(wasAtRoot: false, nowAtRoot: true), isTrue);
-      // Home from a page opened over the shell (go): a return too.
-      expect(ArmRules.isTabRootReturn(wasAtRoot: at('/practice', top: false), nowAtRoot: at('/today')), isTrue);
-      // Tab to tab, both roots: not a return.
-      expect(ArmRules.isTabRootReturn(wasAtRoot: at('/today'), nowAtRoot: at('/practice')), isFalse);
-      // Nothing came before (the first location), or the student is not at a root now.
-      expect(ArmRules.isTabRootReturn(wasAtRoot: null, nowAtRoot: true), isFalse);
-      expect(ArmRules.isTabRootReturn(wasAtRoot: true, nowAtRoot: false), isFalse);
-      expect(ArmRules.isTabRootReturn(wasAtRoot: false, nowAtRoot: false), isFalse);
+      ShellPlace at(String path, {bool sheet = false}) => ArmRules.placeOf(path: path, sheet: sheet, today: '/today', roots: roots);
+      expect(at('/today'), ShellPlace.today);
+      expect(at('/practice'), ShellPlace.otherTabRoot);
+      expect(at('/you'), ShellPlace.otherTabRoot);
+      expect(at('/result/a'), ShellPlace.page);
+      expect(at('/result/a/sealed'), ShellPlace.page);
+      expect(at('/practice/result/a'), ShellPlace.page, reason: 'a deeper page of the tab');
+      expect(at('/practice/papers/mistakes'), ShellPlace.page);
+      expect(at('/today/week', sheet: true), ShellPlace.sheet);
     });
 
-    test('the very first result is the one with no Pro ask: only for a student onboarded on this phone who has viewed none', () {
-      expect(ArmRules.firstResult(onboardedAt: onboarded, resultsViewed: 0), isTrue);
-      expect(ArmRules.firstResult(onboardedAt: onboarded, resultsViewed: 1), isFalse);
-      expect(ArmRules.firstResult(onboardedAt: null, resultsViewed: 0), isFalse, reason: 'signed straight in: not a new student');
+    test('a return is coming to Today from a page; a sheet, a switch of tab and Today itself are not', () {
+      ({bool away, int returns}) walk(List<ShellPlace> places) {
+        var away = false;
+        var returns = 0;
+        for (final p in places) {
+          final m = ArmRules.step(away: away, to: p);
+          away = m.away;
+          if (m.returned) returns++;
+        }
+        return (away: away, returns: returns);
+      }
+
+      const today = ShellPlace.today, root = ShellPlace.otherTabRoot, page = ShellPlace.page, sheet = ShellPlace.sheet;
+      expect(walk([today]).returns, 0, reason: 'the first location is not a return');
+      expect(walk([today, page, today]).returns, 1, reason: 'a result or a page closed back to Today');
+      expect(walk([today, sheet, today]).returns, 0, reason: 'a sheet opened and closed on Today');
+      expect(walk([today, page, sheet, today]).returns, 1, reason: 'a sheet over a page does not end the trip');
+      expect(walk([today, root, today]).returns, 0, reason: 'tab to tab');
+      expect(walk([today, root, page, root, today]).returns, 0, reason: 'a Practice page closed back to Practice, then the Today tab');
+      expect(walk([today, page, page, today, today]).returns, 1, reason: 'one return however many pages deep');
+      expect(walk([today, page, today, page, today]).returns, 2);
+    });
+
+    test('the very first result is decided per attempt: only a student onboarded on this phone, and only that attempt', () {
+      bool first({DateTime? at, int viewed = 0, String? firstId, String? id = 'a1'}) =>
+          ArmRules.firstResult(onboardedAt: at, resultsViewed: viewed, firstResultId: firstId, attemptId: id);
+      expect(first(at: onboarded), isTrue, reason: 'none viewed yet: whatever result this is, it is the first');
+      expect(first(at: onboarded, viewed: 1, firstId: 'a1'), isTrue, reason: 'the first result opened again');
+      expect(first(at: onboarded, viewed: 3, firstId: 'a1'), isTrue, reason: 'however often');
+      expect(first(at: onboarded, viewed: 1, firstId: 'a1', id: 'a2'), isFalse, reason: 'the second attempt');
+      expect(first(at: onboarded, viewed: 1), isFalse, reason: 'viewed before the attempt was saved: not new any more');
+      expect(first(), isFalse, reason: 'signed straight in: not a new student');
     });
   });
 

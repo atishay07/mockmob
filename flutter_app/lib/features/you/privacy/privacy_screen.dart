@@ -75,7 +75,10 @@ class PrivacyScreen extends ConsumerWidget {
         const YouParagraph(YouCopy.operationalNote),
         Padding(
           padding: const EdgeInsets.fromLTRB(youText, MmSpace.s24, youText, 0),
-          child: KeyButton.secondary(label: YouCopy.changeAnswer, onPressed: () => _changeAnswer(context, ref, consent)),
+          child: KeyButton.secondary(
+            label: consent.consent.answered ? YouCopy.changeAnswer : YouCopy.answerAge,
+            onPressed: () => _changeAnswer(context, ref, consent),
+          ),
         ),
       ];
 }

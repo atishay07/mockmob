@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/consent.dart';
+import 'package:mockmob/core/repositories/consent_repository.dart';
 import 'package:mockmob/core/repositories/local_scope.dart';
 import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/core/theme/theme.dart';
@@ -219,6 +220,39 @@ void main() {
       final http = _server(_record(band: 'minor', decided: true));
       await _pump(tester, http, answers: studentUpTo(Steps.plan).copyWith(age: AgeAnswer.minor));
       expect(find.byType(Switch), findsNothing);
+    });
+
+    // Review v15 (consent): the switch follows the account's record, never this phone's answer alone, and a tap
+    // never records an under-18 or unanswered account as 18 or older.
+    testWidgets('an account that already said under 18 sees no switch after a sealed "Yes", and is never made adult', (tester) async {
+      final http = _server(_record(band: 'minor', decided: true));
+      await _pump(tester, http, answers: sealedAdult);
+      expect(find.byType(Switch), findsNothing);
+      await _tap(tester, find.textContaining('Tomorrow at'));
+      expect(_puts(http).where((b) => b['ageBand'] == 'adult' || b['analyticsAllowed'] == true), isEmpty);
+    });
+
+    testWidgets('an account whose age answer is not saved yet: no switch until the server has it, then on', (tester) async {
+      final http = _server(_record());
+      await _pump(tester, http, answers: sealedAdult);
+      expect(find.byType(Switch), findsNothing, reason: 'the record is still unanswered');
+      final container = ProviderScope.containerOf(tester.element(find.byType(AfterSignInSheet)));
+      // The sheet's own save writes the age answer the student gave (here, as it lands).
+      await tester.runAsync(() => container.read(consentRepositoryProvider.notifier).setAgeBand(AgeBand.adult));
+      await _settle(tester);
+      expect(_switchOn(tester), isTrue);
+      await _tap(tester, find.textContaining('Tomorrow at'));
+      expect(_puts(http), [
+        {'ageBand': 'adult', 'analyticsAllowed': false},
+        {'ageBand': 'adult', 'analyticsAllowed': true},
+      ]);
+    });
+
+    testWidgets('an account whose age answer is not saved yet continues with nothing turned on', (tester) async {
+      final http = _server(_record());
+      await _pump(tester, http, answers: sealedAdult);
+      await _tap(tester, find.textContaining('Tomorrow at'));
+      expect(_puts(http), isEmpty, reason: 'no switch was shown, so nothing is sent and nothing is promoted');
     });
 
     testWidgets('an account that turned it off before starts off and stays off', (tester) async {

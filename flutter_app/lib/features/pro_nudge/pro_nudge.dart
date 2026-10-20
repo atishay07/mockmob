@@ -4,7 +4,7 @@
 library;
 
 export 'copy.dart';
-export 'data/nudge_rules.dart' show ArmRules, InlineRules, PopupRules, PopupVerdict;
+export 'data/nudge_rules.dart' show ArmRules, InlineRules, PopupRules, PopupVerdict, ShellPlace;
 export 'data/pro_benefits.dart' show ProBenefits, ProFacts;
 export 'data/pro_nudge_controller.dart' show proNudgesOnProvider, proNudgeProvider, proNudgeVisibleProvider, upgradePopupDueProvider;
 export 'widgets/first_session_popup.dart' show showFirstSessionUpgradeIfDue;

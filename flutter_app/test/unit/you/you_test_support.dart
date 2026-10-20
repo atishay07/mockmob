@@ -209,7 +209,10 @@ class FakeConsent extends ConsentRepository {
   @override
   Future<Consent> setAnalyticsAllowed(bool allowed, {String? expectUserId}) async {
     allowedCalls.add(allowed);
-    final band = allowed && (state.consent.ageBand == AgeBand.minor || !state.consent.answered) ? AgeBand.adult : state.consent.ageBand;
+    // As the real repository: the age band is sent as the account holds it, and a turn-on for under 18 or
+    // an age never answered is refused with nothing sent.
+    if (allowed && !(state.isLoaded && state.consent.switchAvailable)) throw ConsentRepository.usageNotForThisAge;
+    final band = state.consent.ageBand;
     if (!allowed) {
       // Exactly what the real repository does: the gate closes before the network call.
       state = state.copyWith(consent: Consent(ageBand: band, decidedAt: state.consent.decidedAt), withdrawalPending: true);
@@ -224,7 +227,10 @@ class FakeConsent extends ConsentRepository {
   Future<Consent> setAgeBand(AgeBand band, {String? expectUserId}) async {
     ageCalls.add(band);
     if (failWith != null) throw failWith!;
-    final next = Consent(ageBand: band, decidedAt: DateTime(2026, 10, 12));
+    // As the real repository (D183): 18 or older and "Prefer not to say" keep an earlier "allowed"; under 18
+    // is written off.
+    final keepOn = band != AgeBand.minor && state.consent.ageBand != AgeBand.minor && state.consent.analyticsAllowed;
+    final next = Consent(ageBand: band, analyticsAllowed: keepOn, decidedAt: DateTime(2026, 10, 12));
     state = ConsentState(status: ConsentStatus.loaded, consent: next);
     return next;
   }

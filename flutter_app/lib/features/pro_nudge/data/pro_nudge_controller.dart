@@ -45,7 +45,16 @@ final proNudgeCreditsLowProvider = Provider<bool>((ref) {
 });
 
 class ProNudgeState {
-  const ProNudgeState({this.userId, this.loaded = false, this.saved = const ProNudgeSaved(), this.armed = false, this.resultViewed = false, this.rootReturns = 0});
+  const ProNudgeState({
+    this.userId,
+    this.loaded = false,
+    this.saved = const ProNudgeSaved(),
+    this.armed = false,
+    this.resultViewed = false,
+    this.todayReturns = 0,
+    this.away = false,
+    this.viewedThisRun = const {},
+  });
 
   final String? userId;
 
@@ -53,23 +62,34 @@ class ProNudgeState {
   final bool loaded;
   final ProNudgeSaved saved;
 
-  /// This run: the first-session sheet was armed by a limit or by the second return to a tab root
-  /// (D181). Not saved: the sheet belongs to the first session, which is one run.
+  /// This run: the first-session sheet was armed by the second return to Today since the first viewed
+  /// result (D181). Not saved: the sheet belongs to the first session, which is one run. A real limit arms
+  /// it too, read live ([proNudgeCreditsLowProvider]).
   final bool armed;
 
-  /// This run: the student viewed a result, so returns to a tab root now count.
+  /// This run: the student viewed a result, so returns to Today now count.
   final bool resultViewed;
 
-  /// Returns to a tab root since the last result was viewed.
-  final int rootReturns;
+  /// Returns to Today since the first result viewed in this run. Another result never starts it again.
+  final int todayReturns;
 
-  ProNudgeState copyWith({bool? loaded, ProNudgeSaved? saved, bool? armed, bool? resultViewed, int? rootReturns}) => ProNudgeState(
+  /// The student is on a page, or was on one and has not reached a tab root since: the next arrival at
+  /// Today is a return ([ArmRules.step]). Kept here, not in the app shell, which a page opened with `go`
+  /// takes away and builds again.
+  final bool away;
+
+  /// The attempts whose result was counted as viewed in this run: each is counted once.
+  final Set<String> viewedThisRun;
+
+  ProNudgeState copyWith({bool? loaded, ProNudgeSaved? saved, bool? armed, bool? resultViewed, int? todayReturns, bool? away, Set<String>? viewedThisRun}) => ProNudgeState(
         userId: userId,
         loaded: loaded ?? this.loaded,
         saved: saved ?? this.saved,
         armed: armed ?? this.armed,
         resultViewed: resultViewed ?? this.resultViewed,
-        rootReturns: rootReturns ?? this.rootReturns,
+        todayReturns: todayReturns ?? this.todayReturns,
+        away: away ?? this.away,
+        viewedThisRun: viewedThisRun ?? this.viewedThisRun,
       );
 }
 
@@ -101,7 +121,11 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     final now = state.saved;
     state = state.copyWith(
       loaded: true,
-      saved: saved.copyWith(popupShown: saved.popupShown || now.popupShown, resultsViewed: saved.resultsViewed > now.resultsViewed ? saved.resultsViewed : now.resultsViewed),
+      saved: saved.copyWith(
+        popupShown: saved.popupShown || now.popupShown,
+        resultsViewed: saved.resultsViewed > now.resultsViewed ? saved.resultsViewed : now.resultsViewed,
+        firstResultId: saved.firstResultId ?? now.firstResultId,
+      ),
     );
     _noteOnboarded();
   }
@@ -137,23 +161,38 @@ class ProNudgeController extends Notifier<ProNudgeState> {
     _persist((store) => store.saveOnboarded(userId, at: mark.at, launch: mark.launch, actions: mark.actions));
   }
 
-  /// The student is looking at a result (the result's Pro row mounted). Counted on the phone, so the very
-  /// first result can stay free of a Pro ask, and from now on returns to a tab root count towards arming
-  /// the first-session sheet.
-  void noteResultViewed() {
+  /// The student is looking at the result for [attemptId]: the result's Pro row is on the page on top (a
+  /// result built under the sealed sheet is not looked at yet). Counted once per attempt in a run. A new
+  /// student's first result is saved by its attempt, so that one result stays free of a Pro ask however
+  /// often it is opened (D181), and from the first one on, returns to Today count towards arming the
+  /// first-session sheet. A later result never starts that count again.
+  void noteResultViewed(String attemptId) {
     final userId = state.userId;
-    if (userId == null || !state.loaded) return;
-    final count = state.saved.resultsViewed + 1;
-    state = state.copyWith(saved: state.saved.copyWith(resultsViewed: count), resultViewed: true, rootReturns: 0);
+    if (userId == null || !state.loaded || state.viewedThisRun.contains(attemptId)) return;
+    final saved = state.saved;
+    final claimsFirst = saved.firstResultId == null && ArmRules.firstResult(onboardedAt: saved.onboardedAt, resultsViewed: saved.resultsViewed, firstResultId: null, attemptId: attemptId);
+    final count = saved.resultsViewed + 1;
+    state = state.copyWith(
+      saved: saved.copyWith(resultsViewed: count, firstResultId: claimsFirst ? attemptId : null),
+      resultViewed: true,
+      viewedThisRun: {...state.viewedThisRun, attemptId},
+    );
     _persist((store) => store.saveResultsViewed(userId, count));
+    if (claimsFirst) _persist((store) => store.saveFirstResult(userId, attemptId));
   }
 
-  /// The student arrived at a tab root (the app shell calls it when the location changes to one). After a
-  /// viewed result, the [ArmRules.returnsToArm]th such return arms the first-session sheet.
-  void noteTabRoot() {
-    if (state.userId == null || !state.resultViewed || state.armed) return;
-    final returns = state.rootReturns + 1;
-    state = state.copyWith(rootReturns: returns, armed: returns >= ArmRules.returnsToArm);
+  /// The router's top location changed to [place] (the router reports every change). After a viewed
+  /// result, the [ArmRules.returnsToArm]th arrival at Today from a page arms the first-session sheet. A
+  /// sheet opened and closed, and a switch of tab, are not returns ([ArmRules.step]).
+  void notePlace(ShellPlace place) {
+    final move = ArmRules.step(away: state.away, to: place);
+    if (move.away == state.away && !move.returned) return;
+    if (!move.returned || state.userId == null || !state.resultViewed || state.armed) {
+      state = state.copyWith(away: move.away);
+      return;
+    }
+    final returns = state.todayReturns + 1;
+    state = state.copyWith(away: move.away, todayReturns: returns, armed: returns >= ArmRules.returnsToArm);
   }
 
   /// The student opened the full Pro page themselves (a locked mode, a Pro-only part). That was the Pro ask,

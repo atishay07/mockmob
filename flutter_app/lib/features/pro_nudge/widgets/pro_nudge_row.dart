@@ -13,15 +13,22 @@ import 'upgrade_sheet.dart';
 /// One quiet row that says what Pro changes at this spot, with one action: the whole line opens the
 /// Upgrade sheet. A small close on the right dismisses it, and a dismissed row stays quiet for seven
 /// days. On the result (D181) it also stays away from the student's very first result: no Pro ask
-/// rides along with the first paper's score, the next result may carry it.
+/// rides along with the first paper's score, the next result may carry it. Which result is the first is
+/// decided by its attempt ([attemptId]) and saved on the phone, so opening that result again, or building
+/// it again, never brings the row; and a result only counts as seen when its page is the one on top (the
+/// full result built under the sealed sheet is not seen yet).
 ///
 /// It draws nothing (and takes no space, [topGap] and [bottomGap] included) when `PLAY_BILLING` is
 /// off, the student is signed out or already Pro, or the row was dismissed inside the last seven
 /// days. A screen places at most one.
 class ProNudgeRow extends ConsumerStatefulWidget {
-  const ProNudgeRow({super.key, required this.surface, this.text, this.reason, this.show = true, this.topGap = 0, this.bottomGap = 0});
+  const ProNudgeRow({super.key, required this.surface, this.attemptId, this.text, this.reason, this.show = true, this.topGap = 0, this.bottomGap = 0});
 
   final ProNudgeSurface surface;
+
+  /// On a result: the attempt it shows. Without it a result counts nothing, and the row stays away while
+  /// the student could still be on their first result.
+  final String? attemptId;
 
   /// The line, when the place has better words than the surface's own.
   final String? text;
@@ -42,24 +49,24 @@ class ProNudgeRow extends ConsumerStatefulWidget {
 }
 
 class _ProNudgeRowState extends ConsumerState<ProNudgeRow> {
-  /// On a result: whether this view is the student's very first result. Decided once, the first time what
-  /// the phone saved is read, so later rebuilds of the same result never flip it.
-  bool? _firstResult;
-
   @override
   Widget build(BuildContext context) {
     if (!ref.watch(proNudgesOnProvider)) return const SizedBox.shrink();
     final surface = widget.surface;
+    var firstResult = false;
     if (surface == ProNudgeSurface.result) {
       final s = ref.watch(proNudgeProvider);
-      if (s.loaded && _firstResult == null) {
-        _firstResult = ArmRules.firstResult(onboardedAt: s.saved.onboardedAt, resultsViewed: s.saved.resultsViewed);
+      final id = widget.attemptId;
+      firstResult = ArmRules.firstResult(onboardedAt: s.saved.onboardedAt, resultsViewed: s.saved.resultsViewed, firstResultId: s.saved.firstResultId, attemptId: id);
+      // Seen only on the page on top: the full result built under the sealed sheet waits for the reveal.
+      final onTop = ModalRoute.of(context)?.isCurrent ?? true;
+      if (s.loaded && onTop && id != null && !s.viewedThisRun.contains(id)) {
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          if (mounted) ref.read(proNudgeProvider.notifier).noteResultViewed();
+          if (mounted) ref.read(proNudgeProvider.notifier).noteResultViewed(id);
         });
       }
     }
-    final visible = widget.show && !(_firstResult ?? false) && ref.watch(proNudgeVisibleProvider(surface));
+    final visible = widget.show && !firstResult && ref.watch(proNudgeVisibleProvider(surface));
     final line = widget.text ?? ProNudgeCopy.lineFor(surface);
     return MmSizeEase(
       duration: Motion.of(context, Motion.glideDuration),

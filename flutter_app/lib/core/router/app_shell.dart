@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/account_sheet/account_sheet.dart' show showAccountSheet;
-import '../../features/pro_nudge/pro_nudge.dart' show ArmRules, PopupRules, proNudgeProvider, showFirstSessionUpgradeIfDue, upgradePopupDueProvider;
+import '../../features/pro_nudge/pro_nudge.dart' show PopupRules, showFirstSessionUpgradeIfDue, upgradePopupDueProvider;
 import '../haptics/haptics.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
@@ -74,10 +74,6 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
   double _down = 0;
   double _up = 0;
   String? _location;
-
-  /// Whether the last location was a tab root with nothing over the shell, to tell a return to one (a page
-  /// closed over it) from a switch of tab. Null before the first location.
-  bool? _atRoot;
   bool _keyboardWasOpen = false;
   late final bool _entrance;
 
@@ -198,17 +194,8 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     final location = uri.toString();
     if (_location != null && location != _location) _expand();
     _location = location;
-    // A return to a tab root counts towards arming the first-session upgrade sheet (D181: the second return
-    // after a viewed result): a result, run or settings page closed over the shell, or a page of the tab closed.
-    // The shell's own location stays on the tab while a page is open over it, so the shell being on top is
-    // what is watched, not the path alone. After the frame, never while the tree is building.
-    final atRoot = ArmRules.atTabRoot(path: uri.path, shellOnTop: ModalRoute.of(context)?.isCurrent ?? true, roots: AppRoutes.branchRoots);
-    if (ArmRules.isTabRootReturn(wasAtRoot: _atRoot, nowAtRoot: atRoot)) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (mounted) ref.read(proNudgeProvider.notifier).noteTabRoot();
-      });
-    }
-    _atRoot = atRoot;
+    // Returns to Today, which arm the first-session upgrade sheet (D181), are counted by the router itself
+    // (router.dart): this shell is taken away and built again when a result opened with `go` closes.
     _maybeOpenAccount(uri);
     _maybeUpgradePopup();
 
@@ -260,8 +247,8 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
   }
 
   /// The first-session upgrade sheet (Pro nudges, D81, D181): once the student's first real action of the
-  /// first session is done, a real limit is met or they have come back to a tab root a second time after
-  /// a result, and they are on a tab root with nothing over it, it opens, after a short pause so it never
+  /// first session is done, a real limit is met or they have come back to Today a second time since their
+  /// first result, and they are on a tab root with nothing over it, it opens, after a short pause so it never
   /// lands with the page. It is due only with `PLAY_BILLING` on, for a Free student, never in onboarding
   /// and once ever; the provider says so. Anywhere else this tries again on the next change of
   /// location.

@@ -109,16 +109,24 @@ class ConsentRepository extends Notifier<ConsentState> {
   }
 
   /// Turns usage data on or off. On: the switch shows on only after the server acknowledges.
+  /// Throws `ApiError`.
   /// Off: collection stops at once and the queue is cleared before the call; the result carries
   /// `deletedEvents`. A 503 means the choice was saved but the delete failed: call again.
   ///
-  /// The age band stays as the student gave it ("Rather not say" stays unknown). Only a record that
-  /// is under 18 or was never answered becomes 18 or older when the student turns it on, as before.
-  Future<Consent> setAnalyticsAllowed(bool allowed, {String? expectUserId}) {
+  /// The age band is always sent as the account holds it: this never changes a student's age answer
+  /// ("Rather not say" stays unknown, 18 or older stays adult). Only the student's own "18 or older" in
+  /// [setAgeBand] ever makes an account adult. Turning it on for a record that is under 18 or was never
+  /// answered (or not read yet) is refused before anything is sent ([usageNotForThisAge]): usage data
+  /// stays off and the record is untouched.
+  Future<Consent> setAnalyticsAllowed(bool allowed, {String? expectUserId}) async {
     final c = state.consent;
-    final band = allowed && (c.ageBand == AgeBand.minor || !c.answered) ? AgeBand.adult : c.ageBand;
-    return _put(band, allowed, expectUserId);
+    if (allowed && !(state.isLoaded && c.switchAvailable)) throw usageNotForThisAge;
+    return _put(c.ageBand, allowed, expectUserId);
   }
+
+  /// The refusal of a turn-on for an account that is under 18, never answered the age question, or whose
+  /// record is not read. Nothing was sent.
+  static const ApiError usageNotForThisAge = ApiError(kind: ApiErrorKind.validation, code: 'usage_not_for_this_age');
 
   Future<Consent> _put(AgeBand band, bool allowed, [String? expectUserId]) async {
     final id = _userId;

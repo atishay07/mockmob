@@ -106,6 +106,9 @@ class Run {
   }
 
   bool take() => container.read(proNudgeProvider.notifier).takePopup();
+
+  /// The router reports the student's new top location.
+  void go(ShellPlace place) => container.read(proNudgeProvider.notifier).notePlace(place);
   PopupVerdict get verdict => container.read(upgradePopupVerdictProvider);
   bool get due => container.read(upgradePopupDueProvider);
   ProNudgeController get ctl => container.read(proNudgeProvider.notifier);
@@ -296,36 +299,84 @@ void main() {
       return r;
     }
 
-    test('the second return to a tab root after a viewed result arms it; the first does not', () async {
+    test('the second return to Today since a viewed result arms it; the first does not', () async {
       final r = await afterFirstPaper();
-      r.ctl.noteResultViewed();
+      r.go(ShellPlace.today);
+      r.go(ShellPlace.page);
+      r.ctl.noteResultViewed('a1');
       expect(r.verdict, PopupVerdict.notArmed);
-      r.ctl.noteTabRoot();
+      r.go(ShellPlace.today);
       expect(r.verdict, PopupVerdict.notArmed, reason: 'the first return, from the result to Today');
-      r.ctl.noteTabRoot();
+      r.go(ShellPlace.page);
+      r.go(ShellPlace.today);
       expect(r.verdict, PopupVerdict.due);
       expect(r.take(), isTrue);
       r.close();
     });
 
-    test('returns to a tab root before any result was viewed count for nothing', () async {
+    test('returns to Today before any result was viewed count for nothing', () async {
       final r = await afterFirstPaper();
       for (var i = 0; i < 5; i++) {
-        r.ctl.noteTabRoot();
+        r.go(ShellPlace.page);
+        r.go(ShellPlace.today);
       }
+      expect(r.verdict, PopupVerdict.notArmed);
+      expect(r.container.read(proNudgeProvider).todayReturns, 0);
+      r.close();
+    });
+
+    test('a sheet on Today, a switch of tab and a page of another tab are not returns', () async {
+      final r = await afterFirstPaper();
+      r.go(ShellPlace.page);
+      r.ctl.noteResultViewed('a1');
+      r.go(ShellPlace.today);
+      expect(r.container.read(proNudgeProvider).todayReturns, 1);
+      r.go(ShellPlace.sheet);
+      r.go(ShellPlace.today);
+      r.go(ShellPlace.otherTabRoot);
+      r.go(ShellPlace.page);
+      r.go(ShellPlace.otherTabRoot);
+      r.go(ShellPlace.today);
+      expect(r.container.read(proNudgeProvider).todayReturns, 1);
       expect(r.verdict, PopupVerdict.notArmed);
       r.close();
     });
 
-    test('viewing another result starts the count again', () async {
+    test('viewing another result never starts the count again', () async {
       final r = await afterFirstPaper();
-      r.ctl.noteResultViewed();
-      r.ctl.noteTabRoot();
-      r.ctl.noteResultViewed();
-      r.ctl.noteTabRoot();
-      expect(r.verdict, PopupVerdict.notArmed);
-      r.ctl.noteTabRoot();
-      expect(r.verdict, PopupVerdict.due);
+      r.go(ShellPlace.page);
+      r.ctl.noteResultViewed('a1');
+      r.go(ShellPlace.today);
+      r.go(ShellPlace.page);
+      r.ctl.noteResultViewed('a2');
+      r.go(ShellPlace.today);
+      expect(r.verdict, PopupVerdict.due, reason: 'two returns since the first viewed result');
+      r.close();
+    });
+
+    test('a new student\'s first result is saved by its attempt, once, and survives a restart', () async {
+      final r1 = await afterFirstPaper();
+      r1.ctl.noteResultViewed('a1');
+      r1.ctl.noteResultViewed('a2');
+      r1.ctl.noteResultViewed('a1');
+      await r1.settled();
+      expect(r1.container.read(proNudgeProvider).saved.firstResultId, 'a1');
+      expect(prefs.values.entries.where((e) => e.key.endsWith('.first_result')).single.value, 'a1');
+      r1.close();
+
+      final r2 = await Run(prefs, launch: 'L2').settled();
+      expect(r2.container.read(proNudgeProvider).saved.firstResultId, 'a1');
+      r2.ctl.noteResultViewed('a3');
+      expect(r2.container.read(proNudgeProvider).saved.firstResultId, 'a1', reason: 'never replaced');
+      r2.close();
+    });
+
+    test('a student who signed straight in has no first result to save', () async {
+      final r = await Run(prefs, launch: 'L1').settled();
+      r.ctl.noteResultViewed('a1');
+      await r.settled();
+      expect(r.container.read(proNudgeProvider).saved.firstResultId, isNull);
+      expect(prefs.values.keys.where((k) => k.endsWith('.first_result')), isEmpty);
       r.close();
     });
 
@@ -378,8 +429,9 @@ void main() {
 
     test('arming belongs to the first session: a restart after the first result leaves nothing armed and no sheet', () async {
       final r1 = await afterFirstPaper();
-      r1.ctl.noteResultViewed();
-      r1.ctl.noteTabRoot();
+      r1.go(ShellPlace.page);
+      r1.ctl.noteResultViewed('a1');
+      r1.go(ShellPlace.today);
       await r1.settled();
       r1.close();
 
@@ -409,16 +461,18 @@ void main() {
       expect(r.visible(ProNudgeSurface.result), isFalse);
       r.ctl.upgradeOpened();
       r.ctl.dismiss(ProNudgeSurface.result);
-      r.ctl.noteResultViewed();
+      r.ctl.noteResultViewed('a1');
+      r.go(ShellPlace.page);
       await r.settled();
       r.close();
     });
 
-    test('the number of results viewed is kept on the phone, per account', () async {
+    test('the number of results viewed is kept on the phone, per account, each attempt once a run', () async {
       final r1 = await Run(prefs, launch: 'L1').settled();
       expect(r1.container.read(proNudgeProvider).saved.resultsViewed, 0);
-      r1.ctl.noteResultViewed();
-      r1.ctl.noteResultViewed();
+      r1.ctl.noteResultViewed('a1');
+      r1.ctl.noteResultViewed('a1');
+      r1.ctl.noteResultViewed('a2');
       await r1.settled();
       r1.close();
 
