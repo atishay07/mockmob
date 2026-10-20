@@ -32,6 +32,7 @@ class AuthSnapshot {
     this.loadProblem,
     this.profileFresh = false,
     this.playSubscription,
+    this.deletionRequestedAt,
   });
 
   final AuthStatus status;
@@ -78,6 +79,9 @@ class AuthSnapshot {
   /// Monthly Pro bought through Google Play, as the server last heard it from Google, or null.
   final PlaySubscriptionInfo? playSubscription;
 
+  /// When the student asked to delete the account (a request an operator processes: the account works until then), or null.
+  final DateTime? deletionRequestedAt;
+
   bool get isSignedIn => status == AuthStatus.signedIn;
 
   static const unknown = AuthSnapshot(status: AuthStatus.unknown);
@@ -100,10 +104,11 @@ class AuthSnapshot {
       other.retrying == retrying &&
       other.loadProblem == loadProblem &&
       other.profileFresh == profileFresh &&
-      other.playSubscription == playSubscription;
+      other.playSubscription == playSubscription &&
+      other.deletionRequestedAt == deletionRequestedAt;
 
   @override
-  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed, retrying, loadProblem, profileFresh, playSubscription);
+  int get hashCode => Object.hash(status, userId, email, isPro, premiumUntil, name, Object.hashAll(subjects), needsOnboarding, creditBalance, sessionExpired, loadFailed, retrying, loadProblem, profileFresh, playSubscription, deletionRequestedAt);
 }
 
 /// The live session. Starts as [AuthSnapshot.unknown], then settles to signed in (with the

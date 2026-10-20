@@ -126,17 +126,25 @@ class PlaySubscriptionInfo {
 }
 
 class AuthMe {
-  const AuthMe({required this.user, required this.needsOnboarding});
+  const AuthMe({required this.user, required this.needsOnboarding, this.deletionRequestedAt});
 
   factory AuthMe.fromJson(Json j) {
     final u = j['user'];
+    final user = u is Map ? asJson(u) : null;
     return AuthMe(
-      user: u is Map ? AuthUser.fromJson(asJson(u)) : null,
+      user: user == null ? null : AuthUser.fromJson(user),
       needsOnboarding: asBool(j['needsOnboarding']) ?? false,
+      // The server is adding this field; where it sits is read tolerantly (beside the user or inside it), and anything
+      // that is not a date is no request.
+      deletionRequestedAt: asDate(j['deletionRequestedAt'])?.toLocal() ?? (user == null ? null : asDate(user['deletionRequestedAt'])?.toLocal()),
     );
   }
 
   /// Null when the server answered with no user (a 401 or 404 shaped body).
   final AuthUser? user;
   final bool needsOnboarding;
+
+  /// When the student asked to delete the account, if they did. Deletion is only a request: an operator processes it, and
+  /// until then the account, its credits and its papers work as before. Null when there is no request (or an older server).
+  final DateTime? deletionRequestedAt;
 }

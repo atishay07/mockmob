@@ -335,6 +335,11 @@ abstract final class YouCopy {
       'We delete your account and study records within 30 days. Payment records required by law '
       'are kept.';
   static const deleteNotInstant = 'Tapping only sends us your request. We record it first, then you sign out.';
+  static const deleteWorksUntil =
+      'Until we process it, your account works as before: your credits and papers stay, and you can keep signing in.';
+  // The banner on Account once a request exists (the field deletionRequestedAt on the profile).
+  static String deletionBanner(DateTime at) =>
+      'Deletion requested on ${formatDayMonth(at)}. Your account works until we process it. To cancel, email support@mockmob.in.';
   static String deleteUnsent(int count) =>
       '${plural(count, 'answer')} on this phone ${count == 1 ? 'has' : 'have'} not been sent. '
       '${count == 1 ? 'It' : 'They'} will be removed when you are signed out.';

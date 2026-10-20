@@ -326,6 +326,7 @@ class AuthController extends Notifier<AuthSnapshot> {
           if (user.playSubscription != null) 'playSubscription': user.playSubscription!.toJson(),
         },
         'needsOnboarding': me.needsOnboarding,
+        if (me.deletionRequestedAt != null) 'deletionRequestedAt': me.deletionRequestedAt!.toUtc().toIso8601String(),
       }));
     }
     if (_stale(epoch, session)) return;
@@ -342,6 +343,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       creditBalance: user.creditBalance,
       profileFresh: !fromCache,
       playSubscription: user.playSubscription,
+      deletionRequestedAt: me.deletionRequestedAt,
     );
     // Start the pieces that listen for sign-out, consent and reconnect events, and send
     // anything left over from the last run.
@@ -382,6 +384,7 @@ class AuthController extends Notifier<AuthSnapshot> {
       loadProblem: s.loadProblem,
       profileFresh: s.profileFresh,
       playSubscription: s.playSubscription,
+      deletionRequestedAt: s.deletionRequestedAt,
     );
     try {
       final prefs = ref.read(appPrefsProvider);
