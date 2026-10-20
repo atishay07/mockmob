@@ -376,14 +376,14 @@ class DenStage extends ConsumerWidget {
                             right: 0,
                             top: artTop - 2,
                             height: 44 * s + 30,
-                            child: _Fade(colour: colors.ground, down: false),
+                            child: DenFade(colour: colors.ground, down: false),
                           ),
                           Positioned(
                             left: 0,
                             right: 0,
                             top: math.min(roomHeight, artTop + 860 * s) - 48,
                             height: 48,
-                            child: _Fade(colour: colors.ground, down: true),
+                            child: DenFade(colour: colors.ground, down: true),
                           ),
                           Positioned(
                             left: 0,
@@ -395,7 +395,7 @@ class DenStage extends ConsumerWidget {
                           // 3 the lamp light field over the pool.
                           Positioned.fill(
                             child: CustomPaint(
-                              painter: _LampPool(centre: Offset(w / 2, bootsY - 4), width: w, strength: EnterDen.lamp(t), night: night),
+                              painter: DenLampPool(centre: Offset(w / 2, bootsY - 4), width: w, strength: EnterDen.lamp(t), night: night),
                             ),
                           ),
                           // The dim the room comes up from (62% to 0).
@@ -479,7 +479,7 @@ class DenStage extends ConsumerWidget {
                               child: reduced ? child : Transform(alignment: Alignment.bottomCenter, transform: Matrix4.diagonal3Values(1, 0.2 + 0.8 * v, 1), child: child),
                             );
                           },
-                          child: const _OpenSeat(),
+                          child: const DenSeatOutline(),
                         ),
                       ),
                     ),
@@ -497,7 +497,7 @@ class DenStage extends ConsumerWidget {
                       child: _Entering(
                         ms: ms,
                         index: slot.index,
-                        child: _OpenSeat(onTap: onOpenSeat),
+                        child: DenSeatOutline(onTap: onOpenSeat),
                       ),
                     )
                   else if (slot.member!.memberId != joinId)
@@ -677,8 +677,8 @@ class _JoinLook extends Animation<double> with AnimationWithParentMixin<double> 
   double get value => dir * JoinAct.at(parent.value * JoinAct.total, fromDx: 0).glance;
 }
 
-class _Fade extends StatelessWidget {
-  const _Fade({required this.colour, required this.down});
+class DenFade extends StatelessWidget {
+  const DenFade({super.key, required this.colour, required this.down});
 
   final Color colour;
 
@@ -709,8 +709,8 @@ class _Scrim extends StatelessWidget {
 }
 
 /// The lamp light field (layer 3): a warm radial pool on the floor under the Folds.
-class _LampPool extends CustomPainter {
-  _LampPool({required this.centre, required this.width, required this.strength, required this.night});
+class DenLampPool extends CustomPainter {
+  DenLampPool({required this.centre, required this.width, required this.strength, required this.night});
 
   final Offset centre;
   final double width;
@@ -755,7 +755,7 @@ class _LampPool extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_LampPool old) => old.strength != strength || old.centre != centre || old.night != night || old.width != width;
+  bool shouldRepaint(DenLampPool old) => old.strength != strength || old.centre != centre || old.night != night || old.width != width;
 }
 
 /// A Fold's contact shadow (layer 5): 18% black Night, 12% 3B2A12 Day, settling 60 ms after its Fold.
@@ -773,15 +773,15 @@ class _FoldShadow extends StatelessWidget {
       builder: (context, t, _) {
         final (o, sc) = EnterDen.shadow(t, index);
         return CustomPaint(
-          painter: _ShadowEllipse(opacity: o, scale: sc, night: night),
+          painter: DenShadowEllipse(opacity: o, scale: sc, night: night),
         );
       },
     );
   }
 }
 
-class _ShadowEllipse extends CustomPainter {
-  _ShadowEllipse({required this.opacity, required this.scale, required this.night});
+class DenShadowEllipse extends CustomPainter {
+  DenShadowEllipse({required this.opacity, required this.scale, required this.night});
 
   final double opacity;
   final double scale;
@@ -801,7 +801,7 @@ class _ShadowEllipse extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ShadowEllipse old) => old.opacity != opacity || old.scale != scale || old.night != night;
+  bool shouldRepaint(DenShadowEllipse old) => old.opacity != opacity || old.scale != scale || old.night != night;
 }
 
 /// A Fold (or a seat) rising into its place: rise 14 dp, scale 0.92 to 1 on iconPop, 90 ms apart.
@@ -1022,8 +1022,8 @@ class _EngraveTag extends StatelessWidget {
 }
 
 /// An open seat (D5 and any Mob under 5): a dashed paper outline with a plus. A tap invites.
-class _OpenSeat extends StatelessWidget {
-  const _OpenSeat({this.onTap});
+class DenSeatOutline extends StatelessWidget {
+  const DenSeatOutline({super.key, this.onTap});
 
   final VoidCallback? onTap;
 
