@@ -519,9 +519,11 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
   }
 }
 
-/// Eye windows (MOB-MINIMAL 4.1): each eye box from folds.json is a clipped window filled with the pose's visor
-/// colour that redraws that eye from the same still. Moving the window's content [reach] dp is a glance; squashing it
-/// to 8% for 150 ms is a blink of the real eye shape. Draws nothing while the eyes rest (no cost at idle).
+/// Eye windows (MOB-MINIMAL 4.1): each eye box from folds.json is a rounded window that redraws that eye from the
+/// same still. Moving the window's content [reach] dp is a glance; squashing it to 8% for 150 ms is a blink of the real
+/// eye shape. The window is the eye box widened by [reach] + 1 dp on each side, so a glance moves the eye inside the
+/// window and never cuts it. Behind the squashing eye a soft, feathered lid in the visor colour covers only the eye's
+/// own pixels (an eye-shaped rounded patch, never a hard box). Draws nothing while the eyes rest (no cost at idle).
 class EyeWindows extends StatelessWidget {
   const EyeWindows({super.key, required this.path, required this.eyes, required this.visor, required this.side, required this.blink, required this.glance, this.reach = 1.5});
 
@@ -538,6 +540,9 @@ class EyeWindows extends StatelessWidget {
   /// The eye's height factor at blink progress [v]: 1 -> 0.08 -> 1.
   static double openness(double v) => v <= 0 || v >= 1 ? 1 : 1 - 0.92 * math.sin(v * math.pi);
 
+  /// The window for eye box [eye] (already in dp): widened by [reach] + 1 dp on each side.
+  static Rect windowFor(Rect eye, double reach) => Rect.fromLTRB(eye.left - reach - 1, eye.top, eye.right + reach + 1, eye.bottom);
+
   @override
   Widget build(BuildContext context) => AnimatedBuilder(
         animation: Listenable.merge([blink, glance]),
@@ -548,27 +553,42 @@ class EyeWindows extends StatelessWidget {
           return Stack(
             clipBehavior: Clip.none,
             children: [
-              for (final e in eyes)
+              for (final n in eyes) ...[
+                // The lid: an eye-shaped feathered patch over the eye's own pixels (and its soft rim), so neither a
+                // blink nor a glance leaves a ghost of the resting eye.
                 Positioned(
-                  left: e.left * side,
-                  top: e.top * side,
-                  width: e.width * side,
-                  height: e.height * side,
-                  child: ClipRect(
-                    child: ColoredBox(
-                      color: visor,
-                      // The eye is cut out first, then squashed about its centre, so only the eye's own pixels fold
-                      // to the 8% slit (never the paper around it).
+                    left: n.left * side - 2.5,
+                    top: n.top * side - 2.5,
+                    width: n.width * side + 5,
+                    height: n.height * side + 5,
+                    child: CustomPaint(painter: _LidPatchPainter(visor)),
+                  ),
+                Builder(builder: (context) {
+                  final eye = Rect.fromLTWH(n.left * side, n.top * side, n.width * side, n.height * side);
+                  final w = windowFor(eye, reach);
+                  return Positioned(
+                    left: w.left,
+                    top: w.top,
+                    width: w.width,
+                    height: w.height,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(math.min(w.width, w.height) / 2),
+                      clipBehavior: Clip.antiAlias,
+                      // The window's content is the still itself (shifted for a glance), squashed about the eye's centre
+                      // for a blink, so only the eye and its own visor fold to the slit.
                       child: Transform(
                         transform: Matrix4.diagonal3Values(1, open, 1),
-                        origin: Offset(e.width * side / 2, e.height * side / 2),
-                        child: ClipRect(
+                        origin: Offset(w.width / 2, w.height / 2),
+                        // Cut the window out first, then squash it, so only the eye and its own visor fold to the slit.
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(math.min(w.width, w.height) / 2),
+                          clipBehavior: Clip.antiAlias,
                           child: Stack(
                             clipBehavior: Clip.none,
                             children: [
                               Positioned(
-                                left: -e.left * side + dx,
-                                top: -e.top * side,
+                                left: -w.left + dx,
+                                top: -w.top,
                                 width: side,
                                 height: side,
                                 child: Image.asset(path, width: side, height: side, fit: BoxFit.contain, filterQuality: FilterQuality.medium, gaplessPlayback: true, errorBuilder: (context, _, _) => const SizedBox.shrink()),
@@ -578,12 +598,33 @@ class EyeWindows extends StatelessWidget {
                         ),
                       ),
                     ),
-                  ),
-                ),
+                  );
+                }),
+              ],
             ],
           );
         },
       );
+}
+
+/// The lid behind a blinking eye: an eye-shaped rounded patch in the visor colour, its edge feathered so it never
+/// reads as a box.
+class _LidPatchPainter extends CustomPainter {
+  _LidPatchPainter(this.visor);
+  final Color visor;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final r = (Offset.zero & size).deflate(0.5);
+    final paint = Paint()
+      ..color = visor
+      ..isAntiAlias = true
+      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 0.8);
+    canvas.drawRRect(RRect.fromRectAndRadius(r, Radius.circular(math.min(r.width, r.height) / 2)), paint);
+  }
+
+  @override
+  bool shouldRepaint(_LidPatchPainter old) => old.visor != visor;
 }
 
 class _ShadowPainter extends CustomPainter {
