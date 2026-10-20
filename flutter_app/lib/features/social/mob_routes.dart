@@ -14,7 +14,7 @@ import 'screens/mob_history_screen.dart';
 import 'screens/mob_join_screen.dart';
 import 'screens/mob_screen.dart';
 import 'v3/mob_v3_flags.dart';
-import 'v3/screens/join_v3_screen.dart';
+import 'v3/screens/mob_explainer_screen.dart' show MobJoinGate;
 
 abstract final class MobPaths {
   static const String mob = '/mob';
@@ -28,7 +28,8 @@ Widget mobTabScreen(BuildContext context, GoRouterState state) => const MobScree
 
 Widget mobJoinScreen(BuildContext context, GoRouterState state) => MobV3Flags.enabledByDefine || MobV3Flags.fixturesByDefine
     // Mob v3 (spec 5.3 J1): 6-character codes, a Fold pick, no names in the preview.
-    ? JoinV3Screen(code: state.pathParameters['code'] ?? '')
+    // The first time, for a student in no Mob, the explainer comes first (D166).
+    ? MobJoinGate(code: state.pathParameters['code'] ?? '')
     : MobJoinScreen(code: state.pathParameters['code'] ?? '');
 
 Future<void> _open(BuildContext context, String path, WidgetBuilder fallback) async {
