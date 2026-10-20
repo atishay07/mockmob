@@ -45,7 +45,13 @@ class _App {
   final MemoryPrefsStore prefs = MemoryPrefsStore();
   late final WelcomeCreditsTrigger trigger;
   String? user = 'u1';
-  String location = AppRoutes.today;
+  String _location = AppRoutes.today;
+  String get location => _location;
+  // The real provider listens to the router delegate; the fake reports each move the same way.
+  set location(String v) {
+    _location = v;
+    trigger.routeChanged();
+  }
   bool modal = false;
   int opened = 0;
 }

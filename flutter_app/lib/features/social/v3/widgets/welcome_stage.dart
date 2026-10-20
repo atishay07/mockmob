@@ -122,7 +122,7 @@ abstract final class WelcomeTimeline {
   /// The pennant: (opacity, drop dy, swing radians). It falls 56 dp onto its pin, then sways to rest.
   static (double, double, double) pennant(double ms, {bool reduced = false}) {
     if (reduced) return (windowOf(ms, reducedPennantAt, reducedStep), 0, 0);
-    final fall = windowOf(ms, pennantAt, pennantDrop, Curves.easeInQuad);
+    final fall = windowOf(ms, pennantAt, pennantDrop, Motion.leave);
     final landed = pennantAt + pennantDrop;
     final angle = ms < landed ? EnterDen.pennantKeys.first * math.pi / 180 : EnterDen.pennantAngle(EnterDen.pennantAt + (ms - landed));
     return (windowOf(ms, pennantAt, 120), -56 * (1 - fall), angle);

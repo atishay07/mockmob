@@ -74,10 +74,10 @@ void main() {
     await _wait(tester, const Duration(seconds: 2));
     expect(opened, 0);
 
-    // That sheet closes: about 600 ms later it opens, once.
+    // That sheet closes: the poll (300 ms) opens it 600 to 900 ms after Today settles, once. Half a poll in, nothing yet.
     delegate.navigatorKey.currentState!.pop();
     await tester.pumpAndSettle();
-    await _wait(tester, const Duration(milliseconds: 300));
+    await _wait(tester, const Duration(milliseconds: 150));
     expect(opened, 0);
     await _wait(tester, const Duration(seconds: 1));
     expect(opened, 1);

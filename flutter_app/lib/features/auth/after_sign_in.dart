@@ -116,12 +116,16 @@ void _openOverToday(
     final auth = ref.read(authSnapshotProvider);
     final userId = auth.status == AuthStatus.signedIn ? auth.userId : null;
     final welcome = userId == null ? null : ref.read(welcomeCreditsTriggerProvider);
+    ProviderSubscription<Object?>? keep;
     if (userId != null) {
       welcome!.arm(userId);
-      final keep = ref.listen(referralStatusProvider, (_, _) {});
-      Timer(const Duration(minutes: 2), keep.close);
+      // Held only while the sheet is open (a timer here would outlive a signed-out tree).
+      keep = ref.listen(referralStatusProvider, (_, _) {});
     }
-    unawaited(router.push<void>(AppRoutes.beforeYouStart).whenComplete(() => welcome?.sheetClosed()));
+    unawaited(router.push<void>(AppRoutes.beforeYouStart).whenComplete(() {
+      keep?.close();
+      welcome?.sheetClosed();
+    }));
     unawaited(markBeforeYouStartOffered(ref.read(signInPrefsStoreProvider)));
   }
 

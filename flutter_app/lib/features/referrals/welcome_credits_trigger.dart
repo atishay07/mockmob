@@ -66,16 +66,33 @@ class WelcomeCreditsTrigger {
     _sawSheet = false;
     _ticksSinceClosed = 0;
     _readyTicks = 0;
-    if (sheetClosed) this.sheetClosed();
     if (!ignoreFlag) unawaited(_readFlag(userId));
-    _timer ??= Timer.periodic(poll, (_) => _tick());
+    // The poll starts only once the sheet has closed: while it is open nothing can be owed, and a timer that ran
+    // under an open sheet would outlive a test that ends there (router_widget_test). The current route is read
+    // once now, so a sheet already on screen is seen before the router's next move.
+    if (sheetClosed) this.sheetClosed();
+    routeChanged();
   }
 
-  /// The after-sign-in sheet has closed (its route popped).
+  /// The router moved (the provider listens to the delegate): a sheet that closed without its route's future
+  /// completing (the router replaced the stack) still counts as closed once Today is back.
+  void routeChanged() {
+    if (_armedFor == null || _closed) return;
+    final where = location();
+    if (where == AppRoutes.beforeYouStart) {
+      _sawSheet = true;
+    } else if (_sawSheet) {
+      sheetClosed();
+    }
+  }
+
+  /// The after-sign-in sheet has closed (its route popped). The poll starts here and ends when the welcome has
+  /// shown, is not owed, or the account signs out.
   void sheetClosed() {
     if (_armedFor == null || _closed) return;
     _closed = true;
     _ticksSinceClosed = 0;
+    _timer ??= Timer.periodic(poll, (_) => _tick());
   }
 
   Future<void> _readFlag(String userId) async {
@@ -89,6 +106,12 @@ class WelcomeCreditsTrigger {
     if (_armedFor == userId) _flag = seen;
   }
 
+  /// The account signed out: the poll ends at once, so no timer outlives the signed-out tree.
+  void signedOut() {
+    _armedFor = null;
+    _stop();
+  }
+
   void _stop() {
     _timer?.cancel();
     _timer = null;
@@ -100,13 +123,14 @@ class WelcomeCreditsTrigger {
 
   void _tick() {
     if (_opening || _armedFor == null) return;
-    final where = location();
-    // A sheet that closed without its route's future completing (the router replaced the stack) still counts as closed.
-    if (where == AppRoutes.beforeYouStart) {
-      _sawSheet = true;
-    } else if (_sawSheet) {
-      sheetClosed();
+    // The account signed out, or another one signed in: nothing is owed, and the poll stops (a timer must never
+    // outlive the signed-out tree).
+    final who = signedInAs();
+    if (who == null || who != _armedFor) {
+      _stop();
+      return;
     }
+    final where = location();
     final flag = _flag;
     final decision = decideWelcomeCredits(WelcomeCreditsMoment(
       armedFor: _armedFor,
@@ -180,6 +204,11 @@ final welcomeCreditsTriggerProvider = Provider<WelcomeCreditsTrigger>((ref) {
       await showWelcomeCreditsSheet(context);
     },
   );
+  delegate.addListener(trigger.routeChanged);
+  ref.onDispose(() => delegate.removeListener(trigger.routeChanged));
+  ref.listen<AuthSnapshot>(authSnapshotProvider, (_, next) {
+    if (next.status != AuthStatus.signedIn) trigger.signedOut();
+  });
   ref.onDispose(trigger.dispose);
   return trigger;
 });

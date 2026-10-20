@@ -148,7 +148,7 @@ class _WelcomeCreditsSheetState extends ConsumerState<WelcomeCreditsSheet> {
           duration: reduced ? Motion.reducedFade : Motion.card,
           curve: Motion.out,
           alignment: Alignment.topCenter,
-          child: AnimatedSwitcher(
+          child: MmOverlapSwitcher.fade(
             duration: reduced ? Motion.reducedFade : Motion.crossFade,
             child: switch (invite) {
               WelcomeInviteState.off => KeyButton(
