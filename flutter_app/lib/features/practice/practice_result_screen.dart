@@ -742,18 +742,28 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                       ],
                     ),
                   ),
-                  ResultFoot(
-                    primary: ResultFootAction(
-                      move.label,
-                      () => _go(MoveNav.forMove(move, attemptId: attempt.id, subject: subjectId)),
-                      note: LayersCopy.footNote(move.cost),
+                  // The next steps come after the score (K7): the pinned keys wait for the moment, as the layers do, so
+                  // "Repair Q4" never names a mistake before the sheet has been marked. Their room is held throughout.
+                  IgnorePointer(
+                    ignoring: staged || isFresh == null,
+                    child: AnimatedOpacity(
+                      opacity: staged || isFresh == null ? 0 : 1,
+                      duration: isFresh == true ? Motion.of(context, Motion.card) : Duration.zero,
+                      curve: Motion.out,
+                      child: ResultFoot(
+                        primary: ResultFootAction(
+                          move.label,
+                          () => _go(MoveNav.forMove(move, attemptId: attempt.id, subject: subjectId)),
+                          note: LayersCopy.footNote(move.cost),
+                        ),
+                        showFinish: !large,
+                        onFinish: _finish,
+                        onSeePaper: () => context.go(yourPapersLocation(attempt.id)),
+                        repair: repairKey,
+                        // After a calm or good set only, and once the moment is over.
+                        lateLine: isFresh != null && !staged && (tone == FinishTone.good || tone == FinishTone.great),
+                      ),
                     ),
-                    showFinish: !large,
-                    onFinish: _finish,
-                    onSeePaper: () => context.go(yourPapersLocation(attempt.id)),
-                    repair: repairKey,
-                    // After a calm or good set only, and once the moment is over.
-                    lateLine: isFresh != null && !staged && (tone == FinishTone.good || tone == FinishTone.great),
                   ),
                 ],
               ),

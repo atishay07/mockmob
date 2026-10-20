@@ -227,7 +227,8 @@ void main() {
         ),
       );
       await pumpRunner(tester, session: s, location: '/run/sess-1/submit', size: const Size(360, 780));
-      await settle(tester, ms: 1600);
+      // The line has landed (780 ms) and the reveal has not opened yet (1.2 s, K7).
+      await settle(tester, ms: 950);
       final line = tester.renderObject<RenderParagraph>(find.text('Saved to your account at 10:42 PM.'));
       expect(line.size.height, lessThan(30), reason: 'one line: no orphaned time');
     });

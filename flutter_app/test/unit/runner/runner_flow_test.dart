@@ -258,7 +258,7 @@ void main() {
       expect(h.location, '/practice/result/att-1');
     });
 
-    testWidgets('the receipt waits long enough to be read and its key tapped before the result opens by itself', (tester) async {
+    testWidgets('the receipt is the hand-in beat, then the mark sheet reveal opens by itself (owner K7)', (tester) async {
       final s = FakeRunnerSession(questions: accountancyQuestions(3), mode: 'quick', mockNumber: null, currentIndex: 2, answers: all(3));
       final h = await pumpRunner(tester, session: s);
       await tester.tap(find.text('Review and submit'));
@@ -266,9 +266,10 @@ void main() {
       await tester.tap(find.text('Submit practice'));
       await _flush(tester);
 
-      // The key showed for about 0.4 s on the device, then the result replaced it.
-      await tester.pump(const Duration(milliseconds: 1500));
-      expect(h.location, isNot(startsWith('/practice/result')), reason: 'still on the receipt, so it can be read');
+      // 20 Oct, owner K7 ("instead of it, a proper reveal of the mark sheet"): the sheet goes in, Mobi hops and the line
+      // lands (by 780 ms); then the mark sheet reveal opens, which itself says "Your paper is saved." with the time.
+      await tester.pump(const Duration(milliseconds: 900));
+      expect(h.location, isNot(startsWith('/practice/result')), reason: 'the hand-in beat plays first');
       expect(find.text('Saved to your account at 10:42 PM.'), findsOneWidget);
       expect(find.text('See your answers'), findsOneWidget);
 

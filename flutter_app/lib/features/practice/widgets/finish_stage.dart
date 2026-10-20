@@ -152,9 +152,9 @@ class FinishStage extends ConsumerStatefulWidget {
 
 const double _mobiSize = 64;
 
-/// How far under the sheet the follow scroll looks (see [_FinishStageState._followToSheet]): the bar fade over the
-/// list's last 24 dp.
-const double _followRoom = 28;
+/// How far under the sheet the follow scroll looks (see [_FinishStageState._followToSheet]): enough that the tally's
+/// last line clears the bar fade over the list's last 24 dp, and no more.
+const double _followRoom = 12;
 
 class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderStateMixin {
   /// The sheet set down and stamped as saved.
@@ -459,7 +459,7 @@ class _FinishStageState extends ConsumerState<FinishStage> with TickerProviderSt
   }
 
   Widget _rule(MmColors colors) => Padding(
-    padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
+    padding: const EdgeInsets.symmetric(vertical: 10),
     child: Divider(height: 1, thickness: 1, color: colors.line),
   );
 
