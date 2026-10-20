@@ -82,8 +82,6 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
         ],
         const SectionTitle(WalletCopy.buysTitle, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s12)),
         Padding(padding: youGutter, child: _Buys(pro: view.isPro)),
-        // D165: the invite offer, only once the server says it is live (off until then).
-        if (ref.watch(referralOfferLiveProvider)) const Padding(padding: EdgeInsets.fromLTRB(youText, MmSpace.s24, youText, 0), child: _InviteOffer()),
         const SectionTitle(WalletCopy.recent, padding: EdgeInsets.fromLTRB(youText, MmSpace.s32, youText, MmSpace.s4)),
         _history(context, view),
       ],
@@ -590,40 +588,6 @@ class _BuyRow extends StatelessWidget {
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-/// D165: the invite offer, in words only (the invite itself is the Mob's link, built elsewhere). Drawn only while the
-/// server says the offer is live.
-class _InviteOffer extends StatelessWidget {
-  const _InviteOffer();
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return Semantics(
-      container: true,
-      label: WalletCopy.inviteLabel,
-      excludeSemantics: true,
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const IconWell(LucideIcons.userPlus),
-          const SizedBox(width: MmSpace.s12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(WalletCopy.inviteTitle, style: type.labelLarge.copyWith(fontSize: 16)),
-                const SizedBox(height: 2),
-                Text(WalletCopy.inviteBody, style: type.small.copyWith(color: colors.ink2)),
-              ],
-            ),
-          ),
-        ],
       ),
     );
   }

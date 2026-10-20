@@ -10,6 +10,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/storage/storage_providers.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../referrals/invite_code_row.dart';
 import '../copy.dart';
 import '../model/answers.dart';
 import '../model/choices.dart';
@@ -227,6 +228,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
         onToggleEvents: () => setState(() => _eventsOpen = !_eventsOpen),
         onDone: _done,
         showSwipePreview: _swipePreview,
+        inviteRow: const InviteCodeRow(),
       );
     }
 
@@ -258,6 +260,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
       onToggleUsage: _setUsage,
       onToggleEvents: () => setState(() => _eventsOpen = !_eventsOpen),
       onDone: _done,
+      inviteRow: const InviteCodeRow(),
     );
   }
 }
@@ -285,9 +288,14 @@ class SheetSavedView extends StatelessWidget {
     this.onLater,
     this.showSwipePreview = false,
     this.swipeDemo = true,
+    this.inviteRow,
   });
 
   final SheetSyncPhase phase;
+
+  /// "Have a friend's code?" (D165): a row that draws itself only once the server says invites are live. Above the first
+  /// move, so a code is added before any practice runs.
+  final Widget? inviteRow;
 
   /// Under the starting-point keys, once per install: the card that shows how Today's deck
   /// works before the student meets it (D90). [swipeDemo] plays its nudge.
@@ -335,6 +343,7 @@ class SheetSavedView extends StatelessWidget {
           const SizedBox(height: MmSpace.s12),
           Semantics(liveRegion: true, child: Text(error!, style: type.small.copyWith(color: context.mmColors.badText))),
         ],
+        ?inviteRow,
         const SizedBox(height: MmSpace.s20),
         if (phase == SheetSyncPhase.failed) ...[
           // A failed save is the one thing to act on: Try again is the key, and what the student
@@ -378,8 +387,11 @@ class AgeThenUsageView extends StatelessWidget {
     this.usageBusy = false,
     this.eventsOpen = false,
     this.error,
+    this.inviteRow,
   });
 
+  /// "Have a friend's code?" (D165), drawn only once the server says invites are live.
+  final Widget? inviteRow;
   final bool usageStep;
   final AgeBand? savingAge;
   final bool usageOn;
@@ -421,6 +433,7 @@ class AgeThenUsageView extends StatelessWidget {
           UsageDataCard(on: usageOn, busy: usageBusy, eventsOpen: eventsOpen, onChanged: onToggleUsage, onToggleEvents: onToggleEvents),
           const SizedBox(height: MmSpace.s12),
           ?errorLine,
+          if (inviteRow != null) ...[inviteRow!, const SizedBox(height: MmSpace.s12)],
           KeyButton(label: OnboardingCopy.done, onPressed: usageBusy ? null : onDone),
         ] else ...[
           Text(OnboardingCopy.ageQuestionPlain, style: type.cardTitle),
@@ -429,6 +442,7 @@ class AgeThenUsageView extends StatelessWidget {
           row(OnboardingCopy.ageNo, AgeBand.minor),
           row(OnboardingCopy.agePreferNot, AgeBand.unknown),
           ?errorLine,
+          if (inviteRow != null) ...[inviteRow!, const SizedBox(height: MmSpace.s12)],
           Text(OnboardingCopy.ageNote, style: type.small.copyWith(color: colors.ink3)),
           Align(
             alignment: AlignmentDirectional.centerStart,

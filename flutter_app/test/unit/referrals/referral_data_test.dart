@@ -90,7 +90,8 @@ void main() {
       ReferralCopy.title(100), ReferralCopy.how(100), ReferralCopy.mobLine(100), ReferralCopy.cap(10), ReferralCopy.share, ReferralCopy.copy,
       ReferralCopy.copied, ReferralCopy.shareFailed, ReferralCopy.shareText(100, 'https://www.mockmob.in/r/K7P2M9X'), ReferralCopy.none,
       ReferralCopy.paused, ReferralCopy.capReached(10, 100), ReferralCopy.invitedJoined(100), ReferralCopy.invitedRewarded(100),
-      ReferralCopy.earned(100), ReferralCopy.notCounted(1),
+      ReferralCopy.earned(100), ReferralCopy.notCounted(1), ReferralCopy.haveCode, ReferralCopy.codeAdded(100), ReferralCopy.codeBad,
+      ReferralCopy.codeUnknown, ReferralCopy.codeOwn, ReferralCopy.codeUsed, ReferralCopy.codeNotNew, ReferralCopy.codeOffline,
     ];
     for (final w in all) {
       expect(w, isNot(contains('!')), reason: w);
