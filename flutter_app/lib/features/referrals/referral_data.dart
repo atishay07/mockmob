@@ -228,18 +228,51 @@ class ReferralStatus {
 final referralPrefsProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());
 final pendingInviteStoreProvider = Provider<PendingInviteStore>((ref) => PendingInviteStore(ref.watch(referralPrefsProvider)));
 
-/// The signed-in student's invites. Off while signed out, while invites are off, and when the server cannot answer.
-final referralStatusProvider = FutureProvider.autoDispose<ReferralStatus>((ref) async {
-  final userId = ref.watch(authSnapshotProvider.select((s) => s.status == AuthStatus.signedIn ? s.userId : null));
-  if (userId == null) return ReferralStatus.off;
-  try {
-    final device = await ref.read(pendingInviteStoreProvider).installId();
-    final res = await ref.read(apiClientProvider).get('/api/referrals', query: {'device': device}, expectUserId: userId);
-    return ReferralStatus.fromJson(res.data);
-  } on Object {
-    return ReferralStatus.off;
-  }
-});
+/// How long one read of the student's invites may take, and how long the app waits before the one retry (D185: a read that
+/// fails once is tried again, never taken for "no invites").
+const Duration referralReadTimeout = Duration(seconds: 8);
+final referralRetryDelayProvider = Provider<Duration>((ref) => const Duration(seconds: 2));
+
+/// The signed-in student's invites. Off while signed out and while invites are off. A read that fails or times out is tried
+/// once more after 2 seconds; if that fails too the provider is in error (never "off"), so the screens can say so quietly
+/// and offer a retry instead of going silent. The provider's own automatic retry is off: the one retry here is the only one.
+final referralStatusProvider = FutureProvider.autoDispose<ReferralStatus>(
+  (ref) async {
+    final userId = ref.watch(authSnapshotProvider.select((s) => s.status == AuthStatus.signedIn ? s.userId : null));
+    if (userId == null) return ReferralStatus.off;
+    final store = ref.read(pendingInviteStoreProvider);
+    final api = ref.read(apiClientProvider);
+    final delay = ref.read(referralRetryDelayProvider);
+
+    Future<ReferralStatus> once() async {
+      String device;
+      try {
+        device = await store.installId();
+      } on Object {
+        device = '';
+      }
+      final res = await api
+          .get(
+            '/api/referrals',
+            query: device.isEmpty ? null : {'device': device},
+            options: const ApiOptions(receiveTimeout: referralReadTimeout, retries: 0),
+            expectUserId: userId,
+          )
+          .timeout(referralReadTimeout + const Duration(seconds: 2));
+      // An answer that is not the server's own ("ok") is a failed read, never "invites are off".
+      if (asJson(res.data)['ok'] != true) throw const FormatException('referrals: no ok');
+      return ReferralStatus.fromJson(res.data);
+    }
+
+    try {
+      return await once();
+    } on Object {
+      await Future<void>.delayed(delay);
+      return once();
+    }
+  },
+  retry: (retryCount, error) => null,
+);
 
 /// What the server said to a claim. [done] means the invite is settled either way and was forgotten; a failure to reach
 /// the server is not done (the invite is kept for the next try).

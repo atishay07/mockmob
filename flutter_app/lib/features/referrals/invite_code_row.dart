@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import 'invite_load_failed.dart';
 import 'referral_copy.dart';
 import 'referral_data.dart';
 
@@ -74,7 +75,8 @@ class _InviteCodeRowState extends ConsumerState<InviteCodeRow> {
 
   @override
   Widget build(BuildContext context) {
-    final status = ref.watch(referralStatusProvider).value;
+    final load = ref.watch(referralStatusProvider);
+    final status = load.value;
     final colors = context.mmColors;
     final type = context.mmType;
 
@@ -85,6 +87,8 @@ class _InviteCodeRowState extends ConsumerState<InviteCodeRow> {
         child: _Line(icon: LucideIcons.circleCheck, color: colors.goodText, text: _added!),
       );
     }
+    // The read failed for good (after its one retry): one quiet row that reads again, never silence. While it loads, nothing.
+    if (load.invitesFailed) return const InviteLoadFailedRow();
     if (status == null || !status.live || status.invitedState != null) return const SizedBox.shrink();
     if (!_open) {
       return Padding(
