@@ -39,7 +39,8 @@ export function formatWord(format) {
 
 /**
  * The format tiles of the "Start a game" sheet from the server's `starts` block: which can be started, and which are
- * locked (with billing on, a free member sees the full mock with the Pro tag; nothing here decides a plan). The race
+ * locked (with billing on, a free member sees a Pro format with the Pro tag; the full mock carries it whenever the server
+ * says only Pro starts it, starts.mock.proRequiredToStart, owner D174; nothing here decides a plan). The race
  * and the full mock show only when the server offers them (MOB_FORMATS_ENABLED) or locks them for a plan, so a server
  * without them shows today's two tiles and nothing that cannot be played.
  */
@@ -52,8 +53,22 @@ export function formatTiles(starts) {
     format,
     can: Boolean(s.can) && allowed.has(format) && !locked.has(format),
     locked: locked.has(format) || !s.can || !allowed.has(format),
-    pro: Boolean(s.billingOn) && locked.has(format),
+    pro: locked.has(format) && (Boolean(s.billingOn) || (format === 'mock' && s.mock?.proRequiredToStart === true)),
   }));
+}
+
+/**
+ * Full mock together's price for the sheet and the game card, from the server's numbers only (owner D174): the den's
+ * starts.mock, or a game's price. null when the server sent none (an older server, or the formats off).
+ *   { cost, list, canStart, proRequired }  cost: what YOU pay to sit it (0 with Pro or once started); list: a Free
+ *   member's price
+ */
+export function mockPriceOf(src) {
+  if (!src || typeof src !== 'object') return null;
+  const cost = Number(src.costCredits);
+  const list = Number(src.sitCredits);
+  if (!Number.isInteger(cost) || cost < 0) return null;
+  return { cost, list: Number.isInteger(list) && list > 0 ? list : cost, canStart: src.canStart === true, proRequired: src.proRequiredToStart === true };
 }
 
 /** POST /api/mob/game's body for the sheet's choice. A full mock is always anytime; a rematch keeps its own shape. */
@@ -206,6 +221,13 @@ export const FORMAT_COPY = Object.freeze({
     return 'Open the room for a sprint';
   },
   startsLeft: (n) => `${n === 1 ? '1 start' : `${n} starts`} left this week. Everyone plays free.`,
+  // Full mock together's price (owner D174): plain, the real numbers from the server, one way to Pro.
+  mockLockedLine: (list) => `Only a Pro member can start one. Anyone in your Mob can sit it: ${list} credits, or free with Pro.`,
+  mockHostLine: (list) => `Members with Pro sit it free. Free members pay ${list} credits to sit it.`,
+  mockSitPrice: (cost) => `Sitting this full mock costs ${cost} credits. Pro members sit it free.`,
+  sitMockFor: (cost) => `Sit the full mock for ${cost} credits`,
+  getPro: 'Get Pro',
+  sitFreeWithPro: 'Sit free with Pro',
   usesStart: (n) => `Uses ${n === 1 ? 'your 1 start' : `1 of your ${n} starts`} this week. Everyone plays free.`,
   paperRow: (n) => `Already open · ${n} questions`,
   /** The picker's one row into the sheet: the ways the server offers, named. */

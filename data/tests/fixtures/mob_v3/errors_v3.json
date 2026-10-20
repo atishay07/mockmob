@@ -772,5 +772,23 @@
         "message": "Open the room first."
       }
     }
+  },
+  "MOCK_PRO_REQUIRED": {
+    "status": 403,
+    "body": {
+      "error": {
+        "code": "MOCK_PRO_REQUIRED",
+        "message": "Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: 50 credits, or free with Pro."
+      }
+    }
+  },
+  "MOCK_CREDITS": {
+    "status": 402,
+    "body": {
+      "error": {
+        "code": "MOCK_CREDITS",
+        "message": "Sitting this full mock costs 50 credits, and you have fewer than that. Add credits in your wallet, or get Pro to sit every full mock free. Nothing was charged."
+      }
+    }
   }
 }

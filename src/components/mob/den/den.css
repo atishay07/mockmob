@@ -609,6 +609,7 @@ html:has(.app-shell) .den-k { background: var(--a-bg); }
 .den-format[data-on] .den-format__radio::after { content: ''; position: absolute; inset: 7px; border-radius: 50%; background: #11140a; animation: den-radio-in 200ms var(--den-ease-out) both; }
 @keyframes den-radio-in { from { transform: scale(0.2); } to { transform: none; } }
 .den-format__tag { display: inline-flex; align-items: center; gap: 4px; padding: 4px 9px; border-radius: 999px; border: 1px solid var(--a-line-strong); font: 600 12px/1 var(--font-body); color: var(--a-ink-2); white-space: nowrap; }
+.den-format__note { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 12px; row-gap: 2px; margin: -4px 0 0; padding: 0 10px 12px 64px; font-size: 14px; line-height: 1.45; color: var(--a-ink-2); text-wrap: pretty; }
 .den-format__chips { display: flex; flex-wrap: wrap; gap: 8px; padding: 0 10px 12px 64px; animation: den-chips-in 220ms var(--den-ease-out) both; }
 @keyframes den-chips-in { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: none; } }
 .den-pill { min-width: 52px; min-height: 44px; padding: 0 18px; border-radius: 999px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink); font: 650 15px/1 var(--font-body); font-variant-numeric: tabular-nums; cursor: pointer; transition: background-color 150ms var(--den-ease-out), color 150ms var(--den-ease-out), border-color 150ms var(--den-ease-out); }

@@ -13,13 +13,16 @@
 //   race  5 or 10 minutes, as many as you can, one frozen pool served ONE question at a time (an answer must be for the
 //         next one), the clock the server's. Ghosts race your pace from their per-answer times.
 //   mock  Full mock together: one 50-question CUET paper for the Mob, open 24 hours, sat in the practice runner (mode
-//         full) with its answers held until the close; the podium compares full mark sheets. Pro starts it (billing on).
+//         full) with its answers held until the close; the podium compares full mark sheets. Only Pro starts it, billing
+//         on or off (owner D174); Free members pay 50 credits to sit it, Pro sits free (src/lib/mob/mockPrice.mjs; the
+//         charge is the solo Full mock's, made by the practice start in service.js startMock).
 //   Every format: no question of another open game or held paper is drawn, and a review never shows a key that sits in
 //   another open game or a held paper of the Mob (web-security 20 Oct #2).
 import { MobError, UUID_RE, mobWeek, picksFromAttempt } from '../../mob/model.mjs';
 import { mobName, validNameKey } from '../../mob/names.mjs';
 import { FOIL_DAYS, FOLDS, FOLD_KEYS, FINISHES, STARTERS, isFold, mobShelf, parcelFor, ruleProgress } from '../../mob/folds.mjs';
 import { MAX_OPEN_GAMES, MICS_PER_WEEK, inLiveHours, startRight, startsView } from '../../mob/starts.mjs';
+import { mockGamePrice, mockStartView } from '../../mob/mockPrice.mjs';
 import { COUNTDOWN_MS, maxRooms, roomTidy, rosterOut, topicFor } from '../../mob/live.mjs';
 import {
   COUNTS, MOCK_COUNT, MOCK_MINUTES, RACE_MINUTES, assignMoments, checkWindow, gameTrap, ghostOf, mockTrap, placeRuns, publicQuestion,
@@ -120,8 +123,8 @@ export function createMobV3Service(deps, helpers = {}) {
 
   const finishedRuns = (g) => (g.runs || []).filter((r) => r.finished_at).sort((a, b) => Date.parse(a.finished_at) - Date.parse(b.finished_at));
 
-  /** The den's compact game (3.1 games[]). */
-  function denGame(g, members, userId) {
+  /** The den's compact game (3.1 games[]). pro: the student's plan (a Full mock together carries its price for you). */
+  function denGame(g, members, userId, pro = false) {
     const host = members.get(g.created_by);
     const mine = (g.runs || []).find((r) => r.user_id === userId);
     const yourRun = !mine ? 'none' : mine.finished_at ? 'finished' : 'playing';
@@ -133,6 +136,7 @@ export function createMobV3Service(deps, helpers = {}) {
       room: g.room_state ? { state: g.room_state, startsAt: iso(g.room_starts_at) } : null,
       runs: finishedRuns(g).filter((r) => members.has(r.user_id)).map((r) => ({ memberId: members.get(r.user_id).memberId, name: members.get(r.user_id).name, at: iso(r.finished_at) })),
       yourRun, podiumReady: yourRun === 'finished' || g.closed === true,
+      ...(g.format === 'mock' ? { price: mockGamePrice({ pro, run: yourRun }) } : {}),
     };
   }
 
@@ -158,6 +162,8 @@ export function createMobV3Service(deps, helpers = {}) {
       if (own && members.has(userId)) ghosts.push(ghostOf({ arrivals: own.arrivals, finishedAt: own.finished_at, startedAt: own.started_at }, members.get(userId)));
     }
     const yourRun = !mine ? 'none' : mine.finished_at ? 'finished' : 'playing';
+    // A Full mock together carries what sitting it costs you (owner D174): read from your plan, never sent by the client.
+    const price = g.format === 'mock' ? mockGamePrice({ pro: await isPro(userId), run: yourRun }) : null;
     const timed = g.format === 'race' || g.format === 'mock';
     const room = g.room_state ? { state: g.room_state, startsAt: iso(g.room_starts_at), endsAt: iso(g.room_ends_at) } : null;
     if (room && (g.room_state === 'lobby' || g.room_state === 'running')) room.roster = await rosterFor(g, members);
@@ -170,6 +176,7 @@ export function createMobV3Service(deps, helpers = {}) {
       host: host ? { memberId: host.memberId, name: host.name, you: g.created_by === userId } : null,
       openedAt: iso(g.opened_at), closesAt: iso(g.closes_at), closed: g.closed === true, serverNow: nowIso(),
       room, runs, you, ghosts, podiumReady: yourRun === 'finished' || g.closed === true,
+      ...(price ? { price } : {}),
     };
   }
 
@@ -270,7 +277,8 @@ export function createMobV3Service(deps, helpers = {}) {
 
   /**
    * Before a member sits a Mob full mock (POST /api/mob/paper/start { mob, game }): the game and its frozen paper, or the
-   * refusal. The practice start itself is the Mob service's (no credits, the first free full mock untouched).
+   * refusal. The practice start itself is the Mob service's (service.js startMock): Pro sits free, Free pays the solo
+   * Full mock's 50 credits through the same charge path, and never the first free full mock.
    */
   async function mockPaper(userId, state, gameId) {
     if (!validId(gameId)) throw new MobError('GAME_NOT_FOUND');
@@ -342,10 +350,14 @@ export function createMobV3Service(deps, helpers = {}) {
       chapter = validChapterOf(state, body.chapter);
     }
     const week = mobWeek(now());
-    const pro = billingOn() ? await isPro(userId) : false;
+    // The plan is read whenever it decides something: every start with billing on, and a Full mock together always.
+    const pro = billingOn() || format === 'mock' ? await isPro(userId) : false;
     const status = await call('mob_start_status', { p_user_id: userId, p_mob_id: state.mob.id, p_week: week });
     const right = startRight({ billingOn: billingOn(), pro, mode, format, claimUsed: status?.claim_used === true, micsHeld: Number(status?.mics) || 0, liveOn: liveOn(), inLiveHours: inLiveHours(now()) });
-    if (!right.ok) throw new MobError(right.code);
+    if (!right.ok) {
+      if (right.code === 'MOCK_PRO_REQUIRED') throw new MobError(right.code, { detail: mockStartView({ pro: false }) });
+      throw new MobError(right.code);
+    }
     const key = `g${Array.from(deps.randomBytes(6), (b) => b.toString(16).padStart(2, '0')).join('')}`;
     const picked = await drawPaper(state, { week, count, least, chapter, key, drawMode });
     if (picked.length < least) {
@@ -818,7 +830,7 @@ export function createMobV3Service(deps, helpers = {}) {
       showPodium: state.mob.show_podium !== false,
       youOwn: me?.owner === true,
       members: [...members.values()].map((m) => ({ memberId: m.memberId, name: m.name, colour: m.colour, fold: m.fold, finish: m.finish, you: m.you, owner: m.owner })),
-      games: (state.games || []).map((g) => denGame(g, members, userId)),
+      games: (state.games || []).map((g) => denGame(g, members, userId, pro)),
       quest: questView(q, { week, youSteppedOut: state.you_stepped_out === true, labels: questLabels(q?.by_source, { games, extras }), parcel }),
       mobChain: { weeks: mobChain.weeks, best: mobChain.best, passes: mobChain.passes, stitchedThisWeek: mobChain.stitchedThisWeek, restarted: mobChain.restarted, next: mobChain.next },
       shelf: mobShelf(mobChain.best),

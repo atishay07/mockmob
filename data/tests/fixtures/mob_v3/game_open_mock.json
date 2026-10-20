@@ -28,6 +28,11 @@
       "resultId": null
     },
     "ghosts": [],
-    "podiumReady": false
+    "podiumReady": false,
+    "price": {
+      "costCredits": 0,
+      "sitCredits": 50,
+      "proSitsFree": true
+    }
   }
 }

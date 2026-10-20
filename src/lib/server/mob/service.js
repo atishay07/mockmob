@@ -12,7 +12,8 @@
 //          to 3 Mobs. Every plan joins up to MAX_MEMBERSHIPS Mobs (a safety ceiling, not a plan limit).
 // Sharing inside a Mob is on by default (show_score, migration 20261017190000), with a per-member switch to turn it off.
 // A Mob paper is started by startPractice, which charges no credits and uses no daily allowance for it (the Mob calls
-// no AI model: its cost is a few rows a week).
+// no AI model: its cost is a few rows a week). The one exception is a Free member sitting a Full mock together (owner
+// D174): 50 credits, through the solo Full mock's own charge (startMock below, src/lib/mob/mockPrice.mjs).
 // TODO(owner D-S4): an invite tied to credits is the owner's decision and is not built. Do not add one here.
 import { createHmac } from 'node:crypto';
 import {
@@ -26,6 +27,7 @@ import { detailFromAttempt } from './detail.js';
 import { memberIdFor } from './memberId.js';
 import { createMobV3Service } from './games.js';
 import { attemptHold, heldCompare, holdStamp } from '../../mob/paperHold.mjs';
+import { mockGamePrice, mockSitAction } from '../../mob/mockPrice.mjs';
 
 const DAY_MS = 86_400_000;
 const WEEK_RE = /^\d{4}-\d{2}-\d{2}$/;
@@ -694,8 +696,14 @@ export function createMobService(deps) {
 
   /**
    * Full mock together: sit the Mob's frozen 50-question paper in the practice runner (mode full, 60 minutes). The same
-   * questions in the same order for every member, no credits and never the first free full mock (a Mob paper), the
-   * answers held until the game closes. A retry resumes the same session. Pro starts the game; everyone sits it.
+   * questions in the same order for every member, never the first free full mock (a Mob paper), the answers held until
+   * the game closes. A Pro member starts the game; everyone in the Mob sits it.
+   * The price (owner D174, src/lib/mob/mockPrice.mjs): Pro sits free; a Free member pays the solo Full mock's 50 credits.
+   * The charge is the solo Full mock's, made by startPractice after every check here has passed and the paper is built:
+   * the credit action 'attempt_full' on the one ledger, atomic with the session (start_learning_session) or as the last
+   * step of a device-held start, under a reference made from the session id. That id comes from a key fixed per game and
+   * member, so a retry (or a resume) finds the same reference and is never charged twice. A start refused before the
+   * charge (closed, too late, already sat, paper not built, too few credits) charges nothing; there is nothing to refund.
    */
   async function startMock(userId, state, body) {
     if (!v3On()) throw new MobError('MOB_DISABLED');
@@ -703,16 +711,21 @@ export function createMobService(deps) {
     const generationKey = `mob_${createHmac('sha256', String(deps.secret || 'mob')).update(`game:${g.id}:${userId}`).digest('hex').slice(0, 40)}`;
     const input = { experience: 'practice', mode: 'full', count: questions.length, subject: g.subject, generationKey };
     if (typeof body.startReceipt === 'string' && body.startReceipt.length <= 2000) input.startReceipt = body.startReceipt;
-    const out = await runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(g.week_start).slice(0, 10), gameId: g.id, holdUntil: new Date(g.closes_at).toISOString(), questions } }, { game: true });
+    // The plan, read here on the server (a failed read is Free). practiceCharge re-checks isPremium before charging.
+    const pro = await isPro(userId);
+    const creditAction = mockSitAction({ pro });
+    const out = await runStart(userId, input, { mobPaper: { mobId: state.mob.id, weekStart: String(g.week_start).slice(0, 10), gameId: g.id, holdUntil: new Date(g.closes_at).toISOString(), questions, creditAction } }, { game: true, pro });
     await v3.mockBegin(userId, g.id);
     return out;
   }
 
-  async function runStart(userId, input, server, { extra = false, game = false } = {}) {
+  async function runStart(userId, input, server, { extra = false, game = false, pro = false } = {}) {
     try {
       return await deps.startPractice(userId, input, server);
     } catch (error) {
       const m = String(error?.message || '');
+      // A Full mock together a Free member cannot pay for: the price, so a client can offer the wallet or Pro.
+      if (/CREDITS/.test(m) && game && !pro) throw new MobError('MOCK_CREDITS', { detail: mockGamePrice({ pro: false }) });
       if (/CREDITS/.test(m)) throw new MobError('CREDITS');
       if (/SESSION_EXPIRED/.test(m)) throw new MobError('PAPER_EXPIRED');
       if (/ALREADY_SUBMITTED/.test(m)) throw new MobError(game ? 'RUN_DONE' : extra ? 'EXTRA_ALREADY_SAT' : 'PAPER_ALREADY_SAT');

@@ -286,7 +286,9 @@ test('the shapes spec section 3 names are all there', async () => {
   assert.match(f['invite.json'].code, /^[0-9A-HJKMNP-TV-Z]{6}$/);
   has(f['lookup.json'], ['status', 'subject', 'subjectName', 'name', 'size', 'seatsLeft'], 'lookup');
   assert.equal(f['lookup.json'].name, 'Chai Circle');
-  assert.deepEqual(f['starts_used.json'], { billingOn: true, can: false, reason: 'used', modes: [], formats: [], locked: ['race', 'mock'], freeLeft: 0, mics: 0 });
+  assert.deepEqual(f['starts_used.json'], { billingOn: true, can: false, reason: 'used', modes: [], formats: [], locked: ['race', 'mock'], freeLeft: 0, mics: 0,
+    mock: { costCredits: 50, sitCredits: 50, proRequiredToStart: true, canStart: false, proSitsFree: true } });
+  assert.deepEqual([f['starts_pro.json'].mock.costCredits, f['starts_pro.json'].mock.canStart], [0, true], 'Pro starts and sits free');
   assert.deepEqual([f['starts_mic.json'].via, f['starts_mic.json'].mics, f['starts_mic.json'].micFrom.name], ['free_weekly', 1, 'Riya'], 'the free start is used first; the mic waits');
   assert.equal(f['starts_pro.json'].via, 'pro');
   // Formats (owner D167).
@@ -309,8 +311,12 @@ test('the shapes spec section 3 names are all there', async () => {
   assert.equal(f['run_start_live_race.json'].run.live, true);
   const mock = f['game_open_mock.json'].game;
   assert.deepEqual([mock.format, mock.mode, mock.count, mock.minutes, mock.room], ['mock', 'async', 50, 60, null]);
-  assert.equal(f['game_open_mock_free.json'].body.error.code, 'START_PRO');
+  // Full mock together's price (owner D174): only Pro starts it; Free pays 50 credits to sit it, charged as a solo Full mock.
+  assert.deepEqual([f['game_open_mock_free.json'].status, f['game_open_mock_free.json'].body.error.code], [403, 'MOCK_PRO_REQUIRED']);
+  assert.deepEqual(f['game_open_mock_free.json'].body.error.detail, { costCredits: 50, sitCredits: 50, proRequiredToStart: true, canStart: false, proSitsFree: true });
+  assert.deepEqual(mock.price, { costCredits: 0, sitCredits: 50, proSitsFree: true }, 'the Pro host sits free');
   assert.deepEqual([f['paper_start_mock.json'].input.mode, f['paper_start_mock.json'].mobPaper.questionCount, f['paper_start_mock.json'].mobPaper.holdUntil], ['full', 50, mock.closesAt]);
+  assert.equal(f['paper_start_mock.json'].mobPaper.creditAction, 'attempt_full', 'a Free member sits for the solo Full mock price');
   assert.equal(f['run_start_mock.json'].body.error.code, 'RUN_PAPER');
   has(f['game_get_mock.json'].game.you, ['run', 'marks', 'answered', 'resultId'], 'mock you');
   has(f['podium_mock.json'].sheets[0], ['memberId', 'name', 'colour', 'fold', 'you', 'private', 'marks', 'of', 'right', 'wrong', 'skipped', 'accuracy', 'timeMs', 'sections'], 'sheet');
@@ -319,6 +325,9 @@ test('the shapes spec section 3 names are all there', async () => {
   const den2 = f['den_get_formats.json'].mob.v3;
   assert.deepEqual(den2.games.map((g) => [g.format, g.minutes]).sort(), [['mock', 60], ['race', 10], ['race', 5]]);
   assert.deepEqual(den2.starts.locked, ['mock']);
+  assert.deepEqual(den2.starts.mock, { costCredits: 50, sitCredits: 50, proRequiredToStart: true, canStart: false, proSitsFree: true });
+  assert.deepEqual(den2.games.find((g) => g.format === 'mock').price, { costCredits: 0, sitCredits: 50, proSitsFree: true }, 'u2 has started: nothing more to pay');
+  has(f['game_get_mock.json'].game, ['price'], 'mock game');
   for (const name of ['game_open_race.json', 'run_start_race.json', 'answer_race.json', 'answer_race_skip.json', 'game_get_race.json', 'podium_race.json', 'run_start_live_race.json', 'game_open_mock.json', 'game_get_mock.json', 'podium_mock.json', 'room_presence.json', 'room_ticket_race.json']) {
     assert.doesNotMatch(JSON.stringify(f[name]), /correctIndex|explanation|Why answer/, name);
   }

@@ -110,7 +110,8 @@ export function useMob(userId, { mobId: pinned = null } = {}) {
 }
 
 /** The runner's start for a Mob paper (/test?mob=1): the same reply as a practice start, or an Error with a plain sentence. */
-// gameId: a Mob's full mock together (D167), sat in the full-mock runner on the Mob's route (never charged).
+// gameId: a Mob's full mock together (D167), sat in the full-mock runner on the Mob's route. Pro sits free; a Free member
+// is charged the solo Full mock's 50 credits by the server when the sitting starts (owner D174; MOCK_CREDITS if short).
 export async function startMobPaper(startReceipt, { mobId, extraId, gameId } = {}) {
   const body = { ...(startReceipt ? { startReceipt } : {}), ...(mobId ? { mob: mobId } : {}), ...(extraId ? { extra: extraId } : {}), ...(gameId ? { game: gameId } : {}) };
   const r = await mobFetch('/api/mob/paper/start', { method: 'POST', body });

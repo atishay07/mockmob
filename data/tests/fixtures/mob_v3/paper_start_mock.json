@@ -12,6 +12,7 @@
     "weekStart": "2026-10-19",
     "gameId": "uuid-8",
     "holdUntil": "2026-10-23T08:49:02.000Z",
+    "creditAction": "attempt_full",
     "questionCount": 50
   }
 }

@@ -184,9 +184,10 @@ test('safety (spec 6): no price in the Mob, no late-night framing, no count of n
   // Pro words only where the server's billing flag allows (P1, P4), and "See Pro plans" opens the existing pricing page.
   const sheets = read(`${denDir}/DenSheets.jsx`);
   assert.match(sheets, /href="\/pricing"/);
-  // The D167 tiles carry the Pro tag only for a format the server locks with billing on (formatTiles' pro).
+  // The D167 tiles carry the Pro tag only for a format the server locks with billing on (formatTiles' pro), and for the
+  // full mock whenever the server says only Pro starts it (owner D174: starts.mock.proRequiredToStart).
   assert.match(sheets, /t\.pro \? <span className=\"den-format__tag\">/);
-  assert.match(read('src/components/mob/v3/play/formats.mjs'), /pro: Boolean\(s\.billingOn\) && locked\.has\(format\)/);
+  assert.match(read('src/components/mob/v3/play/formats.mjs'), /pro: locked\.has\(format\) && \(Boolean\(s\.billingOn\) \|\| \(format === 'mock' && s\.mock\?\.proRequiredToStart === true\)\)/);
 });
 
 test('the den styles: reduced motion for every animation, no banned looks, 44 px targets', () => {

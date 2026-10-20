@@ -2,7 +2,9 @@
 // The den's sheets on the web (MOB-BUILD-SPEC-V3 5.3 P1 to P4, SET): the play picker, start a game, pass the mic, Free
 // and Pro, and Mob settings. Each is a centred dialog (the Mob's dialog rule: centred at every width, 16 px left on a
 // phone). Every rule comes from the server's `starts` block: nothing here decides a plan. With billing off no Pro word
-// appears in the picker or the start sheet (pro_nudge, spec 5.0). No price anywhere in the Mob (F4).
+// appears in the picker or the start sheet (pro_nudge, spec 5.0). No money price anywhere in the Mob (F4). The one figure
+// is Full mock together's sitting, in credits, from the server (owner D174: Pro starts it, Free sits for 50, Pro free),
+// with one plain way to Pro under the locked row.
 import { useEffect, useId, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { BookOpen, CalendarDays, Check, FileText, Lock, Plus, Radio, Send, SlidersHorizontal, Timer } from 'lucide-react';
@@ -15,7 +17,7 @@ import { DenCopy, denError, foldName, FOLD_LINES } from '@/lib/mob/v3/denCopy.mj
 import { liveOffer, namePage, openGames } from '@/lib/mob/v3/denModel.mjs';
 import { FoldFigure } from './FoldFigure';
 import { gameCardHref, gameHref, podiumHref } from './denRoutes';
-import { FORMAT_COPY, RACE_MINUTES, formatTiles, isMock, isRace, startBody } from '../v3/play/formats.mjs';
+import { FORMAT_COPY, RACE_MINUTES, formatTiles, isMock, isRace, mockPriceOf, startBody } from '../v3/play/formats.mjs';
 
 // The four ways to play, one row each in the Start a game sheet (D167, K9: every way to play is obvious).
 const FORMAT_ICON = { sprint: <Send size={18} />, round: <SlidersHorizontal size={18} />, race: <Timer size={18} />, mock: <FileText size={18} /> };
@@ -122,6 +124,8 @@ export function StartGameSheet({ open, onClose, data, v3, mobName, preset, run, 
   const mock = format === 'mock';
   const tile = tiles.find((t) => t.format === format);
   const canStart = preset?.rematchOf ? s.can : Boolean(tile?.can) && !(mock && playsLive);
+  // Full mock together's price, from the server (owner D174). Null from a server that sends none.
+  const mockPrice = mockPriceOf(s.mock);
   const start = async () => {
     setError(null);
     const body = startBody({ format, count, minutes, mode, chapter: mock ? null : chapter, rematchOf: preset?.rematchOf || null, liveAllowed });
@@ -143,6 +147,8 @@ export function StartGameSheet({ open, onClose, data, v3, mobName, preset, run, 
     else if (s.via === 'free_weekly' && s.freeLeft > 0) allowance = playsLive ? FORMAT_COPY.usesStart(s.freeLeft) : FORMAT_COPY.startsLeft(s.freeLeft);
     if (tile?.pro && tile.locked) allowance = DenCopy.anyoneWithPro;
   }
+  // A Full mock together is never free for everyone: say who pays what (the host is Pro, so sits free).
+  if (mock && mockPrice) allowance = FORMAT_COPY.mockHostLine(mockPrice.list);
   return (
     <MobDialog open={open} onClose={onClose} title={DenCopy.startAGame} labelId="den-p2-h">
       <p className="mob-note den-sheet__sub">{FORMAT_COPY.sheetSub(mobName, data.subjectName)}</p>
@@ -179,6 +185,12 @@ export function StartGameSheet({ open, onClose, data, v3, mobName, preset, run, 
                 <div className="den-format__chips" role="radiogroup" aria-label={FORMAT_COPY.howLong}>
                   {RACE_MINUTES.map((m) => <button key={m} type="button" role="radio" aria-checked={minutes === m} className="den-pill" onClick={() => setMinutes(m)}>{FORMAT_COPY.minutes(m)}</button>)}
                 </div>
+              ) : null}
+              {t.format === 'mock' && t.pro && mockPrice ? (
+                <p className="den-format__note">
+                  <span>{FORMAT_COPY.mockLockedLine(mockPrice.list)}</span>
+                  <Link className="mob-link den-format__cta" href="/pricing" data-pro-feature="mob_full_mock" onClick={onClose}>{FORMAT_COPY.getPro}</Link>
+                </p>
               ) : null}
               {on && t.format === 'round' ? (
                 <div className="den-format__chips" role="radiogroup" aria-label={DenCopy.lengthLabel(count)}>

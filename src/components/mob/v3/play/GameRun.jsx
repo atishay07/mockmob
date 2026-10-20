@@ -26,7 +26,7 @@ import { mobGameApi, withRetry } from './playApi';
 import { PlayFold } from './PlayFold';
 import { RulerRace } from './RulerRace';
 import { COPY, LETTERS, errorSentence, nextQuestionIndex, paceChip, rightStreak, rulerRacers, stopwatch, ghostAt } from './playModel.mjs';
-import { FORMAT_COPY, MOCK, RACE_FEEDBACK_MS, isMock, isRace, mockRunnerHref, raceClock, racePace, raceRacers, raceMinutes, raceWindow } from './formats.mjs';
+import { FORMAT_COPY, MOCK, RACE_FEEDBACK_MS, isMock, isRace, mockPriceOf, mockRunnerHref, raceClock, racePace, raceRacers, raceMinutes, raceWindow } from './formats.mjs';
 import { LiveCountdown } from '../live/LiveCountdown';
 import { BEAT_MS, COUNT_FROM } from '../live/liveModel.mjs';
 import '../live/live.css';
@@ -363,6 +363,8 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
     const satLine = FORMAT_COPY.satSoFar(game.runs, serverNow);
     const done = phase === 'mock-done';
     const runner = mockRunnerHref({ subject: paper?.subject, mobId: game.mobId || paper?.mobId, gameId, memberId: paper?.memberId || 'me' });
+    // What sitting it costs you now, from the server's game.price (0 with Pro, or once you started; owner D174).
+    const sitCost = mockPriceOf(game.price)?.cost ?? 0;
     const shown = Number.isFinite(marks) ? marks : game.you?.marks;
     return (
       <section className={`mp-run ${done ? 'mp-run--done' : 'mp-run--ready'} mp-run--mock`}>
@@ -391,8 +393,11 @@ export default function GameRun({ gameId, autoStart = false, me = null, hrefs, o
               <p className="mp-line">{FORMAT_COPY.mockOpenLine(game, serverNow)}</p>
               {satLine ? <p className="mp-runs">{satLine}</p> : null}
               <p className="mp-rule"><span className="mp-stamp-mini" aria-hidden="true">+5</span>{FORMAT_COPY.mockRule}</p>
+              {/* Owner D174: a Free member pays to sit it, said before the key that charges it; Pro sits free. */}
+              {sitCost > 0 ? <p className="mp-line">{FORMAT_COPY.mockSitPrice(sitCost)}</p> : null}
               <div className="mp-keys">
-                <Link className="btn-volt md mp-key-primary" data-page-primary="" href={runner}>{game.you?.run === 'playing' ? FORMAT_COPY.carryOn : FORMAT_COPY.sitMock}</Link>
+                <Link className="btn-volt md mp-key-primary" data-page-primary="" href={runner}>{game.you?.run === 'playing' ? FORMAT_COPY.carryOn : sitCost > 0 ? FORMAT_COPY.sitMockFor(sitCost) : FORMAT_COPY.sitMock}</Link>
+                {sitCost > 0 ? <Link className="mp-key" href="/pricing" data-pro-feature="mob_full_mock">{FORMAT_COPY.sitFreeWithPro}</Link> : null}
                 <Link className="mp-link" href={hrefs.den}>{COPY.backToDen}</Link>
               </div>
             </div>
