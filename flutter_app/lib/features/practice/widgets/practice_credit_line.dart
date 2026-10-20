@@ -9,6 +9,30 @@ import '../../wallet/data/wallet_data.dart' show firstFullMockFreeProvider;
 import '../../wallet/widgets/credit_coins.dart';
 import '../copy.dart';
 
+/// What Practice says about credits, in one value (a provider of its own, so Practice reads the balance and the
+/// first-free rule through one door).
+@immutable
+class PracticeCreditFacts {
+  const PracticeCreditFacts({this.total, this.firstFree = false});
+
+  /// A Free student's one credits balance; null on Pro, on an older two-pool server, or while unknown (never a 0).
+  final int? total;
+
+  /// The server says the first full mock in each subject is free.
+  final bool firstFree;
+}
+
+final practiceCreditFactsProvider = Provider<PracticeCreditFacts>((ref) {
+  final figures = ref.watch(creditFiguresProvider);
+  // One credits balance only (owner D78): an older server's two pools are not added into a figure it did not send.
+  final total = figures.isPro || !figures.oneBalance ? null : figures.total;
+  if (total == null) return const PracticeCreditFacts();
+  return PracticeCreditFacts(total: total, firstFree: ref.watch(practiceFirstMockRuleProvider));
+});
+
+/// Whether a credit-priced Full mock should say the first-free rule: the Wallet's word on it (L-05).
+final practiceFirstMockRuleProvider = Provider<bool>((ref) => ref.watch(firstFullMockFreeProvider));
+
 /// Practice's credit line (K6, 20 Oct: credits need "a clear, findable place"): under the ways to practise, a Free
 /// student's balance with a way to the Wallet, and, while the server's rule is on, the one free full mock per subject.
 /// Nothing for a Pro student (practice is unlimited) and nothing while the balance is unknown (never a 0).
@@ -22,11 +46,10 @@ class PracticeCreditLine extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final figures = ref.watch(creditFiguresProvider);
-    // One credits balance only (owner D78): an older server's two pools are not added into a figure it did not send.
-    final total = figures.isPro || !figures.oneBalance ? null : figures.total;
+    final facts = ref.watch(practiceCreditFactsProvider);
+    final total = facts.total;
     if (total == null) return const SizedBox.shrink();
-    final rule = ref.watch(firstFullMockFreeProvider);
+    final rule = facts.firstFree;
     return Padding(
       padding: EdgeInsets.only(top: topGap),
       child: MmPressable(

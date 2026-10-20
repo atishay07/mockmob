@@ -46,6 +46,7 @@ import 'package:mockmob/features/practice/practice_result_screen.dart';
 import 'package:mockmob/features/insights/data/insights_repository.dart' show insightsRepositoryProvider;
 import 'package:mockmob/features/insights/data/saved_repository.dart' show SavedList, savedRepositoryProvider;
 import 'package:mockmob/features/rules/data/rules_data.dart' show startSheetProvider;
+import 'package:mockmob/features/practice/widgets/practice_credit_line.dart' show PracticeCreditFacts, practiceCreditFactsProvider, practiceFirstMockRuleProvider;
 
 import '../../../helpers/golden_harness.dart';
 
@@ -311,6 +312,12 @@ List<Override> practiceOverrides({
 
   /// A test that brings its own open paper turns this off: nothing is open by default.
   bool nothingOpen = true,
+
+  /// Practice's credit line: unknown (no line) by default.
+  PracticeCreditFacts credits = const PracticeCreditFacts(),
+
+  /// The full mock's first-free note: off by default.
+  bool firstMockRule = false,
 }) => [
   ...(nothingOpen ? noOpenPaperOverrides : quietOpenPaperOverrides),
   learnChapterCostsProvider.overrideWithValue(chapterCosts),
@@ -352,6 +359,10 @@ List<Override> practiceOverrides({
   lateNightLinesProvider.overrideWith(
     () => PrefToggle(initial: lateNightLines, read: (_) async => lateNightLines, write: (_, _) async {}),
   ),
+  // Practice's credit line and the full mock's first-free note read the credits and the Wallet (the phone's database
+  // behind them): nothing known here unless a test brings its own, so the line draws nothing.
+  practiceCreditFactsProvider.overrideWithValue(credits),
+  practiceFirstMockRuleProvider.overrideWithValue(firstMockRule),
   ...extra,
 ];
 

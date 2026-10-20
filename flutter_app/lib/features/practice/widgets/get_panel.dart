@@ -9,7 +9,6 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
 import '../../pro_nudge/pro_nudge.dart' show ProNudgeCopy, ProReason, UpgradeEntry, proNudgesOnProvider;
-import '../../wallet/data/wallet_data.dart' show firstFullMockFreeProvider;
 import '../copy.dart';
 import '../data/practice_quote.dart';
 import '../model/cost_line.dart';
@@ -17,6 +16,7 @@ import '../model/practice_selection.dart';
 import 'composer_parts.dart';
 import 'delayed_skeleton.dart';
 import 'plain_notice.dart';
+import 'practice_credit_line.dart' show practiceFirstMockRuleProvider;
 
 /// The height the checking skeleton holds: about the three rows of the finished summary.
 const double _skeletonHeight = 176;
@@ -165,7 +165,7 @@ class _GetPanelState extends State<GetPanel> {
     // free full mock per subject made clear wherever full mocks are priced).
     return Consumer(
       builder: (context, ref, _) {
-        final rule = selection.mode == PracticeMode.full && line.kind == CostKind.credits && ref.watch(firstFullMockFreeProvider);
+        final rule = selection.mode == PracticeMode.full && line.kind == CostKind.credits && ref.watch(practiceFirstMockRuleProvider);
         return _Ticket(
           key: _ticketKey,
           selection: selection,
