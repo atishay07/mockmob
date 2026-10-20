@@ -1,7 +1,5 @@
 // The den's states and rules (spec 5.3 D1 to D6, 5.6 M1, M12, the moment queue, K5, F2, F8).
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -231,7 +229,7 @@ void main() {
     final server = v3Server(scenario: 'quiet');
     await pumpDen(tester, server);
     await _open(tester);
-    expect(find.textContaining('was covered by a rest pass. Your chain is still 13.'), findsOneWidget);
+    expect(find.textContaining('was covered by a rest pass. Your chain is still\u00A013.'), findsOneWidget);
     final chain = await server.chain();
     expect(chain.notices, isEmpty);
     await tester.pump(const Duration(seconds: 7));

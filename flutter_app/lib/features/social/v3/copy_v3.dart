@@ -809,7 +809,7 @@ abstract final class MobV3Copy {
   }
   static String playAs(FoldKey f) => 'Play as ${foldName(f)}';
   static const String seeShelf = 'See your shelf';
-  static String passNotice(String weekday, int days) => '$weekday was covered by a rest pass. Your chain is still $days.';
+  static String passNotice(String weekday, int days) => '$weekday was covered by a rest pass. Your chain is still\u00A0$days.';
   // Moment chrome (MOMENTS agent).
   static const String close = 'Close';
   static const String headYou = 'You';
@@ -927,7 +927,7 @@ abstract final class MobV3Copy {
         FoldKey.hop => 'Bounces back after a wrong one.',
         FoldKey.crane => 'Folds it until it is right.',
         FoldKey.stamp => 'Seals every fix that held.',
-        FoldKey.naav => 'Steady in the last ten minutes.',
+        FoldKey.naav => 'Steady to the final minute.',
         FoldKey.tally => 'Counts the minus marks too.',
         FoldKey.patang => 'Rises against the wind.',
         FoldKey.sticky => 'Remembers the formula for you.',
@@ -1360,17 +1360,18 @@ abstract final class MobV4DenCopy {
   // This week panel (3.1 item 5, 3.6)
   static const String questTitle = "This week's quest";
   static String questLine(Quest q, int weeks) {
-    if (q.done || q.answered >= q.target) return 'Week ${weeks <= 0 ? 1 : weeks} is stitched';
+    if (q.done || q.answered >= q.target) return 'Week\u00A0${weeks <= 0 ? 1 : weeks} is stitched';
     final left = q.target - q.answered;
     final week = weeks + 1;
-    if (q.answered == 0) return '${q.sizedFor <= 1 ? '15' : '15 each'} by Sunday stitches week $week';
-    return '$left more ${left == 1 ? 'stitch' : 'stitches'} week $week';
+    // A wrap falls before "stitch week 1", never leaving "week 1" alone on a line.
+    if (q.answered == 0) return '${q.sizedFor <= 1 ? '15' : '15\u00A0each'} by Sunday to stitch\u00A0week\u00A0$week';
+    return '$left more ${left == 1 ? 'stitch' : 'stitches'} week\u00A0$week';
   }
 
   static String questOf(int target) => 'of $target';
   static String questSemantics(Quest q, int weeks) => "This week's quest. ${q.answered} of ${q.target} questions. ${questLine(q, weeks)}. Opens This week.";
   static const String hoursTitle = 'Mob hours';
-  static const String hoursLine = 'Practice time, this week';
+  static const String hoursLine = 'Practice time, this\u00A0week';
   static const String hoursOff = 'Off for everyone. Turn on "Show my study time" in Mob settings to share yours.';
 
   /// "7 h 45 m", "45 m", "10 h".

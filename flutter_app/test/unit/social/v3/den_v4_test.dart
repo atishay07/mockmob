@@ -132,10 +132,11 @@ void main() {
   });
 
   group('review fixes', () {
-    test('an empty week says when: "15 each by Sunday stitches week 1"', () {
-      expect(MobV4DenCopy.questLine(const Quest(target: 60, sizedFor: 4), 0), '15 each by Sunday stitches week 1');
-      expect(MobV4DenCopy.questLine(const Quest(target: 15), 3), '15 by Sunday stitches week 4');
-      expect(MobV4DenCopy.questLine(const Quest(target: 60, answered: 51, sizedFor: 4), 3), '9 more stitches week 4');
+    test('an empty week says when: "15 each by Sunday to stitch week 1", and "week 1" never splits', () {
+      expect(MobV4DenCopy.questLine(const Quest(target: 60, sizedFor: 4), 0), '15\u00A0each by Sunday to stitch\u00A0week\u00A01');
+      expect(MobV4DenCopy.questLine(const Quest(target: 15), 3), '15 by Sunday to stitch\u00A0week\u00A04');
+      expect(MobV4DenCopy.questLine(const Quest(target: 60, answered: 51, sizedFor: 4), 3), '9 more stitches week\u00A04');
+      expect(MobV4DenCopy.hoursLine, 'Practice time, this\u00A0week');
     });
 
     test('screen readers hear hours and minutes as words', () {

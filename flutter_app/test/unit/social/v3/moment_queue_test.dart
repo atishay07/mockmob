@@ -84,7 +84,7 @@ void main() {
     );
     final n = passNoticeFor(chain, today: '2026-10-22');
     expect(n?.key, 'rest:2026-10-16');
-    expect(passNoticeText(n!, chain), 'Friday was covered by a rest pass. Your chain is still 12.');
+    expect(passNoticeText(n!, chain), 'Friday was covered by a rest pass. Your chain is still\u00A012.');
     expect(passNoticeFor(chain, today: '2026-10-22', shownOn: '2026-10-22'), isNull);
     expect(passNoticeFor(chain, today: '2026-10-23', shownOn: '2026-10-22'), isNotNull);
     expect(

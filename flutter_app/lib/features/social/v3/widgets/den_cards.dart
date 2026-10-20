@@ -108,7 +108,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
                 children: [
                   Semantics(header: true, child: Text(card.fresh ? MobV4DenCopy.freshTitle : MobV3Copy.quietTitle, style: type.subhead.copyWith(color: colors.ink))),
                   const SizedBox(height: MmSpace.s8),
-                  Text(card.fresh ? MobV4DenCopy.freshLine(friends.take(2).toList()) : MobV3Copy.quietLine, style: type.body.copyWith(color: colors.ink2)),
+                  Text(card.fresh ? MobV4DenCopy.freshLine(friends.take(4).toList()) : MobV3Copy.quietLine, style: type.body.copyWith(color: colors.ink2)),
                 ],
               ),
             ),
