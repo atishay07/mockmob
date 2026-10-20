@@ -7,7 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../features/account_sheet/account_sheet.dart' show showAccountSheet;
-import '../../features/pro_nudge/pro_nudge.dart' show PopupRules, showFirstSessionUpgradeIfDue, upgradePopupDueProvider;
+import '../../features/pro_nudge/pro_nudge.dart' show PopupRules, proNudgeProvider, showFirstSessionUpgradeIfDue, upgradePopupDueProvider;
 import '../haptics/haptics.dart';
 import '../motion/motion.dart';
 import '../theme/theme.dart';
@@ -74,6 +74,9 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
   double _down = 0;
   double _up = 0;
   String? _location;
+
+  /// The path of the last location, to tell an arrival at a tab root from a change of query.
+  String? _path;
   bool _keyboardWasOpen = false;
   late final bool _entrance;
 
@@ -194,6 +197,14 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     final location = uri.toString();
     if (_location != null && location != _location) _expand();
     _location = location;
+    // An arrival at a tab root counts towards arming the first-session upgrade sheet (D181: the second
+    // return after a viewed result). After the frame, never while the tree is building.
+    if (_path != null && uri.path != _path && AppRoutes.branchRoots.contains(uri.path)) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) ref.read(proNudgeProvider.notifier).noteTabRoot();
+      });
+    }
+    _path = uri.path;
     _maybeOpenAccount(uri);
     _maybeUpgradePopup();
 
@@ -244,10 +255,11 @@ class _AppShellState extends ConsumerState<AppShell> with TickerProviderStateMix
     });
   }
 
-  /// The first-session Upgrade sheet (Pro nudges, D81): once the student's first real action of the first
-  /// session is done and they are back on a tab root with nothing over it, it opens, after a short pause
-  /// so it never lands with the page. It is due only with `PLAY_BILLING` on, for a Free student, never in
-  /// onboarding and once ever; the provider says so. Anywhere else this tries again on the next change of
+  /// The first-session upgrade sheet (Pro nudges, D81, D181): once the student's first real action of the
+  /// first session is done, a real limit is met or they have come back to a tab root a second time after
+  /// a result, and they are on a tab root with nothing over it, it opens, after a short pause so it never
+  /// lands with the page. It is due only with `PLAY_BILLING` on, for a Free student, never in onboarding
+  /// and once ever; the provider says so. Anywhere else this tries again on the next change of
   /// location.
   void _maybeUpgradePopup() {
     if (_upgradeTimer != null || !ref.read(upgradePopupDueProvider)) return;

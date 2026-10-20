@@ -22,11 +22,12 @@ import '../../helpers/golden_harness.dart';
 import '../core_data/support/fakes.dart';
 
 /// The server's consent record, as `GET /api/me/consent` returns it.
-Map<String, Object?> _record({String band = 'unknown', bool allowed = false, bool withdrawn = false}) => {
+Map<String, Object?> _record({String band = 'unknown', bool allowed = false, bool withdrawn = false, bool decided = false}) => {
       'ageBand': band,
       'analyticsAllowed': allowed,
       'policyVersion': '2026-10-12',
-      'decidedAt': band == 'unknown' ? null : '2026-10-12T10:00:00.000Z',
+      // "Rather not say" is the unknown band with a decision time: the server stamps every PUT.
+      'decidedAt': band == 'unknown' && !decided ? null : '2026-10-12T10:00:00.000Z',
       'withdrawnAt': withdrawn ? '2026-10-12T11:00:00.000Z' : null,
     };
 
@@ -39,7 +40,7 @@ FakeHttpAdapter _server(Map<String, Object?> start, {bool failTurnOn = false}) {
     if (o.path.endsWith('/api/me/consent') && o.method == 'PUT') {
       final body = (o.data is String ? jsonDecode(o.data as String) : o.data) as Map;
       if (failTurnOn && body['analyticsAllowed'] == true) return const FakeReply(500, {'error': 'unavailable'});
-      record = _record(band: body['ageBand'] as String, allowed: body['analyticsAllowed'] as bool);
+      record = _record(band: body['ageBand'] as String, allowed: body['analyticsAllowed'] as bool, decided: true);
       return FakeReply(200, record);
     }
     if (o.path.endsWith('/api/me/consent')) return FakeReply(200, record);
@@ -96,11 +97,22 @@ bool _switchOn(WidgetTester tester) => tester.widget<Switch>(find.byType(Switch)
 void main() {
   setUpAll(loadAppFonts);
 
-  test('who can be collected is unchanged: only an adult who allowed it, never withdrawn', () {
+  test('who can be collected (D183): anyone who did not say under 18, who allowed it and never withdrew', () {
     expect(const Consent(ageBand: AgeBand.adult, analyticsAllowed: true).canCollect, isTrue);
-    expect(const Consent(ageBand: AgeBand.minor, analyticsAllowed: true).canCollect, isFalse);
-    expect(const Consent(ageBand: AgeBand.unknown, analyticsAllowed: true).canCollect, isFalse);
+    expect(const Consent(ageBand: AgeBand.unknown, analyticsAllowed: true).canCollect, isTrue, reason: '"Rather not say" is on');
+    expect(const Consent(ageBand: AgeBand.minor, analyticsAllowed: true).canCollect, isFalse, reason: 'under 18 is never collected');
     expect(const Consent(ageBand: AgeBand.adult).canCollect, isFalse);
+    expect(const Consent(ageBand: AgeBand.unknown).canCollect, isFalse, reason: 'not allowed yet');
+    expect(Consent(ageBand: AgeBand.unknown, analyticsAllowed: true, withdrawnAt: DateTime(2026, 10, 12)).canCollect, isFalse);
+  });
+
+  test('the age answer: "Rather not say" is answered once the server stamped it, and gets the switch (D183)', () {
+    expect(const Consent().answered, isFalse, reason: 'never asked');
+    expect(Consent(ageBand: AgeBand.unknown, decidedAt: DateTime(2026, 10, 12)).answered, isTrue);
+    expect(Consent(ageBand: AgeBand.unknown, decidedAt: DateTime(2026, 10, 12)).switchAvailable, isTrue);
+    expect(const Consent().switchAvailable, isFalse);
+    expect(Consent(ageBand: AgeBand.minor, decidedAt: DateTime(2026, 10, 12)).switchAvailable, isFalse);
+    expect(const Consent(ageBand: AgeBand.adult).switchAvailable, isTrue);
   });
 
   testWidgets('an adult sees the switch on, with where to turn it off; continuing saves allowed', (tester) async {
@@ -129,16 +141,47 @@ void main() {
     expect(find.text('STUB today'), findsOneWidget);
   });
 
-  for (final answer in [OnboardingCopy.ageNo, OnboardingCopy.agePreferNot]) {
-    testWidgets('"$answer" to 18 or older never sees the switch and sends it off', (tester) async {
-      final http = _server(_record());
-      await _pump(tester, http);
-      await _tap(tester, find.text(answer));
-      expect(find.byType(Switch), findsNothing);
-      expect(_puts(http).single['analyticsAllowed'], isFalse);
-      expect(find.text('STUB today'), findsOneWidget);
-    });
-  }
+  testWidgets('"No" to 18 or older never sees the switch and sends it off', (tester) async {
+    final http = _server(_record());
+    await _pump(tester, http);
+    await _tap(tester, find.text(OnboardingCopy.ageNo));
+    expect(find.byType(Switch), findsNothing);
+    expect(_puts(http).single, {'ageBand': 'minor', 'analyticsAllowed': false});
+    expect(find.text('STUB today'), findsOneWidget);
+  });
+
+  testWidgets('"Prefer not to say" sees the switch on and continuing saves allowed on the unknown band (D183)', (tester) async {
+    final http = _server(_record());
+    await _pump(tester, http);
+    await _tap(tester, find.text(OnboardingCopy.agePreferNot));
+    expect(find.text(OnboardingCopy.usageSwitchLabel), findsWidgets);
+    expect(_switchOn(tester), isTrue);
+    expect(find.text(ChoicesCopy.usageOffAnyTime), findsOneWidget);
+    expect(_puts(http), [{'ageBand': 'unknown', 'analyticsAllowed': false}], reason: 'nothing turns on before they continue');
+
+    await _tap(tester, find.text(OnboardingCopy.done));
+    expect(_puts(http).last, {'ageBand': 'unknown', 'analyticsAllowed': true}, reason: 'the band stays unknown; usage data is on');
+    expect(find.text('STUB today'), findsOneWidget);
+  });
+
+  testWidgets('"Prefer not to say" can switch it off before continuing', (tester) async {
+    final http = _server(_record());
+    await _pump(tester, http);
+    await _tap(tester, find.text(OnboardingCopy.agePreferNot));
+    await _tap(tester, find.byType(Switch));
+    expect(_switchOn(tester), isFalse);
+    await _tap(tester, find.text(OnboardingCopy.done));
+    expect(_puts(http).any((b) => b['analyticsAllowed'] == true), isFalse);
+    expect(find.text('STUB today'), findsOneWidget);
+  });
+
+  testWidgets('an account that already said "Prefer not to say" is not asked again', (tester) async {
+    final http = _server(_record(decided: true, allowed: true));
+    await _pump(tester, http);
+    expect(find.text(OnboardingCopy.agePreferNot), findsNothing);
+    expect(_puts(http), isEmpty);
+    expect(find.text('STUB today'), findsOneWidget);
+  });
 
   testWidgets('a failed turn-on shows the switch off with the reason; the next tap continues', (tester) async {
     final http = _server(_record(), failTurnOn: true);
@@ -161,6 +204,20 @@ void main() {
       expect(_switchOn(tester), isTrue);
       await _tap(tester, find.textContaining('Tomorrow at'));
       expect(_puts(http).last['analyticsAllowed'], isTrue);
+    });
+
+    testWidgets('"Rather not say" starts on too, and the later key saves allowed on the unknown band', (tester) async {
+      final http = _server(_record(band: 'unknown', decided: true));
+      await _pump(tester, http, answers: studentUpTo(Steps.plan).copyWith(age: AgeAnswer.ratherNot));
+      expect(_switchOn(tester), isTrue);
+      await _tap(tester, find.textContaining('Tomorrow at'));
+      expect(_puts(http).last, {'ageBand': 'unknown', 'analyticsAllowed': true});
+    });
+
+    testWidgets('under 18 sees no switch after a sealed sheet', (tester) async {
+      final http = _server(_record(band: 'minor', decided: true));
+      await _pump(tester, http, answers: studentUpTo(Steps.plan).copyWith(age: AgeAnswer.minor));
+      expect(find.byType(Switch), findsNothing);
     });
 
     testWidgets('an account that turned it off before starts off and stays off', (tester) async {

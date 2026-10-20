@@ -15,7 +15,7 @@ import '../widgets/you_row.dart';
 import 'event_list_sheet.dart';
 import 'usage_data_controller.dart';
 
-/// The usage-data switch for an adult: the switch labelled exactly [usageDataConsentLabel] on its
+/// The usage-data switch for 18 or older and "Prefer not to say": the switch labelled exactly [usageDataConsentLabel] on its
 /// own panel, the plain explanation, "See every event we collect", and the story of the last
 /// change. Sits in a You page (it brings its own gutters).
 ///
@@ -139,10 +139,13 @@ class _Status extends StatelessWidget {
   }
 }
 
-/// The plain statement for a minor or an unknown age: off, and why. It is the hero of the page,
+/// The plain statement for under 18, or an age never answered: off, and why. It is the hero of the page,
 /// on the ground: a lit shield, the state in display type, and the one-line reason.
 class OffForAccountPanel extends StatelessWidget {
-  const OffForAccountPanel({super.key});
+  const OffForAccountPanel({super.key, this.note = YouCopy.offForAccountNote});
+
+  /// Why it is off: under 18, or no answer to the age question yet.
+  final String note;
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +169,7 @@ class OffForAccountPanel extends StatelessWidget {
           const SizedBox(height: MmSpace.s20),
           Semantics(liveRegion: true, child: Text(YouCopy.offForAccount, style: type.display)),
           const SizedBox(height: MmSpace.s8),
-          Text(YouCopy.offForAccountNote, style: type.body.copyWith(color: colors.ink2)),
+          Text(note, style: type.body.copyWith(color: colors.ink2)),
         ],
       ),
     );

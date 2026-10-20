@@ -28,6 +28,8 @@ import '../data/pro_nudge_controller.dart';
 bool showUpgradeSheetIfOn(BuildContext context, {required ProReason reason}) {
   final container = ProviderScope.containerOf(context, listen: false);
   if (!container.read(proNudgesOnProvider)) return false;
+  // The student chose this ask themselves: the first-session sheet never follows it (D181).
+  container.read(proNudgeProvider.notifier).upgradeOpened();
   // Every upgrade opens the full-screen Pro page (owner I6, 20 Oct), headed by what asked for Pro,
   // with the lines that are about this student when there are any.
   final head = ProNudgeCopy.head(reason);
@@ -46,8 +48,8 @@ bool showUpgradeSheetIfOn(BuildContext context, {required ProReason reason}) {
   return true;
 }
 
-/// The old Upgrade sheet, kept for a surface that wants Pro in a sheet; every upgrade now opens the
-/// Pro page ([showUpgradeSheetIfOn]).
+/// The Upgrade sheet: Pro in a dismissible bottom sheet with Not now. The first-session ask uses it (D181);
+/// every upgrade the student opens themselves is the full Pro page ([showUpgradeSheetIfOn]).
 bool showUpgradeBottomSheetIfOn(BuildContext context, {required ProReason reason}) {
   final container = ProviderScope.containerOf(context, listen: false);
   if (!container.read(proNudgesOnProvider)) return false;

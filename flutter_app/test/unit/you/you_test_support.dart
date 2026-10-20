@@ -209,12 +209,12 @@ class FakeConsent extends ConsentRepository {
   @override
   Future<Consent> setAnalyticsAllowed(bool allowed, {String? expectUserId}) async {
     allowedCalls.add(allowed);
-    final band = allowed ? AgeBand.adult : state.consent.ageBand;
+    final band = allowed && (state.consent.ageBand == AgeBand.minor || !state.consent.answered) ? AgeBand.adult : state.consent.ageBand;
     if (!allowed) {
       // Exactly what the real repository does: the gate closes before the network call.
-      state = state.copyWith(consent: Consent(ageBand: band), withdrawalPending: true);
+      state = state.copyWith(consent: Consent(ageBand: band, decidedAt: state.consent.decidedAt), withdrawalPending: true);
     }
-    final answer = await (gate?.future ?? Future.value(Consent(ageBand: band, analyticsAllowed: allowed, deletedEvents: allowed ? null : 4)));
+    final answer = await (gate?.future ?? Future.value(Consent(ageBand: band, analyticsAllowed: allowed, decidedAt: state.consent.decidedAt, deletedEvents: allowed ? null : 4)));
     if (failWith != null) throw failWith!;
     state = ConsentState(status: ConsentStatus.loaded, consent: answer);
     return answer;

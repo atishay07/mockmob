@@ -24,7 +24,8 @@ library;
 
 /// Why the Upgrade sheet is open: the feature that asked for Pro, or the first-session moment.
 enum ProReason {
-  /// The first-session pop-up, after the student's first scored set or mock.
+  /// The first-session upgrade sheet (D181): it waits for a real limit (10 credits or fewer) or the
+  /// student's second return to a tab root after a result, never the first result itself.
   firstSession,
   ntaMode,
   smartPractice,
@@ -57,7 +58,7 @@ enum ProNudgeSurface {
   /// The credits-low state of a set that cannot start.
   creditsLow('credits-low'),
 
-  /// The result after a scored set or mock.
+  /// The result after a scored set or mock. Never on the student's very first result (D181).
   result('result'),
 
   /// Review's "practise this chapter" action.
@@ -113,7 +114,7 @@ abstract final class ProNudgeCopy {
   /// The headline and the line under it: what asked for Pro, and why it is worth having.
   static ProSheetHead head(ProReason reason) => switch (reason) {
         ProReason.firstSession => const ProSheetHead(
-            'That is one paper done. Keep going without limits.',
+            'Keep practising without limits',
             'Pro takes the cap off: unlimited mocks, NTA mode and Smart practice, for one monthly price.',
           ),
         ProReason.ntaMode => const ProSheetHead(
@@ -173,7 +174,7 @@ abstract final class ProNudgeCopy {
   static String? leadBenefit(ProReason reason) => switch (reason) {
         ProReason.mob => 'The full side-by-side after every Mob paper, past weeks, and extra papers on a chapter you choose.',
         ProReason.mobLimit => "Up to 3 Mobs you start, and every Mob's weekly paper, not one a week.",
-        ProReason.mobHosting => 'Start as many Mob games as you like, live or anytime, and pass the mic to a friend.',
+        ProReason.mobHosting => 'Start as many Mob games as you like, live or any time, and pass the mic to a friend.',
         _ => null,
       };
 

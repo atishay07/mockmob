@@ -2,10 +2,13 @@
 /// They are the website's rules (`src/lib/proNudge.mjs`, 18 Oct 2026, D79 to D81), said for the app.
 ///
 /// Two kinds of nudge, two sets of rules:
-/// * the first-session pop-up ([PopupRules]): once ever, only in the first usage session after
+/// * the first-session upgrade sheet ([PopupRules]): once ever, only in the first usage session after
 ///   onboarding (the run of the app in which onboarding finished, and at most
-///   [PopupRules.firstSessionWindow] after it), and only after the student's first real action in it
-///   (a scored set or mock). Never on onboarding, never for Pro, never with `PLAY_BILLING` off;
+///   [PopupRules.firstSessionWindow] after it), only after the student's first real action in it
+///   (a scored set or mock), and only once it is armed (D181, owner 20 Oct): the student met a real
+///   limit ([ArmRules.creditsLimit] credits or fewer) or came back to a tab root a second time after
+///   viewing a result ([ArmRules.returnsToArm]). It never rides along with the first result. Never on
+///   onboarding, never for Pro, never with `PLAY_BILLING` off;
 /// * the inline rows ([InlineRules]): quiet, at most one per screen, and a dismissed one stays quiet for
 ///   [InlineRules.quietFor].
 ///
@@ -34,6 +37,9 @@ enum PopupVerdict {
 
   /// The student has not yet done a real action since onboarding finished.
   noAction,
+
+  /// No real limit met yet and not enough returns to a tab root after a result (D181).
+  notArmed,
 }
 
 class PopupInputs {
@@ -48,6 +54,7 @@ class PopupInputs {
     required this.onboardedLaunch,
     required this.actions,
     required this.actionsAtOnboarded,
+    this.armed = true,
   });
 
   /// The nudges are on for this student: the flag is on, signed in, and not Pro.
@@ -75,6 +82,27 @@ class PopupInputs {
 
   /// [actions] at the moment onboarding finished, so only an action after it counts.
   final int actionsAtOnboarded;
+
+  /// A real limit was met, or the second return to a tab root after a viewed result happened
+  /// ([ArmRules]). Defaults to true so a caller that does not track it keeps the old rules.
+  final bool armed;
+}
+
+/// When the first-session sheet may arm (D181, owner 20 Oct 2026: "wait for a real limit").
+abstract final class ArmRules {
+  /// A Free student with this many practice credits or fewer has met a real limit.
+  static const int creditsLimit = 10;
+
+  /// The sheet arms on the student's second return to a tab root after viewing a result.
+  static const int returnsToArm = 2;
+
+  /// Whether [credits] is a real limit. Null (not known, or a stale copy) is never one.
+  static bool creditsMet(int? credits) => credits != null && credits <= creditsLimit;
+
+  /// Whether the very first result the student ever sees stays free of a Pro ask: the inline "Go
+  /// unlimited" row waits for the second. A student who signed straight in (no onboarding mark on this
+  /// phone) is not new, so this never holds for them.
+  static bool firstResult({required DateTime? onboardedAt, required int resultsViewed}) => onboardedAt != null && resultsViewed == 0;
 }
 
 abstract final class PopupRules {
@@ -101,6 +129,7 @@ abstract final class PopupRules {
       return PopupVerdict.notFirstSession;
     }
     if (i.actions <= i.actionsAtOnboarded) return PopupVerdict.noAction;
+    if (!i.armed) return PopupVerdict.notArmed;
     return PopupVerdict.due;
   }
 

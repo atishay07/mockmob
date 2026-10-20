@@ -82,8 +82,8 @@ class UsageDataController extends Notifier<UsageDataUi> {
     }
   }
 
-  /// Saves the answer to "Are you 18 or older?". For No and Prefer not to say the repository
-  /// writes `analyticsAllowed:false` with it.
+  /// Saves the answer to "Are you 18 or older?". For No the repository writes `analyticsAllowed:false`
+  /// with it; Yes and Prefer not to say keep an earlier "allowed" (D183).
   Future<void> changeAge(AgeBand band) async {
     if (state.busy) return;
     state = const UsageDataUi();

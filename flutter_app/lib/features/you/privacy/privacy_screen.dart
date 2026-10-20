@@ -11,8 +11,9 @@ import 'event_list_sheet.dart';
 import 'usage_data_card.dart';
 import 'usage_data_controller.dart';
 
-/// Privacy: usage data. Everyone sees the page; only a self-declared adult gets the switch. For a
-/// minor or an unknown age it reads "Off for your account." with no switch.
+/// Privacy: usage data. Everyone sees the page; the switch is for everyone who did not say they are
+/// under 18 (18 or older and "Prefer not to say", D183) and anyone can switch it off here. For under 18
+/// (or an age never answered) it reads "Off for your account." with no switch.
 class PrivacyScreen extends ConsumerWidget {
   const PrivacyScreen({super.key});
 
@@ -46,7 +47,7 @@ class PrivacyScreen extends ConsumerWidget {
           ),
         ),
       ];
-    } else if (consent.consent.ageBand == AgeBand.adult) {
+    } else if (consent.consent.switchAvailable) {
       body = [
         const SizedBox(height: MmSpace.s8),
         const UsageDataSwitchCard(),
@@ -55,7 +56,7 @@ class PrivacyScreen extends ConsumerWidget {
     } else {
       body = [
         const SizedBox(height: MmSpace.s8),
-        const OffForAccountPanel(),
+        OffForAccountPanel(note: consent.consent.ageBand == AgeBand.minor ? YouCopy.offForAccountNote : YouCopy.offUnansweredNote),
         if (ui.phase == UsagePhase.ageFailed)
           const Padding(
             padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s12, MmSpace.gutter, 0),

@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../core/models/consent.dart';
 import '../../../core/repositories/repositories.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
@@ -38,7 +37,7 @@ abstract final class HubFacts {
   /// that is unknown).
   static String? privacyNote(ConsentState consent) {
     if (!consent.isLoaded) return null;
-    if (consent.consent.ageBand != AgeBand.adult) return YouCopy.privacyOffForAccount;
+    if (!consent.consent.switchAvailable) return YouCopy.privacyOffForAccount;
     return consent.analyticsActive ? YouCopy.privacyOn : YouCopy.privacyOff;
   }
 }

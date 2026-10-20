@@ -339,7 +339,7 @@ void main() {
       expect(Consent.fromJson({'ageBand': 'adult', 'analyticsAllowed': true}).canCollect, isTrue);
       expect(Consent.fromJson({'ageBand': 'adult', 'analyticsAllowed': true, 'withdrawnAt': '2026-10-12T00:00:00Z'}).canCollect, isFalse);
       expect(Consent.fromJson({'ageBand': 'minor', 'analyticsAllowed': true}).canCollect, isFalse);
-      expect(Consent.fromJson({'ageBand': 'unknown', 'analyticsAllowed': true}).canCollect, isFalse);
+      expect(Consent.fromJson({'ageBand': 'unknown', 'analyticsAllowed': true}).canCollect, isTrue, reason: 'Rather not say is on (D183)');
       expect(Consent.fromJson({}).canCollect, isFalse);
     });
   });

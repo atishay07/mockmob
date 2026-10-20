@@ -135,17 +135,37 @@ void main() {
     });
   });
 
-  for (final band in [AgeBand.minor, AgeBand.unknown]) {
-    group(band.name, () {
-      testWidgets('reads "Off for your account." with no switch and no prompt', (tester) async {
-        await _pump(tester, FakeConsent(consentState(band)));
-        expect(find.text('Off for your account.'), findsOneWidget);
-        expect(_switch, findsNothing);
-        expect(find.text(usageDataConsentLabel), findsNothing);
-        expect(find.text('Change my age answer'), findsOneWidget);
-      });
+  group('minor', () {
+    testWidgets('reads "Off for your account." with no switch, says why, and offers the age question', (tester) async {
+      await _pump(tester, FakeConsent(consentState(AgeBand.minor)));
+      expect(find.text('Off for your account.'), findsOneWidget);
+      expect(find.text('Usage data stays off because you said you are under 18.'), findsOneWidget);
+      expect(_switch, findsNothing);
+      expect(find.text(usageDataConsentLabel), findsNothing);
+      expect(find.text('Change my age answer'), findsOneWidget);
     });
-  }
+  });
+
+  group('prefer not to say (D183)', () {
+    testWidgets('gets the switch like an adult, and anyone can turn it off here', (tester) async {
+      final consent = FakeConsent(consentState(AgeBand.unknown, on: true));
+      await _pump(tester, consent);
+      expect(find.text('Off for your account.'), findsNothing);
+      expect(find.text(usageDataConsentLabel), findsOneWidget);
+      expect(_on(tester), isTrue);
+      await tester.tap(_switch);
+      await tester.pumpAndSettle();
+      expect(consent.allowedCalls, [false]);
+      expect(_on(tester), isFalse);
+    });
+
+    testWidgets('an age never answered still reads off, and says to answer the age question', (tester) async {
+      await _pump(tester, FakeConsent(const ConsentState(status: ConsentStatus.loaded, consent: Consent())));
+      expect(find.text('Off for your account.'), findsOneWidget);
+      expect(find.text('Usage data stays off until you answer the age question below.'), findsOneWidget);
+      expect(_switch, findsNothing);
+    });
+  });
 
   testWidgets('Change my age answer re-asks the age question and saves the choice', (tester) async {
     final consent = FakeConsent(consentState(AgeBand.adult, on: true));
@@ -160,9 +180,10 @@ void main() {
     await tester.tap(find.text('Prefer not to say'));
     await tester.pumpAndSettle();
     expect(consent.ageCalls, [AgeBand.unknown]);
-    // The screen now follows the new record: no switch for an unknown age.
-    expect(find.text('Off for your account.'), findsOneWidget);
-    expect(_switch, findsNothing);
+    // The screen now follows the new record: "Prefer not to say" gets the switch (D183), off until chosen.
+    expect(find.text('Off for your account.'), findsNothing);
+    expect(find.text(usageDataConsentLabel), findsOneWidget);
+    expect(_on(tester), isFalse);
   });
 
   testWidgets('a minor who says Yes gets the switch, still off', (tester) async {

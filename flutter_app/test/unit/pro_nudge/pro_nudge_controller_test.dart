@@ -9,6 +9,7 @@ import 'package:mockmob/core/api/api_providers.dart' show nowProvider;
 import 'package:mockmob/core/repositories/student_actions.dart';
 import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/billing/billing.dart' show playBillingUserIdProvider;
+import 'package:mockmob/features/credits/data/credit_figures.dart';
 import 'package:mockmob/features/pro_nudge/copy.dart';
 import 'package:mockmob/features/pro_nudge/data/nudge_rules.dart';
 import 'package:mockmob/features/pro_nudge/data/pro_nudge_controller.dart';
@@ -35,6 +36,7 @@ class Run {
     DateTime? now,
   })  : _enabled = NotifierProvider<_Flag, bool>(() => _Flag(enabled)),
         _onboarding = NotifierProvider<_Flag, bool>(() => _Flag(onboarding)),
+        _creditsLow = NotifierProvider<_Flag, bool>(() => _Flag(false)),
         clock = now ?? DateTime(2026, 10, 18, 19) {
     container = ProviderContainer(overrides: [
       proNudgePrefsProvider.overrideWithValue(prefs),
@@ -42,6 +44,7 @@ class Run {
       playBillingUserIdProvider.overrideWithValue(userId),
       proNudgesOnProvider.overrideWith((ref) => ref.watch(_enabled)),
       proNudgeInOnboardingProvider.overrideWith((ref) => ref.watch(_onboarding)),
+      proNudgeCreditsLowProvider.overrideWith((ref) => ref.watch(_creditsLow)),
       nowProvider.overrideWithValue(() => clock),
     ]);
     // The app shell listens to the pop-up for the whole run; so does this run.
@@ -52,6 +55,7 @@ class Run {
   final String launch;
   final NotifierProvider<_Flag, bool> _enabled;
   final NotifierProvider<_Flag, bool> _onboarding;
+  final NotifierProvider<_Flag, bool> _creditsLow;
   DateTime clock;
   late final ProviderContainer container;
 
@@ -65,6 +69,9 @@ class Run {
   void setEnabled(bool v) => container.read(_enabled.notifier).set(v);
   void setOnboarding(bool v) => container.read(_onboarding.notifier).set(v);
   void act() => container.read(studentActionsProvider.notifier).submitted();
+
+  /// The student has met a real limit: 10 credits or fewer (D181).
+  void setCreditsLow(bool v) => container.read(_creditsLow.notifier).set(v);
 
   /// The student seals their onboarding plan (signed out, before sign-in, as in the app).
   void seal() => container.read(onboardedThisRunProvider.notifier).sealed();
@@ -100,8 +107,14 @@ void main() {
       expect(r1.verdict, PopupVerdict.noAction, reason: 'never right after onboarding');
       expect(r1.due, isFalse);
 
-      // The first real action of the first usage session.
+      // The first real action of the first usage session: a first paper alone asks for nothing (D181).
       r1.act();
+      expect(r1.verdict, PopupVerdict.notArmed);
+      expect(r1.due, isFalse);
+      expect(r1.take(), isFalse);
+
+      // A real limit arms it.
+      r1.setCreditsLow(true);
       expect(r1.due, isTrue);
       expect(r1.take(), isTrue);
       expect(r1.take(), isFalse, reason: 'marked before it opens: a second call finds it shown');
@@ -123,6 +136,8 @@ void main() {
       r.act();
       await r.onboard();
       expect(r.verdict, PopupVerdict.noAction);
+      r.setCreditsLow(true);
+      expect(r.verdict, PopupVerdict.noAction, reason: 'a limit alone is not an action either');
       r.act();
       expect(r.due, isTrue);
       r.close();
@@ -156,6 +171,7 @@ void main() {
       final r = await Run(prefs, launch: 'L1', onboarding: true).settled();
       await r.onboard();
       r.clock = r.clock.add(const Duration(hours: 5, minutes: 59));
+      r.setCreditsLow(true);
       r.act();
       expect(r.due, isTrue);
       r.clock = r.clock.add(const Duration(minutes: 2));
@@ -214,6 +230,7 @@ void main() {
       r.setEnabled(true);
       await r.settled();
       expect(r.verdict, PopupVerdict.noAction);
+      r.setCreditsLow(true);
       r.act();
       expect(r.due, isTrue);
       // Becomes Pro: not asked.
@@ -235,6 +252,7 @@ void main() {
     test('the mark is per account: another account on the same phone has its own', () async {
       final a = await Run(prefs, launch: 'L1', userId: 'a', onboarding: true).settled();
       await a.onboard();
+      a.setCreditsLow(true);
       a.act();
       expect(a.take(), isTrue);
       await a.settled();
@@ -242,9 +260,116 @@ void main() {
 
       final b = await Run(prefs, launch: 'L2', userId: 'b', onboarding: true).settled();
       await b.onboard();
+      b.setCreditsLow(true);
       b.act();
       expect(b.due, isTrue);
       b.close();
+    });
+  });
+
+  group('arming: the first-session sheet waits for a real limit (D181)', () {
+    Future<Run> afterFirstPaper() async {
+      final r = await Run(prefs, launch: 'L1', onboarding: true).settled();
+      await r.onboard();
+      r.act();
+      return r;
+    }
+
+    test('the second return to a tab root after a viewed result arms it; the first does not', () async {
+      final r = await afterFirstPaper();
+      r.ctl.noteResultViewed();
+      expect(r.verdict, PopupVerdict.notArmed);
+      r.ctl.noteTabRoot();
+      expect(r.verdict, PopupVerdict.notArmed, reason: 'the first return, from the result to Today');
+      r.ctl.noteTabRoot();
+      expect(r.verdict, PopupVerdict.due);
+      expect(r.take(), isTrue);
+      r.close();
+    });
+
+    test('returns to a tab root before any result was viewed count for nothing', () async {
+      final r = await afterFirstPaper();
+      for (var i = 0; i < 5; i++) {
+        r.ctl.noteTabRoot();
+      }
+      expect(r.verdict, PopupVerdict.notArmed);
+      r.close();
+    });
+
+    test('viewing another result starts the count again', () async {
+      final r = await afterFirstPaper();
+      r.ctl.noteResultViewed();
+      r.ctl.noteTabRoot();
+      r.ctl.noteResultViewed();
+      r.ctl.noteTabRoot();
+      expect(r.verdict, PopupVerdict.notArmed);
+      r.ctl.noteTabRoot();
+      expect(r.verdict, PopupVerdict.due);
+      r.close();
+    });
+
+    test('a real limit (10 credits or fewer) arms it with no result viewed, and 11 does not', () async {
+      final r = await afterFirstPaper();
+      expect(r.verdict, PopupVerdict.notArmed);
+      r.setCreditsLow(true);
+      expect(r.due, isTrue);
+      r.setCreditsLow(false);
+      expect(r.due, isFalse);
+      r.close();
+    });
+
+    test('the credit limit is read from the figures: 10 or fewer, a Free student, known and fresh', () {
+      bool low(CreditFigures f) {
+        final c = ProviderContainer(overrides: [
+          proNudgesOnProvider.overrideWithValue(true),
+          creditFiguresProvider.overrideWithValue(f),
+        ]);
+        addTearDown(c.dispose);
+        return c.read(proNudgeCreditsLowProvider);
+      }
+
+      expect(low(const CreditFigures(mode: CreditsMode.oneBalance, total: 10)), isTrue);
+      expect(low(const CreditFigures(mode: CreditsMode.oneBalance, total: 0)), isTrue);
+      expect(low(const CreditFigures(mode: CreditsMode.oneBalance, total: 11)), isFalse);
+      expect(low(const CreditFigures(mode: CreditsMode.twoPools, practice: 7)), isTrue);
+      expect(low(const CreditFigures(mode: CreditsMode.twoPools, practice: 38)), isFalse);
+      expect(low(const CreditFigures(mode: CreditsMode.oneBalance)), isFalse, reason: 'unknown is never a limit');
+      expect(low(const CreditFigures(mode: CreditsMode.oneBalance, total: 3, stale: true)), isFalse, reason: 'a saved copy is not a limit');
+      expect(low(const CreditFigures(mode: CreditsMode.oneBalance, total: 3, isPro: true)), isFalse, reason: 'Pro has no limit');
+    });
+
+    test('with the nudges off the credits are not even read', () {
+      final c = ProviderContainer(overrides: [proNudgesOnProvider.overrideWithValue(false)]);
+      addTearDown(c.dispose);
+      expect(c.read(proNudgeCreditsLowProvider), isFalse);
+    });
+
+    test('opening the full Pro page oneself is the ask: the sheet never follows it', () async {
+      final r = await afterFirstPaper();
+      r.setCreditsLow(true);
+      expect(r.due, isTrue);
+      r.ctl.upgradeOpened();
+      await r.settled();
+      expect(r.verdict, PopupVerdict.alreadyShown);
+      expect(r.take(), isFalse);
+      r.close();
+    });
+
+    test('the number of results viewed is kept on the phone, per account', () async {
+      final r1 = await Run(prefs, launch: 'L1').settled();
+      expect(r1.container.read(proNudgeProvider).saved.resultsViewed, 0);
+      r1.ctl.noteResultViewed();
+      r1.ctl.noteResultViewed();
+      await r1.settled();
+      r1.close();
+
+      final r2 = await Run(prefs, launch: 'L2').settled();
+      expect(r2.container.read(proNudgeProvider).saved.resultsViewed, 2);
+      r2.close();
+
+      final other = await Run(prefs, launch: 'L3', userId: 'u2').settled();
+      expect(other.container.read(proNudgeProvider).saved.resultsViewed, 0);
+      other.close();
     });
   });
 
@@ -292,6 +417,7 @@ void main() {
       final r = await Run(prefs, launch: 'L1', onboarding: true).settled();
       await r.onboard();
       r.ctl.dismiss(ProNudgeSurface.practiceMocks);
+      r.setCreditsLow(true);
       r.act();
       expect(r.due, isTrue);
       expect(r.take(), isTrue);

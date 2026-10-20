@@ -92,8 +92,13 @@ enum AgeAnswer {
 
   final String label;
 
-  /// What the consent API is told. "Rather not say" is treated like under 18: usage data off.
+  /// What the consent API is told. "Rather not say" is the unknown band and is not treated like under
+  /// 18: usage data is on for it (D183). Only "Not yet" turns it off.
   final AgeBand band;
+
+  /// Whether the student sees the usage-data switch, on by default: 18 or older and "Rather not say".
+  /// Under 18 never sees it, and usage data stays off.
+  bool get usageSwitch => this != minor;
 
   static AgeAnswer? byName(String? name) => _byName(values, name);
 }

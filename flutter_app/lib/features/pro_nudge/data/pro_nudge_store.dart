@@ -6,7 +6,7 @@ import '../copy.dart';
 /// a lost value only means a nudge may show once more. Everything is a plain key in the phone's
 /// preferences, so it survives a restart.
 class ProNudgeSaved {
-  const ProNudgeSaved({this.popupShown = false, this.onboardedAt, this.onboardedLaunch, this.actionsAtOnboarded = 0, this.dismissed = const {}});
+  const ProNudgeSaved({this.popupShown = false, this.onboardedAt, this.onboardedLaunch, this.actionsAtOnboarded = 0, this.resultsViewed = 0, this.dismissed = const {}});
 
   /// The first-session pop-up was shown. Once ever.
   final bool popupShown;
@@ -20,14 +20,19 @@ class ProNudgeSaved {
   /// Real actions already taken in that run when onboarding finished (only later ones count).
   final int actionsAtOnboarded;
 
+  /// How many results the student has viewed on this phone since this was added (D181: the very first
+  /// result carries no Pro ask).
+  final int resultsViewed;
+
   /// When each inline nudge was last dismissed, by [ProNudgeSurface.key].
   final Map<String, DateTime> dismissed;
 
-  ProNudgeSaved copyWith({bool? popupShown, DateTime? onboardedAt, String? onboardedLaunch, int? actionsAtOnboarded, Map<String, DateTime>? dismissed}) => ProNudgeSaved(
+  ProNudgeSaved copyWith({bool? popupShown, DateTime? onboardedAt, String? onboardedLaunch, int? actionsAtOnboarded, int? resultsViewed, Map<String, DateTime>? dismissed}) => ProNudgeSaved(
         popupShown: popupShown ?? this.popupShown,
         onboardedAt: onboardedAt ?? this.onboardedAt,
         onboardedLaunch: onboardedLaunch ?? this.onboardedLaunch,
         actionsAtOnboarded: actionsAtOnboarded ?? this.actionsAtOnboarded,
+        resultsViewed: resultsViewed ?? this.resultsViewed,
         dismissed: dismissed ?? this.dismissed,
       );
 }
@@ -51,9 +56,12 @@ class ProNudgeStore {
       onboardedAt: onboardedMs == null ? null : DateTime.fromMillisecondsSinceEpoch(onboardedMs),
       onboardedLaunch: await _prefs.getString(_k(userId, 'onboarded_launch')),
       actionsAtOnboarded: await _prefs.getInt(_k(userId, 'onboarded_actions')) ?? 0,
+      resultsViewed: await _prefs.getInt(_k(userId, 'results_viewed')) ?? 0,
       dismissed: dismissed,
     );
   }
+
+  Future<void> saveResultsViewed(String userId, int count) => _prefs.setInt(_k(userId, 'results_viewed'), count);
 
   Future<void> savePopupShown(String userId) => _prefs.setBool(_k(userId, 'popup_shown'), true);
 

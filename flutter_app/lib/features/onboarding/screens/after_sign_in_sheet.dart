@@ -12,7 +12,6 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../model/answers.dart';
-import '../model/choices.dart';
 import '../model/plan.dart';
 import '../state/answers_controller.dart';
 import '../state/colleges_move.dart';
@@ -28,11 +27,11 @@ import '../widgets/usage_data_card.dart';
 /// usage-data switch. Without one (a student who signed straight in): "Are you 18 or older?",
 /// then usage data for adults, as before.
 ///
-/// Usage data for adults (owner, 18 Oct, D49): the switch starts on, says where to turn it off,
-/// and an adult who continues with it on is saved as allowed (`analyticsAllowed: true`, once the
-/// server acknowledges). Nothing is sent before they continue, and nothing is collected before
-/// the server agrees ([Consent.canCollect] is unchanged). An account that turned it off before
-/// starts off. Under 18 and "rather not say" never see the switch, as before.
+/// Usage data (owner, 18 Oct, D49; 20 Oct, D183): the switch starts on, says where to turn it off,
+/// and a student who continues with it on is saved as allowed (`analyticsAllowed: true`, once the
+/// server acknowledges). It is shown to 18 or older and to "Rather not say"; only "Not yet" (under
+/// 18) never sees it and stays off. Nothing is sent before they continue, and nothing is collected
+/// before the server agrees. An account that turned it off before starts off.
 class AfterSignInSheet extends ConsumerStatefulWidget {
   const AfterSignInSheet({super.key});
 
@@ -141,7 +140,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
     try {
       await ref.read(consentRepositoryProvider.notifier).setAgeBand(band);
       if (!mounted) return;
-      if (band == AgeBand.adult) {
+      if (band != AgeBand.minor) {
         setState(() {
           _savingAge = null;
           _usageStep = true;
@@ -217,7 +216,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
         phase: sync.phase,
         offline: sync.offline,
         colleges: ref.watch(collegesMoveProvider),
-        showUsage: _usageVisible = answers.age == AgeAnswer.adult,
+        showUsage: _usageVisible = answers.age?.usageSwitch ?? false,
         usageOn: usageOn,
         usageBusy: _usageBusy,
         eventsOpen: _eventsOpen,
@@ -230,7 +229,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
       );
     }
 
-    final alreadyDecided = !_touched && consent.isLoaded && consent.consent.ageBand != AgeBand.unknown;
+    final alreadyDecided = !_touched && consent.isLoaded && consent.consent.answered;
     final waiting = !consent.isLoaded && consent.status != ConsentStatus.failed;
     if (alreadyDecided) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -262,7 +261,7 @@ class _AfterSignInSheetState extends ConsumerState<AfterSignInSheet> {
   }
 }
 
-/// The saved state of the sheet, then usage data for adults. Rendered by the goldens.
+/// The saved state of the sheet, then usage data (18 or older and "Rather not say"). Rendered by the goldens.
 class SheetSavedView extends StatelessWidget {
   const SheetSavedView({
     super.key,
@@ -363,7 +362,7 @@ class SheetSavedView extends StatelessWidget {
   }
 }
 
-/// "Are you 18 or older?", then usage data for adults. Rendered by the goldens.
+/// "Are you 18 or older?", then usage data unless the answer was "Not yet". Rendered by the goldens.
 class AgeThenUsageView extends StatelessWidget {
   const AgeThenUsageView({
     super.key,

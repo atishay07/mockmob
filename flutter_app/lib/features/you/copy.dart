@@ -186,7 +186,6 @@ abstract final class YouCopy {
   static const privacyOffForAccount = 'Off for your account';
   static const privacyOn = 'Usage data is on';
   static const privacyOff = 'Usage data is off';
-  static const privacyUnknown = 'Usage data is treated as off';
 
   // Goal editor.
   static const goalTitle = 'Weekly goal';
@@ -266,7 +265,8 @@ abstract final class YouCopy {
       'Each one has a name, a time, your app version and, at most, a few '
       'plain labels such as the subject or the kind of practice.';
   static const offForAccount = 'Off for your account.';
-  static const offForAccountNote = 'Usage data can only be turned on by someone who says they are 18 or older.';
+  static const offForAccountNote = 'Usage data stays off because you said you are under 18.';
+  static const offUnansweredNote = 'Usage data stays off until you answer the age question below.';
   static const operationalHeading = 'What this switch does not cover';
   static const operationalNote =
       'Your sessions, scores, notification settings and plan are kept to run your account. Google '
@@ -343,6 +343,7 @@ abstract final class YouCopy {
       '${plural(count, 'study update')} waiting to send will be removed too.';
   static const deleteCancelNote =
       'To cancel, email support@mockmob.in from your account address before we finish.';
+  static const deletePlayNote = 'Deleting your account does not cancel Pro in Google Play. Cancel it there first so you are not charged again.';
   static const deleteRequest = 'Request deletion';
   static const deleteKeep = 'Keep my account';
   static const deleteOffline = 'You are offline. Nothing was requested. Try again when you are connected.';
