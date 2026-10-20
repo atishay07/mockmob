@@ -5,14 +5,12 @@
 // all while the server has not shipped Mob hours.
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show MmSwitch;
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
 import 'package:mockmob/features/social/copy.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
-import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/screens/shelf_screen.dart' show FoldTile;
 import 'package:mockmob/features/social/v3/widgets/mob_settings_sheet.dart';
 import 'package:mockmob/features/social/v3/widgets/shelf_sheet.dart';
@@ -24,7 +22,7 @@ import '../../../unit/social/v3/social_test_kit.dart';
 import '../../../helpers/golden_harness.dart';
 
 class _Spy extends SocialServer {
-  _Spy({super.scenario, super.billing, super.failures});
+  _Spy({super.scenario});
 
   @override
   Future<Object?> studyShare({required String mob, required bool on}) async {

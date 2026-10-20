@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../copy_v3.dart';
@@ -32,6 +33,9 @@ class ChainYouBody extends ConsumerStatefulWidget {
 class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
   bool _busy = false;
   String? _error;
+
+  /// The exam pause days open in place under their link (no sheet over the sheet).
+  bool _pauseOpen = false;
 
   ChainState get c => widget.chain;
 
@@ -135,10 +139,16 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
         const SizedBox(height: MmSpace.s24),
         Row(
           children: [
-            Expanded(child: LinkKey(label: MobV3Copy.examPause, icon: LucideIcons.pause, onPressed: () => showPauseSheet(context))),
+            Expanded(child: LinkKey(label: MobV3Copy.examPause, icon: LucideIcons.pause, onPressed: () => setState(() => _pauseOpen = !_pauseOpen))),
             const SizedBox(width: MmSpace.s12),
             Flexible(child: LinkKey(label: MobV3Copy.hideChain, icon: LucideIcons.eyeOff, alignment: Alignment.centerRight, onPressed: _busy ? null : () => _hide(true))),
           ],
+        ),
+        MmSizeEase(
+          duration: Motion.reduced(context) ? Duration.zero : Motion.card,
+          curve: Motion.glide,
+          alignment: Alignment.topCenter,
+          child: _pauseOpen ? const Padding(padding: EdgeInsets.only(top: MmSpace.s12), child: PauseInline(key: ValueKey('chain-pause-inline'))) : const SizedBox(width: double.infinity),
         ),
         if (_error != null) ...[
           const SizedBox(height: MmSpace.s8),

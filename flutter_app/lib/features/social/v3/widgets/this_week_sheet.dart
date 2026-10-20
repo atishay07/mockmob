@@ -160,6 +160,8 @@ class MobHoursBlock extends StatelessWidget {
     final type = context.mmType;
     final off = hours.offForEveryone;
     final top = hours.topMemberId;
+    // At large text the figure sits under the title, so the title keeps its line.
+    final large = MediaQuery.textScalerOf(context).scale(16) > 18.5;
     return MmSurface.plain(
       key: const ValueKey('tw-hours'),
       padding: const EdgeInsets.all(MmSpace.s20),
@@ -189,7 +191,7 @@ class MobHoursBlock extends StatelessWidget {
                   ],
                 ),
               ),
-              if (!off) ...[
+              if (!off && !large) ...[
                 const SizedBox(width: MmSpace.s12),
                 Flexible(
                   child: FittedBox(
@@ -219,6 +221,23 @@ class MobHoursBlock extends StatelessWidget {
               ],
             ],
           ),
+          if (!off && large) ...[
+            const SizedBox(height: MmSpace.s12),
+            Semantics(
+              container: true,
+              label: MobV4SheetsCopy.hoursSemantics(hours.totalMinutes, hours.targetMinutes),
+              child: ExcludeSemantics(
+                child: Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  spacing: MmSpace.s8,
+                  children: [
+                    _Figure(minutes: hours.totalMinutes),
+                    Text(MobV4SheetsCopy.hoursOf(hours.targetMinutes), style: type.small.copyWith(color: c.ink2)),
+                  ],
+                ),
+              ),
+            ),
+          ],
           if (off) ...[
             const SizedBox(height: MmSpace.s16),
             Text(MobV4SheetsCopy.hoursOffEveryone, style: type.body),
