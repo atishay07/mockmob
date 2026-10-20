@@ -224,11 +224,16 @@ async function readHeavy(db, userId, ids) {
 }
 
 async function readReservations(db, userId) {
-  const res = await db.from('ai_credit_reservations').select('operation_key,updated_at,receipt')
+  // Review needs that a repair exists, when, and how its Check it held went (right, answeredAt): two small json paths of the check, not the
+  // repair body (egress A10). The rows come back as the receipt shape repairsById reads, with an empty repair object.
+  const res = await db.from('ai_credit_reservations').select('operation_key,updated_at,chk_right:receipt->check->right,chk_at:receipt->check->>answeredAt')
     .eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair')
     .not('receipt->repair', 'is', null).order('updated_at', { ascending: false }).limit(SAVED_WINDOW);
   if (res.error) throw fail('REVIEW_REPAIRS_UNAVAILABLE', res.error);
-  return res.data || [];
+  return (res.data || []).map((row) => ({
+    operation_key: row.operation_key, updated_at: row.updated_at,
+    receipt: { repair: {}, ...(typeof row.chk_right === 'boolean' ? { check: { right: row.chk_right, answeredAt: row.chk_at ?? null } } : {}) },
+  }));
 }
 
 /** The student's Revise cards, or null when they cannot be read (then Revise's counts are unknown, not zero). */

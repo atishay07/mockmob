@@ -4,6 +4,7 @@
 import { createHash } from 'node:crypto';
 import { RELEASE_GATES, recoveryReleased } from '../../../data/capabilities.js';
 import { readSlimRows } from '../../../data/attempt_reads.js';
+import { repairStubRows, SAVED_REPAIR_SELECT } from './repairSaved.js';
 
 export const DEFAULT_LIMIT = 50;
 export const MAX_LIMIT = 100;
@@ -75,7 +76,8 @@ export function buildRepairRecord({ userId, reservations, attempts, gates = RELE
 export async function getRepairRecord(userId, { limit = DEFAULT_LIMIT } = {}) {
   const { supabaseAdmin } = await import('../supabase');
   const db = supabaseAdmin();
-  const res = await db.from('ai_credit_reservations').select('operation_key,updated_at,receipt')
+  // The record needs that a repair exists, when and for which mistake, not its body (egress A10).
+  const res = await db.from('ai_credit_reservations').select(SAVED_REPAIR_SELECT)
     .eq('user_id', userId).eq('state', 'committed').eq('action', 'score_recovery_repair')
     .not('receipt->repair', 'is', null).order('updated_at', { ascending: false }).limit(RESERVATION_WINDOW);
   if (res.error) throw fail('REPAIR_RECORD_UNAVAILABLE', res.error);
@@ -90,5 +92,5 @@ export async function getRepairRecord(userId, { limit = DEFAULT_LIMIT } = {}) {
     if (att.error) throw fail('REPAIR_RECORD_UNAVAILABLE', att.error);
     attempts = att.data || [];
   }
-  return buildRepairRecord({ userId, reservations: res.data, attempts, limit });
+  return buildRepairRecord({ userId, reservations: repairStubRows(res.data), attempts, limit });
 }

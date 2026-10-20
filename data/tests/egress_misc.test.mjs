@@ -8,6 +8,9 @@ import { ITEM_COLUMNS, SEED_COLUMNS, getRevise, itemChunk } from '../../src/lib/
 import { fakeDb as reviseFakeDb } from '../../scripts/mistake-lab/fake-db.mjs';
 import { USER, REVISE_NOW, reviseWorld } from '../../scripts/mistake-lab/build-s4-fixtures.mjs';
 import { rng } from './helpers/egress_fixtures.mjs';
+import { repairStubRows, repairedCounts, savedRepairsForAttempt, SAVED_REPAIR_SELECT } from '../../src/lib/server/repairSaved.js';
+import { buildRepairRecord, mistakeKey } from '../../src/lib/server/repairRecord.js';
+import { repairsById } from '../../src/lib/server/review.js';
 
 // Egress items A12, A13/F16, F17, F18 (20 Oct 2026): small shared reads kept briefly, and column narrowing with dead reads removed.
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
@@ -206,4 +209,33 @@ test('F15: Revise reads a chunk of the room plus a few, finds the same items and
   assert.match(code, /loadQuestions\(db, candidates\.map\(\(c\) => c\.question_id\), SEED_COLUMNS\)/);
   assert.match(code, /ITEM_COLUMNS\);/);
   assert.match(code, /loadQuestions\(client_, \[questionId\]\)\)\.get\(questionId\)/, 'answering still reads the explanation');
+});
+
+test('A10: the saved-repair readers give the same answers from stub receipts as from the full repair bodies', () => {
+  const userId = 'u1';
+  const attempts = Array.from({ length: 6 }, (_, a) => ({
+    id: `a${a}`, subject: 'accountancy', completed_at: `2026-10-0${a + 1}T10:00:00Z`,
+    details: Array.from({ length: 8 }, (_, k) => ({ qid: `q${a}-${k}`, isCorrect: k % 3 === 0 ? true : k % 3 === 1 ? false : null, givenIndex: 1 })),
+    questions_snapshot: Array.from({ length: 8 }, (_, k) => ({ id: `q${a}-${k}`, chapter: `Chapter ${k % 3}` })),
+  }));
+  const full = [];
+  for (const a of attempts) for (const d of a.details) {
+    if (d.isCorrect !== false || full.length >= 9) continue;
+    full.push({ operation_key: `repair:${mistakeKey(userId, a.id, d.qid)}:req${full.length}`, updated_at: `2026-10-1${full.length}T09:00:00Z`, receipt: { repair: { why_right: 'x'.repeat(2500), rule: 'A rule.' }, check: { right: full.length % 2 === 0, answeredAt: '2026-10-19T10:00:00Z', explanation: 'y'.repeat(1500) } } });
+  }
+  const stubs = repairStubRows(full.map(({ operation_key, updated_at }) => ({ operation_key, updated_at })));
+  assert.equal(stubs.length, full.length);
+  const attempt = attempts[0];
+  assert.deepEqual(savedRepairsForAttempt({ userId, attempt, reservations: stubs }), savedRepairsForAttempt({ userId, attempt, reservations: full }));
+  assert.deepEqual(repairedCounts({ userId, attempts, reservations: stubs }), repairedCounts({ userId, attempts, reservations: full }));
+  assert.deepEqual(buildRepairRecord({ userId, reservations: stubs, attempts, limit: 50 }), buildRepairRecord({ userId, reservations: full, attempts, limit: 50 }));
+  assert.ok(Object.keys(repairedCounts({ userId, attempts, reservations: stubs })).length > 2);
+  // Review keeps the check: the two json paths give the receipt shape repairsById reads
+  const asReview = full.map((r) => ({ operation_key: r.operation_key, updated_at: r.updated_at, receipt: { repair: {}, check: { right: r.receipt.check.right, answeredAt: r.receipt.check.answeredAt } } }));
+  assert.deepEqual([...repairsById(asReview)], [...repairsById(full)]);
+  assert.ok([...repairsById(full).values()].some((v) => v.check?.right === true) && [...repairsById(full).values()].some((v) => v.check?.right === false));
+  assert.equal(SAVED_REPAIR_SELECT, 'operation_key,updated_at');
+  for (const file of ['src/lib/server/repairSaved.js', 'src/lib/server/repairRecord.js']) assert.match(src(file), /SAVED_REPAIR_SELECT|select\('operation_key'\)/, file);
+  assert.match(src('src/lib/server/review.js'), /chk_right:receipt->check->right,chk_at:receipt->check->>answeredAt/);
+  assert.match(src('src/lib/server/ruleBook.js'), /repair:receipt->repair/, 'the Rule book still reads the repair body it shows');
 });
