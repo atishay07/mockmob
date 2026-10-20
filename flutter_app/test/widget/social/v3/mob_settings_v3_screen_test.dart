@@ -13,6 +13,7 @@ import 'package:mockmob/features/social/v3/screens/mob_settings_v3_screen.dart';
 
 import '../../../unit/social/mob_test_kit.dart' show FakeMobActions;
 import '../../../unit/social/v3/mob_v3_test_kit.dart';
+import '../../../unit/social/v3/sheets_test_kit.dart' show keyLabel, tapAt;
 import '../../../unit/social/v3/social_test_kit.dart';
 
 FakeMobActions? _old;
@@ -25,7 +26,7 @@ Future<SocialServer> _open(WidgetTester tester, {SocialServer? server, bool memb
     s.calls.clear();
   }
   _old = null;
-  await pumpSocial(tester, const MobSettingsV3Screen(), s, size: const Size(360, 1500), actions: (ref) => _old = SocialMobActions(ref));
+  await pumpSocial(tester, const MobSettingsV3Screen(), s, size: const Size(360, 2600), actions: (ref) => _old = SocialMobActions(ref));
   await settleSocial(tester);
   return s;
 }
@@ -82,21 +83,18 @@ void main() {
 
     testWidgets('can remove a member, and leave and block, and report', (tester) async {
       await _open(tester);
-      await tester.tap(find.byTooltip(MobV3Copy.memberMenu('Riya')));
-      await tester.pumpAndSettle();
-      expect(find.text(MobCopy.report), findsOneWidget);
-      expect(find.text(MobCopy.leaveAndBlock), findsOneWidget);
-      expect(find.text(MobCopy.removeMember), findsOneWidget);
+      await tapAt(tester, find.byTooltip(MobV3Copy.memberMenu('Riya')));
+      expect(keyLabel(MobCopy.report), findsOneWidget);
+      expect(keyLabel(MobCopy.leaveAndBlock), findsOneWidget);
+      expect(keyLabel(MobCopy.removeMember), findsOneWidget);
     });
 
     testWidgets('Remove asks first, then removes through the old call', (tester) async {
       await _open(tester);
-      await tester.tap(find.byTooltip(MobV3Copy.memberMenu('Kabir')));
-      await tester.pumpAndSettle();
-      await tester.tap(find.text(MobCopy.removeMember));
-      await tester.pumpAndSettle();
+      await tapAt(tester, find.byTooltip(MobV3Copy.memberMenu('Kabir')));
+      await tapAt(tester, keyLabel(MobCopy.removeMember));
       expect(find.text(MobCopy.removeTitle('Kabir')), findsOneWidget);
-      await tester.tap(find.text(MobCopy.removeMember).last);
+      await tester.tap(keyLabel(MobCopy.removeMember).last);
       await settleSocial(tester);
       expect(_old!.calls, contains('remove:KABIR0000003'));
     });
@@ -116,11 +114,10 @@ void main() {
 
     testWidgets('the member menu has Report and Leave and block, and no Remove', (tester) async {
       await _open(tester, member: true);
-      await tester.tap(find.byTooltip(MobV3Copy.memberMenu('Zoya')));
-      await tester.pumpAndSettle();
-      expect(find.text(MobCopy.report), findsOneWidget);
-      expect(find.text(MobCopy.leaveAndBlock), findsOneWidget);
-      expect(find.text(MobCopy.removeMember), findsNothing);
+      await tapAt(tester, find.byTooltip(MobV3Copy.memberMenu('Zoya')));
+      expect(keyLabel(MobCopy.report), findsOneWidget);
+      expect(keyLabel(MobCopy.leaveAndBlock), findsOneWidget);
+      expect(keyLabel(MobCopy.removeMember), findsNothing);
     });
 
     test('the sentence says does not show when it is off', () {

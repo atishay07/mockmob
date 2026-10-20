@@ -211,13 +211,8 @@ class _InlineSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final still = Motion.reduced(context);
-    return AnimatedSize(
-      duration: still ? Duration.zero : Motion.card,
-      curve: Motion.glide,
-      alignment: Alignment.topCenter,
-      child: child == null ? const SizedBox(width: double.infinity) : Padding(padding: const EdgeInsets.only(top: MmSpace.s12), child: child),
-    );
+    final body = child == null ? const SizedBox(width: double.infinity) : Padding(padding: const EdgeInsets.only(top: MmSpace.s12), child: child);
+    return MmSizeEase(duration: Motion.card, curve: Motion.glide, alignment: Alignment.topCenter, child: body);
   }
 }
 
