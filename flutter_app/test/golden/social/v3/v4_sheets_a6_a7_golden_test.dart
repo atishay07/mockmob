@@ -96,7 +96,7 @@ void main() {
       testWidgets('A6 Shelf sheet, the whole sheet ${_tag(b)} $scale', (t) => _shot(t, 'a6_shelf_full', openShelfSheet, b: b, scale: scale, height: scale == 1 ? 3000 : 4200));
       testWidgets('A7 Mob settings, the owner, Mob hours on ${_tag(b)} $scale', (t) => _shot(t, 'a7_settings_owner', openMobSettingsSheet, b: b, scale: scale));
       testWidgets('A7 Mob settings, the whole sheet for a Free member with Free and Pro open ${_tag(b)} $scale', (t) async {
-        await _shot(t, 'a7_settings_full', openMobSettingsSheet, b: b, scale: scale, height: scale == 1 ? 2500 : 3400, scenario: 'formats', billing: 'free', nudges: true, act: (t) async {
+        await _shot(t, 'a7_settings_full', openMobSettingsSheet, b: b, scale: scale, height: scale == 1 ? 2640 : 3400, scenario: 'formats', billing: 'free', nudges: true, act: (t) async {
           await _tapText(t, MobV3Copy.freeProTitle);
         });
       });

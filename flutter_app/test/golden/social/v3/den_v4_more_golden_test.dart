@@ -90,7 +90,9 @@ void main() {
     testWidgets('v4 den five sharing text 1.3 ${_tag(b)}', (tester) async {
       final server = v3Server(scenario: 'open')
         ..addFixtureMember('MEERA0000005', 'Meera', 4, FoldKey.crane, minutes: 95, goal: 3)
-        ..studyMinutes['ZOYA00000004'] = 50;
+        ..studyMinutes['ZOYA00000004'] = 50
+        // Five heads (3 + 2 at 1.3x): you share too (the switch is off by default).
+        ..setShareStudyTime(true);
       await pumpDen(tester, server, brightness: b, height: 2100, textScale: 1.3);
       await _settle(tester);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_five_sharing_130_${_tag(b)}.png'));

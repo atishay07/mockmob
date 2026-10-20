@@ -72,7 +72,7 @@ void main() {
     });
 
     testWidgets('SET settings, owner 360 ${_tag(b)}', (tester) async {
-      await pumpMockmob(tester, const MobSettingsV3Screen(), brightness: b, size: const Size(360, 1250), wrapInScaffold: false, disableAnimations: true, overrides: socialOverrides(SocialServer()));
+      await pumpMockmob(tester, const MobSettingsV3Screen(), brightness: b, size: const Size(360, 1380), wrapInScaffold: false, disableAnimations: true, overrides: socialOverrides(SocialServer()));
       await tester.pump(const Duration(milliseconds: 300));
       await settleImages(tester);
       await shot('set_owner_360', b);
