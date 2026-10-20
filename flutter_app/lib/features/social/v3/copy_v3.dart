@@ -825,7 +825,7 @@ abstract final class MobV3Copy {
   static String shelfHideFoldFor(String fold) => 'Hide $fold';
   static const String studyTimeTitle = 'Show my study time to my Mob';
   static const String studyTimeNote =
-      'Your Mob sees how long you practise each week, as hours and minutes. It is off until you turn it on, and you can turn it off any time. It never changes marks, chains or what you earn.';
+      'Your Mob sees how long you practise each week, as hours and minutes. Turn it off any time. It never changes marks, chains or what you earn.';
   static const String howMobWorks = 'How the Mob works';
   static const String howMobWorksLine = 'Watch the slides again';
   static const String freeProRowLine = 'What Free and Pro each give your Mob';

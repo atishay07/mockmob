@@ -278,7 +278,7 @@ class FoldDetailInline extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Center(child: FoldPuppet(fold: fold.key, size: 176, large: true, locked: !have, blink: have, fallbackName: name)),
+              Center(child: FoldPuppet(fold: fold.key, size: 140, large: true, locked: !have, blink: have, fallbackName: name)),
               const SizedBox(height: MmSpace.s12),
               Text(MobV3Copy.foldLine(fold.key), textAlign: TextAlign.center, style: type.subhead.copyWith(color: c.ink)),
               if (!have) ...[

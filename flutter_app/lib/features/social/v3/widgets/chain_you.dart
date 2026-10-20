@@ -9,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
-import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../copy_v3.dart';
@@ -34,9 +33,6 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
   bool _busy = false;
   String? _error;
 
-  /// The exam pause days open in place under their link.
-  bool _pauseOpen = false;
-
   ChainState get c => widget.chain;
 
   Future<void> _hide(bool hidden) async {
@@ -59,21 +55,16 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
   }
 
   /// The IST day key of today: the strip's last day, which the server wrote.
-  String get _today => c.week.isNotEmpty
-      ? c.week.last.day
-      : (c.calendar.isNotEmpty ? c.calendar.last.day : '');
+  String get _today => c.week.isNotEmpty ? c.week.last.day : (c.calendar.isNotEmpty ? c.calendar.last.day : '');
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    if (c.hidden)
-      return _Hidden(busy: _busy, error: _error, onShow: () => _hide(false));
+    if (c.hidden) return _Hidden(busy: _busy, error: _error, onShow: () => _hide(false));
 
     final broke = c.days == 0 && (c.best > 0 || c.brokeFrom != null);
-    final best = c.brokeFrom != null && c.brokeFrom! > c.best
-        ? c.brokeFrom!
-        : c.best;
+    final best = c.brokeFrom != null && c.brokeFrom! > c.best ? c.brokeFrom! : c.best;
     final line = broke ? MobV3Copy.newChain(best) : MobV3Copy.chainBreakdown(c);
     final left = (c.todayNeeded - c.todayAnswered).clamp(0, c.todayNeeded);
     final makeUp = c.makeUpDay != null;
@@ -81,10 +72,7 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
 
     final today = DateTime.tryParse(_today);
     final monthStates = <String, ChainDayState>{
-      for (final d in c.calendar)
-        d.day: d.state == ChainDayState.today
-            ? (c.todayDone ? ChainDayState.practised : ChainDayState.none)
-            : d.state,
+      for (final d in c.calendar) d.day: d.state == ChainDayState.today ? (c.todayDone ? ChainDayState.practised : ChainDayState.none) : d.state,
       for (final d in c.pauseDays) d: ChainDayState.paused,
     };
 
@@ -95,13 +83,7 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
-            MonumentalNumber(
-              value: '${c.days}',
-              style: type.figureHero,
-              color: colors.ink,
-              memoryKey: 'v3.chain.days',
-              semanticsLabel: '${c.days} ${MobV3Copy.daysInARow(c.days)}',
-            ),
+            MonumentalNumber(value: '${c.days}', style: type.figureHero, color: colors.ink, memoryKey: 'v3.chain.days', semanticsLabel: '${c.days} ${MobV3Copy.daysInARow(c.days)}'),
             const SizedBox(width: MmSpace.s12),
             Expanded(
               child: Padding(
@@ -110,10 +92,7 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      MobV3Copy.daysInARow(c.days),
-                      style: type.title.copyWith(fontSize: 20, height: 1.15),
-                    ),
+                    Text(MobV3Copy.daysInARow(c.days), style: type.title.copyWith(fontSize: 20, height: 1.15)),
                     const SizedBox(height: 2),
                     Text(line, style: type.small.copyWith(color: colors.ink2)),
                   ],
@@ -123,35 +102,20 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
           ],
         ),
         const SizedBox(height: MmSpace.s20),
-        ChainStrip(
-          days: c.week,
-          todayAnswered: c.todayAnswered,
-          todayNeeded: c.todayNeeded,
-          todayDone: c.todayDone,
-        ),
+        ChainStrip(days: c.week, todayAnswered: c.todayAnswered, todayNeeded: c.todayNeeded, todayDone: c.todayDone),
         if (!c.todayDone && c.week.isNotEmpty) ...[
           const SizedBox(height: MmSpace.s12),
-          Text(
-            MobV3Copy.answerMore(left),
-            style: type.small.copyWith(color: colors.ink2),
-          ),
+          Text(MobV3Copy.answerMore(left), style: type.small.copyWith(color: colors.ink2)),
         ],
         const SizedBox(height: MmSpace.s24),
         _PassesCard(held: c.passesHeld, max: c.passesMax),
         if (makeUp) ...[
           const SizedBox(height: MmSpace.s12),
-          _MakeUpCard(
-            day: c.makeUpDay!,
-            needed: c.makeUpNeeded,
-            answered: c.makeUpAnsweredToday,
-          ),
+          _MakeUpCard(day: c.makeUpDay!, needed: c.makeUpNeeded, answered: c.makeUpAnsweredToday),
         ],
         if (showRule) ...[
           const SizedBox(height: MmSpace.s8),
-          Text(
-            MobV3Copy.makeUpOnce,
-            style: type.small.copyWith(color: colors.ink3),
-          ),
+          Text(MobV3Copy.makeUpOnce, style: type.small.copyWith(color: colors.ink3)),
         ],
         const SizedBox(height: MmSpace.s32),
         if (today != null) ...[
@@ -160,56 +124,21 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
             children: [
               Text(MobTime.monthName(today.month), style: type.cardTitle),
               const SizedBox(width: MmSpace.s12),
-              Expanded(
-                child: Text(
-                  MobV3Copy.calendarCaption,
-                  textAlign: TextAlign.end,
-                  style: type.small.copyWith(color: colors.ink2),
-                ),
-              ),
+              Expanded(child: Text(MobV3Copy.calendarCaption, textAlign: TextAlign.end, style: type.small.copyWith(color: colors.ink2))),
             ],
           ),
           const SizedBox(height: MmSpace.s8),
-          ChainCalendar(
-            year: today.year,
-            month: today.month,
-            states: monthStates,
-            today: _today,
-          ),
+          ChainCalendar(year: today.year, month: today.month, states: monthStates, today: _today),
           const SizedBox(height: MmSpace.s24),
         ],
         _Milestones(milestones: c.milestones),
         const SizedBox(height: MmSpace.s24),
         Row(
           children: [
-            Expanded(
-              child: LinkKey(
-                label: MobV3Copy.examPause,
-                icon: LucideIcons.pause,
-                onPressed: () => setState(() => _pauseOpen = !_pauseOpen),
-              ),
-            ),
+            Expanded(child: LinkKey(label: MobV3Copy.examPause, icon: LucideIcons.pause, onPressed: () => showPauseSheet(context))),
             const SizedBox(width: MmSpace.s12),
-            Flexible(
-              child: LinkKey(
-                label: MobV3Copy.hideChain,
-                icon: LucideIcons.eyeOff,
-                alignment: Alignment.centerRight,
-                onPressed: _busy ? null : () => _hide(true),
-              ),
-            ),
+            Flexible(child: LinkKey(label: MobV3Copy.hideChain, icon: LucideIcons.eyeOff, alignment: Alignment.centerRight, onPressed: _busy ? null : () => _hide(true))),
           ],
-        ),
-        MmSizeEase(
-          duration: Motion.reduced(context) ? Duration.zero : Motion.card,
-          curve: Motion.glide,
-          alignment: Alignment.topCenter,
-          child: _pauseOpen
-              ? const Padding(
-                  padding: EdgeInsets.only(top: MmSpace.s12),
-                  child: PauseInline(key: ValueKey('chain-pause-inline')),
-                )
-              : const SizedBox(width: double.infinity),
         ),
         if (_error != null) ...[
           const SizedBox(height: MmSpace.s8),
@@ -221,11 +150,7 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
 }
 
 class _Hidden extends StatelessWidget {
-  const _Hidden({
-    required this.busy,
-    required this.error,
-    required this.onShow,
-  });
+  const _Hidden({required this.busy, required this.error, required this.onShow});
 
   final bool busy;
   final String? error;
@@ -243,33 +168,17 @@ class _Hidden extends StatelessWidget {
           child: Container(
             width: 72,
             height: 88,
-            decoration: BoxDecoration(
-              color: ChainPaper.fill(context),
-              borderRadius: BorderRadius.circular(16),
-              border: Border.all(color: ChainPaper.edge(context)),
-            ),
-            child: const Icon(
-              LucideIcons.eyeOff,
-              size: 30,
-              color: ChainPaper.ink,
-            ),
+            decoration: BoxDecoration(color: ChainPaper.fill(context), borderRadius: BorderRadius.circular(16), border: Border.all(color: ChainPaper.edge(context))),
+            child: const Icon(LucideIcons.eyeOff, size: 30, color: ChainPaper.ink),
           ),
         ),
         const SizedBox(height: MmSpace.s24),
-        Text(
-          MobV3Copy.hiddenLine,
-          textAlign: TextAlign.center,
-          style: type.lead.copyWith(color: colors.ink),
-        ),
+        Text(MobV3Copy.hiddenLine, textAlign: TextAlign.center, style: type.lead.copyWith(color: colors.ink)),
         const SizedBox(height: MmSpace.s24),
         KeyButton(label: MobV3Copy.showChain, loading: busy, onPressed: onShow),
         if (error != null) ...[
           const SizedBox(height: MmSpace.s12),
-          Text(
-            error!,
-            textAlign: TextAlign.center,
-            style: type.small.copyWith(color: colors.ink2),
-          ),
+          Text(error!, textAlign: TextAlign.center, style: type.small.copyWith(color: colors.ink2)),
         ],
       ],
     );
@@ -306,10 +215,7 @@ class _PassesCard extends StatelessWidget {
               children: [
                 Text(MobV3Copy.passesHeld(held, max), style: type.cardTitle),
                 const SizedBox(height: 4),
-                Text(
-                  MobV3Copy.passesRule,
-                  style: type.small.copyWith(color: colors.ink2),
-                ),
+                Text(MobV3Copy.passesRule, style: type.small.copyWith(color: colors.ink2)),
               ],
             ),
           ),
@@ -335,27 +241,16 @@ class _PassChip extends StatelessWidget {
         decoration: BoxDecoration(
           color: held ? ChainPaper.fill(context) : null,
           borderRadius: BorderRadius.circular(8),
-          border: Border.all(
-            color: held ? ChainPaper.edge(context) : colors.ink4,
-            width: held ? 1 : 1.5,
-          ),
+          border: Border.all(color: held ? ChainPaper.edge(context) : colors.ink4, width: held ? 1 : 1.5),
         ),
-        child: Icon(
-          LucideIcons.moon,
-          size: 16,
-          color: held ? ChainPaper.ink : colors.ink3,
-        ),
+        child: Icon(LucideIcons.moon, size: 16, color: held ? ChainPaper.ink : colors.ink3),
       ),
     );
   }
 }
 
 class _MakeUpCard extends StatelessWidget {
-  const _MakeUpCard({
-    required this.day,
-    required this.needed,
-    required this.answered,
-  });
+  const _MakeUpCard({required this.day, required this.needed, required this.answered});
 
   final String day;
   final int needed;
@@ -373,31 +268,17 @@ class _MakeUpCard extends StatelessWidget {
           Container(
             width: 36,
             height: 44,
-            decoration: BoxDecoration(
-              color: ChainPaper.fill(context),
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(color: ChainPaper.edge(context)),
-            ),
-            child: const Icon(
-              LucideIcons.pencilLine,
-              size: 18,
-              color: ChainPaper.ink,
-            ),
+            decoration: BoxDecoration(color: ChainPaper.fill(context), borderRadius: BorderRadius.circular(10), border: Border.all(color: ChainPaper.edge(context))),
+            child: const Icon(LucideIcons.pencilLine, size: 18, color: ChainPaper.ink),
           ),
           const SizedBox(width: MmSpace.s16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  MobV3Copy.makeUpOpen(weekday, needed),
-                  style: type.small.copyWith(color: colors.ink),
-                ),
+                Text(MobV3Copy.makeUpOpen(weekday, needed), style: type.small.copyWith(color: colors.ink)),
                 const SizedBox(height: 6),
-                Text(
-                  MobV3Copy.makeUpProgress(answered, needed),
-                  style: type.small.copyWith(color: colors.ink2),
-                ),
+                Text(MobV3Copy.makeUpProgress(answered, needed), style: type.small.copyWith(color: colors.ink2)),
               ],
             ),
           ),
@@ -419,14 +300,8 @@ class _Milestones extends StatelessWidget {
     if (milestones.isEmpty) return const SizedBox.shrink();
     final colors = context.mmColors;
     final type = context.mmType;
-    final done = [
-      for (final m in milestones)
-        if (m.done) m,
-    ];
-    final todo = [
-      for (final m in milestones)
-        if (!m.done) m,
-    ];
+    final done = [for (final m in milestones) if (m.done) m];
+    final todo = [for (final m in milestones) if (!m.done) m];
     // What has been earned (the last one or two), the next, and two more to look forward to.
     final shown = <ChainMilestone>[
       ...done.reversed.take(2).toList().reversed,
@@ -450,14 +325,7 @@ class _Milestones extends StatelessWidget {
 }
 
 class _MilestoneRow extends StatelessWidget {
-  const _MilestoneRow({
-    required this.m,
-    required this.next,
-    required this.first,
-    required this.last,
-    required this.colors,
-    required this.type,
-  });
+  const _MilestoneRow({required this.m, required this.next, required this.first, required this.last, required this.colors, required this.type});
 
   final ChainMilestone m;
   final bool next;
@@ -476,27 +344,14 @@ class _MilestoneRow extends StatelessWidget {
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         color: done ? ChainPaper.fill(context) : null,
-        border: done
-            ? Border.all(color: ChainPaper.edge(context))
-            : Border.all(
-                color: next ? colors.ink2 : colors.ink4,
-                width: next ? 2 : 1.5,
-              ),
+        border: done ? Border.all(color: ChainPaper.edge(context)) : Border.all(color: next ? colors.ink2 : colors.ink4, width: next ? 2 : 1.5),
       ),
-      child: Text(
-        '${m.at}',
-        style: type.figureCompact.copyWith(
-          fontSize: 18,
-          height: 1,
-          color: done ? ChainPaper.ink : (next ? colors.ink : colors.ink3),
-        ),
-      ),
+      child: Text('${m.at}', style: type.figureCompact.copyWith(fontSize: 18, height: 1, color: done ? ChainPaper.ink : (next ? colors.ink : colors.ink3))),
     );
     final left = m.left;
     return Semantics(
       container: true,
-      label:
-          '${MobV3Copy.milestone(m)}, ${done ? MobV3Copy.doneWord : (left != null ? MobV3Copy.moreDays(left) : '')}',
+      label: '${MobV3Copy.milestone(m)}, ${done ? MobV3Copy.doneWord : (left != null ? MobV3Copy.moreDays(left) : '')}',
       child: ExcludeSemantics(
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: 6),
@@ -504,21 +359,8 @@ class _MilestoneRow extends StatelessWidget {
             children: [
               disc,
               const SizedBox(width: MmSpace.s16),
-              Expanded(
-                child: Text(
-                  MobV3Copy.milestone(m),
-                  style: type.labelLarge.copyWith(
-                    color: done || next ? colors.ink : colors.ink2,
-                  ),
-                ),
-              ),
-              if (done)
-                Icon(LucideIcons.check, size: 20, color: colors.ink2)
-              else if (next && left != null)
-                Text(
-                  MobV3Copy.moreDays(left),
-                  style: type.label.copyWith(color: colors.ink),
-                ),
+              Expanded(child: Text(MobV3Copy.milestone(m), style: type.labelLarge.copyWith(color: done || next ? colors.ink : colors.ink2))),
+              if (done) Icon(LucideIcons.check, size: 20, color: colors.ink2) else if (next && left != null) Text(MobV3Copy.moreDays(left), style: type.label.copyWith(color: colors.ink)),
             ],
           ),
         ),

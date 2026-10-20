@@ -209,6 +209,7 @@ class _MobSettingsBodyState extends ConsumerState<MobSettingsBody> {
                   ),
           ),
         MobSheetLabel(MobV3Copy.youHeading, padding: const EdgeInsets.only(top: MmSpace.s24, bottom: MmSpace.s4)),
+        const _Hairline(),
         _Disclosure(
           key: const ValueKey('set-edit-me'),
           icon: LucideIcons.pencil,
@@ -218,7 +219,8 @@ class _MobSettingsBodyState extends ConsumerState<MobSettingsBody> {
           onToggle: () => setState(() => _open = _open == 'edit' ? null : 'edit'),
           child: _EditMeInline(name: mob.you.name, colour: mob.you.colour, onSaved: () => setState(() => _open = null)),
         ),
-        if (howItWorks != null)
+        if (howItWorks != null) ...[
+          const _Hairline(),
           _DisclosureRow(
             key: const ValueKey('set-how'),
             icon: LucideIcons.circleHelp,
@@ -226,7 +228,9 @@ class _MobSettingsBodyState extends ConsumerState<MobSettingsBody> {
             note: MobV3Copy.howMobWorksLine,
             onTap: () => howItWorks(context),
           ),
-        if (billingOn)
+        ],
+        if (billingOn) ...[
+          const _Hairline(),
           _Disclosure(
             key: const ValueKey('set-plans'),
             icon: LucideIcons.layers,
@@ -236,6 +240,8 @@ class _MobSettingsBodyState extends ConsumerState<MobSettingsBody> {
             onToggle: () => setState(() => _open = _open == 'plans' ? null : 'plans'),
             child: _PlansInline(live: v3.live.enabled, mocks: mocks, price: v3.starts.freeMockPrice, isPro: isPro),
           ),
+        ],
+        const _Hairline(),
         _DisclosureRow(
           key: const ValueKey('set-leave'),
           icon: LucideIcons.logOut,
@@ -286,6 +292,14 @@ class _MobSettingsBodyState extends ConsumerState<MobSettingsBody> {
       await Navigator.of(context).maybePop();
     }
   }
+}
+
+/// A hairline between the rows of the You group.
+class _Hairline extends StatelessWidget {
+  const _Hairline();
+
+  @override
+  Widget build(BuildContext context) => Divider(height: 1, thickness: 1, color: context.mmColors.line);
 }
 
 /// Grows its child open under [header]: 240 ms, or at once with reduced motion.
@@ -361,14 +375,17 @@ class _MemberActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Padding(
-        padding: const EdgeInsets.only(left: 40 + MmSpace.s12, bottom: MmSpace.s8),
-        child: Wrap(
-          spacing: MmSpace.s8,
-          runSpacing: MmSpace.s8,
+        padding: const EdgeInsets.only(left: 40 + MmSpace.s12, bottom: MmSpace.s12),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            RowKey(label: MobCopy.report, onPressed: onReport),
-            RowKey(label: MobCopy.leaveAndBlock, onPressed: onBlock),
-            if (youOwn) RowKey(label: MobCopy.removeMember, onPressed: onRemove),
+            KeyButton.secondary(label: MobCopy.report, minHeight: 44, onPressed: onReport),
+            const SizedBox(height: MmSpace.s8),
+            KeyButton.secondary(label: MobCopy.leaveAndBlock, minHeight: 44, onPressed: onBlock),
+            if (youOwn) ...[
+              const SizedBox(height: MmSpace.s8),
+              KeyButton.secondary(label: MobCopy.removeMember, minHeight: 44, onPressed: onRemove),
+            ],
           ],
         ),
       );
@@ -438,7 +455,7 @@ class _Disclosure extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           _DisclosureRow(icon: icon, title: title, note: note, expanded: open, onTap: onToggle),
-          _Reveal(open: open, child: Padding(padding: const EdgeInsets.only(top: MmSpace.s8, bottom: MmSpace.s12), child: child)),
+          _Reveal(open: open, child: Padding(padding: const EdgeInsets.only(top: MmSpace.s12, bottom: MmSpace.s16), child: child)),
         ],
       );
 }
