@@ -801,6 +801,9 @@ class _FitLine extends StatelessWidget {
 
   static const double floor = 0.8;
 
+  /// Two-line titles only: how far one very long word may shrink so it is never split mid-word.
+  static const double wordFloor = 0.7;
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(
@@ -813,22 +816,33 @@ class _FitLine extends StatelessWidget {
         final twoLines = wrap && !fits && avail / natural < floor;
         var k = fits ? 1.0 : math.max(floor, avail / natural);
         if (twoLines) {
-          // Two lines break between words: the longest word must fit a line, so it sets the size (not below the
-          // floor).
+          // Two lines break between words, with the chevron riding at the end of the last line (so each line has
+          // the full width). The longest word, and the last word with the chevron, must fit a line: they set the
+          // size, down to [wordFloor] for one very long word.
+          final words = text.split(' ');
           var longest = 0.0;
-          for (final word in text.split(' ')) {
-            final wp = TextPainter(text: TextSpan(text: word, style: style), textDirection: Directionality.of(context), textScaler: MediaQuery.textScalerOf(context), maxLines: 1)..layout();
-            longest = math.max(longest, wp.width);
+          for (var i = 0; i < words.length; i++) {
+            final wp = TextPainter(text: TextSpan(text: words[i], style: style), textDirection: Directionality.of(context), textScaler: MediaQuery.textScalerOf(context), maxLines: 1)..layout();
+            longest = math.max(longest, wp.width + (i == words.length - 1 ? trailingWidth : 0));
             wp.dispose();
           }
-          k = longest <= avail || longest <= 0 ? 1.0 : math.max(floor, avail / longest);
+          final full = box.maxWidth;
+          k = longest <= full || longest <= 0 ? 1.0 : math.max(wordFloor, full / longest);
+        }
+        final sized = k == 1 ? style : style.copyWith(fontSize: (style.fontSize ?? 14) * k);
+        if (twoLines && trailing != null) {
+          return Text.rich(
+            TextSpan(text: text, style: sized, children: [WidgetSpan(alignment: PlaceholderAlignment.middle, child: trailing!)]),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          );
         }
         final line = Text(
           text,
           maxLines: twoLines ? 2 : 1,
           softWrap: twoLines,
           overflow: TextOverflow.ellipsis,
-          style: k == 1 ? style : style.copyWith(fontSize: (style.fontSize ?? 14) * k),
+          style: sized,
         );
         if (trailing == null) return line;
         return Row(mainAxisSize: MainAxisSize.min, children: [Flexible(child: line), trailing!]);
