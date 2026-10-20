@@ -134,7 +134,7 @@ class RulerRace extends StatefulWidget {
   final FoldAct youAct;
   final int youActId;
 
-  /// Called when a ghost's toast should slide in (M6 at about 570 ms; at once in reduced motion).
+  /// Called when a friend's toast (a ghost's, or a live friend's) should slide in (M6 at about 570 ms; at once in reduced motion).
   final ValueChanged<RulerRacer>? onFinishToast;
 
   /// Places everyone with no animation (a resumed run: the Folds reappear where they are).
@@ -165,11 +165,12 @@ class _Track {
 }
 
 class _Pennant {
-  _Pennant({required this.id, required this.colour, required this.ghost, required this.controller});
+  _Pennant({required this.id, required this.colour, required this.ghost, required this.controller, this.you = false});
 
   final String id;
   final int colour;
   final bool ghost;
+  final bool you;
 
   /// Reduced motion: a 120 ms fade instead of the pop.
   bool fade = false;
@@ -250,7 +251,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
     if (_pennants.any((p) => p.id == r.id)) return;
     final c = AnimationController(vsync: this, duration: const Duration(milliseconds: 420), value: animate ? 0 : 1);
     c.addListener(_tick);
-    _pennants.add(_Pennant(id: r.id, colour: r.colour, ghost: r.ghost, controller: c));
+    _pennants.add(_Pennant(id: r.id, colour: r.colour, ghost: r.ghost, controller: c, you: r.you));
     final fill = AnimationController(vsync: this, duration: const Duration(milliseconds: 160), value: animate ? 0 : 1)..addListener(_tick);
     _fills[r.id] = fill;
   }
@@ -295,7 +296,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
             p.controller.duration = Motion.reducedFade;
             p.controller.forward(from: 0);
             // After this frame: didUpdateWidget runs inside the parent's build, and the toast sets state there.
-            if (r.ghost) {
+            if (!r.you) {
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 if (mounted) widget.onFinishToast?.call(r);
               });
@@ -304,7 +305,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
           continue;
         }
         t.kind = _MoveKind.finish;
-        t.toastSent = !r.ghost;
+        t.toastSent = r.you;
         t.burstSent = false;
         t.controller
           ..duration = const Duration(milliseconds: 900)
@@ -484,7 +485,7 @@ class _RulerRaceState extends State<RulerRace> with TickerProviderStateMixin {
 
     final fills = <int, Color>{};
     for (final p in _pennants) {
-      if (!p.ghost) continue;
+      if (p.you) continue;
       final f = _fills[p.id];
       if (f == null || f.value <= 0) continue;
       fills[widget.count] = Color.lerp(paper.paper, MobColours.of(context, p.colour), f.value)!;

@@ -174,7 +174,7 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
             ),
           )
           ..add(const SizedBox(height: MmSpace.s16))
-          ..add(KeyButton(label: MobV3Copy.joinRoom(g), onPressed: () => MobV3Nav.run(context, g.id)));
+          ..add(KeyButton(key: const ValueKey('den-join-room'), label: MobV3Copy.joinRoom(g), onPressed: () => MobV3Nav.room(context, g.id)));
         if (g.closesAt != null) {
           children
             ..add(const SizedBox(height: MmSpace.s12))

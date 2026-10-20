@@ -8,6 +8,7 @@ import 'screens/chains_screen.dart';
 import 'screens/fix_together_screen.dart';
 import 'screens/game_run_screen.dart';
 import 'screens/join_v3_screen.dart';
+import 'screens/live_lobby_screen.dart';
 import 'screens/moment_overlay.dart';
 import 'screens/mob_settings_v3_screen.dart';
 import 'screens/moments_screen.dart';
@@ -19,6 +20,11 @@ abstract final class MobV3Nav {
       Navigator.of(context, rootNavigator: true).push<T>(MaterialPageRoute<T>(builder: (_) => page, settings: RouteSettings(name: name)));
 
   static Future<void> run(BuildContext context, String gameId) => _push(context, GameRunScreen(gameId: gameId), name: '/mob/game/$gameId/run');
+
+  /// L1, a live room's lobby (only when the server says live is on). [opened]: you just opened it, so
+  /// the go-live wash plays.
+  static Future<void> room(BuildContext context, String gameId, {bool opened = false}) =>
+      _push(context, LiveLobbyScreen(gameId: gameId, opened: opened), name: '/mob/game/$gameId/room');
 
   /// After a run the podium replaces the run screen (Back returns to the den, not to a finished run).
   static Future<void> podiumAfterRun(BuildContext context, String gameId) =>

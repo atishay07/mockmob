@@ -321,9 +321,15 @@ class _StartKeys extends ConsumerWidget {
       // Open the run at once: this sheet leaves, the run rises over the den.
       final nav = Navigator.of(context, rootNavigator: true);
       nav.pop(game);
-      // The root navigator's own context outlives this sheet.
-      // ignore: use_build_context_synchronously
-      MobV3Nav.run(nav.context, game.id);
+      // The root navigator's own context outlives this sheet. A live game opens its lobby with the
+      // go-live wash; an anytime one opens the run.
+      if (game.mode == GameMode.live && game.room != null) {
+        // ignore: use_build_context_synchronously
+        MobV3Nav.room(nav.context, game.id, opened: true);
+      } else {
+        // ignore: use_build_context_synchronously
+        MobV3Nav.run(nav.context, game.id);
+      }
     } on Object catch (e) {
       final sentence = MobV3Copy.error(e);
       final code = MobV3Copy.codeOf(e);
