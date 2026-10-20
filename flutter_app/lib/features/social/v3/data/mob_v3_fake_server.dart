@@ -548,6 +548,63 @@ class MobV3FakeServer implements MobV3Api {
       // Additive fields the sheets read (P1 "You sat it on Monday.", P2 "What it covers").
       'paperSatAt': mob.youSatPaper ? '${_week}T10:40:00.000Z' : null,
       'lastTrapChapter': [for (final g in mob.games) if (g.closedAt(now) && g.chapter != null) g.chapter].lastOrNull,
+      if (hoursShipped) 'hours': _hours(mob),
+    };
+  }
+
+  // ---- Mob hours (V4-den, MOB HOURS CONTRACT) ------------------------------------------------------------
+
+  /// The server has shipped Mob hours (`v3.hours`); off hides every Mob hours element in the app.
+  bool hoursShipped = true;
+
+  /// Who shares their study time (default off for everyone; the fixture Mob has four who share, except in
+  /// 'quiet' and Mobs of one, where nobody does).
+  final Set<String> studySharers = {};
+  bool _sharersSeeded = false;
+
+  /// This week's minutes per member id (fixture: Riya 3 h 10 m, you 2 h 40 m, Kabir 1 h 55 m, Zoya 0).
+  final Map<String, int> studyMinutes = {'RIYA00000002': 190, 'AARAV0000001': 160, 'KABIR0000003': 115, 'ZOYA00000004': 0};
+  final Map<String, int> goalDays = {'RIYA00000002': 5, 'AARAV0000001': 4, 'KABIR0000003': 5, 'ZOYA00000004': 2};
+
+  /// Members with a practice answer in the last 10 minutes, and when they began (fixture: Riya, 20 minutes ago).
+  final Map<String, DateTime> studyingSince = {};
+
+  /// PATCH the member settings `{share_study_time}` (the fixture's own switch).
+  void setShareStudyTime(bool on) {
+    final mob = _mob();
+    if (mob == null) return;
+    on ? studySharers.add(mob.you.id) : studySharers.remove(mob.you.id);
+  }
+
+  @override
+  Future<Object?> studyShare({required String mob, required bool on}) async {
+    _mob(mob);
+    setShareStudyTime(on);
+    return _denJson();
+  }
+
+  Json _hours(_Mob mob) {
+    if (!_sharersSeeded) {
+      _sharersSeeded = true;
+      if (scenario != 'quiet' && mob.members.length > 1) studySharers.addAll(mob.members.map((m) => m.id));
+      if (scenario == 'open' || scenario == 'heavy') studyingSince['RIYA00000002'] = now.subtract(const Duration(minutes: 20));
+    }
+    final sharing = [for (final m in mob.members) if (studySharers.contains(m.id)) m];
+    final listed = [for (final m in sharing) if ((studyMinutes[m.id] ?? 0) > 0) m]..sort((a, b) => (studyMinutes[b.id] ?? 0).compareTo(studyMinutes[a.id] ?? 0));
+    final total = listed.fold<int>(0, (t, m) => t + (studyMinutes[m.id] ?? 0));
+    return {
+      'week_start': _week,
+      'target_minutes': 150 * sharing.length,
+      'total_minutes': total,
+      'me_sharing': studySharers.contains(mob.you.id),
+      'members': [
+        for (final m in listed) {'member_id': m.id, 'first_name': m.name, 'minutes': studyMinutes[m.id], 'goal_days': goalDays[m.id] ?? 0},
+      ],
+      'top_member_id': listed.isEmpty ? null : listed.first.id,
+      'studying_now': [
+        for (final m in sharing)
+          if (studyingSince[m.id] case final DateTime at) {'member_id': m.id, 'first_name': m.name, 'since': _iso(at)},
+      ],
     };
   }
 

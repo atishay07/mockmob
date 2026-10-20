@@ -21,9 +21,18 @@ import 'quest_segments.dart';
 import 'sheet_parts.dart' show LinkKey;
 
 class ChainMobBody extends ConsumerStatefulWidget {
-  const ChainMobBody({super.key, required this.den});
+  const ChainMobBody({super.key, required this.den, this.pennantWidth = 96, this.afterQuest, this.footer});
 
   final DenView den;
+
+  /// The This week sheet draws the pennant large.
+  final double pennantWidth;
+
+  /// Drawn right under the quest card (Mob hours in the This week sheet).
+  final Widget? afterQuest;
+
+  /// Drawn last (the link to Your chain in the This week sheet).
+  final Widget? footer;
 
   @override
   ConsumerState<ChainMobBody> createState() => _ChainMobBodyState();
@@ -74,7 +83,7 @@ class _ChainMobBodyState extends ConsumerState<ChainMobBody> {
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ChainPennant(weeks: chain.weeks),
+            ChainPennant(weeks: chain.weeks, width: widget.pennantWidth),
             const SizedBox(width: MmSpace.s16),
             Expanded(
               child: Column(
@@ -148,6 +157,7 @@ class _ChainMobBodyState extends ConsumerState<ChainMobBody> {
             ],
           ),
         ),
+        if (widget.afterQuest != null) ...[const SizedBox(height: MmSpace.s16), widget.afterQuest!],
         const SizedBox(height: MmSpace.s32),
         Text(MobV3Copy.howItCounts, style: type.subhead),
         const SizedBox(height: MmSpace.s8),
@@ -164,6 +174,7 @@ class _ChainMobBodyState extends ConsumerState<ChainMobBody> {
         Text(MobV3Copy.onTheWay, style: type.subhead),
         const SizedBox(height: MmSpace.s8),
         _DenPath(owned: v3.shelf.items),
+        if (widget.footer != null) ...[const SizedBox(height: MmSpace.s16), widget.footer!],
       ],
     );
   }
