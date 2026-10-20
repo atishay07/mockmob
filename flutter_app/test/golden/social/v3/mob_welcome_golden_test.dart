@@ -105,7 +105,8 @@ void main() {
       for (final ms in [0, 600, 1200, 2400, 3600]) {
         key.currentState!.seek(ms.toDouble());
         await t.pump();
-        await t.pump();
+        // The Skip pill fades over 200 ms; the clock stays where it was put.
+        await t.pump(const Duration(milliseconds: 250));
         await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mob_welcome/welcome_${ms}ms_360_${_tag(b)}.png'));
       }
     });
@@ -114,7 +115,7 @@ void main() {
       final key = await _pump(t, b, scale: 1.3);
       key.currentState!.seek(WelcomeTimeline.total);
       await t.pump();
-      await t.pump();
+      await t.pump(const Duration(milliseconds: 250));
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mob_welcome/welcome_end_360_x13_${_tag(b)}.png'));
     });
 
@@ -122,7 +123,7 @@ void main() {
       final key = await _pump(t, b, reduced: true);
       key.currentState!.seek(WelcomeTimeline.reducedTotal);
       await t.pump();
-      await t.pump();
+      await t.pump(const Duration(milliseconds: 250));
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/mob_welcome/welcome_reduced_360_${_tag(b)}.png'));
     });
 
