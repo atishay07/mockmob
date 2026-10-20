@@ -8,6 +8,7 @@ import { scheduleReview } from '@/../data/study_scheduler.mjs';
 import { createEmptyCard } from 'ts-fsrs';
 import { canonicalStudyJSON } from '@/../data/study_content';
 import { studyHelpEvidence } from '@/../data/study_help';
+import { createStudyContentCache, readActiveStudyRuns } from '@/../data/study_content_cache';
 
 export const studyContentEnabled = () => process.env.STUDY_CONTENT_ENABLED === 'true';
 export const studyRecallEnabled = () => studyContentEnabled() && process.env.STUDY_RECALL_ENABLED === 'true';
@@ -17,12 +18,13 @@ const proof = () => JSON.parse(readFileSync(`${process.cwd()}/data/study/release
 const fail = error => { if (error) throw new Error(/conflict/.test(error.message) ? 'REVISION_CONFLICT' : /content changed|reserved/.test(error.message) ? 'STUDY_CONTENT_CHANGED' : 'STUDY_STORAGE_UNAVAILABLE'); };
 const DAY = 86400000;
 
+// Published content is the same rows for every student and changes only by an owner action: it is kept in memory and
+// revalidated with a cheap probe (data/study_content_cache.js). The proof and hash checks below still run on every call.
+const contentCache = createStudyContentCache();
+async function cached(read) { try { return await read(); } catch (error) { fail(error); throw error; } }
 async function publishedContent(unitIds=null) {
   if (!studyContentEnabled()) return [];
-  let query=supabaseAdmin().from('study_units').select('*').eq('publication_state','published');
-  if(unitIds) query=query.in('id',[...new Set(unitIds)]);
-  const { data, error } = await query;
-  fail(error);
+  const data = await cached(() => contentCache.publishedUnitRows(supabaseAdmin(), unitIds));
   let release; try { release = proof(); } catch { return []; }
   return (data || []).filter(row => release.units?.[`${row.id}@${row.version}`]?.contentHash === row.content_hash && hash(row.content) === row.content_hash).filter((row,_,all) => !all.some(x=>x.id===row.id && x.version>row.version)).map(row=>({ ...row.content, contentHash:row.content_hash }));
 }
@@ -31,7 +33,7 @@ function safeUnit(unit) {
 }
 async function publishedCards(units) {
   if (!studyRecallEnabled() || !units.length) return [];
-  const { data, error } = await supabaseAdmin().from('study_cards').select('*').in('unit_id',units.map(u=>u.id)); fail(error);
+  const data = await cached(() => contentCache.publishedCardRows(supabaseAdmin(), units.map(u=>u.id)));
   const release = proof();
   const order=new Map(Object.keys(release.cards || {}).map((identity,index)=>[identity,index]));
   return (data || []).filter(row => units.some(u=>u.id===row.unit_id && u.version===row.unit_version) && release.cards?.[`${row.id}@${row.version}`]?.contentHash===row.content_hash && hash(row.content)===row.content_hash).filter((row,_,all)=>!all.some(x=>x.id===row.id && x.version>row.version)).sort((a,b)=>order.get(`${a.id}@${a.version}`)-order.get(`${b.id}@${b.version}`)).map(row=>({...row.content,contentHash:row.content_hash}));
@@ -59,18 +61,19 @@ function unitMemory(unitCards, states, at) {
   const future = started.map(s=>+new Date(s.schedule.due)).filter(t=>t > at).sort((a,b)=>a-b);
   return { cards: unitCards.length, started: started.length, reviewed: reviewed.length, due: due.length, unseen: unitCards.length - started.length, nextDue: future[0] ? new Date(future[0]).toISOString() : null };
 }
-export async function studyRecord(userId,{subject,limit=10,weakConcepts=[],weakChapters=[],allSubjects=false}={}) {
+// `allUnits`, `allCards` and `prefs` may be passed by a caller that already holds them (one read per request, not two).
+export async function studyRecord(userId,{subject,limit=10,weakConcepts=[],weakChapters=[],allSubjects=false,allUnits:givenUnits,allCards:givenCards,prefs:givenPrefs}={}) {
   const content = pilot();
   if (!studyContentEnabled()) return {state:'disabled',subjects:content.syllabus,units:[],queue:{items:[],dueCount:0,overdueCount:0,newAllowance:0},active:null,progress:{lessonsRead:0,recallReviews:0},recallEnabled:false};
   const [allUnits,prefs,{data:states,error:stateError},{data:runs,error:runError},{data:progress,error:eventsError}] = await Promise.all([
-    publishedContent(),getStudyPreferences(userId),supabaseAdmin().from('study_card_states').select('*').eq('user_id',userId),
-    supabaseAdmin().from('study_runs').select('id,mode,content,projection,updated_at').eq('user_id',userId).order('updated_at',{ascending:false}).limit(100),
+    givenUnits || publishedContent(),givenPrefs || getStudyPreferences(userId),supabaseAdmin().from('study_card_states').select('*').eq('user_id',userId),
+    readActiveStudyRuns(supabaseAdmin(),userId), // only the active runs are used below
     supabaseAdmin().rpc('study_progress_summary',{p_user:userId})
   ]);
   fail(stateError || runError || eventsError);
   const at = Date.now();
   const units = allUnits.filter(u=>(subject ? u.subject===subject : allSubjects || prefs.subjects.includes(u.subject)));
-  const allCards=await publishedCards(allUnits);
+  const allCards=givenCards || await publishedCards(allUnits);
   const cards=allCards.filter(card=>units.some(unit=>unit.id===card.unitId));
   const queueCards=allSubjects && !subject ? cards.filter(c=>units.some(u=>u.id===c.unitId && prefs.subjects.includes(u.subject))) : cards;
   const introducedToday=(states||[]).filter(s=>s.introduced_day===istDay(at)).length;
@@ -108,10 +111,10 @@ export async function studyUnit(userId,id) {
   if (!unit) throw new Error('UNIT_NOT_FOUND');
   // Viewing the teaching content itself is an exposure, even before a study run starts.
   const {error} = await supabaseAdmin().rpc('record_study_exposure',{p_user:userId,p_unit:unit.id,p_version:unit.version,p_hash:unit.contentHash}); fail(error);
-  const record = await studyRecord(userId,{subject:unit.subject});
+  const allCards = await publishedCards(units);
+  const record = await studyRecord(userId,{subject:unit.subject,allUnits:units,allCards}); // the content read above, not read again
   const progress = record.units.find(u=>u.id===id) || null;
   const siblings = record.units.filter(u=>u.chapter===unit.chapter && u.id!==unit.id).map(({id,title,status})=>({id,title,status}));
-  const allCards = await publishedCards(units);
   const lockIn = recallQueue(allCards.filter(c=>c.unitId===id),record.states || [],Date.now(),record.introducedToday,10,allCards);
   return { ...safeUnit(unit), progress, siblings, recall:{available:lockIn.items.length,due:lockIn.dueCount,newAllowance:lockIn.newAllowance,unseen:lockIn.unseenCount,newCardsPerDay:NEW_CARDS_PER_DAY}, active: record.active };
 }
@@ -200,7 +203,7 @@ export async function startStudyRun(userId,input,attempt=0) {
     if(!studyRecallEnabled()) throw new Error('STUDY_RECALL_UNAVAILABLE');
     const {data:stored,error:stateError}=await db.from('study_card_states').select('*').eq('user_id',userId);fail(stateError);
     const allCards=await publishedCards(allUnits);
-    const record=await studyRecord(userId,{allSubjects:true});
+    const record=await studyRecord(userId,{allSubjects:true,allUnits,allCards,prefs});
     const selected=allCards.filter(card=>units.some(unit=>unit.id===card.unitId));
     const eligible=taughtRecallCards(selected,stored || [],record.units.filter(u=>u.read).map(u=>u.id));
     if(!eligible.length && selected.length) throw new Error('LESSON_NOT_READ');

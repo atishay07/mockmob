@@ -53,9 +53,11 @@ export async function learningRecord(userId, { subject, minutes, memo } = {}) {
   // usual length in the study preferences, then 10.
   minutes = goalMinutesOr(minutes, null);
   let usual = null;
+  let studyPrefs = null; // read once; studyRecord below reuses it
   if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
     try {
       const prefs=await getStudyPreferences(userId);
+      studyPrefs=prefs.state==='ready' ? prefs : null;
       const weekday=(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7;
       const weekly=prefs.premium ? prefs.weeklyPlan?.[weekday] : null;
       if(!subject) subject=weekly?.subject;
@@ -89,7 +91,7 @@ export async function learningRecord(userId, { subject, minutes, memo } = {}) {
       const weakConcepts=attempts.flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>attempt.questionsSnapshot?.find(q=>q.id===answer.qid)?.conceptId).filter(Boolean));
       // Chapters behind recent ordinary mistakes point to the matching lesson, if one is published.
       const weakChapters=attempts.slice(0,10).flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>{const q=attempt.questionsSnapshot?.find(q=>q.id===answer.qid);return q?.chapter ? {subject:q.subject || attempt.subject,chapter:q.chapter} : null;}).filter(Boolean));
-      const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts,weakChapters});
+      const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts,weakChapters,prefs:studyPrefs || undefined});
       if (study.state === 'ready') {
         const sequence = guidedSequence(plan,study,plan.minutes,{attempts:attempts.length});
         suite = { sequence, primary:sequence[0] || plan.primary, study:{dueCards:study.queue.dueCount,lessonsRead:study.progress.lessonsRead,preferences:study.preferences,weekday:(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7} };
