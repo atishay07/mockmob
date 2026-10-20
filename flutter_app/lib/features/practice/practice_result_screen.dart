@@ -641,18 +641,26 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
         ),
       ),
       Divider(height: 1, thickness: 1, color: colors.line),
-      if (large) ...[
-        const SizedBox(height: MmSpace.s24),
-        if (repairKey != null)
-          KeyButton.quiet(
-            key: const ValueKey('result-page-repair'),
-            label: repairKey.label,
-            semanticsLabel: '${repairKey.label}. ${repairKey.note}',
-            onPressed: repairKey.onPressed,
-          ),
-        KeyButton.quiet(label: ResultFoot.seePaperLabel, onPressed: () => context.go(yourPapersLocation(attempt.id))),
-        KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: _finish),
-      ],
+      // The end of the page holds the quiet ways on that the pinned foot leaves out: the foot is one volt key and at
+      // most one quiet link (v16 walk I-13: three small links under the key read as clutter). At large text the foot
+      // keeps only its key, so all of them sit here.
+      const SizedBox(height: MmSpace.s20),
+      Wrap(
+        key: const ValueKey('result-page-links'),
+        alignment: WrapAlignment.center,
+        spacing: MmSpace.s8,
+        children: [
+          if (large && repairKey != null)
+            KeyButton.quiet(
+              key: const ValueKey('result-page-repair'),
+              label: repairKey.label,
+              semanticsLabel: '${repairKey.label}. ${repairKey.note}',
+              onPressed: repairKey.onPressed,
+            ),
+          KeyButton.quiet(label: ResultFoot.seePaperLabel, onPressed: () => context.go(yourPapersLocation(attempt.id))),
+          if (large || repairKey != null) KeyButton.quiet(label: PracticeCopy.finishForNow, onPressed: _finish),
+        ],
+      ),
     ];
 
     return PopScope(
@@ -768,8 +776,9 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                           note: LayersCopy.footNote(move.cost),
                         ),
                         showFinish: !large,
-                        onFinish: _finish,
-                        onSeePaper: () => context.go(yourPapersLocation(attempt.id)),
+                        // One quiet link: the mistake's repair when the volt key is something else (R4, D108), else the
+                        // way out. "See it in Your papers" (and Finish, with a repair here) wait at the page's end.
+                        onFinish: repairKey == null ? _finish : null,
                         repair: repairKey,
                         // After a calm or good set only, and once the moment is over.
                         lateLine: isFresh != null && !staged && (tone == FinishTone.good || tone == FinishTone.great),

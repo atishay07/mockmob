@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -791,14 +792,21 @@ class _SubjectChipsState extends ConsumerState<_SubjectChips> {
 
   void _reveal({required bool animate}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final target = _chipKeys[widget.selected]?.currentContext;
-      if (!mounted || target == null) return;
-      Scrollable.ensureVisible(
-        target,
-        alignment: 0.5,
-        duration: animate && !Motion.reduced(context) ? Motion.ui : Duration.zero,
-        curve: Motion.glide,
-      ).then((_) => _edges());
+      final target = _chipKeys[widget.selected]?.currentContext?.findRenderObject();
+      if (!mounted || target == null || !_scroll.hasClients) return;
+      // Only the rail's own scroll moves. Scrollable.ensureVisible walks every scrollable above the
+      // chip too, so it also centred the chip in the sheet's vertical scroll: the sheet opened
+      // scrolled down and the hero's object sat sliced under the title band (v16 walk, I-09).
+      final viewport = RenderAbstractViewport.maybeOf(target);
+      if (viewport == null) return;
+      final p = _scroll.position;
+      final to = viewport.getOffsetToReveal(target, 0.5).offset.clamp(p.minScrollExtent, p.maxScrollExtent);
+      if (animate && !Motion.reduced(context)) {
+        _scroll.animateTo(to, duration: Motion.ui, curve: Motion.glide).then((_) => _edges());
+      } else {
+        _scroll.jumpTo(to);
+        _edges();
+      }
     });
   }
 

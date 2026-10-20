@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show ValueListenable;
 import 'package:flutter/material.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
@@ -13,11 +15,15 @@ import '../copy.dart';
 /// question, so the key is never cut by the bar or hidden under the fade at the foot of a long
 /// question (finding 11), and its height never changes ([height], so nothing jumps).
 class ClearBand extends StatefulWidget {
-  const ClearBand({super.key, required this.selected, required this.canAnswer, required this.onSelect});
+  const ClearBand({super.key, required this.selected, required this.canAnswer, required this.onSelect, this.moreBelow});
 
   final int? selected;
   final bool canAnswer;
   final ValueChanged<int?> onSelect;
+
+  /// While the question runs past the region and nothing has been chosen, the band says "More below" in the room
+  /// the Clear key will take (v16 walk I-11: the band stood empty while a floating cue covered option D).
+  final ValueListenable<bool>? moreBelow;
 
   /// The band's height: the key's 48 dp and 4 dp of air above and below it. Reserved whether or not the key
   /// shows, so the question region never changes height under the student's finger.
@@ -99,7 +105,20 @@ class ClearBandState extends State<ClearBand> {
         ],
       );
     } else {
-      content = const SizedBox.shrink(key: ValueKey('none'));
+      final more = widget.moreBelow;
+      content = more == null
+          ? const SizedBox.shrink(key: ValueKey('none'))
+          : ValueListenableBuilder<bool>(
+              key: const ValueKey('more'),
+              valueListenable: more,
+              builder: (context, shown, _) => AnimatedOpacity(
+                key: const ValueKey('runner-more-options'),
+                opacity: shown ? 1 : 0,
+                duration: Motion.of(context, Motion.ui),
+                curve: Motion.out,
+                child: const RunnerMoreBelow(),
+              ),
+            );
     }
     // Chrome, like the bar below it: the key's words grow with the system text size up to 1.3x
     // and the band grows with them (never a fixed box a large key would overflow).
@@ -113,6 +132,33 @@ class ClearBandState extends State<ClearBand> {
             duration: Motion.ui,
             alignment: Alignment.centerLeft,
             child: content,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// "More below" with a chevron: one quiet line centred in the band under the question, no capsule, no glow, no
+/// motion of its own. It never sits over an option, and it keeps its own size at any text size.
+class RunnerMoreBelow extends StatelessWidget {
+  const RunnerMoreBelow({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final style = context.mmType.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600);
+    return ExcludeSemantics(
+      child: MediaQuery.withNoTextScaling(
+        child: SizedBox(
+          width: double.infinity,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(RunnerCopy.moreOptions, style: style),
+              const SizedBox(width: MmSpace.s4),
+              Icon(LucideIcons.chevronDown, size: 14, color: colors.ink2),
+            ],
           ),
         ),
       ),

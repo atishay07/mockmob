@@ -1019,7 +1019,12 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       },
       child: Listener(
         onPointerDown: (_) => _bumpIdle(),
-        child: Scaffold(
+        // The run's header is fixed right under the status bar: the app's 24 dp ground fade below the bar sliced the
+        // tops off its title ("Kabir's 5-minute race", v16 walk I-08). Nothing scrolls under the bar here, so the bar
+        // takes the ground solid and the fade goes.
+        child: StatusTint(
+          color: colors.ground,
+          child: Scaffold(
           backgroundColor: colors.ground,
           body: Stack(
             children: [
@@ -1035,6 +1040,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
               ),
               if (widget.opened) Positioned.fill(child: IgnorePointer(child: GoLiveWashLayer(controller: _wash))),
             ],
+          ),
           ),
         ),
       ),

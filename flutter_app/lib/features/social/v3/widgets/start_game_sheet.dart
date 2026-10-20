@@ -418,6 +418,7 @@ class _FormatRow extends StatelessWidget {
     // A Free member's Full mock together: the small "Pro starts it" tag beside the title (sheetlive mock-up), dimmed with
     // the row; the line under the row says what sitting one costs.
     final String? titleTag = format == GameFormat.mock && proLine != null && !anytimeOnly ? MobV4ResultsCopy.proStartsIt : null;
+    final String? inlineTag = titleTag ?? tag;
     // The icon lines up with the sheet's text column (the header), and the chosen row's raised paper bleeds 12 dp
     // past it on each side (review fix 15), as the mock-up draws it.
     final row = Stack(
@@ -453,13 +454,14 @@ class _FormatRow extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      if (titleTag == null)
+                      if (inlineTag == null)
                         Text(
                           FormatLook.title(format),
                           style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
                         )
                       else
-                        // The tag follows the title on its line, and drops under it when the line is full (large text).
+                        // The tag follows the title on its line, and drops under it when the line is full (large text):
+                        // a tag at the row's far end squeezed "Full mock together" onto two lines at 1.3 (v16 walk, I-14).
                         Wrap(
                           spacing: MmSpace.s8,
                           runSpacing: 2,
@@ -467,10 +469,16 @@ class _FormatRow extends StatelessWidget {
                           children: [
                             Text(FormatLook.title(format), style: type.labelLarge.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
                             Container(
-                              key: const ValueKey('start-mock-pro-tag'),
+                              key: titleTag != null ? const ValueKey('start-mock-pro-tag') : ValueKey('start-tag-${format.name}'),
                               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: colors.lineStrong)),
-                              child: Text(titleTag, style: type.label.copyWith(color: colors.ink2)),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(inlineTag, style: type.label.copyWith(color: colors.ink2)),
+                                  if (locked && titleTag == null) ...[const SizedBox(width: 3), Icon(LucideIcons.lock, size: 11, color: colors.ink3)],
+                                ],
+                              ),
                             ),
                           ],
                         ),
@@ -479,24 +487,7 @@ class _FormatRow extends StatelessWidget {
                     ],
                   ),
                 ),
-                const SizedBox(width: MmSpace.s8),
-                if (tag != null)
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(color: colors.lineStrong),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(tag, style: type.label.copyWith(color: colors.ink2)),
-                        if (locked) ...[const SizedBox(width: 3), Icon(LucideIcons.lock, size: 11, color: colors.ink3)],
-                      ],
-                    ),
-                  )
-                else if (!locked)
-                  _Radio(on: on),
+                if (!dim) ...[const SizedBox(width: MmSpace.s8), _Radio(on: on)],
               ],
             ),
           ),
@@ -516,7 +507,7 @@ class _FormatRow extends StatelessWidget {
       child: MmPressable(onTap: onTap, haptic: MmPressHaptic.selection, focusRadius: BorderRadius.circular(16), builder: (context, pressed, _) => row),
     );
     final line = proLine;
-    if (line == null) return tappable;
+    if (line == null) return _RevealOnShow(active: on, child: tappable);
     // Not dimmed with the row above it: this is the part a Free member is meant to read.
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -549,11 +540,13 @@ class _FormatRow extends StatelessWidget {
   }
 }
 
-/// Scrolls its child into view once it appears (the Full mock rule box, D175: the price is seen before the tap).
-/// Motion.card, or a jump under reduced motion.
+/// Scrolls its child into view once it appears, and again each time [active] turns on (the Full mock rule box,
+/// D175: the price is seen before the tap; the chosen row at large text, v16 walk I-14: a pick never hides behind
+/// the pinned key). Only the sheet's own scroll moves, Motion.card, or a jump under reduced motion.
 class _RevealOnShow extends StatefulWidget {
-  const _RevealOnShow({required this.child});
+  const _RevealOnShow({required this.child, this.active = true});
   final Widget child;
+  final bool active;
 
   @override
   State<_RevealOnShow> createState() => _RevealOnShowState();
@@ -563,17 +556,35 @@ class _RevealOnShowState extends State<_RevealOnShow> {
   @override
   void initState() {
     super.initState();
+    if (widget.active) _reveal();
+  }
+
+  @override
+  void didUpdateWidget(_RevealOnShow old) {
+    super.didUpdateWidget(old);
+    if (widget.active && !old.active) _reveal();
+  }
+
+  void _reveal() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       final reduced = MediaQuery.disableAnimationsOf(context);
       final box = context.findRenderObject();
       final scrollable = Scrollable.maybeOf(context);
-      if (box == null || scrollable == null) return;
+      if (box == null || scrollable == null || !scrollable.position.hasContentDimensions) return;
       final position = scrollable.position;
-      // The box's bottom edge clears the sheet's 40 dp fade above the pinned key.
-      final reveal = RenderAbstractViewport.of(box).getOffsetToReveal(box, 1).offset + 40;
-      final target = math.min(reveal, position.maxScrollExtent);
-      if (target <= position.pixels + 0.5) return;
+      final viewport = RenderAbstractViewport.of(box);
+      // The box's bottom edge clears the sheet's 40 dp fade above the pinned key; a box above the top comes down to it.
+      final below = math.min(viewport.getOffsetToReveal(box, 1).offset + 40, position.maxScrollExtent);
+      final above = math.max(viewport.getOffsetToReveal(box, 0).offset, position.minScrollExtent);
+      final double target;
+      if (below > position.pixels + 0.5) {
+        target = math.min(below, above);
+      } else if (above < position.pixels - 0.5) {
+        target = above;
+      } else {
+        return;
+      }
       if (reduced) {
         position.jumpTo(target);
       } else {

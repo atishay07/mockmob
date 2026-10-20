@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/widgets/status_tint.dart' show statusTintColor;
 import 'package:mockmob/dev/mob_v3_bank.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/widgets/countdown_stopwatch.dart' show CountdownStage;
@@ -44,6 +45,18 @@ String _text(WidgetTester t, Key key) {
 
 void main() {
   setUp(loadFoldManifestForTest);
+
+  // v16 walk I-08: the app's 24 dp fade under the status bar sliced the tops off the fixed run header's title. The
+  // run screen owns its top edge: the bar takes the ground solid while it is up, and lets go when it leaves.
+  testWidgets('the run screen paints the status bar in the ground, so its title is never faded at the top', (t) async {
+    final server = RecordingServer(scenario: 'race');
+    await pumpRun(t, server, gameId: kabirRace);
+    await t.pump();
+    expect(statusTintColor.value, isNotNull);
+    await t.pumpWidget(const SizedBox.shrink());
+    await t.pump();
+    expect(statusTintColor.value, isNull);
+  });
 
   testWidgets('the 3, 2, 1 plays before the run is asked for, over the runs it races, with the race line', (t) async {
     final server = RecordingServer(scenario: 'race');

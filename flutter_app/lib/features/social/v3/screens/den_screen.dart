@@ -15,6 +15,7 @@
 
 import 'dart:async';
 import 'dart:math' as math;
+import 'dart:ui' show ImageFilter;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -590,7 +591,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
         // The stage keeps its 280 dp for the Folds; the tag band under their boots only keeps the room
         // its names need (two lines at large text, a second caption line in a Mob of one). The rest
         // goes to the card, so its key is on screen on first view at 360 dp (H5).
-        final tagNeed = MediaQuery.textScalerOf(context).scale(18) * ((v3?.members.length ?? 2) <= 1 ? 2 : 1) + 14;
+        final tagNeed = MediaQuery.textScalerOf(context).scale(18) * ((v3?.members.length ?? 2) <= 1 ? 2 : DenStage.tagLinesFor(context, w, v3)) + 14;
         final spare = (DenSizes.tagBand - tagNeed).clamp(0.0, DenSizes.tagBand);
         final roomH = stageTop + DenSizes.stageHeight(w) - spare;
         final loading = view == null && state.value == null && state.error == null;
@@ -651,6 +652,24 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
               act: _cue,
               waiting: waiting,
             ),
+            // Night: the lamp's glow sat right behind the title and its subtitle (v16 walk I-10). A soft pool of the
+            // ground under the title block keeps both legible; the lamp still glows past its edges.
+            if (mob != null && v3 != null && context.mmColors.isNight)
+              Positioned(
+                key: const ValueKey('den-title-scrim'),
+                left: 0,
+                top: stageTop - MmSpace.s8,
+                width: math.max(150, DenStage.pennantLeft(w, studying: deskBusy) - MmSpace.gutter),
+                height: MediaQuery.textScalerOf(context).scale(56) + MmSpace.s24,
+                child: IgnorePointer(
+                  child: ImageFiltered(
+                    imageFilter: ImageFilter.blur(sigmaX: 18, sigmaY: 18, tileMode: TileMode.decal),
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(color: context.mmColors.ground.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(40)),
+                    ),
+                  ),
+                ),
+              ),
             if (mob != null && v3 != null)
               AnimatedPositioned(
                 duration: _reduced ? Duration.zero : DenStage.reflow,

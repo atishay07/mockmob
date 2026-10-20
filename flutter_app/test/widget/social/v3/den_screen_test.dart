@@ -17,6 +17,7 @@ import 'package:mockmob/features/social/v3/widgets/quest_segments.dart';
 import 'package:mockmob/features/social/v3/widgets/sticker_row.dart';
 
 import '../../../golden/social/v3/den_kit.dart';
+import '../../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
 import '../../../unit/social/v3/mob_v3_test_kit.dart';
 
 List<Object?> _moments(MobV3FakeServer server) => (server.denNow()['v3'] as Map)['moments'] as List<Object?>;
@@ -166,19 +167,6 @@ void main() {
     expect(find.text('Mob'), findsOneWidget);
   });
 
-  testWidgets('H5: at 360 x 800 the heavy den shows the play key above the bottom bar, the pass notice under the card', (tester) async {
-    await pumpDen(tester, v3Server(scenario: 'heavy'), height: 800);
-    await _open(tester);
-    final key = find.byKey(const ValueKey('den-play-key'));
-    expect(key, findsOneWidget);
-    // The tab bar and the gesture bar take the last 100 dp of an 800 dp phone, the status bar the
-    // first 40 (the emulator's 720 x 1600 at 2x).
-    expect(tester.getRect(key).bottom, lessThanOrEqualTo(800 - 100 - 40), reason: 'the one key is visible on first view');
-    final notice = find.byKey(const ValueKey('den-pass-notice'));
-    expect(notice, findsOneWidget);
-    expect(tester.getRect(notice).top, greaterThan(tester.getRect(key).bottom), reason: 'the notice sits under the card');
-  });
-
   testWidgets('D6 failed: the sentence and Try again, the room with no Folds', (tester) async {
     await pumpDen(
       tester,
@@ -304,5 +292,24 @@ void main() {
     await tester.pump(const Duration(milliseconds: 600));
     final puppets = tester.widgetList<FoldPuppet>(find.byType(FoldPuppet));
     expect(puppets.every((p) => p.breathe && p.blink), isTrue);
+  });
+
+  // Last in the file, with the app's real fonts: the tag band keeps the room its names really take (DenStage.tagLinesFor
+  // measures them), and in the test font every tag wraps to two lines.
+  group('with the app fonts', () {
+    setUpGoldenFonts();
+
+    testWidgets('H5: at 360 x 800 the heavy den shows the play key above the bottom bar, the pass notice under the card', (tester) async {
+      await pumpDen(tester, v3Server(scenario: 'heavy'), height: 800);
+      await _open(tester);
+      final key = find.byKey(const ValueKey('den-play-key'));
+      expect(key, findsOneWidget);
+      // The tab bar and the gesture bar take the last 100 dp of an 800 dp phone, the status bar the
+      // first 40 (the emulator's 720 x 1600 at 2x).
+      expect(tester.getRect(key).bottom, lessThanOrEqualTo(800 - 100 - 40), reason: 'the one key is visible on first view');
+      final notice = find.byKey(const ValueKey('den-pass-notice'));
+      expect(notice, findsOneWidget);
+      expect(tester.getRect(notice).top, greaterThan(tester.getRect(key).bottom), reason: 'the notice sits under the card');
+    });
   });
 }
