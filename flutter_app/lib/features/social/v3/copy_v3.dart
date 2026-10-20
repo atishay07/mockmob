@@ -654,7 +654,10 @@ abstract final class MobV3Copy {
   static const String shareMarks = 'Share my marks in games';
   static const String settingsTitle = 'Mob settings';
   static const String restingNote = 'The quest gets smaller without your name.';
-  static const String shareMarksNote = 'Off: your Fold stands on the podium with "Private" instead of marks, and you get no place. The collective line still counts your answers.';
+  // What the switch does on the live server since L-10 (20 Oct): a private run gets "Private" and no place, only a
+  // "finished" moment, is left out of the game's "right together" line, and is never raced as a ghost.
+  static const String shareMarksNote =
+      'Off: your Fold stands on the podium with "Private" instead of marks, and you get no place. Your right answers stay out of the Mob\'s total for each game, moments say only that you finished, and nobody races your run as a ghost.';
   static const String membersHeading = 'In this Mob';
   static String memberRow(String name, bool you) => you ? '$name, you' : name;
   static String memberMenu(String name) => 'More for $name';

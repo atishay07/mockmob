@@ -735,11 +735,17 @@ class AskController extends Notifier<AskState> {
     final current = state.thread;
     final checks = [for (final c in asJsonList(body['checks'])) ?ThreadCheck.tryParse(c)].take(2).toList();
     final note = asString(body['checksNote'])?.trim();
+    // A replayed doubt (the server's L-01 replay, `replayed: true`) brings the answers already given to its 2 questions.
+    final results = asJson(body['results']);
+    final marks = <String, CheckMark>{
+      for (final e in results.entries)
+        if (CheckMark.tryParse(e.value) case final m?) e.key: m,
+    };
     final DoubtThread next;
     if (current != null && current.info.id == info.id) {
-      next = current.copyWith(info: info, clearError: true);
+      next = current.copyWith(info: info, clearError: true, marks: marks.isEmpty ? null : {...current.marks, ...marks});
     } else {
-      next = DoubtThread(info: info, openedAt: index, checks: checks, checksNote: note == null || note.isEmpty ? null : note, askedSubject: anchor?.subject);
+      next = DoubtThread(info: info, openedAt: index, checks: checks, checksNote: note == null || note.isEmpty ? null : note, askedSubject: anchor?.subject, marks: marks);
     }
     state = AskState(messages: state.messages, sessionId: state.sessionId, wallet: state.wallet, walletAt: state.walletAt, thread: next);
   }

@@ -303,6 +303,42 @@ void main() {
       expect(http.requests.where((r) => r.path.contains('/mentor/history')).length, greaterThanOrEqualTo(2));
     });
 
+    test('a paid doubt sent again after a lost answer: the same request, and the server\'s replay is taken as it is (L-01)', () async {
+      c = make();
+      final ids = <String>[];
+      var first = true;
+      http.handler = (o) {
+        ids.add((o.data is String ? jsonDecode(o.data as String) : o.data)['requestId'] as String);
+        if (first) {
+          first = false;
+          return const FakeReply(-1, {});
+        }
+        return const FakeReply(200, {
+          'ok': true,
+          'sessionId': 'thread-9',
+          'replayed': true,
+          'reply': 'Super profit is the profit above the normal profit.',
+          'origin': 'model',
+          'actions': [],
+          'charge': {'kind': 'prepos_credit', 'amount': 1, 'reference': 'prepos:u1:x'},
+          'thread': {'id': 'thread-9', 'followUpsLeft': 1, 'followUpsMax': 1, 'subject': 'accountancy', 'chapter': 'Goodwill'},
+          'checks': [],
+          'checksNote': null,
+          'results': {
+            'c1': {'right': true, 'pick': 1, 'key': {'index': 1, 'text': '13:7:5'}, 'picked': {'index': 1, 'text': '13:7:5'}, 'line': 'Right.'},
+          },
+        });
+      };
+      expect(await ctl().send('How is goodwill valued by the super profit method?', subject: 'accountancy'), isNotNull);
+      await ctl().retry();
+      expect(ids, hasLength(2));
+      expect(ids[1], ids[0], reason: 'the same request, so the server replays it and charges nothing more');
+      expect(last().text, contains('Super profit'));
+      final t = c.read(askControllerProvider).thread;
+      expect(t?.info.id, 'thread-9');
+      expect(t?.marks['c1']?.right, isTrue);
+    });
+
     test('duplicate with no reply in the history: says so, and asking again is a new question', () async {
       c = make();
       http.handler = (o) => o.path.contains('/mentor/chat')

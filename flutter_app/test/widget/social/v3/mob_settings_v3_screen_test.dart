@@ -172,7 +172,8 @@ void main() {
       for (final n in ['Aarav', 'Riya', 'Kabir', 'Zoya']) {
         expect(find.textContaining(n, findRichText: true), findsWidgets);
       }
-      expect(find.textContaining(MobV3Copy.youTag, findRichText: true), findsOneWidget);
+      // The tag as a whole word: the share note's "Your right answers" is not the tag.
+      expect(find.textContaining(RegExp(r'\b' + MobV3Copy.youTag + r'\b'), findRichText: true), findsOneWidget);
       expect(find.byTooltip(MobV3Copy.memberMenu('Aarav')), findsNothing);
       expect(find.byTooltip(MobV3Copy.memberMenu('Riya')), findsOneWidget);
       expect(find.text('Played'), findsNothing);
