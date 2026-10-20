@@ -87,34 +87,35 @@ class _WelcomeCreditsSheetState extends ConsumerState<WelcomeCreditsSheet> {
     final reward = status.value?.reward ?? 100;
     final reduced = Motion.reduced(context);
 
-    final hero = Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
+    // The credits as the hero, centred: the coin stack beside the figure rolling in, the caption under them.
+    final hero = Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
-        const CreditCoins(size: 76, coins: 3),
-        const SizedBox(width: MmSpace.s16),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              MonumentalNumber(
-                value: '$credits',
-                style: type.figureHero,
-                color: colors.ink,
-                roll: !reduced,
-                delay: const Duration(milliseconds: 260),
-                semanticsLabel: ReferralCopy.welcomeSemantics(credits),
-                onLanded: () => hapticsOf(context)?.light(),
-              ),
-              const SizedBox(height: MmSpace.s6),
-              ExcludeSemantics(
-                child: Text(ReferralCopy.welcomeUnit, style: type.labelLarge.copyWith(color: colors.ink2)),
-              ),
-            ],
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const CreditCoins(size: 72, coins: 3),
+            const SizedBox(width: MmSpace.s12),
+            MonumentalNumber(
+              value: '$credits',
+              style: type.figureHero,
+              color: colors.ink,
+              roll: !reduced,
+              delay: const Duration(milliseconds: 260),
+              semanticsLabel: ReferralCopy.welcomeSemantics(credits),
+              onLanded: () => hapticsOf(context)?.light(),
+            ),
+          ],
+        ),
+        const SizedBox(height: MmSpace.s8),
+        ExcludeSemantics(
+          child: Text(
+            ReferralCopy.welcomeUnit,
+            textAlign: TextAlign.center,
+            style: type.labelLarge.copyWith(color: colors.accentText),
           ),
         ),
-        // With no invite below, Mobi cheers beside the credits instead.
-        if (invite == WelcomeInviteState.off) const _CheeringMobi(size: 84),
       ],
     );
 
@@ -122,13 +123,29 @@ class _WelcomeCreditsSheetState extends ConsumerState<WelcomeCreditsSheet> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        const SizedBox(height: MmSpace.s8),
+        const SizedBox(height: MmSpace.s12),
         hero,
-        const SizedBox(height: MmSpace.s16),
-        Text(ReferralCopy.welcomeWhat, style: type.body.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s24),
+        // With no invite below, Mobi cheers beside the line instead.
+        if (invite == WelcomeInviteState.off)
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Expanded(child: Text(ReferralCopy.welcomeWhat, style: type.body.copyWith(color: colors.ink2))),
+              const SizedBox(width: MmSpace.s12),
+              const _CheeringMobi(size: 76),
+            ],
+          )
+        else
+          // Centred, each sentence keeps a line of its own (no one-word last line).
+          Text(
+            ReferralCopy.welcomeWhat.replaceFirst('. ', '.\n'),
+            textAlign: TextAlign.center,
+            style: type.body.copyWith(color: colors.ink2),
+          ),
+        const SizedBox(height: MmSpace.s20),
         AnimatedSize(
-          duration: reduced ? Duration.zero : Motion.card,
+          duration: reduced ? Motion.reducedFade : Motion.card,
           curve: Motion.out,
           alignment: Alignment.topCenter,
           child: AnimatedSwitcher(
@@ -191,7 +208,12 @@ class _InviteBlock extends StatelessWidget {
             children: [
               Semantics(
                 header: true,
-                child: Text(ReferralCopy.welcomeInviteTitle(reward), style: type.title.copyWith(color: colors.ink)),
+                child: _TitleWithFigure(
+                  text: ReferralCopy.welcomeInviteTitle(reward),
+                  figure: '$reward',
+                  style: type.title.copyWith(color: colors.ink),
+                  figureColor: colors.accentText,
+                ),
               ),
               const SizedBox(height: MmSpace.s6),
               Text(ReferralCopy.welcomeInviteHow, style: type.caption.copyWith(color: colors.ink2)),
@@ -207,6 +229,30 @@ class _InviteBlock extends StatelessWidget {
           const _CheeringMobi(size: 76),
         ],
       ),
+    );
+  }
+}
+
+/// The invite's title with its figure ("100") in the accent ink, so the reward reads first.
+class _TitleWithFigure extends StatelessWidget {
+  const _TitleWithFigure({required this.text, required this.figure, required this.style, required this.figureColor});
+
+  final String text;
+  final String figure;
+  final TextStyle style;
+  final Color figureColor;
+
+  @override
+  Widget build(BuildContext context) {
+    final at = text.indexOf(figure);
+    if (at < 0) return Text(text, style: style);
+    return Text.rich(
+      TextSpan(children: [
+        TextSpan(text: text.substring(0, at)),
+        TextSpan(text: figure, style: TextStyle(color: figureColor, fontFeatures: const [FontFeature.tabularFigures()])),
+        TextSpan(text: text.substring(at + figure.length)),
+      ]),
+      style: style,
     );
   }
 }
