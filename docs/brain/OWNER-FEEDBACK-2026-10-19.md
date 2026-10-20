@@ -820,3 +820,21 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 
 ## Owner, 20 Oct about 3:35 pm IST (screenshot of Supabase Billing, no text)
 Billing page: "Your grace period has started. Your organization went over its quota in the previous billing cycle (Egress Exceeded). You can continue with your projects until your grace period ends on 22 Oct, 2026. After that, the Fair Use Policy will apply..." Free Plan; spend cap enabled; latest invoice Sep 21, 2026 ($0.00, PAID): the billing cycle resets on the 21st, so a fresh quota starts 21 Oct, the day before the grace ends. Per Supabase docs a second overage gets no new grace: the cycle from 21 Oct must stay under 5 GB of egress (about 160 MB a day).
+
+## Owner, 20 Oct 4:06 pm IST: started session b7e1b5da by pasting docs/brain/NEXT-PROMPT-1020-PM.md (verbatim in that file) as the goal.
+
+## Owner, 20 Oct about 4:20-4:45 pm IST (Supabase screenshots and questions)
+- Screenshot: Usage summary, current billing cycle 21 Sep 2026 - 21 Oct 2026; Egress 15.718 / 5 GB (314%); Log Ingestion 0.515/1 GB and Log Query 41.318/100 GB (both "UPCOMING"); grace period ends 22 Oct.
+- Screenshot: Egress per day (all projects): spikes ~3.8 GB on 7 Oct, ~3.3 GB on 18 Oct, ~1.6 GB 16 Oct, ~1.2 GB 3 Oct, ~1.1 GB 19 Oct; quiet days 0.1-0.4 GB; 20 Oct near zero.
+- He created organisation "mockmob-staging" (Free). Creating a project there is blocked (free project limit 2). Transfer of the staging project is blocked: "This project can't be transferred to a Free organization while the source organization is in an active grace period or under service restrictions." His words: "I think I'll be able to do this tomorrow only." Agreed: retry the transfer on 22 Oct afternoon after the grace period ends.
+> "All right, but do you think I will still need to update to Thor anyway? Or do you think you'll be able to keep the usage under 5 GB, making that manageable or not? And I still don't understand exactly how we spend like 15 GB in just ingress, in just testing. And can you sustain 100, 200 students on the free plan?"
+> "But it's not like we are stopping the development or making new versions or anything. Agent work will happen, agent tests will still happen, and everything is still going to happen. How do you plan to manage the ingress to less than 5 GB then?"
+**Ledger D177:** no Pro during testing. Plan: staging moves to its own Free org on 22 Oct (own 5 GB; agents can never restrict production); agent testing defaults to no-database (unit, fixtures, demo mode); database walks on a PC-local Supabase stack (zero egress; Docker only if the Docker-free route fails); fixed small staging seeds, never copy production over the network; per-wave egress budget (staging ~150 MB/day); production egress cuts (web/1020-egress) now and a second step (serve bank/content from the website cache) before 100+ daily students. Pro at public launch or ~150+ daily actives.
+
+## Owner, 20 Oct about 4:50 pm IST (verbatim)
+> "Okay, for today or the next 2 days, we are over this crazy meeting. Just about everything that we have discussed: leave this Supabase thing and come back to the thing that matters and what we have focused upon: the progress with the app and version 15, which must be built.
+>
+> Is everything from the last session done, and has the agent even recorded everything from last session about the app status? You have been only telling me about Supabase and this usage issue and all that. I sent it when it was at like the last 1% of the usage limit. 90% of the work and a lot was discussed, as it posted all of that.
+>
+> Check it and let me know the progress. I don't see that you have started any progress after that because on the app website"
+**Ledger D178:** Supabase is parked for 2 days (except the already-running egress cut and the 22 Oct transfer); focus is version 15 app + website.
