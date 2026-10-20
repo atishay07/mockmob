@@ -939,3 +939,11 @@ Billing page: "Your grace period has started. Your organization went over its qu
 
 ## Owner, 20 Oct 9:48 pm IST (verbatim)
 > "have you tested this build properly? because as i said before also this is the final version which will go in closed testing to has to be as perfect as possible if you have any doubts should i pass it through another agent first?"
+
+## Owner, 20 Oct 10:59 pm IST (verbatim, pasted)
+> "There are a few issues that I noticed in version 15. I just wanted to inform you if there are actually no issues, or if you have a system out, or what happened.
+> 1. When even a first-time user opens the app, there is no welcome animation, nothing. Only if I click "See how it works" does something load up. Otherwise, as I said to you, the first time, there should be a welcome thing, like "I have built it" and "How it works," but it's not automatically showing up the first time.
+> 2. On mobile, there is no way to start a live session, like "Live with the friends."
+> 3. There is no invite thing also when making a new account.
+> 4. I'm still receiving random credits, like 150, 200, whatever. I just made a new account. I'll try again.
+> Also, can you clarify these for now? I'll give more feedback later."
