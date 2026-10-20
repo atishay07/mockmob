@@ -2,16 +2,24 @@
 // own price on the key and never the website's), the inline row (one action, dismissed for seven days),
 // the gate key, the first-session helper (once), and nothing at all with PLAY_BILLING off or for Pro.
 
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/repositories/student_actions.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/billing/data/billing_controller.dart';
 import 'package:mockmob/features/billing/data/play_products.dart';
-import 'package:mockmob/features/billing/widgets/pro_page.dart' show ProPage;
+import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
+import 'package:mockmob/features/billing/widgets/pro_page.dart' show ProHeroArt, ProPage;
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart';
 import 'package:mockmob/features/pro_nudge/data/pro_nudge_controller.dart' show proNudgeInOnboardingProvider;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart' show PurchaseStatus;
+import 'package:mockmob/core/theme/theme.dart' show MmType;
+import 'package:mockmob/features/pro_nudge/data/pro_benefits.dart' show ProBenefitLine;
+import 'package:mockmob/features/pro_nudge/widgets/line_fit.dart';
+import 'package:mockmob/features/pro_nudge/widgets/upgrade_sheet.dart' show UpgradeSheetBody;
 
 import '../../golden/you/you_golden_kit.dart' show setUpGoldenFonts;
 import '../billing/billing_test_support.dart';
@@ -119,6 +127,246 @@ void main() {
       await tester.tap(find.text('open'));
       await settleNudges(tester);
       expect(opened, isFalse);
+    });
+  });
+
+  // D185 (owner): the first-session sheet stays a dismissible bottom sheet (D181), visual first: the Pro page's art,
+  // one short headline, at most three one-line rows, Google Play's price once, Get Pro and Not now pinned.
+  group('the first-session sheet', () {
+    Future<void> open(WidgetTester tester, NudgeRig rig, {Size size = const Size(360, 800), double textScale = 1}) async {
+      await pumpNudges(
+        tester,
+        Builder(
+          builder: (context) => Center(
+            child: TextButton(onPressed: () => showUpgradeBottomSheetIfOn(context, reason: ProReason.firstSession), child: const Text('open')),
+          ),
+        ),
+        rig,
+        size: size,
+        textScale: textScale,
+      );
+      await tester.tap(find.text('open'));
+      await settleNudges(tester, rounds: 14);
+    }
+
+    const facts = ProFacts(mocksTaken: 3, weakestChapter: 'Accounting Ratios', practiceCredits: 12, subjectCount: 4);
+
+    testWidgets("the art, one headline, three short rows with the student's facts first, and no paragraph", (tester) async {
+      await open(tester, NudgeRig(facts: facts));
+      expect(find.byType(ProHeroArt), findsOneWidget);
+      expect(find.text(ProNudgeCopy.sheetHeadline(ProReason.firstSession)), findsOneWidget);
+      for (final row in ProBenefits.shortLines(facts, reason: ProReason.firstSession)) {
+        expect(find.text(row.text), findsOneWidget);
+      }
+      expect(find.text(ProNudgeCopy.creditsLeftShort(12)), findsOneWidget);
+      // No lede, no heading over the rows, no long lines, no fine print said twice.
+      final head = ProNudgeCopy.head(ProReason.firstSession);
+      expect(find.text(head.lede), findsNothing);
+      expect(find.text(ProNudgeCopy.forYouHeading), findsNothing);
+      expect(find.text(ProNudgeCopy.creditsLeft(12)), findsNothing);
+      expect(find.text(BillingCopy.googlePlayNote), findsNothing);
+      // The plan renews every month: said where the student buys, once.
+      expect(find.text(BillingCopy.proTerms), findsOneWidget);
+    });
+
+    testWidgets('each row is one line at 360 dp', (tester) async {
+      await open(tester, NudgeRig(facts: facts));
+      // Body text is 24 dp a line, the headline about 28.
+      for (final row in ProBenefits.shortLines(facts, reason: ProReason.firstSession)) {
+        expect(tester.getSize(find.text(row.text)).height, lessThanOrEqualTo(24 + 0.5), reason: row.text);
+      }
+      expect(tester.getSize(find.text(ProNudgeCopy.sheetHeadline(ProReason.firstSession))).height, lessThanOrEqualTo(30 + 0.5), reason: 'the headline is one line');
+    });
+
+    testWidgets("Google Play's price once, with a month and one line of terms; Get Pro buys it", (tester) async {
+      final rig = NudgeRig(facts: facts);
+      await open(tester, rig);
+      expect(find.textContaining('$playProPrice a month'), findsOneWidget);
+      expect(find.text(BillingCopy.proTerms), findsOneWidget, reason: 'that it renews every month, and where to cancel');
+      await tester.tap(find.text(BillingCopy.getPro));
+      await settleNudges(tester);
+      expect(rig.billing.store.buys.single.productId, PlayProducts.proId);
+    });
+
+    testWidgets('Not now closes it', (tester) async {
+      await open(tester, NudgeRig(facts: facts));
+      await tester.tap(find.text(ProNudgeCopy.notNow));
+      await settleNudges(tester);
+      expect(find.byType(ProHeroArt), findsNothing);
+    });
+
+    testWidgets('Google Play unavailable: one short line with Try again, no price, Get Pro waits; the whole of it read aloud', (tester) async {
+      final semantics = tester.ensureSemantics();
+      await open(tester, NudgeRig(facts: facts, store: FakePlayStore(available: false)));
+      expect(find.text(ProNudgeCopy.storeUnavailableShort), findsOneWidget);
+      expect(find.text(BillingCopy.storeUnavailable), findsNothing, reason: 'no paragraph on the sheet (D185)');
+      expect(find.bySemanticsLabel(BillingCopy.storeUnavailable), findsOneWidget);
+      expect(tester.getSize(find.text(ProNudgeCopy.storeUnavailableShort)).height, lessThanOrEqualTo(20 + 0.5), reason: 'one line');
+      semantics.dispose();
+      expect(find.text(BillingCopy.tryAgain), findsWidgets);
+      expect(find.textContaining('a month'), findsNothing);
+      expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, BillingCopy.getPro)).onPressed, isNull);
+    });
+
+    testWidgets("checking Google Play: a skeleton holds the price's place and says what is happening", (tester) async {
+      await open(tester, NudgeRig(facts: facts, store: FakePlayStore()..gate = Completer<void>()));
+      expect(find.text(BillingCopy.checkingStore), findsOneWidget);
+      expect(tester.widget<KeyButton>(find.widgetWithText(KeyButton, BillingCopy.getPro)).onPressed, isNull);
+    });
+
+    testWidgets('a subscription on hold: its own heading and Manage subscription, no art and no sale', (tester) async {
+      await open(tester, NudgeRig(facts: facts, subscription: playSub(state: 'on_hold', active: false, hold: true)));
+      expect(find.text(BillingCopy.subOnHoldTitle), findsOneWidget);
+      expect(find.byType(ProHeroArt), findsNothing);
+      expect(find.text(BillingCopy.getPro), findsNothing);
+      expect(find.text(BillingCopy.manageSubscription), findsOneWidget);
+    });
+
+    // The tallest states: Google Play unavailable (one line and Try again in the foot), a payment pending and a failure
+    // with Try again (in the rows' place in the body). On a 360 by 640 phone at 1x and 1.3x text the keys stay whole
+    // and on screen, the headline stays in the body's clear part above its fade, and so does the notice.
+    final states = <String, NudgeRig Function()>{
+      'selling': () => NudgeRig(facts: facts),
+      'unavailable': () => NudgeRig(facts: facts, store: FakePlayStore(available: false)),
+      'pending': () {
+        final rig = NudgeRig(facts: facts);
+        rig.billing.store.onBuy = (p) => rig.billing.store.emit(purchase(p.id, status: PurchaseStatus.pending));
+        return rig;
+      },
+      'failure': () {
+        final rig = NudgeRig(facts: facts);
+        rig.billing.verifier.failWith = serverBroken;
+        rig.billing.store.onBuy = (p) => rig.billing.store.emit(purchase(p.id));
+        return rig;
+      },
+    };
+    for (final MapEntry(key: state, value: rig) in states.entries) {
+      for (final scale in const [1.0, 1.3]) {
+        testWidgets('on a 360 by 640 phone at ${scale}x text ($state), Get Pro and Not now are whole and on screen, the headline in view', (tester) async {
+          await open(tester, rig(), size: const Size(360, 640), textScale: scale);
+          Finder? notice;
+          if (state == 'pending' || state == 'failure') {
+            await tester.tap(find.text(BillingCopy.getPro));
+            await settleNudges(tester, rounds: 14);
+            notice = find.text(state == 'pending' ? BillingCopy.pendingPro : BillingCopy.failCouldNotConfirm);
+            expect(notice, findsOneWidget);
+            // The pitch is done: the notice stands in the rows' place.
+            expect(find.text(ProNudgeCopy.creditsLeftShort(12)), findsNothing);
+          }
+          for (final label in [BillingCopy.getPro, ProNudgeCopy.notNow]) {
+            final key = tester.getRect(find.widgetWithText(KeyButton, label));
+            expect(key.bottom, lessThanOrEqualTo(640), reason: label);
+            expect(key.top, greaterThanOrEqualTo(0), reason: label);
+          }
+          if (state != 'unavailable') expect(tester.getRect(find.textContaining('a month')).bottom, lessThanOrEqualTo(640));
+          final headline = _headline();
+          final scroll = find.ancestor(of: headline, matching: find.byType(SingleChildScrollView)).first;
+          final body = tester.getRect(scroll);
+          // When the body runs on under the keys, it dissolves over its last 40 dp above them; else it is clear.
+          final runsOn = tester.state<ScrollableState>(find.descendant(of: scroll, matching: find.byType(Scrollable)).first).position.extentAfter > 0.5;
+          final clear = body.bottom - (runsOn ? 40 : 0) + 0.5;
+          final head = tester.getRect(headline);
+          expect(head.top, greaterThanOrEqualTo(body.top - 0.5), reason: 'the headline is not scrolled away');
+          expect(head.bottom, lessThanOrEqualTo(clear), reason: 'the headline is clear of the fade');
+          if (notice != null) {
+            expect(tester.getRect(notice).bottom, lessThanOrEqualTo(clear), reason: 'the notice is whole and clear of the fade');
+            if (state == 'failure') expect(tester.getRect(find.text(BillingCopy.tryAgain)).bottom, lessThanOrEqualTo(clear), reason: 'its Try again too');
+          }
+        });
+      }
+    }
+
+    // At large text a row may take two lines, broken where it reads best (after a full stop or a comma, else where
+    // the two come out even): never one word left alone on a line, and never a third line.
+    for (final size in const [Size(360, 800), Size(360, 640), Size(412, 915)]) {
+      testWidgets('at 1.3x text on ${size.width.toInt()} by ${size.height.toInt()}: no row or headline leaves one word alone', (tester) async {
+        await open(tester, NudgeRig(facts: facts), size: size, textScale: 1.3);
+        final rows = ProBenefits.shortLines(facts, reason: ProReason.firstSession);
+        final candidates = {for (final r in rows) ...[r.text, ?r.fallback]};
+        final shown = find.byWidgetPredicate((w) => w is Text && candidates.contains(w.data?.replaceAll('\n', ' ')));
+        expect(shown, findsWidgets);
+        for (final element in shown.evaluate()) {
+          final text = (element.widget as Text).data!;
+          final lines = text.split('\n');
+          expect(lines.length, lessThanOrEqualTo(2), reason: text);
+          for (final line in lines) {
+            expect(line.trim().split(' ').length, greaterThanOrEqualTo(2), reason: 'one word alone: "$line" in "$text"');
+          }
+          // Body text is 24 dp a line at 1x: nothing wraps beyond the breaks the sheet chose.
+          expect(tester.getSize(find.byWidget(element.widget)).height, lessThanOrEqualTo(lines.length * 24 * 1.3 + 0.5), reason: text);
+        }
+        final headText = tester.widget<Text>(_headline()).data!;
+        for (final line in headText.split('\n')) {
+          expect(line.trim().split(' ').length, greaterThanOrEqualTo(2), reason: 'headline: "$line"');
+        }
+      });
+    }
+
+    // Each row's line is measured with the real fonts at the row's real width on a 360 dp phone at 1x, including the
+    // longest real CUET chapter names a row may name (20 characters or fewer, from data/canonical_syllabus.js).
+    testWidgets('at 360 dp and 1x text every row is one line, the longest real chapter names included', (tester) async {
+      await open(tester, NudgeRig(facts: facts));
+      final first = ProBenefits.shortLines(facts, reason: ProReason.firstSession).first.text;
+      final width = tester.getSize(find.ancestor(of: find.text(first), matching: find.byType(Expanded)).first).width;
+      expect(width, closeTo(256, 1), reason: 'the line beside the icon on a 360 dp phone');
+      final style = MmType.light.body;
+      const scaler = TextScaler.noScaling;
+      bool oneLine(String line) => LineFit.fitsOneLine(line, style, scaler, width);
+
+      final always = [
+        ...ProNudgeCopy.plainBenefitsShort,
+        for (final r in ProReason.values) ?ProNudgeCopy.leadBenefitShort(r),
+        ProNudgeCopy.weakestShort,
+        ProNudgeCopy.creditsLeftShort(0),
+        ProNudgeCopy.creditsLeftShort(49),
+        ProNudgeCopy.creditsUsedShort(480, atLeast: true),
+        ProNudgeCopy.creditsUsedShort(999, atLeast: false),
+        ProNudgeCopy.mocksTakenShort(1),
+        ProNudgeCopy.mocksTakenShort(99),
+        ProNudgeCopy.subjectsShort(5),
+        ProNudgeCopy.collegesShort(1),
+        ProNudgeCopy.collegesShort(12),
+      ];
+      for (final line in always) {
+        expect(oneLine(line), isTrue, reason: '"$line" is ${LineFit.widthOf(line, style, scaler).toStringAsFixed(1)} dp');
+      }
+      // The headline spans the row's icon too.
+      final headWidth = tester.getSize(find.ancestor(of: _headline(), matching: find.byType(LayoutBuilder)).first).width;
+      expect(LineFit.fitsOneLine(ProNudgeCopy.sheetTitle, MmType.light.screenTitle.copyWith(fontSize: 24), scaler, headWidth), isTrue);
+
+      // A real chapter: named when it fits, else its plain line, and either way one line; no row is lost.
+      var named = 0;
+      for (final name in _realChapters) {
+        final rows = ProBenefits.shortLines(ProFacts(weakestChapter: name), reason: ProReason.firstSession);
+        final set = UpgradeSheetBody.setRows(rows, style: style, scaler: scaler, width: width, large: false);
+        expect(set, hasLength(rows.length), reason: name);
+        for (final r in set) {
+          expect(r.text, isNot(contains('\n')), reason: name);
+          expect(oneLine(r.text), isTrue, reason: r.text);
+        }
+        expect(set.first.text, anyOf(ProNudgeCopy.weakestChapterShort(name), ProNudgeCopy.weakestShort), reason: name);
+        if (set.first.text != ProNudgeCopy.weakestShort) named++;
+      }
+      expect(named, greaterThan(_realChapters.length * 0.8), reason: 'most chapters stay named on a 360 dp phone');
+      // The Commerce chapters met most often stay named.
+      for (final name in const ['Accounting Ratios', 'Admission of Partner', 'Goodwill Valuation', 'Cash Flow Statement', 'Consumer Protection', 'International Trade']) {
+        expect(oneLine(ProNudgeCopy.weakestChapterShort(name)), isTrue, reason: name);
+      }
+    });
+
+    testWidgets('a row that does not fit gives way to its plain line, and a row with none is left out', (tester) async {
+      await open(tester, NudgeRig(facts: facts));
+      final style = MmType.light.body;
+      const rows = [
+        ProBenefitLine(id: 'weakest', text: 'Sets aimed at Marketing Management', fallback: ProNudgeCopy.weakestShort),
+        ProBenefitLine(id: 'colleges', text: 'Compass Pro for every college you could ever want'),
+        ProBenefitLine(id: 'plain-nta', text: 'NTA mode, the exam-day screen'),
+      ];
+      final set = UpgradeSheetBody.setRows(rows, style: style, scaler: TextScaler.noScaling, width: 256, large: false);
+      expect([for (final r in set) r.text], [ProNudgeCopy.weakestShort, 'NTA mode, the exam-day screen']);
+      // At large text the named row keeps its name on two lines, the chapter whole on the second.
+      final large = UpgradeSheetBody.setRows(rows, style: style, scaler: const TextScaler.linear(1.3), width: 256, large: true);
+      expect(large.first.text, 'Sets aimed at\nMarketing Management');
     });
   });
 
@@ -369,9 +617,34 @@ void main() {
       await tester.tap(find.text('calm'));
       await settleNudges(tester);
       expect(opened, [false, false, true]);
-      expect(find.text(ProNudgeCopy.head(ProReason.firstSession).title), findsOneWidget);
+      expect(find.text(ProNudgeCopy.sheetHeadline(ProReason.firstSession)), findsOneWidget);
       expect(rig.prefs.values.keys.where((k) => k.endsWith('popup_shown')), hasLength(1));
       expect(c.read(upgradePopupDueProvider), isFalse);
     });
   });
 }
+
+/// The first-session sheet's headline, as set (on one line, or two at large text).
+Finder _headline() => find.byWidgetPredicate((w) => w is Text && w.data?.replaceAll('\n', ' ') == ProNudgeCopy.sheetHeadline(ProReason.firstSession));
+
+/// Real CUET UG chapter names of 17 to 20 characters (data/canonical_syllabus.js), the longest a row may name.
+const _realChapters = [
+  'Admission of Partner', 'Livestock Production', 'Applied Anthropology', 'Environmental Issues', 'Business Environment',
+  'Financial Management', 'Marketing Management', 'Income Determination', 'Projection of Planes', 'Projection of Solids',
+  'Enterprise Marketing', 'Secondary Activities', 'Household Management', 'Language and Grammar', 'Agriculture & Crafts',
+  'Folk Dances of India', 'Regional Dance Forms', 'Regional Aspirations', 'Teaching Methodology', 'Classroom Management',
+  'Communication Skills', 'Match the Following', 'Literature — Poetry', 'Cash Flow Statement', 'Extension Education',
+  'Indian Anthropology', 'Reproductive Health', 'Consumer Protection', 'Balance of Payments', 'Business Arithmetic',
+  'International Trade', 'Indian Architecture', 'Musical Instruments', 'Psychology & Sports', 'Current Electricity',
+  'Alternating Current', 'Apathit Avabodhanam', 'Racnanatmakam Karya', 'Sanskrit Literature', 'Social Institutions',
+  'Correct Word Usage', 'Literature — Prose', 'Goodwill Valuation', 'Human Reproduction', 'Understanding Data',
+  'Data Communication', 'Production & Costs', 'Engineering Curves', 'Primary Activities', 'Kings & Chronicles',
+  'Other Technologies', 'Constitutional Law', 'Linear Programming', 'Theatre Traditions', 'Notable Performers',
+  'Planning in Sports', 'Sports & Nutrition', 'Training in Sports', 'Magnetism & Matter', 'Self & Personality',
+  'Learning & Learner', 'Narrative Passage', 'Rachnatmak Lekhan', 'Accounting Ratios', 'Fieldwork Methods',
+  'Financial Markets', 'Chemical Kinetics', 'Surface Chemistry', 'Database Concepts', 'Computer Networks',
+  'Rural Development', 'Natural Resources', 'The Pahari School', 'The Mughal School', 'The Deccan School',
+  'The Bengal School', 'Modern Indian Art', 'Human Development', 'Human Settlements', 'Indian Philosophy',
+  'End of Bipolarity', 'Psychology & Life', 'Structural Change', 'Research Aptitude', 'General Knowledge',
+  'Numerical Ability',
+];

@@ -216,6 +216,21 @@ class _SaveViewState extends ConsumerState<SaveView> {
     });
   }
 
+  /// The height of the taller of the two lines under the age question, at this width and text size.
+  static double _lineSlot(BuildContext context, TextStyle style, double width) {
+    var tallest = 0.0;
+    for (final line in const [OnboardingCopy.ageNoteShort, OnboardingCopy.ageFirstLine]) {
+      final painter = TextPainter(
+        text: TextSpan(text: line, style: style),
+        textDirection: Directionality.of(context),
+        textScaler: MediaQuery.textScalerOf(context),
+      )..layout(maxWidth: width);
+      if (painter.height > tallest) tallest = painter.height;
+      painter.dispose();
+    }
+    return tallest;
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -255,19 +270,21 @@ class _SaveViewState extends ConsumerState<SaveView> {
             onSelected: w.onAge,
           ),
           const SizedBox(height: MmSpace.s8),
-          // Two caption lines high whichever line shows, so the keys below do not move when the note and the
-          // line that says what is needed swap.
-          ConstrainedBox(
-            constraints: BoxConstraints(minHeight: MediaQuery.textScalerOf(context).scale(type.caption.fontSize!) * type.caption.height! * 2),
-            child: MmOverlapSwitcher(
-              alignment: Alignment.topLeft,
-              child: marked
-                  ? Semantics(
-                      key: const ValueKey('asked'),
-                      liveRegion: true,
-                      child: Text(OnboardingCopy.ageFirstLine, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.warnText)),
-                    )
-                  : Text(OnboardingCopy.ageNote, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.ink3)),
+          // One short line (D185), and as high as the taller of the two lines whatever the text size, so the keys
+          // below do not move when the note and the line that says what is needed swap.
+          LayoutBuilder(
+            builder: (context, box) => ConstrainedBox(
+              constraints: BoxConstraints(minHeight: _lineSlot(context, type.caption, box.maxWidth)),
+              child: MmOverlapSwitcher(
+                alignment: Alignment.topLeft,
+                child: marked
+                    ? Semantics(
+                        key: const ValueKey('asked'),
+                        liveRegion: true,
+                        child: Text(OnboardingCopy.ageFirstLine, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.warnText)),
+                      )
+                    : Text(OnboardingCopy.ageNoteShort, key: SaveView.ageLineKey, style: type.caption.copyWith(color: colors.ink3)),
+              ),
             ),
           ),
         ],

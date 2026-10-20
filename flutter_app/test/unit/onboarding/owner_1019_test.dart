@@ -101,6 +101,7 @@ List<String> get onboardingSentences => [
       OnboardingCopy.saveSupport,
       OnboardingCopy.ageQuestion,
       OnboardingCopy.ageNote,
+      OnboardingCopy.ageNoteShort,
       ChoicesCopy.courseListCount(67),
       EditCopy.courseNote,
       for (final c in DuCatalog.courses) CourseRule.sentence(c)!,

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -11,13 +12,14 @@ import '../../billing/billing_copy.dart';
 import '../../billing/data/billing_controller.dart';
 import '../../billing/data/play_products.dart';
 import '../../billing/widgets/billing_notice.dart';
-import '../../billing/widgets/pro_page.dart' show ProPageArgs, openProPage;
-import '../../billing/widgets/get_pro_sheet.dart' show ProPriceBlock, needsGooglePlay, proMonthlyPrice, proPriceParts, proStatusOf, proStatusView;
+import '../../billing/widgets/pro_page.dart' show ProHeroArt, ProPageArgs, openProPage;
+import '../../billing/widgets/get_pro_sheet.dart' show proMonthlyPrice, proPriceParts, proStatusOf, proStatusView;
 import '../../credits/data/credit_figures.dart';
 import '../copy.dart';
 import '../data/pro_benefits.dart';
 import '../data/pro_facts_provider.dart';
 import '../data/pro_nudge_controller.dart';
+import 'line_fit.dart';
 
 /// Opens the Upgrade sheet for [reason] and returns true, or does nothing and returns false when
 /// the Pro nudges are off for this student (`PLAY_BILLING` off, signed out, or already Pro). A
@@ -51,42 +53,98 @@ bool showUpgradeSheetIfOn(BuildContext context, {required ProReason reason}) {
 /// The Upgrade sheet: Pro in a dismissible bottom sheet with Not now. The first-session ask uses it (D181);
 /// every upgrade the student opens themselves is the full Pro page ([showUpgradeSheetIfOn]).
 ///
-/// Get Pro and Not now are pinned under the scrolling body, so on a short phone, or with the student's four own
-/// lines, the way out is never below the fold.
+/// Visual first (D185): the Pro page's own art, one short headline and at most three one-line rows (two lines, broken
+/// where they read best, at large text). Google Play's price, Get Pro and Not now are pinned under the body
+/// ([UpgradeSheetKeys]), so on a short phone at large text the way out is never below the fold.
 bool showUpgradeBottomSheetIfOn(BuildContext context, {required ProReason reason}) {
   final container = ProviderScope.containerOf(context, listen: false);
   if (!container.read(proNudgesOnProvider)) return false;
   unawaited(showMmSheet<void>(
     context: context,
-    // A subscription to fix in Google Play is not framed by a sales headline: its own heading leads.
-    title: needsGooglePlay(container.read(playSubscriptionProvider)) ? null : ProNudgeCopy.head(reason).title,
+    // No sheet title: the art leads and the body sets the headline under it. A status (Pro is on, a
+    // subscription to fix in Google Play) brings its own heading.
     builder: (sheet) => UpgradeSheetBody(reason: reason, onClose: () => Navigator.of(sheet).maybePop(), keysPinned: true),
     footer: (sheet) => UpgradeSheetKeys(onClose: () => Navigator.of(sheet).maybePop()),
   ));
   return true;
 }
 
-/// The Upgrade sheet's content: the headline is the sheet's title, then the line under it (why Pro is on offer here), the
-/// lines that are about this student (or the plain list when there are none), Google Play's price, one
-/// key to buy and Restore purchases. Every state is honest, as the Get Pro sheet's: checking Google Play,
-/// Google Play unavailable, the product missing, a pending payment, the server confirming, a cancel, a
-/// failure with Try again. "Pro is on" appears only after the server confirmed the purchase.
+/// The Upgrade sheet's content: the Pro page's art, the one-line headline, and the student's own facts in
+/// short (or the plain benefits when there are none), at most three rows of one line each. Every state is
+/// honest, as the Get Pro sheet's: checking Google Play, Google Play unavailable, the product missing
+/// ([UpgradeSheetKeys]); and, in the rows' place once a key was tapped, a pending payment, the server confirming,
+/// a cancel, a failure with Try again ([BillingNotice]). "Pro is on" appears only after the server confirmed the
+/// purchase.
 class UpgradeSheetBody extends ConsumerStatefulWidget {
   const UpgradeSheetBody({super.key, required this.reason, this.onClose, this.keysPinned = false});
 
   final ProReason reason;
   final VoidCallback? onClose;
 
-  /// The sheet draws Get Pro and Not now itself, pinned under this body ([UpgradeSheetKeys]); the body leaves
-  /// them out.
+  /// The sheet draws the price, Get Pro and Not now itself, pinned under this body ([UpgradeSheetKeys]); the
+  /// body leaves them out.
   final bool keysPinned;
+
+  /// Above this text scale the sheet gives its room to the words: smaller art without its label, tighter gaps.
+  static const double largeText = 1.15;
+
+  /// The screen's height over the text scale below which the sheet shows two rows, not three (a 360 by 640 phone
+  /// at 1.3x text).
+  static const double shortRoom = 560;
+
+  /// The art's height: a fifth of the screen, between 88 and 168 dp, and smaller at large text, so the
+  /// headline and the rows keep their room above the pinned keys.
+  static double artHeightFor(BuildContext context) {
+    final screen = MediaQuery.sizeOf(context).height;
+    final text = math.max(1.0, MediaQuery.textScalerOf(context).scale(1));
+    return (screen * 0.2 / (text * text)).clamp(88.0, 168.0);
+  }
+
+  /// The headline at its full size (24) when that is one line at [width], else at 20 (large text on a narrow phone),
+  /// so it never wraps with one word alone; still too wide, it goes on two lines broken where it reads best.
+  static ({String text, TextStyle style}) setHeadline(String headline, MmType type, TextScaler scaler, double width) {
+    final full = type.screenTitle.copyWith(fontSize: 24);
+    if (LineFit.fitsOneLine(headline, full, scaler, width)) return (text: headline, style: full);
+    final small = type.screenTitle.copyWith(fontSize: 20);
+    return (text: LineFit.fit(headline, small, scaler, width) ?? headline, style: small);
+  }
+
+  /// The rows as the sheet sets them, [width] being the line's own width: each row's line on one line, or at large
+  /// text on two lines broken where it reads best ([LineFit]), never with one word alone. A row that does not fit
+  /// gives way to its plain line ([ProBenefitLine.fallback]); with none, or that one not fitting either, it is left
+  /// out. One line never shows twice.
+  static List<({ProBenefitLine row, String text})> setRows(
+    List<ProBenefitLine> rows, {
+    required TextStyle style,
+    required TextScaler scaler,
+    required double width,
+    required bool large,
+  }) {
+    final out = <({ProBenefitLine row, String text})>[];
+    final said = <String>{};
+    for (final row in rows) {
+      for (final line in [row.text, ?row.fallback]) {
+        if (said.contains(line)) continue;
+        final shown = LineFit.fit(line, style, scaler, width, two: large);
+        if (shown == null) continue;
+        out.add((row: row, text: shown));
+        said.add(line);
+        break;
+      }
+    }
+    return out;
+  }
 
   @override
   ConsumerState<UpgradeSheetBody> createState() => _UpgradeSheetBodyState();
 }
 
-class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
+class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> with SingleTickerProviderStateMixin {
   bool _manageFailed = false;
+
+  /// The lamp light that crosses the seal once the sheet has risen, as on the Pro page.
+  late final AnimationController _sweep = AnimationController(vsync: this, duration: const Duration(milliseconds: 1500));
+  Timer? _sweepAfterRise;
 
   Future<void> _manage() async {
     final opened = await ref.read(playBillingProvider.notifier).manageSubscription();
@@ -103,7 +161,21 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
       // progress is kept.
       ctl.clearOutcome();
       ctl.loadProducts();
+      if (Motion.reduced(context)) {
+        _sweep.value = 1;
+      } else {
+        _sweepAfterRise = Timer(Motion.sheetIn, () {
+          if (mounted) _sweep.forward();
+        });
+      }
     });
+  }
+
+  @override
+  void dispose() {
+    _sweepAfterRise?.cancel();
+    _sweep.dispose();
+    super.dispose();
   }
 
   @override
@@ -123,68 +195,78 @@ class _UpgradeSheetBodyState extends ConsumerState<UpgradeSheetBody> {
     );
     if (status != null) return status;
 
-    final colors = context.mmColors;
     final type = context.mmType;
-    final ctl = ref.read(playBillingProvider.notifier);
-    final facts = ref.watch(proFactsProvider);
-    final personal = ProBenefits.isPersonal(facts, reason: widget.reason);
-    final lines = ProBenefits.lines(facts, reason: widget.reason);
-    final price = proMonthlyPrice(s);
-    final loadingStore = s.productsLoading || (s.store == StoreAvailability.checking && s.products.isEmpty);
-
-    final Widget priceArea;
-    if (price != null) {
-      // Pinned under the body with the keys, next to Get Pro, when the sheet pins them.
-      priceArea = widget.keysPinned ? const SizedBox.shrink() : ProPriceBlock(parts: proPriceParts(s)!);
-    } else if (loadingStore) {
-      priceArea = const _PriceLoading();
-    } else {
-      priceArea = _Unavailable(
-        message: s.store == StoreAvailability.unavailable
-            ? BillingCopy.storeUnavailable
-            : s.productsFailed
-                ? BillingCopy.storeUnreachable
-                : BillingCopy.productUnavailable,
-        onRetry: () => ctl.loadProducts(force: true),
-      );
-    }
+    final scaler = MediaQuery.textScalerOf(context);
+    final text = scaler.scale(1);
+    final large = text > UpgradeSheetBody.largeText;
+    // A short phone at large text keeps the two most personal rows, so nothing sits half cut above the keys.
+    final room = MediaQuery.sizeOf(context).height / math.max(1.0, text);
+    final most = room < UpgradeSheetBody.shortRoom ? 2 : ProBenefits.maxShort;
+    final rows = ProBenefits.shortLines(ref.watch(proFactsProvider), reason: widget.reason);
+    final headline = ProNudgeCopy.sheetHeadline(widget.reason);
+    // Once Get Pro or Restore purchases is tapped, where it stands (opening Google Play, pending, confirming, a cancel,
+    // a failure with Try again) takes the rows' place under the headline: the pitch is done, and the keys stay pinned
+    // under it. A failure is the tallest (its words and Try again on a banner): at large text the art steps aside for
+    // it, so the banner is whole above the keys.
+    final notice = BillingNotice.shows(s, ids: {PlayProducts.proId}, showRestore: true);
+    final artAside = large && notice && BillingNotice.stageFor(s, ids: {PlayProducts.proId}, showRestore: true) == BillingStage.failed;
 
     return Semantics(
       label: ProNudgeCopy.sheetLabel,
       container: true,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Text(ProNudgeCopy.head(widget.reason).lede, style: type.lead.copyWith(color: colors.ink2)),
-          const SizedBox(height: MmSpace.s20),
-          Semantics(
-            header: true,
-            child: Text(personal ? ProNudgeCopy.forYouHeading : ProNudgeCopy.includesHeading, style: type.labelLarge.copyWith(color: colors.ink2)),
-          ),
-          const SizedBox(height: MmSpace.s8),
-          for (final line in lines) _BenefitRow(text: line),
-          const SizedBox(height: MmSpace.s20),
-          MmOverlapSwitcher.fade(
-            alignment: Alignment.topLeft,
-            child: KeyedSubtree(key: ValueKey(price != null ? 'price' : (loadingStore ? 'loading' : 'unavailable')), child: priceArea),
-          ),
-          BillingNotice(ids: {PlayProducts.proId}, showRestore: true),
-          if (!widget.keysPinned) ...[
-            const SizedBox(height: MmSpace.s16),
-            UpgradeBuyKeys(onClose: widget.onClose),
-            const SizedBox(height: MmSpace.s4),
-            // Pinned, the note stands under the keys with them ([UpgradeSheetKeys]).
-            Text(BillingCopy.googlePlayNote, textAlign: TextAlign.center, style: type.caption.copyWith(color: colors.ink3)),
-          ],
-        ],
+      // Measured at the sheet's own width, so every line is set where it reads best (LineFit).
+      child: LayoutBuilder(
+        builder: (context, box) {
+          final head = UpgradeSheetBody.setHeadline(headline, type, scaler, box.maxWidth);
+          final lines = UpgradeSheetBody.setRows(rows, style: type.body, scaler: scaler, width: box.maxWidth - _BenefitRow.lead, large: large);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              MmSizeEase(
+                duration: Motion.of(context, Motion.ui),
+                curve: Motion.out,
+                alignment: Alignment.topCenter,
+                child: artAside
+                    ? const SizedBox(width: double.infinity)
+                    : Padding(
+                        padding: EdgeInsets.only(bottom: large ? MmSpace.s8 : MmSpace.s12),
+                        child: ProHeroArt(height: UpgradeSheetBody.artHeightFor(context), sweep: _sweep, showLabel: !large),
+                      ),
+              ),
+              Semantics(
+                header: true,
+                label: headline,
+                excludeSemantics: true,
+                child: Text(head.text, textAlign: TextAlign.center, style: head.style),
+              ),
+              MmOverlapSwitcher.fade(
+                alignment: Alignment.topCenter,
+                child: notice
+                    ? BillingNotice(key: const ValueKey('notice'), ids: {PlayProducts.proId}, showRestore: true, centered: true, gap: large ? MmSpace.s12 : MmSpace.s16)
+                    : Padding(
+                        key: const ValueKey('rows'),
+                        padding: EdgeInsets.only(top: large ? MmSpace.s8 : MmSpace.s16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [for (final r in lines.take(most)) _BenefitRow(id: r.row.id, text: r.text, tight: large)],
+                        ),
+                      ),
+              ),
+              if (!widget.keysPinned) ...[
+                const SizedBox(height: MmSpace.s16),
+                UpgradeSheetKeys(onClose: widget.onClose),
+              ],
+            ],
+          );
+        },
       ),
     );
   }
 }
 
-/// Get Pro and, under it, Not now and Restore purchases: the sheet's keys. They stand in the body of the full
-/// sheet and, in the first-session bottom sheet, pinned under the scrolling body ([UpgradeSheetKeys]).
+/// Get Pro and, under it, Not now and Restore purchases: the sheet's keys, under the price ([UpgradeSheetKeys]).
 class UpgradeBuyKeys extends ConsumerWidget {
   const UpgradeBuyKeys({super.key, required this.onClose});
 
@@ -219,32 +301,98 @@ class UpgradeBuyKeys extends ConsumerWidget {
   }
 }
 
-/// The footer of the first-session bottom sheet: [UpgradeBuyKeys] while Pro can be bought, nothing while the sheet
+/// The foot of the Upgrade sheet, pinned under its body: Google Play's price as one figure with its period and
+/// one line of terms (or, while it cannot sell, checking Google Play, or why not in one line with Try again), then
+/// [UpgradeBuyKeys]. The purchase's own progress shows in the body ([UpgradeSheetBody]). Nothing while the sheet
 /// shows a status instead (Pro is on, or a subscription is fixed in Google Play), which has its own keys.
 class UpgradeSheetKeys extends ConsumerWidget {
   const UpgradeSheetKeys({super.key, required this.onClose});
 
-  final VoidCallback onClose;
+  final VoidCallback? onClose;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final s = ref.watch(playBillingProvider);
     final status = proStatusOf(
-      s: ref.watch(playBillingProvider),
+      s: s,
       isPro: ref.watch(creditFiguresProvider.select((f) => f.isPro)),
       sub: ref.watch(playSubscriptionProvider),
     );
     if (status != null) return const SizedBox.shrink();
-    // The price stands next to the key that buys it, in view whatever the body has scrolled to.
-    final parts = proPriceParts(ref.watch(playBillingProvider));
+    final ctl = ref.read(playBillingProvider.notifier);
+    final parts = proPriceParts(s);
+    final loadingStore = s.productsLoading || (s.store == StoreAvailability.checking && s.products.isEmpty);
+
+    final Widget priceArea;
+    if (parts != null) {
+      priceArea = _SheetPrice(parts: parts);
+    } else if (loadingStore) {
+      priceArea = const _PriceLoading();
+    } else {
+      // One line with Try again (D185); the whole of what to do is read aloud, and the Pro page shows it.
+      final (short, full) = s.store == StoreAvailability.unavailable
+          ? (ProNudgeCopy.storeUnavailableShort, BillingCopy.storeUnavailable)
+          : s.productsFailed
+              ? (ProNudgeCopy.storeUnreachableShort, BillingCopy.storeUnreachable)
+              : (ProNudgeCopy.productUnavailableShort, BillingCopy.productUnavailable);
+      priceArea = _Unavailable(message: short, spoken: full, onRetry: () => ctl.loadProducts(force: true));
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisSize: MainAxisSize.min,
       children: [
-        if (parts != null) ...[ProPriceBlock(parts: parts), const SizedBox(height: MmSpace.s12)],
+        MmOverlapSwitcher.fade(
+          child: KeyedSubtree(key: ValueKey(parts != null ? 'price' : (loadingStore ? 'loading' : 'unavailable')), child: priceArea),
+        ),
+        // The purchase's own progress shows in the body, in the rows' place ([UpgradeSheetBody]).
+        const SizedBox(height: MmSpace.s12),
         UpgradeBuyKeys(onClose: onClose),
-        const SizedBox(height: MmSpace.s4),
-        Text(BillingCopy.googlePlayNote, textAlign: TextAlign.center, style: context.mmType.caption.copyWith(color: context.mmColors.ink3)),
       ],
+    );
+  }
+}
+
+/// Google Play's price, once: the figure with its period beside it, and the terms, that it renews every month and is
+/// cancelled in Google Play ([BillingCopy.proTerms], the Get Pro sheet's line: the same terms as the Pro page's, short
+/// enough for one line at 360 dp). Read aloud as one sentence.
+class _SheetPrice extends StatelessWidget {
+  const _SheetPrice({required this.parts});
+
+  final ({String price, String? period}) parts;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final period = parts.period;
+    final terms = type.caption.copyWith(color: colors.ink2);
+    return Semantics(
+      container: true,
+      excludeSemantics: true,
+      label: '${BillingCopy.proPageLabel}, ${BillingCopy.pricePer(parts.price, period)}. ${BillingCopy.proTerms}',
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text.rich(
+            TextSpan(children: [
+              TextSpan(text: parts.price, style: type.title.copyWith(fontFeatures: const [FontFeature.tabularFigures()])),
+              if (period != null) TextSpan(text: ' $period', style: type.body.copyWith(color: colors.ink2)),
+            ]),
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: MmSpace.s2),
+          // One line where it fits; at large text, its two sentences on two lines.
+          LayoutBuilder(
+            builder: (context, box) => Text(
+              LineFit.fit(BillingCopy.proTerms, terms, MediaQuery.textScalerOf(context), box.maxWidth) ?? BillingCopy.proTerms,
+              textAlign: TextAlign.center,
+              style: terms,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -258,57 +406,101 @@ class _PriceLoading extends StatelessWidget {
     return SkeletonGroup(
       label: BillingCopy.checkingStore,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
         children: [
           // The price's own height, so the sheet does not jump when it arrives.
-          const Skeleton.line(width: 120, height: 36),
-          const SizedBox(height: MmSpace.s8),
-          Text(BillingCopy.checkingStore, style: context.mmType.small.copyWith(color: colors.ink2)),
+          const Skeleton.line(width: 140, height: 27),
+          const SizedBox(height: MmSpace.s2),
+          Text(BillingCopy.checkingStore, textAlign: TextAlign.center, style: context.mmType.caption.copyWith(color: colors.ink2)),
         ],
       ),
     );
   }
 }
 
+/// Why the sheet cannot sell, in one short line ([message], set by [LineFit] at large text), with Try again under
+/// it. A screen reader hears the whole of what to do ([spoken]).
 class _Unavailable extends StatelessWidget {
-  const _Unavailable({required this.message, required this.onRetry});
+  const _Unavailable({required this.message, required this.spoken, required this.onRetry});
 
   final String message;
+  final String spoken;
   final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final style = context.mmType.small.copyWith(color: colors.ink2);
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Semantics(container: true, liveRegion: true, child: Text(message, style: context.mmType.body.copyWith(color: colors.ink2))),
+        Semantics(
+          container: true,
+          liveRegion: true,
+          label: spoken,
+          excludeSemantics: true,
+          child: LayoutBuilder(
+            builder: (context, box) => Text(
+              LineFit.fit(message, style, MediaQuery.textScalerOf(context), box.maxWidth) ?? message,
+              textAlign: TextAlign.center,
+              style: style,
+            ),
+          ),
+        ),
         const SizedBox(height: MmSpace.s8),
-        KeyButton.secondary(label: BillingCopy.tryAgain, expanded: false, minHeight: MmTarget.min, onPressed: onRetry),
+        Center(child: KeyButton.secondary(label: BillingCopy.tryAgain, expanded: false, minHeight: MmTarget.min, onPressed: onRetry)),
       ],
     );
   }
 }
 
+/// One row: the benefit's icon on a soft chip, and its line as [UpgradeSheetBody.setRows] set it.
 class _BenefitRow extends StatelessWidget {
-  const _BenefitRow({required this.text});
+  const _BenefitRow({required this.id, required this.text, this.tight = false});
 
+  /// What the row speaks for ([ProBenefitLine.id]), which picks its icon.
+  final String id;
+
+  /// The line, with a line break where it goes on two lines.
   final String text;
+
+  /// Less air between rows, at large text.
+  final bool tight;
+
+  /// The room the icon and its gap take before the line.
+  static const double lead = 36 + MmSpace.s12;
+
+  static IconData iconFor(String id) => switch (id) {
+        'weakest' || 'plain-smart' => LucideIcons.crosshair,
+        'left' || 'used' || 'plain-credits' => LucideIcons.coins,
+        'mocks' || 'plain-mocks' => LucideIcons.infinity,
+        'subjects' || 'plain-nta' => LucideIcons.monitor,
+        'colleges' => LucideIcons.compass,
+        _ => LucideIcons.users,
+      };
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final ink = colors.isNight ? colors.volt : colors.accentText;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: MmSpace.s4),
+      padding: EdgeInsets.symmetric(vertical: tight ? MmSpace.s4 : MmSpace.s6),
       child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 3),
-            child: ExcludeSemantics(child: Icon(LucideIcons.check, size: 18, color: colors.ink2)),
+          ExcludeSemantics(
+            child: Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: ink.withValues(alpha: colors.isNight ? 0.12 : 0.1),
+                borderRadius: BorderRadius.circular(MmSpace.s12),
+              ),
+              child: Icon(iconFor(id), size: 18, color: ink),
+            ),
           ),
           const SizedBox(width: MmSpace.s12),
-          Expanded(child: Text(text, style: context.mmType.body)),
+          Expanded(child: Text(text, style: context.mmType.body, semanticsLabel: text.replaceAll('\n', ' '))),
         ],
       ),
     );

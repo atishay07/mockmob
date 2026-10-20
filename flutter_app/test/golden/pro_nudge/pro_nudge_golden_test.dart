@@ -1,11 +1,15 @@
 // Goldens for the Pro nudges (D79 to D84), Night and Day, at 360 by 800 and 412 by 915 logical px,
-// at 1x and 1.3x text: the first-session Upgrade sheet (the dismissible bottom sheet with Not now, D181) with
-// the student's own lines, the NTA gate's
-// sheet with the plain lines, and the inline rows with the gate key. Google Play's Pro price is the
-// Rs 150 fixture (D82); the app never draws another.
+// at 1x and 1.3x text: the first-session Upgrade sheet (the dismissible bottom sheet with Not now, D181; visual
+// first, D185) with the student's own facts, also on a 360 by 640 phone, with the plain rows, while Google Play is
+// checked or cannot sell, and with a payment pending or a failure in its pinned foot; the NTA gate's sheet with the plain lines, and the inline rows with the gate
+// key. Google Play's Pro price is the Rs 150 fixture (D82); the app never draws another.
+
+import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:in_app_purchase_platform_interface/in_app_purchase_platform_interface.dart' show PurchaseStatus;
+import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart';
 
 import '../../helpers/golden_harness.dart';
@@ -16,11 +20,18 @@ import '../you/you_golden_kit.dart' show setUpGoldenFonts;
 const _sizes = [Size(360, 800), Size(412, 915)];
 const _scales = [1.0, 1.3];
 
-void _matrix(String name, Widget Function() child, NudgeRig Function() rig, {Future<void> Function(WidgetTester tester)? open}) {
+void _matrix(
+  String name,
+  Widget Function() child,
+  NudgeRig Function() rig, {
+  Future<void> Function(WidgetTester tester)? open,
+  List<Size> sizes = _sizes,
+  List<double> scales = _scales,
+}) {
   for (final brightness in [Brightness.dark, Brightness.light]) {
     final tag = brightness == Brightness.dark ? 'night' : 'day';
-    for (final size in _sizes) {
-      for (final scale in _scales) {
+    for (final size in sizes) {
+      for (final scale in scales) {
         final file = '${name}_${tag}_${size.width.toInt()}x${size.height.toInt()}${scale == 1 ? '' : '_text130'}';
         testWidgets(file, (tester) async {
           await pumpNudges(tester, child(), rig(), brightness: brightness, size: size, textScale: scale);
@@ -37,6 +48,22 @@ Future<void> _tapOpen(WidgetTester tester) async {
   await tester.tap(find.text('open'));
   await settleNudges(tester);
 }
+
+/// Opens the first-session sheet and waits for its art (the foil seal) to decode on the real event loop, so the
+/// golden never catches the sheet before the seal is drawn.
+Future<void> _openSheet(WidgetTester tester) async {
+  await _tapOpen(tester);
+  await settleImages(tester);
+}
+
+/// Opens the first-session sheet and taps Get Pro: the purchase's own progress then shows in the pinned foot.
+Future<void> _openAndBuy(WidgetTester tester) async {
+  await _openSheet(tester);
+  await tester.tap(find.text(BillingCopy.getPro));
+  await settleNudges(tester, rounds: 14);
+}
+
+const _facts = ProFacts(mocksTaken: 3, weakestChapter: 'Accounting Ratios', practiceCredits: 12, subjectCount: 4);
 
 /// A screen with one key that opens the first-session Upgrade bottom sheet, as the app shell does once the
 /// student is armed (a real limit, or the second return to a tab root after a result).
@@ -74,8 +101,58 @@ void main() {
   _matrix(
     'pro_nudge_first_session',
     () => const _OpenFirstSessionSheetHost(),
-    () => NudgeRig(facts: const ProFacts(mocksTaken: 3, weakestChapter: 'Accounting Ratios', practiceCredits: 12, subjectCount: 4)),
-    open: _tapOpen,
+    () => NudgeRig(facts: _facts),
+    open: _openSheet,
+    // A short phone too: the price, Get Pro and Not now stay pinned in view at 1.3x text.
+    sizes: const [..._sizes, Size(360, 640)],
+  );
+
+  // Nothing of the student's own to say yet: the three plain rows.
+  _matrix('pro_nudge_first_session_plain', () => const _OpenFirstSessionSheetHost(), NudgeRig.new, open: _openSheet, sizes: const [Size(360, 800)], scales: const [1.0]);
+
+  // Google Play cannot sell: one short line with Try again, and no key to press; on a short phone at large text too.
+  _matrix(
+    'pro_nudge_first_session_unavailable',
+    () => const _OpenFirstSessionSheetHost(),
+    () => NudgeRig(facts: const ProFacts(practiceCredits: 6), store: FakePlayStore(available: false)),
+    open: _openSheet,
+    sizes: const [Size(360, 800), Size(360, 640)],
+  );
+
+  // The tallest feet, on a short phone at 1x and 1.3x text: a payment Google Play is still processing, and a payment
+  // MockMob could not confirm (a failure with Try again). The keys stay pinned and the headline stays in view.
+  _matrix(
+    'pro_nudge_first_session_pending',
+    () => const _OpenFirstSessionSheetHost(),
+    () {
+      final rig = NudgeRig(facts: _facts);
+      rig.billing.store.onBuy = (p) => rig.billing.store.emit(purchase(p.id, status: PurchaseStatus.pending));
+      return rig;
+    },
+    open: _openAndBuy,
+    sizes: const [Size(360, 640)],
+  );
+  _matrix(
+    'pro_nudge_first_session_failure',
+    () => const _OpenFirstSessionSheetHost(),
+    () {
+      final rig = NudgeRig(facts: _facts);
+      rig.billing.verifier.failWith = serverBroken;
+      rig.billing.store.onBuy = (p) => rig.billing.store.emit(purchase(p.id));
+      return rig;
+    },
+    open: _openAndBuy,
+    sizes: const [Size(360, 640)],
+  );
+
+  // Google Play is being checked: the price's own height, held by a skeleton.
+  _matrix(
+    'pro_nudge_first_session_checking',
+    () => const _OpenFirstSessionSheetHost(),
+    () => NudgeRig(facts: const ProFacts(mocksTaken: 1), store: FakePlayStore()..gate = Completer<void>()),
+    open: _openSheet,
+    sizes: const [Size(360, 800)],
+    scales: const [1.0],
   );
 
   _matrix(

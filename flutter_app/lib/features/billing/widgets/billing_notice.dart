@@ -17,10 +17,29 @@ import '../data/play_products.dart';
 /// [ids] are the products this surface sells; a stage about another product is not shown here.
 /// A restore (no product) shows on every surface that asks for it with [showRestore].
 class BillingNotice extends ConsumerStatefulWidget {
-  const BillingNotice({super.key, required this.ids, this.showRestore = false});
+  const BillingNotice({super.key, required this.ids, this.showRestore = false, this.centered = false, this.gap = MmSpace.s12});
 
   final Set<String> ids;
   final bool showRestore;
+
+  /// Its words centred, for a surface whose own content is centred (the first-session Upgrade sheet).
+  final bool centered;
+
+  /// The room above the notice when it shows.
+  final double gap;
+
+  /// The stage this notice speaks for: the purchase's own when it is one of [ids], a restore when [showRestore].
+  static BillingStage stageFor(PlayBillingState s, {required Set<String> ids, bool showRestore = false}) {
+    final mine = s.productId != null ? ids.contains(s.productId) : showRestore;
+    return mine ? s.stage : BillingStage.idle;
+  }
+
+  /// Whether the notice says anything for [s]: nothing while idle, and nothing once confirmed (that is the success
+  /// view's job).
+  static bool shows(PlayBillingState s, {required Set<String> ids, bool showRestore = false}) {
+    final stage = stageFor(s, ids: ids, showRestore: showRestore);
+    return stage != BillingStage.idle && stage != BillingStage.confirmed;
+  }
 
   @override
   ConsumerState<BillingNotice> createState() => _BillingNoticeState();
@@ -40,10 +59,10 @@ class _BillingNoticeState extends ConsumerState<BillingNotice> {
     final ids = widget.ids;
     final showRestore = widget.showRestore;
     final s = ref.watch(playBillingProvider);
-    final mine = s.productId != null ? ids.contains(s.productId) : showRestore;
-    final stage = mine ? s.stage : BillingStage.idle;
+    final stage = BillingNotice.stageFor(s, ids: ids, showRestore: showRestore);
     final colors = context.mmColors;
     final type = context.mmType;
+    final align = widget.centered ? TextAlign.center : TextAlign.start;
 
     Widget? child;
     switch (stage) {
@@ -51,17 +70,17 @@ class _BillingNoticeState extends ConsumerState<BillingNotice> {
       case BillingStage.confirmed:
         child = null;
       case BillingStage.starting:
-        child = _Working(text: BillingCopy.opening);
+        child = _Working(text: BillingCopy.opening, centered: widget.centered);
       case BillingStage.verifying:
-        child = _Working(text: BillingCopy.verifying);
+        child = _Working(text: BillingCopy.verifying, centered: widget.centered);
       case BillingStage.restoring:
-        child = _Working(text: BillingCopy.restoring);
+        child = _Working(text: BillingCopy.restoring, centered: widget.centered);
       case BillingStage.pending:
-        child = Text(s.productId == PlayProducts.proId ? BillingCopy.pendingPro : BillingCopy.pending, style: type.small.copyWith(color: colors.ink2));
+        child = Text(s.productId == PlayProducts.proId ? BillingCopy.pendingPro : BillingCopy.pending, textAlign: align, style: type.small.copyWith(color: colors.ink2));
       case BillingStage.cancelled:
-        child = Text(BillingCopy.cancelled, style: type.small.copyWith(color: colors.ink2));
+        child = Text(BillingCopy.cancelled, textAlign: align, style: type.small.copyWith(color: colors.ink2));
       case BillingStage.restoredNothing:
-        child = Text(BillingCopy.nothingToRestore, style: type.small.copyWith(color: colors.ink2));
+        child = Text(BillingCopy.nothingToRestore, textAlign: align, style: type.small.copyWith(color: colors.ink2));
       case BillingStage.failed:
         // A final answer (another account's purchase, a refund, a pass that ended, a refusal) offers
         // no Try again: sending it again cannot change it.
@@ -90,12 +109,12 @@ class _BillingNoticeState extends ConsumerState<BillingNotice> {
     }
 
     return MmOverlapSwitcher.fade(
-      alignment: Alignment.topLeft,
+      alignment: widget.centered ? Alignment.topCenter : Alignment.topLeft,
       child: child == null
           ? const SizedBox(key: ValueKey('billing-notice-none'), width: double.infinity)
           : Padding(
               key: ValueKey('billing-notice-$stage-${s.failure}'),
-              padding: const EdgeInsets.only(top: MmSpace.s12),
+              padding: EdgeInsets.only(top: widget.gap),
               child: Semantics(container: true, liveRegion: true, child: SizedBox(width: double.infinity, child: child)),
             ),
     );
@@ -120,18 +139,27 @@ String billingFailureMessage(BillingFailure? failure) => switch (failure) {
     };
 
 class _Working extends StatelessWidget {
-  const _Working({required this.text});
+  const _Working({required this.text, this.centered = false});
 
   final String text;
+  final bool centered;
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
+    final words = Text(text, textAlign: centered ? TextAlign.center : TextAlign.start, style: context.mmType.small.copyWith(color: colors.ink2));
+    if (centered) {
+      // The spinner over the words, both centred.
+      return Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [MmSpinner(color: colors.ink2, size: 16, strokeWidth: 2), const SizedBox(height: MmSpace.s8), words],
+      );
+    }
     return Row(
       children: [
         MmSpinner(color: colors.ink2, size: 16, strokeWidth: 2),
         const SizedBox(width: MmSpace.s12),
-        Expanded(child: Text(text, style: context.mmType.small.copyWith(color: colors.ink2))),
+        Expanded(child: words),
       ],
     );
   }

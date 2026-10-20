@@ -120,9 +120,97 @@ void main() {
     });
   });
 
+  // D185 (owner): the first-session sheet is visual first, with no text wall: at most three rows of one short line
+  // each, the student's own facts first, one idea a row.
+  group("the first-session sheet's rows", () {
+    test('nothing known: the first three plain rows, in their short form', () {
+      final rows = ProBenefits.shortLines(ProFacts.empty, reason: ProReason.firstSession);
+      expect([for (final r in rows) r.text], ProNudgeCopy.plainBenefitsShort.take(3));
+      expect([for (final r in rows) r.id], ProBenefits.plainIds.take(3));
+    });
+
+    test("the student's facts lead, credits left first at the first-session ask, three rows at most", () {
+      const f = ProFacts(mocksTaken: 3, weakestChapter: 'Accounting Ratios', practiceCredits: 12, subjectCount: 4);
+      final rows = ProBenefits.shortLines(f, reason: ProReason.firstSession);
+      expect([for (final r in rows) r.text], [
+        ProNudgeCopy.creditsLeftShort(12),
+        ProNudgeCopy.weakestChapterShort('Accounting Ratios'),
+        ProNudgeCopy.mocksTakenShort(3),
+      ]);
+      expect(rows.first.text, startsWith('12 credits left'));
+    });
+
+    test('one idea a row: credits left and credits spent never both show', () {
+      final rows = ProBenefits.shortLines(const ProFacts(creditsUsed: 90, practiceCredits: 8), reason: ProReason.firstSession);
+      expect(rows.where((r) => r.id == 'left' || r.id == 'used' || r.id == 'plain-credits'), hasLength(1));
+      expect(rows, hasLength(ProBenefits.maxShort));
+      expect({for (final r in rows) r.text}, hasLength(rows.length));
+    });
+
+    test('a personal row stands in for its plain row', () {
+      final rows = ProBenefits.shortLines(const ProFacts(mocksTaken: 2), reason: ProReason.firstSession);
+      expect(rows.first.text, ProNudgeCopy.mocksTakenShort(2));
+      expect([for (final r in rows) r.text], isNot(contains(ProNudgeCopy.plainBenefitsShort[0])));
+    });
+
+    test('a chapter too long for one line gives the plain line, never a cut name', () {
+      const long = 'Accounting for Partnership Firms: Fundamentals';
+      final rows = ProBenefits.shortLines(const ProFacts(weakestChapter: long), reason: ProReason.firstSession);
+      expect(rows.first.text, ProNudgeCopy.weakestShort);
+      expect([for (final r in rows) r.text].join(), isNot(contains('Partnership')));
+    });
+
+    test("the Mob's reasons lead with their own row", () {
+      final rows = ProBenefits.shortLines(const ProFacts(mocksTaken: 2), reason: ProReason.mobLimit);
+      expect(rows.first.text, ProNudgeCopy.leadBenefitShort(ProReason.mobLimit));
+      expect(rows, hasLength(3));
+    });
+
+    // Whether each row is one line is measured with the real fonts at the sheet's real width
+    // (pro_nudge_widgets_test, "the first-session sheet"), not counted in characters.
+    test("the headline: the reason's own when short, the general one for the first session", () {
+      for (final r in ProReason.values) {
+        expect(ProNudgeCopy.sheetHeadline(r).length, lessThanOrEqualTo(ProNudgeCopy.sheetHeadlineMax), reason: '$r');
+      }
+      expect(ProNudgeCopy.sheetHeadline(ProReason.firstSession), ProNudgeCopy.sheetTitle);
+    });
+
+    test('a personal row gives way to the plain line for the same benefit when it does not fit', () {
+      final rows = ProBenefits.shortLines(const ProFacts(mocksTaken: 3, weakestChapter: 'Accounting Ratios', practiceCredits: 12, subjectCount: 4), reason: ProReason.firstSession);
+      final byId = {for (final r in rows) r.id: r.fallback};
+      expect(byId['left'], ProNudgeCopy.plainBenefitsShort[1]);
+      expect(byId['weakest'], ProNudgeCopy.weakestShort);
+      expect(byId['mocks'], ProNudgeCopy.plainBenefitsShort[0]);
+      final unnamed = ProBenefits.shortLines(const ProFacts(weakestSubject: 'Economics'), reason: ProReason.firstSession);
+      expect(unnamed.first.fallback, ProNudgeCopy.plainBenefitsShort[3]);
+      final plain = ProBenefits.shortLines(ProFacts.empty, reason: ProReason.firstSession);
+      expect([for (final r in plain) r.fallback], everyElement(isNull));
+    });
+
+    test('the rows read plainly: a fact, then what Pro does about it', () {
+      expect(ProNudgeCopy.creditsLeftShort(12), '12 credits left. Pro uses none.');
+      expect(ProNudgeCopy.creditsLeftShort(0), 'No credits left. Pro uses none.');
+      expect(ProNudgeCopy.mocksTakenShort(3), '3 mocks done. Unlimited on Pro.');
+      expect(ProNudgeCopy.mocksTakenShort(1), '1 mock done. Unlimited on Pro.');
+    });
+  });
+
   group('the copy keeps the rules', () {
     final all = <String>[
       ...ProNudgeCopy.headlineOptions,
+      ...ProNudgeCopy.plainBenefitsShort,
+      for (final r in ProReason.values) ...[ProNudgeCopy.sheetHeadline(r), ?ProNudgeCopy.leadBenefitShort(r)],
+      ProNudgeCopy.storeUnavailableShort,
+      ProNudgeCopy.storeUnreachableShort,
+      ProNudgeCopy.productUnavailableShort,
+      ProNudgeCopy.weakestChapterShort('Ratios'),
+      ProNudgeCopy.weakestShort,
+      ProNudgeCopy.creditsLeftShort(0),
+      ProNudgeCopy.creditsLeftShort(12),
+      ProNudgeCopy.creditsUsedShort(80, atLeast: true),
+      ProNudgeCopy.mocksTakenShort(3),
+      ProNudgeCopy.subjectsShort(4),
+      ProNudgeCopy.collegesShort(2),
       ProNudgeCopy.sheetLabel,
       ProNudgeCopy.forYouHeading,
       ProNudgeCopy.includesHeading,

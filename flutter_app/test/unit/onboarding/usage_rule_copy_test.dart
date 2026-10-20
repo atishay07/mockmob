@@ -18,6 +18,16 @@ void main() {
     expect(note.toLowerCase(), isNot(contains('tracking')), reason: 'the app calls it usage data');
   });
 
+  test('the save step says the same rule in one short line (D185): on unless they pick Not yet', () {
+    final note = OnboardingCopy.ageNoteShort;
+    expect(note, contains('on unless you'));
+    expect(note, contains(AgeAnswer.minor.label), reason: 'names the one answer that turns it off');
+    expect(note, isNot(contains(AgeAnswer.ratherNot.label)), reason: '"Rather not say" keeps it on');
+    expect(note.toLowerCase(), isNot(contains('stays off')));
+    expect(note.toLowerCase(), isNot(contains('tracking')));
+    expect(note.length, lessThanOrEqualTo(42), reason: 'one caption line at 360 dp, at 1x and at 1.3x text');
+  });
+
   test('the You page says off only for under 18 (stated), and for an age not answered yet', () {
     expect(YouCopy.offForAccountNote, contains('under 18'));
     expect(YouCopy.offForAccountNote, contains('you said'), reason: 'we go by what the student said');
