@@ -749,3 +749,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 
 ## Owner, 20 Oct about 1:58 pm IST (verbatim)
 > "you can continue now"
+
+## Owner, 20 Oct about 2:05 pm IST (verbatim)
+> "This building explanation is not exactly right, and I don't even understand what exactly this mob feature does. Can they practice anytime or start a practice session? What exactly can they do, and what are the features of the mob? Can you tell me what exactly they are? Even in your experience video, I had approved it because it gave me a good rough idea, and it really looked appealing. But the feature set and what exactly all they can do together is still unclear to me."
+**Ledger K9:** the Mob's feature set is unclear even to him after the explainer prototype: explain plainly what students can do; the explainer must make the feature set obvious (what you can start, when, with whom, what happens after).
