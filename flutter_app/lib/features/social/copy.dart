@@ -26,6 +26,7 @@ abstract final class MobCopy {
   static const String subjectLabel = 'Subject for the weekly paper';
   static const String nameLabel = 'Your name in the Mob';
   static const String nameHint = 'First name';
+  static const String nameTerms = 'Your Mob sees this name, so it must follow the Terms.';
   static const String nameRule = 'Use 2 to 18 letters. Spaces, dots, apostrophes and hyphens are fine.';
   static const String nameNote = 'Only your Mob sees it. 2 to 18 letters.';
   static const String colourLabel = 'Colour';

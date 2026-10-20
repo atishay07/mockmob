@@ -863,7 +863,7 @@ void main() {
     final reach = find.byKey(const ValueKey('paper-read-reach'));
     await bringIn(tester, reach);
     // 3 right, 3 wrong: 12. Goodwill's 2 wrong fixed: 24.
-    expect(tester.widget<Text>(reach).data, 'Fix the 2 wrong answers in Goodwill and this paper is 24, not 12.');
+    expect(tester.widget<Text>(reach).data, 'Those 2 wrong answers in Goodwill cost you 12 marks. Answered right, this paper would have been 24, not 12.');
     final fix = find.byKey(const ValueKey('paper-read-fix'));
     await bringIn(tester, fix);
     await tester.pump(const Duration(seconds: 1));

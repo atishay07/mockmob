@@ -168,6 +168,15 @@ void main() {
       expect(InsightsCopy.chargedLine(null, 8), 'Check your credits for the final charge');
     });
 
+    test('typing the revise door\'s question asks for the free plan, never a paid doubt (app-mobi M1)', () async {
+      c = make();
+      http.handler = (o) => const FakeReply(200, {'reply': 'Revise Goodwill tonight.', 'origin': 'record', 'actions': []});
+      await ctl().send('What should I revise tonight?');
+      final sent = _body(http.requests.lastWhere((r) => r.path.contains('/mentor/chat')));
+      expect(sent['replyKind'], tonightReplyKind);
+      expect(last().charged, 0);
+    });
+
     test('a record answer from the server is free', () async {
       c = make();
       http.handler = (o) => const FakeReply(200, {'reply': 'From your sessions.', 'origin': 'record', 'actions': []});

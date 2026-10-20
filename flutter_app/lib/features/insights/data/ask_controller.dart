@@ -13,6 +13,7 @@ import '../../../core/repositories/credits_repository.dart';
 import '../../../core/repositories/local_scope.dart';
 import '../../../core/storage/prefs_store.dart';
 import 'ai_reply_report.dart';
+import 'ask_doors.dart' show AskDoorCopy;
 import 'ask_question.dart';
 import 'ask_wallet.dart';
 import 'insights_models.dart' show PrepInsights;
@@ -347,6 +348,10 @@ class AskController extends Notifier<AskState> {
   Future<AskFailure?> send(String raw, {String? subject, String? chapter, String? replyKind}) async {
     final text = raw.trim();
     if (text.isEmpty || state.busy) return null;
+    // The revise door's own words, typed: the same free plan from the record as the tile (app-mobi M1: the note said
+    // free while the server charged it as a doubt).
+    final kindAsked = replyKind ??
+        (subject == null && state.thread?.canFollowUp != true && isReviseAsk(text, ref.read(nowProvider)()) ? tonightReplyKind : null);
     if (text.length > askMaxChars) {
       _append([AskMessage.student(text), const AskMessage.failed(AskFailure.tooLong)]);
       return AskFailure.tooLong;
@@ -358,16 +363,16 @@ class AskController extends Notifier<AskState> {
     final questionRef = hand != null && hand.ready ? hand.ref : null;
     final insights = ref.read(insightsRepositoryProvider).value;
     // A starter's doubt carries its subject: it is a doubt, never answered from the record by its words.
-    final local = questionRef != null || insights == null || replyKind != null || subject != null ? null : answerFromInsights(text, insights, pro: ref.read(insightsProProvider));
+    final local = questionRef != null || insights == null || kindAsked != null || subject != null ? null : answerFromInsights(text, insights, pro: ref.read(insightsProProvider));
     if (local != null) {
       _append([AskMessage.student(text), AskMessage.reply(local.reply, origin: AskOrigin.phone, actions: local.actions)]);
       return null;
     }
     final thread = state.thread;
-    final followUp = questionRef == null && replyKind == null && thread != null && thread.canFollowUp ? thread.info.id : null;
+    final followUp = questionRef == null && kindAsked == null && thread != null && thread.canFollowUp ? thread.info.id : null;
     // Anything that is not a follow-up, a question about a paper or tonight's plan is a doubt: the server opens a
     // thread for it and never answers it from the record by its keywords (record asks were answered above, free).
-    final kind = replyKind ?? (followUp == null && questionRef == null && !isRecordAsk(text) ? doubtReplyKind : null);
+    final kind = kindAsked ?? (followUp == null && questionRef == null && !isRecordAsk(text) ? doubtReplyKind : null);
     final anchor = AskAnchor.fromJson({
       'threadId': followUp,
       'subject': followUp == null ? subject : null,
@@ -399,6 +404,12 @@ class AskController extends Notifier<AskState> {
 
   /// True when [text] is one of [recordAsks].
   static bool isRecordAsk(String text) => recordAsks.contains(text.trim());
+
+  /// True when [text] is the revise door's question, for tonight or for today.
+  static bool isReviseAsk(String text, DateTime now) {
+    final t = text.trim();
+    return t == AskDoorCopy.revise(now) || t == 'What should I revise tonight?' || t == 'What should I revise today?';
+  }
 
   /// How long a record ask waits for the record before the server is asked instead.
   static const Duration recordWait = Duration(seconds: 15);

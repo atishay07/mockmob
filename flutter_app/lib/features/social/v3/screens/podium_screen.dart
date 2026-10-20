@@ -11,6 +11,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../core/api/api_providers.dart' show nowProvider;
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/key_button.dart';
+import '../../../../core/widgets/widgets.dart' show showMmSheet;
+import '../../copy.dart' show MobCopy;
+import '../../screens/mob_sheets.dart' show InviteSheet;
 import '../copy_v3.dart';
 import '../data/mob_v3_api.dart';
 import '../data/mob_v3_den.dart';
@@ -65,6 +68,12 @@ class _PodiumScreenState extends ConsumerState<PodiumScreen> {
         context,
         prefill: StartGamePrefill(format: game?.format ?? GameFormat.sprint, count: game?.count ?? 5, chapter: game?.chapter, rematchOf: widget.gameId),
       );
+      return;
+    }
+    // Alone in the Mob, a rematch has nobody to ask: invite a friend instead of sending "Again?" to an empty Mob
+    // (app-mob-craft M2; the play picker and moments already do this).
+    if ((den?.v3.members.length ?? 0) <= 1) {
+      await showMmSheet<void>(context: context, title: MobCopy.inviteTitle, builder: (_) => const InviteSheet());
       return;
     }
     final messenger = ScaffoldMessenger.maybeOf(context);

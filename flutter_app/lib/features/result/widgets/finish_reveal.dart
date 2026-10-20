@@ -254,9 +254,13 @@ class FinishLedger extends StatelessWidget {
 /// "+35", "−2", "0": a sign on every non-zero value, as a marker writes them in the margin.
 String _signedPlus(int v) => v > 0 ? '+$v' : formatSignedNumber(v);
 
-Widget _rise(double v, Widget child) => Opacity(
-  opacity: v,
-  child: Transform.translate(offset: Offset(0, 8 * (1 - v)), child: child),
+// A row still rising cannot be tapped (L-30): the "Fix these" key must not take a skip-tap meant for the moment.
+Widget _rise(double v, Widget child) => IgnorePointer(
+  ignoring: v < 0.99,
+  child: Opacity(
+    opacity: v,
+    child: Transform.translate(offset: Offset(0, 8 * (1 - v)), child: child),
+  ),
 );
 
 /// "Where the marks went": the chapters that lost marks, ranked, with ties sharing a rank and marked

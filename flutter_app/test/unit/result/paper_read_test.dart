@@ -40,11 +40,11 @@ void main() {
   test('the reach names one chapter, its arithmetic, and exactly the answers "Fix these" repairs', () {
     final r = paperReadOf(ten);
     // 6 right, 4 wrong: 26. Goodwill's 3 wrong fixed: 26 + 18 = 44.
-    expect(r.reach, 'Fix the 3 wrong answers in Goodwill and this paper is 44, not 26.');
+    expect(r.reach, 'Those 3 wrong answers in Goodwill cost you 18 marks. Answered right, this paper would have been 44, not 26.');
     expect(r.fixQids, ['q1', 'q3', 'q9']);
     expect(r.fixChapter, 'Goodwill');
     // The rest of the reach, because Goodwill is not every wrong answer.
-    expect(r.reachNote, 'With every wrong answer fixed, this paper is 50.');
+    expect(r.reachNote, 'With every wrong answer right, this paper would have been 50.');
     expect(PaperReadCopy.fixKey(3), 'Fix these 3');
   });
 
@@ -66,8 +66,8 @@ void main() {
     final r = paperReadOf(_rows([for (var i = 0; i < 10; i++) ('Goodwill', _V.b)]));
     expect(r.strengths, isEmpty);
     // One chapter: no ranking, the loss in words.
-    expect(r.leaks, ['Goodwill: 10 not attempted left 50 unearned.']);
-    expect(r.reach, 'Answer the 10 you left, right, and this paper is 50, not 0.');
+    expect(r.leaks, ['In Goodwill, 10 questions left blank cost 50 marks.']);
+    expect(r.reach, 'Answered right, the 10 questions you left blank would have made this paper 50, not 0.');
     expect(r.fixQids, isEmpty);
   });
 
@@ -75,7 +75,7 @@ void main() {
     final r = paperReadOf(_rows([for (var i = 0; i < 5; i++) ('Goodwill', _V.r)]));
     expect(r.strengths, ['You got all 5 right, so there is nothing to fix from this paper.']);
     expect(r.leaks, ['You lost no marks on this paper.']);
-    expect(r.reach, 'You took all 25 marks, so a harder set is the next step.');
+    expect(r.reach, 'You took all 25 marks, so a harder paper is the next step.');
     expect(r.risks, isEmpty);
   });
 

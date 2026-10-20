@@ -73,11 +73,14 @@ import 'demo_repair.dart';
 import 'demo_session.dart';
 import 'demo_v13.dart';
 
+/// `--dart-define=DEMO_NO_NAME=true`: the account has no name the student gave, so Today shows its one-time name card.
+const _demoNoName = bool.fromEnvironment('DEMO_NO_NAME');
+
 const _asha = AuthSnapshot(
   status: AuthStatus.signedIn,
   userId: 'u1',
   email: 'asha.verma@example.com',
-  name: 'Asha Verma',
+  name: _demoNoName ? null : 'Asha Verma',
   subjects: ['accountancy', 'business_studies', 'economics', 'english'],
 );
 

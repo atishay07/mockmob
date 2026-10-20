@@ -265,30 +265,34 @@ abstract final class PaperReadCopy {
       n == 1 ? 'One changed answer won you $marks marks.' : '$n changed answers won you $marks marks.';
   static String upFrom(double before, double now, String subject) =>
       'Up from ${_pct(before)} right in your last $subject paper to ${_pct(now)}.';
-  static String banked(int right) => right == 1 ? '1 right: +5 marks banked.' : '$right right: +${right * 5} marks banked.';
+  static String banked(int right) => right == 1 ? 'Your 1 right answer earned 5 marks.' : 'Your $right right answers earned ${right * 5} marks.';
 
   static String changesCost(int n, int marks) =>
       n == 1 ? 'One changed answer cost you $marks marks.' : '$n changed answers cost you $marks marks.';
+  // Whole sentences (app-finish F8): "In Goodwill, 2 wrong answers cost 12 marks and 1 question left blank cost 5 more."
   static String lostPlain(int wrong, int blank, {String? chapter}) {
     final parts = [
-      if (wrong > 0) '$wrong wrong cost ${wrong * 6} marks',
-      if (blank > 0) '$blank not attempted left ${blank * 5} unearned',
+      if (wrong > 0) '$wrong wrong ${wrong == 1 ? 'answer' : 'answers'} cost ${wrong * 6} marks',
+      if (blank > 0) '$blank ${blank == 1 ? 'question' : 'questions'} left blank cost ${blank * 5} ${wrong > 0 ? 'more' : 'marks'}',
     ];
-    return '${chapter == null ? '' : '$chapter: '}${parts.join(', and ')}.';
+    final body = parts.join(' and ');
+    return chapter == null ? '${body[0].toUpperCase()}${body.substring(1)}.' : 'In $chapter, $body.';
   }
   static const String nothingLost = 'You lost no marks on this paper.';
 
+  // A counterfactual about this paper, never a promise (app-finish F2): a repair is practice and never rescores the
+  // paper, so the line says what those answers cost and what they would have made it.
   static String reachWrong(int w, int scored, int would, {String? chapter, bool all = false}) {
-    final answers = w == 1 ? 'the wrong answer' : 'the $w wrong answers';
+    final answers = w == 1 ? 'That wrong answer' : 'Those $w wrong answers';
     final where = chapter != null ? ' in $chapter' : '';
-    return 'Fix $answers$where and this paper is ${_signed(would)}, not ${_signed(scored)}.';
+    return '$answers$where cost you ${would - scored} marks. Answered right, this paper would have been ${_signed(would)}, not ${_signed(scored)}.';
   }
 
-  static String reachEvery(int wrong, int would) => 'With every wrong answer fixed, this paper is ${_signed(would)}.';
+  static String reachEvery(int wrong, int would) => 'With every wrong answer right, this paper would have been ${_signed(would)}.';
   static String reachBlank(int b, int scored, int would) => b == 1
-      ? 'Answer the one you left, right, and this paper is ${_signed(would)}, not ${_signed(scored)}.'
-      : 'Answer the $b you left, right, and this paper is ${_signed(would)}, not ${_signed(scored)}.';
-  static String reachAll(int max) => 'You took all $max marks, so a harder set is the next step.';
+      ? 'Answered right, the question you left blank would have made this paper ${_signed(would)}, not ${_signed(scored)}.'
+      : 'Answered right, the $b questions you left blank would have made this paper ${_signed(would)}, not ${_signed(scored)}.';
+  static String reachAll(int max) => 'You took all $max marks, so a harder paper is the next step.';
   static const String sixEach = 'Each wrong answer you fix is worth 6 marks: the 5 you missed and the 1 taken off.';
   static const String fiveEach = 'Each question answered right is worth 5 marks.';
 

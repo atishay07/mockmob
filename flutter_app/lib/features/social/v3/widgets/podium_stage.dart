@@ -445,7 +445,8 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
 
   String _headline() {
     final p = widget.podium;
-    if (_plan.onlyYou) return MobV3Copy.onlyYouTitle;
+    // A closed game makes no claim about friends still to play (app-mob-truth M4).
+    if (_plan.onlyYou) return p.soFar ? MobV3Copy.onlyYouTitle : MobV3Copy.yourMarksTitle;
     if (_plan.table) return MobV3Copy.everyonesMarks;
     final firsts = [for (final x in p.places) if (x.place == 1 && !x.private) x]..sort((a, b) => a.you == b.you ? 0 : (a.you ? -1 : 1));
     if (firsts.length > 1) return MobV3Copy.sharedTop([for (final f in firsts) _name(f)], p.soFar);
@@ -456,7 +457,7 @@ class PodiumStageState extends State<PodiumStage> with SingleTickerProviderState
 
   String? _subline() {
     final p = widget.podium;
-    if (_plan.onlyYou) return MobV3Copy.onlyYouLine;
+    if (_plan.onlyYou) return p.soFar ? MobV3Copy.onlyYouLine : null;
     if (!p.soFar || p.closesAt == null) return null;
     if (_plan.table) return null;
     return MobV3Copy.placesCanChange(p.closesAt!, widget.now);

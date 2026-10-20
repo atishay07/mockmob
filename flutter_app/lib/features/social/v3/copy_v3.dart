@@ -406,6 +406,8 @@ abstract final class MobV3Copy {
   // The only-you sentence split for the headline and the line under it (same words as [onlyYou]).
   static const String onlyYouTitle = "You're the first to finish.";
   static const String onlyYouLine = 'Places fill in as friends play.';
+  /// A closed game that only the student finished: their marks, and no word about anyone else.
+  static const String yourMarksTitle = 'Your marks';
   static const String rematchAsked = 'You asked your Mob for a rematch.';
   static String placeOf(int place) => switch (place) { 1 => 'First place', 2 => 'Second place', 3 => 'Third place', _ => 'Place $place' };
   static String podiumSemantics(String name, int? place, int? marks) =>

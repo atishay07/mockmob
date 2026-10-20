@@ -82,7 +82,8 @@ class MobNameField extends StatelessWidget {
       enableSuggestions: false,
       style: type.body.copyWith(color: colors.ink),
       // An empty field (no prefill passed the rule) says what goes in it.
-      decoration: InputDecoration(labelText: label, hintText: MobCopy.nameHint, errorText: error, counterText: ''),
+      // The one free text other students see (L-42, Google Play's user-content policy): it follows the Terms.
+      decoration: InputDecoration(labelText: label, hintText: MobCopy.nameHint, helperText: MobCopy.nameTerms, helperMaxLines: 2, errorText: error, counterText: ''),
     );
   }
 }
