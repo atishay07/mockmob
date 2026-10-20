@@ -70,9 +70,10 @@ export function practiceFakeDb(tables, { failOn = null } = {}) {
     let columns = '*';
     let range = null;
     let max = null;
+    let head = false;
     const add = (name, predicate) => { used.push(name); rowFilters.push(predicate); };
     const query = {
-      select(value) { columns = value; return query; },
+      select(value, options) { columns = value; head = options?.head === true; return query; },
       eq(column, value) { add(`eq:${column}`, (row) => row[column] === value); return query; },
       is(column, value) { add(`is:${column}`, (row) => (row[column] ?? null) === value); return query; },
       not(column, operator, value) {
@@ -80,7 +81,7 @@ export function practiceFakeDb(tables, { failOn = null } = {}) {
         add(`not:${column}`, (row) => (row[column] ?? null) !== null);
         return query;
       },
-      gte(column, value) { add(`gte:${column}`, (row) => Number(row[column]) >= value); return query; },
+      gte(column, value) { add(`gte:${column}`, (row) => (typeof value === 'string' ? String(row[column] ?? '') >= value : Number(row[column]) >= value)); return query; },
       in(column, values) { add(`in:${column}`, (row) => values.includes(row[column])); return query; },
       or(expression) {
         if (expression !== VISIBLE_QUESTION_FILTER) throw new Error(`fake db: unexpected or(${expression})`);
@@ -108,6 +109,7 @@ export function practiceFakeDb(tables, { failOn = null } = {}) {
             return 0;
           });
         }
+        if (head) { calls.push({ table, columns, bytes: 0, rows: 0, head: true, count: data.length, filters: [...used] }); return done({ data: null, count: data.length, error: null }); }
         if (range) data = data.slice(range[0], range[1] + 1);
         if (max !== null) data = data.slice(0, max);
         const project = projector(columns);
