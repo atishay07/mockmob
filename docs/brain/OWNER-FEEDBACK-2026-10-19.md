@@ -769,3 +769,13 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 20 Oct about 2:20 pm IST (verbatim, follow-up)
 > "By simplicity, I didn't mean to cut too many features. Whatever I approved can easily be incorporated into a CLI. That's what I meant, and that's why I didn't approve that option of fixing the traps and all that. That would overcomplicate the things. Whatever these are, these can just be added as a specific mode or what you suggested also. That's why this will not be an issue."
 **Ledger D170:** "CLI" = clean UI (dictation). Simplicity means a clean presentation, NOT cutting features: every approved feature stays (sprint, own round, rematch, weekly paper, races, Full mock together, live rooms, streaks, quest, shelf, Fix it together, stickers); add them as modes in the one picker; only unapproved complexity (trap-based fixes) is out.
+
+## Owner, 20 Oct about 2:30 pm IST (verbatim)
+> "Let me give you an example, just in general. What are some interesting things? When I was preparing for my CUET, I don't remember that happening, but there used to be a study app. All of our friends, basically our entire class, were on that app.
+>
+> What the app does is, when you turn that on, your phone stays locked entirely at that time. It tracks your study time, or you can just log it yourself: how much time you were studying for. Honestly, we used to do it to just create a healthy competition between each other.
+>
+> This is just an example. I am not telling you to incorporate this feature or any part of it. This is not relevant to us, but it was a very simple thing. We all enjoyed it. It was also a competition, and we kept track of each other. It was a very simple feature, but very useful to us also.
+>
+> About the gamification rule that we have been following throughout this app, this Mockmob section, as I said before, also can be a lot more gamified than other sections, which is not an issue. I am not telling you to exactly do something else right now or find a solution to anything. You can just note this, and if you can think of something creative or find some solution to making all this more useful, then let me know."
+**Ledger K10 (note, not an order):** a study-time app his whole class used (focus lock, tracked or logged study time, healthy competition) was simple and loved. The Mob can be more gamified than the rest of the app. Bring him creative ideas in this spirit; do not build without his yes.
