@@ -28,13 +28,14 @@ Future<void> showFreeProSheet(BuildContext context) async {
     context: context,
     title: MobV3Copy.freeProTitle,
     heightFactor: 0.94,
-    builder: (_) => _FreeProBody(live: live, mocks: mocks, price: price),
+    builder: (_) => FreeProBody(live: live, mocks: mocks, price: price),
     footer: (_) => const _PlansKey(),
   );
 }
 
-class _FreeProBody extends StatelessWidget {
-  const _FreeProBody({required this.live, this.mocks = false, this.price = kMockSitCredits});
+/// The two lists and the seal: the sheet's body, and the section of Mob settings (A7), the same words in both.
+class FreeProBody extends StatelessWidget {
+  const FreeProBody({super.key, required this.live, this.mocks = false, this.price = kMockSitCredits});
 
   /// The server's live switch: live rooms are sold only while it is on (L-04).
   final bool live;
