@@ -119,10 +119,15 @@ class TodayBody extends StatefulWidget {
     this.skeletonDelay = const Duration(milliseconds: 400),
     this.prices = const {},
     this.nameAsk,
+    this.nudge,
   });
 
   /// The one-time first-name card under the greeting (I11), when the screen has one.
   final Widget? nameAsk;
+
+  /// Mobi's note (D191, smart nudges), just above the lead card, when the screen has one. It brings its own gap
+  /// below and takes no space when there is nothing to say.
+  final Widget? nudge;
 
   /// The price line of each move the card can show, by [priceKeyOf] (the screen reads the quotes
   /// and the wallet); a move without one shows no line.
@@ -802,6 +807,8 @@ class _TodayBodyState extends State<TodayBody> with TickerProviderStateMixin {
       const SizedBox(height: MmSpace.s8),
       const TodayEnter(delay: Duration(milliseconds: 40), rise: 8, child: TodayCollegesStrip()),
       const SizedBox(height: MmSpace.s12),
+      // Mobi's one note of this run (D191), above the lead card and inside the same gutter.
+      ?widget.nudge,
       // The move rises 12 dp and fades (4.8); its object then scales in place and the number lands.
       TodayEnter(
         delay: const Duration(milliseconds: 80),

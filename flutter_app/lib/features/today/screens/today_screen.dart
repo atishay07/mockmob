@@ -13,6 +13,7 @@ import '../../../core/router/app_shell.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart' show MmBar, MmSpace;
 import '../../../core/widgets/widgets.dart' show MobiAct, MobiController;
+import '../../nudges/widgets/today_nudge.dart' show TodayNudge;
 import '../../paper_reel/paper_reel.dart';
 import '../../result/data/result_providers.dart' show resultActionsProvider;
 import '../../rhythm/rhythm.dart';
@@ -325,6 +326,7 @@ class _TodayScreenState extends ConsumerState<TodayScreen> {
     return TodayBody(
       view: view,
       nameAsk: const TodayNameAsk(),
+      nudge: const TodayNudge(),
       prices: _prices(view),
       retrying: _retrying,
       controller: _scroll,

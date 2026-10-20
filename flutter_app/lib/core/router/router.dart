@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/account_access/access_routes.dart';
 import '../../features/billing/widgets/pro_page.dart' show proPageScreen;
+import '../../features/nudges/data/nudge_store.dart' show nudgeCalmProvider;
 import '../../features/pro_nudge/pro_nudge.dart' show ArmRules, ShellPlace, proNudgeProvider;
 import '../../features/referrals/referral_data.dart' show pendingInviteStoreProvider;
 import '../../features/social/mob_routes.dart';
@@ -206,6 +207,12 @@ class _PlaceReporter {
       if (_disposed) return;
       try {
         _ref.read(proNudgeProvider.notifier).notePlace(place);
+      } on Object {
+        // As above.
+      }
+      try {
+        // The smart nudges (D191) show only on Today's root with nothing over it.
+        _ref.read(nudgeCalmProvider.notifier).set(place == ShellPlace.today);
       } on Object {
         // As above.
       }
