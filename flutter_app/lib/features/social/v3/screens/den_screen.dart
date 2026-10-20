@@ -608,10 +608,17 @@ class _HeaderRow extends StatelessWidget {
     return Row(
       children: [
         if (asTab) const TabRootLeading() else const PushedBackKey(),
-        const Spacer(),
         // Both streaks (D173 item 6): your daily chain here, the Mob's weekly pennant on the stage. Ask Mobi is
         // not in the den (V4 2.2); it stays on Today and inside Fix it together.
-        if (c != null && !c.hidden) ...[ChainChipKey(key: const ValueKey('den-chain-chip'), days: c.days, onTap: () => YourChainSheet.show(context)), const SizedBox(width: MmSpace.s4)],
+        // The chip takes the room between the keys, right-aligned; when the row is tight (large text) its label
+        // fades first, the days never do.
+        Expanded(
+          child: Align(
+            alignment: Alignment.centerRight,
+            child: c != null && !c.hidden ? ChainChipKey(key: const ValueKey('den-chain-chip'), days: c.days, onTap: () => YourChainSheet.show(context)) : const SizedBox.shrink(),
+          ),
+        ),
+        if (c != null && !c.hidden) const SizedBox(width: MmSpace.s4),
         _RoundKey(key: const ValueKey('den-settings'), icon: LucideIcons.settings, label: MobV3Copy.settingsSemantics, onTap: () => V4Sheets.mobSettings(context)),
       ],
     );
@@ -677,7 +684,7 @@ class ChainChipKey extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 // Whose streak this is, in words (MOB-V4-BUILD override 3): the Mob's is the pennant.
-                Text(MobV4DenCopy.yourChainLabel, key: const ValueKey('den-chain-label'), maxLines: 1, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+                Flexible(child: Text(MobV4DenCopy.yourChainLabel, key: const ValueKey('den-chain-label'), maxLines: 1, softWrap: false, overflow: TextOverflow.fade, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600))),
                 const SizedBox(width: MmSpace.s8),
                 CustomPaint(
                   size: const Size(18, 12),

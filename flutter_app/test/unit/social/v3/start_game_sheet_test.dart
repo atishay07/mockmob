@@ -51,8 +51,9 @@ void main() {
     expect(find.byKey(const ValueKey('start-mode-async')), findsNothing, reason: 'live is off: no choice to make');
     expect(find.text('Pass the mic'), findsNothing);
     expect(noText(t, _price), isTrue);
-    // A Free member's full mock stays locked with Pro even with billing off (D174): its row is the only plan word.
-    expect(find.text('Pro'), findsOneWidget);
+    // A Free member's full mock stays locked with Pro even with billing off (D174): its row's one line says so
+    // (review fix 11: no tag beside the title).
+    expect(find.textContaining('Pro starts them'), findsOneWidget);
   });
 
   testWidgets('four ways to play, each with one line (K9)', (t) async {
@@ -119,7 +120,8 @@ void main() {
     final server = FailingServer(scenario: 'quiet', billing: 'pro', clock: () => v3Now);
     await _open(t, server, edit: liveOn);
     await tapAt(t, find.text('Full mock together'));
-    expect(find.text('50 questions in 60 minutes, in the exam runner. Then your Mob compares mark sheets. Answers open for everyone when it closes.'), findsOneWidget);
+    // A8: the rule box says who can sit it and when.
+    expect(find.text('Everyone in Chai Circle can sit it within 24 hours, then you compare mark sheets.'), findsOneWidget);
     expect(find.text('Change'), findsNothing, reason: 'a full mock is the whole paper');
     await tapAt(t, keyLabel('Start the full mock'));
     expect(server.openedFormats, [GameFormat.mock]);

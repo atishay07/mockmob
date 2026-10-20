@@ -65,7 +65,8 @@ void main() {
     });
 
     test('lists only sharing members with minutes, most first; the total is the server\'s', () {
-      final h = _v3(v3Server(scenario: 'open')).hours!;
+      // The switch is off by default (minors' privacy); here you have turned it on, so all four share.
+      final h = _v3(v3Server(scenario: 'open')..setShareStudyTime(true)).hours!;
       expect(h.members.map((m) => m.minutes), [190, 160, 115]);
       expect(h.members.every((m) => m.minutes > 0), isTrue);
       expect(h.totalMinutes, 465);

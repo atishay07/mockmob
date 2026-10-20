@@ -345,6 +345,7 @@ abstract final class MobV3Copy {
   static const String sitChargedOnce = 'Charged once';
   static String sitNeedMore(int more) => '$more more needed';
   static const String sitNotEnough = 'Not enough credits';
+  static const String sitNothingCharged = 'Nothing was charged';
   static const String sitProFree = 'With Pro, every full mock is free.';
   static String sitPriceSemantics(int cost, int? have) => have == null ? 'Sitting it costs $cost credits.' : 'Sitting it costs $cost credits. You have $have.';
 

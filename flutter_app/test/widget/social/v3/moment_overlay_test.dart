@@ -121,7 +121,9 @@ void main() {
 
   group('K3 week stitched (F13)', () {
     testWidgets('plays for a stitch key after quest.done, with the desk bell card', (tester) async {
-      final server = v3Server(scenario: 'questdone');
+      // Without Mob hours (the server has not shipped them), the reward card sits above the key (walk M7). With
+      // hours the screen scrolls; that state is covered by the V4 results goldens.
+      final server = v3Server(scenario: 'questdone')..hoursShipped = false;
       final which = await pumpMomentHost(tester, server: server);
       await startMoment(tester, which, stitchKey(server));
       await pumpTo(tester, 600);

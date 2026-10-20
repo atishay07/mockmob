@@ -64,7 +64,7 @@ class _SitBody extends ConsumerWidget {
     final quiet = type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]);
     // The right side of the price: the balance, then one short word on what happens (charged once, or what is missing).
     final (top, bottom) = short
-        ? (known ? MobV3Copy.sitYouHave(have) : MobV3Copy.sitNotEnough, known ? MobV3Copy.sitNeedMore(cost - have) : null)
+        ? (known ? MobV3Copy.sitYouHave(have) : MobV3Copy.sitNotEnough, known ? MobV3Copy.sitNeedMore(cost - have) : MobV3Copy.sitNothingCharged)
         : (have == null ? null : MobV3Copy.sitYouHave(have), MobV3Copy.sitChargedOnce);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -81,12 +81,15 @@ class _SitBody extends ConsumerWidget {
               const CreditCoins(size: 44, coins: 3),
               const SizedBox(width: MmSpace.s12),
               Expanded(child: Text(MobV3Copy.sitPriceFigure(cost), style: figure)),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  if (top != null) Text(top, key: const ValueKey('sit-have'), style: quiet.copyWith(color: short ? colors.ink : colors.ink2, fontWeight: short ? FontWeight.w600 : null)),
-                  if (bottom != null) Text(bottom, style: quiet.copyWith(color: colors.ink3)),
-                ],
+              const SizedBox(width: MmSpace.s8),
+              Flexible(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (top != null) Text(top, key: const ValueKey('sit-have'), textAlign: TextAlign.end, style: quiet.copyWith(color: short ? colors.ink : colors.ink2, fontWeight: short ? FontWeight.w600 : null)),
+                    if (bottom != null) Text(bottom, textAlign: TextAlign.end, style: quiet.copyWith(color: colors.ink3)),
+                  ],
+                ),
               ),
             ],
           ),

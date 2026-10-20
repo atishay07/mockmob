@@ -4,11 +4,15 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/core/api/api.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/social/data/mob_models.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
+import 'package:mockmob/features/social/v3/screens/results_run.dart';
+import 'package:mockmob/features/social/v3/widgets/pennant.dart';
+import 'package:mockmob/features/social/v3/widgets/results_parts.dart' show RunStepDots;
 import 'package:mockmob/features/social/v3/widgets/den_stage.dart';
 import 'package:mockmob/features/social/v3/widgets/fold_puppet.dart';
 import 'package:mockmob/features/social/v3/widgets/quest_segments.dart';
@@ -24,11 +28,21 @@ Future<void> _open(WidgetTester tester) async {
   await tester.pump(const Duration(milliseconds: 150));
 }
 
+/// Achievements due on den open play as the results run over the den (V4 3.4); its X returns to the den.
+Future<void> _closeRun(WidgetTester tester) async {
+  for (var i = 0; i < 6 && find.byType(ResultsRun).evaluate().isNotEmpty; i++) {
+    await tester.tap(find.byIcon(LucideIcons.x).last, warnIfMissed: false);
+    await tester.pump(const Duration(milliseconds: 400));
+    await _open(tester);
+  }
+}
+
 void main() {
   for (final scenario in ['quiet', 'open', 'played', 'live', 'one', 'heavy', 'questdone']) {
     testWidgets('F2: no Played tag and no count of players in the $scenario den', (tester) async {
       await pumpDen(tester, v3Server(scenario: scenario));
       await _open(tester);
+      await _closeRun(tester);
       expect(find.text('Played'), findsNothing);
       expect(find.textContaining(RegExp(r'\bPlayed\b')), findsNothing);
       expect(find.textContaining(RegExp(r'\b\d of [2-5]\b(?! (questions|traps|seats))')), findsNothing);
@@ -114,21 +128,21 @@ void main() {
     expect(find.text('Accountancy · 1 of 5 seats'), findsOneWidget);
     expect(find.text(MobV3Copy.oneTitle), findsOneWidget);
     expect(find.text(MobV3Copy.inviteWhatsApp), findsOneWidget);
-    expect(find.text('4 open seats'), findsOneWidget);
+    // V4 3.1 step 9: every open seat carries its own tag ("Open" when two or more are left).
+    expect(find.text(MobV4DenCopy.openShort), findsNWidgets(4));
     expect(find.text(MobV3Copy.copyCode), findsOneWidget);
   });
 
-  testWidgets('H2: a Mob of one after you played your own sprint shows your time and the podium so far', (tester) async {
+  testWidgets('H2: a Mob of one after you played your own sprint: the invite card, then Your sprint as a row', (tester) async {
     await pumpDen(tester, v3Server(scenario: 'oneplayed'));
     await _open(tester);
-    expect(find.byKey(const ValueKey('den-one-game')), findsOneWidget);
+    // V4 3.1 step 9: the invite is the Now card; your own game is a row below it, named as yours (H2).
+    expect(find.text(MobV3Copy.oneTitle), findsOneWidget);
     expect(find.text('Your sprint'), findsOneWidget);
-    expect(find.textContaining('You played at'), findsOneWidget);
-    expect(find.text(MobV3Copy.seePodiumSoFar), findsOneWidget);
     expect(find.byKey(const ValueKey('den-row-start')), findsOneWidget, reason: 'another game can still be started');
-    // The invite stays below it and is still the one volt key.
+    // The invite is the Now card and the one volt key; your game is a row under it.
     expect(find.text(MobV3Copy.inviteWhatsApp), findsOneWidget);
-    expect(tester.getRect(find.byKey(const ValueKey('den-one-game'))).top, lessThan(tester.getRect(find.text(MobV3Copy.oneTitle)).top));
+    expect(tester.getRect(find.text('Your sprint')).top, greaterThan(tester.getRect(find.text(MobV3Copy.oneTitle)).top));
   });
 
   testWidgets('H2: a Mob of one with no game keeps the plain D5', (tester) async {
@@ -148,7 +162,8 @@ void main() {
   testWidgets('L5: a brand-new Mob pennant says New Mob, never 0 weeks', (tester) async {
     await pumpDen(tester, v3Server(scenario: 'one'));
     await _open(tester);
-    expect(find.text('0'), findsNothing);
+    // The pennant never says 0 weeks (the quest panel may truly say 0 of 60).
+    expect(find.descendant(of: find.byType(Pennant), matching: find.text('0')), findsNothing);
     expect(find.text(MobV3Copy.pennantNew), findsOneWidget);
     expect(find.text('Mob'), findsOneWidget);
   });
@@ -183,6 +198,7 @@ void main() {
   testWidgets('F8: past the goal the quest shows the true total and the bar is full', (tester) async {
     await pumpDen(tester, v3Server(scenario: 'questdone'));
     await _open(tester);
+    await _closeRun(tester);
     // V4 panel: the true total beside "of 60", and the bar full.
     expect(find.text('70'), findsOneWidget);
     expect(find.text('of 60'), findsOneWidget);
@@ -192,32 +208,23 @@ void main() {
     expect(QuestSegments.fractionOf(51, 60), closeTo(0.85, 0.001));
   });
 
-  testWidgets('moments play in order, one at a time, each marked seen only after it closed', (tester) async {
+  testWidgets('achievements due on den open play as the results run, each marked seen only after its screen closed', (tester) async {
     final server = v3Server(scenario: 'questdone');
-    final moments = RecordingMoments();
-    final gates = <String, Completer<void>>{};
-    moments.hold = (k) => (gates[k] = Completer<void>()).future;
-    await pumpDen(tester, server, moments: moments);
+    await pumpDen(tester, server);
     await _open(tester);
-    expect(moments.played, hasLength(1));
-    final first = moments.played.first;
-    expect(first, startsWith('quest_done:'));
+    await tester.pump(const Duration(milliseconds: 400));
+    expect(find.byType(ResultsRun), findsOneWidget);
+    expect(find.byType(RunStepDots), findsWidgets);
+    final quest = _moments(server).firstWhere((k) => '$k'.startsWith('quest_done:'));
     // Still showing: not seen yet.
-    expect(_moments(server), contains(first));
-    gates[first]!.complete();
+    expect(_moments(server), contains(quest));
+    await tester.tap(find.text('Continue').last, warnIfMissed: false);
+    await tester.pump(const Duration(milliseconds: 400));
     await _open(tester);
-    expect(_moments(server), isNot(contains(first)));
-    expect(moments.played, hasLength(2));
-    expect(moments.played[1], startsWith('stitch:'));
-    expect(_moments(server), contains(moments.played[1]));
-    gates[moments.played[1]]!.complete();
-    await _open(tester);
-    expect(moments.played, hasLength(3));
-    expect(moments.played[2], 'reveal:hop');
-    gates['reveal:hop']!.complete();
-    await _open(tester);
-    expect(moments.played, hasLength(3));
-    expect(_moments(server), isEmpty);
+    expect(_moments(server), isNot(contains(quest)));
+    // The X returns to the den.
+    await _closeRun(tester);
+    expect(find.byType(ResultsRun), findsNothing);
   });
 
   testWidgets('K5: the pass notice shows once, is marked seen, and leaves on its own', (tester) async {

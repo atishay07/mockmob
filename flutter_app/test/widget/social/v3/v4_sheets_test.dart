@@ -177,8 +177,13 @@ void main() {
     });
 
     group('How the Mob works', () {
-      testWidgets('is not drawn until the integrator wires the replay', (tester) async {
+      testWidgets('is drawn by default (wired to the explainer replay) and not drawn when nothing can open it', (tester) async {
         await _open(tester, openMobSettingsSheet, SocialServer());
+        expect(find.text(MobV3Copy.howMobWorks), findsOneWidget);
+      });
+
+      testWidgets('is not drawn when the replay is not available (no dead rows)', (tester) async {
+        await _open(tester, openMobSettingsSheet, SocialServer(), extra: [mobHowItWorksProvider.overrideWithValue(null)]);
         expect(find.text(MobV3Copy.howMobWorks), findsNothing);
       });
 

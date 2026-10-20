@@ -191,7 +191,7 @@ void main() {
 
     testWidgets('billing off does not unlock it for a Free member: the row says Pro starts it', (t) async {
       await open(t, billing: 'off');
-      expect(find.text('Pro starts it and sits every one free. Free members sit one for 50 credits.'), findsOneWidget);
+      expect(find.text('On Free you sit one a friend starts for 50 credits. Pro starts them and sits them free.'), findsOneWidget);
     });
 
     testWidgets('a start the server refuses for want of Pro says so, with the way to Pro under it', (t) async {
@@ -218,7 +218,7 @@ void main() {
         (c) => showStartGame(c),
         sheetOverrides(v3Server(scenario: 'quiet', billing: 'free'), nudges: true, edit: (den) => (v3Of(den)['starts'] as Map<String, dynamic>).remove('mock')),
       );
-      expect(find.text('Pro starts it and sits every one free.'), findsOneWidget);
+      expect(find.text('On Free you can sit one a friend starts. Pro starts them and sits them free.'), findsOneWidget);
       expect(noText(t, RegExp(r'\bcredits\b')), isTrue);
     });
   });
@@ -233,8 +233,12 @@ void main() {
     testWidgets('enough credits: the price, the balance, the key that says the price, and Pro under it', (t) async {
       await openSit(t, balance: 112, nudges: true);
       expect(find.text('Sit the full mock'), findsOneWidget);
-      expect(find.text('Sitting it costs 50 credits. You have 112.'), findsOneWidget);
-      expect(find.text('With Pro you start full mocks together and sit every one free.'), findsOneWidget);
+      // D185: visual first. The price as one figure, the balance beside it, one line under Get Pro.
+      expect(find.text('50 credits'), findsOneWidget);
+      expect(find.text('You have 112'), findsOneWidget);
+      expect(find.text('Charged once'), findsOneWidget);
+      expect(find.bySemanticsLabel('Sitting it costs 50 credits. You have 112.'), findsOneWidget);
+      expect(find.text('With Pro, every full mock is free.'), findsOneWidget);
       expect(keyLabel('Sit it for 50 credits'), findsOneWidget);
       expect(keyLabel('Get Pro'), findsOneWidget);
       expect(noText(t, _price), isTrue);
@@ -254,7 +258,9 @@ void main() {
 
     testWidgets('short of credits: the shortfall, Pro first and Add credits beside it, no sit key', (t) async {
       await openSit(t, balance: 12, nudges: true);
-      expect(find.text('It costs 50 credits and you have 12, so you need 38 more.'), findsOneWidget);
+      expect(find.text('You have 12'), findsOneWidget);
+      expect(find.text('38 more needed'), findsOneWidget);
+      expect(find.bySemanticsLabel('It costs 50 credits and you have 12, so you need 38 more.'), findsOneWidget);
       expect(keyLabel('Sit it for 50 credits'), findsNothing);
       expect(keyLabel('Get Pro'), findsOneWidget);
       expect(keyLabel('Add credits'), findsOneWidget);
@@ -273,14 +279,16 @@ void main() {
         (c) => showSitMockSheet(c, cost: 50, refused: true),
         sheetOverridesWithBalance(v3Server(scenario: 'mock', billing: 'free'), balance: 112, nudges: true),
       );
-      expect(find.text('It costs 50 credits and you have fewer than that. Nothing was charged.'), findsOneWidget);
+      expect(find.text('Not enough credits'), findsOneWidget);
+      expect(find.text('Nothing was charged'), findsOneWidget);
       expect(keyLabel('Sit it for 50 credits'), findsNothing);
       expect(keyLabel('Add credits'), findsOneWidget);
     });
 
     testWidgets('an unknown balance still names the price', (t) async {
       await openSit(t, balance: null, nudges: true);
-      expect(find.text('Sitting it costs 50 credits.'), findsOneWidget);
+      expect(find.text('50 credits'), findsOneWidget);
+      expect(find.bySemanticsLabel('Sitting it costs 50 credits.'), findsOneWidget);
       expect(keyLabel('Sit it for 50 credits'), findsOneWidget);
     });
   });

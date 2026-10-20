@@ -67,7 +67,8 @@ Future<RecordingHaptics> _pump(WidgetTester t, MobV3FakeServer s, {bool reduced 
 
 /// Opens the switcher and picks Chai Circle. Returns the selection haptics fired before the pick.
 Future<int> _pickChai(WidgetTester t, [RecordingHaptics? haptics]) async {
-  await t.tap(find.text('Quiet Comets').first);
+  // V4 3.5: the Mob's name opens Your Mobs.
+  await t.tap(find.byKey(const ValueKey('den-your-mobs')));
   for (var i = 0; i < 40; i++) {
     await t.pump(const Duration(milliseconds: 16));
   }

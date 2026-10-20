@@ -741,7 +741,8 @@ class DenRows extends ConsumerWidget {
         DenRow(
           key: ValueKey('den-row-game-${g.id}'),
           lead: HeadDisc(member: g.host == null ? null : v3.member(g.host!.memberId), size: 44),
-          title: MobV3Copy.gameTitle(g),
+          // Your own game reads "Your sprint", whatever name the server put on it (H2: it said "Aarav's sprint").
+          title: g.host == null || g.host!.you || g.host!.memberId == v3.you?.memberId ? 'Your ${MobV3Copy.gameKind(g.format)}' : MobV3Copy.gameTitle(g),
           line: (closes == null ? MobV4DenCopy.alsoOpenNoTime : keepTimes(MobV4DenCopy.alsoOpen(closes, now))) + (mockSitCost(g, v3.starts) > 0 ? MobV4DenCopy.sitCostSuffix(mockSitCost(g, v3.starts)) : ''),
           onTap: () => g.yourRun == YourRun.finished ? MobV3Nav.podium(context, g.id) : MobV3Nav.play(context, g),
         ),
