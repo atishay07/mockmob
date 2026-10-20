@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import {
-  DEVICE_COOKIE, DEVICE_COOKIE_MAX_AGE, INVITE_COOKIE, INVITE_COOKIE_MAX_AGE, decodeInviteCookie, encodeInviteCookie, inviteKind, normaliseInviteCode,
-  referralsLive,
+  DEVICE_COOKIE, DEVICE_COOKIE_MAX_AGE, INVITE_COOKIE, INVITE_COOKIE_MAX_AGE, decodeInviteCookie, encodeInviteCookie, inviteLanding, referralsLive,
 } from '@/lib/referrals/friendInvite.mjs';
 import { deviceIdOf, newDeviceId } from '@/lib/server/referrals';
 
@@ -13,16 +12,20 @@ export const runtime = 'nodejs';
 // attached when it signs in (POST /api/referrals/claim) and only if it is new. The first friend's link is kept; a later one
 // does not replace it. A Mob invite code pasted here goes to its Mob page, which leaves its own pending invite. While invites
 // are off (REFERRALS_ENABLED) the link still lands on sign-up, with no cookie.
+// An Android browser (D182) is sent to the Play Store listing with the code in the Install Referrer (referrer=invite%3D<code>),
+// so the app reads it on its first launch and claims it after sign-in; the pending-invite cookie is still left, in case the
+// friend signs up on the web instead. Only a valid, normalised friend code is put in that URL. Everyone else, and every
+// Android visit with the switch off or no valid code, keeps the sign-up redirect.
 export async function GET(request, { params }) {
-  const code = normaliseInviteCode(String((await params)?.code || '').slice(0, 16));
   const live = referralsLive();
-  if (live && code && inviteKind(code) === 'mob_invite') {
-    return NextResponse.redirect(new URL(`/join/${code}`, request.url), 307);
-  }
+  const landing = inviteLanding({ rawCode: (await params)?.code, userAgent: request.headers.get('user-agent') || '', live });
+  const { code } = landing;
+  if (landing.to === 'join') return NextResponse.redirect(new URL(`/join/${code}`, request.url), 307);
   const target = new URL('/signup', request.url);
   if (live && code) target.searchParams.set('invite', '1');
-  const response = NextResponse.redirect(target, 307);
+  const response = landing.to === 'play' ? NextResponse.redirect(landing.url, 307) : NextResponse.redirect(target, 307);
   response.headers.set('Cache-Control', 'no-store');
+  response.headers.append('Vary', 'User-Agent');
   response.headers.set('X-Robots-Tag', 'noindex');
   if (!live || !code) return response;
 
