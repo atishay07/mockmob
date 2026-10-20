@@ -93,7 +93,7 @@ test('the SWOT lines come from the rows and the earlier record, in the product w
   const q = Object.fromEntries(story.swot.quadrants.map((x) => [x.id, x]));
   assert.equal(q.weakness.detail, '2 answers were right before you changed them. Those changes cost 12 marks.');
   assert.deepEqual(q.weakness.qs, [4, 8]);
-  assert.equal(q.threat.detail, 'Marks lost here: 12, 12 and 18, oldest first.');
+  assert.equal(q.threat.detail, 'Marks slipped here: 12, 12 and 18, oldest first.');
   assert.equal(q.strength.detail, '14 right of 15 across 3 papers, 3 of 3 in this one.');
   assert.equal(story.swot.plan[0].label, 'Practise 10 on Partnership');
   assert.equal(story.swot.plan[1].reason, '9 right of 14 so far. 10 marks slipped here in this paper.');
