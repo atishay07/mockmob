@@ -1,0 +1,51 @@
+{
+  "soFar": true,
+  "closesAt": "2026-10-23T08:42:49.000Z",
+  "showPodium": true,
+  "format": "race",
+  "minutes": 5,
+  "headline": {
+    "kind": "together",
+    "right": 6,
+    "of": 7
+  },
+  "places": [
+    {
+      "memberId": "member-6",
+      "name": "Riya",
+      "fold": "kandil",
+      "colour": 3,
+      "marks": 19,
+      "you": false,
+      "answered": 5,
+      "place": 1
+    },
+    {
+      "memberId": "member-7",
+      "name": "Aarav",
+      "fold": "dart",
+      "colour": 1,
+      "marks": 10,
+      "you": true,
+      "answered": 2,
+      "place": 2
+    }
+  ],
+  "tie": null,
+  "moments": [
+    {
+      "memberId": "member-6",
+      "kind": "most_answered",
+      "count": 5,
+      "minutes": 5
+    },
+    {
+      "memberId": "member-7",
+      "kind": "fastest_right",
+      "q": 2,
+      "number": 3,
+      "seconds": 8
+    }
+  ],
+  "trap": null
+}

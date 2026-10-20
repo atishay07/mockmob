@@ -150,13 +150,16 @@ class GameRoom {
       startsAt: asDate(j['startsAt']),
       endsAt: asDate(j['endsAt']),
       hostMemberId: asString(j['hostMemberId']),
-      roster: {
-        for (final r in asJsonList(j['roster']))
-          if (asString(r['memberId']) case final id? when id.isNotEmpty)
-            if (asString(r['st']) case final st? when st == 'here' || st == 'ready') id: st,
-      },
+      roster: rosterOf(j['roster']),
     );
   }
+
+  /// `[{memberId, st}]` to member id to `here` or `ready` (anything else is dropped).
+  static Map<String, String> rosterOf(Object? raw) => {
+        for (final r in asJsonList(raw))
+          if (asString(r['memberId']) case final id? when id.isNotEmpty)
+            if (asString(r['st']) case final st? when st == 'here' || st == 'ready') id: st,
+      };
 
   final RoomState state;
   final DateTime? startsAt;

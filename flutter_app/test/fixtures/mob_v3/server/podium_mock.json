@@ -1,0 +1,129 @@
+{
+  "soFar": true,
+  "closesAt": "2026-10-23T08:49:02.000Z",
+  "showPodium": true,
+  "format": "mock",
+  "minutes": 60,
+  "headline": {
+    "kind": "together",
+    "right": 69,
+    "of": 100
+  },
+  "places": [
+    {
+      "memberId": "member-6",
+      "name": "Riya",
+      "fold": "kandil",
+      "colour": 3,
+      "marks": 178,
+      "you": false,
+      "answered": 44,
+      "place": 1
+    },
+    {
+      "memberId": "member-7",
+      "name": "Aarav",
+      "fold": "dart",
+      "colour": 1,
+      "marks": 148,
+      "you": true,
+      "answered": 44,
+      "place": 2
+    }
+  ],
+  "tie": null,
+  "moments": [
+    {
+      "memberId": "member-6",
+      "kind": "three_in_a_row",
+      "from": 1,
+      "to": 3
+    },
+    {
+      "memberId": "member-7",
+      "kind": "finished_all",
+      "count": 50
+    }
+  ],
+  "trap": null,
+  "sheets": [
+    {
+      "memberId": "member-6",
+      "name": "Riya",
+      "colour": 3,
+      "fold": "kandil",
+      "you": false,
+      "private": false,
+      "marks": 178,
+      "of": 250,
+      "right": 37,
+      "wrong": 7,
+      "skipped": 6,
+      "accuracy": 84,
+      "timeMs": 2880000,
+      "sections": [
+        {
+          "key": "unit_5",
+          "label": "Analysis of Financial Statements",
+          "of": 34,
+          "marks": 120,
+          "right": 25,
+          "wrong": 5,
+          "skipped": 4,
+          "accuracy": 83,
+          "timeMs": null
+        },
+        {
+          "key": "unit_1",
+          "label": "Reconstitution of a Partnership firm",
+          "of": 16,
+          "marks": 58,
+          "right": 12,
+          "wrong": 2,
+          "skipped": 2,
+          "accuracy": 86,
+          "timeMs": null
+        }
+      ]
+    },
+    {
+      "memberId": "member-7",
+      "name": "Aarav",
+      "colour": 1,
+      "fold": "dart",
+      "you": true,
+      "private": false,
+      "marks": 148,
+      "of": 250,
+      "right": 32,
+      "wrong": 12,
+      "skipped": 6,
+      "accuracy": 73,
+      "timeMs": 3120000,
+      "sections": [
+        {
+          "key": "unit_5",
+          "label": "Analysis of Financial Statements",
+          "of": 34,
+          "marks": 97,
+          "right": 21,
+          "wrong": 8,
+          "skipped": 5,
+          "accuracy": 72,
+          "timeMs": null
+        },
+        {
+          "key": "unit_1",
+          "label": "Reconstitution of a Partnership firm",
+          "of": 16,
+          "marks": 51,
+          "right": 11,
+          "wrong": 4,
+          "skipped": 1,
+          "accuracy": 73,
+          "timeMs": null
+        }
+      ]
+    }
+  ]
+}

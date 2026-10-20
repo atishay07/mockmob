@@ -51,7 +51,8 @@ abstract class MobV3Api {
 
   /// L-55: presence is the server's. `here` on joining, `ready` on I'm ready, `left` on leaving, and `here`
   /// or `ready` again every 20 s while the room is on screen. The server broadcasts `presence {m, st}`.
-  Future<void> roomPresence(String id, String st);
+  /// Returns the roster the server saw in the last 45 s (member id to `here` or `ready`).
+  Future<Map<String, String>> roomPresence(String id, String st);
 
   Future<void> sticker({required String mob, String? game, required StickerKind kind});
   Future<int?> mic({required String mob, required String to});
@@ -151,8 +152,9 @@ class HttpMobV3Api implements MobV3Api {
   }
 
   @override
-  Future<void> roomPresence(String id, String st) async {
-    await _api.post('/api/mob/game/$id/room/presence', body: {'st': st}, options: const ApiOptions(retries: 0));
+  Future<Map<String, String>> roomPresence(String id, String st) async {
+    final j = _j(await _api.post('/api/mob/game/$id/room/presence', body: {'st': st}, options: const ApiOptions(retries: 0)));
+    return GameRoom.rosterOf(j['roster']);
   }
 
   @override

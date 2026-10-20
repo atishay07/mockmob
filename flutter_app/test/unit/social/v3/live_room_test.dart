@@ -15,7 +15,7 @@ import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/logic/den_copy_state.dart';
 import 'package:mockmob/features/social/v3/logic/live_room.dart';
-import 'package:mockmob/features/social/v3/screens/live_lobby_screen.dart';
+import 'package:mockmob/features/social/v3/widgets/room_ready.dart';
 
 import 'live_test_kit.dart';
 import 'mob_v3_test_kit.dart';
@@ -28,6 +28,26 @@ Future<(LiveRoom, FakeMobRoomChannel, MobV3FakeServer)> _open({String gameId = r
   final room = LiveRoom(gameId: gameId, api: s, channel: ch, members: _members(s), clock: () => s.now);
   await room.open();
   return (room, ch, s);
+}
+
+/// The fixture server whose ticket carries a roster (the real server's L-55 `room.roster`).
+class _TicketRoster extends MobV3FakeServer {
+  _TicketRoster(MobV3FakeServer base, this.roster) : super(scenario: 'live', clock: () => base.now, live: true);
+
+  final Map<String, String> roster;
+
+  @override
+  Future<RoomTicket> roomTicket(String id) async {
+    final t = await super.roomTicket(id);
+    final r = t.room!;
+    return RoomTicket(
+      topic: t.topic,
+      memberId: t.memberId,
+      expiresAt: t.expiresAt,
+      serverNow: t.serverNow,
+      room: GameRoom(state: r.state, startsAt: r.startsAt, endsAt: r.endsAt, hostMemberId: r.hostMemberId, roster: roster),
+    );
+  }
 }
 
 void main() {
@@ -105,6 +125,51 @@ void main() {
       expect(ch.tracked.last, (aarav, RoomPresenceStatus.ready));
       expect(room.youReady, isTrue);
       room.dispose();
+    });
+  });
+
+  group('L-55: presence is the server side', () {
+    test('a presence broadcast {m, st} parses; left is a member leaving; nothing else is read', () {
+      final here = RoomWire.broadcast('presence', {'payload': {'m': kabir, 'st': 'ready', 'name': 'Kabir', 'picks': [1]}}) as RoomPresenceChanged;
+      expect([here.memberId, here.status], [kabir, RoomPresenceStatus.ready]);
+      final left = RoomWire.broadcast('presence', {'m': kabir, 'st': 'left'}) as RoomPresenceChanged;
+      expect(left.status, isNull);
+      expect(RoomWire.broadcast('presence', {'m': kabir, 'st': 'online'}), isNull);
+      expect(RoomWire.broadcast('presence', {'st': 'here'}), isNull);
+      expect(RoomWire.events, contains('presence'));
+    });
+
+    test('the server roster becomes presence; anything but here or ready is dropped', () {
+      expect(RoomWire.roster({riya: 'here', kabir: 'ready'}), {riya: RoomPresenceStatus.here, kabir: RoomPresenceStatus.ready});
+      expect(GameRoom.rosterOf([
+        {'memberId': riya, 'st': 'here'},
+        {'memberId': kabir, 'st': 'away'},
+        {'memberId': '', 'st': 'here'},
+      ]), {riya: 'here'});
+    });
+
+    test('the ticket roster is the baseline: friends already here are shown, not announced as arrivals', () async {
+      final s = liveServer();
+      final ch = FakeMobRoomChannel();
+      final edited = _TicketRoster(s, {riya: 'here', kabir: 'ready'});
+      final room = LiveRoom(gameId: riyaRoom, api: edited, channel: ch, members: _members(s), clock: () => s.now);
+      await room.open();
+      expect(room.present.keys, unorderedEquals([riya, kabir, aarav]));
+      expect(room.present[kabir], RoomPresenceStatus.ready);
+      expect(room.arrivals, 0);
+      ch.emit(const RoomPresenceChanged(zoya, RoomPresenceStatus.here));
+      expect(room.arrivals, 1);
+      expect(room.arrivalId, zoya);
+      ch.emit(const RoomPresenceChanged(kabir, null));
+      expect(room.present.containsKey(kabir), isFalse, reason: 'left');
+      room.dispose();
+    });
+
+    test('the fixture route keeps your presence and gives the roster back', () async {
+      final s = liveServer();
+      expect(await s.roomPresence(riyaRoom, 'here'), {aarav: 'here'});
+      expect(await s.roomPresence(riyaRoom, 'ready'), {aarav: 'ready'});
+      expect(await s.roomPresence(riyaRoom, 'left'), isEmpty);
     });
   });
 

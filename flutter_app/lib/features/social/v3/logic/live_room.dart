@@ -171,6 +171,9 @@ class LiveRoom extends ChangeNotifier {
     }
     if (_disposed) return;
     final room = ticket?.room ?? game?.room;
+    // L-55: who the server saw in the room in the last 45 s, before the first presence of our own.
+    final roster = room?.roster ?? const <String, String>{};
+    if (roster.isNotEmpty) _sync(RoomWire.roster(roster));
     if (room?.state == RoomState.cancelled) {
       phase = LivePhase.cancelled;
     } else if (room?.state == RoomState.done) {
@@ -210,6 +213,15 @@ class LiveRoom extends ChangeNotifier {
         if (link == RoomLink.joined) busy = false;
       case RoomPresenceSync(:final members):
         _sync(members);
+      case RoomPresenceChanged(:final memberId, :final status):
+        // One member's change (the real channel folds these into syncs; a fake may send them alone).
+        final next = {...present};
+        if (status == null) {
+          next.remove(memberId);
+        } else {
+          next[memberId] = status;
+        }
+        _sync(next);
       case RoomStarted(startsAt: final at):
         _started(at);
       case RoomProgress(:final memberId, :final q, :final done):

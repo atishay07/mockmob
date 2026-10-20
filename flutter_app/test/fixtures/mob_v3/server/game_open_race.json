@@ -1,0 +1,32 @@
+{
+  "game": {
+    "id": "uuid-5",
+    "mobId": "uuid-6",
+    "format": "race",
+    "mode": "async",
+    "count": 30,
+    "minutes": 5,
+    "secondsPerQuestion": null,
+    "subjectName": "Accountancy",
+    "chapter": null,
+    "title": "Your race",
+    "host": {
+      "memberId": "member-5",
+      "name": "Kabir",
+      "you": true
+    },
+    "openedAt": "2026-10-22T08:42:49.000Z",
+    "closesAt": "2026-10-23T08:42:49.000Z",
+    "closed": false,
+    "serverNow": "2026-10-22T08:42:49.000Z",
+    "room": null,
+    "runs": [],
+    "you": {
+      "run": "none",
+      "marks": null,
+      "answered": 0
+    },
+    "ghosts": [],
+    "podiumReady": false
+  }
+}

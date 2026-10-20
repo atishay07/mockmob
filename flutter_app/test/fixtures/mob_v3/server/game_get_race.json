@@ -1,0 +1,59 @@
+{
+  "game": {
+    "id": "uuid-5",
+    "mobId": "uuid-6",
+    "format": "race",
+    "mode": "async",
+    "count": 30,
+    "minutes": 5,
+    "secondsPerQuestion": null,
+    "subjectName": "Accountancy",
+    "chapter": null,
+    "title": "Kabir's race",
+    "host": {
+      "memberId": "member-5",
+      "name": "Kabir",
+      "you": false
+    },
+    "openedAt": "2026-10-22T08:42:49.000Z",
+    "closesAt": "2026-10-23T08:42:49.000Z",
+    "closed": false,
+    "serverNow": "2026-10-22T08:44:11.000Z",
+    "room": null,
+    "runs": [
+      {
+        "memberId": "member-6",
+        "name": "Riya",
+        "colour": 3,
+        "fold": "kandil",
+        "at": "2026-10-22T08:43:55.000Z",
+        "finished": true
+      }
+    ],
+    "you": {
+      "run": "playing",
+      "marks": 5,
+      "answered": 1
+    },
+    "ghosts": [
+      {
+        "memberId": "member-6",
+        "name": "Riya",
+        "colour": 3,
+        "fold": "kandil",
+        "playedAt": "2026-10-22T08:43:55.000Z",
+        "arrivalsMs": [
+          11000,
+          22000,
+          33000,
+          44000,
+          55000,
+          66000
+        ],
+        "finishedMs": 66000,
+        "answered": 6
+      }
+    ],
+    "podiumReady": false
+  }
+}

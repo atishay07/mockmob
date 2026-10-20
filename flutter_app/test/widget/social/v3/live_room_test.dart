@@ -108,11 +108,12 @@ void main() {
     expect(find.text(MobV3Copy.stillPlaying(['Riya', 'Kabir'])), findsOneWidget);
     expect(_key('run-key-podium'), findsNothing);
 
-    // Riya reaches the flag at 101 s into the run: her pennant and the toast "Riya finished. Take your time."
-    for (var i = 0; i < 1200 && find.text(MobV3Copy.friendFinished('Riya')).evaluate().isEmpty; i++) {
+    // Riya reaches the flag at 101 s into the run: her pennant and the toast. You have finished, so it
+    // says "Riya finished too." ("Take your time" is only for while you are still playing).
+    for (var i = 0; i < 1200 && find.text(MobV3Copy.friendFinishedAfterYou('Riya')).evaluate().isEmpty; i++) {
       await tester.pump(const Duration(milliseconds: 100));
     }
-    expect(find.text(MobV3Copy.friendFinished('Riya')), findsOneWidget);
+    expect(find.text(MobV3Copy.friendFinishedAfterYou('Riya')), findsOneWidget);
     expect(find.bySemanticsLabel(MobV3Copy.rulerDone('Riya')), findsOneWidget);
     expect(find.text(MobV3Copy.stillPlaying(['Kabir'])), findsOneWidget);
     expect(_key('run-key-podium'), findsNothing);
@@ -217,6 +218,47 @@ void main() {
     // Answers still go to the API.
     await _answer(tester, s, pick: correctOf(0), atSeconds: 20);
     expect(find.text(MobV3Copy.questionOf(2, 5)), findsOneWidget);
+    await closeRoom(tester);
+  });
+
+  testWidgets('a live race (D167): the ready phase, Go on the server clock, then the minutes count down, one question at a time, friends walk the open ruler', (tester) async {
+    final s = liveServer(scenario: 'liverace');
+    await pumpLobby(tester, s, gameId: 'game-kabir-race');
+    // The ready phase is the game screen itself: no lobby screen.
+    expect(find.byType(GameRunScreen), findsOneWidget);
+    expect(find.text("Kabir's room"), findsOneWidget);
+    expect(find.text('Live race, 5 minutes'), findsOneWidget);
+    expect(find.text(MobV3Copy.lobbyLineRace(5)), findsOneWidget);
+    expect(_onStage(MobV3Copy.tagHost), findsOneWidget);
+
+    // Riya arrives and is ready; you are ready; Kabir starts.
+    await pumpFor(tester, const Duration(milliseconds: 1600));
+    expect(find.text(MobV3Copy.isHereNow('Riya')), findsOneWidget);
+    await tester.tap(_key('lobby-ready'));
+    await tester.pump();
+    await pumpFor(tester, const Duration(milliseconds: 2000)); // Riya ready at 3.6 s
+    await pumpFor(tester, const Duration(milliseconds: 1900)); // Kabir starts 1.8 s later
+    expect(_key('run-countdown'), findsOneWidget);
+    expect(find.text('5 minutes start on Go. Answer as many as you can. +5 if right, -1 if wrong, 0 if you skip.'), findsOneWidget);
+    await pumpFor(tester, const Duration(milliseconds: 5200));
+    expect(_key('run-countdown'), findsNothing);
+    expect(find.text('Question 1'), findsOneWidget);
+    final clock = (tester.widget(_key('run-clock')) as Text).data;
+    expect(clock, anyOf('5:00', '4:59'));
+
+    // One answer brings the next question with no key between.
+    s.skew = const Duration(seconds: 12);
+    await tapOption(tester, 0);
+    await tester.pump(const Duration(milliseconds: 120));
+    await tester.tap(_key('run-key-lock'));
+    await tester.pump();
+    await pumpFor(tester, const Duration(milliseconds: 1300));
+    expect(find.text('Question 2'), findsOneWidget);
+    expect(_key('run-key-next'), findsNothing);
+
+    // Friends in the room walk the open ruler (no flag in a race).
+    await pumpFor(tester, const Duration(seconds: 30));
+    expect(find.bySemanticsLabel(RegExp(r'^(Riya|Kabir) is on question \d+$')), findsWidgets);
     await closeRoom(tester);
   });
 }

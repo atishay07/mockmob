@@ -1382,9 +1382,14 @@ class MobV3FakeServer implements MobV3Api {
   final Map<String, String> presence = {};
 
   @override
-  Future<void> roomPresence(String id, String st) async {
+  Future<Map<String, String>> roomPresence(String id, String st) async {
     final r = _game(id);
-    presence[r.mob.you.id] = st;
+    if (st == 'left') {
+      presence.remove(r.mob.you.id);
+    } else {
+      presence[r.mob.you.id] = st;
+    }
+    return Map.of(presence);
   }
 
   /// The live phase ends (the last live finish).
@@ -1408,16 +1413,19 @@ class MobV3FakeServer implements MobV3Api {
     if (run.answers.length >= g.count) run.finishedAt ??= start.add(Duration(milliseconds: elapsedMs));
   }
 
+  /// How many questions [memberId] has answered in this game (the scripted room's race ends).
+  int liveAnswered(String gameId, String memberId) => _game(gameId).game.runs[memberId]?.answers.length ?? 0;
+
   /// Whether you have finished this game (the scripted room ends the live phase after everyone).
   bool youFinished(String gameId) {
     final r = _game(gameId);
     return r.game.runs[r.mob.you.id]?.finished ?? false;
   }
 
-  /// The game's question count, host and room state, for the scripted room.
-  ({int count, String hostId, String youId, RoomState? state, DateTime? startsAt}) roomInfo(String gameId) {
+  /// The game's question count, host, room state and a race's minutes, for the scripted room.
+  ({int count, String hostId, String youId, RoomState? state, DateTime? startsAt, int? minutes}) roomInfo(String gameId) {
     final r = _game(gameId);
-    return (count: r.game.count, hostId: r.game.hostId, youId: r.mob.you.id, state: r.game.roomState, startsAt: r.game.roomStartsAt);
+    return (count: r.game.count, hostId: r.game.hostId, youId: r.mob.you.id, state: r.game.roomState, startsAt: r.game.roomStartsAt, minutes: r.game.race ? r.game.minutes : null);
   }
 
   /// Mob member ids other than you, in order (the scripted room's friends).

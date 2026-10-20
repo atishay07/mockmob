@@ -4,9 +4,12 @@
 // - One PRIVATE channel per room, topic `mob-room:<game id>`, joined only while the lobby, the countdown
 //   or the live run is on screen (never from the den). Realtime admits the socket by the ticket the API
 //   wrote (RLS `mob_room_ok`), using the app's normal Supabase session.
-// - Presence is the only thing the app sends: `{ "m": memberId, "st": "here|ready", "v": 1 }`.
-// - Every other event comes from the server (`realtime.send` in SQL): `room.start {startsAt}`,
-//   `progress {m, q, done}`, `room.done {}`, `room.cancel {}`, `sticker {m, k}`. None carries a name, a
+// - L-55: presence is the server's. The app never tracks Realtime presence; it posts `here`, `ready` or `left`
+//   to `/api/mob/game/<id>/room/presence` on joining, on I'm ready and on leaving, and again every 20 s while
+//   the room is on screen. Each reply carries the roster the server saw in the last 45 s, and the server
+//   broadcasts `presence {m, st}` to the room on every change.
+// - Every event comes from the server (`realtime.send` in SQL): `room.start {startsAt}`, `progress {m, q,
+//   done}`, `presence {m, st}`, `room.done {}`, `room.cancel {}`, `sticker {m, k}`. None carries a name, a
 //   pick, a mark or right or wrong (spec 4.4), and the app reads nothing else from them.
 // - CHANNEL_ERROR, TIMED_OUT and a closed socket become [RoomLink.busy]: the run goes on without the
 //   ruler's live updates (spec 4.5 fallback).
@@ -85,6 +88,13 @@ class RoomCancelled extends RoomEvent {
   const RoomCancelled();
 }
 
+/// One member's presence changed (`presence {m, st}`): [status] null means they left.
+class RoomPresenceChanged extends RoomEvent {
+  const RoomPresenceChanged(this.memberId, this.status);
+  final String memberId;
+  final RoomPresenceStatus? status;
+}
+
 class RoomSticker extends RoomEvent {
   const RoomSticker({required this.memberId, required this.kind});
   final String memberId;
@@ -133,6 +143,13 @@ abstract final class RoomWire {
         final q = asInt(inner['q']);
         if (m == null || m.isEmpty || q == null) return null;
         return RoomProgress(memberId: m, q: q, done: asBool(inner['done']) ?? false);
+      case 'presence':
+        final m = asString(inner['m']);
+        final st = asString(inner['st']);
+        if (m == null || m.isEmpty) return null;
+        if (st == 'left') return RoomPresenceChanged(m, null);
+        final s = RoomPresenceStatus.parse(st);
+        return s == null ? null : RoomPresenceChanged(m, s);
       case 'room.done':
         return const RoomDone();
       case 'room.cancel':
@@ -146,7 +163,12 @@ abstract final class RoomWire {
     return null;
   }
 
-  static const List<String> events = ['room.start', 'progress', 'room.done', 'room.cancel', 'sticker'];
+  static const List<String> events = ['room.start', 'progress', 'presence', 'room.done', 'room.cancel', 'sticker'];
+
+  /// A server roster (member id to `here` or `ready`) as presence.
+  static Map<String, RoomPresenceStatus> roster(Map<String, String> raw) => {
+        for (final e in raw.entries) e.key: ?RoomPresenceStatus.parse(e.value),
+      };
 }
 
 /// The room's channel.
@@ -166,14 +188,28 @@ abstract class MobRoomChannel {
   Future<void> leave();
 }
 
-/// Supabase Realtime, through the app's own `supabase_flutter` session (spec 4.1, 4.2).
+/// Supabase Realtime for the server's broadcasts, through the app's own `supabase_flutter` session (spec 4.1,
+/// 4.2), and the presence route for who is here (L-55).
 class SupabaseMobRoomChannel implements MobRoomChannel {
-  SupabaseMobRoomChannel(this._client);
+  SupabaseMobRoomChannel(this._client, {required this.api, required this.gameId});
 
   final SupabaseClient _client;
+  final MobV3Api api;
+  final String gameId;
+
+  /// How often presence is sent again while the room is on screen (the server keeps 45 s).
+  static const Duration heartbeat = Duration(seconds: 20);
+
   final StreamController<RoomEvent> _events = StreamController<RoomEvent>.broadcast();
   RealtimeChannel? _channel;
   bool _left = false;
+  Timer? _beat;
+  RoomPresenceStatus? _mine;
+
+  /// Who is here, as the server last said (its roster) and broadcast since.
+  final Map<String, RoomPresenceStatus> _present = {};
+
+  void _emitPresence() => _emit(RoomPresenceSync(Map.of(_present)));
 
   @override
   Stream<RoomEvent> get events => _events.stream;
@@ -187,16 +223,24 @@ class SupabaseMobRoomChannel implements MobRoomChannel {
     _emit(const RoomLinkChanged(RoomLink.connecting));
     final ch = _client.channel(topic, opts: const RealtimeChannelConfig(private: true));
     _channel = ch;
-    ch.onPresenceSync((_) {
-      final state = ch.presenceState();
-      _emit(RoomPresenceSync(RoomWire.sync([for (final s in state) [for (final p in s.presences) p.payload]])));
-    });
     for (final event in RoomWire.events) {
       ch.onBroadcast(
         event: event,
         callback: (message) {
           final e = RoomWire.broadcast(event, message);
-          if (e != null) _emit(e);
+          if (e == null) return;
+          if (e is RoomPresenceChanged) {
+            // Presence is kept here and handed on whole, as the server's roster is.
+            final s = e.status;
+            if (s == null) {
+              _present.remove(e.memberId);
+            } else {
+              _present[e.memberId] = s;
+            }
+            _emitPresence();
+            return;
+          }
+          _emit(e);
         },
       );
     }
@@ -213,28 +257,54 @@ class SupabaseMobRoomChannel implements MobRoomChannel {
     });
   }
 
+  /// Sends your presence to the server and takes its roster back. Throws when the server refuses it.
+  Future<void> _send(RoomPresenceStatus status) async {
+    final roster = await api.roomPresence(gameId, status.wire);
+    if (_left) return;
+    _present
+      ..clear()
+      ..addAll(RoomWire.roster(roster));
+    _emitPresence();
+  }
+
   @override
   Future<void> track(String memberId, RoomPresenceStatus status) async {
-    await _channel?.track(RoomWire.track(memberId, status));
+    _mine = status;
+    _present[memberId] = status;
+    await _send(status);
+    _beat?.cancel();
+    _beat = Timer.periodic(heartbeat, (_) {
+      final mine = _mine;
+      if (_left || mine == null) return;
+      // A missed heartbeat is not news: the next one, or the server's 45 s, settles it.
+      _send(mine).catchError((Object _) {});
+    });
   }
 
   @override
   Future<void> untrack() async {
-    await _channel?.untrack();
+    _beat?.cancel();
+    _mine = null;
+    await api.roomPresence(gameId, 'left');
   }
 
   @override
   Future<void> leave() async {
     if (_left) return;
+    _beat?.cancel();
+    final wasHere = _mine != null;
+    _mine = null;
     _left = true;
+    if (wasHere) {
+      try {
+        await api.roomPresence(gameId, 'left');
+      } on Object {
+        // The server forgets you after 45 s anyway.
+      }
+    }
     final ch = _channel;
     _channel = null;
     if (ch != null) {
-      try {
-        await ch.untrack();
-      } on Object {
-        // Leaving anyway.
-      }
       try {
         await _client.removeChannel(ch);
       } on Object {
@@ -318,7 +388,8 @@ final mobRoomChannelFactoryProvider = Provider<MobRoomChannelFactory>((ref) {
     final server = ref.watch(mobV3FakeServerProvider);
     return (gameId) => ScriptedRoomChannel(server, gameId);
   }
-  return (_) => SupabaseMobRoomChannel(Supabase.instance.client);
+  final api = ref.watch(mobV3ApiProvider);
+  return (gameId) => SupabaseMobRoomChannel(Supabase.instance.client, api: api, gameId: gameId);
 });
 
 /// The phone's clock, for the room's server-time offset. Tests give the fake clock.

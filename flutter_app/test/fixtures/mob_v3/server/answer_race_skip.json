@@ -1,0 +1,22 @@
+{
+  "correct": null,
+  "delta": 0,
+  "marks": 5,
+  "elapsedMs": 16000,
+  "answered": 2,
+  "count": 30,
+  "finished": false,
+  "serverNow": "2026-10-22T08:44:11.000Z",
+  "endsAt": "2026-10-22T08:48:55.000Z",
+  "next": {
+    "q": 2,
+    "stem": "Goodwill question 10",
+    "options": [
+      "Option A of question 10",
+      "Option B of question 10",
+      "Option C of question 10",
+      "Option D of question 10"
+    ],
+    "passage": null
+  }
+}

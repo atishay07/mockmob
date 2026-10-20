@@ -8,7 +8,11 @@
   ],
   "formats": [
     "sprint",
-    "round"
+    "round",
+    "race"
+  ],
+  "locked": [
+    "mock"
   ],
   "freeLeft": 1,
   "mics": 1,

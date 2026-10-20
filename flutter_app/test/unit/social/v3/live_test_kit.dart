@@ -10,7 +10,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/social/v3/data/mob_room_channel.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
-import 'package:mockmob/features/social/v3/screens/live_lobby_screen.dart';
+import 'package:mockmob/features/social/v3/screens/game_run_screen.dart';
 
 import '../../../helpers/golden_harness.dart' show FileAssetBundle;
 import 'mob_v3_test_kit.dart';
@@ -57,7 +57,7 @@ Future<void> pumpLobby(
           darkTheme: buildTheme(Brightness.dark),
           themeMode: brightness == Brightness.dark ? ThemeMode.dark : ThemeMode.light,
           builder: (context, app) => MediaQuery(data: MediaQuery.of(context).copyWith(disableAnimations: reduced), child: app!),
-          home: LiveLobbyScreen(gameId: gameId, opened: opened),
+          home: GameRunScreen(gameId: gameId, room: true, opened: opened),
         ),
       ),
     ),

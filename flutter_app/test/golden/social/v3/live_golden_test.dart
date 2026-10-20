@@ -10,7 +10,6 @@ import 'package:mockmob/features/social/v3/data/mob_room_channel.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/screens/game_run_screen.dart';
-import 'package:mockmob/features/social/v3/screens/live_lobby_screen.dart';
 
 import '../../../unit/social/v3/live_test_kit.dart';
 import '../../../unit/social/v3/mob_v3_test_kit.dart';
@@ -19,7 +18,7 @@ import '../../you/you_golden_kit.dart';
 
 String _tag(Brightness b) => b == Brightness.dark ? 'night' : 'day';
 
-Finder get _lobby => find.byType(LiveLobbyScreen);
+Finder get _lobby => find.byType(GameRunScreen);
 Finder get _run => find.byType(GameRunScreen);
 
 /// Riya's room as a guest: Riya hosts and is here; Kabir arrives 1.5 s later and sends "Good luck".

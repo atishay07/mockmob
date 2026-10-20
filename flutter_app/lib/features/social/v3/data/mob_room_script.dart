@@ -146,13 +146,24 @@ class ScriptedRoomChannel extends FakeMobRoomChannel {
     emit(RoomStarted(at));
     final lead = at.difference(server.now).inMilliseconds;
     var i = 0;
+    // A race ends on its clock: friends answer only inside its minutes, and their time running out is their end.
+    final raceMs = info.minutes == null ? null : info.minutes! * 60000;
     for (final id in _present.keys.where((k) => k != _you).toList()) {
       final (secs, rights) = _pace[i % _pace.length]!;
       i++;
       _racers.add(id);
+      if (raceMs != null) {
+        _after(lead + raceMs, () {
+          _done.add(id);
+          emit(RoomProgress(memberId: id, q: server.liveAnswered(gameId, id), done: true));
+          _maybeEnd();
+        });
+      }
       for (var q = 0; q < info.count; q++) {
-        final atMs = secs[q % secs.length] * 1000 + (q ~/ secs.length) * 240000;
-        final last = q == info.count - 1;
+        // A race keeps a quicker pace: everyone answers as many as they can.
+        final atMs = raceMs != null ? (secs[q % secs.length] * 1000 * 0.55).round() + (q ~/ secs.length) * 132000 : secs[q % secs.length] * 1000 + (q ~/ secs.length) * 240000;
+        if (raceMs != null && atMs >= raceMs) break;
+        final last = raceMs == null && q == info.count - 1;
         _after(lead + atMs, () {
           server.liveAnswer(gameId, id, q, correct: rights[q % rights.length], elapsedMs: atMs);
           if (last) _done.add(id);

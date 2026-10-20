@@ -1,0 +1,17 @@
+{
+  "status": 410,
+  "body": {
+    "error": {
+      "code": "RUN_EXPIRED",
+      "message": "Your time on this game ran out. Questions you did not answer count as skipped.",
+      "detail": {
+        "run": {
+          "finished": true,
+          "marks": 10,
+          "answered": 3,
+          "count": 30
+        }
+      }
+    }
+  }
+}
