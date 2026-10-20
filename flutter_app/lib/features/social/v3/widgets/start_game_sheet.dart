@@ -430,11 +430,11 @@ class _FormatRow extends StatelessWidget {
         tappable,
         Padding(
           padding: const EdgeInsets.only(left: MmSpace.s12 + 36 + MmSpace.s12, right: MmSpace.s12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(child: Text(line, key: const ValueKey('start-mock-pro-line'), style: type.small.copyWith(color: colors.ink2))),
-              if (onPro != null) _AccentKey(key: const ValueKey('start-mock-pro'), label: MobV3Copy.seePlans, onPressed: onPro),
+              Text(line, key: const ValueKey('start-mock-pro-line'), style: type.small.copyWith(color: colors.ink2)),
+              if (onPro != null) _AccentKey(key: const ValueKey('start-mock-pro'), label: MobV3Copy.seePlans, onPressed: onPro, padLeft: 0),
             ],
           ),
         ),
@@ -514,10 +514,11 @@ class _Chips<T> extends StatelessWidget {
 
 /// A quiet text key at the end of a row ("Change", "Sit it"), in the accent ink, 48 dp tall.
 class _AccentKey extends StatelessWidget {
-  const _AccentKey({super.key, required this.label, required this.onPressed});
+  const _AccentKey({super.key, required this.label, required this.onPressed, this.padLeft = MmSpace.s12});
 
   final String label;
   final VoidCallback? onPressed;
+  final double padLeft;
 
   @override
   Widget build(BuildContext context) {
@@ -530,7 +531,7 @@ class _AccentKey extends StatelessWidget {
       builder: (context, pressed, _) => ConstrainedBox(
         constraints: const BoxConstraints(minHeight: MmTarget.min, minWidth: MmTarget.min),
         child: Padding(
-          padding: const EdgeInsets.only(left: MmSpace.s12),
+          padding: EdgeInsets.only(left: padLeft),
           child: Center(
             widthFactor: 1,
             child: Text(label, style: context.mmType.labelLarge.copyWith(color: pressed || onPressed == null ? colors.ink2 : colors.accentText, fontWeight: FontWeight.w700)),

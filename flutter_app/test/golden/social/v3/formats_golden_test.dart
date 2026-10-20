@@ -11,11 +11,13 @@ import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/widgets/mark_sheets.dart';
 import 'package:mockmob/features/social/v3/widgets/play_picker_sheet.dart';
+import 'package:mockmob/features/social/v3/widgets/sit_mock_sheet.dart';
 import 'package:mockmob/features/social/v3/widgets/podium_stage.dart';
 import 'package:mockmob/features/social/v3/widgets/start_game_sheet.dart';
 
 import '../../../helpers/golden_harness.dart';
 import '../../../unit/social/v3/mob_v3_test_kit.dart';
+import '../../../unit/social/v3/sheets_test_kit.dart' show sheetOverridesWithBalance;
 import '../../you/you_golden_kit.dart' show setUpGoldenFonts;
 
 String _tag(Brightness b) => b == Brightness.dark ? 'night' : 'day';
@@ -39,6 +41,7 @@ Future<void> _sheet(
   bool nudges = false,
   double height = 800,
   List<Override> extra = const [],
+  int? balance,
 }) async {
   final server = v3Server(scenario: scenario, billing: billing);
   await pumpMockmob(
@@ -47,13 +50,15 @@ Future<void> _sheet(
     brightness: b,
     size: Size(360, height),
     disableAnimations: true,
-    overrides: [...v3Overrides(server), proNudgesOnProvider.overrideWithValue(nudges), ...extra],
+    overrides: balance == null ? [...v3Overrides(server), proNudgesOnProvider.overrideWithValue(nudges), ...extra] : [...sheetOverridesWithBalance(server, balance: balance, nudges: nudges), ...extra],
   );
   await tester.tap(find.text('open'));
   await tester.pumpAndSettle();
   await settleImages(tester);
   await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/formats/${name}_360_${_tag(b)}.png'));
 }
+
+const _sitGame = MobGameSummary(id: 'game-riya-mock', format: GameFormat.mock, count: 50, minutes: 60, subjectName: 'Accountancy');
 
 void main() {
   setUpGoldenFonts();
@@ -62,7 +67,7 @@ void main() {
 
   for (final b in [Brightness.dark, Brightness.light]) {
     testWidgets('start sheet, anytime, sprint (${_tag(b)})', (t) async {
-      await _sheet(t, 'start_anytime_sprint', (c) => showStartGame(c), b: b, scenario: 'live', billing: 'free');
+      await _sheet(t, 'start_anytime_sprint', (c) => showStartGame(c), b: b, scenario: 'live', billing: 'free', nudges: true);
     });
 
     testWidgets('start sheet, live, 10-minute race (${_tag(b)})', (t) async {
@@ -86,7 +91,18 @@ void main() {
   }
 
   testWidgets('start sheet, Free, a round with its chips (night)', (t) async {
-    await _sheet(t, 'start_free_round15', (c) => showStartGame(c, prefill: const StartGamePrefill(format: GameFormat.round, count: 15)), b: Brightness.dark, billing: 'free');
+    await _sheet(t, 'start_free_round15', (c) => showStartGame(c, prefill: const StartGamePrefill(format: GameFormat.round, count: 15)), b: Brightness.dark, billing: 'free', nudges: true);
+  });
+
+  // D174, D175: a Free member sitting a friend's full mock sees the price, the balance and the way to Pro.
+  for (final b in [Brightness.dark, Brightness.light]) {
+    testWidgets('sit the full mock, Free with enough credits (${_tag(b)})', (t) async {
+      await _sheet(t, 'sit_mock', (c) => showSitMockSheet(c, game: _sitGame, cost: 50), b: b, scenario: 'mock', billing: 'free', nudges: true, balance: 112, height: 700);
+    });
+  }
+
+  testWidgets('sit the full mock, Free short of credits (night)', (t) async {
+    await _sheet(t, 'sit_mock_short', (c) => showSitMockSheet(c, game: _sitGame, cost: 50), b: Brightness.dark, scenario: 'mock', billing: 'free', nudges: true, balance: 12, height: 700);
   });
 
   for (final b in [Brightness.dark, Brightness.light]) {

@@ -4,44 +4,18 @@
 // the plain copy and the one honest way to Pro in the row and in the sit sheet.
 
 import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockmob/core/repositories/remote_state.dart';
-import 'package:mockmob/core/storage/prefs_store.dart';
-import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
-import 'package:mockmob/features/social/data/mob_models.dart';
-import 'package:mockmob/features/social/data/mob_navigator.dart';
-import 'package:mockmob/features/social/data/mob_repository.dart';
-import 'package:mockmob/features/social/v3/data/mob_v3_api.dart' show mobV3FakeServerProvider;
-import 'package:mockmob/features/social/v3/mob_v3_flags.dart';
-import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/features/social/v3/copy_v3.dart';
-import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/widgets/play_picker_sheet.dart';
 import 'package:mockmob/features/social/v3/widgets/sit_mock_sheet.dart';
 import 'package:mockmob/features/social/v3/widgets/start_game_sheet.dart';
 
-import '../../you/you_test_support.dart' show youOverrides;
-import '../mob_test_kit.dart';
 import '../../../helpers/golden_harness.dart' show settleImages;
 import 'mob_v3_test_kit.dart';
 import 'sheets_test_kit.dart';
-
-/// The Mob's sheet overrides with the student's own credit balance (null: not read yet).
-List<Override> _overrides(MobV3FakeServer server, {int? balance, bool nudges = false}) => [
-      ...youOverrides(auth: AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: balance), now: v3Now),
-      mobRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: MobRead.fromJson(server.denNow()), fetchedAt: v3Now)),
-      mobPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
-      mobNavigatorProvider.overrideWithValue(RecordingNavigator()),
-      mobActionsProvider.overrideWith((ref) => FakeMobActions(ref)),
-      mobV3EnabledProvider.overrideWithValue(true),
-      mobV3FixturesProvider.overrideWithValue(true),
-      mobV3FakeServerProvider.overrideWithValue(server),
-      proNudgesOnProvider.overrideWithValue(nudges),
-    ];
 
 StartRight _starts(Map<String, dynamic> j) => StartRight.fromJson(j);
 
@@ -142,7 +116,7 @@ void main() {
 
     testWidgets('Free: the mock row says what Pro does and what sitting costs, with one way to Pro in the row', (t) async {
       await open(t);
-      expect(find.text('Pro starts it and sits every one free. On Free you sit one a friend starts for 50 credits.'), findsOneWidget);
+      expect(find.text('Pro starts it and sits every one free. Free members sit one for 50 credits.'), findsOneWidget);
       expect(find.byKey(const ValueKey('start-mock-pro')), findsOneWidget);
       expect(find.text('See Pro plans'), findsOneWidget);
       await tapAt(t, find.text('Full mock together'));
@@ -177,7 +151,7 @@ void main() {
     Future<void> openSit(WidgetTester t, {required int? balance, required bool nudges, int cost = 50}) => openSheet(
           t,
           (c) => showSitMockSheet(c, game: _mock(), cost: cost),
-          _overrides(v3Server(scenario: 'mock', billing: 'free'), balance: balance, nudges: nudges),
+          sheetOverridesWithBalance(v3Server(scenario: 'mock', billing: 'free'), balance: balance, nudges: nudges),
         );
 
     testWidgets('enough credits: the price, the balance, the key that says the price, and Pro under it', (t) async {
@@ -195,7 +169,7 @@ void main() {
       await openSheet(
         t,
         (c) async => result = await showSitMockSheet(c, game: _mock(), cost: 50),
-        _overrides(v3Server(scenario: 'mock', billing: 'free'), balance: 112, nudges: true),
+        sheetOverridesWithBalance(v3Server(scenario: 'mock', billing: 'free'), balance: 112, nudges: true),
       );
       await tapAt(t, keyLabel('Sit it for 50 credits'));
       expect(result, isTrue);
@@ -224,7 +198,7 @@ void main() {
 
   group('from the Play picker', () {
     testWidgets('Free: the open mock says what sitting costs, and Sit it asks before the paper opens', (t) async {
-      await openSheet(t, showPlayPicker, _overrides(v3Server(scenario: 'mock', billing: 'free'), balance: 112, nudges: true));
+      await openSheet(t, showPlayPicker, sheetOverridesWithBalance(v3Server(scenario: 'mock', billing: 'free'), balance: 112, nudges: true));
       await settleImages(t);
       expect(find.textContaining('50 credits to sit, free with Pro.'), findsOneWidget);
       await tapAt(t, keyLabel('Sit it'));
@@ -233,7 +207,7 @@ void main() {
     });
 
     testWidgets('Pro: nothing about credits on the row, and no question before the paper', (t) async {
-      await openSheet(t, showPlayPicker, _overrides(v3Server(scenario: 'mock', billing: 'pro'), balance: null, nudges: true));
+      await openSheet(t, showPlayPicker, sheetOverridesWithBalance(v3Server(scenario: 'mock', billing: 'pro'), balance: null, nudges: true));
       await settleImages(t);
       expect(find.textContaining('credits to sit'), findsNothing);
     });

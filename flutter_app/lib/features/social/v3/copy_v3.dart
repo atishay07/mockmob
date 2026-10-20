@@ -315,7 +315,7 @@ abstract final class MobV3Copy {
   /// D174/D175: Pro starts a full mock together and sits every one free; a Free member sits one a friend starts for
   /// credits (no free first mock). Plain: what it is, what it costs, what Pro does.
   static String mockPro(int cost) => 'Starting a full mock together is part of Pro. On Free you can sit one a friend starts for $cost credits.';
-  static String mockProRow(int cost) => 'Pro starts it and sits every one free. On Free you sit one a friend starts for $cost credits.';
+  static String mockProRow(int cost) => 'Pro starts it and sits every one free. Free members sit one for $cost credits.';
   static String mockAllowance(int cost) => 'You sit it free with Pro. Free members in your Mob sit it for $cost credits.';
   static const String sitMockTitle = 'Sit the full mock';
   static String sitMockCost(int cost, int? balance) => balance == null ? 'Sitting it costs $cost credits.' : 'Sitting it costs $cost credits. You have $balance.';

@@ -6,16 +6,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/api/api_error.dart';
+import 'package:mockmob/core/auth/auth_state.dart';
+import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
 import 'package:mockmob/features/social/data/mob_models.dart';
+import 'package:mockmob/features/social/data/mob_navigator.dart';
+import 'package:mockmob/features/social/data/mob_repository.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_api.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/mob_v3_flags.dart';
 
 import '../../../helpers/golden_harness.dart';
+import '../../you/you_test_support.dart' show youOverrides;
 import '../mob_test_kit.dart';
 import 'mob_v3_test_kit.dart';
 
@@ -33,6 +38,19 @@ List<Override> sheetOverrides(MobV3FakeServer server, {JsonEdit? edit, Recording
     proNudgesOnProvider.overrideWithValue(nudges),
   ];
 }
+
+/// The Mob's sheet overrides with the student's own credit balance (null: not read yet).
+List<Override> sheetOverridesWithBalance(MobV3FakeServer server, {int? balance, bool nudges = false}) => [
+      ...youOverrides(auth: AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: balance), now: v3Now),
+      mobRepositoryProvider.overrideWithBuild((ref, n) => RemoteState(value: MobRead.fromJson(server.denNow()), fetchedAt: v3Now)),
+      mobPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+      mobNavigatorProvider.overrideWithValue(RecordingNavigator()),
+      mobActionsProvider.overrideWith((ref) => FakeMobActions(ref)),
+      mobV3EnabledProvider.overrideWithValue(true),
+      mobV3FixturesProvider.overrideWithValue(true),
+      mobV3FakeServerProvider.overrideWithValue(server),
+      proNudgesOnProvider.overrideWithValue(nudges),
+    ];
 
 Map<String, dynamic> v3Of(Map<String, dynamic> den) => den['v3'] as Map<String, dynamic>;
 

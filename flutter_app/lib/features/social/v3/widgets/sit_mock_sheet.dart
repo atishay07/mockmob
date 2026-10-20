@@ -54,9 +54,7 @@ class _SitBody extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(MobV3Copy.gameWhat(game), key: const ValueKey('sit-what'), style: type.body.copyWith(color: colors.ink)),
-        const SizedBox(height: MmSpace.s8),
-        Text(MobV3Copy.mockDetail, style: type.small.copyWith(color: colors.ink2)),
+        Text(MobV3Copy.mockDetail, key: const ValueKey('sit-what'), style: type.body.copyWith(color: colors.ink2)),
         const SizedBox(height: MmSpace.s16),
         Text(
           short ? MobV3Copy.sitMockShort(cost, have) : MobV3Copy.sitMockCost(cost, have),
