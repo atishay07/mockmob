@@ -67,7 +67,10 @@ function momentFacts(run, count, excludeQ) {
  * Everyone's moment (3.6): kinds from a fixed list, assigned in place order (unplaced runs after, by finish), each
  * player taking the first true kind not yet used by another, else finished_all. "Fastest right" and "Quickest finish"
  * are only true for the one run that holds them. Never the trap question, never a skip fact, never negative.
- * runs: [{ userId, memberId, place, finishedAt, right, wrong, answers }]; q in the payload is 0-based, number is 1-based.
+ * A private run (`private: true`: that member keeps their marks private and it is not the viewer's own run) only ever
+ * gets finished_all: no fact about it is shown (L-10). It still holds "fastest" or "quickest" when it truly does, so
+ * nobody else is named for it (the line stays true), but the kind is simply not shown.
+ * runs: [{ userId, memberId, place, finishedAt, right, wrong, answers, private? }]; q in the payload is 0-based, number is 1-based.
  */
 export function assignMoments(runs, { count, trapQ = null }) {
   const facts = new Map(runs.map((r) => [r.userId, momentFacts(r, count, trapQ)]));
@@ -81,6 +84,7 @@ export function assignMoments(runs, { count, trapQ = null }) {
   const used = new Set();
   const out = [];
   for (const r of order) {
+    if (r.private) { out.push({ memberId: r.memberId, kind: 'finished_all', count }); continue; }
     const f = facts.get(r.userId);
     const candidates = [
       ['all_right', f.allRight, { count }],
@@ -94,6 +98,17 @@ export function assignMoments(runs, { count, trapQ = null }) {
     else out.push({ memberId: r.memberId, kind: 'finished_all', count });
   }
   return out;
+}
+
+/**
+ * The collective line "Your Mob got R of N right together" (3.6). Runs of members who keep their marks private are left
+ * out unless the run is the viewer's own (L-10): with them in, a difference between two views, or between two opens of
+ * the "so far" podium, gives away a private member's count. `of` counts only the runs in the sum, so the line stays true.
+ * runs: [{ userId, right, private }] finished only; private already means "not the viewer".
+ */
+export function togetherLine(runs, count) {
+  const counted = (runs || []).filter((r) => !r.private);
+  return { kind: 'together', right: counted.reduce((s, r) => s + (Number(r.right) || 0), 0), of: counted.length * count };
 }
 
 /** The game's trap after close: { q, number, caught: 'most', optionIndex } or null (3 finished runs, 2 picks, half). */
@@ -121,7 +136,8 @@ export function checkWindow(closesAtMs) {
 
 /**
  * Ghosts (3.4): finished runs of others (and your own earlier run on a rematch). Arrivals are the server's elapsed_ms per
- * answered question in order (a skip moves you on too). No picks and no correctness.
+ * answered question in order (a skip moves you on too). No picks and no correctness. A member who keeps their marks
+ * private is never a ghost for anyone else (L-10: their per-question times are theirs).
  */
 export function ghostOf(run, member) {
   const arrivals = [...(run.arrivals || [])].map(Number);

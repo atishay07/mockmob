@@ -13,7 +13,7 @@ import { MobError, UUID_RE, mobWeek } from '../../mob/model.mjs';
 import { mobName, validNameKey } from '../../mob/names.mjs';
 import { FOIL_DAYS, FOLDS, FOLD_KEYS, FINISHES, STARTERS, isFold, mobShelf, parcelFor, ruleProgress } from '../../mob/folds.mjs';
 import { MAX_OPEN_GAMES, MICS_PER_WEEK, inLiveHours, startRight, startsView } from '../../mob/starts.mjs';
-import { COUNTS, assignMoments, checkWindow, gameTrap, ghostOf, placeRuns, publicQuestion, tieFor } from '../../mob/games.mjs';
+import { COUNTS, assignMoments, checkWindow, gameTrap, ghostOf, placeRuns, publicQuestion, tieFor, togetherLine } from '../../mob/games.mjs';
 import { gameTitle, questLabels, questView } from '../../mob/quest.mjs';
 import { computeMobChain } from '../../mob/mobChain.mjs';
 import { cameBack, chainChip } from '../../chain/chain.mjs';
@@ -122,7 +122,8 @@ export function createMobV3Service(deps, helpers = {}) {
         runs.push({ memberId: m.memberId, name: m.name, colour: m.colour, fold: m.fold, at: null, finished: false, answered: Number(r.answered) || 0 });
       }
     }
-    const ghosts = finishedRuns(g).filter((r) => r.user_id !== userId && members.has(r.user_id)).map((r) => ghostOf({ arrivals: r.arrivals, finishedAt: r.finished_at, startedAt: r.started_at }, members.get(r.user_id)));
+    // L-10: a member who keeps their marks private is never a ghost for anyone else.
+    const ghosts = finishedRuns(g).filter((r) => r.user_id !== userId && members.has(r.user_id) && members.get(r.user_id).showScore).map((r) => ghostOf({ arrivals: r.arrivals, finishedAt: r.finished_at, startedAt: r.started_at }, members.get(r.user_id)));
     if (g.rematch_of) {
       const prev = await call('mob_game_json', { p_game_id: g.rematch_of, p_user_id: userId, p_now: nowIso() }).catch(() => null);
       const own = prev ? finishedRuns(prev).find((r) => r.user_id === userId) : null;
@@ -280,10 +281,12 @@ export function createMobV3Service(deps, helpers = {}) {
       return out;
     });
     const nameOf = (u) => members.get(u)?.name || '';
-    const moments = assignMoments(placed.map((r) => ({ ...r, memberId: members.get(r.userId).memberId, place: showPodium ? r.place : null, answers: answersBy.get(r.userId) || [] })), { count, trapQ: trap ? trap.q : null });
+    // L-10: a private run (not your own) gets only "finished", and stays out of the together line.
+    const hidden = (r) => r.private && !members.get(r.userId).you;
+    const moments = assignMoments(placed.map((r) => ({ ...r, private: hidden(r), memberId: members.get(r.userId).memberId, place: showPodium ? r.place : null, answers: answersBy.get(r.userId) || [] })), { count, trapQ: trap ? trap.q : null });
     return {
       soFar: !g.closed, closesAt: iso(g.closes_at), showPodium,
-      headline: { kind: 'together', right: finished.reduce((s, r) => s + Number(r.right_n), 0), of: finished.length * count },
+      headline: togetherLine(placed.map((r) => ({ userId: r.userId, right: r.right, private: hidden(r) })), count),
       places, tie: showPodium ? tieFor(placed, userId, nameOf) : null, moments,
       trap: trap ? { q: trap.q, number: trap.number, caught: 'most' } : null,
     };
