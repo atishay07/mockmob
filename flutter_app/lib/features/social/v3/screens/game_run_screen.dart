@@ -549,7 +549,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
         final m = await ref.read(mobV3ApiProvider).finish(widget.gameId);
         if (mounted) {
           setState(() {
-            _marks = m;
+            _marks = m.marks;
             _finished = true;
           });
         }

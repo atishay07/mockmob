@@ -34,11 +34,12 @@ abstract class MobV3Api {
 
   Future<Shelf> shelf();
 
-  Future<MobGame> openGame({required String mob, required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf});
+  /// [minutes]: a race's length (5 or 10). A mock sends neither count nor minutes.
+  Future<MobGame> openGame({required String mob, required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf, int? minutes});
   Future<MobGame> game(String id);
   Future<RunStart> run(String id);
   Future<AnswerResult> answer(String id, {required int q, required int pick});
-  Future<int> finish(String id);
+  Future<RunFinish> finish(String id);
   Future<Podium> podium(String id);
   Future<Review> review(String id);
 
@@ -47,6 +48,10 @@ abstract class MobV3Api {
   Future<RoomTicket> roomTicket(String id);
   Future<RoomStartAck> roomStart(String id);
   Future<void> roomCancel(String id);
+
+  /// L-55: presence is the server's. `here` on joining, `ready` on I'm ready, `left` on leaving, and `here`
+  /// or `ready` again every 20 s while the room is on screen. The server broadcasts `presence {m, st}`.
+  Future<void> roomPresence(String id, String st);
 
   Future<void> sticker({required String mob, String? game, required StickerKind kind});
   Future<int?> mic({required String mob, required String to});
@@ -100,14 +105,20 @@ class HttpMobV3Api implements MobV3Api {
   Future<Shelf> shelf() async => Shelf.fromJson(_j(await _api.get('/api/mob/shelf')));
 
   @override
-  Future<MobGame> openGame({required String mob, required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf}) async =>
-      MobGame.fromEnvelope(_j(await _api.post('/api/mob/game', body: {
-        'mob': mob,
-        'format': format.name,
-        'mode': mode.name,
-        'count': count,
-        'chapter': chapter,
-        'rematchOf': ?rematchOf,
+  Future<MobGame> openGame({required String mob, required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf, int? minutes}) async =>
+      MobGame.fromEnvelope(_j(await _api.post('/api/mob/game', body: switch (format) {
+        // A race is timed: its length, not a count. The server sizes the pool.
+        GameFormat.race => {'mob': mob, 'format': 'race', 'mode': mode.name, 'minutes': minutes ?? 5, 'chapter': chapter},
+        // Full mock together: the whole subject, always the 24-hour window.
+        GameFormat.mock => {'mob': mob, 'format': 'mock', 'mode': 'async'},
+        _ => {
+            'mob': mob,
+            'format': format.name,
+            'mode': mode.name,
+            'count': count,
+            'chapter': chapter,
+            'rematchOf': ?rematchOf,
+          },
       })));
 
   @override
@@ -120,7 +131,7 @@ class HttpMobV3Api implements MobV3Api {
   Future<AnswerResult> answer(String id, {required int q, required int pick}) async => AnswerResult.fromJson(_j(await _api.post('/api/mob/game/$id/answer', body: {'q': q, 'pick': pick})));
 
   @override
-  Future<int> finish(String id) async => asInt(asJson(_j(await _api.post('/api/mob/game/$id/finish', body: const <String, Object?>{}))['run'])['marks']) ?? 0;
+  Future<RunFinish> finish(String id) async => RunFinish.fromJson(_j(await _api.post('/api/mob/game/$id/finish', body: const <String, Object?>{})));
 
   @override
   Future<Podium> podium(String id) async => Podium.fromJson(_j(await _api.get('/api/mob/game/$id/podium')));
@@ -137,6 +148,11 @@ class HttpMobV3Api implements MobV3Api {
   @override
   Future<void> roomCancel(String id) async {
     await _api.post('/api/mob/game/$id/room/cancel', body: const <String, Object?>{});
+  }
+
+  @override
+  Future<void> roomPresence(String id, String st) async {
+    await _api.post('/api/mob/game/$id/room/presence', body: {'st': st}, options: const ApiOptions(retries: 0));
   }
 
   @override

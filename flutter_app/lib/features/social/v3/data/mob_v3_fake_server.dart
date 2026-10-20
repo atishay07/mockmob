@@ -58,17 +58,41 @@ class _Run {
   final Map<int, _Answer> answers = {};
   DateTime? finishedAt;
 
-  int get right => answers.values.where((a) => a.correct == true).length;
-  int get wrong => answers.values.where((a) => a.correct == false).length;
+  /// Full mock together: the sitting's mark sheet (the fixture keeps the numbers, not 50 answers).
+  _Sheet? sheet;
+
+  int get right => sheet?.right ?? answers.values.where((a) => a.correct == true).length;
+  int get wrong => sheet?.wrong ?? answers.values.where((a) => a.correct == false).length;
+  int get skipped => sheet?.skipped ?? answers.values.where((a) => a.pick < 0).length;
   int get marks => 5 * right - wrong;
   bool get finished => finishedAt != null;
+
+  /// Answered (right or wrong), in question order: a race's arrivals.
+  List<_Answer> get inOrder => [for (final k in (answers.keys.toList()..sort())) answers[k]!];
+}
+
+/// A full mock's mark sheet in the fixture: totals, time and the units (right, wrong, skipped per unit).
+class _Sheet {
+  _Sheet(this.units, this.timeMs);
+  final List<(int, int, int)> units;
+  final int timeMs;
+  int get right => units.fold(0, (s, u) => s + u.$1);
+  int get wrong => units.fold(0, (s, u) => s + u.$2);
+  int get skipped => units.fold(0, (s, u) => s + u.$3);
 }
 
 class _Game {
-  _Game({required this.id, required this.format, required this.count, required this.chapter, required this.hostId, required this.openedAt, required this.questions, this.mode = GameMode.async});
+  _Game({required this.id, required this.format, required this.count, required this.chapter, required this.hostId, required this.openedAt, required this.questions, this.mode = GameMode.async, this.minutes});
   final String id;
   final GameFormat format;
   final GameMode mode;
+
+  /// A race's length (5 or 10); a mock's 60.
+  final int? minutes;
+  bool get race => format == GameFormat.race;
+  bool get mock => format == GameFormat.mock;
+
+  /// A race's pool size; a mock's 50.
   final int count;
   final String? chapter;
   final String hostId;
@@ -244,6 +268,40 @@ class MobV3FakeServer implements MobV3Api {
       _bake(g, 'AARAV0000001', [true, true, null, false, true], [39000, 77000, 118000, 151000, 190000], const Duration(hours: 9), trapPicks: {3: 1});
       mob.games.add(g);
     }
+    if (scenario == 'race' || scenario == 'liverace') {
+      // Kabir's 5-minute race: Riya and Kabir raced it; you have not (D167). 'liverace': a room Kabir just opened.
+      final live = scenario == 'liverace';
+      final g = _Game(
+        id: 'game-kabir-race',
+        format: GameFormat.race,
+        count: 30,
+        minutes: 5,
+        chapter: 'Goodwill',
+        hostId: 'KABIR0000003',
+        openedAt: live ? t.subtract(const Duration(minutes: 1)) : t.subtract(const Duration(hours: 2, minutes: 10)),
+        questions: [for (var i = 0; i < 30; i++) (i * 7) % mobV3Bank.length],
+        mode: live ? GameMode.live : GameMode.async,
+      );
+      if (live) {
+        g.roomState = RoomState.lobby;
+      } else {
+        _bakeRace(g, 'RIYA00000002', [true, true, false, true, true, true, null, true, true, false, true, true, true, true],
+            [16000, 35000, 52000, 71000, 88000, 109000, 121000, 140000, 162000, 181000, 203000, 226000, 249000, 280000], const Duration(minutes: 8));
+        _bakeRace(g, 'KABIR0000003', [true, false, true, true, null, true, true, true, false, true, true],
+            [21000, 44000, 69000, 90000, 104000, 131000, 158000, 183000, 214000, 240000, 271000], const Duration(minutes: 50));
+      }
+      mob.games.add(g);
+    }
+    if (scenario == 'mock' || scenario == 'mockdone') {
+      // Riya's Full mock together: Riya and Kabir sat it ('mockdone': you did too).
+      final g = _Game(id: 'game-riya-mock', format: GameFormat.mock, count: 50, minutes: 60, chapter: null, hostId: 'RIYA00000002', openedAt: t.subtract(const Duration(hours: 5)), questions: const []);
+      _bakeMock(g, 'RIYA00000002', [(14, 4, 2), (7, 2, 1), (8, 1, 1), (6, 3, 1)], const Duration(minutes: 54, seconds: 12), const Duration(minutes: 20));
+      _bakeMock(g, 'KABIR0000003', [(12, 6, 2), (6, 2, 2), (7, 2, 1), (5, 2, 3)], const Duration(minutes: 58, seconds: 40), const Duration(hours: 2));
+      if (scenario == 'mockdone') {
+        _bakeMock(g, 'AARAV0000001', [(15, 3, 2), (6, 3, 1), (7, 2, 1), (7, 1, 2)], const Duration(minutes: 51, seconds: 5), const Duration(hours: 3, minutes: 30));
+      }
+      mob.games.add(g);
+    }
     if (scenario == 'questdone') {
       mob.questAnswered = 70;
       mob.questDoneAt = t.subtract(const Duration(minutes: 3));
@@ -262,6 +320,37 @@ class MobV3FakeServer implements MobV3Api {
       run.answers[i] = _Answer(pick, r, arrivals[i]);
     }
     run.finishedAt = start.add(Duration(milliseconds: arrivals.last));
+    g.runs[memberId] = run;
+  }
+
+  /// The full mock's units in the fixture (Accountancy, 50 questions): key, label, questions.
+  static const List<(String, String, int)> mockUnits = [
+    ('partnership', 'Partnership firms', 20),
+    ('company', 'Company accounts', 10),
+    ('statements', 'Financial statements', 10),
+    ('cash_flow', 'Cash flow and ratios', 10),
+  ];
+
+  /// A race run of [memberId]: right (true), wrong (false) or skipped (null) per answered question at
+  /// [arrivals] ms, inside the race's time.
+  void _bakeRace(_Game g, String memberId, List<bool?> rights, List<int> arrivals, Duration after) {
+    final start = g.openedAt.add(after);
+    final run = _Run(start, start.add(Duration(minutes: g.minutes ?? 5)));
+    for (var i = 0; i < rights.length; i++) {
+      final r = rights[i];
+      final correctIdx = mobV3Bank[g.questions[i]].correct;
+      run.answers[i] = _Answer(r == null ? -1 : (r ? correctIdx : (correctIdx + 1) % 4), r, arrivals[i]);
+    }
+    run.finishedAt = run.endsAt;
+    g.runs[memberId] = run;
+  }
+
+  /// A finished mock sitting of [memberId]: (right, wrong, skipped) per unit and the time taken.
+  void _bakeMock(_Game g, String memberId, List<(int, int, int)> units, Duration took, Duration after) {
+    final start = g.openedAt.add(after);
+    final run = _Run(start, start.add(const Duration(minutes: 60)))
+      ..sheet = _Sheet(units, took.inMilliseconds)
+      ..finishedAt = start.add(took);
     g.runs[memberId] = run;
   }
 
@@ -287,7 +376,13 @@ class MobV3FakeServer implements MobV3Api {
 
   String _title(_Mob mob, _Game g) {
     final host = mob.members.firstWhere((m) => m.id == g.hostId, orElse: () => mob.you);
-    final kind = switch (g.format) { GameFormat.sprint => 'sprint', GameFormat.round => 'round', GameFormat.rematch => 'rematch' };
+    final kind = switch (g.format) {
+      GameFormat.sprint => 'sprint',
+      GameFormat.round => 'round',
+      GameFormat.rematch => 'rematch',
+      GameFormat.race => '${g.minutes ?? 5}-minute race',
+      GameFormat.mock => 'full mock',
+    };
     return host.you ? 'Your $kind' : "${host.name}'s $kind";
   }
 
@@ -297,6 +392,22 @@ class MobV3FakeServer implements MobV3Api {
 
   Json _startsJson(_Mob mob) {
     final liveModes = ['async', if (liveOn) 'live'];
+    final base = _startsBase(liveModes);
+    // D167: races for everyone who may start; Full mock together for Pro (and for everyone while billing is off).
+    final can = base['can'] == true;
+    final via = base['via'];
+    return {
+      ...base,
+      'formats': [
+        ...(base['formats'] as List),
+        if (can) 'race',
+        if (can && (via == 'pro' || via == 'open')) 'mock',
+      ],
+      if (can && (via == 'free_weekly' || via == 'mic')) 'locked': ['mock'],
+    };
+  }
+
+  Json _startsBase(List<String> liveModes) {
     return switch (billing) {
       'free' when !_freeStartUsed => {'billingOn': true, 'can': true, 'via': 'free_weekly', 'modes': liveModes, 'formats': ['sprint', 'round', 'rematch'], 'freeLeft': 1, 'mics': _micsHeld},
       'free' || 'used' when _micsHeld == 0 => {'billingOn': true, 'can': false, 'reason': 'used', 'via': 'none', 'modes': <String>[], 'formats': <String>[], 'freeLeft': 0, 'mics': 0},
@@ -328,6 +439,7 @@ class MobV3FakeServer implements MobV3Api {
       ],
       'yourRun': yourRun == null ? 'none' : (yourRun.finished ? 'finished' : 'playing'),
       'podiumReady': (yourRun?.finished ?? false) || g.closedAt(now),
+      'minutes': g.minutes,
     };
   }
 
@@ -499,9 +611,15 @@ class MobV3FakeServer implements MobV3Api {
               'finished': true,
             },
       ],
-      'you': {'run': yourRun == null ? 'none' : (yourRun.finished ? 'finished' : 'playing'), 'marks': yourRun?.marks, 'answered': yourRun?.answers.length ?? 0},
+      'you': {
+        'run': yourRun == null ? 'none' : (yourRun.finished ? 'finished' : 'playing'),
+        'marks': yourRun?.marks,
+        'answered': yourRun?.answers.length ?? 0,
+        if (g.mock && (yourRun?.finished ?? false)) 'resultId': 'demo-mob-mock-${g.id}',
+      },
       'ghosts': _ghosts(mob, g),
       'podiumReady': (yourRun?.finished ?? false) || g.closedAt(now),
+      'minutes': g.minutes,
     };
   }
 
@@ -517,11 +635,13 @@ class MobV3FakeServer implements MobV3Api {
   }
 
   List<Json> _ghosts(_Mob mob, _Game g) => [
+        if (!g.mock)
         for (final e in g.runs.entries)
           if (e.value.finished && e.key != mob.you.id)
             () {
               final m = mob.members.firstWhere((x) => x.id == e.key);
-              final arrivals = [for (var i = 0; i < g.count; i++) e.value.answers[i]?.elapsedMs ?? 0];
+              // A race: one arrival per answered question (a variable length).
+              final arrivals = g.race ? [for (final a in e.value.inOrder) a.elapsedMs] : [for (var i = 0; i < g.count; i++) e.value.answers[i]?.elapsedMs ?? 0];
               return <String, dynamic>{
                 'memberId': m.id,
                 'name': m.name,
@@ -530,6 +650,7 @@ class MobV3FakeServer implements MobV3Api {
                 'playedAt': _iso(e.value.startedAt),
                 'arrivalsMs': arrivals,
                 'finishedMs': arrivals.isEmpty ? 0 : arrivals.last,
+                'answered': arrivals.length,
               };
             }(),
       ];
@@ -672,8 +793,16 @@ class MobV3FakeServer implements MobV3Api {
   // ---- Games -----------------------------------------------------------------------------------------
 
   @override
-  Future<MobGame> openGame({required String mob, required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf}) async {
+  Future<MobGame> openGame({required String mob, required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf, int? minutes}) async {
     final m = _mob(mob)!;
+    if (format == GameFormat.mock && mode == GameMode.live) throw _err('BODY_INVALID', 422);
+    if (format == GameFormat.race && minutes != 5 && minutes != 10) throw _err('LENGTH_INVALID', 422);
+    if (format == GameFormat.race || format == GameFormat.mock) {
+      final s = _startsJson(m);
+      if (s['can'] != true) throw _err('START_USED', 409);
+      if ((s['locked'] as List?)?.contains(format.name) ?? false) throw _err('START_PRO', 402);
+      return _openTimed(m, format, mode, minutes ?? 60, chapter);
+    }
     if (mode == GameMode.live && !liveOn) throw _err('LIVE_OFF', 409);
     if (mode == GameMode.live && m.games.any((g) => g.mode == GameMode.live && (g.roomState == RoomState.lobby || g.roomState == RoomState.running))) {
       throw _err('ROOM_OPEN_ALREADY', 409);
@@ -695,6 +824,49 @@ class MobV3FakeServer implements MobV3Api {
     return MobGame.fromJson(_gameJson(m, g));
   }
 
+  MobGame _openTimed(_Mob m, GameFormat format, GameMode mode, int minutes, String? chapter) {
+    if (mode == GameMode.live && !liveOn) throw _err('LIVE_OFF', 409);
+    if (mode == GameMode.live && m.games.any((g) => g.mode == GameMode.live && (g.roomState == RoomState.lobby || g.roomState == RoomState.running))) {
+      throw _err('ROOM_OPEN_ALREADY', 409);
+    }
+    final open = m.games.where((g) => !g.closedAt(now)).length;
+    if (open >= 3) throw _err('GAMES_OPEN_LIMIT', 409);
+    final starts = _startsJson(m);
+    if (starts['via'] == 'free_weekly') _freeStartUsed = true;
+    if (starts['via'] == 'mic') _micsHeld = math.max(0, _micsHeld - 1);
+    final race = format == GameFormat.race;
+    // A race's pool: 6 a minute, the same order for everyone (the bank wraps in the fixture).
+    final count = race ? minutes * 6 : 50;
+    final g = _Game(
+      id: _id('game'),
+      format: format,
+      count: count,
+      minutes: race ? minutes : 60,
+      chapter: race ? (chapter ?? 'Goodwill') : null,
+      hostId: m.you.id,
+      openedAt: now,
+      questions: race ? [for (var i = 0; i < count; i++) (i * 5 + m.games.length) % mobV3Bank.length] : const [],
+      mode: race ? mode : GameMode.async,
+    );
+    if (g.mode == GameMode.live) g.roomState = RoomState.lobby;
+    m.games.add(g);
+    return MobGame.fromJson(_gameJson(m, g));
+  }
+
+  /// Full mock together in fixture mode: the sitting starts (the app's runner takes the paper); the fixture
+  /// records it as sat with a fixed mark sheet so the Mob comparison has your row.
+  void sitMock(String gameId) {
+    final r = _game(gameId);
+    final g = r.game;
+    if (!g.mock) return;
+    if (g.closedAt(now)) throw _err('GAME_CLOSED', 410);
+    final me = r.mob.you.id;
+    if (g.runs[me]?.finished ?? false) throw _err('RUN_DONE', 409);
+    g.runs[me] = _Run(now, now.add(const Duration(minutes: 60)))
+      ..sheet = _Sheet(const [(15, 3, 2), (6, 3, 1), (7, 2, 1), (7, 1, 2)], const Duration(minutes: 51, seconds: 5).inMilliseconds)
+      ..finishedAt = now;
+  }
+
   @override
   Future<MobGame> game(String id) async {
     final r = _game(id);
@@ -707,7 +879,9 @@ class MobV3FakeServer implements MobV3Api {
     final g = r.game;
     final me = r.mob.you.id;
     var run = g.runs[me];
+    if (g.mock) throw _err('BODY_INVALID', 422);
     if (run != null && run.finished) throw _err('RUN_DONE', 409);
+    if (g.race) return _raceRun(r.mob, g, run);
     if (g.closedAt(now) || now.add(Duration(seconds: g.count * 60)).isAfter(g.closesAt)) throw _err('GAME_CLOSED', 410);
     // A run started within 30 s of a live room's start is live, from the shared start (SV-16).
     final liveStart = g.roomState == RoomState.running && g.roomStartsAt != null && now.difference(g.roomStartsAt!).inSeconds <= 30;
@@ -730,6 +904,37 @@ class MobV3FakeServer implements MobV3Api {
     });
   }
 
+  /// A race (D167): the clock starts here; questions are served one at a time (the answered ones and the
+  /// current one); `endsAt` is the start plus the minutes (live: the room's start plus the minutes).
+  RunStart _raceRun(_Mob mob, _Game g, _Run? existing) {
+    final minutes = Duration(minutes: g.minutes ?? 5);
+    if (existing == null && (g.closedAt(now) || now.add(minutes).isAfter(g.closesAt))) throw _err('GAME_CLOSED', 410);
+    final liveStart = g.roomState == RoomState.running && g.roomStartsAt != null && now.difference(g.roomStartsAt!).inSeconds <= 30;
+    final startAt = liveStart ? g.roomStartsAt! : now;
+    final run = existing ?? (g.runs[mob.you.id] = _Run(startAt, startAt.add(minutes)));
+    if (now.isAfter(run.endsAt.add(const Duration(seconds: 2)))) {
+      run.finishedAt ??= run.endsAt;
+      throw _err('RUN_DONE', 409);
+    }
+    final served = math.min(run.answers.length + 1, g.count);
+    return RunStart.fromJson({
+      'run': {
+        'startedAt': _iso(run.startedAt),
+        'endsAt': _iso(run.endsAt),
+        'serverNow': _iso(now),
+        'live': liveStart,
+        'minutes': g.minutes,
+        'answers': [
+          for (final e in run.answers.entries) {'q': e.key, 'pick': e.value.pick, 'correct': e.value.correct, 'elapsedMs': e.value.elapsedMs},
+        ],
+      },
+      'questions': [for (var i = 0; i < served; i++) _questionJson(g, i)],
+      'ghosts': _ghosts(mob, g),
+    });
+  }
+
+  Json _questionJson(_Game g, int i) => {'q': i, 'stem': mobV3Bank[g.questions[i]].stem, 'options': mobV3Bank[g.questions[i]].options, 'passage': null};
+
   /// Simulated network delay for the walk (the "Saving your answer" state appears after 600 ms).
   Duration answerDelay = const Duration(milliseconds: 180);
 
@@ -740,6 +945,7 @@ class MobV3FakeServer implements MobV3Api {
     final g = r.game;
     final run = g.runs[r.mob.you.id];
     if (run == null) throw _err('NO_RUN', 409);
+    if (g.race) return _raceAnswer(r.mob, g, run, q, pick);
     if (q < 0 || q >= g.count || pick < -1 || pick > 3) throw _err('Q_INVALID', 422);
     final stored = run.answers[q];
     if (stored == null) {
@@ -775,7 +981,56 @@ class MobV3FakeServer implements MobV3Api {
     });
   }
 
+  AnswerResult _raceAnswer(_Mob mob, _Game g, _Run run, int q, int pick) {
+    if (q < 0 || q > run.answers.length || q >= g.count || pick < -1 || pick > 3) throw _err('Q_INVALID', 422);
+    if (!run.answers.containsKey(q)) {
+      if (run.finished) throw _err('RUN_DONE', 409);
+      // Time is up (a 2 s grace for the network): the stored run comes with the error.
+      if (now.isAfter(run.endsAt.add(const Duration(seconds: 2)))) {
+        run.finishedAt ??= run.endsAt;
+        throw _err('RUN_EXPIRED', 410, details: {'run': _finishJson(run)});
+      }
+      final correct = pick < 0 ? null : pick == mobV3Bank[g.questions[q]].correct;
+      run.answers[q] = _Answer(pick, correct, now.difference(run.startedAt).inMilliseconds);
+      if (pick >= 0) {
+        mob.questAnswered += 1;
+        final label = _title(mob, g);
+        mob.questBySource[label] = (mob.questBySource[label] ?? 0) + 1;
+      }
+      if (run.answers.length >= g.count) run.finishedAt ??= now;
+    }
+    final a = run.answers[q]!;
+    final timeLeft = now.isBefore(run.endsAt);
+    final nextQ = q + 1;
+    final next = !run.finished && timeLeft && nextQ < g.count && nextQ == run.answers.length ? _questionJson(g, nextQ) : null;
+    return AnswerResult.fromJson({
+      'correct': a.correct,
+      'delta': a.correct == null ? 0 : (a.correct! ? 5 : -1),
+      'marks': run.marks,
+      'elapsedMs': a.elapsedMs,
+      'answered': run.answers.length,
+      'count': g.count,
+      'finished': run.finished,
+      'serverNow': _iso(now),
+      'next': next,
+      'endsAt': _iso(run.endsAt),
+    });
+  }
+
+  Json _finishJson(_Run run) => {
+        'finished': run.finished,
+        'marks': run.marks,
+        'answered': run.right + run.wrong,
+        'right': run.right,
+        'wrong': run.wrong,
+        'skipped': run.skipped,
+      };
+
   void _finishRun(_Mob mob, _Game g, _Run run) {
+    if (g.race || g.mock) {
+      run.finishedAt ??= now;
+      return;
+    }
     for (var i = 0; i < g.count; i++) {
       run.answers.putIfAbsent(i, () => _Answer(-1, null, now.difference(run.startedAt).inMilliseconds));
     }
@@ -784,12 +1039,12 @@ class MobV3FakeServer implements MobV3Api {
   }
 
   @override
-  Future<int> finish(String id) async {
+  Future<RunFinish> finish(String id) async {
     final r = _game(id);
     final run = r.game.runs[r.mob.you.id];
     if (run == null) throw _err('NO_RUN', 409);
     _finishRun(r.mob, r.game, run);
-    return run.marks;
+    return RunFinish.fromJson({'run': _finishJson(run)});
   }
 
   @override
@@ -824,6 +1079,7 @@ class MobV3FakeServer implements MobV3Api {
             if (mob.showPodium) 'place': place,
             'you': m.you,
             if (mob.showPodium) 'floor': place > 3,
+            if (game.race) 'answered': x.run.right + x.run.wrong,
           };
         }(),
     ];
@@ -846,17 +1102,110 @@ class MobV3FakeServer implements MobV3Api {
       'soFar': !closed,
       'closesAt': _iso(game.closesAt),
       'showPodium': mob.showPodium,
-      'headline': {'kind': 'together', 'right': runs.fold<int>(0, (s, x) => s + x.run.right), 'of': runs.length * game.count},
+      'headline': {
+        'kind': 'together',
+        'right': runs.fold<int>(0, (s, x) => s + x.run.right),
+        // A race: of the questions answered; every other format: of the questions set.
+        'of': game.race ? runs.fold<int>(0, (s, x) => s + x.run.right + x.run.wrong) : runs.length * game.count,
+      },
       'places': places,
       'tie': tie,
-      'moments': _moments(game, ordered, trap?['q'] as int?),
+      'moments': game.mock ? <Json>[] : (game.race ? _raceMoments(game, ordered) : _moments(game, ordered, trap?['q'] as int?)),
       'trap': trap,
+      if (game.mock) 'sheets': [for (final x in ordered) _sheetJson(mob, x.id, x.run)],
     };
+  }
+
+  Json _sheetJson(_Mob mob, String id, _Run run) {
+    final m = mob.members.firstWhere((mm) => mm.id == id);
+    final s = run.sheet;
+    final answered = run.right + run.wrong;
+    return {
+      'memberId': m.id,
+      'name': m.name,
+      'colour': m.colour,
+      'fold': m.fold.name,
+      'you': m.you,
+      'private': false,
+      'marks': run.marks,
+      'of': 250,
+      'right': run.right,
+      'wrong': run.wrong,
+      'skipped': run.skipped,
+      'accuracy': answered == 0 ? null : (100 * run.right / answered).round(),
+      'timeMs': s?.timeMs,
+      'sections': [
+        if (s != null)
+          for (var i = 0; i < mockUnits.length && i < s.units.length; i++)
+            {
+              'key': mockUnits[i].$1,
+              'label': mockUnits[i].$2,
+              'of': mockUnits[i].$3 * 5,
+              'marks': 5 * s.units[i].$1 - s.units[i].$2,
+              'right': s.units[i].$1,
+              'wrong': s.units[i].$2,
+              'skipped': s.units[i].$3,
+            },
+      ],
+    };
+  }
+
+  /// A race's moments: the most answered, the fastest right answer, three in a row, no minus marks; the
+  /// fallback says how many they raced.
+  List<Json> _raceMoments(_Game g, List<({String id, _Run run})> ordered) {
+    final used = <String>{};
+    final out = <Json>[];
+    var most = -1;
+    String? mostId;
+    for (final x in ordered) {
+      final n = x.run.right + x.run.wrong;
+      if (n > most) {
+        most = n;
+        mostId = x.id;
+      }
+    }
+    var fastest = (q: -1, ms: 1 << 30, id: '');
+    for (final x in ordered) {
+      var prev = 0;
+      for (final a in x.run.inOrder) {
+        final took = a.elapsedMs - prev;
+        prev = a.elapsedMs;
+        final q = x.run.answers.entries.firstWhere((e) => identical(e.value, a)).key;
+        if (a.correct == true && took < fastest.ms) fastest = (q: q, ms: took, id: x.id);
+      }
+    }
+    for (final x in ordered) {
+      final n = x.run.right + x.run.wrong;
+      final candidates = <Json? Function()>[
+        () => x.id == mostId && n > 0 ? {'kind': 'most_answered', 'count': n, 'minutes': g.minutes} : null,
+        () => fastest.id == x.id ? {'kind': 'fastest_right', 'q': fastest.q, 'number': fastest.q + 1, 'seconds': (fastest.ms / 1000).round()} : null,
+        () {
+          final keys = x.run.answers.keys.toList()..sort();
+          for (var i = 0; i + 2 < keys.length; i++) {
+            if ([0, 1, 2].every((d) => x.run.answers[keys[i] + d]?.correct == true)) return {'kind': 'three_in_a_row', 'from': keys[i] + 1, 'to': keys[i] + 3};
+          }
+          return null;
+        },
+        () => x.run.wrong == 0 && n > 0 ? {'kind': 'no_minus'} : null,
+      ];
+      Json? pick;
+      for (final c in candidates) {
+        final j = c();
+        if (j == null || used.contains(j['kind'])) continue;
+        pick = j;
+        break;
+      }
+      pick ??= {'kind': 'raced', 'count': n, 'minutes': g.minutes};
+      if (pick['kind'] != 'raced') used.add(pick['kind'] as String);
+      out.add({'memberId': x.id, ...pick});
+    }
+    return out;
   }
 
   /// The trap (spec 3.6): at least 3 finished runs; one wrong option picked by at least 2 and at least
   /// half. 1-based `q`; never a count.
   Json? _trapOf(_Game g) {
+    if (g.race || g.mock) return null;
     final runs = g.runs.values.where((r) => r.finished).toList();
     if (runs.length < 3) return null;
     for (var q = 0; q < g.count; q++) {
@@ -1002,7 +1351,7 @@ class MobV3FakeServer implements MobV3Api {
     if (g.roomState != RoomState.lobby) throw _err('ROOM_STARTED', 409);
     g.roomState = RoomState.running;
     g.roomStartsAt = now.add(const Duration(milliseconds: 4000));
-    g.roomEndsAt = g.roomStartsAt!.add(Duration(seconds: g.count * 60 + 60));
+    g.roomEndsAt = g.roomStartsAt!.add(g.race ? Duration(minutes: g.minutes ?? 5) : Duration(seconds: g.count * 60 + 60));
     _roomBus.add((g.id, 'start'));
     return RoomStartAck(startsAt: g.roomStartsAt!, serverNow: now);
   }
@@ -1023,6 +1372,15 @@ class MobV3FakeServer implements MobV3Api {
     _roomBus.add((g.id, 'cancel'));
   }
 
+  /// L-55: the last presence each member sent (the scripted channel plays the friends').
+  final Map<String, String> presence = {};
+
+  @override
+  Future<void> roomPresence(String id, String st) async {
+    final r = _game(id);
+    presence[r.mob.you.id] = st;
+  }
+
   /// The live phase ends (the last live finish).
   void endRoom(String gameId) {
     final g = _game(gameId).game;
@@ -1037,7 +1395,7 @@ class MobV3FakeServer implements MobV3Api {
     final r = _game(gameId);
     final g = r.game;
     final start = g.roomStartsAt ?? now;
-    final run = g.runs.putIfAbsent(memberId, () => _Run(start, start.add(Duration(seconds: g.count * 60 + 60))));
+    final run = g.runs.putIfAbsent(memberId, () => _Run(start, start.add(g.race ? Duration(minutes: g.minutes ?? 5) : Duration(seconds: g.count * 60 + 60))));
     final idx = mobV3Bank[g.questions[q]].correct;
     run.answers[q] = _Answer(correct == null ? -1 : (correct ? idx : (idx + 1) % 4), correct, elapsedMs);
     if (correct != null) r.mob.questAnswered += 1;

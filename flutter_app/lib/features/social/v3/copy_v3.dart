@@ -110,29 +110,50 @@ abstract final class MobV3Copy {
   static const String askKey = 'Send "Again?"';
   static const String askLine = 'Anyone with a start left can open one.';
 
-  static String gameKind(GameFormat f) => switch (f) { GameFormat.sprint => 'sprint', GameFormat.round => 'round', GameFormat.rematch => 'rematch' };
+  static String gameKind(GameFormat f) => switch (f) {
+        GameFormat.sprint => 'sprint',
+        GameFormat.round => 'round',
+        GameFormat.rematch => 'rematch',
+        GameFormat.race => 'race',
+        GameFormat.mock => 'full mock',
+      };
 
-  /// "Riya's sprint", "Your round".
+  /// "sprint", "5-minute race", "full mock": the game's kind with a race's length.
+  static String kindOf(GameFormat f, int? minutes) => f == GameFormat.race && minutes != null ? '$minutes-minute race' : gameKind(f);
+
+  /// "Riya's sprint", "Your round", "Kabir's 5-minute race".
   static String gameTitle(MobGameSummary g) {
     final h = g.host;
-    if (h == null || h.you) return 'Your ${gameKind(g.format)}';
-    return "${h.name}'s ${gameKind(g.format)}";
+    final kind = kindOf(g.format, g.minutes);
+    if (h == null || h.you) return 'Your $kind';
+    return "${h.name}'s $kind";
   }
 
-  /// "Riya opened a sprint".
+  /// "Riya opened a sprint", "Riya opened a full mock".
   static String openedA(MobGameSummary g) {
     final h = g.host;
     final who = h == null || h.you ? 'You' : h.name;
-    final article = g.format == GameFormat.rematch ? 'a rematch' : 'a ${gameKind(g.format)}';
+    final article = g.format == GameFormat.rematch ? 'a rematch' : 'a ${kindOf(g.format, g.minutes)}';
     return '$who opened $article';
+  }
+
+  /// What a game is, in one sentence: "5 Goodwill questions", "As many Goodwill questions as you can in 5
+  /// minutes", "The whole Accountancy paper, 50 questions in 60 minutes".
+  static String gameWhat(MobGameSummary g) {
+    final topic = g.chapter == null || g.chapter!.isEmpty ? g.subjectName : g.chapter!;
+    return switch (g.format) {
+      GameFormat.race => 'As many $topic questions as you can in ${g.minutes ?? 5} minutes',
+      GameFormat.mock => 'The whole ${g.subjectName} paper, ${g.count} questions in ${g.minutes ?? 60} minutes',
+      _ => '${g.count} $topic questions',
+    };
   }
 
   /// "5 Goodwill questions. Open until 2:05 PM tomorrow." With no runs yet: "Be the first to set a run."
   /// With runs, the runs row under it says who to race, so the line does not say it twice (H5: the
   /// card is one line shorter and its key stays in view at 360 dp).
   static String openLine(MobGameSummary g, DateTime now) {
-    final what = g.chapter == null || g.chapter!.isEmpty ? '${g.count} ${g.subjectName} questions' : '${g.count} ${g.chapter} questions';
-    final race = g.runs.isEmpty ? ' Be the first to set a run.' : '';
+    final what = gameWhat(g);
+    final race = g.runs.isEmpty ? (g.format == GameFormat.mock ? ' Be the first to sit it.' : ' Be the first to set a run.') : '';
     final until = g.closesAt == null ? '' : ' Open until ${MobTime.when(g.closesAt!, now)}.';
     return '$what.$race$until';
   }
@@ -146,8 +167,10 @@ abstract final class MobV3Copy {
 
   static String playKey(MobGameSummary g) {
     final h = g.host;
-    if (h == null || h.you) return 'Play your ${gameKind(g.format)}';
-    return "Play ${h.name}'s ${gameKind(g.format)}";
+    // A full mock is sat, not played.
+    final verb = g.format == GameFormat.mock ? 'Sit' : 'Play';
+    if (h == null || h.you) return '$verb your ${gameKind(g.format)}';
+    return "$verb ${h.name}'s ${gameKind(g.format)}";
   }
 
   static const String moreWays = 'More ways to play';
@@ -158,7 +181,9 @@ abstract final class MobV3Copy {
   static const String seePodium = 'See the podium';
 
   static String liveOpened(MobGameSummary g) => '${g.host?.name ?? 'A friend'} opened a live room';
-  static String liveLine(MobGameSummary g) => 'A sprint with ${g.count} new ${g.chapter ?? g.subjectName} questions.';
+  static String liveLine(MobGameSummary g) => g.format == GameFormat.race
+      ? 'A ${g.minutes ?? 5}-minute race on new ${g.chapter ?? g.subjectName} questions.'
+      : 'A ${gameKind(g.format)} with ${g.count} new ${g.chapter ?? g.subjectName} questions.';
   static String joinRoom(MobGameSummary g) => "Join ${g.host?.name ?? 'the'}'s room";
   static String playLater(DateTime closes, DateTime now) => 'Play it later, until ${MobTime.when(closes, now)}';
   static String roomStarted(DateTime started, DateTime closes, DateTime now) =>
@@ -250,7 +275,14 @@ abstract final class MobV3Copy {
   // ---- P1 Play picker ----
   static const String pickerTitle = 'Play with your Mob';
   static const String openNow = 'Open now';
-  static String openRow(MobGameSummary g, DateTime now) => '${g.count} questions. Open until ${g.closesAt == null ? 'tomorrow' : MobTime.when(g.closesAt!, now)}.';
+  static String openRow(MobGameSummary g, DateTime now) {
+    final until = 'Open until ${g.closesAt == null ? 'tomorrow' : MobTime.when(g.closesAt!, now)}.';
+    return switch (g.format) {
+      GameFormat.race => '${g.minutes ?? 5} minutes, as many as you can. $until',
+      GameFormat.mock => '${g.count} questions, ${g.minutes ?? 60} minutes. $until',
+      _ => '${g.count} questions. $until',
+    };
+  }
   static const String play = 'Play';
   static const String weeklyPaper = "This week's Mob paper";
   static String satOn(String weekday) => 'You sat it on $weekday.';
@@ -269,8 +301,14 @@ abstract final class MobV3Copy {
   static const String ownRoundSub = '10 to 20 questions';
   static const String ownRoundSubStart = '10, 15 or 20 questions';
   static const String live = 'Live';
-  static const String fullMock = 'Full mock';
+  static const String fullMock = 'Full mock together';
+  static const String race = 'Race';
+  static const String raceSub = '5 or 10 minutes, as many as you can';
   static const String proTag = 'Pro';
+
+  /// K9: under the four ways to play, how each one can be played.
+  static const String waysLiveLine = 'Sprints, races and rounds can be live now, on one 3, 2, 1, or open for 24 hours. A full mock is open for 24 hours.';
+  static const String waysLine = 'Every game stays open for 24 hours. Friends who play later race the runs before them.';
 
   // ---- P2 Start a game ----
   static const String whatItCovers = 'What it covers';
@@ -287,6 +325,15 @@ abstract final class MobV3Copy {
   static const String openRoom = 'Open the room';
   static const String startTheSprint = 'Start the sprint';
   static const String startTheRound = 'Start the round';
+  static const String startTheRace = 'Start the race';
+  static const String startTheMock = 'Start the full mock';
+
+  // D167 in the start sheet.
+  static const String howLong = 'How long';
+  static String minutesLabel(int m) => '$m minutes';
+  static const String raceLineStart = 'Answer as many as you can before the time is up. +5 if right, -1 if wrong, 0 if you skip.';
+  static String mockLineStart(String subject) =>
+      'The whole $subject paper, 50 questions in 60 minutes, in the exam runner. Your Mob has 24 hours to sit it, then you compare mark sheets. Answers open for everyone when it closes.';
   static String startUnder(String mob) => 'Everyone in $mob plays it free. Marks count the same for all.';
   static String lengthLabel(int n) => '$n questions';
 
@@ -320,12 +367,13 @@ abstract final class MobV3Copy {
 
   // ---- L1 Live lobby and the live run (Phase B) ----
   static String roomTitle(String host, {bool you = false}) => you ? 'Your room' : "$host's room";
-  static String roomSub(GameFormat f, int n) => 'Live ${gameKind(f)}, $n questions';
+  static String roomSub(GameFormat f, int n, {int? minutes}) => f == GameFormat.race ? 'Live race, ${minutes ?? 5} minutes' : 'Live ${gameKind(f)}, $n questions';
   static const String liveDot = 'Live';
   static const String tagHost = 'Host';
   static const String tagHere = 'Here';
   static const String tagReady = 'Ready';
   static String lobbyLine(int n) => 'Same $n questions, same start. You see where friends are, never what they picked.';
+  static String lobbyLineRace(int minutes) => 'Same questions, same start, $minutes minutes on one clock. You see where friends are, never what they picked.';
   static const String sendASticker = 'Send a sticker';
   static const String imReady = "I'm ready";
   static String waitingFor(String host) => 'Waiting for $host to start';
@@ -413,6 +461,40 @@ abstract final class MobV3Copy {
   static String rulerAt(String name, int q, int n) => name == tabYou ? 'You are on question $q of $n' : '$name is on question $q of $n';
   static String rulerDone(String name) => '$name reached the flag';
 
+  // ---- D167 the race ----
+  static String raceQuestion(int i) => 'Question $i';
+  static String timeLeft(String mmss) => 'Time left, $mmss';
+  static String countdownRace(int minutes) => '$minutes minutes start on Go. Answer as many as you can. +5 if right, -1 if wrong, 0 if you skip.';
+  static const String timeUp = 'Time is up.';
+  static String racedLine(int answered, int minutes) => answered == 1 ? 'You answered 1 question in $minutes minutes.' : 'You answered $answered questions in $minutes minutes.';
+  static String poolDone(int n) => 'You answered all $n questions before the time was up.';
+  static String raceLeaveLine(int minutes) => 'Your answers so far are saved. The clock keeps running until your $minutes minutes are up.';
+  static String answeredCount(int n) => '$n answered';
+  static String rulerOn(String name, int q) => name == tabYou ? 'You are on question $q' : '$name is on question $q';
+
+  // ---- D167 Full mock together ----
+  static const String sheetsTitle = 'Mark sheets side by side';
+  static const String sheetsLine = 'Marks out of 250, by CUET marking. Nobody sees anyone\'s answers.';
+  static String sheetMarks(int m, int of) => '$m of $of';
+  static const String sheetRight = 'Right';
+  static const String sheetWrong = 'Wrong';
+  static const String sheetSkipped = 'Skipped';
+  static const String sheetAccuracy = 'Accuracy';
+  static const String sheetTime = 'Time';
+  static String accuracy(int pct) => '$pct%';
+  static String sheetTimeText(int ms) {
+    final m = (ms / 60000).round();
+    return m == 1 ? '1 min' : '$m min';
+  }
+  static const String byUnit = 'By unit';
+  static String unitOf(int of) => 'out of $of';
+  static const String yourMarkSheet = 'Your mark sheet';
+  static const String seeMarkSheets = 'See the mark sheets';
+  static const String sittingMock = 'Opening the paper';
+  static String sheetSemantics(String name, MobSheet s) => s.private || s.marks == null
+      ? '$name, private'
+      : '$name, ${s.marks} of ${s.of}, ${s.right ?? 0} right, ${s.wrong ?? 0} wrong, ${s.skipped ?? 0} skipped';
+
   // ---- R7 Podium ----
   static const String soFar = 'So far';
   static const String finalLabel = 'Final';
@@ -458,6 +540,8 @@ abstract final class MobV3Copy {
         MomentKind.threeInARow => 'Three right in a row: questions ${m.from ?? 1} to ${m.to ?? 3}.',
         MomentKind.noMinus => 'No minus marks.',
         MomentKind.finishedAll => 'Played all ${m.count ?? count}.',
+        MomentKind.mostAnswered => 'Most answered: ${m.count ?? 0} in ${m.minutes ?? 5} minutes.',
+        MomentKind.raced => (m.count ?? 0) == 1 ? 'Raced ${m.minutes ?? 5} minutes and answered 1.' : 'Raced ${m.minutes ?? 5} minutes and answered ${m.count ?? 0}.',
       };
   static const String trapCardTitle = 'The question that caught most of you';
   static String trapCaught(int q) => 'Question $q caught most of you.';

@@ -96,12 +96,16 @@ class FailingServer extends MobV3FakeServer {
   final String? pauseCode;
   final bool openGameOnLiveOnly;
   final List<GameMode> openedModes = [];
+  final List<GameFormat> openedFormats = [];
+  final List<int?> openedMinutes = [];
 
   @override
-  Future<MobGame> openGame({required String mob, required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf}) {
+  Future<MobGame> openGame({required String mob, required GameFormat format, required GameMode mode, required int count, String? chapter, String? rematchOf, int? minutes}) {
     openedModes.add(mode);
+    openedFormats.add(format);
+    openedMinutes.add(minutes);
     if (openGameCode != null && (!openGameOnLiveOnly || mode == GameMode.live)) throw serverError(openGameCode!, status: openGameCode == 'LIVE_BUSY' ? 503 : (openGameCode == 'LENGTH_INVALID' ? 422 : 409));
-    return super.openGame(mob: mob, format: format, mode: mode, count: count, chapter: chapter, rematchOf: rematchOf);
+    return super.openGame(mob: mob, format: format, mode: mode, count: count, chapter: chapter, rematchOf: rematchOf, minutes: minutes);
   }
 
   @override
