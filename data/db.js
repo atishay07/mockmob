@@ -401,9 +401,11 @@ export const Database = {
 
   // Creates the account row once. Two first requests of a new student at the same moment (the callback page and
   // the AuthProvider both call /api/auth/me) both reach this: INSERT ... ON CONFLICT (id) DO NOTHING lets exactly one
-  // of them create the row (with the 100 starting credits) and the other read that row back. An existing row is never
-  // written to, so a profile the student has already changed is never reset. `created` is true only for the call that
-  // inserted the row. A conflict on another unique column (an email held by a different id) still throws.
+  // of them create the row and the other read that row back. An existing row is never written to, so a profile the
+  // student has already changed is never reset. `created` is true only for the call that inserted the row. A conflict on
+  // another unique column (an email held by a different id) still throws.
+  // The starting kept credits are the column default, never written here (owner D165, 20 Oct 2026): 0 once migration
+  // 20261020130000_referrals is applied, so a new account starts with this month's 50 free credits only; 100 before it.
   async ensureUser(user) {
     const row = {
       id: user.id || newUserId(),
@@ -412,7 +414,6 @@ export const Database = {
       image: user.image || null,
       subjects: user.subjects || [],
       role: user.role || 'student',
-      credit_balance: 100,
     };
     const { data, error } = await supabaseAdmin()
       .from('users').upsert(row, { onConflict: 'id', ignoreDuplicates: true }).select(USER_COLUMNS);

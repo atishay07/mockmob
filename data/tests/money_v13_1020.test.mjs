@@ -60,7 +60,7 @@ test('the balance is split honestly: free this month with the refill date, kept 
   assert.equal(split.state, 'known');
   assert.equal(split.free.note, '38 of 50 free credits left this month. Refills on 1 November at 12:00 AM.');
   assert.equal(split.kept.text, '70');
-  assert.equal(split.kept.note, 'Your welcome credits and any top-ups. They do not expire.');
+  assert.equal(split.kept.note, 'Credits you earn or buy. They do not expire.', 'D165: no one-time welcome grant for new accounts');
   assert.ok(Math.abs(split.shares.free + split.shares.kept - 1) < 1e-9);
   assert.equal(refillLine('nope'), null);
 

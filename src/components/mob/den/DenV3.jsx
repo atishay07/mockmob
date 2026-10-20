@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation';
 import { Copy, Moon, Package } from 'lucide-react';
 import { displayCode, inviteUrl, paperHref, resultHref } from '@/lib/mob/model.mjs';
 import { DenCopy, DEN_STICKERS, MobTime, denError } from '@/lib/mob/v3/denCopy.mjs';
+import { InviteRewardLine } from '@/components/referrals/InviteFriendCard';
 import { denState, momentQueue, passNotice, questSegments, whatsAppHref, yourRunAt } from '@/lib/mob/v3/denModel.mjs';
 import { RECEIVED_AFTER_MS, RECEIVED_STEP_MS, canSendSticker, freshReactions, pushVisible, reactionKey } from '@/lib/mob/v3/stickerFlights.mjs';
 import { mobFetch } from '../useMob';
@@ -198,6 +199,8 @@ function InviteCard({ data, v3, mobName, run, busy, onNotice }) {
       </div>
       {invite ? <p className="den-one__code" aria-live="polite"><span className="den-code">{invite.display}</span>{copied ? <span className="mob-hint">{DenCopy.codeCopied}</span> : null}</p> : null}
       <p className="mob-hint">{DenCopy.inviteWorks}</p>
+      {/* D165: the Mob invite link is also a friend invite (you both get 100 credits). Nothing while invites are off. */}
+      <InviteRewardLine />
       <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
     </section>
   );

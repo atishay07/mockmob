@@ -11,6 +11,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import ArenaHead from '@/components/arena/ArenaHead';
+import InviteFriendCard from '@/components/referrals/InviteFriendCard';
 import { CreditMark } from '@/components/ui/Glyph';
 import { useAuth } from '@/components/AuthProvider';
 import { apiGet } from '@/lib/fetcher';
@@ -193,6 +194,9 @@ export default function WalletPageClient({ proOffer = null }) {
             </ul>
             <p className="wl-note">{WALLET_V13_COPY.costShows}</p>
           </section>
+
+          {/* Earn before you buy (owner D165): invite a friend and you both get 100 credits. Renders nothing while invites are off. */}
+          <InviteFriendCard id="wl-invite" />
 
           <section className="wl-packs" aria-labelledby="wl-packs-h">
             <div className="wl-packs__head">

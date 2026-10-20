@@ -3,6 +3,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { checkPersistentRateLimit } from '@/lib/server/rateLimit';
 import { resend } from '@/lib/resend';
 import { EMAIL_LOGIN_LIMITS, getSiteOrigin, isAppClient, loginLinkPath, pruneLocalBuckets } from '@/lib/server/emailLoginPolicy';
+import { INVITE_COOKIE, decodeInviteCookie, normaliseInviteCode, referralsLive } from '@/lib/referrals/friendInvite.mjs';
 
 export const runtime = 'nodejs';
 
@@ -185,6 +186,13 @@ export async function POST(request) {
     const loginUrl = new URL(loginLinkPath(body), origin);
     loginUrl.searchParams.set('token_hash', tokenHash);
     loginUrl.searchParams.set('type', verificationType);
+    // A friend's invite (owner D165) rides along, so a link opened on another device keeps it: the website's pending invite
+    // (mm_invite) or the app's stored code (body.invite). Only the code; the database decides later whether it counts.
+    if (referralsLive()) {
+      const invite = decodeInviteCookie(request.cookies?.get?.(INVITE_COOKIE)?.value)?.code
+        || normaliseInviteCode(typeof body?.invite === 'string' ? body.invite : '');
+      if (invite) loginUrl.searchParams.set('invite', invite);
+    }
 
     const sendResult = await resend.emails.send({
       from: process.env.AUTH_EMAIL_FROM || 'MockMob <support@mockmob.in>',

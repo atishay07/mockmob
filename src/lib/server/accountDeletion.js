@@ -122,6 +122,14 @@ export const DELETION_STEPS = Object.freeze([
     why: 'reports keep the reason and the reported name for moderation, with no user link (purged after 180 days)',
     set: [{ column: 'reporter_id', value: 'null' }, { column: 'reported_id', value: 'null' }],
   },
+  // Friend invites (owner D165, migration 20261020130000): the code goes; the invite rows keep the two account links (the
+  // credit ledger rows they paid point at them) but lose the hashed device and network.
+  { table: 'referral_codes', action: 'delete', match: own(), why: 'the friend-invite code and the hashed devices it was opened on' },
+  {
+    table: 'referrals', action: 'anonymise', match: [{ column: 'referee_id' }, { column: 'referrer_id' }],
+    why: 'friend invites keep the account links behind paid credits, without the hashed device or network',
+    set: [{ column: 'device_hash', value: 'null' }, { column: 'ip_hash', value: 'null' }],
+  },
   { table: 'usage_events', action: 'delete', match: own(), why: 'analytics events' },
   { table: 'usage_consent', action: 'delete', match: own(), why: 'analytics consent' },
   // Kept for legal/financial reasons, with personal fields minimised.

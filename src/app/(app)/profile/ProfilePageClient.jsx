@@ -27,6 +27,7 @@ import CollegePicker from '@/components/colleges/CollegePicker';
 import { AccountColleges } from '@/components/colleges/MyColleges';
 import PlanCredits from '@/components/profile/PlanCredits';
 import CreditsSection from '@/components/profile/CreditsSection';
+import InviteFriendCard from '@/components/referrals/InviteFriendCard';
 import GoalControl from '@/components/profile/GoalControl';
 import SetPasswordCard from '@/components/profile/SetPasswordCard';
 import AccountLinks from '@/components/profile/AccountLinks';
@@ -324,6 +325,8 @@ export default function ProfilePageClient() {
           </section>
           <PlanCredits userId={user?.id} />
           <CreditsSection userId={user?.id} />
+          {/* Invite a friend, you both get 100 credits (owner D165). Nothing while invites are off. /profile#invite lands here. */}
+          <div id="invite" className="acct-anchor"><InviteFriendCard id="acct-invite" compact className="glass acct-card" /></div>
         </div>
       </div>
 

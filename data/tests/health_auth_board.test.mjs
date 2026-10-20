@@ -59,7 +59,7 @@ test('two simultaneous first creates both get the row, one row exists, and only 
   assert.deepEqual([a.created, b.created].sort(), [false, true]);
   assert.equal(a.user.id, 'sb-race-1');
   assert.equal(b.user.id, 'sb-race-1');
-  assert.equal(fake.tables.users[0].credit_balance, 100, 'the starting credits are given once');
+  assert.equal('credit_balance' in fake.tables.users[0], false, 'the starting credits are the column default (D165), never written by the app');
 });
 
 test('createUser keeps its old contract: it returns the user, for a new id and for a lost race', async () => {

@@ -163,7 +163,8 @@ export const WALLET_V13_COPY = Object.freeze({
   toSpend: 'credits to spend',
   freePart: 'Free this month',
   keptPart: 'Kept credits',
-  keptNote: 'Your welcome credits and any top-ups. They do not expire.',
+  // D165 (20 Oct 2026): no one-time welcome grant for new accounts; kept credits are the ones earned (an invite) or bought.
+  keptNote: 'Credits you earn or buy. They do not expire.',
   freeFirst: 'Free credits are used first.',
   practiceUnlimited: 'Practice is unlimited on Pro.',
   buysTitle: 'What credits buy',

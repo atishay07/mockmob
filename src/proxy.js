@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createServerClient } from '@supabase/ssr';
-import { applyRefCapture, refreshSupabaseSession } from '@/lib/server/sessionProxy';
+import { applyInviteCapture, applyRefCapture, refreshSupabaseSession } from '@/lib/server/sessionProxy';
 import { mobPageOff } from '@/lib/mob/flag.mjs';
 
 // Next 16 Proxy (formerly middleware). It must live in src/ because the app does: the old
@@ -23,6 +23,7 @@ export async function proxy(request) {
     supabaseKey: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
   });
   applyRefCapture(request, response);
+  applyInviteCapture(request, response);
   return response;
 }
 

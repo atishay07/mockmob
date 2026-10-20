@@ -230,3 +230,7 @@ html[data-motion='reduced'] .auth :is(.auth__copy, .auth__card, .auth__obj, .aut
   border-radius: var(--r-1);
 }
 .auth-card__why { display: block; margin-top: -0.25rem; font-size: 0.8125rem; line-height: 1.4; color: var(--ink-3); }
+/* A friend's invite code (owner D165): under the sign-up card, closed behind one text key until wanted. */
+.auth-invite { margin: 0.75rem 0 0; }
+p.auth-invite { text-align: center; }
+form.auth-invite { padding-top: 1rem; border-top: 1px solid var(--line); }

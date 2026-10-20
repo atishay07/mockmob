@@ -1,6 +1,7 @@
 "use client";
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { claimPendingInvite, rememberInviteFromUrl } from '@/lib/referrals/claimPendingInvite';
 import { hasSupabaseSessionCookie, isDeadSessionError, isTransientAuthError } from '@/lib/supabase-auth-errors';
 import {clearStudyDrafts} from '@/../data/session_draft';
 
@@ -134,6 +135,14 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     statusRef.current = status;
   }, [status]);
+
+  // A friend's invite (owner D165): an emailed sign-in link may carry it as ?invite=<code>; it is kept on any page, then
+  // claimed as soon as the student is signed in, before a first practice can run. Best effort, never blocks a page.
+  useEffect(() => { rememberInviteFromUrl(); }, []);
+  const signedInId = status === 'authenticated' ? user?.id : null;
+  useEffect(() => {
+    if (signedInId) claimPendingInvite(signedInId);
+  }, [signedInId]);
 
   const applyUnauthenticated = useCallback(() => {
     if (!mountedRef.current) return;

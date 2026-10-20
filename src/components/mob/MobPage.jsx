@@ -16,6 +16,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useSta
 import Link from 'next/link';
 import { Check, Copy, Ellipsis, Share2, UserPlus } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
+import { InviteRewardLine } from '@/components/referrals/InviteFriendCard';
 import { ToggleRow } from '@/components/ui/controls/ToggleRow';
 import { resolveSubject } from '@/../data/subject_registry';
 import {
@@ -231,6 +232,7 @@ function InviteDialog({ open, onClose, mob, run, busy }) {
             {canShare ? <button type="button" className="mob-key" onClick={share}><Share2 size={16} aria-hidden="true" />Share</button> : null}
           </div>
           <p className="mob-hint">{inviteExpiryLine(invite.expiresAt)}. A new link turns this one off.</p>
+          <InviteRewardLine />
           <button type="button" className="mob-link" onClick={make} disabled={busy === 'invite'}>Make a new link</button>
         </div>
       ) : (

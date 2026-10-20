@@ -14,6 +14,7 @@
 //   * Every line says what happened in plain words, with the question and subject for a repair when they can be found.
 import { mistakeKey, repairIdFromOperationKey } from './repairRecord.js';
 import { subjectName } from '../../components/profile/accountModel.mjs';
+import { REFERRAL_COPY } from '../referrals/friendInvite.mjs';
 
 export const PAGE_SIZE = 30;
 export const PRACTICE_LABEL = 'Practice credits';
@@ -79,6 +80,8 @@ export function practiceWhat(row) {
   if (ref.startsWith('vote:')) return 'Rated a question';
   if (/^attempt:.+:question:/.test(ref)) return 'Practice answers';
   if (action === 'contribute' || ref.startsWith('question_approved_')) return 'Question approved';
+  // Friend invites (owner D165): 'referral:<id>:inviter' and 'referral:<id>:friend' (migration 20261020130000). Never a name.
+  if (action === 'referral' || ref.startsWith('referral:')) return ref.endsWith(':friend') ? REFERRAL_COPY.historyFriend : REFERRAL_COPY.historyInviter;
   if (delta < 0) return PRACTICE_SPEND[action] || 'Practice';
   return 'Credits added';
 }

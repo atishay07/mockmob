@@ -115,7 +115,8 @@ test('Learn has its own row and tab inside Practice and its own guide stop (D20)
 test('no dead promise is left behind while the flag is off', () => {
   // Pricing no longer says an uploaded question adds credits; the Terms description no longer says community questions.
   assert.doesNotMatch(read('src/app/pricing/page.js'), /you upload that passes moderation/);
-  assert.match(read('src/app/pricing/page.js'), /'New accounts start with 100 credits\.',/);
+  // D165 (20 Oct 2026): the welcome is this month's 50 free credits only (data/tests/referrals_1020.test.mjs holds the words).
+  assert.match(read('src/app/pricing/page.js'), /REFERRAL_COPY\.pricingWelcome,/);
   assert.doesNotMatch(read('src/app/terms/page.js'), /terms for using MockMob mock tests, community questions/);
   assert.doesNotMatch(read('src/lib/seo.js'), /terms for using MockMob mock tests, community questions/);
   // Only the hidden pages, the flagged panel, the flagged Account rows and the flagged nav group may point at /upload or /my-uploads.

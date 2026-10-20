@@ -119,8 +119,10 @@ test('the prices the copy names are the prices the code charges', () => {
   assert.match(sessions, /if \(charge\.creditAction\)/);
   // No per-day or per-subject count of papers: the only guard on starting is the request rate limit.
   assert.doesNotMatch(sessions, /max(Mocks|Papers)|papersPerDay|mockLimit/i);
-  // New accounts start with 100 credits, and an approved upload grants 15.
-  assert.match(read('data/db.js'), /credit_balance: 100,/);
+  // New accounts start with this month's 50 free credits and no kept credits (D165: the column default, 0 from migration
+  // 20261020130000; the app never writes it), and an approved upload grants 15.
+  assert.doesNotMatch(read('data/db.js'), /credit_balance: 100,/);
+  assert.match(read('supabase/migrations/20261020130000_referrals.sql'), /alter column credit_balance set default 0;/);
   assert.match(read('supabase/migrations/0027_enforce_credit_integrity.sql'), /v_amount INTEGER := 15;/);
 });
 

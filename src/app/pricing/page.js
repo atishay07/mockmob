@@ -22,6 +22,7 @@ import { practiceBankSize } from '@/lib/practiceBank.mjs';
 import { ONE_CREDIT_LINE, PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
 import { playBillingEnabled } from '@/lib/payments/playBilling';
+import { REFERRAL_COPY, referralsLive } from '@/lib/referrals/friendInvite.mjs';
 import './pro-page.css';
 
 // The free first full mock (C-dec 1), listed only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
@@ -144,9 +145,12 @@ function mobGroup(env = process.env) {
   };
 }
 
+// D165 (owner, 20 Oct 2026): a new account starts with this month's 50 free credits only (no one-time 100), and an invited
+// friend and the inviter each get 100 once the friend finishes a practice, said only while invites are on (REFERRALS_ENABLED).
 const FREE_NOTES = [
   PRACTICE_PRICE_LINE,
-  'New accounts start with 100 credits.',
+  REFERRAL_COPY.pricingWelcome,
+  ...(referralsLive() ? [REFERRAL_COPY.pricingInvite()] : []),
   'Credits decide how often you practise, never what you can see: results, explanations, DU eligibility and published cutoffs stay open.',
   'Practice and Ask Mobi replies share one credits balance: 50 free a month, used first.',
 ];

@@ -1,0 +1,44 @@
+/* ==========================================================================
+   Invite a friend (owner D165), on the Wallet and on You. On the arena tokens (--a-*), so Night and Daylight match.
+   One section on the page surface with a hairline top rule (no nested card, no glow, no lime: the shell's Start key stays
+   the one lime key). The link sits in a quiet read-only field; Copy link is the one solid ink key. 44 px targets.
+   ========================================================================== */
+.rf { display: grid; gap: 14px; min-width: 0; }
+.rf:not(.acct-card) { padding-top: 22px; border-top: 1px solid var(--a-line, rgba(127, 127, 127, 0.25)); }
+.rf-sk { display: block; min-height: 120px; border-radius: 16px; background: var(--a-sunken, rgba(127, 127, 127, 0.12)); }
+.rf-head { display: grid; gap: 6px; min-width: 0; }
+.rf-h { margin: 0; font: 800 20px/1.2 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink, inherit); text-wrap: balance; }
+.rf[data-compact] .rf-h { font-size: 18px; }
+.rf-lead { margin: 0; max-width: 60ch; font-size: 15px; line-height: 1.55; color: var(--a-ink-2, inherit); }
+
+.rf-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; min-width: 0; }
+.rf-link {
+  flex: 1 1 260px; min-width: 0; min-height: 44px; padding: 0 14px; border-radius: 12px;
+  border: 1px solid var(--a-line, rgba(127, 127, 127, 0.3)); background: var(--a-sunken, transparent); color: var(--a-ink, inherit);
+  font: 600 14.5px/1.2 var(--font-display); font-variant-numeric: tabular-nums; text-overflow: ellipsis;
+}
+.rf-link:focus-visible { outline: 2px solid var(--a-focus, currentColor); outline-offset: 2px; }
+.rf-keys { display: flex; gap: 10px; flex: none; }
+.rf-key {
+  display: inline-flex; align-items: center; justify-content: center; min-height: 44px; min-width: 44px; padding: 0 18px;
+  border-radius: 12px; border: 1px solid var(--a-line-strong, rgba(127, 127, 127, 0.45)); background: transparent; color: var(--a-ink, inherit);
+  font: 700 14px/1.2 var(--font-display); cursor: pointer; touch-action: manipulation; white-space: nowrap;
+  transition: border-color 150ms ease-out, background-color 150ms ease-out, transform 100ms ease-out;
+}
+.rf-key[data-solid] { background: var(--a-ink, #1c1c1e); border-color: var(--a-ink, #1c1c1e); color: var(--a-bg, #fff); }
+.rf-key:active { transform: scale(0.97); }
+.rf-key:focus-visible { outline: 2px solid var(--a-focus, currentColor); outline-offset: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  .rf-key:hover:not([data-solid]) { border-color: var(--a-line-hover, currentColor); background: var(--a-hover, transparent); }
+  .rf-key[data-solid]:hover { opacity: 0.9; }
+}
+@media (max-width: 479px) { .rf-keys { flex: 1 1 100%; } .rf-keys .rf-key { flex: 1 1 0; } }
+
+.rf-copied { margin: -6px 0 0; min-height: 1.4em; font-size: 13.5px; line-height: 1.4; color: var(--a-good-text, inherit); }
+.rf-status { display: grid; gap: 4px; min-width: 0; }
+.rf-summary { margin: 0; font: 700 15.5px/1.45 var(--font-display); color: var(--a-ink, inherit); font-variant-numeric: tabular-nums; }
+.rf-note { margin: 0; max-width: 62ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-3, inherit); font-variant-numeric: tabular-nums; }
+.rf-fine { margin: 0; max-width: 62ch; font-size: 13px; line-height: 1.5; color: var(--a-ink-3, inherit); }
+
+@media (prefers-reduced-motion: reduce) { .rf-key { transition: none; } .rf-key:active { transform: none; } }
+:root[data-motion='reduced'] .rf-key { transition: none; }

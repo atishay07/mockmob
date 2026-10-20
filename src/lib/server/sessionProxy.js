@@ -15,6 +15,9 @@ import {
   isTransientAuthError,
   mayWriteAuthCookies,
 } from '../supabase-auth-errors.js';
+import {
+  DEVICE_COOKIE, DEVICE_COOKIE_MAX_AGE, INVITE_COOKIE, INVITE_COOKIE_MAX_AGE, captureFromVisit, referralsLive,
+} from '../referrals/friendInvite.mjs';
 
 export const REFRESH_TIMEOUT_MS = 5000;
 
@@ -52,6 +55,26 @@ export function applyRefCapture(request, response, { secure = process.env.NODE_E
     maxAge: REF_COOKIE_MAX_AGE,
     path: '/',
   });
+  return true;
+}
+
+// A friend's invite (owner D165, 20 Oct 2026), separate from the creator codes above: /join/<Mob code> and ?ref=<7-character
+// friend code> on any page but /pricing leave the 30-day pending invite (mm_invite) that POST /api/referrals/claim reads after
+// sign-in. The rules (which visit replaces which) are captureFromVisit in src/lib/referrals/friendInvite.mjs. Only while
+// REFERRALS_ENABLED is on. Never httpOnly: the app shell checks it is there before it claims.
+export function applyInviteCapture(request, response, { env = process.env, secure = process.env.NODE_ENV === 'production', now = Date.now() } = {}) {
+  if (!referralsLive(env)) return false;
+  const value = captureFromVisit({
+    pathname: request.nextUrl.pathname,
+    ref: request.nextUrl.searchParams.get('ref'),
+    existing: request.cookies.get(INVITE_COOKIE)?.value || null,
+    now,
+  });
+  if (!value) return false;
+  response.cookies.set(INVITE_COOKIE, value, { httpOnly: false, sameSite: 'lax', secure, maxAge: INVITE_COOKIE_MAX_AGE, path: '/' });
+  if (!/^[A-Za-z0-9_-]{16,64}$/.test(request.cookies.get(DEVICE_COOKIE)?.value || '')) {
+    response.cookies.set(DEVICE_COOKIE, crypto.randomUUID().replace(/-/g, ''), { httpOnly: true, sameSite: 'lax', secure, maxAge: DEVICE_COOKIE_MAX_AGE, path: '/' });
+  }
   return true;
 }
 
