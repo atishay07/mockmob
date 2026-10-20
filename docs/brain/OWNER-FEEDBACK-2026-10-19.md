@@ -983,3 +983,9 @@ Billing page: "Your grace period has started. Your organization went over its qu
 >
 > Your main job is to be the planner and orchestrator, managing everything. For very basic code work or anything you can sponsor on agents also. Now, because these are the final versions of the website and the app, I want you to go all out on this. That's why I am choosing Fable right now to see if there is any extra benefit from using deeper thinking right now."
 **Ledger D192:** Fable 5.1 runs the main session: it plans, orchestrates and does most of the work itself; Opus subagents only for UI taste and motion design; basic code work may go to agents. Go all out: version 16 and the website pass are the final versions.
+
+## Owner, 21 Oct about 12:02 am IST (answers, verbatim)
+- Website Pro price: "₹99 a month (Recommended)"
+- App welcome line "Every lost mark has a pattern.": "Keep it as is (Recommended)"
+**Ledger D193:** the website's monthly Pro stays ₹99 a month (D135/D136 confirmed); the Razorpay plan is ₹99; Play stays ₹149.
+**Ledger D194:** the welcome hero line "Every lost mark has a pattern." stays; the "lost/behind/last" rule applies everywhere else.
