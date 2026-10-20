@@ -20,6 +20,7 @@ import { pricingBankFaq, pricingBankLine, pricingSubjectLine } from '@/lib/paper
 import { practiceBankSize } from '@/lib/practiceBank.mjs';
 import { ONE_CREDIT_LINE, PRACTICE_PRICE_LINE } from '@/lib/creditCopy.mjs';
 import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_ON } from '@/../data/first_full_mock';
+import { playBillingEnabled } from '@/lib/payments/playBilling';
 import './pro-page.css';
 
 // The free first full mock (C-dec 1), listed only while its switch is on (FIRST_FULL_MOCK_ENABLED, data/first_full_mock.js).
@@ -127,6 +128,20 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
     ],
   },
 ];
+
+// The Mob's rows, only while it is live (MOB_ENABLED and MOB_V3_ENABLED, the switches its route and API read), in the
+// Mob's own Free and Pro terms (src/lib/mob/v3/denCopy.mjs, "Free and Pro in the Mob"): playing is free on every plan;
+// Pro adds hosting. While Play billing is off, anyone can start a game (src/lib/mob/starts.mjs), and the row says so.
+function mobGroup(env = process.env) {
+  if (newOfferReleased() || env.MOB_ENABLED !== 'true' || env.MOB_V3_ENABLED !== 'true') return null;
+  return {
+    heading: 'The Mob, with your friends',
+    rows: [
+      ['Play every game your Mob starts, with the weekly quest and Fix it together', true, true],
+      ['Start a game for your Mob', playBillingEnabled(env) ? 'One a week in each Mob' : 'As many as you like', 'As many as you like'],
+    ],
+  };
+}
 
 const FREE_NOTES = [
   PRACTICE_PRICE_LINE,
@@ -298,6 +313,7 @@ export default async function PricingPage({ searchParams }) {
             <div className="pro-hero__card" id="plans">
               <PricingCard
                 {...PRO_PLAN}
+                headingLevel={2}
                 terms={[]}
                 features={[]}
                 ctaElement={
@@ -360,7 +376,7 @@ export default async function PricingPage({ searchParams }) {
                 <div>Free <span className="pro-cmp__price">{FREE_PLAN.price}</span></div>
                 <div>Pro <span className="pro-cmp__price">{PRO_PLAN.price} {PRO_PLAN.cycle}</span></div>
               </div>
-              {COMPARISON_GROUPS.map((group) => (
+              {[...COMPARISON_GROUPS, mobGroup()].filter(Boolean).map((group) => (
                 <React.Fragment key={group.heading}>
                   <h3 className="mm-cmp__group">{group.heading}</h3>
                   {group.rows.map(([feature, free, pro, marker]) => (
@@ -408,13 +424,13 @@ export default async function PricingPage({ searchParams }) {
                 </details>
               </div>
               {/* Side by side, how Free works fills the second column with facts from the table above. */}
-              <aside className="mm-plans__note" aria-label="How Free works">
+              <div className="mm-plans__note" role="group" aria-label="How Free works">
                 <h3>How Free works</h3>
                 <ul>
                   {FREE_NOTES.map((line) => <li key={line}>{line}</li>)}
                 </ul>
                 <a className="mm-link" href="#compare">Free and Pro, line by line</a>
-              </aside>
+              </div>
             </div>
           </div>
         </section>

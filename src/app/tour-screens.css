@@ -168,6 +168,10 @@
 .ts__lane[data-target='true'] b { background: #9aa596; }
 .ts__lane[data-run='false'] b { transform: scaleX(0); }
 .ts__lane em { font: 700 .72rem var(--font-body); font-style: normal; text-align: right; }
+/* The Mob's runs: each friend's Fold head and name in a wider first column. */
+.ts__lane--fold { grid-template-columns: minmax(0, 7.2rem) 1fr 36px; }
+.ts__lane--fold > span { display: flex; align-items: center; gap: .4rem; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ts__lane--fold img { flex: 0 0 20px; width: 20px; height: 20px; object-fit: contain; }
 .ts__facts { display: grid; grid-template-columns: 1fr 1fr; gap: .5rem; }
 .ts__facts p { margin: 0; padding: .55rem .65rem; border-radius: 10px; background: rgba(255,255,255,.05); font-size: .68rem; color: var(--ts-ink2); }
 .ts__facts b { display: block; font: 800 1.15rem var(--font-display); color: var(--ts-ink); }

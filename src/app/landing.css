@@ -307,6 +307,15 @@ body:has(.mm.lp) {
 /* The lead is the measured text LCP. Show reading content on its first paint;
    the surrounding controls and preview retain the staged entrance. */
 .lp-hero .lp-lead[data-hero] { animation: none; }
+/* The question-bank line is the largest text on a phone's first screen, so it is the phone's LCP. It keeps its staged
+   rise but never starts invisible: an opacity-0 start held LCP back by the whole entrance (0.3 to 0.6 s on a phone). */
+@media (prefers-reduced-motion: no-preference) {
+  .lp-hero .lp-bank[data-hero] { animation-name: lp-rise-move; }
+}
+@keyframes lp-rise-move {
+  from { transform: translate3d(0, 1.125rem, 0); }
+  to { transform: none; }
+}
 .lp-hero [data-hero]:focus-within, .rv:focus-within { opacity: 1; transform: none; animation: none; transition-delay: 0ms; }
 @keyframes lp-rise {
   from {
@@ -376,6 +385,10 @@ body:has(.mm.lp) {
 }
 .lp-title__line {
   display: block;
+}
+/* The headline's still lines (CUET 2027. / One mock.) share the h1's own box: see page.js. The <br> keeps them on two lines. */
+.lp-title__line--run {
+  display: inline;
 }
 /* The changing third line (.lp-morph) lives in hero-motion.css. */
 .lp-lead {

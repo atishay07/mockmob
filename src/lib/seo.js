@@ -1,9 +1,36 @@
 import { SUBJECT_CLAIM } from '../../data/subject_claim.js';
 
+// The canonical origin. Vercel serves the site on www and redirects the bare domain there with a 307, so a canonical,
+// og:url, sitemap or robots line on https://mockmob.in pointed search engines and link previews at a redirect (Google
+// reports such sitemap entries as "Page with redirect" and may ignore the canonical). The bare domain, configured or
+// not, always resolves to www; any other configured origin (a preview or a staging site) is used as it is.
+export const CANONICAL_ORIGIN = 'https://www.mockmob.in';
+export function canonicalOrigin(configured = '') {
+  const raw = String(configured || '').trim().replace(/\/+$/, '');
+  if (!raw) return CANONICAL_ORIGIN;
+  try {
+    const url = new URL(raw);
+    if (url.hostname === 'mockmob.in' || url.hostname === 'www.mockmob.in') return CANONICAL_ORIGIN;
+    return url.origin;
+  } catch {
+    return CANONICAL_ORIGIN;
+  }
+}
+
+// The site-wide share card (src/app/opengraph-image.jsx). A page whose metadata sets its own openGraph replaces the
+// root's file-based image, so every page that names no image of its own carries this one (before 20 Oct, /pricing and
+// most public pages shared with no picture at all).
+export const DEFAULT_SHARE_IMAGE = Object.freeze({
+  url: '/opengraph-image',
+  width: 1200,
+  height: 630,
+  alt: 'mockmob. One mock tonight. A clearer next step. For CUET UG 2027.',
+});
+
 export const siteConfig = {
   name: 'MockMob',
   legalName: 'MockMob',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://mockmob.in',
+  url: canonicalOrigin(process.env.NEXT_PUBLIC_SITE_URL),
   description:
     `${SUBJECT_CLAIM.meta}, with mistake review, weak-chapter tracking and DU admission planning.`,
   email: 'support@mockmob.in',
@@ -128,9 +155,10 @@ export function absoluteUrl(path = '/') {
 
 export function seoMetadata({ title, description, path = '/', images }) {
   const canonical = absoluteUrl(path);
-  // Only set images when explicitly provided; an empty array would override
-  // the app-level opengraph-image file convention and strip og:image.
-  const imageFields = Array.isArray(images) && images.length > 0 ? { images } : {};
+  // A page's own images win; otherwise the site-wide card (an openGraph object here replaces the root's file-based
+  // image, so leaving images out would strip og:image from the page). `images: false` leaves the field unset for a
+  // segment with its own opengraph-image file (cuet/[subject]): a config image here would replace that file's card.
+  const imageFields = images === false ? {} : { images: Array.isArray(images) && images.length > 0 ? images : [DEFAULT_SHARE_IMAGE] };
   return {
     title,
     description,

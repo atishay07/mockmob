@@ -17,6 +17,8 @@ export async function generateMetadata({ params }) {
     title: hub.title,
     description: hub.description,
     path: `/cuet/${hub.slug}`,
+    // This segment draws its own card (opengraph-image.jsx, the subject's object); a config image would replace it.
+    images: false,
   });
 }
 
