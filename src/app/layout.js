@@ -3,6 +3,7 @@ import "./globals.css";
 import "./marketing-theme.css";
 import "./brand-pip.css";
 import "./brand.css";
+import "./app-view.css";
 import { Providers } from "@/components/Providers";
 import { JsonLd } from "@/components/JsonLd";
 import { globalJsonLd, seoMetadata, siteConfig } from "@/lib/seo";
@@ -92,6 +93,9 @@ export default function RootLayout({ children }) {
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,m=0;try{d.dataset.theme=localStorage.getItem('mm:theme:v1')==='dark'?'dark':'light'}catch(e){d.dataset.theme='light'}try{m=localStorage.getItem('mm:motion:v1')==='reduced'}catch(e){}try{m=m||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}if(m)d.dataset.motion='reduced';try{var k=JSON.parse(localStorage.getItem('mm:den:shape:v1')||'null'),b=k&&k.blocks&&k.blocks[innerWidth>=640?'w':'n'];if(b)for(var i=0;i<b.length&&i<4;i++)d.style.setProperty('--den-skel-b'+i,Math.max(24,Math.min(900,Math.round(+b[i])||24))+'px');if(k&&k.switcher===true)d.dataset.denSwitch='1'}catch(e){}})()` }} />
+        {/* App view (src/app/app-view.css): a page opened from the Android app (?from=app) hides its ways to buy, for this tab only
+            (sessionStorage, never a cookie: Custom Tabs share Chrome's cookies). Runs before paint, like the theme script. */}
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,on=false;try{on=new URLSearchParams(location.search).get('from')==='app'}catch(e){}try{if(on)sessionStorage.setItem('mm:appView','1');else on=sessionStorage.getItem('mm:appView')==='1'}catch(e){}if(on)d.dataset.appView='1'})()` }} />
         <JsonLd id="global-json-ld" data={globalJsonLd()} />
       </head>
       <body className="min-h-full flex flex-col">

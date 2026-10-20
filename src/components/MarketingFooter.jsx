@@ -14,7 +14,8 @@ const PRODUCT_LINKS = [
   ['Previous year questions', '/cuet-previous-year-questions'],
   ['Online practice tests', '/cuet-practice-tests-online'],
   ['Features', '/features'],
-  ['Pricing', '/pricing'],
+  // The third item marks a commerce link: hidden in the app's Custom Tabs (src/app/app-view.css).
+  ['Pricing', '/pricing', true],
 ];
 
 const SUBJECT_LINKS = [
@@ -63,8 +64,8 @@ export function MarketingFooter() {
           <div>
             <h3>Product</h3>
             <ul>
-              {PRODUCT_LINKS.map(([label, href]) => (
-                <li key={href}>
+              {PRODUCT_LINKS.map(([label, href, commerce]) => (
+                <li key={href} data-commerce={commerce ? '' : undefined}>
                   <Link href={href}>{label}{href === '/cuet-cutoff-calculator' ? <NewTag /> : null}</Link>
                 </li>
               ))}

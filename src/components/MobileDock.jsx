@@ -23,8 +23,8 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, chec
   if (stage === 'confirming' || stage === 'hold') {
     return (
       <>
-        <div className="mm-dockpad" aria-hidden="true" />
-        <div className="mm-dock" data-motion-dock="true">
+        <div className="mm-dockpad" aria-hidden="true" data-commerce={checkoutAware ? '' : undefined} />
+        <div className="mm-dock" data-motion-dock="true" data-commerce={checkoutAware ? '' : undefined}>
           <p className="mm-dock__note" role="status">
             {stage === 'confirming' ? 'Confirming your payment. Do not pay again.' : 'Payment not confirmed yet. Do not pay again; see the message on the plan.'}
           </p>
@@ -40,8 +40,8 @@ export function MobileDock({ note = 'Free to start. No card.', label, href, chec
   return (
     <>
       {/* With hideAtFooter the bar leaves before the footer arrives, so no pad is needed below the footer. */}
-      {hideAtFooter ? null : <div className="mm-dockpad" aria-hidden="true" />}
-      <div className="mm-dock" data-motion-dock="true" data-hidden={atFooter || yielding ? 'true' : undefined} inert={atFooter || yielding ? true : undefined}>
+      {hideAtFooter ? null : <div className="mm-dockpad" aria-hidden="true" data-commerce={checkoutAware ? '' : undefined} />}
+      <div className="mm-dock" data-motion-dock="true" data-commerce={checkoutAware ? '' : undefined} data-hidden={atFooter || yielding ? 'true' : undefined} inert={atFooter || yielding ? true : undefined}>
         <p className="mm-dock__note">{resolvedNote}</p>
         {/* A jump within this page (the landing's "/#try-practice") never needs the route prefetched. */}
         <Link href={resolvedHref} prefetch={resolvedHref.split('#')[0] === pathname ? false : undefined} className="mm-btn mm-btn--primary">

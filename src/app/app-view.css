@@ -1,0 +1,50 @@
+/*
+ * App view (hotfix L-07b, 20 Oct 2026). Google Play's Payments policy does not allow the Android app to steer students to
+ * another way to pay, and the app opens website pages (privacy, terms, help, PYQs) in Chrome Custom Tabs. So a page opened
+ * from the app shows no way to buy.
+ *
+ * THE CONTRACT WITH THE APP
+ *   - The app adds the query parameter  from=app  to the FIRST URL of every Custom Tab it opens, for example
+ *     https://www.mockmob.in/privacy?from=app . It does not need to add it to later URLs.
+ *   - The inline script in the root layout (src/app/layout.js) sees  from=app , stores  sessionStorage['mm:appView']='1'  and
+ *     sets  data-app-view="1"  on <html> before the page paints. The key lives in that tab only (sessionStorage), so the
+ *     student's normal browser is never affected. A COOKIE IS NOT USED: Custom Tabs share Chrome's cookie jar and a cookie
+ *     would hide pricing from the same student later in their own browser. Because there is no cookie there is no server-side
+ *     redirect either; everything below is CSS, so no page turns dynamic and nothing flashes.
+ *   - Links inside the tab (footer, nav) keep the marker through sessionStorage, even without ?from=app on them.
+ *
+ * WHAT IT HIDES under html[data-app-view]
+ *   - anything marked data-commerce (the Pricing link in the nav and footer, price blocks, Razorpay buttons, "See Pro" calls
+ *     to action) and any link to /pricing, /upgrade, /checkout or /wallet (a safety net for links nobody marked);
+ *   - the body of a plan or payment page (/pricing, /pricing/ai-credits, /wallet: the element marked data-commerce-page),
+ *     which shows .app-view-notice instead: "Plans and payments for the app are in the MockMob app." with no link.
+ * /upgrade and /checkout are not routes today; the selectors are there so a later page cannot leak by accident.
+ */
+
+/* The notice is in the markup of the plan and payment pages but only ever shown in the app view. */
+.app-view-notice { display: none; }
+
+/* A wrapper that exists only to carry data-commerce-page adds no box of its own (it is a <div>, so this does not touch <main>). */
+div[data-commerce-page] { display: contents; }
+
+html[data-app-view] [data-commerce],
+html[data-app-view] [data-commerce-page],
+html[data-app-view] :is(a[href^="/pricing"], a[href^="/upgrade"], a[href^="/checkout"], a[href^="/wallet"], a[href="/#pricing"], a[href="#pricing"]),
+html[data-app-view] :is(a[href^="https://www.mockmob.in/pricing"], a[href^="https://mockmob.in/pricing"], a[href^="https://www.mockmob.in/wallet"], a[href^="https://mockmob.in/wallet"]) {
+  display: none !important;
+}
+
+html[data-app-view] .app-view-notice {
+  display: block;
+  box-sizing: border-box;
+  max-width: 40rem;
+  min-height: 40vh;
+  margin: 0 auto;
+  padding: 4.5rem 1.25rem 6rem;
+  color: var(--ink, inherit);
+}
+html[data-app-view] .app-view-notice p {
+  margin: 0;
+  font: 600 1.125rem/1.55 var(--font-body, system-ui, sans-serif);
+  color: var(--ink, inherit);
+}

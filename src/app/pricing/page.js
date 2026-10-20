@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
 import { MobileDock } from '@/components/MobileDock';
+import { AppViewNotice } from '@/components/AppViewNotice';
 import { JsonLd } from '@/components/JsonLd';
 import { Icon } from '@/components/ui/Icons';
 import { PricingCard } from '@/components/ui/PricingCard';
@@ -285,7 +286,9 @@ export default async function PricingPage({ searchParams }) {
       />
       <NavBar />
 
-      <main>
+      {/* Opened from the Android app (?from=app): no plans or prices, a plain notice (src/app/app-view.css). */}
+      <AppViewNotice />
+      <main data-commerce-page>
         {/* The Pro page (owner I6): the outcome, the real price and its terms, and one checkout, on the night band. */}
         <section className="pro-hero" aria-labelledby="pro-price">
           <div className="mm-wrap pro-hero__grid">

@@ -347,14 +347,15 @@ test('the /admin/funnel Mob block: counts from mob_metrics, groups under 5 suppr
 
 test('the privacy page explains the Mob in plain words when the Mob is on, and terms cover it', () => {
   const legal = read('src/components/mob/MobLegal.jsx');
-  for (const must of ['What the other members of your Mob see', 'Sharing is on by default, and you can turn it off', 'Share my score and answers with my Mob',
-    'Leaving and blocking', 'Reporting', 'deleted after 180 days', 'Deleting your account', 'never asks for your contacts', 'never ranked']) {
+  // Rewritten for Mob v3 on 20 Oct 2026 (data/tests/mob_legal_v3_1020.test.mjs holds the v3 assertions).
+  for (const must of ['What the other members of your Mob see', 'Sharing is on by default, and you can turn it off', 'Share my marks in games',
+    'Leaving and blocking', 'Reporting', 'deleted after 180 days', 'Deleting your account', 'never asks for your contacts']) {
     assert.ok(legal.includes(must), must);
   }
   assert.match(read('src/app/privacy/page.js'), /mobEnabledForLegal\(\) \? <MobPrivacySection \/>/);
   assert.match(read('src/app/terms/page.js'), /mobEnabledForLegal\(\) \? <MobTermsSection \/>/);
-  // The switch's label on the page is the one the policy names.
-  assert.match(read('src/components/mob/MobCompare.jsx'), /SHARE_LABEL = 'Share my score and answers with my Mob'/);
+  // The switch's label in the v3 den is the one the policy names.
+  assert.match(read('src/lib/mob/v3/denCopy.mjs'), /shareMarks: 'Share my marks in games'/);
 });
 
 test('entry lines: one per page for a member, the invitation only on Today and only at its moment', async () => {

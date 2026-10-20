@@ -7,6 +7,7 @@ export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { NavBar } from '@/components/NavBar';
 import { MarketingFooter } from '@/components/MarketingFooter';
+import { AppViewNotice } from '@/components/AppViewNotice';
 import { JsonLd } from '@/components/JsonLd';
 import { PrepOSCreditPurchaseButton } from '@/components/billing/PrepOSCreditPurchaseButton';
 import { auth } from '@/lib/auth';
@@ -60,7 +61,9 @@ export default async function AICreditsPage() {
       <JsonLd id="ai-credits-faq-json-ld" data={faqJsonLd(faqs.map((faq) => ({ question: faq.q, answer: faq.a })))} />
       <NavBar />
 
-      <main>
+      {/* Opened from the Android app (?from=app): no packs or prices, a plain notice (src/app/app-view.css). */}
+      <AppViewNotice />
+      <main data-commerce-page>
         <section className="mm-section mm-section--flush" style={{ paddingTop: '2.5rem' }}>
           <div className="mm-wrap mm-wrap--tight">
             <h1 className="mm-h1">Credits</h1>
