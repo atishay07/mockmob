@@ -20,8 +20,8 @@ const SHEET = [
 const DAY_EXTRA = new Set(['0-2', '1-0', '1-4', '2-1', '3-3', '4-2', '5-3', '6-4', '2-4', '0-4', '4-0', '6-1']);
 
 // Books on the two shelf planks: [x, width, height, tone, lean in degrees].
-const BOOKS_TOP = [[226, 7, 34, 1, 0], [234, 9, 40, 2, 0], [244, 6, 31, 3, 0], [251, 8, 37, 1, 0], [262, 7, 30, 4, -14]];
-const BOOKS_LOW = [[228, 10, 30, 3, 0], [239, 7, 36, 4, 0], [247, 9, 33, 2, 0], [271, 14, 9, 1, 0], [271, 12, 8, 3, 0]];
+const BOOKS_TOP = [[216, 8, 38, 1, 0], [225, 10, 44, 2, 0], [236, 7, 35, 3, 0], [244, 9, 41, 1, 0], [256, 8, 33, 4, -16]];
+const BOOKS_LOW = [[216, 11, 34, 3, 0], [228, 8, 40, 4, 0], [237, 10, 36, 2, 0], [262, 16, 10, 1, 0], [263, 14, 9, 3, 0]];
 const BOOKS_FAR = [[40, 8, 36, 2, 0], [49, 7, 30, 4, 0], [57, 9, 38, 1, 0], [68, 7, 33, 3, 0]];
 
 function Books({ books, base }) {
@@ -125,11 +125,11 @@ export function HeroScene() {
 
         {/* The shelves by the window */}
         <g className="sc-wood">
-          <rect x="220" y="120" width="72" height="5" rx="1" />
-          <rect x="220" y="178" width="72" height="5" rx="1" />
+          <rect x="210" y="196" width="80" height="5" rx="1" />
+          <rect x="210" y="258" width="80" height="5" rx="1" />
         </g>
-        <Books books={BOOKS_TOP} base={120} />
-        <Books books={BOOKS_LOW} base={178} />
+        <Books books={BOOKS_TOP} base={196} />
+        <Books books={BOOKS_LOW} base={258} />
 
         {/* The answer sheet, pinned to the wall */}
         <g className="sc-sheet" transform="rotate(2.5 444 186)">
