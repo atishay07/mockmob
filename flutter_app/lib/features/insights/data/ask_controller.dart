@@ -114,7 +114,7 @@ class AskAnchor {
 /// The reply kind that asks the server for tonight's revise plan from the record (free, no model).
 const tonightReplyKind = 'tonight';
 
-/// The reply kind of a doubt: 1 credit, a thread with one free follow-up and 2 real CUET questions.
+/// The reply kind of a doubt: 1 credit, a thread with one free follow-up and 2 new CUET-style questions.
 const doubtReplyKind = 'doubt';
 
 class AskMessage {
@@ -229,7 +229,7 @@ class AskState {
 }
 
 /// A doubt that was settled for 1 credit (MOBI-CONTRACT 2 and 3): the reply at [openedAt] opened it; it keeps its 2
-/// real CUET questions, their marks, and the one free follow-up it has left.
+/// new CUET-style questions, their marks, and the one free follow-up it has left.
 class DoubtThread {
   const DoubtThread({
     required this.info,
@@ -241,9 +241,13 @@ class DoubtThread {
     this.answering = const {},
     this.attaching = false,
     this.error,
+    this.askedSubject,
   });
 
   final ThreadInfo info;
+
+  /// The subject the doubt was asked in (a starter's), when the server named no chapter: the chapter chips come from it.
+  final String? askedSubject;
 
   /// The index of the reply that opened the thread: its 2 questions sit under it.
   final int openedAt;
@@ -289,6 +293,7 @@ class DoubtThread {
         answering: answering ?? this.answering,
         attaching: attaching ?? this.attaching,
         error: clearError ? null : (error ?? this.error),
+        askedSubject: askedSubject,
       );
 }
 
@@ -546,7 +551,7 @@ class AskController extends Notifier<AskState> {
         sessionId: asString(body['sessionId']),
         wallet: wallet,
       );
-      _adoptThread(index, body);
+      _adoptThread(index, body, anchor: anchor);
       if (origin == AskOrigin.model) ref.read(creditsRepositoryProvider.notifier).refresh();
       return null;
     } on ApiError catch (e) {
@@ -561,7 +566,9 @@ class AskController extends Notifier<AskState> {
         final recovered = await _recover(requestId);
         if (epoch != _epoch || !ref.mounted) return null;
         if (recovered != null) {
-          _replaceAt(index, recovered);
+          _replaceAt(index, recovered.message, sessionId: recovered.sessionId);
+          // A paid doubt's reply comes back with its thread: its 2 questions and its free follow-up (L-01).
+          _adoptThread(index, recovered.response, anchor: anchor);
           ref.read(creditsRepositoryProvider.notifier).refresh();
           return null;
         }
@@ -597,26 +604,59 @@ class AskController extends Notifier<AskState> {
     }
   }
 
-  /// The reply to [requestId] read back from the conversation history (`GET
-  /// /api/ai/mentor/history`), where the server stored it with its charge (the charge's reference
-  /// ends with the request id). Null when it is not there or the history cannot be read.
-  Future<AskMessage?> _recover(String requestId) async {
-    try {
-      final res = await ref.read(apiClientProvider).get('/api/ai/mentor/history', query: {'sessionId': ?state.sessionId});
-      for (final m in asJsonList(res.map['messages']).reversed) {
+  /// How many of the newest conversations a lost reply is looked for in. A doubt's reply is kept under its own thread,
+  /// which is a conversation of its own, and a retry can add one more (L-01).
+  static const recoverSessions = 6;
+
+  /// The reply to [requestId] read back from the conversation history (`GET /api/ai/mentor/history`), where the server
+  /// stored it with its charge (the charge's reference ends with the request id): first in this conversation, then in
+  /// the newest few, because a paid doubt's reply is stored under its thread's own conversation (L-01: a lost doubt
+  /// reply was never found, and the student was told asking again costs a credit). Null when it is not there or the
+  /// history cannot be read.
+  Future<({AskMessage message, Map<String, dynamic> response, String? sessionId})?> _recover(String requestId) async {
+    final api = ref.read(apiClientProvider);
+    ({AskMessage message, Map<String, dynamic> response, String? sessionId})? find(Map<String, dynamic> body) {
+      final sessionId = asString(asJson(body['session'])['id']);
+      for (final m in asJsonList(body['messages']).reversed) {
         if (asString(m['role']) != 'assistant') continue;
         final response = asJson(m['response']);
         final charge = asJson(response['charge']);
         if (!(asString(charge['reference']) ?? '').endsWith(':$requestId')) continue;
         final text = asString(m['text']) ?? asString(response['reply']) ?? '';
         if (text.trim().isEmpty) return null;
-        return AskMessage.reply(
-          text,
-          origin: AskOrigin.model,
-          actions: _actions(response['actions']),
-          requestId: requestId,
-          charged: asInt(charge['amount']),
+        return (
+          message: AskMessage.reply(
+            text,
+            origin: AskOrigin.model,
+            actions: _actions(response['actions']),
+            requestId: requestId,
+            charged: asInt(charge['amount']),
+          ),
+          response: response,
+          sessionId: sessionId,
         );
+      }
+      return null;
+    }
+
+    try {
+      final here = (await api.get('/api/ai/mentor/history', query: {'sessionId': ?state.sessionId})).map;
+      final hit = find(here);
+      if (hit != null) return hit;
+      final looked = <String>{?asString(asJson(here['session'])['id'])};
+      // The newest conversations (without a session id the read also carries the newest one's messages).
+      final newest = state.sessionId == null ? here : (await api.get('/api/ai/mentor/history')).map;
+      if (!identical(newest, here)) {
+        final again = find(newest);
+        if (again != null) return again;
+        looked.add(asString(asJson(newest['session'])['id']) ?? '');
+      }
+      for (final s in asJsonList(newest['sessions']).take(recoverSessions)) {
+        final id = asString(s['id']);
+        if (id == null || looked.contains(id)) continue;
+        looked.add(id);
+        final found = find((await api.get('/api/ai/mentor/history', query: {'sessionId': id})).map);
+        if (found != null) return found;
       }
     } on Object {
       // The history could not be read: the failure line says what happened instead.
@@ -678,7 +718,7 @@ class AskController extends Notifier<AskState> {
 
   /// A reply that carries a thread: a new doubt opens it under the reply at [index] with its 2 questions; a
   /// follow-up only counts its follow-up down (the thread keeps its 2).
-  void _adoptThread(int index, Map<String, dynamic> body) {
+  void _adoptThread(int index, Map<String, dynamic> body, {AskAnchor? anchor}) {
     final info = ThreadInfo.tryParse(body['thread']);
     if (info == null || !ref.mounted) return;
     final current = state.thread;
@@ -688,7 +728,7 @@ class AskController extends Notifier<AskState> {
     if (current != null && current.info.id == info.id) {
       next = current.copyWith(info: info, clearError: true);
     } else {
-      next = DoubtThread(info: info, openedAt: index, checks: checks, checksNote: note == null || note.isEmpty ? null : note);
+      next = DoubtThread(info: info, openedAt: index, checks: checks, checksNote: note == null || note.isEmpty ? null : note, askedSubject: anchor?.subject);
     }
     state = AskState(messages: state.messages, sessionId: state.sessionId, wallet: state.wallet, walletAt: state.walletAt, thread: next);
   }

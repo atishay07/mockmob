@@ -163,7 +163,7 @@ abstract final class ProNudgeCopy {
           ),
         ProReason.mobHosting => const ProSheetHead(
             'Host games for your Mob',
-            'Free already plays every game your Mob starts. Pro lets you start as many games as you like, open live rooms, pass the mic to a friend and start up to 3 Mobs. Marks and rewards stay the same for everyone.',
+            'Free already plays every game your Mob starts. Pro lets you start as many games as you like, pass the mic to a friend and start up to 3 Mobs. Marks and rewards stay the same for everyone.',
           ),
         ProReason.general => _general,
       };

@@ -262,7 +262,7 @@ class MobiStanding {
 
 // ---- The doubt thread ------------------------------------------------------------------------
 
-/// A doubt thread: opened by a paid doubt (1 credit), with one free follow-up and 2 real CUET questions to test it.
+/// A doubt thread: opened by a paid doubt (1 credit), with one free follow-up and 2 new CUET-style questions to test it.
 class ThreadInfo {
   const ThreadInfo({required this.id, this.followUpsLeft = 1, this.followUpsMax = 1, this.subject, this.chapter});
 

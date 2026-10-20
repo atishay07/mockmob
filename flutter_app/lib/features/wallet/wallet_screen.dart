@@ -473,11 +473,11 @@ class _Buys extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    // Mobi first on every plan, as on the website (owner, 20 Oct: most top-ups pay for Mobi's written answers and
-    // mistake repairs). On Pro, practice and full mocks are included.
+    // Mobi first on every plan (owner, 20 Oct: most top-ups pay for doubts and fixes). On Pro, practice and full mocks
+    // are included.
     final mobi = <(IconData, int?, String, String?)>[
-      (LucideIcons.messageCircle, 1, WalletCopy.buyReply, WalletCopy.buyReplyNote),
-      (LucideIcons.wrench, 1, WalletCopy.buyRepair, null),
+      (LucideIcons.messageCircle, 1, WalletCopy.buyDoubt, WalletCopy.buyDoubtNote),
+      (LucideIcons.wrench, 1, WalletCopy.buyFix, WalletCopy.buyFixNote),
     ];
     final practice = <(IconData, int?, String, String?)>[
       (LucideIcons.listChecks, pro ? null : 1, WalletCopy.buyQuestion, null),

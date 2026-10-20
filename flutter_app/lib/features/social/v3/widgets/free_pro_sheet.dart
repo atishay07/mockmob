@@ -16,19 +16,24 @@ import 'chain_paper.dart';
 
 Future<void> showFreeProSheet(BuildContext context) async {
   final container = ProviderScope.containerOf(context, listen: false);
-  final billingOn = container.read(denViewProvider)?.v3.starts.billingOn ?? false;
+  final v3 = container.read(denViewProvider)?.v3;
+  final billingOn = v3?.starts.billingOn ?? false;
   if (!billingOn) return;
+  final live = v3?.live.enabled ?? false;
   await showMmSheet<void>(
     context: context,
     title: MobV3Copy.freeProTitle,
     heightFactor: 0.94,
-    builder: (_) => const _FreeProBody(),
+    builder: (_) => _FreeProBody(live: live),
     footer: (_) => const _PlansKey(),
   );
 }
 
 class _FreeProBody extends StatelessWidget {
-  const _FreeProBody();
+  const _FreeProBody({required this.live});
+
+  /// The server's live switch: live rooms are sold only while it is on (L-04).
+  final bool live;
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +53,7 @@ class _FreeProBody extends StatelessWidget {
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(MmRhythm.plainRadius), border: Border.all(color: colors.lineStrong)),
           child: Padding(
             padding: const EdgeInsets.all(MmSpace.s16),
-            child: _List(title: MobV3Copy.proAdds, items: MobV3Copy.proList, icon: LucideIcons.plus, iconColor: colors.ink2),
+            child: _List(title: MobV3Copy.proAdds, items: MobV3Copy.proListFor(live: live), icon: LucideIcons.plus, iconColor: colors.ink2),
           ),
         ),
         const SizedBox(height: MmSpace.s16),

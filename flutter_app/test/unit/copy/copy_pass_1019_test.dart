@@ -28,8 +28,9 @@ import 'package:mockmob/features/wallet/wallet_copy.dart';
 import 'package:mockmob/features/you/edit_copy.dart';
 import 'package:mockmob/features/you/help/faq.dart';
 
-/// The website's ONE_CREDIT_LINE (src/lib/creditCopy.mjs, web v13, C-dec 3), word for word, with the free first full mock
-/// switched off (FIRST_FULL_MOCK_ENABLED=false) and on.
+/// The website's ONE_CREDIT_LINE (src/lib/creditCopy.mjs, live web 48985a8d, C-dec 3), word for word, with the free first
+/// full mock switched off (FIRST_FULL_MOCK_ENABLED=false) and on. The app reads only its clause; it never shows this line
+/// (its own words are WalletCopy.creditsFor, L-02: never "real CUET questions" or "Mobi job").
 const _webOneCreditLineOff = '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered '
     'and tested on 2 real CUET questions. A full mock costs 50 credits. Everything Mobi reads from your record is free. The cost '
     'shows before you start.';
@@ -78,9 +79,13 @@ void main() {
   });
 
   group('a full mock is priced truthfully (C-dec 1: the first one in each subject is free)', () {
-    test('the Wallet says the website\'s line with the free claim off until the server\'s own loads: it never claims what the server has not said', () {
-      expect(WalletCopy.creditsFor, _webOneCreditLineOff);
-      expect(WalletCopy.creditsFor, isNot(contains('free.')));
+    test('the Wallet\'s own line makes no free-mock claim and no untrue one; the server\'s clause is the only free signal', () {
+      expect(WalletCopy.creditsFor, isNot(contains(WalletCopy.firstMockFreeClause)));
+      expect(WalletCopy.creditsFor, contains('A full mock costs 50 credits.'));
+      expect(WalletCopy.creditsFor, contains('2 new CUET-style questions'));
+      for (final banned in ['real CUET', 'Mobi job', 'Deeper analysis', 'chat reply']) {
+        expect(WalletCopy.creditsFor, isNot(contains(banned)), reason: banned);
+      }
       // The server's line with the rule on is that line plus the clause, and the app reads the clause as the signal.
       expect(_webOneCreditLineOn, contains(WalletCopy.firstMockFreeClause));
       expect(_webOneCreditLineOff, isNot(contains(WalletCopy.firstMockFreeClause)));

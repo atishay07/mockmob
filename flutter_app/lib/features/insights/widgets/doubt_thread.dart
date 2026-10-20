@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/auth/auth_state.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../practice/data/practice_catalog.dart' show practiceChaptersProvider;
 import '../../review/widgets/check_card.dart';
 import '../data/ask_controller.dart';
 import '../data/ask_doors.dart';
@@ -9,7 +12,7 @@ import '../data/chapter_ties.dart' show byMarksLost;
 import '../data/insights_models.dart';
 import '../data/subject_names.dart';
 
-/// What a doubt's credit bought, under Mobi's answer (MOBI-CONTRACT 2 and 3; C-dec 3): the 2 real CUET questions that
+/// What a doubt's credit bought, under Mobi's answer (MOBI-CONTRACT 2 and 3; C-dec 3): the 2 new CUET-style questions that
 /// test it, answered right there and marked by the server with the bank's own explanation. When the doubt named no
 /// chapter, the student picks one (a chip each) and the 2 questions come from it. Nothing here costs a credit.
 class DoubtChecks extends StatelessWidget {
@@ -37,7 +40,7 @@ class DoubtChecks extends StatelessWidget {
         Text(DoubtCopy.lead, style: type.small.copyWith(color: colors.ink2)),
         if (checks.isEmpty) ...[
           const SizedBox(height: MmSpace.s12),
-          ..._pickChapter(context),
+          _ChapterPicker(thread: thread, recordChips: _chapters(), onChapter: onChapter),
         ] else
           for (final (i, c) in checks.indexed) ...[
             SizedBox(height: i == 0 ? MmSpace.s20 : MmSpace.s32),
@@ -69,47 +72,111 @@ class DoubtChecks extends StatelessWidget {
   List<({String subject, String chapter})> _chapters() {
     final r = record;
     if (r == null || !r.isReady) return const [];
-    final subject = thread.info.subject;
+    final subject = thread.info.subject ?? thread.askedSubject;
     return [
       for (final c in byMarksLost(r.ranked))
         if (c.chapter.trim().isNotEmpty && c.chapter != 'Unmapped chapter' && (subject == null || canonicalSubjectId(c.subject) == canonicalSubjectId(subject)))
           (subject: canonicalSubjectId(c.subject), chapter: c.chapter.trim()),
     ].take(4).toList();
   }
+}
 
-  List<Widget> _pickChapter(BuildContext context) {
+/// The server's note about a doubt's questions, in the app's words where the live server still says "real CUET
+/// questions" (L-02: they are new CUET-style questions from the checked bank).
+String plainCheckNote(String note) => note.replaceAll('real CUET questions', 'new CUET-style questions');
+
+/// Where a doubt that named no chapter gets one (app-mobi H1): the record's own chapters for the doubt's subject first;
+/// on a fresh account (no record yet) the subject's syllabus chapters, the ones practice offers; and when the doubt
+/// named no subject either, the student's subjects first. So the 2 questions the credit bought are always one tap away.
+class _ChapterPicker extends ConsumerStatefulWidget {
+  const _ChapterPicker({required this.thread, required this.recordChips, required this.onChapter});
+
+  final DoubtThread thread;
+  final List<({String subject, String chapter})> recordChips;
+  final void Function(String subject, String chapter) onChapter;
+
+  @override
+  ConsumerState<_ChapterPicker> createState() => _ChapterPickerState();
+}
+
+class _ChapterPickerState extends ConsumerState<_ChapterPicker> {
+  String? _picked;
+
+  @override
+  Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final chips = _chapters();
-    final note = thread.checksNote ?? DoubtCopy.pickChapter;
-    return [
-      Text(chips.isEmpty ? note : (thread.checksNote ?? DoubtCopy.pickChapter), style: type.body.copyWith(color: colors.ink)),
-      if (chips.isNotEmpty) ...[
-        const SizedBox(height: MmSpace.s12),
-        Wrap(
-          spacing: MmSpace.s8,
-          runSpacing: MmSpace.s8,
-          children: [
-            for (final c in chips)
-              MmChip(
-                label: c.chapter,
-                selected: thread.info.chapter == c.chapter,
-                showBubble: false,
-                onTap: thread.attaching ? null : () => onChapter(c.subject, c.chapter),
-              ),
-          ],
-        ),
+    final t = widget.thread;
+    final serverNote = t.checksNote;
+    // The server's "pick the chapter" note is said in the app's own words; any other note (none left, could not load)
+    // is the server's, made plain.
+    final pickNote = serverNote == null || serverNote.startsWith('Pick the chapter');
+    final mine = ref.watch(authSnapshotProvider.select((a) => a.subjects));
+    final asked = t.info.subject ?? t.askedSubject;
+    final subject = _picked ?? (asked == null ? (mine.length == 1 ? mine.first : null) : canonicalSubjectId(asked));
+
+    final List<Widget> chips;
+    String? waiting;
+    String? failed;
+    if (widget.recordChips.isNotEmpty) {
+      chips = [for (final c in widget.recordChips) _chip(c.subject, c.chapter)];
+    } else if (subject == null) {
+      // No subject yet: the student's own subjects, then that subject's chapters.
+      chips = [
+        for (final s in mine)
+          MmChip(label: subjectDisplayName(s), selected: false, showBubble: false, onTap: t.attaching ? null : () => setState(() => _picked = canonicalSubjectId(s))),
+      ];
+    } else {
+      final catalog = ref.watch(practiceChaptersProvider(subject));
+      final entries = catalog.value?.allChapters;
+      final names = [
+        if (entries != null)
+          for (final c in entries)
+            if (c.name.trim().isNotEmpty) c.name.trim(),
+      ];
+      chips = [for (final n in names) _chip(subject, n)];
+      if (catalog.isLoading && names.isEmpty) waiting = DoubtCopy.loadingChapters;
+      if (catalog.hasError && names.isEmpty) failed = DoubtCopy.chaptersFailed;
+    }
+    final lead = pickNote ? (subject == null && widget.recordChips.isEmpty && chips.isNotEmpty ? DoubtCopy.pickSubject : DoubtCopy.pickChapter) : plainCheckNote(serverNote);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(lead, style: type.body.copyWith(color: colors.ink)),
+        if (chips.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s12),
+          Wrap(spacing: MmSpace.s8, runSpacing: MmSpace.s8, children: chips),
+        ],
+        if (waiting != null) ...[
+          const SizedBox(height: MmSpace.s12),
+          Semantics(liveRegion: true, child: Text(waiting, style: type.caption.copyWith(color: colors.ink2))),
+        ],
+        if (failed != null && subject != null) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(failed, style: type.small.copyWith(color: colors.ink2)),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: KeyButton.quiet(label: DoubtCopy.tryAgain, onPressed: () => ref.invalidate(practiceChaptersProvider(subject))),
+          ),
+        ],
+        if (t.attaching) ...[
+          const SizedBox(height: MmSpace.s12),
+          Semantics(liveRegion: true, child: Text(DoubtCopy.finding, style: type.caption.copyWith(color: colors.ink2))),
+        ],
+        if (t.error != null) ...[
+          const SizedBox(height: MmSpace.s8),
+          Semantics(liveRegion: true, child: Text(t.error!, style: type.small.copyWith(color: colors.badText, fontWeight: FontWeight.w600))),
+        ],
       ],
-      if (thread.attaching) ...[
-        const SizedBox(height: MmSpace.s12),
-        Semantics(liveRegion: true, child: Text(DoubtCopy.finding, style: type.caption.copyWith(color: colors.ink2))),
-      ],
-      if (thread.error != null) ...[
-        const SizedBox(height: MmSpace.s8),
-        Semantics(liveRegion: true, child: Text(thread.error!, style: type.small.copyWith(color: colors.badText, fontWeight: FontWeight.w600))),
-      ],
-    ];
+    );
   }
+
+  Widget _chip(String subject, String chapter) => MmChip(
+        label: chapter,
+        selected: widget.thread.info.chapter == chapter,
+        showBubble: false,
+        onTap: widget.thread.attaching ? null : () => widget.onChapter(subject, chapter),
+      );
 }
 
 /// The foot of the screen once a doubt's follow-up is used: the thread is closed, and a new doubt says its price.
@@ -144,9 +211,13 @@ class DoubtClosed extends StatelessWidget {
 }
 
 abstract final class DoubtCopy {
-  static const title = 'Test it on 2 real CUET questions';
+  static const title = 'Test it on 2 new CUET-style questions';
   static const lead = 'They come with this doubt, so they use no extra credit. Your first answer counts.';
-  static const pickChapter = 'Pick the chapter and Mobi adds 2 real CUET questions on it.';
+  static const pickChapter = 'Pick the chapter and Mobi adds 2 new CUET-style questions on it.';
+  static const pickSubject = 'Pick the subject, then the chapter, and Mobi adds 2 new CUET-style questions on it.';
+  static const loadingChapters = 'Loading the chapters.';
+  static const chaptersFailed = 'The chapters did not load. Nothing was charged.';
+  static const tryAgain = 'Try again';
   static const finding = 'Finding 2 questions you have not seen.';
   static String tally(int right, int of) => right == of
       ? (of == 2 ? 'You got both right. This doubt is settled.' : 'You got it right. This doubt is settled.')

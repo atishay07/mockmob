@@ -17,6 +17,7 @@ import '../../insights/data/feed_api.dart' show feedApiProvider, reportQuestion;
 import '../../insights/data/mobi_models.dart' show CheckMark;
 import '../data/fix_api.dart';
 import '../data/repair_api.dart';
+import '../widgets/ai_explanation_note.dart';
 import '../widgets/check_card.dart';
 import '../widgets/outcome_views.dart' show RuleCard;
 
@@ -193,7 +194,9 @@ class _FixScreenState extends ConsumerState<FixScreen> {
   }
 
   Future<void> _dispute() async {
-    final ok = await reportQuestion(ref.read(feedApiProvider), widget.questionId, FixCopy.disputeReason, flow: 'fix');
+    // The interact route accepts only mock, review, explore or shadow as the flow ('fix' was refused, so every dispute
+    // said it did not reach us).
+    final ok = await reportQuestion(ref.read(feedApiProvider), widget.questionId, FixCopy.disputeReason, flow: 'review');
     if (!mounted) return;
     setState(() => _disputed = ok);
     ScaffoldMessenger.maybeOf(context)
@@ -277,7 +280,8 @@ class _FixScreenState extends ConsumerState<FixScreen> {
         ] else ...[
           Semantics(liveRegion: true, child: Text(FixCopy.failure(e), style: type.body.copyWith(fontWeight: FontWeight.w600))),
           const SizedBox(height: MmSpace.s4),
-          Text(FixCopy.nothingCharged, style: type.small.copyWith(color: colors.ink2)),
+          // L-11: only a failure the server reported says nothing was charged; a lost answer says what trying again does.
+          Text(FixCopy.outcomeUnknown(e) ? FixCopy.unknownNote : FixCopy.nothingCharged, style: type.small.copyWith(color: colors.ink2)),
           if (!(e?.kind == ApiErrorKind.paymentRequired || (e?.hasCode('insufficient_ai_credits') ?? false))) ...[
             const SizedBox(height: MmSpace.s16),
             KeyButton.secondary(label: FixCopy.tryAgain, expanded: false, minHeight: MmTarget.min, onPressed: _write),
@@ -356,6 +360,9 @@ class _FixScreenState extends ConsumerState<FixScreen> {
       const SizedBox(height: MmSpace.s32),
       Divider(height: 1, thickness: 1, color: colors.line),
       const SizedBox(height: MmSpace.s12),
+      // L-06: the fix is written by AI, so it says it can be wrong and can be reported.
+      AiExplanationNote(questionId: widget.questionId, surface: 'fix', excerpt: e.whyRight ?? e.keyIdea),
+      const SizedBox(height: MmSpace.s8),
       if (FixCopy.chargeLine(r) case final line?) Text(line, style: type.caption.copyWith(color: colors.ink3)),
       const SizedBox(height: MmSpace.s4),
       if (_disputed)
@@ -545,11 +552,29 @@ abstract final class FixCopy {
   static const tryAgain = 'Try again';
   static const noCredits = 'You have no credits left, so Mobi cannot write this fix. A fix uses 1 credit.';
   static const failed = 'Mobi could not write this fix just now.';
+
+  /// The answer did not reach the phone, so whether the fix was written (and charged) is not known.
+  static const lost = 'Your fix did not reach this phone.';
+
+  /// L-11: what trying again does when the outcome is not known. A fix that was written is stored and opens free.
+  static const unknownNote = 'Try again. If Mobi wrote it, it opens free, because a fix is charged only once.';
+
+  /// True when the server never said what happened: no answer (offline, a timeout), a server failure with no charge
+  /// figure, or an answer the phone could not read. Never "Nothing was charged" or "You are offline" then.
+  static bool outcomeUnknown(ApiError? e) {
+    if (e == null) return true;
+    if (e.chargedNothing) return false;
+    return switch (e.kind) {
+      ApiErrorKind.network || ApiErrorKind.timeout || ApiErrorKind.server || ApiErrorKind.unavailable || ApiErrorKind.cancelled || ApiErrorKind.unknown => true,
+      _ => false,
+    };
+  }
+
   static String failure(ApiError? e) {
-    if (e == null) return failed;
-    if (e.kind == ApiErrorKind.paymentRequired || e.hasCode('insufficient_ai_credits')) return noCredits;
-    if (e.isOffline) return 'You are offline, so Mobi could not write this fix.';
-    return e.serverMessage ?? failed;
+    if (e != null && (e.kind == ApiErrorKind.paymentRequired || e.hasCode('insufficient_ai_credits'))) return noCredits;
+    if (e != null && e.chargedNothing) return e.serverMessage ?? failed;
+    if (outcomeUnknown(e)) return lost;
+    return e?.serverMessage ?? failed;
   }
 
   static const heldForRecheck = 'This question is being checked again, so Mobi is not fixing it yet.';

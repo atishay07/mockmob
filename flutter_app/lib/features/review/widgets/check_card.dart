@@ -9,7 +9,7 @@ import '../data/repair_check_logic.dart' show CheckCopy;
 import 'outcome_views.dart' show ExplanationBlock;
 import 'question_panel.dart' show MarkedOption, OptionMark;
 
-/// One real CUET question that tests a Mobi job (a doubt's 2 questions, a fix's 2 checks): the stem, four options
+/// One new CUET-style question that tests a doubt or a fix (a doubt's 2 questions, a fix's 2 checks): the stem, four options
 /// as the app's radio rows, one "Check my answer" key, then the server's mark in words (the key and the pick tagged,
 /// never by colour alone) and the bank's own explanation. The first answer counts; nothing here costs a credit.
 class CheckCard extends StatefulWidget {

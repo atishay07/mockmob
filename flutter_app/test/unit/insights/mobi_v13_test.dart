@@ -1,5 +1,5 @@
 // Mobi v13 (MOBI-CONTRACT, 20 Oct): Where you stand reads every state honestly; a doubt opens a thread for 1 credit with
-// its 2 real CUET questions answered in place and one free follow-up, then closes and offers a new doubt; failures
+// its 2 new CUET-style questions answered in place and one free follow-up, then closes and offers a new doubt; failures
 // say nothing was charged; "Fix it for good" is offered on a wrong answer with its price before the tap.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

@@ -15,6 +15,7 @@ import '../copy.dart';
 import '../data/mistake_index.dart' show MistakeStage;
 import '../data/repair_check_logic.dart' show CheckCopy, CheckReceipt;
 import '../data/repair_state.dart';
+import 'ai_explanation_note.dart';
 import 'life_row.dart';
 import 'outcome_views.dart';
 import 'question_panel.dart';
@@ -418,6 +419,12 @@ class MistakeView extends StatelessWidget {
           ?_marks(context),
           ConceptRow(chapter: run.chapter),
           RetryCard(subjectId: run.subjectId, chapter: run.chapter),
+          // L-06: the repair is written by AI, so it says it can be wrong and can be reported.
+          if (response.explanation case final x?)
+            Padding(
+              padding: const EdgeInsets.only(top: MmSpace.s16),
+              child: AiExplanationNote(questionId: run.current!.item.questionId, surface: 'repair', excerpt: x.whyRight ?? x.keyIdea),
+            ),
           if (fine != null) RepairFinePrint(text: fine),
         ];
       case OutcomeSetAside(:final heldByServer):

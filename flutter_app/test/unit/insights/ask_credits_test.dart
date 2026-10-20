@@ -239,6 +239,61 @@ void main() {
       expect(http.requests.any((r) => r.path.contains('/mentor/history')), isTrue);
     });
 
+    test('duplicate of a paid doubt: the reply is found in its thread\'s own conversation, with the thread (L-01)', () async {
+      c = make();
+      String? id;
+      http.handler = (o) {
+        if (o.path.contains('/mentor/chat')) {
+          id = (o.data is String ? jsonDecode(o.data as String) : o.data)['requestId'] as String;
+          return const FakeReply(409, {'ok': false, 'error': 'duplicate', 'status': 'duplicate', 'charged': 0});
+        }
+        final session = o.queryParameters['sessionId'];
+        if (session == 'thread-1') {
+          return FakeReply(200, {
+            'session': {'id': 'thread-1'},
+            'sessions': [
+              {'id': 'thread-1'},
+            ],
+            'messages': [
+              {'role': 'user', 'text': 'How is goodwill valued by the super profit method?'},
+              {
+                'role': 'assistant',
+                'text': 'Super profit is the profit above the normal profit.',
+                'response': {
+                  'reply': 'Super profit is the profit above the normal profit.',
+                  'origin': 'model',
+                  'charge': {'kind': 'prepos_credit', 'amount': 1, 'reference': 'prepos:u1:$id'},
+                  'thread': {'id': 'thread-1', 'followUpsLeft': 1, 'followUpsMax': 1, 'subject': 'accountancy', 'chapter': null},
+                  'checks': [],
+                  'checksNote': 'Pick the chapter and Mobi adds 2 real CUET questions on it to test this.',
+                },
+              },
+            ],
+          });
+        }
+        // The newest conversation is the empty row the retry opened; the doubt's thread is the one before it.
+        return const FakeReply(200, {
+          'session': {'id': 'thread-2'},
+          'sessions': [
+            {'id': 'thread-2'},
+            {'id': 'thread-1'},
+            {'id': 's-old'},
+          ],
+          'messages': [],
+        });
+      };
+      expect(await ctl().send('How is goodwill valued by the super profit method?', subject: 'accountancy'), isNull);
+      expect(last().origin, AskOrigin.model);
+      expect(last().text, contains('Super profit'));
+      expect(last().charged, 1);
+      final state = c.read(askControllerProvider);
+      expect(state.thread?.info.id, 'thread-1');
+      expect(state.thread?.canFollowUp, isTrue, reason: 'the free follow-up the credit bought is still there');
+      expect(state.thread?.askedSubject, 'accountancy');
+      expect(state.sessionId, 'thread-1');
+      expect(http.requests.where((r) => r.path.contains('/mentor/history')).length, greaterThanOrEqualTo(2));
+    });
+
     test('duplicate with no reply in the history: says so, and asking again is a new question', () async {
       c = make();
       http.handler = (o) => o.path.contains('/mentor/chat')

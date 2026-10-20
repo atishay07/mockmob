@@ -137,6 +137,10 @@ final walletRepositoryProvider = NotifierProvider<WalletRepository, RemoteState<
 /// shows the server's own line). False until the server has said so.
 final firstFullMockFreeProvider = Provider<bool>((ref) => ref.watch(walletRepositoryProvider.select((s) => s.value?.firstFullMockFree ?? false)));
 
+/// The same signal with "not known yet" kept apart from "no" (L-05): null until the Wallet's read has landed, so the
+/// Pro page never prices every Free full mock at 50 credits before the server has said whether the first one is free.
+final firstFullMockFreeKnownProvider = Provider<bool?>((ref) => ref.watch(walletRepositoryProvider.select((s) => s.value?.firstFullMockFree)));
+
 const _ist = Duration(hours: 5, minutes: 30);
 
 /// Everything the Wallet draws, in one plain value.

@@ -140,11 +140,13 @@ abstract final class BillingCopy {
     ('Smart practice', 'Every set leans toward the chapters you miss, so each one fixes something.'),
     ('The exam-day screen', 'NTA mode: 50 questions in 60 minutes, laid out as you will meet it on the day.'),
     ('Easy, Medium and Hard', 'Choose how hard each set is, then step up.'),
-    ('Insights in detail', 'See where you changed answers and how your pace held up across a paper.'),
+    // L-12: the free finish read already shows one paper's answer changes; Pro's part is the habit across every paper.
+    ('Insights in detail', 'Your answer-change habit and your pace across every paper, in one record.'),
   ];
 
   /// The Mob's part of Pro, shown only when the Mob is on (its own words, MobV3Copy.proList).
-  static const proFeatureMob = ('Host your Mob', 'Start as many games as you like, open live rooms and start up to 3 Mobs.');
+  // L-04: no live rooms while the server's live switch is off.
+  static const proFeatureMob = ('Host your Mob', 'Start as many games as you like, and up to 3 Mobs of your own.');
 
   static const compareFree = 'Free';
   static const comparePro = 'Pro';
@@ -156,18 +158,32 @@ abstract final class BillingCopy {
   /// an empty one is a dash (not included). One short line each, so the table reads at a glance.
   static const List<(String, String?, String?)> compareRows = [
     ('A new paper every time', null, null),
-    ('Full mocks', '50 credits each', compareUnlimited),
+    ('Full mocks', compareFullMockFree, compareUnlimited),
     ('Quick practice', 'Uses credits', compareUnlimited),
     ('Smart practice', '', null),
     ('Exam-day screen', '', null),
     ('Easy, Medium, Hard', '', null),
-    ('Insights in detail', '', null),
+    ('Insights in detail', 'This paper only', null),
   ];
+
+  /// The Free cell for full mocks, by what the server says about the first full mock (L-05, C-dec 1).
+  static const compareFullMockFree = '50 credits each';
+  static const compareFullMockFirstFree = 'First free, then 50 credits';
+
+  /// The comparison rows with the Free full-mock cell said truthfully: [firstFree] true when the server says the first
+  /// full mock in each subject is free, false when it says it is not, null while that is not known (a plain "Uses credits").
+  static List<(String, String?, String?)> compareRowsFor({required bool? firstFree}) => [
+        for (final r in compareRows)
+          if (r.$1 == 'Full mocks')
+            (r.$1, firstFree == null ? 'Uses credits' : (firstFree ? compareFullMockFirstFree : compareFullMockFree), r.$3)
+          else
+            r,
+      ];
 
   /// The Mob's rows, only when the Mob is on.
   static const List<(String, String?, String?)> compareMobRows = [
     ('Play Mob games', null, null),
-    ('Start Mob games', 'One a week', compareUnlimited),
+    ('Start Mob games', 'One a week per Mob', compareUnlimited),
   ];
 
   // The three moments of the showcase. Each picture is an illustration; nothing in it is the
@@ -175,8 +191,15 @@ abstract final class BillingCopy {
   static const moment1Badge = 'A new paper every time';
   static const moment1Eyebrow = 'Unlimited mocks';
   static const moment1Title = 'Sit as many mocks as you want';
-  static const moment1Line =
-      'Each Full mock is built fresh from one central question bank, so every paper is new. On Free, each one costs 50 credits.';
+  static const moment1Line = 'Each Full mock is built fresh from one central question bank, so every paper is new.';
+
+  /// [moment1Line] with what Free pays, only as the server says it (L-05): the first full mock in each subject is free
+  /// while its rule is on. Null [firstFree] (not known yet) says nothing about the price.
+  static String moment1LineFor({required bool? firstFree}) => switch (firstFree) {
+        true => '$moment1Line On Free, your first one in each subject is free, then each costs 50 credits.',
+        false => '$moment1Line On Free, each one costs 50 credits.',
+        null => moment1Line,
+      };
 
   static const moment2Eyebrow = 'Smart practice';
   static const moment2Title = 'Every set aims at what you miss';
@@ -198,8 +221,8 @@ abstract final class BillingCopy {
 
   static const proPageAlsoHeading = 'Also in Pro';
   static const alsoDifficulty = ('Easy, Medium and Hard', 'Choose how hard each set is, then step up.');
-  static const alsoInsights = ('Insights in detail', 'Where you changed answers, and how your pace held up.');
-  static const alsoMob = ('Host your Mob', 'Start as many games as you like, open live rooms and start up to 3 Mobs.');
+  static const alsoInsights = ('Insights in detail', 'Your answer-change habit and pace across every paper.');
+  static const alsoMob = ('Host your Mob', 'Start as many games as you like, and up to 3 Mobs of your own.');
 
   static const proWelcome = 'Welcome to Pro';
 
@@ -221,8 +244,8 @@ abstract final class BillingCopy {
       ? 'Your free credits come back every month. A top-up adds more that never expire.'
       : 'Your $allowance free credits come back every month. A top-up adds more that never expire.';
   static const topUpsLeadFree = 'Top-up credits never expire.';
-  /// What a pack is, in the website's words: written answers from Mobi or mistake repairs.
-  static String packUse(int credits) => '$credits written answers from Mobi or mistake repairs';
+  /// What a pack is for, in the one noun pair (L-20): doubts and fixes.
+  static String packUse(int credits) => 'Enough for $credits doubts or fixes with Mobi';
   static const bestValue = 'Best value';
   static String savePercent(int pct) => 'Save $pct%';
   static String balanceNow(int total) => 'Your balance is now $total.';

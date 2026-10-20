@@ -18,7 +18,7 @@ import '../../../../core/theme/theme.dart';
 import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
-import '../logic/fold_catalog.dart' show denItemsByWeek;
+import '../logic/fold_catalog.dart' show denItemsByWeek, foldRuleOf;
 import '../mob_v3_nav.dart';
 import '../widgets/moment_kit.dart';
 import '../widgets/moment_milestone.dart';
@@ -47,14 +47,16 @@ class MomentsShown extends Notifier<List<String>> {
 
 final momentsShownProvider = NotifierProvider<MomentsShown, List<String>>(MomentsShown.new);
 
-/// What the finished quest's parcel held, from what the server sent: a `reveal:<fold>` due with it
-/// means the parcel held that Fold; else a den object the chain reached this week and the shelf now
-/// holds; else the week's stitch.
+/// What the finished quest's parcel held, from what the server sent: the server's own parcel when it names a Fold;
+/// else a `reveal:<fold>` due for a Fold the Mob earns by its quest (never a personal Fold such as Naav, app-mob-truth
+/// H1 and M2); else a den object the chain reached this week and the shelf now holds; else the week's stitch.
 QuestPrize questPrizeOf(MobV3 v3) {
+  final p = v3.quest.parcel;
+  if (p.kind == ParcelKind.fold && p.fold != null) return QuestPrize(ParcelKind.fold, fold: p.fold);
   for (final k in v3.moments) {
     final m = MomentKey.parse(k);
     final f = m.fold;
-    if (m.kind == 'reveal' && f != null) return QuestPrize(ParcelKind.fold, fold: f);
+    if (m.kind == 'reveal' && f != null && foldRuleOf(f).source == 'mob_quest') return QuestPrize(ParcelKind.fold, fold: f);
   }
   final item = weekItemOf(v3);
   if (item != null) return QuestPrize(ParcelKind.item, item: item);
@@ -80,13 +82,21 @@ String? nextStitch(DenView den, {Set<String> shown = const {}}) {
 }
 
 /// The reveal key to play next, when the server sent one that has not been shown.
-String? nextReveal(MobV3 v3, {Set<String> shown = const {}}) {
+String? nextReveal(MobV3 v3, {Set<String> shown = const {}, FoldKey? only}) {
   for (final k in v3.moments) {
     if (shown.contains(k)) continue;
     final m = MomentKey.parse(k);
-    if (m.kind == 'reveal' && m.fold != null) return k;
+    if (m.kind == 'reveal' && m.fold != null && (only == null || m.fold == only)) return k;
   }
   return null;
+}
+
+/// The reveal the quest chain opens as its parcel: only the parcel's own Fold. Every other reveal plays later in the
+/// queue on its own, never as if it had been in the parcel (app-mob-truth M2).
+String? parcelReveal(MobV3 v3, {Set<String> shown = const {}}) {
+  final prize = questPrizeOf(v3);
+  if (prize.kind != ParcelKind.fold || prize.fold == null) return null;
+  return nextReveal(v3, shown: shown, only: prize.fold);
 }
 
 /// F13: a stitch plays only after the server reported this week's quest done, for this Mob's week.
@@ -205,7 +215,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
     // The spec's order (5.6): quest done, week stitched, reveal; each once. K2's key goes to the next
     // one that is due: the stitch (when allowed), else the reveal.
     final stitchKey = nextStitch(den, shown: _shownHere) ?? '';
-    final revealKey = nextReveal(v3, shown: _shownHere);
+    final revealKey = parcelReveal(v3, shown: _shownHere);
     final String label;
     final VoidCallback onKey;
     if (stitchKey.isNotEmpty) {
@@ -234,7 +244,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
   Widget _stitch(DenView? den, MomentKey key) {
     if (den == null || !stitchAllowed(den, key)) return _unknown();
     final v3 = den.v3;
-    final revealKey = nextReveal(v3, shown: _shownHere);
+    final revealKey = parcelReveal(v3, shown: _shownHere);
     return StitchedMoment(
       mobName: v3.name.text,
       members: v3.members,
@@ -248,8 +258,13 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
 
   Widget _reveal(DenView? den, FoldKey? fold) {
     if (fold == null) return _unknown();
+    // The Mob is named only when this Fold is its own finished quest's parcel; any other reveal says how it was earned
+    // in its own words (app-mob-truth H1).
+    final v3 = den?.v3;
+    final prize = v3 == null ? null : questPrizeOf(v3);
+    final ownParcel = v3 != null && v3.quest.done && prize?.kind == ParcelKind.fold && prize?.fold == fold;
     return RevealMoment(
-      mobName: den?.v3.name.text ?? '',
+      mobName: ownParcel ? v3.name.text : null,
       fold: fold,
       playing: _sitting,
       onPlayAs: () => _playAs(fold),

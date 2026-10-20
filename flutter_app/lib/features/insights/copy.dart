@@ -350,7 +350,7 @@ abstract final class InsightsCopy {
   static const walletRenewNote = 'Unused free credits do not carry over.';
   static const walletHow = 'How Ask uses credits';
   static const walletHowRecord = 'Questions about your record are free.';
-  static const walletHowModel = 'A doubt uses 1 credit: Mobi’s answer, one follow-up and 2 real CUET questions to test it.';
+  static const walletHowModel = 'A doubt uses 1 credit: Mobi’s answer, one follow-up and 2 new CUET-style questions to test it.';
   static const walletHowFailed = 'A reply that fails costs nothing; the credit returns automatically.';
   static const walletAllowance = '50 credits a month on Free, 50 on Pro. Separate from practice credits.';
   static const walletHistory = 'Used in this conversation';

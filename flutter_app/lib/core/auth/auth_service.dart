@@ -463,7 +463,12 @@ class AuthService implements ApiTokenProvider {
         if (!_handledCodes.add(tokenHash)) return;
         _oauth.add(const OAuthReturn(OAuthReturnKind.exchanging));
         try {
-          final response = await _client.verifyOTP(tokenHash: tokenHash, type: type == 'email' ? OtpType.email : OtpType.magiclink);
+          final response = await _client.verifyOTP(tokenHash: tokenHash, type: switch (type) {
+            'signup' => OtpType.signup,
+            'email' => OtpType.email,
+            'invite' => OtpType.invite,
+            _ => OtpType.magiclink,
+          });
           await _arrived(response.session);
           _oauth.add(const OAuthReturn(OAuthReturnKind.signedIn));
         } on AuthRetryableFetchException {

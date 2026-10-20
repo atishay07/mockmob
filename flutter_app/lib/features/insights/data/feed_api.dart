@@ -78,9 +78,9 @@ class FeedApi {
 final feedApiProvider = Provider<FeedApi>((ref) => FeedApi(ref.watch(apiClientProvider)));
 
 /// Whether a report reached the server.
-Future<bool> reportQuestion(FeedApi api, String questionId, String reason, {required String flow}) async {
+Future<bool> reportQuestion(FeedApi api, String questionId, String reason, {required String flow, Map<String, Object?> extra = const {}}) async {
   try {
-    await api.interact(questionId, 'report', flow: flow, metadata: {'reason': reason});
+    await api.interact(questionId, 'report', flow: flow, metadata: {...extra, 'reason': reason});
     return true;
   } on ApiError {
     return false;

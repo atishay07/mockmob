@@ -67,9 +67,13 @@ abstract final class FinishRevealCopy {
   /// "and 3 more chapters, 11 marks" under the first rows.
   static String more(int chapters, int marks) => 'and $chapters more ${chapters == 1 ? 'chapter' : 'chapters'}, $marks marks';
 
-  /// What TalkBack reads for one chapter row: "Ray Optics, tied first, 6 marks lost".
+  /// What TalkBack reads for one chapter row: "Ray Optics, tied first, 6 marks missed".
   static String chapterSpoken(FinishChapter c) =>
-      '${c.name}, ${c.tied ? 'tied ' : ''}${_ordinal(c.rank)}, ${c.lost} marks lost';
+      '${c.name}, ${c.tied ? 'tied ' : ''}${_ordinal(c.rank)}, ${c.lost} marks missed';
+
+  /// Over the read's chapter figures: marks a chapter did not earn (6 for a wrong answer, 5 for a blank), never a
+  /// deduction, so never written with a minus (app-finish F1: the ledger above takes off only 1 per wrong answer).
+  static const String missedHead = 'Marks missed';
 
   /// What TalkBack reads for the ledger.
   static String ledgerSpoken(int right, int wrong, int blank) =>
@@ -632,6 +636,10 @@ class _ChapterTable extends StatelessWidget {
       key: const ValueKey('finish-chapters'),
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        Align(
+          alignment: Alignment.centerRight,
+          child: ExcludeSemantics(child: Text(FinishRevealCopy.missedHead, style: type.caption.copyWith(color: colors.ink3))),
+        ),
         for (final c in shown)
           Semantics(
             container: true,
@@ -645,7 +653,7 @@ class _ChapterTable extends StatelessWidget {
                   Expanded(child: Text(c.name, style: type.body.copyWith(color: colors.ink), maxLines: 1, overflow: TextOverflow.ellipsis)),
                   if (c.tied) ...[const SizedBox(width: MmSpace.s8), _TiedTag()],
                   const SizedBox(width: MmSpace.s12),
-                  Text('−${c.lost}', style: value.copyWith(color: colors.wrongText)),
+                  Text('${c.lost}', style: value),
                 ],
               ),
             ),

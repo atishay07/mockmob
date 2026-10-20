@@ -65,7 +65,7 @@ abstract final class AskDoorCopy {
   // Ask now.
   static const nowTitle = 'Ask now';
   /// What a credit buys, said on the door before anything is typed (C-dec 3b: 1 credit on every plan).
-  static const nowLine = '1 credit buys an answer, a follow-up and 2 real CUET questions.';
+  static const nowLine = '1 credit buys an answer, a follow-up and 2 new CUET-style questions.';
 
   /// The line under a starter from the record: "Accountancy. You lost 39 marks here."
   static String starterLost(String subject, int lost) => '$subject. You lost $lost ${lost == 1 ? 'mark' : 'marks'} here.';
@@ -130,7 +130,7 @@ abstract final class AskDoorCopy {
   static const creditsNone = 'You have no credits left.';
   static const creditsPaused = 'Written answers are paused just now.';
   static const pausedSecond = 'Answers from your marks still work.';
-  static const howItCosts = 'Answers from your record are free. A doubt uses 1 credit, with its follow-up and 2 real CUET questions.';
+  static const howItCosts = 'Answers from your record are free. A doubt uses 1 credit, with its follow-up and 2 new CUET-style questions.';
   static const howItCostsNone = 'Answers from your marks stay free.';
 
   // Pro, with PLAY_BILLING off: a calm sheet, no price, no link (D101).
@@ -176,7 +176,7 @@ abstract final class AskDoorCopy {
 // ---- Ask now ------------------------------------------------------------------------------
 
 /// One Ask now starter: the doubt that is sent, the line under it, and the anchor of its 2 check questions. A
-/// starter from the record carries its chapter, so the server attaches 2 real CUET questions on it; one from the
+/// starter from the record carries its chapter, so the server attaches 2 new CUET-style questions on it; one from the
 /// student's subjects alone sends the subject and lets the student pick the chapter after the answer.
 class NowStarter {
   const NowStarter({required this.text, this.preview, this.subject, this.chapter});

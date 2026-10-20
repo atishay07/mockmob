@@ -32,6 +32,14 @@ void main() {
       expect((AuthCallback.parse(Uri.parse('https://www.mockmob.in/app/login?token_hash=abc&type=email'))! as AuthCallbackTokenHash).type, 'email');
       expect(AuthCallback.parse(Uri.parse('https://www.mockmob.in/app/login')), isNull);
     });
+
+    test('a first sign-in comes back as signup and is spent as signup; an unknown type is refused (app-signin H1)', () {
+      final signup = AuthCallback.parse(Uri.parse('https://www.mockmob.in/app/login?token_hash=abc&type=signup'));
+      expect((signup! as AuthCallbackTokenHash).type, 'signup');
+      expect((AuthCallback.parse(Uri.parse('https://www.mockmob.in/app/login?token_hash=abc&type=invite'))! as AuthCallbackTokenHash).type, 'invite');
+      expect((AuthCallback.parse(Uri.parse('https://www.mockmob.in/app/login?token_hash=abc'))! as AuthCallbackTokenHash).type, 'magiclink');
+      expect(AuthCallback.parse(Uri.parse('https://www.mockmob.in/app/login?token_hash=abc&type=recovery')), isNull);
+    });
   });
 
   group('AuthService.handleLink, email link', () {
@@ -89,6 +97,23 @@ void main() {
       expect(bodies.single['type'], 'magiclink');
       expect(returns.map((r) => r.kind), [OAuthReturnKind.exchanging, OAuthReturnKind.signedIn]);
       expect(auth.session?.accessToken, 'e1');
+    });
+
+    test('a brand-new account\'s link (type=signup) is verified as signup and signs the student in (app-signin H1)', () async {
+      final bodies = <Map>[];
+      server.routes['verify'] = (request) {
+        bodies.add(jsonDecode(request.body) as Map);
+        return GoTrueServer.json(200, tokenBody(access: 's1', refresh: 'sr1', serverNow: clock));
+      };
+      final auth = await service();
+      await auth.restore();
+      final returns = <OAuthReturn>[];
+      subs.add(auth.oauthReturns.listen(returns.add));
+      links.add(Uri.parse('https://www.mockmob.in/app/login?token_hash=hash_new&type=signup'));
+      await eventually(() => returns.length >= 2);
+      expect(bodies.single['type'], 'signup');
+      expect(returns.last.kind, OAuthReturnKind.signedIn);
+      expect(auth.session?.accessToken, 's1');
     });
 
     test('an expired or used link is reported as a bad code and signs nobody in', () async {

@@ -21,7 +21,8 @@ import 'parcel.dart';
 class RevealMoment extends StatefulWidget {
   const RevealMoment({super.key, required this.mobName, required this.fold, required this.onPlayAs, required this.onShelf, required this.onClose, this.playing = false});
 
-  final String mobName;
+  /// The Mob that earned it, only when the reveal is the open Mob's own parcel; null says "Your Mob".
+  final String? mobName;
   final FoldKey fold;
   final VoidCallback onPlayAs;
   final VoidCallback onShelf;

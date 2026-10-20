@@ -1,6 +1,6 @@
 // Mobi v13 (MOBI-CONTRACT, 20 Oct): Ask Mobi's record door leads with Where you stand (ready, partial, thin, and ready
 // with no colleges), the Ask now door's starters come from the student's weak chapters, and a doubt's thread shows its
-// 2 real CUET questions answered, then closes after its one follow-up. 360 and 412 dp, Night and Day.
+// 2 new CUET-style questions answered, then closes after its one follow-up. 360 and 412 dp, Night and Day.
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/models/repair_check.dart';

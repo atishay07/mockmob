@@ -580,7 +580,7 @@ class _AskScreenState extends ConsumerState<AskScreen> {
                                         _toEnd();
                                       },
                                     ),
-                                    // What the doubt's credit bought: its 2 real CUET questions, under the answer.
+                                    // What the doubt's credit bought: its 2 new CUET-style questions, under the answer.
                                     if (state.thread case final t? when t.openedAt == i && hand == null) ...[
                                       const SizedBox(height: MmSpace.s32),
                                       DoubtChecks(

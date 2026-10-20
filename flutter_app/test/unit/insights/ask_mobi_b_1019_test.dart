@@ -184,7 +184,7 @@ void main() {
     test('the credit line is the wallet: of your 50 monthly, the real renewal day, or nothing invented', () {
       final w = AskWallet.fromCredits(monthly());
       expect(creditLineWords(w, renew: renewDay(w, evening)).$1, '38 of your 50 free credits left\u00a0· they refill\u00a01\u00a0Nov');
-      expect(creditLineWords(w, renew: '1 November').$2, 'Answers from your record are free. A doubt uses 1 credit, with its follow-up and 2 real CUET questions.');
+      expect(creditLineWords(w, renew: '1 November').$2, 'Answers from your record are free. A doubt uses 1 credit, with its follow-up and 2 new CUET-style questions.');
       expect(creditLineWords(w, renew: '1 November', oneBalance: true).$1, '38 credits left\u00a0· free ones refill\u00a01\u00a0Nov');
       expect(creditLineWords(null, renew: '1 November').$1, AskDoorCopy.creditsUnknown, reason: 'an unknown balance is never a zero');
       expect(creditLineWords(w.withTotal(0), renew: '1 November').$1, 'You have no credits left. Your free credits refill on 1 November.');

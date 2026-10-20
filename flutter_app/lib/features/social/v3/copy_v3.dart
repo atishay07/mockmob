@@ -308,12 +308,13 @@ abstract final class MobV3Copy {
     'Every Fold and sticker you earn.',
   ];
   static const String proAdds = 'Pro adds';
-  static const List<String> proList = [
-    'Start as many games as you like, live or anytime.',
-    'Open live rooms.',
-    'Pass the mic to a friend, twice a week.',
-    'Start up to 3 Mobs.',
-  ];
+  /// What Pro adds in the Mob. Live rooms are named only while the server's live switch is on (L-04).
+  static List<String> proListFor({required bool live}) => [
+        live ? 'Start as many games as you like, live or anytime.' : 'Start as many games as you like.',
+        if (live) 'Open live rooms.',
+        'Pass the mic to a friend, twice a week.',
+        'Start up to 3 Mobs.',
+      ];
   static const String notForSale = 'Nothing you earn in the Mob is for sale.';
   static const String seePlans = 'See Pro plans';
 
@@ -572,7 +573,25 @@ abstract final class MobV3Copy {
   static String rewardFor(String item) => '${_article(itemName(item))} for your den';
   static const String staysOnShelf = "It stays on your den's shelf.";
   static const String newOnShelf = 'New on your shelf';
-  static String revealFact(String mob, FoldKey f) => '$mob finished its first weekly quest, so everyone in it gets ${foldName(f)}. Nobody can buy ${_pronoun(f)}.';
+  /// K4's fact: how THIS Fold was earned, by its own rule (app-mob-truth H1: every reveal used to say the Mob's first
+  /// quest earned it for everyone). [mob] names the Mob only when the reveal is the open Mob's own parcel; otherwise a
+  /// Mob Fold says "Your Mob", because it may have come from another Mob.
+  static String revealFact(String? mob, FoldKey f) {
+    final who = mob == null || mob.trim().isEmpty ? 'Your Mob' : mob.trim();
+    final name = foldName(f);
+    final nobody = 'Nobody can buy ${_pronoun(f)}.';
+    return switch (f) {
+      FoldKey.hop => '$who finished its first weekly quest, so everyone in it gets $name. $nobody',
+      FoldKey.crane => '$who fixed 3 traps together, so everyone in it gets $name. $nobody',
+      FoldKey.stamp => "$who's chain reached 4 weeks in a row, so everyone in it gets $name. $nobody",
+      FoldKey.naav => 'You finished your first full mock, so $name is yours. $nobody',
+      FoldKey.tally => 'You finished 3 Mob games with no minus marks, so $name is yours. $nobody',
+      FoldKey.patang => "You beat your own best score in a subject's full mock, so $name is yours. $nobody",
+      FoldKey.sticky => '5 of your fixes held, so $name is yours. $nobody',
+      FoldKey.cutting => 'You came back after 3 or more days away, so $name is yours. $nobody',
+      FoldKey.dart || FoldKey.dogear || FoldKey.hexa || FoldKey.kandil => '$name is free to everyone, and now stands on your shelf.',
+    };
+  }
   static String playAs(FoldKey f) => 'Play as ${foldName(f)}';
   static const String seeShelf = 'See your shelf';
   static String passNotice(String weekday, int days) => '$weekday was covered by a rest pass. Your chain is still $days.';

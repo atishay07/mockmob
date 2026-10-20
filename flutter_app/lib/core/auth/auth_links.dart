@@ -37,8 +37,13 @@ sealed class AuthCallback {
     if (AuthLinks.isEmailLink(uri)) {
       final hash = uri.queryParameters['token_hash']?.trim();
       if (hash == null || hash.isEmpty) return null;
+      // The type the server minted, exactly (app-signin H1): a first sign-in's magic link comes back as `signup`, and
+      // spending it as `magiclink` failed for every brand-new account. No type is the server's magic link; any other
+      // type is refused.
       final type = uri.queryParameters['type']?.trim().toLowerCase();
-      return AuthCallbackTokenHash(hash, type == 'email' ? 'email' : 'magiclink');
+      if (type == null || type.isEmpty) return AuthCallbackTokenHash(hash, 'magiclink');
+      if (!AuthCallbackTokenHash.types.contains(type)) return null;
+      return AuthCallbackTokenHash(hash, type);
     }
     if (!AuthLinks.isCallback(uri)) return null;
     final fragment = uri.fragment.isEmpty ? const <String, String>{} : _splitQuery(uri.fragment);
@@ -69,8 +74,12 @@ class AuthCallbackTokenHash extends AuthCallback {
   const AuthCallbackTokenHash(this.tokenHash, this.type);
   final String tokenHash;
 
-  /// `magiclink` (what the server mints) or `email`.
+  /// `magiclink` (what the server mints), `signup` (the same link for an account that did not exist yet), `email` or
+  /// `invite`.
   final String type;
+
+  /// The link types the app spends.
+  static const Set<String> types = {'magiclink', 'signup', 'email', 'invite'};
 }
 
 class AuthCallbackError extends AuthCallback {

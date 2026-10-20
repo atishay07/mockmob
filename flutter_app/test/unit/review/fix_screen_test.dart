@@ -8,10 +8,23 @@ import 'package:mockmob/core/router/routes.dart';
 import 'package:mockmob/features/review/data/fix_api.dart';
 import 'package:mockmob/features/review/data/repair_api.dart';
 import 'package:mockmob/features/review/screens/fix_screen.dart';
+import 'package:mockmob/features/review/widgets/ai_explanation_note.dart' show AiNoteCopy;
 
 import '../../golden/review/fix_v13_golden_test.dart' show FakeFixChecks, FakeRepairApi, fixResponse;
 import '../../golden/review/review_golden_support.dart';
 import '../../helpers/golden_harness.dart';
+
+class _LostRepair implements RepairApi {
+  _LostRepair(this.error);
+  final ApiError error;
+  final ids = <String>[];
+
+  @override
+  Future<RepairResponse> repair({required String attemptId, required String questionId, required String requestId, int? retryPick}) async {
+    ids.add(requestId);
+    throw error;
+  }
+}
 
 class _FailingRepair implements RepairApi {
   int calls = 0;
@@ -78,5 +91,32 @@ void main() {
     await tester.tap(find.text(FixCopy.tryAgain).first);
     await tester.pumpAndSettle();
     expect(api.calls, 2);
+  });
+
+  for (final (name, error) in [
+    ('offline', const ApiError(kind: ApiErrorKind.network, code: 'network')),
+    ('a timeout', const ApiError(kind: ApiErrorKind.timeout, code: 'timeout')),
+    ('a 504 with no charge figure', const ApiError(kind: ApiErrorKind.server, code: 'server', status: 504)),
+  ]) {
+    testWidgets('$name: the outcome is unknown, so it never says nothing was charged, and tries the same request (L-11)', (tester) async {
+      final api = _LostRepair(error);
+      await _pump(tester, api);
+      await tester.pumpAndSettle();
+      expect(find.text(FixCopy.lost), findsOneWidget);
+      expect(find.text(FixCopy.unknownNote), findsOneWidget);
+      expect(find.text(FixCopy.nothingCharged), findsNothing);
+      expect(find.textContaining('You are offline'), findsNothing);
+      await tester.tap(find.text(FixCopy.tryAgain).first);
+      await tester.pumpAndSettle();
+      expect(api.ids, hasLength(2));
+      expect(api.ids[1], api.ids[0], reason: 'a fix that was written opens free on the same request');
+    });
+  }
+
+  testWidgets('a written fix says AI wrote it, can be wrong, and can be reported (L-06)', (tester) async {
+    await _pump(tester, FakeRepairApi());
+    await tester.pumpAndSettle();
+    expect(find.text(AiNoteCopy.caveat), findsOneWidget);
+    expect(find.text(AiNoteCopy.reportKey), findsOneWidget);
   });
 }

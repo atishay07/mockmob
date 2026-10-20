@@ -133,7 +133,7 @@ void main() {
     expect(find.text('Admission of a partner and Goodwill each cost you 6 marks.'), findsOneWidget);
     expect(find.text('Together they cost 12 of the 12 marks you missed.'), findsOneWidget);
     expect(find.text('Tied'), findsNWidgets(2));
-    expect(find.bySemanticsLabel('Goodwill, tied first, 6 marks lost'), findsOneWidget);
+    expect(find.bySemanticsLabel('Goodwill, tied first, 6 marks missed'), findsOneWidget);
     expect(find.textContaining('cost 6 of the 12'), findsNothing);
     semantics.dispose();
   });

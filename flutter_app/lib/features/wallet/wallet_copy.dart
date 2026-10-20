@@ -10,14 +10,14 @@ abstract final class WalletCopy {
 
   // The one balance.
   static const creditsName = 'Credits';
-  /// Only while the server's own line (`buys`) has not loaded: the website's line with the free first full mock switched
-  /// off (creditCopy ONE_CREDIT_LINE), word for word. It makes no free claim: whether the first full mock in each subject
-  /// is free is the server's to say (release 11 can switch it off), and it says so in `buys` when it loads, in the words
-  /// of [firstMockFreeClause]. So this line is true on every server and only ever gains the clause.
+  /// What one credit buys, in the app's own words (20 Oct, L-02/L-20: one noun pair, "a doubt" and "a fix"; the 2
+  /// questions are new CUET-style questions from the checked bank, never "real CUET questions"). It makes no free
+  /// claim: whether the first full mock in each subject is free is the server's to say, in its `buys` line, in the words
+  /// of [firstMockFreeClause]. So this line is true on every server.
   static const creditsFor =
-      '1 credit buys 1 practice question, or one Mobi job: a mistake fixed for good, or a doubt answered and tested on 2 '
-      'real CUET questions. A full mock costs 50 credits. Everything Mobi reads from your record is free. The cost shows '
-      'before you start.';
+      '1 credit buys 1 practice question, 1 doubt or 1 fix. A doubt gets Mobi’s answer, a follow-up and 2 new CUET-style '
+      'questions. A fix explains one mistake and tests it on 2 fresh questions. A full mock costs 50 credits. Everything '
+      'Mobi reads from your record is free. The cost shows before you start.';
 
   /// The clause the server's `buys` line carries while the free first full mock is on (creditCopy FIRST_ONE_FREE).
   static const firstMockFreeClause = ', and your first one in each subject is free';
@@ -40,15 +40,16 @@ abstract final class WalletCopy {
 
   // What credits buy: the server's price list, as tiles. The first full mock line only when the server says so.
   static const buysTitle = 'What credits buy';
-  static const costShows = 'The cost always shows before you start.';
+  static const costShows = 'What Mobi reads from your marks is free. The cost always shows before you start.';
   static const buyQuestion = 'A practice question';
   static const buyMock = 'A full mock';
   static const buyMockFirstFree = 'First one in each subject is free';
-  // Mobi's two jobs, as the website's price list names them (C-dec 3: no 3-credit "deeper analysis"; Mobi never charges
-  // for talking, and what it reads from the record is free).
-  static const buyReply = 'A written answer from Mobi';
-  static const buyReplyNote = 'Answers from your marks are free';
-  static const buyRepair = 'A mistake repair';
+  // What Mobi does for a credit, by one noun pair everywhere (L-20): a doubt and a fix. There is no 3-credit "deeper
+  // analysis" (C-dec 3), Mobi never charges for talking, and what it reads from the record is free.
+  static const buyDoubt = 'A doubt';
+  static const buyDoubtNote = 'Mobi’s answer, a follow-up and 2 new questions';
+  static const buyFix = 'A fix';
+  static const buyFixNote = 'One mistake explained, then tested twice';
   static const includedOnPro = 'Included';
   static String creditsWord(int n) => n == 1 ? 'credit' : 'credits';
 
