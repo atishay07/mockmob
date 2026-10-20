@@ -170,7 +170,7 @@ void main() {
       await tester.tap(find.text('Answer the age question'));
       await tester.pumpAndSettle();
       expect(find.text('Are you 18 or older?'), findsOneWidget);
-      await tester.tap(find.text('Prefer not to say'));
+      await tester.tap(find.text('Rather not say'));
       await tester.pumpAndSettle();
       expect(consent.ageCalls, [AgeBand.unknown]);
       expect(find.text(usageDataConsentLabel), findsOneWidget);
@@ -188,8 +188,8 @@ void main() {
     expect(find.text('This only decides your data settings.'), findsNothing, reason: 'the defensive caption is gone');
     expect(find.text('Yes'), findsOneWidget);
     expect(find.text('No'), findsOneWidget);
-    expect(find.text('Prefer not to say'), findsOneWidget);
-    await tester.tap(find.text('Prefer not to say'));
+    expect(find.text('Rather not say'), findsOneWidget);
+    await tester.tap(find.text('Rather not say'));
     await tester.pumpAndSettle();
     expect(consent.ageCalls, [AgeBand.unknown]);
     // The screen now follows the new record: "Prefer not to say" gets the switch (D183), and an adult who had
@@ -205,7 +205,7 @@ void main() {
     await _pump(tester, consent);
     await tester.tap(find.text('Change my age answer'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Prefer not to say'));
+    await tester.tap(find.text('Rather not say'));
     await tester.pumpAndSettle();
     expect(consent.ageCalls, [AgeBand.unknown]);
     expect(find.text(usageDataConsentLabel), findsOneWidget);

@@ -59,7 +59,7 @@ abstract final class WalletCopy {
   // The Pro bridge, for a Free student when Google Play is on.
   static const proBridgeTitle = 'Pro makes practice unlimited';
   static const proBridgeBody = 'Practise as much as you like without spending credits, with Smart practice and the exam-day screen.';
-  static const proBridgeKey = 'See Pro';
+  static const proBridgeKey = 'Get Pro';
 
   // Loading and failure. A balance that did not load is never zero.
   static const notLoaded = 'Not loaded';

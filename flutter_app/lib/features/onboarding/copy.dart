@@ -311,7 +311,7 @@ abstract final class OnboardingCopy {
   static const String ageQuestionPlain = 'Are you 18 or older?';
   static const String ageYes = 'Yes';
   static const String ageNo = 'No';
-  static const String agePreferNot = 'Prefer not to say';
+  static const String agePreferNot = 'Rather not say';
   static const String skipForNow = 'Skip for now';
   static const String consentSaveFailed = 'We could not save that. Your choice was not changed. Try again.';
   static const String consentOffline = 'You are offline. Your choice was not changed.';

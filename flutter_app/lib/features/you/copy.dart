@@ -278,7 +278,7 @@ abstract final class YouCopy {
   static const ageQuestion = 'Are you 18 or older?';
   static const ageYes = 'Yes';
   static const ageNo = 'No';
-  static const agePreferNot = 'Prefer not to say';
+  static const agePreferNot = 'Rather not say';
   static const consentLoading = 'Loading your usage-data choice';
   static const consentLoadFailedTitle = 'We could not load your usage-data choice';
   static const consentLoadFailedBody = 'Usage data stays off until we can check. Try again when you are connected.';

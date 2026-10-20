@@ -167,11 +167,11 @@ abstract final class ProNudgeCopy {
           ),
         ProReason.mobHosting => const ProSheetHead(
             'Host games for your Mob',
-            'Free already plays every game your Mob starts. Pro lets you start as many games as you like, pass the mic to a friend and start up to 3 Mobs. Marks and rewards stay the same for everyone.',
+            'Start any game, pass the mic and run up to 3 Mobs.',
           ),
         ProReason.mobFullMock => const ProSheetHead(
             'Start a full mock for your Mob',
-            'Pro starts a full mock together and sits every one free. On Free you can sit a full mock your Mob starts for 50 credits. Marks and rewards stay the same for everyone.',
+            'Start one any time. Sit every full mock free.',
           ),
         ProReason.general => _general,
       };
@@ -246,7 +246,7 @@ abstract final class ProNudgeCopy {
   static const gateAction = 'Upgrade to Pro';
   static const nudgeDismiss = 'Not now';
   static const goUnlimited = 'Go unlimited';
-  static const seePro = 'See Pro';
+  static const seePro = 'Get Pro';
 
   static const unlimitedMocks = 'Get unlimited mocks with Pro, a fresh paper every time.';
   static const noCreditsForPractice = 'No credits needed for practice with Pro. Every set and every mock is included.';
