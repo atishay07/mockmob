@@ -103,12 +103,16 @@ export const ACTIONS = Object.freeze({
   chainPatch: ['PATCH', ['chainWrite'], (s, u, b) => s.v3.chains.patch(u, b), 200, { v3: true }],
   pauseSet: ['POST', ['chainWrite'], (s, u, b) => s.v3.chains.pauseSet(u, b), 200, { v3: true }],
   pauseClear: ['DELETE', ['chainWrite'], (s, u, b) => s.v3.chains.pauseClear(u, b), 200, { v3: true }],
+  // Live rooms (Phase B, 3.2 and 4). Also need MOB_LIVE_ENABLED=true, else 409 LIVE_OFF ("only 24-hour games").
+  roomTicket: ['POST', ['ticket'], (s, u, _b, p) => s.v3.roomTicket(u, p.authUid, p.id), 200, { v3: true, live: true }],
+  roomStart: ['POST', ['room'], (s, u, _b, p) => s.v3.roomStart(u, p.id), 200, { v3: true, live: true }],
+  roomCancel: ['POST', ['room'], (s, u, _b, p) => s.v3.roomCancel(u, p.id), 200, { v3: true, live: true }],
 });
 
 const MAX_BODY = 4096;
 
 /**
- * deps: { enabled() -> boolean, v3Enabled() -> boolean (MOB_V3_ENABLED), auth(request) -> session | null, rateLimit(request, opts) -> { allowed, retryAfterSeconds? },
+ * deps: { enabled() -> boolean, v3Enabled() -> boolean (MOB_V3_ENABLED), liveEnabled() -> boolean (MOB_LIVE_ENABLED), auth(request) -> session | null, rateLimit(request, opts) -> { allowed, retryAfterSeconds? },
  *         giveBack(request, opts)  (optional) returns the count a success-only limit took,
  *         waitFor(request, opts) -> seconds | null  (optional) the real wait on a refused limit,
  *         now() -> ms (optional), service, cors(request) -> headers }
@@ -125,9 +129,13 @@ export async function handleMob(deps, action, request, params = {}) {
   // A public route still reads the session when there is one (the join page greets a signed-in student by who invited them).
   const session = await deps.auth(request).catch(() => null);
   const userId = session?.user?.id || null;
+  // The Supabase identity id (auth.uid() in Realtime), which can differ from users.id for old email-keyed rows.
+  params.authUid = session?.user?.authUid || null;
   if (!flags.public && !userId) return fail('UNAUTHENTICATED');
   // Mob v3 routes answer like a Mob that is off until MOB_V3_ENABLED=true (no dependency given: off).
   if (flags.v3 && !(deps.v3Enabled ? deps.v3Enabled() === true : false)) return fail('MOB_DISABLED');
+  // Live rooms answer 409 LIVE_OFF until MOB_LIVE_ENABLED=true (no dependency given: off), before any limit is taken.
+  if (flags.live && !(deps.liveEnabled ? deps.liveEnabled() === true : false)) return fail('LIVE_OFF');
   // `?mob=` with nothing after it is a malformed request, not a Mob the student is not in (a client with no id leaves the key out).
   if (request.method === 'GET' && !flags.public && typeof query.mob === 'string' && !query.mob.trim()) {
     return Response.json({ error: { code: 'BAD_REQUEST', message: 'Something in the request was not right. Try again.' } }, { status: 400, headers });

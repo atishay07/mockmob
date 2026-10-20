@@ -602,6 +602,15 @@
       }
     }
   },
+  "ROOM_CLOSED": {
+    "status": 409,
+    "body": {
+      "error": {
+        "code": "ROOM_CLOSED",
+        "message": "This live room has ended. The game is still open, so you can play it anytime before it closes."
+      }
+    }
+  },
   "STICKER_INVALID": {
     "status": 422,
     "body": {

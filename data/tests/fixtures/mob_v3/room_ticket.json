@@ -1,0 +1,11 @@
+{
+  "topic": "mob-room:uuid-4",
+  "memberId": "member-3",
+  "expiresAt": "2026-10-22T09:32:24.000Z",
+  "room": {
+    "state": "lobby",
+    "startsAt": null,
+    "hostMemberId": "member-2"
+  },
+  "serverNow": "2026-10-22T08:42:24.000Z"
+}

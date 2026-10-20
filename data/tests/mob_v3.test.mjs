@@ -22,7 +22,7 @@ import { DELETION_STEPS } from '../../src/lib/server/accountDeletion.js';
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
 const BASE = ['20261017100000_mob.sql', '20261017190000_mob_fix_1017.sql'].map((f) => read(`supabase/migrations/${f}`)).join('\n');
-const V3 = ['20261020100000_mob_v3_core', '20261020100100_mob_v3_games', '20261020100200_mob_v3_chains', '20261020100300_mob_v3_realtime'];
+const V3 = ['20261020100000_mob_v3_core', '20261020100100_mob_v3_games', '20261020100200_mob_v3_chains', '20261020100300_mob_v3_realtime', '20261020100400_mob_v3_live'];
 const v3Sql = V3.map((f) => read(`supabase/migrations/${f}.sql`)).join('\n');
 const v3Undo = [...V3].reverse().map((f) => read(`supabase/undo/${f}.undo.sql`)).join('\n');
 const blocklist = JSON.parse(read('data/mob_name_blocklist.json'));
@@ -927,7 +927,7 @@ const req = (method = 'GET', body) => new Request('http://localhost/api/mob', { 
 const v3Actions = Object.keys(ACTIONS).filter((a) => ACTIONS[a][4]?.v3);
 
 test('routes: v3 actions are 404 MOB_DISABLED until MOB_V3_ENABLED, 401 signed out, and old actions are untouched', async () => {
-  assert.equal(v3Actions.length, 20);
+  assert.equal(v3Actions.length, 23, '20 Phase A actions and the 3 live room actions (Phase B)');
   const deps = (over = {}) => ({ enabled: () => true, v3Enabled: () => false, auth: async () => ({ user: { id: 'u1' } }), rateLimit: async () => ({ allowed: true }), cors: () => ({}), service: { v3: new Proxy({}, { get: () => async () => ({ ok: true }) }), chains: {} }, ...over });
   for (const a of v3Actions) {
     const off = await handleMob(deps(), a, req(ACTIONS[a][0], ACTIONS[a][0] === 'GET' ? undefined : {}), { id: 'x' });
@@ -943,7 +943,7 @@ test('routes: v3 actions are 404 MOB_DISABLED until MOB_V3_ENABLED, 401 signed o
   assert.equal(fine.headers.get('cache-control'), 'no-store');
   // Every route file wires its handler.
   const files = ['settings', 'profile', 'shelf', 'sticker', 'mic', 'step-out', 'seen', 'game', 'game/[id]', 'game/[id]/run', 'game/[id]/answer', 'game/[id]/finish',
-    'game/[id]/podium', 'game/[id]/review', 'fix/start', 'fix/answer'].map((f) => `src/app/api/mob/${f}/route.js`).concat(['src/app/api/me/chain/route.js', 'src/app/api/me/chain/pause/route.js']);
+    'game/[id]/podium', 'game/[id]/review', 'game/[id]/room/ticket', 'game/[id]/room/start', 'game/[id]/room/cancel', 'fix/start', 'fix/answer'].map((f) => `src/app/api/mob/${f}/route.js`).concat(['src/app/api/me/chain/route.js', 'src/app/api/me/chain/pause/route.js']);
   const wired = new Set();
   for (const f of files) for (const m of read(f).matchAll(/handleMob\(mobDeps\(\), '(\w+)'/g)) wired.add(m[1]);
   assert.deepEqual([...wired].sort(), [...v3Actions].sort());

@@ -30,6 +30,8 @@ export const mobInvitesEnabled = () => process.env.MOB_INVITES_ENABLED !== 'fals
 // MOB_LIVE_ENABLED gates live rooms (Phase B). Both are read on every request.
 export const mobV3Enabled = () => process.env.MOB_V3_ENABLED === 'true';
 export const mobLiveEnabled = () => process.env.MOB_LIVE_ENABLED === 'true';
+// MOB_LIVE_MAX_ROOMS: live rooms open across MockMob at once (default 30, read every request; see src/lib/mob/live.mjs).
+export const mobLiveMaxRooms = () => process.env.MOB_LIVE_MAX_ROOMS;
 const secret = () => process.env.MOB_ID_SECRET || process.env.NEXTAUTH_SECRET || process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 async function rpc(name, params) {
@@ -139,7 +141,7 @@ export function mobService() {
     rpc, secret: secret(), randomBytes: (n) => randomBytes(n), blocklist, subjectInfo,
     loadUser: (id) => Database.getUserById(id),
     validChapter, pickQuestionIds, loadQuestions, trapNameFor, findAttempts, chapterCounts, forgetChapterCounts, invitesEnabled: mobInvitesEnabled,
-    v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, billingOn: () => playBillingEnabled(),
+    v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, liveMaxRooms: mobLiveMaxRooms, billingOn: () => playBillingEnabled(),
     // Lazy, because practiceSessions.js imports the sitting hook from this module.
     startPractice: async (userId, input, server) => (await import('@/lib/server/practiceSessions')).startPractice(userId, input, server),
   });
@@ -148,7 +150,7 @@ export function mobService() {
 
 export function mobDeps() {
   return {
-    enabled: mobEnabled, v3Enabled: mobV3Enabled, auth: (request) => auth(request), rateLimit: checkPersistentRateLimit, giveBack: giveBackRateLimit, waitFor: rateLimitWait,
+    enabled: mobEnabled, v3Enabled: mobV3Enabled, liveEnabled: mobLiveEnabled, auth: (request) => auth(request), rateLimit: checkPersistentRateLimit, giveBack: giveBackRateLimit, waitFor: rateLimitWait,
     cors: mobileOptions, service: mobService(),
   };
 }

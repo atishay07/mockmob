@@ -13,6 +13,7 @@ import { MobError, UUID_RE, mobWeek } from '../../mob/model.mjs';
 import { mobName, validNameKey } from '../../mob/names.mjs';
 import { FOIL_DAYS, FOLDS, FOLD_KEYS, FINISHES, STARTERS, isFold, mobShelf, parcelFor, ruleProgress } from '../../mob/folds.mjs';
 import { MAX_OPEN_GAMES, MICS_PER_WEEK, inLiveHours, startRight, startsView } from '../../mob/starts.mjs';
+import { COUNTDOWN_MS, maxRooms, roomTidy, topicFor } from '../../mob/live.mjs';
 import { COUNTS, assignMoments, checkWindow, gameTrap, ghostOf, placeRuns, publicQuestion, tieFor } from '../../mob/games.mjs';
 import { gameTitle, questLabels, questView } from '../../mob/quest.mjs';
 import { computeMobChain } from '../../mob/mobChain.mjs';
@@ -43,6 +44,8 @@ export function createMobV3Service(deps, helpers = {}) {
   const chains = createChainService({ rpc: deps.rpc, now });
   const billingOn = () => (deps.billingOn ? deps.billingOn() === true : false);
   const liveOn = () => (deps.liveEnabled ? deps.liveEnabled() === true : false);
+  // MOB_LIVE_MAX_ROOMS (default 30): live rooms open across MockMob at once. 0 refuses every new room (LIVE_BUSY).
+  const liveMaxRooms = () => maxRooms(deps.liveMaxRooms ? deps.liveMaxRooms() : undefined);
   const isPro = async (userId) => (deps.loadUser ? (await deps.loadUser(userId).catch(() => null))?.isPremium === true : false);
   const subjectName = (subject) => (deps.subjectInfo ? deps.subjectInfo(subject)?.name || subject : subject);
 
@@ -88,6 +91,16 @@ export function createMobV3Service(deps, helpers = {}) {
     }
     await call('mob_game_settle', { p_game_id: g.id, p_now: nowIso(), p_trap: trap });
     g.closed_settled_at = nowIso();
+  }
+
+  /**
+   * The first read after a room's time is up closes it (4.5): a lobby nobody started within 15 minutes, or a running room
+   * past its end. The SQL decides and broadcasts; g is updated in place. Never fails the read.
+   */
+  async function tidyRoom(g) {
+    if (!roomTidy(g, now())) return;
+    const state = await call('mob_room_tidy', { p_game_id: g.id, p_now: nowIso() }).catch(() => null);
+    if (typeof state === 'string') g.room_state = state;
   }
 
   const finishedRuns = (g) => (g.runs || []).filter((r) => r.finished_at).sort((a, b) => Date.parse(a.finished_at) - Date.parse(b.finished_at));
@@ -148,6 +161,7 @@ export function createMobV3Service(deps, helpers = {}) {
     const state = await readState(userId, g.mob_id);
     if (!state) throw new MobError('GAME_NOT_FOUND');
     await ensureSettled(g);
+    await tidyRoom(g);
     return { g, state, members: memberMap(state, userId) };
   }
 
@@ -178,11 +192,15 @@ export function createMobV3Service(deps, helpers = {}) {
     if (!Array.isArray(picked) || picked.length < count) {
       throw helpers.thinBank ? helpers.thinBank({ ready: Array.isArray(picked) ? picked.length : 0, count, chapter, subjectName: subjectName(state.mob.subject) }) : new MobError('BANK_THIN');
     }
-    const r = await call('mob_game_open', {
-      p_user_id: userId, p_mob_id: state.mob.id, p_format: format, p_mode: mode, p_subject: state.mob.subject, p_chapter: chapter,
+    const open = {
+      p_user_id: userId, p_mob_id: state.mob.id, p_format: format, p_subject: state.mob.subject, p_chapter: chapter,
       p_ids: picked.slice(0, count), p_via: right.via, p_week: week, p_rematch_of: rematchOf, p_now: nowIso(), p_max_open: MAX_OPEN_GAMES,
-    });
-    const map = { not_member: 'NOT_IN_MOB', rematch_invalid: 'GAME_NOT_FOUND', open_limit: 'GAMES_OPEN_LIMIT', room_open: 'ROOM_OPEN_ALREADY', start_used: 'START_USED', mic_none: 'START_USED' };
+    };
+    // A live room opens under the global cap (mob_live_open, one lock for every live open). Refused, it claims nothing.
+    const r = mode === 'live'
+      ? await call('mob_live_open', { ...open, p_max_rooms: liveMaxRooms() })
+      : await call('mob_game_open', { ...open, p_mode: mode });
+    const map = { not_member: 'NOT_IN_MOB', rematch_invalid: 'GAME_NOT_FOUND', open_limit: 'GAMES_OPEN_LIMIT', room_open: 'ROOM_OPEN_ALREADY', start_used: 'START_USED', mic_none: 'START_USED', busy: 'LIVE_BUSY' };
     if (r?.status !== 'ok') throw new MobError(map[r?.status] || 'UNAVAILABLE');
     try {
       const { g, members } = await loadGame(userId, r.id);
@@ -310,6 +328,54 @@ export function createMobV3Service(deps, helpers = {}) {
         },
       } : null,
     };
+  }
+
+  // ------------------------------------------------------------------ live rooms (Phase B, behind MOB_LIVE_ENABLED)
+
+  const roomOut = (g, members) => ({ state: g.room_state, startsAt: iso(g.room_starts_at), hostMemberId: members.get(g.created_by)?.memberId || null });
+  const roomRefusal = (status, g) => ({
+    not_member: 'GAME_NOT_FOUND', not_live: 'NOT_LIVE', not_host: 'ROOM_NOT_HOST', started: 'ROOM_STARTED',
+    closed: 'GAME_CLOSED', room_closed: g?.closed ? 'GAME_CLOSED' : 'ROOM_CLOSED',
+  }[status] || 'UNAVAILABLE');
+
+  /**
+   * A ticket to the room's private channel (4.2). authUid is the Supabase identity id of this session: Realtime checks
+   * auth.uid() against it, so a session without one gets no ticket. Any member may hold one; joining is never gated.
+   */
+  async function roomTicket(userId, authUid, gameId) {
+    if (typeof authUid !== 'string' || !UUID_RE.test(authUid)) throw new MobError('UNAUTHENTICATED');
+    const { g, members } = await loadGame(userId, gameId);
+    if (g.mode !== 'live' || !g.room_state) throw new MobError('NOT_LIVE');
+    if (g.closed) throw new MobError('GAME_CLOSED');
+    const memberId = memberIdFor(deps.secret, g.mob_id, userId);
+    const r = await call('mob_room_ticket', { p_user_id: userId, p_auth_uid: authUid, p_game_id: g.id, p_member_id: memberId, p_now: nowIso() });
+    if (r?.status !== 'ok') {
+      if (r?.status === 'room_closed') g.room_state = 'done';
+      throw new MobError(roomRefusal(r?.status, g));
+    }
+    const fresh = await call('mob_game_json', { p_game_id: g.id, p_user_id: userId, p_now: nowIso() });
+    return { topic: topicFor(g.id), memberId, expiresAt: iso(r.expires_at), room: roomOut(fresh || g, members), serverNow: nowIso() };
+  }
+
+  /** The host starts the room: the countdown lands on serverNow + 4 s for everyone (room.start carries only startsAt). */
+  async function roomStart(userId, gameId) {
+    const { g } = await loadGame(userId, gameId);
+    if (g.mode !== 'live' || !g.room_state) throw new MobError('NOT_LIVE');
+    if (g.created_by !== userId) throw new MobError('ROOM_NOT_HOST');
+    const startsAt = new Date(now() + COUNTDOWN_MS).toISOString();
+    const r = await call('mob_room_start', { p_user_id: userId, p_game_id: g.id, p_starts_at: startsAt, p_now: nowIso() });
+    if (r !== 'ok') throw new MobError(roomRefusal(r, g));
+    return { startsAt, serverNow: nowIso() };
+  }
+
+  /** The host closes the lobby. The game stays open for anytime in its 24 hours. */
+  async function roomCancel(userId, gameId) {
+    const { g } = await loadGame(userId, gameId);
+    if (g.mode !== 'live' || !g.room_state) throw new MobError('NOT_LIVE');
+    if (g.created_by !== userId) throw new MobError('ROOM_NOT_HOST');
+    const r = await call('mob_room_cancel', { p_user_id: userId, p_game_id: g.id });
+    if (r !== 'ok') throw new MobError(roomRefusal(r, g));
+    return { ok: true };
   }
 
   // ------------------------------------------------------------------ Fix it together
@@ -490,7 +556,10 @@ export function createMobV3Service(deps, helpers = {}) {
     const me = members.get(userId);
     const week = mobWeek(now());
     // Close what has closed (the trap and the sticker cleanup), once.
-    for (const g of state.games || []) await ensureSettled(g).catch(() => null);
+    for (const g of state.games || []) {
+      await ensureSettled(g).catch(() => null);
+      await tidyRoom(g); // a stale lobby never shows as "Join Riya's room"
+    }
     const q = await call('mob_quest_week', { p_mob_id: state.mob.id, p_week: week, p_now: nowIso() });
     const factsBefore = await call('mob_unlock_facts', { p_user_id: userId });
     const thisMob = (factsBefore?.mobs || []).find((m) => m.mob_id === state.mob.id);
@@ -537,6 +606,7 @@ export function createMobV3Service(deps, helpers = {}) {
   return {
     v3Block, checkUnlocks, checkFold, sitAs, chains,
     openGame, getGame, startRun, answer, finish, podium, review, fixStart, fixAnswer, profile, shelf,
+    roomTicket, roomStart, roomCancel,
 
     async settings(userId, body = {}) {
       if (body.nameKey !== undefined && body.nameKey !== null && !validNameKey(body.nameKey)) throw new MobError('NAME_KEY_INVALID');

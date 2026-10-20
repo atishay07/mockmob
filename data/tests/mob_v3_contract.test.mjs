@@ -17,7 +17,7 @@ import { createMobService, memberIdFor } from '../../src/lib/server/mob/service.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
 const read = (rel) => readFileSync(resolve(root, rel), 'utf8');
 const DIR = resolve(root, 'data/tests/fixtures/mob_v3');
-const MIGRATIONS = ['20261017100000_mob', '20261017190000_mob_fix_1017', '20261020100000_mob_v3_core', '20261020100100_mob_v3_games', '20261020100200_mob_v3_chains', '20261020100300_mob_v3_realtime'];
+const MIGRATIONS = ['20261017100000_mob', '20261017190000_mob_fix_1017', '20261020100000_mob_v3_core', '20261020100100_mob_v3_games', '20261020100200_mob_v3_chains', '20261020100300_mob_v3_realtime', '20261020100400_mob_v3_live'];
 const NOW = Date.parse('2026-10-22T08:35:00Z'); // Thursday 22 Oct, 2:05 PM IST
 const BANK = Array.from({ length: 40 }, (_, i) => ({
   id: `q${i + 1}`, correctIndex: i % 4, question: `Goodwill question ${i + 1}`, chapter: 'Goodwill', explanation: `Why answer ${'ABCD'[i % 4]} is right for question ${i + 1}.`,
@@ -123,6 +123,17 @@ async function story() {
   out['starts_mic.json'] = (await svc.view('u4', { mobId })).mob.v3.starts;
   await db.query("insert into mob_start_claims (user_id, mob_id, week_start) values ('u2', $1::uuid, '2026-10-19')", [mobId]);
   out['starts_used.json'] = (await svc.view('u2', { mobId })).mob.v3.starts;
+  // Phase B, live rooms (behind MOB_LIVE_ENABLED): Riya (Pro) opens a live sprint, Aarav takes a ticket, Riya starts the
+  // room and plays one question live, and Aarav reads the running room.
+  out['game_open_live.json'] = await svc.v3.openGame('u1', { mob: mobId, format: 'sprint', mode: 'live' });
+  const live = out['game_open_live.json'].game;
+  out['room_ticket.json'] = await svc.v3.roomTicket('u2', '6f1d2c3b-4a59-4e87-9d10-2b3c4d5e6f70', live.id);
+  out['room_start.json'] = await svc.v3.roomStart('u1', live.id);
+  clock.now += 4000;
+  await svc.v3.startRun('u1', live.id);
+  clock.now += 21_000;
+  await svc.v3.answer('u1', live.id, { q: 0, pick: keyOf((await ids(live.id))[0]) });
+  out['game_live_running.json'] = await svc.v3.getGame('u2', live.id);
   out['folds.json'] = foldCatalogJson();
   out['names.json'] = { names: [...MOB_NAMES] };
   out['errors_v3.json'] = Object.fromEntries(Object.keys(ERRORS).map((c) => [c, { status: ERRORS[c][0], body: errorBody(c) }]));
