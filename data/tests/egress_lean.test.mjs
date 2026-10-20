@@ -321,7 +321,7 @@ test('sites: each narrowed route asks for the profile its builders were proved o
     ['src/app/api/prepos/insights/route.js', /limit: 60, slim: 'summary'/],
     ['src/app/api/compass/pro/route.js', /limit: 60, slim: 'summary'/],
     ['src/services/mobi/standing.js', /limit: 60, slim: 'summary'/],
-    ['src/app/api/me/bests/route.js', /getAttempts\(session\.user\.id, \{ slim: 'summary' \}\)/],
+    ['src/app/api/me/bests/route.js', /getAttempts\(session\.user\.id, \{ slim: 'summary', columns: \[/],
     ['src/app/api/me/study-record/route.js', /getAttempts\(session\.user\.id, \{ slim: 'summary' \}\)/],
     ['src/app/api/analytics/route.js', /getAttempts\(userId, \{ slim: 'summary' \}\)/],
     ['src/app/api/ai/mentor/chat/route.js', /limit: 60, slim: 'history'/],
@@ -447,4 +447,15 @@ test('memo: a slim read in a request that already holds the full read reuses it,
   assert.equal(attemptMemoKeyFor(undefined, 'u1', { slim: 'plan' }), attemptMemoKey('u1', { slim: 'plan' }), 'without a memo nothing changes');
   const src = readFileSync(new URL('../db.js', import.meta.url), 'utf8');
   assert.match(src, /attemptMemoKeyFor\(memo, userId, \{ columns, limit, slim \}\)/);
+});
+
+test('slim read with columns: where the function is missing the table read keeps those columns (me/bests falls back to its old read)', async () => {
+  resetSlimState();
+  const columns = ['id', 'user_id', 'subject', 'score', 'correct', 'wrong', 'unattempted', 'total', 'questions_snapshot', 'completed_at', 'selection_meta'];
+  const db = pgSupabase(pg, { failFn: { attempts_list_summary: { code: 'PGRST202', message: 'not found' } } });
+  const rows = await readAttemptRows(db, 'u1', { slim: 'summary', columns });
+  assert.equal(rows.length, 14);
+  assert.deepEqual(db.calls.map((c) => c.kind), ['rpc', 'table']);
+  assert.equal(db.calls[1].select, columns.join(','));
+  resetSlimState();
 });
