@@ -60,13 +60,19 @@ void main() {
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_hours_no_minutes_${_tag(b)}.png'));
     });
     testWidgets('v4 den free member full mock now card ${_tag(b)}', (tester) async {
-      // Night: 120 credits (enough). Day: 20 credits (short by 30). Both with the Pro way under the key.
+      // Night: 120 credits (enough): Sit Riya's full mock, Get Pro under it. Day: 20 credits (short by 30): Get Pro and
+      // Add credits, as on the sit sheet (sit-v2).
       final balance = b == Brightness.dark ? 120 : 20;
       await pumpDen(tester, v3Server(scenario: 'mock', billing: 'free'), brightness: b, height: 1900, auth: AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: balance), nudges: true);
       await _settle(tester);
       expect(find.byKey(const ValueKey('den-sit-cost')), findsOneWidget);
-      expect(find.text(MobV4DenCopy.sitCostLine(50, balance)), findsOneWidget);
+      expect(find.text(MobV3Copy.sitPriceFigure(50)), findsOneWidget);
+      expect(find.text(MobV3Copy.sitYouHave(balance)), findsOneWidget);
+      expect(find.text(MobV3Copy.sitNeedMore(30)), b == Brightness.dark ? findsNothing : findsOneWidget);
       expect(find.byKey(const ValueKey('den-sit-pro')), findsOneWidget);
+      expect(find.text(MobV4ResultsCopy.getPro), findsOneWidget);
+      expect(find.byKey(const ValueKey('den-play-key')), b == Brightness.dark ? findsOneWidget : findsNothing);
+      expect(find.byKey(const ValueKey('den-add-credits')), b == Brightness.dark ? findsNothing : findsOneWidget);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_free_mock_card_${_tag(b)}.png'));
     });
     testWidgets('v4 den five sharing text 1.3 ${_tag(b)}', (tester) async {

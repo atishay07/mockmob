@@ -164,8 +164,11 @@ void main() {
 
     testWidgets('Free: the mock row says what Pro does and what sitting costs, with one way to Pro in the row', (t) async {
       await open(t);
-      // Review fix 11: the line leads with the price, one sentence each, and the tag never sits beside the title.
-      expect(find.text('On Free you sit one a friend starts for 50 credits. Pro starts them and sits them free.'), findsOneWidget);
+      // 20 Oct (golden judges, sheetlive mock-up): "Pro starts it" rides beside the title (or drops under it when the
+      // line is full, so the title never wraps), and one short line says what sitting one costs.
+      expect(find.byKey(const ValueKey('start-mock-pro-tag')), findsOneWidget);
+      expect(find.text('Pro starts it'), findsOneWidget);
+      expect(find.text('You can sit one for 50\u00A0credits.'), findsOneWidget);
       expect(find.byKey(const ValueKey('start-mock-pro')), findsOneWidget);
       expect(find.text('Get Pro'), findsOneWidget);
       await tapAt(t, find.text('Full mock together'));
@@ -191,7 +194,8 @@ void main() {
 
     testWidgets('billing off does not unlock it for a Free member: the row says Pro starts it', (t) async {
       await open(t, billing: 'off');
-      expect(find.text('On Free you sit one a friend starts for 50 credits. Pro starts them and sits them free.'), findsOneWidget);
+      expect(find.text('Pro starts it'), findsOneWidget);
+      expect(find.text('You can sit one for 50\u00A0credits.'), findsOneWidget);
     });
 
     testWidgets('a start the server refuses for want of Pro says so, with the way to Pro under it', (t) async {
@@ -218,7 +222,8 @@ void main() {
         (c) => showStartGame(c),
         sheetOverrides(v3Server(scenario: 'quiet', billing: 'free'), nudges: true, edit: (den) => (v3Of(den)['starts'] as Map<String, dynamic>).remove('mock')),
       );
-      expect(find.text('On Free you can sit one a friend starts. Pro starts them and sits them free.'), findsOneWidget);
+      expect(find.text('Pro starts it'), findsOneWidget);
+      expect(find.text('You can sit one a friend starts.'), findsOneWidget);
       expect(noText(t, RegExp(r'\bcredits\b')), isTrue);
     });
   });

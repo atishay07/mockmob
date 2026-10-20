@@ -351,7 +351,7 @@ abstract final class MobV3Copy {
 
   // ---- P2 Start a game ----
   static const String whatItCovers = 'What it covers';
-  static String coversTrap(String chapter) => '$chapter, the chapter of your Mob\'s last trap';
+  static String coversTrap(String chapter) => '$chapter, the chapter your Mob tripped on';
   static String coversWhole(String subject) => 'The whole of $subject';
   static const String howMobPlays = 'How your Mob plays it';
   static const String liveNow = 'Live now';
@@ -380,7 +380,7 @@ abstract final class MobV3Copy {
   static String formatRowLine(GameFormat f) => switch (f) {
         GameFormat.race => 'As many as you can in 5 or 10 minutes',
         GameFormat.round || GameFormat.rematch => '10, 15 or 20 questions',
-        GameFormat.mock => '50 questions in 60 minutes · open 24 hours',
+        GameFormat.mock => '50 questions in 60 minutes · open\u00A024\u00A0hours',
         GameFormat.sprint => '5 questions · about 5 minutes',
       };
 
@@ -1193,11 +1193,9 @@ abstract final class MobV4ResultsCopy {
   static const String mockRuleIncluded = 'Included with Pro.';
   static String mockRuleFree(int cost) => 'Free members sit it for $cost credits.';
   static const String proStartsIt = 'Pro starts it';
-  /// [cost] is the server's Free sit price; null leaves the number out (never a client guess, D175).
-  static String mockFreeRow(int? cost, {bool proSitsFree = true}) {
-    final pro = proSitsFree ? 'Pro starts them and sits them free.' : 'Pro starts them.';
-    return cost == null ? 'On Free you can sit one a friend starts. $pro' : 'On Free you sit one a friend starts for $cost credits. $pro';
-  }
+  /// [cost] is the server's Free sit price; null leaves the number out (never a client guess, D175). The tag beside the
+  /// title says who starts it ("Pro starts it"); this one short line says what sitting one costs.
+  static String mockFreeRow(int? cost) => cost == null ? 'You can sit one a friend starts.' : 'You can sit one for $cost\u00A0credits.';
   static const String proAllowance = 'With Pro you can start as many games as you like.';
   static const String mockFreeLine = 'Full mocks are Anytime only. A Pro friend starts one; you can still sit it.';
   static const String getPro = 'Get Pro';
@@ -1425,15 +1423,10 @@ abstract final class MobV4DenCopy {
   /// The invite footer, true to the seats left (5 minus members).
   static String inviteWorksFor(int open) => open <= 1 ? 'Works for 7 days, for 1 friend.' : 'Works for 7 days, for up to $open friends.';
 
-  // Full mock price at the point of choice (D174, D175): the server's number, Free members only.
-  static String sitCostLine(int credits, int? balance) {
-    if (balance == null) return 'For you: $credits credits.';
-    if (balance < credits) return 'For you: $credits credits. You have $balance, so you need ${credits - balance} more.';
-    return 'For you: $credits credits. You have $balance.';
-  }
-
+  // Full mock price at the point of choice (D174, D175): the server's number, Free members only. The den card says it
+  // the way the sit sheet does (sit-v2): "50 credits", "You have 20", "30 more needed" (MobV3Copy.sitPriceFigure,
+  // sitYouHave, sitNeedMore), and its way to Pro is "Get Pro" (D185).
   static const String sitIncludedPro = 'For you: included with Pro.';
-  static const String sitFreeWithPro = 'Sit it free with Pro';
   static String sitCostSuffix(int credits) => ' · $credits credits for you';
 
   // Your shelf row (3.1 item 6, D170)

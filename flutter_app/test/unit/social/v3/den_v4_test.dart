@@ -147,10 +147,14 @@ void main() {
       expect(MobV4DenCopy.memberHoursSemantics('Riya', 190), 'Riya, 3 hours 10 minutes');
     });
 
-    test('the Free price line carries the balance or the shortfall', () {
-      expect(MobV4DenCopy.sitCostLine(50, null), 'For you: 50 credits.');
-      expect(MobV4DenCopy.sitCostLine(50, 120), 'For you: 50 credits. You have 120.');
-      expect(MobV4DenCopy.sitCostLine(50, 20), 'For you: 50 credits. You have 20, so you need 30 more.');
+    test('the Free price reads as on the sit sheet: the figure, the balance, what is missing', () {
+      expect(MobV3Copy.sitPriceFigure(50), '50 credits');
+      expect(MobV3Copy.sitYouHave(20), 'You have 20');
+      expect(MobV3Copy.sitNeedMore(30), '30 more needed');
+    });
+
+    test('the fresh card names every friend, never two of three', () {
+      expect(MobV4DenCopy.freshLine(['Riya', 'Kabir', 'Zoya']), 'Start the first game. Riya, Kabir and Zoya race your run any time in the next 24 hours.');
     });
 
     test('quest segments fill whole segments only', () {
