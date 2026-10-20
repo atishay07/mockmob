@@ -838,3 +838,12 @@ Billing page: "Your grace period has started. Your organization went over its qu
 >
 > Check it and let me know the progress. I don't see that you have started any progress after that because on the app website"
 **Ledger D178:** Supabase is parked for 2 days (except the already-running egress cut and the 22 Oct transfer); focus is version 15 app + website.
+
+## Owner, 20 Oct about 4:42-4:55 pm IST (verbatim)
+> "But were you able to safely extract everything and the exact context of the previous session, please? Because, by the way, Mob people were built, as far as I know, and night/day screenshots, all this was already sent to me. Then I'm not sure pretty much all the work was done only in that session. Just act to pick up and do the final build"
+(Answer: the Night/Day Mob V4 images were design mock-ups in tmp/design-1020/mob-minimal; no branch contained Mob V4 code; verified by searching every recent branch.)
+> "How much time do you expect the final build with all the fixes and everything that I said will be ready?"
+> "Two can be done today. What I want you to do is, in the next 1 hour, combine version 15 with all the fixes, build Mob code, and get version 15 completely ready so that we can begin the close testing from tonight. At least I can send it tonight for the review so that tomorrow morning it comes out of the review. Then you can work on the website and other things, but the highest priority right now should be two things:
+> 1. Combine the v15 of the app of all the modes and all other fixes also, which were discussed in the BB sessions.
+> 2. Check them and Mob v4 completely, exceeding all my expectations."
+**Ledger D179:** version 15 (all modes, all fixes, Mob V4) goes to Play closed-testing review TONIGHT so it clears by tomorrow morning; app first, website after. Mob V4 must exceed his expectations.
