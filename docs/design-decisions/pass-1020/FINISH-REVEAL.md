@@ -49,6 +49,8 @@ The app now carries all of these on the phone, and adds the reveal.
   5. The facts, Mobi's line, Marks by chapter and Mobi's read rise in, 90 ms apart, on glide or ease-out.
 
   A tap anywhere lands the end in 200 ms. Reduced motion, Celebrations Off and a result opened again show the end at once. TalkBack hears the score once, when it lands.
+- **Next steps after the score.** The pinned keys (the repair, Your papers, Finish for now) fade in when the moment ends, as the layers below do. "Repair Q4" never names a mistake before the sheet is marked.
+- **The submit page is the hand-in beat, not a second finish** (owner: "instead of it, a proper reveal"). The sheet inks, Mobi hops and "Saved to your account at 2:13 PM." lands. After 1.2 s, not 2.8 s, the reveal opens. A touch still stops it, and reduced motion still waits for the key.
 - **Nothing scrolls the score away.** The v13 follow scroll moved the page so the total landed low, and the head and the score left the screen. Now it only makes sure the tally is in view, which takes no scroll at 360 by 760 at normal text size.
 - **The desktop's information, on the phone:**
   - the accuracy "right of the 9 you answered", and the time with the time a question when it was recorded;
@@ -73,8 +75,17 @@ The app now carries all of these on the phone, and adds the reveal.
 - **Frame-sequence goldens:**
   - Practice: quick 5, quick 10 (mixed, poor, blank), quick 20 great, chapter 8 and chapter 10 (good, poor, blank), at 0, 300, 700, 1100, 1500, 1900 and 2400 ms. Also settled at 360 dp in Night and Day, the whole moment on a tall page, and a skip.
   - Full mock and NTA, in four bands: from the submit (sealed, the tap, the unfold, marking, adding, landed, circled).
-- **Strips:** `mockmob-next/tmp/walk-1020/finish-reveal`.
-- **Emulator walk:** see the walk notes in the same folder.
+- **Strips:** `mockmob-next/tmp/walk-1020/finish-reveal` (iter1 to iter3, and the v13 state in before/).
+- **Device-truth walk:** the demo build (profile) on `mockmob_budget` at 720x1600 and 320 dpi, which is 360 dp. Screen recordings are cut into frame strips in `emu/`.
+  - Practice, Night: a good paper (38 of 50, with the burst), a poor paper, and a paper left blank (0 of 50).
+  - Practice, Day: everything right (50 of 50), and a poor paper (−2 of 50).
+  - Full mock, Day, 30 of 50 answered: sealed "Your paper is saved.", the open, 90 of 250 circled, and card 2.
+  - NTA, Day, 5 answered: sealed, the open, and the marking, with the tally and the figure agreeing at every frame, ending on 19 of 250.
+  - `WALK-settled-contact.png` shows the settled ends.
+- **What the walk changed:**
+  - The submit page held "Your sheet is in." for 2.8 s before any reveal (the "instead of it" in the owner's words). It now hands off after 1.2 s.
+  - The pinned "Repair Q4" key named a mistake before the sheet was marked. It now waits for the score.
+  - A weak set's taller foot scrolled "Your paper is saved." off the top at 360 dp. The rules are now tighter and the follow scroll is 12 dp.
 
 ## Not done
 - A per-answer time map on the practice sheet. The time fold below already has it.

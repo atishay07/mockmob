@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/mascot/mobi_ration.dart' show MobiRation;
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
@@ -148,6 +149,10 @@ Future<void> _frames(WidgetTester tester, int ms) async {
 
 void main() {
   setUpAll(loadAppFonts);
+  // Mobi's acts are rationed on the wall clock across the run (once a day a screen, never twice in a hurry): each
+  // golden starts from a fresh ration, so his pose does not depend on the tests before it.
+  setUp(MobiRation.reset);
+  tearDown(MobiRation.reset);
 
   for (final kind in kinds.keys) {
     for (final b in [Brightness.dark, Brightness.light]) {
