@@ -309,6 +309,9 @@ abstract final class MobV3Copy {
   /// K9: under the four ways to play, how each one can be played.
   static const String waysLiveLine = 'Sprints, races and rounds can be live now, on one 3, 2, 1, or open for 24 hours. A full mock is open for 24 hours.';
   static const String waysLine = 'Every game stays open for 24 hours. Friends who play later race the runs before them.';
+  static const String chooseAGame = 'Choose a game';
+  static const String startRowLine = 'Sprint, race, round or full mock';
+  static const String startKey2 = 'Start';
   static const String mockPro = 'Starting a full mock together is part of Pro. You can sit every full mock your Mob starts, free.';
 
   // ---- P2 Start a game ----
@@ -329,7 +332,47 @@ abstract final class MobV3Copy {
   static const String startTheRace = 'Start the race';
   static const String startTheMock = 'Start the full mock';
 
-  // D167 in the start sheet.
+  // D167 in the start sheet (pass-1020 MOB-MINIMAL 3.2).
+  static const String modeAnytime = 'Anytime';
+  static const String modeAnytimeDetail = '24 hours';
+  static const String modeLive = 'Live';
+  static const String modeLiveDetail = 'together now';
+  static const String anytimeModeLine = 'Open for 24 hours. Everyone races the runs that came before theirs.';
+  static const String liveModeLine = 'Everyone starts together on 3, 2, 1. Anyone who misses it can play it later.';
+  static const String anytimeOnly = 'Anytime only';
+  static const String mockDetail = '50 questions in 60 minutes, in the exam runner. Then your Mob compares mark sheets. Answers open for everyone when it closes.';
+  static const String paperRowLine = 'Already open · 10 questions';
+  static String formatRowLine(GameFormat f) => switch (f) {
+        GameFormat.race => 'As many as you can in 5 or 10 minutes',
+        GameFormat.round || GameFormat.rematch => '10, 15 or 20 questions',
+        GameFormat.mock => 'The whole paper, in 24 hours',
+        GameFormat.sprint => '5 questions · about 5 minutes',
+      };
+
+  /// The live key names the room and the game ("Open the room for the race"); the chosen row's chips say how
+  /// long. The design's "for a 10-minute race" wraps to two lines on a 360 dp key.
+  static String openRoomFor(GameFormat f, {int minutes = 5, int count = 10}) => switch (f) {
+        GameFormat.race => 'Open the room for the race',
+        GameFormat.round || GameFormat.rematch => 'Open the room for the round',
+        _ => 'Open the room for the sprint',
+      };
+  static const String opening = 'Opening';
+
+  /// The start allowance under the key: what starting this costs this student, and that everyone plays free.
+  static String allowance(StartRight s, String mob, {bool live = false}) {
+    if (!s.billingOn) return everyonePlays(mob);
+    if (!s.can) return startUsed;
+    return switch (s.via) {
+      StartVia.freeWeekly => (s.freeLeft ?? 1) == 1
+          ? (live ? 'Uses your 1 start this week. Everyone plays free.' : '1 start left this week. Everyone plays free.')
+          : '${s.freeLeft} starts left this week. Everyone plays free.',
+      StartVia.mic => '${s.micFrom ?? aFriend} passed you the mic. Everyone plays free.',
+      _ => everyonePlays(mob),
+    };
+  }
+
+  static String everyonePlays(String mob) => 'Everyone in $mob plays it free.';
+
   static const String howLong = 'How long';
   static String minutesLabel(int m) => '$m minutes';
   static const String raceLineStart = 'Answer as many as you can before the time is up. +5 if right, -1 if wrong, 0 if you skip.';
@@ -648,7 +691,7 @@ abstract final class MobV3Copy {
   /// "You sat it on Monday." when the server says when; else "You sat it this week."
   static String satLine(DateTime? at) => at == null ? 'You sat it this week.' : satOn(MobTime.weekdayOf(at));
 
-  static String startSub(String mob, String subject) => '$mob, $subject';
+  static String startSub(String mob, String subject) => '$mob · $subject';
   static const String useWholeSubject = 'Use the whole subject';
   static const String fewerQuestions = 'Fewer questions';
   static const String moreQuestions = 'More questions';

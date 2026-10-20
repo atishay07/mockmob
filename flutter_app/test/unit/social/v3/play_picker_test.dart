@@ -1,7 +1,9 @@
-// P1 Play picker: every state of "Start a game" (billing off, Free with a start, used, mic, Pro), the rules
-// that keep the Mob free of plan words when billing is off, locked tiles drawn with a reason, the Live tile
-// only when live is on, "Ask your Mob for a game" sending the Again sticker, and the rows that open games.
+// P1 Play picker: what is open now, every state of its "Start a game" lines (billing off, Free with a start,
+// used, mic, Pro), the rules that keep the Mob free of plan words when billing is off, the one start row that
+// names every way to play and opens the one start sheet (D169), "Ask your Mob for a game" sending the Again
+// sticker, and the rows that open games.
 
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
@@ -23,19 +25,21 @@ Future<void> _open(WidgetTester t, {String billing = 'off', String scenario = 'o
   await settleImages(t);
 }
 
+final _startRow = find.byKey(const ValueKey('picker-start-row'));
+
 void main() {
-  testWidgets('billing off: no plan word, no lock, no price, the plain line', (t) async {
+  testWidgets('billing off: no plan word, no lock, no price, the plain line and the start row', (t) async {
     await _open(t);
     expect(find.text('Play with your Mob'), findsOneWidget);
     expect(find.text('Anyone in your Mob can start a game.'), findsOneWidget);
-    expect(find.text('Sprint'), findsOneWidget);
-    expect(find.text('Your own round'), findsOneWidget);
+    expect(_startRow, findsOneWidget);
+    expect(find.text('Sprint, race, round or full mock'), findsOneWidget, reason: 'every way to play, named (K9)');
     expect(find.byIcon(LucideIcons.lock), findsNothing);
     expect(noText(t, 'Pro'), isTrue, reason: 'no Pro word with billing off');
     expect(noText(t, _price), isTrue);
     expect(find.text('What Pro adds'), findsNothing);
-    expect(find.text('Full mock'), findsNothing);
-    expect(find.text('Live'), findsNothing, reason: 'live is off in the fixture');
+    expect(find.text('Live'), findsNothing, reason: 'live is a choice in the start sheet, not a tile');
+    expect(find.text('Every game stays open for 24 hours. Friends who play later race the runs before them.'), findsOneWidget);
   });
 
   testWidgets('billing off, even with the Pro nudges on, shows no plan word', (t) async {
@@ -44,37 +48,19 @@ void main() {
     expect(find.text('What Pro adds'), findsNothing);
   });
 
-  testWidgets('Free with a start: the line, the tiles open, Full mock together locked with Pro, "What Pro adds"', (t) async {
+  testWidgets('the start row opens the one start sheet', (t) async {
+    await _open(t);
+    await tapAt(t, keyLabel('Start'));
+    expect(find.text('Start a game'), findsWidgets);
+    expect(keyLabel('Start the sprint'), findsOneWidget);
+    expect(find.text('Full mock together'), findsOneWidget);
+  });
+
+  testWidgets('Free with a start: the line and "What Pro adds"', (t) async {
     await _open(t, billing: 'free', nudges: true);
     expect(find.text('You have 1 start in Chai Circle this week.'), findsOneWidget);
-    // K9: every way to play, each with what it is.
-    expect(find.text('Sprint'), findsOneWidget);
-    expect(find.text('Race'), findsOneWidget);
-    expect(find.text('5 or 10 minutes, as many as you can'), findsOneWidget);
-    expect(find.text('Your own round'), findsOneWidget);
-    expect(find.text('Full mock together'), findsOneWidget);
-    expect(find.text('50 questions in 60 minutes'), findsOneWidget);
-    expect(find.text('Pro'), findsOneWidget);
-    expect(find.byIcon(LucideIcons.lock), findsOneWidget, reason: 'only Full mock together is locked');
     expect(find.text('What Pro adds'), findsOneWidget);
     expect(noText(t, _price), isTrue);
-  });
-
-  testWidgets('a locked full mock says why under the keys', (t) async {
-    await _open(t, billing: 'free', nudges: true);
-    await t.ensureVisible(find.text('Full mock together'));
-    await t.tap(find.text('Full mock together'));
-    await t.pumpAndSettle();
-    expect(find.text('Starting a full mock together is part of Pro. You can sit every full mock your Mob starts, free.'), findsOneWidget);
-    expect(keyLabel('Start the full mock'), findsNothing, reason: 'a locked tile opens nothing');
-  });
-
-  testWidgets('Race opens the start sheet on the race, 5 minutes', (t) async {
-    await _open(t, nudges: true);
-    await tapAt(t, find.text('Race'));
-    expect(keyLabel('Start the race'), findsOneWidget);
-    expect(find.text('5 minutes'), findsOneWidget);
-    expect(find.text('10 minutes'), findsOneWidget);
   });
 
   testWidgets('What Pro adds is hidden when the Pro nudges are off, even with billing on', (t) async {
@@ -82,30 +68,16 @@ void main() {
     expect(find.text('What Pro adds'), findsNothing);
   });
 
-  testWidgets('Free, start used: the reason, locked tiles stay visible with a lock and a reason each', (t) async {
+  testWidgets('Free, start used: the reason, and the start row still opens the sheet to read', (t) async {
     await _open(t, billing: 'used', nudges: true);
     expect(find.text('Your start this week is used. It comes back on Monday.'), findsOneWidget);
     expect(find.text('Anyone in your Mob with Pro can start one, then everyone plays it free.'), findsOneWidget);
-    expect(find.text('Sprint'), findsOneWidget);
-    expect(find.text('Your own round'), findsOneWidget);
-    expect(find.text('Race'), findsOneWidget);
-    expect(find.text('Full mock together'), findsOneWidget);
-    expect(find.text('Used this week'), findsNWidgets(4));
-    expect(find.byIcon(LucideIcons.lock), findsNWidgets(4), reason: 'every way to play stays drawn, locked');
-    expect(find.text('Pro'), findsNothing, reason: 'the reason is the used start, not Pro');
-    // A locked tile takes no tap.
-    await t.ensureVisible(find.text('Sprint'));
-    await t.tap(find.text('Sprint'), warnIfMissed: false);
-    await t.pumpAndSettle();
-    expect(keyLabel('Start the sprint'), findsNothing);
+    expect(_startRow, findsOneWidget);
   });
 
-  testWidgets('a mic: the sentence and the tiles open', (t) async {
+  testWidgets('a mic: the sentence', (t) async {
     await _open(t, billing: 'mic', nudges: true);
     expect(find.text('Riya passed you the mic. You can start one game, live or anytime.'), findsOneWidget);
-    expect(find.text('Used this week'), findsNothing);
-    await tapAt(t, find.text('Sprint'));
-    expect(keyLabel('Start the sprint'), findsOneWidget);
   });
 
   testWidgets('a Free start left and a mic held: both lines show', (t) async {
@@ -118,23 +90,21 @@ void main() {
     expect(find.text('Riya passed you the mic. You can start one game, live or anytime.'), findsOneWidget);
   });
 
-  testWidgets('Pro: no sentence about starts, every tile open', (t) async {
+  testWidgets('Pro: no sentence about starts', (t) async {
     await _open(t, billing: 'pro', nudges: true);
     expect(find.textContaining('You have'), findsNothing);
     expect(find.byIcon(LucideIcons.lock), findsNothing);
-    expect(find.text('Full mock together'), findsOneWidget);
   });
 
-  testWidgets('live is a choice in the start sheet, not a tile: the line says how each game can be played', (t) async {
+  testWidgets('live on: the line says how each game can be played', (t) async {
     await _open(t, edit: liveOn);
-    expect(find.text('Live'), findsNothing);
     expect(find.text('Sprints, races and rounds can be live now, on one 3, 2, 1, or open for 24 hours. A full mock is open for 24 hours.'), findsOneWidget);
-    expect(find.byIcon(LucideIcons.lock), findsNothing);
   });
 
-  testWidgets('live off: every game stays open for 24 hours', (t) async {
-    await _open(t);
-    expect(find.text('Every game stays open for 24 hours. Friends who play later race the runs before them.'), findsOneWidget);
+  testWidgets('an open race and an open full mock say what they are', (t) async {
+    await _open(t, scenario: 'race');
+    expect(find.text("Kabir's 5-minute race"), findsOneWidget);
+    expect(find.textContaining('5 minutes, as many as you can.'), findsOneWidget);
   });
 
   testWidgets('Ask your Mob for a game sends the Again sticker', (t) async {

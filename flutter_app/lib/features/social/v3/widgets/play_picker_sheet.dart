@@ -1,9 +1,9 @@
 // P1 Play picker (spec 5.3, Arena S5 plus Live 05's "Open now"). "Play with your Mob": what is open now (a row
 // for each open game and the weekly paper) and "Start a game" by what the server says this student may do.
 //
-// D167, K9: "Start a game" shows every way the Mob plays as four tiles (Sprint, Race, Your own round, Full mock
-// together, widgets/format_tiles.dart) and one line on live and 24 hours. Live is not a tile of its own: it is
-// the start sheet's Live or Anytime choice.
+// D167, D169, K9: every format starts in the one Start a game sheet (Sprint, Race, Your own round, Full mock
+// together). Here "Start a game" is one row that names them all, and one line on live and 24 hours. Live is not
+// a tile of its own: it is the start sheet's Anytime or Live choice.
 //
 // Plan words appear only when billing is on (`v3.starts.billingOn`): with it off there are no sections about
 // plans, no lock and no "Pro", only "Anyone in your Mob can start a game." With it on, a start left, a start
@@ -25,7 +25,6 @@ import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../mob_v3_nav.dart';
-import 'format_tiles.dart';
 import 'free_pro_sheet.dart';
 import 'sheet_parts.dart';
 import 'start_game_sheet.dart';
@@ -114,13 +113,13 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
           if (paperRow) _PaperRow(mob: mob, satAt: v3.paperSatAt, primary: paperPrimary, sitting: _sitting, onSit: () => _sit(mob)),
         ],
         const MobSheetLabel(MobV3Copy.startAGame),
-        ..._startBlock(context, starts, mobName, v3.live),
+        ..._startBlock(context, starts, mobName, v3.live, open),
         const SizedBox(height: MmSpace.s8),
       ],
     );
   }
 
-  List<Widget> _startBlock(BuildContext context, StartRight starts, String mobName, LiveSwitch live) {
+  List<Widget> _startBlock(BuildContext context, StartRight starts, String mobName, LiveSwitch live, List<MobGameSummary> open) {
     final billing = starts.billingOn;
     final used = billing && !starts.can;
     final pro = billing && starts.via == StartVia.pro;
@@ -132,7 +131,6 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
       if (billing && !used && !mic && !pro) MobV3Copy.startsLeft(mobName, starts.freeLeft ?? 1),
       if (mic || micAlso) MobV3Copy.micPassed(starts.micFrom ?? MobV3Copy.aFriend),
     ];
-    final lockedNote = widget.controller;
     return [
       if (sentences.isNotEmpty) ...[
         for (final line in sentences) ...[MobLine(line), const SizedBox(height: MmSpace.s4)],
@@ -144,14 +142,15 @@ class _PickerBodyState extends ConsumerState<_PickerBody> {
         const MobLine(MobV3Copy.anyoneWithPro),
         const SizedBox(height: MmSpace.s12),
       ],
-      FormatTiles(
-        starts: starts,
-        usedLine: used ? MobV3Copy.usedThisWeek : null,
-        onTap: _start,
-        // A locked full mock says why, once, under the keys.
-        onLockedTap: used ? null : (f) => lockedNote.update(() => lockedNote.note = f == GameFormat.mock ? MobV3Copy.mockPro : MobV3Copy.errors['START_PRO']),
+      // D169: every format starts in the one Start a game sheet; this row names them all (K9).
+      MobRow(
+        key: const ValueKey('picker-start-row'),
+        leading: const PaperChip(icon: LucideIcons.plus),
+        title: MobV3Copy.chooseAGame,
+        line: MobV3Copy.startRowLine,
+        trailing: RowKey(label: MobV3Copy.startKey2, primary: open.isEmpty, onPressed: () => _start(GameFormat.sprint)),
       ),
-      const SizedBox(height: MmSpace.s12),
+      const SizedBox(height: MmSpace.s4),
       MobLine(live.enabled ? MobV3Copy.waysLiveLine : MobV3Copy.waysLine),
     ];
   }
