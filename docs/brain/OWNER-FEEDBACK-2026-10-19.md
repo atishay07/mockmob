@@ -788,7 +788,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 > "Not an issue. Keep going at full speed. You can easily go for 1 to 2 hours on a 50% usage limit. After that, when your usage is above 95%, start stopping all your agents and start preparing the handoff with the exact stop point of each agent and what all is left. I'll then give that to the next agent with a proper prompt and goal, with the vision that we have discussed today. I'll be back in hour 2. Keep going until then."
 **Ledger D172:** full speed now; at usage above 95% stop every agent (TaskStop), STOP POINT commits, and write a handoff with each agent's exact stop point and what is left, plus a next-session prompt with the goal and today's vision. He returns in about 2 hours.
 
-## Owner, 20 Oct about 2:55 pm IST, on the minimal-Mob mock-ups (verbatim)
+## Owner, 20 Oct about 2:51 pm IST, on the minimal-Mob mock-ups (verbatim)
 > "Overall, all the mockups look good to me. In some places, the older versions feels a bit more refined, but overall, the direction is good.
 >
 > Just one thing: how you have presented the hours of this week can be a bit more refined somehow. After a game, then end. I don't know if reducing the screen is good. I can only see it live in the app. Overall, the direction, hopefully, is good. Not much has changed, but it looks good enough to implement in the app.
