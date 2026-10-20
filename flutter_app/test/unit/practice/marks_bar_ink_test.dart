@@ -85,19 +85,21 @@ void main() {
     await tester.pumpWidget(_stage());
     await tester.pump();
     final seen = <double>[];
-    for (var t = 0; t <= 1000; t += 50) {
+    // The sheet is set down and stamped as saved (520 ms), then 80 ms, then ten bubbles ink over 850 ms.
+    for (var t = 0; t <= 1600; t += 50) {
       final bar = tester.widget<MarksBar>(find.byType(MarksBar));
       seen.add(bar.fill == null ? 1 : _filled(bar.fill!, marks));
       await tester.pump(const Duration(milliseconds: 50));
     }
-    // Empty in the 200 ms lead, then rising with the ink, never falling.
+    // Empty while the sheet is stamped, then rising with the ink, never falling.
     expect(seen.first, 0);
+    expect(seen[10], 0, reason: 'nothing is marked before the stamp has landed (500 ms)');
     for (var i = 1; i < seen.length; i++) {
       expect(seen[i], greaterThanOrEqualTo(seen[i - 1]));
     }
     expect(seen.last, 1.0);
-    // A mid-ink frame is part filled (the plan's 400 and 900 ms goldens show a partly filled bar).
-    expect(seen[8], inExclusiveRange(0.0, 1.0));
+    // A mid-ink frame is part filled (the 1100 ms golden shows a partly filled bar).
+    expect(seen[20], inExclusiveRange(0.0, 1.0));
     await tester.pump(const Duration(seconds: 4));
   });
 

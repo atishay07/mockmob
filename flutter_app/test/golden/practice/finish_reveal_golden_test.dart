@@ -1,10 +1,12 @@
-// The finish moment, version 13 (20 Oct, owner I13, G22, D108): the paper being marked, for every result type and
-// band. The settled end at 360 dp, Night and Day, for each; and frame sequences straight from the submit (fixed steps
-// with tester.pump) for a short good set, a poor set with a negative score and tied chapters, and a sheet left blank;
-// and a skip, which lands the end state in 200 ms.
+// The finish of a practice, the mark sheet reveal (20 Oct, owner K7; earlier I13, G22, D108): the sheet is set down and
+// stamped as saved, marked bubble by bubble while its tally and its score add up, and the score lands and is circled,
+// for every practice type and band. The settled end at 360 dp, Night and Day, for each; frame sequences straight from
+// the submit (fixed steps with tester.pump) for each; the whole moment on one tall page; and a skip, which lands the
+// end state in 200 ms.
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/mascot/mobi_ration.dart' show MobiRation;
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/models/attempt.dart';
 import 'package:mockmob/features/practice/practice_routes.dart';
@@ -135,6 +137,10 @@ Future<void> _pump(WidgetTester tester, Brightness b, String kind, {Size size = 
   return pumpRouted(tester, location: '/practice/result/p1', routes: _routes(), brightness: b, size: size, overrides: overrides);
 }
 
+/// The frames of the sequence: the sheet set down (0), the stamp landing (300), the marking under way (700, 1100), the
+/// score landing (1500), the circle and Mobi's turn (1900), the read rising (2400).
+const List<int> kFrames = [0, 300, 700, 1100, 1500, 1900, 2400];
+
 Future<void> _frames(WidgetTester tester, int ms) async {
   for (var t = 0; t < ms; t += 16) {
     await tester.pump(const Duration(milliseconds: 16));
@@ -143,6 +149,10 @@ Future<void> _frames(WidgetTester tester, int ms) async {
 
 void main() {
   setUpAll(loadAppFonts);
+  // Mobi's acts are rationed on the wall clock across the run (once a day a screen, never twice in a hurry): each
+  // golden starts from a fresh ration, so his pose does not depend on the tests before it.
+  setUp(MobiRation.reset);
+  tearDown(MobiRation.reset);
 
   for (final kind in kinds.keys) {
     for (final b in [Brightness.dark, Brightness.light]) {
@@ -160,9 +170,10 @@ void main() {
   }
 
   for (final kind in kinds.keys) {
-    for (final ms in [0, 500, 1100, 1700, 2300, 3000, 4200]) {
+    for (final ms in kFrames) {
       testWidgets('frame at $ms ms, $kind, 360 dp, night', (tester) async {
         await _pump(tester, Brightness.dark, kind);
+        await warmSheetStamp(tester);
         await tester.pump();
         await tester.pump();
         await _frames(tester, ms);
@@ -174,6 +185,7 @@ void main() {
 
   testWidgets('a skip at 600 ms lands the end state within 200 ms, quick10_poor, day', (tester) async {
     await _pump(tester, Brightness.light, 'quick10_poor');
+    await warmSheetStamp(tester);
     await tester.pump();
     await tester.pump();
     await _frames(tester, 600);

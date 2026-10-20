@@ -234,7 +234,14 @@ class FlapInside extends StatelessWidget {
     this.fade,
     this.circle,
     this.circleWarm = false,
+    this.tally,
   });
+
+  /// The reader's ink through the paper (0 to 1), as the tally under the sheet counts it (20 Oct, owner K7: the marks
+  /// tally up, true at every frame). While it runs, the figure and the meter are the marks of the answers inked so far
+  /// (+5 each correct, -1 each wrong, 0 each not attempted) and they land on the paper's own marks; null shows the
+  /// paper's marks.
+  final Animation<double>? tally;
 
   /// The marker's loop round the total once it has landed (20 Oct, I13: every score is added up and circled, as an
   /// examiner rings the total at the top of a marked paper); null draws none.
@@ -292,10 +299,16 @@ class FlapInside extends StatelessWidget {
             Expanded(
               child: model.isHeld
                   ? _Held(model: model)
-                  : _Figure(model: model, geometry: geometry, show: showFigure, roll: rollFigure, circle: circle, circleWarm: circleWarm),
+                  : _Figure(model: model, geometry: geometry, show: showFigure, roll: rollFigure && tally == null, circle: circle, circleWarm: circleWarm, tally: tally),
             ),
             if (!model.isHeld) ...[
-              MarksMeter(marks: model.marks, max: model.maxMarks, progress: meter),
+              if (tally case final t?)
+                AnimatedBuilder(
+                  animation: t,
+                  builder: (context, _) => MarksMeter(marks: inkedMarks(model, t.value), max: model.maxMarks),
+                )
+              else
+                MarksMeter(marks: model.marks, max: model.maxMarks, progress: meter),
               const SizedBox(height: SheetGeometry.meterGap),
             ],
             if (!model.isHeld)
@@ -327,8 +340,43 @@ class _Fade extends StatelessWidget {
   }
 }
 
+/// The marks of the answers inked at [v] of the reader's pass (a bubble counts once it is half inked, as the grid draws
+/// it and the tally counts it), and the paper's own marks once the pass is done.
+int inkedMarks(RecapModel model, double v) {
+  final cells = model.cells;
+  if (v >= 1) return model.marks;
+  final inked = (v * cells.length + 0.5).floor().clamp(0, cells.length);
+  var m = 0;
+  for (var i = 0; i < inked; i++) {
+    m += switch (cells[i]) {
+      BubbleState.filled => 5,
+      BubbleState.wrong => -1,
+      _ => 0,
+    };
+  }
+  return m;
+}
+
+/// The lowest and highest marks the pass goes through, and the paper's own: the figure's box is as wide as the widest.
+List<String> _marksPassed(RecapModel model) {
+  var lo = 0, hi = 0, m = 0;
+  for (final c in model.cells) {
+    m += switch (c) {
+      BubbleState.filled => 5,
+      BubbleState.wrong => -1,
+      _ => 0,
+    };
+    if (m < lo) lo = m;
+    if (m > hi) hi = m;
+  }
+  return [formatSignedNumber(lo), formatSignedNumber(hi), formatSignedNumber(model.marks)];
+}
+
 class _Figure extends StatelessWidget {
-  const _Figure({required this.model, required this.geometry, required this.show, required this.roll, this.circle, this.circleWarm = false});
+  const _Figure({required this.model, required this.geometry, required this.show, required this.roll, this.circle, this.circleWarm = false, this.tally});
+
+  /// While the reader passes, the figure is the marks of what is inked.
+  final Animation<double>? tally;
 
   final RecapModel model;
   final SheetGeometry geometry;
@@ -345,6 +393,16 @@ class _Figure extends StatelessWidget {
     final type = context.mmType;
     final label = ResultCopy.figureLabel(model.marks, model.maxMarks);
     if (!show) return Semantics(container: true, label: label, child: const SizedBox.expand());
+    final passed = tally == null ? const <String>[] : _marksPassed(model);
+    Widget figure(int marks) => MonumentalNumber(
+      value: formatSignedNumber(marks),
+      unit: ResultCopy.outOf(model.maxMarks),
+      style: type.figureHero.copyWith(fontSize: geometry.figureSize, height: 0.9),
+      roll: roll,
+      reserve: passed,
+      semanticsLabel: label,
+    );
+    final t = tally;
     return Semantics(
       container: true,
       child: Align(
@@ -352,13 +410,12 @@ class _Figure extends StatelessWidget {
         child: FittedBox(
           fit: BoxFit.scaleDown,
           alignment: Alignment.topLeft,
-          child: MediaQuery.withNoTextScaling(child: _ringed(context, MonumentalNumber(
-              value: formatSignedNumber(model.marks),
-              unit: ResultCopy.outOf(model.maxMarks),
-              style: type.figureHero.copyWith(fontSize: geometry.figureSize, height: 0.9),
-              roll: roll,
-              semanticsLabel: label,
-            ))),
+          child: MediaQuery.withNoTextScaling(
+            child: _ringed(
+              context,
+              t == null ? figure(model.marks) : AnimatedBuilder(animation: t, builder: (context, _) => figure(inkedMarks(model, t.value))),
+            ),
+          ),
         ),
       ),
     );

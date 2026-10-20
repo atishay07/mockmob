@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/mascot/mobi_ration.dart' show MobiRation;
 import 'package:go_router/go_router.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/attempt.dart';
@@ -134,6 +135,10 @@ Future<void> _settle(WidgetTester tester, {int ms = 900}) async {
 
 void main() {
   setUpAll(loadAppFonts);
+  // Mobi's acts are rationed on the wall clock across the run (once a day a screen, never twice in a hurry): each
+  // golden starts from a fresh ration, so his pose does not depend on the tests before it.
+  setUp(MobiRation.reset);
+  tearDown(MobiRation.reset);
 
   for (final b in [Brightness.dark, Brightness.light]) {
     group('practice finish, ${b.name}', () {
@@ -141,6 +146,7 @@ void main() {
         testWidgets('the finish moment at $ms ms', (tester) async {
           final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
           await _pump(tester, '/practice/result/p1', b, resultOverrides(attemptId: 'p1', detail: _detail(), pending: pending, chapter: 'Admission of a partner'));
+          await warmSheetStamp(tester);
           // Two frames for the fresh check to resolve; the moment starts on the second.
           await tester.pump();
           await tester.pump();
@@ -159,9 +165,9 @@ void main() {
         });
       }
 
-      // The stamp (UI blitz, 14 Oct): the figure lands with an ink ring; a great set adds the
-      // burst of volt shards and the band of light over the sheet.
-      for (final (name, set, ms) in [('finish_stamp_mixed', _set, 1250), ('finish_stamp_great', _great, 1350)]) {
+      // The stamp (UI blitz, 14 Oct): the score lands on the mark sheet (20 Oct, K7: after the seal and the marking, about
+      // 1.7 s for ten); a great set adds the ring and the burst of volt shards behind it.
+      for (final (name, set, ms) in [('finish_stamp_mixed', _set, 1700), ('finish_stamp_great', _great, 1800)]) {
         testWidgets('the stamp, $name at $ms ms', (tester) async {
           final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
           await _pump(
@@ -170,6 +176,7 @@ void main() {
             b,
             resultOverrides(attemptId: 'p1', detail: _detail(questions: set), pending: pending, chapter: 'Admission of a partner'),
           );
+          await warmSheetStamp(tester);
           await tester.pump();
           await tester.pump();
           for (var t = 0; t < ms; t += 50) {

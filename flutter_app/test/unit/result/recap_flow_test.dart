@@ -80,9 +80,9 @@ void main() {
   group('the sealed sheet', () {
     testWidgets('a tap on the tab lifts it open, with the open haptic, and marks the result opened', (tester) async {
       await pump(tester, '/result/a7/sealed');
-      expect(find.text('Your result has loaded.'), findsOneWidget);
-      // The effort sentence rides on the same receipt line.
-      expect(find.textContaining('It is saved to your account.'), findsOneWidget);
+      expect(find.text(ResultCopy.sheetBack), findsOneWidget);
+      // Under it, that the marks are inside, ready to open (K7).
+      expect(find.text(ResultCopy.openWhenReady), findsOneWidget);
       // The effort line is said once, by Mobi on card 4, never on the sealed sheet.
       expect(find.textContaining('full paper this month'), findsNothing);
       await tester.tap(find.text('Open your result'));

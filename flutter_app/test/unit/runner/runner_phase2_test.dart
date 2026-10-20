@@ -99,8 +99,8 @@ void main() {
       await tester.tap(find.text('Submit mock'));
       await tester.pump();
       await tester.pump(const Duration(milliseconds: 100));
-      // Past the sheet's ink and Mobi's slot, before the hand-off at 2.8 s.
-      await tester.pump(const Duration(milliseconds: 1500));
+      // Past the sheet's ink (700 ms) and Mobi's hop, before the hand-off to the mark sheet reveal at 1.2 s (K7).
+      await tester.pump(const Duration(milliseconds: 900));
       return h;
     }
 

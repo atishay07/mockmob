@@ -1,4 +1,4 @@
-// The practice result (19 Oct, D108): the restored finish moment (FinishStage, as at 68f63c11) with its completion line,
+// The practice result: the mark sheet reveal (20 Oct, owner K7; earlier D108: the finish moment restored as at 68f63c11),
 // then the RESULT-1017 layers under it: the one next move, the mistakes with their repair inline, and everything else
 // folded under plain names.
 import 'dart:async';
@@ -23,7 +23,8 @@ import 'package:mockmob/features/practice/practice_routes.dart';
 import 'package:mockmob/features/practice/widgets/numbered_sheet.dart' show NumberedSheet;
 import 'package:mockmob/features/result/widgets/fold_section.dart' show FoldMemory;
 import 'package:mockmob/features/result/widgets/mistake_row.dart' show MistakeChip, MistakeRepairEntry, MistakeSummary;
-import 'package:mockmob/features/practice/widgets/finish_stage.dart' show FinishStage, CompletionLine;
+import 'package:mockmob/features/practice/widgets/finish_stage.dart' show FinishStage;
+import 'package:mockmob/features/practice/widgets/mark_sheet.dart' show marksOf;
 import 'package:mockmob/features/practice/widgets/result_foot.dart' show ResultFoot;
 
 import '../../helpers/fonts.dart';
@@ -56,9 +57,10 @@ final _mixed = [
 Future<GoRouter> pumpResult(WidgetTester tester, List<dynamic> overrides) {
   FoldMemory.instance.reset();
   addTearDown(FoldMemory.instance.reset);
-  // A tall phone: the finish moment (20 Oct, I13) adds the marks up on the paper before the layers, and these tests read
-  // the layers, not the fold. The moment's own layout at 360 by 760 is held by the reveal goldens.
-  return pumpRouted(tester, location: '/practice/result/p1', routes: _routes(), size: const Size(360, 1500), overrides: List.castFrom(overrides));
+  // A tall phone: the mark sheet (20 Oct, K7) with its facts, Mobi, the marks by chapter and the read come before the
+  // layers, and these tests read the layers, not the fold. The sheet's own layout at 360 by 760 is held by the reveal
+  // goldens.
+  return pumpRouted(tester, location: '/practice/result/p1', routes: _routes(), size: const Size(360, 2400), overrides: List.castFrom(overrides));
 }
 
 Finder get _page => find.byType(Scrollable).first;
@@ -88,39 +90,36 @@ Future<void> openMistake(WidgetTester tester, int number) async {
 void main() {
   setUpAll(loadAppFonts);
 
-  testWidgets('the finish moment: the figure, the counts, the sheet, Mobi, the completion line with the marks, and the costliest chapter under it', (tester) async {
+  testWidgets('the mark sheet: saved, the score in marks, the sheet, the tally with its marks, the facts and Mobi', (tester) async {
     final semantics = tester.ensureSemantics();
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), chapter: 'Admission of a partner'));
     await tester.pump(const Duration(milliseconds: 900));
-    // The restored moment (D108): the stamped figure of right answers, the counts and the sheet, with Mobi beside it.
+    // K7: "Your paper is saved," the score, the sheet. Opened again, the sheet is at its end: saved, with when.
     expect(find.byType(FinishStage), findsOneWidget);
-    expect(find.bySemanticsLabel(RegExp('8 of 10 correct')), findsWidgets);
-    // The counts are the ledger's rows now (20 Oct, I13): each with its marks, +5, -1 and 0 each.
-    expect(find.text('8 right'), findsOneWidget);
-    expect(find.text('1 wrong'), findsOneWidget);
-    expect(find.text('1 not attempted'), findsOneWidget);
+    expect(find.text('Your paper is saved.'), findsOneWidget);
+    expect(find.text('Accountancy practice, 10 questions on Admission of a partner. Recorded at 11:51 PM.'), findsOneWidget);
+    expect(find.bySemanticsLabel('You scored 39 of 50 marks.'), findsOneWidget);
+    expect(tester.widget<Text>(find.byKey(const ValueKey('completion-figure'))).data, '39');
+    expect(find.text('of 50 marks'), findsOneWidget);
+    // The marking scheme is printed on the sheet, and the tally carries each count's marks: +5, -1 and 0 each.
+    expect(find.text('5 marks for each correct answer, minus 1 for each wrong answer.'), findsOneWidget);
     expect(find.text('+40'), findsOneWidget);
-    expect(find.text('Accountancy practice, Admission of a partner, finished'), findsOneWidget);
     expect(find.byType(NumberedSheet), findsOneWidget);
     expect(find.byType(MobiCharacter), findsOneWidget);
-    // The one receipt is the completion line (F11: said once). Opened again, it says when the paper was saved.
-    expect(find.bySemanticsLabel('Saved today at 11:51 PM. You scored 39 of 50 marks.'), findsOneWidget);
-    expect(find.textContaining('Recorded'), findsNothing);
-    expect(find.textContaining('Your paper is saved'), findsNothing);
-    // The bar has no line of its own any more: the ledger says the marks in rows, and the total once.
+    // The facts: how much of what was answered was right.
+    expect(find.text('89%'), findsOneWidget);
+    expect(find.text('right of the 9 you answered'), findsOneWidget);
+    // One chapter: the sheet is that chapter's marks, so there is no chapter list.
+    expect(find.byKey(const ValueKey('sheet-chapters')), findsNothing);
+    // The marks are said once, on the sheet.
     expect(find.text('1 wrong answer cost 6 of the 11 marks you missed.'), findsNothing);
-    expect(find.textContaining('39 of 50 marks.'), findsNothing);
-    // One chapter: no chapter list (the ledger has said it all).
-    expect(find.byKey(const ValueKey('finish-chapters')), findsNothing);
-    // One chapter lost every missed mark: the bar's line has said it and the panel names the chapter, so the moment is
-    // not followed by the same news a second time (one thing at a time).
     expect(find.textContaining('cost 11 of the 11 marks you missed'), findsNothing);
     expect(find.text('Finish for now'), findsWidgets);
     expect(find.text(ResultFoot.seePaperLabel), findsOneWidget);
     semantics.dispose();
   });
 
-  testWidgets('two chapters lost the same marks: under the moment, the tie is said, not broken by paper order (owner I14)', (tester) async {
+  testWidgets('two chapters lost the same marks: the tie is said, and every chapter shows its own marks (owner I14, K7)', (tester) async {
     final semantics = tester.ensureSemantics();
     final two = [
       for (var i = 0; i < 8; i++) ('Admission of a partner', V.right),
@@ -129,28 +128,33 @@ void main() {
     ];
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(two)));
     await tester.pump(const Duration(milliseconds: 900));
-    // The moment's last beat (I13, I14): the v12 tie line over the chapters, both ranked 1st and marked Tied.
+    // Mobi's read says the tie as a tie (I14); Marks by chapter shows both chapters with their marks, in paper order
+    // where they missed the same, so no tie is broken by a claim.
     expect(find.text('Admission of a partner and Goodwill each cost you 6 marks.'), findsOneWidget);
     expect(find.text('Together they cost 12 of the 12 marks you missed.'), findsOneWidget);
-    expect(find.text('Tied'), findsNWidgets(2));
-    expect(find.bySemanticsLabel('Goodwill, tied first, 6 marks missed'), findsOneWidget);
+    expect(find.byKey(const ValueKey('sheet-chapters')), findsOneWidget);
+    expect(find.bySemanticsLabel('Admission of a partner: 39 of 45 marks. 8 right, 1 wrong.'), findsOneWidget);
+    expect(find.bySemanticsLabel('Goodwill: −1 of 5 marks. 1 wrong.'), findsOneWidget);
     expect(find.textContaining('cost 6 of the 12'), findsNothing);
     semantics.dispose();
   });
 
-  testWidgets('two chapters lost different marks: the one that cost the most is named alone', (tester) async {
+  testWidgets('two chapters lost different marks: the one that cost the most is named alone and listed first', (tester) async {
+    final semantics = tester.ensureSemantics();
     final two = [
+      ('Goodwill', V.wrong),
       for (var i = 0; i < 7; i++) ('Admission of a partner', V.right),
       ('Admission of a partner', V.wrong),
       ('Admission of a partner', V.wrong),
-      ('Goodwill', V.wrong),
     ];
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(two)));
     await tester.pump(const Duration(milliseconds: 900));
     expect(find.text('Admission of a partner cost 12 of the 18 marks you missed.'), findsOneWidget);
-    // Ranked by marks, no tie: 1 and 2, no Tied tag.
     expect(find.text('Tied'), findsNothing);
-    expect(find.text('2'), findsWidgets);
+    final first = find.bySemanticsLabel('Admission of a partner: 33 of 45 marks. 7 right, 2 wrong.');
+    final second = find.bySemanticsLabel('Goodwill: −1 of 5 marks. 1 wrong.');
+    expect(tester.getTopLeft(first).dy, lessThan(tester.getTopLeft(second).dy));
+    semantics.dispose();
   });
 
   testWidgets('"Your paper is saved" is said only once the server\'s acknowledgement is held on this phone', (tester) async {
@@ -158,14 +162,16 @@ void main() {
     final gate = Completer<DateTime?>();
     final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), pending: pending, receivedLater: gate.future));
-    await frames(tester, ms: 2600);
-    // Fresh from the submit, but the acknowledgement is not read yet: the marks alone, never "saved".
+    await frames(tester, ms: 3200);
+    // Fresh from the submit, but the acknowledgement is not read yet: marked, never "saved", and no stamp.
     expect(find.bySemanticsLabel('You scored 39 of 50 marks.'), findsOneWidget);
     expect(find.textContaining('Your paper is saved'), findsNothing);
+    expect(find.text('Your paper is marked.'), findsOneWidget);
     gate.complete(DateTime(2026, 10, 12, 23, 51));
     await tester.pump();
     await frames(tester, ms: 400);
-    expect(find.bySemanticsLabel('Your paper is saved. You scored 39 of 50 marks.'), findsOneWidget);
+    expect(find.text('Your paper is saved.'), findsOneWidget);
+    expect(find.textContaining('Recorded at 11:51 PM.'), findsOneWidget);
     semantics.dispose();
   });
 
@@ -173,32 +179,40 @@ void main() {
     final semantics = tester.ensureSemantics();
     final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), pending: pending, receivedLater: Future.value(null)));
-    await frames(tester, ms: 2600);
+    await frames(tester, ms: 3200);
     expect(find.textContaining('Your paper is saved'), findsNothing);
+    expect(find.text('Your paper is marked.'), findsOneWidget);
     expect(find.bySemanticsLabel('You scored 39 of 50 marks.'), findsOneWidget);
     semantics.dispose();
   });
 
-  testWidgets('the marks count up from 0 over 720 ms on an ease-out once the figure lands, in tabular figures', (tester) async {
+  testWidgets('the score adds up with the ink, true at every frame: the marks of what is inked, in tabular figures', (tester) async {
     final pending = FakePendingResults()..receivedAt = DateTime(2026, 10, 12, 23, 51);
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), pending: pending));
     await tester.pump();
     await tester.pump();
     Text figure() => tester.widget<Text>(find.byKey(const ValueKey('completion-figure')));
+    final stage = tester.widget<FinishStage>(find.byType(FinishStage));
     expect(figure().data, '0');
-    // Ten bubbles: 200 ms in place, 720 ms of ink, the stamp lands 240 ms later (1160 ms), the marks are added up from
-    // 160 ms after that, and the total starts counting 560 ms into that (about 1880 ms).
-    await frames(tester, ms: 1800);
-    expect(figure().data, '0');
+    // While the sheet is set down and stamped, nothing is marked yet.
     await frames(tester, ms: 480);
-    final mid = int.parse(figure().data!);
-    // An ease-out: well past half the marks a little after half the time.
-    expect(mid, greaterThan(19));
-    expect(mid, lessThan(39));
-    await frames(tester, ms: 700);
+    expect(figure().data, '0');
+    // Every frame of the marking: the figure is the marks of the bubbles the sheet has inked (half inked counts, as the
+    // sheet draws it and the tally counts it), never a number the sheet does not show.
+    final seen = <int>{};
+    for (var t = 0; t < 1400; t += 16) {
+      await tester.pump(const Duration(milliseconds: 16));
+      final reveal = tester.widget<NumberedSheet>(find.byType(NumberedSheet)).reveal!.value;
+      final inked = (reveal * stage.cells.length + 0.5).floor().clamp(0, stage.cells.length);
+      final shown = int.parse(figure().data!.replaceAll('−', '-'));
+      expect(shown, reveal >= 1 ? 39 : marksOf(stage.cells, inked), reason: 'at ${480 + t} ms');
+      seen.add(shown);
+    }
+    // It passed through the marks of the sheet as it inked, and landed on the paper's own.
+    expect(seen, containsAll([5, 20, 40, 39]));
     expect(figure().data, '39');
     expect(figure().style!.fontFeatures, contains(const FontFeature.tabularFigures()));
-    expect(CompletionLine.figureAt(39, 1), 39);
+    await frames(tester, ms: 2000);
   });
 
   testWidgets('"See it in Your papers" opens Your papers on this paper', (tester) async {
@@ -231,12 +245,12 @@ void main() {
     final gate = Completer<DateTime?>();
     await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(_mixed), receivedLater: gate.future));
     await tester.pump(const Duration(milliseconds: 500));
-    expect(find.textContaining('Saved'), findsNothing);
+    expect(find.textContaining('Recorded'), findsNothing);
     expect(find.bySemanticsLabel('You scored 39 of 50 marks.'), findsOneWidget);
     gate.complete(DateTime(2026, 10, 12, 23, 53));
     await tester.pump();
     await tester.pump(const Duration(milliseconds: 100));
-    expect(find.bySemanticsLabel('Saved today at 11:53 PM. You scored 39 of 50 marks.'), findsOneWidget);
+    expect(find.text('Accountancy practice, 10 questions. Recorded at 11:53 PM.'), findsOneWidget);
     semantics.dispose();
   });
 
@@ -256,7 +270,8 @@ void main() {
     expect(find.text('Correct answer'), findsOneWidget);
     expect(find.text('Because 8.'), findsOneWidget);
     expect(find.textContaining('then a new question to check it held'), findsOneWidget);
-    expect(find.byType(Image), findsNothing);
+    // No picture in the answer: the only image on the page is the sheet's own stamp.
+    expect(find.byType(Image).evaluate().length, find.descendant(of: find.byType(FinishStage), matching: find.byType(Image)).evaluate().length);
   });
 
   testWidgets('a held review shows no key, no explanation and no repair, and the head says so once', (tester) async {
@@ -308,10 +323,13 @@ void main() {
   testWidgets('every question right: a harder set is the move, and the mistakes say there are none', (tester) async {
     final all = [for (var i = 0; i < 10; i++) ('Goodwill', V.right)];
     final router = await pumpResult(tester, resultOverrides(attemptId: 'p1', detail: detailOf(all)));
+    final semantics = tester.ensureSemantics();
     await tester.pump(const Duration(milliseconds: 900));
-    expect(find.text('10 right'), findsOneWidget);
-    expect(find.text('0 wrong'), findsOneWidget);
+    expect(find.bySemanticsLabel('You scored 50 of 50 marks.'), findsOneWidget);
+    expect(find.text('100%'), findsOneWidget);
+    expect(find.text('+50'), findsOneWidget);
     expect(find.text('No mistakes to repair'), findsOneWidget);
+    semantics.dispose();
     expect(find.widgetWithText(KeyButton, 'Practise 10 harder in Accountancy'), findsOneWidget);
     await tester.tap(find.widgetWithText(KeyButton, 'Practise 10 harder in Accountancy'));
     await tester.pump(const Duration(milliseconds: 500));
@@ -444,7 +462,8 @@ void main() {
     await tester.pump(const Duration(milliseconds: 420));
     await tester.pump(const Duration(milliseconds: 600));
     await frames(tester, ms: 3000);
-    expect(find.bySemanticsLabel(RegExp('8 of 10 correct')), findsWidgets);
+    expect(find.bySemanticsLabel('You scored 39 of 50 marks.'), findsWidgets);
+    expect(find.textContaining('Most of this set'), findsOneWidget);
     expect(tester.widget<AnimatedOpacity>(layers.first).opacity, 1);
     // Opened once: the result is marked opened only after the moment read that it was fresh.
     expect(pending.opened, ['p1']);
@@ -458,12 +477,14 @@ void main() {
     await tester.pump();
     await tester.tap(find.byKey(const ValueKey('finish-figure')));
     await tester.pump();
-    // The end state lands in 200 ms (20 Oct, I13): every value on its final figure, never a jump cut.
+    // The end state lands in 200 ms: every value on its final figure, never a jump cut.
     await frames(tester, ms: 240);
-    expect(find.bySemanticsLabel('Your paper is saved. You scored 39 of 50 marks.'), findsOneWidget);
+    expect(find.text('Your paper is saved.'), findsOneWidget);
+    expect(find.bySemanticsLabel('You scored 39 of 50 marks.'), findsOneWidget);
     expect(tester.widget<Text>(find.byKey(const ValueKey('completion-figure'))).data, '39');
-    expect(tester.widget<Text>(find.byKey(const ValueKey('ledger-value-0'))).data, '+40');
-    expect(tester.widget<Text>(find.byKey(const ValueKey('ledger-value-1'))).data, '−1');
+    expect(find.text('+40'), findsOneWidget);
+    expect(find.text('−1'), findsOneWidget);
+    await frames(tester, ms: 2000);
     semantics.dispose();
   });
 
@@ -612,7 +633,7 @@ void main() {
       await tester.pump();
       expect(find.byType(FinishStage), findsOneWidget);
       expect(find.text('Reading your sheet'), findsNothing);
-      await frames(tester, ms: 2600);
+      await frames(tester, ms: 3200);
       expect(tester.widget<Text>(find.byKey(const ValueKey('completion-figure'))).data, '39');
     });
 
@@ -632,7 +653,7 @@ void main() {
       expect(find.byType(FinishStage), findsOneWidget);
       expect(tester.widget<FinishStage>(find.byType(FinishStage)).cells, hasLength(10));
       expect(tester.widget<Text>(find.byKey(const ValueKey('completion-figure'))).data, '0');
-      await frames(tester, ms: 2600);
+      await frames(tester, ms: 3200);
       expect(tester.widget<Text>(find.byKey(const ValueKey('completion-figure'))).data, '39');
     });
 

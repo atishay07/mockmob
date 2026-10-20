@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'package:lucide_icons_flutter/lucide_icons.dart' show LucideIcons;
 
-import '../../../core/copy/formatters.dart' show formatSignedNumber;
 import '../../../core/motion/motion.dart' show Motion;
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart' show KeyButton;
@@ -138,123 +137,6 @@ int shownCount(List<FinishChapter> chapters, int maxRows) {
 
 TextStyle _tabular(TextStyle s) => s.copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
 
-/// The marks added up, row by row: "7 right, +5 each, +35", "2 wrong, -1 each, -2", "1 not
-/// attempted, 0 each, 0". Each row rises in and its value counts up from 0 in tabular figures, so
-/// the column never jitters. [t] is the stage's after-landing controller; [footer] (the completion
-/// line with its circled total) sits under the rule.
-class FinishLedger extends StatelessWidget {
-  const FinishLedger({super.key, required this.right, required this.wrong, required this.blank, required this.t, required this.footer, this.sheet});
-
-  /// The student's sheet, inking, at the top of the same card: the paper and its marking are one thing.
-  final Widget? sheet;
-
-  final int right;
-  final int wrong;
-  final int blank;
-  final Animation<double> t;
-  final Widget footer;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    final label = type.body.copyWith(color: colors.ink);
-    final rule = _tabular(type.small.copyWith(color: colors.ink3));
-    final value = _tabular(type.body.copyWith(color: colors.ink, fontWeight: FontWeight.w700));
-    final rows = <(String, String, int, Color)>[
-      (FinishRevealCopy.rightLabel(right), FinishRevealCopy.rightRule, right * 5, colors.ink),
-      (FinishRevealCopy.wrongLabel(wrong), FinishRevealCopy.wrongRule, -wrong, wrong > 0 ? colors.wrongText : colors.ink),
-      (FinishRevealCopy.blankLabel(blank), FinishRevealCopy.blankRule, 0, colors.ink2),
-    ];
-    // The value column is as wide as its widest final value, so nothing moves while the values count.
-    final scaler = MediaQuery.textScalerOf(context);
-    var valueWidth = 0.0;
-    for (final r in rows) {
-      final p = TextPainter(text: TextSpan(text: _signedPlus(r.$3), style: value), textDirection: TextDirection.ltr, textScaler: scaler)
-        ..layout();
-      valueWidth = math.max(valueWidth, p.width);
-      p.dispose();
-    }
-
-    return DecoratedBox(
-      key: const ValueKey('finish-ledger'),
-      decoration: ShapeDecoration(
-        color: colors.raised,
-        shape: RoundedSuperellipseBorder(borderRadius: MmRadius.panelAll, side: BorderSide(color: colors.line)),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.s16, MmSpace.s16, MmSpace.s16, MmSpace.s16),
-        child: AnimatedBuilder(
-          animation: t,
-          child: sheet,
-          builder: (context, sheet) => Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              if (sheet != null) ...[sheet, const SizedBox(height: MmSpace.s16)],
-              // The head and the marking scheme (+5, -1, 0 each) are printed on the paper from the start, as on a real
-              // mark sheet: what is being added up is clear before the marks arrive, and the card is never an empty box.
-              Text(FinishRevealCopy.ledgerHead, style: type.caption.copyWith(color: colors.ink2)),
-              const SizedBox(height: MmSpace.s8),
-              Semantics(
-                container: true,
-                label: FinishRevealCopy.ledgerSpoken(right, wrong, blank),
-                excludeSemantics: true,
-                child: Column(
-                  children: [
-                    for (var i = 0; i < rows.length; i++)
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 3),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.baseline,
-                            textBaseline: TextBaseline.alphabetic,
-                            children: [
-                              Expanded(
-                                child: _rise(
-                                  FinishBeats.row(t.value, i),
-                                  Text(rows[i].$1, style: label, maxLines: 1, overflow: TextOverflow.ellipsis),
-                                ),
-                              ),
-                              Text(rows[i].$2, style: rule),
-                              const SizedBox(width: MmSpace.s16),
-                              _rise(FinishBeats.row(t.value, i), SizedBox(
-                                width: valueWidth,
-                                child: Text(
-                                  _signedPlus((rows[i].$3 * FinishBeats.row(t.value, i)).round()),
-                                  key: ValueKey('ledger-value-$i'),
-                                  style: value.copyWith(color: rows[i].$4),
-                                  textAlign: TextAlign.right,
-                                  maxLines: 1,
-                                  softWrap: false,
-                                ),
-                              )),
-                            ],
-                          ),
-                        ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: MmSpace.s8),
-              // The rule under the column, drawn left to right as the total arrives.
-              Align(
-                alignment: Alignment.centerLeft,
-                child: FractionallySizedBox(
-                  widthFactor: Motion.glide.transform(((t.value - FinishBeats.totalAt + 0.08) / 0.12).clamp(0.0, 1.0)),
-                  child: Container(height: 1, color: colors.lineStrong),
-                ),
-              ),
-              const SizedBox(height: MmSpace.s12),
-              footer,
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// "+35", "−2", "0": a sign on every non-zero value, as a marker writes them in the margin.
-String _signedPlus(int v) => v > 0 ? '+$v' : formatSignedNumber(v);
-
 // A row still rising cannot be tapped (L-30): the "Fix these" key must not take a skip-tap meant for the moment.
 Widget _rise(double v, Widget child) => IgnorePointer(
   ignoring: v < 0.99,
@@ -263,111 +145,6 @@ Widget _rise(double v, Widget child) => IgnorePointer(
     child: Transform.translate(offset: Offset(0, 8 * (1 - v)), child: child),
   ),
 );
-
-/// "Where the marks went": the chapters that lost marks, ranked, with ties sharing a rank and marked
-/// "Tied". At most [maxRows]; the rest are one line. Shown only when two or more chapters lost marks
-/// (with one, the ledger has already said everything).
-class FinishChapters extends StatelessWidget {
-  const FinishChapters({super.key, required this.chapters, required this.t, this.maxRows = 4, this.lead, this.leadDetail});
-
-  /// Under [lead], for a tie: "Together they cost 24 of the 30 marks you missed."
-  final String? leadDetail;
-
-  /// The one sentence over the rows (the v12 line, ties said as ties): "Ray Optics and Electromagnetic Induction each
-  /// cost you 6 marks." or "Share Capital cost 29 of the 122 marks you missed."
-  final String? lead;
-
-  final List<FinishChapter> chapters;
-  final Animation<double> t;
-  final int maxRows;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    // A tie is never cut in two: the rows go on while the next shares the last shown rank.
-    final cut = shownCount(chapters, maxRows);
-    final shown = chapters.take(cut).toList();
-    final rest = chapters.skip(cut).toList();
-    final value = _tabular(type.body.copyWith(color: colors.ink, fontWeight: FontWeight.w700));
-    final rank = _tabular(type.small.copyWith(color: colors.ink3, fontWeight: FontWeight.w600));
-    return AnimatedBuilder(
-      key: const ValueKey('finish-chapters'),
-      animation: t,
-      builder: (context, _) => Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Opacity(
-            opacity: FinishBeats.chapter(t.value, 0),
-            child: Row(
-              children: [
-                Expanded(child: Text(FinishRevealCopy.chaptersHead, style: type.caption.copyWith(color: colors.ink2))),
-                Text(FinishRevealCopy.lostHead, style: type.caption.copyWith(color: colors.ink3)),
-              ],
-            ),
-          ),
-          if (lead != null) ...[
-            const SizedBox(height: MmSpace.s8),
-            Opacity(
-              opacity: FinishBeats.chapter(t.value, 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(lead!, style: type.body.copyWith(color: colors.ink, fontWeight: FontWeight.w600)),
-                  if (leadDetail != null) ...[
-                    const SizedBox(height: 2),
-                    Text(leadDetail!, style: type.small.copyWith(color: colors.ink2)),
-                  ],
-                ],
-              ),
-            ),
-            const SizedBox(height: MmSpace.s8),
-          ] else
-            const SizedBox(height: MmSpace.s4),
-          for (var i = 0; i < shown.length; i++)
-            _rise(
-              FinishBeats.chapter(t.value, i),
-              Semantics(
-                container: true,
-                label: FinishRevealCopy.chapterSpoken(shown[i]),
-                excludeSemantics: true,
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                  decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
-                  child: Row(
-                    children: [
-                      SizedBox(width: 22, child: Text('${shown[i].rank}', style: rank)),
-                      Expanded(
-                        child: Text(shown[i].name, style: type.body.copyWith(color: colors.ink), maxLines: 1, overflow: TextOverflow.ellipsis),
-                      ),
-                      if (shown[i].tied) ...[
-                        const SizedBox(width: MmSpace.s8),
-                        _TiedTag(),
-                      ],
-                      const SizedBox(width: MmSpace.s12),
-                      Text('${shown[i].lost}', style: value),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          if (rest.isNotEmpty)
-            Opacity(
-              opacity: FinishBeats.chapter(t.value, shown.length),
-              child: Container(
-                padding: const EdgeInsets.only(top: 8),
-                decoration: BoxDecoration(border: Border(top: BorderSide(color: colors.line))),
-                child: Text(
-                  FinishRevealCopy.more(rest.length, rest.fold(0, (s, c) => s + c.lost)),
-                  style: type.small.copyWith(color: colors.ink3),
-                ),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
 
 class _TiedTag extends StatelessWidget {
   @override
@@ -461,6 +238,9 @@ class PaperReadCard extends StatelessWidget {
     this.onFix,
     this.plain = false,
     this.at,
+    this.blockGap = FinishBeats.blockGap,
+    this.blockSpan = FinishBeats.rowSpan,
+    this.chapterTable = true,
   });
 
   final PaperRead read;
@@ -479,13 +259,20 @@ class PaperReadCard extends StatelessWidget {
   /// No Mobi (NTA): the heading is the student's own.
   final bool plain;
 
-  /// Where on [t] the first block starts (the practice moment's [FinishBeats.chaptersAt] by default).
+  /// Where on [t] the first block starts ([FinishBeats.chaptersAt] by default).
   final double? at;
 
+  /// The blocks rise over [blockSpan] of [t], [blockGap] apart (fractions of [t]'s own run).
+  final double blockGap;
+  final double blockSpan;
+
+  /// The ranked table of the chapters that lost marks, in the Weaknesses. False when the page shows every chapter's
+  /// marks already (the practice sheet's "Marks by chapter"): the block keeps its sentence and its tie.
+  final bool chapterTable;
+
   /// Block [i]'s own 0 to 1 at [v], starting at [from].
-  static double beat(double v, int i, {double? from}) => Motion.glide.transform(
-    ((v - (from ?? FinishBeats.chaptersAt) - i * FinishBeats.blockGap) / FinishBeats.rowSpan).clamp(0.0, 1.0),
-  );
+  static double beat(double v, int i, {double? from, double gap = FinishBeats.blockGap, double span = FinishBeats.rowSpan}) =>
+      Motion.glide.transform(((v - (from ?? FinishBeats.chaptersAt) - i * gap) / span).clamp(0.0, 1.0));
 
   @override
   Widget build(BuildContext context) {
@@ -504,7 +291,7 @@ class PaperReadCard extends StatelessWidget {
           Text(lead!, style: body.copyWith(fontWeight: FontWeight.w600)),
           if (leadDetail != null) Text(leadDetail!, style: type.small.copyWith(color: colors.ink2)),
         ],
-        if (r.leakChapters.length >= 2) _ChapterTable(chapters: r.leakChapters, maxRows: maxChapters),
+        if (chapterTable && r.leakChapters.length >= 2) _ChapterTable(chapters: r.leakChapters, maxRows: maxChapters),
         for (final s in r.leaks) Text(s, style: body),
       ]),
       _ReadBlock(icon: LucideIcons.target, label: PaperReadCopy.opportunity, tint: colors.accentText, children: [
@@ -549,7 +336,7 @@ class PaperReadCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Opacity(
-                opacity: beat(t.value, 0, from: at),
+                opacity: beat(t.value, 0, from: at, gap: blockGap, span: blockSpan),
                 child: Semantics(
                   header: true,
                   child: Row(
@@ -570,7 +357,7 @@ class PaperReadCard extends StatelessWidget {
               const SizedBox(height: MmSpace.s4),
               for (var i = 0; i < blocks.length; i++)
                 _rise(
-                  beat(t.value, i, from: at),
+                  beat(t.value, i, from: at, gap: blockGap, span: blockSpan),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
                     decoration: i == 0 ? null : BoxDecoration(border: Border(top: BorderSide(color: colors.line))),

@@ -307,8 +307,9 @@ void main() {
       );
       expect(find.text('Practice recorded at 11:51 PM.'), findsOneWidget);
       expect(find.byType(QuestionStrip), findsOneWidget);
-      // The card says the score and numbers its bubbles; the counts line sits under it.
-      expect(find.text('1'), findsWidgets);
+      // The card says the score in marks (K7: +5, -1, 0 is 4 of 15) and numbers its bubbles; the counts line sits under it.
+      expect(find.text('4'), findsWidgets);
+      expect(find.textContaining('of 15 marks'), findsOneWidget);
       expect(find.text('1 right, 1 wrong, 1 not attempted'), findsOneWidget);
       await tester.pump(ResultClosing.duration);
       await tester.pump(const Duration(milliseconds: 100));

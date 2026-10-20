@@ -39,6 +39,7 @@ import 'package:mockmob/features/practice/data/practice_prefs.dart';
 import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
 import 'package:mockmob/features/social/data/mob_repository.dart' show mobRepositoryProvider;
 import 'package:mockmob/features/practice/data/practice_starter.dart';
+import 'package:mockmob/features/practice/widgets/mark_sheet.dart' show SheetStamp;
 import '../../../helpers/no_open_paper.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
 import 'package:mockmob/features/practice/model/practice_selection.dart';
@@ -458,3 +459,14 @@ List<Override> resultOverrides({
   resultReceivedAtProvider.overrideWith((ref, id) => receivedLater ?? Future.value(received ?? DateTime(2026, 10, 12, 23, 51))),
   practiceNoteProvider.overrideWith((ref, id) async => PracticeNote(chapter: chapter, mode: 'quick')),
 ];
+
+/// Decodes the mark sheet's stamp art in real time without moving the test clock, as the finish itself does while the
+/// sheet rises, so frame goldens show the stamp where a phone does. Call it after the first pump of a result.
+Future<void> warmSheetStamp(WidgetTester tester) async {
+  final ctx = tester.element(find.byType(Scaffold).first);
+  unawaited(precacheImage(SheetStamp.provider(ctx), ctx));
+  for (var i = 0; i < 6; i++) {
+    await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 40)));
+    await tester.pump(Duration.zero);
+  }
+}
