@@ -4,9 +4,16 @@
    in place within about 600 ms. Step 0 switches transitions off so a restart never animates backwards. */
 
 .ts { font-variant-numeric: tabular-nums; --ts-line: rgba(255,255,255,.09); --ts-ink: #f2f4ec; --ts-ink2: #a3ab9c; --ts-volt: #d2f000; --ts-bad: #ff7a66; --ts-ease: cubic-bezier(.23,1,.32,1);
-  margin: 0; display: grid; grid-template-rows: auto 1fr; min-height: 17.25rem; border-radius: 20px; overflow: hidden; text-align: left;
-  background: linear-gradient(180deg, #161c14, #0e120d); color: var(--ts-ink); border: 1px solid rgba(255,255,255,.08);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,.06), 0 26px 50px -30px rgba(0,0,0,.75); font-family: var(--font-body); }
+  --ts-bezel: #0b0e0a;
+  margin: 0; display: grid; grid-template-rows: auto 1fr; min-height: 17.25rem; overflow: hidden; text-align: left; color: var(--ts-ink); font-family: var(--font-body);
+  /* A phone on the page (W7, 20 Oct): a charcoal screen, never black, in a 6px bezel one step darker than it, so in Night it
+     separates from the sunken stage behind it. A hairline of light on the top edge, a wide soft shadow with a faint volt
+     under-glow below. Contrast of every ink on the screen is AA (ink2 on the darkest stop is about 7:1). */
+  border: 6px solid var(--ts-bezel); border-radius: 24px;
+  background: linear-gradient(180deg, #1b2019, #131711) padding-box;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 -1px 0 rgba(255,255,255,.10), 0 0 0 1px rgba(210,240,0,.06), 0 32px 64px -28px rgba(0,0,0,.85), 0 18px 40px -24px rgba(210,240,0,.18); }
+/* Day: the same device on paper, with a paper-side shadow instead of the volt glow. */
+html[data-theme='light'] .ts { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 0 0 1px rgba(23,32,22,.14), 0 28px 50px -30px rgba(20,32,14,.5); }
 .ts[data-step='0'] *, .ts[data-step='0'] *::before, .ts[data-step='0'] *::after { transition: none !important; animation: none !important; }
 
 .ts__bar { display: flex; align-items: center; gap: .5rem; height: 40px; padding: 0 .85rem; border-bottom: 1px solid var(--ts-line); font: 700 .75rem var(--font-body); color: var(--ts-ink2); }
@@ -14,7 +21,7 @@
 .ts__title { flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ts__badge { padding: .12rem .45rem; border: 1px solid var(--ts-line); border-radius: 99px; font-size: .66rem; }
 .ts__timer { font: 700 .82rem var(--font-body); letter-spacing: 0; color: var(--ts-volt); font-variant-numeric: tabular-nums; }
-.ts__body { display: flex; flex-direction: column; gap: .6rem; padding: .85rem; }
+.ts__body { display: flex; flex-direction: column; gap: .6rem; padding: .85rem; background: radial-gradient(120% 70% at 50% 0%, rgba(255,255,255,.045), rgba(255,255,255,0) 72%); }
 
 /* Generic entrance used by every screen (the app's enter: fade on the card time, rise on the emphasized curve). */
 .ts [data-in] { transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out), transform var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease-out); }
@@ -31,7 +38,7 @@
 .ts__opts li { position: relative; display: flex; align-items: center; gap: .55rem; padding: .48rem .6rem; border-radius: 10px; border: 1px solid var(--ts-line); background: rgba(255,255,255,.03); font: 600 .78rem var(--font-body);
   transition: opacity var(--mm-dur-card, 240ms) var(--mm-ease-out, ease-out), transform var(--mm-dur-enter, 360ms) var(--mm-ease-emphasized, ease-out), border-color .3s ease, background .3s ease; }
 .ts__opts li b { display: grid; place-items: center; flex: 0 0 22px; height: 22px; border-radius: 6px; background: rgba(255,255,255,.08); font-size: .68rem; transition: background .3s ease, color .3s ease; }
-.ts__opts li[data-picked='true'] { border-color: var(--ts-volt); background: rgba(210,240,0,.1); }
+.ts__opts li[data-picked='true'] { border-color: var(--ts-volt); background: rgba(210,240,0,.1); box-shadow: 0 0 0 1px rgba(210,240,0,.22), 0 0 20px -6px rgba(210,240,0,.45); }
 .ts__opts li[data-picked='true'] b { background: var(--ts-volt); color: #0b1000; }
 .ts__tick { margin-left: auto; color: var(--ts-volt); animation: ts-pop .35s var(--ts-ease) both; }
 .ts__tap { position: absolute; left: 58%; top: 50%; width: 30px; height: 30px; margin: -15px 0 0 -15px; border-radius: 50%; background: rgba(210,240,0,.55); opacity: 0; pointer-events: none; }
