@@ -204,7 +204,7 @@ export function RadarScreen({ play }) {
           </li>
         ))}
       </ul>
-      <p className="ts__note" data-in={on(step >= 7)}>Partner retirement lost the most marks. Tonight starts there.</p>
+      <p className="ts__note" data-in={on(step >= 7)}>Partner retirement cost the most marks. Tonight starts there.</p>
     </Frame>
   );
 }

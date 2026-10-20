@@ -142,13 +142,13 @@ function swotRead(session, changes) {
   const lost = [...EARLIER.partnershipLost, partnership.lost];
   const turned = changes.filter((c) => c.fromVerdict === 'right' && c.toVerdict === 'wrong');
   const plan = [
-    { label: 'Practise 10 on Partnership', reason: `Marks lost here in each of your last ${lost.length} mocks.` },
-    { label: 'Practise 10 on Cash flow', reason: `${cash.right} right of ${cash.of} so far. ${cash.paper.lost} marks lost here in this paper.` },
+    { label: 'Practise 10 on Partnership', reason: `Marks slipped here in each of your latest ${lost.length} mocks.` },
+    { label: 'Practise 10 on Cash flow', reason: `${cash.right} right of ${cash.of} so far. ${cash.paper.lost} marks slipped here in this paper.` },
   ];
   const quadrants = [
     { id: 'strength', label: 'Strengths', title: 'Ratios', detail: `${ratios.right} right of ${ratios.of} across ${ratios.papers} papers, ${ratios.paper.right} of ${ratios.paper.of} in this one.`, qs: [] },
     { id: 'weakness', label: 'Weaknesses', title: 'Right answers changed to wrong', detail: `${turned.length} answers were right before you changed them. Those changes cost ${turned.length * GAP.wrong} marks.`, qs: turned.map((c) => c.n).sort((a, b) => a - b) },
-    { id: 'opportunity', label: 'Opportunities', title: 'Cash flow', detail: `${cash.right} right of ${cash.of} across ${cash.papers} papers. ${cash.paper.lost} marks lost here in this paper.`, qs: [] },
+    { id: 'opportunity', label: 'Opportunities', title: 'Cash flow', detail: `${cash.right} right of ${cash.of} across ${cash.papers} papers. ${cash.paper.lost} marks slipped here in this paper.`, qs: [] },
     { id: 'threat', label: 'Threats', title: `Partnership in each of your last ${lost.length} mocks`, detail: `Marks lost here: ${list(lost.map(String))}, oldest first.`, qs: partnership.qs },
   ];
   return { plan, quadrants, partnershipLost: lost };

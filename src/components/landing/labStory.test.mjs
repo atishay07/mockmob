@@ -96,7 +96,7 @@ test('the SWOT lines come from the rows and the earlier record, in the product w
   assert.equal(q.threat.detail, 'Marks lost here: 12, 12 and 18, oldest first.');
   assert.equal(q.strength.detail, '14 right of 15 across 3 papers, 3 of 3 in this one.');
   assert.equal(story.swot.plan[0].label, 'Practise 10 on Partnership');
-  assert.equal(story.swot.plan[1].reason, '9 right of 14 so far. 10 marks lost here in this paper.');
+  assert.equal(story.swot.plan[1].reason, '9 right of 14 so far. 10 marks slipped here in this paper.');
 });
 
 test('the changes carry both verdicts, the gap and the first answers score', () => {
