@@ -847,3 +847,11 @@ Billing page: "Your grace period has started. Your organization went over its qu
 > 1. Combine the v15 of the app of all the modes and all other fixes also, which were discussed in the BB sessions.
 > 2. Check them and Mob v4 completely, exceeding all my expectations."
 **Ledger D179:** version 15 (all modes, all fixes, Mob V4) goes to Play closed-testing review TONIGHT so it clears by tomorrow morning; app first, website after. Mob V4 must exceed his expectations.
+
+## Owner, 20 Oct about 4:57 pm IST (verbatim)
+> "And also, make sure that quality is not sacrificed for speed, because this is our first impression of our app to the public, not exactly public, but to the testers. This should be in every aspect, not in another version. This version is basically the final build only.
+>
+> Go out of your way to improve things, improve all things that you yourself notice in AI and in the UI, and keep on fixing things. If you see and scan my feedback, you will find many things that the app still lacks, which I will just say too many times to the people. I'm leaving this version to you to create this as perfect as possible, as good as you can do.
+>
+> The only thing you should be worried about is spawning too many agents or the usage limit. We can keep switching accounts or shifting between agents, but in terms of importance, number one is the quality, matching it to the highest standard, and then speed. Everything else comes after these two."
+**Ledger D180:** quality first, speed second; version 15 is THE final build for testers, no deferring to a later version; sweep all past owner feedback for app gaps and fix them; improve whatever the team notices in AI (Ask Mobi) and UI. Watch agent count and usage; accounts can be switched at the limit.
