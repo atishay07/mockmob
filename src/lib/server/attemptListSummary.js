@@ -33,6 +33,17 @@ export function isSummaryView(request) {
   } catch { return false; }
 }
 
+export const MARKS_VIEW = 'marks';
+/** True only for ?view=marks (the web Profile's count and average): [{ id, score, completedAt }] and nothing else. */
+export function isMarksView(request) {
+  try {
+    return new URL(request.url).searchParams.get('view') === MARKS_VIEW;
+  } catch { return false; }
+}
+
+/** The marks view of the attempts read with columns id, score, completed_at (attemptOut shape). */
+export const marksItem = (a) => ({ id: a.id, score: a.score, completedAt: a.completedAt });
+
 const present = (v) => v !== null && v !== undefined;
 
 /** One snapshot question reduced to what the app shows. Missing fields are left out (the app reads them as absent). */

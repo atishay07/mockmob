@@ -18,6 +18,11 @@ import { mistakeKey } from '../../src/lib/server/repairRecord.js';
 import { rulesBody, playbookBody } from '../../src/lib/server/playbook.js';
 import { indexAtlas, buildTrapsMeet } from '../trap_atlas.js';
 import { optionHash } from '../option_hash.js';
+import { repairsFor, missesOf } from '../../src/app/(app)/dashboard/repairsLine.mjs';
+import { fullMocksIn } from '../../src/lib/proNudge.mjs';
+import { mocksSummary } from '../../src/components/profile/accountModel.mjs';
+import { attemptForClient, attemptHold, heldAttemptView } from '../../src/lib/mob/paperHold.mjs';
+import { summaryAttempt, marksItem, isMarksView, isSummaryView } from '../../src/lib/server/attemptListSummary.js';
 import { richAttemptRows, leanDatabase, callFunction, tableRows, pgSupabase, SNAPSHOT_KEYS } from './helpers/lean_fixtures.mjs';
 
 // Egress items A1, A3, A4, A5, A8 (20 Oct 2026): attempts read through database functions that reduce the snapshot. The functions run
@@ -331,4 +336,45 @@ test('sites: each narrowed route asks for the profile its builders were proved o
   assert.match(src('data/db.js'), /async getAttempts\(userId, \{ columns, limit, memo, slim \} = \{\}\)/);
   // 41 snapshot keys: the fixtures carry every one of them
   assert.equal(SNAPSHOT_KEYS.length, 41);
+});
+
+// ---- A8: the website's Start page and Profile ------------------------------------------------------------------------
+test('A8: the Start page reads the same things from ?view=summary as from the full list', async () => {
+  for (const user of ['u1', 'u2', 'u3']) {
+    const rows = await before(user);
+    const full = rows.map((a) => attemptForClient(a));
+    // the route replaces the summary row of a held Mob paper by its marks-only view (readHeldMobPapersSafe), as the full path does
+    const slim = (await callFunction(pg, 'attempts_list_summary', { p_user_id: user })).map(summaryAttempt).map((r, i) => (attemptHold(rows[i]) ? heldAttemptView(r, attemptHold(rows[i])) : r));
+    const page = (list) => ({
+      avg: list.length ? Math.round(list.reduce((sum, a) => sum + a.score, 0) / list.length) : 0,
+      fullMocks: fullMocksIn(list),
+      recent: list.slice(0, 5).map((a) => ({ id: a.id, subject: a.subject, score: a.score, correct: a.correct, total: a.total, completedAt: a.completedAt })),
+      misses: list.map(missesOf),
+      repairs: ['accountancy', 'economics'].map((subjectId) => repairsFor({ attempts: list, repairs: [{ attemptId: list[0]?.id, questionId: list[0]?.details?.[0]?.qid, subject: list[0]?.subject, repairedAt: 1 }], subjectId })),
+      count: list.length,
+    });
+    assert.deepEqual(page(slim), page(full), user);
+  }
+  assert.ok(fullMocksIn((await before('u1'))) > 0);
+});
+
+test('A8: ?view=marks gives the Profile its count and average from about 100 bytes a paper', async () => {
+  const db = pgSupabase(pg);
+  const rows = (await readAttemptRows(db, 'u1', { columns: ['id', 'score', 'completed_at'] })).map(attemptOut);
+  const marks = rows.map(marksItem);
+  assert.deepEqual(mocksSummary(marks), mocksSummary(await before('u1')));
+  assert.deepEqual(marks[0], { id: (await before('u1'))[0].id, score: (await before('u1'))[0].score, completedAt: (await before('u1'))[0].completedAt });
+  assert.ok(db.calls[0].bytes / rows.length < 130, `${db.calls[0].bytes / rows.length} B a paper`);
+  assert.ok(db.calls[0].bytes < bytes(await tableRows(pg, 'u1')) * 0.01);
+  assert.equal(db.calls[0].select, 'id,score,completed_at');
+  assert.equal(isMarksView({ url: 'https://x.test/api/attempts?view=marks' }), true);
+  assert.equal(isMarksView({ url: 'https://x.test/api/attempts?view=summary' }), false);
+  assert.equal(isMarksView({ url: 'https://x.test/api/attempts' }), false);
+  assert.equal(isSummaryView({ url: 'https://x.test/api/attempts?view=summary' }), true);
+  const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
+  assert.match(src('src/app/(app)/dashboard/DashboardPageClient.jsx'), /apiGet\('\/api\/attempts\?view=summary'\)/);
+  assert.match(src('src/app/(app)/profile/ProfilePageClient.jsx'), /apiGet\('\/api\/attempts\?view=marks'\)/);
+  assert.doesNotMatch(src('src/app/(app)/dashboard/DashboardPageClient.jsx') + src('src/app/(app)/profile/ProfilePageClient.jsx'), /api\/attempts\?userId/);
+  // the default list is unchanged for older clients
+  assert.match(src('src/app/api/attempts/route.js'), /return NextResponse\.json\(attempts\.map\(\(a\) => attemptForClient\(a\)\)\);/);
 });
