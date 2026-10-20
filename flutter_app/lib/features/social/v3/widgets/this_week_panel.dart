@@ -341,10 +341,28 @@ class _Heads extends ConsumerWidget {
     final people = hours.members.take(5).toList();
     return LayoutBuilder(
       builder: (context, box) {
-        // One row always: four cells, or five when five share (a Mob's seats).
-        final cell = math.min(110.0, box.maxWidth / math.max(4, people.length));
+        // Each time keeps the student's text size (no shrinking) and a 12 dp gap from the next. The cell is sized
+        // from the widest time as it measures at the current text scale; when five would not fit on one row the
+        // heads go three to a row (3 + 2), never four and one.
+        final timeStyle = type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]);
+        final scaler = MediaQuery.textScalerOf(context);
+        var widest = 0.0;
+        for (final p in people) {
+          final tp = TextPainter(text: TextSpan(text: MobV4DenCopy.hm(p.minutes), style: timeStyle), textDirection: TextDirection.ltr, textScaler: scaler, maxLines: 1)..layout();
+          widest = math.max(widest, tp.width);
+          tp.dispose();
+        }
+        const gap = MmSpace.s12;
+        final need = math.max(widest + 2, 44.0);
+        double cellFor(int k) => math.min(110.0, ((box.maxWidth - gap * (k - 1)) / k).floorToDouble());
+        var slots = math.max(4, people.length);
+        while (slots > 1 && cellFor(slots) < need) {
+          slots--;
+        }
+        if (people.length == 5 && slots == 4) slots = 3;
+        final cell = cellFor(slots);
         return Wrap(
-          spacing: 0,
+          spacing: gap,
           runSpacing: MmSpace.s12,
           children: [
             for (final p in people)
@@ -355,18 +373,7 @@ class _Heads extends ConsumerWidget {
                   children: [
                     _Head34(member: v3.member(p.memberId), head: manifest?.folds[v3.member(p.memberId)?.fold]?.head),
                     const SizedBox(height: MmSpace.s6),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
-                      child: FittedBox(
-                        fit: BoxFit.scaleDown,
-                        child: Text(
-                          MobV4DenCopy.hm(p.minutes),
-                          maxLines: 1,
-                          softWrap: false,
-                          style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]),
-                        ),
-                      ),
-                    ),
+                    Text(MobV4DenCopy.hm(p.minutes), maxLines: 1, softWrap: false, overflow: TextOverflow.ellipsis, style: timeStyle),
                     Text(
                       nameOf(p),
                       textAlign: TextAlign.center,

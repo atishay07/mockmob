@@ -4,6 +4,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/motion/reduced_motion.dart';
 import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
@@ -59,13 +60,19 @@ void main() {
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_hours_no_minutes_${_tag(b)}.png'));
     });
     testWidgets('v4 den free member full mock now card ${_tag(b)}', (tester) async {
-      await pumpDen(tester, v3Server(scenario: 'mock', billing: 'free'), brightness: b, height: 1900);
+      // Night: 120 credits (enough). Day: 20 credits (short by 30). Both with the Pro way under the key.
+      final balance = b == Brightness.dark ? 120 : 20;
+      await pumpDen(tester, v3Server(scenario: 'mock', billing: 'free'), brightness: b, height: 1900, auth: AuthSnapshot(status: AuthStatus.signedIn, userId: 'u1', creditBalance: balance), nudges: true);
       await _settle(tester);
       expect(find.byKey(const ValueKey('den-sit-cost')), findsOneWidget);
+      expect(find.text(MobV4DenCopy.sitCostLine(50, balance)), findsOneWidget);
+      expect(find.byKey(const ValueKey('den-sit-pro')), findsOneWidget);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_free_mock_card_${_tag(b)}.png'));
     });
     testWidgets('v4 den five sharing text 1.3 ${_tag(b)}', (tester) async {
-      final server = v3Server(scenario: 'open')..addFixtureMember('MEERA0000005', 'Meera', 4, FoldKey.crane, minutes: 95, goal: 3);
+      final server = v3Server(scenario: 'open')
+        ..addFixtureMember('MEERA0000005', 'Meera', 4, FoldKey.crane, minutes: 95, goal: 3)
+        ..studyMinutes['ZOYA00000004'] = 50;
       await pumpDen(tester, server, brightness: b, height: 2100, textScale: 1.3);
       await _settle(tester);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_five_sharing_130_${_tag(b)}.png'));
@@ -79,11 +86,14 @@ void main() {
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_invite_sheet_${_tag(b)}.png'));
     });
     testWidgets('v4 your mobs sheet ${_tag(b)}', (tester) async {
-      await pumpDen(tester, v3Server(scenario: 'open'), brightness: b, height: 900);
+      // A Free member whose plan does not allow another Mob: the row stays, "With Pro".
+      await pumpDen(tester, v3Server(scenario: 'open', billing: 'free'), brightness: b, height: 900);
       await _settle(tester);
       await tester.tap(find.byKey(const ValueKey('den-your-mobs')));
       await _settle(tester);
       expect(find.byKey(const ValueKey('your-mobs-join')), findsOneWidget);
+      expect(find.byKey(const ValueKey('your-mobs-start-pro')), findsOneWidget);
+      expect(find.textContaining(MobV4DenCopy.here), findsOneWidget);
       await expectLater(find.byType(MaterialApp), matchesGoldenFile('goldens/v4/den_v4_your_mobs_sheet_${_tag(b)}.png'));
     });
   }

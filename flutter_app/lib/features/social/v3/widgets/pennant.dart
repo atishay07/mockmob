@@ -197,36 +197,61 @@ class _PennantPainter extends CustomPainter {
       ..lineTo(w - inset, shoulder - inset * 0.6);
     _dash(canvas, seamPath, seam, 3, 2.5);
 
-    // One cross-stitch per week inside the foot (up to 5 drawn; the figure carries the count).
-    final n = math.min(weeks, 5);
-    if (n > 0) {
-      final rowY = shoulder + (h - (shoulder - top)) * 0.3;
-      const step = 6.5;
-      final start = cx - (n - 1) * step / 2;
-      final p = Paint()
-        ..color = stitch ?? ink.withValues(alpha: 0.7)
-        ..strokeWidth = stitch == null ? 1.2 : 1.6
-        ..strokeCap = StrokeCap.round;
-      for (var i = 0; i < n; i++) {
-        final x = start + step * i;
-        canvas.drawLine(Offset(x - 2, rowY - 2), Offset(x + 2, rowY + 2), p);
-        canvas.drawLine(Offset(x - 2, rowY + 2), Offset(x + 2, rowY - 2), p);
+    // One stitch per week across the pennant's lower edge (the figure carries the count): a single rounded
+    // diagonal dash, about 7 x 2.4 dp at 40 degrees, 11 dp apart ("/ / /"), never a cross (a row of X marks
+    // reads as failed weeks). The row sits at least 4 dp above the dashed seam and below the word; as many as
+    // fit there are drawn (three on the den's pennant, as in the mock-up).
+    if (weeks > 0) {
+      const step = 11.0;
+      const len = 7.0;
+      const angle = 40 * math.pi / 180;
+      final dx = math.cos(angle) * len / 2;
+      final dy = math.sin(angle) * len / 2;
+      final seamTopY = shoulder - inset * 0.6;
+      final seamTipY = top + h - inset * 1.6;
+      // The seam's height at x (it runs from the edges down to the point).
+      double seamAt(double x) {
+        final d = math.min(x, w - x) - inset;
+        return seamTopY + (seamTipY - seamTopY) * (d / (cx - inset)).clamp(0.0, 1.0);
       }
-      // The latest stitch carries the week's top-hours crown: a small three-point paper crown above it.
-      final c = crown;
-      if (c != null) {
-        final x = start + step * (n - 1);
-        final y = rowY - 5.5;
-        final crownPath = Path()
-          ..moveTo(x - 3.2, y + 2.4)
-          ..lineTo(x - 3.2, y - 1.2)
-          ..lineTo(x - 1.4, y + 0.6)
-          ..lineTo(x, y - 2)
-          ..lineTo(x + 1.4, y + 0.6)
-          ..lineTo(x + 3.2, y - 1.2)
-          ..lineTo(x + 3.2, y + 2.4)
-          ..close();
-        canvas.drawPath(crownPath, Paint()..color = c);
+      // The figure's word ends here (see the texts' padding and sizes in build).
+      final wordBottom = top + h * 0.12 + w * 0.5 + w * 0.19 * 1.1;
+      var n = math.min(weeks, 4);
+      var rowY = shoulder;
+      var start = cx;
+      while (n > 0) {
+        start = cx - (n - 1) * step / 2;
+        final lowest = math.min(seamAt(start - dx), seamAt(start + (n - 1) * step + dx));
+        rowY = math.min(shoulder - 1.5, lowest - 4 - dy);
+        if (rowY - dy >= wordBottom + 1) break;
+        n--;
+      }
+      if (n > 0) {
+        final p = Paint()
+          ..color = stitch ?? ink.withValues(alpha: 0.7)
+          ..strokeWidth = 2.4
+          ..strokeCap = StrokeCap.round;
+        for (var i = 0; i < n; i++) {
+          final x = start + step * i;
+          canvas.drawLine(Offset(x - dx, rowY + dy), Offset(x + dx, rowY - dy), p);
+        }
+        // The latest stitch carries the week's top-hours crown: a small three-point paper crown 2 dp above it,
+        // clear of the seam.
+        final c = crown;
+        if (c != null) {
+          final x = start + step * (n - 1) + dx * 0.5;
+          final base = rowY - dy - 2;
+          final crownPath = Path()
+            ..moveTo(x - 3, base)
+            ..lineTo(x - 3, base - 3.2)
+            ..lineTo(x - 1.3, base - 1.6)
+            ..lineTo(x, base - 4)
+            ..lineTo(x + 1.3, base - 1.6)
+            ..lineTo(x + 3, base - 3.2)
+            ..lineTo(x + 3, base)
+            ..close();
+          canvas.drawPath(crownPath, Paint()..color = c);
+        }
       }
     }
   }

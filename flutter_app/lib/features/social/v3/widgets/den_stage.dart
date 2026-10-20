@@ -246,8 +246,9 @@ class DenStage extends ConsumerWidget {
           }
           return null;
         }
-        // A Mob of one shows its four seats under one caption; a fuller Mob tags its one or two seats.
-        final oneCaption = all.length <= 1;
+        // Every open seat carries its own tag (V4 3.1 step 9, the approved empty den): "Open seat" when one is
+        // left, "Open" when there are two or more.
+        final openSeats = slots.where((sl) => sl.seat).length;
         const side = MmSpace.gutter;
         final slotW = slots.isEmpty ? 0.0 : (w - 2 * side) / slots.length;
         double centreOf(int i) => side + slotW * (i + 0.5);
@@ -408,7 +409,7 @@ class DenStage extends ConsumerWidget {
                       top: bootsY + 6,
                       child: _EngraveTag(text: slot.member!.you ? MobV3Copy.you : slot.member!.name, ms: ms),
                     )
-                  else if (!oneCaption)
+                  else
                     AnimatedPositioned(
                       key: ValueKey('den-seattag-${slot.index}'),
                       duration: move,
@@ -416,15 +417,8 @@ class DenStage extends ConsumerWidget {
                       left: centreOf(slot.index) - slotW / 2 + 2,
                       width: slotW - 4,
                       top: bootsY + 6,
-                      child: _EngraveTag(text: MobV3Copy.openSeat, ms: ms, quiet: true),
+                      child: _EngraveTag(text: openSeats >= 2 ? MobV4DenCopy.openShort : MobV3Copy.openSeat, ms: ms, quiet: true),
                     ),
-                if (oneCaption && slots.length > 1)
-                  Positioned(
-                    left: side,
-                    right: side,
-                    top: bootsY + (alone ? 26 : 6),
-                    child: _EngraveTag(text: MobV3Copy.seatsOpen(slots.length - 1), ms: ms, quiet: true),
-                  ),
                 // The studying desk (4.2): the art's own desk, right of the pennant, under a desk lamp.
                 if (studying != null && studier != null)
                   Positioned.fill(
@@ -459,6 +453,7 @@ class DenStage extends ConsumerWidget {
                       weeks: v3!.mobChain.weeks,
                       onTap: onPennant,
                       label: MobV4DenCopy.pennantLabel(v3!.name.text, v3!.mobChain.weeks),
+                      caption: v3!.name.text.isEmpty ? MobV4DenCopy.pennantCaptionFallback : v3!.name.text,
                       crown: v3!.hours?.topMemberId != null && (v3!.hours?.members.isNotEmpty ?? false),
                     ),
                   ),
@@ -651,7 +646,10 @@ class _Entering extends StatelessWidget {
 
 /// The pennant swinging in about its pin (M1 from 160 ms).
 class _PennantIn extends StatefulWidget {
-  const _PennantIn({required this.ms, required this.weeks, this.onTap, this.label, this.crown = false});
+  const _PennantIn({required this.ms, required this.weeks, this.onTap, this.label, this.caption, this.crown = false});
+
+  /// Under the foot, whose streak this is in words: the Mob's name (override 3). The semantics label says it too.
+  final String? caption;
 
   final ValueListenable<double> ms;
   final int weeks;
@@ -695,8 +693,38 @@ class _PennantInState extends State<_PennantIn> {
   Widget build(BuildContext context) {
     return ValueListenableBuilder<double>(
       valueListenable: widget.ms,
-      child: Pennant(weeks: widget.weeks, swing: _angle, onTap: widget.onTap, semanticsLabel: widget.label, crown: widget.crown, stitch: PennantPaper.stitch(context)),
+      child: _withCaption(context, Pennant(weeks: widget.weeks, swing: _angle, onTap: widget.onTap, semanticsLabel: widget.label, crown: widget.crown, stitch: PennantPaper.stitch(context))),
       builder: (context, t, child) => Opacity(opacity: EnterDen.pennantOpacity(t), child: child),
+    );
+  }
+
+  Widget _withCaption(BuildContext context, Widget pennant) {
+    final text = widget.caption;
+    if (text == null || text.isEmpty) return pennant;
+    final colors = context.mmColors;
+    final halo = [Shadow(color: colors.ground.withValues(alpha: colors.isNight ? 0.85 : 0.9), blurRadius: 6)];
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        pennant,
+        const SizedBox(height: MmSpace.s2),
+        SizedBox(
+          width: DenStage.pennantWidth,
+          child: ExcludeSemantics(
+            child: MediaQuery.withClampedTextScaling(
+              maxScaleFactor: 1.15,
+              child: Text(
+                text,
+                key: const ValueKey('den-pennant-caption'),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: context.mmType.caption.copyWith(fontSize: 10, height: 1.2, color: colors.isNight ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600, shadows: halo),
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

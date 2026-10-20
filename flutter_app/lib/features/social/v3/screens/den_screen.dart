@@ -462,7 +462,8 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
                 curve: MotionCurves.glide,
                 left: MmSpace.gutter,
                 top: stageTop + MmSpace.s2,
-                width: math.max(150, DenStage.pennantLeft(w, studying: deskBusy) - MmSpace.gutter - 8),
+                // At least 12 dp between the title block and the pennant.
+                width: math.max(150, DenStage.pennantLeft(w, studying: deskBusy) - MmSpace.gutter - MmSpace.s12),
                 child: _TitleBlock(
                   name: v3.name.text.isEmpty ? mob.subjectName : v3.name.text,
                   subtitle: MobV4DenCopy.subtitle(mob.subjectName, v3.members.length),
@@ -498,6 +499,9 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
           below.add(DenFailedCard(onRetry: () => _refresh(force: true)));
         } else if (mob != null && v3 != null) {
           final card = denCardFor(v3, paperSat: mob.week.youSat);
+          // Mobi rises out of the empty-den card: the card starts lower so his antenna stays clear of the name
+          // tags (also at 1.3x text, where the tags grow).
+          if (card.kind == DenCardKind.quiet) below.add(const SizedBox(height: MmSpace.s24));
           below.add(
             _Rise(
               ms: _ms,
@@ -508,40 +512,38 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
           below
             ..add(const SizedBox(height: MmSpace.s12))
             ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: DenRows(card: card, v3: v3, mob: mob, now: now)));
-          if (card.kind != DenCardKind.one) {
-            below
-              ..add(const SizedBox(height: MmSpace.s20))
-              ..add(
-                _Rise(
-                  ms: _ms,
-                  at: EnterDen.questAt,
-                  child: ThisWeekPanel(v3: v3, onTap: () => V4Sheets.thisWeek(context)),
-                ),
-              );
-          }
+          below
+            ..add(const SizedBox(height: MmSpace.s20))
+            ..add(
+              _Rise(
+                ms: _ms,
+                at: EnterDen.questAt,
+                child: ThisWeekPanel(v3: v3, onTap: () => V4Sheets.thisWeek(context)),
+              ),
+            );
           // Your shelf (3.1 item 6, D170): the den's entry to the Shelf, last in the list.
           below
             ..add(const SizedBox(height: MmSpace.s12))
             ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: const DenShelfRow()));
           // K5's pass notice goes last, out of the way of the rows: Start a game never moves (3.1 item 4), and
           // nothing sits below it to jump when it leaves. It fades and folds away (240 ms; reduced: at once).
+          final notice = _noticeText == null
+              ? const SizedBox(key: ValueKey('den-pass-notice-none'), width: double.infinity)
+              : Padding(
+                  key: ValueKey('den-pass-notice-$_noticeText'),
+                  padding: const EdgeInsets.only(top: MmSpace.s16),
+                  child: _PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!),
+                );
           below.add(
-            AnimatedSize(
-              key: const ValueKey('den-pass-notice-slot'),
-              duration: _reduced ? Duration.zero : MotionDurations.card,
-              curve: MotionCurves.glide,
-              alignment: Alignment.topCenter,
-              child: AnimatedSwitcher(
-                duration: _reduced ? Duration.zero : MotionDurations.card,
-                child: _noticeText == null
-                    ? const SizedBox(key: ValueKey('den-pass-notice-none'), width: double.infinity)
-                    : Padding(
-                        key: ValueKey('den-pass-notice-$_noticeText'),
-                        padding: const EdgeInsets.only(top: MmSpace.s16),
-                        child: _PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!),
-                      ),
-              ),
-            ),
+            _reduced
+                ? notice
+                : AnimatedSize(
+                    key: const ValueKey('den-pass-notice-slot'),
+                    duration: MotionDurations.card,
+                    curve: MotionCurves.glide,
+                    alignment: Alignment.topCenter,
+                    child: AnimatedSwitcher(duration: MotionDurations.card, child: notice),
+                  ),
           );
         }
 
@@ -683,6 +685,9 @@ class ChainChipKey extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Whose streak this is, in words (MOB-V4-BUILD override 3): the Mob's is the pennant.
+                Text(MobV4DenCopy.yourChainLabel, key: const ValueKey('den-chain-label'), maxLines: 1, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+                const SizedBox(width: MmSpace.s8),
                 CustomPaint(
                   size: const Size(18, 12),
                   painter: _LinkGlyph(colour: colors.ink),
@@ -747,9 +752,11 @@ class _TitleBlock extends StatelessWidget {
     final colors = context.mmColors;
     // The title sits over the lit room: a soft halo in the ground colour keeps it readable.
     final halo = [Shadow(color: colors.ground.withValues(alpha: colors.isNight ? 0.85 : 0.9), blurRadius: 10)];
-    // One line each: the name scales down to 0.8 and then ends in an ellipsis; the chevron follows the text.
+    // The name scales down to 0.8; past that it takes a second line (the Mob's own name is never cut to
+    // "Accountan..." in its own den) and the subtitle moves down. The chevron follows the text.
     final title = _FitLine(
       text: name,
+      wrap: true,
       style: type.screenTitle.copyWith(color: colors.ink, shadows: halo),
       trailing: onSwitch == null ? null : Padding(padding: const EdgeInsets.only(left: MmSpace.s4), child: Icon(LucideIcons.chevronDown, size: 22, color: colors.ink)),
       trailingWidth: onSwitch == null ? 0 : 26,
@@ -782,7 +789,10 @@ class _TitleBlock extends StatelessWidget {
 
 /// One line of text that scales down to [floor] of its size before it ends in an ellipsis; [trailing] follows it.
 class _FitLine extends StatelessWidget {
-  const _FitLine({required this.text, required this.style, this.trailing, this.trailingWidth = 0});
+  const _FitLine({required this.text, required this.style, this.trailing, this.trailingWidth = 0, this.wrap = false});
+
+  /// Past the floor, take a second line instead of an ellipsis.
+  final bool wrap;
 
   final String text;
   final TextStyle style;
@@ -799,11 +809,24 @@ class _FitLine extends StatelessWidget {
         final tp = TextPainter(text: TextSpan(text: text, style: style), textDirection: Directionality.of(context), textScaler: MediaQuery.textScalerOf(context), maxLines: 1)..layout();
         final natural = tp.width;
         tp.dispose();
-        final k = natural <= avail || natural <= 0 ? 1.0 : math.max(floor, avail / natural);
+        final fits = natural <= avail || natural <= 0;
+        final twoLines = wrap && !fits && avail / natural < floor;
+        var k = fits ? 1.0 : math.max(floor, avail / natural);
+        if (twoLines) {
+          // Two lines break between words: the longest word must fit a line, so it sets the size (not below the
+          // floor).
+          var longest = 0.0;
+          for (final word in text.split(' ')) {
+            final wp = TextPainter(text: TextSpan(text: word, style: style), textDirection: Directionality.of(context), textScaler: MediaQuery.textScalerOf(context), maxLines: 1)..layout();
+            longest = math.max(longest, wp.width);
+            wp.dispose();
+          }
+          k = longest <= avail || longest <= 0 ? 1.0 : math.max(floor, avail / longest);
+        }
         final line = Text(
           text,
-          maxLines: 1,
-          softWrap: false,
+          maxLines: twoLines ? 2 : 1,
+          softWrap: twoLines,
           overflow: TextOverflow.ellipsis,
           style: k == 1 ? style : style.copyWith(fontSize: (style.fontSize ?? 14) * k),
         );

@@ -14,6 +14,7 @@ import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../mob_v3_nav.dart';
 import '../screens/den_start_screen.dart' show showStartMobSheet;
+import 'free_pro_sheet.dart' show showFreeProSheet;
 
 /// What the sheet asks the den to do once it closes.
 sealed class YourMobsPick {
@@ -33,6 +34,11 @@ class JoinMobWithCode extends YourMobsPick {
   const JoinMobWithCode();
 }
 
+/// The plan does not allow another Mob yet: the honest way is Pro (the Free and Pro sheet).
+class StartAnotherWithPro extends YourMobsPick {
+  const StartAnotherWithPro();
+}
+
 /// Shows the sheet and acts on the pick. [onSwitch] lets the den fade through to the new Mob (M13); without it
 /// the repository selects the Mob directly.
 Future<void> showYourMobsSheet(BuildContext context, {Future<void> Function(String id)? onSwitch}) async {
@@ -50,6 +56,8 @@ Future<void> showYourMobsSheet(BuildContext context, {Future<void> Function(Stri
       await showStartMobSheet(context);
     case JoinMobWithCode():
       await MobV3Nav.join(context);
+    case StartAnotherWithPro():
+      await showFreeProSheet(context);
   }
 }
 
@@ -82,9 +90,22 @@ class YourMobsBody extends ConsumerWidget {
             Divider(height: 1, color: colors.line),
           ],
           const SizedBox(height: MmSpace.s16),
-          // Start another Mob shows only when the server says the plan allows it (no sentence about limits that
-          // could contradict Join with a code).
-          if (plan.canStartAnother) KeyButton.secondary(key: const ValueKey('your-mobs-start'), label: MobV4DenCopy.startAnother, onPressed: () => Navigator.of(context).pop(const StartAnotherMob())),
+          // Start another Mob always shows (3.5). When the plan does not allow it, the row says "With Pro" and opens
+          // Free and Pro: an honest way forward, no limit sentence that could contradict Join with a code. A Pro
+          // member at the plan's cap, or billing off, has no such way, so the row stays out.
+          if (plan.canStartAnother)
+            KeyButton.secondary(key: const ValueKey('your-mobs-start'), label: MobV4DenCopy.startAnother, onPressed: () => Navigator.of(context).pop(const StartAnotherMob()))
+          else if (!plan.pro && view.v3.starts.billingOn) ...[
+            _MobRow(
+              key: const ValueKey('your-mobs-start-pro'),
+              title: MobV4DenCopy.startAnother,
+              line: MobV4DenCopy.startAnotherWithPro,
+              active: false,
+              onTap: () => Navigator.of(context).pop(const StartAnotherWithPro()),
+            ),
+            Divider(height: 1, color: colors.line),
+            const SizedBox(height: MmSpace.s16),
+          ],
           const SizedBox(height: MmSpace.s8),
           KeyButton.secondary(key: const ValueKey('your-mobs-join'), label: MobV4DenCopy.joinWithCode, onPressed: () => Navigator.of(context).pop(const JoinMobWithCode())),
         ],

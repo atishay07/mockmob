@@ -1085,7 +1085,7 @@ abstract final class MobV4DenCopy {
     if (q.done || q.answered >= q.target) return 'Week ${weeks <= 0 ? 1 : weeks} is stitched';
     final left = q.target - q.answered;
     final week = weeks + 1;
-    if (q.answered == 0) return '${q.sizedFor <= 1 ? '15' : '15 each'} stitches week $week';
+    if (q.answered == 0) return '${q.sizedFor <= 1 ? '15' : '15 each'} by Sunday stitches week $week';
     return '$left more ${left == 1 ? 'stitch' : 'stitches'} week $week';
   }
 
@@ -1105,8 +1105,24 @@ abstract final class MobV4DenCopy {
   }
 
   static String hoursOf(int target) => 'of ${hm(target)}';
-  static String hoursSemantics(int total, int target) => 'Mob hours. ${hm(total)} of practice this week, of ${hm(target)}.';
-  static String memberHoursSemantics(String name, int minutes) => '$name, ${hm(minutes)}';
+  /// For screen readers: "7 hours 45 minutes", "1 hour", "45 minutes" (TalkBack reads "h" and "m" as letters).
+  static String hmSpoken(int minutes) {
+    final h = minutes ~/ 60;
+    final m = minutes % 60;
+    final hs = h == 1 ? '1 hour' : '$h hours';
+    final ms = m == 1 ? '1 minute' : '$m minutes';
+    if (h == 0) return ms;
+    if (m == 0) return hs;
+    return '$hs $ms';
+  }
+
+  static String hoursSemantics(int total, int target) => 'Mob hours: ${hmSpoken(total)} of practice this week, out of ${hmSpoken(target)}.';
+  static String memberHoursSemantics(String name, int minutes) => '$name, ${hmSpoken(minutes)}';
+
+  // Both streaks labelled (MOB-V4-BUILD override 3): whose chain is whose.
+  static const String yourChainLabel = 'Your chain';
+  static const String pennantCaptionFallback = 'Mob weeks';
+  static const String openShort = 'Open';
 
   // Stage (4.2 Studying now)
   static String studying(String name) => '$name is studying';
@@ -1120,8 +1136,9 @@ abstract final class MobV4DenCopy {
   // Your Mobs sheet (3.5)
   static const String yourMobsTitle = 'Your Mobs';
   static String mobRow(String name, String subject, int members) => '$name · $subject, ${members == 1 ? 'just you' : '$members of you'}';
-  static const String here = 'Open now';
+  static const String here = 'You are here';
   static const String startAnother = 'Start another Mob';
+  static const String startAnotherWithPro = 'With Pro';
   static const String joinWithCode = 'Join with a code';
   static String planLimit(int max) => max == 1 ? 'You are in 1 Mob, the most your plan allows.' : 'You are in $max Mobs, the most your plan allows.';
 
@@ -1129,7 +1146,14 @@ abstract final class MobV4DenCopy {
   static String inviteWorksFor(int open) => open <= 1 ? 'Works for 7 days, for 1 friend.' : 'Works for 7 days, for up to $open friends.';
 
   // Full mock price at the point of choice (D174, D175): the server's number, Free members only.
-  static String sitCostLine(int credits) => 'For you: $credits credits. Included with Pro.';
+  static String sitCostLine(int credits, int? balance) {
+    if (balance == null) return 'For you: $credits credits.';
+    if (balance < credits) return 'For you: $credits credits. You have $balance, so you need ${credits - balance} more.';
+    return 'For you: $credits credits. You have $balance.';
+  }
+
+  static const String sitIncludedPro = 'For you: included with Pro.';
+  static const String sitFreeWithPro = 'Sit it free with Pro';
   static String sitCostSuffix(int credits) => ' · $credits credits for you';
 
   // Your shelf row (3.1 item 6, D170)

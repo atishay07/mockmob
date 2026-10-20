@@ -9,6 +9,7 @@ import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/logic/den_copy_state.dart';
 import 'package:mockmob/features/social/v3/widgets/den_motion.dart';
 import 'package:mockmob/features/social/v3/widgets/den_stage.dart';
+import 'package:mockmob/features/social/v3/widgets/quest_segments.dart';
 
 import 'mob_v3_test_kit.dart';
 
@@ -127,5 +128,38 @@ void main() {
       final d = DenLife.seeded(DenLife.blinkEveryMin, DenLife.blinkEveryMax, i, 0);
       expect(d >= DenLife.blinkEveryMin && d <= DenLife.blinkEveryMax, isTrue);
     }
+  });
+
+  group('review fixes', () {
+    test('an empty week says when: "15 each by Sunday stitches week 1"', () {
+      expect(MobV4DenCopy.questLine(const Quest(target: 60, sizedFor: 4), 0), '15 each by Sunday stitches week 1');
+      expect(MobV4DenCopy.questLine(const Quest(target: 15), 3), '15 by Sunday stitches week 4');
+      expect(MobV4DenCopy.questLine(const Quest(target: 60, answered: 51, sizedFor: 4), 3), '9 more stitches week 4');
+    });
+
+    test('screen readers hear hours and minutes as words', () {
+      expect(MobV4DenCopy.hmSpoken(465), '7 hours 45 minutes');
+      expect(MobV4DenCopy.hmSpoken(60), '1 hour');
+      expect(MobV4DenCopy.hmSpoken(45), '45 minutes');
+      expect(MobV4DenCopy.hmSpoken(61), '1 hour 1 minute');
+      expect(MobV4DenCopy.hoursSemantics(465, 600), 'Mob hours: 7 hours 45 minutes of practice this week, out of 10 hours.');
+      expect(MobV4DenCopy.memberHoursSemantics('Riya', 190), 'Riya, 3 hours 10 minutes');
+    });
+
+    test('the Free price line carries the balance or the shortfall', () {
+      expect(MobV4DenCopy.sitCostLine(50, null), 'For you: 50 credits.');
+      expect(MobV4DenCopy.sitCostLine(50, 120), 'For you: 50 credits. You have 120.');
+      expect(MobV4DenCopy.sitCostLine(50, 20), 'For you: 50 credits. You have 20, so you need 30 more.');
+    });
+
+    test('quest segments fill whole segments only', () {
+      expect(QuestSegments.filledOf(51, 60), 10);
+      expect(QuestSegments.filledOf(59, 60), 11);
+      expect(QuestSegments.filledOf(60, 60), 12);
+      expect(QuestSegments.filledOf(70, 60), 12);
+      expect(QuestSegments.filledOf(0, 60), 0);
+      expect(QuestSegments.filledOf(4, 60), 0);
+      expect(QuestSegments.filledOf(5, 0), 0);
+    });
   });
 }
