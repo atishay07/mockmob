@@ -855,3 +855,11 @@ Billing page: "Your grace period has started. Your organization went over its qu
 >
 > The only thing you should be worried about is spawning too many agents or the usage limit. We can keep switching accounts or shifting between agents, but in terms of importance, number one is the quality, matching it to the highest standard, and then speed. Everything else comes after these two."
 **Ledger D180:** quality first, speed second; version 15 is THE final build for testers, no deferring to a later version; sweep all past owner feedback for app gaps and fix them; improve whatever the team notices in AI (Ask Mobi) and UI. Watch agent count and usage; accounts can be switched at the limit.
+
+## Owner, 20 Oct about 5:45 pm IST: answers to the version 15 sweep questions (verbatim)
+- First Pro ask: "Wait for a real limit (Recommended)"
+- Referral rule: "Any one practice"
+- Minors' usage data: "We don't work on assumptions. We work on facts only. So usage data stays on for 18, or rather, not saved, because most of the people despite their age, we will select "Rather Not Say." Only when it comes to our knowledge and that minor is using the app do we turn it off. In both the other scenarios, usage stays on, but obviously anyone can select to unselect it. Keep it as it is right now."
+**Ledger D181:** no Pro ask on the first result; a dismissible sheet appears only at a real limit (10 credits or fewer, a locked mode tapped) or on the second return to Today (L-23, P9).
+**Ledger D182:** referral credit (+100 each) triggers when the friend finishes ANY one practice (server threshold relaxed from 5 answers; app and web copy say "finishes one practice").
+**Ledger D183:** usage data is ON for 18+ and for "Rather not say"; OFF only when the student says they are under 18; anyone can switch it off in You > Privacy. (Before: off for under-18 AND "Rather not say".)
