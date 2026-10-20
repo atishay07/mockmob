@@ -73,6 +73,38 @@ class SelectionMeta {
   bool get isServerScored => scoringVersion == 'server_practice_v1' || scoringVersion == 'server_snapshot_v1';
 }
 
+/// A Mob paper still open for the Mob (server src/lib/mob/paperHold.mjs, C-dec 2 item 1): the server keeps its keys,
+/// explanations and per-question right or wrong until the paper closes, and sends the marks with this hold instead.
+/// `title`, `line` and `short` are the server's sentences; [until] is when the answers open.
+class MobHold {
+  const MobHold({required this.until, this.title = '', this.line = '', this.short = '', this.kind = 'weekly'});
+
+  /// `mobHold` of an attempt, or `held` of a side-by-side. Null when absent or without a readable time.
+  static MobHold? fromJson(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final until = asDate(j['until']);
+    if (until == null) return null;
+    return MobHold(
+      until: until,
+      title: asStringOr(j['title'], ''),
+      line: asStringOr(j['line'], ''),
+      short: asStringOr(j['short'], ''),
+      kind: asStringOr(j['kind'], 'weekly'),
+    );
+  }
+
+  final DateTime until;
+  final String title;
+  final String line;
+  final String short;
+
+  /// `weekly` or `extra`.
+  final String kind;
+
+  bool isOpenAt(DateTime now) => !now.isBefore(until);
+}
+
 /// A scored attempt: the body of `POST /api/attempts` and one row of `GET /api/attempts`.
 /// Marks are `correct * 5 - wrong` out of `total * 5` (a display derivation, never authority).
 class Attempt {
@@ -91,6 +123,7 @@ class Attempt {
     this.userId,
     this.formatId,
     this._mode,
+    this.mobHold,
   });
 
   factory Attempt.fromJson(Json j) {
@@ -113,6 +146,7 @@ class Attempt {
       mode: asString(j['mode']),
       formatId: asString(j['formatId']),
       completedAt: asDate(j['completedAt']) ?? DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
+      mobHold: MobHold.fromJson(j['mobHold']),
     );
   }
 
@@ -134,6 +168,9 @@ class Attempt {
   final DateTime completedAt;
   final String? formatId;
   final String? _mode;
+
+  /// Set while this is a Mob paper whose answers the server still holds (no rows, no keys until it closes).
+  final MobHold? mobHold;
 
   /// `full`, `nta`, `quick`, `smart`. Top-level `mode` when the server sends it, otherwise
   /// `selectionMeta.mode` (the attempts list also holds Quick practice).

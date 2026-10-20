@@ -44,6 +44,7 @@ import 'model/practice_ask.dart';
 import 'model/practice_result_model.dart';
 import 'model/session_analysis.dart';
 import 'widgets/finish_stage.dart';
+import 'widgets/mob_hold_panel.dart';
 import 'widgets/numbered_sheet.dart';
 import 'widgets/observations_panel.dart';
 import 'widgets/practice_app_bar.dart';
@@ -720,6 +721,16 @@ class _PracticeResultScreenState extends ConsumerState<PracticeResultScreen> {
                                     )
                                   else
                                     const ResultReading(),
+                                  // A Mob paper the Mob is still sitting (C-dec 2 item 1): the server sent the marks and when the
+                                  // answers open, no rows. In place of the answers, when and why; at the moment, a key to load them.
+                                  if (attempt.mobHold case final hold?) ...[
+                                    const SizedBox(height: MmSpace.s24),
+                                    MobHoldPanel(
+                                      hold: hold,
+                                      now: clock.now(),
+                                      onReload: () => ref.read(attemptDetailProvider(id).notifier).restart(),
+                                    ),
+                                  ],
                                   if (detailState.isStale && detailState.fetchedAt != null) ...[
                                     const SizedBox(height: MmSpace.s12),
                                     Text(
