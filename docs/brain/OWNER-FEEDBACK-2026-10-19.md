@@ -905,3 +905,7 @@ Billing page: "Your grace period has started. Your organization went over its qu
 **Ledger D187:** record findings (breaks, fixes in progress) in Continuum checkpoints as they happen; the 95% handoff lists everything.
 
 ## Owner, 20 Oct 7:18 pm IST: resumed session 604ced81 (Claude Code, new account, usage 3%) by pasting docs/brain/NEXT-PROMPT-1020-NIGHT.md (verbatim in that file) as the goal. No other words.
+
+## Owner, 20 Oct 7:29 pm IST (verbatim, mid-turn)
+> "Can you give me overall feedback on what's left, and what's taking so much time? All this work was supposed to be done by now. I have sessions sessions 3 and 4 four times now. Even though each session tells me everything is mostly built, there are still some hiccups. You exactly tell me the status and if you are facing any issues or something else."
+(Answer given at 7:30 pm: exact status, what is left with times, why it slipped, the D183 server finding.)
