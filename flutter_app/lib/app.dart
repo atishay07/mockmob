@@ -17,6 +17,7 @@ import 'core/widgets/status_tint.dart';
 import 'features/billing/billing.dart' show playBillingEnabledProvider, playBillingProvider;
 import 'features/notifications/notifications.dart';
 import 'features/onboarding/onboarding_routes.dart' show sampleImportProvider;
+import 'features/referrals/referral_data.dart' show referralClaimerProvider;
 import 'features/rhythm/rhythm.dart' show celebrationModeProvider, rhythmWatcherProvider;
 
 /// The root widget. It must sit under a [ProviderScope] (see `main.dart`).
@@ -55,6 +56,8 @@ class _AppServices extends ConsumerWidget {
     ref.watch(rhythmWatcherProvider);
     ref.watch(nativeTouchesProvider);
     ref.watch(homeWidgetSyncProvider);
+    // A friend's invite kept from a link is handed to the server as soon as a student is signed in (owner D165).
+    ref.watch(referralClaimerProvider);
     // Google Play Billing listens for purchases from the first moment (a purchase the server could not
     // confirm last time is sent again here). Off with PLAY_BILLING off: nothing is built.
     if (ref.watch(playBillingEnabledProvider)) ref.watch(playBillingProvider);

@@ -1,0 +1,245 @@
+// Friend invites in the app (owner D165, 20 Oct 2026). The server decides and pays (POST /api/referrals/claim, GET
+// /api/referrals; the website's src/lib/server/referrals.js and supabase/migrations/20261020130000_referrals.sql). The app
+// only keeps the invite a link brought in, through sign-in and onboarding, and hands it over once a student is signed in:
+//
+//   https://www.mockmob.in/r/<7-character code>     a friend's invite link
+//   https://www.mockmob.in/join/<6 or 8 characters>  a Mob invite, which is also a friend invite
+//   https://www.mockmob.in/...?ref=<7 characters>    a friend's code on any other page (never /pricing: creator codes)
+//
+// GET /api/referrals: {"ok": true, "live": true, "code", "link", "reward", "monthlyCap", "paused", "joined", "practised",
+//   "rewarded", "notCounted", "earned", "rewardedThisMonth", "capReached", "invited": {"state", "rewarded"} | null}, or
+//   {"ok": true, "live": false} while invites are off. Nothing about invites is drawn unless "live" is true.
+
+import 'dart:convert';
+
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:uuid/uuid.dart';
+
+import '../../core/api/api_providers.dart';
+import '../../core/auth/auth_state.dart';
+import '../../core/models/json_helpers.dart';
+import '../../core/storage/prefs_store.dart';
+
+final RegExp _referralCode = RegExp(r'^[0-9A-HJKMNP-TV-Z]{7}$');
+final RegExp _mobCode = RegExp(r'^(?:[0-9A-HJKMNP-TV-Z]{6}|[0-9A-HJKMNP-TV-Z]{8})$');
+
+/// A code read the Crockford way (O is 0, I and L are 1; spaces and dashes out), as the server reads it. Null unless it is
+/// a friend's code (7 characters) or a Mob invite code (6 or 8).
+String? normaliseInviteCode(String? raw) {
+  if (raw == null) return null;
+  final code = raw.toUpperCase().replaceAll(RegExp(r'[\s-]+'), '').replaceAll('O', '0').replaceAll(RegExp('[IL]'), '1');
+  return _referralCode.hasMatch(code) || _mobCode.hasMatch(code) ? code : null;
+}
+
+bool isFriendCode(String code) => _referralCode.hasMatch(code);
+
+/// One invite kept on the phone until it is claimed.
+class PendingInvite {
+  const PendingInvite({required this.code, required this.source, required this.at});
+
+  final String code;
+
+  /// 'link' (a friend's link), 'mob_invite' (a Mob invite link) or 'code' (typed).
+  final String source;
+
+  /// When the link reached the phone, on the phone's clock. The server is sent only its age in seconds, so a wrong clock
+  /// cannot move it.
+  final DateTime at;
+
+  bool get explicit => source != 'link';
+
+  Map<String, Object> toJson() => {'c': code, 's': source, 't': at.millisecondsSinceEpoch};
+
+  static PendingInvite? fromJson(Object? raw) {
+    final j = asJson(raw);
+    final code = normaliseInviteCode(asString(j['c']));
+    final source = asString(j['s']);
+    final t = asInt(j['t']);
+    if (code == null || t == null || !const {'link', 'mob_invite', 'code'}.contains(source)) return null;
+    return PendingInvite(code: code, source: source!, at: DateTime.fromMillisecondsSinceEpoch(t));
+  }
+
+  /// The invite an incoming link carries, or null. /pricing keeps ?ref= for creator codes.
+  static PendingInvite? fromUri(Uri uri, DateTime now) {
+    if (uri.scheme != 'https' || !const {'www.mockmob.in', 'mockmob.in'}.contains(uri.host.toLowerCase())) return null;
+    final s = uri.pathSegments.where((e) => e.isNotEmpty).toList();
+    if (s.length == 2 && s.first == 'r') {
+      final code = normaliseInviteCode(s[1]);
+      return code != null && isFriendCode(code) ? PendingInvite(code: code, source: 'link', at: now) : null;
+    }
+    if (s.length == 2 && s.first == 'join') {
+      final code = normaliseInviteCode(s[1]);
+      return code != null && !isFriendCode(code) ? PendingInvite(code: code, source: 'mob_invite', at: now) : null;
+    }
+    if (s.isNotEmpty && s.first == 'pricing') return null;
+    final code = normaliseInviteCode(uri.queryParameters['ref']);
+    return code != null && isFriendCode(code) ? PendingInvite(code: code, source: 'link', at: now) : null;
+  }
+}
+
+/// The phone's one pending invite. A Mob invite or a typed code replaces a link's; a link never replaces one (the first
+/// friend keeps it). Kept 30 days, the website's cookie life.
+class PendingInviteStore {
+  PendingInviteStore(this._prefs, {DateTime Function()? now}) : _now = now ?? DateTime.now;
+
+  final PrefsStore _prefs;
+  final DateTime Function() _now;
+  static const String _key = 'referral_pending_invite';
+  static const String _installKey = 'referral_install_id';
+  static const Duration life = Duration(days: 30);
+
+  Future<PendingInvite?> read() async {
+    final raw = await _prefs.getString(_key);
+    if (raw == null) return null;
+    PendingInvite? p;
+    try {
+      p = PendingInvite.fromJson(jsonDecode(raw));
+    } on Object {
+      p = null;
+    }
+    if (p == null || _now().difference(p.at) > life) {
+      await _prefs.remove(_key);
+      return null;
+    }
+    return p;
+  }
+
+  /// Keeps the invite [uri] carries. True when it was kept.
+  Future<bool> captureUri(Uri uri) async {
+    final next = PendingInvite.fromUri(uri, _now());
+    if (next == null) return false;
+    final had = await read();
+    if (had != null && (had.code == next.code || !next.explicit)) return false;
+    await _prefs.setString(_key, jsonEncode(next.toJson()));
+    return true;
+  }
+
+  Future<void> clear() => _prefs.remove(_key);
+
+  /// A random id for this install, for the server's same-phone check (it is hashed there; it names no one).
+  Future<String> installId() async {
+    final had = await _prefs.getString(_installKey);
+    if (had != null && RegExp(r'^[A-Za-z0-9_-]{16,64}$').hasMatch(had)) return had;
+    final id = const Uuid().v4().replaceAll('-', '');
+    await _prefs.setString(_installKey, id);
+    return id;
+  }
+}
+
+/// What the server says about this student's invites. [live] false means draw nothing about invites.
+class ReferralStatus {
+  const ReferralStatus({
+    this.live = false,
+    this.code,
+    this.link,
+    this.reward = 100,
+    this.monthlyCap = 10,
+    this.paused = false,
+    this.joined = 0,
+    this.practised = 0,
+    this.rewarded = 0,
+    this.notCounted = 0,
+    this.earned = 0,
+    this.capReached = false,
+    this.invitedState,
+    this.invitedRewarded = false,
+  });
+
+  static const ReferralStatus off = ReferralStatus();
+
+  factory ReferralStatus.fromJson(Object? raw) {
+    final j = asJson(raw);
+    final code = asString(j['code']);
+    final link = asString(j['link']);
+    if (j['ok'] != true || j['live'] != true || code == null || link == null || !link.startsWith('https://')) return off;
+    int n(Object? v, int d) => (asInt(v) ?? d) < 0 ? d : (asInt(v) ?? d);
+    final invited = j['invited'] is Map ? asJson(j['invited']) : null;
+    return ReferralStatus(
+      live: true,
+      code: code,
+      link: link,
+      reward: n(j['reward'], 100) == 0 ? 100 : n(j['reward'], 100),
+      monthlyCap: n(j['monthlyCap'], 10),
+      paused: j['paused'] == true,
+      joined: n(j['joined'], 0),
+      practised: n(j['practised'], 0),
+      rewarded: n(j['rewarded'], 0),
+      notCounted: n(j['notCounted'], 0),
+      earned: n(j['earned'], 0),
+      capReached: j['capReached'] == true,
+      invitedState: invited == null ? null : asString(invited['state']),
+      invitedRewarded: invited?['rewarded'] == true,
+    );
+  }
+
+  final bool live;
+  final String? code;
+  final String? link;
+  final int reward;
+  final int monthlyCap;
+  final bool paused;
+  final int joined;
+  final int practised;
+  final int rewarded;
+  final int notCounted;
+  final int earned;
+  final bool capReached;
+  final String? invitedState;
+  final bool invitedRewarded;
+}
+
+/// The store's backing preferences. Tests swap in a MemoryPrefsStore.
+final referralPrefsProvider = Provider<PrefsStore>((ref) => SharedPrefsStore());
+final pendingInviteStoreProvider = Provider<PendingInviteStore>((ref) => PendingInviteStore(ref.watch(referralPrefsProvider)));
+
+/// The signed-in student's invites. Off while signed out, while invites are off, and when the server cannot answer.
+final referralStatusProvider = FutureProvider.autoDispose<ReferralStatus>((ref) async {
+  final userId = ref.watch(authSnapshotProvider.select((s) => s.status == AuthStatus.signedIn ? s.userId : null));
+  if (userId == null) return ReferralStatus.off;
+  try {
+    final device = await ref.read(pendingInviteStoreProvider).installId();
+    final res = await ref.read(apiClientProvider).get('/api/referrals', query: {'device': device}, expectUserId: userId);
+    return ReferralStatus.fromJson(res.data);
+  } on Object {
+    return ReferralStatus.off;
+  }
+});
+
+/// Hands the kept invite to the server once a student is signed in (before any practice can run), then forgets it when
+/// the server has settled it either way. A failure keeps it for the next sign-in or launch. Started by the app's services.
+final referralClaimerProvider = Provider<void>((ref) {
+  var running = false;
+  Future<void> claim(String userId) async {
+    if (running) return;
+    running = true;
+    try {
+      final store = ref.read(pendingInviteStoreProvider);
+      final pending = await store.read();
+      if (pending == null) return;
+      final age = DateTime.now().difference(pending.at).inSeconds;
+      final res = await ref.read(apiClientProvider).post(
+        '/api/referrals/claim',
+        body: {
+          'code': pending.code,
+          'source': pending.source,
+          'linkAgeSeconds': age < 0 ? 0 : age,
+          'device': await store.installId(),
+        },
+        expectUserId: userId,
+      );
+      if (asJson(res.data)['done'] == true) await store.clear();
+    } on Object {
+      // Kept for the next try.
+    } finally {
+      running = false;
+    }
+  }
+
+  ref.listen<String?>(
+    authSnapshotProvider.select((s) => s.status == AuthStatus.signedIn ? s.userId : null),
+    (_, userId) {
+      if (userId != null) claim(userId);
+    },
+    fireImmediately: true,
+  );
+});

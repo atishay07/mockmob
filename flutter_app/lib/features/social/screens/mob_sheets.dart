@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/haptics/haptics.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../referrals/invite_reward.dart' show InviteRewardLine;
 import '../copy.dart';
 import '../data/mob_models.dart';
 import '../data/mob_navigator.dart';
@@ -105,6 +106,8 @@ class _InviteSheetState extends ConsumerState<InviteSheet> {
             const SizedBox(height: MmSpace.s8),
             MobNote(MobCopy.inviteUntil(invite!.expiresAt!)),
           ],
+          // D165: the Mob invite link is also a friend invite, once the server says it is live.
+          const InviteRewardLine(textAlign: TextAlign.start),
           if (_note != null) ...[
             const SizedBox(height: MmSpace.s8),
             InlineBanner(message: _note!, tone: BannerTone.error),

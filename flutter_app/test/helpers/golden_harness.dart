@@ -15,6 +15,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/social/data/mob_models.dart' show MobRead;
 import 'package:mockmob/features/social/data/mob_repository.dart' show mobRepositoryProvider;
 import 'package:mockmob/features/tools/data/my_colleges_repository.dart';
+import 'package:mockmob/features/referrals/referral_data.dart' show ReferralStatus, referralStatusProvider;
 
 /// Serves `assets/...` straight from the project folder, so widgets that use `Image.asset`
 /// (Mobi) render in tests even though pubspec has no asset list in the test run.
@@ -75,6 +76,9 @@ Future<void> pumpMockmob(
           mobiStandingProvider.overrideWith((ref) async => const MobiStanding(status: StandingStatus.empty)),
         // Review and Today say "Offline" from the connection monitor: a screen under test is online unless the test says otherwise.
         if (!overrides.any((o) => identical(o.origin, networkStatusProvider))) networkStatusProvider.overrideWith(_OnlineNetwork.new),
+        // Friend invites (owner D165) read the server: off (nothing drawn) unless the test passes its own.
+        if (!overrides.any((o) => identical(o.origin, referralStatusProvider)))
+          referralStatusProvider.overrideWith((ref) async => ReferralStatus.off),
         ...overrides,
       ],
       child: DefaultAssetBundle(

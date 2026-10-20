@@ -9,6 +9,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../features/account_access/access_routes.dart';
 import '../../features/billing/widgets/pro_page.dart' show proPageScreen;
+import '../../features/referrals/referral_data.dart' show pendingInviteStoreProvider;
 import '../../features/social/mob_routes.dart';
 import '../auth/auth_links.dart';
 import '../auth/auth_state.dart';
@@ -139,6 +140,9 @@ class _AppLinkRouting {
     if (uri == _last && at != null && now.difference(at) < const Duration(seconds: 3)) return;
     _last = uri;
     _lastAt = now;
+    // A friend's invite (/r/<code>, a Mob invite /join/<code>, or ?ref=) is kept on the phone through sign-in and
+    // onboarding, and handed to the server once signed in (features/referrals, owner D165).
+    unawaited(_ref.read(pendingInviteStoreProvider).captureUri(uri).catchError((Object _) => false));
 
     switch (ActionRouter.resolve(uri.toString())) {
       case NativeTarget(:final location):
