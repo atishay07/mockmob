@@ -393,7 +393,7 @@ class _FormatRow extends StatelessWidget {
     final Widget? ruleBox = on && format == GameFormat.mock
         ? Padding(
             padding: const EdgeInsets.only(top: MmSpace.s8, bottom: MmSpace.s4),
-            child: MockRuleBox(key: const ValueKey('start-mock-line'), mobName: mobName, price: mockPrice),
+            child: MockRuleBox(key: const ValueKey('start-mock-line'), mobName: mobName, price: mockPrice, priced: proTag, detail: mockDetail),
           )
         : null;
     final String? tag = anytimeOnly
@@ -496,10 +496,14 @@ class _FormatRow extends StatelessWidget {
 /// The Full mock together rule (MOB-V4-BUILD 1, D175): who sits it and what it costs, in a sunken box under the
 /// chosen row. Pro starts it; Free members sit it for the server's credits. Never a free first mock.
 class MockRuleBox extends StatelessWidget {
-  const MockRuleBox({super.key, required this.mobName, required this.price});
+  const MockRuleBox({super.key, required this.mobName, required this.price, this.priced = true, this.detail});
 
   final String mobName;
   final int price;
+
+  /// False while the server's billing is off: no credits or Pro words, the paper's own line ([detail]) instead.
+  final bool priced;
+  final String? detail;
 
   @override
   Widget build(BuildContext context) {
@@ -529,18 +533,21 @@ class MockRuleBox extends StatelessWidget {
         children: [
           line(LucideIcons.users, TextSpan(text: MobV4ResultsCopy.mockRuleWho(mobName))),
           const SizedBox(height: MmSpace.s8),
-          line(
-            LucideIcons.check,
-            TextSpan(
-              children: [
-                TextSpan(
-                  text: MobV4ResultsCopy.mockRuleIncluded,
-                  style: style.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
-                ),
-                TextSpan(text: ' ${MobV4ResultsCopy.mockRuleFree(price)}'),
-              ],
+          if (!priced && detail != null)
+            line(LucideIcons.fileText, TextSpan(text: detail))
+          else
+            line(
+              LucideIcons.check,
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: MobV4ResultsCopy.mockRuleIncluded,
+                    style: style.copyWith(color: colors.ink, fontWeight: FontWeight.w700),
+                  ),
+                  TextSpan(text: ' ${MobV4ResultsCopy.mockRuleFree(price)}'),
+                ],
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -860,7 +867,7 @@ class _StartKeysState extends ConsumerState<_StartKeys> {
                 GameFormat.sprint => MobV3Copy.startTheSprint,
                 _ => MobV3Copy.startTheRound,
               };
-        final allowance = starts == null ? MobV3Copy.startUnder(mobName) : MobV3Copy.allowance(starts, mobName, live: live, mock: c.tile == GameFormat.mock && starts.via != StartVia.pro);
+        final allowance = starts == null ? MobV3Copy.startUnder(mobName) : MobV3Copy.allowance(starts, mobName, live: live, mock: c.tile == GameFormat.mock);
         final paperOpen = mob != null && !mob.week.youSat && !mob.week.closedAt(now);
         return Column(
           mainAxisSize: MainAxisSize.min,

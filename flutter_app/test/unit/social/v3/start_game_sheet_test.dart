@@ -194,7 +194,8 @@ void main() {
   testWidgets('Free with a start: the allowance, and a locked full mock with Pro that says why', (t) async {
     await _open(t, v3Server(scenario: 'quiet', billing: 'free'));
     expect(find.text('1 start left this week. Everyone plays free.'), findsOneWidget);
-    expect(find.text('Pro'), findsOneWidget);
+    // V4 (MOB-V4-BUILD 1): the Free row's tag says who starts it.
+    expect(find.text('Pro starts it'), findsOneWidget);
     await tapAt(t, find.text('Full mock together'));
     expect(find.text('Starting a full mock together is part of Pro. On Free you can sit one a friend starts for 50 credits.'), findsOneWidget);
     expect(keyLabel('Start the sprint'), findsOneWidget, reason: 'the choice stays on what Free can start');
