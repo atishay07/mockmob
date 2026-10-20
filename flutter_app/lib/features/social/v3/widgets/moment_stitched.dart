@@ -174,7 +174,8 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
               children: [
                 RollNumber(from: math.max(0, n - 1), to: n, t: roll, style: type.figureHero.copyWith(fontSize: 76, color: ink)),
                 const SizedBox(height: 2),
-                Text(MobV3Copy.weeksInARow(n), style: type.label.copyWith(color: ink.withValues(alpha: 0.8), fontSize: 14), textAlign: TextAlign.center),
+                // Part of the pennant's art (the headline says it in full), so it keeps its size inside the cloth at large text.
+                Text(MobV3Copy.weeksInARow(n), style: type.label.copyWith(color: ink.withValues(alpha: 0.8), fontSize: 14), textAlign: TextAlign.center, textScaler: TextScaler.noScaling),
               ],
             ),
           ),
@@ -575,25 +576,22 @@ class _HoursCard extends StatelessWidget {
               CustomPaint(size: const Size(double.infinity, 8), painter: _RulerPainter(c.ink3)),
               const SizedBox(height: MmSpace.s12),
             ],
-            Wrap(
-              alignment: WrapAlignment.spaceEvenly,
-              spacing: MmSpace.s8,
-              runSpacing: MmSpace.s8,
+            // One row: each sharing member shares the width (a Mob is at most 8, so heads never wrap to a second line).
+            Row(
               children: [
-                for (final (m, h) in shown)
-                  SizedBox(
-                    width: 64,
+                for (final (m, h) in shown.take(8))
+                  Expanded(
                     child: Column(
                       key: ValueKey('k3-head-${m.memberId}${h.tick ? '-tick' : ''}'),
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         SizedBox(
-                          width: 52,
+                          width: shown.length > 5 ? 40 : 52,
                           height: 44,
                           child: Stack(
                             clipBehavior: Clip.none,
                             children: [
-                              Positioned(left: 6, top: 2, child: HeadDisc(member: m, size: 40)),
+                              Positioned(left: 6, top: 2, child: HeadDisc(member: m, size: shown.length > 5 ? 30 : 40)),
                               if (h.tick)
                                 Positioned(
                                   right: -4,

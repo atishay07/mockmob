@@ -9,9 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
-import 'package:mockmob/features/social/v3/screens/moment_overlay.dart';
 import 'package:mockmob/features/social/v3/widgets/fold_puppet.dart';
 import 'package:mockmob/features/social/v3/widgets/mock_for_you.dart';
+import 'package:mockmob/features/social/v3/widgets/podium_stage.dart' show FoilSheenProgram;
 import 'package:mockmob/features/social/v3/widgets/moment_stitched.dart';
 import 'package:mockmob/features/social/v3/widgets/results_parts.dart';
 
@@ -197,8 +197,8 @@ void main() {
       expect(h.showsIn(mob), isFalse);
     });
     test('minutes read as hours and minutes', () {
-      expect(MobV4ResultsCopy.hm(380), '6 h 20 m');
-      expect(MobV4ResultsCopy.hm(45), '45 m');
+      expect(MobV4ResultsCopy.hm(380), '6\u00A0h\u00A020\u00A0m');
+      expect(MobV4ResultsCopy.hm(45), '45\u00A0m');
     });
   });
 

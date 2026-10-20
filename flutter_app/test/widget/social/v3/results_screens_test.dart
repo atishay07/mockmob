@@ -64,8 +64,8 @@ void main() {
       expect(text.where((t) => RegExp(r'\b\d+ of you\b').hasMatch(t)), isEmpty);
       expect(text.where((t) => RegExp(r'got it wrong|were wrong|was wrong', caseSensitive: false).hasMatch(t)), isEmpty);
       // "You" for you, first names for friends.
-      expect(_plain(tester, find.byKey(const ValueKey('moment-$youId'))), startsWith('You: '));
-      expect(_plain(tester, find.byKey(const ValueKey('moment-$riyaId'))), startsWith('Riya: '));
+      expect(_plain(tester, find.byKey(const ValueKey('moment-$youId'))), startsWith('You '));
+      expect(_plain(tester, find.byKey(const ValueKey('moment-$riyaId'))), startsWith('Riya '));
     });
 
     testWidgets('"Fix question 4 together" opens Fix it together on the 0-based q 3', (tester) async {

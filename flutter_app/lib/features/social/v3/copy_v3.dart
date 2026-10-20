@@ -1061,8 +1061,9 @@ abstract final class MobV4ResultsCopy {
   static String hm(int minutes) {
     final h = minutes ~/ 60;
     final m = minutes % 60;
-    if (h == 0) return '$m m';
-    return '$h h $m m';
+    // No-break spaces: "6 h 20 m" never splits across lines.
+    if (h == 0) return '$m\u00A0m';
+    return '$h\u00A0h\u00A0$m\u00A0m';
   }
 
   static String _numberWord(int n) => switch (n) { 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine', 10 => 'ten', _ => '$n' };
