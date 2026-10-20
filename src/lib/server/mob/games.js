@@ -32,6 +32,7 @@ import { computeMobChain } from '../../mob/mobChain.mjs';
 import { cameBack, chainChip } from '../../chain/chain.mjs';
 import { createChainService } from '../chain.js';
 import { memberIdFor } from './memberId.js';
+import { readHours } from './hours.js';
 
 export const STICKERS = Object.freeze(['nice_one', 'so_close', 'teach_me', 'again', 'good_luck', 'lets_go', 'one_sec', 'ready']);
 export const FIXED_FOR_CRANE = 3;
@@ -813,7 +814,10 @@ export function createMobV3Service(deps, helpers = {}) {
     const micFrom = startStatus?.mic_from ? members.get(startStatus.mic_from) : null;
     const starts = startsView({ billingOn: billingOn(), pro, claimUsed: startStatus?.claim_used === true, micsHeld: Number(startStatus?.mics) || 0, micsGiven: Number(startStatus?.mics_given) || 0, liveOn: liveOn(), formatsOn: formatsOn() });
     if (starts.mics > 0 && micFrom) starts.micFrom = { memberId: micFrom.memberId, name: micFrom.name };
+    // Mob hours (migration 20261020150000_mob_hours): one aggregate read; null (so no `hours` key) until that migration is applied.
+    const hours = await readHours(call, { userId, mobId: state.mob.id, week, nowIso: nowIso(), members });
     return {
+      ...(hours ? { hours } : {}),
       name: mobName(state.mob.name_key, subjectName(state.mob.subject)),
       showPodium: state.mob.show_podium !== false,
       youOwn: me?.owner === true,
