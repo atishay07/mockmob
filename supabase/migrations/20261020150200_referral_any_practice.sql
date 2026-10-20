@@ -1,7 +1,7 @@
 -- Referral reward threshold: one finished practice of ANY length (owner D182, 20 Oct 2026, 5:45 pm IST; it replaces the
 -- "at least 5 answers" floor of 20261020130000_referrals.sql, owner D165 otherwise unchanged).
 -- NOT applied on production by this branch. Apply with the Supabase MCP only under the standing migration grant, after the
--- dry run below. Undo: supabase/undo/20261020150000_referral_any_practice.undo.sql (puts the 5-answer floor back).
+-- dry run below. Undo: supabase/undo/20261020150200_referral_any_practice.undo.sql (puts the 5-answer floor back).
 --
 -- What changes: ONE function, public.mm_referral_qualify(text, integer, text). The floor on the answers a finished practice
 -- must hold goes from 5 to 1. Every call site is unchanged: mm_referral_on_attempt (AFTER INSERT on attempts: practice sets of

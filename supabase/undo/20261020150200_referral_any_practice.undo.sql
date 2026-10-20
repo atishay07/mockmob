@@ -1,4 +1,4 @@
--- Undo for supabase/migrations/20261020150000_referral_any_practice.sql. NOT a migration: it lives outside supabase/migrations
+-- Undo for supabase/migrations/20261020150200_referral_any_practice.sql. NOT a migration: it lives outside supabase/migrations
 -- on purpose, so the Supabase CLI never applies it by itself.
 -- What it does: puts the "at least 5 answers" floor back on public.mm_referral_qualify (the 20261020130000 body, verbatim).
 -- What it keeps: every credit already paid and every referrals row (a friend paid under the one-practice rule stays paid; "never

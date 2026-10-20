@@ -179,7 +179,9 @@ export function attemptMemoKeyFor(memo, userId, { columns, limit, slim } = {}) {
   if (!(memo instanceof Map) || memo.has(own)) return own;
   const wanted = attemptLimit(limit);
   const prefix = memoPrefix(userId, columns);
-  const suffixes = slimProfile(slim) ? (SLIM_SUPERSETS[slim] || []).map(memoSlimPart) : [];
+  // The read's own profile first: a read of the whole list serves a read of its newest N, as the comment above says (a limited read of a
+  // profile used to miss the whole list of the same profile and read the database again).
+  const suffixes = slimProfile(slim) ? [memoSlimPart(slim), ...(SLIM_SUPERSETS[slim] || []).map(memoSlimPart)] : [memoSlimPart(slim)];
   let best = null;
   for (const key of memo.keys()) {
     if (typeof key !== 'string' || !key.startsWith(prefix)) continue;

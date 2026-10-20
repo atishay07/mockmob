@@ -22,8 +22,8 @@ const file = (rel) => readFileSync(new URL(`../../${rel}`, import.meta.url), 'ut
 const MIGRATION = file('supabase/migrations/20261020130000_referrals.sql');
 const UNDO = file('supabase/undo/20261020130000_referrals.undo.sql');
 // D182 (20 Oct 2026, 5:45 pm IST): the reward fires on one finished practice of any length; this file replaces the 5-answer floor.
-const ANY_PRACTICE = file('supabase/migrations/20261020150000_referral_any_practice.sql');
-const ANY_PRACTICE_UNDO = file('supabase/undo/20261020150000_referral_any_practice.undo.sql');
+const ANY_PRACTICE = file('supabase/migrations/20261020150200_referral_any_practice.sql');
+const ANY_PRACTICE_UNDO = file('supabase/undo/20261020150200_referral_any_practice.undo.sql');
 const ON = { REFERRALS_ENABLED: 'true', REFERRAL_HASH_SECRET: 'test-secret' };
 
 // The production shapes the migration touches, cut to the columns it reads (users.credit_balance DEFAULT 100 as on production).

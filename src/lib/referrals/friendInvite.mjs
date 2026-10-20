@@ -1,7 +1,7 @@
 // Friend referrals (owner D165, 20 Oct 2026): a referral gives BOTH the inviter and the friend +100 credits once the friend
 // signs up AND finishes one practice of any length (D182, 20 Oct 2026, 5:45 pm IST: it was 5 answers at first); the Mob
 // invite link is also the referral link. The rules that move credits live in the database
-// (supabase/migrations/20261020130000_referrals.sql, the practice floor in 20261020150000_referral_any_practice.sql); this file holds the parts the website, the server and the
+// (supabase/migrations/20261020130000_referrals.sql, the practice floor in 20261020150200_referral_any_practice.sql); this file holds the parts the website, the server and the
 // app share: the code formats, the pending-invite cookie, the switch and every word a student reads. Pure: no I/O, no
 // React, so data/tests/referrals_1020.test.mjs can hold it.
 // Not the creator codes: those are ?ref= on /pricing in the mm_ref cookie (src/lib/server/sessionProxy.js). A friend invite
