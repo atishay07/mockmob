@@ -50,7 +50,7 @@ export default function InviteCodeField({ pending = null }) {
         />
         <small id="auth-invite-note" role={state.kind === 'error' ? 'alert' : 'status'}>{state.message}</small>
       </label>
-      <button type="submit" className="mm-btn mm-btn--secondary" disabled={state.kind === 'working' || !value.trim()}>Save code</button>
+      <button type="submit" className="mm-btn mm-btn--secondary" disabled={state.kind === 'working' || state.kind === 'saved' || !value.trim()}>{state.kind === 'saved' ? 'Code saved' : 'Save code'}</button>
     </form>
   );
 }
