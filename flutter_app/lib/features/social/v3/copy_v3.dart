@@ -1164,3 +1164,157 @@ String _aAn(String word) => RegExp(r'^[AEIOUaeiou]').hasMatch(word) ? 'An' : 'A'
 String _article(String phrase) => phrase.startsWith('A ') ? phrase : (phrase.startsWith('An ') ? phrase : '${_aAn(phrase)} ${phrase.toLowerCase()}');
 
 String _pronoun(FoldKey f) => f == FoldKey.hop ? 'him' : 'it';
+
+// ---------------------------------------------------------------------------------------------------
+// V4-den (owner: V4-den, pass-1020 MOB-MINIMAL 3.1, 3.5 Invite and Your Mobs, 3.6 Mob hours)
+// ---------------------------------------------------------------------------------------------------
+
+abstract final class MobV4DenCopy {
+  // Header
+  static String subtitle(String subject, int members) => '$subject · $members of 5 seats';
+  static String pennantLabel(String mob, int weeks) => weeks <= 0 ? '$mob, a new Mob. Opens This week.' : '$mob, ${MobV3Copy.pennantWeeks(weeks)} in a row. Opens This week.';
+  static String titleSemantics(String mob, String subtitle) => '$mob. $subtitle. Opens Your Mobs.';
+
+  // Now card (3.1 item 3)
+  static const String fixTitle = 'Fix it together';
+  static String fixLine(int q) => 'Question $q caught most of your Mob. Fix it now and it stops costing marks.';
+  static String fixKey(int q) => 'Fix question $q together';
+  static const String checkTitle = "Wednesday's check is open";
+  static String checkLine(int q) => 'One question like question $q. If 2 of you pass it, it is fixed for the whole Mob.';
+  static const String checkKey = 'Take the check';
+  static String opened(MobGameSummary g) {
+    final h = g.host;
+    final who = h == null || h.you ? 'You' : h.name;
+    return '$who opened ${g.format == GameFormat.rematch ? 'a rematch' : 'a ${MobV3Copy.kindOf(g.format, g.minutes)}'}';
+  }
+
+  static String openLine(MobGameSummary g, DateTime now) {
+    final h = g.host;
+    final topic = g.chapter == null || g.chapter!.isEmpty ? g.subjectName : g.chapter!;
+    final until = g.closesAt == null ? '' : ' any time before ${MobTime.when(g.closesAt!, now)}';
+    final whose = h == null || h.you ? 'your' : 'their';
+    return switch (g.format) {
+      GameFormat.mock => 'The whole ${g.subjectName} paper, ${g.count} questions in ${g.minutes ?? 60} minutes. Sit it$until.',
+      GameFormat.race => 'As many $topic questions as you can in ${g.minutes ?? 5} minutes. Race $whose run$until.',
+      _ => '${g.count} $topic questions. Race $whose run$until.',
+    };
+  }
+
+  /// "Kabir and Zoya have raced it", "Kabir has raced it", "Kabir has sat it".
+  static String raced(List<String> names, {bool mock = false}) {
+    final verb = mock ? 'sat' : 'raced';
+    return '${joinNames(names)} ${names.length == 1 ? 'has' : 'have'} $verb it';
+  }
+
+  static const String paperTitle = "This week's Mob paper";
+  static String paperLine(int count, int minutes, String mob) => '$count questions, $minutes minutes. Everyone in $mob sits the same paper, any time until Sunday.';
+  static const String paperKey = "Sit this week's paper";
+  static const String freshTitle = 'Nobody has played yet';
+  static String freshLine(List<String> friends) => friends.isEmpty
+      ? 'Start the first game. Your friends race your run any time in the next 24 hours.'
+      : 'Start the first game. ${joinNames(friends)} race your run any time in the next 24 hours.';
+  static const String seeWhereYouStand = 'See where you stand';
+
+  // Rows (3.1 item 4)
+  static const String startRowTitle = 'Start a game';
+  static const String startRowLine = 'Sprint, race, round or full mock';
+  static String alsoOpen(DateTime closes, DateTime now) => 'Also open · until ${MobTime.when(closes, now)}';
+  static const String alsoOpenNoTime = 'Also open';
+  static const String inviteRowTitle = 'Invite friends';
+  static String inviteRowLine(int open) => '${MobV3Copy.seatsOpen(open)} · the link works for 7 days';
+  static String paperRowLine(int count, int minutes) => '$count questions, $minutes minutes · until Sunday';
+  static const String paperRowSat = 'You sat it · see your answers';
+
+  // This week panel (3.1 item 5, 3.6)
+  static const String questTitle = "This week's quest";
+  static String questLine(Quest q, int weeks) {
+    if (q.done || q.answered >= q.target) return 'Week ${weeks <= 0 ? 1 : weeks} is stitched';
+    final left = q.target - q.answered;
+    final week = weeks + 1;
+    if (q.answered == 0) return '${q.sizedFor <= 1 ? '15' : '15 each'} by Sunday stitches week $week';
+    return '$left more ${left == 1 ? 'stitch' : 'stitches'} week $week';
+  }
+
+  static String questOf(int target) => 'of $target';
+  static String questSemantics(Quest q, int weeks) => "This week's quest. ${q.answered} of ${q.target} questions. ${questLine(q, weeks)}. Opens This week.";
+  static const String hoursTitle = 'Mob hours';
+  static const String hoursLine = 'Practice time, this week';
+  static const String hoursOff = 'Off for everyone. Turn on "Show my study time" in Mob settings to share yours.';
+
+  /// "7 h 45 m", "45 m", "10 h".
+  static String hm(int minutes) {
+    final h = minutes ~/ 60;
+    final m = minutes % 60;
+    if (h == 0) return '$m m';
+    if (m == 0) return '$h h';
+    return '$h h $m m';
+  }
+
+  static String hoursOf(int target) => 'of ${hm(target)}';
+  /// For screen readers: "7 hours 45 minutes", "1 hour", "45 minutes" (TalkBack reads "h" and "m" as letters).
+  static String hmSpoken(int minutes) {
+    final h = minutes ~/ 60;
+    final m = minutes % 60;
+    final hs = h == 1 ? '1 hour' : '$h hours';
+    final ms = m == 1 ? '1 minute' : '$m minutes';
+    if (h == 0) return ms;
+    if (m == 0) return hs;
+    return '$hs $ms';
+  }
+
+  static String hoursSemantics(int total, int target) => 'Mob hours: ${hmSpoken(total)} of practice this week, out of ${hmSpoken(target)}.';
+  static String memberHoursSemantics(String name, int minutes) => '$name, ${hmSpoken(minutes)}';
+
+  // Both streaks labelled (MOB-V4-BUILD override 3): whose chain is whose.
+  static const String yourChainLabel = 'Your chain';
+  static const String pennantCaptionFallback = 'Mob weeks';
+  static const String openShort = 'Open';
+
+  // Stage (4.2 Studying now)
+  static String studying(String name) => '$name is studying';
+  static String since(DateTime at) => 'since ${MobTime.clock(at)}';
+  static String studyingSemantics(String name, DateTime at) => '$name is studying, since ${MobTime.clock(at)}.';
+
+  // Invite sheet (3.5)
+  static const String inviteTitle = 'Invite friends';
+  static const String inviteLead = 'Send the card on WhatsApp. Your friend taps it and takes a seat.';
+
+  // Your Mobs sheet (3.5)
+  static const String yourMobsTitle = 'Your Mobs';
+  static String mobRow(String name, String subject, int members) => '$name · $subject, ${members == 1 ? 'just you' : '$members of you'}';
+  static const String here = 'You are here';
+  static const String startAnother = 'Start another Mob';
+  static const String startAnotherWithPro = 'With Pro';
+  static const String joinWithCode = 'Join with a code';
+  static String planLimit(int max) => max == 1 ? 'You are in 1 Mob, the most your plan allows.' : 'You are in $max Mobs, the most your plan allows.';
+
+  /// The invite footer, true to the seats left (5 minus members).
+  static String inviteWorksFor(int open) => open <= 1 ? 'Works for 7 days, for 1 friend.' : 'Works for 7 days, for up to $open friends.';
+
+  // Full mock price at the point of choice (D174, D175): the server's number, Free members only.
+  static String sitCostLine(int credits, int? balance) {
+    if (balance == null) return 'For you: $credits credits.';
+    if (balance < credits) return 'For you: $credits credits. You have $balance, so you need ${credits - balance} more.';
+    return 'For you: $credits credits. You have $balance.';
+  }
+
+  static const String sitIncludedPro = 'For you: included with Pro.';
+  static const String sitFreeWithPro = 'Sit it free with Pro';
+  static String sitCostSuffix(int credits) => ' · $credits credits for you';
+
+  // Your shelf row (3.1 item 6, D170)
+  static const String shelfRowTitle = 'Your shelf';
+  static String shelfRowLine(int owned, int total, FoldKey? next) =>
+      next == null ? '$owned of $total Folds' : '$owned of $total Folds · next: ${MobV3Copy.foldName(next)}, ${shelfNextRule(next)}';
+  static String shelfNextRule(FoldKey f) => switch (f) {
+        FoldKey.dart || FoldKey.dogear || FoldKey.hexa || FoldKey.kandil => 'free to everyone',
+        FoldKey.hop => 'finish a weekly quest',
+        FoldKey.crane => 'fix 3 traps together',
+        FoldKey.stamp => 'a 4-week Mob chain',
+        FoldKey.naav => 'finish a full mock',
+        FoldKey.tally => '3 games with no minus marks',
+        FoldKey.patang => 'beat your best',
+        FoldKey.sticky => '5 fixes that held',
+        FoldKey.cutting => 'come back after a break',
+      };
+}

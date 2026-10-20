@@ -17,7 +17,13 @@ import '../../../../core/widgets/widgets.dart';
 import '../copy_v3.dart';
 
 class Pennant extends StatelessWidget {
-  const Pennant({super.key, required this.weeks, this.swing, this.width = 58, this.string = 18, this.onTap, this.content, this.bodyRatio = 1.42, this.semanticsLabel});
+  const Pennant({super.key, required this.weeks, this.swing, this.width = 58, this.string = 18, this.onTap, this.content, this.bodyRatio = 1.42, this.semanticsLabel, this.stitch, this.crown = false});
+
+  /// V4 den: the stitches' colour (volt on the wall). Null keeps the ink stitches.
+  final Color? stitch;
+
+  /// V4 den (Mob hours, 3.6): the latest stitch carries the week's top-hours crown.
+  final bool crown;
 
   /// The Mob chain in weeks, as the server counts it.
   final int weeks;
@@ -38,7 +44,8 @@ class Pennant extends StatelessWidget {
   /// The paper's height over its width: 1.42 in the den, shorter for a name.
   final double bodyRatio;
 
-  /// What TalkBack reads for [content] (the weeks have their own sentence).
+  /// What TalkBack reads: for [content] (the setup), or the V4 den's "Chai Circle, 4 weeks in a row. Opens
+  /// This week." (both streaks labelled, D173 item 6). Null keeps the weeks' own sentence.
   final String? semanticsLabel;
 
   double get height => width * bodyRatio + string;
@@ -53,7 +60,7 @@ class Pennant extends StatelessWidget {
       width: width,
       height: height,
       child: CustomPaint(
-        painter: _PennantPainter(paper: PennantPaper.of(context), edge: PennantPaper.edge(context), ink: ink, string: string, weeks: own == null ? weeks : 0, night: context.mmColors.isNight),
+        painter: _PennantPainter(paper: PennantPaper.of(context), edge: PennantPaper.edge(context), ink: ink, string: string, weeks: own == null ? weeks : 0, night: context.mmColors.isNight, stitch: stitch, crown: own == null && crown ? context.mmColors.lamp : null),
         child: own != null
             ? Padding(
                 padding: EdgeInsets.fromLTRB(width * 0.08, string + width * 0.2, width * 0.08, 0),
@@ -94,7 +101,7 @@ class Pennant extends StatelessWidget {
         builder: (context, a, child) => Transform.rotate(angle: a, alignment: Alignment.topCenter, child: child),
       );
     }
-    final semantics = own != null ? (semanticsLabel ?? '') : MobV3Copy.pennantSemantics(weeks);
+    final semantics = semanticsLabel ?? (own != null ? '' : MobV3Copy.pennantSemantics(weeks));
     if (onTap == null) {
       return Semantics(
         label: semantics,
@@ -108,13 +115,19 @@ class Pennant extends StatelessWidget {
 
 /// The pennant's paper and ink, the same in the den and the chain screens.
 abstract final class PennantPaper {
+  /// V4 den: the weekly stitches in volt, deepened on the light paper so they read in both themes.
+  static Color stitch(BuildContext context) => context.mmColors.isNight ? const Color(0xFFB8D400) : const Color(0xFF7FA300);
+
   static Color of(BuildContext context) => context.mmColors.isNight ? const Color(0xFFEDE5D3) : const Color(0xFFFFFDF8);
   static Color edge(BuildContext context) => context.mmColors.isNight ? const Color(0xFFBFB49C) : const Color(0xFFD9D0BE);
   static Color ink(BuildContext context) => const Color(0xFF1E1B15);
 }
 
 class _PennantPainter extends CustomPainter {
-  _PennantPainter({required this.paper, required this.edge, required this.ink, required this.string, required this.weeks, required this.night});
+  _PennantPainter({required this.paper, required this.edge, required this.ink, required this.string, required this.weeks, required this.night, this.stitch, this.crown});
+
+  final Color? stitch;
+  final Color? crown;
 
   final Color paper;
   final Color edge;
@@ -201,20 +214,61 @@ class _PennantPainter extends CustomPainter {
       ..lineTo(w - inset, shoulder - inset * 0.6);
     _dash(canvas, seamPath, seam, 3, 2.5);
 
-    // One cross-stitch per week inside the foot (up to 5 drawn; the figure carries the count).
-    final n = math.min(weeks, 5);
-    if (n > 0) {
-      final rowY = shoulder + (h - (shoulder - top)) * 0.3;
-      const step = 6.5;
-      final start = cx - (n - 1) * step / 2;
-      final p = Paint()
-        ..color = ink.withValues(alpha: 0.7)
-        ..strokeWidth = 1.2
-        ..strokeCap = StrokeCap.round;
-      for (var i = 0; i < n; i++) {
-        final x = start + step * i;
-        canvas.drawLine(Offset(x - 2, rowY - 2), Offset(x + 2, rowY + 2), p);
-        canvas.drawLine(Offset(x - 2, rowY + 2), Offset(x + 2, rowY - 2), p);
+    // One stitch per week across the pennant's lower edge (the figure carries the count): a single rounded
+    // diagonal dash, about 7 x 2.4 dp at 40 degrees, 11 dp apart ("/ / /"), never a cross (a row of X marks
+    // reads as failed weeks). The row sits at least 4 dp above the dashed seam and below the word; as many as
+    // fit there are drawn (three on the den's pennant, as in the mock-up).
+    if (weeks > 0) {
+      const step = 11.0;
+      const len = 7.0;
+      const angle = 40 * math.pi / 180;
+      final dx = math.cos(angle) * len / 2;
+      final dy = math.sin(angle) * len / 2;
+      final seamTopY = shoulder - inset * 0.6;
+      final seamTipY = top + h - inset * 1.6;
+      // The seam's height at x (it runs from the edges down to the point).
+      double seamAt(double x) {
+        final d = math.min(x, w - x) - inset;
+        return seamTopY + (seamTipY - seamTopY) * (d / (cx - inset)).clamp(0.0, 1.0);
+      }
+      // The figure's word ends here (see the texts' padding and sizes in build).
+      final wordBottom = top + h * 0.12 + w * 0.5 + w * 0.19 * 1.1;
+      var n = math.min(weeks, 4);
+      var rowY = shoulder;
+      var start = cx;
+      while (n > 0) {
+        start = cx - (n - 1) * step / 2;
+        final lowest = math.min(seamAt(start - dx), seamAt(start + (n - 1) * step + dx));
+        rowY = math.min(shoulder - 1.5, lowest - 4 - dy);
+        if (rowY - dy >= wordBottom + 1) break;
+        n--;
+      }
+      if (n > 0) {
+        final p = Paint()
+          ..color = stitch ?? ink.withValues(alpha: 0.7)
+          ..strokeWidth = 2.4
+          ..strokeCap = StrokeCap.round;
+        for (var i = 0; i < n; i++) {
+          final x = start + step * i;
+          canvas.drawLine(Offset(x - dx, rowY + dy), Offset(x + dx, rowY - dy), p);
+        }
+        // The latest stitch carries the week's top-hours crown: a small three-point paper crown 2 dp above it,
+        // clear of the seam.
+        final c = crown;
+        if (c != null) {
+          final x = start + step * (n - 1) + dx * 0.5;
+          final base = rowY - dy - 2;
+          final crownPath = Path()
+            ..moveTo(x - 3, base)
+            ..lineTo(x - 3, base - 3.2)
+            ..lineTo(x - 1.3, base - 1.6)
+            ..lineTo(x, base - 4)
+            ..lineTo(x + 1.3, base - 1.6)
+            ..lineTo(x + 3, base - 3.2)
+            ..lineTo(x + 3, base)
+            ..close();
+          canvas.drawPath(crownPath, Paint()..color = c);
+        }
       }
     }
   }
@@ -230,5 +284,5 @@ class _PennantPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_PennantPainter old) => old.weeks != weeks || old.paper != paper || old.night != night || old.string != string;
+  bool shouldRepaint(_PennantPainter old) => old.weeks != weeks || old.stitch != stitch || old.crown != crown || old.paper != paper || old.night != night || old.string != string;
 }

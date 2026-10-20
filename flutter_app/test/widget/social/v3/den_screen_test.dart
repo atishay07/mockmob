@@ -9,10 +9,9 @@ import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/social/data/mob_models.dart';
 import 'package:mockmob/features/social/v3/copy_v3.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
-import 'package:mockmob/features/social/v3/widgets/den_cards.dart';
 import 'package:mockmob/features/social/v3/widgets/den_stage.dart';
 import 'package:mockmob/features/social/v3/widgets/fold_puppet.dart';
-import 'package:mockmob/features/social/v3/widgets/quest_bar.dart';
+import 'package:mockmob/features/social/v3/widgets/quest_segments.dart';
 import 'package:mockmob/features/social/v3/widgets/sticker_row.dart';
 
 import '../../../golden/social/v3/den_kit.dart';
@@ -56,7 +55,7 @@ void main() {
     expect(find.text(MobV3Copy.quietTitle), findsOneWidget);
     expect(find.text(MobV3Copy.startAGame), findsOneWidget);
     expect(find.text('Chai Circle'), findsOneWidget);
-    expect(find.text('Accountancy, 4 of you'), findsOneWidget);
+    expect(find.text('Accountancy · 4 of 5 seats'), findsOneWidget);
     expect(find.text('3'), findsOneWidget); // the pennant
     expect(find.bySemanticsLabel(RegExp('^Your chain, 13 days')), findsOneWidget);
   });
@@ -67,22 +66,27 @@ void main() {
     expect(find.text(MobV3Copy.askTitle), findsOneWidget);
     expect(find.text(MobV3Copy.askKey), findsOneWidget);
     expect(find.text(MobV3Copy.askLine), findsOneWidget);
-    expect(find.text(MobV3Copy.startAGame), findsNothing);
+    // V4: the Start a game row stays first and always; it is not the card's key here.
+    expect(find.byKey(const ValueKey('den-start-key')), findsNothing);
+    expect(find.byKey(const ValueKey('den-row-start')), findsOneWidget);
   });
 
-  testWidgets('D2: the runs row names finished runs with their times, and the play key', (tester) async {
+  testWidgets('V4 step 4: who raced it under the ruler, the play key, and Start a game as the first row', (tester) async {
     await pumpDen(tester, v3Server(scenario: 'open'));
     await _open(tester);
     expect(find.text('Riya opened a sprint'), findsOneWidget);
-    expect(find.text(keepTimes('Runs so far: Riya, 2:13 PM. Kabir, 4:53 PM. Zoya, 6:28 PM.')), findsOneWidget);
+    expect(find.bySemanticsLabel('Kabir and Zoya have raced it'), findsOneWidget);
+    expect(find.textContaining('Runs so far'), findsNothing);
     expect(find.text("Play Riya's sprint"), findsOneWidget);
-    expect(find.text(MobV3Copy.moreWays), findsOneWidget);
+    expect(find.text(MobV3Copy.moreWays), findsNothing);
+    expect(find.byKey(const ValueKey('den-row-start')), findsOneWidget);
   });
 
-  testWidgets('heavy: the other open game is a link to the picker', (tester) async {
+  testWidgets('V4 heavy: the other open game is an Also open row, never a picker link', (tester) async {
     await pumpDen(tester, v3Server(scenario: 'heavy'));
     await _open(tester);
-    expect(find.text('1 more game is open'), findsOneWidget);
+    expect(find.text('1 more game is open'), findsNothing);
+    expect(find.textContaining('Also open'), findsOneWidget);
   });
 
   testWidgets('D3: your time, the podium key and the sticker row', (tester) async {
@@ -90,7 +94,7 @@ void main() {
     await _open(tester);
     expect(find.text("Kabir's round"), findsOneWidget);
     expect(find.textContaining('You played at'), findsOneWidget);
-    expect(find.text(MobV3Copy.seePodiumSoFar), findsOneWidget);
+    expect(find.text('See where you stand'), findsOneWidget);
     for (final k in ['Nice one', 'So close', 'Teach me', 'Again?']) {
       expect(find.text(k), findsOneWidget);
     }
@@ -107,7 +111,7 @@ void main() {
   testWidgets('D5: a Mob of one invites, with four open seats', (tester) async {
     await pumpDen(tester, v3Server(scenario: 'one'));
     await _open(tester);
-    expect(find.text('Accountancy, just you'), findsOneWidget);
+    expect(find.text('Accountancy · 1 of 5 seats'), findsOneWidget);
     expect(find.text(MobV3Copy.oneTitle), findsOneWidget);
     expect(find.text(MobV3Copy.inviteWhatsApp), findsOneWidget);
     expect(find.text('4 open seats'), findsOneWidget);
@@ -121,7 +125,7 @@ void main() {
     expect(find.text('Your sprint'), findsOneWidget);
     expect(find.textContaining('You played at'), findsOneWidget);
     expect(find.text(MobV3Copy.seePodiumSoFar), findsOneWidget);
-    expect(find.text(MobV3Copy.startSprint), findsOneWidget, reason: 'another sprint can still be started');
+    expect(find.byKey(const ValueKey('den-row-start')), findsOneWidget, reason: 'another game can still be started');
     // The invite stays below it and is still the one volt key.
     expect(find.text(MobV3Copy.inviteWhatsApp), findsOneWidget);
     expect(tester.getRect(find.byKey(const ValueKey('den-one-game'))).top, lessThan(tester.getRect(find.text(MobV3Copy.oneTitle)).top));
@@ -179,11 +183,13 @@ void main() {
   testWidgets('F8: past the goal the quest shows the true total and the bar is full', (tester) async {
     await pumpDen(tester, v3Server(scenario: 'questdone'));
     await _open(tester);
-    expect(find.text('70 answered. The quest needed 60.'), findsOneWidget);
-    final bar = tester.widget<QuestBar>(find.byType(QuestBar));
+    // V4 panel: the true total beside "of 60", and the bar full.
+    expect(find.text('70'), findsOneWidget);
+    expect(find.text('of 60'), findsOneWidget);
+    final bar = tester.widget<QuestSegments>(find.byType(QuestSegments));
     expect(bar.answered, 70);
-    expect(QuestBar.fillOf(bar.answered, bar.target), 1);
-    expect(QuestBar.fillOf(51, 60), closeTo(0.85, 0.001));
+    expect(QuestSegments.fractionOf(bar.answered, bar.target), 1);
+    expect(QuestSegments.fractionOf(51, 60), closeTo(0.85, 0.001));
   });
 
   testWidgets('moments play in order, one at a time, each marked seen only after it closed', (tester) async {

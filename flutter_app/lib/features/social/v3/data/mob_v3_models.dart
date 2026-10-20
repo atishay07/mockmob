@@ -568,6 +568,8 @@ class MobV3 {
     this.seat,
     this.lastTrapChapter,
     this.paperSatAt,
+    this.hours,
+    this.fix,
   });
 
   /// Null when the read has no v3 object (the server's MOB_V3_ENABLED is off): today's Mob shows.
@@ -590,6 +592,8 @@ class MobV3 {
         seat: FoldKey.parse(j['seat']),
         lastTrapChapter: asString(j['lastTrapChapter']),
         paperSatAt: asDate(j['paperSatAt']),
+        hours: MobHours.fromJsonOrNull(j['hours']),
+        fix: DenFix.fromJson(j['fix']),
       );
 
   final MobV3Name name;
@@ -619,6 +623,13 @@ class MobV3 {
   /// Additive (SHEETS, 19 Oct): when this student sat this week's Mob paper ("You sat it on Monday.").
   /// Null says "You sat it this week." instead.
   final DateTime? paperSatAt;
+
+  /// Mob hours (D171, D174; MOB HOURS CONTRACT). Null when the server has not shipped it: every Mob hours
+  /// element hides.
+  final MobHours? hours;
+
+  /// Fix it together on the den (V4 Now card steps 2 and 3). Null: nothing to fix, or a server without it.
+  final DenFix? fix;
 
   MobV3Member? get you {
     for (final m in members) {
@@ -1695,4 +1706,116 @@ class MomentKey {
   final String? week;
   final FoldKey? fold;
   final int? days;
+}
+
+
+// ---- Mob hours (V4-den, MOB HOURS CONTRACT, 20 Oct) ------------------------------------------------------
+// `v3.hours` in the den read. Minutes are each sharing member's real answer time on practice answers this
+// week (Monday IST), each answer capped at 3 minutes. Members who do not share, or have 0 minutes, are never
+// listed (the server leaves them out; the app filters again).
+
+class MobHoursMember {
+  const MobHoursMember({required this.memberId, required this.firstName, required this.minutes, this.goalDays = 0});
+
+  static MobHoursMember? fromJson(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final id = asString(j['member_id'] ?? j['memberId']);
+    if (id == null) return null;
+    return MobHoursMember(
+      memberId: id,
+      firstName: asStringOr(j['first_name'] ?? j['firstName'], ''),
+      minutes: asInt(j['minutes']) ?? 0,
+      goalDays: asInt(j['goal_days'] ?? j['goalDays']) ?? 0,
+    );
+  }
+
+  final String memberId;
+  final String firstName;
+  final int minutes;
+
+  /// Days this week the member met their own daily goal (the week tick is 5 of 7).
+  final int goalDays;
+
+  bool get weekTick => goalDays >= 5;
+}
+
+class StudyingNow {
+  const StudyingNow({required this.memberId, required this.firstName, required this.since});
+
+  static StudyingNow? fromJson(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final id = asString(j['member_id'] ?? j['memberId']);
+    final since = asDate(j['since']);
+    if (id == null || since == null) return null;
+    return StudyingNow(memberId: id, firstName: asStringOr(j['first_name'] ?? j['firstName'], ''), since: since);
+  }
+
+  final String memberId;
+  final String firstName;
+  final DateTime since;
+}
+
+class MobHours {
+  const MobHours({this.weekStart, this.targetMinutes = 0, this.totalMinutes = 0, this.meSharing = false, this.members = const [], this.topMemberId, this.studyingNow = const []});
+
+  static MobHours? fromJsonOrNull(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    return MobHours(
+      weekStart: asString(j['week_start'] ?? j['weekStart']),
+      targetMinutes: asInt(j['target_minutes'] ?? j['targetMinutes']) ?? 0,
+      totalMinutes: asInt(j['total_minutes'] ?? j['totalMinutes']) ?? 0,
+      meSharing: asBool(j['me_sharing'] ?? j['meSharing']) ?? false,
+      members: [
+        for (final m in asJsonList(j['members']))
+          if (MobHoursMember.fromJson(m) case final MobHoursMember x when x.minutes > 0) x,
+      ]..sort((a, b) => b.minutes.compareTo(a.minutes)),
+      topMemberId: asString(j['top_member_id'] ?? j['topMemberId']),
+      studyingNow: [for (final s in asJsonList(j['studying_now'] ?? j['studyingNow'])) ?StudyingNow.fromJson(s)],
+    );
+  }
+
+  final String? weekStart;
+  final int targetMinutes;
+  final int totalMinutes;
+  final bool meSharing;
+  final List<MobHoursMember> members;
+  final String? topMemberId;
+  final List<StudyingNow> studyingNow;
+
+  /// Nobody shares (the target is 150 minutes per sharing member, so 0 means nobody): the panel says "Off for
+  /// everyone". Sharing with no minutes yet (Monday morning) is not off: it reads "0 m of 2 h 30 m".
+  bool get offForEveryone => targetMinutes <= 0;
+
+  /// 0..1 of the week's target, for the bar.
+  double get share => targetMinutes <= 0 ? 0 : (totalMinutes / targetMinutes).clamp(0.0, 1.0);
+}
+
+
+
+/// `v3.fix` (V4-den, additive): the Mob's open Fix it together. `ready`: the trap is chosen and the fix is
+/// open ("Fix question 4 together"); `check`: the Wednesday check is open ("Take the check").
+enum DenFixState { ready, check }
+
+class DenFix {
+  const DenFix({required this.gameId, required this.question, this.state = DenFixState.ready, this.checkOpensAt});
+
+  static DenFix? fromJson(Object? raw) {
+    if (raw is! Map) return null;
+    final j = asJson(raw);
+    final id = asString(j['gameId'] ?? j['game_id']);
+    final q = asInt(j['question']);
+    if (id == null || q == null) return null;
+    final st = asString(j['state']);
+    return DenFix(gameId: id, question: q, state: st == 'check' ? DenFixState.check : DenFixState.ready, checkOpensAt: asDate(j['checkOpensAt'] ?? j['check_opens_at']));
+  }
+
+  final String gameId;
+
+  /// The question number as the student saw it (1-based).
+  final int question;
+  final DenFixState state;
+  final DateTime? checkOpensAt;
 }

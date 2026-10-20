@@ -23,22 +23,20 @@ import '../../../../core/repositories/remote_state.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/account/account_avatar.dart' show PushedBackKey, TabRootLeading;
 import '../../../../core/widgets/widgets.dart';
-import '../../../insights/ask_mobi.dart' show AskKeyLabel, AskMobiButton;
 import '../../data/mob_models.dart';
 import '../../data/mob_repository.dart';
-import '../../widgets/mob_plan_widgets.dart' show MobSwitcher;
 import '../copy_v3.dart';
 import '../data/mob_v3_den.dart';
 import '../data/mob_v3_models.dart';
 import '../logic/den_copy_state.dart';
 import '../logic/moment_queue.dart';
-import '../mob_v3_nav.dart';
 import '../widgets/den_cards.dart';
 import '../widgets/den_stage.dart';
 import '../widgets/fold_manifest.dart';
-import '../widgets/invite_card.dart';
 import '../widgets/mob_fx.dart';
-import '../widgets/quest_bar.dart';
+import '../widgets/this_week_panel.dart';
+import '../widgets/v4_sheet_hooks.dart';
+import '../widgets/your_mobs_sheet.dart';
 import '../widgets/sticker_row.dart';
 import 'den_start_screen.dart';
 
@@ -93,6 +91,11 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
   DateTime? _hiddenAt;
   ChainNotice? _notice;
   String? _noticeText;
+
+  /// Who stands on the desk, kept for one exit pass after `studying_now` empties (4.2), and the Mob it is in.
+  (StudyingNow?, MobV3Member?)? _desk;
+  bool _deskLeaving = false;
+  String? _deskMob;
   Timer? _noticeTimer;
   final List<StickerSend> _flights = [];
   StickerBus? _bus;
@@ -359,29 +362,8 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
     await _switch.animateTo(1, curve: MotionCurves.glide);
   }
 
-  Future<void> _openSwitcher(Mob mob, MobV3 v3) async {
-    final labels = MobSwitcher.labelsFor(mob.mobs);
-    final picked = await showMmSheet<String>(
-      context: context,
-      title: MobV3Copy.switcherTitle,
-      builder: (sheet) => Padding(
-        padding: const EdgeInsets.fromLTRB(MmSpace.sheetSide, 0, MmSpace.sheetSide, MmSpace.s16),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            for (var i = 0; i < mob.mobs.length; i++) ...[
-              KeyButton.option(label: mob.mobs[i].active ? '${v3.name.text}, ${labels[i]}' : labels[i], selected: mob.mobs[i].active, onPressed: () => Navigator.of(sheet).pop(mob.mobs[i].id)),
-              const SizedBox(height: MmSpace.s8),
-            ],
-          ],
-        ),
-      ),
-    );
-    if (picked == null || !mounted) return;
-    if (picked == mob.id) return;
-    await _switchTo(picked);
-  }
+  /// A11: the chevron by the Mob name always opens Your Mobs; switching fades through (M13).
+  Future<void> _openYourMobs() => showYourMobsSheet(context, onSwitch: _switchTo);
 
   @override
   Widget build(BuildContext context) {
@@ -424,6 +406,28 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
         final failed = view == null && !loading;
         final now = ref.watch(denClockProvider)();
 
+        // The desk's memory: a studier stays on the desk for one exit pass after the server stops listing them.
+        if (v3 == null || mob?.id != _deskMob) {
+          _desk = null;
+          _deskLeaving = false;
+        }
+        _deskMob = mob?.id;
+        final studyingNow = DenStage.studierOf(v3);
+        if (studyingNow.$1 != null) {
+          _desk = studyingNow;
+          _deskLeaving = false;
+        } else if (_desk != null) {
+          final id = _desk!.$2?.memberId;
+          final still = v3 != null && v3.members.length > 1 && v3.members.any((m) => m.memberId == id);
+          if (still) {
+            _deskLeaving = true;
+          } else {
+            _desk = null;
+            _deskLeaving = false;
+          }
+        }
+        final deskBusy = _desk != null;
+
         final room = Stack(
           children: [
             DenStage(
@@ -437,19 +441,33 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
               onFlightDone: (id) {
                 if (mounted) setState(() => _flights.removeWhere((f) => f.id == id));
               },
-              onPennant: () => MobV3Nav.chains(context, mobTab: true),
-              onShelf: () => MobV3Nav.shelf(context),
-              onOpenSeat: () => shareInviteCard(context),
+              onPennant: () => V4Sheets.thisWeek(context),
+              onShelf: () => V4Sheets.shelf(context),
+              onOpenSeat: () => V4Sheets.invite(context),
+              now: now,
+              desk: _desk ?? (null, null),
+              deskLeaving: _deskLeaving,
+              onDeskLeft: () {
+                if (mounted) {
+                  setState(() {
+                    _desk = null;
+                    _deskLeaving = false;
+                  });
+                }
+              },
             ),
             if (mob != null && v3 != null)
-              Positioned(
+              AnimatedPositioned(
+                duration: _reduced ? Duration.zero : DenStage.reflow,
+                curve: MotionCurves.glide,
                 left: MmSpace.gutter,
                 top: stageTop + MmSpace.s2,
-                width: math.max(160, w - MmSpace.gutter - 104),
+                // At least 12 dp between the title block and the pennant.
+                width: math.max(150, DenStage.pennantLeft(w, studying: deskBusy) - MmSpace.gutter - MmSpace.s12),
                 child: _TitleBlock(
                   name: v3.name.text.isEmpty ? mob.subjectName : v3.name.text,
-                  subtitle: MobV3Copy.denSubtitle(mob.subjectName, v3.members.length),
-                  onSwitch: mob.mobs.length > 1 ? () => _openSwitcher(mob, v3) : null,
+                  subtitle: MobV4DenCopy.subtitle(mob.subjectName, v3.members.length),
+                  onSwitch: _openYourMobs,
                 ),
               )
             else
@@ -481,6 +499,9 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
           below.add(DenFailedCard(onRetry: () => _refresh(force: true)));
         } else if (mob != null && v3 != null) {
           final card = denCardFor(v3, paperSat: mob.week.youSat);
+          // Mobi rises out of the empty-den card: the card starts lower so his antenna stays clear of the name
+          // tags (also at 1.3x text, where the tags grow).
+          if (card.kind == DenCardKind.quiet) below.add(const SizedBox(height: MmSpace.s24));
           below.add(
             _Rise(
               ms: _ms,
@@ -488,24 +509,42 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
               child: DenCardView(key: ValueKey('${mob.id}:${card.kind.name}:${card.game?.id}'), card: card, v3: v3, mob: mob, now: now),
             ),
           );
-          // K5's pass notice sits under the card, never above it: the card's key is the one thing to
-          // tap and must be on screen on first view at 360 dp (H5, 19 Oct night walk).
-          if (_noticeText != null) {
-            below
-              ..add(const SizedBox(height: MmSpace.s12))
-              ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: _PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!)));
-          }
-          if (card.kind != DenCardKind.one) {
-            below
-              ..add(const SizedBox(height: MmSpace.s20))
-              ..add(
-                _Rise(
-                  ms: _ms,
-                  at: EnterDen.questAt,
-                  child: QuestStrip(quest: v3.quest, mobName: v3.name.text, onTap: () => MobV3Nav.chains(context, mobTab: true)),
-                ),
-              );
-          }
+          below
+            ..add(const SizedBox(height: MmSpace.s12))
+            ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: DenRows(card: card, v3: v3, mob: mob, now: now)));
+          below
+            ..add(const SizedBox(height: MmSpace.s20))
+            ..add(
+              _Rise(
+                ms: _ms,
+                at: EnterDen.questAt,
+                child: ThisWeekPanel(v3: v3, onTap: () => V4Sheets.thisWeek(context)),
+              ),
+            );
+          // Your shelf (3.1 item 6, D170): the den's entry to the Shelf, last in the list.
+          below
+            ..add(const SizedBox(height: MmSpace.s12))
+            ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: const DenShelfRow()));
+          // K5's pass notice goes last, out of the way of the rows: Start a game never moves (3.1 item 4), and
+          // nothing sits below it to jump when it leaves. It fades and folds away (240 ms; reduced: at once).
+          final notice = _noticeText == null
+              ? const SizedBox(key: ValueKey('den-pass-notice-none'), width: double.infinity)
+              : Padding(
+                  key: ValueKey('den-pass-notice-$_noticeText'),
+                  padding: const EdgeInsets.only(top: MmSpace.s16),
+                  child: _PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!),
+                );
+          below.add(
+            _reduced
+                ? notice
+                : AnimatedSize(
+                    key: const ValueKey('den-pass-notice-slot'),
+                    duration: MotionDurations.card,
+                    curve: MotionCurves.glide,
+                    alignment: Alignment.topCenter,
+                    child: AnimatedSwitcher(duration: MotionDurations.card, child: notice),
+                  ),
+          );
         }
 
         final content = Column(
@@ -579,16 +618,17 @@ class _HeaderRow extends StatelessWidget {
       children: [
         if (asTab) const TabRootLeading() else const PushedBackKey(),
         const Spacer(),
-        if (c != null && !c.hidden) ...[ChainChipKey(days: c.days, onTap: () => MobV3Nav.chains(context)), const SizedBox(width: MmSpace.s4)],
-        const AskMobiButton(label: AskKeyLabel.figureOnly),
-        _RoundKey(icon: LucideIcons.settings, label: MobV3Copy.settingsSemantics, onTap: () => MobV3Nav.settings(context)),
+        // Both streaks (D173 item 6): your daily chain here, the Mob's weekly pennant on the stage. Ask Mobi is
+        // not in the den (V4 2.2); it stays on Today and inside Fix it together.
+        if (c != null && !c.hidden) ...[ChainChipKey(key: const ValueKey('den-chain-chip'), days: c.days, onTap: () => YourChainSheet.show(context)), const SizedBox(width: MmSpace.s4)],
+        _RoundKey(key: const ValueKey('den-settings'), icon: LucideIcons.settings, label: MobV3Copy.settingsSemantics, onTap: () => V4Sheets.mobSettings(context)),
       ],
     );
   }
 }
 
 class _RoundKey extends StatelessWidget {
-  const _RoundKey({required this.icon, required this.label, required this.onTap});
+  const _RoundKey({super.key, required this.icon, required this.label, required this.onTap});
 
   final IconData icon;
   final String label;
@@ -645,6 +685,9 @@ class ChainChipKey extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // Whose streak this is, in words (MOB-V4-BUILD override 3): the Mob's is the pennant.
+                Text(MobV4DenCopy.yourChainLabel, key: const ValueKey('den-chain-label'), maxLines: 1, style: type.caption.copyWith(color: colors.ink2, fontWeight: FontWeight.w600)),
+                const SizedBox(width: MmSpace.s8),
                 CustomPaint(
                   size: const Size(18, 12),
                   painter: _LinkGlyph(colour: colors.ink),
@@ -709,18 +752,14 @@ class _TitleBlock extends StatelessWidget {
     final colors = context.mmColors;
     // The title sits over the lit room: a soft halo in the ground colour keeps it readable.
     final halo = [Shadow(color: colors.ground.withValues(alpha: colors.isNight ? 0.85 : 0.9), blurRadius: 10)];
-    final title = Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Flexible(
-          child: Text(
-            name,
-            style: type.screenTitle.copyWith(color: colors.ink, shadows: halo),
-          ),
-        ),
-        if (onSwitch != null) ...[const SizedBox(width: MmSpace.s4), Icon(LucideIcons.chevronDown, size: 20, color: colors.ink2)],
-      ],
+    // The name scales down to 0.8; past that it takes a second line (the Mob's own name is never cut to
+    // "Accountan..." in its own den) and the subtitle moves down. The chevron follows the text.
+    final title = _FitLine(
+      text: name,
+      wrap: true,
+      style: type.screenTitle.copyWith(color: colors.ink, shadows: halo),
+      trailing: onSwitch == null ? null : Padding(padding: const EdgeInsets.only(left: MmSpace.s4), child: Icon(LucideIcons.chevronDown, size: 22, color: colors.ink)),
+      trailingWidth: onSwitch == null ? 0 : 26,
     );
     final block = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -728,8 +767,8 @@ class _TitleBlock extends StatelessWidget {
       children: [
         Semantics(header: true, child: title),
         const SizedBox(height: MmSpace.s2),
-        Text(
-          subtitle,
+        _FitLine(
+          text: subtitle,
           // Label size, not caption: readable over the lit room at 360 dp (M1 owner note).
           style: type.label.copyWith(color: colors.isNight ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600, shadows: [...halo, ...halo]),
         ),
@@ -738,11 +777,76 @@ class _TitleBlock extends StatelessWidget {
     if (onSwitch == null) return block;
     return MmPressable(
       onTap: onSwitch,
-      semanticsLabel: '$name. $subtitle. ${MobV3Copy.switchMob}',
+      key: const ValueKey('den-your-mobs'),
+      semanticsLabel: MobV4DenCopy.titleSemantics(name, subtitle),
       pressedScale: 0.98,
       haptic: MmPressHaptic.selection,
       focusRadius: BorderRadius.circular(MmRadius.small),
       builder: (context, pressed, _) => block,
+    );
+  }
+}
+
+/// One line of text that scales down to [floor] of its size before it ends in an ellipsis; [trailing] follows it.
+class _FitLine extends StatelessWidget {
+  const _FitLine({required this.text, required this.style, this.trailing, this.trailingWidth = 0, this.wrap = false});
+
+  /// Past the floor, take a second line instead of an ellipsis.
+  final bool wrap;
+
+  final String text;
+  final TextStyle style;
+  final Widget? trailing;
+  final double trailingWidth;
+
+  static const double floor = 0.8;
+
+  /// Two-line titles only: how far one very long word may shrink so it is never split mid-word.
+  static const double wordFloor = 0.7;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, box) {
+        final avail = box.maxWidth - trailingWidth;
+        final tp = TextPainter(text: TextSpan(text: text, style: style), textDirection: Directionality.of(context), textScaler: MediaQuery.textScalerOf(context), maxLines: 1)..layout();
+        final natural = tp.width;
+        tp.dispose();
+        final fits = natural <= avail || natural <= 0;
+        final twoLines = wrap && !fits && avail / natural < floor;
+        var k = fits ? 1.0 : math.max(floor, avail / natural);
+        if (twoLines) {
+          // Two lines break between words, with the chevron riding at the end of the last line (so each line has
+          // the full width). The longest word, and the last word with the chevron, must fit a line: they set the
+          // size, down to [wordFloor] for one very long word.
+          final words = text.split(' ');
+          var longest = 0.0;
+          for (var i = 0; i < words.length; i++) {
+            final wp = TextPainter(text: TextSpan(text: words[i], style: style), textDirection: Directionality.of(context), textScaler: MediaQuery.textScalerOf(context), maxLines: 1)..layout();
+            longest = math.max(longest, wp.width + (i == words.length - 1 ? trailingWidth : 0));
+            wp.dispose();
+          }
+          final full = box.maxWidth;
+          k = longest <= full || longest <= 0 ? 1.0 : math.max(wordFloor, full / longest);
+        }
+        final sized = k == 1 ? style : style.copyWith(fontSize: (style.fontSize ?? 14) * k);
+        if (twoLines && trailing != null) {
+          return Text.rich(
+            TextSpan(text: text, style: sized, children: [WidgetSpan(alignment: PlaceholderAlignment.middle, child: trailing!)]),
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+          );
+        }
+        final line = Text(
+          text,
+          maxLines: twoLines ? 2 : 1,
+          softWrap: twoLines,
+          overflow: TextOverflow.ellipsis,
+          style: sized,
+        );
+        if (trailing == null) return line;
+        return Row(mainAxisSize: MainAxisSize.min, children: [Flexible(child: line), trailing!]);
+      },
     );
   }
 }

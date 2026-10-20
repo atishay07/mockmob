@@ -6,6 +6,7 @@
 // It fills once when it first appears (600 ms, segment after segment) and again, from where it was, when
 // the total changes; reduced motion draws the end state at once.
 
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 
 import '../../../../core/motion/motion.dart';
@@ -13,7 +14,7 @@ import '../../../../core/theme/theme.dart';
 import 'chain_paper.dart';
 
 class QuestSegments extends StatelessWidget {
-  const QuestSegments({super.key, required this.answered, required this.target, this.segments = 12, this.animate = true, this.semanticsLabel});
+  const QuestSegments({super.key, required this.answered, required this.target, this.segments = 12, this.animate = true, this.semanticsLabel, this.palette = const []});
 
   final int answered;
   final int target;
@@ -21,13 +22,24 @@ class QuestSegments extends StatelessWidget {
   final bool animate;
   final String? semanticsLabel;
 
+  /// V4: filled segments take the Mob's member colours in turn (decoration only: a segment never says who
+  /// filled it). Empty keeps the paper fill.
+  final List<Color> palette;
+
   /// 0 to 1: how much of the bar is filled. Full at or past the target, empty with no target.
   static double fractionOf(int answered, int target) => target <= 0 ? 0 : (answered / target).clamp(0.0, 1.0);
+
+  /// Whole segments only (paper, never a sliver): 51 of 60 fills 10 of 12; all 12 only at or past the target.
+  static int filledOf(int answered, int target, [int segments = 12]) {
+    if (target <= 0 || answered <= 0) return 0;
+    if (answered >= target) return segments;
+    return (answered * segments / target).floor().clamp(0, segments - 1);
+  }
 
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final to = fractionOf(answered, target);
+    final to = filledOf(answered, target, segments).toDouble();
     final still = !animate || Motion.reduced(context);
     return Semantics(
       label: semanticsLabel,
@@ -41,7 +53,7 @@ class QuestSegments extends StatelessWidget {
             curve: Motion.glide,
             builder: (context, v, _) => CustomPaint(
               size: const Size(double.infinity, 14),
-              painter: _SegmentsPainter(fraction: v, count: segments, filled: colors.isNight ? ChainPaper.fill(context) : colors.ink, empty: colors.isNight ? colors.raised2 : colors.sunken, edge: colors.line),
+              painter: _SegmentsPainter(filledCount: v.floor(), count: segments, palette: palette, filled: colors.isNight ? ChainPaper.fill(context) : colors.ink, empty: colors.isNight ? colors.raised2 : colors.sunken, edge: colors.line),
             ),
           ),
         ),
@@ -51,10 +63,11 @@ class QuestSegments extends StatelessWidget {
 }
 
 class _SegmentsPainter extends CustomPainter {
-  _SegmentsPainter({required this.fraction, required this.count, required this.filled, required this.empty, required this.edge});
+  _SegmentsPainter({required this.filledCount, required this.count, this.palette = const [], required this.filled, required this.empty, required this.edge});
 
-  final double fraction;
+  final int filledCount;
   final int count;
+  final List<Color> palette;
   final Color filled;
   final Color empty;
   final Color edge;
@@ -66,18 +79,11 @@ class _SegmentsPainter extends CustomPainter {
     for (var i = 0; i < count; i++) {
       final x = i * (w + gap);
       final rect = RRect.fromRectAndRadius(Rect.fromLTWH(x, 0, w, size.height), const Radius.circular(4));
-      canvas.drawRRect(rect, Paint()..color = empty);
-      // How much of this segment is filled: the bar's fraction spread over the segments.
-      final part = (fraction * count - i).clamp(0.0, 1.0);
-      if (part > 0) {
-        canvas.save();
-        canvas.clipRRect(rect);
-        canvas.drawRect(Rect.fromLTWH(x, 0, w * part, size.height), Paint()..color = filled);
-        canvas.restore();
-      }
+      // A segment is filled whole or not at all; the 600 ms fill steps segment by segment.
+      canvas.drawRRect(rect, Paint()..color = i < filledCount ? (palette.isEmpty ? filled : palette[i % palette.length]) : empty);
     }
   }
 
   @override
-  bool shouldRepaint(_SegmentsPainter old) => old.fraction != fraction || old.filled != filled || old.empty != empty || old.count != count;
+  bool shouldRepaint(_SegmentsPainter old) => old.filledCount != filledCount || old.filled != filled || old.empty != empty || old.count != count || !listEquals(old.palette, palette);
 }

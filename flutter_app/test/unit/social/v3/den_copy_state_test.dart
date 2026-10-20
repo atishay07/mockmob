@@ -84,6 +84,8 @@ void main() {
   test('after every game closes the den is quiet again', () {
     final s = v3Server(scenario: 'heavy')..closeAllGames();
     final r = MobRead.fromJson(s.denNow());
-    expect(denCardFor(r.v3!).kind, DenCardKind.quiet);
+    expect(denCardFor(r.v3!, paperSat: true).kind, DenCardKind.quiet);
+    // V4 ladder step 5: the week's paper, unsat, comes before step 7.
+    expect(denCardFor(r.v3!).kind, DenCardKind.paper);
   });
 }
