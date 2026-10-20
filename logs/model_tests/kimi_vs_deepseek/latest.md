@@ -1,7 +1,7 @@
 # Kimi vs DeepSeek A/B Test
 
-Recommendation: keep_deepseek_default_and_continue_kimi_ab_tests
+Recommendation: use_kimi_route_specific_experimentally
 
 | Route | Model | Accepted | Score | Distractor | Weak Distractor Rate | Cost/1000 Live | Latency ms |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| english::Vocabulary | kimi | 0 | 0 | 0 | 1 | n/a | 10 |
+| english::Vocabulary | kimi | 10 | 8.6 | 8.2 | 0 | 0 | 22 |

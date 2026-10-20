@@ -1,5 +1,5 @@
 {
-  "created_at": "2026-05-01T22:00:11.736Z",
+  "created_at": "2026-10-20T15:37:52.509Z",
   "no_publish": true,
   "routes": [
     {
@@ -19,27 +19,27 @@
       "repair_used": false,
       "raw_candidates": 10,
       "normalized_candidates": 10,
-      "selfcheck_passed": 0,
-      "validator_sent": 0,
-      "validator_accepted": 0,
-      "simulated_publish_count": 0,
-      "average_validator_score": 0,
-      "average_exam_quality": 0,
-      "average_distractor_quality": 0,
-      "average_trap_quality": 0,
-      "weak_distractor_rate": 1,
+      "selfcheck_passed": 10,
+      "validator_sent": 10,
+      "validator_accepted": 10,
+      "simulated_publish_count": 10,
+      "average_validator_score": 8.6,
+      "average_exam_quality": 8.2,
+      "average_distractor_quality": 8.2,
+      "average_trap_quality": 9,
+      "weak_distractor_rate": 0,
       "direct_definition_rate": 0,
       "answer_mismatch_rate": 0,
-      "non_cuet_pattern_rate": 1,
-      "avg_latency_ms": 10,
+      "non_cuet_pattern_rate": 0,
+      "avg_latency_ms": 22,
       "input_tokens": 0,
       "output_tokens": 0,
       "estimated_cost_usd": 0,
-      "estimated_cost_per_1000_live": null,
-      "projected_live_per_hour": 0,
-      "sample_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\mockmob copy\\logs\\audit\\route_samples\\english__vocabulary"
+      "estimated_cost_per_1000_live": 0,
+      "projected_live_per_hour": 36000,
+      "sample_path": "C:\\Users\\atish\\Desktop\\mockmob copy\\wt-1020-webrel\\logs\\audit\\route_samples\\english__vocabulary"
     }
   ],
   "winner": "kimi",
-  "recommendation": "keep_deepseek_default_and_continue_kimi_ab_tests"
+  "recommendation": "use_kimi_route_specific_experimentally"
 }
