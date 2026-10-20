@@ -750,13 +750,13 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 20 Oct about 1:58 pm IST (verbatim)
 > "you can continue now"
 
-## Owner, 20 Oct about 2:05 pm IST (verbatim)
+## Owner, 20 Oct about 2:02 pm IST (verbatim)
 > "This building explanation is not exactly right, and I don't even understand what exactly this mob feature does. Can they practice anytime or start a practice session? What exactly can they do, and what are the features of the mob? Can you tell me what exactly they are? Even in your experience video, I had approved it because it gave me a good rough idea, and it really looked appealing. But the feature set and what exactly all they can do together is still unclear to me."
 **Ledger K9:** the Mob's feature set is unclear even to him after the explainer prototype: explain plainly what students can do; the explainer must make the feature set obvious (what you can start, when, with whom, what happens after).
 - Build next (his answer, multi-select): "Timed races (5 or 10 min), Full mock together, Live rooms on"
 **Ledger D167:** build timed Mob races (5 or 10 minutes, as many questions as you can), Full mock together (the whole Mob sits a full mock within 24 hours and compares mark sheets), and turn live rooms on after the presence fix (L-55) passes. Trap-based Fix it together was not chosen now.
 
-## Owner, 20 Oct about 2:20 pm IST (verbatim)
+## Owner, 20 Oct about 2:12 pm IST (verbatim)
 > "All the things that you suggested were good additions, but the issue is that none of it is more defensible. The traps feature, I declined it because it would just complicate things more.
 >
 > Right now, just focus on building a clean UI. I don't want Mob to be inside Mob and also be overloaded with features and multiple screens. It should be very clean and minimalistic, with very clear things about what to do and from where. Adding more and more would make it like an app inside an app. This is one of the main things which I have previously noted also when bloating a feature with too many features. Be sure that it doesn't happen.
@@ -766,11 +766,11 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 - New modes (his answer): "Keep only as options in one picker (Recommended)"
 **Ledger D169:** races and Full mock together become rows in the one existing "Start a game" sheet, reusing the same game, results and reveal screens; live is one Live / Anytime toggle in that sheet; no new screens. Then a simplification pass over the whole Mob (minimal, obvious what to do and from where) and world-class character animation and motion (D168).
 
-## Owner, 20 Oct about 2:20 pm IST (verbatim, follow-up)
+## Owner, 20 Oct about 2:15 pm IST (verbatim, follow-up)
 > "By simplicity, I didn't mean to cut too many features. Whatever I approved can easily be incorporated into a CLI. That's what I meant, and that's why I didn't approve that option of fixing the traps and all that. That would overcomplicate the things. Whatever these are, these can just be added as a specific mode or what you suggested also. That's why this will not be an issue."
 **Ledger D170:** "CLI" = clean UI (dictation). Simplicity means a clean presentation, NOT cutting features: every approved feature stays (sprint, own round, rematch, weekly paper, races, Full mock together, live rooms, streaks, quest, shelf, Fix it together, stickers); add them as modes in the one picker; only unapproved complexity (trap-based fixes) is out.
 
-## Owner, 20 Oct about 2:30 pm IST (verbatim)
+## Owner, 20 Oct about 2:18 pm IST (verbatim)
 > "Let me give you an example, just in general. What are some interesting things? When I was preparing for my CUET, I don't remember that happening, but there used to be a study app. All of our friends, basically our entire class, were on that app.
 >
 > What the app does is, when you turn that on, your phone stays locked entirely at that time. It tracks your study time, or you can just log it yourself: how much time you were studying for. Honestly, we used to do it to just create a healthy competition between each other.
