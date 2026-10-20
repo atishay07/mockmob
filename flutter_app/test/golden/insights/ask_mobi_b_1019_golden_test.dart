@@ -91,7 +91,7 @@ void main() {
     overrides: _fresh,
   );
 
-  // The labelled key in each header: Today (with Mobi, "Ask" at 360), a tab root (Practice), Mob's page.
+  // The labelled key in each header: Today (with Mobi, "Ask Mobi" at 360 too), a tab root (Practice), Mob's page.
   for (final (tag, width) in const [('360', 360.0), ('412', 412.0)]) {
     insightsGolden(
       'ask_b_key_today_$tag',
@@ -105,6 +105,30 @@ void main() {
       overrides: _heavy,
     );
   }
+  // A long first name at 360 dp: "Ask Mobi" in full at 1x; at 1.3x the key says "Ask" so the greeting keeps its size.
+  insightsGolden(
+    'ask_b_key_today_360_longname',
+    () => const Scaffold(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+        child: TodayHeader(header: HeaderModel(dateLine: 'Monday, 13 October', greeting: 'Good evening, Aaradhya')),
+      ),
+    ),
+    size: const Size(360, 96),
+    overrides: _heavy,
+  );
+  insightsGolden(
+    'ask_b_key_today_360_text130',
+    () => const Scaffold(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(16, 12, 16, 12),
+        child: TodayHeader(header: HeaderModel(dateLine: 'Monday, 13 October', greeting: 'Good evening, Aaradhya')),
+      ),
+    ),
+    size: const Size(360, 120),
+    textScale: 1.3,
+    overrides: _heavy,
+  );
   insightsGolden(
     'ask_b_key_practice_360',
     () => const Scaffold(

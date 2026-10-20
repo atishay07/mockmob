@@ -1,3 +1,5 @@
+import 'dart:async' show unawaited;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -11,6 +13,7 @@ import '../../core/widgets/widgets.dart';
 import '../billing/billing.dart';
 import '../credits/credits_copy.dart';
 import '../referrals/invite_reward.dart' show WalletInviteSection;
+import '../referrals/referral_data.dart' show referralStatusProvider;
 import '../you/widgets/you_page.dart';
 import '../you/widgets/you_row.dart' show IconWell, YouPanel;
 import 'data/wallet_data.dart';
@@ -25,7 +28,12 @@ import 'widgets/credit_coins.dart';
 /// Top-ups and Pro are Google Play's (`PLAY_BILLING`): every price here is Google Play's own string.
 /// With the flag off the balance and the history are the same, and there is no top-up section and no Pro row.
 class WalletScreen extends ConsumerStatefulWidget {
-  const WalletScreen({super.key});
+  const WalletScreen({super.key, this.section});
+
+  /// `invite`: the page scrolls to its invite section once it is drawn (every "invite" and "see invites" key opens it so).
+  final String? section;
+
+  static const String inviteSection = 'invite';
 
   @override
   ConsumerState<WalletScreen> createState() => _WalletScreenState();
@@ -35,6 +43,22 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
   /// The history opens at the latest few lines; Show earlier opens everything read.
   bool _expanded = false;
   static const int _recent = 8;
+
+  final GlobalKey _inviteKey = GlobalKey(debugLabel: 'wallet-invite');
+  late bool _scrollPending = widget.section == WalletScreen.inviteSection;
+
+  /// Brings the invite section into view once, as soon as the invite read has answered (before that the section has no
+  /// height, so there is nothing to land on). A read that answered "not live" leaves the page where it is.
+  void _scrollToInvite() {
+    _scrollPending = false;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final target = _inviteKey.currentContext;
+      if (!mounted || target == null || !target.mounted) return;
+      final box = target.findRenderObject();
+      if (box is! RenderBox || !box.hasSize || box.size.height <= 0) return;
+      unawaited(Scrollable.ensureVisible(target, duration: Motion.of(context, Motion.card), curve: Motion.out, alignment: 0.04));
+    });
+  }
 
   @override
   void initState() {
@@ -51,9 +75,14 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
   Widget build(BuildContext context) {
     final view = ref.watch(walletViewProvider);
     final billingOn = ref.watch(playBillingEnabledProvider) && ref.watch(playBillingUserIdProvider) != null;
+    if (_scrollPending) {
+      final invites = ref.watch(referralStatusProvider);
+      if (invites.hasValue || invites.hasError) _scrollToInvite();
+    }
 
     return YouPage(
       title: WalletCopy.title,
+      cacheExtent: widget.section == WalletScreen.inviteSection ? 4000 : null,
       children: [
         if (view.stale)
           const Padding(
@@ -78,7 +107,7 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
         ],
         // Earn before you buy (owner D165): invite a friend and you both get 100 credits. Nothing until the server says
         // invites are live.
-        const WalletInviteSection(),
+        KeyedSubtree(key: _inviteKey, child: const WalletInviteSection()),
         // Top-ups are Google Play's: with PLAY_BILLING off there is nothing to buy, so the section is not
         // drawn at all (no "open soon" promise and no key that does nothing).
         if (ref.watch(playBillingEnabledProvider)) ...[

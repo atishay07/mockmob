@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/theme/theme.dart';
 import '../../core/widgets/widgets.dart';
+import '../you/widgets/you_row.dart' show RowFrame;
 import 'invite_load_failed.dart';
 import 'referral_copy.dart';
 import 'referral_data.dart';
@@ -91,18 +92,23 @@ class _InviteCodeRowState extends ConsumerState<InviteCodeRow> {
     if (load.invitesFailed) return const InviteLoadFailedRow();
     if (status == null || !status.live || status.invitedState != null) return const SizedBox.shrink();
     if (!_open) {
+      // One row with a chevron, like the other rows of the Wallet: it opens the field below.
       return Padding(
-        padding: const EdgeInsets.only(top: MmSpace.s8),
-        child: Align(
-          alignment: AlignmentDirectional.centerStart,
-          child: Transform.translate(
-            offset: const Offset(-MmSpace.s16, 0),
-            child: KeyButton.quiet(
-              label: ReferralCopy.haveCode,
-              onPressed: () {
-                setState(() => _open = true);
-                WidgetsBinding.instance.addPostFrameCallback((_) => _focus.requestFocus());
-              },
+        padding: const EdgeInsets.only(top: MmSpace.s4),
+        child: RowFrame(
+          padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4, vertical: MmSpace.s16),
+          semanticsLabel: ReferralCopy.haveCode,
+          onTap: () {
+            setState(() => _open = true);
+            WidgetsBinding.instance.addPostFrameCallback((_) => _focus.requestFocus());
+          },
+          child: ExcludeSemantics(
+            child: Row(
+              children: [
+                Expanded(child: Text(ReferralCopy.haveCode, style: type.labelLarge.copyWith(fontSize: 16, color: colors.ink))),
+                const SizedBox(width: MmSpace.s8),
+                Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3),
+              ],
             ),
           ),
         ),

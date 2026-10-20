@@ -55,6 +55,9 @@ class TodayHeader extends StatefulWidget {
 }
 
 class _TodayHeaderState extends State<TodayHeader> {
+  /// A phone under 380 dp wide with text at 1.15x or more: the key and the greeting cannot both read whole.
+  static bool _tight(BuildContext context) => MediaQuery.sizeOf(context).width < 380 && MediaQuery.textScalerOf(context).scale(10) >= 11.5;
+
   @override
   Widget build(BuildContext context) {
     final header = widget.header;
@@ -78,10 +81,11 @@ class _TodayHeaderState extends State<TodayHeader> {
             mobi: AskMobiButton(
               figure: widget.showMobi ? const Mobi(pose: MobiPose.greet, size: TodayHeader.mobiSize) : null,
               onTap: widget.onMobi,
-              // "Ask" beside the greeting on a 360 dp phone; Mobi alone while a "Not refreshed" line needs the room.
+              // "Ask Mobi" like the Mob and Practice tabs, at 360 dp too. Only with large text on a phone this narrow does the greeting
+              // need the room back ("Ask"); Mobi alone while a "Not refreshed" line needs it.
               label: header.updatedLine != null
                   ? AskKeyLabel.figureOnly
-                  : (MediaQuery.sizeOf(context).width < 380 ? AskKeyLabel.short : AskKeyLabel.full),
+                  : (_tight(context) ? AskKeyLabel.short : AskKeyLabel.full),
             ),
           ),
         ),

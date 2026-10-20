@@ -10,12 +10,15 @@ import 'data/wallet_data.dart';
 import 'wallet_screen.dart';
 
 class WalletOrCreditsScreen extends ConsumerWidget {
-  const WalletOrCreditsScreen({super.key});
+  const WalletOrCreditsScreen({super.key, this.section});
+
+  /// `invite`: the Wallet opens scrolled to its invite section (the Credits fallback has none and ignores it).
+  final String? section;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     // Failed with nothing cached (a 404 included): fall back. A kept copy still shows the Wallet, stale.
     final unavailable = ref.watch(walletRepositoryProvider.select((s) => s.isFailedEmpty));
-    return unavailable ? const CreditsScreen() : const WalletScreen();
+    return unavailable ? const CreditsScreen() : WalletScreen(section: section);
   }
 }

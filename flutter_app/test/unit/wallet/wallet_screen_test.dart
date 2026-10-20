@@ -7,6 +7,9 @@ import 'package:mockmob/core/api/api_error.dart';
 import 'package:mockmob/core/models/json_helpers.dart' show Json;
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
+import 'package:mockmob/core/router/routes.dart' show AppRoutes;
+import 'package:mockmob/features/referrals/referral_copy.dart';
+import 'package:mockmob/features/referrals/referral_data.dart' show ReferralStatus, referralStatusProvider;
 import 'package:mockmob/features/wallet/data/wallet_data.dart';
 import 'package:mockmob/features/wallet/wallet_copy.dart';
 import 'package:mockmob/features/credits/credits_copy.dart';
@@ -360,6 +363,61 @@ void main() {
         expect(lower.contains(banned), isFalse, reason: '"$s" contains "$banned"');
       }
     }
+  });
+
+  group('opening at the invite section (every "invite" and "see invites" key)', () {
+    final live = referralStatusProvider.overrideWith(
+      (ref) async => const ReferralStatus(live: true, code: 'K7P2M9X', link: 'https://www.mockmob.in/r/K7P2M9X'),
+    );
+
+    Future<void> open(WidgetTester tester, {String? section, bool reduced = true}) async {
+      await pumpMockmob(
+        tester,
+        WalletScreen(section: section),
+        size: const Size(360, 640),
+        wrapInScaffold: false,
+        disableAnimations: reduced,
+        overrides: [...walletOverrides(rig: BillingRig()), live],
+      );
+      await _settle(tester);
+      // The route's stagger and the scroll both finish.
+      await tester.pump(const Duration(seconds: 1));
+    }
+
+    double offset(WidgetTester tester) => tester.state<ScrollableState>(find.byType(Scrollable).first).position.pixels;
+
+    testWidgets('the route carries the target the Wallet reads', (tester) async {
+      expect(Uri.parse(AppRoutes.youCreditsInvite).path, AppRoutes.youCredits);
+      expect(Uri.parse(AppRoutes.youCreditsInvite).queryParameters['section'], WalletScreen.inviteSection);
+    });
+
+    testWidgets('without a target the Wallet opens at its top and the invite is further down', (tester) async {
+      await open(tester);
+      expect(offset(tester), 0);
+      final viewport = tester.getRect(find.byType(Scaffold).first);
+      final figure = find.byKey(const ValueKey('invite-figure'), skipOffstage: false);
+      expect(figure, findsOneWidget);
+      expect(tester.getRect(figure).top, greaterThan(viewport.bottom), reason: 'below the first screen');
+    });
+
+    testWidgets('with ?section=invite the invite section is on screen once the page has settled', (tester) async {
+      await open(tester, section: WalletScreen.inviteSection);
+      expect(offset(tester), greaterThan(0));
+      final viewport = tester.getRect(find.byType(Scaffold).first);
+      final figure = find.byKey(const ValueKey('invite-figure'));
+      expect(figure, findsOneWidget);
+      final rect = tester.getRect(figure);
+      expect(rect.top, greaterThanOrEqualTo(viewport.top));
+      expect(rect.bottom, lessThanOrEqualTo(viewport.bottom));
+      expect(find.text(ReferralCopy.share), findsOneWidget);
+      expect(tester.takeException(), isNull);
+    });
+
+    testWidgets('with motion on it glides there and still lands on the section', (tester) async {
+      await open(tester, section: WalletScreen.inviteSection, reduced: false);
+      expect(offset(tester), greaterThan(0));
+      expect(tester.getRect(find.byKey(const ValueKey('invite-figure'))).bottom, lessThanOrEqualTo(tester.getRect(find.byType(Scaffold).first).bottom));
+    });
   });
 
   group('PackValue: the best value is real maths from Google Play raw prices', () {

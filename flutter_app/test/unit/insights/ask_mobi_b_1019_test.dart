@@ -582,9 +582,15 @@ void main() {
       expect(find.byType(AskMobiButton), findsOneWidget);
       expect(find.text(AskDoorCopy.button), findsOneWidget);
       expect(find.bySemanticsLabel(AskDoorCopy.button), findsOneWidget);
-      // At 360 dp it says "Ask" beside Mobi, as the design draws it; it is still spoken as "Ask Mobi".
+      // At 360 dp it says "Ask Mobi" too, like the Mob and Practice tabs (the owner's v16 walk).
       await pumpMockmob(tester, TodayHeader(header: header, onMobi: () => taps++), size: const Size(360, 200), disableAnimations: true, overrides: insightsOverrides());
+      expect(find.text(AskDoorCopy.button), findsOneWidget);
+      expect(find.text(AskDoorCopy.buttonShort), findsNothing);
+      // With large text on a phone this narrow the greeting needs the room back: "Ask" beside Mobi, still spoken as "Ask Mobi".
+      await pumpMockmob(tester, TodayHeader(header: header, onMobi: () => taps++), size: const Size(360, 200), textScale: 1.3, disableAnimations: true, overrides: insightsOverrides());
       expect(find.text(AskDoorCopy.buttonShort), findsOneWidget);
+      expect(find.bySemanticsLabel(AskDoorCopy.button), findsOneWidget);
+      await pumpMockmob(tester, TodayHeader(header: header, onMobi: () => taps++), size: const Size(360, 200), disableAnimations: true, overrides: insightsOverrides());
       expect(find.bySemanticsLabel(AskDoorCopy.button), findsOneWidget);
       await tester.tap(find.byType(AskMobiButton));
       await tester.pump();

@@ -8,18 +8,25 @@ import 'package:mockmob/core/api/api_providers.dart';
 import 'package:mockmob/core/models/ai_credits.dart';
 import 'package:mockmob/features/credits/data/credits_data.dart' show meCreditsProvider;
 import 'package:mockmob/features/insights/data/mobi_api.dart' show mobiStandingProvider;
+import 'package:mockmob/features/nudges/nudges.dart' show NudgeKind;
 import 'package:mockmob/features/review/data/fix_api.dart' show fixCheckApiProvider;
 import 'package:mockmob/features/review/data/repair_record_api.dart' show serverRepairsProvider;
 import 'package:mockmob/features/wallet/data/wallet_data.dart';
 
 import '../golden/insights/mobi_v13_golden_test.dart' as mobi;
+import 'demo_nudges.dart' show demoNudgeKind;
 import '../golden/review/fix_v13_golden_test.dart' as fix;
 import '../unit/billing/billing_test_support.dart' as billing;
 import '../unit/core_data/support/fakes.dart' as http;
 import '../unit/wallet/wallet_test_support.dart' as wallet;
 import '../unit/you/you_test_support.dart' as you;
 
-const _demoWallet = {'state': 'available', 'known': true, 'total': 46, 'includedMonthlyCredits': 50, 'bonusCredits': 6, 'spendable': 46};
+/// The creditsLow walk (MOCKMOB_DEMO_NUDGE=creditsLow) is a student with 6 credits left, so the nudge and the Wallet agree; every other
+/// walk is Asha with 46 (40 of 50 free this month and 6 kept).
+final bool _low = demoNudgeKind == NudgeKind.creditsLow;
+final int _total = _low ? 6 : 46;
+final int _freeLeft = _low ? 0 : 40;
+final Map<String, Object?> _demoWallet = {'state': 'available', 'known': true, 'total': _total, 'includedMonthlyCredits': 50, 'bonusCredits': 6, 'spendable': _total};
 
 Map<String, Object?> _check(String id, String stem, List<String> options) => {
       'checkQuestionId': id,
@@ -92,7 +99,7 @@ http.FakeReply _serve(dynamic o) {
   return const http.FakeReply(404, {'ok': false, 'error': 'not_found'});
 }
 
-/// Asha's AI credits as the server reports them: 46 to spend (40 of 50 this month and 6 bought).
+/// Asha's AI credits as the server reports them: 46 to spend (40 of 50 this month and 6 bought), or 6 on the creditsLow walk.
 final demoAiCredits = AiCredits.fromJson({'state': 'available', 'wallet': _demoWallet});
 
 List<Override> demoV13Overrides() {
@@ -101,9 +108,9 @@ List<Override> demoV13Overrides() {
   return [
     apiClientProvider.overrideWithValue(http.newApiClient(adapter, now: DateTime.now)),
     ...rig.overrides,
-    // The account sheet's credits tiles: the same 46 (40 of 50 free this month and 6 bought).
-    meCreditsProvider.overrideWith(() => you.FakeMeCredits(you.oneBalanceState(total: 46, freeLeft: 40, held: 6))),
-    walletRepositoryProvider.overrideWith(() => wallet.FakeWalletRepo(wallet.walletState(wallet.walletBody()))),
+    // The account sheet's credits tiles: the same balance as the Wallet (46 normally, 6 on the creditsLow walk).
+    meCreditsProvider.overrideWith(() => you.FakeMeCredits(you.oneBalanceState(total: _total, freeLeft: _freeLeft, held: 6))),
+    walletRepositoryProvider.overrideWith(() => wallet.FakeWalletRepo(wallet.walletState(wallet.walletBody(freeLeft: _freeLeft)))),
     mobiStandingProvider.overrideWith((ref) async => mobi.ready),
     serverRepairsProvider.overrideWith((ref) async => const <String, DateTime>{}),
     fixCheckApiProvider.overrideWithValue(fix.FakeFixChecks()),

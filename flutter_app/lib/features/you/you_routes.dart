@@ -48,7 +48,10 @@ Widget youSheetScreen(BuildContext context, GoRouterState state) => const SheetE
 
 /// The Wallet: `/you/credits` (the path stays so every credits chip and link still lands on it; the
 /// Wallet feature owns the screen, and it lives under You).
-Widget youCreditsScreen(BuildContext context, GoRouterState state) => const WalletOrCreditsScreen();
+///
+/// `?section=invite` opens it scrolled to the invite section.
+Widget youCreditsScreen(BuildContext context, GoRouterState state) =>
+    WalletOrCreditsScreen(section: state.uri.queryParameters['section']);
 
 /// Opens one of this feature's new pages: through the router when the path is registered,
 /// otherwise as a plain pushed page.

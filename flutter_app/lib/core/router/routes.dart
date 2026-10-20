@@ -140,6 +140,9 @@ abstract final class AppRoutes {
   /// Credits: both balances, the plan and the history (the Credits feature owns the screen).
   static const String youCredits = '/you/credits';
 
+  /// The Wallet scrolled to its invite section: every "invite" and "see invites" key lands here, never on the Wallet's top.
+  static const String youCreditsInvite = '/you/credits?section=invite';
+
   /// The Pro page: every Get Pro and upgrade entry opens it (billing feature owns the screen).
   static const String youPro = '/you/pro';
 

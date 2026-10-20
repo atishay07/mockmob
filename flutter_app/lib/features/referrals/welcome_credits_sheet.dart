@@ -74,7 +74,7 @@ class _WelcomeCreditsSheetState extends ConsumerState<WelcomeCreditsSheet> {
 
   static VoidCallback? _routerOpener(BuildContext context) {
     final router = GoRouter.maybeOf(context);
-    return router == null ? null : () => router.push(AppRoutes.youCredits);
+    return router == null ? null : () => router.push(AppRoutes.youCreditsInvite);
   }
 
   @override

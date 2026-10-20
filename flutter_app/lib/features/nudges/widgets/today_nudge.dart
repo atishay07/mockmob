@@ -101,7 +101,7 @@ class _TodayNudgeState extends ConsumerState<TodayNudge> {
     if (mounted) ref.read(nudgeControllerProvider.notifier).close();
   }
 
-  void _openWallet() => unawaited(GoRouter.maybeOf(context)?.push<void>(AppRoutes.youCredits) ?? Future<void>.value());
+  void _openWallet() => unawaited(GoRouter.maybeOf(context)?.push<void>(AppRoutes.youCreditsInvite) ?? Future<void>.value());
 
   /// The invite's share sheet when the link is in hand, else the Wallet's invite section.
   Future<void> _invite() async {

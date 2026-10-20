@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show ScrollCacheExtent;
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/motion/motion.dart';
@@ -21,6 +22,7 @@ class YouPage extends StatelessWidget {
     this.footer,
     this.header,
     this.trailing,
+    this.cacheExtent,
   });
 
   final String title;
@@ -36,6 +38,10 @@ class YouPage extends StatelessWidget {
 
   /// The 28 sp moment headline (default) or the 22 sp title for a long, quiet page.
   final bool large;
+
+  /// How far past the screen the list builds ahead. A page that scrolls itself to a lower section sets it high enough for
+  /// that section to exist (a lazy list builds nothing it cannot see).
+  final double? cacheExtent;
   final double padBottom;
 
   /// The lamp pool in the upper left corner.
@@ -88,6 +94,7 @@ class YouPage extends StatelessWidget {
     return MmStagger(
       driver: MmStaggerDriver.route,
       child: CustomScrollView(
+        scrollCacheExtent: cacheExtent == null ? null : ScrollCacheExtent.pixels(cacheExtent!),
         slivers: [
           SliverToBoxAdapter(child: header ?? YouHeader(title: title, showBack: showBack, large: large, trailing: trailing)),
           SliverList.list(children: [for (var i = 0; i < children.length; i++) MmStaggerItem(index: i, child: children[i])]),
