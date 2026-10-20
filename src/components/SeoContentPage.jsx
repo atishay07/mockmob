@@ -67,7 +67,7 @@ export function SeoContentPage({ page }) {
                 {section.links ? (
                   <div className="mm-article__links">
                     {section.links.map((link) => (
-                      <Link key={link.href} href={link.href} className="mm-chip">
+                      <Link key={link.href} href={link.href} className="mm-chip" data-commerce={link.href.startsWith('/pricing') ? '' : undefined}>
                         {link.label}
                       </Link>
                     ))}
@@ -100,7 +100,7 @@ export function SeoContentPage({ page }) {
                 <Link href="/signup" className="mm-btn mm-btn--primary">
                   Start a free mock
                 </Link>
-                <Link href="/pricing" className="mm-btn mm-btn--secondary">
+                <Link href="/pricing" className="mm-btn mm-btn--secondary" data-commerce="">
                   See what Pro adds
                 </Link>
               </div>

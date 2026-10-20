@@ -311,7 +311,7 @@ export function RazorpayPaymentButton({
 
   if (isPremium) {
     return (
-      <div className="mm-checkout__done">
+      <div className="mm-checkout__done" data-commerce="">
         <div className="mm-checkout__active">
           <ShieldCheck aria-hidden="true" />
           <span>Pro is already active on this account</span>
@@ -327,7 +327,7 @@ export function RazorpayPaymentButton({
   }
 
   return (
-    <div className="mm-checkout">
+    <div className="mm-checkout" data-commerce="">
       {codeOpen || code ? (
       <label className="mm-checkout__field">
         <span className="mm-checkout__label">

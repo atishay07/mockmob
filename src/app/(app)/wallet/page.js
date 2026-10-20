@@ -1,5 +1,6 @@
 import WalletPageClient from './WalletPageClient';
 import { publicOffer } from '@/lib/payments/offer';
+import { AppViewNotice } from '@/components/AppViewNotice';
 
 export const metadata = {
   title: 'Wallet | MockMob',
@@ -14,6 +15,14 @@ function proOfferNow() {
     : { rupees: offer.oneTime.rupees, cycle: 'once', expires: offer.oneTime.expires };
 }
 
+// Opened from the Android app (?from=app): no packs or plans, a plain notice (src/app/app-view.css). The wrapper adds no box.
 export default function WalletPage() {
-  return <WalletPageClient proOffer={proOfferNow()} />;
+  return (
+    <>
+      <AppViewNotice />
+      <div data-commerce-page>
+        <WalletPageClient proOffer={proOfferNow()} />
+      </div>
+    </>
+  );
 }
