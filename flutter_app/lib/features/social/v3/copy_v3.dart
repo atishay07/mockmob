@@ -1457,7 +1457,7 @@ abstract final class MobV4SheetsCopy {
   static const String yourChainLinkLine = 'Your own daily chain, rest passes and pause days';
 
   static const String hoursTitle = 'Mob hours';
-  static const String hoursLine = 'Practice time, this week';
+  static const String hoursLine = 'Practice time, this\u00A0week';
 
   /// "7 h 45 m", "45 m", "10 h".
   static String hm(int minutes) {
@@ -1487,12 +1487,13 @@ abstract final class MobV4SheetsCopy {
   static String hoursNoMinutesYet(String mob) => 'No study time yet this week. It fills as $mob practises.';
   static const String thisWeekFailed = 'This week did not load.';
   static const String hoursOffEveryoneNote = 'Turn on "Show my study time to my Mob" in Mob settings to share yours.';
-  static const String hoursYouOff = 'Your study time is off. Turn on "Show my study time to my Mob" in Mob settings and your hours join this bar.';
+  static const String hoursYouOff = 'Your hours are hidden.';
   static const String hoursYouOn = 'You are sharing your study time. You can turn it off any time in Mob settings.';
   static const String hoursSettingsLink = 'Mob settings';
-  static String hoursTop(String name) => '$name studied the most';
-  static String hoursTopLine(int minutes) => '${hm(minutes)} this week. The crown goes on this week\'s stitch.';
-  static const String tickNote = 'A tick: met their own daily goal on 5 of 7 days.';
+  static String hoursTop(String name, int minutes) => '$name studied the most: ${MobV4ResultsCopy.hm(minutes)}';
+  static const String hoursTopLine = "The crown goes on this week's stitch.";
+  /// Beside the tick badge, which says "a tick" without words.
+  static const String tickNote = 'Met their own daily goal on 5 of 7\u00A0days';
   static String memberHoursSemantics(String name, int minutes, int goalDays, {required bool top}) =>
       '$name, ${hmSpoken(minutes)}${top ? ', studied the most' : ''}. Met their own daily goal on $goalDays of 7 days${goalDays >= 5 ? ', a tick' : ''}.';
   static String studying(String name, DateTime since) => '$name is studying, since ${MobTime.clock(since)}';
