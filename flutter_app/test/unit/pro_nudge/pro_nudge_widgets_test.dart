@@ -209,29 +209,47 @@ void main() {
       final kept = sameKey ? ' (the same page kept)' : '';
       testWidgets('a first mock: the result built under the sealed sheet is not seen, and the reveal brings no row$kept', (tester) async {
         final rig = onboardedStudent();
-        final sealed = ValueNotifier(true);
-        addTearDown(sealed.dispose);
+        // 0: Today, which has read the nudges already, as in the app long before a result opens (so the only thing
+        // that keeps the result under the seal from counting is that its page is not the one on top). 1: the full
+        // result under the sealed sheet. 2: the reveal.
+        final stage = ValueNotifier(0);
+        addTearDown(stage.dispose);
         await pumpNudges(
           tester,
-          ValueListenableBuilder<bool>(
-            valueListenable: sealed,
-            builder: (_, on, _) => Navigator(
+          ValueListenableBuilder<int>(
+            valueListenable: stage,
+            builder: (_, at, _) => Navigator(
               pages: [
+                MaterialPage<void>(
+                  key: const ValueKey('today'),
+                  child: Scaffold(
+                    body: Consumer(builder: (_, ref, _) {
+                      ref.watch(proNudgeProvider);
+                      return const Center(child: Text('today'));
+                    }),
+                  ),
+                ),
                 // The full result is the page under the sealed sheet (`/result/:id` under `/result/:id/sealed`); the reveal
                 // hands over with `go`, which builds it again (a new key) or keeps it.
-                MaterialPage<void>(key: ValueKey(sameKey || !on ? 'full' : 'full-under-seal'), child: Scaffold(body: row)),
-                if (on) const MaterialPage<void>(key: ValueKey('sealed'), child: Scaffold(body: Center(child: Text('sealed')))),
+                if (at >= 1) MaterialPage<void>(key: ValueKey(sameKey || at == 2 ? 'full' : 'full-under-seal'), child: Scaffold(body: row)),
+                if (at == 1) const MaterialPage<void>(key: ValueKey('sealed'), child: Scaffold(body: Center(child: Text('sealed')))),
               ],
               onDidRemovePage: (_) {},
             ),
           ),
           rig,
         );
+        expect(find.text('today'), findsOneWidget);
+        expect(containerOf(tester).read(proNudgeProvider).loaded, isTrue, reason: 'read on Today, before any result opens');
+
+        stage.value = 1;
+        await settleNudges(tester);
         expect(find.text('sealed'), findsOneWidget);
         expect(rig.prefs.values.containsKey('$user.results_viewed'), isFalse, reason: 'built under the seal: not seen yet');
         expect(rig.prefs.values.containsKey('$user.first_result'), isFalse);
+        expect(containerOf(tester).read(proNudgeProvider).resultViewed, isFalse);
 
-        sealed.value = false;
+        stage.value = 2;
         await settleNudges(tester);
         expect(find.text('sealed'), findsNothing);
         expect(find.textContaining(ProNudgeCopy.afterResult), findsNothing, reason: 'the first visible result carries no Pro ask');
