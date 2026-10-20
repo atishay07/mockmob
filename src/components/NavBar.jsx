@@ -16,7 +16,8 @@ const LINKS = [
   { label: 'Cutoff calculator', href: '/cuet-cutoff-calculator', isNew: true },
   { label: 'Your prep tools', href: '/#your-prep' },
   { label: 'CUET PYQs', href: '/cuet-previous-year-questions' },
-  { label: 'Pricing', href: '/pricing' },
+  // data-commerce: hidden in the app's Custom Tabs (src/app/app-view.css, Play Payments policy).
+  { label: 'Pricing', href: '/pricing', commerce: true },
 ];
 
 /** The small New tag: a lime label with a darker green line inside it. */
@@ -105,6 +106,7 @@ export function NavBar() {
               href={link.href}
               className="mm-nav__link"
               aria-current={pathname === link.href ? 'page' : undefined}
+              data-commerce={link.commerce ? '' : undefined}
             >
               {link.label}
               {link.isNew ? <NewTag /> : null}
@@ -166,7 +168,7 @@ export function NavBar() {
             <ThemeToggle />
           </div>
           {LINKS.map((link) => (
-            <Link key={link.href} href={link.href} onClick={closeMenu}>
+            <Link key={link.href} href={link.href} onClick={closeMenu} data-commerce={link.commerce ? '' : undefined}>
               {link.label}
               {link.isNew ? <NewTag /> : null}
               <Icon name="chevR" style={{ width: '18px', height: '18px', marginLeft: 'auto' }} />

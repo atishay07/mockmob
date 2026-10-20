@@ -120,7 +120,7 @@ export function PrepOSCreditPurchaseButton({ pack, className = '', onSuccess }) 
   const success = status === 'success';
 
   return (
-    <div className={className}>
+    <div className={className} data-commerce="">
       <LiquidGlassButton
         type="button"
         variant={pack.featured ? 'volt' : 'ghost'}

@@ -298,7 +298,7 @@ export default function LandingPage() {
                   <p className="lp-cpro__badge">Compass Pro</p>
                   <h3 className="lp-h3">Your practice, mapped to the colleges you want.</h3>
                   <p>Turn your practice into a paper-by-paper range. Set it against your DU shortlist and see which paper has the most marks open.</p>
-                  <Link href="/pricing" className="lp-link">See what Pro includes</Link>
+                  <Link href="/pricing" className="lp-link" data-commerce="">See what Pro includes</Link>
                 </div>
                 <ul className="lp-cpro__list">
                   <li><b>Practice projection</b><span>Each paper out of 250, from your attempt rate and accuracy, shown as a range.</span></li>
@@ -373,7 +373,7 @@ export default function LandingPage() {
         ) : null}
 
         {/* ------------------------------ PRICING --------------------------- */}
-        <section className="lp-sec" id="pricing">
+        <section className="lp-sec" id="pricing" data-commerce="">
           <div className="mm-wrap">
             <MascotSeat station="pricing" pose="attentive" label="No rush. Free stays free." className="pip-seat--utility" />
             <Reveal className="lp-head">
