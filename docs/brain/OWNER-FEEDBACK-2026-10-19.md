@@ -1031,4 +1031,4 @@ Billing page: "Your grace period has started. Your organization went over its qu
 ## Owner, 21 Oct about 3:58 am IST (verbatim)
 > "Is it possible that you can send the Google Play file right now only, because I really have to go to sleep right now, and before that, I have to send the app for review anyhow"
 > "everything is done so whatever you're doing if its not working then stop everything after 10-15 mins im going to sleep"
-(The bundle and OWNER-STEPS were sent at 3:52 am; the folder was completed by 4:05 am.)
+(The bundle and OWNER-STEPS were sent at 3:52 am; the folder was completed by 3:50 am.)

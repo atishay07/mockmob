@@ -156,7 +156,7 @@ Owner rules this evening: D185 (Get Pro, never "See Pro plans"; no text bombardm
 - **Next:** classify the 118 failures (regenerate only intended goldens; any real failure fixed), fix walk findings, bump to 1.0.18+16 with `bash tool/build_release_aab.sh --bump --name 1.0.18 --sell` (+ arm64 APK as in 20 Oct NIGHT), launch-check an x64 release APK, copy AAB/APK/README/symbols/OWNER-STEPS to Desktop\MockMob-build-16.
 - Time-sense "last" ("since your last look", "in each of your last 3 mocks") stays: v13-approved and test-pinned; the rule is applied to "lost"/"behind"/"last place" senses.
 
-## 21 Oct 4:05 am: VERSION 16 DONE (session b7e1b5da, Fable 5.1)
+## 21 Oct 3:52 am: VERSION 16 DONE (session b7e1b5da, Fable 5.1)
 - **App 1.0.18+16 signed:** C:\Users\atish\Desktop\MockMob-build-16 (mockmob-1.0.18+16-sells.aab SHA-256 da7d67a7..., arm64 APK, symbols and mapping, README.txt, OWNER-STEPS.md). Built from ui/1020-v16 f72207c27 (tree dcd87253f + version bump). Owner uploads to Alpha (sent 3:52 am). x64 release launch check on the emulator: MainActivity up, no fatal exception (tmp/walk-1021/v16-release-launch.png).
 - **Website release 16 live** (main 832e88031; STATUS entry 0b7d6bc03): see the STATUS entry; monthly ₹99 and live rooms on.
 - **Evidence:** analyze clean; full suite 10,639 pass / 117 fail = known drift (tmp/v15-night/known-drift.txt) + start_v13_following_picked stale; demo walk 140 shots (tmp/walk-1021/app-v16, JUDGEMENTS.txt), no blockers, 3 high fixed; web suites green, build ok, browser QA no blockers.
