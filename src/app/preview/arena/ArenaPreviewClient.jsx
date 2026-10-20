@@ -627,12 +627,16 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return json(state === 'empty' ? previewBadgesBody('none') : previewBadgesBody(fixture.get('badges')));
     }
     // Weekly goal (Account and onboarding): read 4 days; a save echoes the choice, in memory only.
-    if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: fixture.get('weekdays') === 'none' ? null : [0, 1, 3, 5] });
+    if (url.pathname === '/api/me/goal' && method === 'GET') return json(window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: fixture.get('weekdays') === 'none' ? null : [0, 1, 3, 5], dailyMinutes: Number(fixture.get('minutes')) || null });
     if (url.pathname === '/api/me/goal' && method === 'PUT') {
       if (state === 'save-error') return json({ error: 'Fixture goal save failure' }, 503);
       const body = JSON.parse(init.body || '{}');
+      const was = window.__previewGoal || { daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null, weekdays: fixture.get('weekdays') === 'none' ? null : [0, 1, 3, 5], dailyMinutes: Number(fixture.get('minutes')) || null };
+      // The daily minutes alone leave the days and the pause as they are; sent with the days they are saved with them.
+      const dailyMinutes = body.dailyMinutes === undefined ? was.dailyMinutes ?? null : body.dailyMinutes;
+      if (body.daysPerWeek === undefined && body.weekdays === undefined) { window.__previewGoal = { ...was, dailyMinutes }; return json(window.__previewGoal); }
       const weekdays = Array.isArray(body.weekdays) ? body.weekdays : (window.__previewGoal?.daysPerWeek === body.daysPerWeek ? window.__previewGoal.weekdays ?? null : null);
-      window.__previewGoal = { daysPerWeek: Array.isArray(body.weekdays) ? body.weekdays.length : body.daysPerWeek, timezone: 'Asia/Kolkata', pausedUntil: body.pausedUntil ?? null, weekdays };
+      window.__previewGoal = { daysPerWeek: Array.isArray(body.weekdays) ? body.weekdays.length : body.daysPerWeek, timezone: 'Asia/Kolkata', pausedUntil: body.pausedUntil ?? null, weekdays, dailyMinutes };
       return json(window.__previewGoal);
     }
     // Usage data choice (Account): an adult with usage data off; a save echoes the choice, nothing is stored or deleted.

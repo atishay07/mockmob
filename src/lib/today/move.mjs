@@ -19,6 +19,7 @@
 // The first week is not a checklist: it is this order, and the overline says "Day 3 of your first week" while
 // the first saved session is under 7 days old.
 import { TEST_MODES } from '../../../data/test_modes.js';
+import { isGoalMinutes, practiceFor } from '../../../data/goal_minutes.js';
 import { FIRST_TIMED_COPY, firstTimedMockHref, shortestTimedPaper } from '../../../data/first_timed_mock.js';
 
 export const RETURNING_AFTER_DAYS = 7;
@@ -84,7 +85,9 @@ const pills = (second = 'else') => ({ length: true, second });
  * Returns null while the facts that decide the first matching rule are still loading.
  */
 export function buildMove({ plan = null, planFailed = false, papers = null, rhythm = null, revise = null, facts = null, repaired = null, top = null, subjectName = (id) => id, firstSubject = null, premium = false, minutes = null, now = Date.now() } = {}) {
-  const length = [10, 20, 30].includes(minutes) ? minutes : [10, 20, 30].includes(plan?.minutes) ? plan.minutes : 10;
+  // The length: the one chosen (10, 20 or 30), else the plan's own, which is the account's daily goal when one is set (any whole
+  // number of minutes from 5 to 999), else 10.
+  const length = [10, 20, 30].includes(minutes) ? minutes : isGoalMinutes(plan?.minutes) ? plan.minutes : 10;
   const primary = plan?.primary || null;
 
   if (primary?.kind === 'resume_session') {
@@ -208,13 +211,13 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   }
 
   // Ordinary practice: the plan's own session, aimed at the chapter with the most marks open.
-  const count = length === 10 ? 10 : 20;
+  const { count, review } = practiceFor(length);
   const href = primary?.kind === 'ordinary_practice' ? primary.href : `/dashboard?mode=quick&count=${count}`;
   const aim = top?.subject && top?.chapter ? `${href}${href.includes('?') ? '&' : '?'}${new URLSearchParams({ subject: top.subject, chapter: top.chapter })}` : href;
   return {
     id: 'practice', overline: weekLine || moveWord, number: count, label: top?.chapter ? `questions on ${top.chapter}` : 'practice questions',
     why: top?.chapter ? `${top.chapter} has ${plural(top.open, 'mark')} open in your record, over ${plural(top.sessions, 'session')}.${sparseClause}` : `Marked +5 and −1, the CUET way. Each miss waits in Your papers with its explanation.${sparseClause}`,
-    key: { label: `Start ${count} questions`, href: aim, minutes: length },
+    key: { label: `Start ${count} questions`, href: aim, minutes: count + review },
     link: top?.chapter ? { label: 'See why', href: '/mentor?tab=record' } : null,
     pills: pills(), art: 'object', subject: top?.subject || last?.subject || null, firstWeek,
     chapter: top?.chapter || null, chapterOpen: top?.chapter ? top.open : null, chapterSessions: top?.chapter ? top.sessions : null,
@@ -265,7 +268,7 @@ export function alternatives({ move, papers = null, revise = null, facts = null,
  * as many as fit (about 3 minutes a repair, 1 a Revise question), never more than are open.
  */
 export function fitMove(move, chosen) {
-  if (!move || ![10, 20, 30].includes(chosen)) return move;
+  if (!move || ![10, 20, 30].includes(chosen)) return move; // the chips are 10, 20 and 30; a goal of another length reaches the plan on the server
   if (['repair', 'firstRepair', 'returning'].includes(move.id) && move.open > 0) {
     const n = Math.min(move.open, Math.max(1, Math.floor(chosen / 3)));
     // D15: one label for a mistake to repair; priority is shown by order and the why line ("start with three"), never by "first".

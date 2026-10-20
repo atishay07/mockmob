@@ -61,7 +61,7 @@ test('weekly goal: what the server says, what a save sends, and the words', () =
   assert.equal(goalFromServer({ daysPerWeek: 8 }), null);
   assert.equal(goalFromServer(null), null);
   // The live server sends no `set`: the days in force are the goal.
-  assert.deepEqual(goalFromServer({ daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null }), { days: 4, set: true, pausedUntil: null, weekdays: null });
+  assert.deepEqual(goalFromServer({ daysPerWeek: 4, timezone: 'Asia/Kolkata', pausedUntil: null }), { days: 4, set: true, pausedUntil: null, weekdays: null, dailyMinutes: null });
   assert.equal(goalFromServer({ daysPerWeek: 4, set: false }).set, false);
 
   const now = new Date(2026, 9, 15, 12).getTime();

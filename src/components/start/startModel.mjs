@@ -18,6 +18,7 @@ import { TEST_MODES, practiceCreditCost } from '../../../data/test_modes.js';
 import { DAILY_FREE_LINE, DAILY_FREE_SHORT, DAILY_SET, PRICE_AT_START_LINE, PRICE_AT_START_SHORT, dailySetState, isDailySet } from '../../lib/dailySet.mjs';
 import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
 import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_STATE } from '../../../data/first_full_mock.js';
+import { isGoalMinutes } from '../../../data/goal_minutes.js';
 
 export const PRACTICE_HREF = '/dashboard';
 export const SUBJECT_KEY = 'mm:start-subject:v1';
@@ -301,7 +302,7 @@ export function heroFromPlan(plan, { subject = null, pro = false, balance = null
   }
   // Like Today's button: tonight's plain practice carries the plan's key, so finishing it marks
   // tonight's practice as recorded (data/study_progress.js tonightMetadata).
-  if (practice && primary.kind === 'ordinary_practice' && !plan?.sequence?.length && [10, 20, 30].includes(Number(plan?.minutes))
+  if (practice && primary.kind === 'ordinary_practice' && !plan?.sequence?.length && isGoalMinutes(Number(plan?.minutes))
     && /^[a-zA-Z0-9_-]{12,100}$/.test(String(tonightKey || ''))) {
     params.set('tonightKey', tonightKey);
     params.set('tonightMinutes', String(plan.minutes));

@@ -100,7 +100,7 @@ test('mode capability copy never ranks question quality', () => {
 });
 
 test('the chosen 10/20/30 minutes sets the ordinary practice session size', () => {
-  assert.deepEqual([10, 20, 30, 99].map((m) => practiceForMinutes(m).count), [10, 20, 20, 10]);
+  assert.deepEqual([10, 20, 30, 99].map((m) => practiceForMinutes(m).count), [10, 20, 20, 20]);
   const plan = learningPlan({ minutes: 20 });
   assert.equal(plan.primary.kind, 'ordinary_practice');
   assert.equal(plan.primary.href, '/dashboard?mode=quick&count=20');

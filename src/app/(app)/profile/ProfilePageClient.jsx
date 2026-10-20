@@ -310,7 +310,7 @@ export default function ProfilePageClient() {
               under your sheet on a phone (account.css order); plan and billing sit lower. */}
           <AccountGlance userId={user?.id} />
           <section className="glass acct-card" id="goal" aria-labelledby="acct-goal-h">
-            <h2 className="acct-h2" id="acct-goal-h">Weekly goal</h2>
+            <h2 className="acct-h2" id="acct-goal-h">Your goal</h2>
             <GoalControl />
           </section>
           <PlanCredits userId={user?.id} />

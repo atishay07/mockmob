@@ -11,6 +11,8 @@ import { pathwayDigest } from '@/../data/pathway_validation';
 import { studyRecord, getStudyPreferences } from './study';
 import { withPlanActions } from './actionFields';
 import { guidedSequence, istDay } from '@/../data/study_engine';
+import { goalMinutesOr } from '@/../data/goal_minutes';
+import { getDailyMinutes } from './appPrefs';
 
 export const durableLearningEnabled = () => process.env.LEARNING_SESSIONS_ENABLED === 'true';
 const readManifest = () => JSON.parse(readFileSync(`${process.cwd()}/data/recovery_pathways.json`, 'utf8'));
@@ -46,15 +48,25 @@ export async function validateCurrentPathway(p) {
 }
 
 export async function learningRecord(userId, { subject, minutes, memo } = {}) {
+  // Any whole number of minutes from 5 to 999 is a length (data/goal_minutes.js); the app keeps long daily goals whole.
+  // The order of who decides: the length asked for, then the Pro plan's day, then the daily goal on the account, then the
+  // usual length in the study preferences, then 10.
+  minutes = goalMinutesOr(minutes, null);
+  let usual = null;
   if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
     try {
       const prefs=await getStudyPreferences(userId);
       const weekday=(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7;
       const weekly=prefs.premium ? prefs.weeklyPlan?.[weekday] : null;
       if(!subject) subject=weekly?.subject;
-      if(![10,20,30].includes(minutes)) minutes=weekly?.minutes || prefs.minutes;
+      if(minutes==null) minutes=goalMinutesOr(weekly?.minutes, null);
+      usual=goalMinutesOr(prefs.minutes, null);
     } catch { /* Existing learning record remains available if study storage is not deployed. */ }
   }
+  // The daily goal on the account (null before the student sets one, or before the column is applied). It rides on the plan so a
+  // page that changes the usual length knows whether the account holds a goal that must change with it.
+  const goalMinutes = await getDailyMinutes(userId);
+  if (minutes == null) minutes = goalMinutes ?? usual ?? undefined;
   const db = supabaseAdmin();
   const attempts = await Database.getAttempts(userId, { memo }); // a caller that already read them in this request passes its memo
   const [episodeResult, sessionResult] = await Promise.all([
@@ -79,13 +91,13 @@ export async function learningRecord(userId, { subject, minutes, memo } = {}) {
       const weakChapters=attempts.slice(0,10).flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>{const q=attempt.questionsSnapshot?.find(q=>q.id===answer.qid);return q?.chapter ? {subject:q.subject || attempt.subject,chapter:q.chapter} : null;}).filter(Boolean));
       const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts,weakChapters});
       if (study.state === 'ready') {
-        const sequence = guidedSequence(plan,study,plan.minutes);
+        const sequence = guidedSequence(plan,study,plan.minutes,{attempts:attempts.length});
         suite = { sequence, primary:sequence[0] || plan.primary, study:{dueCards:study.queue.dueCount,lessonsRead:study.progress.lessonsRead,preferences:study.preferences,weekday:(new Date(`${istDay(Date.now())}T00:00:00Z`).getUTCDay()+6)%7} };
       }
     } catch { suite = { studyState:'unavailable' }; } // Existing practice remains usable during rollback.
   }
   const withActions = withPlanActions({ ...plan, ...suite });
-  return { ...withActions, episodes,
+  return { ...withActions, goalMinutes, episodes,
     pathwayState: available.length ? 'available' : 'blocked_content', supportedConcepts: available.map(p => ({ id: p.id, subject: p.subject, title: p.title })),
     recordState: episodeResult.error ? 'unavailable' : 'ready', ordinaryAttemptCount: attempts.length,
     tonight: tonightCompletion(attempts), milestones: studyMilestones(attempts, episodes) };

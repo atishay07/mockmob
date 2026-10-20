@@ -18,6 +18,8 @@ import { practiceForMinutes } from '@/../data/learning_engine';
 
 const TIMES = [10, 20, 30];
 const TIME_OPTIONS = TIMES.map((n) => ({ value: n, label: `${n} min` }));
+// A daily goal of another length (any whole number from 5 to 999) shows as its own choice, so the control never reads as nothing chosen.
+const timeOptions = (value) => (!value || TIMES.includes(value) ? TIME_OPTIONS : [...TIME_OPTIONS, { value, label: `${value} min` }].sort((a, b) => a.value - b.value));
 const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
 
 // The planned minutes, rolling from the old choice to the new one (the countUp token, 420 ms). It first shows the real value.
@@ -132,6 +134,8 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
       const input={minutes:n,expectedRevision:prefs.revision};
       if(prefs.premium && prefs.weeklyPlan)input.weeklyPlan=prefs.weeklyPlan.map((day,index)=>index===plan.study.weekday?{...day,minutes:n}:day);
       await api('/api/study/preferences',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify(input)});
+      // The usual length is the daily goal when the account holds one, so the two change together.
+      if(plan.goalMinutes!=null)await api('/api/me/goal',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({dailyMinutes:n})}).catch(()=>{});
       setMinutes(null);setPlan(null);setRetryCount(value=>value+1);
     }catch{setError('Your time preference could not be saved. Reload your plan and try again.');}finally{setChoosing(false);}
   };
@@ -182,7 +186,7 @@ export default function LearningNextAction({ compact = false, why = null, quiet 
           {plan && !error ? <h2 className="na__title na__title--hero">{recorded ? 'Tonight’s practice is recorded.' : heroTitle(plan, top, planned)}</h2> : null}
           <fieldset className="na__time">
             <legend className="na__time-label">{recorded ? 'More practice tonight' : 'Tonight’s plan'}{planned ? <>, <MinutesRoll value={planned} /></> : null}</legend>
-            <SegmentedControl size="sm" label="Time for practice" value={minutes ?? plan?.minutes} busy={choosing} onChange={chooseTime} options={TIME_OPTIONS} />
+            <SegmentedControl size="sm" label="Time for practice" value={minutes ?? plan?.minutes} busy={choosing} onChange={chooseTime} options={timeOptions(minutes ?? plan?.minutes)} />
           </fieldset>
           {error ? (
             // A time that did not save: one line in place, the plan below it unchanged.

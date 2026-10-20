@@ -7,6 +7,7 @@
 //
 // Copy rules: sentence case, no "!", no em dash, no middle dots, 12-hour times.
 import { CUET_MAX_SUBJECTS } from '../../lib/cuetRules.mjs';
+import { GOAL_MINUTES_MAX, GOAL_MINUTES_MIN, isGoalMinutes, minutesLine } from '../../../data/goal_minutes.js';
 import { WEEKDAY_NAMES, WEEKDAY_SHORT, parseWeekdays, weekdaysLine } from '../../lib/studyWeekdays.mjs';
 
 // ---------------------------------------------------------------------------------------------
@@ -100,7 +101,7 @@ export const GOAL_DAYS = Object.freeze([1, 2, 3, 4, 5, 6, 7]);
 export const GOAL_WEEKDAYS = Object.freeze(WEEKDAY_NAMES.map((name, index) => Object.freeze({ index, name, short: WEEKDAY_SHORT[index] })));
 
 export const GOAL_COPY = Object.freeze({
-  title: 'Weekly goal',
+  title: 'Your goal',
   question: 'Which days do you want to study?',
   noDaysYet: 'Choose at least one day.',
   counts: 'A study day is a day you finish a scored session of at least 5 answers, or a Mistake Repair. Today and Progress plan around this number.',
@@ -111,7 +112,32 @@ export const GOAL_COPY = Object.freeze({
   retry: 'Try again',
   notChosen: 'You have not chosen a goal yet. Today plans with 4 days until you do.',
   everyDay: 'Every day of the week. There are no rest days at this goal.',
+  minutesQuestion: 'How long do you want to study on a study day?',
+  minutesOwn: 'Or type your own, in minutes',
+  minutesRange: `Choose a whole number from ${GOAL_MINUTES_MIN} to ${GOAL_MINUTES_MAX} minutes.`,
+  minutesNotSet: 'You have not set a daily time yet. Today plans with your usual session length until you do.',
+  minutesBigDay: 'That is a big day. Short breaks between papers help the marks stick.',
+  minutesNotSaved: 'We could not keep your daily time on your account yet. Your study days are saved. Try the time again in a little while.',
 });
+
+/** The daily-time chips (minutes); any whole number from 5 to 999 can also be typed. */
+export const GOAL_MINUTES_CHIPS = Object.freeze([10, 20, 30, 45, 60, 90, 120]);
+/** The chip label: "45 min", and whole hours in words ("1 hour", "2 hours"). */
+export const goalMinutesLabel = (minutes) => (minutes >= 60 && minutes % 60 === 0 ? minutesLine(minutes) : `${minutes} min`);
+/** A typed daily time: the minutes when it is a whole number from 5 to 999 ("45", " 45 "), else null. */
+export function parseMinutesInput(text) {
+  const t = String(text ?? '').trim();
+  if (!/^\d{1,3}$/.test(t)) return null;
+  const n = Number(t);
+  return isGoalMinutes(n) ? n : null;
+}
+/** Under the chips: "45 minutes a day. With 4 study days that is 3 hours a week." plus the calm line above 4 hours. */
+export function goalMinutesLine(minutes, days) {
+  if (!isGoalMinutes(minutes)) return '';
+  const d = Number.isInteger(days) && days >= 1 && days <= 7 ? days : null;
+  const week = d ? ` With ${d} study ${d === 1 ? 'day' : 'days'} that is ${minutesLine(minutes * d)} a week.` : '';
+  return `${minutesLine(minutes)} a day.${week}${minutes > 240 ? ` ${GOAL_COPY.minutesBigDay}` : ''}`;
+}
 
 /** "4 days a week" / "1 day a week". */
 export function goalLine(days) {
@@ -136,7 +162,8 @@ export function goalFromServer(body) {
   // `weekdays` (0 = Monday) is believed only while its count is the goal; a server that sends none means "not chosen".
   const parsed = parseWeekdays(body.weekdays);
   const weekdays = parsed.ok && parsed.weekdays.length === days ? parsed.weekdays : null;
-  return { days, set: body.set !== false, pausedUntil: typeof body.pausedUntil === 'string' ? body.pausedUntil : null, weekdays };
+  // `dailyMinutes`: the daily time in minutes (5 to 999), null when none is set; a server that sends none (an older deploy) reads as none.
+  return { days, set: body.set !== false, pausedUntil: typeof body.pausedUntil === 'string' ? body.pausedUntil : null, weekdays, dailyMinutes: isGoalMinutes(body.dailyMinutes) ? body.dailyMinutes : null };
 }
 
 /** The chip list after a tap: the day is added or removed, always sorted, never a repeat. */
@@ -176,9 +203,10 @@ export function activePause(pausedUntil, now = Date.now()) {
 }
 
 /** The body of a goal save. The server replaces the whole row, so a pause made in the app is sent back. */
-export function goalSaveBody(days, pausedUntil, now = Date.now(), weekdays = undefined) {
+export function goalSaveBody(days, pausedUntil, now = Date.now(), weekdays = undefined, dailyMinutes = undefined) {
   const body = { daysPerWeek: days, pausedUntil: activePause(pausedUntil, now) };
   if (Array.isArray(weekdays)) body.weekdays = [...weekdays].sort((a, b) => a - b);
+  if (isGoalMinutes(dailyMinutes)) body.dailyMinutes = dailyMinutes;
   return body;
 }
 
@@ -204,7 +232,8 @@ export function goalSavedLine(date = new Date()) {
 /** The line for a save that did not happen. Nothing was changed in every case. */
 export function goalErrorLine(error) {
   if (error?.kind === 'network') return 'We could not reach MockMob. Your goal was not changed. Check your connection and try again.';
-  if (error?.status === 422) return 'That goal was not accepted. Pick from 1 to 7 days.';
+  if (error?.status === 422) return 'That goal was not accepted. Pick from 1 to 7 days, and from 5 to 999 minutes a day.';
+  if (error?.status === 409) return GOAL_COPY.minutesNotSaved;
   if (error?.status === 401) return 'Your session has ended. Sign in again, then set your goal.';
   return 'We could not save your goal. Nothing was changed. Try again.';
 }

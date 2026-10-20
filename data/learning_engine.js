@@ -2,6 +2,7 @@
 // Software fixtures must never be passed to production as academic evidence.
 import { solveReasoningStep } from './recovery_solvers.js';
 import { FIRST_FULL_MOCK_KIND_PREFIX, FIRST_FULL_MOCK_PERIOD } from './first_full_mock.js';
+import { goalMinutesOr, practiceFor } from './goal_minutes.js';
 const DAY = 86400000;
 export const CONCEPT_BLUEPRINTS = [
   ['accountancy', 'sacrificing_gaining', 'Sacrificing and gaining ratios', 'numeric_step'],
@@ -161,11 +162,11 @@ export function allowancePeriod(kind, now) {
   return kind.startsWith('baseline:') || kind.startsWith('full_sample:') ? 'cuet_2027' : ist.toISOString().slice(0, 10);
 }
 
-// 10/20/30 minutes → Quick practice size. Quick practice allows at most 20 questions, so the
-// 30-minute choice adds a review block instead of inventing a longer timed set.
+// Daily goal minutes (5 to 999) -> Quick practice size. Quick practice allows at most 20 questions, so a goal of 30
+// minutes or more adds a review block (never more than 30 minutes of it) instead of inventing a longer timed set.
+// 10, 20 and 30 give what they always did (data/goal_minutes.js).
 export function practiceForMinutes(minutes) {
-  const m = [10, 20, 30].includes(Number(minutes)) ? Number(minutes) : 10;
-  return m === 10 ? { count: 10, review: 0 } : m === 20 ? { count: 20, review: 0 } : { count: 20, review: 10 };
+  return practiceFor(minutes);
 }
 
 // Facts are deterministic statements from the student's own record ('record') or a product rule
@@ -174,7 +175,7 @@ const istTime = t => new Date(t).toLocaleString('en-IN', { timeZone: 'Asia/Kolka
 const fact = (basis, text) => ({ basis, text });
 
 export function learningPlan({ episodes = [], activeSession, attempts = [], subject = 'economics', minutes = 10, now = Date.now(), availableConcepts = [] }) {
-  const duration = [10, 20, 30].includes(Number(minutes)) ? Number(minutes) : 10;
+  const duration = goalMinutesOr(Number(minutes), 10);
   const action = (kind, title, href, reason, evidence = [], facts = []) => ({ kind, title, href, reason, duration, availability: 'available', evidence, facts });
   const plural = (n, word) => `${n} ${word}${n === 1 ? '' : 's'}`;
   let primary;
