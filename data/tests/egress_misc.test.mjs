@@ -4,6 +4,10 @@ import { readFileSync } from 'node:fs';
 import { createBoardCache, createTtlMemo } from '../ttl_memo.js';
 import { standingFor, topContributorCounts } from '../../src/lib/server/standing.js';
 import { readCohortWithTime, MAX_CACHED_QUESTIONS } from '../../src/lib/server/cohortStats.js';
+import { ITEM_COLUMNS, SEED_COLUMNS, getRevise, itemChunk } from '../../src/lib/server/revise.js';
+import { fakeDb as reviseFakeDb } from '../../scripts/mistake-lab/fake-db.mjs';
+import { USER, REVISE_NOW, reviseWorld } from '../../scripts/mistake-lab/build-s4-fixtures.mjs';
+import { rng } from './helpers/egress_fixtures.mjs';
 
 // Egress items A12, A13/F16, F17, F18 (20 Oct 2026): small shared reads kept briefly, and column narrowing with dead reads removed.
 const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
@@ -162,4 +166,44 @@ test('F18: the cohort table reads each question once, drops its memo when the ta
   const code = src('src/lib/server/cohortStats.js');
   assert.match(code, /if \(memo\.version !== newest\) \{ memo\.rows\.clear\(\); memo\.version = newest; \}/);
   assert.match(code, /NEWEST_MEMO_MS = 5 \* 60 \* 1000/);
+});
+
+test('F15: Revise reads a chunk of the room plus a few, finds the same items and skips as reading a hundred, and the columns are narrower', async () => {
+  // The loop of getRevise over a due list: walk in order, ask what is eligible, stop at `room`. Old: chunks of 100. New: itemChunk.
+  const walk = (due, room, eligible, chunkSize) => {
+    const items = []; let skipped = 0; let rowsRead = 0;
+    for (let at = 0; at < due.length && items.length < room;) {
+      const size = chunkSize(items.length);
+      const chunk = due.slice(at, at + size); at += size; rowsRead += chunk.length;
+      for (const c of chunk) { if (items.length >= room) break; if (eligible(c)) items.push(c); else skipped += 1; }
+    }
+    return { items, skipped, rowsRead };
+  };
+  const rand = rng(15);
+  for (let round = 0; round < 300; round += 1) {
+    const due = Array.from({ length: Math.floor(rand() * 250) }, (_, i) => i);
+    const room = [5, 10][Math.floor(rand() * 2)];
+    const bad = rand() * 0.9;
+    const blocked = new Set(due.filter(() => rand() < bad));
+    const ok = (c) => !blocked.has(c);
+    const old = walk(due, room, ok, () => 100);
+    const next = walk(due, room, ok, (have) => itemChunk(room, have, 100));
+    assert.deepEqual({ items: next.items, skipped: next.skipped }, { items: old.items, skipped: old.skipped }, `round ${round}`);
+    assert.ok(next.rowsRead <= old.rowsRead);
+  }
+  assert.equal(itemChunk(10, 0), 14);
+  assert.equal(itemChunk(10, 9), 5);
+  assert.equal(itemChunk(5, 0, 3), 3);
+  assert.equal(itemChunk(10, 10), 4);
+  // the real getRevise: same body as before on the fixture world, and the questions are asked for the narrow lists
+  const world = reviseWorld();
+  const db = reviseFakeDb({ questions: world.questions, progress: world.progress, cards: world.cards });
+  const got = await getRevise(USER, { db, now: REVISE_NOW });
+  assert.deepEqual(got.body.items.map((i) => i.questionId), ['r-q5', 'r-q1', 'r-q2', 'r-q3']);
+  assert.equal(SEED_COLUMNS.includes('explanation') || SEED_COLUMNS.includes('passage_text'), false);
+  assert.equal(ITEM_COLUMNS.includes('passage_text') && !ITEM_COLUMNS.includes('explanation'), true);
+  const code = src('src/lib/server/revise.js');
+  assert.match(code, /loadQuestions\(db, candidates\.map\(\(c\) => c\.question_id\), SEED_COLUMNS\)/);
+  assert.match(code, /ITEM_COLUMNS\);/);
+  assert.match(code, /loadQuestions\(client_, \[questionId\]\)\)\.get\(questionId\)/, 'answering still reads the explanation');
 });

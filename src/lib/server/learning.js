@@ -5,6 +5,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { currentRegistry, publicationEligibility, sharedEligibilitySnapshot } from '@/../data/evidence_registry';
 import { excludeHeldFamilies } from '@/../data/evidence_holds';
+import { readRowsCached } from '@/../data/question_row_cache';
 import { validatePathway, createEpisode, advanceEpisode, publicEpisode, learningPlan, allowancePeriod, permittedStep } from '@/../data/learning_engine';
 import { tonightCompletion, studyMilestones } from '@/../data/study_progress';
 import { pathwayDigest } from '@/../data/pathway_validation';
@@ -39,7 +40,9 @@ export async function validateCurrentPathway(p) {
   if (p.state !== 'released' || !registered || registered.digest !== digest || registered.version !== p.version || registered.calibrationState !== 'released' || registered.ruleVersion !== p.ruleVersion || registered.sourceVersion !== p.sourceVersion) throw new Error('PATHWAY_EVIDENCE_UNAVAILABLE');
   const items = [...p.probes, ...p.repair, ...p.checks];
   const db = supabaseAdmin();
-  const { data, error } = await db.from('questions').select('*').in('id', items.map(i => i.questionId));
+  // Only when LEARNING_SESSIONS_ENABLED and RECOVERY_PATHWAYS_ENABLED are on: the same pathway rows are read on every learning record, so a
+  // row whose updated_at has not moved is not read again (data/question_row_cache.js); the verdicts below are still computed fresh.
+  const { data, error } = await readRowsCached(db, items.map(i => i.questionId));
   if (error) throw new Error('CONTENT_EVIDENCE_UNAVAILABLE');
   const current = await excludeHeldFamilies(data || [], db);
   for (const i of items) {
