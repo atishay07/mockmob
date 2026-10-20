@@ -10,6 +10,7 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/features/billing/billing.dart' show playBillingEnabledProvider;
 import 'package:mockmob/features/social/data/mob_repository.dart' show mobPrefsStoreProvider;
 import 'package:mockmob/features/social/v3/copy_v3.dart';
+import 'package:mockmob/features/social/v3/data/mob_v3_models.dart' show FoldKey;
 import 'package:mockmob/features/social/v3/logic/explainer_flow.dart';
 import 'package:mockmob/features/social/v3/screens/den_start_screen.dart';
 import 'package:mockmob/features/social/v3/screens/join_v3_screen.dart';
@@ -197,6 +198,21 @@ void main() {
       expect(explainerSeenKey('u1'), 'mob.explainer.v1.seen.u1');
       expect(explainerSeenKey('u2'), isNot(explainerSeenKey('u1')));
       expect(explainerSeenKey(null), 'mob.explainer.v1.seen.anon');
+    });
+
+    test('setup validation: each key goes on only when its answer is there', () {
+      const none = SetupAnswers();
+      expect(SetupAnswers.canGoOn(SetupStep.fold, none), isFalse);
+      expect(SetupAnswers.canGoOn(SetupStep.fold, const SetupAnswers(fold: FoldKey.dart)), isTrue);
+      expect(SetupAnswers.canGoOn(SetupStep.name, const SetupAnswers(fold: FoldKey.dart)), isFalse);
+      expect(SetupAnswers.canGoOn(SetupStep.name, const SetupAnswers(nameKey: 0)), isTrue);
+      expect(SetupAnswers.canGoOn(SetupStep.subject, const SetupAnswers(subject: 'accountancy')), isTrue);
+      const full = SetupAnswers(fold: FoldKey.hexa, nameKey: 3, subject: 'economics', name: 'Aarav');
+      expect(SetupAnswers.canGoOn(SetupStep.you, full), isTrue);
+      for (final bad in ['', 'A', '12', 'Aaaaaaaaaaaaaaaaaaaa']) {
+        expect(SetupAnswers.canGoOn(SetupStep.you, SetupAnswers(fold: FoldKey.hexa, nameKey: 3, subject: 'economics', name: bad)), isFalse, reason: bad);
+      }
+      expect(SetupAnswers.canGoOn(SetupStep.you, const SetupAnswers(nameKey: 3, subject: 'economics', name: 'Aarav')), isFalse);
     });
 
     test('the flow: skip targets and end keys per way in', () {
