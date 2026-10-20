@@ -22,6 +22,7 @@ import '../../../../core/motion/motion.dart';
 import '../../../../core/motion/motion_tokens.g.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../../../core/api/api_providers.dart' show nowProvider;
 import '../../../billing/billing.dart' show playBillingEnabledProvider;
 import '../../data/mob_repository.dart' show mobRepositoryProvider;
 import '../copy_v3.dart';
@@ -69,7 +70,11 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
   static const int _last = ExplainerFlow.last;
 
   late final List<AnimationController> clocks = [
-    for (var i = 0; i < ExplainerFlow.slides; i++) AnimationController(vsync: this, duration: Duration(milliseconds: ExSlides.lengthMs[i].round())),
+    for (var i = 0; i < ExplainerFlow.slides; i++)
+      AnimationController(
+        vsync: this,
+        duration: Duration(milliseconds: ExSlides.lengthMs[i].round()),
+      ),
   ];
   late final AnimationController _track = AnimationController.unbounded(vsync: this, value: widget.initialSlide.toDouble());
   late final AnimationController _fade = AnimationController(vsync: this, duration: MotionDurations.reducedFade, value: 1);
@@ -243,9 +248,19 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
     final nav = Navigator.of(context);
     switch (exit) {
       case ExplainerExit.setup:
-        nav.pushReplacement(MaterialPageRoute<void>(builder: (_) => const MobSetupScreen(), settings: const RouteSettings(name: '/mob/start')));
+        nav.pushReplacement(
+          MaterialPageRoute<void>(
+            builder: (_) => const MobSetupScreen(),
+            settings: const RouteSettings(name: '/mob/start'),
+          ),
+        );
       case ExplainerExit.join:
-        nav.pushReplacement(MaterialPageRoute<void>(builder: (_) => JoinV3Screen(code: widget.code), settings: const RouteSettings(name: '/join')));
+        nav.pushReplacement(
+          MaterialPageRoute<void>(
+            builder: (_) => JoinV3Screen(code: widget.code),
+            settings: const RouteSettings(name: '/join'),
+          ),
+        );
       case ExplainerExit.den:
         nav.maybePop();
     }
@@ -262,7 +277,11 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
     final type = context.mmType;
     final scaler = MediaQuery.textScalerOf(context);
     double h(String text, TextStyle style, double w) {
-      final p = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: scaler)..layout(maxWidth: w);
+      final p = TextPainter(
+        text: TextSpan(text: text, style: style),
+        textDirection: TextDirection.ltr,
+        textScaler: scaler,
+      )..layout(maxWidth: w);
       final out = p.height;
       p.dispose();
       return out;
@@ -297,7 +316,7 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
                   final room = height - _top - (i == _last ? _bottomFinal : _bottom) - _gap - _textNeed(context, i, width, billingOn);
                   stageH = math.min(stageH, room);
                 }
-                stageH = stageH.clamp(math.min(220.0, natural), natural);
+                stageH = stageH.clamp(math.min(150.0, natural), natural);
                 return Center(
                   child: SizedBox(
                     width: width,
@@ -367,10 +386,7 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
                       top: 0,
                       bottom: 0,
                       width: width,
-                      child: Opacity(
-                        opacity: i == index ? _fade.value : 1,
-                        child: _slide(context, i, width, stageH, billingOn),
-                      ),
+                      child: Opacity(opacity: i == index ? _fade.value : 1, child: _slide(context, i, width, stageH, billingOn)),
                     ),
               ],
             );
@@ -408,16 +424,20 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
                       width: ExStage.w,
                       height: ExStage.h,
                       child: MediaQuery.withNoTextScaling(
-                        child: ExSlides.stage(context, i, t, ExFx.of(context, billingOn: billingOn)),
+                        child: ExSlides.stage(context, i, t, ExFx.of(context, billingOn: billingOn, now: ref.read(nowProvider)())),
                       ),
                     ),
                   ),
                 ),
               ),
               const SizedBox(height: _gap),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: MmSpace.s20),
-                child: Semantics(
+              // The words always fit: on a small phone with large text the stage gives way first, and
+              // past its smallest size the words scroll above the keys.
+              Expanded(
+                child: SingleChildScrollView(
+                  physics: const ClampingScrollPhysics(),
+                  padding: EdgeInsets.fromLTRB(MmSpace.s20, 0, MmSpace.s20, i == _last ? _bottomFinal : _bottom),
+                  child: Semantics(
                   liveRegion: current,
                   label: current ? MobExplainerCopy.slideLive(i, title, body) : MobExplainerCopy.slideLabel(i, title),
                   excludeSemantics: true,
@@ -426,20 +446,38 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
                     children: [
                       Opacity(
                         opacity: to,
-                        child: Transform.translate(offset: Offset(0, tdy), child: Text(title, key: ValueKey('ex-title-$i'), style: type.headline.copyWith(color: c.ink))),
+                        child: Transform.translate(
+                          offset: Offset(0, tdy),
+                          child: Text(
+                            title,
+                            key: ValueKey('ex-title-$i'),
+                            style: type.headline.copyWith(color: c.ink),
+                          ),
+                        ),
                       ),
                       const SizedBox(height: 10),
                       Opacity(
                         opacity: bo,
-                        child: Transform.translate(offset: Offset(0, bdy), child: Text(body, key: ValueKey('ex-body-$i'), style: type.body.copyWith(color: c.ink2))),
+                        child: Transform.translate(
+                          offset: Offset(0, bdy),
+                          child: Text(
+                            body,
+                            key: ValueKey('ex-body-$i'),
+                            style: type.body.copyWith(color: c.ink2),
+                          ),
+                        ),
                       ),
                       if (i == 2)
                         Opacity(
                           opacity: co,
-                          child: Transform.translate(offset: Offset(0, cdy), child: const Padding(padding: EdgeInsets.only(top: 14), child: _ComingSoon())),
+                          child: Transform.translate(
+                            offset: Offset(0, cdy),
+                            child: const Padding(padding: EdgeInsets.only(top: 14), child: _ComingSoon()),
+                          ),
                         ),
                     ],
                   ),
+                ),
                 ),
               ),
             ],
@@ -469,52 +507,57 @@ class MobExplainerScreenState extends ConsumerState<MobExplainerScreen> with Tic
                 alignment: Alignment.lerp(const Alignment(-1, 0), Alignment.center, dotsCentre)!,
                 child: Padding(
                   padding: EdgeInsets.symmetric(horizontal: lerpDouble(24, 0, dotsCentre)),
-                  child: ExcludeSemantics(child: _Dots(index: index, colour: c.ink, quiet: c.ink4)),
+                  child: ExcludeSemantics(
+                    child: _Dots(index: index, colour: c.ink, quiet: c.ink4),
+                  ),
                 ),
               ),
             ),
             // Next, slides 1 to 6.
-            Positioned(
-              right: MmSpace.s20,
-              bottom: 24,
-              child: IgnorePointer(
-                ignoring: f > 0.5,
-                child: Opacity(
-                  opacity: (1 - f * 2).clamp(0.0, 1.0),
-                  child: ConstrainedBox(
-                    constraints: const BoxConstraints(minWidth: 116),
-                    child: KeyButton.secondary(key: const ValueKey('ex-next'), label: MobExplainerCopy.next, hapticOnCommit: false, onPressed: f > 0.5 ? null : next),
-                  ),
-                ),
-              ),
-            ),
-            // Slide 7: the end keys rise 12 dp (360, 80 delay).
-            Positioned(
-              left: MmSpace.s20,
-              right: MmSpace.s20,
-              bottom: 28,
-              child: IgnorePointer(
-                ignoring: f < 0.5,
-                child: Opacity(
-                  opacity: keysT,
-                  child: Transform.translate(
-                    offset: Offset(0, (1 - keysT) * 12),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        for (var k = 0; k < keys.length; k++) ...[
-                          if (k > 0) const SizedBox(height: MmSpace.s8),
-                          keys[k].primary
-                              ? KeyButton(key: ValueKey('ex-end-$k'), label: keys[k].label, onPressed: f < 0.5 ? null : () => _leave(keys[k].exit))
-                              : KeyButton.secondary(key: ValueKey('ex-end-$k'), label: keys[k].label, onPressed: f < 0.5 ? null : () => _leave(keys[k].exit)),
-                        ],
-                      ],
+            if (f < 1)
+              Positioned(
+                right: MmSpace.s20,
+                bottom: 24,
+                child: IgnorePointer(
+                  ignoring: f > 0.5,
+                  child: Opacity(
+                    opacity: (1 - f * 2).clamp(0.0, 1.0),
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(minWidth: 116),
+                      child: KeyButton.secondary(key: const ValueKey('ex-next'), label: MobExplainerCopy.next, hapticOnCommit: false, expanded: false, onPressed: f > 0.5 ? null : next),
                     ),
                   ),
                 ),
               ),
-            ),
+            // Slide 7: the end keys rise 12 dp (360, 80 delay). Built only when they show (no hidden keys
+            // for a screen reader).
+            if (f > 0)
+              Positioned(
+                left: MmSpace.s20,
+                right: MmSpace.s20,
+                bottom: 28,
+                child: IgnorePointer(
+                  ignoring: f < 0.5,
+                  child: Opacity(
+                    opacity: keysT,
+                    child: Transform.translate(
+                      offset: Offset(0, (1 - keysT) * 12),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          for (var k = 0; k < keys.length; k++) ...[
+                            if (k > 0) const SizedBox(height: MmSpace.s8),
+                            keys[k].primary
+                                ? KeyButton(key: ValueKey('ex-end-$k'), label: keys[k].label, onPressed: f < 0.5 ? null : () => _leave(keys[k].exit))
+                                : KeyButton.secondary(key: ValueKey('ex-end-$k'), label: keys[k].label, onPressed: f < 0.5 ? null : () => _leave(keys[k].exit)),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
           ],
         );
       },
@@ -564,10 +607,15 @@ class _ComingSoon extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
         child: Text.rich(
-          TextSpan(children: [
-            TextSpan(text: MobExplainerCopy.comingSoonLead, style: TextStyle(color: c.ink, fontWeight: FontWeight.w600)),
-            TextSpan(text: ' ${MobExplainerCopy.comingSoon}'),
-          ]),
+          TextSpan(
+            children: [
+              TextSpan(
+                text: MobExplainerCopy.comingSoonLead,
+                style: TextStyle(color: c.ink, fontWeight: FontWeight.w600),
+              ),
+              TextSpan(text: ' ${MobExplainerCopy.comingSoon}'),
+            ],
+          ),
           key: const ValueKey('ex-coming-soon'),
           style: type.caption.copyWith(fontSize: 13.5, color: c.ink2),
         ),
@@ -628,13 +676,9 @@ class _MobJoinGateState extends ConsumerState<MobJoinGate> {
 
   @override
   Widget build(BuildContext context) => switch (_phase) {
-        _GatePhase.checking => Scaffold(backgroundColor: context.mmColors.ground),
-        _GatePhase.explainer => MobExplainerScreen(
-            via: ExplainerVia.invite,
-            code: widget.code,
-            onExit: (e) => setState(() => _phase = e == ExplainerExit.setup ? _GatePhase.setup : _GatePhase.join),
-          ),
-        _GatePhase.join => JoinV3Screen(code: widget.code),
-        _GatePhase.setup => const MobSetupScreen(),
-      };
+    _GatePhase.checking => Scaffold(backgroundColor: context.mmColors.ground),
+    _GatePhase.explainer => MobExplainerScreen(via: ExplainerVia.invite, code: widget.code, onExit: (e) => setState(() => _phase = e == ExplainerExit.setup ? _GatePhase.setup : _GatePhase.join)),
+    _GatePhase.join => JoinV3Screen(code: widget.code),
+    _GatePhase.setup => const MobSetupScreen(),
+  };
 }

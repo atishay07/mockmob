@@ -93,7 +93,7 @@ class DenStartScreen extends ConsumerWidget {
                       const SizedBox(height: MmSpace.s12),
                       KeyButton.secondary(key: const ValueKey('d0-join'), label: MobV3Copy.joinWithCode, onPressed: () => MobV3Nav.joinMob(context)),
                       const SizedBox(height: MmSpace.s4),
-                      Center(child: KeyButton.quiet(key: const ValueKey('d0-how'), label: MobExplainerCopy.howItWorks, onPressed: () => MobV3Nav.howItWorks(context))),
+                      Center(child: KeyButton.quiet(key: const ValueKey('d0-how'), label: MobExplainerCopy.howItWorks, expanded: false, onPressed: () => MobV3Nav.howItWorks(context))),
                       SizedBox(height: MmSpace.s32 + MediaQuery.viewPaddingOf(context).bottom),
                     ],
                   ),

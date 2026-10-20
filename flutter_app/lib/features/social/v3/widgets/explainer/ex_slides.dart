@@ -25,8 +25,7 @@ import 'ex_kit.dart';
 class ExFx {
   const ExFx({required this.night, required this.lite, required this.billingOn, required this.now});
 
-  factory ExFx.of(BuildContext context, {required bool billingOn, DateTime? now}) =>
-      ExFx(night: context.mmColors.isNight, lite: MobFx.lite(context), billingOn: billingOn, now: now ?? DateTime.now());
+  factory ExFx.of(BuildContext context, {required bool billingOn, DateTime? now}) => ExFx(night: context.mmColors.isNight, lite: MobFx.lite(context), billingOn: billingOn, now: now ?? DateTime.now());
 
   final bool night;
   final bool lite;
@@ -42,14 +41,14 @@ abstract final class ExSlides {
   static const List<double> lengthMs = [1650, 4400, 3000, 4900, 4400, 4300, 2950];
 
   static Widget stage(BuildContext context, int i, ExTime t, ExFx fx) => switch (i) {
-        0 => _SlideDen(t: t, fx: fx),
-        1 => _SlideFold(t: t, fx: fx),
-        2 => _SlideGames(t: t, fx: fx),
-        3 => _SlidePodium(t: t, fx: fx),
-        4 => _SlideFix(t: t, fx: fx),
-        5 => _SlideStitch(t: t, fx: fx),
-        _ => _SlideShelf(t: t, fx: fx),
-      };
+    0 => _SlideDen(t: t, fx: fx),
+    1 => _SlideFold(t: t, fx: fx),
+    2 => _SlideGames(t: t, fx: fx),
+    3 => _SlidePodium(t: t, fx: fx),
+    4 => _SlideFix(t: t, fx: fx),
+    5 => _SlideStitch(t: t, fx: fx),
+    _ => _SlideShelf(t: t, fx: fx),
+  };
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -88,8 +87,15 @@ TextStyle _hanken(BuildContext context, double size, {FontWeight w = FontWeight.
 TextStyle _figure(BuildContext context, double size, Color colour) => context.mmType.figureCompact.copyWith(fontSize: size, height: 1, color: colour);
 
 /// A burst and glints layer over the whole stage.
-Widget _sparks(ExTime t, {List<ExBurst> bursts = const [], List<ExGlints> glints = const []}) =>
-    t.reduced ? const SizedBox.shrink() : Positioned.fill(child: IgnorePointer(child: CustomPaint(painter: ExSparkPainter(ms: t.ms, bursts: bursts, glints: glints))));
+Widget _sparks(ExTime t, {List<ExBurst> bursts = const [], List<ExGlints> glints = const []}) => t.reduced
+    ? const SizedBox.shrink()
+    : Positioned.fill(
+        child: IgnorePointer(
+          child: CustomPaint(
+            painter: ExSparkPainter(ms: t.ms, bursts: bursts, glints: glints),
+          ),
+        ),
+      );
 
 /// A brightness filter (the room comes up from 0.3: light first).
 Widget _bright(double b, Widget child) {
@@ -127,17 +133,75 @@ class _SlideDen extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.hardEdge,
       children: [
-        Positioned.fill(child: _o(roomO, _bright(room, Image.asset(scene, fit: BoxFit.cover, alignment: const Alignment(0.12, 0.2), filterQuality: FilterQuality.medium, errorBuilder: (_, _, _) => ColoredBox(color: c.sunken))))),
-        _pos(40, 296, 290, 96, _o(poolO, Transform.scale(scale: lerpD(0.55, 1, poolK), child: CustomPaint(painter: ExPoolPainter(lampA: p.lampA))))),
+        Positioned.fill(
+          child: _o(
+            roomO,
+            _bright(
+              room,
+              Image.asset(
+                scene,
+                fit: BoxFit.cover,
+                alignment: const Alignment(0.12, 0.2),
+                filterQuality: FilterQuality.medium,
+                errorBuilder: (_, _, _) => ColoredBox(color: c.sunken),
+              ),
+            ),
+          ),
+        ),
+        _pos(
+          40,
+          296,
+          290,
+          96,
+          _o(
+            poolO,
+            Transform.scale(
+              scale: lerpD(0.55, 1, poolK),
+              child: CustomPaint(painter: ExPoolPainter(lampA: p.lampA)),
+            ),
+          ),
+        ),
         // The art meets the ground (a functional scrim).
-        Positioned(left: 0, right: 0, bottom: 0, height: 60, child: DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [c.ground.withValues(alpha: 0), c.ground])))),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 60,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [c.ground.withValues(alpha: 0), c.ground]),
+            ),
+          ),
+        ),
         Positioned(
           left: 271,
           top: 8,
-          child: _o(po, Transform.translate(offset: Offset(0, pdy), child: Transform.rotate(angle: prot, alignment: Alignment.topCenter, child: const Pennant(weeks: 3, width: 58)))),
+          child: _o(
+            po,
+            Transform.translate(
+              offset: Offset(0, pdy),
+              child: Transform.rotate(angle: prot, alignment: Alignment.topCenter, child: const Pennant(weeks: 3, width: 58)),
+            ),
+          ),
         ),
         // The open seat.
-        _pos(296, 278, 46, 56, _o(so, Transform.scale(scale: ss, child: _OpenSeat(colour: c.ink3, fill: c.ground.withValues(alpha: fx.night ? 0.25 : 0.35), icon: c.ink2)))),
+        _pos(
+          296,
+          278,
+          46,
+          56,
+          _o(
+            so,
+            Transform.scale(
+              scale: ss,
+              child: _OpenSeat(
+                colour: c.ink3,
+                fill: c.ground.withValues(alpha: fx.night ? 0.25 : 0.35),
+                icon: c.ink2,
+              ),
+            ),
+          ),
+        ),
         for (var i = 0; i < seats.length; i++)
           ...exFold(
             fold: seats[i].$1,
@@ -151,7 +215,15 @@ class _SlideDen extends StatelessWidget {
             night: fx.night,
           ),
         for (var i = 0; i < seats.length; i++)
-          exTag(context, seats[i].$2, x: seats[i].$3, top: seats[i].$4 + 3, kind: seats[i].$1 == FoldKey.dart ? ExTagKind.you : ExTagKind.plain, reveal: t.engrave(720 + i * 90.0), opacity: t.engraveO(720 + i * 90.0)),
+          exTag(
+            context,
+            seats[i].$2,
+            x: seats[i].$3,
+            top: seats[i].$4 + 3,
+            kind: seats[i].$1 == FoldKey.dart ? ExTagKind.you : ExTagKind.plain,
+            reveal: t.engrave(720 + i * 90.0),
+            opacity: t.engraveO(720 + i * 90.0),
+          ),
         exTag(context, MobExplainerCopy.openSeat, x: 319, top: 337, kind: ExTagKind.dim, reveal: t.engrave(1060), opacity: t.engraveO(1060)),
       ],
     );
@@ -166,9 +238,9 @@ class _OpenSeat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => CustomPaint(
-        painter: _DashedRRect(colour: colour, fill: fill, radius: 14),
-        child: Center(child: Icon(LucideIcons.plus, size: 18, color: icon)),
-      );
+    painter: _DashedRRect(colour: colour, fill: fill, radius: 14),
+    child: Center(child: Icon(LucideIcons.plus, size: 18, color: icon)),
+  );
 }
 
 class _DashedRRect extends CustomPainter {
@@ -246,13 +318,7 @@ class _SlideFold extends StatelessWidget {
     final (tickShare, tickO) = t.draw(980, 420);
     final tickEdge = t.fade(1100);
 
-    Widget content({required bool crease}) => _SheetContent(
-          paper: p,
-          pencil: (pencilO, pencilS),
-          cFill: (cFillO, cFillS),
-          cLetter: cLetter,
-          crease: crease ? (creaseShare, creaseO) : null,
-        );
+    Widget content({required bool crease}) => _SheetContent(paper: p, pencil: (pencilO, pencilS), cFill: (cFillO, cFillS), cLetter: cLetter, crease: crease ? (creaseShare, creaseO) : null);
 
     final flaps = <Widget>[];
     if (!r) {
@@ -260,7 +326,11 @@ class _SlideFold extends StatelessWidget {
       for (var k = 0; k < 4; k++) {
         final start = 1560 + k * 90.0;
         final a = seg(ms, start, 420, MotionCurves.emphasized) * math.pi;
-        flaps.add(Positioned.fill(child: _Flap(corner: order[k], angle: a, paper: p, front: content(crease: true))));
+        flaps.add(
+          Positioned.fill(
+            child: _Flap(corner: order[k], angle: a, paper: p, front: content(crease: true)),
+          ),
+        );
       }
     }
 
@@ -278,47 +348,123 @@ class _SlideFold extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.hardEdge,
       children: [
-        Positioned.fill(child: CustomPaint(painter: _GridPaper(ink: c.ink, night: fx.night))),
-        Positioned(left: 0, right: 0, bottom: 0, height: 70, child: DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [c.ground.withValues(alpha: 0), c.ground])))),
-        Positioned.fill(child: CustomPaint(painter: ExLampPainter(cx: cx, coneW: 330, coneH: 378, lampA: p.lampA, scaleX: coneScale, cone: cone, bright: flare, shade: shade, shadeDy: r ? 0 : -12 * (1 - shade)))),
+        Positioned.fill(
+          child: CustomPaint(
+            painter: _GridPaper(ink: c.ink, night: fx.night),
+          ),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          height: 70,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [c.ground.withValues(alpha: 0), c.ground]),
+            ),
+          ),
+        ),
+        Positioned.fill(
+          child: CustomPaint(
+            painter: ExLampPainter(cx: cx, coneW: 330, coneH: 378, lampA: p.lampA, scaleX: coneScale, cone: cone, bright: flare, shade: shade, shadeDy: r ? 0 : -12 * (1 - shade)),
+          ),
+        ),
         // The sheet, its corners and the diamond it folds into.
-        _pos(cx - sz / 2, cy - sz / 2 + wdy, sz, sz, _o(
-          wo * wrapOut,
-          Transform.rotate(
-            angle: sheetRot,
-            child: Transform.scale(
-              scale: sheetScale,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned(left: 10, right: 10, top: sz - 4, height: 16, child: _o(1 - shrink, CustomPaint(painter: _SoftOval(alpha: p.shadowA)))),
-                  Positioned.fill(child: _o(flatO, DecoratedBox(decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: p.shadowA * 0.6), blurRadius: 24, offset: const Offset(0, 10))])))),
-                  Positioned.fill(child: ClipPath(clipper: const _Diamond(), child: ColoredBox(color: p.paper, child: content(crease: true)))),
-                  // The fix: a volt tick on C.
-                  Positioned.fill(child: _o(tickO, CustomPaint(painter: _FixTick(share: tickShare, edge: tickEdge)))),
-                  ...flaps,
-                  Positioned.fill(child: _o(tint, ClipPath(clipper: const _Diamond(), child: const ColoredBox(color: Color(0xFFCDE52A))))),
-                  Positioned(
-                    left: sz * 0.26,
-                    top: sz * 0.4,
-                    width: sz * 0.48,
-                    height: sz * 0.2,
-                    child: _o(visorK, Transform(alignment: Alignment.center, transform: Matrix4.diagonal3Values(lerpD(0.4, 1, visorK), 1, 1), child: const _Visor())),
-                  ),
-                ],
+        _pos(
+          cx - sz / 2,
+          cy - sz / 2 + wdy,
+          sz,
+          sz,
+          _o(
+            wo * wrapOut,
+            Transform.rotate(
+              angle: sheetRot,
+              child: Transform.scale(
+                scale: sheetScale,
+                child: Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Positioned(
+                      left: 10,
+                      right: 10,
+                      top: sz - 4,
+                      height: 16,
+                      child: _o(1 - shrink, CustomPaint(painter: _SoftOval(alpha: p.shadowA))),
+                    ),
+                    Positioned.fill(
+                      child: _o(
+                        flatO,
+                        DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(3),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withValues(alpha: p.shadowA * 0.6),
+                                blurRadius: 24,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned.fill(
+                      child: ClipPath(
+                        clipper: const _Diamond(),
+                        child: ColoredBox(color: p.paper, child: content(crease: true)),
+                      ),
+                    ),
+                    // The fix: a volt tick on C.
+                    Positioned.fill(
+                      child: _o(
+                        tickO,
+                        CustomPaint(
+                          painter: _FixTick(share: tickShare, edge: tickEdge),
+                        ),
+                      ),
+                    ),
+                    ...flaps,
+                    Positioned.fill(
+                      child: _o(
+                        tint,
+                        ClipPath(
+                          clipper: const _Diamond(),
+                          child: const ColoredBox(color: Color(0xFFCDE52A)),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: sz * 0.26,
+                      top: sz * 0.4,
+                      width: sz * 0.48,
+                      height: sz * 0.2,
+                      child: _o(visorK, Transform(alignment: Alignment.center, transform: Matrix4.diagonal3Values(lerpD(0.4, 1, visorK), 1, 1), child: const _Visor())),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        )),
+        ),
         _pos(cx - 46, mobiBase - 7, 92, 14, _o(mShadow, CustomPaint(painter: _SoftOval(alpha: p.shadowA)))),
-        _pos(cx - 0.56 * mobiW, mobiTop, mobiW, mobiH, _o(
-          mobiO,
-          Transform.scale(
-            scale: mobiScale,
-            alignment: const Alignment(0.12, 0.94),
-            child: Transform.rotate(angle: sway, alignment: const Alignment(0.12, 0.94), child: Image.asset('assets/art/mobi-greet.webp', fit: BoxFit.contain, filterQuality: FilterQuality.medium, errorBuilder: (_, _, _) => const SizedBox.shrink())),
+        _pos(
+          cx - 0.56 * mobiW,
+          mobiTop,
+          mobiW,
+          mobiH,
+          _o(
+            mobiO,
+            Transform.scale(
+              scale: mobiScale,
+              alignment: const Alignment(0.12, 0.94),
+              child: Transform.rotate(
+                angle: sway,
+                alignment: const Alignment(0.12, 0.94),
+                child: Image.asset('assets/art/mobi-greet.webp', fit: BoxFit.contain, filterQuality: FilterQuality.medium, errorBuilder: (_, _, _) => const SizedBox.shrink()),
+              ),
+            ),
           ),
-        )),
+        ),
         for (var i = 0; i < ring.length; i++)
           ...exFold(
             fold: ring[i].$1,
@@ -337,7 +483,10 @@ class _SlideFold extends StatelessWidget {
         _sparks(
           t,
           bursts: [ExBurst(x: cx, y: cy - 10, n: fx.bits(18), at: 2660, floor: mobiBase + 2, seed: 21, up: 140)],
-          glints: [ExGlints(x: cx + 14, y: cy - 6, n: 4, r: 22, at: 1180, colour: ExPaper.volt), const ExGlints(x: cx, y: cy - 20, n: 6, r: 70, at: 2700, rot: 0.3)],
+          glints: [
+            ExGlints(x: cx + 14, y: cy - 6, n: 4, r: 22, at: 1180, colour: ExPaper.volt),
+            const ExGlints(x: cx, y: cy - 20, n: 6, r: 70, at: 2700, rot: 0.3),
+          ],
         ),
       ],
     );
@@ -364,8 +513,21 @@ class _SheetContent extends StatelessWidget {
       children: [
         Positioned(left: 14, top: 12, child: Text(MobExplainerCopy.sheetQuestion, style: small)),
         Positioned(right: 14, top: 12, child: Text(MobExplainerCopy.sheetMarks, style: small)),
-        for (var i = 0; i < 3; i++) Positioned(left: 28, right: 28, top: sz / 2 + 30 + i * 11, height: 1.5, child: ColoredBox(color: paper.line)),
-        Positioned(left: 28, width: 80, top: sz / 2 - 40, height: 1.5, child: ColoredBox(color: paper.line)),
+        for (var i = 0; i < 3; i++)
+          Positioned(
+            left: 28,
+            right: 28,
+            top: sz / 2 + 30 + i * 11,
+            height: 1.5,
+            child: ColoredBox(color: paper.line),
+          ),
+        Positioned(
+          left: 28,
+          width: 80,
+          top: sz / 2 - 40,
+          height: 1.5,
+          child: ColoredBox(color: paper.line),
+        ),
         for (var i = 0; i < 4; i++)
           Positioned(
             left: 21 + i * 34,
@@ -384,7 +546,12 @@ class _SheetContent extends StatelessWidget {
           ),
         if (crease != null)
           Positioned.fill(
-            child: _o(crease!.$2, CustomPaint(painter: ExLinePainter(a: const Offset(10, sz - 22), b: const Offset(sz - 12, 26), share: crease!.$1, colour: paper.ink.withValues(alpha: 0.38), dash: (5, 4)))),
+            child: _o(
+              crease!.$2,
+              CustomPaint(
+                painter: ExLinePainter(a: const Offset(10, sz - 22), b: const Offset(sz - 12, 26), share: crease!.$1, colour: paper.ink.withValues(alpha: 0.38), dash: (5, 4)),
+              ),
+            ),
           ),
       ],
     );
@@ -408,13 +575,40 @@ class _Bubble extends StatelessWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
-        Container(decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: paper.ink2, width: 1.5))),
+        Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: paper.ink2, width: 1.5),
+          ),
+        ),
         Text(letter, style: style),
         if (pencil != null)
           Positioned.fill(
-            child: _o(pencil!.$1, Transform.scale(scale: pencil!.$2, child: const DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, gradient: RadialGradient(center: Alignment(-0.2, -0.3), colors: [Color(0xFF8D887E), Color(0xFF5E5A52)]))))),
+            child: _o(
+              pencil!.$1,
+              Transform.scale(
+                scale: pencil!.$2,
+                child: const DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    gradient: RadialGradient(center: Alignment(-0.2, -0.3), colors: [Color(0xFF8D887E), Color(0xFF5E5A52)]),
+                  ),
+                ),
+              ),
+            ),
           ),
-        if (fill != null) Positioned.fill(child: _o(fill!.$1, Transform.scale(scale: fill!.$2, child: DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: paper.ink))))),
+        if (fill != null)
+          Positioned.fill(
+            child: _o(
+              fill!.$1,
+              Transform.scale(
+                scale: fill!.$2,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(shape: BoxShape.circle, color: paper.ink),
+                ),
+              ),
+            ),
+          ),
         if (fill != null) _o(letterOnFill, Text(letter, style: style.copyWith(color: paper.paper))),
       ],
     );
@@ -481,9 +675,7 @@ class _Flap extends StatelessWidget {
       transform: m,
       child: ClipPath(
         clipper: _Corner(corner),
-        child: showFront
-            ? ColoredBox(color: paper.paper, child: front)
-            : ColoredBox(color: Color.lerp(paper.paper, paper.back, backShade.clamp(0.0, 1.0) / 0.6)!),
+        child: showFront ? ColoredBox(color: paper.paper, child: front) : ColoredBox(color: Color.lerp(paper.paper, paper.back, backShade.clamp(0.0, 1.0) / 0.6)!),
       ),
     );
   }
@@ -522,16 +714,32 @@ class _Visor extends StatelessWidget {
   const _Visor();
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, box) {
-      final w = box.maxWidth;
-      final h = box.maxHeight;
-      Widget eye(double left) => Positioned(left: left, top: h * 0.28, width: w * 0.09, height: h * 0.46, child: DecoratedBox(decoration: BoxDecoration(color: const Color(0xFFF3EFE4), borderRadius: BorderRadius.circular(w * 0.04))));
-      return Stack(children: [
-        Positioned.fill(child: DecoratedBox(decoration: BoxDecoration(color: const Color(0xFF12110E), borderRadius: BorderRadius.circular(h / 2)))),
-        eye(w * 0.28),
-        eye(w * 0.63),
-      ]);
-    });
+    return LayoutBuilder(
+      builder: (context, box) {
+        final w = box.maxWidth;
+        final h = box.maxHeight;
+        Widget eye(double left) => Positioned(
+          left: left,
+          top: h * 0.28,
+          width: w * 0.09,
+          height: h * 0.46,
+          child: DecoratedBox(
+            decoration: BoxDecoration(color: const Color(0xFFF3EFE4), borderRadius: BorderRadius.circular(w * 0.04)),
+          ),
+        );
+        return Stack(
+          children: [
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(color: const Color(0xFF12110E), borderRadius: BorderRadius.circular(h / 2)),
+              ),
+            ),
+            eye(w * 0.28),
+            eye(w * 0.63),
+          ],
+        );
+      },
+    );
   }
 }
 
@@ -540,11 +748,11 @@ class _SoftOval extends CustomPainter {
   final double alpha;
   @override
   void paint(Canvas canvas, Size size) => canvas.drawOval(
-        Offset.zero & size,
-        Paint()
-          ..color = Colors.black.withValues(alpha: alpha * 0.7)
-          ..maskFilter = MaskFilter.blur(BlurStyle.normal, size.height * 0.35),
-      );
+    Offset.zero & size,
+    Paint()
+      ..color = Colors.black.withValues(alpha: alpha * 0.7)
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, size.height * 0.35),
+  );
   @override
   bool shouldRepaint(_SoftOval old) => old.alpha != alpha;
 }
@@ -580,12 +788,7 @@ class _SlideGames extends StatelessWidget {
   final ExTime t;
   final ExFx fx;
 
-  static const List<Rect> slots = [
-    Rect.fromLTWH(16, 44, 158, 148),
-    Rect.fromLTWH(186, 44, 158, 148),
-    Rect.fromLTWH(16, 202, 158, 164),
-    Rect.fromLTWH(186, 202, 158, 164),
-  ];
+  static const List<Rect> slots = [Rect.fromLTWH(16, 44, 158, 148), Rect.fromLTWH(186, 44, 158, 148), Rect.fromLTWH(16, 202, 158, 164), Rect.fromLTWH(186, 202, 158, 164)];
   static const List<double> stackTilt = [-7, -2.5, 3, 8];
   static const List<double> restTilt = [-1.2, 0.9, 0.7, -1];
 
@@ -620,18 +823,33 @@ class _SlideGames extends StatelessWidget {
         rot = lerpD(stackTilt[i], restTilt[i], k) * _deg;
         scale = lerpD(0.84, 1, k);
       }
-      cards.add(Positioned(
-        left: at.dx - slot.width / 2,
-        top: at.dy - slot.height / 2,
-        width: slot.width,
-        height: slot.height,
-        child: _o(o, Transform.rotate(angle: rot, child: Transform.scale(scale: scale, child: _GameCard(i: i, t: t, paper: p)))),
-      ));
+      cards.add(
+        Positioned(
+          left: at.dx - slot.width / 2,
+          top: at.dy - slot.height / 2,
+          width: slot.width,
+          height: slot.height,
+          child: _o(
+            o,
+            Transform.rotate(
+              angle: rot,
+              child: Transform.scale(
+                scale: scale,
+                child: _GameCard(i: i, t: t, paper: p),
+              ),
+            ),
+          ),
+        ),
+      );
     }
     return Stack(
       clipBehavior: Clip.hardEdge,
       children: [
-        Positioned.fill(child: CustomPaint(painter: ExLampPainter(cx: 180, coneW: 360, coneH: 380, lampA: p.lampA, cone: cone, scaleX: r ? 1 : lerpD(0.75, 1, cone), shade: r ? t.fade(0) : seg(ms, 0, 300, MotionCurves.out)))),
+        Positioned.fill(
+          child: CustomPaint(
+            painter: ExLampPainter(cx: 180, coneW: 360, coneH: 380, lampA: p.lampA, cone: cone, scaleX: r ? 1 : lerpD(0.75, 1, cone), shade: r ? t.fade(0) : seg(ms, 0, 300, MotionCurves.out)),
+          ),
+        ),
         ...cards,
       ],
     );
@@ -651,13 +869,16 @@ class _GameCard extends StatelessWidget {
     final line = _hanken(context, 12.5, colour: paper.ink2, height: 16);
     final foot = _hanken(context, 11.5, w: FontWeight.w500, colour: paper.ink2, height: 15);
     Widget footRow(String text) => Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(padding: const EdgeInsets.only(top: 1.5), child: Icon(LucideIcons.clock, size: 12, color: paper.ink2)),
-            const SizedBox(width: 5),
-            Expanded(child: Text(text, style: foot)),
-          ],
-        );
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 1.5),
+          child: Icon(LucideIcons.clock, size: 12, color: paper.ink2),
+        ),
+        const SizedBox(width: 5),
+        Expanded(child: Text(text, style: foot)),
+      ],
+    );
     final detail = switch (i) {
       0 => _sprint(context, land),
       1 => _round(context, land),
@@ -674,21 +895,41 @@ class _GameCard extends StatelessWidget {
       decoration: paper.sheet(radius: 8),
       child: Stack(
         children: [
-          Positioned(right: 0, top: 0, child: CustomPaint(size: const Size(16, 16), painter: _DogEar(back: paper.back, ground: context.mmColors.ground))),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(12, 11, 12, 11),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(padding: const EdgeInsets.only(right: 10), child: Text(title, style: label)),
-                const SizedBox(height: 6),
-                detail,
-                if (sub != null) ...[const SizedBox(height: 6), Text(sub, style: line)],
-                const Spacer(),
-                footRow(footText),
-              ],
+          Positioned(
+            right: 0,
+            top: 0,
+            child: CustomPaint(
+              size: const Size(16, 16),
+              painter: _DogEar(back: paper.back, ground: context.mmColors.ground),
             ),
           ),
+          // The top of the card is clipped, never overflowing; the foot keeps to the bottom edge.
+          Positioned(
+            left: 12,
+            top: 11,
+            right: 12,
+            bottom: 34,
+            child: ClipRect(
+              child: OverflowBox(
+                alignment: Alignment.topLeft,
+                maxHeight: double.infinity,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(right: 10),
+                      child: Text(title, style: label),
+                    ),
+                    const SizedBox(height: 6),
+                    detail,
+                    if (sub != null) ...[const SizedBox(height: 6), Text(sub, style: line)],
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(left: 12, right: 12, bottom: 10, child: footRow(footText)),
         ],
       ),
     );
@@ -704,7 +945,10 @@ class _GameCard extends StatelessWidget {
           children: [
             Text(MobExplainerCopy.sprintFigure, style: _figure(context, 44, paper.ink)),
             const SizedBox(width: 6),
-            Padding(padding: const EdgeInsets.only(bottom: 4), child: Text(MobExplainerCopy.sprintLine, style: _hanken(context, 12.5, colour: paper.ink2, height: 16))),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 4),
+              child: Text(MobExplainerCopy.sprintLine, style: _hanken(context, 12.5, colour: paper.ink2, height: 16)),
+            ),
           ],
         ),
         const SizedBox(height: 10),
@@ -732,7 +976,21 @@ class _GameCard extends StatelessWidget {
       height: 26,
       child: Stack(
         children: [
-          Positioned(left: hx, top: 0, width: chipW, height: 26, child: _o(ho, Transform.scale(scale: hs, child: DecoratedBox(decoration: BoxDecoration(color: paper.ink, borderRadius: BorderRadius.circular(13)))))),
+          Positioned(
+            left: hx,
+            top: 0,
+            width: chipW,
+            height: 26,
+            child: _o(
+              ho,
+              Transform.scale(
+                scale: hs,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(color: paper.ink, borderRadius: BorderRadius.circular(13)),
+                ),
+              ),
+            ),
+          ),
           for (var j = 0; j < 3; j++)
             Positioned(
               left: j * (chipW + gap),
@@ -740,13 +998,11 @@ class _GameCard extends StatelessWidget {
               width: chipW,
               height: 26,
               child: DecoratedBox(
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(13), border: Border.all(color: paper.ink2.withValues(alpha: 0.55))),
-                child: Center(
-                  child: Text(
-                    MobExplainerCopy.roundLengths[j],
-                    style: _figure(context, 15, j == pickIndex && ho > 0.5 ? paper.paper : paper.ink),
-                  ),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(13),
+                  border: Border.all(color: paper.ink2.withValues(alpha: 0.55)),
                 ),
+                child: Center(child: Text(MobExplainerCopy.roundLengths[j], style: _figure(context, 15, j == pickIndex && ho > 0.5 ? paper.paper : paper.ink))),
               ),
             ),
         ],
@@ -757,7 +1013,16 @@ class _GameCard extends StatelessWidget {
   // Rematch: a loop drawn round.
   Widget _rematch(BuildContext context, double land) {
     final (share, o) = t.draw(land + 200, 420);
-    return SizedBox(width: 30, height: 30, child: _o(o, CustomPaint(painter: _LoopPainter(share: share, colour: paper.ink))));
+    return SizedBox(
+      width: 30,
+      height: 30,
+      child: _o(
+        o,
+        CustomPaint(
+          painter: _LoopPainter(share: share, colour: paper.ink),
+        ),
+      ),
+    );
   }
 
   // The Mob paper: "10 questions in 10 minutes", a clock's hand sweeping ten minutes.
@@ -771,7 +1036,13 @@ class _GameCard extends StatelessWidget {
           children: [
             Text(MobExplainerCopy.paperFigure, style: _figure(context, 44, paper.ink)),
             const SizedBox(width: 10),
-            SizedBox(width: 30, height: 30, child: CustomPaint(painter: _ClockPainter(sweep: sweep, ink: paper.ink, quiet: paper.ink2, wedge: paper.voltLine))),
+            SizedBox(
+              width: 30,
+              height: 30,
+              child: CustomPaint(
+                painter: _ClockPainter(sweep: sweep, ink: paper.ink, quiet: paper.ink2, wedge: paper.voltLine),
+              ),
+            ),
           ],
         ),
         const SizedBox(height: 4),
@@ -793,13 +1064,22 @@ class _Cell extends StatelessWidget {
     return Container(
       width: 20,
       height: 16,
-      decoration: BoxDecoration(borderRadius: BorderRadius.circular(4), border: Border.all(color: paper.ink2.withValues(alpha: 0.5))),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(4),
+        border: Border.all(color: paper.ink2.withValues(alpha: 0.5)),
+      ),
       clipBehavior: Clip.antiAlias,
       child: Stack(
         alignment: Alignment.center,
         children: [
           Text('$number', style: style),
-          Positioned.fill(child: FractionallySizedBox(alignment: Alignment.centerLeft, widthFactor: fill.clamp(0.0, 1.0), child: ColoredBox(color: paper.ink))),
+          Positioned.fill(
+            child: FractionallySizedBox(
+              alignment: Alignment.centerLeft,
+              widthFactor: fill.clamp(0.0, 1.0),
+              child: ColoredBox(color: paper.ink),
+            ),
+          ),
           if (fill > 0.6) Text('$number', style: style.copyWith(color: paper.paper)),
         ],
       ),
@@ -869,10 +1149,14 @@ class _ClockPainter extends CustomPainter {
     // Ten minutes of sixty: a sixth of the face.
     final a = sweep * math.pi / 3;
     if (a > 0) canvas.drawArc(Rect.fromCircle(center: c, radius: rad), -math.pi / 2, a, true, Paint()..color = wedge.withValues(alpha: 0.45));
-    canvas.drawCircle(c, rad, Paint()
-      ..color = quiet
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 1.5);
+    canvas.drawCircle(
+      c,
+      rad,
+      Paint()
+        ..color = quiet
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.5,
+    );
     final p = Paint()
       ..color = ink
       ..strokeWidth = 2
@@ -927,43 +1211,67 @@ class _SlidePodium extends StatelessWidget {
       final left = row.$4 - row.$5 / 2;
       final top = floorY - row.$6;
       final unfold = r ? 1.0 : seg(ms, at, 420, MotionCurves.emphasized);
-      final po = r ? seg(ms, t.at(at), 120) : (ms > at ? (seg(ms, at, 42) ) : 0.0);
+      final po = r ? seg(ms, t.at(at), 120) : (ms > at ? (seg(ms, at, 42)) : 0.0);
       final sheen = r || row.$3 != 1 ? 0.0 : seg(ms, at + 640, 700, MotionCurves.sweep);
-      plinths.add(_pos(left, top, row.$5, row.$6, _o(
-        po,
-        Transform(
-          alignment: Alignment.bottomCenter,
-          transform: Matrix4.identity()
-            ..setEntry(3, 2, 1 / 520)
-            ..rotateX((1 - unfold) * 86 * _deg),
-          child: _Plinth(place: row.$3, label: MobExplainerCopy.plinth(row.$2, row.$8), night: fx.night, sheen: sheen, paperInk: p.ink, paperInk2: p.ink2),
+      plinths.add(
+        _pos(
+          left,
+          top,
+          row.$5,
+          row.$6,
+          _o(
+            po,
+            Transform(
+              alignment: Alignment.bottomCenter,
+              transform: Matrix4.identity()
+                ..setEntry(3, 2, 1 / 520)
+                ..rotateX((1 - unfold) * 86 * _deg),
+              child: _Plinth(place: row.$3, label: MobExplainerCopy.plinth(row.$2, row.$8), night: fx.night, sheen: sheen, paperInk: p.ink, paperInk2: p.ink2),
+            ),
+          ),
         ),
-      )));
+      );
       final first = row.$3 == 1;
       final dropAt = at + 260;
       final move = t.drop(r ? at : dropAt);
       final hop = first ? t.hop(at + 1000, 12) : 0.0;
       final (sx, sy) = first ? t.squash(at + 1360) : (1.0, 1.0);
-      folds.addAll(exFold(
-        fold: row.$1,
-        x: row.$4,
-        base: top + 2,
-        size: first ? 76 : 66,
-        pose: first && ms >= t.at(at + 560) ? FoldPose.cheer : FoldPose.idle,
-        move: ExMove(o: move.o, dy: move.dy, shadow: move.shadow, shadowO: move.shadowO, sx: move.sx * sx, sy: move.sy * sy),
-        lift: hop,
-        breathe: ms >= ExSlides.lengthMs[3] - 1 && !r,
-        phase: 6 + i,
-        night: fx.night,
-      ));
+      folds.addAll(
+        exFold(
+          fold: row.$1,
+          x: row.$4,
+          base: top + 2,
+          size: first ? 76 : 66,
+          pose: first && ms >= t.at(at + 560) ? FoldPose.cheer : FoldPose.idle,
+          move: ExMove(o: move.o, dy: move.dy, shadow: move.shadow, shadowO: move.shadowO, sx: move.sx * sx, sy: move.sy * sy),
+          lift: hop,
+          breathe: ms >= ExSlides.lengthMs[3] - 1 && !r,
+          phase: 6 + i,
+          night: fx.night,
+        ),
+      );
     }
 
     final (sheetO, sheetDy) = t.rise(120);
     return Stack(
       clipBehavior: Clip.hardEdge,
       children: [
-        Positioned.fill(child: CustomPaint(painter: ExLampPainter(cx: 180, coneW: 300, coneH: 254, lampA: p.lampA, cone: r ? cone : lerpD(0.4, 1, cone), scaleX: r ? 1 : lerpD(1.35, 1, cone), bright: bright, shade: 1))),
-        Positioned(left: 0, right: 0, top: floorY, height: 14, child: DecoratedBox(decoration: BoxDecoration(gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [c.sunken, c.sunken.withValues(alpha: 0)])))),
+        Positioned.fill(
+          child: CustomPaint(
+            painter: ExLampPainter(cx: 180, coneW: 300, coneH: 254, lampA: p.lampA, cone: r ? cone : lerpD(0.4, 1, cone), scaleX: r ? 1 : lerpD(1.35, 1, cone), bright: bright, shade: 1),
+          ),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: floorY,
+          height: 14,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [c.sunken, c.sunken.withValues(alpha: 0)]),
+            ),
+          ),
+        ),
         ...plinths,
         ...folds,
         _sparks(
@@ -972,10 +1280,19 @@ class _SlidePodium extends StatelessWidget {
           glints: [ExGlints(x: 180, y: floorY - 108 - 50, n: 6, r: 52, at: firstAt + 660)],
         ),
         // The mark sheet.
-        _pos(16, 270 + sheetDy, 328, 128, _o(sheetO, DecoratedBox(
-          decoration: ExPaper.card(context),
-          child: Stack(children: [for (var ri = 0; ri < 3; ri++) _markRow(context, ri, p)]),
-        ))),
+        _pos(
+          16,
+          270 + sheetDy,
+          328,
+          128,
+          _o(
+            sheetO,
+            DecoratedBox(
+              decoration: ExPaper.card(context),
+              child: Stack(children: [for (var ri = 0; ri < 3; ri++) _markRow(context, ri, p)]),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -998,35 +1315,112 @@ class _SlidePodium extends StatelessWidget {
       final kind = row.$7[ci];
       final x = 132 + ci * 30.0;
       final (o, s) = t.pop(cellAt(ri, ci), from: 0.5);
-      cells.add(_pos(x, 5, 26, 26, _o(o, Transform.scale(scale: s, child: _MarkCell(kind: kind, good: p.good)))));
+      cells.add(
+        _pos(
+          x,
+          5,
+          26,
+          26,
+          _o(
+            o,
+            Transform.scale(
+              scale: s,
+              child: _MarkCell(kind: kind, good: p.good),
+            ),
+          ),
+        ),
+      );
       if (kind == 's' && ri == 0) {
         final (ro, rs) = t.pop(1420, from: 0.6);
         final pulse = t.reduced || t.ms < 1700 || t.ms > 2900 ? 0.0 : math.sin(((t.ms - 1700) % 600) / 600 * math.pi) * 0.15;
-        cells.add(_pos(x - 4, 1, 34, 34, _o(ro, Transform.scale(scale: rs * (1 + pulse), child: DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: p.voltLine, width: 2.5)))))));
+        cells.add(
+          _pos(
+            x - 4,
+            1,
+            34,
+            34,
+            _o(
+              ro,
+              Transform.scale(
+                scale: rs * (1 + pulse),
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: p.voltLine, width: 2.5),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
       }
       if (kind == 'w') {
         final (ro, rs) = t.pop(1480, from: 0.6);
-        cells.add(_pos(x - 4, 1, 34, 34, _o(ro, Transform.scale(scale: rs, child: DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, border: Border.all(color: c.wrongBorder, width: 2)))))));
+        cells.add(
+          _pos(
+            x - 4,
+            1,
+            34,
+            34,
+            _o(
+              ro,
+              Transform.scale(
+                scale: rs,
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(color: c.wrongBorder, width: 2),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        );
       }
     }
-    return _pos(0, y, 328, 36, Stack(
-      children: [
-        Positioned(left: 12, top: 4, child: ExHead(fold: row.$1, size: 28)),
-        Positioned(left: 48, top: 8, child: Text(row.$2, style: context.mmType.labelLarge.copyWith(color: c.ink))),
-        Positioned(left: 0, top: 0, width: 328, height: 36, child: _o(cellsOut, Stack(children: cells))),
-        Positioned(
-          left: 132,
-          top: 8,
-          width: 150,
-          child: _o(hO, ClipRect(clipper: ExRevealClipper(hReveal), child: Row(children: [
-            Icon(LucideIcons.sparkle, size: 13, color: p.voltLine),
-            const SizedBox(width: 5),
-            Flexible(child: Text(row.$9, maxLines: 1, style: context.mmType.label.copyWith(fontSize: 13, color: c.ink))),
-          ]))),
-        ),
-        Positioned(right: 14, top: 2, width: 48, child: Text('$marks', textAlign: TextAlign.right, textHeightBehavior: MmType.figureHeightBehavior, style: _figure(context, 28, c.ink))),
-      ],
-    ));
+    return _pos(
+      0,
+      y,
+      328,
+      36,
+      Stack(
+        children: [
+          Positioned(left: 12, top: 4, child: ExHead(fold: row.$1, size: 28)),
+          Positioned(
+            left: 48,
+            top: 8,
+            child: Text(row.$2, style: context.mmType.labelLarge.copyWith(color: c.ink)),
+          ),
+          Positioned(left: 0, top: 0, width: 328, height: 36, child: _o(cellsOut, Stack(children: cells))),
+          Positioned(
+            left: 132,
+            top: 8,
+            width: 150,
+            child: _o(
+              hO,
+              ClipRect(
+                clipper: ExRevealClipper(hReveal),
+                child: Row(
+                  children: [
+                    Icon(LucideIcons.sparkle, size: 13, color: p.voltLine),
+                    const SizedBox(width: 5),
+                    Flexible(
+                      child: Text(row.$9, maxLines: 1, style: context.mmType.label.copyWith(fontSize: 13, color: c.ink)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Positioned(
+            right: 14,
+            top: 2,
+            width: 48,
+            child: Text('$marks', textAlign: TextAlign.right, textHeightBehavior: MmType.figureHeightBehavior, style: _figure(context, 28, c.ink)),
+          ),
+        ],
+      ),
+    );
   }
 }
 
@@ -1040,12 +1434,24 @@ class _MarkCell extends StatelessWidget {
     final c = context.mmColors;
     final style = _figure(context, 13, c.ink2);
     return switch (kind) {
-      'r' => DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: good), child: Center(child: Icon(LucideIcons.check, size: 14, color: c.ground))),
+      'r' => DecoratedBox(
+        decoration: BoxDecoration(shape: BoxShape.circle, color: good),
+        child: Center(child: Icon(LucideIcons.check, size: 14, color: c.ground)),
+      ),
       'w' => DecoratedBox(
-          decoration: BoxDecoration(shape: BoxShape.circle, color: c.wrongSurface, border: Border.all(color: c.wrongBorder, width: 1.5)),
-          child: Center(child: Text('−1', style: style.copyWith(color: c.wrongText))),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: c.wrongSurface,
+          border: Border.all(color: c.wrongBorder, width: 1.5),
         ),
-      _ => CustomPaint(painter: _DashedRRect(colour: c.ink3, radius: 13, width: 1.5), child: Center(child: Text('0', style: style))),
+        child: Center(
+          child: Text('−1', style: style.copyWith(color: c.wrongText)),
+        ),
+      ),
+      _ => CustomPaint(
+        painter: _DashedRRect(colour: c.ink3, radius: 13, width: 1.5),
+        child: Center(child: Text('0', style: style)),
+      ),
     };
   }
 }
@@ -1077,8 +1483,22 @@ class _Plinth extends StatelessWidget {
             ),
           ),
         ),
-        Positioned(left: 0, right: 0, top: place == 1 ? 16 : (place == 2 ? 10 : 7), child: Text('$place', textAlign: TextAlign.center, textHeightBehavior: MmType.figureHeightBehavior, style: _figure(context, fig, paperInk))),
-        Positioned(left: 0, right: 0, bottom: 6, child: Text(label, textAlign: TextAlign.center, style: _hanken(context, 12, w: FontWeight.w600, colour: paperInk2, height: 16))),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: place == 1 ? 16 : (place == 2 ? 10 : 7),
+          child: Text('$place', textAlign: TextAlign.center, textHeightBehavior: MmType.figureHeightBehavior, style: _figure(context, fig, paperInk)),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 6,
+          child: Text(
+            label,
+            textAlign: TextAlign.center,
+            style: _hanken(context, 12, w: FontWeight.w600, colour: paperInk2, height: 16),
+          ),
+        ),
         if (sheen > 0 && sheen < 1)
           Positioned.fill(
             child: ClipRRect(
@@ -1088,7 +1508,11 @@ class _Plinth extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment(-1.6 + sheen * 3.2 - 0.5, -1),
                     end: Alignment(-1.6 + sheen * 3.2 + 0.5, 1),
-                    colors: [const Color(0x00F2B865), const Color(0xFFFFF0C8).withValues(alpha: 0.6 * math.sin(sheen * math.pi)), const Color(0x00F2B865)],
+                    colors: [
+                      const Color(0x00F2B865),
+                      const Color(0xFFFFF0C8).withValues(alpha: 0.6 * math.sin(sheen * math.pi)),
+                      const Color(0x00F2B865),
+                    ],
                   ),
                 ),
               ),
@@ -1163,112 +1587,312 @@ class _SlideFix extends StatelessWidget {
       clipBehavior: Clip.hardEdge,
       children: [
         // The answer sheet.
-        _pos(18, 8 + cardDy, 290, 182, _o(cardO, Transform.rotate(
-          angle: -1.2 * _deg,
-          child: DecoratedBox(
-            decoration: p.sheet(radius: 8),
-            child: Stack(
-              children: [
-                Positioned(right: 0, top: 0, child: CustomPaint(size: const Size(18, 18), painter: _DogEar(back: p.back, ground: c.ground))),
-                Positioned(left: 16, top: 14, right: 24, child: Text(MobV3Copy.trapCaught(4), style: context.mmType.title.copyWith(fontSize: 17, height: 21 / 17, color: p.ink))),
-                Positioned(left: 16, right: 16, top: 40, child: Text(MobExplainerCopy.stem, style: _hanken(context, 13, colour: p.ink2, height: 18))),
-                for (var i = 0; i < 4; i++) ...[
-                  Positioned(
-                    left: 30 + i * 64.0,
-                    top: 78,
-                    width: 28,
-                    height: 28,
-                    child: _Bubble(letter: const ['A', 'B', 'C', 'D'][i], paper: p, size: 28, pencil: i == 1 ? (pencilO, pencilS) : null, fill: i == 2 ? (cFillO, cFillS) : null, letterOnFill: i == 2 ? cLetter : 0, fontSize: 12),
-                  ),
-                  Positioned(left: 30 + i * 64.0 - 18, width: 64, top: 109, child: Text(MobExplainerCopy.options[i], textAlign: TextAlign.center, style: _hanken(context, 11.5, w: FontWeight.w500, colour: p.ink2, height: 15))),
-                ],
-                Positioned(left: 30 + 64 - 6, top: 72, width: 40, height: 40, child: _o(strikeO, CustomPaint(painter: ExLinePainter(a: const Offset(6, 34), b: const Offset(34, 6), share: strike, colour: const Color(0xFF4A463F), width: 2.4)))),
-                Positioned(
-                  left: 16,
-                  right: 44,
-                  top: 132,
-                  child: _o(whyO, ClipRect(clipper: ExRevealClipper(why), child: Text.rich(
-                    TextSpan(children: [
-                      TextSpan(text: MobExplainerCopy.whyLead, style: TextStyle(fontWeight: FontWeight.w600, color: p.ink)),
-                      const TextSpan(text: MobExplainerCopy.why),
-                    ]),
-                    style: _hanken(context, 12.5, colour: p.ink2, height: 17),
-                  ))),
+        _pos(
+          18,
+          8 + cardDy,
+          290,
+          182,
+          _o(
+            cardO,
+            Transform.rotate(
+              angle: -1.2 * _deg,
+              child: DecoratedBox(
+                decoration: p.sheet(radius: 8),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      right: 0,
+                      top: 0,
+                      child: CustomPaint(
+                        size: const Size(18, 18),
+                        painter: _DogEar(back: p.back, ground: c.ground),
+                      ),
+                    ),
+                    Positioned(
+                      left: 16,
+                      top: 14,
+                      right: 24,
+                      child: Text(
+                        MobV3Copy.trapCaught(4),
+                        style: context.mmType.title.copyWith(fontSize: 17, height: 21 / 17, color: p.ink),
+                      ),
+                    ),
+                    Positioned(
+                      left: 16,
+                      right: 16,
+                      top: 40,
+                      child: Text(MobExplainerCopy.stem, style: _hanken(context, 13, colour: p.ink2, height: 18)),
+                    ),
+                    for (var i = 0; i < 4; i++) ...[
+                      Positioned(
+                        left: 30 + i * 64.0,
+                        top: 78,
+                        width: 28,
+                        height: 28,
+                        child: _Bubble(
+                          letter: const ['A', 'B', 'C', 'D'][i],
+                          paper: p,
+                          size: 28,
+                          pencil: i == 1 ? (pencilO, pencilS) : null,
+                          fill: i == 2 ? (cFillO, cFillS) : null,
+                          letterOnFill: i == 2 ? cLetter : 0,
+                          fontSize: 12,
+                        ),
+                      ),
+                      Positioned(
+                        left: 30 + i * 64.0 - 18,
+                        width: 64,
+                        top: 109,
+                        child: Text(
+                          MobExplainerCopy.options[i],
+                          textAlign: TextAlign.center,
+                          style: _hanken(context, 11.5, w: FontWeight.w500, colour: p.ink2, height: 15),
+                        ),
+                      ),
+                    ],
+                    Positioned(
+                      left: 30 + 64 - 6,
+                      top: 72,
+                      width: 40,
+                      height: 40,
+                      child: _o(
+                        strikeO,
+                        CustomPaint(
+                          painter: ExLinePainter(a: const Offset(6, 34), b: const Offset(34, 6), share: strike, colour: const Color(0xFF4A463F), width: 2.4),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 16,
+                      right: 44,
+                      top: 132,
+                      child: _o(
+                        whyO,
+                        ClipRect(
+                          clipper: ExRevealClipper(why),
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: MobExplainerCopy.whyLead,
+                                  style: TextStyle(fontWeight: FontWeight.w600, color: p.ink),
+                                ),
+                                const TextSpan(text: MobExplainerCopy.why),
+                              ],
+                            ),
+                            style: _hanken(context, 12.5, colour: p.ink2, height: 17),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ),
-        ))),
+        ),
         // Mobi thinks at its side.
-        _pos(356 - mobiW, 196 - mobiH, mobiW, mobiH, _o(mobiO, Transform.translate(
-          offset: Offset(26 * (1 - mobiK), 0),
-          child: Transform.rotate(angle: 8 * _deg * (1 - mobiK), alignment: Alignment.bottomCenter, child: Image.asset('assets/art/mobi-think.webp', fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink())),
-        ))),
-        // The path.
-        _pos(16, 200 + pathDy, 328, 200, _o(pathO, DecoratedBox(
-          decoration: ExPaper.card(context),
-          child: Stack(
-            children: [
-              // Now.
-              Positioned(left: 14, top: 16, width: 38, height: 38, child: _o(nowO, Transform.scale(scale: nowS, child: DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: c.raised2), child: Icon(LucideIcons.send, size: 18, color: c.ink))))),
-              Positioned(left: 66, top: 14, right: 50, child: Text(MobExplainerCopy.now, style: label)),
-              Positioned(left: 66, top: 35, right: 50, child: Text(MobExplainerCopy.nowLine, style: cap)),
-              Positioned(right: 14, top: 22, width: 26, height: 26, child: _o(tickO, CustomPaint(painter: ExTickPainter(share: tick, colour: p.good, width: 2.6)))),
-              // The calendar leaf flips from the close to the Wednesday.
-              Positioned(
-                left: 14,
-                top: 66,
-                width: 38,
-                height: 44,
-                child: DecoratedBox(
-                  decoration: BoxDecoration(color: p.paper, borderRadius: BorderRadius.circular(8), boxShadow: const [BoxShadow(color: Color(0x33000000), blurRadius: 6, offset: Offset(0, 2))]),
-                  child: Stack(
-                    children: [
-                      if (flipOut < 1)
-                        Positioned.fill(child: Transform(alignment: Alignment.topCenter, transform: Matrix4.identity()..setEntry(3, 2, 1 / 200)..rotateX(-flipOut * math.pi / 2), child: _Leaf(day: wk[close.weekday - 1], date: close.day, paper: p))),
-                      if (flipIn > 0)
-                        Positioned.fill(child: Transform(alignment: Alignment.topCenter, transform: Matrix4.identity()..setEntry(3, 2, 1 / 200)..rotateX((1 - flipIn) * math.pi / 2), child: _Leaf(day: wk[check.weekday - 1], date: check.day, paper: p))),
-                    ],
-                  ),
-                ),
+        _pos(
+          356 - mobiW,
+          196 - mobiH,
+          mobiW,
+          mobiH,
+          _o(
+            mobiO,
+            Transform.translate(
+              offset: Offset(26 * (1 - mobiK), 0),
+              child: Transform.rotate(
+                angle: 8 * _deg * (1 - mobiK),
+                alignment: Alignment.bottomCenter,
+                child: Image.asset('assets/art/mobi-think.webp', fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink()),
               ),
-              Positioned(left: 66, top: 66, right: 14, child: Text(checkLabel, style: label)),
-              Positioned(left: 66, top: 87, right: 14, child: Text(MobExplainerCopy.checkLine, style: cap)),
-              Positioned(left: 14, right: 14, top: 122, height: 1, child: ColoredBox(color: c.line)),
-              // Two of you pass: fixed together.
-              Positioned(left: 14, top: 136, child: _o(heads[0].$1, Transform.scale(scale: heads[0].$2, child: const ExHead(fold: FoldKey.dart, size: 30)))),
-              Positioned(left: 36, top: 136, child: _o(heads[1].$1, Transform.scale(scale: heads[1].$2, child: const ExHead(fold: FoldKey.dogear, size: 30)))),
-              for (var b = 0; b < 2; b++)
-                Positioned(
-                  left: 32 + b * 22.0,
-                  top: 156,
-                  width: 16,
-                  height: 16,
-                  child: _o(badges[b].$1, Transform.scale(scale: badges[b].$2, child: DecoratedBox(decoration: BoxDecoration(shape: BoxShape.circle, color: p.good), child: Icon(LucideIcons.check, size: 10, color: c.ground)))),
-                ),
-              Positioned(
-                left: 80,
-                top: 128,
-                width: 50,
-                height: 50,
-                child: _o(sealO, Transform.rotate(angle: sealRot, child: Transform.scale(scale: lerpD(1.4, 1, sealK), child: Image.asset(ParcelStills.seal, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink())))),
-              ),
-              Positioned(left: 140, top: 134, right: 70, child: _o(fixedO, ClipRect(clipper: ExRevealClipper(fixed), child: Text(MobExplainerCopy.fixedTogether, style: label)))),
-              Positioned(left: 140, top: 155, width: 128, child: _o(prog, Text(MobExplainerCopy.trapsLine, style: cap.copyWith(fontSize: 12, height: 16 / 12)))),
-              Positioned(
-                right: 12,
-                top: 130,
-                width: 52,
-                height: 56,
-                child: _o(craneO, Transform.scale(
-                  scale: craneS,
-                  child: Transform.rotate(angle: craneWiggle, alignment: Alignment.bottomCenter, child: const Align(alignment: Alignment.bottomCenter, child: FoldPuppet(fold: FoldKey.crane, size: 48, locked: true, shadow: false, blink: false))),
-                )),
-              ),
-              _sparks(t, glints: [ExGlints(x: 105, y: 153, n: 6, r: 32, at: 3050, colour: ExPaper.volt)]),
-            ],
+            ),
           ),
-        ))),
+        ),
+        // The path.
+        _pos(
+          16,
+          200 + pathDy,
+          328,
+          200,
+          _o(
+            pathO,
+            DecoratedBox(
+              decoration: ExPaper.card(context),
+              child: Stack(
+                children: [
+                  // Now.
+                  Positioned(
+                    left: 14,
+                    top: 16,
+                    width: 38,
+                    height: 38,
+                    child: _o(
+                      nowO,
+                      Transform.scale(
+                        scale: nowS,
+                        child: DecoratedBox(
+                          decoration: BoxDecoration(shape: BoxShape.circle, color: c.raised2),
+                          child: Icon(LucideIcons.send, size: 18, color: c.ink),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(left: 66, top: 14, right: 50, child: Text(MobExplainerCopy.now, style: label)),
+                  Positioned(left: 66, top: 35, right: 50, child: Text(MobExplainerCopy.nowLine, style: cap)),
+                  Positioned(
+                    right: 14,
+                    top: 22,
+                    width: 26,
+                    height: 26,
+                    child: _o(
+                      tickO,
+                      CustomPaint(
+                        painter: ExTickPainter(share: tick, colour: p.good, width: 2.6),
+                      ),
+                    ),
+                  ),
+                  // The calendar leaf flips from the close to the Wednesday.
+                  Positioned(
+                    left: 14,
+                    top: 66,
+                    width: 38,
+                    height: 44,
+                    child: DecoratedBox(
+                      decoration: BoxDecoration(
+                        color: p.paper,
+                        borderRadius: BorderRadius.circular(8),
+                        boxShadow: const [BoxShadow(color: Color(0x33000000), blurRadius: 6, offset: Offset(0, 2))],
+                      ),
+                      child: Stack(
+                        children: [
+                          if (flipOut < 1)
+                            Positioned.fill(
+                              child: Transform(
+                                alignment: Alignment.topCenter,
+                                transform: Matrix4.identity()
+                                  ..setEntry(3, 2, 1 / 200)
+                                  ..rotateX(-flipOut * math.pi / 2),
+                                child: _Leaf(day: wk[close.weekday - 1], date: close.day, paper: p),
+                              ),
+                            ),
+                          if (flipIn > 0)
+                            Positioned.fill(
+                              child: Transform(
+                                alignment: Alignment.topCenter,
+                                transform: Matrix4.identity()
+                                  ..setEntry(3, 2, 1 / 200)
+                                  ..rotateX((1 - flipIn) * math.pi / 2),
+                                child: _Leaf(day: wk[check.weekday - 1], date: check.day, paper: p),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Positioned(left: 66, top: 66, right: 14, child: Text(checkLabel, style: label)),
+                  Positioned(left: 66, top: 87, right: 14, child: Text(MobExplainerCopy.checkLine, style: cap)),
+                  Positioned(left: 14, right: 14, top: 122, height: 1, child: ColoredBox(color: c.line)),
+                  // Two of you pass: fixed together.
+                  Positioned(
+                    left: 14,
+                    top: 136,
+                    child: _o(
+                      heads[0].$1,
+                      Transform.scale(
+                        scale: heads[0].$2,
+                        child: const ExHead(fold: FoldKey.dart, size: 30),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 36,
+                    top: 136,
+                    child: _o(
+                      heads[1].$1,
+                      Transform.scale(
+                        scale: heads[1].$2,
+                        child: const ExHead(fold: FoldKey.dogear, size: 30),
+                      ),
+                    ),
+                  ),
+                  for (var b = 0; b < 2; b++)
+                    Positioned(
+                      left: 32 + b * 22.0,
+                      top: 156,
+                      width: 16,
+                      height: 16,
+                      child: _o(
+                        badges[b].$1,
+                        Transform.scale(
+                          scale: badges[b].$2,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(shape: BoxShape.circle, color: p.good),
+                            child: Icon(LucideIcons.check, size: 10, color: c.ground),
+                          ),
+                        ),
+                      ),
+                    ),
+                  Positioned(
+                    left: 80,
+                    top: 128,
+                    width: 50,
+                    height: 50,
+                    child: _o(
+                      sealO,
+                      Transform.rotate(
+                        angle: sealRot,
+                        child: Transform.scale(
+                          scale: lerpD(1.4, 1, sealK),
+                          child: Image.asset(ParcelStills.seal, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink()),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 140,
+                    top: 134,
+                    right: 70,
+                    child: _o(
+                      fixedO,
+                      ClipRect(
+                        clipper: ExRevealClipper(fixed),
+                        child: Text(MobExplainerCopy.fixedTogether, style: label),
+                      ),
+                    ),
+                  ),
+                  Positioned(
+                    left: 140,
+                    top: 155,
+                    width: 128,
+                    child: _o(prog, Text(MobExplainerCopy.trapsLine, style: cap.copyWith(fontSize: 12, height: 16 / 12))),
+                  ),
+                  Positioned(
+                    right: 12,
+                    top: 130,
+                    width: 52,
+                    height: 56,
+                    child: _o(
+                      craneO,
+                      Transform.scale(
+                        scale: craneS,
+                        child: Transform.rotate(
+                          angle: craneWiggle,
+                          alignment: Alignment.bottomCenter,
+                          child: const Align(
+                            alignment: Alignment.bottomCenter,
+                            child: FoldPuppet(fold: FoldKey.crane, size: 48, locked: true, shadow: false, blink: false),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  _sparks(t, glints: [ExGlints(x: 105, y: 153, n: 6, r: 32, at: 3050, colour: ExPaper.volt)]),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -1282,15 +1906,21 @@ class _Leaf extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
-        decoration: BoxDecoration(color: paper.paper, borderRadius: BorderRadius.circular(8)),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(day, style: _hanken(context, 10, w: FontWeight.w600, colour: paper.ink2, height: 12)),
-            Text('$date', textHeightBehavior: MmType.figureHeightBehavior, style: _figure(context, 20, paper.ink)),
-          ],
-        ),
-      );
+    decoration: BoxDecoration(color: paper.paper, borderRadius: BorderRadius.circular(8)),
+    child: FittedBox(
+      fit: BoxFit.scaleDown,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            day,
+            style: _hanken(context, 10, w: FontWeight.w600, colour: paper.ink2, height: 12),
+          ),
+          Text('$date', textHeightBehavior: MmType.figureHeightBehavior, style: _figure(context, 20, paper.ink)),
+        ],
+      ),
+    ),
+  );
 }
 
 // ---------------------------------------------------------------------------------------------------
@@ -1349,154 +1979,287 @@ class _SlideStitch extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.hardEdge,
       children: [
-        _pos(50, -50, 260, 250, _o(glowO, Transform.scale(scale: lerpD(0.7, 1, glowK), child: CustomPaint(painter: ExPoolPainter(lampA: p.lampA, strength: bright))))),
+        _pos(
+          50,
+          -50,
+          260,
+          250,
+          _o(
+            glowO,
+            Transform.scale(
+              scale: lerpD(0.7, 1, glowK),
+              child: CustomPaint(
+                painter: ExPoolPainter(lampA: p.lampA, strength: bright),
+              ),
+            ),
+          ),
+        ),
         Positioned(
           left: 180 - pennantW / 2,
           top: 4,
           width: pennantW,
           height: pennantH,
-          child: _o(po, Transform.translate(
-            offset: Offset(0, pdy + lift),
-            child: Transform.rotate(
-              angle: prot + liftRot,
-              alignment: Alignment.topCenter,
-              child: FittedBox(
-                fit: BoxFit.contain,
+          child: _o(
+            po,
+            Transform.translate(
+              offset: Offset(0, pdy + lift),
+              child: Transform.rotate(
+                angle: prot + liftRot,
                 alignment: Alignment.topCenter,
-                child: SizedBox(
-                  width: PennantPainter.width,
-                  height: PennantPainter.height + PennantPainter.hang,
-                  child: Stack(
-                    children: [
-                      Positioned.fill(child: CustomPaint(painter: PennantPainter(weeks: 4, sew: sew, holes: holes, glints: glintK, night: fx.night, volt: c.volt, voltEdge: c.voltEdge))),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        top: PennantPainter.hang + 14,
-                        child: Column(
-                          children: [
-                            RollNumber(from: 3, to: 4, t: roll, style: type.figureHero.copyWith(fontSize: 76, color: ink)),
-                            const SizedBox(height: 2),
-                            Text(MobV3Copy.weeksInARow(4), style: type.label.copyWith(color: ink.withValues(alpha: 0.8), fontSize: 14), textAlign: TextAlign.center),
-                          ],
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  alignment: Alignment.topCenter,
+                  child: SizedBox(
+                    width: PennantPainter.width,
+                    height: PennantPainter.height + PennantPainter.hang,
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: CustomPaint(
+                            painter: PennantPainter(weeks: 4, sew: sew, holes: holes, glints: glintK, night: fx.night, volt: c.volt, voltEdge: c.voltEdge),
+                          ),
                         ),
-                      ),
-                    ],
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          top: PennantPainter.hang + 14,
+                          child: Column(
+                            children: [
+                              RollNumber(
+                                from: 3,
+                                to: 4,
+                                t: roll,
+                                style: type.figureHero.copyWith(fontSize: 76, color: ink),
+                              ),
+                              const SizedBox(height: 2),
+                              Text(
+                                MobV3Copy.weeksInARow(4),
+                                style: type.label.copyWith(color: ink.withValues(alpha: 0.8), fontSize: 14),
+                                textAlign: TextAlign.center,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          )),
+          ),
         ),
         for (var i = 0; i < heads.length; i++)
           () {
             final (o, s) = t.pop(sw + 650 + i * 45, from: 0.6);
-            return _pos(heads[i].$3 - 20, heads[i].$4, 40, 40, _o(o, Transform.scale(scale: s, child: ExHead(fold: heads[i].$1, size: 40, ring: MobColours.of(context, heads[i].$2)))));
+            return _pos(
+              heads[i].$3 - 20,
+              heads[i].$4,
+              40,
+              40,
+              _o(
+                o,
+                Transform.scale(
+                  scale: s,
+                  child: ExHead(fold: heads[i].$1, size: 40, ring: MobColours.of(context, heads[i].$2)),
+                ),
+              ),
+            );
           }(),
         // The quest card.
-        _pos(16, 204 + qdy, 328, 90, _o(qo, DecoratedBox(
-          decoration: ExPaper.card(context),
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(18),
-            child: Stack(
-              children: [
-                Positioned(
-                  left: 16,
-                  right: 16,
-                  top: 14,
-                  height: 58,
-                  child: _o(1 - barOut, Transform.translate(
-                    offset: Offset(0, -10 * barOut),
-                    child: Transform(
-                      alignment: Alignment.topCenter,
-                      transform: Matrix4.diagonal3Values(1, 1 - 0.4 * barOut, 1),
-                      child: Stack(
-                        children: [
-                          Positioned(left: 0, top: 2, child: Text(MobV3Copy.questTitle, style: type.labelLarge.copyWith(color: c.ink))),
-                          Positioned(
-                            right: 0,
-                            top: -4,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.baseline,
-                              textBaseline: TextBaseline.alphabetic,
+        _pos(
+          16,
+          204 + qdy,
+          328,
+          90,
+          _o(
+            qo,
+            DecoratedBox(
+              decoration: ExPaper.card(context),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(18),
+                child: Stack(
+                  children: [
+                    Positioned(
+                      left: 16,
+                      right: 16,
+                      top: 14,
+                      height: 58,
+                      child: _o(
+                        1 - barOut,
+                        Transform.translate(
+                          offset: Offset(0, -10 * barOut),
+                          child: Transform(
+                            alignment: Alignment.topCenter,
+                            transform: Matrix4.diagonal3Values(1, 1 - 0.4 * barOut, 1),
+                            child: Stack(
                               children: [
-                                Text('$count', style: _figure(context, 26, c.ink)),
-                                const SizedBox(width: 4),
-                                Text(MobExplainerCopy.questOf, style: type.caption.copyWith(color: c.ink2)),
+                                Positioned(
+                                  left: 0,
+                                  top: 2,
+                                  child: Text(MobV3Copy.questTitle, style: type.labelLarge.copyWith(color: c.ink)),
+                                ),
+                                Positioned(
+                                  right: 0,
+                                  top: -4,
+                                  child: Row(
+                                    crossAxisAlignment: CrossAxisAlignment.baseline,
+                                    textBaseline: TextBaseline.alphabetic,
+                                    children: [
+                                      Text('$count', style: _figure(context, 26, c.ink)),
+                                      const SizedBox(width: 4),
+                                      Text(MobExplainerCopy.questOf, style: type.caption.copyWith(color: c.ink2)),
+                                    ],
+                                  ),
+                                ),
+                                Positioned(
+                                  left: 0,
+                                  right: 0,
+                                  top: 40,
+                                  height: 14,
+                                  child: Transform.scale(
+                                    scale: barPulse,
+                                    child: Row(
+                                      children: [
+                                        for (var i = 0; i < 12; i++) ...[
+                                          if (i > 0) const SizedBox(width: 4),
+                                          Expanded(
+                                            child: _Segment(
+                                              fill: i < 10 ? 1 : (r ? t.fade(f0 + (i - 10) * 260 + 200, 120) : seg(ms, f0 + (i - 10) * 260 + 160, 240, MotionCurves.out)),
+                                              bloom: r ? 0 : _bloom(ms, 1260 + i * 22.0),
+                                              c: c,
+                                            ),
+                                          ),
+                                        ],
+                                      ],
+                                    ),
+                                  ),
+                                ),
                               ],
                             ),
                           ),
-                          Positioned(
-                            left: 0,
-                            right: 0,
-                            top: 40,
-                            height: 14,
-                            child: Transform.scale(scale: barPulse, child: Row(children: [
-                              for (var i = 0; i < 12; i++) ...[
-                                if (i > 0) const SizedBox(width: 4),
-                                Expanded(child: _Segment(fill: i < 10 ? 1 : (r ? t.fade(f0 + (i - 10) * 260 + 200, 120) : seg(ms, f0 + (i - 10) * 260 + 160, 240, MotionCurves.out)), bloom: r ? 0 : _bloom(ms, 1260 + i * 22.0), c: c)),
-                              ],
-                            ])),
-                          ),
-                        ],
+                        ),
                       ),
                     ),
-                  )),
-                ),
-                Positioned(left: 14, top: 13, width: 64, height: 64, child: _o(sealO, Transform.rotate(angle: sealRot, child: Transform.scale(scale: lerpD(1.4, 1, sealK), child: Image.asset(ParcelStills.seal, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink()))))),
-                Positioned(left: 88, top: 22, right: 12, child: _o(doneO, ClipRect(clipper: ExRevealClipper(doneT), child: Text(MobExplainerCopy.questDone, style: type.title.copyWith(fontSize: 20, height: 24 / 20, color: c.ink))))),
-                Positioned(left: 88, top: 48, right: 12, child: _o(doneLine, Text(MobExplainerCopy.questDoneLine, style: type.caption.copyWith(color: c.ink2)))),
-                _sparks(t, glints: [ExGlints(x: 46, y: 46, n: 8, r: 36, at: 1850, colour: ExPaper.volt)]),
-              ],
-            ),
-          ),
-        ))),
-        // Your own chain.
-        _pos(16, 304 + cdy, 328, 96, _o(co, DecoratedBox(
-          decoration: ExPaper.card(context),
-          child: Stack(
-            children: [
-              Positioned(left: 16, top: 12, child: Text(MobExplainerCopy.yourChain, style: type.labelLarge.copyWith(color: c.ink))),
-              Positioned(
-                right: 16,
-                top: 6,
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.baseline,
-                  textBaseline: TextBaseline.alphabetic,
-                  children: [Text('14', style: _figure(context, 26, c.ink)), const SizedBox(width: 4), Text(MobExplainerCopy.daysInARow, style: type.caption.copyWith(color: c.ink2))],
+                    Positioned(
+                      left: 14,
+                      top: 13,
+                      width: 64,
+                      height: 64,
+                      child: _o(
+                        sealO,
+                        Transform.rotate(
+                          angle: sealRot,
+                          child: Transform.scale(
+                            scale: lerpD(1.4, 1, sealK),
+                            child: Image.asset(ParcelStills.seal, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink()),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 88,
+                      top: 22,
+                      right: 12,
+                      child: _o(
+                        doneO,
+                        ClipRect(
+                          clipper: ExRevealClipper(doneT),
+                          child: Text(
+                            MobExplainerCopy.questDone,
+                            style: type.title.copyWith(fontSize: 20, height: 24 / 20, color: c.ink),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 88,
+                      top: 48,
+                      right: 12,
+                      child: _o(doneLine, Text(MobExplainerCopy.questDoneLine, style: type.caption.copyWith(color: c.ink2))),
+                    ),
+                    _sparks(t, glints: [ExGlints(x: 46, y: 46, n: 8, r: 36, at: 1850, colour: ExPaper.volt)]),
+                  ],
                 ),
               ),
-              for (var i = 0; i < 7; i++)
-                () {
-                  final at = 3250 + i * 70.0;
-                  double o;
-                  double dy;
-                  if (r) {
-                    o = t.fade(at);
-                    dy = 0;
-                  } else if (i == 6) {
-                    o = seg(ms, at, 120);
-                    dy = -10 * (1 - t.spring(at, MotionSprings.celebrateDuration, MomentCurves.celebrate));
-                  } else {
-                    final k = seg(ms, at, 300, MotionCurves.out);
-                    o = k;
-                    dy = -10 * (1 - k);
-                  }
-                  final rested = i == 4;
-                  return Positioned(
-                    left: 16 + i * 42.0,
-                    top: 40 + dy,
-                    width: 36,
-                    height: 28,
-                    child: _o(o, rested
-                        ? CustomPaint(painter: _DashedRRect(colour: c.ink4, radius: 8), child: Center(child: Icon(LucideIcons.moon, size: 15, color: c.ink2)))
-                        : DecoratedBox(decoration: BoxDecoration(color: c.raised2, borderRadius: BorderRadius.circular(8)), child: Center(child: Icon(LucideIcons.check, size: 15, color: p.good)))),
-                  );
-                }(),
-              Positioned(left: 16, top: 72, child: _o(t.fade(3800, 240), Text(MobExplainerCopy.moonLegend, style: type.caption.copyWith(fontSize: 12.5, color: c.ink2)))),
-            ],
+            ),
           ),
-        ))),
+        ),
+        // Your own chain.
+        _pos(
+          16,
+          304 + cdy,
+          328,
+          96,
+          _o(
+            co,
+            DecoratedBox(
+              decoration: ExPaper.card(context),
+              child: Stack(
+                children: [
+                  Positioned(
+                    left: 16,
+                    top: 12,
+                    child: Text(MobExplainerCopy.yourChain, style: type.labelLarge.copyWith(color: c.ink)),
+                  ),
+                  Positioned(
+                    right: 16,
+                    top: 6,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.baseline,
+                      textBaseline: TextBaseline.alphabetic,
+                      children: [
+                        Text('14', style: _figure(context, 26, c.ink)),
+                        const SizedBox(width: 4),
+                        Text(MobExplainerCopy.daysInARow, style: type.caption.copyWith(color: c.ink2)),
+                      ],
+                    ),
+                  ),
+                  for (var i = 0; i < 7; i++)
+                    () {
+                      final at = 3250 + i * 70.0;
+                      double o;
+                      double dy;
+                      if (r) {
+                        o = t.fade(at);
+                        dy = 0;
+                      } else if (i == 6) {
+                        o = seg(ms, at, 120);
+                        dy = -10 * (1 - t.spring(at, MotionSprings.celebrateDuration, MomentCurves.celebrate));
+                      } else {
+                        final k = seg(ms, at, 300, MotionCurves.out);
+                        o = k;
+                        dy = -10 * (1 - k);
+                      }
+                      final rested = i == 4;
+                      return Positioned(
+                        left: 16 + i * 42.0,
+                        top: 40 + dy,
+                        width: 36,
+                        height: 28,
+                        child: _o(
+                          o,
+                          rested
+                              ? CustomPaint(
+                                  painter: _DashedRRect(colour: c.ink4, radius: 8),
+                                  child: Center(child: Icon(LucideIcons.moon, size: 15, color: c.ink2)),
+                                )
+                              : DecoratedBox(
+                                  decoration: BoxDecoration(color: c.raised2, borderRadius: BorderRadius.circular(8)),
+                                  child: Center(child: Icon(LucideIcons.check, size: 15, color: p.good)),
+                                ),
+                        ),
+                      );
+                    }(),
+                  Positioned(
+                    left: 16,
+                    top: 72,
+                    child: _o(t.fade(3800, 240), Text(MobExplainerCopy.moonLegend, style: type.caption.copyWith(fontSize: 12.5, color: c.ink2))),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       ],
     );
   }
@@ -1526,7 +2289,11 @@ class _Segment extends StatelessWidget {
           boxShadow: bloom > 0 ? [BoxShadow(color: ExPaper.volt.withValues(alpha: 0.28 * bloom), blurRadius: 10)] : null,
         ),
         clipBehavior: Clip.antiAlias,
-        child: FractionallySizedBox(alignment: Alignment.centerLeft, widthFactor: fill.clamp(0.0, 1.0), child: ColoredBox(color: c.ink)),
+        child: FractionallySizedBox(
+          alignment: Alignment.centerLeft,
+          widthFactor: fill.clamp(0.0, 1.0),
+          child: ColoredBox(color: c.ink),
+        ),
       ),
     );
   }
@@ -1580,21 +2347,49 @@ class _SlideShelf extends StatelessWidget {
     return Stack(
       clipBehavior: Clip.hardEdge,
       children: [
-        Positioned.fill(child: CustomPaint(painter: ExLampPainter(cx: 180, coneW: 280, coneH: 274, lampA: p.lampA, cone: r ? cone : lerpD(0.5, 1, cone), scaleX: r ? 1 : lerpD(1.3, 1, cone), bright: bright))),
-        _pos(px - 110, pt + 30, 220, 110, _o(leak, Transform.scale(scale: leakS, child: CustomPaint(painter: ExPoolPainter(lampA: p.lampA, strength: 1.4))))),
-        _pos(px - ps / 2, pt, ps, ps, _o(parcelO, Transform.rotate(
-          angle: pRot,
-          alignment: const Alignment(0, 0.8),
-          child: Transform.scale(
-            scale: pScale,
-            alignment: const Alignment(0, 0.8),
-            child: Stack(fit: StackFit.expand, children: [
-              _o(sealedO, Image.asset(ParcelStills.sealed, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink())),
-              _o(popO, Image.asset(ParcelStills.pop, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink())),
-              _o(openO, Image.asset(ParcelStills.open, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink())),
-            ]),
+        Positioned.fill(
+          child: CustomPaint(
+            painter: ExLampPainter(cx: 180, coneW: 280, coneH: 274, lampA: p.lampA, cone: r ? cone : lerpD(0.5, 1, cone), scaleX: r ? 1 : lerpD(1.3, 1, cone), bright: bright),
           ),
-        ))),
+        ),
+        _pos(
+          px - 110,
+          pt + 30,
+          220,
+          110,
+          _o(
+            leak,
+            Transform.scale(
+              scale: leakS,
+              child: CustomPaint(painter: ExPoolPainter(lampA: p.lampA, strength: 1.4)),
+            ),
+          ),
+        ),
+        _pos(
+          px - ps / 2,
+          pt,
+          ps,
+          ps,
+          _o(
+            parcelO,
+            Transform.rotate(
+              angle: pRot,
+              alignment: const Alignment(0, 0.8),
+              child: Transform.scale(
+                scale: pScale,
+                alignment: const Alignment(0, 0.8),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    _o(sealedO, Image.asset(ParcelStills.sealed, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink())),
+                    _o(popO, Image.asset(ParcelStills.pop, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink())),
+                    _o(openO, Image.asset(ParcelStills.open, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink())),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
         // Hop climbs out, clipped at the box's rim.
         Positioned(
           left: 0,
@@ -1602,44 +2397,113 @@ class _SlideShelf extends StatelessWidget {
           width: ExStage.w,
           height: rim + 4,
           child: ClipRect(
-            child: Stack(clipBehavior: Clip.none, children: [
-              ...exFold(
-                fold: FoldKey.hop,
-                x: px + 4,
-                base: hopBase,
-                size: 104,
-                pose: FoldPose.cheer,
-                large: true,
-                shadow: false,
-                move: ExMove(o: hopO, dy: 96 * (1 - hopK), sx: hsx, sy: hsy),
-                breathe: ms >= ExSlides.lengthMs[6] - 1 && !r,
-                phase: 17,
-                night: fx.night,
-              ),
-            ]),
+            child: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                ...exFold(
+                  fold: FoldKey.hop,
+                  x: px + 4,
+                  base: hopBase,
+                  size: 104,
+                  pose: FoldPose.cheer,
+                  large: true,
+                  shadow: false,
+                  move: ExMove(o: hopO, dy: 96 * (1 - hopK), sx: hsx, sy: hsy),
+                  breathe: ms >= ExSlides.lengthMs[6] - 1 && !r,
+                  phase: 17,
+                  night: fx.night,
+                ),
+              ],
+            ),
           ),
         ),
-        Positioned(left: 0, right: 0, top: pt + ps + 2, child: _o(nameO, ClipRect(clipper: ExRevealClipper(name), child: Text(MobExplainerCopy.hop, textAlign: TextAlign.center, style: context.mmType.headline.copyWith(fontSize: 24, height: 28 / 24, color: c.ink))))),
-        Positioned(left: 0, right: 0, top: pt + ps + 32 + lineDy, child: _o(lineO, Text(MobV3Copy.foldLine(FoldKey.hop), textAlign: TextAlign.center, style: context.mmType.small.copyWith(color: c.ink2)))),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: pt + ps + 2,
+          child: _o(
+            nameO,
+            ClipRect(
+              clipper: ExRevealClipper(name),
+              child: Text(
+                MobExplainerCopy.hop,
+                textAlign: TextAlign.center,
+                style: context.mmType.headline.copyWith(fontSize: 24, height: 28 / 24, color: c.ink),
+              ),
+            ),
+          ),
+        ),
+        Positioned(
+          left: 0,
+          right: 0,
+          top: pt + ps + 32 + lineDy,
+          child: _o(
+            lineO,
+            Text(
+              MobV3Copy.foldLine(FoldKey.hop),
+              textAlign: TextAlign.center,
+              style: context.mmType.small.copyWith(color: c.ink2),
+            ),
+          ),
+        ),
         _sparks(
           t,
           bursts: [ExBurst(x: px, y: rim - 10, n: fx.bits(22), at: 1200, floor: pt + ps - 6, seed: 31, up: 220)],
           glints: [const ExGlints(x: px, y: 116, n: 6, r: 74, at: 1350)],
         ),
         // The shelf.
-        _pos(16, shelfY, 328, 6, _o(plank, DecoratedBox(decoration: BoxDecoration(borderRadius: BorderRadius.circular(3), gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [p.back, Color.lerp(p.back, Colors.black, 0.3)!]))))),
+        _pos(
+          16,
+          shelfY,
+          328,
+          6,
+          _o(
+            plank,
+            DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(3),
+                gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: [p.back, Color.lerp(p.back, Colors.black, 0.3)!]),
+              ),
+            ),
+          ),
+        ),
         for (var i = 0; i < 4; i++)
           () {
             final x = 58 + i * 81.0;
             final (o, s) = t.pop(2200 + i * 90.0);
-            return _pos(x - 30, shelfY - 46, 60, 46, _o(o, Transform.scale(
-              scale: s,
-              alignment: Alignment.bottomCenter,
-              child: Align(alignment: Alignment.bottomCenter, child: FoldPuppet(fold: silhouettes[i], size: 44, locked: true, shadow: false, blink: false)),
-            )));
+            return _pos(
+              x - 30,
+              shelfY - 46,
+              60,
+              46,
+              _o(
+                o,
+                Transform.scale(
+                  scale: s,
+                  alignment: Alignment.bottomCenter,
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: FoldPuppet(fold: silhouettes[i], size: 44, locked: true, shadow: false, blink: false),
+                  ),
+                ),
+              ),
+            );
           }(),
         for (var i = 0; i < 4; i++)
-          _pos(58 + i * 81.0 - 40, shelfY + 12, 80, 40, _o(t.fade(2300 + i * 90.0, 240), Text(MobExplainerCopy.shelfRules[i], textAlign: TextAlign.center, style: _hanken(context, 12.5, w: FontWeight.w500, colour: c.ink2, height: 16)))),
+          _pos(
+            58 + i * 81.0 - 40,
+            shelfY + 12,
+            80,
+            40,
+            _o(
+              t.fade(2300 + i * 90.0, 240),
+              Text(
+                MobExplainerCopy.shelfRules[i],
+                textAlign: TextAlign.center,
+                style: _hanken(context, 12.5, w: FontWeight.w500, colour: c.ink2, height: 16),
+              ),
+            ),
+          ),
       ],
     );
   }
