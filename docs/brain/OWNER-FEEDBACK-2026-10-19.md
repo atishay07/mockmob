@@ -896,6 +896,6 @@ Billing page: "Your grace period has started. Your organization went over its qu
 > so that should not be the case. There should be good UI/UX everywhere. Not like this."
 **Ledger D185:** the Pro key says "Get Pro" everywhere (one plan; never "See Pro plans"). The Full mock sit sheet (enough, short, refused) is redesigned: visual first (the paper's facts as figures, the price as one figure with the balance), one primary key, at most one short line of text per idea, no text boxes inside cards, no mix of big/small/bold paragraphs. Applies to every screen: no text bombardment.
 
-## Owner, 20 Oct about 7:05 pm IST (verbatim, after the redesigned Full mock sheet and slide 3 images)
+## Owner, 20 Oct about 6:57 pm IST (verbatim, after the redesigned Full mock sheet and slide 3 images)
 > "All looks good, and don't make any regressive changes anywhere. Make sure that if you lack clarity on anything, call the continuum and check the previous context. Check everything. Everything is properly recorded in the brain, and you can ask me also, but don't break things."
 **Ledger D186:** the sit sheet redesign and slide 3 are approved. No regressions anywhere; when unclear, search the brain (continuum) first, then ask him.
