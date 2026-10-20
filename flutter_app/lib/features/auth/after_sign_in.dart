@@ -3,9 +3,12 @@ import 'dart:async';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../core/auth/auth_state.dart';
 import '../../core/router/router.dart' show routerProvider;
 import '../../core/router/routes.dart';
 import '../../core/storage/prefs_store.dart';
+import '../referrals/referral_data.dart' show referralStatusProvider;
+import '../referrals/welcome_credits_trigger.dart' show welcomeCreditsTriggerProvider;
 
 /// Where the after-sign-in sheet offer is remembered on this phone, so it comes up once.
 final signInPrefsStoreProvider = Provider<PrefsStore>(
@@ -107,7 +110,18 @@ void _openOverToday(
 
   void open() {
     onOpened();
-    router.push(AppRoutes.beforeYouStart);
+    // A new account's first minutes (owner, 20 Oct 11:20 pm): once this sheet closes, the welcome-credits sheet
+    // follows on Today, once per account. Only an account whose sheet opens here is ever armed. The invite status is
+    // read now, so the welcome has it by the time it opens.
+    final auth = ref.read(authSnapshotProvider);
+    final userId = auth.status == AuthStatus.signedIn ? auth.userId : null;
+    final welcome = userId == null ? null : ref.read(welcomeCreditsTriggerProvider);
+    if (userId != null) {
+      welcome!.arm(userId);
+      final keep = ref.listen(referralStatusProvider, (_, _) {});
+      Timer(const Duration(minutes: 2), keep.close);
+    }
+    unawaited(router.push<void>(AppRoutes.beforeYouStart).whenComplete(() => welcome?.sheetClosed()));
     unawaited(markBeforeYouStartOffered(ref.read(signInPrefsStoreProvider)));
   }
 

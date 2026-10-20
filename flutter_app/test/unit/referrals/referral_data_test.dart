@@ -85,7 +85,7 @@ void main() {
     expect(ReferralCopy.summary(joined: 1, practised: 0, rewarded: 0, reward: 100), '1 friend joined, 0 practised.');
     expect(ReferralCopy.summary(joined: 3, practised: 3, rewarded: 2, reward: 100), '3 friends joined, 3 practised.');
     expect(ReferralCopy.summary(joined: 0, practised: 0, rewarded: 0, reward: 100), ReferralCopy.none);
-    expect(ReferralCopy.title(100), 'Invite a friend, you both get 100 credits');
+    expect(ReferralCopy.title(100), 'Bring a friend, you both get 100 credits');
     final all = [
       ReferralCopy.title(100), ReferralCopy.how(100), ReferralCopy.mobLine(100), ReferralCopy.cap(10), ReferralCopy.share, ReferralCopy.copy,
       ReferralCopy.copied, ReferralCopy.shareFailed, ReferralCopy.shareText(100, 'https://www.mockmob.in/r/K7P2M9X'), ReferralCopy.none,
