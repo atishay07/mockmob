@@ -1246,9 +1246,9 @@ abstract final class MobV4ResultsCopy {
       : '${_cap(_numberWord(n))} weeks in a row for $mob. Nobody can break it alone.';
   static String studiedMost(String name, int minutes) => '$name studied the most: ${hm(minutes)}';
   static String youStudiedMost(int minutes) => 'You studied the most: ${hm(minutes)}';
-  static String crownOn(String name, int week) => "$name's crown goes on week $week's stitch.";
-  static String yourCrownOn(int week) => "Your crown goes on week $week's stitch.";
-  static const String tickMeans = 'A tick: met their own daily goal on 5 of 7 days.';
+  static String crownOn(int week) => "The crown goes on week\u00A0$week's stitch.";
+  static String yourCrownOn(int week) => "Your crown goes on week\u00A0$week's stitch.";
+  static const String tickMeans = 'A tick: met their own daily goal on 5 of 7\u00A0days.';
   static String hm(int minutes) {
     final h = minutes ~/ 60;
     final m = minutes % 60;

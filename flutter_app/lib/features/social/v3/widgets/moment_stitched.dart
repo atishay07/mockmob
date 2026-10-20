@@ -157,6 +157,21 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
     final lamp = LampState(strength: lerpD(0.6, 1.15, seg(t, 0, 300, MotionCurves.glide)) - 0.15 * seg(t, 900, 700), centreY: 0.25);
 
     final ink = const Color(0xFF221E17);
+    // The week's crown sits on the newest stitch once it is sewn (still, no motion: 4.3), when someone studied the most.
+    final crowned = widget.hours?.crownIn(widget.members) != null;
+    // The figure and its word are the pennant's art: unscaled, and the stitches start under the word, so a figure can
+    // never push the word onto them (1.3x text).
+    final figureStyle = type.figureHero.copyWith(fontSize: 80, color: ink);
+    final wordStyle = type.body.copyWith(color: ink.withValues(alpha: 0.82), fontSize: 24, height: 1.1, fontWeight: FontWeight.w600);
+    double boxOf(String text, TextStyle style, {TextHeightBehavior? behavior}) {
+      final p = TextPainter(text: TextSpan(text: text, style: style), textDirection: TextDirection.ltr, textScaler: TextScaler.noScaling, textHeightBehavior: behavior)..layout();
+      final h = p.height;
+      p.dispose();
+      return h;
+    }
+
+    const wordsTop = PennantPainter.hang + 12.0;
+    final stitchTop = wordsTop + boxOf('$n', figureStyle, behavior: MmType.figureHeightBehavior) + 2 + boxOf(MobV3Copy.pennantWord(n), wordStyle) + 18;
     final pennant = SizedBox(
       width: PennantPainter.width,
       height: PennantPainter.height + PennantPainter.hang,
@@ -173,20 +188,26 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
                 night: colors.isNight,
                 volt: colors.volt,
                 voltEdge: colors.voltEdge,
+                crown: crowned ? holes : null,
+                // The mock-up's stitches: one slanted volt dash per week in a row under "weeks", the newest glowing.
+                dashes: true,
+                stitchTop: stitchTop,
               ),
             ),
           ),
           Positioned(
             left: 0,
             right: 0,
-            top: PennantPainter.hang + 14,
-            child: Column(
-              children: [
-                RollNumber(from: math.max(0, n - 1), to: n, t: roll, style: type.figureHero.copyWith(fontSize: 76, color: ink)),
-                const SizedBox(height: 2),
-                // Part of the pennant's art (the headline says it in full), so it keeps its size inside the cloth at large text.
-                Text(MobV3Copy.weeksInARow(n), style: type.label.copyWith(color: ink.withValues(alpha: 0.8), fontSize: 14), textAlign: TextAlign.center, textScaler: TextScaler.noScaling),
-              ],
+            top: wordsTop,
+            child: MediaQuery.withNoTextScaling(
+              child: Column(
+                children: [
+                  RollNumber(from: math.max(0, n - 1), to: n, t: roll, style: figureStyle),
+                  const SizedBox(height: 2),
+                  // "weeks", as the mock-up draws it on the cloth (the headline says it in full).
+                  Text(MobV3Copy.pennantWord(n), style: wordStyle, textAlign: TextAlign.center),
+                ],
+              ),
             ),
           ),
         ],
@@ -195,13 +216,14 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
 
     final item = widget.item;
     // M7 (walk 19 Oct): at 360 x 640 dp the reward card fell behind the key. The pennant gives way:
-    // it scales down until the title, line, heads and card fit above the key.
+    // it scales down until the title, line, heads and card fit above the key, but never below 0.7 (its figure and word
+    // stay readable); past that the moment scrolls.
     final body = LayoutBuilder(builder: (context, box) {
       // The rest (title, line, heads, card) is measured after each layout; the first frame uses a
       // close guess, so the pennant settles at its size before the moment is visible.
       final rest = _restH ?? (item != null ? 480.0 : 360.0) * MediaQuery.textScalerOf(context).scale(1);
       const natural = PennantPainter.height + PennantPainter.hang + MmSpace.s4;
-      final fit = ((box.maxHeight - rest - MmSpace.s4) / natural).clamp(0.5, 1.0);
+      final fit = ((box.maxHeight - rest - MmSpace.s4) / natural).clamp(0.7, 1.0);
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
         final h = _restKey.currentContext?.size?.height;
@@ -229,9 +251,11 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
     final colors = context.mmColors;
     final type = context.mmType;
     const natural = PennantPainter.height + PennantPainter.hang;
+    // The cards run on the 16 dp gutter, as the mock-up draws them; the words keep the moment's 24 dp.
+    const words = EdgeInsets.symmetric(horizontal: MmSpace.momentGutter - MmSpace.gutter);
     return SingleChildScrollView(
       physics: const ClampingScrollPhysics(),
-      padding: const EdgeInsets.symmetric(horizontal: MmSpace.momentGutter),
+      padding: const EdgeInsets.symmetric(horizontal: MmSpace.gutter),
       child: Column(
         children: [
           const SizedBox(height: MmSpace.s4),
@@ -255,13 +279,13 @@ class _StitchedMomentState extends MomentStageState<StitchedMoment> {
             key: _restKey,
             children: [
           const SizedBox(height: MmSpace.s20),
-          EngraveText(MobV4ResultsCopy.weekStitched(n), style: type.headline.copyWith(color: colors.ink), t: titleT),
+          Padding(padding: words, child: EngraveText(MobV4ResultsCopy.weekStitched(n), style: type.headline.copyWith(color: colors.ink), t: titleT)),
           const SizedBox(height: MmSpace.s8),
           Opacity(
             opacity: lineT,
             child: Transform.translate(
               offset: Offset(0, (1 - lineT) * 6),
-              child: Text(MobV4ResultsCopy.weeksForMob(n, widget.mobName), style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+              child: Padding(padding: words, child: Text(MobV4ResultsCopy.weeksForMob(n, widget.mobName), style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center)),
             ),
           ),
           const SizedBox(height: MmSpace.s16),
@@ -350,7 +374,7 @@ class _RewardCard extends StatelessWidget {
 /// stitch is sewn by [sew] 0..1 with the needle riding the thread's tangent; [holes] inks the thread
 /// holes; [glints] 0..1 runs three glints along it.
 class PennantPainter extends CustomPainter {
-  PennantPainter({required this.weeks, required this.sew, required this.holes, this.glints, required this.night, required this.volt, required this.voltEdge});
+  PennantPainter({required this.weeks, required this.sew, required this.holes, this.glints, required this.night, required this.volt, required this.voltEdge, this.crown, this.dashes = false, this.stitchTop});
 
   static const double width = 172;
   static const double height = 236;
@@ -366,6 +390,35 @@ class PennantPainter extends CustomPainter {
   final bool night;
   final Color volt;
   final Color voltEdge;
+
+  /// The week's crown on the newest stitch, 0..1 (it appears with the thread holes); null draws none.
+  final double? crown;
+
+  /// Week stitched (mock-up `week-*`): each week is a short slanted dash, four to a row (six past four weeks), starting
+  /// at [stitchTop], with a soft volt glow under the newest. False keeps the full-width thread rows (the explainer).
+  final bool dashes;
+  final double? stitchTop;
+
+  /// The dash of week [i] (0 is the first) out of [count], in a pennant of size [s].
+  static Path dashPath(Size s, int i, int count, double top) {
+    final w = s.width;
+    final perRow = count <= 4 ? 4 : 6;
+    final step = w * (count <= 4 ? 0.2 : 0.135);
+    final len = w * (count <= 4 ? 0.16 : 0.12);
+    const angle = 35 * math.pi / 180;
+    final dx = math.cos(angle) * len / 2;
+    final dy = math.sin(angle) * len / 2;
+    final row = i ~/ perRow;
+    final inRow = math.min(perRow, count - row * perRow);
+    final col = i % perRow;
+    final cx = w / 2 + (col - (inRow - 1) / 2) * step;
+    // Two rows sit either side of where one row would (past four weeks), clear of the pointed foot.
+    final rowsN = (count / perRow).ceil();
+    final cy = top + dy + 3 + row * 16 - (rowsN - 1) * 8;
+    return Path()
+      ..moveTo(cx - dx, cy + dy)
+      ..lineTo(cx + dx, cy - dy);
+  }
 
   static Path body(Size s) {
     const top = hang;
@@ -458,13 +511,26 @@ class PennantPainter extends CustomPainter {
 
     // Stitches.
     final rows = math.min(weeks, maxRows);
+    final top = math.min(stitchTop ?? hang + 132, size.height - 64);
+    Path pathOf(int i) => dashes ? dashPath(size, i, rows, top) : stitchPath(size, i, rows);
+    // The newest dash glows volt once it is sewn, softly (it stays lit while the moment rests).
+    if (dashes && rows > 0 && holes > 0) {
+      final c = pathOf(rows - 1).getBounds().center;
+      canvas.drawCircle(
+        c,
+        44,
+        Paint()
+          ..shader = RadialGradient(colors: [volt.withValues(alpha: (night ? 0.22 : 0.30) * holes), volt.withValues(alpha: 0)]).createShader(Rect.fromCircle(center: c, radius: 44)),
+      );
+    }
     for (var i = 0; i < rows; i++) {
-      final path = stitchPath(size, i, rows);
+      final path = pathOf(i);
       final newest = i == rows - 1;
       final metric = path.computeMetrics().first;
       final drawn = newest ? metric.extractPath(0, metric.length * sew) : path;
-      _thread(canvas, drawn);
-      final holeAlpha = newest ? holes : 1.0;
+      // A dash not yet begun is not drawn (its round caps would leave a dot).
+      if (!(dashes && newest && sew <= 0)) _thread(canvas, drawn);
+      final holeAlpha = dashes ? 0.0 : (newest ? holes : 1.0);
       if (holeAlpha > 0) {
         final hp = Paint()..color = const Color(0xFF3C4A00).withValues(alpha: 0.55 * holeAlpha);
         for (var d = 5.0; d < metric.length; d += 9) {
@@ -483,17 +549,29 @@ class PennantPainter extends CustomPainter {
         }
       }
     }
+    // The crown sits on the newest stitch: at a dash's upper end (as the mock-up draws it), or at a thread row's right
+    // end, clear of the rows above it.
+    final k = crown;
+    if (k != null && k > 0 && rows > 0) {
+      const crownSize = Size(20, 13);
+      final b = pathOf(rows - 1).getBounds();
+      final at = dashes ? Offset(b.right - 5, b.top - crownSize.height - 1) : Offset(w * 0.85 + 3, b.bottom - crownSize.height);
+      canvas.saveLayer(null, Paint()..color = Color.fromRGBO(0, 0, 0, k.clamp(0.0, 1.0)));
+      canvas.translate(at.dx, at.dy);
+      const CrownPainter().paint(canvas, crownSize);
+      canvas.restore();
+    }
   }
 
   void _thread(Canvas canvas, Path p) {
     canvas.drawPath(p, Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 5
+      ..strokeWidth = dashes ? 8 : 5
       ..strokeCap = StrokeCap.round
       ..color = voltEdge);
     canvas.drawPath(p, Paint()
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.2
+      ..strokeWidth = dashes ? 6 : 3.2
       ..strokeCap = StrokeCap.round
       ..color = volt);
   }
@@ -518,7 +596,15 @@ class PennantPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(PennantPainter old) =>
-      old.weeks != weeks || old.sew != sew || old.holes != holes || old.glints != glints || old.night != night || old.volt != volt;
+      old.weeks != weeks ||
+      old.sew != sew ||
+      old.holes != holes ||
+      old.glints != glints ||
+      old.night != night ||
+      old.volt != volt ||
+      old.crown != crown ||
+      old.dashes != dashes ||
+      old.stitchTop != stitchTop;
 }
 
 /// The Mob hours card on the stitch: the crowned head and "Riya studied the most: 6 h 20 m", "Riya's crown goes on
@@ -539,8 +625,9 @@ class _HoursCard extends StatelessWidget {
     final crowned = crown == null ? null : members.firstWhere((m) => m.memberId == crown.memberId);
     final shown = hours.shownIn(members);
     final anyTick = shown.any((p) => p.$2.tick);
-    final tickFill = c.isNight ? c.volt : c.ink;
-    final tickInk = c.isNight ? const Color(0xFF0B0B0F) : c.raised;
+    // One tick in both themes and on both screens (the This week sheet too): a volt disc with a dark check.
+    final tickFill = c.volt;
+    final tickInk = c.voltInk;
     return Container(
       key: const ValueKey('k3-hours'),
       width: double.infinity,
@@ -554,13 +641,13 @@ class _HoursCard extends StatelessWidget {
               key: const ValueKey('k3-crown'),
               children: [
                 SizedBox(
-                  width: 52,
-                  height: 58,
+                  width: 48,
+                  height: 54,
                   child: Stack(
                     clipBehavior: Clip.none,
                     children: [
-                      Positioned(left: 0, bottom: 0, child: HeadDisc(member: crowned, size: 48)),
-                      const Positioned(left: 13, top: 0, child: CustomPaint(size: Size(22, 14), painter: CrownPainter())),
+                      Positioned(left: 0, bottom: 0, child: HeadDisc(member: crowned, size: 44)),
+                      const Positioned(left: 11, top: 0, child: CustomPaint(size: Size(22, 14), painter: CrownPainter())),
                     ],
                   ),
                 ),
@@ -569,12 +656,13 @@ class _HoursCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      // Two short lines, as the mock-up draws them: who and the time, then where the crown goes.
                       Text(
                         crowned.you ? MobV4ResultsCopy.youStudiedMost(crown.minutes) : MobV4ResultsCopy.studiedMost(crowned.name, crown.minutes),
-                        style: type.body.copyWith(color: c.ink, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]),
+                        style: type.labelLarge.copyWith(color: c.ink, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]),
                       ),
                       const SizedBox(height: 2),
-                      Text(crowned.you ? MobV4ResultsCopy.yourCrownOn(week) : MobV4ResultsCopy.crownOn(crowned.name, week), style: type.small.copyWith(color: c.ink2)),
+                      Text(crowned.you ? MobV4ResultsCopy.yourCrownOn(week) : MobV4ResultsCopy.crownOn(week), style: type.small.copyWith(color: c.ink2)),
                     ],
                   ),
                 ),
