@@ -32,7 +32,7 @@ import { computeMobChain } from '../../mob/mobChain.mjs';
 import { cameBack, chainChip } from '../../chain/chain.mjs';
 import { createChainService } from '../chain.js';
 import { memberIdFor } from './memberId.js';
-import { readHours } from './hours.js';
+import { createHoursReader } from './hours.js';
 
 export const STICKERS = Object.freeze(['nice_one', 'so_close', 'teach_me', 'again', 'good_luck', 'lets_go', 'one_sec', 'ready']);
 export const FIXED_FOR_CRANE = 3;
@@ -55,6 +55,8 @@ export function createMobV3Service(deps, helpers = {}) {
     }
   };
   const chains = createChainService({ rpc: deps.rpc, now });
+  // Mob hours: the heavy aggregate is shared per Mob and week for about a minute (deps.hoursCacheMs: 0 turns it off, tests).
+  const hoursReader = createHoursReader({ ttlMs: deps.hoursCacheMs ?? undefined, now });
   const billingOn = () => (deps.billingOn ? deps.billingOn() === true : false);
   const liveOn = () => (deps.liveEnabled ? deps.liveEnabled() === true : false);
   // Races and Full mock together (MOB_FORMATS_ENABLED; migration 20261020140000 first).
@@ -787,6 +789,9 @@ export function createMobV3Service(deps, helpers = {}) {
     const members = memberMap(state, userId);
     const me = members.get(userId);
     const week = mobWeek(now());
+    // Mob hours (migration 20261020150000_mob_hours) starts now and is awaited at the end, so it runs beside the other reads and not
+    // after them. readHours never throws: null (so no `hours` key) until that migration is applied, or when the read fails (logged).
+    const hoursRead = hoursReader.readHours(call, { userId, mobId: state.mob.id, week, nowIso: nowIso(), members });
     // Close what has closed (the trap and the sticker cleanup), once.
     for (const g of state.games || []) {
       await ensureSettled(g).catch(() => null);
@@ -814,8 +819,7 @@ export function createMobV3Service(deps, helpers = {}) {
     const micFrom = startStatus?.mic_from ? members.get(startStatus.mic_from) : null;
     const starts = startsView({ billingOn: billingOn(), pro, claimUsed: startStatus?.claim_used === true, micsHeld: Number(startStatus?.mics) || 0, micsGiven: Number(startStatus?.mics_given) || 0, liveOn: liveOn(), formatsOn: formatsOn() });
     if (starts.mics > 0 && micFrom) starts.micFrom = { memberId: micFrom.memberId, name: micFrom.name };
-    // Mob hours (migration 20261020150000_mob_hours): one aggregate read; null (so no `hours` key) until that migration is applied.
-    const hours = await readHours(call, { userId, mobId: state.mob.id, week, nowIso: nowIso(), members });
+    const hours = await hoursRead;
     return {
       ...(hours ? { hours } : {}),
       name: mobName(state.mob.name_key, subjectName(state.mob.subject)),

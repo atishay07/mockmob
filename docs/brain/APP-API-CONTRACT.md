@@ -46,6 +46,11 @@ hours: {
 - `top_member_id` is the member with the most minutes, and only when at least two members are listed and the top is not tied.
   With one sharer, or a tie at the top, it is `null` (nobody is crowned; never a rank below the top).
 - `studying_now[].since` is the member's first practice answer inside the 10 minutes before the request.
+- `studying_now` is only as live as what the server stores. It lights up from: a running durable session's answers, a paper that was
+  just submitted (its answers fall in the window), and the per-answer check (`session_check_log`, when that is on). **A device-ticket
+  paper that is still running stores nothing until it is submitted** (production has `LEARNING_SESSIONS_ENABLED` off, so ordinary
+  practice and NTA mocks are device-ticket papers), so a member in the middle of one is not in `studying_now` yet. The app must not
+  promise a live "now" beyond that: word it as "studied in the last few minutes", never "is studying right now".
 - A member with 0 minutes, and a member who has not opted in, is never in `members`. A member who has not opted in is never in
   `studying_now`. Their time is never read from the database.
 - The den is read with `Cache-Control: no-store`; the numbers are as fresh as the request.
@@ -61,8 +66,14 @@ The sum of the member's real answer time on MockMob practice answers in the IST 
 - Each such question counts at most **180 seconds (3 minutes)** in its session.
 - A question belongs to the IST day and week of its last answer.
 - `minutes` is whole minutes, rounded down. Under a minute is 0 and is not listed.
-- Source: `recovery_sessions.events` (the practice runner's visit and answer events). Mob game answers and Fix it together checks do
-  not count toward hours in this version.
+- Source, in this order: `public.attempts` (`attempts.selection_meta.recovery`, the record every finished practice or NTA mock keeps,
+  device-ticket or durable alike), then `recovery_sessions.events` for a durable paper that has no attempt yet (still running). A paper
+  with both is counted once (the attempt id is the session id). A question's day is the IST day of its last answer: for an attempt, the
+  submit time minus the record's last paper clock, plus the answer's clock.
+- **OWNER DECISION NEEDED (not decided, server-side default):** Mob rounds (sprint and race answers in `mob_game_runs`) and Fix it
+  together checks do **not** count toward hours in this version. A member whose only practice this week was Mob rounds shows 0 minutes.
+  The app copy must therefore say "practice" or "mocks", never "all your MockMob time". If the owner wants Mob rounds to count, it is
+  one more source in the same SQL aggregate (each round answer's `elapsed_ms`, capped at 180 s, on the IST day of the answer).
 
 Hours earn nothing: no credits, no rank below the crown, no countdown, no "less" copy (D174).
 
@@ -85,6 +96,14 @@ PATCH /api/mob/me   { "mob": "<mob id>", "share_study_time": true | false }
 
 ### Server reads
 
-One RPC, `public.mob_hours(p_user_id, p_mob_id, p_week, p_now)`, aggregates in SQL and returns at most one row per sharing member
-plus the "studying now" rows (a Mob is a handful of members). Raw answers are never pulled to the server. Nothing is stored: the minutes
-are computed on every den read. A new index `recovery_sessions (user_id, created_at)` backs it.
+Two small RPCs per den read: `public.mob_hours_head(p_user_id, p_mob_id)` (membership, the caller's switch, who shares) and
+`public.mob_hours_rows(p_mob_id, p_week, p_now)` (the aggregate, the same for every viewer of a Mob). `mob_hours(...)` is both in one
+call, for dry runs. The aggregate returns at most one row per sharing member plus the "studying now" rows (a Mob is a handful of
+members); raw answers are never pulled to the server. Nothing is stored: the minutes are computed from `attempts` (index
+`attempts_user_completed_idx`) and `recovery_sessions` (new index `recovery_sessions (user_id, created_at)`).
+
+The server keeps the aggregate in process for about 60 seconds, keyed by Mob, week and the set of sharing members, so a den polled
+every 30 s by several members runs it about once a minute. Flipping a switch changes the set and so recomputes at once, on every
+server instance. The minutes and "studying now" can therefore lag by up to a minute. The den read also starts the hours read at the
+beginning, beside the other den reads. A failure of the hours read (other than "migration not applied") leaves `hours` out of that
+response and is logged as `mob_hours_failed` with an error code and no ids.
