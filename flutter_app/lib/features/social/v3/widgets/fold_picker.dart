@@ -55,13 +55,16 @@ class FoldHeadDisc extends ConsumerWidget {
 }
 
 /// Four starter cards, two by two: the figure, the name and the line. One is chosen (an ink rim and
-/// the answer-sheet bubble, never volt: the key is the screen's one volt thing).
+/// the answer-sheet bubble, never volt: the key is the screen's one volt thing). [compact] is the
+/// setup's card (one question a screen under the den): a smaller figure, the bubble in the corner and
+/// the words flush left, so the four fit above the key on a 780 dp phone.
 class FoldPickerCards extends StatelessWidget {
-  const FoldPickerCards({super.key, required this.folds, required this.selected, required this.onChanged});
+  const FoldPickerCards({super.key, required this.folds, required this.selected, required this.onChanged, this.compact = false});
 
   final List<FoldKey> folds;
   final FoldKey? selected;
   final ValueChanged<FoldKey> onChanged;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
@@ -72,7 +75,7 @@ class FoldPickerCards extends StatelessWidget {
         return Wrap(
           spacing: gap,
           runSpacing: gap,
-          children: [for (final f in folds) SizedBox(width: w, child: FoldCard(fold: f, selected: f == selected, onTap: () => onChanged(f)))],
+          children: [for (final f in folds) SizedBox(width: w, child: FoldCard(fold: f, selected: f == selected, compact: compact, onTap: () => onChanged(f)))],
         );
       },
     );
@@ -80,11 +83,12 @@ class FoldPickerCards extends StatelessWidget {
 }
 
 class FoldCard extends ConsumerWidget {
-  const FoldCard({super.key, required this.fold, required this.selected, required this.onTap});
+  const FoldCard({super.key, required this.fold, required this.selected, required this.onTap, this.compact = false});
 
   final FoldKey fold;
   final bool selected;
   final VoidCallback onTap;
+  final bool compact;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -106,21 +110,41 @@ class FoldCard extends ConsumerWidget {
           borderRadius: MmRadius.keyAll,
           border: Border.fromBorderSide(MmSelection.side(c, selected: selected)),
         ),
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, MmSpace.s12),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Align(alignment: Alignment.topRight, child: SelectBubble(selected: selected)),
-              FoldPuppet(fold: fold, size: 68, blink: false, fallbackName: name),
-              const SizedBox(height: MmSpace.s12),
-              Text(name, textAlign: TextAlign.center, style: type.cardTitle.copyWith(color: c.ink)),
-              const SizedBox(height: MmSpace.s4),
-              Text(line, textAlign: TextAlign.center, style: type.caption.copyWith(color: c.ink2)),
-            ],
-          ),
-        ),
+        child: compact
+            ? Stack(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, MmSpace.s12),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Center(child: FoldPuppet(fold: fold, size: 56, blink: false, fallbackName: name)),
+                        const SizedBox(height: MmSpace.s8),
+                        Text(name, style: type.cardTitle.copyWith(color: c.ink)),
+                        const SizedBox(height: MmSpace.s2),
+                        Text(line, style: type.caption.copyWith(color: c.ink2)),
+                      ],
+                    ),
+                  ),
+                  Positioned(top: MmSpace.s12, right: MmSpace.s12, child: SelectBubble(selected: selected, size: 14)),
+                ],
+              )
+            : Padding(
+                padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s12, MmSpace.s12, MmSpace.s12),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Align(alignment: Alignment.topRight, child: SelectBubble(selected: selected)),
+                    FoldPuppet(fold: fold, size: 68, blink: false, fallbackName: name),
+                    const SizedBox(height: MmSpace.s12),
+                    Text(name, textAlign: TextAlign.center, style: type.cardTitle.copyWith(color: c.ink)),
+                    const SizedBox(height: MmSpace.s4),
+                    Text(line, textAlign: TextAlign.center, style: type.caption.copyWith(color: c.ink2)),
+                  ],
+                ),
+              ),
       ),
     );
   }
