@@ -133,6 +133,22 @@ function LabStage({ recoveryState, timeline, setTimeline, pinned, goTo: storyGoT
     } else if (key === 'leak' && pipPresent) pipReact('lab', 'nod');
   }, [step, inView, pipPresent]);
 
+  // The replay deals itself in each time the lab comes into the reading window (the rising edge of inView)
+  // while its first step is on and the tour is playing: the clock starts again from zero, so the tiles
+  // deal in and the bar refills instead of meeting the reader finished and still. Held (pinned), the
+  // reader's scroll owns only the step index; this clock still plays that step's own reveals. Declared
+  // before the clock effect so the restart is in place when the clock reads it. Pause, keyboard focus
+  // and reduced motion keep their meaning: none of them restarts anything.
+  const wasInView = useRef(false);
+  useEffect(() => {
+    const rose = inView && !wasInView.current;
+    wasInView.current = inView;
+    if (!rose || reduced || !playing || hold || step !== 0) return;
+    clockRef.current = { token, elapsed: 0 };
+    setRevealed(0);
+    setPicked(null);
+  }, [inView, reduced, playing, hold, step, token]);
+
   // A single elapsed clock owns the step, question reveals and visible progress.
   // Leaving the reading region preserves elapsed time; it never catches up offscreen.
   useEffect(() => {
