@@ -4,6 +4,7 @@ import { supabaseAdmin } from '@/lib/supabase';
 import { Database } from '@/../data/db';
 import { checkRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit';
 import { topContributorCounts } from '@/lib/server/standing';
+import { createTtlMemo } from '@/../data/ttl_memo';
 import {
   failRequestDiagnostics,
   finishRequestDiagnostics,
@@ -12,6 +13,7 @@ import {
 
 export const dynamic = 'force-dynamic';
 
+const contributorMemo = createTtlMemo({ ttlMs: 30 * 60 * 1000, max: 1, copy: (value) => JSON.parse(JSON.stringify(value)) });
 const FREE_BOOKMARK_LIMIT = 25;
 const FREE_WEEKLY_GOAL = 30;
 const PREMIUM_WEEKLY_GOAL = 80;
@@ -106,12 +108,12 @@ export async function GET(request) {
         .from('user_question_progress')
         .select('question_id, subject, chapter, seen_count, attempt_count, correct_count, skip_count, best_dwell_ms, updated_at, last_attempted_at')
         .eq('user_id', session.user.id),
-      supabaseAdmin()
-        .from('questions')
-        .select('uploaded_by, author_id, status')
-        .eq('is_deleted', false)
-        .eq('status', 'live')
-        .limit(500),
+      // The three most active contributors are a public aggregate of an unordered sample of 500 live rows: the same for every student,
+      // so it is computed once per server and kept thirty minutes (egress F17). A failed read is not remembered.
+      contributorMemo.get('top', async () => {
+        const result = await supabaseAdmin().from('questions').select('uploaded_by, author_id, status').eq('is_deleted', false).eq('status', 'live').limit(500);
+        return result.error ? undefined : topContributorCounts(result.data || []);
+      }).catch(() => undefined),
     ]);
 
     const scopedAttempts = subject ? attempts.filter((attempt) => attempt.subject === subject) : attempts;
@@ -168,7 +170,7 @@ export async function GET(request) {
     }
 
     // Counts only. Other students' ids, names and photos never leave this route (privacy hotfix, 17 Oct 2026).
-    const topContributors = topContributorCounts(contributorResult.error ? [] : (contributorResult.data || []));
+    const topContributors = contributorResult ?? [];
 
     const accuracy = answered > 0 ? Math.round((correct / answered) * 100) : 0;
     const weeklyGoal = isPremium ? PREMIUM_WEEKLY_GOAL : FREE_WEEKLY_GOAL;

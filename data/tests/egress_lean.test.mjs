@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { attemptMemoKey, readAttemptRows, resetSlimState, memoisedAttempts } from '../attempt_reads.js';
+import { attemptMemoKey, attemptMemoKeyFor, readAttemptRows, resetSlimState, memoisedAttempts } from '../attempt_reads.js';
 import { formatIdFor } from '../../src/lib/server/attemptSummary.js';
 import { learningPlan } from '../learning_engine.js';
 import { tonightCompletion, studyMilestones } from '../study_progress.js';
@@ -425,4 +425,26 @@ test('A7: the repair record and the credits repair names are identical from the 
   const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
   assert.match(src('src/lib/server/repairRecord.js'), /readSlimRows\(db, userId, 'review', \{ limit: ATTEMPT_WINDOW \}\)/);
   assert.match(src('src/lib/server/credits.js'), /readSlimRows\(client, userId, 'review', \{ limit: REPAIR_WINDOW \}\)/);
+});
+
+test('memo: a slim read in a request that already holds the full read reuses it, so a slim read never adds a read next to an old full one', async () => {
+  const db = pgSupabase(pg);
+  const memo = new Map();
+  const read = (options) => memoisedAttempts(memo, attemptMemoKeyFor(memo, 'u1', options), async () => (await readAttemptRows(db, 'u1', options)).map(attemptOut));
+  const full = await read({});
+  const plan = await read({ slim: 'plan' });
+  assert.equal(db.calls.length, 1, 'one database read for the full read and the plan read of the same request');
+  assert.deepEqual(plan, full);
+  // the other order, and another shape, read as usual
+  const other = new Map();
+  const db2 = pgSupabase(pg);
+  const read2 = (options) => memoisedAttempts(other, attemptMemoKeyFor(other, 'u1', options), async () => (await readAttemptRows(db2, 'u1', options)).map(attemptOut));
+  await read2({ slim: 'plan' });
+  await read2({});
+  assert.equal(db2.calls.length, 2, 'a lean read does not stand in for a later full read');
+  await read2({ limit: 60, slim: 'history' });
+  assert.equal(db2.calls.length, 3, 'a slim read with a limit is another shape than the unlimited full read');
+  assert.equal(attemptMemoKeyFor(undefined, 'u1', { slim: 'plan' }), attemptMemoKey('u1', { slim: 'plan' }), 'without a memo nothing changes');
+  const src = readFileSync(new URL('../db.js', import.meta.url), 'utf8');
+  assert.match(src, /attemptMemoKeyFor\(memo, userId, \{ columns, limit, slim \}\)/);
 });

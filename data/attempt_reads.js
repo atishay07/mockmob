@@ -137,4 +137,13 @@ export function memoisedAttempts(memo, key, load) {
 }
 
 // A slim read never shares a memo entry with a full one (or with another profile): their rows differ.
+// A slim read in a request that already holds the full read of the same attempts takes the full rows from the memo (a superset: every
+// consumer of a slim profile reads only fields the full row has), so adding a slim read next to an old full one never adds a read.
+export function attemptMemoKeyFor(memo, userId, { columns, limit, slim } = {}) {
+  if (slimProfile(slim) && memo instanceof Map) {
+    const full = attemptMemoKey(userId, { columns, limit });
+    if (memo.has(full)) return full;
+  }
+  return attemptMemoKey(userId, { columns, limit, slim });
+}
 export const attemptMemoKey = (userId, { columns, limit, slim } = {}) => `${userId}|${attemptSelect(columns)}|${attemptLimit(limit) ?? ''}${slimProfile(slim) ? `|slim:${slim}` : ''}`;

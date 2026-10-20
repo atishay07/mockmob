@@ -45,6 +45,49 @@ export async function readStatRows(qids, { db } = {}) {
   return out;
 }
 
+// Kept per database client (production has one; a test fake gets its own): the table's newest refresh for five minutes, and the rows
+// of a question for thirty minutes, dropped whole whenever the table's newest refresh moves. The table holds aggregates about a
+// question and no user id, so what is kept is the same for every student (egress F18). At most MAX_CACHED_QUESTIONS questions.
+export const NEWEST_MEMO_MS = 5 * 60 * 1000;
+export const ROWS_MEMO_MS = 30 * 60 * 1000;
+export const MAX_CACHED_QUESTIONS = 2000;
+const memos = new WeakMap();
+const memoOf = (client) => {
+  if (client === null || typeof client !== 'object') return { newest: null, version: null, rows: new Map() };
+  if (!memos.has(client)) memos.set(client, { newest: null, version: null, rows: new Map() });
+  return memos.get(client);
+};
+const clone = (value) => JSON.parse(JSON.stringify(value));
+
+async function newestMemoised(client, at) {
+  const memo = memoOf(client);
+  if (memo.newest && at - memo.newest.at < NEWEST_MEMO_MS) return memo.newest.value;
+  const value = await newestStatsRefresh({ db: client });
+  memo.newest = { value, at };
+  return value;
+}
+
+async function rowsMemoised(client, qids, newest, at) {
+  const memo = memoOf(client);
+  if (memo.version !== newest) { memo.rows.clear(); memo.version = newest; }
+  const ids = [...new Set((qids || []).filter((q) => typeof q === 'string' && q))].slice(0, MAX_QUESTIONS);
+  const out = [];
+  const missing = [];
+  for (const id of ids) {
+    const hit = memo.rows.get(id);
+    if (hit && at - hit.at < ROWS_MEMO_MS) out.push(...clone(hit.rows)); else missing.push(id);
+  }
+  if (missing.length) {
+    const read = await readStatRows(missing, { db: client });
+    const by = new Map(missing.map((id) => [id, []]));
+    for (const row of read) by.get(row.qid)?.push(row);
+    for (const [id, rows] of by) { memo.rows.delete(id); memo.rows.set(id, { rows: clone(rows), at }); }
+    while (memo.rows.size > MAX_CACHED_QUESTIONS) memo.rows.delete(memo.rows.keys().next().value);
+    out.push(...read);
+  }
+  return out;
+}
+
 /**
  * The route's cohort reader. Same arguments and result as data/cohort_picks.js readCohort ({ attempt, allAttempts,
  * answerReviews }), plus `time` on each question the table has numbers for. The table is used only while its newest
@@ -54,10 +97,11 @@ export async function readStatRows(qids, { db } = {}) {
 export async function readCohortWithTime(input, { db, now = Date.now(), staticRead = readCohort } = {}) {
   try {
     const client = db || (await adminClient());
-    const newest = await newestStatsRefresh({ db: client });
+    const clock = Date.now();
+    const newest = await newestMemoised(client, clock);
     if (newest && isFresh(newest, now)) {
       const qids = (input?.attempt?.questionsSnapshot || []).map((q) => q?.id);
-      const rows = await readStatRows(qids, { db: client });
+      const rows = await rowsMemoised(client, qids, newest, clock);
       // A fresh table is the source even when it has nothing for this paper: the snapshot is older than the table.
       const snapshot = tableSnapshot(rows) || { version: 1, builtAt: new Date(newest).toISOString(), since: null, until: null, source: 'table', questions: {} };
       return cohortForAttempt({ attempt: input.attempt, allAttempts: input.allAttempts, answerReviews: input.answerReviews, snapshot });

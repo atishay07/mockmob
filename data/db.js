@@ -25,7 +25,7 @@ import { publicationEligibility, sharedEligibilitySnapshot } from './evidence_re
 import { assertFullBankRead } from './full_bank_guard';
 import { selectPracticeQuestions } from './practice_pick';
 import { createPracticeSource, isMissingPhase1VoteSchema } from './practice_source';
-import { attemptMemoKey, memoisedAttempts, readAttemptRows } from './attempt_reads';
+import { attemptMemoKeyFor, memoisedAttempts, readAttemptRows } from './attempt_reads';
 import { readUserProgress, readConceptBuckets } from './practice_progress';
 import { toPublicSubjectId } from './cuet_controls';
 import { retiredSubjectsIn, withoutRetiredSubjects } from './subject_claim';
@@ -1606,7 +1606,7 @@ export const Database = {
     if (!userId) throw new Error('attempt_owner_required');
     // `slim` ('summary' | 'plan' | 'history'): a database function reduces the snapshot before it is shipped (data/attempt_reads.js).
     const load = async () => (await readAttemptRows(supabaseAdmin(), userId, { columns, limit, slim })).map(attemptOut);
-    return memoisedAttempts(memo, attemptMemoKey(userId, { columns, limit, slim }), load);
+    return memoisedAttempts(memo, attemptMemoKeyFor(memo, userId, { columns, limit, slim }), load);
   },
 
   async getAttemptById(id) {
@@ -1711,10 +1711,13 @@ export const Database = {
   // =====================================================================
   // LEADERBOARD
   // =====================================================================
-  async getLeaderboard() {
+  // `withProfile: false` asks the function for the three columns the standing reads (names and images are about half of its bytes and
+  // no caller shows another student's; they come back null then).
+  async getLeaderboard({ withProfile = true } = {}) {
     // One group-by query in the database (mm_leaderboard): one row per user with >= 1 attempt, with name and
     // image joined. Only a missing function (migration not applied yet) falls back to the old paging below.
-    const { data: ranked, error: rankedError } = await supabaseAdmin().rpc('mm_leaderboard');
+    const board = supabaseAdmin().rpc('mm_leaderboard');
+    const { data: ranked, error: rankedError } = await (withProfile ? board : board.select('user_id,tests,total_score'));
     if (!rankedError) {
       return (ranked || []).map(r => {
         const tests = Number(r.tests) || 0;
