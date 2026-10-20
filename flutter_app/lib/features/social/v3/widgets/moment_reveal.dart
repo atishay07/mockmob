@@ -150,7 +150,8 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
 
   @override
   late final List<MomentCue> cues = [
-    MomentCue(300, () => haptics?.light()),
+    // MOB-MINIMAL 4.3 haptics: medium as the seal pops, light as the Fold's boots land on the rim, and confirm once
+    // its name is engraved (the den read that brought this Fold is the server's acknowledgement).
     MomentCue(700, () => haptics?.medium()),
     MomentCue(900, () {
       final c = centreIn(_parcel, _stage, shift: Offset(0, ParcelGeo.centre.dy * RevealGeo.parcel - RevealGeo.parcel / 2));
@@ -168,6 +169,8 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
         seed: 9,
       ));
     }),
+    MomentCue(1240, () => haptics?.light()),
+    MomentCue(1620, () => haptics?.confirm()),
   ];
 
   /// The parcel's pose at [t] ms (public for the frame tests).
@@ -352,7 +355,7 @@ class RevealMomentState extends MomentStageState<RevealMoment> {
       // In the results run (A10): "Sit as Hop" and Continue, as the mock-ups draw it; the shelf is one tap from the den.
       keys: run != null
           ? [
-              momentKey(MobV3Copy.playAs(widget.fold), widget.onPlayAs, primary: false, loading: widget.playing, key: const ValueKey('k4-play')),
+              momentKey(MobV4ResultsCopy.sitAs(MobV3Copy.foldName(widget.fold)), widget.onPlayAs, primary: false, loading: widget.playing, key: const ValueKey('k4-play')),
               momentKey(run.last ? MobV4ResultsCopy.toTheDen : MobV4ResultsCopy.continueKey, widget.onShelf, key: const ValueKey('k4-continue')),
             ]
           : [

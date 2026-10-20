@@ -107,6 +107,20 @@ List<String> achievementsFor(DenView? den, List<String> chainDue, {Set<String> p
   return out;
 }
 
+/// Whether [s] is still true for [den]: an achievement re-checked as [achievementsFor] does; every other screen, and
+/// any screen while the den is not read, stays.
+bool stillTrue(RunScreen s, DenView? den) {
+  if (s is! AchievementStep || den == null) return true;
+  final m = MomentKey.parse(s.key);
+  return switch (m.kind) {
+    'quest_done' => den.v3.quest.done,
+    'stitch' => stitchAllowed(den, m),
+    'reveal' => m.fold != null,
+    'chain' => (m.days ?? 0) > 0,
+    _ => false,
+  };
+}
+
 class ResultsRun extends ConsumerStatefulWidget {
   const ResultsRun({super.key, this.gameId, this.pending = const []}) : assert(gameId != null || pending.length > 0);
 
@@ -172,14 +186,13 @@ class _ResultsRunState extends ConsumerState<ResultsRun> {
     if (gameId == null) return (facts: null, screens: runScreensFor(achievements: widget.pending));
     FoilSheenProgram.precache();
     final api = ref.read(mobV3ApiProvider);
-    final podium = await api.podium(gameId);
-    MobGame? game;
+    // The reads run side by side: the podium, the game, and the den refresh with the chain read. Only the review
+    // waits, for the podium's trap.
+    final podiumF = api.podium(gameId);
+    final gameF = api.game(gameId).then<MobGame?>((g) => g, onError: (Object _) => null);
+    final achievementsF = _achievements();
+    final podium = await podiumF;
     Review? review;
-    try {
-      game = await api.game(gameId);
-    } on Object {
-      game = null;
-    }
     if (podium.trap != null && !podium.soFar) {
       try {
         review = await api.review(gameId);
@@ -187,13 +200,20 @@ class _ResultsRunState extends ConsumerState<ResultsRun> {
         review = null;
       }
     }
+    final game = await gameF;
     if (mounted) {
       precacheFolds(context, [for (final p in podium.places) if (p.place == 1) p.fold], large: true);
       precacheFolds(context, [for (final p in podium.places) p.fold]);
     }
-    // The den read after the run carries what this game earned (the server's acknowledgement).
-    var achievements = const <String>[];
-    try {
+    final achievements = await achievementsF;
+    final facts = RunFacts(podium: podium, game: game, review: review);
+    return (facts: facts, screens: runScreensFor(facts: facts, achievements: achievements));
+  }
+
+  /// What this game earned, from the den read after the run (the server's acknowledgement). Capped at 1.5 s: a late
+  /// den starts the run without achievements and leaves them for the den's next open, so the dots stay true.
+  Future<List<String>> _achievements() async {
+    Future<List<String>> read() async {
       await ref.read(mobV3ActionsProvider).refresh();
       final den = ref.read(denViewProvider);
       var due = const <String>[];
@@ -204,16 +224,21 @@ class _ResultsRunState extends ConsumerState<ResultsRun> {
           due = const [];
         }
       }
-      achievements = achievementsFor(ref.read(denViewProvider), due, played: ref.read(denSessionMemoryProvider).playedMoments);
-    } on Object {
-      achievements = const [];
+      return achievementsFor(ref.read(denViewProvider), due, played: ref.read(denSessionMemoryProvider).playedMoments);
     }
-    final facts = RunFacts(podium: podium, game: game, review: review);
-    return (facts: facts, screens: runScreensFor(facts: facts, achievements: achievements));
+
+    try {
+      return await read().timeout(const Duration(milliseconds: 1500));
+    } on Object {
+      return const [];
+    }
   }
 
   /// The screens of this run once loaded (for [_exit]'s seen mark).
   List<RunScreen> _screens = const [];
+
+  /// Achievements that have been on screen: they keep their place, so the steps behind the current one never move.
+  final Set<String> _onScreen = {};
 
   /// The X (or the last key): back to the den. An achievement closed with its X counts as seen, so it never replays on
   /// the next den open.
@@ -288,8 +313,16 @@ class _ResultsRunState extends ConsumerState<ResultsRun> {
               return ResultsRefused(message: MobV3Copy.error(snap.error!), onBack: _exit);
             }
             final data = snap.data;
-            if (data == null) return const SizedBox.expand();
-            final screens = data.screens;
+            // Never an empty screen while the reads are on the way: the podium's lamp, waiting.
+            if (data == null) return PodiumLampFrame(onClose: _exit);
+            // An achievement still ahead is checked against the den again: one no longer true (the den changed
+            // since the list was built) leaves the run and the dots shrink, never a blank screen that counts as a
+            // step (review fix 14). Screens already passed keep their place.
+            final den = ref.watch(denViewProvider);
+            final screens = [
+              for (final s in data.screens)
+                if (s is! AchievementStep || _onScreen.contains(s.key) || stillTrue(s, den)) s,
+            ];
             _screens = screens;
             if (screens.isEmpty) {
               WidgetsBinding.instance.addPostFrameCallback((_) => _exit());
@@ -297,6 +330,7 @@ class _ResultsRunState extends ConsumerState<ResultsRun> {
             }
             final i = _index.clamp(0, screens.length - 1);
             final screen = screens[i];
+            if (screen is AchievementStep) _onScreen.add(screen.key);
             return RunStep(
               index: i,
               total: screens.length,

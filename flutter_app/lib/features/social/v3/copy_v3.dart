@@ -356,7 +356,7 @@ abstract final class MobV3Copy {
   static String formatRowLine(GameFormat f) => switch (f) {
         GameFormat.race => 'As many as you can in 5 or 10 minutes',
         GameFormat.round || GameFormat.rematch => '10, 15 or 20 questions',
-        GameFormat.mock => 'The whole paper, in 24 hours',
+        GameFormat.mock => '50 questions in 60 minutes · open 24 hours',
         GameFormat.sprint => '5 questions · about 5 minutes',
       };
 
@@ -1016,6 +1016,7 @@ abstract final class MobV4ResultsCopy {
   static String forYouCredits(int cost) => 'For you: $cost credits';
   static String youHave(int n) => 'You have $n credits.';
   static String shortOf(int cost, int have) => '$cost credits. You have $have, so you need ${cost - have} more.';
+  static String shortUnknown(int cost) => 'It costs $cost credits and you have fewer than that. Nothing was charged.';
   static const String addCredits = 'Add credits';
   static const String sitTheMock = 'Sit the full mock';
   static String sitFor(int cost) => 'Sit it for $cost credits';
@@ -1028,7 +1029,57 @@ abstract final class MobV4ResultsCopy {
   // A10 the results run.
   static const String continueKey = 'Continue';
   static const String later = 'Later';
+  static String youCame(int place, int marks) => 'You came ${_nth(place)} with ${_marks(marks)}.';
+  static String youFinished(int marks) => 'You finished with ${_marks(marks)}.';
+  static String _marks(int n) => n == 1 ? '1 mark' : '$n marks';
+  static String _nth(int n) {
+    final t = n % 100;
+    if (t >= 11 && t <= 13) return '${n}th';
+    return switch (n % 10) { 1 => '${n}st', 2 => '${n}nd', 3 => '${n}rd', _ => '${n}th' };
+  }
+  static const String loadingResults = 'Getting the results';
+  static const String fixRunSub = 'The question that caught most of your Mob. Fix it now and it stops costing marks.';
   static const String rematch = 'Rematch';
+  static const String momentsSub = 'One true thing from each run.';
+  /// Quest done in the run: "Chai Circle answered 60 of 60 questions this week, together." Past the target the true
+  /// total, then the target ("70 questions ... together. The quest needed 60.").
+  static String questTogether(String mob, int answered, int target) => answered > target
+      ? '$mob answered $answered questions this week, together. The quest needed $target.'
+      : '$mob answered $answered of $target questions this week, together.';
+  static String sitAs(String fold) => 'Sit as $fold';
+  static const String parcelOnItsWay = 'The parcel for this quest is on its way.';
+  // Week stitched (3.4 item 5) and its Mob hours card (3.6).
+  static String weekStitched(int n) => 'Week $n, stitched';
+  static String weeksForMob(int n, String mob) => n <= 1
+      ? 'The first week for $mob. Nobody can break it alone.'
+      : '${_cap(_numberWord(n))} weeks in a row for $mob. Nobody can break it alone.';
+  static String studiedMost(String name, int minutes) => '$name studied the most: ${hm(minutes)}';
+  static String youStudiedMost(int minutes) => 'You studied the most: ${hm(minutes)}';
+  static String crownOn(String name, int week) => "$name's crown goes on week $week's stitch.";
+  static String yourCrownOn(int week) => "Your crown goes on week $week's stitch.";
+  static const String tickMeans = 'A tick: met their own daily goal on 5 of 7 days.';
+  static String hm(int minutes) {
+    final h = minutes ~/ 60;
+    final m = minutes % 60;
+    if (h == 0) return '$m m';
+    return '$h h $m m';
+  }
+
+  static String _numberWord(int n) => switch (n) { 2 => 'two', 3 => 'three', 4 => 'four', 5 => 'five', 6 => 'six', 7 => 'seven', 8 => 'eight', 9 => 'nine', 10 => 'ten', _ => '$n' };
+  static String _cap(String s) => s.isEmpty ? s : s[0].toUpperCase() + s.substring(1);
+  /// A moment as what the member did, after their name ("Riya got all 5 right."): the row reads as one sentence.
+  static String momentDid(PlayerMoment m, int count) => switch (m.kind) {
+        MomentKind.allRight => 'got all ${m.count ?? count} right.',
+        MomentKind.fastestRight => 'gave the fastest right answer: question ${m.number ?? 1} in ${m.seconds ?? 0} seconds.',
+        MomentKind.quickestFinish => 'had the quickest run: all ${m.count ?? count} in ${MobTime.stopwatch(Duration(seconds: m.seconds ?? 0))}.',
+        MomentKind.threeInARow => 'got three right in a row, questions ${m.from ?? 1} to ${m.to ?? 3}.',
+        MomentKind.noMinus => 'took no minus marks.',
+        MomentKind.finishedAll => 'played all ${m.count ?? count}.',
+        MomentKind.mostAnswered => 'answered the most: ${m.count ?? 0} in ${m.minutes ?? 5} minutes.',
+        MomentKind.raced => (m.count ?? 0) == 1 ? 'raced ${m.minutes ?? 5} minutes and answered 1.' : 'raced ${m.minutes ?? 5} minutes and answered ${m.count ?? 0}.',
+      };
+  static const String marksLabel = 'marks';
+  static String marksUnit(int n) => n == 1 ? '1 mark' : '$n marks';
   static String stepOf(int i, int n) => 'Step $i of $n';
   static const String toTheDen = 'Back to the den';
 }

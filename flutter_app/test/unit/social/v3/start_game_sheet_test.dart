@@ -61,7 +61,7 @@ void main() {
     }
     expect(find.text('As many as you can in 5 or 10 minutes'), findsOneWidget);
     expect(find.text('10, 15 or 20 questions'), findsOneWidget);
-    expect(find.text('The whole paper, in 24 hours'), findsOneWidget);
+    expect(find.text('50 questions in 60 minutes · open 24 hours'), findsOneWidget);
   });
 
   testWidgets('no trap yet: the whole subject', (t) async {
@@ -194,8 +194,9 @@ void main() {
   testWidgets('Free with a start: the allowance, and a locked full mock with Pro that says why', (t) async {
     await _open(t, v3Server(scenario: 'quiet', billing: 'free'));
     expect(find.text('1 start left this week. Everyone plays free.'), findsOneWidget);
-    // V4 (MOB-V4-BUILD 1): the Free row's tag says who starts it.
-    expect(find.text('Pro starts it'), findsOneWidget);
+    // V4 (MOB-V4-BUILD 1, review fix 11): no tag beside the title; the row's line says the price and who starts it.
+    expect(find.text('Pro starts it'), findsNothing);
+    expect(find.text('On Free you sit one a friend starts for 50 credits. Pro starts them and sits them free.'), findsOneWidget);
     await tapAt(t, find.text('Full mock together'));
     expect(find.text('Starting a full mock together is part of Pro. On Free you can sit one a friend starts for 50 credits.'), findsOneWidget);
     expect(keyLabel('Start the sprint'), findsOneWidget, reason: 'the choice stays on what Free can start');

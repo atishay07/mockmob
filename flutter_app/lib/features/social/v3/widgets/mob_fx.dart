@@ -2,7 +2,7 @@
 // - MobBeat: the Mob clock (600 ms beat) and the squash numbers, from the generated tokens;
 // - MobFx: reduced motion and the Lite tier, read once per frame by every Mob widget;
 // - MobIdleScope: idle loops (breathe, blink, sway) run only while the student is touching the screen
-//   recently: they stop 10 s after the last touch, and when the tab is hidden (TickerMode off).
+//   recently: they stop 12 s after the last touch, and when the tab is hidden (TickerMode off).
 
 import 'dart:async';
 
@@ -25,8 +25,8 @@ abstract final class MobBeat {
   /// Every show moment lands its end state this fast after a tap or Skip (spec 5.6).
   static const Duration skip = Duration(milliseconds: 200);
 
-  /// Idle loops stop this long after the last touch (spec 5.2).
-  static const Duration idleTimeout = Duration(seconds: 10);
+  /// Idle loops stop this long after the last touch (MOB-MINIMAL 4.2: 12 s, DenLife).
+  static const Duration idleTimeout = Duration(seconds: 12);
 }
 
 abstract final class MobFx {

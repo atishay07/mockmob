@@ -314,3 +314,15 @@ Widget runHeaderMiddle(BuildContext context, Widget fallback) {
   if (step == null) return fallback;
   return Center(child: RunStepDots(index: step.index, total: step.total));
 }
+
+/// A run header's right slot: in a results run it is exactly as wide as the X side ([width]), so the step dots
+/// stay centred whether the Skip pill shows or fades (the pill may draw past the slot's left edge, toward the
+/// middle, never under the dots). Outside a run, [child] as it is.
+Widget runRightSlot(BuildContext context, {required double width, required Widget child}) {
+  if (RunStep.maybeOf(context) == null) return child;
+  return SizedBox(
+    width: width,
+    height: 48,
+    child: OverflowBox(maxWidth: double.infinity, alignment: Alignment.centerRight, child: child),
+  );
+}

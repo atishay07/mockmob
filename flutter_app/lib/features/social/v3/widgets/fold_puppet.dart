@@ -3,7 +3,7 @@
 // visor-coloured lid painted over each eye box from folds.json; a pose change cross-fades in 120 ms
 // on the squash low point. No Rive, no image sequence.
 //
-// Loops (breathe in the den, sway in the lobby, blink everywhere) stop 10 s after the last touch
+// Loops (breathe in the den, sway in the lobby, blink everywhere) stop 12 s after the last touch
 // (MobIdleScope), when the tab is hidden (TickerMode) and in reduced motion. Acts (nod, hop, cheer,
 // tilt, land) are one-shots the caller fires by bumping [FoldPuppet.actId].
 
@@ -21,6 +21,8 @@ import '../../widgets/mob_ring.dart' show MobColours;
 import '../data/mob_v3_models.dart';
 import 'fold_manifest.dart';
 import 'mob_fx.dart';
+
+export 'fold_acts.dart';
 
 /// One-shot moves (spec 5.6). Durations are the spec's.
 enum FoldAct {
@@ -76,7 +78,7 @@ class FoldPuppet extends ConsumerStatefulWidget {
   final double size;
   final FoldPose pose;
 
-  /// Den only: scaleY 1 to 1.028 on a 3600 ms sweep, offset 120 ms per [phase].
+  /// Den only: scaleY 1 to 1.028 on a 3600 ms sweep, offset 600 ms per [phase] (MOB-MINIMAL 4.2).
   final bool breathe;
 
   /// Lobby only: plus or minus 2 degrees on 6400 ms.
@@ -410,7 +412,8 @@ class _FoldPuppetState extends ConsumerState<FoldPuppet> with TickerProviderStat
         final (lift, rot, sx, sy) = _act.isAnimating || _act.value > 0 && _act.value < 1 ? _actFrame(_act.value) : (0.0, 0.0, 1.0, 1.0);
         final t = _loopT.value;
         final phaseS = widget.phase * 0.12;
-        final breathe = widget.breathe ? 1 + 0.028 * (0.5 - 0.5 * math.cos(2 * math.pi * (t + phaseS) / 3.6)) : 1.0;
+        // 4.2 (DenLife): each member breathes 600 ms after the one before, so the room never breathes in sync.
+        final breathe = widget.breathe ? 1 + 0.028 * (0.5 - 0.5 * math.cos(2 * math.pi * (t + widget.phase * 0.6) / 3.6)) : 1.0;
         final sway = widget.sway ? 2 * math.pi / 180 * math.sin(2 * math.pi * (t + phaseS) / 6.4) : 0.0;
         return Transform.translate(
           offset: Offset(0, -lift),

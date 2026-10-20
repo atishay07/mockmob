@@ -409,12 +409,25 @@ class _FormatRow extends StatelessWidget {
     final String? tag = anytimeOnly
         ? MobV3Copy.anytimeOnly
         : (locked && proTag && format != GameFormat.mock ? MobV3Copy.proTag : null);
-    final row = AnimatedContainer(
-      duration: reduced ? Duration.zero : Motion.card,
-      curve: Motion.out,
-      padding: const EdgeInsets.fromLTRB(MmSpace.s12, 6, MmSpace.s12, 6),
+    // The icon lines up with the sheet's text column (the header), and the chosen row's raised paper bleeds 12 dp
+    // past it on each side (review fix 15), as the mock-up draws it.
+    final row = Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Positioned(
+          left: -MmSpace.s12,
+          right: -MmSpace.s12,
+          top: 0,
+          bottom: 0,
+          child: AnimatedContainer(
+            duration: reduced ? Duration.zero : Motion.card,
+            curve: Motion.out,
+            decoration: BoxDecoration(color: on ? colors.raised2 : Colors.transparent, borderRadius: BorderRadius.circular(16)),
+          ),
+        ),
+        Container(
+      padding: const EdgeInsets.fromLTRB(0, 6, 0, 6),
       constraints: const BoxConstraints(minHeight: 56),
-      decoration: BoxDecoration(color: on ? colors.raised2 : Colors.transparent, borderRadius: BorderRadius.circular(16)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         mainAxisSize: MainAxisSize.min,
@@ -464,6 +477,8 @@ class _FormatRow extends StatelessWidget {
           ?ruleBox,
         ],
       ),
+        ),
+      ],
     );
     final tappable = Semantics(
       container: true,
@@ -482,7 +497,7 @@ class _FormatRow extends StatelessWidget {
       children: [
         tappable,
         Padding(
-          padding: const EdgeInsets.only(left: MmSpace.s12 + 36 + MmSpace.s12, right: MmSpace.s12),
+          padding: const EdgeInsets.only(left: 36 + MmSpace.s12),
           // The line runs the full width (it never squeezes into a narrow column at large text), the way to Pro
           // under it.
           child: Column(

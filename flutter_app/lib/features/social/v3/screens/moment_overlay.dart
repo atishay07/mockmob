@@ -285,6 +285,7 @@ class _MomentOverlayState extends ConsumerState<MomentOverlay> {
       members: v3.members,
       weeks: v3.mobChain.weeks,
       item: weekItemOf(v3),
+      hours: StitchHours.of(v3),
       keyLabel: widget.single ? _runLabel : (revealKey == null ? MobV3Copy.backToDen : MobV3Copy.openParcel),
       onKey: widget.single || revealKey == null ? _close : () => _playInPlace(revealKey),
       onClose: _dismiss,

@@ -5,6 +5,7 @@
 
 import 'dart:math' as math;
 
+import 'package:flutter/foundation.dart' show listEquals;
 import 'package:flutter/material.dart';
 
 import '../../../../core/motion/motion_tokens.g.dart';
@@ -13,7 +14,9 @@ import '../copy_v3.dart';
 import '../data/mob_v3_models.dart';
 import 'moment_kit.dart';
 import 'paper_particles.dart';
+import '../../widgets/mob_ring.dart' show MobColours;
 import 'parcel.dart';
+import 'results_parts.dart' show RunStep;
 
 /// What the finished quest's parcel held (spec 0.4): a Fold, a den object, or the week's stitch.
 class QuestPrize {
@@ -116,6 +119,9 @@ class QuestDoneMomentState extends MomentStageState<QuestDoneMoment> {
     final keysT = seg(t, 1600, 300, MotionCurves.out);
     final lamp = LampState(strength: lerpD(0.55, 1, seg(t, 0, 300, MotionCurves.glide)) + 0.15 * sealGlow, centreY: 0.26);
 
+    // In the results run (MOB-MINIMAL 3.4 item 4): no count line above the seal, the Mob's sentence, the full
+    // member-colour bar, each head, and the parcel line; "your chain" stays the student's own daily chain.
+    final inRun = RunStep.maybeOf(context) != null;
     final countStyle = type.figureCompact.copyWith(fontSize: 34, height: 1, color: colors.ink);
     final rest = MobV3Copy.questPast(count, q.target).substring('$count'.length);
 
@@ -126,7 +132,7 @@ class QuestDoneMomentState extends MomentStageState<QuestDoneMoment> {
         children: [
           const SizedBox(height: MmSpace.s8),
           // The true total, counting past the goal (F8). It stays when the bar folds away.
-          Semantics(
+          if (!inRun) Semantics(
             label: MobV3Copy.questPast(q.answered, q.target),
             excludeSemantics: true,
             child: Text.rich(
@@ -138,13 +144,13 @@ class QuestDoneMomentState extends MomentStageState<QuestDoneMoment> {
               textAlign: TextAlign.center,
             ),
           ),
-          const SizedBox(height: MmSpace.s12),
+          if (!inRun) const SizedBox(height: MmSpace.s12),
           SizedBox(
             height: 176,
             child: Stack(
               alignment: Alignment.center,
               children: [
-                if (barLeave < 1)
+                if (barLeave < 1 && !inRun)
                   Opacity(
                     opacity: 1 - barLeave,
                     child: Transform(
@@ -206,15 +212,32 @@ class QuestDoneMomentState extends MomentStageState<QuestDoneMoment> {
             child: Transform.translate(
               offset: Offset(0, (1 - lineT) * 6),
               child: Text(
-                MobV3Copy.questDoneLine(widget.mobName, q.answered, q.target, widget.week),
+                inRun ? MobV4ResultsCopy.questTogether(widget.mobName, q.answered, q.target) : MobV3Copy.questDoneLine(widget.mobName, q.answered, q.target, widget.week),
                 style: type.body.copyWith(color: colors.ink2),
                 textAlign: TextAlign.center,
               ),
             ),
           ),
+          if (inRun) ...[
+            const SizedBox(height: MmSpace.s20),
+            Opacity(
+              opacity: lineT,
+              child: CustomPaint(
+                key: const ValueKey('k2-member-bar'),
+                size: const Size(double.infinity, 12),
+                painter: MemberBarPainter(colours: [for (final m in headOrder(widget.members)) MobColours.of(context, m.colour)]),
+              ),
+            ),
+          ],
           const SizedBox(height: MmSpace.s20),
           MemberHeads(members: widget.members, popAt: 1300, ms: t, size: 44),
           const SizedBox(height: MmSpace.s20),
+          if (inRun && widget.prize.kind != ParcelKind.stitch)
+            Opacity(
+              opacity: parcelIn,
+              child: Text(MobV4ResultsCopy.parcelOnItsWay, key: const ValueKey('k2-parcel-line'), style: type.body.copyWith(color: colors.ink2), textAlign: TextAlign.center),
+            )
+          else
           Opacity(
             opacity: parcelIn,
             child: Transform.translate(
@@ -296,4 +319,27 @@ class QuestBarPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(QuestBarPainter old) => old.fill != fill || old.bloomMs != bloomMs || old.ink != ink || old.night != night;
+}
+
+/// The quest done in the run: 12 rounded segments, all full, in the members' colours in turn (the Mob filled it
+/// together). Never a share per member: it shows that everyone added to it, not how much.
+class MemberBarPainter extends CustomPainter {
+  MemberBarPainter({required this.colours});
+
+  static const int segments = 12;
+  final List<Color> colours;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    if (colours.isEmpty) return;
+    const gap = 6.0;
+    final w = (size.width - gap * (segments - 1)) / segments;
+    for (var i = 0; i < segments; i++) {
+      final r = RRect.fromRectAndRadius(Rect.fromLTWH(i * (w + gap), 0, w, size.height), Radius.circular(size.height / 2.4));
+      canvas.drawRRect(r, Paint()..color = colours[i % colours.length]);
+    }
+  }
+
+  @override
+  bool shouldRepaint(MemberBarPainter old) => !listEquals(old.colours, colours);
 }
