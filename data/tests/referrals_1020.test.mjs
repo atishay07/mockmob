@@ -535,15 +535,15 @@ test('words: the owner’s example status line, every honest state, plain copy w
   const base = { live: true, code: 'K7P2M9X', reward: 100, monthlyCap: 10 };
   assert.equal(referralView({ ...base, joined: 2, practised: 1, rewarded: 1, earned: 100 }).summary, '2 friends joined, 1 practised: +100 each.');
   const v = referralView({ ...base, joined: 2, practised: 1, rewarded: 1, earned: 100 });
-  assert.equal(v.title, 'Invite a friend, you both get 100 credits');
-  assert.deepEqual(v.lines, ['You have earned 100 credits from invites.']);
+  assert.equal(v.title, 'Bring a friend, you both get 100 credits');
+  assert.deepEqual(v.lines, ['Friends have brought you 100 credits so far.']);
   assert.equal(v.link, 'https://www.mockmob.in/r/K7P2M9X');
   assert.equal(v.displayCode, 'K7P 2M9X');
-  assert.equal(referralView({ ...base, joined: 0 }).summary, 'No friends have joined with your link yet.');
+  assert.equal(referralView({ ...base, joined: 0 }).summary, 'No friends on your link yet. One share starts it.');
   assert.equal(referralView({ ...base, joined: 1, practised: 0 }).summary, '1 friend joined, 0 practised.');
   const held = referralView({ ...base, joined: 3, practised: 3, rewarded: 2, notCounted: 1, earned: 200 });
   assert.equal(held.summary, '3 friends joined, 3 practised.', 'never "+100 each" over a friend who was not paid');
-  assert.ok(held.lines.includes('1 invite did not count toward your reward.'));
+  assert.ok(held.lines.includes('1 invite did not count toward a reward.'));
   assert.ok(referralView({ ...base, joined: 11, practised: 11, rewarded: 10, notCounted: 1, earned: 1000, capReached: true }).lines.includes(REFERRAL_COPY.capReached(10, 100)));
   assert.ok(referralView({ ...base, paused: true }).lines.includes(REFERRAL_COPY.paused));
   assert.equal(referralView({ ...base, invited: { state: 'joined', rewarded: false } }).invited, REFERRAL_COPY.invitedJoined(100));
@@ -611,9 +611,9 @@ test('D182 the Android visitor goes to the Play listing with the code in the Ins
 
 test('D182 copy: every line that states the rule says one practice, none still says 5 answers or a first practice', () => {
   const words = Object.values(REFERRAL_COPY).map((w) => (typeof w === 'function' ? w(100, 100) : w));
-  assert.equal(REFERRAL_COPY.how(), 'Share your link. When your friend signs up with it and finishes one practice, you each get 100 credits.');
+  assert.equal(REFERRAL_COPY.how(), 'Share your link. When they sign up with it and finish one practice, 100 credits land for both of you.');
   assert.match(REFERRAL_COPY.pricingInvite(), /once they finish a practice\.$/);
-  assert.match(REFERRAL_COPY.shareText(), /when you finish one practice\.$/);
+  assert.match(REFERRAL_COPY.shareText(), /once you finish one practice\.$/);
   for (const w of words) assert.doesNotMatch(w, /\b(?:5|five) (?:answers?|questions?)\b|first practice/i, w);
   for (const rel of ['src/app/pricing/page.js','src/app/api/referrals/claim/route.js', 'src/lib/server/referrals.js']) {
     assert.doesNotMatch(file(rel), /at least 5 answers|5 answers/i, rel);

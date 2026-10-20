@@ -133,20 +133,21 @@ const whole = (v) => (typeof v === 'number' || (typeof v === 'string' && v.trim(
 const plural = (n, one, many) => `${fmt(n)} ${n === 1 ? one : many}`;
 
 export const REFERRAL_COPY = Object.freeze({
-  title: (reward = DEFAULT_REWARD) => `Invite a friend, you both get ${fmt(reward)} credits`,
-  how: (reward = DEFAULT_REWARD) => `Share your link. When your friend signs up with it and finishes one practice, you each get ${fmt(reward)} credits.`,
-  cap: (cap = DEFAULT_MONTHLY_CAP) => `You can earn this for up to ${plural(cap, 'friend', 'friends')} a month.`,
-  mobLine: (reward = DEFAULT_REWARD) => `This link is also a friend invite: when a new friend joins with it and finishes one practice, you each get ${fmt(reward)} credits.`,
+  title: (reward = DEFAULT_REWARD) => `Bring a friend, you both get ${fmt(reward)} credits`,
+  how: (reward = DEFAULT_REWARD) => `Share your link. When they sign up with it and finish one practice, ${fmt(reward)} credits land for both of you.`,
+  cap: (cap = DEFAULT_MONTHLY_CAP) => `Good for up to ${plural(cap, 'friend', 'friends')} a month.`,
+  mobLine: (reward = DEFAULT_REWARD) => `This link is a friend invite too. A new friend who joins with it and finishes one practice brings you both ${fmt(reward)} credits.`,
   copy: 'Copy link',
-  copied: 'Link copied',
+  copied: 'Link copied. Send it to a friend.',
+  shareFailed: 'The share sheet did not open. Copy the link instead.',
   share: 'Share',
-  shareText: (reward = DEFAULT_REWARD) => `Practise for CUET with me on MockMob. Sign up with my link and we both get ${fmt(reward)} credits when you finish one practice.`,
+  shareText: (reward = DEFAULT_REWARD) => `Practising for CUET on MockMob. Join with my link and we both get ${fmt(reward)} credits once you finish one practice.`,
   codeLabel: 'Your invite code',
   loading: 'Reading your invites',
   failed: 'Your invites did not load. Try again shortly.',
-  none: 'No friends have joined with your link yet.',
-  paused: 'Invite rewards are paused for now. A friend who practises meanwhile is paid when they resume.',
-  capReached: (cap = DEFAULT_MONTHLY_CAP, reward = DEFAULT_REWARD) => `You have reached ${plural(cap, 'friend', 'friends')} this month. Friends who join still get their ${fmt(reward)} credits.`,
+  none: 'No friends on your link yet. One share starts it.',
+  paused: 'Invite rewards are on a short break. A practice done meanwhile still counts, and is paid when rewards return.',
+  capReached: (cap = DEFAULT_MONTHLY_CAP, reward = DEFAULT_REWARD) => `That is ${plural(cap, 'friend', 'friends')} this month, the most one month pays for. New friends still get their ${fmt(reward)} credits.`,
   rules: 'An invite counts for a new account only, once per friend, and never for a second account on the same phone.',
   // Signup: a code typed by hand, and the line a friend's link leaves.
   signupField: 'Invite code (optional)',
@@ -155,8 +156,8 @@ export const REFERRAL_COPY = Object.freeze({
   signupSaved: 'Invite code saved. It is added when you sign up.',
   invitedBanner: (reward = DEFAULT_REWARD) => `A friend invited you. Finish one practice after you sign up and you both get ${fmt(reward)} credits.`,
   // The friend's own side, in their Wallet.
-  invitedJoined: (reward = DEFAULT_REWARD) => `You joined with a friend's invite. Finish one practice and you both get ${fmt(reward)} credits.`,
-  invitedRewarded: (reward = DEFAULT_REWARD) => `You and your friend each got ${fmt(reward)} credits for finishing one practice.`,
+  invitedJoined: (reward = DEFAULT_REWARD) => `You came in on a friend's link. Finish one practice and ${fmt(reward)} credits land for both of you.`,
+  invitedRewarded: (reward = DEFAULT_REWARD) => `That one practice paid off: you and your friend each got ${fmt(reward)} credits.`,
   // The Wallet's kept credits now: the old one-time 100 is gone for new accounts (D165).
   keptNote: 'Credits you earn or buy. They do not expire.',
   // Pricing.
@@ -187,8 +188,8 @@ export function referralView(status) {
   else {
     const head = `${plural(joined, 'friend', 'friends')} joined, ${fmt(practised)} practised`;
     summary = rewarded > 0 && rewarded === practised ? `${head}: +${fmt(reward)} each.` : `${head}.`;
-    if (earned > 0) lines.push(`You have earned ${plural(earned, 'credit', 'credits')} from invites.`);
-    if (notCounted > 0) lines.push(`${plural(notCounted, 'invite', 'invites')} did not count toward your reward.`);
+    if (earned > 0) lines.push(`Friends have brought you ${plural(earned, 'credit', 'credits')} so far.`);
+    if (notCounted > 0) lines.push(`${plural(notCounted, 'invite', 'invites')} did not count toward a reward.`);
   }
   if (status.paused === true) lines.push(REFERRAL_COPY.paused);
   else if (status.capReached === true) lines.push(REFERRAL_COPY.capReached(cap, reward));
