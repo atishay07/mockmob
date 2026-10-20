@@ -743,6 +743,6 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 - Old accounts with 150: "Keep what they have (Recommended)"
 **Ledger D165:** new accounts get 50 welcome credits (no one-time 100); a referral gives both inviter and friend +100 once the friend signs up AND finishes one practice; the Mob invite link is also the referral link; existing accounts keep their credits.
 
-## Owner, 20 Oct about 1:25 pm IST (verbatim answer)
+## Owner, 20 Oct about 1:18 pm IST (verbatim answer)
 - Mob explainer prototype: "Yes, build it (Recommended)"
 **Ledger D166:** build the 7-slide Mob explainer and the one-question-per-screen setup (docs/design-decisions/pass-1020/mob-explainer) in the app (version 14) and on the website.
