@@ -188,7 +188,8 @@ abstract final class ProNudgeCopy {
   ];
 
   // The first-session bottom sheet (D185): the art leads, then one short headline and at most three rows, each one
-  // line at 360 dp at text 1.0. A fact about the student, then what Pro does about it; never a sentence that wraps.
+  // line at 360 dp at text 1.0. A fact about the student, then what Pro does about it. At larger text a row that no
+  // longer fits goes on two lines broken where it reads best, never with one word left alone.
 
   /// The longest headline that stays on one line in the sheet at 360 dp.
   static const int sheetHeadlineMax = 24;
@@ -199,17 +200,20 @@ abstract final class ProNudgeCopy {
     return own.length <= sheetHeadlineMax ? own : sheetTitle;
   }
 
-  /// The one line of terms under Google Play's price.
-  static const cancelAnytime = 'Cancel anytime in Google Play.';
+  /// While Google Play cannot sell, the sheet says why in one line with Try again (D185); the full guidance is read
+  /// aloud, and the Pro page shows it.
+  static const storeUnavailableShort = 'Google Play is not ready on this phone.';
+  static const storeUnreachableShort = 'We could not reach Google Play.';
+  static const productUnavailableShort = 'Pro is not available to buy just now.';
 
   /// The longest chapter name a short line names; a longer one gives the plain line instead.
   static const int shortChapterMax = 20;
 
   static String weakestChapterShort(String chapter) => 'Sets aimed at $chapter';
   static const weakestShort = 'Sets aimed at your weak chapters';
-  static String creditsLeftShort(int n) => n <= 0 ? 'No credits left. Pro needs none.' : '${_n(n, 'credit')} left. Pro needs none.';
-  static String creditsUsedShort(int n, {required bool atLeast}) => atLeast ? '$n+ credits used. Pro needs none.' : '${_n(n, 'credit')} used. Pro needs none.';
-  static String mocksTakenShort(int n) => '${_n(n, 'mock')} sat. Unlimited on Pro.';
+  static String creditsLeftShort(int n) => n <= 0 ? 'No credits left. Pro uses none.' : '${_n(n, 'credit')} left. Pro uses none.';
+  static String creditsUsedShort(int n, {required bool atLeast}) => atLeast ? '$n+ credits used. Pro uses none.' : '${_n(n, 'credit')} used. Pro uses none.';
+  static String mocksTakenShort(int n) => '${_n(n, 'mock')} done. Unlimited on Pro.';
   static String subjectsShort(int n) => 'NTA mode in your $n subjects';
   static String collegesShort(int n) => n == 1 ? 'Compass Pro for your college' : 'Compass Pro for your $n colleges';
 

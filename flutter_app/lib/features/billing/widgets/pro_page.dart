@@ -468,15 +468,18 @@ class ProHeroArt extends StatelessWidget {
       size: _scene,
       child: ShaderMask(
         blendMode: BlendMode.dstIn,
-        shaderCallback: (rect) => dissolve(Alignment.centerLeft, Alignment.centerRight, const [0, 0.22, 0.74, 1]).createShader(rect),
+        // The right edge dissolves sooner than the left: the lamp itself is cropped out, so its pool must fade before
+        // it reaches past the answer sheet's edge, or it reads as a haze with no source.
+        shaderCallback: (rect) => dissolve(Alignment.centerLeft, Alignment.centerRight, const [0, 0.22, 0.7, 0.88]).createShader(rect),
         child: ShaderMask(
           blendMode: BlendMode.dstIn,
           shaderCallback: (rect) => dissolve(Alignment.topCenter, Alignment.bottomCenter, const [0, 0.12, 0.78, 1]).createShader(rect),
           child: ClipRect(
             child: Stack(
               children: [
-                // A little softer than on the page: in less room the lamp's pool would read as a lit box.
-                const Positioned(left: 0, right: 0, top: -_cropTop, child: LampBackdrop(height: 300, parallax: false, strength: 0.75)),
+                // Half the page's strength: the lamp is out of frame here, so its pool only warms the sheet a little
+                // and never stands as a glow of its own.
+                const Positioned(left: 0, right: 0, top: -_cropTop, child: LampBackdrop(height: 300, parallax: false, strength: 0.5)),
                 Positioned(left: 0, right: 0, top: 52 - _cropTop, child: Center(child: _Seal(size: 148, sweep: sweep))),
               ],
             ),

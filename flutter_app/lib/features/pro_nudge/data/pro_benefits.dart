@@ -48,10 +48,14 @@ class ProBenefit {
 
 /// One row of the first-session sheet: what it speaks for ([id], which picks its icon) and its one short line.
 class ProBenefitLine {
-  const ProBenefitLine({required this.id, required this.text});
+  const ProBenefitLine({required this.id, required this.text, this.fallback});
 
   final String id;
   final String text;
+
+  /// The same benefit said plainly, for when [text] does not fit the sheet's row (a long chapter name at large
+  /// text). Null when there is none: the row is then left out.
+  final String? fallback;
 }
 
 abstract final class ProBenefits {
@@ -157,7 +161,7 @@ abstract final class ProBenefits {
       if (stands == 1 && covered.contains(1)) continue;
       final text = _short(b.id, f);
       if (text == null) continue;
-      out.add(ProBenefitLine(id: b.id, text: text));
+      out.add(ProBenefitLine(id: b.id, text: text, fallback: _fallback(b.id, text)));
       if (stands != null) covered.add(stands);
     }
     const plain = ProNudgeCopy.plainBenefitsShort;
@@ -165,6 +169,14 @@ abstract final class ProBenefits {
       if (!covered.contains(i)) out.add(ProBenefitLine(id: plainIds[i], text: plain[i]));
     }
     return out;
+  }
+
+  /// The plain short line a personal row gives way to when it does not fit: the plain row it stands for, or for a
+  /// named chapter, the same aim without the name.
+  static String? _fallback(String id, String text) {
+    if (id == 'weakest' && text != ProNudgeCopy.weakestShort) return ProNudgeCopy.weakestShort;
+    final stands = _standsFor[id];
+    return stands == null ? null : ProNudgeCopy.plainBenefitsShort[stands];
   }
 
   /// One personal line in short, from the same facts as its long line.
