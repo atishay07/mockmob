@@ -1015,3 +1015,10 @@ Billing page: "Your grace period has started. Your organization went over its qu
 >
 > The two lines look okay, depending exactly on how they are implemented on the site. After that, I can tell you how to improvise upon it."
 **Ledger D197:** the promo video states ONE price, ₹99 a month (web Pro works in the app too); never mention ₹149, which exists only for those who insist on buying through Google Play. Live rooms and the invite credits may appear in the video. The two taglines are provisionally fine; he will refine them once he sees them in place.
+
+## Owner, 21 Oct about 1:50 am IST (verbatim)
+> "So why can't you do some work yourself and/or spawn many agents to divide the work? Right now, just the Sonnet agent is doing everything. It's been running for 2 hours. Doesn't make sense at all. As the rule said, they might be confusing. My reason for switching to Fable right now was to experience something which other models are incapable of. You do most of the work. Just bring in the agents for some specific things where they have performed well, like:
+> * Sonnet for quick, efficient, fast tasks
+> * Opus for brilliant UI and design taste, or motion graphics building, as it excels in that
+> But it's not like you handle all the stuff. By the way, it just affects the speed a lot."
+**Ledger D198:** never let one long-running agent gate the pipeline; Fable does the work itself and splits the rest into short parallel pieces (Sonnet quick tasks, Opus taste/motion).
