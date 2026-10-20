@@ -707,3 +707,34 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 20 Oct about 11:55 am IST (verbatim)
 > "I did it and submitted already. It literally didn't change any of our ratings in any of the regions or anything. I don't know what the purpose of this was, but anyway, this is all done. What else is left for me to do?"
 **Ledger:** content rating questionnaire redone and submitted (users interact yes, digital purchases yes, no loot boxes, online/AI content yes, educational yes); ratings unchanged.
+
+## Owner, 20 Oct about 12:45 pm IST, after installing version 13 from the Play Store (verbatim)
+> "I have downloaded the app from the Play Store, and I'm here with my feedback. I'll tell you what works: basic UI/UX things, mostly all that is similar, look good and are not an issue.
+>
+> Just one thing that I had noticed last time also, which is not fixed in day mode (light mode): some places have been done very weirdly, like the ways to practice the cards there. Kind of black text is written. It's just a bit weird, and icons turning black can be optimized better for day mode. The night mode looks like it's properly optimized. Day mode, in some places, looks a bit out of place, but this is not the most important feedback.
+>
+> Coming to the most important feedback: the mob.
+>
+> Firstly, when I click "Start a mob," it just opens a form kind of thing where you pick a name, subject, and all these things. This doesn't even explain what exactly this thing is. What I told you previously and what I wanted from the mob was that we can go all out in this and make this as gimmicky as we want.
+>
+> The first time someone starts a mob, they should see a full 6-7-slide proper explainer, not an onboarding flow, with motion graphics. Only then can they set all these things, rather than all this being in a form. The form option is also fine. If someone is skipping, there can be a skip button if someone doesn't want to see the explainer and everything.
+>
+> Just the basic explanation you have written: "Sit, play quick games with up to 4 of your friends, and see your friend." This is fine, but it's not very intuitive or explanatory enough about what exactly this thing is and how cool this is. This has to be presented in a very cool and very fun manner.
+>
+> Another thing is, in the U section, in front of the team or somewhere nice, just think about it. Add a button like "Free plan upgrade to Pro." That should be visible at the top of the U section somewhere. Then, when going back, this is the thing: the screen that you have built to get Pro. I really love that, whatever you have done with it. It is really good, but there are some text issues.
+>
+> In the free section, "Full marks first 50, first free then 50," the line is cut off. You can just write "Full mocks graded based on uses credits," or whatever. Are we giving one free full mock per subject? I'm not sure what you have implemented with that.
+>
+> I have thought about the direction of this graded system. What we can do is everyone gets 50 credits only as welcome credits. They can get another 100 bonus credits if they invite a friend, and when their friend signs up and joins the app, they both get an extra 100 welcome credits. I was thinking 50 initial free credits are more than enough to do even 10 quick practice sessions, like 5 quick practice sessions per subject, so it's enough. Once they invite their friend, both can get 100 free credits. Just let me know if it's possible to set up this tracking system or not.
+>
+> Also, this credit section in the UI is dug away at the bottom. I didn't love this wallet as much as the Pro section, but you have written this word, like "450 doubts or fixes with Mockmob." All this is good. Credits are also giving clarity, but again, I have a doubt: 50 credits for a full mock, but first, when each subject is free, why was this decided? This is just some small feedback that I have. The finish screen has the same issue. It's now a bit more detailed, but still not up to the level of the desktop and not exactly showing all the information we want to show: "Your paper is saved," "Your score," and the animation that runs. When someone submits the paper, instead of it, there should be a proper reveal of the mark sheets animation there also. That's what I wanted: just, honestly, these small refinements. Overall, except for this, the entire app looks good. The flow is good. Everything is fine now. Mainly, just focus on this "host your mob" feature and make it so defensible that no one else can copy it, because there are many competitive platforms. It should not be a feature which anyone can just copy in a day or two."
+
+**Ledger K1-K8 (version 13 feedback):**
+- K1 Day mode: "Ways to practise" cards show black text and black icons; Day mode looks out of place in places. Optimise every Day-mode screen (Night is fine).
+- K2 THE MOB, first: "Start a Mob" opens a bare form that never explains the Mob. The first time, show a full 6-7 slide explainer with motion graphics (not onboarding), very cool and fun, with Skip; then the setup. The current one-line description is not enough.
+- K3 You: a visible "Free plan · Upgrade to Pro" button near the top of You.
+- K4 Pro page: he loves it; fix the cut-off Free-section line ("Full mocks: first free, then 50 credits"); make the one-free-full-mock-per-subject rule clear.
+- K5 Credits: welcome credits become 50 only; a referral gives BOTH the inviter and the friend +100 when the friend signs up and joins. Asks if tracking is possible. (Supersedes D163's "keep 150".)
+- K6 Wallet: buried at the bottom and less loved than the Pro page; explain why the first full mock per subject is free while a full mock costs 50.
+- K7 Finish screen: more detailed but below the desktop's level; show everything (paper saved, score, the reveal); on submit run a proper mark-sheet reveal animation.
+- K8 Make the Mob ("host your Mob") so defensible that no competitor can copy it in a day or two.
