@@ -909,3 +909,7 @@ Billing page: "Your grace period has started. Your organization went over its qu
 ## Owner, 20 Oct 7:29 pm IST (verbatim, mid-turn)
 > "Can you give me overall feedback on what's left, and what's taking so much time? All this work was supposed to be done by now. I have sessions sessions 3 and 4 four times now. Even though each session tells me everything is mostly built, there are still some hiccups. You exactly tell me the status and if you are facing any issues or something else."
 (Answer given at 7:30 pm: exact status, what is left with times, why it slipped, the D183 server finding.)
+
+## Owner, 20 Oct 7:31 pm IST (verbatim, mid-turn)
+> "what is \"calm\""
+(Answer: the internal branch name for the version 15 fixes D181 Pro ask timing, D183 usage data, the delete-account Google Play warning and forgetting a pending Ask Mobi question on sign-out; agents named it "calm" for "no pushy Pro ask".)
