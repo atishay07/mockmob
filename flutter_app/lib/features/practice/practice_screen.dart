@@ -41,6 +41,7 @@ import 'widgets/subject_tiles.dart';
 import 'widgets/suggestion_hero.dart';
 import 'widgets/door_stage.dart';
 import 'widgets/door_switch.dart';
+import 'widgets/practice_credit_line.dart';
 
 /// The Practice tab (L08, brief app-practice-review-1016 section 2): the subject first ("Practise
 /// in", the tiles), then "Up next in [subject]", the one lit start, about that same subject; then
@@ -460,6 +461,9 @@ class _PracticeScreenState extends ConsumerState<PracticeScreen> {
             ],
           ),
         ),
+        // The credit line (K6, 20 Oct): a Free student's balance, the way to the Wallet and the one free full mock per
+        // subject, right under the modes they pay for. Nothing on Pro.
+        const Padding(padding: gutter, child: PracticeCreditLine(topGap: MmSpace.s12)),
         // The one Pro nudge on this page, under the mock rows: nothing with the flag off or for a Pro student.
         const Padding(padding: gutter, child: ProNudgeRow(surface: ProNudgeSurface.practiceMocks, topGap: MmSpace.s4)),
         // The exam band closes with its own rule, so the next section opens on air alone.

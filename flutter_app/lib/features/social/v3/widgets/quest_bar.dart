@@ -116,8 +116,10 @@ class QuestBar extends StatelessWidget {
         painter: _QuestBarPainter(
           fill: fillOf(answered, target),
           segments: segments,
-          on: colors.isNight ? const Color(0xFFD9D1BF) : const Color(0xFF3F3A30),
-          off: colors.isNight ? const Color(0xFF2A2721) : const Color(0xFFE4DECF),
+          // Night: paper on charcoal. Day: the parcel's own kraft on a pale track, never near-black blocks (K1,
+          // 20 Oct: dark fills read as black on cream).
+          on: colors.isNight ? const Color(0xFFD9D1BF) : const Color(0xFFA8864E),
+          off: colors.isNight ? const Color(0xFF2A2721) : const Color(0xFFE6E0D2),
           edge: colors.line,
         ),
       ),

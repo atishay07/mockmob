@@ -36,6 +36,15 @@ abstract final class WalletCopy {
       refill == null ? '$left of $of left' : '$left of $of left. Refills ${formatDayMonth(refill)}';
   static const keptPart = 'Kept credits';
   static const keptPartNote = 'Your welcome credits and any top-ups. They do not expire.';
+
+  // D165 (owner, 20 Oct): new accounts start with 50 credits, and an invite gives the friend and the inviter 100 credits
+  // each once the friend finishes a first practice. Ready, and shown only once the server says the offer is live
+  // (`referralOfferLiveProvider`); until then nothing here is drawn.
+  static const keptPartNoteReferrals = 'Welcome, invite and top-up credits. They do not expire.';
+  static const welcomeCredits = 'New accounts start with 50 credits.';
+  static const inviteTitle = 'Invite a friend';
+  static const inviteBody = 'When your friend joins and finishes their first practice, you both get 100 credits.';
+  static const inviteLabel = 'Invite a friend. When your friend joins and finishes their first practice, you both get 100 credits.';
   static const lowNote = 'You are running low. A top-up or Pro keeps you practising.';
 
   // What credits buy: the server's price list, as tiles. The first full mock line only when the server says so.
@@ -44,6 +53,12 @@ abstract final class WalletCopy {
   static const buyQuestion = 'A practice question';
   static const buyMock = 'A full mock';
   static const buyMockFirstFree = 'First one in each subject is free';
+
+  /// Why the first full mock in each subject is free (K6, owner 20 Oct: "why was this decided?"), in one plain line under
+  /// the price list. Only while the server's rule is on.
+  static const firstMockWhy =
+      'Your first full mock in each subject is free, so you can sit a real exam-style paper and see your full reveal before you pay.';
+  static const buysCostColumn = 'Cost';
   // What Mobi does for a credit, by one noun pair everywhere (L-20): a doubt and a fix. There is no 3-credit "deeper
   // analysis" (C-dec 3), Mobi never charges for talking, and what it reads from the record is free.
   static const buyDoubt = 'A doubt';

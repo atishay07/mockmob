@@ -275,7 +275,7 @@ class _Selling extends ConsumerWidget {
                                 const SizedBox(height: MmSpace.s32),
                                 item(_SectionHeading(BillingCopy.proPageCompareHeading)),
                                 const SizedBox(height: MmSpace.s12),
-                                item(ProCompareTable(rows: rows)),
+                                item(ProCompareTable(rows: rows, notes: BillingCopy.compareNotesFor(firstFree: firstFree))),
                                 const SizedBox(height: MmSpace.s32),
                                 item(_PriceCard(
                                   parts: parts,

@@ -573,12 +573,19 @@ class _AlsoTile extends StatelessWidget {
 /// Free and Pro, side by side: one short line per row, a tick, a dash or a few words in each
 /// column, Pro's column lit. Read aloud row by row.
 class ProCompareTable extends StatelessWidget {
-  const ProCompareTable({super.key, required this.rows});
+  const ProCompareTable({super.key, required this.rows, this.notes = const {}});
 
   /// (what, Free, Pro): null is a tick, an empty string a dash, anything else its words.
   final List<(String, String?, String?)> rows;
 
+  /// A short line under a row's name (the first full mock in each subject, when the server says it is free), keyed by
+  /// the row's name.
+  final Map<String, String> notes;
+
   static const double _col = 80;
+
+  /// The least height of a row. A row grows with its words (K4, 20 Oct: a fixed 48 cut a three-line Free cell, and
+  /// every cell must hold at 360 dp with text at 1.3), and its name wraps rather than ending in an ellipsis.
   static const double _row = 48;
 
   @override
@@ -597,9 +604,11 @@ class ProCompareTable extends StatelessWidget {
       } else if (v.isEmpty) {
         child = Container(width: 12, height: 2, color: colors.ink4);
       } else {
-        child = Text(v, textAlign: TextAlign.center, maxLines: 3, style: type.caption.copyWith(color: pro ? colors.ink : colors.ink2, fontWeight: pro ? FontWeight.w700 : FontWeight.w500));
+        final words = Text(v, textAlign: TextAlign.center, style: type.caption.copyWith(color: pro ? colors.ink : colors.ink2, fontWeight: pro ? FontWeight.w700 : FontWeight.w500));
+        // A single word never breaks mid-word ("Unlimite d" at text 1.3): it scales down to fit its column instead.
+        child = v.contains(' ') ? words : FittedBox(fit: BoxFit.scaleDown, child: words);
       }
-      return SizedBox(width: _col, child: Center(child: child));
+      return SizedBox(width: _col, child: Padding(padding: const EdgeInsets.symmetric(horizontal: MmSpace.s2), child: Center(child: child)));
     }
 
     return DecoratedBox(
@@ -637,16 +646,33 @@ class ProCompareTable extends StatelessWidget {
                   Semantics(
                     container: true,
                     excludeSemantics: true,
-                    label: '${r.$1}. ${BillingCopy.compareFree}: ${said(r.$2)}. ${BillingCopy.comparePro}: ${said(r.$3)}.',
-                    child: SizedBox(
-                      height: _row,
-                      child: Row(
-                        children: [
-                          const SizedBox(width: MmSpace.s16),
-                          Expanded(child: Text(r.$1, maxLines: 1, overflow: TextOverflow.ellipsis, style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w500))),
-                          cell(r.$2, pro: false),
-                          cell(r.$3, pro: true),
-                        ],
+                    label: notes[r.$1] == null
+                        ? '${r.$1}. ${BillingCopy.compareFree}: ${said(r.$2)}. ${BillingCopy.comparePro}: ${said(r.$3)}.'
+                        : '${r.$1}. ${BillingCopy.compareFree}: ${notes[r.$1]}, ${said(r.$2).toLowerCase()}. ${BillingCopy.comparePro}: ${said(r.$3)}.',
+                    child: ConstrainedBox(
+                      constraints: const BoxConstraints(minHeight: _row),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(vertical: MmSpace.s8),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: MmSpace.s16),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(r.$1, style: type.small.copyWith(color: colors.ink, fontWeight: FontWeight.w500)),
+                                  if (notes[r.$1] case final note?) ...[
+                                    const SizedBox(height: 2),
+                                    Text(note, style: type.caption.copyWith(color: colors.ink2)),
+                                  ],
+                                ],
+                              ),
+                            ),
+                            cell(r.$2, pro: false),
+                            cell(r.$3, pro: true),
+                          ],
+                        ),
                       ),
                     ),
                   ),

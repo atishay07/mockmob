@@ -39,15 +39,16 @@ import 'copy.dart';
 import 'edit_copy.dart';
 import 'data/student_target.dart';
 import 'hub/hub_cards.dart';
+import 'hub/plan_strip.dart';
 import 'hub/sheet_card.dart';
 import 'hub/sheet_fields.dart';
 import 'widgets/you_page.dart';
 import 'account/name_sheet.dart' show showNameSheet;
 import 'you_routes.dart';
 
-/// You is the student's study (IA D4, app-you-1016 A.2): the name in the lamp light, then this
-/// week as "3 of 4 study days", the badges, the personal bests, across your mocks and the subjects,
-/// with plan and credits as one row at the bottom. The account, the theme switch and the settings
+/// You is the student's study (IA D4, app-you-1016 A.2): the name in the lamp light with the plan strip under it
+/// (credits and plan, K3 and K6), then this week as "3 of 4 study days", the badges, the personal bests, across your
+/// mocks and the subjects. The account, the theme switch and the settings
 /// live in the avatar sheet (IA D5), so nothing here repeats them above the study.
 class YouHubScreen extends ConsumerStatefulWidget {
   const YouHubScreen({super.key, this.tools});
@@ -324,6 +325,14 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           onEditSubjects: () => openYouPage(context, YouPaths.subjects),
                         ),
                       ),
+                      // The plan strip, right under the name (K3 and K6, 20 Oct): the credits balance, which opens the
+                      // Wallet, and the plan, which opens the Pro page ("Free plan" and "Upgrade to Pro" for a Free student).
+                      // It replaces the plan row that sat at the very bottom of You.
+                      const SizedBox(height: MmSpace.s16),
+                      const MmStaggerItem(
+                        index: 1,
+                        child: Padding(padding: EdgeInsets.symmetric(horizontal: MmSpace.gutter), child: YouPlanStrip()),
+                      ),
                       // Your colleges, right under the name (19 Oct PM, D126, the owner's H9: "no clear-cut access"):
                       // the three that need the most marks with their 2026 Round 1 figures, See all and the Compass.
                       // The Aim row further down stays (R3).
@@ -427,19 +436,7 @@ class _YouHubScreenState extends ConsumerState<YouHubScreen> {
                           ),
                         ),
                       ),
-                      // 6. Plan and credits: one row; the tiles live in the account sheet.
-                      const MmStaggerItem(
-                        index: 7,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            // The Aim row above ends on a hairline and this row starts on one, so
-                            // only air sits between them.
-                            SizedBox(height: MmSpace.s32),
-                            PlanCreditsRow(),
-                          ],
-                        ),
-                      ),
+                      // Plan and credits moved up to the plan strip under the name (K6, 20 Oct).
                             ],
                           ),
                         ),

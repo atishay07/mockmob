@@ -287,6 +287,17 @@ abstract final class PracticeCopy {
   static String freeFirstIn(String subject) => 'Free, your first one in $subject';
   /// C-dec 1 (release 11): the first full mock in each subject costs nothing (allowance `first_full_mock:<subject>`).
   static const String freeFirstFullMock = 'Free: your first full mock in this subject is on us.';
+
+  /// Beside the credit price of a Full mock while the first-free rule of the server is on (K4, 20 Oct).
+  static const String firstFullMockRule = 'Only your first full mock in each subject is free.';
+
+  /// The credit line on Practice (K6, 20 Oct): the balance, a way to the Wallet, and the full mock rule while the server
+  /// says it is on. Free students only (practice is unlimited on Pro). No apostrophes in these notes: the copy rules test
+  /// reads every quoted span of this file.
+  static String creditLine(int balance) => 'You have ${plural(balance, 'credit')}';
+  static const String creditLineWallet = 'Wallet';
+  static const String creditLineRule = 'Your first full mock in each subject is free, then 50 credits.';
+  static String creditLineLabel(int balance) => 'You have ${plural(balance, 'credit')}. Opens your Wallet.';
   static String usesCredits(int cost, int? balance) =>
       balance == null ? '${plural(cost, 'credit')}.' : '${plural(cost, 'credit')}. You have $balance.';
   static const String unavailableFallback = 'This is not open right now.';

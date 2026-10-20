@@ -108,6 +108,23 @@ abstract final class YouCopy {
   static const aimTitle = 'Aim';
   static const aimEmpty = 'Choose a course and colleges';
   static const planFree = 'Free plan';
+
+  // The plan strip near the top of You (K3 and K6, owner 20 Oct): the credits balance used to sit at the very bottom
+  // of You. Two halves: the credits, which open the Wallet, and the plan, which opens the Pro page. Never a banner: the
+  // same quiet card as the rest of You. The words that sell Pro are the Pro nudge copy, not these.
+  static const stripCredits = 'Credits';
+  static const stripToSpend = 'to spend';
+  static const stripChecking = 'Checking';
+  static const stripNotLoaded = 'Not loaded';
+  static const stripFreePlan = 'Free plan';
+  static const stripYourPlan = 'Your plan';
+  static const stripPro = 'Pro';
+  static const stripProActive = 'Active';
+  static String stripProUntil(String day) => 'Until $day';
+  static String stripCreditsLabel(String figure) => 'Credits, $figure. Opens your Wallet.';
+  static const stripOpensPro = 'Opens the Pro page.';
+  static String stripProLabel(String note) => 'Your plan, Pro. $note. Opens your plan.';
+  static const stripFreeLabel = 'Your plan, Free. Opens your Wallet.';
   static const planNoteUnloaded = 'Credits and history';
   static String planNote(int practice, int ai) => '${plural(practice, 'practice credit')}, ${plural(ai, 'AI credit')}';
   static const repairRecordRow = 'Your repair record';

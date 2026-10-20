@@ -53,7 +53,7 @@ void main() {
     expect(find.text('40 of 50 left. Refills 1 November'), findsOneWidget);
     expect(find.text(WalletCopy.keptPart), findsOneWidget);
     expect(find.text(WalletCopy.keptPartNote), findsOneWidget);
-    // What credits buy, as tiles; the first full mock is free only because the server's line says so.
+    // What credits buy, as one price list; the first full mock is free only because the server's line says so.
     await tester.scrollUntilVisible(find.text(WalletCopy.costShows), 300, scrollable: find.byType(Scrollable).first);
     expect(find.text(WalletCopy.buysTitle), findsOneWidget);
     expect(find.text(WalletCopy.buyMockFirstFree), findsOneWidget);
@@ -94,6 +94,8 @@ void main() {
     (body['credits']! as Map<String, Object?>)['buys'] = '1 credit buys 1 practice question or 1 chat reply. A full mock costs 50 credits.';
     await _pump(tester, rig: BillingRig(), read: walletState(body));
     expect(find.text(WalletCopy.buyMockFirstFree), findsNothing);
+    // Nor the line on why it is free (K6).
+    expect(find.text(WalletCopy.firstMockWhy), findsNothing);
   });
 
   test('the read follows the server nested shape: credits, plan, history and historyState', () {

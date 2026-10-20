@@ -137,6 +137,12 @@ final walletRepositoryProvider = NotifierProvider<WalletRepository, RemoteState<
 /// shows the server's own line). False until the server has said so.
 final firstFullMockFreeProvider = Provider<bool>((ref) => ref.watch(walletRepositoryProvider.select((s) => s.value?.firstFullMockFree ?? false)));
 
+/// D165: whether the server says the welcome and invite offer is live (50 credits for a new account; 100 credits each
+/// for a friend and the inviter once the friend finishes a first practice). No server field says so yet, so it is off
+/// and nothing about invites or the 50 is shown.
+// TODO(D165): read the referral server's live switch once web/1020-referrals ships one (for example in GET /api/wallet).
+final referralOfferLiveProvider = Provider<bool>((ref) => false);
+
 /// The same signal with "not known yet" kept apart from "no" (L-05): null until the Wallet's read has landed, so the
 /// Pro page never prices every Free full mock at 50 credits before the server has said whether the first one is free.
 final firstFullMockFreeKnownProvider = Provider<bool?>((ref) => ref.watch(walletRepositoryProvider.select((s) => s.value?.firstFullMockFree)));

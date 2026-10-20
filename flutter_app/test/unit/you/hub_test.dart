@@ -95,9 +95,9 @@ void main() {
     expect(find.textContaining('unknown'), findsNothing);
   });
 
-  testWidgets('lists the study sections in order, with plan and credits one row at the bottom', (tester) async {
+  testWidgets('lists the study sections in order, with plan and credits in the strip under the name (K3, K6)', (tester) async {
     await _pumpHub(tester);
-    final order = ['This week', 'Badges, 0 of 16', 'Personal bests', 'My subjects', 'Free plan'];
+    final order = ['Free plan', 'This week', 'Badges, 0 of 16', 'Personal bests', 'My subjects'];
     for (final label in order) {
       expect(find.text(label), findsWidgets, reason: label);
     }
@@ -131,7 +131,7 @@ void main() {
     expect(find.text('Pick the weekdays you will study'), findsOneWidget, reason: 'no weekdays chosen on this phone yet');
   });
 
-  testWidgets('plan and credits is one row that opens the Credits page; no tiles on You', (tester) async {
+  testWidgets('plan and credits is one strip that opens the Credits page (Google Play off); no tiles on You', (tester) async {
     await _pumpHub(tester);
     expect(find.text('Free plan'), findsOneWidget);
     expect(find.text('Practice credits'), findsNothing);

@@ -5,6 +5,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../wallet/data/wallet_data.dart';
+import '../../wallet/widgets/credit_coins.dart';
 import '../billing_copy.dart';
 import '../data/billing_controller.dart';
 import '../data/play_products.dart';
@@ -287,16 +288,25 @@ class PackCard extends StatelessWidget {
                     const SizedBox(height: MmSpace.s8),
                   ],
                   Row(
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
                     children: [
-                      Text(
-                        '$credits',
-                        textHeightBehavior: MmType.figureHeightBehavior,
-                        style: type.figureCompact.copyWith(color: dim ? colors.ink3 : colors.ink),
+                      // The pack's size as a stack of the Wallet's coins: taller for a bigger pack (K6).
+                      Opacity(opacity: dim ? 0.5 : 1, child: CreditCoins(size: 40, coins: CreditCoins.forPack(credits))),
+                      const SizedBox(width: MmSpace.s8),
+                      Flexible(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              '$credits',
+                              textHeightBehavior: MmType.figureHeightBehavior,
+                              style: type.figureCompact.copyWith(color: dim ? colors.ink3 : colors.ink),
+                            ),
+                            const SizedBox(width: MmSpace.s6),
+                            Flexible(child: Text(credits == 1 ? 'credit' : 'credits', style: type.labelLarge.copyWith(color: dim ? colors.ink3 : colors.ink2))),
+                          ],
+                        ),
                       ),
-                      const SizedBox(width: MmSpace.s6),
-                      Text(credits == 1 ? 'credit' : 'credits', style: type.labelLarge.copyWith(color: dim ? colors.ink3 : colors.ink2)),
                     ],
                   ),
                   const SizedBox(height: MmSpace.s4),

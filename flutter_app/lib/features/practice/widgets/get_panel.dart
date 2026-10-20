@@ -16,6 +16,7 @@ import '../model/practice_selection.dart';
 import 'composer_parts.dart';
 import 'delayed_skeleton.dart';
 import 'plain_notice.dart';
+import 'practice_credit_line.dart' show practiceFirstMockRuleProvider;
 
 /// The height the checking skeleton holds: about the three rows of the finished summary.
 const double _skeletonHeight = 176;
@@ -160,7 +161,20 @@ class _GetPanelState extends State<GetPanel> {
     _held = q;
     // One key for the sheet's whole life: the rows rise in once, the first time, and a new quote replaces the figures in
     // place (a change of 5 to 20 questions is a number changing, not a panel arriving again).
-    return _Ticket(key: _ticketKey, selection: selection, quote: q, costText: costText, subjectName: subjectName);
+    // A Full mock that costs credits says the rule beside its price while the server's rule is on (K4, 20 Oct: the one
+    // free full mock per subject made clear wherever full mocks are priced).
+    return Consumer(
+      builder: (context, ref, _) {
+        final rule = selection.mode == PracticeMode.full && line.kind == CostKind.credits && ref.watch(practiceFirstMockRuleProvider);
+        return _Ticket(
+          key: _ticketKey,
+          selection: selection,
+          quote: q,
+          costText: rule && costText != null ? '$costText ${PracticeCopy.firstFullMockRule}' : costText,
+          subjectName: subjectName,
+        );
+      },
+    );
   }
 }
 
