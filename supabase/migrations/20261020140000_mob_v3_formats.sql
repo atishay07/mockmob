@@ -61,11 +61,12 @@ alter table public.mob_games drop constraint if exists mob_games_format_v2;
 alter table public.mob_games add constraint mob_games_format_v2 check (format in ('sprint','round','rematch','race','mock'));
 alter table public.mob_games drop constraint if exists mob_games_ids_v2;
 alter table public.mob_games add constraint mob_games_ids_v2 check (jsonb_typeof(question_ids) = 'array' and jsonb_array_length(question_ids) between 5 and 60);
--- A race has 5 or 10 minutes; a full mock is 60 minutes and never live; the question games have no minutes.
+-- A race has 5 or 10 minutes; a full mock is 60 minutes and never live; the question games have no minutes. (coalesce:
+-- a null minutes must fail the check, not pass it as unknown; found by the staging dry run.)
 alter table public.mob_games drop constraint if exists mob_games_shape_v2;
 alter table public.mob_games add constraint mob_games_shape_v2 check (
-  (format = 'race' and minutes in (5, 10))
-  or (format = 'mock' and minutes = 60 and mode = 'async')
+  (format = 'race' and coalesce(minutes, 0) in (5, 10))
+  or (format = 'mock' and coalesce(minutes, 0) = 60 and mode = 'async')
   or (format in ('sprint','round','rematch') and minutes is null));
 alter table public.mob_game_answers drop constraint if exists mob_game_answers_q_v2;
 alter table public.mob_game_answers add constraint mob_game_answers_q_v2 check (q between 0 and 59);

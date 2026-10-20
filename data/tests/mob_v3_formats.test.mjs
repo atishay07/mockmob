@@ -262,6 +262,23 @@ test('migration 140000 applies twice; its undo restores functions, checks, colum
   } finally { await db.close(); }
 });
 
+test('migration 140000 shape: a race needs 5 or 10 minutes, a mock 60 and never live, a question game none (a null never slips through)', async () => {
+  const db = await database();
+  try {
+    const svc = serviceFor(db);
+    const mobId = await mobOf(svc, 'u1', []);
+    const ids = (n) => JSON.stringify(Array.from({ length: n }, (_, i) => `q${i + 1}`));
+    const open = (format, mode, n, minutes) => db.query(`select public.mob_game_open_v2('u1', $1::uuid, $2, $3, 'accountancy', null, $4::jsonb, 'open', '2026-10-19', null, now(), 9, $5::smallint) r`, [mobId, format, mode, ids(n), minutes]);
+    for (const [format, mode, n, minutes] of [['race', 'async', 30, null], ['race', 'async', 30, 7], ['mock', 'async', 50, null], ['mock', 'live', 50, 60], ['round', 'async', 61, null]]) {
+      await assert.rejects(open(format, mode, n, minutes), /check constraint/, `${format} ${mode} ${n} ${minutes}`);
+    }
+    for (const [format, mode, n, minutes] of [['race', 'async', 30, 5], ['race', 'live', 60, 10], ['mock', 'async', 50, 60], ['sprint', 'async', 5, null]]) {
+      assert.equal((await open(format, mode, n, minutes)).rows[0].r.status, 'ok', `${format} ${mode}`);
+    }
+    await assert.rejects(db.query("update mob_games set minutes = 5 where format = 'sprint'"), /check constraint/, 'a sprint has no minutes');
+  } finally { await db.close(); }
+});
+
 test('migration 140000 security: new and replaced functions are security invoker, service role only; the one Realtime check is out of the API schema', async () => {
   const db = await database();
   try {
