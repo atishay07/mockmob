@@ -423,7 +423,7 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
               Positioned(
                 left: MmSpace.gutter,
                 top: stageTop + MmSpace.s2,
-                width: math.max(160, w - MmSpace.gutter - 104),
+                width: math.max(150, DenStage.pennantLeft(w, studying: DenStage.studierOf(v3).$1 != null) - MmSpace.gutter - 6),
                 child: _TitleBlock(
                   name: v3.name.text.isEmpty ? mob.subjectName : v3.name.text,
                   subtitle: MobV4DenCopy.subtitle(mob.subjectName, v3.members.length),

@@ -177,6 +177,24 @@ class DenStage extends ConsumerWidget {
   /// The den's clock (the studying desk's "since" reads the server's time, not this).
   final DateTime? now;
 
+  /// Studying now (D171, 4.2): the first sharing member, other than you, with a practice answer in the last
+  /// 10 minutes (`v3.hours.studying_now`). They stand on the desk under the lamp, not on the floor. Real
+  /// presence only; one at a time; never in a Mob of one.
+  static (StudyingNow?, MobV3Member?) studierOf(MobV3? v3) {
+    final all = v3?.members ?? const <MobV3Member>[];
+    if (all.length <= 1) return (null, null);
+    for (final st in v3?.hours?.studyingNow ?? const <StudyingNow>[]) {
+      for (final m in all) {
+        if (m.memberId == st.memberId && !m.you) return (st, m);
+      }
+    }
+    return (null, null);
+  }
+
+  /// The pennant's left edge: by the desk's left when someone studies (the desk takes the right), else at
+  /// the stage's right. The title block stops short of it.
+  static double pennantLeft(double width, {required bool studying}) => studying ? width * 0.58 - 29 : width - MmSpace.gutter - 6 - 58;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final colors = context.mmColors;
@@ -188,18 +206,7 @@ class DenStage extends ConsumerWidget {
         final all = v3?.members ?? const <MobV3Member>[];
         // Studying now (D171, 4.2): a sharing member with a practice answer in the last 10 minutes stands on the
         // desk under the lamp, not on the floor. Real presence only (`v3.hours.studying_now`); one at a time.
-        StudyingNow? studying;
-        MobV3Member? studier;
-        for (final st in v3?.hours?.studyingNow ?? const <StudyingNow>[]) {
-          for (final m in all) {
-            if (m.memberId == st.memberId && !m.you && all.length > 1) {
-              studying = st;
-              studier = m;
-              break;
-            }
-          }
-          if (studier != null) break;
-        }
+        final (studying, studier) = DenStage.studierOf(v3);
         final members = [for (final m in all) if (m != studier) m];
         final size = DenSizes.foldSize(w, members.length);
         // A Mob of one stands you in the middle of the lamp pool with two open seats each side (L4, 19 Oct
@@ -389,13 +396,13 @@ class DenStage extends ConsumerWidget {
                       // The art's desk top (art 1536 x 1024: the paper at about x 1150, the top at y 452).
                       deskTop: Offset(artLeft + 1150 * s, artTop + 452 * s),
                       width: w,
-                      tagTop: artTop + 452 * s + 10,
+                      tagTop: artTop + 452 * s + 4,
                       idle: idle,
                     ),
                   ),
                 // 8 the pennant (the Mob's weekly streak, labelled with the Mob's name: D173 item 6).
                 Positioned(
-                  left: w * 0.685 - 29,
+                  left: DenStage.pennantLeft(w, studying: studying != null),
                   top: stageTop - 6,
                   child: RepaintBoundary(
                     child: _PennantIn(
@@ -1081,8 +1088,8 @@ class StudyDesk extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final reduced = MediaQuery.disableAnimationsOf(context);
-    final lampX = math.min(width - 20, deskTop.dx + size * 1.3);
-    final foldX = deskTop.dx - size * 0.15;
+    final lampX = math.min(width - 10, deskTop.dx + size * 1.3);
+    final foldX = deskTop.dx - size * 0.3;
     return Semantics(
       label: MobV4DenCopy.studyingSemantics(member.name, since),
       container: true,
@@ -1148,7 +1155,7 @@ class StudyDesk extends StatelessWidget {
                       offset: Offset(0, 8 * (1 - tag)),
                       child: Container(
                         key: const ValueKey('den-studying-tag'),
-                        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s8, MmSpace.s16, MmSpace.s8),
+                        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s6, MmSpace.s16, MmSpace.s6),
                         decoration: BoxDecoration(
                           color: colors.raised.withValues(alpha: colors.isNight ? 0.9 : 0.94),
                           borderRadius: BorderRadius.circular(14),

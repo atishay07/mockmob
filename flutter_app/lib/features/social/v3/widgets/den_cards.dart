@@ -671,11 +671,9 @@ class DenRows extends ConsumerWidget {
     final colors = context.mmColors;
     final rows = <Widget>[];
     final seatsOpen = (5 - v3.members.length).clamp(0, 5);
-    if (card.keyIsStart) {
-      if (seatsOpen > 0) {
-        rows.add(DenRow(key: const ValueKey('den-row-invite'), lead: const _RowGlyph(kind: _Glyph.invite), title: MobV4DenCopy.inviteRowTitle, line: MobV4DenCopy.inviteRowLine(seatsOpen), onTap: () => V4Sheets.invite(context)));
-      }
-    } else {
+    // First, always, Start a game; when Start a game is already the card's key, Invite friends instead,
+    // after the week's paper (the approved empty den).
+    if (!card.keyIsStart) {
       rows.add(DenRow(key: const ValueKey('den-row-start'), lead: const _RowGlyph(kind: _Glyph.start), title: MobV4DenCopy.startRowTitle, line: MobV4DenCopy.startRowLine, onTap: () => showStartGame(context)));
     }
     final week = mob.week;
@@ -689,6 +687,9 @@ class DenRows extends ConsumerWidget {
           onTap: () => ref.read(mobNavigatorProvider).sitPaper(context, ref, mob),
         ),
       );
+    }
+    if (card.keyIsStart && seatsOpen > 0) {
+      rows.add(DenRow(key: const ValueKey('den-row-invite'), lead: const _RowGlyph(kind: _Glyph.invite), title: MobV4DenCopy.inviteRowTitle, line: MobV4DenCopy.inviteRowLine(seatsOpen), onTap: () => V4Sheets.invite(context)));
     }
     for (final g in v3.openGames) {
       if (g.id == card.game?.id) continue;
