@@ -913,3 +913,11 @@ Billing page: "Your grace period has started. Your organization went over its qu
 ## Owner, 20 Oct 7:31 pm IST (verbatim, mid-turn)
 > "what is \"calm\""
 (Answer: the internal branch name for the version 15 fixes D181 Pro ask timing, D183 usage data, the delete-account Google Play warning and forgetting a pending Ask Mobi question on sign-out; agents named it "calm" for "no pushy Pro ask".)
+
+## Owner, 20 Oct 7:34 pm IST (verbatim, mid-turn)
+> "See, I don't have any issue, but I am just asking about the logic behind this. The workflow that you were in, Review v15, came in: for student 3, Opus agents in the review part, then in the verifier part, 11 agents there. 3 + 11: 14 agents in Opus you are running in this Review v15.
+>
+> I don't have an issue with running as many agents as you want. You can even open agents. Usage limit is not an issue at all. I can even tell you to just run open agents. You can even open 100 agents at once if it's required. It's not an issue.
+>
+> Just for this review and verification, I personally think even high quality can do some of the basic tasks. It's not just about the cause, but about the speed also and managing everything efficiently. Can you explain: was there any reason to spawn the Opus agents you have added right now? Approximately 20 Opus agents are running. Is there any reason to only use Opus here? If you have a reason, then no problem. If you don't have any reason, then also just tell me honestly. No need to stop anything, but I just want to know."
+**Ledger D188:** usage is not a constraint (many agents allowed, even 100 when needed), but pick the model per task for SPEED and efficiency: cheaper/faster models for basic review, verification and capture; Opus only where judgement needs it (taste, motion, tricky logic). Answer given: the 11 verifiers and the walker were Opus by default (no model set), not by a deliberate choice.
