@@ -1,5 +1,10 @@
-// Pure helpers for optional, adult-only, first-party usage data. No I/O here.
-export const POLICY_VERSION = '2026-10-12';
+// Pure helpers for optional, first-party usage data. No I/O here.
+// D183 (owner, 20 Oct 2026): usage data is on for people who say they are 18 or older and for people who choose
+// "Rather not say" (age band 'unknown' with an answer); it is off only for a student who says they are under 18
+// (age band 'minor'). Anyone can switch it off, and switching it off deletes what was collected.
+// POLICY_VERSION is the date of the privacy text a choice was made under. It moved to 2026-10-20 with D183; rows saved
+// before that keep '2026-10-12', which is right, because each write stamps the version in force at the time.
+export const POLICY_VERSION = '2026-10-20';
 export const CONSENT_LABEL = 'Allow usage data to improve MockMob';
 export const AGE_BANDS = ['adult', 'minor', 'unknown'];
 export const MAX_BATCH = 50;
@@ -10,8 +15,10 @@ const MAX_STR = 64;
 const PAST_MS = 7 * 24 * 3600 * 1000;
 const FUTURE_MS = 5 * 60 * 1000;
 
+// Collect only when the student allowed it, has not withdrawn, and did not say they are under 18.
+// A missing row, or a row with an unknown age band value, never collects.
 export function canCollect(row) {
-  return !!row && row.analytics_allowed === true && row.age_band === 'adult' && !row.withdrawn_at;
+  return !!row && row.analytics_allowed === true && AGE_BANDS.includes(row.age_band) && row.age_band !== 'minor' && !row.withdrawn_at;
 }
 
 export function validateProps(props) {

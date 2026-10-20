@@ -52,6 +52,7 @@ function UsageDataSection() {
   const [loaded, setLoaded] = useState(false);
   const [loadError, setLoadError] = useState('');
   const [ageBand, setAgeBand] = useState('unknown');
+  const [decidedAt, setDecidedAt] = useState(null);
   const [allowed, setAllowed] = useState(false);
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState({ type: null, message: '' });
@@ -61,25 +62,37 @@ function UsageDataSection() {
   useEffect(() => {
     let alive = true;
     apiGet('/api/me/consent')
-      .then((c) => { if (!alive) return; setAgeBand(c.ageBand); setAllowed(c.analyticsAllowed === true); setLoaded(true); })
+      .then((c) => { if (!alive) return; setAgeBand(c.ageBand); setDecidedAt(c.decidedAt || null); setAllowed(c.analyticsAllowed === true); setLoaded(true); })
       .catch((e) => { if (alive) setLoadError(e.message || 'Could not load your choice.'); });
     return () => { alive = false; };
   }, []);
 
-  // Local state changes only after the server confirms.
+  // D183: usage data can be on for 18 or older and for "Rather not say" (age band unknown, with an answer); it stays off
+  // only for a student who says they are under 18. The server saves a band with a decision time, so unknown with no
+  // decision time means the question was never answered.
+  const answered = ageBand !== 'unknown' || !!decidedAt;
+  const switchAvailable = answered && ageBand !== 'minor';
+
+  // Local state changes only after the server confirms. The band is always the one the student gave: turning the
+  // switch on or off never rewrites it.
   async function save(nextBand, nextAllowed, { refocus = false } = {}) {
     if (busyRef.current) return;
     busyRef.current = true;
     setBusy(true);
-    setNote({ type: null, message: '' });
+    // Shown while the save runs, so a key press that arrives during it (and is dropped above) is not silent.
+    setNote({ type: null, message: 'Saving.' });
     try {
       const res = await putJson('/api/me/consent', { ageBand: nextBand, analyticsAllowed: nextAllowed });
       setAgeBand(res.ageBand);
+      setDecidedAt(res.decidedAt || null);
       setAllowed(res.analyticsAllowed === true);
       const n = res.deletedEvents || 0;
+      // The count is told only when something was deleted: a first answer of 18 or older or Rather not say deletes nothing.
       const message = res.analyticsAllowed
         ? 'Saved. Usage data is on.'
-        : `Saved. Usage data is off. ${n} collected ${n === 1 ? 'record was' : 'records were'} deleted.`;
+        : n > 0
+          ? `Saved. Usage data is off and ${n} earlier ${n === 1 ? 'record was' : 'records were'} deleted.`
+          : 'Saved. Usage data is off.';
       setNote({ type: 'ok', message });
       if (refocus) setTimeout(() => toggleRef.current?.focus(), 0);
     } catch (e) {
@@ -95,22 +108,26 @@ function UsageDataSection() {
         <li>First-party only. No third-party tracking and no advertising.</li>
         <li>Kept for 180 days.</li>
         <li>You can withdraw at any time, and withdrawing deletes what was collected.</li>
-        <li>Only available to people who confirm they are 18 or older. If you are under 18, or have not said, it stays off.</li>
+        <li>It can be on if you are 18 or older or choose Rather not say. It stays off if you say you are under 18.</li>
       </ul>
       {loadError ? <p className="privacy-note privacy-note--err" role="alert">{loadError}</p> : !loaded ? <p className="privacy-note">Loading your choice.</p> : (
         <>
           <fieldset className="privacy-choice" aria-busy={busy}>
             <legend className="privacy-label">Your age</legend>
+            {/* Each answer saves the moment it changes. "I am under 18" is last on purpose: it switches usage data off and
+                deletes what was collected, so arrowing from "I am 18 or older" to "Rather not say" must not pass through it. */}
             <label><input type="radio" name="age-band" checked={ageBand === 'adult'} onChange={() => save('adult', allowed)} />I am 18 or older</label>
+            <label><input type="radio" name="age-band" checked={answered && ageBand === 'unknown'} onChange={() => save('unknown', allowed)} />Rather not say</label>
             <label><input type="radio" name="age-band" checked={ageBand === 'minor'} onChange={() => save('minor', false)} />I am under 18</label>
           </fieldset>
           <label className="privacy-toggle">
-            <input ref={toggleRef} type="checkbox" checked={allowed} disabled={ageBand !== 'adult'} onChange={(e) => save('adult', e.target.checked)} />
+            <input ref={toggleRef} type="checkbox" checked={allowed} disabled={!switchAvailable} onChange={(e) => save(ageBand, e.target.checked)} />
             Allow usage data to improve MockMob
           </label>
-          {ageBand !== 'adult' && <p className="privacy-note">Confirm you are 18 or older to turn this on.</p>}
+          {ageBand === 'minor' && <p className="privacy-note">Usage data stays off because you said you are under 18.</p>}
+          {!answered && <p className="privacy-note">Usage data stays off until you choose an answer above.</p>}
           {allowed && (
-            <div><Button variant="outline" size="md" aria-disabled={busy || undefined} onClick={() => save('adult', false, { refocus: true })}>Withdraw and delete my usage data</Button></div>
+            <div><Button variant="outline" size="md" aria-disabled={busy || undefined} onClick={() => save(ageBand, false, { refocus: true })}>Withdraw and delete my usage data</Button></div>
           )}
           <p className={`privacy-note ${note.type === 'ok' ? 'privacy-note--ok' : note.type === 'err' ? 'privacy-note--err' : ''}`} role="status" aria-live="polite">{note.message}</p>
         </>

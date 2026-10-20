@@ -660,10 +660,12 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return json({ ...window.__previewPrefs, premium: false, state: 'ready' });
     }
     // Usage data choice (Account): an adult with usage data off; a save echoes the choice, nothing is stored or deleted.
+    // The server's D183 rule is mirrored: usage data may be on for 18 or older and for "Rather not say", never for under 18.
     if (url.pathname === '/api/me/consent' && method === 'GET') return json(window.__previewConsent || { ageBand: 'adult', analyticsAllowed: false, policyVersion: 'preview', decidedAt: null, withdrawnAt: null });
     if (url.pathname === '/api/me/consent' && method === 'PUT') {
       if (state === 'save-error') return json({ error: 'Fixture consent save failure' }, 503);
       const body = JSON.parse(init.body || '{}');
+      if (body.analyticsAllowed === true && body.ageBand === 'minor') return json({ error: 'Usage data stays off for students under 18.' }, 400);
       window.__previewConsent = { ageBand: body.ageBand, analyticsAllowed: body.analyticsAllowed === true, policyVersion: 'preview', decidedAt: new Date().toISOString(), withdrawnAt: null };
       return json({ ...window.__previewConsent, deletedEvents: 0 });
     }

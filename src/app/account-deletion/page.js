@@ -32,7 +32,7 @@ export default function AccountDeletionPage() {
               <li>Your account and sign-in details.</li>
               <li>Your study records: mock attempts, saved and uploaded questions, bookmarks, votes, subjects and plans.</li>
               <li>App data: notification preferences and study goal.</li>
-              <li>Any usage data collected, if you had allowed it.</li>
+              <li>Any usage data we collected.</li>
             </ul>
           </section>
           <section>
