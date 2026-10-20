@@ -1101,12 +1101,13 @@ class StudyDesk extends StatelessWidget {
             final ms = t * total;
             final bulb = reduced ? t : windowOf(ms, 0, 150, MotionCurves.glide);
             final beam = reduced ? t : windowOf(ms, 150, 300, MotionCurves.glide);
-            // Two hops in from the lamp's side: x from +2 Fold widths to 0, a 14 dp arc each.
+            // Two hops up from the floor side (left and below the desk top), a 14 dp arc each, never through the
+            // lamp: the first lands on the desk's front edge, the second by the paper.
             double hopY(double p) => -14 * 4 * p * (1 - p);
             final h1 = windowOf(ms, 450, 500);
             final h2 = windowOf(ms, 950, 500);
-            final travel = reduced ? 0.0 : (1 - (h1 * 0.5 + h2 * 0.5)) * size * 0.9;
-            final lift = reduced ? 0.0 : (ms < 950 ? hopY(h1) : hopY(h2));
+            final travel = reduced ? 0.0 : -(1 - (h1 * 0.5 + h2 * 0.5)) * size * 0.9;
+            final lift = reduced ? 0.0 : (ms < 950 ? hopY(h1) + (1 - h1) * size * 0.55 : hopY(h2));
             final shown = reduced ? t : windowOf(ms, 450, 120);
             // The landing squash (1.06 / 0.94 for 90 ms) at the end of the second hop.
             final land = reduced ? 0.0 : windowOf(ms, 1450, 90);

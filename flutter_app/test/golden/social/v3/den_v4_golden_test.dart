@@ -9,6 +9,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/widgets/den_stage.dart';
+import 'package:mockmob/features/social/v3/widgets/fold_puppet.dart';
 
 import '../../../helpers/golden_harness.dart';
 import '../../../unit/social/v3/mob_v3_test_kit.dart';
@@ -84,6 +85,8 @@ void deskStrip() {
     testWidgets('den v4 studying desk strip ${_tag(b)}', (tester) async {
       loadFoldManifestForTest();
       final riya = MobV3Member(memberId: 'R', name: 'Riya', colour: 3, fold: FoldKey.patang);
+      final show = ValueNotifier<bool>(false);
+      addTearDown(show.dispose);
       await pumpMockmob(
         tester,
         Builder(
@@ -92,7 +95,18 @@ void deskStrip() {
             child: SizedBox(
               width: 360,
               height: 220,
-              child: StudyDesk(member: riya, since: DateTime.utc(2026, 10, 22, 10, 22), size: 61, deskTop: const Offset(300, 110), width: 360, tagTop: 116),
+              child: Stack(
+                children: [
+                  // Both poses decode before the strip starts (the think still swaps in on landing).
+                  Offstage(child: Row(children: [FoldPuppet(fold: riya.fold, size: 61), FoldPuppet(fold: riya.fold, size: 61, pose: FoldPose.think)])),
+                  ValueListenableBuilder<bool>(
+                    valueListenable: show,
+                    builder: (context, on, _) => on
+                        ? StudyDesk(member: riya, since: DateTime.utc(2026, 10, 22, 10, 22), size: 61, deskTop: const Offset(300, 110), width: 360, tagTop: 116)
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -100,6 +114,8 @@ void deskStrip() {
         size: const Size(360, 220),
       );
       await settleImages(tester);
+      show.value = true;
+      await tester.pump();
       var at = 0;
       for (final ms in [0, 120, 400, 700, 1200, 1500, 1800]) {
         if (ms > at) await tester.pump(Duration(milliseconds: ms - at));
