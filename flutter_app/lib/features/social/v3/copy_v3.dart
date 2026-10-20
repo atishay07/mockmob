@@ -1124,4 +1124,27 @@ abstract final class MobV4DenCopy {
   static const String startAnother = 'Start another Mob';
   static const String joinWithCode = 'Join with a code';
   static String planLimit(int max) => max == 1 ? 'You are in 1 Mob, the most your plan allows.' : 'You are in $max Mobs, the most your plan allows.';
+
+  /// The invite footer, true to the seats left (5 minus members).
+  static String inviteWorksFor(int open) => open <= 1 ? 'Works for 7 days, for 1 friend.' : 'Works for 7 days, for up to $open friends.';
+
+  // Full mock price at the point of choice (D174, D175): the server's number, Free members only.
+  static String sitCostLine(int credits) => 'For you: $credits credits. Included with Pro.';
+  static String sitCostSuffix(int credits) => ' · $credits credits for you';
+
+  // Your shelf row (3.1 item 6, D170)
+  static const String shelfRowTitle = 'Your shelf';
+  static String shelfRowLine(int owned, int total, FoldKey? next) =>
+      next == null ? '$owned of $total Folds' : '$owned of $total Folds · next: ${MobV3Copy.foldName(next)}, ${shelfNextRule(next)}';
+  static String shelfNextRule(FoldKey f) => switch (f) {
+        FoldKey.dart || FoldKey.dogear || FoldKey.hexa || FoldKey.kandil => 'free to everyone',
+        FoldKey.hop => 'finish a weekly quest',
+        FoldKey.crane => 'fix 3 traps together',
+        FoldKey.stamp => 'a 4-week Mob chain',
+        FoldKey.naav => 'finish a full mock',
+        FoldKey.tally => '3 games with no minus marks',
+        FoldKey.patang => 'beat your best',
+        FoldKey.sticky => '5 fixes that held',
+        FoldKey.cutting => 'come back after a break',
+      };
 }

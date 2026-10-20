@@ -91,6 +91,11 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
   DateTime? _hiddenAt;
   ChainNotice? _notice;
   String? _noticeText;
+
+  /// Who stands on the desk, kept for one exit pass after `studying_now` empties (4.2), and the Mob it is in.
+  (StudyingNow?, MobV3Member?)? _desk;
+  bool _deskLeaving = false;
+  String? _deskMob;
   Timer? _noticeTimer;
   final List<StickerSend> _flights = [];
   StickerBus? _bus;
@@ -401,6 +406,28 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
         final failed = view == null && !loading;
         final now = ref.watch(denClockProvider)();
 
+        // The desk's memory: a studier stays on the desk for one exit pass after the server stops listing them.
+        if (v3 == null || mob?.id != _deskMob) {
+          _desk = null;
+          _deskLeaving = false;
+        }
+        _deskMob = mob?.id;
+        final studyingNow = DenStage.studierOf(v3);
+        if (studyingNow.$1 != null) {
+          _desk = studyingNow;
+          _deskLeaving = false;
+        } else if (_desk != null) {
+          final id = _desk!.$2?.memberId;
+          final still = v3 != null && v3.members.length > 1 && v3.members.any((m) => m.memberId == id);
+          if (still) {
+            _deskLeaving = true;
+          } else {
+            _desk = null;
+            _deskLeaving = false;
+          }
+        }
+        final deskBusy = _desk != null;
+
         final room = Stack(
           children: [
             DenStage(
@@ -418,12 +445,24 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
               onShelf: () => V4Sheets.shelf(context),
               onOpenSeat: () => V4Sheets.invite(context),
               now: now,
+              desk: _desk ?? (null, null),
+              deskLeaving: _deskLeaving,
+              onDeskLeft: () {
+                if (mounted) {
+                  setState(() {
+                    _desk = null;
+                    _deskLeaving = false;
+                  });
+                }
+              },
             ),
             if (mob != null && v3 != null)
-              Positioned(
+              AnimatedPositioned(
+                duration: _reduced ? Duration.zero : DenStage.reflow,
+                curve: MotionCurves.glide,
                 left: MmSpace.gutter,
                 top: stageTop + MmSpace.s2,
-                width: math.max(150, DenStage.pennantLeft(w, studying: DenStage.studierOf(v3).$1 != null) - MmSpace.gutter - 6),
+                width: math.max(150, DenStage.pennantLeft(w, studying: deskBusy) - MmSpace.gutter - 8),
                 child: _TitleBlock(
                   name: v3.name.text.isEmpty ? mob.subjectName : v3.name.text,
                   subtitle: MobV4DenCopy.subtitle(mob.subjectName, v3.members.length),
@@ -466,13 +505,6 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
               child: DenCardView(key: ValueKey('${mob.id}:${card.kind.name}:${card.game?.id}'), card: card, v3: v3, mob: mob, now: now),
             ),
           );
-          // K5's pass notice sits under the card, never above it: the card's key is the one thing to
-          // tap and must be on screen on first view at 360 dp (H5, 19 Oct night walk).
-          if (_noticeText != null) {
-            below
-              ..add(const SizedBox(height: MmSpace.s12))
-              ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: _PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!)));
-          }
           below
             ..add(const SizedBox(height: MmSpace.s12))
             ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: DenRows(card: card, v3: v3, mob: mob, now: now)));
@@ -487,6 +519,30 @@ class _DenScreenState extends ConsumerState<_DenRoom> with TickerProviderStateMi
                 ),
               );
           }
+          // Your shelf (3.1 item 6, D170): the den's entry to the Shelf, last in the list.
+          below
+            ..add(const SizedBox(height: MmSpace.s12))
+            ..add(_Rise(ms: _ms, at: EnterDen.questAt, child: const DenShelfRow()));
+          // K5's pass notice goes last, out of the way of the rows: Start a game never moves (3.1 item 4), and
+          // nothing sits below it to jump when it leaves. It fades and folds away (240 ms; reduced: at once).
+          below.add(
+            AnimatedSize(
+              key: const ValueKey('den-pass-notice-slot'),
+              duration: _reduced ? Duration.zero : MotionDurations.card,
+              curve: MotionCurves.glide,
+              alignment: Alignment.topCenter,
+              child: AnimatedSwitcher(
+                duration: _reduced ? Duration.zero : MotionDurations.card,
+                child: _noticeText == null
+                    ? const SizedBox(key: ValueKey('den-pass-notice-none'), width: double.infinity)
+                    : Padding(
+                        key: ValueKey('den-pass-notice-$_noticeText'),
+                        padding: const EdgeInsets.only(top: MmSpace.s16),
+                        child: _PassNotice(key: const ValueKey('den-pass-notice'), text: _noticeText!),
+                      ),
+              ),
+            ),
+          );
         }
 
         final content = Column(
@@ -691,18 +747,12 @@ class _TitleBlock extends StatelessWidget {
     final colors = context.mmColors;
     // The title sits over the lit room: a soft halo in the ground colour keeps it readable.
     final halo = [Shadow(color: colors.ground.withValues(alpha: colors.isNight ? 0.85 : 0.9), blurRadius: 10)];
-    final title = Row(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Flexible(
-          child: Text(
-            name,
-            style: type.screenTitle.copyWith(color: colors.ink, shadows: halo),
-          ),
-        ),
-        if (onSwitch != null) ...[const SizedBox(width: MmSpace.s4), Icon(LucideIcons.chevronDown, size: 22, color: colors.ink)],
-      ],
+    // One line each: the name scales down to 0.8 and then ends in an ellipsis; the chevron follows the text.
+    final title = _FitLine(
+      text: name,
+      style: type.screenTitle.copyWith(color: colors.ink, shadows: halo),
+      trailing: onSwitch == null ? null : Padding(padding: const EdgeInsets.only(left: MmSpace.s4), child: Icon(LucideIcons.chevronDown, size: 22, color: colors.ink)),
+      trailingWidth: onSwitch == null ? 0 : 26,
     );
     final block = Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -710,8 +760,8 @@ class _TitleBlock extends StatelessWidget {
       children: [
         Semantics(header: true, child: title),
         const SizedBox(height: MmSpace.s2),
-        Text(
-          subtitle,
+        _FitLine(
+          text: subtitle,
           // Label size, not caption: readable over the lit room at 360 dp (M1 owner note).
           style: type.label.copyWith(color: colors.isNight ? colors.ink2 : colors.ink, fontWeight: FontWeight.w600, shadows: [...halo, ...halo]),
         ),
@@ -726,6 +776,40 @@ class _TitleBlock extends StatelessWidget {
       haptic: MmPressHaptic.selection,
       focusRadius: BorderRadius.circular(MmRadius.small),
       builder: (context, pressed, _) => block,
+    );
+  }
+}
+
+/// One line of text that scales down to [floor] of its size before it ends in an ellipsis; [trailing] follows it.
+class _FitLine extends StatelessWidget {
+  const _FitLine({required this.text, required this.style, this.trailing, this.trailingWidth = 0});
+
+  final String text;
+  final TextStyle style;
+  final Widget? trailing;
+  final double trailingWidth;
+
+  static const double floor = 0.8;
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, box) {
+        final avail = box.maxWidth - trailingWidth;
+        final tp = TextPainter(text: TextSpan(text: text, style: style), textDirection: Directionality.of(context), textScaler: MediaQuery.textScalerOf(context), maxLines: 1)..layout();
+        final natural = tp.width;
+        tp.dispose();
+        final k = natural <= avail || natural <= 0 ? 1.0 : math.max(floor, avail / natural);
+        final line = Text(
+          text,
+          maxLines: 1,
+          softWrap: false,
+          overflow: TextOverflow.ellipsis,
+          style: k == 1 ? style : style.copyWith(fontSize: (style.fontSize ?? 14) * k),
+        );
+        if (trailing == null) return line;
+        return Row(mainAxisSize: MainAxisSize.min, children: [Flexible(child: line), trailing!]);
+      },
     );
   }
 }

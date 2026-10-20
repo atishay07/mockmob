@@ -65,7 +65,8 @@ class YourMobsBody extends ConsumerWidget {
     final labels = MobSwitcher.labelsFor(mob.mobs);
     final plan = mob.plan;
     return Padding(
-      padding: const EdgeInsets.fromLTRB(MmSpace.sheetSide, 0, MmSpace.sheetSide, MmSpace.s16),
+      // showMmSheet already pads the body to the title's edge.
+      padding: const EdgeInsets.only(bottom: MmSpace.s16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,

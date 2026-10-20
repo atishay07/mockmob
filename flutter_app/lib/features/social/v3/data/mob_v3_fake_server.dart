@@ -591,6 +591,16 @@ class MobV3FakeServer implements MobV3Api {
   /// Members with a practice answer in the last 10 minutes, and when they began (fixture: Riya, 20 minutes ago).
   final Map<String, DateTime> studyingSince = {};
 
+  /// Test and demo knobs (V4-den): rename the open Mob, or seat one more member with this week's minutes.
+  void renameFixtureMob(String name) => _mob()?.name = name;
+  void addFixtureMember(String id, String name, int colour, FoldKey fold, {int minutes = 0, int goal = 0}) {
+    final mob = _mob();
+    if (mob == null || mob.members.length >= 5) return;
+    mob.members.add(_Member(id, name, colour, fold));
+    studyMinutes[id] = minutes;
+    goalDays[id] = goal;
+  }
+
   /// PATCH the member settings `{share_study_time}` (the fixture's own switch).
   void setShareStudyTime(bool on) {
     final mob = _mob();

@@ -1756,8 +1756,9 @@ class MobHours {
   final String? topMemberId;
   final List<StudyingNow> studyingNow;
 
-  /// Nobody shares (or nobody has minutes yet this week): the panel says "Off for everyone".
-  bool get offForEveryone => members.isEmpty;
+  /// Nobody shares (the target is 150 minutes per sharing member, so 0 means nobody): the panel says "Off for
+  /// everyone". Sharing with no minutes yet (Monday morning) is not off: it reads "0 m of 2 h 30 m".
+  bool get offForEveryone => targetMinutes <= 0;
 
   /// 0..1 of the week's target, for the bar.
   double get share => targetMinutes <= 0 ? 0 : (totalMinutes / targetMinutes).clamp(0.0, 1.0);

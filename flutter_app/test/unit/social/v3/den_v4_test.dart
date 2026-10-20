@@ -3,6 +3,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/social/data/mob_models.dart';
+import 'package:mockmob/features/social/v3/copy_v3.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_fake_server.dart';
 import 'package:mockmob/features/social/v3/data/mob_v3_models.dart';
 import 'package:mockmob/features/social/v3/logic/den_copy_state.dart';
@@ -90,6 +91,20 @@ void main() {
       expect(h.members.single.firstName, 'Kabir');
       expect(h.members.single.weekTick, isTrue);
       expect(h.studyingNow.single.memberId, 'b');
+    });
+
+    test('sharing with no minutes yet (Monday morning) is not off: the figure reads 0 m of 2 h 30 m', () {
+      final h = MobHours.fromJsonOrNull({'week_start': '2026-10-19', 'target_minutes': 150, 'total_minutes': 0, 'me_sharing': true, 'members': <Object>[], 'top_member_id': null, 'studying_now': <Object>[]})!;
+      expect(h.offForEveryone, isFalse);
+      expect(h.members, isEmpty);
+      expect(MobV4DenCopy.hm(h.totalMinutes), '0 m');
+      expect(MobV4DenCopy.hoursOf(h.targetMinutes), 'of 2 h 30 m');
+      expect(MobHours.fromJsonOrNull({'target_minutes': 0, 'total_minutes': 0, 'members': <Object>[]})!.offForEveryone, isTrue);
+    });
+
+    test('the invite footer counts the seats left', () {
+      expect(MobV4DenCopy.inviteWorksFor(1), 'Works for 7 days, for 1 friend.');
+      expect(MobV4DenCopy.inviteWorksFor(3), 'Works for 7 days, for up to 3 friends.');
     });
 
     test('nobody shares: Off for everyone', () {

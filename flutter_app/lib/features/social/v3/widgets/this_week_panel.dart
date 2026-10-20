@@ -12,6 +12,8 @@
 // Never (3.6): a rank below the top, a member with 0 minutes or opted out, "less" copy, a countdown.
 // The app never adds the minutes up itself: the figure is the server's `total_minutes`.
 
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -250,8 +252,10 @@ class _HoursBlock extends StatelessWidget {
         if (!off) ...[
           const SizedBox(height: MmSpace.s12),
           CalmBar(share: hours.share),
-          const SizedBox(height: MmSpace.s16),
-          _Heads(hours: hours, v3: v3, nameOf: nameOf),
+          if (hours.members.isNotEmpty) ...[
+            const SizedBox(height: MmSpace.s16),
+            _Heads(hours: hours, v3: v3, nameOf: nameOf),
+          ],
         ],
       ],
     );
@@ -337,7 +341,8 @@ class _Heads extends ConsumerWidget {
     final people = hours.members.take(5).toList();
     return LayoutBuilder(
       builder: (context, box) {
-        final cell = (box.maxWidth / 4).clamp(64.0, 110.0);
+        // One row always: four cells, or five when five share (a Mob's seats).
+        final cell = math.min(110.0, box.maxWidth / math.max(4, people.length));
         return Wrap(
           spacing: 0,
           runSpacing: MmSpace.s12,
@@ -350,15 +355,21 @@ class _Heads extends ConsumerWidget {
                   children: [
                     _Head34(member: v3.member(p.memberId), head: manifest?.folds[v3.member(p.memberId)?.fold]?.head),
                     const SizedBox(height: MmSpace.s6),
-                    Text(
-                      MobV4DenCopy.hm(p.minutes),
-                      maxLines: 1,
-                      softWrap: false,
-                      overflow: TextOverflow.fade,
-                      style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: MmSpace.s4),
+                      child: FittedBox(
+                        fit: BoxFit.scaleDown,
+                        child: Text(
+                          MobV4DenCopy.hm(p.minutes),
+                          maxLines: 1,
+                          softWrap: false,
+                          style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700, fontFeatures: const [FontFeature.tabularFigures()]),
+                        ),
+                      ),
                     ),
                     Text(
                       nameOf(p),
+                      textAlign: TextAlign.center,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: type.caption.copyWith(color: colors.ink3),

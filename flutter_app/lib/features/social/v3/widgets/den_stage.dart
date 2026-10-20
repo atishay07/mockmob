@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../../core/motion/motion_tokens.g.dart';
+import '../../../../core/motion/motion.dart' show Motion;
 import '../../../../core/motion/springs.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
@@ -146,6 +147,9 @@ class DenStage extends ConsumerWidget {
     this.onOpenSeat,
     this.titleWidth = 0,
     this.now,
+    this.desk,
+    this.deskLeaving = false,
+    this.onDeskLeft,
   });
 
   /// Null with [skeleton] (D6: the room and the lamp, no Folds).
@@ -177,6 +181,16 @@ class DenStage extends ConsumerWidget {
   /// The den's clock (the studying desk's "since" reads the server's time, not this).
   final DateTime? now;
 
+  /// Who is on the desk, as the screen keeps it (null: read [studierOf]). While [deskLeaving], the last studier
+  /// plays the exit (4.2: the tag fades, two hops back to their floor slot, the lamp dims over 600 ms), then
+  /// [onDeskLeft] lets the screen drop them.
+  final (StudyingNow?, MobV3Member?)? desk;
+  final bool deskLeaving;
+  final VoidCallback? onDeskLeft;
+
+  /// The floor reflows (a member moves to or from the desk) over 360 ms; reduced motion: at once.
+  static const Duration reflow = Duration(milliseconds: 360);
+
   /// Studying now (D171, 4.2): the first sharing member, other than you, with a practice answer in the last
   /// 10 minutes (`v3.hours.studying_now`). They stand on the desk under the lamp, not on the floor. Real
   /// presence only; one at a time; never in a Mob of one.
@@ -193,7 +207,9 @@ class DenStage extends ConsumerWidget {
 
   /// The pennant's left edge: by the desk's left when someone studies (the desk takes the right), else at
   /// the stage's right. The title block stops short of it.
-  static double pennantLeft(double width, {required bool studying}) => studying ? width * 0.58 - 29 : width - MmSpace.gutter - 6 - 58;
+  static double pennantLeft(double width, {required bool studying}) => studying ? width * 0.66 - pennantWidth / 2 : width - MmSpace.gutter - 6 - pennantWidth;
+
+  static const double pennantWidth = 58;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -206,8 +222,13 @@ class DenStage extends ConsumerWidget {
         final all = v3?.members ?? const <MobV3Member>[];
         // Studying now (D171, 4.2): a sharing member with a practice answer in the last 10 minutes stands on the
         // desk under the lamp, not on the floor. Real presence only (`v3.hours.studying_now`); one at a time.
-        final (studying, studier) = DenStage.studierOf(v3);
-        final members = [for (final m in all) if (m != studier) m];
+        final (studying, studier) = desk ?? DenStage.studierOf(v3);
+        // While the last studier leaves the desk, their floor slot is already made (the others reflow), and their
+        // floor Fold shows once the hops land.
+        final members = [for (final m in all) if (deskLeaving || m.memberId != studier?.memberId) m];
+        final hiddenOnFloor = deskLeaving ? studier?.memberId : null;
+        final reduced = Motion.reduced(context);
+        final move = reduced ? Duration.zero : DenStage.reflow;
         final size = DenSizes.foldSize(w, members.length);
         // A Mob of one stands you in the middle of the lamp pool with two open seats each side (L4, 19 Oct
         // night walk: at the left edge your Fold stood outside the light).
@@ -315,19 +336,28 @@ class DenStage extends ConsumerWidget {
                 // 5 Fold shadows.
                 for (final slot in slots)
                   if (!slot.seat)
-                    Positioned(
+                    AnimatedPositioned(
+                      key: ValueKey('den-shadow-${slot.member!.memberId}'),
+                      duration: move,
+                      curve: MotionCurves.glide,
                       left: centreOf(slot.index) - size * 0.4,
                       top: bootsY - size * 0.05,
                       width: size * 0.8,
                       height: size * 0.1,
-                      child: RepaintBoundary(
-                        child: _FoldShadow(ms: ms, index: slot.index, night: night),
+                      child: Opacity(
+                        opacity: slot.member!.memberId == hiddenOnFloor ? 0 : 1,
+                        child: RepaintBoundary(
+                          child: _FoldShadow(ms: ms, index: slot.index, night: night),
+                        ),
                       ),
                     ),
                 // 6 Folds and open seats.
                 for (final slot in slots)
                   if (slot.seat)
-                    Positioned(
+                    AnimatedPositioned(
+                      key: ValueKey('den-seat-${slot.index}'),
+                      duration: move,
+                      curve: MotionCurves.glide,
                       left: centreOf(slot.index) - math.min(slotW - 6, size * 0.66) / 2,
                       top: bootsY - size * 0.9,
                       width: math.min(slotW - 6, size * 0.66),
@@ -339,7 +369,10 @@ class DenStage extends ConsumerWidget {
                       ),
                     )
                   else
-                    Positioned(
+                    AnimatedPositioned(
+                      key: ValueKey('den-fold-${slot.member!.memberId}'),
+                      duration: move,
+                      curve: MotionCurves.glide,
                       left: centreOf(slot.index) - size,
                       width: size * 2,
                       top: bootsY - size,
@@ -347,6 +380,7 @@ class DenStage extends ConsumerWidget {
                       child: _Entering(
                         ms: ms,
                         index: slot.index,
+                        hidden: slot.member!.memberId == hiddenOnFloor,
                         child: Center(
                           child: FoldPuppet(
                             fold: slot.member!.fold,
@@ -365,14 +399,20 @@ class DenStage extends ConsumerWidget {
                 // 7 name tags: names only (F2).
                 for (final slot in slots)
                   if (!slot.seat)
-                    Positioned(
+                    AnimatedPositioned(
+                      key: ValueKey('den-tag-${slot.member!.memberId}'),
+                      duration: move,
+                      curve: MotionCurves.glide,
                       left: centreOf(slot.index) - slotW / 2 + 2,
                       width: slotW - 4,
                       top: bootsY + 6,
                       child: _EngraveTag(text: slot.member!.you ? MobV3Copy.you : slot.member!.name, ms: ms),
                     )
                   else if (!oneCaption)
-                    Positioned(
+                    AnimatedPositioned(
+                      key: ValueKey('den-seattag-${slot.index}'),
+                      duration: move,
+                      curve: MotionCurves.glide,
                       left: centreOf(slot.index) - slotW / 2 + 2,
                       width: slotW - 4,
                       top: bootsY + 6,
@@ -389,19 +429,28 @@ class DenStage extends ConsumerWidget {
                 if (studying != null && studier != null)
                   Positioned.fill(
                     child: StudyDesk(
-                      key: ValueKey('den-studying-${studier.memberId}'),
+                      key: ValueKey('den-studying-${deskLeaving ? 'leave' : 'in'}-${studier.memberId}'),
                       member: studier,
                       since: studying.since,
                       size: size * 0.85,
                       // The art's desk top (art 1536 x 1024: the paper at about x 1150, the top at y 452).
                       deskTop: Offset(artLeft + 1150 * s, artTop + 452 * s),
+                      // The Fold stands clear of the pennant's right edge.
+                      minFoldX: DenStage.pennantLeft(w, studying: true) + DenStage.pennantWidth + size * 0.85 * 0.5 - 6,
                       width: w,
                       tagTop: artTop + 452 * s + 4,
                       idle: idle,
+                      leaving: deskLeaving,
+                      floor: posOf(studier.memberId) == null ? null : Offset(centreOf(posOf(studier.memberId)!), bootsY),
+                      floorSize: size,
+                      onLeft: onDeskLeft,
                     ),
                   ),
                 // 8 the pennant (the Mob's weekly streak, labelled with the Mob's name: D173 item 6).
-                Positioned(
+                AnimatedPositioned(
+                  key: const ValueKey('den-pennant-spot'),
+                  duration: move,
+                  curve: MotionCurves.glide,
                   left: DenStage.pennantLeft(w, studying: studying != null),
                   top: stageTop - 6,
                   child: RepaintBoundary(
@@ -414,18 +463,8 @@ class DenStage extends ConsumerWidget {
                     ),
                   ),
                 ),
-                if (v3!.shelf.items.isNotEmpty || v3!.shelf.nextItem != null)
-                  Positioned(
-                    left: side,
-                    top: stageTop + 92,
-                    child: RepaintBoundary(
-                      child: _Fading(
-                        ms: ms,
-                        at: EnterDen.pennantAt,
-                        child: DenShelfView(shelf: v3!.shelf, mobName: v3!.name.text, onTap: onShelf),
-                      ),
-                    ),
-                  ),
+                // The shelf's entry is the Your shelf row under the This week panel (3.1 item 6): the stage keeps only
+                // the pennant and the desk, as the approved den does.
                 // 9 sticker flights from a member's Fold.
                 for (final f in flights.take(3))
                   if (posOf(f.memberId) case final int i)
@@ -582,11 +621,14 @@ class _ShadowEllipse extends CustomPainter {
 
 /// A Fold (or a seat) rising into its place: rise 14 dp, scale 0.92 to 1 on iconPop, 90 ms apart.
 class _Entering extends StatelessWidget {
-  const _Entering({required this.ms, required this.index, required this.child});
+  const _Entering({required this.ms, required this.index, required this.child, this.hidden = false});
 
   final ValueListenable<double> ms;
   final int index;
   final Widget child;
+
+  /// The studier's floor Fold while they hop back from the desk (it shows when they land).
+  final bool hidden;
 
   @override
   Widget build(BuildContext context) {
@@ -596,7 +638,7 @@ class _Entering extends StatelessWidget {
       builder: (context, t, child) {
         final (o, dy, sc) = EnterDen.fold(t, index);
         return Opacity(
-          opacity: o,
+          opacity: hidden ? 0 : o,
           child: Transform.translate(
             offset: Offset(0, dy),
             child: Transform.scale(scale: sc, alignment: Alignment.bottomCenter, child: child),
@@ -605,21 +647,6 @@ class _Entering extends StatelessWidget {
       },
     );
   }
-}
-
-class _Fading extends StatelessWidget {
-  const _Fading({required this.ms, required this.at, required this.child});
-
-  final ValueListenable<double> ms;
-  final double at;
-  final Widget child;
-
-  @override
-  Widget build(BuildContext context) => ValueListenableBuilder<double>(
-    valueListenable: ms,
-    child: child,
-    builder: (context, t, child) => Opacity(opacity: windowOf(t, at, 200), child: child),
-  );
 }
 
 /// The pennant swinging in about its pin (M1 from 160 ms).
@@ -1060,8 +1087,36 @@ class _PaperPulseState extends State<PaperPulse> with SingleTickerProviderStateM
 /// Fold hops twice onto the art's desk (500 ms each), lands in the think pose, and the tag rises: "Riya is
 /// studying" / "since 3:52 PM". About 1.75 s. Reduced motion: the lamp fades in over 120 ms and the Fold
 /// simply appears.
+///
+/// [leaving] plays the exit when study stops: the tag fades (160 ms), two 500 ms hops back to the member's
+/// floor slot ([floor]), and the lamp dims over 600 ms; then [onLeft]. Reduced motion: a 120 ms fade.
 class StudyDesk extends StatelessWidget {
-  const StudyDesk({super.key, required this.member, required this.since, required this.size, required this.deskTop, required this.width, required this.tagTop, this.idle = false});
+  const StudyDesk({
+    super.key,
+    required this.member,
+    required this.since,
+    required this.size,
+    required this.deskTop,
+    required this.width,
+    required this.tagTop,
+    this.idle = false,
+    this.minFoldX = 0,
+    this.leaving = false,
+    this.floor,
+    this.floorSize,
+    this.onLeft,
+  });
+
+  /// The Fold's centre never goes left of this (clear of the pennant).
+  final double minFoldX;
+  final bool leaving;
+
+  /// The member's floor slot (centre x, boots y) the exit hops land on.
+  final Offset? floor;
+  final double? floorSize;
+  final VoidCallback? onLeft;
+
+  static const double exitTotal = 1760;
 
   final MobV3Member member;
   final DateTime since;
@@ -1086,10 +1141,11 @@ class StudyDesk extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
-    final type = context.mmType;
-    final reduced = MediaQuery.disableAnimationsOf(context);
-    final lampX = math.min(width - 10, deskTop.dx + size * 1.3);
-    final foldX = deskTop.dx - size * 0.3;
+    // Both the system's and the app's own reduced-motion setting.
+    final reduced = Motion.reduced(context);
+    final foldX = math.max(deskTop.dx - size * 0.3, minFoldX);
+    final lampX = math.min(width - 10, math.max(deskTop.dx + size * 1.3, foldX + size * 0.5 + 30));
+    if (leaving) return _leave(context, reduced: reduced, foldX: foldX, lampX: lampX);
     return Semantics(
       label: MobV4DenCopy.studyingSemantics(member.name, since),
       container: true,
@@ -1154,31 +1210,7 @@ class StudyDesk extends StatelessWidget {
                     opacity: tag.clamp(0.0, 1.0),
                     child: Transform.translate(
                       offset: Offset(0, 8 * (1 - tag)),
-                      child: Container(
-                        key: const ValueKey('den-studying-tag'),
-                        padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s6, MmSpace.s16, MmSpace.s6),
-                        decoration: BoxDecoration(
-                          color: colors.raised.withValues(alpha: colors.isNight ? 0.9 : 0.94),
-                          borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: colors.lamp.withValues(alpha: colors.isNight ? 0.55 : 0.4)),
-                          boxShadow: colors.cardShadow,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Container(width: 8, height: 8, decoration: BoxDecoration(color: colors.lamp, shape: BoxShape.circle)),
-                            const SizedBox(width: MmSpace.s8),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Text(MobV4DenCopy.studying(member.name), style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
-                                Text(MobV4DenCopy.since(since), style: type.caption.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
+                      child: _StudyTag(name: member.name, since: since),
                     ),
                   ),
                 ),
@@ -1186,6 +1218,104 @@ class StudyDesk extends StatelessWidget {
             );
           },
         ),
+      ),
+    );
+  }
+}
+
+extension on StudyDesk {
+  Widget _leave(BuildContext context, {required bool reduced, required double foldX, required double lampX}) {
+    final colors = context.mmColors;
+    final to = floor ?? Offset(foldX, deskTop.dy);
+    final endSize = floorSize ?? size;
+    return ExcludeSemantics(
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(begin: 0, end: 1),
+        duration: reduced ? MotionDurations.reducedFade : const Duration(milliseconds: 1760),
+        onEnd: onLeft,
+        builder: (context, t, _) {
+          final ms = t * StudyDesk.exitTotal;
+          final tag = reduced ? 1 - t : 1 - windowOf(ms, 0, 160);
+          final a = reduced ? 0.0 : windowOf(ms, 160, 500, MotionCurves.sweep);
+          final b = reduced ? 0.0 : windowOf(ms, 660, 500, MotionCurves.sweep);
+          final f = (a + b) / 2;
+          double arc(double p) => 4 * p * (1 - p);
+          final x = foldX + (to.dx - foldX) * f;
+          final y = deskTop.dy + (to.dy - deskTop.dy) * f - 18 * arc(a) - 14 * arc(b);
+          final sz = size + (endSize - size) * f;
+          final light = reduced ? 1 - t : 1 - windowOf(ms, 1160, 600, MotionCurves.sweep);
+          final shown = reduced ? 1 - t : 1.0;
+          return Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Positioned.fill(
+                child: IgnorePointer(
+                  child: CustomPaint(
+                    painter: _DeskLampPainter(lampX: lampX, deskY: deskTop.dy, target: deskTop.dx, bulb: light, beam: light, lamp: colors.lamp, metal: colors.isNight ? const Color(0xFF16151A) : const Color(0xFF2A2721), night: colors.isNight),
+                  ),
+                ),
+              ),
+              Positioned(
+                left: x - sz / 2,
+                top: y - sz + 2,
+                width: sz,
+                height: sz,
+                child: Opacity(
+                  opacity: shown.clamp(0.0, 1.0),
+                  child: FoldPuppet(fold: member.fold, size: sz, shadow: false, finish: member.finish, fallbackName: member.name, fallbackColour: member.colour),
+                ),
+              ),
+              if (tag > 0)
+                Positioned(
+                  right: MmSpace.gutter,
+                  top: tagTop,
+                  child: Opacity(
+                    opacity: tag.clamp(0.0, 1.0),
+                    child: _StudyTag(name: member.name, since: since),
+                  ),
+                ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+
+/// "Riya is studying" / "since 3:52 PM" on a small lamp-edged tag.
+class _StudyTag extends StatelessWidget {
+  const _StudyTag({required this.name, required this.since});
+
+  final String name;
+  final DateTime since;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return Container(
+      key: const ValueKey('den-studying-tag'),
+      padding: const EdgeInsets.fromLTRB(MmSpace.s12, MmSpace.s6, MmSpace.s16, MmSpace.s6),
+      decoration: BoxDecoration(
+        color: colors.raised.withValues(alpha: colors.isNight ? 0.9 : 0.94),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: colors.lamp.withValues(alpha: colors.isNight ? 0.55 : 0.4)),
+        boxShadow: colors.cardShadow,
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(width: 8, height: 8, decoration: BoxDecoration(color: colors.lamp, shape: BoxShape.circle)),
+          const SizedBox(width: MmSpace.s8),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(MobV4DenCopy.studying(name), style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+              Text(MobV4DenCopy.since(since), style: type.caption.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
+            ],
+          ),
+        ],
       ),
     );
   }

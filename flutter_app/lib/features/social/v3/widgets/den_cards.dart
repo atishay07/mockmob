@@ -10,6 +10,8 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../../core/api/api.dart';
 import '../../../../core/haptics/haptics.dart';
+import '../../../../core/motion/motion.dart';
+import '../../../../core/motion/motion_tokens.g.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../../pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
@@ -25,6 +27,7 @@ import '../logic/den_copy_state.dart';
 import '../mob_v3_nav.dart';
 import 'fold_manifest.dart';
 import 'invite_card.dart';
+import 'sit_mock_sheet.dart' show mockSitCost;
 import 'v4_sheet_hooks.dart';
 import 'start_game_sheet.dart';
 import 'sticker_row.dart';
@@ -129,6 +132,13 @@ class _DenCardViewState extends ConsumerState<DenCardView> {
           ..add(const SizedBox(height: MmSpace.s12))
           // Full card width (not indented under the head disc): one line less at 360 dp (H5).
           ..add(Text(keepTimes(MobV4DenCopy.openLine(g, now)), style: type.body.copyWith(color: colors.ink2)));
+        // A Free member sees the price and the Pro option at the point of choice (D174, D175): the server's number.
+        final cost = mockSitCost(g, v3.starts);
+        if (cost > 0) {
+          children
+            ..add(const SizedBox(height: MmSpace.s8))
+            ..add(Text(MobV4DenCopy.sitCostLine(cost), key: const ValueKey('den-sit-cost'), style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w600, fontFeatures: const [FontFeature.tabularFigures()])));
+        }
         if (raced.isNotEmpty) {
           children
             ..add(const SizedBox(height: MmSpace.s12))
@@ -632,27 +642,119 @@ class _RacedRow extends StatelessWidget {
   }
 }
 
-/// Mobi points at the card's key from the top right ("Nobody has played yet", the approved empty den).
+/// Mobi points at the card's text from the top right ("Nobody has played yet", the approved empty den): 96 dp,
+/// facing left into the card, breaking the card's top edge by 24 dp (left of the paper's folded corner). It rises
+/// 14 dp with the card over 360 ms; reduced motion: still.
 class _MobiPointing extends StatelessWidget {
   const _MobiPointing({required this.child});
 
   final Widget child;
 
   static const String art = 'assets/art/mobi-point.webp';
+  static const double size = 96;
+
+  /// How far Mobi rises above the card's top edge (the card's own top padding is 16).
+  static const double over = 24;
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
+    final still = Motion.reduced(context);
+    final mobi = ExcludeSemantics(
+      child: Transform.flip(
+        flipX: true,
+        child: Image.asset(art, width: size, height: size, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox(width: size, height: size)),
+      ),
+    );
+    return Stack(
+      clipBehavior: Clip.none,
       children: [
-        Expanded(child: child),
-        const SizedBox(width: MmSpace.s8),
-        ExcludeSemantics(
-          child: Image.asset(art, width: 76, height: 76, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox(width: 76)),
+        // The text keeps clear of Mobi's body; his arm reaches over its end.
+        Padding(padding: const EdgeInsets.only(right: size - 26), child: child),
+        Positioned(
+          key: const ValueKey('den-mobi-pointing'),
+          right: 4,
+          top: -MmSpace.s16 - over,
+          width: size,
+          height: size,
+          child: still
+              ? mobi
+              : TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0, end: 1),
+                  duration: const Duration(milliseconds: 360),
+                  curve: MotionCurves.emphasized,
+                  builder: (context, v, c) => Opacity(opacity: v, child: Transform.translate(offset: Offset(0, 14 * (1 - v)), child: c)),
+                  child: mobi,
+                ),
         ),
       ],
     );
   }
+}
+
+/// "Your shelf · 5 of 12 Folds · next: Patang, beat your best" (3.1 item 6, D170): the den's entry to the
+/// Shelf, after the This week panel. Overlapping heads of the Folds you own lead it. Hidden until the shelf has
+/// loaded (it is the last thing on the den, so nothing moves when it arrives).
+class DenShelfRow extends ConsumerWidget {
+  const DenShelfRow({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final shelf = ref.watch(shelfProvider).value;
+    if (shelf == null) return const SizedBox.shrink();
+    final owned = shelf.owned;
+    final next = nextFoldOf(shelf);
+    final manifest = foldManifestOf(ref);
+    const head = 36.0;
+    const step = head * 0.6;
+    final shown = owned.take(4).toList();
+    final leadW = shown.isEmpty ? 44.0 : head + (shown.length - 1) * step;
+    return DenRow(
+      key: const ValueKey('den-row-shelf'),
+      leadWidth: math.max(44, leadW),
+      lead: SizedBox(
+        width: leadW,
+        height: head + 4,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            for (var i = 0; i < shown.length; i++)
+              Positioned(
+                left: i * step,
+                top: 0,
+                width: head + 4,
+                height: head + 4,
+                child: manifest?.folds[shown[i]]?.head == null
+                    ? const SizedBox.shrink()
+                    : Image.asset(manifest!.folds[shown[i]]!.head!, fit: BoxFit.contain, errorBuilder: (_, _, _) => const SizedBox.shrink()),
+              ),
+          ],
+        ),
+      ),
+      title: MobV4DenCopy.shelfRowTitle,
+      line: MobV4DenCopy.shelfRowLine(owned.length, FoldKey.values.length, next),
+      onTap: () => V4Sheets.shelf(context),
+    );
+  }
+}
+
+/// The Fold to show as "next": the locked one with the most progress (have of need), else the first locked one.
+FoldKey? nextFoldOf(Shelf shelf) {
+  ShelfFold? best;
+  double bestShare = -1;
+  for (final f in shelf.folds) {
+    if (f.owned) continue;
+    final share = (f.need ?? 0) > 0 ? (f.have ?? 0) / f.need! : 0.0;
+    if (share > bestShare) {
+      best = f;
+      bestShare = share;
+    }
+  }
+  if (best != null) return best.key;
+  final owned = shelf.owned.toSet();
+  for (final k in FoldKey.values) {
+    if (!owned.contains(k)) return k;
+  }
+  return null;
 }
 
 /// The den rows under the Now card (V4 3.1 item 4): "Start a game" first and always (or "Invite friends" when
@@ -699,7 +801,7 @@ class DenRows extends ConsumerWidget {
           key: ValueKey('den-row-game-${g.id}'),
           lead: HeadDisc(member: g.host == null ? null : v3.member(g.host!.memberId), size: 44),
           title: MobV3Copy.gameTitle(g),
-          line: closes == null ? MobV4DenCopy.alsoOpenNoTime : keepTimes(MobV4DenCopy.alsoOpen(closes, now)),
+          line: (closes == null ? MobV4DenCopy.alsoOpenNoTime : keepTimes(MobV4DenCopy.alsoOpen(closes, now))) + (mockSitCost(g, v3.starts) > 0 ? MobV4DenCopy.sitCostSuffix(mockSitCost(g, v3.starts)) : ''),
           onTap: () => g.yourRun == YourRun.finished ? MobV3Nav.podium(context, g.id) : MobV3Nav.play(context, g),
         ),
       );
@@ -719,9 +821,12 @@ class DenRows extends ConsumerWidget {
 
 /// One den row: a 44 dp lead, a title and a line, and a chevron. The whole row is the target (at least 72 dp).
 class DenRow extends StatelessWidget {
-  const DenRow({super.key, required this.lead, required this.title, required this.line, required this.onTap});
+  const DenRow({super.key, required this.lead, required this.title, required this.line, required this.onTap, this.leadWidth = 44});
 
   final Widget lead;
+
+  /// The lead's width (44 dp; wider for the shelf row's overlapping heads).
+  final double leadWidth;
   final String title;
   final String line;
   final VoidCallback onTap;
@@ -742,7 +847,7 @@ class DenRow extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
           child: Row(
             children: [
-              SizedBox(width: 44, height: 44, child: Center(child: lead)),
+              SizedBox(width: leadWidth, height: 44, child: Center(child: lead)),
               const SizedBox(width: MmSpace.s16),
               Expanded(
                 child: Column(
