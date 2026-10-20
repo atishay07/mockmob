@@ -115,14 +115,16 @@ export function pgSupabase(pg, { failFn = {} } = {}) {
       return q;
     },
     rpc(fn, args) {
-      const state = { range: [0, 999] };
+      const state = { range: [0, 999], ids: null };
       const q = {
         order() { return q; },
+        in(_column, ids) { state.ids = ids; return q; },
         range(a, b) { state.range = [a, b]; return q; },
         then(resolve, reject) {
           return (async () => {
             if (failFn[fn]) { calls.push({ kind: 'rpc', fn, args, error: failFn[fn].code }); return { data: null, error: failFn[fn] }; }
-            const all = await callFunction(pg, fn, args);
+            let all = await callFunction(pg, fn, args);
+            if (state.ids) all = all.filter((r) => state.ids.includes(r.id));
             const data = all.slice(state.range[0], state.range[1] + 1);
             calls.push({ kind: 'rpc', fn, args, rows: data.length, bytes: JSON.stringify(data).length });
             return { data, error: null };
@@ -132,4 +134,43 @@ export function pgSupabase(pg, { failFn = {} } = {}) {
       return q;
     },
   };
+}
+
+/**
+ * A client for src/lib/server/review.js over PGlite: the attempts reads Review makes (the slim list, the heavy ids read) run as
+ * SQL on the real table; every other table is empty. `withRpc: false` is a database where no function is applied.
+ */
+export function reviewDb(pg, { withRpc = true, failFn = {} } = {}) {
+  const base = pgSupabase(pg, { failFn });
+  const calls = base.calls;
+  const empty = () => { const b = { select: () => b, eq: () => b, in: () => b, not: () => b, order: () => b, limit: () => b, range: () => b, then: (res, rej) => Promise.resolve({ data: [], error: null }).then(res, rej) }; return b; };
+  const db = {
+    calls,
+    from(table) {
+      if (table !== 'attempts') return empty();
+      const state = { select: '', user: null, ids: null };
+      const q = {
+        select(c) { state.select = c; return q; },
+        eq(_c, v) { state.user = v; return q; },
+        in(_c, ids) { state.ids = ids; return q; },
+        order() { return q; },
+        range() { return q; },
+        then(resolve, reject) {
+          return (async () => {
+            const slimList = state.select.includes('mode:selection_meta');
+            const sql = slimList
+              ? `select id, subject, correct, wrong, unattempted, total, completed_at, selection_meta->>'mode' as mode, selection_meta->'mobPaper' as "mobPaper" from public.attempts where user_id = $1 order by completed_at desc, id limit 1000`
+              : 'select id, details, questions_snapshot from public.attempts where user_id = $1 and id = any ($2) order by completed_at desc, id';
+            const { rows } = await pg.query(sql, slimList ? [state.user] : [state.user, state.ids]);
+            const data = rows.map(wire);
+            calls.push({ kind: 'table', select: state.select, rows: data.length, bytes: JSON.stringify(data).length });
+            return { data, error: null };
+          })().then(resolve, reject);
+        },
+      };
+      return q;
+    },
+  };
+  if (withRpc) db.rpc = base.rpc.bind(base);
+  return db;
 }

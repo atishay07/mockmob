@@ -16,18 +16,22 @@
 --   'plan'     (learningRecord: the plan, tonight, milestones, weak concepts and chapters)
 --              question: id, subject, chapter, conceptId.   meta: mode, sessionId, scoringVersion, durationMinutes, tonight,
 --              mobPaper, contentEvidence, learningPurpose.
+--   'review'   (Review's mistakes, the repair record, the credits history: the question's place and chapter and its stem)
+--              question: id, chapter, question, body (a body equal to the stem is not shipped twice).   meta: mobPaper.
+--              `p_ids`, when given, limits the read to those attempts, so the function reduces only the papers asked for.
 --   'history'  (the result page's history, the Rule book, playbook, traps, Mobi's record, repairs)
 --              question: id, subject, internalSubject, chapter, difficulty, conceptId, familyId, options, question, body,
 --              correctIndex, correctAnswer, verificationEvidence reduced to {content_hash}.   meta: the 'plan' keys + recovery.
 --              These rows carry answer keys: they feed pure builders and must never be put in a response body.
 -- Rows are ordered like attempts_list_summary (completed_at desc, id). An unknown profile raises.
+-- The signature has an optional third argument (p_ids): callers that omit it get exactly the two-argument behaviour.
 --
 -- Security: security invoker, execute granted to service_role only. The routes pass the signed-in user's id; the function must
 -- never be callable by anon or authenticated, or p_user_id would read another student's attempts.
 --
 -- Rollback: supabase/undo/20261020150000_attempts_lean_fn.undo.sql (drops the function; the code falls back to the table).
 
-create or replace function public.attempts_lean(p_user_id text, p_profile text)
+create or replace function public.attempts_lean(p_user_id text, p_profile text, p_ids text[] default null)
  returns table (
    id text,
    user_id text,
@@ -57,6 +61,9 @@ begin
   elsif p_profile = 'history' then
     q_keys := array['id','subject','internalSubject','chapter','difficulty','conceptId','familyId','options','question','body','correctIndex','correctAnswer','verificationEvidence'];
     m_keys := array['mode','sessionId','scoringVersion','durationMinutes','tonight','mobPaper','contentEvidence','learningPurpose','recovery'];
+  elsif p_profile = 'review' then
+    q_keys := array['id','chapter','question','body'];
+    m_keys := array['mobPaper'];
   else
     raise exception 'attempts_lean: unknown profile %', p_profile using errcode = '22023';
   end if;
@@ -90,10 +97,10 @@ begin
       coalesce((select jsonb_object_agg(m.key, m.value) from jsonb_each(a.selection_meta) as m(key, value) where m.key = any (m_keys)), '{}'::jsonb)
     else '{}'::jsonb end as selection_meta
   from public.attempts a
-  where a.user_id = p_user_id
+  where a.user_id = p_user_id and (p_ids is null or a.id = any (p_ids))
   order by a.completed_at desc, a.id;
 end;
 $function$;
 
-revoke all on function public.attempts_lean(text, text) from public, anon, authenticated;
-grant execute on function public.attempts_lean(text, text) to service_role;
+revoke all on function public.attempts_lean(text, text, text[]) from public, anon, authenticated;
+grant execute on function public.attempts_lean(text, text, text[]) to service_role;

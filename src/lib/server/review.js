@@ -26,6 +26,7 @@ import { sourceLabels } from '../../components/recovery/repairRun.js';
 import { mistakeKey, repairIdFromOperationKey } from './repairRecord.js';
 import { repairFromReceipt, SAVED_WINDOW } from './repairSaved.js';
 import { attemptHold } from '../mob/paperHold.mjs';
+import { readSlimRows } from '../../../data/attempt_reads.js';
 
 export const REVIEW_VERSION = 1;
 /** The newest papers Review reads: all are listed, those with a miss are read in full. Older papers are left out and `partial` says so. */
@@ -206,6 +207,14 @@ async function readSlim(db, userId) {
 
 async function readHeavy(db, userId, ids) {
   const out = new Map();
+  // Review reads from a paper's snapshot only each question's id, chapter and stem (buildReviewRecord), so a database function
+  // reduces it before it ships, for all the papers in ONE call (egress A6). Where no function is there, the old chunked table read.
+  let viaFunction;
+  try { viaFunction = await readSlimRows(db, userId, 'review', { ids }); } catch (e) { throw fail('REVIEW_ATTEMPTS_UNAVAILABLE', e); }
+  if (viaFunction) {
+    for (const row of viaFunction) out.set(row.id, { id: row.id, details: row.details, questions_snapshot: row.questions_snapshot });
+    return out;
+  }
   for (let i = 0; i < ids.length; i += HEAVY_CHUNK) {
     const res = await db.from('attempts').select('id,details,questions_snapshot').eq('user_id', userId).in('id', ids.slice(i, i + HEAVY_CHUNK));
     if (res.error) throw fail('REVIEW_ATTEMPTS_UNAVAILABLE', res.error);

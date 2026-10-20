@@ -23,7 +23,9 @@ import { fullMocksIn } from '../../src/lib/proNudge.mjs';
 import { mocksSummary } from '../../src/components/profile/accountModel.mjs';
 import { attemptForClient, attemptHold, heldAttemptView } from '../../src/lib/mob/paperHold.mjs';
 import { summaryAttempt, marksItem, isMarksView, isSummaryView } from '../../src/lib/server/attemptListSummary.js';
-import { richAttemptRows, leanDatabase, callFunction, tableRows, pgSupabase, SNAPSHOT_KEYS } from './helpers/lean_fixtures.mjs';
+import { loadReviewRecord } from '../../src/lib/server/review.js';
+import { buildRepairRecord } from '../../src/lib/server/repairRecord.js';
+import { richAttemptRows, leanDatabase, callFunction, tableRows, pgSupabase, reviewDb, SNAPSHOT_KEYS } from './helpers/lean_fixtures.mjs';
 
 // Egress items A1, A3, A4, A5, A8 (20 Oct 2026): attempts read through database functions that reduce the snapshot. The functions run
 // for real in PGlite from the unedited migrations; each consumer is run on the rows of the table (the "before") and on the rows
@@ -94,10 +96,10 @@ test('attempts_lean: only service_role may execute it', async () => {
   await pg.exec('reset role');
   const sql = readFileSync(new URL('../../supabase/migrations/20261020150000_attempts_lean_fn.sql', import.meta.url), 'utf8');
   assert.match(sql, /security invoker/);
-  assert.match(sql, /revoke all on function public\.attempts_lean\(text, text\) from public, anon, authenticated;/);
-  assert.match(sql, /grant execute on function public\.attempts_lean\(text, text\) to service_role;/);
+  assert.match(sql, /revoke all on function public\.attempts_lean\(text, text, text\[\]\) from public, anon, authenticated;/);
+  assert.match(sql, /grant execute on function public\.attempts_lean\(text, text, text\[\]\) to service_role;/);
   assert.match(sql, /set search_path to 'public', 'pg_temp'/);
-  assert.ok(readFileSync(new URL('../../supabase/undo/20261020150000_attempts_lean_fn.undo.sql', import.meta.url), 'utf8').includes('drop function if exists public.attempts_lean(text, text);'));
+  assert.ok(readFileSync(new URL('../../supabase/undo/20261020150000_attempts_lean_fn.undo.sql', import.meta.url), 'utf8').includes('drop function if exists public.attempts_lean(text, text, text[]);'));
 });
 
 test('bytes: the plan profile is under 5% of the table rows, history and summary far under', async () => {
@@ -377,4 +379,50 @@ test('A8: ?view=marks gives the Profile its count and average from about 100 byt
   assert.doesNotMatch(src('src/app/(app)/dashboard/DashboardPageClient.jsx') + src('src/app/(app)/profile/ProfilePageClient.jsx'), /api\/attempts\?userId/);
   // the default list is unchanged for older clients
   assert.match(src('src/app/api/attempts/route.js'), /return NextResponse\.json\(attempts\.map\(\(a\) => attemptForClient\(a\)\)\);/);
+});
+
+// ---- A6 / A7: Review, the repair record and the credits history -------------------------------------------------------------
+test('A6: the Review record is identical when the papers come from the review function, from the summary function, or from the table', async () => {
+  const run = async (options) => { resetSlimState(); const db = reviewDb(pg, options); return { record: await loadReviewRecord('u1', { db, now: NOW }), db }; };
+  const table = await run({ withRpc: false });
+  const viaLean = await run({});
+  const viaSummary = await run({ failFn: { attempts_lean: { code: 'PGRST202', message: 'not found' } } });
+  assert.ok(table.record.items.length > 5, 'the fixture has mistakes to show');
+  assert.deepEqual(viaLean.record, table.record);
+  assert.deepEqual(viaSummary.record, table.record);
+  const heavyCalls = (db) => db.calls.filter((c) => (c.kind === 'table' && c.select.includes('questions_snapshot')) || c.kind === 'rpc');
+  assert.deepEqual(heavyCalls(viaLean.db).map((c) => [c.kind, c.fn, c.args.p_profile, c.args.p_ids.length > 0]), [['rpc', 'attempts_lean', 'review', true]], 'ONE call for all the papers with a miss');
+  assert.deepEqual(heavyCalls(viaSummary.db).map((c) => [c.kind, c.fn]), [['rpc', 'attempts_lean'], ['rpc', 'attempts_list_summary']], 'the summary function when the lean one is not there');
+  const bytesOf = (db) => heavyCalls(db).reduce((n, c) => n + (c.bytes || 0), 0);
+  assert.ok(bytesOf(viaLean.db) < bytesOf(table.db) * 0.1, `${bytesOf(viaLean.db)} vs ${bytesOf(table.db)}`);
+  assert.ok(bytesOf(viaSummary.db) < bytesOf(table.db) * 0.35);
+  assert.ok(!viaLean.record.items.some((i) => i.paper === 'a-1-003'), 'a held Mob paper is read by neither');
+});
+
+test('A6: a failure of the review function that is not "missing" fails the record, never a heavy table read', async () => {
+  resetSlimState();
+  const db = reviewDb(pg, { failFn: { attempts_lean: { code: '57014', message: 'canceling statement due to statement timeout' } } });
+  await assert.rejects(loadReviewRecord('u1', { db, now: NOW }), (e) => e.code === 'REVIEW_ATTEMPTS_UNAVAILABLE');
+  assert.ok(!db.calls.some((c) => c.kind === 'table' && c.select.includes('questions_snapshot')));
+});
+
+test('A7: the repair record and the credits repair names are identical from the review function', async () => {
+  const userId = 'u1';
+  const all = await tableRows(pg, userId);
+  const lean = await callFunction(pg, 'attempts_lean', { p_user_id: userId, p_profile: 'review' });
+  const summary = await callFunction(pg, 'attempts_list_summary', { p_user_id: userId });
+  const reservations = reservationsFor(await before(userId), userId).map((r) => ({ operation_key: r.operation_key, updated_at: r.updated_at, receipt: { repair: r.repair, check: { right: true, answeredAt: '2026-10-19T12:00:00Z' } } }));
+  const a = buildRepairRecord({ userId, reservations, attempts: all.slice(0, 300), limit: 50 });
+  assert.ok(a.length > 3);
+  assert.deepEqual(buildRepairRecord({ userId, reservations, attempts: lean.slice(0, 300), limit: 50 }), a);
+  assert.deepEqual(buildRepairRecord({ userId, reservations, attempts: summary.slice(0, 300), limit: 50 }), a);
+  const { repairDetails } = await import('../../src/lib/server/credits.js');
+  const ids = new Set(reservations.map((r) => /^repair:([0-9a-f]{24}):/.exec(r.operation_key)[1]));
+  const d = repairDetails({ userId, ids, attempts: all.slice(0, 300) });
+  assert.ok(d.size > 3);
+  assert.deepEqual(repairDetails({ userId, ids, attempts: lean.slice(0, 300) }), d);
+  assert.deepEqual(repairDetails({ userId, ids, attempts: summary.slice(0, 300) }), d);
+  const src = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8');
+  assert.match(src('src/lib/server/repairRecord.js'), /readSlimRows\(db, userId, 'review', \{ limit: ATTEMPT_WINDOW \}\)/);
+  assert.match(src('src/lib/server/credits.js'), /readSlimRows\(client, userId, 'review', \{ limit: REPAIR_WINDOW \}\)/);
 });
