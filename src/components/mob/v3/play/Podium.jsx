@@ -10,7 +10,9 @@ import { Repeat2 } from 'lucide-react';
 import { mobGameApi } from './playApi';
 import { PlayFold } from './PlayFold';
 import { RunHead } from './GameRun';
-import { COPY, FOLD_CREASES, PODIUM_END_MS, errorSentence, podiumLayout, shownMarks } from './playModel.mjs';
+import { COPY, FOLD_CREASES, PODIUM_END_MS, errorSentence, lampVars, podiumLayout, shownMarks } from './playModel.mjs';
+
+const LAMP_VARS = lampVars();
 
 const T_TITLE = 120;
 const T_FLOOR = 400;
@@ -89,7 +91,7 @@ export default function Podium({ gameId, game, hrefs }) {
     return (
       <section className="mp-pod" aria-busy="true">
         <RunHead title={title} sub="" hrefs={hrefs} />
-        <div className="mp-pod__stage mp-skel" aria-hidden="true" />
+        <div className="mp-pod__stage mp-pod__stage--podium mp-skel" style={LAMP_VARS} aria-hidden="true" />
       </section>
     );
   }
@@ -106,7 +108,7 @@ export default function Podium({ gameId, game, hrefs }) {
         {layout.line ? <p className="mp-line">{layout.line}</p> : null}
       </div>
 
-      <div className={`mp-pod__stage mp-pod__stage--${layout.mode}`} aria-label={layout.title}>
+      <div className={`mp-pod__stage mp-pod__stage--${layout.mode}`} style={LAMP_VARS} aria-label={layout.title}>
         <span className={`mp-pod__cone${shown(0) ? ' is-narrow' : ''}${crowned ? ' is-swell' : ''}`} aria-hidden="true"><span className="mp-pod__bulb" /></span>
         {layout.mode === 'podium' ? (
           <ol className="mp-plinths">

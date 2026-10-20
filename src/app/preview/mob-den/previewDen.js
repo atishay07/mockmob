@@ -5,6 +5,8 @@
 //        | ask (D1, your start used, billing on) | loading (D6) | failed (D6) | none (D0) | nosubjects (D0)
 //        | moments (K2, K3, K4, K1 in order) | notice (K5 pass notice) | past (quest past the goal)
 //   &billing=free | used | mic | pro (P1 with billing on) ; &view=chains | chains-mob | shelf | join
+//   &delay=<ms> holds the den's read that long (D6: the skeleton, then the den over it) ; &stickers=1 two friends' stickers
+//   window.__denPush('member-2', 'nice_one') adds a friend's sticker now; the den's next live read brings it in.
 import denGet from '@/../data/tests/fixtures/mob_v3/den_get.json';
 import chainFx from '@/../data/tests/fixtures/mob_v3/chain.json';
 import shelfFx from '@/../data/tests/fixtures/mob_v3/shelf.json';
@@ -82,7 +84,8 @@ function richChain(now) {
 
 export function denFixture(params, now = Date.now()) {
   const kind = params.get('den') || 'open';
-  const by = now - FIXTURE_NOW;
+  // Whole 10-minute steps, so a reload within a few minutes keeps the same times (a sticker flies once per session).
+  const by = Math.round((now - FIXTURE_NOW) / 600_000) * 600_000;
   if (kind === 'none' || kind === 'nosubjects') return { mob: null, v3Available: true };
   const d = chaiCircle();
   const v3 = d.mob.v3;
@@ -134,6 +137,11 @@ export function installDenPreview() {
   const json = (body, status = 200) => new Promise((resolve) => setTimeout(() => resolve(new Response(JSON.stringify(body), { status, headers: { 'Content-Type': 'application/json' } })), 120));
   let state = null;
   let chain = null;
+  window.__denPush = (memberId, kind) => {
+    if (!state) return;
+    state = clone(state);
+    state.mob.v3.reactions = [...(state.mob.v3.reactions || []), { memberId, kind, at: new Date().toISOString() }];
+  };
   window.fetch = (input, init = {}) => {
     const url = new URL(typeof input === 'string' ? input : input.url, window.location.origin);
     if (!window.location.pathname.startsWith('/preview/mob-den') || !url.pathname.startsWith('/api/')) return real(input, init);
@@ -147,6 +155,11 @@ export function installDenPreview() {
     if (p === '/api/mob' && method === 'GET') {
       if (params.get('den') === 'loading') return new Promise(() => {});
       if (params.get('den') === 'failed') return json({ error: { code: 'UNAVAILABLE', message: "Your Mob didn't load." } }, 503);
+      const delay = Number(params.get('delay'));
+      if (Number.isFinite(delay) && delay > 0 && !window.__denDelayed) {
+        window.__denDelayed = true;
+        return new Promise((resolve) => setTimeout(() => resolve(json(state)), delay));
+      }
       return json(state);
     }
     if (p === '/api/mob' && method === 'POST') { state = denFixture(new URLSearchParams('den=one')); return json(state); }

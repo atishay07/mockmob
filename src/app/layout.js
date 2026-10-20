@@ -91,7 +91,7 @@ export default function RootLayout({ children }) {
       className={`${bricolage.variable} ${gabarito.variable} ${hanken.variable} ${geistMono.variable} h-full antialiased`}
     >
       <head>
-        <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,m=0;try{d.dataset.theme=localStorage.getItem('mm:theme:v1')==='dark'?'dark':'light'}catch(e){d.dataset.theme='light'}try{m=localStorage.getItem('mm:motion:v1')==='reduced'}catch(e){}try{m=m||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}if(m)d.dataset.motion='reduced'})()` }} />
+        <script dangerouslySetInnerHTML={{ __html: `(function(){var d=document.documentElement,m=0;try{d.dataset.theme=localStorage.getItem('mm:theme:v1')==='dark'?'dark':'light'}catch(e){d.dataset.theme='light'}try{m=localStorage.getItem('mm:motion:v1')==='reduced'}catch(e){}try{m=m||matchMedia('(prefers-reduced-motion: reduce)').matches}catch(e){}if(m)d.dataset.motion='reduced';try{var k=JSON.parse(localStorage.getItem('mm:den:shape:v1')||'null'),b=k&&k.blocks&&k.blocks[innerWidth>=640?'w':'n'];if(b)for(var i=0;i<b.length&&i<4;i++)d.style.setProperty('--den-skel-b'+i,Math.max(24,Math.min(900,Math.round(+b[i])||24))+'px');if(k&&k.switcher===true)d.dataset.denSwitch='1'}catch(e){}})()` }} />
         <JsonLd id="global-json-ld" data={globalJsonLd()} />
       </head>
       <body className="min-h-full flex flex-col">

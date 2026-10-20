@@ -6,15 +6,22 @@
 //   - Nobody is shown as not having played (F2): the runs row lists finished runs with times, nothing else.
 //   - No price and no plan in the Mob (F4): Pro words appear only when the server says billing is on.
 //   - Nothing is shown as done before the server answers: writes keep the last good view until their reply.
+//   - Stickers (M12): your send lifts off the key and flies to the spot over your Fold once the server has it; friends'
+//     stickers rise over their Folds, each once per session. Sends are spaced 3 s apart; at most 3 show at once.
+//   - Live: while the den is on screen and you are around (a touch, key or scroll in the last 5 minutes), it reads the Mob
+//     again every 30 s and when the tab comes back, quietly, so new stickers, games and moments arrive without a reload.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Copy, Moon, Package } from 'lucide-react';
 import { displayCode, inviteUrl, paperHref, resultHref } from '@/lib/mob/model.mjs';
-import { DenCopy, DEN_STICKERS, MobTime, STICKERS, denError } from '@/lib/mob/v3/denCopy.mjs';
+import { DenCopy, DEN_STICKERS, MobTime, denError } from '@/lib/mob/v3/denCopy.mjs';
 import { denState, momentQueue, passNotice, questSegments, whatsAppHref, yourRunAt } from '@/lib/mob/v3/denModel.mjs';
+import { RECEIVED_AFTER_MS, RECEIVED_STEP_MS, canSendSticker, freshReactions, pushVisible, reactionKey } from '@/lib/mob/v3/stickerFlights.mjs';
 import { mobFetch } from '../useMob';
 import { DenStage } from './DenStage';
+import { PaperSticker, StickerFlyer } from './Stickers';
+import { rememberDenShape } from './denShape';
 import { FoldHead } from './FoldFigure';
 import { FreeProSheet, PassMicSheet, PlayPicker, StartGameSheet } from './DenSheets';
 import { DenMoments } from './DenMoments';
@@ -24,6 +31,23 @@ import './den.css';
 const SEEN_KEY = 'mm:den:seen-notices';
 const readSeen = () => { try { return JSON.parse(window.localStorage.getItem(SEEN_KEY) || '[]'); } catch { return []; } };
 const writeSeen = (keys) => { try { window.localStorage.setItem(SEEN_KEY, JSON.stringify(keys.slice(-30))); } catch { /* shown again next time */ } };
+
+// Friends' stickers fly once per browser session (a per-viewer convenience: a cleared store only flies them again).
+const FLOWN_KEY = 'mm:den:flown-stickers';
+const memoryFlown = new Set();
+function flownSet() {
+  try { for (const k of JSON.parse(window.sessionStorage.getItem(FLOWN_KEY) || '[]')) memoryFlown.add(k); } catch { /* memory only */ }
+  return memoryFlown;
+}
+function markFlown(keys) {
+  for (const k of keys) memoryFlown.add(k);
+  try { window.sessionStorage.setItem(FLOWN_KEY, JSON.stringify([...memoryFlown].slice(-60))); } catch { /* memory only */ }
+}
+const prefersReduced = () => typeof window !== 'undefined' && Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced');
+// Live reads: every 30 s while the den is visible and you touched the page in the last 5 minutes.
+export const DEN_LIVE_MS = 30_000;
+export const DEN_LIVE_IDLE_MS = 5 * 60_000;
+let stickerIds = 0;
 
 /** The quest strip: the parcel's silhouette, the true count (past the goal too, F8), 12 segments. Opens the Mob chain. */
 export function QuestStrip({ quest, href }) {
@@ -55,10 +79,10 @@ export function QuestStrip({ quest, href }) {
 
 function StickerRow({ onSend, busy, sent }) {
   return (
-    <div className="den-stickers" role="group" aria-label={DenCopy.stickerSent}>
+    <div className="den-stickers" role="group" aria-label={DenCopy.stickerRowLabel}>
       {DEN_STICKERS.map((k) => (
-        <button key={k} type="button" className="den-stickerkey" onClick={() => onSend(k)} disabled={busy === 'sticker'} aria-label={DenCopy.stickerLabel(k)} data-sent={sent === k || undefined}>
-          {STICKERS[k]}
+        <button key={k} type="button" className="den-stickerkey" onClick={(e) => onSend(k, e.currentTarget)} disabled={busy === 'sticker'} aria-label={DenCopy.stickerLabel(k)} data-sent={sent === k || undefined}>
+          <PaperSticker kind={k} />
         </button>
       ))}
     </div>
@@ -85,7 +109,7 @@ function GameCard({ state, data, v3, now, onPicker, onStartGame, onAsk, onSticke
         <p className="den-card__line">{ask ? DenCopy.askLine : DenCopy.quietLine}</p>
         <div className="den-card__keys">
           {ask
-            ? <button type="button" className="btn-volt md den-key" data-page-primary="" onClick={onAsk} disabled={busy === 'sticker'}>{DenCopy.askKey}</button>
+            ? <button type="button" className="btn-volt md den-key" data-page-primary="" onClick={(e) => onAsk(e.currentTarget)} disabled={busy === 'sticker'}>{DenCopy.askKey}</button>
             : <button type="button" className="btn-volt md den-key" data-page-primary="" onClick={onStartGame}>{DenCopy.startAGame}</button>}
           {paperLink}
         </div>
@@ -195,7 +219,7 @@ function OneExtras({ data, onStartGame, canStart }) {
   );
 }
 
-export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings }) {
+export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings, warm = false }) {
   const v3 = data.v3;
   const router = useRouter();
   const mobName = v3.name?.text || data.subjectName;
@@ -205,6 +229,12 @@ export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings }) {
   const [toast, setToast] = useState(null);
   const [error, setError] = useState(null);
   const [sentSticker, setSentSticker] = useState(null);
+  const [onStage, setOnStage] = useState([]); // stickers over the Folds now
+  const [flyers, setFlyers] = useState([]); // your stickers on their way from the key
+  const [announce, setAnnounce] = useState('');
+  const lastSent = useRef(Number.NaN);
+  const rootRef = useRef(null);
+  const firstReactions = useRef(true);
   const [chain, setChain] = useState(null);
   const [seenNotices, setSeenNotices] = useState(() => (typeof window === 'undefined' ? [] : readSeen()));
   const toastTimer = useRef(null);
@@ -229,12 +259,46 @@ export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings }) {
   const s = v3.starts || {};
   const proNudges = Boolean(s.billingOn) && s.via !== 'pro';
 
-  const sticker = async (kind, game = null) => {
+  const youId = data.you?.memberId || null;
+  // After the server has it: lift the sticker off the key and fly it to the spot over your Fold. With no key (a sheet
+  // sent it) it rises over your Fold; with the room scrolled away it rises off the key instead.
+  const fly = (kind, fromEl) => {
+    const id = `s${++stickerIds}`;
+    const anchor = youId ? rootRef.current?.querySelector(`.den-sticker-anchor[data-member="${CSS.escape(youId)}"]`) : null;
+    const a = anchor?.getBoundingClientRect();
+    const seen = a && a.top > 0 && a.bottom < window.innerHeight && a.left >= 0 && a.right <= window.innerWidth;
+    // The end slots lean their stickers inwards (--sx in den.css); the flight lands where the sticker will stand.
+    const sx = seen ? parseFloat(getComputedStyle(anchor.parentElement).getPropertyValue('--sx')) : NaN;
+    const to = seen ? { x: a.left + a.width / 2, y: a.bottom, sx: Number.isFinite(sx) ? sx : -50 } : null;
+    const k = fromEl?.isConnected ? fromEl.getBoundingClientRect() : null;
+    // Reduced motion: no flight; it fades in over your Fold (120 ms), holds and fades out.
+    if (to && prefersReduced()) {
+      if (youId) setOnStage((list) => pushVisible(list, { id, memberId: youId, kind, mode: 'landed' }));
+      return;
+    }
+    if (!k) {
+      if (youId) setOnStage((list) => pushVisible(list, { id, memberId: youId, kind, mode: 'rise' }));
+      return;
+    }
+    setFlyers((list) => [...list, { id, kind, from: { x: k.left + k.width / 2, y: k.bottom }, to }].slice(-3));
+  };
+  const landed = (f) => {
+    setFlyers((list) => list.filter((x) => x.id !== f.id));
+    if (youId) setOnStage((list) => pushVisible(list, { id: f.id, memberId: youId, kind: f.kind, mode: 'landed' }));
+  };
+  const stickerDone = useCallback((id) => setOnStage((list) => list.filter((x) => x.id !== id)), []);
+  const sticker = async (kind, game = null, fromEl = null) => {
+    // Spaced 3 s apart on this device: a tap inside the gap does nothing, with no error and no toast.
+    const at = Date.now();
+    if (!canSendSticker(lastSent.current, at)) return;
+    const before = lastSent.current;
+    lastSent.current = at;
     setError(null);
     const r = await mob.run('/api/mob/sticker', { kind, ...(game ? { game } : {}) }, { name: 'sticker' });
-    if (!r.ok) { setError(denError(r)); return; }
+    if (!r.ok) { lastSent.current = before; setError(denError(r)); return; }
     setSentSticker(kind);
-    say(DenCopy.stickerSent);
+    setAnnounce(DenCopy.stickerSent);
+    fly(kind, fromEl);
   };
   const openStart = (p = {}) => { setPreset(p); setSheet('start'); };
   const dismissNotice = () => {
@@ -244,15 +308,58 @@ export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings }) {
     writeSeen(next);
     mob.run('/api/mob/seen', { keys: [notice.key] }, { name: 'seen' });
   };
-  // Stickers show over the sender's Fold for 1.8 s, newest 3 only, those sent in the last day (M12).
-  const recent = useMemo(() => (v3.reactions || []).filter((r) => now - Date.parse(r.at) < 86_400_000).slice(-3), [v3.reactions, now]);
+  // Friends' stickers (M12): rise over the sender's Fold, hold 1.8 s, newest 3, those from the last 12 hours, each once
+  // per session. On entering, they wait for the den's own entrance; later ones (a live read) fly at once.
+  useEffect(() => {
+    const ids = new Set((v3.members || []).map((m) => m.memberId));
+    const fresh = freshReactions(v3.reactions, { youId, now: Date.now(), flown: flownSet(), memberIds: ids });
+    const wait = firstReactions.current ? RECEIVED_AFTER_MS : 0;
+    firstReactions.current = false;
+    if (!fresh.length) return;
+    markFlown(fresh.map(reactionKey));
+    setOnStage((list) => fresh.reduce((acc, r, i) => pushVisible(acc, { id: `r${++stickerIds}`, memberId: r.memberId, kind: r.kind, mode: 'rise', delay: wait + i * RECEIVED_STEP_MS }), list));
+  }, [v3.reactions, v3.members, youId]);
+
+  // Live: quiet re-reads while the den is on screen and you are around; a failed read changes nothing on screen.
+  const liveRead = mob.refresh;
+  const several = (v3.members || []).length > 1;
+  useEffect(() => {
+    if (!several || !liveRead) return undefined;
+    let touched = Date.now();
+    const touch = () => { touched = Date.now(); };
+    const tick = () => {
+      if (document.visibilityState !== 'visible' || Date.now() - touched > DEN_LIVE_IDLE_MS) return;
+      liveRead();
+    };
+    const back = () => { if (document.visibilityState === 'visible') { touch(); liveRead(); } };
+    const t = setInterval(tick, DEN_LIVE_MS);
+    window.addEventListener('pointerdown', touch, { passive: true });
+    window.addEventListener('keydown', touch);
+    window.addEventListener('scroll', touch, { passive: true });
+    document.addEventListener('visibilitychange', back);
+    return () => {
+      clearInterval(t);
+      window.removeEventListener('pointerdown', touch);
+      window.removeEventListener('keydown', touch);
+      window.removeEventListener('scroll', touch);
+      document.removeEventListener('visibilitychange', back);
+    };
+  }, [several, liveRead]);
+
+  // The den's shape for its skeleton next time (D6): what sits under the room, at this width. Per device, a convenience.
+  useEffect(() => { rememberDenShape(rootRef.current); });
 
   return (
-    <div className="den" data-den-state={state.kind} data-one={state.one || undefined}>
-      <DenStage v3={v3} mobName={mobName} subtitle={DenCopy.denSubtitle(data.subjectName, size)}
+    <div className="den" data-den-state={state.kind} data-one={state.one || undefined} ref={rootRef}>
+      <DenStage v3={v3} mobName={mobName} subtitle={DenCopy.denSubtitle(data.subjectName, size)} warm={warm}
         chainHref={CHAIN_HREF} mobChainHref={MOB_CHAIN_HREF} shelfHref={SHELF_HREF} onSettings={onOpenSettings}
         onOpenSeat={size < 5 ? () => document.getElementById('den-one-h')?.scrollIntoView({ behavior: 'smooth', block: 'center' }) : null}
-        stickers={recent} />
+        stickers={onStage} onStickerDone={stickerDone} />
+      {flyers.map((f) => (
+        <StickerFlyer key={f.id} kind={f.kind} from={f.from} to={f.to} reduced={prefersReduced()}
+          onLanded={() => landed(f)} onDone={() => setFlyers((list) => list.filter((x) => x.id !== f.id))} />
+      ))}
+      <p className="sr-only" role="status" aria-live="polite">{announce}</p>
 
       {notice ? (
         <div className="den-notice den-rise" style={{ '--d': '380ms' }} role="status">
@@ -268,7 +375,7 @@ export default function DenV3({ data, mob, toolsSlot = null, onOpenSettings }) {
       ) : (
         <GameCard state={state} data={data} v3={v3} now={now} busy={mob.busy} sentSticker={sentSticker}
           onPicker={() => setSheet('picker')} onStartGame={() => (s.billingOn ? setSheet('picker') : openStart({ format: 'sprint' }))}
-          onAsk={() => sticker('again')} onSticker={(k) => sticker(k, state.game?.id)} />
+          onAsk={(el) => sticker('again', null, el)} onSticker={(k, el) => sticker(k, state.game?.id, el)} />
       )}
 
       <QuestStrip quest={v3.quest} href={MOB_CHAIN_HREF} />

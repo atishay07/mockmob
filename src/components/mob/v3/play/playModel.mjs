@@ -323,6 +323,26 @@ export const LAND_MS = 420 + 220;
 export const PODIUM_END_MS = 4800;
 
 /**
+ * The lamp over the podium and the room the first place needs under it (owner leftover, 20 Oct: the winner's head
+ * touched the lamp edge). The stage keeps `bulb + clear + hop` px above its tallest Fold at every width, so at rest
+ * the head sits `clear + hop` under the lamp's edge, the crown hop still leaves `clear`, and the first place's drop
+ * starts below the lamp, never through it. Places 2 and 3 stand lower and to the side, so they keep the 60 px drop.
+ * The page reads these as CSS variables (Podium.jsx); tests hold the rule.
+ */
+export const PODIUM_LAMP = Object.freeze({ bulb: 20, clear: 32, hop: 14, drop: 60, firstDrop: 36, minGap: 8 });
+
+/** The gaps between the lamp's lower edge and the top of the first place's Fold box: at rest, at the hop's peak, at the drop's start. */
+export function lampGaps(l = PODIUM_LAMP) {
+  const rest = l.clear + l.hop;
+  return { rest, hop: rest - l.hop, dropStart: rest - l.firstDrop };
+}
+
+/** The CSS variables the podium stage carries (px strings). */
+export function lampVars(l = PODIUM_LAMP) {
+  return { '--pod-bulb': `${l.bulb}px`, '--pod-clear': `${l.clear}px`, '--pod-hop': `${l.hop}px`, '--pod-drop': `${l.drop}px`, '--pod-first-drop': `${l.firstDrop}px` };
+}
+
+/**
  * Lay the podium out from the server's body. Entries keep the server's fields; the stage is ordered for the
  * eye (second, first, third: the first in the middle), the floor holds places over 3, and a Private member
  * (no marks) stands with the floor's table with no place.

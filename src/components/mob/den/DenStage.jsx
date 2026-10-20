@@ -1,13 +1,17 @@
 "use client";
 // The den's lamp-lit room on the web (MOB-BUILD-SPEC-V3 5.3 D1 to D6, 5.4 layers, 5.5 sizes, 5.6 M1).
 // Layers, back to front: ground, the room art (scene-empty-nothing-{night,day}), the lamp light field, the floor fade,
-// Fold shadows, Folds, name tags, the pennant and the shelf, sticker flights. Cards and chrome belong to the page.
+// Fold shadows, Folds, name tags, the pennant and the shelf, stickers over the Folds. Cards and chrome belong to the page.
+// D6 (skeleton): the same room, lamp, shelf and head at the same size, with paper blocks where the words, the chain chip
+// and the pennant will be, and no Folds; `warm` skips the room's own entrance when the den replaces its skeleton, so the
+// lamp never dips and the room never jumps (the Folds still rise in).
 // Only transform and opacity animate (the light field's strength is an opacity too). Privacy (F2): nothing under a Fold
 // but its name: no played tag, no dimmed Fold, no count.
 import Link from 'next/link';
 import { Plus, Settings } from 'lucide-react';
-import { DenCopy, STICKERS, itemName } from '@/lib/mob/v3/denCopy.mjs';
+import { DenCopy, itemName } from '@/lib/mob/v3/denCopy.mjs';
 import { FoldFigure } from './FoldFigure';
+import { PaperSticker } from './Stickers';
 
 const SHELF_ART = { den_stamp: '/mob/art/stamp-seal.webp', desk_bell: '/mob/art/hybrid-deskbell.webp', foil_seal: '/mob/art/foil-seal.webp' };
 
@@ -58,25 +62,32 @@ function ShelfThing({ item, locked = false }) {
 
 /**
  * v3: the server's den block, or null for the D0 preview (you and four dashed seats).
- * skeleton: D6 (the room and the lamp, no Folds, the pennant as a pulsing paper block).
+ * skeleton: D6 (the room and the lamp, no Folds, paper blocks for the words, the chip and the pennant). still: the
+ * blocks do not pulse (the failed state). warm: the room was already on screen (its skeleton), so it does not rise again.
  * title, subtitle and the trailing chrome (chain chip, settings) sit over the room.
+ * stickers: what shows over the Folds now, [{ id, memberId, kind, mode: 'rise' | 'landed', delay }], at most 3.
  */
 export function DenStage({
-  v3 = null, mobName = '', subtitle = '', you = null, previewFold = null, previewName = null, skeleton = false,
-  chainHref = null, mobChainHref = null, shelfHref = null, onSettings = null, onOpenSeat = null, stickers = [], titleId = 'den-title',
+  v3 = null, mobName = '', subtitle = '', you = null, previewFold = null, previewName = null, skeleton = false, still = false, warm = false,
+  chainHref = null, mobChainHref = null, shelfHref = null, onSettings = null, onOpenSeat = null, stickers = [], onStickerDone = null, titleId = 'den-title',
 }) {
   const members = v3?.members || (previewFold ? [{ memberId: 'preview', name: previewName || DenCopy.you, colour: 0, fold: previewFold, you: true }] : []);
   const size = members.length;
-  const preview = !v3;
+  const preview = !v3 && !skeleton;
   const seats = skeleton ? 0 : Math.max(0, 5 - size);
   const slots = [...members.map((m, i) => ({ m, i })), ...Array.from({ length: seats }, (_, k) => ({ seat: true, i: size + k }))];
   const one = size <= 1;
   const chip = v3?.chainChip;
   const weeks = v3?.mobChain?.weeks ?? 0;
-  const lastReaction = new Map();
-  for (const r of stickers) lastReaction.set(r.memberId, r);
+  const onStage = new Map();
+  for (const st of stickers) onStage.set(st.memberId, [...(onStage.get(st.memberId) || []), st]);
+  // Spacing: when the slot to the left also holds a sticker (and stands at the usual height), this one stands higher on a
+  // narrow stage (den.css), so neighbours never cover each other; a lone sticker always sits just over its Fold.
+  const lifted = new Set();
+  members.forEach((m, i) => { if (i > 0 && onStage.has(m.memberId) && onStage.has(members[i - 1].memberId) && !lifted.has(members[i - 1].memberId)) lifted.add(m.memberId); });
+  const cls = `den-stage${skeleton ? ' den-stage--skeleton' : ''}${still ? ' den-stage--still' : ''}${warm ? ' den-stage--warm' : ''}${preview ? ' den-stage--preview' : ''}`;
   return (
-    <div className={`den-stage${skeleton ? ' den-stage--skeleton' : ''}${preview ? ' den-stage--preview' : ''}`} data-count={Math.max(size, 1)} data-seats={seats}>
+    <div className={cls} data-count={Math.max(size, 1)} data-seats={seats} aria-hidden={skeleton || undefined}>
       <div className="den-room" aria-hidden="true">
         <span className="den-room__art den-room__art--night" />
         <span className="den-room__art den-room__art--day" />
@@ -85,7 +96,19 @@ export function DenStage({
         <span className="den-room__scrim" />
       </div>
 
-      {!preview ? (
+      {skeleton ? (
+        <div className="den-stage__head">
+          <div className="den-stage__title">
+            <span className="den-skelbar den-skelbar--name" />
+            <span className="den-skelbar den-skelbar--sub" />
+          </div>
+          <div className="den-stage__tools">
+            <span className="den-skelbar den-skelbar--chip" />
+            <span className="den-skelbar den-skelbar--tool" />
+          </div>
+        </div>
+      ) : null}
+      {!preview && !skeleton ? (
         <header className="den-stage__head">
           <div className="den-stage__title">
             <h2 id={titleId} className="den-stage__name">{mobName}</h2>
@@ -117,7 +140,12 @@ export function DenStage({
           ) : null}
         </>
       ) : null}
-      {skeleton ? <span className="den-stage__pennant"><span className="den-paperblock" /></span> : null}
+      {skeleton ? (
+        <>
+          <span className="den-stage__pennant"><span className="den-paperblock" /></span>
+          <span className="den-stage__shelf"><span className="den-shelf"><span className="den-shelf__items" /><span className="den-shelf__board" /></span></span>
+        </>
+      ) : null}
 
       <ol className="den-floor" aria-label={preview ? DenCopy.denPreviewLabel : undefined}>
         {slots.map((slot, k) => {
@@ -133,10 +161,16 @@ export function DenStage({
             );
           }
           const { m, i } = slot;
-          const r = lastReaction.get(m.memberId);
           return (
-            <li key={m.memberId} className="den-slot" style={{ '--i': i }}>
-              {r ? <span className="den-sticker" key={r.at}>{STICKERS[r.kind]}</span> : null}
+            <li key={m.memberId} className="den-slot" style={{ '--i': i }} data-lift={lifted.has(m.memberId) || undefined}>
+              {/* Where a sticker sits over this Fold: the flight lands on this point (bottom centre). */}
+              <span className="den-sticker-anchor" data-member={m.memberId} aria-hidden="true" />
+              {(onStage.get(m.memberId) || []).map((st) => (
+                <span key={st.id} className={`den-sticker den-sticker--${st.mode}`} style={st.delay ? { '--delay': `${st.delay}ms` } : undefined}
+                  onAnimationEnd={(e) => { if (e.animationName.startsWith('den-sticker-') && e.target === e.currentTarget) onStickerDone?.(st.id); }}>
+                  <PaperSticker kind={st.kind} small />
+                </span>
+              ))}
               <span className="den-shadow" aria-hidden="true" />
               <FoldFigure fold={m.fold} name={m.name} colour={m.colour} live index={i} className="den-slot__fold" />
               <span className="den-tag">{m.you ? DenCopy.you : m.name}</span>
