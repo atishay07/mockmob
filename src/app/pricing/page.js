@@ -100,7 +100,7 @@ const COMPARISON_GROUPS = newOfferReleased() ? [{ heading: 'Practice and recover
     heading: 'Core test modes',
     rows: [
       ['Quick practice (5 to 20 questions)', '1 credit a question', 'Unlimited'],
-      ['Full mock (50 questions, 60 minutes)', 'First one free in each subject, then 50 credits each', 'Unlimited'],
+      ['Full mock (50 questions, 60 minutes)', FIRST_FULL_MOCK_ON ? 'First one free in each subject, then 50 credits each' : '50 credits each', 'Unlimited'],
       ['A fresh paper each time, questions you have not answered first', true, true],
     ],
   },
