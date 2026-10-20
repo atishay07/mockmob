@@ -81,10 +81,10 @@ void main() {
     test('the weakest-chapter card says Review\'s sentence: lost X of the Y marks on offer, wrong and blank', () {
       final w = buildWeakChapters(ashaInputs(now: now, reviewChapters: rows)).rows.first;
       final move = weakestMoveFor(ashaInputs(now: now), chapter: w);
-      expect(top.line.lead, 'Lost ${top.lost} of the ${top.offer} marks');
-      expect(move.meaning, contains('lost ${top.lost} of the ${top.offer} marks on offer'));
+      expect(top.line.lead, '${top.lost} of the ${top.offer} marks');
+      expect(move.meaning, contains('${top.lost} of the ${top.offer} marks on offer slipped'));
       expect(move.meaning, contains('${top.wrong} wrong'));
-      expect(GlanceCopy.stakeLost(w.marks, w.papers), '${top.lost} marks lost there, over ${top.papers.length} papers');
+      expect(GlanceCopy.stakeLost(w.marks, w.papers), '${top.lost} marks slipped there, over ${top.papers.length} papers');
     });
 
     test('Ask Mobi names the chapter, never its subject, and prints the same marks lost and on offer', () {
@@ -110,10 +110,10 @@ void main() {
       expect(line.lost, top.lost);
       expect(line.offer, top.offer);
       final f = readout(PrepInsights(state: 'ready', sessions: attempts.length, questions: 400, ranked: [line])).first;
-      expect(f.headline, 'You lose the most marks in ${top.name}');
+      expect(f.headline, 'The most marks slip in ${top.name}');
       expect(f.detail, startsWith('${top.name}: '));
       expect(f.detail, isNot(startsWith('Accountancy:')));
-      expect(f.detail, contains('They lost ${top.lost} of the ${top.offer} marks on offer.'));
+      expect(f.detail, contains('${top.lost} of the ${top.offer} marks on offer slipped.'));
     });
   });
 

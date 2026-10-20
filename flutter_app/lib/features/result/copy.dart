@@ -127,10 +127,10 @@ abstract final class ResultCopy {
       max != null && lost > max ? 'Where the marks went' : 'Where the other $lost marks went';
 
   /// A negative score, in one sentence that never counts more marks than the paper holds as one
-  /// total: "You lost 6 marks to 1 wrong answer and left 45 unearned." Blanks are said only when there are some.
+  /// total: "6 marks slipped on 1 wrong answer and 45 were left unearned." Blanks are said only when there are some.
   static String negativeLoss(int wrong, int blank) {
-    final wrongPart = 'You lost ${wrong * 6} marks to ${plural(wrong, 'wrong answer')}';
-    return blank > 0 ? '$wrongPart and left ${blank * 5} unearned.' : '$wrongPart.';
+    final wrongPart = '${wrong * 6} marks slipped on ${plural(wrong, 'wrong answer')}';
+    return blank > 0 ? '$wrongPart and ${blank * 5} were left unearned.' : '$wrongPart.';
   }
 
   /// The chapter behind it, with its marks and no denominator that is bigger than the paper:

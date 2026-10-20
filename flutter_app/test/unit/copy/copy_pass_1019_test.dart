@@ -124,7 +124,7 @@ void main() {
       expect(AskDoorCopy.greetFresh('Riya'), 'Hi Riya. Stuck on a CUET doubt? Ask me.');
       expect(InsightsCopy.askGreeting(null, 0), 'Hi. Stuck on a CUET doubt? Ask me.');
       expect(AskDoorCopy.creditsNone, 'You have no credits left.');
-      expect(AskDoorCopy.cardLineHeavy(34, 'Partnership'), 'Stuck on a doubt? Ask now, or ask why you lost 34 marks in Partnership.');
+      expect(AskDoorCopy.cardLineHeavy(34, 'Partnership'), 'Stuck on a doubt? Ask now, or ask where 34 marks slipped in Partnership.');
     });
 
     test('Today, the deck and the colleges', () {

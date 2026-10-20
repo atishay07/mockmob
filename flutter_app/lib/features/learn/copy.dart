@@ -9,7 +9,7 @@ abstract final class LearnCopy {
   // Screen.
   // The library keeps the name Learn (owner D20); "concept cards" are its recall cards.
   static const String title = 'Learn';
-  static const String subtitle = 'Short lessons on the ideas behind your mistakes.';
+  static const String subtitle = 'Short lessons on the ideas your mistakes come from.';
   static const String back = 'Back';
   static const String lessonsHeading = 'Lessons';
   static const String nextLessonHeading = 'Next lesson';
@@ -62,10 +62,10 @@ abstract final class LearnCopy {
   static String fromChapter(int open) => open == 1 ? '1 open mistake in this chapter.' : '$open open mistakes in this chapter.';
 
   /// The lesson page opened from a question (5.10, `?from=q:`).
-  static String fromQuestion(int n) => 'You are here from Question $n. This lesson covers the idea behind it.';
+  static String fromQuestion(int n) => 'You are here from Question $n. This lesson covers the idea it tests.';
   static String backToQuestion(int n) => 'Back to Question $n';
   static String noLessonChapter(String subject) => '$subject. No lesson yet. Practise the chapter';
-  static const String loseHeading = 'Where you lose marks';
+  static const String loseHeading = 'Where your marks slip';
   static const String loseNote = 'From your papers';
   static String allChapters(String subject) => 'All $subject chapters';
   static const String chaptersPreparing = 'Lessons are still being prepared';

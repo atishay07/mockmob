@@ -117,7 +117,7 @@ void main() {
     });
 
     test('coming back after a week names the whole too', () {
-      expect(TodayCopy.returningWhy('Mock 7', DateTime(2026, 10, 3), 8, 3, allOpen: 123), 'Your last paper was Mock 7 on 3 Oct. Its eight open mistakes are still here; start with three. 123 open in all.');
+      expect(TodayCopy.returningWhy('Mock 7', DateTime(2026, 10, 3), 8, 3, allOpen: 123), 'Your latest paper was Mock 7 on 3 Oct. Its eight open mistakes are still here; start with three. 123 open in all.');
     });
   });
 

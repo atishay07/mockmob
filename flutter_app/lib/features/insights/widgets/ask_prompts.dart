@@ -63,7 +63,7 @@ List<AskPrompt> recordPrompts(PrepInsights? v, {bool pro = false}) {
     AskPrompt(
       intent: AskIntent.losing,
       text: InsightsCopy.promptLosing,
-      preview: top == null ? null : '${top.lost} marks lost in ${costliestPlace([for (final c in tied) c.chapter])}',
+      preview: top == null ? null : '${top.lost} marks slipped in ${costliestPlace([for (final c in tied) c.chapter])}',
     ),
     AskPrompt(
       intent: AskIntent.chapter,

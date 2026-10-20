@@ -47,7 +47,7 @@ abstract final class LayersCopy {
   static String yours(String letter) => '$letter yours';
   static String answer(String letter) => '$letter answer';
   static const marksLost = '−6';
-  static String spokenCost(int marks) => '$marks marks lost';
+  static String spokenCost(int marks) => '$marks marks slipped';
 
   // Status chips (each from a real server state, never optimistic). A chip says a state, never an action (D15): the one
   // action of a mistake is its key, and that key has one label wherever it shows ("Repair Q12", "Check Q12 held").

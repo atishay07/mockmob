@@ -134,7 +134,7 @@ abstract final class TodayCopy {
   static const List<String> mobiIdle = ['One move at a time. This one is ready.'];
   static const List<String> mobiPoint = ['That one, just below. Start when you are set.'];
   /// Only when today's opened result improved or held. A sealed or lower result never gets it.
-  static const List<String> mobiCheer = ["Today's paper held or beat the last one."];
+  static const List<String> mobiCheer = ["Today's paper held or beat the one before."];
 
   /// A paper was submitted today and its result is lower or has nothing to compare with.
   static const List<String> mobiRecorded = ["Today's paper is on your sheet."];
@@ -156,7 +156,7 @@ abstract final class TodayCopy {
 
   // Other next-move states (spec 5.3 table, in this voice).
   static String staleLabel(int days) => '${pluralWord(days, 'day')}\nsince a mock';
-  static String staleLine(DateTime date) => 'Your last mock was on ${formatDayMonth(date)}. A fresh set will update this.';
+  static String staleLine(DateTime date) => 'Your latest mock was on ${formatDayMonth(date)}. A fresh set will update this.';
   static const String practiseToRefresh = 'Practise to refresh';
   static String thinLabel(int n) => '${pluralWord(n, 'question')}\nso far';
   static const String thinLine = 'You have only one paper so far. Ten more questions will sharpen the picture.';
@@ -210,17 +210,17 @@ abstract final class TodayCopy {
   static const String showMe = 'Show me';
 
   /// What the sentence's link opens, for a screen reader.
-  static const String showMeSemantics = 'Show me, the paper behind this.';
+  static const String showMeSemantics = 'Show me, the paper this comes from.';
 
   // Returning and late night (brief 1.1, spec 6.7, 6.8).
   /// The greeting already says the name, so the returning hero never repeats it.
   /// Mobi already says hello, so the headline only adds the real gap when there is one.
   static String? returningHeadline(int? daysSincePaper) =>
-      daysSincePaper != null && daysSincePaper >= 3 ? '$daysSincePaper days since your last paper.' : null;
+      daysSincePaper != null && daysSincePaper >= 3 ? '$daysSincePaper days since your latest paper.' : null;
   static String howLong(DateTime now) => 'How long have you got ${tonightOrToday(now)}?';
   static String lastMockStillHere(String source, DateTime date, int mistakes) => mistakes > 0
-      ? 'Your last mock was $source on ${formatDayMonth(date)}. Its ${plural(mistakes, 'mistake')} are still here.'
-      : 'Your last mock was $source on ${formatDayMonth(date)}. Nothing was lost.';
+      ? 'Your latest mock was $source on ${formatDayMonth(date)}. Its ${plural(mistakes, 'mistake')} are still here.'
+      : 'Your latest mock was $source on ${formatDayMonth(date)}. Everything is still here.';
   /// Mobi's line on Today's card, its own (Practice and Review say theirs): the card's move is
   /// already short.
   static const String lateNight = 'Still up? One short move, then sleep.';
@@ -292,7 +292,7 @@ abstract final class TodayCopy {
   /// The rows under "Recent papers", naming what is counted (design critic 16 Oct, finding 6):
   /// "Last 4 of 8 papers", or "All 3 papers" when every paper is shown.
   static String sheetCaption(int shown, int total) {
-    if (shown < total) return 'Last $shown of $total papers';
+    if (shown < total) return 'Latest $shown of $total papers';
     return total == 1 ? 'Your only paper' : 'All $total papers';
   }
 
@@ -304,7 +304,7 @@ abstract final class TodayCopy {
   /// The chart's own caption, never the rows': "Marks in your last 6 of 7 Accountancy mocks", or
   /// "Marks in all 3 of your Accountancy mocks" when it draws every one.
   static String trendCaption(int shown, int total, String kind) =>
-      shown < total ? 'Marks in your last $shown of $total $kind' : 'Marks in all $total of your $kind';
+      shown < total ? 'Marks in your latest $shown of $total $kind' : 'Marks in all $total of your $kind';
 
   /// A row whose subject is not the chart's says it in its title ("Quick 10, Business Studies"),
   /// so it never reads as part of the chart above it.
@@ -518,7 +518,7 @@ abstract final class TodayCopy {
   static const String boardMocksUnread = 'Your record has not loaded yet, so the count is not shown.';
   static String boardMocksSoFar(int n, DateTime? last) => n == 0 || last == null
       ? 'No full mock on your record yet. The first one shows where you stand.'
-      : '${plural(n, 'full mock')} on your record. The last one was on ${formatDayMonth(last)}.';
+      : '${plural(n, 'full mock')} on your record. The latest one was on ${formatDayMonth(last)}.';
   static String boardTargetLabel(String date) => 'Your target by $date';
   static const String boardFewer = 'One fewer';
   static const String boardMore = 'One more';
@@ -584,16 +584,16 @@ abstract final class TodayCopy {
   static String altPractiseNote(int questions, int? daysAgo) {
     final last = switch (daysAgo) {
       null => 'Not practised yet.',
-      0 => 'Last done today.',
-      1 => 'Last done yesterday.',
-      final d => 'Last done $d days ago.',
+      0 => 'Done today.',
+      1 => 'Done yesterday.',
+      final d => 'Done $d days ago.',
     };
     return '$questions questions, about $questions min. $last';
   }
 
   static String altMockTitle(String subject) => 'A full mock, $subject';
   static String altMockNote(int questions, int minutes, String? lastPaper) =>
-      '$questions questions, $minutes min. ${lastPaper == null ? 'None on your record yet.' : 'Your last was $lastPaper.'}';
+      '$questions questions, $minutes min. ${lastPaper == null ? 'None on your record yet.' : 'Your latest was $lastPaper.'}';
 
   static String altNtaTitle(String subject) => 'NTA mode, $subject';
   static String altNtaNote(int questions, int minutes, {required bool pro}) =>
@@ -649,7 +649,7 @@ abstract final class TodayCopy {
 
   /// After 7 or more days away, with open mistakes on the last paper.
   static String returningWhy(String source, DateTime marked, int open, int shown, {int? allOpen}) {
-    final lead = 'Your last paper was $source on ${formatDayMonthShort(marked)}.';
+    final lead = 'Your latest paper was $source on ${formatDayMonthShort(marked)}.';
     final tail = openInAllTail(allOpen, open);
     if (open == shown) return (open == 1 ? '$lead Its one mistake is still open.' : '$lead All ${countWord(open)} of its mistakes are still open.') + tail;
     return '$lead Its ${countWord(open)} open mistakes are still here; start with ${countWord(shown)}.$tail';
@@ -657,7 +657,7 @@ abstract final class TodayCopy {
 
   /// After 7 or more days away with nothing open: a warm-up.
   static String warmUpLabel(int n) => 'questions\nto warm up';
-  static String warmUpWhy(int days) => 'Your last session was $days days ago. Ten questions find your footing again, marked the CUET way.';
+  static String warmUpWhy(int days) => 'Your latest session was $days days ago. Ten questions find your footing again, marked the CUET way.';
   static String startQuestions(int n) => 'Start $n questions';
 
   // Revise (first week, day 2, and any day it has questions due).
@@ -758,7 +758,7 @@ abstract final class TodayCopy {
   static String stripSemantics(int weeks, String flag) => 'The weeks to your exam, $weeks of them. $flag. Opens the week by week road.';
 
   // The rows (4.5).
-  static const String lastPaperTitle = 'Last paper';
+  static const String lastPaperTitle = 'Latest paper';
   static const String collegesRowTitle = 'Your colleges';
   static String lastPaperName(String label, String subject) => '$label, $subject';
   static String lastPaperSub(String date, String? change) => change == null ? date : '$date, $change';

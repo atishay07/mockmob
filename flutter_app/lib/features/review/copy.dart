@@ -292,7 +292,7 @@ abstract final class ReviewCopy {
   /// The named cause and what to do about it: the same words every "did not load" in the app uses.
   static String loadErrorMessage(LoadProblem problem) => '${problem.sentence} ${problem.advice}';
   static const offlineTitle = 'You are offline';
-  static const offlineMessage = 'Your mistakes load when you are back online. Nothing was lost.';
+  static const offlineMessage = 'Your mistakes load when you are back online. Everything is still here.';
 
   /// The header line over a saved copy: offline, or online but the refresh failed.
   static String savedOffline([DateTime? lastGoodRead]) => SavedCopy.offline(lastGoodRead);
@@ -585,9 +585,9 @@ abstract final class ReviewCopy {
   // The same words as the website, so a student reads one Review on both. One label per state: Repair, Check it held, See
   // repair, Try it again (ActionLabels in model/review_chapters.dart). No "Repair first", no "Repair in N".
 
-  static const marksLostWord = 'marks lost';
-  /// "marks in" is bound with a no-break space: beside the art the line breaks before "marks", never before "in".
-  static const loseMost = 'You lose the most marks\u00A0in';
+  static const marksLostWord = 'marks slipped';
+  /// "slip in" is bound with a no-break space: beside the art the line breaks before "slip", never before "in".
+  static const loseMost = 'The most marks slip\u00A0in';
 
   /// The lead-in over a chapter that is not the costliest: its place in the ranking, in words.
   static String costliestNth(int rank) => 'Your ${ordinal(rank)} costliest chapter';
@@ -598,7 +598,7 @@ abstract final class ReviewCopy {
   static String costliestTied(int rank, int tied) {
     final others = tied - 1;
     final together = 'with $others other chapter${others == 1 ? '' : 's'}';
-    return rank == 1 ? 'Tied for the most marks lost, $together' : 'Tied for ${ordinal(rank)}, $together';
+    return rank == 1 ? 'Tied for the most marks slipped, $together' : 'Tied for ${ordinal(rank)}, $together';
   }
 
   /// The one lead-in for a chapter's place: alone first, tied, or alone later.
@@ -677,7 +677,7 @@ abstract final class ReviewCopy {
   static const mostMarksFirst = 'Most marks first';
   static const marksWord = 'marks';
   static const opensChapter = 'Opens this chapter.';
-  static String chapterRowSpoken({required String name, required int lost, required String line}) => '$name. Lost $lost marks. $line';
+  static String chapterRowSpoken({required String name, required int lost, required String line}) => '$name. $lost marks slipped. $line';
   static const savedRepairsHeading = 'Saved repairs';
   static String savedRepairsCount(int n) => '$n, each opens free';
   static String showAllSaved(int n) => 'Show all $n';
@@ -685,5 +685,5 @@ abstract final class ReviewCopy {
       '$action, question $number, $chapter. $stamp. $line';
 
   /// The sentence over the chapters when nothing lost a mark.
-  static const noChapterLost = 'Every answer on your papers was right, so no chapter lost marks.';
+  static const noChapterLost = 'Every answer on your papers was right, so no marks slipped in any chapter.';
 }

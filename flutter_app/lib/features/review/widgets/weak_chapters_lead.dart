@@ -98,16 +98,16 @@ class _WeakChaptersLeadState extends ConsumerState<WeakChaptersLead> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        // "Your 3 papers lost 220 marks: 30 wrong answers and 8 left blank. 9 are repaired."
+        // "In your 3 papers, 220 marks slipped: 30 wrong answers and 8 left blank. 9 are repaired."
         if (widget.showSummary) ...[
           summary.lost > 0
               ? Text.rich(
                   TextSpan(
                     style: lede,
                     children: [
-                      TextSpan(text: '${summary.who} lost '),
+                      TextSpan(text: '${whoIn(summary.who)}, '),
                       TextSpan(text: '${summary.lost} marks', style: lede.copyWith(fontWeight: FontWeight.w600, color: colors.ink)),
-                      TextSpan(text: ': ${summary.what}.${summary.fixed}'),
+                      TextSpan(text: ' slipped: ${summary.what}.${summary.fixed}'),
                     ],
                   ),
                 )

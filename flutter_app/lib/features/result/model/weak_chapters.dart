@@ -33,9 +33,9 @@ class WeakChapter {
     return '$parts, of $questions question${questions == 1 ? '' : 's'}.';
   }
 
-  /// The marks as a student says them: "29 of 50 marks lost", or "All 50 marks lost, 3 more taken off" when the wrong
+  /// The marks as a student says them: "29 of 50 marks slipped", or "All 50 marks slipped, 3 more taken off" when the wrong
   /// answers took more than the chapter had (never "53 of 50").
-  String get marksLine => overdrawn ? 'All $available marks lost, ${lost - available} more taken off' : '$lost of $available marks lost';
+  String get marksLine => overdrawn ? 'All $available marks slipped, ${lost - available} more taken off' : '$lost of $available marks slipped';
 }
 
 /// The chapters that cost marks, the costliest first (ties: more wrong answers, then the chapter that comes first in the

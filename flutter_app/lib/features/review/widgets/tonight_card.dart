@@ -171,7 +171,7 @@ class _TonightCardState extends State<TonightCard> with SingleTickerProviderStat
               const SizedBox(width: MmSpace.s8),
               _ShowMeLink(
                 onTap: widget.onShowMe,
-                semanticsLabel: 'Show me the ${n == 1 ? 'question' : '$n questions'} behind this',
+                semanticsLabel: 'Show me the ${n == 1 ? 'question' : '$n questions'} this comes from',
               ),
             ],
           ),

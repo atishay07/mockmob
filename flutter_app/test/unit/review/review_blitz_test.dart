@@ -204,7 +204,7 @@ void main() {
       wrapInScaffold: false,
       overrides: reviewOverrides(records: [repairedRecord]),
     );
-    expect(find.text('marks lost'), findsOneWidget, reason: 'the hero number carries its unit');
+    expect(find.text('marks slipped'), findsOneWidget, reason: 'the hero number carries its unit');
     expect(find.byType(MistakeMap), findsNothing, reason: 'the old map is not on the tab; the chapters are the lead');
     // The hero is the one raised card; the chapters below it are bare rows on the ground.
     expect(find.byType(MmSurface), findsOneWidget);

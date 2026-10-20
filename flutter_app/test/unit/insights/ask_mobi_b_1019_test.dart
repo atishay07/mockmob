@@ -97,7 +97,7 @@ void main() {
 
     test('the greetings are whole sentences, with no number words broken (finding 38)', () {
       expect(InsightsCopy.askGreeting(null, 1), "Hi. I've read your first paper. Ask me anything about it.");
-      expect(InsightsCopy.askGreeting('Riya', 25), "Hi Riya. I've read your last 25 papers. Ask me anything about them.");
+      expect(InsightsCopy.askGreeting('Riya', 25), "Hi Riya. I've read your latest 25 papers. Ask me anything about them.");
       expect(InsightsCopy.askGreeting(null, 0), 'Hi. Stuck on a CUET doubt? Ask me.');
       expect(AskDoorCopy.greetFresh(null), 'Hi. Stuck on a CUET doubt? Ask me.');
       expect(AskDoorCopy.greetHeavy('Riya', 25), 'Hi Riya. Ask me any doubt, or ask what your 25 papers say.');
@@ -106,9 +106,9 @@ void main() {
 
     test('Mobi reads at most the last 60 papers, and the lines say so past that (verifier L5)', () {
       expect(AskDoorCopy.recordLine(25), 'Mobi reads your 25 papers and answers from them.');
-      expect(AskDoorCopy.recordLine(60), 'Mobi reads your last 60 papers and answers from them.');
-      expect(AskDoorCopy.recordLine(61), 'Mobi reads your last 60 papers and answers from them.');
-      expect(AskDoorCopy.greetHeavy('Riya', 60), 'Hi Riya. Ask me any doubt, or ask what your last 60 papers say.');
+      expect(AskDoorCopy.recordLine(60), 'Mobi reads your latest 60 papers and answers from them.');
+      expect(AskDoorCopy.recordLine(61), 'Mobi reads your latest 60 papers and answers from them.');
+      expect(AskDoorCopy.greetHeavy('Riya', 60), 'Hi Riya. Ask me any doubt, or ask what your latest 60 papers say.');
       expect(AskDoorCopy.greetHeavy('Riya', 59), 'Hi Riya. Ask me any doubt, or ask what your 59 papers say.');
     });
 
@@ -116,7 +116,7 @@ void main() {
       final heavy = askNowStarters(record: rich(), subjects: const ['accountancy', 'economics']);
       expect(heavy, hasLength(3));
       final lead = recordLead(rich())!;
-      expect(heavy.first.text, 'I keep losing marks in ${lead.chapter}. Explain it the CUET way.');
+      expect(heavy.first.text, 'My marks keep slipping in ${lead.chapter}. Explain it the CUET way.');
       expect(heavy.first.chapter, lead.chapter, reason: 'the server attaches 2 bank questions on that chapter');
       expect(heavy.first.subject, isNotNull);
       expect(heavy.every((s) => s.chapter != null), isTrue, reason: 'the rich record ranks at least three chapters');
@@ -132,9 +132,9 @@ void main() {
       final asks = recordDoorAsks(rich(), pro: false, last: last, now: evening);
       expect(asks, hasLength(7), reason: '"See all 7 questions about your record"');
       final lead = recordLead(rich())!;
-      expect(asks.first.text, 'Where am I losing marks?');
+      expect(asks.first.text, 'Where are my marks slipping?');
       expect(asks.first.price, DoorPrice.free);
-      expect(asks.first.preview, '${lead.lost} marks lost in ${lead.chapter}');
+      expect(asks.first.preview, '${lead.lost} marks slipped in ${lead.chapter}');
       DoorAsk byText(String t) => asks.firstWhere((a) => a.text == t);
       expect(byText('Which chapter should I practise?').price, DoorPrice.free);
       expect(byText(AskDoorCopy.lastPaper).price, DoorPrice.free);

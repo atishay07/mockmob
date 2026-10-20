@@ -36,7 +36,7 @@ abstract final class ReelCopy {
   static const chapterKicker = 'Most marks went in';
 
   /// Chapters that lost the same most marks share the place (owner I14): the kicker says so, the card shows one of them.
-  static String chapterKickerFor(int tied) => tied > 1 ? 'One of $tied chapters that lost the most marks' : chapterKicker;
+  static String chapterKickerFor(int tied) => tied > 1 ? 'One of $tied chapters where the most marks slipped' : chapterKicker;
   static String chapterLine(int lost, int? against, int wrong, int blank) {
     final parts = <String>[
       if (wrong > 0) '$wrong wrong',
@@ -64,5 +64,5 @@ abstract final class ReelCopy {
   static String resultEntrySub(int seconds) => 'Your paper, question by question, in $seconds s';
 
   static String semantics(int marks, int max, String? chapter, {int tied = 1}) =>
-      'Paper played back. $marks of $max marks.${chapter == null ? '' : tied > 1 ? ' $chapter is one of $tied chapters that lost the most marks.' : ' Most marks went in $chapter.'}';
+      'Paper played back. $marks of $max marks.${chapter == null ? '' : tied > 1 ? ' $chapter is one of $tied chapters where the most marks slipped.' : ' Most marks went in $chapter.'}';
 }

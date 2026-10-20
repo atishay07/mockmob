@@ -60,7 +60,7 @@ abstract final class FinishRevealCopy {
   static const String wrongRule = '−1 each';
   static const String blankRule = '0 each';
 
-  static const String chaptersHead = 'Marks lost by chapter';
+  static const String chaptersHead = 'Marks slipped by chapter';
   static const String lostHead = 'Marks';
   static const String tied = 'Tied';
 

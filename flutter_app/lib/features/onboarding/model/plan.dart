@@ -143,7 +143,7 @@ class PlanSummary {
         if (w != Worry.noIdea) w.words.contains(',') ? "'${w.words}'" : w.words,
     ];
     if (a.worries.length < 2 || named.length < 2) return null;
-    return 'You said you lose marks on ${named.first} first, then on ${joinWithAnd(named.skip(1).toList())}.';
+    return 'You said your marks slip on ${named.first} first, then on ${joinWithAnd(named.skip(1).toList())}.';
   }
 
   /// True when a skipped step left a default in the plan.

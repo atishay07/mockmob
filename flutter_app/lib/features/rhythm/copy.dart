@@ -105,7 +105,7 @@ abstract final class RhythmCopy {
   static const String mobiSleep = 'Sleep well. Tomorrow counts.';
   static const String mobiOneShort = 'One more day, and today is on your plan.';
   static const String mobiOutOfReach = 'Every study day still counts.';
-  static const String mobiReturning = 'Welcome back. Nothing was lost.';
+  static const String mobiReturning = 'Welcome back. Everything is still here.';
 
   // Study days editor, live.
   static const String presetThree = '3 days';
@@ -250,7 +250,7 @@ abstract final class RhythmCopy {
   static String endingMet(int days) => 'You finished ${plural(days, 'study day')} last week. That met your goal.';
 
   static String endingNotMet(int days, int goal) =>
-      'You finished $days of $goal study days. Nothing is lost. Your record is as you left it.';
+      'You finished $days of $goal study days. Everything is still here. Your record is as you left it.';
 
   static const String endingTitle = 'Last week';
   static String keep(int goal) => 'Keep ${plural(goal, 'day')} a week';
@@ -269,7 +269,7 @@ abstract final class RhythmCopy {
 
   // Returning (6.7).
   static const String welcomeBack = 'Welcome back.';
-  static const String nothingLost = 'Nothing was lost.';
+  static const String nothingLost = 'Everything is still here.';
   static String reviewMistakes(int n) => n == 1 ? 'Review your mistake' : 'Review your $n mistakes';
 
   static String lastNight(int repaired, int waiting) =>

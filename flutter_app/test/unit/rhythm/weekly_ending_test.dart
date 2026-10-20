@@ -26,7 +26,7 @@ void main() {
         rhythmFixture(goal: 4, streak: 0, best: 6, lastClosed: _closed(days: 2, met: false)),
         dismissed: {},
       )!;
-      expect(data.body, 'You finished 2 of 4 study days. Nothing is lost. Your record is as you left it.');
+      expect(data.body, 'You finished 2 of 4 study days. Everything is still here. Your record is as you left it.');
       expect([for (final k in data.keys) k.label], ['Keep 4 days a week', 'Aim for 2 days', 'Take a rest week']);
       expect(data.runNote, 'A new run starts this week. Your best is still 6 weeks.');
       expect(data.restUntil, '2026-10-18');

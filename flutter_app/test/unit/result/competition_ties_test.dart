@@ -156,15 +156,15 @@ void main() {
     test('the lead-in copy: alone, tied first, tied later', () {
       expect(ReviewCopy.chapterLead(1), ReviewCopy.loseMost);
       expect(ReviewCopy.chapterLead(2), 'Your 2nd costliest chapter');
-      expect(ReviewCopy.chapterLead(1, tied: 2), 'Tied for the most marks lost, with 1 other chapter');
-      expect(ReviewCopy.chapterLead(1, tied: 4), 'Tied for the most marks lost, with 3 other chapters');
+      expect(ReviewCopy.chapterLead(1, tied: 2), 'Tied for the most marks slipped, with 1 other chapter');
+      expect(ReviewCopy.chapterLead(1, tied: 4), 'Tied for the most marks slipped, with 3 other chapters');
       expect(ReviewCopy.chapterLead(5, tied: 2), 'Tied for 5th, with 1 other chapter');
       expect(ReviewCopy.chapterLead(2, tied: 2), isNot(contains('costliest')));
     });
 
     testWidgets('a tied first chapter says it is tied, with the others counted', (tester) async {
       await _pumpLead(tester, {'Electromagnetic Induction': 2, 'Ray Optics': 2, 'Waves': 2, 'Atoms': 2, 'Heat': 1});
-      expect(find.text('Tied for the most marks lost, with 3 other chapters'), findsOneWidget);
+      expect(find.text('Tied for the most marks slipped, with 3 other chapters'), findsOneWidget);
       expect(find.text(ReviewCopy.loseMost), findsNothing);
       expect(find.textContaining('2nd costliest'), findsNothing);
       expect(tester.takeException(), isNull);
@@ -208,7 +208,7 @@ void main() {
         size: const Size(360, 900),
         disableAnimations: true,
       );
-      expect(find.text('Tied for the most marks lost, with 1 other chapter'), findsOneWidget);
+      expect(find.text('Tied for the most marks slipped, with 1 other chapter'), findsOneWidget);
       expect(tester.takeException(), isNull);
     });
   });
@@ -222,8 +222,8 @@ void main() {
 
     test('the reel kicker and its spoken line say one of N when tied', () {
       expect(ReelCopy.chapterKickerFor(1), ReelCopy.chapterKicker);
-      expect(ReelCopy.chapterKickerFor(2), 'One of 2 chapters that lost the most marks');
-      expect(ReelCopy.semantics(100, 150, 'Ray Optics', tied: 2), 'Paper played back. 100 of 150 marks. Ray Optics is one of 2 chapters that lost the most marks.');
+      expect(ReelCopy.chapterKickerFor(2), 'One of 2 chapters where the most marks slipped');
+      expect(ReelCopy.semantics(100, 150, 'Ray Optics', tied: 2), 'Paper played back. 100 of 150 marks. Ray Optics is one of 2 chapters where the most marks slipped.');
       expect(ReelCopy.semantics(100, 150, 'Ray Optics'), 'Paper played back. 100 of 150 marks. Most marks went in Ray Optics.');
     });
   });

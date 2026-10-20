@@ -256,6 +256,6 @@ void main() {
     final record = reviewRecordOf(index, now: eveningUtc);
     final eco = chaptersBody(recordForSubject(record, 'Economics'));
     expect(eco.rows.single.name, 'Money and banking');
-    expect(eco.line.text, startsWith('Your practice set lost 6 marks'));
+    expect(eco.line.text, startsWith('In your practice set, 6 marks slipped'));
   });
 }

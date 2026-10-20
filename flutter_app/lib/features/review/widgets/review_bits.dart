@@ -61,7 +61,7 @@ class ShowMeTag extends StatelessWidget {
     final wrong = count.clamp(1, 3);
     return ShowMePill(
       onTap: onTap,
-      semanticsLabel: semanticsLabel ?? 'Show me, the questions behind this',
+      semanticsLabel: semanticsLabel ?? 'Show me, the questions this comes from',
       marks: [for (var i = 0; i < 3; i++) i < wrong ? BubbleState.wrong : BubbleState.hollow],
     );
   }

@@ -1,5 +1,5 @@
 // Owner I14, the Ask Mobi remainder (20 Oct): two chapters lost the same 39 marks, so Ask Mobi's record door names both
-// as a tie ("marks lost in each of ... , tied as your biggest leak"), never just the first. 360 dp, Night and Day.
+// as a tie ("marks slipped in each of ... , tied as your biggest leak"), never just the first. 360 dp, Night and Day.
 import 'package:flutter/material.dart';
 import 'package:mockmob/core/repositories/remote_state.dart';
 import 'package:mockmob/features/insights/data/insights_models.dart';

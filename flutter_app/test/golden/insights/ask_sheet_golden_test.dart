@@ -52,9 +52,9 @@ const _mock3 = AskMobiContext.mock(
   label: 'Mock 3',
   attemptId: 'm3',
   lines: [
-    'Partnership: 36 of the 78 marks lost, 6 wrong and 1 left blank',
-    'Cash flow statement: 18 of the 78 marks lost, 3 wrong',
-    'Money and banking: 10 of the 78 marks lost, 2 left blank',
+    'Partnership: 36 of the 78 marks slipped, 6 wrong and 1 left blank',
+    'Cash flow statement: 18 of the 78 marks slipped, 3 wrong',
+    'Money and banking: 10 of the 78 marks slipped, 2 left blank',
   ],
 );
 

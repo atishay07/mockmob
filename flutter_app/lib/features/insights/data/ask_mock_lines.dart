@@ -21,6 +21,6 @@ String _line(ChapterStat c, int lost) {
     (_, final b) => '$b left blank',
   };
   // One chapter that cost every lost mark says so, instead of "30 of the 30".
-  final share = c.marksLost >= lost ? 'all $lost marks lost' : '${c.marksLost} of the $lost marks lost';
+  final share = c.marksLost >= lost ? 'all $lost marks slipped' : '${c.marksLost} of the $lost marks slipped';
   return '${c.chapter}: $share, $cause';
 }

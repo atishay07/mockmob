@@ -304,7 +304,7 @@ void main() {
     testWidgets('Take a rest week pauses until this Sunday', (tester) async {
       await pumpMockmob(tester, const SingleChildScrollView(child: WeeklyEndingSection()), overrides: overrides(closedUnmet));
       await settle(tester);
-      expect(find.text('You finished 2 of 4 study days. Nothing is lost. Your record is as you left it.'), findsOneWidget);
+      expect(find.text('You finished 2 of 4 study days. Everything is still here. Your record is as you left it.'), findsOneWidget);
       await tester.tap(find.text('Take a rest week'));
       await settle(tester);
       expect(goalRepo.savedPause, ['2026-10-18']);

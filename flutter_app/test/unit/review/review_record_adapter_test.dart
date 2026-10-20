@@ -46,8 +46,8 @@ void main() {
     expect(app.line.lost, 220);
     expect((app.line.wrong, app.line.blank), (30, 8));
     expect(app.saved, hasLength(9));
-    expect(app.line.text, 'Your 4 papers lost 220 marks: 30 wrong answers and 8 left blank. 9 are repaired.');
-    expect(app.rows.first.line.text, 'Lost 35 of the 80 marks on offer, 16 questions in Mock 3 and Mock 2. 5 wrong, 1 left blank.');
+    expect(app.line.text, 'In your 4 papers, 220 marks slipped: 30 wrong answers and 8 left blank. 9 are repaired.');
+    expect(app.rows.first.line.text, '35 of the 80 marks on offer slipped, 16 questions in Mock 3 and Mock 2. 5 wrong, 1 left blank.');
     expect(app.rows.first.open.first.stamp, 'Mock 3, Fri 16 Oct, 9:40 PM');
     expect(app.across, 'Each chapter across Mock 3, Quick practice, Mock 2 and Mock 1.');
   });
@@ -55,9 +55,9 @@ void main() {
   test('without the perfect first paper the same three papers read as the website reads them', () {
     final three = student1018(firstMock: false);
     final app = _body(three);
-    expect(app.line.text, 'Your 3 papers lost 220 marks: 30 wrong answers and 8 left blank. 9 are repaired.');
+    expect(app.line.text, 'In your 3 papers, 220 marks slipped: 30 wrong answers and 8 left blank. 9 are repaired.');
     // Mock numbers are counted from the first mock the app holds, so the two mocks are Mock 2 and Mock 1.
-    expect(app.rows.first.line.text, 'Lost 35 of the 80 marks on offer, 16 questions in Mock 2 and Mock 1. 5 wrong, 1 left blank.');
+    expect(app.rows.first.line.text, '35 of the 80 marks on offer slipped, 16 questions in Mock 2 and Mock 1. 5 wrong, 1 left blank.');
     expect(app.rows.first.lost, web.rows.first.lost);
     expect(app.rows.first.offer, web.rows.first.offer);
   });
@@ -83,7 +83,7 @@ void main() {
     final app = _body(s, unopened: {'m3'});
     // Mock 3 lost 12 x 6 + 4 x 5 = 92 of the 220.
     expect(app.line.lost, 220 - 92);
-    expect(app.line.text, startsWith('Your 3 papers lost 128 marks'));
+    expect(app.line.text, startsWith('In your 3 papers, 128 marks slipped'));
     expect(app.rows.expand((r) => [...r.open, ...r.blanks, ...r.repaired]).every((m) => m.paper != 'm3'), isTrue);
     expect(app.across, isNot(contains('Mock 3')));
   });

@@ -85,15 +85,15 @@ void main() {
       );
       final lines = mockLostLines(b, lost: 78);
       expect(lines, [
-        'Partnership: 41 of the 78 marks lost, 6 wrong and 1 left blank',
-        'Cash flow: 18 of the 78 marks lost, 3 wrong',
-        'Banking: 10 of the 78 marks lost, 2 left blank',
+        'Partnership: 41 of the 78 marks slipped, 6 wrong and 1 left blank',
+        'Cash flow: 18 of the 78 marks slipped, 3 wrong',
+        'Banking: 10 of the 78 marks slipped, 2 left blank',
       ]);
     });
 
     test('a chapter that cost every lost mark says all of them', () {
       final b = ChapterBreakdown(stats: [_stat('Business environment', blank: 6)], wrongNumbers: const []);
-      expect(mockLostLines(b, lost: 30), ['Business environment: all 30 marks lost, 6 left blank']);
+      expect(mockLostLines(b, lost: 30), ['Business environment: all 30 marks slipped, 6 left blank']);
     });
 
     test('a paper that lost nothing, or a chapter with no name, gives no line', () {
