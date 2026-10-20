@@ -214,7 +214,7 @@ abstract final class MobV3Copy {
   static const String change = 'Change';
   static const String nameLabel = 'Your name in the Mob';
   static const String nameHint = 'First name';
-  static const String nameNote = 'Only your Mob sees it. 2 to 18 letters.';
+  static const String nameNote = 'Only your Mob sees it. 2 to 18 letters, and it must follow the Terms.';
   static const String colourLabel = 'Colour';
   static const String marksNote = 'Your Mob sees your marks in games. One switch in Mob settings keeps them private.';
   static String startKey(String mobName) => 'Start $mobName';

@@ -30,6 +30,7 @@ import '../../../../core/haptics/haptics.dart';
 import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
+import '../../data/mob_repository.dart' show mobRepositoryProvider;
 import '../copy_v3.dart';
 import '../data/mob_v3_api.dart';
 import '../data/mob_v3_den.dart';
@@ -359,6 +360,7 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       if (!mounted) return;
       final code = _code(e);
       if (code == 'RUN_DONE') {
+        _refreshDen();
         MobV3Nav.podiumAfterRun(context, widget.gameId);
         return;
       }
@@ -465,6 +467,9 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
       if (_scroll.hasClients) _scroll.jumpTo(0);
       if (toDone) {
         _phase = _Phase.done;
+        // The den behind this screen still shows the game as unplayed and the quest short of these answers (walk
+        // 20 Oct): read it again now, so Back lands on what is true.
+        _refreshDen();
       } else {
         var q = _q + 1;
         while (q < _count - 1 && _answers.containsKey(q)) {
@@ -488,6 +493,11 @@ class _GameRunScreenState extends ConsumerState<GameRunScreen> with TickerProvid
     }
     if (!mounted) return;
     await _qFade.animateTo(1, duration: _reduced ? Motion.reducedFade : const Duration(milliseconds: 200), curve: Motion.glide);
+  }
+
+  /// Reads the Mob again in the background once this run is over. A failure keeps what the den had.
+  void _refreshDen() {
+    unawaited(ref.read(mobRepositoryProvider.notifier).refresh(force: true).catchError((Object _) {}));
   }
 
   // ---- M6 a ghost reaches the flag: the toast ------------------------------------------------------

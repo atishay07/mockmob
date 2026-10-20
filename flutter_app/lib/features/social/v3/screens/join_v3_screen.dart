@@ -24,6 +24,7 @@ import '../../data/mob_repository.dart' show mobRepositoryProvider;
 import '../../copy.dart';
 import '../../widgets/mob_parts.dart';
 import '../../widgets/mob_ring.dart' show MobColours;
+import '../../mob_routes.dart' show openMobPage;
 import '../copy_v3.dart';
 import '../data/mob_v3_api.dart';
 import '../data/mob_v3_den.dart';
@@ -163,7 +164,10 @@ class _JoinV3ScreenState extends ConsumerState<JoinV3Screen> {
       ref.read(hapticsProvider).confirm();
       if (!mounted) return;
       setState(() => _joining = false);
-      await Navigator.of(context).maybePop();
+      // Opened from an invite link, this page is the only one on the stack: Back has nowhere to go, so the new Mob
+      // opens in the Mob tab (walk 20 Oct: Join did nothing visible after a link).
+      final popped = await Navigator.of(context).maybePop();
+      if (!popped && mounted) await openMobPage(context);
     } on Object catch (e) {
       if (!mounted) return;
       final code = mobErrorCode(e);

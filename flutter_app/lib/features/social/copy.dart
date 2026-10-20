@@ -28,7 +28,7 @@ abstract final class MobCopy {
   static const String nameHint = 'First name';
   static const String nameTerms = 'Your Mob sees this name, so it must follow the Terms.';
   static const String nameRule = 'Use 2 to 18 letters. Spaces, dots, apostrophes and hyphens are fine.';
-  static const String nameNote = 'Only your Mob sees it. 2 to 18 letters.';
+  static const String nameNote = 'Only your Mob sees it. 2 to 18 letters, and it must follow the Terms.';
   static const String colourLabel = 'Colour';
   static const String startKey = 'Start a Mob';
   // Join with a code (D105): the Mob tab's second way in for a student in no Mob.

@@ -62,12 +62,15 @@ class ColourPicker extends StatelessWidget {
 
 /// The display-name field (P3): the only free text in the Mob.
 class MobNameField extends StatelessWidget {
-  const MobNameField({super.key, required this.controller, required this.label, this.error, this.onChanged});
+  const MobNameField({super.key, required this.controller, required this.label, this.error, this.onChanged, this.helper});
 
   final TextEditingController controller;
   final String label;
   final String? error;
   final ValueChanged<String>? onChanged;
+
+  /// A line under the field, for a place with no name note of its own (the change-name sheet): the Terms line.
+  final String? helper;
 
   @override
   Widget build(BuildContext context) {
@@ -82,8 +85,9 @@ class MobNameField extends StatelessWidget {
       enableSuggestions: false,
       style: type.body.copyWith(color: colors.ink),
       // An empty field (no prefill passed the rule) says what goes in it.
-      // The one free text other students see (L-42, Google Play's user-content policy): it follows the Terms.
-      decoration: InputDecoration(labelText: label, hintText: MobCopy.nameHint, helperText: MobCopy.nameTerms, helperMaxLines: 2, errorText: error, counterText: ''),
+      // The one free text other students see (L-42, Google Play's user-content policy): it follows the Terms, said in
+      // the name note under the field, or here where there is none.
+      decoration: InputDecoration(labelText: label, hintText: MobCopy.nameHint, helperText: helper, helperMaxLines: 2, errorText: error, counterText: ''),
     );
   }
 }

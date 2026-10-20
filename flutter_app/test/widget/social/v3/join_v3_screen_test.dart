@@ -203,7 +203,8 @@ void main() {
       final joins = server.calls.where((c) => c.startsWith('join:')).toList();
       expect(joins, hasLength(1));
       expect(joins.single, 'join:K7P2M9:Aarav:6:hexa');
-      final container = ProviderScope.containerOf(tester.element(find.byType(JoinV3Screen)));
+      // Opened on its own (an invite link), there is nothing to go back to: the Mob opens over it (walk 20 Oct).
+      final container = ProviderScope.containerOf(tester.element(find.byType(JoinV3Screen, skipOffstage: false)));
       expect(container.read(mobRepositoryProvider).value?.v3?.name.text, 'Steady Kites');
     });
 

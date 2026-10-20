@@ -184,7 +184,7 @@ class _EditMeSheetState extends ConsumerState<EditMeSheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          MobNameField(controller: _name, label: MobCopy.nameLabel, error: _error, onChanged: (_) => setState(() => _error = null)),
+          MobNameField(controller: _name, label: MobCopy.nameLabel, error: _error, helper: MobCopy.nameTerms, onChanged: (_) => setState(() => _error = null)),
           const SizedBox(height: MmSpace.s16),
           Text(MobCopy.colourLabel, style: context.mmType.label.copyWith(color: context.mmColors.ink2)),
           ColourPicker(value: _colour, onChanged: (c) => setState(() => _colour = c)),

@@ -4,7 +4,6 @@
 // carry the app marker (L-07a); every Fold reveal says how THAT Fold was earned (Mob H1); a doubt with no chapter
 // always offers chapters to pick, even on a fresh account (Mobi H1).
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/core/auth/auth_state.dart';
 import 'package:mockmob/core/models/subject.dart';
