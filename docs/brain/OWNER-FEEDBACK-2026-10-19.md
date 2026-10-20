@@ -708,7 +708,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 > "I did it and submitted already. It literally didn't change any of our ratings in any of the regions or anything. I don't know what the purpose of this was, but anyway, this is all done. What else is left for me to do?"
 **Ledger:** content rating questionnaire redone and submitted (users interact yes, digital purchases yes, no loot boxes, online/AI content yes, educational yes); ratings unchanged.
 
-## Owner, 20 Oct about 12:45 pm IST, after installing version 13 from the Play Store (verbatim)
+## Owner, 20 Oct about 12:05 pm IST, after installing version 13 from the Play Store (verbatim)
 > "I have downloaded the app from the Play Store, and I'm here with my feedback. I'll tell you what works: basic UI/UX things, mostly all that is similar, look good and are not an issue.
 >
 > Just one thing that I had noticed last time also, which is not fixed in day mode (light mode): some places have been done very weirdly, like the ways to practice the cards there. Kind of black text is written. It's just a bit weird, and icons turning black can be optimized better for day mode. The night mode looks like it's properly optimized. Day mode, in some places, looks a bit out of place, but this is not the most important feedback.

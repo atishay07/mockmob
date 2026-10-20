@@ -26,15 +26,15 @@ Folds are counted by fold: **one-fold** (starters, pick one free), **two-fold** 
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | Mobi | lime folded diamond | The eldest. Knows the Long Paper and shows the way. | antenna with a lime ball | every subject | greet, point | host | Always there; never collected, never recoloured. Lime is his alone. |
 | Dart | sky-blue paper plane | Answers first, then learns to check. The 72-second pace. | crumpled nose from crash landings | General Test | leaning forward, pointing ahead | one-fold | Starter. |
-| Dog-ear | rose ruled notebook page | Second-guesses every answer, learning to trust the first pick. | folded corner flops over one eye | English | hugging a pencil, peeking | one-fold | Starter. |
-| Hop | teal origami frog | Jumps straight back after a wrong answer. | one springy back leg | Biology | mid-hop, arms up | one-fold | Starter. |
-| Naav | periwinkle paper boat | Stays steady in the last ten minutes. | a faint water stain | Geography | calm small wave | one-fold | Starter. |
+| Dog-ear | blush-pink ruled notebook page | Second-guesses every answer, learning to trust the first pick. | folded corner flops over one eye | English | hugging a pencil, peeking | one-fold | Starter. |
+| Hop | teal-green origami frog (round eye balls on top, wide grin crease, mint belly) | Jumps straight back after a wrong answer. | one springy back leg | Biology | mid-hop, arms up | one-fold | Starter. |
+| Naav | newsprint paper boat (off-white, illegible grey print) | Stays steady in the last ten minutes. | a faint water stain | Geography | calm small wave | one-fold | Starter. |
 | Tally | coral-cream receipt | Counts every mark, minus ones too, so it knows when not to guess. | its tail keeps unrolling | Accountancy | studying its own receipt | two-fold | The first time a skip really saved you marks in a mock (the smart-skip rule, M7). |
-| Patang | rose-red kite with a bowed tail | Rises fastest when the wind is against it. The comeback. | a knot in its tail | Political Science | leaning into the wind, fist up | two-fold | The first time you beat your own earlier score in the same subject. |
+| Patang | slim crimson kite with bamboo spine and bow stick, bowed tail | Rises fastest when the wind is against it. The comeback. | a knot in its tail | Political Science | leaning into the wind, fist up | two-fold | The first time you beat your own earlier score in the same subject. |
 | Sticky | sage sticky note | Remembers the formula so you don't have to. | stuck to itself at one corner | Physics, Chemistry | tapping its visor, "I remember" | two-fold | Five mistakes fixed whose fix held on a later check. |
-| Hexa | teal-green origami cube | Builds every answer one step at a time. | one dented corner | Mathematics | stacking a second cube | two-fold | Finishing every practice set in one chapter. |
-| Kandil | amber pleated paper lantern | Keeps going through long revision evenings and lights the desk for everyone. | always sleepy, heavy lids | History | rubbing an eye, pencil stub | two-fold | Your first full-length mock finished. (Never tied to studying late at night: that would reward the wrong habit in minors.) |
-| Cutting | coral paper chai cup with steam | Knows a short break is part of the plan. | a tea drip down one side | Economics, Business Studies | leaning back, relaxed wave | two-fold | Coming back after a break of three days or more. It says a break is fine, never "you missed days". |
+| Hexa | indigo folded paper box | Builds every answer one step at a time. | one dented corner | Mathematics | stacking a second cube | two-fold | Finishing every practice set in one chapter. |
+| Kandil | amber pleated paper lantern | Keeps going through long revision evenings and lights the desk for everyone. | heavy lids, but awake and calm | History | standing calm with a teal book under one arm (awake; never sleepy or late-night) | two-fold | Your first full-length mock finished. (Never tied to studying late at night: that would reward the wrong habit in minors.) |
+| Cutting | kraft-brown paper chai cup with steam | Knows a short break is part of the plan. | a tea drip down one side | Economics, Business Studies | leaning back, relaxed wave | two-fold | Coming back after a break of three days or more. It says a break is fine, never "you missed days". |
 | Crane | violet origami crane | Folds it a hundred times until it is right. | one wing tip soft from refolding | Fine Arts | balancing on one boot | three-fold | Mob quest: the Mob fixes 3 of its traps together (Den v2 quest, unchanged). |
 | Stamp | cream postage stamp, sage border, gold foil line | Seals every fix with a check. | one perforation tooth missing | all of them | double thumbs-up | three-fold | Mob quest: four weeks in a row of finishing the weekly Mob quest. |
 
@@ -89,7 +89,7 @@ Reasons:
 4. B is the best answer to "collectible toys are good, but I am not sure how we will be able to implement it". In the app, the shelf can show C Folds on a paper plinth, and B becomes the marketing photo style. Nobody has to build a toy line to get the collectible feeling.
 
 Made in style C: 12 Folds (`cut/C-*.webp`), the Unfold reveal (`REVEAL-unfold.webp`) and the group shot with Mobi on the desk (`GROUP-mob-with-mobi.webp`). The cast sheet is `CAST-best.png`, at Night and Day.
-Watch list: Hop reads as an origami frog to people who fold but is slightly cat-like to others (one retry made it worse, so the original is kept). Patang's diamond is near Mobi's shape (its colour and the kite sticks separate them). Crane's visor is small at 24 dp. Check all three in the disc test before shipping.
+Watch list (resolved in the final art, 19 Oct night, `characters/final/FINAL-ART.md`): Hop is redrawn as an unmistakable frog; Patang is a slim kite with visible sticks; Crane's visor is wide. Each Fold now has its own eyes inside the visor and one prop. Paper colours changed to remove the collisions: Hexa indigo, Naav newsprint, Cutting kraft brown, Dog-ear blush (the hexes are in `characters/final/folds.json`).
 
 ## 6. How the art goes into Flutter
 
@@ -99,7 +99,7 @@ Watch list: Hop reads as an origami frog to people who fold but is slightly cat-
   - `fold-<name>-<pose>@256.webp`: lobby seats, ghost markers, podium places, stickers. About 15 to 25 KB.
   - `fold-<name>-head@128.webp`: discs and chips at 24 to 40 dp, cropped from idle around the visor, not generated.
   - Budget for 12 Folds x 5 poses x 2 sizes plus heads: about 4 MB. Ship idle and cheer in the app bundle (about 1.4 MB) and download the rest the first time the Mob opens.
-- **Poses per Fold** (same camera, framing and light as now): idle (standing, neutral, used most), cheer, think, sad-but-kind (shoulders down, eyes soft; used for "not this one", never for shaming a friend), wave. The current signature images cover cheer for Hop and Stamp and wave for Naav; the rest are new.
+- **Poses per Fold** (same camera, framing and light as now): idle (standing, neutral, used most), cheer, think, shrug (the calm "not this one", never sad, per build spec 5.2), wave. The final pass generates all five for every Fold from its approved idle (`characters/final/FINAL-ART.md`).
 - **Cheap animation, no Rive in build 1** (brand kit section 6, option C):
   - Squash and stretch on the whole still, pivoted at the boots: anticipation scaleY 0.94 and scaleX 1.04, then 1.06 and 0.96 on take-off, settle back with the existing spring under the 0.12 bounce cap.
   - Breathe: scaleY 1 to 1.028 from the feet on the 3600 ms sweep, staggered by member.
