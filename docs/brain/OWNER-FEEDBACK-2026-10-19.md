@@ -878,3 +878,10 @@ Billing page: "Your grace period has started. Your organization went over its qu
 ## Owner, 20 Oct about 6:32 pm IST (verbatim)
 > "Right now, I'm planning to switch the session to Codex for a bit. Just wanted to try it out as it is. Prepare a prompt like you always do to start in a fresh session. Whatever you are saying about replies that don't work, that pays for a new account. When I switch accounts, it's a new session every time, so prepare a handoff and a prompt which I can paste into the next agent, whichever it may be."
 (Next prompt: docs/brain/NEXT-PROMPT-1020-EVE.md, agent-agnostic.)
+
+## Owner, 20 Oct about 6:33 pm IST: started session e5b2f75b (Claude Code, new account) with (verbatim)
+> "Continue MockMob as CEO/CTO. Your full brief is in the repo: C:\Users\atish\Desktop\mockmob copy\mockmob-next\docs\brain\NEXT-PROMPT-1020-EVE.md. Read it completely first and follow it exactly. It tells you what to read next (NOW.md "PAUSE 20 Oct 6:28 pm", my words D177-D184, the Mob V4 design and mock-ups), the state of every branch with its stop point, the order of work, the commands and the hard rules.
+>
+> Goal tonight: app version 15, all Mob modes, Mob V4 and the verified fixes merged, signed, walked in demo mode on the emulator in Night and Day, free of known bugs, in C:\Users\atish\Desktop\MockMob-build-15, so I can send it to Play closed-testing review tonight. Website release after the app.
+>
+> Quality first, then speed: this is the final build for testers. No walks, seeds or tests against Supabase staging or production (demo mode and local tests only). Check the time with `date`, record my words verbatim with real clock times, and end every update with "Things needed from you right now:" or "Nothing needed from your side"."
