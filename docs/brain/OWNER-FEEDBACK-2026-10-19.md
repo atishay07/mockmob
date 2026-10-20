@@ -783,3 +783,7 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 ## Owner, 20 Oct about 2:22 pm IST (verbatim)
 > "yes, show Mob hours in the mock-ups"
 **Ledger D171:** include "Mob hours" (automatic, opt-in weekly study clock from real MockMob practice; one den line, a Mob bar, a weekly crown on the pennant, a Fold at the desk when a friend is studying now) in the minimal-Mob mock-ups for his judgement; not built until he approves.
+
+## Owner, 20 Oct about 2:40 pm IST (verbatim)
+> "Not an issue. Keep going at full speed. You can easily go for 1 to 2 hours on a 50% usage limit. After that, when your usage is above 95%, start stopping all your agents and start preparing the handoff with the exact stop point of each agent and what all is left. I'll then give that to the next agent with a proper prompt and goal, with the vision that we have discussed today. I'll be back in hour 2. Keep going until then."
+**Ledger D172:** full speed now; at usage above 95% stop every agent (TaskStop), STOP POINT commits, and write a handoff with each agent's exact stop point and what is left, plus a next-session prompt with the goal and today's vision. He returns in about 2 hours.
