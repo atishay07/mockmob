@@ -741,7 +741,8 @@ abstract final class MobV3Copy {
         ChainDayState.missed || ChainDayState.none => 'not practised',
       };
   static String makeUpProgress(int answered, int needed) => 'You have answered $answered of $needed today.';
-  static String mobChainTitle(int weeks) => '$weeks ${weeksInARow(weeks)}';
+  /// "3 weeks in a row", with "in a row" held together (non-breaking spaces) so a narrow column never leaves one word alone.
+  static String mobChainTitle(int weeks) => '$weeks ${weeks == 1 ? 'week' : 'weeks'} in a row';
   static const String weeksWord = 'weeks';
   static const String onTheWay = 'On the way';
 
@@ -1080,6 +1081,8 @@ abstract final class MobV4SheetsCopy {
   static String hoursOf(int target) => 'of ${hm(target)}';
   static String hoursSemantics(int total, int target) => 'Mob hours. ${hmSpoken(total)} of practice this week, of ${hmSpoken(target)}.';
   static const String hoursOffEveryone = 'Nobody is sharing study time yet.';
+  static String hoursNoMinutesYet(String mob) => 'No study time yet this week. It fills as $mob practises.';
+  static const String thisWeekFailed = 'This week did not load.';
   static const String hoursOffEveryoneNote = 'Turn on "Show my study time to my Mob" in Mob settings to share yours.';
   static const String hoursYouOff = 'Your study time is off. Turn on "Show my study time to my Mob" in Mob settings and your hours join this bar.';
   static const String hoursYouOn = 'You are sharing your study time. You can turn it off any time in Mob settings.';

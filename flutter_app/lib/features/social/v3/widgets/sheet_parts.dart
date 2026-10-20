@@ -6,8 +6,10 @@
 // caller passes one (the "Pro" tag is only ever passed when billing is on).
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../../widgets/mob_ring.dart' show MobColours;
@@ -27,6 +29,66 @@ void leaveSheetThen(BuildContext context, void Function(BuildContext navContext)
   final nav = Navigator.of(context, rootNavigator: true);
   dropSheet(context);
   open(nav.context);
+}
+
+/// Wraps a panel that opens in place under a row (a disclosure, a member menu, a Fold's detail). When [open] turns
+/// true the enclosing scroll view follows the panel as it grows (frame by frame for the length of the reveal) until
+/// its end is on screen, so a student near the foot of a sheet sees what opened, never only a turned chevron.
+/// With reduced motion the panel is simply brought into view at once.
+class KeepInView extends StatefulWidget {
+  const KeepInView({super.key, required this.open, required this.child});
+
+  final bool open;
+  final Widget child;
+
+  @override
+  State<KeepInView> createState() => _KeepInViewState();
+}
+
+class _KeepInViewState extends State<KeepInView> {
+  final GlobalKey _box = GlobalKey();
+  int _run = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.open) _follow();
+  }
+
+  @override
+  void didUpdateWidget(KeepInView old) {
+    super.didUpdateWidget(old);
+    if (widget.open && !old.open) _follow();
+  }
+
+  @override
+  void dispose() {
+    _run++;
+    super.dispose();
+  }
+
+  void _follow() {
+    final run = ++_run;
+    Duration? began;
+    void step(Duration stamp) {
+      if (!mounted || run != _run) return;
+      began ??= stamp;
+      final target = _box.currentContext;
+      if (target != null) {
+        Scrollable.ensureVisible(target, alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd);
+      }
+      if (!Motion.reduced(context) && stamp - began! < Motion.card + const Duration(milliseconds: 48)) {
+        SchedulerBinding.instance.addPostFrameCallback(step);
+        SchedulerBinding.instance.scheduleFrame();
+      }
+    }
+
+    SchedulerBinding.instance.addPostFrameCallback(step);
+    SchedulerBinding.instance.scheduleFrame();
+  }
+
+  @override
+  Widget build(BuildContext context) => KeyedSubtree(key: _box, child: widget.child);
 }
 
 class MobSheetLabel extends StatelessWidget {

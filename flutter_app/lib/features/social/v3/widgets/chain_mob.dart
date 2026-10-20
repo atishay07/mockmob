@@ -21,12 +21,15 @@ import 'quest_segments.dart';
 import 'sheet_parts.dart' show LinkKey;
 
 class ChainMobBody extends ConsumerStatefulWidget {
-  const ChainMobBody({super.key, required this.den, this.pennantWidth = 96, this.afterQuest, this.footer});
+  const ChainMobBody({super.key, required this.den, this.pennantWidth = 96, this.afterQuest, this.footer, this.crown = false});
 
   final DenView den;
 
   /// The This week sheet draws the pennant large.
   final double pennantWidth;
+
+  /// The week's crown at the latest stitch (This week, when Mob hours name someone who studied the most).
+  final bool crown;
 
   /// Drawn right under the quest card (Mob hours in the This week sheet).
   final Widget? afterQuest;
@@ -63,6 +66,34 @@ class _ChainMobBodyState extends ConsumerState<ChainMobBody> {
     }
   }
 
+  /// The pennant beside its title and line; at large text the pennant sits centred above them so the words keep a
+  /// readable column (the same test the Mob hours block uses).
+  Widget _header(BuildContext context, MobChainSummary chain, bool broke, String mob) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final stack = MediaQuery.textScalerOf(context).scale(16) > 18.5;
+    final pennant = ChainPennant(weeks: chain.weeks, width: widget.pennantWidth, crown: widget.crown);
+    final words = Column(
+      crossAxisAlignment: stack ? CrossAxisAlignment.center : CrossAxisAlignment.start,
+      children: [
+        Text(MobV3Copy.mobChainTitle(chain.weeks), textAlign: stack ? TextAlign.center : TextAlign.start, style: type.headline.copyWith(fontSize: 26, height: 1.08)),
+        const SizedBox(height: MmSpace.s8),
+        Text(broke ? MobV3Copy.newMobChain(chain.best) : MobV3Copy.mobChainLine(mob), textAlign: stack ? TextAlign.center : TextAlign.start, style: type.body.copyWith(color: colors.ink2)),
+        if (!broke) ...[
+          const SizedBox(height: MmSpace.s8),
+          Text(MobV3Copy.bestRun(chain.best), textAlign: stack ? TextAlign.center : TextAlign.start, style: type.small.copyWith(color: colors.ink3)),
+        ],
+      ],
+    );
+    if (stack) {
+      return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [Center(child: pennant), const SizedBox(height: MmSpace.s12), words]);
+    }
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [pennant, const SizedBox(width: MmSpace.s16), Expanded(child: words)],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = context.mmColors;
@@ -80,27 +111,7 @@ class _ChainMobBodyState extends ConsumerState<ChainMobBody> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            ChainPennant(weeks: chain.weeks, width: widget.pennantWidth),
-            const SizedBox(width: MmSpace.s16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(MobV3Copy.mobChainTitle(chain.weeks), style: type.headline.copyWith(fontSize: 26, height: 1.08)),
-                  const SizedBox(height: MmSpace.s8),
-                  Text(broke ? MobV3Copy.newMobChain(chain.best) : MobV3Copy.mobChainLine(mob), style: type.body.copyWith(color: colors.ink2)),
-                  if (!broke) ...[
-                    const SizedBox(height: MmSpace.s8),
-                    Text(MobV3Copy.bestRun(chain.best), style: type.small.copyWith(color: colors.ink3)),
-                  ],
-                ],
-              ),
-            ),
-          ],
-        ),
+        _header(context, chain, broke, mob),
         const SizedBox(height: MmSpace.s24),
         MmSurface.plain(
           padding: const EdgeInsets.all(MmSpace.s20),

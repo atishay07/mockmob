@@ -19,7 +19,7 @@ import 'chain_calendar.dart';
 import 'chain_paper.dart';
 import 'chain_strip.dart';
 import 'pause_sheet.dart';
-import 'sheet_parts.dart' show LinkKey;
+import 'sheet_parts.dart' show KeepInView, LinkKey;
 
 class ChainYouBody extends ConsumerStatefulWidget {
   const ChainYouBody({super.key, required this.chain});
@@ -144,11 +144,14 @@ class _ChainYouBodyState extends ConsumerState<ChainYouBody> {
             Flexible(child: LinkKey(label: MobV3Copy.hideChain, icon: LucideIcons.eyeOff, alignment: Alignment.centerRight, onPressed: _busy ? null : () => _hide(true))),
           ],
         ),
-        MmSizeEase(
-          duration: Motion.reduced(context) ? Duration.zero : Motion.card,
-          curve: Motion.glide,
-          alignment: Alignment.topCenter,
-          child: _pauseOpen ? const Padding(padding: EdgeInsets.only(top: MmSpace.s12), child: PauseInline(key: ValueKey('chain-pause-inline'))) : const SizedBox(width: double.infinity),
+        KeepInView(
+          open: _pauseOpen,
+          child: MmSizeEase(
+            duration: Motion.reduced(context) ? Duration.zero : Motion.card,
+            curve: Motion.glide,
+            alignment: Alignment.topCenter,
+            child: _pauseOpen ? const Padding(padding: EdgeInsets.only(top: MmSpace.s12), child: PauseInline(key: ValueKey('chain-pause-inline'))) : const SizedBox(width: double.infinity),
+          ),
         ),
         if (_error != null) ...[
           const SizedBox(height: MmSpace.s8),

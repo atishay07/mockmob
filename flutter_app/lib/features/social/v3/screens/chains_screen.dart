@@ -1,12 +1,14 @@
 // The Chains screen is gone (Mob V4, A5). The route stays only so old entry points keep working: it opens the
 // Your chain sheet (or, with [mobTab], the This week sheet) over the page underneath and takes itself off the
-// stack. Nothing here draws content.
+// stack, through the hooks in [V4Sheets] (so This week carries its Mob settings link). Nothing here draws content.
+// With nothing under it (a deep link or a restored stack) the Mob tab replaces the blank page instead.
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/router/routes.dart';
 import '../../../../core/theme/theme.dart';
-import '../widgets/this_week_sheet.dart';
-import '../widgets/your_chain_sheet.dart';
+import '../widgets/v4_sheet_hooks.dart';
 
 class ChainsScreen extends StatefulWidget {
   const ChainsScreen({super.key, this.mobTab = false});
@@ -27,8 +29,13 @@ class _ChainsScreenState extends State<ChainsScreen> {
       final nav = Navigator.of(context, rootNavigator: true);
       final route = ModalRoute.of(context);
       // Off the stack first, so the sheet rises over the page that opened this one and Back returns to it.
-      if (route != null && nav.canPop()) nav.removeRoute(route);
-      final open = widget.mobTab ? showThisWeekSheet : showYourChainSheet;
+      if (route != null && nav.canPop()) {
+        nav.removeRoute(route);
+      } else {
+        // Nothing to go back to: the Mob tab takes the blank page's place, and the sheet rises over it.
+        GoRouter.maybeOf(context)?.go(AppRoutes.mob);
+      }
+      final open = widget.mobTab ? V4Sheets.thisWeek : V4Sheets.yourChain;
       open(nav.context);
     });
   }

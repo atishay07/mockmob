@@ -12,6 +12,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
+import '../../../../core/motion/motion.dart';
 import '../../../../core/theme/theme.dart';
 import '../../../../core/widgets/widgets.dart';
 import '../copy_v3.dart';
@@ -44,12 +45,19 @@ class ThisWeekBody extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final den = ref.watch(denViewProvider);
-    if (den == null || den.mob == null) {
+    if (den != null && den.mob == null) {
+      // No Mob any more (left or removed): there is no week to show and Try again cannot help, so the sheet goes.
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (context.mounted) dropSheet(context);
+      });
+      return const SizedBox.shrink();
+    }
+    if (den == null) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(
-            MobV3Copy.settingsFailed,
+            MobV4SheetsCopy.thisWeekFailed,
             style: context.mmType.title.copyWith(color: context.mmColors.ink),
           ),
           const SizedBox(height: MmSpace.s16),
@@ -62,9 +70,11 @@ class ThisWeekBody extends ConsumerWidget {
     }
     final hours = den.v3.hours;
     final chain = ref.watch(chainProvider).value;
+    final large = MediaQuery.textScalerOf(context).scale(16) > 18.5;
     return ChainMobBody(
       den: den,
-      pennantWidth: 132,
+      pennantWidth: large ? 132 : 112,
+      crown: hours?.topMember != null,
       afterQuest: hours == null
           ? null
           : MobHoursBlock(den: den, hours: hours, onSettings: onSettings),
@@ -159,7 +169,6 @@ class MobHoursBlock extends StatelessWidget {
     final c = context.mmColors;
     final type = context.mmType;
     final off = hours.offForEveryone;
-    final top = hours.topMemberId;
     // At large text the figure sits under the title, so the title keeps its line.
     final large = MediaQuery.textScalerOf(context).scale(16) > 18.5;
     return MmSurface.plain(
@@ -225,20 +234,27 @@ class MobHoursBlock extends StatelessWidget {
             const SizedBox(height: MmSpace.s12),
             Semantics(
               container: true,
-              label: MobV4SheetsCopy.hoursSemantics(hours.totalMinutes, hours.targetMinutes),
+              label: MobV4SheetsCopy.hoursSemantics(
+                hours.totalMinutes,
+                hours.targetMinutes,
+              ),
               child: ExcludeSemantics(
                 child: Wrap(
                   crossAxisAlignment: WrapCrossAlignment.end,
                   spacing: MmSpace.s8,
                   children: [
                     _Figure(minutes: hours.totalMinutes),
-                    Text(MobV4SheetsCopy.hoursOf(hours.targetMinutes), style: type.small.copyWith(color: c.ink2)),
+                    Text(
+                      MobV4SheetsCopy.hoursOf(hours.targetMinutes),
+                      style: type.small.copyWith(color: c.ink2),
+                    ),
                   ],
                 ),
               ),
             ),
           ],
           if (off) ...[
+            // Nobody shares (the target is 150 minutes per sharing member, so 0 means nobody).
             const SizedBox(height: MmSpace.s16),
             Text(MobV4SheetsCopy.hoursOffEveryone, style: type.body),
             const SizedBox(height: MmSpace.s4),
@@ -260,21 +276,30 @@ class MobHoursBlock extends StatelessWidget {
             const SizedBox(height: MmSpace.s16),
             _Bar(fraction: hours.share),
             const SizedBox(height: MmSpace.s16),
-            if (top != null) ...[
-              _TopLine(member: _member(top), hours: hours),
-              const SizedBox(height: MmSpace.s12),
-            ],
-            for (final m in hours.members)
-              _MemberHours(
-                member: m,
-                who: _member(m.memberId),
-                top: m.memberId == top,
+            if (hours.noMinutesYet)
+              // Somebody shares but the week has only just begun: the figure reads 0 m and the bar is empty.
+              Text(
+                MobV4SheetsCopy.hoursNoMinutesYet(den.v3.name.text),
+                key: const ValueKey('tw-hours-empty'),
+                style: type.small.copyWith(color: c.ink2),
+              )
+            else ...[
+              if (hours.topMember case final MobHoursMember top) ...[
+                _TopLine(who: _member(top.memberId), top: top),
+                const SizedBox(height: MmSpace.s12),
+              ],
+              for (final m in hours.members)
+                _MemberHours(
+                  member: m,
+                  who: _member(m.memberId),
+                  top: m.memberId == hours.topMember?.memberId,
+                ),
+              const SizedBox(height: MmSpace.s8),
+              Text(
+                MobV4SheetsCopy.tickNote,
+                style: type.small.copyWith(color: c.ink2),
               ),
-            const SizedBox(height: MmSpace.s8),
-            Text(
-              MobV4SheetsCopy.tickNote,
-              style: type.small.copyWith(color: c.ink2),
-            ),
+            ],
             if (!hours.meSharing) ...[
               const SizedBox(height: MmSpace.s8),
               Text(
@@ -295,7 +320,7 @@ class MobHoursBlock extends StatelessWidget {
   }
 }
 
-/// "7 h 45 m": condensed numerals with the units small.
+/// "7 h 45 m": condensed numerals with the units small. Zero reads "0 m".
 class _Figure extends StatelessWidget {
   const _Figure({required this.minutes});
 
@@ -312,12 +337,13 @@ class _Figure extends StatelessWidget {
     return Text.rich(
       TextSpan(
         children: [
-          if (h > 0 || r == 0) ...[
+          if (h > 0) ...[
             TextSpan(text: '$h', style: big),
             TextSpan(text: ' h', style: unit),
           ],
-          if (r > 0) ...[
-            TextSpan(text: h > 0 ? '  $r' : '$r', style: big),
+          if (r > 0 || h == 0) ...[
+            if (h > 0) const WidgetSpan(child: SizedBox(width: 6)),
+            TextSpan(text: '$r', style: big),
             TextSpan(text: ' m', style: unit),
           ],
         ],
@@ -326,10 +352,45 @@ class _Figure extends StatelessWidget {
   }
 }
 
-class _Bar extends StatelessWidget {
+/// The calm lamp bar: it fills from empty to the week's share once (420 ms, the emphasised curve) after the
+/// sheet has settled. Reduced motion: it is simply drawn at its share. No glow, no stripes.
+class _Bar extends StatefulWidget {
   const _Bar({required this.fraction});
 
   final double fraction;
+
+  @override
+  State<_Bar> createState() => _BarState();
+}
+
+class _BarState extends State<_Bar> with SingleTickerProviderStateMixin {
+  // 300 ms of stillness while the sheet rises, then 420 ms of fill (no timer: the wait is part of the curve).
+  static const Duration _wait = Duration(milliseconds: 300);
+  static final Duration _total = _wait + Motion.emphasizedDuration;
+  late final AnimationController _c = AnimationController(vsync: this, duration: _total);
+  late final Animation<double> _t = CurvedAnimation(
+    parent: _c,
+    curve: Interval(_wait.inMilliseconds / _total.inMilliseconds, 1, curve: Motion.emphasized),
+  );
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    if (Motion.reduced(context)) {
+      _c.value = 1;
+    } else {
+      _c.forward();
+    }
+  }
+
+  @override
+  void dispose() {
+    _c.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -337,12 +398,15 @@ class _Bar extends StatelessWidget {
     return ExcludeSemantics(
       child: SizedBox(
         height: 6,
-        child: CustomPaint(
-          painter: _BarPainter(
-            fraction: fraction,
-            track: c.sunken,
-            fill: c.lamp,
-            mark: c.raised,
+        child: AnimatedBuilder(
+          animation: _t,
+          builder: (context, _) => CustomPaint(
+            painter: _BarPainter(
+              fraction: widget.fraction * _t.value,
+              track: c.sunken,
+              fill: c.lamp,
+              mark: c.raised,
+            ),
           ),
         ),
       ),
@@ -394,25 +458,21 @@ class _BarPainter extends CustomPainter {
       o.mark != mark;
 }
 
-/// The week's crown: "Riya studied the most", on the member who did (the server's `top_member_id`).
+/// The week's crown: "Riya studied the most", on the listed member the server named. It never names someone who
+/// is not in the shared list (the name and the minutes both come from [top], a listed member).
 class _TopLine extends StatelessWidget {
-  const _TopLine({required this.member, required this.hours});
+  const _TopLine({required this.who, required this.top});
 
-  final MobV3Member? member;
-  final MobHours hours;
+  final MobV3Member? who;
+  final MobHoursMember top;
 
   @override
   Widget build(BuildContext context) {
     final c = context.mmColors;
     final type = context.mmType;
-    if (hours.members.isEmpty) return const SizedBox.shrink();
-    final top = hours.members.firstWhere(
-      (m) => m.memberId == hours.topMemberId,
-      orElse: () => hours.members.first,
-    );
-    final name = member?.you == true
+    final name = who?.you == true
         ? MobV3Copy.tabYou
-        : (member?.name ?? top.firstName);
+        : (who?.name ?? top.firstName);
     return Row(
       children: [
         Icon(LucideIcons.crown, size: 20, color: c.lamp),
@@ -519,8 +579,8 @@ class _MemberHours extends StatelessWidget {
   }
 }
 
-/// Seven small ticks, one per day of the week, filled for the days the member met their own daily goal. The
-/// fifth is set a little taller: five of seven earns the week's tick.
+/// Seven small ticks, one per day of the week, filled volt for the days the member met their own daily goal. The
+/// fifth is set a little taller: five of seven earns the week's tick, a 16 dp volt badge with a check.
 class _GoalTicks extends StatelessWidget {
   const _GoalTicks({required this.days});
 
@@ -529,6 +589,7 @@ class _GoalTicks extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final c = context.mmColors;
+    final night = c.isNight;
     return FittedBox(
       fit: BoxFit.scaleDown,
       alignment: Alignment.centerLeft,
@@ -541,15 +602,27 @@ class _GoalTicks extends StatelessWidget {
               width: 14,
               height: i == _tickDays - 1 ? 10 : 6,
               decoration: BoxDecoration(
-                color: i < days ? c.ink2 : c.sunken,
+                color: i < days ? c.volt : c.sunken,
                 borderRadius: BorderRadius.circular(2),
-                border: i < days ? null : Border.all(color: c.line),
+                border: i < days
+                    ? (night ? null : Border.all(color: c.voltEdge))
+                    : Border.all(color: c.line),
               ),
             ),
           ],
           if (days >= _tickDays) ...[
             const SizedBox(width: MmSpace.s8),
-            Icon(LucideIcons.check, size: 14, color: c.accentText),
+            Container(
+              width: 16,
+              height: 16,
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: c.volt,
+                border: night ? null : Border.all(color: c.voltEdge),
+              ),
+              child: Icon(LucideIcons.check, size: 11, color: c.voltInk),
+            ),
           ],
         ],
       ),

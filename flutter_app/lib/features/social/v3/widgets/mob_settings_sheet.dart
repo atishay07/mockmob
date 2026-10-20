@@ -311,7 +311,10 @@ class _Reveal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MmSizeEase(duration: Motion.card, curve: Motion.glide, alignment: Alignment.topCenter, child: open ? child : const SizedBox(width: double.infinity));
+    return KeepInView(
+      open: open,
+      child: MmSizeEase(duration: Motion.card, curve: Motion.glide, alignment: Alignment.topCenter, child: open ? child : const SizedBox(width: double.infinity)),
+    );
   }
 }
 

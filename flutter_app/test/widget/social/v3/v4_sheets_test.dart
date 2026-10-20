@@ -202,6 +202,22 @@ void main() {
         expect(noText(tester, RegExp(r'₹|\bRs\b|per month')), isTrue);
       });
 
+      testWidgets('opening it scrolls the panel into view, so a Free member sees Get Pro', (tester) async {
+        await _open(tester, openMobSettingsSheet, SocialServer(scenario: 'formats', billing: 'free'), extra: [proNudgesOnProvider.overrideWithValue(true)]);
+        await tapAt(tester, find.text(MobV3Copy.freeProTitle));
+        final key = tester.getRect(find.byKey(const ValueKey('set-get-pro')));
+        expect(key.bottom, lessThanOrEqualTo(800));
+        expect(key.top, greaterThanOrEqualTo(0));
+      });
+
+      testWidgets('opening it scrolls the panel into view for a Pro member too', (tester) async {
+        await _open(tester, openMobSettingsSheet, SocialServer(scenario: 'formats', billing: 'pro'), extra: [proNudgesOnProvider.overrideWithValue(false)]);
+        await tapAt(tester, find.text(MobV3Copy.freeProTitle));
+        final line = tester.getRect(find.text(MobV3Copy.proIncluded));
+        expect(line.bottom, lessThanOrEqualTo(800));
+        expect(line.top, greaterThanOrEqualTo(0));
+      });
+
       testWidgets('a Pro member reads that every full mock is included and is offered nothing to buy', (tester) async {
         await _open(tester, openMobSettingsSheet, SocialServer(scenario: 'formats', billing: 'pro'), extra: [proNudgesOnProvider.overrideWithValue(false)]);
         await tapAt(tester, find.text(MobV3Copy.freeProTitle));
