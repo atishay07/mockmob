@@ -22,9 +22,8 @@
 // the signature covers the whole record, so there is no cheaper exact way to check it.
 import { PRACTICE_LIGHT_SELECT } from './practice_pick.js';
 import { answerReview } from './answer_corrections.mjs';
-import { excludeHeldFamilies } from './evidence_holds.js';
-import { eligibilitySnapshot, publicationEligibility } from './evidence_registry.js';
 import { readRowsCached } from './question_row_cache.js';
+import { evidenceVerdicts } from './evidence_verdicts.js';
 
 /** The one shared column list: every column except evidence and provenance, plus the json-path stubs. */
 export const QUESTION_READ_SELECT = PRACTICE_LIGHT_SELECT;
@@ -97,16 +96,6 @@ export async function reviewWithVerdict({ snapshot, current, detail, loadFull, e
  * The content hash of every question whose current evidence passes the publication gate, for the delayed-check
  * freshness test (src/app/api/recovery/route.js). Only the ids the caller will compare are read: a snapshot
  * without a stored content hash can never match. Returns { hashes: Map(id -> hash), unavailable }.
+ * Through the per-question verdict cache (data/evidence_verdicts.js): a call costs a stamp per question, not its 35 KB row.
  */
-export async function currentEvidenceHashes(db, questionIds, { chunk = 300 } = {}) {
-  const hashes = new Map();
-  for (let i = 0; i < questionIds.length; i += chunk) {
-    const { data, error } = await readFullQuestionRows(db, questionIds.slice(i, i + chunk));
-    if (error) return { hashes, unavailable: true };
-    let unheld;
-    try { unheld = await excludeHeldFamilies(data || [], db); } catch { return { hashes, unavailable: true }; }
-    const snapshot = unheld.length ? eligibilitySnapshot() : undefined;
-    for (const q of unheld) if (publicationEligibility(q, snapshot).eligible) hashes.set(q.id, q.evidence.record.content_hash);
-  }
-  return { hashes, unavailable: false };
-}
+export const currentEvidenceHashes = evidenceVerdicts;

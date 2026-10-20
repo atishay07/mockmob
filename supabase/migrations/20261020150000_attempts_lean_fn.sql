@@ -19,6 +19,12 @@
 --   'review'   (Review's mistakes, the repair record, the credits history: the question's place and chapter and its stem)
 --              question: id, chapter, question, body (a body equal to the stem is not shipped twice).   meta: mobPaper.
 --              `p_ids`, when given, limits the read to those attempts, so the function reduces only the papers asked for.
+--   'insights' (Insights, Where you stand, Compass, bests, the study record, analytics, and Ask Mobi's record and context: they read
+--              a question's place, chapter and difficulty and the paper's details, never its stem, options or passage)
+--              question: id, subject, internalSubject, chapter, difficulty, conceptId, familyId.   meta: the 'history' keys.
+--              About a tenth of a table row; the keys of 'plan' are all in it, so a plan read in the same request can reuse it.
+--   'record'   (the Recovery record, GET /api/recovery: the delayed-check freshness test and the paper labels)
+--              question: id, subject, chapter, conceptId, familyId, verificationEvidence reduced to {content_hash}.   meta: the 'plan' keys.
 --   'history'  (the result page's history, the Rule book, playbook, traps, Mobi's record, repairs)
 --              question: id, subject, internalSubject, chapter, difficulty, conceptId, familyId, options, question, body,
 --              correctIndex, correctAnswer, verificationEvidence reduced to {content_hash}.   meta: the 'plan' keys + recovery.
@@ -61,6 +67,12 @@ begin
   elsif p_profile = 'history' then
     q_keys := array['id','subject','internalSubject','chapter','difficulty','conceptId','familyId','options','question','body','correctIndex','correctAnswer','verificationEvidence'];
     m_keys := array['mode','sessionId','scoringVersion','durationMinutes','tonight','mobPaper','contentEvidence','learningPurpose','recovery'];
+  elsif p_profile = 'insights' then
+    q_keys := array['id','subject','internalSubject','chapter','difficulty','conceptId','familyId'];
+    m_keys := array['mode','sessionId','scoringVersion','durationMinutes','tonight','mobPaper','contentEvidence','learningPurpose','recovery'];
+  elsif p_profile = 'record' then
+    q_keys := array['id','subject','chapter','conceptId','familyId','verificationEvidence'];
+    m_keys := array['mode','sessionId','scoringVersion','durationMinutes','tonight','mobPaper','contentEvidence','learningPurpose'];
   elsif p_profile = 'review' then
     q_keys := array['id','chapter','question','body'];
     m_keys := array['mobPaper'];

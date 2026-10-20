@@ -8,7 +8,6 @@ import { randomUUID } from 'node:crypto';
 import { LAUNCH_SUBJECTS, publicSessionView } from '@/../shared/recoveryContract';
 import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck';
 import { episodeCheckQuestion, respondEpisode } from './learning';
-import { replayExposures } from '@/../data/mistake_replay';
 import { studyExposures } from './studyExposure';
 import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 
@@ -60,16 +59,16 @@ export async function startSession(userId, input) {
   const user = await Database.getUserById(userId);
   if (mode.premium && !user?.isPremium) throw new Error('PREMIUM_REQUIRED');
   const count = resolveCount(mode, Math.max(5, Math.min(50, Number(input.count) || 5)));
-  let exposures = [];
+  let exposures = null;
   if (input.recoveryFrom) {
     const previous = await Database.getAttemptById(input.recoveryFrom);
     if (!previous || previous.userId !== userId) throw new Error('SESSION_NOT_FOUND');
-    exposures = (await Database.getAttempts(userId, { columns: ['questions_snapshot'] })).flatMap(a => a.questionsSnapshot || []);
+    exposures = await Database.getAttemptExposures(userId); // the ids only (egress A9), not every paper whole
   }
   const result = await Database.getQuestions(selection.internalSubject, count, {
     mode: mode.id, userId, returnMeta: true, requestedCount: count,
     requireEvidence: true,
-    ...(input.recoveryFrom ? await studyExposures(userId,replayExposures([{ questionsSnapshot: exposures }])) : {}),
+    ...(input.recoveryFrom ? await studyExposures(userId,{ excludeQuestionIds: exposures.questionIds, excludeFamilyIds: exposures.familyIds }) : {}),
     chapter: typeof input.chapter === 'string' ? input.chapter : undefined,
     chapters: typeof input.chapters === 'string' ? input.chapters.split(',').slice(0,12) : undefined,
     generationKey: input.generationKey,

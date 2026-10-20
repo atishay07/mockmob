@@ -35,6 +35,15 @@ export function attemptLimit(limit) {
 //   slim 'history'  public.attempts_lean(p_user_id, 'history')         (same migration)
 //   slim 'review'   attempts_lean(p_user_id, 'review'[, p_ids]), else attempts_list_summary: the ids and chapters of each
 //                   question and its stem, for Review and the repair record (A6, A7)
+//   slim 'insights' attempts_lean(p_user_id, 'insights'), else attempts_list_summary: the question's id, subject, chapter and
+//                   difficulty (and its concept and family) without the stem, options or passage, for Insights, Where you
+//                   stand, Compass, bests, the study record and analytics. The summary function is only a stopgap for those routes:
+//                   it lacks conceptId and familyId, so an 'insights' read is never reused for a profile that needs them.
+//   slim 'insights_strict'  the same rows as 'insights' and never the summary function (the table is the second tier), so the
+//                   concept and family keys of 'plan' are guaranteed: Ask Mobi's record and context read this one, and the plan
+//                   inside the same request reuses it.
+//   slim 'record'   attempts_lean(p_user_id, 'record'): the keys of 'plan' plus each question's family and the content hash of its
+//                   evidence, for the Recovery record (GET /api/recovery).
 // They return the same twelve columns as the table, so attemptOut maps them unchanged. A function that is not there (PostgREST
 // PGRST202, Postgres 42883) is skipped, the next tier is tried, and the table read is the last tier; a missing function is not
 // asked again for five minutes. Any other error, a statement timeout (57014) above all, goes back to the caller: reading the whole
@@ -45,6 +54,9 @@ const listSummary = { fn: 'attempts_list_summary', args: (userId) => ({ p_user_i
 export const SLIM_PROFILES = Object.freeze({
   summary: Object.freeze([listSummary]),
   plan: Object.freeze([lean('plan')]),
+  record: Object.freeze([lean('record')]),
+  insights: Object.freeze([lean('insights'), listSummary]),
+  insights_strict: Object.freeze([lean('insights')]),
   history: Object.freeze([lean('history')]),
   review: Object.freeze([lean('review'), listSummary]),
 });
@@ -124,7 +136,7 @@ export async function readAttemptRows(db, userId, { columns, limit, slim, now = 
  * every later read gets its own copy, so one consumer mutating its attempts never changes another's. The memo
  * holds the promise, so two reads started together (Promise.all) still cost one.
  */
-export function memoisedAttempts(memo, key, load) {
+export function memoisedAttempts(memo, key, load, { take = null } = {}) {
   if (!(memo instanceof Map)) return load();
   if (!memo.has(key)) {
     const first = load();
@@ -133,17 +145,57 @@ export function memoisedAttempts(memo, key, load) {
     memo.set(key, stored);
     return first;
   }
-  return memo.get(key).then((value) => structuredClone(value));
+  // `take`: the entry is a longer list than asked for (attemptMemoKeyFor); the newest `take` rows are exactly the shorter read.
+  return memo.get(key).then((value) => structuredClone(take === null ? value : value.slice(0, take)));
 }
 
-// A slim read never shares a memo entry with a full one (or with another profile): their rows differ.
-// A slim read in a request that already holds the full read of the same attempts takes the full rows from the memo (a superset: every
-// consumer of a slim profile reads only fields the full row has), so adding a slim read next to an old full one never adds a read.
+// A slim read never shares a memo entry with a full one (or with another profile): their rows differ. Two exceptions, both exact:
+//  - A slim read in a request that already holds the full read of the same attempts takes the full rows from the memo (a superset:
+//    every consumer of a slim profile reads only fields the full row has), so adding a slim read next to an old full one never adds a read.
+//  - A profile whose keys are a subset of another's reuses that read (SLIM_SUPERSETS: 'history' keeps every key of 'insights_strict',
+//    'record' and 'plan', and so on), and a read of the whole list serves a read of its newest N (the order is total, so the first N
+//    rows are the newest N). One Ask Mobi message therefore reads the attempts once for its record, its context and its plan.
+// The 'insights' profile is not listed as a supplier: its second tier is the summary function, which lacks conceptId and familyId.
+export const SLIM_SUPERSETS = Object.freeze({
+  plan: Object.freeze(['record', 'insights_strict', 'history']),
+  record: Object.freeze(['history']),
+  insights: Object.freeze(['insights_strict', 'history']),
+  insights_strict: Object.freeze(['history']),
+});
+
+const memoPrefix = (userId, columns) => `${userId}|${attemptSelect(columns)}|`;
+const memoSlimPart = (slim) => (slimProfile(slim) ? `|slim:${slim}` : '');
+
+/**
+ * The memo key to read from: the exact key, or the key of an entry that holds at least these rows (see above). When the entry is a
+ * longer list than asked for, the caller takes the newest N of it (memoisedAttempts `take`).
+ */
 export function attemptMemoKeyFor(memo, userId, { columns, limit, slim } = {}) {
   if (slimProfile(slim) && memo instanceof Map) {
     const full = attemptMemoKey(userId, { columns, limit });
     if (memo.has(full)) return full;
   }
-  return attemptMemoKey(userId, { columns, limit, slim });
+  const own = attemptMemoKey(userId, { columns, limit, slim });
+  if (!(memo instanceof Map) || memo.has(own)) return own;
+  const wanted = attemptLimit(limit);
+  const prefix = memoPrefix(userId, columns);
+  const suffixes = slimProfile(slim) ? (SLIM_SUPERSETS[slim] || []).map(memoSlimPart) : [];
+  let best = null;
+  for (const key of memo.keys()) {
+    if (typeof key !== 'string' || !key.startsWith(prefix)) continue;
+    for (const suffix of suffixes) {
+      if (!key.endsWith(suffix)) continue;
+      const middle = key.slice(prefix.length, key.length - suffix.length);
+      if (!/^\d*$/.test(middle)) continue;
+      const held = middle === '' ? Infinity : Number(middle); // an empty limit is the whole list
+      if (held < (wanted ?? Infinity)) continue; // a shorter list cannot serve a longer read
+      if (!best || held < best.held) best = { key, held };
+    }
+  }
+  return best ? best.key : own;
 }
-export const attemptMemoKey = (userId, { columns, limit, slim } = {}) => `${userId}|${attemptSelect(columns)}|${attemptLimit(limit) ?? ''}${slimProfile(slim) ? `|slim:${slim}` : ''}`;
+/** The newest N a memo key's read must be cut to: null when the key is the read's own (nothing to cut). */
+export function attemptMemoTake(key, { userId, columns, limit, slim } = {}) {
+  return key === attemptMemoKey(userId, { columns, limit, slim }) ? null : attemptLimit(limit);
+}
+export const attemptMemoKey = (userId, { columns, limit, slim } = {}) => `${memoPrefix(userId, columns)}${attemptLimit(limit) ?? ''}${memoSlimPart(slim)}`;

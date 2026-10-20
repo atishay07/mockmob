@@ -18,7 +18,7 @@ export async function GET(request) {
     return NextResponse.json({ error: 'Too many requests' }, { status: 429, headers: NO_STORE });
   }
   try {
-    const attempts = await Database.getAttempts(session.user.id, { slim: 'summary' }); // the summary function: ids, details, timings and recovery stay
+    const attempts = await Database.getAttempts(session.user.id, { slim: 'insights' }); // the summary function: ids, details, timings and recovery stay
     return NextResponse.json(buildStudyRecord(attempts, computeBests(attempts)), { headers: NO_STORE });
   } catch (e) {
     console.error('[api/me/study-record] GET failed:', e);

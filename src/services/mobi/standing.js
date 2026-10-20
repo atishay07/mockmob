@@ -12,7 +12,7 @@ export const SUBJECT_NAMES = Object.fromEntries(SUBJECTS.flatMap((s) => [[s.id, 
 
 /** The student's standing. `attempts` may be passed in when the caller already read them. Throws when the record cannot be read. */
 export async function readStanding(userId, { attempts = null } = {}) {
-  const rows = attempts || await Database.getAttempts(userId, { limit: 60, slim: 'summary' });
+  const rows = attempts || await Database.getAttempts(userId, { limit: 60, slim: 'insights' });
   const scored = rows.map((a) => ({ ...a, subject: toPublicSubjectId(a.subject) }));
   const insights = computePrepOSInsights(scored, { subjectNames: SUBJECT_NAMES });
   // My colleges failing to load must not hide the band: the colleges are then simply absent.

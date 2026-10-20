@@ -87,7 +87,9 @@ export async function repairMistake({ user, attemptId, questionId, requestId, st
     },
     // "Traps you meet" rows for Fix it for good's history line ("This trap has caught you 4 times in 6 chances"). No model.
     trapRows: async (userId) => {
-      const attempts = openAttemptsOnly(await Database.getAttempts(userId));
+      // 'history' (egress A9): the keys, options and answers the trap builders read, without the rest of each question; the same
+      // read as GET /api/me/traps, whose rows this line repeats.
+      const attempts = openAttemptsOnly(await Database.getAttempts(userId, { slim: 'history' }));
       let atlas = null;
       try { atlas = await atlasForAttempts(attempts); } catch { atlas = null; }
       return buildTrapsMeet({ attempts, atlas }).rows;
