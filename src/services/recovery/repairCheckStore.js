@@ -10,6 +10,7 @@
 import { readablePracticeQuestions } from '../../../data/practice_library.js';
 import { PRACTICE_LIGHT_SELECT } from '../../../data/practice_pick.js';
 import { familyOf } from '../../../data/repair_check.js';
+import { readRowsCached } from '../../../data/question_row_cache.js';
 
 // The same visibility filter practice uses (data/db.js VISIBLE_QUESTION_FILTER).
 const VISIBLE = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
@@ -168,7 +169,8 @@ export function createCheckStore({ db, recordProgress, readable = readablePracti
     async verifyPublished(ids) {
       const out = new Map();
       for (const part of chunks(ids)) {
-        const { data, error } = await db.from('questions').select('*').in('id', part);
+        // The same candidate is read on the open and on the submit: a row whose updated_at has not moved is not read again.
+        const { data, error } = await readRowsCached(db, part);
         if (error) throw new Error('verify_unavailable');
         const ok = await readable((data || []).filter((row) => !row.is_deleted), db);
         for (const row of ok) out.set(row.id, row);

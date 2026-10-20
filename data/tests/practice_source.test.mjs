@@ -54,7 +54,9 @@ async function start(bank, { mode = 'quick', count = 10, opts = {}, slim = true,
 
 const isPoolRead = (call) => call.table === 'questions' && call.columns === PRACTICE_LIGHT_SELECT;
 const isManagedScan = (call) => call.table === 'questions' && call.columns === 'id' && !call.head;
-const isPickRead = (call) => call.table === 'questions' && call.filters.length === 1 && call.filters[0] === 'in:id';
+const isPickRead = (call) => call.table === 'questions' && call.columns === '*' && call.filters.length === 1 && call.filters[0] === 'in:id';
+// The stamp read of the row cache (egress F4): id and updated_at of the picked rows, about 70 bytes a row.
+const isStampRead = (call) => call.table === 'questions' && call.columns === 'id,updated_at' && call.filters.length === 1 && call.filters[0] === 'in:id';
 const isWholeSubjectRead = (call) => call.table === 'questions' && call.columns === '*' && call.rows > 100;
 
 test('the light select reads plain columns plus three json-path stubs, never the evidence or provenance record itself', () => {
@@ -82,7 +84,7 @@ test('a slim start sends the pool read in the light columns and reads full rows 
   const picks = db.calls.filter(isPickRead);
   assert.ok(picks.length >= 1 && picks.every((call) => call.columns === '*' && call.rows <= 100));
   assert.equal(db.calls.filter(isWholeSubjectRead).length, 0, 'no start reads the whole subject with every column');
-  const accounted = db.calls.filter((call) => isPoolRead(call) || isManagedScan(call) || isPickRead(call) || call.table === 'recovery_family_holds' || call.head);
+  const accounted = db.calls.filter((call) => isPoolRead(call) || isManagedScan(call) || isPickRead(call) || isStampRead(call) || call.table === 'recovery_family_holds' || call.head);
   assert.equal(accounted.length, db.calls.length, 'every request is one of the known shapes');
   assert.equal(db.calls.filter((call) => call.head).length, 1, 'a read takes the subject row count first: one head count, no body (egress F3)');
   assert.ok(pool.every((call) => !JSON.stringify(call).includes('physics')));

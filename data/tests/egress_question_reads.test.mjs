@@ -245,7 +245,7 @@ test('recovery: the per-question freshness flags are identical, reading only que
   for (const q of snaps) assert.equal(Boolean(flags(q, after.hashes, after.unavailable)), Boolean(flags(q, before.currentQuestions, before.evidenceUnavailable)), q.id);
   assert.ok(snaps.some((q) => flags(q, before.currentQuestions, false)), 'some check is still fresh');
   assert.ok(wantedIds.length < allIds.length, 'questions without a stored hash are not read');
-  const questionCalls = db.calls.filter((c) => c.table === 'questions');
+  const questionCalls = db.calls.filter((c) => c.table === 'questions' && c.select === '*'); // the ~70 byte stamp reads (id, updated_at) are not rows read in full
   assert.equal(questionCalls.reduce((n, c) => n + c.rows, 0), wantedIds.length === 0 ? 0 : now.filter((r) => wantedIds.includes(r.id)).length);
 });
 

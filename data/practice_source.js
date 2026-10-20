@@ -5,6 +5,7 @@
 import { readablePracticeQuestions } from './practice_library.js';
 import { PRACTICE_LIGHT_SELECT, PRACTICE_POOL_CACHE_MS } from './practice_pick.js';
 import { subjectCount, subjectToken, tokenUnchanged } from './subject_token.js';
+import { readRowsCached } from './question_row_cache.js';
 
 export const VISIBLE_QUESTION_FILTER = 'status.eq.live,and(verification_state.eq.verified,exploration_state.eq.active)';
 
@@ -102,7 +103,9 @@ export function createPracticeSource({ db, subjectId, mode, opts = {}, targetCou
     loadFullRows: async (ids) => {
       const rows = [];
       for (let i = 0; i < ids.length; i += 100) {
-        const { data, error } = await db.from('questions').select('*').in('id', ids.slice(i, i + 100));
+        // The newest-N window of managed rows is the same rows for every student: a row whose updated_at has not moved is not read
+        // again (data/question_row_cache.js; the verdicts are still computed fresh from the rows on every start).
+        const { data, error } = await readRowsCached(db, ids.slice(i, i + 100));
         if (error) throw error;
         rows.push(...(data || []));
       }
