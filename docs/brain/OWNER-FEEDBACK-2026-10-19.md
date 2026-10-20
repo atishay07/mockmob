@@ -989,3 +989,11 @@ Billing page: "Your grace period has started. Your organization went over its qu
 - App welcome line "Every lost mark has a pattern.": "Keep it as is (Recommended)"
 **Ledger D193:** the website's monthly Pro stays ₹99 a month (D135/D136 confirmed); the Razorpay plan is ₹99; Play stays ₹149.
 **Ledger D194:** the welcome hero line "Every lost mark has a pattern." stays; the "lost/behind/last" rule applies everywhere else.
+
+## Owner, 21 Oct about 12:28 am IST (verbatim)
+> "Three things:
+> 1. This disk is full. Why did this happen? We had a standing rule: a few days back, I had performed a disk cleanup with Claude only. At that time, that agent confirmed to me that it will take care of the files and every agent will, from now on, follow practices that will not fill up the space again. We were able to free up 200 GB just from deleting all the useless stuff. Now, again, in just barely 2, 3 days, you have filled 200 GB again. How is this even possible? I hope you are able to clean it again.
+> 2. I have deactivated and disabled the "Allow public access to channels" in Supabase. You can check it.
+> 3. In the Razorpay monthly plan, here's the subscription ID. [sub id given] 4. And this is the plan Id - plan_TqGToYjbnHIGxd
+> let me know if you need anything else from my side."
+**Ledger D195:** Supabase Realtime public channel access is OFF (owner, 12:28 am): MOB_LIVE_ENABLED=true set on Vercel production, live with the v16 web deploy. RAZORPAY_PLAN_ID_PRO_MONTHLY_99 = the owner's new ₹99 monthly plan, set on Vercel production; the website switches to monthly on the next deploy. Disk: worktree build output (.next, flutter build/, .dart_tool) must be deleted at the end of every wave; a sweep runs before any build.
