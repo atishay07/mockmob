@@ -109,21 +109,20 @@ abstract final class YouCopy {
   static const aimEmpty = 'Choose a course and colleges';
   static const planFree = 'Free plan';
 
-  // The plan strip near the top of You (K3 and K6, owner 20 Oct: "a button like Free plan, upgrade to Pro, visible at the
-  // top of the You section"; credits were "dug away at the bottom"). Two halves: the credits, which open the Wallet, and
-  // the plan, which opens the Pro page. Never a banner: the same quiet card as the rest of You.
+  // The plan strip near the top of You (K3 and K6, owner 20 Oct): the credits balance used to sit at the very bottom
+  // of You. Two halves: the credits, which open the Wallet, and the plan, which opens the Pro page. Never a banner: the
+  // same quiet card as the rest of You. The words that sell Pro are the Pro nudge copy, not these.
   static const stripCredits = 'Credits';
   static const stripToSpend = 'to spend';
   static const stripChecking = 'Checking';
   static const stripNotLoaded = 'Not loaded';
   static const stripFreePlan = 'Free plan';
-  static const stripUpgrade = 'Upgrade to Pro';
   static const stripYourPlan = 'Your plan';
   static const stripPro = 'Pro';
   static const stripProActive = 'Active';
   static String stripProUntil(String day) => 'Until $day';
   static String stripCreditsLabel(String figure) => 'Credits, $figure. Opens your Wallet.';
-  static const stripUpgradeLabel = 'Free plan. Upgrade to Pro. Opens the Pro page.';
+  static const stripOpensPro = 'Opens the Pro page.';
   static String stripProLabel(String note) => 'Your plan, Pro. $note. Opens your plan.';
   static const stripFreeLabel = 'Your plan, Free. Opens your Wallet.';
   static const planNoteUnloaded = 'Credits and history';

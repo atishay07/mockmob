@@ -15,6 +15,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/billing/billing_copy.dart';
 import 'package:mockmob/features/billing/widgets/pro_page.dart';
 import 'package:mockmob/features/practice/copy.dart';
+import 'package:mockmob/features/pro_nudge/copy.dart' show ProNudgeCopy;
 import 'package:mockmob/features/practice/widgets/choice_glyphs.dart';
 import 'package:mockmob/features/practice/widgets/practice_credit_line.dart';
 import 'package:mockmob/features/wallet/data/wallet_data.dart';
@@ -47,8 +48,7 @@ void main() {
       final lines = [
         YouCopy.stripCredits,
         YouCopy.stripFreePlan,
-        YouCopy.stripUpgrade,
-        YouCopy.stripUpgradeLabel,
+        YouCopy.stripOpensPro,
         BillingCopy.compareFullMockFirstFree,
         BillingCopy.compareFullMockFirstFreeNote,
         WalletCopy.firstMockWhy,
@@ -151,10 +151,10 @@ void main() {
     testWidgets('a Free student sees the balance, "Free plan" and "Upgrade to Pro", which opens the Pro page', (tester) async {
       await pump(tester);
       expect(find.text(YouCopy.stripFreePlan), findsOneWidget);
-      expect(find.text(YouCopy.stripUpgrade), findsOneWidget);
+      expect(find.text(ProNudgeCopy.gateAction), findsOneWidget);
       expect(find.textContaining('108'), findsOneWidget);
-      expect(find.bySemanticsLabel(YouCopy.stripUpgradeLabel), findsOneWidget);
-      await tester.tap(find.text(YouCopy.stripUpgrade));
+      expect(find.bySemanticsLabel('Free plan. Upgrade to Pro. Opens the Pro page.'), findsOneWidget);
+      await tester.tap(find.text(ProNudgeCopy.gateAction));
       await _settle(tester);
       expect(find.byType(ProPage), findsOneWidget);
       // The Pro page's light sweep runs on a timer: let it finish before the tree goes.
@@ -173,12 +173,12 @@ void main() {
     testWidgets('a Pro student sees their plan, never an upgrade', (tester) async {
       await pump(tester, pro: true);
       expect(find.text(YouCopy.stripPro), findsOneWidget);
-      expect(find.text(YouCopy.stripUpgrade), findsNothing);
+      expect(find.text(ProNudgeCopy.gateAction), findsNothing);
     });
 
     testWidgets('with Google Play off there is no upgrade key that leads nowhere', (tester) async {
       await pump(tester, playOn: false);
-      expect(find.text(YouCopy.stripUpgrade), findsNothing);
+      expect(find.text(ProNudgeCopy.gateAction), findsNothing);
       expect(find.text(YouCopy.stripFreePlan), findsOneWidget);
     });
 

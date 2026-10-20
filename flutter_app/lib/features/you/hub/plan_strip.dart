@@ -12,6 +12,7 @@ import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../billing/billing.dart';
 import '../../credits/credits.dart';
+import '../../pro_nudge/copy.dart' show ProNudgeCopy;
 import '../copy.dart';
 
 class YouPlanStrip extends ConsumerWidget {
@@ -61,7 +62,7 @@ class YouPlanStrip extends ConsumerWidget {
               Container(width: 1, color: colors.line),
               Expanded(
                 child: _Half(
-                  semanticsLabel: isPro ? YouCopy.stripProLabel(proNote) : (billingOn ? YouCopy.stripUpgradeLabel : YouCopy.stripFreeLabel),
+                  semanticsLabel: isPro ? YouCopy.stripProLabel(proNote) : (billingOn ? '${YouCopy.stripFreePlan}. ${ProNudgeCopy.gateAction}. ${YouCopy.stripOpensPro}' : YouCopy.stripFreeLabel),
                   onTap: openPlan,
                   // The plan half carries the Pro column's own light, the volt wash the Pro page's table gives Pro, so it
                   // reads as the way to the Pro page without a banner.
@@ -177,7 +178,7 @@ class _FreeHalf extends StatelessWidget {
               Text(upgrade ? YouCopy.stripFreePlan : YouCopy.stripYourPlan, style: type.caption.copyWith(color: colors.ink2)),
               const SizedBox(height: MmSpace.s4),
               Text(
-                upgrade ? YouCopy.stripUpgrade : YouCopy.stripFreePlan,
+                upgrade ? ProNudgeCopy.gateAction : YouCopy.stripFreePlan,
                 style: type.labelLarge.copyWith(color: upgrade ? colors.accentText : colors.ink, fontWeight: FontWeight.w700),
               ),
             ],
