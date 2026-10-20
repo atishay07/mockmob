@@ -8,7 +8,7 @@
 // Mob v3 (the server answers with the Mob's name): the page is the den's room with five seats, the Mob's name and subject,
 // your Fold, then Join (components/mob/join/). Signed out, the first key is sign-up and the invite waits for the account.
 // Without a name (v3 off) the weekly-paper page below stays as it was.
-import { useEffect, useId, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Logo } from '@/components/Logo';
@@ -21,6 +21,7 @@ import { mobFetch } from './useMob';
 import { MobSeats, PaperFacts, Promises } from './MobIntro';
 import { errorDetail } from './mobFormat';
 import { InviteIn, InviteOut, InviteNotice, InviteError, InviteLoading } from './join/JoinV3';
+import { MobFlow, explainerSeen } from './v3/explainer/MobFlow';
 import './mob.css';
 
 export const PENDING_KEY = 'mockmob_mob_join';
@@ -45,7 +46,7 @@ const JOIN_PROMISES = [
   ['Shared inside the Mob only', 'Members see each other\'s answers and scores. One switch turns yours off.'],
 ];
 
-export default function JoinMob({ code: rawCode, onJoined = null, codeHref = (c) => `/join/${c}` }) {
+export default function JoinMob({ code: rawCode, onJoined = null, codeHref = (c) => `/join/${c}`, billingOn = false, setupHref = '/mob?setup=1' }) {
   const code = normalizeCode(rawCode);
   const router = useRouter();
   const { user, status: authStatus } = useAuth();
@@ -117,6 +118,17 @@ export default function JoinMob({ code: rawCode, onJoined = null, codeHref = (c)
   const nameFailed = Boolean(errorCode?.startsWith('NAME'));
   const authLoading = authStatus === 'loading';
   const openCode = (c) => router.push(codeHref(c));
+  // D166: the first friend's link this account opens on this device plays the explainer over the invite (signed in, a v3
+  // invite). Slide 7 leads with Join <the Mob's name from the lookup>; Skip and that key return here with the code filled.
+  // Decided once per page, so marking it seen on slide 7 does not close it mid-slide.
+  const inviteEligible = v3 && !authLoading && signedIn;
+  const uid = user?.id || null;
+  const firstInvite = useMemo(() => (inviteEligible && uid ? !explainerSeen(uid) : false), [inviteEligible, uid]);
+  const [inviteDone, setInviteDone] = useState(false);
+  const closeInvite = (dest) => {
+    setInviteDone(true);
+    if (dest === 'setup') router.push(setupHref);
+  };
   return (
     <main className={v3 || invite.status !== 'valid' ? 'mob-join join-v3' : 'mob-join'}>
       <div className={wide || ['invalid', 'expired', 'full', 'paused', 'error'].includes(invite.status) ? 'mob-join__inner mob-join__inner--wide' : 'mob-join__inner'}>
@@ -135,6 +147,9 @@ export default function JoinMob({ code: rawCode, onJoined = null, codeHref = (c)
         {v3 && !authLoading && signedIn ? (
           <InviteIn info={info} user={user} fold={fold} setFold={setFold} name={name} setName={setName} nameError={nameFailed ? (error || DenCopy.nameRule) : null}
             error={nameFailed ? null : error} errorCode={errorCode} joining={joining} onJoin={join} />
+        ) : null}
+        {inviteEligible && firstInvite && !inviteDone ? (
+          <MobFlow mode="invite" userId={user.id} mobName={info?.name || null} billingOn={billingOn} setupHere={false} onClose={closeInvite} />
         ) : null}
         {invite.status === 'valid' && info && !v3 ? (
           <div className="mob-join__grid">

@@ -1,26 +1,27 @@
 "use client";
 // No Mob yet, on the web, when the server offers v3 (MOB-BUILD-SPEC-V3 5.3 D0, D0a, J1).
 //   D0: the lamp-lit room with your starter Fold and four dashed seats, the lead, "Start a Mob" and "Join with a code".
-//   D0a: a name from the kind list (six at a time), the subject, the Fold, your first name, a colour, then "Start <name>".
+//   D0a: the setup, one question per screen under a live den (v3/explainer/MobSetup), after the explainer the first time.
+//   The explainer (D166): the first Start a Mob or Join with a code on this device and account plays the 7 slides first;
+//   "How the Mob works" under the two keys replays it. Skip and slide 7's keys go where the student was heading.
 //   J1: six boxes (eight for an old code; a pasted link works), a preview with no names, the Fold, the name, then join.
 // Sharing inside the Mob is said before anyone starts or joins. Nothing is shown as done before the server answers.
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { Check } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { resolveSubject } from '@/../data/subject_registry';
 import { checkName, suggestName } from '@/lib/mob/model.mjs';
-import { MOB_NAMES } from '@/lib/mob/names.mjs';
 import { DenCopy, denError } from '@/lib/mob/v3/denCopy.mjs';
 import { STARTER_FOLDS, joinBoxes, parseJoinInput } from '@/lib/mob/v3/denModel.mjs';
 import { MobDialog } from '../MobDialog';
 import { mobFetch } from '../useMob';
 import { DenStage } from './DenStage';
 import { FoldFigure } from './FoldFigure';
-import { FoldPick, NameChips } from './DenSheets';
+import { FoldPick } from './DenSheets';
+import { MobFlow, explainerSeen } from '../v3/explainer/MobFlow';
+import { EXPLAINER_COPY } from '../v3/explainer/explainerModel.mjs';
 import { SUBJECTS_HREF } from './denRoutes';
 import './den.css';
-
-const COLOUR_NAMES = ['Teal', 'Sky', 'Violet', 'Rose', 'Amber', 'Green', 'Coral', 'Slate'];
 
 function subjectsFrom(user) {
   const seen = new Set();
@@ -34,23 +35,6 @@ function subjectsFrom(user) {
   return out;
 }
 
-function Colours({ value, onChange, name }) {
-  return (
-    <fieldset className="mob-colours">
-      <legend className="mob-label">{DenCopy.colourLabel}</legend>
-      <div className="mob-colours__row">
-        {COLOUR_NAMES.map((label, i) => (
-          <label key={label} className="mob-colour" title={label}>
-            <input type="radio" name={name} value={i} checked={value === i} onChange={() => onChange(i)} />
-            <span className="mob-disc mob-disc--pick" data-colour={i} aria-hidden="true">{value === i ? <Check size={16} strokeWidth={2.5} /> : null}</span>
-            <span className="sr-only">{label}</span>
-          </label>
-        ))}
-      </div>
-    </fieldset>
-  );
-}
-
 function NameInput({ id, label, value, onChange, error }) {
   return (
     <div className="mob-field">
@@ -59,64 +43,6 @@ function NameInput({ id, label, value, onChange, error }) {
         onChange={(e) => onChange(e.target.value)} aria-invalid={error ? true : undefined} aria-describedby={`${id}-hint`} />
       <p id={`${id}-hint`} className={error ? 'mob-hint mob-hint--bad' : 'mob-hint'}>{error || DenCopy.nameNote}</p>
     </div>
-  );
-}
-
-/** D0a. Start a Mob. */
-function StartSheet({ open, onClose, user, mob, fold, setFold }) {
-  const subjects = useMemo(() => subjectsFrom(user), [user]);
-  const [nameKey, setNameKey] = useState(0);
-  const [subject, setSubject] = useState(() => subjects[0]?.id || '');
-  const [name, setName] = useState(() => suggestName(user?.name || '', user?.email || ''));
-  const [colour, setColour] = useState(0);
-  const [error, setError] = useState(null);
-  const [nameError, setNameError] = useState(null);
-  const nameId = useId();
-  const start = async () => {
-    setError(null);
-    const checked = checkName(name);
-    if (!checked.ok) { setNameError(DenCopy.nameRule); return; }
-    setNameError(null);
-    const r = await mob.run('/api/mob', { subject, name: checked.name, colour, nameKey, fold }, { name: 'create' });
-    if (!r.ok) {
-      if (r.code?.startsWith('NAME') && r.code !== 'NAME_KEY_INVALID') setNameError(r.message);
-      else setError(denError(r));
-      return;
-    }
-    onClose();
-  };
-  return (
-    <MobDialog open={open} onClose={onClose} title={DenCopy.startMob} labelId="den-d0a-h">
-      <section className="den-sheet__section" aria-labelledby="den-d0a-name">
-        <h3 id="den-d0a-name" className="den-sheet__h">{DenCopy.pickName}</h3>
-        <NameChips value={nameKey} onChange={setNameKey} name="den-start-name" />
-      </section>
-      <section className="den-sheet__section" aria-labelledby="den-d0a-subject">
-        <h3 id="den-d0a-subject" className="den-sheet__h">{DenCopy.subjectYouPlay}</h3>
-        <div className="den-chips" role="radiogroup" aria-labelledby="den-d0a-subject">
-          {subjects.map((s) => (
-            <label key={s.id} className="den-chipopt">
-              <input type="radio" name="den-start-subject" value={s.id} checked={subject === s.id} onChange={() => setSubject(s.id)} />
-              <span>{s.name}</span>
-            </label>
-          ))}
-        </div>
-      </section>
-      <section className="den-sheet__section" aria-labelledby="den-d0a-fold">
-        <h3 id="den-d0a-fold" className="den-sheet__h">{DenCopy.pickFold}</h3>
-        <FoldPick folds={STARTER_FOLDS} value={fold} onChange={setFold} name="den-start-fold" />
-      </section>
-      <NameInput id={nameId} label={DenCopy.nameLabel} value={name} onChange={setName} error={nameError} />
-      <Colours value={colour} onChange={setColour} name="den-start-colour" />
-      <p className="mob-hint">{DenCopy.marksNote}</p>
-      <div className="den-sheet__foot den-sheet__foot--key">
-        <button type="button" className="btn-volt md den-sheet__key" onClick={start} disabled={mob.busy === 'create' || !subject}>
-          {mob.busy === 'create' ? DenCopy.starting : DenCopy.startKey(MOB_NAMES[nameKey] || '')}
-        </button>
-        <p className="mob-hint den-center">{DenCopy.startNext}</p>
-      </div>
-      <p className="mob-notice" role="status" aria-live="polite">{error || ''}</p>
-    </MobDialog>
   );
 }
 
@@ -215,28 +141,60 @@ export function JoinSheet({ open, onClose, user, mob, initialCode = '' }) {
   );
 }
 
-/** D0. No Mob yet. */
-export default function DenStart({ user, mob }) {
+/** Opened from an invite's "Start your Mob" (/mob?setup=1): the setup straight away, once the explainer was seen. */
+function wantsSetup() {
+  if (typeof window === 'undefined') return false;
+  try { return new URLSearchParams(window.location.search).get('setup') === '1'; } catch { return false; }
+}
+
+/** D0. No Mob yet. billingOn: the server's PLAY_BILLING_ENABLED (slide 3 of the explainer says the plan rule only then). */
+export default function DenStart({ user, mob, billingOn = false }) {
+  const router = useRouter();
   const subjects = useMemo(() => subjectsFrom(user), [user]);
   const [sheet, setSheet] = useState(null);
-  const [fold, setFold] = useState('dart');
+  const [flow, setFlow] = useState(() => (subjects.length && user?.id && explainerSeen(user.id) && wantsSetup() ? { mode: 'start', screen: 'setup' } : null));
+  const userId = user?.id || null;
+  // The Fold this student already sits as (from an earlier Mob), so the setup skips "Who will you be?" (D168). Until the
+  // read answers, or if it fails, the setup asks.
+  const [seatFold, setSeatFold] = useState(null);
+  useEffect(() => {
+    let alive = true;
+    mobFetch('/api/mob/shelf').then((r) => { if (alive && r.ok && typeof r.data?.seat?.fold === 'string') setSeatFold(r.data.seat.fold); });
+    return () => { alive = false; };
+  }, []);
+  const open = (mode) => {
+    // The first Start or Join on this device and account plays the explainer; after that they go straight on.
+    if (userId && explainerSeen(userId)) { if (mode === 'join') setSheet('join'); else setFlow({ mode: 'start', screen: 'setup' }); return; }
+    setFlow({ mode, screen: 'explainer' });
+  };
+  const closeFlow = (dest) => {
+    setFlow(null);
+    if (dest === 'join') setSheet('join');
+    else if (dest === 'subjects') router.push(SUBJECTS_HREF);
+  };
   return (
     <div className="den den--start">
-      <DenStage previewFold={fold} previewName={DenCopy.you} />
+      <DenStage previewFold="dart" previewName={DenCopy.you} />
       <p className="den-start__lead den-rise" style={{ '--d': '420ms' }}>{DenCopy.d0Lead}</p>
       {subjects.length ? (
         <div className="den-start__keys den-rise" style={{ '--d': '465ms' }}>
-          <button type="button" className="btn-volt md den-key" data-page-primary="" onClick={() => setSheet('start')}>{DenCopy.startMob}</button>
-          <button type="button" className="mob-key den-key" onClick={() => setSheet('join')}>{DenCopy.joinWithCode}</button>
+          <button type="button" className="btn-volt md den-key" data-page-primary="" onClick={() => open('start')}>{DenCopy.startMob}</button>
+          <button type="button" className="mob-key den-key" onClick={() => open('join')}>{DenCopy.joinWithCode}</button>
         </div>
       ) : (
         <div className="den-start__keys den-rise" style={{ '--d': '465ms' }}>
           <p className="mob-note">{DenCopy.noSubjects}</p>
           <Link className="btn-volt md den-key" data-page-primary="" href={SUBJECTS_HREF}>{DenCopy.chooseSubjects}</Link>
-          <button type="button" className="mob-key den-key" onClick={() => setSheet('join')}>{DenCopy.joinWithCode}</button>
+          <button type="button" className="mob-key den-key" onClick={() => open('join')}>{DenCopy.joinWithCode}</button>
         </div>
       )}
-      {sheet === 'start' ? <StartSheet open onClose={() => setSheet(null)} user={user} mob={mob} fold={fold} setFold={setFold} /> : null}
+      <p className="den-start__how den-rise" style={{ '--d': '510ms' }}>
+        <button type="button" className="mob-link" data-explainer-replay="" onClick={() => setFlow({ mode: 'start', screen: 'explainer' })}>{EXPLAINER_COPY.link}</button>
+      </p>
+      {flow ? (
+        <MobFlow mode={flow.mode} screen={flow.screen} userId={userId} billingOn={billingOn} subjects={subjects} seatFold={seatFold}
+          suggestedName={suggestName(user?.name || '', user?.email || '')} run={mob.run} busy={mob.busy} onClose={closeFlow} />
+      ) : null}
       {sheet === 'join' ? <JoinSheet open onClose={() => setSheet(null)} user={user} mob={mob} /> : null}
     </div>
   );

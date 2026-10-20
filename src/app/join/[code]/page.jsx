@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation';
 import { connection } from 'next/server';
+import { playBillingEnabled } from '@/lib/payments/playBilling';
 import JoinMobClient from '@/components/mob/JoinMob';
 
 // The public invite page: never indexed, never a name (SOCIAL-SPEC P1, P3). Behind MOB_ENABLED.
@@ -9,5 +10,5 @@ export default async function JoinMobPage({ params }) {
   await connection();
   if (process.env.MOB_ENABLED !== 'true') notFound();
   const { code } = await params;
-  return <JoinMobClient code={String(code || '').slice(0, 16)} />;
+  return <JoinMobClient code={String(code || '').slice(0, 16)} billingOn={playBillingEnabled()} />;
 }
