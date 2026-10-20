@@ -1,4 +1,7 @@
-// Pure helpers for optional, adult-only, first-party usage data. No I/O here.
+// Pure helpers for optional, first-party usage data. No I/O here.
+// D183 (owner, 20 Oct 2026): usage data is on for people who say they are 18 or older and for people who choose
+// "Rather not say" (age band 'unknown' with an answer); it is off only for a student who says they are under 18
+// (age band 'minor'). Anyone can switch it off, and switching it off deletes what was collected.
 export const POLICY_VERSION = '2026-10-12';
 export const CONSENT_LABEL = 'Allow usage data to improve MockMob';
 export const AGE_BANDS = ['adult', 'minor', 'unknown'];
@@ -10,8 +13,10 @@ const MAX_STR = 64;
 const PAST_MS = 7 * 24 * 3600 * 1000;
 const FUTURE_MS = 5 * 60 * 1000;
 
+// Collect only when the student allowed it, has not withdrawn, and did not say they are under 18.
+// A missing row, or a row with an unknown age band value, never collects.
 export function canCollect(row) {
-  return !!row && row.analytics_allowed === true && row.age_band === 'adult' && !row.withdrawn_at;
+  return !!row && row.analytics_allowed === true && AGE_BANDS.includes(row.age_band) && row.age_band !== 'minor' && !row.withdrawn_at;
 }
 
 export function validateProps(props) {

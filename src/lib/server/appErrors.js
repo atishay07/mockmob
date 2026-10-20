@@ -3,6 +3,7 @@
 // database is smaller still: the server scrubs every text field itself, trims it, and hashes it. Nothing here
 // reads or keeps a user id, an IP address or a user agent.
 import { createHash } from 'node:crypto';
+import { canCollect } from './usage.js';
 
 export const MAX_BATCH = 10;
 export const MAX_BODY_BYTES = 80_000;
@@ -178,9 +179,10 @@ export function normalizeBatch(errors) {
   return { rows: [...byHash.values()], dropped };
 }
 
-// Consent, the same rule as /api/events: usage data counts only when an adult allowed it and has not withdrawn.
+// Consent, the same rule as /api/events (D183): usage data counts only when the student allowed it, has not
+// withdrawn, and did not say they are under 18. "Rather not say" (age band unknown) counts as allowed when on.
 export function canCollectErrors(consent) {
-  return !!consent && consent.analytics_allowed === true && consent.age_band === 'adult' && !consent.withdrawn_at;
+  return canCollect(consent);
 }
 
 const JSON_HEADERS = { 'Cache-Control': 'no-store' };

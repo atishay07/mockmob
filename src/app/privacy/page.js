@@ -30,8 +30,8 @@ export default function PrivacyPage() {
             <p>We use your data to deliver mocks, track progress, power chapter review, provide sourced DU eligibility and historical comparisons, prevent abuse, moderate community questions, process payments, and improve the product.</p>
           </section>
           <section>
-            <h2>Optional usage data (from 12 October 2026)</h2>
-            <p>If you confirm you are 18 or older, you can choose Allow usage data to improve MockMob in Profile. It is off by default and stays off for people under 18 or who have not said. When on, we record which screens and steps were used, such as starting a session or opening a result, with the app version. We never collect answers, marks, free text or contacts. It is first-party only: no third-party tracking and no advertising. We keep it for 180 days. You can withdraw at any time, and withdrawing deletes what was collected.</p>
+            <h2>Optional usage data (updated 20 October 2026)</h2>
+            <p>Usage data is on for people who say they are 18 or older and for people who choose Rather not say. It is off for anyone who says they are under 18. Anyone can turn it off at any time, in Profile on the website or under You, then Privacy, in the app, and turning it off deletes what was collected. On the website you choose in Profile: it stays off until you answer the age question there and turn it on. When on, we record which screens and steps were used, such as starting a session or opening a result, with the app version. We never collect answers, marks, free text or contacts. It is first-party only: no third-party tracking and no advertising. We keep it for 180 days.</p>
           </section>
           {/* Held until the app build with the stream events and the Report this reply button is live (appReleaseGates.mjs). */}
           {APP_STREAM_AND_REPORT_LIVE ? (<>

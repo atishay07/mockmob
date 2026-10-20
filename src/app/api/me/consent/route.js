@@ -20,7 +20,7 @@ export async function PUT(request) {
   let body;
   try { body = await request.json(); } catch { return json({ error: 'Invalid request.' }, 400); }
   if (!body || !AGE_BANDS.includes(body.ageBand) || typeof body.analyticsAllowed !== 'boolean') return json({ error: 'Send ageBand (adult, minor or unknown) and analyticsAllowed (true or false).' }, 400);
-  if (body.analyticsAllowed && body.ageBand !== 'adult') return json({ error: 'Usage data can only be turned on for adults (18 or older).' }, 400);
+  if (body.analyticsAllowed && body.ageBand === 'minor') return json({ error: 'Usage data stays off for students under 18.' }, 400);
   const db = supabaseAdmin();
   const userId = session.user.id;
   const { data: prev, error: readError } = await db.from('usage_consent').select('*').eq('user_id', userId).maybeSingle();
@@ -35,7 +35,7 @@ export async function PUT(request) {
   const { data, error } = await db.from('usage_consent').upsert(row, { onConflict: 'user_id' }).select().single();
   if (error) return json({ error: 'Could not save your choice. Please try again.' }, 503);
   let deletedEvents = 0;
-  // Delete stored events on withdrawal, and whenever analytics is not allowed (minor/unknown).
+  // Delete stored events on withdrawal, and whenever analytics is not allowed (switched off, or under 18).
   if (!body.analyticsAllowed) {
     const { data: gone, error: delError } = await db.from('usage_events').delete().eq('user_id', userId).select('id');
     if (delError) return json({ error: 'Your choice was saved, but deleting earlier data failed. Please try again.' }, 503);

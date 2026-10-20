@@ -50,9 +50,11 @@ await call('profile accepts subjects', 'PATCH', `/api/users/${userId}`, { token,
 const after = (await call('auth/me after profile', 'GET', '/api/auth/me', { token })).json;
 assert.notEqual(after?.user?.isPremium, true, 'forged premium must not stick');
 
-// Consent: minors and unknown stay off; adults can opt in; withdrawal deletes events.
+// Consent (D183, 20 Oct 2026): under 18 stays off; 18 or older and "Rather not say" (unknown) can have usage data on; withdrawal deletes events.
+// The unknown step needs supabase/migrations/20261020160000_usage_consent_d183.sql applied on the project being checked.
 await call('consent default', 'GET', '/api/me/consent', { token });
-await call('consent refuses analytics for unknown age', 'PUT', '/api/me/consent', { token, body: { ageBand: 'unknown', analyticsAllowed: true }, expect: 400 });
+await call('consent refuses analytics for under 18', 'PUT', '/api/me/consent', { token, body: { ageBand: 'minor', analyticsAllowed: true }, expect: 400 });
+await call('consent accepts analytics for rather not say', 'PUT', '/api/me/consent', { token, body: { ageBand: 'unknown', analyticsAllowed: true } });
 await call('consent adult opt-in', 'PUT', '/api/me/consent', { token, body: { ageBand: 'adult', analyticsAllowed: true } });
 const ev = (n) => ({ event_id: `e2e-${Date.now()}-${n}`, name: 'app_opened', platform: 'android', app_version: '1.0.0', occurred_at: new Date().toISOString(), props: { screen: 'today' } });
 const sent = await call('events accepted for consenting adult', 'POST', '/api/events', { token, body: { events: [ev(1), ev(2)] }, expect: 202 });

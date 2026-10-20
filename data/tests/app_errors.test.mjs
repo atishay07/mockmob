@@ -124,10 +124,19 @@ test('normalizeBatch drops bad items, merges one hash into one row and bounds th
   assert.equal(normalizeBatch(Array.from({ length: MAX_BATCH }, (_, i) => good({ message: `m${'z'.repeat(i)}` }))).rows.length, MAX_BATCH);
 });
 
-test('consent follows the usage-data rule', () => {
+test('consent follows the usage-data rule (D183: 18 or older and Rather not say, never under 18)', () => {
   assert.equal(canCollectErrors({ analytics_allowed: true, age_band: 'adult', withdrawn_at: null }), true);
-  for (const row of [null, undefined, {}, { analytics_allowed: false, age_band: 'adult' }, { analytics_allowed: true, age_band: 'minor' }, { analytics_allowed: true, age_band: 'unknown' }, { analytics_allowed: true, age_band: 'adult', withdrawn_at: '2026-10-01' }]) {
-    assert.equal(canCollectErrors(row), false);
+  // "Rather not say" is the unknown band with usage data on.
+  assert.equal(canCollectErrors({ analytics_allowed: true, age_band: 'unknown', withdrawn_at: null }), true);
+  assert.equal(canCollectErrors({ analytics_allowed: true, age_band: 'unknown' }), true);
+  for (const row of [
+    null, undefined, {},
+    { analytics_allowed: false, age_band: 'adult' }, { analytics_allowed: false, age_band: 'unknown' },
+    { analytics_allowed: true, age_band: 'minor' }, { analytics_allowed: true, age_band: 'minor', withdrawn_at: null },
+    { analytics_allowed: true, age_band: 'adult', withdrawn_at: '2026-10-01' }, { analytics_allowed: true, age_band: 'unknown', withdrawn_at: '2026-10-01' },
+    { analytics_allowed: true }, { analytics_allowed: true, age_band: 'teen' }, { analytics_allowed: 'true', age_band: 'adult' },
+  ]) {
+    assert.equal(canCollectErrors(row), false, JSON.stringify(row));
   }
   assert.equal(appErrorsEnabled({}), true);
   assert.equal(appErrorsEnabled({ APP_ERRORS_ENABLED: 'off' }), false);
@@ -157,8 +166,16 @@ test('handler stores a scrubbed batch for a consenting student and returns count
   assert.equal(res.headers.get('cache-control'), 'no-store');
 });
 
+test('handler stores a batch for a student who chose Rather not say with usage data on', async () => {
+  const { deps, calls } = fakeDeps({ loadConsent: async () => ({ consent: { analytics_allowed: true, age_band: 'unknown', withdrawn_at: null } }) });
+  const res = await handleAppErrorsPost(post({ errors: [good()] }), deps);
+  assert.equal(res.status, 202);
+  assert.deepEqual(await res.json(), { accepted: 1, dropped: 0, collecting: true });
+  assert.equal(calls.record.length, 1);
+});
+
 test('handler stores nothing without consent, and never reaches the store', async () => {
-  for (const consent of [null, { analytics_allowed: false, age_band: 'adult' }, { analytics_allowed: true, age_band: 'minor' }, { analytics_allowed: true, age_band: 'adult', withdrawn_at: 'x' }]) {
+  for (const consent of [null, { analytics_allowed: false, age_band: 'adult' }, { analytics_allowed: false, age_band: 'unknown' }, { analytics_allowed: true, age_band: 'minor' }, { analytics_allowed: true, age_band: 'adult', withdrawn_at: 'x' }, { analytics_allowed: true, age_band: 'unknown', withdrawn_at: 'x' }]) {
     const { deps, calls } = fakeDeps({ loadConsent: async () => ({ consent }) });
     const res = await handleAppErrorsPost(post({ errors: [good()] }), deps);
     assert.equal(res.status, 202);
