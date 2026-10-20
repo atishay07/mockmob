@@ -9,6 +9,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import '../../../core/copy/sentences.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
@@ -168,7 +169,11 @@ class _Rung extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final r = rung;
-    final label = '${r.college}, ${r.course}. ${r.score.isEmpty ? MyCollegesCopy.noFigure : 'Closed at ${r.score}${r.outOf == null ? '' : ' of ${r.outOf}'}'}${r.dream ? '. Your dream pick' : ''}';
+    final label = joinSentences([
+      '${r.college}, ${r.course}',
+      r.score.isEmpty ? MyCollegesCopy.noFigure : 'Closed at ${r.score}${r.outOf == null ? '' : ' of ${r.outOf}'}',
+      if (r.dream) 'Your dream pick',
+    ]);
     final row = Semantics(
       container: true,
       label: label,

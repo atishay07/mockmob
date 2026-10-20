@@ -14,7 +14,7 @@ abstract final class GlanceCopy {
   static const String titleRepair = 'Repair your last paper';
   static const String titleRevise = 'Revise what came back';
   static const String titleWeakest = 'Practise your weakest chapter';
-  static const String titleStart = 'Find your starting point';
+  static const String titleStart = 'Your starting point';
   static const String titleFooting = 'Find your footing again';
   static const String titleMock = 'A full mock instead';
   static const String titleFirstMock = 'Your first full mock';

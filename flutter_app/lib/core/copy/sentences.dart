@@ -16,3 +16,11 @@ String joinSentences(Iterable<String?> parts) => [
   for (final p in parts)
     if (p != null && p.trim().isNotEmpty) endSentence(p),
 ].join(' ');
+
+/// [text] without a closing full stop, for a name that goes in front of a comma or a stop of its own: DU's
+/// "B.Com." read as "B.Com., 2026 Round 1." and "B.Com.. Closed at" until it was dropped here. Only one stop is
+/// taken, and an ellipsis is left whole.
+String withoutStop(String text) {
+  final t = text.trim();
+  return t.endsWith('.') && !t.endsWith('..') && !t.endsWith('…') ? t.substring(0, t.length - 1) : t;
+}

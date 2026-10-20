@@ -225,7 +225,7 @@ abstract final class YouCopy {
   static const celebrationsOffNote = 'Nothing extra. Your record still updates.';
   static const previewFull = 'A jump and a spark when something is finished.';
   static const previewQuiet = 'A small nod when something is finished.';
-  static const previewOff = 'No animation, the result just appears.';
+  static const previewOff = 'No animation. The result just appears.';
   static String previewLabel(String line) => 'Preview. $line Tap to see it again.';
   static const glassPreviewFull = 'Full glass: the blur follows what moves behind it.';
   static const glassPreviewLite = 'Lite glass: the tint and edge light, no blur.';

@@ -75,10 +75,12 @@ void main() {
       expect(m.secondary!.label, TodayCopy.fullMockInstead);
     });
 
-    test('day one at 20: the number, the why and the key all follow the length', () {
+    test('day one at 20: the number, its label and the key all follow the length', () {
       final m = moveOf(buildToday(ashaInputs(now: saturday, attempts: const [], week: threeOfFour, selectedMinutes: 20)));
       expect(m.number, '20');
-      expect(m.meaning, startsWith('Twenty CUET-style'));
+      // The count is the big number and the subject is its label, so the line under them does not say them again.
+      expect(m.numberLabel, contains('questions in'));
+      expect(m.meaning, startsWith('CUET-style'));
       expect(m.primary.label, 'Start now, 20 min');
       expect((m.primary.target as GoTo).location, contains('count=20'));
     });

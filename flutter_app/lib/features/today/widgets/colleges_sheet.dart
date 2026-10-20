@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../../../core/copy/sentences.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../tools/estimate/estimate.dart';
@@ -161,5 +162,5 @@ abstract final class TodayCollegesCopy {
   static String closedAt(String score, int? outOf) => outOf == null ? 'Closed at $score in Round 1' : 'Closed at $score of $outOf in Round 1';
   static const String addEstimate = 'Add your estimate in Colleges';
   static const String openColleges = 'Open Colleges';
-  static String rowSemantics(int n, String college, String course, String closed, String? gap) => '${['$n. $college', course, closed, ?gap].join('. ')}.';
+  static String rowSemantics(int n, String college, String course, String closed, String? gap) => joinSentences(['$n. $college', course, closed, gap]);
 }
