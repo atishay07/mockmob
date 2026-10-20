@@ -13,6 +13,7 @@ import { withPlanActions } from './actionFields';
 import { guidedSequence, istDay } from '@/../data/study_engine';
 import { goalMinutesOr } from '@/../data/goal_minutes';
 import { getDailyMinutes } from './appPrefs';
+import { weakConcepts as weakConceptsOf, weakChapters as weakChaptersOf } from '@/../data/learning_weak';
 
 export const durableLearningEnabled = () => process.env.LEARNING_SESSIONS_ENABLED === 'true';
 const readManifest = () => JSON.parse(readFileSync(`${process.cwd()}/data/recovery_pathways.json`, 'utf8'));
@@ -70,7 +71,9 @@ export async function learningRecord(userId, { subject, minutes, memo } = {}) {
   const goalMinutes = await getDailyMinutes(userId);
   if (minutes == null) minutes = goalMinutes ?? usual ?? undefined;
   const db = supabaseAdmin();
-  const attempts = await Database.getAttempts(userId, { memo }); // a caller that already read them in this request passes its memo
+  // The plan reads a few fields of each paper (ids, answers, the Tonight record, a question's chapter and concept), so the
+  // database reduces the snapshot before it ships (slim 'plan'; falls back to the whole row when the function is not applied).
+  const attempts = await Database.getAttempts(userId, { memo, slim: 'plan' }); // a caller that already read them in this request passes its memo
   const [episodeResult, sessionResult] = await Promise.all([
     db.from('learning_episodes').select('*').eq('user_id', userId).order('created_at', { ascending: false }),
     db.from('recovery_sessions').select('id,subject,mode,expires_at,selection_meta').eq('user_id', userId).eq('state', 'active').gt('expires_at', new Date().toISOString()).order('created_at', { ascending: false }).limit(1),
@@ -88,9 +91,8 @@ export async function learningRecord(userId, { subject, minutes, memo } = {}) {
   let suite = {};
   if (process.env.STUDY_GUIDED_PLAN_ENABLED === 'true') {
     try {
-      const weakConcepts=attempts.flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>attempt.questionsSnapshot?.find(q=>q.id===answer.qid)?.conceptId).filter(Boolean));
-      // Chapters behind recent ordinary mistakes point to the matching lesson, if one is published.
-      const weakChapters=attempts.slice(0,10).flatMap(attempt=>(attempt.details || []).filter(answer=>answer.isCorrect===false).map(answer=>{const q=attempt.questionsSnapshot?.find(q=>q.id===answer.qid);return q?.chapter ? {subject:q.subject || attempt.subject,chapter:q.chapter} : null;}).filter(Boolean));
+      const weakConcepts=weakConceptsOf(attempts);
+      const weakChapters=weakChaptersOf(attempts);
       const study = await studyRecord(userId,{subject:subject || undefined,weakConcepts,weakChapters,prefs:studyPrefs || undefined});
       if (study.state === 'ready') {
         const sequence = guidedSequence(plan,study,plan.minutes,{attempts:attempts.length});

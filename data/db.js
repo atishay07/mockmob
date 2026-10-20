@@ -1598,13 +1598,15 @@ export const Database = {
   // =====================================================================
   /**
    * Every attempt of one student, newest first. `columns` (attempts column names) and `limit` (newest N) narrow the read;
-   * `memo` (one Map per request) makes a second read of the same shape free. See data/attempt_reads.js. Without options
+   * `memo` (one Map per request) makes a second read of the same shape free; `slim` reads a reduced snapshot through a
+   * database function. See data/attempt_reads.js. Without options
    * this is the old full read.
    */
-  async getAttempts(userId, { columns, limit, memo } = {}) {
+  async getAttempts(userId, { columns, limit, memo, slim } = {}) {
     if (!userId) throw new Error('attempt_owner_required');
-    const load = async () => (await readAttemptRows(supabaseAdmin(), userId, { columns, limit })).map(attemptOut);
-    return memoisedAttempts(memo, attemptMemoKey(userId, { columns, limit }), load);
+    // `slim` ('summary' | 'plan' | 'history'): a database function reduces the snapshot before it is shipped (data/attempt_reads.js).
+    const load = async () => (await readAttemptRows(supabaseAdmin(), userId, { columns, limit, slim })).map(attemptOut);
+    return memoisedAttempts(memo, attemptMemoKey(userId, { columns, limit, slim }), load);
   },
 
   async getAttemptById(id) {

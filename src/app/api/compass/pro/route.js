@@ -23,7 +23,7 @@ export async function GET(request) {
   try {
     const user = await Database.getUserById(session.user.id);
     if (!user?.isPremium) return Response.json({ ok: true, locked: true }, { headers });
-    const attempts = (await Database.getAttempts(session.user.id, { limit: 60 })).map((a) => ({ ...a, subject: toPublicSubjectId(a.subject) }));
+    const attempts = (await Database.getAttempts(session.user.id, { limit: 60, slim: 'summary' })).map((a) => ({ ...a, subject: toPublicSubjectId(a.subject) }));
     const insights = computePrepOSInsights(attempts, { subjectNames: SUBJECT_NAMES });
     const projection = compassProjection(attempts, { subjectNames: SUBJECT_NAMES, rankedChapters: insights.chapters?.ranked || [] });
     return Response.json({ ok: true, locked: false, projection, sessions: insights.sessions || 0 }, { headers });

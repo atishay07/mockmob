@@ -11,7 +11,7 @@ export async function GET(request) {
     const userId=session.user.id;
     // The owner's own history: server-scored practice plus earlier browser-scored attempts,
     // which are labelled as such. Recovery evidence is computed separately (/api/recovery).
-    const attempts=await Database.getAttempts(userId);
+    const attempts=await Database.getAttempts(userId, { slim: 'summary' }); // snapshot id and chapter, details and scoring version stay
     const deviceScored=attempts.filter(a=>attemptScoring(a)==='device').length;
 
     // -------- Chapter-wise accuracy --------

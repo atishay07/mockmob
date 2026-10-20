@@ -28,11 +28,67 @@ export function attemptLimit(limit) {
   return n;
 }
 
+// Slim reads (egress items A1, A3, A4, A5, 20 Oct 2026). The attempts table ships `questions_snapshot` (93% of the bytes),
+// so a caller that reads only a few fields of it asks Postgres to do the reduction:
+//   slim 'summary'  the existing function public.attempts_list_summary(p_user_id) (applied on production 19 Oct)
+//   slim 'plan'     public.attempts_lean(p_user_id, 'plan')     (migration 20261020150000, written, NOT applied)
+//   slim 'history'  public.attempts_lean(p_user_id, 'history')  (same migration)
+// Both return the same twelve columns as the table, so attemptOut maps them unchanged. A function that is not there
+// (PostgREST PGRST202, Postgres 42883) falls back to the table read, and is not asked again for five minutes. Any other
+// error, a statement timeout (57014) above all, goes back to the caller: reading the whole heavy table when the database
+// is already under load would make it worse. The lean rows carry answer keys ('history'): they feed pure builders and never
+// go into a response body.
+export const SLIM_PROFILES = Object.freeze({
+  summary: { fn: 'attempts_list_summary', args: (userId) => ({ p_user_id: userId }) },
+  plan: { fn: 'attempts_lean', args: (userId) => ({ p_user_id: userId, p_profile: 'plan' }) },
+  history: { fn: 'attempts_lean', args: (userId) => ({ p_user_id: userId, p_profile: 'history' }) },
+});
+const SLIM_RETRY_MS = 5 * 60 * 1000;
+const slimMissingAt = new Map(); // function name -> when it was last found missing
+
+/** A function that is not there (PGRST202, 42883). Nothing else is "missing". */
+export function slimFunctionMissing(error) {
+  return error?.code === 'PGRST202' || error?.code === '42883';
+}
+
+export function slimProfile(slim) {
+  if (slim === undefined || slim === null) return null;
+  if (!Object.hasOwn(SLIM_PROFILES, slim)) throw new Error('attempt_slim_unknown');
+  return slim;
+}
+
+/** Test hook: forget which functions were missing. */
+export function resetSlimState() { slimMissingAt.clear(); }
+
+async function readSlimRows(db, userId, slim, max, now) {
+  const profile = SLIM_PROFILES[slim];
+  const rows = [];
+  for (let offset = 0; ; offset += PAGE) {
+    const size = max === null ? PAGE : Math.min(PAGE, max - rows.length);
+    const { data, error } = await db.rpc(profile.fn, profile.args(userId))
+      .order('completed_at', { ascending: false }).order('id').range(offset, offset + size - 1);
+    if (error) {
+      if (slimFunctionMissing(error)) { slimMissingAt.set(profile.fn, now()); return null; }
+      throw error;
+    }
+    rows.push(...(data || []));
+    if (!data || data.length < size || (max !== null && rows.length >= max)) break;
+  }
+  return rows;
+}
+
 /** Raw rows, newest first (completed_at desc, id asc), paged by 1000. Throws the database error. */
-export async function readAttemptRows(db, userId, { columns, limit } = {}) {
+export async function readAttemptRows(db, userId, { columns, limit, slim, now = Date.now } = {}) {
   if (!userId) throw new Error('attempt_owner_required');
   const select = attemptSelect(columns);
   const max = attemptLimit(limit);
+  if (slimProfile(slim) && typeof db.rpc === 'function') {
+    const missedAt = slimMissingAt.get(SLIM_PROFILES[slim].fn);
+    if (missedAt === undefined || now() - missedAt >= SLIM_RETRY_MS) {
+      const viaRpc = await readSlimRows(db, userId, slim, max, now);
+      if (viaRpc) return viaRpc;
+    }
+  }
   const rows = [];
   for (let offset = 0; ; offset += PAGE) {
     const size = max === null ? PAGE : Math.min(PAGE, max - rows.length);
@@ -62,4 +118,5 @@ export function memoisedAttempts(memo, key, load) {
   return memo.get(key).then((value) => structuredClone(value));
 }
 
-export const attemptMemoKey = (userId, { columns, limit } = {}) => `${userId}|${attemptSelect(columns)}|${attemptLimit(limit) ?? ''}`;
+// A slim read never shares a memo entry with a full one (or with another profile): their rows differ.
+export const attemptMemoKey = (userId, { columns, limit, slim } = {}) => `${userId}|${attemptSelect(columns)}|${attemptLimit(limit) ?? ''}${slimProfile(slim) ? `|slim:${slim}` : ''}`;

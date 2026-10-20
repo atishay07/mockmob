@@ -27,13 +27,16 @@ export async function GET(request, { params }) {
     const hold = attemptHold(attempt);
     if (hold) return NextResponse.json(heldAttemptView(attempt, hold), { headers: { 'Cache-Control': 'no-store' } });
     const reviews = await readAnswerReviews(attempt);
-    // The student's attempts are read once for this request: the history below and the paper's "Mock 3" name share it.
+    // The student's attempts are read once for this request: the history below and the paper's "Mock 3" name share it. The
+    // history is read through the lean function (slim 'history': the keys, options and meta the builders read, not the
+    // explanations and evidence of every question of every paper); the paper on screen was read whole above. The lean rows
+    // feed the pure builders only and never go into the response body.
     const memo = new Map();
     // F17: which of this paper's wrong answers already hold a saved repair (they open at once and never offer a paid
     // repair again), and which paper this is. Each is additive and left out on its own failure.
     const [savedRepairs, paper] = await Promise.all([
       getSavedRepairs(supabaseAdmin(), session.user.id, attempt).catch((e) => { console.warn('[api/attempts/:id] savedRepairs skipped:', e?.message); return undefined; }),
-      Database.getAttempts(session.user.id, { memo }).then((all) => ({ source: sourceLabel(all, attempt), completedAt: Number(attempt.completedAt) || null })).catch((e) => { console.warn('[api/attempts/:id] paper skipped:', e?.message); return undefined; }),
+      Database.getAttempts(session.user.id, { memo, slim: 'history' }).then((all) => ({ source: sourceLabel(all, attempt), completedAt: Number(attempt.completedAt) || null })).catch((e) => { console.warn('[api/attempts/:id] paper skipped:', e?.message); return undefined; }),
     ]);
     // Everything read from the history is additive: if the history cannot be read, the result still loads
     // without it. Each part fails on its own (data/mock_swot.js resultHistory):
@@ -56,7 +59,7 @@ export async function GET(request, { params }) {
       attempt,
       answerReviews: reviews.answerReviews,
       answerReviewState: reviews.answerReviewState,
-      loadAttempts: () => Database.getAttempts(session.user.id, { memo }),
+      loadAttempts: () => Database.getAttempts(session.user.id, { memo, slim: 'history' }),
       recapOf: buildRecap,
       missedBeforeOf: buildMissedBefore,
       cohortOf: (input) => readCohortWithTime(input),

@@ -18,7 +18,7 @@ export async function GET(request) {
   const subject = parseSubject(new URL(request.url).searchParams.get('subject'));
   if (subject === undefined) return NextResponse.json({ error: 'invalid_request', message: 'subject must be a subject id.' }, { status: 422, headers: NO_STORE });
   try {
-    const attempts = openAttemptsOnly(await Database.getAttempts(session.user.id)); // a held Mob paper stays out (paperHold.mjs)
+    const attempts = openAttemptsOnly(await Database.getAttempts(session.user.id, { slim: 'history' })); // a held Mob paper stays out (paperHold.mjs)
     const sources = await loadRuleSources(session.user.id, attempts);
     return NextResponse.json(playbookBody({ attempts, sources, subject }), { headers: NO_STORE });
   } catch (e) {
@@ -37,7 +37,7 @@ export async function POST(request) {
   const body = await request.json().catch(() => null);
   try {
     const userId = session.user.id;
-    const attempts = openAttemptsOnly(await Database.getAttempts(userId));
+    const attempts = openAttemptsOnly(await Database.getAttempts(userId, { slim: 'history' }));
     const sources = await loadRuleSources(userId, attempts);
     const out = await postPlaybook({ body, attempts, sources, write: (rule, opts) => writeRule(userId, rule, opts) });
     return NextResponse.json(out.body, { status: out.status, headers: NO_STORE });
