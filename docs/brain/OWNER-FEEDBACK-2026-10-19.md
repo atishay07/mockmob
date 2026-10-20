@@ -755,3 +755,11 @@ He pasted the handoff prompt `docs/brain/NEXT-PROMPT-1019-NIGHT.md` (same text) 
 **Ledger K9:** the Mob's feature set is unclear even to him after the explainer prototype: explain plainly what students can do; the explainer must make the feature set obvious (what you can start, when, with whom, what happens after).
 - Build next (his answer, multi-select): "Timed races (5 or 10 min), Full mock together, Live rooms on"
 **Ledger D167:** build timed Mob races (5 or 10 minutes, as many questions as you can), Full mock together (the whole Mob sits a full mock within 24 hours and compares mark sheets), and turn live rooms on after the presence fix (L-55) passes. Trap-based Fix it together was not chosen now.
+
+## Owner, 20 Oct about 2:20 pm IST (verbatim)
+> "All the things that you suggested were good additions, but the issue is that none of it is more defensible. The traps feature, I declined it because it would just complicate things more.
+>
+> Right now, just focus on building a clean UI. I don't want Mob to be inside Mob and also be overloaded with features and multiple screens. It should be very clean and minimalistic, with very clear things about what to do and from where. Adding more and more would make it like an app inside an app. This is one of the main things which I have previously noted also when bloating a feature with too many features. Be sure that it doesn't happen.
+>
+> Obviously, at this point, the only defensible mode can be world-class, best-in-class UI, UX, overall animations of the characters, and in general. The experiential mode is the only thing we can play on right now. All of the features that we have, any other CUET platform can incorporate into their app in a day or two easily. They can't easily incorporate our design taste, animation, and motion. That is, even though it is not a proper mode, at least it's something, because experience also matters."
+**Ledger D168:** the Mob's moat is experience (best-in-class UI/UX, character animation, motion, taste), not features. Priority now: a clean, minimal Mob with obvious "what to do, from where"; no app-inside-an-app, no feature bloat, few screens. Trap-based fixes declined (too complex).
