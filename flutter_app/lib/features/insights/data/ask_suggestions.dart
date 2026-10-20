@@ -145,7 +145,7 @@ AskSuggestion? _history(String? chapter, PrepInsights? v) {
     return AskSuggestion(text: text, price: AskPrice.free, answer: RecordAnswer(AskSheetCopy.noChapterYet(chapter)));
   }
   final preview = AskSheetCopy.wrongOf(line.wrong, line.n, line.sessions);
-  final open = line.lost > 0 ? ' ${line.lost > line.offer ? '${_plural(line.lost, 'mark')} lost there.' : '${line.lost} of the ${line.offer} marks on offer lost there.'}' : '';
+  final open = line.lost > 0 ? ' ${line.lost > line.offer ? '${_plural(line.lost, 'mark')} slipped there.' : '${line.lost} of the ${line.offer} marks on offer slipped there.'}' : '';
   return AskSuggestion(
     text: text,
     price: AskPrice.free,
@@ -253,7 +253,7 @@ abstract final class AskSheetCopy {
   static String noChapterYet(String chapter) => 'Your record has no answers in $chapter yet. This is the first time it comes up.';
   static const planPreview = 'A written plan built from your record';
   static const explainPreview = 'A written explanation in plain words';
-  static const mockOpeningTitle = 'Where the lost marks went';
+  static const mockOpeningTitle = 'Where the marks slipped';
   static const creditsAnswer = 'Questions about your own practice are free and answered from your record. Anything else gets a '
       'written reply for 1 credit, and the price shows before you send. Free includes 50 credits a month and Pro 50; '
       'bought credits never expire. A reply that fails costs nothing.';
@@ -263,11 +263,11 @@ abstract final class AskSheetCopy {
   static const firstCheck = 'Take a 10-question check';
   static const firstCheckHref = '/dashboard?mode=quick';
   static String ledgerLine(int net, int gained, int penalty, int questions) =>
-      'Net $net marks from $questions answers: $gained gained, $penalty lost to wrong answers';
+      'Net $net marks from $questions answers: $gained gained, $penalty taken by wrong answers';
   /// With [tiedWith] other chapters that lost the same marks it says so, as Today's glance does (owner I14):
   /// "Biggest leak: Ray Optics, tied with 1 other chapter, 6 marks lost, 1 wrong of 4".
   static String leakLine(String chapter, int lost, int wrong, int n, {int tiedWith = 0}) =>
-      'Biggest leak: $chapter${tiedWith > 0 ? ', tied with $tiedWith other chapter${tiedWith == 1 ? '' : 's'}' : ''}, $lost marks lost, $wrong wrong of $n';
+      'Biggest leak: $chapter${tiedWith > 0 ? ', tied with $tiedWith other chapter${tiedWith == 1 ? '' : 's'}' : ''}, $lost marks slipped, $wrong wrong of $n';
   static String paceLine(String median, int timed) => 'Pace: a typical question takes $median, over $timed timed answers';
   static const openCredits = 'Open credits';
   static const walletPaused = 'AI replies are paused. Record questions still work.';

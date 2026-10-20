@@ -88,9 +88,9 @@ void main() {
       expect(c.available, 50);
       expect(c.overdrawn, isTrue);
       expect(c.share, 1);
-      expect(c.marksLine, 'All 50 marks lost, 10 more taken off');
+      expect(c.marksLine, 'All 50 marks slipped, 10 more taken off');
       final d = weakChapters(MoveAnalysis([_row(1, 'B', RowVerdict.wrong), _row(2, 'B', RowVerdict.correct)])).single;
-      expect(d.marksLine, '6 of 10 marks lost');
+      expect(d.marksLine, '6 of 10 marks slipped');
       expect(d.counts, '1 wrong, of 2 questions.');
     });
 
@@ -310,8 +310,8 @@ void main() {
       );
       expect(find.byType(WeakChapterRow), findsNWidgets(2));
       expect(find.text('Accountancy'), findsNWidgets(2));
-      expect(find.text('51 of 50 marks lost'), findsNothing);
-      expect(find.text('All 50 marks lost, 1 more taken off'), findsOneWidget);
+      expect(find.text('51 of 50 marks slipped'), findsNothing);
+      expect(find.text('All 50 marks slipped, 1 more taken off'), findsOneWidget);
       await tester.tap(find.byType(KeyButton).last);
       expect(opened, ['Goodwill']);
     });

@@ -28,7 +28,7 @@ enum Stage {
 /// What costs the student the most marks, in their words. Each one really changes the first
 /// move (directions-final 0.7): its subject or its framing, and Mobi's one line.
 enum Worry {
-  knewIt('I knew it and still got it wrong', "You knew it and still lost it? That's a trap, not a gap.", "That's a trap, not a gap.", 'knew it, still got it wrong'),
+  knewIt('I knew it and still got it wrong', "You knew it and it still slipped? That's a trap, not a gap.", "That's a trap, not a gap.", 'knew it, still got it wrong'),
   time('The last 10 questions, no time left', 'Then we train the clock with short, frequent sessions.', 'We train the clock.', 'the last 10 questions'),
   numericals('Accounts numericals take me forever', 'Numericals get faster with reps, not with rereading.', 'Reps beat rereading.', 'Accounts numericals'),
   passages('English passages eat my time', "Passages reward a method. We'll build yours.", "We'll build a method.", 'English passages'),

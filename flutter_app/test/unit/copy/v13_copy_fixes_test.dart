@@ -47,14 +47,14 @@ void main() {
     ]);
 
     test('the lost marks are said as two plain amounts', () {
-      expect(ResultCopy.negativeLoss(1, 9), 'You lost 6 marks to 1 wrong answer and left 45 unearned.');
-      expect(ResultCopy.negativeLoss(3, 0), 'You lost 18 marks to 3 wrong answers.');
+      expect(ResultCopy.negativeLoss(1, 9), '6 marks slipped on 1 wrong answer and 45 were left unearned.');
+      expect(ResultCopy.negativeLoss(3, 0), '18 marks slipped on 3 wrong answers.');
     });
 
     test('the costliest line leads with the loss and the chapter follows with its counts', () {
       expect(practice.marks.scored, -1);
       final c = costliestLine(practice);
-      expect(c.line, 'You lost 6 marks to 1 wrong answer and left 45 unearned.');
+      expect(c.line, '6 marks slipped on 1 wrong answer and 45 were left unearned.');
       expect(c.detail, 'Financial Markets: 6 questions, 1 wrong, 5 blank, 31 marks.');
       expect(c.chapter, 'Financial Markets');
       expect(c.line, isNot(contains('you missed')));
@@ -84,18 +84,18 @@ void main() {
     test('the same number every time is "in each of your last N"', () {
       expect(
         RulesCopy.neverOpenedLine('Never opened, last 3 Business Studies mocks, oldest first: 49, 49 and 49 of 50.'),
-        'You left 49 of 50 questions unopened in each of your last 3 Business Studies mocks.',
+        'You left 49 of 50 questions unopened in each of your latest 3 Business Studies mocks.',
       );
     });
 
     test('numbers that differ keep their order', () {
       expect(
         RulesCopy.neverOpenedLine('Never opened, last 2 Accountancy mocks, oldest first: 0 and 49 of 50.'),
-        'In your last 2 Accountancy mocks you left 0 and 49 of 50 questions unopened, oldest first.',
+        'In your latest 2 Accountancy mocks you left 0 and 49 of 50 questions unopened, oldest first.',
       );
       expect(
         RulesCopy.neverOpenedLine('Never opened, last 3 Accountancy mocks, oldest first: 7, 6 and 4 of 50.'),
-        'In your last 3 Accountancy mocks you left 7, 6 and 4 of 50 questions unopened, oldest first.',
+        'In your latest 3 Accountancy mocks you left 7, 6 and 4 of 50 questions unopened, oldest first.',
       );
     });
 

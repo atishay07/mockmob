@@ -195,10 +195,10 @@ void main() {
       final a = studentUpTo(Steps.worry).copyWith(worries: const [Worry.time, Worry.passages]);
       expect(FirstMove.of(a).subject, SheetSubject.english);
       expect(FirstMove.of(a).framing, 'Answer at exam pace, about a minute each.', reason: 'the primary frames it');
-      expect(PlanSummary.worriesLine(a), 'You said you lose marks on the last 10 questions first, then on English passages.');
+      expect(PlanSummary.worriesLine(a), 'You said your marks slip on the last 10 questions first, then on English passages.');
       expect(
         PlanSummary.worriesLine(a.copyWith(worries: const [Worry.passages, Worry.knewIt])),
-        "You said you lose marks on English passages first, then on 'knew it, still got it wrong'.",
+        "You said your marks slip on English passages first, then on 'knew it, still got it wrong'.",
         reason: "the student's own words, never 'traps'",
       );
       expect(PlanSummary.of(a, kNow).lines, contains(PlanSummary.worriesLine(a)));

@@ -36,7 +36,7 @@ void main() {
     final lost = rows.fold(0, (s, r) => s + r.lost);
     expect(lost, [for (final p in fixture['papers'] as List) _lostOfPaper(p as Map<String, dynamic>)].reduce((a, b) => a + b));
     expect(lost, 220);
-    expect(reviewLine(_record()).text, 'Your 3 papers lost 220 marks: 30 wrong answers and 8 left blank. 9 are repaired.');
+    expect(reviewLine(_record()).text, 'In your 3 papers, 220 marks slipped: 30 wrong answers and 8 left blank. 9 are repaired.');
     expect(acrossLine(_record()), 'Each chapter across Mock 3, Quick practice and Mock 2.');
   });
 
@@ -57,8 +57,8 @@ void main() {
     final rows = chapterRows(_record());
     final adm = rows[0];
     expect(adm.name, 'Admission of a partner');
-    expect(adm.line.text, 'Lost 35 of the 80 marks on offer, 16 questions in Mock 3 and Mock 2. 5 wrong, 1 left blank.');
-    expect(adm.line.lead, 'Lost 35 of the 80 marks');
+    expect(adm.line.text, '35 of the 80 marks on offer slipped, 16 questions in Mock 3 and Mock 2. 5 wrong, 1 left blank.');
+    expect(adm.line.lead, '35 of the 80 marks');
     expect([for (final i in adm.open) i.number], [42, 38, 45, 11]);
     expect(adm.open.first.stamp, 'Mock 3, Fri 16 Oct, 9:40 PM');
     expect([for (final i in adm.repaired) (i.number, i.state)], [(17, 'slipped')]);
@@ -159,7 +159,7 @@ void main() {
     final row = chapterRows(rec).single;
     expect((row.lost, row.offer, row.scored), (59, 50, -9));
     expect(row.overOffer, isTrue);
-    expect(row.line.text, 'Lost 59 marks, 10 questions in Mock 1. 9 wrong, 1 left blank.');
+    expect(row.line.text, '59 marks slipped, 10 questions in Mock 1. 9 wrong, 1 left blank.');
     expect(row.line.text, isNot(contains(' of the ')));
     expect(row.share, 1);
     // Under the line the sentence keeps its "of N".
@@ -193,7 +193,7 @@ void main() {
       final row = oneChapter(2, 1, 10); // 12 + 5 = 17 lost of 50.
       expect((row.lost, row.offer), (17, 50));
       expect(row.overOffer, isFalse);
-      expect(row.line.text, 'Lost 17 of the 50 marks on offer, 10 questions in Mock 1. 2 wrong, 1 left blank.');
+      expect(row.line.text, '17 of the 50 marks on offer slipped, 10 questions in Mock 1. 2 wrong, 1 left blank.');
       expect(row.share, closeTo(17 / 50, 1e-9));
     });
 
@@ -201,7 +201,7 @@ void main() {
       final row = oneChapter(0, 5, 5); // five blanks lose 25 of the 25 on offer.
       expect((row.lost, row.offer), (25, 25));
       expect(row.overOffer, isFalse);
-      expect(row.line.text, 'Lost 25 of the 25 marks on offer, 5 questions in Mock 1. 5 left blank.');
+      expect(row.line.text, '25 of the 25 marks on offer slipped, 5 questions in Mock 1. 5 left blank.');
       expect(row.share, 1);
     });
 
@@ -209,7 +209,7 @@ void main() {
       final row = oneChapter(6, 56, 62); // 36 + 280 = 316 lost, 62 questions is 310 on offer.
       expect((row.lost, row.offer), (316, 310));
       expect(row.overOffer, isTrue);
-      expect(row.line.text, 'Lost 316 marks, 62 questions in Mock 1. 6 wrong, 56 left blank.');
+      expect(row.line.text, '316 marks slipped, 62 questions in Mock 1. 6 wrong, 56 left blank.');
       expect(row.line.text, isNot(contains(' of the ')));
       expect(row.share, 1, reason: 'clamped: a bar can never run past its rail');
     });
@@ -218,12 +218,12 @@ void main() {
       final row = oneChapter(3, 1, null);
       expect(row.offer, isNull);
       expect(row.overOffer, isFalse);
-      expect(row.line.text, 'Lost 23 marks in Mock 1. 3 wrong, 1 left blank.');
+      expect(row.line.text, '23 marks slipped in Mock 1. 3 wrong, 1 left blank.');
       expect(row.line.text, isNot(contains(' of the ')));
     });
 
     test('over every mix of wrong and blank answers, no row says more lost than on offer, and share stays 0 to 1', () {
-      final said = RegExp(r'Lost (\d+) of the (\d+) marks');
+      final said = RegExp(r'(\d+) of the (\d+) marks on offer slipped');
       for (var questions = 1; questions <= 24; questions++) {
         for (var wrong = 0; wrong <= questions; wrong++) {
           for (var blank = 0; blank <= questions - wrong; blank++) {
@@ -245,7 +245,7 @@ void main() {
     expect(adm.offer, isNull);
     expect(adm.scored, isNull);
     expect(adm.questions, isNull);
-    expect(adm.line.text, 'Lost 35 marks in Mock 3 and Mock 2. 5 wrong, 1 left blank.');
+    expect(adm.line.text, '35 marks slipped in Mock 3 and Mock 2. 5 wrong, 1 left blank.');
   });
 
   test('Saved repairs: slipped, then waiting, then held; each opens free with one action', () {
@@ -324,7 +324,7 @@ void main() {
     });
     final line = reviewLine(rec);
     expect(line.lost, _lostOfPaper(m3.single));
-    expect(line.text, startsWith('Mock 3 lost 92 marks: 12 wrong answers and 4 left blank.'));
+    expect(line.text, startsWith('In Mock 3, 92 marks slipped: 12 wrong answers and 4 left blank.'));
     expect(acrossLine(rec), 'Each chapter in Mock 3.');
     expect(chapterRows(rec).first.line.rest, contains('in Mock 3.'));
   });
@@ -338,7 +338,7 @@ void main() {
       'chapters': const [],
       'items': const [],
     });
-    expect(reviewLine(none).text, 'Mock 1 lost no marks.');
+    expect(reviewLine(none).text, 'No marks slipped in Mock 1.');
     expect(chapterRows(none), isEmpty);
 
     final one = _custom(
@@ -355,7 +355,7 @@ void main() {
         {'paper': 'p', 'q': 1, 'ch': 'a', 'state': 'repaired', 'repairedAt': '2026-10-11T20:00:00+05:30'},
       ],
     );
-    expect(reviewLine(one).text, 'Mock 1 lost 6 marks: 1 wrong answer. 1 is repaired.');
+    expect(reviewLine(one).text, 'In Mock 1, 6 marks slipped: 1 wrong answer. 1 is repaired.');
   });
 
   test('long records stay readable: duplicate names are counted and a long list is not printed', () {

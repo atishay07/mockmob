@@ -57,7 +57,7 @@ abstract final class AskDoorCopy {
   /// said as "your last 60 papers", which is true whether the student has sat exactly 60 or many more.
   static const recordReadCap = 60;
   static String _papersSay(int papers) =>
-      papers == 1 ? 'your first paper says' : papers >= recordReadCap ? 'your last $recordReadCap papers say' : 'your $papers papers say';
+      papers == 1 ? 'your first paper says' : papers >= recordReadCap ? 'your latest $recordReadCap papers say' : 'your $papers papers say';
 
   static String greetHeavy(String? name, int papers) => '${_hi(name)} Ask me any doubt, or ask what ${_papersSay(papers)}.';
   static String _hi(String? name) => name == null ? 'Hi.' : 'Hi $name.';
@@ -67,8 +67,8 @@ abstract final class AskDoorCopy {
   /// What a credit buys, said on the door before anything is typed (C-dec 3b: 1 credit on every plan).
   static const nowLine = '1 credit buys an answer, a follow-up and 2 new questions.';
 
-  /// The line under a starter from the record: "Accountancy. You lost 39 marks here."
-  static String starterLost(String subject, int lost) => '$subject. You lost $lost ${lost == 1 ? 'mark' : 'marks'} here.';
+  /// The line under a starter from the record: "Accountancy. 39 marks slipped here."
+  static String starterLost(String subject, int lost) => '$subject. $lost ${lost == 1 ? 'mark' : 'marks'} slipped here.';
 
   /// The line under a starter from the student's subjects.
   static String starterSubject(String subject) => '$subject. You pick the chapter for the 2 questions.';
@@ -83,29 +83,29 @@ abstract final class AskDoorCopy {
       papers == 1
           ? 'Mobi reads your first paper and answers from it.'
           : papers >= recordReadCap
-          ? 'Mobi reads your last $recordReadCap papers and answers from them.'
+          ? 'Mobi reads your latest $recordReadCap papers and answers from them.'
           : 'Mobi reads your $papers papers and answers from them.';
   static const recordTip = 'Tap a question and Mobi answers at once.';
   static const recordTipFree = 'Then ask your record. Each answer is free and comes at once.';
-  static String leadFigureLine(String chapter) => 'marks lost in $chapter, your biggest leak';
+  static String leadFigureLine(String chapter) => 'marks slipped in $chapter, your biggest leak';
 
-  /// The figure's line for the lead: alone, "marks lost in Ray Optics, your biggest leak"; tied (owner I14), "marks lost in
+  /// The figure's line for the lead: alone, "marks slipped in Ray Optics, your biggest leak"; tied (owner I14), "marks slipped in
   /// each of Ray Optics and Optics, tied as your biggest leak".
   static String leadLine(RecordLead lead) =>
-      lead.tied > 1 ? 'marks lost in ${lead.shortPlace}, tied as your biggest leak' : leadFigureLine(lead.chapter);
+      lead.tied > 1 ? 'marks slipped in ${lead.shortPlace}, tied as your biggest leak' : leadFigureLine(lead.chapter);
   static String seeAll(int n) => 'See all $n questions about your record';
   static const seeFewer = 'Show fewer questions';
   static const emptySay = 'Your record is empty for now.';
   static const emptyBody = 'Finish one practice paper and Mobi can show you where every mark went.';
   static const emptyKey = 'Practise 10 questions first';
-  static const emptyAfter = 'After that, you can ask where you lose marks, which chapter to practise and what to revise tonight.';
+  static const emptyAfter = 'After that, you can ask where your marks slip, which chapter to practise and what to revise tonight.';
   static const reading = 'Mobi is reading your record.';
   static const readFailed = 'Your record could not be read just now. Ask now still works.';
   static const readOffline = 'You are offline, so your record has not loaded yet. It loads here when you are back online.';
   static const tryAgain = 'Try again';
 
   // The record asks.
-  static const lastPaper = 'Why did I lose marks in my last paper?';
+  static const lastPaper = 'Where did my marks slip in my latest paper?';
   static String revise(DateTime now) => 'What should I revise ${tonightOrToday(now)}?';
   static const revisePreview = 'Chapters, rules and traps from your record';
   static String chaptersRanked(int n) => '$n ${n == 1 ? 'chapter' : 'chapters'} ranked from your answers';
@@ -163,7 +163,7 @@ abstract final class AskDoorCopy {
   static const cardTitle = 'Ask Mobi';
   static const cardLineFresh = 'Stuck on a doubt? Ask now and Mobi explains it in plain words.';
   // Shorter than the old line, so the card's fixed height holds it at 360 dp (the longer draft overflowed by 5 px).
-  static String cardLineHeavy(int lost, String chapter) => 'Stuck on a doubt? Ask now, or ask why you lost $lost marks in $chapter.';
+  static String cardLineHeavy(int lost, String chapter) => 'Stuck on a doubt? Ask now, or ask where $lost marks slipped in $chapter.';
   static const cardLineRecord = 'Stuck on a doubt? Ask now, or ask what your papers say.';
   static const cardNow = 'Ask now';
   static const cardRecord = 'Ask your record';
@@ -218,7 +218,7 @@ const List<String Function(String)> _chapterDoubts = [
   _whichTrap,
   _whatToRemember,
 ];
-String _explainIt(String c) => 'I keep losing marks in $c. Explain it the CUET way.';
+String _explainIt(String c) => 'My marks keep slipping in $c. Explain it the CUET way.';
 String _whichTrap(String c) => 'Which trap catches me in $c, and how do I spot it?';
 String _whatToRemember(String c) => 'What must I remember about $c before a mock?';
 
@@ -306,11 +306,11 @@ class LastPaper {
 }
 
 /// The first words of the last-paper answer, so a reply can be traced back to its paper.
-const lastPaperLead = 'Your last paper was ';
+const lastPaperLead = 'Your latest paper was ';
 
 /// The same, when a newer paper has not been opened yet: the answer reads the newest paper the student has opened, and
 /// says so rather than calling it the last.
-const lastOpenedPaperLead = 'The last paper you opened was ';
+const lastOpenedPaperLead = 'The paper you opened most recently was ';
 
 String _signed(int n) => n < 0 ? '−${-n}' : '$n';
 
@@ -365,16 +365,16 @@ LastPaper? lastPaper(List<Attempt>? attempts, DateTime now, {Set<String> unopene
   final opening = '${newerSealed ? lastOpenedPaperLead : lastPaperLead}${paperPhrase(latest)} you sat $on. It scored $marks marks.';
   final String reply;
   if (lost <= 0) {
-    reply = '$opening It lost no marks at all.';
+    reply = '$opening It gave away no marks.';
   } else if (lines.isEmpty) {
     final w = latest.wrong, b = latest.unattempted;
     final cause = [
       if (w > 0) '$w wrong ${w == 1 ? 'answer' : 'answers'}',
       if (b > 0) '$b left blank',
     ].join(' and ');
-    reply = '$opening It lost $lost marks${cause.isEmpty ? '' : ', from $cause'}.';
+    reply = '$opening $lost marks slipped${cause.isEmpty ? '' : ', from $cause'}.';
   } else {
-    reply = '$opening It lost $lost marks, and these chapters cost the most:\n${lines.join('\n')}';
+    reply = '$opening $lost marks slipped, and these chapters cost the most:\n${lines.join('\n')}';
   }
   return LastPaper(
     attempt: latest,
@@ -401,10 +401,10 @@ List<DoorAsk> recordDoorAsks(PrepInsights? record, {required bool pro, LastPaper
   final changes = ready ? record.changes : null;
   return [
     DoorAsk(
-      text: 'Where am I losing marks?',
+      text: 'Where are my marks slipping?',
       price: DoorPrice.free,
       intent: AskIntent.losing,
-      preview: lead == null ? 'Reads your wrong and blank answers' : '${lead.lost} marks lost in ${lead.place}',
+      preview: lead == null ? 'Reads your wrong and blank answers' : '${lead.lost} marks slipped in ${lead.place}',
     ),
     // Worked out from the record by the server with no model call (replyKind 'tonight'): free (C-dec 3).
     DoorAsk(text: AskDoorCopy.revise(now), price: DoorPrice.free, intent: AskIntent.plan, preview: AskDoorCopy.revisePreview),

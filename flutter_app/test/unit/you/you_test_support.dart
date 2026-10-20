@@ -84,13 +84,14 @@ final earnedMilestones = [
 ];
 
 /// A signed-in snapshot with the given plan.
-AuthSnapshot userWith({bool pro = false, DateTime? until, String name = 'Asha Verma'}) => AuthSnapshot(
+AuthSnapshot userWith({bool pro = false, DateTime? until, String name = 'Asha Verma', DateTime? deletionRequestedAt}) => AuthSnapshot(
       status: AuthStatus.signedIn,
       userId: 'u1',
       email: 'asha.verma@example.com',
       name: name,
       isPro: pro,
       premiumUntil: until,
+      deletionRequestedAt: deletionRequestedAt,
     );
 
 class FakeAuth extends AuthController {

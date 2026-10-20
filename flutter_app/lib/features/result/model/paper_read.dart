@@ -241,7 +241,7 @@ abstract final class PaperReadCopy {
   static const String weaknesses = 'Weaknesses';
   static const String opportunity = 'Opportunity';
   static const String risks = 'Threats';
-  static const String lostHead = 'Marks lost';
+  static const String lostHead = 'Marks slipped';
   static const String tied = 'Tied';
 
   /// The key that repairs what the reach names.
@@ -264,7 +264,7 @@ abstract final class PaperReadCopy {
   static String changesHelped(int n, int marks) =>
       n == 1 ? 'One changed answer won you $marks marks.' : '$n changed answers won you $marks marks.';
   static String upFrom(double before, double now, String subject) =>
-      'Up from ${_pct(before)} right in your last $subject paper to ${_pct(now)}.';
+      'Up from ${_pct(before)} right in your previous $subject paper to ${_pct(now)}.';
   static String banked(int right) => right == 1 ? 'Your 1 right answer earned 5 marks.' : 'Your $right right answers earned ${right * 5} marks.';
 
   static String changesCost(int n, int marks) =>
@@ -278,7 +278,7 @@ abstract final class PaperReadCopy {
     final body = parts.join(' and ');
     return chapter == null ? '${body[0].toUpperCase()}${body.substring(1)}.' : 'In $chapter, $body.';
   }
-  static const String nothingLost = 'You lost no marks on this paper.';
+  static const String nothingLost = 'No marks slipped on this paper.';
 
   // A counterfactual about this paper, never a promise (app-finish F2): a repair is practice and never rescores the
   // paper, so the line says what those answers cost and what they would have made it.
@@ -302,7 +302,7 @@ abstract final class PaperReadCopy {
   static String slipping(String chapter, int rightBefore, int nBefore, int rightNow, int nNow) =>
       '$chapter is slipping: $rightBefore of $nBefore right in your earlier papers, $rightNow of $nNow today.';
   static String downFrom(double before, double now, String subject) =>
-      'Down from ${_pct(before)} right in your last $subject paper to ${_pct(now)}.';
+      'Down from ${_pct(before)} right in your previous $subject paper to ${_pct(now)}.';
   static String moreWrong(int wrong, int right) =>
       'More answers were wrong ($wrong) than right ($right). Each wrong one takes a mark off.';
   static String endBlank(int n, int marks) => 'The last $n questions were left blank: $marks marks not earned. Keep time for the end.';

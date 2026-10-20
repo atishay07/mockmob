@@ -74,7 +74,7 @@ abstract final class SuggestedCopy {
 
   /// The one evidence line.
   static String weakestLine(String chapter, int missed, int asked, int marks) =>
-      'You lost $marks marks in $chapter by missing ${missed >= asked ? 'every question' : '$missed of $asked'}.';
+      'You missed ${missed >= asked ? 'every question' : '$missed of $asked'} in $chapter, and $marks marks slipped.';
 
   /// A repair card's evidence line: how many mistakes the repair fixes, and why now (19 Oct, D114:
   /// the card used to repeat the lead card's source fragment). Null without a count.

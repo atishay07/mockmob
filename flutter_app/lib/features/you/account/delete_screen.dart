@@ -215,6 +215,8 @@ class _DeleteScreenState extends ConsumerState<DeleteScreen> {
         Text(YouCopy.deleteConsequences, style: type.lead),
         const SizedBox(height: MmSpace.s12),
         Text(YouCopy.deleteNotInstant, style: type.body.copyWith(color: colors.ink2)),
+        const SizedBox(height: MmSpace.s12),
+        Text(YouCopy.deleteWorksUntil, style: type.body.copyWith(color: colors.ink2)),
         if (_pendingUnknown) ...[
           const SizedBox(height: MmSpace.s12),
           Text(YouCopy.deleteUnknown, style: type.body.copyWith(color: colors.ink2)),

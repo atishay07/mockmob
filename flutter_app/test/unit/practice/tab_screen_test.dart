@@ -146,7 +146,7 @@ void main() {
     // The lit tile names the subject; the card says what the set is, and says it once.
     expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('Mixed chapters')), findsOneWidget);
     expect(find.descendant(of: find.byType(SuggestionCard), matching: find.text('English')), findsNothing);
-    expect(find.text('Last paper: 1 of 2 right, yesterday.'), findsOneWidget);
+    expect(find.text('Latest paper: 1 of 2 right yesterday.'), findsOneWidget);
   });
 
   testWidgets('a mock still running is the suggestion, with its fixed end time, and Resume opens it', (tester) async {

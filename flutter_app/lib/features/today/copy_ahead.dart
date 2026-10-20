@@ -96,7 +96,7 @@ abstract final class AheadCopy {
   /// "Your last 6 Accountancy full mocks", or "Newest 6 of your 9 Accountancy full mocks": one subject, and it says so,
   /// beside Road to CUET's count of every full mock (final walk, H8).
   static String marksSub(int shown, int all, String subject) =>
-      shown == all ? 'Your last $shown $subject full mocks' : 'Newest $shown of your $all $subject full mocks';
+      shown == all ? 'Your latest $shown $subject full mocks' : 'Newest $shown of your $all $subject full mocks';
 
   /// "204 on Mock 7, your best of these 6."
   static String marksBest(int marks, String label, int shown) => '$marks on $label, your best of these $shown.';
@@ -115,8 +115,8 @@ abstract final class AheadCopy {
       delta == 0 ? 'Level with $previous.' : '${delta > 0 ? '+' : minusSign}${delta.abs()} on $previous.';
   static const String minusSign = '−';
   static String chartSemantics(List<(String, int)> points, int outOf) =>
-      'Marks on your last ${points.length} mocks, out of $outOf: ${points.map((p) => '${p.$1}, ${p.$2}').join('; ')}.';
-  static const String lastPaper = 'Last paper';
+      'Marks on your latest ${points.length} mocks, out of $outOf: ${points.map((p) => '${p.$1}, ${p.$2}').join('; ')}.';
+  static const String lastPaper = 'Latest paper';
 
   // Weak chapters.
   static const String marksOpen = 'marks open';

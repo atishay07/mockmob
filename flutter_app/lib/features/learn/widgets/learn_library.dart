@@ -178,7 +178,7 @@ class MarksLost extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     return Semantics(
-      label: '$marks marks lost',
+      label: '$marks marks slipped',
       child: ExcludeSemantics(
         child: Text(
           '$_minus$marks',
@@ -357,7 +357,7 @@ class _ChapterFoldState extends State<ChapterFold> {
         MmPressable(
           semanticsLabel: [
             row.name,
-            if (row.marks > 0) '${row.marks} marks lost',
+            if (row.marks > 0) '${row.marks} marks slipped',
             row.meta,
             _open ? LearnCopy.hideChapter : LearnCopy.showChapter,
           ].join('. '),

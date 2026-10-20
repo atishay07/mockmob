@@ -320,8 +320,8 @@ void main() {
         disableAnimations: true,
         overrides: [auth],
       );
-      expect(find.text('Marks in your last 6 of 7 Accountancy mocks'), findsOneWidget);
-      expect(find.text('Last 4 of 8 papers'), findsOneWidget);
+      expect(find.text('Marks in your latest 6 of 7 Accountancy mocks'), findsOneWidget);
+      expect(find.text('Latest 4 of 8 papers'), findsOneWidget);
       // The strip's dot says "Mock 5, 4 Oct. ..."; the paper's own row says "Mock 5, Accountancy, ...".
       await tester.tap(find.bySemanticsLabel(RegExp(r'^Mock 5, \d+ \w+\. .*Opens the result')), warnIfMissed: false);
       await tester.pump();

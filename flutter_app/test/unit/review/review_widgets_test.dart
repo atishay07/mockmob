@@ -53,7 +53,7 @@ void main() {
   testWidgets('every chapter says what it lost with its denominator, and the open one has one volt key', (tester) async {
     await pump(tester, const ReviewScreen());
     expect(find.textContaining('marks on offer'), findsWidgets);
-    expect(find.textContaining(RegExp(r'Lost \d+ of the \d+ marks')), findsWidgets);
+    expect(find.textContaining(RegExp(r'\d+ of the \d+ marks on offer slipped')), findsWidgets);
     expect(find.byWidgetPredicate((w) => w is KeyButton && w.variant == KeyVariant.primary), findsOneWidget);
   });
 

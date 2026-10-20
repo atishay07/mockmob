@@ -86,7 +86,7 @@ abstract final class EstimateCopy {
   // ---- From your mocks.
 
   static const String mocksTruth =
-      'Each figure is your raw mark out of 250, averaged over your last 3 full mocks. The range shows how far one paper usually swings.';
+      'Each figure is your raw mark out of 250, averaged over your latest 3 full mocks. The range shows how far one paper usually swings.';
 
   // ---- "I don't know my range yet".
 

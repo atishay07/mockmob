@@ -112,7 +112,7 @@ void main() {
   group('prompts', () {
     test('record prompts carry a live line from the record and never invent one', () {
       final withRecord = recordPrompts(rich(), pro: true);
-      expect(withRecord[0].preview, contains('39 marks lost in Partnership: admission of a partner'));
+      expect(withRecord[0].preview, contains('39 marks slipped in Partnership: admission of a partner'));
       expect(withRecord[2].preview, 'Wrong answers take 58s, right ones 37s');
       expect(withRecord[3].preview, '3 sessions, 40 questions in 7 days');
       final none = recordPrompts(null);

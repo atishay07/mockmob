@@ -13,7 +13,7 @@ class ShowMePill extends StatelessWidget {
   const ShowMePill({
     super.key,
     required this.onTap,
-    this.semanticsLabel = 'Show me, the questions behind this',
+    this.semanticsLabel = 'Show me, the questions this comes from',
     this.marks = const [],
   });
 

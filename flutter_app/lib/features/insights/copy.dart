@@ -57,13 +57,13 @@ abstract final class InsightsCopy {
   }
 
   // Show me: the sessions behind a claim.
-  static String showMeSessions(int n) => n == 1 ? 'Show me, the session behind this' : 'Show me, the $n sessions behind this';
+  static String showMeSessions(int n) => n == 1 ? 'Show me, the session this comes from' : 'Show me, the $n sessions this comes from';
   static String evidenceCount(int n) => n == 1 ? '1 session, opens its result.' : '$n sessions, newest first. Each opens its result.';
   static String evidenceMore(int n) => '${_n(n, 'older session')} not listed.';
   static const openSession = 'Opens its result';
   static String showMeCount(int n) => n == 1 ? '1 session' : '$n sessions';
-  static const behindLedger = 'The sessions behind these marks';
-  static const behindFinding = 'The sessions behind this';
+  static const behindLedger = 'The sessions these marks come from';
+  static const behindFinding = 'The sessions this comes from';
   static const behindChanges = 'Sessions with changed answers';
   static const behindPace = 'Sessions with timed answers';
   static const behindWeek = 'Sessions in the last 14 days';
@@ -99,8 +99,8 @@ abstract final class InsightsCopy {
   static const chaptersHeading = 'Chapters costing you the most marks';
   static const chaptersCaption = 'Ranked once 4 or more questions are answered in a chapter.';
   static String chapterCounts(int r, int w, int b, int n) => '$r right, $w wrong, $b blank of ${_n(n, 'question')}';
-  /// A chapter's marks lost, Review's figure (6 a wrong answer, 5 a blank).
-  static String chapterLost(int marks) => '${_n(marks, 'mark')} lost';
+  /// A chapter's marks that slipped, Review's figure (6 a wrong answer, 5 a blank).
+  static String chapterLost(int marks) => '${_n(marks, 'mark')} slipped';
   static String thinToggle(int n) => '${_n(n, 'chapter')} with fewer than 4 answered';
   static const practiseChapter = 'Practise';
   static const practiseThisChapter = 'Practise this chapter';
@@ -139,7 +139,7 @@ abstract final class InsightsCopy {
   static const askKey = 'Ask Mobi';
   static const askStripNote = 'Questions about this record, answered on your phone.';
   static const emptyTitle = 'Your record starts with one session';
-  static const emptyMessage = 'Finish a practice set and this page shows where every mark went, with the questions behind it.';
+  static const emptyMessage = 'Finish a practice set and this page shows where every mark went, with the questions it comes from.';
   static const emptyAction = 'Start a quick 10';
   static const errorTitle = 'Your record could not be read just now';
   static const errorMessage = 'Nothing was charged. Try again in a moment.';
@@ -173,7 +173,7 @@ abstract final class InsightsCopy {
   static String savedEntryNote(int n) => n == 0 ? 'Nothing saved yet' : '$n saved';
   static const streamEntryTitle = 'Untimed questions';
   static const streamEntryNote = 'One question at a time, with the reason after each answer.';
-  static const findingShowMe = 'Show me, your record behind this';
+  static const findingShowMe = 'Show me, your record for this';
 
   // ---- Saved -------------------------------------------------------------------------------
   static const savedTitle = 'Saved questions';
@@ -250,7 +250,7 @@ abstract final class InsightsCopy {
 
   // ---- Ask ---------------------------------------------------------------------------------
   static const askTitle = 'Ask Mobi';
-  static String askCaption(int sessions) => 'Reads your last ${_n(sessions, 'session')}';
+  static String askCaption(int sessions) => 'Reads your latest ${_n(sessions, 'session')}';
   static const askIntro = 'Ask about your marks, chapters, timing or week. Those answers come from your own sessions.';
   /// Mobi's line above a conversation. [name] is a first name the student gave, never an email
   /// prefix (see `shownFirstName` in core/auth/display_name.dart); with none he greets plainly.
@@ -258,14 +258,14 @@ abstract final class InsightsCopy {
     final hi = name == null ? 'Hi.' : 'Hi $name.';
     if (sessions == null || sessions == 0) return '$hi Stuck on a CUET doubt? Ask me.';
     if (sessions == 1) return "$hi I've read your first paper. Ask me anything about it.";
-    return "$hi I've read your last $sessions papers. Ask me anything about them.";
+    return "$hi I've read your latest $sessions papers. Ask me anything about them.";
   }
 
   static const askGroupRecord = 'About your marks';
   static const askGroupRecordNote = 'Free, from your own answers';
   static const askGroupOpen = 'Ask anything';
   static const askGroupOpenNote = 'Uses 1 credit';
-  static const promptLosing = 'Where am I losing marks?';
+  static const promptLosing = 'Where are my marks slipping?';
   static const promptChapter = 'Which chapter should I practise?';
   static const promptPace = 'Am I too slow on wrong answers?';
   static const promptWeek = 'How is my week going?';
@@ -289,7 +289,7 @@ abstract final class InsightsCopy {
   static const sourcePaused = 'AI replies paused';
   static const creditUsed = '1 credit used';
   static const noCreditsUsed = 'No credits used';
-  static const behindAnswer = 'The sessions behind this answer';
+  static const behindAnswer = 'The sessions this answer comes from';
   static const openRecord = 'Open your record';
   static const askHint = 'Ask a question';
   static const askHintQuestion = 'What about this mistake is unclear?';

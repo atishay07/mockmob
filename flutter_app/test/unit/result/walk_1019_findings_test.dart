@@ -135,8 +135,8 @@ void main() {
       expect(tester.getRect(title).right, lessThanOrEqualTo(tester.getRect(find.text(ReviewCopy.askKey)).left));
     });
 
-    test('"You lose the most marks in" keeps "marks in" together, so "in" never sits alone', () {
-      expect(ReviewCopy.loseMost, 'You lose the most marks in');
+    test('"The most marks slip in" keeps "slip in" together, so "in" never sits alone', () {
+      expect(ReviewCopy.loseMost, 'The most marks slip in');
     });
   });
 

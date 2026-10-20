@@ -48,11 +48,11 @@ void main() {
 
     test('the chapter finding names the chapter, never its subject, and prints Review’s figure (final walk, H6)', () {
       final f = readout(rich()).first;
-      expect(f.headline, 'You lose the most marks in Partnership: admission of a partner');
+      expect(f.headline, 'The most marks slip in Partnership: admission of a partner');
       expect(f.detail, startsWith('Partnership: admission of a partner: 6 right, 4 wrong, 3 left blank, of 13 questions over 3 sessions.'));
       expect(f.detail, isNot(startsWith('Accountancy')));
       // 4 wrong at 6 and 3 blank at 5, of 13 questions at 5: Review's chapter arithmetic, not 5 a miss ("worth 35").
-      expect(f.detail, endsWith('They lost 39 of the 65 marks on offer.'));
+      expect(f.detail, endsWith('39 of the 65 marks on offer slipped.'));
       expect(f.detail, isNot(contains('worth')));
       expect(f.n, 13);
     });
@@ -62,7 +62,7 @@ void main() {
       expect(c.lost, 60);
       expect(c.offer, 50);
       final f = readout(PrepInsights(state: 'ready', sessions: 1, questions: 10, ranked: const [c])).first;
-      expect(f.detail, endsWith('They lost 60 marks.'));
+      expect(f.detail, endsWith('60 marks slipped.'));
     });
 
     test('chapters rank by marks lost, the order Review uses; ties keep the server order', () {
@@ -88,7 +88,7 @@ void main() {
 
     test('answers a chapter question from the record, with its action', () {
       final a = answerFromInsights('Where am I losing marks?', rich())!;
-      expect(a.reply, startsWith('You lose the most marks in Partnership: admission of a partner.'));
+      expect(a.reply, startsWith('The most marks slip in Partnership: admission of a partner.'));
       // "Practise <chapter>" must land on that chapter's setup, not all-chapters Quick practice.
       final location = InsightsPaths.locationFor(a.actions.single.$2);
       expect(location, InsightsPaths.practiseChapter('accountancy', 'Partnership: admission of a partner'));

@@ -46,6 +46,7 @@ import 'package:mockmob/features/insights/data/insights_repository.dart';
 import 'package:mockmob/features/insights/data/saved_repository.dart';
 import 'package:mockmob/features/learn/data/catalog_repository.dart';
 import 'package:mockmob/features/practice/data/practice_catalog.dart';
+import 'package:mockmob/features/referrals/referral_data.dart' show referralStatusProvider;
 import 'package:mockmob/features/practice/data/practice_notes.dart';
 import 'package:mockmob/features/practice/data/practice_starter.dart';
 import 'package:mockmob/features/practice/data/result_actions.dart';
@@ -61,6 +62,7 @@ import 'package:mockmob/features/referrals/welcome_credits_trigger.dart' show we
 import 'package:mockmob/features/today/data/today_profile.dart';
 import 'package:mockmob/features/you/data/student_target.dart';
 
+import '../helpers/referral_fixtures.dart' show freshAccountInvites;
 import '../unit/insights/support/insights_fixtures.dart' as insights;
 import '../unit/notifications/support.dart' as notif;
 import '../unit/notifications/widget_support.dart' as notif_ui;
@@ -325,6 +327,9 @@ List<Override> _overrides() {
     goalRepositoryProvider.overrideWith(() => you.FakeGoal(you.goalState(4))),
     consentRepositoryProvider.overrideWith(() => you.FakeConsent(you.consentState(AgeBand.adult))),
     notificationPrefsRepositoryProvider.overrideWith(() => notif_ui.FakePrefsRepo(notif.prefsWith(), cachedAt: now)),
+
+    // Invites are live for a fresh account: the Wallet's invite card and "Have a friend's code?" are drawn.
+    referralStatusProvider.overrideWith((ref) async => freshAccountInvites),
 
     // Version 13: the Wallet, the Pro page, Where you stand, a doubt thread and Fix it for good.
     ...demoV13Overrides(),

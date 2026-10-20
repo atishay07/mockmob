@@ -39,6 +39,8 @@ abstract final class WalletCopy {
   // (`referralOfferLiveProvider`); until then nothing here is drawn.
   static const keptPartNoteReferrals = 'Welcome, invite and top-up credits. They do not expire.';
   static const welcomeCredits = 'New accounts start with 50 credits.';
+  /// On the balance card once the student has asked to delete the account: deletion is only a request, so the credits stay.
+  static const deletionRequested = 'Deletion requested. Your credits stay until then.';
   static const lowNote = 'You are running low. A top-up or Pro keeps you practising.';
 
   // What credits buy: the server's price list, as tiles.

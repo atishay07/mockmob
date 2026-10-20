@@ -56,14 +56,14 @@ abstract final class OnboardingCopy {
 
   // Mobi's lines. Short, about what happens next, never about the person, and always whole
   // sentences (G1, D84): no dropped subjects, verbs or articles.
-  static const String mobiWelcome = "Hi, I'm Mobi. Let's find the marks you're losing and win them back before CUET.";
+  static const String mobiWelcome = "Hi, I'm Mobi. Let's find where your marks slip and win them back before CUET.";
   static const String mobiWelcomeBack = 'Your sheet is right where you left it.';
   static String mobiRight(int seconds) =>
       seconds <= 1 ? 'You got it in about a second. That was clean.' : 'You got it in $seconds seconds. That was clean.';
   static const String mobiTrap = "That's a classic trap. The fix is just below.";
 
   /// Said when the hold is let go early: the plan is still the student's to confirm, nothing is lost.
-  static const String mobiStillYours = 'Nothing is lost. Hold a little longer to confirm your plan.';
+  static const String mobiStillYours = 'Your plan is safe. Hold a little longer to confirm it.';
   static const String mobiSealed = "Your plan is set, and it's all yours.";
   static const String mobiSave = 'Keep it with you.';
 

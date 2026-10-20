@@ -770,7 +770,7 @@ void main() {
       expect(about.attemptId, 'p1');
       expect(about.label, 'Quick 10');
       // One wrong in Admission of a partner (6 marks), one wrong and one blank in Goodwill (6 + 5): 17 marks lost.
-      expect(about.lines, ['Goodwill: 11 of the 17 marks lost, 1 wrong and 1 left blank', 'Admission of a partner: 6 of the 17 marks lost, 1 wrong']);
+      expect(about.lines, ['Goodwill: 11 of the 17 marks slipped, 1 wrong and 1 left blank', 'Admission of a partner: 6 of the 17 marks slipped, 1 wrong']);
       await tester.pump(const Duration(seconds: 13));
     });
 

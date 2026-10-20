@@ -55,8 +55,8 @@ void main() {
     expect(find.text('of 310'), findsNothing, reason: 'the hero unit');
     expect(find.textContaining('of the 310'), findsNothing, reason: 'the row line');
     expect(find.textContaining('316'), findsWidgets);
-    expect(find.text('marks lost'), findsOneWidget);
-    expect(find.text('Lost 316 marks, 62 questions in Mock 1. 6 wrong, 56 left blank.'), findsOneWidget);
+    expect(find.text('marks slipped'), findsOneWidget);
+    expect(find.text('316 marks slipped, 62 questions in Mock 1. 6 wrong, 56 left blank.'), findsOneWidget);
     expect(tester.takeException(), isNull);
     // The spoken words say the same: nothing of the "X of Y" kind.
     final spoken = tester.widgetList<Semantics>(find.byType(Semantics)).map((s) => s.properties.label ?? '').join('|');
@@ -67,13 +67,13 @@ void main() {
     final row = _row(wrong: 2, blank: 1, questions: 10);
     await _pumpBoth(tester, row);
     expect(find.text('of 50'), findsOneWidget);
-    expect(find.textContaining('Lost 17 of the 50 marks on offer'), findsOneWidget);
+    expect(find.textContaining('17 of the 50 marks on offer slipped'), findsOneWidget);
   });
 
   testWidgets('exactly the offer keeps its "of N": 25 of 25 is true', (tester) async {
     final row = _row(wrong: 0, blank: 5, questions: 5);
     await _pumpBoth(tester, row);
     expect(find.text('of 25'), findsOneWidget);
-    expect(find.textContaining('Lost 25 of the 25 marks on offer'), findsOneWidget);
+    expect(find.textContaining('25 of the 25 marks on offer slipped'), findsOneWidget);
   });
 }

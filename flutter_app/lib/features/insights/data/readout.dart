@@ -13,10 +13,10 @@ String _sec(int s) => s >= 60 ? '${s ~/ 60}:${(s % 60).toString().padLeft(2, '0'
 String _sign(int n) => n > 0 ? '+$n' : '$n';
 String _plural(int n, String word) => '$n $word${n == 1 ? '' : 's'}';
 
-/// "They lost 374 of the 415 marks on offer." Past the offer (6 go for a wrong answer, 5 are on offer) the "of" is left out,
+/// "374 of the 415 marks on offer slipped." Past the offer (6 go for a wrong answer, 5 are on offer) the "of" is left out,
 /// as Review leaves it out.
 String _lostLine(ChapterLine c) =>
-    c.lost > c.offer ? 'They lost ${c.lost} marks.' : 'They lost ${c.lost} of the ${c.offer} marks on offer.';
+    c.lost > c.offer ? '${c.lost} marks slipped.' : '${c.lost} of the ${c.offer} marks on offer slipped.';
 
 /// Plain-language findings, strongest first, each with its sample size.
 List<Finding> readout(PrepInsights insights, {int limit = 4}) {

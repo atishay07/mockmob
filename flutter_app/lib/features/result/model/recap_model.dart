@@ -276,7 +276,7 @@ bool _blanksInReview(List<Attempt> attempts, Attempt attempt) {
 PreviousMock? _previous(AttemptDetail? detail, List<Attempt> attempts) {
   final recap = detail?.recap;
   if (recap == null || !recap.hasPrevious) return null;
-  String label = 'Your last mock';
+  String label = 'Your latest mock';
   final id = recap.previousAttemptId;
   if (id != null) {
     for (final a in attempts) {

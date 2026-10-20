@@ -55,10 +55,10 @@ abstract final class RulesCopy {
     final counts = m.group(3)!.split(RegExp(r', | and ')).where((s) => s.isNotEmpty).toList();
     final of = m.group(4)!;
     if (counts.length != mocks || counts.any((c) => int.tryParse(c) == null)) return serverText;
-    if (mocks == 1) return 'You left ${counts.single} of $of questions unopened in your last $subject mock.';
-    if (counts.toSet().length == 1) return 'You left ${counts.first} of $of questions unopened in each of your last $mocks $subject mocks.';
+    if (mocks == 1) return 'You left ${counts.single} of $of questions unopened in your latest $subject mock.';
+    if (counts.toSet().length == 1) return 'You left ${counts.first} of $of questions unopened in each of your latest $mocks $subject mocks.';
     final list = counts.length <= 2 ? counts.join(' and ') : '${counts.sublist(0, counts.length - 1).join(', ')} and ${counts.last}';
-    return 'In your last $mocks $subject mocks you left $list of $of questions unopened, oldest first.';
+    return 'In your latest $mocks $subject mocks you left $list of $of questions unopened, oldest first.';
   }
 
   /// The block's title before Across your mocks has loaded (the server's own title replaces it).

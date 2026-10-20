@@ -337,7 +337,7 @@ typedef ChapterHit = ({String subject, String name});
 }
 
 /// Learn's one-line lede (the website's).
-const String learnLede = 'Short lessons on the ideas behind your mistakes.';
+const String learnLede = 'Short lessons on the ideas your mistakes come from.';
 
 /// Where a lesson was opened from (5.10), read back from `?from=`: `chapter:{subject}:{chapter}`, `q:{attemptId}:{n}`
 /// or `today`. Anything else is null, never a guess.

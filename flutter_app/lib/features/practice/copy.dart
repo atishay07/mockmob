@@ -77,7 +77,7 @@ abstract final class PracticeCopy {
   static const String lateOverline = 'This one, then sleep';
   static const String resumeOverline = 'Still open';
   static const String showMe = 'Show me';
-  static const String showMeSemantics = 'Show me, the attempt behind this';
+  static const String showMeSemantics = 'Show me, the attempt this comes from';
   static const String startKey = 'Start';
 
   /// The suggestion's one volt key, with the set's real length.
@@ -124,10 +124,10 @@ abstract final class PracticeCopy {
   static String subjectTitle(String subject) => subject;
   static const String subjectKicker = 'Quick practice, mixed chapters';
   static const String mixedChapters = 'Mixed chapters';
-  /// The hero's reason for a subject with no nameable chapter: the last paper's real score with its
+  /// The hero's reason for a subject with no nameable chapter: the latest paper's real score with its
   /// denominator and when it was ("34 of 50 right, yesterday"). A paper with no questions says only when.
   static String subjectReason(int correct, int total, String when) =>
-      total <= 0 ? 'Your last paper was $when.' : 'Last paper: $correct of $total right, $when.';
+      total <= 0 ? 'Your latest paper was $when.' : 'Latest paper: $correct of $total right $when.';
 
   static const String startingTitle = 'Your starting point';
   static String startingKicker(String subject) => '$subject, mixed chapters';
@@ -196,8 +196,8 @@ abstract final class PracticeCopy {
   static String useChapters(int n) => n == 0 ? 'Choose at least one' : (n == 1 ? 'Use 1 chapter' : 'Use $n chapters');
   static const String clearChapters = 'Clear';
   static const String fromYourRecord = 'From your record';
-  static String recordChipMarks(int marks) => '${plural(marks, 'mark')} lost in your last paper';
-  static String recordChipSemantics(String chapter, int marks) => '$chapter, ${plural(marks, 'mark')} lost in your last paper';
+  static String recordChipMarks(int marks) => '${plural(marks, 'mark')} slipped in your latest paper';
+  static String recordChipSemantics(String chapter, int marks) => '$chapter, ${plural(marks, 'mark')} slipped in your latest paper';
   static const String chapterLimit = 'Up to 12 chapters in one session.';
   static const String oneChapterOnly = 'This subject takes one chapter at a time for now.';
 

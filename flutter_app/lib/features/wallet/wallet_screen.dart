@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../core/api/api_providers.dart' show nowProvider;
+import '../../core/auth/auth_state.dart' show authSnapshotProvider;
 import '../../core/copy/copy.dart';
 import '../../core/motion/motion.dart' show Motion;
 import '../../core/theme/theme.dart';
@@ -60,7 +61,11 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
             child: InlineBanner(message: WalletCopy.stale),
           ),
         const SizedBox(height: MmSpace.s8),
-        Padding(padding: youGutter, child: WalletBalanceCard(view: view, invitesLive: ref.watch(referralOfferLiveProvider))),
+        Padding(padding: youGutter, child: WalletBalanceCard(
+            view: view,
+            invitesLive: ref.watch(referralOfferLiveProvider),
+            deletionRequested: ref.watch(authSnapshotProvider.select((s) => s.deletionRequestedAt != null)),
+          )),
         if (view.failed)
           Padding(
             padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, 0),
@@ -188,9 +193,12 @@ class _WalletScreenState extends ConsumerState<WalletScreen> {
 /// month's free credits with their refill date and the kept credits that do not expire (I8: a new
 /// account's 150 is 50 free this month plus 100 kept welcome credits). Information only.
 class WalletBalanceCard extends StatelessWidget {
-  const WalletBalanceCard({super.key, required this.view, this.invitesLive = false});
+  const WalletBalanceCard({super.key, required this.view, this.invitesLive = false, this.deletionRequested = false});
 
   final WalletView view;
+
+  /// The student asked to delete the account: a quiet line says the credits stay until it is processed.
+  final bool deletionRequested;
 
   /// D165 is live: the kept credits' note names invite credits too.
   final bool invitesLive;
@@ -217,6 +225,7 @@ class WalletBalanceCard extends StatelessWidget {
       if (split) '${WalletCopy.keptPart}: $held. ${invitesLive ? WalletCopy.keptPartNoteReferrals : WalletCopy.keptPartNote}',
       if (low) WalletCopy.lowNote,
       if (view.isPro) WalletCopy.practiceUnlimitedNote,
+      if (deletionRequested) WalletCopy.deletionRequested,
     ].join('. ');
 
     return MmSurface.hero(
@@ -280,6 +289,10 @@ class WalletBalanceCard extends StatelessWidget {
                 until == null ? WalletCopy.practiceUnlimitedNote : '${CreditsCopy.planUntil(until)}. ${WalletCopy.practiceUnlimitedNote}',
                 style: type.small.copyWith(color: colors.ink),
               ),
+            ],
+            if (deletionRequested) ...[
+              const SizedBox(height: MmSpace.s12),
+              Text(WalletCopy.deletionRequested, style: type.small.copyWith(color: colors.ink2)),
             ],
           ],
         ),

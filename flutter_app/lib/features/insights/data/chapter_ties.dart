@@ -49,8 +49,8 @@ String costliestPlace(List<String> names) => switch (names.length) {
 String costliestHeadline(List<ChapterLine> tied) {
   if (tied.isEmpty) return '';
   final names = [for (final c in tied) c.chapter];
-  if (names.length == 1) return 'You lose the most marks in ${names.single}';
+  if (names.length == 1) return 'The most marks slip in ${names.single}';
   final each = tied.first.lost;
-  if (names.length == 2) return '${namesTogether(names)} tie for the most marks lost, $each each';
-  return '${names.length} chapters tie for the most marks lost, $each each: ${namesTogether(names)}';
+  if (names.length == 2) return '${namesTogether(names)} tie for the most marks slipped, $each each';
+  return '${names.length} chapters tie for the most marks slipped, $each each: ${namesTogether(names)}';
 }

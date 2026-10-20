@@ -74,7 +74,7 @@ void main() {
   test('all right: nothing lost and the next step', () {
     final r = paperReadOf(_rows([for (var i = 0; i < 5; i++) ('Goodwill', _V.r)]));
     expect(r.strengths, ['You got all 5 right, so there is nothing to fix from this paper.']);
-    expect(r.leaks, ['You lost no marks on this paper.']);
+    expect(r.leaks, ['No marks slipped on this paper.']);
     expect(r.reach, 'You took all 25 marks, so a harder paper is the next step.');
     expect(r.risks, isEmpty);
   });

@@ -180,7 +180,7 @@ class DenStage extends ConsumerWidget {
   /// Room the screen's title block takes at the stage's top left (the shelf sits under it).
   final double titleWidth;
 
-  /// The den's clock (the studying desk's "since" reads the server's time, not this).
+  /// The den's clock: the studying desk's "since" is the server's time, capped so it is never later than this.
   final DateTime? now;
 
   /// Who is on the desk, as the screen keeps it (null: read [studierOf]). While [deskLeaving], the last studier
@@ -553,6 +553,7 @@ class DenStage extends ConsumerWidget {
                       key: ValueKey('den-studying-${deskLeaving ? 'leave' : 'in'}-${studier.memberId}'),
                       member: studier,
                       since: studying.since,
+                      now: now,
                       size: size * 0.85,
                       // The art's desk top (art 1536 x 1024: the paper at about x 1150, the top at y 452).
                       deskTop: Offset(artLeft + 1150 * s, artTop + 452 * s),
@@ -1386,7 +1387,15 @@ class StudyDesk extends StatelessWidget {
     this.floor,
     this.floorSize,
     this.onLeft,
+    this.now,
   });
+
+  /// The den's clock. The tag shows the server's own `since`, but never a time later than this (a phone a few minutes
+  /// behind the server must not read "since" a moment that has not happened yet). Null: the server's time as it is.
+  final DateTime? now;
+
+  /// The time the tag shows: the server's [since], capped at the den's clock [now] when it has one.
+  static DateTime shownSince(DateTime since, DateTime? now) => now != null && since.isAfter(now) ? now : since;
 
   /// The Fold's centre never goes left of this (clear of the pennant).
   final double minFoldX;
@@ -1428,7 +1437,7 @@ class StudyDesk extends StatelessWidget {
     final lampX = math.min(width - 10, math.max(deskTop.dx + size * 1.3, foldX + size * 0.5 + 30));
     if (leaving) return _leave(context, reduced: reduced, foldX: foldX, lampX: lampX);
     return Semantics(
-      label: MobV4DenCopy.studyingSemantics(member.name, since),
+      label: MobV4DenCopy.studyingSemantics(member.name, StudyDesk.shownSince(since, now)),
       container: true,
       child: ExcludeSemantics(
         child: TweenAnimationBuilder<double>(
@@ -1491,7 +1500,7 @@ class StudyDesk extends StatelessWidget {
                     opacity: tag.clamp(0.0, 1.0),
                     child: Transform.translate(
                       offset: Offset(0, 8 * (1 - tag)),
-                      child: _StudyTag(name: member.name, since: since),
+                      child: _StudyTag(name: member.name, since: StudyDesk.shownSince(since, now)),
                     ),
                   ),
                 ),
@@ -1552,7 +1561,7 @@ extension on StudyDesk {
                   top: tagTop,
                   child: Opacity(
                     opacity: tag.clamp(0.0, 1.0),
-                    child: _StudyTag(name: member.name, since: since),
+                    child: _StudyTag(name: member.name, since: StudyDesk.shownSince(since, now)),
                   ),
                 ),
             ],
@@ -1592,8 +1601,9 @@ class _StudyTag extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(MobV4DenCopy.studying(name), style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
-              Text(MobV4DenCopy.since(since), style: type.caption.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
+              Text(MobV4DenCopy.studying(name), maxLines: 1, softWrap: false, overflow: TextOverflow.ellipsis, style: type.label.copyWith(color: colors.ink, fontWeight: FontWeight.w700)),
+              // One line at any text size: the time is short, and it never wraps under the name.
+              Text(MobV4DenCopy.since(since), maxLines: 1, softWrap: false, style: type.caption.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
             ],
           ),
         ],

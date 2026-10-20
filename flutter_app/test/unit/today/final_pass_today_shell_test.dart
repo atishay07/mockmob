@@ -222,7 +222,7 @@ void main() {
       expect(AheadCopy.weekSemantics('Next week', 'Plan', 'Starts Monday.'), 'Next week. Plan. Starts Monday. Change plan.');
       expect(SuggestedCopy.cardSemantics(1, 3, 'Free, about 10 min', 'Revise', 'Due today.', suggested: false), 'Card 1 of 3. Revise. Free, about 10 min. Due today.');
       expect(GlanceCopy.layerSemantics('Layer', '4', 'Ends Monday.', false), 'Layer. 4. Ends Monday. Show details.');
-      expect(GlanceCopy.weakRowSemantics('Goodwill', '9 of 12 missed.', 41, true), 'Goodwill. 9 of 12 missed. 41 marks lost. Hide mistakes.');
+      expect(GlanceCopy.weakRowSemantics('Goodwill', '9 of 12 missed.', 41, true), 'Goodwill. 9 of 12 missed. 41 marks slipped. Hide mistakes.');
     });
   });
 

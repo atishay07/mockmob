@@ -112,6 +112,12 @@ class _AccountScreenState extends ConsumerState<AccountScreen> {
     return YouPage(
       title: YouCopy.accountTitle,
       children: [
+        // Deletion is only a request: until it is processed the account works, and this says so (email is the way to cancel).
+        if (auth.deletionRequestedAt != null)
+          Padding(
+            padding: const EdgeInsets.fromLTRB(youText, MmSpace.s8, youText, MmSpace.s12),
+            child: InlineBanner(message: YouCopy.deletionBanner(auth.deletionRequestedAt!), tone: BannerTone.warning),
+          ),
         PlanCard(auth: auth, mobi: _mobi),
         // The balance and every use of it live on Credits; the plan card shows the same figure as the Account sheet.
         Padding(

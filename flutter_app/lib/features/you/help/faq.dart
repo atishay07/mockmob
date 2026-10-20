@@ -77,7 +77,7 @@ abstract final class FaqCopy {
 
   static const offline = FaqItem(
     id: 'offline',
-    question: 'What happens to my answers if I lose connection?',
+    question: 'What happens to my answers if my connection drops?',
     answer: [
       'They stay on this phone and send when you are back online. Signing out warns you first if anything has not been sent.',
     ],

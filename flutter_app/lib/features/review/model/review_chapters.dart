@@ -612,10 +612,10 @@ List<ChapterRow> chapterRows(ReviewRecord record, {LocalTime local = istLocal}) 
     // Six marks go for a wrong answer and only five are on offer for a question, so a chapter of mostly wrong answers can lose
     // more than it had on offer. "Lost 316 of the 310 marks" cannot be true: such a row says the marks lost alone.
     final line = offer == null
-        ? LeadLine(lead: 'Lost $lost marks', rest: ' in $names. $counted.')
+        ? LeadLine(lead: '$lost marks slipped', rest: ' in $names. $counted.')
         : lost > offer
-        ? LeadLine(lead: 'Lost $lost marks', rest: '$asked. $counted.')
-        : LeadLine(lead: 'Lost $lost of the $offer marks', rest: ' on offer$asked. $counted.');
+        ? LeadLine(lead: '$lost marks slipped', rest: '$asked. $counted.')
+        : LeadLine(lead: '$lost of the $offer marks', rest: ' on offer slipped$asked. $counted.');
     built.add((
       row: ChapterRow(
         id: id,
@@ -713,7 +713,11 @@ String savedLine(List<SavedRepair> saved) {
 /// The action label of an item as the record holds it (the website's `actionFor`).
 String? actionFor(RecordItem item) => actionLabel(item.state, keyHeld: item.keyState != null);
 
-/// "Your 3 papers lost 220 marks: 30 wrong answers and 8 left blank. 9 are repaired." Summed from [chapterRows].
+/// The name in "In your 3 papers, 220 marks slipped": "Your 3 papers" reads "your 3 papers" after "In"; a mock keeps its name.
+String whoLower(String who) => who.startsWith('Your ') ? 'your ${who.substring(5)}' : who;
+String whoIn(String who) => 'In ${whoLower(who)}';
+
+/// "In your 3 papers, 220 marks slipped: 30 wrong answers and 8 left blank. 9 are repaired." Summed from [chapterRows].
 ReviewSummary reviewLine(ReviewRecord record, {List<ChapterRow>? rows, List<SavedRepair>? saved, LocalTime local = istLocal}) {
   final chapters = rows ?? chapterRows(record, local: local);
   final repairs = saved ?? savedRepairs(record, local: local);
@@ -721,7 +725,7 @@ ReviewSummary reviewLine(ReviewRecord record, {List<ChapterRow>? rows, List<Save
   final lost = chapters.fold(0, (s, r) => s + r.lost);
   final wrong = chapters.fold(0, (s, r) => s + r.wrong);
   final blank = chapters.fold(0, (s, r) => s + r.blank);
-  // One paper: a mock by its name ("Mock 3 lost 92 marks"); any other paper is "Quick practice", which names no one
+  // One paper: a mock by its name ("In Mock 3, 92 marks slipped"); any other paper is "Quick practice", which names no one
   // paper, so it is "Your practice set" (the website's reviewLine, copy pass 19 Oct, R6).
   final one = ctx.papers.length == 1 ? ctx.papers.first.name : null;
   final who = one == null
@@ -736,7 +740,7 @@ ReviewSummary reviewLine(ReviewRecord record, {List<ChapterRow>? rows, List<Save
     who: who,
     what: what,
     fixed: fixed,
-    text: lost > 0 ? '$who lost $lost marks: $what.$fixed' : '$who lost no marks.',
+    text: lost > 0 ? '${whoIn(who)}, $lost marks slipped: $what.$fixed' : 'No marks slipped in ${whoLower(who)}.',
   );
 }
 
