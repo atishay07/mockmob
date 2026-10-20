@@ -874,3 +874,7 @@ Billing page: "Your grace period has started. Your organization went over its qu
 > * Paper notes per subject
 > Check for yourself. Literally, I don't remember 90% of the things that you said are my feedback that I ever said. Take all of the sweep that you have done with a pinch of salt. Just believe in your assumption. If you think everything in the app is good, you can release it. Keep the pace up, keep going, and keep building."
 **Ledger D184:** the auto sweep (V15-OWNER-SWEEP.md) is advisory only; verify each claim in code before acting. Checked 6:00 pm: email link cold start IS handled (router.dart:99 getInitialLink); perfect paper handled (paper_read.dart:131); name rule works as intended. Built tonight only what is verified and his decisions: D181, D182 (+ Play Install Referrer so invites reach Play installs), D183, the delete-account Play warning (CTO call), the Mob explainer slide 3 (K9). Everything else waits for the emulator walk to show it.
+
+## Owner, 20 Oct about 6:32 pm IST (verbatim)
+> "Right now, I'm planning to switch the session to Codex for a bit. Just wanted to try it out as it is. Prepare a prompt like you always do to start in a fresh session. Whatever you are saying about replies that don't work, that pays for a new account. When I switch accounts, it's a new session every time, so prepare a handoff and a prompt which I can paste into the next agent, whichever it may be."
+(Next prompt: docs/brain/NEXT-PROMPT-1020-EVE.md, agent-agnostic.)
