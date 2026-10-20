@@ -667,7 +667,6 @@ class ProCompareTable extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            const SizedBox(width: MmSpace.s4),
                             cell(r.$2, pro: false),
                             cell(r.$3, pro: true),
                           ],

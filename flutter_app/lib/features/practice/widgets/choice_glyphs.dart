@@ -161,13 +161,15 @@ class ChoiceGlyphPainter extends CustomPainter {
     ..color = color
     ..isAntiAlias = true;
 
-  /// A solid fill that goes from lit (top left) through [c] to shaded (bottom right) across [r].
-  Paint _solid(Color c, Rect r, {double hi = 0.2, double lo = 0.3}) => Paint()
+  /// A solid fill that goes from lit (top left) through [c] to shaded (bottom right) across [r]. On Day the porcelain
+  /// sits on cream, so its lit side gains little and its shaded side goes deeper: the form reads from the shade.
+  /// [themed] false keeps the same shading in both themes (the NTA panel, which must look like the real screen).
+  Paint _solid(Color c, Rect r, {double hi = 0.2, double lo = 0.3, bool themed = true}) => Paint()
     ..isAntiAlias = true
     ..shader = ui.Gradient.linear(
       r.topLeft,
       r.bottomRight,
-      [Color.lerp(c, _white, hi)!, c, Color.lerp(c, _black, lo)!],
+      [Color.lerp(c, _white, colors.isNight || !themed ? hi : hi * 0.5)!, c, Color.lerp(c, _black, colors.isNight || !themed ? lo : lo + 0.16)!],
       const [0, 0.45, 1],
     );
 
@@ -198,7 +200,7 @@ class ChoiceGlyphPainter extends CustomPainter {
   /// Night needs none (paper on charcoal).
   void _keyline(Canvas canvas, Path path, {double width = 0.65}) {
     if (colors.isNight) return;
-    canvas.drawPath(path, _stroke(colors.ink.withValues(alpha: 0.3), width));
+    canvas.drawPath(path, _stroke(colors.ink.withValues(alpha: 0.36), width));
   }
 
   void _bubble(Canvas canvas, Offset c, double r, BubbleState state, {double fill = 1, Offset origin = Offset.zero}) =>
@@ -391,7 +393,7 @@ class ChoiceGlyphPainter extends CustomPainter {
     canvas
       ..drawRRect(crownStem, Paint()..color = Color.lerp(_body, _black, 0.4)!)
       ..drawRRect(crownCap, _solid(_body, crownCap.outerRect, hi: 0.2, lo: 0.3))
-      ..drawRRect(crownCap, _stroke(colors.isNight ? const Color(0x00000000) : colors.ink.withValues(alpha: 0.3), 0.65))
+      ..drawRRect(crownCap, _stroke(colors.isNight ? const Color(0x00000000) : colors.ink.withValues(alpha: 0.36), 0.65))
       // The side button.
       ..save()
       ..translate(19.1, 7.1)
@@ -484,7 +486,7 @@ class ChoiceGlyphPainter extends CustomPainter {
     final panelRect = RRect.fromRectAndRadius(ntaPanel, radius);
     final panel = Path()..addRRect(panelRect);
     _drop(canvas, panel);
-    canvas.drawPath(panel, _solid(const Color(0xFFF1EEE6), ntaPanel, hi: 0.5, lo: 0.12));
+    canvas.drawPath(panel, _solid(const Color(0xFFF1EEE6), ntaPanel, hi: 0.5, lo: 0.12, themed: false));
     canvas.drawPath(panel, _stroke(_black.withValues(alpha: 0.22), 0.5));
     // The palette's header band, with the pale rule of its title.
     canvas
@@ -582,7 +584,7 @@ class ChoiceGlyphPainter extends CustomPainter {
     final sheen = ui.Gradient.linear(rect.topLeft, rect.bottomRight, [Color.lerp(_body, _white, 0.2)!, _body, Color.lerp(_body, _black, 0.3)!], const [0, 0.45, 1]);
     // Day: the porcelain arrows' edge, a hairline under the stroke and round the heads.
     if (!colors.isNight) {
-      canvas.drawPath(arcs, _stroke(colors.ink.withValues(alpha: 0.3), 3.6));
+      canvas.drawPath(arcs, _stroke(colors.ink.withValues(alpha: 0.36), 3.6));
       _keyline(canvas, heads, width: 1.2);
     }
     canvas
