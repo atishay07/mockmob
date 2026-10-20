@@ -36,6 +36,7 @@ import { cameBack, chainChip } from '../../chain/chain.mjs';
 import { createChainService } from '../chain.js';
 import { memberIdFor } from './memberId.js';
 import { createHoursReader } from './hours.js';
+import { createMissingMemo } from './missing.js';
 import { denFixView } from '../../mob/denFix.mjs';
 
 export const STICKERS = Object.freeze(['nice_one', 'so_close', 'teach_me', 'again', 'good_luck', 'lets_go', 'one_sec', 'ready']);
@@ -64,6 +65,8 @@ export function createMobV3Service(deps, helpers = {}) {
   const chains = createChainService({ rpc: deps.rpc, now });
   // Mob hours: the heavy aggregate is shared per Mob and week for about a minute (deps.hoursCacheMs: 0 turns it off, tests).
   const hoursReader = createHoursReader({ ttlMs: deps.hoursCacheMs ?? undefined, now });
+  // A den function whose migration is not applied yet (mob_den_fix) is asked again only after five minutes, not on every den read.
+  const missingFns = createMissingMemo({ now });
   const billingOn = () => (deps.billingOn ? deps.billingOn() === true : false);
   const liveOn = () => (deps.liveEnabled ? deps.liveEnabled() === true : false);
   // Races and Full mock together (MOB_FORMATS_ENABLED; migration 20261020140000 first).
@@ -801,12 +804,14 @@ export function createMobV3Service(deps, helpers = {}) {
    */
   async function denFixFor(userId, state) {
     if ((state.members || []).length < 2) return null;
+    if (missingFns.skip('mob_den_fix')) return null; // not applied: not asked again for five minutes
     try {
-      return denFixView(await call('mob_den_fix', { p_mob_id: state.mob.id, p_user_id: userId, p_now: nowIso() }), now());
+      const rows = await call('mob_den_fix', { p_mob_id: state.mob.id, p_user_id: userId, p_now: nowIso() });
+      missingFns.seen('mob_den_fix');
+      return denFixView(rows, now());
     } catch (e) {
-      if (!(e instanceof MobError && e.code === 'MIGRATION')) {
-        console.warn('mob_den_fix_failed', [e?.code, e?.extra?.cause?.code].filter((c) => typeof c === 'string').join('/') || 'error');
-      }
+      if (e instanceof MobError && e.code === 'MIGRATION') missingFns.miss('mob_den_fix');
+      else console.warn('mob_den_fix_failed', [e?.code, e?.extra?.cause?.code].filter((c) => typeof c === 'string').join('/') || 'error');
       return null;
     }
   }

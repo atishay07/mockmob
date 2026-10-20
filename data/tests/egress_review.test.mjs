@@ -247,7 +247,7 @@ test('exposures: the ids and families from the function equal those the whole-ro
     assert.equal(seen.questionIds.length, new Set(seen.questionIds).size, 'no repeats');
     const learning = { ids: snapshots.map((q) => q.id), families: snapshots.map((q) => q.familyId).filter(Boolean) };
     assert.deepEqual(new Set(seen.questionIds), new Set(learning.ids));
-    assert.deepEqual(new Set(seen.familyIds), new Set(learning.families), 'the learning episode read only familyId, and so does the function');
+    assert.deepEqual(new Set(seen.familyIds), new Set(learning.families), 'on papers that store familyId (every fixture) the learning episode set is the same; the evidence fallback is tested in egress_ids.test.mjs');
   }
   resetAttemptQuestionIdsState();
   const full = bytes(await tableRows(pg, 'u1'));

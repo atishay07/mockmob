@@ -18,6 +18,7 @@ import { practiceCharge, spendWithLegacyFallback } from '../practice_charge.js';
 import { practiceCreditAction } from '../test_modes.js';
 import { FORMAT_COPY, formatTiles, mockPriceOf } from '../../src/components/mob/v3/play/formats.mjs';
 import { DEN_ERRORS } from '../../src/lib/mob/v3/denCopy.mjs';
+import { MOCK_SIT_CREDITS } from '../../src/lib/mob/mockPrice.mjs';
 import { ledger, ledgerDatabase, ledgerUser, spendCredits, spendable } from './helpers/credits_ledger.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..', '..');
@@ -224,6 +225,12 @@ test('insufficient credits: MOCK_CREDITS (402) with the price, nothing charged, 
     const view = (await t.svc.v3.getGame('u2', g.id)).game;
     assert.deepEqual([view.you.run, view.price.costCredits], ['none', 50]);
     assert.match(ERRORS.MOCK_CREDITS[1], /50 credits/);
+  // the figure is the constant's, not typed twice: all four sentences carry MOCK_SIT_CREDITS (and a change of price moves them)
+  for (const sentence of [ERRORS.MOCK_CREDITS[1], ERRORS.MOCK_PRO_REQUIRED[1], DEN_ERRORS.MOCK_CREDITS, DEN_ERRORS.MOCK_PRO_REQUIRED]) {
+    assert.ok(sentence.includes(`${MOCK_SIT_CREDITS} credits`), sentence);
+  }
+  assert.match(read('src/lib/mob/model.mjs'), /\$\{MOCK_SIT_CREDITS\} credits, or free with Pro/);
+  assert.match(read('src/lib/mob/v3/denCopy.mjs'), /\$\{MOCK_SIT_CREDITS\} credits, and you have fewer than that/);
     assert.match(ERRORS.MOCK_CREDITS[1], /Nothing was charged\.$/);
   } finally { await t.close(); }
 });

@@ -2,7 +2,7 @@ import test, { after } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { PGlite } from '@electric-sql/pglite';
-import { readAttemptQuestionIds, resetAttemptQuestionIdsState } from '../attempt_question_ids.js';
+import { readAttemptQuestionIds, readExposedIds, resetAttemptQuestionIdsState } from '../attempt_question_ids.js';
 import { loadPreviousNtaPaperIds, loadSeenQuestionIds } from '../nta_pool.js';
 import { richAttemptRows } from './helpers/lean_fixtures.mjs';
 
@@ -17,6 +17,11 @@ const odd = [
   { id: 'odd-4', user_id: 'odd', subject: 'accountancy', completed_at: '2026-10-04T00:00:00Z', selection_meta: { mode: 'nta' }, snapshot: [{ id: 'd' }] },
   { id: 'odd-5', user_id: 'odd', subject: 'economics', completed_at: '2026-10-05T00:00:00Z', selection_meta: { mode: 'nta' }, snapshot: [] },
 ];
+// older papers: the family only in the question's evidence record, an empty familyId that falls through to it, and a number-free mix
+const familyRows = [
+  { id: 'fam-1', user_id: 'fam', subject: 'economics', completed_at: '2026-10-01T00:00:00Z', selection_meta: {}, snapshot: [{ id: 'a', evidence: { record: { family_id: 'fe-a' } } }, { id: 'b', familyId: 'fb', evidence: { record: { family_id: 'fe-b' } } }, { id: 'c', familyId: '', evidence: { record: { family_id: 'fe-c' } } }] },
+  { id: 'fam-2', user_id: 'fam', subject: 'economics', completed_at: '2026-10-02T00:00:00Z', selection_meta: {}, snapshot: [{ id: 'd', evidence: 'not an object' }, { id: 'e', evidence: { record: null } }, { id: 'f', familyId: '', evidence: { record: { family_id: '' } } }, { id: 'g', evidence: { record: { family_id: 'fe-g' } } }] },
+];
 let pg;
 const rows = [...richAttemptRows(1, 'u1', 30), ...richAttemptRows(2, 'u2', 4)];
 test('setup', async () => {
@@ -27,6 +32,7 @@ test('setup', async () => {
   const put = (r) => pg.query('insert into public.attempts(id,user_id,subject,completed_at,selection_meta,questions_snapshot,details) values ($1,$2,$3,$4,$5,$6,$7)', [r.id, r.user_id, r.subject, r.completed_at, JSON.stringify(r.selection_meta), JSON.stringify(r.questions_snapshot ?? r.snapshot), '[]']);
   for (const r of rows) await put(r);
   for (const r of odd) await put(r);
+  for (const r of familyRows) await put(r);
 });
 after(async () => { await pg?.close(); });
 
@@ -62,7 +68,7 @@ function client({ withFunction = true, fail = null } = {}) {
   };
   if (withFunction) {
     db.rpc = (fn, args) => {
-      const b = { abortSignal() { return b; }, then(resolve, reject) {
+      const b = { abortSignal() { return b; }, order() { return b; }, range() { return b; }, then(resolve, reject) {
         return (async () => {
           if (fail) { calls.push({ kind: 'rpc', error: fail.code }); return { data: null, error: fail }; }
           const { rows: out } = await pg.query('select * from public.attempt_question_ids($1,$2,$3,$4)', [args.p_user_id, args.p_subject, args.p_mode, args.p_limit]);
@@ -90,6 +96,18 @@ test('the function gives the ids and family ids of each snapshot in order, skipp
   assert.deepEqual(filtered.map((r) => r.attempt_id), ['odd-5']);
   assert.equal((await pg.query("select * from public.attempt_question_ids('odd', 'economics', 'nta')")).rows.length, 2);
   assert.equal((await pg.query("select * from public.attempt_question_ids('nobody')")).rows.length, 0);
+});
+
+test('a question whose family is only in its evidence record still gives that family, as the old whole-row read did', async () => {
+  const { rows: out } = await pg.query("select * from public.attempt_question_ids('fam')");
+  assert.deepEqual(out.find((r) => r.attempt_id === 'fam-1').family_ids, ['fe-a', 'fb', 'fe-c'], 'familyId first, the evidence family when it is missing or empty');
+  assert.deepEqual(out.find((r) => r.attempt_id === 'fam-2').family_ids, ['fe-g'], 'nothing for a non-object evidence, a null record or empty ids');
+  assert.deepEqual(out.find((r) => r.attempt_id === 'fam-2').question_ids, ['d', 'e', 'f', 'g']);
+  // the old rule, copied from data/mistake_replay.js replayExposures
+  const old = new Set(familyRows.flatMap((r) => r.snapshot).map((q) => q.familyId || q.evidence?.record?.family_id).filter(Boolean));
+  resetAttemptQuestionIdsState();
+  const seen = await readExposedIds(client(), { userId: 'fam', readSnapshots: async () => { throw new Error('the table must not be read'); } });
+  assert.deepEqual(new Set(seen.familyIds), old);
 });
 
 test('F14: the recency set of the newest N papers of the subject is the old set, for every N, from far fewer bytes', async () => {

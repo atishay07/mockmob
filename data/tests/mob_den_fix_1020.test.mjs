@@ -227,8 +227,10 @@ test('the read: only this Mob, only a member, never a fixed trap or a closed win
     assert.deepEqual(await ask(mobId, 'u5'), [], 'u5 is not in this Mob');
     // this member's own answers
     await answerFix(svc, db, 'u2', g.id, 'now');
-    assert.deepEqual((await ask(mobId, 'u2'))[0].now_answered, true);
-    assert.deepEqual((await ask(mobId, 'u4'))[0].now_answered, false, 'another member\'s answer is not yours');
+    assert.deepEqual(await ask(mobId, 'u2'), [], 'u2 took the fix question and the check is days away: nothing is left, so nothing is listed');
+    assert.equal((await ask(mobId, 'u2', CHECK_OPENS))[0].now_answered, true, 'the check is open: listed again, with the fix already answered');
+    assert.equal((await ask(mobId, 'u2', CHECK_OPENS))[0].check_answered, false);
+    assert.equal((await ask(mobId, 'u4'))[0].now_answered, false, 'another member\'s answer is not yours');
     // the window: listed to its last second, gone after
     assert.equal((await ask(mobId, 'u4', CHECK_CLOSES)).length, 1);
     assert.equal((await ask(mobId, 'u4', CHECK_CLOSES + 1000)).length, 0);
@@ -246,6 +248,41 @@ test('the read: only this Mob, only a member, never a fixed trap or a closed win
     assert.ok(!list.some((x) => x.game_id === g.id), 'the oldest of seven is the one left out');
     const times = await db.query("select game_id::text id, opened_at from mob_traps order by opened_at desc limit 5");
     assert.deepEqual(list.map((x) => x.game_id), times.rows.map((x) => x.id));
+  } finally { await db.close(); }
+});
+
+test('the read: five newer traps this member has finished never hide an older one that is still theirs (the member\'s state is filtered before the limit)', async () => {
+  const db = await database();
+  const clock = { now: NOW };
+  try {
+    const svc = serviceFor(db, { clock });
+    const mobId = await chaiCircle(svc);
+    const g = await trappedGame(svc, clock, mobId);
+    clock.now = NOW + 25 * HOUR;
+    await svc.v3.review('u1', g.id); // the real trap of the oldest game
+    // six newer games, each with a trap; u4 has answered the fix question of the five newest
+    for (let i = 0; i < 6; i += 1) {
+      await db.query("insert into mob_games (id, mob_id, created_by, started_via, format, mode, subject, question_ids, seconds_per_question, week_start, opened_at, closes_at) select gen_random_uuid(), mob_id, created_by, started_via, format, mode, subject, question_ids, seconds_per_question, week_start, opened_at + ($1 || ' hours')::interval, closes_at + ($1 || ' hours')::interval from mob_games where id = $2::uuid", [String(i + 1), g.id]);
+    }
+    await db.query("insert into mob_traps (game_id, q, question_id, mob_id, opened_at, check_opens_at, check_closes_at) select id, 1, 'q2', mob_id, closes_at, $1::timestamptz, $2::timestamptz from mob_games where id <> $3::uuid", [new Date(CHECK_OPENS).toISOString(), new Date(CHECK_CLOSES).toISOString(), g.id]);
+    const newest = (await db.query('select game_id::text id from mob_traps order by opened_at desc limit 5')).rows.map((r) => r.id);
+    const unfinished = (await db.query('select game_id::text id from mob_traps where game_id::text <> all($1::text[]) order by opened_at desc', [newest])).rows.map((r) => r.id);
+    assert.equal(unfinished.length, 2, 'the oldest copy and the real game');
+    for (const id of newest) {
+      await db.query("insert into mob_fix_checks (game_id, q, user_id, stage, question_id, correct, answered_at) values ($1::uuid, 1, 'u4', 'now', 'q2', true, $2::timestamptz)", [id, new Date(clock.now).toISOString()]);
+    }
+    const at = new Date(NOW + 3 * DAY).toISOString();
+    const rows = await one(db, 'select public.mob_den_fix($1::uuid, $2, $3::timestamptz) as r', [mobId, 'u4', at]);
+    assert.deepEqual(rows.map((r) => r.game_id), unfinished, 'only what is still left for u4, newest first');
+    assert.equal(denFixView(rows, NOW + 3 * DAY).gameId, unfinished[0], 'the card is the older trap that is still open for u4');
+    // someone who finished nothing still sees the five newest (the limit is still 5)
+    const fresh = await one(db, 'select public.mob_den_fix($1::uuid, $2, $3::timestamptz) as r', [mobId, 'u3', at]);
+    assert.deepEqual(fresh.map((r) => r.game_id), newest);
+    // a member who has done every step has nothing listed at all, even with the check open
+    for (const id of [...newest, ...unfinished]) {
+      await db.query("insert into mob_fix_checks (game_id, q, user_id, stage, question_id, correct, answered_at) select t.game_id, t.q, 'u2', s.stage, 'q2', true, $2::timestamptz from mob_traps t, (values ('now'), ('check')) s(stage) where t.game_id = $1::uuid on conflict do nothing", [id, at]);
+    }
+    assert.deepEqual(await one(db, 'select public.mob_den_fix($1::uuid, $2, $3::timestamptz) as r', [mobId, 'u2', new Date(CHECK_OPENS + HOUR).toISOString()]), []);
   } finally { await db.close(); }
 });
 
@@ -416,4 +453,61 @@ test('without the migration the den has no fix and nothing is logged; any other 
       assert.deepEqual(logged[0].arguments, ['mob_den_fix_failed', 'UNAVAILABLE/57014']);
     } finally { await db.close(); }
   } finally { warn.mock.restore(); }
+});
+
+test('a function that is not there is asked once, then not again for five minutes, per function; any other failure is asked every time', async () => {
+  const warn = mock.method(console, 'warn', () => {});
+  const clock = { now: NOW };
+  try {
+    const db = await database({ fix: false });
+    try {
+      const seen = [];
+      const svc = serviceFor(db, { clock, rpc: pgRpc(db, { seen }) });
+      const count = (name) => seen.filter((n) => n === name).length;
+      const mobId = await chaiCircle(svc); // setting the Mob up reads the den a few times
+      await denOf(svc, 'u2', mobId);
+      assert.equal(count('mob_den_fix'), 1, 'the first den read of a Mob of two or more asks, learns the function is missing, and never asks again');
+      assert.equal(count('mob_hours_head'), 1, 'the hours function is missing too: asked once in all those reads');
+      assert.equal(count('mob_hours_rows'), 0);
+      for (let i = 0; i < 4; i += 1) { clock.now += MIN; await denOf(svc, 'u2', mobId); }
+      assert.equal(count('mob_den_fix'), 1, 'four more den reads inside five minutes: not asked');
+      assert.equal(count('mob_hours_head'), 1, 'and neither is the hours function');
+      clock.now += 5 * MIN; // five minutes after the first miss
+      await denOf(svc, 'u2', mobId);
+      assert.equal(count('mob_den_fix'), 2, 'five minutes later it is asked again, so a migration applied meanwhile is noticed');
+      assert.equal(count('mob_hours_head'), 2);
+      assert.equal(warn.mock.calls.filter((c) => /mob_(den_fix|hours)_failed/.test(String(c.arguments[0]))).length, 0, 'a missing function is never logged');
+    } finally { await db.close(); }
+    // any other failure is not remembered: asked on every den read, logged each time with its code
+    const db3 = await database();
+    try {
+      const seen = [];
+      const error = Object.assign(new Error('timeout'), { code: '57014' });
+      const svc = serviceFor(db3, { clock: { now: NOW }, rpc: pgRpc(db3, { seen, fail: { name: 'mob_den_fix', error } }) });
+      const mobId = await chaiCircle(svc);
+      seen.length = 0;
+      warn.mock.resetCalls();
+      await denOf(svc, 'u2', mobId); await denOf(svc, 'u2', mobId);
+      assert.equal(seen.filter((n) => n === 'mob_den_fix').length, 2);
+      assert.equal(warn.mock.calls.filter((c) => /mob_den_fix_failed/.test(String(c.arguments[0]))).length, 2);
+    } finally { await db3.close(); }
+  } finally { warn.mock.restore(); }
+});
+
+test('the missing-function memo: skip, retry after the pause, forget on an answer, one name never hides another', async () => {
+  const { createMissingMemo, MISSING_RETRY_MS } = await import('../../src/lib/server/mob/missing.js');
+  assert.equal(MISSING_RETRY_MS, 5 * 60 * 1000);
+  const clock = { now: 1000 };
+  const memo = createMissingMemo({ now: () => clock.now });
+  assert.equal(memo.skip('a'), false, 'never asked: ask');
+  memo.miss('a');
+  assert.equal(memo.skip('a'), true);
+  assert.equal(memo.skip('b'), false, 'another function is unaffected');
+  clock.now += MISSING_RETRY_MS - 1;
+  assert.equal(memo.skip('a'), true, 'one millisecond short of the pause');
+  clock.now += 1;
+  assert.equal(memo.skip('a'), false, 'the pause is over: ask again');
+  assert.equal(memo.size(), 0, 'and the old miss is forgotten');
+  memo.miss('a'); memo.seen('a');
+  assert.equal(memo.skip('a'), false, 'an answer clears the miss');
 });

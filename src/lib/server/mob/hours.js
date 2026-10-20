@@ -1,4 +1,5 @@
 import { MobError } from '../../mob/model.mjs';
+import { createMissingMemo } from './missing.js';
 
 // Mob hours (D173 item 1, D174; MOB-V4-BUILD.md item 2): the den's "study time together" block. No 'server-only' and no '@/'
 // imports, so node:test drives it (data/tests/mob_hours_1020.test.mjs). The numbers come from the database
@@ -16,6 +17,8 @@ export const HOURS_TARGET_PER_MEMBER = 150; // minutes a week for each member wh
 export const HOURS_CACHE_MS = 60_000; // the heavy part of the read is shared per Mob and week for this long
 export const HOURS_CAP_SECONDS = 180; // one answered question counts at most 3 minutes (the database applies it)
 
+const HEAD_FN = 'mob_hours_head';
+const ROWS_FN = 'mob_hours_rows';
 const WEEK_RE = /^\d{4}-\d{2}-\d{2}$/;
 const whole = (v) => (Number.isFinite(Number(v)) ? Math.max(0, Math.floor(Number(v))) : 0);
 
@@ -66,6 +69,7 @@ export function hoursView(raw, members) {
  */
 export function createHoursReader({ ttlMs = HOURS_CACHE_MS, now = Date.now, max = 200 } = {}) {
   const cache = new Map(); // key -> { at, promise }
+  const missingFns = createMissingMemo({ now }); // a function whose migration is not applied is asked again only after five minutes
   const remember = (key, promise) => {
     if (cache.size >= max) {
       const t = now();
@@ -77,19 +81,28 @@ export function createHoursReader({ ttlMs = HOURS_CACHE_MS, now = Date.now, max 
   };
   /**
    * The den's hours or null. `read` is the service's one-call helper. A missing function (the migration is not applied) means "not
-   * shipped": null and nothing logged. Any other failure (a timeout, a cast error, a renamed column) also gives null so the den
+   * shipped": null and nothing logged, and the function is not asked for again for five minutes (a den read would otherwise make two
+   * calls that always fail). Any other failure (a timeout, a cast error, a renamed column) also gives null so the den
    * goes on without hours, but it is logged first, with a code and no user or Mob id, so it shows in the function logs.
    */
   async function readHours(read, { userId, mobId, week, nowIso, members }) {
+    if (missingFns.skip(HEAD_FN) || missingFns.skip(ROWS_FN)) return null;
+    // One call, one name: a MIGRATION answer is remembered against the function that gave it.
+    const ask = async (name, params) => {
+      try { return await read(name, params); } catch (e) {
+        if (e instanceof MobError && e.code === 'MIGRATION') missingFns.miss(name);
+        throw e;
+      }
+    };
     try {
-      const head = await read('mob_hours_head', { p_user_id: userId, p_mob_id: mobId });
+      const head = await ask(HEAD_FN, { p_user_id: userId, p_mob_id: mobId });
       if (!head || typeof head !== 'object') return null;
       const sharers = (Array.isArray(head.sharers) ? head.sharers : []).map(String).sort();
       const key = `${mobId}|${week}|${sharers.join(',')}`;
       let hit = ttlMs > 0 ? cache.get(key) : null;
       if (hit && now() - hit.at >= ttlMs) { cache.delete(key); hit = null; }
       if (!hit) {
-        const promise = Promise.resolve(read('mob_hours_rows', { p_mob_id: mobId, p_week: week, p_now: nowIso }));
+        const promise = Promise.resolve(ask(ROWS_FN, { p_mob_id: mobId, p_week: week, p_now: nowIso }));
         hit = { promise };
         if (ttlMs > 0) remember(key, promise);
       }

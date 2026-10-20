@@ -464,7 +464,9 @@ The server keeps the aggregate in process for about 60 seconds, keyed by Mob, we
 every 30 s by several members runs it about once a minute. Flipping a switch changes the set and so recomputes at once, on every
 server instance. The minutes and "studying now" can therefore lag by up to a minute. The den read also starts the hours read at the
 beginning, beside the other den reads. A failure of the hours read (other than "migration not applied") leaves `hours` out of that
-response and is logged as `mob_hours_failed` with an error code and no ids.
+response and is logged as `mob_hours_failed` with an error code and no ids. Until the migration is applied, "function not found" is
+remembered by the server process for 5 minutes per function (`src/lib/server/mob/missing.js`), so the den does not make two calls that
+always fail on every read; once the migration is applied a running server notices within 5 minutes.
 
 ### 2.14 Mob: Fix it together on the den, `v3.fix` (additive, version 15, 20 Oct 2026)
 
@@ -485,11 +487,11 @@ fix: {
 - `check`: the check window is open and this member has not answered the check.
 - `ready`: not `check`, and this member has not answered the fix question (the server takes a fix answer from the close to the end of the check window).
 - nothing: both answered, or the window is over, or the Mob already fixed the trap together (two members passed the check).
-The newest game with something left for this member decides (a finished newer game does not hide an older trap). The state matches what the app's Fix screen does with the same trap (it starts at the check while the check is open), so the card and the screen agree. Starting a question (`POST /api/mob/fix`) is not an answer: the card stays until the member answers.
+The newest game with something left for this member decides (a finished newer game does not hide an older trap: the database filters on this member's own answers before it takes the newest 5, so a very active Mob never hides an older trap that is still open for them). The state matches what the app's Fix screen does with the same trap (it starts at the check while the check is open), so the card and the screen agree. Starting a question (`POST /api/mob/fix`) is not an answer: the card stays until the member answers.
 
 **Window.** The card lasts as long as the trap's window, up to 14 days after the close, which is longer than the den's own `games[]` (open and closed in the last 7 days): a trap's check opens up to 7 days after the close and stays open to the Sunday after, so `fix` can name a game that is no longer in `games[]`. The app must open the Fix screen from `gameId` and `question - 1`, not from `games[]`.
 
-**Server reads (egress).** One small call per den read, `public.mob_den_fix(p_mob_id, p_user_id, p_now)`: this Mob's open traps (at most 5, newest game first; a handful of columns each) with this member's own two facts, a range read on the new index `mob_traps (mob_id, check_closes_at)`; no table is read whole and no question row is read. It runs beside the den's other reads, after the step that makes a closed game's trap (the first den, podium or review read after the close makes it, once). A Mob of one makes no call. No cache. The answer is a few hundred bytes; the object sent to the app is under 160 bytes.
+**Server reads (egress).** One small call per den read, `public.mob_den_fix(p_mob_id, p_user_id, p_now)`: this Mob's open traps that still have a step left for this member (at most 5, newest game first; a handful of columns each) with this member's own two facts, a range read on the new index `mob_traps (mob_id, check_closes_at)`; no table is read whole and no question row is read. It runs beside the den's other reads, after the step that makes a closed game's trap (the first den, podium or review read after the close makes it, once). A Mob of one makes no call. No cache of the answer. Until the migration is applied the function answers "not found" once and is then not asked again for 5 minutes by that server process (the same rule as the Mob hours reads, `src/lib/server/mob/missing.js`), so the den does not make a call that always fails on every read; once the migration is applied a running server notices within 5 minutes. The answer is a few hundred bytes; the object sent to the app is under 160 bytes.
 
 **Privacy.** The object names no member, pick or answer: it says only which step is left for the asker. The server never says whether another member took a step.
 

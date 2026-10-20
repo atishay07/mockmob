@@ -10,6 +10,7 @@
 // the Mob split. Pro: the full side-by-side, past weeks, extra papers on a chosen chapter and length, up to 3 Mobs.
 // Nothing here grants, spends or rewards credits or money.
 import { localDay, weekStart } from '../server/rhythm.js';
+import { MOCK_SIT_CREDITS } from './mockPrice.mjs';
 
 export const MAX_MEMBERS = 5;
 // The plan caps STARTING Mobs (17 Oct CTO decision): free starts one, Pro up to 3. Joining a friend's Mob by invite is
@@ -143,8 +144,9 @@ export const ERRORS = Object.freeze({
   NO_TICKET: [409, 'Open the room first.'],
   // Full mock together's price (owner D174, 20 Oct; src/lib/mob/mockPrice.mjs). detail carries the numbers:
   // { costCredits, sitCredits, proRequiredToStart, proSitsFree }.
-  MOCK_PRO_REQUIRED: [403, 'Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: 50 credits, or free with Pro.'],
-  MOCK_CREDITS: [402, 'Sitting this full mock costs 50 credits, and you have fewer than that. Add credits in your wallet, or get Pro to sit every full mock free. Nothing was charged.'],
+  // The figure in both sentences is MOCK_SIT_CREDITS (the solo Full mock's price), so a price change moves them with it.
+  MOCK_PRO_REQUIRED: [403, `Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: ${MOCK_SIT_CREDITS} credits, or free with Pro.`],
+  MOCK_CREDITS: [402, `Sitting this full mock costs ${MOCK_SIT_CREDITS} credits, and you have fewer than that. Add credits in your wallet, or get Pro to sit every full mock free. Nothing was charged.`],
 });
 
 export class MobError extends Error {

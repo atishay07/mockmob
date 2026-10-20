@@ -7,7 +7,9 @@
 -- lookup (the newest 3 to 8 papers of the subject, on every practice start), the seen set and the previous NTA papers of an NTA start
 -- (the newest 40 each). Each needs only the ids of the questions of those papers, but read the whole attempt row (a snapshot is 32 KB
 -- on average, up to 380 KB). This returns, per attempt, the ids of its snapshot's questions in order and their family ids, and nothing
--- else. An element without an id (or an empty one) is left out, exactly as the callers' `if (q && q.id)` left it out. Same filter as the
+-- else. A question's family is its snapshot key familyId or, when that is missing or empty, its evidence record's family_id (the rule of
+-- the old whole-row recovery and mistake-replay read, data/mistake_replay.js replayExposures), so a paper that stored the family only
+-- in its evidence still excludes it. An element without an id (or an empty one) is left out, exactly as the callers' `if (q && q.id)` left it out. Same filter as the
 -- callers: this user, the subject when given, selection_meta->>'mode' when given; newest first (completed_at desc, then id so a tie is not
 -- arbitrary), the first p_limit.
 --
@@ -35,9 +37,10 @@ as $function$
       where jsonb_typeof(q.value) = 'object' and coalesce(q.value ->> 'id', '') <> ''
       order by q.ord), '{}'::text[]) as question_ids,
     coalesce(array(
-      select q.value ->> 'familyId'
+      select coalesce(nullif(q.value ->> 'familyId', ''), nullif(q.value -> 'evidence' -> 'record' ->> 'family_id', ''))
       from jsonb_array_elements(case when jsonb_typeof(a.questions_snapshot) = 'array' then a.questions_snapshot else '[]'::jsonb end) with ordinality as q(value, ord)
-      where jsonb_typeof(q.value) = 'object' and coalesce(q.value ->> 'familyId', '') <> ''
+      where jsonb_typeof(q.value) = 'object'
+        and coalesce(nullif(q.value ->> 'familyId', ''), nullif(q.value -> 'evidence' -> 'record' ->> 'family_id', '')) is not null
       order by q.ord), '{}'::text[]) as family_ids
   from public.attempts a
   where a.user_id = p_user_id

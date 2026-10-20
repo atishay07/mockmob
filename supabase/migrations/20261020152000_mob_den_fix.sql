@@ -1,14 +1,16 @@
 -- Fix it together on the den (v3.fix; version 15, 20 Oct 2026). The den's Now card has two steps after a game closes with a trap:
 -- "Fix question N together" and "Take the check" (the Wednesday check). This is the one small read that tells the API which of
--- the two, if either, is left for ONE member: the Mob's traps whose check window has not closed and that the Mob has not fixed
--- together yet, newest game first, each with that member's own two facts. Read only: it changes no row, table, function or API
--- answer that exists today. Service role only, security invoker, the clock passed in by the API so one clock decides.
+-- the two, if either, is left for ONE member: the Mob's traps whose check window has not closed, that the Mob has not fixed
+-- together yet and that still have a step left for that member, newest game first, each with that member's own two facts. Read only:
+-- it changes no row, table, function or API answer that exists today. Service role only, security invoker, the clock passed in by the API so one clock decides.
 --
 --   mob_den_fix(p_mob_id, p_user_id, p_now)  jsonb array, newest game first, at most 5 rows of
 --       { game_id, q (0-based question index of the trap), check_opens_at, check_closes_at,
 --         now_answered (this member answered the fix question), check_answered (this member answered the check) }.
 --       Empty for a member who is not in the Mob, and for a Mob with no open trap. A trap that is fixed (fixed_at set: two
---       members passed the Wednesday check) or whose window is over (check_closes_at before p_now) is not listed.
+--       members passed the Wednesday check), whose window is over (check_closes_at before p_now), or that this member has nothing
+--       left to do on (answered the fix question, and the check is not open yet or is answered too) is not listed. The member's
+--       own state is part of the filter and is applied before the limit of 5, so a very active Mob never hides an older open trap.
 --   mob_traps_mob_idx   (mob_id, check_closes_at): the one Mob's open traps are a range read, not a scan of every Mob's traps.
 --
 -- Why not the den's own games: the den lists games that closed in the last 7 days, but a trap's check opens up to 7 days after the
@@ -34,14 +36,21 @@ returns jsonb language sql security invoker stable set search_path = public as $
   from (
     select t.opened_at, t.q, jsonb_build_object(
         'game_id', t.game_id, 'q', t.q, 'check_opens_at', t.check_opens_at, 'check_closes_at', t.check_closes_at,
-        'now_answered', exists (select 1 from public.mob_fix_checks c
-                                where c.game_id = t.game_id and c.q = t.q and c.user_id = p_user_id and c.stage = 'now' and c.answered_at is not null),
-        'check_answered', exists (select 1 from public.mob_fix_checks c
-                                  where c.game_id = t.game_id and c.q = t.q and c.user_id = p_user_id and c.stage = 'check' and c.answered_at is not null)
+        'now_answered', f.now_answered, 'check_answered', f.check_answered
       ) as j
     from public.mob_traps t
+    cross join lateral (
+      select
+        exists (select 1 from public.mob_fix_checks c
+                where c.game_id = t.game_id and c.q = t.q and c.user_id = p_user_id and c.stage = 'now' and c.answered_at is not null) as now_answered,
+        exists (select 1 from public.mob_fix_checks c
+                where c.game_id = t.game_id and c.q = t.q and c.user_id = p_user_id and c.stage = 'check' and c.answered_at is not null) as check_answered
+    ) f
     where t.mob_id = p_mob_id and t.fixed_at is null and t.check_closes_at >= p_now and t.opened_at <= p_now
       and exists (select 1 from public.mob_members mm where mm.mob_id = t.mob_id and mm.user_id = p_user_id)
+      -- a step is left for THIS member (src/lib/mob/denFix.mjs fixStateOf): the fix question not answered, or the check open and not
+      -- answered. Filtered before the limit, so five newer traps this member has finished never hide an older one that is still theirs.
+      and (not f.now_answered or (p_now >= t.check_opens_at and not f.check_answered))
     order by t.opened_at desc, t.q
     limit 5
   ) x

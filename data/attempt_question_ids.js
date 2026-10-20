@@ -44,8 +44,9 @@ export async function readAttemptQuestionIds(db, { userId, subject = null, mode 
  * Every question id and family id the student has met in any attempt (the exposure sets of a recovery start, a mistake replay and a
  * new learning episode), newest first and without repeats: { questionIds, familyIds }. Through the database function when it is there;
  * otherwise `readSnapshots()` (resolving to the attempts' snapshot questions, as the old whole-row read gave them) is used.
- * Throws the database error. The old read took a family from `familyId` or, failing that, from the question's evidence record; a
- * snapshot stores the family it was served under in `familyId` (data/db.js questionOut), so the two agree on every stored paper.
+ * Throws the database error. A question's family is `familyId` or, when that is missing or empty, its evidence record's `family_id`
+ * (the rule of data/mistake_replay.js replayExposures); the function (migration 20261020150100) applies the same rule, so a stored
+ * paper that kept its family only in its evidence is excluded the same way with or without the function.
  */
 export async function readExposedIds(db, { userId, readSnapshots }) {
   const viaFunction = await readAttemptQuestionIds(db, { userId, all: true });

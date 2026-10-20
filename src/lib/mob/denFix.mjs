@@ -1,8 +1,9 @@
 // `v3.fix` on the den (V4 Now card steps 2 and 3; docs/brain/APP-API-CONTRACT.md 2.14): the one Fix it together step the signed-in
 // member still has to take, from the Mob's real traps. Pure, no imports of the server, so node:test drives it
 // (data/tests/mob_den_fix_1020.test.mjs). The rows come from public.mob_den_fix (migration 20261020152000_mob_den_fix): the Mob's
-// traps whose Wednesday-check window has not closed and that the Mob has not fixed together yet, newest game first, each with this
-// member's own two facts (did they answer the fix question, did they answer the check). Nothing is invented here: a trap exists only
+// traps whose Wednesday-check window has not closed, that the Mob has not fixed together yet and that still have a step left for this
+// member (the database filters on their own answers before it takes the newest 5), newest game first, each with this member's own two
+// facts (did they answer the fix question, did they answer the check). Nothing is invented here: a trap exists only
 // when a closed game's picks made one (src/lib/server/mob/games.js ensureSettled), and the check window is the trap's own
 // (check_opens_at, check_closes_at from checkWindow in games.mjs).
 import { UUID_RE } from './model.mjs';

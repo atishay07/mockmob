@@ -126,9 +126,11 @@ const MON_10AM = '2026-10-19T04:30:00Z'; // Monday 10:00 IST
 
 test('the switch is off for everyone by default, existing members included, and the migration is idempotent', async () => {
   const db = await database({ hours: false });
-  const svc = serviceFor(db);
+  const clock = { now: NOW };
+  const svc = serviceFor(db, { clock });
   const mob = await mobOf(svc, 'u1', ['u2']);
   await db.exec(hoursSql); await db.exec(hoursSql);
+  clock.now += 5 * MIN; // a den that found the functions missing asks again after five minutes
   assert.deepEqual((await db.query('select user_id, share_study_time from mob_members order by user_id')).rows, [
     { user_id: 'u1', share_study_time: false }, { user_id: 'u2', share_study_time: false }]);
   const h = await hoursOf(svc, 'u1', mob);
@@ -318,7 +320,8 @@ test('PATCH share_study_time: boolean only, v3 only, a member of the Mob only, a
 
 test('migration missing: the payload has no hours key at all, and the switch says the Mob is unavailable', async () => {
   const db = await database({ hours: false });
-  const svc = serviceFor(db);
+  const clock = { now: NOW };
+  const svc = serviceFor(db, { clock });
   const mob = await mobOf(svc, 'u1', ['u2']);
   const den = await svc.view('u1', { mobId: mob, sync: false });
   assert.ok(den.mob.v3, 'the rest of the den is there');
@@ -330,6 +333,8 @@ test('migration missing: the payload has no hours key at all, and the switch say
   assert.equal((await svc.view('u1', { mobId: mob, sync: false })).mob.you.name, 'Riya', 'a failed combined body leaves the name unchanged');
   // After applying it the key appears; after the undo it is gone again, run twice.
   await db.exec(hoursSql);
+  assert.ok(!('hours' in (await svc.view('u1', { mobId: mob, sync: false })).mob.v3), 'the missing functions are not asked again for five minutes');
+  clock.now += 5 * MIN;
   assert.ok('hours' in (await svc.view('u1', { mobId: mob, sync: false })).mob.v3);
   await db.exec(hoursUndo); await db.exec(hoursUndo);
   assert.ok(!('hours' in (await svc.view('u1', { mobId: mob, sync: false })).mob.v3));

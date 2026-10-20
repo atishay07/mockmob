@@ -4,6 +4,8 @@
 // one's plan, and never "lost", "behind", "last", "waiting on you", "hurry" or "streak at risk" (spec 5.0). Pure: no I/O.
 // data/tests/mob_v3_den_web.test.mjs holds the lint (C-1 to C-4) over this file and the den components.
 
+import { MOCK_SIT_CREDITS } from '../mockPrice.mjs';
+
 const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const MONTHS_LONG = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
@@ -485,9 +487,9 @@ export const DEN_ERRORS = Object.freeze({
   LENGTH_INVALID: 'Choose 5, 10, 15 or 20 questions.',
   CHAPTER_INVALID: 'Choose a chapter of this subject.',
   BANK_THIN: 'There are not enough questions ready for that paper.',
-  // Full mock together's price (owner D174); the server's sentence carries the real figure and wins.
-  MOCK_PRO_REQUIRED: 'Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: 50 credits, or free with Pro.',
-  MOCK_CREDITS: 'Sitting this full mock costs 50 credits, and you have fewer than that. Add credits in your wallet, or get Pro to sit every full mock free. Nothing was charged.',
+  // Full mock together's price (owner D174). The figure is MOCK_SIT_CREDITS, the same constant the server's sentence uses, so the two agree.
+  MOCK_PRO_REQUIRED: `Only a Pro member can start a Full mock together. Anyone in your Mob can sit one: ${MOCK_SIT_CREDITS} credits, or free with Pro.`,
+  MOCK_CREDITS: `Sitting this full mock costs ${MOCK_SIT_CREDITS} credits, and you have fewer than that. Add credits in your wallet, or get Pro to sit every full mock free. Nothing was charged.`,
 });
 
 /** The sentence for a failed write: the server's message, else the den's own by code, else offline or the plain fallback. */
