@@ -93,6 +93,13 @@ class AuthController extends Notifier<AuthSnapshot> {
 
   Future<void> _loadProfile(Session session) async {
     final prefs = ref.read(appPrefsProvider);
+    // Local first: at launch a stored session with this account's cached profile opens the app
+    // at once, and the network read below then replaces it. A budget phone on a slow
+    // connection would otherwise sit on the splash until the server answers.
+    if (state.status != AuthStatus.signedIn) {
+      final cached = await _cachedProfileFor(session.user.email);
+      if (cached != null && ref.mounted) await _applyProfile(cached, fromCache: true);
+    }
     try {
       final me = await loadAuthMe(ref.read(apiClientProvider));
       await _applyProfile(me, fromCache: false);

@@ -15,19 +15,23 @@ class RhythmMilestone {
 
 /// One closed week (`history` of backend module B2, not live yet).
 class RhythmWeek {
-  const RhythmWeek({required this.weekStart, required this.studyDays, required this.goal, required this.met});
+  const RhythmWeek({required this.weekStart, required this.studyDays, required this.goal, required this.met, this.paused = false});
 
   factory RhythmWeek.fromJson(Json j) => RhythmWeek(
-        weekStart: asStringOr(j['weekStart'], ''),
+        weekStart: asStringOr(j['weekStart'] ?? j['id'], ''),
         studyDays: asInt(j['studyDays']) ?? 0,
         goal: asInt(j['goal']) ?? 0,
         met: asBool(j['met']) ?? false,
+        paused: asBool(j['paused']) ?? false,
       );
 
   final String weekStart;
   final int studyDays;
   final int goal;
   final bool met;
+
+  /// True when the week was closed while rhythm was paused.
+  final bool paused;
 }
 
 /// `GET /api/me/rhythm` [API 2.3]. Week boundaries are the server's; the client only renders.

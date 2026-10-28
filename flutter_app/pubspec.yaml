@@ -143,4 +143,5 @@ flutter:
 
   assets:
     - assets/mobi/
+    - assets/sample/
     # Add assets/sample/ when Module 2 creates that folder.

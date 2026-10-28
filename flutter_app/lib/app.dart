@@ -7,6 +7,8 @@ import 'core/motion/reduced_motion.dart';
 import 'core/router/router.dart';
 import 'core/settings/appearance_settings.dart';
 import 'core/theme/theme.dart';
+import 'features/notifications/notifications.dart';
+import 'features/onboarding/onboarding_routes.dart' show sampleImportProvider;
 
 /// The root widget. It must sit under a [ProviderScope] (see `main.dart`).
 class MockMobApp extends ConsumerWidget {
@@ -17,6 +19,9 @@ class MockMobApp extends ConsumerWidget {
     // Reading the snapshot starts auth (Supabase, the stored session, /me) after the first frame.
     ref.watch(authSnapshotProvider);
     ref.watch(savedSettingsProvider);
+    // Keeps the guest carry-over alive and starts reminder planning and tap handling.
+    ref.watch(sampleImportProvider);
+    ref.watch(notificationsRuntimeProvider);
 
     return const ReducedMotionScope(child: _AppView());
   }

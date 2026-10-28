@@ -1,24 +1,27 @@
-// Route builders for the onboarding feature. This feature module owns this file and replaces each
-// placeholder body with its real screen. Keep the function names: lib/core/router/screens.dart
-// re-exports them and router.dart binds them to the paths of spec 4.2.
+// Route builders for the onboarding feature (spec 5.1). This feature module owns this file.
+// lib/core/router/screens.dart re-exports these names and router.dart binds them to the paths of
+// spec 4.2.
 
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../core/router/placeholder_screen.dart';
-import '../../core/router/routes.dart';
+import 'screens/before_you_start_sheet.dart';
+import 'screens/sample_question_screen.dart';
+import 'screens/sample_result_screen.dart';
+import 'screens/subject_screen.dart';
+import 'screens/welcome_screen.dart';
 
-Widget welcomeScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Welcome', route: AppRoutes.welcome);
+export 'state/sample_import.dart' show sampleImportProvider;
 
-Widget onboardingSubjectScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Which paper first', route: AppRoutes.onboardingSubject);
+Widget welcomeScreen(BuildContext context, GoRouterState state) => const WelcomeScreen();
 
+Widget onboardingSubjectScreen(BuildContext context, GoRouterState state) => const SubjectScreen();
+
+/// `/onboarding/sample/:i`, where `i` is 1 to 5. Anything else opens the first question.
 Widget onboardingSampleScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Sample question', route: '/onboarding/sample/:i');
+    SampleQuestionScreen(index: int.tryParse(state.pathParameters['i'] ?? '') ?? 1);
 
-Widget onboardingSampleResultScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Sample result', route: AppRoutes.onboardingSampleResult);
+Widget onboardingSampleResultScreen(BuildContext context, GoRouterState state) => const SampleResultScreen();
 
-Widget beforeYouStartScreen(BuildContext context, GoRouterState state) =>
-    const PlaceholderScreen(title: 'Before you start', route: AppRoutes.beforeYouStart, isSheet: true);
+/// A sheet body: `MmSheetPage` supplies the frame, so there is no `Scaffold` here.
+Widget beforeYouStartScreen(BuildContext context, GoRouterState state) => const BeforeYouStartSheet();

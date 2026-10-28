@@ -6,9 +6,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'app.dart';
+import 'core/permissions/permission_requester.dart';
 import 'core/repositories/repositories.dart';
 import 'core/router/app_shell.dart';
 import 'core/sync/sync.dart';
+import 'features/notifications/services/android_permission_requester.dart';
 
 void main() {
   runZonedGuarded(_start, (error, stack) => _report(error, stack));
@@ -22,7 +24,11 @@ void _start() {
   runApp(
     ProviderScope(
       // The Review tab dot follows results that arrived but have not been opened.
-      overrides: [reviewDotProvider.overrideWith((ref) => ref.watch(hasUnopenedResultProvider))],
+      overrides: [
+        reviewDotProvider.overrideWith((ref) => ref.watch(hasUnopenedResultProvider)),
+        // Module 11: the Android 13 notification permission.
+        permissionRequesterProvider.overrideWith((ref) => ref.watch(androidPermissionRequesterProvider)),
+      ],
       child: const MockMobApp(),
     ),
   );
