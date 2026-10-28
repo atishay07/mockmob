@@ -273,7 +273,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             <span className="arena-theme arena-sm-up"><ThemeToggle /></span>
             <Link href="/profile" className="arena-profile arena-desktop-only">
               <Avatar name={user?.name} size="sm" />
-              <span>{user?.name ?? 'Account'}</span>
+              <span title={user?.name || undefined}>{user?.name || 'Account'}</span>
             </Link>
             <button
               type="button"
@@ -319,7 +319,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             <div className="arena-sheet__account">
               <Link href={previewLinks?.profile || '/profile'} className="arena-sheet__who" onClick={() => setMobileMenuOpen(false)}>
                 <Avatar name={user?.name} size="sm" />
-                <span>{user?.name ?? 'Account'}</span>
+                <span title={user?.name || undefined}>{user?.name || 'Account'}</span>
               </Link>
               <div className="arena-sheet__tools">
                 <span className="arena-theme"><ThemeToggle /></span>

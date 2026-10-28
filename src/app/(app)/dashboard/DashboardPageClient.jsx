@@ -1,5 +1,6 @@
 "use client";
 
+import { firstName } from '@/lib/firstName';
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Target } from 'lucide-react';
@@ -193,7 +194,8 @@ export default function DashboardPageClient() {
   // Rank only among real students: the practice rival is a benchmark, never a place on the board.
   const realBoard = leaderboard.filter((entry) => !entry.isSynthetic);
   const myRankIdx = realBoard.findIndex((entry) => entry.userId === user?.id);
-  const avg = attempts.length ? Math.round(attempts.reduce((sum, attempt) => sum + attempt.score, 0) / attempts.length) : 0;
+  const scored = attempts.filter((attempt) => Number.isFinite(Number(attempt.score)));
+  const avg = scored.length ? Math.round(scored.reduce((sum, attempt) => sum + Number(attempt.score), 0) / scored.length) : 0;
   const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
   // A student whose Pro ended is told so, with the date, instead of being shown Pro as if never held.
@@ -201,7 +203,7 @@ export default function DashboardPageClient() {
   const requestedMode = searchParams.get('mode');
   const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : [...MODE_LIST, 'nta'].includes(requestedMode) ? requestedMode : 'quick';
   const mode = TEST_MODES[effectiveModeId];
-  const balance = user?.creditBalance || 0;
+  const balance = Number.isFinite(Number(user?.creditBalance)) ? Number(user.creditBalance) : 0;
   const quoteCount = mode.fixedCount || count;
   const quoteMatches = Boolean(quote && quote.subject?.storedId === selSubj && quote.mode?.id === mode.id && quote.count === quoteCount);
   // The rule the student chose for their next mock (the Rule book), on this card before the clock starts: Full and NTA only.
@@ -379,7 +381,7 @@ export default function DashboardPageClient() {
 
       <header className="pr-head pr-head--solo">
         <div>
-          <h1 className="display-md">{user?.name ? `${user.name.split(' ')[0]}, what are we practising?` : 'What are we practising?'}</h1>
+          <h1 className="display-md">{firstName(user?.name) ? `${firstName(user?.name)}, what are we practising?` : 'What are we practising?'}</h1>
           <p>Pick a subject and a mode. Timed, marked +5 / −1, saved to your record.</p>
           {/* The balance and the two prices, one line under the lede at every width (the session panel repeats the balance). */}
           <p className="pr-head__credits">
@@ -438,7 +440,7 @@ export default function DashboardPageClient() {
                       <span className="pr-subject__name">{subject.name}</span>
                       {/* The bank count when it is known; never a wall of "unavailable". The NTA code under it. */}
                       <span className="pr-subject__meta">
-                        {statsAvailable ? <span>{Number(count ?? 0).toLocaleString('en-IN')} questions</span> : stats.state === 'loading' ? <span>Checking…</span> : null}
+                        {statsAvailable ? <span>{Number(count ?? 0).toLocaleString('en-IN')} {Number(count) === 1 ? 'question' : 'questions'}</span> : stats.state === 'loading' ? <span>Checking…</span> : null}
                         {subject.officialCode ? <span>Code {subject.officialCode}</span> : null}
                       </span>
                     </button>
@@ -596,8 +598,8 @@ export default function DashboardPageClient() {
       {/* Ruled figures from the student's own record. The bank size shows only when it is known. */}
       <dl className="pr-stats" data-count={statsAvailable || stats.state === 'loading' ? 4 : 3}>
         {statsAvailable || stats.state === 'loading' ? <div><dt>Usable questions</dt><dd>{statsAvailable ? Number(stats.bankSize || 0).toLocaleString('en-IN') : <span className="pr-stats__wait">Checking</span>}</dd></div> : null}
-        <div><dt>Sessions</dt><dd>{attempts.length}<small className="pr-stats__note">saved</small></dd></div>
-        <div><dt>Average score</dt><dd>{attempts.length ? <>{avg}%<small className="pr-stats__note">over {attempts.length} {attempts.length === 1 ? 'session' : 'sessions'}{attempts.length < 5 ? ', too few to read much into' : ''}</small></> : <span className="pr-stats__wait">No sessions yet</span>}</dd></div>
+        <div><dt>Sessions</dt><dd>{attempts.length.toLocaleString('en-IN')}<small className="pr-stats__note">saved</small></dd></div>
+        <div><dt>Average score</dt><dd>{scored.length ? <>{avg}%<small className="pr-stats__note">over {scored.length.toLocaleString('en-IN')} {scored.length === 1 ? 'session' : 'sessions'}{scored.length < 5 ? ', too few to read much into' : ''}</small></> : <span className="pr-stats__wait">No sessions yet</span>}</dd></div>
         <div><dt>Leaderboard</dt><dd>{rank ? <>#{rank}<small className="pr-stats__note">of {realBoard.length} {realBoard.length === 1 ? 'student' : 'students'} listed</small></> : <span className="pr-stats__wait">Not ranked yet</span>}</dd></div>
       </dl>
 
@@ -615,8 +617,8 @@ export default function DashboardPageClient() {
                   <li key={attempt.id}>
                     <Link href={`/result/${attempt.id}`}>
                       <span className="pr-recent__icon" aria-hidden="true"><SubjectObject id={subject?.internalId || attempt.subject} size={56} framed={false} life={false} /></span>
-                      <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}<Sep />{attempt.correct}/{attempt.total} correct</i></span>
-                      <span className="pr-recent__score" data-tone={tone}><b>{attempt.score}%</b><small>of marks</small></span>
+                      <span className="pr-recent__text"><b>{subject?.name || attempt.subject}</b><i>{new Date(attempt.completedAt).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' })}{Number.isFinite(Number(attempt.correct)) && Number.isFinite(Number(attempt.total)) ? <><Sep />{attempt.correct}/{attempt.total} correct</> : null}</i></span>
+                      <span className="pr-recent__score" data-tone={tone}><b>{Number.isFinite(Number(attempt.score)) ? `${attempt.score}%` : '—'}</b><small>of marks</small></span>
                     </Link>
                   </li>
                 );

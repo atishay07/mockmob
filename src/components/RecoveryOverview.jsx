@@ -96,6 +96,7 @@ function SessionRow({ a, fresh = false, index = 0 }) {
 export default function RecoveryOverview({ view }) {
   const [data, setData] = useState(null), [error, setError] = useState(''), [retryCount, setRetryCount] = useState(0);
   const [changes, setChanges] = useState(null);
+  const [shown, setShown] = useState(20); // a long record shows its newest 20 sessions, then more on request
   const [shrug, setShrug] = useState(false); // a failed read shrugs once per run, not on every retry
   const wait = useWaitStage(!data && !error);
   useEffect(() => { let alive = true; apiGet('/api/recovery').then(d => { if (!alive) return; if (view === 'review') { let storage = null; try { storage = window.localStorage; } catch { storage = null; } setChanges(reviewChanges(d?.ordinaryReview || [], storage)); } setData(d); }).catch(() => { if (alive) { setError('Your record did not load.'); setShrug(oopsRun(`record:${view}`)); } }); return () => { alive = false; }; }, [retryCount, view]);
@@ -144,9 +145,10 @@ export default function RecoveryOverview({ view }) {
           ]} /> : null}
           <section className="rv-sec" aria-labelledby="ov-sessions">
             <div className="rv-sec__head"><h2 id="ov-sessions">Your sessions</h2>{review.length > 1 ? <span>Newest first</span> : null}</div>
-            {review.length ? <ul className="ov-list rv-list">{review.map((a, i) => <SessionRow key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={i} />)}</ul> : (
+            {review.length ? <ul className="ov-list rv-list">{review.slice(0, shown).map((a, i) => <SessionRow key={a.id} a={a} fresh={changes?.fresh.has(a.id)} index={i} />)}</ul> : (
               <div className="rv-empty rv-empty--room"><SceneVignette scene="nothingYet" interactive /><ArenaCompanion mobi={false} title="Nothing to review yet">Finish a practice session and every miss lands here with its explanation.</ArenaCompanion><Link className="btn-volt md" href="/dashboard">Choose practice</Link></div>
             )}
+            {review.length > shown ? <button type="button" className="pr-link" onClick={() => setShown((n) => n + 20)}>{`Show ${Math.min(20, review.length - shown)} more of ${review.length.toLocaleString('en-IN')}`}</button> : null}
           </section>
           <LearningNextAction compact />
           <StudyProgress review />

@@ -114,13 +114,14 @@ export function CreditAmount({ kind = 'practice', amount, display, unit = true, 
   const unlimited = amount === 'unlimited';
   const unknown = amount === null || amount === undefined;
   const label = unlimited ? 'Unlimited' : unknown ? '—' : Number(amount).toLocaleString('en-IN');
-  const noun = kind === 'prepos' ? 'AI credits' : 'Practice credits';
+  const one = !unlimited && !unknown && Number(amount) === 1;
+  const noun = kind === 'prepos' ? (one ? 'AI credit' : 'AI credits') : (one ? 'Practice credit' : 'Practice credits');
   return (
     <span className={`credit-amount credit-amount--${kind} ${className}`} data-state={unlimited ? 'unlimited' : unknown ? 'unknown' : 'known'}
       title={unknown ? `${noun}: unavailable` : unlimited ? `${noun}: included` : `${label} ${noun}`}>
       <CreditMark kind={kind} size={size} />
       <b className="credit-amount__value">{display !== undefined && !unlimited && !unknown ? Number(display).toLocaleString('en-IN') : label}</b>
-      {unit && !unlimited ? <span className="credit-amount__unit">{unitLabel || (kind === 'prepos' ? 'AI credits' : 'credits')}</span> : null}
+      {unit && !unlimited ? <span className="credit-amount__unit">{unitLabel || (kind === 'prepos' ? (one ? 'AI credit' : 'AI credits') : (one ? 'credit' : 'credits'))}</span> : null}
       <span className="sr-only">{unknown ? `${noun} unavailable` : unlimited ? `${noun} included` : `${label} ${noun}`}</span>
     </span>
   );
