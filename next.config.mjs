@@ -12,6 +12,10 @@ const nextConfig = {
   experimental: {
     // Avoid restoring the stale Turbopack graph that crashed the local preview.
     turbopackFileSystemCacheForDev: false,
+    // The landing's first paint waited on 14 render-blocking stylesheets (about 84 KB gzip) that competed for
+    // connections: the last one to arrive set the Largest Contentful Paint. Inlined in the head, the styles
+    // arrive with the HTML and the first paint no longer waits on a stylesheet request.
+    inlineCss: true,
   },
   poweredByHeader: false,
   compress: true,
