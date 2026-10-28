@@ -41,4 +41,21 @@ void main() {
     final res = await api.get('/api/learning/plan');
     expect(res.map, {'ok': true});
   });
+
+  test('a JSON string reply is served as JSON, like the real server (not as text/html)', () async {
+    http.replies.add(FakeReply(200, jsonEncode([{'id': 'a1'}])));
+    final plain = await api.get('/api/attempts', options: const ApiOptions(plainBody: true));
+    expect(jsonDecode(plain.text), [
+      {'id': 'a1'},
+    ]);
+    http.replies.add(FakeReply(200, jsonEncode({'ok': true})));
+    final decoded = await api.get('/api/learning/plan');
+    expect(decoded.map, {'ok': true});
+  });
+
+  test('an HTML string reply stays text', () async {
+    http.replies.add(const FakeReply(200, '<html>Wi-Fi</html>'));
+    final res = await api.get('/api/learning/plan', options: const ApiOptions(plainBody: true));
+    expect(res.text, '<html>Wi-Fi</html>');
+  });
 }

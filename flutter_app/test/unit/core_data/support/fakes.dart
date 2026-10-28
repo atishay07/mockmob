@@ -12,6 +12,16 @@ import 'package:mockmob/core/sync/session/session_api.dart';
 
 const testConfig = AppConfig(apiBaseUrl: 'https://api.test', supabaseUrl: 'https://sb.test', supabaseAnonKey: 'anon');
 
+/// True when a scripted body is JSON, as an object or as JSON text. The real server always
+/// answers with `application/json`, and dio then decodes the body even for a plain-body read, so a
+/// JSON string must be served as JSON too (16 Oct 2026, APK v10: a fake that served JSON text as
+/// `text/html` hid the plainBody bug). Only HTML and other non-JSON strings are served as text.
+bool looksLikeJsonText(Object? body) {
+  if (body is! String) return true;
+  final t = body.trimLeft();
+  return t.startsWith('[') || t.startsWith('{');
+}
+
 /// One scripted HTTP answer.
 class FakeReply {
   const FakeReply(this.status, [this.body, this.headers = const {}]);
@@ -51,7 +61,7 @@ class FakeHttpAdapter implements HttpClientAdapter {
     }
     final text = reply.body is String ? reply.body! as String : jsonEncode(reply.body ?? {});
     return ResponseBody.fromString(text, reply.status, headers: {
-      Headers.contentTypeHeader: [reply.body is String ? 'text/html' : Headers.jsonContentType],
+      Headers.contentTypeHeader: [looksLikeJsonText(reply.body) ? Headers.jsonContentType : 'text/html'],
       for (final e in reply.headers.entries) e.key: [e.value],
     });
   }
