@@ -9,6 +9,7 @@ import { readCohort } from '@/../data/cohort_picks';
 import { loadRuleSources } from '@/lib/server/ruleBook';
 import { atlasForAttempt } from '@/lib/server/trapAtlas';
 import { cardsFor } from '@/lib/server/revise';
+import { chapterInventoryFor } from '@/lib/server/chapterInventory';
 
 export async function GET(request, { params }) {
   try {
@@ -33,7 +34,8 @@ export async function GET(request, { params }) {
     //    Slice 4 adds lab.traps (the trap tag under the student's wrong option: the trap atlas, then the question format) and
     //    lab.prove.later (which wrong answers come back in Revise, and when); each is left out on its own failure, and a failed
     //    atlas read leaves only the format tags (data/lab_loop.js buildLabSlice4);
-    //  - swot: the post-mock SWOT and "Do these next" (left out entirely when SWOT_ENABLED=off).
+    //  - swot: the post-mock SWOT and "Do these next" (left out entirely when SWOT_ENABLED=off). The plan is counted
+    //    against the bank per chapter (head/count reads only, data/chapter_inventory.js); a failed count leaves the plan as it was.
     const history = await resultHistory({
       attempt,
       answerReviews: reviews.answerReviews,
@@ -48,6 +50,7 @@ export async function GET(request, { params }) {
         atlasOf: ({ attempt: paper }) => atlasForAttempt(paper),
         cardsOf: ({ attempt: paper }) => cardsFor(session.user.id, (paper.questionsSnapshot || []).map((q) => q?.id)),
       },
+      inventoryOf: chapterInventoryFor(session.user.id),
       swotEnabled: process.env.SWOT_ENABLED !== 'off',
       warn: (part, e) => console.warn(`[api/attempts/:id] ${part} skipped:`, e?.message),
     });

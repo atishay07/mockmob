@@ -13,6 +13,8 @@ import { applyCheckedAnswers, checkedAnswersForSubmit } from './sessionCheck';
 import { tonightMetadata } from '@/../data/study_progress';
 import { assertNtaPaperServable, ntaOptionLayout } from './ntaPaper';
 import { SUBMISSION_GRACE_MS } from '@/../data/session_draft';
+import { parseChapterList } from '@/../data/chapter_list';
+import { planItemMetadata } from '@/../data/plan_item';
 
 const secret = () => process.env.PRACTICE_SESSION_SECRET || process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -30,7 +32,8 @@ export async function startPractice(userId, input) {
   if (!/^[a-zA-Z0-9_-]{12,100}$/.test(input.generationKey || '')) throw new Error('INVALID_GENERATION_KEY');
   if (!isValidModeId(input.mode || 'quick')) throw new Error('INVALID_MODE');
   const mode = getMode(input.mode || 'quick');
-  const chapters = (typeof input.chapters === 'string' ? input.chapters.split(',') : input.chapter ? [input.chapter] : []).filter(Boolean).slice(0, 12);
+  // A joined list is read against the subject's real chapter names: nine of them hold a comma themselves.
+  const chapters = typeof input.chapters === 'string' ? parseChapterList(input.chapters, (name) => isValidTopSyllabusPair(selection.internalSubject, name)) : input.chapter ? [input.chapter] : [];
   if (chapters.some(chapter => !isValidTopSyllabusPair(selection.internalSubject, chapter))) throw new Error('INVALID_CHAPTER');
   const user = await Database.getUserById(userId);
   if (mode.premium && !user?.isPremium) throw new Error('PREMIUM_REQUIRED');
@@ -72,7 +75,7 @@ export async function startPractice(userId, input) {
   }
   const row = { id, user_id: userId, subject: selection.internalSubject, mode: mode.id,
     created_at: new Date(created).toISOString(), expires_at: new Date(created + resolveDurationSec(mode, questions) * 1000).toISOString(),
-    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice' } };
+    questions, selection_meta: { ...meta, ...(optionLayout ? { ntaOptionLayout: optionLayout } : {}), ...tonightMetadata({...input, mode:mode.id, count}, created), ...planItemMetadata(input, { mode: mode.id, chapters }), scoringVersion: 'server_practice_v1', scoringAuthority: 'server_snapshot', contentEvidence: 'legacy_bank', learningPurpose: input.purpose === 'baseline' ? 'baseline' : 'ordinary_practice' } };
   if (durableLearningEnabled()) {
     let quota = null;
     if (!user?.isPremium && mode.id === 'quick' && count === 10) quota = 'daily_practice';

@@ -374,7 +374,7 @@ function TestRunner() {
         if (generationKey) qs.set('generationKey', generationKey);
         qs.set('experience', launch.get('recoveryFrom') ? 'recovery' : 'practice');
         if (launch.get('recoveryFrom')) qs.set('recoveryFrom', launch.get('recoveryFrom'));
-        for (const name of ['sessionId','episodeId','purpose','tonightKey','tonightMinutes','variant']) if (launch.get(name)) qs.set(name, launch.get(name));
+        for (const name of ['sessionId','episodeId','purpose','tonightKey','tonightMinutes','variant','planAttemptId','planItemId']) if (launch.get(name)) qs.set(name, launch.get(name));
         // Same key, saved draft gone: the receipt in the address makes the server return the original start.
         const receipt = new URLSearchParams(window.location.search).get('startReceipt');
         if (receipt) qs.set('startReceipt', receipt);

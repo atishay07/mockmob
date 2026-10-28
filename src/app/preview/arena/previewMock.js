@@ -21,7 +21,7 @@
 // builder over the paper and its sample cohort (&order=paper for today's order), lab.rules, and lab.prove.ruleCheck
 // (&rulecheck=not_kept|counted|not_checked|none; kept by default).
 import { scoreSession } from '../../../../data/recovery';
-import { buildSwot } from '../../../../data/mock_swot';
+import { buildSwot, swotPlanChapters } from '../../../../data/mock_swot';
 import { buildMistakeInsights } from '../../../../data/mistake_insights';
 import { buildMistakeLab } from '../../../../data/mistake_lab';
 import LAB_PAPER from '../../../../data/tests/fixtures/mistake_lab/full_mock_input.json';
@@ -123,7 +123,7 @@ function labPaper({ now, labMode }) {
  * As in the route (data/mock_swot.js resultHistory), the Lab is built only when the answer checks are ready, and
  * the SWOT then leaves out what the ledger already shows.
  */
-export function fixtureMock(mode = 'full', { checks = 'ready', lab: labMode = 'on' } = {}) {
+export function fixtureMock(mode = 'full', { checks = 'ready', lab: labMode = 'on', bank = null } = {}) {
   const now = Date.now();
   const earlier = earlierPapers(now);
   // full: the Lab's fixture paper. nta: Q13 and Q20 were right first and changed to wrong, so the change line and the
@@ -135,7 +135,12 @@ export function fixtureMock(mode = 'full', { checks = 'ready', lab: labMode = 'o
   const answerReviewState = checks === 'ready' ? 'ready' : 'unavailable';
   const lab = answerReviewState === 'ready' && labMode !== 'off' ? buildMistakeLab({ attempt, answerReviews, cohort: full ? LAB_COHORT : null }) : null;
   const ledgerGroups = lab && (lab.state === 'ready' || lab.state === 'basic') ? lab.groups.map((g) => g.id) : null;
-  const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState, missedBefore: {}, now, ledgerGroups });
+  // ?bank=thin (preview only): the plan counted against a thin bank (spec D.5-5), so its "new to you" lines and a smaller
+  // set show. Without it the plan is read as the route reads it with no count.
+  const inventory = bank === 'thin'
+    ? Object.fromEntries(swotPlanChapters({ attempt, allAttempts: earlier, answerReviews, answerReviewState }).map((c, i) => [c, [{ bank: 9, unseen: 4 }, { bank: 3, unseen: 3 }, { bank: 14, unseen: 9 }][i] || { bank: 6, unseen: 6 }]))
+    : null;
+  const swot = buildSwot({ attempt, allAttempts: earlier, answerReviews, answerReviewState, missedBefore: {}, now, ledgerGroups, inventory });
   const mistakeInsights = buildMistakeInsights({ attempt, allAttempts: earlier, missedBefore: {}, answerReviews });
   return { attempt, swot, mistakeInsights, answerReviewState, answerReviews, lab };
 }

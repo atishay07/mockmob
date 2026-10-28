@@ -42,7 +42,8 @@ export const SWOT_RULES = Object.freeze({
   // answered and two thirds right is a strength, and 3 or more wrong and more wrong than right a weakness.
   markedReview: Object.freeze({ marked: 3, strengthShare: 2 / 3, weaknessWrong: 3 }),
   repeatMisses: Object.freeze({ questions: 2 }),
-  plan: Object.freeze({ max: 3, chapterCount: 10, timedCount: 20, mixedCount: 10 }),
+  // untriedChapters: the most chapters one "untried" row takes at once (a set across several chapters, spec D.5-4).
+  plan: Object.freeze({ max: 3, chapterCount: 10, timedCount: 20, mixedCount: 10, untriedChapters: 3 }),
   later: Object.freeze({ minQuestions: 5 }),
   // Items about this paper's behaviour that the Mistake Lab's ledger already shows, by the ledger group that shows
   // them (data/mistake_lab.js). With the ledger on the page they leave the quadrants; "Do these next" is unchanged.
@@ -80,6 +81,8 @@ export const SWOT_COPY = Object.freeze({
   }),
   blanksFourOptions: ' Where you can rule out one of four options, choosing among the other three averages 1 mark a question under +5 for right and -1 for wrong.',
   later: (date, right, of) => `A set on this chapter on ${date}: ${right} right of ${of}.`,
+  laterMany: (date, right, of) => `A set on these chapters on ${date}: ${right} right of ${of}.`,
+  laterPlan: (date, right, of) => `A set from this plan on ${date}: ${right} right of ${of}.`,
   blanks: (b, n) => `${b} of ${n} questions left blank: ${b * GAP.blank} marks not earned.`,
   markedTitle: Object.freeze({ blank: 'Marked for review, left blank', strength: 'Marked for review, then answered', weakness: 'Marked for review, then wrong' }),
   // "You marked 6 of 50 questions for review and answered 4 of them: 3 right, 1 wrong."
@@ -95,6 +98,17 @@ export const SWOT_COPY = Object.freeze({
   untriedTitle: 'Chapters with no recent answers',
   untried: (k, list, papers, subject) => `${k} syllabus chapters have no answers in your last ${papers} ${subject} papers: ${list}.`,
   untriedReason: (papers, subject) => `No answers in this chapter in your last ${papers} ${subject} papers.`,
+  untriedReasonMany: (papers, subject) => `No answers in these chapters in your last ${papers} ${subject} papers.`,
+  // Counted against the bank (spec D.5-5): what a set here can honestly say about new questions.
+  fresh: (unseen, count, many = false) => {
+    const where = many ? 'in these chapters' : 'in this chapter';
+    return unseen === 0 ? `You have already seen every question the bank holds ${where}, so this set repeats some.`
+      : unseen >= count ? `${plural(unseen, 'question')} ${where} ${unseen === 1 ? 'is' : 'are'} new to you, enough for the whole set.`
+      : `Only ${plural(unseen, 'question')} ${where} ${unseen === 1 ? 'is' : 'are'} new to you, so the rest of the set will be questions you have met before.`;
+  },
+  // The set is smaller than the usual size because that is all the bank holds in these chapters.
+  smaller: (bank, count, many = false) => `The bank holds ${plural(bank, 'question')} ${many ? 'in these chapters' : 'in this chapter'}, so this set is ${count}.`,
+  chapterList: (names) => (names.length > 1 ? `${names.slice(0, -1).join(', ')} and ${names[names.length - 1]}` : names[0] || ''),
   mixed: 'No single chapter stands out yet. A mixed set adds to your record.',
   mixedOnly: 'A mixed set adds to your record.',
 });
@@ -104,6 +118,25 @@ const byWeight = (a, b) => b.weight - a.weight || (a.id < b.id ? -1 : a.id > b.i
 const pctOf = (right, answered) => (answered ? Math.round((right / answered) * 100) : null);
 const recordEvidence = (r) => { const w = wilson(r.right, r.answered); return { right: r.right, answered: r.answered, papers: r.papers, pct: w.pct, low: w.low, high: w.high }; };
 const paperEvidence = (p) => ({ n: p.n, right: p.right, wrong: p.wrong, blank: p.blank, answered: p.answered, lost: p.lost });
+
+// ---------- The bank, per chapter (spec D.5-5) ----------
+
+const QUICK_COUNTS = Object.freeze([...TEST_MODES.quick.countOptions].sort((a, b) => a - b));
+
+/**
+ * What the bank holds in a chapter, from the server's read (data/chapter_inventory.js): { bank, unseen } or null when
+ * it was not read. `inventory` is { [chapter]: { bank, unseen } } or null; nothing here promises a chapter it does not know.
+ */
+function inventoryFor(inventory, chapter) {
+  const v = inventory && Object.hasOwn(inventory, chapter) ? inventory[chapter] : null;
+  return v && Number.isInteger(v.bank) && Number.isInteger(v.unseen) && v.bank >= 0 && v.unseen >= 0 ? { bank: v.bank, unseen: Math.min(v.unseen, v.bank) } : null;
+}
+
+/** The largest quick-set size the bank can fill, no more than `want`; null when it cannot fill the smallest set. */
+export function fitCount(want, bank) {
+  const fits = QUICK_COUNTS.filter((n) => n <= want && n <= bank);
+  return fits.length ? fits[fits.length - 1] : null;
+}
 
 function shell(state, message = null) {
   return { version: SWOT_VERSION, state, message, basis: null, quadrants: [], plan: [] };
@@ -249,7 +282,7 @@ function chaptersAnsweredInRecordSpan(attempt, allAttempts, ledger) {
   return answered;
 }
 
-function paperItems({ attempt, allAttempts, ledger, missedBefore, recorded }) {
+function paperItems({ attempt, allAttempts, ledger, missedBefore, recorded, inventory = null }) {
   const R = SWOT_RULES;
   const items = [];
   const counted = ledger.rows.filter((r) => !r.excluded);
@@ -327,7 +360,9 @@ function paperItems({ attempt, allAttempts, ledger, missedBefore, recorded }) {
   if (ledger.earlierPapers >= R.untried.earlierPapers) {
     const inPaper = new Set(ledger.rows.map((row) => row.chapter));
     const answeredInSpan = chaptersAnsweredInRecordSpan(attempt, allAttempts, ledger);
-    const untried = getCanonicalChapters(attempt.subject).filter((c) => !inPaper.has(c) && recordFor(ledger, c).answered === 0 && !answeredInSpan.has(c));
+    // A chapter the bank holds nothing in (spec D.5-5) is not an opportunity: there is nothing to try there.
+    const untried = getCanonicalChapters(attempt.subject).filter((c) => !inPaper.has(c) && recordFor(ledger, c).answered === 0 && !answeredInSpan.has(c)
+      && (inventoryFor(inventory, c)?.bank ?? 1) > 0);
     const k = untried.length;
     if (k >= R.untried.chapters) {
       const named = untried.slice(0, R.untried.named);
@@ -335,10 +370,12 @@ function paperItems({ attempt, allAttempts, ledger, missedBefore, recorded }) {
       // N: the papers of the record L, this one included (spec B.2).
       const papers = ledger.earlierAttempts.length + 1;
       const subject = subjectDisplay(attempt.subject);
+      const known = untried.filter((c) => inventoryFor(inventory, c));
       items.push(makeItem('untried', 'opportunity', { title: SWOT_COPY.untriedTitle,
         detail: SWOT_COPY.untried(k, list, papers, subject), weight: 0,
-        evidence: { chapters: untried, earlierPapers: ledger.earlierPapers, recordPapers: papers },
-        plan: { reason: SWOT_COPY.untriedReason(papers, subject), candidates: untried } }));
+        evidence: { chapters: untried, earlierPapers: ledger.earlierPapers, recordPapers: papers,
+          ...(known.length ? { inventory: Object.fromEntries(known.map((c) => [c, inventoryFor(inventory, c)])) } : {}) },
+        plan: { reason: SWOT_COPY.untriedReason(papers, subject), reasonMany: SWOT_COPY.untriedReasonMany(papers, subject), candidates: untried } }));
     }
   }
 
@@ -364,33 +401,45 @@ function paperItems({ attempt, allAttempts, ledger, missedBefore, recorded }) {
 
 // ---------- The plan: "Do these next" ----------
 
-/** The earliest quick set after this attempt, in the same subject, entirely in chapter `c`, with 5 or more questions. */
-export function laterSet(attempt, allAttempts, chapter, now = Date.now()) {
+/** The plan row a set was started from (data/plan_item.js), as the finished attempt carries it. */
+const plannedFrom = (x) => x?.selectionMeta?.planItem || null;
+
+/**
+ * The earliest quick set after this attempt, in the same subject, with 5 or more questions, that followed this plan row.
+ * A set started from the row itself (selection_meta.planItem is this paper and this row id, spec D.5-4) comes first.
+ * Without one, the earliest set wholly inside the row's chapters stands in for it, as before. `chapter` is a chapter
+ * name or the list of the row's chapters; `ref` is { itemId } for the row, or null.
+ */
+export function laterSet(attempt, allAttempts, chapter, now = Date.now(), ref = null) {
+  const names = Array.isArray(chapter) ? chapter : chapter ? [chapter] : [];
   const cur = when(attempt);
-  const next = (allAttempts || [])
+  const after = (allAttempts || [])
     .filter((x) => x && x.id !== attempt.id && x.subject === attempt.subject && attemptScoring(x) === 'server' && modeOf(x) === 'quick'
       && when(x) > cur && when(x) <= now)
-    .filter((x) => {
-      const rows = paperRows(x);
-      return rows.length >= SWOT_RULES.later.minQuestions && rows.every((row) => row.chapter === chapter);
-    })
-    .sort((a, b) => when(a) - when(b) || String(a.id).localeCompare(String(b.id)))[0];
+    .filter((x) => paperRows(x).length >= SWOT_RULES.later.minQuestions)
+    .sort((a, b) => when(a) - when(b) || String(a.id).localeCompare(String(b.id)));
+  const fromRow = ref ? after.find((x) => plannedFrom(x)?.attemptId === attempt.id && plannedFrom(x)?.itemId === ref.itemId) : null;
+  const next = fromRow || (names.length ? after.find((x) => paperRows(x).every((row) => names.includes(row.chapter))) : null);
   if (!next) return null;
   const rows = paperRows(next);
   const right = rows.filter((row) => row.outcome === 'right').length;
-  return { at: when(next), right, of: rows.length, line: SWOT_COPY.later(istDayMonth(when(next)), right, rows.length) };
+  const date = istDayMonth(when(next));
+  const line = names.length > 1 ? SWOT_COPY.laterMany(date, right, rows.length)
+    : names.length === 1 ? SWOT_COPY.later(date, right, rows.length) : SWOT_COPY.laterPlan(date, right, rows.length);
+  return { at: when(next), right, of: rows.length, line, ...(fromRow ? { fromPlan: true } : {}) };
 }
 
-function practiceHref(subject, count, chapter) {
-  return `/dashboard?subject=${encodeURIComponent(subject)}&mode=quick&count=${count}${chapter ? `&chapter=${encodeURIComponent(chapter)}` : ''}`;
+function practiceHref(subject, count, chapters, attempt, itemId) {
+  const chapter = chapters.length === 1 ? `&chapter=${encodeURIComponent(chapters[0])}` : chapters.length > 1 ? `&chapters=${encodeURIComponent(chapters.join(','))}` : '';
+  // The row's own id rides along so the set that follows can be told apart (data/plan_item.js).
+  return `/dashboard?subject=${encodeURIComponent(subject)}&mode=quick&count=${count}${chapter}&planAttemptId=${encodeURIComponent(attempt.id)}&planItemId=${itemId}`;
 }
 
-function buildPlan({ attempt, allAttempts, items, now }) {
-  const R = SWOT_RULES;
-  const subject = attempt.subject;
+/** The plan's candidates in the order the plan reads them. */
+function planCandidates(items) {
   const of = (kinds) => items.filter((item) => kinds.includes(item.kind));
   const byLost = (a, b) => (b.evidence?.paper?.lost ?? 0) - (a.evidence?.paper?.lost ?? 0) || (a.id < b.id ? -1 : 1);
-  const candidates = [
+  return [
     ...of(['repeat_loss']).sort(byWeight),
     ...of(['weak_chapter', 'chapter_slipped', 'weak_chapter_paper']).sort(byLost),
     ...of(['close_chapter']).sort(byLost),
@@ -398,35 +447,97 @@ function buildPlan({ attempt, allAttempts, items, now }) {
     ...of(['marked_review']),
     ...of(['untried']),
   ];
+}
+
+/**
+ * Which chapters "Do these next" may need counted against the bank (the server reads exactly these, never the bank):
+ * every chapter a candidate row names, then the untried candidates, capped. Valid syllabus chapters only.
+ */
+export function planInventoryChapters(items, subject, cap = 8) {
+  const chapters = [];
+  const add = (c) => { if (c && !chapters.includes(c) && isValidTopSyllabusPair(subject, c)) chapters.push(c); };
+  const candidates = planCandidates(items).filter((item) => item.plan);
+  for (const item of candidates) if (item.kind !== 'untried') add(item.chapter);
+  for (const item of candidates) if (item.kind === 'untried') for (const c of item.plan.candidates || []) add(c);
+  return chapters.slice(0, cap);
+}
+
+/**
+ * The chapters one untried row takes (spec D.5-4, D.5-5). Without a read of the bank it is the first free chapter, as
+ * before. With one: chapters with questions the student has not seen come first, a row takes up to
+ * SWOT_RULES.plan.untriedChapters of them until the set size is covered, and a chapter that only holds questions
+ * already seen is used only when nothing else is left. Chapters the read did not cover are not used.
+ */
+function untriedChapters({ subject, candidates, usedChapters, inventory, want }) {
+  const free = candidates.filter((c) => isValidTopSyllabusPair(subject, c) && !usedChapters.has(c));
+  const known = free.filter((c) => inventoryFor(inventory, c));
+  if (!known.length) return { chapters: free.slice(0, 1), bank: null, unseen: null };
+  const fresh = known.filter((c) => inventoryFor(inventory, c).unseen > 0);
+  const pool = fresh.length ? fresh : known.filter((c) => inventoryFor(inventory, c).bank > 0);
+  const chapters = [];
+  let bank = 0; let unseen = 0;
+  for (const c of pool) {
+    const v = inventoryFor(inventory, c);
+    chapters.push(c); bank += v.bank; unseen += v.unseen;
+    if (chapters.length >= SWOT_RULES.plan.untriedChapters || bank >= want) break;
+  }
+  return { chapters, bank, unseen };
+}
+
+function buildPlan({ attempt, allAttempts, items, now, inventory = null }) {
+  const R = SWOT_RULES;
+  const subject = attempt.subject;
+  const candidates = planCandidates(items);
   const plan = [];
   const usedChapters = new Set();
   let noChapterUsed = false;
-  // A chapter that fails the syllabus check cannot be practised, so it gets no row; the read may still name it.
+  // A chapter that fails the syllabus check, or that the bank cannot fill a set in, cannot be practised, so it gets no
+  // row; the read may still name it.
   let chapterSkipped = false;
   for (const item of candidates) {
     if (plan.length >= R.plan.max || !item.plan) continue;
-    let chapter = item.chapter;
-    if (item.kind === 'untried') chapter = (item.plan.candidates || []).find((c) => isValidTopSyllabusPair(subject, c) && !usedChapters.has(c)) || null;
-    if (item.kind === 'untried' && !chapter) continue;
-    if (chapter && !isValidTopSyllabusPair(subject, chapter)) { chapterSkipped = true; continue; }
-    if (chapter && usedChapters.has(chapter)) continue;
-    if (!chapter && noChapterUsed) continue;
-    const count = item.plan.count ?? R.plan.chapterCount;
+    const want = item.plan.count ?? R.plan.chapterCount;
+    let chapters = item.chapter ? [item.chapter] : [];
+    let count = want;
+    let stock = null; // { bank, unseen } over the row's chapters, when the bank was read
+    if (item.kind === 'untried') {
+      const taken = untriedChapters({ subject, candidates: item.plan.candidates || [], usedChapters, inventory, want });
+      if (!taken.chapters.length) continue;
+      chapters = taken.chapters;
+      if (taken.bank !== null) stock = { bank: taken.bank, unseen: taken.unseen };
+    }
+    if (chapters.some((c) => !isValidTopSyllabusPair(subject, c))) { chapterSkipped = true; continue; }
+    if (chapters.some((c) => usedChapters.has(c))) continue;
+    if (!chapters.length && noChapterUsed) continue;
+    if (chapters.length && item.kind !== 'untried') {
+      const v = inventoryFor(inventory, chapters[0]);
+      if (v) stock = { bank: v.bank, unseen: v.unseen };
+    }
+    if (chapters.length && stock) {
+      // The set is never larger than the bank can fill, and a chapter that cannot fill the smallest set gets no row.
+      count = fitCount(want, stock.bank);
+      if (count === null) { chapterSkipped = true; continue; }
+    }
     const id = `p${plan.length + 1}`;
+    const reasonBase = item.kind === 'untried' && chapters.length > 1 ? item.plan.reasonMany : item.plan.reason;
+    const label = item.plan.label ?? (chapters.length > 1 ? `Practise ${count} across ${SWOT_COPY.chapterList(chapters)}` : `Practise ${count} on ${chapters[0]}`);
     plan.push({
-      id, label: item.plan.label ?? `Practise ${count} on ${chapter}`, reason: item.plan.reason,
-      practice: { subject, mode: 'quick', count, chapter: chapter || null },
-      href: practiceHref(subject, count, chapter),
-      later: chapter ? laterSet(attempt, allAttempts, chapter, now) : null,
+      id, label, reason: [reasonBase, stock && count < want ? SWOT_COPY.smaller(stock.bank, count, chapters.length > 1) : null, item.kind === 'untried' && stock ? SWOT_COPY.fresh(stock.unseen, count, chapters.length > 1) : null].filter(Boolean).join(' '),
+      practice: { subject, mode: 'quick', count, chapter: chapters[0] || null, chapters },
+      href: practiceHref(subject, count, chapters, attempt, id),
+      later: laterSet(attempt, allAttempts, chapters, now, { itemId: id }),
+      ...(stock ? { inventory: stock } : {}),
     });
     item.planId = id;
-    if (chapter) usedChapters.add(chapter); else noChapterUsed = true;
+    for (const c of chapters) usedChapters.add(c);
+    if (!chapters.length) noChapterUsed = true;
   }
   if (!plan.length) {
     const count = R.plan.mixedCount;
     // "No single chapter stands out" would be false beside a chapter the read names but no set can practise.
     plan.push({ id: 'p1', label: `Practise ${count} mixed questions`, reason: chapterSkipped ? SWOT_COPY.mixedOnly : SWOT_COPY.mixed,
-      practice: { subject, mode: 'quick', count, chapter: null }, href: practiceHref(subject, count, null), later: null });
+      practice: { subject, mode: 'quick', count, chapter: null, chapters: [] }, href: practiceHref(subject, count, [], attempt, 'p1'),
+      later: laterSet(attempt, allAttempts, [], now, { itemId: 'p1' }) });
   }
   return plan;
 }
@@ -439,26 +550,46 @@ function inLedger(item, ledgerGroups) {
   return !!(covers && ledgerGroups && covers.some((id) => ledgerGroups.has(id)));
 }
 
-/**
- * buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore, now, ledger?, ledgerGroups? }).
- * `ledger` may be passed in so the route shares one ledger with the record lines.
- * `ledgerGroups` (the ids of the Mistake Lab ledger's groups on the page, or null) hides the quadrant items the
- * ledger already shows (SWOT_RULES.ledgerCovers), after the plan is built, so "Do these next" is unchanged. A
- * quadrant emptied that way says so. Null (the default) leaves the read exactly as before.
- */
-export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answerReviewState = 'ready', missedBefore = {}, now = Date.now(), ledger = null, ledgerGroups = null } = {}) {
-  if (!attempt || !isMock(attempt) || attemptScoring(attempt) !== 'server') return shell('not_available');
-  if (answerReviewState !== 'ready') return shell('checks_pending', SWOT_COPY.checksPending);
+/** The items of a paper's read, or the shell that says why there is none. */
+function swotRead({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore, ledger, inventory }) {
+  if (!attempt || !isMock(attempt) || attemptScoring(attempt) !== 'server') return { shell: shell('not_available') };
+  if (answerReviewState !== 'ready') return { shell: shell('checks_pending', SWOT_COPY.checksPending) };
   const book = ledger || buildLedger(attempt, allAttempts, { answerReviews });
-  if (book.totals.answered < SWOT_RULES.minAnswered) return shell('too_few', SWOT_COPY.tooFew);
+  if (book.totals.answered < SWOT_RULES.minAnswered) return { shell: shell('too_few', SWOT_COPY.tooFew) };
 
   const recorded = telemetryRecorded(attempt);
   const subject = subjectDisplay(attempt.subject);
   const first = book.earlierPapers === 0;
   // First paper in the subject (spec B.3 basis line): history items are skipped, so the read never says "There is no
   // earlier record" beside a line that leans on one (a retake's "Missed again", or blank-only earlier mocks).
-  const all = [...chapterItems({ attempt, allAttempts, ledger: book }), ...paperItems({ attempt, allAttempts, ledger: book, missedBefore, recorded })]
+  const all = [...chapterItems({ attempt, allAttempts, ledger: book }), ...paperItems({ attempt, allAttempts, ledger: book, missedBefore, recorded, inventory })]
     .filter((item) => !(first && HISTORY_KINDS.has(item.kind)));
+  return { book, first, recorded, subject, all };
+}
+
+/**
+ * The chapters this paper's "Do these next" may need counted against the bank (spec D.5-5): [] when the paper has no
+ * read. The server reads those counts and hands them back to buildSwot as `inventory`.
+ */
+export function swotPlanChapters({ attempt, allAttempts = [], answerReviews = {}, answerReviewState = 'ready', missedBefore = {}, ledger = null } = {}) {
+  const read = swotRead({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore, ledger, inventory: null });
+  return read.shell ? [] : planInventoryChapters(read.all, attempt.subject);
+}
+
+/**
+ * buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore, now, ledger?, ledgerGroups? }).
+ * `ledger` may be passed in so the route shares one ledger with the record lines.
+ * `inventory` ({ [chapter]: { bank, unseen } }, data/chapter_inventory.js) is what the bank holds per chapter and how much of it
+ * the student has not seen. With it, no row promises more than the bank can fill and an untried row says how many of its
+ * questions are new; without it (the default, or a chapter it did not cover) a row is as it was.
+ * `ledgerGroups` (the ids of the Mistake Lab ledger's groups on the page, or null) hides the quadrant items the
+ * ledger already shows (SWOT_RULES.ledgerCovers), after the plan is built, so "Do these next" is unchanged. A
+ * quadrant emptied that way says so. Null (the default) leaves the read exactly as before.
+ */
+export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answerReviewState = 'ready', missedBefore = {}, now = Date.now(), ledger = null, ledgerGroups = null, inventory = null } = {}) {
+  const read = swotRead({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore, ledger, inventory });
+  if (read.shell) return read.shell;
+  const { book, first, recorded, subject, all } = read;
 
   const covered = Array.isArray(ledgerGroups) ? new Set(ledgerGroups) : null;
   const quadrants = QUADRANTS.map(({ id, label }) => {
@@ -468,7 +599,7 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
     return { id, label, items, emptiedByLedger: !shown.length && inQuadrant.length > 0 };
   });
   // The plan reads every qualifying item, so a chapter cut by a quadrant cap can still lead a practice set.
-  const plan = buildPlan({ attempt, allAttempts, items: all, now });
+  const plan = buildPlan({ attempt, allAttempts, items: all, now, inventory });
 
   const basis = {
     line: first ? SWOT_COPY.basisFirst(book.counted, book.total, subject) : SWOT_COPY.basis(book.counted, book.total, book.earlierAnswers, subject, book.earlierPapers),
@@ -510,8 +641,10 @@ export function buildSwot({ attempt, allAttempts = [], answerReviews = {}, answe
  * src/lib/server/trapAtlas.js) gives the trap atlas rows for this paper's questions and `cardsOf({ attempt })`
  * (src/lib/server/revise.js) the student's Revise cards for them; a read that fails is skipped, so the format rules
  * still tag and `later` only speaks of a recent paper. Without the option the Lab is exactly slice 3.
+ * `inventoryOf({ attempt, allAttempts, chapters })` (server only: src/lib/server/chapterInventory.js) counts the bank for those chapters
+ * ({ [chapter]: { bank, unseen } }); without it, or when it fails, the plan is built without the counts.
  */
-export async function resultHistory({ attempt, answerReviews = {}, answerReviewState = 'ready', loadAttempts, recapOf, missedBeforeOf, cohortOf = null, labLoop = false, ruleSourcesOf = null, labSlice4 = null, swotEnabled = true, now = Date.now(), warn = () => {} }) {
+export async function resultHistory({ attempt, answerReviews = {}, answerReviewState = 'ready', loadAttempts, recapOf, missedBeforeOf, cohortOf = null, labLoop = false, ruleSourcesOf = null, labSlice4 = null, inventoryOf = null, swotEnabled = true, now = Date.now(), warn = () => {} }) {
   const out = { recap: null, missedBefore: {}, mistakeInsights: {}, lab: null, ...(swotEnabled ? { swot: null } : {}) };
   let allAttempts;
   try { allAttempts = await loadAttempts(); } catch (e) { warn('history', e); return out; }
@@ -541,6 +674,14 @@ export async function resultHistory({ attempt, answerReviews = {}, answerReviewS
     }
   }
   const ledgerGroups = out.lab && (out.lab.state === 'ready' || out.lab.state === 'basic') ? out.lab.groups.map((g) => g.id) : null;
-  if (swotEnabled) out.swot = step('swot', () => buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore: out.missedBefore, now, ledger, ledgerGroups }), null);
+  // The bank, counted for the chapters "Do these next" may use (spec D.5-5). A failed read leaves the plan as it was.
+  let inventory = null;
+  if (swotEnabled && inventoryOf && checksReady) {
+    try {
+      const chapters = swotPlanChapters({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore: out.missedBefore, ledger });
+      if (chapters.length) inventory = (await inventoryOf({ attempt, allAttempts, chapters })) ?? null;
+    } catch (e) { warn('inventory', e); }
+  }
+  if (swotEnabled) out.swot = step('swot', () => buildSwot({ attempt, allAttempts, answerReviews, answerReviewState, missedBefore: out.missedBefore, now, ledger, ledgerGroups, inventory }), null);
   return out;
 }
