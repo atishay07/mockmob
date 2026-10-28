@@ -16,6 +16,8 @@ const STROKE = 1.75;
 const APP_ICONS = {
   today: CalendarCheck,
   practice: Timer,
+  learn: BookOpenText,
+  recall: Brain,
   review: NotebookText,
   progress: TrendingUp,
   account: UserRound,

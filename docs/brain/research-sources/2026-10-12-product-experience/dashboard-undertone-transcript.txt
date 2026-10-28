@@ -1,0 +1,164 @@
+Speaker 1: And there's a massive difference. Designing a dashboard isn't that hard, but orchestrating one is. And there's a massive difference between why that might look good and why that actually works when you start using it.
+Speaker 1:  So whether you're live-cooking a new project, or creating a piece for your portfolio, we're covering the 3 tells that immediately give away you've never built one, or exactly how to fix each and every one. The one thing that all dashboards have in common is they're built to display data.
+Speaker 1:  So if we focus on building UI around the data we need to display.
+Speaker 1:  We end up with a much more usable experience. For example, take a look at this table.
+Speaker 1:  It seems relatively logically laid out, but clearly nothing is driving the form. But for example, if we turned the department and employment into chips, or took these numbers and right-align them, things start to shape up.
+Speaker 1:  We do this because there's only a set number of departments or employment statuses, and we right-align the numbers so the digits align by place value. Then we can augment this further by truncating long text to give more breathing room to the other columns, or even shade out rows of the table that are inactive or deactivated.
+Speaker 1:  And when we compare the before and after, we can clearly see which is more visually appealing to look at, and importantly, which is letting the data drive the form. And the same is true for data that probably shouldn't even be in a table in the first place.
+Speaker 1:  This table definitely works. Don't get me wrong, we could use it, but the time-delineated nature means that this isn't the best format, and we aren't letting the data determine the shape of the UI.
+Speaker 1:  Instead, if we were to arrange this as a timeline, it's going to become a lot easier to follow rather than a time-sorted table. This form factor could then be tucked into a sidebar pop-out, or made wider as a second column beside the table, but either way, now we're letting the data drive the UI.
+Speaker 1:  And color is a very important consideration when we do start designing these tables. Line pages you can get away with a lot, but dashboard colors shouldn't just be sprinkled in to look nice; it should come from the data itself.
+Speaker 1:  In these activity logs, the red icon in the chip draws your eye to it because the action is urgent. The avatar is there because your eye can associate.
+Speaker 1:  I use examples like this, where this card has poor hierarchy and this card has strong hierarchy. But there's another type of hierarchy based on what you show and what you hide, and it's called progressive disclosure.
+Speaker 1:  For example, this share functionality isn't permanently ingrained in the side of the table, since it's not that frequently accessed and, frankly, not important enough. Instead, we tuck it into a popover so we don't have to rip the user to an entirely different page.
+Speaker 1:  And within this popover, the primary action is, of course, the search box, which is why it's immediately visible at the top. A secondary action, like removing a user, isn't overly important, so instead of engraining it in UI, we show the remove button on hover, along with the tool.
+Speaker 1:  Is the most important. We want that large and bold and at the top, because otherwise it'll blend in with something like the time and day, which can be below and.
+Speaker 1:  Hover states, or even tooltips, to tell the user what a UI affords, or what it can do. Now, take a look at this card.
+Speaker 1:  It displays all of the information in a logical, repeatable format, but it looks like a spreadsheet, not a design. So let's give it some hierarchy, which is pretty intuitive.
+Speaker 1:  We have size, position, and color to use to our advantage. Starting from the top, an image always adds a great pop of color and makes scanning super easy, just like Uber.
+Speaker 1:  If, in this case, the item is the most important, we want that large and bold and at the top, because otherwise it'll blend in with something like the time and day, which can be below and much smaller. And it's this contrast, the difference between small and big, or colorful and not, that actually creates the hierarchy.
+Speaker 1:  It's also why price should be at the top, right-aligned, and blue. It's different than the rest, which draws the eye to it.
+Speaker 1:  The location should be smaller and below, like this. But instead of just from and to, we can use icons and align to demonstrate that it's moving from Jamesville to Syracuse without having to actually say that.
+Speaker 1:  Now, with that said, it's not an exact science, and you could definitely end up with a design that looks like this instead, and it wouldn't be wrong, but the same idea is applied. Most important things near the top.
+Speaker 1:  Bigger and colorful is more important, and images are used whenever possible. And as you start to design more and more, you'll notice that similar patterns arise when you need labels or buttons, which we're going to talk about in a minute.
+Speaker 1:  Now, some people have this misconception that all of your content needs to align to a 12-column grid and be exactly 8 pixels apart, but these are just guidelines. For example, this design doesn't line up with any of the columns, and that's not uncommon, especially for custom landing pages.
+Speaker 1:  But for highly structured pages like galleries, blogs, or any repeating content, it can actually be useful for responsiveness by giving guidelines for responsive behavior on tablet with 8 columns and mobile with 4. But much more important than using excessive grids and layouts is white space.
+Speaker 1:  Letting things breathe. For example, in a simple section like this, the large text would have a font size and line height like this, and the subtext would have a font size and line height like so.
+Speaker 1:  Buttons would be similar and optionally a top announcement bar like this. Then simply 32 pixels between every item, but you can also group elements that just go together, like the announcement and text, or the text and subtext, which is just another form of visual hierarchy.
+Speaker 1:  And this is where we see the 4-point grid system actually come into play. Everything is a multiple, not because it inherently looks better, but because you can always split things in half, which creates consistency throughout a design.
+Speaker 1:  Typography is really interesting, because design is mostly just text. And for picking a font, I can almost unilaterally say you'll never need more than one for any design.
+Speaker 1:  So find a nice sans-serif font like the ones on screen and stick to it. Over the last 7 years of designing, I've rarely used any fonts other than what's on screen, and this shouldn't be where you're spending tons of time.
+Speaker 1:  I'm also not a big fan of calling any design skill a hack, but this one kind of is. This design looks okay right now, but our header text feels a little too loose.
+Speaker 1:  If you tighten up the letter spacing on this by about -2 to -3% and drop the line height to about 110 to 120%, it instantly makes any larger text look super pro, real fast. But hierarchy with typography is a little bit more nuanced.
+Speaker 1:  And if we look at our previous example, text sizes can vary wildly. For landing pages and websites, you generally don't want more than 6 font sizes, which can have a really large range.
+Speaker 1:  For things like dashboards, that range shrinks dramatically to where you don't normally have text sizes larger than 24 pixels, because of the increase in information density. But honestly, one of the most important concepts of design is getting inspiration and doing research from a good source, like today's sponsor, Mobbin, who curates hundreds of thousands of mobile and web apps along with landing pages too, so you can always.
+Speaker 1:  Colors are difficult, and everyone has their own taste, but I'm a big fan of starting with one primary color. Generally, this is your brand color.
+Speaker 1:  Then you can lighten it for a good background, or darken it for text colors. Both good ways to incorporate subtle color and make an otherwise drab design look much more interesting.
+Speaker 1:  And with all of that, we're already halfway to a color ramp, which is what large companies use to build out chips, states, charts, and really anything else. But I also think it's important, as a beginner, to let the color find you.
+Speaker 1:  Like an announcement bar to grab attention, or a focus state on an input, or a green new chip on a link. These are all semantic colors, which are colors that have meaning and provide signifiers to the user.
+Speaker 1:  Blue for trust, red for danger or urgency, yellow for warning, and green for success. Make sure you use color for purpose, not just for decoration.
+Speaker 1:  Now, designing in dark mode presents some pretty interesting challenges for us. First, this card is using a light border, which creates a bit too much contrast, so we'll lower that down.
+Speaker 1:  In dark mode, we don't have shadows like light mode, so to create depth we need to have a lighter card than the background, so I'll make that adjustment. This chip is also far too bright, so we can dim down the saturation and brightness and flip that for the text to create some hierarchy.
+Speaker 1:  There's also a ton of flexibility for deep purples, reds, or greens, not just navy blue or gray. But speaking of depth, shadows are a fantastic tool to use on light mode.
+Speaker 1:  This shadow, along with most, is too strong, so reducing the opacity and dialing up the blur helps a lot. The strength you'll need depends on the foreground and background, but cards require less, while content that sits above other content, like popovers, will need stronger shadows.
+Speaker 1:  We can even use these techniques with inner and outer shadows to create effects like raised tactile buttons. Just remember, if the shadow is the first thing you notice on a design, you're not using it right.
+Speaker 1:  Now, to create strong designs, you'll need icons. Most icons are generally too large, so the trick is to get the line height of your font, in this case 24 pixels, and make the icons the same size, and then tighten up the text.
+Speaker 1:  Sidebar links like this are actually just buttons without a background until you hover. They're often called ghost buttons.
+Speaker 1:  And if we isolate one and center it, we've got a perfect standalone button. These are super common when you have a primary and secondary CTA side by side.
+Speaker 1:  And a good guideline for padding on these is to double the height for the width. And these can be done with or without icons too.
+Speaker 1:  A good rule of design is when a user does anything, there should be a response. For example, every button needs at least 4 states: default, hovered, active, or pressed, and disabled.
+Speaker 1:  Sometimes you'll need a loading state too with a spinner. Inputs are even more critical.
+Speaker 1:  You'll need a focus state when the user clicks in, error states with red borders and messages when something's wrong, and sometimes even warning states for optional issues. And this applies everywhere.
+Speaker 1:  Loading spinners when data is batching, success messages when an action completes, even micro-animations on scroll or swipe. Every interaction needs a response.
+Speaker 1:  And that brings us wonderfully into micro-interactions. Micro-interactions are a form of feedback, but they step things up a notch.
+Speaker 1:  For example, this copy button has states and feedback when we hover and click, but we still don't know that we've copied anything. Instead, if we have this chip slide up, that's a micro-interaction that confirms our action.
+Speaker 1:  And these can range from highly practical to much more fun and playful. Finally, overlays are really important, because if you scroll them up, you're going to ruin the image and the text too.
+Speaker 1:  In this case, we can't leave it as is, so we could add in a full-screen overlay, but it doesn't do the image justice. So instead, add in a linear gradient that'll display the image, then smoothly convert into a text-readable background.
+Speaker 1:  Or if we're going for extra fancy, we can add in a progressive blur on top of the gradient for an even more modern look. And that is, more or less, every UI/UX concept all wrapped up in 10 minutes.
+Speaker 1:  If you want to check out Mobbin, it will.
+Speaker 2:  This app's onboarding completion rate beat the industry average. Still, half the people who finished it never once used it for the thing they downloaded it for: recording a therapy session.
+Speaker 1:  But they're in their own analytics what's one moment. Every single week, where users open the app on their own. The thing is, most products have a moment like that.
+Speaker 1:  And just like Undertone, most of them don't take advantage of it. So in this video, I'm going to walk you through the whole case study: how their own numbers pointed straight at that moment, and the 7 things we built into it to bring people back.
+Speaker 1:  Number 1, which you can steal for your own product. I'm Tim, by the way.
+Speaker 1:  I've been designing software for over a decade for both big tech and for startups, and this is one of the core questions I dig into when we work with companies who want to improve retention. Where do their users already show up on their own?
+Speaker 1:  Now, the first job was working out what was actually going wrong. And on the surface, stuff looked pretty good.
+Speaker 1:  Again, when they came to us, their onboarding completion was way above average. People got in at a high rate, even though they had a long onboarding that required 10-plus minutes to get through.
+Speaker 1:  But once inside the app, users didn't stick. Here's what one of the founders said about their app.
+Speaker 3:  As well as the functionality of the app, we were referring to it as very utilitarian. It did what it needed to do, but there was really not much beyond that. There wasn't much in the way of flair or panache, I'll say.
+Speaker 1:  So on the first call with the team, I asked the obvious question: why do you think the onboarding is doing so well? The answer had nothing to do with the onboarding. I think the reason, though, isn't necessarily because we have a good onboarding per se, but I think it's because we have just very high-intent users that download an app like this.
+Speaker 1:  There just isn't necessarily another option, right? Look at your calories.
+Speaker 1:  Are you wanting to go to the gym? Like 1,000 to 2,000.
+Speaker 1:  And it makes sense, doesn't it? People don't have that many options when it comes to therapy recording apps.
+Speaker 1:  If you download Undertone, you might have a session on Thursday, and you need something, anything, that you can bring with you for that session. So a high-intent user like this might make it through your long onboarding just because there's a sense of urgency and a lack of alternatives.
+Speaker 1:  So that good onboarding number was essentially telling them how badly people needed the app that week. That's what it was measuring.
+Speaker 1:  And that tells you nothing about what happens once the session is done, which is the exact part we had to go and find. To help us, their team walked us through the data.
+Speaker 1:  So double the amount of people that are kind of coming through, hitting the mic test, or whatever it is, doesn't actually say mic test. So they're going to the recording page, they're hitting record, they're trying something.
+Speaker 1:  I went and measured the average time across all of these. 120, and it seems to only be around 20 seconds. They're going in there, testing the mic, hitting stop, being told that it's not long enough, and that it's not going to count as a session. 20 seconds of talking, a pop-up, and then a processing screen that spins for a couple seconds and gives up.
+Speaker 1:  This is one of the first touchpoints in the app, and it's 100% going to determine how much you trust everything after it. One of the founders has his own number for what this dead end cost them.
+Speaker 3:  So we were hard-cutting people off, and I think we probably lost, you know, I couldn't put a number to it, but maybe 10% of people who downloaded the app and got into it because they tried to test something got nothing but a, not quite an error, but a wall that says that's not enough, we need 10 minutes, and it never came back.
+Speaker 1:  So that's one problem. The first interaction with a core feature feeling kind of disappointing. But there's also a second one, and it's actually the bigger of the two.
+Speaker 1:  Go back to why anyone downloads this thing. You've got therapy coming up, and you want something to bring with you.
+Speaker 1:  That's the intent we just talked about. But your next session might be a week out, and nothing happens in Undertone until therapy happens.
+Speaker 1:  You have to remember that the entire premise of our app is for forgetful people. We're mainly built for people that can't remember things.
+Speaker 1:  And so we shouldn't expect them to necessarily remember that they had downloaded an app a week ago. Now, to be fair, most people are forgetful these days.
+Speaker 1:  There's just too much going on everywhere. So there's a very good chance the thing that activates your product sits outside of it.
+Speaker 1:  On a calendar you don't control, or a schedule you can't see. You can chase that with notifications, and later in the video we do that properly.
+Speaker 1:  But the more valuable question came first: was there any moment where the app could catch them on its own, without asking for anything? One of the founders had already worked out the shape of his question and problem.
+Speaker 3:  It's very likely that some therapy attendees go once a month, right? So maybe they do download the app the day before therapy, and they get in there, and hey, they love it. And then a month goes by, and they've completely forgotten about it.
+Speaker 1:  And this makes sense. Nobody hangs out in a therapy app. It's not a social network.
+Speaker 1:  So anything that depends on someone choosing to open it is tough. So I asked where the analytics said people showed up on their own today, and there was exactly one place.
+Speaker 1:  I was actually asking Post Hog what the exact number of minutes is between when a session ends and when somebody is opening the session summary. And it looks like people are doing it remarkably quickly.
+Speaker 1:  The median is about 10 minutes after the recording end. 10 minutes. Fastest was 6, and the slowest 44.
+Speaker 1:  They walked out of therapy and they opened the app on their own very quickly. This is a real payoff moment.
+Speaker 3:  You're waiting for your recap to be generated, and then it's generated, and you know it probably takes 3 to 5 minutes to read through the session summary. And so I think that's kind of the, obviously, the most highest intent and highest activity period. I mean, it's the biggest value delivery that exists in the app right now, is that's kind of the payoff.
+Speaker 1:  So this introduces another question: what do you actually do with a moment like that? This is the one time people show up on their own every week, right after the most emotional hour of their week. And what was waiting for them in the old app was a block of text and a see full recap button.
+Speaker 1:  So the best moment in the product was also the weakest screen in it, and it only pays off for people who are still around to see it. Half of them weren't, so we started at the other end.
+Speaker 1:  And the first thing we changed was something most people wouldn't call a retention fix at all. Right before we dig into that, if you're watching this thinking, hey, this is the kind of product approach you'll need for your app, I personally run a few free design strategy calls every month at 6-up.
+Speaker 1:  Links down below if it sounds interesting. All right, so the first thing we changed was the brand.
+Speaker 1:  That sounds like a detour when the problem is retention. Until you look at what it was doing to everything else.
+Speaker 1:  Every fix we were about to make, the onboarding, the record flow, the recap, all of it, had to come out feeling like the same product. And you can't design how something feels until you know what it's supposed to look like when it's right.
+Speaker 1:  So we set all the visual language first before touching a single flow. The Undertone team already knew where they wanted the brand to go.
+Speaker 3:  We've really tried to keep things somewhere right on the border of clinical and minimal. You know, we don't want it to be too sterile, that it's got no personality. But I think that having these sort of simple lines really, really speaks to the brand itself and lets the brand shine.
+Speaker 1:  So that was the direction. What it meant in practice was a short list of rules. Atishayo and Sage against off-whites with a charcoal that never goes fully black.
+Speaker 1:  But color palette isn't a look. They've been circling what they wanted for a while without being able to hand anyone a picture of it.
+Speaker 1:  And yeah, that's the hard part that I can't do, because you know I just don't know what that means. To be intentionally minimal, I think, is like it takes some serious skill.
+Speaker 1:  This is admittedly the hardest part about branding: helping a company find a visual representation that matches what they're seeing in their head, but also making sense for the customer. In this case, that intentional minimalism they were seeking and couldn't put into words.
+Speaker 1:  So we defined it, drew it, and shipped it as a solid brand refresh and design system. Think type, color, icons, components, button states, the whole foundation.
+Speaker 1:  Which in turn frees you up to focus on the experience of the product. Starting with a leak at the record button.
+Speaker 1:  We knew the mic test was a clear friction in the app. We also knew that onboarding was the opposite.
+Speaker 1:  People flew through it. So what if we moved the mic test into the onboarding instead?
+Speaker 1:  You test your mic while you're still inside the flow that you're already highly motivated to finish. And when the founders saw it, they agreed.
+Speaker 3:  And particularly, I think moving the recording into the onboarding makes sense because it, we'll see, obviously, this is, you know, speculative, but the idea that someone can get that itch out of their minds to see what it does, to record anything in the onboarding, I think that will go a long way to sort of proven the concept of, you know, okay, yes, it's going to record me, and you know, it's going to create some output based thereupon.
+Speaker 1:  Then, of course, the dead end itself. Instead of having a brick wall that punishes you for trying, you get shown a real recap before you've even gotten into the app. This is how the team saw it.
+Speaker 3:  And so I think having this sort of interactive demo that will quite literally show what it would look like if a therapy session passed through it really helped sort of underscore Undertone, the idea of what's going to happen.
+Speaker 1:  So by the time you land in the app, the two big questions for a user, does this work and what will it give me, are both already answered. The leak at the record button closes here by moving it into the flow that already overperformed. So that's the first run of fix.
+Speaker 1:  All the way from opening the app to a recording that actually works. But then therapy's over.
+Speaker 1:  The next one is a week from now, and there's nothing to record and nothing to really come back for. Undertone's answer for those days was the classic: notifications.
+Speaker 1:  But phones give you a lot more room than that nowadays. Especially iPhones.
+Speaker 1:  Your product can be present without anyone opening it, and it can keep doing its job in the corner of someone's eye while they walk away from it. So we looked at the dynamic island.
+Speaker 1:  While a session processes, the app sits at the top of your phone. If you walk to the car after your session, it's still with you.
+Speaker 1:  And in the case of a recording app, it also serves as a nice bug preventer.
+Speaker 3:  There has been a few users now who have forgotten to come back into the app after their session, and so they've ended up running 4, 5, 6 hour-long recordings. And this actually ended up glitching our system. It's not built to transcribe 6 hours of audio.
+Speaker 3:  And so we unfortunately actually lost a couple sessions at the outset.
+Speaker 1:  Now let's stop for a moment and think about what you just handed the app. An hour of the most private conversation you have all week. The user is typically in a pretty emotionally loaded state where privacy, handholding, and information disclosure is key.
+Speaker 1:  So the island names each step while it works: transcribing, anonymizing, summarizing. You can watch your own session being handled, which makes the wait calming.
+Speaker 1:  We showed the team a mock-up of this idea.
+Speaker 3:  So when you first introduced it, the immediate concern was, I think, one of the mock-ups you had given showed, like, some progress of the processing. And we didn't have that capability built yet. As it moves through the stages of transcribing and anonymizing and summarizing, we've kind of created a bit of a progress bar.
+Speaker 3:  So that actually now does fall into the realm of possibility.
+Speaker 1:  So they built it, and that's the whole path to fix. The way in, the first recording, the waits, the days in between. Every one of those was a place people were falling up, but none of them are the reason anybody comes back.
+Speaker 1:  That's one moment, and it's the one we've been building up towards since the start of this video. One moment in this app is worth more than all the others combined.
+Speaker 1:  It's the one where you walk out of that room, still carrying whatever just came up in your therapy session, and the app has to give you that hour back to you in a form that makes you want to do it again and again. That's the critical retention moment of this product.
+Speaker 1:  And to get this right, we had to go back to where the product started. On one of the first calls, I asked the team which companies they admire and why.
+Speaker 1:  Their answer came to shape the final design of their retention moment. The feeling that I get from Apple, that sort of neat, clean sophistication, is actually probably found not even necessarily in their hardware, but in their packaging.
+Speaker 1:  You know, when you get a laptop from the house, the lid comes off, how the, you know, the plastic that it's wrapped in. Nobody asked about packaging.
+Speaker 1:  We were talking about an app. But there's a rule behind why that box works.
+Speaker 1:  The peak end rule. You remember an experience by its biggest moment and by how it ends.
+Speaker 1:  Apple's finish line is a cardboard box. Undertone's is 10 minutes after walking out, every week, without anyone asking.
+Speaker 1:  That's the 30 seconds we had to win. So here are the 7 things we built into it.
+Speaker 1:  One, hold the thread while they leave. Processing lives in the dynamic island.
+Speaker 1:  Two, bring them back deliberately, with a notification when the recap is ready. Three, give it a surface-worth opening.
+Speaker 1:  The recap arrives wrapped, with a subtle bounce so the gesture is obvious before any instruction appears. Four, make them do it themselves.
+Speaker 1:  They pull the tape from top to bottom, and it peels away. Instead of watching an animation, they're actually performing the reveal on their own, like opening a gift.
+Speaker 3:  But the idea of opening something and, you know, there's something here for you, open it up and see what we've got for you, I think makes sense. I think, you know, there's, I don't want to say like it's a gift, because I think that's a little bit tacky, but it's like there's something, there's something good in there, I'll say.
+Speaker 1:  After that gift moment, we have 5. Payoff on two sensory channels. Confetti and a subtle half a kit.
+Speaker 1:  6. Frame what they just got.
+Speaker 1:  This is the first entry in a mental health record that nobody had before, so it gets treated like a real magical event. And 7, we then put the ask and the real retention lever inside the peak of this experience.
+Speaker 1:  The prompt to book the next session lives in the same moment as the engineered end. Here's the first time the team saw the unboxing event, live on a call.
+Speaker 1:  I love this. I think this is really, really cool.
+Speaker 1:  I'm having an emotional design moment. I love that.
+Speaker 1:  I love that. This is very, very cool.
+Speaker 1:  I like how it kind of peels and falls off. I love that he called it emotional design, because that's exactly what it is.
+Speaker 1:  John Norman wrote a book about it. I've got a full video on it on this channel, and it's exactly what we tried to build into moments like this.
+Speaker 1:  But it only lands if it fits the person using it. The brief had two edges.
+Speaker 1:  Nothing clinical, because this is therapy. Nothing cute, because this is therapy.
+Speaker 1:  That's why the recap can arrive wrapped and still feel serious. And more importantly, why it will always feel more right to their user than a non-tailored alternative.
+Speaker 3:  Adding these layers and these polishes and these small interactive touches, I think, are the difference between I want to use Undertone and I could use, I mean, I could audio record and put it in GPT, or I could use Granola, or I could use any of these adjacent, you know, just at its core transcription tools. But I want to use Undertone, because when I use Undertone, every session I get to open it up.
+Speaker 1:  So here's the part I really want you to take away. These are UX, these are UI, these are branding. Those are all table stakes today.
+Speaker 1:  Anyone can ship a clean app. The components are free.
+Speaker 1:  Design patterns to copy are everywhere. And the model will hand you a pretty good flow in a couple minutes.
+Speaker 1:  What none of that gives you, though, is connection, a personality, a thought-through, custom-made experience. If Undertone sits on a shelf next to a bunch of other tools that turn audio into text, the reason someone picks them is going to be for those reasons.
+Speaker 1:  The sleeve, the wrapped recap, the 10 seconds after a session where the app seems to really understand them. That's deliberate craft, which is much harder to copy.
+Speaker 3:  We had something so simplistic to begin with that pretty much everything that you guys delivered was so far beyond what we were imagining that it landed really well. I think I'd really, like, if I were to say one thing, and again, it's a bit broad, but it's the subtle touches. The idea of this vinyl in the sleeve, I mean, it's a record, and what we're sort of pitching Undertone is your personal mental health record.
+Speaker 3:  The small touches that we didn't expect or know to describe to you, I think that's really, those are the pieces that when we looked at it, it was like, yeah, this feels cohesive, this has life, this has a personality.
+Speaker 1:  Now, the app is going to be out on the app stores anytime soon. Might even be when you're watching this. Just search Undertone Therapy Notes, and it's going to be the top results on iOS and Android.
+Speaker 1:  They're also raising money at the moment, so if you invest in this kind of thing, there's a contact form on undertone.co that goes straight to the founders. Now, if you found this useful and you're about to put real money into a redesign, again, we open up a couple of free design strategy calls.

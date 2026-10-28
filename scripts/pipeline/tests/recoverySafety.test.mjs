@@ -27,8 +27,46 @@ test('concurrent processes cannot reserve beyond a shared ceiling', async () => 
   assert.deepEqual((await Promise.all([run(),run(),run()])).sort(),['blocked','blocked','reserved']);
 });
 
+test('partial usage on a bounded non-settled hold preserves cap headroom across recovery and concurrent reservations', async () => {
+  const file=join(mkdtempSync(join(tmpdir(),'mockmob-partial-hold-')),'ledger.sqlite');
+  const ledger=new BudgetLedger(file,0.01);
+  const held=ledger.reserve('fixture',6000);
+  ledger.settle(held,null,{error:'usage_pending'});
+  ledger.retainConservativeHold(held,{
+    model:'fixture',input_bound:3000,output_bound:3000,input_rate:1,output_rate:1,
+    pricing_source:'https://fixture.invalid/pricing',contract_hash:'a'.repeat(64),
+    basis:'Bounded text-only fixture request',provider_request_id:'req-partial'
+  });
+  // Simulate persisted partial usage while the provider request is still unsettled.
+  ledger.db.prepare("UPDATE requests SET actual=1000 WHERE id=?").run(held);
+  assert.equal(ledger.snapshot().committed_micro,6000);
+  ledger.close();
+
+  const ledgerModule=new URL('../lib/budgetLedger.mjs',import.meta.url).href;
+  const script=`import {BudgetLedger} from ${JSON.stringify(ledgerModule)}; const l=new BudgetLedger(process.argv[1]); try { const id=l.reserve('concurrent',5000); l.settle(id,5000); console.log('reserved'); } catch { console.log('blocked'); } finally { l.close(); }`;
+  const run=()=>new Promise((resolve,reject)=>{
+    const child=spawn(process.execPath,['--input-type=module','-e',script,file],{cwd:process.cwd(),stdio:['ignore','pipe','pipe']});
+    let out='';child.stdout.on('data',s=>out+=s);child.on('error',reject);
+    child.on('exit',code=>code===0?resolve(out.trim()):reject(new Error('child failed')));
+  });
+  assert.deepEqual(await Promise.all([run(),run()]),['blocked','blocked']);
+
+  const recovered=new BudgetLedger(file);
+  try {
+    assert.equal(recovered.snapshot().committed_micro,6000);
+    assert.equal(recovered.snapshot().unresolved,1);
+    assert.equal(recovered.snapshot().unbounded_unresolved,0);
+    const exactBoundary=recovered.reserve('boundary',4000);
+    assert.equal(recovered.snapshot().committed_micro,10000);
+    assert.throws(()=>recovered.reserve('over-cap',1),/exhausted/);
+    recovered.settle(exactBoundary,4000);
+    assert.equal(recovered.snapshot().committed_micro,10000);
+  } finally { recovered.close(); }
+});
+
 test('transport counts every request and stops on absent usage, unknown prices or wrong provider',async()=>{
  const ledger=new BudgetLedger(join(mkdtempSync(join(tmpdir(),'mockmob-transport-')),'ledger.sqlite'));
+ ledger.reconcileHistory({spent_usd:0,basis:'Isolated software fixture; no provider spending exists.',confirmed_at:new Date().toISOString()});
  let calls=0,usage={prompt_tokens:10,completion_tokens:5};
  const price={provider_host:'fixture.invalid',input_per_million:1,output_per_million:2,max_input_tokens:1000};
  const prices={expires_at:'2099-01-01',source_url:'https://fixture.invalid/prices',models:{fixture:price}};
@@ -38,7 +76,7 @@ test('transport counts every request and stops on absent usage, unknown prices o
   await assert.rejects(dispatch('https://other.invalid/chat/completions',{body}),/pricing/);assert.equal(calls,0);
   await assert.rejects(dispatch('https://fixture.invalid/chat/completions',{body:JSON.stringify({model:'unknown',max_tokens:20})}),/pricing/);assert.equal(calls,0);
   await dispatch('https://fixture.invalid/chat/completions',{body});await dispatch('https://fixture.invalid/chat/completions',{body});
-  assert.equal(ledger.snapshot().requests,2);assert.equal(ledger.snapshot().committed_micro,40);
+  assert.equal(ledger.snapshot().requests,3);assert.equal(ledger.snapshot().committed_micro,40);
   usage=undefined;await assert.rejects(dispatch('https://fixture.invalid/chat/completions',{body}),/usage_unresolved/);
   await assert.rejects(dispatch('https://fixture.invalid/chat/completions',{body}),/budget_usage_unresolved/);assert.equal(calls,3);
  }finally{ledger.close();}

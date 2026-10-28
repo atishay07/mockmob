@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import {
   MOCK_SELECTION_POLICY,
   buildSelectionUsageMeta,
+  loadPagedQuestionRows,
+  ntaSelectionRowsForInventory,
   pickWithConstraints,
   rankCandidates,
 } from '../mock_question_selector.js';
@@ -69,6 +71,50 @@ test('picker preserves difficulty targets while keeping newest rows within each 
     'easy_old',
     'medium_old',
   ]);
+});
+
+test('picker never infers an unknown difficulty to satisfy an easy or medium target', () => {
+  const quick = getMode('quick');
+  const selected = pickWithConstraints([
+    row('unlabelled', '2026-05-03T00:00:00.000Z', null),
+  ], 1, quick);
+
+  assert.deepEqual(selected, []);
+});
+
+test('paged NTA inventory scans beyond 5000 rows and reports a bounded incomplete scan', async () => {
+  const pageSizes = [];
+  const complete = await loadPagedQuestionRows(async (offset, limit) => {
+    pageSizes.push([offset, limit]);
+    return Array.from({ length: Math.min(limit, 6501 - offset) }, (_, index) => ({ id: offset + index }));
+  }, { pageSize: 1000, maxRows: 7000 });
+
+  assert.equal(complete.rows.length, 6501);
+  assert.equal(complete.complete, true);
+  assert.ok(pageSizes.some(([offset]) => offset === 6000));
+
+  const bounded = await loadPagedQuestionRows(async (offset, limit) =>
+    Array.from({ length: Math.min(limit, 7200 - offset) }, (_, index) => ({ id: offset + index })),
+  { pageSize: 1000, maxRows: 7000 });
+
+  assert.equal(bounded.rows.length, 7000);
+  assert.equal(bounded.complete, false);
+  assert.equal(bounded.scannedCount, 7000);
+});
+
+test('NTA withholds Hard fallback when Medium or Easy inventory scan is incomplete', () => {
+  const rows = [
+    row('medium', '2026-05-03T00:00:00.000Z', 'medium'),
+    row('easy', '2026-05-02T00:00:00.000Z', 'easy'),
+    row('hard', '2026-05-01T00:00:00.000Z', 'hard'),
+  ];
+  const incomplete = ntaSelectionRowsForInventory(rows, ['medium']);
+  const completeBase = ntaSelectionRowsForInventory(rows, ['hard']);
+
+  assert.deepEqual(incomplete.rows.map((entry) => entry.id), ['medium', 'easy']);
+  assert.equal(incomplete.hardFallbackSuppressed, true);
+  assert.deepEqual(completeBase.rows, rows);
+  assert.equal(completeBase.hardFallbackSuppressed, false);
 });
 
 test('selection usage metadata records latest-window and revisit counts', () => {

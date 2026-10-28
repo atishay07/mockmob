@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { feedWindow, advanceFeedPage, appendUniqueQuestions, chapterGroups, questionFeedback } from '../explore_feed.js';
+import { feedWindow, advanceFeedPage, appendUniqueQuestions, chapterGroups, questionFeedback,feedOptions } from '../explore_feed.js';
 
 test('raw page boundary advances even when every row is quarantined', () => {
   assert.deepEqual(advanceFeedPage(20, 20, 20), { nextOffset: 40, hasMore: true });
@@ -24,4 +24,17 @@ test('feedback abstains on missing key and distinguishes revealing from an answe
   assert.equal(questionFeedback(q, 'A').state, 'incorrect');
   assert.equal(questionFeedback(q, null).state, 'revealed');
   assert.equal(questionFeedback({ ...q, correct_answer: 'C' }, 'A').state, 'unavailable');
+});
+
+test('factory string options retain a usable answer and explicit keyed legacy options keep their identity',()=>{
+  const q={options:['North','South','East','West'],correct_answer:'C'};
+  assert.equal(questionFeedback(q,'C').state,'correct');assert.equal(questionFeedback(q,'B').state,'incorrect');
+  assert.deepEqual(feedOptions(q.options)[2],{key:'C',text:'East'});
+  const legacy={options:[{key:0,text:'Zero'},{key:1,text:'One'}],correct_answer:0};
+  assert.equal(questionFeedback(legacy,0).state,'correct');assert.equal(feedOptions(legacy.options)[0].key,0);
+});
+
+test('dictionary options retain their explicit keys rather than acquiring array positions',()=>{
+  const q={options:{D:'Delta',B:'Beta',A:'Alpha',C:'Gamma'},correct_answer:'B'};
+  assert.equal(questionFeedback(q,'B').state,'correct');assert.deepEqual(feedOptions(q.options)[0],{key:'D',text:'Delta'});
 });

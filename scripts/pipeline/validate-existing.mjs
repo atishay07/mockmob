@@ -839,7 +839,9 @@ async function main() {
   }
 }
 
-main().catch((err) => {
+// This historical API sweep is retired. Preserve its implementation for audit,
+// but never charge the content budget for legacy-bank screening.
+Promise.reject(new Error('Paid legacy validation retired; use npm run screen:legacy and the subscription review bridge.')).catch((err) => {
   console.error('[validate] fatal:', err);
   process.exit(1);
 });

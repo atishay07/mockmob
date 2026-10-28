@@ -21,6 +21,8 @@ import {
 import { runSelfCheck, summarizeSelfCheckResults } from '../lib/selfCheck.mjs';
 import { deduplicateBatch, deduplicateAgainst } from '../lib/dedupe.mjs';
 import { publishQuestion, publishPassageGroup, saveDraftQuestion } from '../lib/publish.mjs';
+import { publishInspectedUnit } from '../lib/publishTimeInspection.mjs';
+import { readBankSnapshot } from '../lib/bankSnapshot.mjs';
 import {
   buildPassageRefillJobPayload,
   evaluatePassageChildAcceptance,
@@ -3043,13 +3045,19 @@ async function processJobInternal(job) {
       const results=await verifyBatch(unheld,{registry,ledger:pipelineBudget(),adapters,version,secret:process.env.CUET_EVIDENCE_SIGNING_KEY});
       return results.filter(r=>r.state==='eligible').map(r=>r.question);
     }
+    async function publishAfterCurrentInspection(candidates,publish){
+      const rows=candidates.map(question=>({id:question.id,state:'eligible',candidate:question}));
+      const outcome=await publishInspectedUnit({rows,readInventory:()=>readBankSnapshot(supabase),registry,publish});
+      if(outcome.status!=='published')return {success:false,error:outcome.status==='withheld'?`publish_time_inspection_withheld:${outcome.withheld.map(item=>item.id).join(',')}`:outcome.error};
+      return outcome.receipt;
+    }
     const evidenced=await evidenceChecked(publishReady);
     publishReady.splice(0,publishReady.length,...evidenced);
     for(const group of passagePublishGroups)group.questions=await evidenceChecked(group.questions);
     console.log('[pipeline] item_evidence_eligible',publishReady.length+passagePublishGroups.reduce((n,g)=>n+g.questions.length,0));
     const acceptedQuestions = [];
     for (const question of publishReady) {
-      const publishRes = await publishQuestion(question, API_SECRET, { expectedChapter: job.chapter });
+      const publishRes = await publishAfterCurrentInspection([question],()=>publishQuestion(question, API_SECRET, { expectedChapter: job.chapter }));
       if (publishRes.success) {
         acceptedQuestions.push(question);
         stats.accepted += 1;
@@ -3078,10 +3086,10 @@ async function processJobInternal(job) {
       }
     }
     for (const passageGroup of passagePublishGroups) {
-      const publishRes = await publishPassageGroup(passageGroup.group, passageGroup.questions, API_SECRET, {
+      const publishRes = await publishAfterCurrentInspection(passageGroup.questions,()=>publishPassageGroup(passageGroup.group, passageGroup.questions, API_SECRET, {
         expectedChapter: job.chapter,
         minValidatedChildren: passageGroup.decision?.min_required_children || 2,
-      });
+      }));
       if (publishRes.success) {
         acceptedQuestions.push(...passageGroup.questions);
         stats.accepted += passageGroup.questions.length;
@@ -3636,7 +3644,7 @@ function getDifficultyWeight(difficulty) {
 }
 
 if (process.argv.includes('--start')) {
-  workerLoop();
+  throw new Error('Historical worker retired; use npm run autonomous for the source-backed Luna/Gemini factory.');
 }
 
 function mergeDropReasons(target, source) {

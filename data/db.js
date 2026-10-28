@@ -19,7 +19,7 @@ import { publicationEligibility } from './evidence_registry';
 import { readablePracticeQuestions } from './practice_library';
 import { toPublicSubjectId } from './cuet_controls';
 import { getMode } from './test_modes';
-import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta } from './mock_question_selector';
+import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta, excludeRepeatedFamilies, loadPagedQuestionRows, ntaSelectionRowsForInventory } from './mock_question_selector';
 import { NTA_DURATION_MINUTES, NTA_QUESTION_COUNT, isPassageLinkedQuestion, selectNtaQuestionSetWithAnswerVerification } from './nta_question_selector';
 
 // ---------- id helpers (match legacy formats) ----------
@@ -28,6 +28,7 @@ const newUserId = () => `usr_${Date.now()}_${rid()}`;
 const newAttemptId = () => `att_${Date.now()}_${rid()}`;
 const newQuestionId = () => `q_${Date.now()}_${rid()}`;
 const newPaymentId = () => `payrec_${Date.now()}_${rid()}`;
+const NTA_POOL_MAX_ROWS_PER_DIFFICULTY = 6000;
 
 // ---------- row <-> app-shape mappers ----------
 const userOut = (r) => r && ({
@@ -173,6 +174,7 @@ const questionOut = (r) => r && ({
   conceptId: r.concept_id || null,
   familyId: r.family_id || r.template_id || r.evidence?.record?.family_id || null,
   pyqAnchorId: r.pyq_anchor_id || null,
+  sourceKind: r.provenance?.kind || null,
   questionType: r.question_type || null,
   passageGroupId: r.passage_group_id || r.group_id || null,
   passageId: r.passage_id || null,
@@ -1113,38 +1115,41 @@ export const Database = {
 
     // Pull a generous candidate pool — enough to survive recency + concept caps.
     const poolSize = mode.id === 'nta' ? 5000 : Math.max(60, targetCount * 6);
+    const ntaPoolScan = { complete: true, truncatedDifficulties: [] };
 
     const fetchNtaPool = async () => {
       const pageSize = 1000;
       const rows = [];
-      let useDeletedFilter = true;
+      for (const difficulty of ['medium', 'easy', 'hard']) {
+        let useDeletedFilter = true;
+        const paged = await loadPagedQuestionRows(async (offset, limit) => {
+          const buildPageQuery = (includeDeleted) => {
+            let query = supabaseAdmin()
+              .from('questions')
+              .select('*')
+              .eq('subject', subjectId)
+              .eq('difficulty', difficulty)
+              .order('created_at', { ascending: false })
+              .order('id', { ascending: true })
+              .range(offset, offset + limit - 1);
+            if (includeDeleted) query = query.eq('is_deleted', false);
+            return query;
+          };
 
-      for (let offset = 0; offset < poolSize; offset += pageSize) {
-        const end = Math.min(offset + pageSize - 1, poolSize - 1);
-        let query = supabaseAdmin()
-          .from('questions')
-          .select('*')
-          .eq('subject', subjectId)
-          .order('created_at', { ascending: false })
-          .range(offset, end);
+          let { data, error } = await buildPageQuery(useDeletedFilter);
+          if (error && useDeletedFilter && error.code === '42703') {
+            useDeletedFilter = false;
+            ({ data, error } = await buildPageQuery(false));
+          }
+          if (error) throw error;
+          return Array.isArray(data) ? data : [];
+        }, { pageSize, maxRows: NTA_POOL_MAX_ROWS_PER_DIFFICULTY });
 
-        if (useDeletedFilter) query = query.eq('is_deleted', false);
-
-        let { data, error } = await query;
-        if (error && useDeletedFilter && error.code === '42703') {
-          useDeletedFilter = false;
-          ({ data, error } = await supabaseAdmin()
-            .from('questions')
-            .select('*')
-            .eq('subject', subjectId)
-            .order('created_at', { ascending: false })
-            .range(offset, end));
+        rows.push(...paged.rows);
+        if (!paged.complete) {
+          ntaPoolScan.complete = false;
+          ntaPoolScan.truncatedDifficulties.push(difficulty);
         }
-        if (error) throw error;
-
-        const page = Array.isArray(data) ? data : [];
-        rows.push(...page);
-        if (page.length < pageSize) break;
       }
 
       return rows;
@@ -1172,8 +1177,9 @@ export const Database = {
     let pool = [];
     if (mode.id === 'nta') {
       pool = await fetchNtaPool();
-    } else if (opts.excludeQuestionIds || opts.excludeFamilyIds) {
-      // Freshness must be tested against the full subject pool, not a recent sample.
+    } else {
+      // Evidence precedence and freshness need the whole filtered subject pool;
+      // a recent sample can hide older, fully verified inventory.
       for (let offset = 0; ; offset += 1000) {
         let { data, error } = await buildQuery(true, offset);
         if (error && isMissingPhase1VoteSchema(error)) ({ data, error } = await buildQuery(false, offset));
@@ -1181,21 +1187,12 @@ export const Database = {
         pool.push(...(data || []));
         if (!data || data.length < 1000) break;
       }
-    } else {
-      let { data, error } = await buildQuery(true);
-      if (error && isMissingPhase1VoteSchema(error)) {
-        ({ data, error } = await buildQuery(false));
-      }
-      if (error) throw error;
-      pool = Array.isArray(data) ? data : [];
     }
     if (mode.id === 'quick') {
       pool = pool.filter((row) => !isPassageLinkedQuestion(row));
     }
-    if (mode.id === 'nta') {
-      pool = await this._attachPassageMetadata(pool);
-    }
-    pool = await readablePracticeQuestions(pool, supabaseAdmin(), { requireEvidence: opts.requireEvidence !== false });
+    pool = await this._attachPassageMetadata(pool);
+    pool = await readablePracticeQuestions(pool, supabaseAdmin(), { requireEvidence: mode.id === 'nta' || opts.requireEvidence === true });
     // Freshness is a hard constraint before ranking/selection, never a post-filter.
     if (opts.excludeQuestionIds || opts.excludeFamilyIds) {
       const ids = new Set(opts.excludeQuestionIds || []), families = new Set(opts.excludeFamilyIds || []);
@@ -1207,7 +1204,7 @@ export const Database = {
     if (opts.userId && mode.recencyLimit > 0) {
       const recentIds = await this._recentQuestionIds(opts.userId, subjectId, mode.recencyLimit);
       if (recentIds.size) {
-        const trimmed = pool.filter((row) => !recentIds.has(row.id));
+        const trimmed = pool.filter((row) => row.selection_evidence_tier >= 2 || !recentIds.has(row.id));
         // Only honour recency if we still have a viable pool afterwards.
         const minimumAfterRecency = mode.id === 'nta' ? targetCount : Math.ceil(targetCount * 0.7);
         if (trimmed.length >= minimumAfterRecency) {
@@ -1238,10 +1235,20 @@ export const Database = {
 
     const ranked = rankCandidates(pool, { mode, progress, weakConcepts });
     if (mode.id === 'nta') {
-      const { selectedRows, diagnostics } = await selectNtaQuestionSetWithAnswerVerification(ranked, targetCount, {
+      const { rows: selectionPool, hardFallbackSuppressed } = ntaSelectionRowsForInventory(ranked, ntaPoolScan.truncatedDifficulties);
+      const { selectedRows, diagnostics } = await selectNtaQuestionSetWithAnswerVerification(excludeRepeatedFamilies(selectionPool), targetCount, {
         subjectId,
         seed: opts.generationKey || opts.seed || '',
       });
+
+      diagnostics.inventoryScanComplete = ntaPoolScan.complete;
+      diagnostics.truncatedDifficultyBuckets = ntaPoolScan.truncatedDifficulties;
+      diagnostics.hardFallbackSuppressed = hardFallbackSuppressed && !diagnostics.canBuild50;
+      if (!diagnostics.canBuild50 && !ntaPoolScan.complete) {
+        diagnostics.message = hardFallbackSuppressed
+          ? 'The bounded inventory scan reached its row limit before confirming that Medium and Easy inventory is insufficient; Hard fallback was withheld.'
+          : 'The bounded inventory scan reached its row limit before confirming that Hard inventory can complete this paper.';
+      }
 
       if (process.env.NODE_ENV !== 'production') {
         console.info('[nta-selector]', diagnostics);

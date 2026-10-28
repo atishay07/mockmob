@@ -100,7 +100,7 @@ export async function getStudentAIContext({ user, options = {} } = {}) {
 
   const sharedPlan = await learningRecord(userId).catch(() => null);
   return {
-    sharedPlan: sharedPlan ? {primary:sharedPlan.primary,alternatives:sharedPlan.alternatives,pathwayState:sharedPlan.pathwayState} : null,
+    sharedPlan: sharedPlan ? {primary:sharedPlan.primary,alternatives:sharedPlan.alternatives,pathwayState:sharedPlan.pathwayState,...(sharedPlan.sequence ? {sequence:sharedPlan.sequence,study:sharedPlan.study} : {})} : null,
     userId,
     displayName: effectiveUser?.name || 'Student',
     planType: isPaid ? 'paid' : 'free',

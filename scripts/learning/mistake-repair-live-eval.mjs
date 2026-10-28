@@ -12,7 +12,7 @@ const { data: rows, error } = await sb.from('questions').select('id,subject,chap
   .in('subject', ['accountancy', 'economics', 'business_studies', 'english']).eq('status', 'live').neq('verification_state', 'disputed').limit(200);
 if (error) throw error;
 const pick = rows.filter(r => Array.isArray(r.options) && r.options.length === 4 && correctIndexOf(r) >= 0 && !r.passage_group_id).sort((a, b) => a.id.localeCompare(b.id)).filter((_, i) => i % Math.max(1, Math.floor(200 / N)) === 0).slice(0, N);
-const client = new OpenAI({ maxRetries: 0 }); const model = process.env.AI_FAST_MODEL; const provider = process.env.AI_FAST_PROVIDER;
+const client = new OpenAI({ maxRetries: 0 }); const model = process.env.AI_LUNA_MODEL || 'gpt-6-luna'; const provider = 'openai';
 const results = [];
 for (const r of pick) {
   const question = { ...r, question: r.question || r.body, options: r.options.map(o => (typeof o === 'string' ? o : o.text)) };

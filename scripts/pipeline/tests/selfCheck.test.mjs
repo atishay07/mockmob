@@ -34,26 +34,26 @@ test('selfCheck accepts valid CUET-style Physics statement question', () => {
   assert.notEqual(result.trap_quality, 'low');
 });
 
-test('selfCheck rejects direct definitions', () => {
+test('short direct stems pass structure; independent academic checks remain required', () => {
   const result = runSelfCheck(baseQuestion({
     body: 'What is electromagnetic induction?',
   }));
-  assert.equal(result.pass, false);
-  assert.ok(result.reasons.includes('direct_definition'));
+  assert.equal(result.pass, true);
+  assert.equal(result.reasons.includes('direct_definition'), false);
 });
 
-test('selfCheck rejects missing trap_option', () => {
+test('optional author trap metadata cannot determine structural acceptance', () => {
   const question = baseQuestion();
   delete question.trap_option;
   const result = runSelfCheck(question);
-  assert.equal(result.pass, false);
-  assert.ok(result.reasons.includes('missing_trap_option'));
+  assert.equal(result.pass, true);
+  assert.equal(runSelfCheck(baseQuestion({trap_option:'A'})).pass, false);
 });
 
-test('selfCheck rejects fewer than two strong distractors', () => {
+test('author distractor labels are optional; pointing a distractor at the key is rejected', () => {
   const result = runSelfCheck(baseQuestion({ strong_distractors: ['B'] }));
-  assert.equal(result.pass, false);
-  assert.ok(result.reasons.includes('missing_strong_distractors'));
+  assert.equal(result.pass, true);
+  assert.equal(runSelfCheck(baseQuestion({strong_distractors:['A']})).pass, false);
 });
 
 test('selfCheck does not reject scientifically valid absolute wording by itself', () => {

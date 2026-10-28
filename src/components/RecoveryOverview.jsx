@@ -10,6 +10,7 @@ import LearningNextAction from './LearningNextAction';
 import ArenaHead, { ArenaStats } from './arena/ArenaHead';
 import { AppIcon, StatusIcon, SubjectIcon } from './ui/Glyph';
 import ArenaCompanion from './brand/ArenaCompanion';
+import StudyProgress from './study/StudyProgress';
 
 const label = (id = '') => id.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 const when = (ts) => {
@@ -70,6 +71,7 @@ export default function RecoveryOverview({ view }) {
             { icon: <AppIcon name="clock" size={15} />, label: 'Last session', value: when(review[0]?.completedAt) || '—' },
           ]} />
           <LearningNextAction compact />
+          <StudyProgress review />
           {data.reviewState === 'unavailable' ? <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning" />The review queue is being prepared. Your saved attempts remain available.</div> : null}
           <section className="ov-section" aria-labelledby="ov-sessions">
             <div className="pr-step__head"><h2 id="ov-sessions">Your sessions</h2><span className="pr-hint">Newest first</span></div>
@@ -89,6 +91,7 @@ export default function RecoveryOverview({ view }) {
             { icon: <AppIcon name="check" size={15} />, label: 'Answered right', value: answered ? `${Math.round((correct / answered) * 100)}%` : '—' },
           ]} />
           <LearningNextAction compact />
+          <StudyProgress />
           <section className="ov-section" aria-labelledby="ov-checks">
             <div className="pr-step__head"><h2 id="ov-checks">Concept checks</h2><span className="pr-hint">Fresh, delayed questions only</span></div>
             {data.progress.length ? <ul className="ov-list">{data.progress.map(p => (

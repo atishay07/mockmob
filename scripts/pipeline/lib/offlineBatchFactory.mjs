@@ -8,7 +8,9 @@ import { toInternalSubjectId, validateTraceability } from '../../../data/cuet_co
 import { evaluateGeneratedQuestionAnswerGuard, scoreAnswerLocalConfidence } from '../../../data/answer_integrity.js';
 import { deduplicateAgainst, deduplicateBatch, getSimilarity } from './dedupe.mjs';
 import { getStemShape, runSelfCheck, summarizeSelfCheckResults } from './selfCheck.mjs';
-import { publicationEligibility } from '../../../data/evidence_registry.js';
+import { currentRegistry, publicationEligibility } from '../../../data/evidence_registry.js';
+import { publishInspectedUnit } from './publishTimeInspection.mjs';
+import { readBankSnapshot } from './bankSnapshot.mjs';
 
 try {
   loadEnvFile('.env.local');
@@ -849,10 +851,22 @@ export async function importOfflineQuestionBatch(options = {}) {
 
   if (writeRequested && allowWrite && !dryRun && blockedReasons.length === 0) {
     const { publishQuestion } = await import('./publish.mjs');
+    const url = process.env.SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL;
+    const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!url || !key) throw new Error('publish_time_inventory_credentials_required');
+    const db = createClient(url, key, { auth: { persistSession: false } });
+    const registry = currentRegistry();
     for (const candidate of importable) {
-      const result = await publishQuestion(candidate, process.env.INTERNAL_API_SECRET || 'offline-import', {
-        expectedChapter: DEFAULT_ROUTE.chapter,
+      const id = candidate.id || candidate.candidate_id || candidate.local_id;
+      const outcome = await publishInspectedUnit({
+        rows: [{ id, state: 'eligible', candidate: { ...candidate, id } }],
+        readInventory: () => readBankSnapshot(db), registry,
+        publish: async () => publishQuestion(candidate, process.env.INTERNAL_API_SECRET || 'offline-import', {
+          expectedChapter: DEFAULT_ROUTE.chapter,
+        }),
       });
+      const result = outcome.status === 'published' ? outcome.receipt : { success: false,
+        error: outcome.status === 'withheld' ? `publish_time_inspection_withheld:${outcome.withheld.map(item => item.id).join(',')}` : outcome.error };
       if (result.success) {
         importResults.inserted_count += 1;
         importResults.inserted.push({ candidate_id: candidate.candidate_id, question_id: result.id });

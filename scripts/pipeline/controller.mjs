@@ -4,17 +4,14 @@ import { SUBJECTS } from '../../data/subjects.js';
 import { TOP_SUBJECTS, isValidTopSyllabusPair } from '../../data/canonical_syllabus.js';
 import { normalizeQuestion, scoreAndModerateQuestion } from './lib/llm.mjs';
 import { isDuplicate } from './lib/dedupe.mjs';
-import { publishBatch } from './lib/publish.mjs';
 
 // Configuration
 const RAW_DATA_DIR = './scripts/pipeline/data/raw';
 const REJECTED_DATA_DIR = './scripts/pipeline/data/rejected';
-const API_SECRET = process.env.INTERNAL_API_SECRET || 'test-secret';
 
 // Pipeline Limits
 const MAX_QUESTIONS_PER_RUN = 200;
 const MAX_PER_CHAPTER = 50;
-const BATCH_SIZE = 25;
 
 async function runPipeline(subjectId) {
   console.log(`\n🚀 Starting PRODUCTION Ingestion Pipeline for ${subjectId}`);
@@ -114,20 +111,11 @@ async function runPipeline(subjectId) {
 
   // 3. Publishing
   if (finalQuestions.length > 0) {
-    console.log(`\n📤 Publishing ${finalQuestions.length} production-grade questions...`);
-    const results = await publishBatch(finalQuestions, API_SECRET, BATCH_SIZE);
-    
-    console.log('\n' + '='.repeat(40));
-    console.log('✨ PIPELINE RUN SUMMARY');
-    console.log('='.repeat(40));
-    console.log(`Accepted:   ${results.accepted}`);
-    console.log(`Rejected:   ${results.rejected}`);
-    console.log(`Total Run:  ${finalQuestions.length}`);
-    console.log('\nDifficulty Distribution:');
-    console.log(`- Easy:   ${diffCounts.easy} (Target: ${diffTargets.easy})`);
-    console.log(`- Medium: ${diffCounts.medium} (Target: ${diffTargets.medium})`);
-    console.log(`- Hard:   ${diffCounts.hard} (Target: ${diffTargets.hard})`);
-    console.log('='.repeat(40));
+    // This legacy controller has no registered validation profile or current-bank
+    // novelty inspection. Keep its old direct publication path closed; qualified
+    // campaigns use the versioned staging publication entry instead.
+    throw new Error('legacy_controller_publication_disabled_use_qualified_factory');
+
   } else {
     console.log('\n❌ No questions met the production quality bar in this run.');
   }

@@ -83,6 +83,51 @@ test('NTA selector returns exactly 50 when 50+ usable questions exist', () => {
   assert.equal(diagnostics.canBuild50, true);
 });
 
+test('NTA fills from Medium first, then Easy, and holds Hard for a real shortfall', () => {
+  const pool = [
+    ...standalonePool(30, 1, { difficulty: 'medium' }),
+    ...standalonePool(30, 100, { difficulty: 'easy' }),
+    ...standalonePool(30, 200, { difficulty: 'hard' }),
+  ];
+  const { selectedRows, diagnostics } = selectNtaQuestionSet(pool, 50, { subjectId: 'english', seed: 'medium-first' });
+
+  assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
+  assert.equal(selectedRows.filter((row) => row.difficulty === 'medium').length, 30);
+  assert.equal(selectedRows.filter((row) => row.difficulty === 'easy').length, 20);
+  assert.equal(selectedRows.filter((row) => row.difficulty === 'hard').length, 0);
+  assert.equal(diagnostics.selectionStrategy, 'medium_then_easy_then_hard_fallback');
+});
+
+test('NTA uses Hard only for the number of places Easy and Medium cannot fill', () => {
+  const pool = [
+    ...standalonePool(25, 1, { difficulty: 'medium' }),
+    ...standalonePool(24, 100, { difficulty: 'easy' }),
+    ...standalonePool(5, 200, { difficulty: 'hard' }),
+  ];
+  const { selectedRows, diagnostics } = selectNtaQuestionSet(pool, 50, { subjectId: 'english', seed: 'hard-shortfall' });
+
+  assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
+  assert.equal(selectedRows.filter((row) => row.difficulty === 'medium').length, 25);
+  assert.equal(selectedRows.filter((row) => row.difficulty === 'easy').length, 24);
+  assert.equal(selectedRows.filter((row) => row.difficulty === 'hard').length, 1);
+  assert.equal(diagnostics.canBuild50, true);
+});
+
+test('NTA excludes questions whose difficulty is missing or unrecognized', () => {
+  const unknown = validQuestion(999, { id: 'unknown_difficulty', difficulty: 'unrated' });
+  const gate = qualityGateNtaQuestion(unknown, { subjectId: 'english' });
+  const { selectedRows, diagnostics } = selectNtaQuestionSet([
+    unknown,
+    ...standalonePool(50, 100, { difficulty: 'medium' }),
+  ], 50, { subjectId: 'english', seed: 'unknown-difficulty' });
+
+  assert.equal(gate.accepted, false);
+  assert.ok(gate.reasons.includes('difficulty_missing_or_unknown'));
+  assert.equal(selectedRows.length, NTA_QUESTION_COUNT);
+  assert.ok(!selectedRows.some((row) => row.id === 'unknown_difficulty'));
+  assert.equal(diagnostics.hardRejectReasons.difficulty_missing_or_unknown, 1);
+});
+
 test('NTA selector does not fail because chapter is missing', () => {
   const pool = standalonePool(55, 1, { chapter: '' });
   const { selectedRows, diagnostics } = selectNtaQuestionSet(pool, 50, { subjectId: 'english', seed: 'fixed' });

@@ -1,0 +1,31 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {mkdtempSync} from 'node:fs';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
+import {BudgetLedger} from '../lib/budgetLedger.mjs';
+import {createFactoryTransport} from '../lib/factoryTransport.mjs';
+const prices=()=>({source_url:'https://platform.claude.com/docs/en/models/haiku-5-5/overview',expires_at:'2099-01-01',models:{'claude-haiku-5-5':{provider_host:'api.anthropic.com',max_input_tokens:32768,input_per_million:.1,cache_write_per_million:.125,output_per_million:.5}}});
+const body={model:'claude-haiku-5-5',max_tokens:5000,messages:[{role:'user',content:'{"candidate_id":"held-haiku"}'}]};
+test('Anthropic unknown failure retains max_tokens maximum, diagnostic receipt and permits bounded continuation without repost',async()=>{
+ const path=join(mkdtempSync(join(tmpdir(),'mm-haiku-hold-')),'budget.sqlite');let ledger=new BudgetLedger(path),posts=0;
+ ledger.reconcileHistory({spent_usd:0,basis:'Isolated failure receipt test; no paid provider',confirmed_at:new Date().toISOString()});
+ const t=createFactoryTransport({ledger,prices,env:{ANTHROPIC_API_KEY:'test-only'},fetchImpl:async()=>{posts++;return Response.json({error:{type:'overloaded_error',message:'Try later'}},{status:503,headers:{'x-request-id':'req-haiku-uncertain'}});}});
+ await assert.rejects(t.generate('anthropic',body,{key:'haiku-503',batch:false,purpose:'calibration'}),/provider_http_503/);
+ const saved=ledger.db.prepare("SELECT reservation_id,state FROM provider_requests WHERE id='haiku-503'").get();
+ const hold=ledger.db.prepare('SELECT maximum_micro,proof_json FROM conservative_holds WHERE reservation_id=?').get(saved.reservation_id);
+ assert.equal(saved.state,'unresolved');assert.equal(hold.maximum_micro,6596);assert.equal(JSON.parse(hold.proof_json).output_bound,5000);assert.equal(JSON.parse(hold.proof_json).provider_request_id,'req-haiku-uncertain');
+ assert.equal(ledger.snapshot().unbounded_unresolved,0);ledger.reserve('unrelated-bounded-work',1);ledger.close();
+ ledger=new BudgetLedger(path);const replay=createFactoryTransport({ledger,prices,env:{ANTHROPIC_API_KEY:'test-only'},fetchImpl:async()=>{posts++;throw Error('must not repost');}});
+ await assert.rejects(replay.generate('anthropic',body,{key:'haiku-503',batch:false,purpose:'calibration'}),/unresolved_do_not_resubmit/);
+ assert.equal(posts,1);assert.equal(ledger.snapshot().committed_micro,6597);assert.equal(ledger.snapshot().unbounded_unresolved,0);ledger.close();
+});
+test('restart reconstructs an interrupted Anthropic contract hold without a model call',()=>{
+ const path=join(mkdtempSync(join(tmpdir(),'mm-haiku-restart-')),'budget.sqlite'),ledger=new BudgetLedger(path);
+ ledger.reconcileHistory({spent_usd:0,basis:'Isolated saved-contract restart test',confirmed_at:new Date().toISOString()});
+ const reservation=ledger.reserve('claude-haiku-5-5',6596);ledger.settle(reservation,null,{error:'lost receipt'});
+ const pricing=prices(),config={provider:'anthropic',model:'claude-haiku-5-5',pricing,rates:pricing.models['claude-haiku-5-5'],key:'interrupted-haiku',toolCalls:0};
+ ledger.db.prepare("INSERT INTO provider_requests VALUES(?,?,?,'unresolved',?,NULL)").run('interrupted-haiku',reservation,'anthropic',JSON.stringify({body,config}));
+ createFactoryTransport({ledger,prices,env:{ANTHROPIC_API_KEY:'test-only'},fetchImpl:()=>{throw Error('no network');}});
+ assert.equal(ledger.snapshot().unbounded_unresolved,0);assert.equal(ledger.snapshot().committed_micro,6596);ledger.close();
+});

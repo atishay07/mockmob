@@ -16,6 +16,7 @@ import './arena.css';
 import './student-pages.css';
 import './explore/explore.css';
 import './arena-support.css';
+import '@/components/study/study.css';
 import { arenaNavigation, MOBILE_STUDY_NAV } from '@/lib/arenaNavigation';
 
 const TOUR_STEPS = [
@@ -27,7 +28,7 @@ const TOUR_STEPS = [
 // Pip guides the first-run tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'celebrating'];
 
-export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null }) {
+export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, status, signOut } = useAuth();
@@ -164,7 +165,9 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     );
   }
 
-  const navGroups = arenaNavigation(isModerator).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor')) }));
+  const showStudy=studyEnabled || previewRoute==='/learn';
+  const navGroups = arenaNavigation(isModerator).map((group) => ({ ...group, items: group.items.filter((tab) => !(isTestRoute && tab.id === 'mentor') && (showStudy || tab.id!=='learn')) }));
+  const mobileTabs=showStudy ? MOBILE_STUDY_NAV : navGroups.flatMap(group=>group.items).filter(tab=>['today','dashboard','explore','review'].includes(tab.id));
   const allTabs = navGroups.flatMap((group) => group.items);
   const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`);
   const renderNavLink = (tab, onNavigate) => (
@@ -323,7 +326,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         </div>
       </main>
       {!isTestRoute && <nav className="arena-bottomnav" aria-label="Quick study navigation">
-        {MOBILE_STUDY_NAV.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} /><span>{tab.label}</span></Link>)}
+        {mobileTabs.map((tab) => <Link key={tab.id} href={previewLinks?.[tab.id] || tab.href} onClick={() => setMobileMenuOpen(false)} aria-current={isActive(tab.id) ? 'page' : undefined} data-tour={`nav-${tab.id}`}><AppIcon name={tab.icon} /><span>{tab.label}</span></Link>)}
         <button type="button" aria-expanded={mobileMenuOpen} aria-controls={mobileMenuOpen ? 'arena-sheet' : undefined} onClick={toggleMenu}><AppIcon name="expand" /><span>More</span></button>
       </nav>}
       {!isTestRoute && tourOpen && (

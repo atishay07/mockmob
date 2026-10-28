@@ -100,7 +100,8 @@ export default function DashboardPageClient() {
         setSubjects(subs);
         setAttempts(atts);
         const mySubs = subs.filter((subject) => user.subjects?.includes(subject.id) && subject.practice === 'supported');
-        if (mySubs.length > 0) setSelSubj(current => mySubs.some(subject => subject.id === current) ? current : mySubs[0].id);
+        const linkedSubject=searchParams.get('subject');
+        if (mySubs.length > 0) setSelSubj(current => mySubs.some(subject => subject.id === linkedSubject) ? linkedSubject : mySubs.some(subject => subject.id === current) ? current : mySubs[0].id);
         setStatus('ready');
       } catch (e) {
         if (!alive) return;
@@ -111,7 +112,7 @@ export default function DashboardPageClient() {
 
     load();
     return () => { alive = false; };
-  }, [user, authStatus, loadNonce]);
+  }, [user, authStatus, loadNonce, searchParams]);
 
   async function refreshSubmissions() {
     setSubRefreshing(true);
@@ -136,16 +137,19 @@ export default function DashboardPageClient() {
           : (data?.chapters || []);
         setChapters(list);
         setChapterSearch('');
-        setSelectedChapters([]);
+        const linkedChapter=searchParams.get('subject')===selSubj ? searchParams.get('chapter') : null;
+        setSelectedChapters(linkedChapter && list.some(c=>c.name===linkedChapter) ? [linkedChapter] : []);
       })
       .catch(() => { if (alive) setChapters([]); });
     return () => { alive = false; };
-  }, [selSubj]);
+  }, [selSubj,searchParams]);
 
   const mySubs = useMemo(
     () => subjects.filter((subject) => user?.subjects?.includes(subject.id) && subject.practice === 'supported'),
     [subjects, user],
   );
+  const linkedSubject=searchParams.get('subject');
+  const linkedSubjectUnavailable=status==='ready' && linkedSubject && !mySubs.some(subject=>subject.id===linkedSubject);
   // Stored choices that cannot launch (not offered, merged or retired) are shown, never launched.
   const staleSubs = useMemo(
     () => (user?.subjects || [])
@@ -158,7 +162,7 @@ export default function DashboardPageClient() {
   const rank = myRankIdx >= 0 ? myRankIdx + 1 : null;
   const isPremium = Boolean(user?.isPremium || learningSummary?.plan?.isPremium);
   const requestedMode = searchParams.get('mode');
-  const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : requestedMode === 'nta' ? 'nta' : 'quick';
+  const effectiveModeId = selMode && TEST_MODES[selMode] ? selMode : [...MODE_LIST, 'nta'].includes(requestedMode) ? requestedMode : 'quick';
   const mode = TEST_MODES[effectiveModeId];
   const balance = user?.creditBalance || 0;
   const quoteCount = mode.fixedCount || count;
@@ -300,6 +304,8 @@ export default function DashboardPageClient() {
       {creditError && <div className="pr-alert" data-tone="error" role="alert"><StatusIcon kind="error" />{creditError}</div>}
 
       {launchSuccess && <div className="pr-alert" data-tone="success" role="status"><StatusIcon kind="success" />{launchSuccess}</div>}
+
+      {linkedSubjectUnavailable && <div className="pr-alert" data-tone="warning" role="status"><StatusIcon kind="warning"/><div><strong>The lesson’s subject is not in your available practice subjects.</strong><p>Choose an available subject below, or add the lesson’s subject before starting practice.</p><Link href="/onboarding?edit=true">Edit subjects</Link></div></div>}
 
 
 

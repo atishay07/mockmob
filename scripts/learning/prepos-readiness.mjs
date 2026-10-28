@@ -20,7 +20,7 @@ if(url && key){
   try {
     const {data,error}=await sb.from('runtime_ai_prices').select('provider,model,input_per_million,output_per_million,verified_at').limit(100);
     // Prices are valid 90 days in the database; warn from day 75.
-    const pairs=[{provider:process.env.AI_FAST_PROVIDER || process.env.AI_DEFAULT_PROVIDER || 'openai',model:process.env.AI_FAST_MODEL || 'gpt-4o-mini'},{provider:process.env.AI_DEFAULT_PROVIDER || 'openai',model:process.env.AI_SMART_MODEL || 'gpt-4.1-mini'},{provider:process.env.AI_FALLBACK_PROVIDER || 'openai',model:process.env.AI_FALLBACK_MODEL || 'gpt-4o-mini'}];
+    const pairs=[{provider:'openai',model:process.env.AI_LUNA_MODEL || 'gpt-6-luna'}];
     report.configuredPricesVerified=!error && pairs.every(p=>(data||[]).some(r=>r.provider===p.provider&&r.model===p.model&&Number(r.input_per_million)>0&&Number(r.output_per_million)>0&&Date.parse(r.verified_at)>Date.now()-75*86400000));
   }catch {report.configuredPricesVerified=false;}
 } else report.connectionConfigured=false;

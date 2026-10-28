@@ -5,7 +5,7 @@ export const LAUNCH_SUBJECT_IDS = ['english', 'accountancy', 'business_studies',
 // verified prices (docs/brain/reports/ai-migrations-dry-run-2026-10-04.json).
 // aiCommerce opens paid AI purchases (PrepOS top-up checkout, charged Rival battles). It stays closed
 // until a real captured top-up and the Rival atomic-submission migration are verified.
-export const RELEASE_GATES = Object.freeze({ content: false, authenticatedJourney: false, stagingPayments: false, economics: false, runtimeAi: true, aiCommerce: false });
+export const RELEASE_GATES = Object.freeze({ content: false, authenticatedJourney: false, stagingPayments: false, economics: false, runtimeAi: true, aiCommerce: true });
 export const CAPABILITY_REGISTRY_VERSION = '2026-10-02.1';
 // Inventory purposes are distinct. A count from one purpose never proves another.
 export const INVENTORY_POLICIES = Object.freeze({
