@@ -9,6 +9,8 @@ import '../../../core/widgets/widgets.dart';
 import '../copy.dart';
 import '../data/learn_log.dart';
 import '../data/run_controller.dart';
+import '../lesson_help/lesson_help_controller.dart';
+import '../lesson_help/lesson_help_sheet.dart';
 import '../models/run_item.dart';
 import 'answer_inputs.dart';
 import 'lesson_block.dart';
@@ -146,6 +148,14 @@ class _RunStepState extends ConsumerState<RunStep> {
                         const SizedBox(height: MmSpace.s12),
                       ],
                       ..._content(item, feedback, revealed),
+                      // Another explanation (owner ledger L39): on a reading step at once, on a
+                      // question or recall card once its answer is shown (the server refuses earlier).
+                      if (item.type != RunItemType.unknown && (item.isReading || revealed)) ...[
+                        const SizedBox(height: MmSpace.s24),
+                        LessonHelpEntry(
+                          helpKey: LessonHelpKey(runId: run.id, itemId: item.id, revision: run.revision),
+                        ),
+                      ],
                     ],
                   ),
                 ),
