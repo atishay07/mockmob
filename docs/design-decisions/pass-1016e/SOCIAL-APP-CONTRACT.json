@@ -1,0 +1,845 @@
+{
+  "contract": "mob-v1",
+  "spec": "mockmob-next/docs/design-decisions/pass-1016e/SOCIAL-SPEC.md",
+  "source": "wt-webux2 branch web/ux-social-1016: src/lib/mob/model.mjs (buildView, errors, copy), src/lib/server/mob/service.js, src/lib/server/mob/http.js, src/app/api/mob/**",
+  "fixtures": "Byte-for-byte copies of wt-webux2 data/tests/fixtures/mob/*.json (data/tests/mob.test.mjs fails if the route functions stop producing them). Copy them to flutter_app/test/fixtures/mob/ and parse them in unit tests. The same bodies are inlined under fixtureBodies below.",
+  "flag": "MOB_ENABLED must be \"true\" on the server; otherwise every route below answers 404 { error: { code: \"MOB_DISABLED\" } }. Off in production until the owner answers D-S1.",
+  "staging": "Migration 20261017100000_mob is applied on staging onwkqxmjqjrhfbjjdydu (16 Oct 2026) and kept there for the app walk. Not applied to production.",
+  "auth": "Every route except GET /api/mob/join/<code> needs a signed-in session: the app sends Authorization: Bearer <app token> exactly as for /api/sessions. Routes answer OPTIONS with the native CORS headers (mobileOptions).",
+  "envelope": {
+    "success": "JSON, Cache-Control: no-store.",
+    "error": "{ \"error\": { \"code\": string, \"message\": string } }. message is a plain sentence a student can read; show it as is. Unknown codes: treat as UNAVAILABLE.",
+    "rateLimited": "429 RATE_LIMITED with a Retry-After header in seconds."
+  },
+  "rules": [
+    "Members are addressed only by memberId (12 Crockford characters, an HMAC of mob and user). User ids never appear.",
+    "members[] is in join order. Never sort it, never by score.",
+    "score appears on a member only when that member chose to show it (and always on your own entry once you sat): { value, of }, shown as \"7 of 10\".",
+    "The ring: week.size segments, week.sat filled, in join order. Never label an unfilled segment; never list who has not sat.",
+    "trap is null unless you sat and 3 or more members sat. It never names who picked the option.",
+    "nudge.received is the one preset note (\"<fromName> sat it and asked you to sit it too.\"). Mark it seen with POST /api/mob/nudge/seen.",
+    "week.paper.cost is the server's charge type for the paper (the same as a quick 10 today; owner decision D-S2). Draw the cost line under the sit button before the tap. null means you already sat or the cost could not be read: draw nothing.",
+    "week.closed is true when a paper started now could not finish before Sunday 11:59 PM IST: show the closed line and no sit button.",
+    "Times are shown in 12-hour IST (\"Fri 23 Oct, 9:40 PM\"). No arrows, no exclamation marks.",
+    "TODO(owner D-S4): nothing grants, spends or rewards credits for invites. Build no reward."
+  ],
+  "limits": {
+    "read": {
+      "limit": 120,
+      "windowSeconds": 600,
+      "per": "user"
+    },
+    "write": {
+      "limit": 60,
+      "windowSeconds": 3600,
+      "per": "user"
+    },
+    "invite": {
+      "limit": 5,
+      "windowSeconds": 86400,
+      "per": "user"
+    },
+    "lookup": {
+      "limit": 30,
+      "windowSeconds": 600,
+      "per": "ip"
+    },
+    "join": {
+      "limit": 10,
+      "windowSeconds": 3600,
+      "per": "user"
+    },
+    "report": {
+      "limit": 10,
+      "windowSeconds": 86400,
+      "per": "user"
+    }
+  },
+  "routes": [
+    {
+      "method": "GET",
+      "path": "/api/mob",
+      "request": null,
+      "response": {
+        "200": "{ mob: null } | { mob: MobView }"
+      },
+      "errors": [
+        "UNAUTHENTICATED",
+        "RATE_LIMITED",
+        "MIGRATION",
+        "UNAVAILABLE"
+      ],
+      "fixtures": [
+        "get_v1.json",
+        "get_not_sat_v1.json",
+        "get_alone_v1.json",
+        "get_none_v1.json"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/mob",
+      "request": {
+        "subject": "string (a launchable CUET subject id, e.g. \"accountancy\")",
+        "name": "string, 2 to 18, ^[\\p{L}][\\p{L}\\p{M} .'-]{1,17}$",
+        "colour": "integer 0..7"
+      },
+      "response": {
+        "201": "{ mob: null } | { mob: MobView }"
+      },
+      "errors": [
+        "ALREADY_IN_MOB",
+        "NAME_INVALID",
+        "NAME_REFUSED",
+        "SUBJECT_INVALID",
+        "COLOUR_INVALID",
+        "RATE_LIMITED"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/mob/invite",
+      "request": null,
+      "response": {
+        "200": "{ code, url, expiresAt, usesLeft }  (a new link revokes the previous one; url is https://www.mockmob.in/join/<code>)"
+      },
+      "errors": [
+        "NOT_IN_MOB",
+        "MOB_FULL",
+        "RATE_LIMITED"
+      ],
+      "example": {
+        "code": "7KQ2M9XR",
+        "url": "https://www.mockmob.in/join/7KQ2M9XR",
+        "expiresAt": "2026-10-23T16:10:00.000Z",
+        "usesLeft": 1
+      }
+    },
+    {
+      "method": "GET",
+      "path": "/api/mob/join/<code>",
+      "public": true,
+      "request": null,
+      "response": {
+        "200": "{ valid: true, code, subject, subjectName, size, seatsLeft, expiresAt }  (never a name)"
+      },
+      "errors": [
+        "INVITE_INVALID",
+        "INVITE_EXPIRED",
+        "RATE_LIMITED"
+      ],
+      "fixtures": [
+        "lookup_v1.json"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/mob/join",
+      "request": {
+        "code": "string (8 Crockford characters; O reads as 0, I and L as 1)",
+        "name": "string",
+        "colour": "integer 0..7"
+      },
+      "response": {
+        "200": "{ mob: null } | { mob: MobView }"
+      },
+      "errors": [
+        "INVITE_INVALID (also when a block applies)",
+        "INVITE_EXPIRED",
+        "MOB_FULL",
+        "ALREADY_IN_MOB",
+        "NAME_INVALID",
+        "NAME_REFUSED",
+        "RATE_LIMITED"
+      ]
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/mob/me",
+      "request": {
+        "name": "string?",
+        "colour": "integer?",
+        "showScore": "boolean?",
+        "nudgesMuted": "boolean?"
+      },
+      "response": {
+        "200": "{ mob: null } | { mob: MobView }"
+      },
+      "errors": [
+        "NOT_IN_MOB",
+        "NAME_INVALID",
+        "NAME_REFUSED",
+        "COLOUR_INVALID",
+        "BODY_INVALID",
+        "RATE_LIMITED"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/mob/leave",
+      "request": {
+        "block": "memberId?"
+      },
+      "response": {
+        "200": {
+          "left": true
+        }
+      },
+      "errors": [
+        "NOT_IN_MOB",
+        "NOT_FOUND"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/mob/remove",
+      "request": {
+        "memberId": "string"
+      },
+      "response": {
+        "200": "{ mob: null } | { mob: MobView }"
+      },
+      "errors": [
+        "NOT_OWNER",
+        "NOT_FOUND",
+        "NOT_IN_MOB"
+      ],
+      "note": "Only for you.role === \"owner\"."
+    },
+    {
+      "method": "POST",
+      "path": "/api/mob/report",
+      "request": {
+        "memberId": "string",
+        "reason": "\"name\" | \"nudge\" | \"safety\"",
+        "alsoLeave": "boolean?",
+        "block": "boolean? (block implies leave)"
+      },
+      "response": {
+        "200": {
+          "reported": true,
+          "left": false
+        }
+      },
+      "errors": [
+        "REASON_INVALID",
+        "NOT_FOUND",
+        "NOT_IN_MOB",
+        "RATE_LIMITED"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/mob/nudge",
+      "request": null,
+      "response": {
+        "200": {
+          "sent": true,
+          "to": 2
+        }
+      },
+      "errors": [
+        "NOT_SAT_YET",
+        "ALREADY_NUDGED",
+        "NOT_IN_MOB"
+      ],
+      "note": "to is a count only and can be 0."
+    },
+    {
+      "method": "POST",
+      "path": "/api/mob/nudge/seen",
+      "request": null,
+      "response": {
+        "200": {
+          "ok": true
+        }
+      },
+      "errors": [
+        "NOT_IN_MOB"
+      ]
+    },
+    {
+      "method": "POST",
+      "path": "/api/mob/paper/start",
+      "request": {
+        "startReceipt": "string? (the receipt from an earlier start, to resume after a lost draft)"
+      },
+      "response": {
+        "200": "Exactly the POST /api/sessions practice-start response (questions, meta with sessionTicket or the durable session). Finish it with PATCH /api/sessions as any practice; the server records the sitting."
+      },
+      "errors": [
+        "PAPER_ALREADY_SAT",
+        "WEEK_CLOSED",
+        "PAPER_EXPIRED",
+        "CREDITS (402)",
+        "PAPER_UNAVAILABLE",
+        "MIGRATION"
+      ],
+      "note": "The server derives the generation key per member and week, so a retry resumes the same session and is never charged twice. Every member gets the same question ids in the same option order."
+    }
+  ],
+  "mobView": {
+    "subject": "string",
+    "subjectName": "string",
+    "you": "{ memberId, name, colour, role: \"owner\"|\"member\", showScore, nudgesMuted }",
+    "members": "[{ memberId, name, colour, you, sat, score?: { value, of }, owner?: true }]  join order",
+    "seatsLeft": "integer",
+    "week": "{ start: \"YYYY-MM-DD\" (IST Monday), closesAt: ISO, closed, paper: { count: 10, durationSec: 720, cost: { type: \"included\"|\"allowance\"|\"credits\", credits?, balance? } | null }, sat, size, youSat, yourResultId: string|null }",
+    "trap": "{ questionNumber, questionId, option: \"A\"..\"H\", count, of, trapName: string|null, youPickedIt, youGotItRight } | null",
+    "nudge": "{ canSend, reason: null|\"not_sat\"|\"sent\"|\"everyone_sat\"|\"closed\", received: { fromName } | null }",
+    "invite": "{ code, url, expiresAt, usesLeft } | null"
+  },
+  "copy": {
+    "ring": "3 of 4 sat this week",
+    "closes": "Closes Sunday 11:59 PM",
+    "closed": "This week's paper closed. Next one opens Monday.",
+    "cost": {
+      "included": "Included with Pro.",
+      "allowance": "Free today: it uses today's included 10-question set.",
+      "credits": "10 credits. You have 40.",
+      "short": "10 credits. You have 4, so you need 6 more."
+    },
+    "nudge": "Riya sat it and asked you to sit it too.",
+    "trap": "Your Mob's trap: 3 of 3 picked B on question 6.",
+    "inviteExpiry": "Link works until Fri 23 Oct, 9:40 PM"
+  },
+  "fixtureBodies": {
+    "get_v1.json": {
+      "mob": {
+        "subject": "accountancy",
+        "subjectName": "Accountancy",
+        "you": {
+          "memberId": "B3N8D2WQ6Z0C",
+          "name": "Asha",
+          "colour": 1,
+          "role": "member",
+          "showScore": true,
+          "nudgesMuted": false
+        },
+        "members": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "you": false,
+            "sat": true,
+            "owner": true
+          },
+          {
+            "memberId": "B3N8D2WQ6Z0C",
+            "name": "Asha",
+            "colour": 1,
+            "you": true,
+            "sat": true,
+            "score": {
+              "value": 7,
+              "of": 10
+            }
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "you": false,
+            "sat": true
+          },
+          {
+            "memberId": "M2X6G4KJ8N3D",
+            "name": "Meera",
+            "colour": 5,
+            "you": false,
+            "sat": false
+          }
+        ],
+        "seatsLeft": 1,
+        "week": {
+          "start": "2026-10-12",
+          "closesAt": "2026-10-18T18:29:59.000Z",
+          "closed": false,
+          "paper": {
+            "count": 10,
+            "durationSec": 720,
+            "cost": null
+          },
+          "sat": 3,
+          "size": 4,
+          "youSat": true,
+          "yourResultId": "practice_u2"
+        },
+        "trap": {
+          "questionNumber": 6,
+          "questionId": "q6",
+          "option": "B",
+          "count": 3,
+          "of": 3,
+          "trapName": "A look-alike term",
+          "youPickedIt": true,
+          "youGotItRight": false
+        },
+        "nudge": {
+          "canSend": true,
+          "reason": null,
+          "received": null
+        },
+        "invite": {
+          "code": "7KQ2M9XR",
+          "url": "https://www.mockmob.in/join/7KQ2M9XR",
+          "expiresAt": "2026-10-20T16:10:00.000Z",
+          "usesLeft": 1
+        }
+      }
+    },
+    "get_not_sat_v1.json": {
+      "mob": {
+        "subject": "accountancy",
+        "subjectName": "Accountancy",
+        "you": {
+          "memberId": "M2X6G4KJ8N3D",
+          "name": "Meera",
+          "colour": 5,
+          "role": "member",
+          "showScore": false,
+          "nudgesMuted": false
+        },
+        "members": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "you": false,
+            "sat": true,
+            "owner": true
+          },
+          {
+            "memberId": "B3N8D2WQ6Z0C",
+            "name": "Asha",
+            "colour": 1,
+            "you": false,
+            "sat": true,
+            "score": {
+              "value": 7,
+              "of": 10
+            }
+          },
+          {
+            "memberId": "H5P1R7SV2E9F",
+            "name": "Kabir",
+            "colour": 2,
+            "you": false,
+            "sat": true
+          },
+          {
+            "memberId": "M2X6G4KJ8N3D",
+            "name": "Meera",
+            "colour": 5,
+            "you": true,
+            "sat": false
+          }
+        ],
+        "seatsLeft": 1,
+        "week": {
+          "start": "2026-10-12",
+          "closesAt": "2026-10-18T18:29:59.000Z",
+          "closed": false,
+          "paper": {
+            "count": 10,
+            "durationSec": 720,
+            "cost": {
+              "type": "credits",
+              "credits": 10,
+              "balance": 40
+            }
+          },
+          "sat": 3,
+          "size": 4,
+          "youSat": false,
+          "yourResultId": null
+        },
+        "trap": null,
+        "nudge": {
+          "canSend": false,
+          "reason": "not_sat",
+          "received": {
+            "fromName": "Riya"
+          }
+        },
+        "invite": {
+          "code": "7KQ2M9XR",
+          "url": "https://www.mockmob.in/join/7KQ2M9XR",
+          "expiresAt": "2026-10-20T16:10:00.000Z",
+          "usesLeft": 1
+        }
+      }
+    },
+    "get_alone_v1.json": {
+      "mob": {
+        "subject": "accountancy",
+        "subjectName": "Accountancy",
+        "you": {
+          "memberId": "K7Q2M9XR4T1A",
+          "name": "Riya",
+          "colour": 0,
+          "role": "owner",
+          "showScore": false,
+          "nudgesMuted": false
+        },
+        "members": [
+          {
+            "memberId": "K7Q2M9XR4T1A",
+            "name": "Riya",
+            "colour": 0,
+            "you": true,
+            "sat": false,
+            "owner": true
+          }
+        ],
+        "seatsLeft": 4,
+        "week": {
+          "start": "2026-10-12",
+          "closesAt": "2026-10-18T18:29:59.000Z",
+          "closed": false,
+          "paper": {
+            "count": 10,
+            "durationSec": 720,
+            "cost": {
+              "type": "allowance"
+            }
+          },
+          "sat": 0,
+          "size": 1,
+          "youSat": false,
+          "yourResultId": null
+        },
+        "trap": null,
+        "nudge": {
+          "canSend": false,
+          "reason": "not_sat",
+          "received": null
+        },
+        "invite": null
+      }
+    },
+    "get_none_v1.json": {
+      "mob": null
+    },
+    "lookup_v1.json": {
+      "valid": true,
+      "code": "7KQ2M9XR",
+      "subject": "accountancy",
+      "subjectName": "Accountancy",
+      "size": 3,
+      "seatsLeft": 2,
+      "expiresAt": "2026-10-20T16:10:00.000Z"
+    },
+    "errors_v1.json": {
+      "UNAUTHENTICATED": {
+        "status": 401,
+        "body": {
+          "error": {
+            "code": "UNAUTHENTICATED",
+            "message": "Sign in to use your Mob."
+          }
+        }
+      },
+      "MOB_DISABLED": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "MOB_DISABLED",
+            "message": "This page is not available."
+          }
+        }
+      },
+      "NOT_IN_MOB": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_IN_MOB",
+            "message": "You are not in a Mob."
+          }
+        }
+      },
+      "NOT_FOUND": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "NOT_FOUND",
+            "message": "That member is not in your Mob."
+          }
+        }
+      },
+      "INVITE_INVALID": {
+        "status": 404,
+        "body": {
+          "error": {
+            "code": "INVITE_INVALID",
+            "message": "This invite can't be used. Ask your friend for a new link."
+          }
+        }
+      },
+      "INVITE_EXPIRED": {
+        "status": 410,
+        "body": {
+          "error": {
+            "code": "INVITE_EXPIRED",
+            "message": "This invite can't be used. Ask your friend for a new link."
+          }
+        }
+      },
+      "MOB_FULL": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "MOB_FULL",
+            "message": "This Mob already has 5 members."
+          }
+        }
+      },
+      "ALREADY_IN_MOB": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "ALREADY_IN_MOB",
+            "message": "You are already in a Mob. Leave it first to start or join another."
+          }
+        }
+      },
+      "NOT_OWNER": {
+        "status": 403,
+        "body": {
+          "error": {
+            "code": "NOT_OWNER",
+            "message": "Only the member who started the Mob can remove someone."
+          }
+        }
+      },
+      "NOT_SAT_YET": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "NOT_SAT_YET",
+            "message": "Sit this week's paper first, then you can ask the others."
+          }
+        }
+      },
+      "ALREADY_NUDGED": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "ALREADY_NUDGED",
+            "message": "You already asked the others this week."
+          }
+        }
+      },
+      "PAPER_ALREADY_SAT": {
+        "status": 409,
+        "body": {
+          "error": {
+            "code": "PAPER_ALREADY_SAT",
+            "message": "You already sat this week's paper. The next one opens Monday."
+          }
+        }
+      },
+      "WEEK_CLOSED": {
+        "status": 410,
+        "body": {
+          "error": {
+            "code": "WEEK_CLOSED",
+            "message": "This week's paper closed. The next one opens Monday."
+          }
+        }
+      },
+      "PAPER_EXPIRED": {
+        "status": 410,
+        "body": {
+          "error": {
+            "code": "PAPER_EXPIRED",
+            "message": "Your time on this week's paper ran out. The next one opens Monday."
+          }
+        }
+      },
+      "CREDITS": {
+        "status": 402,
+        "body": {
+          "error": {
+            "code": "CREDITS",
+            "message": "You do not have enough credits for this paper."
+          }
+        }
+      },
+      "NAME_INVALID": {
+        "status": 422,
+        "body": {
+          "error": {
+            "code": "NAME_INVALID",
+            "message": "Use 2 to 18 letters for your name. Spaces, dots, apostrophes and hyphens are fine."
+          }
+        }
+      },
+      "NAME_REFUSED": {
+        "status": 422,
+        "body": {
+          "error": {
+            "code": "NAME_REFUSED",
+            "message": "Choose a different name. Your Mob sees it."
+          }
+        }
+      },
+      "SUBJECT_INVALID": {
+        "status": 422,
+        "body": {
+          "error": {
+            "code": "SUBJECT_INVALID",
+            "message": "Choose one of your subjects."
+          }
+        }
+      },
+      "COLOUR_INVALID": {
+        "status": 422,
+        "body": {
+          "error": {
+            "code": "COLOUR_INVALID",
+            "message": "Choose one of the 8 colours."
+          }
+        }
+      },
+      "REASON_INVALID": {
+        "status": 422,
+        "body": {
+          "error": {
+            "code": "REASON_INVALID",
+            "message": "Choose why you are reporting."
+          }
+        }
+      },
+      "BODY_INVALID": {
+        "status": 422,
+        "body": {
+          "error": {
+            "code": "BODY_INVALID",
+            "message": "Something in the request was not right. Try again."
+          }
+        }
+      },
+      "RATE_LIMITED": {
+        "status": 429,
+        "body": {
+          "error": {
+            "code": "RATE_LIMITED",
+            "message": "Too many tries. Wait a little and try again."
+          }
+        }
+      },
+      "PAPER_UNAVAILABLE": {
+        "status": 503,
+        "body": {
+          "error": {
+            "code": "PAPER_UNAVAILABLE",
+            "message": "This week's paper could not be built just now. Nothing was charged. Try again shortly."
+          }
+        }
+      },
+      "MIGRATION": {
+        "status": 503,
+        "body": {
+          "error": {
+            "code": "MIGRATION",
+            "message": "Your Mob is not available just now. Try again shortly."
+          }
+        }
+      },
+      "UNAVAILABLE": {
+        "status": 503,
+        "body": {
+          "error": {
+            "code": "UNAVAILABLE",
+            "message": "Your Mob did not load. Try again shortly."
+          }
+        }
+      }
+    }
+  },
+  "changes_1017": {
+    "note": "17 Oct 2026 Mob fix round (go/no-go NO-GO 6/10 -> fixes on branch web/mob-fix-1017, worktree wt-mobfix). These override the sections above where they differ. The byte-exact fixtures are wt-mobfix data/tests/fixtures/mob/*.json (data/tests/mob.test.mjs regenerates and checks them); copy them to flutter_app/test/fixtures/mob/.",
+    "staging": "Migration 20261017190000_mob_fix_1017 (undo supabase/undo/20261017190000_mob_fix_1017.undo.sql) is applied on staging onwkqxmjqjrhfbjjdydu. Not on production.",
+    "plans": {
+      "free": "Start ONE Mob (counted over Mobs you started and are still in) and join ANY number by invite, up to a safety ceiling of 12 memberships. One free weekly Mob paper a week across all Mobs (week.paper.blocked = free_used in the others).",
+      "pro": "Start up to 3 Mobs; side-by-side, history, extra papers.",
+      "freeInProMob": "A free member of a Pro-made Mob sits its extra papers (POST /api/mob/paper { mob, extra }) at no cost; making extras stays Pro.",
+      "viewFields": "mob.plan = { pro, maxMobs, mobCount, started, canMakeExtra, canStartAnother }. canStartAnother = started < maxMobs && mobCount < 12. Show Start another Mob from canStartAnother only; never decide the plan on the device."
+    },
+    "sharing": "Sharing inside a Mob (score, picks, times, changed answers; only to that Mob) is ON by default: you.showScore is true for new members and existing rows were moved once. The switch stays (PATCH /api/mob/me { showScore }). Label: Share my score and answers with my Mob. The app must default the switch from you.showScore, never assume off, and say before join/start that members see each other's answers and scores and one switch turns yours off. Side-by-side shows another member only when both share (reciprocal).",
+    "paper": "week.paper.durationSec is 600 (10 questions x 60 s, the runner clock). Copy: 10 questions, 10 minutes. Never about 12 min.",
+    "invitesPaused": "When MOB_INVITES_ENABLED=false: GET /api/mob sends mob.invitesPaused = true and mob.invite = null; POST /api/mob/invite answers INVITES_PAUSED; GET /api/mob/join/<code> and POST /api/mob/join answer JOIN_PAUSED. Show the message; hide Invite.",
+    "chapters": "GET /api/mob/extra?mob=<id> (Pro) -> { mobId, lengths: [5,10,15,20], chapters: [{ chapter, ready, longest }] }: only chapters the paper selector can really build, fullest first; longest is the longest extra paper for that chapter. Label options \"<chapter>, up to <longest> questions\" and disable longer lengths.",
+    "errorEnvelope": "{ error: { code, message, detail? } }. message may be more specific than the code's default (the real wait, the real lengths): show error.message as given. detail is data the screen can act on (BANK_THIN: { ready, asked, suggest: { chapter|null, count } | null }).",
+    "rateLimited": "429 RATE_LIMITED with Retry-After in seconds = the real wait, and a message that names it (for example You can start another on Fri 23 Oct, 9:40 PM). Starting a Mob and making an extra paper count only when they succeed.",
+    "newErrors": {
+      "NO_SUBJECTS": {
+        "status": 422,
+        "message": "Choose your CUET subjects first. A Mob sits one paper a week in one of them."
+      },
+      "MOB_FULL": {
+        "status": 409,
+        "message": "This Mob is full: it has 5 members, the most a Mob can have. Ask your friend to tell you if a seat opens, or start a Mob of your own."
+      },
+      "MOB_LIMIT": {
+        "status": 409,
+        "message": "You already started a Mob. Free lets you start one, and join as many as friends invite you to. Pro lets you start up to 3."
+      },
+      "MOB_LIMIT_PRO": {
+        "status": 409,
+        "message": "You already started 3 Mobs, the most Pro allows. You can still join any Mob a friend invites you to."
+      },
+      "MOB_CEILING": {
+        "status": 409,
+        "message": "You are in 12 Mobs, the most one account can be in. Leave one to start or join another."
+      },
+      "INVITES_PAUSED": {
+        "status": 503,
+        "message": "New invites are paused for now. Your Mob works as before."
+      },
+      "JOIN_PAUSED": {
+        "status": 503,
+        "message": "Joining a Mob by link is paused for now. Try this link again later."
+      },
+      "WEEK_INVALID": {
+        "status": 404,
+        "message": "There is no Mob paper for that week."
+      },
+      "EXTRA_NOT_FOUND": {
+        "status": 404,
+        "message": "That extra paper is not in your Mob."
+      },
+      "COMPARE_SIT_FIRST": {
+        "status": 409,
+        "message": "Sit this paper first, then you can compare it with your Mob."
+      },
+      "NOT_SAT_THAT_WEEK": {
+        "status": 409,
+        "message": "You did not sit that week's paper, so there is nothing of yours to compare."
+      },
+      "COMPARE_PAST_ALONE": {
+        "status": 409,
+        "message": "Only one member sat that week's paper, so there is nothing to compare."
+      },
+      "BANK_THIN": {
+        "status": 409,
+        "message": "There are not enough questions ready for that paper."
+      },
+      "RATE_LIMITED": {
+        "status": 429,
+        "message": "Too many tries in a short time. Try again in a few minutes."
+      }
+    },
+    "errorHandling": {
+      "NO_SUBJECTS": "POST /api/mob when the account has no subjects: show the message with one key to choose subjects (web: /onboarding?edit=true&back=/mob), then come back to the start form.",
+      "SUBJECT_INVALID": "subject is not one of the account's own subjects: offer only user.subjects as chips.",
+      "MOB_FULL": "lookup or join of a Mob with 5 members: its own screen (This Mob is full) with Start your own Mob; never the expired-link copy.",
+      "MOB_LIMIT": "free student who already started a Mob: say they can still join any Mob by invite; offer Pro quietly.",
+      "MOB_CEILING": "in 12 Mobs: leave one first.",
+      "BANK_THIN": "show error.message and, when detail.suggest, one key: Make a <count>-question paper on <chapter or the whole subject>."
+    },
+    "entryPoints": "Web (for parity): Today one calm line after the move and the rows for a member (ring + one outlined key: Sit it / See your Mob / Invite a friend), Practice one line (Mob paper, <Subject>, 10 questions, 10 minutes + Sit it, or Sat + See your answers), Review one row only after you sat (the Mob trap row, else the teaser line). Non-members: Today only, one inline invitation after a real moment (a study week met or 7 saved sessions), dismissable for good, gone after 7 days; never a pop-up, never during a paper. One volt per screen: entry keys are outlined. App equivalents: Today card below the road, Practice row, Review row, You hub row (Your Mob / Start a Mob)."
+  }
+}
