@@ -17,6 +17,7 @@ import ArenaHead from '@/components/arena/ArenaHead';
 import { StatusIcon } from '@/components/ui/Glyph';
 import { apiPost } from '@/lib/fetcher';
 import COPY from '../../../data/mistake_lab.copy.json';
+import { REVISE_RULE_COPY } from '../../../data/repair_retry.mjs';
 import { readCap, saveCap, useRevise } from './useRevise';
 import './revise.css';
 
@@ -95,6 +96,14 @@ function Card({ item, number, total, result, busy, error, onChoose, onNext, last
       {answered ? (
         <div className="rvs-result" data-correct={result.correct || undefined} role="status">
           <p className="rvs-result__line">{result.correct ? <Check size={18} strokeWidth={2.4} aria-hidden="true" /> : <X size={18} strokeWidth={2.4} aria-hidden="true" />}{result.line}</p>
+          {result.rule ? (
+            <div className="rvs-rule">
+              <p className="rvs-rule__label">{REVISE_RULE_COPY.label}</p>
+              <p className="rvs-rule__text">{result.rule.text}</p>
+              {result.rule.hook ? <p className="rvs-rule__hook"><span>{REVISE_RULE_COPY.hook}</span> {result.rule.hook}</p> : null}
+              <p className="rvs-rule__from">{REVISE_RULE_COPY.from(result.rule.day)}</p>
+            </div>
+          ) : null}
           {result.explanation ? <p className="rvs-result__why">{result.explanation}</p> : null}
         </div>
       ) : null}

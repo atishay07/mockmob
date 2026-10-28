@@ -67,6 +67,13 @@ html[data-theme='light'] .rvs-option:is([data-state='key'], [data-state='mine'])
 .rvs-result__line { display: flex; align-items: flex-start; gap: 10px; font: 650 15.5px/1.45 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); }
 .rvs-result__line svg { flex: none; margin-top: 2px; color: var(--a-bad-text, #ff9d92); }
 .rvs-result[data-correct] .rvs-result__line svg { color: var(--a-good-text, #b6e36e); }
+/* The student's own rule from their repair of this question: set apart by a hairline, not a second card. It comes after the answer, never before. */
+.rvs-rule { display: grid; gap: 4px; padding-top: 10px; border-top: 1px solid var(--a-line, #253026); }
+.rvs-rule__label { margin: 0; font: 650 13px/1.4 var(--font-display, inherit); color: var(--a-accent-text, #d2f000); }
+.rvs-rule__text { margin: 0; max-width: 62ch; font: 650 15.5px/1.5 var(--font-display, inherit); color: var(--a-ink, #f2f4ec); overflow-wrap: anywhere; }
+.rvs-rule__hook { margin: 0; max-width: 62ch; font-size: 14px; line-height: 1.55; color: var(--a-ink-2, #bcc5b9); overflow-wrap: anywhere; }
+.rvs-rule__hook > span { font-weight: 600; color: var(--a-ink-3, #93a08f); }
+.rvs-rule__from { margin: 0; font-size: 12.5px; line-height: 1.5; color: var(--a-ink-3, #93a08f); font-variant-numeric: tabular-nums; }
 .rvs-result__why { font-size: 14px; line-height: 1.6; color: var(--a-ink-2, #bcc5b9); max-width: 66ch; overflow-wrap: anywhere; }
 
 .rvs-next {
