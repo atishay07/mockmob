@@ -233,7 +233,7 @@ test('blanks check: in the quote, not a stopword, not shown elsewhere in the fro
   assert.deepEqual(blanksCheck(line), []);
   assert.ok(blanksCheck({ ...line, blanks: ['the'] }).some((r) => r.endsWith(':stopword')));
   assert.ok(blanksCheck({ ...line, blanks: ['efficiency'] }).some((r) => r.endsWith(':not_in_quote')));
-  assert.ok(blanksCheck({ ...line, front: 'Thus, division of work leads to ____ (specialisation).', blanks: ['specialisation'] }).some((r) => r.endsWith(':shown_in_front')));
+  assert.ok(blanksCheck({ ...line, front: 'Division of work leads to ____ (specialisation).', blanks: ['specialisation'] }).some((r) => r.endsWith(':shown_in_front')));
 });
 
 test('duplicate check: same quote and kind, or same front; the first in book order keeps its place', () => {
