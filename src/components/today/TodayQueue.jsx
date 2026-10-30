@@ -32,7 +32,8 @@ export default function TodayQueue({ papers, repaired, repairRows, revise, dayOn
   const due = rv ? rv.due + kc : null;
   const minutes = rv ? (rv.minutes || (rv.due > 0 ? Math.max(5, Math.ceil(rv.due / 5) * 5) : 0)) + (kc ? Number(rv.keyCardsMinutes) || Math.ceil(kc / 4) : 0) : null;
   const reviseSub = !rv ? 'Revise did not load.'
-    : due > 0 ? (rv.dueTotal > rv.due ? `${rv.dueTotal + kc} waiting, ${due} today. Free.` : `Free, about ${minutes} min${kc ? `, ${kc === 1 ? '1 Key card' : `${kc} Key cards`} among them` : ''}`)
+    : due > 0 ? (kc ? `Free, about ${minutes} min, ${kc === 1 ? '1 Key card' : `${kc} Key cards`} among them`
+      : rv.dueTotal > rv.due ? `${rv.dueTotal} waiting, ${due} today. Free.` : `Free, about ${minutes} min`)
       : rv.nextDayLabel ? `Nothing due. The next come back ${rv.nextDayLabel}.` : 'Nothing due today.';
   return (
     <section className="tq" aria-labelledby="tq-h">

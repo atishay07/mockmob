@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { AuthContext } from '@/components/AuthProvider';
 import { RoleProvider } from '@/lib/roleContext';
 import AppLayoutClient from '@/app/(app)/AppLayoutClient';
+import { fixtureKeycards } from '@/components/keycards/fixtures';
 import StudyWorkspace from '@/components/study/StudyWorkspace';
 import { createStudyRun, studyTransition, publicStudyItem, DEFAULT_PREFERENCES, preferences, recallQueue, taughtRecallCards, cardItem, istDay, NEW_CARDS_PER_DAY } from '@/../data/study_engine';
 import { scheduleReview } from '@/../data/study_scheduler.mjs';
@@ -26,6 +27,11 @@ if (typeof window !== 'undefined' && !window.__studyPreviewFetch) {
     if (window.location.pathname.startsWith('/preview/study') && url.pathname === '/api/me/review') {
       const out = reviewFor(new URLSearchParams(window.location.search).get('review'));
       return Promise.resolve(new Response(JSON.stringify(out.body), { status: out.http, headers: { 'Content-Type': 'application/json' } }));
+    }
+    // Key cards (src/components/keycards/fixtures.js): the Learn hub's Key cards row reads GET /api/keycards. ?kc=off hides it.
+    if (window.location.pathname.startsWith('/preview/study')) {
+      const kc = fixtureKeycards(url, String(init?.method || 'GET').toUpperCase(), init?.body ? JSON.parse(init.body) : null, { isPro: false, variant: new URLSearchParams(window.location.search).get('kc') || 'ready', memory: (window.__previewKeycards ||= {}) });
+      if (kc) return Promise.resolve(new Response(JSON.stringify(kc.body), { status: kc.status, headers: { 'Content-Type': 'application/json' } }));
     }
     return real(input, init);
   };

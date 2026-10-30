@@ -1,8 +1,10 @@
 // Key cards: the pure words and shapes every Key cards screen shares (KEYCARDS-BUILD-SPEC.md section 3, card format in
 // KEYCARDS-CONTENT-SPEC.md). No React, no I/O, so node --test reads it as the screens do.
 //
-// Copy rules (spec, owner standards): plain sentence case, no exclamation marks, no emoji, no arrows, no middle-dot strings,
-// never "mastered", "mastery" or "marks to recover", no percentage under 6 answers.
+// Copy rules (spec, owner standards): plain sentence case, no exclamation marks, no emoji, no arrows, never "mastered",
+// "mastery" or "marks to recover", no percentage under 6 answers. The three compact meta strings the spec writes with a
+// middle dot ("18 cards · 6 due", "Business Studies Part 1 · Ch 1 · p. 3", "Revise · 14 due · about 6 minutes") keep it,
+// exactly as the app does, so web and app read the same; nothing else uses one.
 
 /** The label a student sees for each card kind, exactly as KEYCARDS-CONTENT-SPEC.md section 2 writes it. */
 export const KIND_LABELS = Object.freeze({
@@ -50,22 +52,29 @@ export const PRO_LINE = 'Pro opens every card in every chapter and keeps them on
 
 export const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
-/** "Business Studies Part 1, chapter 1, page 3" from a card's source; null when there is nothing to cite. */
+/** "Business Studies Part 1 · Ch 1 · p. 3" (the spec's reference) from a card's source; null when there is nothing to cite. */
 export function sourceLine(source) {
   if (!source || typeof source !== 'object') return null;
   if (source.kind === 'wordnet') return 'Meaning from WordNet';
   if (source.kind === 'authored') return 'Written for the MockMob English deck';
-  const parts = [source.book || null];
-  if (Number.isFinite(Number(source.chapterNo)) && source.chapterNo !== null) parts.push(`chapter ${Number(source.chapterNo)}`);
-  if (Number.isFinite(Number(source.page)) && source.page !== null) parts.push(`page ${Number(source.page)}`);
-  const line = parts.filter(Boolean).join(', ');
+  const n = (v) => (v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v)) ? Number(v) : null);
+  const parts = [source.book || null, n(source.chapterNo) !== null ? `Ch ${n(source.chapterNo)}` : null, n(source.page) !== null ? `p. ${n(source.page)}` : null];
+  const line = parts.filter(Boolean).join(' · ');
   return line || null;
 }
 
-/** "Business Studies Part 1, chapter 1" from a chapter's ncert block ({ book, chapter }). */
+/** "Business Studies Part 1 · Ch 1" from a chapter's ncert block ({ book, chapter }). */
 export function chapterRef(ncert) {
   if (!ncert || !ncert.book) return null;
-  return Number.isFinite(Number(ncert.chapter)) && ncert.chapter !== null ? `${ncert.book}, chapter ${Number(ncert.chapter)}` : ncert.book;
+  const n = ncert.chapter !== null && ncert.chapter !== undefined && Number.isFinite(Number(ncert.chapter)) ? Number(ncert.chapter) : null;
+  return n !== null ? `${ncert.book} · Ch ${n}` : ncert.book;
+}
+
+/** "Business Studies Part 1, chapter 1": the same reference written out, for screen readers. */
+export function chapterRefSpoken(ncert) {
+  if (!ncert || !ncert.book) return null;
+  const n = ncert.chapter !== null && ncert.chapter !== undefined && Number.isFinite(Number(ncert.chapter)) ? Number(ncert.chapter) : null;
+  return n !== null ? `${ncert.book}, chapter ${n}` : ncert.book;
 }
 
 /**
@@ -122,28 +131,32 @@ export function splitDeck(cards = []) {
 }
 
 /**
- * The deck in reading order with every locked stub gathered into ONE quiet row, placed where the first locked card stood
- * (spec: "a quiet stub row with the count and one upgrade line, not a wall of locks"). Returns [{ card } | { stub: n }].
+ * The deck in reading order with every locked stub gathered into ONE quiet row after the open cards (spec: "a quiet stub
+ * row with the count and one upgrade line, not a wall of locks"). Returns [{ card } | { stub: n }].
  */
 export function readingRows(cards = []) {
   const rows = [];
-  let stub = null;
+  let locked = 0;
   for (const c of Array.isArray(cards) ? cards : []) {
-    if (c?.locked) {
-      if (!stub) { stub = { stub: 0 }; rows.push(stub); }
-      stub.stub += 1;
-    } else rows.push({ card: c });
+    if (c?.locked) locked += 1;
+    else if (c) rows.push({ card: c });
   }
+  if (locked) rows.push({ stub: locked });
   return rows;
 }
 
-/** "18 cards, 6 due" (Pro) or "5 of 38 open, 2 due" (Free). Nothing due says nothing about due. */
+/**
+ * A chapter row's counts: "18 cards · 6 due" (the spec's line; "· 0 due" only once the chapter is in Revise, since before
+ * that nothing can be due), and for Free a second line "5 of 38 open". { line, open } with `open` null for Pro.
+ */
 export function countsLine(ch, isPro) {
   const cards = Number(ch?.cards) || 0;
-  if (!cards) return 'No cards yet';
+  if (!cards) return { line: 'No cards yet', open: null };
   const due = Number(ch?.due) || 0;
-  const head = isPro ? plural(cards, 'card') : `${Math.min(Number(ch?.unlocked) || 0, cards)} of ${cards} open`;
-  return due ? `${head}, ${due} due` : head;
+  const added = Number(ch?.added) || 0;
+  const line = due || added ? `${plural(cards, 'card')} · ${due} due` : plural(cards, 'card');
+  const open = isPro ? null : `${Math.min(Number(ch?.unlocked) || 0, cards)} of ${cards} open`;
+  return { line, open };
 }
 
 /** The state word with its non-colour cue (an icon name the screen draws). Labels come from the server, exactly. */

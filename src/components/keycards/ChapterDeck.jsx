@@ -1,21 +1,23 @@
 "use client";
 // /cards/[chapter]: one chapter's Key cards (KEYCARDS-BUILD-SPEC.md section 3).
-//   Head      the unit (only when it differs from the title), the chapter title, its NCERT book and chapter, the chip; for Pro
-//             the reason line from /api/me/chapters ("7 of 12 right on the latest try at each question. Cards: 14 of 20 holding.")
+//   Head      the unit (only when it differs from the title), the chapter title, "Business Studies Part 1 · Ch 1", the chip;
+//             for Pro the reason line from /api/me/chapters ("7 of 12 right on the latest try at each question. Cards: 14 of 20 holding.")
 //   Actions   Add chapter to Revise (the one volt key in Read), Print chapter sheet (Pro)
 //   Modes     one segmented control: Read (the book, card by card), Study (a recall session), Last look (Must-know, nothing scheduled)
-//   Free      the locked cards are one quiet row with their count and the one Pro line, never a wall of locks
+//   Free      the locked cards are one quiet row after the open ones, with their count and the one Pro line, never a wall of locks
+// Read shows a card's front as a small prompt above the book's words, except where the front IS the book's line with gaps
+// (Term, Key line): there the marked words already say what was blanked, so the line is not printed twice.
 // States: loading (skeleton rows), empty ("No cards for this chapter yet"), error (Try again), off (Key cards not open).
 // Motion: transform and opacity only, 150-300 ms ease-out (keycards.css); reduced motion lands at once.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
-import { Check, ChevronLeft, ChevronRight, Printer } from 'lucide-react';
+import { Check, ChevronLeft, Lock, Printer } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { ErrorState } from '@/components/ui/Skeleton';
 import { CardHead, CardSource, InShort, KeyCardPlayer, NcertText, Prompt, ProGate, ReportForm } from './KeyCard';
-import { addToRevise, isOff, readChapters, readDeck, refreshHome } from './api';
-import { MODES, chapterRef, endCounts, plural, readingRows, splitDeck } from './kinds';
+import { addToRevise, isOff, isProRequired, readChapters, readDeck, refreshHome } from './api';
+import { BLANK_KINDS, MODES, chapterRef, chapterRefSpoken, endCounts, plural, readingRows, splitDeck } from './kinds';
 import { useCardsLinks } from './links';
 import { ncertFont } from './ncertFont';
 import './keycards.css';
@@ -31,7 +33,8 @@ function useDeck(chapterKey) {
     return () => { alive = false; };
   }, [chapterKey, nonce]);
   const retry = useCallback(() => { setRead({ state: 'loading', deck: null }); setNonce((n) => n + 1); }, []);
-  return { ...read, retry, setDeck: (fn) => setRead((r) => ({ ...r, deck: fn(r.deck) })) };
+  const setDeck = useCallback((fn) => setRead((r) => ({ ...r, deck: fn(r.deck) })), []);
+  return { ...read, retry, setDeck };
 }
 
 /** The Pro reason line for this chapter, from GET /api/me/chapters (Pro only; nothing for Free or on a failed read). */
@@ -43,7 +46,8 @@ function useReason(chapterKey, isPro) {
     const subject = String(chapterKey).split('.')[0];
     readChapters(subject).then((body) => {
       const row = (body?.units || []).flatMap((u) => u.chapters || []).find((c) => c.key === chapterKey);
-      if (alive) setReason(row?.reason || null);
+      const text = typeof row?.reason === 'string' ? row.reason.trim() : '';
+      if (alive) setReason(text ? (/[.!?]$/.test(text) ? text : `${text}.`) : null);
     }).catch(() => {});
     return () => { alive = false; };
   }, [chapterKey, isPro]);
@@ -73,11 +77,12 @@ function ModeTabs({ mode, onChange }) {
 
 function ReadEntry({ card, isPro, inRevise, onAdd, index }) {
   const [reporting, setReporting] = useState(false);
-  const menu = isPro && !inRevise && card.importance !== 'must' ? [{ label: 'Add this card to Revise', onSelect: () => onAdd(card.id) }] : [];
+  const single = isPro && card.importance !== 'must';
+  const menu = single && !inRevise ? [{ label: 'Add this card to Revise', onSelect: () => onAdd(card.id) }] : [];
   return (
     <li className="kc-entry" style={{ '--i': Math.min(index, 8) }}>
-      <CardHead card={card} onReport={() => setReporting(true)} menu={menu}>{inRevise && isPro && card.importance !== 'must' ? <span className="kc-in"><Check size={13} strokeWidth={2.6} aria-hidden="true" />In Revise</span> : null}</CardHead>
-      <Prompt card={card} />
+      <CardHead card={card} onReport={() => setReporting(true)} menu={menu}>{inRevise && single ? <span className="kc-in"><Check size={13} strokeWidth={2.6} aria-hidden="true" />In Revise</span> : null}</CardHead>
+      {BLANK_KINDS.includes(card.kind) ? null : <Prompt card={card} />}
       <NcertText card={card} />
       <CardSource card={card} />
       <InShort card={card} />
@@ -95,7 +100,7 @@ function ReadMode({ deck, isPro, added, onAdd }) {
         ? <ReadEntry key={row.card.id} card={row.card} index={i} isPro={isPro} inRevise={addedSet.has(row.card.id)} onAdd={onAdd} />
         : (
           <li key="stub" className="kc-stub">
-            <p className="kc-stub__count"><b>{plural(row.stub, 'more card')}</b> in this chapter, in book order.</p>
+            <p className="kc-stub__count"><Lock size={15} strokeWidth={2.2} aria-hidden="true" /><span><b>{plural(row.stub, 'more card')}</b> in this chapter.</span></p>
             <ProGate isPro={isPro} />
           </li>
         )))}
@@ -105,17 +110,21 @@ function ReadMode({ deck, isPro, added, onAdd }) {
 
 // ---------------------------------------------------------------- Study
 
-function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onRead }) {
+// A rating the server confirmed schedules that card (POST /api/keycards/review creates its state), so `onReviewed` tells the
+// page, and "Add chapter to Revise" turns to "In Revise" once every card it would add is scheduled: the screen never offers to
+// add what Study has already added.
+function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onRead, onReviewed }) {
   const [round, setRound] = useState(0);
   const [at, setAt] = useState(0);
   const [ratings, setRatings] = useState({});
   const [limited, setLimited] = useState(false);
   const total = cards.length;
   const card = cards[at];
-  const rated = useCallback(({ rating }) => {
+  const rated = useCallback(({ rating, cardId }) => {
+    onReviewed?.(cardId);
     setRatings((r) => ({ ...r, [rating]: (r[rating] || 0) + 1 }));
     setAt((n) => n + 1);
-  }, []);
+  }, [onReviewed]);
   const again = () => { setRatings({}); setAt(0); setRound((r) => r + 1); };
   if (limited) {
     return (
@@ -137,8 +146,8 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
           {counts.map((c) => <div key={c.label} data-k={c.label}><dt>{c.label}</dt><dd>{c.n}</dd></div>)}
         </dl>
         <div className="kc-end__keys">
-          {!inRevise ? <button type="button" className="kc-btn kc-btn--volt" onClick={onAddChapter} disabled={adding}>{adding ? 'Adding' : 'Add chapter to Revise'}</button> : null}
-          <button type="button" className={inRevise ? 'kc-btn kc-btn--volt' : 'kc-btn kc-btn--line'} onClick={again}>Study again</button>
+          {!inRevise ? <button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={onAddChapter} disabled={adding}>{adding ? 'Adding' : 'Add chapter to Revise'}</button> : null}
+          <button type="button" className={inRevise ? 'kc-btn kc-btn--volt' : 'kc-btn kc-btn--line'} data-page-primary={inRevise ? '' : undefined} onClick={again}>Study again</button>
           <a className="kc-btn kc-btn--quiet" href={readHref} onClick={(e) => { e.preventDefault(); onRead(); }}>Read the chapter</a>
         </div>
         {!isPro ? <ProGate isPro={isPro} lead={`You studied the ${plural(total, 'open card')}.`} /> : null}
@@ -149,7 +158,7 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
     <div className="kc-session">
       <div className="kc-progress" aria-hidden="true"><span style={{ transform: `scaleX(${at / total})` }} /></div>
       <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={`${at + 1} of ${total}`} onRated={rated} onLimit={() => setLimited(true)} />
-      <p className="kc-fine">Missed brings a card back soon. Got it and Easy space it out. Space shows the answer; 1, 2 and 3 rate it.</p>
+      <p className="kc-fine">Each card you rate joins Revise: Missed brings it back soon, Got it and Easy space it out.<span className="kc-keyhint"> Space shows the answer; 1, 2 and 3 rate it.</span></p>
     </div>
   );
 }
@@ -195,15 +204,15 @@ function LastLookMode({ cards }) {
       <p className="kc-pos">{at + 1} of {total}</p>
       <article key={card.id} className="kc-look" onPointerDown={onDown} onPointerUp={onUp} aria-live="polite" aria-label={`Card ${at + 1} of ${total}`}>
         <CardHead card={card} />
-        <Prompt card={card} />
+        {BLANK_KINDS.includes(card.kind) ? null : <Prompt card={card} />}
         <NcertText card={card} />
         <CardSource card={card} />
       </article>
       <div className="kc-look__keys">
-        <button type="button" className="kc-btn kc-btn--line" onClick={() => go(-1)} disabled={at === 0}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Previous</button>
-        <button type="button" className="kc-btn kc-btn--volt" onClick={() => go(1)}>{at + 1 === total ? 'Finish' : 'Next'}<ChevronRight size={18} strokeWidth={2.2} aria-hidden="true" /></button>
+        <button type="button" className="kc-btn kc-btn--line" onClick={() => go(-1)} disabled={at === 0}>Previous</button>
+        <button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={() => go(1)}>{at + 1 === total ? 'Finish' : 'Next'}</button>
       </div>
-      <p className="kc-fine">Must-know only, nothing scheduled. Swipe, or use the arrow keys.</p>
+      <p className="kc-fine">Must-know only, and nothing is scheduled. Swipe to move on<span className="kc-keyhint">, or use the arrow keys</span>.</p>
     </div>
   );
 }
@@ -218,11 +227,11 @@ function PrintSheet({ deck, cards }) {
   return createPortal(
     <section className={`kc-print ${ncertFont.variable}`} aria-hidden="true">
       <h1>{deck.chapter.title}</h1>
-      <p className="kc-print__ref">{chapterRef(deck.chapter.ncert)}. Must-know cards, NCERT’s exact words.</p>
+      <p className="kc-print__ref">{[chapterRef(deck.chapter.ncert), `${plural(cards.length, 'Must-know card')} in NCERT’s exact words, each with its page`].filter(Boolean).join('. ')}.</p>
       <ol>
         {cards.map((c) => (
           <li key={c.id}>
-            <Prompt card={c} />
+            {BLANK_KINDS.includes(c.kind) ? null : <Prompt card={c} />}
             <NcertText card={c} />
             <CardSource card={c} />
           </li>
@@ -268,13 +277,18 @@ export default function ChapterDeck({ chapterKey }) {
       const ids = input.chapter ? addSet.map((c) => c.id) : input.cardIds;
       setDeck((d) => (d ? { ...d, added: [...new Set([...(d.added || []), ...ids])] } : d));
       refreshHome();
-    } catch {
-      setAddError('The cards were not added. Try again.');
+    } catch (e) {
+      setAddError(isProRequired(e) ? 'Adding these cards needs Pro. Reading them stays open.' : 'The cards were not added. Try again.');
     } finally {
       setAdding(false);
     }
   }, [addSet, setDeck]);
   const addChapter = useCallback(() => add({ chapter: chapterKey }), [add, chapterKey]);
+  const reviewed = useCallback((id) => {
+    if (!id) return;
+    setDeck((d) => (d && !(d.added || []).includes(id) ? { ...d, added: [...(d.added || []), id] } : d));
+    refreshHome();
+  }, [setDeck]);
 
   const back = <Link className="kc-back" href={links.home(String(chapterKey).split('.')[0])}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Key cards</Link>;
   const shell = (body) => <div className={`kc kc--deck ${ncertFont.variable}`}>{back}{body}</div>;
@@ -311,10 +325,12 @@ export default function ChapterDeck({ chapterKey }) {
       <header className="kc-dhead">
         {chapter.unit && chapter.unit !== chapter.title ? <p className="kc-dhead__unit">{chapter.unit}</p> : null}
         <h1 className="kc-title">{chapter.title}</h1>
-        <p className="kc-dhead__ref">
-          {ref}
-          {chapter.chip ? <span className="kc-chip">{chapter.chip}</span> : null}
-        </p>
+        {ref || chapter.chip ? (
+          <p className="kc-dhead__ref">
+            {ref ? <span aria-label={chapterRefSpoken(chapter.ncert)}>{ref}</span> : null}
+            {chapter.chip ? <span className="kc-chip">{chapter.chip}</span> : null}
+          </p>
+        ) : null}
         {reason ? <p className="kc-dhead__reason">{reason}</p> : null}
       </header>
 
@@ -327,12 +343,14 @@ export default function ChapterDeck({ chapterKey }) {
       ) : (
         <div className="kc-board">
           <aside className="kc-side" aria-label="This chapter">
-            <p className="kc-side__count"><b>{plural(counts.total, 'card')}</b>, {counts.mustKnow} Must-know{counts.locked ? `, ${counts.locked} open with Pro` : ''}</p>
+            <p className="kc-side__count">{counts.locked
+              ? <><b>{open.length} of {counts.total}</b> cards open, {counts.mustKnow} Must-know in all</>
+              : <><b>{plural(counts.total, 'card')}</b>, {counts.mustKnow} Must-know</>}</p>
             <div className="kc-side__keys">
               {inRevise ? (
                 <p className="kc-inrevise" role="status"><Check size={16} strokeWidth={2.4} aria-hidden="true" />In Revise. Due cards come back there.</p>
               ) : (
-                <button type="button" className={mode === 'read' ? 'kc-btn kc-btn--volt kc-btn--wide' : 'kc-btn kc-btn--line kc-btn--wide'} onClick={addChapter} disabled={adding || !addSet.length}>{adding ? 'Adding' : 'Add chapter to Revise'}</button>
+                <button type="button" className={mode === 'read' ? 'kc-btn kc-btn--volt kc-btn--wide' : 'kc-btn kc-btn--line kc-btn--wide'} data-page-primary={mode === 'read' ? '' : undefined} onClick={addChapter} disabled={adding || !addSet.length}>{adding ? 'Adding' : 'Add chapter to Revise'}</button>
               )}
               {!inRevise ? <p className="kc-fine">{addLine}</p> : null}
               {addError ? <p className="kc-err" role="alert">{addError}</p> : null}
@@ -343,7 +361,7 @@ export default function ChapterDeck({ chapterKey }) {
             <ModeTabs mode={mode} onChange={setMode} />
             <div id="kc-panel" role="tabpanel" aria-labelledby={`kc-tab-${mode}`} className="kc-panel" key={mode}>
               {mode === 'read' ? <ReadMode deck={deck} isPro={isPro} added={added} onAdd={(id) => add({ cardIds: [id] })} /> : null}
-              {mode === 'study' ? <StudyMode cards={open} isPro={isPro} inRevise={inRevise} onAddChapter={addChapter} adding={adding} readHref={links.deck(chapterKey)} onRead={() => setMode('read')} /> : null}
+              {mode === 'study' ? <StudyMode cards={open} isPro={isPro} inRevise={inRevise} onAddChapter={addChapter} adding={adding} readHref={links.deck(chapterKey)} onRead={() => setMode('read')} onReviewed={reviewed} /> : null}
               {mode === 'last' ? <LastLookMode cards={must} /> : null}
             </div>
           </div>

@@ -4,9 +4,10 @@
 //                overflow menu with "Report this card"
 //   Prompt       the front; blanks drawn as short ruled gaps, never as underscores
 //   NcertText    the back: NCERT's exact words in the reading face, the blanked words marked by weight and a fine rule
-//   CardSource   "Business Studies Part 1, chapter 1, page 3"
+//   CardSource   "Business Studies Part 1 · Ch 1 · p. 3"
 //   InShort      the optional paraphrase, labelled, in the app's own face so it never passes for the book
-//   KeyCardPlayer   one card to recall: front first, Show answer (space or tap), then Missed / Got it / Easy (1, 2, 3).
+//   KeyCardPlayer   one card to recall: front first, Show answer (space, the key, or a tap anywhere on the card), then
+//                   Missed / Got it / Easy (1, 2, 3).
 //                   The rating counts only once the server has it; until then the key shows it is saving.
 //   ProGate      the one quiet Pro line with "See Pro" (opens the Upgrade sheet with the keycards reason)
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
@@ -100,7 +101,7 @@ export function ReportForm({ card, onClose }) {
     setState('sending');
     try { await sendReport({ cardId: card.id, reason: reason.trim() }); setState('sent'); } catch { setState('failed'); }
   }
-  if (state === 'sent') return <p className="kc-report kc-report--sent" role="status">Reported. Thank you. This card is checked against the book again.</p>;
+  if (state === 'sent') return <p className="kc-report kc-report--sent" role="status">Thank you. Your report is saved, and reported cards are checked against the book.</p>;
   return (
     <form className="kc-report" onSubmit={send}>
       <label htmlFor={id}>What looks wrong with this card?</label>
@@ -142,7 +143,7 @@ export function ProGate({ isPro, lead = null, className = '' }) {
 }
 
 /**
- * One card to recall. `onRated({ rating, result })` runs after the server acknowledged the rating; `onLimit()` when Free has
+ * One card to recall. `onRated({ rating, result, cardId })` runs after the server acknowledged the rating; `onLimit()` when Free has
  * used the day's reviews (402). `mode` is the review mode the server records ('study' | 'revise'). `active` binds the keys.
  */
 export function KeyCardPlayer({ card, mode, position = null, active = true, detail = null, onRated, onLimit }) {
@@ -163,7 +164,7 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
     try {
       const result = await sendReview({ cardId: card.id, rating, mode });
       if (!result?.ok) throw new Error('unconfirmed');
-      onRated?.({ rating, result });
+      onRated?.({ rating, result, cardId: card.id });
     } catch (e) {
       if (isProRequired(e)) { onLimit?.(); return; }
       setError('That rating was not saved. Try again.');
@@ -199,7 +200,8 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
   return (
     <section className="kc-play" aria-labelledby={headId} data-revealed={revealed || undefined}>
       {position ? <p className="kc-pos">{position}</p> : null}
-      <div className="kc-play__card">
+      {/* A tap anywhere on the front shows the answer too (the Show answer key is the named, focusable way). */}
+      <div className="kc-play__card" data-tap={revealed ? undefined : ''} onClick={(e) => { if (!revealed && !reporting && !e.target.closest('button, a, textarea, input, [role="menu"]')) reveal(); }}>
         <CardHead card={card} onReport={() => setReporting(true)} />
         {detail ? <p className="kc-detail">{detail}</p> : null}
         <Prompt card={card} as="h2" className="kc-play__prompt" id={headId} />
@@ -214,12 +216,12 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
       </div>
       {!revealed ? (
         <div className="kc-play__keys">
-          <button ref={showRef} type="button" className="kc-btn kc-btn--volt kc-btn--wide" onClick={reveal}>Show answer<kbd className="kc-kbd" aria-hidden="true">Space</kbd></button>
+          <button ref={showRef} type="button" className="kc-btn kc-btn--volt kc-btn--wide" data-page-primary="" onClick={reveal}>Show answer<kbd className="kc-kbd" aria-hidden="true">Space</kbd></button>
         </div>
       ) : (
         <div className="kc-rate" ref={rateRow} role="group" aria-label="How well did you recall it?">
           {RATINGS.map((r, i) => (
-            <button key={r.rating} ref={r.rating === 3 ? firstRate : undefined} type="button" className="kc-rate__btn" data-rating={r.rating} disabled={Boolean(busy)} aria-busy={busy === r.rating || undefined} onClick={() => rate(r.rating)}>
+            <button key={r.rating} ref={r.rating === 3 ? firstRate : undefined} type="button" className="kc-rate__btn" data-rating={r.rating} data-page-primary={r.rating === 3 ? '' : undefined} disabled={Boolean(busy)} aria-busy={busy === r.rating || undefined} onClick={() => rate(r.rating)}>
               {busy === r.rating ? <LoaderCircle className="kc-spin" size={16} strokeWidth={2.2} aria-hidden="true" /> : null}
               <span>{r.label}</span>
               <kbd className="kc-kbd" aria-hidden="true">{r.key}</kbd>
