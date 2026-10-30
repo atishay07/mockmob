@@ -12,6 +12,7 @@
 //     in each subject while FIRST_FULL_MOCK_ON (data/first_full_mock.js).
 // Sentence case; no "!", no em dash, no middle dot, no arrows.
 import { getCanonicalSubject } from '../../data/canonical_syllabus.js';
+import { storedNamesFor } from '../../data/cuet_syllabus.js';
 import { officialSubjectCode } from '../../data/subject_registry.js';
 import { FIRST_FULL_MOCK_ON } from '../../data/first_full_mock.js';
 
@@ -73,6 +74,8 @@ export function syllabusUnits(subjectId) {
       const longer = names.find((other) => other !== chapter && norm(other).startsWith(`${norm(chapter)} `));
       if (longer) continue;
       const sources = [chapter, ...names.filter((other) => other !== chapter && norm(chapter).startsWith(`${norm(other)} `))];
+      // Syllabus v2: rows still stored under a merged name (data/cuet_syllabus.js aliases) count for the chapter.
+      for (const alias of storedNamesFor(subjectId, chapter)) if (!sources.includes(alias)) sources.push(alias);
       merged.push({ name: printable(chapter), sources });
     }
     const single = merged.length === 1 && sameWords(merged[0].name, unit.unit_name.replace(/^section [a-z0-9]+:\s*/i, ''));

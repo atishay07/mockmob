@@ -225,6 +225,8 @@ export function makeBank(subject, options = {}) {
         for (const chapter of unit.chapters) {
           if (chapter.max === 0) continue;
           chapters.set(chapter.name, Math.max(chapters.get(chapter.name) || 0, chapter.max));
+          // Rows still stored under an alias (Syllabus v2 merges) fill the same slot.
+          for (const alias of chapter.aliases || []) chapters.set(alias, Math.max(chapters.get(alias) || 0, chapter.max));
         }
       }
     }

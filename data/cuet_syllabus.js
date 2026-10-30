@@ -105,7 +105,7 @@ const SOURCE = {
       C('Partnership Fundamentals', 'Accounting for Partnership: Basic Concepts', nc('leac1', 1, 'Accounting for Partnership: Basic Concepts')),
       C('Profit & Loss Appropriation Account', 'Profit and Loss Appropriation Account', nc('leac1', 1, 'Accounting for Partnership: Basic Concepts')),
     ]),
-    U('Reconstitution of a Partnership Firm', null, [
+    U('Reconstitution of a Partnership firm', null, [
       C('Change in Profit Sharing Ratio', 'Change in Profit Sharing Ratio', nc('leac1', 2, 'Reconstitution of a Partnership Firm – Admission of a Partner')),
       C('Goodwill Valuation', 'Goodwill: Nature and Valuation', nc('leac1', 2, 'Reconstitution of a Partnership Firm – Admission of a Partner')),
       C('Admission of Partner', 'Admission of a Partner', nc('leac1', 2, 'Reconstitution of a Partnership Firm – Admission of a Partner')),
