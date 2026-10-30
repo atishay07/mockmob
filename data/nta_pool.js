@@ -29,6 +29,7 @@ const SLIM_COLUMNS = [
   'question_type', 'tags', 'passage_group_id', 'passage_id', 'passage_type', 'passage_text', 'order_index',
   'family_id', 'duplicate_group_id', 'quality_score', 'score', 'upvotes', 'downvotes',
   'pyq_anchor_id', 'anchor_tier', 'source', 'ai_tier', 'ai_score', 'quality_band', 'uploaded_by', 'author_id', 'created_at',
+  'is_cuet_syllabus',
 ];
 // Without the evidence and provenance records: what the index path reads.
 export const NTA_SLIM_COLUMNS = SLIM_COLUMNS.join(',');

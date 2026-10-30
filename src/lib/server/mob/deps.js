@@ -14,6 +14,7 @@ import { createMobQuestionLoaders } from '@/../data/mob_question_reads';
 import { resolveSubject } from '@/../data/subject_registry';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
 import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
+import { storedNamesFor } from '@/../data/cuet_syllabus';
 import { ntaPatternFor } from '@/../data/nta_paper_pattern';
 import { indexAtlas, trapForOption } from '@/../data/trap_atlas';
 import blocklist from '@/../data/mob_name_blocklist.json';
@@ -60,7 +61,8 @@ async function pickQuestionIds(subject, { mobId, week, count = 10, chapter = nul
   const ask = Math.min(100, count + Math.min(skip.size, 40));
   const { questions } = await Database.getQuestions(subject, ask, {
     mode: mode === 'full' ? 'full' : 'quick', count: ask, requestedCount: ask, returnMeta: true, requireEvidence: false,
-    chapters: chapter ? [chapter] : undefined, generationKey: `mob_${mobId}_${week}${key ? `_${key}` : ''}`,
+    // Syllabus v2: the chapter's every stored spelling (an alias may still be on rows); retired chapters never resolve.
+    chapters: chapter ? (storedNamesFor(subject, chapter).length ? storedNamesFor(subject, chapter) : [chapter]) : undefined, generationKey: `mob_${mobId}_${week}${key ? `_${key}` : ''}`,
   });
   return (questions || []).map((q) => q.id).filter((id) => !skip.has(id));
 }

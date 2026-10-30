@@ -8,7 +8,7 @@ import { computeContentHash } from '@/lib/moderation/hash'
 import { candidateContentHashes, uploadAccepted, uploadShapeViolation, UPLOAD_ACCEPTED_STATUS } from '@/lib/moderation/uploadDedupe'
 import { checkPersistentRateLimit, rateLimitHeaders } from '@/lib/server/rateLimit'
 import { normalizeSubjectSelection } from '@/../data/cuet_controls'
-import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus'
+import { canonicalChapterName, isValidTopSyllabusPair } from '@/../data/canonical_syllabus'
 import { contributeEnabled, contributionsPausedResponse } from '@/lib/contribute'
 
 /**
@@ -163,7 +163,8 @@ export async function POST(request) {
       .insert({
         author_id,
         subject:           subjectSelection.internalSubject,
-        chapter:           chapter.trim(),
+        // Syllabus v2: an old or alternative name is stored as its live chapter.
+        chapter:           canonicalChapterName(subjectSelection.internalSubject, chapter.trim()),
         body:              questionBody.trim(),
         options:           options ?? null,
         correct_answer:    String(correct_answer).trim(),

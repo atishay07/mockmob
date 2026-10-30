@@ -63,7 +63,8 @@ function englishBank({ perVerbal = 20, sets = [[5, 'Factual Passage'], [5, 'Narr
   return rows;
 }
 
-function domainBank(subject, perChapter = 6) {
+// Enough rows for a 50-question paper however few chapters the syllabus has (Psychology has 7 since Syllabus v2).
+function domainBank(subject, perChapter = Math.max(6, Math.ceil(NTA_QUESTION_COUNT / getCanonicalChapters(subject).length))) {
   return getCanonicalChapters(subject).flatMap((chapter) => Array.from({ length: perChapter }, () => item(subject, chapter)));
 }
 

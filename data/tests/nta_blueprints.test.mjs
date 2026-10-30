@@ -1,5 +1,6 @@
 // Internal consistency of data/nta_blueprints. It checks arithmetic and syllabus names only;
 // it says nothing about whether the patterns match NTA (see docs/brain/NTA-PATTERN-SPEC.md).
+import { isRetiredChapter } from '../cuet_syllabus.js';
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
@@ -44,7 +45,8 @@ for (const subject of [...CUET_PUBLIC_ALLOWED_SUBJECTS, ...Object.keys(pending)]
 
     const canonical = new Set((getCanonicalSubject(bp.internalSubject)?.units || []).flatMap((unit) => unit.chapters));
     const excluded = new Set(bp.excludedChapters.map((entry) => entry.name));
-    for (const name of excluded) assert.ok(canonical.has(name), `${subject}: excluded chapter ${name} is a stored chapter name`);
+    // Syllabus v2: an excluded chapter is a stored name, live or retired (data/cuet_syllabus.js RETIRED_CHAPTERS).
+    for (const name of excluded) assert.ok(canonical.has(name) || isRetiredChapter(bp.internalSubject, name), `${subject}: excluded chapter ${name} is a stored chapter name`);
 
     assert.equal(bp.variants.filter((variant) => variant.default).length, 1, `${subject}: exactly one default variant`);
     for (const variant of bp.variants) {

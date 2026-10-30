@@ -1,6 +1,10 @@
 // CUET 2026 canonical unit/chapter map.
-// Source of truth: PDFs in data/CUET 2026, with a stability bias toward
-// preserving existing chapter names already used by questions and UI filters.
+// The 15 TOP_SUBJECTS are built from data/cuet_syllabus.js (Syllabus v2, 31 Oct 2026): units are the exact CUET 2026
+// unit titles, chapters are the stored names questions carry, retired chapters are gone (stored, never served).
+// The other subjects keep their hand-written lists (data/CUET 2026 PDFs) unchanged.
+import { CHAPTER_ALIASES, chaptersFor, resolveChapter, unitsFor } from './cuet_syllabus.js';
+
+export { CHAPTER_ALIASES, resolveChapter };
 
 export const TOP_SUBJECTS = Object.freeze([
   'english',
@@ -21,30 +25,12 @@ export const TOP_SUBJECTS = Object.freeze([
 ]);
 
 export const CANONICAL_SYLLABUS = [
-  {
-    subject_id: 'english',
-    subject_name: 'English',
-    units: [
-      unit('Reading Comprehension', ['Factual Passage', 'Narrative Passage', 'Literary Passage']),
-      unit('Verbal Ability', ['Para Jumbles', 'Match the Following', 'Vocabulary', 'Correct Word Usage']),
-    ],
-  },
+  topSubject('english', 'English'),
   lang('hindi', 'Hindi', ['Apathit Gadyansh', 'Apathit Padyansh'], ['Vyakaran', 'Anuvad'], ['Kavya Khand', 'Gadya Khand', 'Rachnatmak Lekhan']),
   ...['assamese', 'bengali', 'gujarati', 'kannada', 'malayalam', 'marathi', 'odia', 'punjabi', 'tamil', 'telugu', 'urdu'].map((id) =>
     lang(id, title(id), ['Reading Comprehension'], ['Grammar', 'Vocabulary'], ['Literature — Prose', 'Literature — Poetry', 'Composition'])
   ),
-  {
-    subject_id: 'accountancy',
-    subject_name: 'Accountancy',
-    units: [
-      unit('Accounting for Partnership', ['Partnership Fundamentals', 'Profit & Loss Appropriation Account']),
-      unit('Reconstitution of a Partnership firm', ['Change in Profit Sharing Ratio', 'Goodwill Valuation', 'Admission of Partner', 'Retirement & Death of Partner']),
-      unit('Dissolution of Partnership Firm', ['Dissolution of Partnership', 'Dissolution of Partnership Firm']),
-      unit('Company Accounts: Accounting for Share and Debenture Capital', ['Share Capital', 'Debentures']),
-      unit('Analysis of Financial Statements', ['Financial Statements of Company', 'Analysis of Financial Statements', 'Comparative & Common Size Statements', 'Accounting Ratios', 'Cash Flow Statement']),
-      unit('Computerized Accounting System', ['Computerized Accounting System']),
-    ],
-  },
+  topSubject('accountancy', 'Accountancy'),
   {
     subject_id: 'agriculture',
     subject_name: 'Agriculture',
@@ -67,71 +53,11 @@ export const CANONICAL_SYLLABUS = [
       unit('Social Change and Applied Anthropology', ['Applied Anthropology']),
     ],
   },
-  {
-    subject_id: 'biology',
-    subject_name: 'Biology',
-    units: [
-      unit('Reproduction', ['Reproduction in Organisms', 'Sexual Reproduction in Flowering Plants', 'Human Reproduction', 'Reproductive Health']),
-      unit('Genetics and Evolution', ['Principles of Inheritance & Variation', 'Molecular Basis of Inheritance', 'Evolution']),
-      unit('Biology and Human Welfare', ['Human Health & Disease', 'Microbes in Human Welfare']),
-      unit('Biotechnology and its Applications', ['Biotechnology Principles & Processes', 'Biotechnology & its Applications']),
-      unit('Ecology and Environment', ['Organisms & Populations', 'Ecosystem', 'Biodiversity & Conservation', 'Environmental Issues']),
-    ],
-  },
-  {
-    subject_id: 'business_studies',
-    subject_name: 'Business Studies',
-    units: [
-      unit('Nature and Significance of Management', ['Nature & Significance of Management']),
-      unit('Principles of Management', ['Principles of Management']),
-      unit('Business Environment', ['Business Environment']),
-      unit('Planning', ['Planning']),
-      unit('Organising', ['Organising']),
-      unit('Staffing', ['Staffing']),
-      unit('Directing', ['Directing']),
-      unit('Controlling', ['Controlling']),
-      unit('Business Finance', ['Financial Management']),
-      unit('Financial Markets', ['Financial Markets']),
-      unit('Marketing', ['Marketing Management']),
-      unit('Consumer Protection', ['Consumer Protection']),
-      unit('Existing Business Studies Coverage', ['Entrepreneurship Development']),
-    ],
-  },
-  {
-    subject_id: 'chemistry',
-    subject_name: 'Chemistry',
-    units: [
-      unit('Solutions', ['Solutions']),
-      unit('Electrochemistry', ['Electrochemistry']),
-      unit('Chemical Kinetics', ['Chemical Kinetics']),
-      unit('d and f Block Elements', ['d- and f-Block Elements']),
-      unit('Coordination Compounds', ['Coordination Compounds']),
-      unit('Haloalkanes and Haloarenes', ['Haloalkanes & Haloarenes']),
-      unit('Alcohols, Phenols and Ethers', ['Alcohols, Phenols & Ethers']),
-      unit('Aldehydes, Ketones and Carboxylic Acids', ['Aldehydes, Ketones & Carboxylic Acids']),
-      unit('Amines', ['Amines']),
-      unit('Biomolecules', ['Biomolecules']),
-      unit('Existing Chemistry Coverage', ['Solid State', 'Surface Chemistry', 'Isolation of Elements', 'p-Block Elements', 'Polymers', 'Chemistry in Everyday Life']),
-    ],
-  },
-  {
-    subject_id: 'computer_science',
-    subject_name: 'Computer Science / Informatics Practices',
-    units: [
-      unit('Section A: Database and Networks', ['Database Concepts', 'MySQL', 'Structured Query Language', 'Computer Networks']),
-      unit('Section B1: Computer Science', ['Python Revision', 'Functions', 'File Handling', 'Exception and File Handling in Python', 'Data Structures', 'Stack', 'Queue', 'Searching', 'Sorting', 'Understanding Data', 'Interface Python with MySQL', 'Data Communication', 'Security Aspects', 'Communication Technologies', 'Boolean Algebra']),
-      unit('Section B2: Informatics Practices', ['Data Handling using Pandas', 'Plotting Data using Matplotlib', 'Societal Impacts', 'Project Based Learning']),
-    ],
-  },
-  {
-    subject_id: 'economics',
-    subject_name: 'Economics / Business Economics',
-    units: [
-      unit('Introductory Microeconomics', ['Introduction & Theory of Consumer Behaviour', 'Production & Costs', 'Theory of Firms under Perfect Competition', 'Market Equilibrium & Simple Applications']),
-      unit('Introductory Macroeconomics', ['National Income & Related Aggregates', 'Money & Banking', 'Income Determination', 'Government Budget & the Economy', 'Balance of Payments']),
-      unit('Indian Economic Development', ['Indian Economy on the Eve of Independence', 'Indian Economic Development 1950–1990', 'Economic Reforms Since 1991', 'Human Capital Formation', 'Rural Development', 'Employment', 'Infrastructure', 'Environment & Sustainable Development', 'Development Experiences of India']),
-    ],
-  },
+  topSubject('biology', 'Biology'),
+  topSubject('business_studies', 'Business Studies'),
+  topSubject('chemistry', 'Chemistry'),
+  topSubject('computer_science', 'Computer Science / Informatics Practices'),
+  topSubject('economics', 'Economics / Business Economics'),
   simple('engineering_graphics', 'Engineering Graphics', 'Existing Engineering Graphics Coverage', ['Isometric Projection of Solids', 'Machine Drawing', 'Building Drawing', 'Engineering Curves', 'Projection of Points & Lines', 'Projection of Planes', 'Projection of Solids', 'Sectional Views', 'Orthographic Projections', 'Computer-Aided Drawing']),
   simple('entrepreneurship', 'Entrepreneurship', 'Existing Entrepreneurship Coverage', ['Entrepreneurial Opportunity', 'Entrepreneurial Planning', 'Enterprise Marketing', 'Enterprise Growth Strategies', 'Business Arithmetic', 'Resource Mobilization', 'Entrepreneurial Ethics', 'Concept & Functions of Entrepreneurship']),
   {
@@ -152,28 +78,8 @@ export const CANONICAL_SYLLABUS = [
       unit('The Modern Trends in Indian Art', ['Modern Indian Art', 'Graphic Prints', 'Sculpture Post-Independence', 'Modern Trends in Indian Art']),
     ],
   },
-  {
-    subject_id: 'geography',
-    subject_name: 'Geography / Geology',
-    units: [
-      unit('Human Geography - Nature and Scope', ['Human Geography — Nature & Scope']),
-      unit('People', ['Population — Distribution, Density, Growth', 'Migration', 'Human Development', 'India — People & Economy']),
-      unit('Human Activities', ['Primary Activities', 'Secondary Activities', 'Tertiary & Quaternary Activities']),
-      unit('Transport, Communication and Trade', ['Transport & Communication', 'International Trade']),
-      unit('Human Settlements', ['Human Settlements']),
-      unit('Resources and Development', ['Resources & Development', 'Manufacturing Industries', 'Planning & Sustainable Development']),
-      unit('Geographical Perspective on Selected Issues and Problems', ['Geographical Perspective on Selected Issues and Problems']),
-    ],
-  },
-  {
-    subject_id: 'history',
-    subject_name: 'History',
-    units: [
-      unit('Themes in Indian History Part I', ['Bricks, Beads & Bones', 'Kings, Farmers & Towns', 'Kinship, Caste & Class', 'Thinkers, Beliefs & Buildings']),
-      unit('Themes in Indian History Part II', ['Through the Eyes of Travellers', 'Bhakti-Sufi Traditions', 'An Imperial Capital — Vijayanagara', 'Peasants, Zamindars & the State', 'Kings & Chronicles']),
-      unit('Themes in Indian History Part III', ['Colonialism & the Countryside', 'Rebels & the Raj', 'Mahatma Gandhi & the Nationalist Movement', 'Partition', 'Framing the Constitution']),
-    ],
-  },
+  topSubject('geography', 'Geography / Geology'),
+  topSubject('history', 'History'),
   {
     subject_id: 'home_science',
     subject_name: 'Home Science',
@@ -203,19 +109,7 @@ export const CANONICAL_SYLLABUS = [
       unit('Existing Mass Media Coverage', ['Introduction to Mass Communication', 'Print Media', 'Television', 'Advertising', 'Public Relations', 'Media Ethics']),
     ],
   },
-  {
-    subject_id: 'mathematics',
-    subject_name: 'Mathematics / Applied Mathematics',
-    units: [
-      unit('Relations and Functions', ['Relations & Functions', 'Inverse Trigonometric Functions']),
-      unit('Algebra', ['Matrices', 'Determinants']),
-      unit('Calculus', ['Continuity & Differentiability', 'Application of Derivatives', 'Integrals', 'Application of Integrals', 'Differential Equations']),
-      unit('Vectors and Three-Dimensional Geometry', ['Vector Algebra', 'Three Dimensional Geometry']),
-      unit('Linear Programming', ['Linear Programming']),
-      unit('Probability', ['Probability']),
-      unit('Applied Mathematics', ['Numbers, Quantification and Numerical Applications', 'Probability Distributions', 'Time Based Data', 'Inferential Statistics', 'Financial Mathematics']),
-    ],
-  },
+  topSubject('mathematics', 'Mathematics / Applied Mathematics'),
   {
     subject_id: 'applied_mathematics',
     subject_name: 'Applied Mathematics',
@@ -241,44 +135,9 @@ export const CANONICAL_SYLLABUS = [
       unit('Existing Physical Education Coverage', ['Planning in Sports', 'Sports & Nutrition', 'Yoga & Lifestyle', 'Physical Education & Sports for CWSN', 'Children & Women in Sports', 'Test, Measurement & Evaluation', 'Physiology & Injuries in Sports', 'Biomechanics & Sports', 'Psychology & Sports', 'Training in Sports']),
     ],
   },
-  {
-    subject_id: 'physics',
-    subject_name: 'Physics',
-    units: [
-      unit('Electrostatics', ['Electric Charges & Fields', 'Electrostatic Potential & Capacitance']),
-      unit('Current Electricity', ['Current Electricity']),
-      unit('Magnetic Effects of Current and Magnetism', ['Moving Charges & Magnetism', 'Magnetism & Matter']),
-      unit('Electromagnetic Induction and Alternating Currents', ['Electromagnetic Induction', 'Alternating Current']),
-      unit('Electromagnetic Waves', ['Electromagnetic Waves']),
-      unit('Optics', ['Ray Optics & Optical Instruments', 'Wave Optics']),
-      unit('Dual Nature of Matter and Radiation', ['Dual Nature of Radiation & Matter']),
-      unit('Atoms and Nuclei', ['Atoms', 'Nuclei']),
-      unit('Electronic Devices', ['Semiconductor Electronics']),
-      unit('Existing Physics Coverage', ['Communication Systems']),
-    ],
-  },
-  {
-    subject_id: 'political_science',
-    subject_name: 'Political Science',
-    units: [
-      unit('Politics in India Since Independence', ['Challenges of Nation Building', 'Era of One-Party Dominance', 'Politics of Planned Development', "India's External Relations", 'Challenges to & Restoration of the Congress System', 'Crisis of the Democratic Order', 'Rise of Popular Movements', 'Regional Aspirations', 'Democratic Upsurge and Coalition Politics', 'Recent Issues and Challenges']),
-      unit('Contemporary World Politics', ['Cold War Era', 'End of Bipolarity', 'US Hegemony in World Politics', 'Alternative Centres of Power', 'Contemporary South Asia', 'International Organisations', 'Security in the Contemporary World', 'Environment & Natural Resources', 'Globalisation']),
-    ],
-  },
-  {
-    subject_id: 'psychology',
-    subject_name: 'Psychology',
-    units: [
-      unit('Variations in Psychological Attributes', ['Variations in Psychological Attributes']),
-      unit('Self and Personality', ['Self & Personality']),
-      unit('Meeting Life Challenges', ['Meeting Life Challenges']),
-      unit('Psychological Disorders', ['Psychological Disorders']),
-      unit('Therapeutic Approaches', ['Therapeutic Approaches']),
-      unit('Attitude and Social Cognition', ['Attitude & Social Cognition']),
-      unit('Social Influence and Group Processes', ['Social Influence & Group Processes']),
-      unit('Existing Psychology Coverage', ['Psychology & Life', 'Developing Psychological Skills']),
-    ],
-  },
+  topSubject('physics', 'Physics'),
+  topSubject('political_science', 'Political Science'),
+  topSubject('psychology', 'Psychology'),
   {
     subject_id: 'sanskrit',
     subject_name: 'Sanskrit',
@@ -287,27 +146,9 @@ export const CANONICAL_SYLLABUS = [
       unit('Sanskrit Literature', ['Padyam', 'Gadyam', 'Natyam', 'Sanskrit Literature']),
     ],
   },
-  {
-    subject_id: 'sociology',
-    subject_name: 'Sociology',
-    units: [
-      unit('Indian Society', ['Introducing Indian Society', 'Demographic Structure', 'Social Institutions', 'Patterns of Social Inequality', 'Challenges of Cultural Diversity']),
-      unit('Social Change and Development in India', ['Structural Change', 'Cultural Change', 'Story of Indian Democracy', 'Change & Development in Rural Society', 'Change & Development in Industrial Society', 'Market as a Social Institution', 'Globalisation & Social Change', 'Mass Media & Communications', 'Social Movements']),
-    ],
-  },
+  topSubject('sociology', 'Sociology'),
   simple('teaching_aptitude', 'Teaching Aptitude', 'Existing Teaching Aptitude Coverage', ['Teaching Methodology', 'Learning & Learner', 'Teaching Aids', 'Classroom Management', 'Assessment & Evaluation', 'Educational Psychology', 'Communication Skills', 'Research Aptitude', 'Information & Communication Technology']),
-  {
-    subject_id: 'gat',
-    subject_name: 'General Test',
-    units: [
-      unit('General Knowledge and Current Affairs', ['General Knowledge', 'Current Affairs']),
-      unit('General Mental Ability', ['General Mental Ability']),
-      unit('Numerical Ability', ['Numerical Ability']),
-      unit('Quantitative Reasoning', ['Quantitative Reasoning', 'Basic Mathematical Concepts', 'Statistical Data Analysis']),
-      unit('Logical and Analytical Reasoning', ['Logical & Analytical Reasoning']),
-      unit('General Science and Environment Literacy', ['General Science and Environment Literacy']),
-    ],
-  },
+  topSubject('gat', 'General Test'),
 ];
 
 export const SYLLABUS_MAP = new Map(
@@ -321,9 +162,21 @@ export function isTopSubject(subjectId) {
   return TOP_SUBJECTS.includes(String(subjectId || ''));
 }
 
+// Aliases and other spellings of a live chapter are accepted (resolved first); retired chapters, splits waiting for
+// their re-tag and unknown names are not. Writers store canonicalChapterName(subject, chapter).
 export function isValidTopSyllabusPair(subjectId, chapter) {
   const subject = String(subjectId || '');
-  return isTopSubject(subject) && SYLLABUS_MAP.has(subject) && SYLLABUS_MAP.get(subject).has(chapter);
+  if (!isTopSubject(subject) || !SYLLABUS_MAP.has(subject)) return false;
+  const resolved = resolveChapter(subject, chapter);
+  return Boolean(resolved && !resolved.retired);
+}
+
+/** The stored name to write for a chapter of a top subject (an alias becomes its chapter); other input unchanged. */
+export function canonicalChapterName(subjectId, chapter) {
+  const subject = String(subjectId || '');
+  if (!isTopSubject(subject)) return chapter;
+  const resolved = resolveChapter(subject, chapter);
+  return resolved && !resolved.retired ? resolved.name : chapter;
 }
 
 export function getCanonicalSubject(subjectId) {
@@ -339,7 +192,8 @@ export function getCanonicalChapters(subjectId) {
 export function getCanonicalUnitForChapter(subjectId, chapter) {
   const subject = getCanonicalSubject(subjectId);
   if (!subject) return null;
-  return subject.units.find((entry) => entry.chapters.includes(chapter)) || null;
+  const name = isTopSubject(subjectId) ? canonicalChapterName(subjectId, chapter) : chapter;
+  return subject.units.find((entry) => entry.chapters.includes(name)) || null;
 }
 
 export function isValidCanonicalChapter(subjectId, chapter) {
@@ -348,6 +202,15 @@ export function isValidCanonicalChapter(subjectId, chapter) {
 
 function unit(unit_name, chapters) {
   return { unit_name, chapters: unique(chapters) };
+}
+
+function topSubject(subject_id, subject_name) {
+  return { subject_id, subject_name, units: unitsFor(subject_id).map((entry) => unit(entry.unit, entry.chapters.map((chapter) => chapter.name))) };
+}
+
+// Kept for callers that list a top subject's live chapters with their display titles.
+export function getCanonicalChapterEntries(subjectId) {
+  return isTopSubject(subjectId) ? chaptersFor(subjectId) : [];
 }
 
 function simple(subject_id, subject_name, unitName, chapters) {

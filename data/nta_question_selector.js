@@ -1,5 +1,6 @@
 import OpenAI from 'openai';
 import { isValidTopSyllabusPair } from './canonical_syllabus.js';
+import { isRetiredChapter } from './cuet_syllabus.js';
 import { toInternalSubjectId } from './cuet_controls.js';
 import { normalizeOptionComparable } from './option_compare.js';
 import { assembleNtaPaper, longestPassageRun } from './nta_paper_pattern.js';
@@ -508,6 +509,9 @@ export function qualityGateNtaQuestion(row, context = {}) {
 
   if (isDeleted(row)) reasons.push('deleted_question');
   if (isWrongSubject(row, context)) reasons.push('wrong_subject');
+  // Syllabus v2 (data/cuet_syllabus.js): stored, never served.
+  if (row?.is_cuet_syllabus === false) reasons.push('off_syllabus');
+  if (subject && isRetiredChapter(subject, textValue(row?.chapter))) reasons.push('chapter_retired');
   if (!text || text.length < 10) reasons.push('question_missing_or_too_short');
   if (hasMalformedText(text)) reasons.push('malformed_question_text');
   if (hasPlaceholderText(text)) reasons.push('placeholder_question');

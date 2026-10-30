@@ -1,7 +1,7 @@
 {
   "$schema": "./_schema.json",
   "schemaVersion": 1,
-  "blueprintVersion": "2026.10.13-1",
+  "blueprintVersion": "2026.10.31-1",
   "subject": "economics",
   "internalSubject": "economics",
   "ntaCode": "309",
@@ -170,12 +170,6 @@
                   "max": 1
                 },
                 {
-                  "name": "Infrastructure",
-                  "min": 0,
-                  "target": 0,
-                  "max": 1
-                },
-                {
                   "name": "Environment & Sustainable Development",
                   "min": 0,
                   "target": 1,
@@ -195,7 +189,12 @@
       ]
     }
   ],
-  "excludedChapters": [],
+  "excludedChapters": [
+    {
+      "name": "Infrastructure",
+      "reason": "Retired in Syllabus v2 (31 Oct 2026): not in the CUET UG 2026 syllabus (docs/brain/intel-1031/syllabus-verified.md)."
+    }
+  ],
   "typeQuotas": {
     "single_mcq": {
       "min": 22,

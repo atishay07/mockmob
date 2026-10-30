@@ -1,7 +1,7 @@
 {
   "$schema": "./_schema.json",
   "schemaVersion": 1,
-  "blueprintVersion": "2026.10.13-1",
+  "blueprintVersion": "2026.10.31-1",
   "subject": "computer_science",
   "internalSubject": "computer_science",
   "ntaCode": "308",
@@ -65,15 +65,12 @@
                 },
                 {
                   "name": "Structured Query Language",
-                  "min": 3,
-                  "target": 5,
-                  "max": 7
-                },
-                {
-                  "name": "MySQL",
-                  "min": 1,
-                  "target": 2,
-                  "max": 4
+                  "min": 4,
+                  "target": 7,
+                  "max": 11,
+                  "aliases": [
+                    "MySQL"
+                  ]
                 },
                 {
                   "name": "Computer Networks",
@@ -213,15 +210,12 @@
                 },
                 {
                   "name": "Structured Query Language",
-                  "min": 3,
-                  "target": 5,
-                  "max": 7
-                },
-                {
-                  "name": "MySQL",
-                  "min": 1,
-                  "target": 2,
-                  "max": 4
+                  "min": 4,
+                  "target": 7,
+                  "max": 11,
+                  "aliases": [
+                    "MySQL"
+                  ]
                 },
                 {
                   "name": "Computer Networks",

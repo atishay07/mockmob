@@ -327,7 +327,9 @@ test('repeat misses carry their denominator: k of the m questions of this paper 
 
 test('untried says what was checked: no answers in the last N papers of the record, every paper in that span looked at', () => {
   const past = [1, 2, 3].map((d) => makeAttempt({ id: `ut-q${d}`, mode: 'quick', day: d, version: 'server_practice_v1', qs: paper(`ut${d}`, [['Partnership Fundamentals', 'RRRRR']]) }));
-  const cur = makeAttempt({ id: 'ut-mock', day: 6, telemetry: false, qs: paper('utm', [['Accounting Ratios', 'RRRW'], ['Share Capital', 'RRRW'], ['Debentures', 'RRRW'], ['Cash Flow Statement', 'RRRW'], ...filler()]) });
+  // Syllabus v2 merged "Dissolution of Partnership" into "... Firm", so Accountancy has one chapter fewer: this paper
+  // leaves Debentures out to keep four chapters open.
+  const cur = makeAttempt({ id: 'ut-mock', day: 6, telemetry: false, qs: paper('utm', [['Accounting Ratios', 'RRRW'], ['Share Capital', 'RRRWR'], ['Cash Flow Statement', 'RRRWRRR'], ...filler()]) });
   const inRecord = new Set([...cur.questionsSnapshot.map((q) => q.chapter), 'Partnership Fundamentals']);
   const open = getCanonicalChapters('accountancy').filter((c) => !inRecord.has(c));
   assert.ok(open.length >= 4, 'the fixture leaves at least 4 syllabus chapters open');

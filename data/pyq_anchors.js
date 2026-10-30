@@ -10,28 +10,14 @@ import {
   toPublicSubjectId,
 } from './cuet_controls.js';
 import { getEnglishConceptFamily } from '../scripts/pipeline/lib/englishGenerationMode.mjs';
+import { resolveChapter } from './cuet_syllabus.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const STRUCTURED_PYQ_ANCHOR_ROOT = join(__dirname, 'pyq_anchors');
 const LIVE_SOURCE_QUALITIES = new Set(['real_pyq', 'manual_seed']);
 
-const LEGACY_CHAPTER_MAP = Object.freeze({
-  accountancy: {
-    Partnership: 'Partnership Fundamentals',
-  },
-  economics: {
-    'National Income': 'National Income & Related Aggregates',
-  },
-  business_studies: {
-    Management: 'Nature & Significance of Management',
-  },
-  english: {
-    Grammar: 'Correct Word Usage',
-  },
-  gat: {
-    GK: 'General Knowledge',
-  },
-});
+// Legacy anchor chapter names (Partnership, National Income, Management, Grammar, GK) now live in the one alias map,
+// data/cuet_syllabus.js CHAPTER_ALIASES; normalizeLegacyChapter resolves through it.
 
 const DIFFICULTY_RANK = Object.freeze({ easy: 0, medium: 1, hard: 2 });
 const SIMPLE_STRUCTURE_RANK = Object.freeze({
@@ -101,7 +87,8 @@ function inferOptionPattern(options, correctIndex) {
 }
 
 function normalizeLegacyChapter(subject, chapter) {
-  return LEGACY_CHAPTER_MAP[subject]?.[chapter] || chapter;
+  const resolved = resolveChapter(subject, chapter);
+  return resolved && !resolved.retired ? resolved.name : chapter;
 }
 
 function getAnchorEnglishFamily(anchor) {

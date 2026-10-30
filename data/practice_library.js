@@ -3,8 +3,12 @@ import { excludeHeldFamilies } from './evidence_holds.js';
 import { legacyPracticeVisible } from './practice_availability.js';
 import { verifyAnswerIntegrity } from './answer_integrity.js';
 import { FACTORY_POLICY } from './question_factory_policy.mjs';
+import { isServableQuestion } from './cuet_syllabus.js';
 
-export async function readablePracticeQuestions(rows, db, { requireEvidence = false } = {}) {
+export async function readablePracticeQuestions(rows, db, { requireEvidence = false, syllabusOption = null } = {}) {
+  // Syllabus v2 (data/cuet_syllabus.js): never a retired chapter or an is_cuet_syllabus=false row, on any student
+  // surface; with the student's saved option (Maths, CS, Accountancy), only the sections that option sits.
+  rows = rows.filter(row => isServableQuestion(row, { option: syllabusOption }));
   // Apply the same structural answer and community quality floor to inventory
   // aggregates and every selector. These checks do not certify academic truth.
   rows = rows.filter(row => String(row.body ?? row.question ?? '').trim() && Number(row.score ?? 0) >= -2 && verifyAnswerIntegrity(row).accepted);

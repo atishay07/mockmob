@@ -1,7 +1,7 @@
 {
   "$schema": "./_schema.json",
   "schemaVersion": 1,
-  "blueprintVersion": "2026.10.13-1",
+  "blueprintVersion": "2026.10.31-1",
   "subject": "accountancy",
   "internalSubject": "accountancy",
   "ntaCode": "301",
@@ -116,16 +116,13 @@
                   "name": "Dissolution of Partnership Firm",
                   "min": 0,
                   "target": 8,
-                  "max": 10
-                },
-                {
-                  "name": "Dissolution of Partnership",
-                  "min": 0,
-                  "target": 0,
-                  "max": 10
+                  "max": 10,
+                  "aliases": [
+                    "Dissolution of Partnership"
+                  ]
                 }
               ],
-              "note": "The two chapter names are one syllabus topic; count them together."
+              "note": "Syllabus v2 merged the two names; the old one is an alias."
             },
             {
               "name": "Company Accounts: Accounting for Share and Debenture Capital",

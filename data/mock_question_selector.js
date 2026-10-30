@@ -1,4 +1,5 @@
 import { computeDifficultyTargets } from './test_modes.js';
+import { filterServable } from './cuet_syllabus.js';
 
 export const MOCK_SELECTION_POLICY = 'evidence_first_latest_usage_aware';
 
@@ -35,7 +36,8 @@ function legacyRankCandidates(rows, { mode, progress, weakConcepts }) {
 }
 
 export function rankCandidates(rows, { mode, progress = new Map(), weakConcepts = new Set() } = {}) {
-  const safeRows = Array.isArray(rows) ? rows : [];
+  // Syllabus v2: a retired-chapter or is_cuet_syllabus=false row is never ranked, so never served.
+  const safeRows = filterServable(rows);
   if (mode?.id === 'nta') return legacyRankCandidates(safeRows, { mode, progress, weakConcepts });
 
   return safeRows

@@ -1,7 +1,7 @@
 {
   "$schema": "./_schema.json",
   "schemaVersion": 1,
-  "blueprintVersion": "2026.10.13-1",
+  "blueprintVersion": "2026.10.31-1",
   "subject": "geography",
   "internalSubject": "geography",
   "ntaCode": "313",
@@ -75,14 +75,8 @@
                 {
                   "name": "Population — Distribution, Density, Growth",
                   "min": 2,
-                  "target": 3,
-                  "max": 5
-                },
-                {
-                  "name": "Migration",
-                  "min": 0,
-                  "target": 1,
-                  "max": 2
+                  "target": 4,
+                  "max": 6
                 },
                 {
                   "name": "Human Development",
@@ -173,16 +167,25 @@
               },
               "chapters": [
                 {
-                  "name": "Resources & Development",
-                  "min": 3,
-                  "target": 5,
-                  "max": 7
+                  "name": "Land Resources and Agriculture",
+                  "min": 1,
+                  "target": 2,
+                  "max": 4,
+                  "aliases": [
+                    "Resources & Development"
+                  ]
                 },
                 {
-                  "name": "Manufacturing Industries",
+                  "name": "Water Resources",
                   "min": 0,
-                  "target": 0,
-                  "max": 1
+                  "target": 1,
+                  "max": 2
+                },
+                {
+                  "name": "Mineral and Energy Resources",
+                  "min": 0,
+                  "target": 2,
+                  "max": 3
                 },
                 {
                   "name": "Planning & Sustainable Development",
@@ -190,7 +193,8 @@
                   "target": 5,
                   "max": 7
                 }
-              ]
+              ],
+              "note": "Syllabus v2: the CUET unit holds four NCERT chapters. Until the re-tag pass splits them, questions still tagged \"Resources & Development\" fill the Land Resources slot."
             },
             {
               "name": "Geographical Perspective on Selected Issues and Problems",
@@ -213,7 +217,16 @@
       ]
     }
   ],
-  "excludedChapters": [],
+  "excludedChapters": [
+    {
+      "name": "Migration",
+      "reason": "Retired in Syllabus v2 (31 Oct 2026): not in the CUET UG 2026 syllabus (docs/brain/intel-1031/syllabus-verified.md)."
+    },
+    {
+      "name": "Manufacturing Industries",
+      "reason": "Retired in Syllabus v2 (31 Oct 2026): not in the CUET UG 2026 syllabus (docs/brain/intel-1031/syllabus-verified.md)."
+    }
+  ],
   "typeQuotas": {
     "single_mcq": {
       "min": 21,

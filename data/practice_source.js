@@ -112,7 +112,7 @@ export function createPracticeSource({ db, subjectId, mode, opts = {}, targetCou
       return rows;
     },
     attachPassages: hooks.attachPassages,
-    readable: (rows) => readablePracticeQuestions(rows, db, { requireEvidence: opts.requireEvidence === true }),
+    readable: (rows) => readablePracticeQuestions(rows, db, { requireEvidence: opts.requireEvidence === true, syllabusOption: opts.syllabusOption || null }),
     recentIds: hooks.recentIds,
     userProgress: hooks.userProgress,
     weakConcepts: hooks.weakConcepts,

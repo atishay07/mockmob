@@ -29,6 +29,7 @@
 import { rankCandidates, pickWithConstraints, buildSelectionUsageMeta, questionCreatedTime } from './mock_question_selector.js';
 import { isPassageLinkedQuestion } from './nta_question_selector.js';
 import { FACTORY_POLICY } from './question_factory_policy.mjs';
+import { filterServable } from './cuet_syllabus.js';
 
 export const PRACTICE_POOL_CACHE_MS = 5 * 60 * 1000;
 export const MAX_VERIFY_ROUNDS = 8;
@@ -95,7 +96,8 @@ const finished = ({ selected, selectionUsage }, targetCount, warn) => {
  */
 export async function pickFromFullPool(source, ctx) {
   const { mode, targetCount, opts } = ctx;
-  let pool = await source.loadFullPool();
+  // Syllabus v2: retired chapters, is_cuet_syllabus=false rows and (with a saved option) other sections never enter.
+  let pool = filterServable(await source.loadFullPool(), { option: opts.syllabusOption || null });
   if (mode.id === 'quick') pool = pool.filter((row) => !isPassageLinkedQuestion(row));
   pool = await source.attachPassages(pool);
   pool = await source.readable(pool);
@@ -134,7 +136,7 @@ export async function pickFromLightPool(source, ctx) {
   const { mode, targetCount, opts } = ctx;
   const stats = ctx.stats || {};
   const light = await source.loadLightPool();
-  let rows = light.rows;
+  let rows = filterServable(light.rows, { option: opts.syllabusOption || null });
   if (mode.id === 'quick') rows = rows.filter((row) => !isPassageLinkedQuestion(row));
   rows = await source.attachPassages(rows);
   const managed = (row) => light.managedIds.has(row.id);
