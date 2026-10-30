@@ -17,8 +17,13 @@ export const isProRequired = (e) => e?.status === 402 && e?.body?.error === 'PRO
 export const readHome = () => apiGet('/api/keycards');
 /** GET /api/keycards/deck?chapter=: { chapter, cards, counts: { total, mustKnow, locked }, added } */
 export const readDeck = (chapterKey) => apiGet(`/api/keycards/deck?chapter=${q(chapterKey)}`);
-/** POST /api/keycards/add with { chapter } or { cardIds }: { added, today } */
-export const addToRevise = (input) => apiPost('/api/keycards/add', input?.chapter ? { chapter: input.chapter } : { cardIds: [...(input?.cardIds || [])] });
+/**
+ * POST /api/keycards/add with { chapter } or { cardIds }: { added, today }. "The line you needed" also sends from: 'mistake'
+ * (the kc-server route records it as added_from 'mistake'; without it a card list is 'manual').
+ */
+export const addToRevise = (input) => apiPost('/api/keycards/add', input?.chapter
+  ? { chapter: input.chapter }
+  : { cardIds: [...(input?.cardIds || [])], ...(input?.from === 'mistake' ? { from: 'mistake' } : {}) });
 /** GET /api/keycards/due?limit=: { cards, today } */
 export const readDue = (limit = 20) => apiGet(`/api/keycards/due?limit=${q(limit)}`);
 /** POST /api/keycards/review: { ok, next: { due_at, interval_days }, today }; 402 PRO_REQUIRED for Free over the day's reviews. */

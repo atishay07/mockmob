@@ -46,7 +46,7 @@ import { useMyDailySet } from '@/components/useMyDailySet';
 import { SUBJECTS } from '../../../data/subjects';
 import { readCap, saveCap, useRevise } from './useRevise';
 import {
-  advance, answeredCount, estimateMinutes, filterSource, footLine, headLine, isFinished, itemKey, kindLine, mergeQueue, mixParts, nextWhen, positionLine, recordAnswer,
+  advance, answeredCount, filterSource, footLine, headLine, isFinished, itemKey, kindLine, mergeQueue, mixParts, nextWhen, positionLine, recordAnswer,
   skipItem, startRun, summary,
 } from './reviseQueue';
 import { KeyCardPlayer, ProGate } from '../keycards/KeyCard';
@@ -60,6 +60,9 @@ const RUN = R.run;
 const LETTERS = 'ABCDEFGH';
 const fill = (t, v) => String(t).replace(/\{(\w+)\}/g, (w, k) => (k in v ? String(v[k]) : w));
 const SEND_FAILED = 'Your answer was not saved. Try again.';
+// The head line with the right number word: a short Key cards run can take one minute ("about 1 minute", never "1 minutes").
+const runHead = (total, minutes) => headLine(total, minutes).replace(/about 1 minutes/, 'about 1 minute');
+const FILTERED_KEYCARDS = 'Showing your Key cards.';
 const newKey = () => (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`).replace(/[^a-zA-Z0-9_-]/g, '');
 
 /** "8 recalled, 2 come back tomorrow" (the same words as data/revise.js endLine). */
@@ -335,9 +338,9 @@ function ConceptRun({ count, position, onProgress, onFinished }) {
 /**
  * A due Key card (KEYCARDS-BUILD-SPEC.md section 3): the same card player as Study, recorded with mode 'revise'. A rating counts
  * once the server has it, then the run moves on. Free over the day's 10 card reviews (402) says so, offers Pro once, and lets the
- * student skip today's remaining Key cards while the rest of the run carries on.
+ * student skip today's remaining Key cards while the rest of the run carries on. Missed is "not recalled" for the run's tally.
  */
-function KeycardItem({ item, at, total, onConfirmed, onNext, onSkipKeycards }) {
+function KeyCardRun({ item, at, total, onConfirmed, onNext, onSkipKeycards, moreAfter }) {
   const { user } = useAuth() || {};
   const [limited, setLimited] = useState(false);
   const card = item.card || item;
@@ -346,11 +349,11 @@ function KeycardItem({ item, at, total, onConfirmed, onNext, onSkipKeycards }) {
     <div className={`kc kc--inline ${ncertFont.variable}`}>
       <KindLine item={item} at={at} total={total} />
       {limited ? (
-        <section className="rvs-card" aria-live="polite">
-          <p className="rvs-result__line">Today’s free card reviews are used</p>
-          <p className="rvs-result__why">Free includes 10 Key card reviews a day. These cards stay due and come back tomorrow.</p>
+        <section className="kc-end kc-end--limit" aria-live="polite">
+          <h2 className="kc-end__title">Today’s free card reviews are used</h2>
+          <p className="kc-end__line">Free includes 10 Key card reviews a day. These cards stay due and come back tomorrow.</p>
+          <div className="kc-end__keys"><button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={onSkipKeycards}>{moreAfter ? 'Go on without Key cards' : 'Finish for today'}</button></div>
           <ProGate isPro={user?.isPremium === true} />
-          <button type="button" className="rvs-next" onClick={onSkipKeycards}>Skip the Key cards for today</button>
         </section>
       ) : (
         <KeyCardPlayer card={card} mode="revise" onRated={rated} onLimit={() => setLimited(true)} />
@@ -446,14 +449,16 @@ function RunView({ queue, data, cap, onCap, source, backHref, schedule }) {
   const current = run.items[run.at];
   const sum = summary(run);
   const parts = mixParts({ ...queue.counts, keycards: queue.counts?.keycards ?? queue.items.filter((i) => i.kind === 'keycard').length });
+  // Key cards rated Missed in this run: they come back soon on their own schedule.
+  const kcMissed = Object.values(run.answers).filter((a) => a.kind === 'keycard' && !a.skipped && !a.correct).length;
   const last = run.at + 1 >= run.items.length;
 
   return (
     <section className="pr rvs">
       <Link className="rvs-back" href={backHref}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" />Your papers</Link>
-      <ArenaHead title={R.title} lede={finished ? null : headLine(queue.total, estimateMinutes(queue.items) || queue.minutes)} />
+      <ArenaHead title={R.title} lede={finished ? null : runHead(queue.total, queue.minutes)} />
       {source ? (
-        <p className="rvs-filter">{RUN.filtered[source] || null}{' '}<Link className="rvs-link" href={schedule.allHref}>{RUN.filtered.all}</Link></p>
+        <p className="rvs-filter">{(source === 'keycards' ? FILTERED_KEYCARDS : RUN.filtered[source]) || null}{' '}<Link className="rvs-link" href={schedule.allHref}>{RUN.filtered.all}</Link></p>
       ) : null}
       {finished ? null : (
         <>
@@ -465,7 +470,7 @@ function RunView({ queue, data, cap, onCap, source, backHref, schedule }) {
       )}
 
       {current?.kind === 'keycard' ? (
-        <KeycardItem key={itemKey(current)} item={current} at={run.at} total={run.items.length} onConfirmed={confirmed} onNext={next} onSkipKeycards={skipKeycards} />
+        <KeyCardRun key={itemKey(current)} item={current} at={run.at} total={run.items.length} onConfirmed={confirmed} onNext={next} onSkipKeycards={skipKeycards} moreAfter={run.items.slice(run.at).some((i) => i.kind !== 'keycard')} />
       ) : current?.kind === 'card' ? (
         <ConceptRun key="cards" count={cardCount} position={positionLine(run.at, run.items.length)} onProgress={onCardProgress} onFinished={onCardsFinished} />
       ) : current?.kind === 'check' ? (
@@ -482,7 +487,7 @@ function RunView({ queue, data, cap, onCap, source, backHref, schedule }) {
             <p className="rvs-end__sub">{[sum.held ? `${sum.held} ${RUN.end.held.toLowerCase()}` : null, sum.slipped ? `${sum.slipped} ${RUN.end.slipped.toLowerCase()}` : null].filter(Boolean).join('. ')}.</p>
           ) : null}
           {sum.cards ? <p className="rvs-end__sub">{fill(RUN.end.cards, { n: sum.cards })}</p> : null}
-          {sum.keycards ? <p className="rvs-end__sub">{sum.keycards} {sum.keycards === 1 ? 'Key card' : 'Key cards'} reviewed{sum.keycardsMissed ? `, ${sum.keycardsMissed} missed and coming back soon` : ''}.</p> : null}
+          {sum.keycards ? <p className="rvs-end__sub">{sum.keycards} {sum.keycards === 1 ? 'Key card' : 'Key cards'} reviewed{kcMissed ? `, ${kcMissed} missed and coming back soon` : ''}.</p> : null}
           {forgot.length ? (
             <p className="rvs-end__sub">
               {[...new Map(forgot.map((f) => [f.unitId, f])).values()].map((f, i) => (

@@ -51,7 +51,7 @@ import ReviseRun from '@/components/revise/ReviseRun';
 import KeycardsHome from '@/components/keycards/KeycardsHome';
 import ChapterDeck from '@/components/keycards/ChapterDeck';
 import { fixtureKeycards, fixtureReviseKeycards } from '@/components/keycards/fixtures';
-import { estimateMinutes, headLine as reviseHeadLine } from '@/components/revise/reviseQueue';
+import { headLine as reviseHeadLine, keycardMinutes, mixLine as reviseMixLine } from '@/components/revise/reviseQueue';
 import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
 import { withActiveRule } from '@/components/result/labLoop';
 import MobPage from '@/components/mob/MobPage';
@@ -506,13 +506,21 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       if (kind === 'down' || state === 'empty') return json({ version: 1, state: 'unavailable', message: 'Revise is not available right now. Try again shortly.', items: [] }, 503);
       if (kind === 'empty') return json(fixtureRevise('empty'));
       if (kind === 'legacy') return json(fixtureReviseLegacy());
-      // ?revise=keycards: the design student's queue with three due Key cards as the third source (composeQueue, kc-server).
+      // ?revise=keycards: the design student's queue with three due Key cards as the third source, shaped as the kc-server
+      // branch builds it (src/lib/server/revise.js): the queue (?queue=1) carries the keycard items after the other sources;
+      // the plain body (Today's read) carries keyCards: { due, today, minutes } instead.
       if (kind === 'keycards') {
         const body = fixtureReviseQueue('ready');
-        const items = [...body.queue.items, ...fixtureReviseKeycards({ isPro: fixture.get('plan') === 'pro' })];
-        const counts = { ...body.queue.counts, keycards: items.filter((i) => i.kind === 'keycard').length };
-        const minutes = estimateMinutes(items);
-        return json({ ...body, due: items.length, minutes, keycards: counts.keycards, queue: { ...body.queue, items, counts, total: items.length, minutes, head: reviseHeadLine(items.length, minutes) } });
+        const kc = fixtureReviseKeycards({ isPro: fixture.get('plan') === 'pro' });
+        const kcMinutes = keycardMinutes(kc.length);
+        if (url.searchParams.get('queue') !== '1') {
+          const { queue: _q, ...plain } = body;
+          return json({ ...plain, keyCards: { due: kc.length, today: kc.length, minutes: kcMinutes } });
+        }
+        const items = [...body.queue.items, ...kc];
+        const counts = { ...body.queue.counts, keycards: kc.length };
+        const minutes = body.queue.minutes + kcMinutes;
+        return json({ ...body, queue: { ...body.queue, items, counts, total: items.length, minutes, head: reviseHeadLine(items.length, minutes), mix: reviseMixLine(counts) } });
       }
       return json(fixtureReviseQueue(kind));
     }

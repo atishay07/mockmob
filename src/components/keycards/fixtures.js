@@ -13,6 +13,10 @@
 //   sparse           one subject, two chapters, nothing added
 //   limit            Free has used today's 10 reviews: POST review answers 402
 //   line-none        "The line you needed" finds nothing (the block hides)
+//   line-limit       Free has used today's 3 lines: GET line answers 402 PRO_REQUIRED keycard_line (the block hides)
+//   error            every GET answers 503 (the screens show Try again)
+
+import { KIND_LABELS } from './kinds.js';
 
 const BS = 'business_studies';
 const CH1 = `${BS}.nature-and-significance-of-management`;
@@ -130,9 +134,10 @@ const AC_RATIOS = [
 
 // Accountancy Part 1, chapter 2 (Admission of a Partner): the two cards "The line you needed" shows under the preview paper's
 // partnership questions.
-const AD_CH = `${AC}.reconstitution-of-a-partnership-firm-admission-of-a-partner`;
+// Keys and titles as data/cuet_syllabus.js (web/1031-syllabus) builds them: key = subject + slug(stored name), title = display.
+const AD_CH = `${AC}.admission-of-partner`;
 const ad = (slug, kind, front, quote, extra) => ({
-  id: `kc.${AC}.reconstitution-of-a-partnership-firm-admission-of-a-partner.${slug}`, v: 1, subject: AC, chapterKey: AD_CH, chapter: 'Reconstitution of a Partnership Firm: Admission of a Partner', unit: 'Accounting for Partnership Firms',
+  id: `kc.${AC}.admission-of-partner.${slug}`, v: 1, subject: AC, chapterKey: AD_CH, chapter: 'Admission of a Partner', unit: 'Reconstitution of a Partnership firm',
   kind, front, back: extra.back || quote, quote, blanks: extra.blanks || [], source: { kind: 'ncert', book: 'Accountancy Part 1', code: 'leac102', chapterNo: 2, page: extra.page, section: 'Sacrificing Ratio' }, importance: 'must', asked: extra.asked || 0, tags: [], order: extra.order,
 });
 const AC_ADMISSION = [
@@ -144,65 +149,84 @@ export const FIXTURE_DECKS = Object.freeze({ [CH1]: BS_CH1, [AC_CH]: AC_RATIOS, 
 
 const KEYCARD_FREE = { tastePerChapter: 5, reviewsPerDay: 10, newPerDay: 5, lineNeededPerDay: 3 };
 
-/** deckView as data/keycards.js defines it: Free gets the first 5 of each chapter (Must-know first among ties) whole, the rest as stubs. */
+const bookOrder = (a, b) => (a.order - b.order) || String(a.id).localeCompare(String(b.id));
+const mustFirst = (a, b) => (a.importance === 'must' ? 0 : 1) - (b.importance === 'must' ? 0 : 1);
+/** The taste cards, as data/keycards.js tasteIds picks them: Must-know first, then book order, 5 a chapter. */
+export const fixtureTasteIds = (cards) => new Set([...cards].sort((a, b) => mustFirst(a, b) || bookOrder(a, b)).slice(0, KEYCARD_FREE.tastePerChapter).map((c) => c.id));
+
+/** deckView as data/keycards.js defines it: in book order; Free gets the taste cards whole and the rest as stubs. */
 export function fixtureDeckView(cards, isPro) {
-  const sorted = [...cards].sort((a, b) => a.order - b.order);
+  const sorted = [...cards].sort(bookOrder);
   if (isPro) return sorted;
-  const taste = new Set([...sorted].sort((a, b) => (a.order - b.order) || ((a.importance === 'must' ? 0 : 1) - (b.importance === 'must' ? 0 : 1))).slice(0, KEYCARD_FREE.tastePerChapter).map((c) => c.id));
-  return sorted.map((c) => (taste.has(c.id) ? c : { id: c.id, kind: c.kind, label: KIND_LABEL[c.kind] || 'Card', locked: true }));
+  const taste = fixtureTasteIds(sorted);
+  return sorted.map((c) => (taste.has(c.id) ? c : { id: c.id, kind: c.kind, label: KIND_LABELS[c.kind] || 'Card', locked: true }));
 }
-const KIND_LABEL = { definition: 'Definition', term: 'Term', key_line: 'Key line', list: 'List', types: 'Types', fact: 'Fact', formula: 'Formula' };
 
 // ---------------------------------------------------------------- GET /api/keycards
 
 const st = (state, fading = false) => ({ state, label: { none: 'Not started', thin: 'Too few answers', weak: 'Needs work', mid: 'Getting there', strong: 'Holding' }[state], fading });
 const ch = (subject, slug, title, book, chapter, extra = {}) => ({
-  key: `${subject}.${slug}`, title, ncert: { book, chapter }, chip: null, cards: 0, mustKnow: 0, unlocked: 0, added: 0, due: 0, state: st('none'), ...extra,
+  key: `${subject}.${slug}`, title, ncert: book ? { book, chapter } : null, chip: null, cards: 0, mustKnow: 0, unlocked: 0, added: 0, due: 0, state: st('none'), ...extra,
 });
 
 function homeSubjects(isPro) {
   const open = (n) => (isPro ? n : Math.min(5, n));
   const BS1 = 'Business Studies Part 1';
   const BS2 = 'Business Studies Part 2';
+  const AC1 = 'Accountancy Part 1';
+  const AC2 = 'Accountancy Part 2';
   const ch1Must = BS_CH1.filter((c) => c.importance === 'must').length;
   return [
     {
       subject: BS, title: 'Business Studies', option: null,
       units: [
-        { unit: 'Nature and Significance of Management', chapters: [ch(BS, 'nature-and-significance-of-management', CH1_TITLE, BS1, 1, { cards: BS_CH1.length, mustKnow: ch1Must, unlocked: open(BS_CH1.length), added: isPro ? ch1Must : 5, due: isPro ? 6 : 3, state: st('mid') })] },
-        { unit: 'Principles of Management', chapters: [ch(BS, 'principles-of-management', 'Principles of Management', BS1, 2, { cards: 38, mustKnow: 23, unlocked: open(38), added: isPro ? 23 : 5, due: isPro ? 4 : 2, state: st('weak') })] },
-        { unit: 'Business Environment', chapters: [ch(BS, 'business-environment', 'Business Environment', BS1, 3, { cards: 24, mustKnow: 15, unlocked: open(24), added: isPro ? 15 : 0, due: isPro ? 2 : 0, state: st('strong', true) })] },
+        { unit: 'Nature and Significance of Management', chapters: [ch(BS, 'nature-and-significance-of-management', CH1_TITLE, BS1, 1, { cards: BS_CH1.length, mustKnow: ch1Must, unlocked: open(BS_CH1.length), added: isPro ? ch1Must : 0, due: isPro ? 6 : 0, state: st('mid') })] },
+        { unit: 'Principles of Management', chapters: [ch(BS, 'principles-of-management', 'Principles of Management', BS1, 2, { cards: 38, mustKnow: 23, unlocked: open(38), added: isPro ? 23 : 5, due: isPro ? 4 : 3, state: st('weak') })] },
+        { unit: 'Business Environment', chapters: [ch(BS, 'business-environment', 'Business Environment', BS1, 3, { cards: 24, mustKnow: 15, unlocked: open(24), added: isPro ? 15 : 5, due: 2, state: st('strong', true) })] },
         { unit: 'Planning', chapters: [ch(BS, 'planning', 'Planning', BS1, 4, { cards: 29, mustKnow: 18, unlocked: open(29), state: st('thin') })] },
         { unit: 'Organising', chapters: [ch(BS, 'organising', 'Organising', BS1, 5, { cards: 41, mustKnow: 25, unlocked: open(41), state: st('none') })] },
         { unit: 'Staffing', chapters: [ch(BS, 'staffing', 'Staffing', BS1, 6, { cards: 33, mustKnow: 20, unlocked: open(33), added: isPro ? 20 : 0, due: isPro ? 2 : 0, state: st('strong') })] },
         { unit: 'Directing', chapters: [ch(BS, 'directing', 'Directing', BS1, 7, { cards: 44, mustKnow: 27, unlocked: open(44), state: st('none') })] },
         { unit: 'Controlling', chapters: [ch(BS, 'controlling', 'Controlling', BS1, 8, { cards: 21, mustKnow: 13, unlocked: open(21), state: st('thin') })] },
-        { unit: 'Financial Management', chapters: [ch(BS, 'financial-management', 'Financial Management', BS2, 9, { cards: 0, state: st('mid') })] },
-        { unit: 'Financial Markets', chapters: [ch(BS, 'financial-markets', 'Financial Markets', BS2, 10, { chip: 'CUET only', cards: 31, mustKnow: 19, unlocked: open(31), state: st('none') })] },
-        { unit: 'Marketing Management', chapters: [ch(BS, 'marketing', 'Marketing', BS2, 11, { cards: 36, mustKnow: 22, unlocked: open(36), state: st('none') })] },
-        { unit: 'Consumer Protection', chapters: [ch(BS, 'consumer-protection', 'Consumer Protection', BS2, 12, { cards: 18, mustKnow: 11, unlocked: open(18), state: st('none') })] },
+        { unit: 'Business Finance', chapters: [ch(BS, 'financial-management', 'Financial Management', BS2, 9, { cards: 0, state: st('mid') })] },
+        // CUET 2026 Unit X: no NCERT chapter on record, so no book reference (the syllabus has ncert null).
+        { unit: 'Financial Markets', chapters: [ch(BS, 'financial-markets', 'Financial Markets', null, null, { chip: 'CUET only', cards: 0, state: st('none') })] },
+        { unit: 'Marketing', chapters: [ch(BS, 'marketing-management', 'Marketing', BS2, 10, { cards: 36, mustKnow: 22, unlocked: open(36), state: st('none') })] },
+        { unit: 'Consumer Protection', chapters: [ch(BS, 'consumer-protection', 'Consumer Protection', BS2, 11, { cards: 18, mustKnow: 11, unlocked: open(18), state: st('none') })] },
       ],
     },
     {
       subject: AC, title: 'Accountancy', option: 'AFS',
       options: { label: 'Part', choices: [{ id: 'AFS', label: 'Analysis of Financial Statements' }, { id: 'CAS', label: 'Computerised Accounting' }], default: 'AFS' },
       units: [
-        { unit: 'Accounting for Partnership Firms', chapters: [
-          ch(AC, 'accounting-for-partnership-firms-fundamentals', 'Accounting for Partnership Firms: Fundamentals', 'Accountancy Part 1', 1, { cards: 0, state: st('weak') }),
-          ch(AC, 'reconstitution-of-a-partnership-firm-admission-of-a-partner', 'Reconstitution of a Partnership Firm: Admission of a Partner', 'Accountancy Part 1', 2, { cards: AC_ADMISSION.length, mustKnow: 2, unlocked: AC_ADMISSION.length, added: 0, due: 0, state: st('weak') }),
+        { unit: 'Accounting for Partnership', chapters: [
+          ch(AC, 'partnership-fundamentals', 'Accounting for Partnership: Basic Concepts', AC1, 1, { cards: 0, state: st('weak') }),
+          ch(AC, 'profit-and-loss-appropriation-account', 'Profit and Loss Appropriation Account', AC1, 1, { cards: 0, state: st('thin') }),
+        ] },
+        { unit: 'Reconstitution of a Partnership firm', chapters: [
+          ch(AC, 'change-in-profit-sharing-ratio', 'Change in Profit Sharing Ratio', AC1, 2, { cards: 0 }),
+          ch(AC, 'goodwill-valuation', 'Goodwill: Nature and Valuation', AC1, 2, { cards: 0, state: st('weak') }),
+          ch(AC, 'admission-of-partner', 'Admission of a Partner', AC1, 2, { cards: AC_ADMISSION.length, mustKnow: 2, unlocked: AC_ADMISSION.length, added: 0, due: 0, state: st('weak') }),
+          ch(AC, 'retirement-and-death-of-partner', 'Retirement/Death of a Partner', AC1, 3, { cards: 0, state: st('mid') }),
+        ] },
+        { unit: 'Dissolution of Partnership Firm', chapters: [ch(AC, 'dissolution-of-partnership-firm', 'Dissolution of Partnership Firm', AC1, 4, { cards: 0 })] },
+        { unit: 'Company Accounts: Accounting for Share and Debenture Capital', chapters: [
+          ch(AC, 'share-capital', 'Accounting for Share Capital', AC2, 1, { cards: 0, state: st('weak') }),
+          ch(AC, 'debentures', 'Issue and Redemption of Debentures', AC2, 2, { cards: 0 }),
         ] },
         { unit: 'Analysis of Financial Statements', chapters: [
-          ch(AC, 'financial-statements-of-a-company', 'Financial Statements of a Company', 'Accountancy Part 2', 3, { cards: 0 }),
-          ch(AC, 'accounting-ratios', 'Accounting Ratios', 'Accountancy Part 2', 5, { cards: AC_RATIOS.length, mustKnow: 5, unlocked: open(AC_RATIOS.length), added: isPro ? 5 : 0, due: isPro ? 2 : 0, state: st('thin') }),
-          ch(AC, 'cash-flow-statement', 'Cash Flow Statement', 'Accountancy Part 2', 6, { cards: 0, state: st('none') }),
+          ch(AC, 'financial-statements-of-company', 'Financial Statements of a Company', AC2, 3, { cards: 0 }),
+          ch(AC, 'accounting-ratios', 'Accounting Ratios', AC2, 5, { cards: AC_RATIOS.length, mustKnow: 5, unlocked: open(AC_RATIOS.length), added: isPro ? 5 : 0, due: isPro ? 2 : 0, state: st('thin') }),
+          ch(AC, 'cash-flow-statement', 'Cash Flow Statement', AC2, 6, { cards: 0, state: st('none') }),
         ] },
       ],
     },
     {
       subject: 'economics', title: 'Economics', option: null,
       units: [
-        { unit: 'Introduction to Microeconomics', chapters: [ch('economics', 'introduction', 'Introduction', 'Introductory Microeconomics', 1, { chip: 'CBSE teaches this in Class 11', cards: 0 })] },
-        { unit: 'National Income and Related Aggregates', chapters: [ch('economics', 'national-income-accounting', 'National Income Accounting', 'Introductory Macroeconomics', 2, { cards: 0, state: st('weak') })] },
+        { unit: 'Introduction, Theory of Consumer Behaviour', chapters: [ch('economics', 'introduction-and-theory-of-consumer-behaviour', 'Introduction, Theory of Consumer Behaviour', 'Introductory Microeconomics', 2, { chip: 'CBSE teaches this in Class 11', cards: 0 })] },
+        { unit: 'Production and Costs', chapters: [ch('economics', 'production-and-costs', 'Production and Costs', 'Introductory Microeconomics', 3, { chip: 'CBSE teaches this in Class 11', cards: 0 })] },
+        { unit: 'Introduction and National Income Accounting', chapters: [ch('economics', 'national-income-and-related-aggregates', 'Introduction and National Income Accounting', 'Introductory Macroeconomics', 2, { cards: 0, state: st('weak') })] },
       ],
     },
   ];
@@ -231,7 +255,9 @@ export function fixtureDeck(key, { isPro = false, variant = 'ready', added = nul
   const all = variant === 'empty' ? [] : FIXTURE_DECKS[key] || [];
   const cards = fixtureDeckView(all, isPro);
   const mustIds = all.filter((c) => c.importance === 'must').map((c) => c.id);
-  const addedIds = added || (variant === 'sparse' ? [] : isPro ? mustIds : cards.filter((c) => !c.locked).map((c) => c.id));
+  // What this student has in Revise: as many as the home row says (none, or the chapter's whole add set).
+  const homeRow = homeSubjects(isPro).flatMap((s) => s.units.flatMap((u) => u.chapters)).find((c) => c.key === key);
+  const addedIds = added || (variant === 'sparse' || !homeRow?.added ? [] : isPro ? mustIds : cards.filter((c) => !c.locked).map((c) => c.id));
   const { subject: _s, subjectTitle: _t, ...head } = chapter;
   return { chapter: head, cards, counts: { total: all.length, mustKnow: mustIds.length, locked: cards.filter((c) => c.locked).length }, added: addedIds.filter((id) => all.some((c) => c.id === id)) };
 }
@@ -244,18 +270,23 @@ export function fixtureDue({ isPro = false, limit = 20 } = {}) {
   return { cards, today: fixtureHome({ isPro }).today };
 }
 
-/** The Revise queue's Key card items, as composeQueue adds them (a third source after the questions and the study cards). */
-export function fixtureReviseKeycards({ isPro = false } = {}) {
-  return fixtureDue({ isPro, limit: 3 }).cards.slice(0, 3).map((c) => ({ kind: 'keycard', cardId: c.id, subject: c.subject, chapter: c.chapter, card: c }));
+/** The Revise queue's Key card items exactly as the server's reviseSource gives them: { kind: 'keycard', cardId, card }. */
+export function fixtureReviseKeycards({ isPro = false, limit = 3 } = {}) {
+  return fixtureDue({ isPro, limit }).cards.map((card) => ({ kind: 'keycard', cardId: card.id, card }));
 }
 
 export function fixtureLine(questionId, { isPro = false, variant = 'ready' } = {}) {
-  if (variant === 'line-none' || /none/.test(String(questionId))) return { cards: [], source: 'none', ...(isPro ? {} : { left: 3 }) };
+  if (variant === 'line-none' || /none/.test(String(questionId))) return { cards: [], source: 'none' };
   // Odd and even questions show the two sources the block can carry.
   const n = [...String(questionId)].reduce((a, ch) => a + ch.charCodeAt(0), 0);
   const linked = n % 2 === 0;
   return { cards: linked ? [AC_ADMISSION[0]] : [AC_ADMISSION[0], AC_ADMISSION[1]], source: linked ? 'linked' : 'matched', ...(isPro ? {} : { left: 2 }) };
 }
+
+const PRO_TALLY = { 'business_studies.nature-and-significance-of-management': { n: 12, right: 7, memory: { holding: 14, added: 20, mustKnow: 17 } },
+  'business_studies.principles-of-management': { n: 9, right: 3, memory: { holding: 6, added: 23, mustKnow: 23 } } };
+/** data/chapter_state.js reasonLine: "7 of 12 right on the latest try at each question. Cards: 14 of 20 holding". */
+const reasonOf = ({ n, right, memory }) => [n > 0 ? `${right} of ${n} right on the latest try at each question` : null, memory?.added > 0 ? `Cards: ${memory.holding} of ${memory.added} holding` : null].filter(Boolean).join('. ') || null;
 
 export function fixtureChapters(subject, { isPro = false } = {}) {
   const s = homeSubjects(isPro).find((x) => x.subject === subject);
@@ -264,10 +295,12 @@ export function fixtureChapters(subject, { isPro = false } = {}) {
     subject, option: s.option,
     units: s.units.map((u) => ({
       unit: u.unit,
-      chapters: u.chapters.map((c) => ({
-        key: c.key, title: c.title, state: c.state.state, label: c.state.label, fading: c.state.fading, marksLost: c.key === CH1 ? 12 : 0, available: { questions: 140, cards: c.cards },
-        ...(isPro && c.key === CH1 ? { n: 12, right: 7, reason: 'Got 7 of 12 right on the latest try at each question. Cards: 14 of 20 holding.', memory: { holding: 14, added: 20, mustKnow: 17 } } : {}),
-      })),
+      chapters: u.chapters.map((c) => {
+        const row = { key: c.key, title: c.title, state: c.state.state, label: c.state.label, fading: c.state.fading, marksLost: c.key === CH1 ? 12 : 0, available: { questions: 140, cards: c.cards } };
+        if (!isPro) return row;
+        const t = PRO_TALLY[c.key] || { n: 0, right: 0, memory: { holding: 0, added: 0, mustKnow: c.mustKnow } };
+        return { ...row, n: t.n, right: t.right, reason: reasonOf(t), memory: t.memory };
+      }),
     })),
   };
 }
@@ -309,12 +342,18 @@ export function fixtureKeycards(url, method, body, { isPro = false, variant = 'r
       added.set(body.chapter, ids);
       return { status: 200, body: { added: ids.length, today } };
     }
-    const ids = Array.isArray(body?.cardIds) ? body.cardIds : [];
-    for (const id of ids) {
+    const ids = Array.isArray(body?.cardIds) ? [...new Set(body.cardIds)] : [];
+    const allowed = ids.filter((id) => {
+      if (isPro) return true;
+      const deck = Object.values(FIXTURE_DECKS).find((d) => d.some((c) => c.id === id));
+      return deck ? fixtureTasteIds(deck).has(id) : false;
+    });
+    if (ids.length && !allowed.length) return { status: 402, body: { error: 'PRO_REQUIRED', reason: 'keycards' } };
+    for (const id of allowed) {
       const key = id.split('.').slice(1, 3).join('.');
       added.set(key, [...new Set([...(added.get(key) || []), id])]);
     }
-    return { status: 200, body: { added: ids.length, today } };
+    return { status: 200, body: { added: allowed.length, today } };
   }
   if (path === '/api/keycards/due' && method === 'GET') return { status: 200, body: fixtureDue({ isPro, limit: Number(url.searchParams.get('limit')) || 20 }) };
   if (path === '/api/keycards/review' && method === 'POST') {
@@ -324,7 +363,10 @@ export function fixtureKeycards(url, method, body, { isPro = false, variant = 'r
     const today = fixtureHome({ isPro }).today;
     return { status: 200, body: { ok: true, next: { due_at: new Date(Date.now() + days * 86_400_000).toISOString(), interval_days: days }, today: { ...today, reviewsLeft: isPro ? null : Math.max(0, KEYCARD_FREE.reviewsPerDay - memory.reviews) } } };
   }
-  if (path === '/api/keycards/line' && method === 'GET') return { status: 200, body: fixtureLine(url.searchParams.get('questionId'), { isPro, variant }) };
+  if (path === '/api/keycards/line' && method === 'GET') {
+    if (!isPro && variant === 'line-limit') return { status: 402, body: { error: 'PRO_REQUIRED', reason: 'keycard_line' } };
+    return { status: 200, body: fixtureLine(url.searchParams.get('questionId'), { isPro, variant }) };
+  }
   if (path === '/api/keycards/report' && method === 'POST') {
     (memory.reported ||= new Set()).add(body?.cardId);
     return { status: 200, body: { ok: true } };

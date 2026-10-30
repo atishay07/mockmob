@@ -6,6 +6,9 @@
 //   2  again       repaired mistakes due again      (revise_cards, mode 'again'; the same question, key hidden)
 //   3  checks      a pending Check it held          (a NEW question on the rule of a repair; from the day after the repair)
 //   4  cards       lesson recall cards due          (the study engine's recall run; only from lessons the student has read)
+//   5  keycards    Key cards due (KEYCARDS-BUILD-SPEC.md 2e): NCERT lines on their own FSRS schedule, after everything above.
+//                  They obey their own limits (data/keycards.js dueQueue and the Free allowance), never the cap below, and
+//                  take 15 seconds each in the time estimate. Absent when the feature is off, so the four sources are unchanged.
 //
 // The rules:
 //   - One card per question per day. A question due in sources 1 and 2 plays ONCE, as `again` (it was repaired, so it is
@@ -23,23 +26,15 @@ const RUN = COPY.revise.run;
 export const CARD_CAP = 5;
 export const SOURCES = Object.freeze(['questions', 'again', 'checks', 'cards', 'keycards']);
 export const KINDS = Object.freeze(['question', 'again', 'check', 'card', 'keycard']);
-
-// Key cards (KEYCARDS-BUILD-SPEC.md 2e and 3): the server adds due Key cards as a third source after the questions and the
-// study cards, each { kind: 'keycard', cardId, subject?, chapter?, card }. They keep their own limits (data/keycards.js), so
-// mergeQueue never caps them; the run plays them with the same card player as Study (KeyCardRun).
-export const SECONDS = Object.freeze({ question: 40, again: 40, check: 40, card: 15, keycard: 15 });
-
-/** About how long a run takes: questions 40 s each, cards 15 s each, rounded up to whole minutes. */
-export function estimateMinutes(items = []) {
-  const seconds = items.reduce((sum, i) => sum + (SECONDS[i?.kind] ?? 40), 0);
-  return seconds > 0 ? Math.max(1, Math.ceil(seconds / 60)) : 0;
-}
+/** Seconds a Key card takes (15) against a question's 40: the minutes of the Key cards part. */
+export const KEYCARD_SECONDS = 15;
+export const keycardMinutes = (n) => (n > 0 ? Math.ceil((n * KEYCARD_SECONDS) / 60) : 0);
 
 const fill = (text, values) => String(text).replace(/\{(\w+)\}/g, (whole, key) => (key in values ? String(values[key]) : whole));
 const form = (pair, n) => (n === 1 ? pair.one : pair.many);
 
 /** The id an item is counted by: one id per question, one per Check it held, one per concept card slot. */
-export const itemKey = (item) => (item.kind === 'check' ? `check:${item.attemptId}:${item.questionId}` : item.kind === 'card' ? `card:${item.slot}` : item.kind === 'keycard' ? `kc:${item.cardId || item.card?.id}` : `q:${item.questionId}`);
+export const itemKey = (item) => (item.kind === 'check' ? `check:${item.attemptId}:${item.questionId}` : item.kind === 'card' ? `card:${item.slot}` : item.kind === 'keycard' ? `kc:${item.cardId}` : `q:${item.questionId}`);
 
 const byDue = (a, b) => (a.dueDay < b.dueDay ? -1 : a.dueDay > b.dueDay ? 1 : (a.box || 1) - (b.box || 1) || String(a.questionId).localeCompare(String(b.questionId)));
 
@@ -53,7 +48,7 @@ const byDue = (a, b) => (a.dueDay < b.dueDay ? -1 : a.dueDay > b.dueDay ? 1 : (a
  * Returns { items, counts, total, minutes, unknown, dropped } where `items` is in play order and each carries its `kind`
  * ('question' | 'again' | 'check' | 'card'). `dropped` is the questions that did not fit under the cap (they wait for tomorrow).
  */
-export function mergeQueue({ questions = [], again = [], checks = [], cards = 0, cap = REVISE_RULES.cap, answered = 0 } = {}) {
+export function mergeQueue({ questions = [], again = [], checks = [], cards = 0, keycards = null, cap = REVISE_RULES.cap, answered = 0 } = {}) {
   const capN = REVISE_RULES.capChoices.includes(Number(cap)) ? Number(cap) : REVISE_RULES.cap;
   const room = Math.max(0, capN - (Number(answered) || 0));
   const merged = new Map();
@@ -73,22 +68,25 @@ export function mergeQueue({ questions = [], again = [], checks = [], cards = 0,
   const unknown = cards === null || cards === undefined ? ['cards'] : [];
   const cardCount = unknown.length ? 0 : Math.min(Math.max(0, Number(cards) || 0), CARD_CAP);
   const slots = Array.from({ length: cardCount }, (_, i) => ({ kind: 'card', slot: i + 1 }));
-  const items = [...shown, ...pending, ...slots];
+  // Key cards last, one per card id; given only when the feature is on (null keeps the four-source body exactly as before).
+  const kcSeen = new Set();
+  const kc = Array.isArray(keycards) ? keycards.filter((i) => i?.cardId && !kcSeen.has(i.cardId) && kcSeen.add(i.cardId)).map((i) => ({ ...i, kind: 'keycard' })) : [];
+  const items = [...shown, ...pending, ...slots, ...kc];
   const counts = {
     questions: shown.filter((i) => i.kind === 'question').length,
     again: shown.filter((i) => i.kind === 'again').length,
     checks: pending.length,
     cards: cardCount,
   };
+  if (Array.isArray(keycards)) counts.keycards = kc.length;
   counts.back = counts.questions + counts.again;
   const total = items.length;
-  return { items, counts, total, minutes: minutesFor(total), unknown, dropped: back.length - shown.length };
+  return { items, counts, total, minutes: minutesFor(total - kc.length) + keycardMinutes(kc.length), unknown, dropped: back.length - shown.length };
 }
 
 /** "8 due today, about 7 minutes." One head, nothing more. */
 export function headLine(total, minutes) {
-  // "about 1 minute", never "about 1 minutes" (a short Key card run can take one minute).
-  return total > 0 ? fill(RUN.head, { n: total, m: minutes }).replace(/about 1 minutes/, 'about 1 minute') : RUN.headNone;
+  return total > 0 ? fill(RUN.head, { n: total, m: minutes }) : RUN.headNone;
 }
 
 /** "5 questions back, 1 Check it held, 2 concept cards": the parts that exist, in play order. */
@@ -97,7 +95,7 @@ export function mixParts(counts) {
     counts.back ? { key: 'back', n: counts.back, text: fill(form(RUN.mix.back, counts.back), { n: counts.back }) } : null,
     counts.checks ? { key: 'checks', n: counts.checks, text: fill(RUN.mix.checks, { n: counts.checks }) } : null,
     counts.cards ? { key: 'cards', n: counts.cards, text: fill(form(RUN.mix.cards, counts.cards), { n: counts.cards }) } : null,
-    counts.keycards ? { key: 'keycards', n: counts.keycards, text: `${counts.keycards} ${counts.keycards === 1 ? 'Key card' : 'Key cards'}` } : null,
+    counts.keycards ? { key: 'keycards', n: counts.keycards, text: `${counts.keycards} Key ${counts.keycards === 1 ? 'card' : 'cards'}` } : null,
   ].filter(Boolean);
 }
 export const mixLine = (counts) => mixParts(counts).map((p) => p.text).join(', ');
@@ -112,7 +110,7 @@ export function kindLine(item, { paperLabel = null } = {}) {
     return { title: n ? fill(RUN.kind.check, { n }) : 'Check it held', detail: [item.paper, item.chapter].filter(Boolean).join('. ') || null };
   }
   if (item.kind === 'card') return { title: fill(RUN.kind.card, { lesson: item.lesson || 'your lessons' }), detail: null };
-  if (item.kind === 'keycard') return { title: 'A Key card', detail: item.card?.chapter || item.chapter || null };
+  if (item.kind === 'keycard') return { title: 'Key card', detail: [item.card?.chapter, item.card?.source?.book].filter(Boolean).join('. ') || null };
   const title = item.kind === 'again' ? RUN.kind.again : RUN.kind.question;
   const source = paperLabel || item.source || null;
   return { title, detail: [source, item.chapter].filter(Boolean).join('. ') || null };
@@ -145,10 +143,11 @@ export function filterSource(queue, source) {
   const counts = {
     questions: items.filter((i) => i.kind === 'question').length, again: items.filter((i) => i.kind === 'again').length,
     checks: items.filter((i) => i.kind === 'check').length, cards: items.filter((i) => i.kind === 'card').length,
-    keycards: items.filter((i) => i.kind === 'keycard').length,
   };
+  const kcN = items.filter((i) => i.kind === 'keycard').length;
+  if ('keycards' in (queue.counts || {})) counts.keycards = kcN;
   counts.back = counts.questions + counts.again;
-  return { ...queue, items, counts, total: items.length, minutes: minutesFor(items.length), filtered: source };
+  return { ...queue, items, counts, total: items.length, minutes: minutesFor(items.length - kcN) + keycardMinutes(kcN), filtered: source };
 }
 
 // ---------------------------------------------------------------- the run: one answer per item
@@ -188,8 +187,6 @@ export function summary(state) {
   return {
     recalled: back.filter((a) => a.correct).length, comeBack: back.filter((a) => !a.correct).length,
     held: checks.filter((a) => a.correct).length, slipped: checks.filter((a) => !a.correct).length,
-    cards: cards.length, answered: list.length,
-    // Key cards are named only when the run held some, so a run without them reads exactly as before.
-    ...(keycards.length ? { keycards: keycards.length, keycardsMissed: keycards.filter((a) => !a.correct).length } : {}),
+    cards: cards.length, ...(keycards.length ? { keycards: keycards.length } : {}), answered: list.length,
   };
 }
