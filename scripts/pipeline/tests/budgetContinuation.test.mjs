@@ -7,7 +7,8 @@ import {spawn} from 'node:child_process';
 import {BudgetLedger} from '../lib/budgetLedger.mjs';
 import {createFactoryTransport,BatchPending} from '../lib/factoryTransport.mjs';
 import {FactoryStore} from '../lib/factoryStore.mjs';
-const fresh=()=>new BudgetLedger(join(mkdtempSync(join(tmpdir(),'mm-bounds-')),'ledger.sqlite'));
+// A fixed USD 50 run limit (no owner ceiling since 31 Oct 2026), so exhaustion stays testable.
+const fresh=()=>new BudgetLedger(join(mkdtempSync(join(tmpdir(),'mm-bounds-')),'ledger.sqlite'),50);
 const proof={model:'gpt-6-luna',input_bound:1000,output_bound:1000,input_rate:1,output_rate:1,pricing_source:'https://provider.test/pricing',contract_hash:'a'.repeat(64),basis:'Persisted bounded text-only request, no unbounded tools',provider_request_id:'req-503'};
 test('restart immediately recovers a dead local worker without stealing a living process lease',()=>{
  const l=fresh();try{const store=new FactoryStore(l,'test-ledger');l.db.prepare('INSERT INTO factory_worker VALUES(1,?,?)').run('2147483647:dead',Date.now()+300000);store.claim();

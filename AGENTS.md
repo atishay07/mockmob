@@ -14,8 +14,9 @@ The current direction is Score Recovery for CUET UG 2027 Commerce, AI-integrated
 The working sequence for the coming days is docs/brain/PLAN-2026-10-04-NEXT-DAYS.md.
 No routine human review: uncertainty means quarantine, never forced publication.
 Never call a paid model outside its persistent budget guard; retries and failures count.
-Budgets (owner, 4 Oct 2026): question/content generation USD 50 lifetime ceiling
-(scripts/pipeline/lib/budgetLedger.mjs); student-facing AI is capped per user per IST month
+Budgets: the USD 50 lifetime content-generation ceiling (4 Oct) was removed by the owner on 31 Oct 2026;
+there is no content ceiling now, but paid calls still go through scripts/pipeline/lib/budgetLedger.mjs
+(optional per-run stop CUET_CONTENT_LIMIT_USD). Student-facing AI is capped per user per IST month
 (Rs 5 for a paid student, Rs 2.50 for a free one), enforced in the database
 (runtime_ai_budget); the global monthly ceiling was removed by the owner on 17 Oct 2026;
 only gpt-6-luna and claude-haiku-5-5 may run. Student AI is enabled

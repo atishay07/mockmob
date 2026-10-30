@@ -5,7 +5,7 @@ import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { createHash } from 'node:crypto';
 import { PGlite } from '@electric-sql/pglite';
-import { BudgetLedger } from '../lib/budgetLedger.mjs';
+import { BudgetLedger, CONTENT_LIFETIME_CEILING_USD } from '../lib/budgetLedger.mjs';
 import { FactoryStore } from '../lib/factoryStore.mjs';
 import { createFactoryTransport,BatchPending,responseJSON,completeJSON } from '../lib/factoryTransport.mjs';
 import { createFactoryEvidence,evidenceCatalog,resolveEvidence,sameSyllabusUnit,sameChapter,chapterMappingVerdict,conditionsComplete } from '../lib/factoryEvidence.mjs';
@@ -154,9 +154,9 @@ test('mirrored papers require complete independent copies and the exact official
   assert.throws(()=>matchMirroredAnchor(anchor,paper,{kind:'final_key'},keyText.replace('16.05.2024','17.05.2024')),/subject_date_booklet/);
   file('second.txt',text.replace('Second','Changed'));assert.throws(()=>corroboratePaper(paper,helpers,root),/transcript_changed/);
 });
-test('new ledger uses the owner ceiling but paid calls require historical reconciliation',async()=>{
+test('new ledger uses the run limit (no owner ceiling since 31 Oct 2026) but paid calls require historical reconciliation',async()=>{
   const ledger=new BudgetLedger(join(mkdtempSync(join(tmpdir(),'factory-new-')),'budget.sqlite'));
-  try{assert.equal(ledger.snapshot().limit_micro,50000000);let calls=0;
+  try{assert.equal(ledger.snapshot().limit_micro,CONTENT_LIFETIME_CEILING_USD*1e6);let calls=0;
     const transport=createFactoryTransport({ledger,prices:()=>prices,env,fetchImpl:async()=>{calls++;return Response.json({});}});
     await assert.rejects(transport.generate('openai',body,{batch:false}),/historical/);assert.equal(calls,0);
   }finally{ledger.close();}
@@ -487,7 +487,7 @@ test('uncertain accepted batch can be attached only after provider identity matc
 test('budget exhaustion stops before dispatch and retired models cannot route through the factory',async()=>{
   const {ledger}=ledgerFixture();let calls=0;
   const transport=createFactoryTransport({ledger,prices:()=>prices,env,fetchImpl:async()=>{calls++;return Response.json({});}});
-  try{ledger.reserve('fixture',50000000);await assert.rejects(transport.generate('openai',body,{batch:false}),/budget_exhausted/);
+  try{ledger.reserve('fixture',ledger.snapshot().limit_micro);await assert.rejects(transport.generate('openai',body,{batch:false}),/budget_exhausted/);
     await assert.rejects(transport.generate('openai',{...body,model:'claude-sonnet'},{batch:false}),/pricing/);assert.equal(calls,0);
   }finally{ledger.close();}
 });

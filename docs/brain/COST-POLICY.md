@@ -1,5 +1,9 @@
 # Persistent incremental content budget
 
+> **Owner update, 31 Oct 2026:** the USD 50 lifetime content ceiling below no longer applies ("long exceeded and
+> is no longer valid"). There is no owner ceiling for content generation; the ledger still reserves and records every
+> paid call, and a run can set its own stop with `CUET_CONTENT_LIMIT_USD`. The student-AI limits are unchanged.
+
 > **Owner update, 4 Oct 2026:** content generation ceiling is USD 50 lifetime
 > (`CONTENT_LIFETIME_CEILING_USD`); student-facing AI is funded at USD 25 per IST month, enforced
 > by `reserve_runtime_ai` in production. Older $10 figures below are superseded.

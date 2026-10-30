@@ -5,9 +5,11 @@ import { randomUUID } from 'node:crypto';
 import { CALIBRATION_RELEASE } from '../../../data/question_factory_policy.mjs';
 
 // Integer micro-dollars; BEGIN IMMEDIATE serializes independent worker processes.
-// Owner authorization, 4 Oct 2026: content generation may spend up to USD 50 in total (lifetime,
-// including reconciled historical spending), raised from USD 10. Reserve-before-call is unchanged.
-export const CONTENT_LIFETIME_CEILING_USD = 50;
+// Owner, 31 Oct 2026: the USD 50 lifetime content ceiling (4 Oct) no longer applies; there is no owner ceiling. The
+// guard stays: every paid call still reserves before it runs and is recorded here. A run may set its own stop with
+// CUET_CONTENT_LIMIT_USD (for example the credit on the API key the owner hands over); unset means no ledger stop.
+const NO_OWNER_CEILING_USD = 1e9;
+export const CONTENT_LIFETIME_CEILING_USD = Number(process.env.CUET_CONTENT_LIMIT_USD) > 0 ? Number(process.env.CUET_CONTENT_LIMIT_USD) : NO_OWNER_CEILING_USD;
 
 export class BudgetLedger {
   constructor(path, limitUsd = CONTENT_LIFETIME_CEILING_USD) {
@@ -120,7 +122,7 @@ export class BudgetLedger {
       this.db.prepare("INSERT INTO requests(id,model,reserved,actual,state,receipt_json) VALUES('historical-content-spend','historical',?,?,'settled',?)")
         .run(Math.ceil(spent_usd * 1e6), Math.ceil(spent_usd * 1e6), JSON.stringify({ basis, confirmed_at }));
       this.db.prepare("INSERT INTO ledger_metadata VALUES('history',?)").run(JSON.stringify({ spent_usd, basis, confirmed_at }));
-      // The owner's approved ceiling applies from day one; calibration controls publication.
+      // The run's limit (no owner ceiling since 31 Oct 2026) applies from day one; calibration controls publication.
       this.db.prepare('UPDATE budget SET limit_micro=? WHERE id=1').run(CONTENT_LIFETIME_CEILING_USD * 1e6);
     });
   }
