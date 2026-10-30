@@ -1,0 +1,175 @@
+{
+  "subject": "business_studies",
+  "version": 1,
+  "source": "NCERT Reprint 2026-27",
+  "cards": [
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.def-management-koontz",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature and Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "definition",
+      "front": "Define management (Harold Koontz and Heinz Weihrich).",
+      "back": "Management is the process of designing and maintaining an environment in which individuals, working together in groups, efficiently accomplish selected aims.",
+      "quote": "Management is the process of designing and maintaining an environment in which individuals, working together in groups, efficiently accomplish selected aims.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 3,
+        "section": "Definitions of Management"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "management"
+      ],
+      "order": 10
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.def-effectiveness",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature and Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "definition",
+      "front": "What is effectiveness in management?",
+      "back": "Effectiveness in management is concerned with doing the right task, completing activities and achieving goals.",
+      "quote": "Effectiveness in management is concerned with doing the right task, completing activities and achieving goals.",
+      "blanks": [],
+      "note": "Effectiveness is about the end result: the task gets done.",
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "Effectiveness"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "effectiveness"
+      ],
+      "order": 20
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.list-objectives",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature and Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "list",
+      "front": "Name the three basic objectives management fulfils.",
+      "back": "organisational\nsocial\npersonal",
+      "quote": "Management fulfills three basic objectives: organisational, social and personal.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 26,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "objectives"
+      ],
+      "order": 30
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.term-coordination",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature and Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "term",
+      "front": "____ is the essence of management.",
+      "back": "Coordination. Coordination is the essence of management.",
+      "quote": "Coordination is the essence of management.",
+      "blanks": [
+        "Coordination"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 27,
+        "section": "Coordination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 40
+    },
+    {
+      "id": "kc.business_studies.principles-of-management.def-principles",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.principles-of-management",
+      "chapter": "Principles of Management",
+      "unit": "Principles of Management",
+      "kind": "definition",
+      "front": "What are principles, as distinct from values?",
+      "back": "Principles are basic truths or guidelines for behaviour.",
+      "quote": "Principles are basic truths or guidelines for behaviour.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs102",
+        "chapterNo": 2,
+        "page": 33,
+        "section": "Principles of Management"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "principles"
+      ],
+      "order": 10
+    },
+    {
+      "id": "kc.business_studies.principles-of-management.line-division-of-work",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.principles-of-management",
+      "chapter": "Principles of Management",
+      "unit": "Principles of Management",
+      "kind": "key_line",
+      "front": "Thus, division of work leads to ____.",
+      "back": "Thus, division of work leads to **specialisation**.",
+      "quote": "Thus, division of work leads to specialisation.",
+      "blanks": [
+        "specialisation"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs102",
+        "chapterNo": 2,
+        "page": 54,
+        "section": "Division of Work"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "fayol"
+      ],
+      "order": 20
+    }
+  ],
+  "fixture": true
+}

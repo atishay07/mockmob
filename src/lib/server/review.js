@@ -90,7 +90,7 @@ export function repairsById(reservations) {
  *   keyRows       Map(questionId -> { is_deleted, status, verification_state }) or null when unreadable
  *   dueCards      lesson cards due today, or null when unknown
  */
-export function buildReviewRecord({ userId, slim = [], heavy = new Map(), reservations = [], cards = null, keyRows = null, dueCards = null, wallet = null, now = Date.now(), cap = 10 }) {
+export function buildReviewRecord({ userId, slim = [], heavy = new Map(), reservations = [], cards = null, keyRows = null, dueCards = null, dueKeyCards = undefined, wallet = null, now = Date.now(), cap = 10 }) {
   const window = slim.slice(0, ATTEMPT_WINDOW);
   const labels = sourceLabels(slim.map((a) => ({ id: a.id, subject: a.subject, completedAt: Date.parse(a.completed_at), mode: a.mode || null })));
   const today = istDate(now);
@@ -166,6 +166,8 @@ export function buildReviewRecord({ userId, slim = [], heavy = new Map(), reserv
       again: cards === null ? null : due.filter((c) => c.mode === 'again').map((c) => c.question_id),
       checks: pendingChecks,
       cards: dueCards,
+      // Key cards due today (KEYCARDS-BUILD-SPEC.md 2e): only when the feature is on; null is unknown.
+      ...(dueKeyCards !== undefined ? { keycards: dueKeyCards } : {}),
     },
   };
 
@@ -264,7 +266,7 @@ async function readKeys(db, ids) {
  * read (never an empty record: L12). `cards` may be passed when the caller already read them (Revise seeds first); `undefined`
  * reads them here. A failed read of the cards, the lesson cards or the keys degrades one part (null = unknown).
  */
-export async function loadReviewRecord(userId, { db, wallet = null, readDueCards = null, cap = 10, now = Date.now(), cards } = {}) {
+export async function loadReviewRecord(userId, { db, wallet = null, readDueCards = null, readKeyCards = null, cap = 10, now = Date.now(), cards } = {}) {
   const c = await client(db);
   const slim = await readSlim(c, userId);
   const window = slim.slice(0, ATTEMPT_WINDOW);
@@ -275,12 +277,13 @@ export async function loadReviewRecord(userId, { db, wallet = null, readDueCards
     const details = Array.isArray(body.details) ? body.details : [];
     for (const d of details) if (d?.isCorrect === false && typeof d.qid === 'string') wrongIds.push(d.qid);
   }
-  const [readCardsOut, keyRows, dueCards] = await Promise.all([
+  const [readCardsOut, keyRows, dueCards, dueKeyCards] = await Promise.all([
     cards === undefined ? readCards(c, userId).catch(() => null) : Promise.resolve(cards),
     wrongIds.length ? readKeys(c, wrongIds).catch(() => null) : Promise.resolve(new Map()),
     typeof readDueCards === 'function' ? Promise.resolve().then(readDueCards).catch(() => null) : Promise.resolve(null),
+    typeof readKeyCards === 'function' ? Promise.resolve().then(readKeyCards).catch(() => null) : Promise.resolve(undefined),
   ]);
-  return buildReviewRecord({ userId, slim, heavy, reservations, cards: readCardsOut, keyRows, dueCards, wallet, now, cap });
+  return buildReviewRecord({ userId, slim, heavy, reservations, cards: readCardsOut, keyRows, dueCards, dueKeyCards, wallet, now, cap });
 }
 
 /**

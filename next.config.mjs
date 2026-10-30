@@ -1,5 +1,6 @@
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { existsSync } from 'node:fs';
 
 const appRoot = dirname(fileURLToPath(import.meta.url));
 
@@ -34,11 +35,27 @@ const nextConfig = {
     '/*': ['./data/source_registry.json', './data/calibration_manifest.json', './data/question_factory_scope.json'],
     // "Where you stand" and Ask Mobi's context read the DU Round 1 closing marks on the server (src/lib/server/duOfferings.js).
     '/api/mobi/standing': ['./public/du/2026/offerings/*.json'],
-    '/api/ai/mentor/chat': ['./public/du/2026/offerings/*.json'],
+    '/api/ai/mentor/chat': ['./public/du/2026/offerings/*.json', './data/keycards/manifest.json', './data/keycards/decks/*.json'],
+    // Key cards: the bundled decks, their manifest and the question links (src/lib/server/keycards.js loadDecks).
+    '/api/keycards': ['./data/keycards/manifest.json', './data/keycards/decks/*.json', './data/keycards/links/*.json'],
+    '/api/keycards/*': ['./data/keycards/manifest.json', './data/keycards/decks/*.json', './data/keycards/links/*.json'],
+    '/api/me/chapters': ['./data/keycards/manifest.json', './data/keycards/decks/*.json'],
+    '/api/me/subject-options': ['./data/keycards/manifest.json', './data/keycards/decks/*.json'],
+    '/api/me/revise': ['./data/keycards/manifest.json', './data/keycards/decks/*.json'],
+    '/api/me/review': ['./data/keycards/manifest.json', './data/keycards/decks/*.json'],
   },
   trailingSlash: false,
   turbopack: {
     root: appRoot,
+  },
+  // Syllabus v2 (data/cuet_syllabus.js) lands from another branch; src/lib/server/keycardsSyllabus.js imports it inside a
+  // try. Webpack fails a build on a literal import of a missing file, so while the file is absent it is ignored (the
+  // import then rejects at run time and the adapter takes the canonical fallback). Present: bundled as normal.
+  webpack(config, { webpack }) {
+    if (!existsSync(`${appRoot}/data/cuet_syllabus.js`)) {
+      config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /cuet_syllabus\.js$/ }));
+    }
+    return config;
   },
   async redirects() {
     return [
