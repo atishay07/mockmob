@@ -120,6 +120,10 @@ abstract final class AppRoutes {
   static String learnRun(String runId) => '/learn/run/${Uri.encodeComponent(runId)}';
   static String learnRunDone(String runId) => '${learnRun(runId)}/done';
 
+  // Key cards (KEYCARDS-BUILD-SPEC 4): pushed over the shell from Learn, Review's chapters and Revise; no tab.
+  static const String keyCards = '/cards';
+  static String keyCardsChapter(String chapterKey) => '/cards/${Uri.encodeComponent(chapterKey)}';
+
   // You.
   static const String youGoal = '/you/goal';
   static const String youRhythm = '/you/rhythm';
@@ -220,6 +224,8 @@ abstract final class AppRoutes {
     '/learn/:unitId',
     '/learn/run/:runId',
     '/learn/summary/:subject/:chapter',
+    keyCards,
+    '/cards/:chapter',
     you,
     youGoal,
     youRhythm,

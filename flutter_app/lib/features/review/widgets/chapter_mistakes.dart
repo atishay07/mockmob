@@ -6,6 +6,7 @@ import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../credits/data/credit_figures.dart' show creditFiguresProvider;
+import '../../keycards/widgets/keycards_entries.dart' show KeyCardsChapterLink;
 import '../copy.dart';
 import '../data/review_providers.dart' show conceptLinkProvider;
 import '../model/review_chapters.dart';
@@ -164,7 +165,11 @@ class _FootState extends ConsumerState<_Foot> {
           padding: const EdgeInsets.only(top: MmSpace.s12),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [for (var i = 0; i < lines.length; i++) ...[if (i > 0) const SizedBox(height: MmSpace.s8), lines[i]]],
+            children: [
+              for (var i = 0; i < lines.length; i++) ...[if (i > 0) const SizedBox(height: MmSpace.s8), lines[i]],
+              // The chapter's Key cards, when it has any (it draws nothing, and takes no space, otherwise).
+              KeyCardsChapterLink(subject: row.subject, chapter: row.name),
+            ],
           ),
         ),
       ),

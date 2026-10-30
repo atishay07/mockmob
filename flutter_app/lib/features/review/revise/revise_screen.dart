@@ -16,6 +16,12 @@ import '../../../core/notes/sample_row.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../keycards/data/keycards_models.dart' show KcDueCard, KeyCard;
+import '../../keycards/data/keycards_providers.dart' show keyCardsDueProvider, rateKeyCard;
+import '../../keycards/data/keycards_reviews.dart' show KcSendKind;
+import '../../keycards/data/keycards_rules.dart' show KeyCardRules;
+import '../../keycards/keycards_copy.dart';
+import '../../keycards/widgets/key_card_parts.dart' show KcReviewCapNote, KcSessionKeys, KcStudyFace;
 import '../../learn/data/run_starter.dart';
 import '../../learn/widgets/feedback_mobi.dart';
 import '../again/review_again_copy.dart';
@@ -71,6 +77,16 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
   /// the pulse, so each recall pulses once).
   ({int from, int to, int n})? _moved;
 
+  // Key cards (KEYCARDS-BUILD-SPEC 4): the third kind of item, after the questions and the checks.
+  bool _kcRevealed = false;
+  int? _kcSending;
+  String? _kcError;
+  int _kcReviewed = 0;
+  bool _kcWaiting = false;
+
+  /// Free met today's card reviews: the cards not yet rated leave this run.
+  bool _kcCapped = false;
+
   @override
   void initState() {
     super.initState();
@@ -89,6 +105,44 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
     _error = null;
     _boxes = null;
     _moved = null;
+    _kcRevealed = false;
+    _kcSending = null;
+    _kcError = null;
+    _kcReviewed = 0;
+    _kcWaiting = false;
+    _kcCapped = false;
+  }
+
+  Future<void> _rateKeyCard(KeyCard card, int rating) async {
+    if (_kcSending != null || !_kcRevealed) return;
+    setState(() {
+      _kcSending = rating;
+      _kcError = null;
+    });
+    final outcome = await rateKeyCard(ref, cardId: card.id, rating: rating, mode: KeyCardRules.modeRevise);
+    if (!mounted) return;
+    switch (outcome.kind) {
+      case KcSendKind.sent || KcSendKind.waiting:
+        unawaited(rating == KeyCardRules.missed ? ref.read(hapticsProvider).tick() : ref.read(hapticsProvider).confirm());
+        setState(() {
+          _kcSending = null;
+          _kcRevealed = false;
+          _kcReviewed += 1;
+          _kcWaiting = _kcWaiting || outcome.kind == KcSendKind.waiting;
+          _at += 1;
+        });
+      case KcSendKind.proRequired:
+        setState(() {
+          _kcSending = null;
+          _kcRevealed = false;
+          _kcCapped = true;
+        });
+      case KcSendKind.failed:
+        setState(() {
+          _kcSending = null;
+          _kcError = KeyCardsCopy.notSaved;
+        });
+    }
   }
 
   Future<void> _choose(ReviseRead read, int cap, int index) async {
@@ -159,6 +213,8 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
     final cap = ref.watch(reviseCapProvider).value;
     final read = cap == null ? null : ref.watch(reviseReadProvider(cap));
     final data = read?.value;
+    // The Key cards due now, held while Revise is up. Off or unreadable: none, and Revise is as it was.
+    final keyCards = <KeyCard>[for (final c in ref.watch(keyCardsDueProvider).value?.value.cards ?? const <KcDueCard>[]) c.card];
 
     Widget body;
     if (data != null && !data.isUnavailable) {
@@ -177,6 +233,15 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
         onChoose: (i) => _choose(data, cap, i),
         onNext: _next,
         onCap: _setCap,
+        keyCards: keyCards,
+        kcRevealed: _kcRevealed,
+        kcSending: _kcSending,
+        kcError: _kcError,
+        kcReviewed: _kcReviewed,
+        kcWaiting: _kcWaiting,
+        kcCapped: _kcCapped,
+        onKcReveal: () => setState(() => _kcRevealed = true),
+        onKcRate: (card, rating) => unawaited(_rateKeyCard(card, rating)),
       );
     } else if (data != null ||
         (read != null && read.hasError && !read.isLoading)) {
@@ -246,7 +311,27 @@ class _Run extends StatelessWidget {
     required this.onChoose,
     required this.onNext,
     required this.onCap,
+    this.keyCards = const [],
+    this.kcRevealed = false,
+    this.kcSending,
+    this.kcError,
+    this.kcReviewed = 0,
+    this.kcWaiting = false,
+    this.kcCapped = false,
+    this.onKcReveal,
+    this.onKcRate,
   });
+
+  /// The Key cards due now, played after the questions and the checks with the same card UI as Study.
+  final List<KeyCard> keyCards;
+  final bool kcRevealed;
+  final int? kcSending;
+  final String? kcError;
+  final int kcReviewed;
+  final bool kcWaiting;
+  final bool kcCapped;
+  final VoidCallback? onKcReveal;
+  final void Function(KeyCard card, int rating)? onKcRate;
 
   final ReviseRead read;
 
@@ -273,10 +358,17 @@ class _Run extends StatelessWidget {
     final queue = read.queue;
     // One run: the questions back first, then the Check it held (5.8). Concept cards follow in
     // the lesson recall run, offered at the end.
-    final total = items.length + checks.length;
+    // Then the Key cards due. Once Free meets today's card reviews, the cards not yet rated leave the run.
+    final kcTotal = kcCapped ? kcReviewed : keyCards.length;
+    final kcMinutes = KeyCardRules.minutesFor(kcTotal);
+    final total = items.length + checks.length + kcTotal;
     final finished = total > 0 && at >= total;
     final current = at < items.length ? items[at] : null;
-    final check = current == null && at < total ? checks[at - items.length] : null;
+    final checkAt = at - items.length;
+    final check = current == null && checkAt >= 0 && checkAt < checks.length ? checks[checkAt] : null;
+    final kcAt = at - items.length - checks.length;
+    final keyCard = current == null && check == null && kcAt >= 0 && kcAt < kcTotal ? keyCards[kcAt] : null;
+    final kcOnly = items.isEmpty && checks.isEmpty && kcTotal > 0;
     final right = done.where((d) => d).length;
     final wrong = done.length - right;
 
@@ -315,6 +407,37 @@ class _Run extends StatelessWidget {
           ),
         ),
       );
+    } else if (keyCard != null) {
+      stage = KeyedSubtree(
+        key: ValueKey('keycard:${keyCard.id}'),
+        child: MmEntrance(
+          rise: 8,
+          child: KcSessionKeys(
+            revealed: kcRevealed,
+            enabled: kcSending == null,
+            onReveal: () => onKcReveal?.call(),
+            onRate: (r) => onKcRate?.call(keyCard, r),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                KcStudyFace(
+                  card: keyCard,
+                  revealed: kcRevealed,
+                  sending: kcSending,
+                  error: kcError,
+                  position: ReviseCopy.position(at + 1, total),
+                  onReveal: () => onKcReveal?.call(),
+                  onRate: (r) => onKcRate?.call(keyCard, r),
+                ),
+                if (kcWaiting) ...[
+                  const SizedBox(height: MmSpace.s12),
+                  Text(KeyCardsCopy.savedOnPhone, style: type.small.copyWith(color: colors.ink2)),
+                ],
+              ],
+            ),
+          ),
+        ),
+      );
     } else if (finished) {
       // Only the end needs the phone's repaired count, so only the end reads it.
       stage = Consumer(
@@ -344,6 +467,9 @@ class _Run extends StatelessWidget {
             held: held,
             slipped: slipped,
             checksLeft: checks.length - held - slipped,
+            keyCardsReviewed: kcReviewed,
+            keyCardsWaiting: kcWaiting,
+            keyCardsCapped: kcCapped,
           );
         },
       );
@@ -380,32 +506,41 @@ class _Run extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              if (!finished && queue != null && queue.total > 0) ...[
-                // One head over the four sources, then what is in it (5.8).
+              if (!finished && (kcOnly || queue != null && queue.total > 0)) ...[
+                // One head over the sources, then what is in it (5.8); Key cards are the last part.
                 Semantics(
                   header: true,
                   child: Text(
-                    ReviseCopy.runHead(queue.total, queue.minutes),
+                    ReviseCopy.runHead((queue?.total ?? 0) + kcTotal, (queue?.minutes ?? 0) + kcMinutes),
                     style: type.title,
                   ),
                 ),
                 const SizedBox(height: MmSpace.s4),
                 Text(
-                  ReviseCopy.mix(
-                    back: queue.counts.back,
-                    checks: queue.counts.checks,
-                    cards: queue.counts.cards,
-                  ),
+                  [
+                    if (queue != null)
+                      ReviseCopy.mix(
+                        back: queue.counts.back,
+                        checks: queue.counts.checks,
+                        cards: queue.counts.cards,
+                      ),
+                    if (kcTotal > 0) KeyCardsCopy.mixKeyCards(kcTotal),
+                  ].where((t) => t.isNotEmpty).join(', '),
                   style: type.small.copyWith(
                     color: colors.ink2,
                     fontFeatures: const [FontFeature.tabularFigures()],
                   ),
                 ),
-              ] else if (!finished && read.head != null)
+              ] else if (!finished && read.head != null) ...[
                 Semantics(
                   header: true,
                   child: Text(read.head!, style: type.title),
                 ),
+                if (kcTotal > 0) ...[
+                  const SizedBox(height: MmSpace.s4),
+                  Text(KeyCardsCopy.mixKeyCards(kcTotal), style: type.small.copyWith(color: colors.ink2)),
+                ],
+              ],
               if (!finished && queue == null && read.shown > 0) ...[
                 const SizedBox(height: MmSpace.s4),
                 Text(
@@ -1074,7 +1209,16 @@ class ReviseEnd extends StatelessWidget {
     this.held = 0,
     this.slipped = 0,
     this.checksLeft = 0,
+    this.keyCardsReviewed = 0,
+    this.keyCardsWaiting = false,
+    this.keyCardsCapped = false,
   });
+
+  /// Key cards rated in this run; whether any of those ratings is still on the phone; whether Free met
+  /// today's card reviews (the note with the one upgrade key then shows, once).
+  final int keyCardsReviewed;
+  final bool keyCardsWaiting;
+  final bool keyCardsCapped;
 
   /// Lesson recall cards due today (source 4): above 0 the end's key plays them.
   final int cards;
@@ -1173,9 +1317,15 @@ class ReviseEnd extends StatelessWidget {
         for (final l in [
           ?ReviseCopy.checksEnd(held: held, slipped: slipped),
           if (checksLeft > 0) ReviseCopy.checksLeft(checksLeft),
+          if (keyCardsReviewed > 0) KeyCardsCopy.reviseEnd(keyCardsReviewed),
+          if (keyCardsWaiting) KeyCardsCopy.savedOnPhone,
         ]) ...[
           const SizedBox(height: MmSpace.s8),
           Text(l, style: type.body.copyWith(color: colors.ink2)),
+        ],
+        if (keyCardsCapped) ...[
+          const SizedBox(height: MmSpace.s16),
+          const KcReviewCapNote(),
         ],
         const SizedBox(height: MmSpace.s24),
         if (cards > 0) ...[

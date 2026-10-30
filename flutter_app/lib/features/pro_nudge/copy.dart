@@ -49,6 +49,9 @@ enum ProReason {
   /// Full mock together (D174, D175): Pro starts it and sits every one free; Free sits one a friend starts for credits.
   mobFullMock,
 
+  /// Key cards (KEYCARDS-BUILD-SPEC 4): every card of every chapter, and the schedule past Free's daily limits.
+  keycards,
+
   /// Any other Pro-only thing.
   general,
 }
@@ -172,6 +175,10 @@ abstract final class ProNudgeCopy {
         ProReason.mobFullMock => const ProSheetHead(
             'Start a full mock for your Mob',
             'Start one any time. Sit every full mock free.',
+          ),
+        ProReason.keycards => const ProSheetHead(
+            'Open every Key card',
+            'Pro opens every card in every chapter and keeps them on a schedule.',
           ),
         ProReason.general => _general,
       };

@@ -9,6 +9,7 @@ import 'splash_screen.dart';
 export '../../features/auth/auth_routes.dart';
 export '../../features/insights/insights_routes.dart' show reviewInsightsScreen, reviewSavedScreen, practiceStreamScreen, askScreen;
 export '../../features/learn/learn_routes.dart';
+export '../../features/keycards/keycards_routes.dart';
 export '../../features/notifications/notifications_routes.dart';
 export '../../features/onboarding/onboarding_routes.dart';
 export '../../features/practice/practice_routes.dart';

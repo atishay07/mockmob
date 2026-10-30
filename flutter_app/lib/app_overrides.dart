@@ -8,7 +8,12 @@ import 'core/sync/pending_work.dart' show pendingWorkProvider, pendingWorkCountP
 import 'core/sync/sync_attention.dart' show syncStaleProvider;
 import 'core/widgets/bar/bar_badges.dart';
 import 'core/widgets/bar/bar_live.dart';
+import 'core/api/api_providers.dart' show apiClientProvider;
 import 'core/auth/auth_state.dart' show authSnapshotProvider;
+import 'core/sync/sync_providers.dart' show syncCoordinatorProvider;
+import 'features/keycards/data/keycards_api.dart' show HttpKeyCardsApi;
+import 'features/keycards/data/keycards_providers.dart' show keyCardReviewsProvider, keyCardsApiProvider;
+import 'features/keycards/data/keycards_reviews.dart' show OutboxKeyCardReviews;
 import 'features/practice/data/practice_catalog.dart' show practiceSubjectProvider, practiceSubjectsProvider, subjectChoices;
 import 'features/practice/data/start_entries.dart' show practiceQuickNtaProvider;
 import 'features/review/data/review_providers.dart' show openRepairsProvider, quickRepairFromReviewProvider;
@@ -22,7 +27,17 @@ import 'features/today/logic/today_model.dart' show GoTo, ResumeHero;
 /// The Start sheet, the bar's live capsule and its badges, each wired to its real source
 /// (DOCK.md 5.3, 5.6 and 6). Core keeps safe defaults so shells under test never open the session
 /// journal; the app and the device demo both use this one list, so they cannot drift apart.
-List<Override> liveAppOverrides() => [
+///
+/// Key cards (KEYCARDS-BUILD-SPEC 4) read the real routes and send every rating through the outbox; the
+/// device demo passes [keyCards] false and wires its fixture deck instead.
+List<Override> liveAppOverrides({bool keyCards = true}) => [
+  if (keyCards) ...[
+    keyCardsApiProvider.overrideWith((ref) => HttpKeyCardsApi(ref.watch(apiClientProvider))),
+    keyCardReviewsProvider.overrideWith((ref) {
+      final sync = ref.watch(syncCoordinatorProvider);
+      return OutboxKeyCardReviews(repository: sync.repository, flush: sync.flushNow);
+    }),
+  ],
   // Start's "Repair the next mistake" opens the ten-minute run from tonight's first mistake
   // (one pick for Today, Review and Start; the launcher's 10-min repair opens the same).
   quickStartRepairProvider.overrideWith((ref) => ref.watch(quickRepairFromReviewProvider)),

@@ -8,6 +8,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../insights/ask_mobi.dart' show AskMobiLink, askMobiAboutLabel;
+import '../../keycards/widgets/line_you_needed.dart' show LineYouNeeded;
 import '../../insights/widgets/motion_bits.dart' show WhenInView;
 import '../copy.dart';
 import '../model/answer_items.dart';
@@ -273,6 +274,9 @@ class _Body extends StatelessWidget {
           const SizedBox(height: MmSpace.s4),
           Text(item.explanation!, style: type.body),
         ],
+        // "The line you needed" (KEYCARDS-BUILD-SPEC 4): the NCERT line a wrong answer rests on, only where the
+        // key may be shown; nothing at all (no space) while Key cards are off or there is no line.
+        if (!keysOff && item.verdict == Verdict.wrong) LineYouNeeded(questionId: item.qid),
         if (repair != null) ...[
           const SizedBox(height: MmSpace.s16),
           repair!,

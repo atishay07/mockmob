@@ -509,6 +509,11 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey, Set<RouteBase> sheets
       page(':unitId', learnUnitScreen, root: true),
     ]),
 
+    // Key cards (KEYCARDS-BUILD-SPEC 4): pushed over the shell from Learn, Review and Revise; no tab.
+    page(AppRoutes.keyCards, keyCardsScreen, root: true, routes: [
+      page(':chapter', keyCardsChapterScreen, root: true),
+    ]),
+
     // The design lab (debug builds only): every foundation component in both themes.
     if (kDebugMode) page(AppRoutes.lab, labScreen, root: true),
 

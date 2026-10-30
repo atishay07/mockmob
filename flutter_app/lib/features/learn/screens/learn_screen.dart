@@ -10,6 +10,7 @@ import '../../../core/repositories/remote_state.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../keycards/widgets/keycards_entries.dart' show KeyCardsLearnEntry;
 import '../copy.dart';
 import '../data/catalog_repository.dart';
 import '../data/concepts_pick.dart';
@@ -543,6 +544,8 @@ class _LearnScreenState extends ConsumerState<LearnScreen> {
                           child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: rows),
                         ),
                       ),
+                    // Key cards (KEYCARDS-BUILD-SPEC 4): one row, only while they are on; no space otherwise.
+                    const KeyCardsLearnEntry(),
                     const SizedBox(height: MmRhythm.group),
                     if (catalog.units.isNotEmpty || catalog.subjects.any((s) => s.chapters.isNotEmpty)) ...[
                       MmStaggerItem(
