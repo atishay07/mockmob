@@ -53,6 +53,11 @@ Run `android/gradlew --stop` after building to free the Gradle daemon's memory.
   practice receipt shows the submit time.
 - A repair is explained from the question's own key and explanation and kept on the phone as
   the real flow keeps it; the week strip and the first-repair milestone follow it.
+- Key cards (`demo_keycards.dart`) read the 12-card fixture deck (two Business Studies chapters)
+  from a server held in memory. Asha is a Free student; build with `--dart-define=DEMO_PRO=true`
+  for the Pro student (every card open, no daily limits). She starts with Chapter 1's five taste
+  cards in Revise. "The line you needed" shows under a wrong answer to the two demo questions the
+  deck covers (Fayol's unity of command, and why management is multidimensional).
 - The demo does not set FLAG_SECURE, so its exam screens can be captured; the real app does.
 - The question stream, Ask and anything else that needs an account show their signed-out states.
   The CUET tools work from the files bundled with the app.

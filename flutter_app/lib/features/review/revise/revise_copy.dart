@@ -70,7 +70,7 @@ abstract final class ReviseCopy {
   // Revise as one queue (LEARN-REVIEW-1017 5.8, the website's `revise.run` strings).
 
   /// The website's `revise.run.head`: "8 due today, about 7 minutes."
-  static String runHead(int n, int m) => '$n due today, about $m minutes.';
+  static String runHead(int n, int m) => '$n due today, about ${m == 1 ? '1 minute' : '$m minutes'}.';
 
   /// The website's `revise.run.mix`: the parts that exist, in play order.
   static String mixBack(int n) => n == 1 ? '1 question back' : '$n questions back';

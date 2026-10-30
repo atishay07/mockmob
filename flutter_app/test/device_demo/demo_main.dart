@@ -71,6 +71,7 @@ import '../unit/today/support/today_fixtures.dart' as today;
 import '../unit/you/you_test_support.dart' as you;
 import 'demo_book.dart';
 import 'demo_insights.dart';
+import 'demo_keycards.dart';
 import 'demo_nudges.dart';
 import 'demo_questions.dart';
 import 'demo_repair.dart';
@@ -89,6 +90,8 @@ const _asha = AuthSnapshot(
   userId: 'u1',
   email: 'asha.verma@example.com',
   name: _demoNoName ? null : 'Asha Verma',
+  // `--dart-define=DEMO_PRO=true` makes her a Pro student (demo_keycards.dart); Free otherwise.
+  isPro: demoPro,
   subjects: ['accountancy', 'business_studies', 'economics', 'english'],
 );
 
@@ -215,8 +218,10 @@ const _ashaTarget = StudentTarget(course: 'B.Com (Hons)', colleges: ['Shri Ram C
 List<Override> _overrides() {
   final now = DateTime.now();
   return [
-    // Start, the bar's live capsule and its badges: the real app's own wiring.
-    ...liveAppOverrides(),
+    // Start, the bar's live capsule and its badges: the real app's own wiring. Key cards read the fixture deck
+    // instead of the real routes.
+    ...liveAppOverrides(keyCards: false),
+    ...demoKeyCardsOverrides(),
     authSnapshotProvider.overrideWith(() => practice.FakeAuth(_asha)),
     if (_demoWelcomeCredits) welcomeCreditsDemoProvider.overrideWithValue(true),
     networkStatusProvider.overrideWith(() => practice.FakeNetwork(NetworkStatus.online)),

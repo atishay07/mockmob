@@ -137,7 +137,11 @@ final keyCardsLineProvider = FutureProvider.autoDispose.family<KcLine, String>(r
   if (questionId.isEmpty || api is OffKeyCardsApi) return KcLine.none;
   if (ref.watch(authSnapshotProvider.select((s) => s.userId)) == null) return KcLine.none;
   try {
-    return await api.line(questionId);
+    final line = await api.line(questionId);
+    // Free has a few lines a day and each read counts: an answer opened again shows the line it already
+    // has instead of asking (and spending) again.
+    ref.keepAlive();
+    return line;
   } on Object {
     return KcLine.none;
   }

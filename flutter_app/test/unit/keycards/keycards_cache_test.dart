@@ -107,6 +107,16 @@ void main() {
     expect(found.cards, hasLength(2));
   });
 
+  test("a line read once is kept while the app runs: opening the answer again spends none of Free's lines", () async {
+    final api = FakeKeyCardsApi.withProgress();
+    final c = container(api, MemoryPrefsStore());
+    expect((await held(c, keyCardsLineProvider('q-wrong-1'))).shows, isTrue);
+    // The row folds (nothing listens), then opens again.
+    await Future<void>.delayed(Duration.zero);
+    expect((await held(c, keyCardsLineProvider('q-wrong-1'))).shows, isTrue);
+    expect(api.lineReads, 1);
+  });
+
   test('without the routes wired (the default), nothing is read and everything is off', () async {
     final c = ProviderContainer();
     addTearDown(c.dispose);

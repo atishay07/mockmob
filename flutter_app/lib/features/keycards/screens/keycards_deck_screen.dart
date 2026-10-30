@@ -243,8 +243,10 @@ class _KeyCardsDeckScreenState extends ConsumerState<KeyCardsDeckScreen> {
           const SizedBox(height: MmSpace.s4),
           Semantics(liveRegion: true, child: Text(_addLine!, style: type.small.copyWith(color: colors.warnText))),
         ],
-        if (isPro && deck.mustKnowCards.isNotEmpty)
-          Align(alignment: Alignment.centerLeft, child: KeyButton.quiet(label: KeyCardsCopy.shareSheet, onPressed: () => unawaited(_share(deck)))),
+        if (isPro && deck.mustKnowCards.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s4),
+          KcLinkAction(label: KeyCardsCopy.shareSheet, onTap: () => unawaited(_share(deck))),
+        ],
       ],
     );
 

@@ -9,6 +9,7 @@ import 'package:mockmob/core/theme/theme.dart';
 import 'package:mockmob/features/keycards/data/keycards_cache.dart';
 import 'package:mockmob/features/keycards/data/keycards_models.dart';
 import 'package:mockmob/features/keycards/data/keycards_providers.dart';
+import 'package:mockmob/features/keycards/data/keycards_rules.dart';
 import 'package:mockmob/features/keycards/keycards_copy.dart';
 import 'package:mockmob/features/keycards/screens/keycards_deck_screen.dart';
 import 'package:mockmob/features/keycards/screens/keycards_home_screen.dart';
@@ -26,10 +27,24 @@ class _NeverApi extends FakeKeyCardsApi {
   Future<(KcHome, Map<String, dynamic>)> home() => Completer<(KcHome, Map<String, dynamic>)>().future;
 }
 
-/// Revise with nothing of its own today: the Key cards due are the run.
+/// Revise with nothing of its own today: the Key cards due are the run. The server merges the same Key cards
+/// into its queue (KEYCARDS-BUILD-SPEC 2e) and counts their minutes; the phone plays them from their own route
+/// and counts them once.
 class _EmptyRevise implements ReviseApi {
+  _EmptyRevise([this.keyCards = const []]);
+
+  /// The `card` bodies of the server's merged `keycard` items.
+  final List<Map<String, dynamic>> keyCards;
+
   @override
   Future<ReviseRead> read({required int cap}) async => ReviseRead.parse({
+    'version': 2,
+    'queue': {
+      'items': [for (final c in keyCards) {'kind': 'keycard', 'cardId': c['id'], 'card': c}],
+      'counts': {'questions': 0, 'again': 0, 'checks': 0, 'cards': 0, 'back': 0, 'keycards': keyCards.length},
+      'total': keyCards.length,
+      'minutes': (keyCards.length * 15 / 60).ceil(),
+    },
     'state': 'empty',
     'today': '2026-10-31',
     'cap': cap,
@@ -53,6 +68,33 @@ class _EmptyRevise implements ReviseApi {
 
 MemoryPrefsStore _keptHome(FakeKeyCardsApi api) => MemoryPrefsStore()
   ..values[KeyCardsCache.homeKey] = jsonEncode({'user': 'u1', 'savedAt': kcNow.toUtc().toIso8601String(), 'body': api.homeBody()});
+
+/// Revise that cannot be read: the phone is offline.
+class _OfflineRevise implements ReviseApi {
+  @override
+  Future<ReviseRead> read({required int cap}) async => throw kcOffline;
+
+  @override
+  Future<ReviseAnswer> answer({required String questionId, required int choice, required int cap}) => throw kcOffline;
+}
+
+/// The server's due cards for the student with progress, as `/api/keycards/due` and its Revise queue carry them.
+List<Map<String, dynamic>> _dueBodies() {
+  final api = FakeKeyCardsApi.withProgress();
+  final states = [
+    for (final c in api.cards)
+      if (api.states[c.id] case final s?) KcDueCard(card: c, reps: s.reps, lapses: s.lapses, due: s.due),
+  ];
+  return [for (final d in KeyCardRules.dueQueue(states, now: kcNow, newAllowanceLeft: KeyCardRules.freeNewPerDay)) d.toJson()];
+}
+
+/// The due queue as this phone kept it at 9:40 PM.
+MemoryPrefsStore _keptDue() => MemoryPrefsStore()
+  ..values[KeyCardsCache.dueKey] = jsonEncode({
+    'user': 'u1',
+    'savedAt': kcNow.toUtc().toIso8601String(),
+    'body': {'cards': _dueBodies(), 'today': {'due': 5, 'newLeft': 5, 'reviewsLeft': 10, 'minutes': 2}},
+  });
 
 Future<void> _rate(WidgetTester tester, String label) async {
   await kcTap(tester, find.text(KeyCardsCopy.tapToReveal));
@@ -126,11 +168,23 @@ void main() {
 
   // Revise with Key cards as the third kind of item.
   kcGolden(
+    'kc_revise_front',
+    () => const ReviseScreen(),
+    overrides: () => [
+      ...reviewOverrides(),
+      reviseApiProvider.overrideWithValue(_EmptyRevise(_dueBodies())),
+      revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+      keyCardsApiProvider.overrideWithValue(FakeKeyCardsApi.withProgress()),
+      keyCardsPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+    ],
+    size: const Size(360, 900),
+  );
+  kcGolden(
     'kc_revise_card',
     () => const ReviseScreen(),
     overrides: () => [
       ...reviewOverrides(),
-      reviseApiProvider.overrideWithValue(_EmptyRevise()),
+      reviseApiProvider.overrideWithValue(_EmptyRevise(_dueBodies())),
       revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
       keyCardsApiProvider.overrideWithValue(FakeKeyCardsApi.withProgress()),
       keyCardsPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
@@ -145,7 +199,7 @@ void main() {
     () => const ReviseScreen(),
     overrides: () => [
       ...reviewOverrides(),
-      reviseApiProvider.overrideWithValue(_EmptyRevise()),
+      reviseApiProvider.overrideWithValue(_EmptyRevise(_dueBodies())),
       revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
       keyCardsApiProvider.overrideWithValue(FakeKeyCardsApi.withProgress(reviewsLeft: 1)),
       keyCardsPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
@@ -157,6 +211,20 @@ void main() {
       tester.view.physicalSize = const Size(360, 900) * 2;
       await kcSettle(tester);
     },
+  );
+
+  // Offline: Revise's questions cannot be read, the Key cards this phone kept at 9:40 PM play on their own.
+  kcGolden(
+    'kc_revise_offline',
+    () => const ReviseScreen(),
+    overrides: () => [
+      ...reviewOverrides(nowUtc: kcNow.toUtc()),
+      reviseApiProvider.overrideWithValue(_OfflineRevise()),
+      revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+      keyCardsApiProvider.overrideWithValue(FakeKeyCardsApi.withProgress(failWith: kcOffline)),
+      keyCardsPrefsStoreProvider.overrideWithValue(_keptDue()),
+    ],
+    size: const Size(360, 1000),
   );
 
   // The line you needed, under a wrong answer.

@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api_error.dart';
+import '../../../core/copy/formatters.dart' show formatTime12;
 import '../../../core/haptics/haptics.dart';
 import '../../../core/models/mistake_lab_traps.dart';
 import '../../../core/motion/mm_light.dart';
@@ -21,7 +22,8 @@ import '../../keycards/data/keycards_providers.dart' show keyCardsDueProvider, r
 import '../../keycards/data/keycards_reviews.dart' show KcSendKind;
 import '../../keycards/data/keycards_rules.dart' show KeyCardRules;
 import '../../keycards/keycards_copy.dart';
-import '../../keycards/widgets/key_card_parts.dart' show KcReviewCapNote, KcSessionKeys, KcStudyFace;
+import '../../keycards/widgets/key_card_parts.dart' show KcLinkAction, KcReviewCapNote, KcSessionKeys, KcStudyFace;
+import '../../keycards/widgets/key_card_run.dart' show KeyCardRun;
 import '../../learn/data/run_starter.dart';
 import '../../learn/widgets/feedback_mobi.dart';
 import '../again/review_again_copy.dart';
@@ -203,6 +205,8 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
   Future<void> _setCap(int cap) async {
     if (_busy) return;
     await ref.read(reviseCapProvider.notifier).set(cap);
+    // The run starts again: the Key cards are read again too, so a card rated a moment ago is not asked twice.
+    ref.invalidate(keyCardsDueProvider);
     if (mounted) setState(_reset);
   }
 
@@ -214,7 +218,8 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
     final read = cap == null ? null : ref.watch(reviseReadProvider(cap));
     final data = read?.value;
     // The Key cards due now, held while Revise is up. Off or unreadable: none, and Revise is as it was.
-    final keyCards = <KeyCard>[for (final c in ref.watch(keyCardsDueProvider).value?.value.cards ?? const <KcDueCard>[]) c.card];
+    final keyCardsRead = ref.watch(keyCardsDueProvider).value;
+    final keyCards = <KeyCard>[for (final c in keyCardsRead?.value.cards ?? const <KcDueCard>[]) c.card];
 
     Widget body;
     if (data != null && !data.isUnavailable) {
@@ -242,6 +247,19 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
         kcCapped: _kcCapped,
         onKcReveal: () => setState(() => _kcRevealed = true),
         onKcRate: (card, rating) => unawaited(_rateKeyCard(card, rating)),
+      );
+    } else if ((data != null || (read != null && read.hasError && !read.isLoading)) && keyCards.isNotEmpty) {
+      // The questions cannot be read (offline, or the server cannot read Revise now), but the Key cards due
+      // can be: from the server, or as this phone kept them. They play on their own; ratings wait in the outbox.
+      body = _KeyCardsOnly(
+        cards: keyCards,
+        keptAt: keyCardsRead?.savedAt,
+        offline: read?.error is ApiError && (read!.error! as ApiError).isOffline,
+        bottomPadding: pad.bottom + MmSpace.s32,
+        onRetry: () {
+          if (cap != null) ref.invalidate(reviseReadProvider(cap));
+          ref.invalidate(keyCardsDueProvider);
+        },
       );
     } else if (data != null ||
         (read != null && read.hasError && !read.isLoading)) {
@@ -511,7 +529,8 @@ class _Run extends StatelessWidget {
                 Semantics(
                   header: true,
                   child: Text(
-                    ReviseCopy.runHead((queue?.total ?? 0) + kcTotal, (queue?.minutes ?? 0) + kcMinutes),
+                    // A server that merges Key cards counts their minutes too; the phone adds the ones it plays.
+                    ReviseCopy.runHead((queue?.total ?? 0) + kcTotal, (queue?.minutesWithoutKeyCards ?? 0) + kcMinutes),
                     style: type.title,
                   ),
                 ),
@@ -593,6 +612,69 @@ class _Run extends StatelessWidget {
           queue == null ? read.labels.fine : ReviseCopy.foot,
           style: type.small.copyWith(color: colors.ink3),
         ),
+      ],
+    );
+  }
+}
+
+/// Revise when its questions cannot be read but Key cards are due: the cards play on their own, with the
+/// same card UI, and the page says plainly why the questions are not here and when the cards were kept.
+class _KeyCardsOnly extends StatelessWidget {
+  const _KeyCardsOnly({
+    required this.cards,
+    required this.keptAt,
+    required this.offline,
+    required this.bottomPadding,
+    required this.onRetry,
+  });
+
+  final List<KeyCard> cards;
+
+  /// When this phone kept them, if the server could not be reached.
+  final DateTime? keptAt;
+  final bool offline;
+  final double bottomPadding;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final n = cards.length;
+    final asOf = keptAt == null ? null : KeyCardsCopy.asOf(formatTime12(keptAt!.toLocal()));
+    void back() => context.canPop() ? context.pop() : context.go(AppRoutes.review);
+    return ListView(
+      padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, bottomPadding),
+      children: [
+        MmSurface.hero(
+          lit: true,
+          padding: const EdgeInsets.fromLTRB(MmSpace.s20, MmSpace.s20, MmSpace.s20, MmSpace.s12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Semantics(header: true, child: Text(ReviseCopy.runHead(n, KeyCardRules.minutesFor(n)), style: type.title)),
+              const SizedBox(height: MmSpace.s4),
+              Text(
+                [KeyCardsCopy.mixKeyCards(n), ?asOf].join('. '),
+                style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
+              ),
+              const SizedBox(height: MmSpace.s16),
+              Text(offline ? KeyCardsCopy.questionsWaitOffline : KeyCardsCopy.questionsWaitServer, style: type.body.copyWith(color: colors.ink2)),
+              KcLinkAction(label: ReviseCopy.tryAgain, onTap: onRetry),
+            ],
+          ),
+        ),
+        const SizedBox(height: MmSpace.s24),
+        KeyCardRun(
+          cards: cards,
+          mode: KeyCardRules.modeRevise,
+          onDone: back,
+          endTitle: KeyCardsCopy.reviseCardsDone,
+          doneLabel: ReviseCopy.backToReview,
+          againLabel: null,
+        ),
+        const SizedBox(height: MmSpace.s24),
+        Text(ReviseCopy.foot, style: type.small.copyWith(color: colors.ink3)),
       ],
     );
   }
@@ -1293,6 +1375,9 @@ class ReviseEnd extends StatelessWidget {
     // run the second is offered, so the two never leave a dead end.
     final level = MobiCelebrations.of(context);
     final act = MobiRation.underLevel(actFor(right: right, wrong: wrong), level, held: true);
+    // A run of Key cards only: what was done leads, in the headline's place.
+    final keyCardsLead = line == null && keyCardsReviewed > 0;
+    final head = keyCardsLead ? KeyCardsCopy.reviseEndHead(keyCardsReviewed) : line;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -1304,11 +1389,11 @@ class ReviseEnd extends StatelessWidget {
               : MobiCharacter(key: const ValueKey('revise-end-mobi'), size: mobiSize, entrance: act, seed: 23, interactive: true, tapCycle: MobiTapCycle.standard),
         ),
         const SizedBox(height: MmSpace.s16),
-        if (line != null)
+        if (head != null)
           Semantics(
             header: true,
             liveRegion: true,
-            child: Text(line!, style: type.moment),
+            child: Text(head, style: type.moment),
           ),
         if (next != null) ...[
           const SizedBox(height: MmSpace.s8),
@@ -1317,7 +1402,7 @@ class ReviseEnd extends StatelessWidget {
         for (final l in [
           ?ReviseCopy.checksEnd(held: held, slipped: slipped),
           if (checksLeft > 0) ReviseCopy.checksLeft(checksLeft),
-          if (keyCardsReviewed > 0) KeyCardsCopy.reviseEnd(keyCardsReviewed),
+          if (keyCardsReviewed > 0 && !keyCardsLead) KeyCardsCopy.reviseEnd(keyCardsReviewed),
           if (keyCardsWaiting) KeyCardsCopy.savedOnPhone,
         ]) ...[
           const SizedBox(height: MmSpace.s8),

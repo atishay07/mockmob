@@ -84,8 +84,7 @@ abstract final class KeyCardsCopy {
 
   // Study and Revise.
   static String position(int k, int n) => '$k of $n';
-  static const String tapToReveal = 'Tap to see the answer';
-  static const String revealHint = 'Space or tap shows the answer';
+  static const String tapToReveal = 'Show the answer';
   static const String missed = 'Missed';
   static const String gotIt = 'Got it';
   static const String easy = 'Easy';
@@ -103,13 +102,17 @@ abstract final class KeyCardsCopy {
   static const String lastLookNote = 'Must-know cards only. Nothing is scheduled.';
   static const String lastLookDone = 'That was every Must-know card in this chapter.';
   static const String lastLookNone = 'This chapter has no Must-know cards open yet.';
-  static const String reviewCapTitle = 'That is today\'s 10 card reviews on Free';
+  static const String reviewCapTitle = 'You have used today\'s 10 card reviews on Free';
   static const String reviewCapNote = 'The rest wait until tomorrow. $proLine';
 
   // Revise.
   static String mixKeyCards(int n) => n == 1 ? '1 Key card' : '$n Key cards';
   static const String kindKeyCard = 'A Key card';
-  static String reviseEnd(int n) => n == 1 ? '1 Key card reviewed.' : '$n Key cards reviewed.';
+  static String reviseEnd(int n) => '${reviseEndHead(n)}.';
+  static String reviseEndHead(int n) => n == 1 ? '1 Key card reviewed' : '$n Key cards reviewed';
+  static const String reviseCardsDone = 'Key cards done';
+  static const String questionsWaitOffline = 'You are offline. Your questions come back here when you are online.';
+  static const String questionsWaitServer = 'Your questions could not be read just now. The Key cards can.';
 
   // Report.
   static const String report = 'Report this card';

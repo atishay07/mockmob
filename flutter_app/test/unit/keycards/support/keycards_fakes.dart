@@ -49,6 +49,7 @@ class FakeKeyCardsApi implements KeyCardsApi {
     this.failWith,
     Map<String, FakeKcState>? states,
     Map<String, List<String>>? links,
+    this.lineFor,
     Map<String, String>? chapterStates,
   }) : cards = cards ?? kcFixtureCards(),
        _now = now ?? (() => kcNow),
@@ -56,22 +57,32 @@ class FakeKeyCardsApi implements KeyCardsApi {
        links = links ?? {},
        chapterStates = chapterStates ?? {kcChapter1: 'mid', kcChapter2: 'none'};
 
-  /// A student with Chapter 1's taste cards in Revise: three due now, two new.
-  factory FakeKeyCardsApi.withProgress({bool isPro = false, int reviewsLeft = KeyCardRules.freeReviewsPerDay, Object? failWith}) {
+  /// A student with Chapter 1's taste cards in Revise: three due now, two new. [now] is the fixed evening
+  /// unless given (the device demo passes the phone's clock).
+  factory FakeKeyCardsApi.withProgress({
+    bool isPro = false,
+    int reviewsLeft = KeyCardRules.freeReviewsPerDay,
+    Object? failWith,
+    DateTime Function()? now,
+    List<String>? Function(String questionId)? lineFor,
+  }) {
     final cards = kcFixtureCards();
-    final now = kcNow;
+    final clock = now ?? () => kcNow;
+    final at = clock();
     final ids = [for (final c in cards) if (c.chapterKey == kcChapter1) c.id];
     return FakeKeyCardsApi(
       isPro: isPro,
       cards: cards,
+      now: clock,
       reviewsLeft: reviewsLeft,
       failWith: failWith,
+      lineFor: lineFor,
       states: {
-        ids[0]: FakeKcState(due: now.subtract(const Duration(hours: 5)), reps: 3),
-        ids[1]: FakeKcState(due: now.subtract(const Duration(hours: 2)), reps: 2, lapses: 1),
-        ids[2]: FakeKcState(due: now.subtract(const Duration(minutes: 30)), reps: 1),
-        ids[3]: FakeKcState(due: now),
-        ids[4]: FakeKcState(due: now),
+        ids[0]: FakeKcState(due: at.subtract(const Duration(hours: 5)), reps: 3),
+        ids[1]: FakeKcState(due: at.subtract(const Duration(hours: 2)), reps: 2, lapses: 1),
+        ids[2]: FakeKcState(due: at.subtract(const Duration(minutes: 30)), reps: 1),
+        ids[3]: FakeKcState(due: at),
+        ids[4]: FakeKcState(due: at),
       },
       links: {'q-wrong-1': [ids[1], ids[2]]},
     );
@@ -88,6 +99,10 @@ class FakeKeyCardsApi implements KeyCardsApi {
   final Map<String, FakeKcState> states;
   final Map<String, List<String>> links;
 
+  /// The cards a question rests on when [links] has none for it (the device demo finds them by the
+  /// question's own words); null or empty: no line.
+  final List<String>? Function(String questionId)? lineFor;
+
   /// `chapterKey -> state`, for the home's state labels.
   final Map<String, String> chapterStates;
 
@@ -95,6 +110,7 @@ class FakeKeyCardsApi implements KeyCardsApi {
   final List<Json> reports = [];
   final Map<String, String> options = {'accountancy': 'AFS'};
   int homeReads = 0;
+  int lineReads = 0;
 
   void _guard() {
     if (off) throw const KeyCardsOff();
@@ -273,9 +289,10 @@ class FakeKeyCardsApi implements KeyCardsApi {
 
   @override
   Future<KcLine> line(String questionId) async {
+    lineReads++;
     _guard();
-    final ids = links[questionId];
-    if (ids == null) return KcLine.parse({'cards': <Json>[], 'source': 'none'});
+    final ids = links[questionId] ?? lineFor?.call(questionId);
+    if (ids == null || ids.isEmpty) return KcLine.parse({'cards': <Json>[], 'source': 'none'});
     return KcLine.parse({
       'cards': [for (final c in cards) if (ids.contains(c.id)) c.toJson()],
       'source': 'linked',

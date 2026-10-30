@@ -198,8 +198,9 @@ class KcBack extends StatelessWidget {
   }
 }
 
-/// One card in Read: the kind, the question as a small prompt, the book's words in the reading style with the
-/// blanked words marked, the reference and the note. The overflow holds "Report this card".
+/// One card in Read: the kind, the question as a small prompt (not for a term or key line, whose marked words
+/// already show it), the book's words in the reading style with the blanked words marked, the reference and
+/// the note. The overflow holds "Report this card".
 class KcReadCard extends StatelessWidget {
   const KcReadCard({super.key, required this.card});
 
@@ -217,8 +218,13 @@ class KcReadCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             KcKindLine(card: card, trailing: KcCardMenu(card: card)),
-            Text(card.front, style: type.small.copyWith(color: colors.ink2)),
-            const SizedBox(height: MmSpace.s8),
+            // A term or key line asks with the line itself: its marked words say what was blanked, so the
+            // prompt would only repeat the line.
+            if (!card.hasBlanks) ...[
+              Text(card.front, style: type.small.copyWith(color: colors.ink2)),
+              const SizedBox(height: MmSpace.s8),
+            ] else
+              const SizedBox(height: MmSpace.s4),
             KcBack(card: card),
             const SizedBox(height: MmSpace.s8),
             KcReference(card: card),
@@ -254,14 +260,54 @@ class KcLockedRow extends ConsumerWidget {
                 Text(KeyCardsCopy.locked(count), style: type.body.copyWith(fontWeight: FontWeight.w500, fontFeatures: const [FontFeature.tabularFigures()])),
                 const SizedBox(height: MmSpace.s2),
                 Text(KeyCardsCopy.proLine, style: type.small.copyWith(color: colors.ink2)),
-                if (canUpgrade) ...[
-                  const SizedBox(height: MmSpace.s4),
-                  KeyButton.quiet(label: KeyCardsCopy.upgrade, onPressed: () => showUpgradeSheetIfOn(context, reason: ProReason.keycards)),
-                ],
+                if (canUpgrade) KcLinkAction(label: KeyCardsCopy.upgrade, onTap: () => showUpgradeSheetIfOn(context, reason: ProReason.keycards)),
               ],
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+/// A quiet action set on the text edge (Share chapter sheet, Add to Revise, Upgrade to Pro): the words
+/// underlined, a 44 dp target, the same look as Review's lesson link. [onTap] null: dimmed and inert.
+class KcLinkAction extends StatelessWidget {
+  const KcLinkAction({super.key, required this.label, required this.onTap, this.busy = false});
+
+  final String label;
+  final VoidCallback? onTap;
+
+  /// Sending: the words fade a step and the link waits.
+  final bool busy;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    final live = onTap != null && !busy;
+    return MmPressable(
+      onTap: live ? onTap : null,
+      pressedScale: 0.985,
+      focusRadius: MmRadius.keyAll,
+      haptic: MmPressHaptic.selection,
+      highlight: true,
+      semanticsLabel: label,
+      builder: (context, pressed, _) => ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: MmTarget.min),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          widthFactor: 1,
+          child: AnimatedOpacity(
+            opacity: live ? 1 : 0.5,
+            duration: Motion.of(context, Motion.ui),
+            curve: Motion.out,
+            child: Text(
+              label,
+              style: type.labelLarge.copyWith(fontSize: 14.5, decoration: TextDecoration.underline, decorationColor: colors.lineStrong, color: colors.ink),
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -411,8 +457,9 @@ class KcRatingKeys extends StatelessWidget {
   }
 }
 
-/// One card face in a session: the question first; the whole well is the target that shows the answer (or
-/// Space); then the book's words, the reference and the three rating keys.
+/// One card face in a session (Study, and Revise's Key cards): one card, the question first. Show the answer
+/// (or a tap on the card, or Space) opens the book's words under a hairline in the same card, with the
+/// reference; then the three rating keys take the reveal key's place.
 class KcStudyFace extends StatelessWidget {
   const KcStudyFace({
     super.key,
@@ -437,114 +484,69 @@ class KcStudyFace extends StatelessWidget {
   Widget build(BuildContext context) {
     final colors = context.mmColors;
     final type = context.mmType;
-    final question = card.hasBlanks
-        ? KcBlankText(line: BlankedLine.front(card.front), style: type.question)
-        : Text(card.front, style: type.question);
+    // Once the answer shows, the question steps back a shade so the book's words lead.
+    final ask = type.question.copyWith(color: revealed ? colors.ink2 : colors.ink);
+    final question = card.hasBlanks ? KcBlankText(line: BlankedLine.front(card.front), style: ask) : Text(card.front, style: ask);
+    final face = MmSurface.plain(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Semantics(header: true, child: question),
+          if (revealed)
+            MmEntrance(
+              rise: 8,
+              child: Semantics(
+                liveRegion: true,
+                container: true,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    const SizedBox(height: MmSpace.s16),
+                    Divider(height: 1, thickness: 1, color: colors.line),
+                    const SizedBox(height: MmSpace.s16),
+                    KcBack(card: card),
+                    const SizedBox(height: MmSpace.s12),
+                    KcReference(card: card),
+                  ],
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         KcKindLine(card: card, position: position, trailing: KcCardMenu(card: card)),
         const SizedBox(height: MmSpace.s4),
-        MmSurface.plain(
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 120),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [Semantics(header: true, child: question)],
-            ),
+        if (revealed)
+          face
+        else
+          // The whole card is a target too: a tap anywhere on the question shows the answer.
+          MmPressable(
+            onTap: onReveal,
+            pressedScale: 0.99,
+            focusRadius: MmRadius.panelAll,
+            haptic: MmPressHaptic.selection,
+            semanticsLabel: KeyCardsCopy.tapToReveal,
+            builder: (context, pressed, _) => face,
           ),
-        ),
-        const SizedBox(height: MmSpace.s12),
-        MmOverlapSwitcher.fade(
-          duration: Motion.card,
-          alignment: Alignment.topCenter,
-          child: revealed
-              ? KeyedSubtree(key: const ValueKey('kc-answer'), child: _Answer(card: card))
-              : KeyedSubtree(key: const ValueKey('kc-reveal'), child: _RevealWell(onTap: onReveal)),
-        ),
         if (error != null) ...[
           const SizedBox(height: MmSpace.s12),
           Semantics(liveRegion: true, child: Text(error!, style: type.small.copyWith(color: colors.warnText))),
         ],
-        if (revealed) ...[
-          const SizedBox(height: MmSpace.s16),
-          KcRatingKeys(onRate: onRate, sending: sending),
-        ],
+        const SizedBox(height: MmSpace.s16),
+        MmOverlapSwitcher.fade(
+          duration: Motion.ui,
+          alignment: Alignment.topCenter,
+          child: revealed
+              ? KeyedSubtree(key: const ValueKey('kc-rate'), child: KcRatingKeys(onRate: onRate, sending: sending))
+              : KeyedSubtree(
+                  key: const ValueKey('kc-reveal'),
+                  child: KeyButton(label: KeyCardsCopy.tapToReveal, onPressed: onReveal, hapticOnCommit: false),
+                ),
+        ),
       ],
-    );
-  }
-}
-
-class _RevealWell extends StatelessWidget {
-  const _RevealWell({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final type = context.mmType;
-    return MmPressable(
-      onTap: onTap,
-      highlight: true,
-      focusRadius: MmRadius.panelAll,
-      pressedScale: 0.985,
-      haptic: MmPressHaptic.selection,
-      semanticsLabel: KeyCardsCopy.tapToReveal,
-      builder: (context, pressed, _) => DecoratedBox(
-        decoration: ShapeDecoration(color: colors.sunken, shape: mmShapeBorder(MmRadius.panelAll, side: BorderSide(color: colors.line))),
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 112),
-          child: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(MmSpace.s16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(LucideIcons.eye, size: 20, color: colors.ink3),
-                  const SizedBox(height: MmSpace.s8),
-                  Text(KeyCardsCopy.tapToReveal, style: type.body.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s2),
-                  Text(KeyCardsCopy.revealHint, style: type.caption.copyWith(color: colors.ink3)),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _Answer extends StatelessWidget {
-  const _Answer({required this.card});
-
-  final KeyCard card;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    return Semantics(
-      liveRegion: true,
-      container: true,
-      child: DecoratedBox(
-        decoration: ShapeDecoration(
-          color: MmSelection.fill(colors, selected: true),
-          shape: mmShapeBorder(MmRadius.panelAll, side: MmSelection.side(colors, selected: true)),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(MmRhythm.plainPad),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              KcBack(card: card),
-              const SizedBox(height: MmSpace.s12),
-              KcReference(card: card),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }

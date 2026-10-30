@@ -556,14 +556,20 @@ class ReviseItem {
 /// The merged Revise queue (`GET /api/me/revise?queue=1`, the website's `reviseQueue.js`): the
 /// questions back (wrong answers and repaired mistakes), the pending Check it held and the lesson
 /// cards due, deduped by question and capped by the server.
+///
+/// A server with Key cards on also merges the Key cards due as a fifth source (`kind: 'keycard'`,
+/// KEYCARDS-BUILD-SPEC 2e) and counts their minutes in [minutes]. The phone plays Key cards from their
+/// own route (`/api/keycards/due`, kept for offline), so this queue only counts them ([keyCards]) to keep
+/// them out of [total] and [minutesWithoutKeyCards]; nothing is counted twice.
 class ReviseQueue {
-  const ReviseQueue({this.back = const [], this.checks = const [], this.counts = const ReviseQueueCounts(), this.total = 0, this.minutes = 0});
+  const ReviseQueue({this.back = const [], this.checks = const [], this.counts = const ReviseQueueCounts(), this.total = 0, this.minutes = 0, this.keyCards = 0});
 
   static ReviseQueue? tryParse(Json j) {
     final raw = asJsonList(j['items']);
     final back = <ReviseItem>[];
     final checks = <ReviseCheck>[];
     final seen = <String>{};
+    var keyCards = 0;
     for (final i in raw) {
       final kind = asStringOr(i['kind'], '');
       if (kind == ReviseItem.kindQuestion || kind == ReviseItem.kindAgain) {
@@ -573,6 +579,9 @@ class ReviseQueue {
       } else if (kind == ReviseCheck.kind) {
         final check = ReviseCheck.tryParse(i);
         if (check != null && seen.add('check:${check.key}')) checks.add(check);
+      } else if (kind == keyCardKind) {
+        final id = asStringOr(i['cardId'], '');
+        if (id.isNotEmpty && seen.add('kc:$id')) keyCards++;
       }
     }
     final c = asJson(j['counts']);
@@ -589,11 +598,24 @@ class ReviseQueue {
       // The head counts what the phone will show, so "8 due today" and the mix line always agree.
       total: back.length + checks.length + cards,
       minutes: asInt(j['minutes']) ?? 0,
+      keyCards: keyCards,
     );
   }
 
   /// Lesson cards add at most this many a day (the website's `CARD_CAP`).
   static const int cardCap = 5;
+
+  /// The merged queue's Key card items.
+  static const String keyCardKind = 'keycard';
+
+  /// The website's `keycardMinutes` (15 seconds a card, rounded up): what [keyCards] add to [minutes].
+  static int keyCardMinutes(int n) => n <= 0 ? 0 : (n * 15 / 60).ceil();
+
+  /// Key cards the server merged into this queue (played from their own route, never from here).
+  final int keyCards;
+
+  /// [minutes] without the merged Key cards, so the phone can add the ones it really plays.
+  int get minutesWithoutKeyCards => (minutes - keyCardMinutes(keyCards)).clamp(0, 1 << 20);
 
   /// The questions back, in play order.
   final List<ReviseItem> back;

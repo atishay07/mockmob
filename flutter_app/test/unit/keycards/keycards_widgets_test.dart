@@ -148,7 +148,7 @@ void main() {
       await _pump(tester, const Column(children: [LineYouNeeded(questionId: 'q-wrong-1'), LineYouNeeded(questionId: 'q-unknown')]), keyCardsOverrides(api));
       expect(find.text(KeyCardsCopy.lineTitle), findsOneWidget);
       expect(find.text(KeyCardsCopy.lineLinked), findsOneWidget);
-      await _tap(tester, _key(KeyCardsCopy.lineAdd));
+      await _tap(tester, find.text(KeyCardsCopy.lineAdd));
       expect(find.text(KeyCardsCopy.lineAdded), findsOneWidget);
       expect(api.states, hasLength(2));
     });

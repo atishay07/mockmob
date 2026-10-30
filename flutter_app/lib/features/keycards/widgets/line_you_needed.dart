@@ -96,17 +96,18 @@ class _KcLineBlockState extends ConsumerState<KcLineBlock> {
             const SizedBox(height: MmSpace.s4),
             KcReference(card: card),
           ],
-          const SizedBox(height: MmSpace.s8),
-          // The action, and Free's lines left today beside it (under it when they do not fit).
+          const SizedBox(height: MmSpace.s4),
+          // The action on the text edge, and Free's lines left today on the right edge (under it when they do
+          // not fit).
           Wrap(
             alignment: WrapAlignment.spaceBetween,
             crossAxisAlignment: WrapCrossAlignment.center,
-            runSpacing: MmSpace.s4,
+            spacing: MmSpace.s12,
             children: [
               if (_added)
                 const SizedBox(height: MmTarget.min, child: Align(alignment: Alignment.centerLeft, widthFactor: 1, child: _AddedLine()))
               else
-                KeyButton.quiet(label: KeyCardsCopy.lineAdd, onPressed: _adding ? null : () => unawaited(_add())),
+                KcLinkAction(label: KeyCardsCopy.lineAdd, busy: _adding, onTap: () => unawaited(_add())),
               if (line.left != null)
                 Text(KeyCardsCopy.lineLeft(line.left!), style: type.caption.copyWith(color: colors.ink3, fontFeatures: const [FontFeature.tabularFigures()])),
             ],

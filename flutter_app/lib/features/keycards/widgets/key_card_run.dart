@@ -19,15 +19,30 @@ import 'key_card_parts.dart';
 /// (1, 2, 3). Each rating goes to the outbox and on; the next card arrives once the rating is saved (on the
 /// server, or on this phone while offline). "4 of 20" says where the student is. The end shows counts only.
 class KeyCardRun extends ConsumerStatefulWidget {
-  const KeyCardRun({super.key, required this.cards, required this.mode, required this.onDone, this.startAt = 0, this.startRevealed = false});
+  const KeyCardRun({
+    super.key,
+    required this.cards,
+    required this.mode,
+    required this.onDone,
+    this.startAt = 0,
+    this.startRevealed = false,
+    this.endTitle = KeyCardsCopy.studyDone,
+    this.doneLabel = KeyCardsCopy.backToChapter,
+    this.againLabel = KeyCardsCopy.studyAgain,
+  });
 
   final List<KeyCard> cards;
 
   /// `study` or `revise` (the mode the ratings are logged with).
   final String mode;
 
-  /// Back to the chapter.
+  /// The end's key (back to the chapter, or out of Revise).
   final VoidCallback onDone;
+
+  /// The end's words: its title, its key and the quiet "again" (null: no again).
+  final String endTitle;
+  final String doneLabel;
+  final String? againLabel;
 
   /// For goldens: where the session stands when it opens.
   final int startAt;
@@ -106,6 +121,9 @@ class _KeyCardRunState extends ConsumerState<KeyCardRun> {
         gotIt: _counts[KeyCardRules.gotIt] ?? 0,
         easy: _counts[KeyCardRules.easy] ?? 0,
         waiting: _waitingAny,
+        title: widget.endTitle,
+        doneLabel: widget.doneLabel,
+        againLabel: widget.againLabel,
         onAgain: _again,
         onDone: widget.onDone,
       );
@@ -150,12 +168,26 @@ class _KeyCardRunState extends ConsumerState<KeyCardRun> {
 
 /// The end of a session: the counts, and the two ways on.
 class KcSessionEnd extends StatelessWidget {
-  const KcSessionEnd({super.key, required this.missed, required this.gotIt, required this.easy, required this.onAgain, required this.onDone, this.waiting = false});
+  const KcSessionEnd({
+    super.key,
+    required this.missed,
+    required this.gotIt,
+    required this.easy,
+    required this.onAgain,
+    required this.onDone,
+    this.waiting = false,
+    this.title = KeyCardsCopy.studyDone,
+    this.doneLabel = KeyCardsCopy.backToChapter,
+    this.againLabel = KeyCardsCopy.studyAgain,
+  });
 
   final int missed;
   final int gotIt;
   final int easy;
   final bool waiting;
+  final String title;
+  final String doneLabel;
+  final String? againLabel;
   final VoidCallback onAgain;
   final VoidCallback onDone;
 
@@ -167,7 +199,7 @@ class KcSessionEnd extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Semantics(header: true, liveRegion: true, child: Text(KeyCardsCopy.studyDone, style: type.title)),
+        Semantics(header: true, liveRegion: true, child: Text(title, style: type.title)),
         const SizedBox(height: MmSpace.s8),
         if (counts.isNotEmpty) Text(counts, style: type.body.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
         if (waiting) ...[
@@ -175,14 +207,17 @@ class KcSessionEnd extends StatelessWidget {
           Text(KeyCardsCopy.savedOnPhone, style: type.small.copyWith(color: colors.ink2)),
         ],
         const SizedBox(height: MmSpace.s24),
-        KeyButton(label: KeyCardsCopy.backToChapter, onPressed: onDone),
-        Align(child: KeyButton.quiet(label: KeyCardsCopy.studyAgain, onPressed: onAgain)),
+        KeyButton(label: doneLabel, onPressed: onDone),
+        if (againLabel != null) ...[
+          const SizedBox(height: MmSpace.s4),
+          Align(child: KeyButton.quiet(label: againLabel!, onPressed: onAgain)),
+        ],
       ],
     );
   }
 }
 
-//// Last look: the Must-know cards with their answers showing, one at a time at its own height. A swipe left
+/// Last look: the Must-know cards with their answers showing, one at a time at its own height. A swipe left
 /// or Next moves on, a swipe right goes back. Nothing is scheduled and nothing is sent.
 class KcLastLook extends StatefulWidget {
   const KcLastLook({super.key, required this.cards, this.startAt = 0});
@@ -260,8 +295,12 @@ class _KcLastLookState extends State<KcLastLook> {
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   KcKindLine(card: card, trailing: KcCardMenu(card: card)),
-                  Text(card.front, style: type.small.copyWith(color: colors.ink2)),
-                  const SizedBox(height: MmSpace.s8),
+                  // As in Read: a term or key line needs no prompt above its own line.
+                  if (!card.hasBlanks) ...[
+                    Text(card.front, style: type.small.copyWith(color: colors.ink2)),
+                    const SizedBox(height: MmSpace.s8),
+                  ] else
+                    const SizedBox(height: MmSpace.s4),
                   KcBack(card: card),
                   const SizedBox(height: MmSpace.s12),
                   KcReference(card: card),
