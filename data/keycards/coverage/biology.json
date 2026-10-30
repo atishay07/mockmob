@@ -1,0 +1,268 @@
+{
+  "subject": "biology",
+  "chapters": {
+    "biology.biodiversity-and-conservation": {
+      "published": 72,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 13,
+        "term": 2,
+        "types": 3,
+        "fact": 46,
+        "list": 6,
+        "formula": 1,
+        "key_line": 1
+      },
+      "byImportance": {
+        "must": 44,
+        "good": 28
+      },
+      "coverage_note": null,
+      "mustShare": 0.61,
+      "belowMinimum": false
+    },
+    "biology.biotechnology-and-its-applications": {
+      "published": 70,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 11,
+        "list": 3,
+        "key_line": 2,
+        "fact": 43,
+        "term": 7,
+        "types": 1,
+        "steps": 2,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 58,
+        "good": 12
+      },
+      "coverage_note": null,
+      "mustShare": 0.83,
+      "belowMinimum": false
+    },
+    "biology.biotechnology-principles-and-processes": {
+      "published": 81,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 15,
+        "fact": 50,
+        "term": 3,
+        "steps": 3,
+        "list": 6,
+        "key_line": 2,
+        "types": 1,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 48,
+        "good": 33
+      },
+      "coverage_note": null,
+      "mustShare": 0.59,
+      "belowMinimum": false
+    },
+    "biology.ecosystem": {
+      "published": 72,
+      "quarantined": 0,
+      "byKind": {
+        "types": 5,
+        "fact": 32,
+        "definition": 19,
+        "list": 2,
+        "key_line": 10,
+        "formula": 1,
+        "steps": 1,
+        "difference": 2
+      },
+      "byImportance": {
+        "must": 55,
+        "good": 17
+      },
+      "coverage_note": null,
+      "mustShare": 0.76,
+      "belowMinimum": false
+    },
+    "biology.evolution": {
+      "published": 120,
+      "quarantined": 5,
+      "byKind": {
+        "fact": 92,
+        "definition": 12,
+        "list": 5,
+        "key_line": 6,
+        "difference": 3,
+        "formula": 1,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 86,
+        "good": 34
+      },
+      "coverage_note": null,
+      "mustShare": 0.72,
+      "belowMinimum": false
+    },
+    "biology.human-health-and-disease": {
+      "published": 172,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 25,
+        "list": 15,
+        "fact": 104,
+        "types": 10,
+        "term": 14,
+        "difference": 3,
+        "key_line": 1
+      },
+      "byImportance": {
+        "must": 103,
+        "good": 69
+      },
+      "coverage_note": null,
+      "mustShare": 0.6,
+      "belowMinimum": false
+    },
+    "biology.human-reproduction": {
+      "published": 122,
+      "quarantined": 0,
+      "byKind": {
+        "list": 9,
+        "fact": 55,
+        "key_line": 37,
+        "definition": 19,
+        "steps": 2
+      },
+      "byImportance": {
+        "must": 57,
+        "good": 65
+      },
+      "coverage_note": null,
+      "mustShare": 0.47,
+      "belowMinimum": false
+    },
+    "biology.microbes-in-human-welfare": {
+      "published": 67,
+      "quarantined": 0,
+      "byKind": {
+        "term": 5,
+        "fact": 44,
+        "key_line": 3,
+        "difference": 1,
+        "definition": 9,
+        "list": 4,
+        "steps": 1
+      },
+      "byImportance": {
+        "must": 41,
+        "good": 26
+      },
+      "coverage_note": null,
+      "mustShare": 0.61,
+      "belowMinimum": false
+    },
+    "biology.molecular-basis-of-inheritance": {
+      "published": 190,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 12,
+        "list": 8,
+        "types": 4,
+        "key_line": 50,
+        "term": 5,
+        "fact": 107,
+        "difference": 2,
+        "steps": 2
+      },
+      "byImportance": {
+        "must": 124,
+        "good": 66
+      },
+      "coverage_note": null,
+      "mustShare": 0.65,
+      "belowMinimum": false
+    },
+    "biology.organisms-and-populations": {
+      "published": 87,
+      "quarantined": 0,
+      "byKind": {
+        "list": 6,
+        "definition": 24,
+        "fact": 42,
+        "term": 5,
+        "formula": 4,
+        "key_line": 3,
+        "steps": 1,
+        "types": 2
+      },
+      "byImportance": {
+        "must": 55,
+        "good": 32
+      },
+      "coverage_note": null,
+      "mustShare": 0.63,
+      "belowMinimum": false
+    },
+    "biology.principles-of-inheritance-and-variation": {
+      "published": 115,
+      "quarantined": 2,
+      "byKind": {
+        "fact": 65,
+        "definition": 32,
+        "list": 5,
+        "key_line": 8,
+        "term": 1,
+        "formula": 2,
+        "types": 1,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 71,
+        "good": 44
+      },
+      "coverage_note": null,
+      "mustShare": 0.62,
+      "belowMinimum": false
+    },
+    "biology.reproductive-health": {
+      "published": 76,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 17,
+        "fact": 47,
+        "list": 5,
+        "key_line": 5,
+        "types": 2
+      },
+      "byImportance": {
+        "must": 60,
+        "good": 16
+      },
+      "coverage_note": null,
+      "mustShare": 0.79,
+      "belowMinimum": false
+    },
+    "biology.sexual-reproduction-in-flowering-plants": {
+      "published": 148,
+      "quarantined": 0,
+      "byKind": {
+        "term": 21,
+        "list": 10,
+        "key_line": 16,
+        "fact": 66,
+        "definition": 28,
+        "difference": 3,
+        "types": 1,
+        "steps": 3
+      },
+      "byImportance": {
+        "must": 112,
+        "good": 36
+      },
+      "coverage_note": null,
+      "mustShare": 0.76,
+      "belowMinimum": false
+    }
+  }
+}

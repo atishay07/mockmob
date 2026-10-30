@@ -1,0 +1,296 @@
+{
+  "subject": "political_science",
+  "chapters": {
+    "political_science.alternative-centres-of-power": {
+      "published": 84,
+      "quarantined": 0,
+      "byKind": {
+        "fact": 67,
+        "term": 8,
+        "list": 6,
+        "definition": 1,
+        "types": 1,
+        "key_line": 1
+      },
+      "byImportance": {
+        "must": 47,
+        "good": 37
+      },
+      "coverage_note": null,
+      "mustShare": 0.56,
+      "belowMinimum": false
+    },
+    "political_science.challenges-of-nation-building": {
+      "published": 74,
+      "quarantined": 1,
+      "byKind": {
+        "list": 3,
+        "fact": 58,
+        "quote": 4,
+        "key_line": 2,
+        "definition": 4,
+        "term": 3
+      },
+      "byImportance": {
+        "must": 59,
+        "good": 15
+      },
+      "coverage_note": null,
+      "mustShare": 0.8,
+      "belowMinimum": false
+    },
+    "political_science.challenges-to-and-restoration-of-the-congress-system": {
+      "published": 79,
+      "quarantined": 0,
+      "byKind": {
+        "fact": 62,
+        "key_line": 4,
+        "list": 8,
+        "definition": 5
+      },
+      "byImportance": {
+        "must": 61,
+        "good": 18
+      },
+      "coverage_note": null,
+      "mustShare": 0.77,
+      "belowMinimum": false
+    },
+    "political_science.contemporary-south-asia": {
+      "published": 71,
+      "quarantined": 1,
+      "byKind": {
+        "list": 4,
+        "fact": 61,
+        "key_line": 4,
+        "definition": 2
+      },
+      "byImportance": {
+        "must": 40,
+        "good": 31
+      },
+      "coverage_note": null,
+      "mustShare": 0.56,
+      "belowMinimum": false
+    },
+    "political_science.crisis-of-the-democratic-order": {
+      "published": 52,
+      "quarantined": 1,
+      "byKind": {
+        "term": 1,
+        "key_line": 6,
+        "fact": 38,
+        "quote": 2,
+        "list": 3,
+        "definition": 2
+      },
+      "byImportance": {
+        "must": 29,
+        "good": 23
+      },
+      "coverage_note": null,
+      "mustShare": 0.56,
+      "belowMinimum": false
+    },
+    "political_science.democratic-upsurge-and-coalition-politics": {
+      "published": 35,
+      "quarantined": 0,
+      "byKind": {
+        "term": 1,
+        "fact": 33,
+        "list": 1
+      },
+      "byImportance": {
+        "must": 27,
+        "good": 8
+      },
+      "coverage_note": null,
+      "mustShare": 0.77,
+      "belowMinimum": false
+    },
+    "political_science.end-of-bipolarity": {
+      "published": 90,
+      "quarantined": 0,
+      "byKind": {
+        "fact": 72,
+        "term": 3,
+        "definition": 3,
+        "key_line": 3,
+        "list": 8,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 67,
+        "good": 23
+      },
+      "coverage_note": null,
+      "mustShare": 0.74,
+      "belowMinimum": false
+    },
+    "political_science.environment-and-natural-resources": {
+      "published": 61,
+      "quarantined": 17,
+      "byKind": {
+        "fact": 41,
+        "definition": 9,
+        "list": 7,
+        "term": 2,
+        "quote": 1,
+        "difference": 1
+      },
+      "byImportance": {
+        "must": 42,
+        "good": 19
+      },
+      "coverage_note": null,
+      "mustShare": 0.69,
+      "belowMinimum": false
+    },
+    "political_science.era-of-one-party-dominance": {
+      "published": 79,
+      "quarantined": 0,
+      "byKind": {
+        "fact": 62,
+        "types": 2,
+        "definition": 4,
+        "key_line": 9,
+        "list": 2
+      },
+      "byImportance": {
+        "must": 54,
+        "good": 25
+      },
+      "coverage_note": null,
+      "mustShare": 0.68,
+      "belowMinimum": false
+    },
+    "political_science.globalisation": {
+      "published": 59,
+      "quarantined": 0,
+      "byKind": {
+        "definition": 4,
+        "list": 3,
+        "key_line": 13,
+        "fact": 38,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 43,
+        "good": 16
+      },
+      "coverage_note": null,
+      "mustShare": 0.73,
+      "belowMinimum": false
+    },
+    "political_science.india-s-external-relations": {
+      "published": 70,
+      "quarantined": 0,
+      "byKind": {
+        "list": 5,
+        "fact": 56,
+        "definition": 2,
+        "term": 7
+      },
+      "byImportance": {
+        "must": 44,
+        "good": 26
+      },
+      "coverage_note": null,
+      "mustShare": 0.63,
+      "belowMinimum": false
+    },
+    "political_science.international-organisations": {
+      "published": 80,
+      "quarantined": 0,
+      "byKind": {
+        "quote": 1,
+        "key_line": 5,
+        "fact": 62,
+        "definition": 5,
+        "list": 6,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 53,
+        "good": 27
+      },
+      "coverage_note": null,
+      "mustShare": 0.66,
+      "belowMinimum": false
+    },
+    "political_science.politics-of-planned-development": {
+      "published": 35,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 4,
+        "types": 1,
+        "fact": 27,
+        "key_line": 2,
+        "list": 1
+      },
+      "byImportance": {
+        "must": 25,
+        "good": 10
+      },
+      "coverage_note": null,
+      "mustShare": 0.71,
+      "belowMinimum": false
+    },
+    "political_science.recent-issues-and-challenges": {
+      "published": 46,
+      "quarantined": 1,
+      "byKind": {
+        "fact": 40,
+        "definition": 3,
+        "term": 2,
+        "key_line": 1
+      },
+      "byImportance": {
+        "must": 32,
+        "good": 14
+      },
+      "coverage_note": null,
+      "mustShare": 0.7,
+      "belowMinimum": false
+    },
+    "political_science.regional-aspirations": {
+      "published": 104,
+      "quarantined": 3,
+      "byKind": {
+        "key_line": 3,
+        "fact": 94,
+        "steps": 1,
+        "list": 4,
+        "quote": 1,
+        "term": 1
+      },
+      "byImportance": {
+        "must": 55,
+        "good": 49
+      },
+      "coverage_note": null,
+      "mustShare": 0.53,
+      "belowMinimum": false
+    },
+    "political_science.security-in-the-contemporary-world": {
+      "published": 70,
+      "quarantined": 0,
+      "byKind": {
+        "definition": 11,
+        "fact": 45,
+        "types": 4,
+        "term": 1,
+        "list": 3,
+        "key_line": 4,
+        "difference": 2
+      },
+      "byImportance": {
+        "must": 46,
+        "good": 24
+      },
+      "coverage_note": null,
+      "mustShare": 0.66,
+      "belowMinimum": false
+    }
+  }
+}

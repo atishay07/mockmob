@@ -1,0 +1,724 @@
+{
+  "subject": "business_studies",
+  "cards": [
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.kl-continuous-process",
+      "v": 2,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "key_line",
+      "front": "Management is a ____: The process of management is a series of continuous, composite, but separate functions",
+      "back": "Management is a continuous process: The process of management is a series of continuous, composite, but separate functions",
+      "quote": "Management is a continuous process: The process of management is a series of continuous, composite, but separate functions",
+      "blanks": [
+        "continuous process"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "Characteristics of Management"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "characteristics"
+      ],
+      "order": 210,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Blank 'continuous process' leaks: the word 'continuous' still appears in the front ('continuous, composite...'), so the fill is given away."
+      ]
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.kl-coordination-very-essence",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "key_line",
+      "front": "Coordination, therefore, is not a separate function of management, but its very ____.",
+      "back": "Coordination, therefore, is not a separate function of management, but its very essence.",
+      "quote": "Coordination, therefore, is not a separate function of management, but its very essence.",
+      "blanks": [
+        "essence"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 23,
+        "section": "Coordination -- The Essence of Management"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 610,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Single blank 'essence' has obvious synonyms (core, heart); 'very ____' does not force one fill."
+      ]
+    },
+    {
+      "id": "kc.business_studies.principles-of-management.key-foremanship-eight-specialists",
+      "v": 2,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.principles-of-management",
+      "chapter": "Principles of Management",
+      "unit": "Principles of Management",
+      "kind": "key_line",
+      "front": "Since all these qualities could not be found in a single person so Taylor proposed ____ specialists.",
+      "back": "Since all these qualities could not be found in a single person so Taylor proposed eight specialists.",
+      "quote": "Since all these qualities could not be found in a single person so Taylor proposed eight specialists.",
+      "blanks": [
+        "eight"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs102",
+        "chapterNo": 2,
+        "page": 48,
+        "section": "Techniques of Scientific Management"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "taylor",
+        "functional foremanship"
+      ],
+      "order": 500,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front has dangling 'these qualities' and never names functional foremanship, so it does not stand alone; add the cue."
+      ]
+    },
+    {
+      "id": "kc.business_studies.planning.fact-prerequisite-controlling",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.planning",
+      "chapter": "Planning",
+      "unit": "Planning",
+      "kind": "fact",
+      "front": "Planning establishes standards for controlling. What does NCERT say planning is for controlling?",
+      "back": "A prerequisite\nTherefore, we can say that planning is a prerequisite for controlling.",
+      "quote": "Therefore, we can say that planning is a prerequisite for controlling.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs104",
+        "chapterNo": 4,
+        "page": 94,
+        "section": "Importance of Planning"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "planning",
+        "importance",
+        "controlling"
+      ],
+      "order": 200,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Answer \"a prerequisite\" has obvious synonyms (requirement, basis, necessity); no mark-carrying single fill."
+      ]
+    },
+    {
+      "id": "kc.business_studies.planning.kl-step4-pros-cons",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.planning",
+      "chapter": "Planning",
+      "unit": "Planning",
+      "kind": "key_line",
+      "front": "The next step is to weigh the ____ of each alternative.",
+      "back": "The next step is to weigh the pros and cons of each alternative.",
+      "quote": "The next step is to weigh the pros and cons of each alternative.",
+      "blanks": [
+        "pros and cons"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs104",
+        "chapterNo": 4,
+        "page": 100,
+        "section": "Planning Process"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "planning",
+        "process"
+      ],
+      "order": 520,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Synonyms (merits and demerits, advantages and disadvantages) fit equally; front does not name the step."
+      ]
+    },
+    {
+      "id": "kc.business_studies.planning.fact-budget-control-device",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.planning",
+      "chapter": "Planning",
+      "unit": "Planning",
+      "kind": "fact",
+      "front": "Besides quantifying plans, a budget is also what, from which deviations can be taken care of?",
+      "back": "A control device\nThus, a budget is also a control device from which deviations can be taken care of.",
+      "quote": "Thus, a budget is also a control device from which deviations can be taken care of.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs104",
+        "chapterNo": 4,
+        "page": 105,
+        "section": "Budget"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "planning",
+        "budget",
+        "controlling"
+      ],
+      "order": 950,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Answer \"a control device\" has synonyms (control tool, control measure, controlling technique); not one right fill."
+      ]
+    },
+    {
+      "id": "kc.business_studies.organising.fact-functional-empires",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.organising",
+      "chapter": "Organising",
+      "unit": "Organising",
+      "kind": "fact",
+      "front": "In a functional structure, what may practices that overemphasise one function's importance lead to?",
+      "back": "Functional empires\nSuch practices may lead to functional empires wherein the importance of a particular function may be overemphasised.",
+      "quote": "Such practices may lead to functional empires wherein the importance of a particular function may be overemphasised.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs105",
+        "chapterNo": 5,
+        "page": 116,
+        "section": "Functional structure"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "organising",
+        "functional-structure"
+      ],
+      "order": 260,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Open-ended: many plausible answers (conflict, silos, rivalry); \"functional empires\" is not derivable from the front."
+      ]
+    },
+    {
+      "id": "kc.business_studies.organising.fact-delegation-not-abdication",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.organising",
+      "chapter": "Organising",
+      "unit": "Organising",
+      "kind": "fact",
+      "front": "NCERT: delegation does not mean what? The manager is still accountable for the assigned tasks.",
+      "back": "Abdication\nHowever, delegation does not mean abdication. The manager shall still be accountable for the performance of the assigned tasks.",
+      "quote": "However, delegation does not mean abdication. The manager shall still be accountable for the performance of the assigned tasks.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs105",
+        "chapterNo": 5,
+        "page": 125,
+        "section": "Delegation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "organising",
+        "delegation"
+      ],
+      "order": 630,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:\"Abdication\" has obvious synonyms (abandonment, giving up responsibility); front is awkwardly two-part."
+      ]
+    },
+    {
+      "id": "kc.business_studies.organising.fact-authority-commensurate",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.organising",
+      "chapter": "Organising",
+      "unit": "Organising",
+      "kind": "fact",
+      "front": "For effective delegation, the authority granted must be what with the assigned responsibility?",
+      "back": "Commensurate\nThus, for effective delegation the authority granted must be commensurate with the assigned responsibility.",
+      "quote": "Thus, for effective delegation the authority granted must be commensurate with the assigned responsibility.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs105",
+        "chapterNo": 5,
+        "page": 128,
+        "section": "Elements of Delegation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "organising",
+        "delegation"
+      ],
+      "order": 710,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:\"Commensurate\" has obvious synonyms (equal, equivalent, proportionate, matching); not one right fill."
+      ]
+    },
+    {
+      "id": "kc.business_studies.staffing.key-selection-decision-manager",
+      "v": 2,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.staffing",
+      "chapter": "Staffing",
+      "unit": "Staffing",
+      "kind": "key_line",
+      "front": "The views of the ____ will be generally considered in the final selection",
+      "back": "The views of the concerned manager will be generally considered in the final selection",
+      "quote": "The views of the concerned manager will be generally considered in the final selection",
+      "blanks": [
+        "concerned manager"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs106",
+        "chapterNo": 6,
+        "page": 157,
+        "section": "Process of Selection"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "selection"
+      ],
+      "order": 790,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Blank 'concerned manager' has near-synonyms (line manager, HR manager, manager); a student cannot know the exact fill from the front, and the point is low-value detail."
+      ]
+    },
+    {
+      "id": "kc.business_studies.directing.key-principle-harmony-of-objectives",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.directing",
+      "chapter": "Directing",
+      "unit": "Directing",
+      "kind": "key_line",
+      "front": "____: Very often, we find that individual objectives of employees and the organisational objectives as understood are conflicting to each other.",
+      "back": "Harmony of objectives: Very often, we find that individual objectives of employees and the organisational objectives as understood are conflicting to each other.",
+      "quote": "Harmony of objectives: Very often, we find that individual objectives of employees and the organisational objectives as understood are conflicting to each other.",
+      "blanks": [
+        "Harmony of objectives"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs107",
+        "chapterNo": 7,
+        "page": 172,
+        "section": "Principles of Directing"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "directing",
+        "principles"
+      ],
+      "order": 120,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:front blanks only the principle heading; the sentence alone fits other names (Unity of objectives, Reconciliation); no cue that it is a principle of directing"
+      ]
+    },
+    {
+      "id": "kc.business_studies.directing.key-principle-follow-through",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.directing",
+      "chapter": "Directing",
+      "unit": "Directing",
+      "kind": "key_line",
+      "front": "____: Mere giving of an order is not sufficient.",
+      "back": "Follow through: Mere giving of an order is not sufficient.",
+      "quote": "Follow through: Mere giving of an order is not sufficient.",
+      "blanks": [
+        "Follow through"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs107",
+        "chapterNo": 7,
+        "page": 173,
+        "section": "Principles of Directing"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "directing",
+        "principles"
+      ],
+      "order": 170,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:front is one generic sentence (\"Mere giving of an order is not sufficient\") with a blank heading; many fills fit (supervision, feedback, follow through); no principle-of-directing cue"
+      ]
+    },
+    {
+      "id": "kc.business_studies.directing.key-non-financial-needs",
+      "v": 2,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.directing",
+      "chapter": "Directing",
+      "unit": "Directing",
+      "kind": "key_line",
+      "front": "____, social and ____ factors also play important role in providing motivation.",
+      "back": "Psychological, social and emotional factors also play important role in providing motivation.",
+      "quote": "Psychological, social and emotional factors also play important role in providing motivation.",
+      "blanks": [
+        "Psychological",
+        "emotional"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs107",
+        "chapterNo": 7,
+        "page": 182,
+        "section": "Non-Financial Incentives"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "motivation",
+        "incentives"
+      ],
+      "order": 550,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:blanks Psychological/emotional have obvious synonyms (cultural, economic); front lacks its subject (non-financial incentives) so is not standalone"
+      ]
+    },
+    {
+      "id": "kc.business_studies.financial-management.kl-div-stabilising",
+      "v": 2,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.financial-management",
+      "chapter": "Financial Management",
+      "unit": "Financial Management",
+      "kind": "key_line",
+      "front": "Stability of Dividends: Companies generally follow a policy of ____ dividend per share.",
+      "back": "Stability of Dividends: Companies generally follow a policy of stabilising dividend per share.",
+      "quote": "Stability of Dividends: Companies generally follow a policy of stabilising dividend per share.",
+      "blanks": [
+        "stabilising"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs201",
+        "chapterNo": 9,
+        "page": 222,
+        "section": "Factors Affecting Dividend Decision"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "dividend decision",
+        "factors"
+      ],
+      "order": 460,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Blank 'stabilising' has an obvious synonym ('stable'); a student cannot know which form is the one NCERT prints, so the fill is not unique."
+      ]
+    },
+    {
+      "id": "kc.business_studies.financial-management.fact-cs-tax-rate",
+      "v": 2,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.financial-management",
+      "chapter": "Financial Management",
+      "unit": "Financial Management",
+      "kind": "fact",
+      "front": "Borrowing at 10% with a tax rate of 30%: what is the after tax cost of debt?",
+      "back": "The firms in our examples are borrowing @ 10%. Since the tax rate is 30%, the after tax cost of debt is only 7%.",
+      "quote": "The firms in our examples are borrowing @ 10%. Since the tax rate is 30%, the after tax cost of debt is only 7%.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs201",
+        "chapterNo": 9,
+        "page": 231,
+        "section": "Factors affecting the Choice of Capital Structure"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "capital structure",
+        "factors",
+        "tax rate"
+      ],
+      "order": 990,
+      "reasons": [
+        "review:not_important",
+        "review:Worked-example arithmetic (10% borrowing, 30% tax gives 7%) taken from the illustration; not a definition, list, formula or fact worth memorising. Front is self-contained but the point is trivia."
+      ]
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-speciality-products",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing Management",
+      "kind": "fact",
+      "front": "What are speciality products?",
+      "back": "Speciality products are those consumer goods\nwhich have certain special features because of which people make special efforts in their purchase. These products are such, which have reached a brand loyalty of the highest order, with a significant number of buyers.",
+      "quote": "which have certain special features because of which people make special efforts in their purchase. These products are such, which have reached a brand loyalty of the highest order, with a significant number of buyers.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 258,
+        "section": "Classification of Products"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "classification",
+        "definition"
+      ],
+      "order": 510,
+      "reasons": [
+        "review:not_exact",
+        "review:Quote starts mid-sentence on p258 ('which have certain special features...'), but back adds 'Speciality products are those consumer goods' (end of p257) that is not in the quote; back is not derived from quote. Quote must be the whole sentence across 257-258 and the card cited from 257. Definition-t"
+      ]
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.key-business-moral-justification",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "key_line",
+      "front": "____: It is the moral duty of any business to take care of consumer’s interest and avoid any form of their exploitation.",
+      "back": "Moral Justification: It is the moral duty of any business to take care of consumer’s interest and avoid any form of their exploitation.",
+      "quote": "Moral Justification: It is the moral duty of any business to take care of consumer’s interest and avoid any form of their exploitation.",
+      "blanks": [
+        "Moral Justification"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 293,
+        "section": "From the point of view of Business"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "consumer protection"
+      ],
+      "order": 150,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:blank is a heading phrase; \"moral duty\" sentence also fits Ethical responsibility, Social responsibility; one right fill not derivable"
+      ]
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.fact-resp-standardised-marks",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "Which quality marks should a consumer look for on electrical goods, food products and jewelry?",
+      "back": "ISI mark, FPO mark and Hallmark\nBuy only standardised goods as they provide quality assurance. Thus, look for ISI mark on electrical goods, FPO mark on food products, Hallmark on jewelry, etc.",
+      "quote": "Buy only standardised goods as they provide quality assurance. Thus, look for ISI mark on electrical goods, FPO mark on food products, Hallmark on jewelry, etc.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 296,
+        "section": "Consumer Responsibilities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "consumer responsibilities"
+      ],
+      "order": 440,
+      "reasons": [
+        "review:not_exact",
+        "review:back lead line \"ISI mark, FPO mark and Hallmark\" is composed, not an exact contiguous NCERT fragment; for a fact card use the NCERT sentence only"
+      ]
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.fact-ways-business-associations",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "Name the two business associations NCERT gives as examples that have laid down a code of conduct for their members.",
+      "back": "FICCI and CII\nThe associations of trade, commerce and business like Federation of Indian Chambers of Commerce of India (FICCI) and Confederation of Indian Industries (CII) have laid down their code of conduct which lay down for their members the guidelines in their dealings with the customers.",
+      "quote": "The associations of trade, commerce and business like Federation of Indian Chambers of Commerce of India (FICCI) and Confederation of Indian Industries (CII) have laid down their code of conduct which lay down for their members the guidelines in their dealings with the customers.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 298,
+        "section": "Ways and Means of Consumer Protection"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "ways and means"
+      ],
+      "order": 510,
+      "reasons": [
+        "review:not_exact",
+        "review:back lead line \"FICCI and CII\" is stitched from abbreviations, not an exact NCERT fragment; use the NCERT sentence only"
+      ]
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.fact-district-appeal",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "To which body, and within how many days, can a party appeal against an order of the District Commission?",
+      "back": "State Commission, within forty five days\nIf any of the parties are not satisfied by the order of District Commission can appeal against such order to the State Commission on the grounds of facts or law within a period of forty five days from the date of order.",
+      "quote": "If any of the parties are not satisfied by the order of District Commission can appeal against such order to the State Commission on the grounds of facts or law within a period of forty five days from the date of order.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 300,
+        "section": "Redressal Agencies Under The Consumer Protection Act"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "redressal"
+      ],
+      "order": 590,
+      "reasons": [
+        "review:not_exact",
+        "review:back lead line \"State Commission, within forty five days\" is composed, not an exact NCERT fragment; use the NCERT sentence only"
+      ]
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.fact-state-appeal",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "To which body, and within how many days, can a party appeal against an order of the State Commission?",
+      "back": "National Commission, within thirty days\nIf any of the parties are not satisfied by the order of State Commission can appeal against such order to the National Commission within a period of thirty days of such order.",
+      "quote": "If any of the parties are not satisfied by the order of State Commission can appeal against such order to the National Commission within a period of thirty days of such order.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 300,
+        "section": "Redressal Agencies Under The Consumer Protection Act"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "redressal"
+      ],
+      "order": 620,
+      "reasons": [
+        "review:not_exact",
+        "review:back lead line \"National Commission, within thirty days\" is composed, not an exact NCERT fragment; use the NCERT sentence only"
+      ]
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.fact-national-appeal",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "To which body, and within how many days, can a party appeal against an order of the National Commission?",
+      "back": "Supreme Court of India, within thirty days\nIf any of the parties are not satisfied by the order of National Commission can appeal against such order to the Supreme Court of India within a period of thirty days of such order.",
+      "quote": "If any of the parties are not satisfied by the order of National Commission can appeal against such order to the Supreme Court of India within a period of thirty days of such order.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 300,
+        "section": "Redressal Agencies Under The Consumer Protection Act"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "redressal"
+      ],
+      "order": 650,
+      "reasons": [
+        "review:not_exact",
+        "review:back lead line \"Supreme Court of India, within thirty days\" is composed, not an exact NCERT fragment; use the NCERT sentence only"
+      ]
+    }
+  ]
+}

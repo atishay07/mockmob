@@ -1,0 +1,36 @@
+{
+  "subject": "english",
+  "chapters": {
+    "english.correct-word-usage": {
+      "published": 63,
+      "quarantined": 2,
+      "byKind": {
+        "usage": 33,
+        "rule": 30
+      },
+      "byImportance": {
+        "must": 39,
+        "good": 24
+      },
+      "coverage_note": null,
+      "mustShare": 0.62,
+      "belowMinimum": false
+    },
+    "english.vocabulary": {
+      "published": 255,
+      "quarantined": 2,
+      "byKind": {
+        "word": 155,
+        "idiom": 53,
+        "one_word": 47
+      },
+      "byImportance": {
+        "must": 154,
+        "good": 101
+      },
+      "coverage_note": null,
+      "mustShare": 0.6,
+      "belowMinimum": false
+    }
+  }
+}

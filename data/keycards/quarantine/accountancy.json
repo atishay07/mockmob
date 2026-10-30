@@ -1,0 +1,652 @@
+{
+  "subject": "accountancy",
+  "cards": [
+    {
+      "id": "kc.accountancy.partnership-fundamentals.kl-oral-agreement",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "chapter": "Partnership Fundamentals",
+      "unit": "Partnership Fundamentals",
+      "kind": "key_line",
+      "front": "An ____ agreement is equally valid.",
+      "back": "An oral agreement is equally valid.",
+      "quote": "An oral agreement is equally valid.",
+      "blanks": [
+        "oral"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac101",
+        "chapterNo": 1,
+        "page": 2,
+        "section": "1.1 Nature of Partnership"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "partnership",
+        "agreement"
+      ],
+      "order": 90,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front 'An ____ agreement is equally valid.' has no context; 'verbal' is an obvious synonym for the blank, so no single right fill."
+      ]
+    },
+    {
+      "id": "kc.accountancy.partnership-fundamentals.fact-liability-unlimited-private-assets",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "chapter": "Partnership Fundamentals",
+      "unit": "Partnership Fundamentals",
+      "kind": "fact",
+      "front": "A partner’s liability for the firm’s acts is unlimited: what does this imply about his assets?",
+      "back": "Not only that the liability of a partner for acts of the firm is also unlimited. This implies that his private assets can also be used for paying off the firm’s debts.",
+      "quote": "Not only that the liability of a partner for acts of the firm is also unlimited. This implies that his private assets can also be used for paying off the firm’s debts.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac101",
+        "chapterNo": 1,
+        "page": 3,
+        "section": "1.1 Nature of Partnership"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "partnership",
+        "liability"
+      ],
+      "order": 150,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Back opens with dangling fragment 'Not only that the liability of a partner...'; start the back at the 'This implies...' sentence or restructure so it reads cleanly."
+      ]
+    },
+    {
+      "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-iod-quarterly-end",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+      "chapter": "Profit & Loss Appropriation Account",
+      "unit": "Profit & Loss Appropriation Account",
+      "kind": "fact",
+      "front": "Fixed amount withdrawn at the end of each quarter: for what period is interest on the total amount calculated?",
+      "back": "Alternatively, the interest can be calculated on the total amount withdrawn during the accounting year, i.e., Rs. 1,20,000 for a period of 4½ months (9 + 6 + 3 + 0)/4 months",
+      "quote": "Alternatively, the interest can be calculated on the total amount withdrawn during the accounting year, i.e., Rs. 1,20,000 for a period of 4½ months (9 + 6 + 3 + 0)/4 months",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac101",
+        "chapterNo": 1,
+        "page": 23,
+        "section": "1.5.3 Interest on Drawings"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "interest on drawings",
+        "average period"
+      ],
+      "order": 900,
+      "note": "At the end of each quarter the average period is 4½ months.",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Back opens with dangling 'Alternatively,' and carries example-only Rs 1,20,000; front does not state equal amounts or the 12-month year, so 4.5 months is not derivable from the front alone."
+      ]
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Goodwill Valuation",
+      "kind": "definition",
+      "front": "Define goodwill in terms of the reputation of a firm.",
+      "back": "In other words, goodwill is the value of the reputation of a firm in respect of the profits expected in future over and above the normal profits.",
+      "quote": "In other words, goodwill is the value of the reputation of a firm in respect of the profits expected in future over and above the normal profits.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 55,
+        "section": "2.5.1 Meaning of Goodwill"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill",
+        "normal profits"
+      ],
+      "order": 240,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Back opens with dangling 'In other words,' (refers to preceding sentence); start at 'goodwill is the value of the reputation...'."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-not-brought-accounts",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "fact",
+      "front": "New partner does not bring goodwill in cash: which accounts are debited and credited?",
+      "back": "Goodwill not brought by the new partner will be debited to current account of new partner while sacrificing partners' capital accounts will be credited for their respective shares.",
+      "quote": "Goodwill not brought by the new partner will be debited to current account of new partner while sacrificing partners' capital accounts will be credited for their respective shares.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 69,
+        "section": "When the new partner does not bring goodwill"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "goodwill"
+      ],
+      "order": 680,
+      "reasons": [
+        "review:not_important",
+        "review:Redundant: same answer as fact-no-goodwill-books-credit-debit and fact-part-brought-current-debited; fronts hard to tell apart."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.entry-e-reval-liability-decrease",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "entry",
+      "front": "Journal entry: reduction in the amount of a liability.",
+      "back": "Liability A/c Dr.\nTo Revaluation A/c\n(Gain)",
+      "quote": "For reduction in the amount of a liability Liability A/c Dr. To Revaluation A/c (Gain)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 78,
+        "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "revaluation"
+      ],
+      "order": 960,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front lacks 'on revaluation of assets and liabilities' context; 'reduction in a liability' alone has other entries (e.g. payment), so one right answer is not fixed."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.entry-e-reval-unrecorded-asset",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "entry",
+      "front": "Journal entry: an unrecorded asset.",
+      "back": "Asset A/c Dr.\nTo Revaluation A/c\n(Gain)",
+      "quote": "For an unrecorded asset Asset A/c Dr. To Revaluation A/c (Gain)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 78,
+        "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "revaluation"
+      ],
+      "order": 970,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front lacks revaluation context; 'an unrecorded asset' alone could be capital/other entry. Add 'on revaluation at admission'."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.entry-e-reval-unrecorded-liability",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "entry",
+      "front": "Journal entry: an unrecorded liability.",
+      "back": "Revaluation A/c Dr.\nTo Liability A/c\n(Loss)",
+      "quote": "For an unrecorded liability Revaluation A/c Dr. To Liability A/c (Loss)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 78,
+        "section": "2.7 Revaluation of Assets and Reassessment of Liabilities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "revaluation"
+      ],
+      "order": 980,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front lacks revaluation context; add 'on revaluation of assets and liabilities'."
+      ]
+    },
+    {
+      "id": "kc.accountancy.goodwill-valuation.kl-summary-goodwill-old-partners",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Goodwill Valuation",
+      "kind": "key_line",
+      "front": "On the admission of a new partner the goodwill of the firm belongs to the ____.",
+      "back": "On the admission of a new partner the goodwill of the firm belongs to the old partners.",
+      "quote": "On the admission of a new partner the goodwill of the firm belongs to the old partners.",
+      "blanks": [
+        "old partners"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 97,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill"
+      ],
+      "order": 1150,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Blank 'old partners' has an obvious synonym 'existing partners'; answer not unique."
+      ]
+    },
+    {
+      "id": "kc.accountancy.retirement-and-death-of-partner.kl-goodwill-entitled",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapter": "Retirement & Death of Partner",
+      "unit": "Retirement & Death of Partner",
+      "kind": "key_line",
+      "front": "The retiring or deceased partner is entitled to his ____ at the time of retirement/death",
+      "back": "The retiring or deceased partner is entitled to his share of goodwill at the time of retirement/death",
+      "quote": "The retiring or deceased partner is entitled to his share of goodwill at the time of retirement/death",
+      "blanks": [
+        "share of goodwill"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 113,
+        "section": "3.4 Treatment of Goodwill"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill"
+      ],
+      "order": 270,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front hides \"goodwill\", the only topic cue; \"his ____ at the time of retirement/death\" also fits share of profit, reserves or capital, so more than one right fill."
+      ]
+    },
+    {
+      "id": "kc.accountancy.dissolution-of-partnership-firm.diff-courts-intervention",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.dissolution-of-partnership-firm",
+      "chapter": "Dissolution of Partnership Firm",
+      "unit": "Dissolution of Partnership Firm",
+      "kind": "difference",
+      "front": "Court’s intervention: dissolution of partnership vs dissolution of firm (partnership first, then firm).",
+      "back": "Court does not intervene because partnership is dissolved by mutual agreement.\nA firm can be dissolved by the court’s order.",
+      "quote": "Court does not intervene because partnership is dissolved by mutual agreement. Economic relationship between the partners continues though in a changed form. A firm can be dissolved by the court’s order.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy Part 1 (Partnership Accounts)",
+        "code": "leac104",
+        "chapterNo": 4,
+        "page": 158,
+        "section": "Distinction between Dissolution of Partnership and Dissolution of Firm"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "dissolution of partnership",
+        "dissolution of firm"
+      ],
+      "order": 220,
+      "quoteParts": [
+        "Court does not intervene because partnership is dissolved by mutual agreement.",
+        "A firm can be dissolved by the court’s order."
+      ],
+      "reasons": [
+        "review:not_exact",
+        "review:Quote is not a contiguous NCERT string: it runs row 3 left cell, then row 4 left cell, then row 3 right cell (extraction order), and back is not a substring of it. Table cells are exact on the page but the quote is not faithful to the printed layout."
+      ]
+    },
+    {
+      "id": "kc.accountancy.dissolution-of-partnership-firm.diff-economic-relationship",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.dissolution-of-partnership-firm",
+      "chapter": "Dissolution of Partnership Firm",
+      "unit": "Dissolution of Partnership Firm",
+      "kind": "difference",
+      "front": "Economic relationship: dissolution of partnership vs dissolution of firm (partnership first, then firm).",
+      "back": "Economic relationship between the partners continues though in a changed form.\nEconomic relationship between the partners comes to an end.",
+      "quote": "Economic relationship between the partners continues though in a changed form. A firm can be dissolved by the court’s order. Economic relationship between the partners comes to an end.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy Part 1 (Partnership Accounts)",
+        "code": "leac104",
+        "chapterNo": 4,
+        "page": 158,
+        "section": "Distinction between Dissolution of Partnership and Dissolution of Firm"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "dissolution of partnership",
+        "dissolution of firm"
+      ],
+      "order": 230,
+      "quoteParts": [
+        "Economic relationship between the partners continues though in a changed form.",
+        "Economic relationship between the partners comes to an end."
+      ],
+      "reasons": [
+        "review:not_exact",
+        "review:Quote splices row 4 left cell, row 3 right cell and row 4 right cell (extraction order), not a contiguous string; back is not a substring of it. Cells themselves are exact on the page."
+      ]
+    },
+    {
+      "id": "kc.accountancy.share-capital.entry-allotment-recd",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.share-capital",
+      "chapter": "Share Capital",
+      "unit": "Share Capital",
+      "kind": "entry",
+      "front": "Journal entry: receipt of allotment money.",
+      "back": "Bank A/c\nDr.\nTo Share Allotment A/c\n(Allotment money received on ___Shares @ Rs. — per share)",
+      "quote": "Bank A/c Dr. To Share Allotment A/c (Allotment money received on ___Shares @ Rs. — per share",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy Part 2: Company Accounts and Analysis of Financial Statements",
+        "code": "leac201",
+        "chapterNo": 1,
+        "page": 10,
+        "section": "1.6 Accounting Treatment"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "entries",
+        "allotment"
+      ],
+      "order": 550,
+      "reasons": [
+        "review:not_exact",
+        "review:NCERT p10 prints the narration as \"(Allotment money received on ___Shares @ Rs. — per share Combined Account)\"; quote stops before \")\" and back adds a \")\" after \"per share\", dropping \"Combined Account\", so back is not exact NCERT text. Quote through the closing bracket or drop the narration line."
+      ]
+    },
+    {
+      "id": "kc.accountancy.share-capital.fact-discount-two-cases",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.share-capital",
+      "chapter": "Share Capital",
+      "unit": "Share Capital",
+      "kind": "fact",
+      "front": "A company can ordinarily issue shares at a discount only in which two cases?",
+      "back": "Reissue of forfeited shares; issue of sweat equity shares\nAs a general rule, a company cannot ordinarily issue shares at a discount. It can do so only in cases such as ‘reissue of forfeited shares’ (to be discussed later) and issue of sweat equity shares.",
+      "quote": "As a general rule, a company cannot ordinarily issue shares at a discount. It can do so only in cases such as ‘reissue of forfeited shares’ (to be discussed later) and issue of sweat equity shares.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy Part 2: Company Accounts and Analysis of Financial Statements",
+        "code": "leac201",
+        "chapterNo": 1,
+        "page": 33,
+        "section": "1.6.6 Issue of Shares at a Discount"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "discount",
+        "sweat equity"
+      ],
+      "order": 910,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front says \"only ... two cases\" but NCERT says \"only in cases such as\" (non-exhaustive), so the front overclaims. Reword (e.g. \"Name two cases in which a company can issue shares at a discount.\")."
+      ]
+    },
+    {
+      "id": "kc.accountancy.debentures.types-convertible-extent",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.debentures",
+      "chapter": "Debentures",
+      "unit": "Debentures",
+      "kind": "types",
+      "front": "Types of convertible debentures.",
+      "back": "fully convertible\npartly convertible",
+      "quote": "These debentures are either fully convertible or partly convertible.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac202",
+        "chapterNo": 2,
+        "page": 77,
+        "section": "2.3.3 From the Point of view of Convertibility"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "debenture types"
+      ],
+      "order": 260,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:\"Types of convertible debentures\" can be read as the convertible vs non-convertible split; front should say the extent of conversion (e.g. \"Convertible debentures are either ____ or ____ convertible\")."
+      ]
+    },
+    {
+      "id": "kc.accountancy.debentures.fact-interest-on-nominal-value",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.debentures",
+      "chapter": "Debentures",
+      "unit": "Debentures",
+      "kind": "fact",
+      "front": "On which value of the debentures is the interest payable calculated?",
+      "back": "Nominal value of debentures (also called face value)\ninterest payable is calculated at the nominal value of debentures.",
+      "quote": "interest payable is calculated at the nominal value of debentures.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac202",
+        "chapterNo": 2,
+        "page": 104,
+        "section": "2.9 Interest on Debentures"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "interest on debentures"
+      ],
+      "order": 840,
+      "reasons": [
+        "review:not_exact",
+        "review:Back adds \"(also called face value)\" which is not in the quote on p104; keep back to quote wording (\"Nominal value of debentures\")."
+      ]
+    },
+    {
+      "id": "kc.accountancy.comparative-and-common-size-statements.kl-inter-firm-comparison",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.comparative-and-common-size-statements",
+      "chapter": "Comparative & Common Size Statements",
+      "unit": "Comparative & Common Size Statements",
+      "kind": "key_line",
+      "front": "____ comparison or comparison of the company’s position with the related industry as a whole",
+      "back": "Inter-firm comparison or comparison of the company’s position with the related industry as a whole",
+      "quote": "Inter-firm comparison or comparison of the company’s position with the related industry as a whole",
+      "blanks": [
+        "Inter-firm"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 182,
+        "section": "4.6 Common Size Statement"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "common size statement"
+      ],
+      "order": 430,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is a bare sentence fragment with no anchor (no mention of common size statements) and the blank could be filled by other comparison words (inter-industry, industry-wide); not a mark-carrying single-answer blank. Convert to a fact card: what does common size analysis make possible?"
+      ]
+    },
+    {
+      "id": "kc.accountancy.accounting-ratios.def-financial-statement-analysis",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.accounting-ratios",
+      "chapter": "Accounting Ratios",
+      "unit": "Analysis of Financial Statements",
+      "kind": "definition",
+      "front": "What is the analysis, comparison and interpretation of data in financial statements termed?",
+      "back": "These statements provide financial data which require analysis, comparison and interpretation for taking decision by the external as well as internal users of accounting information. This act is termed as financial statement analysis.",
+      "quote": "These statements provide financial data which require analysis, comparison and interpretation for taking decision by the external as well as internal users of accounting information. This act is termed as financial statement analysis.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy: Company Accounts and Analysis of Financial Statements",
+        "code": "leac205",
+        "chapterNo": 5,
+        "page": 194,
+        "section": "5.1 Meaning of Accounting Ratios"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "financial-analysis"
+      ],
+      "order": 20,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Importance: a headed definition (the term financial statement analysis) should be must per the spec, not good."
+      ]
+    },
+    {
+      "id": "kc.accountancy.accounting-ratios.key-a-ratio-must-be-calculated-using-numbers-whi",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.accounting-ratios",
+      "chapter": "Accounting Ratios",
+      "unit": "Analysis of Financial Statements",
+      "kind": "key_line",
+      "front": "A ratio must be calculated using numbers which are ____.",
+      "back": "A ratio must be calculated using numbers which are meaningfully correlated.",
+      "quote": "A ratio must be calculated using numbers which are meaningfully correlated.",
+      "blanks": [
+        "meaningfully correlated"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy: Company Accounts and Analysis of Financial Statements",
+        "code": "leac205",
+        "chapterNo": 5,
+        "page": 195,
+        "section": "5.1 Meaning of Accounting Ratios"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "accounting-ratio"
+      ],
+      "order": 60,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Two-word blank 'meaningfully correlated' has obvious synonyms (related, connected, comparable); a student cannot give one exact fill from the front."
+      ]
+    },
+    {
+      "id": "kc.accountancy.cash-flow-statement.steps-indirect-layout-steps",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.cash-flow-statement",
+      "chapter": "Cash Flow Statement",
+      "unit": "Cash Flow Statement",
+      "kind": "steps",
+      "front": "Proforma of cash flows from operating activities (indirect method): the main lines, in order.",
+      "back": "Net Profit/Loss before Tax and Extraordinary Items\nOperating Profit before Working Capital changes\nCash Flows from Operation Activities before Tax and Extraordinary items\nIncome Tax Paid\nNet Cash from Operating Activities",
+      "quote": "Net Profit/Loss before Tax and Extraordinary Items + Deductions already made in Statement of Profit and Loss on account of xxx Non-cash items such as Depreciation, Goodwill to be Written-off. + Deductions already made in Statement of Profit and Loss on Account of xxx Non-operating items such as Interest. – Additions (incomes) made in Statement of Profit and Loss on xxx Account of Non-operating items such as Dividend received, xxx Profit on sale of Fixed Assets. Operating Profit before Working Capital changes Add : in case of increase in current assets (other than cash and cash xxx equivalent) and decrease in current liabilities. Less : in case of decrease in current assets (other than cash and cash xxx equivalent) and decrease in current liabilities. Cash Flows from Operation Activities before Tax and Extraordinary items xxx – Income Tax Paid xxx +/– Effects of Extraordinary Items xxx Net Cash from Operating Activities",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac206",
+        "chapterNo": 6,
+        "page": 251,
+        "section": "6.6.1 Indirect Method"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "cash-flow"
+      ],
+      "order": 850,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:'The main lines' is undefined: the back keeps 5 of ~10 proforma lines (only subtotals), dropping the adjustment lines (add back non-cash and non-operating items, deduct non-operating incomes) that carry the marks; a student cannot know which lines to give."
+      ]
+    }
+  ]
+}

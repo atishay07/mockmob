@@ -1,1 +1,32 @@
-{}
+{
+  "accountancy": {
+    "version": 1,
+    "sha256": "5a132ceafb2099569bff0d0a1750fbb1fa741b9450f15c38799e9f08a129fcbe",
+    "cards": 863
+  },
+  "biology": {
+    "version": 1,
+    "sha256": "49a9bec0e07e1a134163fbdcc64ca7e3ee148be279b603111079e61bc5e244a2",
+    "cards": 1392
+  },
+  "business_studies": {
+    "version": 1,
+    "sha256": "55f328bff3067a137d0517023bd20c6945e4ce5be5ee2ceb19c0aeabb6dcc182",
+    "cards": 875
+  },
+  "economics": {
+    "version": 1,
+    "sha256": "83ee819c201a02e6e636561bbb5d1f90a798e4ea79e01c8ea52553647f411c0e",
+    "cards": 1184
+  },
+  "english": {
+    "version": 1,
+    "sha256": "f2477a8ff7230b85901ff382d71b5a6609a8ba6c738cac2ada56e3f0aba59dbe",
+    "cards": 318
+  },
+  "political_science": {
+    "version": 1,
+    "sha256": "21ba752738f81677a452e3b1fa5c933c1502845029173f210d709df33554dc73",
+    "cards": 1089
+  }
+}

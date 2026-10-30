@@ -1,0 +1,236 @@
+{
+  "subject": "business_studies",
+  "chapters": {
+    "business_studies.business-environment": {
+      "published": 36,
+      "quarantined": 0,
+      "byKind": {
+        "definition": 6,
+        "fact": 3,
+        "list": 4,
+        "key_line": 13,
+        "difference": 1,
+        "term": 4,
+        "example": 4,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 27,
+        "good": 9
+      },
+      "coverage_note": null,
+      "mustShare": 0.75,
+      "belowMinimum": false
+    },
+    "business_studies.consumer-protection": {
+      "published": 55,
+      "quarantined": 6,
+      "byKind": {
+        "key_line": 15,
+        "term": 1,
+        "fact": 7,
+        "definition": 22,
+        "list": 9,
+        "types": 1
+      },
+      "byImportance": {
+        "must": 41,
+        "good": 14
+      },
+      "coverage_note": null,
+      "mustShare": 0.75,
+      "belowMinimum": false
+    },
+    "business_studies.controlling": {
+      "published": 49,
+      "quarantined": 0,
+      "byKind": {
+        "definition": 6,
+        "key_line": 18,
+        "list": 6,
+        "fact": 13,
+        "difference": 2,
+        "steps": 1,
+        "types": 1,
+        "example": 2
+      },
+      "byImportance": {
+        "must": 35,
+        "good": 14
+      },
+      "coverage_note": null,
+      "mustShare": 0.71,
+      "belowMinimum": false
+    },
+    "business_studies.directing": {
+      "published": 108,
+      "quarantined": 3,
+      "byKind": {
+        "definition": 28,
+        "list": 21,
+        "key_line": 19,
+        "term": 20,
+        "difference": 2,
+        "steps": 1,
+        "fact": 6,
+        "types": 6,
+        "example": 5
+      },
+      "byImportance": {
+        "must": 64,
+        "good": 44
+      },
+      "coverage_note": null,
+      "mustShare": 0.59,
+      "belowMinimum": false
+    },
+    "business_studies.financial-management": {
+      "published": 124,
+      "quarantined": 2,
+      "byKind": {
+        "definition": 23,
+        "types": 3,
+        "key_line": 61,
+        "list": 16,
+        "fact": 7,
+        "term": 8,
+        "difference": 1,
+        "formula": 4,
+        "example": 1
+      },
+      "byImportance": {
+        "must": 81,
+        "good": 43
+      },
+      "coverage_note": null,
+      "mustShare": 0.65,
+      "belowMinimum": false
+    },
+    "business_studies.marketing-management": {
+      "published": 133,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 55,
+        "fact": 22,
+        "key_line": 10,
+        "list": 25,
+        "difference": 8,
+        "types": 7,
+        "example": 2,
+        "term": 4
+      },
+      "byImportance": {
+        "must": 90,
+        "good": 43
+      },
+      "coverage_note": null,
+      "mustShare": 0.68,
+      "belowMinimum": false
+    },
+    "business_studies.nature-and-significance-of-management": {
+      "published": 61,
+      "quarantined": 2,
+      "byKind": {
+        "definition": 25,
+        "key_line": 8,
+        "list": 9,
+        "example": 6,
+        "fact": 7,
+        "types": 3,
+        "steps": 2,
+        "term": 1
+      },
+      "byImportance": {
+        "must": 39,
+        "good": 22
+      },
+      "coverage_note": null,
+      "mustShare": 0.64,
+      "belowMinimum": false
+    },
+    "business_studies.organising": {
+      "published": 65,
+      "quarantined": 3,
+      "byKind": {
+        "definition": 22,
+        "steps": 1,
+        "term": 2,
+        "list": 14,
+        "key_line": 8,
+        "fact": 7,
+        "types": 1,
+        "difference": 10
+      },
+      "byImportance": {
+        "must": 57,
+        "good": 8
+      },
+      "coverage_note": null,
+      "mustShare": 0.88,
+      "belowMinimum": false
+    },
+    "business_studies.planning": {
+      "published": 48,
+      "quarantined": 3,
+      "byKind": {
+        "definition": 17,
+        "term": 1,
+        "key_line": 11,
+        "list": 7,
+        "fact": 4,
+        "steps": 1,
+        "types": 2,
+        "example": 3,
+        "difference": 1,
+        "formula": 1
+      },
+      "byImportance": {
+        "must": 36,
+        "good": 12
+      },
+      "coverage_note": null,
+      "mustShare": 0.75,
+      "belowMinimum": false
+    },
+    "business_studies.principles-of-management": {
+      "published": 94,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 23,
+        "key_line": 23,
+        "difference": 12,
+        "fact": 21,
+        "list": 13,
+        "types": 2
+      },
+      "byImportance": {
+        "must": 69,
+        "good": 25
+      },
+      "coverage_note": null,
+      "mustShare": 0.73,
+      "belowMinimum": false
+    },
+    "business_studies.staffing": {
+      "published": 102,
+      "quarantined": 1,
+      "byKind": {
+        "definition": 33,
+        "key_line": 25,
+        "list": 15,
+        "fact": 9,
+        "difference": 6,
+        "steps": 5,
+        "types": 7,
+        "term": 2
+      },
+      "byImportance": {
+        "must": 68,
+        "good": 34
+      },
+      "coverage_note": null,
+      "mustShare": 0.67,
+      "belowMinimum": false
+    }
+  }
+}

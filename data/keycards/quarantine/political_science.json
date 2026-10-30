@@ -1,0 +1,756 @@
+{
+  "subject": "political_science",
+  "cards": [
+    {
+      "id": "kc.political_science.contemporary-south-asia.fact-nb-bhutan",
+      "v": 2,
+      "subject": "political_science",
+      "chapterKey": "political_science.contemporary-south-asia",
+      "chapter": "Contemporary South Asia",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "With which Himalayan kingdom does India enjoy a 'very special relationship' and no major conflict with its government?",
+      "back": "India enjoys a very special relationship with Bhutan too and does not have any major conflict with the Bhutanese government.",
+      "quote": "India enjoys a very special relationship with Bhutan too and does not have any major conflict with the Bhutanese government.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps103",
+        "chapterNo": 3,
+        "page": 41,
+        "section": "India and its Other Neighbours"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "south-asia"
+      ],
+      "order": 600,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Nepal's passage opens with the same 'very special relationship' phrase; front has no clean discriminator for Bhutan, and the back's 'too' dangles."
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.def-ozone-hole",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "definition",
+      "front": "What is the ozone hole?",
+      "back": "A steady decline in the total amount of ozone in the Earth's stratosphere (commonly referred to as the ozone hole) poses a real danger to ecosystems and human health.",
+      "quote": "A steady decline in the total amount of ozone in the Earth's stratosphere (commonly referred to as the ozone hole) poses a real danger to ecosystems and human health.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 82,
+        "section": "Environmental Concerns in Global Politics"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 10,
+      "reasons": [
+        "review:not_exact",
+        "review:not_unambiguous",
+        "review:Front asks what the ozone hole is but the quote does not define it; it only states the danger"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-deeper-political",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "In what deeper sense are environment and resource issues political?",
+      "back": "All these raise the issue of who wields how much power. They are, therefore, deeply political questions.",
+      "quote": "All these raise the issue of who wields how much power. They are, therefore, deeply political questions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 83,
+        "section": "Environmental Concerns in Global Politics"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 30,
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Vague front; generic remark, not an exam fact"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-170-states",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "Who attended the Earth Summit at Rio?",
+      "back": "attended by 170 states, thousands of NGOs and many multinational corporations",
+      "quote": "attended by 170 states, thousands of NGOs and many multinational corporations",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 84,
+        "section": "Environmental Concerns in Global Politics"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 80,
+      "reasons": [
+        "review:not_important",
+        "review:Attendance figures are trivia"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-ozone-discovery",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What did the mid-1980s discovery of the ozone hole over the Antarctic reveal?",
+      "back": "the discovery of the ozone hole over the Antarctic in the mid-1980s revealed the opportunity as well as dangers inherent in tackling global environmental problems",
+      "quote": "the discovery of the ozone hole over the Antarctic in the mid-1980s revealed the opportunity as well as dangers inherent in tackling global environmental problems",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 86,
+        "section": "The Protection of Global Commons"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 240,
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Vague front, answer is a loose abstract sentence"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-outer-space-inequality",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What does the history of outer space as a global commons show about its management?",
+      "back": "the history of outer space as a global commons shows that the management of these areas is thoroughly influenced by North-South inequalities",
+      "quote": "the history of outer space as a global commons shows that the management of these areas is thoroughly influenced by North-South inequalities",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 86,
+        "section": "The Protection of Global Commons"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 250,
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Vague front, abstract sentence not a testable point"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.def-cbdr",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "definition",
+      "front": "What is the principle of 'common but differentiated responsibilities'?",
+      "back": "If they have caused more degradation, they must also take more responsibility for undoing the damage now. Moreover, the developing countries are in the process of industrialisation and they must not be subjected to the same restrictions, which apply to the developed countries.",
+      "quote": "If they have caused more degradation, they must also take more responsibility for undoing the damage now. Moreover, the developing countries are in the process of industrialisation and they must not be subjected to the same restrictions, which apply to the developed countries.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 87,
+        "section": "Common but Differentiated Responsibilities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 290,
+      "reasons": [
+        "review:not_exact",
+        "review:Back opens with dangling 'If they' and never names the principle, so it is not a definition of CBDR"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-sacred-groves-problem",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "When does a real problem arise in managing sacred groves?",
+      "back": "A real problem in managing sacred groves arises when legal ownership and operational control are held by different entities.",
+      "quote": "A real problem in managing sacred groves arises when legal ownership and operational control are held by different entities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 88,
+        "section": "Common Property Resources"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 420,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Open-ended front, several phrasings possible"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-paris-2016",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "When did India ratify the Paris Climate Agreement?",
+      "back": "India ratified the Paris Climate Agreement on 2 October 2016.",
+      "quote": "India ratified the Paris Climate Agreement on 2 October 2016.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 90,
+        "section": "India's Stand on Environmental Issues"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 500,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Ratification date is detail; good not must"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-saarc-position",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What does India say the SAARC countries should adopt on global environment issues?",
+      "back": "India is also of the view that the SAARC countries should adopt a common position on major global environment issues, so that the region's voice carries greater weight.",
+      "quote": "India is also of the view that the SAARC countries should adopt a common position on major global environment issues, so that the region's voice carries greater weight.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 90,
+        "section": "India's Stand on Environmental Issues"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 520,
+      "reasons": [
+        "review:not_important",
+        "review:Minor opinion line"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-social-movements",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "Where are new forms of political action born or reinvented?",
+      "back": "It is within social movements that new forms of political action are born or reinvented.",
+      "quote": "It is within social movements that new forms of political action are born or reinvented.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 90,
+        "section": "Environmental Movements: One or Many?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 530,
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Vague front, generic line"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-wilderness-regions",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "In which regions have wilderness-oriented perspectives been predominant?",
+      "back": "Wilderness-oriented perspectives have been predominant in Australia, Scandinavia, North America and New Zealand.",
+      "quote": "Wilderness-oriented perspectives have been predominant in Australia, Scandinavia, North America and New Zealand.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 91,
+        "section": "Environmental Movements: One or Many?"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 550,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Region list is detail; good not must"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-wmc-philippines",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "Which Australia-based multinational company was opposed by a network of groups in the Philippines?",
+      "back": "One good example is that of the Philippines, where a vast network of groups and organisations campaigned against the Western Mining Corporation (WMC), an Australia-based multinational company.",
+      "quote": "One good example is that of the Philippines, where a vast network of groups and organisations campaigned against the Western Mining Corporation (WMC), an Australia-based multinational company.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 92,
+        "section": "Environmental Movements: One or Many?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 580,
+      "reasons": [
+        "review:not_important",
+        "review:Case-story filler"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-naval-timber",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What became a key priority for major European powers from the 17th century onwards?",
+      "back": "naval timber supply became a key priority for major European powers from the 17th century onwards",
+      "quote": "naval timber supply became a key priority for major European powers from the 17th century onwards",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 92,
+        "section": "Resource Geopolitics"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 640,
+      "reasons": [
+        "review:not_important",
+        "review:Historical trivia"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-water-violence",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "Between which states did violence occur in the 1950s and 1960s over the Jordan and Yarmuk Rivers?",
+      "back": "Examples of violence include those between Israel, Syria, and Jordan in the 1950s and 1960s over attempts by each side to divert water from the Jordan and Yarmuk Rivers",
+      "quote": "Examples of violence include those between Israel, Syria, and Jordan in the 1950s and 1960s over attempts by each side to divert water from the Jordan and Yarmuk Rivers",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 95,
+        "section": "Resource Geopolitics"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 690,
+      "reasons": [
+        "review:not_important",
+        "review:Case-story filler"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-indigenous-customs",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "How do indigenous people today live, compared with the institutions of their country?",
+      "back": "Indigenous people today live more in conformity with their particular social, economic, and cultural customs and traditions than the institutions of the country of which they now form a part.",
+      "quote": "Indigenous people today live more in conformity with their particular social, economic, and cultural customs and traditions than the institutions of the country of which they now form a part.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 95,
+        "section": "The Indigenous Peoples and Their Rights"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 710,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is loosely worded; answer is a long comparison sentence"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-indigenous-1970s",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What did growing international contacts among indigenous leaders in the 1970s arouse?",
+      "back": "During the 1970s, growing international contacts among indigenous leaders from around the world aroused a sense of common concern and shared experiences.",
+      "quote": "During the 1970s, growing international contacts among indigenous leaders from around the world aroused a sense of common concern and shared experiences.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 97,
+        "section": "The Indigenous Peoples and Their Rights"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 760,
+      "reasons": [
+        "review:not_important",
+        "review:Low-value filler line"
+      ]
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-wcip-un-status",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What did the World Council of Indigenous Peoples become the first of 11 indigenous NGOs to receive?",
+      "back": "The Council became subsequently the first of 11 indigenous NGOs to receive consultative status in the UN.",
+      "quote": "The Council became subsequently the first of 11 indigenous NGOs to receive consultative status in the UN.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 97,
+        "section": "The Indigenous Peoples and Their Rights"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 780,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Trivia count; good not must"
+      ]
+    },
+    {
+      "id": "kc.political_science.challenges-of-nation-building.fact-1947-transfer-of-population",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.challenges-of-nation-building",
+      "chapter": "Challenges of Nation Building",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "What did NCERT call 1947: one of the largest, most abrupt, unplanned and tragic events in history?",
+      "back": "The year 1947 was the year of one of the largest, most abrupt, unplanned and tragic transfer of population that human history has known.",
+      "quote": "The year 1947 was the year of one of the largest, most abrupt, unplanned and tragic transfer of population that human history has known.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps201",
+        "chapterNo": 1,
+        "page": 9,
+        "section": "Partition: displacement and rehabilitation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 260,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is garbled ('What did NCERT call 1947: one of the largest... events') and the expected fill 'transfer of population' has obvious rivals (Partition, migration, displacement); reword so one answer fits."
+      ]
+    },
+    {
+      "id": "kc.political_science.politics-of-planned-development.fact-kn-raj",
+      "v": 2,
+      "subject": "political_science",
+      "chapterKey": "political_science.politics-of-planned-development",
+      "chapter": "Politics of Planned Development",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "Which young economist involved in drafting the First Plan argued that India should hasten slowly?",
+      "back": "K.N. Raj, a young economist involved in drafting the plan, argued that India should ‘hasten slowly’ for the first two decades as a fast rate of development might endanger democracy.",
+      "quote": "K.N. Raj, a young economist involved in drafting the plan, argued that India should ‘hasten slowly’ for the first two decades as a fast rate of development might endanger democracy.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps203",
+        "chapterNo": 3,
+        "page": 51,
+        "section": "The First Five Year Plan"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "planning"
+      ],
+      "order": 240,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:K.N. Raj and 'hasten slowly' is a niche detail; should be good, not must."
+      ]
+    },
+    {
+      "id": "kc.political_science.crisis-of-the-democratic-order.fact-civil-liberties",
+      "v": 2,
+      "subject": "political_science",
+      "chapterKey": "political_science.crisis-of-the-democratic-order",
+      "chapter": "Crisis of the Democratic Order",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "Of what kind were the many organisations that came up in India after the Emergency experience?",
+      "back": "judiciary to protect civil liberties effectively during the emergency. Many civil liberties organisations came up after this experience.",
+      "quote": "judiciary to protect civil liberties effectively during the emergency. Many civil liberties organisations came up after this experience.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps206",
+        "chapterNo": 6,
+        "page": 103,
+        "section": "Lessons of the Emergency"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "civil"
+      ],
+      "order": 430,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:back opens mid-sentence ('judiciary to protect civil liberties...'), a dangling fragment; a minor lesson line, should be 'good' not 'must'; trim back to the 'Many civil liberties organisations...' sentence."
+      ]
+    },
+    {
+      "id": "kc.political_science.regional-aspirations.kl-lesson-power-sharing",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.regional-aspirations",
+      "chapter": "Regional Aspirations",
+      "unit": "Politics in India Since Independence",
+      "kind": "key_line",
+      "front": "The third lesson is about the significance of ____.",
+      "back": "The third lesson is about the significance of power sharing.",
+      "quote": "The third lesson is about the significance of power sharing.",
+      "blanks": [
+        "power sharing"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps207",
+        "chapterNo": 7,
+        "page": 132,
+        "section": "Accommodation and National Integration"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "regional-aspirations"
+      ],
+      "order": 1090,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is a dangling 'The third lesson' with no context, and the blank has many plausible fills (democracy, federalism, power sharing); one right answer is not forced."
+      ]
+    },
+    {
+      "id": "kc.political_science.regional-aspirations.kl-lesson-regional-imbalance",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.regional-aspirations",
+      "chapter": "Regional Aspirations",
+      "unit": "Politics in India Since Independence",
+      "kind": "key_line",
+      "front": "The fourth lesson is that regional imbalance in economic development contributes to the feeling of regional ____.",
+      "back": "The fourth lesson is that regional imbalance in economic development contributes to the feeling of regional discrimination.",
+      "quote": "The fourth lesson is that regional imbalance in economic development contributes to the feeling of regional discrimination.",
+      "blanks": [
+        "discrimination"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps207",
+        "chapterNo": 7,
+        "page": 132,
+        "section": "Accommodation and National Integration"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "regional-aspirations"
+      ],
+      "order": 1100,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is a dangling 'The fourth lesson'; 'regional ____' also fits disparity, inequality, imbalance, so 'discrimination' is not the only right fill."
+      ]
+    },
+    {
+      "id": "kc.political_science.regional-aspirations.kl-lesson-farsightedness",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.regional-aspirations",
+      "chapter": "Regional Aspirations",
+      "unit": "Politics in India Since Independence",
+      "kind": "key_line",
+      "front": "Finally, these cases make us appreciate the ____ of the makers of our Constitution in dealing with questions of diversity.",
+      "back": "Finally, these cases make us appreciate the farsightedness of the makers of our Constitution in dealing with questions of diversity.",
+      "quote": "Finally, these cases make us appreciate the farsightedness of the makers of our Constitution in dealing with questions of diversity.",
+      "blanks": [
+        "farsightedness"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps207",
+        "chapterNo": 7,
+        "page": 132,
+        "section": "Accommodation and National Integration"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "regional-aspirations"
+      ],
+      "order": 1110,
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:not_importanceRight",
+        "review:Closing flourish, not a mark-carrying fact; blank has obvious synonyms (wisdom, foresight, vision), so no single right fill; 'must/good' is moot as the card is not worth memory."
+      ]
+    },
+    {
+      "id": "kc.political_science.recent-issues-and-challenges.fact-ayodhya-demolition-1992",
+      "v": 2,
+      "subject": "political_science",
+      "chapterKey": "political_science.recent-issues-and-challenges",
+      "chapter": "Recent Issues and Challenges",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "What did some critics contend after the demolition of the Ayodhya structure in 1992?",
+      "back": "In 1992, following the demolition of the structure, some critics contended that it presented a substantial challenge to the principles of Indian democracy.",
+      "quote": "In 1992, following the demolition of the structure, some critics contended that it presented a substantial challenge to the principles of Indian democracy.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps208",
+        "chapterNo": 8,
+        "page": 149,
+        "section": "Ayodhya Issue"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 440,
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Hedged 'some critics contended' line with an open-ended answer; a student cannot reproduce the exact wording and it is not a mark-carrying fact. Better as a key_line with a blank on a headed point."
+      ]
+    }
+  ]
+}

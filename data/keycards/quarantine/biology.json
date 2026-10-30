@@ -1,0 +1,399 @@
+{
+  "subject": "biology",
+  "cards": [
+    {
+      "id": "kc.biology.reproductive-health.fact-nirodh-brand",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.reproductive-health",
+      "chapter": "Reproductive Health",
+      "unit": "Reproduction",
+      "kind": "fact",
+      "front": "Which popular brand of condom for the male does NCERT name?",
+      "back": "‘Nirodh’ is a popular brand of condom for the male.",
+      "quote": "‘Nirodh’ is a popular brand of condom for the male.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo103",
+        "chapterNo": 3,
+        "page": 44,
+        "section": "Population Stabilisation and Birth Control"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 240,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front relies on 'does NCERT name'; other popular condom brands exist, so the answer is not determined by the front alone. Brand-name trivia."
+      ]
+    },
+    {
+      "id": "kc.biology.principles-of-inheritance-and-variation.key-abo-gene-alleles",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.principles-of-inheritance-and-variation",
+      "chapter": "Principles of Inheritance & Variation",
+      "unit": "Genetics and Evolution",
+      "kind": "key_line",
+      "front": "The gene (I) has three alleles ____.",
+      "back": "The gene (I) has three alleles IA, IB and i.",
+      "quote": "The gene (I) has three alleles IA, IB and i.",
+      "blanks": [
+        "IA, IB and i"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo104",
+        "chapterNo": 4,
+        "page": 61,
+        "section": "Co-dominance"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 320,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:ABO alleles IA, IB, i are a core, heavily tested fact; should be must, not good."
+      ]
+    },
+    {
+      "id": "kc.biology.principles-of-inheritance-and-variation.fact-trisomy-monosomy",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.principles-of-inheritance-and-variation",
+      "chapter": "Principles of Inheritance & Variation",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "What are the extra or missing single chromosome conditions called?",
+      "back": "individual may lack one of any one pair of chromosomes. These situations are known as trisomy or monosomy of a chromosome, respectively.",
+      "quote": "individual may lack one of any one pair of chromosomes. These situations are known as trisomy or monosomy of a chromosome, respectively.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo104",
+        "chapterNo": 4,
+        "page": 76,
+        "section": "Chromosomal Disorders"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 1110,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Back quote starts mid-sentence and 'respectively' has no antecedent (the 'additional copy' half is missing), so which term means extra vs missing is not shown."
+      ]
+    },
+    {
+      "id": "kc.biology.molecular-basis-of-inheritance.types-template-and-coding-strand-2",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.molecular-basis-of-inheritance",
+      "chapter": "Molecular Basis of Inheritance",
+      "unit": "Genetics and Evolution",
+      "kind": "types",
+      "front": "Types of strand in a transcription unit: template strand and coding strand.",
+      "back": "Since the two strands have opposite polarity and the DNA-dependent RNA polymerase also catalyse the polymerisation in only one direction, that is, 5'→3', the strand that has the polarity 3'→5' acts as a template, and is also referred to as template strand.\nThe other strand which has the polarity (5'→3') and the sequence same as RNA (except thymine at the place of uracil), is displaced during transcription. Strangely, this strand (which does not code for anything) is referred to as coding strand.",
+      "quote": "Since the two strands have opposite polarity and the DNA-dependent RNA polymerase also catalyse the polymerisation in only one direction, that is, 5'→3', the strand that has the polarity 3'→5' acts as a template, and is also referred to as template strand. The other strand which has the polarity (5'→3') and the sequence same as RNA (except thymine at the place of uracil), is displaced during transcription. Strangely, this strand (which does not code for anything) is referred to as coding strand.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo105",
+        "chapterNo": 5,
+        "page": 92,
+        "section": "5.5.1 Transcription Unit"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 810,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is a statement that already names both strand types (template and coding) and asks nothing; give a question such as which strand (3'->5') acts as template and which is called coding."
+      ]
+    },
+    {
+      "id": "kc.biology.evolution.fact-abiogenesis-accepted",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.evolution",
+      "chapter": "Evolution",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "Which version of biogenesis is accepted by the majority?",
+      "back": "This version of a biogenesis, i.e., the first form of life arose slowly through evolutionary forces from non-living molecules is accepted by majority.",
+      "quote": "This version of a biogenesis, i.e., the first form of life arose slowly through evolutionary forces from non-living molecules is accepted by majority.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo106",
+        "chapterNo": 6,
+        "page": 112,
+        "section": "6.1 Origin of Life"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "evolution"
+      ],
+      "order": 170,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front \"which version of biogenesis\" has no single answer from the front alone (back opens with dangling \"This version\"); needs the idea named (abiogenesis / slow origin from non-living molecules)."
+      ]
+    },
+    {
+      "id": "kc.biology.evolution.fact-darwin-fitter-outbreed",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.evolution",
+      "chapter": "Evolution",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "Which characteristics would outbreed others in natural conditions, in Darwin's argument?",
+      "back": "Those characteristics which enable some to survive better in natural conditions (climate, food, physical factors, etc.) would outbreed others that are less-endowed to survive under such natural conditions.",
+      "quote": "Those characteristics which enable some to survive better in natural conditions (climate, food, physical factors, etc.) would outbreed others that are less-endowed to survive under such natural conditions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo106",
+        "chapterNo": 6,
+        "page": 113,
+        "section": "6.2 Evolution of Life Forms - A Theory"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "evolution"
+      ],
+      "order": 200,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Circular front: \"which characteristics would outbreed others\" has no specific answer beyond \"those that help survive better\"; not a mark-carrying single fill. Also overlaps fact-darwin-insight."
+      ]
+    },
+    {
+      "id": "kc.biology.evolution.fact-homology-plants",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.evolution",
+      "chapter": "Evolution",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "Which plant structures of Bougainvillea and Cucurbita represent homology?",
+      "back": "In plants also, the thorn and tendrils of Bougainvillea and Cucurbita represent homology (Figure 6.3a).",
+      "quote": "In plants also, the thorn and tendrils of Bougainvillea and Cucurbita represent homology (Figure 6.3a).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo106",
+        "chapterNo": 6,
+        "page": 114,
+        "section": "6.3 What are the Evidences for Evolution?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "evolution"
+      ],
+      "order": 330,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Thorn of Bougainvillea and tendril of Cucurbita is the standard NCERT homology example tested often; should be must."
+      ]
+    },
+    {
+      "id": "kc.biology.evolution.fact-cave-art",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.evolution",
+      "chapter": "Evolution",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "When did pre-historic cave art develop?",
+      "back": "Pre-historic cave art developed about 18,000 years ago.",
+      "quote": "Pre-historic cave art developed about 18,000 years ago.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo106",
+        "chapterNo": 6,
+        "page": 125,
+        "section": "6.9 Origin and Evolution of Man"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "evolution"
+      ],
+      "order": 1260,
+      "reasons": [
+        "review:not_important",
+        "review:Trivia: date of pre-historic cave art is not a CUET-tested fact."
+      ]
+    },
+    {
+      "id": "kc.biology.evolution.fact-bhimbetka",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.evolution",
+      "chapter": "Evolution",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "Where can cave paintings by pre-historic humans be seen in Madhya Pradesh?",
+      "back": "One such cave paintings by Pre-historic humans can be seen at Bhimbetka rock shelter in Raisen district of Madhya Pradesh.",
+      "quote": "One such cave paintings by Pre-historic humans can be seen at Bhimbetka rock shelter in Raisen district of Madhya Pradesh.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo106",
+        "chapterNo": 6,
+        "page": 125,
+        "section": "6.9 Origin and Evolution of Man"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "evolution"
+      ],
+      "order": 1270,
+      "reasons": [
+        "review:not_important",
+        "review:Trivia: location of one rock shelter is not a CUET-tested fact."
+      ]
+    },
+    {
+      "id": "kc.biology.human-health-and-disease.fact-aids-not-congenital",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.human-health-and-disease",
+      "chapter": "Human Health & Disease",
+      "unit": "Biology and Human Welfare",
+      "kind": "fact",
+      "front": "What does AIDS stand for, and why is it not a congenital disease?",
+      "back": "The word AIDS stands for Acquired Immuno Deficiency Syndrome. This means deficiency of immune system, acquired during the lifetime of an individual indicating that it is not a congenital disease.",
+      "blanks": [],
+      "quote": "The word AIDS stands for Acquired Immuno Deficiency Syndrome. This means deficiency of immune system, acquired during the lifetime of an individual indicating that it is not a congenital disease.",
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo107",
+        "chapterNo": 7,
+        "page": 138,
+        "section": "7.3 AIDS"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 1030,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:AIDS full form and acquired (not congenital) nature is a core NCERT definition tested in CUET; should be must."
+      ]
+    },
+    {
+      "id": "kc.biology.biotechnology-principles-and-processes.fact-heat-shock",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.biotechnology-principles-and-processes",
+      "chapter": "Biotechnology Principles & Processes",
+      "unit": "Biotechnology and its Applications",
+      "kind": "fact",
+      "front": "In making bacteria take up recombinant DNA, what is the brief placing of the cells at 42°C called?",
+      "back": "Recombinant DNA can then be forced into such cells by incubating the cells with recombinant DNA on ice, followed by placing them briefly at 420C (heat shock), and then putting them back on ice. This enables the bacteria to take up the recombinant DNA.",
+      "quote": "Recombinant DNA can then be forced into such cells by incubating the cells with recombinant DNA on ice, followed by placing them briefly at 420C (heat shock), and then putting them back on ice. This enables the bacteria to take up the recombinant DNA.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo109",
+        "chapterNo": 9,
+        "page": 171,
+        "section": "Competent Host (For Transformation with Recombinant DNA)"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 570,
+      "note": "The heat shock is given briefly at 42 degrees Celsius.",
+      "reasons": [
+        "review:not_exact",
+        "review:GLYPH: back and quote show '420C' (degree sign extracted as zero), student would see a wrong number (42 degrees C)"
+      ]
+    },
+    {
+      "id": "kc.biology.biotechnology-and-its-applications.key-summary-new-varieties",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.biotechnology-and-its-applications",
+      "chapter": "Biotechnology & its Applications",
+      "unit": "Biotechnology and its Applications",
+      "kind": "key_line",
+      "front": "Techniques of tissue culture and somatic hybridisation offer vast potential for manipulation of plants in vitro to produce ____.",
+      "back": "Techniques of tissue culture and somatic hybridisation offer vast potential for manipulation of plants in vitro to produce new varieties.",
+      "quote": "Techniques of tissue culture and somatic hybridisation offer vast potential for manipulation of plants in vitro to produce new varieties.",
+      "blanks": [
+        "new varieties"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo110",
+        "chapterNo": 10,
+        "page": 186,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 770,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Blank 'new varieties' has obvious synonyms (improved varieties, new plants, new plant varieties); no single fill"
+      ]
+    },
+    {
+      "id": "kc.biology.biodiversity-and-conservation.key-overexploitation-cause",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.biodiversity-and-conservation",
+      "chapter": "Biodiversity & Conservation",
+      "unit": "Ecology and Environment",
+      "kind": "key_line",
+      "front": "Many species extinctions in the last 500 years (Steller’s sea cow, passenger pigeon) were due to ____ by humans.",
+      "back": "Many species extinctions in the last 500 years (Steller’s sea cow, passenger pigeon) were due to overexploitation by humans.",
+      "quote": "Many species extinctions in the last 500 years (Steller’s sea cow, passenger pigeon) were due to overexploitation by humans.",
+      "blanks": [
+        "overexploitation"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo113",
+        "chapterNo": 13,
+        "page": 223,
+        "section": "Loss of Biodiversity"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 410,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Blank 'overexploitation' competes with hunting, overhunting, exploitation; front does not force one word"
+      ]
+    }
+  ]
+}

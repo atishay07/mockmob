@@ -1,0 +1,110 @@
+{
+  "subject": "english",
+  "cards": [
+    {
+      "id": "kc.english.vocabulary.oneword-omnivorous",
+      "v": 2,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "One-Word Substitution",
+      "kind": "one_word",
+      "front": "One word (adjective) for: eating both plants and flesh",
+      "back": "Omnivorous",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "omnivorous"
+      ],
+      "order": 2340,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Correct and unambiguous, but inconsistent: sibling herbivorous/carnivorous cards are good while this is must. Make it good."
+      ]
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-insolvent",
+      "v": 2,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "One-Word Substitution",
+      "kind": "one_word",
+      "front": "One word for: unable to pay one's debts (the adjective that describes the person)",
+      "back": "Insolvent",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "insolvent"
+      ],
+      "order": 2350,
+      "note": "Insolvent (adj.) describes a person or firm whose debts exceed what it can pay.",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Meaning correct, but \"bankrupt\" is an equally standard adjective answer for unable to pay debts; the front does not exclude it. Add a cue such as \"debts exceed assets\" or note bankrupt as legal declaration, or drop."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.usage-emigrate-immigrate",
+      "v": 2,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Commonly Confused Words",
+      "kind": "usage",
+      "front": "Choose the correct word: He decided to ____ from his homeland, India, to settle in Canada. (emigrate / immigrate)",
+      "back": "emigrate",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "confused-words"
+      ],
+      "order": 160,
+      "note": "'Emigrate' = leave one's own country (emigrate from). 'Immigrate' = enter a new country to live (immigrate to). Here the cue is leaving his homeland.",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:\"from his homeland ... to settle in Canada\" still fits \"immigrate from India to Canada\" (valid usage); cue is not decisive. Reword to focus on one side, e.g. \"He decided to ____ from India\" with no destination."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-reported-speech-tense",
+      "v": 2,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Grammar Rules",
+      "kind": "rule",
+      "front": "Rule: when a past reporting verb reports a past event or state, what happens to the tense (unless it is a universal truth)?",
+      "back": "It moves one step back (present becomes past). A universal truth keeps the present tense.\nWrong: He said that he is tired (when he was tired then).\nRight: He said that he was tired.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 530,
+      "note": "Exception: \"He said that the earth moves round the sun.\" stays present.",
+      "reasons": [
+        "review:not_exact",
+        "review:Imprecise: front says past event or state but back says present becomes past; a past event goes simple past to past perfect (had + V3). Rephrase back to cover both steps, and universal truth exception also covers habitual facts."
+      ]
+    }
+  ]
+}
