@@ -561,7 +561,7 @@ class _Run extends StatelessWidget {
                   Text(KeyCardsCopy.mixKeyCards(kcTotal), style: type.small.copyWith(color: colors.ink2)),
                 ],
               ],
-              if (!finished && queue == null && read.shown > 0) ...[
+              if (!finished && queue == null && read.shown > 0 && !kcOnly) ...[
                 const SizedBox(height: MmSpace.s4),
                 Text(
                   ReviseCopy.minutes(read.minutes),
@@ -570,7 +570,7 @@ class _Run extends StatelessWidget {
               ],
               // With the queue the head and the mix line say it all (5.8: "nothing more"); the old
               // summary counts only the questions, and the old sub says checks are elsewhere.
-              if (queue == null && read.summary != null) ...[
+              if (queue == null && read.summary != null && !kcOnly) ...[
                 const SizedBox(height: MmSpace.s4),
                 Text(
                   read.summary!,
@@ -580,21 +580,26 @@ class _Run extends StatelessWidget {
                   ),
                 ),
               ],
-              if (queue == null) ...[
+              if (queue == null && !kcOnly) ...[
                 const SizedBox(height: MmSpace.s16),
                 Text(
                   read.labels.sub,
                   style: type.body.copyWith(color: colors.ink2),
                 ),
               ],
-              if (queue == null || !finished && queue.total > 0)
-                const SizedBox(height: MmSpace.s16),
-              _CapChoice(cap: cap, onChanged: onCap, disabled: busy),
+              // A run of only Key cards has no questions: no "Questions a day" and no schedule of questions.
+              if (!kcOnly) ...[
+                if (queue == null || !finished && queue.total > 0)
+                  const SizedBox(height: MmSpace.s16),
+                _CapChoice(cap: cap, onChanged: onCap, disabled: busy),
+              ],
             ],
           ),
         ),
         const SizedBox(height: MmSpace.s16),
-        if (queue == null)
+        if (kcOnly)
+          const SizedBox.shrink()
+        else if (queue == null)
           _Lanes(boxes: boxes, labels: read.labels, moved: moved)
         else
           // The four box lanes fold into "How Revise schedules" (5.8): the card comes first.
@@ -602,7 +607,7 @@ class _Run extends StatelessWidget {
             cap: cap,
             child: _Lanes(boxes: boxes, labels: read.labels, moved: moved),
           ),
-        SizedBox(height: queue == null ? MmSpace.s24 : MmSpace.s16),
+        SizedBox(height: !kcOnly && queue == null ? MmSpace.s24 : MmSpace.s16),
         MmOverlapSwitcher.fade(
           duration: Motion.card,
           alignment: Alignment.center,
@@ -610,7 +615,7 @@ class _Run extends StatelessWidget {
         ),
         const SizedBox(height: MmSpace.s24),
         Text(
-          queue == null ? read.labels.fine : ReviseCopy.foot,
+          queue == null && !kcOnly ? read.labels.fine : ReviseCopy.foot,
           style: type.small.copyWith(color: colors.ink3),
         ),
       ],

@@ -557,9 +557,12 @@ class KcAddResult {
 
 /// `GET /api/keycards/line?questionId=`: "The line you needed".
 class KcLine {
-  const KcLine({this.cards = const [], this.source = 'none', this.left});
+  const KcLine({this.cards = const [], this.source = 'none', this.left, this.proRequired = false});
 
   static const KcLine none = KcLine();
+
+  /// Free read today's lines already: the server answered 402 `PRO_REQUIRED` (reason `keycard_line`).
+  static const KcLine gated = KcLine(proRequired: true);
 
   static KcLine parse(Object? raw) {
     final j = asJson(raw);
@@ -578,6 +581,9 @@ class KcLine {
 
   /// Free's lines left today.
   final int? left;
+
+  /// True for [gated]: no line, and the Pro gate stands in its place.
+  final bool proRequired;
 
   bool get shows => source != 'none' && cards.isNotEmpty;
 }

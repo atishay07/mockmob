@@ -112,6 +112,9 @@ class FakeKeyCardsApi implements KeyCardsApi {
   int homeReads = 0;
   int lineReads = 0;
 
+  /// Questions whose line Free may not read any more today: the route answers 402 PRO_REQUIRED (keycard_line).
+  final Set<String> gatedLines = {};
+
   void _guard() {
     if (off) throw const KeyCardsOff();
     final f = failWith;
@@ -291,6 +294,7 @@ class FakeKeyCardsApi implements KeyCardsApi {
   Future<KcLine> line(String questionId) async {
     lineReads++;
     _guard();
+    if (gatedLines.contains(questionId)) throw const KeyCardsProRequired('keycard_line');
     final ids = links[questionId] ?? lineFor?.call(questionId);
     if (ids == null || ids.isEmpty) return KcLine.parse({'cards': <Json>[], 'source': 'none'});
     return KcLine.parse({

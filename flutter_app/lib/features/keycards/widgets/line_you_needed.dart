@@ -6,6 +6,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
 import '../data/keycards_models.dart';
 import '../data/keycards_providers.dart';
 import '../keycards_copy.dart';
@@ -25,8 +26,36 @@ class LineYouNeeded extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final line = ref.watch(keyCardsLineProvider(questionId)).value;
-    if (line == null || !line.shows) return const SizedBox.shrink();
+    if (line == null) return const SizedBox.shrink();
+    if (line.proRequired) {
+      // Once per screen, in place and never a modal; the other wrong answers show nothing.
+      if (!ref.watch(keyCardsLineGateOwnerProvider).claim(questionId)) return const SizedBox.shrink();
+      return Padding(padding: EdgeInsets.only(top: topGap), child: const KcLineGate());
+    }
+    if (!line.shows) return const SizedBox.shrink();
     return Padding(padding: EdgeInsets.only(top: topGap), child: KcLineBlock(line: line));
+  }
+}
+
+/// Free read today's lines: the block's place says what Pro adds, with the one upgrade key.
+class KcLineGate extends ConsumerWidget {
+  const KcLineGate({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final colors = context.mmColors;
+    final type = context.mmType;
+    return MmSurface.inset(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Semantics(header: true, child: Text(KeyCardsCopy.lineTitle, style: type.label.copyWith(color: colors.ink))),
+          const SizedBox(height: MmSpace.s4),
+          Text(KeyCardsCopy.proLine, style: type.small.copyWith(color: colors.ink2)),
+          if (ref.watch(proNudgesOnProvider)) KcLinkAction(label: KeyCardsCopy.upgrade, onTap: () => showUpgradeSheetIfOn(context, reason: ProReason.keycards)),
+        ],
+      ),
+    );
   }
 }
 

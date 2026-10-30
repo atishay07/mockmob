@@ -131,7 +131,7 @@ final keyCardsDueProvider = FutureProvider.autoDispose<KcRead<KcDue>>(retry: (co
 });
 
 /// "The line you needed" for one question: nothing (hidden) when Key cards are off, the server found no
-/// line, or the read failed.
+/// line, or the read failed; [KcLine.gated] when Free has read today's lines (402).
 final keyCardsLineProvider = FutureProvider.autoDispose.family<KcLine, String>(retry: (count, error) => null, (ref, questionId) async {
   final api = ref.watch(keyCardsApiProvider);
   if (questionId.isEmpty || api is OffKeyCardsApi) return KcLine.none;
@@ -142,6 +142,10 @@ final keyCardsLineProvider = FutureProvider.autoDispose.family<KcLine, String>(r
     // has instead of asking (and spending) again.
     ref.keepAlive();
     return line;
+  } on KeyCardsProRequired {
+    // Free read today's lines: the Pro gate stands in the block's place. Not kept, so a student who upgrades
+    // and comes back reads again (this answer costs nothing).
+    return KcLine.gated;
   } on Object {
     return KcLine.none;
   }
@@ -164,4 +168,15 @@ Future<KcSendOutcome> rateKeyCard(WidgetRef ref, {required String cardId, requir
     unawaited(ref.read(keyCardsCacheProvider).markReviewed(cardId, at));
   }
   return outcome;
+}
+
+/// Which answer shows the Pro gate for "The line you needed" on the screen now: the first to ask. Free sees it
+/// once per screen, not under every wrong answer. Released when no gate is on screen.
+final keyCardsLineGateOwnerProvider = Provider.autoDispose<_GateOwner>((ref) => _GateOwner());
+
+class _GateOwner {
+  String? _owner;
+
+  /// True when [questionId] owns the gate (and claims it if nobody does).
+  bool claim(String questionId) => (_owner ??= questionId) == questionId;
 }

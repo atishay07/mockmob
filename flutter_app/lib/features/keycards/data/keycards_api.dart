@@ -13,7 +13,7 @@ class KeyCardsOff implements Exception {
 }
 
 /// Free met a daily limit of Key cards (402 `{ error: 'PRO_REQUIRED', reason }`). [reason] is
-/// `keycard_reviews` for the reviews a day.
+/// `keycard_reviews` for the reviews a day, `keycard_line` for "The line you needed".
 class KeyCardsProRequired implements Exception {
   const KeyCardsProRequired([this.reason = 'keycard_reviews']);
 

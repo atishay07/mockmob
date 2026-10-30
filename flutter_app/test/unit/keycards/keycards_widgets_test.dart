@@ -10,6 +10,7 @@ import 'package:mockmob/features/keycards/screens/keycards_home_screen.dart';
 import 'package:mockmob/features/keycards/widgets/keycards_entries.dart';
 import 'package:mockmob/features/keycards/widgets/line_you_needed.dart';
 import 'package:mockmob/features/pro_nudge/copy.dart';
+import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
 
 import '../../helpers/golden_harness.dart';
 import 'support/keycards_fakes.dart';
@@ -151,6 +152,26 @@ void main() {
       await _tap(tester, find.text(KeyCardsCopy.lineAdd));
       expect(find.text(KeyCardsCopy.lineAdded), findsOneWidget);
       expect(api.states, hasLength(2));
+    });
+  });
+
+  group('the line you needed, when Free has read today\'s lines', () {
+    testWidgets('the Pro gate stands in the block\'s place once per screen; lines already read stay', (tester) async {
+      final api = FakeKeyCardsApi.withProgress();
+      api.states.clear();
+      api.links['q-wrong-2'] = api.links['q-wrong-1']!;
+      api.gatedLines.addAll(['q-wrong-2', 'q-wrong-3']);
+      api.links['q-wrong-3'] = api.links['q-wrong-1']!;
+      await _pump(
+        tester,
+        const Column(children: [LineYouNeeded(questionId: 'q-wrong-1'), LineYouNeeded(questionId: 'q-wrong-2'), LineYouNeeded(questionId: 'q-wrong-3')]),
+        [...keyCardsOverrides(api), proNudgesOnProvider.overrideWithValue(true)],
+      );
+      // The line read today is still there, and the gate shows once, not under every wrong answer.
+      expect(find.text(KeyCardsCopy.lineLinked), findsOneWidget);
+      expect(find.text(KeyCardsCopy.proLine), findsOneWidget);
+      expect(find.text(KeyCardsCopy.upgrade), findsOneWidget);
+      expect(find.text(KeyCardsCopy.lineTitle), findsNWidgets(2));
     });
   });
 

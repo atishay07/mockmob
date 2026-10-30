@@ -14,6 +14,8 @@ import 'package:mockmob/features/keycards/keycards_copy.dart';
 import 'package:mockmob/features/keycards/screens/keycards_deck_screen.dart';
 import 'package:mockmob/features/keycards/screens/keycards_home_screen.dart';
 import 'package:mockmob/features/keycards/widgets/line_you_needed.dart';
+import 'package:mockmob/features/pro_nudge/pro_nudge.dart' show proNudgesOnProvider;
+import 'package:mockmob/features/review/again/review_again_entry.dart';
 import 'package:mockmob/features/review/revise/revise_data.dart';
 import 'package:mockmob/features/review/revise/revise_screen.dart';
 
@@ -241,5 +243,55 @@ void main() {
     ),
     overrides: () => keyCardsOverrides(FakeKeyCardsApi.withProgress()),
     size: const Size(360, 520),
+  );
+
+  // Free has read today's lines: the one just read stays, the Pro gate stands in the next block's place (once).
+  kcGolden(
+    'kc_line_gate',
+    () => Builder(
+      builder: (context) => Scaffold(
+        backgroundColor: context.mmColors.ground,
+        body: const Padding(
+          padding: EdgeInsets.all(MmSpace.gutter),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              LineYouNeeded(questionId: 'q-wrong-1', topGap: 0),
+              LineYouNeeded(questionId: 'q-wrong-2'),
+              LineYouNeeded(questionId: 'q-wrong-3'),
+            ],
+          ),
+        ),
+      ),
+    ),
+    overrides: () {
+      final api = FakeKeyCardsApi.withProgress();
+      api.links['q-wrong-2'] = api.links['q-wrong-1']!;
+      api.links['q-wrong-3'] = api.links['q-wrong-1']!;
+      api.gatedLines.addAll(['q-wrong-2', 'q-wrong-3']);
+      return [...keyCardsOverrides(api), proNudgesOnProvider.overrideWithValue(true)];
+    },
+    size: const Size(360, 760),
+  );
+
+  // Review's Revise row with only Key cards due (no question is).
+  kcGolden(
+    'kc_review_revise_row',
+    () => Builder(
+      builder: (context) => Scaffold(
+        backgroundColor: context.mmColors.ground,
+        body: const Padding(
+          padding: EdgeInsets.all(MmSpace.gutter),
+          child: Align(alignment: Alignment.topCenter, child: ReviewAgainRow()),
+        ),
+      ),
+    ),
+    overrides: () => [
+      ...reviewOverrides(),
+      reviseApiProvider.overrideWithValue(_EmptyRevise()),
+      keyCardsApiProvider.overrideWithValue(FakeKeyCardsApi.withProgress()),
+      keyCardsPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+    ],
+    size: const Size(360, 200),
   );
 }

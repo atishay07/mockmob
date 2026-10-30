@@ -7,6 +7,9 @@ import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../insights/widgets/entry_points.dart' show EntryRow;
+import '../../keycards/data/keycards_providers.dart' show keyCardsDueProvider;
+import '../../keycards/data/keycards_rules.dart' show KeyCardRules;
+import '../../keycards/keycards_copy.dart';
 import '../data/review_providers.dart';
 import '../revise/revise_data.dart';
 import 'review_again_copy.dart';
@@ -36,7 +39,17 @@ class ReviewAgainRow extends ConsumerWidget {
     final repaired = ref.watch(reviewAgainCountProvider);
     final revise = ref.watch(reviseEntryProvider).value;
     final reviseDue = revise != null && !revise.isUnavailable && !revise.isEmpty && revise.due > 0;
-    final show = reviseDue || repaired > 0;
+    // Key cards due count even with no question due: Revise plays them, and its row says so.
+    final keyCards = ref.watch(keyCardsDueProvider).value?.value.cards.length ?? 0;
+    final opensRevise = reviseDue || keyCards > 0;
+    final show = opensRevise || repaired > 0;
+    String reviseNote() {
+      if (keyCards == 0) return revise!.head ?? ReviewAgainCopy.rowNoteDue(revise.due, revise.cards);
+      final questions = reviseDue ? (revise.queue?.total ?? revise.due) : 0;
+      final minutes = reviseDue ? (revise.queue?.minutesWithoutKeyCards ?? revise.minutes) : 0;
+      return KeyCardsCopy.learnRowDue(questions + keyCards, minutes + KeyCardRules.minutesFor(keyCards));
+    }
+
     return MmSizeEase(
       duration: Motion.of(context, Motion.card),
       curve: Motion.out,
@@ -48,9 +61,9 @@ class ReviewAgainRow extends ConsumerWidget {
               children: [
                 EntryRow(
                   icon: LucideIcons.rotateCcw,
-                  title: reviseDue ? ReviewAgainCopy.reviseTitle : ReviewAgainCopy.title,
-                  note: reviseDue ? (revise.head ?? ReviewAgainCopy.rowNoteDue(revise.due, revise.cards)) : ReviewAgainCopy.rowNote(repaired),
-                  onTap: () => context.push(reviseDue ? AppRoutes.reviewRevise : AppRoutes.reviewAgain),
+                  title: opensRevise ? ReviewAgainCopy.reviseTitle : ReviewAgainCopy.title,
+                  note: opensRevise ? reviseNote() : ReviewAgainCopy.rowNote(repaired),
+                  onTap: () => context.push(opensRevise ? AppRoutes.reviewRevise : AppRoutes.reviewAgain),
                 ),
                 if (divider) Divider(height: 1, color: context.mmColors.line),
               ],

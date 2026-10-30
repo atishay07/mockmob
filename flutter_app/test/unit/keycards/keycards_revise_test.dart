@@ -9,12 +9,16 @@ import 'package:mockmob/core/storage/prefs_store.dart';
 import 'package:mockmob/core/widgets/widgets.dart' show KeyButton;
 import 'package:mockmob/features/keycards/data/keycards_cache.dart';
 import 'package:mockmob/features/keycards/data/keycards_models.dart';
+import 'package:mockmob/features/keycards/data/keycards_providers.dart' show keyCardsApiProvider, keyCardsPrefsStoreProvider;
 import 'package:mockmob/features/keycards/data/keycards_rules.dart';
 import 'package:mockmob/features/keycards/keycards_copy.dart';
+import 'package:mockmob/features/review/again/review_again_copy.dart';
+import 'package:mockmob/features/review/again/review_again_entry.dart';
 import 'package:mockmob/features/review/revise/revise_copy.dart';
 import 'package:mockmob/features/review/revise/revise_data.dart';
 import 'package:mockmob/features/review/revise/revise_screen.dart';
 
+import '../../golden/review/review_golden_support.dart' show reviewOverrides;
 import '../../helpers/golden_harness.dart';
 import 'support/keycards_fakes.dart';
 
@@ -132,6 +136,9 @@ void main() {
       expect(find.text(ReviseCopy.runHead(5, 2)), findsOneWidget);
       expect(find.text(KeyCardsCopy.mixKeyCards(5)), findsOneWidget);
       expect(find.text(KeyCardsCopy.position(1, 5)), findsOneWidget);
+      // A run of only Key cards has no questions, so none of the question-only controls.
+      expect(find.text(ReviseCopy.questionsADay), findsNothing);
+      expect(find.text(ReviseCopy.scheduleTitle), findsNothing);
 
       await _tap(tester, _key(KeyCardsCopy.tapToReveal));
       await _tap(tester, _key(KeyCardsCopy.gotIt));
@@ -174,6 +181,45 @@ void main() {
       ]);
       expect(find.text(ReviseCopy.unavailable), findsOneWidget);
       expect(find.text(KeyCardsCopy.questionsWaitOffline), findsNothing);
+    });
+  });
+
+  group('Review\'s Revise row', () {
+    Future<void> pumpRow(WidgetTester tester, {required int questions, required bool cards}) async {
+      final api = FakeKeyCardsApi.withProgress();
+      if (!cards) api.states.clear();
+      await pumpMockmob(
+        tester,
+        const ReviewAgainRow(),
+        overrides: [
+          ...reviewOverrides(revise: ReviseRead.parse({..._queueBody(questions: questions, keyCards: cards ? null : const [])})),
+          keyCardsApiProvider.overrideWithValue(api),
+          keyCardsPrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+          reviseApiProvider.overrideWithValue(_Revise(_queueBody(questions: questions, keyCards: cards ? null : const []))),
+          revisePrefsStoreProvider.overrideWithValue(MemoryPrefsStore()),
+        ],
+        size: const Size(390, 400),
+        disableAnimations: true,
+      );
+      for (var i = 0; i < 3; i++) {
+        await tester.pump(const Duration(milliseconds: 300));
+      }
+    }
+
+    testWidgets('shows when only Key cards are due, counting the cards and their minutes', (tester) async {
+      await pumpRow(tester, questions: 0, cards: true);
+      expect(find.text(ReviewAgainCopy.reviseTitle), findsOneWidget);
+      expect(find.text(KeyCardsCopy.learnRowDue(5, KeyCardRules.minutesFor(5))), findsOneWidget);
+    });
+
+    testWidgets('adds the cards to the questions due', (tester) async {
+      await pumpRow(tester, questions: 2, cards: true);
+      expect(find.text(KeyCardsCopy.learnRowDue(7, 2 + KeyCardRules.minutesFor(5))), findsOneWidget);
+    });
+
+    testWidgets('stays out of the way with nothing due at all', (tester) async {
+      await pumpRow(tester, questions: 0, cards: false);
+      expect(find.text(ReviewAgainCopy.reviseTitle), findsNothing);
     });
   });
 }
