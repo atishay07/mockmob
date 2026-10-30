@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:lucide_icons_flutter/lucide_icons.dart';
 
 import '../../../core/api/api_error.dart';
 import '../../../core/auth/auth_state.dart';
@@ -338,6 +339,9 @@ class KcChapterRow extends StatelessWidget {
                   ],
                 ),
               ),
+              // The same chevron as every row that opens a page (SPACING 4.3).
+              const SizedBox(width: MmSpace.s8),
+              Padding(padding: const EdgeInsets.only(top: MmSpace.s2), child: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3)),
             ],
           ),
         ),

@@ -470,6 +470,7 @@ class KcStudyFace extends StatelessWidget {
     this.sending,
     this.position,
     this.error,
+    this.showChapter = false,
   });
 
   final KeyCard card;
@@ -479,6 +480,9 @@ class KcStudyFace extends StatelessWidget {
   final int? sending;
   final String? position;
   final String? error;
+
+  /// Revise mixes chapters and subjects: there the card names its chapter above itself.
+  final bool showChapter;
 
   @override
   Widget build(BuildContext context) {
@@ -518,17 +522,23 @@ class KcStudyFace extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         KcKindLine(card: card, position: position, trailing: KcCardMenu(card: card)),
-        const SizedBox(height: MmSpace.s4),
+        if (showChapter && card.chapter != null) ...[
+          Text(card.chapter!, style: type.caption.copyWith(color: colors.ink3)),
+          const SizedBox(height: MmSpace.s8),
+        ] else
+          const SizedBox(height: MmSpace.s4),
         if (revealed)
           face
         else
-          // The whole card is a target too: a tap anywhere on the question shows the answer.
+          // The whole card is a target too: a tap anywhere on the question shows the answer. A screen reader
+          // reads the question here and finds the action on the key below.
           MmPressable(
             onTap: onReveal,
             pressedScale: 0.99,
             focusRadius: MmRadius.panelAll,
             haptic: MmPressHaptic.selection,
-            semanticsLabel: KeyCardsCopy.tapToReveal,
+            button: false,
+            excludeSemantics: false,
             builder: (context, pressed, _) => face,
           ),
         if (error != null) ...[

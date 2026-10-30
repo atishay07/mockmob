@@ -29,9 +29,13 @@ class KeyCardRun extends ConsumerStatefulWidget {
     this.endTitle = KeyCardsCopy.studyDone,
     this.doneLabel = KeyCardsCopy.backToChapter,
     this.againLabel = KeyCardsCopy.studyAgain,
+    this.showChapter = false,
   });
 
   final List<KeyCard> cards;
+
+  /// Each card names its chapter (a run across chapters, as in Revise).
+  final bool showChapter;
 
   /// `study` or `revise` (the mode the ratings are logged with).
   final String mode;
@@ -150,6 +154,7 @@ class _KeyCardRunState extends ConsumerState<KeyCardRun> {
                   sending: _sending,
                   error: _error,
                   position: KeyCardsCopy.position(_at + 1, total),
+                  showChapter: widget.showChapter,
                   onReveal: _reveal,
                   onRate: (r) => unawaited(_rate(r)),
                 ),

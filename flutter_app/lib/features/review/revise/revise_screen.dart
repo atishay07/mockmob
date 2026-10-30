@@ -444,6 +444,7 @@ class _Run extends StatelessWidget {
                   sending: kcSending,
                   error: kcError,
                   position: ReviseCopy.position(at + 1, total),
+                  showChapter: true,
                   onReveal: () => onKcReveal?.call(),
                   onRate: (r) => onKcRate?.call(keyCard, r),
                 ),
@@ -666,12 +667,15 @@ class _KeyCardsOnly extends StatelessWidget {
         ),
         const SizedBox(height: MmSpace.s24),
         KeyCardRun(
+          // A new read (Try again) without the cards just rated is a new run, never a run that skips one.
+          key: ValueKey('kc-revise-${cards.map((c) => c.id).join(',')}'),
           cards: cards,
           mode: KeyCardRules.modeRevise,
           onDone: back,
           endTitle: KeyCardsCopy.reviseCardsDone,
           doneLabel: ReviseCopy.backToReview,
           againLabel: null,
+          showChapter: true,
         ),
         const SizedBox(height: MmSpace.s24),
         Text(ReviseCopy.foot, style: type.small.copyWith(color: colors.ink3)),
