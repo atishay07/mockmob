@@ -9,11 +9,12 @@ import { canonicalJSON } from '../../data/canonical_json.mjs';
 import { ENGLISH_KINDS, NCERT_KINDS, chapterSlug, isStopword } from '../../data/keycards.js';
 
 export const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
-export const NCERT_ROOT = process.env.KEYCARDS_NCERT_DIR ? path.resolve(process.env.KEYCARDS_NCERT_DIR, '..') : path.resolve(ROOT, '../ncert-books');
-export const PDF_DIR = process.env.KEYCARDS_NCERT_DIR ? path.resolve(process.env.KEYCARDS_NCERT_DIR) : path.join(NCERT_ROOT, 'pdf');
-export const DRAFTS_DIR = process.env.KEYCARDS_DRAFTS_DIR ? path.resolve(process.env.KEYCARDS_DRAFTS_DIR) : path.join(NCERT_ROOT, 'drafts');
-export const REVIEWS_DIR = process.env.KEYCARDS_REVIEWS_DIR ? path.resolve(process.env.KEYCARDS_REVIEWS_DIR) : path.join(NCERT_ROOT, 'reviews');
-export const OUT_DIR = process.env.KEYCARDS_OUT_DIR ? path.resolve(process.env.KEYCARDS_OUT_DIR) : path.join(ROOT, 'data/keycards');
+// Paths are read from the environment on every call (tests and the pipeline point them at their own folders).
+const ncertRoot = () => (process.env.KEYCARDS_NCERT_DIR ? path.resolve(process.env.KEYCARDS_NCERT_DIR, '..') : path.resolve(ROOT, '../ncert-books'));
+export const pdfDir = () => (process.env.KEYCARDS_NCERT_DIR ? path.resolve(process.env.KEYCARDS_NCERT_DIR) : path.join(ncertRoot(), 'pdf'));
+export const draftsDir = () => (process.env.KEYCARDS_DRAFTS_DIR ? path.resolve(process.env.KEYCARDS_DRAFTS_DIR) : path.join(ncertRoot(), 'drafts'));
+export const reviewsDir = () => (process.env.KEYCARDS_REVIEWS_DIR ? path.resolve(process.env.KEYCARDS_REVIEWS_DIR) : path.join(ncertRoot(), 'reviews'));
+export const outDir = () => (process.env.KEYCARDS_OUT_DIR ? path.resolve(process.env.KEYCARDS_OUT_DIR) : path.join(ROOT, 'data/keycards'));
 export const SOURCE_LABEL = 'NCERT Reprint 2026-27';
 
 // Size limits (section 3: "about" 140 / 420 / 700 / 160), with a small tolerance so "about" is not a hair trigger.
@@ -77,7 +78,7 @@ const pdfCache = new Map();
 /** { code, pages: [raw], body: [normalised, running heads and page numbers stripped], offset } or null when the PDF is missing. */
 export function pdfText(code) {
   if (pdfCache.has(code)) return pdfCache.get(code);
-  const file = path.join(PDF_DIR, `${code}.pdf`);
+  const file = path.join(pdfDir(), `${code}.pdf`);
   let out = null;
   if (/^[a-z]{4}\d{3}$/.test(code) && existsSync(file)) {
     BIN = BIN || pdftotextBin();
@@ -245,7 +246,7 @@ export function writeJSON(file, value) {
 }
 
 /** The verdicts review-merge.mjs keeps: { [cardId]: { ok, hash, reasons, code, at } }. */
-export const VERDICTS_FILE = () => path.join(OUT_DIR, 'review-verdicts.json');
+export const VERDICTS_FILE = () => path.join(outDir(), 'review-verdicts.json');
 
 /** Per chapter: cards by kind and by importance, quarantined count, and the coverage note. */
 export function coverageFor(subject, published, quarantined, notes = {}) {
@@ -270,20 +271,20 @@ export function coverageFor(subject, published, quarantined, notes = {}) {
  * when the published card set changes (ids, versions or content), never otherwise.
  */
 export function writeSubject(subject, published, quarantined, notes = {}) {
-  const deckFile = path.join(OUT_DIR, 'decks', `${subject}.json`);
+  const deckFile = path.join(outDir(), 'decks', `${subject}.json`);
   const previous = readJSON(deckFile, null);
   const cards = [...published].sort((a, b) => String(a.chapterKey).localeCompare(String(b.chapterKey)) || a.order - b.order || a.id.localeCompare(b.id));
   const same = previous && canonicalJSON(previous.cards || []) === canonicalJSON(cards);
   const version = previous ? (same ? previous.version : (Number(previous.version) || 0) + 1) : 1;
   const text = writeJSON(deckFile, { subject, version, source: SOURCE_LABEL, cards });
-  writeJSON(path.join(OUT_DIR, 'quarantine', `${subject}.json`), { subject, cards: quarantined });
-  writeJSON(path.join(OUT_DIR, 'coverage', `${subject}.json`), coverageFor(subject, cards, quarantined, notes));
+  writeJSON(path.join(outDir(), 'quarantine', `${subject}.json`), { subject, cards: quarantined });
+  writeJSON(path.join(outDir(), 'coverage', `${subject}.json`), coverageFor(subject, cards, quarantined, notes));
   return { version, sha256: sha256(text), cards: cards.length };
 }
 
 /** Recompute the manifest entry of every deck on disk (sha256 of the exact file bytes). */
 export function writeManifest(entries) {
-  const file = path.join(OUT_DIR, 'manifest.json');
+  const file = path.join(outDir(), 'manifest.json');
   const manifest = { ...readJSON(file, {}), ...entries };
   const sorted = Object.fromEntries(Object.keys(manifest).sort().map((k) => [k, manifest[k]]));
   writeJSON(file, sorted);

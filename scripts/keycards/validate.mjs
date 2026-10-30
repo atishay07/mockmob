@@ -22,12 +22,12 @@ import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { loadKeycardsSyllabus } from '../../src/lib/server/keycardsSyllabus.js';
 import {
-  DRAFTS_DIR, OUT_DIR, VERDICTS_FILE, blanksCheck, cardHash, duplicateReasons, quoteCheck, readJSON, shapeCheck, syllabusCheck,
+  VERDICTS_FILE, draftsDir as defaultDrafts, outDir, blanksCheck, cardHash, duplicateReasons, quoteCheck, readJSON, shapeCheck, syllabusCheck,
   writeManifest, writeSubject,
 } from './lib.mjs';
 
 /** Read and shape-check every draft file. Throws (exit 1) on malformed input. */
-export function readDrafts(dir = DRAFTS_DIR, { subjects = null } = {}) {
+export function readDrafts(dir = defaultDrafts(), { subjects = null } = {}) {
   if (!existsSync(dir)) throw new Error(`drafts folder not found: ${dir}`);
   const errors = [];
   const drafts = [];
@@ -79,7 +79,7 @@ export function checkSubject(subject, cards, { syllabus, previous = null, verdic
   return { published, quarantined };
 }
 
-export async function runValidate({ subjects = null, machineOnly = false, dryRun = false, draftsDir = DRAFTS_DIR, getPdf, log = console.log } = {}) {
+export async function runValidate({ subjects = null, machineOnly = false, dryRun = false, draftsDir = defaultDrafts(), getPdf, log = console.log } = {}) {
   const drafts = readDrafts(draftsDir, { subjects });
   const syllabus = await loadKeycardsSyllabus();
   const verdicts = readJSON(VERDICTS_FILE(), {});
@@ -93,7 +93,7 @@ export async function runValidate({ subjects = null, machineOnly = false, dryRun
   const summary = {};
   const manifest = {};
   for (const [subject, { cards, notes }] of bySubject) {
-    const previous = readJSON(path.join(OUT_DIR, 'decks', `${subject}.json`), null);
+    const previous = readJSON(path.join(outDir(), 'decks', `${subject}.json`), null);
     const { published, quarantined } = checkSubject(subject, cards, { syllabus, previous, verdicts, machineOnly, getPdf });
     const reasons = {};
     for (const q of quarantined) for (const r of q.reasons) { const k = r.split(':').slice(0, 2).join(':'); reasons[k] = (reasons[k] || 0) + 1; }

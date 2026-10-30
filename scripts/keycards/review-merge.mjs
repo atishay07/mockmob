@@ -13,13 +13,13 @@
 import { existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { DRAFTS_DIR, OUT_DIR, REVIEWS_DIR, VERDICTS_FILE, cardHash, readJSON, writeJSON, writeManifest, writeSubject } from './lib.mjs';
+import { VERDICTS_FILE, cardHash, draftsDir as defaultDrafts, outDir, reviewsDir as defaultReviews, readJSON, writeJSON, writeManifest, writeSubject } from './lib.mjs';
 import { readDrafts } from './validate.mjs';
 
 const QUESTIONS = Object.freeze(['exact', 'important', 'unambiguous', 'importanceRight']);
 
 /** Read every review file. Throws on malformed input. */
-export function readReviews(dir = REVIEWS_DIR) {
+export function readReviews(dir = defaultReviews()) {
   if (!existsSync(dir)) throw new Error(`reviews folder not found: ${dir}`);
   const errors = [];
   const out = [];
@@ -41,7 +41,7 @@ export function judge(v) {
   return { ok: no.length === 0, reasons: no.length ? [...no.map((q) => `not_${q}`), ...(why ? [why] : [])] : [] };
 }
 
-export function runReviewMerge({ draftsDir = DRAFTS_DIR, reviewsDir = REVIEWS_DIR, now = new Date(), log = console.log } = {}) {
+export function runReviewMerge({ draftsDir = defaultDrafts(), reviewsDir = defaultReviews(), now = new Date(), log = console.log } = {}) {
   const reviews = readReviews(reviewsDir);
   const drafts = readDrafts(draftsDir);
   const cardById = new Map();
@@ -63,16 +63,16 @@ export function runReviewMerge({ draftsDir = DRAFTS_DIR, reviewsDir = REVIEWS_DI
 
   // Move every published card with a "no" into its subject's quarantine now.
   const manifest = {};
-  const decksDir = path.join(OUT_DIR, 'decks');
+  const decksDir = path.join(outDir(), 'decks');
   for (const name of existsSync(decksDir) ? readdirSync(decksDir).filter((f) => f.endsWith('.json') && !f.startsWith('_')) : []) {
     const deck = readJSON(path.join(decksDir, name));
     const failing = (deck.cards || []).filter((c) => verdicts[c.id] && !verdicts[c.id].ok);
     if (!failing.length) continue;
-    const quarantine = readJSON(path.join(OUT_DIR, 'quarantine', name), { cards: [] });
+    const quarantine = readJSON(path.join(outDir(), 'quarantine', name), { cards: [] });
     const moved = failing.map((c) => ({ ...c, reasons: verdicts[c.id].reasons.map((r) => `review:${r}`) }));
     const keep = deck.cards.filter((c) => !failing.includes(c));
     const rest = (quarantine.cards || []).filter((q) => !failing.some((c) => c.id === q.id));
-    const coverage = readJSON(path.join(OUT_DIR, 'coverage', name), { chapters: {} });
+    const coverage = readJSON(path.join(outDir(), 'coverage', name), { chapters: {} });
     const notes = Object.fromEntries(Object.entries(coverage.chapters || {}).filter(([, r]) => r?.coverage_note).map(([k, r]) => [k, r.coverage_note]));
     manifest[deck.subject] = writeSubject(deck.subject, keep, [...rest, ...moved], notes);
   }
