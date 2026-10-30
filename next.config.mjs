@@ -1,6 +1,5 @@
 import { dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { existsSync } from 'node:fs';
 
 const appRoot = dirname(fileURLToPath(import.meta.url));
 
@@ -47,15 +46,6 @@ const nextConfig = {
   trailingSlash: false,
   turbopack: {
     root: appRoot,
-  },
-  // Syllabus v2 (data/cuet_syllabus.js) lands from another branch; src/lib/server/keycardsSyllabus.js imports it inside a
-  // try. Webpack fails a build on a literal import of a missing file, so while the file is absent it is ignored (the
-  // import then rejects at run time and the adapter takes the canonical fallback). Present: bundled as normal.
-  webpack(config, { webpack }) {
-    if (!existsSync(`${appRoot}/data/cuet_syllabus.js`)) {
-      config.plugins.push(new webpack.IgnorePlugin({ resourceRegExp: /cuet_syllabus\.js$/ }));
-    }
-    return config;
   },
   async redirects() {
     return [

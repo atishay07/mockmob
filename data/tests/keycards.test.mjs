@@ -11,6 +11,7 @@ import {
   istDay, lineNeeded, memoryShare, newSchedule, retrievability, schedule, tasteIds,
 } from '../keycards.js';
 import { syllabusFrom, sectionOpen, chipFor } from '../../src/lib/server/keycardsSyllabus.js';
+import * as cuetSyllabus from '../cuet_syllabus.js';
 import { blanksCheck, detectOffset, duplicateReasons, fillBlanks, norm, shapeCheck, syllabusCheck } from '../../scripts/keycards/lib.mjs';
 import { mergeQueue, filterSource, itemKey, summary, startRun, recordAnswer, mixLine } from '../../src/components/revise/reviseQueue.js';
 import { reviseDue } from '../review_input.mjs';
@@ -253,14 +254,20 @@ test('page offset: majority vote over standalone integers, a stray table number 
   assert.equal(norm('Manage-\nment  is  “the” process'), 'managementistheprocess');
 });
 
-test('syllabus check and adapter: canonical fallback, retired chapters, v2 when present', () => {
+test('syllabus check and adapter: syllabus v2, retired chapters, the canonical view', () => {
+  // The live adapter is syllabus v2 (data/cuet_syllabus.js): retired chapters are named there.
+  const live = syllabusFrom(cuetSyllabus);
+  assert.equal(live.source, 'v2');
+  assert.equal(syllabusCheck(FIXTURE.cards[0], live), null);
+  assert.equal(syllabusCheck({ ...FIXTURE.cards[0], chapterKey: 'business_studies.entrepreneurship-development' }, live), 'syllabus:retired:not_in_cuet_2026');
+  assert.equal(syllabusCheck({ ...FIXTURE.cards[0], chapterKey: 'business_studies.no-such-chapter' }, live), 'syllabus:unknown_chapter');
+  assert.equal(live.resolveChapter('chemistry', 'Solid State').retired, true);
+  assert.equal(live.resolveChapter('chemistry', 'Nonsense'), null);
+  // The canonical view (syllabusFrom(null)) reads the map syllabus v2 rebuilt: live chapters only for the top subjects.
   const fallback = syllabusFrom(null);
   assert.equal(fallback.source, 'canonical');
   assert.equal(syllabusCheck(FIXTURE.cards[0], fallback), null);
-  assert.equal(syllabusCheck({ ...FIXTURE.cards[0], chapterKey: 'business_studies.entrepreneurship-development' }, fallback), 'syllabus:retired:not_in_cuet_2026');
-  assert.equal(syllabusCheck({ ...FIXTURE.cards[0], chapterKey: 'business_studies.no-such-chapter' }, fallback), 'syllabus:unknown_chapter');
   assert.equal(fallback.resolveChapter('business_studies', 'Nature & Significance of Management').key, 'business_studies.nature-and-significance-of-management');
-  assert.equal(fallback.resolveChapter('chemistry', 'Solid State').retired, true);
   assert.equal(fallback.resolveChapter('chemistry', 'Nonsense'), null);
   assert.ok(fallback.unitsFor('business_studies').every((u) => !/Existing/.test(u.unit)));
   assert.deepEqual(fallback.subjectOptions('accountancy').choices.map((c) => c.id), ['AFS', 'CAS']);

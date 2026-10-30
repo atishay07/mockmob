@@ -1,12 +1,10 @@
-// The syllabus as Key cards and chapter state read it (KEYCARDS-BUILD-SPEC.md 1 and 2). One small adapter so the merge
-// with syllabus v2 is trivial:
-//   - when data/cuet_syllabus.js exists (branch web/1031-syllabus), its documented interface is used as it is:
-//     SUBJECT_OPTIONS, CHAPTERS, RETIRED_CHAPTERS, resolveChapter, chaptersFor, unitsFor;
-//   - until then, the lookups fall back to data/canonical_syllabus.js: every chapter in a CUET unit is live, the
-//     "Existing ... Coverage" units count as retired, and there are no NCERT references or chips.
+// The syllabus as Key cards and chapter state read it (KEYCARDS-BUILD-SPEC.md 1 and 2): syllabus v2
+// (data/cuet_syllabus.js) through its documented interface: SUBJECT_OPTIONS, CHAPTERS, RETIRED_CHAPTERS, resolveChapter,
+// chaptersFor, unitsFor. syllabusFrom(null) still builds the older canonical-map view for the tests that pin it: every
+// chapter in a CUET unit is live, the "Existing ... Coverage" units count as retired, and there are no NCERT references.
 // No 'server-only' and no alias imports, so node:test and scripts/keycards/*.mjs load it directly.
-// The v2 import sits inside try in an async function: webpack marks it optional, so a build without the file only warns.
 import * as canonical from '../../../data/canonical_syllabus.js';
+import * as cuetSyllabus from '../../../data/cuet_syllabus.js';
 import { chapterKeyOf } from '../../../data/keycards.js';
 
 // The same options as data/cuet_syllabus.js SUBJECT_OPTIONS (spec section 1), used only while that file is absent.
@@ -109,19 +107,9 @@ function fromCanonical() {
 }
 
 let loading = null;
-/** The syllabus adapter, loaded once per process. */
+/** The syllabus adapter (syllabus v2), built once per process. Async because its callers were written before v2 landed. */
 export function loadKeycardsSyllabus() {
-  if (!loading) {
-    loading = (async () => {
-      let mod = null;
-      try {
-        mod = await import('../../../data/cuet_syllabus.js');
-      } catch {
-        mod = null; // syllabus v2 not merged yet: the canonical fallback below
-      }
-      return mod && typeof mod.resolveChapter === 'function' ? fromV2(mod) : fromCanonical();
-    })();
-  }
+  if (!loading) loading = Promise.resolve(fromV2(cuetSyllabus));
   return loading;
 }
 
