@@ -1,4 +1,14 @@
-# NOW: MockMob current state (overwrite at every handoff; git keeps the history)
+# NOW: MockMob current state
+
+## 31 Oct 2026, about 3:45 am IST: Key cards build PAUSED at the owner's 93% usage
+- **Live production is unchanged** since the version 16 web release (main 0b7d6bc03). Nothing from this work is pushed
+  or deployed.
+- **Work in progress:** Key cards (NCERT exact-quote flashcards), syllabus v2 (CUET-referenced) and chapter state.
+  - Owner decisions: D200-D206.
+  - Read `docs/brain/HANDOFF-2026-10-31-KEYCARDS.md`. Next prompt: `docs/brain/PROMPT-NEXT-SESSION-2026-10-31.md`.
+
+(Older state below.)
+
 
 **Last written:** 20 Oct 2026, about 3:20 am IST (updated from 2:35 am), by session 801f0d1a (Claude Opus 5.5, CEO/CTO). The owner is asleep with FULL AUTONOMY for this session (D156: decide independently, no mock-ups or results to show, deploy when tests pass). His words are verbatim in `docs/brain/OWNER-FEEDBACK-2026-10-19.md` (to D157 and I1-I16, J1-J6). Decisions: `OWNER-MASTER-LEDGER.md` (C-dec 3 and 3b at the end).
 
