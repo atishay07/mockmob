@@ -570,3 +570,13 @@ Spec: docs/design-decisions/pass-1019pm/mob-v3/MOB-BUILD-SPEC-V3.md. Production 
 - Price each job from its real model cost with a wide margin (1 credit is about Rs 0.25 at the 300-pack price; a job's model cost must stay a small fraction of its credit price; measure it in the code's cost ledger).
 - Depth over volume: a credit buys a deeper, more useful job, not more jobs. Repair (1 credit) becomes the flagship: why YOUR option looked right using our trap atlas and your own history, the rule to keep, check questions, and a held check later.
 - What is computed from the record (no model call) stays free and is woven through the platform, not boxed in a chat. The website is the main product: every Mobi change lands on the web first or together.
+
+## 31 Oct decisions (D200-D206): intelligence layer and Key cards (plan docs/brain/INTELLIGENCE-LAYER-PLAN-2026-10-31.md)
+His words, 31 Oct (dictated): "The main thing that I really care about and focus upon is the card and the feature that we have to build. Other things, you can see yourself and improvise all of that."
+- D200 Syllabus: one reference, the real CUET syllabus (units), with NCERT chapters as the study unit and a clear unit for each. Build in every CUET intricacy (options between units, sections such as Maths core/Applied and CS/IP, optional parts). Verify every dropped chapter against the real syllabus before acting. Goal: "the most precise and focused approach towards what is actually coming in the syllabus and what will be asked in the exam."
+- D201 No "Older syllabus" shelf unless it clearly reduces confusion (he expects it adds confusion). Default: off-syllabus chapters leave every student surface.
+- D202 Cards keep NCERT's exact language, with the reference (book, chapter, page). "That language is what fetches them marks." Paraphrase only for explanations. NCERT books are public; quoting is fine.
+- D203 Card categories: the proposed types are good; add and label more as needed. Both halves must be done: backend and database with every needed question/card type and material in place, AND a good-looking, well-integrated frontend.
+- D204 Pilot: at least the 5-6 most popular subjects.
+- D205 The USD 50 lifetime content ceiling "has been long exceeded and is no longer valid": removed (web/1031-keycards 528fe5e18: budgetLedger, AGENTS.md, COST-POLICY). API credits available on request ($500, $1,000, ...) or use the subscription agent path, whichever fills content better.
+- D206 Free vs Pro: Free is a taste ("have a feel for everything, and make people believe that it's useful, but not exactly provide them with actual value"); the real value of cards and the intelligence layer is Pro.
