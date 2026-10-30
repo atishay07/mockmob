@@ -105,7 +105,13 @@ export async function runValidate({ subjects = null, machineOnly = false, dryRun
     const reasons = {};
     for (const q of quarantined) for (const r of q.reasons) { const k = r.split(':').slice(0, 2).join(':'); reasons[k] = (reasons[k] || 0) + 1; }
     summary[subject] = { cards: cards.length, published: published.length, quarantined: quarantined.length, reasons };
-    if (!dryRun) manifest[subject] = writeSubject(subject, published, quarantined, notes);
+    // A published card carries the syllabus's stored chapter name and CUET unit for its chapterKey, whatever the author
+    // typed (authors wrote before syllabus v2 settled the units). The draft, its hash and its review stay as they were.
+    const named = published.map((c) => {
+      const ch = syllabus.chapterByKey(c.chapterKey);
+      return ch && !ch.retired ? { ...c, chapter: ch.name || c.chapter, unit: ch.unit || c.unit } : c;
+    });
+    if (!dryRun) manifest[subject] = writeSubject(subject, named, quarantined, notes);
   }
   if (!dryRun && Object.keys(manifest).length) writeManifest(manifest);
   log(JSON.stringify({ syllabus: syllabus.source, machineOnly, dryRun, ignored: [...ignoredFiles], subjects: summary }, null, 2));
