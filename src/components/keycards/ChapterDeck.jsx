@@ -1,6 +1,6 @@
 "use client";
 // /cards/[chapter]: one chapter's Key cards (KEYCARDS-BUILD-SPEC.md section 3).
-//   Head      the unit (only when it differs from the title), the chapter title, "Business Studies Part 1 · Ch 1", the chip;
+//   Head      the unit (only when it differs from the title), the chapter title, "Business Studies Part 1, Ch 1", the chip;
 //             for Pro the reason line from /api/me/chapters ("7 of 12 right on the latest try at each question. Cards: 14 of 20 holding.")
 //   Actions   Add chapter to Revise (the one volt key in Read), Print chapter sheet (Pro)
 //   Modes     one segmented control: Read (the book, card by card), Study (a recall session), Last look (Must-know, nothing scheduled)
@@ -314,6 +314,7 @@ export default function ChapterDeck({ chapterKey }) {
 
   const { chapter, counts } = deck;
   const ref = chapterRef(chapter.ncert);
+  const unit = chapter.unit && chapter.unit !== chapter.title ? chapter.unit : null;
   const empty = !deck.cards?.length;
   const addLine = isPro
     ? `Adds the ${plural(must.length, 'Must-know card')}. Good-to-know cards you add one at a time.`
@@ -323,10 +324,10 @@ export default function ChapterDeck({ chapterKey }) {
     <div className={`kc kc--deck ${ncertFont.variable}`} data-mode={mode}>
       {back}
       <header className="kc-dhead">
-        {chapter.unit && chapter.unit !== chapter.title ? <p className="kc-dhead__unit">{chapter.unit}</p> : null}
         <h1 className="kc-title">{chapter.title}</h1>
-        {ref || chapter.chip ? (
+        {unit || ref || chapter.chip ? (
           <p className="kc-dhead__ref">
+            {unit ? <span className="kc-dhead__unit">{unit}</span> : null}
             {ref ? <span aria-label={chapterRefSpoken(chapter.ncert)}>{ref}</span> : null}
             {chapter.chip ? <span className="kc-chip">{chapter.chip}</span> : null}
           </p>

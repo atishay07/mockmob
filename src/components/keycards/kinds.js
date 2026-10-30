@@ -2,9 +2,8 @@
 // KEYCARDS-CONTENT-SPEC.md). No React, no I/O, so node --test reads it as the screens do.
 //
 // Copy rules (spec, owner standards): plain sentence case, no exclamation marks, no emoji, no arrows, never "mastered",
-// "mastery" or "marks to recover", no percentage under 6 answers. The three compact meta strings the spec writes with a
-// middle dot ("18 cards · 6 due", "Business Studies Part 1 · Ch 1 · p. 3", "Revise · 14 due · about 6 minutes") keep it,
-// exactly as the app does, so web and app read the same; nothing else uses one.
+// "mastery" or "marks to recover", no percentage under 6 answers. No middle dot anywhere (owner rule T-124): the compact
+// meta strings use commas ("18 cards, 6 due", "Business Studies Part 1, Ch 1, p. 3").
 
 /** The label a student sees for each card kind, exactly as KEYCARDS-CONTENT-SPEC.md section 2 writes it. */
 export const KIND_LABELS = Object.freeze({
@@ -52,22 +51,22 @@ export const PRO_LINE = 'Pro opens every card in every chapter and keeps them on
 
 export const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
-/** "Business Studies Part 1 · Ch 1 · p. 3" (the spec's reference) from a card's source; null when there is nothing to cite. */
+/** "Business Studies Part 1, Ch 1, p. 3" (the spec's reference) from a card's source; null when there is nothing to cite. */
 export function sourceLine(source) {
   if (!source || typeof source !== 'object') return null;
   if (source.kind === 'wordnet') return 'Meaning from WordNet';
   if (source.kind === 'authored') return 'Written for the MockMob English deck';
   const n = (v) => (v !== null && v !== undefined && v !== '' && Number.isFinite(Number(v)) ? Number(v) : null);
   const parts = [source.book || null, n(source.chapterNo) !== null ? `Ch ${n(source.chapterNo)}` : null, n(source.page) !== null ? `p. ${n(source.page)}` : null];
-  const line = parts.filter(Boolean).join(' · ');
+  const line = parts.filter(Boolean).join(', ');
   return line || null;
 }
 
-/** "Business Studies Part 1 · Ch 1" from a chapter's ncert block ({ book, chapter }). */
+/** "Business Studies Part 1, Ch 1" from a chapter's ncert block ({ book, chapter }). */
 export function chapterRef(ncert) {
   if (!ncert || !ncert.book) return null;
   const n = ncert.chapter !== null && ncert.chapter !== undefined && Number.isFinite(Number(ncert.chapter)) ? Number(ncert.chapter) : null;
-  return n !== null ? `${ncert.book} · Ch ${n}` : ncert.book;
+  return n !== null ? `${ncert.book}, Ch ${n}` : ncert.book;
 }
 
 /** "Business Studies Part 1, chapter 1": the same reference written out, for screen readers. */
@@ -146,7 +145,7 @@ export function readingRows(cards = []) {
 }
 
 /**
- * A chapter row's counts: "18 cards · 6 due" (the spec's line; "· 0 due" only once the chapter is in Revise, since before
+ * A chapter row's counts: "18 cards, 6 due" (the spec's line; ", 0 due" only once the chapter is in Revise, since before
  * that nothing can be due), and for Free a second line "5 of 38 open". { line, open } with `open` null for Pro.
  */
 export function countsLine(ch, isPro) {
@@ -154,7 +153,7 @@ export function countsLine(ch, isPro) {
   if (!cards) return { line: 'No cards yet', open: null };
   const due = Number(ch?.due) || 0;
   const added = Number(ch?.added) || 0;
-  const line = due || added ? `${plural(cards, 'card')} · ${due} due` : plural(cards, 'card');
+  const line = due || added ? `${plural(cards, 'card')}, ${due} due` : plural(cards, 'card');
   const open = isPro ? null : `${Math.min(Number(ch?.unlocked) || 0, cards)} of ${cards} open`;
   return { line, open };
 }
@@ -196,3 +195,7 @@ export function findChapter(home, subject, name) {
   }
   return null;
 }
+
+/** An NCERT excerpt can start mid-sentence: a back whose first character is a lowercase letter reads with a leading ellipsis. Display only. */
+export const startsMidSentence = (text) => typeof text === 'string' && /^\p{Ll}/u.test(text.trimStart());
+export const withLead = (text) => (startsMidSentence(text) ? `\u2026${text.trimStart()}` : text);

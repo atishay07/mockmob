@@ -35,12 +35,12 @@ test('blanks: the front splits on ____ and the quote marks the blanked words in 
   assert.equal(markBlanks('Coordination binds.', ['garland']).map((p) => p.text || p.mark).join(''), 'Coordination binds.');
 });
 
-test('references are the spec\'s own ("Business Studies Part 1 · Ch 1 · p. 3"), and spoken in full words', () => {
-  assert.equal(sourceLine({ kind: 'ncert', book: 'Business Studies Part 1', chapterNo: 1, page: 3 }), 'Business Studies Part 1 · Ch 1 · p. 3');
-  assert.equal(sourceLine({ kind: 'ncert', book: 'Accountancy Part 2', chapterNo: 5, page: null }), 'Accountancy Part 2 · Ch 5');
+test('references are the spec\'s own ("Business Studies Part 1, Ch 1, p. 3"), and spoken in full words', () => {
+  assert.equal(sourceLine({ kind: 'ncert', book: 'Business Studies Part 1', chapterNo: 1, page: 3 }), 'Business Studies Part 1, Ch 1, p. 3');
+  assert.equal(sourceLine({ kind: 'ncert', book: 'Accountancy Part 2', chapterNo: 5, page: null }), 'Accountancy Part 2, Ch 5');
   assert.equal(sourceLine({ kind: 'wordnet' }), 'Meaning from WordNet');
   assert.equal(sourceLine(null), null);
-  assert.equal(chapterRef({ book: 'Accountancy Part 2', chapter: 5 }), 'Accountancy Part 2 · Ch 5');
+  assert.equal(chapterRef({ book: 'Accountancy Part 2', chapter: 5 }), 'Accountancy Part 2, Ch 5');
   assert.equal(chapterRefSpoken({ book: 'Accountancy Part 2', chapter: 5 }), 'Accountancy Part 2, chapter 5');
   assert.equal(chapterRef({ book: 'Introductory Microeconomics', chapter: null }), 'Introductory Microeconomics');
 });
@@ -63,9 +63,9 @@ test('Free reading: every locked stub is gathered into one quiet row after the o
 });
 
 test('chapter rows: counts and states in words, no percentage, no forbidden word', () => {
-  assert.deepEqual(countsLine({ cards: 38, unlocked: 5, added: 5, due: 2 }, false), { line: '38 cards · 2 due', open: '5 of 38 open' });
-  assert.deepEqual(countsLine({ cards: 18, added: 12, due: 6 }, true), { line: '18 cards · 6 due', open: null });
-  assert.deepEqual(countsLine({ cards: 18, added: 12, due: 0 }, true), { line: '18 cards · 0 due', open: null });
+  assert.deepEqual(countsLine({ cards: 38, unlocked: 5, added: 5, due: 2 }, false), { line: '38 cards, 2 due', open: '5 of 38 open' });
+  assert.deepEqual(countsLine({ cards: 18, added: 12, due: 6 }, true), { line: '18 cards, 6 due', open: null });
+  assert.deepEqual(countsLine({ cards: 18, added: 12, due: 0 }, true), { line: '18 cards, 0 due', open: null });
   assert.deepEqual(countsLine({ cards: 1, added: 0, due: 0 }, true), { line: '1 card', open: null });
   assert.deepEqual(countsLine({ cards: 0 }, true), { line: 'No cards yet', open: null });
   assert.equal(stateCue({ state: 'strong', label: 'Holding', fading: true }).label, 'Holding, fading');

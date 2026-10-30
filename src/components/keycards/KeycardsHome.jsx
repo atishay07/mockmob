@@ -3,8 +3,8 @@
 //   Head      "Key cards" and one line on what they are
 //   Today     "14 cards due today" and "About 4 minutes in Revise", with the one primary key, Revise now (/review/revise)
 //   Subjects  the student's subjects (a row of tabs); for Mathematics, Computer Science and Accountancy the one-tap option picker
-//   Units     CUET units in order, each chapter in NCERT order: title, "Business Studies Part 1 · Ch 1", the chip, the state in
-//             words with a shape beside it (never colour alone), "27 cards · 6 due", and for Free "5 of 27 open" under it.
+//   Units     CUET units in order, each chapter in NCERT order: title, "Business Studies Part 1, Ch 1", the chip, the state in
+//             words with a shape beside it (never colour alone), "27 cards, 6 due", and for Free "5 of 27 open" under it.
 //             A subject whose units each hold one chapter is one plain list (blocksOf); otherwise each unit is headed.
 //   Free      one quiet Pro line (InlineNudge, placement keycards), dismissable, never a modal on entry
 import { useEffect, useMemo, useState } from 'react';
@@ -46,7 +46,7 @@ function ChapterRow({ ch, isPro, href, index }) {
   const ref = chapterRef(ch.ncert);
   const counts = countsLine(ch, isPro);
   const unit = ch.unit && String(ch.unit).trim().toLowerCase() !== String(ch.title).trim().toLowerCase() ? `CUET unit: ${ch.unit}` : null;
-  const spoken = [ch.title, chapterRefSpoken(ch.ncert), unit, ch.chip, cue.label, counts.line.replace(' · ', ', '), counts.open].filter(Boolean).join('. ');
+  const spoken = [ch.title, chapterRefSpoken(ch.ncert), unit, ch.chip, cue.label, counts.line, counts.open].filter(Boolean).join('. ');
   return (
     <li className="kc-row" style={{ '--i': Math.min(index, 12) }}>
       <Link className="kc-row__link" href={href} aria-label={spoken}>
