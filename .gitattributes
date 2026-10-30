@@ -15,3 +15,8 @@ data/canonical_json.mjs -text
 # Migrations and undo scripts are applied byte for byte and proved by md5(prosrc) after the apply: keep LF on every checkout
 # (core.autocrlf=true used to hand Windows checkouts CRLF, so a function body hashed differently from the committed blob).
 supabase/**/*.sql text eol=lf
+# Key cards decks are checked against data/keycards/manifest.json by sha256 of their bytes; newline conversion would
+# switch a subject off on a Windows checkout.
+data/keycards/decks/*.json -text
+data/keycards/links/*.json -text
+data/keycards/manifest.json -text
