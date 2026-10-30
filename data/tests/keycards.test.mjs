@@ -12,7 +12,7 @@ import {
 } from '../keycards.js';
 import { syllabusFrom, sectionOpen, chipFor } from '../../src/lib/server/keycardsSyllabus.js';
 import * as cuetSyllabus from '../cuet_syllabus.js';
-import { blanksCheck, detectOffset, duplicateReasons, fillBlanks, norm, quoteCheck, shapeCheck, syllabusCheck } from '../../scripts/keycards/lib.mjs';
+import { blanksCheck, danglingStart, detectOffset, duplicateReasons, fillBlanks, norm, quoteCheck, shapeCheck, syllabusCheck } from '../../scripts/keycards/lib.mjs';
 import { mergeQueue, filterSource, itemKey, summary, startRun, recordAnswer, mixLine } from '../../src/components/revise/reviseQueue.js';
 import { reviseDue } from '../review_input.mjs';
 import { keyCardsEnabled, OFF, loadDecks } from '../../src/lib/server/keycards.js';
@@ -252,6 +252,15 @@ test('page offset: majority vote over standalone integers, a stray table number 
   assert.equal(detectOffset(['a', 'b\n39\n', 'c\n40\n', 'd\n41\n']), 37);
   assert.equal(detectOffset(['no numbers']), null);
   assert.equal(norm('Manage-\nment  is  “the” process'), 'managementistheprocess');
+});
+
+test('shape check: a front that does not stand on its own is quarantined; a term with a capital inside is not', () => {
+  for (const front of ['It is the process of ____.', 'This is called ____.', 'Thus the ____ falls.', 'different habitats), one can call this ____.', 'In other words, what is ____?']) {
+    assert.equal(danglingStart(front), true, front);
+  }
+  for (const front of ['Define management.', 'mRNA carries the code from DNA to ____.', 'pH of the soil affects ____.', 'Name the 14 principles of management.', 'Italy joined the ____ in 1957.']) {
+    assert.equal(danglingStart(front), false, front);
+  }
 });
 
 test('quote check: a sentence pdftotext splits across two columns passes when the pdfium extraction has it whole', () => {

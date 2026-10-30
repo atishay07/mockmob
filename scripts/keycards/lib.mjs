@@ -172,6 +172,16 @@ export function quoteCheck(card, getPdf = pdfText) {
 const isText = (v) => typeof v === 'string' && v.trim().length > 0;
 const stripEnum = (line) => line.replace(/^\s*(?:\(?(?:\d{1,2}|[ivxlc]{1,5}|[a-h])[.)]|[-\u2022*\u2013])\s+/i, '');
 
+// A front must stand on its own (section 3, "one idea per card"; the reviewers' most common flag): never a pronoun or
+// linking word that points back at text the student cannot see, and never a lowercase fragment. A first word with a
+// capital or a digit inside it (mRNA, pH, tRNA) is a term, not a fragment.
+const DANGLING = /^(?:It|Its|This|These|They|Those|Such|Thus|Hence|So|Therefore|However|Moreover|Alternatively|Also|Here|In other words|Not only that|On the other hand)\b/;
+export const danglingStart = (text) => {
+  const t = String(text ?? '').trim();
+  const first = t.split(/\s+/)[0] || '';
+  return DANGLING.test(t) || /^[a-z]+[,;:)]?$/.test(first);
+};
+
 /** Fill each `____` in `front` with the blanks in order. */
 export function fillBlanks(front, blanks) {
   let i = 0;
@@ -199,6 +209,7 @@ export function shapeCheck(card, subject) {
   const idRe = new RegExp(`^kc\\.${subject}\\.${(slug || '').replace(/[-]/g, '\\-')}\\.[a-z][a-z0-9_]*-[a-z0-9]+(?:-[a-z0-9]+)*$`);
   if (!slug || !idRe.test(card.id)) r.push('shape:id_pattern');
   if (card.front.length > LIMITS.front) r.push('shape:front_too_long');
+  if (danglingStart(card.front)) r.push('shape:front_dangling');
   if (card.back.length > (LONG_BACK.has(card.kind) ? LIMITS.backLong : LIMITS.back)) r.push('shape:back_too_long');
   const src = card.source;
   if (!src || typeof src !== 'object') { r.push('shape:source'); return r; }
