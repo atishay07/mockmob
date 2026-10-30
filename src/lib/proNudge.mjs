@@ -43,10 +43,10 @@ const NTA_MINUTES = Math.round(TEST_MODES.nta.fixedDurationSec / 60);
 export const NTA_SUBJECTS = Object.freeze(['english', 'general_test', 'accountancy', 'business_studies', 'economics', 'mathematics', 'physics', 'chemistry', 'biology', 'computer_science', 'geography', 'history', 'political_science', 'psychology', 'sociology']);
 
 // The places an inline nudge may stand. Each has one line and one action (the action opens the Upgrade sheet).
-export const PLACEMENTS = Object.freeze(['credits_low', 'practice_cost', 'result', 'review_chapter', 'start_sheet']);
+export const PLACEMENTS = Object.freeze(['credits_low', 'practice_cost', 'result', 'review_chapter', 'start_sheet', 'keycards']);
 
 // Pro features a Free student can tap. Each opens the sheet with its own headline and its own benefit first.
-export const TRIGGERS = Object.freeze(['nta', 'smart', 'difficulty', 'review', 'compass', 'saves', 'mob', 'mob_limit', 'study', 'benchmark', 'credits', 'result', 'first_session', 'generic']);
+export const TRIGGERS = Object.freeze(['nta', 'smart', 'difficulty', 'review', 'compass', 'saves', 'mob', 'mob_limit', 'study', 'benchmark', 'keycards', 'credits', 'result', 'first_session', 'generic']);
 
 const whole = (n) => (Number.isFinite(Number(n)) && n !== null && n !== '' ? Math.max(0, Math.trunc(Number(n))) : null);
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
@@ -186,6 +186,9 @@ export function inlineCopy(placement, facts = {}) {
       return { text: 'Smart practice in Pro weights every set toward chapters like this one.', action: 'See Smart practice', trigger: 'smart' };
     case 'start_sheet':
       return { text: 'Unlimited mocks, NTA mode and Smart practice. One Pro price, no credits needed for practice.', action: 'See Pro', trigger: 'generic' };
+    // Key cards home (KEYCARDS-BUILD-SPEC.md section 3, Free): the spec's own factual line.
+    case 'keycards':
+      return { text: 'Pro opens every card in every chapter and keeps them on a schedule.', action: 'See Pro', trigger: 'keycards' };
     default:
       return null;
   }
@@ -227,6 +230,8 @@ const HEADS = Object.freeze({
   study: { title: 'Plan your week, day by day', lede: "Pro saves a weekly plan, a subject and the minutes for each day, and mixes up to 20 concepts you have learned into one revision session. Lessons, reviews and Today's plan stay free." },
   // The benchmark rivals (src/components/ai/AIRivalArena.jsx, src/services/usage/getDailyUsage.js LIMITS.paid).
   benchmark: { title: 'All four rivals, no daily limit', lede: 'Free includes one benchmark a day against one rival. Pro opens all four standard rivals with no daily limit. The stronger rivals also use credits.' },
+  // Key cards (data/keycards.js KEYCARD_RULES.free): 5 cards a chapter, 10 reviews a day on Free.
+  keycards: { title: 'Every Key card, on a schedule', lede: 'Pro opens every card in every chapter and keeps them on a schedule. Free opens 5 cards a chapter and 10 card reviews a day.' },
   // Never counts papers: the sheet can open on a later paper in the first session (a paper within 2 minutes of
   // onboarding, or one the student left before the sheet was due, does not open it), so "first" would not always be true.
   first_session: { title: 'Paper done. Now take the limits off.', lede: 'Pro gives you unlimited mocks from one central bank, NTA mode and Smart practice, for one price. No credits needed for practice.' },
@@ -295,6 +300,7 @@ const BENEFITS = Object.freeze({
   mob_more: { plain: () => "Every Mob's weekly paper, not one a week, and up to 3 Mobs you start.", personal: () => null },
   study: { plain: () => 'A saved weekly plan and mixed revision of up to 20 learned concepts.', personal: () => null },
   benchmark: { plain: () => 'All four standard benchmark rivals, with no daily limit.', personal: () => null },
+  keycards: { plain: () => 'Every Key card in every chapter, in NCERT’s exact words, kept on a schedule in Revise.', personal: () => null },
 });
 
 // The order each trigger leads with; the rest follow in the default order. Four lines at most.
@@ -302,7 +308,7 @@ const DEFAULT_ORDER = ['unlimited', 'credits', 'nta', 'smart'];
 const LEAD = Object.freeze({
   nta: ['nta'], smart: ['smart'], difficulty: ['difficulty'], review: ['review'], compass: ['compass'], saves: ['saves'],
   credits: ['credits'], result: ['unlimited'], first_session: [], mob: ['mob'], mob_limit: ['mob_more', 'mob'], study: ['study'],
-  benchmark: ['benchmark'], generic: [],
+  benchmark: ['benchmark'], keycards: ['keycards'], generic: [],
 });
 export const MAX_BENEFITS = 4;
 

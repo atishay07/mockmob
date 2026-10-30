@@ -14,6 +14,7 @@ import { requestRepair, planRepairFailure } from '@/../data/repair_client.mjs';
 import { REPAIR_OUTCOMES } from '@/../data/repair_presentation.mjs';
 import { haveLine } from '@/lib/creditCopy.mjs';
 import AnswerSheet, { loadAttempt, questionOf } from './AnswerSheet';
+import { ChapterKeycardsLink } from '@/components/keycards/KeycardsLinks';
 import { SUBJECTS } from '@/../data/subjects';
 
 /** The subject's id whether the record names it by id ('accountancy') or by name ('Accountancy'). */
@@ -196,6 +197,7 @@ function OpenChapter({ row, byUid, wallet, openUid, setOpenUid, onChanged, focus
       {hiddenLine ? <button type="button" className="rvw-more" onClick={() => setMore(true)}>{hiddenLine}</button> : null}
       <div className="rvw-open__foot">
         {first ? <LessonLink subject={subject} chapter={row.name} from={{ kind: 'q', attemptId: first.attemptId, number: first.number }} /> : null}
+        <ChapterKeycardsLink subject={subject} chapter={row.name} />
         {byPaper.length ? (
           <div className="rvw-paperkeys">
             {byPaper.map(([paper, list]) => (

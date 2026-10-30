@@ -41,6 +41,7 @@ import RunTrack from '@/components/recovery/RunTrack';
 import RepairEnding from '@/components/recovery/RepairEnding';
 import { paperStamp } from '@/../data/repair_paper.mjs';
 import MistakeLessonLink from '@/components/study/MistakeLessonLink';
+import LineYouNeeded from '@/components/keycards/LineYouNeeded';
 import { RUN_COPY, arrowIntent, runSegments, stepIndex, endingModel, retryIds as retryIdsOf, earlierMisses, earlierMissAt } from '@/components/recovery/repairRun';
 import { REPAIR_OUTCOMES, actionLabel, hasExplanation, repairLabel, repairProgress } from '@/../data/repair_presentation.mjs';
 import { repairReceipt } from '@/../data/repair_receipt.mjs';
@@ -511,6 +512,8 @@ export default function ResultPageClient({ previewId = null }) {
             <details className="rp-expl"><summary>{RETRY_COPY.bookExplanation}</summary><p>{displayValue(q.explanation)}</p></details>
           ) : <div className="rp-expl rp-expl--open"><span>{tried ? RETRY_COPY.bookExplanation : 'Explanation'}</span><p>{displayValue(q.explanation)}</p></div>
         ) : tried && !review ? <div className="rp-expl rp-expl--open"><span>{RETRY_COPY.bookExplanation}</span><p>{RETRY_COPY.noExplanation(isWrong && Number.isInteger(given))}</p></div> : null}
+        {/* The line you needed (KEYCARDS-BUILD-SPEC.md section 3): the NCERT line behind a wrong answer; hidden when none is found. */}
+        {isWrong ? <LineYouNeeded questionId={q.id} /> : null}
         {isWrong && Number.isInteger(given) ? (
           <MistakeRepair key={`${q.id}:${epochs[q.id] || 0}`} attemptId={attempt.id} questionId={q.id} number={number} nta={isNtaAttempt} chosen={LETTERS[given]} answer={Number.isInteger(q.correctIndex) ? LETTERS[q.correctIndex] : null}
             autoStart={autoRepair === q.id || savedIds.has(q.id)} saved={savedRepairs[q.id]?.repairedAt || (savedIds.has(q.id) ? 'saved' : null)} paper={paperLine || null} onSettled={settled} initialReview={review} onReview={reviewReceived} onCheck={checked}

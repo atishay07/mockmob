@@ -26,9 +26,14 @@ export default function TodayQueue({ papers, repaired, repairRows, revise, dayOn
   const open = list && map ? list.reduce((n, p) => n + (openMistakes(p, map) || 0), 0) : null;
   const toCheck = Array.isArray(repairRows) ? repairRows.filter((r) => r?.repairedAt && r.checkedState === 'pending').length : null;
   const rv = revise.status === 'ready' ? revise.data : null;
-  const due = rv ? rv.due : null;
+  // Key cards due today join this same Revise line (KEYCARDS-BUILD-SPEC.md section 3: "Revise · 14 due · about 6 minutes",
+  // no second line): `keyCards` is null when Key cards are off or unknown, and then the line reads exactly as before.
+  const kc = rv && Number.isInteger(rv.keyCards) && rv.keyCards > 0 ? rv.keyCards : 0;
+  const due = rv ? rv.due + kc : null;
+  const minutes = rv ? (rv.minutes || (rv.due > 0 ? Math.max(5, Math.ceil(rv.due / 5) * 5) : 0)) + (kc ? Number(rv.keyCardsMinutes) || Math.ceil(kc / 4) : 0) : null;
   const reviseSub = !rv ? 'Revise did not load.'
-    : due > 0 ? (rv.dueTotal > due ? `${rv.dueTotal} waiting, ${due} today. Free.` : `Free, about ${rv.minutes || Math.max(5, Math.ceil(due / 5) * 5)} min`)
+    : due > 0 ? (kc ? `Free, about ${minutes} min, ${kc === 1 ? '1 Key card' : `${kc} Key cards`} among them`
+      : rv.dueTotal > rv.due ? `${rv.dueTotal} waiting, ${due} today. Free.` : `Free, about ${minutes} min`)
       : rv.nextDayLabel ? `Nothing due. The next come back ${rv.nextDayLabel}.` : 'Nothing due today.';
   return (
     <section className="tq" aria-labelledby="tq-h">

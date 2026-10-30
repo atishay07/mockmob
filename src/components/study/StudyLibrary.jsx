@@ -1,4 +1,5 @@
 "use client";
+import { LearnKeycardsRow } from '@/components/keycards/KeycardsLinks';
 import { useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight, Search } from 'lucide-react';
@@ -84,6 +85,9 @@ export default function StudyLibrary({ catalog, api, onOpenRun, onOpenUnit, init
 
         {active && active.mode === 'recall' ? <Link className="cx-row" href={`/study/${active.id}`}><b>Finish your Revise session</b><span>You stopped at card {active.step} of {active.total}. Everything before it is saved.</span><ChevronRight size={18} aria-hidden="true" /></Link> : null}
         {dueCards && catalog.recallEnabled && !(active && active.mode === 'recall') ? <button className="cx-row" type="button" onClick={startRecall} disabled={Boolean(busy)}><b>Revise {dueCards} concept {dueCards === 1 ? 'card' : 'cards'}</b><span>From lessons you have read. About {recallMinutes} minutes, free.</span><ChevronRight size={18} aria-hidden="true" /></button> : null}
+
+        {/* Key cards (KEYCARDS-BUILD-SPEC.md section 3): the Learn hub's way in; hidden while Key cards are off. */}
+        <LearnKeycardsRow />
 
         <label className="cx-search"><Search size={18} aria-hidden="true" /><span className="cx-sr">Search chapters and lessons</span>
           <input type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search chapters and lessons" autoComplete="off" enterKeyHint="search" /></label>

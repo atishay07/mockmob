@@ -92,7 +92,7 @@ export function placeTabs(path, { mob = false, study = false } = {}) {
 // Account, Progress, Marks trend, Colleges, Wallet, Guide, Ask Mobi and the moderator and contributor pages are in You.
 const PLACE_PAGES = Object.freeze({
   today: ['today'],
-  practice: ['dashboard', 'review', 'learn', 'study', 'explore', 'saved'],
+  practice: ['dashboard', 'review', 'learn', 'study', 'cards', 'explore', 'saved'],
   mob: ['mob', 'leaderboard'],
   you: ['profile', 'progress', 'analytics', 'admission-compass', 'wallet', 'help', 'mentor', 'moderation', 'upload', 'my-uploads'],
 });
