@@ -12,7 +12,7 @@ import {
 } from '../keycards.js';
 import { syllabusFrom, sectionOpen, chipFor } from '../../src/lib/server/keycardsSyllabus.js';
 import * as cuetSyllabus from '../cuet_syllabus.js';
-import { blanksCheck, detectOffset, duplicateReasons, fillBlanks, norm, shapeCheck, syllabusCheck } from '../../scripts/keycards/lib.mjs';
+import { blanksCheck, detectOffset, duplicateReasons, fillBlanks, norm, quoteCheck, shapeCheck, syllabusCheck } from '../../scripts/keycards/lib.mjs';
 import { mergeQueue, filterSource, itemKey, summary, startRun, recordAnswer, mixLine } from '../../src/components/revise/reviseQueue.js';
 import { reviseDue } from '../review_input.mjs';
 import { keyCardsEnabled, OFF, loadDecks } from '../../src/lib/server/keycards.js';
@@ -252,6 +252,17 @@ test('page offset: majority vote over standalone integers, a stray table number 
   assert.equal(detectOffset(['a', 'b\n39\n', 'c\n40\n', 'd\n41\n']), 37);
   assert.equal(detectOffset(['no numbers']), null);
   assert.equal(norm('Manage-\nment  is  “the” process'), 'managementistheprocess');
+});
+
+test('quote check: a sentence pdftotext splits across two columns passes when the pdfium extraction has it whole', () => {
+  const card = { source: { kind: 'ncert', code: 'keec104', page: 69 }, quote: 'The Tapas Majumdar Committee, appointed by the Government of India in 1999' };
+  const split = norm('educational achievements. The Tapas from education cess has been Majumdar Committee, appointed by earmarked for spending');
+  const whole = norm('educational achievements. The Tapas Majumdar Committee, appointed by the Government of India in 1999, estimated');
+  const base = { offset: 68, page: [split], body: [split], full: split };
+  assert.equal(quoteCheck(card, () => ({ ...base, alt: null })), 'quote:not_in_pdf');
+  assert.equal(quoteCheck(card, () => ({ ...base, alt: { page: [whole], body: [whole], full: whole } })), null);
+  // A quote in neither extraction still fails.
+  assert.equal(quoteCheck({ ...card, quote: 'The Kothari Commission met in 1999' }, () => ({ ...base, alt: { page: [whole], body: [whole], full: whole } })), 'quote:not_in_pdf');
 });
 
 test('syllabus check and adapter: syllabus v2, retired chapters, the canonical view', () => {

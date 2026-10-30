@@ -98,10 +98,29 @@ function pageBody(text, heads) {
   }).join(' '));
 }
 
+/**
+ * A second extraction in pdfium's reading order (scripts/keycards/pdfium_pages.py; Python with pypdfium2). pdftotext
+ * interleaves two-column pages and side boxes line by line, so a sentence printed whole can come out split; a quote passes
+ * when it is exact in either extraction. Optional: without Python or pypdfium2 (or with KEYCARDS_PDFIUM=0) only pdftotext
+ * is read. Returns [raw page text] or null.
+ */
+function pdfiumPages(file) {
+  if (process.env.KEYCARDS_PDFIUM === '0') return null;
+  const script = path.join(ROOT, 'scripts/keycards/pdfium_pages.py');
+  for (const bin of [process.env.KEYCARDS_PYTHON, 'python', 'python3'].filter(Boolean)) {
+    try {
+      const raw = execFileSync(bin, [script, file], { maxBuffer: 64 * 1024 * 1024, stdio: ['ignore', 'pipe', 'ignore'] }).toString('utf8');
+      const pages = JSON.parse(raw);
+      if (Array.isArray(pages)) return pages.map(String);
+    } catch { /* try the next interpreter */ }
+  }
+  return null;
+}
+
 const pdfCache = new Map();
 /**
- * { code, pages: [raw], page: [normalised], body: [normalised, running heads and page numbers stripped], full, offset }, or
- * null when the PDF is missing.
+ * { code, pages: [raw], page: [normalised], body: [normalised, running heads and page numbers stripped], full, offset,
+ * alt: { page, body, full } | null (the pdfium extraction, same page indexes) }, or null when the PDF is missing.
  */
 export function pdfText(code) {
   if (pdfCache.has(code)) return pdfCache.get(code);
@@ -113,7 +132,10 @@ export function pdfText(code) {
     const pages = raw.split('\f');
     if (pages.length > 1 && !pages[pages.length - 1].trim()) pages.pop();
     const heads = runningHeads(pages);
-    out = { code, pages, page: pages.map(norm), body: pages.map((text) => pageBody(text, heads)), full: norm(raw), offset: detectOffset(pages) };
+    const second = pdfiumPages(file);
+    const altHeads = second && second.length === pages.length ? runningHeads(second) : null;
+    const alt = altHeads ? { page: second.map(norm), body: second.map((text) => pageBody(text, altHeads)), full: norm(second.join(' ')) } : null;
+    out = { code, pages, page: pages.map(norm), body: pages.map((text) => pageBody(text, heads)), full: norm(raw), offset: detectOffset(pages), alt };
   }
   pdfCache.set(code, out);
   return out;
@@ -133,12 +155,16 @@ export function quoteCheck(card, getPdf = pdfText) {
   if (pdf.offset === null) return 'quote:page_offset_unknown';
   const idx = Number(src.page) - pdf.offset - 1; // 0-based page index of the printed page
   if (!Number.isInteger(idx) || idx < 0 || idx >= pdf.body.length) return 'quote:page_out_of_range';
-  const at = (i) => pdf.body[i] || '';
-  const whole = (i) => pdf.page?.[i] || '';
-  // A whole page as printed (a table heading repeated on every page is still text), or the stripped pages joined.
-  const windows = [whole(idx), whole(idx - 1), whole(idx + 1), at(idx), at(idx - 1) + at(idx), at(idx) + at(idx + 1), at(idx - 1) + at(idx) + at(idx + 1)];
+  // A whole page as printed (a table heading repeated on every page is still text), or the stripped pages joined; in
+  // the pdftotext extraction and, when present, the pdfium one.
+  const windowsOf = (src) => {
+    const at = (i) => src.body[i] || '';
+    const whole = (i) => src.page?.[i] || '';
+    return [whole(idx), whole(idx - 1), whole(idx + 1), at(idx), at(idx - 1) + at(idx), at(idx) + at(idx + 1), at(idx - 1) + at(idx) + at(idx + 1)];
+  };
+  const windows = [...windowsOf(pdf), ...(pdf.alt ? windowsOf(pdf.alt) : [])];
   if (windows.some((w) => w.includes(q))) return null;
-  return pdf.full.includes(q) ? 'quote:wrong_page' : 'quote:not_in_pdf';
+  return pdf.full.includes(q) || pdf.alt?.full.includes(q) ? 'quote:wrong_page' : 'quote:not_in_pdf';
 }
 
 // ---------------------------------------------------------------- shape, blanks
