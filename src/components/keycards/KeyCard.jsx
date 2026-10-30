@@ -4,7 +4,7 @@
 //                overflow menu with "Report this card"
 //   Prompt       the front; blanks drawn as short ruled gaps, never as underscores
 //   NcertText    the back: NCERT's exact words in the reading face, the blanked words marked by weight and a fine rule
-//   CardSource   "Business Studies Part 1 · Ch 1 · p. 3"
+//   CardSource   "Business Studies Part 1, Ch 1, p. 3"
 //   InShort      the optional paraphrase, labelled, in the app's own face so it never passes for the book
 //   KeyCardPlayer   one card to recall: front first, Show answer (space, the key, or a tap anywhere on the card), then
 //                   Missed / Got it / Easy (1, 2, 3).
@@ -13,7 +13,7 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { LoaderCircle, MoreHorizontal } from 'lucide-react';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
-import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, kindLabel, markBlanks, plural, sourceLine, splitBlanks } from './kinds';
+import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, kindLabel, markBlanks, plural, sourceLine, splitBlanks, startsMidSentence, withLead } from './kinds';
 import { isProRequired, sendReport, sendReview } from './api';
 
 const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
@@ -34,19 +34,21 @@ export function NcertText({ card, className = '' }) {
   const cls = `kc-ncert ${className}`.trim();
   if (lines.length > 1) {
     const Tag = card.kind === 'steps' ? 'ol' : 'ul';
-    return <Tag className={`${cls} kc-ncert--list`}>{lines.map((l, i) => <li key={i}>{l}</li>)}</Tag>;
+    return <Tag className={`${cls} kc-ncert--list`}>{lines.map((l, i) => <li key={i}>{i === 0 ? withLead(l) : l}</li>)}</Tag>;
   }
   if (card?.kind === 'formula') {
     const [first, ...rest] = backLines(card.back);
     return (
       <div className={`${cls} kc-ncert--formula`}>
-        <p className="kc-formula">{first}</p>
+        <p className="kc-formula">{withLead(first)}</p>
         {rest.map((l, i) => <p key={i}>{l}</p>)}
       </div>
     );
   }
   const marked = BLANK_KINDS.includes(card?.kind) ? markBlanks(card.back, card.blanks) : [{ text: card?.back || '' }];
-  return <p className={cls}>{marked.map((p, i) => (p.mark ? <mark key={i} className="kc-mark">{p.mark}</mark> : <span key={i}>{p.text}</span>))}</p>;
+  // A back that starts mid-sentence is an NCERT excerpt: shown with a leading ellipsis, the stored text untouched.
+  const lead = startsMidSentence(card?.back) ? '…' : null;
+  return <p className={cls}>{lead}{marked.map((p, i) => (p.mark ? <mark key={i} className="kc-mark">{p.mark}</mark> : <span key={i}>{p.text}</span>))}</p>;
 }
 
 export function CardSource({ card }) {

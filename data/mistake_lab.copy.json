@@ -685,7 +685,8 @@
       "schedule": {
         "title": "How Revise schedules",
         "line": "Back after 1, 3, 7 and 21 days. {boxes} Up to {cap} a day.",
-        "box": "Box {n}: {count}"
+        "box": "Box {n}: {count}",
+        "keycards": "Key cards come back on their own: Missed brings a card back soon, Got it and Easy space it out, never past your exam."
       },
       "filtered": {
         "cards": "Showing your concept cards.",

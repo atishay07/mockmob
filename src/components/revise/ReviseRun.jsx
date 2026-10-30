@@ -502,6 +502,7 @@ function RunView({ queue, data, cap, onCap, source, backHref, schedule }) {
 
       <SmoothDetails className="rvs-how" chevron summary={<span className="rvs-how__sum"><b>{RUN.schedule.title}</b><span>{schedule.line}</span></span>}>
         <div className="rvs-how__body">
+          {RUN.schedule.keycards ? <p className="rvs-fine">{RUN.schedule.keycards}</p> : null}
           <CapChoice cap={cap} onChange={onCap} disabled={false} />
           <Lanes boxes={lanes} days={data.labels?.boxes} moved={moved} />
         </div>

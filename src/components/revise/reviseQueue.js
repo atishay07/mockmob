@@ -110,7 +110,7 @@ export function kindLine(item, { paperLabel = null } = {}) {
     return { title: n ? fill(RUN.kind.check, { n }) : 'Check it held', detail: [item.paper, item.chapter].filter(Boolean).join('. ') || null };
   }
   if (item.kind === 'card') return { title: fill(RUN.kind.card, { lesson: item.lesson || 'your lessons' }), detail: null };
-  if (item.kind === 'keycard') return { title: 'Key card', detail: [item.card?.chapter, item.card?.source?.book].filter(Boolean).join('. ') || null };
+  if (item.kind === 'keycard') return { title: 'Key card', detail: null };
   const title = item.kind === 'again' ? RUN.kind.again : RUN.kind.question;
   const source = paperLabel || item.source || null;
   return { title, detail: [source, item.chapter].filter(Boolean).join('. ') || null };

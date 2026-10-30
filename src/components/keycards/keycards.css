@@ -148,6 +148,15 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 .kc-side__keys { display: grid; gap: 10px; justify-items: start; }
 .kc-side__keys .kc-btn--wide { justify-self: stretch; }
 @media (min-width: 640px) and (max-width: 1023px) { .kc-side__keys .kc-btn--wide { width: auto; justify-self: start; } }
+/* On a phone the Read / Study / Last look control comes straight after the heading; the chapter's facts and keys follow it. */
+@media (max-width: 1023px) {
+  .kc-board { gap: 14px; }
+  .kc-main { display: contents; }
+  .kc-main > .kc-seg { order: 1; }
+  .kc-board > .kc-side { order: 2; }
+  .kc-main > .kc-panel { order: 3; }
+  .kc-dhead { gap: 6px; }
+}
 @media (min-width: 1024px) {
   .kc-board { grid-template-columns: minmax(0, 1fr) 280px; grid-template-areas: 'main side'; gap: 56px; }
   .kc-main { grid-area: main; }
