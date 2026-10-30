@@ -21,14 +21,25 @@ import COPY from '../../../data/mistake_lab.copy.json' with { type: 'json' };
 const RUN = COPY.revise.run;
 
 export const CARD_CAP = 5;
-export const SOURCES = Object.freeze(['questions', 'again', 'checks', 'cards']);
-export const KINDS = Object.freeze(['question', 'again', 'check', 'card']);
+export const SOURCES = Object.freeze(['questions', 'again', 'checks', 'cards', 'keycards']);
+export const KINDS = Object.freeze(['question', 'again', 'check', 'card', 'keycard']);
+
+// Key cards (KEYCARDS-BUILD-SPEC.md 2e and 3): the server adds due Key cards as a third source after the questions and the
+// study cards, each { kind: 'keycard', cardId, subject?, chapter?, card }. They keep their own limits (data/keycards.js), so
+// mergeQueue never caps them; the run plays them with the same card player as Study (KeyCardRun).
+export const SECONDS = Object.freeze({ question: 40, again: 40, check: 40, card: 15, keycard: 15 });
+
+/** About how long a run takes: questions 40 s each, cards 15 s each, rounded up to whole minutes. */
+export function estimateMinutes(items = []) {
+  const seconds = items.reduce((sum, i) => sum + (SECONDS[i?.kind] ?? 40), 0);
+  return seconds > 0 ? Math.max(1, Math.ceil(seconds / 60)) : 0;
+}
 
 const fill = (text, values) => String(text).replace(/\{(\w+)\}/g, (whole, key) => (key in values ? String(values[key]) : whole));
 const form = (pair, n) => (n === 1 ? pair.one : pair.many);
 
 /** The id an item is counted by: one id per question, one per Check it held, one per concept card slot. */
-export const itemKey = (item) => (item.kind === 'check' ? `check:${item.attemptId}:${item.questionId}` : item.kind === 'card' ? `card:${item.slot}` : `q:${item.questionId}`);
+export const itemKey = (item) => (item.kind === 'check' ? `check:${item.attemptId}:${item.questionId}` : item.kind === 'card' ? `card:${item.slot}` : item.kind === 'keycard' ? `kc:${item.cardId || item.card?.id}` : `q:${item.questionId}`);
 
 const byDue = (a, b) => (a.dueDay < b.dueDay ? -1 : a.dueDay > b.dueDay ? 1 : (a.box || 1) - (b.box || 1) || String(a.questionId).localeCompare(String(b.questionId)));
 
@@ -76,7 +87,8 @@ export function mergeQueue({ questions = [], again = [], checks = [], cards = 0,
 
 /** "8 due today, about 7 minutes." One head, nothing more. */
 export function headLine(total, minutes) {
-  return total > 0 ? fill(RUN.head, { n: total, m: minutes }) : RUN.headNone;
+  // "about 1 minute", never "about 1 minutes" (a short Key card run can take one minute).
+  return total > 0 ? fill(RUN.head, { n: total, m: minutes }).replace(/about 1 minutes/, 'about 1 minute') : RUN.headNone;
 }
 
 /** "5 questions back, 1 Check it held, 2 concept cards": the parts that exist, in play order. */
@@ -85,6 +97,7 @@ export function mixParts(counts) {
     counts.back ? { key: 'back', n: counts.back, text: fill(form(RUN.mix.back, counts.back), { n: counts.back }) } : null,
     counts.checks ? { key: 'checks', n: counts.checks, text: fill(RUN.mix.checks, { n: counts.checks }) } : null,
     counts.cards ? { key: 'cards', n: counts.cards, text: fill(form(RUN.mix.cards, counts.cards), { n: counts.cards }) } : null,
+    counts.keycards ? { key: 'keycards', n: counts.keycards, text: `${counts.keycards} ${counts.keycards === 1 ? 'Key card' : 'Key cards'}` } : null,
   ].filter(Boolean);
 }
 export const mixLine = (counts) => mixParts(counts).map((p) => p.text).join(', ');
@@ -99,6 +112,7 @@ export function kindLine(item, { paperLabel = null } = {}) {
     return { title: n ? fill(RUN.kind.check, { n }) : 'Check it held', detail: [item.paper, item.chapter].filter(Boolean).join('. ') || null };
   }
   if (item.kind === 'card') return { title: fill(RUN.kind.card, { lesson: item.lesson || 'your lessons' }), detail: null };
+  if (item.kind === 'keycard') return { title: 'A Key card', detail: item.card?.chapter || item.chapter || null };
   const title = item.kind === 'again' ? RUN.kind.again : RUN.kind.question;
   const source = paperLabel || item.source || null;
   return { title, detail: [source, item.chapter].filter(Boolean).join('. ') || null };
@@ -125,12 +139,13 @@ export function filterSource(queue, source) {
     const slots = Array.from({ length: Math.min(queue.cardsAvailable, 10) }, (_, i) => ({ kind: 'card', slot: i + 1 }));
     return filterSource({ ...queue, items: [...queue.items.filter((i) => i.kind !== 'card'), ...slots], cardsAvailable: null }, 'cards');
   }
-  const wanted = { cards: ['card'], again: ['again'], questions: ['question'], checks: ['check'] }[source];
+  const wanted = { cards: ['card'], again: ['again'], questions: ['question'], checks: ['check'], keycards: ['keycard'] }[source];
   if (!wanted) return queue;
   const items = queue.items.filter((i) => wanted.includes(i.kind));
   const counts = {
     questions: items.filter((i) => i.kind === 'question').length, again: items.filter((i) => i.kind === 'again').length,
     checks: items.filter((i) => i.kind === 'check').length, cards: items.filter((i) => i.kind === 'card').length,
+    keycards: items.filter((i) => i.kind === 'keycard').length,
   };
   counts.back = counts.questions + counts.again;
   return { ...queue, items, counts, total: items.length, minutes: minutesFor(items.length), filtered: source };
@@ -169,9 +184,12 @@ export function summary(state) {
   const back = list.filter((a) => a.kind === 'question' || a.kind === 'again');
   const checks = list.filter((a) => a.kind === 'check');
   const cards = list.filter((a) => a.kind === 'card');
+  const keycards = list.filter((a) => a.kind === 'keycard');
   return {
     recalled: back.filter((a) => a.correct).length, comeBack: back.filter((a) => !a.correct).length,
     held: checks.filter((a) => a.correct).length, slipped: checks.filter((a) => !a.correct).length,
     cards: cards.length, answered: list.length,
+    // Key cards are named only when the run held some, so a run without them reads exactly as before.
+    ...(keycards.length ? { keycards: keycards.length, keycardsMissed: keycards.filter((a) => !a.correct).length } : {}),
   };
 }

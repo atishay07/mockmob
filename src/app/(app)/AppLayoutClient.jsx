@@ -335,7 +335,8 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const railIndex = new Map(navGroups.flatMap((group) => group.items).map((tab, i) => [tab.id, i]));
   const sheetIndex = new Map(sheetGroups.flatMap((group) => group.items).map((tab, i) => [tab.id, i]));
   // A lesson or recall run lives at /study/<id> but belongs to Learn (D20), so Learn stays the current place while you are in one.
-  const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'));
+  // Key cards (/cards, /cards/<chapter>) live in Learn too: no tab of their own (KEYCARDS-BUILD-SPEC.md section 3).
+  const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && (activePath.startsWith('/study/') || activePath === '/cards' || activePath.startsWith('/cards/')));
   // The Revise count is drawn as "8 to revise", never a bare number that reads as a paper count (verifier M1), and said in words.
   const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? dueLabel(tab.label, reviseBadge) : undefined);
   const hrefOf = (tab) => previewLinks?.[tab.id] || tab.href || `/${tab.id}`;

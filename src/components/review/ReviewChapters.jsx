@@ -32,6 +32,7 @@ import { NEXT_MOVE_RULES, chapterPracticeClause } from '@/../data/result_next_mo
 import { useMyDailySet } from '@/components/useMyDailySet';
 import AnswerSheet from './AnswerSheet';
 import { LessonLink, subjectId } from './ChapterRows';
+import { ChapterKeycardsLink } from '@/components/keycards/KeycardsLinks';
 import MobEntry from '@/components/mob/MobEntry';
 import { useAuth } from '@/components/AuthProvider';
 import { useRailCue } from '@/components/start/railCue';
@@ -143,6 +144,7 @@ function ChapterFoot({ row, byUid, wallet, openUid, setOpenUid, onChanged }) {
       ) : null}
       <p className="rv8-fine">{costLine(wallet)}</p>
       {first ? <LessonLink subject={subjectId(row.subject)} chapter={row.name} from={{ kind: 'q', attemptId: first.paper, number: first.number }} /> : null}
+      <ChapterKeycardsLink subject={subjectId(row.subject)} chapter={row.name} />
     </div>
   );
 }

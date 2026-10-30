@@ -28,7 +28,7 @@ export default function TodayQueue({ papers, repaired, repairRows, revise, dayOn
   const rv = revise.status === 'ready' ? revise.data : null;
   const due = rv ? rv.due : null;
   const reviseSub = !rv ? 'Revise did not load.'
-    : due > 0 ? (rv.dueTotal > due ? `${rv.dueTotal} waiting, ${due} today. Free.` : `Free, about ${rv.minutes || Math.max(5, Math.ceil(due / 5) * 5)} min`)
+    : due > 0 ? (rv.dueTotal > due ? `${rv.dueTotal} waiting, ${due} today. Free.` : `Free, about ${rv.minutes || Math.max(5, Math.ceil(due / 5) * 5)} min${Number(rv.keycards) > 0 ? `, ${rv.keycards} of them Key cards` : ''}`)
       : rv.nextDayLabel ? `Nothing due. The next come back ${rv.nextDayLabel}.` : 'Nothing due today.';
   return (
     <section className="tq" aria-labelledby="tq-h">
