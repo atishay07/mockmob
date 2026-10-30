@@ -361,9 +361,9 @@ test('chapter lists drop retired chapters and show an alias once, as its live ch
   assert.deepEqual(cs.units.flatMap((u) => u.chapters.map((c) => c.name)), ['Structured Query Language']);
 });
 
-test('the re-tag file starts empty and its checker refuses anything but live targets', () => {
+test('the re-tag file passes its checker, which refuses anything but live targets', () => {
   const file = JSON.parse(readFileSync(new URL('../syllabus/retag-2026-10-31.json', import.meta.url), 'utf8'));
-  assert.deepEqual(file, []);
+  assert.deepEqual(retagProblems(file), []);
   assert.deepEqual(retagProblems([]), []);
   assert.deepEqual(retagProblems([{ id: 'q1', subject: 'computer_science', from: 'Data Structures', to: 'Stack', why: 'stack push and pop' }]), []);
   assert.ok(retagProblems([{ id: 'q1', subject: 'computer_science', from: 'Data Structures', to: 'MySQL', why: 'x' }]).length, 'an alias is not a target');
