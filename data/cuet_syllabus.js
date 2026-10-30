@@ -750,7 +750,9 @@ export function chapterChip(chapter) {
  */
 export function isServableQuestion(row, { subject, option } = {}) {
   if (!row) return false;
-  if (row.is_cuet_syllabus === false || row.isCuetSyllabus === false) return false;
+  // Read the flag only where the row carries it: a lean read (the inventory count) never selected it, and the retired-chapter
+  // check below covers what the migration flags.
+  if (('is_cuet_syllabus' in row && row.is_cuet_syllabus === false) || ('isCuetSyllabus' in row && row.isCuetSyllabus === false)) return false;
   const id = subjectId(row.subject || row.subjectId || subject);
   const hit = lookup(id, row.chapter);
   if (hit?.retired) return false;
