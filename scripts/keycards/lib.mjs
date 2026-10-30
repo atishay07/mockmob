@@ -80,10 +80,10 @@ export function detectOffset(pages) {
   return best ? best.off : null;
 }
 
-/** Running heads: short edge lines whose shape (digits ignored) repeats on at least 30% of pages, plus the reprint line. */
+/** Running heads: edge lines up to 120 characters (Accountancy prints a 71-character even-page head) whose shape (digits ignored) repeats on at least 30% of pages. */
 function runningHeads(pages) {
   const count = new Map();
-  for (const text of pages) for (const key of new Set(edgeLines(text).filter((l) => l.length <= 60).map(headKey))) count.set(key, (count.get(key) || 0) + 1);
+  for (const text of pages) for (const key of new Set(edgeLines(text).filter((l) => l.length <= 120).map(headKey))) count.set(key, (count.get(key) || 0) + 1);
   const min = Math.max(2, Math.ceil(pages.length * 0.3));
   return new Set([...count].filter(([, n]) => n >= min).map(([key]) => key));
 }
