@@ -158,7 +158,7 @@ export function dueQueue(states, cardsById, { now, isPro = false, newAllowanceLe
   const fresh = paused ? [] : live.filter((s) => !(Number(s.reps) > 0))
     .sort((a, b) => bookOrder(get(a.card_id), get(b.card_id)) || time(a.added_at) - time(b.added_at))
     .slice(0, room === Infinity ? undefined : room);
-  const cap = Math.max(0, Number.isFinite(Number(limit)) ? Number(limit) : 20);
+  const cap = limit === Infinity ? Infinity : Math.max(0, Number.isFinite(Number(limit)) ? Number(limit) : 20);
   const items = [...due.map((s) => ({ card: get(s.card_id), state: s, isNew: false })), ...fresh.map((s) => ({ card: get(s.card_id), state: s, isNew: true }))].slice(0, cap);
   return { items, due: due.length, overdue: due.length, newShown: items.filter((i) => i.isNew).length, paused };
 }

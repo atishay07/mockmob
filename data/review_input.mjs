@@ -223,6 +223,9 @@ export function reviseDue(record, { cap } = {}) {
   let questionsRaw;
   let checks;
   let cards;
+  // Key cards due today (KEYCARDS-BUILD-SPEC.md 2e): their own limits, so the count given is what Revise plays. Absent (undefined)
+  // when the feature is off, and then nothing below changes; null is unknown.
+  let keycards;
   if (r.sources) {
     const s = r.sources;
     const againIds = list(s.again);
@@ -232,23 +235,27 @@ export function reviseDue(record, { cap } = {}) {
     questionsRaw = questionIds === null ? null : questionIds.filter((id) => !taken.has(id)).length;
     checks = new Set(s.checks || []).size;
     cards = count(s.cards);
+    keycards = s.keycards;
   } else {
     const d = r.dueToday || {};
     againRaw = count(d.again);
     questionsRaw = count(d.questions);
     checks = Number(d.checks) || 0;
     cards = count(d.cards);
+    keycards = d.keycards;
   }
   const again = Math.min(againRaw ?? 0, room);
   const questions = Math.min(questionsRaw ?? 0, room - again);
   const shownCards = cards === null ? 0 : Math.min(cards, REVISE_CARD_CAP);
-  const total = questions + again + checks + shownCards;
+  const hasKeycards = keycards !== undefined;
+  const kc = hasKeycards && keycards !== null ? Math.max(0, Number(keycards) || 0) : 0;
+  const total = questions + again + checks + shownCards + kc;
   const back = questions + again;
-  const parts = [back ? `${plural(back, 'question')} back` : null, checks ? `${checks} Check it held` : null, shownCards ? plural(shownCards, 'concept card') : null].filter(Boolean);
-  const minutes = minutesFor(total);
+  const parts = [back ? `${plural(back, 'question')} back` : null, checks ? `${checks} Check it held` : null, shownCards ? plural(shownCards, 'concept card') : null, kc ? plural(kc, 'Key card') : null].filter(Boolean);
+  const minutes = minutesFor(total - kc) + (kc ? Math.ceil(kc / 4) : 0);
   return {
-    questions, again, checks, cards: shownCards, total, minutes, cap: capN,
-    unknown: [questionsRaw === null ? 'questions' : null, againRaw === null ? 'again' : null, cards === null ? 'cards' : null].filter(Boolean),
+    questions, again, checks, cards: shownCards, ...(hasKeycards ? { keycards: kc } : {}), total, minutes, cap: capN,
+    unknown: [questionsRaw === null ? 'questions' : null, againRaw === null ? 'again' : null, cards === null ? 'cards' : null, hasKeycards && keycards === null ? 'keycards' : null].filter(Boolean),
     head: total ? `${total} due today` : 'Nothing due today',
     mix: parts.join(', '),
     row: total ? `${parts.join(', ')}. About ${plural(minutes, 'minute')}, free.` : 'Nothing is due today.',
@@ -374,7 +381,7 @@ export function reviewBody(record) {
     // The ids behind Revise's counts stay on the server: the body carries the counts after the dedupe and the cap.
     revise: record.revise ? {
       rotation: record.revise.rotation ?? null, boxes: record.revise.boxes ?? null, cap: record.revise.cap ?? REVISE_RULES.cap, answeredToday: record.revise.answeredToday ?? 0,
-      dueToday: { questions: due.unknown.includes('questions') ? null : due.questions, again: due.unknown.includes('again') ? null : due.again, checks: due.checks, cards: due.unknown.includes('cards') ? null : due.cards },
+      dueToday: { questions: due.unknown.includes('questions') ? null : due.questions, again: due.unknown.includes('again') ? null : due.again, checks: due.checks, cards: due.unknown.includes('cards') ? null : due.cards, ...('keycards' in due ? { keycards: due.unknown.includes('keycards') ? null : due.keycards } : {}) },
     } : null,
     repairOrder: record.repairOrder ?? null,
     // Pass 1018 (REVIEW-RESULT-1018 4.1 to 4.4): the weak chapters priced against their marks on offer, the saved repairs

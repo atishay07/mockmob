@@ -6,6 +6,8 @@ import { loadReviewRecord } from '@/lib/server/review';
 import { studyRecord } from '@/lib/server/study';
 import { capFrom } from '@/../data/revise';
 import COPY from '@/../data/mistake_lab.copy.json';
+import { keyCardsEnabled } from '@/lib/server/keycards';
+import { keycardsService } from '@/lib/server/keycardsHttp';
 
 export const dynamic = 'force-dynamic';
 const NO_STORE = { 'Cache-Control': 'no-store' };
@@ -27,8 +29,11 @@ export async function GET(request) {
     const userId = session.user.id;
     // `?queue=1` (the Revise run) adds the merged queue; Review's entry row reads the plain body and stays cheap.
     const wantsQueue = new URL(request.url).searchParams.get('queue') === '1';
+    // Key cards due (KEYCARDS-BUILD-SPEC.md 2e): only while KEY_CARDS_ENABLED is on; a failed read leaves them out.
+    const readKeyCards = keyCardsEnabled() ? async () => (await keycardsService()).reviseSource(userId) : null;
     const out = await getRevise(userId, {
       cap,
+      keyCards: wantsQueue ? null : readKeyCards,
       queue: !wantsQueue ? null : {
         loadRecord: (id, deps) => loadReviewRecord(id, deps),
         // Lesson cards due today, and how many a recall run would play (due plus new cards of lessons already read, for
@@ -39,6 +44,7 @@ export async function GET(request) {
           if (!Number.isFinite(record?.progress?.dueCards)) return null;
           return { due: record.progress.dueCards, available: Array.isArray(record.queue?.items) ? record.queue.items.length : record.progress.dueCards };
         },
+        ...(readKeyCards ? { readKeyCards } : {}),
       },
     });
     return NextResponse.json(out.body, { status: out.http, headers: NO_STORE });

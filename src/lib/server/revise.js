@@ -106,8 +106,12 @@ async function seed(db, userId, cards, now, held = new Set()) {
  *   queue.readDueCards()                             the lesson cards due today as a number, or { due, available } where `available`
  *                                                    is what a recall run would play (due plus new cards of lessons already read);
  *                                                    null when unknown (never zero for unknown)
+ *   queue.readKeyCards()                             Key cards (KEYCARDS-BUILD-SPEC.md 2e), the fifth source after the lesson cards:
+ *                                                    { due, items: [{ kind: 'keycard', cardId, card }], minutes }. Absent when Key
+ *                                                    cards are off; a failed read leaves them out.
+ * `keyCards()` (same shape) adds `keyCards: { due, today, minutes }` to the plain body, so Today counts them (useToday.js).
  */
-export async function getRevise(userId, { cap = REVISE_RULES.cap, db, now = Date.now(), queue = null } = {}) {
+export async function getRevise(userId, { cap = REVISE_RULES.cap, db, now = Date.now(), queue = null, keyCards = null } = {}) {
   const client_ = await client(db);
   const today = istDate(now);
   let cards;
@@ -135,7 +139,14 @@ export async function getRevise(userId, { cap = REVISE_RULES.cap, db, now = Date
       }
     }
   } catch (e) { return unavailable(e); }
-  const body = reviseBody({ cards, items, today, cap, skipped });
+  const plain = reviseBody({ cards, items, today, cap, skipped });
+  let body = plain;
+  if (typeof keyCards === 'function') {
+    try {
+      const kc = await keyCards();
+      if (kc) body = { ...plain, keyCards: { due: Number(kc.due) || 0, today: Array.isArray(kc.items) ? kc.items.length : 0, minutes: Number(kc.minutes) || 0 } };
+    } catch { /* Key cards unknown: the plain body as before */ }
+  }
   if (!queue) return { http: 200, body };
   return { http: 200, body: { ...body, queue: await composeQueue(userId, { client_, cards, items, due, today, cap, now, queue }) } };
 }
@@ -187,7 +198,12 @@ async function composeQueue(userId, { client_, cards, items, due, today, cap, no
   const checks = (record?.items || [])
     .filter((it) => it.state === 'repaired' && it.qid && it.repairedAt && istDate(Date.parse(it.repairedAt)) < today)
     .map((it) => ({ attemptId: it.paper, questionId: it.qid, number: it.q, paper: paperById.get(it.paper)?.name || null, chapter: (record.chapters || []).find((c) => c.id === it.ch)?.name || null }));
-  const merged = mergeQueue({ questions, again, checks, cards: dueCards, cap, answered: due.answered });
+  // Key cards (source 5): their own queue and limits; null when the feature is off, so the four-source queue is unchanged.
+  let keycards = null;
+  if (typeof queue.readKeyCards === 'function') {
+    try { keycards = (await queue.readKeyCards())?.items || []; } catch { keycards = null; }
+  }
+  const merged = mergeQueue({ questions, again, checks, cards: dueCards, keycards, cap, answered: due.answered });
   return {
     version: 2, today, cap, items: merged.items, counts: merged.counts, total: merged.total, minutes: merged.minutes, unknown: merged.unknown,
     dropped: merged.dropped, cardsAvailable: availableCards, head: headLine(merged.total, merged.minutes), mix: mixLine(merged.counts), boxes: boxCounts(cards), rotation: cards.filter((c) => c.state === 'active').length,

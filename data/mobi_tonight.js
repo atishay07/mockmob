@@ -22,17 +22,20 @@ export const dayWord = (now = new Date()) => {
  * @param rules      [{ text, chapter }] from the rule book (the student's own repairs), newest first
  * @param traps      buildTrapsMeet(...).rows
  * @param reviseDue  number of Revise cards due today
+ * @param keyCardsDue number of Key cards due today (KEYCARDS-BUILD-SPEC.md 2e; 0 when the feature is off)
  */
-export function tonightPack({ insights = null, rules = [], traps = [], reviseDue = 0, now = new Date() } = {}) {
+export function tonightPack({ insights = null, rules = [], traps = [], reviseDue = 0, keyCardsDue = 0, now = new Date() } = {}) {
   const when = dayWord(now);
   const ranked = insights?.state === 'ready' ? insights.chapters?.ranked || [] : [];
   const chapters = ranked.slice(0, 2).map((c) => ({ subject: c.subject, subjectName: c.subjectName, chapter: c.chapter, lost: c.open }));
   const kept = (rules || []).map((r) => (typeof r === 'string' ? r : r?.text)).filter((t) => typeof t === 'string' && t.trim()).slice(0, 5);
   const top = (traps || []).filter((t) => t && t.caught > 0).slice(0, 3).map((t) => ({ trapType: t.trapType, phrase: t.label, caught: t.caught, chances: t.of }));
   const due = Math.max(0, Number(reviseDue) || 0);
+  const keyCards = Math.max(0, Number(keyCardsDue) || 0);
 
   const lines = [];
-  if (due) lines.push(`Start with Revise: ${plural(due, 'card is', 'cards are')} due. They are your own past mistakes, asked again.`);
+  if (due) lines.push(`Start with Revise: ${plural(due, 'card is', 'cards are')} due. They are your own past mistakes, asked again.${keyCards ? ` ${plural(keyCards, 'Key card')} from NCERT ${keyCards === 1 ? 'is' : 'are'} due there too.` : ''}`);
+  else if (keyCards) lines.push(`Start with Revise: ${plural(keyCards, 'Key card is', 'Key cards are')} due. They are NCERT lines you added, on their schedule.`);
   if (chapters.length) lines.push(`Then ${chapters.map((c) => `${c.chapter} (${c.lost} marks lost)`).join(' and ')}, where your answers cost you the most.`);
   if (kept.length) lines.push(`Read the ${plural(kept.length, 'rule')} you kept from your repairs: ${kept.map((t) => `"${t.replace(/[.\s]+$/, '')}"`).join('; ')}.`);
   if (top.length) lines.push(`Watch for ${top.map((t) => `${t.phrase.toLowerCase()} (it caught you ${t.caught} of ${t.chances} times)`).join(', ')}.`);
@@ -42,8 +45,8 @@ export function tonightPack({ insights = null, rules = [], traps = [], reviseDue
     : `For ${when}, from your own record:\n${lines.join('\n')}\nThat is enough for one sitting.`;
 
   const actions = [];
-  if (due) actions.push({ label: 'Open Revise', type: 'navigate', route: '/review/revise' });
+  if (due || keyCards) actions.push({ label: 'Open Revise', type: 'navigate', route: '/review/revise' });
   if (chapters[0]) actions.push({ label: `Practise ${chapters[0].chapter}`, type: 'navigate', route: practiceLink(chapters[0].subject, chapters[0].chapter) });
   if (empty) actions.push({ label: 'Start a practice set', type: 'navigate', route: '/dashboard?mode=quick' });
-  return { reply, actions, tonight: { when, chapters, rules: kept, traps: top, reviseDue: due, line: empty ? null : lines[0] } };
+  return { reply, actions, tonight: { when, chapters, rules: kept, traps: top, reviseDue: due, ...(keyCards ? { keyCardsDue: keyCards } : {}), line: empty ? null : lines[0] } };
 }

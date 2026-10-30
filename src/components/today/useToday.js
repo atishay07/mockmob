@@ -44,6 +44,12 @@ const reviseDue = (body) => (body?.state === 'unavailable' ? null : {
   dueTotal: Number.isInteger(body?.due) ? body.due : null,
   answeredToday: Number.isInteger(body?.answeredToday) ? body.answeredToday : 0,
   minutes: Number.isInteger(body?.minutes) ? body.minutes : null,
+  // Key cards Revise plays today (KEYCARDS-BUILD-SPEC.md 2e), kept apart from `due` (which counts mistakes back): null when
+  // the feature is off or the read failed. `dueAll` and `minutesAll` are the whole Revise line: "Revise · 14 due · about 6 minutes".
+  keyCards: Number.isInteger(body?.keyCards?.today) ? body.keyCards.today : null,
+  keyCardsMinutes: Number.isInteger(body?.keyCards?.minutes) ? body.keyCards.minutes : null,
+  dueAll: (Array.isArray(body?.items) ? body.items.length : 0) + (Number.isInteger(body?.keyCards?.today) ? body.keyCards.today : 0),
+  minutesAll: (Number.isInteger(body?.minutes) ? body.minutes : 0) + (Number.isInteger(body?.keyCards?.minutes) ? body.keyCards.minutes : 0),
   nextDayLabel: typeof body?.nextDayLabel === 'string' ? body.nextDayLabel : null,
   // The subjects of today's questions, most first: the lead card shows their objects (what comes back, not a guess).
   subjects: Array.isArray(body?.items) ? subjectsByCount(body.items) : [],

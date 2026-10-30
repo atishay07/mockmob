@@ -8,6 +8,8 @@ import { getReview } from '@/lib/server/review';
 import { studyRecord } from '@/lib/server/study';
 import { istDate } from '@/lib/server/credits';
 import { capFrom } from '@/../data/revise';
+import { keyCardsEnabled } from '@/lib/server/keycards';
+import { keycardsService } from '@/lib/server/keycardsHttp';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -58,6 +60,8 @@ export async function GET(request) {
         const record = await studyRecord(userId, { allSubjects: true });
         return record?.state === 'disabled' ? 0 : Number.isFinite(record?.progress?.dueCards) ? record.progress.dueCards : null;
       },
+      // Key cards Revise will play today (KEYCARDS-BUILD-SPEC.md 2e): only while KEY_CARDS_ENABLED is on.
+      ...(keyCardsEnabled() ? { readKeyCards: async () => (await (await keycardsService()).reviseSource(userId)).items.length } : {}),
     });
     return NextResponse.json(out.body, { status: out.http, headers: NO_STORE });
   } catch (e) {

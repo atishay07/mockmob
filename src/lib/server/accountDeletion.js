@@ -48,6 +48,11 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'recovery_review_queue', action: 'delete', match: own(), why: 'recovery queue' },
   { table: 'recovery_playbook', action: 'delete', match: own(), why: 'recovery playbook' },
   { table: 'revise_cards', action: 'delete', match: own(), why: 'Revise schedule' },
+  // Key cards (migration 20261031140000_key_cards.sql): the student's schedule, reviews, reports and section choices.
+  { table: 'key_card_reviews', action: 'delete', match: own(), why: 'Key card reviews' },
+  { table: 'key_card_states', action: 'delete', match: own(), why: 'Key card schedule' },
+  { table: 'key_card_reports', action: 'delete', match: own(), why: 'Key card reports' },
+  { table: 'student_subject_options', action: 'delete', match: own(), why: 'subject section choices' },
   { table: 'attempt_recalculation_queue', action: 'delete', match: viaAttempt(), why: 'derived from the user\'s attempts' },
   { table: 'attempt_score_revisions', action: 'delete', match: viaAttempt(), why: 'derived from the user\'s attempts' },
   { table: 'recovery_sessions', action: 'delete', match: own(), why: 'recovery and practice sessions' },
