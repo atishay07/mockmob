@@ -14,7 +14,7 @@ import { existsSync, readdirSync } from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { VERDICTS_FILE, cardHash, draftsDir as defaultDrafts, outDir, reviewsDir as defaultReviews, readJSON, writeJSON, writeManifest, writeSubject } from './lib.mjs';
-import { readDrafts } from './validate.mjs';
+import { DRAFT_NAME, readDrafts } from './validate.mjs';
 
 const QUESTIONS = Object.freeze(['exact', 'important', 'unambiguous', 'importanceRight']);
 
@@ -23,7 +23,7 @@ export function readReviews(dir = defaultReviews()) {
   if (!existsSync(dir)) throw new Error(`reviews folder not found: ${dir}`);
   const errors = [];
   const out = [];
-  for (const name of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
+  for (const name of readdirSync(dir).filter((f) => DRAFT_NAME.test(f)).sort()) {
     let list;
     try { list = readJSON(path.join(dir, name)); } catch (e) { errors.push(`${name}: not JSON (${e.message})`); continue; }
     if (!Array.isArray(list)) { errors.push(`${name}: not an array`); continue; }

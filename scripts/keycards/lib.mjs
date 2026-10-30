@@ -24,6 +24,7 @@ const LONG_BACK = new Set(['list', 'steps', 'types']);
 // its symbols). The spec names list, steps and types; difference, formula and entry are tables or ledgers in NCERT and
 // need the same shape. Every fragment must still be inside the quote, and the quote inside the PDF.
 const FRAGMENT_BACK = new Set(['list', 'steps', 'types', 'difference', 'formula', 'entry']);
+const LABELLED_BACK = new Set(['example', 'fact']);
 const BLANK = /_{3,}/g;
 
 /** Section 5 normalisation: NFKC, lowercase, only letters and digits (so hyphenated line breaks and spacing vanish). */
@@ -44,18 +45,31 @@ function pdftotextBin() {
 }
 let BIN = null;
 
+const EDGE = 3; // running heads and page numbers sit in the first or last few lines of a page
+const edgeLines = (text) => {
+  const lines = text.split(/\r?\n/).map((l) => l.trim()).filter(Boolean);
+  return lines.length <= EDGE * 2 ? lines : [...lines.slice(0, EDGE), ...lines.slice(-EDGE)];
+};
+const headKey = (line) => line.replace(/\d+/g, '#').replace(/\s+/g, ' ').trim().toLowerCase();
+
 /**
- * Printed page = PDF page index (1-based) + offset. The offset is the majority vote over the standalone integer lines
- * of each page (the corner page numbers), so a stray number in a table does not move it. Null when nothing votes.
+ * Printed page = PDF page index (1-based) + offset. The offset is the majority vote over each page's page numbers: a line
+ * that is only an integer ("49"), or an integer at either end of a short running head in the first or last lines
+ * ("BUSINESS STUDIES 290", "291 Consumer Protection"). A stray number in a table does not move the vote. Null when
+ * nothing votes.
  */
 export function detectOffset(pages) {
   const votes = new Map();
   pages.forEach((text, i) => {
     const seen = new Set();
-    for (const line of text.split('\n')) {
-      const m = /^\s*(\d{1,4})\s*$/.exec(line);
+    const edges = new Set(edgeLines(text));
+    for (const raw of text.split(/\r?\n/)) {
+      const line = raw.trim();
+      // Anywhere on the page: a line that is only a number (pdftotext often puts the corner number mid-text).
+      // In the first or last lines only: a short running head that starts or ends with the number.
+      const m = /^(\d{1,4})$/.exec(line) || (edges.has(line) && line.length <= 60 ? /^(\d{1,4})\s+\D.*$|^\D.*\s(\d{1,4})$/.exec(line) : null);
       if (!m) continue;
-      const off = Number(m[1]) - (i + 1);
+      const off = Number(m[1] ?? m[2]) - (i + 1);
       if (off < 0 || seen.has(off)) continue;
       seen.add(off);
       votes.set(off, (votes.get(off) || 0) + 1);
@@ -66,16 +80,29 @@ export function detectOffset(pages) {
   return best ? best.off : null;
 }
 
-/** Running heads and the reprint line: short lines on at least 30% of pages, stripped so a quote can cross a page. */
-function runningLines(pages) {
+/** Running heads: short edge lines whose shape (digits ignored) repeats on at least 30% of pages, plus the reprint line. */
+function runningHeads(pages) {
   const count = new Map();
-  for (const text of pages) for (const line of new Set(text.split('\n').map((l) => l.trim()).filter((l) => l && l.length <= 60))) count.set(line, (count.get(line) || 0) + 1);
+  for (const text of pages) for (const key of new Set(edgeLines(text).filter((l) => l.length <= 60).map(headKey))) count.set(key, (count.get(key) || 0) + 1);
   const min = Math.max(2, Math.ceil(pages.length * 0.3));
-  return new Set([...count].filter(([line, n]) => n >= min || /^Reprint \d{4}-\d{2}$/.test(line)).map(([line]) => line));
+  return new Set([...count].filter(([, n]) => n >= min).map(([key]) => key));
+}
+
+/** A page without its running heads, page number and reprint line, normalised (for quotes that cross a page). */
+function pageBody(text, heads) {
+  const edges = new Set(edgeLines(text));
+  return norm(text.split(/\r?\n/).filter((l) => {
+    const t = l.trim();
+    if (/^\d{1,4}$/.test(t) || /^Reprint \d{4}-\d{2}$/i.test(t)) return false;
+    return !(edges.has(t) && heads.has(headKey(t)));
+  }).join(' '));
 }
 
 const pdfCache = new Map();
-/** { code, pages: [raw], body: [normalised, running heads and page numbers stripped], offset } or null when the PDF is missing. */
+/**
+ * { code, pages: [raw], page: [normalised], body: [normalised, running heads and page numbers stripped], full, offset }, or
+ * null when the PDF is missing.
+ */
 export function pdfText(code) {
   if (pdfCache.has(code)) return pdfCache.get(code);
   const file = path.join(pdfDir(), `${code}.pdf`);
@@ -85,9 +112,8 @@ export function pdfText(code) {
     const raw = execFileSync(BIN, ['-enc', 'UTF-8', file, '-'], { maxBuffer: 64 * 1024 * 1024 }).toString('utf8');
     const pages = raw.split('\f');
     if (pages.length > 1 && !pages[pages.length - 1].trim()) pages.pop();
-    const heads = runningLines(pages);
-    const body = pages.map((text) => norm(text.split('\n').filter((l) => !heads.has(l.trim()) && !/^\s*\d{1,4}\s*$/.test(l)).join('\n')));
-    out = { code, pages, body, full: norm(raw), offset: detectOffset(pages) };
+    const heads = runningHeads(pages);
+    out = { code, pages, page: pages.map(norm), body: pages.map((text) => pageBody(text, heads)), full: norm(raw), offset: detectOffset(pages) };
   }
   pdfCache.set(code, out);
   return out;
@@ -108,7 +134,9 @@ export function quoteCheck(card, getPdf = pdfText) {
   const idx = Number(src.page) - pdf.offset - 1; // 0-based page index of the printed page
   if (!Number.isInteger(idx) || idx < 0 || idx >= pdf.body.length) return 'quote:page_out_of_range';
   const at = (i) => pdf.body[i] || '';
-  const windows = [at(idx), at(idx - 1), at(idx + 1), at(idx - 1) + at(idx), at(idx) + at(idx + 1), at(idx - 1) + at(idx) + at(idx + 1)];
+  const whole = (i) => pdf.page?.[i] || '';
+  // A whole page as printed (a table heading repeated on every page is still text), or the stripped pages joined.
+  const windows = [whole(idx), whole(idx - 1), whole(idx + 1), at(idx), at(idx - 1) + at(idx), at(idx) + at(idx + 1), at(idx - 1) + at(idx) + at(idx + 1)];
   if (windows.some((w) => w.includes(q))) return null;
   return pdf.full.includes(q) ? 'quote:wrong_page' : 'quote:not_in_pdf';
 }
@@ -180,6 +208,13 @@ function derivedCheck(card) {
     return r;
   }
   if (back === q || (back && q.includes(back))) return r;
+  // example: "the concept it illustrates, with NCERT's line"; fact: "the fact, with the NCERT sentence that states it"
+  // (KEYCARDS-CONTENT-SPEC.md section 2). One short first line names it; everything after it must be NCERT's own words.
+  if (LABELLED_BACK.has(card.kind)) {
+    const [label, ...rest] = String(card.back).split(/\n+/);
+    const body = norm(rest.join(' '));
+    if (rest.length && label.trim().length <= 80 && body && q.includes(body)) return r;
+  }
   if (FRAGMENT_BACK.has(card.kind)) {
     const parts = String(card.back).split(/\n+/).map(stripEnum).map(norm).filter(Boolean);
     if (parts.length && parts.every((p) => q.includes(p))) return r;

@@ -328,7 +328,12 @@ test('validate.mjs and review-merge.mjs on the fixture draft: machine checks, th
     assert.deepEqual(bad.disabled, [{ subject: 'business_studies', why: 'sha256' }]);
     assert.match(logs[0], /sha256/);
     // Malformed input exits non-zero (throws before writing).
-    writeFileSync(path.join(drafts, 'bad.json'), '{"code":"other","subject":"x","cards":{}}');
+    // A file that is not named by a code (an author's scratch file) is ignored; a malformed draft stops the run.
+    writeFileSync(path.join(drafts, 'lebs1xx.scratch.json'), '{not json');
+    const logged = [];
+    await runValidate({ draftsDir: drafts, dryRun: true, log: (m) => logged.push(m) });
+    assert.deepEqual(JSON.parse(logged[0]).ignored, ['lebs1xx.scratch.json']);
+    writeFileSync(path.join(drafts, 'lebs199.json'), '{"code":"other","subject":"x","cards":{}}');
     await assert.rejects(runValidate({ draftsDir: drafts, log: quiet }), /malformed drafts/);
   } finally {
     delete process.env.KEYCARDS_OUT_DIR;
@@ -430,4 +435,11 @@ test('180 days: a 5-subject Pro student at 10 minutes a day keeps a bounded queu
 test('the IST day is the period of a Free allowance', () => {
   assert.equal(istDay(Date.parse('2026-10-31T19:00:00Z')), '2026-11-01');
   assert.equal(istDay(Date.parse('2026-10-31T18:00:00Z')), '2026-10-31');
+});
+
+test('example and fact backs may name the concept on a first short line; the rest must be NCERT\'s words', () => {
+  const base = { ...FIXTURE.cards[1], id: 'kc.business_studies.nature-and-significance-of-management.ex-effectiveness', kind: 'example' };
+  assert.deepEqual(shapeCheck({ ...base, back: `Effectiveness\n${base.quote}` }, 'business_studies'), []);
+  assert.ok(shapeCheck({ ...base, back: 'Effectiveness\nIt means getting the job done.' }, 'business_studies').includes('shape:back_not_quote'));
+  assert.ok(shapeCheck({ ...base, kind: 'definition', back: `Effectiveness\n${base.quote}` }, 'business_studies').includes('shape:back_not_quote'), 'a definition back is the quote itself');
 });

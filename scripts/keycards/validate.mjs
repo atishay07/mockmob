@@ -26,12 +26,19 @@ import {
   writeManifest, writeSubject,
 } from './lib.mjs';
 
+export const DRAFT_NAME = /^[a-z]{4}[0-9a-z]{3}\.json$/;
+const ignoredFiles = [];
+
 /** Read and shape-check every draft file. Throws (exit 1) on malformed input. */
 export function readDrafts(dir = defaultDrafts(), { subjects = null } = {}) {
   if (!existsSync(dir)) throw new Error(`drafts folder not found: ${dir}`);
   const errors = [];
   const drafts = [];
-  for (const name of readdirSync(dir).filter((f) => f.endsWith('.json')).sort()) {
+  // Only <code>.json files are drafts (an NCERT code such as lebs101); anything else in the folder (an author's scratch
+  // file) is listed in `ignored` and never read.
+  const all = readdirSync(dir).filter((f) => f.endsWith('.json')).sort();
+  ignoredFiles.splice(0, ignoredFiles.length, ...all.filter((f) => !DRAFT_NAME.test(f)));
+  for (const name of all.filter((f) => DRAFT_NAME.test(f))) {
     const file = path.join(dir, name);
     let doc;
     try { doc = readJSON(file); } catch (e) { errors.push(`${name}: not JSON (${e.message})`); continue; }
@@ -101,7 +108,7 @@ export async function runValidate({ subjects = null, machineOnly = false, dryRun
     if (!dryRun) manifest[subject] = writeSubject(subject, published, quarantined, notes);
   }
   if (!dryRun && Object.keys(manifest).length) writeManifest(manifest);
-  log(JSON.stringify({ syllabus: syllabus.source, machineOnly, dryRun, subjects: summary }, null, 2));
+  log(JSON.stringify({ syllabus: syllabus.source, machineOnly, dryRun, ignored: [...ignoredFiles], subjects: summary }, null, 2));
   return summary;
 }
 
