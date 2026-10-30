@@ -14,7 +14,7 @@
 //  - the median fit score is at or above NTA_MIN_FIT_SCORE.
 // Anything missing fails closed. The majority (2 of 3) type, unit and chapter are the question's
 // stored tags: the engine uses them before its own heuristic (data/nta_engine.js classifyNtaType).
-import { contentHash } from './content_evidence.js';
+import { contentHashMatches } from './content_evidence.js';
 import english from './nta_fit_scores/english.json' with { type: 'json' };
 import generalTest from './nta_fit_scores/general_test.json' with { type: 'json' };
 import accountancy from './nta_fit_scores/accountancy.json' with { type: 'json' };
@@ -130,7 +130,7 @@ export function ntaFitVerdict(row, { fitScores, minFit = NTA_MIN_FIT_SCORE } = {
   const { entry, table } = found;
   const reasons = ntaFitGateReasons(entry, { minFit, table });
   if (text(entry.question_id || row?.id) !== text(row?.id)) reasons.push('fit_for_another_question');
-  if (!entry.content_hash || entry.content_hash !== contentHash(row)) reasons.push('fit_question_changed');
+  if (!contentHashMatches(row, entry.content_hash)) reasons.push('fit_question_changed');
   return { reasons: [...new Set(reasons)], entry, median: ntaFitMedian(entry) };
 }
 
@@ -141,6 +141,6 @@ export function ntaFitVerdict(row, { fitScores, minFit = NTA_MIN_FIT_SCORE } = {
 export function ntaStoredFitTags(row, { fitScores } = {}) {
   const found = ntaFitEntry(row?.id, { fitScores });
   const entry = found?.entry;
-  if (!entry || !entry.content_hash || entry.content_hash !== contentHash(row)) return { type: null, unit: null, chapter: null };
+  if (!entry || !contentHashMatches(row, entry.content_hash)) return { type: null, unit: null, chapter: null };
   return { type: entry.cuet_type || null, unit: entry.unit || null, chapter: entry.chapter || null };
 }

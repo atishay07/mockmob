@@ -9,10 +9,11 @@
 // Spec: docs/brain/NTA-PATTERN-SPEC.md. Data audit: docs/brain/NTA-DATA-AUDIT.md.
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { canonicalJSON } from './canonical_json.mjs';
-import { canonicalQuestion, contentHash } from './content_evidence.js';
+import { canonicalQuestion, contentHashMatches } from './content_evidence.js';
 import { verifyAnswerIntegrity } from './answer_integrity.js';
 import { qualityGateNtaQuestion, getPassageKey, getPassageText, getQuestionText, isPassageLinkedQuestion, normalizeOptions } from './nta_question_selector.js';
 import { toInternalSubjectId, toPublicSubjectId } from './cuet_controls.js';
+import { resolveChapter } from './cuet_syllabus.js';
 import {
   conflictReason, corruptedWordingReasons, isNumericalItem, isPermutationOptions, isStatementItem, itemFeatures, listedOrderKeyReasons,
   ntaDifficultyOf, ntaKeyDispute, ntaQuarantine, ntaServedRow, objectiveCap, optionPairs, passageWordCount, seedOrDemoReasons,
@@ -276,7 +277,7 @@ export function ntaScoreIntegrity(row, { secret = process.env.CUET_EVIDENCE_SIGN
     const index = row.nta_index;
     if (!hmacMatches(index.signature, [canonicalJSON(ntaIndexSignedBody(index))], secret)) reasons.push('score_signature_invalid');
     if (index.question_id !== row.id) reasons.push('score_for_another_question');
-    if (index.content_hash !== contentHash(row)) reasons.push('question_changed_since_scored');
+    if (!contentHashMatches(row, index.content_hash)) reasons.push('question_changed_since_scored');
     if (index.index_version !== NTA_INDEX_VERSION) reasons.push('score_index_outdated');
     if (luna === null || gemini === null) reasons.push('score_needs_both_judges');
     return reasons;
@@ -285,7 +286,7 @@ export function ntaScoreIntegrity(row, { secret = process.env.CUET_EVIDENCE_SIGN
   const record = envelope?.record;
   if (!envelope?.signature || !signatureMatches(envelope, secret)) reasons.push('score_signature_invalid');
   if (record.candidate_id !== row.id) reasons.push('score_for_another_question');
-  if (record.content_hash !== contentHash(row)) reasons.push('question_changed_since_scored');
+  if (!contentHashMatches(row, record.content_hash)) reasons.push('question_changed_since_scored');
   if (record.mock === true || record.verifier_version === 'mock') reasons.push('score_from_mock_run');
   if (luna === null || gemini === null) reasons.push('score_needs_both_judges');
   const key = canonicalQuestion(row).key;
@@ -500,6 +501,9 @@ function placementOf(row, model, context) {
   if (getPassageKey(row) && (model.slotsByChapter.has(dbChapter) || model.excluded.has(dbChapter))) candidates.push([dbChapter, 'database']);
   if (tags.chapter) candidates.push([text(tags.chapter), 'fit']);
   candidates.push([dbChapter, 'database']);
+  // An alias or merged twin (MySQL, Electronic Devices, ...) fills its live chapter's slot (data/cuet_syllabus.js).
+  const live = resolveChapter(toInternalSubjectId(text(row.subject || model.bp?.internalSubject)), dbChapter);
+  if (live && !live.retired && live.name !== dbChapter) candidates.push([live.name, 'database']);
   for (const [chapter, source] of candidates) {
     if (model.excluded.has(chapter)) return { chapter, slotIds: [], excluded: true, source };
     let slotIds = model.slotsByChapter.get(chapter) || [];

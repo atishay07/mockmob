@@ -1,7 +1,8 @@
 // The chapter picker's pure rules (START-1017 D6, owner F8): chapters grouped by the syllabus's own units, a search
 // that forgives case, punctuation and "&" against "and", and the 12-chapter limit the server applies.
 // No React and no browser globals, so data/tests/fine_tune_scope.test.mjs runs them under node --test.
-import { getCanonicalSubject, getCanonicalUnitForChapter } from '../../../../data/canonical_syllabus.js';
+import { getCanonicalSubject, getCanonicalUnitForChapter, isTopSubject } from '../../../../data/canonical_syllabus.js';
+import { chapterEntry, isRetiredChapter, splitTargets } from '../../../../data/cuet_syllabus.js';
 
 /** The most chapters one set takes: the server's slice (practiceSessions.js) and the app's maxChapters. */
 export const MAX_CHAPTERS = 12;
@@ -16,11 +17,17 @@ const clean = (value) => String(value || '').trim();
  */
 export function chapterUnits(body, internalSubject = '') {
   const seen = new Set();
+  const top = isTopSubject(internalSubject);
+  // Syllabus v2 (data/cuet_syllabus.js), for the 15 CUET subjects: a retired chapter or a split waiting for its re-tag is
+  // never offered; an old name or merged twin shows once, as its live chapter; `title` is the display title.
   const take = (chapter, index, unitId) => {
-    const name = clean(chapter?.name ?? chapter);
+    const raw = clean(chapter?.name ?? chapter);
+    if (top && (isRetiredChapter(internalSubject, raw) || splitTargets(internalSubject, raw).length)) return null;
+    const entry = top ? chapterEntry(internalSubject, raw) : null;
+    const name = entry ? entry.name : raw;
     if (!name || seen.has(name)) return null;
     seen.add(name);
-    return { id: clean(chapter?.id) || `${unitId}-${index}`, name };
+    return { id: clean(chapter?.id) || `${unitId}-${index}`, name, ...(entry ? { title: entry.title } : {}) };
   };
   let units = [];
   if (body?.grouped && Array.isArray(body.units)) {
@@ -67,7 +74,7 @@ export function filterUnits(units = [], query = '') {
   const needle = searchKey(query);
   if (!needle) return units;
   const byChapter = units.map((unit) => {
-    const chapters = unit.chapters.filter((chapter) => searchKey(chapter.name).includes(needle));
+    const chapters = unit.chapters.filter((chapter) => searchKey(chapter.name).includes(needle) || (chapter.title && searchKey(chapter.title).includes(needle)));
     return chapters.length ? { ...unit, chapters } : null;
   }).filter(Boolean);
   if (byChapter.length) return byChapter;

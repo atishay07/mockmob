@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabase';
 import { getSubjectById } from '@/../data/subjects';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
+import { liveChapterRows } from '@/../data/cuet_syllabus';
 
 /**
  * GET /api/chapters?subject=<id>
@@ -52,7 +53,8 @@ export async function GET(request) {
     if (chaptersRes.error) throw chaptersRes.error;
 
     const units    = unitsRes.data    ?? [];
-    const chapters = chaptersRes.data ?? [];
+    // Syllabus v2: retired chapters never reach a picker; an alias row shows once as its live chapter, with its title.
+    const chapters = liveChapterRows(internalSubject, chaptersRes.data ?? []);
 
     // ── Grouped response (subject has units wired) ─────────────
     if (units.length > 0) {
@@ -70,6 +72,7 @@ export async function GET(request) {
           unitMap.get(ch.unit_id).chapters.push({
             id:        ch.id,
             name:      ch.name,
+            ...(ch.title ? { title: ch.title } : {}),
             sortOrder: ch.sort_order,
           });
         }
@@ -80,6 +83,7 @@ export async function GET(request) {
         .map((ch) => ({
           id:        ch.id,
           name:      ch.name,
+          ...(ch.title ? { title: ch.title } : {}),
           sortOrder: ch.sort_order,
         }));
       const groupedUnits = [...unitMap.values()].filter(u => u.chapters.length > 0);
@@ -101,6 +105,7 @@ export async function GET(request) {
         chapters: chapters.map(r => ({
           id:        r.id,
           name:      r.name,
+          ...(r.title ? { title: r.title } : {}),
           sortOrder: r.sort_order,
         })),
       });
@@ -112,7 +117,7 @@ export async function GET(request) {
 
     return NextResponse.json({
       grouped: false,
-      chapters: sub.chapters.map((name, i) => ({
+      chapters: liveChapterRows(internalSubject, sub.chapters.map((name) => ({ name }))).map(({ name }, i) => ({
         id:        `${internalSubject}__${name.toLowerCase().replace(/[^a-z0-9]+/g, '_')}`,
         name,
         sortOrder: i,

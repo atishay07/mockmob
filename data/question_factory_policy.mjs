@@ -1,6 +1,6 @@
 import factoryScope from './question_factory_scope.json' with {type:'json'};
 import { createHash } from 'node:crypto';
-import { contentHash, canonicalQuestion } from './content_evidence.js';
+import { contentHash, canonicalQuestion, contentHashMatches } from './content_evidence.js';
 
 export const FACTORY_POLICY = 'cuet-llm-v3';
 export const FACTORY_SUBJECTS = ['english', 'accountancy', 'business_studies', 'economics'];
@@ -46,7 +46,7 @@ export function inventoryFingerprint(question) {
 }
 export function screeningMatches(row) {
   const receipt = row?.legacy_screening;
-  return receipt?.verdict === 'no_issue_found' && receipt.content_hash === contentHash(row) && receipt.question_id === row.id &&
+  return receipt?.verdict === 'no_issue_found' && contentHashMatches(row, receipt.content_hash) && receipt.question_id === row.id &&
     receipt.review_version === 'subscription-screen-v1' && Number.isFinite(Date.parse(receipt.reviewed_at)) &&
     ['local_mechanical', 'subscription_academic'].includes(receipt.scope) && Array.isArray(receipt.local_findings) && receipt.local_findings.length === 0;
 }

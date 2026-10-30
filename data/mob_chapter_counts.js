@@ -22,6 +22,7 @@ import { pickWithConstraints, rankCandidates } from './mock_question_selector.js
 import { isPassageLinkedQuestion } from './nta_question_selector.js';
 import { getMode } from './test_modes.js';
 import { isValidTopSyllabusPair } from './canonical_syllabus.js';
+import { resolveChapter } from './cuet_syllabus.js';
 import { holdsHash, minFutureExpiry } from './inventory_fingerprint.js';
 import { subjectMemoFor } from './subject_token.js';
 import { EXTRA_LENGTHS } from '../src/lib/mob/model.mjs';
@@ -42,7 +43,14 @@ export async function computeChapterCounts(db, subject, { lengths: given = EXTRA
   const mode = getMode('quick');
   const pool = await readablePracticeQuestions(rows.filter((row) => row.chapter && !isPassageLinkedQuestion(row)), db, { requireEvidence: false });
   const byChapter = new Map();
-  for (const row of pool) { if (!byChapter.has(row.chapter)) byChapter.set(row.chapter, []); byChapter.get(row.chapter).push(row); }
+  // Syllabus v2: rows are grouped by their live chapter (an alias still on a row counts for it); retired rows never got here
+  // (readablePracticeQuestions drops them) and a split waiting for its re-tag counts toward no chapter.
+  for (const row of pool) {
+    const resolved = resolveChapter(subject, row.chapter);
+    const chapter = resolved && !resolved.retired ? resolved.name : row.chapter;
+    if (!byChapter.has(chapter)) byChapter.set(chapter, []);
+    byChapter.get(chapter).push(row);
+  }
   const lengths = [...given].sort((a, b) => b - a);
   const out = [];
   for (const [chapter, list] of byChapter) {

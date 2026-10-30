@@ -12,7 +12,7 @@
 //  - the entry names this question and the question's content hash is the one that was scored.
 // Anything missing fails closed. The tables are reviewed in git; they are not signed, so they are
 // never an evidence record and never a publication decision (rubric section 8).
-import { contentHash } from './content_evidence.js';
+import { contentHashMatches } from './content_evidence.js';
 import english from './nta_agent_scores/english.json' with { type: 'json' };
 import generalTest from './nta_agent_scores/general_test.json' with { type: 'json' };
 import accountancy from './nta_agent_scores/accountancy.json' with { type: 'json' };
@@ -133,7 +133,7 @@ export function ntaAgentScoreIntegrity(row, found, { minScore = NTA_AGENT_OWNER_
   const { table, entry } = found;
   const reasons = ntaAgentTableReasons(table);
   if (text(entry.question_id || row?.id) !== text(row?.id)) reasons.push('score_for_another_question');
-  if (!entry.content_hash || entry.content_hash !== contentHash(row)) reasons.push('question_changed_since_scored');
+  if (!contentHashMatches(row, entry.content_hash)) reasons.push('question_changed_since_scored');
   const judges = Array.isArray(entry.judges) ? entry.judges : [];
   const valid = judges.filter((judge) => Number.isInteger(Number(judge?.quality_score)) && text(judge?.judge) && text(judge?.model) && text(judge?.date));
   if (valid.length < 2 || new Set(valid.map((judge) => text(judge.judge))).size < 2) reasons.push('score_needs_both_judges');

@@ -762,3 +762,24 @@ export function isServableQuestion(row, { subject, option } = {}) {
 export function filterServable(rows, opts = {}) {
   return (Array.isArray(rows) ? rows : []).filter((row) => isServableQuestion(row, opts));
 }
+
+/**
+ * A stored chapter list (public.chapters rows, or any { name } rows) as students should see it: retired chapters and
+ * splits waiting for their re-tag dropped, an alias row shown once under its live name, `title` added. Rows of names
+ * this module does not know are kept as they are. Order is kept.
+ */
+export function liveChapterRows(subject, rows) {
+  const id = subjectId(subject);
+  if (!INDEX.has(id)) return Array.isArray(rows) ? rows : [];
+  const seen = new Set();
+  const out = [];
+  for (const row of Array.isArray(rows) ? rows : []) {
+    const hit = lookup(id, row?.name);
+    if (hit?.retired || hit?.split) continue;
+    const name = hit?.chapter ? hit.chapter.name : row?.name;
+    if (seen.has(name)) continue;
+    seen.add(name);
+    out.push(hit?.chapter ? { ...row, name, title: hit.chapter.title } : row);
+  }
+  return out;
+}

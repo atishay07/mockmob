@@ -1,7 +1,9 @@
 import 'server-only';
 import { Database } from '@/../data/db';
 import { normalizeSubjectSelection } from '@/../data/cuet_controls';
-import { isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
+import { canonicalChapterName, isValidTopSyllabusPair } from '@/../data/canonical_syllabus';
+import { storedNamesFor, variantForOption } from '@/../data/cuet_syllabus';
+import { loadSyllabusOption } from './syllabusOption';
 import { fineTuneViolation, getMode, isValidModeId, practiceCreditAction, resolveCount, resolveDurationSec } from '@/../data/test_modes';
 import { scoreSession, scorePracticeSubmission, submitMeta } from '@/../data/recovery';
 import { openPractice, openStart, practiceId, sealPractice, sealStart } from '@/../data/practice_ticket';
@@ -42,8 +44,12 @@ export async function startPractice(userId, input, server = {}) {
   if (!/^[a-zA-Z0-9_-]{12,100}$/.test(input.generationKey || '')) throw new Error('INVALID_GENERATION_KEY');
   if (!isValidModeId(input.mode || 'quick')) throw new Error('INVALID_MODE');
   const mode = getMode(input.mode || 'quick');
-  const chapters = (typeof input.chapters === 'string' ? input.chapters.split(',') : input.chapter ? [input.chapter] : []).filter(Boolean).slice(0, 12);
-  if (chapters.some(chapter => !isValidTopSyllabusPair(selection.internalSubject, chapter))) throw new Error('INVALID_CHAPTER');
+  const asked = (typeof input.chapters === 'string' ? input.chapters.split(',') : input.chapter ? [input.chapter] : []).filter(Boolean).slice(0, 12);
+  // Syllabus v2: an old or alternative name is accepted and read as its live chapter; a retired chapter is refused.
+  if (asked.some(chapter => !isValidTopSyllabusPair(selection.internalSubject, chapter))) throw new Error('INVALID_CHAPTER');
+  const chapters = [...new Set(asked.map(chapter => canonicalChapterName(selection.internalSubject, chapter)))];
+  // Rows may still carry an alias until the migration renames them, so the read asks for every stored spelling.
+  const chapterReads = [...new Set(chapters.flatMap(chapter => storedNamesFor(selection.internalSubject, chapter)))];
   const difficulty = ['easy', 'medium', 'hard'].includes(input.difficulty) ? input.difficulty : '';
   // The fine-tune scope (data/test_modes.js fineTuneScope): chapters only for Quick practice, a difficulty only where the
   // mode allows one. Every client sends only these, so a request asking for more was crafted, and is refused, not trimmed.
@@ -61,8 +67,12 @@ export async function startPractice(userId, input, server = {}) {
       return { ...publicSessionView(existing), events: existing.events };
     }
   }
-  // Mathematics and Computer Science papers have two section-B variants; only NTA mode reads it.
-  const ntaVariant = mode.id === 'nta' && /^[a-z]{2,12}$/.test(input.variant || '') ? input.variant : '';
+  // The option the student saved for this subject (Maths B1/B2, CS B1/B2, Accountancy AFS/CAS): practice and mocks draw only
+  // from the sections it sits. None saved: unchanged. A Mob paper is the same for every member, so it never reads one.
+  const syllabusOption = mobPaper ? null : await loadSyllabusOption(db, userId, selection.internalSubject);
+  // Mathematics and Computer Science papers have two section-B variants; only NTA mode reads it. A variant the request names
+  // wins; otherwise the saved option picks it (B1 core/cs, B2 applied/ip).
+  const ntaVariant = mode.id !== 'nta' ? '' : /^[a-z]{2,12}$/.test(input.variant || '') ? input.variant : (variantForOption(selection.internalSubject, syllabusOption) || '');
   const id = practiceId(secret(), userId, input.generationKey, [selection.internalSubject, mode.id, count, [...chapters].sort(), difficulty, ...(ntaVariant ? [ntaVariant] : []), ...(mobPaper ? ['mob', mobPaper.mobId, mobPaper.weekStart, ...(mobPaper.extraId ? [mobPaper.extraId] : []), ...(mobPaper.gameId ? ['game', mobPaper.gameId] : [])] : [])]);
   const previous = await Database.getAttemptById(id);
   if (previous) throw new Error('SESSION_ALREADY_SUBMITTED');
@@ -70,8 +80,9 @@ export async function startPractice(userId, input, server = {}) {
     ? { questions: mobPaper.questions, meta: { mode: mode.id, requestedCount: count, finalCount: mobPaper.questions.length, selectedCount: mobPaper.questions.length, selectionStrategy: 'mob_paper' } }
     : await Database.getQuestions(selection.internalSubject, count, {
     mode: mode.id, userId, count, requestedCount: count, returnMeta: true,
-    chapters: chapters.length ? chapters : undefined, difficulty: difficulty || undefined,
+    chapters: chapterReads.length ? chapterReads : undefined, difficulty: difficulty || undefined,
     generationKey: input.generationKey, requireEvidence: false, ntaVariant: ntaVariant || undefined,
+    syllabusOption: syllabusOption || undefined,
   });
   if (mode.id === 'nta') assertNtaPaperServable(questions, meta);
   else if (questions.length < count) throw new Error('INSUFFICIENT_PRACTICE_CONTENT');

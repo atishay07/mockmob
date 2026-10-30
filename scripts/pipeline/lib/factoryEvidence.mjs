@@ -2,15 +2,20 @@ import { formatQuestionText } from '../../../data/question_presentation.mjs';
 import { hashJSON, FACTORY_POLICY,needsNumericChecks } from '../../../data/question_factory_policy.mjs';
 import { completeJSON } from './factoryTransport.mjs';
 import { getCanonicalChapters,getCanonicalUnitForChapter } from '../../../data/canonical_syllabus.js';
+import { resolveChapter,SYLLABUS_SUBJECTS } from '../../../data/cuet_syllabus.js';
 
 export const FACTORY_VERIFIER_VERSION = 'luna-gemini-cuET-v6.2';
 // One blind Luna solution, one different-family challenge, one explanation audit.
 // Reliability is measured on frozen source-keyed items, not repeated agreement.
 export const LUNA_SAMPLES=1;
 const FUNDAMENTALS=' In answer_conditions list case-specific givens and modelling assumptions only. The dictionary definition, textbook rule or formula being tested is academic knowledge, not an unstated case assumption: verify it through source_support and decisive_principle_in_excerpts. Never demand that the stem print the definition it asks a student to identify. Do demand all decisive case values, statuses and model assumptions; a source example cannot supply an omitted case-specific value. Routine NCERT Class 11-12 fundamentals (double-entry rules, the accounting and balance-sheet equations, arithmetic, everyday meanings of common words) may justify intermediate steps; the decisive principle must come from the excerpts or stimulus. Standard Indian CUET accounting conventions apply unless contradicted: a 12-month accounting year, interest rates per annum, and accumulated profits, losses and reserves shared in the profit-sharing ratio.';
-// Two canonical labels for one NCERT chapter; any other disagreement is a real mapping decision.
-const CHAPTER_ALIASES={'Dissolution of Partnership':'Dissolution of Partnership Firm'};
-export const sameChapter=(a,b)=>Boolean(a&&b&&(CHAPTER_ALIASES[a]||a)===(CHAPTER_ALIASES[b]||b));
+// Two labels for one chapter (data/cuet_syllabus.js resolveChapter: aliases, merges, spellings) are one chapter;
+// any other disagreement is a real mapping decision. Without a subject, a name resolves in any of the 15 subjects.
+const chapterOf=(name,subject)=>{
+  for(const s of subject?[subject]:SYLLABUS_SUBJECTS){const r=resolveChapter(s,name);if(r&&!r.retired)return r.key;}
+  return name;
+};
+export const sameChapter=(a,b,subject)=>Boolean(a&&b&&chapterOf(a,subject)===chapterOf(b,subject));
 // Source-backed chapter mapping: the assigned chapter must be covered by a registered document the blind
 // evaluators actually cited; agreement of both evaluators on another chapter, or both leaving the unit, also fails.
 // Send the syllabus unit that matches the chapter (plus every unit title) instead of the whole subject syllabus.

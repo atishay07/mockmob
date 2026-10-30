@@ -2,6 +2,7 @@ import { createHash, createHmac, timingSafeEqual } from 'node:crypto';
 import { canonicalJSON } from './canonical_json.mjs';
 import { presentationLint } from './question_presentation.mjs';
 import { FACTORY_POLICY, provenanceReasons,needsNumericChecks } from './question_factory_policy.mjs';
+import { storedNamesFor } from './cuet_syllabus.js';
 
 export function canonicalQuestion(q) {
   const options = q.options || [];
@@ -17,6 +18,16 @@ export function canonicalQuestion(q) {
   };
 }
 export function contentHash(q) { return createHash('sha256').update(JSON.stringify(canonicalQuestion(q))).digest('hex'); }
+// Syllabus v2 merges rename a chapter label (MySQL -> Structured Query Language, Dissolution of Partnership -> ... Firm)
+// on rows whose evidence, index, agent and fit hashes were taken under the old label. The question itself is unchanged, so a
+// hash taken under any stored spelling of the same live chapter (data/cuet_syllabus.js storedNamesFor) still matches.
+// Nothing else is forgiven: any other field that changed still fails.
+export function contentHashMatches(q, hash) {
+  if (!hash) return false;
+  if (hash === contentHash(q)) return true;
+  const names = storedNamesFor(q?.subject, q?.chapter);
+  return names.some((name) => name !== q?.chapter && hash === contentHash({ ...q, chapter: name }));
+}
 export function evidenceSignature(record, secret) { return createHmac('sha256', secret).update(canonicalJSON(record)).digest('hex'); }
 
 export function evaluateEvidence(q, registry = {}) {
@@ -30,7 +41,7 @@ export function evaluateEvidence(q, registry = {}) {
   const legacy = Buffer.from(createHmac('sha256', secret).update(JSON.stringify(record)).digest('hex'));
   if (actual.length !== expected.length || !timingSafeEqual(actual, expected) && !timingSafeEqual(actual, legacy)) reasons.push('untrusted_evidence');
   if (record.candidate_id !== (q.id || q.candidate_id || q.local_id)) reasons.push('candidate_id_mismatch');
-  if (record.content_hash !== contentHash(q)) reasons.push('content_changed');
+  if (!contentHashMatches(q, record.content_hash)) reasons.push('content_changed');
   if (record.state !== 'eligible' && record.state !== 'published') reasons.push('not_eligible');
   if (record.mock === true || record.verifier_version === 'mock') reasons.push('mock_verification');
   if (!record.verifier_version || !record.verified_at || !(Date.parse(record.expires_at) > Date.now())) reasons.push('stale_verification');

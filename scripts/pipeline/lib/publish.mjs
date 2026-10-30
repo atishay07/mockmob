@@ -1,6 +1,6 @@
 import { createClient } from '@supabase/supabase-js';
 import { evaluateGeneratedQuestionAnswerGuard } from '../../../data/answer_integrity.js';
-import { getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
+import { canonicalChapterName, getCanonicalUnitForChapter, isValidTopSyllabusPair } from '../../../data/canonical_syllabus.js';
 import { validateTraceability } from '../../../data/cuet_controls.js';
 import { publicationEligibility } from '../../../data/evidence_registry.js';
 import { randomUUID } from 'node:crypto';
@@ -43,8 +43,9 @@ export async function publishQuestion(question, apiSecret, options = {}) {
     const now = new Date().toISOString();
     const difficulty = normalizeDifficulty(question.difficulty);
     const difficultyWeight = getDifficultyWeight(difficulty);
-    const chapter = typeof question.chapter === 'string' ? question.chapter : '';
-    const expectedChapter = options.expectedChapter;
+    // Syllabus v2: an alias is accepted and written back as its live chapter's stored name.
+    const chapter = canonicalChapterName(question.subject, typeof question.chapter === 'string' ? question.chapter : '');
+    const expectedChapter = options.expectedChapter === undefined ? undefined : canonicalChapterName(question.subject, options.expectedChapter);
     const canonicalUnit = getCanonicalUnitForChapter(question.subject, chapter);
 
     if (question.fallback_used === true) {
@@ -245,8 +246,8 @@ async function legacyPublishPassageGroup(group, questions, apiSecret, options = 
       return { success: false, error: `passage_group_requires_${minChildren}_validated_questions` };
     }
     const first = validQuestions[0];
-    const chapter = String(first?.chapter || group?.chapter || '').trim();
     const subject = String(first?.subject || group?.subject || '').trim();
+    const chapter = canonicalChapterName(subject, String(first?.chapter || group?.chapter || '').trim());
     const passageText = String(group?.passage_text || first?.passage_text || '').trim();
     if (!subject || !chapter || !passageText) {
       return { success: false, error: 'invalid_passage_group_payload' };
@@ -329,8 +330,9 @@ export async function saveDraftQuestion(question, reason = 'draft_only', options
     if (!supabase) return { success: false, error: 'supabase_unavailable' };
     const difficulty = normalizeDifficulty(question.difficulty);
     const difficultyWeight = getDifficultyWeight(difficulty);
-    const chapter = typeof question.chapter === 'string' ? question.chapter : '';
-    const expectedChapter = options.expectedChapter;
+    // Syllabus v2: an alias is accepted and written back as its live chapter's stored name.
+    const chapter = canonicalChapterName(question.subject, typeof question.chapter === 'string' ? question.chapter : '');
+    const expectedChapter = options.expectedChapter === undefined ? undefined : canonicalChapterName(question.subject, options.expectedChapter);
 
     if (!isValidTopSyllabusPair(question.subject, chapter)) {
       return { success: false, error: 'invalid_subject_unit_chapter_mapping' };

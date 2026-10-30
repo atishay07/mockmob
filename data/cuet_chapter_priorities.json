@@ -1,57 +1,57 @@
 {
   "english": [
-    "Reading Comprehension",
+    "Factual Passage",
     "Vocabulary",
     "Para Jumbles",
-    "Grammar",
-    "Error Detection"
+    "Correct Word Usage",
+    "Literary Passage"
   ],
   "gat": [
     "Current Affairs",
     "General Knowledge",
-    "Quantitative Aptitude",
-    "Logical Reasoning",
-    "Data Interpretation"
+    "Quantitative Reasoning",
+    "Logical & Analytical Reasoning",
+    "Numerical Ability"
   ],
   "general_test": [
     "Current Affairs",
     "General Knowledge",
-    "Quantitative Aptitude",
-    "Logical Reasoning",
-    "Data Interpretation"
+    "Quantitative Reasoning",
+    "Logical & Analytical Reasoning",
+    "Numerical Ability"
   ],
   "accountancy": [
-    "Partnership",
-    "Company Accounts",
-    "Financial Statements",
-    "Dissolution"
+    "Partnership Fundamentals",
+    "Share Capital",
+    "Analysis of Financial Statements",
+    "Dissolution of Partnership Firm"
   ],
   "business_studies": [
     "Principles of Management",
-    "Marketing",
+    "Marketing Management",
     "Financial Management",
     "Consumer Protection"
   ],
   "economics": [
-    "Money and Banking",
-    "National Income",
-    "Government Budget",
+    "Money & Banking",
+    "National Income & Related Aggregates",
+    "Government Budget & the Economy",
     "Balance of Payments",
-    "Demand/Supply"
+    "Market Equilibrium & Simple Applications"
   ],
   "physics": [
     "Electromagnetic Induction",
-    "Moving Charges and Magnetism",
+    "Moving Charges & Magnetism",
     "Wave Optics",
     "Nuclei",
-    "Ray Optics and Optical Instruments"
+    "Ray Optics & Optical Instruments"
   ],
   "chemistry": [
     "Solutions",
     "Electrochemistry",
     "Chemical Kinetics",
     "Coordination Compounds",
-    "Aldehydes Ketones and Carboxylic Acids"
+    "Aldehydes, Ketones & Carboxylic Acids"
   ],
   "mathematics": [
     "Matrices",
@@ -61,8 +61,8 @@
     "Probability"
   ],
   "biology": [
-    "Biotechnology and its Applications",
-    "Human Health and Disease",
+    "Biotechnology & its Applications",
+    "Human Health & Disease",
     "Molecular Basis of Inheritance",
     "Evolution",
     "Ecosystem"

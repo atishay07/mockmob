@@ -11,7 +11,7 @@
 import { CUET_PUBLIC_ALLOWED_SUBJECTS, toInternalSubjectId } from './cuet_controls.js';
 import { NTA_INDEX_VERSION, ntaIndexRound2, ntaScoreIntegrity, ntaScoreOf, signNtaIndex } from './nta_engine.js';
 import { loadNtaPoolFull, loadNtaPoolFromIndex, attachPassages } from './nta_pool.js';
-import { contentHash } from './content_evidence.js';
+import { contentHash, contentHashMatches } from './content_evidence.js';
 import { objectiveTagOf } from './nta_item_checks.js';
 import { assertFullBankRead } from './full_bank_guard.js';
 import { ntaIndexBuiltAt, ntaIndexFreshness, newestLiveQuestionAt } from './nta_index_freshness.js';
@@ -166,7 +166,7 @@ export async function ntaIndexDrift(db, subject) {
   if (!read) return { checked: 0, drifted: [] };
   // The build hashed each question with its passage attached (data/nta_pool.js attachPassages), so compare the same way.
   const rows = await attachPassages(db, read);
-  return { checked: rows.length, drifted: rows.filter((row) => row.nta_index.content_hash !== contentHash(row)).map((row) => row.id) };
+  return { checked: rows.length, drifted: rows.filter((row) => !contentHashMatches(row, row.nta_index.content_hash)).map((row) => row.id) };
 }
 
 /**
