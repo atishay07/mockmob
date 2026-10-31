@@ -122,6 +122,35 @@
       ]
     },
     {
+      "id": "kc.biology.principles-of-inheritance-and-variation.fact-frame-shift",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.principles-of-inheritance-and-variation",
+      "chapter": "Principles of Inheritance & Variation",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "What causes frame-shift mutations?",
+      "back": "Deletions and insertions of base pairs of DNA, causes frame-shift mutations (see Chapter 5).",
+      "quote": "Deletions and insertions of base pairs of DNA, causes frame-shift mutations (see Chapter 5).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo104",
+        "chapterNo": 4,
+        "page": 72,
+        "section": "Mutation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 830,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: Principles of Inheritance p.72 card says deletions and insertions of base pairs cause frame-shift mutations with no qualifier; Molecular Basis p.98 says only 1 or 2 bases shift the frame, while 3 or multiples of 3 leave the reading frame unaltered. The p.72 card breaks the p.98 rule out of"
+      ]
+    },
+    {
       "id": "kc.biology.principles-of-inheritance-and-variation.fact-trisomy-monosomy",
       "v": 2,
       "subject": "biology",
@@ -177,6 +206,37 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front is a statement that already names both strand types (template and coding) and asks nothing; give a question such as which strand (3'->5') acts as template and which is called coding."
+      ]
+    },
+    {
+      "id": "kc.biology.evolution.fact-life-appeared",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.evolution",
+      "chapter": "Evolution",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "When did life appear on earth?",
+      "back": "Life appeared 500 million years after the formation of earth, i.e., almost four billion years back.",
+      "quote": "Life appeared 500 million years after the formation of earth, i.e., almost four billion years back.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo106",
+        "chapterNo": 6,
+        "page": 111,
+        "section": "6.1 Origin of Life"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "evolution"
+      ],
+      "order": 40,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: NCERT Biology p.111 says life appeared almost 4 billion years back; the same page says the first non-cellular forms could have originated 3 billion years back (p.112: first cellular ~2000 mya). A student learning 'when did life appear' vs 'when did the first non-cellular life originate' ho"
       ]
     },
     {
@@ -453,6 +513,35 @@
         "review:not_important",
         "review:not_importanceRight",
         "review:Generic chapter-opening list of application areas; CUET lists specific applications (agriculture, medicine), not this overview. Also not headed text."
+      ]
+    },
+    {
+      "id": "kc.biology.biodiversity-and-conservation.fact-z-value-range",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.biodiversity-and-conservation",
+      "chapter": "Biodiversity & Conservation",
+      "unit": "Ecology and Environment",
+      "kind": "fact",
+      "front": "What is the range of Z (slope) in species-area relationships across taxonomic groups and regions?",
+      "back": "Ecologists have discovered that the value of Z lies in the range of 0.1 to 0.2, regardless of the taxonomic group or the region",
+      "quote": "Ecologists have discovered that the value of Z lies in the range of 0.1 to 0.2, regardless of the taxonomic group or the region",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo113",
+        "chapterNo": 13,
+        "page": 220,
+        "section": "Patterns of Biodiversity"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 240,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: p.220: card says Z is 0.1-0.2 'regardless of the taxonomic group or the region' (no scale context), while the continents card says Z is 0.6-1.2 for very large areas. The first only holds for smaller areas and does not say so. Hold it until it states 'for smaller areas' (or re-add with that"
       ]
     },
     {

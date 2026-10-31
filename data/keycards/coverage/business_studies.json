@@ -42,24 +42,24 @@
       "belowMinimum": false
     },
     "business_studies.controlling": {
-      "published": 50,
-      "quarantined": 1,
+      "published": 49,
+      "quarantined": 2,
       "byKind": {
         "definition": 6,
         "key_line": 18,
         "list": 6,
         "fact": 14,
-        "difference": 2,
+        "difference": 1,
         "steps": 1,
         "types": 1,
         "example": 2
       },
       "byImportance": {
-        "must": 36,
+        "must": 35,
         "good": 14
       },
       "coverage_note": null,
-      "mustShare": 0.72,
+      "mustShare": 0.71,
       "belowMinimum": false
     },
     "business_studies.directing": {
@@ -212,12 +212,12 @@
       "belowMinimum": false
     },
     "business_studies.staffing": {
-      "published": 102,
-      "quarantined": 1,
+      "published": 101,
+      "quarantined": 2,
       "byKind": {
         "definition": 33,
         "key_line": 25,
-        "list": 15,
+        "list": 14,
         "fact": 9,
         "difference": 6,
         "steps": 5,
@@ -225,11 +225,11 @@
         "term": 2
       },
       "byImportance": {
-        "must": 68,
+        "must": 67,
         "good": 34
       },
       "coverage_note": null,
-      "mustShare": 0.67,
+      "mustShare": 0.66,
       "belowMinimum": false
     }
   }

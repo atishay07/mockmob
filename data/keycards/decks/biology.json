@@ -1,6 +1,6 @@
 {
   "subject": "biology",
-  "version": 2,
+  "version": 3,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -579,31 +579,6 @@
       "asked": 0,
       "tags": [],
       "order": 230
-    },
-    {
-      "id": "kc.biology.biodiversity-and-conservation.fact-z-value-range",
-      "v": 1,
-      "subject": "biology",
-      "chapterKey": "biology.biodiversity-and-conservation",
-      "chapter": "Biodiversity & Conservation",
-      "unit": "Ecology and Environment",
-      "kind": "fact",
-      "front": "What is the range of Z (slope) in species-area relationships across taxonomic groups and regions?",
-      "back": "Ecologists have discovered that the value of Z lies in the range of 0.1 to 0.2, regardless of the taxonomic group or the region",
-      "quote": "Ecologists have discovered that the value of Z lies in the range of 0.1 to 0.2, regardless of the taxonomic group or the region",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Biology",
-        "code": "lebo113",
-        "chapterNo": 13,
-        "page": 220,
-        "section": "Patterns of Biodiversity"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 240
     },
     {
       "id": "kc.biology.biodiversity-and-conservation.fact-z-value-continents",
@@ -7659,33 +7634,6 @@
         "evolution"
       ],
       "order": 30
-    },
-    {
-      "id": "kc.biology.evolution.fact-life-appeared",
-      "v": 1,
-      "subject": "biology",
-      "chapterKey": "biology.evolution",
-      "chapter": "Evolution",
-      "unit": "Genetics and Evolution",
-      "kind": "fact",
-      "front": "When did life appear on earth?",
-      "back": "Life appeared 500 million years after the formation of earth, i.e., almost four billion years back.",
-      "quote": "Life appeared 500 million years after the formation of earth, i.e., almost four billion years back.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Biology",
-        "code": "lebo106",
-        "chapterNo": 6,
-        "page": 111,
-        "section": "6.1 Origin of Life"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "evolution"
-      ],
-      "order": 40
     },
     {
       "id": "kc.biology.evolution.fact-panspermia",
@@ -29186,31 +29134,6 @@
       "asked": 0,
       "tags": [],
       "order": 820
-    },
-    {
-      "id": "kc.biology.principles-of-inheritance-and-variation.fact-frame-shift",
-      "v": 1,
-      "subject": "biology",
-      "chapterKey": "biology.principles-of-inheritance-and-variation",
-      "chapter": "Principles of Inheritance & Variation",
-      "unit": "Genetics and Evolution",
-      "kind": "fact",
-      "front": "What causes frame-shift mutations?",
-      "back": "Deletions and insertions of base pairs of DNA, causes frame-shift mutations (see Chapter 5).",
-      "quote": "Deletions and insertions of base pairs of DNA, causes frame-shift mutations (see Chapter 5).",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Biology",
-        "code": "lebo104",
-        "chapterNo": 4,
-        "page": 72,
-        "section": "Mutation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 830
     },
     {
       "id": "kc.biology.principles-of-inheritance-and-variation.def-mutagens",

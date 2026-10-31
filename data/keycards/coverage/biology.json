@@ -2,19 +2,19 @@
   "subject": "biology",
   "chapters": {
     "biology.biodiversity-and-conservation": {
-      "published": 72,
-      "quarantined": 1,
+      "published": 71,
+      "quarantined": 2,
       "byKind": {
         "definition": 13,
         "term": 2,
         "types": 3,
-        "fact": 46,
+        "fact": 45,
         "list": 6,
         "formula": 1,
         "key_line": 1
       },
       "byImportance": {
-        "must": 44,
+        "must": 43,
         "good": 28
       },
       "coverage_note": null,
@@ -85,10 +85,10 @@
       "belowMinimum": false
     },
     "biology.evolution": {
-      "published": 120,
-      "quarantined": 5,
+      "published": 119,
+      "quarantined": 6,
       "byKind": {
-        "fact": 92,
+        "fact": 91,
         "definition": 12,
         "list": 5,
         "key_line": 6,
@@ -97,11 +97,11 @@
         "types": 1
       },
       "byImportance": {
-        "must": 86,
+        "must": 85,
         "good": 34
       },
       "coverage_note": null,
-      "mustShare": 0.72,
+      "mustShare": 0.71,
       "belowMinimum": false
     },
     "biology.human-health-and-disease": {
@@ -205,10 +205,10 @@
       "belowMinimum": false
     },
     "biology.principles-of-inheritance-and-variation": {
-      "published": 115,
-      "quarantined": 2,
+      "published": 114,
+      "quarantined": 3,
       "byKind": {
-        "fact": 65,
+        "fact": 64,
         "definition": 32,
         "list": 5,
         "key_line": 8,
@@ -219,7 +219,7 @@
       },
       "byImportance": {
         "must": 71,
-        "good": 44
+        "good": 43
       },
       "coverage_note": null,
       "mustShare": 0.62,

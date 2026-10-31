@@ -1,6 +1,6 @@
 {
   "subject": "political_science",
-  "version": 2,
+  "version": 3,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -6406,34 +6406,6 @@
         "south-asia"
       ],
       "order": 150
-    },
-    {
-      "id": "kc.political_science.contemporary-south-asia.fact-tl-kargil",
-      "v": 2,
-      "subject": "political_science",
-      "chapterKey": "political_science.contemporary-south-asia",
-      "chapter": "Contemporary South Asia",
-      "unit": "Contemporary World Politics",
-      "kind": "fact",
-      "front": "What conflict took place in June-July 1999, after Vajpayee's bus journey to Lahore in February 1999?",
-      "back": "1999 February: Indian PM Vajpayee undertakes bus journey to Lahore to sign a Peace Declaration June-July: Kargil conflict between India and Pakistan",
-      "quote": "1999 February: Indian PM Vajpayee undertakes bus journey to Lahore to sign a Peace Declaration June-July: Kargil conflict between India and Pakistan",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps103",
-        "chapterNo": 3,
-        "page": 32,
-        "section": "Timeline of South Asia since 1947"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "south-asia"
-      ],
-      "order": 160,
-      "note": "The Kargil conflict took place in June-July 1999."
     },
     {
       "id": "kc.political_science.contemporary-south-asia.fact-tl-safta",
@@ -26207,33 +26179,6 @@
         "regional-aspirations"
       ],
       "order": 850
-    },
-    {
-      "id": "kc.political_science.regional-aspirations.fact-reorg-1972",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.regional-aspirations",
-      "chapter": "Regional Aspirations",
-      "unit": "Politics in India Since Independence",
-      "kind": "fact",
-      "front": "By which year was the reorganisation of the North-East completed?",
-      "back": "The reorganisation of the North-East was completed by 1972.",
-      "quote": "The reorganisation of the North-East was completed by 1972.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps207",
-        "chapterNo": 7,
-        "page": 127,
-        "section": "Demands for autonomy"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "regional-aspirations"
-      ],
-      "order": 860
     },
     {
       "id": "kc.political_science.regional-aspirations.fact-district-councils",

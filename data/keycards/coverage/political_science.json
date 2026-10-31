@@ -57,16 +57,16 @@
       "belowMinimum": false
     },
     "political_science.contemporary-south-asia": {
-      "published": 71,
-      "quarantined": 1,
+      "published": 70,
+      "quarantined": 2,
       "byKind": {
         "list": 4,
-        "fact": 61,
+        "fact": 60,
         "key_line": 4,
         "definition": 2
       },
       "byImportance": {
-        "must": 40,
+        "must": 39,
         "good": 31
       },
       "coverage_note": null,
@@ -254,11 +254,11 @@
       "belowMinimum": false
     },
     "political_science.regional-aspirations": {
-      "published": 104,
-      "quarantined": 3,
+      "published": 103,
+      "quarantined": 4,
       "byKind": {
         "key_line": 3,
-        "fact": 94,
+        "fact": 93,
         "steps": 1,
         "list": 4,
         "quote": 1,
@@ -266,7 +266,7 @@
       },
       "byImportance": {
         "must": 55,
-        "good": 49
+        "good": 48
       },
       "coverage_note": null,
       "mustShare": 0.53,

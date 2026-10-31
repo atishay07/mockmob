@@ -2,8 +2,8 @@
   "subject": "accountancy",
   "chapters": {
     "accountancy.accounting-ratios": {
-      "published": 165,
-      "quarantined": 2,
+      "published": 164,
+      "quarantined": 3,
       "byKind": {
         "definition": 41,
         "example": 11,
@@ -11,11 +11,11 @@
         "key_line": 10,
         "types": 11,
         "fact": 45,
-        "formula": 38,
+        "formula": 37,
         "entry": 3
       },
       "byImportance": {
-        "must": 114,
+        "must": 113,
         "good": 51
       },
       "coverage_note": null,
@@ -123,23 +123,23 @@
       "belowMinimum": false
     },
     "accountancy.debentures": {
-      "published": 86,
-      "quarantined": 3,
+      "published": 84,
+      "quarantined": 5,
       "byKind": {
         "key_line": 16,
         "definition": 24,
         "difference": 8,
         "types": 3,
-        "fact": 17,
+        "fact": 15,
         "entry": 17,
         "example": 1
       },
       "byImportance": {
-        "must": 67,
-        "good": 19
+        "must": 66,
+        "good": 18
       },
       "coverage_note": null,
-      "mustShare": 0.78,
+      "mustShare": 0.79,
       "belowMinimum": false
     },
     "accountancy.dissolution-of-partnership-firm": {

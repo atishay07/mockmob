@@ -493,6 +493,37 @@
       ]
     },
     {
+      "id": "kc.business_studies.staffing.list-three-aspects",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.staffing",
+      "chapter": "Staffing",
+      "unit": "Staffing",
+      "kind": "list",
+      "front": "Name the three aspects of staffing.",
+      "back": "recruitment\nselection\ntraining",
+      "quote": "There are three aspects of staffing: recruitment, selection and training.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs106",
+        "chapterNo": 6,
+        "page": 148,
+        "section": "Aspects of staffing"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "staffing"
+      ],
+      "order": 410,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: 'Three aspects of staffing: recruitment, selection, training' (p148, only the aspects the chapter then details) vs staffing including recruitment, selection, training, development, promotion, compensation and appraisal (p140) and the 8-step staffing process (pp147, 164). Different list for"
+      ]
+    },
+    {
       "id": "kc.business_studies.staffing.key-selection-decision-manager",
       "v": 2,
       "subject": "business_studies",
@@ -626,6 +657,37 @@
       "reasons": [
         "review:not_unambiguous",
         "review:blanks Psychological/emotional have obvious synonyms (cultural, economic); front lacks its subject (non-financial incentives) so is not standalone"
+      ]
+    },
+    {
+      "id": "kc.business_studies.controlling.diff-planning-vs-controlling-time",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.controlling",
+      "chapter": "Controlling",
+      "unit": "Controlling",
+      "kind": "difference",
+      "front": "Planning vs controlling: the difference on time direction (looking ahead or looking back).",
+      "back": "Therefore, planning involves looking ahead and is called a forward-looking function.\nOn the contrary, controlling is like a postmortem of past activities to find out deviations from the standards. In that sense, controlling is a backward-looking function.",
+      "quote": "Therefore, planning involves looking ahead and is called a forward-looking function. On the contrary, controlling is like a postmortem of past activities to find out deviations from the standards. In that sense, controlling is a backward-looking function.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs108",
+        "chapterNo": 8,
+        "page": 205,
+        "section": "Relationship between Planning and Controlling"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "controlling"
+      ],
+      "order": 270,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: Card says controlling is a backward-looking function (postmortem), planning forward-looking; the other says both are backward- and forward-looking. Same NCERT page 205, the book gives the plain contrast first then the fuller 'both' treatment; the held card has no such context and would con"
       ]
     },
     {

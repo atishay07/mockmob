@@ -1,23 +1,23 @@
 {
   "accountancy": {
-    "version": 3,
-    "sha256": "8198d9b2899f8e064db863479ee6f5b562c76fcf324bd2fedab62cea5a663857",
-    "cards": 864
+    "version": 4,
+    "sha256": "ace4325ab62c1246b4f81f8d80ca3a3d4bd8a7b8cd402e7e9420116de1f867f3",
+    "cards": 861
   },
   "biology": {
-    "version": 2,
-    "sha256": "6ac5f766321ba0b5f6fd7eaf01d7910d508e21115c20fcc6cd25774a16fc1614",
-    "cards": 1394
+    "version": 3,
+    "sha256": "906ad3e9c991a0cc4e8094d03b9d684d0e321f4e40e7235701c2590a5e3ef0f4",
+    "cards": 1391
   },
   "business_studies": {
-    "version": 2,
-    "sha256": "b4e7234847a2455bfe4a6f6eaf8c3e082af6b8adce9347a64d4095d3e8588fcd",
-    "cards": 888
+    "version": 3,
+    "sha256": "605750a6e91cb0cad271ce0dd08d71ad4fe30cb093166e74649925e1d913208f",
+    "cards": 886
   },
   "economics": {
-    "version": 2,
-    "sha256": "2a7b435a381f97ef7f4efa1c33daaf3093f14575d3206dfbc29e8cf8be1e6c4a",
-    "cards": 1191
+    "version": 3,
+    "sha256": "2f81f8299db43f998967951d1914dfb7b05e9fae088df343bf910892e5fe290f",
+    "cards": 1184
   },
   "english": {
     "version": 1,
@@ -25,8 +25,8 @@
     "cards": 318
   },
   "political_science": {
-    "version": 2,
-    "sha256": "1b2b78cc1ad3c69e846074a492f807fd5e25cb20431c7a5d180ca6cafcdddac2",
-    "cards": 1092
+    "version": 3,
+    "sha256": "7f64b11ec79b87816abef39a5f6243fe82f4e48853ff3221dcfcbcf8c7272b22",
+    "cards": 1090
   }
 }

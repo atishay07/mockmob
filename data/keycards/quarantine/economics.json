@@ -2,6 +2,37 @@
   "subject": "economics",
   "cards": [
     {
+      "id": "kc.economics.indian-economy-on-the-eve-of-independence.fact-agrarian-85-per-cent",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economy-on-the-eve-of-independence",
+      "chapter": "Indian Economy on the Eve of Independence",
+      "unit": "Indian Economy on the Eve of Independence",
+      "kind": "fact",
+      "front": "Under British colonial rule, about what share of India's population lived in villages and lived off agriculture?",
+      "back": "India's economy under the British colonial rule remained fundamentally agrarian — about 85 per cent of the country's population lived mostly in villages and derived livelihood directly or indirectly from agriculture",
+      "quote": "India's economy under the British colonial rule remained fundamentally agrarian — about 85 per cent of the country's population lived mostly in villages and derived livelihood directly or indirectly from agriculture",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec101",
+        "chapterNo": 1,
+        "page": 5,
+        "section": "1.3 Agricultural Sector"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "agriculture"
+      ],
+      "order": 120,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: keec101 p.5 gives about 85 per cent of the population as living in villages and living off agriculture (colonial rule); keec102 p.27 gives 67.5 per cent dependent on agriculture in 1950. A student holds two answers for the farm-dependent share at independence. Judgement call: held because "
+      ]
+    },
+    {
       "id": "kc.economics.indian-economy-on-the-eve-of-independence.fact-exploitative-relationship-assessment",
       "v": 1,
       "subject": "economics",
@@ -32,6 +63,37 @@
       "reasons": [
         "review:not_important",
         "review:Chapter-framing rationale sentence, not a definition or testable fact."
+      ]
+    },
+    {
+      "id": "kc.economics.indian-economic-development-1950-1990.fact-agri-population-75",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economic-development-1950-1990",
+      "chapter": "Indian Economic Development 1950–1990",
+      "unit": "Indian Economic Development 1950–1990",
+      "kind": "fact",
+      "front": "What percentage of India's population depended on agriculture at independence?",
+      "back": "At independence, about 75 per cent of the country’s population was dependent on agriculture.",
+      "quote": "At independence, about 75 per cent of the country’s population was dependent on agriculture.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec102",
+        "chapterNo": 2,
+        "page": 24,
+        "section": "2.3 Agriculture: The Green Revolution"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "agriculture"
+      ],
+      "order": 560,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: keec102 p.24 says about 75 per cent of the population depended on agriculture at independence; p.27 says 67.5 per cent in 1950 falling to 64.9 per cent by 1990 (p.26: 65 per cent in 1990). Keep the specific figures on p.26-27. (conflict sweep, 31 Oct)"
       ]
     },
     {
@@ -132,6 +194,37 @@
       "reasons": [
         "review:not_unambiguous",
         "review:\"distinction\" has obvious synonym \"difference\"; fill is not unique."
+      ]
+    },
+    {
+      "id": "kc.economics.indian-economic-development-1950-1990.fact-defence-hotels",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economic-development-1950-1990",
+      "chapter": "Indian Economic Development 1950–1990",
+      "unit": "Indian Economic Development 1950–1990",
+      "kind": "fact",
+      "front": "NCERT's examples: what does only the public sector supply, and what does the government run though the private sector manages it well?",
+      "back": "even now only the public sector supplies national defense. And even though the private sector can manage hotels well, yet, the government also runs hotels.",
+      "quote": "even now only the public sector supplies national defense. And even though the private sector can manage hotels well, yet, the government also runs hotels.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec102",
+        "chapterNo": 2,
+        "page": 32,
+        "section": "2.5 Trade Policy: Import Substitution"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "public-sector"
+      ],
+      "order": 1080,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: keec102 p.32 'even now only the public sector supplies national defense' versus keec103 p.41 'the only industries now reserved for the public sector are part of atomic energy and some railway activities'. Keep the later, more specific reform-chapter statement. (conflict sweep, 31 Oct)"
       ]
     },
     {
@@ -1500,6 +1593,39 @@
       ]
     },
     {
+      "id": "kc.economics.money-and-banking.key-only-rbi-issues-currency",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.money-and-banking",
+      "chapter": "Money & Banking",
+      "unit": "Money & Banking",
+      "kind": "key_line",
+      "front": "Reserve Bank is the only institution which can issue ____.",
+      "back": "Reserve Bank is the only institution which can issue currency.",
+      "quote": "Reserve Bank is the only institution which can issue currency.",
+      "blanks": [
+        "currency"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec103",
+        "chapterNo": 3,
+        "page": 42,
+        "section": "3.4 Policy Tools to Control Money Supply"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "rbi"
+      ],
+      "order": 440,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: leec103 p.42 'Reserve Bank is the only institution which can issue currency'; p.48 says notes are issued by RBI but coins by the Government of India. (conflict sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.economics.income-determination.key-c-stable-i-fluctuates",
       "v": 2,
       "subject": "economics",
@@ -1746,6 +1872,70 @@
       "reasons": [
         "review:not_importanceRight",
         "review:It is NCERT definition of an open economy (the unit subject); definitions are must."
+      ]
+    },
+    {
+      "id": "kc.economics.balance-of-payments.fact-bpm6-three-accounts",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.balance-of-payments",
+      "chapter": "Balance of Payments",
+      "unit": "Open Economy Macroeconomics",
+      "kind": "fact",
+      "front": "Under the new classification (IMF, BPM6), the BoP is divided into how many accounts, and which?",
+      "back": "There is a new classification in which the balance of payments have been divided into three accounts – the current account, the financial account and the capital account.",
+      "quote": "There is a new classification in which the balance of payments have been divided into three accounts – the current account, the financial account and the capital account.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec106",
+        "chapterNo": 6,
+        "page": 86,
+        "section": "6.1 The Balance of Payments (footnote 1)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "BoP",
+        "BPM6"
+      ],
+      "order": 90,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: leec106 p.86 body teaches two BoP accounts (current, capital), with capital account recording all asset transactions; footnote cards (p.86, p.90) say BPM6 has three accounts and moves financial assets to a financial account. Chapter body treats two accounts as the model, so the footnote ca"
+      ]
+    },
+    {
+      "id": "kc.economics.balance-of-payments.fact-new-classification-financial-account",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.balance-of-payments",
+      "chapter": "Balance of Payments",
+      "unit": "Open Economy Macroeconomics",
+      "kind": "fact",
+      "front": "Under BPM6, where are transactions in financial assets such as bonds and equity shares placed?",
+      "back": "The most important change is that almost all the transactions arising on account of trade in financial assets such as bonds and equity shares are now placed in the financial account.",
+      "quote": "The most important change is that almost all the transactions arising on account of trade in financial assets such as bonds and equity shares are now placed in the financial account.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec106",
+        "chapterNo": 6,
+        "page": 90,
+        "section": "Box 6.1"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "BoP",
+        "BPM6"
+      ],
+      "order": 470,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: leec106 p.86 body teaches two BoP accounts (current, capital), with capital account recording all asset transactions; footnote cards (p.86, p.90) say BPM6 has three accounts and moves financial assets to a financial account. Chapter body treats two accounts as the model, so the footnote ca"
       ]
     },
     {
@@ -2139,6 +2329,37 @@
       "reasons": [
         "review:not_unambiguous",
         "review:p* is undefined in the front (equilibrium price is not named); front does not stand on its own."
+      ]
+    },
+    {
+      "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-demand-shift-same-direction",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
+      "chapter": "Theory of Firms under Perfect Competition",
+      "unit": "Theory of Firms under Perfect Competition",
+      "kind": "fact",
+      "front": "When the demand curve shifts, do equilibrium price and quantity change in the same or opposite directions?",
+      "back": "Notice that the direction of change in equilibrium price and quantity is same whenever there is a shift in demand curve.",
+      "quote": "Notice that the direction of change in equilibrium price and quantity is same whenever there is a shift in demand curve.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec205",
+        "chapterNo": 5,
+        "page": 77,
+        "section": "Shifts in Demand and Supply"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "demand shift"
+      ],
+      "order": 180,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: leec205 p.77 card says price and quantity always move the same way when demand shifts, with no context; p.83 shows that under free entry and exit a demand shift leaves price unchanged. The p.77 card only holds for a fixed number of firms. (conflict sweep, 31 Oct)"
       ]
     },
     {

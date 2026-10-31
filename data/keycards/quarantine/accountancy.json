@@ -587,6 +587,70 @@
       ]
     },
     {
+      "id": "kc.accountancy.debentures.fact-discount-balance-sheet-current",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.debentures",
+      "chapter": "Debentures",
+      "unit": "Debentures",
+      "kind": "fact",
+      "front": "Where is discount on issue of debentures (to be written off within 12 months) shown in the balance sheet?",
+      "back": "Discount on issue of debentures to be written off within 12 months of the balance sheet date or the period of operating cycle is shown under ‘Other Current Assets’",
+      "quote": "Discount on issue of debentures to be written off within 12 months of the balance sheet date or the period of operating cycle is shown under ‘Other Current Assets’",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac202",
+        "chapterNo": 2,
+        "page": 81,
+        "section": "2.4.2 Issue of Debentures at a Discount"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "issue at discount",
+        "balance sheet"
+      ],
+      "order": 450,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: p81 (with the already-held 'life time' card) splits the unwritten discount into current (within 12 months) and non-current (after 12 months) assets, which presumes write-off over the debentures' life; p106 and p154 say discount is written off in the year of issue, so no non-current balance"
+      ]
+    },
+    {
+      "id": "kc.accountancy.debentures.fact-discount-balance-sheet-non-current",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.debentures",
+      "chapter": "Debentures",
+      "unit": "Debentures",
+      "kind": "fact",
+      "front": "Where is the part of discount to be written off after 12 months of the balance sheet shown?",
+      "back": "the part which is to be written off after 12 months of balance sheet is shown under ‘Other Non-Current Assets’.",
+      "quote": "the part which is to be written off after 12 months of balance sheet is shown under ‘Other Non-Current Assets’.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac202",
+        "chapterNo": 2,
+        "page": 81,
+        "section": "2.4.2 Issue of Debentures at a Discount"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "issue at discount",
+        "balance sheet"
+      ],
+      "order": 460,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: p81 (with the already-held 'life time' card) splits the unwritten discount into current (within 12 months) and non-current (after 12 months) assets, which presumes write-off over the debentures' life; p106 and p154 say discount is written off in the year of issue, so no non-current balance"
+      ]
+    },
+    {
       "id": "kc.accountancy.debentures.fact-interest-on-nominal-value",
       "v": 1,
       "subject": "accountancy",
@@ -781,6 +845,37 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Two-word blank 'meaningfully correlated' has obvious synonyms (related, connected, comparable); a student cannot give one exact fill from the front."
+      ]
+    },
+    {
+      "id": "kc.accountancy.accounting-ratios.fml-shareholders-funds-equity-first-form",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.accounting-ratios",
+      "chapter": "Accounting Ratios",
+      "unit": "Analysis of Financial Statements",
+      "kind": "formula",
+      "front": "Formula: Shareholders' Funds (Equity), as the sum of share capital and reserve items",
+      "back": "Shareholders’ Funds (Equity) = Share capital + Reserves and Surplus + Money received against share warrants + Share application money pending allotment",
+      "quote": "Shareholders’ Funds (Equity) = Share capital + Reserves and Surplus + Money received against share warrants + Share application money pending allotment",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy: Company Accounts and Analysis of Financial Statements",
+        "code": "leac205",
+        "chapterNo": 5,
+        "page": 205,
+        "section": "5.7 Solvency Ratios"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "shareholders-funds"
+      ],
+      "order": 680,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: Ratios p205 formula adds 'Share application money pending allotment' into Shareholders' Funds; Financial Statements p149 (Schedule III) lists exactly three sub-classifications (share capital, reserves and surplus, share warrants) and shows share application money as a separate head. Keep t"
       ]
     },
     {
