@@ -79,6 +79,14 @@ void main() {
       ]);
     });
 
+    test('a narration the book breaks over lines is one narration on screen; the next entry is not swallowed', () {
+      final rows = entryRows(
+        "P's Capital A/c\nDr.\nTo R's Capital A/c\n(R's share of goodwill adjusted in P's\nand Q's capital accounts in their gaining ratio of 3:2)\nBank A/c\nDr.\nTo Capital A/c",
+      )!;
+      expect(joinedNarrations(rows).map((r) => r.kind), [debit, credit, narration, debit, credit]);
+      expect(joinedNarrations(rows)[2].text, "(R's share of goodwill adjusted in P's and Q's capital accounts in their gaining ratio of 3:2)");
+    });
+
     test('prose with no Dr. and no To line is not a journal', () {
       expect(entryRows('So when only year-end figures are available use the same as it is.'), isNull);
       expect(entryRows('no entry is required'), isNull);

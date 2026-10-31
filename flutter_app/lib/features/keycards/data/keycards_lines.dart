@@ -221,6 +221,25 @@ List<KcEntryRow>? entryRows(String back) {
   return rows;
 }
 
+/// The app's one step past the website's rows: a narration the book breaks over lines ("(R's share of goodwill
+/// adjusted in P's" then "and Q's capital accounts ...)") reads as one narration, not as short plain lines. The
+/// words stay the book's.
+List<KcEntryRow> joinedNarrations(List<KcEntryRow> rows) {
+  final out = <KcEntryRow>[];
+  var open = false;
+  for (final r in rows) {
+    if (open && r.kind == KcEntryRowKind.plain) {
+      final last = out.removeLast();
+      out.add(KcEntryRow(KcEntryRowKind.narration, '${last.text} ${r.text}'));
+      open = !RegExp(r'\)\.?$').hasMatch(r.text);
+      continue;
+    }
+    open = r.kind == KcEntryRowKind.plain && r.text.startsWith('(') && !_labelled.hasMatch(r.text) && !RegExp(r'\)\.?$').hasMatch(r.text);
+    out.add(open ? KcEntryRow(KcEntryRowKind.narration, r.text) : r);
+  }
+  return out;
+}
+
 // ---- The back as the screen draws it (the website's NcertText) ----
 
 /// One paragraph of a back: a list item takes a bullet unless the book already numbers or letters it (then

@@ -34,6 +34,9 @@ import 'demo_session.dart';
 /// `--dart-define=DEMO_PRO=true`: Asha is on Pro (every card open, no daily limits); otherwise Free.
 const bool demoPro = bool.fromEnvironment('DEMO_PRO');
 
+/// `--dart-define=DEMO_FRESH=true`: nothing added, nothing due, as on a first visit.
+const bool demoFresh = bool.fromEnvironment('DEMO_FRESH');
+
 const String _ratios = 'accountancy.accounting-ratios';
 const String _retirement = 'accountancy.retirement-and-death-of-partner';
 const String _principles = 'business_studies.principles-of-management';
@@ -152,7 +155,7 @@ class DemoKeyCardsApi extends FakeKeyCardsApi {
 
   factory DemoKeyCardsApi({required bool isPro, required DateTime Function() now, List<String>? Function(String questionId)? lineFor}) {
     final cards = _realCards();
-    return DemoKeyCardsApi._(isPro: isPro, cards: cards, now: now, states: _states(cards, now(), isPro: isPro), lineFor: lineFor);
+    return DemoKeyCardsApi._(isPro: isPro, cards: cards, now: now, states: demoFresh ? <String, FakeKcState>{} : _states(cards, now(), isPro: isPro), lineFor: lineFor);
   }
 
   final DateTime Function() _clock;

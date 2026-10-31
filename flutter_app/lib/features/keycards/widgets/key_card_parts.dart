@@ -208,7 +208,7 @@ class KcBack extends StatelessWidget {
         style: reading,
         tight: true,
       ),
-      KcEntryBack(:final rows) => KcEntryText(rows: rows, style: reading),
+      KcEntryBack(:final rows) => KcEntryText(rows: joinedNarrations(rows), style: reading),
       KcParasBack(:final paras) => paras.length == 1 ? _para(paras.first, reading) : _paras(paras, reading),
     };
   }
