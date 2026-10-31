@@ -505,7 +505,7 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
                   {read.status === 'error' ? null : (
                     <div className="lc-go">
                       {ready ? (
-                        <Link className="kc-btn kc-btn--volt lc-go__key" href={runHref} aria-busy={read.status === 'refreshing' || undefined}>
+                        <Link className="kc-btn kc-btn--volt lc-go__key" data-page-primary="" href={runHref} aria-busy={read.status === 'refreshing' || undefined}>
                           <span key={startLabel} className="lc-go__label">{startLabel}</span>
                         </Link>
                       ) : (

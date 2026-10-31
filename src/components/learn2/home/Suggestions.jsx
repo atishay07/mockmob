@@ -39,7 +39,7 @@ function Suggestion({ suggestion, lead, links, subject, index }) {
       <h3 className="lh-sug__title">{suggestion.title}</h3>
       <p className="lh-sug__why">{suggestion.evidence}</p>
       {href ? (
-        <Link className={`lh-key ${lead ? 'lh-key--volt' : 'lh-key--line'}`} href={href}>
+        <Link className={`lh-key ${lead ? 'lh-key--volt' : 'lh-key--line'}`} data-page-primary={lead ? '' : undefined} href={href}>
           <span className="lh-key__full">{suggestion.action.label}</span>
           <span className="lh-key__short" aria-hidden="true">{shortAction(suggestion.action.label)}</span>
         </Link>
