@@ -293,3 +293,9 @@ html[data-theme='light'] .lh {
 :root[data-motion='reduced'] .lh :is(.lh-seg__thumb, .lh-opt__thumb, .lh-row__chev, .lh-foot__chev, .lh-sort__btn svg, .lh-row__link, .lh-foot__link) { transition: none; }
 :root[data-motion='reduced'] .lh :is(.lh-row__link, .lh-foot__link, .lh-key):active { transform: none; }
 :root[data-motion='reduced'] .lh .lh-optgroup[data-stage='out'] { transition: opacity 120ms linear; }
+
+/* ---------- N2 (NAV-2.md, preview &nav=n2): the shell's Practice tab switch is the title on a phone ---------- */
+@media (max-width: 1023px) {
+  /* Kept for screen readers as the page's heading; the switch above says the same on screen. */
+  .lh[data-nav='n2'] > .lh-head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+}

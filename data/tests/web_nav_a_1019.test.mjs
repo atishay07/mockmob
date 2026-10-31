@@ -57,7 +57,12 @@ test('the sidebar draws four places, each with its pages under it: no group head
 test('"Practice", not "Practise": the place and its page are one word, as in the app', () => {
   assert.equal(PRACTICE_PAGES[0].label, 'Practice');
   assert.equal(PRACTICE_PAGES[0].href, '/dashboard');
-  assert.doesNotMatch(read('src/lib/arenaNavigation.js') + layout + read('src/components/nav/PlaceTabs.jsx'), /Practise\b/);
+  // The one exception is the N2 option drawn for the owner's call (docs/brain/learn-1031/NAV-2.md, preview &nav=n2 only): its
+  // Practice half's first door is "Practise", the verb, so the door does not repeat the half's own name above it.
+  const navText = read('src/lib/arenaNavigation.js').replace(/^export const PRACTICE_HALF = .*$/m, '');
+  assert.doesNotMatch(navText + layout + read('src/components/nav/PlaceTabs.jsx'), /Practise\b/);
+  assert.equal(nav.PRACTICE_HALF[0].label, 'Practise');
+  assert.equal(nav.PRACTICE_HALF[0].href, '/dashboard');
 });
 
 test('every page the old navigation reached still has its own link and route (R3), on desktop and on a phone', () => {
