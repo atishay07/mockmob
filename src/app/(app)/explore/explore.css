@@ -55,3 +55,43 @@
 @media (max-width: 1100px) { .ex-layout { grid-template-columns: minmax(0, 1fr); } .ex-aside { position: static; max-width: 600px; border-top: 1px solid var(--a-line); } }
 @media (max-width: 600px) { .ex-filters { grid-template-columns: 1fr 1fr; } .ex-filters label:first-child { grid-column: 1 / -1; } .ex-question__actions { align-items: start; } .ex-question__tools { flex: 1; justify-content: flex-end; } .ex-question__meta { font-size: 12px; } }
 @media (max-width: 360px) { .ex-question__tools { flex-basis: 100%; justify-content: stretch; } .ex-question__tools .ex-action { flex: 1; } }
+
+/* ---------- Learn v2's Explore, Option A (A2-explore-covers.md 4.10, BUILD-1101 B7). Only under .ex-page--v2, which the page
+   draws only when NEXT_PUBLIC_LEARN2 is on (always in the preview): with the flag off none of this applies. The Subject
+   control and the page's one subject object sit in the head; the chapter covers run full width under it; a "Questions"
+   heading carries the Chapter and Difficulty filters; the right column follows the questions with a quieter heading. ---------- */
+.ex-page--v2 .pr-head { align-items: end; }
+.ex-page--v2 .ex-lede__short { display: none; }
+.ex-subject { display: grid; grid-template-columns: 64px minmax(0, 1fr); align-items: end; gap: 14px; min-width: 0; }
+.ex-subject__obj { display: grid; place-items: center; width: 64px; height: 64px; }
+.ex-subject__obj:empty { visibility: hidden; }
+.ex-subject__field { display: grid; gap: 8px; min-width: 0; }
+.ex-subject__label { color: var(--a-ink-2); font-size: 13px; font-weight: 650; }
+.ex-qhead { display: grid; grid-template-columns: auto minmax(0, 1fr); align-items: end; gap: 12px 28px; margin: 0 0 20px; }
+.ex-qhead h2 { margin: 0; font: 700 20px/1.2 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); padding-bottom: 12px; outline: none; scroll-margin-top: 96px; }
+.ex-qhead h2:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; border-radius: 6px; }
+.ex-page--v2 .ex-filters--v2 { grid-template-columns: 1.5fr 0.8fr auto; align-items: end; padding: 0; border: 0; }
+.ex-page--v2 .ex-filters__clear { align-self: end; min-height: 48px; }
+.ex-page--v2 .ex-aside { padding-top: 0; }
+.ex-page--v2 .ex-aside h2 { font: 700 20px/1.2 var(--font-display); letter-spacing: -0.015em; margin: 0 0 10px; }
+@media (max-width: 899px) {
+  .ex-subject { grid-template-columns: 40px auto minmax(0, 1fr); align-items: center; gap: 10px; }
+  .ex-subject__obj { width: 40px; height: 40px; }
+  .ex-subject__obj > * { width: 40px !important; height: 40px !important; }
+  .ex-subject__field { display: contents; }
+  .ex-qhead { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .ex-qhead h2 { padding-bottom: 0; }
+}
+@media (max-width: 600px) {
+  .ex-page--v2 .ex-lede__more { display: none; }
+  .ex-page--v2 .ex-filters--v2 { grid-template-columns: 1fr 1fr; }
+  .ex-page--v2 .ex-filters--v2 label:first-child { grid-column: auto; }
+  .ex-page--v2 .ex-filters__clear { grid-column: 1 / -1; justify-self: start; }
+}
+@media (max-width: 379.98px) {
+  .ex-page--v2 .ex-lede__long { display: none; }
+  .ex-page--v2 .ex-lede__short { display: inline; }
+  .ex-page--v2 .pr-head p { font-size: 13.5px; line-height: 1.4; }
+  .app-shell .ex-page--v2 .pr-head h1.display-md { font-size: 26px; }
+  .ex-page--v2 .fxc { margin-top: 12px; }
+}
