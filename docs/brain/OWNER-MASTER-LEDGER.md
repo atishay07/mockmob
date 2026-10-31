@@ -597,3 +597,20 @@ The afternoon session built on, without writing to production; see HANDOFF-2026-
 His words: "Pull them all" (answering "What should happen to the 218 outside-syllabus questions?"; the other choice was
 to keep them out of NTA-pattern mocks only).
 - D207 All 218 leave every pool (done the same afternoon; docs/brain/intel-1031/off-syllabus-2026-10-31/).
+
+## Learn and Key cards, 31 Oct evening (LK1-LK14; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md)
+His summary: "Some parts are good and some are very confusing." Study mode is "exactly what we wanted"; the rest of Learn is "far from what we are looking to do".
+
+| Status | Item |
+|---|---|
+| OPEN | **LK1** The way to Key cards is badly placed and too small. |
+| OPEN | **LK2** Bug: choosing "Your part" (Accountancy) sometimes glitches and reorders the options. |
+| OPEN | **LK3, LK8, LK9, LK11** Learn as a whole: hard to use, weakness-led only, walls of text, one fixed next step. He wants student control, clear dynamic next actions with options, tasteful integration in the flow. |
+| OPEN | **LK4** Read mode layout is weird. |
+| OPEN | **LK5** Study mode is right; add motion (for example on Got it). Keep its structure. |
+| OPEN | **LK6** Print chapter sheet: MockMob watermark all over it. |
+| OPEN | **LK7** Last look vs Read is unclear. |
+| OPEN | **LK10** The flow: subject, then concept or chapter, then what is lined up, then a time, then a mix of cards and questions. Plus a separate place to find what is where and revise chosen cards. |
+| OPEN | **LK12** Cards are the core of Learn; bring them to Explore as a custom chapter feed (for example a 10-minute run of cards and MCQs). |
+| OPEN | **LK13** Too many cards carry "Must-know". |
+| OPEN | **LK14** Think longer; ideate better. Any replacement layout is shown to him as real renders before it ships (Never again 1). |
