@@ -55,7 +55,6 @@ import 'package:mockmob/features/practice/widgets/suggestion_hero.dart' show dra
 import 'package:mockmob/features/practice/model/practice_selection.dart';
 import 'package:mockmob/features/result/data/result_providers.dart';
 import 'package:mockmob/features/review/data/repair_api.dart';
-import 'package:mockmob/features/review/data/review_providers.dart' show reviewIndexProvider;
 import 'package:mockmob/features/rhythm/rhythm.dart' show studyDayPlanProvider;
 import 'package:mockmob/features/runner/data/runner_loader.dart';
 import 'package:mockmob/features/referrals/welcome_credits_trigger.dart' show welcomeCreditsDemoProvider;
@@ -64,6 +63,7 @@ import 'package:mockmob/features/you/data/student_target.dart';
 
 import '../helpers/referral_fixtures.dart' show freshAccountInvites;
 import '../unit/insights/support/insights_fixtures.dart' as insights;
+import '../unit/learn/support/learn_fixtures.dart' as learn;
 import '../unit/notifications/support.dart' as notif;
 import '../unit/notifications/widget_support.dart' as notif_ui;
 import '../unit/practice/support/harness.dart' as practice;
@@ -245,7 +245,9 @@ List<Override> _overrides() {
     }),
 
     // Practice.
-    learnCatalogProvider.overrideWithBuild((ref, notifier) => const RemoteState.idle()),
+    // Learn's lessons: the tests' catalog (one lesson of every status), so the Learn door draws its page and the
+    // Key cards row in it instead of a skeleton that never resolves.
+    learnCatalogProvider.overrideWithBuild((ref, notifier) => RemoteState(value: learn.catalog(), fetchedAt: now)),
     quoteRepositoryProvider.overrideWithValue(
       practice.FakeQuoteRepository((s, m, c, p) {
         if (m == 'full') return practice.creditsQuote(cost: 50, balance: 120, mode: 'full', count: 50);
@@ -271,7 +273,6 @@ List<Override> _overrides() {
     pendingResultRepositoryProvider.overrideWithValue(practice.FakePendingResults()),
     unopenedResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
     allPendingResultsProvider.overrideWith((ref) => Stream.value(const <PendingResult>[])),
-    reviewIndexProvider.overrideWithValue(null),
     // The receipt says when this run's submit was acknowledged.
     resultReceivedAtProvider.overrideWith((ref, id) async => demoBook.receivedAt[id]),
     finishFreshProvider.overrideWith((ref, id) async => demoBook.fresh.remove(id)),
