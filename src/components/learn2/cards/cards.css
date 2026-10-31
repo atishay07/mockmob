@@ -5,8 +5,8 @@
 
 .l2c { --l2c-top: calc(var(--arena-topbar-h, 63px) + 1px); --l2c-rp: 10px; --l2c-pickcol: 0px; --l2c-gut: 16px; gap: 18px; padding-bottom: 120px; }
 @media (min-width: 560px) { .l2c { --l2c-rp: 16px; } }
-.l2c[data-pick] { --l2c-pickcol: 36px; }
-@media (min-width: 1100px) { .l2c, .l2c[data-pick] { --l2c-pickcol: 28px; } }
+.l2c[data-pick], .l2f-panel[data-pick] { --l2c-pickcol: 36px; }
+@media (min-width: 1100px) { .l2c, .l2c[data-pick], .l2f-panel[data-pick] { --l2c-pickcol: 28px; } }
 .app-shell .kc.l2c { max-width: 1120px; }
 .l2c :where(h1, h2, h3, p, ul, ol) { margin: 0; }
 .l2c .kc-back { min-width: 0; max-width: 100%; }
@@ -14,20 +14,21 @@
 
 /* ---------- Page: one column, and at 1100 the section list beside it ---------- */
 .l2c-layout { display: grid; gap: 18px; min-width: 0; }
+.l2c-layout > .l2c-back { margin: -6px 0 -10px -6px; }
 .l2c-main { display: grid; gap: 18px; min-width: 0; align-content: start; }
 .l2c-rail { display: none; }
 @media (min-width: 1100px) {
   .l2c-layout { grid-template-columns: 240px minmax(0, 680px); column-gap: 56px; justify-content: center; }
+  /* The back link is the first item of the layout and spans both columns, so it shares the section list's left edge (A3-27) */
+  .l2c-layout > .l2c-back { grid-column: 1 / -1; grid-row: 1; }
   /* The main column always sits in the second track, so it does not jump when the section list arrives */
-  .l2c-main { grid-column: 2; grid-row: 1; }
-  .l2c-rail { grid-column: 1; grid-row: 1; display: block; position: sticky; top: 88px; align-self: start; max-height: calc(100vh - 112px); overflow-y: auto; padding-top: 6px; scrollbar-width: thin; }
-  .l2c-jumpbtn { display: none !important; }
+  .l2c-main { grid-column: 2; grid-row: 2; }
+  .l2c-rail { grid-column: 1; grid-row: 2; display: block; position: sticky; top: 88px; align-self: start; max-height: calc(100vh - 112px); overflow-y: auto; padding-top: 6px; scrollbar-width: thin; }
+  .l2c-layout .l2c-jumpbtn { display: none !important; }
 }
 
-.l2c-head { display: grid; gap: 6px; }
-.l2c-head__row { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; min-height: 42px; }
-.l2c-title { font: 750 clamp(30px, 6vw, 40px)/1.04 var(--font-display); letter-spacing: -0.035em; color: var(--a-ink); }
-.l2c-count { font: 600 14px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.l2c-head { display: grid; gap: 4px; }
+.l2c-title { font: 750 clamp(28px, 6vw, 40px)/1.04 var(--font-display); letter-spacing: -0.035em; color: var(--a-ink); }
 .l2c-ref { min-height: 21px; font: 500 14.5px/1.45 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
 
 /* ---------- Filters and the quiet controls under them ---------- */
@@ -72,7 +73,7 @@
 .l2c-jump__item span:last-child { color: var(--a-ink-3); font-weight: 500; font-variant-numeric: tabular-nums; }
 
 /* The section list at 1440 */
-.l2c-rail__h { font: 650 13px/1.2 var(--font-body); color: var(--a-ink-3); padding: 0 0 10px 14px; }
+.l2c-rail__h { font: 650 13px/1.2 var(--font-body); color: var(--a-ink-3); padding: 0 0 10px 14px; margin: 0; }
 .l2c-rail__list { list-style: none; padding: 0; display: grid; gap: 1px; }
 .l2c-rail__item { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; width: 100%; min-height: 44px; padding: 8px 8px 8px 12px; border: 0; border-left: 2px solid var(--a-line); border-radius: 0 8px 8px 0; background: transparent; color: var(--a-ink-2); font: 550 14px/1.35 var(--font-body); text-align: left; cursor: pointer; transition: color 150ms var(--kc-ease), background-color 150ms var(--kc-ease), border-color 150ms var(--kc-ease); }
 .l2c-rail__item span:last-child { color: var(--a-ink-3); font-weight: 500; font-size: 13px; font-variant-numeric: tabular-nums; }
@@ -99,6 +100,8 @@
 .l2c-secbar__link::after { content: ''; position: absolute; inset: 0; }
 .l2c-secbar__link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; }
 @media (hover: hover) { .l2c-secbar__link:hover { text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; } }
+/* Under a filter the sections are many and small: a plain bar, not a heading (A3-18) */
+.l2c-groups[data-compact] .l2c-secbar { padding: 10px 0 6px; border-bottom-color: var(--a-line); font: 650 13px/1.3 var(--font-body); letter-spacing: 0; color: var(--a-ink-3); }
 .l2c-secbar__n { flex: none; font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
 .l2c-list { list-style: none; padding: 0; display: grid; }
 
@@ -107,15 +110,14 @@
 .l2c-row {
   position: relative; display: grid; grid-template-columns: var(--l2c-pickcol) minmax(0, 1fr) auto; grid-template-areas: 'pick kind show' 'pick hit show' '. more more'; align-items: start;
   margin-inline: calc(var(--l2c-rp) * -1); padding: 10px var(--l2c-rp) 12px; border-radius: 18px;
-  animation: kc-rise 260ms var(--kc-ease) both; animation-delay: calc(var(--i, 0) * 22ms);
 }
 .l2c-row::after { content: ''; position: absolute; left: var(--l2c-rp); right: var(--l2c-rp); bottom: 0; height: 1px; background: var(--a-line); pointer-events: none; }
 .l2c-row:last-child::after { display: none; }
 .l2c-row[data-open] { background: var(--kc-surface); box-shadow: inset 0 0 0 1px var(--a-line-strong), var(--a-shadow-1); padding-top: 16px; padding-bottom: 10px; }
 .l2c-row[data-open]::after { display: none; }
 .l2c-kind { grid-area: kind; position: relative; display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; min-width: 0; min-height: 18px; font: 650 13px/1.3 var(--font-body); color: var(--a-ink-3); }
-/* In Revise is a dot hanging before the kind word, so the kind words keep one left edge with the fronts */
-.l2c-dot { position: absolute; left: -10px; top: 50%; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: var(--a-ink-2); }
+/* In Revise is words at the end of the kind line (A3-17): the kind words keep one left edge with the fronts */
+.l2c-inrev { color: var(--a-ink-3); font-weight: 600; }
 .l2c-must { color: var(--a-accent-text); font-weight: 700; }
 .l2c-missed { color: var(--a-bad-text); font-weight: 600; }
 .l2c-show { grid-area: show; align-self: center; min-width: 56px; min-height: 44px; margin-right: -10px; padding: 0 10px; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-2); font: 650 14px/1 var(--font-body); text-align: right; cursor: pointer; }
@@ -153,17 +155,15 @@
 .l2c-pick__box { display: grid; place-items: center; width: 18px; height: 18px; border-radius: 6px; border: 1.5px solid var(--a-line-strong); background: var(--a-raised); color: transparent; transition: background-color 150ms var(--kc-ease), border-color 150ms var(--kc-ease), color 150ms var(--kc-ease); }
 .l2c-pick input:checked + .l2c-pick__box { background: var(--a-ink); border-color: var(--a-ink); color: var(--a-bg); }
 .l2c-pick input:focus-visible + .l2c-pick__box { outline: 2px solid var(--a-focus); outline-offset: 2px; }
-.l2c[data-pick] .l2c-pick { opacity: 1; visibility: visible; }
+:is(.l2c, .l2f-panel)[data-pick] .l2c-pick { opacity: 1; visibility: visible; }
 @media (min-width: 1100px) {
-  /* the dot steps aside where the pick box fades in */
-  .l2c-row:hover .l2c-dot, .l2c-row:focus-within .l2c-dot, .l2c-row[data-picked] .l2c-dot, .l2c[data-pick] .l2c-dot { opacity: 0; }
   .l2c-pick { visibility: visible; overflow: visible; pointer-events: none; }
   .l2c-row:hover > .l2c-pick, .l2c-row:focus-within > .l2c-pick, .l2c-row[data-picked] > .l2c-pick { opacity: 1; pointer-events: auto; }
-  .l2c[data-pick] .l2c-pick { pointer-events: auto; }
+  :is(.l2c, .l2f-panel)[data-pick] .l2c-pick { pointer-events: auto; }
 }
 
 .l2c-bar {
-  position: fixed; z-index: 45; left: 50%; bottom: calc(var(--dock-h, 0px) + 12px + env(safe-area-inset-bottom)); width: min(560px, calc(100vw - 24px)); transform: translateX(-50%);
+  position: sticky; z-index: 45; bottom: calc(var(--dock-h, 0px) + 12px + env(safe-area-inset-bottom)); align-self: center; margin-inline: auto; width: min(560px, 100%);
   display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'n clear' 'keys keys'; gap: 4px 8px; align-items: center; padding: 8px 8px 10px 16px; border-radius: 18px;
   background: var(--a-sheet); border: 1px solid var(--a-line-strong); box-shadow: var(--a-shadow-2); animation: l2c-bar-in 200ms var(--kc-ease) both;
 }
@@ -175,7 +175,7 @@
   .l2c-bar { grid-template-columns: auto minmax(0, 1fr) auto; grid-template-areas: 'n keys clear'; padding: 10px 8px 10px 18px; gap: 12px; }
   .l2c-bar__keys { display: flex; justify-content: flex-end; padding-right: 0; }
 }
-@keyframes l2c-bar-in { from { opacity: 0; transform: translateX(-50%) translateY(12px); } to { opacity: 1; transform: translateX(-50%); } }
+@keyframes l2c-bar-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 
 /* The locked line for Free: one row where the first locked card sits */
 .l2c-locked { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 4px 12px; align-items: start; padding: 18px 0 8px; border-top: 1px solid var(--a-line-strong); color: var(--a-ink-3); }
@@ -199,78 +199,59 @@
 .l2c-refreshing { opacity: 0.55; transition: opacity 150ms var(--kc-ease); }
 
 /* ---------- Find ---------- */
-.kc.l2f { gap: 22px; padding-bottom: 24px; }
+.kc.l2f { display: block; padding-bottom: 24px; --l2c-top: calc(var(--arena-topbar-h, 63px) + 1px + 68px); }
 .app-shell .kc.l2f { max-width: none; margin: 0; }
 .l2f-search { position: relative; display: flex; align-items: center; }
 .l2f-search > svg { position: absolute; left: 16px; color: var(--a-ink-3); pointer-events: none; }
 .l2f-search input {
-  width: 100%; min-height: 56px; padding: 0 16px 0 48px; border-radius: 16px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink);
+  width: 100%; min-height: 52px; padding: 0 48px 0 48px; border-radius: 14px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink);
   font: 500 16px/1.2 var(--font-body); appearance: none; transition: border-color 150ms var(--kc-ease), box-shadow 150ms var(--kc-ease);
 }
-.l2f-search input:not(:placeholder-shown) { padding-right: 52px; }
 .l2f-search input::placeholder { color: var(--a-ink-3); }
-.l2f-search input:focus { outline: none; border-color: var(--a-ink-3); box-shadow: 0 0 0 3px var(--a-volt-wash); }
-.l2f-search input:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+/* Field focus is DESIGN.md's: an ink border and the soft ring, no outline (outlines stay on buttons and links) */
+.l2f-search input:focus, .l2f-search input:focus-visible { outline: none; border-color: var(--a-ink-3); box-shadow: 0 0 0 3px var(--a-volt-wash); }
 .l2f-search input::-webkit-search-cancel-button { display: none; }
-.l2f-clear { position: absolute; right: 4px; display: grid; place-items: center; width: 48px; height: 48px; border: 0; border-radius: 12px; background: transparent; color: var(--a-ink-3); cursor: pointer; }
+.l2f-clear { position: absolute; right: 4px; display: grid; place-items: center; width: 44px; height: 44px; border: 0; border-radius: 12px; background: transparent; color: var(--a-ink-3); cursor: pointer; }
 .l2f-clear:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
 @media (hover: hover) { .l2f-clear:hover { color: var(--a-ink); background: var(--a-hover); } }
 
 .l2f-h { font: 700 18px/1.3 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
 
-/* The four shelves are paper piles, the same idea as the chapter page: three sheets fanned, the count on the top one, the
-   whole pile the button. Hover or focus lifts it 3 px and spreads the fan. */
-.l2f-shelves { display: grid; gap: 14px; }
-.l2f-piles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 14px; }
-@media (min-width: 900px) { .l2f-piles { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 28px; } }
-.l2f-pile {
-  --fan-a: -4deg; --fan-b: 3deg;
-  display: grid; gap: 2px; justify-items: start; align-content: start; width: 100%; padding: 0; margin: 0; border: 0; border-radius: 16px; background: none; color: inherit; font: inherit; text-align: left; text-decoration: none; cursor: pointer;
-  -webkit-tap-highlight-color: transparent; animation: kc-rise 260ms var(--kc-ease) both; animation-delay: calc(var(--i, 0) * 40ms);
+/* The panel under the find band: results or an opened set, with the Key cards view's own layout (a chapter rail and the list)
+   from a 980 px container (the size container is Learn home's own, .lh) */
+.l2f-panel { min-width: 0; }
+.l2f-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 14px; min-width: 0; }
+.l2f-main { display: grid; gap: 14px; min-width: 0; align-content: start; }
+.l2f-layout .l2c-rail { display: none; }
+@container lh (min-width: 980px) {
+  .l2f-layout { grid-template-columns: 240px minmax(0, 680px); column-gap: 48px; justify-content: start; }
+  .l2f-layout .l2c-rail { display: block; grid-column: 1; grid-row: 1; position: sticky; top: 140px; align-self: start; max-height: calc(100vh - 164px); overflow-y: auto; padding-top: 6px; scrollbar-width: thin; }
+  .l2f-layout .l2f-main { grid-column: 2; grid-row: 1; }
+  .l2f-layout .l2c-jumpbtn { display: none !important; }
 }
-.l2f-pile:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 6px; }
-.l2f-pile[data-zero] { cursor: default; }
-.l2f-pile__stack { position: relative; display: block; width: 100%; height: 124px; margin-bottom: 12px; transition: transform 120ms var(--kc-ease); }
-.l2f-pile:active:not([data-zero]) .l2f-pile__stack { transform: scale(0.98); }
-.l2f-sheet { position: absolute; inset: 8px 8px 6px; border-radius: 14px; border: 1px solid var(--a-line-strong); background: var(--a-raised); transform-origin: 50% 100%; transition: transform 180ms var(--kc-ease), border-color 150ms var(--kc-ease); }
-.l2f-sheet--c { transform: rotate(var(--fan-a)) translate(-2px, 1px); }
-.l2f-sheet--b { transform: rotate(var(--fan-b)) translate(2px, 0); }
-.l2f-sheet--a { z-index: 2; display: grid; align-content: space-between; padding: 14px 16px 16px; background: var(--kc-surface); box-shadow: var(--a-shadow-1); }
-.l2f-pile__n { font: 800 38px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
-.l2f-lines { display: grid; gap: 7px; width: 100%; }
-.l2f-lines i { display: block; height: 1px; background: var(--a-line-strong); }
-.l2f-lines i:nth-child(2) { width: 62%; }
-/* Missed lately carries a red margin line, as a marked-up page does */
-.l2f-sheet--a[data-kind='missed']::before { content: ''; position: absolute; left: 9px; top: 10px; bottom: 10px; width: 1px; background: var(--a-bad-text); opacity: 0.7; }
-.l2f-pile[data-zero] .l2f-sheet--a .l2f-pile__n { color: var(--a-ink-3); }
-.l2f-pile[data-zero] .l2f-sheet { opacity: 0.7; }
-@media (hover: hover) {
-  .l2f-pile:not([data-zero]):hover .l2f-sheet--a { transform: translateY(-3px); border-color: var(--a-line-hover); }
-  .l2f-pile:not([data-zero]):hover .l2f-sheet--c { transform: rotate(calc(var(--fan-a) - 2deg)) translate(-4px, 1px); }
-  .l2f-pile:not([data-zero]):hover .l2f-sheet--b { transform: rotate(calc(var(--fan-b) + 2deg)) translate(4px, 0); }
-}
-.l2f-pile:not([data-zero]):focus-visible .l2f-sheet--a { transform: translateY(-3px); border-color: var(--a-line-hover); }
-.l2f-pile__t { font: 650 16px/1.3 var(--font-body); color: var(--a-ink); }
-.l2f-pile__sub { font: 500 14px/1.4 var(--font-body); color: var(--a-ink-3); }
-.l2f-pile__verb { display: inline-flex; align-items: center; min-height: 32px; font: 650 14px/1.2 var(--font-body); color: var(--a-ink-2); text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; }
-.l2f-pile[data-zero] .l2f-pile__verb { text-decoration: none; color: var(--a-ink-3); font-weight: 500; }
-@media (hover: hover) { .l2f-pile:not([data-zero]):hover .l2f-pile__verb { color: var(--a-ink); text-decoration-color: var(--a-ink-2); } }
-
-.l2f-results { display: grid; gap: 22px; }
-.l2f-browse { display: grid; gap: 18px; }
-
-.l2f-sub { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.l2f-sub p { font: 600 14px/1.4 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
-.l2f-block { display: grid; gap: 4px; }
-.l2f-bychapter { display: grid; gap: 4px; }
-.l2f-links { list-style: none; padding: 0; display: grid; }
+.l2f-hint { padding: 20px 0; border-top: 1px solid var(--a-line); }
+.l2f-hint p { font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); }
+.l2f-sub { display: flex; align-items: baseline; flex-wrap: wrap; gap: 2px 14px; min-width: 0; }
+.l2f-count { min-height: 20px; font: 600 14px/1.4 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+.l2f-h--set { font-size: 20px; }
+.l2f-over { max-width: 52ch; }
+.l2f-sethead { display: grid; gap: 4px; }
+.l2f-back { justify-self: start; display: inline-flex; align-items: center; gap: 2px; min-height: 44px; margin: -6px 0 0 -8px; padding: 0 12px 0 6px; border: 0; border-radius: 12px; background: transparent; color: var(--a-ink-2); font: 600 14px/1 var(--font-body); cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.l2f-back:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+@media (hover: hover) { .l2f-back:hover { color: var(--a-ink); background: var(--a-hover); } }
+.l2f-skel { display: grid; }
+.l2f-skel .l2c-skel__row { height: 64px; }
+.l2f-block { display: grid; gap: 0; }
+.l2f-more { justify-self: start; min-height: 44px; padding: 0 4px; border: 0; background: none; color: var(--a-ink-2); font: 650 14px/1 var(--font-body); text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; cursor: pointer; }
+.l2f-more:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 6px; }
+@media (hover: hover) { .l2f-more:hover { color: var(--a-ink); } }
+.l2f-links { list-style: none; padding: 0; display: grid; border-bottom: 1px solid var(--a-line); }
 .l2f-link { display: grid; grid-template-columns: minmax(0, 1fr) auto 18px; gap: 4px 12px; align-items: center; min-height: 56px; padding: 10px 6px; margin: 0 -6px; border-top: 1px solid var(--a-line); border-radius: 0; color: inherit; text-decoration: none; transition: background-color 150ms var(--kc-ease); }
 .l2f-link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: -2px; }
 @media (hover: hover) { .l2f-link:hover { background: var(--a-hover); } .l2f-link:hover svg { transform: translateX(2px); color: var(--a-ink); } }
 .l2f-link b { font: 650 16px/1.35 var(--font-body); color: var(--a-ink); min-width: 0; text-wrap: pretty; }
 .l2f-link span { font: 500 13.5px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; }
 .l2f-link svg { color: var(--a-ink-3); transition: transform 150ms var(--kc-ease), color 150ms var(--kc-ease); }
-.l2f-back { justify-self: start; }
 
 @media (prefers-reduced-motion: reduce) {
   .l2c *, .l2c { animation: none !important; transition: none !important; }

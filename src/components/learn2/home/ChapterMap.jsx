@@ -1,14 +1,20 @@
 'use client';
-// Learn home's chapter map (B 3.1 and 3.2): the book in order, grouped by part and unit, one row per chapter with its state
-// ring and word, its card count and one meta line. The sort menu (Book order, Marks open) and the live chapter filter live in its
-// head. The part choice (LK2) is drawn at the option unit: the tapped side stays chosen at once, only that unit cross-fades inside
-// a height animation, nothing above it moves, rows are keyed by chapter, and a failed save slides the indicator back with one line.
+// Learn home's chapter map (A3 3.2.6): the book in order, grouped by part and unit. Every row has one anatomy at every width: the
+// chapter's name and its card count on the first line, then the state ring and word and one true meta line. From a 960 px container
+// the two parts face each other like an open book. The sort menu (Book order, Due first, Needs work first, and Marks open only when
+// a chapter has a figure) is the only control in its head: the one search field of the page is above. The part choice (LK2) is drawn
+// at the option unit: the tapped side stays chosen at once, only that unit cross-fades inside a height animation, nothing above it
+// moves, rows are keyed by chapter, and a failed save slides the indicator back with one line. Rows do not animate in: the panel
+// arrives with its own fade.
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
-import { ChevronDown, ChevronRight, Search, X } from 'lucide-react';
+import { ChevronDown, ChevronRight } from 'lucide-react';
 import { isMotionReduced } from '@/lib/motion';
 import { refreshHome, saveOption } from '@/components/keycards/api';
-import { cardsText, effectiveChoice, filterParts, marksOrder, marksText, displayTitle, metaLine, rowSpoken, shownOptionUnits, stateShape, unitHeading, unitsSignature } from './homeModel.mjs';
+import {
+  allNotStarted, cardsText, chapterTotal, displayTitle, effectiveChoice, marksText, metaLine, nothingToPlay, optionChapterCount, rowSpoken,
+  shownOptionUnits, sortRows, sortsFor, stateShape, unitHeading, unitsSignature, visibleRefs, plural,
+} from './homeModel.mjs';
 
 const OUT_MS = 160;
 const IN_MS = 220;
@@ -29,7 +35,7 @@ export function StateRing({ shape }) {
     return <path d={`M${c} ${c} L${c} ${c - r} A${r} ${r} 0 ${f > 0.5 ? 1 : 0} 1 ${x.toFixed(2)} ${y.toFixed(2)} Z`} fill="currentColor" />;
   };
   return (
-    <svg className="lh-ring" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
+    <svg className="lh-ring" width="14" height="14" viewBox="0 0 16 16" aria-hidden="true">
       <circle cx={c} cy={c} r={r} fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray={shape === 'none' ? '2.2 2.2' : undefined} />
       {pie(fill)}
       {shape === 'unknown' ? <path d={`M${c - 2.6} ${c} H${c + 2.6}`} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /> : null}
@@ -37,33 +43,39 @@ export function StateRing({ shape }) {
   );
 }
 
-function Row({ row, href, marks, index, enter }) {
+function Row({ row, href, marks, refLabel, bare }) {
   const shape = stateShape(row.state?.key);
+  const empty = nothingToPlay(row);
   const meta = metaLine(row);
   const cards = cardsText(row);
   const m = marks ? marksText(row) : '';
+  const detail = [refLabel, meta].filter(Boolean).join(', ');
+  const showState = !bare && !empty;
   return (
-    <li className="lh-row" data-enter={enter || undefined} style={{ '--i': Math.min(index, 12) }}>
+    <li className="lh-row" data-empty={empty || undefined}>
       <Link className="lh-row__link" href={href} aria-label={rowSpoken(row, { marks })}>
-        <span className="lh-row__main">
-          <b className="lh-row__title">{displayTitle(row.title)}</b>
-          {row.ref || meta ? <span className="lh-row__sub">{row.ref ? <span className="lh-row__ref">{row.ref}</span> : null}{meta ? <span className="lh-row__meta">{meta}</span> : null}</span> : null}
-        </span>
-        <span className="lh-row__state" data-state={shape}><StateRing shape={shape} />{row.state?.label || 'Not started'}</span>
-        <span className="lh-row__count" data-none={!cards && !m ? '' : undefined}>{m ? <b className="lh-row__marks">{m}</b> : null}{cards ? <span>{cards}</span> : null}</span>
-        <ChevronRight className="lh-row__chev" size={18} strokeWidth={2} aria-hidden="true" />
+        <b className="lh-row__title">{displayTitle(row.title)}</b>
+        <span className="lh-row__count">{m ? <b className="lh-row__marks">{m}</b> : null}{cards ? <span>{cards}</span> : null}</span>
+        {showState || detail ? (
+          <span className="lh-row__sub">
+            {showState ? <span className="lh-row__state" data-state={shape}><StateRing shape={shape} />{row.state?.label || 'Not started'}</span> : null}
+            {detail ? <span className="lh-row__meta">{detail}</span> : null}
+          </span>
+        ) : null}
+        <ChevronRight className="lh-row__chev" size={16} strokeWidth={2} aria-hidden="true" />
       </Link>
     </li>
   );
 }
 
-function Unit({ unit, links, enter, offset, marks }) {
+function Unit({ unit, links, bare }) {
   const heading = unitHeading(unit);
+  const refs = visibleRefs(unit.chapters);
   return (
     <div className="lh-unit">
       {heading ? <h4 className="lh-unit__title">{displayTitle(heading)}</h4> : null}
       <ul className="lh-rows">
-        {unit.chapters.map((row, i) => <Row key={row.key} row={row} href={links.chapter(row.key)} marks={marks} index={offset + i} enter={enter} />)}
+        {unit.chapters.map((row, i) => <Row key={row.key} row={row} href={links.chapter(row.key)} refLabel={refs[i]} bare={bare} />)}
       </ul>
     </div>
   );
@@ -71,7 +83,7 @@ function Unit({ unit, links, enter, offset, marks }) {
 
 /** The option units of a part, swapped as the part choice changes: the current rows fade out (160 ms), the other part's fade in
  *  (220 ms), and the box animates its height (240 ms). While the save is in flight the old rows stay in place, faded, so nothing below moves. */
-function OptionGroup({ units, choice, links, enter, offset, instant }) {
+function OptionGroup({ units, choice, links, instant, bare }) {
   const target = useMemo(() => shownOptionUnits(units, choice), [units, choice]);
   const sig = unitsSignature(target);
   const [shown, setShown] = useState(target);
@@ -113,15 +125,14 @@ function OptionGroup({ units, choice, links, enter, offset, instant }) {
     return () => window.clearTimeout(timer);
   }, [stage, shownSig]);
 
-  const starts = shown.reduce((list, unit, i) => [...list, i ? list[i - 1] + shown[i - 1].chapters.length : offset], []);
   return (
     <div className="lh-optgroup" ref={box} data-stage={stage} aria-hidden={stage === 'out' || undefined}>
-      {shown.map((unit, i) => <Unit key={`${unit.optionId}:${unit.title}`} unit={unit} links={links} enter={enter} offset={starts[i]} />)}
+      {shown.map((unit) => <Unit key={`${unit.optionId}:${unit.title}`} unit={unit} links={links} bare={bare} />)}
     </div>
   );
 }
 
-/** "Your part" with its choices: one sliding indicator; the tapped side stays chosen; the hint line keeps its height. */
+/** "Your part" with its choices: one sliding indicator; each choice says how many chapters it holds; the hint line keeps its height. */
 function PartSwitch({ part, choice, status, onChoose }) {
   const { option } = part;
   const choices = option.choices || [];
@@ -140,19 +151,24 @@ function PartSwitch({ part, choice, status, onChoose }) {
       <p className="lh-opt__label" id={labelId}>{option.label || 'Your part'}</p>
       <div className="lh-opt__row" role="radiogroup" aria-labelledby={labelId} style={{ '--n': choices.length, '--i': Math.max(index, 0) }}>
         <span className="lh-opt__thumb" data-on={index >= 0 || undefined} aria-hidden="true" />
-        {choices.map((c, i) => (
-          <button key={c.id} type="button" role="radio" aria-checked={choice === c.id} tabIndex={choice === c.id || (index < 0 && i === 0) ? 0 : -1} className="lh-opt__btn" onKeyDown={(e) => key(e, i)} onClick={() => onChoose(c.id)}>{c.label}</button>
-        ))}
+        {choices.map((c, i) => {
+          const n = optionChapterCount(part.units, c.id);
+          return (
+            <button key={c.id} type="button" role="radio" aria-checked={choice === c.id} tabIndex={choice === c.id || (index < 0 && i === 0) ? 0 : -1} className="lh-opt__btn" onKeyDown={(e) => key(e, i)} onClick={() => onChoose(c.id)}>
+              <span className="lh-opt__name">{c.label}</span>
+              {n > 0 ? <span className="lh-opt__count">{plural(n, 'chapter')}</span> : null}
+            </button>
+          );
+        })}
       </div>
       <p className="lh-opt__hint" role={status === 'failed' ? 'alert' : 'status'} data-failed={status === 'failed' || undefined}>{hint}</p>
     </div>
   );
 }
 
-function SortMenu({ value, onChange }) {
+function SortMenu({ value, onChange, items }) {
   const [open, setOpen] = useState(false);
   const root = useRef(null);
-  const items = [{ id: 'book', label: 'Book order' }, { id: 'marks', label: 'Marks open' }];
   const current = items.find((i) => i.id === value) || items[0];
   useEffect(() => {
     if (!open) return undefined;
@@ -163,6 +179,7 @@ function SortMenu({ value, onChange }) {
   useEffect(() => { if (open) root.current?.querySelector('[aria-checked="true"]')?.focus(); }, [open]);
   const onKey = (e) => {
     if (e.key === 'Escape') { setOpen(false); root.current?.querySelector('button')?.focus(); }
+    if (e.key === 'Tab') setOpen(false);
     if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
       e.preventDefault();
       const list = [...root.current.querySelectorAll('[role="menuitemradio"]')];
@@ -171,7 +188,7 @@ function SortMenu({ value, onChange }) {
     }
   };
   return (
-    <div className="lh-sort" ref={root} onKeyDown={onKey}>
+    <div className="lh-sort" ref={root} onKeyDown={onKey} onBlur={(e) => { if (open && !root.current?.contains(e.relatedTarget)) setOpen(false); }}>
       <button type="button" className="lh-sort__btn" aria-haspopup="menu" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
         <span className="lh-sort__word">{current.label}</span><ChevronDown size={16} strokeWidth={2.2} aria-hidden="true" />
       </button>
@@ -186,11 +203,14 @@ function SortMenu({ value, onChange }) {
   );
 }
 
+/** The map before its data, at its final shape: the head and rows of 64 px (eight; the spread shows them in two columns). */
 export function MapSkeleton() {
   return (
     <div className="lh-skelmap" aria-hidden="true">
       <span className="skeleton lh-skelmap__head" />
-      {Array.from({ length: 8 }).map((_, i) => <span key={i} className="skeleton lh-skelmap__row" />)}
+      <div className="lh-skelmap__rows">
+        {Array.from({ length: 8 }).map((_, i) => <span key={i} className="skeleton lh-skelmap__row" />)}
+      </div>
     </div>
   );
 }
@@ -207,15 +227,10 @@ export function MapError({ onRetry, busy }) {
 
 export default function ChapterMap({ parts, subjectId, links, refresh }) {
   const [sort, setSort] = useState('book');
-  const [query, setQuery] = useState('');
   const [local, setLocal] = useState({});
   const [status, setStatus] = useState({});
-  const [enter, setEnter] = useState(true);
-  const searchId = useId();
   const saving = useRef({});
-
-  // The map's entrance plays once per visit; a sort, a filter or a part change never replays it.
-  useEffect(() => { const t = window.setTimeout(() => setEnter(false), 900); return () => window.clearTimeout(t); }, []);
+  const headId = useId();
 
   const choose = useCallback(async (part, id) => {
     const now = effectiveChoice(part, local);
@@ -249,57 +264,58 @@ export default function ChapterMap({ parts, subjectId, links, refresh }) {
     });
   }, [parts]);
 
-  const filtering = query.trim().length > 0;
-  const shownParts = useMemo(() => filterParts(parts, query), [parts, query]);
-  const marks = sort === 'marks';
-  const flat = useMemo(() => (marks ? marksOrder(shownParts) : null), [marks, shownParts]);
-  const count = shownParts.reduce((n, p) => n + p.units.reduce((m, u) => m + u.chapters.length, 0), 0);
+  const items = useMemo(() => sortsFor(parts), [parts]);
+  const activeSort = items.some((i) => i.id === sort) ? sort : 'book';
+  const flat = useMemo(() => (activeSort === 'book' ? null : sortRows(parts, activeSort)), [activeSort, parts]);
+  const fresh = useMemo(() => allNotStarted(parts), [parts]);
+  const total = chapterTotal(parts);
+  const marks = activeSort === 'marks';
 
-  let at = 0;
+  if (!parts.length) {
+    return (
+      <section className="lh-map" aria-labelledby={headId}>
+        <div className="lh-map__head"><h2 id={headId} className="lh-h2">Chapters</h2></div>
+        <div className="lh-none"><p>No chapters here yet.</p></div>
+      </section>
+    );
+  }
+
   return (
-    <section className="lh-map" aria-labelledby={`${searchId}-h`}>
+    <section className="lh-map" aria-labelledby={headId} data-flat={flat ? '' : undefined}>
       <div className="lh-map__head">
-        <h2 id={`${searchId}-h`} className="lh-h2">Chapters</h2>
-        <SortMenu value={sort} onChange={setSort} />
-        <div className="lh-search">
-          <Search size={16} strokeWidth={2} aria-hidden="true" className="lh-search__icon" />
-          <input id={searchId} type="search" className="lh-search__input" placeholder="Search chapters" aria-label="Search chapters" value={query} onChange={(e) => setQuery(e.target.value)} autoComplete="off" enterKeyHint="search" />
-          {query ? <button type="button" className="lh-search__clear" aria-label="Clear search" onClick={() => setQuery('')}><X size={16} strokeWidth={2.2} aria-hidden="true" /></button> : null}
-        </div>
+        <h2 id={headId} className="lh-h2">Chapters</h2>
+        {items.length > 1 ? <SortMenu value={activeSort} onChange={setSort} items={items} /> : null}
       </div>
-      <p className="sr-only" role="status">{filtering ? `${count} ${count === 1 ? 'chapter matches' : 'chapters match'}` : ''}</p>
+      {fresh ? <p className="lh-map__new">{total === 1 ? 'This chapter is new to you.' : `All ${total} chapters are new to you.`}</p> : null}
 
-      {filtering && !count ? (
-        <div className="lh-none"><p>No chapter matches “{query.trim()}”.</p><button type="button" className="lh-key lh-key--line" onClick={() => setQuery('')}>Clear search</button></div>
-      ) : marks ? (
+      {flat ? (
         <ul className="lh-rows lh-rows--flat">
-          {flat.map(({ row }, i) => <Row key={row.key} row={row} href={links.chapter(row.key)} marks index={i} enter={enter} />)}
+          {flat.map(({ row }) => <Row key={row.key} row={row} href={links.chapter(row.key)} marks={marks} refLabel={row.ref || ''} bare={fresh} />)}
         </ul>
       ) : (
-        shownParts.map((part) => {
-          const firstOption = part.units.findIndex((u) => u.optionId);
-          const choice = effectiveChoice(part, local);
-          const out = [];
-          const start = at;
-          part.units.forEach((unit, i) => {
-            if (unit.optionId) {
-              if (i !== firstOption) return;
-              if (!filtering && part.option) out.push(<PartSwitch key={`${part.id}-switch`} part={part} choice={choice} status={status[part.id]} onChoose={(id) => choose(part, id)} />);
-              const units = part.units.filter((u) => u.optionId);
-              out.push(<OptionGroup key={`${part.id}-opts`} units={units} choice={choice} links={links} enter={enter} offset={at} instant={filtering} />);
-              at += units.reduce((n, u) => n + u.chapters.length, 0);
-              return;
-            }
-            out.push(<Unit key={`${unit.optionId}:${unit.title}:${i}`} unit={unit} links={links} enter={enter} offset={at} />);
-            at += unit.chapters.length;
-          });
-          return (
-            <section className="lh-part" key={part.id} aria-label={part.title} data-start={start}>
-              <h3 className="lh-part__title">{part.title}</h3>
-              {out}
-            </section>
-          );
-        })
+        <div className="lh-map__parts" data-parts={parts.length}>
+          {parts.map((part) => {
+            const firstOption = part.units.findIndex((u) => u.optionId);
+            const choice = effectiveChoice(part, local);
+            const out = [];
+            part.units.forEach((unit, i) => {
+              if (unit.optionId) {
+                if (i !== firstOption) return;
+                if (part.option) out.push(<PartSwitch key={`${part.id}-switch`} part={part} choice={choice} status={status[part.id]} onChoose={(id) => choose(part, id)} />);
+                const units = part.units.filter((u) => u.optionId);
+                out.push(<OptionGroup key={`${part.id}-opts`} units={units} choice={choice} links={links} bare={fresh} />);
+                return;
+              }
+              out.push(<Unit key={`${unit.optionId}:${unit.title}:${i}`} unit={unit} links={links} bare={fresh} />);
+            });
+            return (
+              <section className="lh-part" key={part.id} aria-label={part.title}>
+                <h3 className="lh-part__title">{part.title}</h3>
+                <div className="lh-part__units">{out}</div>
+              </section>
+            );
+          })}
+        </div>
       )}
     </section>
   );

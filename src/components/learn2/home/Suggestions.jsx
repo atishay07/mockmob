@@ -1,45 +1,52 @@
 'use client';
-// Learn home's three suggestions (DESIGN-SPEC A7): always three, of three different kinds, each with its one line of evidence.
-// The first leads, larger, with the lamp-lit subject object and the page's one volt key; the other two are smaller and keep an outlined key
-// (on a phone they are two compact rows under the lead, each with a short key). Every key starts at
-// once: it is a link to the run (or to the suggestion's own destination), with no pre-fill step in between.
+// Learn home's suggestions (A3 3.2.4): three, of different kinds, each with one line of evidence. The first leads, larger, with
+// the page's one volt key; the other two keep an outlined key. No kind word above the title (the engine's own `headline` is set in
+// bold inside it), no subject object (the subject row above already shows it), no minimum height: a tile is as tall as what it says,
+// and on a wide screen the tiles share rows (CSS subgrid) so titles, lines and keys align across them. Every key starts at once: it
+// is a link to the run (or the suggestion's own destination), with no pre-fill step in between.
 import Link from 'next/link';
-import { SubjectObject } from '@/components/brand/SubjectObject';
-import { kindWord, shortAction, suggestionTarget } from './homeModel.mjs';
+import { homeSuggestions, pickupProgress, shortAction, splitTitle, displayTitle, suggestionTarget } from './homeModel.mjs';
 
 /** Where a server href goes. In the development preview a real route is mapped to the preview's own view of it. */
-export function resolveHref(href, links, subject) {
-  if (!links.preview || !href || href.startsWith('/preview/')) return href;
-  let url;
-  try { url = new URL(href, 'http://x'); } catch { return href; }
-  const path = url.pathname;
-  const get = (k) => url.searchParams.get(k);
-  if (path === '/learn/find') return links.find(get('subject') || subject, get('q'));
-  const cards = path.match(/^\/learn\/c\/([^/]+)\/cards$/);
-  if (cards) return links.cards(decodeURIComponent(cards[1]), get('f'));
-  const chapter = path.match(/^\/learn\/c\/([^/]+)$/);
-  if (chapter) return links.chapter(decodeURIComponent(chapter[1]), get('min'));
-  if (path === '/learn') return links.home(get('subject') || subject);
-  return href;
+export function resolveHref(href, links) {
+  if (!href) return href;
+  return typeof links?.resolve === 'function' ? links.resolve(href) : href;
 }
 
 /** An unfinished run carries its id, so the key picks it up where it stopped. */
 const withResume = (href, resume) => (resume ? `${href}${href.includes('?') ? '&' : '?'}resume=${encodeURIComponent(resume)}` : href);
 
-function Suggestion({ suggestion, lead, links, subject, index }) {
+/** The pick-up tile's thin track: only steps that are done (the real "6 of 16"), filled once per visit. */
+function Track({ progress }) {
+  const pct = Math.round((progress.done / progress.of) * 1000) / 10;
+  return (
+    <span className="lh-track" role="img" aria-label={`${progress.done} of ${progress.of} done`}>
+      <span className="lh-track__fill" style={{ '--p': `${pct}%` }} />
+    </span>
+  );
+}
+
+function Suggestion({ suggestion, lead, links, index }) {
   const target = suggestionTarget(suggestion);
-  const href = !target ? null : target.type === 'run' ? withResume(links.run({ chapterKey: target.run.chapterKey, minutes: target.run.minutes, kind: target.run.kind, leaveOut: target.run.leaveOut || [] }), target.run.resume) : resolveHref(target.href, links, subject);
-  // The word above the title is dropped when the title already opens with it ("Pick up" over "Pick up Admission of a Partner").
-  const word = kindWord(suggestion.kind);
-  const kindLine = word && !String(suggestion.title || '').toLowerCase().startsWith(word.toLowerCase()) ? word : '';
+  const href = !target ? null : target.type === 'run'
+    ? withResume(links.run({ chapterKey: target.run.chapterKey, minutes: target.run.minutes, kind: target.run.kind, leaveOut: target.run.leaveOut || [], cardIds: target.run.cardIds || [] }), target.run.resume)
+    : resolveHref(target.href, links);
+  const { headline, rest } = splitTitle(suggestion);
+  const progress = lead ? pickupProgress(suggestion) : null;
+  const whyId = `lh-why-${index}`;
   return (
     <article className="lh-sug" data-lead={lead || undefined} data-kind={suggestion.kind} style={{ '--i': index }}>
-      {lead ? <SubjectObject id={subject} size={96} lit life={false} className="lh-sug__obj" /> : null}
-      {kindLine ? <p className="lh-sug__kind">{kindLine}</p> : null}
-      <h3 className="lh-sug__title">{suggestion.title}</h3>
-      <p className="lh-sug__why">{suggestion.evidence}</p>
+      <div className="lh-sug__text">
+        <h3 className="lh-sug__title">
+          {!lead && headline ? <><b>{displayTitle(headline)}</b>{displayTitle(rest)}</> : displayTitle(suggestion.title)}
+        </h3>
+        <div className="lh-sug__ev">
+          <p className="lh-sug__why" id={whyId}>{suggestion.evidence}</p>
+          {progress ? <Track progress={progress} /> : null}
+        </div>
+      </div>
       {href ? (
-        <Link className={`lh-key ${lead ? 'lh-key--volt' : 'lh-key--line'}`} data-page-primary={lead ? '' : undefined} href={href}>
+        <Link className={`lh-key ${lead ? 'lh-key--volt' : 'lh-key--line'}`} data-page-primary={lead ? '' : undefined} href={href} aria-describedby={whyId}>
           <span className="lh-key__full">{suggestion.action.label}</span>
           <span className="lh-key__short" aria-hidden="true">{shortAction(suggestion.action.label)}</span>
         </Link>
@@ -48,21 +55,23 @@ function Suggestion({ suggestion, lead, links, subject, index }) {
   );
 }
 
+/** The tiles before the data, at the heights they will have (a lead of about 180 px, compact rows of 84), so nothing moves. */
 export function SuggestionsSkeleton() {
   return (
-    <div className="lh-sugs" aria-hidden="true">
-      <div className="lh-sug lh-sug--skel" data-lead><span className="skeleton lh-sk lh-sk--t" /><span className="skeleton lh-sk lh-sk--l" /><span className="skeleton lh-sk lh-sk--key" /></div>
-      <div className="lh-sug lh-sug--skel"><span className="skeleton lh-sk lh-sk--t" /><span className="skeleton lh-sk lh-sk--l" /><span className="skeleton lh-sk lh-sk--key" /></div>
-      <div className="lh-sug lh-sug--skel"><span className="skeleton lh-sk lh-sk--t" /><span className="skeleton lh-sk lh-sk--l" /><span className="skeleton lh-sk lh-sk--key" /></div>
+    <div className="lh-sugs lh-sugs--skel" aria-hidden="true">
+      <div className="lh-sug" data-lead><span className="skeleton lh-sk lh-sk--t" /><span className="skeleton lh-sk lh-sk--l" /><span className="skeleton lh-sk lh-sk--key" /></div>
+      <div className="lh-sug"><span className="skeleton lh-sk lh-sk--t" /><span className="skeleton lh-sk lh-sk--l" /><span className="skeleton lh-sk lh-sk--key" /></div>
+      <div className="lh-sug"><span className="skeleton lh-sk lh-sk--t" /><span className="skeleton lh-sk lh-sk--l" /><span className="skeleton lh-sk lh-sk--key" /></div>
     </div>
   );
 }
 
-export default function Suggestions({ suggestions, links, subject }) {
-  if (!suggestions?.length) return null;
+export default function Suggestions({ suggestions, links }) {
+  const list = homeSuggestions(suggestions);
+  if (!list.length) return null;
   return (
-    <section className="lh-sugs" aria-label="Where to start">
-      {suggestions.map((s, i) => <Suggestion key={`${s.kind}-${i}`} suggestion={s} lead={i === 0} links={links} subject={subject} index={i} />)}
+    <section className="lh-sugs" data-count={list.length} aria-label="Where to start">
+      {list.map((s, i) => <Suggestion key={`${s.kind}-${i}`} suggestion={s} lead={i === 0} links={links} index={i} />)}
     </section>
   );
 }

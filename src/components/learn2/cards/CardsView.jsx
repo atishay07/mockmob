@@ -49,12 +49,12 @@ export function Skeleton({ groups = 2 }) {
 function Loading({ back }) {
   return (
     <div className={`kc l2c ${ncertFont.variable}`}>
-      {back}
       <div className="l2c-layout">
+        {back}
         <div className="l2c-main" aria-busy="true">
           <header className="l2c-head">
-            <div className="l2c-head__row"><h1 className="l2c-title">Key cards</h1><span className="skeleton" style={{ width: 64, height: 18 }} /></div>
-            <p className="l2c-ref"><span className="skeleton" style={{ display: 'block', width: 132, height: 18 }} /></p>
+            <h1 className="l2c-title">Key cards</h1>
+            <p className="l2c-ref"><span className="skeleton" style={{ display: 'block', width: 184, height: 18 }} /></p>
           </header>
           <div className="l2c-skel__chips" aria-hidden="true">{[56, 118, 104, 128].map((w) => <span key={w} className="skeleton" style={{ width: w }} />)}</div>
           <div className="l2c-tools" aria-hidden="true"><span className="skeleton" style={{ width: 168, height: 24 }} /></div>
@@ -67,7 +67,7 @@ function Loading({ back }) {
 }
 
 /** The four filters as one row of chips. The ink indicator slides to the chosen chip; a phone's row scrolls and fades at its edge. */
-function FilterChips({ value, onChange, options }) {
+export function FilterChips({ value, onChange, options, label = 'Which cards' }) {
   const box = useRef(null);
   const refs = useRef({});
   const [ind, setInd] = useState(null);
@@ -99,7 +99,7 @@ function FilterChips({ value, onChange, options }) {
     onChange(v);
   };
   return (
-    <div className="l2c-chips" role="group" aria-label="Which cards" ref={box} data-more={more || undefined} data-ready={ready || undefined} onScroll={measure}>
+    <div className="l2c-chips" role="group" aria-label={label} ref={box} data-more={more || undefined} data-ready={ready || undefined} onScroll={measure}>
       <span className="l2c-chips__ind" aria-hidden="true" style={ind ? { '--x': `${ind.x}px`, '--w': `${ind.w}px` } : undefined} />
       {options.map((o) => (
         <button key={o.value} type="button" className="l2c-chip" aria-pressed={value === o.value} ref={(el) => { if (el) refs.current[o.value] = el; }} onClick={() => pick(o.value)}>
@@ -111,11 +111,11 @@ function FilterChips({ value, onChange, options }) {
 }
 
 /** The section list: a sticky column at 1440, and the phone's "Sections" popover. */
-function Rail({ sections, current, onGo }) {
+export function Rail({ sections, current, onGo, heading = 'Sections' }) {
   if (sections.length < 2) return null;
   return (
-    <nav className="l2c-rail" aria-label="Sections">
-      <p className="l2c-rail__h">Sections</p>
+    <nav className="l2c-rail" aria-label={heading}>
+      <p className="l2c-rail__h">{heading}</p>
       <ul className="l2c-rail__list">
         {sections.map((s) => (
           <li key={s.id}><button type="button" className="l2c-rail__item" aria-current={current === s.id || undefined} onClick={() => onGo(s.id)}><span>{s.title}</span><span>{s.count}</span></button></li>
@@ -125,7 +125,7 @@ function Rail({ sections, current, onGo }) {
   );
 }
 
-function Jump({ sections, onGo }) {
+export function Jump({ sections, onGo, label = 'Sections' }) {
   const [open, setOpen] = useState(false);
   const box = useRef(null);
   const panel = useId();
@@ -142,9 +142,9 @@ function Jump({ sections, onGo }) {
   if (sections.length < 2) return null;
   return (
     <span className="l2c-jump l2c-jumpbtn" ref={box}>
-      <button type="button" className="kc-btn kc-btn--quiet" aria-expanded={open} aria-controls={open ? panel : undefined} onClick={() => setOpen((o) => !o)}>Sections<ChevronDown size={16} strokeWidth={2.2} aria-hidden="true" /></button>
+      <button type="button" className="kc-btn kc-btn--quiet" aria-expanded={open} aria-controls={open ? panel : undefined} onClick={() => setOpen((o) => !o)}>{label}<ChevronDown size={16} strokeWidth={2.2} aria-hidden="true" /></button>
       {open ? (
-        <div className="l2c-jump__panel" id={panel} role="group" aria-label="Jump to a section">
+        <div className="l2c-jump__panel" id={panel} role="group" aria-label={label === 'Chapters' ? 'Jump to a chapter' : 'Jump to a section'}>
           {sections.map((s) => <button key={s.id} type="button" className="l2c-jump__item" onClick={() => { setOpen(false); onGo(s.id); }}><span>{s.title}</span><span>{s.count}</span></button>)}
         </div>
       ) : null}
@@ -221,25 +221,21 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
   const visible = useMemo(() => visibleSections(data?.sections, data?.lockedLine), [data]);
   const ids = useMemo(() => visible.flatMap((g) => g.cards.map((c) => c.id)), [visible]);
   const counts = data?.counts || { all: 0, must: 0, revise: 0, missed: 0 };
-  const total = counts[filter] ?? ids.length;
   const n = ids.length;
   const runIds = ids.slice(0, RUN_CARDS_MAX);
-  const runCount = filter === 'all' ? total : runIds.length;
+  const runCount = runIds.length;
 
-  const studyOne = useCallback((card) => withParams(links.run({ chapterKey, minutes: 10, kind: 'cards' }), { cards: card.id }), [links, chapterKey]);
-  const setStudy = filter === 'all'
-    ? links.run({ chapterKey, minutes: 10, kind: 'cards' })
-    : withParams(links.run({ chapterKey, minutes: 10, kind: 'cards' }), { cards: runIds.join(',') });
-  const recap = filter === 'must'
-    ? links.run({ chapterKey, minutes: 3, kind: 'recap' })
-    : withParams(links.run({ chapterKey, minutes: 3, kind: 'recap' }), { cards: runIds.join(',') });
+  // Every key passes the cards it names (at most 100), so "Study these 46" plays those 46 and not a ten-minute pick (A3-04).
+  const studyOne = useCallback((card) => links.run({ chapterKey, minutes: 10, kind: 'cards', cardIds: [card.id] }), [links, chapterKey]);
+  const setStudy = links.run({ chapterKey, minutes: 10, kind: 'cards', cardIds: runIds });
+  const recap = links.run({ chapterKey, minutes: 3, kind: 'recap', cardIds: runIds });
   const pickedIds = [...pick.picked].filter((id) => ids.includes(id));
-  const pickStudy = withParams(links.run({ chapterKey, minutes: 10, kind: 'cards' }), { cards: pickedIds.slice(0, RUN_CARDS_MAX).join(',') });
+  const pickStudy = links.run({ chapterKey, minutes: 10, kind: 'cards', cardIds: pickedIds.slice(0, RUN_CARDS_MAX) });
 
   const back = (
-    <Link className="kc-back" href={links.chapter(chapterKey)}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" /><span>{data?.chapter?.title || 'Chapter'}</span></Link>
+    <Link className="kc-back l2c-back" href={links.chapter(chapterKey)}><ChevronLeft size={18} strokeWidth={2.2} aria-hidden="true" /><span>{data?.chapter?.title || 'Chapter'}</span></Link>
   );
-  const shell = (body) => <div className={`kc l2c ${ncertFont.variable}`}>{back}{body}</div>;
+  const shell = (body) => <div className={`kc l2c ${ncertFont.variable}`}><div className="l2c-layout">{back}<div className="l2c-main">{body}</div></div></div>;
 
   if (read.status === 'loading') return <Loading back={back} />;
   if (read.status === 'error' || !data) return shell(<ErrorState title="The cards did not load" message="Check your connection and try again. Nothing you added is lost." onRetry={read.refresh} />);
@@ -253,20 +249,18 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
   const locked = data.lockedCount || 0;
   const free = !isPro && locked > 0;
   const empty = !n;
+  const headLine = [subjectLabel(String(chapterKey).split('.')[0]), data.chapter?.ref, free ? `${counts.all} of ${counts.all + locked} cards open on Free` : countWord(counts.all, 'card')].filter(Boolean).join(', ');
   const showPickBar = pick.mode && pickedIds.length > 0;
 
   return (
     <div className={`kc l2c ${ncertFont.variable}`} data-pick={pick.mode || undefined}>
-      {back}
       <div className="l2c-layout">
+        {back}
         <Rail sections={sections} current={current} onGo={goToSection} />
         <div className="l2c-main">
           <header className="l2c-head">
-            <div className="l2c-head__row">
-              <h1 className="l2c-title">Key cards</h1>
-              <p className="l2c-count">{free ? `${countWord(counts.all + locked, 'card')}, ${counts.all} open on Free` : countWord(counts.all, 'card')}</p>
-            </div>
-            <p className="l2c-ref">{data.chapter?.ref ? `${subjectLabel(String(chapterKey).split('.')[0])}, ${data.chapter.ref}` : null}</p>
+            <h1 className="l2c-title">Key cards</h1>
+            <p className="l2c-ref">{headLine}</p>
           </header>
 
           <FilterChips value={filter} onChange={setFilter} options={options} />
@@ -283,7 +277,7 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
           {n > 0 ? (
             <div className="l2c-keys">
               {filter !== 'all' ? <Link className="kc-btn kc-btn--line kc-btn--small" href={recap}>Quick recap these {runCount}</Link> : null}
-              <Link className={showPickBar ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} href={setStudy} data-page-primary={showPickBar ? undefined : ''}>Study these {runCount}</Link>
+              <Link className={showPickBar ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} href={setStudy} data-page-primary={showPickBar ? undefined : ''}>{n > RUN_CARDS_MAX ? `Study the first ${RUN_CARDS_MAX}, in book order` : `Study these ${runCount}`}</Link>
             </div>
           ) : null}
           {actions.said ? <p className="l2c-said" role="status">{actions.said}</p> : null}
@@ -305,6 +299,8 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
                 onAdd={(cardIds, opener) => actions.add(cardIds, opener)}
                 adding={actions.busy}
                 studyHref={studyOne}
+                hideTags={filter === 'all' ? [] : [filter]}
+                compact={filter !== 'all'}
                 initialOpen={openId}
                 onSections={setSections}
               />

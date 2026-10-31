@@ -1,7 +1,7 @@
 'use client';
 // The card list Learn uses in the chapter's Cards view and in Find (DESIGN-SPEC A5, B 3.7).
 //   Groups     one sticky bar per NCERT section (or per chapter in Find), with its count
-//   A row      the kind line (kind, Must-know as a word, Missed lately; In Revise is a small dot before it), the front, and the
+//   A row      the kind line (kind, then Must-know, Missed lately and In Revise as words), the front, and the
 //              NCERT line folded behind "Show" (or open for every row with the "Show answers" switch). The line is clipped to two
 //              lines until the row opens. A folded row is about 64 px tall. In Find, a card whose match is only in NCERT's words
 //              shows that line without a tap, so the match is never hidden.
@@ -29,7 +29,7 @@ function Front({ card, query }) {
     : <Marked key={i} text={p.text} query={query} />));
 }
 
-function Row({ card, index, isPro, showAnswers, pickMode, picked, onPick, open, onToggle, query, inRevise, onAdd, adding, studyHref, chapterHref, rowRef }) {
+function Row({ card, isPro, showAnswers, pickMode, picked, onPick, open, onToggle, query, inRevise, hideTags, onAdd, adding, studyHref, chapterHref, rowRef }) {
   const [shown, setShown] = useState(false);
   const [reporting, setReporting] = useState(false);
   const panel = useId();
@@ -43,16 +43,16 @@ function Row({ card, index, isPro, showAnswers, pickMode, picked, onPick, open, 
   const line = source ? snippet(source, query, 210) : '';
   const must = card.importance === 'must';
   return (
-    <li ref={rowRef} className="l2c-row" id={`l2c-card-${card.id}`} data-open={open || undefined} data-line={lineOn || undefined} data-picked={picked || undefined} style={{ '--i': Math.min(index, 9) }}>
+    <li ref={rowRef} className="l2c-row" id={`l2c-card-${card.id}`} data-open={open || undefined} data-line={lineOn || undefined} data-picked={picked || undefined}>
       <label className="l2c-pick">
         <input type="checkbox" checked={picked} onChange={() => onPick(card.id)} aria-label={`Pick this card: ${front}`} />
         <span className="l2c-pick__box" aria-hidden="true"><Check size={13} strokeWidth={3} /></span>
       </label>
       <p className="l2c-kind">
-        {inRevise ? <span className="l2c-dot" role="img" aria-label="In Revise" title="In Revise" /> : null}
         <span>{label}</span>
-        {must ? <span className="l2c-must">Must-know</span> : null}
-        {card.missedLately ? <span className="l2c-missed">Missed lately</span> : null}
+        {must && !hideTags.includes('must') ? <span className="l2c-must">Must-know</span> : null}
+        {card.missedLately && !hideTags.includes('missed') ? <span className="l2c-missed">Missed lately</span> : null}
+        {inRevise && !hideTags.includes('revise') ? <span className="l2c-inrev">In Revise</span> : null}
       </p>
       <button type="button" className="l2c-hit-area" aria-expanded={open} aria-controls={panel} onClick={onToggle}>
         <span className="l2c-front"><Front card={card} query={query} /></span>
@@ -144,7 +144,7 @@ function useStuckSection(groups, idPrefix, holder) {
 
 export default function CardList({
   sections, lockedLine = null, isPro, showAnswers, pickMode, picked, onPick, query = '', addedIds, onAdd, adding = false,
-  studyHref = null, chapterHref = null, groupHref = null, initialOpen = null, idPrefix = 'l2c-sec', onSections,
+  studyHref = null, chapterHref = null, groupHref = null, initialOpen = null, idPrefix = 'l2c-sec', onSections, hideTags = [], compact = false,
 }) {
   const groups = useMemo(() => visibleSections(sections, lockedLine), [sections, lockedLine]);
   const [openId, setOpenId] = useState(initialOpen);
@@ -163,9 +163,8 @@ export default function CardList({
     const el = rowRefs.current[initialOpen];
     if (el) { try { el.scrollIntoView({ block: 'center' }); } catch { /* it stays where it is */ } }
   }, [initialOpen, groups]);
-  let n = 0;
   return (
-    <div className="l2c-groups">
+    <div className="l2c-groups" data-compact={compact || undefined}>
       <div className="l2c-slot" ref={slot} aria-hidden="true">
         {stuck >= 0 && groups[stuck] ? (
           <div className="l2c-secbar l2c-secbar--stuck">
@@ -185,7 +184,6 @@ export default function CardList({
               <Row
                 key={card.id}
                 card={card}
-                index={n++}
                 isPro={isPro}
                 showAnswers={showAnswers}
                 pickMode={pickMode}
@@ -194,6 +192,7 @@ export default function CardList({
                 open={openId === card.id}
                 onToggle={() => setOpenId((cur) => (cur === card.id ? null : card.id))}
                 query={query}
+                hideTags={hideTags}
                 inRevise={Boolean(card.inRevise) || addedIds?.has(card.id)}
                 onAdd={onAdd}
                 adding={adding}
