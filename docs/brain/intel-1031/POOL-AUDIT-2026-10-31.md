@@ -67,6 +67,7 @@ NCERT text. Questions in retired chapters were skipped; the syllabus v2 migratio
      L12 already keeps re-tagged questions eligible).
    - The 244 template moves (Quick Ratio, ratio change) are safe in bulk.
 5. **Templates:**
-   - Cap how many copies of one template a mock may draw (for example 2 per mock). This is a mock-builder change, not
-     a content change.
-   - Write new Accountancy questions only when the owner asks.
+   - **Done in code (eb70694c5):** the practice and mock picker takes at most 2 copies of one template stem per paper.
+     It folds names, amounts and rates, and fills with more copies only when the pool has nothing else. NTA mocks use
+     their own engine and need signed evidence, which these template rows do not have.
+   - The real cure is more distinct Accountancy questions. Write them only when the owner asks.
