@@ -381,10 +381,10 @@ export default function StartSheet({ open = false, onClose = () => {}, model, in
                   <span className="st-row__text">
                     <span className="st-row__title">{row.title}{row.tag ? <span className="st-tag">{row.tag}</span> : null}</span>
                     <span className="st-row__detail"><span key={row.detail} className="st-words">{row.detail}</span></span>
-                    {row.cost ? <CostLine cost={row.cost} /> : <span className="st-cost" data-tone="open">Opens Practice</span>}
+                    {row.cost ? <CostLine cost={row.cost} /> : <span className="st-cost" data-tone="open">{row.opens || 'Opens Practice'}</span>}
                   </span>
                   <GoDisc kind={row.go} label={row.action} />
-                  {row.cost ? <span className="sr-only">, opens Practice set up for it</span> : null}
+                  {row.cost ? <span className="sr-only">{row.spoken || ', opens Practice set up for it'}</span> : null}
                 </Link>
               )}
             </li>

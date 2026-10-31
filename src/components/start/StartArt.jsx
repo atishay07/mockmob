@@ -122,6 +122,22 @@ export function DrawnGraphic({ kind, size = 64 }) {
       </span>
     );
   }
+  if (kind === 'cards') {
+    // Learn a chapter: a small fan of three Key cards, the front one lined like a card with its NCERT line.
+    return (
+      <span className="st-draw st-draw--cards" style={{ width: size, height: size }} aria-hidden="true">
+        <svg viewBox="0 0 64 64" width={size} height={size} focusable="false">
+          <rect x="13" y="14" width="30" height="38" rx="5" className="st-ink-faint" transform="rotate(-10 28 33)" />
+          <rect x="16" y="12" width="30" height="38" rx="5" className="st-ink-surface" transform="rotate(-3 31 31)" />
+          <rect x="20" y="11" width="32" height="40" rx="5" className="st-ink-surface" transform="rotate(5 36 31)" />
+          <rect x="26" y="19" width="14" height="3" rx="1.5" className="st-accent-fill" transform="rotate(5 36 31)" />
+          <rect x="26" y="26" width="20" height="2.5" rx="1.25" className="st-ink-line" transform="rotate(5 36 31)" />
+          <rect x="26" y="31" width="17" height="2.5" rx="1.25" className="st-ink-faint" transform="rotate(5 36 31)" />
+          <rect x="26" y="36" width="19" height="2.5" rx="1.25" className="st-ink-faint" transform="rotate(5 36 31)" />
+        </svg>
+      </span>
+    );
+  }
   if (kind === 'resume') {
     return (
       <span className="st-draw st-draw--resume" style={{ width: size, height: size }} aria-hidden="true">

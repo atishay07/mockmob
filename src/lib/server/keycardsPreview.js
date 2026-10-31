@@ -16,6 +16,7 @@ import { createKeycards, decksOnce } from './keycards.js';
 import { fakeDb } from './keycardsMemoryDb.js';
 import { loadKeycardsSyllabus } from './keycardsSyllabus.js';
 import { newSchedule, schedule, tasteIds } from '../../../data/keycards.js';
+import { withMustTier } from '../../../data/learn/mustknow.js';
 
 /** True wherever the preview must not answer: a production build or a production deployment. */
 export const previewOff = (env = process.env) => env.NODE_ENV === 'production' || env.VERCEL_ENV === 'production';
@@ -89,14 +90,23 @@ export function seedTables({ subjects, isPro, fresh, decks, syllabus, now }) {
 
 // ---------------------------------------------------------------- the students of this dev server
 
-const students = new Map(); // `${student}|${plan}|${session}` -> { kc, tables }
+const students = new Map(); // `${student}|${plan}|${session}` -> Promise<{ kc, tables, decks, subjects, learn }>
 const MAX_STUDENTS = 48;
 
-async function studentFor({ student, isPro, session }) {
+/** One student per key; concurrent first requests (the sidebar and the page load together) share one making of it. */
+function studentFor({ student, isPro, session }) {
   const key = `${student}|${isPro ? 'pro' : 'free'}|${session}`;
   if (students.has(key)) return students.get(key);
+  const made = makeStudent({ student, isPro }).catch((error) => { students.delete(key); throw error; });
+  if (students.size >= MAX_STUDENTS) students.delete(students.keys().next().value);
+  students.set(key, made);
+  return made;
+}
+
+async function makeStudent({ student, isPro }) {
   const who = PREVIEW_STUDENTS[student] || PREVIEW_STUDENTS.commerce;
-  const decks = decksOnce();
+  // The Must-know re-tier (B5, data/learn/mustknow.js) over the real decks, so Key cards and Learn mark the same quarter.
+  const decks = withMustTier(decksOnce());
   const syllabus = await loadKeycardsSyllabus();
   const tables = seedTables({ subjects: who.subjects, isPro, fresh: who.fresh, decks, syllabus, now: Date.now() });
   const kc = createKeycards({
@@ -104,8 +114,10 @@ async function studentFor({ student, isPro, session }) {
     getUser: async () => ({ isPremium: isPro, subjects: who.subjects }),
   });
   const entry = { kc, tables, decks, subjects: who.subjects };
-  if (students.size >= MAX_STUDENTS) students.delete(students.keys().next().value);
-  students.set(key, entry);
+  // Learn's returning history is part of the student from the start, so every count (the sidebar's due badge included)
+  // reads the same student whichever request comes first.
+  const { learnSeed } = await import('./learnPreview.js');
+  await learnSeed({ entry, isPro, student, user: USER, fresh: who.fresh });
   return entry;
 }
 
@@ -150,6 +162,11 @@ export async function previewAnswer(request) {
   const method = String(request.method || 'GET').toUpperCase();
   const to = p.get('_to') || '';
   const body = method === 'GET' ? null : await parse(request);
+  // Learn v2 (/api/learn/*): the same student, answered by ./learnPreview.js (imported here only, so it stays dev-only).
+  if (to.startsWith('/api/learn/')) {
+    const { learnAnswer } = await import('./learnPreview.js');
+    return learnAnswer({ entry, to, method, params: p, body, isPro, student, user: USER, fresh: Boolean(PREVIEW_STUDENTS[student]?.fresh) });
+  }
   if (method === 'GET' && to === '/api/keycards') return kc.overview(USER);
   if (method === 'GET' && to === '/api/keycards/deck') {
     const out = await kc.deck(USER, p.get('chapter'));

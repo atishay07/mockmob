@@ -16,7 +16,12 @@ const TODAY = item('today', 'Today');
 const PRACTICE = item('dashboard', 'Practice', 'practice', CAPABILITIES.practice.href);
 // Review keeps /review; its name is "Your papers", the word the app uses (D106).
 const PAPERS = item('review', 'Your papers', 'review', CAPABILITIES.review.href);
-const LEARN = item('learn', 'Learn');
+// Learn sits first among Practice's pages and says what is in it, in the rail's own two-part pattern ("Mob, with friends"):
+// "Learn, Key cards" (LK1, DESIGN-SPEC A8). The Key cards due count is drawn beside it by the shell.
+const LEARN = item('learn', 'Learn', 'learn', '/learn', 'Key cards');
+// N1, drawn as an alternate for the owner's call (B 6.4, preview &nav=n1): Learn as a place of its own in the desktop sidebar, with one
+// sub-row that opens Find on the due cards. Not the default.
+const LEARN_CARDS = item('learn-cards', 'Key cards to revise', 'learn', '/learn/find');
 const EXPLORE = item('explore', 'Explore');
 const SAVED = item('saved', 'Saved');
 // title: what the top bar calls the place's own page, where that differs from its short name.
@@ -30,8 +35,8 @@ const WALLET = item('wallet', 'Wallet', 'wallet');
 const GUIDE = item('help', 'Guide', 'help');
 const ASK_MOBI = item('mentor', 'Ask Mobi', 'prepos');
 
-/** The pages inside Practice, in the order of its row of tabs on a phone and its rows in the sidebar. */
-export const PRACTICE_PAGES = Object.freeze([PRACTICE, PAPERS, LEARN, EXPLORE, SAVED]);
+/** The pages inside Practice, in the order of its row of tabs on a phone and its rows in the sidebar: Practice, Learn, Your papers, Explore, Saved. */
+export const PRACTICE_PAGES = Object.freeze([PRACTICE, LEARN, PAPERS, EXPLORE, SAVED]);
 /** The pages inside the Mob. */
 export const MOB_PAGES = Object.freeze([{ ...MOB, label: 'Your Mob', hint: null, title: null }, STANDING]);
 
@@ -41,11 +46,13 @@ export const MOB_PAGES = Object.freeze([{ ...MOB, label: 'Your Mob', hint: null,
 // (COMMUNITY-1018); with it on they come back, as the Contribute group under the places.
 // Every group has a label: the place groups use it as their landmark name only (the sidebar draws no group headers, so the
 // four places read as places); Moderation and Contribute, which only some students see, keep a visible header.
-export function arenaNavigation(moderator = false, { mob = false, contribute = false } = {}) {
+// `learnPlace`: the N1 alternate (above): Learn leaves Practice's sub-rows and stands as its own place after Practice.
+export function arenaNavigation(moderator = false, { mob = false, contribute = false, learnPlace = false } = {}) {
   return [
     ...(moderator ? [{ id: 'moderation', label: 'Moderation', items: [item('moderation', 'Mod queue', 'moderation')] }] : []),
     { id: 'today', label: 'Today', place: true, items: [place(TODAY)] },
-    { id: 'practice', label: 'Practice', place: true, items: [place(PRACTICE), ...[PAPERS, LEARN, EXPLORE, SAVED].map(sub)] },
+    { id: 'practice', label: 'Practice', place: true, items: [place(PRACTICE), ...(learnPlace ? [PAPERS, EXPLORE, SAVED] : [LEARN, PAPERS, EXPLORE, SAVED]).map(sub)] },
+    ...(learnPlace ? [{ id: 'learn', label: 'Learn', place: true, items: [place({ ...LEARN, hint: null }), sub(LEARN_CARDS)] }] : []),
     ...(mob ? [{ id: 'mob', label: 'Mob', place: true, items: [place(MOB), sub(STANDING)] }] : []),
     { id: 'you', label: 'You', place: true, items: [place(YOU), sub(PROGRESS), ...(mob ? [] : [sub(STANDING)]), sub(TREND), sub(COLLEGES), { ...sub(WALLET), ruleAbove: true }, sub(GUIDE)] },
     ...(contribute ? [{ id: 'contribute', label: 'Contribute', items: [item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] }] : []),
@@ -77,10 +84,13 @@ export function youSheetGroups(moderator = false, { mob = false, contribute = fa
 }
 
 // Phones: the pages inside a place sit in a row of tabs under the top bar, on each of those pages (WEB-NAV-1019 option A).
-// Practice: Practice, Your papers, Learn (while the lessons are on), Explore, Saved. The Mob: Your Mob, Your standing.
-// The row is drawn only on the place's own pages, never deeper (a lesson run, a rule book).
+// Practice: Practice, Learn (while the lessons are on), Your papers, Explore, Saved. The Mob: Your Mob, Your standing.
+// The row is drawn only on the place's own pages and Learn's chapter and Find pages, never deeper (a lesson run, a rule book).
 export function placeTabs(path, { mob = false, study = false } = {}) {
-  const at = (tabs) => tabs.some((tab) => tab.href === path);
+  // Learn's own pages (a chapter, Find, its cards) draw the row too, so a phone student on a chapter can move sideways without Back;
+  // the player (/learn/run) is a focus place and draws none.
+  const learnPage = study && /^\/learn\/(c\/|find\b)/.test(String(path || ""));
+  const at = (tabs) => learnPage || tabs.some((tab) => tab.href === path);
   const practice = PRACTICE_PAGES.filter((tab) => study || tab.id !== 'learn');
   if (at(practice)) return { id: 'practice', label: 'Practice pages', tabs: practice };
   if (mob && at(MOB_PAGES)) return { id: 'mob', label: 'Mob pages', tabs: MOB_PAGES };

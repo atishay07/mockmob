@@ -1,0 +1,137 @@
+/* Learn v2: the Explore chapter feed and its lead card (DESIGN-SPEC A6, B 3.8). Arena tokens only; keys from keycards.css.
+   The feed is a focus page over the whole shell (no tab row, no dock). One item per screen. On a phone the keys sit at the foot
+   of the screen so they never move when an answer opens; at 1440 they sit 24 px under the item. One volt key per screen.
+   Only transform and opacity move, 150-300 ms ease-out; reduced motion lands at once. */
+
+.l2x.kc {
+  --l2x-ease: var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1));
+  position: fixed; inset: 0; z-index: 60; display: block; gap: 0; padding: 0; margin: 0; max-width: none; overflow-x: hidden; overflow-y: auto; overscroll-behavior: contain;
+  background: var(--a-bg); color: var(--a-ink); -webkit-tap-highlight-color: transparent;
+}
+.l2x :where(h1, h2, h3, p, ul, ol, dl, dd) { margin: 0; }
+.l2x-grid { display: grid; grid-template-columns: minmax(0, 1fr); min-height: 100dvh; }
+.l2x-col { display: grid; align-content: start; grid-template-rows: auto minmax(0, 1fr) auto; gap: 14px; min-width: 0; width: min(100% - 32px, 560px); max-width: 560px; margin-inline: auto; min-height: 100dvh; }
+.l2x-side { display: none; }
+@media (min-width: 1100px) {
+  .l2x-grid { grid-template-columns: minmax(0, 1fr) 560px minmax(0, 1fr); column-gap: 40px; }
+  .l2x-col { grid-column: 2; width: 100%; grid-template-rows: auto auto auto; }
+  .l2x-side { display: grid; grid-column: 3; align-content: start; gap: 8px; padding-top: 14px; position: sticky; top: 0; align-self: start; }
+  .l2x-side__link { display: inline-flex; align-items: center; min-height: 44px; width: fit-content; font: 650 14.5px/1 var(--font-body); color: var(--a-ink-2); text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; }
+  .l2x-side__link:hover { color: var(--a-ink); }
+  .l2x-side__link:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 4px; }
+  .l2x-side__t { font: 500 14px/1.4 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; }
+}
+
+/* The top: Close, the chapter, the place, and the progress line; it stays while the item scrolls */
+.l2x-head { position: sticky; top: 0; z-index: 5; display: grid; gap: 4px; padding: max(8px, env(safe-area-inset-top)) 0 8px; background: var(--a-bg); }
+.l2x-top { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; align-items: center; gap: 12px; min-height: 48px; }
+.l2x-close { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-left: -8px; padding: 0 10px; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-2); font: 650 14.5px/1 var(--font-body); cursor: pointer; }
+.l2x-close:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 0; }
+@media (hover: hover) { .l2x-close:hover { color: var(--a-ink); background: var(--a-hover); } }
+.l2x-title { font: 650 14.5px/1.3 var(--font-body); color: var(--a-ink); text-align: center; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+@media (max-width: 479px) { .l2x-title { visibility: hidden; } }
+.l2x-pos { font: 650 14px/1.2 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* The item: follows the finger up a little; a swipe past 72 px (or a fast fling) moves on */
+.l2x-swipe { align-self: stretch; display: grid; align-content: start; min-height: 0; touch-action: none; transform: translateY(var(--l2x-y, 0px)); transition: transform 240ms var(--l2x-ease); animation: l2x-in 260ms var(--l2x-ease) both; }
+.l2x-swipe[data-drag] { transition: none; }
+@keyframes l2x-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(var(--l2x-y, 0px)); } }
+
+.l2x-card, .l2x-q { display: grid; gap: 14px; align-content: start; padding: clamp(20px, 4vw, 30px); border-radius: 22px; border: 1px solid var(--a-line-strong); background: var(--kc-surface); box-shadow: var(--a-shadow-1); }
+.l2x-card { min-height: min(38dvh, 330px); }
+@media (min-width: 1100px) { .l2x-card, .l2x-card[data-revealed] { min-height: min(50dvh, 440px); } }
+.l2x-card[data-tap] { cursor: pointer; }
+.l2x-kind { display: flex; flex-wrap: wrap; align-items: center; gap: 2px 12px; font: 650 13px/1.3 var(--font-body); color: var(--a-ink-3); min-height: 22px; }
+.l2x-front { font: 650 clamp(21px, 5.4vw, 26px)/1.36 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); text-wrap: pretty; max-width: 34ch; }
+.l2x-card .kc-ncert { font-size: clamp(16px, 4.2vw, 17.5px); line-height: 1.6; }
+.l2x-card[data-revealed] { min-height: 0; }
+.l2x-answer { display: grid; gap: 10px; padding-top: 16px; border-top: 1px dashed var(--a-line-strong); animation: kc-reveal 220ms var(--l2x-ease) both; max-height: 44dvh; overflow-y: auto; touch-action: pan-y; }
+
+.l2x-qbody { font: 650 clamp(18px, 4.6vw, 21px)/1.45 var(--font-body); color: var(--a-ink); text-wrap: pretty; }
+/* A stem that prints its steps inline reads as a list: a letter, then the step, 8 px apart */
+.l2x-steps { list-style: none; padding: 0; display: grid; gap: 8px; }
+.l2x-steps li { display: grid; grid-template-columns: 26px minmax(0, 1fr); gap: 10px; align-items: baseline; font: 500 15.5px/1.5 var(--font-body); color: var(--a-ink); }
+.l2x-steps b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 7px; background: var(--a-letter); color: var(--a-ink-2); font: 700 12.5px/1 var(--font-body); align-self: start; margin-top: 1px; }
+.l2x-opts { list-style: none; padding: 0; display: grid; gap: 8px; }
+.l2x-opt { display: grid; grid-template-columns: 30px minmax(0, 1fr) 20px; align-items: center; gap: 10px; width: 100%; min-height: 52px; padding: 10px 12px; border-radius: 14px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink); font: 550 15.5px/1.4 var(--font-body); text-align: left; cursor: pointer; transition: transform 100ms var(--l2x-ease), border-color 150ms var(--l2x-ease), background-color 150ms var(--l2x-ease); }
+.l2x-opt { scroll-margin-top: 80px; }
+.l2x-opt__k { display: grid; place-items: center; width: 28px; height: 28px; border-radius: 8px; background: var(--a-letter); color: var(--a-ink-2); font: 700 13px/1 var(--font-body); }
+.l2x-opt:active:not(:disabled) { transform: scale(0.985); }
+.l2x-opt:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
+.l2x-opt:disabled { cursor: default; }
+@media (hover: hover) { .l2x-opt:hover:not(:disabled) { border-color: var(--a-line-hover); background: var(--a-option-hover); } }
+.l2x-opt[data-state='right'] { border-color: var(--a-good-text); background: var(--a-volt-wash); }
+.l2x-opt[data-state='right'] svg { color: var(--a-good-text); }
+.l2x-opt[data-state='wrong'] { border-color: var(--a-bad-text); background: var(--a-bad-wash); }
+.l2x-opt[data-state='wrong'] svg { color: var(--a-bad-text); }
+.l2x-opt[data-state='rest'] { opacity: 0.6; }
+.l2x-result { scroll-margin-bottom: 150px; display: grid; gap: 10px; padding-top: 6px; animation: kc-reveal 220ms var(--l2x-ease) both; }
+.l2x-verdict { font: 700 16px/1.4 var(--font-body); color: var(--a-bad-text); }
+.l2x-verdict[data-ok] { color: var(--a-good-text); }
+.l2x-expl { font: 500 15px/1.55 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+.l2x-line { margin-top: 2px; }
+.l2x-seeline { min-height: 44px; margin: -8px 0 -8px auto; }
+
+/* The foot: the coach line (first run only, and only until the answer shows), then the keys. It sits at the foot of a phone's
+   screen and follows the item at 1440; when the item is taller than the screen it holds to the bottom edge. */
+.l2x-foot { position: sticky; bottom: 0; z-index: 5; display: grid; gap: 12px; align-self: end; padding: 10px 0 calc(12px + env(safe-area-inset-bottom)); background: linear-gradient(to top, var(--a-bg) 76%, transparent); }
+@media (min-width: 1100px) { .l2x-foot { align-self: start; padding-top: 10px; } }
+.l2x-keys { display: grid; grid-template-columns: minmax(0, 1fr); gap: 8px; }
+.l2x-keys .kc-btn--volt { width: 100%; }
+.l2x-keys .kc-btn--line { width: 100%; }
+.l2x-keys:has(.kc-btn--line):has(.kc-btn--volt) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+.l2x-keys .kc-btn--quiet { justify-self: center; }
+.l2x-keys:has(.kc-btn--quiet):has(.kc-btn--volt) { grid-template-columns: minmax(0, 1fr); }
+.l2x-kept { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 48px; font: 650 15px/1 var(--font-body); color: var(--a-good-text); }
+.l2x-keys:has(.l2x-kept) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr); }
+.l2x-coach { font: 500 14px/1.45 var(--font-body); color: var(--a-ink-3); text-align: center; text-wrap: balance; }
+
+.l2x-end { display: grid; gap: 16px; justify-items: start; padding: clamp(20px, 4vw, 28px); border-radius: 22px; border: 1px solid var(--a-line); background: var(--a-raised); animation: l2x-in 260ms var(--l2x-ease) both; align-self: start; margin-bottom: 32px; }
+.l2x-end__title { font: 750 clamp(22px, 4vw, 26px)/1.2 var(--font-display); letter-spacing: -0.025em; color: var(--a-ink); text-wrap: balance; }
+.l2x-counts { grid-template-columns: repeat(3, minmax(70px, auto)); }
+.l2x-end__lines { list-style: none; padding: 0; display: grid; gap: 4px; width: 100%; }
+.l2x-end__lines li { display: flex; gap: 10px; flex-wrap: wrap; padding: 8px 0; border-top: 1px solid var(--a-line); font: 500 15px/1.45 var(--font-body); color: var(--a-ink-2); }
+.l2x-end__lines b { font-weight: 650; color: var(--a-ink); min-width: 84px; }
+.l2x-end__pile { font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.l2x-end__keys { display: grid; gap: 8px; width: 100%; }
+.l2x-end__keys .kc-btn { width: 100%; white-space: normal; text-align: center; min-height: 52px; }
+@media (min-width: 640px) { .l2x-end__keys { display: flex; flex-wrap: wrap; } .l2x-end__keys .kc-btn { width: auto; } }
+
+.l2x-empty { display: grid; gap: 6px; justify-items: start; padding: 26px 0; }
+.l2x-empty h2 { font: 700 18px/1.3 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
+.l2x-empty p { font: 500 15px/1.55 var(--font-body); color: var(--a-ink-2); max-width: 54ch; text-wrap: pretty; margin-bottom: 8px; }
+
+.l2x-skel { display: grid; gap: 14px; padding-top: 12px; }
+.l2x-skel .skeleton { display: block; border-radius: 16px; }
+.l2x-skel__h { height: 44px; }
+.l2x-skel__card { height: 300px; border-radius: 22px !important; }
+.l2x-skel__key { height: 52px; }
+
+/* ---------- The lead card in Explore ---------- */
+/* Its height is reserved from the first paint (a placeholder of the same shape stands in until the real mix arrives), so the
+   question list below never moves. */
+.l2x-lead { --kc-ease: var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)); --kc-dur: var(--dur-ui, 200ms); --l2x-ease: var(--kc-ease); display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: 2px 16px; align-items: center; margin: 0 0 18px; padding: 18px; border-radius: 20px; border: 1px solid var(--a-line-strong); background: var(--a-raised); box-shadow: var(--a-shadow-1); min-height: 290px; }
+@media (min-width: 480px) { .l2x-lead { min-height: 252px; } }
+.l2x-lead__obj { grid-row: 1 / span 2; display: grid; place-items: center; width: 72px; height: 72px; overflow: hidden; }
+.l2x-lead :where(h2, p) { margin: 0; }
+.l2x-lead__t { align-self: end; text-wrap: balance; font: 700 18px/1.25 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
+.l2x-lead__chap { font: 600 14px/1.3 var(--font-body); color: var(--a-ink-3); margin-top: 2px; }
+.l2x-lead__line { grid-column: 1 / -1; align-self: start; margin-top: 10px; min-height: 45px; font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; transition: opacity 150ms var(--l2x-ease); }
+@media (min-width: 480px) { .l2x-lead__line { min-height: 22px; } }
+.l2x-lead__keys { grid-column: 1 / -1; display: grid; gap: 10px; margin-top: 12px; align-self: end; }
+@media (min-width: 640px) { .l2x-lead__keys { grid-template-columns: auto minmax(0, 1fr); align-items: center; } }
+.l2x-lead__keys .kc-btn--volt { width: 100%; min-height: 52px; }
+/* The length: three segments, 5, 10 and 20 minutes; the chosen one takes the ink fill (volt stays on the key) */
+.l2x-len { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 2px; border: 1px solid var(--a-line-strong); border-radius: 999px; background: transparent; }
+@media (min-width: 640px) { .l2x-len { width: 252px; } }
+.l2x-len button { min-height: 44px; padding: 0 12px; border: 0; border-radius: 999px; background: transparent; color: var(--a-ink-2); font: 650 14.5px/1 var(--font-body); font-variant-numeric: tabular-nums; white-space: nowrap; cursor: pointer; transition: background-color 150ms var(--l2x-ease), color 150ms var(--l2x-ease); -webkit-tap-highlight-color: transparent; }
+.l2x-len button[aria-pressed='true'] { background: var(--a-ink); color: var(--a-bg); }
+.l2x-len button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 1px; }
+@media (hover: hover) { .l2x-len button[aria-pressed='false']:hover { color: var(--a-ink); background: var(--a-hover); } }
+.l2x-lead[data-loading] .l2x-lead__line { opacity: 0.55; }
+.l2x-lead[data-skel] .skeleton { display: block; border-radius: 10px; }
+@media (max-width: 479px) { .l2x-lead { padding: 16px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .l2x *, .l2x, .l2x-lead, .l2x-lead * { animation: none !important; transition: none !important; }
+}

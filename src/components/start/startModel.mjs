@@ -21,6 +21,8 @@ import { FIRST_FULL_MOCK_COPY, FIRST_FULL_MOCK_STATE } from '../../../data/first
 import { isGoalMinutes } from '../../../data/goal_minutes.js';
 
 export const PRACTICE_HREF = '/dashboard';
+/** Learn home (Key cards and questions by chapter): the Start sheet's "Learn a chapter" row opens it on the chosen subject. */
+export const LEARN_HREF = '/learn';
 export const SUBJECT_KEY = 'mm:start-subject:v1';
 export const MAX_SUBJECTS = CUET_MAX_SUBJECTS;
 
@@ -369,6 +371,11 @@ export function startRows({ plan = null, subjects = [], subject = null, pro = fa
   // with the chapter list open.
   rows.push({ id: 'chapter', title: 'By chapter', detail: `Pick ${name ? `${name} ` : ''}chapters, then ${SESSION.quickCount} questions`,
     href: practiceHref({ subject: chosen, mode: 'quick', count: SESSION.quickCount, pick: 'chapters' }), graphic: 'chapters', subject: chosen, cost: costLine('quick', { pro, balance, short: true, dailySet }), go: 'start', action: 'Pick chapters' });
+  // Learn a chapter (DESIGN-SPEC A8, B 2.2): the one row Learn adds, between By chapter and Smart practice. It opens Learn's chapter map (the
+  // key says "Pick a chapter", because it does not start anything) and costs nothing, so it says "Included" beside Pro's other rows or "Free".
+  // The picture is the chosen subject's lamp-lit object, like Quick practice's.
+  rows.push({ id: 'learn', title: 'Learn a chapter', detail: 'Key cards and questions on one chapter, 5 to 20 minutes',
+    href: chosen ? `${LEARN_HREF}?subject=${chosen}` : LEARN_HREF, graphic: chosen && subjectArt(chosen) ? 'subject' : 'cards', subject: chosen, cost: { text: pro ? 'Included' : 'Free', tone: 'included' }, go: 'open', action: 'Choose', spoken: ', opens Learn' });
   rows.push({ id: 'smart', title: 'Smart practice', detail: `${SESSION.smartCount} ${name ? `${name} ` : ''}questions on the topics you miss most`,
     href: practiceHref({ subject: chosen, mode: 'smart' }), graphic: 'weights', subject: chosen, cost: costLine('smart', { pro, balance, short: true }), tag: SESSION.smartPro && !pro ? 'Pro' : null, go: 'start', action: 'Set up' });
   const choose = { id: 'choose', title: 'Choose your own', detail: 'Any subject, chapters, mode and length', href: PRACTICE_HREF, graphic: 'fan', subjects: subjects.slice(0, 3), go: 'open', action: 'Open' };

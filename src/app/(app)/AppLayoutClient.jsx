@@ -35,6 +35,7 @@ import Image from 'next/image';
 import mascot from '@/../public/brand/mascot/manifest.json';
 import PlaceTabs from '@/components/nav/PlaceTabs';
 import { useReviseBadge } from '@/lib/reviewRead';
+import { useKeycardsHome } from '@/components/keycards/api';
 import { dueBadge, dueLabel } from '@/lib/nav/dueCount.mjs';
 import { shownName } from '@/lib/displayName.mjs';
 import { VIEW_TRANSITION_PROPS } from '@/lib/motion/placeTransition';
@@ -82,6 +83,15 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // The Revise count is what Revise has due today (LEARN-REVIEW-1017 5.12), absent when nothing is due or the count is unknown.
   // It sits on Practice in the phone dock and on Your papers in the sidebar and in Practice's row of tabs.
   const reviseBadge = useReviseBadge({ enabled: status === 'authenticated' && !isTestRoute });
+  // The Key cards due today, beside "Learn, Key cards" in the sidebar (B 2.2: today.due). One shared read with the other Key cards entries.
+  const keycardsHome = useKeycardsHome({ enabled: status === 'authenticated' && !isTestRoute && (studyEnabled || previewRoute === '/learn') });
+  const learnDue = keycardsHome.state === 'ready' ? Number(keycardsHome.data?.today?.due) || 0 : 0;
+  // The development preview's &nav=n1 draws Learn as a place of its own in the sidebar (B 6.4), for the owner's call.
+  const [navAlt, setNavAlt] = useState(false);
+  useEffect(() => {
+    if (!previewRoute) return;
+    try { setNavAlt(new URLSearchParams(window.location.search).get('nav') === 'n1'); } catch { /* the default sidebar */ }
+  }, [previewRoute, pathname]);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -324,7 +334,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // The five places (WEB-NAV-1019 option A, owner D114): the sidebar draws Today, Practice, Mob and You as bold rows with their
   // pages indented under them (no group headers); the phone dock draws Today, Practice, the Start key, Mob and You; You opens
   // the You sheet; Practice's and the Mob's pages are a row of tabs on those pages. Every page keeps its link and route.
-  const navGroups = arenaNavigation(isModerator, { mob: mobOn, contribute: contributeOn }).map((group) => ({ ...group, items: group.items.filter(keepLearn) }));
+  const navGroups = arenaNavigation(isModerator, { mob: mobOn, contribute: contributeOn, learnPlace: navAlt && showStudy }).map((group) => ({ ...group, items: group.items.filter(keepLearn) }));
   const sheetGroups = youSheetGroups(isModerator, { mob: mobOn, contribute: contributeOn });
   const dockTabs = mobileNavigation({ mob: mobOn });
   const dockPlace = isTestRoute ? null : dockPlaceOf(activePath, { mob: mobOn });
@@ -340,7 +350,10 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     || (id === 'learn' && (activePath === '/cards' || activePath.startsWith('/cards/')));
   // The Revise count is drawn as "8 to revise", never a bare number that reads as a paper count (verifier M1), and said in words.
   const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? dueLabel(tab.label, reviseBadge) : undefined);
-  const hrefOf = (tab) => previewLinks?.[tab.id] || tab.href || `/${tab.id}`;
+  // The preview's own Find view for N1's "Key cards to revise" row (the real route is /learn/find).
+  const previewFind = () => { const q = new URLSearchParams(window.location.search); q.set('view', 'learn2'); q.set('lv', 'find'); return `/preview/arena?${q.toString()}`; };
+  const hrefOf = (tab) => (tab.id === 'learn-cards' && previewRoute ? previewFind() : previewLinks?.[tab.id] || tab.href || `/${tab.id}`);
+  const learnLabel = (tab) => (learnDue ? `Learn${tab.hint ? `, ${tab.hint}` : ''}, ${learnDue} ${learnDue === 1 ? 'card' : 'cards'} due today` : undefined);
   // The account's name only when it is a real name (release 11 walk; the app's rule, src/lib/displayName.mjs), else "Account".
   const accountName = shownName(user?.name, user?.email);
   const linkClass = (tab) => ['arena-nav-link', tab.place ? 'arena-nav-link--place' : '', tab.sub ? 'arena-nav-link--sub' : ''].filter(Boolean).join(' ');
@@ -352,13 +365,15 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         className={linkClass(tab)}
         style={{ '--i': index }}
         aria-current={isActive(tab.id) ? 'page' : undefined}
-        aria-label={tab.id === 'review' ? countLabel(tab) : undefined}
+        aria-label={tab.id === 'review' ? countLabel(tab) : tab.id === 'learn' ? learnLabel(tab) : undefined}
         data-tour={`nav-${tab.id}`}
+        data-due={tab.id === 'learn' && learnDue ? '' : undefined}
         onClick={onNavigate}
       >
         <AppIcon name={tab.icon} />
         <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
         {tab.id === 'review' && reviseBadge ? <i className="arena-nav-link__count" aria-hidden="true">{dueBadge(reviseBadge)}</i> : null}
+        {tab.id === 'learn' && learnDue ? <i className="arena-nav-link__count" aria-hidden="true">{dueBadge(learnDue)}</i> : null}
       </Link>
     </React.Fragment>
   );

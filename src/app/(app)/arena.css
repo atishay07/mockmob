@@ -254,6 +254,14 @@ html[data-theme='light'] :is(.app-shell .nta-runner[data-interface='nta'], .aren
   font-weight: 550;
 }
 .app-shell .arena-sidebar .arena-nav-link--sub[aria-current="page"]::before { left: -43px; top: 8px; bottom: 8px; }
+/* Learn is the way into Key cards and chapters (LK1: "very small"): its row carries the parent row's weight, and a 2 px volt tick on its left edge
+   while cards are due. The tick is a mark, not a key; the current page keeps its own 3 px one. */
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour="nav-learn"] { font-size: 15px; font-weight: 650; color: var(--a-ink); }
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour="nav-learn"] .arena-nav-link__hint { font-size: 12.5px; }
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour="nav-learn"] .icon { color: var(--a-ink-2); }
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour="nav-learn"][data-due]:not([aria-current="page"])::before {
+  content: ""; position: absolute; left: -43px; top: 10px; bottom: 10px; width: 2px; border-radius: 0 2px 2px 0; background: var(--a-select);
+}
 /* Learn's own row at the top of the phone sheet (D20): the one place on a phone that says what Learn is. */
 .app-shell .arena-sheet__lead {
   display: flex;
@@ -2029,6 +2037,13 @@ html[data-motion='reduced'] .app-shell .rc-caption .rc-chip { animation: none; }
 @media (min-width: 1024px) and (max-height: 933px) and (hover: hover) and (pointer: fine) {
   .app-shell .arena-sidebar:is(:has([data-tour="nav-learn"]), :has([data-tour="nav-mob"])) .arena-nav-link { min-height: 38px; }
   .app-shell .arena-sidebar:is(:has([data-tour="nav-learn"]), :has([data-tour="nav-mob"])) .arena-nav-link[aria-current="page"]::before { top: 8px; bottom: 8px; }
+}
+/* N1 (Learn as its own place) draws one more row: on a mouse window under 980 px high the rows come down to 34 px and the gaps to 4 px, so
+   Mobi's door and the Night, Day and system switch still show whole at 900. */
+@media (min-width: 1024px) and (max-height: 979px) and (hover: hover) and (pointer: fine) {
+  .app-shell .arena-sidebar:has([data-tour="nav-learn-cards"]) { gap: 4px; }
+  .app-shell .arena-sidebar:has([data-tour="nav-learn-cards"]):has([data-tour="nav-learn"]) .arena-nav-link { min-height: 34px; }
+  .app-shell .arena-sidebar:has([data-tour="nav-learn-cards"]):has([data-tour="nav-learn"]) .arena-nav-link[aria-current="page"]::before { top: 6px; bottom: 6px; }
 }
 @media (min-width: 1024px) and (max-height: 879px) and (hover: hover) and (pointer: fine) {
   .app-shell .arena-sidebar .arena-nav-link { min-height: 38px; }

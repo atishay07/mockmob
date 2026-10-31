@@ -22,3 +22,9 @@ html[data-motion='reduced'] .app-shell .arena-bottomnav a > i.arena-badge { anim
 
 /* More is the current tab on Concepts: the lens sits under it, as when the sheet is open. */
 html .app-shell .arena-bottomnav:has(> :nth-child(5)[aria-current='page']) { --abn-i: 4; --abn-on: 1; }
+
+/* "Learn, Key cards" with its due count fits the sidebar's indented row on one line (DESIGN-SPEC A8): the two-part label does not
+   wrap, the detail is a notch smaller and the gaps tighten, so "27 due" keeps its place at the end. */
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour='nav-learn'] { gap: 6px; padding: 0 6px; }
+.app-shell .arena-sidebar .arena-nav-link[data-tour='nav-learn'] .arena-nav-link__label { white-space: nowrap; }
+.app-shell .arena-sidebar .arena-nav-link--sub[data-tour='nav-learn'] .arena-nav-link__hint { font-size: 11.5px; }

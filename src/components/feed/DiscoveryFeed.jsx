@@ -9,6 +9,7 @@ import { QuestionCard } from './QuestionCard';
 import { useContributeEnabled } from '@/components/contribute/ContributeFlag';
 import { Listbox } from '@/components/ui/controls/Listbox';
 import { appendUniqueQuestions, chapterGroups } from '@/../data/explore_feed';
+import ExploreLeadCard from '@/components/learn2/feed/ExploreLeadCard';
 
 const PAGE_SIZE = 12;
 const EMPTY_PAGE = { questions: [], nextOffset: 0, hasMore: false, state: 'idle', error: null };
@@ -120,6 +121,7 @@ export function DiscoveryFeed() {
           {subjectState === 'error' && <ErrorState message="Subjects did not load. Check your connection and try again." onRetry={() => setSubjectRetry((count) => count + 1)} />}
           {chapterState === 'error' && <ErrorState title="Chapter filters did not load" message="You can still practise all chapters." onRetry={() => setChapterRetry((count) => count + 1)} />}
           <div className="ex-listhead"><span className="ex-listhead__obj" aria-hidden="true">{filters.subject ? <SubjectObject key={filters.subject} id={filters.subject} size={96} framed={false} lit className="mk-pop" /> : null}</span><h2>{subjectName}</h2>{hasFilters && <button type="button" className="ex-action" onClick={() => setFilters((current) => ({ ...current, chapter: '', difficulty: '' }))}>Clear filters</button>}<span className="sr-only" role="status">{busy ? 'Loading questions' : `${page.questions.length} questions loaded`}</span></div>
+          {filters.chapter ? <ExploreLeadCard subject={filters.subject} chapterName={filters.chapter} /> : null}
           <div aria-busy={busy}>
             {page.questions.map((question) => <QuestionCard key={`${filters.subject}-${question.id}`} row={question} onProgressChange={refreshSummary} />)}
             {busy && <div className="ex-loading" role="status"><span>Finding questions…</span><SkeletonLines count={4} /></div>}

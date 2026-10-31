@@ -36,7 +36,7 @@ test('the sidebar draws four places, each with its pages under it: no group head
   assert.deepEqual(groups.map((group) => group.id), ['today', 'practice', 'mob', 'you']);
   assert.deepEqual(groups.map((group) => group.items.map((item) => item.label)), [
     ['Today'],
-    ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved'],
+    ['Practice', 'Learn', 'Your papers', 'Explore', 'Saved'],
     ['Mob', 'Your standing'],
     ['You', 'Progress', 'Marks trend', 'Colleges', 'Wallet', 'Guide'],
   ]);
@@ -157,11 +157,11 @@ test('Mobi’s door sits at the sidebar’s foot above Night and Day, is the ord
   assert.doesNotMatch(read('src/components/ai/AskMobiHost.jsx'), /data-tour="nav-mentor"/, 'the door is a plain link: it opens /mentor, Ask Mobi’s own page, and no longer the panel in place (1019 option B)');
 });
 
-test('Practice and the Mob get a row of tabs on a phone: Practice, Your papers, Learn, Explore, Saved; Your Mob, Your standing', () => {
+test('Practice and the Mob get a row of tabs on a phone: Practice, Learn, Your papers, Explore, Saved; Your Mob, Your standing', () => {
   for (const path of ['/dashboard', '/review', '/learn', '/explore', '/saved']) {
     const row = placeTabs(path, { mob: true, study: true });
     assert.equal(row.id, 'practice', path);
-    assert.deepEqual(row.tabs.map((tab) => tab.label), ['Practice', 'Your papers', 'Learn', 'Explore', 'Saved']);
+    assert.deepEqual(row.tabs.map((tab) => tab.label), ['Practice', 'Learn', 'Your papers', 'Explore', 'Saved']);
   }
   assert.deepEqual(placeTabs('/dashboard', { study: false }).tabs.map((tab) => tab.label), ['Practice', 'Your papers', 'Explore', 'Saved'], 'Learn only while the lessons are on');
   for (const path of ['/mob', '/leaderboard']) assert.deepEqual(placeTabs(path, { mob: true }).tabs.map((tab) => tab.label), ['Your Mob', 'Your standing']);
