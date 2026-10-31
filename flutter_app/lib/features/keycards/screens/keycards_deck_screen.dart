@@ -60,8 +60,12 @@ class KeyCardsDeckScreen extends ConsumerStatefulWidget {
   ConsumerState<KeyCardsDeckScreen> createState() => _KeyCardsDeckScreenState();
 }
 
-class _KeyCardsDeckScreenState extends ConsumerState<KeyCardsDeckScreen> {
+class _KeyCardsDeckScreenState extends ConsumerState<KeyCardsDeckScreen> with SingleTickerProviderStateMixin {
   late KcMode _mode = widget.initialMode;
+
+  /// The chosen mode fades in (Read's rows, or the session) when the mode changes.
+  late final AnimationController _modeFade;
+  late final Animation<double> _modeOpacity;
   bool _adding = false;
   String? _addLine;
   bool _addFailed = false;
@@ -96,6 +100,28 @@ class _KeyCardsDeckScreenState extends ConsumerState<KeyCardsDeckScreen> {
         _addLine = KeyCardsCopy.addFailed;
       });
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _modeFade = AnimationController(vsync: this, value: 1);
+    _modeOpacity = CurvedAnimation(parent: _modeFade, curve: Motion.out);
+  }
+
+  @override
+  void dispose() {
+    _modeFade.dispose();
+    super.dispose();
+  }
+
+  void _choose(KcMode mode) {
+    setState(() {
+      _mode = mode;
+      _session += 1;
+    });
+    _modeFade.duration = Motion.of(context, Motion.ui);
+    unawaited(_modeFade.forward(from: 0));
   }
 
   Future<void> _share(KcDeck deck) async {
@@ -211,125 +237,128 @@ class _KeyCardsDeckScreenState extends ConsumerState<KeyCardsDeckScreen> {
       return ListView(
         padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, bottom),
         children: [
-            header,
-            const SizedBox(height: MmSpace.s32),
-            Text(KeyCardsCopy.emptyChapter, style: type.cardTitle),
-            const SizedBox(height: MmSpace.s4),
-            Text(KeyCardsCopy.emptyChapterNote, style: type.body.copyWith(color: colors.ink2)),
-          ],
-        );
-      }
-
-      final allAdded = deck.allAdded;
-      final actions = Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Text(
-            '${KeyCardsCopy.cardsOnly(deck.total)}. ${deck.mustKnow} ${KeyCardsCopy.mustKnow}.',
-            style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
-          ),
-          const SizedBox(height: MmSpace.s12),
-          if (allAdded && _addLine == null)
-            const ReceiptLine(text: KeyCardsCopy.inRevise)
-          else if (_addLine != null && !_addFailed)
-            ReceiptLine(text: _addLine!)
-          else
-            KeyButton.secondary(
-              label: KeyCardsCopy.addToRevise,
-              loading: _adding,
-              onPressed: cached ? null : () => unawaited(_add(deck)),
-            ),
-          if (_addFailed) ...[
-            const SizedBox(height: MmSpace.s4),
-            Semantics(liveRegion: true, child: Text(_addLine!, style: type.small.copyWith(color: colors.warnText))),
-          ],
-          if (isPro && deck.mustKnowCards.isNotEmpty) ...[
-            const SizedBox(height: MmSpace.s4),
-            KcLinkAction(label: KeyCardsCopy.shareSheet, onTap: () => unawaited(_share(deck))),
-          ],
+          header,
+          const SizedBox(height: MmSpace.s32),
+          Text(KeyCardsCopy.emptyChapter, style: type.cardTitle),
+          const SizedBox(height: MmSpace.s4),
+          Text(KeyCardsCopy.emptyChapterNote, style: type.body.copyWith(color: colors.ink2)),
         ],
       );
+    }
 
-      final Widget modeBody = switch (_mode) {
-        KcMode.read => _ReadList(deck: deck),
-        KcMode.study => KeyCardRun(
-          key: ValueKey('kc-study-$_session'),
-          cards: cards,
-          mode: KeyCardRules.modeStudy,
-          onDone: () => setState(() => _mode = KcMode.read),
+    final allAdded = deck.allAdded;
+    final actions = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          '${KeyCardsCopy.cardsOnly(deck.total)}. ${deck.mustKnow} ${KeyCardsCopy.mustKnow}.',
+          style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
         ),
-        KcMode.lastLook => KcLastLook(key: ValueKey('kc-last-$_session'), cards: deck.mustKnowCards),
-      };
-
-      final switcher = MmOverlapSwitcher.fade(
-        duration: Motion.ui,
-        alignment: Alignment.topCenter,
-        child: KeyedSubtree(key: ValueKey('kc-mode-${_mode.param}'), child: modeBody),
-      );
-
-      return LayoutBuilder(
-        builder: (context, constraints) => ListView(
-          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, bottom),
-          children: [
-          header,
-          const SizedBox(height: MmSpace.s16),
-          actions,
-          const SizedBox(height: MmSpace.s24),
-          MmSegmented<KcMode>(
-            showBubbles: false,
-            semanticsLabel: KeyCardsCopy.modes,
-            segments: const [
-              MmSegment(KcMode.read, KeyCardsCopy.read),
-              MmSegment(KcMode.study, KeyCardsCopy.study),
-              MmSegment(KcMode.lastLook, KeyCardsCopy.lastLook),
-            ],
-            value: _mode,
-            onChanged: (m) => setState(() {
-              _mode = m;
-              _session += 1;
-            }),
+        const SizedBox(height: MmSpace.s12),
+        if (allAdded && _addLine == null)
+          const ReceiptLine(text: KeyCardsCopy.inRevise)
+        else if (_addLine != null && !_addFailed)
+          ReceiptLine(text: _addLine!)
+        else
+          KeyButton.secondary(
+            label: KeyCardsCopy.addToRevise,
+            loading: _adding,
+            onPressed: cached ? null : () => unawaited(_add(deck)),
           ),
-          const SizedBox(height: MmSpace.s16),
+        if (_addFailed) ...[
+          const SizedBox(height: MmSpace.s4),
+          Semantics(liveRegion: true, child: Text(_addLine!, style: type.small.copyWith(color: colors.warnText))),
+        ],
+        if (isPro && deck.mustKnowCards.isNotEmpty) ...[
+          const SizedBox(height: MmSpace.s4),
+          KcLinkAction(label: KeyCardsCopy.shareSheet, onTap: () => unawaited(_share(deck))),
+        ],
+      ],
+    );
+
+    final top = <Widget>[
+      header,
+      const SizedBox(height: MmSpace.s16),
+      actions,
+      const SizedBox(height: MmSpace.s24),
+      MmSegmented<KcMode>(
+        showBubbles: false,
+        semanticsLabel: KeyCardsCopy.modes,
+        segments: const [
+          MmSegment(KcMode.read, KeyCardsCopy.read),
+          MmSegment(KcMode.study, KeyCardsCopy.study),
+          MmSegment(KcMode.lastLook, KeyCardsCopy.lastLook),
+        ],
+        value: _mode,
+        onChanged: _choose,
+      ),
+      const SizedBox(height: MmSpace.s16),
+    ];
+
+    // Read builds its rows as they scroll into view: a chapter can hold 165 cards, and building them all at once
+    // held the first frame for a fifth of a second on the emulator (the device walk of 31 Oct). One list for
+    // every mode, so choosing a mode keeps the page where it is.
+    final read = _mode == KcMode.read;
+    final rows = read ? _readRows(deck) : const <Widget Function()>[];
+    final Widget? session = switch (_mode) {
+      KcMode.read => null,
+      KcMode.study => KeyCardRun(
+        key: ValueKey('kc-study-$_session'),
+        cards: cards,
+        mode: KeyCardRules.modeStudy,
+        onDone: () => _choose(KcMode.read),
+      ),
+      KcMode.lastLook => KcLastLook(key: ValueKey('kc-last-$_session'), cards: deck.mustKnowCards),
+    };
+
+    return LayoutBuilder(
+      builder: (context, constraints) => ListView.builder(
+        padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, bottom),
+        itemCount: top.length + (read ? rows.length : 1),
+        itemBuilder: (context, i) {
+          if (i < top.length) return top[i];
+          final j = i - top.length;
+          if (session == null) {
+            return FadeTransition(
+              opacity: _modeOpacity,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [if (j > 0) Divider(height: 1, thickness: 1, color: colors.line), rows[j]()],
+              ),
+            );
+          }
           // A card session holds at least a screen of room below its card, so once the page has moved the card
           // up to show its keys, a shorter next card does not pull the page back down to the chapter's header.
-          if (_mode == KcMode.read)
-            switcher
-          else
-            ConstrainedBox(
-              constraints: BoxConstraints(minHeight: (constraints.maxHeight - bottom).clamp(0, double.infinity)),
-              child: Align(alignment: Alignment.topCenter, child: switcher),
+          return ConstrainedBox(
+            constraints: BoxConstraints(minHeight: (constraints.maxHeight - bottom).clamp(0, double.infinity)),
+            child: Align(
+              alignment: Alignment.topCenter,
+              child: FadeTransition(opacity: _modeOpacity, child: session),
             ),
-        ],
+          );
+        },
       ),
     );
   }
 }
 
-/// Read: every card in book order, with hairlines between them. Free's locked cards fold into one quiet row
-/// where the first of them stands.
-class _ReadList extends StatelessWidget {
-  const _ReadList({required this.deck});
-
-  final KcDeck deck;
-
-  @override
-  Widget build(BuildContext context) {
-    final colors = context.mmColors;
-    final children = <Widget>[];
-    var lockedShown = false;
-    for (final e in deck.entries) {
-      if (e.locked) {
-        if (lockedShown) continue;
-        lockedShown = true;
-        if (children.isNotEmpty) children.add(Divider(height: 1, thickness: 1, color: colors.line));
-        children.add(KcLockedRow(count: deck.locked > 0 ? deck.locked : deck.entries.where((x) => x.locked).length));
-        continue;
-      }
-      if (children.isNotEmpty) children.add(Divider(height: 1, thickness: 1, color: colors.line));
-      children.add(KcReadCard(key: ValueKey('kc-read-${e.card!.id}'), card: e.card!));
+/// Read's rows: every card in book order (the list draws hairlines between them), with Free's locked cards
+/// folded into one quiet row where the first of them stands.
+List<Widget Function()> _readRows(KcDeck deck) {
+  final rows = <Widget Function()>[];
+  var lockedShown = false;
+  for (final e in deck.entries) {
+    if (e.locked) {
+      if (lockedShown) continue;
+      lockedShown = true;
+      final count = deck.locked > 0 ? deck.locked : deck.entries.where((x) => x.locked).length;
+      rows.add(() => KcLockedRow(count: count));
+      continue;
     }
-    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children);
+    final card = e.card!;
+    rows.add(() => KcReadCard(key: ValueKey('kc-read-${card.id}'), card: card));
   }
+  return rows;
 }
 
 class _DeckSkeleton extends StatelessWidget {
