@@ -16,8 +16,8 @@ import { Check, ChevronLeft, Lock, Printer } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { ErrorState } from '@/components/ui/Skeleton';
 import { CardHead, CardSource, InShort, KeyCardPlayer, NcertText, Prompt, ProGate, ReportForm } from './KeyCard';
-import { addToRevise, isOff, isProRequired, readChapters, readDeck, refreshHome } from './api';
-import { BLANK_KINDS, MODES, chapterRef, chapterRefSpoken, deckOrigin, endCounts, plural, readingRows, splitDeck, unitRepeats } from './kinds';
+import { addToRevise, isOff, isProRequired, markNewCardsUsed, newCardsUsedToday, readChapters, readDeck, refreshHome } from './api';
+import { BLANK_KINDS, MODES, chapterRef, chapterRefSpoken, deckOrigin, endCounts, limitCopy, plural, readingRows, splitDeck, unitRepeats } from './kinds';
 import { useCardsLinks } from './links';
 import { ncertFont } from './ncertFont';
 import './keycards.css';
@@ -122,7 +122,7 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
   const [start, setStart] = useState(0);
   const [at, setAt] = useState(0);
   const [ratings, setRatings] = useState({});
-  const [limited, setLimited] = useState(false);
+  const [limited, setLimited] = useState(() => (newCardsUsedToday() ? 'new' : null));
   const part = cards.slice(start, start + STUDY_ROUND);
   const total = part.length;
   const card = part[at];
@@ -136,11 +136,13 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
   const begin = (from) => { setRatings({}); setAt(0); setStart(from); setRound((r) => r + 1); };
   const span = rounds ? `Cards ${start + 1} to ${start + total} of ${cards.length}` : null;
   if (limited) {
+    const copy = limitCopy(limited, { where: 'study' });
     return (
       <div className="kc-end" role="status">
-        <h2 className="kc-end__title">Today’s free reviews are used</h2>
-        <p className="kc-end__line">Free includes 10 card reviews a day. Reading the cards stays open, and the reviews come back tomorrow.</p>
-        <ProGate isPro={isPro} />
+        <h2 className="kc-end__title">{copy.title}</h2>
+        {copy.line ? <p className="kc-end__line">{copy.line}</p> : null}
+        {copy.rest ? <p className="kc-end__line">{copy.rest}</p> : null}
+        <ProGate isPro={isPro} lead={copy.lead} />
         <button type="button" className="kc-btn kc-btn--quiet" onClick={onRead}>Read the chapter</button>
       </div>
     );
@@ -168,7 +170,7 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
   return (
     <div className="kc-session">
       <div className="kc-progress" aria-hidden="true"><span style={{ transform: `scaleX(${at / total})` }} /></div>
-      <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={<>{at + 1} of {total}{span ? <span className="kc-pos__of">{span}</span> : null}</>} onRated={rated} onLimit={() => setLimited(true)} />
+      <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={<>{at + 1} of {total}{span ? <span className="kc-pos__of">{span}</span> : null}</>} onRated={rated} onLimit={(kind) => { if (kind === 'new') markNewCardsUsed(); setLimited(kind); }} />
       <p className="kc-fine">Each card you rate joins Revise: Missed brings it back soon, Got it and Easy space it out.<span className="kc-keyhint"> Space shows the answer; 1, 2 and 3 rate it.</span></p>
     </div>
   );

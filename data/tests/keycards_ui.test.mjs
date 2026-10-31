@@ -6,7 +6,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
   KIND_LABELS, PRO_LINE, RATINGS, backLines, chapterRef, chapterRefSpoken, countsLine, endCounts, findChapter, markBlanks, readingRows, slugChapter,
-  sourceLine, splitBlanks, splitDeck, stateCue, todayLine,
+  sourceLine, splitBlanks, splitDeck, stateCue, todayLine, addedLine, limitCopy, limitKind, stampFor,
 } from '../../src/components/keycards/kinds.js';
 import {
   FIXTURE_DECKS, fixtureChapters, fixtureDeck, fixtureDeckView, fixtureHome, fixtureKeycards, fixtureLine, fixtureReviseKeycards, fixtureTasteIds,
@@ -174,4 +174,62 @@ test('the Pro line is the spec line, with its own reason, and the copy is clean'
   assert.match(sheetHead('keycards').lede, /every card in every chapter/);
   assert.equal(benefitLines('keycards')[0].id, 'keycards');
   for (const text of [sheetHead('keycards').title, sheetHead('keycards').lede, ...benefitLines('keycards').map((l) => l.text)]) assert.doesNotMatch(text, FORBIDDEN, text);
+});
+
+test('M3: a rating keeps one stamp per card shown, so a retry sends the same clientReviewedAt', () => {
+  let tick = 0;
+  const now = () => `2026-10-31T10:00:0${tick++}.000Z`;
+  const first = stampFor(null, 'c1', now);
+  assert.equal(stampFor(first, 'c1', now).at, first.at, 'retry on the same card reuses the stamp');
+  assert.equal(stampFor(stampFor(first, 'c1', now), 'c1', now), first);
+  const next = stampFor(first, 'c2', now);
+  assert.notEqual(next.at, first.at, 'a new card gets a new stamp');
+  const src = readFileSync(new URL('../../src/components/keycards/KeyCard.jsx', import.meta.url), 'utf8');
+  assert.match(src, /stampFor\(stamp\.current, card\.id\)/);
+  assert.match(src, /clientReviewedAt: stamp\.current\.at/);
+});
+
+test('L6: The line you needed says what the server added', () => {
+  assert.equal(addedLine(2, 2), 'Both are in Revise. They come back when due.');
+  assert.equal(addedLine(1, 1), 'In Revise. It comes back when due.');
+  assert.doesNotMatch(addedLine(1, 2), /Both/);
+  assert.match(addedLine(1, 2), /^1 card added to Revise/);
+  assert.match(addedLine(['a'], 2), /^1 card added/);
+  assert.match(addedLine(0, 2), /already in Revise/);
+});
+
+test('L11: an old chapter name finds its Key cards row through the syllabus; a retired one gets none', () => {
+  const home = { subjects: [{ subject: 'business_studies', units: [{ unit: 'Business Finance', chapters: [{ key: 'business_studies.financial-management', title: 'Financial Management', cards: 20 }] }] }] };
+  assert.equal(findChapter(home, 'business_studies', 'Business Finance')?.key, 'business_studies.financial-management');
+  assert.equal(findChapter(home, 'business_studies', 'Financial Management')?.key, 'business_studies.financial-management');
+});
+
+test('chapter state unknown reads "Could not load", never "Not started"', () => {
+  const cue = stateCue({ state: 'unknown', label: 'Could not load', fading: false });
+  assert.equal(cue.label, 'Could not load');
+  assert.equal(stateCue({ state: 'unknown' }).label, 'Could not load');
+  assert.equal(stateCue({ state: 'none', label: 'Not started' }).label, 'Not started');
+});
+
+test('402 copy differs by reason and obeys the copy rules', () => {
+  assert.equal(limitKind('keycard_new'), 'new');
+  assert.equal(limitKind('keycards'), 'card');
+  assert.equal(limitKind('keycard_reviews'), 'reviews');
+  assert.equal(limitKind(null), 'reviews');
+  const n = limitCopy('new');
+  assert.equal(`${n.lead} ${PRO_LINE}`, 'That is today’s 5 new cards on Free. Pro opens every card in every chapter and keeps them on a schedule.');
+  assert.equal(limitCopy('card').title, 'This card is part of Pro');
+  for (const where of ['study', 'revise']) {
+    const r = limitCopy('reviews', { where });
+    assert.match(r.title, /free (card )?reviews are used/);
+    assert.notEqual(r.title, n.title);
+    for (const kind of ['new', 'card', 'reviews']) {
+      const c = limitCopy(kind, { where });
+      for (const t of [c.title, c.line, c.lead, c.rest].filter(Boolean)) {
+        assert.doesNotMatch(t, FORBIDDEN, t);
+        assert.doesNotMatch(t, /·|→|%/, t);
+      }
+    }
+  }
+  assert.doesNotMatch(limitCopy('card').title, /reviews are used/);
 });
