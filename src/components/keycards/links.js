@@ -5,7 +5,7 @@
 import { useCallback } from 'react';
 import { usePathname, useSearchParams } from 'next/navigation';
 
-const KEEP = ['plan', 'data', 'kc', 'revise', 'study'];
+const KEEP = ['plan', 'data', 'kc', 'revise', 'study', 'decks', 'student', 'kcs', 'kcline', 'kcfirst'];
 
 export function useCardsLinks() {
   const pathname = usePathname() || '';
