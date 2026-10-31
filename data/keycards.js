@@ -142,11 +142,13 @@ export function retrievability(stateRow, now) {
 /**
  * Today's queue. `states` are the student's key_card_states rows; `cardsById` the published cards.
  *   1. due cards (reviewed before, due_at <= now): Must-know first, then oldest due first
- *   2. then new cards (added, never reviewed) in book order, up to `newAllowanceLeft`
+ *   2. then new cards (added, never reviewed) in book order, up to `newAllowanceLeft`: chapter by chapter
+ *      (`chapterRank(chapterKey)`, the syllabus order; without it subject then chapter key), then the card's order in
+ *      its chapter. A card's `order` restarts in every chapter, so sorting by it alone interleaved chapters.
  * New cards pause while more than `overduePauseNew` cards are overdue. Suspended cards and cards no longer published are
  * skipped. Returns { items: [{ card, state, isNew }], due, overdue, newShown, paused }.
  */
-export function dueQueue(states, cardsById, { now, isPro = false, newAllowanceLeft = Infinity, limit = 20 } = {}) {
+export function dueQueue(states, cardsById, { now, isPro = false, newAllowanceLeft = Infinity, limit = 20, chapterRank = null } = {}) {
   const at = time(now);
   const get = (id) => (cardsById instanceof Map ? cardsById.get(id) : cardsById?.[id]);
   const live = (states || []).filter((s) => s && !s.suspended && get(s.card_id));
@@ -155,8 +157,10 @@ export function dueQueue(states, cardsById, { now, isPro = false, newAllowanceLe
     .sort((a, b) => mustFirst(get(a.card_id), get(b.card_id)) || time(a.due_at) - time(b.due_at) || String(a.card_id).localeCompare(String(b.card_id)));
   const paused = due.length > KEYCARD_RULES.overduePauseNew;
   const room = Math.max(0, Math.min(Number.isFinite(newAllowanceLeft) ? newAllowanceLeft : Infinity, isPro ? Infinity : KEYCARD_RULES.free.newPerDay));
+  const rankOf = typeof chapterRank === 'function' ? (c) => Number(chapterRank(c.chapterKey) ?? Number.MAX_SAFE_INTEGER) : () => 0;
+  const chapterOrder = (a, b) => (rankOf(a) - rankOf(b)) || String(a.subject ?? '').localeCompare(String(b.subject ?? '')) || String(a.chapterKey ?? '').localeCompare(String(b.chapterKey ?? ''));
   const fresh = paused ? [] : live.filter((s) => !(Number(s.reps) > 0))
-    .sort((a, b) => bookOrder(get(a.card_id), get(b.card_id)) || time(a.added_at) - time(b.added_at))
+    .sort((a, b) => chapterOrder(get(a.card_id), get(b.card_id)) || bookOrder(get(a.card_id), get(b.card_id)) || time(a.added_at) - time(b.added_at))
     .slice(0, room === Infinity ? undefined : room);
   const cap = limit === Infinity ? Infinity : Math.max(0, Number.isFinite(Number(limit)) ? Number(limit) : 20);
   const items = [...due.map((s) => ({ card: get(s.card_id), state: s, isNew: false })), ...fresh.map((s) => ({ card: get(s.card_id), state: s, isNew: true }))].slice(0, cap);

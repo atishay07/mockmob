@@ -166,6 +166,17 @@ test('dueQueue: due first (Must-know, then oldest), then new in book order up to
   assert.equal(dueQueue(states, byId, { now: T0, isPro: true, limit: 1 }).items.length, 1);
 });
 
+test('dueQueue: new cards chapter by chapter (the given rank, else subject and chapter key), then book order in the chapter', () => {
+  const a = [1, 2, 3].map((i) => card({ chapterKey: 'business_studies.staffing', order: i * 10 }));
+  const b = [1, 2, 3].map((i) => card({ chapterKey: 'business_studies.planning', order: i * 10 }));
+  const byId = new Map([...a, ...b].map((c) => [c.id, c]));
+  const states = [a[0], b[0], a[1], b[1], a[2], b[2]].map((c) => stateRow(c));
+  const ids = (q) => q.items.map((i) => i.card.id);
+  assert.deepEqual(ids(dueQueue(states, byId, { now: T0, isPro: true })), [...b, ...a].map((c) => c.id), 'no rank: planning < staffing by key, never interleaved');
+  const rank = (key) => (key === 'business_studies.staffing' ? 0 : 1);
+  assert.deepEqual(ids(dueQueue(states, byId, { now: T0, isPro: true, chapterRank: rank })), [...a, ...b].map((c) => c.id));
+});
+
 test('new cards pause while more than 40 are overdue', () => {
   const cards = Array.from({ length: 45 }, () => card({ chapterKey: 'business_studies.marketing-management' }));
   const byId = new Map(cards.map((c) => [c.id, c]));

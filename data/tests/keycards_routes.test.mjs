@@ -6,6 +6,7 @@ import assert from 'node:assert/strict';
 import { createKeycards } from '../../src/lib/server/keycards.js';
 import { syllabusFrom } from '../../src/lib/server/keycardsSyllabus.js';
 import { KEYCARD_RULES, schedule } from '../keycards.js';
+import * as cuetSyllabus from '../cuet_syllabus.js';
 
 const DAY = 86_400_000;
 const T0 = Date.parse('2026-11-02T18:00:00+05:30');
@@ -122,16 +123,16 @@ const PLANNING = Array.from({ length: 8 }, (_, i) => mk('planning', i + 1));
 const STAFFING = Array.from({ length: 3 }, (_, i) => mk('staffing', i + 1));
 const CARDS = [...PLANNING, ...STAFFING];
 const decks = (cards = CARDS) => ({
-  bySubject: new Map([['business_studies', { version: 1, cards }]]),
+  bySubject: new Map([...new Set(cards.map((c) => c.subject))].map((subject) => [subject, { version: 1, cards: cards.filter((c) => c.subject === subject) }])),
   byId: new Map(cards.map((c) => [c.id, c])),
   links: new Map([['business_studies', { 'q-linked': [PLANNING[0].id] }]]),
   disabled: [],
 });
 
-function setup({ isPro = false, tables = {}, clock = { t: T0 }, subjects = ['business_studies', 'economics', 'not_a_subject'], cards = CARDS } = {}) {
+function setup({ isPro = false, tables = {}, clock = { t: T0 }, subjects = ['business_studies', 'economics', 'not_a_subject'], cards = CARDS, syllabus = syllabusFrom(null) } = {}) {
   const db = fakeDb(tables);
   const kc = createKeycards({
-    db, decks: decks(cards), syllabus: syllabusFrom(null), now: () => clock.t,
+    db, decks: decks(cards), syllabus, now: () => clock.t,
     getUser: async (id) => ({ id, isPremium: typeof isPro === 'function' ? isPro(id) : isPro, subjects }),
     inventory: async () => ({ chapterCounts: { business_studies: { Planning: 120, Staffing: 40 } } }),
     reviewRecord: async () => ({ fake: true }),
@@ -436,6 +437,53 @@ test('M1, L1: duplicate replays racing write once; a conflicting rating writes a
   assert.equal(retry.http, 200);
   assert.equal(retry.body.replay, undefined);
   assert.equal(f.db.tables.key_card_states.find((s) => s.card_id === STAFFING[1].id).reps, 2);
+});
+
+test('H3: a Pro student who lapses to Free gets only the taste cards in the queue and every count, and can play all of it', async () => {
+  const plan = { pro: true };
+  const f = setup({ isPro: () => plan.pro });
+  await f.kc.add('u1', { chapter: 'business_studies.planning' }); // Pro: the 6 Must-know cards
+  for (const c of PLANNING.slice(0, 6)) assert.equal((await f.kc.review('u1', { cardId: c.id, rating: 1, mode: 'study' })).http, 200);
+  plan.pro = false;
+  f.clock.t = T0 + 2 * DAY;
+  const due = await f.kc.due('u1', { limit: 20 });
+  const taste = PLANNING.slice(0, 5).map((c) => c.id);
+  assert.deepEqual(due.body.cards.map((c) => c.id).sort(), [...taste].sort(), 'the sixth Must-know card (Pro only) is not offered');
+  assert.equal(due.body.today.due, 5);
+  assert.equal(await f.kc.dueCount('u1'), 5);
+  const planning = (await f.kc.overview('u1')).body.subjects[0].units.flatMap((u) => u.chapters).find((c) => c.key === 'business_studies.planning');
+  assert.equal(planning.due, 5);
+  assert.equal((await f.kc.reviseSource('u1')).items.length, 5);
+  // Everything offered can be played: before, the player hit 402 keycards with 0 used.
+  for (const c of due.body.cards) assert.equal((await f.kc.review('u1', { cardId: c.id, rating: 3, mode: 'revise' })).http, 200, c.id);
+  assert.equal((await f.kc.review('u1', { cardId: PLANNING[5].id, rating: 3, mode: 'revise' })).body.reason, 'keycards');
+  plan.pro = true;
+  assert.equal(await f.kc.dueCount('u1'), 1, 'Pro again: the sixth card is back');
+});
+
+test('L4: switching the Accountancy part from AFS to CAS takes the AFS cards out of the queue and the counts', async () => {
+  const acc = (slug, i) => mk(slug, i, { id: `kc.accountancy.${slug}.def-c${i}`, subject: 'accountancy', chapterKey: `accountancy.${slug}`, importance: 'must' });
+  const cards = [...[1, 2].map((i) => acc('accounting-ratios', i)), ...[1, 2].map((i) => acc('computerized-accounting-system', i)), ...[1, 2].map((i) => acc('share-capital', i))];
+  const f = setup({ isPro: true, cards, subjects: ['accountancy'], syllabus: syllabusFrom(cuetSyllabus) });
+  await f.kc.add('u1', { cardIds: cards.map((c) => c.id) });
+  for (const c of cards) await f.kc.review('u1', { cardId: c.id, rating: 1, mode: 'study' });
+  f.clock.t = T0 + 2 * DAY;
+  assert.equal(await f.kc.dueCount('u1'), 6, 'no part saved: every section');
+  await f.kc.putOption('u1', { subject: 'accountancy', option: 'CAS' });
+  const cas = (await f.kc.due('u1')).body.cards.map((c) => c.chapterKey);
+  assert.deepEqual([...new Set(cas)].sort(), ['accountancy.computerized-accounting-system', 'accountancy.share-capital']);
+  assert.equal(await f.kc.dueCount('u1'), 4);
+  await f.kc.putOption('u1', { subject: 'accountancy', option: 'AFS' });
+  assert.deepEqual([...new Set((await f.kc.due('u1')).body.cards.map((c) => c.chapterKey))].sort(), ['accountancy.accounting-ratios', 'accountancy.share-capital']);
+});
+
+test('L7: new cards come chapter by chapter in syllabus order, then in book order within the chapter', async () => {
+  const f = setup({ isPro: true });
+  await f.kc.add('u1', { chapter: 'business_studies.staffing' });
+  await f.kc.add('u1', { chapter: 'business_studies.planning' });
+  const ids = (await f.kc.due('u1', { limit: 20 })).body.cards.map((c) => c.id);
+  // Card order restarts at 10 in each chapter: sorting by it alone gave planning 1, staffing 1, planning 2, ...
+  assert.deepEqual(ids, [...PLANNING.slice(0, 6), ...STAFFING].map((c) => c.id));
 });
 
 test('the Free rules match the spec constants', () => {

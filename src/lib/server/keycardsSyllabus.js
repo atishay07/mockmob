@@ -52,6 +52,7 @@ function fromV2(mod) {
     }
     return out;
   };
+  const rank = new Map(chapters.map((c, i) => [c.key, i]));
   return {
     source: 'v2',
     year: mod.SYLLABUS_YEAR ?? 2026,
@@ -60,6 +61,8 @@ function fromV2(mod) {
     chapterByKey: (key) => byKey.get(key) || retiredByKey.get(key) || null,
     chaptersFor,
     unitsFor,
+    sectionAllowed: (subject, section, option) => (typeof mod.sectionAllowed === 'function' ? mod.sectionAllowed(subject, section, option) : sectionOpen(section, option)),
+    chapterRank: (key) => rank.get(key) ?? Number.MAX_SAFE_INTEGER,
   };
 }
 
@@ -89,6 +92,7 @@ function fromCanonical() {
   const unitsFor = (subject, { option } = {}) => (bySubject.get(subject) || [])
     .map((u) => ({ unit: u.unit, chapters: u.chapters.filter((c) => sectionOpen(c.section, option)) }))
     .filter((u) => u.chapters.length);
+  const rank = new Map([...live.keys()].map((key, i) => [key, i]));
   return {
     source: 'canonical',
     year: 2026,
@@ -103,6 +107,8 @@ function fromCanonical() {
     chapterByKey: (key) => live.get(key) || retired.get(key) || null,
     chaptersFor: (subject, opts = {}) => unitsFor(subject, opts).flatMap((u) => u.chapters),
     unitsFor,
+    sectionAllowed: (_subject, section, option) => sectionOpen(section, option),
+    chapterRank: (key) => rank.get(key) ?? Number.MAX_SAFE_INTEGER,
   };
 }
 
