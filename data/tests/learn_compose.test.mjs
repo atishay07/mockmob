@@ -8,7 +8,7 @@ import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
   LEARN_RULES, NOTE, budgetSeconds, composeRun, dryRun, effectiveLeaveOut, minutesFor, mistakesFor, orderProblems, pickQuestions,
-  isLong, mistakeLabel, pileMinutes, rhythm, splitMinutes, shrinkText, overdueNewCap, lessonSeconds,
+  isLong, mistakeLabel, pileMinutes, rhythm, splitMinutes, shrinkText, overdueNewCap, lessonSeconds, feedCardPool,
 } from '../learn/compose.js';
 import { SECONDS, cardSeconds, cardWords, questionSeconds, itemSeconds, sumSeconds } from '../learn/seconds.js';
 import { LEARN_FREE, FREE_CAPPED, FREE_CARDS_ONLY, FREE_SESSION_DONE, freeSession, isCounted } from '../learn/allowance.js';
@@ -471,4 +471,18 @@ test('R10.1 and R16: a mistake rests until the next India day; "today" only for 
   const pick = levelPick([{ chapterKey: 'a', correct: true }, { chapterKey: 'a', correct: false }, { chapterKey: 'b', correct: false }, { chapterKey: 'c', correct: false }], books);
   assert.deepEqual(pick, { key: 'b', title: 'B', right: 0, of: 1 }, 'the lowest share right, ties in book order');
   assert.equal(levelPick([], books), null);
+});
+
+test('F4 5: feedCardPool dueLooks adds the due cards in Revise as held looks only when there is no fresh card', () => {
+  const day = 86_400_000;
+  const now = Date.parse('2026-11-02T12:00:00Z');
+  const cards = ['a', 'b', 'c'].map((id, i) => ({ id, order: i, importance: 'must' }));
+  const state = (id, due) => [id, { card_id: id, reps: 1, suspended: false, due_at: new Date(now + due * day).toISOString() }];
+  const allDue = new Map([state('a', -2), state('b', -1), state('c', 3)]);
+  assert.deepEqual(feedCardPool(cards, allDue, null, now).held.map((x) => x.card.id), ['c'], 'Pro: never a due card');
+  assert.deepEqual(feedCardPool(cards, allDue, null, now, { dueLooks: true }).held.map((x) => x.card.id).sort(), ['a', 'b', 'c'], 'Free with no fresh card');
+  const oneFresh = new Map([state('a', -2), state('b', -1)]);
+  assert.deepEqual(feedCardPool(cards, oneFresh, null, now, { dueLooks: true }).held, [], 'a fresh card left: nothing due joins');
+  const suspended = new Map([['a', { card_id: 'a', reps: 1, suspended: true, due_at: new Date(now - day).toISOString() }], state('b', -1), state('c', -1)]);
+  assert.deepEqual(feedCardPool(cards, suspended, null, now, { dueLooks: true }).held.map((x) => x.card.id).sort(), ['b', 'c'], 'a suspended card stays out');
 });

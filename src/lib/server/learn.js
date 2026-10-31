@@ -365,6 +365,7 @@ export function createLearn(deps) {
       kind, minutes, leaveOut, cardIds, now: S.now,
       cards: info.open, states: info.states, questions: info.questions, mistakes: info.mistakes, lesson: info.lesson,
       ratingsLeft: S.ratingsLeft, newLeft: S.newLeft, shownAt: S.shownAt, overdue: S.overdue || 0,
+      dueLooks: !S.isPro, // Free's returning feed: the cards it already holds show again as looks (BUILD-1101 F4)
     });
   }
 
@@ -1093,12 +1094,26 @@ export function createLearn(deps) {
       }
     }
     await store.endRun(userId, row.id);
-    const feed = row.kind === 'feed' ? feedEnd(S, row, info, { ev, itemOf, answered: answered.length, right, fixed, mistakes: mistakesIn.length, sessionDone, length }) : null;
+    // How far the run got and how long it took, for every run kind ("You stopped at 8 of 21." / "All 21 done in 9 min.").
+    const done = runDone(row, ev);
+    const feed = row.kind === 'feed' ? feedEnd(S, row, info, { ev, itemOf, answered: answered.length, right, fixed, mistakes: mistakesIn.length, sessionDone, length, done }) : null;
     return ok({
-      feed, title,
+      feed, title, done,
       numbers: { cards: perCard.size, questions: answered.length, fixed, mistakes: mistakesTried, detail },
       lines, revisePile: groups, reviseCards, moved, free, lead: opts.lead, options: opts.options, ...(level ? { level } : {}),
     });
+  }
+
+  /**
+   * How far a run got and how long it took (B7 2, F4 3): `reached` is the place of the last item the student acted on, `of`
+   * the run's items, `minutes` the first event to the last, rounded, at least 1.
+   */
+  function runDone(row, ev) {
+    const places = (row.items || []).map((i) => i.id);
+    const reached = ev.reduce((m, e) => Math.max(m, places.indexOf(e.item_id) + 1), 0);
+    const times = ev.map((e) => Date.parse(e.created_at)).filter(Number.isFinite);
+    const minutes = times.length ? Math.max(1, Math.round((Math.max(...times) - Math.min(...times)) / 60_000)) : 1;
+    return { reached, of: places.length, minutes };
   }
 
   /** Free after the day's session (BUILD-1101 1.6): the line leads with a See Pro text key; nothing that serves questions. */
@@ -1119,7 +1134,7 @@ export function createLearn(deps) {
    *   lead      "Another 10 minutes" (fresh: true); on Free with the day's session used, null and `free` says why
    *   dueOffer  "Revise 3 due cards, about 1 min" when the chapter has due cards
    */
-  function feedEnd(S, row, info, { ev, answered, right, fixed, mistakes, sessionDone, length }) {
+  function feedEnd(S, row, info, { ev, answered, right, fixed, mistakes, sessionDone, length, done }) {
     const keeps = ev.filter((e) => e.kind === 'keep' && e.body?.kept);
     const cards = keeps.map((k) => cardOf(S, k.card_id)).filter(Boolean);
     const dues = keeps.map((k) => k.due_at).filter(Boolean);
@@ -1129,14 +1144,9 @@ export function createLearn(deps) {
     const next = nextChapterOf(S, row.chapter_key);
     const due = info ? info.counts.due : 0;
     const dueMin = due ? cardRunMinutes(due, chapterSeconds(S, info).dueSeconds) : 0;
-    // B7 2: how far the feed got (the last item the student acted on) and how long it took (first event to last, at least 1).
-    const places = (row.items || []).map((i) => i.id);
-    const reached = ev.reduce((m, e) => Math.max(m, places.indexOf(e.item_id) + 1), 0);
-    const times = ev.map((e) => Date.parse(e.created_at)).filter(Number.isFinite);
-    const took = times.length ? Math.max(1, Math.round((Math.max(...times) - Math.min(...times)) / 60_000)) : 1;
     return {
       title: `${minutesWord(length)} on ${info?.title || row.chapter_key}`,
-      done: { reached, of: places.length, minutes: took },
+      done,
       kept: { count: cards.length, cards: cards.slice(0, 5), groups: revisePileGroups(dues, S.now), stamp: stamps.length === 1 && keeps.length ? stamps[0] : null, line: keptLine(cards.length) },
       lines,
       lead: sessionDone ? null : { label: `Another ${minutes} minutes`, run: { kind: 'feed', chapterKey: row.chapter_key, minutes, fresh: true } },
@@ -1187,7 +1197,8 @@ export function createLearn(deps) {
         const [row, ev] = await Promise.all([store.run(userId, open.id), events(open.id)]);
         const done = new Set(ev.map((e) => e.item_id));
         const next = (row?.items || []).find((i) => i.type === 'card' && !done.has(i.id));
-        if (next) resumeHook.set(info.key, next.cardId);
+        // A start resumes this feed whatever the length, so every length's hook is its next card (null: only questions are left).
+        resumeHook.set(info.key, next ? next.cardId : null);
       } catch { /* the hook falls back to the feed a new start would serve */ }
     }));
     // R12: For you first (with its reason), then book order from the chapter after it, wrapping (data/learn/feed.js).
@@ -1211,18 +1222,30 @@ export function createLearn(deps) {
     }
     // The book-order reason reads "First in the syllabus" (for Economics the first chapter of the syllabus is "Ch 2" of its book).
     if (ordered[0] && (ordered[0].reason === null || /^Chapter \d+ of your book$/.test(ordered[0].reason))) ordered[0] = { ...ordered[0], reason: 'First in the syllabus' };
+    const hookOf = (id) => {
+      const card = id ? cardOf(S, id) : null;
+      if (!card) return null;
+      return S.isOpen(card.id) ? { id: card.id, front: card.front, kind: card.kind, mustKnow: card.importance === 'must' } : { front: null, kind: card.kind, mustKnow: card.importance === 'must', locked: true };
+    };
     const out = ordered.map(({ info, forYou, reason }) => {
       const counts = {};
-      let plan10 = null;
       for (const m of FEED_RULES.lengths) {
         const rule = freeRule(S, { kind: 'feed', minutes: m });
         const plan = composeFor(S, info, { kind: 'feed', minutes: rule.minutes, leaveOut: ['lesson'] });
-        if (m === 10) plan10 = plan;
-        counts[m] = { cards: plan.piles.cards.count, questions: plan.piles.questions.count + plan.piles.mistakes.count, minutes: plan.shrunk && plan.realMinutes ? plan.realMinutes : rule.minutes, ...(rule.capped ? { capped: true } : {}) };
+        // `capped` only when Free's 10-minute clamp really cut the run: the same feed at the asked length would have held more.
+        const capped = Boolean(rule.capped) && composeFor(S, info, { kind: 'feed', minutes: m, leaveOut: ['lesson'] }).items.length > plan.items.length;
+        // B7 4 and F4 1: the hook is the first card of THIS length's feed (what a start serves first), null when that run has no card;
+        // an unfinished feed of the chapter is resumed by any start, so its next card is every length's hook.
+        const firstId = resumeHook.has(info.key) ? resumeHook.get(info.key) : plan.items.find((i) => i.type === 'card')?.cardId || null;
+        counts[m] = {
+          cards: plan.piles.cards.count, questions: plan.piles.questions.count + plan.piles.mistakes.count,
+          minutes: plan.shrunk && plan.realMinutes ? plan.realMinutes : rule.minutes,
+          ...(capped ? { capped: true } : {}),
+          // Why this length is shorter than asked (never "all it has today" for the 40-card cap): pool | cap | mistakes.
+          ...(plan.shrunk && plan.shrink ? { shrink: { reason: plan.shrink.reason } } : {}),
+          hook: hookOf(firstId),
+        };
       }
-      // B7 4: the hook is the first card of the 10-minute feed (what a start serves first), with its id; the old rule when it has none.
-      const firstId = resumeHook.get(info.key) || plan10?.items.find((i) => i.type === 'card')?.cardId || null;
-      const hookCard = (firstId && cardOf(S, firstId)) || info.open.find((c) => c.importance === 'must') || info.open[0] || info.all.find((c) => c.importance === 'must') || info.all[0] || null;
       const runHere = S.runs.find((r) => r.kind === 'feed' && r.chapter_key === info.key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) > 0 && Number(r.done_count) < Number(r.item_count));
       const resume = runHere ? { runId: runHere.id, done: Number(runHere.done_count), of: Number(runHere.item_count), minutesLeft: minutesFor(Number(runHere.seconds_left) || 0) } : null;
       // One true line without due counts (A2 4.11): the stop, else the old mistakes, else the chapter's state, else "New to you".
@@ -1231,7 +1254,7 @@ export function createLearn(deps) {
       return {
         key: info.key, title: info.title, name: info.name, ref: info.ref, refLine: refLineOf(info), number: info.chapterNo ? Number(info.chapterNo) : null, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info),
         reason, forYou,
-        hook: hookCard ? (S.isOpen(hookCard.id) ? { id: hookCard.id, front: hookCard.front, kind: hookCard.kind, mustKnow: hookCard.importance === 'must' } : { front: null, kind: hookCard.kind, mustKnow: hookCard.importance === 'must', locked: true }) : null,
+        hook: counts[10].hook, // the top-level hook is the 10-minute length's (counts[m].hook is each length's own)
         state: info.state, studentLine, resume, counts,
         kept: info.counts.kept, due: info.counts.due, mistakes: info.mistakes.length, art: null,
       };

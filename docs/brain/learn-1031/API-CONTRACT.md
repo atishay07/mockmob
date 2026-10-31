@@ -92,7 +92,7 @@ replaced by `FREE_SESSION_USED` (`reason: 'learn_session'`); clients read only t
 ### Every route
 - Off: 404 `{ error: 'LEARN_OFF' }` unless `LEARN2_ENABLED=true` and Key cards are on (the client flag is `NEXT_PUBLIC_LEARN2`).
 - Auth: bearer token (the app) or cookie (the website); 401 `{ error: 'Unauthorized' }`. Rate limit 120 a minute: 429.
-- Writes: a JSON object body of at most 8,000 characters (413 `BODY_TOO_LARGE`, 422 `INVALID_BODY`).
+- Writes: a JSON object body of at most 16,000 characters (413 `BODY_TOO_LARGE`, 422 `INVALID_BODY`); the 100 longest real card ids make a 10,016-character start body.
 - `Cache-Control: no-store`. Anything that could not be read: 503 `{ error: 'LEARN_UNAVAILABLE', message }` (never a zero for
   "could not look").
 
@@ -211,11 +211,10 @@ Ending is idempotent: a second read returns the same numbers.
              reason: string|null,          // For you only: "Pick up where you stopped" | "2 old mistakes to fix" |
                                            //   "Next after Goodwill" | "Chapter 1 of your book"
              forYou: bool,
-             hook: null | { front, kind, mustKnow } | { front: null, kind, mustKnow, locked: true },
-                                           // the chapter's opening card: its first Must-know card in book order, else its first
+             hook: null | { id, front, kind, mustKnow },   // = counts[10].hook (F4 below): the first card of the 10-minute feed
              state: { key, label },
              studentLine,                  // one true line: "3 due, 2 old mistakes" | "You stopped at 6 of 16" | "New to you"
-             counts: { 5: { cards, questions, minutes, capped? }, 10: {...}, 20: {...} },   // Free: 20 is 10, capped: true
+             counts: { 5: { cards, questions, minutes, hook, shrink?, capped? }, 10: {...}, 20: {...} },   // Free: 20 is composed as 10 (see F4)
              kept, due, mistakes, art: null }],
   free: null | { text, maxMinutes: 10 } }  // Free, only once today's session is used
 ```
@@ -266,9 +265,9 @@ top level  + history: bool             // any chapter studied in the subject
 each cover + name                      // the syllabus name ("Admission of Partner"), for filters and the Free-limit action
            + refLine                   // "Part 1, Ch 2" | "Microeconomics, Ch 2" | "Verbal Ability" (the unit when the chapter has no number) | null
            + resume: null | { runId, done, of, minutesLeft }   // today's unfinished feed of this chapter with something done
-           hook: { id, front, kind, mustKnow } | { front: null, kind, mustKnow, locked: true }
-                 // = the first card of the 10-minute feed a start would serve (what Play opens with); on a cover with an unfinished
-                 // feed, the next card that feed has left; the chapter's first Must-know card only when the feed has no card
+           hook: null | { id, front, kind, mustKnow }
+                 // = counts[10].hook (F4 below): the first card of the 10-minute feed a start would serve (what Play opens with);
+                 // on a cover with an unfinished feed, the next card that feed has left; null when the feed has no card
            studentLine: the stop ("You stopped at 6 of 16"), else "2 old mistakes to fix", else the chapter's state label, else
                  "New to you"  (never a due count)
            reason: for the For you cover; the book-order reason now reads 'First in the syllabus'
@@ -289,3 +288,46 @@ Suggestion.kind + 'feed'   // a student with no history: the third suggestion is
     action: { label: 'Open the feed', href: '/explore/run?chapter=<key>&min=10', go: 'feed' } }   // links.resolve() maps it in the preview
 ```
 Suggestion also carries `headline` and `chapterTitle` (its two parts, for a card that sets the chapter on its own line) and `chapterKey`.
+
+---
+
+## Learn v2 fix round, packet F4: the server tells the truth (1 Nov 2026)
+
+Added or tightened only; nothing above is renamed. Production and the preview service answer the same shapes.
+
+### GET /api/learn/covers?subject=
+```
+counts[m] (m = 5, 10, 20): { cards, questions, minutes, capped?, shrink?, hook }
+  + hook: null | { id, front, kind, mustKnow }
+        // the first CARD item of the feed a start at length m serves right after this read; null when that feed has no card
+        // (the cover then says its questions; never a card the feed will not show). On a chapter with an unfinished feed
+        // today, any start resumes it, so every length's hook is that feed's next card (null when only questions are left).
+        // The older `{ front: null, locked: true }` shape is no longer produced for a feed card (a feed serves open cards only).
+  + shrink?: { reason: 'pool' | 'cap' | 'mistakes' }
+        // present only when that length was cut: 'pool' the chapter has no more, 'cap' the 40 new-card cap (or the overdue
+        // cap), 'mistakes' only open mistakes fit. Absent: the run is as long as asked. Free at 20 is judged on the 10-minute run
+  capped?: true   // Free only: present only when the 10-minute clamp actually cut the run (the same feed at the asked length
+                  // would have held more items). Never on 5 or 10, never when 20 and 10 compose the same
+each cover  hook: counts[10].hook      // the top-level hook is always the 10-minute length's
+```
+The cover's older `hook` rule ("the chapter's first Must-know card when the feed has no card") is gone: no card in the feed, no hook.
+
+### GET /api/learn/runs/:id/end
+```
++ done: { reached, of, minutes }    // EVERY run kind (mix, cards, recap, feed, level); feed.done is the same object
+      // reached: the place of the last item the student acted on (0 = none), of: the run's items,
+      // minutes: first event to last, rounded, at least 1.  "You stopped at 8 of 21." / "All 21 done in 9 min."
+```
+
+### POST /api/learn/runs (a Free feed)
+```
+A Free student's feed whose chapter has no fresh open card (the open taste cards are all in Revise, due or not) holds those
+open cards again as looks: item.look: true, stage 'later'. A look schedules nothing and writes no review, rating or allowance
+(rate answers { look: true, saved: false }; Keep on a card already in Revise writes nothing). Never more than the chapter's
+open cards. Pro is unchanged: a feed never serves a due card. A Free feed with at least one fresh open card is unchanged.
+```
+
+### Every route
+```
+Writes: body cap 16,000 characters (was 8,000): "Study these 100" no longer answers 413.
+```

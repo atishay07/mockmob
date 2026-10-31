@@ -9,7 +9,7 @@ import { fakeDb } from '../../src/lib/server/keycardsMemoryDb.js';
 import { syllabusFrom } from '../../src/lib/server/keycardsSyllabus.js';
 import { createLearn, clientKeyOf, FREE_SESSION_DONE, FREE_CAPPED, FREE_CARDS_ONLY, keyLetter, servedOptions, mistakeText } from '../../src/lib/server/learn.js';
 import { toState } from '../../src/lib/server/learnStore.js';
-import { istDay, schedule } from '../keycards.js';
+import { istDay, schedule, tasteIds } from '../keycards.js';
 
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;
@@ -494,7 +494,7 @@ test('covers: every playable chapter, For you first with its reason, the hook, o
   assert.deepEqual([pl.forYou, pl.reason, pl.studentLine], [false, null, 'New to you']);
   for (const c of body.covers) {
     assert.ok(c.counts[5].cards <= c.counts[10].cards);
-    assert.deepEqual(c.counts[20], { ...c.counts[10], capped: true }, 'Free: 20 is composed as 10');
+    assert.deepEqual({ ...c.counts[20], capped: undefined }, { ...c.counts[10], capped: undefined }, 'Free: 20 is composed as 10');
   }
   assert.equal(body.free, null);
 });
@@ -628,4 +628,155 @@ test('B7 6: after the Free session is used, the end\'s options still carry kind,
   assert.ok(end.options.length > 0);
   for (const o of end.options) assert.deepEqual([typeof o.kind, typeof o.title, o.minutes === null || Number.isInteger(o.minutes)], ['string', 'string', true]);
   assert.ok(end.options.some((o) => o.kind === 'explore' && o.minutes === null));
+});
+
+// ---------------------------------------------------------------- Learn v2 fix round F4: the server tells the truth
+
+const heldStates = (cards, { due = false, user = 'u1' } = {}) => cards.map((c) => {
+  const at = T0 - (due ? 6 : 0) * DAY;
+  const s = schedule(null, 3, at);
+  return { user_id: user, card_id: c.id, subject: 'business_studies', chapter_key: c.chapterKey, schedule: s.schedule, reps: 1, lapses: 0, due_at: due ? new Date(T0 - 2 * DAY).toISOString() : new Date(T0 + 5 * DAY).toISOString(), last_review_at: new Date(at).toISOString(), last_rating: 3, added_from: 'chapter', added_at: new Date(at).toISOString(), suspended: false };
+});
+const openCardsOf = (cards) => [...tasteIds(cards)].map((id) => cards.find((c) => c.id === id));
+const variants = {
+  'Pro, new': { isPro: true, states: () => [] },
+  'Pro, returning': { isPro: true, states: () => heldStates(PLANNING.slice(0, 3)) },
+  'Free, new': { isPro: false, states: () => [] },
+  'Free, returning': { isPro: false, states: () => heldStates(openCardsOf(PLANNING).slice(0, 2)) },
+};
+
+test('F4 1: counts[m].hook is the first card of that length\'s feed, null with no card; the top-level hook is counts[10].hook', async () => {
+  for (const [name, v] of Object.entries(variants)) {
+    for (const m of [5, 10, 20]) {
+      const { learn } = setup({ isPro: v.isPro, tables: { key_card_states: v.states() } });
+      const body = (await learn.covers('u1', P({ subject: 'business_studies' }))).body;
+      for (const [i, c] of body.covers.entries()) {
+        assert.deepEqual(c.hook, c.counts[10].hook, `${name}: the top-level hook is the 10-minute one`);
+        for (const len of [5, 10, 20]) assert.ok('hook' in c.counts[len], `${name} ${len}: the key is always there`);
+        const run = (await learn.start('u1', { chapterKey: c.key, minutes: m, kind: 'feed', requestKey: `hk-${m}-${i}-00001` })).body;
+        const first = run.items.find((x) => x.type === 'card');
+        if (c.counts[m].hook) {
+          assert.equal(run.items[0].type, 'card', `${name} ${m} ${c.key}: a card first`);
+          assert.equal(run.items[0].card.id, c.counts[m].hook.id, `${name} ${m} ${c.key}: the feed opens on counts[m].hook`);
+          assert.deepEqual(Object.keys(c.counts[m].hook).sort(), ['front', 'id', 'kind', 'mustKnow']);
+        } else assert.equal(first, undefined, `${name} ${m} ${c.key}: no hook, no card in that feed`);
+      }
+    }
+  }
+});
+
+test('F4 1: a Pro chapter whose cards are all due has no card in its feed, so its hook is null (never a card the feed will not show)', async () => {
+  const { learn } = setup({ isPro: true, tables: { key_card_states: heldStates(PLANNING, { due: true }) } });
+  const body = (await learn.covers('u1', P({ subject: 'business_studies' }))).body;
+  const pl = body.covers.find((c) => c.key === PL);
+  for (const m of [5, 10, 20]) assert.deepEqual([pl.counts[m].cards, pl.counts[m].hook], [0, null]);
+  assert.equal(pl.hook, null);
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'hk-due-000001' })).body;
+  assert.ok(!run.items.some((i) => i.type === 'card'));
+});
+
+test('F4 2: counts[m].shrink says why a length was cut; capped is true only when Free\'s clamp really cut the length', async () => {
+  const pro = (await setup({ isPro: true }).learn.covers('u1', P({ subject: 'business_studies' }))).body;
+  const st = pro.covers.find((c) => c.key === ST);
+  assert.deepEqual(st.counts[20].shrink, { reason: 'pool' }, 'Staffing holds 4 cards and 4 questions: 20 minutes is cut by the pool');
+  assert.ok(st.counts[20].minutes < 20);
+  assert.ok(!('capped' in st.counts[20]), 'Pro has no cap');
+  for (const c of pro.covers) for (const m of [5, 10, 20]) assert.ok(!c.counts[m].shrink || ['pool', 'cap', 'mistakes'].includes(c.counts[m].shrink.reason));
+  const free = (await setup().learn.covers('u1', P({ subject: 'business_studies' }))).body;
+  const fp = free.covers.find((c) => c.key === PL);
+  assert.equal(fp.counts[20].capped, true, 'Planning at 20 holds more than at 10: the clamp cut it');
+  const fs = free.covers.find((c) => c.key === ST);
+  assert.ok(!('capped' in fs.counts[20]), 'Staffing is the same at 20 and at 10: nothing was cut, so no capped');
+  assert.ok(!('capped' in fs.counts[10]) && !('capped' in fs.counts[5]));
+});
+
+test('F4 3: every run kind\'s end carries done { reached, of, minutes }, and the feed end carries the same', async () => {
+  const { learn, tables } = setup({ isPro: true });
+  const starts = [
+    { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'dn-mix-000001' },
+    { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'dn-feed-00001' },
+    { chapterKey: PL, kind: 'recap', minutes: 5, requestKey: 'dn-recap-0001' },
+    { chapterKey: PL, kind: 'cards', minutes: 5, cardIds: PLANNING.slice(0, 3).map((c) => c.id), requestKey: 'dn-cards-0001' },
+    { chapterKey: PL, kind: 'level', minutes: 6, requestKey: 'dn-level-0001' },
+  ];
+  for (const s of starts) {
+    const run = (await learn.start('u1', s)).body;
+    assert.ok(run.items.length > 1, s.kind);
+    const act = await actOn(learn, run, run.items[1]);
+    assert.equal(act.http, 200, `${s.kind} act`);
+    const end = (await learn.end('u1', run.id)).body;
+    assert.deepEqual(end.done, { reached: 2, of: run.items.length, minutes: 1 }, `${s.kind}: stopped at 2 of ${run.items.length}`);
+    if (s.kind === 'feed') assert.deepEqual(end.feed.done, end.done);
+    else assert.equal(end.feed, null);
+  }
+  // Nothing done: reached 0 and one minute; first event to last, rounded, when something took a while.
+  const none = (await learn.start('u1', { chapterKey: ST, minutes: 5, kind: 'mix', requestKey: 'dn-none-000001' })).body;
+  assert.deepEqual((await learn.end('u1', none.id)).body.done, { reached: 0, of: none.items.length, minutes: 1 });
+  const slow = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'recap', requestKey: 'dn-slow-000001', fresh: true })).body;
+  await actOn(learn, slow, slow.items[0]);
+  await actOn(learn, slow, slow.items[slow.items.length - 1]);
+  const events = tables.learn_run_events.filter((e) => e.run_id === slow.id).sort((a, b) => a.created_at.localeCompare(b.created_at));
+  events[0].created_at = '2026-11-02T12:00:00.000Z';
+  events[1].created_at = '2026-11-02T12:09:10.000Z';
+  assert.deepEqual((await learn.end('u1', slow.id)).body.done, { reached: slow.items.length, of: slow.items.length, minutes: 9 });
+});
+
+test('F4 5: a Free student whose open cards are all in Revise (due) still gets cards in a feed, as looks that schedule nothing', async () => {
+  const open = openCardsOf(PLANNING);
+  assert.equal(open.length, 5);
+  const { learn, calls, tables } = setup({ tables: { key_card_states: heldStates(open, { due: true }) } });
+  const body = (await learn.covers('u1', P({ subject: 'business_studies' }))).body;
+  const pl = body.covers.find((c) => c.key === PL);
+  assert.ok(pl.counts[10].cards > 0 && pl.counts[10].cards <= open.length, 'cards come back, never more than the open cards');
+  assert.ok(pl.hook && open.some((c) => c.id === pl.hook.id), 'the hook is one of his open cards');
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'fr-000000001' })).body;
+  const cards = run.items.filter((i) => i.type === 'card');
+  assert.equal(cards.length, pl.counts[10].cards);
+  assert.equal(run.items[0].card.id, pl.hook.id);
+  assert.ok(cards.every((c) => c.look === true && open.some((o) => o.id === c.card.id)), 'every one a look, every one open');
+  const before = JSON.stringify(tables.key_card_states);
+  const first = (await learn.rate('u1', run.id, { itemId: cards[0].id, rating: 3 })).body;
+  assert.deepEqual([first.look, first.saved], [true, false]);
+  const kept = (await learn.rate('u1', run.id, { itemId: cards[1].id, keep: true })).body;
+  assert.equal(kept.kept, true);
+  assert.equal(calls.filter((c) => c.fn === 'review' || c.fn === 'add').length, 0, 'no review and no add was written');
+  assert.equal(JSON.stringify(tables.key_card_states), before, 'nothing scheduled, nothing changed');
+});
+
+test('F4 5: the due-look rule is Free\'s and only when no fresh card is left: Pro never serves a due card, a Free student with a fresh card is unchanged', async () => {
+  const open = openCardsOf(PLANNING);
+  const pro = setup({ isPro: true, tables: { key_card_states: heldStates(PLANNING, { due: true }) } });
+  const proRun = (await pro.learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'fr-pro-000001' })).body;
+  assert.ok(!proRun.items.some((i) => i.type === 'card'), 'Pro: all due, no card');
+  // Free, 4 of 5 open cards in Revise and due, one fresh: the feed is the fresh card (a new card, not a look) and nothing more.
+  const free = setup({ tables: { key_card_states: heldStates(open.slice(0, 4), { due: true }) } });
+  const run = (await free.learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'fr-free-000001' })).body;
+  const cards = run.items.filter((i) => i.type === 'card');
+  assert.deepEqual(cards.map((c) => [c.card.id, Boolean(c.look)]), [[open[4].id, false]]);
+});
+
+test('F4 4: the body cap is 16,000 characters: the 100 longest real card ids fit in a start body', async () => {
+  const src = (await import('node:fs')).readFileSync(new URL('../../src/lib/server/learnHttp.js', import.meta.url), 'utf8');
+  const cap = Number(/export const BODY_MAX = ([\d_]+);/.exec(src)?.[1].replace(/_/g, ''));
+  assert.equal(cap, 16000);
+  const { loadDecks } = await import('../../src/lib/server/keycards.js');
+  const real = loadDecks({ log: () => {} });
+  const ids = [...real.byId.keys()].sort((a, b) => b.length - a.length).slice(0, 100);
+  assert.equal(ids.length, 100);
+  const body = JSON.stringify({ chapterKey: real.byId.get(ids[0]).chapterKey, cardIds: ids, minutes: 10, leaveOut: [], kind: 'cards', requestKey: `lk_${'a'.repeat(24)}`, source: 'explore_cover', forYou: true, position: 500 });
+  assert.ok(body.length > 8000, `a start naming 100 real ids is over the old cap (${body.length})`);
+  assert.ok(body.length < cap, `and under the new one (${body.length})`);
+});
+
+test('F4 1: with an unfinished feed in the chapter every length\'s hook is the feed\'s next card (any start resumes it)', async () => {
+  const { learn } = setup({ isPro: true });
+  const feed = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'hk-resume-0001' })).body;
+  await actOn(learn, feed, feed.items[0]);
+  const pl = (await learn.covers('u1', P({ subject: 'business_studies' }))).body.covers.find((c) => c.key === PL);
+  for (const m of [5, 10, 20]) {
+    const back = (await learn.start('u1', { chapterKey: PL, minutes: m, kind: 'feed', requestKey: `hk-resume-m${m}-01` })).body;
+    assert.equal(back.id, feed.id);
+    assert.equal(pl.counts[m].hook.id, back.items.find((i) => i.type === 'card').card.id, `${m}: the next card of the resumed feed`);
+  }
+  assert.deepEqual(pl.hook, pl.counts[10].hook);
 });

@@ -124,6 +124,10 @@ export async function startRun({ chapterKey, cardIds, minutes, leaveOut = [], ki
 export const getRun = (runId) => call(`/api/learn/runs/${encodeURIComponent(runId)}`);
 export const answerItem = (runId, { itemId, choice }) => call(`/api/learn/runs/${encodeURIComponent(runId)}/answer`, { method: 'POST', body: { itemId, choice } });
 export const rateItem = (runId, { itemId, rating }) => call(`/api/learn/runs/${encodeURIComponent(runId)}/rate`, { method: 'POST', body: { itemId, rating } });
+/**
+ * A run's end. Every kind carries `done: { reached, of, minutes }` ("You stopped at 8 of 21." / "All 21 done in 9 min.");
+ * a feed's `feed.done` is the same object.
+ */
 export async function runEnd(runId) {
   const data = await call(`/api/learn/runs/${encodeURIComponent(runId)}/end`);
   forgetRun(runId);
@@ -134,6 +138,11 @@ export const chapterCards = ({ chapter, filter = 'all' }) => call(`/api/learn/ca
 export const subjectCards = ({ subject, filter = 'all' }) => call(`/api/learn/cards?${q({ subject, filter })}`);
 export const learnShelves = (subject) => call(`/api/learn/shelves?${q({ subject })}`);
 export const learnSearch = ({ subject, query }) => call(`/api/learn/search?${q({ subject, q: query })}`);
+/**
+ * The Explore covers. Each cover's `counts[m]` (m = 5, 10, 20) is `{ cards, questions, minutes, hook, shrink?, capped? }`: `hook` is the
+ * first card of the feed a start at that length serves (null: no card, show the questions face), `shrink.reason` is why that length
+ * was cut (pool | cap | mistakes), `capped` is true only when Free's 10-minute clamp really cut the run. `cover.hook` is `counts[10].hook`.
+ */
 export const feedCovers = (subject) => call(`/api/learn/covers?${q({ subject })}`);
 /** The feed's Keep: the card joins Revise as a new card (402 only for a locked card). */
 export const keepItem = (runId, itemId) => call(`/api/learn/runs/${encodeURIComponent(runId)}/rate`, { method: 'POST', body: { itemId, keep: true } });

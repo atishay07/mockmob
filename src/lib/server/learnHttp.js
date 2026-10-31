@@ -4,7 +4,7 @@ import 'server-only';
 //   1. the flag: LEARN2_ENABLED === 'true' and Key cards on, otherwise 404 { error: 'LEARN_OFF' };
 //   2. auth(request): the bearer token first (the app), then the cookie (the website), otherwise 401;
 //   3. the persistent rate limit, 120 a minute per student (429);
-//   4. a write's body: a JSON object of at most 8,000 characters (413 or 422);
+//   4. a write's body: a JSON object of at most 16,000 characters (413 or 422);
 //   5. Cache-Control: no-store on every answer;
 //   6. anything thrown answers 503 { error: 'LEARN_UNAVAILABLE', message }.
 // The handlers live in src/lib/server/learn.js and return { http, body }. learnService() wires production: Supabase, the Key
@@ -24,7 +24,8 @@ import { createPracticeSource } from '@/../data/practice_source';
 import { filterServable } from '@/../data/cuet_syllabus';
 import { isPassageLinkedQuestion } from '@/../data/nta_question_selector';
 
-export const BODY_MAX = 8000;
+// 16,000: a start that names the 100 longest real card ids (up to 106 characters each) is a 10,016-character body.
+export const BODY_MAX = 16_000;
 export const LEARN_OFF = Object.freeze({ http: 404, body: { error: 'LEARN_OFF' } });
 /** Learn v2 is on only with its own flag and Key cards together (both off in production until the owner turns them on). */
 export const learnEnabled = (env = process.env) => env.LEARN2_ENABLED === 'true' && keyCardsEnabled(env);

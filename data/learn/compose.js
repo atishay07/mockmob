@@ -113,8 +113,11 @@ export function cardPools(cards, states, now) {
  *   held    cards in Revise that are not due (reviewed, due later), in the same rest order: they join only as looks, when the
  *           fresh cards run out
  * shownAt: Map(cardId -> ms) of the student's feed showings in the last 3 days.
+ * dueLooks (Free only, the returning student): when there is no fresh card at all, the open cards already in Revise join as
+ * looks even when they are due (a look schedules nothing and writes no review), so the 5 taste cards a Free student already
+ * holds do not leave the chapter's feed with no card. Never more than the cards handed in (the open ones).
  */
-export function feedCardPool(cards, states, shownAt, now) {
+export function feedCardPool(cards, states, shownAt, now, { dueLooks = false } = {}) {
   const t = time(now);
   const rested = (c) => { const at = shownOf(shownAt, c.id); return at === null || t - at >= LEARN_RULES.restDays * DAY; };
   const byRest = (list) => [
@@ -123,14 +126,16 @@ export function feedCardPool(cards, states, shownAt, now) {
   ];
   const fresh = [];
   const held = [];
+  const heldDue = [];
   for (const card of cards || []) {
     if (!card?.id || card.locked) continue;
     const st = stateOf(states, card.id);
     if (!st) { fresh.push({ card, state: null }); continue; }
     if (st.suspended || !(Number(st.reps) > 0)) continue;
     if (time(st.due_at) > t) held.push({ card, state: st });
+    else heldDue.push({ card, state: st });
   }
-  return { fresh: byRest(fresh), held: byRest(held) };
+  return { fresh: byRest(fresh), held: byRest(dueLooks && !fresh.length ? [...held, ...heldDue] : held) };
 }
 
 /** Normalise leaveOut to the known piles, and keep at least one available pile in (the first in pile order). */
@@ -366,12 +371,13 @@ export function shrinkText(reason, { minutes = 0, mistakes = 0, cap = LEARN_RULE
  *   cardIds       an explicit set (Find: "Study these", "Quick recap these"), book order, minutes ignored
  *   shownAt       Map(cardId -> ms): feed showings of the last 3 days (the feed's pool, BUILD 1.2)
  *   overdue       the student's overdue Key cards (R15: past 40, new cards are capped at 4 per 10 minutes)
+ *   dueLooks      Free: a feed with no fresh card shows the cards already in Revise as looks, due ones included
  * Returns { kind, minutes, budget, seconds, realMinutes, shrunk, shrink, exhausted, leaveOut, kept, available, piles, items,
  *   overdue }. Every item carries `seconds`.
  */
 export function composeRun({
   kind = 'mix', minutes = 10, leaveOut = [], cards = [], states = new Map(), now, questions = [], mistakes = [], lesson = null,
-  ratingsLeft = null, newLeft = null, cardIds = null, shownAt = null, overdue = 0,
+  ratingsLeft = null, newLeft = null, cardIds = null, shownAt = null, overdue = 0, dueLooks = false,
 } = {}) {
   const k = RUN_KINDS.includes(kind) ? kind : 'mix';
   const feed = k === 'feed';
@@ -448,7 +454,7 @@ export function composeRun({
   let poolEntries;
   let freshTotal;
   if (feed) {
-    const fp = feedCardPool(open, states, shownAt, now);
+    const fp = feedCardPool(open, states, shownAt, now, { dueLooks });
     freshTotal = fp.fresh.length;
     poolEntries = [
       ...fp.fresh.slice(0, newCap).map((x) => ({ ...x, stage: 'new' })),
