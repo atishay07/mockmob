@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { createKeycards } from '../../src/lib/server/keycards.js';
 import { syllabusFrom } from '../../src/lib/server/keycardsSyllabus.js';
-import { KEYCARD_RULES } from '../keycards.js';
+import { KEYCARD_RULES, schedule } from '../keycards.js';
 
 const DAY = 86_400_000;
 const T0 = Date.parse('2026-11-02T18:00:00+05:30');
@@ -18,6 +18,7 @@ const KEYS = {
   learning_allowances: ['user_id', 'kind', 'period'],
   key_card_reviews: ['user_id', 'card_id', 'client_reviewed_at'], // the partial unique index (client time not null)
 };
+const MAX_ROWS = 1000; // PostgREST's max-rows: a select past it is cut, as on Supabase
 function fakeDb(tables = {}) {
   const log = [];
   let ids = 0;
@@ -29,20 +30,21 @@ function fakeDb(tables = {}) {
     return (tables[table] || []).some((r) => key.every((k) => r[k] === row[k]));
   };
   class Q {
-    constructor(t) { this.t = t; this.f = []; this.op = 'select'; }
+    constructor(t) { this.t = t; this.f = []; this.op = 'select'; this.eqs = {}; }
     select(cols) { if (this.op === 'select') this.cols = cols; else this.returning = true; return this; }
-    eq(k, v) { this.f.push((r) => r[k] === v); return this; }
+    eq(k, v) { this.eqs[k] = v; this.f.push((r) => r[k] === v); return this; }
     in(k, l) { this.f.push((r) => l.includes(r[k])); return this; }
     like(k, p) { this.f.push((r) => like(r[k], p)); return this; }
     gt(k, v) { this.f.push((r) => Number(r[k]) > v); return this; }
     limit(n) { this.max = n; return this; }
-    order() { return this; }
+    order(k) { this.by = k; return this; }
+    range(a, b) { this.from = a; this.to = b; return this; }
     insert(row) { this.op = 'insert'; this.row = row; return this; }
     update(p) { this.op = 'update'; this.patch = p; return this; }
     upsert(rows, o) { this.op = 'upsert'; this.rows = rows; this.o = o || {}; return this; }
     then(res, rej) { return Promise.resolve(this.run()).then(res, rej); }
     run() {
-      log.push({ table: this.t, op: this.op });
+      log.push({ table: this.t, op: this.op, cols: this.cols, eqs: this.eqs, range: this.from === undefined ? null : [this.from, this.to] });
       const all = tables[this.t] || (tables[this.t] = []);
       if (this.op === 'insert') {
         if (clash(this.t, this.row)) return { data: null, error: { code: '23505', message: 'duplicate key value violates unique constraint' } };
@@ -56,9 +58,14 @@ function fakeDb(tables = {}) {
         }
         return { data: null, error: null };
       }
-      const rows = all.filter((r) => this.f.every((f) => f(r)));
+      let rows = all.filter((r) => this.f.every((f) => f(r)));
       if (this.op === 'update') { for (const r of rows) Object.assign(r, this.patch); return { data: rows.map((r) => ({ card_id: r.card_id })), error: null }; }
-      return { data: (this.max ? rows.slice(0, this.max) : rows).map((r) => ({ ...r })), error: null };
+      // PostgREST: rows in no promised order unless asked, a range when given, and never more than max-rows (1,000).
+      if (this.by) rows = [...rows].sort((a, b) => String(a[this.by]).localeCompare(String(b[this.by])));
+      else rows = [...rows].reverse();
+      if (this.from !== undefined) rows = rows.slice(this.from, this.to + 1);
+      rows = rows.slice(0, Math.min(this.max || MAX_ROWS, MAX_ROWS));
+      return { data: rows.map((r) => ({ ...r })), error: null };
     }
   }
   return { from: (t) => new Q(t), tables, log };
@@ -74,17 +81,17 @@ const mk = (chapterSlug, i, over = {}) => ({
 const PLANNING = Array.from({ length: 8 }, (_, i) => mk('planning', i + 1));
 const STAFFING = Array.from({ length: 3 }, (_, i) => mk('staffing', i + 1));
 const CARDS = [...PLANNING, ...STAFFING];
-const decks = () => ({
-  bySubject: new Map([['business_studies', { version: 1, cards: CARDS }]]),
-  byId: new Map(CARDS.map((c) => [c.id, c])),
+const decks = (cards = CARDS) => ({
+  bySubject: new Map([['business_studies', { version: 1, cards }]]),
+  byId: new Map(cards.map((c) => [c.id, c])),
   links: new Map([['business_studies', { 'q-linked': [PLANNING[0].id] }]]),
   disabled: [],
 });
 
-function setup({ isPro = false, tables = {}, clock = { t: T0 }, subjects = ['business_studies', 'economics', 'not_a_subject'] } = {}) {
+function setup({ isPro = false, tables = {}, clock = { t: T0 }, subjects = ['business_studies', 'economics', 'not_a_subject'], cards = CARDS } = {}) {
   const db = fakeDb(tables);
   const kc = createKeycards({
-    db, decks: decks(), syllabus: syllabusFrom(null), now: () => clock.t,
+    db, decks: decks(cards), syllabus: syllabusFrom(null), now: () => clock.t,
     getUser: async (id) => ({ id, isPremium: typeof isPro === 'function' ? isPro(id) : isPro, subjects }),
     inventory: async () => ({ chapterCounts: { business_studies: { Planning: 120, Staffing: 40 } } }),
     reviewRecord: async () => ({ fake: true }),
@@ -272,6 +279,55 @@ test('PUT /api/me/subject-options and GET /api/me/chapters: options validated; P
   assert.equal(proStaffing.n, 12);
   assert.equal(proStaffing.reason, '2 of 12 right on the latest try at each question');
   assert.equal((await free.kc.chapters('u1', 'klingon')).http, 404);
+});
+
+// ---------------------------------------------------------------- code review fixes (31 Oct 2026)
+
+/** A Pro student's `n` reviewed states, all due yesterday, over a deck of `n` cards in chapters of 40. */
+function bigStudent(n) {
+  const cards = Array.from({ length: n }, (_, i) => mk(`big-${String(Math.floor(i / 40)).padStart(2, '0')}`, (i % 40) + 1));
+  const first = schedule(null, 3, T0 - 3 * DAY);
+  const states = cards.map((c) => ({
+    user_id: 'u1', card_id: c.id, subject: c.subject, chapter_key: c.chapterKey, schedule: first.schedule, reps: 1, lapses: 0,
+    due_at: new Date(T0 - DAY).toISOString(), last_review_at: new Date(T0 - 3 * DAY).toISOString(), last_rating: 3,
+    added_from: 'chapter', added_at: new Date(T0 - 4 * DAY).toISOString(), suspended: false,
+  }));
+  return { cards, states };
+}
+
+test('H1: 1,200 states are all counted, and a review of a card past the first 1,000 rows is applied, not lost', async () => {
+  const { cards, states } = bigStudent(1200);
+  const f = setup({ isPro: true, cards, tables: { key_card_states: states } });
+  assert.equal(await f.kc.dueCount('u1'), 1200);
+  assert.equal((await f.kc.due('u1', { limit: 50 })).body.today.due, 1200);
+  // The first row inserted is the one an unordered 1,000-row read leaves out.
+  const body = { cardId: cards[0].id, rating: 3, mode: 'revise', clientReviewedAt: new Date(T0 - 60_000).toISOString() };
+  const out = await f.kc.review('u1', body);
+  assert.equal(out.http, 200);
+  assert.equal(out.body.replay, undefined);
+  assert.equal(f.db.tables.key_card_states.filter((s) => s.card_id === cards[0].id).length, 1, 'no second state row');
+  assert.equal(f.db.tables.key_card_states.find((s) => s.card_id === cards[0].id).reps, 2);
+  assert.equal(out.body.today.due, 1199);
+  const again = await f.kc.review('u1', body);
+  assert.equal(again.body.replay, true);
+  assert.equal(f.db.tables.key_card_states.find((s) => s.card_id === cards[0].id).reps, 2);
+  assert.equal(f.db.tables.key_card_reviews.length, 1);
+});
+
+test('M4: a rating reads one state row with its schedule; today and the counts read slim columns, paged', async () => {
+  const { cards, states } = bigStudent(1200);
+  const f = setup({ isPro: true, cards, tables: { key_card_states: states } });
+  f.db.log.length = 0;
+  await f.kc.review('u1', { cardId: cards[5].id, rating: 4, mode: 'study' });
+  await f.kc.dueCount('u1');
+  await f.kc.due('u1');
+  const reads = f.db.log.filter((l) => l.table === 'key_card_states' && l.op === 'select');
+  const withSchedule = reads.filter((l) => /schedule/.test(l.cols));
+  assert.ok(withSchedule.length >= 1);
+  assert.ok(withSchedule.every((l) => l.eqs.card_id === cards[5].id), 'only the rated card is read with its schedule');
+  const lists = reads.filter((l) => l.eqs.card_id === undefined);
+  assert.ok(lists.length >= 6, 'three list reads of two pages each');
+  assert.ok(lists.every((l) => l.range && l.range[1] - l.range[0] === 999), 'every list read is a page of 1,000');
 });
 
 test('the Free rules match the spec constants', () => {

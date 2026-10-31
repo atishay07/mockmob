@@ -25,6 +25,11 @@ const bad = (error, http = 422) => ({ http, body: { error } });
 const ok = (body) => ({ http: 200, body });
 const fail = (code, cause) => Object.assign(new Error(code), { code, cause });
 const STATE_COLUMNS = 'card_id,subject,chapter_key,schedule,reps,lapses,due_at,last_review_at,last_rating,added_from,added_at,suspended';
+// Counts and the queue never need the schedule JSON (about 575 B a row with it): today, due and dueCount read these.
+const SLIM_COLUMNS = 'card_id,subject,chapter_key,reps,lapses,due_at,last_review_at,added_at,suspended';
+// PostgREST answers at most 1,000 rows a request, so every list read pages in steps of 1,000, ordered, until a short page.
+const PAGE = 1000;
+const MAX_PAGES = 100;
 const PROGRESS_COLUMNS = 'question_id,subject,chapter,attempt_count,last_correct,last_attempted_at';
 const REPORT_TTL_MS = 5 * 60 * 1000;
 export const REPORT_SUSPEND_AT = 3;
@@ -129,7 +134,26 @@ export function createKeycards(deps) {
     return { isPro: user.isPremium === true, subjects: Array.isArray(user.subjects) ? user.subjects : [] };
   }
 
-  const loadStates = async (userId) => (await q(db.from('key_card_states').select(STATE_COLUMNS).eq('user_id', userId).limit(5000))).data || [];
+  /** Every row `build()` selects, a page of PAGE at a time (build() must order the rows). */
+  async function readPages(build) {
+    const out = [];
+    for (let page = 0; page < MAX_PAGES; page += 1) {
+      const { data } = await q(build().range(page * PAGE, (page + 1) * PAGE - 1));
+      const rows = data || [];
+      out.push(...rows);
+      if (rows.length < PAGE) break;
+    }
+    return out;
+  }
+  /** The student's states (all of them, paged), optionally of one subject or one chapter. */
+  const loadStates = (userId, { columns = STATE_COLUMNS, subject = null, chapter = null } = {}) => readPages(() => {
+    let query = db.from('key_card_states').select(columns).eq('user_id', userId);
+    if (subject) query = query.eq('subject', subject);
+    if (chapter) query = query.eq('chapter_key', chapter);
+    return query.order('card_id');
+  });
+  /** One card's state row, or null. */
+  const loadState = async (userId, cardId) => (await q(db.from('key_card_states').select(STATE_COLUMNS).eq('user_id', userId).eq('card_id', cardId).limit(1))).data?.[0] || null;
   const loadOptions = async (userId) => {
     const res = await db.from('student_subject_options').select('subject,option').eq('user_id', userId);
     if (res.error) return new Map(); // no options table yet: behaviour is the no-option default
@@ -223,7 +247,7 @@ export function createKeycards(deps) {
     if (typeof chapterKey !== 'string' || !chapterKey) return bad('CHAPTER_REQUIRED');
     const ch = syllabus.chapterByKey(chapterKey);
     if (!ch || ch.retired) return bad('CHAPTER_NOT_FOUND', 404);
-    const [me, states, pub] = await Promise.all([who(userId), loadStates(userId), published()]);
+    const [me, states, pub] = await Promise.all([who(userId), loadStates(userId, { columns: 'card_id', chapter: chapterKey }), published()]);
     const subject = chapterKey.split('.')[0];
     const list = pub.cardsOf(subject).filter((c) => c.chapterKey === chapterKey).sort(bookOrder);
     const view = deckView(list, { isPro: me.isPro });
@@ -239,7 +263,7 @@ export function createKeycards(deps) {
 
   // ---------------------------------------------------------------- POST /api/keycards/add
   async function add(userId, body) {
-    const [me, states, pub] = await Promise.all([who(userId), loadStates(userId), published()]);
+    const [me, pub] = await Promise.all([who(userId), published()]);
     let picked;
     let from;
     if (typeof body?.chapter === 'string' && body.chapter) {
@@ -255,14 +279,20 @@ export function createKeycards(deps) {
     } else {
       return bad('CHAPTER_OR_CARDS_REQUIRED');
     }
-    const have = new Set(states.map((s) => s.card_id));
+    // Only the picked cards' rows: at most a chapter's cards or the 100 ids of the body.
+    const pickedIds = [...new Set(picked.map((c) => c.id))];
+    const have = new Set();
+    for (let i = 0; i < pickedIds.length; i += 100) {
+      const res = await q(db.from('key_card_states').select('card_id').eq('user_id', userId).in('card_id', pickedIds.slice(i, i + 100)));
+      for (const r of res.data || []) have.add(r.card_id);
+    }
     const at = new Date(now()).toISOString();
     const rows = picked.filter((c) => !have.has(c.id)).map((c) => ({
       user_id: userId, card_id: c.id, subject: c.subject, chapter_key: c.chapterKey, schedule: newSchedule(now()), reps: 0, lapses: 0,
       due_at: at, last_review_at: null, last_rating: null, added_from: from, added_at: at, suspended: false,
     }));
     if (rows.length) await q(db.from('key_card_states').upsert(rows, { onConflict: 'user_id,card_id', ignoreDuplicates: true }));
-    const after = await loadStates(userId);
+    const after = await loadStates(userId, { columns: SLIM_COLUMNS });
     const use = await used(userId, istDay(now()));
     return ok({ added: rows.length, today: todayPublic(today({ isPro: me.isPro, states: after, byId: pub.byId, use })) });
   }
@@ -270,7 +300,7 @@ export function createKeycards(deps) {
   // ---------------------------------------------------------------- GET /api/keycards/due
   async function dueCards(userId, { limit = 20 } = {}) {
     const n = Math.max(1, Math.min(50, Number.parseInt(limit, 10) || 20));
-    const [me, states, pub] = await Promise.all([who(userId), loadStates(userId), published()]);
+    const [me, states, pub] = await Promise.all([who(userId), loadStates(userId, { columns: SLIM_COLUMNS }), published()]);
     const use = await used(userId, istDay(now()));
     const t = today({ isPro: me.isPro, states, byId: pub.byId, use });
     const room = t.reviewsLeft === null ? n : Math.min(n, t.reviewsLeft);
@@ -293,14 +323,12 @@ export function createKeycards(deps) {
     const serverNow = now();
     const clientAt = clampClientTime(body.clientReviewedAt, serverNow);
     const day = istDay(serverNow);
-    const states = await loadStates(userId);
-    const state = states.find((s) => s.card_id === cardId) || null;
+    // Only this card's row: a list read would miss it past PostgREST's 1,000-row cap (code review H1).
+    const state = await loadState(userId, cardId);
     const nextOf = (s) => (s && Number(s.reps) > 0 ? { due_at: s.due_at, interval_days: Math.max(0, Math.round(((Date.parse(s.due_at) - serverNow) / 86_400_000) * 100) / 100) } : null);
-    const replay = async () => {
-      const fresh = (await loadStates(userId)).find((s) => s.card_id === cardId) || null;
-      const use = await used(userId, day);
-      return ok({ ok: true, replay: true, next: nextOf(fresh), today: todayPublic(today({ isPro: me.isPro, states: await loadStates(userId), byId: pub.byId, use })) });
-    };
+    // Today's numbers from the slim columns (code review M4): no schedule JSON, one paged read.
+    const todayNow = async () => todayPublic(today({ isPro: me.isPro, states: await loadStates(userId, { columns: SLIM_COLUMNS }), byId: pub.byId, use: await used(userId, day) }));
+    const replay = async () => ok({ ok: true, replay: true, next: nextOf(await loadState(userId, cardId)), today: await todayNow() });
     // A replay of the same (card, client time) changes nothing: the outbox may send a review twice.
     if (clientAt) {
       const seen = await q(db.from('key_card_reviews').select('id').eq('user_id', userId).eq('card_id', cardId).eq('client_reviewed_at', clientAt).limit(1));
@@ -312,8 +340,7 @@ export function createKeycards(deps) {
       const ins = await db.from('key_card_reviews').insert({ ...reviewRow, scheduled_days: null, elapsed_days: null });
       if (ins.error && conflict(ins.error)) return replay();
       if (ins.error) throw fail('KEY_CARDS_UNAVAILABLE', ins.error);
-      const use = await used(userId, day);
-      return ok({ ok: true, next: nextOf(state), today: todayPublic(today({ isPro: me.isPro, states, byId: pub.byId, use })) });
+      return ok({ ok: true, next: nextOf(state), today: await todayNow() });
     }
     if (state?.suspended) return bad('CARD_SUSPENDED', 409);
     const use = await used(userId, day);
@@ -338,9 +365,7 @@ export function createKeycards(deps) {
       });
       if (added.error) { if (conflict(added.error)) return bad('REVIEW_CONFLICT', 409); throw fail('KEY_CARDS_UNAVAILABLE', added.error); }
     }
-    const after = await loadStates(userId);
-    const useAfter = await used(userId, day);
-    return ok({ ok: true, next: { due_at: next.due_at, interval_days: next.interval_days }, today: todayPublic(today({ isPro: me.isPro, states: after, byId: pub.byId, use: useAfter })) });
+    return ok({ ok: true, next: { due_at: next.due_at, interval_days: next.interval_days }, today: await todayNow() });
   }
 
   // ---------------------------------------------------------------- GET /api/keycards/line?questionId=
@@ -386,7 +411,7 @@ export function createKeycards(deps) {
   // ---------------------------------------------------------------- GET /api/me/chapters?subject=
   async function chapters(userId, subject) {
     if (!isTopSubject(subject)) return bad('SUBJECT_NOT_FOUND', 404);
-    const [me, states, options, pub, progress] = await Promise.all([who(userId), loadStates(userId), loadOptions(userId), published(), progressRows(userId, subject)]);
+    const [me, states, options, pub, progress] = await Promise.all([who(userId), loadStates(userId, { subject }), loadOptions(userId), published(), progressRows(userId, subject)]);
     const option = options.get(subject) || null;
     const units = syllabus.unitsFor(subject, { option });
     const cardsByChapter = new Map();
@@ -433,7 +458,7 @@ export function createKeycards(deps) {
   }
   /** How many Key cards are due now (reviewed before, due, live, not suspended). No allowance read. */
   async function dueCount(userId) {
-    const [states, pub] = await Promise.all([loadStates(userId), published()]);
+    const [states, pub] = await Promise.all([loadStates(userId, { columns: SLIM_COLUMNS }), published()]);
     return dueQueue(states, pub.byId, { now: now(), limit: 0 }).due;
   }
 
