@@ -12,7 +12,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
   ALLOWANCE, KEYCARD_RULES, MODES, RATINGS, canAdd, cardMinutes, chapterAddSet, clampClientTime, deckView, dueQueue, istDay,
-  lineNeeded, memoryShare, newSchedule, schedule, tasteIds,
+  lineNeeded, memoryShare, newSchedule, printedCard, schedule, tasteIds,
 } from '../../../data/keycards.js';
 import { UNKNOWN_STATE, chapterStates, stateFor, tallyChapters } from '../../../data/chapter_state.js';
 import { readAnsweredProgress } from '../../../data/practice_progress.js';
@@ -54,7 +54,7 @@ export function loadDecks({ dir = path.join(process.cwd(), 'data/keycards'), log
   let manifest = {};
   try { manifest = JSON.parse(read(path.join(dir, 'manifest.json')) || '{}'); } catch { manifest = {}; log('[keycards] manifest unreadable: no decks served'); }
   const add = (subject, deck) => {
-    const cards = (deck.cards || []).filter((c) => c?.id && c.subject === subject);
+    const cards = (deck.cards || []).filter((c) => c?.id && c.subject === subject).map(printedCard);
     bySubject.set(subject, { version: deck.version, cards });
     for (const c of cards) byId.set(c.id, c);
     try { links.set(subject, JSON.parse(read(path.join(dir, 'links', `${subject}.json`)) || '{}')); } catch { links.set(subject, {}); }

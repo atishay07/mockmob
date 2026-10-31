@@ -44,6 +44,16 @@ const time = (v) => { const t = v instanceof Date ? v.getTime() : typeof v === '
 const mustFirst = (a, b) => (a.importance === 'must' ? 0 : 1) - (b.importance === 'must' ? 0 : 1);
 const bookOrder = (a, b) => (Number(a.order) || 0) - (Number(b.order) || 0) || String(a.id).localeCompare(String(b.id));
 
+/**
+ * NCERT prints single quotes as curly quotes; the text extraction the quote check reads turns the opening one into a
+ * backtick (`Liquidity Ratios'). Cards keep the checked text; what a student sees gets the printed quotes back.
+ */
+export const printQuotes = (text) => (typeof text === 'string' ? text.replace(/`([^`'\n]{1,120})'/g, '‘$1’') : text);
+const TEXT_FIELDS = ['front', 'back', 'quote', 'note'];
+export const printedCard = (card) => (TEXT_FIELDS.some((f) => typeof card?.[f] === 'string' && card[f].includes('`'))
+  ? { ...card, ...Object.fromEntries(TEXT_FIELDS.filter((f) => typeof card[f] === 'string').map((f) => [f, printQuotes(card[f])])) }
+  : card);
+
 /** What a locked card shows: its kind and label, never its text. */
 export const lockedStub = (card) => ({ id: card.id, kind: card.kind, label: KIND_LABELS[card.kind] || 'Card', locked: true });
 

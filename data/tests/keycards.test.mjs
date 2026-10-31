@@ -500,3 +500,14 @@ test('example and fact backs may name the concept on a first short line; the res
   assert.ok(shapeCheck({ ...base, back: 'Effectiveness\nIt means getting the job done.' }, 'business_studies').includes('shape:back_not_quote'));
   assert.ok(shapeCheck({ ...base, kind: 'definition', back: `Effectiveness\n${base.quote}` }, 'business_studies').includes('shape:back_not_quote'), 'a definition back is the quote itself');
 });
+
+test('a student sees NCERT\'s printed quotes, not the extraction\'s backtick; every real deck card is served that way', async () => {
+  const { printQuotes, printedCard } = await import('../keycards.js');
+  assert.equal(printQuotes("are known as `Liquidity Ratios'. These are"), 'are known as ‘Liquidity Ratios’. These are');
+  assert.equal(printQuotes("the partner's capital"), "the partner's capital", 'an apostrophe alone is left');
+  const card = { id: 'x', front: 'What are `Solvency Ratios\'?', back: 'plain', blanks: [] };
+  assert.equal(printedCard(card).front, 'What are ‘Solvency Ratios’?');
+  assert.equal(printedCard({ id: 'y', front: 'plain' }).front, 'plain');
+  const decks = loadDecks({ dir: path.join(ROOT, 'data/keycards'), log: () => {} });
+  for (const [, { cards }] of decks.bySubject) for (const c of cards) assert.ok(![c.front, c.back, c.quote, c.note].some((t) => typeof t === 'string' && /`[^`'\n]{1,120}'/.test(t)), c.id);
+});
