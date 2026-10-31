@@ -23,6 +23,14 @@ const MAX_ROWS = 1000; // PostgREST's max-rows: a select past it is cut, as on S
 function fakeDb(tables = {}) {
   const log = [];
   const failures = {}; // table -> (query) => true to answer that read with an error
+  // The migration's view key_card_suspended: cards with 3 or more reports.
+  const VIEWS = {
+    key_card_suspended: () => {
+      const n = new Map();
+      for (const r of tables.key_card_reports || []) n.set(r.card_id, (n.get(r.card_id) || 0) + 1);
+      return [...n].filter(([, c]) => c >= 3).map(([card_id, reports]) => ({ card_id, reports }));
+    },
+  };
   let ids = 0;
   const like = (v, p) => new RegExp(`^${String(p).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/%/g, '.*')}$`).test(String(v ?? ''));
   const clash = (table, row) => {
@@ -48,7 +56,7 @@ function fakeDb(tables = {}) {
     run() {
       log.push({ table: this.t, op: this.op, cols: this.cols, eqs: this.eqs, range: this.from === undefined ? null : [this.from, this.to] });
       if (failures[this.t]?.(this)) return { data: null, error: { code: '57014', message: 'canceling statement due to statement timeout' } };
-      const all = tables[this.t] || (tables[this.t] = []);
+      const all = VIEWS[this.t] ? VIEWS[this.t]() : tables[this.t] || (tables[this.t] = []);
       if (this.op === 'insert') {
         if (clash(this.t, this.row)) return { data: null, error: { code: '23505', message: 'duplicate key value violates unique constraint' } };
         all.push({ ...(this.t === 'key_card_reviews' ? { id: ++ids } : {}), ...this.row });
@@ -197,7 +205,7 @@ test('POST /api/keycards/review: schedules, and a Free student\'s eleventh revie
   const f = setup();
   await f.kc.add('u1', { chapter: 'business_studies.planning' });
   await f.kc.add('u1', { chapter: 'business_studies.staffing' });
-  const ids = [...PLANNING.slice(0, 5), ...STAFFING].map((c) => c.id);
+  const ids = PLANNING.slice(0, 5).map((c) => c.id); // five new cards: Free's new-card limit (L2) is not what stops it
   const first = await f.kc.review('u1', { cardId: ids[0], rating: 3, mode: 'study', clientReviewedAt: new Date(T0 - 10 * 60_000).toISOString() });
   assert.equal(first.http, 200);
   assert.ok(first.body.next.interval_days > 0);
@@ -503,6 +511,61 @@ test('M5: chapter state reads every answer past 1,000 rows, and a failed read is
   f.db.failures.user_question_progress = () => true;
   const home = (await f.kc.overview('u1')).body.subjects[0].units.flatMap((u) => u.chapters);
   assert.ok(home.every((c) => c.state.state === 'unknown' && c.state.label === 'Could not load'), 'the home rows too');
+});
+
+test("L2: Free's 5 new cards a day hold on direct reviews too: the sixth is 402 keycard_new and writes nothing", async () => {
+  const f = setup();
+  await f.kc.add('u1', { chapter: 'business_studies.planning' });
+  await f.kc.add('u1', { chapter: 'business_studies.staffing' });
+  const fresh = [...PLANNING.slice(0, 5), ...STAFFING].map((c) => c.id);
+  for (const id of fresh.slice(0, 5)) assert.equal((await f.kc.review('u1', { cardId: id, rating: 3, mode: 'study' })).http, 200);
+  const sixth = await f.kc.review('u1', { cardId: fresh[5], rating: 3, mode: 'study' });
+  assert.deepEqual(sixth, { http: 402, body: { error: 'PRO_REQUIRED', reason: 'keycard_new' } });
+  assert.equal(f.db.tables.key_card_reviews.filter((r) => r.card_id === fresh[5]).length, 0);
+  assert.equal(f.db.tables.learning_allowances.filter((r) => r.kind === 'keycard_review').length, 5, 'and no review slot');
+  assert.equal(f.db.tables.key_card_states.find((s) => s.card_id === fresh[5]).reps, 0);
+  // A card already reviewed is not new: it still plays.
+  f.clock.t = T0 + DAY;
+  assert.equal((await f.kc.review('u1', { cardId: fresh[0], rating: 3, mode: 'study' })).http, 200);
+  assert.equal((await f.kc.review('u1', { cardId: fresh[5], rating: 3, mode: 'study' })).http, 200, 'the next day has new slots');
+  // Pro is never stopped by it.
+  const p = setup({ isPro: true });
+  await p.kc.add('u1', { chapter: 'business_studies.planning' });
+  await p.kc.add('u1', { chapter: 'business_studies.staffing' });
+  for (const c of [...PLANNING.slice(0, 6), ...STAFFING]) assert.equal((await p.kc.review('u1', { cardId: c.id, rating: 3, mode: 'study' })).http, 200);
+});
+
+test("L3: an offline review from yesterday that syncs after midnight uses yesterday's allowance, not today's", async () => {
+  const f = setup({ clock: { t: Date.parse('2026-11-03T00:30:00+05:30') } });
+  await f.kc.add('u1', { chapter: 'business_studies.staffing' });
+  const out = await f.kc.review('u1', { cardId: STAFFING[0].id, rating: 3, mode: 'revise', clientReviewedAt: '2026-11-02T23:10:00+05:30' });
+  assert.equal(out.http, 200);
+  assert.deepEqual(f.db.tables.learning_allowances.map((r) => r.period).sort(), ['2026-11-02:1', '2026-11-02:1']);
+  assert.equal(out.body.today.reviewsLeft, 10, 'today (3 Nov) is untouched');
+  assert.equal(out.body.today.newLeft, 5);
+});
+
+test('L5: the lexical match needs 3 shared content words, so a one-word English quote never matches on one word', async () => {
+  const word = (slug, quote) => ({ id: `kc.english.vocabulary.word-${slug}`, v: 1, subject: 'english', chapterKey: 'english.vocabulary', kind: 'word', importance: 'must', quote, front: slug, back: quote, order: 10 });
+  const cards = new Map([word('abundant', 'Abundant'), word('scarce', 'Scarce, rare'), word('long', 'Present in great quantity; more than enough')].map((c) => [c.id, c]));
+  const { lineNeeded: ln } = await import('../keycards.js');
+  const text = 'Choose the word most similar in meaning to ABUNDANT. The options: plentiful, rare, scarce, empty.';
+  assert.deepEqual(ln('q1', {}, cards, { chapterKey: 'english.vocabulary', text }), { cards: [], source: 'none' }, 'before: Abundant and "Scarce, rare" matched at a share of 1');
+  const longer = ln('q2', {}, cards, { chapterKey: 'english.vocabulary', text: 'Which word means present in great quantity, more than enough?' });
+  assert.equal(longer.source, 'matched');
+  assert.deepEqual(longer.cards.map((c) => c.id), ['kc.english.vocabulary.word-long']);
+});
+
+test('L8: suspension reads only the cards with 3 or more reports, so one past the first 1,000 report rows is still suspended', async () => {
+  const id = PLANNING[0].id;
+  // The three reports of the suspended card come first; then 1,200 single reports of other cards.
+  const reports = [...['a', 'b', 'c'].map((u) => ({ user_id: u, card_id: id, reason: 'Wrong page', created_at: new Date(T0).toISOString() })),
+    ...Array.from({ length: 1200 }, (_, i) => ({ user_id: `r${i}`, card_id: `kc.other.card-${i}`, reason: 'x', created_at: new Date(T0).toISOString() }))];
+  const f = setup({ isPro: true, tables: { key_card_reports: reports } });
+  const deck = await f.kc.deck('u9', 'business_studies.planning');
+  assert.equal(deck.body.cards.some((c) => c.id === id), false);
+  assert.ok(f.db.log.some((l) => l.table === 'key_card_suspended'));
+  assert.equal(f.db.log.some((l) => l.table === 'key_card_reports' && l.op === 'select'), false, 'no report rows are read');
 });
 
 test('the Free rules match the spec constants', () => {

@@ -33,7 +33,8 @@ const PAGE = 1000;
 const MAX_PAGES = 100;
 const PROGRESS_COLUMNS = 'question_id,subject,chapter,attempt_count,last_correct,last_attempted_at';
 const REPORT_TTL_MS = 5 * 60 * 1000;
-export const REPORT_SUSPEND_AT = 3;
+export const REPORT_SUSPEND_AT = 3; // the view key_card_suspended (migration 20261031140000) uses the same 3
+const PRO_NEW_COUNT_ONLY = 100000;
 
 // ---------------------------------------------------------------- decks
 
@@ -118,13 +119,14 @@ export function createKeycards(deps) {
     return res;
   }
 
-  /** Cards suspended for everyone: 3 or more distinct reports (key_card_reports), until the orchestrator reviews them. */
+  /**
+   * Cards suspended for everyone: 3 or more distinct reports, until the orchestrator reviews them. Read from the view
+   * key_card_suspended, which returns only those card ids (code review L8: reading every report row stopped at 1,000).
+   */
   async function suspendedForAll() {
     if (now() - reports.at < REPORT_TTL_MS) return reports.set;
-    const { data } = await q(db.from('key_card_reports').select('card_id').limit(20000));
-    const n = new Map();
-    for (const r of data || []) n.set(r.card_id, (n.get(r.card_id) || 0) + 1);
-    reports = { at: now(), set: new Set([...n].filter(([, c]) => c >= REPORT_SUSPEND_AT).map(([id]) => id)) };
+    const rows = await readPages(() => db.from('key_card_suspended').select('card_id').order('card_id'));
+    reports = { at: now(), set: new Set(rows.map((r) => r.card_id)) };
     return reports.set;
   }
 
@@ -363,7 +365,10 @@ export function createKeycards(deps) {
     const clientAt = clampClientTime(body.clientReviewedAt, serverNow);
     const clientKey = clientAt ? String(body.clientReviewedAt).trim().slice(0, 100) : null;
     const reviewedAt = new Date(serverNow).toISOString();
-    const day = istDay(serverNow);
+    const at = clientAt ? Date.parse(clientAt) : serverNow;
+    // The allowance day is the IST day the student rated on (the clamped client time): offline reviews from yesterday that
+    // sync after midnight use yesterday's allowance, not today's (code review L3).
+    const day = istDay(at);
     // Only this card's row: a list read would miss it past PostgREST's 1,000-row cap (code review H1).
     const state = await loadState(userId, cardId);
     const nextOf = (s) => (s && Number(s.reps) > 0 ? { due_at: s.due_at, interval_days: Math.max(0, Math.round(((Date.parse(s.due_at) - serverNow) / 86_400_000) * 100) / 100) } : null);
@@ -372,7 +377,6 @@ export function createKeycards(deps) {
       const [all, options, use] = await Promise.all([loadStates(userId, { columns: SLIM_COLUMNS }), loadOptions(userId), used(userId, istDay(serverNow))]);
       return todayPublic(today({ isPro: me.isPro, states: playable(all, { isPro: me.isPro, pub, options }), byId: pub.byId, use }));
     };
-    const at = clientAt ? Date.parse(clientAt) : serverNow;
     // A last look is logged and never moves the schedule, and it uses no allowance. A review older than the card's last
     // one (an outbox sending late, a second device) cannot be applied in order: FSRS would move the schedule backwards, or
     // throw on an earlier day. It is logged the same way and answered ok, `late: true` (code review H2).
@@ -390,7 +394,8 @@ export function createKeycards(deps) {
         subject: card.subject, chapter_key: card.chapterKey, added_from: mode === 'revise' ? 'mistake' : 'manual', added_at: reviewedAt,
       } : null,
       p_scheduled_days: next ? next.scheduled_days : null, p_elapsed_days: next ? next.elapsed_days : null,
-      p_day: day, p_review_limit: me.isPro ? null : KEYCARD_RULES.free.reviewsPerDay, p_new_limit: 1000,
+      // Free: 10 reviews and 5 new cards a day, enforced here too, not only by the queue (L2). Pro: new cards are counted only.
+      p_day: day, p_review_limit: me.isPro ? null : KEYCARD_RULES.free.reviewsPerDay, p_new_limit: me.isPro ? PRO_NEW_COUNT_ONLY : KEYCARD_RULES.free.newPerDay,
       p_reference: `${cardId}@${clientKey || reviewedAt}`.slice(0, 200),
     }));
     const status = res.data?.status;

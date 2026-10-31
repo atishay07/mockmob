@@ -10,6 +10,7 @@
 --     request (a future clock clamps to now, an old one to 48 h ago), so it could not be the replay key.
 --   key_card_review(): one rating in one transaction (the replay check, the review row, the state move guarded by the
 --     expected reps, and the Free allowance claims), called only by POST /api/keycards/review with the service role.
+--   key_card_suspended: a view of the cards with 3 or more reports (L8), read instead of every report row.
 -- SAVED ONLY. Not applied anywhere by this change; production needs its own dry run (PGlite or a schema copy) and the
 -- owner's grant. Undo: supabase/undo/20261031140000_key_cards.undo.sql
 
@@ -56,6 +57,10 @@ create table if not exists public.key_card_reports (
   primary key (user_id, card_id)
 );
 create index if not exists key_card_reports_card on public.key_card_reports (card_id);
+-- Cards suspended for everyone: 3 or more distinct reports (POST /api/keycards/report; REPORT_SUSPEND_AT in
+-- src/lib/server/keycards.js). The server reads only these card ids, never every report row (code review L8).
+create or replace view public.key_card_suspended with (security_invoker = true) as
+  select r.card_id, count(*)::int as reports from public.key_card_reports r group by r.card_id having count(*) >= 3;
 
 create table if not exists public.student_subject_options (
   user_id text not null,
@@ -71,6 +76,8 @@ alter table public.key_card_reports enable row level security;
 alter table public.student_subject_options enable row level security;
 revoke all on public.key_card_states, public.key_card_reviews, public.key_card_reports, public.student_subject_options from public, anon, authenticated;
 grant all on public.key_card_states, public.key_card_reviews, public.key_card_reports, public.student_subject_options to service_role;
+revoke all on public.key_card_suspended from public, anon, authenticated;
+grant select on public.key_card_suspended to service_role;
 
 -- One rating in one transaction. Returns { status }:
 --   ok               the review row is in and the state moved (or was created at the first rating)

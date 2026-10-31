@@ -178,19 +178,28 @@ const STOPWORDS = new Set(('a an and are as at be been being but by can could di
 export const isStopword = (w) => STOPWORDS.has(String(w).toLowerCase());
 const tokens = (text) => new Set(String(text ?? '').toLowerCase().normalize('NFKC').split(/[^\p{L}\p{N}]+/u).filter((w) => w.length > 2 && !STOPWORDS.has(w)));
 
-/** Share of the card quote's tokens that also appear in the question text (0..1). */
-export function overlapScore(questionText, quote) {
+// The lexical fallback of "The line you needed": a card matches when at least `minShared` content words of its quote are in
+// the question text and they are at least `minScore` of the quote's words. English Must-know quotes are mostly one or two
+// words, so a share alone let one generic word match (code review L5).
+export const LINE_MATCH = Object.freeze({ minScore: 0.35, minShared: 3 });
+
+/** Content words of the card quote that also appear in the question text: { shared, words, score } (score 0..1). */
+export function overlap(questionText, quote) {
   const q = tokens(questionText);
   const c = tokens(quote);
-  if (!c.size || !q.size) return 0;
-  let hit = 0;
-  for (const w of c) if (q.has(w)) hit += 1;
-  return hit / c.size;
+  if (!c.size || !q.size) return { shared: 0, words: c.size, score: 0 };
+  let shared = 0;
+  for (const w of c) if (q.has(w)) shared += 1;
+  return { shared, words: c.size, score: shared / c.size };
 }
+
+/** Share of the card quote's tokens that also appear in the question text (0..1). */
+export const overlapScore = (questionText, quote) => overlap(questionText, quote).score;
 
 /**
  * "The line you needed" for a question answered wrong. Precomputed links first; otherwise the lexical match over the
- * Must-know cards of the question's chapter (top 2 at a score of at least 0.35); otherwise nothing.
+ * Must-know cards of the question's chapter (top 2 with at least 3 shared content words, at least 0.35 of the quote's);
+ * otherwise nothing.
  *   fallback = { chapterKey, text } (question stem + explanation), or null
  * Returns { cards, source: 'linked' | 'matched' | 'none' }.
  */
@@ -201,8 +210,9 @@ export function lineNeeded(questionId, links, cardsById, fallback = null) {
   if (!fallback?.chapterKey || !fallback?.text) return { cards: [], source: 'none' };
   const all = cardsById instanceof Map ? [...cardsById.values()] : Object.values(cardsById || {});
   const scored = all.filter((c) => c.chapterKey === fallback.chapterKey && c.importance === 'must' && c.quote)
-    .map((c) => ({ c, s: overlapScore(fallback.text, c.quote) }))
-    .filter((x) => x.s >= 0.35)
+    .map((c) => ({ c, o: overlap(fallback.text, c.quote) }))
+    .filter((x) => x.o.shared >= LINE_MATCH.minShared && x.o.score >= LINE_MATCH.minScore)
+    .map((x) => ({ c: x.c, s: x.o.score }))
     .sort((a, b) => b.s - a.s || bookOrder(a.c, b.c))
     .slice(0, 2)
     .map((x) => x.c);

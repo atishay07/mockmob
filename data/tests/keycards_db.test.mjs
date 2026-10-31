@@ -149,3 +149,17 @@ test('the undo removes the function and the tables, and the migration applies ag
   assert.equal(await rate(db), 'ok');
   await db.close();
 });
+
+test('the view key_card_suspended returns only cards with 3 or more reports, at the server\'s threshold, for the service role only', async () => {
+  const { REPORT_SUSPEND_AT } = await import('../../src/lib/server/keycards.js');
+  assert.ok(MIGRATION.includes(`having count(*) >= ${REPORT_SUSPEND_AT};`), 'the view and REPORT_SUSPEND_AT agree');
+  const db = await freshDb();
+  await db.exec(`insert into public.key_card_reports (user_id, card_id, reason) values
+    ('a', 'c1', 'x'), ('b', 'c1', 'x'), ('c', 'c1', 'x'), ('a', 'c2', 'x'), ('b', 'c2', 'x'), ('a', 'c3', 'x')`);
+  assert.deepEqual(await rows(db, `select card_id, reports from public.key_card_suspended order by card_id`), [{ card_id: 'c1', reports: 3 }]);
+  for (const [role, can] of [['service_role', true], ['anon', false], ['authenticated', false]]) {
+    const [r] = await rows(db, `select has_table_privilege($1, 'public.key_card_suspended', 'select') as ok`, [role]);
+    assert.equal(r.ok, can, role);
+  }
+  await db.close();
+});
