@@ -47,19 +47,23 @@ const bookOrder = (a, b) => (Number(a.order) || 0) - (Number(b.order) || 0) || S
 /** What a locked card shows: its kind and label, never its text. */
 export const lockedStub = (card) => ({ id: card.id, kind: card.kind, label: KIND_LABELS[card.kind] || 'Card', locked: true });
 
-/** The taste cards of each chapter: the first `tastePerChapter` in book order, Must-know first among ties. */
+/**
+ * The taste cards of each chapter: its first `tastePerChapter` Must-know cards in book order (`order`, then id). Good-to-know
+ * cards are never in the taste (they are added only by a Pro student's choice), so a chapter with fewer Must-know cards has
+ * a smaller taste. One rule for the server, the web fixtures and the app: data/keycards/fixtures/taste.json pins it
+ * (code review L10).
+ */
 export function tasteIds(cards, per = KEYCARD_RULES.free.tastePerChapter) {
   const byChapter = new Map();
   for (const c of cards || []) {
-    if (!c?.id) continue;
+    if (!c?.id || c.importance !== 'must') continue;
     const list = byChapter.get(c.chapterKey) || [];
     list.push(c);
     byChapter.set(c.chapterKey, list);
   }
   const out = new Set();
   for (const list of byChapter.values()) {
-    // Must-know first, then book order: the taste is the chapter's most important lines, in the order the book gives them.
-    const picked = [...list].sort((a, b) => mustFirst(a, b) || bookOrder(a, b)).slice(0, per);
+    const picked = [...list].sort(bookOrder).slice(0, per);
     for (const c of picked) out.add(c.id);
   }
   return out;
