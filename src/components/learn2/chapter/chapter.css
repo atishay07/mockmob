@@ -26,53 +26,64 @@ html[data-theme='light'] .lc {
 }
 /* The page has no bar of its own at the foot (the shell already clears the dock), so it ends where the shelf ends. */
 .app-shell .kc.lc { max-width: 1120px; padding-bottom: 8px; }
-.lc-back { margin-bottom: -8px; }
+.lc-back { margin-bottom: -6px; }
+.kc.lc { gap: 12px; }
 
-/* ---------- Board: the lined-up block, and the shelf beside it at 1440 ---------- */
-.lc-board { display: grid; grid-template-columns: minmax(0, 1fr); gap: 36px; align-items: start; }
-.lc-main { display: grid; gap: 22px; min-width: 0; }
-@media (min-width: 640px) { .lc-main { gap: 28px; } }
-@media (min-width: 1024px) {
-  .lc-board { grid-template-columns: minmax(0, 1fr) 320px; gap: 56px; }
-  .lc-shelf { position: sticky; top: 88px; }
+/* ---------- Board: the lined-up block, and "Everything in this chapter" beside it when the board is wide (A4 3.2.2) ---------- */
+.lc-board { container-type: inline-size; container-name: lc-board; min-width: 0; }
+.lc-board__in { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; align-items: start; }
+.lc-main { display: grid; gap: 20px; min-width: 0; align-content: start; }
+@container lc-board (min-width: 920px) {
+  .lc-board__in { grid-template-columns: minmax(0, 1fr) 300px; column-gap: 40px; }
+  .lc-shelf { position: sticky; top: 88px; align-self: start; }
+  .lc-main { gap: 28px; }
 }
+@container lc-board (max-width: 919px) { .lc-shelf { max-width: 640px; } }
 
 /* ---------- Head ---------- */
-.lc-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 16px; }
-.lc-head__text { display: grid; gap: 8px; min-width: 0; }
-.lc-head__unit { font: 600 14px/1.35 var(--font-body); color: var(--a-ink-3); text-wrap: balance; }
-.lc-head__title { font-size: clamp(28px, 4.2vw, 44px); }
-.lc-head__ref { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; font: 500 15px/1.4 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lc-head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 24px; }
+.lc-head__text { display: grid; min-width: 0; }
+.lc-head__unit { font: 600 13px/1.3 var(--font-body); color: var(--a-ink-3); text-wrap: balance; margin-bottom: 6px; }
+.lc-head__title { font-size: clamp(26px, 3vw, 44px); line-height: 1.04; letter-spacing: -0.035em; text-wrap: balance; max-width: 600px; }
+.lc-head__ref { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px; margin-top: 10px; font: 500 14px/1.4 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+@media (min-width: 600px) { .lc-head__unit { font-size: 14px; } .lc-head__ref { font-size: 15px; } }
+@media (max-width: 374px) { .lc-head__title { font-size: 25px; } }
 .lc-head__obj { align-self: center; }
 @media (max-width: 639px) {
-  .lc-head { align-items: start; gap: 10px; }
+  .lc-head { align-items: start; column-gap: 10px; }
   .lc-head .lc-head__obj { --obj-size: 76px !important; margin-top: 2px; }
 }
 .lc-state { display: inline-flex; align-items: center; gap: 6px; font: 600 14px/1.3 var(--font-body); color: var(--a-ink-2); }
 .lc-state[data-state='weak'] { color: var(--a-warn-text); }
 .lc-state[data-state='strong'] { color: var(--a-good-text); }
 .lc-state:is([data-state='none'], [data-state='thin'], [data-state='unknown']) { color: var(--a-ink-3); }
+.lc-missing { display: grid; gap: 14px; justify-items: start; padding-top: 8px; }
 
-/* ---------- Length: one control, one sliding thumb ---------- */
-.lc-lined { display: grid; gap: 16px; min-width: 0; padding-top: 20px; border-top: 1px solid var(--a-line); }
-.lc-lined__h { font: 700 19px/1.25 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
-.lc-len-wrap { position: relative; max-width: 560px; }
-.lc-len {
-  position: relative; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); padding: 4px; border-radius: 15px;
-  background: var(--a-sunken); border: 1px solid var(--a-line); isolation: isolate;
+/* ---------- Resume: today's unfinished run of this chapter comes first (A4 3.2.4, F20) ---------- */
+.lc-resume { display: grid; gap: 12px; padding-bottom: 20px; border-bottom: 1px solid var(--a-line); }
+.lc-resume__text { display: grid; gap: 2px; }
+.lc-resume__h { font: 650 15px/1.4 var(--font-body); color: var(--a-ink); }
+.lc-resume__left { font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.lc-resume__key { min-height: 52px; width: 100%; font-size: 16px; }
+@media (min-width: 600px) {
+  .lc-resume { grid-template-columns: minmax(0, 1fr) auto; align-items: center; column-gap: 20px; max-width: 692px; }
+  .lc-resume__key { width: auto; min-width: 260px; min-height: 54px; }
 }
-.lc-len__btn {
-  position: relative; z-index: 1; min-height: 48px; padding: 0 6px; border: 0; border-radius: 11px; background: transparent; color: var(--a-ink-2);
-  font: 600 15px/1.1 var(--font-body); font-variant-numeric: tabular-nums; cursor: pointer; white-space: nowrap; transition: color 200ms var(--lc-ease);
+
+/* ---------- The lined-up block: control, piles, Start, on one 692 px measure (A4 3.2.2, F27) ---------- */
+.lc-lined { container-type: inline-size; container-name: lc-lined; width: 100%; max-width: 692px; min-width: 0; }
+.lc-lined__in { display: grid; gap: 0; min-width: 0; }
+.lc-ctl { display: grid; gap: 10px; min-width: 0; }
+.lc-lined__h { font: 700 17px/1.25 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); }
+.lc-len-wrap { position: relative; min-width: 0; }
+/* The site's SegmentedControl, stretched to the block: four equal segments, 48 px tall. */
+.lc-len-wrap .ctl-seg.lc-seg { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); width: 100%; flex-wrap: nowrap; }
+.lc-len-wrap .lc-seg .ctl-seg__opt { min-width: 0; min-height: 48px; padding: 0 6px; font: 650 15px/1.1 var(--font-body); }
+@media (max-width: 389px) { .lc-len-wrap .lc-seg .ctl-seg__opt { font-size: 14px; padding: 0 4px; } }
+@container lc-lined (min-width: 600px) {
+  .lc-ctl { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 20px; }
+  .lc-lined__h { font-size: 19px; }
 }
-.lc-len__btn[aria-checked='true'] { color: var(--a-ink); font-weight: 700; }
-.lc-len__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 1px; }
-@media (hover: hover) { .lc-len__btn:hover:not([aria-checked='true']) { color: var(--a-ink); } }
-.lc-len__thumb {
-  position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / 4); border-radius: 11px; background: var(--a-raised);
-  box-shadow: var(--a-shadow-1), inset 0 0 0 1px var(--a-line-strong); transform: translateX(calc(var(--i, 0) * 100%)); transition: transform 240ms var(--lc-ease);
-}
-@media (max-width: 389px) { .lc-len__btn { font-size: 14px; } }
 
 .lc-own-layer { --lc-ease: cubic-bezier(0.22, 1, 0.36, 1); }
 /* Your own: a small sheet. A bottom sheet on a phone; a panel under the control on a wider screen. */
@@ -116,10 +127,15 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 /* ---------- The piles ---------- */
 /* One column per pile (a left-out pile keeps its place, so leaving one out never moves the others). Four piles on a phone
    sit two by two, so each stays a hand-sized object with its label on one line. */
-.lc-piles { list-style: none; margin: 0; padding: 14px 0 0; display: grid; grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); gap: 16px 14px; }
-@media (max-width: 639px) { .lc-piles[data-n='4'] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px 18px; } }
-@media (min-width: 640px) { .lc-piles { grid-template-columns: repeat(var(--n, 3), minmax(0, 176px)); gap: 28px; } }
-@media (min-width: 1024px) { .lc-piles { grid-template-columns: repeat(var(--n, 3), minmax(0, 212px)); } }
+.lc-piles { list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px 12px; }
+.lc-lined .lc-piles { margin: 18px 0 0; padding: 8px 0 0; }
+.lc-piles[data-n='4'] { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 14px; }
+.lc-piles:is([data-n='1'], [data-n='2']) { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+@container lc-lined (min-width: 600px) {
+  .lc-piles { grid-template-columns: repeat(3, 212px); column-gap: 28px; row-gap: 16px; }
+  .lc-piles[data-n='4'] { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 20px; }
+  .lc-piles:is([data-n='1'], [data-n='2']) { grid-template-columns: repeat(3, 212px); }
+}
 .lc-pile { min-width: 0; animation: kc-rise 260ms var(--lc-ease) both; animation-delay: calc(var(--i, 0) * 40ms); }
 .lc-pile__btn {
   display: grid; gap: 1px; width: 100%; padding: 6px 2px 4px; margin: 0; border: 0; border-radius: 16px; background: transparent; color: inherit; text-align: left;
@@ -127,11 +143,12 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 }
 .lc-pile__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; }
 .lc-pile[data-left] .lc-pile__btn { opacity: 0.4; }
+.lc-pile[data-left] .lc-pile__btn:is(:hover, :focus-visible) { opacity: 0.62; }
 .lc-pile__btn[aria-busy='true'] .lc-face__count { opacity: 0.72; }
 
 /* The fan: three papers, the top one level, the two under it leaning -4 and 3 degrees and peeking out above it, so the
    pile reads as a stack of paper you can pick up. */
-.lc-fan { position: relative; display: block; aspect-ratio: 4 / 3; margin: 0 4px 12px; --lc-spread: 1; transition: transform 150ms var(--lc-ease); }
+.lc-fan { position: relative; display: block; aspect-ratio: 4 / 3; margin: 0 4px 8px; --lc-spread: 1; transition: transform 150ms var(--lc-ease); }
 .lc-sheet {
   position: absolute; inset: 0; border-radius: 12px; border: 1px solid var(--lc-edge); transform-origin: 50% 60%;
   transition: transform 220ms var(--lc-ease), opacity 220ms var(--lc-ease), border-color 150ms var(--lc-ease);
@@ -146,6 +163,8 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 /* A new count re-spreads the fan: the under-papers close behind the top one and open again (the fan remounts on a new count). */
 .lc-fan :is(.lc-sheet--b, .lc-sheet--c) { animation: lc-respread 220ms var(--lc-ease) both; }
 .lc-pile[data-left] :is(.lc-sheet--b, .lc-sheet--c) { animation: none; }
+@container lc-lined (min-width: 600px) { .lc-fan { aspect-ratio: 3 / 2; } }
+@media (min-width: 1024px) and (max-height: 700px) { .lc-fan { aspect-ratio: 16 / 9; } }
 @media (hover: hover) {
   .lc-pile:not([data-left]) .lc-pile__btn:hover .lc-fan { transform: translateY(-3px); }
   .lc-pile .lc-pile__btn:hover .lc-sheet { border-color: var(--lc-edge-hi); }
@@ -175,8 +194,17 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 .lc-pile[data-left] .lc-tick { background: transparent; box-shadow: inset 0 0 0 1.5px var(--a-ink-3); }
 .lc-face__count { font: 760 clamp(30px, 3.6vw, 46px)/0.9 var(--font-display); letter-spacing: -0.035em; color: var(--a-ink); font-variant-numeric: tabular-nums lining-nums; transition: opacity 150ms var(--lc-ease); }
 .lc-face__left { font: 650 clamp(13px, 1.2vw, 15px)/1.15 var(--font-body); color: var(--a-ink-2); }
-.lc-pile__label { font: 650 clamp(13.5px, 1.15vw, 15px)/1.25 var(--font-body); color: var(--a-ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lc-pile__min { font: 500 clamp(12.5px, 1.05vw, 13.5px)/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lc-pile__label { font: 650 14px/1.25 var(--font-body); color: var(--a-ink); text-wrap: balance; }
+@container lc-lined (min-width: 600px) { .lc-pile__label { font-size: 15px; } }
+.lc-pile__min { font: 500 12.5px/1.3 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; text-wrap: balance; }
+@container lc-lined (min-width: 600px) { .lc-pile__min { font-size: 13.5px; } }
+.lc-pile__note { font: 600 12.5px/1.3 var(--font-body); color: var(--a-warn-text); text-wrap: balance; }
+/* "2" then "of 3" on the mistakes paper; "+3" then "min" on an added chapter. */
+.lc-face__of { margin-left: 4px; font: 600 14px/1 var(--font-body); letter-spacing: 0; color: var(--a-ink-3); }
+/* Free's held pile (Key cards only today): dimmed like a left-out pile, a dashed top edge, and not a button. */
+.lc-pile[data-held] .lc-pile__btn { cursor: default; }
+.lc-pile[data-held] .lc-sheet--a { border-top: 1.5px dashed var(--lc-edge-hi); }
+.lc-pile[data-held] .lc-pile__btn:hover .lc-fan { transform: none !important; }
 
 /* The next chapter: one dashed, empty paper with a plus, the same size as a pile. */
 .lc-sheet--dash { border: 1.5px dashed var(--lc-edge-hi); background: transparent; box-shadow: none; justify-content: flex-end; }
@@ -189,47 +217,63 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 @keyframes lc-sheet-up { from { transform: translateY(24px); opacity: 0; } to { transform: none; opacity: 1; } }
 
 /* Before the first dry run: the page in outline at its real sizes. */
-.lc-skel { display: grid; gap: 22px; }
-@media (min-width: 640px) { .lc-skel { gap: 28px; } }
+.lc-skel { display: grid; gap: 20px; }
 .lc-skel .skeleton { display: block; border-radius: 10px; }
-.lc-skel__unit { height: 18px; width: 46%; }
-.lc-skel__title { height: clamp(28px, 4.2vw, 44px); width: 88%; }
-.lc-skel__title--2 { width: 54%; margin-top: -2px; }
+.lc-skel .lc-head__text { gap: 8px; }
+.lc-skel__title { height: clamp(26px, 3vw, 44px); width: 88%; }
+.lc-skel__title--2 { width: 54%; }
 .lc-skel__ref { height: 20px; width: 40%; }
-.lc-skel__h { height: 24px; width: 220px; }
-.lc-skel__len { height: 58px; max-width: 560px; border-radius: 15px !important; }
-.lc-skel__key { height: 54px; width: 100%; border-radius: 14px !important; }
-@media (min-width: 640px) { .lc-skel__key { width: 300px; } }
+.lc-skel__h { height: 22px; width: 200px; }
+.lc-skel__len { height: 58px; border-radius: 14px !important; }
+.lc-skel__key { height: 52px; width: 100%; border-radius: 14px !important; }
+@container lc-lined (min-width: 600px) { .lc-skel__key { width: 300px; height: 54px; } }
 .lc-pile--skel { animation: none; }
 .lc-pile--skel .lc-sheet--a { background: var(--a-sunken); }
 .lc-pile--skel .lc-sheet--b, .lc-pile--skel .lc-sheet--c { animation: none; }
 .lc-skel-text { display: block; height: 12px; width: 80%; border-radius: 6px; margin: 3px 0; }
 .lc-skel-text--short { width: 50%; }
+.lc-skel-text--h { height: 18px; width: 70%; margin-bottom: 12px; }
 
-.lc-coach { font: 500 14px/1.4 var(--font-body); color: var(--a-ink-2); margin-top: -6px !important; animation: kc-fade 260ms var(--lc-ease) 300ms both; }
+.lc-coach { font: 500 13.5px/1.4 var(--font-body); color: var(--a-ink-2); margin-top: 8px; animation: kc-fade 260ms var(--lc-ease) 300ms both; }
 .lc-coach[data-done] { animation: lc-out 200ms var(--lc-ease) both; }
 @keyframes lc-out { from { opacity: 1; } to { opacity: 0; } }
 .lc-fine { font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); max-width: 60ch; text-wrap: pretty; }
 .lc-error { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding: 18px 0; }
 .lc-error p { font: 600 15px/1.5 var(--font-body); color: var(--a-ink-2); }
 
-/* ---------- Start ---------- */
-.lc-go { display: grid; gap: 10px; justify-items: start; padding-top: 4px; }
-.lc-go__key { width: 100%; min-height: 54px; font-size: 16px; }
-@media (min-width: 640px) { .lc-go__key { width: auto; min-width: 300px; } }
+/* ---------- Start: the key with the real length, then one quiet line (A4 3.2.2, 3.2.3, 3.2.5) ---------- */
+.lc-go { display: grid; gap: 8px; margin-top: 16px; }
+.lc-go__key { width: 100%; min-height: 52px; font-size: 16px; }
+.lc-go__key[aria-disabled='true'] { cursor: progress; }
+.lc-go__key[aria-disabled='true'] .lc-go__label { opacity: 0.72; }
 .lc-go__label { display: inline-block; animation: kc-fade 180ms var(--lc-ease) both; font-variant-numeric: tabular-nums; }
-.lc-go__note { font: 500 13.5px/1.5 var(--font-body); color: var(--a-ink-3); }
+.lc-go__note { font: 500 13.5px/1.45 var(--font-body); color: var(--a-ink-2); max-width: 46ch; text-wrap: pretty; }
+.lc-go__note[data-empty] { display: none; }
+@container lc-lined (min-width: 600px) {
+  .lc-go { grid-template-columns: auto minmax(0, 1fr); align-items: center; column-gap: 20px; margin-top: 20px; }
+  .lc-go__key { width: auto; min-width: 300px; min-height: 54px; }
+  .lc-go__note { max-width: 360px; }
+}
+/* On a phone or a tablet the key never sits under the app dock: while the lined-up block is on screen and the key's own place
+   is below the dock, it rides just above the dock on an opaque strip (A8 F12; the dock is the shell's, --dock-h). */
+@media (max-width: 1023px) {
+  .app-shell .lc-go:not([data-resume]) {
+    position: sticky; z-index: 3; bottom: calc(var(--dock-h, 84px) + env(safe-area-inset-bottom));
+    margin-inline: -16px; padding: 8px 16px 10px; background: var(--a-bg);
+  }
+}
 .lc-recap {
-  display: inline-flex; align-items: center; min-height: 44px; margin: 2px 0 0 -10px; padding: 0 10px; border-radius: 10px; color: var(--a-ink-2);
+  justify-self: start; display: inline-flex; align-items: center; min-height: 44px; margin: 4px 0 0 -10px; padding: 0 10px; border-radius: 10px; color: var(--a-ink-2);
   font: 600 14.5px/1.35 var(--font-body); text-decoration: underline; text-decoration-color: var(--a-line-strong); text-underline-offset: 4px; text-wrap: pretty;
   transition: color 200ms var(--lc-ease), background-color 200ms var(--lc-ease);
 }
 .lc-recap:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) { .lc-recap:hover { color: var(--a-ink); background: var(--a-hover); } }
 
-/* ---------- Shelf: "In this chapter" ---------- */
+/* ---------- Shelf: "Everything in this chapter" (A4 3.2.6) ---------- */
 .lc-shelf { display: grid; gap: 6px; min-width: 0; }
 .lc-shelf__h { font: 700 17px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); padding-bottom: 6px; }
+.lc-shelf__none { margin-top: 10px; font: 500 13px/1.45 var(--font-body); color: var(--a-ink-3); text-wrap: pretty; }
 .lc-shelf__rows { list-style: none; margin: 0; padding: 0; display: grid; }
 .lc-shelf__rows > li { border-top: 1px solid var(--a-line); }
 .lc-shelf__rows > li:last-child { border-bottom: 1px solid var(--a-line); }
@@ -246,11 +290,20 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
 .lc-shelf__chev { color: var(--a-ink-3); transition: transform 200ms var(--lc-ease), color 200ms var(--lc-ease); }
 @media (hover: hover) { a.lc-shelf__row:hover { background: var(--a-hover); } a.lc-shelf__row:hover .lc-shelf__chev { transform: translateX(2px); color: var(--a-ink); } }
 /* On a phone the shelf sits under the lined-up block, so its outline waits for the dry run (it would only be pushed down). */
-@media (max-width: 1023px) { .lc-shelf--skel { display: none; } }
-@media (min-width: 1024px) { .lc-shelf { padding-top: 6px; } }
+@container lc-board (max-width: 919px) { .lc-shelf--skel { display: none; } }
+/* Beside the main column, the shelf's heading lines up with the chapter's title. */
+@container lc-board (min-width: 920px) { .lc-shelf { margin-top: 12px; } }
 
 @media (prefers-reduced-motion: reduce) {
   .lc-own-layer *,
   .lc *, .lc *::before, .lc *::after { animation: none !important; transition: none !important; }
   .lc-coach[data-done] { opacity: 0; }
+}
+
+/* A short laptop window (1366 x 650 and the like): the fans go landscape and the head sits closer, so Start stays on screen. */
+@media (min-width: 1024px) and (max-height: 700px) {
+  .lc-board .lc-main { gap: 20px; }
+  .lc-resume { padding-bottom: 14px; }
+  .lc-resume__key { min-height: 48px; }
+  .lc-lined .lc-piles { margin-top: 14px; }
 }

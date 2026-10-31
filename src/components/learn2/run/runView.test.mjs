@@ -1,0 +1,91 @@
+// node --test src/components/learn2/run/runView.test.mjs
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { answerTally, endLines, endTitle, freeEndLines, frontStep, leadView, movedParts, placeReinsert, positionWords, reviseSummary, rightLine, runPiles, stageTag, stateKeyOf } from './runView.mjs';
+
+const card = (id, cardId = id, extra = {}) => ({ id, type: 'card', card: { id: cardId }, ...extra });
+const q = (id, origin = 'chapter') => ({ id, type: 'question', origin, question: { id: `q-${id}` } });
+
+test('frontStep follows the length steps of B1', () => {
+  assert.equal(frontStep('What is partnership?'), 's');
+  assert.equal(frontStep('x'.repeat(61)), 'm');
+  assert.equal(frontStep('x'.repeat(121)), 'l');
+});
+
+test('stageTag says why a card is here, and nothing in a recap', () => {
+  assert.equal(stageTag({ stage: 'due' }), 'Due today');
+  assert.equal(stageTag({ reason: 'line' }), 'The line you needed');
+  assert.equal(stageTag({ reason: 'earlier' }), 'Back from earlier');
+  assert.equal(stageTag({ stage: 'again', again: true }), 'Back from earlier');
+  assert.equal(stageTag({ stage: 'due' }, { recap: true }), null);
+  assert.equal(stageTag({ stage: 'new' }), null);
+});
+
+test('runPiles counts distinct cards, marks the current pile, and says "left" on a resumed run', () => {
+  const items = [card('i1', 'c1'), card('i2', 'c2'), q('i3'), card('i4', 'c1', { again: true }), q('i5', 'mistake')];
+  const piles = runPiles(items, 3, { at: 3 });
+  assert.deepEqual(piles.map((p) => [p.id, p.value, p.current]), [['cards', '2 of 2', true], ['questions', '1 of 1', false], ['mistakes', '0 of 1', false]]);
+  const resumed = runPiles(items, 0, { resumed: true });
+  assert.equal(resumed[0].value, '2 left');
+});
+
+test('answerTally keeps plain questions and old mistakes apart, with the streak', () => {
+  const items = [q('a'), q('b'), q('c'), q('m', 'mistake')];
+  const answers = { a: { result: { correct: true } }, b: { result: { correct: true } }, c: { result: { correct: true } }, m: { result: { correct: false } } };
+  const t = answerTally(items, answers);
+  assert.deepEqual(t, { answered: 3, right: 3, tried: 1, fixed: 0, streak: 0 });
+  assert.equal(answerTally(items.slice(0, 3), answers).streak, 3);
+  assert.equal(rightLine(3), 'Right. 3 in a row.');
+  assert.equal(rightLine(2), 'Right.');
+});
+
+test('positionWords names the item for the live region', () => {
+  assert.equal(positionWords({ type: 'card' }, 3, 21), 'Card 3 of 21');
+  assert.equal(positionWords({ type: 'question' }, 4, 21), 'Question 4 of 21');
+});
+
+test('placeReinsert moves a card already ahead (never a copy) and puts a new one 3 later, after a resume too (A8 F9, F11)', () => {
+  const list = ['a', 'b', 'c', 'd', 'e', 'f'].map((id) => ({ id }));
+  const moved = placeReinsert(list, { itemId: 'f', at: 3, moved: true }, { current: 0 });
+  assert.deepEqual(moved.map((x) => x.id), ['a', 'b', 'c', 'f', 'd', 'e']);
+  assert.equal(moved.length, list.length);
+  const copy = placeReinsert(list, { itemId: 'r1', at: 4, item: { type: 'card' } }, { current: 1 });
+  assert.deepEqual(copy.map((x) => x.id), ['a', 'b', 'c', 'd', 'r1', 'e', 'f']);
+  const twice = placeReinsert(copy, { itemId: 'r1', at: 4, item: { type: 'card' } }, { current: 1 });
+  assert.equal(twice, copy);
+  // A resumed run holds only the items after `offset`; the server's place is in the whole list.
+  const resumed = placeReinsert(list, { itemId: 'r2', at: 12, item: {} }, { current: 0, offset: 10 });
+  assert.deepEqual(resumed.map((x) => x.id), ['a', 'b', 'r2', 'c', 'd', 'e', 'f']);
+  // Never before the item on screen.
+  const early = placeReinsert(list, { itemId: 'r3', at: 0, item: {} }, { current: 2 });
+  assert.equal(early.findIndex((x) => x.id === 'r3'), 3);
+});
+
+test('the end reads lines, not repeated numbers (A4 3.4.2)', () => {
+  const d = {
+    numbers: { cards: 16, questions: 3, fixed: 1, mistakes: 2, detail: { cards: '16 got it' } },
+    lines: [{ label: 'Cards', text: '16 got it' }, { label: 'Questions', text: '3 of 3 right' }, { label: 'Mistakes', text: '1 of 2 fixed, 1 still open' }],
+  };
+  assert.deepEqual(endLines(d), [
+    { label: 'Key cards', value: '16 rated, all got it' },
+    { label: 'Questions', value: '3 of 3 right' },
+    { label: 'Old mistakes', value: '1 of 2 fixed, 1 still open' },
+  ]);
+  const mixed = endLines({ numbers: { cards: 4, mistakes: 0, detail: { cards: '2 got it, 1 easy, 1 missed' } }, lines: [{ label: 'Cards', text: '2 got it, 1 easy, 1 missed, 2 looked at' }, { label: 'Mistakes', text: '0 of 2 fixed, 2 still open' }] });
+  assert.deepEqual(mixed, [{ label: 'Key cards', value: '4 rated: 2 got it, 1 easy, 1 missed, 2 looked at' }]);
+});
+
+test('the Revise summary, the moved line and the state keys', () => {
+  assert.deepEqual(reviseSummary([{ label: 'back on Wed', count: 14 }, { label: 'back in 20 days', count: 2 }]), { total: 16, line: '14 back Wed, 2 back in 20 days' });
+  assert.deepEqual(movedParts('Admission of a Partner moved from Getting there to Holding.'), { from: 'Getting there', to: 'Holding' });
+  assert.equal(movedParts(null), null);
+  assert.equal(stateKeyOf('Getting there'), 'getting_there');
+});
+
+test('the lead names its length on a run and its own verb otherwise; Free splits its line', () => {
+  assert.deepEqual(leadView({ kind: 'next', title: 'Next: Goodwill', minutes: 10, evidence: 'The next chapter in your book.', run: { kind: 'mix', minutes: 10 } }), { heading: 'Next: Goodwill', reason: 'The next chapter in your book.', key: 'Start 10 minutes' });
+  assert.deepEqual(leadView({ kind: 'revise', title: 'Revise 12 due cards', minutes: 3, href: '/review/revise' }), { heading: null, reason: null, key: 'Revise 12 due cards' });
+  assert.deepEqual(freeEndLines({ line: 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.' }), { head: 'Your free Learn session for today is done.', rest: 'Explore questions stay free. Pro has as many as you like.' });
+  assert.deepEqual(endTitle('10 minutes on Goodwill'), { lead: '10 minutes on', name: 'Goodwill' });
+  assert.deepEqual(endTitle('Quick recap of Goodwill', { kind: 'recap' }), { lead: 'Quick recap of', name: 'Goodwill' });
+});

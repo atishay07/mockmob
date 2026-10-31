@@ -1,31 +1,33 @@
 'use client';
-// Learn v2, the chapter page: what is lined up (docs/brain/learn-1031/design/B-chapters.md 3.3 and 3.4, with
-// DESIGN-SPEC A1, A2, A9 and A11).
-//   Head     a 44 px "Learn" back key, the unit line, the chapter title with the subject's lamp-lit object, the ref and state
-//   Length   "How long have you got?": one segmented control (5 min | 10 min | 20 min | Your own), one sliding thumb;
-//            Your own opens a small sheet (30 min, 45 min, 1 hour, then a 5-minute stepper up to 120)
-//   Piles    the signature object: up to four paper-card fans (Key cards, Questions, Your mistakes, and at 20+ minutes with an
-//            unread lesson, Lesson). Tap a pile to leave it out: it dims to 35% and reads "Left out", the others re-balance
-//            from the server's dry run (POST /api/learn/runs/preview). The last pile in cannot be left out; it shakes 4 px once.
-//            Each pile is three papers (critique C1) with a faint print hint and an in/left-out tick on the top paper. A chapter
-//            that runs short adds a dashed "Next chapter" pile, and the chosen length reads the real minutes (C3).
-//            Before the first dry run the whole main column is one outline at its real sizes, so nothing shifts (C5).
-//   Start    the one volt key, "Start 10 minutes", then the note line and the quiet recap button (kind recap)
-//   Shelf    "In this chapter": Key cards, Questions, Your mistakes, Lesson, Print sheet (locked on Free); a sticky 320 px
-//            column at 1440, rows below at 390
+// Learn v2, the chapter page (A4-chapter-run.md 3.2 as amended by BUILD-1101 B2 and B7).
+//   Head     a 44 px back key that names the subject, the unit only when it does not repeat the title, the title with the
+//            subject's lamp-lit object (B7 keeps it: it appears once here), then "Part 1, Ch 1" and the state ring
+//   Resume   when today's run of this chapter is unfinished (preview.resume): "You stopped at 6 of 21 today." and the volt
+//            "Pick up where you stopped"; the Start key turns into a line key "Start a new 10 minutes" that sends fresh
+//   Length   "How long have you got?": the site's SegmentedControl (5 min | 10 min | 20 min | Your own). The chosen segment
+//            never rewrites itself: the real length is on the key and the reason in one quiet line under it (A4 F13)
+//   Piles    up to four paper fans (Key cards, Questions, Your mistakes, Lesson) whose minutes add up to the key (S1 splits
+//            them from the run's total). Tap to leave one out; the last one in shakes and says so. Free's held piles are not
+//            buttons ("Tomorrow"). A short chapter offers "Add the next chapter" (the server's addNext dry run).
+//   Start    the one volt key with the real length; one quiet line by priority (3.2.5); the quick recap as a text key. On a
+//            phone the key sticks above the app dock while the lined-up block is on screen (A8 F12).
+//   Shelf    "Everything in this chapter": only rows that lead somewhere; what is missing is one quiet line (3.2.6)
 // Every number on screen comes from the preview response. Links come from useLearnLinks, never built here.
-// Motion: counts roll 180 ms, fans re-spread 220 ms, thumb slides 240 ms; transform and opacity only; reduced motion lands at once.
+// Motion: counts roll 180 ms, fans re-spread 220 ms, the segment lens slides 240 ms; transform and opacity only.
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Check, ChevronLeft, ChevronRight, Lock, Minus, Plus } from 'lucide-react';
 import { SubjectObject } from '@/components/brand/SubjectObject';
+import { SegmentedControl } from '@/components/ui/controls/SegmentedControl';
 import { useCountUpState } from '@/lib/motion';
 import { previewRun } from '../api';
 import { useLearnLinks } from '../links';
 import { StateRing } from '../home/ChapterMap';
 import { stateShape } from '../home/homeModel.mjs';
+import { minutesFor } from '../run/runMath';
+import { chapterQuietLine, headLines, isChapterMissing, pileView, shelfView, withFlag } from './chapterModel.mjs';
 import '../../keycards/keycards.css';
 import './chapter.css';
 
@@ -46,68 +48,25 @@ const store = {
 const minutesLabel = (m) => (m >= 60 && m % 60 === 0 ? (m === 60 ? '1 hour' : `${m / 60} hours`) : `${m} min`);
 const validMinutes = (m) => Number.isFinite(m) && m >= OWN_MIN && m <= OWN_MAX;
 
-/** The page's one read: the dry run for a length and the piles left out, newest request wins, old data stays on screen. */
-function usePreview(chapterKey, minutes, leaveOut) {
+/** The page's one read: the dry run for a length, the piles left out and the next chapter; newest request wins. */
+function usePreview(chapterKey, minutes, leaveOut, addNext) {
   const [nonce, setNonce] = useState(0);
   const outKey = leaveOut.join(',');
-  const want = `${chapterKey}|${minutes}|${outKey}|${nonce}`;
-  const [got, setGot] = useState({ key: null, data: null, failed: null });
+  const want = `${chapterKey}|${minutes}|${outKey}|${addNext ? 1 : 0}|${nonce}`;
+  const [got, setGot] = useState({ key: null, data: null, failed: null, error: null });
   useEffect(() => {
     let alive = true;
-    previewRun({ chapterKey, minutes, leaveOut: outKey ? outKey.split(',') : [] })
-      .then((data) => { if (alive) setGot({ key: want, data, failed: null }); })
-      .catch(() => { if (alive) setGot((g) => ({ ...g, failed: want })); });
+    previewRun({ chapterKey, minutes, leaveOut: outKey ? outKey.split(',') : [], addNext })
+      .then((data) => { if (alive) setGot({ key: want, data, failed: null, error: null }); })
+      .catch((error) => { if (alive) setGot((g) => ({ ...g, failed: want, error })); });
     return () => { alive = false; };
-  }, [chapterKey, minutes, outKey, want]);
+  }, [chapterKey, minutes, outKey, addNext, want]);
   const status = got.failed === want ? (got.data ? 'stale' : 'error') : got.key === want ? 'ready' : got.data ? 'refreshing' : 'loading';
   const retry = useCallback(() => setNonce((n) => n + 1), []);
-  return { status, data: got.data, retry };
+  return { status, data: got.data, error: got.failed === want ? got.error : null, retry };
 }
 
 // ---------------------------------------------------------------- Length
-
-function LengthControl({ minutes, capped = null, onChange, onOwn, ownOpen, ownRef }) {
-  const refs = useRef([]);
-  const own = !LENGTHS.includes(minutes);
-  const index = own ? 3 : LENGTHS.indexOf(minutes);
-  const pick = (i) => (i < 3 ? onChange(LENGTHS[i]) : onOwn());
-  const keys = (e, i) => {
-    const to = e.key === 'ArrowRight' || e.key === 'ArrowDown' ? (i + 1) % 4 : e.key === 'ArrowLeft' || e.key === 'ArrowUp' ? (i + 3) % 4 : e.key === 'Home' ? 0 : e.key === 'End' ? 3 : null;
-    if (to === null) return;
-    e.preventDefault();
-    refs.current[to]?.focus();
-    if (to < 3) onChange(LENGTHS[to]);
-  };
-  return (
-    <div className="lc-len" role="radiogroup" aria-label="How long have you got?">
-      {[...LENGTHS, 'own'].map((m, i) => {
-        const checked = i === index;
-        // When the chapter holds less than the length asked, the chosen segment says what the run will really take.
-        const real = checked && capped ? minutesLabel(capped) : null;
-        const label = real || (m === 'own' ? (own ? minutesLabel(minutes) : 'Your own') : `${m} min`);
-        return (
-          <button
-            key={m}
-            ref={(el) => { refs.current[i] = el; if (m === 'own') ownRef.current = el; }}
-            type="button"
-            role="radio"
-            aria-checked={checked}
-            aria-label={real ? `${m === 'own' ? minutesLabel(minutes) : `${m} min`}, enough for ${real} today` : undefined}
-            aria-haspopup={m === 'own' ? 'dialog' : undefined}
-            aria-expanded={m === 'own' ? ownOpen : undefined}
-            tabIndex={checked ? 0 : -1}
-            className="lc-len__btn"
-            onClick={() => pick(i)}
-            onKeyDown={(e) => keys(e, i)}
-          >
-            {label}
-          </button>
-        );
-      })}
-      <span className="lc-len__thumb" aria-hidden="true" style={{ '--i': index }} />
-    </div>
-  );
-}
 
 /** "Your own": three ready lengths (one press chooses) and a stepper in 5-minute steps, chosen with its own key. */
 function OwnSheet({ open, minutes, onChoose, onClose, returnRef, anchorRef }) {
@@ -124,17 +83,17 @@ function OwnSheet({ open, minutes, onChoose, onClose, returnRef, anchorRef }) {
       const r = anchorRef.current?.getBoundingClientRect();
       if (r) setAt({ top: r.bottom + window.scrollY + 8, right: document.documentElement.clientWidth - r.right });
     };
-    place();
+    const raf = requestAnimationFrame(place);
     window.addEventListener('resize', place);
-    return () => window.removeEventListener('resize', place);
+    return () => { cancelAnimationFrame(raf); window.removeEventListener('resize', place); };
   }, [open, anchorRef]);
   useEffect(() => {
     if (!open) return undefined;
     first.current?.focus({ preventScroll: true });
     const key = (e) => {
-      if (e.key === 'Escape') { e.preventDefault(); onClose(); returnRef.current?.focus(); }
+      if (e.key === 'Escape') { e.preventDefault(); onClose(); }
       if (e.key === 'Tab' && panel.current) {
-        const f = [...panel.current.querySelectorAll('button:not(:disabled)')];
+        const f = [...panel.current.querySelectorAll('button:not(:disabled), [role="spinbutton"]')];
         if (!f.length) return;
         const [a, z] = [f[0], f[f.length - 1]];
         if (e.shiftKey && document.activeElement === a) { e.preventDefault(); z.focus(); }
@@ -178,11 +137,27 @@ function OwnSheet({ open, minutes, onChoose, onClose, returnRef, anchorRef }) {
   );
 }
 
+/** The site's segmented control for 5 | 10 | 20 | Your own. Its segment keeps what was chosen; "Your own" reopens its sheet. */
+function LengthControl({ minutes, onChange, onOwn, labelledBy, wrapRef }) {
+  const own = !LENGTHS.includes(minutes);
+  const options = [...LENGTHS.map((m) => ({ value: m, label: `${m} min` })), { value: 'own', label: own ? minutesLabel(minutes) : 'Your own' }];
+  // The control ignores a press on the option already chosen; "Your own" chosen and pressed again opens its sheet.
+  const reopen = (e) => {
+    const radio = e.target.closest?.('[role="radio"]');
+    if (own && radio && radio === wrapRef.current?.querySelectorAll('[role="radio"]')[3]) onOwn();
+  };
+  return (
+    <div className="lc-len-wrap" ref={wrapRef} onClickCapture={reopen}>
+      <SegmentedControl labelledBy={labelledBy} value={own ? 'own' : minutes} options={options} className="lc-seg" onChange={(v) => (v === 'own' ? onOwn() : onChange(v))} />
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------- Piles
 
 // What is printed on each pile's top paper, faint, so the pile reads as that kind of paper before its label is read:
 // a Key card's two lines of print, a question's four option dots, a mistake's red margin, a lesson's lines by a spine.
-function FaceHint({ id }) {
+export function FaceHint({ id }) {
   if (id === 'questions' || id === 'mistakes') {
     return (
       <svg className="lc-hint" viewBox="0 0 60 22" aria-hidden="true">
@@ -209,50 +184,76 @@ function FaceHint({ id }) {
   );
 }
 
-function Pile({ pile, index, busy, onToggle, shaking, onShaken, line }) {
+function Pile({ pile, index, busy, onToggle, shaking, onShaken, describedBy }) {
   const { value } = useCountUpState(pile.count, { duration: 180, curve: 'out' });
-  const minutes = line || pile.minutesLabel || (pile.id === 'lesson' ? `${pile.minutes} min` : `about ${pile.minutes} min`);
-  const label = pile.left ? `${pile.label}, left out. Tap to put it back` : `${pile.label}: ${pile.count}, ${minutes}. Tap to leave it out`;
+  const v = pileView(pile);
+  const paper = (
+    <span className="lc-fan" key={`${pile.count}-${pile.left}`}>
+      <span className="lc-sheet lc-sheet--c" aria-hidden="true" />
+      <span className="lc-sheet lc-sheet--b" aria-hidden="true" />
+      <span className="lc-sheet lc-sheet--a">
+        <FaceHint id={pile.id} />
+        <span className="lc-tick" aria-hidden="true">{v.state === 'in' ? <Check size={12} strokeWidth={3} /> : null}</span>
+        {v.state === 'held' ? <span className="lc-face__left">Tomorrow</span>
+          : v.state === 'left' ? <span className="lc-face__left">Left out</span>
+            : <span className="lc-face__count">{value}{v.of ? <span className="lc-face__of">of {v.of}</span> : null}</span>}
+      </span>
+    </span>
+  );
+  const words = (
+    <>
+      <span className="lc-pile__label">{pile.label}</span>
+      <span className="lc-pile__min">{v.line}</span>
+      {v.note ? <span className="lc-pile__note">{v.note}</span> : null}
+    </>
+  );
+  if (v.state === 'held') {
+    return (
+      <li className="lc-pile" data-kind={pile.id} data-left="" data-held="" style={{ '--i': index }}>
+        <div className="lc-pile__btn" role="group" aria-disabled="true" aria-label={v.aria} aria-describedby={describedBy}>{paper}{words}</div>
+      </li>
+    );
+  }
   return (
     <li className="lc-pile" data-kind={pile.id} data-left={pile.left || undefined} style={{ '--i': index }}>
       <button
         type="button"
         className={`lc-pile__btn${shaking ? ' lc-shake' : ''}`}
         aria-pressed={!pile.left}
-        aria-label={label}
+        aria-label={v.aria}
         aria-busy={busy || undefined}
         onClick={() => onToggle(pile)}
         onAnimationEnd={(e) => { if (e.animationName === 'lc-shake') onShaken(); }}
       >
-        <span className="lc-fan" key={`${pile.count}-${pile.left}`}>
-          <span className="lc-sheet lc-sheet--c" aria-hidden="true" />
-          <span className="lc-sheet lc-sheet--b" aria-hidden="true" />
-          <span className="lc-sheet lc-sheet--a">
-            <FaceHint id={pile.id} />
-            <span className="lc-tick" aria-hidden="true">{pile.left ? null : <Check size={12} strokeWidth={3} />}</span>
-            {pile.left
-              ? <span className="lc-face__left">Left out</span>
-              : <span className="lc-face__count">{value}</span>}
-          </span>
-        </span>
-        <span className="lc-pile__label">{pile.label}</span>
-        <span className="lc-pile__min">{pile.left ? 'Tap to put back' : minutes}</span>
+        {paper}{words}
       </button>
     </li>
   );
 }
 
-/** The next chapter, when this one runs short: a dashed, empty paper with a plus. It opens that chapter. */
-function NextPile({ next, href, index }) {
+/** A short chapter: the next chapter can join this run (the server's addNext dry run); added, it can be taken out again. */
+function NextPile({ next, added, plus, minutes, index, busy, onToggle }) {
+  const ref = next?.ref || null;
+  const title = added?.title || next?.title || '';
   return (
-    <li className="lc-pile" data-kind="next" style={{ '--i': index }}>
-      <Link className="lc-pile__btn" href={href} aria-label={`Next chapter, ${next.title}`}>
+    <li className="lc-pile" data-kind="next" data-added={added ? '' : undefined} style={{ '--i': index }}>
+      <button type="button" className="lc-pile__btn" aria-pressed={Boolean(added)} aria-busy={busy || undefined} onClick={onToggle}
+        aria-label={added ? `${title} added to this run. Tap to remove it` : `Add the next chapter, ${title}, to fill your ${minutes} minutes`}>
         <span className="lc-fan">
-          <span className="lc-sheet lc-sheet--a lc-sheet--dash"><Plus className="lc-next__plus" size={22} strokeWidth={2.2} aria-hidden="true" /></span>
+          {added ? <><span className="lc-sheet lc-sheet--c" aria-hidden="true" /><span className="lc-sheet lc-sheet--b" aria-hidden="true" /></> : null}
+          <span className={`lc-sheet lc-sheet--a${added ? '' : ' lc-sheet--dash'}`}>
+            {added ? (
+              <>
+                <FaceHint id="cards" />
+                <span className="lc-tick" aria-hidden="true"><Check size={12} strokeWidth={3} /></span>
+                <span className="lc-face__count lc-face__count--plus">{plus > 0 ? `+${plus}` : '+'}<span className="lc-face__of">min</span></span>
+              </>
+            ) : <Plus className="lc-next__plus" size={22} strokeWidth={2.2} aria-hidden="true" />}
+          </span>
         </span>
-        <span className="lc-pile__label">Next chapter</span>
-        <span className="lc-pile__min lc-pile__min--cut">{next.title}</span>
-      </Link>
+        <span className="lc-pile__label">{added ? `${ref || 'Next chapter'} added` : 'Add the next chapter'}</span>
+        <span className="lc-pile__min">{added ? 'Tap to remove' : `${ref ? `${ref}, fills` : 'Fills'} your ${minutes} min`}</span>
+      </button>
     </li>
   );
 }
@@ -263,27 +264,27 @@ function PageSkeleton() {
     <div className="lc-skel" aria-busy="true" aria-label="Lining up this chapter">
       <div className="lc-head">
         <div className="lc-head__text">
-          <span className="skeleton lc-skel__unit" />
           <span className="skeleton lc-skel__title" />
           <span className="skeleton lc-skel__title lc-skel__title--2" />
           <span className="skeleton lc-skel__ref" />
         </div>
       </div>
       <div className="lc-lined">
-        <span className="skeleton lc-skel__h" />
-        <span className="skeleton lc-skel__len" />
-        <ul className="lc-piles" style={{ '--n': 3 }}>
-          {[0, 1, 2].map((i) => (
-            <li key={i} className="lc-pile lc-pile--skel">
-              <span className="lc-pile__btn">
-                <span className="lc-fan"><span className="lc-sheet lc-sheet--c" /><span className="lc-sheet lc-sheet--b" /><span className="lc-sheet lc-sheet--a" /></span>
-                <span className="lc-pile__label"><span className="skeleton lc-skel-text" /></span>
-                <span className="lc-pile__min"><span className="skeleton lc-skel-text lc-skel-text--short" /></span>
-              </span>
-            </li>
-          ))}
-        </ul>
-        <span className="skeleton lc-skel__key" />
+        <div className="lc-lined__in">
+          <div className="lc-ctl"><span className="skeleton lc-skel__h" /><span className="skeleton lc-skel__len" /></div>
+          <ul className="lc-piles" data-n="3">
+            {[0, 1, 2].map((i) => (
+              <li key={i} className="lc-pile lc-pile--skel">
+                <span className="lc-pile__btn">
+                  <span className="lc-fan"><span className="lc-sheet lc-sheet--c" /><span className="lc-sheet lc-sheet--b" /><span className="lc-sheet lc-sheet--a" /></span>
+                  <span className="lc-pile__label"><span className="skeleton lc-skel-text" /></span>
+                  <span className="lc-pile__min"><span className="skeleton lc-skel-text lc-skel-text--short" /></span>
+                </span>
+              </li>
+            ))}
+          </ul>
+          <div className="lc-go"><span className="skeleton lc-skel__key" /></div>
+        </div>
       </div>
     </div>
   );
@@ -304,84 +305,57 @@ function ShelfRow({ href, title, line, locked = false }) {
   return <li>{href ? <Link className="lc-shelf__row" href={href}>{body}</Link> : <div className="lc-shelf__row" data-still>{body}</div>}</li>;
 }
 
-const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
-
-function Shelf({ shelf, chapterKey, minutes, links, failed = false }) {
+function Shelf({ data, chapterKey, minutes, links, failed = false }) {
+  const shelf = data?.shelf;
   if (!shelf && failed) {
     // The dry run failed: the counts are unknown, but the chapter's cards still open.
     return (
-      <aside className="lc-shelf" aria-label="In this chapter">
-        <h2 className="lc-shelf__h">In this chapter</h2>
-        <ul className="lc-shelf__rows">
-          <ShelfRow title="Key cards" line="Every card in this chapter, by section" href={links.cards(chapterKey)} />
-        </ul>
+      <aside className="lc-shelf" aria-labelledby="lc-shelf-h">
+        <h2 className="lc-shelf__h" id="lc-shelf-h">Everything in this chapter</h2>
+        <ul className="lc-shelf__rows"><ShelfRow title="Key cards" line="Every card in this chapter, by section" href={links.cards(chapterKey)} /></ul>
       </aside>
     );
   }
   if (!shelf) {
     return (
-      <aside className="lc-shelf lc-shelf--skel" aria-label="In this chapter">
-        <h2 className="lc-shelf__h">In this chapter</h2>
-        <ul className="lc-shelf__rows">{[0, 1, 2, 3, 4].map((i) => <li key={i}><div className="lc-shelf__row" data-still><span className="lc-shelf__text"><span className="skeleton lc-skel-text" /><span className="skeleton lc-skel-text lc-skel-text--short" /></span></div></li>)}</ul>
+      <aside className="lc-shelf lc-shelf--skel" aria-hidden="true">
+        <span className="skeleton lc-skel-text lc-skel-text--h" />
+        <ul className="lc-shelf__rows">{[0, 1, 2, 3].map((i) => <li key={i}><div className="lc-shelf__row" data-still><span className="lc-shelf__text"><span className="skeleton lc-skel-text" /><span className="skeleton lc-skel-text lc-skel-text--short" /></span></div></li>)}</ul>
       </aside>
     );
   }
-  const { cards, questions, mistakes, lesson, print } = shelf;
-  const cardsLine = cards.count
-    // Two facts at most: the count, then the one that matters most (what Free opens, what is in Revise, else Must-know).
-    ? [plural(cards.count, 'card'), cards.open != null && cards.open < cards.count ? `${cards.open} open on Free` : cards.inRevise ? `${cards.inRevise} in Revise` : cards.mustKnow ? `${cards.mustKnow} Must-know` : null].filter(Boolean).join(', ')
-    : 'No Key cards for this chapter yet';
-  const qLine = questions.total
-    ? (questions.linked === questions.total ? `${plural(questions.total, 'question')}, all tied to these cards` : questions.linked ? `${questions.linked} tied to these cards, ${questions.total} in all` : plural(questions.total, 'question'))
-    : 'Questions for this chapter are being checked';
+  const view = shelfView(data, { mistakeMinutes: (n) => minutesFor(n * 60) });
   const only = (keep) => ['cards', 'questions', 'mistakes', 'lesson'].filter((k) => k !== keep);
+  const hrefOf = {
+    cards: links.cards(chapterKey),
+    questions: links.run({ chapterKey, minutes, kind: 'mix', leaveOut: only('questions') }),
+    mistakes: links.run({ chapterKey, minutes, kind: 'mix', leaveOut: only('mistakes') }),
+    lesson: shelf.lesson ? links.lesson(shelf.lesson.id) : null,
+    print: links.cards(chapterKey, 'must'),
+  };
   return (
-    <aside className="lc-shelf" aria-label="In this chapter">
-      <h2 className="lc-shelf__h">In this chapter</h2>
+    <aside className="lc-shelf" aria-labelledby="lc-shelf-h">
+      <h2 className="lc-shelf__h" id="lc-shelf-h">Everything in this chapter</h2>
       <ul className="lc-shelf__rows">
-        <ShelfRow title="Key cards" line={cardsLine} href={cards.count ? links.cards(chapterKey) : null} />
-        <ShelfRow title="Questions" line={qLine} href={questions.total ? links.run({ chapterKey, minutes, kind: 'mix', leaveOut: only('questions') }) : null} />
-        <ShelfRow
-          title="Your mistakes"
-          line={mistakes.open ? `${mistakes.open} open. Fix them with their lines.` : 'None open in this chapter'}
-          href={mistakes.open ? links.run({ chapterKey, minutes, kind: 'mix', leaveOut: only('mistakes') }) : null}
-        />
-        {lesson
-          ? <ShelfRow title={lesson.title} line={`${lesson.minutes}-minute lesson${lesson.read ? ', read' : ', not read yet'}. Read it alone`} href={links.lesson(lesson.id)} />
-          : <ShelfRow title="Lesson" line="No lesson for this chapter yet" />}
-        {print.mustKnow
-          ? <ShelfRow title="Print sheet" line={print.locked ? 'Part of Pro' : `${plural(print.mustKnow, 'Must-know line')}, with your name`} locked={print.locked} href={links.cards(chapterKey, 'must')} />
-          : null}
+        {view.rows.map((r) => <ShelfRow key={r.id} title={r.title} line={r.line} locked={r.locked} href={r.link ? hrefOf[r.id] : null} />)}
       </ul>
+      {view.missing ? <p className="lc-shelf__none">{view.missing}</p> : null}
     </aside>
   );
 }
 
 // ---------------------------------------------------------------- Page
 
-// "Part 1, Partnership Accounts" reads "Part 1" beside the chapter ref ("Part 1, Ch 1"); a part without a number keeps its name.
-const partShort = (title) => (title ? (String(title).match(/^Part \d+/)?.[0] || title) : null);
-
-const NAMES = { accountancy: 'Accountancy', business_studies: 'Business Studies', economics: 'Economics', english: 'English', biology: 'Biology', political_science: 'Political Science', mathematics: 'Mathematics', physics: 'Physics', chemistry: 'Chemistry', computer_science: 'Computer Science', history: 'History', geography: 'Geography' };
-const subjectName = (id) => NAMES[id] || String(id || '').split('_').filter(Boolean).map((w) => w[0].toUpperCase() + w.slice(1)).join(' ');
-
-/** The eyebrow and the ref line. A unit whose name only repeats the start of the title gives way to "Accountancy, Part 1". */
-function headLines(chapter, subject) {
-  const part = partShort(chapter.partTitle);
-  const unit = chapter.unitTitle && chapter.unitTitle !== chapter.title ? chapter.unitTitle : null;
-  const echoes = unit && String(chapter.title).toLowerCase().startsWith(String(unit).toLowerCase());
-  if (unit && !echoes) return { eyebrow: unit, ref: [part, chapter.ref].filter(Boolean).join(', ') };
-  const ref = part && chapter.ref && /^Part \d+/.test(part) ? String(chapter.ref) : [part, chapter.ref].filter(Boolean).join(', ');
-  return { eyebrow: [subjectName(subject), part].filter(Boolean).join(', '), ref };
-}
-
-/** One quiet line under a pile, where the pile holds less than the chapter has (Free's open cards, mistakes not all in). */
-function pileLine(pile, shelf) {
-  if (!shelf || pile.left) return null;
-  const about = `about ${pile.minutes} min`;
-  if (pile.id === 'cards' && shelf.cards?.open != null && shelf.cards.open < shelf.cards.count) return `${shelf.cards.open} open on Free`;
-  if (pile.id === 'mistakes' && shelf.mistakes?.open > pile.count) return `${pile.count} of ${shelf.mistakes.open}, ${about}`;
-  return null;
+function ResumeRow({ resume, href }) {
+  return (
+    <section className="lc-resume" aria-labelledby="lc-resume-h">
+      <div className="lc-resume__text">
+        <p className="lc-resume__h" id="lc-resume-h">You stopped at {resume.done} of {resume.of} today.</p>
+        {resume.minutesLeft ? <p className="lc-resume__left">About {resume.minutesLeft} min left.</p> : null}
+      </div>
+      <Link className="kc-btn kc-btn--volt lc-resume__key" data-page-primary="" href={href} aria-label={`Pick up where you stopped, ${resume.done} of ${resume.of} done`}>Pick up where you stopped</Link>
+    </section>
+  );
 }
 
 export default function ChapterPage({ chapterKey, minutes: asked = null }) {
@@ -390,11 +364,15 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
   const subject = String(chapterKey || '').split('.')[0];
   const [minutes, setMinutes] = useState(() => (validMinutes(asked) ? asked : 10));
   const [leaveOut, setLeaveOut] = useState([]);
+  const [addNext, setAddNext] = useState(false);
   const [ownOpen, setOwnOpen] = useState(false);
   const [shake, setShake] = useState(null);
+  const [lastIn, setLastIn] = useState(false);
   const [coach, setCoach] = useState(false);
-  const ownRef = useRef(null);
   const lenRef = useRef(null);
+  const lastTimer = useRef(null);
+  const quietId = useId();
+  const headId = useId();
 
   // Returning: the length used last in Learn (shown as chosen, editable), unless the link names one.
   // Browser storage is read after the first paint so the server render and the first client render agree.
@@ -406,125 +384,166 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
     }
     if (!store.get(COACH_KEY)) { setCoach(true); store.set(COACH_KEY, '1'); }
   }, [asked]);
+  useEffect(() => () => clearTimeout(lastTimer.current), []);
 
-  const read = usePreview(chapterKey, minutes, leaveOut);
+  const read = usePreview(chapterKey, minutes, leaveOut, addNext);
   const data = read.data;
   const chapter = data?.chapter;
+  // The run's length without the next chapter, so the added pile can say what it adds ("+3 min").
+  const [baseMinutes, setBaseMinutes] = useState(null);
+  const base = data && !addNext && read.status === 'ready' ? data.realMinutes : null;
+  useEffect(() => { if (base != null) setBaseMinutes(base); }, [base]); // eslint-disable-line react-hooks/set-state-in-effect -- remembered from the last dry run without it
 
-  const choose = (m) => {
+  const closeOwn = useCallback(() => {
     setOwnOpen(false);
+    requestAnimationFrame(() => lenRef.current?.querySelector('[aria-checked="true"]')?.focus({ preventScroll: true }));
+  }, []);
+  const choose = (m) => {
+    closeOwn();
     if (m === minutes) return;
     setMinutes(m);
+    setAddNext(false);
     store.set(MINUTES_KEY, String(m));
     router.replace(links.chapter(chapterKey, m), { scroll: false });
   };
 
   // The server's piles, in the page's order. A pile the student left out stays drawn (dimmed); an empty one is not drawn.
   const piles = useMemo(() => {
-    const list = (data?.piles || []).map((p) => ({ ...p, left: p.left || leaveOut.includes(p.id) }));
+    const used = Boolean(data?.freeSession?.used);
+    const list = (data?.piles || []).map((p) => {
+      const held = p.held === 'free' || (used && p.left && (p.id === 'questions' || p.id === 'mistakes') && !leaveOut.includes(p.id));
+      return { ...p, left: p.left || leaveOut.includes(p.id), held };
+    });
     return list.filter((p) => p.left || p.count > 0).sort((a, b) => PILE_ORDER.indexOf(a.id) - PILE_ORDER.indexOf(b.id));
   }, [data, leaveOut]);
 
   const toggle = (pile) => {
     setCoach((c) => (c ? 'done' : c));
+    if (pile.held) return;
     if (pile.left) { setLeaveOut((out) => out.filter((id) => id !== pile.id)); return; }
     const inRun = piles.filter((p) => !p.left);
-    if (inRun.length <= 1) { setShake(pile.id); return; }
+    if (inRun.length <= 1) {
+      setShake(pile.id);
+      setLastIn(true);
+      clearTimeout(lastTimer.current);
+      lastTimer.current = setTimeout(() => setLastIn(false), 2400);
+      return;
+    }
     setLeaveOut((out) => [...out, pile.id]);
   };
 
-  const startLabel = data?.startLabel || `Start ${minutes} minutes`;
   const ready = Boolean(data) && piles.some((p) => !p.left);
-  const runHref = links.run({ chapterKey, minutes, kind: 'mix', leaveOut });
+  const refreshing = read.status === 'refreshing';
+  const startLabelNow = data?.startLabel || `Start ${minutes} minutes`;
+  const resume = data?.resume && Number(data.resume.done) < Number(data.resume.of) ? data.resume : null;
+  const startHref = withFlag(withFlag(links.run({ chapterKey, minutes, kind: 'mix', leaveOut }), 'next', addNext && data?.added ? '1' : null), 'fresh', resume ? '1' : null);
+  const resumeHref = resume ? (resume.kind === 'feed' ? links.feed(chapterKey, minutes, { runId: resume.runId }) : links.run({ chapterKey, minutes, kind: resume.kind || 'mix', runId: resume.runId })) : null;
+  const startLabel = resume ? startLabelNow.replace(/^Start /, 'Start a new ') : startLabelNow;
   const shape = stateShape(chapter?.state?.key);
-  const head = chapter ? headLines(chapter, subject) : null;
-
-  // A chapter that holds less than the length asked: the chosen segment reads the real length, and the next chapter
-  // stands as a dashed pile. Free's limit is said on the Key cards pile. Under the key stays one quiet line.
+  const head = chapter ? headLines(chapter) : null;
   const shrink = data?.shrink || null;
-  const capped = shrink?.minutes && shrink.minutes < minutes ? shrink.minutes : null;
-  const next = shrink?.addNext || null;
-  const lines = piles.map((p) => pileLine(p, data?.shelf));
-  const freeSaid = piles.some((p, i) => p.id === 'cards' && lines[i]);
-  const quiet = [freeSaid ? null : data?.free?.text, capped ? null : shrink?.text].filter(Boolean).join(' ') || data?.note || null;
-  const n = piles.length + (next ? 1 : 0);
+  const next = !data?.added && shrink?.addNext ? shrink.addNext : null;
+  const added = data?.added || null;
+  const plus = added && baseMinutes ? Math.max(0, Number(data.realMinutes) - Number(baseMinutes)) : 0;
+  const quiet = lastIn ? 'Keep at least one pile in.' : chapterQuietLine(data);
+  const n = piles.length + (next || added ? 1 : 0);
   const loading = !data && read.status !== 'error';
+  const missing = read.status === 'error' && isChapterMissing(read.error);
+
+  // While a new dry run is on its way the key keeps the last real length and does nothing, so it never starts what it does not say.
+  const holdWhileRefreshing = (e) => { if (refreshing) e.preventDefault(); };
 
   return (
     <div className="student-page student-page--cards">
       <div className="kc lc" data-status={read.status}>
-        <Link className="kc-back lc-back" href={links.home(subject)}><ChevronLeft size={18} strokeWidth={2.4} aria-hidden="true" />Learn</Link>
+        <Link className="kc-back lc-back" href={links.home(subject)}><ChevronLeft size={18} strokeWidth={2.4} aria-hidden="true" />{subjectLabel(subject)}</Link>
 
         <div className="lc-board">
-          <main className="lc-main">
-            {loading ? <PageSkeleton /> : (
-              <>
-                <header className="lc-head">
-                  <div className="lc-head__text">
-                    {chapter ? (
-                      <>
-                        {head.eyebrow ? <p className="lc-head__unit">{head.eyebrow}</p> : null}
-                        <h1 className="kc-title lc-head__title">{chapter.title}</h1>
+          <div className="lc-board__in">
+            <main className="lc-main">
+              {loading ? <PageSkeleton /> : missing ? (
+                <div className="lc-missing" role="alert">
+                  <h1 className="kc-title lc-head__title">Chapter</h1>
+                  <p className="lc-fine">This chapter is not in your book list.</p>
+                  <Link className="kc-btn kc-btn--line" href={links.home(subject)}>Back to Learn</Link>
+                </div>
+              ) : (
+                <>
+                  <header className="lc-head">
+                    <div className="lc-head__text">
+                      {head?.eyebrow ? <p className="lc-head__unit">{head.eyebrow}</p> : null}
+                      <h1 className="kc-title lc-head__title">{chapter ? chapter.title : 'Chapter'}</h1>
+                      {chapter ? (
                         <p className="lc-head__ref">
                           {head.ref ? <span>{head.ref}</span> : null}
                           {chapter.state?.label ? <span className="lc-state" data-state={shape}><StateRing shape={shape} />{chapter.state.label}</span> : null}
                         </p>
-                      </>
-                    ) : (
-                      <h1 className="kc-title lc-head__title">This chapter</h1>
-                    )}
-                  </div>
-                  <SubjectObject id={subject} size={120} lit className="lc-head__obj" sizes="(max-width: 639px) 76px, 120px" />
-                </header>
-
-                <section className="lc-lined" aria-labelledby="lc-len-h">
-                  <h2 id="lc-len-h" className="lc-lined__h">How long have you got?</h2>
-                  <div className="lc-len-wrap" ref={lenRef}>
-                    <LengthControl minutes={minutes} capped={capped} onChange={choose} onOwn={() => setOwnOpen(true)} ownOpen={ownOpen} ownRef={ownRef} />
-                    <OwnSheet key={ownOpen ? 'open' : 'shut'} open={ownOpen} minutes={minutes} onChoose={choose} onClose={() => setOwnOpen(false)} returnRef={ownRef} anchorRef={lenRef} />
-                  </div>
-
-                  {read.status === 'error' ? (
-                    <div className="lc-error" role="alert">
-                      <p>We could not line this up. Try again.</p>
-                      <button type="button" className="kc-btn kc-btn--line kc-btn--small" onClick={read.retry}>Try again</button>
-                    </div>
-                  ) : (
-                    <>
-                      <ul className="lc-piles" aria-label="Lined up for this run" data-n={n} style={{ '--n': Math.max(n, 3) }}>
-                        {piles.map((p, i) => (
-                          <Pile key={p.id} pile={p} index={i} line={lines[i]} busy={read.status === 'refreshing'} onToggle={toggle} shaking={shake === p.id} onShaken={() => setShake(null)} />
-                        ))}
-                        {next ? <NextPile next={next} index={piles.length} href={links.chapter(next.key, minutes)} /> : null}
-                      </ul>
-                      {coach && piles.length > 1 ? <p className="lc-coach" data-done={coach === 'done' || undefined} aria-hidden={coach === 'done' || undefined}>Tap a pile to leave it out.</p> : null}
-                      {read.status === 'stale' ? <p className="lc-fine" role="status">We could not update this. The last lined-up run is shown.</p> : null}
-                    </>
-                  )}
-
-                  {read.status === 'error' ? null : (
-                    <div className="lc-go">
-                      {ready ? (
-                        <Link className="kc-btn kc-btn--volt lc-go__key" data-page-primary="" href={runHref} aria-busy={read.status === 'refreshing' || undefined}>
-                          <span key={startLabel} className="lc-go__label">{startLabel}</span>
-                        </Link>
-                      ) : (
-                        <button type="button" className="kc-btn kc-btn--volt lc-go__key" disabled>{startLabel}</button>
-                      )}
-                      {quiet ? <p className="lc-go__note">{quiet}</p> : null}
-                      {data?.recap?.count ? (
-                        <Link className="lc-recap" href={links.run({ chapterKey, minutes: data.recap.minutes, kind: 'recap' })}>{data.recap.label}</Link>
                       ) : null}
                     </div>
-                  )}
-                </section>
-              </>
-            )}
-          </main>
+                    <SubjectObject id={subject} size={120} lit className="lc-head__obj" sizes="(max-width: 639px) 76px, 120px" />
+                  </header>
 
-          <Shelf shelf={data?.shelf} chapterKey={chapterKey} minutes={minutes} links={links} failed={read.status === 'error'} />
+                  {resume ? <ResumeRow resume={resume} href={resumeHref} /> : null}
+
+                  <section className="lc-lined" aria-labelledby={headId} data-resume={resume ? '' : undefined}>
+                    <div className="lc-lined__in">
+                      <div className="lc-ctl">
+                        <h2 id={headId} className="lc-lined__h">How long have you got?</h2>
+                        <LengthControl minutes={minutes} onChange={choose} onOwn={() => setOwnOpen(true)} labelledBy={headId} wrapRef={lenRef} />
+                        <OwnSheet key={ownOpen ? 'open' : 'shut'} open={ownOpen} minutes={minutes} onChoose={choose} onClose={closeOwn} anchorRef={lenRef} />
+                      </div>
+
+                      {read.status === 'error' ? (
+                        <div className="lc-error" role="alert">
+                          <p>We could not line this up.</p>
+                          <button type="button" className="kc-btn kc-btn--line kc-btn--small" onClick={read.retry}>Try again</button>
+                        </div>
+                      ) : (
+                        <>
+                          <ul className="lc-piles" aria-label="Lined up for this run" data-n={n}>
+                            {piles.map((p, i) => (
+                              <Pile key={p.id} pile={p} index={i} busy={refreshing} onToggle={toggle} shaking={shake === p.id} onShaken={() => setShake(null)} describedBy={p.held ? quietId : undefined} />
+                            ))}
+                            {next || added ? (
+                              <NextPile next={next} added={added} plus={plus} minutes={minutes} index={piles.length} busy={refreshing} onToggle={() => setAddNext((a) => !a)} />
+                            ) : null}
+                          </ul>
+                          {coach && piles.length > 1 ? <p className="lc-coach" data-done={coach === 'done' || undefined} aria-hidden={coach === 'done' || undefined}>Tap a pile to leave it out.</p> : null}
+                          {read.status === 'stale' ? <p className="lc-fine" role="status">We could not update this. The last lined-up run is shown.</p> : null}
+
+                          <div className="lc-go" data-resume={resume ? '' : undefined}>
+                            <div className="lc-go__bar">
+                              {ready ? (
+                                <Link className={`kc-btn ${resume ? 'kc-btn--line' : 'kc-btn--volt'} lc-go__key`} data-page-primary={resume ? undefined : ''} href={startHref}
+                                  aria-disabled={refreshing || undefined} onClick={holdWhileRefreshing}>
+                                  <span key={startLabel} className="lc-go__label">{startLabel}</span>
+                                </Link>
+                              ) : (
+                                <button type="button" className={`kc-btn ${resume ? 'kc-btn--line' : 'kc-btn--volt'} lc-go__key`} disabled>{startLabel}</button>
+                              )}
+                            </div>
+                            <p className="lc-go__note" id={quietId} aria-live="polite" data-empty={quiet ? undefined : ''}>{quiet || ''}</p>
+                          </div>
+                          {data?.recap?.count ? (
+                            <Link className="lc-recap" href={links.run({ chapterKey, minutes: data.recap.minutes, kind: 'recap' })}>{data.recap.label}</Link>
+                          ) : null}
+                        </>
+                      )}
+                    </div>
+                  </section>
+                </>
+              )}
+            </main>
+
+            {missing ? null : <Shelf data={data} chapterKey={chapterKey} minutes={minutes} links={links} failed={read.status === 'error'} />}
+          </div>
         </div>
       </div>
     </div>
   );
+}
+
+const NAMES = { accountancy: 'Accountancy', business_studies: 'Business Studies', economics: 'Economics', english: 'English' };
+function subjectLabel(id) {
+  return NAMES[id] || String(id || '').split('_').filter(Boolean).map((w) => w[0].toUpperCase() + w.slice(1)).join(' ') || 'Learn';
 }
