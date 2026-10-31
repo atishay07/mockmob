@@ -307,3 +307,7 @@ html[data-theme='light'] .lc-own__scrim { background: rgb(23 32 22 / 0.28); }
   .lc-resume__key { min-height: 48px; }
   .lc-lined .lc-piles { margin-top: 14px; }
 }
+
+/* The print row is a key, not a link: same look as the other rows. */
+button.lc-shelf__row--key { width: calc(100% + 16px); background: none; border: 0; font: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+@media (hover: hover) { button.lc-shelf__row--key:hover { background: var(--a-hover); } button.lc-shelf__row--key:hover .lc-shelf__chev { color: var(--a-ink); } }

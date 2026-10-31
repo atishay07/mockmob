@@ -98,7 +98,7 @@ export function shelfView(data, { mistakeMinutes = (n) => n } = {}) {
     rows.push({ id: 'mistakes', title: 'Your mistakes', line: used ? `${mistakes} open, back tomorrow` : `${mistakes} open. Fix them in about ${Math.max(1, mistakeMinutes(mistakes))} min`, link: !used });
   } else missing.push('No open mistakes.');
   const must = Number(shelf.print?.mustKnow) || 0;
-  if (must) rows.push({ id: 'print', title: 'Print sheet', line: shelf.print.locked ? 'Part of Pro' : `${plural(must, 'Must-know line')}, with your name`, locked: Boolean(shelf.print.locked), link: true });
+  if (must) rows.push({ id: 'print', title: 'Print sheet', line: shelf.print.locked ? 'Part of Pro' : `${plural(must, 'Must-know line')}, with your name`, locked: Boolean(shelf.print.locked), link: Boolean(shelf.print.locked), action: shelf.print.locked ? null : 'print' });
   // The rows in the order a student reaches for them: cards, questions, mistakes, the lesson, the print sheet.
   const order = ['cards', 'questions', 'mistakes', 'lesson', 'print'];
   rows.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));

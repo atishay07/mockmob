@@ -249,7 +249,7 @@ function LastLookMode({ cards }) {
 
 // ---------------------------------------------------------------- the print sheet (Pro)
 
-function PrintSheet({ deck, cards }) {
+export function PrintSheet({ deck, cards }) {
   // Drawn straight into <body>, so the print stylesheet can hide everything else and print only the sheet.
   const [host, setHost] = useState(null);
   useEffect(() => { queueMicrotask(() => setHost(document.body)); }, []);
