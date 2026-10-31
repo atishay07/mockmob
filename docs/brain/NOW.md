@@ -1,5 +1,19 @@
 # NOW: MockMob current state
 
+## 1 Nov 2026, about 3:45 am IST: Learn v2 built for production behind flags; UI rebuild running
+- **Branch web/1031-learn-v2 (wt-1031-learn-v2), not pushed or deployed.** Spec: docs/brain/learn-1031/BUILD-1101.md in that worktree
+  (logic Part 1, production Part 2, UI Part B with B7 decisions); audits in docs/brain/learn-1031/audit-1101/ (A1-A8).
+- **Done:** S2a service + 11 /api/learn routes behind LEARN2_ENABLED (06d7b40f5); S2b migration 20261101150000_learn_runs.sql with undo and
+  PGlite test, saved only, never applied (e61e5517e); S1 engine rules: honest Keep, feed moves forward, resume, slot-first order, realistic
+  seconds, LK15 claimed at the first answered question (e8e6d3c0c); P production pages behind NEXT_PUBLIC_LEARN2, no shell flash (0cd13b463).
+  test:learn 133/133, test:keycards 81/81.
+- **Running:** workflow learn-build-1101-ui: U1 feed (real pager: one swipe, wheel notch or key = one item; visible Previous and a named volt
+  key; desktop session panel) and shared study parts; U2 covers (the opening card as the cover, no repeated object); U3 Learn home; U4 chapter
+  page and run; S3 server fields. Then capture, critique and fix rounds, the owner's phone link.
+- **Owner decisions taken by the CTO (he can override):** Keep = add to Revise (no fake rating); realistic seconds (about 12 cards and
+  5 questions in 10 min); LK15 counts chapter runs and feeds, claimed at the first answer, Free clamped to 10 min with a line; a second
+  Free run that day is Key cards only. Needs him later: apply the migration after the dry run; turn the two flags on; the app port.
+
 ## 1 Nov 2026, about 1:30 am IST: his look at the feed prototype (LK20-LK23); full build under way
 - **His look (on a computer):** likes the feed direction, but on a PC there is no way to the next item and too much blank space (LK20); loves the
   Explore covers, but every Accountancy cover shows the same object (LK21); the chapter run is "quite good" but needs a lot of refinement (LK22).

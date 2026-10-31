@@ -614,12 +614,12 @@ His summary: "Some parts are good and some are very confusing." Study mode is "e
 | RENDERS SENT 31 Oct 9:45 pm (preview, web/1031-learn-v2) | **LK12** Cards are the core of Learn; bring them to Explore as a custom chapter feed (for example a 10-minute run of cards and MCQs). |
 | LIVE-UNCHECKED (main b7e68f8e2; 3,916 to 1,439 Must-know, 25%) | **LK13** Too many cards carry "Must-know". |
 | OPEN | **LK14** Think longer; ideate better. Any replacement layout is shown to him as real renders before it ships (Never again 1). |
-| DECIDED, BUILD PENDING | **LK15 (A9):** questions in the Explore feed and Learn sessions are free "up to a certain limit". CTO rule: Free gets one Learn session a day (a chapter run or the feed, up to 10 min); Explore swipe stays unlimited; Pro gets any number. |
+| BUILT behind flags (1 Nov, e8e6d3c0c; claimed at the first answer) | **LK15 (A9):** questions in the Explore feed and Learn sessions are free "up to a certain limit". CTO rule: Free gets one Learn session a day (a chapter run or the feed, up to 10 min); Explore swipe stays unlimited; Pro gets any number. |
 | CLOSED: REJECTED 31 Oct 11:50 pm, current nav stays | **LK16 (N1):** Learn becomes its own section; the app bar cannot grow. Spec: learn-1031/NAV-2.md (web sidebar place; on phones, a Practice/Learn title switch in the Practice tab). |
 | ANSWERED | **LK17:** he sees no change in Learn. Nothing is deployed; the local preview was opened in his browser pane. |
 | BUILDING (live phone prototype) | **LK18:** keep the Explore feed and make it "a very cool feature on the mobile app"; Find inside Learn (search). Spec learn-1031/FEED-2.md. |
 | RULE | **LK19:** he comments only on live prototypes he can use, not mock-ups. Give him a link that opens on his phone. |
-| OPEN (1 Nov 1:25 am) | **LK20:** the feed on a computer has no way to the next item ("stuck on one thing") and too much blank space everywhere. He likes the direction. |
-| OPEN (1 Nov 1:25 am) | **LK21:** he loves the Explore covers, but every Accountancy cover shows the same subject object. Make each cover chapter-specific. |
-| OPEN (1 Nov 1:25 am) | **LK22:** the chapter run (chapter, time, adjusted mix) is "quite good"; refine it a lot; too much blank space and UI refinement across Learn. |
-| OPEN (1 Nov 1:25 am) | **LK23:** build the feature completely now, test everything, fix every issue, refine UI/UX and logic, make it more useful with the systems around it; then tell him what is needed from him. |
+| BUILDING (1 Nov, BUILD-1101 U1) | **LK20:** the feed on a computer has no way to the next item ("stuck on one thing") and too much blank space everywhere. He likes the direction. |
+| BUILDING (1 Nov, BUILD-1101 U2) | **LK21:** he loves the Explore covers, but every Accountancy cover shows the same subject object. Make each cover chapter-specific. |
+| BUILDING (1 Nov, BUILD-1101 U3, U4) | **LK22:** the chapter run (chapter, time, adjusted mix) is "quite good"; refine it a lot; too much blank space and UI refinement across Learn. |
+| BUILDING (1 Nov, web/1031-learn-v2) | **LK23:** build the feature completely now, test everything, fix every issue, refine UI/UX and logic, make it more useful with the systems around it; then tell him what is needed from him. |
