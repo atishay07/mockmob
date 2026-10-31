@@ -9,6 +9,9 @@
 // Quick 10's functional foremanship, unity of command, the money multiplier and four English words), found by
 // the question's own words as the server's links would be.
 //
+// Free reads three lines a day (the fourth wrong answer with a line shows the Pro gate in its place: Quick 10
+// Q2, Mock 7 Q6 and Q26, then Mock 6 Q26).
+//
 // Offline: put the emulator in airplane mode and every read fails as a phone's would, so the screens fall back
 // to what this phone kept and say "As of 9:40 PM".
 // ignore_for_file: depend_on_referenced_packages
@@ -17,6 +20,7 @@ import 'dart:convert';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:mockmob/core/models/json_helpers.dart';
+import 'package:mockmob/features/keycards/data/keycards_api.dart' show KeyCardsProRequired;
 import 'package:mockmob/features/keycards/data/keycards_models.dart';
 import 'package:mockmob/features/keycards/data/keycards_providers.dart';
 import 'package:mockmob/features/keycards/data/keycards_rules.dart';
@@ -247,10 +251,24 @@ class DemoKeyCardsApi extends FakeKeyCardsApi {
     return super.due(limit: limit);
   }
 
+  /// Questions whose line Free has read today (the server counts `keycard_line` per IST day).
+  final Set<String> _linesRead = {};
+
+  /// Free reads three lines a day, as the server allows; the fourth question's block is the Pro gate.
   @override
   Future<KcLine> line(String questionId) async {
     await _online();
-    return super.line(questionId);
+    final ids = lineFor?.call(questionId);
+    if (ids == null || ids.isEmpty) return KcLine.parse({'cards': <Json>[], 'source': 'none'});
+    if (!isPro && !_linesRead.contains(questionId)) {
+      if (_linesRead.length >= KeyCardRules.freeLineNeededPerDay) throw const KeyCardsProRequired('keycard_line');
+      _linesRead.add(questionId);
+    }
+    return KcLine.parse({
+      'cards': [for (final c in cards) if (ids.contains(c.id)) c.toJson()],
+      'source': 'linked',
+      'left': isPro ? null : KeyCardRules.freeLineNeededPerDay - _linesRead.length,
+    });
   }
 
   @override

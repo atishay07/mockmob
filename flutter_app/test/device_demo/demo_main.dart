@@ -14,6 +14,7 @@ import 'dart:async';
 
 import 'package:clock/clock.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
@@ -347,6 +348,14 @@ List<Override> _overrides() {
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // Slow frames go to the log ("[demo-frame]"), so a walk can read what a long deck or a session costs.
+  SchedulerBinding.instance.addTimingsCallback((timings) {
+    for (final t in timings) {
+      if (t.totalSpan > const Duration(milliseconds: 16)) {
+        debugPrint('[demo-frame] build ${t.buildDuration.inMilliseconds} ms, raster ${t.rasterDuration.inMilliseconds} ms, total ${t.totalSpan.inMilliseconds} ms');
+      }
+    }
+  });
   // Every loading skeleton carries the soft sweep in the app; tests keep the static default.
   SkeletonGroup.shimmerByDefault = true;
   // Animated subject emblems drift in the app, as in main.dart.
