@@ -1,0 +1,1417 @@
+{
+ "note": "Real live questions (read 31 Oct 2026) for the Learn preview only; each lists the Key cards it links to.",
+ "questions": [
+  {
+   "id": "04443a9d-3ed0-4425-a17b-3dd297801db2",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "Case: Firm's balance sheet shows goodwill of ₹40,000. On admission, partners decide to write off goodwill against partners' capitals (old ratio 2:1). Which single-line effect on the balance sheet results immediately after writing off?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A Decrease in partners' capital totals by ₹40,000"
+    },
+    {
+     "key": "B",
+     "text": "B Increase in intangible assets by ₹40,000"
+    },
+    {
+     "key": "C",
+     "text": "C No change in partners' capitals but increase in reserves"
+    },
+    {
+     "key": "D",
+     "text": "D Decrease in liabilities by ₹40,000"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Writing off goodwill reduces partners' capital accounts by the goodwill amount apportioned in the agreed ratio, decreasing total partners' capital by ₹40,000.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.admission-of-partner.kl-exists-written-off-old-ratio",
+    "kc.accountancy.admission-of-partner.kl-existing-goodwill-written-off"
+   ]
+  },
+  {
+   "id": "10d99687-8714-4145-8afa-8f8d336a5000",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "When a new partner is admitted and the existing partners give up part of their share in favour of the newcomer, the ratio in which the existing partners surrender their shares is called:",
+   "options": [
+    {
+     "key": "A",
+     "text": "A Sacrifice ratio"
+    },
+    {
+     "key": "B",
+     "text": "B Gaining ratio"
+    },
+    {
+     "key": "C",
+     "text": "C Profit sharing ratio"
+    },
+    {
+     "key": "D",
+     "text": "D Capital ratio"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Sacrifice ratio is the proportion in which old partners give up their shares to a new partner.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.admission-of-partner.def-sacrificing-ratio"
+   ]
+  },
+  {
+   "id": "17fd61d6-ebf5-497d-84ea-aa1e115dde19",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "If a firm's existing goodwill is ₹40,000 and a new partner is admitted, this goodwill is typically:",
+   "options": [
+    {
+     "key": "A",
+     "text": "A. Written off by debiting partners' capital accounts in their new ratio."
+    },
+    {
+     "key": "B",
+     "text": "B. Written off by debiting partners' capital accounts in their old ratio."
+    },
+    {
+     "key": "C",
+     "text": "C. Retained at its book value."
+    },
+    {
+     "key": "D",
+     "text": "D. Credited to the Revaluation Account."
+    }
+   ],
+   "correct_answer": "B",
+   "explanation": "Existing goodwill is considered an accumulated profit/loss of the old partnership and is therefore written off by debiting the old partners' capital accounts in their old profit-sharing ratio.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.admission-of-partner.kl-exists-written-off-old-ratio",
+    "kc.accountancy.admission-of-partner.kl-existing-goodwill-written-off"
+   ]
+  },
+  {
+   "id": "1b1b7a4b-355f-48e5-861c-d7b546975896",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "Assertion: Premium received from a new partner on admission is credited to the old partners' capital accounts.\nReason: Such premium is a capital receipt and not a revenue item.",
+   "options": [
+    {
+     "key": "A",
+     "text": "A Both Assertion and Reason are true and Reason explains the Assertion"
+    },
+    {
+     "key": "B",
+     "text": "B Both are true but Reason does not explain the Assertion"
+    },
+    {
+     "key": "C",
+     "text": "C Assertion true but Reason false"
+    },
+    {
+     "key": "D",
+     "text": "D Assertion false but Reason true"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Premium (goodwill) paid by new partner is a capital receipt and is distributed to old partners' capital/accounts, so both statements and the explanatory link are true.",
+   "difficulty": "hard",
+   "cards": [
+    "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+    "kc.accountancy.admission-of-partner.entry-e-premium-received"
+   ]
+  },
+  {
+   "id": "1b4b7422-1842-4e20-9afc-9d31b7c1ffc0",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "On admission of a new partner, revaluation of assets results in a gain. Who is entitled to that gain?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A The new partner only"
+    },
+    {
+     "key": "B",
+     "text": "B The old partners only for profits earned before admission"
+    },
+    {
+     "key": "C",
+     "text": "C The firm as retained earnings to be shared equally including new partner"
+    },
+    {
+     "key": "D",
+     "text": "D Creditors of the firm"
+    }
+   ],
+   "correct_answer": "B",
+   "explanation": "Revaluation gains relate to past period and therefore belong to old partners and are credited to their capital accounts.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.admission-of-partner.fact-reval-balance-old-ratio"
+   ]
+  },
+  {
+   "id": "1f5c08d4-61b2-49c7-8bb7-be1d514600d0",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "On admission of a partner, a gain arising on revaluation of assets is normally:",
+   "options": [
+    {
+     "key": "A",
+     "text": "A Credited to old partners' capital accounts in old profit sharing ratio"
+    },
+    {
+     "key": "B",
+     "text": "B Transferred to new partner's capital account"
+    },
+    {
+     "key": "C",
+     "text": "C Shown as a liability in balance sheet"
+    },
+    {
+     "key": "D",
+     "text": "D Transferred to general reserve only"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Revaluation profit is distributed to existing partners' capital accounts in their old profit sharing ratio.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.admission-of-partner.fact-reval-balance-old-ratio"
+   ]
+  },
+  {
+   "id": "20fa6daa-c601-4672-a976-365c7f4296c9",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "A and B share profits 3:2; C is admitted for 1/5 share. What is the sacrifice ratio of A and B?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A 3:2"
+    },
+    {
+     "key": "B",
+     "text": "B 12:8"
+    },
+    {
+     "key": "C",
+     "text": "C 1:1"
+    },
+    {
+     "key": "D",
+     "text": "D 15:10"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Old shares 15/25 and 10/25 becoming 12/25 and 8/25 means sacrifices of 3/25 and 2/25 respectively, i.e., 3:2.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio"
+   ]
+  },
+  {
+   "id": "2ca403e13da61d66ebcb9dc2870cf3df",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "At the admission of T, X and Y are the existing partners, sharing profits in the ratio 3:2. The agreed profit-sharing ratio after T’s admission is X:Y:T = 4:3:3. The firm has an untransferred reserve of ₹24,000, a general reserve of ₹18,000 and a credit balance of ₹33,000 in the Profit and Loss Account. All three balances are accumulated profits from before T’s admission. What amounts should be allocated to X, Y and T, respectively, from these accumulated profits?",
+   "options": [
+    "₹25,200, ₹16,800 and Nil",
+    "₹30,000, ₹22,500 and ₹22,500",
+    "₹45,000, ₹30,000 and Nil",
+    "₹37,500, ₹37,500 and Nil"
+   ],
+   "correct_answer": "C",
+   "explanation": "The accumulated profits total ₹24,000 + ₹18,000 + ₹33,000 = ₹75,000. They are distributed among the existing partners in their old profit-sharing ratio of 3:2, so X receives ₹45,000 and Y receives ₹30,000. T receives no share of these accumulated profits.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.admission-of-partner.fact-accumulated-profits-distributed"
+   ]
+  },
+  {
+   "id": "495c4536f5869a65e46ae8a6d92010c8",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "At the admission of a new partner, P and Q are the only old partners and share profits in the ratio 3:2. During revaluation, the following changes are identified: an increase in an asset’s book value of ₹20,000; a decrease in another asset’s book value of ₹8,000; a decrease in liabilities of ₹2,000; an increase in other liabilities of ₹5,000; an unrecorded asset of ₹12,000; and an unrecorded liability of ₹4,000. These are the only revaluation items, and no other adjustment affects the Revaluation Account. What balance should the Revaluation Account show, and how should it be transferred to P and Q’s capital accounts?",
+   "options": [
+    "Credit balance of ₹21,000; credit P’s Capital Account by ₹12,600 and Q’s by ₹8,400",
+    "Credit balance of ₹17,000; credit P’s Capital Account by ₹10,200 and Q’s by ₹6,800",
+    "Debit balance of ₹17,000; debit P’s Capital Account by ₹10,200 and Q’s by ₹6,800",
+    "Credit balance of ₹13,000; credit P’s Capital Account by ₹6,500 and Q’s by ₹6,500"
+   ],
+   "correct_answer": "B",
+   "explanation": "Asset increases, liability decreases and unrecorded assets are credited to the Revaluation Account; asset decreases, liability increases and unrecorded liabilities are debited. Credits total ₹34,000 and debits total ₹17,000, so the account shows a credit balance of ₹17,000. This gain is transferred to P and Q in their old ratio of 3:2, giving P ₹10,200 and Q ₹6,800.",
+   "difficulty": "hard",
+   "cards": [
+    "kc.accountancy.admission-of-partner.fact-reval-balance-old-ratio"
+   ]
+  },
+  {
+   "id": "5bde762f1a36a3a7d894f0aa45f655e9",
+   "subject": "accountancy",
+   "chapter": "Admission of Partner",
+   "body": "In each independent case, a new partner brings a cash premium for goodwill, and the existing partners sacrifice part of their shares. Match each situation in List-I with its accounting treatment in List-II.\n\nList-I\n(A) The new partner pays the premium directly and privately to the existing partners.\n(B) The premium is received through the firm and initially credited to Premium for Goodwill A/c.\n(C) The premium is received through the firm and initially credited to the new partner’s capital account before distribution to the sacrificing partners.\n(D) The premium has been credited to the existing partners’ capital accounts in their sacrificing ratio, and they retain the amount in the business.\n\nList-II\n(I) No entry is passed in the firm’s books.\n(II) Bank A/c Dr. to Premium for Goodwill A/c; then Goodwill A/c Dr. to the sacrificing partners’ capital accounts individually.\n(III) Bank A/c Dr. to the new partner’s capital account; then the new partner’s capital account Dr. to the sacrificing partners’ capital accounts individually.\n(IV) No additional entry is passed for retaining the credited amounts in the business.\n\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+    "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+    "(A)-(III), (B)-(II), (C)-(I), (D)-(IV)",
+    "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+   ],
+   "correct_answer": "D",
+   "explanation": "A premium paid directly and privately to the existing partners requires no entry in the firm’s books. When the premium is received through the firm, the entries depend on whether it is credited initially to Premium for Goodwill A/c or to the new partner’s capital account. If the credited amounts are retained in the business, no additional entry is passed.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
+    "kc.accountancy.admission-of-partner.entry-e-premium-received"
+   ]
+  },
+  {
+   "id": "01cfb56e-96e6-4871-979e-87408f33983e",
+   "subject": "accountancy",
+   "chapter": "Change in Profit Sharing Ratio",
+   "body": "Read the statements and choose the correct option. Statement I: When existing partners change their profit-sharing ratio, the sacrificing ratio is calculated as old share minus new share for each partner. Statement II: Gaining ratio is calculated as new share minus old share for partners whose share increases. Statement III: A new partner must be admitted before any sacrificing ratio can be computed.",
+   "options": [
+    {
+     "key": "A",
+     "text": "II and III only"
+    },
+    {
+     "key": "B",
+     "text": "I and III only"
+    },
+    {
+     "key": "C",
+     "text": "I and II only"
+    },
+    {
+     "key": "D",
+     "text": "I, II and III"
+    }
+   ],
+   "correct_answer": "C",
+   "explanation": null,
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+    "kc.accountancy.admission-of-partner.formula-sacrifice-formula"
+   ]
+  },
+  {
+   "id": "01dbaa4a-b7f1-4e25-b7e9-94f89a1406b5",
+   "subject": "accountancy",
+   "chapter": "Change in Profit Sharing Ratio",
+   "body": "Read the statements and choose the correct option. Statement I: Sacrificing ratio is calculated by comparing the old share with the new share of a partner whose share decreases. Statement II: Gaining ratio is calculated by comparing the new share with the old share of a partner whose share increases. Statement III: Goodwill adjustment is necessary mainly when there is a change in the profit-sharing ratio among existing partners.",
+   "options": [
+    {
+     "key": "A",
+     "text": "I and II only"
+    },
+    {
+     "key": "B",
+     "text": "II and III only"
+    },
+    {
+     "key": "C",
+     "text": "I and III only"
+    },
+    {
+     "key": "D",
+     "text": "I, II and III"
+    }
+   ],
+   "correct_answer": "D",
+   "explanation": "Sacrificing ratio is the old share minus the new share of the partner whose share falls, and gaining ratio is the new share minus the old share of the partner whose share rises, so Statements I and II are correct. Goodwill adjustment is needed mainly when the profit-sharing ratio changes among existing partners, so Statement III is also correct.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+    "kc.accountancy.admission-of-partner.formula-sacrifice-formula"
+   ]
+  },
+  {
+   "id": "05bd57e2-e4e6-4f23-ab88-14989056e8df",
+   "subject": "accountancy",
+   "chapter": "Change in Profit Sharing Ratio",
+   "body": "Bhavna and Sneha share profits in the ratio 3:1. They decide to change their profit sharing ratio to equal. On this date, firm's goodwill is valued at ₹50,000. What will be the share of goodwill credited/debited to Bhavna's capital account due to the sacrifice/gain?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Sacrifice of ₹12,500"
+    },
+    {
+     "key": "B",
+     "text": "Gain of ₹12,500"
+    },
+    {
+     "key": "C",
+     "text": "₹37,500"
+    },
+    {
+     "key": "D",
+     "text": "No adjustment required."
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Old ratio is 3:1. New is 1:1. Bhavna's old share = 3/4. New = 1/2. Sacrifice/Gain = 3/4 - 1/2. Adjusting goodwill of ₹50,000 gives the result.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.change-in-profit-sharing-ratio.fact-credit-sacrificing-debit-gaining",
+    "kc.accountancy.admission-of-partner.formula-sacrifice-formula"
+   ]
+  },
+  {
+   "id": "341d2ffb9c69a0f0bef64c9eea5e2706",
+   "subject": "accountancy",
+   "chapter": "Change in Profit Sharing Ratio",
+   "body": "A, B, C and D are existing partners. Their old profit-sharing ratio is 8:5:3:4 and their new profit-sharing ratio is 5:6:5:4. Match each partner with the change in that partner’s share of total profits.\nList-I\n(A) Partner A\n(B) Partner B\n(C) Partner C\n(D) Partner D\nList-II\n(I) Sacrifices 3/20 share\n(II) Gains 1/20 share\n(III) Gains 2/20 share\n(IV) Share remains unchanged\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A)-(I), (B)-(III), (C)-(II), (D)-(IV)",
+    "(A)-(IV), (B)-(II), (C)-(III), (D)-(I)",
+    "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+    "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)"
+   ],
+   "correct_answer": "D",
+   "explanation": "Both ratios total 20, so each partner’s share is the partner’s ratio part divided by 20. A’s share falls from 8/20 to 5/20, B’s rises from 5/20 to 6/20, C’s rises from 3/20 to 5/20, and D’s remains 4/20. These changes match option D.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.admission-of-partner.formula-sacrifice-formula",
+    "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share"
+   ]
+  },
+  {
+   "id": "404761d3-32d9-418a-934d-a97dcec09cb8",
+   "subject": "accountancy",
+   "chapter": "Change in Profit Sharing Ratio",
+   "body": "Partners A and B share profits in the ratio 3:2. They agree to change the ratio to 2:3. What is A's gain or sacrifice, as a fraction of total profits?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A sacrifices 1/10 of profits"
+    },
+    {
+     "key": "B",
+     "text": "A gains 1/5 of profits"
+    },
+    {
+     "key": "C",
+     "text": "A sacrifices 1/5 of profits"
+    },
+    {
+     "key": "D",
+     "text": "A gains 1/10 of profits"
+    }
+   ],
+   "correct_answer": "C",
+   "explanation": "A's old share is 3/5 and A's new share is 2/5, so A's share falls by 3/5 - 2/5 = 1/5 of total profits. This is a sacrifice of 1/5 of profits.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.admission-of-partner.formula-sacrifice-formula"
+   ]
+  },
+  {
+   "id": "43dba584009752ea6e97144240929090",
+   "subject": "accountancy",
+   "chapter": "Change in Profit Sharing Ratio",
+   "body": "Four existing partners, A, B, C and D, share profits in the ratio 1/2 : 1/4 : 1/6 : 1/12. They change their profit-sharing ratio to 13/30 : 3/20 : 13/60 : 1/5, with no partner admitted or retiring. What are the sacrificing ratio A:B and the gaining ratio C:D?",
+   "options": [
+    "Sacrificing ratio A:B = 3:2, and gaining ratio C:D = 7:3",
+    "Sacrificing ratio A:B = 2:3, and gaining ratio C:D = 3:7",
+    "Sacrificing ratio A:B = 2:3, and gaining ratio C:D = 7:3",
+    "Sacrificing ratio A:B = 3:2, and gaining ratio C:D = 3:7"
+   ],
+   "correct_answer": "B",
+   "explanation": "A's and B's shares decrease by 1/2 − 13/30 = 1/15 and 1/4 − 3/20 = 1/10, respectively, so their sacrificing ratio is 2:3. C's and D's shares increase by 13/60 − 1/6 = 1/20 and 1/5 − 1/12 = 7/60, respectively, so their gaining ratio is 3:7.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+    "kc.accountancy.admission-of-partner.formula-sacrifice-formula"
+   ]
+  },
+  {
+   "id": "625c82bf-6bfb-4d51-a369-2751bfbbdf62",
+   "subject": "accountancy",
+   "chapter": "Change in Profit Sharing Ratio",
+   "body": "Read the following statements and choose the correct option.\nStatement I: Sacrificing ratio is calculated as Old ratio – New ratio for partners whose share decreases.\nStatement II: Gaining ratio is calculated as New ratio – Old ratio for partners whose share increases.\nStatement III: When existing partners change their profit-sharing ratio, goodwill is adjusted without admitting a new partner.",
+   "options": [
+    {
+     "key": "A",
+     "text": "I, II and III"
+    },
+    {
+     "key": "B",
+     "text": "I and II only"
+    },
+    {
+     "key": "C",
+     "text": "II and III only"
+    },
+    {
+     "key": "D",
+     "text": "I and III only"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": null,
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.change-in-profit-sharing-ratio.fm-gaining-share",
+    "kc.accountancy.admission-of-partner.formula-sacrifice-formula"
+   ]
+  },
+  {
+   "id": "1daaddc92c0285704924e8448eafbb35",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "Leena and Farah agree orally to enter into a partnership. They have not prepared a written document. Which statement correctly describes whether their agreement must be in writing?",
+   "options": [
+    "Their partnership cannot come into existence until the oral terms are put in writing.",
+    "Their oral agreement is itself a Partnership Deed.",
+    "Their oral agreement can establish the partnership; a written document is not compulsory.",
+    "Their partnership can come into existence without an agreement if they prepare a written deed later."
+   ],
+   "correct_answer": "C",
+   "explanation": "A partnership comes into existence as a result of an agreement, which may be oral or written. The agreement is not required to be in writing, so the oral agreement can establish the partnership. A Partnership Deed is the document containing the terms when the agreement is in writing.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.kl-act-no-writing"
+   ]
+  },
+  {
+   "id": "1e446d2c4fe8062640b863b9fc58c95c",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "Partners have no specific agreement on a matter affecting the distribution of profits. Which provisions apply in this situation?",
+   "options": [
+    "The provisions of the Indian Partnership Act, 1932",
+    "The terms of a specific agreement between the partners",
+    "The rules for calculating interest on drawings",
+    "The adjustments made when a partner is admitted or dies"
+   ],
+   "correct_answer": "A",
+   "explanation": "When there is no specific agreement on a matter affecting the distribution of profits, the provisions of the Indian Partnership Act, 1932 apply. The stem states this exact circumstance, so option A is correct.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.fact-deed-silent-act-applies"
+   ]
+  },
+  {
+   "id": "3b59e422f1bb829b8427fb3609581aa0",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "A partnership firm has no specific agreement among its partners about the distribution of profits. Which rule governs this issue?",
+   "options": [
+    "The provisions of the Indian Partnership Act, 1932 apply.",
+    "A specific term in the partners’ agreement governs the distribution.",
+    "Sole-proprietorship accounting rules govern the distribution.",
+    "Rules for admission, retirement, death or dissolution govern the distribution."
+   ],
+   "correct_answer": "A",
+   "explanation": "When there is no specific agreement about the distribution of profits, the provisions of the Indian Partnership Act, 1932 apply. The stem states that this is the situation, so option A is correct.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.fact-deed-silent-act-applies"
+   ]
+  },
+  {
+   "id": "4115a8da29d5db85791e1ebac2a51510",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "Under the fixed capital method, a partner first introduces additional capital and later receives a share of profit and makes drawings. Assume there are no other partner transactions and that, after the profit and drawings are recorded, the Partner’s Current Account has a credit balance. Arrange the following steps in the order for recording the transactions and presenting the year-end balances:\n(A) Record the share of profit and drawings in the Partner’s Current Account.\n(B) Record the additional capital in the Partner’s Capital Account.\n(C) Confirm the credit balance of the Partner’s Current Account after its items are recorded.\n(D) Show the Partner’s Capital Account and the credit-balance Current Account on the liabilities side of the balance sheet.\nChoose the correct sequence.",
+   "options": [
+    "(A), (B), (C), (D)",
+    "(B), (A), (C), (D)",
+    "(B), (C), (A), (D)",
+    "(B), (A), (D), (C)"
+   ],
+   "correct_answer": "B",
+   "explanation": "Under the fixed capital method, additional capital is recorded in the Partner’s Capital Account, while the share of profit and drawings are recorded in the Partner’s Current Account. Since the additional capital is introduced first, B precedes A; the Current Account balance is confirmed after its items are recorded, and its stated credit balance is then shown on the liabilities side. The correct sequence is B–A–C–D.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items",
+    "kc.accountancy.partnership-fundamentals.fact-fixed-balance-sheet"
+   ]
+  },
+  {
+   "id": "472649398aea0050e35860544ec8f803",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "Four stages in a partnership are described below. The partners first reach an agreement orally on business terms. They then record those agreed terms in a written document. At a later stage, they decide to change one clause in that document; all partners give consent before the clause is changed. Arrange the listed events in the order they occur.\n(A) All partners consent to the proposed clause change.\n(B) The written document containing the agreed terms is identified as the Partnership Deed.\n(C) The partners reach the agreement on the business terms.\n(D) The clause is changed.\nChoose the correct sequence.",
+   "options": [
+    "(C), (B), (A), (D)",
+    "(C), (A), (B), (D)",
+    "(B), (C), (A), (D)",
+    "(C), (B), (D), (A)"
+   ],
+   "correct_answer": "A",
+   "explanation": "The partners first reach the agreement, and the written document containing its terms is the Partnership Deed. Since the clause is changed only after all partners consent, the sequence ends with consent followed by the change.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.def-deed-meaning",
+    "kc.accountancy.partnership-fundamentals.kl-deed-alter"
+   ]
+  },
+  {
+   "id": "76760959-d603-443c-aec0-d39c8c5bf67a",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "When the partners' capital accounts are fixed, on which side of which account are the drawings recorded?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Debit side of Capital A/c"
+    },
+    {
+     "key": "B",
+     "text": "Credit side of Capital A/c"
+    },
+    {
+     "key": "C",
+     "text": "Debit side of Current A/c"
+    },
+    {
+     "key": "D",
+     "text": "Credit side of Current A/c"
+    }
+   ],
+   "correct_answer": "C",
+   "explanation": "When capital accounts are fixed, the capital accounts do not record drawings. Drawings are debited to the partner's Current Account, so the entry falls on the debit side of the Current A/c.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items"
+   ]
+  },
+  {
+   "id": "7b4662c4e2166c62f863a6ae1da78ba6",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "A partner’s capital accounts are maintained under the fixed capital method. The transactions being considered are capital introduced or withdrawn, share of profit, drawings, interest on capital and interest on drawings. Arrange the following reasoning steps in a coherent order, from identifying the method to determining the treatment of transactions and the resulting capital-account balance:\n(A) Identify the stipulated method as the fixed capital method.\n(B) Maintain a separate Capital Account and Current Account for the partner.\n(C) Allocate capital introductions or withdrawals to the Capital Account and the other listed transactions to the Current Account.\n(D) Conclude that the Capital Account changes only for capital introductions or withdrawals.\nChoose the correct sequence.",
+   "options": [
+    "(A), (C), (B), (D)",
+    "(A), (B), (C), (D)",
+    "(B), (A), (C), (D)",
+    "(A), (B), (D), (C)"
+   ],
+   "correct_answer": "B",
+   "explanation": "Under the fixed capital method, separate Capital and Current Accounts are maintained. Capital introductions or withdrawals affect the Capital Account, while the other listed partner transactions are recorded in the Current Account. The coherent reasoning therefore identifies the method, establishes the two accounts, allocates the transactions, and then states the effect on the capital balance.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items"
+   ]
+  },
+  {
+   "id": "8efd0113e531609d22cd8d0ed84efab6",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "A firm maintains partners’ accounts under the fixed capital method. During the year, partner R is allocated a share of profit and makes ordinary drawings. No additional capital is introduced, and no part of R’s capital is withdrawn under the partnership agreement. What happens to R’s Capital Account during the year?",
+   "options": [
+    "It is increased by the share of profit allocated to R.",
+    "It remains unchanged during the year.",
+    "It is reduced by the ordinary drawings made by R.",
+    "It is adjusted for both the share of profit and the ordinary drawings."
+   ],
+   "correct_answer": "B",
+   "explanation": "Under the fixed capital method, a partner’s capital remains fixed unless additional capital is introduced or part of the capital is withdrawn under the agreement. Neither occurs here, so R’s Capital Account remains unchanged; the share of profit and drawings are recorded in R’s Current Account.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.def-fixed-capital-method",
+    "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items"
+   ]
+  },
+  {
+   "id": "97bd2137-9adb-48a8-9c14-4c297f3a24c4",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "Q1. In the absence of a partnership deed, interest on a partner's loan to the firm is paid at:",
+   "options": [
+    {
+     "key": "A",
+     "text": "6% p.a. simple interest"
+    },
+    {
+     "key": "B",
+     "text": "12% p.a. simple interest"
+    },
+    {
+     "key": "C",
+     "text": "6% per month"
+    },
+    {
+     "key": "D",
+     "text": "No interest is paid"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": null,
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.fact-act-interest-on-loan"
+   ]
+  },
+  {
+   "id": "cc60f0fc-32b9-46b0-9b7e-645b57149a63",
+   "subject": "accountancy",
+   "chapter": "Partnership Fundamentals",
+   "body": "Assertion: A partnership firm must have a partnership deed. Reason: The partnership deed outlines the terms and conditions of the partnership, including profit-sharing ratio and partners' duties.",
+   "options": [
+    {
+     "key": "A",
+     "text": "A. Both Assertion and Reason are true, and Reason is the correct explanation of Assertion."
+    },
+    {
+     "key": "B",
+     "text": "B. Both Assertion and Reason are true, but Reason is NOT the correct explanation of Assertion."
+    },
+    {
+     "key": "C",
+     "text": "C. Assertion is true, but Reason is false."
+    },
+    {
+     "key": "D",
+     "text": "D. Assertion is false, but Reason is true."
+    }
+   ],
+   "correct_answer": "D",
+   "explanation": "The Assertion is false; a partnership deed is not mandatory (it can be oral), though highly recommended. The Reason is true; the deed details the partnership terms.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.kl-act-no-writing"
+   ]
+  },
+  {
+   "id": "ed1a18bb53f82e06a2c7a0beea2293e2",
+   "subject": "accountancy",
+   "chapter": "Profit & Loss Appropriation Account",
+   "body": "A and B contributed ₹4,00,000 and ₹2,00,000, respectively, to their partnership and share profits equally. Their partnership deed contains no provision for interest on capital. Neither partner added to or withdrew capital during the year. What should be recorded as interest on capital for the year?",
+   "options": [
+    "Allow interest to A only, because A contributed more capital.",
+    "Allow no interest to either partner.",
+    "Allow equal interest to both partners, because they share profits equally.",
+    "Allow interest to both partners in the ratio 2:1, matching their capital contributions."
+   ],
+   "correct_answer": "B",
+   "explanation": "Interest on partners’ capital is allowed only when it is expressly agreed among the partners. Since the deed contains no provision for it, neither partner is entitled to interest, regardless of their capital contributions or profit-sharing ratio.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.accountancy.partnership-fundamentals.fact-act-interest-on-capital"
+   ]
+  },
+  {
+   "id": "7db69f5e-1742-4f03-a1f7-474870324fb7",
+   "subject": "biology",
+   "chapter": "Biotechnology Principles & Processes",
+   "body": "Southern blotting is used in molecular biology primarily to:",
+   "options": [
+    {
+     "key": "A",
+     "text": "A detect specific DNA sequences in a mixture using a labelled probe"
+    },
+    {
+     "key": "B",
+     "text": "B separate proteins by size and identify them with antibodies"
+    },
+    {
+     "key": "C",
+     "text": "C quantify RNA expression levels directly without conversion"
+    },
+    {
+     "key": "D",
+     "text": "D transform bacteria with recombinant plasmids"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Southern blotting transfers DNA to a membrane where labelled probes hybridize to detect specific sequences.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.kl-the-technique-as-used-earlier-53"
+   ]
+  },
+  {
+   "id": "0d2407b3-642d-465e-bb10-e79b8036a5bd",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "Assertion: In transcription, mainly one strand of DNA is used as a template for RNA synthesis. Reason: The RNA transcript is complementary to the template strand and identical to the coding strand, except that uracil replaces thymine. Choose the correct option.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both Assertion and Reason are true, but the Reason does not explain the Assertion."
+    },
+    {
+     "key": "B",
+     "text": "Both Assertion and Reason are true, and the Reason explains the Assertion."
+    },
+    {
+     "key": "C",
+     "text": "Assertion is true, but Reason is false."
+    },
+    {
+     "key": "D",
+     "text": "Assertion is false, but Reason is true."
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Both statements are true: transcription copies only one DNA strand, the template, into RNA. The reason correctly describes the base pairing of the RNA with the template strand and its identity with the coding strand, but it does not explain why only one strand is used.",
+   "difficulty": "hard",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.fact-in-transcription-only-a-segment-42",
+    "kc.biology.molecular-basis-of-inheritance.fact-second-the-two-rna-molecules-43"
+   ]
+  },
+  {
+   "id": "0fe43802-be9c-44c6-aed1-2184890ad56a",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "Assertion: The process of transcription and translation can be coupled in prokaryotes.\nReason: Prokaryotes lack a nuclear membrane, allowing ribosomes to bind to mRNA while it is still being synthesised.",
+   "options": [
+    {
+     "key": "A",
+     "text": "Both Assertion and Reason are true, but the Reason does not explain the Assertion."
+    },
+    {
+     "key": "B",
+     "text": "Assertion is true, but Reason is false."
+    },
+    {
+     "key": "C",
+     "text": "Both Assertion and Reason are true, and the Reason explains the Assertion."
+    },
+    {
+     "key": "D",
+     "text": "Assertion is false, but Reason is true."
+    }
+   ],
+   "correct_answer": "C",
+   "explanation": null,
+   "difficulty": "hard",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.fact-many-times-the-translation-can-50"
+   ]
+  },
+  {
+   "id": "16153c07-e714-428c-9047-2b620251bf2c",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "Read the statements about DNA replication and select the correct option:\nStatement I: The replication fork moves in opposite directions on the two template strands.\nStatement II: DNA polymerase III adds nucleotides mainly in the 5'→3' direction.\nStatement III: Okazaki fragments are joined together by DNA ligase.",
+   "options": [
+    {
+     "key": "A",
+     "text": "I and II only"
+    },
+    {
+     "key": "B",
+     "text": "I and III only"
+    },
+    {
+     "key": "C",
+     "text": "I, II and III"
+    },
+    {
+     "key": "D",
+     "text": "II and III only"
+    }
+   ],
+   "correct_answer": "C",
+   "explanation": null,
+   "difficulty": "medium",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.kl-the-dna-dependent-dna-polymerases-18",
+    "kc.biology.molecular-basis-of-inheritance.fact-on-one-strand-the-template-39"
+   ]
+  },
+  {
+   "id": "245978df-4555-41c5-8fa7-4ee3c9c0b349",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "In the lac operon of E. coli, which molecule binds directly to the operator and prevents transcription of the structural genes in the absence of lactose?",
+   "options": [
+    {
+     "key": "A",
+     "text": "RNA polymerase"
+    },
+    {
+     "key": "B",
+     "text": "Lactose"
+    },
+    {
+     "key": "C",
+     "text": "Catabolite activator protein"
+    },
+    {
+     "key": "D",
+     "text": "Lac repressor protein"
+    }
+   ],
+   "correct_answer": "D",
+   "explanation": "In the absence of lactose, the lac repressor binds to the operator and blocks RNA polymerase from transcribing the structural genes. Lactose acts as an inducer that inactivates the repressor, while the catabolite activator protein stimulates transcription rather than blocking it.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.fact-the-repressor-of-the-operon-81"
+   ]
+  },
+  {
+   "id": "2989c3b6-8d6a-4b9f-8a49-c24b3587e48d",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "In the lac operon, if a mutation occurs in the lacI gene resulting in a 'super-repressor' (Is) that cannot bind to the inducer (allolactose), what would be the expression profile of the structural genes in the presence of lactose?",
+   "options": [
+    {
+     "key": "A",
+     "text": "Constitutive expression"
+    },
+    {
+     "key": "B",
+     "text": "Inducible expression"
+    },
+    {
+     "key": "C",
+     "text": "No expression (permanently repressed)"
+    },
+    {
+     "key": "D",
+     "text": "High expression regardless of glucose levels"
+    }
+   ],
+   "correct_answer": "C",
+   "explanation": "A super-repressor cannot bind the inducer; it remains bound to the operator regardless of lactose concentration, thus preventing transcription at all times.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.fact-in-the-presence-of-an-82",
+    "kc.biology.molecular-basis-of-inheritance.fact-the-repressor-of-the-operon-81"
+   ]
+  },
+  {
+   "id": "358b2f4a-72a0-431b-bcff-4d00270b7f0b",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "Arrange the following events of the lac operon in the order in which they occur when lactose becomes available to an Escherichia coli cell:\n(A) RNA polymerase transcribes the lac structural genes\n(B) Allolactose binds to the repressor protein\n(C) Lactose enters the cell through permease\n(D) The repressor detaches from the operator\nChoose the correct answer from the options given below:",
+   "options": [
+    {
+     "key": "A",
+     "text": "(C), (B), (D), (A)"
+    },
+    {
+     "key": "B",
+     "text": "(B), (C), (D), (A)"
+    },
+    {
+     "key": "C",
+     "text": "(A), (C), (B), (D)"
+    },
+    {
+     "key": "D",
+     "text": "(C), (D), (B), (A)"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Lactose first enters the cell through permease. Allolactose formed from it binds the repressor, which then detaches from the operator, allowing RNA polymerase to transcribe the structural genes. The correct order is C, B, D, A.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.fact-the-repressor-of-the-operon-81",
+    "kc.biology.molecular-basis-of-inheritance.fact-in-the-presence-of-an-82"
+   ]
+  },
+  {
+   "id": "3f4393ec-5825-45d4-99cd-40113485fb0a",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "Which of the following molecules is primarily responsible for storing and transmitting genetic information in most organisms?",
+   "options": [
+    {
+     "key": "A",
+     "text": "RNA"
+    },
+    {
+     "key": "B",
+     "text": "Proteins"
+    },
+    {
+     "key": "C",
+     "text": "DNA"
+    },
+    {
+     "key": "D",
+     "text": "Carbohydrates"
+    }
+   ],
+   "correct_answer": "C",
+   "explanation": "DNA (Deoxyribonucleic acid) serves as the primary genetic material in most organisms, carrying the instructions for development, functioning, growth, and reproduction. While proteins have crucial roles in cellular functions, they are not the primary carriers of genetic information.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.fact-but-dna-being-more-stable-27"
+   ]
+  },
+  {
+   "id": "48e169ce-dc70-42dd-bb7a-3b38432ecab4",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "DNA fingerprinting relies on polymorphic regions such as VNTRs or STRs because they:",
+   "options": [
+    {
+     "key": "A",
+     "text": "A show individual variation in repeat number between individuals"
+    },
+    {
+     "key": "B",
+     "text": "B encode conserved housekeeping genes present identically in everyone"
+    },
+    {
+     "key": "C",
+     "text": "C are only found in mitochondrial DNA and not nuclear DNA"
+    },
+    {
+     "key": "D",
+     "text": "D always code for proteins used in metabolism"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "VNTRs/STRs vary in repeat number among individuals, producing distinctive patterns used for fingerprinting.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.fact-a-small-dna-sequence-is-103",
+    "kc.biology.molecular-basis-of-inheritance.fact-these-sequence-show-high-degree-98"
+   ]
+  },
+  {
+   "id": "5e916f81-91e8-4501-82a9-b2ffc334d66f",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "Consider the following statements about the genetic code and choose the correct option:\nStatement I: The genetic code is universal, meaning it is identical in most organisms.\nStatement II: AUG codes for methionine and also serves as the start codon.\nStatement III: UGA, UAA, and UAG are stop codons that do not code for any amino acid.",
+   "options": [
+    {
+     "key": "A",
+     "text": "I and II only"
+    },
+    {
+     "key": "B",
+     "text": "I and III only"
+    },
+    {
+     "key": "C",
+     "text": "II and III only"
+    },
+    {
+     "key": "D",
+     "text": "I, II and III"
+    }
+   ],
+   "correct_answer": "D",
+   "explanation": null,
+   "difficulty": "medium",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.kl-the-code-is-nearly-universal-31",
+    "kc.biology.molecular-basis-of-inheritance.fact-aug-has-dual-functions-it-62"
+   ]
+  },
+  {
+   "id": "61feeb11-d524-44a7-bbe9-081427f24015",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "In the lac operon of Escherichia coli, what is the role of allolactose when lactose is present in the medium?",
+   "options": [
+    {
+     "key": "A",
+     "text": "It binds to the operator and blocks RNA polymerase from reaching the promoter"
+    },
+    {
+     "key": "B",
+     "text": "It is the substrate that RNA polymerase converts into mRNA"
+    },
+    {
+     "key": "C",
+     "text": "It binds to the repressor protein and causes the repressor to leave the operator"
+    },
+    {
+     "key": "D",
+     "text": "It binds to the promoter and prevents the activator from binding"
+    }
+   ],
+   "correct_answer": "C",
+   "explanation": "Allolactose, formed from lactose, is the inducer of the lac operon. It binds to the repressor and changes its shape, so the repressor can no longer sit on the operator. RNA polymerase then transcribes the structural genes.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.fact-in-the-presence-of-an-82"
+   ]
+  },
+  {
+   "id": "77918d38-3c4c-4be6-b33e-8e79370a2a00",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "Which statement most precisely distinguishes 'degeneracy' of the genetic code from the 'wobble' hypothesis?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A Degeneracy means multiple codons code for the same amino acid; wobble refers to flexible base pairing at the third codon position allowing fewer tRNAs—degeneracy is a coding property while wobble is a mechanistic explanation"
+    },
+    {
+     "key": "B",
+     "text": "B Degeneracy is the phenomenon that one tRNA reads multiple codons; wobble is the fact that multiple codons code for one amino acid"
+    },
+    {
+     "key": "C",
+     "text": "C Degeneracy implies stop codons are read ambiguously; wobble implies the first base of the codon pairs flexibly"
+    },
+    {
+     "key": "D",
+     "text": "D Degeneracy and wobble are synonymous terms describing the same molecular mechanism"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Degeneracy refers to multiple codons per amino acid (a feature of the code); wobble is the pairing flexibility at the third base that helps explain degeneracy.",
+   "difficulty": "hard",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.kl-some-amino-acids-are-coded-30"
+   ]
+  },
+  {
+   "id": "787ef85b-5eb6-43a2-8f91-d91230268051",
+   "subject": "biology",
+   "chapter": "Molecular Basis of Inheritance",
+   "body": "In the Hershey-Chase experiment, bacteria infected with bacteriophages labelled with radioactive sulphur (35S) were blended and then centrifuged. Where was most of the radioactivity found?",
+   "options": [
+    {
+     "key": "A",
+     "text": "In the pellet, as viral DNA that entered the bacteria"
+    },
+    {
+     "key": "B",
+     "text": "In the pellet, as viral protein that had entered the bacteria"
+    },
+    {
+     "key": "C",
+     "text": "In the supernatant, as viral DNA that stayed outside the bacteria"
+    },
+    {
+     "key": "D",
+     "text": "In the supernatant, as viral protein left outside the bacteria"
+    }
+   ],
+   "correct_answer": "D",
+   "explanation": "Sulphur occurs in the amino acids of proteins but not in DNA, so 35S labels the phage protein coat. Blending shakes the empty coats off the bacterial surface and they stay in the supernatant after centrifugation, while the bacteria settle in the pellet. It was the 32P-labelled DNA that was found inside the infected bacteria, which showed that DNA is the genetic material.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.biology.molecular-basis-of-inheritance.fact-viruses-grown-in-the-presence-20",
+    "kc.biology.molecular-basis-of-inheritance.steps-radioactive-phages-were-allowed-to-1"
+   ]
+  },
+  {
+   "id": "4286d689-43d6-4036-804d-d98d5eabfb04",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "According to the Law of Demand, what happens to the quantity demanded of a good when its price increases, assuming all other factors remain constant?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A. Quantity demanded increases"
+    },
+    {
+     "key": "B",
+     "text": "B. Quantity demanded decreases"
+    },
+    {
+     "key": "C",
+     "text": "C. Quantity demanded remains unchanged"
+    },
+    {
+     "key": "D",
+     "text": "D. Demand curve shifts to the right"
+    }
+   ],
+   "correct_answer": "B",
+   "explanation": "The Law of Demand states that, ceteris paribus, as the price of a good increases, the quantity demanded decreases.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-law-of-demand"
+   ]
+  },
+  {
+   "id": "517c28a6-8d12-456d-b642-2be55763a860",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "What does the slope of the budget line represent?",
+   "options": [
+    {
+     "key": "A",
+     "text": "The relative prices of the two goods."
+    },
+    {
+     "key": "B",
+     "text": "The marginal utility of the goods."
+    },
+    {
+     "key": "C",
+     "text": "The total utility derived from the goods."
+    },
+    {
+     "key": "D",
+     "text": "The consumer's income level."
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "The slope of the budget line indicates the rate at which a consumer can trade one good for another in the market, reflecting their relative prices.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-budget-line",
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.key-slope-budget-able"
+   ]
+  },
+  {
+   "id": "57842ace59d6faa4a4eafedd7411fe40",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "A consumer's total utility from consuming 1, 2 and 3 units of commodity X is 10, 18 and 24 utils, respectively. Consumption of all other commodities is unchanged. Which interpretation of the marginal utility of the second and third units, respectively, is correct?",
+   "options": [
+    "Marginal utility rises from 10 to 18 utils, while total utility rises from 18 to 24 utils.",
+    "Marginal utility rises from 8 to 14 utils, while total utility rises from 18 to 24 utils.",
+    "Marginal utility falls from 8 to 6 utils, while total utility rises from 18 to 24 utils.",
+    "Marginal utility remains at 8 utils, while total utility rises from 18 to 24 utils."
+   ],
+   "correct_answer": "C",
+   "explanation": "Marginal utility is the change in total utility when consumption increases by one unit. It is 18 − 10 = 8 utils for the second unit and 24 − 18 = 6 utils for the third; total utility rises from 18 to 24 utils.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-marginal-utility",
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.frm-mu-n"
+   ]
+  },
+  {
+   "id": "58829aa2-41c9-489b-9443-69c3c884230d",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "A household's income rises and it reduces consumption of a cheap staple while increasing other purchases. What type of good is the staple most likely to be?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A A normal good (consumption rises with income)."
+    },
+    {
+     "key": "B",
+     "text": "B An inferior good (consumption falls as income rises)."
+    },
+    {
+     "key": "C",
+     "text": "C A luxury good (consumption rises more than proportionally with income)."
+    },
+    {
+     "key": "D",
+     "text": "D A necessity good (consumption rises but share of income falls)."
+    }
+   ],
+   "correct_answer": "B",
+   "explanation": "If consumption falls when income rises, the good is classified as inferior.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-inferior-goods"
+   ]
+  },
+  {
+   "id": "7e7fd38d335993753a03453ae8d818f7",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "For each case below, consumer income is unchanged. Match each price change with its effect on the slope of the budget line.\n\nList-I\n(A) The price of bananas rises while the price of mangoes remains unchanged.\n(B) The price of bananas falls while the price of mangoes remains unchanged.\n(C) The prices of both bananas and mangoes remain unchanged.\n(D) The prices of both bananas and mangoes rise, but their proportional increases are not stated.\n\nList-II\n(I) The budget line becomes steeper.\n(II) The budget line becomes flatter.\n(III) The slope of the budget line remains unchanged.\n(IV) The direction of the change in slope cannot be determined from the stated information.\n\nChoose the correct answer from the options given below:",
+   "options": [
+    "(A)-(I), (B)-(II), (C)-(III), (D)-(IV)",
+    "(A)-(II), (B)-(I), (C)-(III), (D)-(IV)",
+    "(A)-(I), (B)-(II), (C)-(IV), (D)-(III)",
+    "(A)-(I), (B)-(IV), (C)-(III), (D)-(II)"
+   ],
+   "correct_answer": "A",
+   "explanation": "With the price of mangoes unchanged, a rise in the price of bananas makes the budget line steeper, while a fall makes it flatter. If neither price changes, the price ratio and hence the slope remain unchanged. When both prices rise by unspecified proportions, their price ratio may change in different directions or remain the same, so the direction of the slope change cannot be determined.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.key-price-rise-steeper",
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.key-price-fall-flatter"
+   ]
+  },
+  {
+   "id": "7fb5bfa0-d588-4c00-82d9-8759331f07ae",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "Match List I (Concepts) with List II (Definitions): List I: (A) Marginal Utility (B) Total Utility (C) Law of Diminishing Marginal Utility (D) Consumer Surplus. List II: (1) The additional satisfaction from consuming one more unit of a good. (2) The total satisfaction derived from consuming a given quantity of a good. (3) The difference between what consumers are willing to pay and what they actually pay. (4) As consumption increases, the additional utility gained from each extra unit decreases.",
+   "options": [
+    {
+     "key": "A",
+     "text": "A-1, B-2, C-4, D-3"
+    },
+    {
+     "key": "B",
+     "text": "A-2, B-1, C-3, D-4"
+    },
+    {
+     "key": "C",
+     "text": "A-4, B-3, C-1, D-2"
+    },
+    {
+     "key": "D",
+     "text": "A-3, B-4, C-2, D-1"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "This matching correctly defines the fundamental concepts related to utility and consumer surplus.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-marginal-utility",
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-total-utility"
+   ]
+  },
+  {
+   "id": "84094fe1-78e4-4d4d-817e-7990d84ca961",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "Match List I (type of good) with List II (income-demand relationship or special property): List I — (A) Normal good, (B) Inferior good, (C) Giffen good, (D) Necessity. List II — (1) Demand decreases as income rises, (2) Demand increases as income rises, (3) Price increase can raise quantity demanded, (4) Demand rises with income but income share falls. Choose the correct matching.",
+   "options": [
+    {
+     "key": "A",
+     "text": "A A-2, B-1, C-3, D-4"
+    },
+    {
+     "key": "B",
+     "text": "B A-1, B-2, C-3, D-4"
+    },
+    {
+     "key": "C",
+     "text": "C A-2, B-4, C-1, D-3"
+    },
+    {
+     "key": "D",
+     "text": "D A-3, B-1, C-2, D-4"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "Normal: demand rises with income (2); inferior: demand falls with income (1); Giffen: price increase can raise demand (3); necessity: demand rises but income share falls (4).",
+   "difficulty": "easy",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-normal-goods",
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-inferior-goods"
+   ]
+  },
+  {
+   "id": "88db5b4e-fd41-4406-adba-d66cea07d581",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "Which condition is necessary (but not alone sufficient) for a good to be classified as a Giffen good?",
+   "options": [
+    {
+     "key": "A",
+     "text": "A The good must be normal and have a large substitution effect."
+    },
+    {
+     "key": "B",
+     "text": "B The good must be inferior and its income effect must outweigh the substitution effect when price changes."
+    },
+    {
+     "key": "C",
+     "text": "C The good must be a luxury with rising consumption as income rises."
+    },
+    {
+     "key": "D",
+     "text": "D The good must be a necessity whose demand is independent of income."
+    }
+   ],
+   "correct_answer": "B",
+   "explanation": "A Giffen good requires it to be inferior and for the negative income effect to dominate the substitution effect when price rises.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-giffen-good"
+   ]
+  },
+  {
+   "id": "8c1cc9b05e28b915f65be085a1f701f1",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "A research team wants to investigate the economy as a whole, rather than the behaviour of an individual consumer or producer or the price and quantity in a single-commodity market. Which research question best fits this aim?",
+   "options": [
+    "How are price and quantity determined in the market for one commodity?",
+    "How does an individual consumer behave in relation to one commodity?",
+    "How does total output in the economy grow over time?",
+    "How does an individual producer behave in producing one commodity?"
+   ],
+   "correct_answer": "C",
+   "explanation": "The question about how total output in the economy grows over time concerns an aggregate measure and its change over time, so it is macroeconomic. The other questions concern a single-commodity market or an individual consumer or producer, which are microeconomic topics.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.diff-micro-vs-macro"
+   ]
+  },
+  {
+   "id": "9282c0283babc2024ac620ed60b57826",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "An economist is assessing whether opportunity cost is relevant when analysing a household’s decision. Which statement correctly describes the scope of the concept?",
+   "options": [
+    "It is applicable to individuals, but not to society.",
+    "It is applicable to both individuals and society.",
+    "It is applicable to society, but not to individuals.",
+    "It is applicable to neither individuals nor society."
+   ],
+   "correct_answer": "B",
+   "explanation": "Opportunity cost is stated to be applicable to the individual as well as society. Therefore, its use is not limited to either level.",
+   "difficulty": "easy",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.fact-opp-cost-applies"
+   ]
+  },
+  {
+   "id": "943b30d6-71ce-4af2-9f4b-d332bcea3eaf",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "If the price of a substitute good increases, what happens to the demand curve for the original good?",
+   "options": [
+    {
+     "key": "A",
+     "text": "It shifts to the right."
+    },
+    {
+     "key": "B",
+     "text": "It shifts to the left."
+    },
+    {
+     "key": "C",
+     "text": "It remains unchanged."
+    },
+    {
+     "key": "D",
+     "text": "It becomes steeper."
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "An increase in the price of a substitute makes the original good relatively cheaper, increasing its demand.",
+   "difficulty": "medium",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.key-shift-substitute-price"
+   ]
+  },
+  {
+   "id": "982a8c9a-22c9-4a64-a476-41480272e454",
+   "subject": "economics",
+   "chapter": "Introduction & Theory of Consumer Behaviour",
+   "body": "Match List I (concept) with List II (characteristic): List I — (A) Marginal Rate of Substitution, (B) Budget set, (C) Convex preferences, (D) Interior consumer equilibrium. List II — (1) All bundles the consumer can afford given prices and income, (2) Rate at which consumer is willing to substitute Y for X, (3) Implies diminishing willingness to substitute as one good increases, (4) Occurs where an indifference curve is tangent to the budget line. Choose the correct matching.",
+   "options": [
+    {
+     "key": "A",
+     "text": "A A-2, B-1, C-3, D-4"
+    },
+    {
+     "key": "B",
+     "text": "B A-3, B-1, C-2, D-4"
+    },
+    {
+     "key": "C",
+     "text": "C A-2, B-4, C-3, D-1"
+    },
+    {
+     "key": "D",
+     "text": "D A-1, B-2, C-4, D-3"
+    }
+   ],
+   "correct_answer": "A",
+   "explanation": "MRS is the substitution rate (2), budget set is all affordable bundles (1), convexity implies diminishing substitution (3), equilibrium is tangency (4).",
+   "difficulty": "easy",
+   "cards": [
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-mrs",
+    "kc.economics.introduction-and-theory-of-consumer-behaviour.def-budget-set"
+   ]
+  }
+ ]
+}

@@ -4,7 +4,7 @@
 //   &student=commerce (default) | science | new    &plan=free | pro    &kcs=<name> a fresh student per name
 //   &kcline=<subject> the subject "The line you needed" links its real cards from (default: the student's first with links)
 //   &kcfirst=<card id> that card leads its chapter's deck (worst-case looks in Read, Study and Last look)
-const isKeycardsPath = (p) => p.startsWith('/api/keycards') || p === '/api/me/chapters' || p === '/api/me/subject-options';
+const isKeycardsPath = (p) => p.startsWith('/api/keycards') || p.startsWith('/api/learn/') || p === '/api/me/chapters' || p === '/api/me/subject-options';
 
 export const realDecksOn = (fixture) => fixture.get('decks') === 'real';
 
