@@ -318,6 +318,12 @@ export function createKeycards(deps) {
   }
 
   // ---------------------------------------------------------------- POST /api/keycards/review
+  /**
+   * One rating. The replay check, the review row, the state move (guarded by the reps this read saw) and the Free
+   * allowance claims are one transaction, key_card_review() in the migration (code review M1, L1): a lost state update can
+   * no longer be acknowledged as a replay, and a duplicate or conflicting rating claims nothing. The replay key is the raw
+   * clientReviewedAt (key_card_reviews.client_key, M2); the clamped time is used only to schedule.
+   */
   async function review(userId, body) {
     const { cardId, rating, mode } = body || {};
     if (typeof cardId !== 'string' || !RATINGS.includes(rating) || !MODES.includes(mode)) return bad('INVALID_REVIEW');
@@ -328,57 +334,43 @@ export function createKeycards(deps) {
     if (!me.isPro && !canAdd(card, pub.cardsOf(card.subject), { isPro: false })) return PRO('keycards');
     const serverNow = now();
     const clientAt = clampClientTime(body.clientReviewedAt, serverNow);
+    const clientKey = clientAt ? String(body.clientReviewedAt).trim().slice(0, 100) : null;
+    const reviewedAt = new Date(serverNow).toISOString();
     const day = istDay(serverNow);
     // Only this card's row: a list read would miss it past PostgREST's 1,000-row cap (code review H1).
     const state = await loadState(userId, cardId);
     const nextOf = (s) => (s && Number(s.reps) > 0 ? { due_at: s.due_at, interval_days: Math.max(0, Math.round(((Date.parse(s.due_at) - serverNow) / 86_400_000) * 100) / 100) } : null);
     // Today's numbers from the slim columns (code review M4): no schedule JSON, one paged read.
-    const todayNow = async () => todayPublic(today({ isPro: me.isPro, states: await loadStates(userId, { columns: SLIM_COLUMNS }), byId: pub.byId, use: await used(userId, day) }));
-    const replay = async () => ok({ ok: true, replay: true, next: nextOf(await loadState(userId, cardId)), today: await todayNow() });
-    // A replay of the same (card, client time) changes nothing: the outbox may send a review twice.
-    if (clientAt) {
-      const seen = await q(db.from('key_card_reviews').select('id').eq('user_id', userId).eq('card_id', cardId).eq('client_reviewed_at', clientAt).limit(1));
-      if (seen.data?.length) return replay();
-    }
-    const reviewRow = { user_id: userId, card_id: cardId, card_v: Number(card.v) || 1, rating, mode, reviewed_at: new Date(serverNow).toISOString(), client_reviewed_at: clientAt };
-    // Logged only: the schedule does not move and no allowance is used.
-    const logOnly = async (extra = {}) => {
-      const ins = await db.from('key_card_reviews').insert({ ...reviewRow, scheduled_days: null, elapsed_days: null });
-      if (ins.error && conflict(ins.error)) return replay();
-      if (ins.error) throw fail('KEY_CARDS_UNAVAILABLE', ins.error);
-      return ok({ ok: true, ...extra, next: nextOf(state), today: await todayNow() });
-    };
-    // A last look is logged and never moves the schedule, and it uses no allowance.
-    if (mode === 'last_look') return logOnly();
-    if (state?.suspended) return bad('CARD_SUSPENDED', 409);
+    const todayNow = async () => todayPublic(today({ isPro: me.isPro, states: await loadStates(userId, { columns: SLIM_COLUMNS }), byId: pub.byId, use: await used(userId, istDay(serverNow)) }));
     const at = clientAt ? Date.parse(clientAt) : serverNow;
-    // A review older than the card's last one (an outbox sending late, a second device) cannot be applied in order:
-    // FSRS would move the schedule backwards, or throw on an earlier day. It is logged like a last look and answered ok,
-    // `late: true`, with the schedule as it is (code review H2). The schedule is computed before anything is claimed.
+    // A last look is logged and never moves the schedule, and it uses no allowance. A review older than the card's last
+    // one (an outbox sending late, a second device) cannot be applied in order: FSRS would move the schedule backwards, or
+    // throw on an earlier day. It is logged the same way and answered ok, `late: true` (code review H2).
     const lastAt = lastReviewAt(state);
-    if (lastAt !== null && at < lastAt) return logOnly({ late: true });
-    const next = schedule(state, rating, at);
-    const use = await used(userId, day);
-    const isNew = !state || !(Number(state.reps) > 0);
-    if (!me.isPro && !(await claim(userId, ALLOWANCE.review, day, use[ALLOWANCE.review].length, KEYCARD_RULES.free.reviewsPerDay, `${cardId}@${clientAt || reviewRow.reviewed_at}`))) {
-      return PRO('keycard_reviews');
-    }
-    if (isNew) await claim(userId, ALLOWANCE.fresh, day, use[ALLOWANCE.fresh].length, 1000, cardId);
-    const ins = await db.from('key_card_reviews').insert({ ...reviewRow, scheduled_days: next.scheduled_days, elapsed_days: next.elapsed_days });
-    if (ins.error && conflict(ins.error)) return replay();
-    if (ins.error) throw fail('KEY_CARDS_UNAVAILABLE', ins.error);
-    const patch = { schedule: next.schedule, reps: next.reps, lapses: next.lapses, due_at: next.due_at, last_review_at: new Date(at).toISOString(), last_rating: rating };
-    if (state) {
-      const moved = await q(db.from('key_card_states').update(patch).eq('user_id', userId).eq('card_id', cardId).eq('reps', Number(state.reps) || 0).select('card_id'));
-      if (!moved.data?.length) return bad('REVIEW_CONFLICT', 409);
-    } else {
-      const added = await db.from('key_card_states').insert({
-        user_id: userId, card_id: cardId, subject: card.subject, chapter_key: card.chapterKey, ...patch,
-        added_from: mode === 'revise' ? 'mistake' : 'manual', added_at: new Date(serverNow).toISOString(), suspended: false,
-      });
-      if (added.error) { if (conflict(added.error)) return bad('REVIEW_CONFLICT', 409); throw fail('KEY_CARDS_UNAVAILABLE', added.error); }
-    }
-    return ok({ ok: true, next: { due_at: next.due_at, interval_days: next.interval_days }, today: await todayNow() });
+    const late = mode !== 'last_look' && lastAt !== null && at < lastAt;
+    const move = mode !== 'last_look' && !late;
+    // The schedule is computed before anything is written or claimed.
+    const next = move ? schedule(state, rating, at) : null;
+    const res = await q(db.rpc('key_card_review', {
+      p_user_id: userId, p_card_id: cardId, p_card_v: Number(card.v) || 1, p_rating: rating, p_mode: mode,
+      p_client_key: clientKey, p_client_reviewed_at: clientAt, p_reviewed_at: reviewedAt,
+      p_move: move, p_expected_reps: state ? Number(state.reps) || 0 : null,
+      p_state: next ? {
+        schedule: next.schedule, reps: next.reps, lapses: next.lapses, due_at: next.due_at, last_review_at: new Date(at).toISOString(),
+        subject: card.subject, chapter_key: card.chapterKey, added_from: mode === 'revise' ? 'mistake' : 'manual', added_at: reviewedAt,
+      } : null,
+      p_scheduled_days: next ? next.scheduled_days : null, p_elapsed_days: next ? next.elapsed_days : null,
+      p_day: day, p_review_limit: me.isPro ? null : KEYCARD_RULES.free.reviewsPerDay, p_new_limit: 1000,
+      p_reference: `${cardId}@${clientKey || reviewedAt}`.slice(0, 200),
+    }));
+    const status = res.data?.status;
+    if (status === 'replay') return ok({ ok: true, replay: true, next: nextOf(await loadState(userId, cardId)), today: await todayNow() });
+    if (status === 'logged') return ok({ ok: true, ...(late ? { late: true } : {}), next: nextOf(state), today: await todayNow() });
+    if (status === 'ok' && next) return ok({ ok: true, next: { due_at: next.due_at, interval_days: next.interval_days }, today: await todayNow() });
+    if (status === 'conflict') return bad('REVIEW_CONFLICT', 409);
+    if (status === 'suspended') return bad('CARD_SUSPENDED', 409);
+    if (status === 'keycard_reviews' || status === 'keycard_new') return PRO(status);
+    throw fail('KEY_CARDS_UNAVAILABLE', new Error(`key_card_review answered ${JSON.stringify(res.data)}`));
   }
 
   // ---------------------------------------------------------------- GET /api/keycards/line?questionId=

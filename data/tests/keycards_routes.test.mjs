@@ -16,7 +16,7 @@ const KEYS = {
   key_card_reports: ['user_id', 'card_id'],
   student_subject_options: ['user_id', 'subject'],
   learning_allowances: ['user_id', 'kind', 'period'],
-  key_card_reviews: ['user_id', 'card_id', 'client_reviewed_at'], // the partial unique index (client time not null)
+  key_card_reviews: ['user_id', 'card_id', 'client_key'], // the partial unique index (client key not null)
 };
 const MAX_ROWS = 1000; // PostgREST's max-rows: a select past it is cut, as on Supabase
 function fakeDb(tables = {}) {
@@ -26,7 +26,7 @@ function fakeDb(tables = {}) {
   const clash = (table, row) => {
     const key = KEYS[table];
     if (!key) return false;
-    if (table === 'key_card_reviews' && row.client_reviewed_at == null) return false;
+    if (table === 'key_card_reviews' && row.client_key == null) return false;
     return (tables[table] || []).some((r) => key.every((k) => r[k] === row[k]));
   };
   class Q {
@@ -68,7 +68,47 @@ function fakeDb(tables = {}) {
       return { data: rows.map((r) => ({ ...r })), error: null };
     }
   }
-  return { from: (t) => new Q(t), tables, log };
+  // key_card_review() of the migration, statement for statement: all or nothing (nothing is written until every check passed).
+  function keyCardReview(a) {
+    const reviews = tables.key_card_reviews || (tables.key_card_reviews = []);
+    const states = tables.key_card_states || (tables.key_card_states = []);
+    const allow = tables.learning_allowances || (tables.learning_allowances = []);
+    if (a.p_client_key != null && reviews.some((r) => r.user_id === a.p_user_id && r.card_id === a.p_card_id && r.client_key === a.p_client_key)) return { status: 'replay' };
+    const row = {
+      user_id: a.p_user_id, card_id: a.p_card_id, card_v: a.p_card_v, rating: a.p_rating, mode: a.p_mode, reviewed_at: a.p_reviewed_at,
+      client_reviewed_at: a.p_client_reviewed_at, client_key: a.p_client_key, scheduled_days: a.p_move ? a.p_scheduled_days : null, elapsed_days: a.p_move ? a.p_elapsed_days : null,
+    };
+    if (!a.p_move) { reviews.push({ id: ++ids, ...row }); return { status: 'logged' }; }
+    const st = states.find((s) => s.user_id === a.p_user_id && s.card_id === a.p_card_id);
+    if (st?.suspended) return { status: 'suspended' };
+    if (Boolean(st) !== (a.p_expected_reps != null) || (st && Number(st.reps) !== a.p_expected_reps)) return { status: 'conflict' };
+    const claims = [];
+    const claim = (kind, limit, reference) => {
+      const taken = allow.filter((r) => r.user_id === a.p_user_id && r.kind === kind && like(r.period, `${a.p_day}:%`)).length;
+      for (let slot = taken + 1; slot <= limit; slot += 1) {
+        const period = `${a.p_day}:${slot}`;
+        if (allow.some((r) => r.user_id === a.p_user_id && r.kind === kind && r.period === period)) continue;
+        claims.push({ user_id: a.p_user_id, kind, period, reference: String(reference).slice(0, 200), created_at: a.p_reviewed_at });
+        return true;
+      }
+      return false;
+    };
+    if (a.p_review_limit != null && !claim('keycard_review', a.p_review_limit, a.p_reference ?? a.p_card_id)) return { status: 'keycard_reviews' };
+    if (a.p_new_limit != null && (!st || Number(st.reps) === 0) && !claim('keycard_new', a.p_new_limit, a.p_card_id)) return { status: 'keycard_new' };
+    reviews.push({ id: ++ids, ...row });
+    allow.push(...claims);
+    const s = a.p_state;
+    const move = { schedule: s.schedule, reps: s.reps, lapses: s.lapses, due_at: s.due_at, last_review_at: s.last_review_at, last_rating: a.p_rating };
+    if (st) Object.assign(st, move);
+    else states.push({ user_id: a.p_user_id, card_id: a.p_card_id, subject: s.subject, chapter_key: s.chapter_key, ...move, added_from: s.added_from, added_at: s.added_at, suspended: false });
+    return { status: 'ok' };
+  }
+  const rpc = (name, args) => {
+    log.push({ rpc: name, args });
+    if (name === 'key_card_review') return Promise.resolve({ data: keyCardReview(args), error: null });
+    return Promise.resolve({ data: null, error: { code: 'PGRST202', message: `Could not find the function public.${name}` } });
+  };
+  return { from: (t) => new Q(t), rpc, tables, log };
 }
 
 // ---------------------------------------------------------------- decks built in the test (two chapters)
@@ -353,6 +393,49 @@ test('H2: a review older than the card\'s last one is logged, answered ok and mo
   assert.equal((await f.kc.review('u1', older)).body.replay, true, 'and a late one sent again is a replay');
   assert.equal(f.db.tables.key_card_reviews.length, 3);
   assert.equal(late.body.today.reviewsLeft, 9);
+});
+
+test('M2: the replay key is the raw client time, so a future clock or a time over 48 h old replays once, not twice', async () => {
+  for (const sent of [T0 + DAY, T0 - 5 * DAY]) {
+    const f = setup();
+    await f.kc.add('u1', { chapter: 'business_studies.staffing' });
+    const body = { cardId: STAFFING[0].id, rating: 3, mode: 'revise', clientReviewedAt: new Date(sent).toISOString() };
+    assert.equal((await f.kc.review('u1', body)).http, 200);
+    // The clamp moves with server time: before, the second send had another clamped time and counted again.
+    f.clock.t = T0 + 3600_000;
+    const again = await f.kc.review('u1', body);
+    assert.equal(again.body.replay, true);
+    assert.equal(f.db.tables.key_card_states.find((s) => s.card_id === STAFFING[0].id).reps, 1);
+    assert.equal(f.db.tables.learning_allowances.filter((r) => r.kind === 'keycard_review').length, 1);
+    assert.equal(f.db.tables.key_card_reviews.length, 1);
+    assert.equal(f.db.tables.key_card_reviews[0].client_key, body.clientReviewedAt, 'the raw value is the key');
+    assert.equal(f.db.tables.key_card_reviews[0].client_reviewed_at, new Date(Math.min(T0, Math.max(T0 - 2 * DAY, sent))).toISOString(), 'the clamped time is kept for scheduling');
+  }
+});
+
+test('M1, L1: duplicate replays racing write once; a conflicting rating writes and claims nothing, and its retry is applied', async () => {
+  const f = setup();
+  await f.kc.add('u1', { chapter: 'business_studies.staffing' });
+  const body = { cardId: STAFFING[0].id, rating: 3, mode: 'revise', clientReviewedAt: new Date(T0 - 600_000).toISOString() };
+  // The outbox sends the same review twice at once: both read the state before either writes.
+  const [a, b] = await Promise.all([f.kc.review('u1', body), f.kc.review('u1', body)]);
+  assert.deepEqual([a.http, b.http], [200, 200]);
+  assert.deepEqual([Boolean(a.body.replay), Boolean(b.body.replay)].sort(), [false, true]);
+  assert.equal(f.db.tables.key_card_reviews.length, 1);
+  assert.equal(f.db.tables.learning_allowances.filter((r) => r.kind === 'keycard_review').length, 1);
+  // Two devices rate another card at once: one lands, the other finds the state moved and changes nothing.
+  const one = { cardId: STAFFING[1].id, rating: 3, mode: 'revise', clientReviewedAt: new Date(T0 - 500_000).toISOString() };
+  const two = { ...one, rating: 4, clientReviewedAt: new Date(T0 - 400_000).toISOString() };
+  const [x, y] = await Promise.all([f.kc.review('u1', one), f.kc.review('u1', two)]);
+  assert.deepEqual([x.http, y.http], [200, 409]);
+  assert.equal(y.body.error, 'REVIEW_CONFLICT');
+  assert.equal(f.db.tables.key_card_reviews.filter((r) => r.card_id === STAFFING[1].id).length, 1, 'no review row for the conflict');
+  assert.equal(f.db.tables.learning_allowances.filter((r) => r.kind === 'keycard_review').length, 2, 'and no Free slot (L1)');
+  // Its retry is applied against the moved state, not acknowledged as a replay (the lost-update path of M1).
+  const retry = await f.kc.review('u1', two);
+  assert.equal(retry.http, 200);
+  assert.equal(retry.body.replay, undefined);
+  assert.equal(f.db.tables.key_card_states.find((s) => s.card_id === STAFFING[1].id).reps, 2);
 });
 
 test('the Free rules match the spec constants', () => {
