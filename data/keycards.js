@@ -180,7 +180,8 @@ export function retrievability(stateRow, now) {
 /**
  * Today's queue. `states` are the student's key_card_states rows; `cardsById` the published cards.
  *   1. due cards (reviewed before, due_at <= now): Must-know first, then oldest due first
- *   2. then new cards (added, never reviewed) in book order, up to `newAllowanceLeft`: chapter by chapter
+ *   2. then new cards (added, never reviewed), up to `newAllowanceLeft`: the student's own picks first (added_from
+ *      'manual': Learn's Keep, Find's picks; BUILD-1101 1.1), then book order: chapter by chapter
  *      (`chapterRank(chapterKey)`, the syllabus order; without it subject then chapter key), then the card's order in
  *      its chapter. A card's `order` restarts in every chapter, so sorting by it alone interleaved chapters.
  * New cards pause while more than `overduePauseNew` cards are overdue. Suspended cards and cards no longer published are
@@ -197,8 +198,9 @@ export function dueQueue(states, cardsById, { now, isPro = false, newAllowanceLe
   const room = Math.max(0, Math.min(Number.isFinite(newAllowanceLeft) ? newAllowanceLeft : Infinity, isPro ? Infinity : KEYCARD_RULES.free.newPerDay));
   const rankOf = typeof chapterRank === 'function' ? (c) => Number(chapterRank(c.chapterKey) ?? Number.MAX_SAFE_INTEGER) : () => 0;
   const chapterOrder = (a, b) => (rankOf(a) - rankOf(b)) || String(a.subject ?? '').localeCompare(String(b.subject ?? '')) || String(a.chapterKey ?? '').localeCompare(String(b.chapterKey ?? ''));
+  const picked = (s) => (s.added_from === 'manual' ? 0 : 1);
   const fresh = paused ? [] : live.filter((s) => !(Number(s.reps) > 0))
-    .sort((a, b) => chapterOrder(get(a.card_id), get(b.card_id)) || bookOrder(get(a.card_id), get(b.card_id)) || time(a.added_at) - time(b.added_at))
+    .sort((a, b) => picked(a) - picked(b) || chapterOrder(get(a.card_id), get(b.card_id)) || bookOrder(get(a.card_id), get(b.card_id)) || time(a.added_at) - time(b.added_at))
     .slice(0, room === Infinity ? undefined : room);
   const cap = limit === Infinity ? Infinity : Math.max(0, Number.isFinite(Number(limit)) ? Number(limit) : 20);
   const items = [...due.map((s) => ({ card: get(s.card_id), state: s, isNew: false })), ...fresh.map((s) => ({ card: get(s.card_id), state: s, isNew: true }))].slice(0, cap);

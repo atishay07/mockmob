@@ -27,7 +27,8 @@ const ok = (body) => ({ http: 200, body });
 const fail = (code, cause) => Object.assign(new Error(code), { code, cause });
 const STATE_COLUMNS = 'card_id,subject,chapter_key,schedule,reps,lapses,due_at,last_review_at,last_rating,added_from,added_at,suspended';
 // Counts and the queue never need the schedule JSON (about 575 B a row with it): today, due and dueCount read these.
-const SLIM_COLUMNS = 'card_id,subject,chapter_key,reps,lapses,due_at,last_review_at,added_at,suspended';
+// added_from orders the new cards (the student's own picks first, data/keycards.js dueQueue).
+const SLIM_COLUMNS = 'card_id,subject,chapter_key,reps,lapses,due_at,last_review_at,added_from,added_at,suspended';
 // PostgREST answers at most 1,000 rows a request, so every list read pages in steps of 1,000, ordered, until a short page.
 const PAGE = 1000;
 const MAX_PAGES = 100;
@@ -176,6 +177,15 @@ export function createKeycards(deps) {
     if (!user) throw fail('USER_UNAVAILABLE');
     return { isPro: user.isPremium === true, subjects: Array.isArray(user.subjects) ? user.subjects : [] };
   }
+  /**
+   * The student as a caller already read them (opts.me of review and add, so a Learn request reads users once): who()'s
+   * own shape { isPro, subjects } or a users row { isPremium, subjects }. Without it, who() reads.
+   */
+  const whoGiven = (userId, me) => {
+    if (!me || typeof me !== 'object') return who(userId);
+    const isPro = typeof me.isPro === 'boolean' ? me.isPro : me.isPremium === true;
+    return Promise.resolve({ isPro, subjects: Array.isArray(me.subjects) ? me.subjects : [] });
+  };
 
   /** Every row `build()` selects, a page of PAGE at a time (build() must order the rows). */
   async function readPages(build) {
@@ -305,8 +315,14 @@ export function createKeycards(deps) {
   }
 
   // ---------------------------------------------------------------- POST /api/keycards/add
-  async function add(userId, body) {
-    const [me, pub, options] = await Promise.all([who(userId), published(), loadOptions(userId)]);
+  /**
+   * body: { chapter } or { cardIds, from?: 'mistake' } (addedFrom is the same field under its Learn name).
+   * opts (Learn's Keep; the HTTP route passes none, so its behaviour is unchanged):
+   *   withToday  default true; false skips the re-read of every state for today's numbers and answers today: null
+   *   me         the student already read (see whoGiven), so users is not read again
+   */
+  async function add(userId, body, { withToday = true, me: given = null } = {}) {
+    const [me, pub] = await Promise.all([whoGiven(userId, given), published()]);
     let picked;
     let from;
     if (typeof body?.chapter === 'string' && body.chapter) {
@@ -318,7 +334,7 @@ export function createKeycards(deps) {
       const cards = [...new Set(body.cardIds)].map((id) => pub.byId.get(id)).filter(Boolean);
       picked = cards.filter((c) => canAdd(c, pub.cardsOf(c.subject), { isPro: me.isPro }));
       if (cards.length && !picked.length) return PRO('keycards');
-      from = body.from === 'mistake' ? 'mistake' : 'manual';
+      from = body.from === 'mistake' || body.addedFrom === 'mistake' ? 'mistake' : 'manual';
     } else {
       return bad('CHAPTER_OR_CARDS_REQUIRED');
     }
@@ -335,7 +351,8 @@ export function createKeycards(deps) {
       due_at: at, last_review_at: null, last_rating: null, added_from: from, added_at: at, suspended: false,
     }));
     if (rows.length) await q(db.from('key_card_states').upsert(rows, { onConflict: 'user_id,card_id', ignoreDuplicates: true }));
-    const after = await loadStates(userId, { columns: SLIM_COLUMNS });
+    if (withToday === false) return ok({ added: rows.length, today: null });
+    const [after, options] = await Promise.all([loadStates(userId, { columns: SLIM_COLUMNS }), loadOptions(userId)]);
     const use = await used(userId, istDay(now()));
     return ok({ added: rows.length, today: todayPublic(today({ isPro: me.isPro, states: playable(after, { isPro: me.isPro, pub, options }), byId: pub.byId, use })) });
   }
@@ -361,18 +378,25 @@ export function createKeycards(deps) {
    * allowance claims are one transaction, key_card_review() in the migration (code review M1, L1): a lost state update can
    * no longer be acknowledged as a replay, and a duplicate or conflicting rating claims nothing. The replay key is the raw
    * clientReviewedAt (key_card_reviews.client_key, M2); the clamped time is used only to schedule.
+   *
+   * opts (Learn's run ratings, A6 4.6; the HTTP route passes none, so its behaviour is unchanged):
+   *   clientKey  the replay key instead of the raw clientReviewedAt (Learn: 'learn:' + sha256(runId:itemId).slice(0, 40)),
+   *              so a retried rating of one run item is a replay: no second schedule move, no second Free slot
+   *   withToday  default true; false skips today's recount (a paged read of every state) and answers today: null
+   *   me         the student already read (see whoGiven), so users is not read again
    */
-  async function review(userId, body) {
+  async function review(userId, body, { clientKey: givenKey = null, withToday = true, me: given = null } = {}) {
     const { cardId, rating, mode } = body || {};
     if (typeof cardId !== 'string' || !RATINGS.includes(rating) || !MODES.includes(mode)) return bad('INVALID_REVIEW');
     const pub = await published();
     const card = pub.byId.get(cardId);
     if (!card) return bad('CARD_NOT_FOUND', 404);
-    const me = await who(userId);
+    const me = await whoGiven(userId, given);
     if (!me.isPro && !canAdd(card, pub.cardsOf(card.subject), { isPro: false })) return PRO('keycards');
     const serverNow = now();
     const clientAt = clampClientTime(body.clientReviewedAt, serverNow);
-    const clientKey = clientAt ? String(body.clientReviewedAt).trim().slice(0, 100) : null;
+    const ownKey = typeof givenKey === 'string' && givenKey.trim() ? givenKey.trim().slice(0, 100) : null;
+    const clientKey = ownKey || (clientAt ? String(body.clientReviewedAt).trim().slice(0, 100) : null);
     const reviewedAt = new Date(serverNow).toISOString();
     const at = clientAt ? Date.parse(clientAt) : serverNow;
     // The allowance day is the IST day the student rated on (the clamped client time): offline reviews from yesterday that
@@ -383,6 +407,7 @@ export function createKeycards(deps) {
     const nextOf = (s) => (s && Number(s.reps) > 0 ? { due_at: s.due_at, interval_days: Math.max(0, Math.round(((Date.parse(s.due_at) - serverNow) / 86_400_000) * 100) / 100) } : null);
     // Today's numbers from the slim columns (code review M4): no schedule JSON, one paged read.
     const todayNow = async () => {
+      if (withToday === false) return null;
       const [all, options, use] = await Promise.all([loadStates(userId, { columns: SLIM_COLUMNS }), loadOptions(userId), used(userId, istDay(serverNow))]);
       return todayPublic(today({ isPro: me.isPro, states: playable(all, { isPro: me.isPro, pub, options }), byId: pub.byId, use }));
     };
@@ -511,5 +536,6 @@ export function createKeycards(deps) {
     return dueQueue(playable(states, { isPro: me.isPro, pub, options }), pub.byId, { ...queueOptions(), limit: 0 }).due;
   }
 
-  return { overview, deck, add, due: dueCards, review, line, report, chapters, putOption, reviseSource, dueCount };
+  // published and playable are for Learn (src/lib/server/learn.js), which reads the same cards and the same playable set.
+  return { overview, deck, add, due: dueCards, review, line, report, chapters, putOption, reviseSource, dueCount, published, playable };
 }

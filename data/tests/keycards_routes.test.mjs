@@ -463,3 +463,105 @@ test('the Free rules match the spec constants', () => {
   assert.equal(KEYCARD_RULES.overduePauseNew, 40);
   assert.equal(KEYCARD_RULES.examHorizon, '2027-05-15');
 });
+
+// ---------------------------------------------------------------- Learn's options (BUILD-1101 2.1, A6 4.6); the route passes none
+
+test('review options: a clientKey makes a retried run rating a replay (one review, one move, one Free slot), whatever the client time', async () => {
+  const f = setup();
+  await f.kc.add('u1', { chapter: 'business_studies.staffing' });
+  const key = 'learn:0123456789abcdef0123456789abcdef01234567';
+  const body = { cardId: STAFFING[0].id, rating: 3, mode: 'study', clientReviewedAt: new Date(T0 - 60_000).toISOString() };
+  const a = await f.kc.review('u1', body, { clientKey: key, withToday: false });
+  const b = await f.kc.review('u1', { ...body, clientReviewedAt: new Date(T0).toISOString() }, { clientKey: key, withToday: false });
+  const c = await f.kc.review('u1', { cardId: body.cardId, rating: 3, mode: 'study' }, { clientKey: key, withToday: false });
+  assert.equal(a.http, 200);
+  assert.deepEqual([b.body.replay, c.body.replay], [true, true]);
+  assert.equal(b.body.next.due_at, a.body.next.due_at);
+  assert.equal(f.db.tables.key_card_reviews.length, 1);
+  assert.equal(f.db.tables.key_card_reviews[0].client_key, key);
+  assert.equal(f.db.tables.key_card_reviews[0].client_reviewed_at, body.clientReviewedAt, 'the client time still schedules');
+  assert.equal(f.db.tables.key_card_states.find((s) => s.card_id === STAFFING[0].id).reps, 1);
+  assert.equal(f.db.tables.learning_allowances.filter((r) => r.kind === 'keycard_review').length, 1);
+  // A last look under a key replays too (a recap re-tap logs once).
+  const look = { cardId: STAFFING[1].id, rating: 3, mode: 'last_look' };
+  await f.kc.review('u1', look, { clientKey: 'learn:look-1', withToday: false });
+  await f.kc.review('u1', look, { clientKey: 'learn:look-1', withToday: false });
+  assert.equal(f.db.tables.key_card_reviews.filter((r) => r.card_id === STAFFING[1].id).length, 1);
+});
+
+test('review options: withToday false answers today: null with no paged state read; me skips the users read; the route call is unchanged', async () => {
+  const { cards, states } = bigStudent(1200);
+  let userReads = 0;
+  const db = fakeDb({ key_card_states: states });
+  const kc = createKeycards({
+    db, decks: decks(cards), syllabus: syllabusFrom(null), now: () => T0,
+    getUser: async (id) => { userReads += 1; return { id, isPremium: true, subjects: ['business_studies'] }; },
+  });
+  db.log.length = 0;
+  const out = await kc.review('u1', { cardId: cards[5].id, rating: 4, mode: 'study' }, { withToday: false, me: { isPro: true, subjects: ['business_studies'] } });
+  assert.equal(out.http, 200);
+  assert.equal(out.body.today, null);
+  assert.ok(out.body.next.due_at);
+  assert.equal(userReads, 0, 'me given: users is not read');
+  const lists = db.log.filter((l) => l.table === 'key_card_states' && l.op === 'select' && l.eqs.card_id === undefined);
+  assert.equal(lists.length, 0, 'no paged read of every state');
+  assert.equal(db.log.some((l) => l.table === 'learning_allowances' && l.op === 'select'), false);
+  // A users row works as me too; a Free me is held to the taste cards.
+  const locked = await kc.review('u2', { cardId: cards[900].id, rating: 3, mode: 'study' }, { withToday: false, me: { isPremium: false, subjects: [] } });
+  assert.equal(locked.http, 402);
+  // No options: exactly the route's answer, today included, users read once.
+  db.log.length = 0;
+  const route = await kc.review('u1', { cardId: cards[6].id, rating: 4, mode: 'study' });
+  assert.equal(userReads, 1);
+  assert.deepEqual(Object.keys(route.body.today).sort(), ['due', 'minutes', 'newLeft', 'reviewsLeft']);
+  assert.ok(db.log.some((l) => l.table === 'key_card_states' && l.op === 'select' && l.eqs.card_id === undefined));
+});
+
+test('add options: Keep adds a manual new card (reps 0, due now, no review, no allowance); withToday false skips the recount', async () => {
+  const f = setup();
+  f.db.log.length = 0;
+  const kept = await f.kc.add('u1', { cardIds: [PLANNING[1].id], addedFrom: 'manual' }, { withToday: false, me: { isPro: false, subjects: ['business_studies'] } });
+  assert.deepEqual(kept, { http: 200, body: { added: 1, today: null } });
+  const [state] = f.db.tables.key_card_states;
+  assert.deepEqual([state.card_id, state.added_from, state.reps, state.due_at, state.last_review_at], [PLANNING[1].id, 'manual', 0, new Date(T0).toISOString(), null]);
+  assert.equal((f.db.tables.key_card_reviews || []).length, 0);
+  assert.equal((f.db.tables.learning_allowances || []).length, 0);
+  assert.equal(f.db.log.some((l) => l.table === 'key_card_states' && l.op === 'select' && l.range), false, 'no paged read of every state');
+  // Kept again: nothing written. A locked card is still 402 on Free.
+  assert.equal((await f.kc.add('u1', { cardIds: [PLANNING[1].id], addedFrom: 'manual' }, { withToday: false })).body.added, 0);
+  assert.equal((await f.kc.add('u1', { cardIds: [PLANNING[7].id], addedFrom: 'manual' }, { withToday: false })).http, 402);
+  // The route's own add (no options) still answers today.
+  const route = await f.kc.add('u1', { cardIds: [PLANNING[2].id] });
+  assert.equal(route.body.added, 1);
+  assert.deepEqual(Object.keys(route.body.today).sort(), ['due', 'minutes', 'newLeft', 'reviewsLeft']);
+});
+
+test('the due queue puts the student\'s own picks (added_from manual) first among new cards, then book order', async () => {
+  const f = setup({ isPro: true });
+  await f.kc.add('u1', { chapter: 'business_studies.planning' });
+  f.clock.t = T0 + 60_000;
+  await f.kc.add('u1', { cardIds: [STAFFING[2].id, STAFFING[0].id], addedFrom: 'manual' }, { withToday: false });
+  const ids = (await f.kc.due('u1', { limit: 20 })).body.cards.map((c) => c.id);
+  assert.deepEqual(ids, [STAFFING[0].id, STAFFING[2].id, ...PLANNING.slice(0, 6).map((c) => c.id)]);
+  // A due card still comes before every new card.
+  await f.kc.review('u1', { cardId: PLANNING[5].id, rating: 1, mode: 'study' });
+  f.clock.t = T0 + 3 * DAY;
+  assert.equal((await f.kc.due('u1', { limit: 20 })).body.cards[0].id, PLANNING[5].id);
+  // Free: the 5 new a day are the manual ones first.
+  const free = setup();
+  await free.kc.add('u1', { chapter: 'business_studies.planning' });
+  await free.kc.add('u1', { cardIds: [STAFFING[1].id], addedFrom: 'manual' });
+  const freeIds = (await free.kc.due('u1', { limit: 20 })).body.cards.map((c) => c.id);
+  assert.equal(freeIds.length, 5);
+  assert.equal(freeIds[0], STAFFING[1].id);
+});
+
+test('createKeycards exposes published() and playable() for Learn', async () => {
+  const f = setup();
+  const pub = await f.kc.published();
+  assert.equal(pub.byId.size, CARDS.length);
+  assert.equal(pub.taste().size, 5 + 3);
+  const states = CARDS.map((c) => ({ card_id: c.id }));
+  assert.equal(f.kc.playable(states, { isPro: false, pub, options: new Map() }).length, 8);
+  assert.equal(f.kc.playable(states, { isPro: true, pub, options: new Map() }).length, CARDS.length);
+});

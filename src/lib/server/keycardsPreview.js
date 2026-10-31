@@ -36,8 +36,9 @@ const DAY = 24 * HOUR;
 
 // ---------------------------------------------------------------- the in-memory table store
 // The same fake client the route tests use (./keycardsMemoryDb.js): the migration's keys, paged reads, the suspension view and
-// key_card_review(), so the preview runs the server code exactly as the tests do.
-export const memoryDb = (tables = {}) => fakeDb(tables);
+// key_card_review(), and the Learn runs functions (learn_start_run, learn_record_event), so the preview runs the server code
+// exactly as the tests do.
+export const memoryDb = (tables = {}, opts = {}) => fakeDb(tables, opts);
 
 // ---------------------------------------------------------------- the seeded student
 
@@ -52,7 +53,11 @@ const ANSWERS = [[9, 6], [3, 1], [12, 2], [20, 19], null, [8, 5], null, [2, 2], 
  * reviewed six days ago and are due now, a few were reviewed yesterday and are not due yet, and the rest are new.
  */
 export function seedTables({ subjects, isPro, fresh, decks, syllabus, now }) {
-  const tables = { key_card_states: [], key_card_reviews: [], key_card_reports: [], learning_allowances: [], student_subject_options: [], user_question_progress: [], questions: [] };
+  const tables = {
+    key_card_states: [], key_card_reviews: [], key_card_reports: [], learning_allowances: [], student_subject_options: [], user_question_progress: [], questions: [],
+    // Learn v2 (migration 20261101150000_learn_runs.sql): runs, their item log, the 'learn' interactions and the exposure rows.
+    learn_runs: [], learn_run_events: [], question_interactions: [], learning_question_exposure: [],
+  };
   if (fresh) return tables;
   let n = 0;
   for (const subject of subjects) {
@@ -108,11 +113,13 @@ async function makeStudent({ student, isPro }) {
   const decks = decksOnce();
   const syllabus = await loadKeycardsSyllabus();
   const tables = seedTables({ subjects: who.subjects, isPro, fresh: who.fresh, decks, syllabus, now: Date.now() });
+  // One memory client for the student: Key cards and Learn (createLearn over entry.db) read and write the same tables.
+  const db = memoryDb(tables, { now: () => Date.now() });
   const kc = createKeycards({
-    db: memoryDb(tables), decks, syllabus, now: () => Date.now(),
+    db, decks, syllabus, now: () => Date.now(),
     getUser: async () => ({ isPremium: isPro, subjects: who.subjects }),
   });
-  const entry = { kc, tables, decks, subjects: who.subjects };
+  const entry = { kc, db, tables, decks, syllabus, subjects: who.subjects };
   // Learn's returning history is part of the student from the start, so every count (the sidebar's due badge included)
   // reads the same student whichever request comes first.
   const { learnSeed } = await import('./learnPreview.js');

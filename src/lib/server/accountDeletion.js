@@ -40,6 +40,10 @@ export const DELETION_STEPS = Object.freeze([
   { table: 'study_card_states', action: 'delete', match: own(), why: 'study card state' },
   { table: 'study_runs', action: 'delete', match: own(), why: 'study runs' },
   { table: 'study_preferences', action: 'delete', match: own(), why: 'study preferences' },
+  // Learn v2 runs (migration 20261101150000_learn_runs.sql), children first. Listed before the tables exist: a missing
+  // table is skipped, so this ships before the migration is applied (A6 R6).
+  { table: 'learn_run_events', action: 'delete', match: own(), why: 'Learn run item log' },
+  { table: 'learn_runs', action: 'delete', match: own(), why: 'Learn runs and feeds' },
   { table: 'learning_observations', action: 'delete', match: own(), why: 'learning responses' },
   { table: 'learning_episodes', action: 'delete', match: own(), why: 'learning episodes' },
   { table: 'learning_allowances', action: 'delete', match: own(), why: 'learning allowances' },
