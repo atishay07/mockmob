@@ -40,37 +40,37 @@
       "belowMinimum": false
     },
     "political_science.challenges-to-and-restoration-of-the-congress-system": {
-      "published": 79,
-      "quarantined": 0,
+      "published": 78,
+      "quarantined": 1,
       "byKind": {
-        "fact": 62,
+        "fact": 61,
         "key_line": 4,
         "list": 8,
         "definition": 5
       },
       "byImportance": {
         "must": 61,
-        "good": 18
+        "good": 17
       },
       "coverage_note": null,
-      "mustShare": 0.77,
+      "mustShare": 0.78,
       "belowMinimum": false
     },
     "political_science.contemporary-south-asia": {
-      "published": 71,
-      "quarantined": 1,
+      "published": 70,
+      "quarantined": 2,
       "byKind": {
         "list": 4,
-        "fact": 61,
+        "fact": 60,
         "key_line": 4,
         "definition": 2
       },
       "byImportance": {
-        "must": 39,
+        "must": 38,
         "good": 32
       },
       "coverage_note": null,
-      "mustShare": 0.55,
+      "mustShare": 0.54,
       "belowMinimum": false
     },
     "political_science.crisis-of-the-democratic-order": {
@@ -147,17 +147,17 @@
       "belowMinimum": false
     },
     "political_science.era-of-one-party-dominance": {
-      "published": 79,
-      "quarantined": 1,
+      "published": 78,
+      "quarantined": 2,
       "byKind": {
-        "fact": 62,
+        "fact": 61,
         "types": 2,
         "definition": 4,
         "key_line": 9,
         "list": 2
       },
       "byImportance": {
-        "must": 54,
+        "must": 53,
         "good": 25
       },
       "coverage_note": null,

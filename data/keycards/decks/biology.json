@@ -1,6 +1,6 @@
 {
   "subject": "biology",
-  "version": 4,
+  "version": 5,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -18213,31 +18213,6 @@
       "order": 1200
     },
     {
-      "id": "kc.biology.human-reproduction.fact-mammary-late",
-      "v": 1,
-      "subject": "biology",
-      "chapterKey": "biology.human-reproduction",
-      "chapter": "Human Reproduction",
-      "unit": "Reproduction",
-      "kind": "fact",
-      "front": "What do the mammary glands start doing towards the end of pregnancy?",
-      "back": "The mammary glands of the female undergo differentiation during pregnancy and starts producing milk towards the end of pregnancy",
-      "quote": "The mammary glands of the female undergo differentiation during pregnancy and starts producing milk towards the end of pregnancy",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Biology",
-        "code": "lebo102",
-        "chapterNo": 2,
-        "page": 38,
-        "section": "Parturition and Lactation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 1210
-    },
-    {
       "id": "kc.biology.human-reproduction.def-lactation",
       "v": 2,
       "subject": "biology",
@@ -25785,31 +25760,6 @@
       "order": 290
     },
     {
-      "id": "kc.biology.organisms-and-populations.fact-verhulst-pearl",
-      "v": 1,
-      "subject": "biology",
-      "chapterKey": "biology.organisms-and-populations",
-      "chapter": "Organisms & Populations",
-      "unit": "Ecology and Environment",
-      "kind": "fact",
-      "front": "What is the sigmoid population growth under limited resources called?",
-      "back": "A plot of N in relation to time (t) results in a sigmoid curve. This type of population growth is called Verhulst-Pearl Logistic Growth",
-      "quote": "A plot of N in relation to time (t) results in a sigmoid curve. This type of population growth is called Verhulst-Pearl Logistic Growth",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Biology",
-        "code": "lebo111",
-        "chapterNo": 11,
-        "page": 195,
-        "section": "Growth Models"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 300
-    },
-    {
       "id": "kc.biology.organisms-and-populations.formula-logistic-growth",
       "v": 1,
       "subject": "biology",
@@ -29111,31 +29061,6 @@
       "asked": 0,
       "tags": [],
       "order": 750
-    },
-    {
-      "id": "kc.biology.principles-of-inheritance-and-variation.fact-honeybee-chromosomes",
-      "v": 1,
-      "subject": "biology",
-      "chapterKey": "biology.principles-of-inheritance-and-variation",
-      "chapter": "Principles of Inheritance & Variation",
-      "unit": "Genetics and Evolution",
-      "kind": "fact",
-      "front": "How many chromosomes do female and male honey bees have?",
-      "back": "females are diploid having 32 chromosomes and males are haploid, i.e., having 16 chromosomes.",
-      "quote": "females are diploid having 32 chromosomes and males are haploid, i.e., having 16 chromosomes.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Biology",
-        "code": "lebo104",
-        "chapterNo": 4,
-        "page": 71,
-        "section": "Sex Determination in Honey Bee"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 760
     },
     {
       "id": "kc.biology.principles-of-inheritance-and-variation.def-haplodiploid",

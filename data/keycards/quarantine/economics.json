@@ -66,6 +66,106 @@
       ]
     },
     {
+      "id": "kc.economics.indian-economic-development-1950-1990.kl-goals-four-names",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economic-development-1950-1990",
+      "chapter": "Indian Economic Development 1950–1990",
+      "unit": "Indian Economic Development 1950–1990",
+      "kind": "key_line",
+      "front": "The goals of the five year plans were: growth, modernisation, self-reliance and ____.",
+      "back": "The goals of the five year plans were: growth, modernisation, self-reliance and equity.",
+      "quote": "The goals of the five year plans were: growth, modernisation, self-reliance and equity.",
+      "blanks": [
+        "equity"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec102",
+        "chapterNo": 2,
+        "page": 19,
+        "section": "2.2 The Goals of Five Year Plans"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goals",
+        "planning"
+      ],
+      "order": 250,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.indian-economic-development-1950-1990.list-goals-four. Same four goals (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.indian-economic-development-1950-1990.def-gdp",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economic-development-1950-1990",
+      "chapter": "Indian Economic Development 1950–1990",
+      "unit": "Indian Economic Development 1950–1990",
+      "kind": "definition",
+      "front": "Define GDP.",
+      "back": "The GDP is the market value of all the final goods and services produced in the country during a year.",
+      "quote": "The GDP is the market value of all the final goods and services produced in the country during a year.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec102",
+        "chapterNo": 2,
+        "page": 21,
+        "section": "2.2 The Goals of Five Year Plans"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "gdp",
+        "growth"
+      ],
+      "order": 290,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.employment.def-gdp. Same GDP definition; kept has the fuller quote (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.indian-economic-development-1950-1990.term-modernisation",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economic-development-1950-1990",
+      "chapter": "Indian Economic Development 1950–1990",
+      "unit": "Indian Economic Development 1950–1990",
+      "kind": "term",
+      "front": "Adoption of new technology is called ____.",
+      "back": "modernisation: Adoption of new technology is called modernisation.",
+      "quote": "Adoption of new technology is called modernisation.",
+      "blanks": [
+        "modernisation"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec102",
+        "chapterNo": 2,
+        "page": 21,
+        "section": "2.2 The Goals of Five Year Plans"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "goals",
+        "modernisation"
+      ],
+      "order": 340,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.indian-economic-development-1950-1990.def-modernisation. Same sentence, cloze vs question (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.economics.indian-economic-development-1950-1990.fact-agri-population-75",
       "v": 1,
       "subject": "economics",
@@ -94,6 +194,40 @@
       "reasons": [
         "review:not_unambiguous",
         "review:CONFLICT: keec102 p.24 says about 75 per cent of the population depended on agriculture at independence; p.27 says 67.5 per cent in 1950 falling to 64.9 per cent by 1990 (p.26: 65 per cent in 1990). Keep the specific figures on p.26-27. (conflict sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.indian-economic-development-1950-1990.term-marketed-surplus",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economic-development-1950-1990",
+      "chapter": "Indian Economic Development 1950–1990",
+      "unit": "Indian Economic Development 1950–1990",
+      "kind": "term",
+      "front": "The portion of agricultural produce which is sold in the market by the farmers is called ____.",
+      "back": "marketed surplus: The portion of agricultural produce which is sold in the market by the farmers is called marketed surplus.",
+      "quote": "The portion of agricultural produce which is sold in the market by the farmers is called marketed surplus.",
+      "blanks": [
+        "marketed surplus"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec102",
+        "chapterNo": 2,
+        "page": 25,
+        "section": "2.3 Agriculture: The Green Revolution"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "agriculture",
+        "marketed-surplus"
+      ],
+      "order": 620,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.indian-economic-development-1950-1990.def-marketed-surplus. Same sentence, cloze vs question (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -188,6 +322,73 @@
       "reasons": [
         "review:not_unambiguous",
         "review:CONFLICT: keec102 p.32 'even now only the public sector supplies national defense' versus keec103 p.41 'the only industries now reserved for the public sector are part of atomic energy and some railway activities'. Keep the later, more specific reform-chapter statement. (conflict sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.economic-reforms-since-1991.key-reserves-two-weeks",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.economic-reforms-since-1991",
+      "chapter": "Economic Reforms Since 1991",
+      "unit": "Economic Reforms Since 1991",
+      "kind": "key_line",
+      "front": "Foreign exchange reserves declined to a level that was not adequate to finance imports for more than ____.",
+      "back": "Foreign exchange reserves declined to a level that was not adequate to finance imports for more than two weeks.",
+      "quote": "Foreign exchange reserves declined to a level that was not adequate to finance imports for more than two weeks.",
+      "blanks": [
+        "two weeks"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec103",
+        "chapterNo": 3,
+        "page": 40,
+        "section": "3.2 Background"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "1991 crisis"
+      ],
+      "order": 50,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.economic-reforms-since-1991.fact-forex-fortnight. Same fortnight / two-weeks reserves fact (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.economic-reforms-since-1991.key-industry-slowed",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.economic-reforms-since-1991",
+      "chapter": "Economic Reforms Since 1991",
+      "unit": "Economic Reforms Since 1991",
+      "kind": "key_line",
+      "front": "Industrial sector growth has slowed down due to availability of ____ and ____.",
+      "back": "Industrial sector growth has slowed down due to availability of cheaper imports and lower investment.",
+      "quote": "Industrial sector growth has slowed down due to availability of cheaper imports and lower investment.",
+      "blanks": [
+        "cheaper imports",
+        "lower investment"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec103",
+        "chapterNo": 3,
+        "page": 52,
+        "section": "Recap"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "industry"
+      ],
+      "order": 1030,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.economic-reforms-since-1991.fact-industry-slowdown. Same slowdown fact; kept has the fuller quote (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -286,6 +487,37 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front asks 'how' but the quote is an illustrative analogy (nurses to doctors); a student could answer education/health investment. No single answer from the front."
+      ]
+    },
+    {
+      "id": "kc.economics.human-capital-formation.def-hc-vs-hd-definition",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.human-capital-formation",
+      "chapter": "Human Capital Formation",
+      "unit": "Current Challenges Facing the Indian Economy",
+      "kind": "definition",
+      "front": "What is human development? (NCERT recap)",
+      "back": "Human development is based on the idea that education and health are integral to human well-being because only when people have the ability to read and write and the ability to lead a long and healthy life, will they be able to make other choices which they value.",
+      "quote": "Human development is based on the idea that education and health are integral to human well-being because only when people have the ability to read and write and the ability to lead a long and healthy life, will they be able to make other choices which they value.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec104",
+        "chapterNo": 4,
+        "page": 72,
+        "section": "Recap"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "human development"
+      ],
+      "order": 400,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.human-capital-formation.diff-hc-vs-hd-view. Kept comparison card already contains the human development definition (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -450,6 +682,37 @@
         "review:not_important",
         "review:not_importanceRight",
         "review:Cluster of statistics tied to one survey year (NSSO 2011-12); time-bound, and not must."
+      ]
+    },
+    {
+      "id": "kc.economics.rural-development.list-agricultural-marketing-activities",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.rural-development",
+      "chapter": "Rural Development",
+      "unit": "Rural Development",
+      "kind": "list",
+      "front": "Name the activities that agricultural marketing involves.",
+      "back": "assembling\nstorage\nprocessing\ntransportation\npackaging\ngrading\ndistribution",
+      "quote": "assembling, storage, processing, transportation, packaging, grading and distribution of different agricultural commodities",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec105",
+        "chapterNo": 5,
+        "page": 80,
+        "section": "5.4 Agricultural Market System"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "marketing"
+      ],
+      "order": 190,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.rural-development.def-agricultural-marketing. List is the same sentence as the definition (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -1138,6 +1401,68 @@
       ]
     },
     {
+      "id": "kc.economics.national-income-and-related-aggregates.def-barter-exchanges",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.national-income-and-related-aggregates",
+      "chapter": "National Income & Related Aggregates",
+      "unit": "National Income & Related Aggregates",
+      "kind": "definition",
+      "front": "What are barter exchanges?",
+      "back": "The exchanges which take place in the informal sector without the help of money are called barter exchanges. In barter exchanges, goods (or services) are directly exchanged against each other.",
+      "quote": "The exchanges which take place in the informal sector without the help of money are called barter exchanges. In barter exchanges, goods (or services) are directly exchanged against each other.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec102",
+        "chapterNo": 2,
+        "page": 31,
+        "section": "GDP and Welfare"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "GDP and welfare"
+      ],
+      "order": 870,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.money-and-banking.def-barter-exchange. Same definition; Money & Banking is the home chapter (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.money-and-banking.formula-liabilities-formula",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.money-and-banking",
+      "chapter": "Money & Banking",
+      "unit": "Money & Banking",
+      "kind": "formula",
+      "front": "Formula: liabilities of a bank",
+      "back": "Liabilities = Deposits",
+      "quote": "For a bank, the main liability is the deposits which people keep with it. Liabilities = Deposits",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec103",
+        "chapterNo": 3,
+        "page": 40,
+        "section": "3.3 Money Creation by Banking System"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "balance sheet"
+      ],
+      "order": 320,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.money-and-banking.def-liabilities. Liabilities = Deposits is already the definition answer (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.economics.money-and-banking.key-only-rbi-issues-currency",
       "v": 1,
       "subject": "economics",
@@ -1168,6 +1493,41 @@
       "reasons": [
         "review:not_unambiguous",
         "review:CONFLICT: leec103 p.42 'Reserve Bank is the only institution which can issue currency'; p.48 says notes are issued by RBI but coins by the Government of India. (conflict sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.money-and-banking.key-quantitative-tools",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.money-and-banking",
+      "chapter": "Money & Banking",
+      "unit": "Money & Banking",
+      "kind": "key_line",
+      "front": "Quantitative tools, control the extent of money supply by changing the ____, or ____ or ____.",
+      "back": "Quantitative tools, control the extent of money supply by changing the CRR, or bank rate or open market operations.",
+      "quote": "Quantitative tools, control the extent of money supply by changing the CRR, or bank rate or open market operations.",
+      "blanks": [
+        "CRR",
+        "bank rate",
+        "open market operations"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec103",
+        "chapterNo": 3,
+        "page": 42,
+        "section": "3.4 Policy Tools to Control Money Supply"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "monetary policy"
+      ],
+      "order": 470,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.money-and-banking.types-tools-types. Kept card covers quantitative and qualitative tools (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -1295,6 +1655,71 @@
       ]
     },
     {
+      "id": "kc.economics.balance-of-payments.diff-devaluation-revaluation",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.balance-of-payments",
+      "chapter": "Balance of Payments",
+      "unit": "Open Economy Macroeconomics",
+      "kind": "difference",
+      "front": "Devaluation vs revaluation: the difference on the government's action on the exchange rate.",
+      "back": "In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system.",
+      "quote": "In a fixed exchange rate system, when some government action increases the exchange rate (thereby, making domestic currency cheaper) is called Devaluation. On the other hand, a Revaluation is said to occur, when the Government decreases the exchange rate (thereby, making domestic currency costlier) in a fixed exchange rate system.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec106",
+        "chapterNo": 6,
+        "page": 94,
+        "section": "Fixed Exchange Rates"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "devaluation",
+        "revaluation"
+      ],
+      "order": 770,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.balance-of-payments.def-devaluation. Comparison repeats both single-answer definitions; keep def-devaluation and def-revaluation (resolves both pairs) (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.balance-of-payments.key-flexible-major-advantage",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.balance-of-payments",
+      "chapter": "Balance of Payments",
+      "unit": "Open Economy Macroeconomics",
+      "kind": "key_line",
+      "front": "The major advantage of flexible exchange rates is that movements in the exchange rate ____ take care of the surpluses and deficits in the BoP.",
+      "back": "The major advantage of flexible exchange rates is that movements in the exchange rate **automatically** take care of the surpluses and deficits in the BoP.",
+      "quote": "The major advantage of flexible exchange rates is that movements in the exchange rate automatically take care of the surpluses and deficits in the BoP.",
+      "blanks": [
+        "automatically"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec106",
+        "chapterNo": 6,
+        "page": 95,
+        "section": "6.2.3 Merits and Demerits of Flexible and Fixed Exchange Rate Systems"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "flexible exchange rate"
+      ],
+      "order": 820,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.balance-of-payments.list-flexible-merits. Kept list already includes that merit (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.fact-choose-possibility",
       "v": 2,
       "subject": "economics",
@@ -1324,6 +1749,39 @@
       "reasons": [
         "review:not_important",
         "review:Answer ('choose one') is guessable from the front; low-value filler. The three central problems carry the marks."
+      ]
+    },
+    {
+      "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.key-optimum-tangency-summary",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "unit": "Introduction & Theory of Consumer Behaviour",
+      "kind": "key_line",
+      "front": "The consumer's optimum bundle is located at the point of ____ between the budget line and an indifference curve.",
+      "back": "The consumer's optimum bundle is located at the point of **tangency** between the budget line and an indifference curve.",
+      "quote": "The consumer's optimum bundle is located at the point of tangency between the budget line and an indifference curve.",
+      "blanks": [
+        "tangency"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec202",
+        "chapterNo": 2,
+        "page": 33,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "optimum"
+      ],
+      "order": 600,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.introduction-and-theory-of-consumer-behaviour.key-optimum-tangent. Same optimum-bundle fact; kept is linked (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -1357,6 +1815,140 @@
       "reasons": [
         "review:not_important",
         "review:Formula sits in the front; the card only asks the trivial meaning of dP and dQ and the back never gives the formula (2.16a/b), so the exam-tested formula is not what is recalled."
+      ]
+    },
+    {
+      "id": "kc.economics.production-and-costs.key-summary-tc",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "key_line",
+      "front": "Total cost is the ____ of total variable cost and the total fixed cost.",
+      "back": "Total cost is the sum of total variable cost and the total fixed cost.",
+      "quote": "Total cost is the sum of total variable cost and the total fixed cost.",
+      "blanks": [
+        "sum"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 50,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "total cost"
+      ],
+      "order": 750,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.production-and-costs.frm-tc. TC = TVC + TFC twice; kept is linked (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.production-and-costs.key-summary-ac",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "key_line",
+      "front": "Average cost is the ____ of average variable cost and average fixed cost.",
+      "back": "Average cost is the sum of average variable cost and average fixed cost.",
+      "quote": "Average cost is the sum of average variable cost and average fixed cost.",
+      "blanks": [
+        "sum"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 50,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "average cost"
+      ],
+      "order": 760,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.production-and-costs.frm-sac-avc-afc. AC = AVC + AFC twice; kept is linked (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.production-and-costs.key-summary-sum-mc",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "key_line",
+      "front": "In the short run, for any level of output, ____ of marginal costs up to that level gives us the total variable cost.",
+      "back": "In the short run, for any level of output, sum of marginal costs up to that level gives us the total variable cost.",
+      "quote": "In the short run, for any level of output, sum of marginal costs up to that level gives us the total variable cost.",
+      "blanks": [
+        "sum"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 50,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "marginal cost",
+        "total variable cost"
+      ],
+      "order": 780,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.production-and-costs.key-sum-mc-tvc. Same fact (sum of MC gives TVC) (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.economics.production-and-costs.key-summary-area-smc",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "key_line",
+      "front": "The ____ under the SMC curve up to any level of output gives us the total variable cost up to that level.",
+      "back": "The area under the SMC curve up to any level of output gives us the total variable cost up to that level.",
+      "quote": "The area under the SMC curve up to any level of output gives us the total variable cost up to that level.",
+      "blanks": [
+        "area"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 50,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "marginal cost",
+        "total variable cost"
+      ],
+      "order": 790,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.economics.production-and-costs.key-tvc-area-smc. Same fact (area under SMC gives TVC) (duplicate sweep, 31 Oct)"
       ]
     },
     {

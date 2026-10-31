@@ -1,6 +1,6 @@
 {
   "subject": "political_science",
-  "version": 4,
+  "version": 5,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -4287,31 +4287,6 @@
       "order": 100
     },
     {
-      "id": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.fact-indira-assassination",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.challenges-to-and-restoration-of-the-congress-system",
-      "chapter": "Challenges to & Restoration of the Congress System",
-      "unit": "Politics in India Since Independence",
-      "kind": "fact",
-      "front": "When was Indira Gandhi assassinated?",
-      "back": "assassinated on 31 October 1984",
-      "quote": "assassinated on 31 October 1984",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps205",
-        "chapterNo": 5,
-        "page": 75,
-        "section": "Indira Gandhi (1917-1984)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 110
-    },
-    {
       "id": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.kl-landmark-1967",
       "v": 1,
       "subject": "political_science",
@@ -7707,34 +7682,6 @@
         "south-asia"
       ],
       "order": 640
-    },
-    {
-      "id": "kc.political_science.contemporary-south-asia.fact-saarc-1985",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.contemporary-south-asia",
-      "chapter": "Contemporary South Asia",
-      "unit": "Contemporary World Politics",
-      "kind": "fact",
-      "front": "In which year did SAARC begin?",
-      "back": "It began in 1985.",
-      "quote": "It began in 1985.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps103",
-        "chapterNo": 3,
-        "page": 42,
-        "section": "Peace and Cooperation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "south-asia"
-      ],
-      "order": 650,
-      "note": "SAARC began in 1985."
     },
     {
       "id": "kc.political_science.contemporary-south-asia.fact-saarc-limits",
@@ -14672,31 +14619,6 @@
       "asked": 0,
       "tags": [],
       "order": 140
-    },
-    {
-      "id": "kc.political_science.era-of-one-party-dominance.fact-cpi-16-seats",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.era-of-one-party-dominance",
-      "chapter": "Era of One-Party Dominance",
-      "unit": "Politics in India Since Independence",
-      "kind": "fact",
-      "front": "Which party came next to the Congress in the first general election, and with how many seats?",
-      "back": "The Communist Party of India that came next in terms of seats won only 16 seats.",
-      "quote": "The Communist Party of India that came next in terms of seats won only 16 seats.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps202",
-        "chapterNo": 2,
-        "page": 30,
-        "section": "Congress dominance in the first three general elections"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 150
     },
     {
       "id": "kc.political_science.era-of-one-party-dominance.fact-state-exceptions",

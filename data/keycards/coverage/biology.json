@@ -125,17 +125,17 @@
       "belowMinimum": false
     },
     "biology.human-reproduction": {
-      "published": 124,
-      "quarantined": 0,
+      "published": 123,
+      "quarantined": 1,
       "byKind": {
         "list": 9,
-        "fact": 57,
+        "fact": 56,
         "key_line": 37,
         "definition": 19,
         "steps": 2
       },
       "byImportance": {
-        "must": 57,
+        "must": 56,
         "good": 67
       },
       "coverage_note": null,
@@ -184,12 +184,12 @@
       "belowMinimum": false
     },
     "biology.organisms-and-populations": {
-      "published": 87,
-      "quarantined": 0,
+      "published": 86,
+      "quarantined": 1,
       "byKind": {
         "list": 6,
         "definition": 24,
-        "fact": 42,
+        "fact": 41,
         "term": 5,
         "formula": 4,
         "key_line": 3,
@@ -197,7 +197,7 @@
         "types": 2
       },
       "byImportance": {
-        "must": 55,
+        "must": 54,
         "good": 32
       },
       "coverage_note": null,
@@ -205,10 +205,10 @@
       "belowMinimum": false
     },
     "biology.principles-of-inheritance-and-variation": {
-      "published": 115,
-      "quarantined": 1,
+      "published": 114,
+      "quarantined": 2,
       "byKind": {
-        "fact": 64,
+        "fact": 63,
         "definition": 32,
         "list": 5,
         "key_line": 9,
@@ -219,7 +219,7 @@
       },
       "byImportance": {
         "must": 72,
-        "good": 43
+        "good": 42
       },
       "coverage_note": null,
       "mustShare": 0.63,

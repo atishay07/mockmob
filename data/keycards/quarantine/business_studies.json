@@ -2,6 +2,37 @@
   "subject": "business_studies",
   "cards": [
     {
+      "id": "kc.business_studies.nature-and-significance-of-management.def-planning",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "definition",
+      "front": "What is planning?",
+      "back": "Planning is the function of determining in advance what is to be done and who is to do it.",
+      "quote": "Planning is the function of determining in advance what is to be done and who is to do it.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 19,
+        "section": "Functions of Management"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "planning"
+      ],
+      "order": 520,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.planning.def-planning. Same concept; Planning is the home chapter (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.business_studies.nature-and-significance-of-management.fact-management-three-dimensions",
       "v": 1,
       "subject": "business_studies",
@@ -32,6 +63,38 @@
         "review:not_important",
         "review:not_importanceRight",
         "review:Bare count 'three' without naming the dimensions; a student cannot use it. Weak, no testable point beyond a number."
+      ]
+    },
+    {
+      "id": "kc.business_studies.business-environment.ex-legal-advertising-rules",
+      "v": 2,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.business-environment",
+      "chapter": "Business Environment",
+      "unit": "Business Environment",
+      "kind": "example",
+      "front": "The advertisement of alcoholic beverages is prohibited. Which dimension of business environment does NCERT illustrate with this?",
+      "back": "Impact of legal environment can be illustrated with the help of government regulations to protect consumer's interests. For example, the advertisement of alcoholic beverages is prohibited.",
+      "quote": "Impact of legal environment can be illustrated with the help of government regulations to protect consumer's interests. For example, the advertisement of alcoholic beverages is prohibited.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs103",
+        "chapterNo": 3,
+        "page": 80,
+        "section": "Legal Environment"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "legal",
+        "example"
+      ],
+      "order": 470,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.business-environment.ex-legal-advertising-warnings. Same legal-environment example; kept has fuller quote and more links (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -97,6 +160,137 @@
       "reasons": [
         "review:not_unambiguous",
         "review:CONFLICT: 'Three aspects of staffing: recruitment, selection, training' (p148, only the aspects the chapter then details) vs staffing including recruitment, selection, training, development, promotion, compensation and appraisal (p140) and the 8-step staffing process (pp147, 164). Different list for"
+      ]
+    },
+    {
+      "id": "kc.business_studies.staffing.term-recruitment-finding-candidates",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.staffing",
+      "chapter": "Staffing",
+      "unit": "Staffing",
+      "kind": "term",
+      "front": "____ refers to the process of finding possible candidates for a job or a function.",
+      "back": "Recruitment refers to the process of finding possible candidates for a job or a function.",
+      "quote": "Recruitment refers to the process of finding possible candidates for a job or a function.",
+      "blanks": [
+        "Recruitment"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs106",
+        "chapterNo": 6,
+        "page": 148,
+        "section": "Recruitment"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "recruitment"
+      ],
+      "order": 420,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.staffing.def-recruitment-searching. Both define recruitment; kept is linked (L3) (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.business_studies.staffing.term-selection-identifying-best",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.staffing",
+      "chapter": "Staffing",
+      "unit": "Staffing",
+      "kind": "term",
+      "front": "____ is the process of identifying and choosing the best person out of a number of prospective candidates for a job.",
+      "back": "Selection is the process of identifying and choosing the best person out of a number of prospective candidates for a job.",
+      "quote": "Selection is the process of identifying and choosing the best person out of a number of prospective candidates for a job.",
+      "blanks": [
+        "Selection"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs106",
+        "chapterNo": 6,
+        "page": 154,
+        "section": "Selection"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "selection"
+      ],
+      "order": 660,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.staffing.def-selection-pool. Both define selection; kept is linked (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.business_studies.staffing.key-vestibule-away",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.staffing",
+      "chapter": "Staffing",
+      "unit": "Staffing",
+      "kind": "key_line",
+      "front": "Employees learn their jobs on the equipment they will be using, but the training is conducted ____.",
+      "back": "Employees learn their jobs on the equipment they will be using, but the training is conducted away from the actual work floor.",
+      "quote": "Employees learn their jobs on the equipment they will be using, but the training is conducted away from the actual work floor.",
+      "blanks": [
+        "away from the actual work floor"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs106",
+        "chapterNo": 6,
+        "page": 163,
+        "section": "Off the Job Methods"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "training methods",
+        "off the job"
+      ],
+      "order": 1040,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.staffing.def-vestibule-training. Kept card contains the same line plus the rest (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.business_studies.controlling.def-controlling-summary",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.controlling",
+      "chapter": "Controlling",
+      "unit": "Controlling",
+      "kind": "definition",
+      "front": "Define controlling (NCERT chapter summary).",
+      "back": "Controlling is the process of ensuring that actual activities conform to planned activities.",
+      "quote": "Controlling is the process of ensuring that actual activities conform to planned activities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs108",
+        "chapterNo": 8,
+        "page": 210,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "controlling"
+      ],
+      "order": 20,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.controlling.def-controlling. Same definition; kept is linked (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -196,6 +390,105 @@
       ]
     },
     {
+      "id": "kc.business_studies.marketing-management.term-non-durable-term",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing Management",
+      "kind": "term",
+      "front": "The consumer products which are normally consumed in one or few uses are called ____ products.",
+      "back": "non-durable\nThe consumer products which are normally consumed in one or few uses are called non-durable products.",
+      "quote": "The consumer products which are normally consumed in one or few uses are called non-durable products.",
+      "blanks": [
+        "non-durable"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 258,
+        "section": "Durability Of Products"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "classification"
+      ],
+      "order": 550,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.marketing-management.def-non-durable. Same sentence, cloze vs question; keep the question (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.business_studies.marketing-management.term-trademark-term",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing Management",
+      "kind": "term",
+      "front": "A brand or part of a brand that is given legal protection is called ____.",
+      "back": "trademark\nA brand or part of a brand that is given legal protection is called trademark.",
+      "quote": "A brand or part of a brand that is given legal protection is called trademark.",
+      "blanks": [
+        "trademark"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 262,
+        "section": "Branding"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "branding"
+      ],
+      "order": 700,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.marketing-management.def-trade-mark. Same sentence; kept has the fuller back (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.business_studies.marketing-management.term-packaging-term",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing Management",
+      "kind": "term",
+      "front": "____ refers to the act of designing and producing the container or wrapper of a product.",
+      "back": "Packaging\nPackaging refers to the act of designing and producing the container or wrapper of a product.",
+      "quote": "Packaging refers to the act of designing and producing the container or wrapper of a product.",
+      "blanks": [
+        "Packaging"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 262,
+        "section": "Packaging"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "packaging"
+      ],
+      "order": 730,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.marketing-management.def-packaging. Same sentence, cloze vs question (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.business_studies.marketing-management.fact-intermediaries-activities",
       "v": 1,
       "subject": "business_studies",
@@ -258,6 +551,70 @@
       "reasons": [
         "review:not_importanceRight",
         "review:Two named example associations from a list of ways, not a definition or headed list; should be good, not must."
+      ]
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.fact-state-jurisdiction",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "What is the jurisdiction of the State Commission, by value of goods and services paid as consideration?",
+      "back": "Exceeds rupees fifty lakh but does not exceed two crore\nState Commission has a jurisdiction to entertain complaints where value of goods and services paid as consideration that exceeds rupees fifty lakh but does not exceed two crore.",
+      "quote": "State Commission has a jurisdiction to entertain complaints where value of goods and services paid as consideration that exceeds rupees fifty lakh but does not exceed two crore.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 300,
+        "section": "Redressal Agencies Under The Consumer Protection Act"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "redressal"
+      ],
+      "order": 610,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.consumer-protection.fact-state-commission-appeal-route. Kept card covers jurisdiction plus appeal route (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.kl-national-jurisdiction",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "key_line",
+      "front": "National Commission has a jurisdiction to entertain complaints where value of goods or services paid as consideration exceeds ____.",
+      "back": "National Commission has a jurisdiction to entertain complaints where value of goods or services paid as consideration exceeds two crores of rupees.",
+      "quote": "National Commission has a jurisdiction to entertain complaints where value of goods or services paid as consideration exceeds two crores of rupees.",
+      "blanks": [
+        "two crores of rupees"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 300,
+        "section": "Redressal Agencies Under The Consumer Protection Act"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "redressal"
+      ],
+      "order": 630,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.business_studies.consumer-protection.fact-national-commission-appeal-route. Kept card covers jurisdiction plus appeal route (duplicate sweep, 31 Oct)"
       ]
     }
   ]

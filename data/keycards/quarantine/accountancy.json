@@ -2,6 +2,102 @@
   "subject": "accountancy",
   "cards": [
     {
+      "id": "kc.accountancy.partnership-fundamentals.def-partnership-section-4",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "chapter": "Partnership Fundamentals",
+      "unit": "Partnership Fundamentals",
+      "kind": "definition",
+      "front": "Define partnership (Section 4, Indian Partnership Act 1932).",
+      "back": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+      "quote": "relation between persons who have agreed to share the profits of a business carried on by all or any of them acting for all",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac101",
+        "chapterNo": 1,
+        "page": 2,
+        "section": "1.1 Nature of Partnership"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "partnership",
+        "partnership act"
+      ],
+      "order": 20,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.partnership-fundamentals.def-partnership. Both define partnership; kept has the fuller quote (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.partnership-fundamentals.term-deed-term-summary",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "chapter": "Partnership Fundamentals",
+      "unit": "Partnership Fundamentals",
+      "kind": "term",
+      "front": "A document which contains the terms of partnership as agreed among the partners is called ‘Partnership ____’.",
+      "back": "A document which contains the terms of partnership as agreed among the partners is called ‘Partnership Deed’.",
+      "quote": "A document which contains the terms of partnership as agreed among the partners is called ‘Partnership Deed’.",
+      "blanks": [
+        "Deed"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac101",
+        "chapterNo": 1,
+        "page": 35,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "partnership deed"
+      ],
+      "order": 180,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.partnership-fundamentals.def-deed-meaning. Same fact; kept is linked (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-ioc-net-loss",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+      "chapter": "Profit & Loss Appropriation Account",
+      "unit": "Profit & Loss Appropriation Account",
+      "kind": "fact",
+      "front": "In which year is no interest on capital allowed to partners?",
+      "back": "Hence, no interest will be allowed during the year the firm has incurred net loss",
+      "quote": "Hence, no interest will be allowed during the year the firm has incurred net loss",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac101",
+        "chapterNo": 1,
+        "page": 18,
+        "section": "1.5.2 Interest on Capital"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "interest on capital"
+      ],
+      "order": 810,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.profit-and-loss-appropriation-account.kl-ioc-only-profit. Same rule (no interest on capital in a loss year); kept has fuller quote and must importance (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.accountancy.partnership-fundamentals.fact-expansion-needs-partnership",
       "v": 1,
       "subject": "accountancy",
@@ -31,6 +127,38 @@
       "reasons": [
         "review:not_important",
         "review:Not important: introductory narrative filler with no testable point; the answer 'partnership' is given away by the chapter title."
+      ]
+    },
+    {
+      "id": "kc.accountancy.admission-of-partner.fact-sacrificing-ratio-name",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Admission of Partner",
+      "kind": "fact",
+      "front": "What is the ratio called in which existing partners forgo shares and share the premium?",
+      "back": "This amount is shared by the existing partners in the ratio in which they forgo their shares in favour of the new partner which is called sacrificing ratio.",
+      "quote": "This amount is shared by the existing partners in the ratio in which they forgo their shares in favour of the new partner which is called sacrificing ratio.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 53,
+        "section": "2.4 Sacrificing Ratio"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "sacrificing ratio",
+        "premium"
+      ],
+      "order": 190,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.admission-of-partner.def-sacrificing-ratio. Same definition; kept is linked (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -65,6 +193,102 @@
       ]
     },
     {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.fact-ratio-change-goodwill-adjusted",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapter": "Change in Profit Sharing Ratio",
+      "unit": "Change in Profit Sharing Ratio",
+      "kind": "fact",
+      "front": "When partners change their profit sharing ratio, how is the loss and gain in the value of goodwill adjusted?",
+      "back": "In such a situation, the loss and gain in the value of goodwill (if any) will have to be adjusted. This is done by crediting sacrificing partner’s and debiting gaining partner’s with appropriate amounts, as is explained earlier in the context of the admission of a new partners.",
+      "quote": "In such a situation, the loss and gain in the value of goodwill (if any) will have to be adjusted. This is done by crediting sacrificing partner’s and debiting gaining partner’s with appropriate amounts, as is explained earlier in the context of the admission of a new partners.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 94,
+        "section": "2.9 Change in Profit Sharing Ratio among the Existing Partners"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill"
+      ],
+      "order": 1090,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.change-in-profit-sharing-ratio.fact-credit-sacrificing-debit-gaining. Same fact; kept is linked to far more questions (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.change-in-profit-sharing-ratio.term-gaining-ratio-term",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapter": "Change in Profit Sharing Ratio",
+      "unit": "Change in Profit Sharing Ratio",
+      "kind": "term",
+      "front": "The ratio in which the continuing partners have acquired the share from the retiring/deceased partner is called the ____.",
+      "back": "The ratio in which the continuing partners have acquired the share from the retiring/deceased partner is called the gaining ratio.",
+      "quote": "The ratio in which the continuing partners have acquired the share from the retiring/deceased partner is called the gaining ratio.",
+      "blanks": [
+        "gaining ratio"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac103",
+        "chapterNo": 3,
+        "page": 109,
+        "section": "3.3 Gaining Ratio"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "gaining ratio"
+      ],
+      "order": 160,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.change-in-profit-sharing-ratio.def-gaining-ratio. Identical sentence; kept is linked (L3) (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.share-capital.def-premium-def-intro",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.share-capital",
+      "chapter": "Share Capital",
+      "unit": "Share Capital",
+      "kind": "definition",
+      "front": "What is premium on shares?",
+      "back": "When the shares of a company are issued more than its nominal value (face value), the excess amount is called premium.",
+      "quote": "When the shares of a company are issued more than its nominal value (face value), the excess amount is called premium.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy Part 2: Company Accounts and Analysis of Financial Statements",
+        "code": "leac201",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "1.5 Issue of Shares"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "par",
+        "premium"
+      ],
+      "order": 490,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.share-capital.def-premium-def. Same concept; kept is the dedicated premium section and has more links (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.accountancy.share-capital.fact-discount-two-cases",
       "v": 2,
       "subject": "accountancy",
@@ -94,6 +318,37 @@
       "reasons": [
         "review:not_unambiguous",
         "review:NCERT's own leac201 summary says only sweat equity shares can be issued at a discount (Companies Act 2013), so 'two cases' is not the single NCERT answer."
+      ]
+    },
+    {
+      "id": "kc.accountancy.share-capital.def-sum-forfeit-def",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.share-capital",
+      "chapter": "Share Capital",
+      "unit": "Share Capital",
+      "kind": "definition",
+      "front": "Define forfeiture of shares (Summary).",
+      "back": "Forfeiture means the cancellation of allotment due to breach of contract and to treat the amount already received on such shares as forfeited to the company.",
+      "quote": "Forfeiture means the cancellation of allotment due to breach of contract and to treat the amount already received on such shares as forfeited to the company.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy Part 2: Company Accounts and Analysis of Financial Statements",
+        "code": "leac201",
+        "chapterNo": 1,
+        "page": 66,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "forfeiture"
+      ],
+      "order": 1130,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.share-capital.fact-forfeit-when. Same forfeiture fact; kept is linked and has the fuller quote (duplicate sweep, 31 Oct)"
       ]
     },
     {
@@ -263,6 +518,68 @@
       ]
     },
     {
+      "id": "kc.accountancy.accounting-ratios.def-ratio-analysis-ncert",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.accounting-ratios",
+      "chapter": "Accounting Ratios",
+      "unit": "Analysis of Financial Statements",
+      "kind": "definition",
+      "front": "What is ratio analysis (NCERT)?",
+      "back": "Ratio analysis is a technique which involves regrouping of data by application of arithmetical relationships, though its interpretation is a complex matter.",
+      "quote": "Ratio analysis is a technique which involves regrouping of data by application of arithmetical relationships, though its interpretation is a complex matter.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy: Company Accounts and Analysis of Financial Statements",
+        "code": "leac205",
+        "chapterNo": 5,
+        "page": 195,
+        "section": "5.2 Objectives of Ratio Analysis"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "ratio-analysis"
+      ],
+      "order": 70,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.accounting-ratios.def-ratio-analysis. Both define ratio analysis; keep the clean front, drop the NCERT-labelled one (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.accounting-ratios.types-ratios-help-comparison-in-which-three-ways",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.accounting-ratios",
+      "chapter": "Accounting Ratios",
+      "unit": "Analysis of Financial Statements",
+      "kind": "types",
+      "front": "Ratios help comparison in which three ways?",
+      "back": "(i) over a number of accounting periods with itself (Intra-firm Comparison/Time Series Analysis), (ii) with other business enterprises (Inter-firm Comparison/Cross-sectional Analysis) and (iii) with standards set for that firm/industry",
+      "quote": "(i) over a number of accounting periods with itself (Intra-firm Comparison/Time Series Analysis), (ii) with other business enterprises (Inter-firm Comparison/Cross-sectional Analysis) and (iii) with standards set for that firm/industry",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy: Company Accounts and Analysis of Financial Statements",
+        "code": "leac205",
+        "chapterNo": 5,
+        "page": 196,
+        "section": "5.3 Advantages of Ratio Analysis"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "comparison"
+      ],
+      "order": 130,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.accounting-ratios.list-ratio-comparisons. Same three comparisons; list card has the fuller quote (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.accountancy.accounting-ratios.fml-shareholders-funds-equity-first-form",
       "v": 2,
       "subject": "accountancy",
@@ -291,6 +608,130 @@
       "reasons": [
         "review:not_unambiguous",
         "review:CONFLICT: Ratios p205 formula adds 'Share application money pending allotment' into Shareholders' Funds; Financial Statements p149 (Schedule III) lists exactly three sub-classifications (share capital, reserves and surplus, share warrants) and shows share application money as a separate head. Keep t"
+      ]
+    },
+    {
+      "id": "kc.accountancy.cash-flow-statement.fact-proposed-dividend-as4",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.cash-flow-statement",
+      "chapter": "Cash Flow Statement",
+      "unit": "Cash Flow Statement",
+      "kind": "fact",
+      "front": "As per AS-4, where is proposed dividend shown?",
+      "back": "As per AS-4, Contingencies and Events Occurring after the Balance Sheet Date, Proposed dividend is shown in the Notes to Accounts.",
+      "quote": "As per AS-4, Contingencies and Events Occurring after the Balance Sheet Date, Proposed dividend is shown in the Notes to Accounts.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac206",
+        "chapterNo": 6,
+        "page": 249,
+        "section": "Proposed Dividend"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "cash-flow"
+      ],
+      "order": 690,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.financial-statements-of-company.fact-proposed-dividend-as4. Same AS-4 fact; home chapter kept (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.cash-flow-statement.fact-proposed-dividend-contingent",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.cash-flow-statement",
+      "chapter": "Cash Flow Statement",
+      "unit": "Cash Flow Statement",
+      "kind": "fact",
+      "front": "Why is proposed dividend shown as a contingent liability?",
+      "back": "It will be shown as contingent liability since it becomes a liability after it is declared (approved) by the shareholders.",
+      "quote": "It will be shown as contingent liability since it becomes a liability after it is declared (approved) by the shareholders.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac206",
+        "chapterNo": 6,
+        "page": 249,
+        "section": "Proposed Dividend"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cash-flow"
+      ],
+      "order": 700,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.financial-statements-of-company.key-proposed-dividend-contingent. Same fact; Financial Statements is the home chapter (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.cash-flow-statement.fact-proposed-dividend-previous-year",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.cash-flow-statement",
+      "chapter": "Cash Flow Statement",
+      "unit": "Cash Flow Statement",
+      "kind": "fact",
+      "front": "How is the previous year's Proposed Dividend accounted for in the current year?",
+      "back": "previous year’s Proposed Dividend will be accounted as dividend payable",
+      "quote": "previous year’s Proposed Dividend will be accounted as dividend payable",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac206",
+        "chapterNo": 6,
+        "page": 249,
+        "section": "Proposed Dividend"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "cash-flow"
+      ],
+      "order": 710,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.financial-statements-of-company.fact-proposed-dividend-previous-year. Same fact; home chapter has the fuller quote (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
+      "id": "kc.accountancy.cash-flow-statement.fact-starting-point-before-tax",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.cash-flow-statement",
+      "chapter": "Cash Flow Statement",
+      "unit": "Cash Flow Statement",
+      "kind": "fact",
+      "front": "In the cash flow statement, is the starting point net profit before tax or net profit as per the Statement of Profit and Loss?",
+      "back": "the starting point is the ‘Net profit before tax and extraordinary items’ and not the ‘Net profit as per Statement of Profit and Loss’.",
+      "quote": "the starting point is the ‘Net profit before tax and extraordinary items’ and not the ‘Net profit as per Statement of Profit and Loss’.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac206",
+        "chapterNo": 6,
+        "page": 252,
+        "section": "6.6.1 Indirect Method"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "cash-flow"
+      ],
+      "order": 830,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.accountancy.cash-flow-statement.fact-indirect-starting-point. Same starting-point fact; kept card is linked to a live question (duplicate sweep, 31 Oct)"
       ]
     },
     {

@@ -34,6 +34,38 @@
       ]
     },
     {
+      "id": "kc.political_science.contemporary-south-asia.fact-saarc-1985",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.contemporary-south-asia",
+      "chapter": "Contemporary South Asia",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "In which year did SAARC begin?",
+      "back": "It began in 1985.",
+      "quote": "It began in 1985.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps103",
+        "chapterNo": 3,
+        "page": 42,
+        "section": "Peace and Cooperation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "south-asia"
+      ],
+      "order": 650,
+      "note": "SAARC began in 1985.",
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.political_science.contemporary-south-asia.fact-tl-saarc-charter. Kept answers year and place (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.political_science.environment-and-natural-resources.fact-deeper-political",
       "v": 1,
       "subject": "political_science",
@@ -357,6 +389,35 @@
       ]
     },
     {
+      "id": "kc.political_science.era-of-one-party-dominance.fact-cpi-16-seats",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.era-of-one-party-dominance",
+      "chapter": "Era of One-party Dominance",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "Which party came next to the Congress in the first general election, and with how many seats?",
+      "back": "The Communist Party of India that came next in terms of seats won only 16 seats.",
+      "quote": "The Communist Party of India that came next in terms of seats won only 16 seats.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps202",
+        "chapterNo": 2,
+        "page": 30,
+        "section": "Congress dominance in the first three general elections"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 150,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.political_science.era-of-one-party-dominance.fact-cpi-largest-opposition. Kept card includes the 16 seats plus more (duplicate sweep, 31 Oct)"
+      ]
+    },
+    {
       "id": "kc.political_science.era-of-one-party-dominance.fact-literate-voters",
       "v": 1,
       "subject": "political_science",
@@ -385,6 +446,35 @@
         "review:not_important",
         "review:not_importanceRight",
         "review:Single statistic tied to one year (15 per cent literate in the first election); trivia, not a line to hold."
+      ]
+    },
+    {
+      "id": "kc.political_science.challenges-to-and-restoration-of-the-congress-system.fact-indira-assassination",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.challenges-to-and-restoration-of-the-congress-system",
+      "chapter": "Challenges to & Restoration of the Congress System",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "When was Indira Gandhi assassinated?",
+      "back": "assassinated on 31 October 1984",
+      "quote": "assassinated on 31 October 1984",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps205",
+        "chapterNo": 5,
+        "page": 75,
+        "section": "Indira Gandhi (1917-1984)"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 110,
+      "reasons": [
+        "review:not_important",
+        "review:DUPLICATE: same fact as kc.political_science.regional-aspirations.fact-indira-assassination. Same fact; kept answers when and by whom (duplicate sweep, 31 Oct)"
       ]
     },
     {

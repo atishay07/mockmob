@@ -2,20 +2,20 @@
   "subject": "accountancy",
   "chapters": {
     "accountancy.accounting-ratios": {
-      "published": 166,
-      "quarantined": 1,
+      "published": 164,
+      "quarantined": 3,
       "byKind": {
-        "definition": 42,
+        "definition": 41,
         "example": 11,
         "fact": 46,
         "list": 6,
         "key_line": 10,
-        "types": 11,
+        "types": 10,
         "formula": 37,
         "entry": 3
       },
       "byImportance": {
-        "must": 115,
+        "must": 113,
         "good": 51
       },
       "coverage_note": null,
@@ -23,23 +23,23 @@
       "belowMinimum": false
     },
     "accountancy.admission-of-partner": {
-      "published": 54,
-      "quarantined": 1,
+      "published": 53,
+      "quarantined": 2,
       "byKind": {
         "definition": 3,
         "key_line": 14,
         "list": 4,
-        "fact": 14,
+        "fact": 13,
         "formula": 2,
         "types": 1,
         "entry": 16
       },
       "byImportance": {
-        "must": 42,
+        "must": 41,
         "good": 12
       },
       "coverage_note": null,
-      "mustShare": 0.78,
+      "mustShare": 0.77,
       "belowMinimum": false
     },
     "accountancy.analysis-of-financial-statements": {
@@ -61,10 +61,10 @@
       "belowMinimum": false
     },
     "accountancy.cash-flow-statement": {
-      "published": 85,
-      "quarantined": 3,
+      "published": 81,
+      "quarantined": 7,
       "byKind": {
-        "fact": 31,
+        "fact": 27,
         "term": 4,
         "key_line": 14,
         "definition": 13,
@@ -76,27 +76,26 @@
         "formula": 1
       },
       "byImportance": {
-        "must": 52,
-        "good": 33
+        "must": 50,
+        "good": 31
       },
       "coverage_note": null,
-      "mustShare": 0.61,
+      "mustShare": 0.62,
       "belowMinimum": false
     },
     "accountancy.change-in-profit-sharing-ratio": {
-      "published": 10,
-      "quarantined": 0,
+      "published": 8,
+      "quarantined": 2,
       "byKind": {
         "definition": 2,
-        "term": 1,
-        "fact": 3,
+        "fact": 2,
         "key_line": 1,
         "formula": 1,
         "list": 1,
         "entry": 1
       },
       "byImportance": {
-        "must": 10,
+        "must": 8,
         "good": 0
       },
       "coverage_note": null,
@@ -208,11 +207,11 @@
       "belowMinimum": false
     },
     "accountancy.partnership-fundamentals": {
-      "published": 48,
-      "quarantined": 1,
+      "published": 46,
+      "quarantined": 3,
       "byKind": {
-        "definition": 6,
-        "term": 3,
+        "definition": 5,
+        "term": 2,
         "key_line": 8,
         "list": 5,
         "fact": 21,
@@ -220,19 +219,19 @@
         "difference": 4
       },
       "byImportance": {
-        "must": 35,
+        "must": 33,
         "good": 13
       },
       "coverage_note": null,
-      "mustShare": 0.73,
+      "mustShare": 0.72,
       "belowMinimum": false
     },
     "accountancy.profit-and-loss-appropriation-account": {
-      "published": 43,
-      "quarantined": 0,
+      "published": 42,
+      "quarantined": 1,
       "byKind": {
         "definition": 4,
-        "fact": 22,
+        "fact": 21,
         "entry": 10,
         "list": 3,
         "key_line": 2,
@@ -241,10 +240,10 @@
       },
       "byImportance": {
         "must": 34,
-        "good": 9
+        "good": 8
       },
       "coverage_note": null,
-      "mustShare": 0.79,
+      "mustShare": 0.81,
       "belowMinimum": false
     },
     "accountancy.retirement-and-death-of-partner": {
@@ -269,10 +268,10 @@
       "belowMinimum": false
     },
     "accountancy.share-capital": {
-      "published": 108,
-      "quarantined": 2,
+      "published": 106,
+      "quarantined": 4,
       "byKind": {
-        "definition": 28,
+        "definition": 26,
         "list": 7,
         "fact": 27,
         "term": 2,
@@ -284,11 +283,11 @@
         "steps": 1
       },
       "byImportance": {
-        "must": 70,
+        "must": 68,
         "good": 38
       },
       "coverage_note": null,
-      "mustShare": 0.65,
+      "mustShare": 0.64,
       "belowMinimum": false
     }
   }
