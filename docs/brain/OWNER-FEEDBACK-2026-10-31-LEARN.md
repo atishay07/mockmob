@@ -38,3 +38,19 @@ Transcription guesses (confirm): "Fitzmeen downloading" probably means "preventi
 | LK12 | Cards are the core of the whole Learn area. Also bring them to Explore: a custom feed to practise a chapter (for example a 10-minute run mixing cards and MCQs). Think it through. |
 | LK13 | Too many cards carry "Must-know"; change it. |
 | LK14 | Spend longer thinking; ideate better. |
+
+
+## 31 Oct 2026, about 11:20 pm IST: his answers to A9 and N1 (verbatim)
+
+1. The explore feed can be free but up to a certain limit or something. You can think of some freemium kind of thing.
+2. The sidebar: I have been thinking about this previously and we were also thinking about this. Right now I was also thinking about how to integrate it. The current structure was good: one practice tab, then below it some study features in Mob. I think the learn section itself has now expanded a lot, so we can make it into another part. It would lead to more buttons and more sections. Maybe it won't be a very big problem on the website, but it will be a huge problem to integrate it properly in the app, as we can't expand the navbar more. Think about how you can do it.
+If I check the current learn section, I don't know if you have committed any changes. I don't see any changes exactly and am not sure at all what you have done. I don't see any changes at all, so I am not going to judge anything or comment on anything else right now.
+
+**Folded in:**
+- **LK15 (A9):** questions in the feed and in Learn sessions are free up to a limit.
+  - CTO rule: Free gets one Learn session a day, either a chapter run or the Explore feed, up to 10 minutes, with its questions free. The card limits stay as they are.
+  - Explore's plain question swipe stays unlimited, as it is today.
+  - Pro gets any number of sessions, of any length.
+  - The limit line shows only when he hits the limit.
+- **LK16 (N1):** Learn becomes its own section, without adding a slot to the app's bar. The spec is in learn-1031/NAV-2.md on branch web/1031-learn-v2, rendered as `&nav=n2`.
+- **LK17:** he could not see any change. Nothing is deployed. The build runs only in the local preview, so it was opened for him in the app's browser pane.

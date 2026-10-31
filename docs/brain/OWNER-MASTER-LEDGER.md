@@ -614,3 +614,6 @@ His summary: "Some parts are good and some are very confusing." Study mode is "e
 | RENDERS SENT 31 Oct 9:45 pm (preview, web/1031-learn-v2) | **LK12** Cards are the core of Learn; bring them to Explore as a custom chapter feed (for example a 10-minute run of cards and MCQs). |
 | LIVE-UNCHECKED (main b7e68f8e2; 3,916 to 1,439 Must-know, 25%) | **LK13** Too many cards carry "Must-know". |
 | OPEN | **LK14** Think longer; ideate better. Any replacement layout is shown to him as real renders before it ships (Never again 1). |
+| DECIDED, BUILD PENDING | **LK15 (A9):** questions in the Explore feed and Learn sessions are free "up to a certain limit". CTO rule: Free gets one Learn session a day (a chapter run or the feed, up to 10 min); Explore swipe stays unlimited; Pro gets any number. |
+| RENDERING (nav=n2) | **LK16 (N1):** Learn becomes its own section; the app bar cannot grow. Spec: learn-1031/NAV-2.md (web sidebar place; on phones, a Practice/Learn title switch in the Practice tab). |
+| ANSWERED | **LK17:** he sees no change in Learn. Nothing is deployed; the local preview was opened in his browser pane. |

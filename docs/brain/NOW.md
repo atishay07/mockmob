@@ -1,5 +1,13 @@
 # NOW: MockMob current state
 
+## 31 Oct 2026, about 11:30 pm IST: the owner answered A9 and N1
+- **A9 (LK15):** feed and Learn questions are free up to a limit. The rule is one free Learn session a day, up to 10 minutes. Not built yet.
+- **N1 (LK16):** Learn becomes its own section, but the app bar cannot grow. NAV-2.md is on branch web/1031-learn-v2:
+  - On the website, Learn is a place in the sidebar.
+  - On phones, the Practice tab gets a Practice/Learn title switch.
+  - An agent is rendering it as `&nav=n2`.
+- **LK17:** he could not see any change because nothing is deployed. The local preview (port 3451) was opened in his browser pane.
+
 ## 31 Oct 2026, about 9:45 pm IST: Learn redesign renders sent to the owner
 - **Sent:** 11 real renders and a run video (wt-1031-learn-v2/tmp/learn-1031/for-owner/), from branch web/1031-learn-v2
   (commits 5af8f8a2f slice, a47da5caf merge of the live release, b9bc5fe80 and the volt-quiet fix). Full set of 143 captures in
