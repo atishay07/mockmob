@@ -1,3 +1,19 @@
+## 31 October 2026, about 4:50 pm IST: 218 off-syllabus questions pulled; 25 earlier pulls actually frozen
+
+**Owner:** "Pull them all" (the 218 questions the pool audit found outside the CUET 2026 syllabus).
+
+- **Applied on production** (`docs/brain/intel-1031/off-syllabus-2026-10-31/`, pull.sql and an exact undo.sql):
+  - The 218 are now `is_cuet_syllabus = false`, `pending` and `frozen`.
+  - The 25 answer-key pull-outs from the morning are frozen too. They had been set to `pending` only, but a verified,
+    active row is still served (VISIBLE_QUESTION_FILTER), so they were still reaching students until now.
+- **Dry run** (rolled back): 218 pulled, 25 frozen, 0 learning episodes invalidated. **Check after:** visible
+  questions 8,571 to 8,328, matching.
+- **Thin chapters now:** Accountancy, Financial Statements of Company, 1 question left; Political Science, Recent
+  Issues and Challenges, 4 left. New questions only on the owner's ask.
+- **No deploy needed:** data only. Practice caches follow `updated_at`; the inventory recounts at the next cron.
+- **Not touched:** 22 older pending, verified and active rows (Mathematics, Hindi, English, from April), outside the
+  pilot.
+
 ## 31 October 2026, about 1:35 pm IST: Key cards ON for students (KEY_CARDS_ENABLED=true)
 
 **Owner, after seeing the screens:** "Turn it on".

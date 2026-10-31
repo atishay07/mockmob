@@ -1,7 +1,9 @@
 # Flawed live questions: fixes ready to apply (31 Oct 2026)
 
-**Status:** nothing here has been run on production. An attempt to apply batch 1 was blocked by the session's
-permission check, so every batch waits for the owner's go-ahead.
+**Status:** all five batches were applied on production on 31 Oct after the owner's "Yes, run them".
+- **Gap found the same afternoon:** the 25 pull-outs set only `status = 'pending'`. They stayed verified and active,
+  so they were still served.
+- **Fixed:** `../off-syllabus-2026-10-31/pull.sql` froze them; its `undo.sql` reverses that.
 
 **What each folder holds:**
 - `VERDICTS.md`: the evidence, from the NCERT page or the working.

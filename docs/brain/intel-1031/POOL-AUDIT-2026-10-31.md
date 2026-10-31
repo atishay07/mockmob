@@ -62,6 +62,7 @@ NCERT text. Questions in retired chapters were skipped; the syllabus v2 migratio
 2. **Take the other flawed questions (about 31) out of the pools** (status `pending`), after a short fix-or-pull pass
    like batches 1-3.
 3. **Outside-syllabus (218):** take them out of the pools, or keep them only outside NTA-pattern mocks.
+   **Done 31 Oct (owner: "Pull them all"):** all 218 pulled on production, see `off-syllabus-2026-10-31/`.
 4. **Wrong chapter (515):**
    - Check each move with the full text, then re-tag with the same mechanism as the syllabus v2 re-tag (code review
      L12 already keeps re-tagged questions eligible).
