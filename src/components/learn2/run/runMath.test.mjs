@@ -1,7 +1,7 @@
 // node --test src/components/learn2/run/runMath.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { endAct, firstLine, minutesLeftLine, numberDetail, optionText, pipGroups, reinsertAt, stemParts, upNextLine } from './runMath.js';
+import { endAct, firstLine, itemSeconds, minutesFor, minutesLeftLine, numberDetail, optionText, pipGroups, reinsertAt, stemParts, upNextLine } from './runMath.js';
 
 const card = { type: 'card' };
 const q = { type: 'question' };
@@ -69,4 +69,15 @@ test('the detail under each end number', () => {
 test('the detail also reads the newer line without a full stop', () => {
   assert.equal(numberDetail({ text: '2 of 2 fixed' }), '2 of 2');
   assert.equal(numberDetail({ text: '1 of 2 fixed, 1 still open' }), '1 of 2, 1 still open');
+});
+
+test('minutes left sums each item\'s own seconds (BUILD-1101 1.5), with the one minutes rule', () => {
+  const items = [{ type: 'card', seconds: 18 }, { type: 'card', seconds: 12 }, { type: 'question', seconds: 90 }, { type: 'question', seconds: 50 }, { type: 'card', seconds: 26 }];
+  assert.equal(itemSeconds(items[2]), 90);
+  assert.equal(itemSeconds({ type: 'card', look: true }), 10, 'an old stored item without seconds keeps the old rule');
+  assert.equal(minutesLeftLine(items, 0), `about ${minutesFor(196)} min left`);
+  assert.equal(minutesLeftLine(items, 2), 'about 3 min left');
+  assert.equal(minutesLeftLine(items, 4), 'under a minute left');
+  assert.equal(minutesFor(0), 0);
+  assert.equal(minutesFor(545), 10);
 });

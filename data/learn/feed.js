@@ -1,28 +1,35 @@
-// Learn v2: the Explore feed's own rules (docs/brain/learn-1031/FEED-2.md, sections 4 to 6). PURE: no I/O, no clock.
-// The item order itself is the composer's (compose.js, kind 'feed', A3); this file adds what only the feed has:
-//   checkpoints   one interstitial screen after every 8 items (never after the last one, never two in a row)
+// Learn v2: the Explore feed's own rules (docs/brain/learn-1031/FEED-2.md, sections 4 to 6, with BUILD-1101 1.2, 1.4, R12 and
+// R16). PURE: no I/O, no clock. The item order and the feed's card pool are the composer's (compose.js, kind 'feed'); this file
+// adds what only the feed has:
+//   checkpoints   one interstitial screen after item 8, 16, ... only when 4 or more items follow it (R3.4)
 //   the number    on a checkpoint: "5 of 6 right" once a question is answered, else "6 cards seen, 2 kept"
-//   Free          one feed a day; the end of the day's feed says so in place of "Another 10 minutes" (no modal, LK15),
-//                 and a second feed asked for that day does not start
-//   covers        the Explore covers row: the suggested chapter first (due cards or open mistakes), then book order
+//   covers        the Explore covers row (R12): every playable chapter, For you first with its reason, then book order from
+//                 the chapter after it, wrapping
 //   cover line    "10 minutes, 16 Key cards and 5 questions"
+//   end lines     the feed end's rows: questions right, fixed old mistakes, or "Old mistakes: 1 still open" (R16)
 //   order check   the shape the feed promises: a card first, about two cards per question, no two questions back to back
+// Free's one Learn session a day is data/learn/allowance.js (LK15).
+import { FREE_SESSION_DONE } from './allowance.js';
 
 export const FEED_RULES = Object.freeze({
   checkpointEvery: 8,
-  freeFeedsPerDay: 1,
+  checkpointMinAfter: 4, // a checkpoint needs 4 or more items after it
+  restDays: 3,
+  cardShare: 0.35,
   lengths: Object.freeze([5, 10, 20]),
-  maxCovers: 8,
+  maxCovers: null, // R12: no cap, every playable chapter has a cover
+  freeFeedsPerDay: 1, // kept for older importers: LK15 is one Learn session a day (allowance.js)
 });
 
-export const FREE_FEED_DONE = 'Your free feed for today is done. Pro has as many as you like.';
-export const CHECKPOINT_LINE = 'Keep going, or stop here and save what you kept.';
+/** The line under a feed when Free's day is used. Kept under its old name for older importers (LK15, allowance.js). */
+export const FREE_FEED_DONE = FREE_SESSION_DONE;
+export const CHECKPOINT_LINE = 'Keep going, or stop here. What you kept is already in Revise.';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 
 /**
- * The screens of a feed in order: every item, with a checkpoint after each `every` items. A checkpoint never closes the
- * feed (the end screen does that), so none follows the last item.
+ * The screens of a feed in order: every item, with a checkpoint after each `every` items when at least
+ * FEED_RULES.checkpointMinAfter items follow it. A checkpoint never closes the feed (the end screen does that).
  * Returns [{ type: 'item', item, n } | { type: 'checkpoint', id, after }] where `n` is the item's 1-based place.
  */
 export function feedSlots(items = [], every = FEED_RULES.checkpointEvery) {
@@ -31,7 +38,7 @@ export function feedSlots(items = [], every = FEED_RULES.checkpointEvery) {
   list.forEach((item, i) => {
     out.push({ type: 'item', item, n: i + 1 });
     const n = i + 1;
-    if (every > 0 && n % every === 0 && n < list.length) out.push({ type: 'checkpoint', id: `cp-${n}`, after: n });
+    if (every > 0 && n % every === 0 && list.length - n >= FEED_RULES.checkpointMinAfter) out.push({ type: 'checkpoint', id: `cp-${n}`, after: n });
   });
   return out;
 }
@@ -53,10 +60,8 @@ export function feedsOnDay(starts = [], now, istDay) {
 }
 
 /**
- * Free's daily feed. `startedToday` counts feeds already started today (before the one asked for, or including the one that
- * is ending, at the end screen).
- *   canStart   a new feed may start now
- *   endLine    at the end of a feed: the line that replaces "Another 10 minutes" (null on Pro or with feeds left)
+ * Free's daily feed, kept for older importers (the server rule is allowance.js freeSession). `startedToday` counts feeds
+ * already started today.
  */
 export function freeFeed({ isPro = false, startedToday = 0, perDay = FEED_RULES.freeFeedsPerDay } = {}) {
   if (isPro) return { canStart: true, endLine: null, left: null };
@@ -65,19 +70,42 @@ export function freeFeed({ isPro = false, startedToday = 0, perDay = FEED_RULES.
 }
 
 /**
- * The covers row's order: the student's suggested chapter first (the most due cards plus open mistakes; ties in book
- * order), marked forYou; the rest in book order. A chapter with nothing to play (no cards and no questions) is left out.
- * chapters: [{ key, title, order, cards, questions, due, mistakes }]
+ * The covers row's order (R12). chapters, in book order: [{ key, title, order, chapterNo, cards, questions, mistakes,
+ * lastActivityAt, hasNew, openFeed }] where `cards` are the cards the student may open, `mistakes` the eligible old mistakes
+ * (R10.1), `hasNew` the chapter has open cards the student does not hold, `openFeed` today's unfinished feed is here.
+ * A chapter with nothing to play (no cards and no questions) is left out. For you, the first that applies:
+ *   1. today's unfinished feed                                 "Pick up where you stopped"
+ *   2. the most eligible old mistakes                           "2 old mistakes to fix"
+ *   3. the chapter after the latest Learn activity, with new    "Next after Goodwill"
+ *   4. the first chapter with cards                             "Chapter 1 of your book" (null when it has no number)
+ * Then book order from the chapter after it, wrapping. Returns the chapters with { forYou, reason } added.
  */
 export function coverOrder(chapters = [], max = FEED_RULES.maxCovers) {
-  const playable = (chapters || []).filter((c) => (c.cards || 0) + (c.questions || 0) > 0).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
-  if (!playable.length) return [];
-  const weight = (c) => (c.due || 0) + (c.mistakes || 0);
-  let pick = playable.reduce((best, c) => (weight(c) > weight(best) ? c : best), playable[0]);
-  // A new student (nothing due, no mistakes): the first chapter in book order that has Key cards.
-  if (!weight(pick)) pick = playable.find((c) => c.cards > 0) || playable[0];
-  const rest = playable.filter((c) => c !== pick);
-  return [{ ...pick, forYou: true }, ...rest.map((c) => ({ ...c, forYou: false }))].slice(0, Math.max(1, max));
+  const list = (chapters || []).filter((c) => (c.cards || 0) + (c.questions || 0) > 0).sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+  if (!list.length) return [];
+  let pick = null;
+  let reason = null;
+  const open = list.find((c) => c.openFeed);
+  if (open) { pick = open; reason = 'Pick up where you stopped'; }
+  if (!pick) {
+    const most = list.reduce((best, c) => ((c.mistakes || 0) > (best?.mistakes || 0) ? c : best), null);
+    if (most) { pick = most; reason = `${plural(most.mistakes, 'old mistake')} to fix`; }
+  }
+  if (!pick) {
+    const latest = list.filter((c) => Number.isFinite(c.lastActivityAt)).sort((a, b) => b.lastActivityAt - a.lastActivityAt)[0];
+    if (latest) {
+      const at = list.indexOf(latest);
+      const after = [...list.slice(at + 1), ...list.slice(0, at)].find((c) => c.hasNew);
+      if (after) { pick = after; reason = `Next after ${latest.title}`; }
+    }
+  }
+  if (!pick) {
+    pick = list.find((c) => (c.cards || 0) > 0) || list[0];
+    reason = pick.chapterNo ? `Chapter ${pick.chapterNo} of your book` : null;
+  }
+  const at = list.indexOf(pick);
+  const ordered = [pick, ...list.slice(at + 1), ...list.slice(0, at)].map((c) => ({ ...c, forYou: c === pick, reason: c === pick ? reason : null }));
+  return Number.isFinite(max) && max > 0 ? ordered.slice(0, max) : ordered;
 }
 
 /** "10 minutes, 16 Key cards and 5 questions" (either part left out at 0). */
@@ -85,6 +113,24 @@ export function coverLine(minutes, { cards = 0, questions = 0 } = {}) {
   const parts = [cards ? `${cards} Key ${cards === 1 ? 'card' : 'cards'}` : null, questions ? plural(questions, 'question') : null].filter(Boolean);
   return `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}${parts.length ? `, ${parts.join(' and ')}` : ''}`;
 }
+
+/**
+ * The feed end's rows (FEED-2 section 5, R16): "Questions: 4 of 6 right"; old mistakes either "Fixed: 2 old mistakes" (all),
+ * "Fixed: 1 of 2 old mistakes", or, when none was fixed, "Old mistakes: 1 still open" (never "Fixed: 0 of 1").
+ */
+export function feedEndLines({ answered = 0, right = 0, fixed = 0, mistakes = 0 } = {}) {
+  const lines = [];
+  if (answered) lines.push({ label: 'Questions', text: `${right} of ${answered} right` });
+  if (mistakes) {
+    if (!fixed) lines.push({ label: 'Old mistakes', text: `${mistakes} still open` });
+    else if (fixed === mistakes) lines.push({ label: 'Fixed', text: plural(fixed, 'old mistake') });
+    else lines.push({ label: 'Fixed', text: `${fixed} of ${plural(mistakes, 'old mistake')}` });
+  }
+  return lines;
+}
+
+/** The kept line of a feed end: "6 kept. They are first in Revise." (no return day: none is scheduled yet), null at 0. */
+export const keptLine = (count) => (count > 0 ? `${count} kept. They are first in Revise.` : null);
 
 /**
  * Problems with a feed's order, [] when it keeps the feed's shape. Items: { type: 'card' } | { type: 'question' }.

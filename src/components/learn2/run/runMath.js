@@ -1,21 +1,30 @@
 // Pure rules of the Learn run player (B section 3.5 and 4.1, DESIGN-SPEC A3/A4): seconds left, "Up next", the option text,
 // the explanation's first line, and the stamp line. No React here, so node --test can hold them (runMath.test.mjs).
 
-/** Seconds an item takes on screen (B 4.1): a rated card 15 s, a recap card 10 s, a question 60 s, a lesson its minutes. */
+/**
+ * Seconds an item takes on screen: the item's own `seconds` (every composed item carries them, BUILD-1101 1.5), else the
+ * old fixed rule for a run stored before that (a rated card 15 s, a recap card or a look 10 s, a question 60 s, a lesson its
+ * minutes).
+ */
 export function itemSeconds(item, kind = 'mix') {
   if (!item) return 0;
+  const own = Number(item.seconds);
+  if (Number.isFinite(own) && own > 0) return own;
   if (item.type === 'question') return 60;
   if (item.type === 'lesson') return Math.max(1, Number(item.lesson?.minutes) || 5) * 60;
   return kind === 'recap' || item.look ? 10 : 15;
 }
 
-/** "about 6 min left" from the items still to finish (the current one counts until it is finished), with B's 10 percent. */
+/** Learn's one minutes rule (data/learn/compose.js minutesFor): seconds with the 10 percent, rounded, at least 1. */
+export const minutesFor = (seconds) => (seconds > 0 ? Math.max(1, Math.round((seconds * 1.1) / 60)) : 0);
+
+/** "about 6 min left" from the items still to finish (the current one counts until it is finished): the sum of their seconds. */
 export function minutesLeftLine(items, done, kind = 'mix') {
   const rest = (items || []).slice(Math.max(0, done));
-  const seconds = rest.reduce((sum, item) => sum + itemSeconds(item, kind), 0) * 1.1;
   if (!rest.length) return null;
-  if (seconds < 60) return 'under a minute left';
-  return `about ${Math.round(seconds / 60)} min left`;
+  const seconds = rest.reduce((sum, item) => sum + itemSeconds(item, kind), 0);
+  if (seconds * 1.1 < 60) return 'under a minute left';
+  return `about ${minutesFor(seconds)} min left`;
 }
 
 const NOUN = { card: ['card', 'cards'], question: ['question', 'questions'], lesson: ['lesson', 'lessons'] };

@@ -401,7 +401,7 @@ test('keep: an add (manual, reps 0), no review and no allowance; a card already 
   assert.equal(end.feed.lead.run.fresh, true, '"Another 10 minutes" starts a new feed');
 });
 
-test('the feed never serves a due card, and moves forward: two feeds in a row share no card while the chapter has unshown cards', { todo: 'the feed card pool is packet S1 (data/learn/compose.js, BUILD-1101 1.2); learn.js passes shownAt' }, async () => {
+test('the feed never serves a due card, and moves forward: two feeds in a row share no card while the chapter has unshown cards', async () => {
   const at = T0 - 6 * DAY;
   const due = PLANNING.slice(0, 2).map((c) => { const s = schedule(null, 3, at); return { user_id: 'u1', card_id: c.id, subject: 'business_studies', chapter_key: PL, schedule: s.schedule, reps: 1, lapses: 0, due_at: s.due_at, last_review_at: new Date(at).toISOString(), last_rating: 3, added_from: 'chapter', added_at: new Date(at).toISOString(), suspended: false }; });
   const { learn } = setup({ isPro: true, tables: { key_card_states: due } });
@@ -415,8 +415,11 @@ test('the feed never serves a due card, and moves forward: two feeds in a row sh
   await learn.end('u1', a.id);
   const b = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'feed', requestKey: 'fwd-000002', fresh: true })).body;
   const cardsB = b.items.filter((i) => i.type === 'card').map((i) => i.card.id);
-  const unshown = PLANNING.filter((c) => !cardsA.includes(c.id) && !due.some((d) => d.card_id === c.id)).length;
-  if (unshown >= cardsB.length) assert.deepEqual(cardsB.filter((id) => cardsA.includes(id)), [], 'S1 feed pool (BUILD-1101 1.2)');
+  const unshown = PLANNING.filter((c) => !cardsA.includes(c.id) && !due.some((d) => d.card_id === c.id)).map((c) => c.id);
+  // The cards not shown come first (BUILD-1101 1.2): all in the second feed, and only they while there are enough of them.
+  if (unshown.length >= cardsB.length) assert.deepEqual(cardsB.filter((id) => cardsA.includes(id)), [], 'the second feed moves forward');
+  else assert.deepEqual(unshown.filter((id) => !cardsB.includes(id)), [], 'every unshown card is in the second feed');
+  assert.ok(b.items.every((i) => i.type !== 'card' || !due.some((d) => d.card_id === i.card.id)), 'never a due card');
 });
 
 // ---------------------------------------------------------------- end

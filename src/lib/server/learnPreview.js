@@ -136,8 +136,9 @@ async function seedReturning(entry, { isPro, user, now, c }) {
   };
   makeDue(pf, 3);
   makeDue('accountancy.accounting-ratios', 3);
-  // An unfinished run in Admission of a Partner: a 7-minute mix started earlier today (up to two hours ago), 6 items done.
-  const out = await entry.learnService.start(user, { chapterKey: aop, minutes: 7, leaveOut: [], kind: 'mix', requestKey: 'preview-seed-aop-run' });
+  // An unfinished run in Admission of a Partner: an 8-minute mix (16 items for Pro at the seconds of data/learn/seconds.js)
+  // started earlier today (up to two hours ago), 6 items done.
+  const out = await entry.learnService.start(user, { chapterKey: aop, minutes: 8, leaveOut: [], kind: 'mix', requestKey: 'preview-seed-aop-run' });
   const run = (t.learn_runs || []).find((r) => r.id === out.body?.id);
   if (!run) return;
   const sinceMidnight = (now + IST_MS) % DAY;

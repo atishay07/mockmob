@@ -1,10 +1,11 @@
 // Learn v2 search (data/learn/search.js): chapters, lesson titles and Key cards (front, quote, kind) in one subject,
-// 2+ characters, every word must match, match spans, and a locked card never returns its text.
+// 2+ characters, every kept word must match, match spans, and a locked card never returns its text. BUILD-1101 R13 (A5 section 4
+// item 14): small words and study words dropped, short forms read as their words, one-edit matches at half weight.
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
-import { queryWords, searchSubject, spans } from '../learn/search.js';
+import { ABBREVIATIONS, oneEdit, queryWords, readQuery, searchSubject, spans } from '../learn/search.js';
 import { KIND_LABELS, lockedStub, tasteIds } from '../keycards.js';
 
 const deck = JSON.parse(readFileSync(path.join(process.cwd(), 'data/keycards/decks/accountancy.json'), 'utf8')).cards;
@@ -78,4 +79,66 @@ test('no match, and the overflow count past the limit', () => {
   const many = searchSubject({ ...base, query: 'the', limit: 5 });
   assert.equal(many.cards.length, 5);
   assert.ok(many.more > 0);
+});
+
+// ---------------------------------------------------------------- R13 (A5 section 4 item 14)
+
+const ids = (out) => out.cards.map((r) => r.card.id);
+
+test('R13: small words and study words are dropped unless nothing else is left; neither required nor scored', () => {
+  assert.deepEqual(queryWords('what is goodwill'), ['goodwill']);
+  assert.deepEqual(queryWords('Goodwill meaning?'), ['goodwill']);
+  assert.deepEqual(queryWords('define the term partner'), ['term', 'partner']);
+  assert.deepEqual(queryWords('the'), ['the'], 'kept when nothing else is left');
+  assert.deepEqual(readQuery('interest on capital'), { words: ['interest', 'capital'], phrase: 'interest on capital' });
+  const goodwill = searchSubject({ ...base, query: 'goodwill', limit: 500 });
+  assert.ok(goodwill.total > 10);
+  for (const q of ['what is goodwill', 'goodwill meaning', 'Define goodwill', 'explain goodwill']) {
+    const out = searchSubject({ ...base, query: q, limit: 500 });
+    assert.deepEqual(ids(out), ids(goodwill), `"${q}" returns the "goodwill" set, in the same order`);
+  }
+});
+
+test('R13: short forms are read as their words (IOC, IOD, P&L, PL, CFS, BS)', () => {
+  assert.equal(ABBREVIATIONS.ioc, 'interest on capital');
+  assert.deepEqual(queryWords('IOC'), ['interest', 'capital']);
+  assert.deepEqual(queryWords('p&l'), ['profit', 'loss']);
+  assert.deepEqual(queryWords('P & L account'), ['profit', 'loss', 'account']);
+  assert.deepEqual(readQuery('cfs'), { words: ['cash', 'flow'], phrase: 'cash flow' }, '"statement" is a Key cards small word: neither required nor scored');
+  assert.deepEqual(queryWords('fifo'), ['fifo'], 'fifo stays a word');
+  const ioc = searchSubject({ ...base, query: 'IOC', limit: 500 });
+  const full = searchSubject({ ...base, query: 'interest on capital', limit: 500 });
+  assert.ok(ioc.total > 0);
+  assert.deepEqual(ids(ioc), ids(full));
+  for (const r of ioc.cards) assert.match(`${r.card.front} ${r.card.quote}`.toLowerCase(), /interest[\s\S]*capital|capital[\s\S]*interest/);
+});
+
+test('R13: "interest on capital" ranks the cards that start with it first; repeats of a word add nothing', () => {
+  const out = searchSubject({ ...base, query: 'interest on capital' });
+  assert.ok(out.cards.length >= 4);
+  const starts = out.cards.filter((r) => r.card.front.toLowerCase().startsWith('interest on capital'));
+  assert.ok(starts.length >= 2);
+  const firstOther = out.cards.findIndex((r) => !r.card.front.toLowerCase().includes('interest on capital') && !String(r.card.quote || '').toLowerCase().includes('interest on capital'));
+  const lastStart = out.cards.map((r) => r.card.front.toLowerCase().startsWith('interest on capital')).lastIndexOf(true);
+  if (firstOther >= 0) assert.ok(lastStart < firstOther, 'every card that starts with the phrase ranks above a card without it');
+});
+
+test('R13: a word of 6 or more letters matches within one edit at half weight ("revalution" finds revaluation)', () => {
+  assert.equal(oneEdit('revalution', 'revaluation'), true);
+  assert.equal(oneEdit('goodwil', 'goodwill'), true);
+  assert.equal(oneEdit('capital', 'capital'), false);
+  assert.equal(oneEdit('ratio', 'radios'), false);
+  const typo = searchSubject({ ...base, query: 'revalution', limit: 500 });
+  const right = searchSubject({ ...base, query: 'revaluation', limit: 500 });
+  assert.ok(typo.total > 0);
+  assert.ok(typo.total >= right.total * 0.8, `${typo.total} of ${right.total}`);
+  for (const r of typo.cards.slice(0, 5)) {
+    const f = Object.keys(r.match)[0];
+    const s = r.match[f][0];
+    assert.equal(r.card[f].slice(s.start, s.end).toLowerCase(), 'revaluation', 'the span marks the word that matched');
+  }
+  assert.equal(searchSubject({ ...base, query: 'ratoi' }).total, 0, 'a short word needs an exact hit');
+  // An exact hit outranks a one-edit hit.
+  const mixed = searchSubject({ query: 'goodwill', cards: [{ id: 'a', front: 'Goodwil written off', chapterKey: 'x' }, { id: 'b', front: 'Goodwill written off', chapterKey: 'x' }] });
+  assert.deepEqual(mixed.cards.map((r) => r.card.id), ['b', 'a']);
 });

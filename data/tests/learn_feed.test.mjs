@@ -1,67 +1,169 @@
-// Learn v2: the Explore feed v2 (docs/brain/learn-1031/FEED-2.md). The pure rules of data/learn/feed.js (checkpoint cadence,
-// the checkpoint number, Free's one feed a day, the covers order and line, the feed's order shape), then the preview routes end
-// to end: the real feed order, Keep's real return day, the end screen's keys and Free's second feed.
+// Learn v2: the Explore feed v2 (docs/brain/learn-1031/FEED-2.md, BUILD-1101 1.2, 1.4, R12 and R16). The pure rules of
+// data/learn/feed.js (checkpoint cadence, the checkpoint number, the covers order and line, the end rows, the feed's order
+// shape) and the feed's card pool in data/learn/compose.js (A5 section 4 items 1, 2 and 7), then the preview routes end to end:
+// the real feed order, Keep, the end screen's keys and Free's one Learn session a day.
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { CHECKPOINT_LINE, FEED_RULES, FREE_FEED_DONE, checkpointNumber, coverLine, coverOrder, feedOrderProblems, feedSlots, feedsOnDay, freeFeed } from '../learn/feed.js';
-import { orderProblems } from '../learn/compose.js';
-import { istDay } from '../keycards.js';
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { CHECKPOINT_LINE, FEED_RULES, FREE_FEED_DONE, checkpointNumber, coverLine, coverOrder, feedEndLines, feedOrderProblems, feedSlots, feedsOnDay, freeFeed, keptLine } from '../learn/feed.js';
+import { composeRun, feedCardPool, orderProblems } from '../learn/compose.js';
+import { FREE_SESSION_DONE } from '../learn/allowance.js';
+import { istDay, schedule, tasteIds } from '../keycards.js';
 import { previewAnswer } from '../../src/lib/server/keycardsPreview.js';
 
 const items = (n) => Array.from({ length: n }, (_, i) => ({ id: `i${i + 1}`, type: i % 3 === 2 ? 'question' : 'card' }));
+const DAY = 86_400_000;
+const NOW = Date.parse('2026-11-01T10:00:00+05:30');
+const DECK = JSON.parse(readFileSync(path.join(process.cwd(), 'data/keycards/decks/accountancy.json'), 'utf8')).cards;
+const FIX = JSON.parse(readFileSync(path.join(process.cwd(), 'data/fixtures/learn-preview-questions.json'), 'utf8')).questions;
+const PF_CARDS = DECK.filter((c) => c.chapterKey === 'accountancy.partnership-fundamentals');
+const PF_QS = FIX.filter((q) => q.chapter === 'Partnership Fundamentals').map((q) => ({ id: q.id, difficulty: q.difficulty, cards: q.cards, seen: false, words: q.body.split(/\s+/).length }));
+const held = (id, dueIn, reps = 1) => {
+  const at = NOW - 3 * DAY;
+  const s = schedule(null, 3, at);
+  return [id, { card_id: id, reps, due_at: new Date(NOW + dueIn).toISOString(), schedule: s.schedule, suspended: false }];
+};
+const cardIds = (run) => run.items.filter((i) => i.type === 'card').map((i) => i.cardId);
+/** "Shown" after a feed: every card of it, at the time the student acted on its last item (BUILD-1101 1.2). */
+const shownAfter = (run, at, into = new Map()) => { for (const id of cardIds(run)) into.set(id, at); return into; };
 
-test('checkpoints: one after every 8 items, never after the last item, never two in a row', () => {
+test('checkpoints: after item 8, 16, ... only when 4 or more items follow; never two in a row; the line is R16\'s', () => {
   assert.equal(FEED_RULES.checkpointEvery, 8);
   const s21 = feedSlots(items(21));
   assert.deepEqual(s21.filter((s) => s.type === 'checkpoint').map((s) => s.after), [8, 16]);
   assert.equal(s21.length, 23);
   assert.equal(s21[8].type, 'checkpoint');
   assert.equal(s21[s21.length - 1].type, 'item');
-  assert.deepEqual(feedSlots(items(16)).filter((s) => s.type === 'checkpoint').map((s) => s.after), [8], 'none closes a feed of 16');
-  assert.deepEqual(feedSlots(items(8)).filter((s) => s.type === 'checkpoint'), [], 'none closes a feed of 8');
-  assert.deepEqual(feedSlots(items(9)).filter((s) => s.type === 'checkpoint').map((s) => s.after), [8]);
+  assert.deepEqual(feedSlots(items(16)).filter((s) => s.type === 'checkpoint').map((s) => s.after), [8]);
+  assert.deepEqual(feedSlots(items(8)).filter((s) => s.type === 'checkpoint'), []);
+  assert.deepEqual(feedSlots(items(9)).filter((s) => s.type === 'checkpoint'), [], 'one item after 8 is too few');
+  assert.deepEqual(feedSlots(items(11)).filter((s) => s.type === 'checkpoint'), [], 'three after is too few');
+  assert.deepEqual(feedSlots(items(12)).filter((s) => s.type === 'checkpoint').map((s) => s.after), [8], 'four after is enough');
+  assert.deepEqual(feedSlots(items(33)).filter((s) => s.type === 'checkpoint').map((s) => s.after), [8, 16, 24], 'not after 32 of 33 (A5 F9)');
   assert.deepEqual(feedSlots([]), []);
   const s = feedSlots(items(30));
   for (let i = 1; i < s.length; i += 1) assert.ok(!(s[i].type === 'checkpoint' && s[i - 1].type === 'checkpoint'));
   assert.deepEqual(s.filter((x) => x.type === 'item').map((x) => x.n), Array.from({ length: 30 }, (_, i) => i + 1));
+  assert.equal(CHECKPOINT_LINE, 'Keep going, or stop here. What you kept is already in Revise.');
+});
+
+// A5 section 4 item 7: no checkpoint with fewer than 4 items after it, over every composed feed.
+test('checkpoints on real feeds: none has fewer than 4 items after it', () => {
+  for (const minutes of [5, 10, 20, 30]) {
+    const run = composeRun({ kind: 'feed', minutes, cards: PF_CARDS, states: new Map(), now: NOW, questions: PF_QS });
+    for (const cp of feedSlots(run.items).filter((x) => x.type === 'checkpoint')) assert.ok(run.items.length - cp.after >= 4, `${minutes} min: checkpoint after ${cp.after} of ${run.items.length}`);
+  }
 });
 
 test('the checkpoint number: questions once one is answered, else the cards', () => {
   assert.equal(checkpointNumber({ answered: 6, right: 5, seen: 10, kept: 2 }), '5 of 6 right');
   assert.equal(checkpointNumber({ answered: 0, seen: 6, kept: 2 }), '6 cards seen, 2 kept');
   assert.equal(checkpointNumber({ seen: 1, kept: 0 }), '1 card seen, 0 kept');
-  assert.equal(CHECKPOINT_LINE, 'Keep going, or stop here and save what you kept.');
 });
 
-test('Free plays one feed a day: the end of it says so in place of the lead, and a second does not start', () => {
+test('LK15 kept for older importers: the feed line is the session line; days are India days', () => {
+  assert.equal(FREE_FEED_DONE, FREE_SESSION_DONE);
   assert.deepEqual(freeFeed({ isPro: true, startedToday: 9 }), { canStart: true, endLine: null, left: null });
-  assert.deepEqual(freeFeed({ isPro: false, startedToday: 0 }), { canStart: true, endLine: null, left: 1 });
-  assert.deepEqual(freeFeed({ isPro: false, startedToday: 1 }), { canStart: false, endLine: FREE_FEED_DONE, left: 0 });
-  assert.equal(FREE_FEED_DONE, 'Your free feed for today is done. Pro has as many as you like.');
-  // Feeds counted by India day: 11:50 pm and 12:10 am IST are two days.
+  assert.deepEqual(freeFeed({ isPro: false, startedToday: 1 }), { canStart: false, endLine: FREE_SESSION_DONE, left: 0 });
   const t1 = Date.parse('2026-11-01T23:50:00+05:30');
   const t2 = Date.parse('2026-11-02T00:10:00+05:30');
-  assert.equal(feedsOnDay([t1], t2, istDay), 0);
+  assert.equal(feedsOnDay([t1], t2, istDay), 0, '11:50 pm and 12:10 am IST are two days');
   assert.equal(feedsOnDay([t1, t2], t2, istDay), 1);
 });
 
-test('covers: the suggested chapter first (due cards or open mistakes), then book order; nothing to play is left out', () => {
-  const chapters = [
-    { key: 'a', title: 'A', order: 0, cards: 16, questions: 5, due: 0, mistakes: 0 },
-    { key: 'b', title: 'B', order: 1, cards: 0, questions: 0, due: 0, mistakes: 0 },
-    { key: 'c', title: 'C', order: 2, cards: 8, questions: 7, due: 3, mistakes: 3 },
-    { key: 'd', title: 'D', order: 3, cards: 30, questions: 0, due: 1, mistakes: 0 },
-  ];
-  const out = coverOrder(chapters);
-  assert.deepEqual(out.map((c) => c.key), ['c', 'a', 'd']);
-  assert.deepEqual(out.map((c) => c.forYou), [true, false, false]);
-  const fresh = coverOrder(chapters.map((c) => ({ ...c, due: 0, mistakes: 0 })));
-  assert.equal(fresh[0].key, 'a', 'a new student starts at the first chapter in book order');
-  assert.equal(coverOrder(chapters, 2).length, 2);
+// A5 section 4 item 1: the feed moves forward.
+test('the feed pool (BUILD 1.2): two feeds in a row share no card while the chapter has unshown cards; shown cards rest 3 days', () => {
+  const a = composeRun({ kind: 'feed', minutes: 10, cards: PF_CARDS, states: new Map(), now: NOW, questions: PF_QS });
+  const shown = shownAfter(a, NOW);
+  const b = composeRun({ kind: 'feed', minutes: 10, cards: PF_CARDS, states: new Map(), now: NOW + 60_000, questions: PF_QS, shownAt: shown });
+  assert.ok(PF_CARDS.length - cardIds(a).length >= cardIds(b).length, 'the chapter has enough unshown cards');
+  assert.deepEqual(cardIds(b).filter((id) => cardIds(a).includes(id)), [], 'no card of the first feed');
+  // When the unshown cards run out, the shown ones come back, the oldest shown first.
+  const all = new Map(PF_CARDS.map((c, i) => [c.id, NOW - (i % 2 ? 1 : 2) * DAY]));
+  const c = composeRun({ kind: 'feed', minutes: 5, cards: PF_CARDS, states: new Map(), now: NOW, questions: PF_QS, shownAt: all });
+  assert.ok(cardIds(c).length > 0);
+  assert.ok(cardIds(c).every((id) => all.get(id) === NOW - 2 * DAY), 'the oldest shown first');
+  // After 3 days a shown card is rested and counts as unshown again (Must-know first, then book order).
+  const rested = composeRun({ kind: 'feed', minutes: 5, cards: PF_CARDS, states: new Map(), now: NOW + 3 * DAY, questions: PF_QS, shownAt: shown });
+  assert.ok(cardIds(rested).length > 0);
+  const pool = feedCardPool(PF_CARDS, new Map(), shown, NOW + 60_000);
+  const firstShown = pool.fresh.findIndex((x) => shown.has(x.card.id));
+  assert.ok(pool.fresh.slice(firstShown).every((x) => shown.has(x.card.id)), 'the shown cards come after every unshown one');
+});
+
+// A5 section 4 item 2: never a due card; held cards that are not due only as looks, only when the fresh cards run out.
+test('the feed never serves a due card; a card held in Revise (not due) only as a look, when the cards not in Revise run out', () => {
+  const taste = tasteIds(PF_CARDS);
+  const open = PF_CARDS.filter((c) => taste.has(c.id));
+  const [a, b, c, d, e] = open.map((x) => x.id);
+  const states = new Map([held(a, -DAY), held(b, -DAY), held(c, 2 * DAY), held(d, 4 * DAY)]);
+  const run = composeRun({ kind: 'feed', minutes: 10, cards: open, states, now: NOW, questions: PF_QS, ratingsLeft: 10, newLeft: 5 });
+  const cards = run.items.filter((i) => i.type === 'card');
+  assert.ok(!cards.some((i) => i.cardId === a || i.cardId === b), 'never a due card');
+  assert.deepEqual(cards.filter((i) => !i.look).map((i) => i.cardId), [e], 'the one card not held is a card');
+  assert.deepEqual(cards.filter((i) => i.look).map((i) => i.cardId).sort(), [c, d].sort(), 'the held ones, not due, are looks');
+  assert.ok(cards.filter((i) => i.look).every((i) => i.seconds === 10 || i.seconds === 18));
+  assert.ok(cards.indexOf(cards.find((i) => i.cardId === e)) < cards.findIndex((i) => i.look), 'looks after the fresh cards');
+  // With enough fresh cards a held card does not join at all.
+  const pro = composeRun({ kind: 'feed', minutes: 5, cards: PF_CARDS, states, now: NOW, questions: PF_QS });
+  assert.ok(pro.items.every((i) => i.type !== 'card' || (!i.look && ![a, b, c, d].includes(i.cardId))));
+  // A kept card (in Revise, never reviewed) is neither fresh nor a look.
+  const kept = composeRun({ kind: 'feed', minutes: 5, cards: open, states: new Map([[e, { card_id: e, reps: 0, due_at: new Date(NOW).toISOString(), suspended: false }]]), now: NOW, questions: [] });
+  assert.ok(!cardIds(kept).includes(e));
+  // Free's ratings never turn a feed card into a look (a feed card is never rated).
+  const used = composeRun({ kind: 'feed', minutes: 5, cards: open, states: new Map(), now: NOW, questions: PF_QS, ratingsLeft: 0, newLeft: 0 });
+  assert.ok(used.items.every((i) => i.type !== 'card' || !i.look));
+});
+
+test('the feed split: about 35 percent cards, the questions first; 10 minutes is about 12 cards and 6 questions', () => {
+  const qs = Array.from({ length: 40 }, (_, i) => ({ id: `q${i}`, difficulty: ['easy', 'medium', 'hard'][i % 3], cards: [], seen: false, words: 30 }));
+  const cards = Array.from({ length: 60 }, (_, i) => ({ id: `c${i}`, order: i, importance: 'good', front: 'x', quote: 'y' }));
+  for (const minutes of [5, 10, 20]) {
+    const run = composeRun({ kind: 'feed', minutes, cards, states: new Map(), now: NOW, questions: qs });
+    const share = run.piles.cards.seconds / run.seconds;
+    assert.ok(share > 0.25 && share < 0.45, `${minutes} min: cards take ${share}`);
+    assert.deepEqual(feedOrderProblems(run.items), [], `${minutes} min keeps the feed's shape`);
+  }
+  const ten = composeRun({ kind: 'feed', minutes: 10, cards, states: new Map(), now: NOW, questions: qs });
+  assert.ok(Math.abs(ten.piles.cards.count - 11) <= 2 && Math.abs(ten.piles.questions.count - 6) <= 1, `${ten.piles.cards.count} cards, ${ten.piles.questions.count} questions`);
+});
+
+test('covers (R12): every playable chapter; For you first with its reason; then book order from the chapter after it, wrapping', () => {
+  const ch = (key, order, o = {}) => ({ key, title: key.toUpperCase(), order, chapterNo: order + 1, cards: 5, questions: 3, mistakes: 0, lastActivityAt: null, hasNew: true, openFeed: false, ...o });
+  const base = [ch('a', 0), ch('b', 1, { cards: 0, questions: 0 }), ch('c', 2), ch('d', 3), ch('e', 4)];
+  const keys = (list) => list.map((c) => c.key);
+  // 4. a new student: the first chapter with cards.
+  const fresh = coverOrder(base);
+  assert.deepEqual(keys(fresh), ['a', 'c', 'd', 'e'], 'a chapter with nothing to play is left out; no cap');
+  assert.deepEqual([fresh[0].forYou, fresh[0].reason], [true, 'Chapter 1 of your book']);
+  assert.ok(fresh.slice(1).every((c) => !c.forYou && c.reason === null));
+  // 3. the chapter after the latest Learn activity that has new cards.
+  const next = coverOrder(base.map((c) => (c.key === 'c' ? { ...c, lastActivityAt: 5 } : c.key === 'a' ? { ...c, lastActivityAt: 2 } : c.key === 'd' ? { ...c, hasNew: false } : c)));
+  assert.deepEqual(keys(next), ['e', 'a', 'c', 'd'], 'For you, then book order from the next chapter, wrapping');
+  assert.equal(next[0].reason, 'Next after C');
+  // 2. the most old mistakes.
+  const mistakes = coverOrder(base.map((c) => (c.key === 'd' ? { ...c, mistakes: 2 } : c.key === 'a' ? { ...c, mistakes: 1, lastActivityAt: 9 } : c)));
+  assert.deepEqual([mistakes[0].key, mistakes[0].reason], ['d', '2 old mistakes to fix']);
+  assert.deepEqual(keys(mistakes), ['d', 'e', 'a', 'c']);
+  assert.equal(coverOrder(base.map((c) => (c.key === 'e' ? { ...c, mistakes: 1 } : c)))[0].reason, '1 old mistake to fix');
+  // 1. today's unfinished feed.
+  const pick = coverOrder(base.map((c) => (c.key === 'c' ? { ...c, openFeed: true } : c.key === 'd' ? { ...c, mistakes: 3 } : c)));
+  assert.deepEqual([pick[0].key, pick[0].reason], ['c', 'Pick up where you stopped']);
+  assert.equal(coverOrder(base, 2).length, 2);
   assert.deepEqual(coverOrder([]), []);
   assert.equal(coverLine(10, { cards: 16, questions: 5 }), '10 minutes, 16 Key cards and 5 questions');
   assert.equal(coverLine(5, { cards: 1, questions: 0 }), '5 minutes, 1 Key card');
   assert.equal(coverLine(1, { cards: 0, questions: 1 }), '1 minute, 1 question');
+});
+
+test('the feed end rows (R16): "Old mistakes: 1 still open" when none was fixed, never "Fixed: 0 of 1"; the kept line', () => {
+  assert.deepEqual(feedEndLines({ answered: 6, right: 4, fixed: 0, mistakes: 1 }), [{ label: 'Questions', text: '4 of 6 right' }, { label: 'Old mistakes', text: '1 still open' }]);
+  assert.deepEqual(feedEndLines({ fixed: 2, mistakes: 2 }), [{ label: 'Fixed', text: '2 old mistakes' }]);
+  assert.deepEqual(feedEndLines({ fixed: 1, mistakes: 2 }), [{ label: 'Fixed', text: '1 of 2 old mistakes' }]);
+  assert.deepEqual(feedEndLines({}), []);
+  assert.equal(keptLine(6), '6 kept. They are first in Revise.');
+  assert.equal(keptLine(0), null);
 });
 
 test('the feed order check: a card first, no two questions back to back while cards are left, about two cards a question', () => {

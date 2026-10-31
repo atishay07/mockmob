@@ -77,7 +77,8 @@ test('runs/preview: the piles of A1 for both plans, the lesson pile at 20 minute
   const p20 = (await pro('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: AOP, minutes: 20, leaveOut: [] } })).body;
   assert.deepEqual(p20.piles.find((p) => p.id === 'lesson'), { id: 'lesson', count: 1, minutes: 7, label: 'Lesson', minutesLabel: '7 min', left: false });
   const free = student('free');
-  const f20 = (await free('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: [] } })).body;
+  // BUILD-1101 1.5: a shrink only when the chapter has no more of what is in (here Questions is left out, so Free's 5 cards and 3 mistakes are all).
+  const f20 = (await free('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'] } })).body;
   assert.equal(f20.piles.find((p) => p.id === 'cards').count, 5);
   assert.ok(f20.shrink && f20.shrink.minutes < 20);
   assert.equal(f20.startLabel, `Start ${f20.shrink.minutes} minutes`);
@@ -217,12 +218,12 @@ test('cards, shelves and search answer the contract for both plans', async () =>
 
 test('honest shrink: "Add the next chapter" fills the rest from the next chapter in book order', async () => {
   const call = student('free');
-  const before = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: [] } })).body;
+  const before = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'] } })).body;
   assert.ok(before.shrink.addNext);
-  const after = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: [], addNext: true } })).body;
+  const after = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'], addNext: true } })).body;
   assert.deepEqual(after.added, { key: before.shrink.addNext.key, title: before.shrink.addNext.title });
   assert.ok(after.piles.find((p) => p.id === 'cards').count > before.piles.find((p) => p.id === 'cards').count);
-  const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: [], kind: 'mix', addNext: true } })).body;
+  const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'], kind: 'mix', addNext: true } })).body;
   assert.equal(run.added.key, before.shrink.addNext.key);
   assert.ok(run.items.some((i) => i.type === 'card' && i.card.chapterKey === before.shrink.addNext.key));
   noKeys(run);
