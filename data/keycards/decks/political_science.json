@@ -1,6 +1,6 @@
 {
   "subject": "political_science",
-  "version": 3,
+  "version": 4,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -3103,6 +3103,32 @@
       "asked": 0,
       "tags": [],
       "order": 420
+    },
+    {
+      "id": "kc.political_science.challenges-of-nation-building.fact-peaceful-negotiations",
+      "v": 2,
+      "subject": "political_science",
+      "chapterKey": "political_science.challenges-of-nation-building",
+      "chapter": "Challenges of Nation Building",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "How did almost all princely states next to India's new boundaries join the Union before 15 August 1947?",
+      "back": "Before 15 August 1947, peaceful negotiations had brought almost all states whose territories were contiguous to the new boundaries of India, into the Indian Union.",
+      "quote": "Before 15 August 1947, peaceful negotiations had brought almost all states whose territories were contiguous to the new boundaries of India, into the Indian Union.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps201",
+        "chapterNo": 1,
+        "page": 16,
+        "section": "Integration of Princely States"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 425,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.political_science.challenges-of-nation-building.list-three-considerations",
@@ -7546,6 +7572,33 @@
         "south-asia"
       ],
       "order": 590
+    },
+    {
+      "id": "kc.political_science.contemporary-south-asia.fact-bhutan-monarch-militants",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.contemporary-south-asia",
+      "chapter": "Contemporary South Asia",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "How did the Bhutanese monarch's efforts help India, according to NCERT?",
+      "back": "The efforts made by the Bhutanese monarch to weed out the guerrillas and militants from northeastern India that operate in his country have been helpful to India.",
+      "quote": "The efforts made by the Bhutanese monarch to weed out the guerrillas and militants from northeastern India that operate in his country have been helpful to India.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps103",
+        "chapterNo": 3,
+        "page": 41,
+        "section": "India and its Other Neighbours"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "south-asia"
+      ],
+      "order": 600
     },
     {
       "id": "kc.political_science.contemporary-south-asia.fact-nb-maldives-1988",
@@ -12640,6 +12693,31 @@
       "order": 900
     },
     {
+      "id": "kc.political_science.environment-and-natural-resources.fact-ozone-decline-danger",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What does a steady decline of ozone in the stratosphere (the 'ozone hole') endanger?",
+      "back": "A steady decline in the total amount of ozone in the Earth's stratosphere (commonly referred to as the ozone hole) poses a real danger to ecosystems and human health.",
+      "quote": "A steady decline in the total amount of ozone in the Earth's stratosphere (commonly referred to as the ozone hole) poses a real danger to ecosystems and human health.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 82,
+        "section": "Environmental Concerns in Global Politics"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 10
+    },
+    {
       "id": "kc.political_science.environment-and-natural-resources.fact-why-world-politics",
       "v": 1,
       "subject": "political_science",
@@ -13217,6 +13295,31 @@
       "order": 280
     },
     {
+      "id": "kc.political_science.environment-and-natural-resources.def-cbdr",
+      "v": 2,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "definition",
+      "front": "Define the principle of 'common but differentiated responsibilities' (Rio Declaration, 1992).",
+      "back": "Thus the special needs of the developing countries must be taken into account in the development, application, and interpretation of rules of international environmental law. This argument was accepted in the Rio Declaration at the Earth Summit in 1992 and is called the principle of ‘common but differentiated responsibilities’.",
+      "quote": "Thus the special needs of the developing countries must be taken into account in the development, application, and interpretation of rules of international environmental law. This argument was accepted in the Rio Declaration at the Earth Summit in 1992 and is called the principle of ‘common but differentiated responsibilities’.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 87,
+        "section": "Common but Differentiated Responsibilities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 290
+    },
+    {
       "id": "kc.political_science.environment-and-natural-resources.fact-cbdr-rio",
       "v": 1,
       "subject": "political_science",
@@ -13692,6 +13795,31 @@
       "order": 490
     },
     {
+      "id": "kc.political_science.environment-and-natural-resources.fact-paris-2016",
+      "v": 2,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "When did India ratify the Paris Climate Agreement?",
+      "back": "India ratified the Paris Climate Agreement on 2 October 2016.",
+      "quote": "India ratified the Paris Climate Agreement on 2 October 2016.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 90,
+        "section": "India's Stand on Environmental Issues"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 500
+    },
+    {
       "id": "kc.political_science.environment-and-natural-resources.fact-rio-review-1997",
       "v": 1,
       "subject": "political_science",
@@ -13740,6 +13868,31 @@
       "asked": 0,
       "tags": [],
       "order": 540
+    },
+    {
+      "id": "kc.political_science.environment-and-natural-resources.fact-wilderness-regions",
+      "v": 2,
+      "subject": "political_science",
+      "chapterKey": "political_science.environment-and-natural-resources",
+      "chapter": "Environment & Natural Resources",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "In which regions have wilderness-oriented perspectives been predominant?",
+      "back": "Wilderness-oriented perspectives have been predominant in Australia, Scandinavia, North America and New Zealand.",
+      "quote": "Wilderness-oriented perspectives have been predominant in Australia, Scandinavia, North America and New Zealand.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps106",
+        "chapterNo": 6,
+        "page": 91,
+        "section": "Environmental Movements: One or Many?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [],
+      "order": 550
     },
     {
       "id": "kc.political_science.environment-and-natural-resources.fact-wwf",
@@ -22510,6 +22663,33 @@
       "order": 230
     },
     {
+      "id": "kc.political_science.politics-of-planned-development.fact-kn-raj",
+      "v": 3,
+      "subject": "political_science",
+      "chapterKey": "political_science.politics-of-planned-development",
+      "chapter": "Politics of Planned Development",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "Which young economist involved in drafting the First Plan argued that India should hasten slowly?",
+      "back": "K.N. Raj, a young economist involved in drafting the plan, argued that India should ‘hasten slowly’ for the first two decades as a fast rate of development might endanger democracy.",
+      "quote": "K.N. Raj, a young economist involved in drafting the plan, argued that India should ‘hasten slowly’ for the first two decades as a fast rate of development might endanger democracy.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps203",
+        "chapterNo": 3,
+        "page": 51,
+        "section": "The First Five Year Plan"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "planning"
+      ],
+      "order": 240
+    },
+    {
       "id": "kc.political_science.politics-of-planned-development.fact-first-plan-agrarian",
       "v": 1,
       "subject": "political_science",
@@ -26748,6 +26928,60 @@
         "regional-aspirations"
       ],
       "order": 1080
+    },
+    {
+      "id": "kc.political_science.regional-aspirations.fact-regional-share-in-power",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.regional-aspirations",
+      "chapter": "Regional Aspirations",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "Beyond a formal democratic structure, what must groups and parties from a region be given at the State level?",
+      "back": "It is not sufficient to have a formal democratic structure. Besides that, groups and parties from the region need to be given share in power at the State level.",
+      "quote": "It is not sufficient to have a formal democratic structure. Besides that, groups and parties from the region need to be given share in power at the State level.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps207",
+        "chapterNo": 7,
+        "page": 132,
+        "section": "Accommodation and National Integration"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "regional-aspirations"
+      ],
+      "order": 1090
+    },
+    {
+      "id": "kc.political_science.regional-aspirations.fact-regional-imbalance-discrimination",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.regional-aspirations",
+      "chapter": "Regional Aspirations",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "What does regional imbalance in economic development contribute to, according to NCERT?",
+      "back": "The fourth lesson is that regional imbalance in economic development contributes to the feeling of regional discrimination.",
+      "quote": "The fourth lesson is that regional imbalance in economic development contributes to the feeling of regional discrimination.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps207",
+        "chapterNo": 7,
+        "page": 132,
+        "section": "Accommodation and National Integration"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "regional-aspirations"
+      ],
+      "order": 1100
     },
     {
       "id": "kc.political_science.regional-aspirations.term-sixth-schedule",

@@ -21,11 +21,11 @@
       "belowMinimum": false
     },
     "political_science.challenges-of-nation-building": {
-      "published": 74,
-      "quarantined": 2,
+      "published": 75,
+      "quarantined": 1,
       "byKind": {
         "list": 3,
-        "fact": 58,
+        "fact": 59,
         "quote": 4,
         "key_line": 2,
         "definition": 4,
@@ -33,10 +33,10 @@
       },
       "byImportance": {
         "must": 59,
-        "good": 15
+        "good": 16
       },
       "coverage_note": null,
-      "mustShare": 0.8,
+      "mustShare": 0.79,
       "belowMinimum": false
     },
     "political_science.challenges-to-and-restoration-of-the-congress-system": {
@@ -57,20 +57,20 @@
       "belowMinimum": false
     },
     "political_science.contemporary-south-asia": {
-      "published": 70,
-      "quarantined": 2,
+      "published": 71,
+      "quarantined": 1,
       "byKind": {
         "list": 4,
-        "fact": 60,
+        "fact": 61,
         "key_line": 4,
         "definition": 2
       },
       "byImportance": {
         "must": 39,
-        "good": 31
+        "good": 32
       },
       "coverage_note": null,
-      "mustShare": 0.56,
+      "mustShare": 0.55,
       "belowMinimum": false
     },
     "political_science.crisis-of-the-democratic-order": {
@@ -128,22 +128,22 @@
       "belowMinimum": false
     },
     "political_science.environment-and-natural-resources": {
-      "published": 61,
-      "quarantined": 17,
+      "published": 65,
+      "quarantined": 10,
       "byKind": {
-        "fact": 41,
-        "definition": 9,
+        "fact": 44,
+        "definition": 10,
         "list": 7,
         "term": 2,
         "quote": 1,
         "difference": 1
       },
       "byImportance": {
-        "must": 42,
-        "good": 19
+        "must": 44,
+        "good": 21
       },
       "coverage_note": null,
-      "mustShare": 0.69,
+      "mustShare": 0.68,
       "belowMinimum": false
     },
     "political_science.era-of-one-party-dominance": {
@@ -219,21 +219,21 @@
       "belowMinimum": false
     },
     "political_science.politics-of-planned-development": {
-      "published": 35,
-      "quarantined": 1,
+      "published": 36,
+      "quarantined": 0,
       "byKind": {
         "definition": 4,
         "types": 1,
-        "fact": 27,
+        "fact": 28,
         "key_line": 2,
         "list": 1
       },
       "byImportance": {
         "must": 25,
-        "good": 10
+        "good": 11
       },
       "coverage_note": null,
-      "mustShare": 0.71,
+      "mustShare": 0.69,
       "belowMinimum": false
     },
     "political_science.recent-issues-and-challenges": {
@@ -254,22 +254,22 @@
       "belowMinimum": false
     },
     "political_science.regional-aspirations": {
-      "published": 103,
-      "quarantined": 4,
+      "published": 105,
+      "quarantined": 2,
       "byKind": {
         "key_line": 3,
-        "fact": 93,
+        "fact": 95,
         "steps": 1,
         "list": 4,
         "quote": 1,
         "term": 1
       },
       "byImportance": {
-        "must": 55,
+        "must": 57,
         "good": 48
       },
       "coverage_note": null,
-      "mustShare": 0.53,
+      "mustShare": 0.54,
       "belowMinimum": false
     },
     "political_science.security-in-the-contemporary-world": {

@@ -97,52 +97,17 @@
       ]
     },
     {
-      "id": "kc.economics.indian-economic-development-1950-1990.kl-prices-signals",
-      "v": 2,
+      "id": "kc.economics.indian-economic-development-1950-1990.fact-prices-signals",
+      "v": 1,
       "subject": "economics",
       "chapterKey": "economics.indian-economic-development-1950-1990",
       "chapter": "Indian Economic Development 1950–1990",
       "unit": "Indian Economic Development 1950–1990",
-      "kind": "key_line",
-      "front": "Prices are ____ about the availability of goods.",
+      "kind": "fact",
+      "front": "In NCERT's Box 2.6 on prices as signals: prices are signals about what?",
       "back": "Prices are signals about the availability of goods.",
       "quote": "Prices are signals about the availability of goods.",
-      "blanks": [
-        "signals"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec102",
-        "chapterNo": 2,
-        "page": 27,
-        "section": "2.3 Agriculture: The Debate Over Subsidies"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "subsidies"
-      ],
-      "order": 710,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front has no context (which kind of economy); \"signals\" has obvious synonyms (indicators, information)."
-      ]
-    },
-    {
-      "id": "kc.economics.indian-economic-development-1950-1990.kl-not-absorbed",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.indian-economic-development-1950-1990",
-      "chapter": "Indian Economic Development 1950–1990",
-      "unit": "Indian Economic Development 1950–1990",
-      "kind": "key_line",
-      "front": "The industrial sector and the service sector did not ____ the people working in the agricultural sector",
-      "back": "The industrial sector and the service sector did not absorb the people working in the agricultural sector",
-      "quote": "The industrial sector and the service sector did not absorb the people working in the agricultural sector",
-      "blanks": [
-        "absorb"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Indian Economic Development",
@@ -154,29 +119,27 @@
       "importance": "must",
       "asked": 0,
       "tags": [
-        "agriculture",
-        "employment"
+        "subsidies"
       ],
-      "order": 750,
+      "order": 710,
       "reasons": [
+        "review:not_important",
         "review:not_unambiguous",
-        "review:\"absorb\" has obvious synonyms (employ, accommodate, accept); fill is not unique."
+        "review:Box 2.6 side-box on incentives, not a listed CUET point; 'availability of goods' has synonyms (scarcity, supply) so the front has no single answer."
       ]
     },
     {
-      "id": "kc.economics.indian-economic-development-1950-1990.kl-no-distinction",
-      "v": 2,
+      "id": "kc.economics.indian-economic-development-1950-1990.fact-no-public-private-distinction",
+      "v": 1,
       "subject": "economics",
       "chapterKey": "economics.indian-economic-development-1950-1990",
       "chapter": "Indian Economic Development 1950–1990",
       "unit": "Indian Economic Development 1950–1990",
-      "kind": "key_line",
-      "front": "No ____ was made between (i) what the public sector alone can do and (ii) what the private sector can also do",
+      "kind": "fact",
+      "front": "After four decades of planning, what did NCERT say was not distinguished between the public and private sectors?",
       "back": "No distinction was made between (i) what the public sector alone can do and (ii) what the private sector can also do",
       "quote": "No distinction was made between (i) what the public sector alone can do and (ii) what the private sector can also do",
-      "blanks": [
-        "distinction"
-      ],
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Indian Economic Development",
@@ -192,8 +155,8 @@
       ],
       "order": 1070,
       "reasons": [
-        "review:not_unambiguous",
-        "review:\"distinction\" has obvious synonym \"difference\"; fill is not unique."
+        "review:not_importanceRight",
+        "review:Policy critique, not a definition or list; should be 'good'."
       ]
     },
     {
@@ -225,39 +188,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:CONFLICT: keec102 p.32 'even now only the public sector supplies national defense' versus keec103 p.41 'the only industries now reserved for the public sector are part of atomic energy and some railway activities'. Keep the later, more specific reform-chapter statement. (conflict sweep, 31 Oct)"
-      ]
-    },
-    {
-      "id": "kc.economics.indian-economic-development-1950-1990.kl-public-sector-welfare",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.indian-economic-development-1950-1990",
-      "chapter": "Indian Economic Development 1950–1990",
-      "unit": "Indian Economic Development 1950–1990",
-      "kind": "key_line",
-      "front": "The public sector is not meant for earning profits but to promote the ____ of the nation",
-      "back": "The public sector is not meant for earning profits but to promote the welfare of the nation",
-      "quote": "The public sector is not meant for earning profits but to promote the welfare of the nation",
-      "blanks": [
-        "welfare"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec102",
-        "chapterNo": 2,
-        "page": 32,
-        "section": "2.5 Trade Policy: Import Substitution"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "public-sector"
-      ],
-      "order": 1150,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:\"welfare\" has synonyms (development, good, interest); fill is not unique."
       ]
     },
     {
@@ -327,19 +257,17 @@
       ]
     },
     {
-      "id": "kc.economics.human-capital-formation.kl-turn-resources-into-capital",
-      "v": 2,
+      "id": "kc.economics.human-capital-formation.fact-resources-into-capital",
+      "v": 1,
       "subject": "economics",
       "chapterKey": "economics.human-capital-formation",
       "chapter": "Human Capital Formation",
       "unit": "Current Challenges Facing the Indian Economy",
-      "kind": "key_line",
-      "front": "Human resources like nurses, farmers, teachers, students into ____ like engineers and doctors.",
-      "back": "Human resources like nurses, farmers, teachers, students into human capital like engineers and doctors.",
-      "quote": "Human resources like nurses, farmers, teachers, students into human capital like engineers and doctors.",
-      "blanks": [
-        "human capital"
-      ],
+      "kind": "fact",
+      "front": "NCERT 4.2: how can a country turn human resources into human capital, by analogy with physical capital?",
+      "back": "Just as a country can turn physical resources like land into physical capital like factories, similarly, it can also turn human resources like nurses, farmers, teachers, students into human capital like engineers and doctors.",
+      "quote": "Just as a country can turn physical resources like land into physical capital like factories, similarly, it can also turn human resources like nurses, farmers, teachers, students into human capital like engineers and doctors.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Indian Economic Development",
@@ -357,40 +285,7 @@
       "order": 40,
       "reasons": [
         "review:not_unambiguous",
-        "review:Front is a sentence fragment with no verb or subject; does not stand on its own."
-      ]
-    },
-    {
-      "id": "kc.economics.human-capital-formation.kl-invest-to-produce-hc",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.human-capital-formation",
-      "chapter": "Human Capital Formation",
-      "unit": "Current Challenges Facing the Indian Economy",
-      "kind": "key_line",
-      "front": "We need ____ to produce more human capital out of human resources.",
-      "back": "We need investment in human capital to produce more human capital out of human resources.",
-      "quote": "We need investment in human capital to produce more human capital out of human resources.",
-      "blanks": [
-        "investment in human capital"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec104",
-        "chapterNo": 4,
-        "page": 60,
-        "section": "4.2 What is Human Capital?"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "human capital"
-      ],
-      "order": 50,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank \"investment in human capital\" contains words that stay in the front (\"human capital\"), breaking the blank rule; fill not unique (\"investment\")."
+        "review:Front asks 'how' but the quote is an illustrative analogy (nurses to doctors); a student could answer education/health investment. No single answer from the front."
       ]
     },
     {
@@ -422,39 +317,6 @@
       "reasons": [
         "review:not_important",
         "review:Four time-bound statistics (7.92, 16.54, 0.64, 4.47 for 1952-2020); not a memory-worthy CUET point."
-      ]
-    },
-    {
-      "id": "kc.economics.human-capital-formation.kl-educated-youth-unemployment",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.human-capital-formation",
-      "chapter": "Human Capital Formation",
-      "unit": "Current Challenges Facing the Indian Economy",
-      "kind": "key_line",
-      "front": "The level of unemployment among educated youth is the ____.",
-      "back": "The level of unemployment among educated youth is the highest.",
-      "quote": "The level of unemployment among educated youth is the highest.",
-      "blanks": [
-        "highest"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec104",
-        "chapterNo": 4,
-        "page": 71,
-        "section": "4.7 Future Prospects"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "unemployment"
-      ],
-      "order": 720,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:No context (India?); \"highest\" has synonyms (greatest, maximum) and is guessable from the line."
       ]
     },
     {
@@ -588,71 +450,6 @@
         "review:not_important",
         "review:not_importanceRight",
         "review:Cluster of statistics tied to one survey year (NSSO 2011-12); time-bound, and not must."
-      ]
-    },
-    {
-      "id": "kc.economics.rural-development.def-micro-credit",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.rural-development",
-      "chapter": "Rural Development",
-      "unit": "Rural Development",
-      "kind": "definition",
-      "front": "What are micro-credit programmes (credit provisions to SHGs)?",
-      "back": "renovating fund to take up self employement for income generation. Such credit provisions are generally referred to as micro-credit programmes.",
-      "quote": "renovating fund to take up self employement for income generation. Such credit provisions are generally referred to as micro-credit programmes.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec105",
-        "chapterNo": 5,
-        "page": 79,
-        "section": "5.3 Credit and Marketing in Rural Areas"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "credit",
-        "SHG",
-        "micro-credit"
-      ],
-      "order": 160,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:not_importanceRight",
-        "review:Back starts mid-sentence (\"renovating fund to take up self employement...\") so the definition is not self-contained; a definition should be \"must\", not \"good\"."
-      ]
-    },
-    {
-      "id": "kc.economics.rural-development.fact-ecofriendly-technology",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.rural-development",
-      "chapter": "Rural Development",
-      "unit": "Rural Development",
-      "kind": "fact",
-      "front": "Which eco-friendly technology does NCERT name as essential for sustainable development (5.7)?",
-      "back": "Efforts in evolving technologies which are eco-friendly are essential for sustainable development and one such technology which is eco-friendly is organic farming.",
-      "quote": "Efforts in evolving technologies which are eco-friendly are essential for sustainable development and one such technology which is eco-friendly is organic farming.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec105",
-        "chapterNo": 5,
-        "page": 86,
-        "section": "5.6 Sustainable Development and Organic Farming"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "organic farming"
-      ],
-      "order": 500,
-      "reasons": [
-        "review:not_exact",
-        "review:Front cites \"(5.7)\" but the sentence is in section 5.6 (Sustainable Development and Organic Farming), page 86."
       ]
     },
     {
@@ -791,15 +588,15 @@
     },
     {
       "id": "kc.economics.employment.def-gnp",
-      "v": 2,
+      "v": 3,
       "subject": "economics",
       "chapterKey": "economics.employment",
       "chapter": "Employment",
       "unit": "Employment",
       "kind": "definition",
-      "front": "What is gross national product (GNP)?",
-      "back": "we find that there is a net earning for the country which may be positive (if we have exported more in value terms than imported) or negative (if imports exceeded exports in value terms) or zero (if exports and imports were of the same value). When we add this earning (plus or minus) from foreign transactions, what we get is called the country's gross national product for that year.",
-      "quote": "we find that there is a net earning for the country which may be positive (if we have exported more in value terms than imported) or negative (if imports exceeded exports in value terms) or zero (if exports and imports were of the same value). When we add this earning (plus or minus) from foreign transactions, what we get is called the country's gross national product for that year.",
+      "front": "Define GNP: GDP plus the net earning (plus or minus) from foreign transactions.",
+      "back": "When we add this earning (plus or minus) from foreign transactions, what we get is called the country's gross national product for that year.",
+      "quote": "When we also consider what we pay for our imports and get from our exports we find that there is a net earning for the country which may be positive (if we have exported more in value terms than imported) or negative (if imports exceeded exports in value terms) or zero (if exports and imports were of the same value). When we add this earning (plus or minus) from foreign transactions, what we get is called the country's gross national product for that year.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -816,40 +613,10 @@
       ],
       "order": 60,
       "reasons": [
+        "review:not_exact",
+        "review:not_important",
         "review:not_unambiguous",
-        "review:Back never says what the net foreign earning is added to (GDP is in the previous sentence), and opens mid-sentence (\"we find that...\"); not a self-contained definition of GNP."
-      ]
-    },
-    {
-      "id": "kc.economics.employment.fact-rural-wpr-reason",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.employment",
-      "chapter": "Employment",
-      "unit": "Employment",
-      "kind": "fact",
-      "front": "Why is the worker-population ratio higher in rural areas than in urban areas, according to NCERT?",
-      "back": "People in rural areas have limited resources to earn a higher income and participate more in the employment market.",
-      "quote": "People in rural areas have limited resources to earn a higher income and participate more in the employment market.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec106",
-        "chapterNo": 6,
-        "page": 95,
-        "section": "6.3 Participation of People in Employment"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "worker-population ratio",
-        "rural"
-      ],
-      "order": 180,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:NCERT gives further reasons in the same passage (no schooling or training, drop out to work), so \"why\" has more than one right answer; back covers only the first."
+        "review:SYLLABUS: GNP is a macro national-income aggregate (leec102), not a listed Employment topic here. Front already states the definition and the back opens with a dangling 'this earning'."
       ]
     },
     {
@@ -919,102 +686,6 @@
       ]
     },
     {
-      "id": "kc.economics.environment-and-sustainable-development.fact-opportunity-costs-high",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.environment-and-sustainable-development",
-      "chapter": "Environment & Sustainable Development",
-      "unit": "Environment & Sustainable Development",
-      "kind": "fact",
-      "front": "Why are the opportunity costs of negative environmental impacts high (NCERT)?",
-      "back": "Hence the expenditure on health is also rising. To make matters worse, global environmental issues such as global warming and ozone depletion also contribute to increased financial commitments for the government. Thus, it is clear that the opportunity costs of negative environmental impacts are high.",
-      "quote": "Hence the expenditure on health is also rising. To make matters worse, global environmental issues such as global warming and ozone depletion also contribute to increased financial commitments for the government. Thus, it is clear that the opportunity costs of negative environmental impacts are high.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec107",
-        "chapterNo": 7,
-        "page": 118,
-        "section": "7.2 Environment — Definition and Functions"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "opportunity cost"
-      ],
-      "order": 100,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Back opens with a dangling \"Hence\" and omits the first reasons on the previous lines (spending on technology and research for new resources, health costs of degraded quality); the front \"why\" has more answers than the back."
-      ]
-    },
-    {
-      "id": "kc.economics.environment-and-sustainable-development.list-land-degradation-factors",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.environment-and-sustainable-development",
-      "chapter": "Environment & Sustainable Development",
-      "unit": "Environment & Sustainable Development",
-      "kind": "list",
-      "front": "Name six factors contributing to land degradation in India (NCERT lists twelve; nine shown).",
-      "back": "loss of vegetation occuring due to deforestation\nunsustainable fuel wood and fodder extraction\nshifting cultivation\nencroachment into forest lands\nforest fires and over grazing\nnon-adoption of adequate soil conservation measures\nimproper crop rotation\nindiscriminate use of agro-chemicals such as fertilisers and pesticides\nimproper planning and management of irrigation systems",
-      "quote": "Some of the factors responsible for land degradation are (i) loss of vegetation occuring due to deforestation (ii) unsustainable fuel wood and fodder extraction (iii) shifting cultivation (iv) encroachment into forest lands (v) forest fires and over grazing (vi) non-adoption of adequate soil conservation measures (vii) improper crop rotation (viii) indiscriminate use of agro-chemicals such as fertilisers and pesticides (ix) improper planning and management of irrigation systems",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec107",
-        "chapterNo": 7,
-        "page": 122,
-        "section": "7.3 State of India’s Environment"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "land degradation"
-      ],
-      "order": 240,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front asks for \"six\" while back shows nine of twelve and says \"NCERT lists twelve; nine shown\"; student cannot tell which items are wanted, and quote omits (x)-(xii). Name all twelve or use a different framing."
-      ]
-    },
-    {
-      "id": "kc.economics.environment-and-sustainable-development.kl-earthworms",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.environment-and-sustainable-development",
-      "chapter": "Environment & Sustainable Development",
-      "unit": "Environment & Sustainable Development",
-      "kind": "key_line",
-      "front": "____ can convert organic matter into compost faster than the normal composting process.",
-      "back": "Earthworms can convert organic matter into compost faster than the normal composting process.",
-      "quote": "Earthworms can convert organic matter into compost faster than the normal composting process.",
-      "blanks": [
-        "Earthworms"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec107",
-        "chapterNo": 7,
-        "page": 128,
-        "section": "7.5 Strategies for Sustainable Development"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "biocomposting",
-        "strategies"
-      ],
-      "order": 600,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank sentence has no topical cue (no mention of composting method or organisms); bacteria, microbes or fungi also fit, so not one right fill."
-      ]
-    },
-    {
       "id": "kc.economics.environment-and-sustainable-development.fact-biopest-control-neem-response",
       "v": 1,
       "subject": "economics",
@@ -1081,39 +752,6 @@
       ]
     },
     {
-      "id": "kc.economics.environment-and-sustainable-development.fact-land-degradation-groundwater-open-access",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.environment-and-sustainable-development",
-      "chapter": "Environment & Sustainable Development",
-      "unit": "Environment & Sustainable Development",
-      "kind": "fact",
-      "front": "Land degradation factors (x) to (xii): extraction of ground water in excess of what, and which two factors follow?",
-      "back": "excess of the recharge capacity (xi) open access resource and (xii) poverty of the agriculture-dependent people.",
-      "quote": "excess of the recharge capacity (xi) open access resource and (xii) poverty of the agriculture-dependent people.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Indian Economic Development",
-        "code": "keec107",
-        "chapterNo": 7,
-        "page": 122,
-        "section": "7.3 State of India's Environment: Land Degradation"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "land degradation",
-        "groundwater"
-      ],
-      "order": 271,
-      "addedIn": "gap-1031",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front depends on numbering (x)-(xii) from a list the card does not show and the quote starts mid-sentence; a student cannot give one answer from the front alone. Rewrite as the full list of land-degradation factors."
-      ]
-    },
-    {
       "id": "kc.economics.environment-and-sustainable-development.list-chapter-three-sections",
       "v": 1,
       "subject": "economics",
@@ -1149,13 +787,13 @@
     },
     {
       "id": "kc.economics.development-experiences-of-india.fact-china-pre-reform-health",
-      "v": 1,
+      "v": 2,
       "subject": "economics",
       "chapterKey": "economics.development-experiences-of-india",
       "chapter": "Development Experiences of India",
       "unit": "Development Experiences of India",
       "kind": "fact",
-      "front": "What had already been massively extended in China's rural areas before the reforms?",
+      "front": "Before China's reforms, there had been massive extension of basic ____ services in rural areas. Fill in the type of service.",
       "back": "Basic health services\nBefore the introduction of reforms, there had already been massive extension of basic health services in rural areas.",
       "quote": "Before the introduction of reforms, there had already been massive extension of basic health services in rural areas.",
       "blanks": [],
@@ -1176,7 +814,7 @@
       "order": 760,
       "reasons": [
         "review:not_unambiguous",
-        "review:Front is ambiguous: the preceding NCERT sentence also names education infrastructure, so 'what had been massively extended' has more than one defensible answer; name 'basic ___ services' or cite health explicitly."
+        "review:Same paragraph names infrastructure in education and health; 'basic ____ services' could be filled with education. Blank-style front on a fact card with empty blanks."
       ]
     },
     {
@@ -1248,15 +886,15 @@
     },
     {
       "id": "kc.economics.national-income-and-related-aggregates.fact-income-method-symbols",
-      "v": 1,
+      "v": 2,
       "subject": "economics",
       "chapterKey": "economics.national-income-and-related-aggregates",
       "chapter": "National Income & Related Aggregates",
       "unit": "National Income & Related Aggregates",
       "kind": "fact",
-      "front": "Income method: GDP ≡ W + P + In + R. What do W, P, In and R stand for?",
-      "back": "W, P, In and R are the totals over all households of:\nWi be the wages and salaries received by the i-th household in a particular year. Similarly, Pi, Ini, Ri be the gross profits, interest payments and rents received by the i-th household in a particular year.",
-      "quote": "Wi be the wages and salaries received by the i-th household in a particular year. Similarly, Pi, Ini, Ri be the gross profits, interest payments and rents received by the i-th household in a particular year.",
+      "front": "Income method: with M households, what are Wi, Pi, Ini and Ri for the i-th household?",
+      "back": "Let Wi be the wages and salaries received by the i-th household in a particular year. Similarly, Pi, Ini, Ri be the gross profits, interest payments and rents received by the i-th household in a particular year.",
+      "quote": "Let Wi be the wages and salaries received by the i-th household in a particular year. Similarly, Pi, Ini, Ri be the gross profits, interest payments and rents received by the i-th household in a particular year.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -1274,101 +912,8 @@
       "order": 430,
       "note": "W wages and salaries, P gross profits, In interest payments, R rents.",
       "reasons": [
-        "review:not_exact",
-        "review:Back opens with \"W, P, In and R are the totals over all households of:\", wording that is not NCERT text and not in the quote (paraphrase outside note); quote itself starts mid-sentence at \"Wi be\"."
-      ]
-    },
-    {
-      "id": "kc.economics.national-income-and-related-aggregates.def-personal-income",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.national-income-and-related-aggregates",
-      "chapter": "National Income & Related Aggregates",
-      "unit": "National Income & Related Aggregates",
-      "kind": "definition",
-      "front": "Define Personal Income (PI).",
-      "back": "The part of NI which is received by households. We shall call this Personal Income (PI).",
-      "quote": "the part of NI which is received by households. We shall call this Personal Income (PI).",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec102",
-        "chapterNo": 2,
-        "page": 26,
-        "section": "Some Macroeconomic Identities"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "personal income"
-      ],
-      "order": 630,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Back \"The part of NI which is received by households\" uses NI, never expanded on the card; it is a lead-in sentence, the tested content is the bold PI formula."
-      ]
-    },
-    {
-      "id": "kc.economics.national-income-and-related-aggregates.formula-ndp-factor-cost",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.national-income-and-related-aggregates",
-      "chapter": "National Income & Related Aggregates",
-      "unit": "National Income & Related Aggregates",
-      "kind": "formula",
-      "front": "Formula: NDP at factor cost",
-      "back": "NDPFC = NDPMP - Net Product Taxes - Net Production Taxes",
-      "quote": "NDPFC = NDPMP - Net Product Taxes - Net Production Taxes",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec102",
-        "chapterNo": 2,
-        "page": 27,
-        "section": "Basic National Income Aggregates (Table 2.4)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "NDP"
-      ],
-      "order": 750,
-      "reasons": [
         "review:not_importanceRight",
-        "review:Factor-cost aggregate named in the CUET unit list and a Table 2.4 headed formula; should be must like the GDP at factor cost card."
-      ]
-    },
-    {
-      "id": "kc.economics.national-income-and-related-aggregates.formula-gnp-factor-cost",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.national-income-and-related-aggregates",
-      "chapter": "National Income & Related Aggregates",
-      "unit": "National Income & Related Aggregates",
-      "kind": "formula",
-      "front": "Formula: GNP at factor cost",
-      "back": "GNPFC = GNPMP - Net Product Taxes - Net Production Taxes",
-      "quote": "GNPFC = GNPMP - Net Product Taxes - Net Production Taxes",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec102",
-        "chapterNo": 2,
-        "page": 28,
-        "section": "Basic National Income Aggregates (Table 2.4)"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "GNP"
-      ],
-      "order": 780,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Factor-cost aggregate named in the CUET unit list and a Table 2.4 headed formula; should be must like the GDP at factor cost card."
+        "review:Notation for Wi, Pi, Ini, Ri is supporting detail; should be 'good'."
       ]
     },
     {
@@ -1627,18 +1172,17 @@
     },
     {
       "id": "kc.economics.income-determination.key-c-stable-i-fluctuates",
-      "v": 2,
+      "v": 3,
       "subject": "economics",
       "chapterKey": "economics.income-determination",
       "chapter": "Income Determination",
       "unit": "Determination of Income and Employment",
       "kind": "key_line",
-      "front": "C̅, representing ____ consumption level of an economy, remains more or less stable over time. However, I̅ has been observed to undergo ____.",
-      "back": "C̅, representing subsistence consumption level of an economy, remains more or less stable over time. However, I̅ has been observed to undergo periodic fluctuations.",
-      "quote": "C̅, representing subsistence consumption level of an economy, remains more or less stable over time. However, I̅ has been observed to undergo periodic fluctuations.",
+      "front": "C̅, representing ____ consumption level of an economy, remains more or less stable over time.",
+      "back": "C̅, representing subsistence consumption level of an economy, remains more or less stable over time.",
+      "quote": "C̅, representing subsistence consumption level of an economy, remains more or less stable over time.",
       "blanks": [
-        "subsistence",
-        "periodic fluctuations"
+        "subsistence"
       ],
       "source": {
         "kind": "ncert",
@@ -1654,112 +1198,19 @@
       "order": 320,
       "reasons": [
         "review:not_unambiguous",
-        "review:Second blank \"periodic fluctuations\" has many valid fills (wide/sharp/large fluctuations); only the first blank (subsistence) is guessable. Blank one word only."
+        "review:'subsistence' has obvious synonyms (minimum, basic) so the blank is not unique."
       ]
     },
     {
-      "id": "kc.economics.income-determination.key-investment-autonomous",
+      "id": "kc.economics.income-determination.fact-parametric-shift-ad",
       "v": 2,
       "subject": "economics",
       "chapterKey": "economics.income-determination",
       "chapter": "Income Determination",
       "unit": "Determination of Income and Employment",
-      "kind": "key_line",
-      "front": "In this model, I̅ is ____ which means, it is the same no matter whatever is the level of income.",
-      "back": "In this model, I̅ is autonomous which means, it is the same no matter whatever is the level of income.",
-      "quote": "In this model, I̅ is autonomous which means, it is the same no matter whatever is the level of income.",
-      "blanks": [
-        "autonomous"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec104",
-        "chapterNo": 4,
-        "page": 58,
-        "section": "4.3.1 Macroeconomic Equilibrium with Price Level Fixed"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 440,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:\"I-bar is ____ which means it is the same no matter the income level\": fixed, constant, exogenous and given all fit; \"autonomous\" is not forced."
-      ]
-    },
-    {
-      "id": "kc.economics.income-determination.fact-equilibrium-income-two-sector",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.income-determination",
-      "chapter": "Income Determination",
-      "unit": "Determination of Income and Employment",
       "kind": "fact",
-      "front": "What is equilibrium income Y in the two-sector model (4.4)?",
-      "back": "Y = (C̅ + I̅) / (1 − c)\nThus, in this situation, ex ante aggregate demand = ex ante aggregate supply,",
-      "quote": "Thus, in this situation, ex ante aggregate demand = ex ante aggregate supply,",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec104",
-        "chapterNo": 4,
-        "page": 60,
-        "section": "4.3.1 Macroeconomic Equilibrium with Price Level Fixed"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "equilibrium income"
-      ],
-      "order": 510,
-      "reasons": [
-        "review:not_exact",
-        "review:Quote is only the AD = AS sentence; the answer line Y = (C+I)/(1-c) (eq 4.4, shown as an image equation on p60) is not in the quote, so back is not derived from quote. Quote must carry the equation text."
-      ]
-    },
-    {
-      "id": "kc.economics.income-determination.fact-multiplier-formula",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.income-determination",
-      "chapter": "Income Determination",
-      "unit": "Determination of Income and Employment",
-      "kind": "fact",
-      "front": "What is the investment multiplier in terms of c (mpc) and S (equation 4.5)?",
-      "back": "Investment multiplier = ΔY/ΔA̅ = 1/(1 − c) = 1/S\nwhere ∆Y is the total increment in final goods output and c = mpc.",
-      "quote": "where ∆Y is the total increment in final goods output and c = mpc. Observe that the size of the multiplier depends on the value of c .",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec104",
-        "chapterNo": 4,
-        "page": 62,
-        "section": "4.3.3 The Multiplier Mechanism"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "multiplier"
-      ],
-      "order": 620,
-      "reasons": [
-        "review:not_exact",
-        "review:Answer line (eq 4.5, image equation on p62) is not in the quote; quote holds only the \"where dY is...\" clause. Back is not derived from quote. Quote the sentence defining the investment multiplier or include the equation text."
-      ]
-    },
-    {
-      "id": "kc.economics.income-determination.fact-parametric-shift-ad",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.income-determination",
-      "chapter": "Income Determination",
-      "unit": "Determination of Income and Employment",
-      "kind": "fact",
-      "front": "In the AD diagram, how does the line move when A changes, and when c changes?",
-      "back": "A changes: parallel shift. c changes: the line swings (slope changes).\nWhen A changes the line shifts upwards or downwards in parallel. When c changes, however, the line swings up or down.",
+      "front": "In the AD diagram, how does the line move when autonomous spending (A with a bar) changes, and when c changes?",
+      "back": "Autonomous spending changes: parallel shift. c changes: the line swings.\nWhen A changes the line shifts upwards or downwards in parallel. When c changes, however, the line swings up or down.",
       "quote": "When A changes the line shifts upwards or downwards in parallel. When c changes, however, the line swings up or down.",
       "blanks": [],
       "source": {
@@ -1768,110 +1219,15 @@
         "code": "leec104",
         "chapterNo": 4,
         "page": 63,
-        "section": "4.3.3 The Multiplier Mechanism"
+        "section": "Paradox of Thrift"
       },
       "importance": "must",
       "asked": 0,
       "tags": [],
       "order": 660,
       "reasons": [
-        "review:not_unambiguous",
-        "review:Front and back write \"A\" and \"A changes\"; page 63 shows A with an overbar (autonomous spending). Without the overbar and the word autonomous the front is unclear. Also the line sits in the Paradox of Thrift box."
-      ]
-    },
-    {
-      "id": "kc.economics.income-determination.key-summary-multiplier",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.income-determination",
-      "chapter": "Income Determination",
-      "unit": "Determination of Income and Employment",
-      "kind": "key_line",
-      "front": "An increase (decrease) in autonomous spending causes aggregate output of final goods to increase (decrease) by a larger amount through the ____.",
-      "back": "An increase (decrease) in autonomous spending causes aggregate output of final goods to increase (decrease) by a larger amount through the multiplier process.",
-      "quote": "An increase (decrease) in autonomous spending causes aggregate output of final goods to increase (decrease) by a larger amount through the multiplier process.",
-      "blanks": [
-        "multiplier process"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec104",
-        "chapterNo": 4,
-        "page": 65,
-        "section": "Summary"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 760,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank \"multiplier process\" includes an interchangeable word (NCERT also says multiplier mechanism/effect); blank only \"multiplier\"."
-      ]
-    },
-    {
-      "id": "kc.economics.government-budget-and-the-economy.key-committed-expenditure-cut",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.government-budget-and-the-economy",
-      "chapter": "Government Budget & the Economy",
-      "unit": "Government Budget & the Economy",
-      "kind": "key_line",
-      "front": "Since a major part of revenue expenditure is ____, it cannot be reduced.",
-      "back": "Since a major part of revenue expenditure is committed expenditure, it cannot be reduced.",
-      "quote": "Since a major part of revenue expenditure is committed expenditure, it cannot be reduced.",
-      "blanks": [
-        "committed expenditure"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec105",
-        "chapterNo": 5,
-        "page": 72,
-        "section": "Measures of Government Deficit"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "deficit"
-      ],
-      "order": 600,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:\"a major part of revenue expenditure is ____, it cannot be reduced\": interest payments, salaries, fixed or non-discretionary expenditure all fit; not one right fill."
-      ]
-    },
-    {
-      "id": "kc.economics.balance-of-payments.fact-open-economy-trades-in",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.balance-of-payments",
-      "chapter": "Balance of Payments",
-      "unit": "Open Economy Macroeconomics",
-      "kind": "fact",
-      "front": "In what does an open economy trade with other nations?",
-      "back": "An open economy is said to be one that trades with other nations in goods and services and most often, also in financial assets.",
-      "quote": "Thus, an open economy is said to be one that trades with other nations in goods and services and most often, also in financial assets.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec106",
-        "chapterNo": 6,
-        "page": 85,
-        "section": "Open Economy Macroeconomics"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "open economy"
-      ],
-      "order": 30,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:It is NCERT definition of an open economy (the unit subject); definitions are must."
+        "review:not_exact",
+        "review:Back opens with a paraphrase ('Autonomous spending changes: parallel shift...') that is not NCERT wording; paraphrase belongs only in note."
       ]
     },
     {
@@ -1939,45 +1295,14 @@
       ]
     },
     {
-      "id": "kc.economics.balance-of-payments.fact-flexible-rate-equilibrium",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.balance-of-payments",
-      "chapter": "Balance of Payments",
-      "unit": "Open Economy Macroeconomics",
-      "kind": "fact",
-      "front": "In a flexible exchange rate system, where is the exchange rate determined?",
-      "back": "The exchange rate is determined where the demand curve intersects with the supply curve",
-      "quote": "the exchange rate is determined where the demand curve intersects with the supply curve",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Macroeconomics",
-        "code": "leec106",
-        "chapterNo": 6,
-        "page": 92,
-        "section": "Flexible Exchange Rate"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "flexible exchange rate"
-      ],
-      "order": 570,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Core statement of exchange rate determination, an explicit CUET Unit V item; should be must."
-      ]
-    },
-    {
       "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.fact-choose-possibility",
-      "v": 1,
+      "v": 2,
       "subject": "economics",
       "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
       "chapter": "Introduction & Theory of Consumer Behaviour",
       "unit": "Introduction & Theory of Consumer Behaviour",
       "kind": "fact",
-      "front": "What is one of the central problems of an economy in terms of production possibilities?",
+      "front": "Production possibility frontier: what must every economy do about the many production possibilities it has?",
       "back": "To choose from one of the many production possibilities\nEvery economy has to choose one of the many possibilities that it has. In other words, one of the central problems of the economy is to choose from one of the many production possibilities.",
       "quote": "Every economy has to choose one of the many possibilities that it has. In other words, one of the central problems of the economy is to choose from one of the many production possibilities.",
       "blanks": [],
@@ -1997,74 +1322,8 @@
       ],
       "order": 240,
       "reasons": [
-        "review:not_unambiguous",
-        "review:Front is ambiguous: the central problems are what/how/for whom to produce, so a student can reasonably answer 'what to produce'; the only right answer (choose one production possibility) is not pinned by the front."
-      ]
-    },
-    {
-      "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.frm-budget-line-slope",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
-      "chapter": "Introduction & Theory of Consumer Behaviour",
-      "unit": "Introduction & Theory of Consumer Behaviour",
-      "kind": "formula",
-      "front": "Formula: what is the slope of the budget line (p1 and p2 are the prices of bananas and mangoes)?",
-      "back": "The slope of the budget line is – p1/p2.",
-      "quote": "The slope of the budget line is – p1/p2.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec202",
-        "chapterNo": 2,
-        "page": 16,
-        "section": "2.2 The Consumer's Budget"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "budget line",
-        "formula"
-      ],
-      "order": 430,
-      "note": "p1 = price of bananas (horizontal axis), p2 = price of mangoes (vertical axis).",
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front does not say which good is on which axis; slope -p1/p2 holds only with bananas on the horizontal axis and mangoes on the vertical (Fig 2.9). Add the axes."
-      ]
-    },
-    {
-      "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.key-optimum-on-budget-line",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
-      "chapter": "Introduction & Theory of Consumer Behaviour",
-      "unit": "Introduction & Theory of Consumer Behaviour",
-      "kind": "key_line",
-      "front": "The optimum (most preferred) bundle of the consumer would be on the ____.",
-      "back": "The optimum (most preferred) bundle of the consumer would be on the **budget line**.",
-      "quote": "The optimum (most preferred) bundle of the consumer would be on the budget line.",
-      "blanks": [
-        "budget line"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec202",
-        "chapterNo": 2,
-        "page": 20,
-        "section": "2.3 Optimal Choice of the Consumer"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "optimum"
-      ],
-      "order": 590,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Without context, \"indifference curve\" or \"highest indifference curve\" are also plausible fills; front is not unique."
+        "review:not_important",
+        "review:Answer ('choose one') is guessable from the front; low-value filler. The three central problems carry the marks."
       ]
     },
     {
@@ -2098,237 +1357,6 @@
       "reasons": [
         "review:not_important",
         "review:Formula sits in the front; the card only asks the trivial meaning of dP and dQ and the back never gives the formula (2.16a/b), so the exam-tested formula is not what is recalled."
-      ]
-    },
-    {
-      "id": "kc.economics.production-and-costs.key-afc-times-q",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.production-and-costs",
-      "chapter": "Production & Costs",
-      "unit": "Production and Costs",
-      "kind": "key_line",
-      "front": "If we multiply any value q of output with its corresponding AFC, we always get a ____, namely TFC.",
-      "back": "If we multiply any value q of output with its corresponding AFC, we always get a constant, namely TFC.",
-      "quote": "If we multiply any value q of output with its corresponding AFC, we always get a constant, namely TFC.",
-      "blanks": [
-        "constant"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec203",
-        "chapterNo": 3,
-        "page": 46,
-        "section": "Shapes of the Short Run Cost Curves"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "average fixed cost"
-      ],
-      "order": 580,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:\"we always get a ____, namely TFC\": constant and fixed (value/cost) both fit."
-      ]
-    },
-    {
-      "id": "kc.economics.production-and-costs.key-sac-still-falling",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.production-and-costs",
-      "chapter": "Production & Costs",
-      "unit": "Production and Costs",
-      "kind": "key_line",
-      "front": "Initially the fall in AFC is greater than the rise in AVC and SAC is still ____.",
-      "back": "Initially the fall in AFC is greater than the rise in AVC and SAC is still falling.",
-      "quote": "Initially the fall in AFC is greater than the rise in AVC and SAC is still falling.",
-      "blanks": [
-        "falling"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec203",
-        "chapterNo": 3,
-        "page": 48,
-        "section": "Shapes of the Short Run Cost Curves"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "average cost",
-        "curve shape"
-      ],
-      "order": 640,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank \"falling\" has obvious synonyms (declining, decreasing); not a mark-carrying term."
-      ]
-    },
-    {
-      "id": "kc.economics.production-and-costs.key-sac-rising",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.production-and-costs",
-      "chapter": "Production & Costs",
-      "unit": "Production and Costs",
-      "kind": "key_line",
-      "front": "But, after a certain level of production, rise in AVC becomes larger than the fall in AFC. From this point onwards, SAC is ____.",
-      "back": "But, after a certain level of production, rise in AVC becomes larger than the fall in AFC. From this point onwards, SAC is rising.",
-      "quote": "But, after a certain level of production, rise in AVC becomes larger than the fall in AFC. From this point onwards, SAC is rising.",
-      "blanks": [
-        "rising"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec203",
-        "chapterNo": 3,
-        "page": 48,
-        "section": "Shapes of the Short Run Cost Curves"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "average cost",
-        "curve shape"
-      ],
-      "order": 650,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Blank \"rising\" has obvious synonyms (increasing, going up); not a mark-carrying term."
-      ]
-    },
-    {
-      "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-sr-continue-p-avc",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
-      "chapter": "Theory of Firms under Perfect Competition",
-      "unit": "Theory of Firms under Perfect Competition",
-      "kind": "fact",
-      "front": "In the short run, what must price exceed for a firm to continue to produce?",
-      "back": "For the firm to continue to produce, in the short run, price must be greater than the average variable cost (p > AVC)",
-      "quote": "For the firm to continue to produce, in the short run, price must be greater than the average variable cost (p > AVC)",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec204",
-        "chapterNo": 4,
-        "page": 56,
-        "section": "4.3 Profit Maximisation"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "profit maximisation",
-        "AVC"
-      ],
-      "order": 260,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Short-run continue/shut-down condition (p > AVC) is a staple CUET point on profit maximisation; should be must."
-      ]
-    },
-    {
-      "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-break-even-min-ac",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
-      "chapter": "Theory of Firms under Perfect Competition",
-      "unit": "Theory of Firms under Perfect Competition",
-      "kind": "fact",
-      "front": "Which point on the supply curve is the break-even point of a firm (LRAC, or SAC in the short run)?",
-      "back": "The point of minimum average cost at which the supply curve cuts the LRAC curve (in short run, SAC curve) is therefore the break-even point of a firm.",
-      "quote": "The point of minimum average cost at which the supply curve cuts the LRAC curve (in short run, SAC curve) is therefore the break-even point of a firm.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec204",
-        "chapterNo": 4,
-        "page": 61,
-        "section": "4.4.4 The Normal Profit and Break-even Point"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "break-even"
-      ],
-      "order": 380,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Break-even point (normal profit, minimum AC) is a highlighted NCERT concept CUET tests; should be must."
-      ]
-    },
-    {
-      "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-es-delta",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
-      "chapter": "Theory of Firms under Perfect Competition",
-      "unit": "Theory of Firms under Perfect Competition",
-      "kind": "fact",
-      "front": "In the price elasticity of supply formula, what are ΔQ and ΔP?",
-      "back": "∆Q is the change in quantity of the good supplied to the market as market price changes by ∆P .",
-      "quote": "Where ∆Q is the change in quantity of the good supplied to the market as market price changes by ∆P .",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec204",
-        "chapterNo": 4,
-        "page": 65,
-        "section": "4.7 Price Elasticity of Supply"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "elasticity of supply"
-      ],
-      "order": 540,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front asks what both dQ and dP are, but the quote defines only dQ; dP is never separately defined, so the back does not answer the question. Notation trivia, low value."
-      ]
-    },
-    {
-      "id": "kc.economics.market-equilibrium-and-simple-applications.kl-price-above-below-eq",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.market-equilibrium-and-simple-applications",
-      "chapter": "Market Equilibrium & Simple Applications",
-      "unit": "Market Equilibrium & Simple Applications",
-      "kind": "key_line",
-      "front": "At any price greater than p*, there will be ____, and at any price lower than p*,there will be ____.",
-      "back": "At any price greater than p*, there will be excess supply, and at any price lower than p*,there will be excess demand.",
-      "quote": "At any price greater than p*, there will be excess supply, and at any price lower than p*,there will be excess demand.",
-      "blanks": [
-        "excess supply",
-        "excess demand"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec205",
-        "chapterNo": 5,
-        "page": 74,
-        "section": "Example 5.1"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "excess demand",
-        "excess supply",
-        "equilibrium price"
-      ],
-      "order": 170,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:p* is undefined in the front (equilibrium price is not named); front does not stand on its own."
       ]
     },
     {
@@ -2424,74 +1452,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Figure-specific case: with supply rightward and demand leftward, quantity is ambiguous in general (depends on magnitudes), so 'quantity unchanged' is not derivable from the front. General rule already carded in diff-same-vs-opposite-shifts."
-      ]
-    },
-    {
-      "id": "kc.economics.theory-of-firms-under-perfect-competition.kl-free-entry-normal-profit",
-      "v": 2,
-      "subject": "economics",
-      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
-      "chapter": "Theory of Firms under Perfect Competition",
-      "unit": "Theory of Firms under Perfect Competition",
-      "kind": "key_line",
-      "front": "With free entry and exit, each firm will always earn ____",
-      "back": "With free entry and exit, each firm will always earn normal profit",
-      "quote": "With free entry and exit, each firm will always earn normal profit",
-      "blanks": [
-        "normal profit"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec205",
-        "chapterNo": 5,
-        "page": 81,
-        "section": "Market Equilibrium: Free Entry and Exit"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "free entry and exit",
-        "normal profit"
-      ],
-      "order": 400,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:\"normal profit\" vs \"zero (economic) profit\" are rival fills; front lacks the perfect-competition context."
-      ]
-    },
-    {
-      "id": "kc.economics.theory-of-firms-under-perfect-competition.kl-quantity-from-market-demand",
-      "v": 1,
-      "subject": "economics",
-      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
-      "chapter": "Theory of Firms under Perfect Competition",
-      "unit": "Theory of Firms under Perfect Competition",
-      "kind": "key_line",
-      "front": "In equilibrium, the quantity supplied will be determined by the ____ at that price so that they are equal.",
-      "back": "In equilibrium, the quantity supplied will be determined by the market demand at that price so that they are equal.",
-      "quote": "In equilibrium, the quantity supplied will be determined by the market demand at that price so that they are equal.",
-      "blanks": [
-        "market demand"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Introductory Microeconomics",
-        "code": "leec205",
-        "chapterNo": 5,
-        "page": 81,
-        "section": "Market Equilibrium: Free Entry and Exit"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "free entry and exit",
-        "quantity"
-      ],
-      "order": 450,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front is not self-contained: 'that price' and 'they' have no antecedent, and 'quantity demanded' or 'demand' are equally valid fills for the blank."
       ]
     }
   ]

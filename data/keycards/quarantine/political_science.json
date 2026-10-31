@@ -34,67 +34,6 @@
       ]
     },
     {
-      "id": "kc.political_science.contemporary-south-asia.fact-nb-bhutan",
-      "v": 2,
-      "subject": "political_science",
-      "chapterKey": "political_science.contemporary-south-asia",
-      "chapter": "Contemporary South Asia",
-      "unit": "Contemporary World Politics",
-      "kind": "fact",
-      "front": "With which Himalayan kingdom does India enjoy a 'very special relationship' and no major conflict with its government?",
-      "back": "India enjoys a very special relationship with Bhutan too and does not have any major conflict with the Bhutanese government.",
-      "quote": "India enjoys a very special relationship with Bhutan too and does not have any major conflict with the Bhutanese government.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps103",
-        "chapterNo": 3,
-        "page": 41,
-        "section": "India and its Other Neighbours"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [
-        "south-asia"
-      ],
-      "order": 600,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Nepal's passage opens with the same 'very special relationship' phrase; front has no clean discriminator for Bhutan, and the back's 'too' dangles."
-      ]
-    },
-    {
-      "id": "kc.political_science.environment-and-natural-resources.def-ozone-hole",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.environment-and-natural-resources",
-      "chapter": "Environment & Natural Resources",
-      "unit": "Contemporary World Politics",
-      "kind": "definition",
-      "front": "What is the ozone hole?",
-      "back": "A steady decline in the total amount of ozone in the Earth's stratosphere (commonly referred to as the ozone hole) poses a real danger to ecosystems and human health.",
-      "quote": "A steady decline in the total amount of ozone in the Earth's stratosphere (commonly referred to as the ozone hole) poses a real danger to ecosystems and human health.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps106",
-        "chapterNo": 6,
-        "page": 82,
-        "section": "Environmental Concerns in Global Politics"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 10,
-      "reasons": [
-        "review:not_exact",
-        "review:not_unambiguous",
-        "review:Front asks what the ozone hole is but the quote does not define it; it only states the danger"
-      ]
-    },
-    {
       "id": "kc.political_science.environment-and-natural-resources.fact-deeper-political",
       "v": 1,
       "subject": "political_science",
@@ -214,93 +153,6 @@
       ]
     },
     {
-      "id": "kc.political_science.environment-and-natural-resources.def-cbdr",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.environment-and-natural-resources",
-      "chapter": "Environment & Natural Resources",
-      "unit": "Contemporary World Politics",
-      "kind": "definition",
-      "front": "What is the principle of 'common but differentiated responsibilities'?",
-      "back": "If they have caused more degradation, they must also take more responsibility for undoing the damage now. Moreover, the developing countries are in the process of industrialisation and they must not be subjected to the same restrictions, which apply to the developed countries.",
-      "quote": "If they have caused more degradation, they must also take more responsibility for undoing the damage now. Moreover, the developing countries are in the process of industrialisation and they must not be subjected to the same restrictions, which apply to the developed countries.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps106",
-        "chapterNo": 6,
-        "page": 87,
-        "section": "Common but Differentiated Responsibilities"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 290,
-      "reasons": [
-        "review:not_exact",
-        "review:Back opens with dangling 'If they' and never names the principle, so it is not a definition of CBDR"
-      ]
-    },
-    {
-      "id": "kc.political_science.environment-and-natural-resources.fact-sacred-groves-problem",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.environment-and-natural-resources",
-      "chapter": "Environment & Natural Resources",
-      "unit": "Contemporary World Politics",
-      "kind": "fact",
-      "front": "When does a real problem arise in managing sacred groves?",
-      "back": "A real problem in managing sacred groves arises when legal ownership and operational control are held by different entities.",
-      "quote": "A real problem in managing sacred groves arises when legal ownership and operational control are held by different entities.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps106",
-        "chapterNo": 6,
-        "page": 88,
-        "section": "Common Property Resources"
-      },
-      "importance": "good",
-      "asked": 0,
-      "tags": [],
-      "order": 420,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Open-ended front, several phrasings possible"
-      ]
-    },
-    {
-      "id": "kc.political_science.environment-and-natural-resources.fact-paris-2016",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.environment-and-natural-resources",
-      "chapter": "Environment & Natural Resources",
-      "unit": "Contemporary World Politics",
-      "kind": "fact",
-      "front": "When did India ratify the Paris Climate Agreement?",
-      "back": "India ratified the Paris Climate Agreement on 2 October 2016.",
-      "quote": "India ratified the Paris Climate Agreement on 2 October 2016.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps106",
-        "chapterNo": 6,
-        "page": 90,
-        "section": "India's Stand on Environmental Issues"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 500,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Ratification date is detail; good not must"
-      ]
-    },
-    {
       "id": "kc.political_science.environment-and-natural-resources.fact-saarc-position",
       "v": 1,
       "subject": "political_science",
@@ -357,35 +209,6 @@
         "review:not_important",
         "review:not_unambiguous",
         "review:Vague front, generic line"
-      ]
-    },
-    {
-      "id": "kc.political_science.environment-and-natural-resources.fact-wilderness-regions",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.environment-and-natural-resources",
-      "chapter": "Environment & Natural Resources",
-      "unit": "Contemporary World Politics",
-      "kind": "fact",
-      "front": "In which regions have wilderness-oriented perspectives been predominant?",
-      "back": "Wilderness-oriented perspectives have been predominant in Australia, Scandinavia, North America and New Zealand.",
-      "quote": "Wilderness-oriented perspectives have been predominant in Australia, Scandinavia, North America and New Zealand.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps106",
-        "chapterNo": 6,
-        "page": 91,
-        "section": "Environmental Movements: One or Many?"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 550,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Region list is detail; good not must"
       ]
     },
     {
@@ -476,35 +299,6 @@
       ]
     },
     {
-      "id": "kc.political_science.environment-and-natural-resources.fact-indigenous-customs",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.environment-and-natural-resources",
-      "chapter": "Environment & Natural Resources",
-      "unit": "Contemporary World Politics",
-      "kind": "fact",
-      "front": "How do indigenous people today live, compared with the institutions of their country?",
-      "back": "Indigenous people today live more in conformity with their particular social, economic, and cultural customs and traditions than the institutions of the country of which they now form a part.",
-      "quote": "Indigenous people today live more in conformity with their particular social, economic, and cultural customs and traditions than the institutions of the country of which they now form a part.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps106",
-        "chapterNo": 6,
-        "page": 95,
-        "section": "The Indigenous Peoples and Their Rights"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 710,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front is loosely worded; answer is a long comparison sentence"
-      ]
-    },
-    {
       "id": "kc.political_science.environment-and-natural-resources.fact-indigenous-1970s",
       "v": 1,
       "subject": "political_science",
@@ -534,43 +328,14 @@
       ]
     },
     {
-      "id": "kc.political_science.environment-and-natural-resources.fact-wcip-un-status",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.environment-and-natural-resources",
-      "chapter": "Environment & Natural Resources",
-      "unit": "Contemporary World Politics",
-      "kind": "fact",
-      "front": "What did the World Council of Indigenous Peoples become the first of 11 indigenous NGOs to receive?",
-      "back": "The Council became subsequently the first of 11 indigenous NGOs to receive consultative status in the UN.",
-      "quote": "The Council became subsequently the first of 11 indigenous NGOs to receive consultative status in the UN.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Contemporary World Politics",
-        "code": "leps106",
-        "chapterNo": 6,
-        "page": 97,
-        "section": "The Indigenous Peoples and Their Rights"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 780,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Trivia count; good not must"
-      ]
-    },
-    {
       "id": "kc.political_science.challenges-of-nation-building.fact-1947-transfer-of-population",
-      "v": 1,
+      "v": 2,
       "subject": "political_science",
       "chapterKey": "political_science.challenges-of-nation-building",
       "chapter": "Challenges of Nation Building",
       "unit": "Politics in India Since Independence",
       "kind": "fact",
-      "front": "What did NCERT call 1947: one of the largest, most abrupt, unplanned and tragic events in history?",
+      "front": "1947 was the year of one of the largest, most abrupt, unplanned and tragic what in human history?",
       "back": "The year 1947 was the year of one of the largest, most abrupt, unplanned and tragic transfer of population that human history has known.",
       "quote": "The year 1947 was the year of one of the largest, most abrupt, unplanned and tragic transfer of population that human history has known.",
       "blanks": [],
@@ -588,37 +353,7 @@
       "order": 260,
       "reasons": [
         "review:not_unambiguous",
-        "review:Front is garbled ('What did NCERT call 1947: one of the largest... events') and the expected fill 'transfer of population' has obvious rivals (Partition, migration, displacement); reword so one answer fits."
-      ]
-    },
-    {
-      "id": "kc.political_science.challenges-of-nation-building.fact-peaceful-negotiations",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.challenges-of-nation-building",
-      "chapter": "Challenges of Nation Building",
-      "unit": "Politics in India Since Independence",
-      "kind": "fact",
-      "front": "How did almost all princely states next to India's new boundaries join the Union before 15 August 1947?",
-      "back": "Before 15 August 1947, peaceful negotiations had brought almost all states whose territories were contiguous to the new boundaries of India, into the Indian Union.",
-      "quote": "Before 15 August 1947, peaceful negotiations had brought almost all states whose territories were contiguous to the new boundaries of India, into the Indian Union.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps201",
-        "chapterNo": 1,
-        "page": 16,
-        "section": "Integration of Princely States"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [],
-      "order": 425,
-      "addedIn": "gap-1031",
-      "reasons": [
-        "review:not_importanceRight",
-        "review:Marked must but the line is a thin narrative fact; princely-state integration is not named in the CUET unit list (Nehru approach, partition, reorganisation of states). Should be good."
+        "review:Front is an open \"what\" with obvious synonyms (migration, displacement, mass exodus); NCERT word \"transfer of population\" is not forced."
       ]
     },
     {
@@ -653,47 +388,16 @@
       ]
     },
     {
-      "id": "kc.political_science.politics-of-planned-development.fact-kn-raj",
-      "v": 2,
-      "subject": "political_science",
-      "chapterKey": "political_science.politics-of-planned-development",
-      "chapter": "Politics of Planned Development",
-      "unit": "Politics in India Since Independence",
-      "kind": "fact",
-      "front": "Which young economist involved in drafting the First Plan argued that India should hasten slowly?",
-      "back": "K.N. Raj, a young economist involved in drafting the plan, argued that India should ‘hasten slowly’ for the first two decades as a fast rate of development might endanger democracy.",
-      "quote": "K.N. Raj, a young economist involved in drafting the plan, argued that India should ‘hasten slowly’ for the first two decades as a fast rate of development might endanger democracy.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps203",
-        "chapterNo": 3,
-        "page": 51,
-        "section": "The First Five Year Plan"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "planning"
-      ],
-      "order": 240,
-      "reasons": [
-        "review:not_importanceRight",
-        "review:K.N. Raj and 'hasten slowly' is a niche detail; should be good, not must."
-      ]
-    },
-    {
       "id": "kc.political_science.crisis-of-the-democratic-order.fact-civil-liberties",
-      "v": 2,
+      "v": 3,
       "subject": "political_science",
       "chapterKey": "political_science.crisis-of-the-democratic-order",
       "chapter": "Crisis of the Democratic Order",
       "unit": "Politics in India Since Independence",
       "kind": "fact",
-      "front": "Of what kind were the many organisations that came up in India after the Emergency experience?",
-      "back": "judiciary to protect civil liberties effectively during the emergency. Many civil liberties organisations came up after this experience.",
-      "quote": "judiciary to protect civil liberties effectively during the emergency. Many civil liberties organisations came up after this experience.",
+      "front": "What came up in India after the experience of the Emergency?",
+      "back": "Many civil liberties organisations came up after this experience.",
+      "quote": "Many civil liberties organisations came up after this experience.",
       "blanks": [],
       "source": {
         "kind": "ncert",
@@ -703,15 +407,15 @@
         "page": 103,
         "section": "Lessons of the Emergency"
       },
-      "importance": "must",
+      "importance": "good",
       "asked": 0,
       "tags": [
         "civil"
       ],
       "order": 430,
       "reasons": [
-        "review:not_importanceRight",
-        "review:back opens mid-sentence ('judiciary to protect civil liberties...'), a dangling fragment; a minor lesson line, should be 'good' not 'must'; trim back to the 'Many civil liberties organisations...' sentence."
+        "review:not_unambiguous",
+        "review:\"What came up in India after the Emergency?\" has many right answers (Janata government, protest movements, etc.); front does not single out civil liberties organisations. Also thin importance."
       ]
     },
     {
@@ -743,72 +447,6 @@
       "reasons": [
         "review:not_unambiguous",
         "review:CONFLICT: \"Reorganisation of the North-East was completed by 1972\" (Regional Aspirations p.127) is unqualified, but Mizoram and Arunachal Pradesh became States only in 1987 (Regional Aspirations p.126, Nation-Building p.23). Keep the dated statehood cards. (conflict sweep, 31 Oct)"
-      ]
-    },
-    {
-      "id": "kc.political_science.regional-aspirations.kl-lesson-power-sharing",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.regional-aspirations",
-      "chapter": "Regional Aspirations",
-      "unit": "Politics in India Since Independence",
-      "kind": "key_line",
-      "front": "The third lesson is about the significance of ____.",
-      "back": "The third lesson is about the significance of power sharing.",
-      "quote": "The third lesson is about the significance of power sharing.",
-      "blanks": [
-        "power sharing"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps207",
-        "chapterNo": 7,
-        "page": 132,
-        "section": "Accommodation and National Integration"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "regional-aspirations"
-      ],
-      "order": 1090,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front is a dangling 'The third lesson' with no context, and the blank has many plausible fills (democracy, federalism, power sharing); one right answer is not forced."
-      ]
-    },
-    {
-      "id": "kc.political_science.regional-aspirations.kl-lesson-regional-imbalance",
-      "v": 1,
-      "subject": "political_science",
-      "chapterKey": "political_science.regional-aspirations",
-      "chapter": "Regional Aspirations",
-      "unit": "Politics in India Since Independence",
-      "kind": "key_line",
-      "front": "The fourth lesson is that regional imbalance in economic development contributes to the feeling of regional ____.",
-      "back": "The fourth lesson is that regional imbalance in economic development contributes to the feeling of regional discrimination.",
-      "quote": "The fourth lesson is that regional imbalance in economic development contributes to the feeling of regional discrimination.",
-      "blanks": [
-        "discrimination"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Politics in India since Independence",
-        "code": "leps207",
-        "chapterNo": 7,
-        "page": 132,
-        "section": "Accommodation and National Integration"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "regional-aspirations"
-      ],
-      "order": 1100,
-      "reasons": [
-        "review:not_unambiguous",
-        "review:Front is a dangling 'The fourth lesson'; 'regional ____' also fits disparity, inequality, imbalance, so 'discrimination' is not the only right fill."
       ]
     },
     {

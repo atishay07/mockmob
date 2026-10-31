@@ -2,20 +2,20 @@
   "subject": "accountancy",
   "chapters": {
     "accountancy.accounting-ratios": {
-      "published": 164,
-      "quarantined": 3,
+      "published": 166,
+      "quarantined": 1,
       "byKind": {
-        "definition": 41,
+        "definition": 42,
         "example": 11,
+        "fact": 46,
         "list": 6,
         "key_line": 10,
         "types": 11,
-        "fact": 45,
         "formula": 37,
         "entry": 3
       },
       "byImportance": {
-        "must": 113,
+        "must": 115,
         "good": 51
       },
       "coverage_note": null,
@@ -23,8 +23,8 @@
       "belowMinimum": false
     },
     "accountancy.admission-of-partner": {
-      "published": 51,
-      "quarantined": 4,
+      "published": 54,
+      "quarantined": 1,
       "byKind": {
         "definition": 3,
         "key_line": 14,
@@ -32,14 +32,14 @@
         "fact": 14,
         "formula": 2,
         "types": 1,
-        "entry": 13
+        "entry": 16
       },
       "byImportance": {
-        "must": 39,
+        "must": 42,
         "good": 12
       },
       "coverage_note": null,
-      "mustShare": 0.76,
+      "mustShare": 0.78,
       "belowMinimum": false
     },
     "accountancy.analysis-of-financial-statements": {
@@ -61,10 +61,10 @@
       "belowMinimum": false
     },
     "accountancy.cash-flow-statement": {
-      "published": 84,
+      "published": 85,
       "quarantined": 3,
       "byKind": {
-        "fact": 30,
+        "fact": 31,
         "term": 4,
         "key_line": 14,
         "definition": 13,
@@ -77,10 +77,10 @@
       },
       "byImportance": {
         "must": 52,
-        "good": 32
+        "good": 33
       },
       "coverage_note": null,
-      "mustShare": 0.62,
+      "mustShare": 0.61,
       "belowMinimum": false
     },
     "accountancy.change-in-profit-sharing-ratio": {
@@ -104,11 +104,11 @@
       "belowMinimum": true
     },
     "accountancy.comparative-and-common-size-statements": {
-      "published": 17,
-      "quarantined": 1,
+      "published": 18,
+      "quarantined": 0,
       "byKind": {
         "definition": 4,
-        "fact": 7,
+        "fact": 8,
         "types": 1,
         "steps": 2,
         "formula": 1,
@@ -116,38 +116,38 @@
       },
       "byImportance": {
         "must": 15,
-        "good": 2
+        "good": 3
       },
       "coverage_note": null,
-      "mustShare": 0.88,
+      "mustShare": 0.83,
       "belowMinimum": false
     },
     "accountancy.debentures": {
-      "published": 84,
-      "quarantined": 5,
+      "published": 86,
+      "quarantined": 3,
       "byKind": {
         "key_line": 16,
         "definition": 24,
         "difference": 8,
-        "types": 3,
-        "fact": 15,
+        "types": 4,
+        "fact": 16,
         "entry": 17,
         "example": 1
       },
       "byImportance": {
-        "must": 66,
-        "good": 18
+        "must": 67,
+        "good": 19
       },
       "coverage_note": null,
-      "mustShare": 0.79,
+      "mustShare": 0.78,
       "belowMinimum": false
     },
     "accountancy.dissolution-of-partnership-firm": {
-      "published": 55,
-      "quarantined": 2,
+      "published": 59,
+      "quarantined": 0,
       "byKind": {
         "definition": 3,
-        "fact": 14,
+        "fact": 18,
         "list": 5,
         "types": 1,
         "example": 1,
@@ -158,11 +158,11 @@
         "entry": 23
       },
       "byImportance": {
-        "must": 45,
+        "must": 49,
         "good": 10
       },
       "coverage_note": null,
-      "mustShare": 0.82,
+      "mustShare": 0.83,
       "belowMinimum": false
     },
     "accountancy.financial-statements-of-company": {
@@ -186,53 +186,53 @@
       "belowMinimum": false
     },
     "accountancy.goodwill-valuation": {
-      "published": 36,
-      "quarantined": 3,
+      "published": 39,
+      "quarantined": 0,
       "byKind": {
-        "definition": 5,
+        "definition": 6,
         "key_line": 8,
         "list": 2,
+        "fact": 6,
         "types": 2,
-        "fact": 4,
         "example": 5,
         "formula": 8,
         "term": 1,
         "steps": 1
       },
       "byImportance": {
-        "must": 24,
-        "good": 12
+        "must": 26,
+        "good": 13
       },
       "coverage_note": null,
       "mustShare": 0.67,
       "belowMinimum": false
     },
     "accountancy.partnership-fundamentals": {
-      "published": 46,
-      "quarantined": 3,
+      "published": 48,
+      "quarantined": 1,
       "byKind": {
         "definition": 6,
         "term": 3,
         "key_line": 8,
         "list": 5,
-        "fact": 19,
+        "fact": 21,
         "types": 1,
         "difference": 4
       },
       "byImportance": {
         "must": 35,
-        "good": 11
+        "good": 13
       },
       "coverage_note": null,
-      "mustShare": 0.76,
+      "mustShare": 0.73,
       "belowMinimum": false
     },
     "accountancy.profit-and-loss-appropriation-account": {
-      "published": 42,
-      "quarantined": 1,
+      "published": 43,
+      "quarantined": 0,
       "byKind": {
         "definition": 4,
-        "fact": 21,
+        "fact": 22,
         "entry": 10,
         "list": 3,
         "key_line": 2,
@@ -240,7 +240,7 @@
         "types": 1
       },
       "byImportance": {
-        "must": 33,
+        "must": 34,
         "good": 9
       },
       "coverage_note": null,
@@ -248,20 +248,20 @@
       "belowMinimum": false
     },
     "accountancy.retirement-and-death-of-partner": {
-      "published": 64,
-      "quarantined": 1,
+      "published": 65,
+      "quarantined": 0,
       "byKind": {
         "key_line": 2,
         "list": 4,
         "definition": 3,
-        "fact": 24,
+        "fact": 25,
         "formula": 2,
         "entry": 26,
         "example": 1,
         "types": 2
       },
       "byImportance": {
-        "must": 48,
+        "must": 49,
         "good": 16
       },
       "coverage_note": null,
@@ -269,8 +269,8 @@
       "belowMinimum": false
     },
     "accountancy.share-capital": {
-      "published": 107,
-      "quarantined": 3,
+      "published": 108,
+      "quarantined": 2,
       "byKind": {
         "definition": 28,
         "list": 7,
@@ -279,16 +279,16 @@
         "key_line": 15,
         "types": 5,
         "formula": 2,
-        "entry": 18,
+        "entry": 19,
         "example": 2,
         "steps": 1
       },
       "byImportance": {
-        "must": 69,
+        "must": 70,
         "good": 38
       },
       "coverage_note": null,
-      "mustShare": 0.64,
+      "mustShare": 0.65,
       "belowMinimum": false
     }
   }

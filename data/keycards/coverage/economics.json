@@ -2,12 +2,12 @@
   "subject": "economics",
   "chapters": {
     "economics.balance-of-payments": {
-      "published": 76,
-      "quarantined": 4,
+      "published": 78,
+      "quarantined": 2,
       "byKind": {
         "definition": 26,
         "list": 5,
-        "fact": 17,
+        "fact": 19,
         "term": 1,
         "types": 7,
         "key_line": 13,
@@ -16,11 +16,11 @@
         "formula": 1
       },
       "byImportance": {
-        "must": 48,
+        "must": 50,
         "good": 28
       },
       "coverage_note": null,
-      "mustShare": 0.63,
+      "mustShare": 0.64,
       "belowMinimum": false
     },
     "economics.development-experiences-of-india": {
@@ -63,11 +63,11 @@
       "belowMinimum": false
     },
     "economics.employment": {
-      "published": 57,
-      "quarantined": 4,
+      "published": 58,
+      "quarantined": 3,
       "byKind": {
         "definition": 13,
-        "fact": 25,
+        "fact": 26,
         "formula": 1,
         "types": 3,
         "key_line": 12,
@@ -76,35 +76,35 @@
       },
       "byImportance": {
         "must": 45,
-        "good": 12
+        "good": 13
       },
       "coverage_note": null,
-      "mustShare": 0.79,
+      "mustShare": 0.78,
       "belowMinimum": false
     },
     "economics.environment-and-sustainable-development": {
-      "published": 55,
-      "quarantined": 7,
+      "published": 59,
+      "quarantined": 3,
       "byKind": {
         "definition": 9,
         "types": 1,
-        "list": 7,
-        "fact": 29,
+        "list": 10,
+        "fact": 30,
         "key_line": 9
       },
       "byImportance": {
-        "must": 33,
-        "good": 22
+        "must": 35,
+        "good": 24
       },
       "coverage_note": null,
-      "mustShare": 0.6,
+      "mustShare": 0.59,
       "belowMinimum": false
     },
     "economics.government-budget-and-the-economy": {
-      "published": 63,
-      "quarantined": 1,
+      "published": 64,
+      "quarantined": 0,
       "byKind": {
-        "fact": 12,
+        "fact": 13,
         "types": 4,
         "list": 7,
         "definition": 22,
@@ -115,17 +115,17 @@
       },
       "byImportance": {
         "must": 49,
-        "good": 14
+        "good": 15
       },
       "coverage_note": null,
-      "mustShare": 0.78,
+      "mustShare": 0.77,
       "belowMinimum": false
     },
     "economics.human-capital-formation": {
-      "published": 51,
-      "quarantined": 8,
+      "published": 52,
+      "quarantined": 6,
       "byKind": {
-        "fact": 14,
+        "fact": 15,
         "list": 7,
         "definition": 4,
         "key_line": 14,
@@ -135,19 +135,19 @@
       },
       "byImportance": {
         "must": 31,
-        "good": 20
+        "good": 21
       },
       "coverage_note": null,
-      "mustShare": 0.61,
+      "mustShare": 0.6,
       "belowMinimum": false
     },
     "economics.income-determination": {
-      "published": 75,
-      "quarantined": 6,
+      "published": 78,
+      "quarantined": 2,
       "byKind": {
         "key_line": 20,
-        "definition": 24,
-        "fact": 13,
+        "definition": 25,
+        "fact": 15,
         "example": 5,
         "formula": 7,
         "types": 2,
@@ -156,18 +156,18 @@
         "term": 1
       },
       "byImportance": {
-        "must": 48,
+        "must": 51,
         "good": 27
       },
       "coverage_note": null,
-      "mustShare": 0.64,
+      "mustShare": 0.65,
       "belowMinimum": false
     },
     "economics.indian-economic-development-1950-1990": {
-      "published": 94,
-      "quarantined": 6,
+      "published": 96,
+      "quarantined": 4,
       "byKind": {
-        "fact": 35,
+        "fact": 37,
         "key_line": 28,
         "definition": 15,
         "list": 11,
@@ -176,8 +176,8 @@
         "difference": 1
       },
       "byImportance": {
-        "must": 61,
-        "good": 33
+        "must": 62,
+        "good": 34
       },
       "coverage_note": null,
       "mustShare": 0.65,
@@ -203,44 +203,44 @@
       "belowMinimum": false
     },
     "economics.introduction-and-theory-of-consumer-behaviour": {
-      "published": 115,
-      "quarantined": 4,
+      "published": 117,
+      "quarantined": 2,
       "byKind": {
         "definition": 34,
         "example": 4,
         "types": 5,
         "term": 2,
-        "fact": 37,
+        "fact": 38,
         "key_line": 24,
-        "formula": 6,
+        "formula": 7,
         "list": 2,
         "difference": 1
       },
       "byImportance": {
-        "must": 91,
-        "good": 24
+        "must": 92,
+        "good": 25
       },
       "coverage_note": null,
       "mustShare": 0.79,
       "belowMinimum": false
     },
     "economics.market-equilibrium-and-simple-applications": {
-      "published": 23,
-      "quarantined": 1,
+      "published": 24,
+      "quarantined": 0,
       "byKind": {
         "definition": 4,
         "term": 1,
         "formula": 1,
         "key_line": 7,
-        "fact": 9,
+        "fact": 10,
         "list": 1
       },
       "byImportance": {
-        "must": 18,
+        "must": 19,
         "good": 5
       },
       "coverage_note": null,
-      "mustShare": 0.78,
+      "mustShare": 0.79,
       "belowMinimum": false
     },
     "economics.money-and-banking": {
@@ -265,20 +265,20 @@
       "belowMinimum": false
     },
     "economics.national-income-and-related-aggregates": {
-      "published": 89,
-      "quarantined": 11,
+      "published": 91,
+      "quarantined": 8,
       "byKind": {
         "definition": 31,
         "fact": 15,
         "difference": 4,
-        "formula": 25,
+        "formula": 27,
         "list": 2,
         "key_line": 7,
         "example": 3,
         "types": 2
       },
       "byImportance": {
-        "must": 62,
+        "must": 64,
         "good": 27
       },
       "coverage_note": null,
@@ -286,51 +286,51 @@
       "belowMinimum": false
     },
     "economics.production-and-costs": {
-      "published": 81,
-      "quarantined": 3,
+      "published": 83,
+      "quarantined": 0,
       "byKind": {
         "definition": 27,
         "term": 1,
         "key_line": 30,
-        "fact": 10,
+        "fact": 12,
         "formula": 12,
         "example": 1
       },
       "byImportance": {
         "must": 70,
-        "good": 11
+        "good": 13
       },
       "coverage_note": null,
-      "mustShare": 0.86,
+      "mustShare": 0.84,
       "belowMinimum": false
     },
     "economics.rural-development": {
-      "published": 47,
-      "quarantined": 6,
+      "published": 49,
+      "quarantined": 4,
       "byKind": {
         "key_line": 7,
         "definition": 4,
         "list": 20,
-        "fact": 12,
+        "fact": 14,
         "types": 3,
         "term": 1
       },
       "byImportance": {
-        "must": 27,
-        "good": 20
+        "must": 28,
+        "good": 21
       },
       "coverage_note": null,
       "mustShare": 0.57,
       "belowMinimum": false
     },
     "economics.theory-of-firms-under-perfect-competition": {
-      "published": 62,
-      "quarantined": 8,
+      "published": 66,
+      "quarantined": 3,
       "byKind": {
         "list": 4,
         "key_line": 8,
         "definition": 13,
-        "fact": 19,
+        "fact": 23,
         "example": 7,
         "formula": 5,
         "term": 2,
@@ -339,8 +339,8 @@
         "steps": 1
       },
       "byImportance": {
-        "must": 47,
-        "good": 15
+        "must": 50,
+        "good": 16
       },
       "coverage_note": null,
       "mustShare": 0.76,

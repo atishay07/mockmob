@@ -1,6 +1,6 @@
 {
   "subject": "biology",
-  "version": 3,
+  "version": 4,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -8340,6 +8340,33 @@
       "order": 320
     },
     {
+      "id": "kc.biology.evolution.fact-homology-plants",
+      "v": 3,
+      "subject": "biology",
+      "chapterKey": "biology.evolution",
+      "chapter": "Evolution",
+      "unit": "Genetics and Evolution",
+      "kind": "fact",
+      "front": "Which plant structures of Bougainvillea and Cucurbita represent homology?",
+      "back": "In plants also, the thorn and tendrils of Bougainvillea and Cucurbita represent homology (Figure 6.3a).",
+      "quote": "In plants also, the thorn and tendrils of Bougainvillea and Cucurbita represent homology (Figure 6.3a).",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo106",
+        "chapterNo": 6,
+        "page": 114,
+        "section": "6.3 What are the Evidences for Evolution?"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "evolution"
+      ],
+      "order": 330
+    },
+    {
       "id": "kc.biology.evolution.key-homology-divergent",
       "v": 1,
       "subject": "biology",
@@ -13300,6 +13327,31 @@
       "order": 1020
     },
     {
+      "id": "kc.biology.human-health-and-disease.fact-aids-not-congenital",
+      "v": 3,
+      "subject": "biology",
+      "chapterKey": "biology.human-health-and-disease",
+      "chapter": "Human Health & Disease",
+      "unit": "Biology and Human Welfare",
+      "kind": "fact",
+      "front": "What does AIDS stand for, and why is it not a congenital disease?",
+      "back": "The word AIDS stands for Acquired Immuno Deficiency Syndrome. This means deficiency of immune system, acquired during the lifetime of an individual indicating that it is not a congenital disease.",
+      "blanks": [],
+      "quote": "The word AIDS stands for Acquired Immuno Deficiency Syndrome. This means deficiency of immune system, acquired during the lifetime of an individual indicating that it is not a congenital disease.",
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo107",
+        "chapterNo": 7,
+        "page": 138,
+        "section": "7.3 AIDS"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 1030
+    },
+    {
       "id": "kc.biology.human-health-and-disease.def-syndrome",
       "v": 1,
       "subject": "biology",
@@ -18236,6 +18288,58 @@
       "order": 1230
     },
     {
+      "id": "kc.biology.human-reproduction.fact-sperms-per-ejaculate",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.human-reproduction",
+      "chapter": "Human Reproduction",
+      "unit": "Reproduction",
+      "blanks": [],
+      "asked": 0,
+      "tags": [],
+      "addedIn": "gap-1031",
+      "kind": "fact",
+      "front": "How many sperms does the human male ejaculate during a coitus, and what must a normal fraction show?",
+      "back": "The human male ejaculates about 200 to 300 million sperms during a coitus of which, for normal fertility, at least 60 per cent sperms must have normal shape and size and at least 40 per cent of them must show vigorous motility.",
+      "quote": "The human male ejaculates about 200 to 300 million sperms during a coitus of which, for normal fertility, at least 60 per cent sperms must have normal shape and size and at least 40 per cent of them must show vigorous motility.",
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo102",
+        "chapterNo": 2,
+        "page": 32,
+        "section": "2.3 Gametogenesis"
+      },
+      "importance": "good",
+      "order": 1240
+    },
+    {
+      "id": "kc.biology.human-reproduction.fact-one-ovum-per-cycle",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.human-reproduction",
+      "chapter": "Human Reproduction",
+      "unit": "Reproduction",
+      "blanks": [],
+      "asked": 0,
+      "tags": [],
+      "addedIn": "gap-1031",
+      "kind": "fact",
+      "front": "How many ova are released during ovulation in each menstrual cycle?",
+      "back": "During ovulation only one ovum is released per menstrual cycle.",
+      "quote": "During ovulation only one ovum is released per menstrual cycle.",
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo102",
+        "chapterNo": 2,
+        "page": 39,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "order": 1250
+    },
+    {
       "id": "kc.biology.microbes-in-human-welfare.term-lab-curd",
       "v": 1,
       "subject": "biology",
@@ -22112,6 +22216,31 @@
       "asked": 0,
       "tags": [],
       "order": 800
+    },
+    {
+      "id": "kc.biology.molecular-basis-of-inheritance.types-template-and-coding-strand-2",
+      "v": 2,
+      "subject": "biology",
+      "chapterKey": "biology.molecular-basis-of-inheritance",
+      "chapter": "Molecular Basis of Inheritance",
+      "unit": "Genetics and Evolution",
+      "kind": "types",
+      "front": "In a transcription unit, which strand (3'→5') acts as template, and what is the other strand called?",
+      "back": "Since the two strands have opposite polarity and the DNA-dependent RNA polymerase also catalyse the polymerisation in only one direction, that is, 5'→3', the strand that has the polarity 3'→5' acts as a template, and is also referred to as template strand.\nThe other strand which has the polarity (5'→3') and the sequence same as RNA (except thymine at the place of uracil), is displaced during transcription. Strangely, this strand (which does not code for anything) is referred to as coding strand.",
+      "quote": "Since the two strands have opposite polarity and the DNA-dependent RNA polymerase also catalyse the polymerisation in only one direction, that is, 5'→3', the strand that has the polarity 3'→5' acts as a template, and is also referred to as template strand. The other strand which has the polarity (5'→3') and the sequence same as RNA (except thymine at the place of uracil), is displaced during transcription. Strangely, this strand (which does not code for anything) is referred to as coding strand.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo105",
+        "chapterNo": 5,
+        "page": 92,
+        "section": "5.5.1 Transcription Unit"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 810
     },
     {
       "id": "kc.biology.molecular-basis-of-inheritance.fact-the-promoter-is-said-to-44",
@@ -27924,6 +28053,33 @@
       "asked": 0,
       "tags": [],
       "order": 310
+    },
+    {
+      "id": "kc.biology.principles-of-inheritance-and-variation.key-abo-gene-alleles",
+      "v": 3,
+      "subject": "biology",
+      "chapterKey": "biology.principles-of-inheritance-and-variation",
+      "chapter": "Principles of Inheritance & Variation",
+      "unit": "Genetics and Evolution",
+      "kind": "key_line",
+      "front": "The gene (I) has three alleles ____.",
+      "back": "The gene (I) has three alleles IA, IB and i.",
+      "quote": "The gene (I) has three alleles IA, IB and i.",
+      "blanks": [
+        "IA, IB and i"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo104",
+        "chapterNo": 4,
+        "page": 61,
+        "section": "Co-dominance"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 320
     },
     {
       "id": "kc.biology.principles-of-inheritance-and-variation.fact-abo-sugars",

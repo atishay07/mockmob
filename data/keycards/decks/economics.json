@@ -1,6 +1,6 @@
 {
   "subject": "economics",
-  "version": 3,
+  "version": 4,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -56,6 +56,33 @@
         "open economy"
       ],
       "order": 20
+    },
+    {
+      "id": "kc.economics.balance-of-payments.fact-open-economy-trades-in",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.balance-of-payments",
+      "chapter": "Balance of Payments",
+      "unit": "Open Economy Macroeconomics",
+      "kind": "fact",
+      "front": "In what does an open economy trade with other nations?",
+      "back": "An open economy is said to be one that trades with other nations in goods and services and most often, also in financial assets.",
+      "quote": "Thus, an open economy is said to be one that trades with other nations in goods and services and most often, also in financial assets.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec106",
+        "chapterNo": 6,
+        "page": 85,
+        "section": "Open Economy Macroeconomics"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "open economy"
+      ],
+      "order": 30
     },
     {
       "id": "kc.economics.balance-of-payments.fact-imports-leakage",
@@ -1407,6 +1434,33 @@
         "flexible exchange rate"
       ],
       "order": 560
+    },
+    {
+      "id": "kc.economics.balance-of-payments.fact-flexible-rate-equilibrium",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.balance-of-payments",
+      "chapter": "Balance of Payments",
+      "unit": "Open Economy Macroeconomics",
+      "kind": "fact",
+      "front": "In a flexible exchange rate system, where is the exchange rate determined?",
+      "back": "The exchange rate is determined where the demand curve intersects with the supply curve",
+      "quote": "the exchange rate is determined where the demand curve intersects with the supply curve",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec106",
+        "chapterNo": 6,
+        "page": 92,
+        "section": "Flexible Exchange Rate"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "flexible exchange rate"
+      ],
+      "order": 570
     },
     {
       "id": "kc.economics.balance-of-payments.fact-flexible-no-intervention",
@@ -7316,6 +7370,34 @@
       "order": 170
     },
     {
+      "id": "kc.economics.employment.fact-rural-wpr-reason",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.employment",
+      "chapter": "Employment",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "Give NCERT's reasons why the worker-population ratio is higher in rural areas than in urban areas.",
+      "back": "People in rural areas have limited resources to earn a higher income and participate more in the employment market. Many do not go to schools, colleges and other training institutions. Even if some go, they discontinue in the middle to join the workforce",
+      "quote": "People in rural areas have limited resources to earn a higher income and participate more in the employment market. Many do not go to schools, colleges and other training institutions. Even if some go, they discontinue in the middle to join the workforce",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec106",
+        "chapterNo": 6,
+        "page": 95,
+        "section": "6.3 Participation of People in Employment"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "worker-population ratio",
+        "rural"
+      ],
+      "order": 180
+    },
+    {
       "id": "kc.economics.employment.fact-narrow-definition-women-work",
       "v": 1,
       "subject": "economics",
@@ -8798,6 +8880,33 @@
       "order": 90
     },
     {
+      "id": "kc.economics.environment-and-sustainable-development.list-opportunity-costs-high",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.environment-and-sustainable-development",
+      "chapter": "Environment & Sustainable Development",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "list",
+      "front": "Name the reasons NCERT gives for why the opportunity costs of negative environmental impacts are high.",
+      "back": "we are compelled to spend huge amounts on technology and research to explore new resources\nthe health costs of degraded environmental quality\nglobal environmental issues such as global warming and ozone depletion also contribute to increased financial commitments for the government",
+      "quote": "we are compelled to spend huge amounts on technology and research to explore new resources. Added to these are the health costs of degraded environmental quality -- decline in air and water quality (seventy per cent of water in India is polluted) have resulted in increased incidence of respiratory and water-borne diseases. Hence the expenditure on health is also rising. To make matters worse, global environmental issues such as global warming and ozone depletion also contribute to increased financial commitments for the government. Thus, it is clear that the opportunity costs of negative environmental impacts are high.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec107",
+        "chapterNo": 7,
+        "page": 118,
+        "section": "7.2 Environment — Definition and Functions"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "opportunity cost"
+      ],
+      "order": 100
+    },
+    {
       "id": "kc.economics.environment-and-sustainable-development.fact-early-days-demand",
       "v": 1,
       "subject": "economics",
@@ -9124,6 +9233,33 @@
       "order": 220
     },
     {
+      "id": "kc.economics.environment-and-sustainable-development.list-land-degradation-factors",
+      "v": 3,
+      "subject": "economics",
+      "chapterKey": "economics.environment-and-sustainable-development",
+      "chapter": "Environment & Sustainable Development",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "list",
+      "front": "Name the first nine factors, (i) to (ix), that NCERT lists as responsible for land degradation.",
+      "back": "loss of vegetation occuring due to deforestation\nunsustainable fuel wood and fodder extraction\nshifting cultivation\nencroachment into forest lands\nforest fires and over grazing\nnon-adoption of adequate soil conservation measures\nimproper crop rotation\nindiscriminate use of agro-chemicals such as fertilisers and pesticides\nimproper planning and management of irrigation systems",
+      "quote": "Some of the factors responsible for land degradation are (i) loss of vegetation occuring due to deforestation (ii) unsustainable fuel wood and fodder extraction (iii) shifting cultivation (iv) encroachment into forest lands (v) forest fires and over grazing (vi) non-adoption of adequate soil conservation measures (vii) improper crop rotation (viii) indiscriminate use of agro-chemicals such as fertilisers and pesticides (ix) improper planning and management of irrigation systems",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec107",
+        "chapterNo": 7,
+        "page": 122,
+        "section": "7.3 State of India’s Environment"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "land degradation"
+      ],
+      "order": 240
+    },
+    {
       "id": "kc.economics.environment-and-sustainable-development.fact-india-share",
       "v": 1,
       "subject": "economics",
@@ -9181,6 +9317,35 @@
         "land degradation"
       ],
       "order": 270
+    },
+    {
+      "id": "kc.economics.environment-and-sustainable-development.list-land-degradation-last-two",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.environment-and-sustainable-development",
+      "chapter": "Environment & Sustainable Development",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "list",
+      "front": "NCERT's land degradation factors end with ground-water over-extraction; name the last two, (xi) and (xii).",
+      "back": "open access resource\npoverty of the agriculture-dependent people",
+      "quote": "(xi) open access resource and (xii) poverty of the agriculture-dependent people",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec107",
+        "chapterNo": 7,
+        "page": 122,
+        "section": "7.3 State of India's Environment: Land Degradation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "land degradation",
+        "groundwater"
+      ],
+      "order": 271,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.economics.environment-and-sustainable-development.fact-cpcb",
@@ -9993,6 +10158,34 @@
         "biocomposting"
       ],
       "order": 590
+    },
+    {
+      "id": "kc.economics.environment-and-sustainable-development.fact-earthworms-compost",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.environment-and-sustainable-development",
+      "chapter": "Environment & Sustainable Development",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "In NCERT's strategies for sustainable development (biocomposting), what converts organic matter into compost faster than the normal process?",
+      "back": "Earthworms can convert organic matter into compost faster than the normal composting process.",
+      "quote": "Earthworms can convert organic matter into compost faster than the normal composting process.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec107",
+        "chapterNo": 7,
+        "page": 128,
+        "section": "7.5 Strategies for Sustainable Development"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "biocomposting",
+        "strategies"
+      ],
+      "order": 600
     },
     {
       "id": "kc.economics.environment-and-sustainable-development.kl-neem",
@@ -11447,6 +11640,33 @@
         "deficit"
       ],
       "order": 580
+    },
+    {
+      "id": "kc.economics.government-budget-and-the-economy.fact-committed-expenditure-cut",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.government-budget-and-the-economy",
+      "chapter": "Government Budget & the Economy",
+      "unit": "Government Budget and the Economy",
+      "kind": "fact",
+      "front": "When the government must cut expenditure, what kind of expenditure forms a major part of revenue expenditure and cannot be reduced?",
+      "back": "Since a major part of revenue expenditure is committed expenditure, it cannot be reduced.",
+      "quote": "Since a major part of revenue expenditure is committed expenditure, it cannot be reduced.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec105",
+        "chapterNo": 5,
+        "page": 72,
+        "section": "Measures of Government Deficit"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "deficit"
+      ],
+      "order": 600
     },
     {
       "id": "kc.economics.government-budget-and-the-economy.def-fiscal-deficit",
@@ -13235,6 +13455,33 @@
       "order": 710
     },
     {
+      "id": "kc.economics.human-capital-formation.fact-educated-youth-unemployment",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.human-capital-formation",
+      "chapter": "Human Capital Formation",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "In India's education pyramid (Higher Education: few takers), which group has the highest level of unemployment?",
+      "back": "The level of unemployment among educated youth is the highest.",
+      "quote": "the level of unemployment among educated youth is the highest.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec104",
+        "chapterNo": 4,
+        "page": 71,
+        "section": "4.7 Future Prospects"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "unemployment"
+      ],
+      "order": 720
+    },
+    {
       "id": "kc.economics.human-capital-formation.kl-spread-growth-equity",
       "v": 1,
       "subject": "economics",
@@ -14330,6 +14577,31 @@
       "order": 430
     },
     {
+      "id": "kc.economics.income-determination.def-autonomous-investment",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.income-determination",
+      "chapter": "Income Determination",
+      "unit": "Determination of Income and Employment",
+      "kind": "definition",
+      "front": "In the two-sector model, what does it mean that investment I̅ is autonomous?",
+      "back": "In this model, I̅ is autonomous which means, it is the same no matter whatever is the level of income.",
+      "quote": "In this model, I̅ is autonomous which means, it is the same no matter whatever is the level of income.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec104",
+        "chapterNo": 4,
+        "page": 58,
+        "section": "4.3.1 Macroeconomic Equilibrium with Price Level Fixed"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 440
+    },
+    {
       "id": "kc.economics.income-determination.key-investment-horizontal",
       "v": 2,
       "subject": "economics",
@@ -14462,6 +14734,33 @@
       "asked": 0,
       "tags": [],
       "order": 490
+    },
+    {
+      "id": "kc.economics.income-determination.fact-equilibrium-income-two-sector",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.income-determination",
+      "chapter": "Income Determination",
+      "unit": "Determination of Income and Employment",
+      "kind": "fact",
+      "front": "Algebraic method, two-sector model: what must equilibrium match, and what holds between ex ante AD and AS?",
+      "back": "Equilibrium requires that the plans of suppliers are matched by plans of those who provide final demands in the economy. Thus, in this situation, ex ante aggregate demand = ex ante aggregate supply,",
+      "quote": "Equilibrium requires that the plans of suppliers are matched by plans of those who provide final demands in the economy. Thus, in this situation, ex ante aggregate demand = ex ante aggregate supply,",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec104",
+        "chapterNo": 4,
+        "page": 60,
+        "section": "4.3.1 Macroeconomic Equilibrium with Price Level Fixed"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "equilibrium income"
+      ],
+      "order": 510
     },
     {
       "id": "kc.economics.income-determination.types-autonomous-change-ad",
@@ -14963,6 +15262,31 @@
         "effective demand"
       ],
       "order": 750
+    },
+    {
+      "id": "kc.economics.income-determination.fact-summary-multiplier",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.income-determination",
+      "chapter": "Income Determination",
+      "unit": "Determination of Income and Employment",
+      "kind": "fact",
+      "front": "Summary: an increase in autonomous spending raises aggregate output of final goods by a larger amount through what?",
+      "back": "An increase (decrease) in autonomous spending causes aggregate output of final goods to increase (decrease) by a larger amount through the multiplier process.",
+      "quote": "An increase (decrease) in autonomous spending causes aggregate output of final goods to increase (decrease) by a larger amount through the multiplier process.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec104",
+        "chapterNo": 4,
+        "page": 65,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 760
     },
     {
       "id": "kc.economics.income-determination.fact-keynes-fiscal-policy",
@@ -16891,6 +17215,34 @@
       "order": 740
     },
     {
+      "id": "kc.economics.indian-economic-development-1950-1990.fact-agri-workforce-not-absorbed",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economic-development-1950-1990",
+      "chapter": "Indian Economic Development 1950–1990",
+      "unit": "Development Policies and Experience (1947-90)",
+      "kind": "fact",
+      "front": "Why did the share of population in agriculture stay high in 1950-1990 although its share of GDP fell?",
+      "back": "The industrial sector and the service sector did not absorb the people working in the agricultural sector",
+      "quote": "The industrial sector and the service sector did not absorb the people working in the agricultural sector",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec102",
+        "chapterNo": 2,
+        "page": 27,
+        "section": "2.3 Agriculture: The Debate Over Subsidies"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "agriculture",
+        "employment"
+      ],
+      "order": 750
+    },
+    {
       "id": "kc.economics.indian-economic-development-1950-1990.kl-industry-employment-stable",
       "v": 1,
       "subject": "economics",
@@ -17761,6 +18113,33 @@
         "import-substitution"
       ],
       "order": 1130
+    },
+    {
+      "id": "kc.economics.indian-economic-development-1950-1990.fact-public-sector-welfare",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economic-development-1950-1990",
+      "chapter": "Indian Economic Development 1950–1990",
+      "unit": "Development Policies and Experience (1947-90)",
+      "kind": "fact",
+      "front": "What, on the view of a few economists, is the public sector meant to promote instead of earning profits?",
+      "back": "The public sector is not meant for earning profits but to promote the welfare of the nation",
+      "quote": "The public sector is not meant for earning profits but to promote the welfare of the nation",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec102",
+        "chapterNo": 2,
+        "page": 32,
+        "section": "2.5 Trade Policy: Import Substitution"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "public-sector"
+      ],
+      "order": 1150
     },
     {
       "id": "kc.economics.indian-economic-development-1950-1990.fact-new-economic-policy-1991",
@@ -20983,6 +21362,35 @@
       "order": 420
     },
     {
+      "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.frm-budget-line-slope",
+      "v": 3,
+      "subject": "economics",
+      "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "unit": "Introduction, Theory of Consumer Behaviour",
+      "kind": "formula",
+      "front": "Formula: slope of the budget line, with bananas (price p1) on the horizontal axis and mangoes (price p2) on the vertical axis",
+      "back": "The slope of the budget line is – p1/p2.",
+      "quote": "The slope of the budget line is – p1/p2.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec202",
+        "chapterNo": 2,
+        "page": 16,
+        "section": "2.2 The Consumer's Budget"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "budget line",
+        "formula"
+      ],
+      "order": 430,
+      "note": "p1 = price of bananas (horizontal axis), p2 = price of mangoes (vertical axis)."
+    },
+    {
       "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.fact-extra-banana-mangoes",
       "v": 2,
       "subject": "economics",
@@ -21372,6 +21780,33 @@
         "optimum"
       ],
       "order": 580
+    },
+    {
+      "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.fact-optimum-on-budget-line",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.introduction-and-theory-of-consumer-behaviour",
+      "chapter": "Introduction & Theory of Consumer Behaviour",
+      "unit": "Introduction, Theory of Consumer Behaviour",
+      "kind": "fact",
+      "front": "With monotonic preferences, is the consumer's optimum (most preferred) bundle below, on or above the budget line?",
+      "back": "Therefore, the optimum (most preferred) bundle of the consumer would be on the budget line.",
+      "quote": "Therefore, the optimum (most preferred) bundle of the consumer would be on the budget line.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec202",
+        "chapterNo": 2,
+        "page": 20,
+        "section": "2.3 Optimal Choice of the Consumer"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "optimum"
+      ],
+      "order": 590
     },
     {
       "id": "kc.economics.introduction-and-theory-of-consumer-behaviour.key-optimum-tangency-summary",
@@ -22770,6 +23205,35 @@
         "curves"
       ],
       "order": 110
+    },
+    {
+      "id": "kc.economics.market-equilibrium-and-simple-applications.fact-excess-supply-demand-eq-price",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.market-equilibrium-and-simple-applications",
+      "chapter": "Market Equilibrium & Simple Applications",
+      "unit": "Market Equilibrium and Simple Applications",
+      "kind": "fact",
+      "front": "With equilibrium price p* in a market, what is there at any price greater than p*, and at any price lower than p*?",
+      "back": "At any price greater than p*, there will be excess supply, and at any price lower than p*,there will be excess demand.",
+      "quote": "At any price greater than p*, there will be excess supply, and at any price lower than p*,there will be excess demand.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec205",
+        "chapterNo": 5,
+        "page": 74,
+        "section": "Example 5.1"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "excess demand",
+        "excess supply",
+        "equilibrium price"
+      ],
+      "order": 170
     },
     {
       "id": "kc.economics.market-equilibrium-and-simple-applications.def-price-ceiling",
@@ -27050,6 +27514,33 @@
       "order": 745
     },
     {
+      "id": "kc.economics.national-income-and-related-aggregates.formula-ndp-factor-cost",
+      "v": 3,
+      "subject": "economics",
+      "chapterKey": "economics.national-income-and-related-aggregates",
+      "chapter": "National Income & Related Aggregates",
+      "unit": "Introduction and National Income Accounting",
+      "kind": "formula",
+      "front": "Formula: NDP at factor cost",
+      "back": "NDPFC = NDPMP - Net Product Taxes - Net Production Taxes",
+      "quote": "NDPFC = NDPMP - Net Product Taxes - Net Production Taxes",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec102",
+        "chapterNo": 2,
+        "page": 27,
+        "section": "Basic National Income Aggregates (Table 2.4)"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "NDP"
+      ],
+      "order": 750
+    },
+    {
       "id": "kc.economics.national-income-and-related-aggregates.def-gnp-normal-residents",
       "v": 2,
       "subject": "economics",
@@ -27102,6 +27593,33 @@
         "GNP"
       ],
       "order": 770
+    },
+    {
+      "id": "kc.economics.national-income-and-related-aggregates.formula-gnp-factor-cost",
+      "v": 3,
+      "subject": "economics",
+      "chapterKey": "economics.national-income-and-related-aggregates",
+      "chapter": "National Income & Related Aggregates",
+      "unit": "Introduction and National Income Accounting",
+      "kind": "formula",
+      "front": "Formula: GNP at factor cost",
+      "back": "GNPFC = GNPMP - Net Product Taxes - Net Production Taxes",
+      "quote": "GNPFC = GNPMP - Net Product Taxes - Net Production Taxes",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec102",
+        "chapterNo": 2,
+        "page": 28,
+        "section": "Basic National Income Aggregates (Table 2.4)"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "GNP"
+      ],
+      "order": 780
     },
     {
       "id": "kc.economics.national-income-and-related-aggregates.formula-nnp-market-prices",
@@ -29280,6 +29798,33 @@
       "order": 570
     },
     {
+      "id": "kc.economics.production-and-costs.fact-afc-times-q",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "fact",
+      "front": "What do we always get when we multiply any output q by its corresponding AFC?",
+      "back": "If we multiply any value q of output with its corresponding AFC, we always get a constant, namely TFC.",
+      "quote": "If we multiply any value q of output with its corresponding AFC, we always get a constant, namely TFC.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 46,
+        "section": "Shapes of the Short Run Cost Curves"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "average fixed cost"
+      ],
+      "order": 580
+    },
+    {
       "id": "kc.economics.production-and-costs.frm-tfc-afc-q",
       "v": 1,
       "subject": "economics",
@@ -29450,6 +29995,34 @@
       ],
       "order": 630,
       "note": "On the AVC curve TVC is the area of the rectangle under the curve at that output."
+    },
+    {
+      "id": "kc.economics.production-and-costs.fact-sac-falling-then-rising",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.production-and-costs",
+      "chapter": "Production & Costs",
+      "unit": "Production and Costs",
+      "kind": "fact",
+      "front": "How does SAC behave while the fall in AFC exceeds the rise in AVC, and after the rise in AVC becomes larger?",
+      "back": "Initially the fall in AFC is greater than the rise in AVC and SAC is still falling. But, after a certain level of production, rise in AVC becomes larger than the fall in AFC. From this point onwards, SAC is rising.",
+      "quote": "Initially the fall in AFC is greater than the rise in AVC and SAC is still falling. But, after a certain level of production, rise in AVC becomes larger than the fall in AFC. From this point onwards, SAC is rising.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec203",
+        "chapterNo": 3,
+        "page": 48,
+        "section": "Shapes of the Short Run Cost Curves"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "average cost",
+        "curve shape"
+      ],
+      "order": 640
     },
     {
       "id": "kc.economics.production-and-costs.fact-summary-mr-price",
@@ -30293,6 +30866,35 @@
       "order": 150
     },
     {
+      "id": "kc.economics.rural-development.fact-micro-credit-programmes",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.rural-development",
+      "chapter": "Rural Development",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "SHGs get a renovating fund to take up self-employment for income generation. What are such credit provisions called?",
+      "back": "Such credit provisions are generally referred to as micro-credit programmes.",
+      "quote": "renovating fund to take up self employement for income generation. Such credit provisions are generally referred to as micro-credit programmes.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec105",
+        "chapterNo": 5,
+        "page": 79,
+        "section": "5.3 Credit and Marketing in Rural Areas"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "credit",
+        "SHG",
+        "micro-credit"
+      ],
+      "order": 160
+    },
+    {
       "id": "kc.economics.rural-development.term-jan-dhan-yojana",
       "v": 1,
       "subject": "economics",
@@ -31045,6 +31647,33 @@
       "order": 490
     },
     {
+      "id": "kc.economics.rural-development.fact-ecofriendly-technology",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.rural-development",
+      "chapter": "Rural Development",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "Which eco-friendly technology does NCERT name as essential for sustainable development (Section 5.6)?",
+      "back": "Efforts in evolving technologies which are eco-friendly are essential for sustainable development and one such technology which is eco-friendly is organic farming.",
+      "quote": "Efforts in evolving technologies which are eco-friendly are essential for sustainable development and one such technology which is eco-friendly is organic farming.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec105",
+        "chapterNo": 5,
+        "page": 86,
+        "section": "5.6 Sustainable Development and Organic Farming"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "organic farming"
+      ],
+      "order": 500
+    },
+    {
       "id": "kc.economics.rural-development.def-organic-agriculture",
       "v": 2,
       "subject": "economics",
@@ -31570,6 +32199,34 @@
       "order": 260
     },
     {
+      "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-sr-continue-p-avc",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
+      "chapter": "Theory of Firms under Perfect Competition",
+      "unit": "The Theory of the Firm under Perfect Competition",
+      "kind": "fact",
+      "front": "In the short run, what must price exceed for a firm to continue to produce?",
+      "back": "For the firm to continue to produce, in the short run, price must be greater than the average variable cost (p > AVC)",
+      "quote": "For the firm to continue to produce, in the short run, price must be greater than the average variable cost (p > AVC)",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec204",
+        "chapterNo": 4,
+        "page": 56,
+        "section": "4.3 Profit Maximisation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "profit maximisation",
+        "AVC"
+      ],
+      "order": 260
+    },
+    {
       "id": "kc.economics.theory-of-firms-under-perfect-competition.ex-more-firms-supply",
       "v": 1,
       "subject": "economics",
@@ -31986,6 +32643,61 @@
       "order": 370
     },
     {
+      "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-break-even-min-ac",
+      "v": 2,
+      "subject": "economics",
+      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
+      "chapter": "Theory of Firms under Perfect Competition",
+      "unit": "The Theory of the Firm under Perfect Competition",
+      "kind": "fact",
+      "front": "Which point on the supply curve is the break-even point of a firm (LRAC, or SAC in the short run)?",
+      "back": "The point of minimum average cost at which the supply curve cuts the LRAC curve (in short run, SAC curve) is therefore the break-even point of a firm.",
+      "quote": "The point of minimum average cost at which the supply curve cuts the LRAC curve (in short run, SAC curve) is therefore the break-even point of a firm.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec204",
+        "chapterNo": 4,
+        "page": 61,
+        "section": "4.4.4 The Normal Profit and Break-even Point"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "break-even"
+      ],
+      "order": 380
+    },
+    {
+      "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-free-entry-normal-profit",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
+      "chapter": "Theory of Firms under Perfect Competition",
+      "unit": "The Theory of the Firm under Perfect Competition",
+      "kind": "fact",
+      "front": "Perfect competition with free entry and exit: what profit will each firm always earn, in NCERT's term?",
+      "back": "With free entry and exit, each firm will always earn normal profit",
+      "quote": "With free entry and exit, each firm will always earn normal profit",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec205",
+        "chapterNo": 5,
+        "page": 81,
+        "section": "Market Equilibrium: Free Entry and Exit"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "free entry and exit",
+        "normal profit"
+      ],
+      "order": 400
+    },
+    {
       "id": "kc.economics.theory-of-firms-under-perfect-competition.kl-determinant-mc",
       "v": 2,
       "subject": "economics",
@@ -32180,6 +32892,34 @@
         "min AC"
       ],
       "order": 440
+    },
+    {
+      "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-quantity-from-market-demand",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.theory-of-firms-under-perfect-competition",
+      "chapter": "Theory of Firms under Perfect Competition",
+      "unit": "The Theory of the Firm under Perfect Competition",
+      "kind": "fact",
+      "front": "Free entry and exit: the equilibrium price equals min AC. What determines the equilibrium quantity supplied?",
+      "back": "In equilibrium, the quantity supplied will be determined by the market demand at that price so that they are equal.",
+      "quote": "In equilibrium, the quantity supplied will be determined by the market demand at that price so that they are equal.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Microeconomics",
+        "code": "leec205",
+        "chapterNo": 5,
+        "page": 81,
+        "section": "Market Equilibrium: Free Entry and Exit"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "free entry and exit",
+        "quantity"
+      ],
+      "order": 450
     },
     {
       "id": "kc.economics.theory-of-firms-under-perfect-competition.fact-unit-tax-costs",
