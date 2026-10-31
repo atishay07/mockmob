@@ -14,7 +14,7 @@
 //  - the median fit score is at or above NTA_MIN_FIT_SCORE.
 // Anything missing fails closed. The majority (2 of 3) type, unit and chapter are the question's
 // stored tags: the engine uses them before its own heuristic (data/nta_engine.js classifyNtaType).
-import { contentHashMatches } from './content_evidence.js';
+import { contentHashMatch, contentHashMatches } from './content_evidence.js';
 import english from './nta_fit_scores/english.json' with { type: 'json' };
 import generalTest from './nta_fit_scores/general_test.json' with { type: 'json' };
 import accountancy from './nta_fit_scores/accountancy.json' with { type: 'json' };
@@ -137,10 +137,14 @@ export function ntaFitVerdict(row, { fitScores, minFit = NTA_MIN_FIT_SCORE } = {
 /**
  * The stored tags for a row: the judges' majority type, unit and chapter (null where the judges had no
  * majority or the content changed since they judged it). The engine uses them before its heuristic.
+ * A question the syllabus v2 re-tag moved keeps the judges' type, but not their unit and chapter: they
+ * judged it under its old (retired or split) chapter, and the re-tag's chapter places it now.
  */
 export function ntaStoredFitTags(row, { fitScores } = {}) {
   const found = ntaFitEntry(row?.id, { fitScores });
   const entry = found?.entry;
-  if (!entry || !contentHashMatches(row, entry.content_hash)) return { type: null, unit: null, chapter: null };
+  const match = entry ? contentHashMatch(row, entry.content_hash) : null;
+  if (!match) return { type: null, unit: null, chapter: null };
+  if (match === 'retag') return { type: entry.cuet_type || null, unit: null, chapter: null };
   return { type: entry.cuet_type || null, unit: entry.unit || null, chapter: entry.chapter || null };
 }
