@@ -1,5 +1,15 @@
 # NOW: MockMob current state
 
+## 31 Oct 2026, about 6:55 pm IST: Learn feedback (LK1-LK14): fixes live, redesign in preview
+- **Live (main b7e68f8e2):** Your part picker fixed (LK2); Study motion (LK5); MockMob watermark on every printed sheet (LK6);
+  Must-know re-tiered to 25% via data/keycards/tiers.json (LK13). Suites, build and captures in STATUS.md.
+- **Building (not live):** the Learn redesign as real screens in the dev preview: `wt-1031-learn-v2` (branch web/1031-learn-v2),
+  spec `docs/brain/learn-1031/DESIGN-SPEC.md` (concept B "the chapter is the home" plus amendments A1-A12), data contract
+  `API-CONTRACT.md`, workflow learn-v2-slice (engine, home, chapter page with piles, run player, cards view, Explore feed,
+  then capture, Opus critique, fix). Dev server: .claude/launch.json "learn-v2-dev" on port 3451.
+- **Owner next:** see the real renders when they land; decide whether questions inside Learn are free (A9) and whether
+  Learn gets its own desktop sidebar place (N1). App version 17 can wait for the redesign.
+
 ## 31 Oct 2026, about 4:50 pm IST: 218 off-syllabus questions pulled
 - **Owner:** "Pull them all". The 218 are off-syllabus, pending and frozen on production (dry-run, then applied; undo saved).
 - **Bug fixed on the way:** the morning's 25 flawed-question pulls were still served (pending, but verified and active
