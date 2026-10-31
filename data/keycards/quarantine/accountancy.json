@@ -101,6 +101,38 @@
       ]
     },
     {
+      "id": "kc.accountancy.partnership-fundamentals.fact-expansion-needs-partnership",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "chapter": "Partnership Fundamentals",
+      "unit": "Partnership Fundamentals",
+      "kind": "fact",
+      "front": "As a sole proprietary business expands and needs more capital and people, which form of organisation do people usually adopt?",
+      "back": "As the business expands, one needs more capital and larger number of people to manage the business and share its risks. In such a situation, people usually adopt the partnership form of organisation.",
+      "quote": "As the business expands, one needs more capital and larger number of people to manage the business and share its risks. In such a situation, people usually adopt the partnership form of organisation.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac101",
+        "chapterNo": 1,
+        "page": 1,
+        "section": "Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "partnership"
+      ],
+      "order": 5,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Not important: introductory narrative filler with no testable point; the answer 'partnership' is given away by the chapter title."
+      ]
+    },
+    {
       "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
       "v": 2,
       "subject": "accountancy",
@@ -290,6 +322,38 @@
       ]
     },
     {
+      "id": "kc.accountancy.goodwill-valuation.fact-method-decided-by-agreement",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapter": "Goodwill Valuation",
+      "unit": "Goodwill Valuation",
+      "kind": "fact",
+      "front": "Goodwill calculated by one method may differ from that by another. Who may specifically decide the method to be used?",
+      "back": "Goodwill calculated by one method may differ from the goodwill calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner.",
+      "quote": "Goodwill calculated by one method may differ from the goodwill calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 56,
+        "section": "2.5.4 Methods of Valuation of Goodwill"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill"
+      ],
+      "order": 315,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Importance should be good, not must: a minor linking sentence before the real methods list (average profits, super profits, capitalisation)."
+      ]
+    },
+    {
       "id": "kc.accountancy.retirement-and-death-of-partner.kl-goodwill-entitled",
       "v": 2,
       "subject": "accountancy",
@@ -459,6 +523,39 @@
       ]
     },
     {
+      "id": "kc.accountancy.share-capital.fact-discount-general-rule",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.share-capital",
+      "chapter": "Share Capital",
+      "unit": "Share Capital",
+      "kind": "fact",
+      "front": "Summary: can the shares of a company ordinarily be issued at a discount?",
+      "back": "Apart from such compliance, shares of a company cannot ordinarily be issued at a discount.",
+      "quote": "Apart from such compliance, shares of a company cannot ordinarily be issued at a discount.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy Part 2: Company Accounts and Analysis of Financial Statements",
+        "code": "leac201",
+        "chapterNo": 1,
+        "page": 66,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "discount"
+      ],
+      "order": 1190,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:not_importanceRight",
+        "review:CONFLICT: the Summary line (with the Companies Act 2013 'only sweat equity shares' sentence) disagrees with section 1.6.6 and 1.7.1, which also allow a discount on reissue of forfeited shares. Back also opens with a dangling 'Apart from such compliance' and the front is a yes/no that omits the condi"
+      ]
+    },
+    {
       "id": "kc.accountancy.debentures.types-convertible-extent",
       "v": 1,
       "subject": "accountancy",
@@ -521,6 +618,41 @@
       ]
     },
     {
+      "id": "kc.accountancy.debentures.kl-premium-discount-accounts",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.debentures",
+      "chapter": "Debentures",
+      "unit": "Debentures",
+      "kind": "key_line",
+      "front": "The amount received as premium is credited to ‘____’ whereas amount of discount allowed is debited to “____” and is written-off over the years",
+      "back": "The amount received as premium is credited to ‘securities premium account’ whereas amount of discount allowed is debited to “loss/discount on issue” and is written-off over the years",
+      "quote": "The amount received as premium is credited to ‘securities premium account’ whereas amount of discount allowed is debited to “loss/discount on issue” and is written-off over the years",
+      "blanks": [
+        "securities premium account",
+        "loss/discount on issue"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac202",
+        "chapterNo": 2,
+        "page": 138,
+        "section": "Summary"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "issue at premium",
+        "issue at discount"
+      ],
+      "order": 1010,
+      "reasons": [
+        "review:not_unambiguous",
+        "review:CONFLICT: NCERT p. 106 and p. 154 say discount on issue of debentures is written off in the year of issue; this p. 138 line says it is written off over the years. Held back so the deck never teaches both (orchestrator, 31 Oct)."
+      ]
+    },
+    {
       "id": "kc.accountancy.comparative-and-common-size-statements.kl-inter-firm-comparison",
       "v": 2,
       "subject": "accountancy",
@@ -551,6 +683,40 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front is a bare sentence fragment with no anchor (no mention of common size statements) and the blank could be filled by other comparison words (inter-industry, industry-wide); not a mark-carrying single-answer blank. Convert to a fact card: what does common size analysis make possible?"
+      ]
+    },
+    {
+      "id": "kc.accountancy.analysis-of-financial-statements.fact-economist-govt-actions",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.analysis-of-financial-statements",
+      "chapter": "Analysis of Financial Statements",
+      "unit": "Analysis of Financial Statements",
+      "kind": "fact",
+      "front": "What can an economist judge, and what do governmental actions rest on, through analysis of the financial statements of various firms?",
+      "back": "Through the analysis of financial statements of various firms, an economist can judge the extent of concentration of economic power and pitfalls in the financial policies pursued. The analysis also provides the basis for many governmental actions relating to licensing, controls, fixing of prices, ceiling on profits, dividend freeze, tax subsidy and other concessions to the corporate sector.",
+      "quote": "Through the analysis of financial statements of various firms, an economist can judge the extent of concentration of economic power and pitfalls in the financial policies pursued. The analysis also provides the basis for many governmental actions relating to licensing, controls, fixing of prices, ceiling on profits, dividend freeze, tax subsidy and other concessions to the corporate sector.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac204",
+        "chapterNo": 4,
+        "page": 174,
+        "section": "4.3 Objectives of Analysis of Financial Statements"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "analysis",
+        "uses"
+      ],
+      "order": 530,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Not important: a long list of government actions is low-yield trivia, not a headed list or definition. Front is two-part with a multi-item answer, so no single right answer."
       ]
     },
     {
@@ -646,6 +812,70 @@
       "reasons": [
         "review:not_unambiguous",
         "review:'The main lines' is undefined: the back keeps 5 of ~10 proforma lines (only subtotals), dropping the adjustment lines (add back non-cash and non-operating items, deduct non-operating incomes) that carry the marks; a student cannot know which lines to give."
+      ]
+    },
+    {
+      "id": "kc.accountancy.cash-flow-statement.fact-operating-cash-key-indicator",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.cash-flow-statement",
+      "chapter": "Cash Flow Statement",
+      "unit": "Cash Flow Statement",
+      "kind": "fact",
+      "front": "Cash from operations is regarded as the key indicator of which extent of cash generation (AS-3)?",
+      "back": "is regarded as the key indicator of the extent to which the operations of the enterprise have generated sufficient cash flows to maintain the operating capability of the enterprise, paying dividends, making of new investments and repaying of loans without recourse to external source of financing.",
+      "quote": "is regarded as the key indicator of the extent to which the operations of the enterprise have generated sufficient cash flows to maintain the operating capability of the enterprise, paying dividends, making of new investments and repaying of loans without recourse to external source of financing.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac206",
+        "chapterNo": 6,
+        "page": 244,
+        "section": "6.5.1 Cash from Operating Activities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "operating"
+      ],
+      "order": 960,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:not_importanceRight",
+        "review:Front has no single answer (open-ended, answer is a long clause; 'AS-3' is not in the quote) and the back starts mid-sentence with no subject. Importance should be good."
+      ]
+    },
+    {
+      "id": "kc.accountancy.cash-flow-statement.list-financing-outflows-exhibit",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.cash-flow-statement",
+      "chapter": "Cash Flow Statement",
+      "unit": "Cash Flow Statement",
+      "kind": "list",
+      "front": "Exhibit 6.1: name the cash outflows classified under financing activities.",
+      "back": "Redemption of preference shares, buy back of own equity shares\nRedemption of debentures and payment of the long-term debts\nPayment of dividends and interest",
+      "quote": "Redemption of preference shares, buy back of own equity shares Redemption of debentures and payment of the long-term debts Payment of dividends and interest",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
+        "code": "leac206",
+        "chapterNo": 6,
+        "page": 246,
+        "section": "6.5.3 Cash from Financing Activities"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "financing"
+      ],
+      "order": 970,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:missing"
       ]
     }
   ]

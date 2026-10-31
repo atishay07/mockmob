@@ -1,6 +1,6 @@
 {
   "subject": "accountancy",
-  "version": 1,
+  "version": 3,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -11794,35 +11794,32 @@
       "order": 1000
     },
     {
-      "id": "kc.accountancy.debentures.kl-premium-discount-accounts",
+      "id": "kc.accountancy.debentures.fact-interest-nominal-basis",
       "v": 1,
       "subject": "accountancy",
       "chapterKey": "accountancy.debentures",
       "chapter": "Debentures",
       "unit": "Company Accounts: Accounting for Share and Debenture Capital",
-      "kind": "key_line",
-      "front": "The amount received as premium is credited to ‘____’ whereas amount of discount allowed is debited to “____” and is written-off over the years",
-      "back": "The amount received as premium is credited to ‘securities premium account’ whereas amount of discount allowed is debited to “loss/discount on issue” and is written-off over the years",
-      "quote": "The amount received as premium is credited to ‘securities premium account’ whereas amount of discount allowed is debited to “loss/discount on issue” and is written-off over the years",
-      "blanks": [
-        "securities premium account",
-        "loss/discount on issue"
-      ],
+      "kind": "fact",
+      "front": "Interest on debentures such as 10% debentures: on which value is the interest payable calculated?",
+      "back": "This percentage is usually as part of the name of debentures like 8% debentures, 10% debentures, etc., and interest payable is calculated at the nominal value of debentures.",
+      "quote": "This percentage is usually as part of the name of debentures like 8% debentures, 10% debentures, etc., and interest payable is calculated at the nominal value of debentures.",
+      "blanks": [],
       "source": {
         "kind": "ncert",
         "book": "Accountancy : Company Accounts and Analysis of Financial Statements",
         "code": "leac202",
         "chapterNo": 2,
-        "page": 138,
-        "section": "Summary"
+        "page": 104,
+        "section": "2.9 Interest on Debentures"
       },
-      "importance": "good",
+      "importance": "must",
       "asked": 0,
       "tags": [
-        "issue at premium",
-        "issue at discount"
+        "interest"
       ],
-      "order": 1010
+      "order": 1020,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.accountancy.dissolution-of-partnership-firm.def-firm-sec39",
@@ -23737,6 +23734,34 @@
         "reissue"
       ],
       "order": 1170
+    },
+    {
+      "id": "kc.accountancy.share-capital.fact-forfeit-when",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.share-capital",
+      "chapter": "Share Capital",
+      "unit": "Company Accounts: Accounting for Share and Debenture Capital",
+      "kind": "fact",
+      "front": "When can a company forfeit shares, and what happens to the amount already received?",
+      "back": "It may happen that some shareholders fail to pay one or more instalments, viz. allotment money and/or call money. In such circumstances, the company can forfeit their shares, i.e. cancel their allotment and treat the amount already received thereon as forfeited to the company",
+      "quote": "It may happen that some shareholders fail to pay one or more instalments, viz. allotment money and/or call money. In such circumstances, the company can forfeit their shares, i.e. cancel their allotment and treat the amount already received thereon as forfeited to the company",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy Part 2: Company Accounts and Analysis of Financial Statements",
+        "code": "leac201",
+        "chapterNo": 1,
+        "page": 37,
+        "section": "1.7 Forfeiture of Shares"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "forfeiture"
+      ],
+      "order": 1180,
+      "addedIn": "gap-1031"
     }
   ]
 }

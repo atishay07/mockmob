@@ -44,7 +44,7 @@
     },
     "accountancy.analysis-of-financial-statements": {
       "published": 16,
-      "quarantined": 0,
+      "quarantined": 1,
       "byKind": {
         "definition": 4,
         "types": 1,
@@ -62,7 +62,7 @@
     },
     "accountancy.cash-flow-statement": {
       "published": 84,
-      "quarantined": 1,
+      "quarantined": 3,
       "byKind": {
         "fact": 30,
         "term": 4,
@@ -124,22 +124,22 @@
     },
     "accountancy.debentures": {
       "published": 86,
-      "quarantined": 2,
+      "quarantined": 3,
       "byKind": {
-        "key_line": 17,
+        "key_line": 16,
         "definition": 24,
         "difference": 8,
         "types": 3,
-        "fact": 16,
+        "fact": 17,
         "entry": 17,
         "example": 1
       },
       "byImportance": {
-        "must": 66,
-        "good": 20
+        "must": 67,
+        "good": 19
       },
       "coverage_note": null,
-      "mustShare": 0.77,
+      "mustShare": 0.78,
       "belowMinimum": false
     },
     "accountancy.dissolution-of-partnership-firm": {
@@ -187,7 +187,7 @@
     },
     "accountancy.goodwill-valuation": {
       "published": 36,
-      "quarantined": 2,
+      "quarantined": 3,
       "byKind": {
         "definition": 5,
         "key_line": 8,
@@ -209,7 +209,7 @@
     },
     "accountancy.partnership-fundamentals": {
       "published": 46,
-      "quarantined": 2,
+      "quarantined": 3,
       "byKind": {
         "definition": 6,
         "term": 3,
@@ -269,12 +269,12 @@
       "belowMinimum": false
     },
     "accountancy.share-capital": {
-      "published": 106,
-      "quarantined": 2,
+      "published": 107,
+      "quarantined": 3,
       "byKind": {
         "definition": 28,
         "list": 7,
-        "fact": 26,
+        "fact": 27,
         "term": 2,
         "key_line": 15,
         "types": 5,
@@ -284,7 +284,7 @@
         "steps": 1
       },
       "byImportance": {
-        "must": 68,
+        "must": 69,
         "good": 38
       },
       "coverage_note": null,
