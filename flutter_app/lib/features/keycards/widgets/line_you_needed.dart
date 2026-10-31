@@ -121,7 +121,7 @@ class _KcLineBlockState extends ConsumerState<KcLineBlock> {
             const SizedBox(height: MmSpace.s8),
             Text(card.label, style: type.caption.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s2),
-            KcBack(card: card),
+            KcBack(card: card, compact: true),
             const SizedBox(height: MmSpace.s4),
             KcReference(card: card),
           ],

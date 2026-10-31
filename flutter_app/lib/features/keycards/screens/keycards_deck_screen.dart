@@ -211,84 +211,96 @@ class _KeyCardsDeckScreenState extends ConsumerState<KeyCardsDeckScreen> {
       return ListView(
         padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, bottom),
         children: [
-          header,
-          const SizedBox(height: MmSpace.s32),
-          Text(KeyCardsCopy.emptyChapter, style: type.cardTitle),
-          const SizedBox(height: MmSpace.s4),
-          Text(KeyCardsCopy.emptyChapterNote, style: type.body.copyWith(color: colors.ink2)),
+            header,
+            const SizedBox(height: MmSpace.s32),
+            Text(KeyCardsCopy.emptyChapter, style: type.cardTitle),
+            const SizedBox(height: MmSpace.s4),
+            Text(KeyCardsCopy.emptyChapterNote, style: type.body.copyWith(color: colors.ink2)),
+          ],
+        );
+      }
+
+      final allAdded = deck.allAdded;
+      final actions = Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            '${KeyCardsCopy.cardsOnly(deck.total)}. ${deck.mustKnow} ${KeyCardsCopy.mustKnow}.',
+            style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
+          ),
+          const SizedBox(height: MmSpace.s12),
+          if (allAdded && _addLine == null)
+            const ReceiptLine(text: KeyCardsCopy.inRevise)
+          else if (_addLine != null && !_addFailed)
+            ReceiptLine(text: _addLine!)
+          else
+            KeyButton.secondary(
+              label: KeyCardsCopy.addToRevise,
+              loading: _adding,
+              onPressed: cached ? null : () => unawaited(_add(deck)),
+            ),
+          if (_addFailed) ...[
+            const SizedBox(height: MmSpace.s4),
+            Semantics(liveRegion: true, child: Text(_addLine!, style: type.small.copyWith(color: colors.warnText))),
+          ],
+          if (isPro && deck.mustKnowCards.isNotEmpty) ...[
+            const SizedBox(height: MmSpace.s4),
+            KcLinkAction(label: KeyCardsCopy.shareSheet, onTap: () => unawaited(_share(deck))),
+          ],
         ],
       );
-    }
 
-    final allAdded = deck.allAdded;
-    final actions = Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(
-          '${KeyCardsCopy.cardsOnly(deck.total)}. ${deck.mustKnow} ${KeyCardsCopy.mustKnow}.',
-          style: type.small.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
+      final Widget modeBody = switch (_mode) {
+        KcMode.read => _ReadList(deck: deck),
+        KcMode.study => KeyCardRun(
+          key: ValueKey('kc-study-$_session'),
+          cards: cards,
+          mode: KeyCardRules.modeStudy,
+          onDone: () => setState(() => _mode = KcMode.read),
         ),
-        const SizedBox(height: MmSpace.s12),
-        if (allAdded && _addLine == null)
-          const ReceiptLine(text: KeyCardsCopy.inRevise)
-        else if (_addLine != null && !_addFailed)
-          ReceiptLine(text: _addLine!)
-        else
-          KeyButton.secondary(
-            label: KeyCardsCopy.addToRevise,
-            loading: _adding,
-            onPressed: cached ? null : () => unawaited(_add(deck)),
+        KcMode.lastLook => KcLastLook(key: ValueKey('kc-last-$_session'), cards: deck.mustKnowCards),
+      };
+
+      final switcher = MmOverlapSwitcher.fade(
+        duration: Motion.ui,
+        alignment: Alignment.topCenter,
+        child: KeyedSubtree(key: ValueKey('kc-mode-${_mode.param}'), child: modeBody),
+      );
+
+      return LayoutBuilder(
+        builder: (context, constraints) => ListView(
+          padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, bottom),
+          children: [
+          header,
+          const SizedBox(height: MmSpace.s16),
+          actions,
+          const SizedBox(height: MmSpace.s24),
+          MmSegmented<KcMode>(
+            showBubbles: false,
+            semanticsLabel: KeyCardsCopy.modes,
+            segments: const [
+              MmSegment(KcMode.read, KeyCardsCopy.read),
+              MmSegment(KcMode.study, KeyCardsCopy.study),
+              MmSegment(KcMode.lastLook, KeyCardsCopy.lastLook),
+            ],
+            value: _mode,
+            onChanged: (m) => setState(() {
+              _mode = m;
+              _session += 1;
+            }),
           ),
-        if (_addFailed) ...[
-          const SizedBox(height: MmSpace.s4),
-          Semantics(liveRegion: true, child: Text(_addLine!, style: type.small.copyWith(color: colors.warnText))),
+          const SizedBox(height: MmSpace.s16),
+          // A card session holds at least a screen of room below its card, so once the page has moved the card
+          // up to show its keys, a shorter next card does not pull the page back down to the chapter's header.
+          if (_mode == KcMode.read)
+            switcher
+          else
+            ConstrainedBox(
+              constraints: BoxConstraints(minHeight: (constraints.maxHeight - bottom).clamp(0, double.infinity)),
+              child: Align(alignment: Alignment.topCenter, child: switcher),
+            ),
         ],
-        if (isPro && deck.mustKnowCards.isNotEmpty) ...[
-          const SizedBox(height: MmSpace.s4),
-          KcLinkAction(label: KeyCardsCopy.shareSheet, onTap: () => unawaited(_share(deck))),
-        ],
-      ],
-    );
-
-    final Widget modeBody = switch (_mode) {
-      KcMode.read => _ReadList(deck: deck),
-      KcMode.study => KeyCardRun(
-        key: ValueKey('kc-study-$_session'),
-        cards: cards,
-        mode: KeyCardRules.modeStudy,
-        onDone: () => setState(() => _mode = KcMode.read),
       ),
-      KcMode.lastLook => KcLastLook(key: ValueKey('kc-last-$_session'), cards: deck.mustKnowCards),
-    };
-
-    return ListView(
-      padding: EdgeInsets.fromLTRB(MmSpace.gutter, MmSpace.s8, MmSpace.gutter, bottom),
-      children: [
-        header,
-        const SizedBox(height: MmSpace.s16),
-        actions,
-        const SizedBox(height: MmSpace.s24),
-        MmSegmented<KcMode>(
-          showBubbles: false,
-          semanticsLabel: KeyCardsCopy.modes,
-          segments: const [
-            MmSegment(KcMode.read, KeyCardsCopy.read),
-            MmSegment(KcMode.study, KeyCardsCopy.study),
-            MmSegment(KcMode.lastLook, KeyCardsCopy.lastLook),
-          ],
-          value: _mode,
-          onChanged: (m) => setState(() {
-            _mode = m;
-            _session += 1;
-          }),
-        ),
-        const SizedBox(height: MmSpace.s16),
-        MmOverlapSwitcher.fade(
-          duration: Motion.ui,
-          alignment: Alignment.topCenter,
-          child: KeyedSubtree(key: ValueKey('kc-mode-${_mode.param}'), child: modeBody),
-        ),
-      ],
     );
   }
 }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart' show RenderAbstractViewport;
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lucide_icons_flutter/lucide_icons.dart';
@@ -9,6 +10,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
+import '../data/keycards_lines.dart';
 import '../data/keycards_models.dart';
 import '../data/keycards_providers.dart';
 import '../data/keycards_reviews.dart';
@@ -183,18 +185,119 @@ class KcReference extends StatelessWidget {
   }
 }
 
-/// The answer as the book prints it, in the reading style.
+/// The answer as the book prints it, in the reading style. Where the book breaks the answer into lines, each line
+/// is its own paragraph (a list's items with a bullet unless the book numbers them), and a journal entry is set
+/// out as the book sets it: the debit with "Dr." at the right, the credits indented under it, the narration
+/// below. [compact] is the smaller reading size of a block inside another screen (The line you needed).
 class KcBack extends StatelessWidget {
-  const KcBack({super.key, required this.card});
+  const KcBack({super.key, required this.card, this.compact = false});
 
   final KeyCard card;
+  final bool compact;
 
   @override
   Widget build(BuildContext context) {
     final type = context.mmType;
-    final reading = type.body.copyWith(fontSize: 17, height: 26 / 17, color: context.mmColors.ink);
-    if (card.blanks.isEmpty) return Text(card.back, style: reading);
-    return KcBlankText(line: BlankedLine.marked(card.back, card.blanks), style: reading);
+    final reading = compact
+        ? type.body.copyWith(fontSize: 15.5, height: 23 / 15.5, color: context.mmColors.ink)
+        : type.body.copyWith(fontSize: 17, height: 26 / 17, color: context.mmColors.ink);
+    if (card.blanks.isNotEmpty) return KcBlankText(line: BlankedLine.marked(card.back, card.blanks), style: reading);
+    if (card.kind == 'entry') {
+      final rows = journalRows(card.back);
+      if (rows != null) return KcEntryText(rows: rows, style: reading);
+    }
+    final paragraphs = backParagraphs(card.back, card.kind);
+    if (paragraphs.length < 2) return Text(card.back, style: reading);
+    return KcParagraphs(paragraphs: paragraphs, style: reading, tight: card.kind == 'formula');
+  }
+}
+
+/// A back the book breaks into lines: one paragraph a line, a list item with a small bullet hung in the margin.
+class KcParagraphs extends StatelessWidget {
+  const KcParagraphs({super.key, required this.paragraphs, required this.style, this.tight = false});
+
+  final List<KcParagraph> paragraphs;
+  final TextStyle style;
+
+  /// A formula's second line ("= ...") stays close to its first.
+  final bool tight;
+
+  @override
+  Widget build(BuildContext context) {
+    final lineHeight = MediaQuery.textScalerOf(context).scale(style.fontSize ?? 16) * (style.height ?? 1.4);
+    const dot = 5.0;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final (i, p) in paragraphs.indexed) ...[
+          if (i > 0) SizedBox(height: tight ? MmSpace.s2 : MmSpace.s6),
+          if (p.bullet)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ExcludeSemantics(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: (lineHeight - dot) / 2, right: MmSpace.s12 - 1),
+                    child: DecoratedBox(
+                      decoration: ShapeDecoration(shape: const CircleBorder(), color: context.mmColors.ink3),
+                      child: const SizedBox.square(dimension: dot),
+                    ),
+                  ),
+                ),
+                Expanded(child: Text(p.text, style: style)),
+              ],
+            )
+          else
+            Text(p.text, style: style),
+        ],
+      ],
+    );
+  }
+}
+
+/// A journal entry as the book sets it out: each debit with "Dr." at the right, "To" each credit indented under
+/// the debits, the narration in a quieter size below. The words are the card's own.
+class KcEntryText extends StatelessWidget {
+  const KcEntryText({super.key, required this.rows, required this.style});
+
+  final List<KcEntryRow> rows;
+  final TextStyle style;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = context.mmColors;
+    final narration = style.copyWith(fontSize: (style.fontSize ?? 16) - 2, height: 1.45, color: colors.ink2);
+    final children = <Widget>[];
+    for (final (i, row) in rows.indexed) {
+      final previous = i == 0 ? null : rows[i - 1].kind;
+      // A new entry (a debit after a credit or a narration) starts a little apart.
+      final gap = switch (row.kind) {
+        _ when i == 0 => 0.0,
+        KcEntryRowKind.narration => MmSpace.s4,
+        KcEntryRowKind.debit when previous != KcEntryRowKind.debit => MmSpace.s12,
+        _ => MmSpace.s2,
+      };
+      if (gap > 0) children.add(SizedBox(height: gap));
+      children.add(switch (row.kind) {
+        KcEntryRowKind.debit => Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Text.rich(
+                TextSpan(text: row.text, children: [if (row.aside != null) TextSpan(text: ' ${row.aside}', style: TextStyle(color: colors.ink2))]),
+                style: style,
+              ),
+            ),
+            const SizedBox(width: MmSpace.s12),
+            Text('Dr.', style: style),
+          ],
+        ),
+        KcEntryRowKind.credit => Padding(padding: const EdgeInsets.only(left: MmSpace.s24), child: Text(row.text, style: style)),
+        KcEntryRowKind.narration => Text(row.text, style: narration),
+        KcEntryRowKind.plain => Text(row.text, style: style),
+      });
+    }
+    return Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: children);
   }
 }
 
@@ -518,47 +621,107 @@ class KcStudyFace extends StatelessWidget {
         ],
       ),
     );
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        KcKindLine(card: card, position: position, trailing: KcCardMenu(card: card)),
-        if (showChapter && card.chapter != null) ...[
-          Text(card.chapter!, style: type.caption.copyWith(color: colors.ink3)),
-          const SizedBox(height: MmSpace.s8),
-        ] else
-          const SizedBox(height: MmSpace.s4),
-        if (revealed)
-          face
-        else
-          // The whole card is a target too: a tap anywhere on the question shows the answer. A screen reader
-          // reads the question here and finds the action on the key below.
-          MmPressable(
-            onTap: onReveal,
-            pressedScale: 0.99,
-            focusRadius: MmRadius.panelAll,
-            haptic: MmPressHaptic.selection,
-            button: false,
-            excludeSemantics: false,
-            builder: (context, pressed, _) => face,
+    // The face keeps its keys on screen: the answer can be long and the page above it tall (a chapter's header,
+    // Revise's head), and the student should never have to scroll to rate a card.
+    return KcKeepInView(
+      trigger: (card.id, revealed),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          KcKindLine(card: card, position: position, trailing: KcCardMenu(card: card)),
+          if (showChapter && card.chapter != null) ...[
+            Text(card.chapter!, style: type.caption.copyWith(color: colors.ink3)),
+            const SizedBox(height: MmSpace.s8),
+          ] else
+            const SizedBox(height: MmSpace.s4),
+          if (revealed)
+            face
+          else
+            // The whole card is a target too: a tap anywhere on the question shows the answer. A screen reader
+            // reads the question here and finds the action on the key below.
+            MmPressable(
+              onTap: onReveal,
+              pressedScale: 0.99,
+              focusRadius: MmRadius.panelAll,
+              haptic: MmPressHaptic.selection,
+              button: false,
+              excludeSemantics: false,
+              builder: (context, pressed, _) => face,
+            ),
+          if (error != null) ...[
+            const SizedBox(height: MmSpace.s12),
+            Semantics(liveRegion: true, child: Text(error!, style: type.small.copyWith(color: colors.warnText))),
+          ],
+          const SizedBox(height: MmSpace.s16),
+          MmOverlapSwitcher.fade(
+            duration: Motion.ui,
+            alignment: Alignment.topCenter,
+            child: revealed
+                ? KeyedSubtree(key: const ValueKey('kc-rate'), child: KcRatingKeys(onRate: onRate, sending: sending))
+                : KeyedSubtree(
+                    key: const ValueKey('kc-reveal'),
+                    child: KeyButton(label: KeyCardsCopy.tapToReveal, onPressed: onReveal, hapticOnCommit: false),
+                  ),
           ),
-        if (error != null) ...[
-          const SizedBox(height: MmSpace.s12),
-          Semantics(liveRegion: true, child: Text(error!, style: type.small.copyWith(color: colors.warnText))),
         ],
-        const SizedBox(height: MmSpace.s16),
-        MmOverlapSwitcher.fade(
-          duration: Motion.ui,
-          alignment: Alignment.topCenter,
-          child: revealed
-              ? KeyedSubtree(key: const ValueKey('kc-rate'), child: KcRatingKeys(onRate: onRate, sending: sending))
-              : KeyedSubtree(
-                  key: const ValueKey('kc-reveal'),
-                  child: KeyButton(label: KeyCardsCopy.tapToReveal, onPressed: onReveal, hapticOnCommit: false),
-                ),
-        ),
-      ],
+      ),
     );
   }
+}
+
+/// Keeps a session card and its keys on screen. When [trigger] changes (the answer shows, the next card comes)
+/// and the bottom of [child] sits below the fold, the page moves just far enough to show it, never past the top
+/// of [child]; when the top of [child] sits above the fold, the page moves back to it. Nothing moves when it
+/// all shows already, or when there is no page to move.
+class KcKeepInView extends StatefulWidget {
+  const KcKeepInView({super.key, required this.trigger, required this.child});
+
+  final Object trigger;
+  final Widget child;
+
+  @override
+  State<KcKeepInView> createState() => _KcKeepInViewState();
+}
+
+class _KcKeepInViewState extends State<KcKeepInView> {
+  @override
+  void initState() {
+    super.initState();
+    _schedule();
+  }
+
+  @override
+  void didUpdateWidget(KcKeepInView oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.trigger != widget.trigger) _schedule();
+  }
+
+  void _schedule() => WidgetsBinding.instance.addPostFrameCallback((_) => _keep());
+
+  void _keep() {
+    if (!mounted) return;
+    final box = context.findRenderObject();
+    final scrollable = Scrollable.maybeOf(context);
+    if (box is! RenderBox || !box.attached || !box.hasSize || scrollable == null) return;
+    final viewport = RenderAbstractViewport.maybeOf(box);
+    final position = scrollable.position;
+    if (viewport == null || !position.hasContentDimensions || !position.hasPixels) return;
+    final top = viewport.getOffsetToReveal(box, 0).offset;
+    final end = viewport.getOffsetToReveal(box, 1).offset;
+    var target = position.pixels;
+    if (end > target) target = end;
+    if (target > top) target = top;
+    target = target.clamp(position.minScrollExtent, position.maxScrollExtent);
+    if ((target - position.pixels).abs() < 1) return;
+    if (Motion.reduced(context)) {
+      position.jumpTo(target);
+    } else {
+      unawaited(position.animateTo(target, duration: Motion.ui, curve: Motion.out));
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) => widget.child;
 }
 
 /// Space shows the answer; 1, 2 and 3 rate it (KEYCARDS-BUILD-SPEC 3, Study). Wraps a session so a hardware

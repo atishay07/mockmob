@@ -267,65 +267,69 @@ class _KcLastLookState extends State<KcLastLook> {
     }
     final card = widget.cards[_at];
     final reduced = Motion.reduced(context);
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(KeyCardsCopy.lastLookNote, style: type.small.copyWith(color: colors.ink2)),
-        const SizedBox(height: MmSpace.s12),
-        GestureDetector(
-          behavior: HitTestBehavior.opaque,
-          onHorizontalDragEnd: (d) {
-            final v = d.primaryVelocity ?? 0;
-            if (v < -200) _go(1);
-            if (v > 200) _go(-1);
-          },
-          child: AnimatedSwitcher(
-            duration: Motion.of(context, Motion.card),
-            switchInCurve: Motion.out,
-            switchOutCurve: Motion.out,
-            layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
-            transitionBuilder: (child, animation) {
-              final incoming = child.key == ValueKey('kc-look-${card.id}');
-              final dx = (incoming ? 1 : -1) * _way * 0.08;
-              return FadeTransition(
-                opacity: animation,
-                child: reduced
-                    ? child
-                    : SlideTransition(position: Tween(begin: Offset(dx, 0), end: Offset.zero).animate(animation), child: child),
-              );
+    // As in Study: the card and its Next key stay on screen as the cards change.
+    return KcKeepInView(
+      trigger: card.id,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(KeyCardsCopy.lastLookNote, style: type.small.copyWith(color: colors.ink2)),
+          const SizedBox(height: MmSpace.s12),
+          GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onHorizontalDragEnd: (d) {
+              final v = d.primaryVelocity ?? 0;
+              if (v < -200) _go(1);
+              if (v > 200) _go(-1);
             },
-            child: MmSurface.plain(
-              key: ValueKey('kc-look-${card.id}'),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  KcKindLine(card: card, trailing: KcCardMenu(card: card)),
-                  // As in Read: a term or key line needs no prompt above its own line.
-                  if (!card.hasBlanks) ...[
-                    Text(card.front, style: type.small.copyWith(color: colors.ink2)),
-                    const SizedBox(height: MmSpace.s8),
-                  ] else
-                    const SizedBox(height: MmSpace.s4),
-                  KcBack(card: card),
-                  const SizedBox(height: MmSpace.s12),
-                  KcReference(card: card),
-                ],
+            child: AnimatedSwitcher(
+              duration: Motion.of(context, Motion.card),
+              switchInCurve: Motion.out,
+              switchOutCurve: Motion.out,
+              layoutBuilder: (current, previous) => Stack(alignment: Alignment.topCenter, children: [...previous, ?current]),
+              transitionBuilder: (child, animation) {
+                final incoming = child.key == ValueKey('kc-look-${card.id}');
+                final dx = (incoming ? 1 : -1) * _way * 0.08;
+                return FadeTransition(
+                  opacity: animation,
+                  child: reduced
+                      ? child
+                      : SlideTransition(position: Tween(begin: Offset(dx, 0), end: Offset.zero).animate(animation), child: child),
+                );
+              },
+              child: MmSurface.plain(
+                key: ValueKey('kc-look-${card.id}'),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    KcKindLine(card: card, trailing: KcCardMenu(card: card)),
+                    // As in Read: a term or key line needs no prompt above its own line.
+                    if (!card.hasBlanks) ...[
+                      Text(card.front, style: type.small.copyWith(color: colors.ink2)),
+                      const SizedBox(height: MmSpace.s8),
+                    ] else
+                      const SizedBox(height: MmSpace.s4),
+                    KcBack(card: card),
+                    const SizedBox(height: MmSpace.s12),
+                    KcReference(card: card),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        const SizedBox(height: MmSpace.s16),
-        Row(
-          children: [
-            Text(
-              KeyCardsCopy.position(_at + 1, total),
-              style: type.label.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
-            ),
-            const Spacer(),
-            KeyButton(label: _at + 1 >= total ? KeyCardsCopy.finish : KeyCardsCopy.nextCard, onPressed: () => _go(1), expanded: false),
-          ],
-        ),
-      ],
+          const SizedBox(height: MmSpace.s16),
+          Row(
+            children: [
+              Text(
+                KeyCardsCopy.position(_at + 1, total),
+                style: type.label.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()]),
+              ),
+              const Spacer(),
+              KeyButton(label: _at + 1 >= total ? KeyCardsCopy.finish : KeyCardsCopy.nextCard, onPressed: () => _go(1), expanded: false),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
