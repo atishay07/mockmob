@@ -1,3 +1,16 @@
+## 31 October 2026, about 1:35 pm IST: Key cards ON for students (KEY_CARDS_ENABLED=true)
+
+**Owner, after seeing the screens:** "Turn it on".
+
+- **Flag:** KEY_CARDS_ENABLED=true in Vercel Production (plain, env id upxHGi3akyKdAkvi). Redeployed from dpl_D6QMYXQCyFwVGTHNz3gfcfHfagG4 as dpl_7dHWVGYYCxR753iJ8wW6Ppgaoyx4 (main f3ebd6b9c), aliased to www.mockmob.in.
+- **Smoke (no sign-in):**
+  - /api/keycards, /api/keycards/deck, /api/keycards/line, /api/me/chapters and /api/me/revise answer 401 Unauthorized signed out (were 404 KEY_CARDS_OFF).
+  - Pages /, /cards, /learn, /pricing and /dashboard all 200.
+  - get_runtime_errors: none.
+- **Decks are bundled:** a local `next build --webpack` of the same commit traces the 7 deck files, the 7 link files and manifest.json into /api/keycards, /deck, /line and /api/me/revise (outputFileTracingIncludes).
+- **Not verified:** the signed-in flow on production. No agent signs in there, so the first student request is the first real one.
+- **Off:** set KEY_CARDS_ENABLED to anything but true (or delete it), then redeploy. The tables and data can stay.
+
 ## 31 October 2026, about 1:20 pm IST: Key cards release DEPLOYED with the flag off (main 5c1d03a37, then this STATUS commit); syllabus v2 and Key cards migrations applied; 561 re-tags; 59 flawed questions fixed
 
 **Owner's go-ahead (31 Oct):** "Yes, run them".
