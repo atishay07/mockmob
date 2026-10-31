@@ -706,8 +706,9 @@ class _KcKeepInViewState extends State<KcKeepInView> {
     final viewport = RenderAbstractViewport.maybeOf(box);
     final position = scrollable.position;
     if (viewport == null || !position.hasContentDimensions || !position.hasPixels) return;
-    final top = viewport.getOffsetToReveal(box, 0).offset;
-    final end = viewport.getOffsetToReveal(box, 1).offset;
+    // A little air above the card, and its keys clear of the system's gesture bar at the bottom of the page.
+    final top = viewport.getOffsetToReveal(box, 0).offset - MmSpace.s8;
+    final end = viewport.getOffsetToReveal(box, 1).offset + MediaQuery.paddingOf(context).bottom + MmSpace.s16;
     var target = position.pixels;
     if (end > target) target = end;
     if (target > top) target = top;
