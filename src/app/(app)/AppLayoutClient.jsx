@@ -394,8 +394,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         <AppIcon name={tab.icon} />
         <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
         {tab.id === 'review' && reviseBadge ? <i className="arena-nav-link__count" aria-hidden="true">{dueBadge(reviseBadge)}</i> : null}
-        {/* N2 draws the Key cards due count as a bare tabular number beside Learn (NAV-2.md); its words are in the row's label. */}
-        {tab.id === 'learn' && learnDue ? <i className="arena-nav-link__count" aria-hidden="true">{navN2 ? (learnDue > 99 ? '99+' : learnDue) : dueBadge(learnDue)}</i> : null}
+        {tab.id === 'learn' && learnDue ? <i className="arena-nav-link__count" aria-hidden="true">{dueBadge(learnDue)}</i> : null}
       </Link>
     </React.Fragment>
   );
