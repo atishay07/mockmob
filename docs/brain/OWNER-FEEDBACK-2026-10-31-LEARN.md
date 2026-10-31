@@ -54,3 +54,18 @@ If I check the current learn section, I don't know if you have committed any cha
   - The limit line shows only when he hits the limit.
 - **LK16 (N1):** Learn becomes its own section, without adding a slot to the app's bar. The spec is in learn-1031/NAV-2.md on branch web/1031-learn-v2, rendered as `&nav=n2`.
 - **LK17:** he could not see any change. Nothing is deployed. The build runs only in the local preview, so it was opened for him in the app's browser pane.
+
+
+## 31 Oct 2026, about 11:50 pm IST: his verdict on the nav v2 renders (verbatim)
+
+I feel like the website integration might be fine, but the issue is, if you see the old app, we already have the segregation for Practice, Your Paper, and Learn. Learn is kind of its own tab already, and just having Find and Device, which we have segregated in Learn, even on the website, also doesn't make much sense. What extra are we adding by making Learn a new tab?
+
+I was thinking that if you have to add multiple tabs to it, and only if that's necessary, then you could think about having Learn as an extra tab. Explore already had its own tab and was different, so I don't know. It doesn't make much sense right now, especially if you are planning to split them up. In the app, it's looking very weird. The current implementation looks way cleaner.
+
+Of course, we might not be able to incorporate Find, Learn, and all those kinds of things there. To be honest with you, I currently don't know what the best approach is. Maybe we can remove the Explore and Find kinds of things from the phone, but I also want to keep the Explore feed and make it a very cool feature on the mobile app. I'm not sure right now, and from these mockups, I can't tell much either. If you can build something, or if you have an actual live prototype on that, only then can I comment more.
+
+**Folded in:**
+- **LK16 is closed.** Nav v2 (n2) is rejected and reverted. The current navigation stays: Learn is a door in Practice, and on the website Learn is first under Practice. The record is learn-1031/NAV-2.md.
+- **LK18:** the Explore feed becomes a standout phone feature. Find moves inside Learn as a search field, and stops being a separate toggle.
+- **LK19:** he judges only live prototypes, so he gets a link he can open on his phone, not static mock-ups.
+  - Spec: learn-1031/FEED-2.md on branch web/1031-learn-v2.

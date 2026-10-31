@@ -1,5 +1,13 @@
 # NOW: MockMob current state
 
+## 1 Nov 2026, about 12 am IST: nav v2 rejected; building the Explore feed v2 live prototype
+- **Nav v2 rejected:** he says the current structure is cleaner, so it was reverted on web/1031-learn-v2 (60a7071e4, b54885382).
+- **Building:** a phone-first Explore feed per learn-1031/FEED-2.md:
+  - full-screen swipe-up items, cards that flip, Keep, the wrong-answer sheet, a checkpoint and an end screen;
+  - Explore chapter covers;
+  - Find as a search field in Learn.
+- **Phone link:** he will open it on his phone over the LAN at http://192.168.1.15:3451. allowedDevOrigins was added in e723aaf4a.
+
 ## 31 Oct 2026, about 11:30 pm IST: the owner answered A9 and N1
 - **A9 (LK15):** feed and Learn questions are free up to a limit. The rule is one free Learn session a day, up to 10 minutes. Not built yet.
 - **N1 (LK16):** Learn becomes its own section, but the app bar cannot grow. NAV-2.md is on branch web/1031-learn-v2:
