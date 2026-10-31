@@ -20,6 +20,9 @@ import { addToRevise, isOff, isProRequired, markNewCardsUsed, newCardsUsedToday,
 import { BLANK_KINDS, MODES, chapterRef, chapterRefSpoken, deckOrigin, endCounts, limitCopy, plural, readingRows, splitDeck, unitRepeats } from './kinds';
 import { useCardsLinks } from './links';
 import { ncertFont } from './ncertFont';
+import { leaveCard } from './studyMotion';
+import { isMotionReduced } from '@/lib/motion';
+import { softClick } from '@/components/study/studyFeel';
 import './keycards.css';
 
 function useDeck(chapterKey) {
@@ -123,35 +126,48 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
   const [at, setAt] = useState(0);
   const [ratings, setRatings] = useState({});
   const [limited, setLimited] = useState(() => (newCardsUsedToday() ? 'new' : null));
+  // The rated card leaves as a ghost over the study (studyMotion.js) while the next one rises in behind it; `last` is the
+  // rating it left with, so the next card knows how long to keep its keys shut.
+  const [last, setLast] = useState(null);
+  const box = useRef(null);
+  const ghosts = useRef(null);
+  const leaving = useRef(null);
   const part = cards.slice(start, start + STUDY_ROUND);
   const total = part.length;
   const card = part[at];
   const rounds = cards.length > STUDY_ROUND;
   const left = Math.max(0, cards.length - start - total);
   const rated = useCallback(({ rating, cardId }) => {
+    // A card still leaving finishes at once, so two never stack.
+    try { leaving.current?.finish(); } catch { /* already gone */ }
+    leaving.current = leaveCard(box.current?.querySelector('.kc-play__card'), ghosts.current, rating, { reduced: isMotionReduced() });
+    if (rating !== 1) softClick(); // Learn's one soft click (Android, Touch feedback on), never for a miss
+    setLast(rating);
     onReviewed?.(cardId);
     setRatings((r) => ({ ...r, [rating]: (r[rating] || 0) + 1 }));
     setAt((n) => n + 1);
   }, [onReviewed]);
-  const begin = (from) => { setRatings({}); setAt(0); setStart(from); setRound((r) => r + 1); };
+  const begin = (from) => { setRatings({}); setAt(0); setLast(null); setStart(from); setRound((r) => r + 1); };
   const span = rounds ? `Cards ${start + 1} to ${start + total} of ${cards.length}` : null;
+  // The ghosts' box stays while the screens change, so the round's last card can leave over its end screen.
+  const frame = (body) => <div className="kc-study" ref={box}><div className="kc-ghosts" ref={ghosts} aria-hidden="true" />{body}</div>;
   if (limited) {
     const copy = limitCopy(limited, { where: 'study' });
-    return (
+    return frame(
       <div className="kc-end" role="status">
         <h2 className="kc-end__title">{copy.title}</h2>
         {copy.line ? <p className="kc-end__line">{copy.line}</p> : null}
         {copy.rest ? <p className="kc-end__line">{copy.rest}</p> : null}
         <ProGate isPro={isPro} lead={copy.lead} />
         <button type="button" className="kc-btn kc-btn--quiet" onClick={onRead}>Read the chapter</button>
-      </div>
+      </div>,
     );
   }
   if (!card) {
     const counts = endCounts(ratings);
     const done = counts.reduce((a, c) => a + c.n, 0);
-    return (
-      <div className="kc-end" aria-labelledby="kc-end-h">
+    return frame(
+      <div className="kc-end" data-stagger="" aria-labelledby="kc-end-h">
         <h2 className="kc-end__title" id="kc-end-h" role="status">{plural(done, 'card')} studied</h2>
         {span ? <p className="kc-end__line">{span}.{left ? '' : ' That was the last of the chapter.'}</p> : null}
         <dl className="kc-counts">
@@ -164,15 +180,15 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
           <a className="kc-btn kc-btn--quiet" href={readHref} onClick={(e) => { e.preventDefault(); onRead(); }}>Read the chapter</a>
         </div>
         {!isPro ? <ProGate isPro={isPro} lead={`You studied the ${plural(cards.length, 'open card')}.`} /> : null}
-      </div>
+      </div>,
     );
   }
-  return (
-    <div className="kc-session">
+  return frame(
+    <div className="kc-session" data-study="">
       <div className="kc-progress" aria-hidden="true"><span style={{ transform: `scaleX(${at / total})` }} /></div>
-      <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={<>{at + 1} of {total}{span ? <span className="kc-pos__of">{span}</span> : null}</>} onRated={rated} onLimit={(kind) => { if (kind === 'new') markNewCardsUsed(); setLimited(kind); }} />
+      <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={<>{at + 1} of {total}{span ? <span className="kc-pos__of">{span}</span> : null}</>} feel arrive={at > 0 ? last : null} onRated={rated} onLimit={(kind) => { if (kind === 'new') markNewCardsUsed(); setLimited(kind); }} />
       <p className="kc-fine">Each card you rate joins Revise: Missed brings it back soon, Got it and Easy space it out.<span className="kc-keyhint"> Space shows the answer; 1, 2 and 3 rate it.</span></p>
-    </div>
+    </div>,
   );
 }
 

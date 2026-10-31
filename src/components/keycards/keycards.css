@@ -276,7 +276,7 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
 .kc-play__card[data-tap] { cursor: pointer; }
 .kc-play__prompt { font: 650 clamp(19px, 2.3vw, 23px)/1.42 var(--font-display); letter-spacing: -0.012em; color: var(--a-ink); text-wrap: pretty; max-width: 40ch; }
 .kc-play__prompt:focus { outline: none; }
-.kc-play__answer { display: grid; gap: 10px; padding-top: 16px; border-top: 1px dashed var(--a-line-strong); animation: kc-reveal 220ms var(--kc-ease) both; }
+.kc-play__answer { display: grid; gap: 10px; margin-top: 14px; padding-top: 16px; border-top: 1px dashed var(--a-line-strong); }
 .kc-play__keys { display: grid; }
 @media (min-width: 640px) { .kc-play__keys { justify-items: start; } .kc-play__keys .kc-btn--wide { width: auto; min-width: 220px; } }
 .kc-rate { scroll-margin-bottom: 120px; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 520px; animation: kc-fade 180ms var(--kc-ease) both; }
@@ -333,6 +333,47 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
 .kc-line :is(p, ul) { margin: 0; }
 .kc-line__foot { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; }
 
+/* ---------- Study motion (studyMotion.js carries the same numbers; owner 31 Oct: "some animation ... when I press Got it") ----------
+   Show answer: the answer region opens (its height, 220 ms), the book's words rise 8 px into it 40 ms later, and the card lifts
+   2 px with a deeper shadow. A rating puts a badge on the card's corner at once (28 px, scale 0.6 to 1 in 140 ms); once the server
+   has it, the card leaves as a ghost (.kc-ghosts, over the study) and the next rises in behind it (10 px from 0.97, 240 ms, 70 ms
+   late). The round's end rises row by row. Transform and opacity only, except the answer's height. */
+.kc { --kc-study-ease: cubic-bezier(0.2, 0.8, 0.2, 1); }
+.kc-study { position: relative; }
+.kc-ghosts { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: visible; }
+.kc-ghost { will-change: transform, opacity; }
+.kc-ghost, .kc-ghost * { animation: none !important; }
+.kc-play__card { position: relative; translate: 0 0; transition: translate 220ms var(--kc-study-ease); }
+.kc-play__card::after {
+  content: ''; position: absolute; inset: -1px; border-radius: inherit; pointer-events: none;
+  box-shadow: var(--a-shadow-2); opacity: 0; transition: opacity 220ms var(--kc-study-ease);
+}
+.kc-play[data-revealed] .kc-play__card { translate: 0 -2px; }
+.kc-play[data-revealed] .kc-play__card::after, .kc-ghost.kc-play__card::after { opacity: 1; }
+/* The gap above the answer opens with it (the wrapper's -14 px cancels the card's grid gap until it has height). */
+.kc-play__open { display: grid; grid-template-rows: 1fr; margin-top: -14px; animation: kc-open 220ms var(--kc-study-ease) both; }
+.kc-play__clip { min-height: 0; overflow: hidden; margin-left: -8px; padding-left: 8px; }
+.kc-play__answer > .kc-ncert { animation: kc-quote 200ms var(--kc-study-ease) 40ms both; }
+.kc-play__answer > :not(.kc-ncert) { animation: kc-fade 200ms var(--kc-study-ease) 100ms both; }
+.kc-play__card[data-arrive] { animation: kc-next 240ms var(--kc-study-ease) 70ms both; }
+.kc-session[data-study] .kc-play__keys { animation: kc-fade 180ms var(--kc-study-ease) 70ms both; }
+.kc-session[data-study] .kc-progress span { transition: transform 160ms var(--kc-study-ease); }
+.kc-badge {
+  position: absolute; top: -10px; right: -10px; z-index: 2; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%;
+  background: #d2f000; color: #10140e; box-shadow: 0 0 0 1px rgb(82 103 0 / 0.28), 0 6px 14px -6px rgb(0 0 0 / 0.45);
+  animation: kc-badge 140ms var(--kc-study-ease) both;
+}
+.kc-badge[data-k='again'] { background: var(--a-ink-3); color: var(--a-raised); box-shadow: 0 6px 14px -6px rgb(0 0 0 / 0.4); }
+.kc-end[data-stagger] { animation: kc-fade 160ms var(--kc-study-ease) both; }
+.kc-end[data-stagger] > * { animation: kc-in 200ms var(--kc-study-ease) both; }
+.kc-end[data-stagger] > :nth-child(2) { animation-delay: 40ms; }
+.kc-end[data-stagger] > :nth-child(3) { animation-delay: 80ms; }
+.kc-end[data-stagger] > :nth-child(n + 4) { animation-delay: 120ms; }
+@keyframes kc-open { from { grid-template-rows: 0fr; } to { grid-template-rows: 1fr; } }
+@keyframes kc-quote { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+@keyframes kc-next { from { opacity: 0; transform: translateY(10px) scale(0.97); } to { opacity: 1; transform: none; } }
+@keyframes kc-badge { from { opacity: 0; transform: scale(0.6); } to { opacity: 1; transform: none; } }
+
 /* ---------- Revise: the Key card inside the run ---------- */
 .rvs-keycard { display: grid; gap: 10px; }
 
@@ -344,7 +385,12 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
 @keyframes kc-pop { from { opacity: 0; transform: scale(0.96) translateY(-4px); } to { opacity: 1; transform: none; } }
 @media (prefers-reduced-motion: reduce) {
   .kc *, .kc-line *, .kc, .kc-line, .kc-print { animation: none !important; transition: none !important; }
+  /* Study under reduced motion: the badge holds 300 ms on a still card, then the cards cross-fade over 120 ms. */
+  .kc .kc-play__card[data-arrive] { animation: kc-fade 120ms linear 180ms both !important; }
 }
+/* The in-app Reduce motion switch (mobiPrefs.js) asks the same. */
+:root[data-motion='reduced'] :is(.kc *, .kc-line *, .kc, .kc-line) { animation: none !important; transition: none !important; }
+:root[data-motion='reduced'] .kc .kc-play__card[data-arrive] { animation: kc-fade 120ms linear 180ms both !important; }
 
 /* ---------- The chapter sheet (Pro): print only ---------- */
 .kc-print { display: none; }
