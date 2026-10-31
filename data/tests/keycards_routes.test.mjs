@@ -22,6 +22,7 @@ const KEYS = {
 const MAX_ROWS = 1000; // PostgREST's max-rows: a select past it is cut, as on Supabase
 function fakeDb(tables = {}) {
   const log = [];
+  const failures = {}; // table -> (query) => true to answer that read with an error
   let ids = 0;
   const like = (v, p) => new RegExp(`^${String(p).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/%/g, '.*')}$`).test(String(v ?? ''));
   const clash = (table, row) => {
@@ -46,6 +47,7 @@ function fakeDb(tables = {}) {
     then(res, rej) { return Promise.resolve(this.run()).then(res, rej); }
     run() {
       log.push({ table: this.t, op: this.op, cols: this.cols, eqs: this.eqs, range: this.from === undefined ? null : [this.from, this.to] });
+      if (failures[this.t]?.(this)) return { data: null, error: { code: '57014', message: 'canceling statement due to statement timeout' } };
       const all = tables[this.t] || (tables[this.t] = []);
       if (this.op === 'insert') {
         if (clash(this.t, this.row)) return { data: null, error: { code: '23505', message: 'duplicate key value violates unique constraint' } };
@@ -109,7 +111,7 @@ function fakeDb(tables = {}) {
     if (name === 'key_card_review') return Promise.resolve({ data: keyCardReview(args), error: null });
     return Promise.resolve({ data: null, error: { code: 'PGRST202', message: `Could not find the function public.${name}` } });
   };
-  return { from: (t) => new Q(t), rpc, tables, log };
+  return { from: (t) => new Q(t), rpc, tables, log, failures };
 }
 
 // ---------------------------------------------------------------- decks built in the test (two chapters)
@@ -484,6 +486,23 @@ test('L7: new cards come chapter by chapter in syllabus order, then in book orde
   const ids = (await f.kc.due('u1', { limit: 20 })).body.cards.map((c) => c.id);
   // Card order restarts at 10 in each chapter: sorting by it alone gave planning 1, staffing 1, planning 2, ...
   assert.deepEqual(ids, [...PLANNING.slice(0, 6), ...STAFFING].map((c) => c.id));
+});
+
+test('M5: chapter state reads every answer past 1,000 rows, and a failed read is "unknown", never "Not started"', async () => {
+  const progress = Array.from({ length: 1200 }, (_, i) => ({ user_id: 'u1', question_id: `p${String(i).padStart(4, '0')}`, subject: 'business_studies', chapter: 'Staffing', attempt_count: 1, last_correct: i % 2 === 0, last_attempted_at: new Date(T0 - DAY).toISOString() }));
+  const f = setup({ isPro: true, tables: { user_question_progress: progress } });
+  const staffing = (out) => out.body.units.flatMap((u) => u.chapters).find((c) => c.key === 'business_studies.staffing');
+  const all = staffing(await f.kc.chapters('u1', 'business_studies'));
+  assert.equal(all.n, 1200);
+  assert.equal(all.right, 600);
+  // The second page fails: the first 1,000 rows must not pass for the whole history.
+  f.db.failures.user_question_progress = (qy) => qy.from === 1000;
+  const partial = await f.kc.chapters('u1', 'business_studies');
+  assert.equal(partial.http, 200);
+  for (const c of partial.body.units.flatMap((u) => u.chapters)) assert.deepEqual([c.state, c.label, c.n, c.reason], ['unknown', 'Could not load', null, null], c.key);
+  f.db.failures.user_question_progress = () => true;
+  const home = (await f.kc.overview('u1')).body.subjects[0].units.flatMap((u) => u.chapters);
+  assert.ok(home.every((c) => c.state.state === 'unknown' && c.state.label === 'Could not load'), 'the home rows too');
 });
 
 test('the Free rules match the spec constants', () => {

@@ -14,7 +14,8 @@ import {
   ALLOWANCE, KEYCARD_RULES, MODES, RATINGS, canAdd, cardMinutes, chapterAddSet, clampClientTime, deckView, dueQueue, istDay,
   lineNeeded, memoryShare, newSchedule, schedule, tasteIds,
 } from '../../../data/keycards.js';
-import { chapterStates, stateFor, tallyChapters } from '../../../data/chapter_state.js';
+import { UNKNOWN_STATE, chapterStates, stateFor, tallyChapters } from '../../../data/chapter_state.js';
+import { readAnsweredProgress } from '../../../data/practice_progress.js';
 import { getCanonicalSubject, isTopSubject } from '../../../data/canonical_syllabus.js';
 import { chipFor } from './keycardsSyllabus.js';
 
@@ -228,12 +229,8 @@ export function createKeycards(deps) {
     return { key, title: c?.title || c?.name || cards[0]?.chapter || key, unit: c?.unit || cards[0]?.unit || null, ncert, chip: chipFor(c) };
   };
 
-  async function progressRows(userId, subject = null) {
-    let query = db.from('user_question_progress').select(PROGRESS_COLUMNS).eq('user_id', userId);
-    if (subject) query = query.eq('subject', subject);
-    const res = await query.gt('attempt_count', 0).limit(5000);
-    return res.error ? [] : res.data || [];
-  }
+  /** The student's answered progress rows, paged past the 1,000-row cap (code review M5). { rows, incomplete }. */
+  const progressRows = (userId, subject = null) => readAnsweredProgress(db, userId, { subject, columns: PROGRESS_COLUMNS, what: 'Key cards chapter-state progress' });
 
   // ---------------------------------------------------------------- GET /api/keycards
   async function overview(userId) {
@@ -242,7 +239,7 @@ export function createKeycards(deps) {
     const t = today({ isPro: me.isPro, states: playable(states, { isPro: me.isPro, pub, options }), byId: pub.byId, use });
     const taste = me.isPro ? null : pub.taste();
     const stateOf = new Map(states.map((s) => [s.card_id, s]));
-    const tally = tallyChapters(progress, syllabus.resolveChapter);
+    const tally = tallyChapters(progress.rows, syllabus.resolveChapter);
     const subjects = [];
     for (const subject of me.subjects.filter(isTopSubject)) {
       const option = options.get(subject) || null;
@@ -261,7 +258,8 @@ export function createKeycards(deps) {
           const memory = mine.length ? memoryShare(mine, list, now()) : null;
           const reviewed = mine.map((s) => Date.parse(s.last_review_at)).filter(Number.isFinite);
           const last = [tl.lastAt, ...reviewed].filter((x) => x !== null && Number.isFinite(x));
-          const st = stateFor({ n: tl.n, right: tl.right, memory, lastActivityAt: last.length ? Math.max(...last) : null, now: now() });
+          // A failed progress read is "unknown", never "Not started" (code review M5).
+          const st = progress.incomplete ? UNKNOWN_STATE : stateFor({ n: tl.n, right: tl.right, memory, lastActivityAt: last.length ? Math.max(...last) : null, now: now() });
           const meta = chapterMeta(c.key, list);
           return {
             key: c.key, title: c.title || c.name, ncert: meta.ncert, chip: chipFor(c),
@@ -473,7 +471,7 @@ export function createKeycards(deps) {
       if (r && !r.retired) questionsByKey.set(r.key, (questionsByKey.get(r.key) || 0) + (Number(n) || 0));
     }
     for (const u of units) for (const c of u.chapters) available.set(c.key, { questions: questionsByKey.get(c.key) || 0, cards: (cardsByChapter.get(c.key) || []).length });
-    const out = chapterStates({ units, progress, resolveChapter: syllabus.resolveChapter, cardStates: states, cardsByChapter, marksLost, available, isPro: me.isPro, now: now() });
+    const out = chapterStates({ units, progress: progress.rows, progressUnknown: progress.incomplete, resolveChapter: syllabus.resolveChapter, cardStates: states, cardsByChapter, marksLost, available, isPro: me.isPro, now: now() });
     return ok({ subject, option, units: out });
   }
 
