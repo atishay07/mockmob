@@ -5,6 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/keycards/data/keycards_lines.dart';
 import 'package:mockmob/features/keycards/data/keycards_models.dart';
 import 'package:mockmob/features/keycards/keycards_copy.dart';
+import 'package:mockmob/features/review/revise/revise_copy.dart';
 
 void main() {
   group('backParagraphs', () {
@@ -122,5 +123,11 @@ void main() {
       expect(KcSource.parse({'kind': 'ncert', 'book': 'Biology', 'chapterNo': 5, 'page': 88}).reference, 'Biology, Ch 5, p. 88');
       expect(KcSource.parse({'kind': 'ncert'}).reference, isNull);
     });
+  });
+
+  test('Revise says how much of what is due its run holds (Key cards come 20 at a time)', () {
+    expect(ReviseCopy.runHeadOf(20, 30, 5), '20 of 30 due today, about 5 minutes.');
+    expect(ReviseCopy.runHeadOf(19, 19, 5), '19 due today, about 5 minutes.');
+    expect(ReviseCopy.runHeadOf(1, 0, 1), '1 due today, about 1 minute.');
   });
 }
