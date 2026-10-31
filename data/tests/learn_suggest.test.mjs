@@ -42,19 +42,21 @@ function checkThree(list, label, rows) {
   }
 }
 
-test('a new student: Start with the first chapter, Find your level, Search any card (A7 copy)', () => {
+test('a new student: Start with the first chapter, Find your level, the first chapter as a feed (A7 copy, A3 3.10)', () => {
   const list = suggestions({ subject: ACC, isNew: true, chapters: BOOK, level: { questions: 11 } });
   checkThree(list, 'new', BOOK);
-  assert.deepEqual(list.map((s) => s.kind), ['start', 'level', 'search']);
+  assert.deepEqual(list.map((s) => s.kind), ['start', 'level', 'feed']);
   assert.equal(list[0].title, 'Start with Accounting for Partnership: Basic Concepts');
   assert.equal(list[0].evidence, 'Chapter 1 of your Accountancy book. 10 minutes of its Key cards and questions.');
   assert.equal(list[0].action.label, 'Start 10 minutes');
   assert.deepEqual(list[0].action.run, { chapterKey: 'accountancy.partnership-fundamentals', minutes: 10, leaveOut: [], kind: 'mix' });
   assert.equal(list[1].title, 'Find your level');
   assert.equal(list[1].evidence, '6 questions from your first chapters, about 6 minutes.');
-  assert.equal(list[2].title, 'Search any card');
-  assert.equal(list[2].evidence, '868 Accountancy cards, by term or line.');
-  assert.equal(list[2].action.go, 'find');
+  assert.deepEqual([list[2].title, list[2].headline, list[2].evidence, list[2].action.label, list[2].action.go], ['Chapter 1 as a feed', 'As a feed', 'One card or question at a time, 10 minutes.', 'Open the feed', 'feed']);
+  assert.equal(list[2].action.href, '/explore/run?chapter=accountancy.partnership-fundamentals&min=10');
+  assert.equal(list[2].chapterKey, 'accountancy.partnership-fundamentals');
+  // Without a runnable first chapter the feed has nothing to open: the search suggestion is still the fallback.
+  assert.equal(suggestions({ subject: ACC, isNew: true, chapters: [], level: { questions: 0 } }).some((x) => x.kind === 'feed'), false);
 });
 
 test('a returning Pro student: pick up, due, fix, each naming its reason; due and fix runs hold only what they name (R9.2, R9.3)', () => {
@@ -220,6 +222,12 @@ test('session end: next chapter leads unless 3 or more cards were missed; "Anoth
   assert.match(free.lead.line, /^Your free Learn session for today is done\./);
   assert.ok(free.options.every((o) => !(o.run && ['mix', 'feed'].includes(o.run.kind))));
   assert.ok(free.options.some((o) => o.go === 'explore' && o.href.includes('chapter=Partnership+Fundamentals')));
+  // BUILD-1101 B7 6: every lead and option says its kind, its heading and its minutes (the key reads "Start 10 minutes").
+  assert.deepEqual([calm.lead.kind, calm.lead.title, calm.lead.minutes], ['next', 'Next: Profit and Loss Appropriation Account', 10]);
+  assert.deepEqual(calm.options.map((o) => [o.kind, o.title, o.minutes]), [['here', 'Another 5 minutes here', 5], ['fix', 'Fix your last open mistake', fixMinutes(1)], ['mock', 'Test it in a full mock', null]]);
+  assert.deepEqual([shaky.options[1].kind, shaky.options[1].title, shaky.options[1].minutes], ['revise', 'Revise 6 due cards', cardRunMinutes(6)]);
+  assert.deepEqual([quiet.options[1].kind, quiet.options[1].title, quiet.options[1].minutes], ['recap', 'Quick recap of this chapter', recapMinutes(12)]);
+  assert.deepEqual(free.options.map((o) => o.kind), ['revise', 'recap', 'explore']);
 });
 
 // ---------------------------------------------------------------- parity through the routes (the preview runs createLearn)

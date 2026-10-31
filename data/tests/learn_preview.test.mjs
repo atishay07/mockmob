@@ -59,7 +59,7 @@ test('subject: a new Free student gets the first-run set and the Free line', asy
   const { body } = await call('/api/learn/subject', { query: { subject: 'accountancy' } });
   assert.equal(body.student.isNew, true);
   assert.equal(body.freeNote, 'Free opens 5 cards in every chapter. Pro opens all 868.');
-  assert.deepEqual(body.suggestions.map((s) => s.kind), ['start', 'level', 'search']);
+  assert.deepEqual(body.suggestions.map((s) => s.kind), ['start', 'level', 'feed']);
   assert.equal(body.suggestions[0].title, 'Start with Accounting for Partnership: Basic Concepts');
   const rows = body.parts.flatMap((p) => p.units.flatMap((u) => u.chapters));
   assert.ok(rows.every((r) => r.state.key === 'none' && r.state.label === 'Not started'));
@@ -75,7 +75,7 @@ test('runs/preview: the piles of A1 for both plans, the lesson pile at 20 minute
   assert.equal(p10.chapter.partTitle, 'Part 1, Partnership Accounts');
   assert.deepEqual(p10.shelf.mistakes, { open: 3 });
   const p20 = (await pro('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: AOP, minutes: 20, leaveOut: [] } })).body;
-  assert.deepEqual(p20.piles.find((p) => p.id === 'lesson'), { id: 'lesson', count: 1, minutes: 7, label: 'Lesson', minutesLabel: '7 min', left: false });
+  assert.deepEqual(p20.piles.find((p) => p.id === 'lesson'), { id: 'lesson', count: 1, minutes: 7, label: 'Lesson', minutesLabel: '7 min', left: false, held: null });
   const free = student('free');
   // BUILD-1101 1.5: a shrink only when the chapter has no more of what is in (here Questions is left out, so Free's 5 cards and 3 mistakes are all).
   const f20 = (await free('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'] } })).body;
@@ -191,7 +191,7 @@ test('cards, shelves and search answer the contract for both plans', async () =>
   for (const plan of ['pro', 'free']) {
     const call = student(plan);
     const cards = (await call('/api/learn/cards', { query: { chapter: PF, filter: 'all' } })).body;
-    assert.deepEqual(Object.keys(cards.counts), ['total', 'all', 'must', 'revise', 'missed']);
+    assert.deepEqual(Object.keys(cards.counts), ['total', 'all', 'must', 'revise', 'missed', 'due']);
     assert.equal(cards.counts.total, 46);
     assert.ok(cards.sections.length >= 2 && cards.sections.every((s) => s.title && s.cards.length));
     for (const c of cards.sections.flatMap((s) => s.cards)) assert.deepEqual([typeof c.inRevise, typeof c.missedLately, c.locked], ['boolean', 'boolean', false]);
@@ -221,7 +221,7 @@ test('honest shrink: "Add the next chapter" fills the rest from the next chapter
   const before = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'] } })).body;
   assert.ok(before.shrink.addNext);
   const after = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'], addNext: true } })).body;
-  assert.deepEqual(after.added, { key: before.shrink.addNext.key, title: before.shrink.addNext.title });
+  assert.deepEqual(after.added, { key: before.shrink.addNext.key, title: before.shrink.addNext.title, ref: before.shrink.addNext.ref });
   assert.ok(after.piles.find((p) => p.id === 'cards').count > before.piles.find((p) => p.id === 'cards').count);
   const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'], kind: 'mix', addNext: true } })).body;
   assert.equal(run.added.key, before.shrink.addNext.key);
@@ -287,4 +287,65 @@ test('H4: no slashes in subject or chapter names', async () => {
   const titles = acc.parts.flatMap((p) => p.units.flatMap((u) => u.chapters)).map((r) => r.title);
   assert.ok(titles.includes('Retirement and Death of a Partner'));
   assert.ok(titles.every((t) => !t.includes('/')));
+});
+
+// ---------------------------------------------------------------- BUILD-1101 B7: the server fields the UI needs (packet S3)
+
+test('B7 1 and 9: a run body names its chapter whole (key, title, ref, partTitle, number); a missing chapter is 404 CHAPTER_NOT_FOUND', async () => {
+  const call = student('pro');
+  const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 5, kind: 'feed', requestKey: 'b7-preview-0001' } })).body;
+  assert.deepEqual(run.chapter, { key: PF, title: 'Accounting for Partnership: Basic Concepts', ref: 'Ch 1', partTitle: 'Part 1, Partnership Accounts', number: 1 });
+  const out = await call('/api/learn/runs', { method: 'POST', body: { chapterKey: 'accountancy.not-a-chapter', minutes: 5, kind: 'feed', requestKey: 'b7-preview-0002' } });
+  assert.deepEqual([out.http, out.body.error], [404, 'CHAPTER_NOT_FOUND']);
+});
+
+test('B7 4: covers carry name, refLine, resume, studentLine without due counts, history and the first-in-the-syllabus reason', async () => {
+  const pro = (await student('pro')('/api/learn/covers', { query: { subject: 'accountancy' } })).body;
+  assert.equal(pro.history, true);
+  const pf = pro.covers.find((c) => c.key === PF);
+  assert.deepEqual([pf.name, pf.refLine, pf.number, pf.ref], ['Partnership Fundamentals', 'Part 1, Ch 1', 1, 'Ch 1']);
+  assert.ok(pro.covers.every((c) => !/\bdue\b/.test(c.studentLine)), 'no due counts in the line');
+  assert.ok(pro.covers.some((c) => c.refLine && /^Part 2, Ch \d+$/.test(c.refLine)));
+  const fresh = (await student('pro', 'new')('/api/learn/covers', { query: { subject: 'accountancy' } })).body;
+  assert.equal(fresh.history, false);
+  assert.deepEqual([fresh.covers[0].forYou, fresh.covers[0].reason], [true, 'First in the syllabus']);
+  assert.ok(fresh.covers.every((c) => c.studentLine === 'New to you'));
+  // The hook is the first card of the 10-minute feed, so the feed that follows opens with it.
+  const call = student('pro');
+  const covers = (await call('/api/learn/covers', { query: { subject: 'accountancy' } })).body;
+  const lead = covers.covers[0];
+  const feed = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: lead.key, minutes: 10, kind: 'feed', requestKey: 'b7-preview-0003', source: 'explore_cover', forYou: true, position: 0 } })).body;
+  assert.equal(feed.items[0].card.id, lead.hook.id);
+});
+
+test('B7 5: the chapter dry run says which chapter "add next" adds, which piles Free holds, the unfinished run and the first visit', async () => {
+  const pro = student('pro');
+  const aop = (await pro('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: AOP, minutes: 10, leaveOut: [] } })).body;
+  assert.deepEqual([aop.resume.done, aop.resume.of, aop.resume.kind], [6, 16, 'mix']);
+  assert.ok(aop.resume.runId && aop.resume.minutesLeft >= 1);
+  assert.equal(aop.firstVisit, false);
+  assert.ok(aop.piles.every((p) => p.held === null), 'Pro holds nothing back');
+  const pf = (await pro('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 10, leaveOut: [] } })).body;
+  assert.equal(pf.resume, null);
+  const newbie = (await student('pro', 'new')('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 10, leaveOut: [] } })).body;
+  assert.equal(newbie.firstVisit, true);
+  // Free: the add-next row says its chapter; after the day's session is used, Questions and Mistakes are held for tomorrow.
+  const free = student('free');
+  const short = (await free('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 20, leaveOut: ['questions'] } })).body;
+  assert.match(short.shrink.addNext.ref, /^Ch \d+$/);
+  assert.deepEqual(short.piles.map((p) => p.held), short.piles.map(() => null));
+  const feed = (await free('/api/learn/runs', { method: 'POST', body: { chapterKey: AOP, minutes: 10, kind: 'feed', requestKey: 'b7-preview-0004' } })).body;
+  const q = feed.items.find((i) => i.type === 'question');
+  assert.equal((await free(`/api/learn/runs/${feed.id}/answer`, { method: 'POST', body: { itemId: q.id, choice: 'A' } })).http, 200);
+  const after = (await free('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 10, leaveOut: [] } })).body;
+  const held = Object.fromEntries(after.piles.map((p) => [p.id, p.held]));
+  assert.deepEqual([held.cards, held.questions, held.mistakes], [null, 'free', 'free']);
+  assert.equal(after.free.text, 'Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow.');
+});
+
+test('B7 8: a student with no history gets "Chapter 1 as a feed" as the third suggestion', async () => {
+  const body = (await student('free', 'new')('/api/learn/subject', { query: { subject: 'accountancy' } })).body;
+  const third = body.suggestions[2];
+  assert.deepEqual([third.kind, third.title, third.headline, third.evidence, third.action.label], ['feed', 'Chapter 1 as a feed', 'As a feed', 'One card or question at a time, 10 minutes.', 'Open the feed']);
+  assert.equal(third.action.href, `/explore/run?chapter=${PF}&min=10`);
 });

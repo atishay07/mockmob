@@ -220,3 +220,72 @@ Ending is idempotent: a second read returns the same numbers.
   free: null | { text, maxMinutes: 10 } }  // Free, only once today's session is used
 ```
 Every playable chapter is a cover (no cap of 8): For you first, then book order from the chapter after it, wrapping.
+
+---
+
+## BUILD-1101 B7: fields the UI needs (packet S3, 1 Nov 2026)
+
+Added only; nothing above is renamed. Production and the preview return the same shapes (the preview runs the same service).
+
+### POST /api/learn/runs (and GET /api/learn/runs/:id)
+```
++ chapter: { key, title, ref, partTitle, number }   // ref 'Ch 2'|null, partTitle 'Part 1, Partnership Accounts'|null, number 2|null
+body + source?: 'explore_cover'                      // a start from an Explore cover; anything else is dropped
+     + forYou?: bool, position?: 0-500               // kept (with source) in the run's start_state
+404 { error: 'CHAPTER_NOT_FOUND' }                   // a chapter that is not there; api.js: kind 'chapter_not_found', isChapterMissing(error)
+```
+
+### POST /api/learn/runs/:id/answer
+```
++ choice: 'A'..'D'          // the key the student sent (upper case); a replay echoes the first answer's
+  reinsert.moved: true      // the card already in the list moved closer; never a copy (a copy has no `moved`)
+```
+
+### GET /api/learn/runs/:id/end
+```
++ feed.done: { reached, of, minutes }      // reached: the place of the last item the student acted on (answer or Keep), of: the
+                                           // feed's items, minutes: first event to last, rounded, at least 1 (0 reached: minutes 1)
++ reviseCards: [{ id, kind, front, mustKnow }]   // the cards this run rated Got it or Easy, in run order, at most 4
++ lead / options[]: + kind: 'next'|'here'|'fix'|'revise'|'recap'|'mock'|'explore',
+                    + title   // the heading that names it: "Next: Goodwill", "Another 5 minutes here", "Fix 2 open mistakes"
+                    + minutes // the length the key says ("Start 10 minutes"); null when it is not a timed run (mock, explore)
+                    // `label` (the older whole line) stays. The Free "See Pro" lead has no kind.
+```
+
+### POST /api/learn/runs/preview
+```
++ shrink.addNext.ref: 'Ch 3'|null      // and added.ref
++ piles[].held: 'free' | null          // 'free': Free's session is used today, so Questions and Mistakes wait until tomorrow
++ resume: null | { runId, done, of, minutesLeft, kind }    // the chapter's unfinished mix or cards run (24 hours)
++ firstVisit: bool                     // the student has not studied this chapter
+```
+
+### GET /api/learn/covers?subject=
+```
+top level  + history: bool             // any chapter studied in the subject
+each cover + name                      // the syllabus name ("Admission of Partner"), for filters and the Free-limit action
+           + refLine                   // "Part 1, Ch 2" | "Microeconomics, Ch 2" | "Verbal Ability" (the unit when the chapter has no number) | null
+           + resume: null | { runId, done, of, minutesLeft }   // today's unfinished feed of this chapter with something done
+           hook: { id, front, kind, mustKnow } | { front: null, kind, mustKnow, locked: true }
+                 // = the first card of the 10-minute feed a start would serve (what Play opens with); on a cover with an unfinished
+                 // feed, the next card that feed has left; the chapter's first Must-know card only when the feed has no card
+           studentLine: the stop ("You stopped at 6 of 16"), else "2 old mistakes to fix", else the chapter's state label, else
+                 "New to you"  (never a due count)
+           reason: for the For you cover; the book-order reason now reads 'First in the syllabus'
+                 ('Chapter 1 of your book' is gone); a chapter whose feed was finished today is not For you while another qualifies
+                 ("Next after <that chapter>" when book order would have picked it)
+```
+
+### GET /api/learn/cards
+```
+?subject=|?chapter=  &filter=due     // the open cards that are due today (the rule of shelves.due); counts.due on every read
+```
+
+### GET /api/learn/subject (suggestions)
+```
+Suggestion.kind + 'feed'   // a student with no history: the third suggestion is the first chapter as a feed:
+  { kind: 'feed', title: 'Chapter 1 as a feed', headline: 'As a feed', chapterTitle, chapterKey,
+    evidence: 'One card or question at a time, 10 minutes.',
+    action: { label: 'Open the feed', href: '/explore/run?chapter=<key>&min=10', go: 'feed' } }   // links.resolve() maps it in the preview
+```
+Suggestion also carries `headline` and `chapterTitle` (its two parts, for a card that sets the chapter on its own line) and `chapterKey`.

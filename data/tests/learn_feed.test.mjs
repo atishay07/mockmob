@@ -256,8 +256,8 @@ test('preview: the covers row is the suggested chapter first with the real count
   assert.equal(body.covers[0].key, PF);
   assert.equal(body.covers[0].forYou, true);
   assert.equal(body.covers[0].reason, '3 old mistakes to fix');
-  assert.equal(body.covers[0].studentLine, '3 due, 3 old mistakes');
-  assert.equal(body.covers[0].hook.mustKnow, true);
+  assert.equal(body.covers[0].studentLine, '3 old mistakes to fix', 'B7 4: the student line carries no due counts');
+  assert.equal(typeof body.covers[0].hook.id, 'string', 'B7 4: the hook is a real card of the feed, with its id');
   assert.equal(body.covers[1].key, 'accountancy.profit-and-loss-appropriation-account', 'then book order from the chapter after it');
   assert.ok(body.covers.slice(1).every((c) => !c.forYou));
   const aop = body.covers.find((c) => c.key === AOP);

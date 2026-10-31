@@ -8,12 +8,13 @@
 //   - Free with today's session used: a suggestion that would serve questions says "Key cards only today" (R9.6).
 //
 // Kinds: pickup (an unfinished run), due (due cards in a chapter), fix (open mistakes), next (next chapter in book order),
-// start (a new student's first chapter), level (Find your level), recap (a studied chapter's Must-know lines), search.
+// start (a new student's first chapter), feed (that chapter as a feed: a new student's third, A3 3.10), level (Find your
+// level), recap (a studied chapter's Must-know lines), search.
 import { LEARN_RULES, minutesFor } from './compose.js';
 import { SECONDS } from './seconds.js';
 import { FREE_SESSION_DONE, isCounted } from './allowance.js';
 
-export const SUGGESTION_KINDS = Object.freeze(['pickup', 'due', 'fix', 'next', 'start', 'level', 'recap', 'search']);
+export const SUGGESTION_KINDS = Object.freeze(['pickup', 'due', 'fix', 'next', 'start', 'feed', 'level', 'recap', 'search']);
 export const CARDS_ONLY_TODAY = 'Key cards only today.';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
@@ -145,6 +146,16 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
         action: { label: `Start ${minutesWord(minutes)}`, run: mixRun(c) },
       };
     },
+    feed() {
+      // A3 3.10: a new student's third suggestion (in place of the search one): the first chapter as a feed, 10 minutes.
+      const c = rows.find((r) => r.cards > 0) || rows[0];
+      if (!c) return null;
+      return {
+        kind: 'feed', chapterKey: c.key, title: c.chapterNo ? `Chapter ${c.chapterNo} as a feed` : `${c.title} as a feed`, headline: 'As a feed', chapterTitle: c.title,
+        evidence: 'One card or question at a time, 10 minutes.',
+        action: { label: 'Open the feed', href: `/explore/run?${new URLSearchParams({ chapter: c.key, min: '10' })}`, go: 'feed' },
+      };
+    },
     level() {
       const n = Math.min(LEARN_RULES.levelQuestions, level?.questions || 0);
       if (n < 1) return null;
@@ -177,7 +188,7 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
   };
 
   const order = isNew
-    ? ['start', 'level', 'search', 'next']
+    ? ['start', 'level', 'feed', 'search', 'next']
     : ['pickup', 'next', 'due', 'fix', 'recap', 'level', 'search'];
   if (!isNew) {
     // Returning: 1 = an unfinished run, else the next chapter; 2 = due cards; 3 = open mistakes.
@@ -219,30 +230,35 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
  *   mistakeElsewhere null | { key, title, count, seconds? }      due   { count, seconds? } Key cards due in the subject
  *   mustKnow      the chapter's Must-know count (Quick recap)      recapSeconds   its recap's own seconds (optional)
  *   freeSessionUsed  Free with today's session used: nothing that serves questions; the line leads with "See Pro" (BUILD 1.6)
+ * Every lead and option also carries (BUILD-1101 B7 item 6) `kind` ('next' | 'here' | 'fix' | 'revise' | 'recap' | 'mock' | 'explore'),
+ * `title` (the heading that names it: "Next: Goodwill", "Another 5 minutes here", "Fix 2 open mistakes") and `minutes` (the
+ * length the key says, null when it is not a timed run). `label` is the older whole line and stays.
  */
 export function endOptions({ subject = null, chapter, minutes = 10, missed = 0, fresh = 0, here: hereCounts = null, next = null, mistakeElsewhere = null, due = { count: 0 }, mustKnow = 0, recapSeconds = null, freeSessionUsed = false }) {
   const recap = mustKnow > 0 ? (() => {
     const m = recapMinutes(mustKnow, recapSeconds);
-    return { label: `Quick recap of this chapter, ${m} min`, evidence: `Its ${plural(mustKnow, 'Must-know line')}, answers showing.`, run: { chapterKey: chapter.key, minutes: m, leaveOut: [], kind: 'recap' } };
+    return { kind: 'recap', title: 'Quick recap of this chapter', minutes: m, label: `Quick recap of this chapter, ${m} min`, evidence: `Its ${plural(mustKnow, 'Must-know line')}, answers showing.`, run: { chapterKey: chapter.key, minutes: m, leaveOut: [], kind: 'recap' } };
   })() : null;
   const dueOpt = due?.count ? (() => {
     const m = cardRunMinutes(due.count, due.seconds);
-    return { label: `Revise ${plural(due.count, 'due card')}, ${m} min`, evidence: 'Key cards due today across your chapters.', href: '/review/revise?source=keycards', go: 'revise' };
+    return { kind: 'revise', title: `Revise ${plural(due.count, 'due card')}`, minutes: m, label: `Revise ${plural(due.count, 'due card')}, ${m} min`, evidence: 'Key cards due today across your chapters.', href: '/review/revise?source=keycards', go: 'revise' };
   })() : null;
   if (freeSessionUsed) {
-    const options = [dueOpt, recap, { label: 'Questions on this chapter in Explore', evidence: 'Explore questions stay free.', href: `/explore?${new URLSearchParams({ subject: subject || String(chapter.key).split('.')[0], chapter: chapter.name || chapter.title })}`, go: 'explore' }].filter(Boolean);
+    const options = [dueOpt, recap, { kind: 'explore', title: 'Questions on this chapter in Explore', minutes: null, label: 'Questions on this chapter in Explore', evidence: 'Explore questions stay free.', href: `/explore?${new URLSearchParams({ subject: subject || String(chapter.key).split('.')[0], chapter: chapter.name || chapter.title })}`, go: 'explore' }].filter(Boolean);
     return { lead: { line: FREE_SESSION_DONE, label: 'See Pro', href: '/pricing', go: 'pro' }, options: options.slice(0, 3) };
   }
   const hereParts = hereCounts
     ? [hereCounts.cards ? `${hereCounts.cards} Key ${hereCounts.cards === 1 ? 'card' : 'cards'}` : null, hereCounts.questions ? plural(hereCounts.questions, 'question') : null].filter(Boolean)
     : [];
   const here = {
+    kind: 'here', title: 'Another 5 minutes here', minutes: 5,
     label: 'Another 5 minutes here',
     evidence: hereParts.length ? hereParts.join(' and ')
       : [missed ? plural(missed, 'missed card') : null, fresh ? `${fresh} new ${fresh === 1 ? 'one' : 'ones'}` : null].filter(Boolean).join(', ') || `More of ${chapter.title}.`,
     run: { chapterKey: chapter.key, minutes: 5, leaveOut: [], kind: 'mix' },
   };
   const nextOpt = next ? {
+    kind: 'next', title: `Next: ${next.title}`, minutes,
     label: `Next: ${next.title}, ${minutesWord(minutes)}`,
     evidence: 'The next chapter in your book.',
     run: { chapterKey: next.key, minutes, leaveOut: [], kind: 'mix' },
@@ -254,6 +270,7 @@ export function endOptions({ subject = null, chapter, minutes = 10, missed = 0, 
   if (mistakeElsewhere?.count) {
     const m = fixMinutes(mistakeElsewhere.count, mistakeElsewhere.seconds);
     third = {
+      kind: 'fix', title: mistakeElsewhere.count === 1 ? 'Fix your last open mistake' : `Fix ${mistakeElsewhere.count} open mistakes`, minutes: m,
       label: mistakeElsewhere.count === 1 ? 'Fix your last open mistake' : `Fix ${mistakeElsewhere.count} open mistakes`,
       evidence: `${mistakeElsewhere.title}, ${m} min`,
       run: { chapterKey: mistakeElsewhere.key, minutes: m, leaveOut: ['questions', 'cards', 'lesson'], kind: 'mix' },
@@ -263,7 +280,7 @@ export function endOptions({ subject = null, chapter, minutes = 10, missed = 0, 
   } else if (recap) {
     third = recap;
   }
-  const mock = { label: 'Test it in a full mock', evidence: 'A timed 50-question paper of the whole subject.', href: `/test?${new URLSearchParams({ subject: subject || String(chapter.key).split('.')[0], count: '50', mode: 'full' })}`, go: 'mock' };
+  const mock = { kind: 'mock', title: 'Test it in a full mock', minutes: null, label: 'Test it in a full mock', evidence: 'A timed 50-question paper of the whole subject.', href: `/test?${new URLSearchParams({ subject: subject || String(chapter.key).split('.')[0], count: '50', mode: 'full' })}`, go: 'mock' };
   const options = [second, third, mock].filter(Boolean);
   if (options.length < 3 && lead !== here && !options.includes(here)) options.unshift(here);
   return { lead, options: options.slice(0, 3) };

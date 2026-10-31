@@ -13,11 +13,12 @@
 //   409 QUESTION_CHANGED | QUESTION_HELD           kind 'question_changed' | 'question_held'   (skip the item with one line)
 //   409 RUN_EXPIRED | RUN_ENDED                    kind 'run_expired' | 'run_ended'           (go to the end screen, data.endHref)
 //   404 LEARN_OFF                                  kind 'off'
+//   404 CHAPTER_NOT_FOUND                          kind 'chapter_not_found'  (a chapter that is not there: its own state, not a retry)
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 const KINDS = Object.freeze({
   FREE_SESSION_USED: 'session_used', PRO_REQUIRED: 'pro_required', QUESTION_CHANGED: 'question_changed', QUESTION_HELD: 'question_held',
-  RUN_EXPIRED: 'run_expired', RUN_ENDED: 'run_ended', LEARN_OFF: 'off',
+  RUN_EXPIRED: 'run_expired', RUN_ENDED: 'run_ended', LEARN_OFF: 'off', CHAPTER_NOT_FOUND: 'chapter_not_found',
 });
 
 /** A failed Learn call. `kind` is one of the KINDS values, or 'error'. */
@@ -37,6 +38,8 @@ export const isSessionUsed = (error) => error?.kind === 'session_used';
 export const isQuestionSkipped = (error) => error?.kind === 'question_changed' || error?.kind === 'question_held';
 /** The run ended or expired (409): go to its end screen (`error.data.endHref`). */
 export const isRunClosed = (error) => error?.kind === 'run_expired' || error?.kind === 'run_ended';
+/** The chapter is not there (404 CHAPTER_NOT_FOUND): draw the missing-chapter state; trying again would not help. */
+export const isChapterMissing = (error) => error?.kind === 'chapter_not_found';
 
 async function call(path, { method = 'GET', body } = {}) {
   const res = await fetch(path, {
@@ -102,14 +105,17 @@ export const learnSubject = (subject) => call(`/api/learn/subject?${q({ subject 
 export const previewRun = ({ chapterKey, minutes, leaveOut = [], addNext }) => call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey, minutes, leaveOut, ...(addNext ? { addNext: true } : {}) } });
 /**
  * Start a run or a feed (or pick one up). `requestKey` defaults to the page's kept key for this start (see requestKeyFor);
- * `fresh: true` never resumes and takes a new key; `resume` names a run to pick up.
+ * `fresh: true` never resumes and takes a new key; `resume` names a run to pick up. A start from an Explore cover sends
+ * `source: 'explore_cover'`, `forYou` (the cover was the For you one) and `position` (0-based place in the row); the server
+ * keeps them in the run's start_state.
  */
-export async function startRun({ chapterKey, cardIds, minutes, leaveOut = [], kind = 'mix', requestKey, resume, fresh, addNext } = {}) {
+export async function startRun({ chapterKey, cardIds, minutes, leaveOut = [], kind = 'mix', requestKey, resume, fresh, addNext, source, forYou, position } = {}) {
   const scope = startScope({ kind, chapterKey, cardIds });
   const key = requestKey || requestKeyFor(scope, { renew: fresh === true });
   const data = await call('/api/learn/runs', {
     method: 'POST',
-    body: { chapterKey, cardIds, minutes, leaveOut, kind, requestKey: key, ...(resume ? { resume } : {}), ...(fresh ? { fresh: true } : {}), ...(addNext ? { addNext: true } : {}) },
+    body: { chapterKey, cardIds, minutes, leaveOut, kind, requestKey: key, ...(resume ? { resume } : {}), ...(fresh ? { fresh: true } : {}), ...(addNext ? { addNext: true } : {}),
+      ...(source ? { source, ...(forYou === true ? { forYou: true } : {}), ...(Number.isInteger(position) ? { position } : {}) } : {}) },
   });
   if (data?.id) keepRun(scope, key, data.id);
   return data;

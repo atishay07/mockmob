@@ -202,7 +202,9 @@ export function createLearn(deps) {
     S.ratingsLeft = me.isPro ? null : Math.max(0, KEYCARD_RULES.free.reviewsPerDay - S.allowanceUsed('keycard_review'));
     S.newLeft = me.isPro ? null : Math.max(0, KEYCARD_RULES.free.newPerDay - S.allowanceUsed('keycard_new'));
     S.session = me.isPro ? null : allowances.find((r) => r.kind === 'learn_session') || null;
-    S.shownAt = feeds ? await shownCards(recentFeeds) : new Map();
+    S.recentFeeds = recentFeeds;
+    S.feedReach = new Map();
+    S.shownAt = feeds ? await shownCards(recentFeeds, S.feedReach) : new Map();
     if (mistakePlaces) {
       try {
         const places = await mistakePlaces(userId, subject, [...S.mistakes.values()].flat().map((m) => m.id));
@@ -244,7 +246,7 @@ export function createLearn(deps) {
    * When each card was last shown in a feed of the last 3 days (BUILD-1101 1.2): a card item counts as shown at the time of
    * the first event on a later item of its run (an answer, a Keep, a look); the cards before the last item acted on.
    */
-  async function shownCards(feeds) {
+  async function shownCards(feeds, reach = new Map()) {
     const shown = new Map();
     if (!feeds.length) return shown;
     let events = [];
@@ -255,6 +257,7 @@ export function createLearn(deps) {
       const items = Array.isArray(run.items) ? run.items : [];
       const at = new Map(items.map((it, i) => [it.id, i]));
       const acted = (byRun.get(run.id) || []).map((e) => ({ i: at.get(e.item_id), t: Date.parse(e.created_at) })).filter((x) => Number.isInteger(x.i));
+      reach.set(run.id, acted.length ? Math.max(...acted.map((x) => x.i)) + 1 : 0);
       items.forEach((it, i) => {
         if (it.type !== 'card' || !it.cardId) return;
         const later = acted.filter((x) => x.i > i).map((x) => x.t).filter(Number.isFinite);
@@ -275,11 +278,12 @@ export function createLearn(deps) {
     return subjectChapters(S.subject).filter((ch) => syllabus.sectionAllowed(S.subject, ch.section, S.option));
   }
   const hasPlay = (S, key) => S.cards.some((x) => x.chapterKey === key) || (S.byChapter.get(key) || []).length > 0;
+  const refOf = (ch) => (ch?.ncert?.chapter ? `Ch ${ch.ncert.chapter}` : null);
   function nextChapterOf(S, key) {
     const list = allowedChapters(S);
     const at = list.findIndex((ch) => ch.key === key);
     const next = list.slice(at + 1).find((ch) => hasPlay(S, ch.key));
-    return next ? { key: next.key, title: cleanTitle(next.title || next.name) } : null;
+    return next ? { key: next.key, title: cleanTitle(next.title || next.name), ref: refOf(next) } : null;
   }
   /** The chapter's lesson (R11): its first unread lesson in catalog order, else its first (read) one. */
   function lessonOf(S, key) {
@@ -394,7 +398,7 @@ export function createLearn(deps) {
     const available = Object.fromEntries(Object.keys(plan.available).map((k) => [k, plan.available[k] || more.available[k]]));
     return {
       plan: { ...plan, items: [...plan.items, ...more.items], seconds, realMinutes, shrunk: more.shrunk && realMinutes < minutes, shrink: more.shrunk && realMinutes < minutes ? more.shrink : null, available, piles: { cards: sum('cards'), questions: sum('questions'), mistakes: sum('mistakes'), lesson: sum('lesson') } },
-      added: { key: info2.key, title: info2.title },
+      added: { key: info2.key, title: info2.title, ref: info2.ref },
     };
   }
 
@@ -479,7 +483,10 @@ export function createLearn(deps) {
     const limited = Boolean(row.limit_line);
     return {
       id: row.id, kind: row.kind,
-      chapter: { key: row.chapter_key, title: cleanTitle(chapter?.title || chapter?.name || row.chapter_key), ref: chapter?.ncert?.chapter ? `Ch ${chapter.ncert.chapter}` : null },
+      chapter: {
+        key: row.chapter_key, title: cleanTitle(chapter?.title || chapter?.name || row.chapter_key), ref: chapter?.ncert?.chapter ? `Ch ${chapter.ncert.chapter}` : null,
+        partTitle: chapter ? partTitles[chapter.ncert?.book] || chapter.ncert?.book || null : null, number: chapter?.ncert?.chapter ? Number(chapter.ncert.chapter) || null : null,
+      },
       minutes: row.minutes, asked: Number(row.asked_minutes) || row.minutes,
       items: items.map((i) => publicItem(S, row, i, qmap, limited)),
       revisePile: pileOf(events),
@@ -577,11 +584,19 @@ export function createLearn(deps) {
     let added = null;
     if (body?.addNext === true) ({ plan: run, added } = withNext(S, info, run, { kind: 'mix', minutes: rule.minutes, leaveOut }));
     const recapRun = composeFor(S, info, { kind: 'recap', minutes: 5, leaveOut: [] });
-    const dry = dryRun({ run, recapRun, isPro: S.isPro, firstVisit: !info.studied, ratingsLeft: S.ratingsLeft, chapter: { total: info.counts.cards, open: info.counts.open }, nextChapter: added ? null : nextChapterOf(S, info.key) });
+    const next = added ? null : nextChapterOf(S, info.key);
+    const dry = dryRun({ run, recapRun, isPro: S.isPro, firstVisit: !info.studied, ratingsLeft: S.ratingsLeft, chapter: { total: info.counts.cards, open: info.counts.open }, nextChapter: next });
+    // B7 5: the add-next row says which chapter ('Ch 3'); a pile held back on Free says so; today's unfinished run of this chapter.
+    if (dry.shrink?.addNext && next) dry.shrink.addNext = { ...dry.shrink.addNext, ref: next.ref };
+    const held = (id) => (rule.cardsOnly && (id === 'questions' || id === 'mistakes') ? 'free' : null);
+    const open = info.run ? { runId: info.run.id, done: Number(info.run.done_count), of: Number(info.run.item_count), minutesLeft: minutesFor(Number(info.run.seconds_left) || 0), kind: info.run.kind } : null;
     return ok({
       // The unit is left out when the title already starts with it (CRITIQUE-1 C4): the part names the place instead.
       chapter: { key: info.key, title: info.title, ref: info.ref, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info), state: info.state },
       ...dry,
+      piles: dry.piles.map((pile) => ({ ...pile, held: held(pile.id) })),
+      resume: open,
+      firstVisit: !info.studied,
       ...(rule.cardsOnly ? { free: { text: FREE_CARDS_ONLY } } : {}),
       asked,
       capped: rule.capped,
@@ -712,8 +727,12 @@ export function createLearn(deps) {
     const real = plan.shrunk && plan.realMinutes ? plan.realMinutes : plan.minutes;
     const looks = plan.kind !== 'recap' && items.some((i) => i.type === 'card' && i.look)
       ? { text: S.ratingsLeft === 0 ? LOOKS_TEXT.keycard_reviews : LOOKS_TEXT.keycard_new } : null;
+    // A start from an Explore cover says so (BUILD-1101 B7 item 4): where it came from, whether it was For you, and its place.
+    const fromCover = body?.source === 'explore_cover'
+      ? { source: 'explore_cover', forYou: body.forYou === true, position: Number.isInteger(body.position) && body.position >= 0 && body.position <= 500 ? body.position : null }
+      : {};
     const meta = {
-      key: info.state.key, label: info.state.label,
+      key: info.state.key, label: info.state.label, ...fromCover,
       free: rule.cardsOnly ? { text: FREE_CARDS_ONLY } : null,
       capped: rule.capped,
       shrink: plan.shrunk && plan.shrink ? plan.shrink : null,
@@ -818,7 +837,7 @@ export function createLearn(deps) {
     const item = items[at];
     if (!item || item.type !== 'question') return bad('ITEM_NOT_A_QUESTION');
     const prior = await store.event(row.id, item.id);
-    if (prior) return ok(await hydrateAnswer({ pub: await published() }, row, prior.body));
+    if (prior) return ok(await hydrateAnswer({ pub: await published() }, row, { ...prior.body, choice: prior.body?.choice ?? prior.choice ?? null }));
     if (row.ended_at) return bad('RUN_ENDED', 409, { endHref: endHrefOf(row) });
     if (expired(row)) return bad('RUN_EXPIRED', 409, { endHref: endHrefOf(row) });
     const [q, A] = await Promise.all([store.question(item.questionId), answerContext(userId, row, item.questionId)]);
@@ -865,7 +884,7 @@ export function createLearn(deps) {
         if (!correct && open) reinsert = reinsertFor(row, at, lineCard.id);
       }
     }
-    const stored = { correct, key, explanation: explanationOf(q), fixed, fixedText, ...(isMistake ? { retired: graded.state === 'retired' } : {}), line };
+    const stored = { correct, key, choice, explanation: explanationOf(q), fixed, fixedText, ...(isMistake ? { retired: graded.state === 'retired' } : {}), line };
     const res = await store.recordEvent({
       userId, runId: row.id, itemId: item.id,
       event: { kind: 'answer', question_id: q.id, choice, correct, fixed, origin: item.origin || 'chapter', seconds: secondsOf(item), body: stored },
@@ -875,7 +894,7 @@ export function createLearn(deps) {
       quota: counted ? { kind: 'learn_session', day: A.day, limit: LEARN_FREE.sessionsPerDay } : null,
     });
     if (res?.status === 'used') return used();
-    if (res?.status === 'replay') return ok(await hydrateAnswer(A, row, res.body));
+    if (res?.status === 'replay') return ok(await hydrateAnswer(A, row, { ...res.body, choice: res.body?.choice ?? null }));
     if (res?.status === 'not_found') return bad('RUN_NOT_FOUND', 404);
     if (res?.status === 'no_item') return bad('ITEM_NOT_A_QUESTION');
     if (res?.status !== 'ok') throw fail('LEARN_UNAVAILABLE', new Error(`learn_record_event answered ${JSON.stringify(res)}`));
@@ -1023,6 +1042,14 @@ export function createLearn(deps) {
       questions: answered.length ? `${right} of ${answered.length} right` : null,
       fixed: mistakesIn.length ? `${fixed} of ${mistakesIn.length}${still ? `, ${still} still open` : ''}` : null,
     };
+    // B7 6: the cards this run sent to Revise as they were rated Got it or Easy, in run order, at most 4, for the end's pile.
+    const placeOf = new Map(items.map((i, k) => [i.id, k]));
+    const sent = [];
+    for (const e of ev.filter((x) => x.kind === 'rate' && (x.rating === 3 || x.rating === 4))) {
+      if (!sent.some((x) => x.id === e.card_id)) sent.push({ id: e.card_id, at: placeOf.get(e.item_id) ?? Number.MAX_SAFE_INTEGER });
+    }
+    const reviseCards = sent.sort((a, b) => a.at - b.at).map((x) => cardOf(S, x.id)).filter(Boolean).slice(0, 4)
+      .map((c) => ({ id: c.id, kind: c.kind, front: c.front, mustKnow: c.importance === 'must' }));
     const groups = revisePileGroups([...perCard.values()].map((c) => c.dueAt).filter(Boolean), S.now);
     // R16: "moved" only between answer-based states, never from Not started.
     const startState = metaOf(row);
@@ -1060,7 +1087,7 @@ export function createLearn(deps) {
       if (pick) {
         level = { chapterKey: pick.key, title: pick.title, right: pick.right, of: pick.of };
         if (!sessionDone) {
-          const start = { label: `Start with ${pick.title}`, evidence: `Your lowest score here: ${pick.right} of ${pick.of} right.`, run: { kind: 'mix', chapterKey: pick.key, minutes: 10, leaveOut: [] } };
+          const start = { kind: 'next', title: `Start with ${pick.title}`, minutes: 10, label: `Start with ${pick.title}`, evidence: `Your lowest score here: ${pick.right} of ${pick.of} right.`, run: { kind: 'mix', chapterKey: pick.key, minutes: 10, leaveOut: [] } };
           opts = { lead: start, options: [opts.lead, ...opts.options].filter((o) => o && !(o.run && o.run.chapterKey === pick.key && o.run.kind === 'mix')).slice(0, 3) };
         }
       }
@@ -1070,7 +1097,7 @@ export function createLearn(deps) {
     return ok({
       feed, title,
       numbers: { cards: perCard.size, questions: answered.length, fixed, mistakes: mistakesTried, detail },
-      lines, revisePile: groups, moved, free, lead: opts.lead, options: opts.options, ...(level ? { level } : {}),
+      lines, revisePile: groups, reviseCards, moved, free, lead: opts.lead, options: opts.options, ...(level ? { level } : {}),
     });
   }
 
@@ -1079,10 +1106,10 @@ export function createLearn(deps) {
     const options = [];
     const secs = info ? chapterSeconds(S, info) : null;
     const dueMin = info?.counts.due ? cardRunMinutes(info.counts.due, secs.dueSeconds) : 0;
-    if (info?.counts.due) options.push({ label: `Revise ${plural(info.counts.due, 'due card')}`, evidence: `About ${minutesWord(dueMin)}.`, run: { kind: 'cards', chapterKey: info.key, cardIds: info.dueIds.slice(0, LEARN_LIMITS.maxCardIds), minutes: dueMin } });
+    if (info?.counts.due) options.push({ kind: 'revise', title: `Revise ${plural(info.counts.due, 'due card')}`, minutes: dueMin, label: `Revise ${plural(info.counts.due, 'due card')}`, evidence: `About ${minutesWord(dueMin)}.`, run: { kind: 'cards', chapterKey: info.key, cardIds: info.dueIds.slice(0, LEARN_LIMITS.maxCardIds), minutes: dueMin } });
     const must = info ? (S.isPro ? info.counts.mustKnow : info.counts.openMust) : 0;
-    if (must) options.push({ label: 'Quick recap of this chapter', evidence: `Its ${plural(must, 'Must-know line')}, answers showing.`, run: { chapterKey: info.key, minutes: recapMinutes(must, secs.recapSeconds), leaveOut: [], kind: 'recap' } });
-    if (info) options.push({ label: 'Questions on this chapter in Explore', evidence: 'Explore questions stay free.', href: `/explore?${new URLSearchParams({ subject: S.subject, chapter: info.name })}`, go: 'explore' });
+    if (must) { const m = recapMinutes(must, secs.recapSeconds); options.push({ kind: 'recap', title: 'Quick recap of this chapter', minutes: m, label: 'Quick recap of this chapter', evidence: `Its ${plural(must, 'Must-know line')}, answers showing.`, run: { chapterKey: info.key, minutes: m, leaveOut: [], kind: 'recap' } }); }
+    if (info) options.push({ kind: 'explore', title: 'Questions on this chapter in Explore', minutes: null, label: 'Questions on this chapter in Explore', evidence: 'Explore questions stay free.', href: `/explore?${new URLSearchParams({ subject: S.subject, chapter: info.name })}`, go: 'explore' });
     return { lead: { line: FREE_SESSION_DONE, label: 'See Pro', href: '/pricing', go: 'pro' }, options };
   }
 
@@ -1102,8 +1129,14 @@ export function createLearn(deps) {
     const next = nextChapterOf(S, row.chapter_key);
     const due = info ? info.counts.due : 0;
     const dueMin = due ? cardRunMinutes(due, chapterSeconds(S, info).dueSeconds) : 0;
+    // B7 2: how far the feed got (the last item the student acted on) and how long it took (first event to last, at least 1).
+    const places = (row.items || []).map((i) => i.id);
+    const reached = ev.reduce((m, e) => Math.max(m, places.indexOf(e.item_id) + 1), 0);
+    const times = ev.map((e) => Date.parse(e.created_at)).filter(Number.isFinite);
+    const took = times.length ? Math.max(1, Math.round((Math.max(...times) - Math.min(...times)) / 60_000)) : 1;
     return {
       title: `${minutesWord(length)} on ${info?.title || row.chapter_key}`,
+      done: { reached, of: places.length, minutes: took },
       kept: { count: cards.length, cards: cards.slice(0, 5), groups: revisePileGroups(dues, S.now), stamp: stamps.length === 1 && keeps.length ? stamps[0] : null, line: keptLine(cards.length) },
       lines,
       lead: sessionDone ? null : { label: `Another ${minutes} minutes`, run: { kind: 'feed', chapterKey: row.chapter_key, minutes, fresh: true } },
@@ -1120,41 +1153,91 @@ export function createLearn(deps) {
    * after it, wrapping. Each with its opening card (hook), one true line about the student, and the real counts of a feed
    * at 5, 10 and 20 minutes (Free: 20 is composed as 10, capped).
    */
+  /** The ref line of a cover (A2 4.2): "Part 1, Ch 2", "Microeconomics, Ch 2"; no chapter number gives the unit ("Verbal Ability"). */
+  function refLineOf(info) {
+    if (!info.ref) return unitTitleOf(info);
+    const book = partTitleOf(info);
+    if (!book) return info.ref;
+    const part = /^Part\s+(\d+)\b/i.exec(book) || /\bPart\s+(\d+)\s*$/i.exec(book);
+    if (part) return `Part ${part[1]}, ${info.ref}`;
+    return `${String(book).replace(/^Introductory\s+/i, '')}, ${info.ref}`;
+  }
+
   async function covers(userId, p) {
     const me = await who(userId);
     const sid = pickSubject(me, p.get('subject'));
     if (!sid) return bad('SUBJECT_NOT_FOUND', 404);
-    const S = await snapshot(userId, me, sid, { feeds: true });
+    const [S, overdue] = await Promise.all([snapshot(userId, me, sid, { feeds: true }), overdueOf(userId)]);
+    S.overdue = overdue; // the same composer input as a feed start, so the hook is the card that start serves first
     const list = allowedChapters(S).map((ch, order) => ({ order, info: chapterInfo(S, ch.key) })).filter((x) => x.info && (x.info.counts.open + x.info.questions.length) > 0);
-    if (!list.length) return ok({ subject: { id: sid, name: subjectName(sid) }, lengths: FEED_RULES.lengths, covers: [], free: null });
-    const feedOpen = S.runs.find((r) => r.kind === 'feed' && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) < Number(r.item_count) && list.some((x) => x.info.key === r.chapter_key));
+    const history = list.some((x) => x.info.studied);
+    if (!list.length) return ok({ subject: { id: sid, name: subjectName(sid) }, lengths: FEED_RULES.lengths, covers: [], free: null, history });
+    // Today's unfinished feed of a chapter (the one a start of that chapter resumes, BUILD-1101 1.3).
+    const openFeedOf = (key) => S.runs.find((r) => r.kind === 'feed' && r.chapter_key === key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) < Number(r.item_count));
+    // A feed ended today having got to its last quarter counts as finished (the feed's own events only record answers and keeps).
+    const finishedToday = (key) => S.recentFeeds.some((r) => {
+      const of = Array.isArray(r.items) ? r.items.length : 0;
+      return r.chapter_key === key && r.ended_at && istDay(Date.parse(r.created_at)) === S.day && of > 0 && (S.feedReach.get(r.id) || 0) >= 0.75 * of;
+    });
+    // On a cover with such a feed, the hook is the next card the feed has left (Play resumes it).
+    const resumeHook = new Map();
+    await Promise.all(list.filter((x) => openFeedOf(x.info.key)).map(async ({ info }) => {
+      const open = openFeedOf(info.key);
+      try {
+        const [row, ev] = await Promise.all([store.run(userId, open.id), events(open.id)]);
+        const done = new Set(ev.map((e) => e.item_id));
+        const next = (row?.items || []).find((i) => i.type === 'card' && !done.has(i.id));
+        if (next) resumeHook.set(info.key, next.cardId);
+      } catch { /* the hook falls back to the feed a new start would serve */ }
+    }));
     // R12: For you first (with its reason), then book order from the chapter after it, wrapping (data/learn/feed.js).
-    const ordered = coverOrder(list.map(({ order, info }) => ({
+    // A chapter whose feed was finished today is not offered again while another one qualifies (BUILD-1101 B7 item 4):
+    // it keeps its place in the book order, but loses the mistakes and new cards that would make it the pick.
+    const entries = list.map(({ order, info }) => ({
       key: info.key, title: info.title, order, chapterNo: info.chapterNo, cards: info.counts.open, questions: info.questions.length,
       mistakes: info.mistakes.length, lastActivityAt: info.lastActivityAt, hasNew: info.open.some((c) => !info.states.has(c.id)),
-      openFeed: feedOpen?.chapter_key === info.key, info,
-    })));
+      openFeed: Boolean(openFeedOf(info.key)), info,
+    }));
+    const finished = new Set(entries.filter((e) => !e.openFeed && finishedToday(e.key)).map((e) => e.key));
+    const eligible = entries.map((e) => (finished.has(e.key) ? { ...e, mistakes: 0, hasNew: false } : e));
+    let ordered = coverOrder(eligible).map((c) => ({ ...entries.find((e) => e.key === c.key), forYou: c.forYou, reason: c.reason }));
+    if (finished.size && finished.size < entries.length && finished.has(ordered[0].key)) {
+      // Only the book-order fallback can still land on a finished chapter: take the next one that was not finished.
+      const was = ordered[0];
+      const at = entries.findIndex((e) => !finished.has(e.key) && e.order > was.order);
+      const pickAt = at >= 0 ? at : entries.findIndex((e) => !finished.has(e.key));
+      const rotated = [...entries.slice(pickAt), ...entries.slice(0, pickAt)];
+      ordered = rotated.map((e, i) => ({ ...e, forYou: i === 0, reason: i === 0 ? `Next after ${was.title}` : null }));
+    }
+    // The book-order reason reads "First in the syllabus" (for Economics the first chapter of the syllabus is "Ch 2" of its book).
+    if (ordered[0] && (ordered[0].reason === null || /^Chapter \d+ of your book$/.test(ordered[0].reason))) ordered[0] = { ...ordered[0], reason: 'First in the syllabus' };
     const out = ordered.map(({ info, forYou, reason }) => {
       const counts = {};
+      let plan10 = null;
       for (const m of FEED_RULES.lengths) {
         const rule = freeRule(S, { kind: 'feed', minutes: m });
         const plan = composeFor(S, info, { kind: 'feed', minutes: rule.minutes, leaveOut: ['lesson'] });
+        if (m === 10) plan10 = plan;
         counts[m] = { cards: plan.piles.cards.count, questions: plan.piles.questions.count + plan.piles.mistakes.count, minutes: plan.shrunk && plan.realMinutes ? plan.realMinutes : rule.minutes, ...(rule.capped ? { capped: true } : {}) };
       }
-      const hookCard = info.open.find((c) => c.importance === 'must') || info.open[0] || info.all.find((c) => c.importance === 'must') || info.all[0] || null;
+      // B7 4: the hook is the first card of the 10-minute feed (what a start serves first), with its id; the old rule when it has none.
+      const firstId = resumeHook.get(info.key) || plan10?.items.find((i) => i.type === 'card')?.cardId || null;
+      const hookCard = (firstId && cardOf(S, firstId)) || info.open.find((c) => c.importance === 'must') || info.open[0] || info.all.find((c) => c.importance === 'must') || info.all[0] || null;
       const runHere = S.runs.find((r) => r.kind === 'feed' && r.chapter_key === info.key && istDay(Date.parse(r.created_at)) === S.day && Number(r.done_count) > 0 && Number(r.done_count) < Number(r.item_count));
-      const parts = [info.counts.due ? `${info.counts.due} due` : null, info.mistakes.length ? plural(info.mistakes.length, 'old mistake') : null].filter(Boolean);
-      const studentLine = runHere ? `You stopped at ${runHere.done_count} of ${runHere.item_count}` : parts.length ? parts.join(', ') : info.studied ? info.state.label : 'New to you';
+      const resume = runHere ? { runId: runHere.id, done: Number(runHere.done_count), of: Number(runHere.item_count), minutesLeft: minutesFor(Number(runHere.seconds_left) || 0) } : null;
+      // One true line without due counts (A2 4.11): the stop, else the old mistakes, else the chapter's state, else "New to you".
+      const studentLine = resume ? `You stopped at ${resume.done} of ${resume.of}`
+        : info.mistakes.length ? `${plural(info.mistakes.length, 'old mistake')} to fix` : info.studied ? info.state.label : 'New to you';
       return {
-        key: info.key, title: info.title, ref: info.ref, number: info.chapterNo ? Number(info.chapterNo) : null, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info),
+        key: info.key, title: info.title, name: info.name, ref: info.ref, refLine: refLineOf(info), number: info.chapterNo ? Number(info.chapterNo) : null, partTitle: partTitleOf(info), unitTitle: unitTitleOf(info),
         reason, forYou,
-        hook: hookCard ? (S.isOpen(hookCard.id) ? { front: hookCard.front, kind: hookCard.kind, mustKnow: hookCard.importance === 'must' } : { front: null, kind: hookCard.kind, mustKnow: hookCard.importance === 'must', locked: true }) : null,
-        state: info.state, studentLine, counts,
+        hook: hookCard ? (S.isOpen(hookCard.id) ? { id: hookCard.id, front: hookCard.front, kind: hookCard.kind, mustKnow: hookCard.importance === 'must' } : { front: null, kind: hookCard.kind, mustKnow: hookCard.importance === 'must', locked: true }) : null,
+        state: info.state, studentLine, resume, counts,
         kept: info.counts.kept, due: info.counts.due, mistakes: info.mistakes.length, art: null,
       };
     }).filter((c) => FEED_RULES.lengths.some((m) => c.counts[m].cards + c.counts[m].questions > 0));
     return ok({
-      subject: { id: sid, name: subjectName(sid) }, lengths: FEED_RULES.lengths, covers: out,
+      subject: { id: sid, name: subjectName(sid) }, lengths: FEED_RULES.lengths, covers: out, history,
       free: !S.isPro && S.session ? { text: FREE_SESSION_DONE, maxMinutes: LEARN_FREE.maxMinutes } : null,
     });
   }
@@ -1171,13 +1254,14 @@ export function createLearn(deps) {
       const missedLately = (s?.last_rating === 1 && Date.parse(s.last_review_at) >= recent) || missedByQuestion.has(card.id);
       return { ...card, inRevise, missedLately, locked: false };
     });
-    const counts = { total: info.counts.cards, all: rows.length, must: rows.filter((r) => r.importance === 'must').length, revise: rows.filter((r) => r.inRevise).length, missed: rows.filter((r) => r.missedLately).length };
-    const keep = rows.filter((r) => filter === 'all' || (filter === 'must' && r.importance === 'must') || (filter === 'revise' && r.inRevise) || (filter === 'missed' && r.missedLately));
+    const dueSet = new Set(info.dueIds);
+    const counts = { total: info.counts.cards, all: rows.length, must: rows.filter((r) => r.importance === 'must').length, revise: rows.filter((r) => r.inRevise).length, missed: rows.filter((r) => r.missedLately).length, due: rows.filter((r) => dueSet.has(r.id)).length };
+    const keep = rows.filter((r) => filter === 'all' || (filter === 'must' && r.importance === 'must') || (filter === 'revise' && r.inRevise) || (filter === 'missed' && r.missedLately) || (filter === 'due' && dueSet.has(r.id)));
     return { counts, keep };
   }
 
   async function cards(userId, p) {
-    const filter = ['all', 'must', 'revise', 'missed'].includes(p.get('filter')) ? p.get('filter') : 'all';
+    const filter = ['all', 'must', 'revise', 'missed', 'due'].includes(p.get('filter')) ? p.get('filter') : 'all';
     const me = await who(userId);
     const key = p.get('chapter');
     if (!key && p.get('subject')) {
