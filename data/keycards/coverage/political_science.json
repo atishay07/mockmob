@@ -2,10 +2,10 @@
   "subject": "political_science",
   "chapters": {
     "political_science.alternative-centres-of-power": {
-      "published": 84,
+      "published": 85,
       "quarantined": 0,
       "byKind": {
-        "fact": 67,
+        "fact": 68,
         "term": 8,
         "list": 6,
         "definition": 1,
@@ -13,7 +13,7 @@
         "key_line": 1
       },
       "byImportance": {
-        "must": 47,
+        "must": 48,
         "good": 37
       },
       "coverage_note": null,
@@ -22,7 +22,7 @@
     },
     "political_science.challenges-of-nation-building": {
       "published": 74,
-      "quarantined": 1,
+      "quarantined": 2,
       "byKind": {
         "list": 3,
         "fact": 58,
@@ -148,7 +148,7 @@
     },
     "political_science.era-of-one-party-dominance": {
       "published": 79,
-      "quarantined": 0,
+      "quarantined": 1,
       "byKind": {
         "fact": 62,
         "types": 2,
@@ -200,22 +200,22 @@
       "belowMinimum": false
     },
     "political_science.international-organisations": {
-      "published": 80,
+      "published": 81,
       "quarantined": 0,
       "byKind": {
         "quote": 1,
         "key_line": 5,
         "fact": 62,
         "definition": 5,
-        "list": 6,
+        "list": 7,
         "types": 1
       },
       "byImportance": {
-        "must": 53,
+        "must": 54,
         "good": 27
       },
       "coverage_note": null,
-      "mustShare": 0.66,
+      "mustShare": 0.67,
       "belowMinimum": false
     },
     "political_science.politics-of-planned-development": {
@@ -273,19 +273,19 @@
       "belowMinimum": false
     },
     "political_science.security-in-the-contemporary-world": {
-      "published": 70,
+      "published": 71,
       "quarantined": 0,
       "byKind": {
         "definition": 11,
         "fact": 45,
         "types": 4,
         "term": 1,
-        "list": 3,
+        "list": 4,
         "key_line": 4,
         "difference": 2
       },
       "byImportance": {
-        "must": 46,
+        "must": 47,
         "good": 24
       },
       "coverage_note": null,

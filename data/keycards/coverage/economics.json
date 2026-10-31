@@ -24,10 +24,10 @@
       "belowMinimum": false
     },
     "economics.development-experiences-of-india": {
-      "published": 82,
-      "quarantined": 1,
+      "published": 83,
+      "quarantined": 3,
       "byKind": {
-        "fact": 31,
+        "fact": 32,
         "key_line": 28,
         "definition": 6,
         "list": 4,
@@ -35,7 +35,7 @@
         "difference": 11
       },
       "byImportance": {
-        "must": 48,
+        "must": 49,
         "good": 34
       },
       "coverage_note": null,
@@ -43,10 +43,10 @@
       "belowMinimum": false
     },
     "economics.economic-reforms-since-1991": {
-      "published": 89,
-      "quarantined": 0,
+      "published": 91,
+      "quarantined": 2,
       "byKind": {
-        "fact": 43,
+        "fact": 45,
         "key_line": 15,
         "term": 1,
         "types": 5,
@@ -55,19 +55,19 @@
         "example": 4
       },
       "byImportance": {
-        "must": 54,
+        "must": 56,
         "good": 35
       },
       "coverage_note": null,
-      "mustShare": 0.61,
+      "mustShare": 0.62,
       "belowMinimum": false
     },
     "economics.employment": {
-      "published": 55,
-      "quarantined": 3,
+      "published": 57,
+      "quarantined": 4,
       "byKind": {
-        "definition": 12,
-        "fact": 24,
+        "definition": 13,
+        "fact": 25,
         "formula": 1,
         "types": 3,
         "key_line": 12,
@@ -75,16 +75,16 @@
         "example": 1
       },
       "byImportance": {
-        "must": 43,
+        "must": 45,
         "good": 12
       },
       "coverage_note": null,
-      "mustShare": 0.78,
+      "mustShare": 0.79,
       "belowMinimum": false
     },
     "economics.environment-and-sustainable-development": {
       "published": 55,
-      "quarantined": 3,
+      "quarantined": 7,
       "byKind": {
         "definition": 9,
         "types": 1,
@@ -101,10 +101,10 @@
       "belowMinimum": false
     },
     "economics.government-budget-and-the-economy": {
-      "published": 61,
+      "published": 63,
       "quarantined": 1,
       "byKind": {
-        "fact": 10,
+        "fact": 12,
         "types": 4,
         "list": 7,
         "definition": 22,
@@ -114,16 +114,16 @@
         "formula": 5
       },
       "byImportance": {
-        "must": 47,
+        "must": 49,
         "good": 14
       },
       "coverage_note": null,
-      "mustShare": 0.77,
+      "mustShare": 0.78,
       "belowMinimum": false
     },
     "economics.human-capital-formation": {
       "published": 51,
-      "quarantined": 5,
+      "quarantined": 8,
       "byKind": {
         "fact": 14,
         "list": 7,
@@ -185,7 +185,7 @@
     },
     "economics.indian-economy-on-the-eve-of-independence": {
       "published": 51,
-      "quarantined": 0,
+      "quarantined": 1,
       "byKind": {
         "fact": 22,
         "key_line": 16,
@@ -306,7 +306,7 @@
     },
     "economics.rural-development": {
       "published": 47,
-      "quarantined": 2,
+      "quarantined": 6,
       "byKind": {
         "key_line": 7,
         "definition": 4,

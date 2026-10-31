@@ -15,9 +15,9 @@
     "cards": 875
   },
   "economics": {
-    "version": 1,
-    "sha256": "83ee819c201a02e6e636561bbb5d1f90a798e4ea79e01c8ea52553647f411c0e",
-    "cards": 1184
+    "version": 2,
+    "sha256": "2a7b435a381f97ef7f4efa1c33daaf3093f14575d3206dfbc29e8cf8be1e6c4a",
+    "cards": 1191
   },
   "english": {
     "version": 1,
@@ -25,8 +25,8 @@
     "cards": 318
   },
   "political_science": {
-    "version": 1,
-    "sha256": "21ba752738f81677a452e3b1fa5c933c1502845029173f210d709df33554dc73",
-    "cards": 1089
+    "version": 2,
+    "sha256": "1b2b78cc1ad3c69e846074a492f807fd5e25cb20431c7a5d180ca6cafcdddac2",
+    "cards": 1092
   }
 }

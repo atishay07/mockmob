@@ -1,8 +1,34 @@
 {
   "subject": "political_science",
-  "version": 1,
+  "version": 2,
   "source": "NCERT Reprint 2026-27",
   "cards": [
+    {
+      "id": "kc.political_science.alternative-centres-of-power.fact-alt-centres-limit-us",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.alternative-centres-of-power",
+      "chapter": "Alternative Centres of Power",
+      "unit": "Contemporary World Politics",
+      "kind": "fact",
+      "front": "What became clear after the end of the bipolar structure of world politics in the early 1990s?",
+      "back": "After the end of the bipolar structure of world politics in the early 1990s, it became clear that alternative centres of political and economic power could limit America's dominance.",
+      "quote": "After the end of the bipolar structure of world politics in the early 1990s, it became clear that alternative centres of political and economic power could limit America's dominance.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps102",
+        "chapterNo": 2,
+        "page": 15,
+        "section": "Overview"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 5,
+      "addedIn": "gap-1031"
+    },
     {
       "id": "kc.political_science.alternative-centres-of-power.fact-marshall-plan",
       "v": 1,
@@ -20259,6 +20285,32 @@
       "order": 230
     },
     {
+      "id": "kc.political_science.international-organisations.list-un-social-economic-agencies",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.international-organisations",
+      "chapter": "International Organisations",
+      "unit": "Contemporary World Politics",
+      "kind": "list",
+      "front": "Name the UN agencies NCERT lists as dealing with social and economic issues.",
+      "back": "the World Health Organisation (WHO)\nthe United Nations Development Programme (UNDP)\nthe United Nations Human Rights Commision (UNHRC)\nthe United Nations High Commission for Refugees (UNHCR)\nthe United Nations Children's Fund (UNICEF)\nthe United Nations Educational, Scientific, and Cultural Organisation (UNESCO)",
+      "quote": "Social and economic issues are dealt with by many agencies including the World Health Organisation (WHO), the United Nations Development Programme (UNDP), the United Nations Human Rights Commision (UNHRC), the United Nations High Commission for Refugees (UNHCR), the United Nations Children's Fund (UNICEF), and the United Nations Educational, Scientific, and Cultural Organisation (UNESCO), among others.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps104",
+        "chapterNo": 4,
+        "page": 50,
+        "section": "Evolution of the UN"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 231,
+      "addedIn": "gap-1031"
+    },
+    {
       "id": "kc.political_science.international-organisations.types-two-reforms",
       "v": 1,
       "subject": "political_science",
@@ -28540,6 +28592,32 @@
       "asked": 0,
       "tags": [],
       "order": 740
+    },
+    {
+      "id": "kc.political_science.security-in-the-contemporary-world.list-india-four-components",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.security-in-the-contemporary-world",
+      "chapter": "Security in the Contemporary World",
+      "unit": "Contemporary World Politics",
+      "kind": "list",
+      "front": "Name the four broad components of India’s security strategy.",
+      "back": "The first component was strengthening its military capabilities\nThe second component of India’s security strategy has been to strengthen international norms and international institutions\nThe third component of Indian security strategy is geared towards meeting security challenges within the country\nFinally, there has been an attempt in India to develop its economy in a way that the vast mass of citizens are lifted out of poverty and misery",
+      "quote": "The first component was strengthening its military capabilities because India has been involved in conflicts with its neighbours — Pakistan in 1947–48, 1965, 1971 and 1999; and China in 1962. Since it is surrounded by nuclear-armed countries in the South Asian region, India’s decision to conduct nuclear tests in 1998 was justified by the Indian government in terms of safeguarding national security. India first tested a nuclear device in 1974. The second component of India’s security strategy has been to strengthen international norms and international institutions to protect its security interests. India’s first Prime Minister, Jawaharlal Nehru, supported the cause of Asian solidarity, decolonisation, disarmament, and the UN as a forum in which international conflicts could be settled. India also took initiatives to bring about a universal and non-discriminatory non-proliferation regime in which all countries would have the same rights and obligations with respect to weapons of mass destruction (nuclear, biological, chemical). It argued for an equitable New International Economic Order (NIEO). Most importantly, it used non-alignment to help carve out an area of peace outside the bloc politics of the two superpowers. India joined 160 countries that have signed and ratified the 1997 Kyoto Protocol, which provides a roadmap for reducing the emissions of greenhouse gases to check global warming. Indian troops have been sent abroad on UN peacekeeping missions in support of cooperative security initiatives. The third component of Indian security strategy is geared towards meeting security challenges within the country. Several militant groups from areas such as the Nagaland, Mizoram, the Punjab, and Kashmir among others have, from time to time, sought to break away from India. India has tried to preserve national unity by adopting a democratic political system, which allows different communities and groups of people to freely articulate their grievances and share political power. Finally, there has been an attempt in India to develop its economy in a way that the vast mass of citizens are lifted out of poverty and misery and huge economic inequalities are not allowed to exist.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Contemporary World Politics",
+        "code": "leps105",
+        "chapterNo": 5,
+        "page": 76,
+        "section": "India’s Security Strategy"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 750,
+      "addedIn": "gap-1031"
     }
   ]
 }

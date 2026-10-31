@@ -2,6 +2,39 @@
   "subject": "economics",
   "cards": [
     {
+      "id": "kc.economics.indian-economy-on-the-eve-of-independence.fact-exploitative-relationship-assessment",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.indian-economy-on-the-eve-of-independence",
+      "chapter": "Indian Economy on the Eve of Independence",
+      "unit": "Indian Economy on the Eve of Independence",
+      "kind": "fact",
+      "front": "Why must the colonial relationship be understood to assess India's development since independence?",
+      "back": "An understanding of the exploitative nature of this relationship is essential for any assessment of the kind and level of development which the Indian economy has been able to attain over the last seven and half decades.",
+      "quote": "An understanding of the exploitative nature of this relationship is essential for any assessment of the kind and level of development which the Indian economy has been able to attain over the last seven and half decades.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec101",
+        "chapterNo": 1,
+        "page": 4,
+        "section": "1.1 Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "colonial rule",
+        "development"
+      ],
+      "order": 61,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Chapter-framing rationale sentence, not a definition or testable fact."
+      ]
+    },
+    {
       "id": "kc.economics.indian-economic-development-1950-1990.kl-prices-signals",
       "v": 2,
       "subject": "economics",
@@ -132,6 +165,72 @@
       "reasons": [
         "review:not_unambiguous",
         "review:\"welfare\" has synonyms (development, good, interest); fill is not unique."
+      ]
+    },
+    {
+      "id": "kc.economics.economic-reforms-since-1991.fact-powerloom-wages-linked-production",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.economic-reforms-since-1991",
+      "chapter": "Economic Reforms Since 1991",
+      "unit": "Economic Reforms Since 1991",
+      "kind": "fact",
+      "front": "In the Siricilla powerloom case, why did a power cut mean a cut in weavers' wages?",
+      "back": "Since the wages of the powerloom workers are linked to the production of cloth, power cut means cut in wages of weavers, who were already suffering from hike in tariff.",
+      "quote": "Since the wages of the powerloom workers are linked to the production of cloth, power cut means cut in wages of weavers, who were already suffering from hike in tariff.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec103",
+        "chapterNo": 3,
+        "page": 51,
+        "section": "Box 3.3: Siricilla Tragedy!"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "power sector reforms",
+        "wages"
+      ],
+      "order": 891,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Siricilla powerloom case-story filler."
+      ]
+    },
+    {
+      "id": "kc.economics.economic-reforms-since-1991.fact-gdp-not-measure-of-progress",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.economic-reforms-since-1991",
+      "chapter": "Economic Reforms Since 1991",
+      "unit": "Economic Reforms Since 1991",
+      "kind": "fact",
+      "front": "What did K.R. Narayanan say about GDP as a measure of the progress of a society?",
+      "back": "There is a consensus in the world today that economic development is not all and the GDP is not necessarily a measure of progress of a society.",
+      "quote": "There is a consensus in the world today that economic development is not all and the GDP is not necessarily a measure of progress of a society.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec103",
+        "chapterNo": 3,
+        "page": 39,
+        "section": "Chapter opening quotation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "GDP",
+        "progress"
+      ],
+      "order": 31,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Chapter-opening epigraph (K.R. Narayanan); quotation trivia, not a CUET point."
       ]
     },
     {
@@ -298,6 +397,107 @@
       ]
     },
     {
+      "id": "kc.economics.human-capital-formation.fact-marshall-education-opportunities",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.human-capital-formation",
+      "chapter": "Human Capital Formation",
+      "unit": "Current Challenges Facing the Indian Economy",
+      "kind": "fact",
+      "front": "Alfred Marshall: why is spending on education profitable as a mere investment, and what does it enable many to do?",
+      "back": "It will be profitable as a mere investment, to give the masses of people much greater opportunities than they can generally avail themselves of. For by this means many, who would have died unknown, are enabled to get the start needed for bringing out their latent abilities",
+      "quote": "It will be profitable as a mere investment, to give the masses of people much greater opportunities than they can generally avail themselves of. For by this means many, who would have died unknown, are enabled to get the start needed for bringing out their latent abilities",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec104",
+        "chapterNo": 4,
+        "page": 59,
+        "section": "Chapter opening quotation"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "education",
+        "opportunity"
+      ],
+      "order": 21,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:Quoted opinion of one economist; filler, and the two-part front admits several phrasings."
+      ]
+    },
+    {
+      "id": "kc.economics.human-capital-formation.fact-it-value-depends-development",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.human-capital-formation",
+      "chapter": "Human Capital Formation",
+      "unit": "Current Challenges Facing the Indian Economy",
+      "kind": "fact",
+      "front": "What does the value of information technology depend on greatly (NCERT 4.4)?",
+      "back": "The value of IT depends greatly on the existing level of economic development.",
+      "quote": "The value of IT depends greatly on the existing level of economic development.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec104",
+        "chapterNo": 4,
+        "page": 66,
+        "section": "4.4 Human Capital and Human Development"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "information technology",
+        "human development"
+      ],
+      "order": 451,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Passing remark about IT; trivia."
+      ]
+    },
+    {
+      "id": "kc.economics.human-capital-formation.fact-youth-unemployment-2011-12-nsso",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.human-capital-formation",
+      "chapter": "Human Capital Formation",
+      "unit": "Current Challenges Facing the Indian Economy",
+      "kind": "fact",
+      "front": "NSSO 2011-12: how did youth unemployment compare across rural and urban graduates, rural women graduates and primary-educated youth?",
+      "back": "the rate of unemployment among youth males who studied graduation and above in rural areas was 19 per cent. Their urban counterparts had relatively less level of unemployment at 16 per cent. The most severely affected ones were young rural female graduates as nearly 30 per cent of them are unemployed. In contrast to this, only about 3-6 per cent of primary level educated youth in rural and urban areas were unemployed.",
+      "quote": "As per NSSO data, in the year 2011-12, the rate of unemployment among youth males who studied graduation and above in rural areas was 19 per cent. Their urban counterparts had relatively less level of unemployment at 16 per cent. The most severely affected ones were young rural female graduates as nearly 30 per cent of them are unemployed. In contrast to this, only about 3-6 per cent of primary level educated youth in rural and urban areas were unemployed.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec104",
+        "chapterNo": 4,
+        "page": 71,
+        "section": "Higher Education -- a Few Takers"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "educated unemployment",
+        "education"
+      ],
+      "order": 751,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_importanceRight",
+        "review:Cluster of statistics tied to one survey year (NSSO 2011-12); time-bound, and not must."
+      ]
+    },
+    {
       "id": "kc.economics.rural-development.def-micro-credit",
       "v": 2,
       "subject": "economics",
@@ -360,6 +560,140 @@
       "reasons": [
         "review:not_exact",
         "review:Front cites \"(5.7)\" but the sentence is in section 5.6 (Sustainable Development and Organic Farming), page 86."
+      ]
+    },
+    {
+      "id": "kc.economics.rural-development.fact-fishing-community-water-bodies",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.rural-development",
+      "chapter": "Rural Development",
+      "unit": "Rural Development",
+      "kind": "fact",
+      "front": "How does the fishing community regard the water body, and which water bodies does NCERT name?",
+      "back": "The fishing community regards the water body as `mother' or `provider'. The water bodies consisting of sea, oceans, rivers, lakes, natural aquatic ponds, streams etc. are, therefore, an integral and life-giving source for the fishing community.",
+      "quote": "The fishing community regards the water body as `mother' or `provider'. The water bodies consisting of sea, oceans, rivers, lakes, natural aquatic ponds, streams etc. are, therefore, an integral and life-giving source for the fishing community.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec105",
+        "chapterNo": 5,
+        "page": 84,
+        "section": "5.5 Diversification into Productive Activities: Fisheries"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "fisheries",
+        "diversification"
+      ],
+      "order": 451,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:not_importanceRight",
+        "review:Descriptive trivia about fishing communities; two-part front; not must."
+      ]
+    },
+    {
+      "id": "kc.economics.rural-development.fact-tanwa-training-women",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.rural-development",
+      "chapter": "Rural Development",
+      "unit": "Rural Development",
+      "kind": "fact",
+      "front": "What was TANWA (Tamil Nadu Women in Agriculture) and what did it encourage women to do?",
+      "back": "Tamil Nadu Women in Agriculture (TANWA) was a project initiated in the late 1980s in Tamil Nadu to train women in latest agricultural techniques and in organic farming. It encouraged women to actively participate in raising agricultural productivity and family income.",
+      "quote": "Tamil Nadu Women in Agriculture (TANWA) was a project initiated in the late 1980s in Tamil Nadu to train women in latest agricultural techniques and in organic farming. It encouraged women to actively participate in raising agricultural productivity and family income.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec105",
+        "chapterNo": 5,
+        "page": 83,
+        "section": "5.5 Diversification into Productive Activities"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "TANWA",
+        "women"
+      ],
+      "order": 381,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Case-story filler (TANWA project)."
+      ]
+    },
+    {
+      "id": "kc.economics.rural-development.fact-farm-womens-group-vermicompost",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.rural-development",
+      "chapter": "Rural Development",
+      "unit": "Rural Development",
+      "kind": "fact",
+      "front": "What do trained women in the Farm Women's Group at Thiruchirapalli make and sell?",
+      "back": "At a Farm Women's Group in Thiruchirapalli, run by Anthoniammal, trained women are successfully making and selling vermicompost and earning money from this venture.",
+      "quote": "At a Farm Women's Group in Thiruchirapalli, run by Anthoniammal, trained women are successfully making and selling vermicompost and earning money from this venture.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec105",
+        "chapterNo": 5,
+        "page": 83,
+        "section": "5.5 Diversification into Productive Activities"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "TANWA",
+        "vermicompost"
+      ],
+      "order": 381,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Case-story filler (named individual, vermicompost)."
+      ]
+    },
+    {
+      "id": "kc.economics.rural-development.fact-farm-womens-groups-micro-credit",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.rural-development",
+      "chapter": "Rural Development",
+      "unit": "Rural Development",
+      "kind": "fact",
+      "front": "How do many Farm Women's Groups build savings, and what do they use the accumulated savings for?",
+      "back": "Many other Farm Women's Groups are creating savings in their group by functioning like mini banks through a micro-credit system. With the accumulated savings, they promote small-scale household activities like mushroom cultivation, soap manufacture, doll making or other income-generating activities.",
+      "quote": "Many other Farm Women's Groups are creating savings in their group by functioning like mini banks through a micro-credit system. With the accumulated savings, they promote small-scale household activities like mushroom cultivation, soap manufacture, doll making or other income-generating activities.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec105",
+        "chapterNo": 5,
+        "page": 83,
+        "section": "5.5 Diversification into Productive Activities"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "micro-credit",
+        "women"
+      ],
+      "order": 381,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Case-story about Farm Women's Groups; micro-credit idea is better carried by an SHG/credit card."
       ]
     },
     {
@@ -459,6 +793,39 @@
       ]
     },
     {
+      "id": "kc.economics.employment.fact-agri-work-seasonal-migration",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.employment",
+      "chapter": "Employment",
+      "unit": "Employment",
+      "kind": "fact",
+      "front": "Why do many villagers take urban jobs for some months and return home when the rainy season begins?",
+      "back": "This is because work in agriculture is seasonal; there are no employment opportunities in the village for all months in the year. When there is no work to do on farms, people go to urban areas and look for jobs.",
+      "quote": "This is because work in agriculture is seasonal; there are no employment opportunities in the village for all months in the year. When there is no work to do on farms, people go to urban areas and look for jobs.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec106",
+        "chapterNo": 6,
+        "page": 107,
+        "section": "6.8 Unemployment"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "seasonal unemployment",
+        "migration"
+      ],
+      "order": 596,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Narrative explanation/case filler; the seasonal unemployment card carries the point."
+      ]
+    },
+    {
       "id": "kc.economics.environment-and-sustainable-development.fact-opportunity-costs-high",
       "v": 1,
       "subject": "economics",
@@ -555,6 +922,139 @@
       ]
     },
     {
+      "id": "kc.economics.environment-and-sustainable-development.fact-biopest-control-neem-response",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.environment-and-sustainable-development",
+      "chapter": "Environment & Sustainable Development",
+      "unit": "Environment & Sustainable Development",
+      "kind": "fact",
+      "front": "How did efforts to meet the challenge of chemical pesticide contamination proceed (Biopest Control)?",
+      "back": "Even milk, meat and fishes were found to be contaminated. To meet this challenge, efforts are on to bring in better methods of pest control. One such step is the use of pesticides based on plant products. Neem trees are proving to be quite useful. Several types of pest controlling chemicals have been isolated from neem and these are being used.",
+      "quote": "Even milk, meat and fishes were found to be contaminated. To meet this challenge, efforts are on to bring in better methods of pest control. One such step is the use of pesticides based on plant products. Neem trees are proving to be quite useful. Several types of pest controlling chemicals have been isolated from neem and these are being used.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec107",
+        "chapterNo": 7,
+        "page": 128,
+        "section": "7.5 Strategies for Sustainable Development: Biopest Control"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "biopest control",
+        "neem"
+      ],
+      "order": 631,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Box case-story (Biopest Control, neem); not a CUET-held line."
+      ]
+    },
+    {
+      "id": "kc.economics.environment-and-sustainable-development.fact-appiko-felling-rules",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.environment-and-sustainable-development",
+      "chapter": "Environment & Sustainable Development",
+      "unit": "Environment & Sustainable Development",
+      "kind": "fact",
+      "front": "What felling rules did Appiko volunteers want contractors and forest officials to follow?",
+      "back": "Appiko volunteers want the contractors and forest officials to follow certain rules and restrictions. For instance, local people should be consulted when trees are marked for felling and trees within 100 metres of a water source and on a slope of 30 degrees or above should not be felled.",
+      "quote": "Appiko volunteers want the contractors and forest officials to follow certain rules and restrictions. For instance, local people should be consulted when trees are marked for felling and trees within 100 metres of a water source and on a slope of 30 degrees or above should not be felled.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec107",
+        "chapterNo": 7,
+        "page": 121,
+        "section": "Box 7.3: Chipko or Appiko -- What's in a Name?"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "Appiko",
+        "forests"
+      ],
+      "order": 221,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Case-story (Appiko movement) with specifics (100 m, 30 degrees) that are trivia."
+      ]
+    },
+    {
+      "id": "kc.economics.environment-and-sustainable-development.fact-land-degradation-groundwater-open-access",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.environment-and-sustainable-development",
+      "chapter": "Environment & Sustainable Development",
+      "unit": "Environment & Sustainable Development",
+      "kind": "fact",
+      "front": "Land degradation factors (x) to (xii): extraction of ground water in excess of what, and which two factors follow?",
+      "back": "excess of the recharge capacity (xi) open access resource and (xii) poverty of the agriculture-dependent people.",
+      "quote": "excess of the recharge capacity (xi) open access resource and (xii) poverty of the agriculture-dependent people.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec107",
+        "chapterNo": 7,
+        "page": 122,
+        "section": "7.3 State of India's Environment: Land Degradation"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "land degradation",
+        "groundwater"
+      ],
+      "order": 271,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front depends on numbering (x)-(xii) from a list the card does not show and the quote starts mid-sentence; a student cannot give one answer from the front alone. Rewrite as the full list of land-degradation factors."
+      ]
+    },
+    {
+      "id": "kc.economics.environment-and-sustainable-development.list-chapter-three-sections",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.environment-and-sustainable-development",
+      "chapter": "Environment & Sustainable Development",
+      "unit": "Environment & Sustainable Development",
+      "kind": "list",
+      "front": "What are the three sections of the chapter on Environment and Sustainable Development, in order?",
+      "back": "The first part deals with the functions and role of environment.\nThe second section discusses the state of India's environment\nthe third section deals with steps and strategies to achieve sustainable development.",
+      "quote": "this chapter is divided into three sections. The first part deals with the functions and role of environment. The second section discusses the state of India's environment and the third section deals with steps and strategies to achieve sustainable development.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec107",
+        "chapterNo": 7,
+        "page": 116,
+        "section": "7.1 Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "environment",
+        "chapter structure"
+      ],
+      "order": 61,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_importanceRight",
+        "review:Chapter's own table of contents; not important."
+      ]
+    },
+    {
       "id": "kc.economics.development-experiences-of-india.fact-china-pre-reform-health",
       "v": 1,
       "subject": "economics",
@@ -584,6 +1084,73 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front is ambiguous: the preceding NCERT sentence also names education infrastructure, so 'what had been massively extended' has more than one defensible answer; name 'basic ___ services' or cite health explicitly."
+      ]
+    },
+    {
+      "id": "kc.economics.development-experiences-of-india.fact-developing-countries-limited-economic-space",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.development-experiences-of-india",
+      "chapter": "Development Experiences of India",
+      "unit": "Development Experiences of India",
+      "kind": "fact",
+      "front": "Why is it essential for developing countries to understand their neighbours' development processes in a globalising world?",
+      "back": "In the unfolding process of globalisation, this is particularly considered essential by developing countries as they face competition not only from developed nations but also amongst themselves in the relatively limited economic space enjoyed by the developing world.",
+      "quote": "In the unfolding process of globalisation, this is particularly considered essential by developing countries as they face competition not only from developed nations but also amongst themselves in the relatively limited economic space enjoyed by the developing world.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec108",
+        "chapterNo": 8,
+        "page": 135,
+        "section": "8.1 Introduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "neighbours",
+        "globalisation"
+      ],
+      "order": 31,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_importanceRight",
+        "review:Chapter rationale for comparing neighbours; framing sentence, not must."
+      ]
+    },
+    {
+      "id": "kc.economics.development-experiences-of-india.fact-common-activities-shared-environment",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.development-experiences-of-india",
+      "chapter": "Development Experiences of India",
+      "unit": "Development Experiences of India",
+      "kind": "fact",
+      "front": "Why is understanding the economies of our neighbourhood required, besides competition in the limited economic space?",
+      "back": "Besides, an understanding of the other economies in our neighbourhood is also required as all major common economic activities in the region impinge on overall human development in a shared environment.",
+      "quote": "Besides, an understanding of the other economies in our neighbourhood is also required as all major common economic activities in the region impinge on overall human development in a shared environment.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec108",
+        "chapterNo": 8,
+        "page": 135,
+        "section": "8.1 Introduction"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "neighbours",
+        "human development"
+      ],
+      "order": 31,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:Chapter rationale sentence; filler."
       ]
     },
     {

@@ -560,6 +560,67 @@
       ]
     },
     {
+      "id": "kc.political_science.challenges-of-nation-building.fact-peaceful-negotiations",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.challenges-of-nation-building",
+      "chapter": "Challenges of Nation Building",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "How did almost all princely states next to India's new boundaries join the Union before 15 August 1947?",
+      "back": "Before 15 August 1947, peaceful negotiations had brought almost all states whose territories were contiguous to the new boundaries of India, into the Indian Union.",
+      "quote": "Before 15 August 1947, peaceful negotiations had brought almost all states whose territories were contiguous to the new boundaries of India, into the Indian Union.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps201",
+        "chapterNo": 1,
+        "page": 16,
+        "section": "Integration of Princely States"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 425,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Marked must but the line is a thin narrative fact; princely-state integration is not named in the CUET unit list (Nehru approach, partition, reorganisation of states). Should be good."
+      ]
+    },
+    {
+      "id": "kc.political_science.era-of-one-party-dominance.fact-literate-voters",
+      "v": 1,
+      "subject": "political_science",
+      "chapterKey": "political_science.era-of-one-party-dominance",
+      "chapter": "Era of One-party Dominance",
+      "unit": "Politics in India Since Independence",
+      "kind": "fact",
+      "front": "What per cent of the eligible voters in the first general election were literate?",
+      "back": "At that time there were 17 crore eligible voters, who had to elect about 3,200 MLAs and 489 Members of Lok Sabha. Only 15 per cent of these eligible voters were literate.",
+      "quote": "At that time there were 17 crore eligible voters, who had to elect about 3,200 MLAs and 489 Members of Lok Sabha. Only 15 per cent of these eligible voters were literate.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Politics in India since Independence",
+        "code": "leps202",
+        "chapterNo": 2,
+        "page": 28,
+        "section": "Challenge of building democracy"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [],
+      "order": 65,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_importanceRight",
+        "review:Single statistic tied to one year (15 per cent literate in the first election); trivia, not a line to hold."
+      ]
+    },
+    {
       "id": "kc.political_science.politics-of-planned-development.fact-kn-raj",
       "v": 2,
       "subject": "political_science",

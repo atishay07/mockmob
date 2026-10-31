@@ -1,6 +1,6 @@
 {
   "subject": "economics",
-  "version": 1,
+  "version": 2,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -4116,6 +4116,35 @@
       "order": 820
     },
     {
+      "id": "kc.economics.development-experiences-of-india.fact-india-growth-vs-human-development",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.development-experiences-of-india",
+      "chapter": "Development Experiences of India",
+      "unit": "Development Experiences of India: A Comparison with Neighbours",
+      "kind": "fact",
+      "front": "How does NCERT compare India's economic growth with its progress on human development indicators?",
+      "back": "While India has performed relatively well vis-à-vis other developing countries (including its Asian neighbours) in terms of economic growth, India is yet to show the world that there is considerable progress in terms of human development indicators.",
+      "quote": "While India has performed relatively well vis-à-vis other developing countries (including its Asian neighbours) in terms of economic growth, India is yet to show the world that there is considerable progress in terms of human development indicators.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec108",
+        "chapterNo": 8,
+        "page": 145,
+        "section": "8.7 Conclusion"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "human development",
+        "growth"
+      ],
+      "order": 821,
+      "addedIn": "gap-1031"
+    },
+    {
       "id": "kc.economics.development-experiences-of-india.fact-pak-forex-sources",
       "v": 1,
       "subject": "economics",
@@ -4487,6 +4516,35 @@
         "liberty-indicators"
       ],
       "order": 1020
+    },
+    {
+      "id": "kc.economics.economic-reforms-since-1991.fact-forty-years-planned-development-intro",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.economic-reforms-since-1991",
+      "chapter": "Economic Reforms Since 1991",
+      "unit": "Economic Reforms since 1991",
+      "kind": "fact",
+      "front": "What had India achieved after forty years of planned development, and what led to the 1991 reforms?",
+      "back": "After forty years of planned development, India has been able to achieve a strong industrial base and became self-sufficient in the production of food grains. Nevertheless, a major segment of the population continues to depend on agriculture for its livelihood. In 1991, a crisis in the balance of payments led to the introduction of economic reforms in the country.",
+      "quote": "After forty years of planned development, India has been able to achieve a strong industrial base and became self-sufficient in the production of food grains. Nevertheless, a major segment of the population continues to depend on agriculture for its livelihood. In 1991, a crisis in the balance of payments led to the introduction of economic reforms in the country.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec103",
+        "chapterNo": 3,
+        "page": 37,
+        "section": "Unit introduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "planned development",
+        "1991 crisis"
+      ],
+      "order": 1,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.economics.economic-reforms-since-1991.fact-forex-fortnight",
@@ -5427,6 +5485,35 @@
         "trade policy"
       ],
       "order": 370
+    },
+    {
+      "id": "kc.economics.economic-reforms-since-1991.fact-qr-tariff-regime-slow-manufacturing",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.economic-reforms-since-1991",
+      "chapter": "Economic Reforms Since 1991",
+      "unit": "Economic Reforms since 1991",
+      "kind": "fact",
+      "front": "What effect did India's pre-reform tight import controls and very high tariffs have on manufacturing?",
+      "back": "In order to protect domestic industries, India was following a regime of quantitative restrictions on imports. This was encouraged through tight control over imports and by keeping the tariffs very high. These policies reduced efficiency and competitiveness which led to slow growth of the manufacturing sector.",
+      "quote": "In order to protect domestic industries, India was following a regime of quantitative restrictions on imports. This was encouraged through tight control over imports and by keeping the tariffs very high. These policies reduced efficiency and competitiveness which led to slow growth of the manufacturing sector.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec103",
+        "chapterNo": 3,
+        "page": 43,
+        "section": "Trade and Investment Policy Reforms"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "trade reforms",
+        "manufacturing"
+      ],
+      "order": 371,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.economics.economic-reforms-since-1991.def-privatisation",
@@ -8095,6 +8182,35 @@
       "order": 595
     },
     {
+      "id": "kc.economics.employment.def-unemployment-nso",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.employment",
+      "chapter": "Employment",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "definition",
+      "front": "Define unemployment (National Statistical Office).",
+      "back": "The National Statistical Office (Previously it was known as National Sample Survey Organisation) defines unemployment as a situation in which all those who, owing to lack of work, are not working but either seek work through employment exchanges, intermediaries, friends or relatives or by making applications to prospective employers or express their willingness or availability for work under the prevailing condition of work and remunerations.",
+      "quote": "The National Statistical Office (Previously it was known as National Sample Survey Organisation) defines unemployment as a situation in which all those who, owing to lack of work, are not working but either seek work through employment exchanges, intermediaries, friends or relatives or by making applications to prospective employers or express their willingness or availability for work under the prevailing condition of work and remunerations.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec106",
+        "chapterNo": 6,
+        "page": 107,
+        "section": "6.8 Unemployment"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "unemployment",
+        "open unemployment"
+      ],
+      "order": 596,
+      "addedIn": "gap-1031"
+    },
+    {
       "id": "kc.economics.employment.fact-mgnrega",
       "v": 1,
       "subject": "economics",
@@ -8202,6 +8318,34 @@
         "employment generation"
       ],
       "order": 660
+    },
+    {
+      "id": "kc.economics.employment.fact-seasonal-unemployment-name",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.employment",
+      "chapter": "Employment",
+      "unit": "Current Challenges facing the Indian Economy",
+      "kind": "fact",
+      "front": "What is the unemployment called when farm work is seasonal and villagers find no work in some months of the year?",
+      "back": "This kind of unemployment is known as seasonal unemployment. This is also a common form of unemployment prevailing in India.",
+      "quote": "This kind of unemployment is known as seasonal unemployment. This is also a common form of unemployment prevailing in India.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Indian Economic Development",
+        "code": "keec106",
+        "chapterNo": 6,
+        "page": 108,
+        "section": "6.8 Unemployment"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "seasonal unemployment"
+      ],
+      "order": 661,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.economics.employment.def-employment-generation-programmes",
@@ -11689,6 +11833,63 @@
         "deficit"
       ],
       "order": 740
+    },
+    {
+      "id": "kc.economics.government-budget-and-the-economy.fact-deficits-inflationary-criticism",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.government-budget-and-the-economy",
+      "chapter": "Government Budget & the Economy",
+      "unit": "Government Budget and the Economy",
+      "kind": "fact",
+      "front": "What is one of the main criticisms of government deficits, and why?",
+      "back": "One of the main criticisms of deficits is that they are inflationary. This is because when government increases spending or cuts taxes, aggregate demand increases.",
+      "quote": "One of the main criticisms of deficits is that they are inflationary. This is because when government increases spending or cuts taxes, aggregate demand increases.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec105",
+        "chapterNo": 5,
+        "page": 79,
+        "section": "Other Perspectives on Deficits and Debt"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "deficit",
+        "inflation"
+      ],
+      "order": 885,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.economics.government-budget-and-the-economy.fact-deficit-reduction",
+      "v": 1,
+      "subject": "economics",
+      "chapterKey": "economics.government-budget-and-the-economy",
+      "chapter": "Government Budget & the Economy",
+      "unit": "Government Budget and the Economy",
+      "kind": "fact",
+      "front": "How can a government deficit be reduced?",
+      "back": "Government deficit can be reduced by an increase in taxes or reduction in expenditure.",
+      "quote": "Government deficit can be reduced by an increase in taxes or reduction in expenditure.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Introductory Macroeconomics",
+        "code": "leec105",
+        "chapterNo": 5,
+        "page": 80,
+        "section": "Deficit Reduction"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "deficit"
+      ],
+      "order": 890,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.economics.human-capital-formation.fact-education-skill-income",
