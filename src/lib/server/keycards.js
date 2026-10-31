@@ -11,8 +11,8 @@ import { createHash } from 'node:crypto';
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import {
-  ALLOWANCE, KEYCARD_RULES, MODES, RATINGS, canAdd, cardMinutes, chapterAddSet, clampClientTime, deckView, dueQueue, istDay,
-  lineNeeded, memoryShare, newSchedule, printedCard, schedule, tasteIds,
+  ALLOWANCE, KEYCARD_RULES, MODES, RATINGS, applyTiers, canAdd, cardMinutes, chapterAddSet, clampClientTime, deckView, dueQueue, istDay,
+  lineNeeded, memoryShare, newSchedule, printedCard, schedule, tasteIds, validTiers,
 } from '../../../data/keycards.js';
 import { UNKNOWN_STATE, chapterStates, stateFor, tallyChapters } from '../../../data/chapter_state.js';
 import { readAnsweredProgress } from '../../../data/practice_progress.js';
@@ -41,9 +41,10 @@ const PRO_NEW_COUNT_ONLY = 100000;
 const sha = (text) => createHash('sha256').update(text).digest('hex');
 
 /**
- * Read the bundled decks. Returns { bySubject: Map(subject -> { version, cards }), byId: Map, links: Map(subject -> {}),
- * disabled: [{ subject, why }] }. `fixture` (local and tests only) serves data/keycards/decks/_fixture.json for its subject
- * when the manifest has no deck for it.
+ * Read the bundled decks, then set each card's Must-know tag from data/keycards/tiers.json (applyTiers; the author's value is
+ * kept as authorImportance; a missing or invalid file logs one warning and the author's values stand). Returns
+ * { bySubject: Map(subject -> { version, cards }), byId: Map, links: Map(subject -> {}), disabled: [{ subject, why }] }.
+ * `fixture` (local and tests only) serves data/keycards/decks/_fixture.json for its subject when the manifest has no deck for it.
  */
 export function loadDecks({ dir = path.join(process.cwd(), 'data/keycards'), log = console.warn, fixture = false } = {}) {
   const bySubject = new Map();
@@ -53,8 +54,16 @@ export function loadDecks({ dir = path.join(process.cwd(), 'data/keycards'), log
   const read = (file) => (existsSync(file) ? readFileSync(file, 'utf8') : null);
   let manifest = {};
   try { manifest = JSON.parse(read(path.join(dir, 'manifest.json')) || '{}'); } catch { manifest = {}; log('[keycards] manifest unreadable: no decks served'); }
+  // The tier overlay is applied only to a deck that passed its sha256 check, after parsing; the deck bytes the manifest signs are untouched.
+  let tiers = null;
+  const tiersText = read(path.join(dir, 'tiers.json'));
+  try { tiers = tiersText === null ? null : JSON.parse(tiersText); } catch { tiers = null; }
+  if (!validTiers(tiers)) tiers = null;
+  let tiersWarned = false;
   const add = (subject, deck) => {
-    const cards = (deck.cards || []).filter((c) => c?.id && c.subject === subject).map(printedCard);
+    // One warning, only when a deck is actually served without the overlay.
+    if (!tiers && !tiersWarned) { tiersWarned = true; log('[keycards] tiers.json missing or invalid: the decks keep the Must-know marks their authors gave'); }
+    const cards = applyTiers((deck.cards || []).filter((c) => c?.id && c.subject === subject), tiers).map(printedCard);
     bySubject.set(subject, { version: deck.version, cards });
     for (const c of cards) byId.set(c.id, c);
     try { links.set(subject, JSON.parse(read(path.join(dir, 'links', `${subject}.json`)) || '{}')); } catch { links.set(subject, {}); }
