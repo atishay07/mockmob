@@ -98,3 +98,23 @@ test('selection usage metadata records latest-window and revisit counts', () => 
   assert.equal(meta.revisitedSelectedCount, 1);
   assert.equal(meta.recencyFilteredCount, 1);
 });
+
+test('a paper takes at most two copies of one template stem, and fills with more only when the pool has nothing else', async () => {
+  const { shapeKey } = await import('../mock_question_selector.js');
+  const names = [['Rahul', 'Varun'], ['Jaya', 'Gaurav'], ['Asha', 'Bina'], ['Kiran', 'Dev'], ['Meera', 'Sam'], ['Om', 'Ravi']];
+  const template = names.map(([a, b], i) => row(`ioc_${i}`, `2026-05-0${i + 1}T00:00:00.000Z`, 'medium', {
+    concept_id: null,
+    body: `${a} and ${b} are partners. ${a}'s capital is ₹${(i + 1) * 40},000 and ${b}'s capital is ₹2,20,000. If the partnership deed provides for interest on capital @ ${i + 5}% p.a., what will be the interest on ${a}'s capital?`,
+  }));
+  const distinct = ['What is a partnership deed?', 'Which account records interest on drawings?', 'When is goodwill raised in the books?']
+    .map((body, i) => row(`d_${i}`, `2026-04-0${i + 1}T00:00:00.000Z`, 'medium', { concept_id: null, body: `${body} Choose the best answer.` }));
+  assert.equal(shapeKey(template[0]), shapeKey(template[5]), 'names, amounts and rates fold into one shape');
+  assert.notEqual(shapeKey(template[0]), shapeKey(distinct[0]));
+  assert.equal(shapeKey({ ...template[0], family_id: 'f1' }), null, 'a family id is left to the family rule');
+  const mode = { difficulty: { easy: 0, medium: 1, hard: 0 } };
+  const five = pickWithConstraints([...template, ...distinct], 5, mode);
+  assert.equal(five.filter((r) => r.id.startsWith('ioc_')).length, 2);
+  assert.equal(five.length, 5);
+  const all = pickWithConstraints([...template, ...distinct], 9, mode);
+  assert.equal(all.length, 9, 'a pool of mostly one template still fills the paper');
+});

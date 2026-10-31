@@ -72,15 +72,37 @@ export function rankCandidates(rows, { mode, progress = new Map(), weakConcepts 
     .map((entry) => entry.row);
 }
 
+// Near-identical template questions (one stem with new numbers and names: "Rahul and Varun ... @ 6% p.a.") mostly carry no
+// family or concept id, so neither cap above catches them and one paper could draw many copies of one template (the 31 Oct
+// pool audit found about 849 such rows in Accountancy). shapeKey folds numbers, amounts and capitalised words (names,
+// software names) out of the stem; a row with a family id is left to the family rule.
+export function shapeKey(row) {
+  if (!row || row.family_id || row.evidence?.record?.family_id) return null;
+  const body = String(row.body || row.question_text || row.question || '');
+  if (body.length < 20) return null;
+  return body
+    .replace(/[₹$]\s?/g, '')
+    .replace(/\b[A-Z][A-Za-z]*(?:['’]s)?/g, 'X')
+    .toLowerCase()
+    .replace(/\brs\.?\s?/g, '')
+    .replace(/\d[\d,.]*/g, '#')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 export function pickWithConstraints(orderedRows, count, mode) {
   const targets = computeDifficultyTargets(count, mode.difficulty);
   const taken = { easy: 0, medium: 0, hard: 0 };
   const conceptCount = new Map();
   const cap = mode.maxPerConcept || 2;
+  const shapeCap = mode.maxPerShape || 2;
   const out = [];
   const used = new Set();
   const families = new Set();
+  const shapes = new Map();
   const familyOf = row => row.family_id || row.evidence?.record?.family_id || null;
+  const shapeFull = (row) => { const k = shapeKey(row); return Boolean(k) && (shapes.get(k) || 0) >= shapeCap; };
+  const countShape = (row) => { const k = shapeKey(row); if (k) shapes.set(k, (shapes.get(k) || 0) + 1); };
 
   const tiers = [...new Set(orderedRows.map(row => Number(row.selection_evidence_tier || 0)))].sort((a,b)=>b-a);
   for (const tier of tiers) {
@@ -91,9 +113,11 @@ export function pickWithConstraints(orderedRows, count, mode) {
     const d = ['easy', 'medium', 'hard'].includes(row.difficulty) ? row.difficulty : 'medium';
     if (taken[d] >= targets[d]) continue;
     if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
+    if (shapeFull(row)) continue;
     out.push(row);
     used.add(row.id);
     if (familyOf(row)) families.add(familyOf(row));
+    countShape(row);
     taken[d]++;
     if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
   }
@@ -104,9 +128,26 @@ export function pickWithConstraints(orderedRows, count, mode) {
       if (used.has(row.id)) continue;
       if (familyOf(row) && families.has(familyOf(row))) continue;
       if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
+      if (shapeFull(row)) continue;
       out.push(row);
       used.add(row.id);
       if (familyOf(row)) families.add(familyOf(row));
+      countShape(row);
+      if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
+    }
+  }
+
+  // Still short: a pool that is mostly one template fills the paper with more copies rather than leaving it short.
+  if (out.length < count) {
+    for (const row of tierRows) {
+      if (out.length >= count) break;
+      if (used.has(row.id)) continue;
+      if (familyOf(row) && families.has(familyOf(row))) continue;
+      if (cap && row.concept_id && (conceptCount.get(row.concept_id) || 0) >= cap) continue;
+      out.push(row);
+      used.add(row.id);
+      if (familyOf(row)) families.add(familyOf(row));
+      countShape(row);
       if (row.concept_id) conceptCount.set(row.concept_id, (conceptCount.get(row.concept_id) || 0) + 1);
     }
   }
