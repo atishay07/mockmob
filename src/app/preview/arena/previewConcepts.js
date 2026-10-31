@@ -32,7 +32,8 @@ function catalog(fixture) {
 export function previewConcepts(url, method, fixture, json) {
   if (fixture.get('view') === 'review') return null;
   if (url.pathname === '/api/me/review' && method === 'GET') {
-    const kind = fixtures[fixture.get('review')] ? fixture.get('review') : 'student';
+    // student=new (E6): a first-time student has done nothing, so the badge and the dock count nothing to revise.
+    const kind = fixtures[fixture.get('review')] ? fixture.get('review') : fixture.get('student') === 'new' ? 'empty' : 'student';
     const out = conceptsReview(fixtures, kind);
     return json(out.body, out.http);
   }

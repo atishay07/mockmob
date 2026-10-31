@@ -514,7 +514,8 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       return json(fixtureTrapsMeet(kind === 'empty' ? 'empty' : 'ready'));
     }
     if (url.pathname === '/api/me/revise' && method === 'GET') {
-      const kind = fixture.get('revise') || 'ready';
+      // student=new (E6): nothing done yet, so nothing is due (an explicit ?revise= still wins).
+      const kind = fixture.get('revise') || (fixture.get('student') === 'new' ? 'empty' : 'ready');
       if (kind === 'down' || state === 'empty') return json({ version: 1, state: 'unavailable', message: 'Revise is not available right now. Try again shortly.', items: [] }, 503);
       if (kind === 'empty') return json(fixtureRevise('empty'));
       if (kind === 'legacy') return json(fixtureReviseLegacy());

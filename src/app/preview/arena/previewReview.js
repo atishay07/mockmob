@@ -64,7 +64,8 @@ function repairFor(item, opts) {
   };
 }
 
-const kind = () => new URLSearchParams(window.location.search).get('review') || 'student1018';
+// student=new (E6): a first-time student has no papers; an explicit ?review= still wins.
+const kind = () => { const q = new URLSearchParams(window.location.search); return q.get('review') || (q.get('student') === 'new' ? 'empty' : 'student1018'); };
 function record() {
   const k = kind();
   const base = RECORDS[k] || student1018;

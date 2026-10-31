@@ -11,6 +11,7 @@ import { Listbox } from '@/components/ui/controls/Listbox';
 import { appendUniqueQuestions, chapterGroups } from '@/../data/explore_feed';
 import ExploreCovers from '@/components/learn2/feed/ExploreCovers';
 import { chapterNameOf } from '@/components/learn2/feed/coverModel';
+import { resolveChapter } from '@/../data/cuet_syllabus.js';
 import { useAuth } from '@/components/AuthProvider';
 import { usePathname, useSearchParams } from 'next/navigation';
 
@@ -155,6 +156,14 @@ export function DiscoveryFeed() {
     const name = chapterNameOf(cover, chapterNames);
     if (name && cover.title) titles.set(name, cover.title);
   }
+  // v2 (R9): a question's meta line says the chapter the cover above it says (its title), not the syllabus name the row carries. The covers'
+  // titles first; a chapter without a cover falls back to the syllabus table's title, cleaned the way Learn cleans it; else the row's own name.
+  const titleOf = (question) => {
+    if (!v2 || !question?.chapter) return null;
+    if (titles.has(question.chapter)) return titles.get(question.chapter);
+    const hit = resolveChapter(question.subject || filters.subject, question.chapter);
+    return hit && !hit.retired && hit.title ? String(hit.title).replace(/\s*\/\s*/g, ' and ').replace(/\s+/g, ' ').trim() : null;
+  };
   // v2, Free at the day's limit: a cover's key sets the Chapter filter and brings the Questions heading into view.
   const openQuestions = (cover) => {
     setFilters((current) => ({ ...current, chapter: chapterNameOf(cover, chapterNames) || '' }));
@@ -196,7 +205,7 @@ export function DiscoveryFeed() {
             </div>
             {chapterState === 'error' && <ErrorState title="Chapter filters did not load" message="You can still practise all chapters." onRetry={() => setChapterRetry((count) => count + 1)} />}
             <div aria-busy={busy}>
-              {page.questions.map((question) => <QuestionCard key={`${filters.subject}-${question.id}`} row={question} onProgressChange={refreshSummary} />)}
+              {page.questions.map((question) => <QuestionCard key={`${filters.subject}-${question.id}`} row={question} onProgressChange={refreshSummary} chapterTitle={titleOf(question)} />)}
               {busy && <div className="ex-loading" role="status"><span>Finding questions…</span><SkeletonLines count={4} /></div>}
             </div>
             {page.state === 'error' && <ErrorState scene="unreachable" title="Questions did not load" message="Your answers above are still here. Try loading this page again." onRetry={() => loadPage(page.error.offset, page.error.reset)} />}

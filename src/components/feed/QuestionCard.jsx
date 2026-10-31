@@ -16,7 +16,8 @@ import { claimFeedMobi, feedMobiOwner, feedMobiServerOwner, subscribeFeedMobi } 
 
 // variant 'saved' (the Saved list): a ruled row, the question first, the options only once the student opens them,
 // no vote control and no save toggle (the row's own actions replace it).
-export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, variant = 'feed', actions = null }) {
+// chapterTitle (Learn v2 Explore only, R9): the chapter's title as the covers and Learn print it, in place of the syllabus name the row carries.
+export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, variant = 'feed', actions = null, chapterTitle = null }) {
   const savedList = variant === 'saved';
   const [open, setOpen] = useState(!savedList);
   const q = row?.questions ?? row ?? {};
@@ -91,7 +92,7 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
 
   return (
     <article ref={card} className="ex-question">
-      <header className="ex-question__meta"><span>{q.chapter || 'Practice question'}</span><span className="ex-difficulty" data-level={q.difficulty}>{['easy', 'medium', 'hard'].includes(q.difficulty) ? q.difficulty : 'Unlabelled'}</span></header>
+      <header className="ex-question__meta"><span>{chapterTitle || q.chapter || 'Practice question'}</span><span className="ex-difficulty" data-level={q.difficulty}>{['easy', 'medium', 'hard'].includes(q.difficulty) ? q.difficulty : 'Unlabelled'}</span></header>
       {(q.passage_text || q.passageText) && <section aria-label="Reading passage" className="ex-passage"><p className="ex-passage__label">Reading passage</p><div>{q.passage_text || q.passageText}</div></section>}
       <h3 className="ex-question__body">{formatQuestionText(q.body ?? q.question ?? 'Question unavailable')}</h3>
       {open ? <div className="ex-options" role="group" aria-label="Answer options">

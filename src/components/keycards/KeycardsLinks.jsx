@@ -9,14 +9,19 @@ import { ChevronRight } from 'lucide-react';
 import { useKeycardsHome } from './api';
 import { countsLine, findChapter, plural } from './kinds';
 import { useCardsLinks } from './links';
+import { useLearn2On } from '../learn2/flag';
+import { useLearnLinks } from '../learn2/links';
 
 export function LearnKeycardsRow() {
   const read = useKeycardsHome();
   const links = useCardsLinks();
+  // Learn v2 on: the one Key cards world is Learn's own (the chapter map), never the v1 /cards pages.
+  const v2 = useLearn2On();
+  const learn = useLearnLinks();
   if (read.state !== 'ready') return null;
   const due = Number(read.data?.today?.due) || 0;
   return (
-    <Link className="cx-row" href={links.home()}>
+    <Link className="cx-row" href={v2 ? learn.home() : links.home()}>
       <b>Key cards</b>
       <span>{due ? `NCERT’s exact lines, chapter by chapter. ${plural(due, 'card')} due today.` : 'NCERT’s exact lines, chapter by chapter, each with its page.'}</span>
       <ChevronRight size={18} aria-hidden="true" />
@@ -27,12 +32,14 @@ export function LearnKeycardsRow() {
 export function ChapterKeycardsLink({ subject, chapter }) {
   const read = useKeycardsHome();
   const links = useCardsLinks();
+  const v2 = useLearn2On();
+  const learn = useLearnLinks();
   if (read.state !== 'ready') return null;
   const row = findChapter(read.data, subject, chapter);
   if (!row || !(Number(row.cards) > 0)) return null;
   const counts = countsLine(row, read.data?.isPro === true);
   return (
-    <Link className="rvw-lesson" href={links.deck(row.key)}>
+    <Link className="rvw-lesson" href={v2 ? learn.cards(row.key) : links.deck(row.key)}>
       <u>Key cards for this chapter</u>
       <small>{counts.open || counts.line}, in NCERT’s exact words</small>
     </Link>
