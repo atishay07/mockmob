@@ -106,14 +106,17 @@ test('preview: the Pro feed keeps its shape, no answer key before an answer, Kee
   const cards = body.items.filter((i) => i.type === 'card');
   const keep = (await call(`/api/learn/runs/${body.id}/rate`, { method: 'POST', body: { itemId: cards[0].id, keep: true } })).body;
   assert.equal(keep.kept, true);
-  assert.match(keep.stamp, /^Back (later today|tomorrow|Mon|Tue|Wed|Thu|Fri|Sat|Sun|in \d+ days)$/);
+  // BUILD-1101 1.1: Keep puts a card not in Revise there as a new card; no return day is scheduled yet.
+  assert.deepEqual([keep.stamp, keep.line], ['In Revise', 'In Revise']);
   // A swipe past without Keep schedules nothing: the second card has no state.
   const end = (await call(`/api/learn/runs/${body.id}/end`)).body;
   assert.equal(end.feed.title, '10 minutes on Admission of a Partner');
   assert.equal(end.feed.kept.count, 1);
   assert.equal(end.feed.kept.cards[0].id, cards[0].card.id);
   assert.equal(end.feed.kept.stamp, keep.stamp);
-  assert.deepEqual(end.feed.lead, { label: 'Another 10 minutes', run: { kind: 'feed', chapterKey: AOP, minutes: 10 } });
+  // BUILD-1101 1.3: "Another 10 minutes" sends fresh, so it never resumes the feed just played.
+  assert.deepEqual(end.feed.lead, { label: 'Another 10 minutes', run: { kind: 'feed', chapterKey: AOP, minutes: 10, fresh: true } });
+  assert.equal(end.feed.kept.line, '1 kept. They are first in Revise.');
   assert.equal(end.feed.free, null);
   assert.match(end.feed.next.label, /^Next chapter: Retirement and Death of a Partner$/);
   assert.equal(end.feed.next.run.kind, 'feed');
@@ -121,19 +124,24 @@ test('preview: the Pro feed keeps its shape, no answer key before an answer, Kee
   assert.equal(again.http, 200, 'Pro plays as many feeds as it likes');
 });
 
-test('preview: Free plays one feed a day; its end says so and the second does not start', async () => {
+// BUILD-1101 1.6 (LK15): Free's one Learn session a day is claimed at the first answered question (a feed opened and left
+// costs nothing), the line names the session, and the 402 code is FREE_SESSION_USED.
+const SESSION_DONE = 'Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.';
+test('preview: Free plays one Learn session a day; its end says so and a second feed does not start', async () => {
   const call = student('free');
   const first = await call('/api/learn/runs', { method: 'POST', body: { chapterKey: AOP, minutes: 10, kind: 'feed' } });
   assert.equal(first.http, 200);
+  const q = first.body.items.find((i) => i.type === 'question');
+  assert.equal((await call(`/api/learn/runs/${first.body.id}/answer`, { method: 'POST', body: { itemId: q.id, choice: 'A' } })).http, 200);
   const end = (await call(`/api/learn/runs/${first.body.id}/end`)).body;
   assert.equal(end.feed.lead, null);
-  assert.deepEqual(end.feed.free, { text: FREE_FEED_DONE });
+  assert.deepEqual(end.feed.free, { text: SESSION_DONE });
   assert.equal(end.feed.next.run, null, 'the next chapter opens its chapter page, not a second feed');
   const second = await call('/api/learn/runs', { method: 'POST', body: { chapterKey: PF, minutes: 10, kind: 'feed' } });
   assert.equal(second.http, 402);
-  assert.deepEqual([second.body.error, second.body.line], ['FREE_FEED_USED', FREE_FEED_DONE]);
+  assert.deepEqual([second.body.error, second.body.line], ['FREE_SESSION_USED', SESSION_DONE]);
   const covers = (await call('/api/learn/covers', { query: { subject: 'accountancy' } })).body;
-  assert.deepEqual(covers.free, { text: FREE_FEED_DONE });
+  assert.deepEqual(covers.free, { text: SESSION_DONE, maxMinutes: 10 });
 });
 
 test('preview: the covers row is the suggested chapter first with the real counts at 5, 10 and 20 minutes', async () => {
@@ -141,10 +149,14 @@ test('preview: the covers row is the suggested chapter first with the real count
   const { http, body } = await call('/api/learn/covers', { query: { subject: 'accountancy' } });
   assert.equal(http, 200);
   assert.deepEqual(body.lengths, [5, 10, 20]);
-  assert.ok(body.covers.length > 1 && body.covers.length <= FEED_RULES.maxCovers);
+  // BUILD-1101 1.8 R12: every playable chapter (no cap of 8); For you = most old mistakes, with its reason and one true line.
+  assert.ok(body.covers.length > FEED_RULES.maxCovers);
   assert.equal(body.covers[0].key, PF);
   assert.equal(body.covers[0].forYou, true);
-  assert.equal(body.covers[0].reason, '3 due, 3 open mistakes');
+  assert.equal(body.covers[0].reason, '3 old mistakes to fix');
+  assert.equal(body.covers[0].studentLine, '3 due, 3 old mistakes');
+  assert.equal(body.covers[0].hook.mustKnow, true);
+  assert.equal(body.covers[1].key, 'accountancy.profit-and-loss-appropriation-account', 'then book order from the chapter after it');
   assert.ok(body.covers.slice(1).every((c) => !c.forYou));
   const aop = body.covers.find((c) => c.key === AOP);
   const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: AOP, minutes: 10, kind: 'feed' } })).body;

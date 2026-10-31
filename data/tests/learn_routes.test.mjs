@@ -1,0 +1,497 @@
+// Learn v2 production handlers (src/lib/server/learn.js, docs/brain/learn-1031/BUILD-1101.md Parts 1 and 2) over the in-memory
+// client with the migration's keys and the Learn functions (keycardsMemoryDb.js, packet S2b's mirrors of
+// learn_start_run and learn_record_event). Decks and a question index are built here, as keycards_routes.test.mjs does. One test per behaviour of
+// A6 section 9 item 1, BUILD-1101 Part 1 and A5 section 4 that lives at handler level.
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { createKeycards } from '../../src/lib/server/keycards.js';
+import { fakeDb } from '../../src/lib/server/keycardsMemoryDb.js';
+import { syllabusFrom } from '../../src/lib/server/keycardsSyllabus.js';
+import { createLearn, clientKeyOf, FREE_SESSION_DONE, FREE_CAPPED, FREE_CARDS_ONLY, keyLetter, servedOptions, mistakeText } from '../../src/lib/server/learn.js';
+import { toState } from '../../src/lib/server/learnStore.js';
+import { istDay, schedule } from '../keycards.js';
+
+const HOUR = 3_600_000;
+const DAY = 24 * HOUR;
+const T0 = Date.parse('2026-11-02T18:00:00+05:30');
+const PL = 'business_studies.planning';
+const ST = 'business_studies.staffing';
+
+// ---------------------------------------------------------------- decks and questions built in the test
+const mk = (slug, i, over = {}) => ({
+  id: `kc.business_studies.${slug}.def-c${i}`, v: 1, subject: 'business_studies', chapterKey: `business_studies.${slug}`,
+  chapter: slug, unit: slug, kind: 'definition', front: `What is ${slug} ${i}?`, back: `Line ${i} of ${slug}.`,
+  quote: `Line ${i} of ${slug} about planning objectives and premises.`, blanks: [], importance: i <= 6 ? 'must' : 'good', asked: 0, tags: [], order: i * 10,
+  source: { kind: 'ncert', book: 'Business Studies Part 1', code: 'lebs104', chapterNo: 4, page: 90 + i, section: i <= 4 ? 'Meaning' : 'Features' }, ...over,
+});
+const PLANNING = Array.from({ length: 14 }, (_, i) => mk('planning', i + 1));
+const STAFFING = Array.from({ length: 4 }, (_, i) => mk('staffing', i + 1));
+const CARDS = [...PLANNING, ...STAFFING];
+const LINKS = { 'q-p1': [PLANNING[0].id], 'q-p2': [PLANNING[9].id], 'q-p3': [PLANNING[1].id] };
+const decks = () => ({
+  bySubject: new Map([['business_studies', { version: 1, cards: CARDS }]]),
+  byId: new Map(CARDS.map((c) => [c.id, c])),
+  links: new Map([['business_studies', LINKS]]),
+  disabled: [],
+});
+const DIFF = ['easy', 'medium', 'hard'];
+const QROWS = [
+  ...Array.from({ length: 12 }, (_, i) => ({ id: `q-p${i + 1}`, chapter: 'Planning', difficulty: DIFF[i % 3] })),
+  ...Array.from({ length: 4 }, (_, i) => ({ id: `q-s${i + 1}`, chapter: 'Staffing', difficulty: DIFF[i % 3] })),
+  { id: 'q-held', chapter: 'Planning', difficulty: 'easy' },
+].map((q) => ({
+  ...q, subject: 'business_studies', question: `Which statement about ${q.chapter.toLowerCase()} is true (${q.id})?`,
+  options: ['A. The right one', 'B. A wrong one', 'C. Another wrong one', 'D. The last wrong one'], correct_answer: 'A',
+  explanation: `Because of the line in ${q.chapter}.`, status: 'live', is_deleted: false, verification_state: 'verified', content_hash: `h-${q.id}`, updated_at: '2026-10-01T00:00:00Z',
+}));
+const syllabus = syllabusFrom(null);
+const index = (rows = QROWS) => ({
+  list: rows.map((r) => ({
+    id: r.id, subject: r.subject, chapter: r.chapter, chapterKey: syllabus.resolveChapter(r.subject, r.chapter).key, body: r.question,
+    options: servedOptions(r.options), words: r.question.split(/\s+/).length, difficulty: r.difficulty, cards: LINKS[r.id] || [], chash: r.content_hash, managed: false,
+  })),
+});
+
+function setup({ isPro = false, tables = {}, held = new Set(['q-held']), clock = { t: T0 }, places = null } = {}) {
+  const db = fakeDb({ questions: QROWS.map((r) => ({ ...r })), ...tables });
+  const D = decks();
+  const user = { isPremium: isPro, subjects: ['business_studies'] };
+  const kc0 = createKeycards({ db, decks: D, syllabus, now: () => clock.t, getUser: async () => user });
+  const calls = [];
+  const kc = { ...kc0, review: async (u, body, opts) => { calls.push({ fn: 'review', body, opts }); return kc0.review(u, body, opts); }, add: async (u, body) => { calls.push({ fn: 'add', body }); return kc0.add(u, body); } };
+  const learn = createLearn({
+    db, kc, decks: D, syllabus, getUser: async () => user, questionIndex: async () => index(),
+    heldQuestions: async () => (held instanceof Error ? Promise.reject(held) : held),
+    mistakePlaces: places, now: () => clock.t, warn: () => {},
+  });
+  return { db, learn, kc, calls, clock, user, tables: db.tables };
+}
+const P = (o) => new URLSearchParams(o);
+const runOf = (tables, id) => tables.learn_runs.find((r) => r.id === id);
+const wrongMistake = (qid, at) => ({ user_id: 'u1', question_id: qid, subject: 'business_studies', chapter: 'Planning', attempt_count: 1, last_correct: false, last_selected_key: 'C', last_attempted_at: new Date(at).toISOString() });
+const noKeys = (body) => {
+  for (const item of body.items.filter((i) => i.type === 'question')) {
+    assert.deepEqual(Object.keys(item.question).sort(), ['body', 'id', 'options']);
+    assert.ok(!('key' in item) && !('correct' in item) && !('explanation' in item));
+  }
+  assert.ok(!JSON.stringify(body).includes('correct_answer'));
+};
+
+// ---------------------------------------------------------------- pure helpers
+
+test('helpers: the served options strip a repeated letter, the key is the live row\'s, the review key is per item', () => {
+  const opts = servedOptions(['A. One', 'B. Two', 'C. Three', 'D. Four']);
+  assert.deepEqual(opts.map((o) => o.text), ['One', 'Two', 'Three', 'Four']);
+  assert.equal(keyLetter({ correct_answer: 'C', options: ['x', 'y', 'z', 'w'] }), 'C');
+  assert.equal(keyLetter({ correct_index: 1, options: ['x', 'y', 'z', 'w'] }), 'B');
+  assert.equal(servedOptions('["p","q"]').length, 2);
+  assert.match(clientKeyOf('lr_x', 'lr_x-i1'), /^learn:[0-9a-f]{40}$/);
+  assert.notEqual(clientKeyOf('lr_x', 'lr_x-i1'), clientKeyOf('lr_x', 'lr_x-i2'));
+  assert.equal(mistakeText('Mock 4', Date.parse('2026-10-24T10:00:00+05:30'), T0), 'You missed this in Mock 4 on 24 Oct');
+  assert.equal(mistakeText('Learn', T0 - DAY, T0), 'You missed this yesterday');
+  const stub = toState({ card_id: 'c', reps: 1, due_at: 'x', st: 3.2, lr: '2026-10-30T00:00:00Z', sst: 2, sdue: '2026-11-03T00:00:00Z' });
+  assert.deepEqual(stub.schedule, { stability: 3.2, last_review: '2026-10-30T00:00:00Z', state: 2, due: '2026-11-03T00:00:00Z' });
+});
+
+// ---------------------------------------------------------------- subject
+
+test('subject: a new Free student, counts true to the tables, a held question not counted, a failed read is 503', async () => {
+  const { learn, db } = setup();
+  const { http, body } = await learn.subject('u1', P({ subject: 'business_studies' }));
+  assert.equal(http, 200);
+  assert.equal(body.plan, 'free');
+  assert.equal(body.student.isNew, true);
+  assert.equal(body.free, null, 'no Free line before the day is claimed');
+  const rows = body.parts.flatMap((p) => p.units.flatMap((u) => u.chapters));
+  const pl = rows.find((r) => r.key === PL);
+  assert.deepEqual([pl.cards, pl.questions, pl.mistakes, pl.due], [14, 12, 0, 0], 'q-held is not counted');
+  assert.equal(body.suggestions.length, 3);
+  assert.equal((await learn.subject('u1', P({ subject: 'physics_nope' }))).http, 404);
+  db.failures.user_question_progress = () => true;
+  await assert.rejects(() => learn.subject('u1', P({ subject: 'business_studies' })), /LEARN_UNAVAILABLE/, 'unknown is never a zero');
+});
+
+test('subject: an old mistake is open; one from today rests a day (R10.1)', async () => {
+  const tables = { user_question_progress: [wrongMistake('q-p3', T0 - 3 * DAY), wrongMistake('q-p4', T0 - HOUR)] };
+  const { learn } = setup({ tables, isPro: true });
+  const body = (await learn.subject('u1', P({ subject: 'business_studies' }))).body;
+  const pl = body.parts.flatMap((p) => p.units.flatMap((u) => u.chapters)).find((r) => r.key === PL);
+  assert.equal(pl.mistakes, 1);
+  assert.equal(pl.meta, '1 open mistake');
+});
+
+// ---------------------------------------------------------------- preview
+
+test('preview: Free at 20 is composed at 10 with the capped line; Pro at 20 is 20', async () => {
+  const free = (await setup().learn.preview('u1', { chapterKey: PL, minutes: 20, leaveOut: [] })).body;
+  assert.deepEqual(free.capped, { asked: 20, text: FREE_CAPPED });
+  assert.equal(free.minutes, 10);
+  assert.equal(free.freeSession.used, false);
+  const free10 = (await setup().learn.preview('u1', { chapterKey: PL, minutes: 10, leaveOut: [] })).body;
+  assert.equal(free10.capped, null, 'the line shows only past the limit');
+  const pro = (await setup({ isPro: true }).learn.preview('u1', { chapterKey: PL, minutes: 20, leaveOut: [] })).body;
+  assert.equal(pro.minutes, 20);
+  assert.equal(pro.capped, null);
+  assert.equal((await setup().learn.preview('u1', { chapterKey: 'business_studies.nope', minutes: 10 })).http, 404);
+});
+
+// ---------------------------------------------------------------- start
+
+test('start: a replayed request key is the same run, one row; no keys in the body; exposure rows written', async () => {
+  const { learn, tables } = setup({ isPro: true });
+  const a = await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'tap-0001-abc' });
+  assert.equal(a.http, 200);
+  noKeys(a.body);
+  assert.equal(a.body.asked, 10);
+  assert.ok(a.body.items.every((i) => Number.isFinite(i.seconds) && i.seconds > 0), 'every item carries seconds');
+  const b = await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'tap-0001-abc' });
+  assert.equal(b.body.id, a.body.id);
+  assert.equal(tables.learn_runs.length, 1);
+  const qids = a.body.items.filter((i) => i.type === 'question').map((i) => i.question.id);
+  assert.ok(qids.length > 0);
+  assert.deepEqual(tables.learning_question_exposure.map((e) => e.question_id).sort(), [...qids].sort());
+  assert.ok(!qids.includes('q-held'), 'a held Mob question is never served');
+  assert.equal((await learn.start('u1', { chapterKey: PL, kind: 'mix', requestKey: 'bad key!' })).http, 422);
+  assert.equal((await learn.start('u1', { kind: 'mix' })).http, 422);
+  assert.equal((await learn.start('u1', { chapterKey: ST, kind: 'feed', requestKey: 'tap-0001-abc' })).http, 409, 'a key reused for another chapter');
+});
+
+test('start: a held-question read that fails serves no question (fail closed)', async () => {
+  const { learn } = setup({ isPro: true, held: new Error('attempts unread') });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'tap-held-0001' })).body;
+  assert.ok(run.items.length > 0 && run.items.every((i) => i.type === 'card'));
+});
+
+test('start: the same chapter and kind on the same India day resumes; fresh starts another; a resume id resumes', async () => {
+  const { learn, tables } = setup({ isPro: true });
+  const first = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'feed', requestKey: 'feed-0001-aa' })).body;
+  const again = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'feed', requestKey: 'feed-0002-aa' })).body;
+  assert.equal(again.id, first.id);
+  assert.deepEqual(again.resumed, { done: 0, of: first.items.length });
+  const fresh = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'feed', requestKey: 'feed-0003-aa', fresh: true })).body;
+  assert.notEqual(fresh.id, first.id);
+  assert.equal(tables.learn_runs.length, 2);
+  const byId = (await learn.start('u1', { resume: first.id, requestKey: 'feed-0004-aa' })).body;
+  assert.equal(byId.id, first.id);
+});
+
+// ---------------------------------------------------------------- LK15
+
+test('LK15: the claim is at the first answered question; then a feed is 402, a chapter run is Key cards only; a refresh resumes', async () => {
+  const s = setup();
+  const { learn, tables } = s;
+  const feed = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'free-feed-0001' })).body;
+  assert.equal(tables.learning_allowances.filter((r) => r.kind === 'learn_session').length, 0, 'opening a feed costs nothing');
+  const q = feed.items.find((i) => i.type === 'question');
+  const ans = await learn.answer('u1', feed.id, { itemId: q.id, choice: 'A' });
+  assert.equal(ans.http, 200);
+  const rows = tables.learning_allowances.filter((r) => r.kind === 'learn_session');
+  assert.deepEqual(rows.map((r) => [r.period, r.reference]), [[`${istDay(T0)}:1`, feed.id]]);
+  assert.equal(runOf(tables, feed.id).session_claimed, true);
+  // A refresh of the claimed feed resumes it (200, never 402).
+  const back = await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'free-feed-0002' });
+  assert.equal(back.http, 200);
+  assert.equal(back.body.id, feed.id);
+  // Another feed: 402 with the line and the ways that still work today.
+  const other = await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'feed', requestKey: 'free-feed-0003' });
+  assert.equal(other.http, 402);
+  assert.deepEqual([other.body.error, other.body.reason, other.body.line], ['FREE_SESSION_USED', 'learn_session', FREE_SESSION_DONE]);
+  assert.ok(other.body.options.some((o) => o.label === 'Questions on this chapter in Explore'));
+  assert.equal(other.body.resume.id, feed.id);
+  // A chapter run: Key cards only, with the line.
+  const mix = await learn.start('u1', { chapterKey: ST, minutes: 10, kind: 'mix', requestKey: 'free-mix-00001' });
+  assert.equal(mix.http, 200);
+  assert.ok(mix.body.items.every((i) => i.type === 'card'));
+  assert.deepEqual(mix.body.free, { text: FREE_CARDS_ONLY });
+  // Not counted: cards, recap and level start as usual.
+  for (const kind of ['cards', 'recap', 'level']) assert.equal((await learn.start('u1', { chapterKey: ST, minutes: 5, kind, requestKey: `free-${kind}-00001` })).http, 200, kind);
+  // Covers and Learn home show the line now (only at the real limit).
+  assert.deepEqual((await learn.covers('u1', P({ subject: 'business_studies' }))).body.free, { text: FREE_SESSION_DONE, maxMinutes: 10 });
+  assert.deepEqual((await learn.subject('u1', P({ subject: 'business_studies' }))).body.free, { text: FREE_SESSION_DONE, maxMinutes: 10 });
+});
+
+test('LK15: an answer in a second tab\'s run is 402 and writes nothing; 11:50 pm and 12:10 am are two days; Pro is never limited', async () => {
+  const clock = { t: Date.parse('2026-11-02T23:40:00+05:30') };
+  const { learn, tables } = setup({ clock });
+  const a = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'mix', requestKey: 'tab-one-00001' })).body;
+  const b = (await learn.start('u1', { chapterKey: ST, minutes: 5, kind: 'mix', requestKey: 'tab-two-00001' })).body;
+  clock.t = Date.parse('2026-11-02T23:50:00+05:30');
+  assert.equal((await learn.answer('u1', a.id, { itemId: a.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+  const before = tables.learn_run_events.length;
+  const second = await learn.answer('u1', b.id, { itemId: b.items.find((i) => i.type === 'question').id, choice: 'A' });
+  assert.equal(second.http, 402);
+  assert.equal(second.body.line, FREE_SESSION_DONE);
+  assert.equal(tables.learn_run_events.length, before, 'nothing written');
+  clock.t = Date.parse('2026-11-03T00:10:00+05:30');
+  const c = (await learn.start('u1', { chapterKey: ST, minutes: 5, kind: 'mix', requestKey: 'next-day-00001' })).body;
+  assert.ok(c.items.some((i) => i.type === 'question'), 'a new India day, a new session');
+  assert.equal((await learn.answer('u1', c.id, { itemId: c.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+  const pro = setup({ isPro: true });
+  for (let k = 0; k < 3; k += 1) {
+    const r = (await pro.learn.start('u1', { chapterKey: PL, minutes: 20, kind: 'feed', requestKey: `pro-feed-000${k}`, fresh: true })).body;
+    assert.equal((await pro.learn.answer('u1', r.id, { itemId: r.items.find((i) => i.type === 'question').id, choice: 'A' })).http, 200);
+  }
+  assert.equal(pro.tables.learning_allowances.filter((r) => r.kind === 'learn_session').length, 0, 'Pro: no row');
+});
+
+// ---------------------------------------------------------------- getRun
+
+test('GET runs/:id: the own run with only the undone items; another student\'s is 404; an ended run is 409 RUN_ENDED', async () => {
+  const { learn } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'mix', requestKey: 'get-run-00001' })).body;
+  await learn.rate('u1', run.id, { itemId: run.items[0].id, rating: 3 });
+  const got = await learn.getRun('u1', run.id);
+  assert.equal(got.http, 200);
+  assert.deepEqual(got.body.resumed, { done: 1, of: run.items.length });
+  assert.equal(got.body.items.length, run.items.length - 1);
+  assert.equal((await learn.getRun('u2', run.id)).http, 404);
+  await learn.end('u1', run.id);
+  const ended = await learn.getRun('u1', run.id);
+  assert.equal(ended.http, 409);
+  assert.equal(ended.body.error, 'RUN_ENDED');
+  assert.match(ended.body.endHref, /^\/learn\/run\?run=/);
+});
+
+// ---------------------------------------------------------------- answer
+
+test('answer: graded on the server; a replay is identical and counts nothing twice; the interaction is flow_context learn', async () => {
+  const { learn, tables } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'answer-00001' })).body;
+  const q = run.items.find((i) => i.type === 'question');
+  const wrong = await learn.answer('u1', run.id, { itemId: q.id, choice: 'B' });
+  assert.equal(wrong.http, 200);
+  assert.deepEqual([wrong.body.correct, wrong.body.key], [false, 'A']);
+  assert.ok(wrong.body.explanation.startsWith('Because'));
+  const again = await learn.answer('u1', run.id, { itemId: q.id, choice: 'A' });
+  assert.deepEqual(again.body, wrong.body, 'graded once');
+  const prog = tables.user_question_progress.filter((r) => r.question_id === q.question.id);
+  assert.equal(prog.length, 1);
+  assert.deepEqual([prog[0].attempt_count, prog[0].last_selected_key, prog[0].last_correct], [1, 'B', false]);
+  assert.deepEqual(tables.question_interactions.map((r) => [r.flow_context, r.session_id, r.metadata.selected_key]), [['learn', run.id, 'B']]);
+  assert.equal((await learn.answer('u1', run.id, { itemId: run.items.find((i) => i.type === 'card').id, choice: 'A' })).http, 422);
+  assert.equal((await learn.answer('u1', run.id, { itemId: run.items.filter((i) => i.type === 'question')[1].id, choice: 'Z' })).http, 422);
+  assert.equal((await learn.answer('u2', run.id, { itemId: q.id, choice: 'A' })).http, 404);
+});
+
+test('answer: a changed or held question is 409 and writes nothing; an expired run is 409 RUN_EXPIRED', async () => {
+  const clock = { t: T0 };
+  const s = setup({ isPro: true, clock });
+  const run = (await s.learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'answer-00002' })).body;
+  const [q1, q2] = run.items.filter((i) => i.type === 'question');
+  s.tables.questions.find((r) => r.id === q1.question.id).content_hash = 'edited';
+  assert.deepEqual([(await s.learn.answer('u1', run.id, { itemId: q1.id, choice: 'A' })).body.error], ['QUESTION_CHANGED']);
+  s.tables.questions.find((r) => r.id === q2.question.id).verification_state = 'disputed';
+  assert.deepEqual((await s.learn.answer('u1', run.id, { itemId: q2.id, choice: 'A' })).body.error, 'QUESTION_CHANGED', 'a disputed row is not graded');
+  assert.equal(s.tables.learn_run_events.length, 0);
+  assert.equal((s.tables.user_question_progress || []).length, 0);
+  const held = setup({ isPro: true, held: new Set() });
+  const r2 = (await held.learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'answer-00003' })).body;
+  const hq = r2.items.find((i) => i.type === 'question');
+  const heldNow = setup({ isPro: true, held: new Set([hq.question.id]), tables: held.tables });
+  assert.equal((await heldNow.learn.answer('u1', r2.id, { itemId: hq.id, choice: 'A' })).body.error, 'QUESTION_HELD');
+  clock.t = T0 + 49 * HOUR;
+  const q3 = run.items.filter((i) => i.type === 'question')[2];
+  assert.equal((await s.learn.answer('u1', run.id, { itemId: q3.id, choice: 'A' })).body.error, 'RUN_EXPIRED');
+});
+
+test('answer: a retried mistake is graded as Revise grades it (right: back to check it held), and moves no progress', async () => {
+  const tables = { user_question_progress: [wrongMistake('q-p3', Date.parse('2026-10-24T10:40:00+05:30'))] };
+  const { learn, tables: db } = setup({ isPro: true, tables, places: async () => new Map([['q-p3', 'Mock 4']]) });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'mistake-0001' })).body;
+  const m = run.items.find((i) => i.type === 'question' && i.origin === 'mistake');
+  assert.deepEqual(m.mistake, { where: 'Mock 4', when: '24 Oct', label: 'You missed this in Mock 4 on 24 Oct' });
+  const right = (await learn.answer('u1', run.id, { itemId: m.id, choice: 'A' })).body;
+  assert.equal(right.fixed, true);
+  assert.equal(right.retired, false);
+  assert.match(right.fixedText, /^Right this time\. Back (on (Mon|Tue|Wed|Thu|Fri|Sat|Sun)|tomorrow) to check it held\.$/);
+  const card = db.revise_cards.find((c) => c.question_id === 'q-p3');
+  assert.deepEqual([card.box, card.state], [2, 'active']);
+  assert.deepEqual([db.user_question_progress[0].attempt_count, db.user_question_progress[0].last_correct], [1, false], 'a retry moves no accuracy');
+  const after = (await learn.subject('u1', P({ subject: 'business_studies' }))).body;
+  assert.equal(after.parts.flatMap((p) => p.units.flatMap((u) => u.chapters)).find((r) => r.key === PL).mistakes, 0, 'not due again until it is checked');
+});
+
+test('answer: the line\'s card still ahead moves closer, no copy (R7); a card already shown comes back once, tagged', async () => {
+  const { learn, tables } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 20, kind: 'mix', requestKey: 'reinsert-0001' })).body;
+  const items = run.items;
+  const linked = items.findIndex((i) => i.type === 'question' && i.question.id === 'q-p1');
+  if (linked >= 0) {
+    const ahead = items.findIndex((i) => i.type === 'card' && i.card.id === PLANNING[0].id) > linked;
+    const out = (await learn.answer('u1', run.id, { itemId: items[linked].id, choice: 'B' })).body;
+    assert.ok(out.line?.card?.id === PLANNING[0].id);
+    const ids = runOf(tables, run.id).items.filter((i) => i.type === 'card').map((i) => i.cardId);
+    if (ahead) {
+      assert.equal(new Set(ids).size, ids.length, 'a card still ahead is moved, never copied');
+      assert.equal(out.reinsert.moved, true);
+      assert.ok(out.reinsert.at <= linked + 3);
+    } else {
+      assert.equal(ids.filter((id) => id === PLANNING[0].id).length, 2, 'shown before: one copy');
+      assert.equal(out.reinsert.item.reason, 'earlier');
+    }
+  }
+  // A question whose card is not in the run: the line's card is put in, tagged "line".
+  const q2 = items.find((i) => i.type === 'question' && i.question.id === 'q-p2');
+  if (q2 && !items.some((i) => i.type === 'card' && i.card.id === PLANNING[9].id)) {
+    const out = (await learn.answer('u1', run.id, { itemId: q2.id, choice: 'B' })).body;
+    assert.equal(out.reinsert.item.reason, 'line');
+    assert.equal(out.reinsert.item.card.id, PLANNING[9].id);
+  }
+});
+
+test('answer on Free: a line whose card is not open takes a keycard_line slot (R14), else the locked line', async () => {
+  const { learn, tables } = setup();
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'free-line-001' })).body;
+  const q2 = run.items.find((i) => i.type === 'question' && i.question.id === 'q-p2');
+  if (!q2) return; // the composer did not pick it at this length
+  const out = (await learn.answer('u1', run.id, { itemId: q2.id, choice: 'B' })).body;
+  assert.equal(out.line.card.id, PLANNING[9].id, 'a Good-to-know card shown through the line allowance');
+  assert.equal(out.reinsert, null, 'a card that is not open is never put in the run');
+  assert.equal(tables.learning_allowances.filter((r) => r.kind === 'keycard_line').length, 1);
+});
+
+// ---------------------------------------------------------------- rate and keep
+
+test('rate: Got it stamps a real date; Missed comes back once; its re-rating is a last look with the first stamp; withToday false', async () => {
+  const { learn, tables, calls } = setup({ isPro: true });
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'cards', requestKey: 'rate-000001' })).body;
+  const got = (await learn.rate('u1', run.id, { itemId: run.items[0].id, rating: 3 })).body;
+  assert.match(got.stamp, /^Back (tomorrow|Mon|Tue|Wed|Thu|Fri|Sat|Sun|in \d+ days|later today)$/);
+  assert.equal(got.revisePile.count, 1);
+  const missed = (await learn.rate('u1', run.id, { itemId: run.items[1].id, rating: 1 })).body;
+  assert.equal(missed.stamp, 'Back later in this run');
+  assert.equal(missed.reinsert.at, 4);
+  assert.equal(missed.reinsert.item.stage, 'again');
+  const replay = (await learn.rate('u1', run.id, { itemId: run.items[1].id, rating: 3 })).body;
+  assert.equal(replay.replay, true);
+  const reviews = () => tables.key_card_reviews.filter((r) => r.card_id === run.items[1].card.id);
+  assert.equal(reviews().length, 1, 'a retried rating rates once');
+  const back = (await learn.rate('u1', run.id, { itemId: missed.reinsert.itemId, rating: 3 })).body;
+  assert.equal(back.again, true);
+  assert.equal(reviews().length, 2);
+  assert.equal(reviews()[1].mode, 'last_look', 'no second schedule move');
+  assert.ok(calls.filter((c) => c.fn === 'review').every((c) => c.opts.withToday === false && /^learn:/.test(c.opts.clientKey)));
+  const end = (await learn.end('u1', run.id)).body;
+  assert.equal(end.numbers.cards, 2, 'distinct cards');
+  assert.equal(end.numbers.detail.cards, '1 got it, 1 missed', 'first ratings');
+});
+
+test('keep: an add (manual, reps 0), no review and no allowance; a card already in Revise writes nothing; a replay', async () => {
+  const at = T0 - 2 * DAY;
+  const s = schedule(null, 3, at);
+  const held = { user_id: 'u1', card_id: PLANNING[2].id, subject: 'business_studies', chapter_key: PL, schedule: s.schedule, reps: 1, lapses: 0, due_at: s.due_at, last_review_at: new Date(at).toISOString(), last_rating: 3, added_from: 'chapter', added_at: new Date(at).toISOString(), suspended: false };
+  const { learn, tables } = setup({ isPro: true, tables: { key_card_states: [held] } });
+  const feed = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'feed', requestKey: 'keep-000001' })).body;
+  const card = feed.items.find((i) => i.type === 'card' && i.card.id !== PLANNING[2].id);
+  const kept = (await learn.rate('u1', feed.id, { itemId: card.id, keep: true })).body;
+  assert.deepEqual([kept.kept, kept.stamp, kept.line], [true, 'In Revise', 'In Revise']);
+  const row = tables.key_card_states.find((r) => r.card_id === card.card.id);
+  assert.deepEqual([row.added_from, row.reps], ['manual', 0]);
+  assert.equal((tables.key_card_reviews || []).length, 0);
+  assert.equal((tables.learning_allowances || []).length, 0);
+  assert.equal((await learn.rate('u1', feed.id, { itemId: card.id, keep: true })).body.replay, true);
+  const heldItem = feed.items.find((i) => i.type === 'card' && i.card.id === PLANNING[2].id);
+  if (heldItem) {
+    const k2 = (await learn.rate('u1', feed.id, { itemId: heldItem.id, keep: true })).body;
+    assert.match(k2.stamp, /^Back /);
+    assert.match(k2.line, /^In Revise, back /);
+  }
+  const end = (await learn.end('u1', feed.id)).body;
+  assert.equal(end.feed.kept.line, `${end.feed.kept.count} kept. They are first in Revise.`);
+  assert.equal(end.feed.lead.run.fresh, true, '"Another 10 minutes" starts a new feed');
+});
+
+test('the feed never serves a due card, and moves forward: two feeds in a row share no card while the chapter has unshown cards', { todo: 'the feed card pool is packet S1 (data/learn/compose.js, BUILD-1101 1.2); learn.js passes shownAt' }, async () => {
+  const at = T0 - 6 * DAY;
+  const due = PLANNING.slice(0, 2).map((c) => { const s = schedule(null, 3, at); return { user_id: 'u1', card_id: c.id, subject: 'business_studies', chapter_key: PL, schedule: s.schedule, reps: 1, lapses: 0, due_at: s.due_at, last_review_at: new Date(at).toISOString(), last_rating: 3, added_from: 'chapter', added_at: new Date(at).toISOString(), suspended: false }; });
+  const { learn } = setup({ isPro: true, tables: { key_card_states: due } });
+  const a = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'feed', requestKey: 'fwd-000001' })).body;
+  const cardsA = a.items.filter((i) => i.type === 'card').map((i) => i.card.id);
+  for (const id of due.map((d) => d.card_id)) assert.ok(!cardsA.includes(id) || a.items.find((i) => i.card?.id === id)?.look, 'a due card stays Revise\'s');
+  // Act on the last item so every card before it counts as shown.
+  const last = a.items[a.items.length - 1];
+  if (last.type === 'question') await learn.answer('u1', a.id, { itemId: last.id, choice: 'A' });
+  else await learn.rate('u1', a.id, { itemId: last.id, keep: true });
+  await learn.end('u1', a.id);
+  const b = (await learn.start('u1', { chapterKey: PL, minutes: 5, kind: 'feed', requestKey: 'fwd-000002', fresh: true })).body;
+  const cardsB = b.items.filter((i) => i.type === 'card').map((i) => i.card.id);
+  const unshown = PLANNING.filter((c) => !cardsA.includes(c.id) && !due.some((d) => d.card_id === c.id)).length;
+  if (unshown >= cardsB.length) assert.deepEqual(cardsB.filter((id) => cardsA.includes(id)), [], 'S1 feed pool (BUILD-1101 1.2)');
+});
+
+// ---------------------------------------------------------------- end
+
+test('end: numbers, ended_at once, and Free after the claim leads with the line and offers nothing that serves questions', async () => {
+  const { learn, tables } = setup();
+  const run = (await learn.start('u1', { chapterKey: PL, minutes: 10, kind: 'mix', requestKey: 'end-000001' })).body;
+  const qs = run.items.filter((i) => i.type === 'question');
+  await learn.answer('u1', run.id, { itemId: qs[0].id, choice: 'A' });
+  await learn.answer('u1', run.id, { itemId: qs[1].id, choice: 'B' });
+  const end = (await learn.end('u1', run.id)).body;
+  assert.equal(end.numbers.questions, 2);
+  assert.equal(end.lines.find((l) => l.label === 'Questions').text, '1 of 2 right');
+  assert.equal(end.title, '10 minutes on Planning');
+  assert.deepEqual([end.lead.line, end.lead.label, end.lead.href], [FREE_SESSION_DONE, 'See Pro', '/pricing']);
+  assert.ok(end.options.every((o) => !(o.run && ['mix', 'feed'].includes(o.run.kind))), 'no option serves questions');
+  const endedAt = runOf(tables, run.id).ended_at;
+  assert.ok(endedAt);
+  const twice = (await learn.end('u1', run.id)).body;
+  assert.deepEqual(twice.numbers, end.numbers);
+  assert.equal(runOf(tables, run.id).ended_at, endedAt, 'ended once');
+  assert.equal((await learn.end('u1', 'lr_nope')).http, 404);
+});
+
+// ---------------------------------------------------------------- cards, shelves, search, covers
+
+test('cards: the four filters, the locked line on Free, and the subject-wide read equals the per-chapter reads', async () => {
+  const { learn } = setup();
+  const pl = (await learn.cards('u1', P({ chapter: PL, filter: 'all' }))).body;
+  assert.deepEqual([pl.counts.total, pl.counts.all], [14, 5]);
+  assert.equal(pl.lockedLine, '9 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule.');
+  const all = (await learn.cards('u1', P({ subject: 'business_studies', filter: 'all' }))).body;
+  const st = (await learn.cards('u1', P({ chapter: ST, filter: 'all' }))).body;
+  assert.deepEqual(all.chapters.map((c) => c.key), [PL, ST]);
+  assert.deepEqual(all.chapters[0].cards.map((c) => c.id), pl.sections.flatMap((s) => s.cards).map((c) => c.id));
+  assert.deepEqual(all.chapters[1].cards.map((c) => c.id), st.sections.flatMap((s) => s.cards).map((c) => c.id));
+  assert.equal(all.lockedCount, pl.lockedCount + st.lockedCount);
+  for (const filter of ['must', 'revise', 'missed']) assert.equal((await learn.cards('u1', P({ chapter: PL, filter }))).http, 200);
+});
+
+test('shelves: the all-subject due count is the Key cards service\'s own (E2)', async () => {
+  const at = T0 - 6 * DAY;
+  const s = schedule(null, 3, at);
+  const due = { user_id: 'u1', card_id: PLANNING[0].id, subject: 'business_studies', chapter_key: PL, schedule: s.schedule, reps: 1, lapses: 0, due_at: s.due_at, last_review_at: new Date(at).toISOString(), last_rating: 1, added_from: 'chapter', added_at: new Date(at).toISOString(), suspended: false };
+  const { learn, kc } = setup({ tables: { key_card_states: [due] } });
+  const body = (await learn.shelves('u1', P({ subject: 'business_studies' }))).body;
+  assert.equal(body.due.all, await kc.dueCount('u1'));
+  assert.equal(body.due.count, 1);
+  assert.equal(body.missed.count, 1);
+});
+
+test('search: Free stubs never carry locked words', async () => {
+  const { learn } = setup();
+  const out = (await learn.search('u1', P({ subject: 'business_studies', q: 'planning objectives' }))).body;
+  assert.ok(out.cards.length > 0);
+  for (const r of out.cards.filter((x) => x.locked)) assert.equal(r.card.front, undefined);
+});
+
+test('covers: every playable chapter, For you first with its reason, the hook, one true line, counts at 5, 10 and 20', async () => {
+  const tables = { user_question_progress: [wrongMistake('q-s1', T0 - 3 * DAY)] };
+  tables.user_question_progress[0].chapter = 'Staffing';
+  const { learn } = setup({ tables });
+  const body = (await learn.covers('u1', P({ subject: 'business_studies' }))).body;
+  assert.deepEqual(body.lengths, [5, 10, 20]);
+  assert.deepEqual(body.covers.map((c) => c.key), [ST, PL], 'For you, then book order from the next chapter, wrapping');
+  const st = body.covers[0];
+  assert.deepEqual([st.forYou, st.reason, st.studentLine, st.mistakes], [true, '1 old mistake to fix', '1 old mistake', 1]);
+  assert.deepEqual(Object.keys(st.hook).sort(), ['front', 'kind', 'mustKnow']);
+  assert.equal(st.ref, null);
+  assert.equal(st.art, null);
+  const pl = body.covers[1];
+  assert.deepEqual([pl.forYou, pl.reason, pl.studentLine], [false, null, 'New to you']);
+  for (const c of body.covers) {
+    assert.ok(c.counts[5].cards <= c.counts[10].cards);
+    assert.deepEqual(c.counts[20], { ...c.counts[10], capped: true }, 'Free: 20 is composed as 10');
+  }
+  assert.equal(body.free, null);
+});

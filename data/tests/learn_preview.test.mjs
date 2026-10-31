@@ -109,7 +109,10 @@ test('a run end to end: no keys before an answer, a fixed mistake, the line you 
   assert.equal(missed.reinsert.item.stage, 'again');
   // The first mistake answered right: fixed, with the line collapsed under it.
   const right = (await call(`/api/learn/runs/${run.id}/answer`, { method: 'POST', body: { itemId: mistakes[0].id, choice: KEYS[mistakes[0].question.id] } })).body;
-  assert.deepEqual([right.correct, right.fixed, right.fixedText], [true, true, 'Fixed. You missed this in Mock 3 on 16 Oct.']);
+  // BUILD-1101 1.8 R10: a right retry moves the Revise card on; "Fixed" is said only when Revise retires it.
+  assert.equal(right.correct, true);
+  assert.equal(right.fixed, true);
+  assert.match(right.fixedText, /^Right this time\. Back (on (Mon|Tue|Wed|Thu|Fri|Sat|Sun)|tomorrow|in \d+ days) to check it held\.$/);
   assert.ok(right.line?.card?.id && right.line.collapsed === true);
   // The second answered wrong: the key, the explanation, the line open and its card coming back.
   const wrongChoice = ['A', 'B', 'C', 'D'].find((x) => x !== KEYS[mistakes[1].question.id]);
@@ -133,7 +136,8 @@ test('a run end to end: no keys before an answer, a fixed mistake, the line you 
   // The fixed mistake is no longer open on the subject map.
   const subject = (await call('/api/learn/subject', { query: { subject: 'accountancy' } })).body;
   const pf = subject.parts.flatMap((p) => p.units.flatMap((u) => u.chapters)).find((r) => r.key === PF);
-  assert.equal(pf.mistakes, 2, '3 open, 1 fixed, the wrong retry stays open');
+  // R10.1: 3 open; the right one is back in a few days to check it held, the wrong retry rests a day: 1 open today.
+  assert.equal(pf.mistakes, 1, '3 open, 1 right (checked later), 1 wrong again (rests a day)');
 });
 
 test('Free: the eleventh rating turns the rest of the run into looks, with one line and no error', async () => {

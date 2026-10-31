@@ -23,6 +23,39 @@ const BEARER_ROUTES = {
   'src/app/api/ai/usage/route.js': ['GET'],
 };
 
+// The Learn v2 routes (BUILD-1101 Part 2): each handler takes (request) and goes through learnHttp, whose first step after the
+// flag is auth(request) (bearer for the app, then the cookie), so the app calls them as the website does.
+const LEARN_ROUTES = {
+  'src/app/api/learn/subject/route.js': ['GET'],
+  'src/app/api/learn/runs/route.js': ['POST'],
+  'src/app/api/learn/runs/preview/route.js': ['POST'],
+  'src/app/api/learn/runs/[id]/route.js': ['GET'],
+  'src/app/api/learn/runs/[id]/answer/route.js': ['POST'],
+  'src/app/api/learn/runs/[id]/rate/route.js': ['POST'],
+  'src/app/api/learn/runs/[id]/end/route.js': ['GET'],
+  'src/app/api/learn/cards/route.js': ['GET'],
+  'src/app/api/learn/shelves/route.js': ['GET'],
+  'src/app/api/learn/search/route.js': ['GET'],
+  'src/app/api/learn/covers/route.js': ['GET'],
+};
+
+for (const [file, methods] of Object.entries(LEARN_ROUTES)) {
+  test(`${file} authenticates with auth(request) through learnHttp`, () => {
+    const src = read(file);
+    for (const m of methods) {
+      assert.match(src, new RegExp('export async function ' + m + '[(]request'), m + ' must accept request');
+    }
+    assert.match(src, /\blearnHttp\(request,/, 'must call learnHttp(request, ...)');
+    assert.doesNotMatch(src, /\bauth\(\s*\)/, 'must not call bare auth()');
+  });
+}
+
+test('learnHttp authenticates with auth(request), never bare auth()', () => {
+  const src = read('src/lib/server/learnHttp.js');
+  assert.match(src, /\bauth\(request\)/);
+  assert.doesNotMatch(src, /\bauth\(\s*\)/);
+});
+
 const COOKIE_ONLY_ROUTES = [
   'src/app/api/ai/credits/order/route.js',
   'src/app/api/ai/credits/verify/route.js',

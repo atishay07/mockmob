@@ -101,6 +101,18 @@ export async function studyRecord(userId,{subject,limit=10,weakConcepts=[],weakC
     preferences:prefs,recallEnabled:studyRecallEnabled(),newCardsPerDay:NEW_CARDS_PER_DAY,introducedToday,
     progress:{lessonsRead:read.size,lessonsAvailable:allUnits.length,recallReviews:Number(progress?.recallReviews || 0),dueCards:queue.dueCount,cardsStarted:(states||[]).filter(s=>allCards.some(c=>c.id===s.card_id && c.version===s.content_version)).length},states};
 }
+/**
+ * Learn v2 (BUILD-1101, A6 table of additive changes): a subject's published lessons in catalog order, each with `read`,
+ * from the content cache and one study_progress_summary call. [] while Study content is off. Throws on a failed read.
+ */
+export async function lessonsFor(userId, subject) {
+  if (!studyContentEnabled()) return [];
+  const [units, { data: progress, error }] = await Promise.all([publishedContent(), supabaseAdmin().rpc('study_progress_summary', { p_user: userId })]);
+  fail(error);
+  const read = new Set((progress?.completedUnits || []).filter(c => units.some(u => u.id===c.id && u.version===c.version && u.contentHash===c.contentHash)).map(c => c.id));
+  return units.filter(u => u.subject===subject).sort((a,b) => (a.order ?? 0)-(b.order ?? 0))
+    .map(u => ({ id:u.id, subject:u.subject, chapter:u.chapter, title:u.title, minutes:Number(u.estimatedMinutes) || null, read:read.has(u.id), order:u.order ?? 0 }));
+}
 export async function studyCatalog(userId,options) {
   const {queue,states:_states,...record} = await studyRecord(userId,{...options,allSubjects:true});
   return { ...record,queue:{dueCount:queue.dueCount,overdueCount:queue.overdueCount,newAllowance:queue.newAllowance,availableCount:queue.items.length,newCount:queue.items.length-Math.min(queue.dueCount,queue.items.length),pausedNew:queue.pausedNew} };
