@@ -216,8 +216,9 @@ The rules below are A5's R1-R16 with these decisions. "IST day" is `istDay(t)` f
 | **S2a service and routes** | `src/lib/server/{learnPreview,learn,learnStore,learnHttp,study}.js`, `src/app/api/learn/**`, `src/components/learn2/api.js`, tests `data/tests/learn_{preview,routes,egress,static}.test.mjs`, `data/tests/app_bearer_routes.test.mjs`, `docs/brain/learn-1031/API-CONTRACT.md` (copy it from mockmob-next first) |
 | **S2b database and Key cards** | `supabase/migrations/20261101150000_learn_runs.sql`, `supabase/undo/20261101150000_learn_runs.undo.sql`, `data/tests/learn_db.test.mjs`, `src/lib/server/{keycards,keycardsMemoryDb,keycardsPreview,accountDeletion}.js`, `data/keycards.js`, `data/tests/keycards_routes.test.mjs`, `data/tests/keycards_db.test.mjs`, the deletion-order test |
 | **P pages** | `src/app/(app)/learn/**` (new v2 routes behind the flag, keep lessons), `src/app/(app)/explore/**` (feed route), `src/components/learn2/links.js`, `src/app/preview/arena/**`, `src/app/(app)/AppLayoutClient.jsx` (Learn row href and focus routes only) |
-| **U1 feed** | `src/components/learn2/feed/ChapterFeed.jsx`, `feed.css`, new files under `src/components/learn2/feed/` except covers |
-| **U2 Explore** | `src/components/learn2/feed/ExploreCovers.jsx`, `covers.css`, `src/components/feed/DiscoveryFeed.jsx` (covers area and chapter label only) |
+| **U1 feed** | `src/components/learn2/feed/ChapterFeed.jsx`, `feed.css`, new files under `src/components/learn2/feed/` except covers, and the shared study parts in new `src/components/learn2/stage/**` |
+| **U2 Explore** | `src/components/learn2/feed/ExploreCovers.jsx`, `covers.css`, `src/components/feed/DiscoveryFeed.jsx` and `src/app/(app)/explore/explore.css` (Option A behind the flag only; the live page unchanged with the flag off) |
+| **S3 server fields** (after S1) | `src/lib/server/learn.js`, `src/lib/server/learnPreview.js`, `data/learn/suggest.js`, `src/components/learn2/api.js`, `docs/brain/learn-1031/API-CONTRACT.md`, their tests |
 | **U3 Learn home** | `src/components/learn2/home/**`, `src/components/learn2/cards/**` |
 | **U4 chapter and run** | `src/components/learn2/chapter/**`, `src/components/learn2/run/**` except `runMath.js` |
 
@@ -336,3 +337,73 @@ same picture on every item; LK21). The chapter's identity comes from its title a
 ### B6. Everywhere
 - Night and Day both checked. 44 px targets (48 px for the pager and action-bar keys). Visible focus. No horizontal scroll at
   360. No layout shift. Copy rules of Part 0.
+
+### B7. Decisions on the UI audits (1 Nov, 3:15 am; these override B1-B5 where they differ)
+**Feed (A1-feed.md): accepted in full, including its section 3.17 changes A to G:**
+- A. No chevron pager in a control column. The action bar under the item holds a labelled `Previous` line key on the left
+  (keycap `Up` on fine pointers) and the step slot on the right (the one volt key: `Turn over`, `Next`, `See how it went`,
+  `Keep going`). Desktop layout is A1 3.2 exactly (panel, stage, rail; widths per band; no top bar on desktop, Close in the
+  panel).
+- B. Questions show a quiet `Skip` until answered. C. The turn is 340 ms. D. The streak lives in the verdict line
+  (`Right. 4 in a row.`) and in the desktop panel, never as a floating chip. E. The end title is the chapter title plus the
+  done line (`All 21 done in 9 min.` / `You stopped at 8 of 21.`). F. Cards are centred, questions top-aligned. G. One
+  definition of "Questions" (plain questions; old mistakes on their own line) on the checkpoint, the panel and the end.
+- A1's P2 items are in scope: the phone "This feed" sheet (it is the phone's visible Previous and overview) and the one-time
+  nudge. Build P1 first.
+- The card face on a phone: A1's rule (fits its content, min `clamp(300px, 46dvh, 380px)`, centred with a slight upward
+  bias) for the feed AND the run. A4's "fill the stage" is not taken.
+- A8's feed findings are part of the feed packet: F1 (the card is not a `role=button` with an aria-label that hides the
+  NCERT line: the face content stays readable; `Turn over` is a real button), F2 (focus moves into the feed on mount; in
+  the preview, where the feed is portalled over the shell, set `inert` on the shell while the feed is open; Escape never
+  leaves the feed), F3 (solved by the line in place), F4 (a solid top bar, no content under Close), F5 (a long back fades at
+  its foot and scrolls; arrows scroll it when it has focus), F7 (live regions exist before their text), F8 (every server
+  error kind drawn; a 404 chapter is its own state), F9 (`reinsert.moved` never duplicates), F10 (a failed end read shows an
+  error with Try again, never invented numbers; the end re-reads when revisited), F11 (resume with `?run=`, ticks filled to
+  the resumed point), F14 (Day contrast: rest options by colour not opacity, upcoming ticks visible), F16, F17, F18 (a
+  ref lock on answering).
+
+**One set of study parts, owned by U1, used by U4.** U1 builds them first, in `src/components/learn2/stage/`: the stage
+layout (panel, stage, rail, action bar per A1 3.2-3.6), the card face (fit type, source foot, prompt on the back), the
+option row and verdict line, the line in place, the ticks, the end form (A1 3.9: title, done line, pile of real card faces,
+lines, keys), and the stop sheet (A4). U1 writes a line in the notes file when each part is usable, with its import path
+and props. U4 builds the chapter page first, then the run on these parts; until a part lands, U4 follows A1/A4 values.
+
+**Covers and Explore (A2-explore-covers.md): accepted, with one condition.**
+- The cover shows the feed's opening Key card (the hook) as its art, the small ref line (`Part 1, Ch 2`), the title, the
+  student line, the mix line and `Play 10 minutes`; no big numeral (A2 3.5 is right: numerals repeat); no subject object on
+  covers. One volt key: the For you cover's, and it does not move with scrolling. Arrows on desktop, a `1 of 14` pager on
+  phones. The site's `SegmentedControl` for 5 | 10 | 20.
+- Option A (covers full width under the page head, the Subject control in the head with the page's one object, a
+  `Questions` heading with the filters, the right column demoted) is accepted **only behind the `NEXT_PUBLIC_LEARN2` flag
+  (and always in the preview)**. With the flag off, the live Explore page must render exactly as it does today. U2 may
+  edit `DiscoveryFeed.jsx` and `src/app/(app)/explore/explore.css` for this.
+
+**Learn home, Find, cards (A3-learn-home.md): accepted in full** for U3.
+
+**Chapter page, run, run end (A4-chapter-run.md): accepted, except:**
+- the phone card does not fill the stage (see above);
+- the chapter page keeps the subject object in its head (it appears once there, so it is the subject's identity, not a
+  repeat); A4's numeral head is not taken.
+- Accepted from A4 section 5: the end as lines (one form with the feed end), the length segment never rewrites the choice,
+  questions on the page (no card face), "Everything in this chapter", the "Stop for now?" sheet, the resume row on the
+  chapter page, and the Start key never under the dock (A8 F12).
+
+**Server fields the UI needs (packet S3, after S1 is done; until then the UI codes against these names with fallbacks):**
+1. Run body: `chapter: { key, title, ref, partTitle, number }`.
+2. Feed end: `feed.done: { reached, of, minutes }` (minutes = first event to last, rounded, at least 1).
+3. Answer body: echoes `choice`; `reinsert.moved: true` means "the card already in the list moved", never a copy.
+4. Covers: `hook` = the first card item of the 10-minute feed dry run, with `hook.id`; `refLine`; `name`; `resume: null |
+   { runId, done, of, minutesLeft }`; `studentLine` without due counts; top-level `history`; R12 refinements (skip a chapter
+   whose feed finished today when another qualifies; "First in the syllabus"); starts from a cover send `source:
+   'explore_cover'`, `forYou`, `position`, kept in `start_state`.
+5. Runs preview: `shrink.addNext.ref`; `piles[].held: 'free' | null`; `resume: null | { runId, done, of, minutesLeft, kind }`;
+   `firstVisit`.
+6. Run end: `reviseCards: [{ id, kind, front, mustKnow }]` (at most 4); `lead.title`, `lead.minutes`, `lead.kind`.
+7. Cards: `filter=due` on `GET /api/learn/cards?subject=`.
+8. Suggestions: for a student with no history, the third suggestion is "Chapter 1 as a feed" (A3 3.10).
+9. A missing chapter answers 404 `CHAPTER_NOT_FOUND`, and `api.js` maps it to the kind `chapter_not_found`.
+
+**Screenshots while building (the build-and-look loop), one browser at a time:** take the lock by creating the directory
+`tmp/learn-1101/browser.lock` (mkdir is atomic; if it exists, wait and retry; if it is older than 5 minutes, it is stale:
+remove it and take it). Launch one headless Chromium, take your shots into `tmp/learn-1101/build/<packet>/`, close it,
+remove the lock. Keep each session under 3 minutes. Look at every shot you take.
