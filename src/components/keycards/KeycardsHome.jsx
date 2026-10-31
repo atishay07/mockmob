@@ -48,7 +48,7 @@ function ChapterRow({ ch, isPro, href, index, heading = null }) {
   const ref = chapterRef(ch.ncert, { title: ch.title, unit: heading });
   const counts = countsLine(ch, isPro);
   const unit = ch.unit && String(ch.unit).trim().toLowerCase() !== String(ch.title).trim().toLowerCase() ? `CUET unit: ${ch.unit}` : null;
-  const spoken = [ch.title, chapterRefSpoken(ch.ncert), unit, ch.chip, cue.label, counts.line, counts.open].filter(Boolean).join('. ');
+  const spoken = [ch.title, ref ? chapterRefSpoken(ch.ncert) : null, unit, ch.chip, cue.label, counts.line, counts.open].filter(Boolean).join('. ');
   return (
     <li className="kc-row" style={{ '--i': Math.min(index, 12) }}>
       <Link className="kc-row__link" href={href} aria-label={spoken}>

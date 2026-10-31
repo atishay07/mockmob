@@ -375,3 +375,5 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
 .kc-end .kc-gate { width: 100%; padding-top: 16px; border-top: 1px solid var(--a-line); }
 /* A long chapter (165 to 255 cards) rises in only its first screenful; the rest are simply there, so nothing animates off screen. */
 .kc-entry:nth-child(n + 13) { animation: none; }
+/* On a wide screen the chapter's own Add key stays beside the session, so a round's end does not repeat it as a second key. */
+@media (min-width: 1024px) { .kc-end .kc-end__add { display: none; } }

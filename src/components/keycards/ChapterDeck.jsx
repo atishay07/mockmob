@@ -157,7 +157,7 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
         </dl>
         <div className="kc-end__keys">
           {left ? <button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={() => begin(start + STUDY_ROUND)}>{left > STUDY_ROUND ? `Study the next ${STUDY_ROUND}` : left === 1 ? 'Study the last card' : `Study the last ${left}`}</button> : null}
-          {!inRevise ? <button type="button" className={left ? 'kc-btn kc-btn--line' : 'kc-btn kc-btn--volt'} data-page-primary={left ? undefined : ''} onClick={onAddChapter} disabled={adding}>{adding ? 'Adding' : 'Add chapter to Revise'}</button> : null}
+          {!inRevise ? <button type="button" className={left ? 'kc-btn kc-btn--line kc-end__add' : 'kc-btn kc-btn--volt'} data-page-primary={left ? undefined : ''} onClick={onAddChapter} disabled={adding}>{adding ? 'Adding' : 'Add chapter to Revise'}</button> : null}
           {!left ? <button type="button" className={inRevise ? 'kc-btn kc-btn--volt' : 'kc-btn kc-btn--line'} data-page-primary={inRevise ? '' : undefined} onClick={() => begin(0)}>{rounds ? 'Study again from the start' : 'Study again'}</button> : null}
           <a className="kc-btn kc-btn--quiet" href={readHref} onClick={(e) => { e.preventDefault(); onRead(); }}>Read the chapter</a>
         </div>
