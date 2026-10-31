@@ -5,6 +5,8 @@
 // "mastery" or "marks to recover", no percentage under 6 answers. No middle dot anywhere (owner rule T-124): the compact
 // meta strings use commas ("18 cards, 6 due", "Business Studies Part 1, Ch 1, p. 3").
 
+import { resolveChapter } from '../../../data/cuet_syllabus.js';
+
 /** The label a student sees for each card kind, exactly as KEYCARDS-CONTENT-SPEC.md section 2 writes it. */
 export const KIND_LABELS = Object.freeze({
   definition: 'Definition',
@@ -290,7 +292,8 @@ export function blocksOf(units = []) {
 /** The state word with its non-colour cue (an icon name the screen draws). Labels come from the server, exactly. */
 export function stateCue(state) {
   const s = state?.state || 'none';
-  const label = state?.label || { none: 'Not started', thin: 'Too few answers', weak: 'Needs work', mid: 'Getting there', strong: 'Holding' }[s] || 'Not started';
+  // 'unknown' (the server could not read the answers) is its own neutral state: never worded as "Not started".
+  const label = state?.label || { none: 'Not started', thin: 'Too few answers', weak: 'Needs work', mid: 'Getting there', strong: 'Holding', unknown: 'Could not load' }[s] || 'Not started';
   return { state: s, label: state?.fading ? `${label}, fading` : label, fading: Boolean(state?.fading) };
 }
 
@@ -315,14 +318,54 @@ export const slugChapter = (subject, name) => `${subject}.${String(name || '').t
 export function findChapter(home, subject, name) {
   const entry = home?.subjects?.find((s) => s.subject === subject);
   if (!entry || !name) return null;
-  const key = slugChapter(subject, name);
+  // An old stored name (Review rows keep what the question carried, e.g. "Business Finance") resolves through the syllabus to
+  // today's chapter key; a retired chapter has no Key cards, so no link.
+  const resolved = resolveChapter(subject, name);
+  if (resolved?.retired) return null;
+  const keys = [slugChapter(subject, name), resolved?.key].filter(Boolean);
   const want = String(name).trim().toLowerCase();
   for (const unit of entry.units || []) {
     for (const ch of unit.chapters || []) {
-      if (ch.key === key || [ch.title, ch.name].some((t) => String(t || '').trim().toLowerCase() === want)) return { ...ch, unit: unit.unit };
+      if (keys.includes(ch.key) || [ch.title, ch.name].some((t) => String(t || '').trim().toLowerCase() === want)) return { ...ch, unit: unit.unit };
     }
   }
   return null;
+}
+
+/**
+ * One review stamp per card shown (code review M3). A rating's `clientReviewedAt` is also the server's replay key, so every retry
+ * of that rating must send the same value: `prev` is the stamp held for the card on screen; a different card gets a new one.
+ */
+export function stampFor(prev, cardId, now = () => new Date().toISOString()) {
+  return prev && prev.cardId === cardId ? prev : { cardId, at: now() };
+}
+
+/**
+ * What a 402 from the card routes says, by the server's `reason` (code review H3, L2). 'reviews' is Free's 10 reviews a day (the
+ * server's keycard_reviews, or a body with no reason), 'new' Free's 5 new cards a day (keycard_new), 'card' a card Free cannot
+ * hold (keycards). `lead` goes before the one Pro line (PRO_LINE); `line` is a sentence of its own above it.
+ */
+export function limitKind(reason) {
+  return reason === 'keycard_new' ? 'new' : reason === 'keycards' ? 'card' : 'reviews';
+}
+export function limitCopy(kind, { where = 'study' } = {}) {
+  if (kind === 'new') return { title: 'Today’s new cards are used', line: null, lead: 'That is today’s 5 new cards on Free.', rest: where === 'study' ? 'Reading the cards stays open, and new cards come back tomorrow.' : null };
+  if (kind === 'card') return { title: 'This card is part of Pro', line: null, lead: null, rest: null };
+  return where === 'study'
+    ? { title: 'Today’s free reviews are used', line: 'Free includes 10 card reviews a day. Reading the cards stays open, and the reviews come back tomorrow.', lead: null, rest: null }
+    : { title: 'Today’s free card reviews are used', line: 'Free includes 10 Key card reviews a day. These cards stay due and come back tomorrow.', lead: null, rest: null };
+}
+
+/**
+ * What "The line you needed" says after Add to Revise, from the count the server added (POST /api/keycards/add { added }, a
+ * number or a list) out of the `asked` cards: it never says both when fewer went in.
+ */
+export function addedLine(added, asked) {
+  const n = Array.isArray(added) ? added.length : Number(added);
+  const got = Number.isFinite(n) ? Math.max(0, Math.min(asked, n)) : asked;
+  if (got >= asked) return asked > 1 ? 'Both are in Revise. They come back when due.' : 'In Revise. It comes back when due.';
+  if (got === 0) return asked > 1 ? 'These cards were already in Revise.' : 'This card was already in Revise.';
+  return `${plural(got, 'card')} added to Revise. The other was already there or is part of Pro.`;
 }
 
 /**

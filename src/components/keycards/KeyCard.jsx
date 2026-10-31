@@ -17,8 +17,8 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { LoaderCircle, MoreHorizontal } from 'lucide-react';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
-import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, cardFace, entryRows, formulaLines, isNcert, markBlanks, ownMarker, plural, sourceLine, splitBlanks, startsMidSentence, withLead } from './kinds';
-import { isProRequired, sendReport, sendReview } from './api';
+import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, cardFace, entryRows, formulaLines, isNcert, limitKind, markBlanks, ownMarker, plural, sourceLine, splitBlanks, startsMidSentence, stampFor, withLead } from './kinds';
+import { isProRequired, proReason, sendReport, sendReview } from './api';
 
 const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
 
@@ -192,7 +192,7 @@ export function ProGate({ isPro, lead = null, className = '' }) {
 
 /**
  * One card to recall. `onRated({ rating, result, cardId })` runs after the server acknowledged the rating; `onLimit()` when Free has
- * used the day's reviews (402). `mode` is the review mode the server records ('study' | 'revise'). `active` binds the keys.
+ * used the day's reviews (402; it gets the kind from limitKind: 'reviews', 'new' or 'card'). `mode` is the review mode the server records ('study' | 'revise'). `active` binds the keys.
  */
 export function KeyCardPlayer({ card, mode, position = null, active = true, detail = null, onRated, onLimit }) {
   const [revealed, setRevealed] = useState(false);
@@ -201,6 +201,7 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
   const [reporting, setReporting] = useState(false);
   const showRef = useRef(null);
   const firstRate = useRef(null);
+  const stamp = useRef(null);
   const rateRow = useRef(null);
   const headId = useId();
 
@@ -209,12 +210,15 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
     if (busy || !revealed) return;
     setBusy(rating);
     setError(null);
+    // One stamp per card shown, reused when the same rating is retried (the server treats it as the replay key).
+    stamp.current = stampFor(stamp.current, card.id);
     try {
-      const result = await sendReview({ cardId: card.id, rating, mode });
+      const result = await sendReview({ cardId: card.id, rating, mode, clientReviewedAt: stamp.current.at });
       if (!result?.ok) throw new Error('unconfirmed');
+      // { ok: true, late: true } is a review the server logged without scheduling: it counts as done, with nothing to show.
       onRated?.({ rating, result, cardId: card.id });
     } catch (e) {
-      if (isProRequired(e)) { onLimit?.(); return; }
+      if (isProRequired(e)) { onLimit?.(limitKind(proReason(e))); return; }
       setError('That rating was not saved. Try again.');
       setBusy(null);
     }

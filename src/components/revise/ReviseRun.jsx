@@ -50,6 +50,7 @@ import {
   skipItem, startRun, summary,
 } from './reviseQueue';
 import { KeyCardPlayer, ProGate } from '../keycards/KeyCard';
+import { limitCopy } from '../keycards/kinds';
 import { ncertFont } from '../keycards/ncertFont';
 import '../study/study.css';
 import './revise.css';
@@ -342,21 +343,22 @@ function ConceptRun({ count, position, onProgress, onFinished }) {
  */
 function KeyCardRun({ item, at, total, onConfirmed, onNext, onSkipKeycards, moreAfter }) {
   const { user } = useAuth() || {};
-  const [limited, setLimited] = useState(false);
+  const [limited, setLimited] = useState(null);
   const card = item.card || item;
+  const copy = limited ? limitCopy(limited, { where: 'revise' }) : null;
   const rated = useCallback(({ rating }) => { onConfirmed(item, { correct: rating > 1 }); onNext(); }, [item, onConfirmed, onNext]);
   return (
     <div className={`kc kc--inline ${ncertFont.variable}`}>
       <KindLine item={item} at={at} total={total} />
       {limited ? (
         <section className="kc-end kc-end--limit" aria-live="polite">
-          <h2 className="kc-end__title">Today’s free card reviews are used</h2>
-          <p className="kc-end__line">Free includes 10 Key card reviews a day. These cards stay due and come back tomorrow.</p>
+          <h2 className="kc-end__title">{copy.title}</h2>
+          {copy.line ? <p className="kc-end__line">{copy.line}</p> : null}
           <div className="kc-end__keys"><button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={onSkipKeycards}>{moreAfter ? 'Go on without Key cards' : 'Finish for today'}</button></div>
-          <ProGate isPro={user?.isPremium === true} />
+          <ProGate isPro={user?.isPremium === true} lead={copy.lead} />
         </section>
       ) : (
-        <KeyCardPlayer card={card} mode="revise" onRated={rated} onLimit={() => setLimited(true)} />
+        <KeyCardPlayer card={card} mode="revise" onRated={rated} onLimit={(kind) => setLimited(kind)} />
       )}
     </div>
   );

@@ -12,6 +12,9 @@
 //   empty            the chapter deck has no cards yet
 //   sparse           one subject, two chapters, nothing added
 //   limit            Free has used today's 10 reviews: POST review answers 402
+//   limit-new        Free has used today's 5 new cards: POST review answers 402 keycard_new
+//   limit-card       POST review answers 402 keycards (a card Free cannot hold)
+//   unknown          every chapter state is 'unknown' ("Could not load")
 //   line-none        "The line you needed" finds nothing (the block hides)
 //   line-limit       Free has used today's 3 lines: GET line answers 402 PRO_REQUIRED keycard_line (the block hides)
 //   error            every GET answers 503 (the screens show Try again)
@@ -325,6 +328,7 @@ export function fixtureKeycards(url, method, body, { isPro = false, variant = 'r
       if (memory.options?.[s.subject]) s.option = memory.options[s.subject];
       for (const u of s.units) for (const c of u.chapters) if (added.has(c.key)) c.added = Math.max(c.added, added.get(c.key).length);
     }
+    if (variant === 'unknown') for (const s of home.subjects) for (const u of s.units) for (const c of u.chapters) c.state = { state: 'unknown', label: 'Could not load', fading: false };
     return { status: 200, body: home };
   }
   if (path === '/api/keycards/deck' && method === 'GET') {
@@ -357,6 +361,8 @@ export function fixtureKeycards(url, method, body, { isPro = false, variant = 'r
   if (path === '/api/keycards/due' && method === 'GET') return { status: 200, body: fixtureDue({ isPro, limit: Number(url.searchParams.get('limit')) || 20 }) };
   if (path === '/api/keycards/review' && method === 'POST') {
     memory.reviews = (memory.reviews || 0) + 1;
+    if (!isPro && variant === 'limit-new') return { status: 402, body: { error: 'PRO_REQUIRED', reason: 'keycard_new' } };
+    if (!isPro && variant === 'limit-card') return { status: 402, body: { error: 'PRO_REQUIRED', reason: 'keycards' } };
     if (!isPro && (variant === 'limit' || memory.reviews > KEYCARD_FREE.reviewsPerDay)) return { status: 402, body: { error: 'PRO_REQUIRED', reason: 'keycard_reviews' } };
     const days = body?.rating === 1 ? 0.01 : body?.rating === 4 ? 9 : 3;
     const today = fixtureHome({ isPro }).today;

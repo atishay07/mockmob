@@ -38,6 +38,7 @@ export function StateGlyph({ state }) {
     <svg className="kc-glyph" width="16" height="16" viewBox="0 0 16 16" aria-hidden="true">
       <circle cx={c} cy={c} r={r} fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray={state === 'none' ? '2.2 2.2' : undefined} />
       {pie(fill)}
+      {state === 'unknown' ? <path d={`M${c - 2.6} ${c} H${c + 2.6}`} stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /> : null}
     </svg>
   );
 }

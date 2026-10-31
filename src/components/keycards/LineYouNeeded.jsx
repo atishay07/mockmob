@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { Check } from 'lucide-react';
 import { CardSource, NcertText } from './KeyCard';
 import { addToRevise, isProRequired, readLine, refreshHome } from './api';
-import { plural } from './kinds';
+import { addedLine, plural } from './kinds';
 import { ncertFont } from './ncertFont';
 import './keycards.css';
 
@@ -18,6 +18,7 @@ const SOURCE_LABEL = { linked: 'Linked to this question', matched: 'Matched by i
 export default function LineYouNeeded({ questionId }) {
   const [read, setRead] = useState({ state: 'loading', body: null });
   const [add, setAdd] = useState('idle');
+  const [said, setSaid] = useState('');
   useEffect(() => {
     if (!questionId) return undefined;
     let alive = true;
@@ -32,7 +33,9 @@ export default function LineYouNeeded({ questionId }) {
   async function addAll() {
     setAdd('adding');
     try {
-      await addToRevise({ cardIds: cards.map((c) => c.id), from: 'mistake' });
+      const res = await addToRevise({ cardIds: cards.map((c) => c.id), from: 'mistake' });
+      // Say what the server added, not what was asked for.
+      setSaid(addedLine(res?.added, cards.length));
       setAdd('added');
       refreshHome();
     } catch (e) {
@@ -55,7 +58,7 @@ export default function LineYouNeeded({ questionId }) {
       </ul>
       <div className="kc-line__foot">
         {add === 'added' ? (
-          <p className="kc-inrevise" role="status"><Check size={16} strokeWidth={2.4} aria-hidden="true" />{cards.length > 1 ? 'Both are in Revise. They come back when due.' : 'In Revise. It comes back when due.'}</p>
+          <p className="kc-inrevise" role="status"><Check size={16} strokeWidth={2.4} aria-hidden="true" />{said}</p>
         ) : add === 'pro' ? (
           <p className="kc-fine" role="status">Adding {cards.length > 1 ? 'these cards' : 'this card'} needs Pro. Pro opens every card in every chapter and keeps them on a schedule.</p>
         ) : (
