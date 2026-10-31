@@ -9,8 +9,9 @@ Science and English.
 
 **Start here:**
 1. Call `continuum_start` (project `mockmob`, this task).
-2. Read `docs/brain/HANDOFF-2026-10-31-KEYCARDS-2.md` first (the newest state: integration branch, content counts,
-   re-tag numbers, what waits on the owner, next steps in order), then `HANDOFF-2026-10-31-KEYCARDS.md` for history
+2. Read `docs/brain/HANDOFF-2026-10-31-KEYCARDS-3.md` first (the newest state: integration 5c1d03a37, code review
+   fixed, content counts, pool audit, the production steps waiting on the owner with their SQL and undo files), then
+   `HANDOFF-2026-10-31-KEYCARDS-2.md` and `HANDOFF-2026-10-31-KEYCARDS.md` for history
    (branch `feat/app-and-web`, worktree `C:\Users\atish\Desktop\mockmob copy\mockmob-next`).
 3. Then read `docs/brain/intel-1031/KEYCARDS-BUILD-SPEC.md` (binding), `KEYCARDS-CONTENT-SPEC.md` and
    `syllabus-verified.md`, plus the owner's D200-D206 at the end of `OWNER-MASTER-LEDGER.md`.

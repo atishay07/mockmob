@@ -1,5 +1,18 @@
 # NOW: MockMob current state
 
+## 31 Oct 2026, about 1:00 pm IST: Key cards hardened, content grown, question pools audited; owner steps ready
+- **Live production is unchanged** (main 0b7d6bc03). Nothing pushed, deployed or written to production. The session's
+  permission check blocks production writes, so every production step is saved with its undo for the owner.
+- **Web integration** `web/1031-keycards` 5c1d03a37. The merge to main is a fast-forward.
+  - Code review fixed: 4 high, 6 medium, 12 low.
+  - Screens polished against the real decks.
+  - Content: 5,800 cards, 2,144 linked questions; 18 conflict cards and 49 duplicates held back.
+  - Mocks: at most 2 copies of one template stem per paper.
+- **App** `ui/1031-keycards`: walked on the emulator with real cards; fixes plus web display parity.
+- **Pool audit** of 2,875 live questions: 515 wrong chapter (476 verified re-tags ready), 218 outside CUET 2026,
+  50 flawed (59 fix-or-pull SQLs ready), and about 849 Accountancy template copies.
+- Read `docs/brain/HANDOFF-2026-10-31-KEYCARDS-3.md`.
+
 ## 31 Oct 2026, about 6:00 am IST: Key cards built end to end on branches; waiting for the owner's look
 - **Live production is unchanged** (main 0b7d6bc03). Nothing pushed, deployed or written to production.
 - **Web integration** `web/1031-keycards` 90fddb40d: syllabus v2, Key cards server, web screens, 5,721 published NCERT
