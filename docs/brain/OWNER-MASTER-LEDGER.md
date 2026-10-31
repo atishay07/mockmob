@@ -592,3 +592,8 @@ He will take the owner steps himself soon:
 - the app build
 
 The afternoon session built on, without writing to production; see HANDOFF-2026-10-31-KEYCARDS-3.md. The flawed-question fixes, the live re-tag and the pool-audit decisions were added to his list, each with its SQL and undo.
+
+## 31 Oct, about 4:40 pm: the 218 outside-syllabus questions
+His words: "Pull them all" (answering "What should happen to the 218 outside-syllabus questions?"; the other choice was
+to keep them out of NTA-pattern mocks only).
+- D207 All 218 leave every pool (done the same afternoon; docs/brain/intel-1031/off-syllabus-2026-10-31/).

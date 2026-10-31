@@ -1,5 +1,14 @@
 # NOW: MockMob current state
 
+## 31 Oct 2026, about 4:50 pm IST: 218 off-syllabus questions pulled
+- **Owner:** "Pull them all". The 218 are off-syllabus, pending and frozen on production (dry-run, then applied; undo saved).
+- **Bug fixed on the way:** the morning's 25 flawed-question pulls were still served (pending, but verified and active
+  is still visible). They are frozen now. Visible questions 8,571 to 8,328.
+- **Thin now:** Accountancy, Financial Statements of Company, 1 question; Political Science, Recent Issues and
+  Challenges, 4.
+- **Record:** STATUS.md on main 0149bf45b; `docs/brain/intel-1031/off-syllabus-2026-10-31/` on main.
+- **Owner next:** app version 17 build; open /cards signed in once; say if Accountancy should get new questions.
+
 ## 31 Oct 2026, about 1:35 pm IST: Key cards ON for students
 - **Flag:** the owner said "Turn it on". KEY_CARDS_ENABLED=true and redeployed (dpl_7dHWVGYYCxR753iJ8wW6Ppgaoyx4).
 - **Smoke:** the routes answer 401 signed out; no errors. The signed-in flow on production is not yet seen by anyone.

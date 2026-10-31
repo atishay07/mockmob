@@ -8,6 +8,13 @@ everything is done then lmk".
 **State in one line:** the feature is built, reviewed, hardened and walked on a device. The content is larger and
 cleaner. The question pools are audited, with every fix prepared. Nothing is pushed, deployed or written to production.
 
+## UPDATE, about 4:50 pm IST: 218 off-syllabus questions pulled (owner: "Pull them all")
+- **Production:** the 218 are `is_cuet_syllabus = false`, `pending`, `frozen`. The morning's 25 pull-outs are frozen too:
+  `pending` alone left them served, because a verified, active row is visible. Dry-run then apply; undo saved.
+- **Files:** `docs/brain/intel-1031/off-syllabus-2026-10-31/` (README, list.json, pull.sql, undo.sql), main 0149bf45b.
+- **Thin chapters:** Accountancy, Financial Statements of Company, 1; Political Science, Recent Issues and Challenges, 4.
+- **Lesson for any future pull:** set `exploration_state = 'frozen'` with `status = 'pending'`.
+
 ## UPDATE, about 1:35 pm IST: Key cards ON
 - **Flag:** owner: "Turn it on". KEY_CARDS_ENABLED=true in Vercel Production, redeployed as dpl_7dHWVGYYCxR753iJ8wW6Ppgaoyx4.
 - **Smoke:** the routes answer 401 signed out (they were 404 off), all pages 200, no errors.
