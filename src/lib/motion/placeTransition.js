@@ -41,6 +41,15 @@ export function pathOf(href) {
 
 const segments = (path) => path.split('/').filter(Boolean);
 
+/** Focus routes: full-screen players that draw no sidebar, top bar or dock (the Learn run and the Explore feed). The shell is not
+ *  drawn on them (AppLayoutClient), so a navigation into or out of one is never a transition: a cross-fade would show the old
+ *  shell's bar and dock for its whole length (the flash the owner saw opening a feed from an Explore cover). */
+export const FOCUS_PATHS = Object.freeze(['/learn/run', '/explore/run']);
+export function isFocusPath(href) {
+  const path = pathOf(href);
+  return Boolean(path) && FOCUS_PATHS.includes(path);
+}
+
 /** The NTA runner and anything under it: never a transition. */
 export function isTestPath(href) {
   const path = pathOf(href);
@@ -69,6 +78,7 @@ export function transitionFor(from, to) {
   const b = pathOf(to);
   if (!a || !b || a === b) return null;
   if (isTestPath(a) || isTestPath(b)) return null;
+  if (isFocusPath(a) || isFocusPath(b)) return null;
   if (isResultPath(b) && !isResultPath(a)) return VT.rise;
   if (isResultPath(a) && !isResultPath(b)) return VT.riseBack;
   const placeA = placeOf(a);
@@ -100,7 +110,7 @@ export const VIEW_TRANSITION_PROPS = Object.freeze({ enter: byType, exit: byType
 // The development preview (/preview/arena?view=...) draws every arena page on one route. Its views map
 // to the routes they stand for (ArenaPreviewClient's routeNames), so the preview moves as the real arena.
 const PREVIEW_PATH = '/preview/arena';
-const PREVIEW_ROUTES = Object.freeze({ prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise' });
+const PREVIEW_ROUTES = Object.freeze({ prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise', 'learn2-run': 'learn/run', 'learn2-feed': 'explore/run' });
 
 /** The arena path an href stands for: itself, or for a preview URL the route its view draws. */
 export function logicalPath(href) {

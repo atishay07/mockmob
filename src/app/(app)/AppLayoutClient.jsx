@@ -38,7 +38,7 @@ import { useReviseBadge } from '@/lib/reviewRead';
 import { useKeycardsHome } from '@/components/keycards/api';
 import { dueBadge, dueLabel } from '@/lib/nav/dueCount.mjs';
 import { shownName } from '@/lib/displayName.mjs';
-import { VIEW_TRANSITION_PROPS } from '@/lib/motion/placeTransition';
+import { VIEW_TRANSITION_PROPS, isFocusPath } from '@/lib/motion/placeTransition';
 import { tourSteps } from '@/lib/appTour.mjs';
 import { HELP_DOOR, TOUR_LABEL } from '@/lib/helpDoor.mjs';
 import { TourStopsProvider } from '@/components/help/TourStops';
@@ -76,15 +76,20 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const activePath = previewRoute || pathname;
   // A Mob game (/mob/game/<id>) is a focus place like the paper runner: no top bar, no dock (MOB-BUILD-SPEC-V3 R1).
   const isTestRoute = activePath.startsWith('/test') || activePath.startsWith('/mob/game/');
+  // The Learn run (/learn/run) and the Explore feed (/explore/run) are focus routes: the page is a full-screen player, so the shell draws
+  // no sidebar, top bar, dock or sheets at all (the early return below), and a navigation into or out of one has no page transition
+  // (placeTransition.js FOCUS_PATHS), so the old shell never shows through a cross-fade.
+  const isFocusRoute = isFocusPath(activePath);
+  const chromeless = isTestRoute || isFocusRoute;
   const wallet = useWalletSummary(user?.id);
   const mobOn = mobEnabled || Boolean(previewLinks?.mob);
   const studyOn = studyEnabled || previewRoute === '/learn';
   const TOUR_STEPS = useMemo(() => tourSteps({ mob: mobOn, study: studyOn }), [mobOn, studyOn]);
   // The Revise count is what Revise has due today (LEARN-REVIEW-1017 5.12), absent when nothing is due or the count is unknown.
   // It sits on Practice in the phone dock and on Your papers in the sidebar and in Practice's row of tabs.
-  const reviseBadge = useReviseBadge({ enabled: status === 'authenticated' && !isTestRoute });
+  const reviseBadge = useReviseBadge({ enabled: status === 'authenticated' && !chromeless });
   // The Key cards due today, beside "Learn, Key cards" in the sidebar (B 2.2: today.due). One shared read with the other Key cards entries.
-  const keycardsHome = useKeycardsHome({ enabled: status === 'authenticated' && !isTestRoute && (studyEnabled || previewRoute === '/learn') });
+  const keycardsHome = useKeycardsHome({ enabled: status === 'authenticated' && !chromeless && (studyEnabled || previewRoute === '/learn') });
   const learnDue = keycardsHome.state === 'ready' ? Number(keycardsHome.data?.today?.due) || 0 : 0;
   // The development preview's &nav=n1 draws Learn as a place of its own in the sidebar (B 6.4), for the owner's call.
   const [navAlt, setNavAlt] = useState(false);
@@ -180,7 +185,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     const first = landedPath.current === null;
     const moved = landedPath.current !== activePath;
     landedPath.current = activePath;
-    if (first || !moved || isTestRoute) return undefined;
+    if (first || !moved || chromeless) return undefined;
     // A page whose h1 mounts after its first frame (Practice reads its subjects first) is waited for, briefly: the
     // heading is focused as soon as it exists, and <main> only if none arrives within about 400 ms.
     const main = document.getElementById('app-main');
@@ -206,7 +211,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     observer.observe(main, { childList: true, subtree: true });
     timer = setTimeout(() => land(true), 400);
     return () => { finish(); cancelAnimationFrame(frame); };
-  }, [activePath, status, isTestRoute]);
+  }, [activePath, status, chromeless]);
 
   // One volt per viewport (AGENT_RULES 7, WB-05): a page that owns a volt action marks it data-page-primary (or marks its
   // root data-owns-start). While such a page is mounted, #app-main carries data-start-quiet and the sidebar's Start key (from
@@ -303,11 +308,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
 
   // Account's "Replay the guide" asks the shell to open the tour (it falls back to pressing Guide).
   useEffect(() => {
-    if (isTestRoute) return undefined;
+    if (chromeless) return undefined;
     const openGuide = (event) => { event.preventDefault(); setMobileMenuOpen(false); setTourStep(0); setTourOpen(true); };
     window.addEventListener('mockmob:open-guide', openGuide);
     return () => window.removeEventListener('mockmob:open-guide', openGuide);
-  }, [isTestRoute]);
+  }, [chromeless]);
 
   if (status === 'unavailable') {
     return (
@@ -325,6 +330,19 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
       <AuthSessionScreen
         message={status === 'authenticated' ? 'Checking your access…' : 'Loading your session…'}
       />
+    );
+  }
+
+  // A focus route: only the page, no navigation of any kind. Its overlay is the whole screen, and the shell is not drawn under it, so
+  // nothing of the bar or dock can show before the player is up (the player mounts after the first frame).
+  if (isFocusRoute) {
+    return (
+      <div className="view app-shell app-shell--focus" style={{ display: 'flex', flexDirection: 'column', minHeight: '100dvh' }}>
+        <main id="app-main" tabIndex={-1} className="app-main app-main--focus" style={{ flex: 1, position: 'relative' }}>
+          <MobFlagProvider enabled={mobEnabled || Boolean(previewLinks?.mob)}><ContributeFlagProvider enabled={Boolean(contributeEnabled)}><TourStopsProvider count={TOUR_STEPS.length}>{children}</TourStopsProvider></ContributeFlagProvider></MobFlagProvider>
+        </main>
+        <style>{`html .app-shell.app-shell--focus .app-main { padding: 0 !important; }`}</style>
+      </div>
     );
   }
 
