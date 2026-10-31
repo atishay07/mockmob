@@ -16,6 +16,7 @@ import { blanksCheck, danglingStart, detectOffset, duplicateReasons, fillBlanks,
 import { mergeQueue, filterSource, itemKey, summary, startRun, recordAnswer, mixLine } from '../../src/components/revise/reviseQueue.js';
 import { reviseDue } from '../review_input.mjs';
 import { keyCardsEnabled, OFF, loadDecks } from '../../src/lib/server/keycards.js';
+import { sameContent } from '../../scripts/keycards/validate.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const DAY = 86_400_000;
@@ -244,6 +245,12 @@ test('duplicate check: same quote and kind, or same front; the first in book ord
   assert.equal(out.get(a), undefined);
   assert.match(out.get(dupQuote).join(' '), /duplicate:quote/);
   assert.match(out.get(dupFront).join(' '), /duplicate:front/);
+});
+
+test('id reuse: a published card renamed to the syllabus chapter and unit keeps its content; a changed back does not', () => {
+  const draft = { id: 'kc.business_studies.planning.def-planning', v: 1, chapter: 'Planning (old)', unit: 'Old unit', front: 'What is planning?', back: 'Planning is deciding in advance.', quote: 'Planning is deciding in advance.' };
+  assert.equal(sameContent({ ...draft, chapter: 'Planning', unit: 'Unit IV' }, draft), true);
+  assert.equal(sameContent({ ...draft, back: 'Planning is thinking ahead.' }, draft), false);
 });
 
 test('page offset: majority vote over standalone integers, a stray table number does not move it', () => {

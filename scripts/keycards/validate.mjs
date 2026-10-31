@@ -56,6 +56,12 @@ export function readDrafts(dir = defaultDrafts(), { subjects = null } = {}) {
   return drafts;
 }
 
+/**
+ * Same card content for the id-reuse check. The published copy carries the syllabus's chapter name and CUET unit
+ * (runValidate renames them), so those two fields are not content here; without this every renamed card would look reused.
+ */
+export const sameContent = (a, b) => cardHash({ ...a, chapter: undefined, unit: undefined }) === cardHash({ ...b, chapter: undefined, unit: undefined });
+
 /** Run checks 1-5 (and 6 unless machineOnly) on one subject's cards. Returns { published, quarantined }. */
 export function checkSubject(subject, cards, { syllabus, previous = null, verdicts = {}, machineOnly = false, getPdf } = {}) {
   const prior = new Map((previous?.cards || []).map((c) => [c.id, c]));
@@ -72,7 +78,7 @@ export function checkSubject(subject, cards, { syllabus, previous = null, verdic
       reasons.push(...(dup.get(card) || []));
       // The id is stable: the same id and version must mean the same content (changing content means v+1).
       const before = prior.get(card.id);
-      if (before && before.v === card.v && cardHash(before) !== cardHash(card)) reasons.push('shape:id_reused');
+      if (before && before.v === card.v && !sameContent(before, card)) reasons.push('shape:id_reused');
     }
     if (!reasons.length && !machineOnly) {
       const verdict = verdicts[card.id];
