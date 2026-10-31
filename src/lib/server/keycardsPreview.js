@@ -13,6 +13,7 @@
 // _line = the subject "The line you needed" draws its linked questions from, _first = a card id that leads its deck.
 // Every other parameter is the API's own.
 import { createKeycards, decksOnce } from './keycards.js';
+import { fakeDb } from './keycardsMemoryDb.js';
 import { loadKeycardsSyllabus } from './keycardsSyllabus.js';
 import { newSchedule, schedule, tasteIds } from '../../../data/keycards.js';
 
@@ -33,58 +34,10 @@ const USER = 'preview-user';
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;
 
-// ---------------------------------------------------------------- an in-memory table store with the migration's keys
-// The same shape as the fake client in data/tests/keycards_routes.test.mjs: from/select/eq/in/like/gt/limit/insert/update/upsert.
-const KEYS = {
-  key_card_states: ['user_id', 'card_id'],
-  key_card_reports: ['user_id', 'card_id'],
-  student_subject_options: ['user_id', 'subject'],
-  learning_allowances: ['user_id', 'kind', 'period'],
-  key_card_reviews: ['user_id', 'card_id', 'client_reviewed_at'],
-};
-export function memoryDb(tables = {}) {
-  let ids = 0;
-  const like = (v, p) => new RegExp(`^${String(p).replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/%/g, '.*')}$`).test(String(v ?? ''));
-  const clash = (table, row) => {
-    const key = KEYS[table];
-    if (!key) return false;
-    if (table === 'key_card_reviews' && row.client_reviewed_at == null) return false;
-    return (tables[table] || []).some((r) => key.every((k) => r[k] === row[k]));
-  };
-  class Q {
-    constructor(t) { this.t = t; this.f = []; this.op = 'select'; }
-    select(cols) { if (this.op === 'select') this.cols = cols; return this; }
-    eq(k, v) { this.f.push((r) => r[k] === v); return this; }
-    in(k, l) { this.f.push((r) => l.includes(r[k])); return this; }
-    like(k, p) { this.f.push((r) => like(r[k], p)); return this; }
-    gt(k, v) { this.f.push((r) => Number(r[k]) > v); return this; }
-    limit(n) { this.max = n; return this; }
-    order() { return this; }
-    insert(row) { this.op = 'insert'; this.row = row; return this; }
-    update(p) { this.op = 'update'; this.patch = p; return this; }
-    upsert(rows, o) { this.op = 'upsert'; this.rows = rows; this.o = o || {}; return this; }
-    then(res, rej) { return Promise.resolve(this.run()).then(res, rej); }
-    run() {
-      const all = tables[this.t] || (tables[this.t] = []);
-      if (this.op === 'insert') {
-        if (clash(this.t, this.row)) return { data: null, error: { code: '23505', message: 'duplicate key value violates unique constraint' } };
-        all.push({ ...(this.t === 'key_card_reviews' ? { id: ++ids } : {}), ...this.row });
-        return { data: null, error: null };
-      }
-      if (this.op === 'upsert') {
-        for (const row of this.rows) {
-          const at = all.findIndex((r) => (KEYS[this.t] || []).every((k) => r[k] === row[k]));
-          if (at < 0) all.push({ ...row }); else if (!this.o.ignoreDuplicates) all[at] = { ...all[at], ...row };
-        }
-        return { data: null, error: null };
-      }
-      const rows = all.filter((r) => this.f.every((f) => f(r)));
-      if (this.op === 'update') { for (const r of rows) Object.assign(r, this.patch); return { data: rows.map((r) => ({ card_id: r.card_id })), error: null }; }
-      return { data: (this.max ? rows.slice(0, this.max) : rows).map((r) => ({ ...r })), error: null };
-    }
-  }
-  return { from: (t) => new Q(t), tables };
-}
+// ---------------------------------------------------------------- the in-memory table store
+// The same fake client the route tests use (./keycardsMemoryDb.js): the migration's keys, paged reads, the suspension view and
+// key_card_review(), so the preview runs the server code exactly as the tests do.
+export const memoryDb = (tables = {}) => fakeDb(tables);
 
 // ---------------------------------------------------------------- the seeded student
 
