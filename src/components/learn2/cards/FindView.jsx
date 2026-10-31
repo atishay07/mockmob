@@ -3,7 +3,7 @@
 // of the three shelf keys. Learn home owns the field and the keys; this draws what they ask for, with the Key cards view's own
 // layout (a chapter rail and the list) from a 980 px container, so finding and revising specific cards is one idea everywhere.
 //   Results  "Results for “goodwill”" and "50 cards in 4 chapters"; chapter and lesson matches (3 each); the cards grouped by
-//            chapter, answers folded, the match underlined; "Quick recap these 50" and "Study these 50" (the panel's one volt key)
+//            chapter, answers folded, the match underlined; "Study these 50" (the panel's one volt key; Show answers is the way to read them, LK7)
 //   A set    Due today, Missed lately, In Revise, Must-know: the whole subject's cards in one request, grouped by chapter, one
 //            key that plays exactly the cards it names ("Revise these 9": a cards run of the due ids)
 // Data: GET /api/learn/search, GET /api/learn/cards?subject=&filter= (one request: A3-16), GET /api/learn/subject (learn2/api.js).
@@ -168,7 +168,6 @@ function Results({ subject, text }) {
             <Tools showAnswers={panel.showAnswers} onShowAnswers={panel.setShowAnswers} pick={pick} groups={panel.groups} />
             {nCards <= RUN_CARDS_MAX ? (
               <div className="l2c-keys">
-                <Link className="kc-btn kc-btn--line kc-btn--small" href={runHref(ids, 'recap', 3)}>Quick recap these {nCards}</Link>
                 <Link className={panel.showPickBar ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} data-page-primary={panel.showPickBar ? undefined : ''} href={runHref(ids)}>Study these {nCards}</Link>
               </div>
             ) : <p className="kc-fine l2f-over">{nCards} cards match. Pick up to {RUN_CARDS_MAX} to study them, or add a word.</p>}
@@ -294,7 +293,6 @@ function SetPanel({ subject, shelf, shelves, onShelf, onBack }) {
         <Tools showAnswers={panel.showAnswers} onShowAnswers={panel.setShowAnswers} pick={pick} groups={panel.groups} />
         {total <= RUN_CARDS_MAX ? (
           <div className="l2c-keys">
-            {!due ? <Link className="kc-btn kc-btn--line kc-btn--small" href={runHref(ids, 'recap', 3)}>Quick recap these {total}</Link> : null}
             <Link className={panel.showPickBar ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} data-page-primary={panel.showPickBar ? undefined : ''} href={runHref(ids)}>{due ? `Revise these ${total}` : `Study these ${total}`}</Link>
           </div>
         ) : <p className="kc-fine l2f-over">{total} cards in this set. Pick up to {RUN_CARDS_MAX} to study them, or open a chapter.</p>}

@@ -208,7 +208,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     const pos = base + s.n;
     if (s.item.type === 'card') {
       const f = cardFace(s.item.card);
-      speak(`Card ${pos} of ${of}. ${f.label}${s.item.card?.importance === 'must' ? ', Must-know' : ''}. ${speakable(f.front)}`);
+      speak(`Card ${pos} of ${of}. ${f.label}. ${speakable(f.front)}`);
     } else {
       const head = s.item.origin === 'mistake' ? `${s.item.mistake?.label || 'An old mistake'}. ` : '';
       speak(`Question ${pos} of ${of}. ${head}${String(s.item.question?.body || '').slice(0, 160)}`);

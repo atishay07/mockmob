@@ -4,7 +4,7 @@
 //   Filters   All, Must-know, In Revise, Missed lately, with real counts: one row of chips, one sliding indicator in the ink fill
 //             (a phone's row scrolls sideways); volt stays on the Study key
 //   Tools     "Show answers" (folded by default), Sections (a phone's jump list), Pick
-//   Keys      for a filtered set: "Quick recap these 12" (one at a time, answers showing, nothing scheduled) and the one volt key
+//   Keys      for a filtered set: the one volt key
 //             "Study these 12" (ratings join Revise); with no filter: "Study these 46"
 //   List      grouped by NCERT section in book order, sticky section bars; a row opens in place (CardList)
 //   Pick      "8 picked  Study these 8  Add to Revise  Clear"
@@ -228,7 +228,6 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
   // Every key passes the cards it names (at most 100), so "Study these 46" plays those 46 and not a ten-minute pick (A3-04).
   const studyOne = useCallback((card) => links.run({ chapterKey, minutes: 10, kind: 'cards', cardIds: [card.id] }), [links, chapterKey]);
   const setStudy = links.run({ chapterKey, minutes: 10, kind: 'cards', cardIds: runIds });
-  const recap = links.run({ chapterKey, minutes: 3, kind: 'recap', cardIds: runIds });
   const pickedIds = [...pick.picked].filter((id) => ids.includes(id));
   const pickStudy = links.run({ chapterKey, minutes: 10, kind: 'cards', cardIds: pickedIds.slice(0, RUN_CARDS_MAX) });
 
@@ -276,7 +275,6 @@ export default function CardsView({ chapterKey, filter: initialFilter = 'all' })
 
           {n > 0 ? (
             <div className="l2c-keys">
-              {filter !== 'all' ? <Link className="kc-btn kc-btn--line kc-btn--small" href={recap}>Quick recap these {runCount}</Link> : null}
               <Link className={showPickBar ? 'kc-btn kc-btn--line kc-btn--small' : 'kc-btn kc-btn--volt kc-btn--small'} href={setStudy} data-page-primary={showPickBar ? undefined : ''}>{n > RUN_CARDS_MAX ? `Study the first ${RUN_CARDS_MAX}, in book order` : `Study these ${runCount}`}</Link>
             </div>
           ) : null}

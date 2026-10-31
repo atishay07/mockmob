@@ -4,7 +4,8 @@
 //   - Both faces sit in one grid cell, so the card takes the taller face's height and the turn never jumps; at least the
 //     band's min-height (phone clamp(300px, 46dvh, 380px), tablet 340, desktop 360/340/300 by height), at most the item area
 //     minus the stamp line. A face taller than that scrolls inside, with a fade at its foot while more is below (A8 F5).
-//   - Front: the kind line (Must-know in accent text), the prompt sized by its length (s/m/l), and the source at the foot.
+//   - Front: the kind line, the prompt sized by its length (s/m/l), and the source at the foot. No Must-know tag here:
+//     feeds and runs serve Must-know cards first, so it would sit on nearly every card (LK13; it stays in the Cards view).
 //   - Back: the kind line, the prompt repeated small (so a turned card still says what was asked), NCERT's line, the source,
 //     and a "Turn back" text key.
 //   - The card's content stays readable to a screen reader (no role=button over it, A8 F1); a transparent button over the
@@ -41,7 +42,6 @@ function useMore(ref, on) {
 
 export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, extraKind = null }) {
   const { label, front } = cardFace(card);
-  const must = card?.importance === 'must' || card?.mustKnow;
   const source = sourceLine(card?.source);
   const backRef = useRef(null);
   const frontRef = useRef(null);
@@ -51,7 +51,6 @@ export function CardFace({ card, turned = false, onTurn, refEl, stamp = null, ex
   const kind = (
     <p className="st-kind">
       <span>{label}</span>
-      {must ? <span className="st-must">Must-know</span> : null}
       {extraKind ? <span>{extraKind}</span> : null}
     </p>
   );
