@@ -19,6 +19,7 @@ import 'package:mockmob/features/review/again/review_again_entry.dart';
 import 'package:mockmob/features/review/revise/revise_data.dart';
 import 'package:mockmob/features/review/revise/revise_screen.dart';
 
+import '../../device_demo/demo_keycards_decks.dart' show demoKeyCardsJson;
 import '../../unit/keycards/support/keycards_fakes.dart';
 import '../review/review_golden_support.dart' show reviewOverrides;
 import 'kc_golden_support.dart';
@@ -66,6 +67,13 @@ class _EmptyRevise implements ReviseApi {
 
   @override
   Future<ReviseAnswer> answer({required String questionId, required int choice, required int cap}) => throw StateError('no question');
+}
+
+/// Published cards from the device demo's real chapters (NCERT's own words), by id: the device walk of 31 Oct
+/// found what the fixture deck's short lines could not show (journal entries, long lists, formulas over two lines).
+List<KeyCard> _real(List<String> slugs) {
+  final all = [for (final c in (jsonDecode(demoKeyCardsJson) as Map<String, dynamic>)['cards'] as List<dynamic>) ?KeyCard.tryParse(c)];
+  return [for (final slug in slugs) all.firstWhere((c) => c.id.endsWith('.$slug'))];
 }
 
 MemoryPrefsStore _keptHome(FakeKeyCardsApi api) => MemoryPrefsStore()
@@ -155,6 +163,30 @@ void main() {
     },
   );
   kcGolden('kc_deck_last_look', () => const KeyCardsDeckScreen(chapterKey: kcChapter2, initialMode: KcMode.lastLook), overrides: () => keyCardsOverrides(FakeKeyCardsApi(isPro: true)), size: const Size(360, 900));
+  // Real cards in Read: a lettered list, two journal entries (Dr. at the right, credits indented, the narration
+  // under them), a list the book does not number (bullets) and a formula.
+  kcGolden(
+    'kc_deck_read_real',
+    () => const KeyCardsDeckScreen(chapterKey: 'accountancy.retirement-and-death-of-partner'),
+    overrides: () => keyCardsOverrides(
+      FakeKeyCardsApi(
+        isPro: true,
+        cards: _real(['list-dues-deductions', 'entry-goodwill-not-in-books', 'entry-shilpa-neeru-deepa', 'types-settlement-modes', 'fm-new-share']),
+      ),
+    ),
+    size: const Size(360, 2300),
+  );
+  // A long answer on a phone-sized screen: once it shows, the page moves so the three keys are on screen.
+  kcGolden(
+    'kc_deck_study_long',
+    () => const KeyCardsDeckScreen(chapterKey: 'biology.molecular-basis-of-inheritance', initialMode: KcMode.study),
+    overrides: () => keyCardsOverrides(FakeKeyCardsApi(isPro: true, cards: _real(['list-identify-all-the-approximately-20-8']))),
+    size: const Size(360, 800),
+    after: (tester) async {
+      await tester.tap(find.text(KeyCardsCopy.tapToReveal));
+      await kcSettle(tester);
+    },
+  );
   kcGolden('kc_deck_empty', () => const KeyCardsDeckScreen(chapterKey: kcAccountancyChapter), overrides: () => keyCardsOverrides(FakeKeyCardsApi()), size: const Size(360, 640));
   kcGolden(
     'kc_report_sheet',

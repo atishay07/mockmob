@@ -52,7 +52,11 @@ Future<void> kcSettle(WidgetTester tester) async {
 Finder kcKey(String label) => find.byWidgetPredicate((w) => w is KeyButton && w.label == label);
 
 Future<void> kcTap(WidgetTester tester, Finder f) async {
-  await tester.ensureVisible(f.first);
+  // As a student would: the page moves only as far as the control needs to show, so a golden keeps the page where
+  // the screen itself left it (tester.ensureVisible would pull every tapped control to the top).
+  final element = tester.element(f.first);
+  await Scrollable.ensureVisible(element, alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtEnd);
+  await Scrollable.ensureVisible(element, alignmentPolicy: ScrollPositionAlignmentPolicy.keepVisibleAtStart);
   await tester.pump();
   await tester.tap(f.first);
   await kcSettle(tester);
