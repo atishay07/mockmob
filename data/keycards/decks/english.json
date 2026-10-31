@@ -1,6 +1,6 @@
 {
   "subject": "english",
-  "version": 1,
+  "version": 2,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -1359,6 +1359,72 @@
         "grammar"
       ],
       "order": 650
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-passive-simple-past",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: how is the passive voice of the simple past formed?",
+      "back": "was/were + the past participle.\nWrong: The letter typed by the secretary yesterday.\nRight: The letter was typed by the secretary yesterday.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 2890,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-incapable-of",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which preposition follows 'incapable'?",
+      "back": "'Of', not 'to' or 'for'.\nWrong: He is incapable to telling a lie.\nRight: He is incapable of telling a lie.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 2900,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-past-perfect-earlier-action",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: which tense shows an action completed before another past action ('by the time ...')?",
+      "back": "The past perfect (had + past participle).\nWrong: By the time we arrived, the film started.\nRight: By the time we arrived, the film had started.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 2910,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.english.vocabulary.word-lucid",
@@ -7369,6 +7435,686 @@
         "contemporary"
       ],
       "order": 2570
+    },
+    {
+      "id": "kc.english.vocabulary.word-authentic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'authentic' mean?",
+      "back": "Real and genuine; known to be what it is claimed to be, and not a copy",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "authentic",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2590,
+      "note": "Synonym: genuine. Antonym: counterfeit.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-versatile",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'versatile' mean?",
+      "back": "Able to do many different things; adaptable to many different tasks",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "versatile",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2600,
+      "note": "Synonym: adaptable. Antonym: limited.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-elated",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'elated' mean?",
+      "back": "Very happy and excited, especially because of something good that has happened",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "elated",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2610,
+      "note": "Synonym: overjoyed. Antonym: dejected.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-laconic",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'laconic' mean?",
+      "back": "Using very few words",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "laconic",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2620,
+      "note": "Synonym: concise. Antonym: wordy.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-indifferent",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'indifferent' mean?",
+      "back": "Having or showing no interest or concern",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "indifferent",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2630,
+      "note": "Synonym: uninterested. Antonym: concerned.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-alacrity",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'alacrity' mean?",
+      "back": "Brisk and cheerful readiness to act",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "alacrity",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2640,
+      "note": "Synonym: eagerness. Antonym: reluctance.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-arduous",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'arduous' mean?",
+      "back": "Involving or needing a lot of effort and energy; difficult and tiring",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "arduous",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2650,
+      "note": "Synonym: demanding. Antonym: easy.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-sparse",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'sparse' mean?",
+      "back": "Present only in small amounts or numbers, and often spread over a large area",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "sparse",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2660,
+      "note": "Synonym: scattered. Antonym: dense.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-arrogant",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'arrogant' mean?",
+      "back": "Proud in an unpleasant way, believing oneself superior and showing little thought for others",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "arrogant",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2670,
+      "note": "Synonym: haughty. Antonym: humble.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-perspicacious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'perspicacious' mean?",
+      "back": "Having keen insight; quick to notice and understand things",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "perspicacious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2680,
+      "note": "Synonym: discerning. Antonym: obtuse.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-loquacious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'loquacious' mean?",
+      "back": "Tending to talk a great deal",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "loquacious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2690,
+      "note": "Synonym: talkative. Antonym: taciturn.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-abate",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'abate' mean?",
+      "back": "To become less intense or less widespread",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "abate",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2700,
+      "note": "Synonym: subside. Antonym: intensify.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-assertive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'assertive' mean?",
+      "back": "Expressing opinions or wishes firmly and confidently, so that others take notice",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "assertive",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2710,
+      "note": "Synonym: forceful. Antonym: hesitant.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-conscientious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'conscientious' mean?",
+      "back": "Taking care to do things carefully and correctly",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "conscientious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2720,
+      "note": "Synonym: careful. Antonym: careless.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-inquisitive",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'inquisitive' mean?",
+      "back": "Eager to learn; curious and fond of asking questions",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "inquisitive",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2730,
+      "note": "Synonym: curious. Antonym: uninterested.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-ratify",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'ratify' mean?",
+      "back": "To give formal approval to an agreement, treaty or amendment, so that it becomes officially valid",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "ratify",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2750,
+      "note": "Synonym: approve. Antonym: reject.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-clemency",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'clemency' mean?",
+      "back": "Mercy or leniency shown to an offender",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "clemency",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2760,
+      "note": "Synonym: mercy. Antonym: severity.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.word-mendacious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'mendacious' mean?",
+      "back": "Not telling the truth; given to lying",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "mendacious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2770,
+      "note": "Synonym: untruthful. Antonym: truthful.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-archaeology",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: the study of ancient human societies through the material remains they left behind",
+      "back": "Archaeology",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "archaeology"
+      ],
+      "order": 2780,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.oneword-biographer",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "one_word",
+      "front": "One word for: a person who writes the life story of another person",
+      "back": "Biographer",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "one-word",
+        "biographer"
+      ],
+      "order": 2790,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-cut-no-ice",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'cut no ice' mean?",
+      "back": "To have no effect or influence on someone",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 2800,
+      "note": "Example: His excuses cut no ice with the teacher.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-cut-corners",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'cut corners' mean?",
+      "back": "To do something badly or cheaply by skipping necessary steps",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 2810,
+      "note": "Example: The builder cut corners and the wall cracked.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.idiom-hit-the-sack",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "idiom",
+      "front": "What does the idiom 'hit the sack' mean?",
+      "back": "To go to bed",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "idiom"
+      ],
+      "order": 2820,
+      "note": "Example: I was tired, so I hit the sack early.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.phrasal-call-off",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the phrasal verb 'call off' mean?",
+      "back": "To cancel",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "phrasal-verb"
+      ],
+      "order": 2830,
+      "note": "Example: The match was called off because of rain.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.phrasal-put-up-with",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the phrasal verb 'put up with' mean?",
+      "back": "To tolerate",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "phrasal-verb"
+      ],
+      "order": 2840,
+      "note": "Example: She cannot put up with the noise.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.phrasal-look-into",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the phrasal verb 'look into' mean?",
+      "back": "To investigate",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "phrasal-verb"
+      ],
+      "order": 2850,
+      "note": "Example: The committee will look into the complaint.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.phrasal-run-out-of",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the phrasal verb 'run out of' mean?",
+      "back": "To use up the supply of something",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "phrasal-verb"
+      ],
+      "order": 2860,
+      "note": "Example: We have run out of paper.",
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.english.vocabulary.phrasal-come-across",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does the phrasal verb 'come across' mean?",
+      "back": "To find or meet by chance",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "phrasal-verb"
+      ],
+      "order": 2870,
+      "note": "Example: I came across an old photo in the drawer.",
+      "addedIn": "gap-1031"
     }
   ]
 }

@@ -105,6 +105,61 @@
         "review:not_exact",
         "review:Imprecise: front says past event or state but back says present becomes past; a past event goes simple past to past perfect (had + V3). Rephrase back to cover both steps, and universal truth exception also covers habitual facts."
       ]
+    },
+    {
+      "id": "kc.english.vocabulary.word-obsequious",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.vocabulary",
+      "chapter": "Vocabulary",
+      "unit": "Verbal Ability",
+      "kind": "word",
+      "front": "What does 'obsequious' mean?",
+      "back": "Excessively eager to please or obey",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "obsequious",
+        "synonym",
+        "antonym"
+      ],
+      "order": 2740,
+      "note": "Synonym: servile. Antonym: arrogant.",
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_exact",
+        "review:Note lists antonym arrogant; the true opposite of servile/fawning is assertive or domineering, arrogant is only loosely opposed. Meaning itself is right; fix the note antonym."
+      ]
+    },
+    {
+      "id": "kc.english.correct-word-usage.rule-backshift-reported",
+      "v": 1,
+      "subject": "english",
+      "chapterKey": "english.correct-word-usage",
+      "chapter": "Correct Word Usage",
+      "unit": "Verbal Ability",
+      "kind": "rule",
+      "front": "Rule: in reported speech after a past reporting verb ('said that'), how does the tense change?",
+      "back": "It moves one step back: am/is becomes was, has/have becomes had, and the simple past becomes the past perfect.\nWrong: She said that she has submitted the form.\nRight: She said that she had submitted the form.",
+      "blanks": [],
+      "source": {
+        "kind": "authored"
+      },
+      "importance": "good",
+      "asked": 0,
+      "tags": [
+        "grammar"
+      ],
+      "order": 2880,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_exact",
+        "review:Rule is stated as always true but is only generally true: omits are->were, will->would, can->could, and present tense stays for universal truths or still-valid facts. Add these or narrow the front."
+      ]
     }
   ]
 }

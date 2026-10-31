@@ -20,9 +20,9 @@
     "cards": 1184
   },
   "english": {
-    "version": 1,
-    "sha256": "f2477a8ff7230b85901ff382d71b5a6609a8ba6c738cac2ada56e3f0aba59dbe",
-    "cards": 318
+    "version": 2,
+    "sha256": "97ab6f6557eb20f8d0e27401ee38d04dd99e569b820cb8677c6af607f68fb499",
+    "cards": 349
   },
   "political_science": {
     "version": 3,
