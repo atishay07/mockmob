@@ -29,12 +29,11 @@ import './arena-support.css';
 import './nav-badge.css';
 import './signout.css';
 import '@/components/study/study.css';
-import { arenaNavigation, ASK_MOBI_NAV, dockPlaceOf, LEARN_HALF, mobileNavigation, placeTabs, PRACTICE_HALF, practiceHalfOf, youSheetGroups } from '@/lib/arenaNavigation';
+import { arenaNavigation, ASK_MOBI_NAV, dockPlaceOf, mobileNavigation, placeTabs, youSheetGroups } from '@/lib/arenaNavigation';
 import './nav-places.css';
 import Image from 'next/image';
 import mascot from '@/../public/brand/mascot/manifest.json';
 import PlaceTabs from '@/components/nav/PlaceTabs';
-import PracticeHalves from '@/components/nav/PracticeHalves';
 import { useReviseBadge } from '@/lib/reviewRead';
 import { useKeycardsHome } from '@/components/keycards/api';
 import { dueBadge, dueLabel } from '@/lib/nav/dueCount.mjs';
@@ -63,7 +62,7 @@ const ASK_MOBI_NOTE = 'He explains any answer.';
 // Pip guides the tour only (rare, so it may have character); it nods on each step.
 const TOUR_POSES = ['greeting', 'encouraging', 'thinking', 'encouraging', 'celebrating', 'encouraging', 'thinking', 'celebrating', 'greeting'];
 
-export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, previewNav = null, studyEnabled = false, mobEnabled = false, contributeEnabled = false, offer = null }) {
+export default function AppLayoutClient({ children, previewRoute = null, previewLinks = null, studyEnabled = false, mobEnabled = false, contributeEnabled = false, offer = null }) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, status, refreshSession } = useAuth();
@@ -79,33 +78,20 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const isTestRoute = activePath.startsWith('/test') || activePath.startsWith('/mob/game/');
   const wallet = useWalletSummary(user?.id);
   const mobOn = mobEnabled || Boolean(previewLinks?.mob);
-  const studyOn = studyEnabled || previewRoute === '/learn' || (Boolean(previewRoute) && previewNav === 'n2');
+  const studyOn = studyEnabled || previewRoute === '/learn';
   const TOUR_STEPS = useMemo(() => tourSteps({ mob: mobOn, study: studyOn }), [mobOn, studyOn]);
   // The Revise count is what Revise has due today (LEARN-REVIEW-1017 5.12), absent when nothing is due or the count is unknown.
   // It sits on Practice in the phone dock and on Your papers in the sidebar and in Practice's row of tabs.
   const reviseBadge = useReviseBadge({ enabled: status === 'authenticated' && !isTestRoute });
   // The Key cards due today, beside "Learn, Key cards" in the sidebar (B 2.2: today.due). One shared read with the other Key cards entries.
-  // N2 (docs/brain/learn-1031/NAV-2.md): the development preview's &nav=n2 draws Learn as its own section, for the owner's call. Only
-  // the preview passes it; without it every row below is the default navigation.
-  const navN2 = Boolean(previewRoute) && previewNav === 'n2';
-  const keycardsHome = useKeycardsHome({ enabled: status === 'authenticated' && !isTestRoute && (studyEnabled || previewRoute === '/learn' || navN2) });
+  const keycardsHome = useKeycardsHome({ enabled: status === 'authenticated' && !isTestRoute && (studyEnabled || previewRoute === '/learn') });
   const learnDue = keycardsHome.state === 'ready' ? Number(keycardsHome.data?.today?.due) || 0 : 0;
   // The development preview's &nav=n1 draws Learn as a place of its own in the sidebar (B 6.4), for the owner's call.
   const [navAlt, setNavAlt] = useState(false);
   useEffect(() => {
     if (!previewRoute) return;
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- the address is read after mount (no window on the server)
     try { setNavAlt(new URLSearchParams(window.location.search).get('nav') === 'n1'); } catch { /* the default sidebar */ }
   }, [previewRoute, pathname]);
-  // N2's memory: the Practice tab opens on the half the student last used (per device). A deep link chooses its own half.
-  const practiceHalf = navN2 && !isTestRoute ? practiceHalfOf(activePath) : null;
-  const [lastHalf, setLastHalf] = useState('practice');
-  useEffect(() => {
-    if (!navN2) return;
-    if (practiceHalf) { try { window.localStorage.setItem('mm:practice-half:v1', practiceHalf); } catch { /* only a convenience */ } return; }
-    // eslint-disable-next-line react-hooks/set-state-in-effect -- the remembered half is read after mount (no storage on the server)
-    try { setLastHalf(window.localStorage.getItem('mm:practice-half:v1') === 'learn' ? 'learn' : 'practice'); } catch { /* Practice */ }
-  }, [navN2, practiceHalf]);
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
@@ -342,18 +328,17 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
     );
   }
 
-  const showStudy=studyEnabled || previewRoute==='/learn' || navN2;
+  const showStudy=studyEnabled || previewRoute==='/learn';
   const contributeOn = Boolean(contributeEnabled);
   const keepLearn = (tab) => showStudy || tab.id !== 'learn';
   // The five places (WEB-NAV-1019 option A, owner D114): the sidebar draws Today, Practice, Mob and You as bold rows with their
   // pages indented under them (no group headers); the phone dock draws Today, Practice, the Start key, Mob and You; You opens
   // the You sheet; Practice's and the Mob's pages are a row of tabs on those pages. Every page keeps its link and route.
-  const navGroups = arenaNavigation(isModerator, { mob: mobOn, contribute: contributeOn, learnPlace: navAlt && showStudy, learnSection: navN2 }).map((group) => ({ ...group, items: group.items.filter(keepLearn) }));
+  const navGroups = arenaNavigation(isModerator, { mob: mobOn, contribute: contributeOn, learnPlace: navAlt && showStudy }).map((group) => ({ ...group, items: group.items.filter(keepLearn) }));
   const sheetGroups = youSheetGroups(isModerator, { mob: mobOn, contribute: contributeOn });
   const dockTabs = mobileNavigation({ mob: mobOn });
   const dockPlace = isTestRoute ? null : dockPlaceOf(activePath, { mob: mobOn });
-  // N2 draws the Practice tab's halves in place of Practice's row of tabs on Practice's and Learn's pages (PracticeHalves).
-  const tabRow = isTestRoute ? null : placeTabs(activePath, { mob: mobOn, study: showStudy, halves: navN2 });
+  const tabRow = isTestRoute ? null : placeTabs(activePath, { mob: mobOn, study: showStudy });
   const allTabs = [...navGroups.flatMap((group) => group.items), ...sheetGroups.flatMap((group) => group.items), ASK_MOBI_NAV];
   // The rail fills top to bottom once on entering the Arena, and the You sheet's rows rise one after another: each row's place in
   // its own list is its --i (the stagger the release 10 rail had, kept across the places).
@@ -361,19 +346,13 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const sheetIndex = new Map(sheetGroups.flatMap((group) => group.items).map((tab, i) => [tab.id, i]));
   // A lesson or recall run lives at /study/<id> but belongs to Learn (D20), so Learn stays the current place while you are in one.
   // Key cards (/cards, /cards/<chapter>) live in Learn too: no tab of their own (KEYCARDS-BUILD-SPEC.md section 3).
-  const onFind = navN2 && (activePath === '/learn/find' || activePath.startsWith('/learn/find/'));
-  const isActive = (id) => (id === 'learn-find' ? onFind : id === 'learn' && onFind ? false
-    : activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'))
-    || (id === 'learn' && (activePath === '/cards' || activePath.startsWith('/cards/'))));
+  const isActive = (id) => activePath === `/${id}` || activePath.startsWith(`/${id}/`) || (id === 'learn' && activePath.startsWith('/study/'))
+    || (id === 'learn' && (activePath === '/cards' || activePath.startsWith('/cards/')));
   // The Revise count is drawn as "8 to revise", never a bare number that reads as a paper count (verifier M1), and said in words.
   const countLabel = (tab) => (reviseBadge && (tab.id === 'review' || tab.id === 'dashboard') ? dueLabel(tab.label, reviseBadge) : undefined);
   // The preview's own Find view for N1's "Key cards to revise" row (the real route is /learn/find).
   const previewFind = () => { const q = new URLSearchParams(window.location.search); q.set('view', 'learn2'); q.set('lv', 'find'); return `/preview/arena?${q.toString()}`; };
   const hrefOf = (tab) => (tab.id === 'learn-cards' && previewRoute ? previewFind() : previewLinks?.[tab.id] || tab.href || `/${tab.id}`);
-  // N2: the dock's Practice tab opens the half last used; the switch's words open each half's own page.
-  const learnHome = LEARN_HALF[0];
-  const practiceHome = PRACTICE_HALF[0];
-  const dockHref = (tab) => (navN2 && tab.id === 'dashboard' && lastHalf === 'learn' && !practiceHalf ? hrefOf(learnHome) : hrefOf(tab));
   const learnLabel = (tab) => (learnDue ? `Learn${tab.hint ? `, ${tab.hint}` : ''}, ${learnDue} ${learnDue === 1 ? 'card' : 'cards'} due today` : undefined);
   // The account's name only when it is a real name (release 11 walk; the app's rule, src/lib/displayName.mjs), else "Account".
   const accountName = shownName(user?.name, user?.email);
@@ -394,8 +373,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         <AppIcon name={tab.icon} />
         <span className="arena-nav-link__label">{tab.label}{tab.hint ? <span className="arena-nav-link__hint">, {tab.hint}</span> : null}</span>
         {tab.id === 'review' && reviseBadge ? <i className="arena-nav-link__count" aria-hidden="true">{dueBadge(reviseBadge)}</i> : null}
-        {/* N2 draws the Key cards due count as a bare tabular number beside Learn (NAV-2.md); its words are in the row's label. */}
-        {tab.id === 'learn' && learnDue ? <i className="arena-nav-link__count" aria-hidden="true">{navN2 ? (learnDue > 99 ? '99+' : learnDue) : dueBadge(learnDue)}</i> : null}
+        {tab.id === 'learn' && learnDue ? <i className="arena-nav-link__count" aria-hidden="true">{dueBadge(learnDue)}</i> : null}
       </Link>
     </React.Fragment>
   );
@@ -512,10 +490,6 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
         {/* Phones: the pages inside Practice (or the Mob) as a row of tabs on each of those pages. It stays put while the
             page under it changes, so moving between the tabs never moves the row. */}
         {tabRow ? <PlaceTabs key={tabRow.id} group={tabRow} hrefOf={hrefOf} isActive={isActive} count={reviseBadge || 0} countLabel={countLabel} /> : null}
-        {practiceHalf ? (
-          <PracticeHalves half={practiceHalf} practiceHref={hrefOf(practiceHome)} learnHref={hrefOf(learnHome)} learnDue={learnDue}
-            doors={practiceHalf === 'learn' ? LEARN_HALF : PRACTICE_HALF} hrefOf={hrefOf} isActive={isActive} count={reviseBadge || 0} countLabel={countLabel} />
-        ) : null}
         <PageTransition>
           <div className={`${isTestRoute ? 'test-content-host' : 'container-std'} relative z-10`}>
             <MobFlagProvider enabled={mobEnabled || Boolean(previewLinks?.mob)}><ContributeFlagProvider enabled={contributeOn}><TourStopsProvider count={TOUR_STEPS.length}>{children}</TourStopsProvider></ContributeFlagProvider></MobFlagProvider>
@@ -571,7 +545,7 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
             <React.Fragment key={tab.id}>
               {index === 2 ? <StartKey variant="bar" onOpen={() => setMobileMenuOpen(false)} /> : null}
               <Link
-                href={dockHref(tab)}
+                href={hrefOf(tab)}
                 onClick={() => setMobileMenuOpen(false)}
                 aria-current={isActive(tab.id) ? 'page' : undefined}
                 data-within={!isActive(tab.id) && dockPlace === tab.dock && !mobileMenuOpen ? 'true' : undefined}

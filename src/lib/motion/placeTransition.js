@@ -100,8 +100,7 @@ export const VIEW_TRANSITION_PROPS = Object.freeze({ enter: byType, exit: byType
 // The development preview (/preview/arena?view=...) draws every arena page on one route. Its views map
 // to the routes they stand for (ArenaPreviewClient's routeNames), so the preview moves as the real arena.
 const PREVIEW_PATH = '/preview/arena';
-// Learn home's preview view (learn2) stands for /learn, so moving between Practice and Learn in the preview is a place switch as on the real routes.
-const PREVIEW_ROUTES = Object.freeze({ prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise', learn2: 'learn' });
+const PREVIEW_ROUTES = Object.freeze({ prepos: 'mentor', compass: 'admission-compass', radar: 'analytics', ranks: 'leaderboard', rules: 'review/rules', revise: 'review/revise' });
 
 /** The arena path an href stands for: itself, or for a preview URL the route its view draws. */
 export function logicalPath(href) {

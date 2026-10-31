@@ -88,10 +88,7 @@ function FootRow() {
   );
 }
 
-// navHalves: the N2 option (docs/brain/learn-1031/NAV-2.md, preview &nav=n2). Chapters and Find are doors of the shell's Learn half (a
-// phone's door row, the sidebar's Find and revise), so the page draws no switch of its own; on a phone the shell's title switch is the
-// page title, so the header is not drawn there either.
-export default function LearnHome({ subject: subjectProp = null, initialView = 'chapters', navAlt = false, navHalves = false }) {
+export default function LearnHome({ subject: subjectProp = null, initialView = 'chapters', navAlt = false }) {
   const links = useLearnLinks();
   const { user } = useAuth() || {};
   const [subject, setSubject] = useState(subjectProp);
@@ -135,15 +132,15 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   const failed = body.status === 'error';
 
   return (
-    <div className="lh" data-nav={navHalves ? 'n2' : navAlt ? 'n1' : undefined} data-view={view}>
+    <div className="lh" data-nav={navAlt ? 'n1' : undefined} data-view={view}>
       <header className="lh-head">
         <h1 className="lh-title">Learn</h1>
-        {navHalves ? null : <ViewSwitch view={view} onChange={changeView} />}
+        <ViewSwitch view={view} onChange={changeView} />
       </header>
 
       <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} />
 
-      <div id="lh-panel" role={navHalves ? undefined : 'tabpanel'} aria-labelledby={navHalves ? undefined : `lh-tab-${view}`} className="lh-panel" key={view}>
+      <div id="lh-panel" role="tabpanel" aria-labelledby={`lh-tab-${view}`} className="lh-panel" key={view}>
         {view === 'find' ? (
           <FindView subject={active} />
         ) : (

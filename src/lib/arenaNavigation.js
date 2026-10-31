@@ -23,9 +23,6 @@ const LEARN = item('learn', 'Learn', 'learn', '/learn', 'Key cards');
 // sub-row that opens Find on the due cards. Not the default.
 const LEARN_CARDS = item('learn-cards', 'Key cards to revise', 'learn', '/learn/find');
 const EXPLORE = item('explore', 'Explore');
-// N2, drawn for the owner's call (docs/brain/learn-1031/NAV-2.md, preview &nav=n2): Learn as its own section. Practice keeps testing
-// (Practice, Your papers, Saved); Learn holds learning (its chapters, Find and revise, Explore). Not the default.
-const FIND_REVISE = item('learn-find', 'Find and revise', 'search', '/learn/find');
 const SAVED = item('saved', 'Saved');
 // title: what the top bar calls the place's own page, where that differs from its short name.
 const MOB = { ...item('mob', 'Mob', 'mob', '/mob', 'with friends'), title: 'Your Mob' };
@@ -50,15 +47,12 @@ export const MOB_PAGES = Object.freeze([{ ...MOB, label: 'Your Mob', hint: null,
 // Every group has a label: the place groups use it as their landmark name only (the sidebar draws no group headers, so the
 // four places read as places); Moderation and Contribute, which only some students see, keep a visible header.
 // `learnPlace`: the N1 alternate (above): Learn leaves Practice's sub-rows and stands as its own place after Practice.
-// `learnSection`: the N2 alternate (NAV-2.md): five places, Learn among them with Find and revise and Explore under it.
-export function arenaNavigation(moderator = false, { mob = false, contribute = false, learnPlace = false, learnSection = false } = {}) {
-  const practicePages = learnSection ? [PAPERS, SAVED] : learnPlace ? [PAPERS, EXPLORE, SAVED] : [LEARN, PAPERS, EXPLORE, SAVED];
+export function arenaNavigation(moderator = false, { mob = false, contribute = false, learnPlace = false } = {}) {
   return [
     ...(moderator ? [{ id: 'moderation', label: 'Moderation', items: [item('moderation', 'Mod queue', 'moderation')] }] : []),
     { id: 'today', label: 'Today', place: true, items: [place(TODAY)] },
-    { id: 'practice', label: 'Practice', place: true, items: [place(PRACTICE), ...practicePages.map(sub)] },
-    ...(learnSection ? [{ id: 'learn', label: 'Learn', place: true, items: [place({ ...LEARN, hint: null }), sub(FIND_REVISE), sub(EXPLORE)] }]
-      : learnPlace ? [{ id: 'learn', label: 'Learn', place: true, items: [place({ ...LEARN, hint: null }), sub(LEARN_CARDS)] }] : []),
+    { id: 'practice', label: 'Practice', place: true, items: [place(PRACTICE), ...(learnPlace ? [PAPERS, EXPLORE, SAVED] : [LEARN, PAPERS, EXPLORE, SAVED]).map(sub)] },
+    ...(learnPlace ? [{ id: 'learn', label: 'Learn', place: true, items: [place({ ...LEARN, hint: null }), sub(LEARN_CARDS)] }] : []),
     ...(mob ? [{ id: 'mob', label: 'Mob', place: true, items: [place(MOB), sub(STANDING)] }] : []),
     { id: 'you', label: 'You', place: true, items: [place(YOU), sub(PROGRESS), ...(mob ? [] : [sub(STANDING)]), sub(TREND), sub(COLLEGES), { ...sub(WALLET), ruleAbove: true }, sub(GUIDE)] },
     ...(contribute ? [{ id: 'contribute', label: 'Contribute', items: [item('upload', 'Contribute', 'contribute'), item('my-uploads', 'My uploads', 'uploads')] }] : []),
@@ -92,31 +86,14 @@ export function youSheetGroups(moderator = false, { mob = false, contribute = fa
 // Phones: the pages inside a place sit in a row of tabs under the top bar, on each of those pages (WEB-NAV-1019 option A).
 // Practice: Practice, Learn (while the lessons are on), Your papers, Explore, Saved. The Mob: Your Mob, Your standing.
 // The row is drawn only on the place's own pages and Learn's chapter and Find pages, never deeper (a lesson run, a rule book).
-// `halves`: the N2 option (NAV-2.md): Practice's and Learn's pages draw the Practice tab's two halves instead (PracticeHalves).
-export function placeTabs(path, { mob = false, study = false, halves = false } = {}) {
+export function placeTabs(path, { mob = false, study = false } = {}) {
   // Learn's own pages (a chapter, Find, its cards) draw the row too, so a phone student on a chapter can move sideways without Back;
   // the player (/learn/run) is a focus place and draws none.
   const learnPage = study && /^\/learn\/(c\/|find\b)/.test(String(path || ""));
   const at = (tabs) => learnPage || tabs.some((tab) => tab.href === path);
   const practice = PRACTICE_PAGES.filter((tab) => study || tab.id !== 'learn');
-  if (halves && (practiceHalfOf(path) || at(practice))) return null;
   if (at(practice)) return { id: 'practice', label: 'Practice pages', tabs: practice };
   if (mob && at(MOB_PAGES)) return { id: 'mob', label: 'Mob pages', tabs: MOB_PAGES };
-  return null;
-}
-
-// N2 (NAV-2.md, phones): the Practice tab has two halves under a title switch, each with one row of doors. Every door fits at 390 px.
-/** The Practice half's doors, in NAV-2.md's words (its first door is named for the verb, so it does not repeat the half's name). */
-export const PRACTICE_HALF = Object.freeze([{ ...PRACTICE, label: 'Practise' }, PAPERS, SAVED]);
-/** The Learn half's doors: Chapters (Learn home), Find (Find and revise), Explore. */
-export const LEARN_HALF = Object.freeze([{ ...LEARN, label: 'Chapters', hint: null }, { ...FIND_REVISE, label: 'Find' }, EXPLORE]);
-/** Which half a path opens (a deep link chooses its half): /learn* and /explore open Learn, the Practice pages open Practice,
- *  anything else is outside the Practice tab (null). The player (/learn/run) and Explore's own runs are focus places: null. */
-export function practiceHalfOf(path) {
-  const p = String(path || '').split(/[?#]/)[0];
-  if (/^\/learn\/run(\/|$)/.test(p) || /^\/explore\/run(\/|$)/.test(p)) return null;
-  if (p === '/learn' || p.startsWith('/learn/') || p === '/explore' || p.startsWith('/explore/')) return 'learn';
-  if (['/dashboard', '/review', '/saved'].includes(p)) return 'practice';
   return null;
 }
 
