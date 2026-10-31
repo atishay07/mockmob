@@ -17,7 +17,7 @@ import { useAuth } from '@/components/AuthProvider';
 import { ErrorState } from '@/components/ui/Skeleton';
 import { CardHead, CardSource, InShort, KeyCardPlayer, NcertText, Prompt, ProGate, ReportForm } from './KeyCard';
 import { addToRevise, isOff, isProRequired, readChapters, readDeck, refreshHome } from './api';
-import { BLANK_KINDS, MODES, chapterRef, chapterRefSpoken, endCounts, plural, readingRows, splitDeck } from './kinds';
+import { BLANK_KINDS, MODES, chapterRef, chapterRefSpoken, deckOrigin, endCounts, plural, readingRows, splitDeck, unitRepeats } from './kinds';
 import { useCardsLinks } from './links';
 import { ncertFont } from './ncertFont';
 import './keycards.css';
@@ -113,19 +113,28 @@ function ReadMode({ deck, isPro, added, onAdd }) {
 // A rating the server confirmed schedules that card (POST /api/keycards/review creates its state), so `onReviewed` tells the
 // page, and "Add chapter to Revise" turns to "In Revise" once every card it would add is scheduled: the screen never offers to
 // add what Study has already added.
+// A long chapter (Accounting Ratios has 165 cards) is studied 20 at a time: "4 of 20", with "Cards 21 to 40 of 165" beside it,
+// and each round ends on its counts with the next 20 as the one key, so a session always has an end in sight.
+export const STUDY_ROUND = 20;
+
 function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onRead, onReviewed }) {
   const [round, setRound] = useState(0);
+  const [start, setStart] = useState(0);
   const [at, setAt] = useState(0);
   const [ratings, setRatings] = useState({});
   const [limited, setLimited] = useState(false);
-  const total = cards.length;
-  const card = cards[at];
+  const part = cards.slice(start, start + STUDY_ROUND);
+  const total = part.length;
+  const card = part[at];
+  const rounds = cards.length > STUDY_ROUND;
+  const left = Math.max(0, cards.length - start - total);
   const rated = useCallback(({ rating, cardId }) => {
     onReviewed?.(cardId);
     setRatings((r) => ({ ...r, [rating]: (r[rating] || 0) + 1 }));
     setAt((n) => n + 1);
   }, [onReviewed]);
-  const again = () => { setRatings({}); setAt(0); setRound((r) => r + 1); };
+  const begin = (from) => { setRatings({}); setAt(0); setStart(from); setRound((r) => r + 1); };
+  const span = rounds ? `Cards ${start + 1} to ${start + total} of ${cards.length}` : null;
   if (limited) {
     return (
       <div className="kc-end" role="status">
@@ -142,22 +151,24 @@ function StudyMode({ cards, isPro, inRevise, onAddChapter, adding, readHref, onR
     return (
       <div className="kc-end" aria-labelledby="kc-end-h">
         <h2 className="kc-end__title" id="kc-end-h" role="status">{plural(done, 'card')} studied</h2>
+        {span ? <p className="kc-end__line">{span}.{left ? '' : ' That was the last of the chapter.'}</p> : null}
         <dl className="kc-counts">
           {counts.map((c) => <div key={c.label} data-k={c.label}><dt>{c.label}</dt><dd>{c.n}</dd></div>)}
         </dl>
         <div className="kc-end__keys">
-          {!inRevise ? <button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={onAddChapter} disabled={adding}>{adding ? 'Adding' : 'Add chapter to Revise'}</button> : null}
-          <button type="button" className={inRevise ? 'kc-btn kc-btn--volt' : 'kc-btn kc-btn--line'} data-page-primary={inRevise ? '' : undefined} onClick={again}>Study again</button>
+          {left ? <button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={() => begin(start + STUDY_ROUND)}>{left > STUDY_ROUND ? `Study the next ${STUDY_ROUND}` : left === 1 ? 'Study the last card' : `Study the last ${left}`}</button> : null}
+          {!inRevise ? <button type="button" className={left ? 'kc-btn kc-btn--line kc-end__add' : 'kc-btn kc-btn--volt'} data-page-primary={left ? undefined : ''} onClick={onAddChapter} disabled={adding}>{adding ? 'Adding' : 'Add chapter to Revise'}</button> : null}
+          {!left ? <button type="button" className={inRevise ? 'kc-btn kc-btn--volt' : 'kc-btn kc-btn--line'} data-page-primary={inRevise ? '' : undefined} onClick={() => begin(0)}>{rounds ? 'Study again from the start' : 'Study again'}</button> : null}
           <a className="kc-btn kc-btn--quiet" href={readHref} onClick={(e) => { e.preventDefault(); onRead(); }}>Read the chapter</a>
         </div>
-        {!isPro ? <ProGate isPro={isPro} lead={`You studied the ${plural(total, 'open card')}.`} /> : null}
+        {!isPro ? <ProGate isPro={isPro} lead={`You studied the ${plural(cards.length, 'open card')}.`} /> : null}
       </div>
     );
   }
   return (
     <div className="kc-session">
       <div className="kc-progress" aria-hidden="true"><span style={{ transform: `scaleX(${at / total})` }} /></div>
-      <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={`${at + 1} of ${total}`} onRated={rated} onLimit={() => setLimited(true)} />
+      <KeyCardPlayer key={`${round}:${card.id}`} card={card} mode="study" position={<>{at + 1} of {total}{span ? <span className="kc-pos__of">{span}</span> : null}</>} onRated={rated} onLimit={() => setLimited(true)} />
       <p className="kc-fine">Each card you rate joins Revise: Missed brings it back soon, Got it and Easy space it out.<span className="kc-keyhint"> Space shows the answer; 1, 2 and 3 rate it.</span></p>
     </div>
   );
@@ -227,7 +238,9 @@ function PrintSheet({ deck, cards }) {
   return createPortal(
     <section className={`kc-print ${ncertFont.variable}`} aria-hidden="true">
       <h1>{deck.chapter.title}</h1>
-      <p className="kc-print__ref">{[chapterRef(deck.chapter.ncert), `${plural(cards.length, 'Must-know card')} in NCERT’s exact words, each with its page`].filter(Boolean).join('. ')}.</p>
+      <p className="kc-print__ref">{(deckOrigin(cards)
+        ? [deckOrigin(cards), plural(cards.length, 'Must-know card')]
+        : [chapterRef(deck.chapter.ncert, { title: deck.chapter.title }), `${plural(cards.length, 'Must-know card')} in NCERT’s exact words, each with its page`]).filter(Boolean).join('. ')}.</p>
       <ol>
         {cards.map((c) => (
           <li key={c.id}>
@@ -313,8 +326,10 @@ export default function ChapterDeck({ chapterKey }) {
   if (state === 'error' || !deck) return shell(<ErrorState title="The cards did not load" message="Check your connection and try again. Nothing you added is lost." onRetry={retry} />);
 
   const { chapter, counts } = deck;
-  const ref = chapterRef(chapter.ncert);
-  const unit = chapter.unit && chapter.unit !== chapter.title ? chapter.unit : null;
+  const ref = chapterRef(chapter.ncert, { title: chapter.title });
+  // The unit only when it adds something: not the chapter's own title again, nor the book's name above "Book, Ch 1".
+  const unit = unitRepeats(chapter.unit, { title: chapter.title, ncert: ref ? chapter.ncert : null }) ? null : chapter.unit;
+  const origin = ref ? null : deckOrigin(deck.cards);
   const empty = !deck.cards?.length;
   const addLine = isPro
     ? `Adds the ${plural(must.length, 'Must-know card')}. Good-to-know cards you add one at a time.`
@@ -324,11 +339,13 @@ export default function ChapterDeck({ chapterKey }) {
     <div className={`kc kc--deck ${ncertFont.variable}`} data-mode={mode}>
       {back}
       <header className="kc-dhead">
+        {/* The spec's order: the unit, then the chapter title, then the NCERT reference (a unit beside the reference read as one phrase). */}
+        {unit ? <p className="kc-dhead__unit">{unit}</p> : null}
         <h1 className="kc-title">{chapter.title}</h1>
-        {unit || ref || chapter.chip ? (
+        {ref || origin || chapter.chip ? (
           <p className="kc-dhead__ref">
-            {unit ? <span className="kc-dhead__unit">{unit}</span> : null}
             {ref ? <span aria-label={chapterRefSpoken(chapter.ncert)}>{ref}</span> : null}
+            {origin ? <span>{origin}</span> : null}
             {chapter.chip ? <span className="kc-chip">{chapter.chip}</span> : null}
           </p>
         ) : null}
@@ -338,7 +355,9 @@ export default function ChapterDeck({ chapterKey }) {
       {empty ? (
         <div className="kc-quiet-state">
           <h2>No cards for this chapter yet</h2>
-          <p>Cards are written from the NCERT book and checked word for word before they open here. Until then, practise the chapter or read another one.</p>
+          <p>{chapter.ncert
+            ? 'Cards are written from the NCERT book and checked word for word before they open here. Until then, practise the chapter or read another one.'
+            : 'This chapter has no book chapter to take cards from, so it is practised with questions. Your other chapters have cards.'}</p>
           <Link className="kc-btn kc-btn--line" href={links.home(String(chapterKey).split('.')[0])}>See all chapters</Link>
         </div>
       ) : (

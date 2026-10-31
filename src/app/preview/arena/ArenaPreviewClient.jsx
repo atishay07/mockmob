@@ -51,6 +51,7 @@ import ReviseRun from '@/components/revise/ReviseRun';
 import KeycardsHome from '@/components/keycards/KeycardsHome';
 import ChapterDeck from '@/components/keycards/ChapterDeck';
 import { fixtureKeycards, fixtureReviseKeycards } from '@/components/keycards/fixtures';
+import { realDeckFetch, realDeckReviseItems, realDecksOn } from './previewRealDecks';
 import { headLine as reviseHeadLine, keycardMinutes, mixLine as reviseMixLine } from '@/components/revise/reviseQueue';
 import { choosableRule, startSheetLines, bookRules } from '@/../data/rule_book';
 import { withActiveRule } from '@/components/result/labLoop';
@@ -210,6 +211,9 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
     if (accountRead && state === 'error') return json({ error: 'Illustrative connection failure' }, 503);
     // Key cards (KEYCARDS-BUILD-SPEC.md 2e, src/components/keycards/fixtures.js): ?kc=ready|off|empty|sparse|limit|line-none|error,
     // with &plan=pro for the Pro views. Adds, ratings and reports live in this tab's memory only.
+    // &decks=real: the same routes answered on the dev server from the real bundled decks and links (previewRealDecks.js).
+    const realDeck = realDeckFetch(url, method, init, fixture, real);
+    if (realDeck) return realDeck;
     const kcReply = fixtureKeycards(url, method, init?.body ? JSON.parse(init.body) : null, { isPro: fixture.get('plan') === 'pro', variant: fixture.get('kc') || 'ready', memory: (window.__previewKeycards ||= {}) });
     if (kcReply) return json(kcReply.body, kcReply.status);
     // Wallet (D76): GET /api/wallet from the real pack catalog; ?commerce=open|closed, ?wallet=down|zero|unknown, ?history=down|empty (previewWallet.js).
@@ -510,17 +514,20 @@ if (typeof window !== 'undefined' && !window.__arenaPreviewFetch) {
       // branch builds it (src/lib/server/revise.js): the queue (?queue=1) carries the keycard items after the other sources;
       // the plain body (Today's read) carries keyCards: { due, today, minutes } instead.
       if (kind === 'keycards') {
-        const body = fixtureReviseQueue('ready');
-        const kc = fixtureReviseKeycards({ isPro: fixture.get('plan') === 'pro' });
-        const kcMinutes = keycardMinutes(kc.length);
-        if (url.searchParams.get('queue') !== '1') {
-          const { queue: _q, ...plain } = body;
-          return json({ ...plain, keyCards: { due: kc.length, today: kc.length, minutes: kcMinutes } });
-        }
-        const items = [...body.queue.items, ...kc];
-        const counts = { ...body.queue.counts, keycards: kc.length };
-        const minutes = body.queue.minutes + kcMinutes;
-        return json({ ...body, queue: { ...body.queue, items, counts, total: items.length, minutes, head: reviseHeadLine(items.length, minutes), mix: reviseMixLine(counts) } });
+        // &decks=real: the Key card items are the real queue's (the dev server's real-deck source), not the fixture's three.
+        const kcItems = realDecksOn(fixture) ? realDeckReviseItems(fixture, real) : Promise.resolve(fixtureReviseKeycards({ isPro: fixture.get('plan') === 'pro' }));
+        return kcItems.then((kc) => {
+          const body = fixtureReviseQueue('ready');
+          const kcMinutes = keycardMinutes(kc.length);
+          if (url.searchParams.get('queue') !== '1') {
+            const { queue: _q, ...plain } = body;
+            return json({ ...plain, keyCards: { due: kc.length, today: kc.length, minutes: kcMinutes } });
+          }
+          const items = [...body.queue.items, ...kc];
+          const counts = { ...body.queue.counts, keycards: kc.length };
+          const minutes = body.queue.minutes + kcMinutes;
+          return json({ ...body, queue: { ...body.queue, items, counts, total: items.length, minutes, head: reviseHeadLine(items.length, minutes), mix: reviseMixLine(counts) } });
+        });
       }
       return json(fixtureReviseQueue(kind));
     }
@@ -755,7 +762,7 @@ function PreviewInner({ candidatePathway }) {
   const previewLinks = params.get('mob') === 'off' ? Object.fromEntries(Object.entries(allLinks).filter(([key]) => key !== 'mob')) : allLinks;
   const auth = useMemo(() => ({
     user: { id: 'preview-user', name: params.get('data') === 'long' ? 'An exceptionally long illustrative display name for responsive checks' : params.get('name') === 'none' ? '' : params.get('name') === 'riya' ? 'Riya Sharma' : 'Preview Student', email: 'preview@example.test', role: params.get('role') === 'moderator' ? 'moderator' : 'student',
-      subjects: params.get('fresh') === '1' ? [] : ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
+      subjects: params.get('fresh') === '1' ? [] : params.get('student') === 'science' ? ['biology', 'political_science'] : ['accountancy', 'economics', 'business_studies', 'english', ...(params.get('cs') === '1' ? ['computer_science'] : []), ...(params.get('stale') === '1' ? ['hindi'] : [])],
       retiredSubjects: params.get('stale') === '1' ? ['teaching_aptitude'] : [],
       isPremium: pro, premiumUntil: pro ? '2027-07-31T18:29:59.000Z' : params.get('plan') === 'expired' ? '2026-09-01T18:29:59.000Z' : null, creditBalance: pro ? 0 : (previewOneTotal(params) ?? previewBalancePart(params)), credits: pro ? null : { total: previewOneTotal(params) }, ...(MONTHLY || {}) },
     status: 'authenticated', needsOnboarding: false, isAuthenticated: true,

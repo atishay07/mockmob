@@ -86,6 +86,7 @@ html[data-theme='light'] :is(.kc, .kc-line) {
   border: 1px solid var(--a-line); background: transparent; color: var(--a-ink-2); font: 600 15px/1 var(--font-body); cursor: pointer;
   transition: background-color var(--kc-dur) var(--kc-ease), border-color var(--kc-dur) var(--kc-ease), color var(--kc-dur) var(--kc-ease);
 }
+.kc-subjects__btn:last-child { scroll-snap-align: end; }
 .kc-subjects__btn[aria-selected='true'] { border-color: var(--a-ink-3); background: var(--a-raised); color: var(--a-ink); font-weight: 700; box-shadow: inset 0 0 0 1px var(--a-ink-3); }
 .kc-subjects__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; }
 @media (hover: hover) { .kc-subjects__btn:hover:not([aria-selected='true']) { border-color: var(--a-line-hover); color: var(--a-ink); } }
@@ -104,7 +105,7 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 /* ---------- Home: units and chapter rows ---------- */
 .kc-units { display: grid; gap: 0; padding-top: 4px; }
 .kc-unit { display: grid; }
-.kc-unit[data-headed] + .kc-unit[data-headed] { padding-top: 26px; }
+.kc-unit[data-group] + .kc-unit[data-group] { padding-top: 26px; }
 .kc-unit__h { font: 700 15px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink-2); padding: 0 0 10px; text-wrap: balance; }
 .kc-rows { list-style: none; display: grid; }
 .kc-row { border-top: 1px solid var(--a-line); animation: kc-rise 260ms var(--kc-ease) both; animation-delay: calc(var(--i, 0) * 24ms); }
@@ -136,7 +137,7 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 
 /* ---------- Deck: head, board, side ---------- */
 .kc-dhead { display: grid; gap: 8px; }
-.kc-dhead__unit { font: 600 14px/1.3 var(--font-body); color: var(--a-ink-3); }
+.kc-dhead__unit { font: 600 14px/1.35 var(--font-body); color: var(--a-ink-3); text-wrap: balance; margin-bottom: -2px !important; }
 .kc-dhead__ref { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 10px; font: 500 15px/1.4 var(--font-body); color: var(--a-ink-2); }
 .kc-dhead__reason { font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); max-width: 62ch; padding-top: 4px; }
 
@@ -183,7 +184,8 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 .kc-tag { display: inline-flex; align-items: center; min-height: 22px; padding: 0 8px; border-radius: 6px; background: var(--a-volt-wash); border: 1px solid var(--a-volt-line); font: 650 12px/1 var(--font-body); color: var(--a-accent-text); }
 .kc-asked { font: 600 12.5px/1.2 var(--font-body); color: var(--a-ink-2); }
 .kc-in { display: inline-flex; align-items: center; gap: 4px; font: 600 12.5px/1.2 var(--font-body); color: var(--a-good-text); }
-.kc-pos { font: 650 14px/1.2 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.kc-pos { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font: 650 14px/1.2 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; }
+.kc-pos__of { margin-left: auto; font-weight: 500; font-size: 13px; color: var(--a-ink-3); }
 .kc-menu { position: relative; flex: none; }
 .kc-menu__btn { display: grid; place-items: center; width: 44px; height: 36px; margin: -4px -10px -4px 0; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-3); cursor: pointer; }
 .kc-menu__btn[aria-expanded='true'], .kc-menu__btn:hover { color: var(--a-ink); background: var(--a-hover); }
@@ -211,8 +213,29 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 ol.kc-ncert--list { counter-reset: kc; }
 ol.kc-ncert--list li { padding-left: 26px; counter-increment: kc; }
 ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: auto; top: 0; background: none; color: var(--a-ink-3); font-variant-numeric: lining-nums tabular-nums; }
+/* NCERT's own markers ("1.", "(a)", "(iii)") hang where the bullet would; no bullet is added beside them. */
+.kc-ncert--list li:is([data-own], [data-bare]) { padding-left: 0; }
+.kc-ncert--list li:is([data-own], [data-bare])::before { content: none; }
+.kc-ncert--list li[data-own] { display: grid; grid-template-columns: minmax(1.5em, max-content) minmax(0, 1fr); column-gap: 0.45em; }
+.kc-lm { color: var(--a-ink-3); font-variant-numeric: lining-nums tabular-nums; }
+/* Any other line break in the book's words starts a paragraph (a fact's answer above its explanation, a rule's Wrong and Right). */
+.kc-ncert--paras { display: grid; gap: 6px; }
 .kc-ncert--formula { display: grid; gap: 6px; }
 .kc-formula { font-size: 1.1em; font-weight: 500; font-variant-numeric: lining-nums tabular-nums; letter-spacing: 0.01em; }
+/* A formula breaks before its "=", never inside a term, when it does not fit one line. */
+.kc-formula__rhs { display: inline-block; }
+/* A journal entry as the book sets one: the Dr. lines, the To lines set in, the narration below in a smaller size. One grid,
+   so the Dr. and the amounts line up down the entry. */
+.kc-ncert--entry { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 14px; row-gap: 3px; align-items: baseline; font-variant-numeric: lining-nums tabular-nums; }
+.kc-je { display: contents; }
+.kc-je__text { grid-column: 1; min-width: 0; }
+.kc-je[data-k='cr'] .kc-je__text { padding-left: 1.5em; }
+.kc-je:is([data-k='note'], [data-k='text']) .kc-je__text { grid-column: 1 / -1; }
+.kc-je[data-k='note'] .kc-je__text { padding-left: calc(1.5em / 0.86); font-size: 0.86em; line-height: 1.5; color: var(--a-ink-2); }
+.kc-je[data-k='text'] .kc-je__text { color: var(--a-ink-2); }
+.kc-je[data-k='text']:not(:first-child) .kc-je__text { padding-top: 8px; }
+.kc-je__dr { grid-column: 2; font-size: 0.9em; color: var(--a-ink-2); }
+.kc-je__amt { grid-column: 3; justify-self: end; font-size: 0.92em; }
 .kc-ncert--compact { font-size: 16px; line-height: 1.55; }
 .kc-mark { background: none; color: inherit; font-weight: 600; text-decoration: underline; text-decoration-color: var(--a-volt-line); text-decoration-thickness: 2px; text-underline-offset: 0.22em; text-decoration-skip-ink: auto; }
 .kc-source { font: 500 13px/1.45 var(--font-body); color: var(--a-ink-3); padding-left: 17px; }
@@ -302,8 +325,8 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
 .kc-line__title { margin: 0; font: 700 15px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); }
 .kc-line__src { font: 500 12.5px/1.3 var(--font-body); color: var(--a-ink-3); }
 .kc-line__cards { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
-.kc-line__cards li { display: grid; gap: 6px; min-width: 0; }
-.kc-line__cards li + li { padding-top: 14px; border-top: 1px solid var(--a-line); }
+.kc-line__cards > li { display: grid; gap: 6px; min-width: 0; }
+.kc-line__cards > li + li { padding-top: 14px; border-top: 1px solid var(--a-line); }
 .kc-line .kc-ncert--compact { padding-left: 14px; }
 .kc-line .kc-source { padding-left: 15px; font-size: 12.5px; }
 .kc-line :is(p, ul) { margin: 0; }
@@ -338,6 +361,7 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
   .kc-print .kc-source { color: #555; font-size: 9pt; margin: 2pt 0 0; padding-left: 9pt; }
   .kc-print .kc-mark { text-decoration-color: #000; }
   .kc-print .kc-gap { border-bottom-color: #000; }
+  .kc-print :is(.kc-lm, .kc-je__dr, .kc-je[data-k='note'] .kc-je__text, .kc-je[data-k='text'] .kc-je__text) { color: #444; }
   @page { margin: 16mm 14mm; }
 }
 .kc.kc--inline { padding-bottom: 0; gap: 14px; max-width: none; margin: 0; }
@@ -349,3 +373,7 @@ ol.kc-ncert--list li::before { content: counter(kc) '.'; width: auto; height: au
   .kc--deck:is([data-mode='study'], [data-mode='last']) .kc-title { font-size: clamp(24px, 6vw, 32px); }
 }
 .kc-end .kc-gate { width: 100%; padding-top: 16px; border-top: 1px solid var(--a-line); }
+/* A long chapter (165 to 255 cards) rises in only its first screenful; the rest are simply there, so nothing animates off screen. */
+.kc-entry:nth-child(n + 13) { animation: none; }
+/* On a wide screen the chapter's own Add key stays beside the session, so a round's end does not repeat it as a second key. */
+@media (min-width: 1024px) { .kc-end .kc-end__add { display: none; } }
