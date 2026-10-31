@@ -35,8 +35,14 @@ class KcSource {
 
   bool get isNcert => kind == 'ncert';
 
-  /// "Business Studies Part 1 · Ch 1 · p. 3"; null for a card with no book.
-  String? get reference => book == null ? null : KeyCardsCopy.reference(book!, chapterNo, page);
+  /// "Business Studies Part 1, Ch 1, p. 3"; for an English card, where its meaning comes from; null when there
+  /// is nothing to cite.
+  String? get reference => switch (kind) {
+    _ when book != null => KeyCardsCopy.reference(book!, chapterNo, page),
+    'wordnet' => KeyCardsCopy.sourceWordNet,
+    'authored' => KeyCardsCopy.sourceAuthored,
+    _ => null,
+  };
 
   Json toJson() => {
     'kind': kind,

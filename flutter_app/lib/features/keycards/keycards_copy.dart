@@ -35,8 +35,8 @@ abstract final class KeyCardsCopy {
   static const String optionFailed = 'Your choice was not saved. Try again.';
   static const String syllabusNote = 'Chapters in the CUET 2026 syllabus, in NCERT order.';
 
-  /// "18 cards · 6 due" (the spec's own row line).
-  static String cardsDue(int cards, int due) => '${cards == 1 ? '1 card' : '$cards cards'} · $due due';
+  /// "18 cards, 6 due" (the spec's row line, with a comma: no middle-dot strings, as on the website).
+  static String cardsDue(int cards, int due) => '${cards == 1 ? '1 card' : '$cards cards'}, $due due';
   static String cardsOnly(int cards) => cards == 1 ? '1 card' : '$cards cards';
 
   /// Free: "5 of 38 open".
@@ -44,11 +44,15 @@ abstract final class KeyCardsCopy {
   static const String noCardsYet = 'No cards yet';
 
   /// "Business Studies Part 1, Ch 1".
-  static String ncertChapter(String book, int chapter) => '$book · Ch $chapter';
+  static String ncertChapter(String book, int chapter) => '$book, Ch $chapter';
 
-  /// "Business Studies Part 1 · Ch 1 · p. 3".
+  /// "Business Studies Part 1, Ch 1, p. 3".
   static String reference(String book, int? chapter, int? page) =>
-      [book, if (chapter != null) 'Ch $chapter', if (page != null) 'p. $page'].join(' · ');
+      [book, if (chapter != null) 'Ch $chapter', if (page != null) 'p. $page'].join(', ');
+
+  /// Where an English card's words come from (it has no book), the website's own lines.
+  static const String sourceWordNet = 'Meaning from WordNet';
+  static const String sourceAuthored = 'Written for the MockMob English deck';
 
   // Chapter states (the Label column of the spec, exactly).
   static const String stateNone = 'Not started';
