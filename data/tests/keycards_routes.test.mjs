@@ -155,12 +155,13 @@ test('POST /api/keycards/review: schedules, and a Free student\'s eleventh revie
   await f.kc.add('u1', { chapter: 'business_studies.planning' });
   await f.kc.add('u1', { chapter: 'business_studies.staffing' });
   const ids = [...PLANNING.slice(0, 5), ...STAFFING].map((c) => c.id);
-  const first = await f.kc.review('u1', { cardId: ids[0], rating: 3, mode: 'study' });
+  const first = await f.kc.review('u1', { cardId: ids[0], rating: 3, mode: 'study', clientReviewedAt: new Date(T0 - 10 * 60_000).toISOString() });
   assert.equal(first.http, 200);
   assert.ok(first.body.next.interval_days > 0);
   assert.equal(f.db.tables.key_card_states.find((s) => s.card_id === ids[0]).reps, 1);
   let last;
-  for (let i = 1; i < 10; i += 1) last = await f.kc.review('u1', { cardId: ids[i % ids.length], rating: 1, mode: 'revise', clientReviewedAt: new Date(T0 - i * 60_000).toISOString() });
+  // In time order (a review older than the card's last one is only logged: H2).
+  for (let i = 1; i < 10; i += 1) last = await f.kc.review('u1', { cardId: ids[i % ids.length], rating: 1, mode: 'revise', clientReviewedAt: new Date(T0 - (10 - i) * 60_000).toISOString() });
   assert.equal(last.body.today.reviewsLeft, 0);
   const over = await f.kc.review('u1', { cardId: ids[2], rating: 3, mode: 'study' });
   assert.deepEqual(over, { http: 402, body: { error: 'PRO_REQUIRED', reason: 'keycard_reviews' } });
@@ -328,6 +329,30 @@ test('M4: a rating reads one state row with its schedule; today and the counts r
   const lists = reads.filter((l) => l.eqs.card_id === undefined);
   assert.ok(lists.length >= 6, 'three list reads of two pages each');
   assert.ok(lists.every((l) => l.range && l.range[1] - l.range[0] === 999), 'every list read is a page of 1,000');
+});
+
+test('H2: a review older than the card\'s last one is logged, answered ok and moves nothing; no allowance is used', async () => {
+  const f = setup();
+  await f.kc.add('u1', { chapter: 'business_studies.staffing' });
+  const id = STAFFING[0].id;
+  const first = await f.kc.review('u1', { cardId: id, rating: 3, mode: 'revise', clientReviewedAt: new Date(T0 - 3600_000).toISOString() });
+  assert.equal(first.http, 200);
+  const after = { ...f.db.tables.key_card_states.find((s) => s.card_id === id) };
+  // An earlier UTC day: ts-fsrs threw "Invalid delta_t" here after both allowances were claimed (503 forever).
+  const older = { cardId: id, rating: 1, mode: 'revise', clientReviewedAt: new Date(T0 - 30 * 3600_000).toISOString() };
+  const late = await f.kc.review('u1', older);
+  assert.equal(late.http, 200);
+  assert.equal(late.body.late, true);
+  assert.equal(late.body.next.due_at, after.due_at);
+  // The same UTC day, earlier: last_review_at and due_at moved backwards here.
+  const sameDay = await f.kc.review('u1', { ...older, clientReviewedAt: new Date(T0 - 2 * 3600_000).toISOString() });
+  assert.equal(sameDay.body.late, true);
+  assert.deepEqual(f.db.tables.key_card_states.find((s) => s.card_id === id), after, 'the schedule is as it was');
+  assert.equal(f.db.tables.learning_allowances.filter((r) => r.kind === 'keycard_review').length, 1, 'only the applied review used a Free slot');
+  assert.equal(f.db.tables.key_card_reviews.length, 3, 'both late reviews are logged');
+  assert.equal((await f.kc.review('u1', older)).body.replay, true, 'and a late one sent again is a replay');
+  assert.equal(f.db.tables.key_card_reviews.length, 3);
+  assert.equal(late.body.today.reviewsLeft, 9);
 });
 
 test('the Free rules match the spec constants', () => {

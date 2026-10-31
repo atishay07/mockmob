@@ -86,6 +86,12 @@ export function decksOnce() {
 // ---------------------------------------------------------------- the service
 
 const bookOrder = (a, b) => (Number(a.order) || 0) - (Number(b.order) || 0);
+/** When a state row was last reviewed (ms): the later of its column and its FSRS card, or null if never reviewed. */
+const lastReviewAt = (state) => {
+  if (!state || !(Number(state.reps) > 0)) return null;
+  const times = [Date.parse(state.last_review_at), Date.parse(state.schedule?.last_review)].filter(Number.isFinite);
+  return times.length ? Math.max(...times) : null;
+};
 const missingTable = (error) => /key_card|student_subject_options|schema cache|does not exist|PGRST20[25]|42P01/i.test(`${error?.code || ''} ${error?.message || ''}`);
 const conflict = (error) => /23505|duplicate key|unique/i.test(`${error?.code || ''} ${error?.message || ''}`);
 
@@ -335,22 +341,29 @@ export function createKeycards(deps) {
       if (seen.data?.length) return replay();
     }
     const reviewRow = { user_id: userId, card_id: cardId, card_v: Number(card.v) || 1, rating, mode, reviewed_at: new Date(serverNow).toISOString(), client_reviewed_at: clientAt };
-    // A last look is logged and never moves the schedule, and it uses no allowance.
-    if (mode === 'last_look') {
+    // Logged only: the schedule does not move and no allowance is used.
+    const logOnly = async (extra = {}) => {
       const ins = await db.from('key_card_reviews').insert({ ...reviewRow, scheduled_days: null, elapsed_days: null });
       if (ins.error && conflict(ins.error)) return replay();
       if (ins.error) throw fail('KEY_CARDS_UNAVAILABLE', ins.error);
-      return ok({ ok: true, next: nextOf(state), today: await todayNow() });
-    }
+      return ok({ ok: true, ...extra, next: nextOf(state), today: await todayNow() });
+    };
+    // A last look is logged and never moves the schedule, and it uses no allowance.
+    if (mode === 'last_look') return logOnly();
     if (state?.suspended) return bad('CARD_SUSPENDED', 409);
+    const at = clientAt ? Date.parse(clientAt) : serverNow;
+    // A review older than the card's last one (an outbox sending late, a second device) cannot be applied in order:
+    // FSRS would move the schedule backwards, or throw on an earlier day. It is logged like a last look and answered ok,
+    // `late: true`, with the schedule as it is (code review H2). The schedule is computed before anything is claimed.
+    const lastAt = lastReviewAt(state);
+    if (lastAt !== null && at < lastAt) return logOnly({ late: true });
+    const next = schedule(state, rating, at);
     const use = await used(userId, day);
     const isNew = !state || !(Number(state.reps) > 0);
     if (!me.isPro && !(await claim(userId, ALLOWANCE.review, day, use[ALLOWANCE.review].length, KEYCARD_RULES.free.reviewsPerDay, `${cardId}@${clientAt || reviewRow.reviewed_at}`))) {
       return PRO('keycard_reviews');
     }
     if (isNew) await claim(userId, ALLOWANCE.fresh, day, use[ALLOWANCE.fresh].length, 1000, cardId);
-    const at = clientAt ? Date.parse(clientAt) : serverNow;
-    const next = schedule(state, rating, at);
     const ins = await db.from('key_card_reviews').insert({ ...reviewRow, scheduled_days: next.scheduled_days, elapsed_days: next.elapsed_days });
     if (ins.error && conflict(ins.error)) return replay();
     if (ins.error) throw fail('KEY_CARDS_UNAVAILABLE', ins.error);
