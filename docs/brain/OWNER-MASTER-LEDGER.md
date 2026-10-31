@@ -603,14 +603,14 @@ His summary: "Some parts are good and some are very confusing." Study mode is "e
 
 | Status | Item |
 |---|---|
-| BUILDING (preview first, learn-1031/DESIGN-SPEC.md) | **LK1** The way to Key cards is badly placed and too small. |
+| RENDERS SENT 31 Oct 9:45 pm (preview, web/1031-learn-v2) | **LK1** The way to Key cards is badly placed and too small. |
 | LIVE-UNCHECKED (main b7e68f8e2, 31 Oct 6:55 pm) | **LK2** Bug: choosing "Your part" (Accountancy) sometimes glitches and reorders the options. |
-| BUILDING (preview first, learn-1031/DESIGN-SPEC.md) | **LK3, LK8, LK9, LK11** Learn as a whole: hard to use, weakness-led only, walls of text, one fixed next step. He wants student control, clear dynamic next actions with options, tasteful integration in the flow. |
-| BUILDING (preview first, learn-1031/DESIGN-SPEC.md) | **LK4** Read mode layout is weird. |
+| RENDERS SENT 31 Oct 9:45 pm (preview, web/1031-learn-v2) | **LK3, LK8, LK9, LK11** Learn as a whole: hard to use, weakness-led only, walls of text, one fixed next step. He wants student control, clear dynamic next actions with options, tasteful integration in the flow. |
+| RENDERS SENT 31 Oct 9:45 pm (preview, web/1031-learn-v2) | **LK4** Read mode layout is weird. |
 | LIVE-UNCHECKED (main b7e68f8e2) | **LK5** Study mode is right; add motion (for example on Got it). Keep its structure. |
 | LIVE-UNCHECKED (main b7e68f8e2; also the lesson and chapter summary prints) | **LK6** Print chapter sheet: MockMob watermark all over it. |
-| BUILDING (preview first, learn-1031/DESIGN-SPEC.md) | **LK7** Last look vs Read is unclear. |
-| BUILDING (preview first, learn-1031/DESIGN-SPEC.md) | **LK10** The flow: subject, then concept or chapter, then what is lined up, then a time, then a mix of cards and questions. Plus a separate place to find what is where and revise chosen cards. |
-| BUILDING (preview first, learn-1031/DESIGN-SPEC.md) | **LK12** Cards are the core of Learn; bring them to Explore as a custom chapter feed (for example a 10-minute run of cards and MCQs). |
+| RENDERS SENT 31 Oct 9:45 pm (preview, web/1031-learn-v2) | **LK7** Last look vs Read is unclear. |
+| RENDERS SENT 31 Oct 9:45 pm (preview, web/1031-learn-v2) | **LK10** The flow: subject, then concept or chapter, then what is lined up, then a time, then a mix of cards and questions. Plus a separate place to find what is where and revise chosen cards. |
+| RENDERS SENT 31 Oct 9:45 pm (preview, web/1031-learn-v2) | **LK12** Cards are the core of Learn; bring them to Explore as a custom chapter feed (for example a 10-minute run of cards and MCQs). |
 | LIVE-UNCHECKED (main b7e68f8e2; 3,916 to 1,439 Must-know, 25%) | **LK13** Too many cards carry "Must-know". |
 | OPEN | **LK14** Think longer; ideate better. Any replacement layout is shown to him as real renders before it ships (Never again 1). |

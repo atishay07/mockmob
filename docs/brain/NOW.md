@@ -1,5 +1,16 @@
 # NOW: MockMob current state
 
+## 31 Oct 2026, about 9:45 pm IST: Learn redesign renders sent to the owner
+- **Sent:** 11 real renders and a run video (wt-1031-learn-v2/tmp/learn-1031/for-owner/), from branch web/1031-learn-v2
+  (commits 5af8f8a2f slice, a47da5caf merge of the live release, b9bc5fe80 and the volt-quiet fix). Full set of 143 captures in
+  tmp/learn-1031/final2; critique docs/brain/learn-1031/CRITIQUE-1.md (all four blockers fixed).
+- **Must-know:** one overlay only, the live data/keycards/tiers.json (12 of 46 in Basic Concepts; 229 in Accountancy).
+- **Checks:** test:learn 43/43, test:keycards 76/76, test:app 986 pass 2 fail (heroScene landing tests, also failing on main), lint clean.
+- **Open:** E4 deck content (two near-duplicate opening definition cards, both Must-know; one Ch 1 card cites Ch 2), E6 Free
+  "Your papers" fixture count, R9 Explore chapter label "Partnership Fundamentals", /learn/run as a focus route. Not wired
+  to production yet (Supabase-backed /api/learn routes), no app parity yet.
+- **Owner next:** his look at the renders; A9 (questions free inside Learn) and N1 (Learn as its own desktop sidebar place).
+
 ## 31 Oct 2026, about 6:55 pm IST: Learn feedback (LK1-LK14): fixes live, redesign in preview
 - **Live (main b7e68f8e2):** Your part picker fixed (LK2); Study motion (LK5); MockMob watermark on every printed sheet (LK6);
   Must-know re-tiered to 25% via data/keycards/tiers.json (LK13). Suites, build and captures in STATUS.md.
