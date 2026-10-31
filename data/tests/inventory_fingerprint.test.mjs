@@ -281,8 +281,8 @@ const hashOfClosure = () => {
 };
 // If this test fails, a file the count depends on changed: bump INVENTORY_LOGIC_VERSION in data/inventory_fingerprint.js (so the next
 // cron run counts in full) and then update the two pinned values below.
-const PINNED_LOGIC_VERSION = 'inventory-logic-3';
-const PINNED_SOURCE_HASH = '592b60b4e4ed6ffbd2275fac17424493cbe9af53ab6fd11a5035a4a1822fe326';
+const PINNED_LOGIC_VERSION = 'inventory-logic-4';
+const PINNED_SOURCE_HASH = '60c62c05f43fb92d081db6069a2f396347459abd992bb1cfb813e5881a176d08';
 
 test('the pin: the count\'s source files and INVENTORY_LOGIC_VERSION change together', () => {
   const files = closure('data/inventory_count.js').map((f) => relative(root, f).replaceAll('\\', '/'));

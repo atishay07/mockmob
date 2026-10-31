@@ -4,6 +4,7 @@ import { presentationLint } from './question_presentation.mjs';
 import { FACTORY_POLICY, provenanceReasons,needsNumericChecks } from './question_factory_policy.mjs';
 import { storedNamesFor } from './cuet_syllabus.js';
 import RETAG from './syllabus/retag-2026-10-31.json' with { type: 'json' };
+import RETAG_LIVE from './syllabus/retag-live-2026-10-31.json' with { type: 'json' };
 
 export function canonicalQuestion(q) {
   const options = q.options || [];
@@ -25,8 +26,10 @@ export function contentHash(q) { return createHash('sha256').update(JSON.stringi
 // The syllabus v2 re-tag (data/syllabus/retag-2026-10-31.json, applied by apply_syllabus_retag) moved 85 questions out of a
 // retired or split chapter into a live one so they come back to the pools. Their hashes were taken under the old chapter, so
 // for exactly those question ids, sitting in exactly their re-tag target, a hash taken under the re-tag's `from` chapter
-// (or a spelling of it) matches too (code review L12). Nothing else is forgiven: any other field that changed still fails.
-const RETAGGED = new Map((Array.isArray(RETAG) ? RETAG : []).map((move) => [String(move.id), move]));
+// (or a spelling of it) matches too (code review L12). The live-chapter re-tag (data/syllabus/retag-live-2026-10-31.json, the
+// 31 Oct pool audit: 476 questions filed under the wrong live chapter, each move read in full) is forgiven the same way.
+// Nothing else is forgiven: any other field that changed still fails.
+const RETAGGED = new Map([RETAG, RETAG_LIVE].flatMap((list) => (Array.isArray(list) ? list : [])).map((move) => [String(move.id), move]));
 
 /** How a stored hash matches this question: 'exact', 'alias' (a merge rename), 'retag' (the re-tag's old chapter), or null. */
 export function contentHashMatch(q, hash) {

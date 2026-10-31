@@ -476,3 +476,18 @@ test('PGlite: migration, re-tag hook and undo round-trip', async () => {
   ]);
   await db.close();
 });
+
+test('the live re-tag (pool audit, 31 Oct): every move passes the checker and keeps the hash taken under its old chapter', () => {
+  const moves = JSON.parse(readFileSync(new URL('../syllabus/retag-live-2026-10-31.json', import.meta.url), 'utf8'));
+  assert.deepEqual(retagProblems(moves), []);
+  const first = new Set(JSON.parse(readFileSync(new URL('../syllabus/retag-2026-10-31.json', import.meta.url), 'utf8')).map((m) => m.id));
+  assert.equal(moves.filter((m) => first.has(m.id)).length, 0, 'no question is in both re-tag files');
+  for (const move of moves) {
+    const before = row(move.id, move.subject, move.from);
+    const after = { ...before, chapter: move.to };
+    assert.equal(contentHashMatch(after, contentHash(before)), 'retag', move.id);
+  }
+  const move = moves[0];
+  const hash = contentHash(row(move.id, move.subject, move.from));
+  assert.equal(contentHashMatches({ ...row('not-moved', move.subject, move.from), chapter: move.to }, hash), false, 'only the listed ids');
+});
