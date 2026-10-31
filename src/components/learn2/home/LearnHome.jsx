@@ -1,14 +1,16 @@
 'use client';
 // Learn home (B 3.1 and 3.2, DESIGN-SPEC A7 and A8): the place the owner's LK10 flow starts.
-//   Header     "Learn" and the Chapters | Find switch (one sliding indicator); Find is FindView, scoped to the subject
+//   Header     "Learn"
 //   Subjects   the student's own subjects as the Practice loop (lamp-lit objects)
+//   Search     "Search 868 Key cards" (FEED-2 section 7): focusing it opens Find in place (FindView, scoped to the subject: the
+//              shelves until the student types, then the results); Cancel returns to the chapters
 //   Chapters   the subject's heading and counts, the three suggestions (the first leads, with the page's one volt key), then the
 //              chapter map in book order with its sort, its live filter and the part switch, then the foot row
 // Every number and line comes from GET /api/learn/subject (API-CONTRACT.md); nothing is made up here.
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { CalendarCheck, ChevronRight, TrendingUp, X } from 'lucide-react';
+import { CalendarCheck, ChevronRight, Search, TrendingUp, X } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import { openUpgrade } from '@/components/pro';
 import { useLearnLinks } from '../links';
@@ -27,23 +29,22 @@ const NAMES = { accountancy: 'Accountancy', business_studies: 'Business Studies'
 const read = (key) => { try { return window.localStorage.getItem(key); } catch { return null; } };
 const write = (key, value) => { try { window.localStorage.setItem(key, value); } catch { /* it is only a convenience */ } };
 
-/** The view switch: two views, one sliding indicator (N5). */
-function ViewSwitch({ view, onChange }) {
-  const items = [{ id: 'chapters', label: 'Chapters' }, { id: 'find', label: 'Find' }];
-  const index = items.findIndex((i) => i.id === view);
-  const onKey = (e, i) => {
-    if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
-    e.preventDefault();
-    const next = (i + 1) % items.length;
-    onChange(items[next].id);
-    e.currentTarget.parentElement.querySelectorAll('[role="tab"]')[next]?.focus();
-  };
+/**
+ * The search field under the subject row (FEED-2 section 7, in place of the Chapters | Find switch): "Search 868 Key cards".
+ * Focusing it opens Find in place (the shelves until the student types, then the results); Cancel returns to the chapters.
+ */
+function SearchField({ count, text, open, onText, onOpen, onCancel, inputRef }) {
   return (
-    <div className="lh-seg" role="tablist" aria-label="Learn views" style={{ '--i': index }}>
-      <span className="lh-seg__thumb" aria-hidden="true" />
-      {items.map((item, i) => (
-        <button key={item.id} id={`lh-tab-${item.id}`} type="button" role="tab" aria-selected={view === item.id} aria-controls="lh-panel" tabIndex={view === item.id ? 0 : -1} className="lh-seg__btn" onKeyDown={(e) => onKey(e, i)} onClick={() => onChange(item.id)}>{item.label}</button>
-      ))}
+    <div className="lh-find" data-open={open || undefined}>
+      <div className="l2f-search" role="search">
+        <Search size={20} strokeWidth={2} aria-hidden="true" />
+        <input ref={inputRef} type="search" inputMode="search" enterKeyHint="search" autoComplete="off" spellCheck={false} value={text}
+          onChange={(e) => onText(e.target.value)} onFocus={onOpen}
+          placeholder={Number.isFinite(count) && count > 0 ? `Search ${count} Key cards` : 'Search Key cards'} aria-label={Number.isFinite(count) && count > 0 ? `Search ${count} Key cards` : 'Search Key cards'}
+          onKeyDown={(e) => { if (e.key === 'Escape') onCancel(); }} />
+        {text ? <button type="button" className="l2f-clear" aria-label="Clear the search" onClick={() => { onText(''); inputRef.current?.focus(); }}><X size={18} strokeWidth={2.2} aria-hidden="true" /></button> : null}
+      </div>
+      {open ? <button type="button" className="lh-find__cancel" onClick={onCancel}>Cancel</button> : null}
     </div>
   );
 }
@@ -93,6 +94,8 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   const { user } = useAuth() || {};
   const [subject, setSubject] = useState(subjectProp);
   const [view, setView] = useState(initialView === 'find' ? 'find' : 'chapters');
+  const [text, setText] = useState('');
+  const field = useRef(null);
   const [booted, setBooted] = useState(false);
 
   // The remembered subject (per device) when the link names none; the link's own subject always wins. The first read waits for it, so a
@@ -125,6 +128,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
 
   const changeView = useCallback((next) => {
     setView(next);
+    if (next !== 'find') { setText(''); field.current?.blur(); }
     try { const url = new URL(window.location.href); if (next === 'find') url.searchParams.set('lv', 'find'); else url.searchParams.delete('lv'); window.history.replaceState(window.history.state, '', url); } catch { /* the address is only a convenience */ }
   }, []);
 
@@ -135,14 +139,16 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
     <div className="lh" data-nav={navAlt ? 'n1' : undefined} data-view={view}>
       <header className="lh-head">
         <h1 className="lh-title">Learn</h1>
-        <ViewSwitch view={view} onChange={changeView} />
       </header>
 
       <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} />
 
-      <div id="lh-panel" role="tabpanel" aria-labelledby={`lh-tab-${view}`} className="lh-panel" key={view}>
+      <SearchField count={data?.subject?.cards} text={text} open={view === 'find'} inputRef={field}
+        onText={(v) => { setText(v); if (view !== 'find') changeView('find'); }} onOpen={() => { if (view !== 'find') changeView('find'); }} onCancel={() => changeView('chapters')} />
+
+      <div id="lh-panel" className="lh-panel" key={view} aria-label={view === 'find' ? 'Find' : 'Chapters'} role="region">
         {view === 'find' ? (
-          <FindView subject={active} />
+          <FindView subject={active} text={text} box={false} />
         ) : (
           <>
             <div className="lh-subject">

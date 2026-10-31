@@ -149,12 +149,14 @@ function resultSections(cards = []) {
   return [...map.values()];
 }
 
-export default function FindView({ subject }) {
+/** `text` and `box={false}`: Learn home owns the search field (FEED-2 section 7) and hands its words in. */
+export default function FindView({ subject, text: outerText, box: ownBox = true }) {
   const links = useLearnLinks();
   const router = useRouter();
   const { user } = useAuth() || {};
   const isPro = user?.isPremium === true;
-  const [text, setText] = useState('');
+  const [innerText, setText] = useState('');
+  const text = outerText ?? innerText;
   const query = useDebounced(text.trim(), 240);
   const searching = query.length >= MIN_CHARS;
   const input = useRef(null);
@@ -325,7 +327,7 @@ export default function FindView({ subject }) {
   const showPickBar = pick.mode && pickedIds.length > 0;
   return (
     <div className={`kc kc--inline l2c l2f ${ncertFont.variable}`} data-pick={pick.mode || undefined}>
-      {box}
+      {ownBox ? box : null}
       {actions.said ? <p className="l2c-said" role="status">{actions.said}</p> : null}
       {actions.error ? <p className="kc-err" role="alert">{actions.error}</p> : null}
       {body}

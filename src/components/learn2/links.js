@@ -28,6 +28,7 @@ export function useLearnLinks() {
       ? previewHref('learn2-run', { chapter: chapterKey, min: minutes, kind, out: leaveOut.join(',') })
       : `/learn/run?${new URLSearchParams({ chapter: chapterKey, min: String(minutes), kind, ...(leaveOut.length ? { out: leaveOut.join(',') } : {}) })}`),
     feed: (key, minutes = 10) => (preview ? previewHref('learn2-feed', { chapter: key, min: minutes }) : `/explore/run?chapter=${enc(key)}&min=${minutes}`),
+    explore: () => (preview ? previewHref('explore', {}) : '/explore'),
     lesson: (unitId) => (preview ? previewHref('learn2', {}) : `/learn/${enc(unitId)}`),
     revise: () => (preview ? previewHref('revise', { revise: 'keycards' }) : '/review/revise'),
   };

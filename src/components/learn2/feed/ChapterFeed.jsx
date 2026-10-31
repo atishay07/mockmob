@@ -1,51 +1,40 @@
 'use client';
-// The Explore chapter feed (DESIGN-SPEC A6, B 3.8): one item per screen, bounded, never an endless scroll.
-//   A card      its front; tap the card (or Space) for NCERT's line; "Keep" adds it to Revise (Pro; Free within its open cards).
-//               Nothing is scheduled unless it is kept.
-//   A question  answered in place; a wrong answer shows the explanation and "The line you needed".
-//   Next        swipe up, the Next key, the Down key or the wheel, at any time: no forced rating.
-//   End         after the chosen time, the session end (GET /api/learn/runs/:id/end).
-// A focus page, like the run: it draws over the whole shell (no tab row, no dock), with Close at the top. The first-run coach
-// line sits between the card and the keys and goes as soon as the answer shows.
-// 1440: a centred 560 px column, the keys 24 px under the item, with "Open the chapter" and the time left beside it.
-// Data: POST /api/learn/runs with kind 'feed', POST .../answer (learn2/api.js). Answers log with flow_context 'learn' on the server.
+// The Explore feed v2 (docs/brain/learn-1031/FEED-2.md; DESIGN-SPEC A3, A6, A10): a full-screen vertical feed, one item per
+// screen, swiped up like Reels. It stays a study tool: calm Night, volt on charcoal, the lamp-lit subject object behind.
+//   Top         segmented progress ticks (one per item), the close X on the left, the chapter's real title on the right
+//   Paging      native vertical scroll-snap, each item 100dvh; Arrow keys and Space on the desktop
+//   Key card    the front; tap the card to turn it over (a 3D flip); the right rail keeps it (Revise) or opens the chapter
+//   Question    answered in place, graded by the server (no key on the client before the answer); right fills the row volt
+//               and counts the streak chip; wrong shakes the row and raises "The line you needed"
+//   Checkpoint  after every 8 items, the one interstitial; it moves on only on a swipe or a key
+//   End         the kept pile with its real return day, two lines, and the keys (Free: one feed a day, said in one line)
+// A focus place over the whole shell (no tab row, no dock): it renders into the body; the shell's tokens live on <html>.
+// Data: POST /api/learn/runs (kind 'feed'), .../answer, .../rate {keep}, GET .../end, POST /api/bookmarks (learn2/api.js).
 import { useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore } from 'react';
 import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { Check, LoaderCircle, X } from 'lucide-react';
-import { CardSource, InShort, NcertText } from '@/components/keycards/KeyCard';
-import { cardFace, plural, splitBlanks } from '@/components/keycards/kinds';
+import { BookOpen, Bookmark, Check, LoaderCircle, X } from 'lucide-react';
+import { SubjectObject } from '@/components/brand/SubjectObject';
+import { CardSource, NcertText } from '@/components/keycards/KeyCard';
+import { cardFace, splitBlanks } from '@/components/keycards/kinds';
 import { refreshHome } from '@/components/keycards/api';
 import { ncertFont } from '@/components/keycards/ncertFont';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
-import { ErrorState } from '@/components/ui/Skeleton';
-import { answerItem, runEnd, startRun } from '../api';
+import { CHECKPOINT_LINE, FREE_FEED_DONE, checkpointNumber, feedSlots } from '@/../data/learn/feed.js';
+import { answerItem, keepItem, runEnd, saveQuestion, startRun } from '../api';
 import { useLearnLinks } from '../links';
 import '@/components/keycards/keycards.css';
 import './feed.css';
 
-const COACH = 'learn2.feed.coach.v1';
+const FLIP_HINT = 'learn2.feed2.flip.v1';
+const SWIPE_HINT = 'learn2.feed2.swipe.v1';
 const seen = (k) => { try { return localStorage.getItem(k) === '1'; } catch { return false; } };
 const mark = (k) => { try { localStorage.setItem(k, '1'); } catch { /* shown again next time */ } };
-/** Keep: the card joins Revise, nothing else is scheduled (POST /api/learn/runs/:id/rate with keep). 402 is a Free limit. */
-async function keepCard(runId, itemId) {
-  const res = await fetch(`/api/learn/runs/${encodeURIComponent(runId)}/rate`, { method: 'POST', cache: 'no-store', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ itemId, keep: true }) });
-  if (!res.ok) { const e = new Error('keep'); e.status = res.status; throw e; }
-  return res.json().catch(() => ({}));
-}
+const still = () => { try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { return false; } };
+const buzz = (p) => { try { if (typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function') navigator.vibrate(p); } catch { /* no haptics */ } };
 const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
 const LETTERS = ['A', 'B', 'C', 'D', 'E'];
-const STEP_LETTERS = 'ABCDEF';
-/** A stem that prints its steps inline, "(A) ... (B) ... (C) ...", as a lead line and a list (null when it does not). */
-function splitSteps(body) {
-  const text = String(body || '');
-  const marks = [...text.matchAll(/\(([A-F])\)\s+/g)];
-  if (marks.length < 3 || !marks.every((m, i) => m[1] === STEP_LETTERS[i])) return null;
-  const lead = text.slice(0, marks[0].index).trim();
-  const steps = marks.map((m, i) => text.slice(m.index + m[0].length, i + 1 < marks.length ? marks[i + 1].index : undefined).trim().replace(/[;,]\s*$/, ''));
-  return { lead, steps };
-}
 /** The option's words without the letter some questions print in front of them ("A Sacrifice ratio"). */
 const optionText = (o) => String(o.text).replace(new RegExp('^' + o.key + '[\\s.):-]+'), '');
 
@@ -55,117 +44,183 @@ function Front({ card }) {
     : <span key={i}>{p.text}</span>));
 }
 
-function CardItem({ item, st, onReveal }) {
+/** The chapter's subject object behind each item: 18% opacity, softly blurred, bottom-right, bleeding off the edge. */
+function Backdrop({ subject }) {
+  return <span className="fx-obj" aria-hidden="true"><SubjectObject id={subject} size={220} framed={false} life={false} /></span>;
+}
+
+/** One key of the right rail: a 44 px glyph, a 12 px label under it. */
+function RailKey({ icon: Icon, label, on, busy, onClick, href, pop, describedBy }) {
+  const body = (
+    <>
+      <span className="fx-rail__glyph" data-pop={pop || undefined}>
+        {busy ? <LoaderCircle className="kc-spin" size={22} strokeWidth={2} aria-hidden="true" /> : <Icon size={24} strokeWidth={1.9} fill={on ? 'currentColor' : 'none'} aria-hidden="true" />}
+      </span>
+      <span className="fx-rail__label">{label}</span>
+    </>
+  );
+  if (href) return <Link className="fx-rail__key" href={href} aria-describedby={describedBy}>{body}</Link>;
+  return <button type="button" className="fx-rail__key" data-on={on || undefined} aria-pressed={on} disabled={busy} onClick={onClick} aria-describedby={describedBy}>{body}</button>;
+}
+
+function CardItem({ item, st, onFlip, onKeep, chapterHref, hint }) {
   const { card } = item;
   const { label } = cardFace(card);
+  const keepLabel = st.kept ? 'Kept' : st.keepPro ? 'Pro' : 'Keep';
   return (
-    <article className="l2x-card" data-revealed={st.revealed || undefined} data-tap={st.revealed ? undefined : ''} onClick={(e) => { if (!st.revealed && !e.target.closest('button, a')) onReveal(); }} aria-label={`${label}: ${cardFace(card).front}`}>
-      <p className="l2x-kind"><span>{label}</span>{card.importance === 'must' ? <span className="l2c-must">Must-know</span> : null}{st.kept ? <span className="l2c-in"><Check size={13} strokeWidth={2.6} aria-hidden="true" />In Revise</span> : null}</p>
-      <h2 className="l2x-front"><Front card={card} /></h2>
-      {st.revealed ? (
-        <div className="l2x-answer">
-          <NcertText card={card} />
-          <CardSource card={card} />
-          <InShort card={card} />
+    <>
+      <div className="fx-cardwrap">
+        <div className="fx-card" data-flipped={st.flipped || undefined} role="button" tabIndex={0} aria-pressed={Boolean(st.flipped)}
+          aria-label={st.flipped ? `${label}. The NCERT line is showing. Tap to turn it back.` : `${label}: ${cardFace(card).front}. Tap to turn it over.`}
+          onClick={(e) => { if (!e.target.closest('a, button')) onFlip(); }}
+          onKeyDown={(e) => { if (e.key === 'Enter') { e.preventDefault(); onFlip(); } }}>
+          <div className="fx-face fx-face--front" aria-hidden={st.flipped || undefined}>
+            <p className="fx-kind"><span>{label}</span>{card.importance === 'must' ? <span className="fx-must">Must-know</span> : null}</p>
+            <h2 className="fx-front"><Front card={card} /></h2>
+          </div>
+          <div className="fx-face fx-face--back" aria-hidden={!st.flipped || undefined}>
+            <p className="fx-kind"><span>{label}</span>{card.importance === 'must' ? <span className="fx-must">Must-know</span> : null}</p>
+            <div className="fx-back">
+              <NcertText card={card} />
+              <CardSource card={card} />
+            </div>
+          </div>
         </div>
-      ) : null}
-    </article>
-  );
-}
-
-function LineYouNeeded({ line }) {
-  const [open, setOpen] = useState(false);
-  const card = line?.card;
-  if (!card) return null;
-  if (line.locked) {
-    return (
-      <section className="kc-line l2x-line" aria-label="The line you needed">
-        <div className="kc-line__head"><h3 className="kc-line__title">The line you needed</h3></div>
-        <p className="l2x-expl">{line.text}</p>
-        <div className="kc-line__foot"><button type="button" className="kc-btn kc-btn--line kc-btn--small" onClick={(e) => openUpgrade({ trigger: 'keycards', opener: e.currentTarget })}>See Pro</button></div>
-      </section>
-    );
-  }
-  const shown = !line.collapsed || open;
-  return (
-    <section className="kc-line l2x-line" aria-label="The line you needed">
-      <div className="kc-line__head">
-        <h3 className="kc-line__title">The line you needed</h3>
-        {line.collapsed ? <button type="button" className="kc-btn kc-btn--quiet l2x-seeline" aria-expanded={open} onClick={() => setOpen((o) => !o)}>{open ? 'Hide the line' : 'See the line'}</button> : null}
       </div>
-      {shown ? <><NcertText card={card} className="kc-ncert--compact" /><CardSource card={card} /></> : null}
-    </section>
+      <div className="fx-rail">
+        <RailKey icon={Bookmark} label={keepLabel} on={st.kept} busy={st.keeping} pop={st.kept} onClick={onKeep} />
+        <RailKey icon={BookOpen} label="Chapter" href={chapterHref} />
+        <span className="fx-rail__foot" aria-hidden="true" />
+      </div>
+      {st.stamp ? <p className="fx-stamp" role="status">{st.stamp}</p> : null}
+      {hint ? <p className="fx-hint" data-show="">Tap to turn it over</p> : null}
+    </>
   );
 }
 
-function QuestionItem({ item, st, onChoose }) {
+function QuestionItem({ item, st, onChoose, onSave, chapterHref, swipeHint, onCloseSheet }) {
   const q = item.question;
   const res = st.answer?.res;
   const chosen = st.answer?.choice;
-  const mistake = item.mistake;
-  const steps = splitSteps(q.body);
+  const mistake = item.origin === 'mistake' ? item.mistake : null;
+  const line = res && !res.correct ? res.line : null;
+  const keyLetter = res ? (LETTERS[q.options.findIndex((o) => o.key === res.key)] || res.key) : null;
   return (
-    <article className="l2x-q" aria-label="Question">
-      {item.origin === 'mistake' && mistake ? <p className="l2x-kind"><span>You missed this in {mistake.where} on {mistake.when}</span></p> : <p className="l2x-kind"><span>Question</span></p>}
-      {steps ? (
-        <>
-          {steps.lead ? <h2 className="l2x-qbody">{steps.lead}</h2> : null}
-          <ol className="l2x-steps" aria-label={steps.lead ? undefined : 'The steps'}>{steps.steps.map((t, i) => <li key={i}><b aria-hidden="true">{STEP_LETTERS[i]}</b><span>{t}</span></li>)}</ol>
-        </>
-      ) : <h2 className="l2x-qbody">{q.body}</h2>}
-      <ul className="l2x-opts" role="group" aria-label="Choose one answer">
-        {q.options.map((o, i) => {
-          const isChosen = chosen === o.key;
-          const isRight = res && res.key === o.key;
-          const state = !res ? (st.answer?.pending && isChosen ? 'pending' : undefined) : isRight ? 'right' : isChosen ? 'wrong' : 'rest';
-          return (
-            <li key={o.key}>
-              <button type="button" className="l2x-opt" data-state={state} disabled={Boolean(res) || Boolean(st.answer?.pending)} aria-pressed={isChosen || undefined} onClick={() => onChoose(o.key)}>
-                <span className="l2x-opt__k" aria-hidden="true">{LETTERS[i] || o.key}</span>
-                <span className="l2x-opt__t">{optionText(o)}</span>
-                {state === 'pending' ? <LoaderCircle className="kc-spin" size={16} strokeWidth={2.2} aria-hidden="true" /> : null}
-                {state === 'right' ? <Check size={18} strokeWidth={2.6} aria-label="Right answer" /> : null}
-                {state === 'wrong' ? <X size={18} strokeWidth={2.6} aria-label="Your answer" /> : null}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-      {res ? (
-        <div className="l2x-result" role="status">
-          <p className="l2x-verdict" data-ok={res.correct || undefined}>{res.correct ? (res.fixedText || 'Right.') : `Not quite. The answer is ${LETTERS[q.options.findIndex((o) => o.key === res.key)] || res.key}.`}</p>
-          {res.explanation ? <p className="l2x-expl">{res.explanation}</p> : null}
-          {res.line ? <LineYouNeeded line={res.line} /> : null}
-        </div>
-      ) : null}
-    </article>
-  );
-}
-
-function EndScreen({ end, links, chapterKey, minutes }) {
-  const go = (a) => (a.run ? (a.run.kind === 'feed' ? links.feed(a.run.chapterKey || chapterKey, a.run.minutes || minutes) : links.run(a.run)) : a.href || links.chapter(chapterKey));
-  const n = end.numbers || {};
-  return (
-    <section className="l2x-end" aria-labelledby="l2x-end-h">
-      <h2 className="l2x-end__title" id="l2x-end-h" role="status">{end.title}</h2>
-      <dl className="kc-counts l2x-counts">
-        {[['Cards', n.cards], ['Questions', n.questions], ['Fixed', n.fixed]].filter(([, v]) => v !== undefined && v !== null).map(([k, v]) => <div key={k}><dt>{k}</dt><dd>{v}</dd></div>)}
-      </dl>
-      {end.lines?.length ? <ul className="l2x-end__lines">{end.lines.map((l) => <li key={l.label}><b>{l.label}</b><span>{l.text}</span></li>)}</ul> : null}
-      {end.revisePile?.length ? <p className="l2x-end__pile">{end.revisePile.map((r) => `${r.count} ${r.label}`).join(', ')}</p> : null}
-      {end.moved ? <p className="l2x-end__pile">{end.moved}</p> : null}
-      <div className="l2x-end__keys">
-        {end.lead ? <Link className="kc-btn kc-btn--volt" href={go(end.lead)}>{end.lead.label}</Link> : null}
-        {(end.options || []).map((o) => <Link key={o.label} className="kc-btn kc-btn--line" href={go(o)}>{o.label}</Link>)}
+    <>
+      <div className="fx-q">
+        <p className="fx-qhead">{mistake ? `You missed this in ${mistake.where} on ${mistake.when}` : 'Question'}</p>
+        <h2 className="fx-stem">{q.body}</h2>
+        <ul className="fx-opts" role="group" aria-label="Choose one answer">
+          {q.options.map((o, i) => {
+            const isChosen = chosen === o.key;
+            const isRight = res && res.key === o.key;
+            const state = !res ? (st.answer?.pending && isChosen ? 'pending' : undefined) : isRight ? (isChosen ? 'right' : 'key') : isChosen ? 'wrong' : 'rest';
+            return (
+              <li key={o.key}>
+                <button type="button" className="fx-opt" data-state={state} disabled={Boolean(res) || Boolean(st.answer?.pending)} aria-pressed={isChosen || undefined} onClick={() => onChoose(o.key)}>
+                  <span className="fx-opt__k" aria-hidden="true">{LETTERS[i] || o.key}</span>
+                  <span className="fx-opt__t">{optionText(o)}</span>
+                  <span className="fx-opt__mark" aria-hidden={state === 'pending' ? 'true' : undefined}>
+                    {state === 'pending' ? <LoaderCircle className="kc-spin" size={16} strokeWidth={2.2} /> : null}
+                    {state === 'right' || state === 'key' ? <Check size={18} strokeWidth={2.6} aria-label="The right answer" /> : null}
+                    {state === 'wrong' ? <X size={18} strokeWidth={2.6} aria-label="Your answer" /> : null}
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+        {res ? <p className="fx-verdict sr-only" role="status">{res.correct ? 'Right.' : `Not quite. The answer is ${keyLetter}.`}</p> : null}
+        {res?.correct && res.fixedText ? <p className="fx-fixed">{res.fixedText}</p> : null}
+        {st.error ? <p className="kc-err" role="alert">{st.error}</p> : null}
       </div>
-      {end.lead?.evidence ? <p className="kc-fine">{end.lead.evidence}</p> : null}
-    </section>
+      <div className="fx-rail fx-rail--q">
+        <RailKey icon={Bookmark} label={st.saved ? 'Saved' : st.savePro ? 'Pro' : 'Save'} on={st.saved} busy={st.saving} pop={st.saved} onClick={onSave} />
+        <RailKey icon={BookOpen} label="Chapter" href={chapterHref} />
+      </div>
+      {swipeHint ? <p className="fx-hint fx-hint--swipe" data-show="">Swipe up for the next one</p> : null}
+      {res && !res.correct && st.sheet ? (
+        <section className="fx-sheet" aria-label={line?.card ? 'The line you needed' : 'Why'}>
+          <div className="fx-sheet__head">
+            <h3 className="fx-sheet__title">{line?.card ? 'The line you needed' : `The answer is ${keyLetter}`}</h3>
+            <button type="button" className="fx-sheet__x" aria-label="Close" onClick={onCloseSheet}><X size={20} strokeWidth={2.2} aria-hidden="true" /></button>
+          </div>
+          <div className="fx-sheet__body">
+            {line?.locked ? (
+              <>
+                <p className="fx-sheet__text">{line.text}</p>
+                <button type="button" className="fx-textkey" onClick={(e) => openUpgrade({ trigger: 'keycards', opener: e.currentTarget })}>See Pro</button>
+              </>
+            ) : line?.card ? (
+              <>
+                <NcertText card={line.card} className="kc-ncert--compact" />
+                <CardSource card={line.card} />
+              </>
+            ) : <p className="fx-sheet__text">{res.explanation || 'The key is marked above.'}</p>}
+          </div>
+        </section>
+      ) : null}
+    </>
   );
 }
 
-// The feed is a focus page above the whole shell (no tab row, no dock), so it renders into the body. The shell's tokens live on
-// <html>, so Night and Day still apply. The page behind is not locked (that would drop its scrollbar and move everything at 1440);
-// the feed is its own scroll area with overscroll contained.
+function Checkpoint({ number, onGo, onStop }) {
+  return (
+    <div className="fx-cp">
+      <p className="fx-cp__n">{number}</p>
+      <p className="fx-cp__line">{CHECKPOINT_LINE}</p>
+      <div className="fx-cp__keys">
+        <button type="button" className="kc-btn kc-btn--volt" onClick={onGo}>Keep going</button>
+        <button type="button" className="kc-btn kc-btn--line" onClick={onStop}>Stop here</button>
+      </div>
+    </div>
+  );
+}
+
+/** The kept cards as a small pile that fans open when the end comes into view. */
+function KeptPile({ kept, open }) {
+  const cards = kept.cards || [];
+  const n = kept.count || 0;
+  if (!n) return <p className="fx-end__none">Nothing kept this time. Keep a card and it comes back in Revise.</p>;
+  const shown = cards.slice(0, 4);
+  const mid = (shown.length - 1) / 2;
+  const back = kept.stamp || (kept.groups || []).map((g) => `${g.count} ${g.label}`).join(', ');
+  return (
+    <div className="fx-pile">
+      <div className="fx-pile__fan" data-open={open || undefined} aria-hidden="true">
+        {shown.map((c, i) => (
+          <span key={c.id} className="fx-pile__card" style={{ '--r': `${(i - mid) * 7}deg`, '--x': `${(i - mid) * 26}px`, '--d': `${i * 40}ms`, zIndex: i }}>
+            <span className="fx-pile__k">{cardFace(c).label}</span>
+            {i === shown.length - 1 ? <span className="fx-pile__f">{cardFace(c).front}</span> : <span className="fx-pile__lines"><i /><i /><i /></span>}
+          </span>
+        ))}
+      </div>
+      <p className="fx-pile__count"><b>{n} kept</b>{back ? <span>{back}</span> : null}</p>
+    </div>
+  );
+}
+
+function EndScreen({ end, open, links, onAgain, again }) {
+  const f = end.feed || {};
+  const next = f.next;
+  return (
+    <div className="fx-end">
+      <h2 className="fx-end__title" id="fx-end-h">{f.title || end.title}</h2>
+      <KeptPile kept={f.kept || { count: 0 }} open={open} />
+      {f.lines?.length ? <ul className="fx-end__lines">{f.lines.map((l) => <li key={l.label}><b>{l.label}</b><span>{l.text}</span></li>)}</ul> : null}
+      <div className="fx-end__keys">
+        {f.free ? (
+          <p className="fx-free"><span>{f.free.text}</span><button type="button" className="fx-textkey" onClick={(e) => openUpgrade({ trigger: 'learn_feed', opener: e.currentTarget })}>See Pro</button></p>
+        ) : f.lead ? <button type="button" className="kc-btn kc-btn--volt" onClick={onAgain} disabled={again}>{again ? 'Starting' : f.lead.label}</button> : null}
+        {next ? <Link className="kc-btn kc-btn--line" href={next.run ? links.feed(next.key, next.run.minutes) : links.chapter(next.key)}>{next.label}</Link> : null}
+        <Link className="fx-textkey fx-textkey--center" href={links.explore()}>Back to Explore</Link>
+      </div>
+    </div>
+  );
+}
+
+// The feed is a focus place above the whole shell, so it renders into the body. The page behind is not locked; the feed is
+// its own scroll area with overscroll contained.
 const noop = () => () => {};
 export default function ChapterFeed(props) {
   const client = useSyncExternalStore(noop, () => true, () => false);
@@ -175,228 +230,333 @@ export default function ChapterFeed(props) {
 function Feed({ chapterKey, minutes = 10 }) {
   const links = useLearnLinks();
   const router = useRouter();
-  const [load, setLoad] = useState({ status: 'loading', run: null });
-  const [at, setAt] = useState(0);
+  const subject = String(chapterKey || '').split('.')[0];
+  const [load, setLoad] = useState({ status: 'loading', run: null, line: null });
   const [list, setList] = useState([]);
   const [states, setStates] = useState({});
+  const [active, setActive] = useState(0);
+  const [stopAt, setStopAt] = useState(null);
   const [end, setEnd] = useState(null);
-  const [coach, setCoach] = useState(false);
-  const [keepError, setKeepError] = useState(null);
-  const stage = useRef(null);
-  const gesture = useRef(null);
-  const lock = useRef(0);
+  const [again, setAgain] = useState(false);
+  const [streak, setStreak] = useState(0);
+  const [hints, setHints] = useState({ flip: false, swipe: false });
+  const [swipeFor, setSwipeFor] = useState(null);
+  const scroller = useRef(null);
+  const slotEls = useRef([]);
+  const rails = useRef({});
+  const cardEls = useRef({});
 
   const begin = useCallback(async () => {
-    setLoad({ status: 'loading', run: null });
-    setAt(0); setStates({}); setEnd(null);
+    setLoad((l) => ({ ...l, status: 'loading' }));
+    setStates({}); setEnd(null); setStopAt(null); setActive(0); setStreak(0);
     try {
       const run = await startRun({ chapterKey, minutes, kind: 'feed', leaveOut: ['lesson'] });
       setList(run.items || []);
-      setLoad({ status: 'ready', run });
-    } catch {
-      setLoad({ status: 'error', run: null });
+      setLoad({ status: 'ready', run, line: null });
+      scroller.current?.scrollTo({ top: 0 });
+    } catch (e) {
+      if (e.status === 402) setLoad({ status: 'free', run: null, line: e.data?.line || FREE_FEED_DONE });
+      else setLoad({ status: 'error', run: null, line: null });
     }
   }, [chapterKey, minutes]);
-  useEffect(() => { queueMicrotask(begin); }, [begin]);
-  useEffect(() => { queueMicrotask(() => setCoach(!seen(COACH))); }, []);
+  // One feed per chapter and length: a second mount of the same feed (React's development double effect) does not start another
+  // run (a second start would count as Free's second feed of the day).
+  const started = useRef(null);
+  useEffect(() => {
+    const key = `${chapterKey}|${minutes}`;
+    if (started.current === key) return;
+    started.current = key;
+    queueMicrotask(begin);
+  }, [begin, chapterKey, minutes]);
+  useEffect(() => { queueMicrotask(() => setHints({ flip: !seen(FLIP_HINT), swipe: !seen(SWIPE_HINT) })); }, []);
 
   const run = load.run;
   const items = useMemo(() => list.filter((i) => i.type === 'card' || i.type === 'question'), [list]);
+  const allSlots = useMemo(() => feedSlots(items), [items]);
+  const slots = useMemo(() => {
+    const body = stopAt === null ? allSlots : allSlots.slice(0, stopAt + 1);
+    return run ? [...body, { type: 'end', id: 'end' }] : body;
+  }, [allSlots, stopAt, run]);
   const total = items.length;
-  const item = items[at];
-  const st = (item && states[item.id]) || {};
-  const patch = useCallback((id, p) => setStates((s) => ({ ...s, [id]: { ...(s[id] || {}), ...p } })), []);
+  const endAt = slots.length - 1;
+  const patch = useCallback((id, p) => setStates((s) => ({ ...s, [id]: { ...(s[id] || {}), ...(typeof p === 'function' ? p(s[id] || {}) : p) } })), []);
 
-  // The session end, once every item has gone by.
+  // Which screen is in view: the one whose top is nearest the top of the feed (a tall question counts while any of it fills
+  // the screen). Read on every scroll frame, so the ticks, the drift and the end screen follow the finger.
   useEffect(() => {
-    if (!run || !total || at < total || end) return;
+    const root = scroller.current;
+    if (!root || load.status !== 'ready') return undefined;
+    let frame = 0;
+    const read = () => {
+      frame = 0;
+      const y = root.scrollTop + root.clientHeight * 0.45;
+      let at = 0;
+      slotEls.current.forEach((el, i) => { if (el && el.offsetTop <= y) at = i; });
+      setActive(at);
+    };
+    // A safety net for the snap: if a scroll comes to rest between two screens (a browser that lost its snap mid-gesture),
+    // it settles on the nearer one, in the direction it was going. A screen taller than the feed (a long question) scrolls freely.
+    let settle = 0;
+    let touching = false;
+    let lastTop = root.scrollTop;
+    let dir = 0;
+    const rest = () => {
+      settle = 0;
+      if (touching) return;
+      const top = root.scrollTop;
+      const h = root.clientHeight;
+      const els = slotEls.current.filter(Boolean);
+      const at = els.findIndex((el, i) => el.offsetTop <= top + 1 && (i === els.length - 1 || els[i + 1].offsetTop > top + 1));
+      const el = els[at];
+      if (!el) return;
+      const off = top - el.offsetTop;
+      if (off < 2 || el.offsetHeight > h + 2) return;
+      const next = els[at + 1];
+      const target = !next ? el : (dir > 0 ? (off > h * 0.25 ? next : el) : (off > h * 0.75 ? next : el));
+      root.scrollTo({ top: target.offsetTop, behavior: still() ? 'auto' : 'smooth' });
+    };
+    const onScroll = () => {
+      if (!frame) frame = requestAnimationFrame(read);
+      const top = root.scrollTop;
+      if (top !== lastTop) dir = top > lastTop ? 1 : -1;
+      lastTop = top;
+      clearTimeout(settle);
+      settle = setTimeout(rest, 180);
+    };
+    const down = () => { touching = true; };
+    const up = () => { touching = false; clearTimeout(settle); settle = setTimeout(rest, 180); };
+    root.addEventListener('scroll', onScroll, { passive: true });
+    root.addEventListener('touchstart', down, { passive: true });
+    root.addEventListener('touchend', up, { passive: true });
+    root.addEventListener('touchcancel', up, { passive: true });
+    read();
+    return () => {
+      root.removeEventListener('scroll', onScroll);
+      root.removeEventListener('touchstart', down);
+      root.removeEventListener('touchend', up);
+      root.removeEventListener('touchcancel', up);
+      clearTimeout(settle);
+      if (frame) cancelAnimationFrame(frame);
+    };
+  }, [load.status, slots.length]);
+
+  // The end screen reads the session's numbers once it comes into view (after the last answer, so they are all counted).
+  useEffect(() => {
+    if (!run || active !== endAt || end) return undefined;
     let alive = true;
-    runEnd(run.id).then((e) => { if (alive) setEnd(e); }).catch(() => { if (alive) setEnd({ title: `${minutes} minutes on ${run.chapter?.title || 'this chapter'}`, numbers: {}, lines: [], revisePile: [], lead: { label: 'Open the chapter', evidence: '', href: links.chapter(chapterKey) }, options: [] }); });
+    runEnd(run.id).then((e) => { if (alive) setEnd(e); }).catch(() => { if (alive) setEnd({ title: `${minutes} minutes on ${run.chapter?.title || 'this chapter'}`, feed: { title: `${minutes} minutes on ${run.chapter?.title || 'this chapter'}`, kept: { count: 0 }, lines: [], lead: null, next: null } }); });
     return () => { alive = false; };
-  }, [run, total, at, end, minutes, links, chapterKey]);
+  }, [run, active, endAt, end, minutes]);
 
-  const next = useCallback(() => {
-    if (!run || at >= total) return;
-    if (coach) { mark(COACH); setCoach(false); }
-    setKeepError(null);
-    setAt((n) => n + 1);
-  }, [run, at, total, coach]);
+  const go = useCallback((i) => {
+    const el = slotEls.current[Math.max(0, Math.min(i, slots.length - 1))];
+    el?.scrollIntoView({ behavior: still() ? 'auto' : 'smooth', block: 'start' });
+  }, [slots.length]);
 
-  const reveal = useCallback(() => { if (item?.type === 'card' && !st.revealed) patch(item.id, { revealed: true }); }, [item, st.revealed, patch]);
+  const flip = useCallback((item) => {
+    if (hints.flip) { mark(FLIP_HINT); setHints((h) => ({ ...h, flip: false })); }
+    patch(item.id, (s) => ({ flipped: !s.flipped }));
+  }, [hints.flip, patch]);
 
-  const keep = useCallback(async () => {
-    if (!item || item.type !== 'card' || st.kept || st.keeping) return;
+  // Keep: the glyph fills volt with a pop, and a small copy of the card flies to the rail's foot (320 ms).
+  const fly = useCallback((item) => {
+    if (still()) return;
+    const from = cardEls.current[item.id]?.getBoundingClientRect();
+    const foot = rails.current[item.id]?.querySelector('.fx-rail__foot')?.getBoundingClientRect();
+    if (!from || !foot) return;
+    const ghost = document.createElement('span');
+    ghost.className = 'fx-ghost';
+    const w = 72; const h = 96;
+    ghost.style.left = `${from.left + from.width / 2 - w / 2}px`;
+    ghost.style.top = `${from.top + from.height / 2 - h / 2}px`;
+    (scroller.current?.parentElement || document.body).appendChild(ghost);
+    const dx = foot.left + foot.width / 2 - (from.left + from.width / 2);
+    const dy = foot.top + foot.height / 2 - (from.top + from.height / 2);
+    const a = ghost.animate([
+      { transform: 'translate(0, 0) scale(1)', opacity: 0.95 },
+      { transform: `translate(${dx}px, ${dy}px) scale(0.32)`, opacity: 0 },
+    ], { duration: 320, easing: 'cubic-bezier(0.32, 0.72, 0, 1)', fill: 'forwards' });
+    a.onfinish = () => ghost.remove();
+    a.oncancel = () => ghost.remove();
+  }, []);
+
+  const keep = useCallback(async (item) => {
+    const st = states[item.id] || {};
+    if (st.keepPro) { openUpgrade({ trigger: 'keycards' }); return; }
+    if (st.kept || st.keeping || !run) return;
     patch(item.id, { keeping: true });
-    setKeepError(null);
     try {
-      await keepCard(run.id, item.id);
-      patch(item.id, { kept: true, keeping: false });
+      const res = await keepItem(run.id, item.id);
+      fly(item);
+      patch(item.id, { kept: true, keeping: false, stamp: res.stamp || null });
       refreshHome();
     } catch (e) {
-      patch(item.id, { keeping: false });
-      if (e.status === 402) openUpgrade({ trigger: 'keycards' });
-      else setKeepError('That card was not kept. Try again.');
+      patch(item.id, { keeping: false, keepPro: e.status === 402 });
     }
-  }, [item, run, st.kept, st.keeping, patch]);
+  }, [states, run, patch, fly]);
 
-  const choose = useCallback(async (key) => {
-    if (!item || item.type !== 'question' || st.answer) return;
-    patch(item.id, { answer: { choice: key, pending: true } });
+  const save = useCallback(async (item) => {
+    const st = states[item.id] || {};
+    if (st.savePro) { openUpgrade({ trigger: 'saved' }); return; }
+    if (st.saved || st.saving) return;
+    patch(item.id, { saving: true });
+    try { await saveQuestion(item.question.id); patch(item.id, { saved: true, saving: false }); } catch (e) { patch(item.id, { saving: false, savePro: e.status === 402 }); }
+  }, [states, patch]);
+
+  const choose = useCallback(async (item, key) => {
+    const st = states[item.id] || {};
+    if (st.answer || !run) return;
+    patch(item.id, { answer: { choice: key, pending: true }, error: null });
     try {
       const res = await answerItem(run.id, { itemId: item.id, choice: key });
-      patch(item.id, { answer: { choice: key, res } });
+      patch(item.id, { answer: { choice: key, res }, sheet: !res.correct });
+      setStreak((n) => (res.correct ? n + 1 : 0));
+      buzz(res.correct ? 12 : [8, 40, 8]);
+      if (hints.swipe) { mark(SWIPE_HINT); setHints((h) => ({ ...h, swipe: false })); setSwipeFor(item.id); }
       if (res.reinsert?.item) setList((l) => { const next = [...l]; next.splice(Math.min(res.reinsert.at, next.length), 0, res.reinsert.item); return next; });
     } catch {
-      patch(item.id, { answer: null });
-      setKeepError('That answer was not saved. Try again.');
+      patch(item.id, { answer: null, error: 'That answer was not saved. Try again.' });
     }
-  }, [item, st.answer, run, patch]);
+  }, [states, run, patch, hints.swipe]);
 
-  // A new result (the verdict, the explanation, the line you needed) comes into view above the keys.
-  const answered = Boolean(st.answer?.res);
-  useEffect(() => {
-    if (!answered) return;
-    let still = false;
-    try { still = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { /* smooth */ }
-    // The pick the student made is the top row in view (their own answer first, then the right one and the explanation below it).
-    const t = setTimeout(() => {
-      const mine = document.querySelector('.l2x-opt[data-state="wrong"]') || document.querySelector('.l2x-opt[data-state="right"]');
-      (mine || document.querySelector('.l2x-result'))?.scrollIntoView({ block: mine ? 'start' : 'nearest', behavior: still ? 'auto' : 'smooth' });
-    }, 120);
-    return () => clearTimeout(t);
-  }, [answered, item?.id]);
+  const stopHere = useCallback((slotIndex) => {
+    setStopAt(slotIndex);
+    requestAnimationFrame(() => requestAnimationFrame(() => slotEls.current[slotIndex + 1]?.scrollIntoView({ behavior: still() ? 'auto' : 'smooth', block: 'start' })));
+  }, []);
 
-  // Keys: Space shows the line, Down moves on, K keeps, 1 to 4 or A to D choose.
+  const anotherFeed = useCallback(async () => { setAgain(true); await begin(); setAgain(false); }, [begin]);
+  const close = useCallback(() => (window.history.length > 1 ? router.back() : router.push(links.explore())), [router, links]);
+
+  // Keys on the desktop: Down, Page Down or Space for the next screen, Up or Page Up for the one before; Space turns a card that
+  // is face up; 1 to 4 (or A to D) answer; Escape closes the line you needed.
   useEffect(() => {
     const onKey = (e) => {
-      if (e.metaKey || e.ctrlKey || e.altKey || typing(e.target) || !item || end) return;
-      const onButton = e.target?.tagName === 'BUTTON' || e.target?.tagName === 'A';
-      if (item.type === 'card' && (e.key === ' ' || e.key === 'Enter') && !st.revealed && !onButton) { e.preventDefault(); reveal(); return; }
-      if (e.key === 'ArrowDown' || e.key === 'PageDown' || (e.key.toLowerCase() === 'n' && !onButton)) { e.preventDefault(); next(); return; }
-      if (item.type === 'card' && e.key.toLowerCase() === 'k' && st.revealed) { e.preventDefault(); keep(); return; }
-      if (item.type === 'question' && !st.answer) {
+      if (e.metaKey || e.ctrlKey || e.altKey || typing(e.target) || load.status !== 'ready') return;
+      const slot = slots[active];
+      const onButton = /^(BUTTON|A)$/.test(e.target?.tagName || '');
+      if (e.key === 'ArrowDown' || e.key === 'PageDown') { e.preventDefault(); go(active + 1); return; }
+      if (e.key === 'ArrowUp' || e.key === 'PageUp') { e.preventDefault(); go(active - 1); return; }
+      if (e.key === ' ' && !onButton) {
+        e.preventDefault();
+        if (slot?.type === 'item' && slot.item.type === 'card' && !states[slot.item.id]?.flipped) flip(slot.item);
+        else go(active + 1);
+        return;
+      }
+      if (e.key === 'Escape' && slot?.type === 'item' && states[slot.item.id]?.sheet) { patch(slot.item.id, { sheet: false }); return; }
+      if (slot?.type === 'item' && slot.item.type === 'question' && !states[slot.item.id]?.answer) {
         const i = '1234'.indexOf(e.key) >= 0 ? '1234'.indexOf(e.key) : 'abcd'.indexOf(e.key.toLowerCase());
-        if (i >= 0 && item.question.options[i]) { e.preventDefault(); choose(item.question.options[i].key); }
+        if (i >= 0 && slot.item.question.options[i]) { e.preventDefault(); choose(slot.item, slot.item.question.options[i].key); }
       }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
-  }, [item, st.revealed, st.answer, end, next, reveal, keep, choose]);
+  }, [load.status, slots, active, states, go, flip, choose, patch]);
 
-  // The wheel moves on at 1440 (one step per gesture); a swipe up moves on on a phone.
-  useEffect(() => {
-    const el = stage.current;
-    if (!el) return undefined;
-    const onWheel = (e) => {
-      if (window.innerWidth < 1100 || Math.abs(e.deltaY) < 40 || e.target.closest?.('textarea')) return;
-      const now = Date.now();
-      if (now < lock.current) return;
-      if (e.deltaY > 0) { lock.current = now + 900; e.preventDefault(); next(); }
-    };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
-  }, [next, load.status]);
-
-  const onDown = (e) => {
-    if ((e.pointerType === 'mouse' && e.button !== 0) || e.target.closest('button, a, input, textarea')) return;
-    gesture.current = { x: e.clientX, y: e.clientY, id: e.pointerId, t: e.timeStamp, live: false };
-  };
-  const onMove = (e) => {
-    const g = gesture.current;
-    if (!g || g.id !== e.pointerId) return;
-    const dx = e.clientX - g.x; const dy = e.clientY - g.y;
-    if (!g.live) {
-      if (Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)) { gesture.current = null; return; }
-      if (dy < -8 && Math.abs(dy) > Math.abs(dx) * 1.4) { g.live = true; try { e.currentTarget.setPointerCapture(e.pointerId); } catch { /* optional */ } } else return;
-    }
-    // Up follows the finger a little; down (or the wrong way) gives 0.35.
-    const y = dy < 0 ? Math.max(dy * 0.7, -140) : dy * 0.35;
-    e.currentTarget.style.setProperty('--l2x-y', `${y}px`);
-    e.currentTarget.dataset.drag = '';
-  };
-  const onUp = (e) => {
-    const g = gesture.current;
-    gesture.current = null;
-    const node = e.currentTarget;
-    if (!g?.live) return;
-    const dy = e.clientY - g.y;
-    const v = dy / Math.max(1, e.timeStamp - g.t);
-    delete node.dataset.drag;
-    node.style.setProperty('--l2x-y', '0px');
-    if (dy < -72 || v < -0.6) next();
+  // What the student did before a checkpoint: its large number.
+  const numberBefore = (after) => {
+    const before = items.slice(0, after);
+    const qs = before.filter((i) => i.type === 'question' && states[i.id]?.answer?.res);
+    const cards = before.filter((i) => i.type === 'card');
+    return checkpointNumber({ answered: qs.length, right: qs.filter((i) => states[i.id].answer.res.correct).length, seen: cards.length, kept: cards.filter((i) => states[i.id]?.kept).length });
   };
 
-  const left = Math.max(0, total - at);
-  const minsLeft = total ? Math.max(1, Math.round((minutes * left) / total)) : 0;
   const title = run?.chapter?.title || '';
+  const slot = slots[active];
+  const done = slot?.type === 'end' ? total : slot?.type === 'checkpoint' ? slot.after : slot?.type === 'item' ? slot.n - 1 : 0;
+  const current = slot?.type === 'item' ? slot.n - 1 : -1;
+  const chapterHref = links.chapter(chapterKey);
+  const shell = (body, extra = {}) => (
+    <div className={`kc fx ${ncertFont.variable}`} {...extra}>
+      <header className="fx-top">
+        <div className="fx-ticks" aria-hidden="true">
+          {(total ? items : [0, 1, 2, 3, 4, 5]).map((it, i) => <span key={it?.id || i} className="fx-tick" data-state={i < done ? 'done' : i === current ? 'now' : undefined}><i /></span>)}
+        </div>
+        <div className="fx-row">
+          <button type="button" className="fx-close" aria-label="Close the feed" onClick={close}><X size={22} strokeWidth={2.2} aria-hidden="true" /></button>
+          <p className="fx-title">{title}</p>
+        </div>
+      </header>
+      {body}
+    </div>
+  );
 
   if (load.status === 'loading') {
-    return <div className={`kc l2x ${ncertFont.variable}`}><div className="l2x-grid"><div className="l2x-col"><div className="l2x-skel" role="status" aria-label="Starting the feed"><span className="skeleton l2x-skel__h" /><span className="skeleton l2x-skel__card" /><span className="skeleton l2x-skel__key" /></div></div></div></div>;
+    return shell(<div className="fx-feed"><div className="fx-slot" role="status" aria-label="Starting the feed"><Backdrop subject={subject} /><div className="fx-cardwrap"><span className="skeleton fx-skel" /></div></div></div>);
+  }
+  if (load.status === 'free') {
+    return shell(
+      <div className="fx-feed"><div className="fx-slot fx-slot--center"><Backdrop subject={subject} />
+        <div className="fx-end fx-end--free">
+          <h2 className="fx-end__title">One feed a day on Free</h2>
+          <p className="fx-free"><span>{load.line}</span><button type="button" className="fx-textkey" onClick={(e) => openUpgrade({ trigger: 'learn_feed', opener: e.currentTarget })}>See Pro</button></p>
+          <div className="fx-end__keys">
+            <Link className="kc-btn kc-btn--line" href={links.chapter(chapterKey)}>Open the chapter</Link>
+            <Link className="fx-textkey fx-textkey--center" href={links.explore()}>Back to Explore</Link>
+          </div>
+        </div>
+      </div></div>,
+    );
   }
   if (load.status === 'error' || !run) {
-    return <div className={`kc l2x ${ncertFont.variable}`}><div className="l2x-grid"><div className="l2x-col"><header className="l2x-head"><div className="l2x-top"><button type="button" className="l2x-close" onClick={() => (window.history.length > 1 ? router.back() : router.push(links.chapter(chapterKey)))}><X size={18} strokeWidth={2.2} aria-hidden="true" />Close</button></div></header><ErrorState title="The feed did not start" message="Check your connection and try again." onRetry={begin} /></div></div></div>;
+    return shell(
+      <div className="fx-feed"><div className="fx-slot fx-slot--center">
+        <div className="fx-end"><h2 className="fx-end__title">The feed did not start</h2><p className="fx-end__none">Check your connection and try again.</p>
+          <div className="fx-end__keys"><button type="button" className="kc-btn kc-btn--volt" onClick={begin}>Try again</button></div></div>
+      </div></div>,
+    );
   }
   if (!total) {
-    return (
-      <div className={`kc l2x ${ncertFont.variable}`}>
-        <div className="l2x-grid"><div className="l2x-col"><div className="l2x-empty"><h2>Nothing to run in this chapter yet.</h2><p>Its cards and questions are still being checked. Your other chapters have a feed.</p><Link className="kc-btn kc-btn--line" href={links.chapter(chapterKey)}>Open the chapter</Link></div></div></div>
-      </div>
+    return shell(
+      <div className="fx-feed"><div className="fx-slot fx-slot--center"><Backdrop subject={subject} />
+        <div className="fx-end"><h2 className="fx-end__title">Nothing to play in this chapter yet.</h2><p className="fx-end__none">Its cards and questions are still being checked. Your other chapters have a feed.</p>
+          <div className="fx-end__keys"><Link className="kc-btn kc-btn--line" href={links.explore()}>Back to Explore</Link></div></div>
+      </div></div>,
     );
   }
 
-  const done = at >= total;
-  const kind = item?.type;
-  const primary = kind === 'card' ? (st.revealed ? 'next' : 'show') : (st.answer?.res ? 'next' : null);
-  return (
-    <div className={`kc l2x ${ncertFont.variable}`}>
-      <div className="l2x-grid">
-        <div className="l2x-col" ref={stage}>
-          <header className="l2x-head">
-            <div className="l2x-top">
-              <button type="button" className="l2x-close" onClick={() => (window.history.length > 1 ? router.back() : router.push(links.chapter(chapterKey)))}><X size={18} strokeWidth={2.2} aria-hidden="true" />Close</button>
-              <p className="l2x-title">{title}</p>
-              <p className="l2x-pos" aria-live="polite">{done ? `${total} of ${total}` : `${at + 1} of ${total}`}</p>
-            </div>
-            <div className="kc-progress l2x-progress" aria-hidden="true"><span style={{ transform: `scaleX(${Math.min(1, (done ? total : at) / total)})` }} /></div>
-          </header>
-
-          {done ? (
-            end ? <EndScreen end={end} links={links} chapterKey={chapterKey} minutes={minutes} /> : <div className="l2x-skel" role="status" aria-label="Finishing"><span className="skeleton l2x-skel__card" /></div>
-          ) : (
-            <>
-              <div className="l2x-swipe" key={item.id} onPointerDown={onDown} onPointerMove={onMove} onPointerUp={onUp} onPointerCancel={onUp}>
-                {kind === 'card' ? <CardItem item={item} st={st} onReveal={reveal} /> : <QuestionItem item={item} st={st} onChoose={choose} />}
-              </div>
-              <div className="l2x-foot">
-              {coach && at === 0 && !st.revealed && !st.answer ? <p className="l2x-coach">{kind === 'card' ? 'Tap the card to see the NCERT line. ' : ''}Swipe up for the next one, or tap Next.</p> : null}
-              <div className="l2x-keys">
-                {kind === 'card' ? (
-                  <>
-                    {st.revealed ? (
-                      st.kept
-                        ? <span className="l2x-kept" role="status"><Check size={16} strokeWidth={2.4} aria-hidden="true" />In Revise</span>
-                        : <button type="button" className="kc-btn kc-btn--line" onClick={keep} disabled={st.keeping}>{st.keeping ? 'Keeping' : 'Keep'}<kbd className="kc-kbd" aria-hidden="true">K</kbd></button>
-                    ) : null}
-                    {primary === 'show' ? <button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={reveal}>Show answer<kbd className="kc-kbd" aria-hidden="true">Space</kbd></button> : null}
-                    {primary === 'next' ? <button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={next}>Next<kbd className="kc-kbd" aria-hidden="true">Down</kbd></button> : null}
-                    {primary === 'show' ? <button type="button" className="kc-btn kc-btn--quiet" onClick={next}>Next</button> : null}
-                  </>
-                ) : (
-                  <>
-                    {primary === 'next' ? <button type="button" className="kc-btn kc-btn--volt" data-page-primary="" onClick={next}>Next<kbd className="kc-kbd" aria-hidden="true">Down</kbd></button> : <button type="button" className="kc-btn kc-btn--quiet" onClick={next}>Skip this one</button>}
-                  </>
-                )}
-              </div>
-              {keepError ? <p className="kc-err" role="alert">{keepError}</p> : null}
-              </div>
-            </>
-          )}
-        </div>
-        <aside className="l2x-side" aria-label="This feed">
-          <Link className="l2x-side__link" href={links.chapter(chapterKey)}>Open the chapter</Link>
-          {!done ? <p className="l2x-side__t">{plural(left, 'item')} left, about {minsLeft} min</p> : null}
-        </aside>
+  return shell(
+    <>
+      {streak >= 3 && slots[active]?.type === 'item' ? <p className="fx-streak" role="status" aria-live="polite"><b key={streak}>{streak}</b> in a row</p> : null}
+      <div className="fx-feed" ref={scroller} role="feed" aria-roledescription="feed" aria-label={`${title}, ${total} items`} aria-busy={again || undefined}>
+        {slots.map((s, i) => {
+          const ref = (el) => { slotEls.current[i] = el; };
+          const isActive = i === active;
+          // The object is drawn only on the screens next to the one in view (one blurred picture each, light on a phone).
+          const near = Math.abs(i - active) <= 1;
+          if (s.type === 'checkpoint') {
+            return (
+              <article key={s.id} ref={ref} data-slot={i} className="fx-slot fx-slot--center" data-active={isActive || undefined} aria-label={`Checkpoint after ${s.after} of ${total}`}>
+                {near ? <Backdrop subject={subject} /> : null}
+                <Checkpoint number={numberBefore(s.after)} onGo={() => go(i + 1)} onStop={() => stopHere(i)} />
+              </article>
+            );
+          }
+          if (s.type === 'end') {
+            return (
+              <article key="end" ref={ref} data-slot={i} className="fx-slot fx-slot--end" data-active={isActive || undefined} aria-labelledby={end ? 'fx-end-h' : undefined} aria-label={end ? undefined : 'The end of the feed'}>
+                {near ? <Backdrop subject={subject} /> : null}
+                {end ? <EndScreen end={end} open={isActive} links={links} onAgain={anotherFeed} again={again} /> : <div className="fx-end" role="status" aria-label="Finishing"><span className="skeleton fx-skel fx-skel--end" /></div>}
+              </article>
+            );
+          }
+          const { item, n } = s;
+          const st = states[item.id] || {};
+          const kind = item.type === 'card' ? 'Card' : 'Question';
+          return (
+            <article key={item.id} ref={ref} data-slot={i} className={`fx-slot fx-slot--${item.type}`} data-active={isActive || undefined} data-sheet={st.sheet || undefined}
+              aria-posinset={n} aria-setsize={total} aria-label={`${kind} ${n} of ${total}`}>
+              {near ? <Backdrop subject={subject} /> : null}
+              {item.type === 'card' ? (
+                <div className="fx-cardslot" ref={(el) => { cardEls.current[item.id] = el?.querySelector('.fx-card') || null; rails.current[item.id] = el?.querySelector('.fx-rail') || null; }}>
+                  <CardItem item={item} st={st} onFlip={() => flip(item)} onKeep={() => keep(item)} chapterHref={chapterHref} hint={hints.flip && n === 1} />
+                </div>
+              ) : (
+                <QuestionItem item={item} st={st} onChoose={(k) => choose(item, k)} onSave={() => save(item)} chapterHref={chapterHref} swipeHint={swipeFor === item.id} onCloseSheet={() => patch(item.id, { sheet: false })} />
+              )}
+            </article>
+          );
+        })}
       </div>
-    </div>
+    </>,
   );
 }

@@ -20,6 +20,7 @@ import { LEARN_RULES, composeRun, dryRun, minutesFor, cardStage, isLong, mistake
 import { suggestions, endOptions } from '../../../data/learn/suggest.js';
 import { searchSubject } from '../../../data/learn/search.js';
 import { IN_RUN, returnDay, revisePileGroups, shortDate } from '../../../data/learn/stamps.js';
+import { FEED_RULES, coverOrder, feedsOnDay, freeFeed } from '../../../data/learn/feed.js';
 
 const HOUR = 3_600_000;
 const DAY = 24 * HOUR;
@@ -85,7 +86,7 @@ const SEEN_DATES = { mock3: Date.parse('2026-10-16T11:20:00+05:30'), mock4: Date
 function learnState(ctx) {
   const { entry } = ctx;
   if (entry.learn) return entry.learn;
-  entry.learn = { runs: new Map(), mistakes: new Map(), lessonsRead: new Set(), seq: 0 };
+  entry.learn = { runs: new Map(), mistakes: new Map(), lessonsRead: new Set(), seq: 0, feeds: [] };
   if (!ctx.fresh) seedReturning(ctx);
   return entry.learn;
 }
@@ -491,16 +492,28 @@ async function runStart(ctx, body) {
   const L = learnState(ctx);
   const kind = ['mix', 'recap', 'cards', 'feed', 'level'].includes(body?.kind) ? body.kind : 'mix';
   const minutes = Math.max(1, Math.min(240, Math.round(Number(body?.minutes) || 10)));
+  // Free plays one Explore feed a day (FEED-2 section 5): a second one that day does not start, and says why in one line.
+  if (kind === 'feed') {
+    const rule = freeFeed({ isPro: ctx.isPro, startedToday: feedsToday(ctx) });
+    if (!rule.canStart) return { http: 402, body: { error: 'FREE_FEED_USED', reason: 'learn_feed', line: rule.endLine } };
+  }
   // Pick up: an explicit resume id, or the same chapter, kind and length as the unfinished run's minutes left.
   const open = body?.chapterKey ? unfinishedRun(ctx, body.chapterKey) : null;
   const resume = (body?.resume && L.runs.get(body.resume)) || (open && open.kind === kind && minutesLeft(open) === minutes ? open : null);
   if (resume && !resume.ended && resume.done.size < resume.items.length) return ok(runBody(ctx, resume, { resumed: true }));
   const cardIds = Array.isArray(body?.cardIds) ? body.cardIds.filter((x) => typeof x === 'string').slice(0, LEARN_RULES.maxCardIds) : null;
   if (!body?.chapterKey && !cardIds?.length) return bad('CHAPTER_OR_CARDS_REQUIRED');
-  const run = createRun(ctx, { chapterKey: body?.chapterKey, cardIds, minutes, leaveOut: Array.isArray(body?.leaveOut) ? body.leaveOut : [], kind, addNext: body?.addNext === true });
+  const asked = Array.isArray(body?.leaveOut) ? body.leaveOut : [];
+  // A feed never plays a lesson (it is one item per screen, a minute or so each).
+  const leaveOut = kind === 'feed' ? [...new Set([...asked, 'lesson'])] : asked;
+  const run = createRun(ctx, { chapterKey: body?.chapterKey, cardIds, minutes, leaveOut, kind, addNext: body?.addNext === true });
   if (!run) return bad('CHAPTER_NOT_FOUND', 404);
+  if (run.kind === 'feed') L.feeds.push(ctx.now);
   return ok(runBody(ctx, run));
 }
+
+/** Feeds this student started today (India day). */
+const feedsToday = (ctx) => feedsOnDay(learnState(ctx).feeds, ctx.now, istDay);
 
 function runOf(ctx, id) {
   return learnState(ctx).runs.get(id) || null;
@@ -567,12 +580,21 @@ async function runRate(ctx, id, body) {
     const d = run.done.get(item.id);
     return ok({ ok: true, replay: true, stamp: d.stamp ?? null, revisePile: revisePile(run), limit: run.limit });
   }
-  // The Explore feed's Keep: the card joins Revise, nothing else is scheduled.
+  // The Explore feed's Keep (A6, FEED-2 section 2): the card joins Revise with its first real schedule (a Got it through the
+  // Key cards service, so the stamp is the FSRS next date: "Back Tue"). A card already in Revise keeps its own schedule.
+  // A card swiped past without Keep schedules nothing. Free: within today's new-card allowance; past it a 402 (the rail says Pro).
   if (body?.keep === true) {
-    const res = await ctx.entry.kc.add(ctx.user, { cardIds: [item.cardId] });
-    if (res.http !== 200) return { http: res.http, body: res.body };
-    run.done.set(item.id, { kept: true, stamp: 'In Revise' });
-    return ok({ ok: true, kept: true, stamp: 'In Revise', revisePile: revisePile(run), limit: null });
+    const prior = ctx.entry.tables.key_card_states.find((r) => r.user_id === ctx.user && r.card_id === item.cardId && !r.suspended && Number(r.reps) > 0);
+    let dueAt = prior?.due_at || null;
+    if (!prior) {
+      const res = await ctx.entry.kc.review(ctx.user, { cardId: item.cardId, rating: 3, mode: 'study', clientReviewedAt: iso(ctx.now) });
+      if (res.http === 402) return { http: 402, body: { error: 'PRO_REQUIRED', reason: res.body?.reason || 'keycard_new' } };
+      if (res.http !== 200) return { http: res.http, body: res.body };
+      dueAt = res.body.next?.due_at || null;
+    }
+    const stamp = dueAt ? returnDay(dueAt, ctx.now).stamp : 'In Revise';
+    run.done.set(item.id, { kept: true, dueAt, stamp, cardId: item.cardId, already: Boolean(prior) });
+    return ok({ ok: true, kept: true, stamp, revisePile: revisePile(run), limit: null });
   }
   const rating = Number(body?.rating);
   if (![1, 3, 4].includes(rating)) return bad('INVALID_RATING');
@@ -653,7 +675,9 @@ async function runEnd(ctx, id) {
     due: { count: dueAll }, mustKnow: info ? (ctx.isPro ? info.counts.mustKnow : info.counts.openMust) : 0,
   });
   run.ended = true;
+  const feed = run.kind === 'feed' ? feedEnd(ctx, run, { answered: answered.length, right, fixed, mistakes: mistakesIn.length }) : null;
   return ok({
+    feed,
     title: run.kind === 'recap' ? `Quick recap of ${run.title}` : `${run.minutes} ${run.minutes === 1 ? 'minute' : 'minutes'} on ${run.title}`,
     numbers: { cards: rated.length, questions: answered.length, fixed, mistakes: mistakesTried, detail },
     lines,
@@ -661,6 +685,60 @@ async function runEnd(ctx, id) {
     moved, free,
     lead: opts.lead, options: opts.options,
   });
+}
+
+/**
+ * The Explore feed's end screen (FEED-2 section 5): the kept pile with its real return days, two lines, and the keys.
+ *   lead    "Another 10 minutes" (a new feed of the chapter); on Free with the day's feed used, null and `free` says why
+ *   next    the next chapter in book order (a feed, or its chapter page on Free once the day's feed is used)
+ *   back    Explore
+ */
+function feedEnd(ctx, run, { answered, right, fixed, mistakes }) {
+  const kept = [...run.done.entries()].filter(([, d]) => d.kept).map(([itemId, d]) => ({ itemId, ...d }));
+  const cards = kept.map((k) => ctx.entry.decks.byId.get(k.cardId)).filter(Boolean);
+  const dues = kept.map((k) => k.dueAt).filter(Boolean);
+  const groups = revisePileGroups(dues, ctx.now);
+  const stamp = groups.length === 1 && dues.length ? returnDay(dues[0], ctx.now).stamp : null;
+  const lines = [];
+  if (answered) lines.push({ label: 'Questions', text: `${right} of ${answered} right` });
+  if (mistakes) lines.push({ label: 'Fixed', text: fixed === mistakes ? `${fixed} old ${fixed === 1 ? 'mistake' : 'mistakes'}` : `${fixed} of ${mistakes} old ${mistakes === 1 ? 'mistake' : 'mistakes'}` });
+  const rule = freeFeed({ isPro: ctx.isPro, startedToday: feedsToday(ctx) });
+  const minutes = FEED_RULES.lengths.includes(run.minutes) ? run.minutes : 10;
+  const next = nextChapterOf(ctx, run.chapterKey);
+  return {
+    title: `${run.minutes} ${run.minutes === 1 ? 'minute' : 'minutes'} on ${run.title}`,
+    kept: { count: cards.length, cards: cards.slice(0, 5), groups, stamp },
+    lines,
+    lead: rule.endLine ? null : { label: `Another ${minutes} minutes`, run: { kind: 'feed', chapterKey: run.chapterKey, minutes } },
+    free: rule.endLine ? { text: rule.endLine } : null,
+    next: next ? { label: `Next chapter: ${next.title}`, key: next.key, run: rule.canStart ? { kind: 'feed', chapterKey: next.key, minutes } : null } : null,
+  };
+}
+
+/**
+ * The Explore covers row (FEED-2 section 6): the subject's chapters that have something to play, the suggested one first, each
+ * with the real counts of a feed at 5, 10 and 20 minutes (the composer's own dry run), so the length switch never waits.
+ */
+async function coversRead(ctx, p) {
+  const subject = p.get('subject') || ctx.entry.subjects[0];
+  if (!ctx.entry.subjects.includes(subject) && !ctx.entry.decks.bySubject.has(subject)) return bad('SUBJECT_NOT_FOUND', 404);
+  const option = optionOf(ctx, subject);
+  const list = subjectChapters(ctx, subject).filter((ch) => ctx.c.syllabus.sectionAllowed(subject, ch.section, option));
+  const infos = list.map((ch, order) => ({ order, info: chapterInfo(ctx, ch.key) })).filter((x) => x.info);
+  const ordered = coverOrder(infos.map(({ order, info }) => ({ key: info.key, title: info.title, order, cards: info.counts.open, questions: info.questions.length, due: info.counts.due, mistakes: info.mistakes.length })));
+  const byKey = new Map(infos.map((x) => [x.info.key, x.info]));
+  const covers = ordered.map((c) => {
+    const info = byKey.get(c.key);
+    const counts = {};
+    for (const m of FEED_RULES.lengths) {
+      const plan = composeFor(ctx, info, { kind: 'feed', minutes: m, leaveOut: ['lesson'] });
+      counts[m] = { cards: plan.piles.cards.count, questions: plan.piles.questions.count + plan.piles.mistakes.count, minutes: plan.shrunk && plan.realMinutes ? plan.realMinutes : m };
+    }
+    const reason = c.forYou ? (info.counts.due && info.mistakes.length ? `${info.counts.due} due, ${info.mistakes.length} open ${info.mistakes.length === 1 ? 'mistake' : 'mistakes'}` : info.counts.due ? `${info.counts.due} due` : info.mistakes.length ? `${info.mistakes.length} open ${info.mistakes.length === 1 ? 'mistake' : 'mistakes'}` : null) : null;
+    return { key: c.key, title: c.title, ref: info.ref, forYou: c.forYou, reason, counts };
+  }).filter((c) => FEED_RULES.lengths.some((m) => c.counts[m].cards + c.counts[m].questions > 0));
+  const rule = freeFeed({ isPro: ctx.isPro, startedToday: feedsToday(ctx) });
+  return ok({ subject: { id: subject, name: subjectName(subject) }, lengths: FEED_RULES.lengths, covers, free: rule.canStart ? null : { text: rule.endLine } });
 }
 
 async function cardsRead(ctx, p) {
@@ -759,6 +837,7 @@ export async function learnAnswer({ entry, to, method, params, body, isPro, stud
   if (run && m === 'POST' && run[2] === 'rate') return runRate(ctx, decodeURIComponent(run[1]), body);
   if (run && m === 'GET' && run[2] === 'end') return runEnd(ctx, decodeURIComponent(run[1]));
   if (m === 'GET' && to === '/api/learn/cards') return cardsRead(ctx, params);
+  if (m === 'GET' && to === '/api/learn/covers') return coversRead(ctx, params);
   if (m === 'GET' && to === '/api/learn/shelves') return shelvesRead(ctx, params);
   if (m === 'GET' && to === '/api/learn/search') return searchRead(ctx, params);
   return { http: 404, body: { error: 'NOT_A_LEARN_ROUTE' } };

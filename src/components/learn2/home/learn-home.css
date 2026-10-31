@@ -31,15 +31,6 @@ html[data-theme='light'] .lh {
 /* ---------- Header ---------- */
 .lh-head { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .lh-title { font: 750 clamp(30px, 7vw, 40px)/1.04 var(--font-display); letter-spacing: -0.035em; color: var(--a-ink); }
-.lh-seg { position: relative; display: grid; grid-template-columns: 1fr 1fr; flex: none; width: 208px; padding: 4px; border-radius: 14px; background: var(--a-sunken); border: 1px solid var(--a-line); isolation: isolate; }
-.lh-seg__btn { position: relative; z-index: 1; min-height: 44px; border: 0; border-radius: 10px; background: transparent; color: var(--a-ink-2); font: 600 15px/1 var(--font-body); cursor: pointer; transition: color 200ms var(--lh-ease); -webkit-tap-highlight-color: transparent; }
-.lh-seg__btn[aria-selected='true'] { color: var(--a-ink); font-weight: 700; }
-.lh-seg__btn:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 1px; }
-.lh-seg__thumb {
-  position: absolute; z-index: 0; top: 4px; bottom: 4px; left: 4px; width: calc((100% - 8px) / 2); border-radius: 10px; background: var(--a-raised);
-  box-shadow: var(--a-shadow-1), inset 0 0 0 1px var(--a-line-strong); transform: translateX(calc(var(--i, 0) * 100%)); transition: transform 240ms var(--lh-ease);
-}
-@media (hover: hover) { .lh-seg__btn[aria-selected='false']:hover { color: var(--a-ink); } }
 
 /* ---------- Subjects loop (Practice's own markup and rules, sized for a page that has more under it) ---------- */
 .app-shell .pr.lh-shelf { --pr-surface: none; margin-top: -6px; }
@@ -285,11 +276,19 @@ html[data-theme='light'] .lh {
 /* ---------- Reduced motion: things land at once; state changes are short fades ---------- */
 @media (prefers-reduced-motion: reduce) {
   .lh :is(.lh-sug, .lh-row[data-enter], .lh-panel, .lh-sort__list, .lh-optgroup[data-stage='in']) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
-  .lh :is(.lh-seg__thumb, .lh-opt__thumb, .lh-row__chev, .lh-foot__chev, .lh-sort__btn svg, .lh-row__link, .lh-foot__link) { transition: none; }
+  .lh :is(.lh-opt__thumb, .lh-row__chev, .lh-foot__chev, .lh-sort__btn svg, .lh-row__link, .lh-foot__link) { transition: none; }
   .lh :is(.lh-row__link, .lh-foot__link, .lh-key):active { transform: none; }
   .lh .lh-optgroup[data-stage='out'] { transition: opacity 120ms linear; }
 }
 :root[data-motion='reduced'] .lh :is(.lh-sug, .lh-row[data-enter], .lh-panel, .lh-sort__list, .lh-optgroup[data-stage='in']) { animation: lh-fade 120ms linear both; animation-delay: 0ms; }
-:root[data-motion='reduced'] .lh :is(.lh-seg__thumb, .lh-opt__thumb, .lh-row__chev, .lh-foot__chev, .lh-sort__btn svg, .lh-row__link, .lh-foot__link) { transition: none; }
+:root[data-motion='reduced'] .lh :is(.lh-opt__thumb, .lh-row__chev, .lh-foot__chev, .lh-sort__btn svg, .lh-row__link, .lh-foot__link) { transition: none; }
 :root[data-motion='reduced'] .lh :is(.lh-row__link, .lh-foot__link, .lh-key):active { transform: none; }
 :root[data-motion='reduced'] .lh .lh-optgroup[data-stage='out'] { transition: opacity 120ms linear; }
+
+/* The search field under the subject row (FEED-2 section 7): Find opens in place on focus; Cancel sits beside it while open */
+.lh-find { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.lh-find .l2f-search { flex: 1 1 auto; min-width: 0; }
+.lh-find__cancel { flex: none; min-height: 44px; padding: 0 6px; border: 0; background: none; color: var(--a-ink); font: 650 15px/1 var(--font-body); cursor: pointer; animation: lh-cancel-in 160ms var(--lh-ease, ease-out) both; }
+.lh-find__cancel:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 2px; border-radius: 8px; }
+@keyframes lh-cancel-in { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .lh-find__cancel { animation: none; } }

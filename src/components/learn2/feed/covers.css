@@ -1,0 +1,37 @@
+/* Learn v2: the Explore feed's covers row (FEED-2 section 6). Arena tokens only; the Play key comes from keycards.css.
+   A horizontal row that snaps one cover per swipe; each cover is 280 x 360. On a phone the row runs to the screen's edges. */
+
+.fxc { --fxc-out: var(--ease-out, cubic-bezier(0.23, 1, 0.32, 1)); display: grid; gap: 14px; margin: 22px 0 6px; min-width: 0; }
+.fxc :where(h2, h3, p, ul) { margin: 0; }
+.fxc-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.fxc-title { font: 700 19px/1.2 var(--font-display); letter-spacing: -0.015em; color: var(--a-ink); white-space: nowrap; }
+.fxc-free { font: 500 14px/1.5 var(--font-body); color: var(--a-ink-2); text-wrap: pretty; }
+
+/* The length: 5, 10 and 20 minutes, one control for every cover; the chosen one takes the ink fill (volt stays on Play) */
+.fxc-len { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2px; padding: 2px; border: 1px solid var(--a-line-strong); border-radius: 999px; flex: 0 0 auto; }
+.fxc-len button { min-height: 40px; min-width: 56px; padding: 0 10px; border: 0; border-radius: 999px; background: transparent; color: var(--a-ink-2); font: 650 13.5px/1 var(--font-body); font-variant-numeric: tabular-nums; white-space: nowrap; cursor: pointer; touch-action: manipulation; transition: background-color 150ms var(--fxc-out), color 150ms var(--fxc-out); -webkit-tap-highlight-color: transparent; }
+.fxc-len button[aria-pressed='true'] { background: var(--a-ink); color: var(--a-bg); }
+.fxc-len button:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 1px; }
+@media (hover: hover) { .fxc-len button[aria-pressed='false']:hover { color: var(--a-ink); background: var(--a-hover); } }
+
+/* The row: one cover per swipe */
+.fxc-row { list-style: none; padding: 2px 0 6px; display: grid; grid-auto-flow: column; grid-auto-columns: 280px; gap: 12px; overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x mandatory; scrollbar-width: none; -webkit-overflow-scrolling: touch; }
+.fxc-row::-webkit-scrollbar { display: none; }
+@media (max-width: 767px) {
+  .fxc-row { margin-inline: -16px; padding-inline: 16px; scroll-padding-inline: 16px; }
+}
+.fxc-cover { position: relative; display: grid; grid-template-rows: 140px auto 1fr auto; gap: 6px; width: 280px; height: 360px; padding: 12px 18px 18px; border-radius: 24px; border: 1px solid var(--a-line-strong); background: var(--a-raised); box-shadow: var(--a-shadow-1); scroll-snap-align: start; overflow: hidden; }
+.fxc-obj { display: grid; place-items: center; width: 140px; height: 140px; justify-self: center; }
+/* "For you" sits in the cover's top-left corner, beside the object, so a long title keeps its three lines */
+.fxc-for { position: absolute; top: 16px; left: 18px; font: 600 13px/1.35 var(--font-body); color: var(--a-ink-2); }
+.fxc-name { font: 700 22px/1.12 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); text-wrap: balance; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.fxc-line { align-self: start; font: 500 14.5px/1.45 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.fxc-play { width: 100%; min-height: 50px; }
+.fxc-cover[data-skel] { box-shadow: none; }
+.fxc-sk { display: block; border-radius: 10px; }
+.fxc-sk--obj { width: 120px; height: 120px; justify-self: center; align-self: center; border-radius: 50%; }
+.fxc-sk--key { height: 50px; align-self: end; border-radius: 14px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .fxc-len button { transition: none; }
+}

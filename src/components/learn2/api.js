@@ -32,6 +32,11 @@ export const runEnd = (runId) => call(`/api/learn/runs/${encodeURIComponent(runI
 export const chapterCards = ({ chapter, filter = 'all' }) => call(`/api/learn/cards?${q({ chapter, filter })}`);
 export const learnShelves = (subject) => call(`/api/learn/shelves?${q({ subject })}`);
 export const learnSearch = ({ subject, query }) => call(`/api/learn/search?${q({ subject, q: query })}`);
+export const feedCovers = (subject) => call(`/api/learn/covers?${q({ subject })}`);
+/** The feed's Keep: the card joins Revise with its first real schedule (402: past Free's allowance). */
+export const keepItem = (runId, itemId) => call(`/api/learn/runs/${encodeURIComponent(runId)}/rate`, { method: 'POST', body: { itemId, keep: true } });
+/** Save a question to Saved (the same route as Explore's save; 402 is Free's save limit). */
+export const saveQuestion = (questionId) => call('/api/bookmarks', { method: 'POST', body: { questionId, saved: true } });
 
 /** One read with loading, error and a refresh that keeps the previous data on screen while it runs. */
 export function useLearnRead(read, deps) {
