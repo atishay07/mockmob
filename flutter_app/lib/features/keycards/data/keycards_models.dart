@@ -1,5 +1,6 @@
 import '../../../core/models/json_helpers.dart';
 import '../keycards_copy.dart';
+import 'keycards_lines.dart' as lines;
 
 /// Key cards as the server sends them (KEYCARDS-BUILD-SPEC 2e, KEYCARDS-CONTENT-SPEC 3). Every parser is
 /// forgiving: a field that is missing or of the wrong type gives its empty value, never a crash, and a card
@@ -37,12 +38,7 @@ class KcSource {
 
   /// "Business Studies Part 1, Ch 1, p. 3"; for an English card, where its meaning comes from; null when there
   /// is nothing to cite.
-  String? get reference => switch (kind) {
-    _ when book != null => KeyCardsCopy.reference(book!, chapterNo, page),
-    'wordnet' => KeyCardsCopy.sourceWordNet,
-    'authored' => KeyCardsCopy.sourceAuthored,
-    _ => null,
-  };
+  String? get reference => lines.sourceLine(this);
 
   Json toJson() => {
     'kind': kind,
@@ -290,7 +286,10 @@ class KcChapter {
   final int due;
   final KcChapterState state;
 
-  String? get ncertLine => ncertBook == null || ncertChapter == null ? ncertBook : KeyCardsCopy.ncertChapter(ncertBook!, ncertChapter!);
+  /// The website's `chapterRef`: nothing when it is only the title again, "Ch 7" under a heading that is the book's name.
+  String? ncertLineUnder({String? unit}) => lines.chapterRef(ncertBook, ncertChapter, title: title, unit: unit);
+
+  String? get ncertLine => ncertLineUnder();
 
   Json toJson() => {
     'key': key,
@@ -449,7 +448,10 @@ class KcDeckChapter {
   final int? ncertChapter;
   final String? chip;
 
-  String? get ncertLine => ncertBook == null || ncertChapter == null ? ncertBook : KeyCardsCopy.ncertChapter(ncertBook!, ncertChapter!);
+  /// The website's `chapterRef`: nothing when it is only the title again, "Ch 7" under a heading that is the book's name.
+  String? ncertLineUnder({String? unit}) => lines.chapterRef(ncertBook, ncertChapter, title: title, unit: unit);
+
+  String? get ncertLine => ncertLineUnder();
 }
 
 /// `GET /api/keycards/deck?chapter=`.

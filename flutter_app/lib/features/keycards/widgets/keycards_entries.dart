@@ -21,11 +21,17 @@ class KeyCardsLearnEntry extends ConsumerWidget {
     final home = ref.watch(keyCardsHomeProvider).value?.value;
     if (home == null || !home.enabled) return const SizedBox.shrink();
     final today = home.today;
+    final anyAdded = home.subjects.any((s) => s.units.any((u) => u.chapters.any((c) => c.added > 0)));
     return Padding(
       padding: const EdgeInsets.only(top: MmSpace.s8),
       child: LearnLinkRow(
         title: KeyCardsCopy.title,
-        note: today.due > 0 ? KeyCardsCopy.learnRowDue(today.due, today.minutes) : KeyCardsCopy.learnRowNote,
+        // A first visit (nothing due, nothing added) says what Key cards are.
+        note: today.due > 0
+            ? KeyCardsCopy.learnRowDue(today.due, today.minutes)
+            : anyAdded
+            ? KeyCardsCopy.nothingDue
+            : KeyCardsCopy.learnRowNote,
         onTap: () => unawaited(context.push<void>(AppRoutes.keyCards)),
       ),
     );

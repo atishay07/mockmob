@@ -7,6 +7,7 @@ import 'package:lucide_icons_flutter/lucide_icons.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../pro_nudge/pro_nudge.dart' show ProReason, proNudgesOnProvider, showUpgradeSheetIfOn;
+import '../data/keycards_lines.dart';
 import '../data/keycards_models.dart';
 import '../data/keycards_providers.dart';
 import '../keycards_copy.dart';
@@ -119,7 +120,7 @@ class _KcLineBlockState extends ConsumerState<KcLineBlock> {
           for (final (i, card) in line.cards.indexed) ...[
             if (i > 0) ...[const SizedBox(height: MmSpace.s12), Divider(height: 1, thickness: 1, color: colors.line)],
             const SizedBox(height: MmSpace.s8),
-            Text(card.label, style: type.caption.copyWith(color: colors.ink2)),
+            Text(cardFace(card).label, style: type.caption.copyWith(color: colors.ink2)),
             const SizedBox(height: MmSpace.s2),
             KcBack(card: card, compact: true),
             const SizedBox(height: MmSpace.s4),

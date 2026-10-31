@@ -30,12 +30,10 @@ abstract final class KeyCardRules {
   /// "About N minutes" for [cards] cards: at least 1 when there is anything to do.
   static int minutesFor(int cards) => cards <= 0 ? 0 : (cards * minutesPerCard).ceil().clamp(1, 1 << 20);
 
-  /// Book order, Must-know first among cards of the same place.
+  /// Book order, the website's `bookOrder`: the card's `order`, then its id.
   static int bookOrder(KeyCard a, KeyCard b) {
     final byOrder = a.order.compareTo(b.order);
-    if (byOrder != 0) return byOrder;
-    if (a.mustKnow != b.mustKnow) return a.mustKnow ? -1 : 1;
-    return a.id.compareTo(b.id);
+    return byOrder != 0 ? byOrder : a.id.compareTo(b.id);
   }
 
   /// `deckView(cards, { isPro })`: book order; Free sees the first [freeTastePerChapter] cards of each chapter
@@ -50,27 +48,32 @@ abstract final class KeyCardRules {
     ];
   }
 
-  /// The taste cards of every chapter in [cards]: the first five in book order, Must-know first among ties.
-  static Set<String> tasteIds(List<KeyCard> cards) {
+  /// The taste cards of every chapter in [cards] (code review L10): its first [freeTastePerChapter] Must-know
+  /// cards in book order (`order`, then id). Good-to-know cards are never in the taste, so a chapter with fewer
+  /// Must-know cards has a smaller one. `test/unit/keycards/support/taste.json` pins it with the website.
+  static Set<String> tasteIds(List<KeyCard> cards, {int per = freeTastePerChapter}) {
     final byChapter = <String, List<KeyCard>>{};
     for (final c in cards) {
+      if (c.id.isEmpty || !c.mustKnow) continue;
       byChapter.putIfAbsent(c.chapterKey, () => []).add(c);
     }
     return {
-      for (final list in byChapter.values) ...([...list]..sort(bookOrder)).take(freeTastePerChapter).map((c) => c.id),
+      for (final list in byChapter.values) ...([...list]..sort(bookOrder)).take(per).map((c) => c.id),
     };
   }
 
   /// `chapterAddSet(cards, chapterKey, { isPro })`: Pro adds every Must-know card of the chapter; Free only its
-  /// taste cards. Good-to-know cards are never added by the chapter key.
+  /// taste cards, in book order. Good-to-know cards are never added by the chapter key.
   static List<String> chapterAddSet(List<KeyCard> cards, String chapterKey, {required bool isPro}) {
     final chapter = [for (final c in cards) if (c.chapterKey == chapterKey) c]..sort(bookOrder);
     if (isPro) return [for (final c in chapter) if (c.mustKnow) c.id];
-    return [...tasteIds(chapter).where((id) => chapter.any((c) => c.id == id))];
+    final taste = tasteIds(chapter);
+    return [for (final c in chapter) if (taste.contains(c.id)) c.id];
   }
 
   /// `dueQueue`: the due cards first (Must-know first, then by when they fell due), then new cards (added,
-  /// never reviewed) in book order up to [newAllowanceLeft]. New cards pause while more than
+  /// never reviewed) chapter by chapter ([chapterRank], the syllabus order; without it the subject, then the
+  /// chapter key), then the card's order in its chapter (code review L7: `order` restarts in every chapter), up to [newAllowanceLeft]. New cards pause while more than
   /// [overduePauseNew] are overdue. Cards no longer published ([published] given and missing the id) and
   /// cards in [suspended] are skipped. At most [limit].
   static List<KcDueCard> dueQueue(
@@ -80,6 +83,7 @@ abstract final class KeyCardRules {
     int limit = 20,
     Set<String> suspended = const {},
     Set<String>? published,
+    int Function(String chapterKey)? chapterRank,
   }) {
     bool live(KcDueCard s) => !suspended.contains(s.card.id) && (published == null || published.contains(s.card.id));
     final due = [
@@ -91,10 +95,19 @@ abstract final class KeyCardRules {
       });
     final fresh = due.length > overduePauseNew
         ? const <KcDueCard>[]
-        : ([for (final s in states) if (live(s) && s.isNew) s]..sort((a, b) => bookOrder(a.card, b.card)))
+        : ([for (final s in states) if (live(s) && s.isNew) s]..sort((a, b) => _newOrder(a.card, b.card, chapterRank)))
               .take(newAllowanceLeft.clamp(0, 1 << 20))
               .toList();
     return [...due, ...fresh].take(limit).toList();
+  }
+
+  static int _newOrder(KeyCard a, KeyCard b, int Function(String chapterKey)? rank) {
+    final r = rank == null ? 0 : rank(a.chapterKey).compareTo(rank(b.chapterKey));
+    if (r != 0) return r;
+    final bySubject = a.subject.compareTo(b.subject);
+    if (bySubject != 0) return bySubject;
+    final byChapter = a.chapterKey.compareTo(b.chapterKey);
+    return byChapter != 0 ? byChapter : bookOrder(a, b);
   }
 
   /// A queue without the cards this phone rated after the queue's state of them was read: their reviews may

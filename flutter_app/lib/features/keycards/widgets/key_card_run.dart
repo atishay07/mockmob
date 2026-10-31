@@ -8,6 +8,7 @@ import '../../../core/haptics/haptics.dart';
 import '../../../core/motion/motion.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../data/keycards_lines.dart';
 import '../data/keycards_models.dart';
 import '../data/keycards_providers.dart';
 import '../data/keycards_reviews.dart';
@@ -305,7 +306,7 @@ class _KcLastLookState extends State<KcLastLook> {
                     KcKindLine(card: card, trailing: KcCardMenu(card: card)),
                     // As in Read: a term or key line needs no prompt above its own line.
                     if (!card.hasBlanks) ...[
-                      Text(card.front, style: type.small.copyWith(color: colors.ink2)),
+                      Text(cardFace(card).front, style: type.small.copyWith(color: colors.ink2)),
                       const SizedBox(height: MmSpace.s8),
                     ] else
                       const SizedBox(height: MmSpace.s4),

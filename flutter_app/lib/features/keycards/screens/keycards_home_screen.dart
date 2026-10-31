@@ -246,7 +246,7 @@ class _SubjectBody extends StatelessWidget {
       }
       for (final (i, c) in unit.chapters.indexed) {
         if (i > 0) rows.add(Divider(height: 1, thickness: 1, color: colors.line));
-        rows.add(KcChapterRow(chapter: c, isPro: isPro, onTap: () => onOpen(c.key)));
+        rows.add(KcChapterRow(chapter: c, isPro: isPro, heading: headed(unit) ? unit.unit : null, onTap: () => onOpen(c.key)));
       }
     }
     return Column(
@@ -286,9 +286,12 @@ class _SubjectBody extends StatelessWidget {
 /// "5 of 8 open" under it). The title and the book's long names get the whole width; the counts share the
 /// state's line, and drop under it when the two do not fit.
 class KcChapterRow extends StatelessWidget {
-  const KcChapterRow({super.key, required this.chapter, required this.isPro, required this.onTap});
+  const KcChapterRow({super.key, required this.chapter, required this.isPro, required this.onTap, this.heading});
 
   final KcChapter chapter;
+
+  /// The unit heading printed above this row, when there is one.
+  final String? heading;
   final bool isPro;
   final VoidCallback onTap;
 
@@ -297,9 +300,10 @@ class KcChapterRow extends StatelessWidget {
     final colors = context.mmColors;
     final type = context.mmType;
     final c = chapter;
+    final ref = c.ncertLineUnder(unit: heading);
     final count = c.cards == 0 ? KeyCardsCopy.noCardsYet : KeyCardsCopy.cardsDue(c.cards, c.due);
     final open = !isPro && c.cards > 0 ? KeyCardsCopy.openOf(c.unlocked, c.cards) : null;
-    final spoken = [c.title, ?c.ncertLine, ?c.chip, c.state.text, count, ?open].join('. ');
+    final spoken = [c.title, ?c.ncertLineUnder(), ?c.chip, c.state.text, count, ?open].join('. ');
     const figures = [FontFeature.tabularFigures()];
     // The chevron's column: the lines under the title stop where the title does.
     const chevronRoom = MmSpace.s8 + 16;
@@ -326,11 +330,11 @@ class KcChapterRow extends StatelessWidget {
                   Padding(padding: const EdgeInsets.only(top: 3), child: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3)),
                 ],
               ),
-              if (c.ncertLine != null) ...[
+              if (ref != null) ...[
                 const SizedBox(height: MmSpace.s2),
                 Padding(
                   padding: const EdgeInsets.only(right: chevronRoom),
-                  child: Text(c.ncertLine!, style: type.caption.copyWith(color: colors.ink3)),
+                  child: Text(ref, style: type.caption.copyWith(color: colors.ink3)),
                 ),
               ],
               if (c.chip != null) ...[

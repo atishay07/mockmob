@@ -118,10 +118,17 @@ final keyCardsDueProvider = FutureProvider.autoDispose<KcRead<KcDue>>(retry: (co
       final kept = await cache.due();
       if (kept != null) {
         final reviewed = await cache.reviewed();
+        // New cards go chapter by chapter in the syllabus order the home screen last showed.
+        final home = (await cache.home())?.home;
+        final rank = <String, int>{
+          if (home != null)
+            for (final (i, key) in [for (final s in home.subjects) for (final u in s.units) for (final c in u.chapters) c.key].indexed) key: i,
+        };
         final queue = KeyCardRules.dueQueue(
           KeyCardRules.withoutReviewed(kept.due.cards, reviewed),
           now: now(),
           newAllowanceLeft: kept.due.today.newLeft ?? KeyCardRules.freeNewPerDay,
+          chapterRank: (key) => rank[key] ?? (1 << 30),
         );
         return KcRead(KcDue(cards: queue, today: kept.due.today), savedAt: kept.savedAt);
       }

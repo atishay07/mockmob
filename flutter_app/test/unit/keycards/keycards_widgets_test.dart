@@ -62,6 +62,12 @@ void main() {
   });
 
   group('Free and Pro', () {
+    testWidgets('a first visit: the Learn row says what Key cards are', (tester) async {
+      await _pump(tester, const KeyCardsLearnEntry(), keyCardsOverrides(FakeKeyCardsApi()));
+      expect(find.text(KeyCardsCopy.title), findsOneWidget);
+      expect(find.text("NCERT's exact lines, chapter by chapter."), findsOneWidget);
+    });
+
     testWidgets('Free: "5 of 8 open" on the home and one quiet locked row in the deck; Pro: neither', (tester) async {
       await _pump(tester, const KeyCardsHomeScreen(), keyCardsOverrides(FakeKeyCardsApi.withProgress()));
       expect(find.text(KeyCardsCopy.openOf(5, 8)), findsOneWidget);
@@ -182,6 +188,7 @@ void main() {
       final all = <String>[
         KeyCardsCopy.title,
         KeyCardsCopy.learnRowNote,
+        KeyCardsCopy.needsConnection,
         KeyCardsCopy.learnRowDue(6, 2),
         KeyCardsCopy.dueHead(1),
         KeyCardsCopy.dueHead(6),

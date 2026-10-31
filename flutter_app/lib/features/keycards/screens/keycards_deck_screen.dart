@@ -12,6 +12,7 @@ import '../../../core/motion/motion.dart';
 import '../../../core/router/routes.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
+import '../data/keycards_lines.dart';
 import '../data/keycards_models.dart';
 import '../data/keycards_providers.dart';
 import '../data/keycards_rules.dart';
@@ -208,7 +209,7 @@ class _KeyCardsDeckScreenState extends ConsumerState<KeyCardsDeckScreen> with Si
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         // The CUET unit, when it is more than this one chapter's own name.
-        if (ch.unit != null && ch.unit != ch.title) ...[
+        if (!unitRepeats(ch.unit, title: ch.title, book: ch.ncertLine == null ? null : ch.ncertBook)) ...[
           Text(ch.unit!, style: type.label.copyWith(color: colors.ink2)),
           const SizedBox(height: MmSpace.s4),
         ] else
@@ -265,6 +266,10 @@ class _KeyCardsDeckScreenState extends ConsumerState<KeyCardsDeckScreen> with Si
             loading: _adding,
             onPressed: cached ? null : () => unawaited(_add(deck)),
           ),
+        if (cached && !allAdded && _addLine == null) ...[
+          const SizedBox(height: MmSpace.s4),
+          Text(KeyCardsCopy.needsConnection, style: type.caption.copyWith(color: colors.ink3)),
+        ],
         if (_addFailed) ...[
           const SizedBox(height: MmSpace.s4),
           Semantics(liveRegion: true, child: Text(_addLine!, style: type.small.copyWith(color: colors.warnText))),

@@ -86,7 +86,7 @@ class KcKindLine extends StatelessWidget {
                   padding: const EdgeInsets.only(right: MmSpace.s4),
                   child: Text(position!, style: type.label.copyWith(color: colors.ink2, fontFeatures: const [FontFeature.tabularFigures()])),
                 ),
-              Text(card.label, style: type.label.copyWith(color: colors.ink2)),
+              Text(cardFace(card).label, style: type.label.copyWith(color: colors.ink2)),
               if (card.mustKnow) const KcTag(text: KeyCardsCopy.mustKnow),
             ],
           ),
@@ -201,15 +201,34 @@ class KcBack extends StatelessWidget {
     final reading = compact
         ? type.body.copyWith(fontSize: 15.5, height: 23 / 15.5, color: context.mmColors.ink)
         : type.body.copyWith(fontSize: 17, height: 26 / 17, color: context.mmColors.ink);
-    if (card.blanks.isNotEmpty) return KcBlankText(line: BlankedLine.marked(card.back, card.blanks), style: reading);
-    if (card.kind == 'entry') {
-      final rows = journalRows(card.back);
-      if (rows != null) return KcEntryText(rows: rows, style: reading);
-    }
-    final paragraphs = backParagraphs(card.back, card.kind);
-    if (paragraphs.length < 2) return Text(card.back, style: reading);
-    return KcParagraphs(paragraphs: paragraphs, style: reading, tight: card.kind == 'formula');
+    return switch (backShape(card)) {
+      KcListBack(:final paragraphs) => KcParagraphs(paragraphs: paragraphs, style: reading),
+      final KcFormulaBack f => KcParagraphs(
+        paragraphs: [for (final t in f.texts) (text: t, bullet: false)],
+        style: reading,
+        tight: true,
+      ),
+      KcEntryBack(:final rows) => KcEntryText(rows: rows, style: reading),
+      KcParasBack(:final paras) => paras.length == 1 ? _para(paras.first, reading) : _paras(paras, reading),
+    };
   }
+
+  static Widget _para(List<KcPart> parts, TextStyle style) {
+    if (parts.any((p) => p.mark)) {
+      return KcBlankText(line: BlankedLine([for (final p in parts) (text: p.text, blank: p.mark)]), style: style);
+    }
+    return Text(parts.map((p) => p.text).join(), style: style);
+  }
+
+  static Widget _paras(List<List<KcPart>> paras, TextStyle style) => Column(
+    crossAxisAlignment: CrossAxisAlignment.stretch,
+    children: [
+      for (final (i, p) in paras.indexed) ...[
+        if (i > 0) const SizedBox(height: MmSpace.s6),
+        _para(p, style),
+      ],
+    ],
+  );
 }
 
 /// A back the book breaks into lines: one paragraph a line, a list item with a small bullet hung in the margin.
@@ -282,17 +301,19 @@ class KcEntryText extends StatelessWidget {
         KcEntryRowKind.debit => Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Expanded(
-              child: Text.rich(
-                TextSpan(text: row.text, children: [if (row.aside != null) TextSpan(text: ' ${row.aside}', style: TextStyle(color: colors.ink2))]),
-                style: style,
-              ),
-            ),
+            Expanded(child: Text(row.text, style: style)),
             const SizedBox(width: MmSpace.s12),
             Text('Dr.', style: style),
+            if (row.amount != null) ...[const SizedBox(width: MmSpace.s12), Text(row.amount!, style: style)],
           ],
         ),
-        KcEntryRowKind.credit => Padding(padding: const EdgeInsets.only(left: MmSpace.s24), child: Text(row.text, style: style)),
+        KcEntryRowKind.credit => Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(child: Padding(padding: const EdgeInsets.only(left: MmSpace.s24), child: Text(row.text, style: style))),
+            if (row.amount != null) ...[const SizedBox(width: MmSpace.s12), Text(row.amount!, style: style)],
+          ],
+        ),
         KcEntryRowKind.narration => Text(row.text, style: narration),
         KcEntryRowKind.plain => Text(row.text, style: style),
       });
@@ -324,7 +345,7 @@ class KcReadCard extends StatelessWidget {
             // A term or key line asks with the line itself: its marked words say what was blanked, so the
             // prompt would only repeat the line.
             if (!card.hasBlanks) ...[
-              Text(card.front, style: type.small.copyWith(color: colors.ink2)),
+              Text(cardFace(card).front, style: type.small.copyWith(color: colors.ink2)),
               const SizedBox(height: MmSpace.s8),
             ] else
               const SizedBox(height: MmSpace.s4),
@@ -490,7 +511,7 @@ class _ReportBodyState extends ConsumerState<_ReportBody> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(widget.card.front, style: type.small.copyWith(color: colors.ink2), maxLines: 2, overflow: TextOverflow.ellipsis),
+          Text(cardFace(widget.card).front, style: type.small.copyWith(color: colors.ink2), maxLines: 2, overflow: TextOverflow.ellipsis),
           const SizedBox(height: MmSpace.s12),
           if (!done)
             for (final r in KeyCardsCopy.reportReasons) ...[
@@ -593,7 +614,7 @@ class KcStudyFace extends StatelessWidget {
     final type = context.mmType;
     // Once the answer shows, the question steps back a shade so the book's words lead.
     final ask = type.question.copyWith(color: revealed ? colors.ink2 : colors.ink);
-    final question = card.hasBlanks ? KcBlankText(line: BlankedLine.front(card.front), style: ask) : Text(card.front, style: ask);
+    final question = card.hasBlanks ? KcBlankText(line: BlankedLine.front(cardFace(card).front), style: ask) : Text(cardFace(card).front, style: ask);
     final face = MmSurface.plain(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,

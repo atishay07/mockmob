@@ -7,7 +7,7 @@ abstract final class KeyCardsCopy {
   static const String title = 'Key cards';
 
   /// The Learn door's row and Review's chapter link.
-  static const String learnRowNote = "NCERT's own lines, chapter by chapter";
+  static const String learnRowNote = "NCERT's exact lines, chapter by chapter.";
   static String learnRowDue(int due, int minutes) => '$due due today, about ${minutesWord(minutes)}';
   static String chapterLink(String chapter) => 'Key cards for $chapter';
 
@@ -43,17 +43,6 @@ abstract final class KeyCardsCopy {
   static String openOf(int open, int total) => '$open of $total open';
   static const String noCardsYet = 'No cards yet';
 
-  /// "Business Studies Part 1, Ch 1".
-  static String ncertChapter(String book, int chapter) => '$book, Ch $chapter';
-
-  /// "Business Studies Part 1, Ch 1, p. 3".
-  static String reference(String book, int? chapter, int? page) =>
-      [book, if (chapter != null) 'Ch $chapter', if (page != null) 'p. $page'].join(', ');
-
-  /// Where an English card's words come from (it has no book), the website's own lines.
-  static const String sourceWordNet = 'Meaning from WordNet';
-  static const String sourceAuthored = 'Written for the MockMob English deck';
-
   // Chapter states (the Label column of the spec, exactly).
   static const String stateNone = 'Not started';
   static const String stateThin = 'Too few answers';
@@ -71,6 +60,7 @@ abstract final class KeyCardsCopy {
   static const String modes = 'How to go through the cards';
   static const String addToRevise = 'Add chapter to Revise';
   static const String adding = 'Adding';
+  static const String needsConnection = 'Needs a connection.';
   static String added(int n) => n == 1 ? 'Added to Revise. 1 card.' : 'Added to Revise. $n cards.';
   static const String inRevise = 'In Revise';
   static const String addFailed = 'The chapter was not added. Try again.';

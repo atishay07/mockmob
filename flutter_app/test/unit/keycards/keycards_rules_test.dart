@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockmob/features/keycards/data/keycards_models.dart';
 import 'package:mockmob/features/keycards/data/keycards_rules.dart';
@@ -36,15 +39,17 @@ void main() {
   });
 
   group('gating (deckView, chapterAddSet)', () {
-    test('Free sees the first five cards of each chapter whole, in book order, and the rest as locked stubs', () {
+    test('Free sees the first five Must-know cards of each chapter whole, in book order, and the rest as locked stubs', () {
       final view = KeyCardRules.deckView(cards, isPro: false);
+      List<KeyCard> must(String chapter) => [for (final c in cards) if (c.chapterKey == chapter && c.mustKnow) c]..sort(KeyCardRules.bookOrder);
       final open1 = [for (final e in view) if (!e.locked && e.card!.chapterKey == kcChapter1) e.card!.order];
-      expect(open1, [10, 20, 30, 40, 50]);
+      expect(open1, [for (final c in must(kcChapter1).take(5)) c.order]);
+      expect(open1, hasLength(5));
       final locked = [for (final e in view) if (e.locked) e];
-      expect(locked, hasLength(3));
+      expect(locked, hasLength(cards.length - [for (final c in cards.map((c) => c.chapterKey).toSet()) ...must(c).take(5)].length));
       expect(locked.every((e) => e.card == null && e.id != null && e.kind != null), isTrue);
-      // Chapter 2 has four cards: all open on Free.
-      expect(view.where((e) => !e.locked && e.card!.chapterKey == kcChapter2), hasLength(4));
+      // Good-to-know cards are never open on Free.
+      expect(view.where((e) => !e.locked && !e.card!.mustKnow), isEmpty);
       // A locked stub carries no words of the card.
       for (final e in locked) {
         expect(e.toJson().keys.toSet(), {'id', 'kind', 'label', 'locked'});
@@ -55,10 +60,10 @@ void main() {
       expect(KeyCardRules.deckView(cards, isPro: true).every((e) => !e.locked), isTrue);
     });
 
-    test('Must-know comes first among cards at the same place in the book', () {
+    test('cards at the same place in the book go by id, as on the website (Must-know is not a tie-break)', () {
       final a = KeyCard(id: 'a', kind: 'fact', front: 'f', back: 'b', chapterKey: 'x', order: 10);
       final b = KeyCard(id: 'b', kind: 'fact', front: 'f', back: 'b', chapterKey: 'x', order: 10, importance: 'must');
-      expect([for (final e in KeyCardRules.deckView([a, b], isPro: true)) e.card!.id], ['b', 'a']);
+      expect([for (final e in KeyCardRules.deckView([b, a], isPro: true)) e.card!.id], ['a', 'b']);
     });
 
     test('adding a chapter: Pro adds every Must-know card, Free only the taste cards, Good-to-know never by the chapter key', () {
@@ -116,6 +121,58 @@ void main() {
       ];
       final left = KeyCardRules.withoutReviewed(queue, {ch1[0].id: rated, ch1[1].id: rated});
       expect([for (final s in left) s.card.id], [ch1[1].id, ch1[2].id]);
+    });
+  });
+
+  group("taste (code review L10), the website's shared fixture", () {
+    final fixture = jsonDecode(File('test/unit/keycards/support/taste.json').readAsStringSync()) as Map<String, dynamic>;
+    final tasteCards = [
+      for (final c in fixture['cards'] as List)
+        KeyCard(
+          id: (c as Map)['id'] as String,
+          kind: 'fact',
+          front: 'f',
+          back: 'b',
+          chapterKey: c['chapterKey'] as String,
+          order: c['order'] as int,
+          importance: c['importance'] as String,
+        ),
+    ];
+
+    test("every chapter's taste is its first five Must-know cards in book order, and nothing else", () {
+      final taste = KeyCardRules.tasteIds(tasteCards, per: fixture['per'] as int);
+      final want = <String>{
+        for (final ids in (fixture['taste'] as Map).values) ...(ids as List).cast<String>(),
+      };
+      expect(taste, want);
+      for (final entry in (fixture['taste'] as Map).entries) {
+        final mine = KeyCardRules.chapterAddSet(tasteCards, entry.key as String, isPro: false);
+        expect(mine, (entry.value as List).cast<String>(), reason: '${entry.key} in book order');
+      }
+    });
+
+    test("Free's deck opens only Must-know cards; a chapter with none has no taste", () {
+      final view = KeyCardRules.deckView(tasteCards, isPro: false);
+      for (final e in view) {
+        if (!e.locked) expect(e.card!.mustKnow, isTrue);
+      }
+      expect(view.where((e) => !e.locked && e.card!.chapterKey == 'business_studies.directing'), isEmpty);
+    });
+  });
+
+  group('new cards in the queue (code review L7)', () {
+    test("chapter by chapter in the syllabus order, then the card's order in its chapter", () {
+      KeyCard card(String id, String chapter, int order) =>
+          KeyCard(id: id, kind: 'fact', front: 'f', back: 'b', subject: 's', chapterKey: chapter, order: order);
+      final states = [
+        for (final c in [card('b10', 's.b', 10), card('a20', 's.a', 20), card('b5', 's.b', 5), card('a10', 's.a', 10)]) _due(c, due: now, reps: 0),
+      ];
+      const rank = {'s.a': 1, 's.b': 0};
+      final q = KeyCardRules.dueQueue(states, now: now, newAllowanceLeft: 10, chapterRank: (k) => rank[k]!);
+      expect([for (final s in q) s.card.id], ['b5', 'b10', 'a10', 'a20']);
+      // Without a rank: by the chapter key, so chapters are never interleaved.
+      final plain = KeyCardRules.dueQueue(states, now: now, newAllowanceLeft: 10);
+      expect([for (final s in plain) s.card.id], ['a10', 'a20', 'b5', 'b10']);
     });
   });
 
