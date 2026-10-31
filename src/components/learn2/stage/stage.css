@@ -250,7 +250,7 @@ span.st-counter { cursor: default; }
 .st-pile__card { position: absolute; left: 50%; top: 6px; width: 112px; height: 140px; margin-left: -56px; display: grid; align-content: start; gap: 6px; padding: 11px 11px 12px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: var(--a-raised); box-shadow: var(--a-shadow-1); transform: translateX(0) rotate(0deg); transform-origin: 50% 90%; transition: transform 320ms var(--st-ease) var(--d, 0ms); }
 .st-pile__fan[data-open] .st-pile__card { transform: translateX(var(--x)) rotate(var(--r)); }
 .st-pile__k { font: 600 12px/1.2 var(--font-body); color: var(--a-ink-3); }
-.st-pile__f { font: 650 13px/1.28 var(--font-display); color: var(--a-ink); display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: anywhere; }
+.st-pile__f { font: 650 13px/1.28 var(--font-display); color: var(--a-ink); display: -webkit-box; -webkit-line-clamp: 5; -webkit-box-orient: vertical; overflow: hidden; overflow-wrap: break-word; hyphens: auto; }
 .st-pile__lines { display: grid; gap: 10px; margin-top: 6px; }
 .st-pile__lines i { display: block; height: 1px; background: var(--a-line-strong); }
 .st-pile__lines i:last-child { width: 62%; }

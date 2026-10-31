@@ -21,7 +21,7 @@ export function KeptFan({ cards = [], open = true }) {
           {i === shown.length - 1 ? (
             <>
               <span className="st-pile__k">{cardFace(c).label}</span>
-              <span className="st-pile__f">{String(cardFace(c).front).replace(/_{3,}/g, '____')}</span>
+              <span className="st-pile__f" lang="en">{String(cardFace(c).front).replace(/_{3,}/g, '____')}</span>
             </>
           ) : <span className="st-pile__lines"><i /><i /><i /></span>}
         </span>

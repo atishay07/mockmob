@@ -253,9 +253,10 @@ export const STAGE_KEYS = Object.freeze([
   ['Down, j or Page Down', 'Next item'],
   ['Up, k or Page Up', 'Previous item'],
   ['Space or Enter', 'Turn the card over, or go on'],
-  ['1 to 4, or A to D', 'Answer the question'],
+  ['1 to 6, or A to F', 'Answer the question'],
+  ['S', 'Keep the card, or save the question'],
   ['Home, End', 'The first item, the end'],
-  ['Esc', 'Close this list'],
+  ['Esc', 'Stop for now, or close this list'],
 ]);
 
 export function KeysList({ rows = STAGE_KEYS, onClose }) {

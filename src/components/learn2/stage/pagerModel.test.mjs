@@ -100,6 +100,12 @@ test('the key table', () => {
   assert.equal(keyAction('5', { answerable: true, options: 4 }), null);
   assert.equal(keyAction('a', { answerable: true, options: 4, foreign: true }), null);
   assert.equal(keyAction('a', { answerable: false, options: 4 }), null);
+  assert.equal(keyAction('s', { saveable: true }), 'save');
+  assert.equal(keyAction('S', { saveable: true, answerable: true, options: 4 }), 'save');
+  assert.equal(keyAction('s', { saveable: false }), null);
+  assert.equal(keyAction('s', { saveable: true, foreign: true }), null);
+  assert.equal(keyAction('s', { saveable: true, typing: true }), null);
+  assert.deepEqual(keyAction('f', { answerable: true, options: 6 }), { answer: 5 });
   assert.equal(keyAction('Escape', {}), 'escape');
   assert.equal(keyAction('?', {}), 'help');
 });

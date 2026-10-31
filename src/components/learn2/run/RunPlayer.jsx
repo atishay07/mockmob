@@ -471,7 +471,8 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   const lessonHref = item?.type === 'lesson' ? links.lesson(item.lesson?.id) : null;
   const readLesson = () => { if (!item) return; logLook(item); if (lessonHref) router.push(lessonHref); };
 
-  // Keys (A4 3.3.12): Space or Enter turn; 1 2 3 rate; A to D or 1 to 4 answer; Enter goes on; arrows move a recap; Escape stops.
+  // Keys (A4 3.3.12): Space or Enter turn; 1 2 3 rate; A to F or 1 to 6 answer; S saves a question; Enter goes on; arrows move a
+  // recap; Escape and Close stop (the one stop rule: after one item done the "Stop for now?" sheet, before it they leave).
   useEffect(() => {
     if (phase !== 'play' || !item || sheet) return undefined;
     const onKey = (e) => {
@@ -505,9 +506,10 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
         if ((e.key === 's' || e.key === 'S') && answerState?.status !== 'skipped') { e.preventDefault(); save(); return; }
         if (answered && e.key === 'Enter' && !onControl(e.target)) { e.preventDefault(); advance(); return; }
         if (!answered && (!answerState || answerState.status === 'failed')) {
-          const k = e.key.toUpperCase();
-          const byNumber = /^[1-6]$/.test(k) ? item.question.options?.[Number(k) - 1]?.key : null;
-          const choice = byNumber || item.question.options?.find((o) => o.key === k)?.key;
+          // 1 to 6 and A to F by the place drawn (the letters are the order, whatever the option's own key is).
+          const opts = item.question.options || [];
+          const slot = '123456'.indexOf(e.key) >= 0 ? '123456'.indexOf(e.key) : e.key.length === 1 ? 'ABCDEF'.indexOf(e.key.toUpperCase()) : -1;
+          const choice = slot >= 0 && slot < opts.length ? opts[slot].key : null;
           if (choice) { e.preventDefault(); pick(choice); }
         }
       }
@@ -627,7 +629,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
             <p className="lr-round__line">{leftCards} more {leftCards === 1 ? 'is' : 'are'} lined up.</p>
             <div className="lr-round__keys">
               <button type="button" className="kc-btn kc-btn--volt" autoFocus onClick={() => setPhase('play')}>Next round</button>
-              <button type="button" className="kc-btn kc-btn--line" onClick={() => finish()}>Finish here</button>
+              <button type="button" className="kc-btn kc-btn--line" onClick={() => finish(offset + at)}>Finish here</button>
             </div>
           </section>
         </div>
@@ -693,6 +695,12 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   })();
 
   const recapCard = isRecap && item.type === 'card';
+  const asked = tally.right + tally.wrong;
+  const toRevise = tally.got + tally.easy;
+  const stopDetail = [
+    asked ? `${tally.right} of ${asked} ${asked === 1 ? 'question' : 'questions'} right.` : null,
+    toRevise ? `${toRevise} sent to Revise.` : null,
+  ].filter(Boolean).join(' ') || null;
   return frame(
     <>
       <TopBar title={chapter.title} position={position} total={total} done={finished} current={at} offset={offset} left={left} pile={pile} pop={pop}
@@ -731,7 +739,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
           </div>
         </div>
       </div>
-      {sheet ? <StopSheet done={doneCount} of={total} onEnd={() => finish(doneCount)} onKeepGoing={() => setSheet(false)} onLeave={() => router.push(closeHref)} /> : null}
+      {sheet ? <StopSheet done={doneCount} of={total} detail={stopDetail} onEnd={() => finish(doneCount)} onKeepGoing={() => setSheet(false)} onLeave={() => router.push(closeHref)} /> : null}
     </>,
   );
 }

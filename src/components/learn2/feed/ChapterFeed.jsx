@@ -27,7 +27,7 @@ import {
 import { CardFace } from '../stage/CardFace';
 import { QuestionView, letterOf } from '../stage/Question';
 import { EndForm } from '../stage/EndForm';
-import { Sheet } from '../stage/Sheet';
+import { Sheet, StopSheet } from '../stage/Sheet';
 import { usePager } from '../stage/usePager';
 import { keyAction, scrollerThatCanMove } from '../stage/pagerModel.mjs';
 import { chapterRef, doneLine, optionTexts, speakable, timeLeft } from '../stage/stageText.mjs';
@@ -232,7 +232,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     announce(n);
   }, [endAt, slots, patch, run, items.length, end.status, end.version, dirty, readEnd, announce]);
 
-  usePager({ rootRef, viewRef, trackRef, index: active, count: endAt + 1, go, enabled: load.status === 'ready' && !onlyEnd && sheet !== 'feed' });
+  usePager({ rootRef, viewRef, trackRef, index: active, count: endAt + 1, go, enabled: load.status === 'ready' && !onlyEnd && sheet !== 'feed' && sheet !== 'stop' });
 
   // A long question shows that it goes on: its page fades at the foot while more waits below.
   useEffect(() => watchMore(mode === 'items' ? trackRef.current?.querySelector('.st-page--q:not([inert])') : null), [active, mode, list, load.status]);
@@ -322,6 +322,16 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   }, [states, closed, run, patch, streak, base, speak, go, endAt]);
 
   const close = useCallback(() => (window.history.length > 1 ? router.back() : router.push(links.explore())), [router, links]);
+  // The one stop rule (critic 2 row 9): before any item is done, Close leaves; after at least one, Close and Escape open the
+  // "Stop for now?" sheet. The end is past the items, so its own Close leaves.
+  const itemsDone = base + items.reduce((n, i) => {
+    const st = states[i.id] || {};
+    return n + (i.type === 'card' ? (st.seenBack || st.kept ? 1 : 0) : st.answer?.res ? 1 : 0);
+  }, 0);
+  const askClose = useCallback(() => {
+    if (mode === 'items' && itemsDone > 0) setSheet('stop');
+    else close();
+  }, [mode, itemsDone, close]);
   const again10 = useCallback(async () => {
     setAgain(true);
     try {
@@ -336,7 +346,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   useEffect(() => {
     if (load.status !== 'ready' || onlyEnd) return undefined;
     const onKey = (e) => {
-      if (sheet === 'feed') return;
+      if (sheet === 'feed' || sheet === 'stop') return;
       const root = rootRef.current;
       const t = e.target;
       const s = slotOf(active);
@@ -349,10 +359,15 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
         scrollable: (dir) => Boolean(root && t && t !== root && scrollerThatCanMove(t, dir, root, (el) => getComputedStyle(el))),
         turnable: s?.type === 'item' && s.item.type === 'card' && !st.seenBack,
         answerable: s?.type === 'item' && s.item.type === 'question' && !st.answer && !st.skipped && !closed,
+        saveable: s?.type === 'item' && (s.item.type === 'card' ? !s.item.look : !st.skipped),
         options: s?.item?.question?.options?.length || 0,
       });
       if (!action) return;
-      if (action === 'escape') { if (sheet === 'keys') { e.preventDefault(); setSheet(null); } return; }
+      if (action === 'escape') {
+        if (sheet === 'keys') { e.preventDefault(); setSheet(null); return; }
+        if (mode === 'items' && !document.querySelector('.st-drawer, .kc-menu__list')) { e.preventDefault(); askClose(); }
+        return;
+      }
       if (action === 'help') { if (fine()) { e.preventDefault(); setSheet((x) => (x === 'keys' ? null : 'keys')); } return; }
       if (mode === 'end' && action !== 'prev' && action !== 'first') return;
       e.preventDefault();
@@ -361,6 +376,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
       else if (action === 'first') go(0);
       else if (action === 'last') go(endAt);
       else if (action === 'turn') turn(s.item);
+      else if (action === 'save') { if (s.item.type === 'card') keep(s.item); else save(s.item); }
       else if (action.answer !== undefined) choose(s.item, s.item.question.options[action.answer].key);
     };
     window.addEventListener('keydown', onKey);
@@ -389,13 +405,13 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   if (keptCount) panelRows.push({ label: 'Kept', value: keptCount, extra: <MiniPile refEl={pileEl} /> });
 
   const top = (
-    <TopBar onClose={close} closeLabel="Close the feed" title={title} titleNote={note}
+    <TopBar onClose={askClose} closeLabel="Close the feed" title={title} titleNote={note}
       kept={<KeptCount count={keptCount} refEl={countEl} />} ticks={ticks}
       counter={counter} counterLabel={of ? `${pos} of ${of}. Open the list of this feed` : undefined} onCounter={of ? () => setSheet('feed') : undefined}
       meta={load.status === 'ready' ? left : null} next={nextLine} />
   );
   const panel = (
-    <Panel onClose={close} closeLabel="Close the feed" title={title} bookRef={book} loading={load.status === 'loading'}
+    <Panel onClose={askClose} closeLabel="Close the feed" title={title} bookRef={book} loading={load.status === 'loading'}
       position={load.status === 'ready' && of ? pos : null} of={of || null} time={load.status === 'ready' ? left : null}
       note={note} rows={panelRows} next={nextLine}
       foot={load.status === 'ready' && items.length ? <button type="button" className="st-textkey" onClick={() => go(endAt)}>Stop here</button> : null} />
@@ -564,7 +580,14 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   ) : null;
 
   const rows = sheet === 'feed' ? sheetRows(items, states, base) : [];
-  const overlay = sheet === 'feed' ? (
+  const stopDetail = [
+    numbers.answered ? `${numbers.right} of ${numbers.answered} ${numbers.answered === 1 ? 'question' : 'questions'} right.` : null,
+    numbers.mistakes ? `${numbers.fixed} of ${numbers.mistakes} old ${numbers.mistakes === 1 ? 'mistake' : 'mistakes'} fixed.` : null,
+    numbers.kept ? `${numbers.kept} kept in Revise.` : null,
+  ].filter(Boolean).join(' ') || null;
+  const overlay = sheet === 'stop' ? (
+    <StopSheet done={Math.min(itemsDone, of)} of={of} detail={stopDetail} onEnd={() => { setSheet(null); go(endAt); }} onKeepGoing={() => setSheet(null)} onLeave={close} />
+  ) : sheet === 'feed' ? (
     <Sheet title="This feed" bottom onClose={() => setSheet(null)}>
       <ol className="st-list">
         {rows.map((r) => {

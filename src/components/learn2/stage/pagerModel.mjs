@@ -114,7 +114,8 @@ const ARROWS = { ArrowDown: 'next', PageDown: 'next', j: 'next', J: 'next', Arro
  *   scrollable  for 'up' / 'down': the focused region can still scroll that way (the arrow scrolls it)
  *   turnable    the item is a card still face up
  *   answerable  the item is a question not yet answered; options = its option count
- * }. Returns 'next' | 'prev' | 'first' | 'last' | 'turn' | 'help' | 'escape' | { answer: index } | null.
+ *   saveable    the item has a Keep (a card) or a Save (a question) key to press
+ * }. Returns 'next' | 'prev' | 'first' | 'last' | 'turn' | 'help' | 'escape' | 'save' | { answer: index } | null.
  */
 export function keyAction(key, ctx = {}) {
   if (ctx.mods || ctx.typing) return null;
@@ -130,6 +131,7 @@ export function keyAction(key, ctx = {}) {
     if (ctx.onControl) return null;
     return ctx.turnable ? 'turn' : 'next';
   }
+  if (ctx.saveable && !ctx.foreign && (key === 's' || key === 'S')) return 'save';
   if (ctx.answerable && !ctx.foreign) {
     const n = Math.max(0, Math.min(6, Number(ctx.options) || 0));
     let i = '123456'.indexOf(key);
