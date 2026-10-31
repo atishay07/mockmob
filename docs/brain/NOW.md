@@ -1,5 +1,14 @@
 # NOW: MockMob current state
 
+## 31 Oct 2026, about 6:00 am IST: Key cards built end to end on branches; waiting for the owner's look
+- **Live production is unchanged** (main 0b7d6bc03). Nothing pushed, deployed or written to production.
+- **Web integration** `web/1031-keycards` 90fddb40d: syllabus v2, Key cards server, web screens, 5,721 published NCERT
+  cards in 6 subjects (137 quarantined), 1,632 question links, re-tag file. All suites green; webpack build passes.
+- **App** `ui/1031-keycards` bb4da376b: done and tested; no device walk yet.
+- **Owner decisions waiting:** see the screens; turn `KEY_CARDS_ENABLED` on; accept the pool shrink when syllabus v2
+  retires 440 questions (Biology -18%, Chemistry -15%, Computer Science -14%).
+- Read `docs/brain/HANDOFF-2026-10-31-KEYCARDS-2.md`. Next prompt: `docs/brain/PROMPT-NEXT-SESSION-2026-10-31.md`.
+
 ## 31 Oct 2026, about 3:45 am IST: Key cards build PAUSED at the owner's 93% usage
 - **Live production is unchanged** since the version 16 web release (main 0b7d6bc03). Nothing from this work is pushed
   or deployed.
