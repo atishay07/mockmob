@@ -11,7 +11,7 @@ const nextConfig = {
   devIndicators: false,
   // Dev only: the owner reviews the dev server from this PC's LAN address and from 127.0.0.1, and without the origin
   // allowed the dev client never connects, so the page is not interactive there. Ignored by builds.
-  allowedDevOrigins: ['192.168.1.8', '127.0.0.1'],
+  allowedDevOrigins: ['192.168.1.8', '192.168.1.15', '127.0.0.1'],
   experimental: {
     // Avoid restoring the stale Turbopack graph that crashed the local preview.
     turbopackFileSystemCacheForDev: false,
