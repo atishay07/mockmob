@@ -53,16 +53,28 @@ export const saveOption = ({ subject, option }) => api('/api/me/subject-options'
 // changes it (add, option) calls refreshHome() so the next read is fresh.
 let homeRead = null;
 const listeners = new Set();
+/**
+ * Drops the shared read and, when a screen is listening, starts the new one now. Returns that read's promise (the new body,
+ * or a rejection when it failed) so a caller that must wait for the fresh data, such as the option picker, can: the screens
+ * listening keep the body they have until the new one lands. With nobody listening it only drops the cache and resolves null.
+ */
 export function refreshHome() {
   homeRead = null;
+  const read = listeners.size ? sharedHome() : null;
   for (const fn of listeners) fn();
+  if (read) read.catch(() => { /* every listener and the caller handle their own failure */ });
+  return read || Promise.resolve(null);
 }
 function sharedHome() {
   homeRead ||= readHome().catch((e) => { homeRead = null; throw e; });
   return homeRead;
 }
 
-/** { state: 'loading' | 'ready' | 'off' | 'error', data, retry } for GET /api/keycards. `enabled: false` skips the read. */
+/**
+ * { state: 'loading' | 'ready' | 'off' | 'error', data, retry } for GET /api/keycards. `enabled: false` skips the read.
+ * A re-read (refreshHome) that fails after the page already has its body keeps that body and state; only a first read that
+ * fails is the error state.
+ */
 export function useKeycardsHome({ enabled = true } = {}) {
   const [read, setRead] = useState({ state: 'loading', data: null });
   const [nonce, setNonce] = useState(0);
@@ -76,7 +88,7 @@ export function useKeycardsHome({ enabled = true } = {}) {
     let alive = true;
     sharedHome()
       .then((data) => { if (alive) setRead({ state: data && data.enabled !== false ? 'ready' : 'off', data }); })
-      .catch((e) => { if (alive) setRead({ state: isOff(e) ? 'off' : 'error', data: null }); });
+      .catch((e) => { if (alive) setRead((prev) => (isOff(e) ? { state: 'off', data: null } : prev.data ? prev : { state: 'error', data: null })); });
     return () => { alive = false; };
   }, [enabled, nonce]);
   const retry = useCallback(() => { homeRead = null; setRead({ state: 'loading', data: null }); setNonce((n) => n + 1); }, []);

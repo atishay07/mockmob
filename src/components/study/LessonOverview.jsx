@@ -6,6 +6,7 @@ import { Check, ChevronLeft, Printer } from 'lucide-react';
 import { LOCK_IN_MINUTES, nameKey, parseFrom } from '@/../data/study/lesson_map.mjs';
 import { useReview } from '@/lib/reviewRead';
 import { BLOCK_LABEL, STATUS, friendlyError, practiceHref, subjectName, whenDue } from './studyCopy';
+import { PrintHead, PrintMark } from '@/components/print/PrintMark';
 import './concepts.css';
 
 const newKey = () => crypto.randomUUID().replace(/[^a-zA-Z0-9_-]/g, '');
@@ -131,6 +132,6 @@ export default function LessonOverview({ unit, api, onOpenRun, onBack, from: fro
       {unit.sourceRefs?.map(s => <div key={s.id}><a className="sx-link" href={s.url} target="_blank" rel="noreferrer">{s.label}</a><p className="sx-small">{s.permission}</p>{s.license ? <pre>{s.license}</pre> : null}</div>)}
     </details>
     <button type="button" className="sx-quiet sx-print" onClick={() => window.print()}><Printer size={16} aria-hidden="true" />Print a summary</button>
-    <section className="sx-print-only"><h2>{unit.title}</h2>{unit.objectives?.map(o => <p key={o}>• {o}</p>)}{unit.blocks.filter(b => b.type === 'reading').map(b => <div key={b.id}><h3>{b.title}</h3>{b.body ? <p>{b.body}</p> : null}{b.formula ? <p>{b.formula}</p> : null}{b.steps ? <ol>{b.steps.map(s => <li key={s}>{s}</li>)}</ol> : null}{b.words ? b.words.map(w => <p key={w.word}><b>{w.word}</b>: {w.meaning}{w.example ? ` — “${w.example}”` : ''}</p>) : null}{b.rows ? <table><tbody>{b.rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}</tbody></table> : null}</div>)}</section>
+    <section className="sx-print-only pm-sheet"><PrintMark /><PrintHead /><h2>{unit.title}</h2>{unit.objectives?.map(o => <p key={o}>• {o}</p>)}{unit.blocks.filter(b => b.type === 'reading').map(b => <div key={b.id}><h3>{b.title}</h3>{b.body ? <p>{b.body}</p> : null}{b.formula ? <p>{b.formula}</p> : null}{b.steps ? <ol>{b.steps.map(s => <li key={s}>{s}</li>)}</ol> : null}{b.words ? b.words.map(w => <p key={w.word}><b>{w.word}</b>: {w.meaning}{w.example ? ` — “${w.example}”` : ''}</p>) : null}{b.rows ? <table><tbody>{b.rows.map((r, i) => <tr key={i}>{r.map((c, j) => <td key={j}>{c}</td>)}</tr>)}</tbody></table> : null}</div>)}</section>
   </div>;
 }

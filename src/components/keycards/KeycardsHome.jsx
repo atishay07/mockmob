@@ -8,7 +8,7 @@
 //             A subject whose units each hold one chapter is one plain list (blocksOf); otherwise each unit is a group,
 //             headed only when the heading is not the one chapter's own name again.
 //   Free      one quiet Pro line (InlineNudge, placement keycards), dismissable, never a modal on entry
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useReducer, useState } from 'react';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
@@ -18,6 +18,7 @@ import { ErrorState } from '@/components/ui/Skeleton';
 import { refreshHome, saveOption, useKeycardsHome } from './api';
 import { blocksOf, chapterRef, chapterRefSpoken, countsLine, plural, stateCue } from './kinds';
 import { useCardsLinks } from './links';
+import { INITIAL_CHOICE, canChoose, choiceReducer, finePrint, isBusy, rowEntrance, shownOption } from './optionChoice';
 import { ncertFont } from './ncertFont';
 import './keycards.css';
 
@@ -43,7 +44,10 @@ export function StateGlyph({ state }) {
   );
 }
 
-function ChapterRow({ ch, isPro, href, index, heading = null }) {
+function ChapterRow({ ch, isPro, href, index, heading = null, settled = false }) {
+  // Fixed when the row mounts: a row of the list's first draw rises in its stagger; a row that arrives later (a new part's
+  // chapters) only fades in; a row already there is never remounted, so it never animates again.
+  const [entrance] = useState(() => rowEntrance(settled));
   const cue = stateCue(ch.state);
   // Under a unit heading that is the book's own name, the row says just "Ch 7"; the spoken label keeps the whole reference.
   const ref = chapterRef(ch.ncert, { title: ch.title, unit: heading });
@@ -51,7 +55,7 @@ function ChapterRow({ ch, isPro, href, index, heading = null }) {
   const unit = ch.unit && String(ch.unit).trim().toLowerCase() !== String(ch.title).trim().toLowerCase() ? `CUET unit: ${ch.unit}` : null;
   const spoken = [ch.title, ref ? chapterRefSpoken(ch.ncert) : null, unit, ch.chip, cue.label, counts.line, counts.open].filter(Boolean).join('. ');
   return (
-    <li className="kc-row" style={{ '--i': Math.min(index, 12) }}>
+    <li className="kc-row" data-enter={entrance} style={{ '--i': Math.min(index, 12) }}>
       <Link className="kc-row__link" href={href} aria-label={spoken}>
         <span className="kc-row__main">
           <b className="kc-row__title">{ch.title}</b>
@@ -68,34 +72,70 @@ function ChapterRow({ ch, isPro, href, index, heading = null }) {
   );
 }
 
-function OptionPicker({ subject }) {
+function OptionPicker({ subject, onBusy }) {
   const opts = subject.options;
-  const [pending, setPending] = useState(null);
-  const [failed, setFailed] = useState(false);
+  const [state, dispatch] = useReducer(choiceReducer, INITIAL_CHOICE);
+  const busy = isBusy(state);
+  useEffect(() => {
+    onBusy?.(subject.subject, busy);
+    return () => onBusy?.(subject.subject, false);
+  }, [busy, onBusy, subject.subject]);
   if (!opts?.choices?.length) return null;
   // Nothing saved yet: no choice is shown as made, since every part's chapters are listed until one is chosen.
-  const current = pending || subject.option || null;
+  const current = shownOption(state, subject.option);
   const word = String(opts.label || 'option').toLowerCase();
   const all = opts.choices.length === 2 ? `both ${word}s` : `every ${word}`;
+  // Save, then read the new chapter list, with the tapped option selected the whole time. A failed read after a saved choice
+  // keeps the page as it is (Try again re-reads); a failed save puts the saved option back.
   async function choose(id) {
-    if (id === current || pending) return;
-    setPending(id);
-    setFailed(false);
-    try { await saveOption({ subject: subject.subject, option: id }); refreshHome(); } catch { setFailed(true); } finally { setPending(null); }
+    if (!canChoose(state, id, subject.option)) return;
+    dispatch({ type: 'tap', id });
+    try { await saveOption({ subject: subject.subject, option: id }); } catch { dispatch({ type: 'save-failed' }); return; }
+    dispatch({ type: 'saved' });
+    try { await refreshHome(); dispatch({ type: 'refreshed' }); } catch { dispatch({ type: 'refresh-failed' }); }
   }
+  async function again() {
+    dispatch({ type: 'retry' });
+    try { await refreshHome(); dispatch({ type: 'refreshed' }); } catch { dispatch({ type: 'refresh-failed' }); }
+  }
+  const fine = finePrint({ phase: state.phase, saved: subject.option, word, all });
   const labelId = `kc-opt-${subject.subject}`;
   return (
     <div className="kc-opt">
       <p className="kc-opt__label" id={labelId}>{`Your ${word} in ${subject.title}`}</p>
-      <div className="kc-opt__row" role="radiogroup" aria-labelledby={labelId}>
+      <div className="kc-opt__row" role="radiogroup" aria-labelledby={labelId} aria-busy={busy || undefined}>
         {opts.choices.map((c) => (
-          <button key={c.id} type="button" role="radio" aria-checked={current === c.id} aria-busy={pending === c.id || undefined} className="kc-opt__btn" onClick={() => choose(c.id)}>{c.label}</button>
+          <button key={c.id} type="button" role="radio" aria-checked={current === c.id} className="kc-opt__btn" onClick={() => choose(c.id)}>{c.label}</button>
         ))}
       </div>
-      {pending ? <p className="kc-fine" role="status">Saving your choice</p>
-        : failed ? <p className="kc-err" role="alert">Your choice was not saved. Try again.</p>
-          : subject.option ? <p className="kc-fine">Only that {word}’s chapters show here and in your practice. You can change it at any time.</p>
-            : <p className="kc-fine">Choose your {word} and only its chapters show here and in your practice. Until then, {all} show.</p>}
+      <div className="kc-opt__fine">
+        {fine.kind === 'error' ? <p className="kc-err" role="alert">{fine.text}</p>
+          : <p className="kc-fine" role={fine.kind === 'plain' ? undefined : 'status'}>{fine.text}</p>}
+        {fine.kind === 'stale' ? <button type="button" className="kc-opt__again" onClick={again}>Try again</button> : null}
+      </div>
+    </div>
+  );
+}
+
+// The units and chapter rows of one subject. Keyed by subject, so a subject's first draw rises in; once it has settled, rows
+// that arrive later only fade in (see ChapterRow), and `busy` (a new part's list is on its way) dims the list it still shows.
+const SETTLE_MS = 700;
+function UnitsList({ subject, blocks, links, isPro, tabbed, busy }) {
+  const [settled, setSettled] = useState(false);
+  useEffect(() => {
+    const t = setTimeout(() => setSettled(true), SETTLE_MS);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <div id="kc-units" role={tabbed ? 'tabpanel' : undefined} aria-labelledby={tabbed ? `kc-sub-${subject.subject}` : undefined} aria-busy={busy || undefined} className="kc-units">
+      {blocks.length ? blocks.map((b, bi) => (
+        <section key={b.label || `plain-${bi}`} className="kc-unit" data-headed={b.unit ? '' : undefined} data-group={b.group ? '' : undefined} aria-label={b.label || `${subject.title} chapters`}>
+          {b.unit ? <h2 className="kc-unit__h">{b.unit}</h2> : null}
+          <ul className="kc-rows">
+            {b.chapters.map((ch, i) => <ChapterRow key={ch.key} ch={ch} index={bi * 2 + i} isPro={isPro} href={links.deck(ch.key)} heading={b.unit} settled={settled} />)}
+          </ul>
+        </section>
+      )) : <p className="kc-empty-line">No chapters with cards in {subject.title} yet.</p>}
     </div>
   );
 }
@@ -116,6 +156,8 @@ export default function KeycardsHome() {
   const read = useKeycardsHome();
   const links = useCardsLinks();
   const [chosen, setChosen] = useState(null);
+  const [busySubject, setBusySubject] = useState(null);
+  const onBusy = useCallback((id, on) => setBusySubject((now) => (on ? id : now === id ? null : now)), []);
   useEffect(() => { queueMicrotask(() => setChosen(initialSubject())); }, []);
   const data = read.data;
   const isPro = data ? data.isPro === true : user?.isPremium === true;
@@ -204,18 +246,9 @@ export default function KeycardsHome() {
               ))}
             </div>
           ) : null}
-          {subject ? <OptionPicker key={`opt-${subject.subject}`} subject={subject} /> : null}
+          {subject ? <OptionPicker key={`opt-${subject.subject}`} subject={subject} onBusy={onBusy} /> : null}
           {bookless ? <p className="kc-fine">{subject.title} cards are written for MockMob, not taken from an NCERT book.</p> : null}
-          <div id="kc-units" role={subjects.length > 1 ? 'tabpanel' : undefined} aria-labelledby={subjects.length > 1 ? `kc-sub-${subject?.subject}` : undefined} className="kc-units" key={subject?.subject}>
-            {blocks.length ? blocks.map((b, bi) => (
-              <section key={b.label || `plain-${bi}`} className="kc-unit" data-headed={b.unit ? '' : undefined} data-group={b.group ? '' : undefined} aria-label={b.label || `${subject.title} chapters`}>
-                {b.unit ? <h2 className="kc-unit__h">{b.unit}</h2> : null}
-                <ul className="kc-rows">
-                  {b.chapters.map((ch, i) => <ChapterRow key={ch.key} ch={ch} index={bi * 2 + i} isPro={isPro} href={links.deck(ch.key)} heading={b.unit} />)}
-                </ul>
-              </section>
-            )) : <p className="kc-empty-line">No chapters with cards in {subject?.title} yet.</p>}
-          </div>
+          <UnitsList key={subject?.subject} subject={subject} blocks={blocks} links={links} isPro={isPro} tabbed={subjects.length > 1} busy={busySubject === subject?.subject} />
         </div>
       )}
     </>,

@@ -60,7 +60,7 @@
     "test:factory": "node --test scripts/pipeline/tests/*.test.mjs data/tests/factory_phase_budget.test.mjs data/tests/practice_availability.test.mjs data/tests/factory_inventory.test.mjs",
     "factory:acceptance": "node --use-system-ca scripts/pipeline/tools/factoryAcceptanceReport.mjs",
     "factory:resume-probe": "node --use-system-ca scripts/pipeline/tools/finalPassBatchProbe.mjs",
-    "test:keycards-ui": "node --test data/tests/keycards_ui.test.mjs data/tests/keycards_preview.test.mjs"
+    "test:keycards-ui": "node --test data/tests/keycards_ui.test.mjs data/tests/keycards_preview.test.mjs data/tests/keycards_option_choice.test.mjs data/tests/print_mark.test.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.90.0",

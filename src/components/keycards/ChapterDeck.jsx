@@ -19,6 +19,7 @@ import { CardHead, CardSource, InShort, KeyCardPlayer, NcertText, Prompt, ProGat
 import { addToRevise, isOff, isProRequired, markNewCardsUsed, newCardsUsedToday, readChapters, readDeck, refreshHome } from './api';
 import { BLANK_KINDS, MODES, chapterRef, chapterRefSpoken, deckOrigin, endCounts, limitCopy, plural, readingRows, splitDeck, unitRepeats } from './kinds';
 import { useCardsLinks } from './links';
+import { PrintHead, PrintMark } from '@/components/print/PrintMark';
 import { ncertFont } from './ncertFont';
 import './keycards.css';
 
@@ -238,7 +239,9 @@ function PrintSheet({ deck, cards }) {
   useEffect(() => { queueMicrotask(() => setHost(document.body)); }, []);
   if (!host) return null;
   return createPortal(
-    <section className={`kc-print ${ncertFont.variable}`} aria-hidden="true">
+    <section className={`kc-print pm-sheet ${ncertFont.variable}`} aria-hidden="true">
+      <PrintMark />
+      <PrintHead />
       <h1>{deck.chapter.title}</h1>
       <p className="kc-print__ref">{(deckOrigin(cards)
         ? [deckOrigin(cards), plural(cards.length, 'Must-know card')]

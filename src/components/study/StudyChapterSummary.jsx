@@ -5,12 +5,13 @@ import {Printer,ArrowLeft} from 'lucide-react';
 import {apiGet} from '@/lib/fetcher';
 import {ReadingBlock} from './StudyBlocks';
 import {subjectName} from './studyCopy';
+import { PrintHead, PrintMark } from '@/components/print/PrintMark';
 import './study.css';
 
 export default function StudyChapterSummary({subject,chapter}) {
   const [data,setData]=useState(null),[error,setError]=useState(false);
   useEffect(()=>{let alive=true;apiGet(`/api/study/summary?${new URLSearchParams({subject,chapter})}`).then(d=>{if(alive)setData(d);}).catch(()=>{if(alive)setError(true);});return()=>{alive=false;};},[subject,chapter]);
-  return <div className="sx sx-summary"><Link className="sx-back" href={`/learn?subject=${subject}`}><ArrowLeft size={16} aria-hidden="true" />Back to Concepts</Link>
+  return <div className="sx sx-summary pm-sheet"><PrintMark /><PrintHead /><Link className="sx-back" href={`/learn?subject=${subject}`}><ArrowLeft size={16} aria-hidden="true" />Back to Concepts</Link>
     <h1>{chapter || 'Chapter summary'}</h1><p className="sx-lede">{subjectName(subject)}. Published lessons in one place.</p>
     {error ? <p className="sx-alert" role="alert">This summary could not be loaded. Return to Concepts and open a published chapter.</p> : !data ? <p role="status">Preparing your summary…</p> : <>
       <p className="sx-small">This covers {data.units.length} published {data.units.length===1?'lesson':'lessons'}, not the complete chapter. Reading a summary does not mark a lesson or scored check as complete.</p>
