@@ -60,6 +60,12 @@ class _KeyCardsHomeScreenState extends ConsumerState<KeyCardsHomeScreen> {
     }
   }
 
+  /// Revise, then today's counts again: the cards rated there have moved on.
+  Future<void> _revise() async {
+    await context.push<void>(AppRoutes.reviewRevise);
+    if (mounted) ref.invalidate(keyCardsHomeProvider);
+  }
+
   Future<void> _open(String chapterKey) async {
     await context.push<void>(AppRoutes.keyCardsChapter(chapterKey));
     if (mounted) ref.invalidate(keyCardsHomeProvider);
@@ -157,7 +163,7 @@ class _KeyCardsHomeScreenState extends ConsumerState<KeyCardsHomeScreen> {
                 ],
                 if (today.due > 0) ...[
                   const SizedBox(height: MmSpace.s16),
-                  KeyButton(label: KeyCardsCopy.reviseNow, onPressed: () => unawaited(context.push<void>(AppRoutes.reviewRevise))),
+                  KeyButton(label: KeyCardsCopy.reviseNow, onPressed: () => unawaited(_revise())),
                 ],
               ],
             ),
@@ -275,8 +281,10 @@ class _SubjectBody extends StatelessWidget {
   }
 }
 
-/// One chapter: its title, the NCERT book and chapter, the chip and its state in words on the left; its
-/// cards on the right ("8 cards · 5 due", and on Free "5 of 8 open" under it).
+/// One chapter: its title across the row (the chevron at its right), the NCERT book and chapter and the chip
+/// under it, then its state in words on the left and its cards on the right ("8 cards, 5 due", and on Free
+/// "5 of 8 open" under it). The title and the book's long names get the whole width; the counts share the
+/// state's line, and drop under it when the two do not fit.
 class KcChapterRow extends StatelessWidget {
   const KcChapterRow({super.key, required this.chapter, required this.isPro, required this.onTap});
 
@@ -293,6 +301,8 @@ class KcChapterRow extends StatelessWidget {
     final open = !isPro && c.cards > 0 ? KeyCardsCopy.openOf(c.unlocked, c.cards) : null;
     final spoken = [c.title, ?c.ncertLine, ?c.chip, c.state.text, count, ?open].join('. ');
     const figures = [FontFeature.tabularFigures()];
+    // The chevron's column: the lines under the title stop where the title does.
+    const chevronRoom = MmSpace.s8 + 16;
     return MmPressable(
       onTap: onTap,
       pressedScale: 0.985,
@@ -304,44 +314,53 @@ class KcChapterRow extends StatelessWidget {
         constraints: const BoxConstraints(minHeight: 64),
         child: Padding(
           padding: const EdgeInsets.symmetric(vertical: MmSpace.s12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(c.title, style: type.cardTitle.copyWith(fontSize: 16, height: 22 / 16)),
-                    if (c.ncertLine != null) ...[
-                      const SizedBox(height: MmSpace.s2),
-                      Text(c.ncertLine!, style: type.caption.copyWith(color: colors.ink3)),
-                    ],
-                    if (c.chip != null) ...[
-                      const SizedBox(height: MmSpace.s6),
-                      KcTag(text: c.chip!),
-                    ],
-                    const SizedBox(height: MmSpace.s8),
-                    KcStateLine(state: c.state),
-                  ],
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(child: Text(c.title, style: type.cardTitle.copyWith(fontSize: 16, height: 22 / 16))),
+                  const SizedBox(width: MmSpace.s8),
+                  // The same chevron as every row that opens a page (SPACING 4.3).
+                  Padding(padding: const EdgeInsets.only(top: 3), child: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3)),
+                ],
               ),
-              const SizedBox(width: MmSpace.s12),
+              if (c.ncertLine != null) ...[
+                const SizedBox(height: MmSpace.s2),
+                Padding(
+                  padding: const EdgeInsets.only(right: chevronRoom),
+                  child: Text(c.ncertLine!, style: type.caption.copyWith(color: colors.ink3)),
+                ),
+              ],
+              if (c.chip != null) ...[
+                const SizedBox(height: MmSpace.s6),
+                Align(alignment: Alignment.centerLeft, child: KcTag(text: c.chip!)),
+              ],
+              const SizedBox(height: MmSpace.s8),
               Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                padding: const EdgeInsets.only(right: chevronRoom),
+                child: Wrap(
+                  alignment: WrapAlignment.spaceBetween,
+                  crossAxisAlignment: WrapCrossAlignment.center,
+                  spacing: MmSpace.s12,
+                  runSpacing: MmSpace.s4,
                   children: [
-                    Text(count, style: type.small.copyWith(color: colors.ink, fontFeatures: figures)),
-                    if (open != null) ...[
-                      const SizedBox(height: MmSpace.s2),
-                      Text(open, style: type.caption.copyWith(color: colors.ink3, fontFeatures: figures)),
-                    ],
+                    KcStateLine(state: c.state),
+                    Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(count, style: type.small.copyWith(color: colors.ink, fontFeatures: figures)),
+                        if (open != null) ...[
+                          const SizedBox(height: MmSpace.s2),
+                          Text(open, style: type.caption.copyWith(color: colors.ink3, fontFeatures: figures)),
+                        ],
+                      ],
+                    ),
                   ],
                 ),
               ),
-              // The same chevron as every row that opens a page (SPACING 4.3).
-              const SizedBox(width: MmSpace.s8),
-              Padding(padding: const EdgeInsets.only(top: MmSpace.s2), child: Icon(LucideIcons.chevronRight, size: 16, color: colors.ink3)),
             ],
           ),
         ),
