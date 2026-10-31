@@ -8,6 +8,21 @@ everything is done then lmk".
 **State in one line:** the feature is built, reviewed, hardened and walked on a device. The content is larger and
 cleaner. The question pools are audited, with every fix prepared. Nothing is pushed, deployed or written to production.
 
+## UPDATE, about 1:20 pm IST: production steps DONE (owner: "Yes, run them")
+- **Deployed:** main is 5c1d03a37, plus STATUS f3ebd6b9c. Live as dpl_jzeVzYF2yT6F8EwUQxM9EcnPvPau with KEY_CARDS_ENABLED off. **Rollback point:** dpl_5QtNxZUkLvxXBWxJfJLDL6tLxaXE.
+- **Migrations applied after rolled-back production dry runs:**
+  - syllabus_v2
+  - syllabus_v2_fix_live_rows: 8 live chapters had no row because of an id collision; there are now 199
+  - key_cards
+- **Re-tags:** 85 and 476, all moved.
+- **Flawed questions:** 59 fixed (3 keys, 31 rewords, 25 pending).
+- **Smoke:** clean. No runtime errors.
+- **Full record and undo order:** docs/brain/STATUS.md (top entry on main).
+- **Still the owner's:**
+  1. Look at the screens, then turn KEY_CARDS_ENABLED on (Vercel env, then a redeploy).
+  2. Decide on the 218 outside-syllabus questions.
+  3. App version 17 build.
+
 ## Where everything is (under `C:\Users\atish\Desktop\mockmob copy\`)
 
 | Part | Branch / place | State |

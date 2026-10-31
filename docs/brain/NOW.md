@@ -1,5 +1,12 @@
 # NOW: MockMob current state
 
+## 31 Oct 2026, about 1:20 pm IST: Key cards release LIVE with the flag off; syllabus v2 and Key cards migrations applied
+- **Live:** main 5c1d03a37, dpl_jzeVzYF2yT6F8EwUQxM9EcnPvPau.
+- **Database:** syllabus v2 plus its live-rows fix and the Key cards tables are applied; 561 re-tags; 59 flawed questions fixed.
+- **Pools:** Biology 369, Chemistry 395, Political Science 252.
+- **Record and undo:** STATUS.md on main.
+- **Owner next:** see the screens, turn KEY_CARDS_ENABLED on, decide on the 218 outside-syllabus questions, build app version 17.
+
 ## 31 Oct 2026, about 1:00 pm IST: Key cards hardened, content grown, question pools audited; owner steps ready
 - **Live production is unchanged** (main 0b7d6bc03). Nothing pushed, deployed or written to production. The session's
   permission check blocks production writes, so every production step is saved with its undo for the owner.
