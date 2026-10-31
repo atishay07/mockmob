@@ -20,6 +20,8 @@ import { memoryShare } from './keycards.js';
 export const CHAPTER_STATE_VERSION = 1;
 export const STATE_LABELS = Object.freeze({ none: 'Not started', thin: 'Too few answers', weak: 'Needs work', mid: 'Getting there', strong: 'Holding' });
 export const CHAPTER_RULES = Object.freeze({ minAnswers: 6, weakHigh: 55, strongLow: 65, fadingDays: 21 });
+// When the answers could not be read in full (a failed page): the state is not known, which is not "Not started".
+export const UNKNOWN_STATE = Object.freeze({ state: 'unknown', label: 'Could not load', fading: false });
 
 const DAY = 86_400_000;
 const time = (v) => { const t = v instanceof Date ? v.getTime() : typeof v === 'number' ? v : Date.parse(v); return Number.isFinite(t) ? t : null; };
@@ -95,8 +97,9 @@ export function reasonLine({ n = 0, right = 0, memory = null }) {
  *   marksLost       Map(chapterKey -> marks lost) from data/review_chapters.mjs chapterRows (0 when absent)
  *   available       Map(chapterKey -> { questions, cards })
  *   isPro           n, right, reason and memory are returned for Pro only
+ *   progressUnknown the answers could not be read in full: every state is UNKNOWN_STATE (and n, right, reason null)
  */
-export function chapterStates({ units = [], progress = [], resolveChapter, cardStates = [], cardsByChapter = new Map(), marksLost = new Map(), available = new Map(), isPro = false, now }) {
+export function chapterStates({ units = [], progress = [], resolveChapter, cardStates = [], cardsByChapter = new Map(), marksLost = new Map(), available = new Map(), isPro = false, now, progressUnknown = false }) {
   const tally = tallyChapters(progress, resolveChapter);
   const statesByCard = new Map((cardStates || []).map((s) => [s.card_id, s]));
   return units.map((u) => ({
@@ -108,9 +111,10 @@ export function chapterStates({ units = [], progress = [], resolveChapter, cardS
       const memory = cards.length ? memoryShare(mine, cards, now) : { holding: 0, added: 0, mustKnow: 0 };
       const reviewedAt = mine.map((s) => time(s.last_review_at)).filter((x) => x !== null);
       const lastActivityAt = [t.lastAt, ...reviewedAt].filter((x) => x !== null).reduce((a, b) => (a === null || b > a ? b : a), null);
-      const s = stateFor({ n: t.n, right: t.right, memory: mine.length ? memory : null, lastActivityAt, now });
+      const s = progressUnknown ? UNKNOWN_STATE : stateFor({ n: t.n, right: t.right, memory: mine.length ? memory : null, lastActivityAt, now });
       const row = { key: c.key, title: c.title || c.name, state: s.state, label: s.label, fading: s.fading, marksLost: marksLost.get(c.key) || 0, available: available.get(c.key) || { questions: 0, cards: cards.length } };
-      if (isPro) Object.assign(row, { n: t.n, right: t.right, reason: reasonLine({ n: t.n, right: t.right, memory }), memory });
+      if (isPro && progressUnknown) Object.assign(row, { n: null, right: null, reason: null, memory });
+      else if (isPro) Object.assign(row, { n: t.n, right: t.right, reason: reasonLine({ n: t.n, right: t.right, memory }), memory });
       return row;
     }),
   }));

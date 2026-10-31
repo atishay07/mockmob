@@ -79,6 +79,34 @@ export async function readUserProgress(db, userId, questionIds, { chunk = PROGRE
 }
 
 /**
+ * Every answered progress row of a student (attempt_count > 0), optionally of one subject: pages ordered by question_id
+ * through the 1,000-row response cap (one query silently dropped everything past it). Returns { rows, incomplete }:
+ * `incomplete` is true when a page failed, and `rows` are then only what came before it, so a caller must not read them
+ * as the whole history (Key cards chapter state reports "unknown"). One line is logged, except for a missing table.
+ */
+export async function readAnsweredProgress(db, userId, { subject = null, columns = 'question_id, subject, chapter, attempt_count, last_correct, last_attempted_at', warn = console.warn, what = 'answered progress' } = {}) {
+  const rows = [];
+  if (!userId) return { rows, incomplete: false };
+  for (let from = 0; ; from += PAGE) {
+    let query = db.from('user_question_progress').select(columns).eq('user_id', userId);
+    if (subject) query = query.eq('subject', subject);
+    let res;
+    try {
+      res = await query.gt('attempt_count', 0).order('question_id').range(from, from + PAGE - 1);
+    } catch (error) {
+      res = { data: null, error };
+    }
+    if (res.error) {
+      if (!MISSING_TABLE.has(res.error.code)) warn(`[practice-progress] ${what} read failed (${res.error.message || res.error.code});`);
+      return { rows, incomplete: true, error: res.error };
+    }
+    rows.push(...(res.data || []));
+    if (!res.data || res.data.length < PAGE) break;
+  }
+  return { rows, incomplete: false };
+}
+
+/**
  * Per-concept attempt totals for one student and subject: Map(concept_id -> { attempts, correct }).
  * Pages through the student's progress rows for the subject (the default response cap is 1000 rows, so one
  * query silently dropped everything past it) and looks the concepts up in id chunks. Returns an empty map
@@ -88,24 +116,15 @@ export async function readConceptBuckets(db, userId, subjectId, { chunk = PROGRE
   const buckets = new Map();
   buckets.incomplete = false;
   if (!userId) return buckets;
-  const rows = [];
-  for (let from = 0; ; from += PAGE) {
-    const { data, error } = await db
-      .from('user_question_progress')
-      .select('question_id, attempt_count, correct_count')
-      .eq('user_id', userId)
-      .eq('subject', subjectId)
-      .gt('attempt_count', 0)
-      .order('question_id')
-      .range(from, from + PAGE - 1);
-    if (error) {
-      buckets.incomplete = true;
-      if (!MISSING_TABLE.has(error.code)) warn(`[practice-progress] weak-concept progress read failed (${error.message || error.code}); weak topics are not used for this pick.`);
-      return buckets;
-    }
-    rows.push(...(data || []));
-    if (!data || data.length < PAGE) break;
+  const read = await readAnsweredProgress(db, userId, {
+    subject: subjectId, columns: 'question_id, attempt_count, correct_count', what: 'weak-concept progress',
+    warn: (line) => warn(`${line} weak topics are not used for this pick.`),
+  });
+  if (read.incomplete) {
+    buckets.incomplete = true;
+    return buckets;
   }
+  const rows = read.rows;
   if (!rows.length) return buckets;
   const results = await inBatches(chunksOf([...new Set(rows.map((row) => row.question_id))], chunk).map((part) => async () => {
     try {

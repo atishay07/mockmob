@@ -3,6 +3,7 @@
 //   node --test data/tests/keycards_ui.test.mjs
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { readFileSync } from 'node:fs';
 import {
   KIND_LABELS, PRO_LINE, RATINGS, backLines, chapterRef, chapterRefSpoken, countsLine, endCounts, findChapter, markBlanks, readingRows, slugChapter,
   sourceLine, splitBlanks, splitDeck, stateCue, todayLine,
@@ -53,11 +54,16 @@ test('Free reading: every locked stub is gathered into one quiet row after the o
   assert.equal(stubs[0].stub, view.filter((c) => c.locked).length);
   assert.ok(rows.at(-1).stub, 'the stub row comes last');
   assert.equal(splitDeck(view).open.length, 5);
-  // The taste is data/keycards.js tasteIds: Must-know first, then book order; the deck itself stays in book order.
+  // The taste is data/keycards.js tasteIds: the first 5 Must-know cards in book order; the deck itself stays in book order.
   const open = splitDeck(view).open;
   assert.ok(open.every((c) => c.importance === 'must'));
   assert.deepEqual(open.map((c) => c.order), [...open.map((c) => c.order)].sort((a, b) => a - b));
   assert.deepEqual([...fixtureTasteIds(FIXTURE_DECKS[CH1])].sort(), open.map((c) => c.id).sort());
+  // The fixtures' rule is the shared one (data/keycards/fixtures/taste.json).
+  const shared = JSON.parse(readFileSync(new URL('../keycards/fixtures/taste.json', import.meta.url), 'utf8'));
+  for (const [chapterKey, ids] of Object.entries(shared.taste)) {
+    assert.deepEqual([...fixtureTasteIds(shared.cards.filter((c) => c.chapterKey === chapterKey))], ids, chapterKey);
+  }
   // Pro sees every card whole.
   assert.equal(readingRows(fixtureDeckView(FIXTURE_DECKS[CH1], true)).filter((r) => r.stub).length, 0);
 });

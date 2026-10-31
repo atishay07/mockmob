@@ -68,18 +68,30 @@ test('Free sees the taste cards of each chapter whole and the rest as stubs; Pro
   const pro = deckView(cards, { isPro: true });
   assert.equal(pro.length, 10);
   assert.ok(pro.every((c) => !c.locked));
-  const orders = free.filter((c) => !c.locked).map((c) => c.order);
   assert.deepEqual(free.map((c) => c.id), pro.map((c) => c.id), 'book order either way');
   const planning = free.filter((c) => c.id.includes('.planning.'));
-  assert.equal(planning.filter((c) => !c.locked).length, 5, 'five taste cards in a chapter of seven');
-  const lockedOnes = planning.filter((c) => c.locked);
-  assert.equal(lockedOnes.length, 2);
-  for (const s of lockedOnes) assert.deepEqual(Object.keys(s).sort(), ['id', 'kind', 'label', 'locked']);
-  // Must-know first among the taste: all four must cards are open, plus one good card (the first in book order).
+  // The taste is Must-know only (L10): the four Must-know cards of a chapter of seven, never a Good-to-know card.
   const openPlanning = planning.filter((c) => !c.locked);
-  assert.equal(openPlanning.filter((c) => c.importance === 'must').length, 4);
-  assert.equal(free.filter((c) => c.id.includes('.staffing.') && !c.locked).length, 3, 'a short chapter is all taste');
-  assert.ok(orders.length === 8);
+  assert.equal(openPlanning.length, 4);
+  assert.ok(openPlanning.every((c) => c.importance === 'must'));
+  const lockedOnes = planning.filter((c) => c.locked);
+  assert.equal(lockedOnes.length, 3);
+  for (const s of lockedOnes) assert.deepEqual(Object.keys(s).sort(), ['id', 'kind', 'label', 'locked']);
+  assert.equal(free.filter((c) => c.id.includes('.staffing.') && !c.locked).length, 0, 'a chapter of Good-to-know cards only has no taste');
+});
+
+test('the taste rule is the shared fixture (data/keycards/fixtures/taste.json): the first 5 Must-know cards in book order', () => {
+  const fx = JSON.parse(readFileSync(path.join(ROOT, 'data/keycards/fixtures/taste.json'), 'utf8'));
+  assert.equal(fx.per, KEYCARD_RULES.free.tastePerChapter);
+  const got = tasteIds(fx.cards);
+  for (const [chapterKey, ids] of Object.entries(fx.taste)) {
+    const mine = deckView(fx.cards.filter((c) => c.chapterKey === chapterKey), { isPro: false }).filter((c) => !c.locked).map((c) => c.id);
+    assert.deepEqual(mine, ids, chapterKey);
+  }
+  assert.deepEqual([...got].sort(), Object.values(fx.taste).flat().sort());
+  // Not "the first 5 in book order": that rule (the app's before L10) opens Good-to-know cards.
+  const firstFive = [...fx.cards].filter((c) => c.chapterKey === 'business_studies.planning').sort((a, b) => a.order - b.order || a.id.localeCompare(b.id)).slice(0, 5).map((c) => c.id);
+  assert.notDeepEqual(firstFive, fx.taste['business_studies.planning']);
 });
 
 test('chapterAddSet: Pro adds every Must-know card, Free only the taste; good cards only by choice', () => {
@@ -164,6 +176,17 @@ test('dueQueue: due first (Must-know, then oldest), then new in book order up to
   const free = dueQueue(states, byId, { now: T0, isPro: false, newAllowanceLeft: 99, limit: 20 });
   assert.equal(free.newShown, 3, 'Free never more than its 5 a day, here the 3 that are added');
   assert.equal(dueQueue(states, byId, { now: T0, isPro: true, limit: 1 }).items.length, 1);
+});
+
+test('dueQueue: new cards chapter by chapter (the given rank, else subject and chapter key), then book order in the chapter', () => {
+  const a = [1, 2, 3].map((i) => card({ chapterKey: 'business_studies.staffing', order: i * 10 }));
+  const b = [1, 2, 3].map((i) => card({ chapterKey: 'business_studies.planning', order: i * 10 }));
+  const byId = new Map([...a, ...b].map((c) => [c.id, c]));
+  const states = [a[0], b[0], a[1], b[1], a[2], b[2]].map((c) => stateRow(c));
+  const ids = (q) => q.items.map((i) => i.card.id);
+  assert.deepEqual(ids(dueQueue(states, byId, { now: T0, isPro: true })), [...b, ...a].map((c) => c.id), 'no rank: planning < staffing by key, never interleaved');
+  const rank = (key) => (key === 'business_studies.staffing' ? 0 : 1);
+  assert.deepEqual(ids(dueQueue(states, byId, { now: T0, isPro: true, chapterRank: rank })), [...a, ...b].map((c) => c.id));
 });
 
 test('new cards pause while more than 40 are overdue', () => {

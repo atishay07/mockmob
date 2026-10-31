@@ -47,19 +47,23 @@ const bookOrder = (a, b) => (Number(a.order) || 0) - (Number(b.order) || 0) || S
 /** What a locked card shows: its kind and label, never its text. */
 export const lockedStub = (card) => ({ id: card.id, kind: card.kind, label: KIND_LABELS[card.kind] || 'Card', locked: true });
 
-/** The taste cards of each chapter: the first `tastePerChapter` in book order, Must-know first among ties. */
+/**
+ * The taste cards of each chapter: its first `tastePerChapter` Must-know cards in book order (`order`, then id). Good-to-know
+ * cards are never in the taste (they are added only by a Pro student's choice), so a chapter with fewer Must-know cards has
+ * a smaller taste. One rule for the server, the web fixtures and the app: data/keycards/fixtures/taste.json pins it
+ * (code review L10).
+ */
 export function tasteIds(cards, per = KEYCARD_RULES.free.tastePerChapter) {
   const byChapter = new Map();
   for (const c of cards || []) {
-    if (!c?.id) continue;
+    if (!c?.id || c.importance !== 'must') continue;
     const list = byChapter.get(c.chapterKey) || [];
     list.push(c);
     byChapter.set(c.chapterKey, list);
   }
   const out = new Set();
   for (const list of byChapter.values()) {
-    // Must-know first, then book order: the taste is the chapter's most important lines, in the order the book gives them.
-    const picked = [...list].sort((a, b) => mustFirst(a, b) || bookOrder(a, b)).slice(0, per);
+    const picked = [...list].sort(bookOrder).slice(0, per);
     for (const c of picked) out.add(c.id);
   }
   return out;
@@ -142,11 +146,13 @@ export function retrievability(stateRow, now) {
 /**
  * Today's queue. `states` are the student's key_card_states rows; `cardsById` the published cards.
  *   1. due cards (reviewed before, due_at <= now): Must-know first, then oldest due first
- *   2. then new cards (added, never reviewed) in book order, up to `newAllowanceLeft`
+ *   2. then new cards (added, never reviewed) in book order, up to `newAllowanceLeft`: chapter by chapter
+ *      (`chapterRank(chapterKey)`, the syllabus order; without it subject then chapter key), then the card's order in
+ *      its chapter. A card's `order` restarts in every chapter, so sorting by it alone interleaved chapters.
  * New cards pause while more than `overduePauseNew` cards are overdue. Suspended cards and cards no longer published are
  * skipped. Returns { items: [{ card, state, isNew }], due, overdue, newShown, paused }.
  */
-export function dueQueue(states, cardsById, { now, isPro = false, newAllowanceLeft = Infinity, limit = 20 } = {}) {
+export function dueQueue(states, cardsById, { now, isPro = false, newAllowanceLeft = Infinity, limit = 20, chapterRank = null } = {}) {
   const at = time(now);
   const get = (id) => (cardsById instanceof Map ? cardsById.get(id) : cardsById?.[id]);
   const live = (states || []).filter((s) => s && !s.suspended && get(s.card_id));
@@ -155,8 +161,10 @@ export function dueQueue(states, cardsById, { now, isPro = false, newAllowanceLe
     .sort((a, b) => mustFirst(get(a.card_id), get(b.card_id)) || time(a.due_at) - time(b.due_at) || String(a.card_id).localeCompare(String(b.card_id)));
   const paused = due.length > KEYCARD_RULES.overduePauseNew;
   const room = Math.max(0, Math.min(Number.isFinite(newAllowanceLeft) ? newAllowanceLeft : Infinity, isPro ? Infinity : KEYCARD_RULES.free.newPerDay));
+  const rankOf = typeof chapterRank === 'function' ? (c) => Number(chapterRank(c.chapterKey) ?? Number.MAX_SAFE_INTEGER) : () => 0;
+  const chapterOrder = (a, b) => (rankOf(a) - rankOf(b)) || String(a.subject ?? '').localeCompare(String(b.subject ?? '')) || String(a.chapterKey ?? '').localeCompare(String(b.chapterKey ?? ''));
   const fresh = paused ? [] : live.filter((s) => !(Number(s.reps) > 0))
-    .sort((a, b) => bookOrder(get(a.card_id), get(b.card_id)) || time(a.added_at) - time(b.added_at))
+    .sort((a, b) => chapterOrder(get(a.card_id), get(b.card_id)) || bookOrder(get(a.card_id), get(b.card_id)) || time(a.added_at) - time(b.added_at))
     .slice(0, room === Infinity ? undefined : room);
   const cap = limit === Infinity ? Infinity : Math.max(0, Number.isFinite(Number(limit)) ? Number(limit) : 20);
   const items = [...due.map((s) => ({ card: get(s.card_id), state: s, isNew: false })), ...fresh.map((s) => ({ card: get(s.card_id), state: s, isNew: true }))].slice(0, cap);
@@ -174,19 +182,28 @@ const STOPWORDS = new Set(('a an and are as at be been being but by can could di
 export const isStopword = (w) => STOPWORDS.has(String(w).toLowerCase());
 const tokens = (text) => new Set(String(text ?? '').toLowerCase().normalize('NFKC').split(/[^\p{L}\p{N}]+/u).filter((w) => w.length > 2 && !STOPWORDS.has(w)));
 
-/** Share of the card quote's tokens that also appear in the question text (0..1). */
-export function overlapScore(questionText, quote) {
+// The lexical fallback of "The line you needed": a card matches when at least `minShared` content words of its quote are in
+// the question text and they are at least `minScore` of the quote's words. English Must-know quotes are mostly one or two
+// words, so a share alone let one generic word match (code review L5).
+export const LINE_MATCH = Object.freeze({ minScore: 0.35, minShared: 3 });
+
+/** Content words of the card quote that also appear in the question text: { shared, words, score } (score 0..1). */
+export function overlap(questionText, quote) {
   const q = tokens(questionText);
   const c = tokens(quote);
-  if (!c.size || !q.size) return 0;
-  let hit = 0;
-  for (const w of c) if (q.has(w)) hit += 1;
-  return hit / c.size;
+  if (!c.size || !q.size) return { shared: 0, words: c.size, score: 0 };
+  let shared = 0;
+  for (const w of c) if (q.has(w)) shared += 1;
+  return { shared, words: c.size, score: shared / c.size };
 }
+
+/** Share of the card quote's tokens that also appear in the question text (0..1). */
+export const overlapScore = (questionText, quote) => overlap(questionText, quote).score;
 
 /**
  * "The line you needed" for a question answered wrong. Precomputed links first; otherwise the lexical match over the
- * Must-know cards of the question's chapter (top 2 at a score of at least 0.35); otherwise nothing.
+ * Must-know cards of the question's chapter (top 2 with at least 3 shared content words, at least 0.35 of the quote's);
+ * otherwise nothing.
  *   fallback = { chapterKey, text } (question stem + explanation), or null
  * Returns { cards, source: 'linked' | 'matched' | 'none' }.
  */
@@ -197,8 +214,9 @@ export function lineNeeded(questionId, links, cardsById, fallback = null) {
   if (!fallback?.chapterKey || !fallback?.text) return { cards: [], source: 'none' };
   const all = cardsById instanceof Map ? [...cardsById.values()] : Object.values(cardsById || {});
   const scored = all.filter((c) => c.chapterKey === fallback.chapterKey && c.importance === 'must' && c.quote)
-    .map((c) => ({ c, s: overlapScore(fallback.text, c.quote) }))
-    .filter((x) => x.s >= 0.35)
+    .map((c) => ({ c, o: overlap(fallback.text, c.quote) }))
+    .filter((x) => x.o.shared >= LINE_MATCH.minShared && x.o.score >= LINE_MATCH.minScore)
+    .map((x) => ({ c: x.c, s: x.o.score }))
     .sort((a, b) => b.s - a.s || bookOrder(a.c, b.c))
     .slice(0, 2)
     .map((x) => x.c);

@@ -150,9 +150,8 @@ export const FIXTURE_DECKS = Object.freeze({ [CH1]: BS_CH1, [AC_CH]: AC_RATIOS, 
 const KEYCARD_FREE = { tastePerChapter: 5, reviewsPerDay: 10, newPerDay: 5, lineNeededPerDay: 3 };
 
 const bookOrder = (a, b) => (a.order - b.order) || String(a.id).localeCompare(String(b.id));
-const mustFirst = (a, b) => (a.importance === 'must' ? 0 : 1) - (b.importance === 'must' ? 0 : 1);
-/** The taste cards, as data/keycards.js tasteIds picks them: Must-know first, then book order, 5 a chapter. */
-export const fixtureTasteIds = (cards) => new Set([...cards].sort((a, b) => mustFirst(a, b) || bookOrder(a, b)).slice(0, KEYCARD_FREE.tastePerChapter).map((c) => c.id));
+/** The taste cards, as data/keycards.js tasteIds picks them: the first 5 Must-know cards in book order (data/keycards/fixtures/taste.json). */
+export const fixtureTasteIds = (cards) => new Set([...cards].filter((c) => c.importance === 'must').sort(bookOrder).slice(0, KEYCARD_FREE.tastePerChapter).map((c) => c.id));
 
 /** deckView as data/keycards.js defines it: in book order; Free gets the taste cards whole and the rest as stubs. */
 export function fixtureDeckView(cards, isPro) {

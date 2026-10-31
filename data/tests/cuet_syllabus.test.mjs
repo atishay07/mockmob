@@ -16,7 +16,8 @@ import { rankCandidates } from '../mock_question_selector.js';
 import { pickFromFullPool, pickFromLightPool } from '../practice_pick.js';
 import { qualityGateNtaQuestion } from '../nta_question_selector.js';
 import { readablePracticeQuestions } from '../practice_library.js';
-import { contentHash, contentHashMatches } from '../content_evidence.js';
+import { contentHash, contentHashMatch, contentHashMatches } from '../content_evidence.js';
+import { ntaFitVerdict, ntaStoredFitTags } from '../nta_fit_scores.js';
 import { sameChapter } from '../../scripts/pipeline/lib/factoryEvidence.mjs';
 import { chapterUnits } from '../../src/app/(app)/dashboard/chapterGroups.mjs';
 import { MERGE_RENAMES, migrationSql, undoSql } from '../../scripts/syllabus/build-syllabus-v2-sql.mjs';
@@ -370,6 +371,31 @@ test('the re-tag file passes its checker, which refuses anything but live target
   assert.ok(retagProblems([{ id: 'q1', subject: 'chemistry', from: 'Polymers', to: 'Solid State', why: 'x' }]).length, 'a retired chapter is not a target');
   assert.ok(retagProblems({}).length);
   assert.match(retagSql([{ id: "q'1", subject: 's', from: 'a', to: 'b', why: 'w' }]), /apply_syllabus_retag\('\[\{"id":"q''1"/);
+});
+
+test("L12: the 85 re-tagged questions keep the hashes taken under the re-tag's old chapter, so they come back to NTA papers", () => {
+  const moves = JSON.parse(readFileSync(new URL('../syllabus/retag-2026-10-31.json', import.meta.url), 'utf8'));
+  assert.equal(moves.length, 85);
+  for (const move of moves) {
+    const before = row(move.id, move.subject, move.from, { explanation: `Why ${move.why}.` });
+    const hash = contentHash(before);
+    const after = { ...before, chapter: move.to };
+    assert.notEqual(contentHash(after), hash);
+    assert.equal(contentHashMatch(after, hash), 'retag', move.id);
+  }
+  const move = moves.find((m) => m.subject === 'biology');
+  const before = row(move.id, move.subject, move.from);
+  const hash = contentHash(before);
+  const after = { ...before, chapter: move.to };
+  assert.equal(contentHashMatches({ ...after, id: 'not-re-tagged' }, hash), false, 'only the re-tagged ids');
+  assert.equal(contentHashMatches({ ...after, chapter: 'Biodiversity & Conservation' }, hash), false, 'only in the re-tag target');
+  assert.equal(contentHashMatches({ ...after, explanation: 'changed' }, hash), false, 'any other change still fails');
+  assert.equal(contentHashMatches({ ...after, subject: 'chemistry' }, hash), false);
+  // The fit gate passes the content check; the judges' type stays, their old chapter and unit no longer place it.
+  const fitScores = new Map([[move.id, { subject: move.subject, table: {}, entry: { question_id: move.id, content_hash: hash, cuet_type: 'single_mcq', unit: 'Reproduction', chapter: move.from } }]]);
+  assert.equal(ntaFitVerdict(after, { fitScores }).reasons.includes('fit_question_changed'), false);
+  assert.deepEqual(ntaStoredFitTags(after, { fitScores }), { type: 'single_mcq', unit: null, chapter: null });
+  assert.deepEqual(ntaStoredFitTags(before, { fitScores }), { type: 'single_mcq', unit: 'Reproduction', chapter: move.from }, 'unchanged before the re-tag');
 });
 
 // ---- Migration ------------------------------------------------------------------------------------------------

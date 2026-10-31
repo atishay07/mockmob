@@ -3,6 +3,7 @@ import { canonicalJSON } from './canonical_json.mjs';
 import { presentationLint } from './question_presentation.mjs';
 import { FACTORY_POLICY, provenanceReasons,needsNumericChecks } from './question_factory_policy.mjs';
 import { storedNamesFor } from './cuet_syllabus.js';
+import RETAG from './syllabus/retag-2026-10-31.json' with { type: 'json' };
 
 export function canonicalQuestion(q) {
   const options = q.options || [];
@@ -21,12 +22,27 @@ export function contentHash(q) { return createHash('sha256').update(JSON.stringi
 // Syllabus v2 merges rename a chapter label (MySQL -> Structured Query Language, Dissolution of Partnership -> ... Firm)
 // on rows whose evidence, index, agent and fit hashes were taken under the old label. The question itself is unchanged, so a
 // hash taken under any stored spelling of the same live chapter (data/cuet_syllabus.js storedNamesFor) still matches.
-// Nothing else is forgiven: any other field that changed still fails.
-export function contentHashMatches(q, hash) {
-  if (!hash) return false;
-  if (hash === contentHash(q)) return true;
+// The syllabus v2 re-tag (data/syllabus/retag-2026-10-31.json, applied by apply_syllabus_retag) moved 85 questions out of a
+// retired or split chapter into a live one so they come back to the pools. Their hashes were taken under the old chapter, so
+// for exactly those question ids, sitting in exactly their re-tag target, a hash taken under the re-tag's `from` chapter
+// (or a spelling of it) matches too (code review L12). Nothing else is forgiven: any other field that changed still fails.
+const RETAGGED = new Map((Array.isArray(RETAG) ? RETAG : []).map((move) => [String(move.id), move]));
+
+/** How a stored hash matches this question: 'exact', 'alias' (a merge rename), 'retag' (the re-tag's old chapter), or null. */
+export function contentHashMatch(q, hash) {
+  if (!hash) return null;
+  if (hash === contentHash(q)) return 'exact';
   const names = storedNamesFor(q?.subject, q?.chapter);
-  return names.some((name) => name !== q?.chapter && hash === contentHash({ ...q, chapter: name }));
+  if (names.some((name) => name !== q?.chapter && hash === contentHash({ ...q, chapter: name }))) return 'alias';
+  const move = q?.id === undefined || q?.id === null ? null : RETAGGED.get(String(q.id));
+  if (move && move.subject === q.subject && (q.chapter === move.to || storedNamesFor(move.subject, move.to).includes(q.chapter))) {
+    const before = new Set([move.from, ...storedNamesFor(move.subject, move.from)]);
+    if ([...before].some((name) => hash === contentHash({ ...q, chapter: name }))) return 'retag';
+  }
+  return null;
+}
+export function contentHashMatches(q, hash) {
+  return contentHashMatch(q, hash) !== null;
 }
 export function evidenceSignature(record, secret) { return createHmac('sha256', secret).update(canonicalJSON(record)).digest('hex'); }
 

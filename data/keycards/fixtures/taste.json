@@ -1,0 +1,111 @@
+{
+  "rule": "Key cards taste (code review L10, 31 Oct 2026): a chapter's taste is its first 5 Must-know cards in book order (order, then id). Good-to-know cards are never in it, so a chapter with fewer Must-know cards has a smaller taste and a chapter with none has none. Cards are listed out of order on purpose. data/keycards.js tasteIds, src/components/keycards/fixtures.js and the app (KeyCardRules.tasteIds) must all give exactly `taste`, each chapter in book order.",
+  "per": 5,
+  "cards": [
+    {
+      "id": "kc.business_studies.planning.p-m6",
+      "chapterKey": "business_studies.planning",
+      "importance": "must",
+      "order": 90
+    },
+    {
+      "id": "kc.business_studies.staffing.s-c",
+      "chapterKey": "business_studies.staffing",
+      "importance": "must",
+      "order": 20
+    },
+    {
+      "id": "kc.business_studies.planning.p-g1",
+      "chapterKey": "business_studies.planning",
+      "importance": "good",
+      "order": 10
+    },
+    {
+      "id": "kc.business_studies.planning.p-m1",
+      "chapterKey": "business_studies.planning",
+      "importance": "must",
+      "order": 20
+    },
+    {
+      "id": "kc.business_studies.directing.d-g2",
+      "chapterKey": "business_studies.directing",
+      "importance": "good",
+      "order": 20
+    },
+    {
+      "id": "kc.business_studies.planning.p-g2",
+      "chapterKey": "business_studies.planning",
+      "importance": "good",
+      "order": 30
+    },
+    {
+      "id": "kc.business_studies.staffing.s-b",
+      "chapterKey": "business_studies.staffing",
+      "importance": "must",
+      "order": 10
+    },
+    {
+      "id": "kc.business_studies.planning.p-m2",
+      "chapterKey": "business_studies.planning",
+      "importance": "must",
+      "order": 40
+    },
+    {
+      "id": "kc.business_studies.planning.p-m3",
+      "chapterKey": "business_studies.planning",
+      "importance": "must",
+      "order": 50
+    },
+    {
+      "id": "kc.business_studies.staffing.s-g",
+      "chapterKey": "business_studies.staffing",
+      "importance": "good",
+      "order": 5
+    },
+    {
+      "id": "kc.business_studies.planning.p-g3",
+      "chapterKey": "business_studies.planning",
+      "importance": "good",
+      "order": 60
+    },
+    {
+      "id": "kc.business_studies.planning.p-m4",
+      "chapterKey": "business_studies.planning",
+      "importance": "must",
+      "order": 70
+    },
+    {
+      "id": "kc.business_studies.staffing.s-a",
+      "chapterKey": "business_studies.staffing",
+      "importance": "must",
+      "order": 10
+    },
+    {
+      "id": "kc.business_studies.planning.p-m5",
+      "chapterKey": "business_studies.planning",
+      "importance": "must",
+      "order": 80
+    },
+    {
+      "id": "kc.business_studies.directing.d-g1",
+      "chapterKey": "business_studies.directing",
+      "importance": "good",
+      "order": 10
+    }
+  ],
+  "taste": {
+    "business_studies.planning": [
+      "kc.business_studies.planning.p-m1",
+      "kc.business_studies.planning.p-m2",
+      "kc.business_studies.planning.p-m3",
+      "kc.business_studies.planning.p-m4",
+      "kc.business_studies.planning.p-m5"
+    ],
+    "business_studies.staffing": [
+      "kc.business_studies.staffing.s-a",
+      "kc.business_studies.staffing.s-b",
+      "kc.business_studies.staffing.s-c"
+    ],
+    "business_studies.directing": []
+  }
+}
