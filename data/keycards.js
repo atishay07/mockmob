@@ -54,6 +54,30 @@ export const printedCard = (card) => (TEXT_FIELDS.some((f) => typeof card?.[f] =
   ? { ...card, ...Object.fromEntries(TEXT_FIELDS.filter((f) => typeof card[f] === 'string').map((f) => [f, printQuotes(card[f])])) }
   : card);
 
+/**
+ * The Must-know tier overlay (data/keycards/tiers.json, built by scripts/keycards/tier.mjs). The decks mark about 68% of
+ * their cards "must"; the overlay re-tiers to about a quarter of each chapter without editing a deck (importance is inside
+ * cardHash and the deck's sha256 must match the manifest). True when `tiers` has the shape applyTiers reads.
+ */
+export const validTiers = (tiers) => Boolean(tiers) && typeof tiers === 'object' && tiers.version === 1
+  && Boolean(tiers.must) && typeof tiers.must === 'object' && !Array.isArray(tiers.must)
+  && Object.values(tiers.must).every((ids) => Array.isArray(ids) && ids.every((id) => typeof id === 'string'));
+
+/**
+ * The cards with importance taken from the overlay: in the chapter's list = "must", otherwise "good"; the author's own
+ * value stays as authorImportance. A chapter the overlay does not list keeps its author values (a deck added after the
+ * overlay was built never loses its Must-know tag by accident; the tiers test fails until the overlay is rebuilt).
+ */
+export function applyTiers(cards, tiers) {
+  if (!validTiers(tiers)) return cards;
+  const sets = new Map(Object.entries(tiers.must).map(([key, ids]) => [key, new Set(ids)]));
+  return (cards || []).map((c) => {
+    const set = sets.get(c?.chapterKey);
+    if (!set) return c;
+    return { ...c, importance: set.has(c.id) ? 'must' : 'good', authorImportance: c.importance };
+  });
+}
+
 /** What a locked card shows: its kind and label, never its text. */
 export const lockedStub = (card) => ({ id: card.id, kind: card.kind, label: KIND_LABELS[card.kind] || 'Card', locked: true });
 

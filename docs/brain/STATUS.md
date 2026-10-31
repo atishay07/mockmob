@@ -1,3 +1,14 @@
+## 31 October 2026, about 6:50 pm IST: Key cards fixes from the owner's first live look (LK2, LK5, LK6, LK13)
+
+**Owner, 5:20 pm** (verbatim in mockmob-next docs/brain/OWNER-FEEDBACK-2026-10-31-LEARN.md): Your part "glitches sometimes and shuffles it"; Study is "exactly what we wanted" but needs motion; the print sheet needs "our watermark all over the place"; too many cards say "must know". The wider Learn redesign (LK1, LK3, LK4, LK7-LK12) is being built as a preview for his OK first.
+
+- **LK2, Your part picker** (KeycardsHome.jsx, api.js, optionChoice.js): the tapped part stays selected through the save and the re-read; taps are ignored while in flight (one PUT); the old list dims instead of jumping; only new rows fade in; a failed re-read keeps the page with "Saved. The chapter list did not refresh." and Try again. Proven with a dev-only 1,500 ms delay (&kclag), 390 and 1440, Night and Day.
+- **LK5, Study motion** (KeyCard.jsx, ChapterDeck.jsx, studyMotion.js, keycards.css, shared liftGhost in studyFeel.js): the answer opens in 220 ms with the quote rising 8 px; a badge on the rating key (check, double check, or a grey come-back arrow); the card leaves only after the server accepts the rating (Got it right and up, Easy higher, Missed drops back); the next card rises in 240 ms; reduced motion cross-fades. Frames reviewed at 390 and 1440, Night and Day.
+- **LK6, watermark** (src/components/print/PrintMark.jsx, printSheet.css): the logo B tiled at -28 degrees, 7% black, on every printed page of the Key cards chapter sheet, a lesson's summary and the chapter summary; footer "Printed for <first name> from mockmob.in on <date>." Checked in A4 PDFs page by page.
+- **LK13, Must-know re-tier** (scripts/keycards/tier.mjs, data/keycards/tiers.json applied in loadDecks; decks, manifest and hashes untouched): top quarter of each chapter by question links, card kind and NCERT summary sections, 6 to 40 per chapter: 3,916 (68%) became 1,439 (25%). The app reads it through the same API with no release. Free's 5 taste cards change in 71 of 73 chapters; only one account had used Key cards (10 card states), so no student loses cards.
+- **Checks:** test:keycards 76/76, test:keycards-ui 40/40, test:recovery 637/637, test:study 61/62 (the known WordNet licence check, also failing on main), study_feel and vercel_config 18/18, eslint clean on changed files, `next build --webpack` passes and traces tiers.json into /api/keycards, /deck and /api/me/revise.
+- **Rollback:** delete data/keycards/tiers.json (author marks return, with one [keycards] warning) or revert the merge.
+
 ## 31 October 2026, about 4:50 pm IST: 218 off-syllabus questions pulled; 25 earlier pulls actually frozen
 
 **Owner:** "Pull them all" (the 218 questions the pool audit found outside the CUET 2026 syllabus).

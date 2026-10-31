@@ -34,14 +34,14 @@ const nextConfig = {
     '/*': ['./data/source_registry.json', './data/calibration_manifest.json', './data/question_factory_scope.json'],
     // "Where you stand" and Ask Mobi's context read the DU Round 1 closing marks on the server (src/lib/server/duOfferings.js).
     '/api/mobi/standing': ['./public/du/2026/offerings/*.json'],
-    '/api/ai/mentor/chat': ['./public/du/2026/offerings/*.json', './data/keycards/manifest.json', './data/keycards/decks/*.json'],
+    '/api/ai/mentor/chat': ['./public/du/2026/offerings/*.json', './data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
     // Key cards: the bundled decks, their manifest and the question links (src/lib/server/keycards.js loadDecks).
-    '/api/keycards': ['./data/keycards/manifest.json', './data/keycards/decks/*.json', './data/keycards/links/*.json'],
-    '/api/keycards/*': ['./data/keycards/manifest.json', './data/keycards/decks/*.json', './data/keycards/links/*.json'],
-    '/api/me/chapters': ['./data/keycards/manifest.json', './data/keycards/decks/*.json'],
-    '/api/me/subject-options': ['./data/keycards/manifest.json', './data/keycards/decks/*.json'],
-    '/api/me/revise': ['./data/keycards/manifest.json', './data/keycards/decks/*.json'],
-    '/api/me/review': ['./data/keycards/manifest.json', './data/keycards/decks/*.json'],
+    '/api/keycards': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json', './data/keycards/links/*.json'],
+    '/api/keycards/*': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json', './data/keycards/links/*.json'],
+    '/api/me/chapters': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
+    '/api/me/subject-options': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
+    '/api/me/revise': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
+    '/api/me/review': ['./data/keycards/manifest.json', './data/keycards/tiers.json', './data/keycards/decks/*.json'],
   },
   trailingSlash: false,
   turbopack: {

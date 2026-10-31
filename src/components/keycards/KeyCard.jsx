@@ -13,12 +13,15 @@
 //   KeyCardPlayer   one card to recall: front first, Show answer (space, the key, or a tap anywhere on the card), then
 //                   Missed / Got it / Easy (1, 2, 3).
 //                   The rating counts only once the server has it; until then the key shows it is saving.
+//                   With `feel` (Study), the press puts a small badge on the card's corner at once, and `arrive` marks a card
+//                   that rose in behind a rated one: its rating keys stay shut until the old card has gone (studyMotion.js).
 //   ProGate      the one quiet Pro line with "See Pro" (opens the Upgrade sheet with the keycards reason)
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
-import { LoaderCircle, MoreHorizontal } from 'lucide-react';
+import { Check, CheckCheck, LoaderCircle, MoreHorizontal, RotateCcw } from 'lucide-react';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
 import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, cardFace, entryRows, formulaLines, isNcert, limitKind, markBlanks, ownMarker, plural, sourceLine, splitBlanks, startsMidSentence, stampFor, withLead } from './kinds';
 import { isProRequired, proReason, sendReport, sendReview } from './api';
+import { badgeFor, leaveMs } from './studyMotion';
 
 const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
 
@@ -190,13 +193,23 @@ export function ProGate({ isPro, lead = null, className = '' }) {
   );
 }
 
+function RatedBadge({ rating }) {
+  const kind = badgeFor(rating);
+  const Icon = BADGES[kind];
+  return <span className="kc-badge" data-k={kind} aria-hidden="true"><Icon size={kind === 'again' ? 15 : 16} strokeWidth={kind === 'again' ? 2.4 : 2.8} /></span>;
+}
+
 /**
  * One card to recall. `onRated({ rating, result, cardId })` runs after the server acknowledged the rating; `onLimit()` when Free has
  * used the day's reviews (402; it gets the kind from limitKind: 'reviews', 'new' or 'card'). `mode` is the review mode the server records ('study' | 'revise'). `active` binds the keys.
  */
-export function KeyCardPlayer({ card, mode, position = null, active = true, detail = null, onRated, onLimit }) {
+const BADGES = { check: Check, double: CheckCheck, again: RotateCcw };
+
+export function KeyCardPlayer({ card, mode, position = null, active = true, detail = null, feel = false, arrive = null, onRated, onLimit }) {
   const [revealed, setRevealed] = useState(false);
   const [busy, setBusy] = useState(null);
+  const [pressed, setPressed] = useState(null);
+  const bornAt = useRef(0);
   const [error, setError] = useState(null);
   const [reporting, setReporting] = useState(false);
   const showRef = useRef(null);
@@ -206,9 +219,13 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
   const headId = useId();
 
   const reveal = useCallback(() => setRevealed(true), []);
+  useEffect(() => { bornAt.current = performance.now(); }, []);
   const rate = useCallback(async (rating) => {
     if (busy || !revealed) return;
+    // The card before this one is still leaving: a quick double press must not rate this one too.
+    if (arrive && performance.now() - bornAt.current < leaveMs(arrive)) return;
     setBusy(rating);
+    if (feel) setPressed(rating);
     setError(null);
     // One stamp per card shown, reused when the same rating is retried (the server treats it as the replay key).
     stamp.current = stampFor(stamp.current, card.id);
@@ -221,8 +238,9 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
       if (isProRequired(e)) { onLimit?.(limitKind(proReason(e))); return; }
       setError('That rating was not saved. Try again.');
       setBusy(null);
+      setPressed(null);
     }
-  }, [busy, revealed, card.id, mode, onRated, onLimit]);
+  }, [busy, revealed, arrive, feel, card.id, mode, onRated, onLimit]);
 
   // The rating keys take focus and come into view (a long answer on a phone can push them under the dock).
   useEffect(() => {
@@ -243,7 +261,7 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
         return;
       }
       const r = RATINGS.find((x) => x.key === e.key);
-      if (r && revealed) { e.preventDefault(); rate(r.rating); }
+      if (r && revealed) { e.preventDefault(); if (!e.repeat) rate(r.rating); }
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -253,17 +271,23 @@ export function KeyCardPlayer({ card, mode, position = null, active = true, deta
     <section className="kc-play" aria-labelledby={headId} data-revealed={revealed || undefined}>
       {position ? <p className="kc-pos">{position}</p> : null}
       {/* A tap anywhere on the front shows the answer too (the Show answer key is the named, focusable way). */}
-      <div className="kc-play__card" data-tap={revealed ? undefined : ''} onClick={(e) => { if (!revealed && !reporting && !e.target.closest('button, a, textarea, input, [role="menu"]')) reveal(); }}>
+      <div className="kc-play__card" data-tap={revealed ? undefined : ''} data-arrive={arrive ? '' : undefined} onClick={(e) => { if (!revealed && !reporting && !e.target.closest('button, a, textarea, input, [role="menu"]')) reveal(); }}>
         <CardHead card={card} onReport={() => setReporting(true)} />
         {detail ? <p className="kc-detail">{detail}</p> : null}
         <Prompt card={card} as="h2" className="kc-play__prompt" id={headId} />
         {revealed ? (
-          <div className="kc-play__answer">
-            <NcertText card={card} />
-            <CardSource card={card} />
-            <InShort card={card} />
+          // The answer opens (the region's height, 220 ms) and the book's words rise into it (keycards.css, "Study motion").
+          <div className="kc-play__open">
+            <div className="kc-play__clip">
+              <div className="kc-play__answer">
+                <NcertText card={card} />
+                <CardSource card={card} />
+                <InShort card={card} />
+              </div>
+            </div>
           </div>
         ) : null}
+        {feel && pressed ? <RatedBadge rating={pressed} /> : null}
         {reporting ? <ReportForm card={card} onClose={() => setReporting(false)} /> : null}
       </div>
       {!revealed ? (

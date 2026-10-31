@@ -13,6 +13,7 @@ import {
 } from '../../src/components/keycards/fixtures.js';
 import { filterSource, itemKey, keycardMinutes, kindLine, mergeQueue, mixParts, recordAnswer, startRun, summary } from '../../src/components/revise/reviseQueue.js';
 import { PLACEMENTS, TRIGGERS, benefitLines, inlineCopy, sheetHead } from '../../src/lib/proNudge.mjs';
+import { STUDY_EASE, STUDY_MOTION, badgeFor, leaveKeyframes, leaveMs, leaveOptions } from '../../src/components/keycards/studyMotion.js';
 
 const FORBIDDEN = /mastered|mastery|marks to recover|marks you could recover|!/i;
 const CH1 = 'business_studies.nature-and-significance-of-management';
@@ -232,4 +233,37 @@ test('402 copy differs by reason and obeys the copy rules', () => {
     }
   }
   assert.doesNotMatch(limitCopy('card').title, /reviews are used/);
+});
+
+test('LK5: Study motion leaves calm and quick, and the CSS carries the same numbers', () => {
+  assert.equal(leaveMs(3), 280);
+  assert.equal(leaveMs(4), 280);
+  assert.equal(leaveMs(1), 260);
+  assert.deepEqual([badgeFor(1), badgeFor(3), badgeFor(4)], ['again', 'check', 'double']);
+  assert.match(leaveKeyframes(3).at(-1).transform, /translate3d\(110%, 0, 0\) rotate\(6deg\)/);
+  assert.match(leaveKeyframes(4).at(-1).transform, /translate3d\(90%, -24%, 0\) rotate\(8deg\)/);
+  const missed = leaveKeyframes(1);
+  assert.match(missed[1].transform, /18px/, 'Missed drops back first');
+  assert.match(missed.at(-1).transform, /-40%.*rotate\(-3deg\)/);
+  for (const r of [1, 3, 4]) {
+    assert.equal(leaveKeyframes(r).at(-1).opacity, 0);
+    for (const f of leaveKeyframes(r)) assert.deepEqual(Object.keys(f).filter((k) => !['offset', 'opacity', 'transform', 'easing'].includes(k)), [], 'transform and opacity only');
+    const reduced = leaveKeyframes(r, { reduced: true });
+    assert.ok(reduced.every((f) => !('transform' in f)), 'reduced motion has no travel, turn or scale');
+    assert.equal(leaveOptions(r, { reduced: true }).duration, STUDY_MOTION.reducedHoldMs);
+  }
+  assert.equal(leaveOptions(3).easing, STUDY_EASE);
+  const css = readFileSync(new URL('../../src/components/keycards/keycards.css', import.meta.url), 'utf8');
+  assert.ok(css.includes(`--kc-study-ease: ${STUDY_EASE}`));
+  assert.match(css, /\.kc-play__open \{[^}]*kc-open 220ms/);
+  assert.match(css, /kc-quote 200ms var\(--kc-study-ease\) 40ms/);
+  assert.match(css, /kc-next 240ms var\(--kc-study-ease\) 70ms/);
+  assert.match(css, /kc-badge 140ms/);
+  assert.match(css, /kc-fade 120ms linear 180ms/, 'reduced motion cross-fades over 120 ms after the badge holds');
+  assert.doesNotMatch(css, /transition:\s*all/);
+  const deck = readFileSync(new URL('../../src/components/keycards/ChapterDeck.jsx', import.meta.url), 'utf8');
+  assert.match(deck, /leaving\.current\?\.finish\(\)/, 'a new leave finishes the old one at once');
+  const player = readFileSync(new URL('../../src/components/keycards/KeyCard.jsx', import.meta.url), 'utf8');
+  assert.match(player, /if \(!e\.repeat\) rate\(r\.rating\)/, 'a held key never stacks ratings');
+  assert.match(player, /performance\.now\(\) - bornAt\.current < leaveMs\(arrive\)/, 'the keys stay shut while the old card leaves');
 });

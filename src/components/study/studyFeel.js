@@ -126,9 +126,6 @@ export function softClick() {
 export function flyAway(stage, host, kind, { reduced = false } = {}) {
   if (reduced || !stage || !host) return null;
   try {
-    const here = stage.getBoundingClientRect();
-    const box = host.getBoundingClientRect();
-    if (!here.width || !here.height) return null;
     let keyframes;
     let options;
     if (kind === 'fly') {
@@ -139,6 +136,23 @@ export function flyAway(stage, host, kind, { reduced = false } = {}) {
       keyframes = out.keyframes;
       options = { duration: out.durationMs, easing: 'linear', fill: 'forwards' };
     }
+    return liftGhost(stage, host, keyframes, options)?.ghost ?? null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The ghost itself, shared by Learn's flyAway and Key cards' Study (keycards/studyMotion.js): a visual copy of `stage` laid
+ * over it in `host`, inert, hidden from screen readers, with no ids and no focus stops, that plays `keyframes` and removes
+ * itself when they end. Returns { ghost, animation } (so a caller can finish() it at once when the next one starts), or null.
+ */
+export function liftGhost(stage, host, keyframes, options, { className = 'sx-ghost' } = {}) {
+  if (!stage || !host) return null;
+  try {
+    const here = stage.getBoundingClientRect();
+    const box = host.getBoundingClientRect();
+    if (!here.width || !here.height) return null;
     const ghost = stage.cloneNode(true);
     ghost.removeAttribute('id');
     ghost.querySelectorAll('[id]').forEach((n) => n.removeAttribute('id'));
@@ -147,13 +161,13 @@ export function flyAway(stage, host, kind, { reduced = false } = {}) {
     ghost.setAttribute('aria-hidden', 'true');
     ghost.setAttribute('inert', '');
     ghost.removeAttribute('data-arrive');
-    ghost.classList.add('sx-ghost');
+    ghost.classList.add(className);
     Object.assign(ghost.style, { position: 'absolute', margin: '0', left: `${here.left - box.left}px`, top: `${here.top - box.top}px`, width: `${here.width}px`, pointerEvents: 'none' });
     host.appendChild(ghost);
     const animation = ghost.animate(keyframes, options);
     const done = () => ghost.remove();
     animation.finished.then(done, done);
-    return ghost;
+    return { ghost, animation };
   } catch {
     return null;
   }

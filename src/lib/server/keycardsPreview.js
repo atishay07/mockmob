@@ -16,7 +16,6 @@ import { createKeycards, decksOnce } from './keycards.js';
 import { fakeDb } from './keycardsMemoryDb.js';
 import { loadKeycardsSyllabus } from './keycardsSyllabus.js';
 import { newSchedule, schedule, tasteIds } from '../../../data/keycards.js';
-import { withMustTier } from '../../../data/learn/mustknow.js';
 
 /** True wherever the preview must not answer: a production build or a production deployment. */
 export const previewOff = (env = process.env) => env.NODE_ENV === 'production' || env.VERCEL_ENV === 'production';
@@ -105,8 +104,8 @@ function studentFor({ student, isPro, session }) {
 
 async function makeStudent({ student, isPro }) {
   const who = PREVIEW_STUDENTS[student] || PREVIEW_STUDENTS.commerce;
-  // The Must-know re-tier (B5, data/learn/mustknow.js) over the real decks, so Key cards and Learn mark the same quarter.
-  const decks = withMustTier(decksOnce());
+  // loadDecks already applies the Must-know tiers (data/keycards/tiers.json), so Key cards and Learn mark the same quarter.
+  const decks = decksOnce();
   const syllabus = await loadKeycardsSyllabus();
   const tables = seedTables({ subjects: who.subjects, isPro, fresh: who.fresh, decks, syllabus, now: Date.now() });
   const kc = createKeycards({

@@ -251,7 +251,7 @@ test('E1: Learn shows the re-tiered Must-know (about one card in four)', async (
   const cards = (await call('/api/learn/cards', { query: { chapter: PF, filter: 'all' } })).body;
   assert.deepEqual([cards.counts.total, cards.counts.must], [46, 12]);
   const shelves = (await call('/api/learn/shelves', { query: { subject: 'accountancy' } })).body;
-  assert.deepEqual([shelves.must.count, shelves.must.chapters], [225, 14]);
+  assert.deepEqual([shelves.must.count, shelves.must.chapters], [229, 14]); // data/keycards/tiers.json, as live
   const preview = (await call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey: PF, minutes: 10, leaveOut: [] } })).body;
   assert.match(preview.recap.label, /^Or a quick recap: the 12 Must-know lines, about \d min$/);
   assert.equal(preview.shelf.cards.mustKnow, 12);

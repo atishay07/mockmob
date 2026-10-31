@@ -4,7 +4,7 @@
 //
 // The logic is the pure, tested modules in data/learn/ (compose, suggest, search, stamps), which the production routes will
 // reuse. What this file adds is the preview's data: the real decks (decksOnce with the Must-know re-tier of
-// data/learn/mustknow.js, applied once by keycardsPreview.js, so Key cards and Learn mark the same quarter), real questions from data/fixtures/learn-preview-
+// data/keycards/tiers.json, applied by loadDecks, so Key cards and Learn mark the same quarter), real questions from data/fixtures/learn-preview-
 // questions.json (answer keys never leave this file before an answer), real lessons from the study catalog
 // (data/study/pilot.json), and a believable returning history for the commerce student. Ratings go through the Key cards
 // service (kc.review, the key_card_review memory RPC), so every stamp is the real FSRS next date.
