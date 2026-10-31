@@ -69,3 +69,22 @@ Of course, we might not be able to incorporate Find, Learn, and all those kinds 
 - **LK18:** the Explore feed becomes a standout phone feature. Find moves inside Learn as a search field, and stops being a separate toggle.
 - **LK19:** he judges only live prototypes, so he gets a link he can open on his phone, not static mock-ups.
   - Spec: learn-1031/FEED-2.md on branch web/1031-learn-v2.
+
+
+## 1 Nov 2026, about 1:25 am IST: his look at the live prototype, on the computer (verbatim)
+
+I have opened him right now on the computer only not on the phone but I think they are enough for the feedback.
+
+The first one, the feed: I really like the direction but I don't know if this was made for phone purposes only. On PC there is no way to go on to the next thing. I know you are trying something like a story but it's just stuck on one thing with too much blank space everywhere.
+
+Explore with chapter covers: I really love the things you have built and the direction that you are taking. If you are doing it for accountancy and chapter fields are all showing just the accountancy logos, it doesn't make much sense and can be replaced with something else.
+
+When I went inside and checked in the Learn section, if we go to any specific chapter and then practice it, it is quite good. The customization according to the time adjusts the questions and all. The direction is there but can be refined a lot. That part is missing and overall many things have too much blank space or need a lot of UI refinement. Still I would say.
+
+Right now your task is to build this feature completely and test out everything, including any issues that are there and how everything can be perfected. We have the systems around it. We need to really refine and think about the UI/UX of this entire thing, the entire logic behind it, and making it more useful. All this should be done right now. Then let me know what you need from me or what exactly my next steps are.
+
+**Folded in:**
+- **LK20:** the feed on a computer has no way to the next item ("stuck on one thing") and too much blank space. He likes the direction.
+- **LK21:** he loves the Explore covers' direction, but every Accountancy cover shows the same Accountancy object. Replace it with something chapter-specific.
+- **LK22:** the chapter run in Learn (pick a chapter, pick a time, the mix adjusts) is "quite good". The direction is right but needs a lot of refinement; many screens have too much blank space.
+- **LK23:** build the whole feature completely now: test everything, fix every issue, refine the UI/UX and the logic, make it more useful, using the systems already around it. Then tell him what is needed from him and his next steps.

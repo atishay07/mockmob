@@ -619,3 +619,7 @@ His summary: "Some parts are good and some are very confusing." Study mode is "e
 | ANSWERED | **LK17:** he sees no change in Learn. Nothing is deployed; the local preview was opened in his browser pane. |
 | BUILDING (live phone prototype) | **LK18:** keep the Explore feed and make it "a very cool feature on the mobile app"; Find inside Learn (search). Spec learn-1031/FEED-2.md. |
 | RULE | **LK19:** he comments only on live prototypes he can use, not mock-ups. Give him a link that opens on his phone. |
+| OPEN (1 Nov 1:25 am) | **LK20:** the feed on a computer has no way to the next item ("stuck on one thing") and too much blank space everywhere. He likes the direction. |
+| OPEN (1 Nov 1:25 am) | **LK21:** he loves the Explore covers, but every Accountancy cover shows the same subject object. Make each cover chapter-specific. |
+| OPEN (1 Nov 1:25 am) | **LK22:** the chapter run (chapter, time, adjusted mix) is "quite good"; refine it a lot; too much blank space and UI refinement across Learn. |
+| OPEN (1 Nov 1:25 am) | **LK23:** build the feature completely now, test everything, fix every issue, refine UI/UX and logic, make it more useful with the systems around it; then tell him what is needed from him. |

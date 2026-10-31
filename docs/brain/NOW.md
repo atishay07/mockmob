@@ -1,5 +1,14 @@
 # NOW: MockMob current state
 
+## 1 Nov 2026, about 1:30 am IST: his look at the feed prototype (LK20-LK23); full build under way
+- **His look (on a computer):** likes the feed direction, but on a PC there is no way to the next item and too much blank space (LK20); loves the
+  Explore covers, but every Accountancy cover shows the same object (LK21); the chapter run is "quite good" but needs a lot of refinement (LK22).
+- **His task (LK23):** build the feature completely now, test everything, fix every issue, refine the UI/UX and the logic, make it more useful; then tell
+  him what is needed from him and his next steps.
+- **Running:** workflow learn-map-1101 (logic audit, production wiring plan, Flutter app map) and learn-ui-audit-1101 (desktop and phone captures in
+  wt-1031-learn-v2/tmp/learn-1101/audit, then audits A1-A4, A8 and a critic); reports go to wt-1031-learn-v2/docs/brain/learn-1031/audit-1101/.
+  Then the main session writes the refinement spec, and build, capture, critique and fix rounds follow.
+
 ## 1 Nov 2026, about 12 am IST: nav v2 rejected; building the Explore feed v2 live prototype
 - **Nav v2 rejected:** he says the current structure is cleaner, so it was reverted on web/1031-learn-v2 (60a7071e4, b54885382).
 - **Building:** a phone-first Explore feed per learn-1031/FEED-2.md:
