@@ -9,6 +9,9 @@ import {
   blocksOf, bookName, cardFace, chapterRef, deckOrigin, entryRows, formulaLines, ownMarker, sourceLine, startsMidSentence, withLead,
 } from '../../src/components/keycards/kinds.js';
 
+// The real Accounting Ratios chapter, counted from the bundled deck, so content passes that add or hold back cards do not
+// break the test.
+const RATIOS = JSON.parse(readFileSync(new URL('../keycards/decks/accountancy.json', import.meta.url), 'utf8')).cards.filter((c) => c.chapterKey === 'accountancy.accounting-ratios').length;
 const FORBIDDEN = /mastered|mastery|marks to recover|marks you could recover|!|·/i;
 const ask = (to, query = {}, method = 'GET', body) => new Request(`http://localhost/preview/arena/realdeck?${new URLSearchParams({ _to: to, ...query })}`, { method, body: body ? JSON.stringify(body) : undefined });
 
@@ -43,7 +46,7 @@ test('home: the commerce and science students see their real subjects, chapters 
   const free = (await previewAnswer(ask('/api/keycards', { _plan: 'free', _student: 'commerce', _s: 'test-home' }))).body;
   assert.deepEqual(free.subjects.map((s) => s.subject), ['accountancy', 'business_studies', 'economics', 'english']);
   const ratios = free.subjects[0].units.flatMap((u) => u.chapters).find((c) => c.key === 'accountancy.accounting-ratios');
-  assert.equal(ratios.cards, 165);
+  assert.equal(ratios.cards, RATIOS);
   assert.equal(ratios.unlocked, 5);
   assert.ok(free.today.due > 0 && free.today.reviewsLeft === 10);
   const science = (await previewAnswer(ask('/api/keycards', { _plan: 'pro', _student: 'science', _s: 'test-home' }))).body;
@@ -56,11 +59,11 @@ test('home: the commerce and science students see their real subjects, chapters 
 
 test('deck, revise and the line you needed come from the real decks and links', async () => {
   const deck = (await previewAnswer(ask('/api/keycards/deck', { _plan: 'free', chapter: 'accountancy.accounting-ratios', _s: 'test-deck' }))).body;
-  assert.deepEqual(deck.counts, { total: 165, mustKnow: deck.counts.mustKnow, locked: 160 });
+  assert.deepEqual(deck.counts, { total: RATIOS, mustKnow: deck.counts.mustKnow, locked: RATIOS - 5 });
   const first = 'kc.accountancy.accounting-ratios.fml-current-ratio';
   const led = (await previewAnswer(ask('/api/keycards/deck', { _plan: 'pro', chapter: 'accountancy.accounting-ratios', _first: first, _s: 'test-deck' }))).body;
   assert.equal(led.cards[0].id, first);
-  assert.equal(led.cards.length, 165);
+  assert.equal(led.cards.length, RATIOS);
   const revise = (await previewAnswer(ask('revise', { _plan: 'pro', limit: 20, _s: 'test-revise' }))).body;
   assert.ok(revise.items.length > 0 && revise.items.every((i) => i.kind === 'keycard' && i.card?.id === i.cardId));
   const line = (await previewAnswer(ask('/api/keycards/line', { _plan: 'free', questionId: 'fixture-q2', _s: 'test-line' }))).body;
