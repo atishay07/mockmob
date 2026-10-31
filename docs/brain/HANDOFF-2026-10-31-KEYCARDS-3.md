@@ -8,6 +8,12 @@ everything is done then lmk".
 **State in one line:** the feature is built, reviewed, hardened and walked on a device. The content is larger and
 cleaner. The question pools are audited, with every fix prepared. Nothing is pushed, deployed or written to production.
 
+## UPDATE, about 1:35 pm IST: Key cards ON
+- **Flag:** owner: "Turn it on". KEY_CARDS_ENABLED=true in Vercel Production, redeployed as dpl_7dHWVGYYCxR753iJ8wW6Ppgaoyx4.
+- **Smoke:** the routes answer 401 signed out (they were 404 off), all pages 200, no errors.
+- **Decks:** traced into the function bundles (checked with a local build).
+- **Watch next:** the first signed-in student requests in the runtime logs (`[keycards]` warnings would mean a deck failed to load).
+
 ## UPDATE, about 1:20 pm IST: production steps DONE (owner: "Yes, run them")
 - **Deployed:** main is 5c1d03a37, plus STATUS f3ebd6b9c. Live as dpl_jzeVzYF2yT6F8EwUQxM9EcnPvPau with KEY_CARDS_ENABLED off. **Rollback point:** dpl_5QtNxZUkLvxXBWxJfJLDL6tLxaXE.
 - **Migrations applied after rolled-back production dry runs:**

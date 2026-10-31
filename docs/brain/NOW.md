@@ -1,5 +1,10 @@
 # NOW: MockMob current state
 
+## 31 Oct 2026, about 1:35 pm IST: Key cards ON for students
+- **Flag:** the owner said "Turn it on". KEY_CARDS_ENABLED=true and redeployed (dpl_7dHWVGYYCxR753iJ8wW6Ppgaoyx4).
+- **Smoke:** the routes answer 401 signed out; no errors. The signed-in flow on production is not yet seen by anyone.
+- **Owner next:** decide on the 218 outside-syllabus questions; app version 17 build.
+
 ## 31 Oct 2026, about 1:20 pm IST: Key cards release LIVE with the flag off; syllabus v2 and Key cards migrations applied
 - **Live:** main 5c1d03a37, dpl_jzeVzYF2yT6F8EwUQxM9EcnPvPau.
 - **Database:** syllabus v2 plus its live-rows fix and the Key cards tables are applied; 561 re-tags; 59 flawed questions fixed.
