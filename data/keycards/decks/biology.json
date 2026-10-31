@@ -1,6 +1,6 @@
 {
   "subject": "biology",
-  "version": 1,
+  "version": 2,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -24976,6 +24976,32 @@
       "order": 1980
     },
     {
+      "id": "kc.biology.molecular-basis-of-inheritance.fact-coding-strand-same-as-rna",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.molecular-basis-of-inheritance",
+      "chapter": "Molecular Basis of Inheritance",
+      "unit": "Genetics and Evolution",
+      "blanks": [],
+      "asked": 0,
+      "tags": [],
+      "addedIn": "gap-1031",
+      "kind": "fact",
+      "front": "Which strand of a transcription unit has the same sequence as the RNA (thymine in place of uracil), and what is it called?",
+      "back": "The other strand which has the polarity (5'→3') and the sequence same as RNA (except thymine at the place of uracil), is displaced during transcription. Strangely, this strand (which does not code for anything) is referred to as coding strand.",
+      "quote": "The other strand which has the polarity (5'→3') and the sequence same as RNA (except thymine at the place of uracil), is displaced during transcription. Strangely, this strand (which does not code for anything) is referred to as coding strand.",
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo105",
+        "chapterNo": 5,
+        "page": 92,
+        "section": "5.5.1 Transcription Unit"
+      },
+      "importance": "must",
+      "order": 1990
+    },
+    {
       "id": "kc.biology.organisms-and-populations.list-levels-of-organisation",
       "v": 1,
       "subject": "biology",
@@ -35749,6 +35775,32 @@
       "asked": 0,
       "tags": [],
       "order": 1520
+    },
+    {
+      "id": "kc.biology.sexual-reproduction-in-flowering-plants.fact-free-nuclear-to-cellular",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.sexual-reproduction-in-flowering-plants",
+      "chapter": "Sexual Reproduction in Flowering Plants",
+      "unit": "Reproduction",
+      "blanks": [],
+      "asked": 0,
+      "tags": [],
+      "addedIn": "gap-1031",
+      "kind": "fact",
+      "front": "What happens to the free-nuclear endosperm after the nuclear divisions?",
+      "back": "Subsequently cell wall formation occurs and the endosperm becomes cellular.",
+      "quote": "Subsequently cell wall formation occurs and the endosperm becomes cellular.",
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo101",
+        "chapterNo": 1,
+        "page": 19,
+        "section": "1.4.1 Endosperm"
+      },
+      "importance": "must",
+      "order": 1530
     }
   ]
 }

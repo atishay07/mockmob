@@ -68,6 +68,103 @@
       ]
     },
     {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-management-three-dimensions",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "How many main dimensions does management have (management is multidimensional)?",
+      "back": "Three dimensions\nManagement is a complex activity that has three main dimensions.",
+      "quote": "Management is a complex activity that has three main dimensions.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 6,
+        "section": "Characteristics of Management"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "characteristics"
+      ],
+      "order": 205,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_importanceRight",
+        "review:Bare count 'three' without naming the dimensions; a student cannot use it. Weak, no testable point beyond a number."
+      ]
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-management-continuous-process",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "Management is a continuous process. What does NCERT say about the five functions and who performs them?",
+      "back": "Management is a continuous process\nThe process of management is a series of continuous, composite, but separate functions (planning, organising, directing, staffing and controlling). These functions are simultaneously performed by all managers all the time.",
+      "quote": "The process of management is a series of continuous, composite, but separate functions (planning, organising, directing, staffing and controlling). These functions are simultaneously performed by all managers all the time.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "Characteristics of Management"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "characteristics"
+      ],
+      "order": 215,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front is open-ended ('what does NCERT say'); no single answer. Rework to ask who performs the functions and when."
+      ]
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-integrates-group-efforts",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "Coordination integrates group efforts. What does this mean in NCERT?",
+      "back": "Coordination integrates group efforts\nCoordination unifies unrelated or diverse interests into purposeful work activity. It gives a common focus to group effort to ensure that performance is as it was planned and scheduled.",
+      "quote": "Coordination unifies unrelated or diverse interests into purposeful work activity. It gives a common focus to group effort to ensure that performance is as it was planned and scheduled.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 22,
+        "section": "Characteristics of Coordination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 681,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front 'What does this mean in NCERT?' is open-ended with no single right answer; ask for what coordination unifies."
+      ]
+    },
+    {
       "id": "kc.business_studies.principles-of-management.key-foremanship-eight-specialists",
       "v": 2,
       "subject": "business_studies",
@@ -99,6 +196,72 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Front has dangling 'these qualities' and never names functional foremanship, so it does not stand alone; add the cue."
+      ]
+    },
+    {
+      "id": "kc.business_studies.business-environment.fact-effects-of-environment-changes",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.business-environment",
+      "chapter": "Business Environment",
+      "unit": "Business Environment",
+      "kind": "fact",
+      "front": "What effect can each have on business: higher taxes, technological improvements, political uncertainty, changed consumer tastes?",
+      "back": "Effects of environmental changes on business\nIncrease in taxes by government can make things expensive to buy. Technological improvements may render existing products obsolete. Political uncertainty may create fear in the minds of investors. Changes in fashions and tastes of consumers may shift demand in the market from existing products to new ones.",
+      "quote": "Increase in taxes by government can make things expensive to buy. Technological improvements may render existing products obsolete. Political uncertainty may create fear in the minds of investors. Changes in fashions and tastes of consumers may shift demand in the market from existing products to new ones.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs103",
+        "chapterNo": 3,
+        "page": 71,
+        "section": "Business Environment: Meaning"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "environment"
+      ],
+      "order": 471,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:not_importanceRight",
+        "review:Illustrative examples of environmental change, not a definition or headed list; four-part answer is not one answer."
+      ]
+    },
+    {
+      "id": "kc.business_studies.business-environment.fact-legal-knowledge-prerequisite",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.business-environment",
+      "chapter": "Business Environment",
+      "unit": "Business Environment",
+      "kind": "fact",
+      "front": "What is a pre-requisite for better business performance in the legal environment, and what can non-compliance of laws cause?",
+      "back": "Knowledge of rules; result of non-compliance\nTherefore, an adequate knowledge of rules and regulations framed by the Government is a pre-requisite for better business performance. Non-compliance of laws can land the business enterprise into legal problems.",
+      "quote": "Therefore, an adequate knowledge of rules and regulations framed by the Government is a pre-requisite for better business performance. Non-compliance of laws can land the business enterprise into legal problems.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs103",
+        "chapterNo": 3,
+        "page": 80,
+        "section": "Legal Environment"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "environment"
+      ],
+      "order": 473,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Supporting line, not a definition or headed list; should be good, not must."
       ]
     },
     {
@@ -199,6 +362,38 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Answer \"a control device\" has synonyms (control tool, control measure, controlling technique); not one right fill."
+      ]
+    },
+    {
+      "id": "kc.business_studies.planning.fact-strategy-business-environment",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.planning",
+      "chapter": "Planning",
+      "unit": "Planning",
+      "kind": "fact",
+      "front": "When a strategy is formulated, what must be taken into consideration, and what will affect an organisation's strategy?",
+      "back": "Strategy and the business environment\nWhenever a strategy is formulated, the business environment needs to be taken into consideration. The changes in the economic, political, social, legal and technological environment will affect an organisation's strategy.",
+      "quote": "Whenever a strategy is formulated, the business environment needs to be taken into consideration. The changes in the economic, political, social, legal and technological environment will affect an organisation's strategy.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs104",
+        "chapterNo": 4,
+        "page": 103,
+        "section": "Types of Plans: Strategy"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "strategy"
+      ],
+      "order": 1015,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Mild linking sentence rather than a headed point; should be good, not must."
       ]
     },
     {
@@ -434,6 +629,38 @@
       ]
     },
     {
+      "id": "kc.business_studies.controlling.fact-measure-during-performance",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.controlling",
+      "chapter": "Controlling",
+      "unit": "Controlling",
+      "kind": "fact",
+      "front": "When should actual performance be measured: after the task is completed, or during performance where possible?",
+      "back": "During the performance, wherever possible\nIt is generally believed that measurement should be done after the task is completed. However, wherever possible, measurement of work should be done during the performance.",
+      "quote": "It is generally believed that measurement should be done after the task is completed. However, wherever possible, measurement of work should be done during the performance.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs108",
+        "chapterNo": 8,
+        "page": 206,
+        "section": "Step 2: Measurement of Actual Performance"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "process"
+      ],
+      "order": 606,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Supporting elaboration within the measurement step; should be good, not must."
+      ]
+    },
+    {
       "id": "kc.business_studies.financial-management.kl-div-stabilising",
       "v": 2,
       "subject": "business_studies",
@@ -501,6 +728,70 @@
       ]
     },
     {
+      "id": "kc.business_studies.financial-management.fact-div-contractual-constraints",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.financial-management",
+      "chapter": "Financial Management",
+      "unit": "Financial Management",
+      "kind": "fact",
+      "front": "Dividend decision: what contractual constraint can a lender impose on a company?",
+      "back": "Contractual constraints\nWhile granting loans to a company, sometimes the lender may impose certain restrictions on the payment of dividends in future. The companies are required to ensure that the dividend does not violate the terms of the loan agreement in this regard.",
+      "quote": "While granting loans to a company, sometimes the lender may impose certain restrictions on the payment of dividends in future. The companies are required to ensure that the dividend does not violate the terms of the loan agreement in this regard.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs201",
+        "chapterNo": 9,
+        "page": 223,
+        "section": "Factors Affecting Dividend Decision"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "dividend"
+      ],
+      "order": 1405,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front already names 'contractual constraint' and the back headline repeats it; the real answer (lender restrictions on dividend payment) is not what the headline gives. Reword to ask for the factor name."
+      ]
+    },
+    {
+      "id": "kc.business_studies.financial-management.fact-returns-exceed-cost-of-procurement",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.financial-management",
+      "chapter": "Financial Management",
+      "unit": "Financial Management",
+      "kind": "fact",
+      "front": "In what manner must the finance procured be invested, according to NCERT?",
+      "back": "Returns must exceed the cost of procurement\nSimilarly, the finance so procured needs to be invested in a manner that the returns from the investment exceed the cost at which procurement has taken place.",
+      "quote": "Similarly, the finance so procured needs to be invested in a manner that the returns from the investment exceed the cost at which procurement has taken place.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs201",
+        "chapterNo": 9,
+        "page": 216,
+        "section": "Financial Management: Meaning"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "meaning"
+      ],
+      "order": 1406,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Intro elaboration of financial management; should be good, not must."
+      ]
+    },
+    {
       "id": "kc.business_studies.marketing-management.fact-speciality-products",
       "v": 1,
       "subject": "business_studies",
@@ -530,6 +821,136 @@
       "reasons": [
         "review:not_exact",
         "review:Quote starts mid-sentence on p258 ('which have certain special features...'), but back adds 'Speciality products are those consumer goods' (end of p257) that is not in the quote; back is not derived from quote. Quote must be the whole sentence across 257-258 and the card cited from 257. Definition-t"
+      ]
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-extended-product",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing Management",
+      "kind": "fact",
+      "front": "What does the concept of product include beyond the physical product and its benefits (the extended product)?",
+      "back": "Extended product\nThe concept of product also include the extended product or what is offered to the customers by way of after sales services, handling complaints, availability of spare parts etc.",
+      "quote": "The concept of product also include the extended product or what is offered to the customers by way of after sales services, handling complaints, availability of spare parts etc.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 255,
+        "section": "Marketing Mix: Product"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "marketing-mix"
+      ],
+      "order": 1455,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Front contains the term 'extended product' and the back headline repeats it; ask what the extended product covers or name it from its description."
+      ]
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-warehouse-near-production-site",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing Management",
+      "kind": "fact",
+      "front": "Where are warehouses located for products needing long-term storage, such as agricultural products, and why?",
+      "back": "Near production sites\nFor products requiring long-term storage (such as agricultural products) the warehouses are located near production sites. This helps in minimising the charges on transportation of the goods.",
+      "quote": "For products requiring long-term storage (such as agricultural products) the warehouses are located near production sites. This helps in minimising the charges on transportation of the goods.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 271,
+        "section": "Physical Distribution: Warehousing"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "physical-distribution"
+      ],
+      "order": 1456,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Narrow fact on warehouse location; good, not must."
+      ]
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-intermediaries-activities",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing Management",
+      "kind": "fact",
+      "front": "What do intermediaries do for the firm, in the place element of the marketing mix?",
+      "back": "Activities of intermediaries\nThe intermediaries in turn keep inventory of the firm's products, demonstrate them to potential buyers, negotiate price with buyers, close sales and also service the products after the sale.",
+      "quote": "The intermediaries in turn keep inventory of the firm's products, demonstrate them to potential buyers, negotiate price with buyers, close sales and also service the products after the sale.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 256,
+        "section": "Marketing Mix: Place"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "marketing-mix"
+      ],
+      "order": 1457,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_important",
+        "review:not_unambiguous",
+        "review:not_importanceRight",
+        "review:Open-ended front with a multi-item answer, headline only restates the topic; descriptive filler under the place element."
+      ]
+    },
+    {
+      "id": "kc.business_studies.marketing-management.fact-customer-support-services-meaning",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.marketing-management",
+      "chapter": "Marketing Management",
+      "unit": "Marketing Management",
+      "kind": "fact",
+      "front": "What does the marketing function of customer support services relate to?",
+      "back": "Customer support services\nA very important function of the marketing management relates to developing customer support services such as after sales services, handling customer complaints and adjustments, procuring credit services, maintenance services, technical services and consumer information.",
+      "quote": "A very important function of the marketing management relates to developing customer support services such as after sales services, handling customer complaints and adjustments, procuring credit services, maintenance services, technical services and consumer information.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs202",
+        "chapterNo": 10,
+        "page": 253,
+        "section": "Functions of Marketing"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "functions"
+      ],
+      "order": 1458,
+      "addedIn": "gap-1031",
+      "reasons": [
+        "review:not_unambiguous",
+        "review:Circular front ('customer support services' asked about itself); answer is a list, not one answer. Ask which marketing function covers after-sales, complaints, credit, maintenance."
       ]
     },
     {

@@ -23,7 +23,7 @@
     },
     "biology.biotechnology-and-its-applications": {
       "published": 70,
-      "quarantined": 1,
+      "quarantined": 2,
       "byKind": {
         "definition": 11,
         "list": 3,
@@ -126,7 +126,7 @@
     },
     "biology.human-reproduction": {
       "published": 122,
-      "quarantined": 0,
+      "quarantined": 2,
       "byKind": {
         "list": 9,
         "fact": 55,
@@ -163,7 +163,7 @@
       "belowMinimum": false
     },
     "biology.molecular-basis-of-inheritance": {
-      "published": 190,
+      "published": 191,
       "quarantined": 1,
       "byKind": {
         "definition": 12,
@@ -171,12 +171,12 @@
         "types": 4,
         "key_line": 50,
         "term": 5,
-        "fact": 107,
+        "fact": 108,
         "difference": 2,
         "steps": 2
       },
       "byImportance": {
-        "must": 124,
+        "must": 125,
         "good": 66
       },
       "coverage_note": null,
@@ -244,20 +244,20 @@
       "belowMinimum": false
     },
     "biology.sexual-reproduction-in-flowering-plants": {
-      "published": 148,
+      "published": 149,
       "quarantined": 0,
       "byKind": {
         "term": 21,
         "list": 10,
         "key_line": 16,
-        "fact": 66,
+        "fact": 67,
         "definition": 28,
         "difference": 3,
         "types": 1,
         "steps": 3
       },
       "byImportance": {
-        "must": 112,
+        "must": 113,
         "good": 36
       },
       "coverage_note": null,

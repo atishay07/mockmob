@@ -1,6 +1,6 @@
 {
   "subject": "business_studies",
-  "version": 1,
+  "version": 2,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -1022,6 +1022,62 @@
         "example"
       ],
       "order": 470
+    },
+    {
+      "id": "kc.business_studies.business-environment.ex-inter-relatedness-health-products",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.business-environment",
+      "chapter": "Business Environment",
+      "unit": "Business Environment",
+      "kind": "example",
+      "front": "Higher life expectancy and health awareness raised demand for health products, which changed lifestyles. Which feature of business environment?",
+      "back": "Inter-relatedness\nFor example, increased life expectancy of people and increased awareness for health care have increased the demand for many health products and services like soft drinks, fat-free cooking oil, and health resorts. New health products and services have, in turn, changed people's life styles.",
+      "quote": "For example, increased life expectancy of people and increased awareness for health care have increased the demand for many health products and services like soft drinks, fat-free cooking oil, and health resorts. New health products and services have, in turn, changed people's life styles.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs103",
+        "chapterNo": 3,
+        "page": 71,
+        "section": "Features of Business Environment"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "environment"
+      ],
+      "order": 472,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.business_studies.business-environment.ex-legal-advertising-warnings",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.business-environment",
+      "chapter": "Business Environment",
+      "unit": "Business Environment",
+      "kind": "example",
+      "front": "Alcohol ads prohibited; cigarette packets carry a statutory warning; baby-food ads must say mother's milk is best. Which dimension?",
+      "back": "Legal environment\nFor example, the advertisement of alcoholic beverages is prohibited. Advertisements, including packets of cigarettes carry the statutory warning 'Cigarette smoking is injurious to health'. Similarly, advertisements of baby food must necessarily inform the potential buyer that mothers milk is the best. All these regulations are required to be followed by advertisers.",
+      "quote": "For example, the advertisement of alcoholic beverages is prohibited. Advertisements, including packets of cigarettes carry the statutory warning 'Cigarette smoking is injurious to health'. Similarly, advertisements of baby food must necessarily inform the potential buyer that mothers milk is the best. All these regulations are required to be followed by advertisers.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs103",
+        "chapterNo": 3,
+        "page": 80,
+        "section": "Legal Environment"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "environment"
+      ],
+      "order": 474,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.business_studies.consumer-protection.kl-cpa-replaced-1986",
@@ -2558,6 +2614,90 @@
       "order": 710
     },
     {
+      "id": "kc.business_studies.consumer-protection.fact-business-uses-societys-resources",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "Why does a business owe it to society to supply products in the public interest?",
+      "back": "Business uses society's resources\nBusiness organisations use resources which belong to the society. They, thus, have a responsibility to supply such products and render such services which are in public interest and would not impair public confidence in them.",
+      "quote": "Business organisations use resources which belong to the society. They, thus, have a responsibility to supply such products and render such services which are in public interest and would not impair public confidence in them.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 292,
+        "section": "Importance of Consumer Protection: Business Point of View"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "importance"
+      ],
+      "order": 715,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.fact-state-commission-appeal-route",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "State Commission: what value of goods or services does it cover, and where does an appeal against its order lie?",
+      "back": "Appeal lies to the National Commission within thirty days\nState Commission has a jurisdiction to entertain complaints where value of goods and services paid as consideration that exceeds rupees fifty lakh but does not exceed two crore. If any of the parties are not satisfied by the order of State Commission can appeal against such order to the National Commission within a period of thirty days of such order.",
+      "quote": "State Commission has a jurisdiction to entertain complaints where value of goods and services paid as consideration that exceeds rupees fifty lakh but does not exceed two crore. If any of the parties are not satisfied by the order of State Commission can appeal against such order to the National Commission within a period of thirty days of such order.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 300,
+        "section": "Redressal Agencies: State Commission"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "redressal"
+      ],
+      "order": 716,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.business_studies.consumer-protection.fact-national-commission-appeal-route",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.consumer-protection",
+      "chapter": "Consumer Protection",
+      "unit": "Consumer Protection",
+      "kind": "fact",
+      "front": "National Commission: what value of goods or services does it cover, and where does an appeal against its order lie?",
+      "back": "Appeal lies to the Supreme Court of India within thirty days\nNational Commission has a jurisdiction to entertain complaints where value of goods or services paid as consideration exceeds two crores of rupees. If any of the parties are not satisfied by the order of National Commission can appeal against such order to the Supreme Court of India within a period of thirty days of such order.",
+      "quote": "National Commission has a jurisdiction to entertain complaints where value of goods or services paid as consideration exceeds two crores of rupees. If any of the parties are not satisfied by the order of National Commission can appeal against such order to the Supreme Court of India within a period of thirty days of such order.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 2",
+        "code": "lebs203",
+        "chapterNo": 11,
+        "page": 300,
+        "section": "Redressal Agencies: National Commission"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "redressal"
+      ],
+      "order": 717,
+      "addedIn": "gap-1031"
+    },
+    {
       "id": "kc.business_studies.controlling.def-controlling",
       "v": 1,
       "subject": "business_studies",
@@ -3922,6 +4062,34 @@
         "controlling"
       ],
       "order": 600
+    },
+    {
+      "id": "kc.business_studies.controlling.fact-planning-controlling-both-looking",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.controlling",
+      "chapter": "Controlling",
+      "unit": "Controlling",
+      "kind": "fact",
+      "front": "Are planning and controlling forward-looking or backward-looking functions, according to NCERT?",
+      "back": "Both backward-looking as well as forward-looking\nHowever, it should be understood that planning is guided by past experiences and the corrective action initiated by control function aims to improve future performance. Thus, planning and controlling are both backward-looking as well as a forward-looking function.",
+      "quote": "However, it should be understood that planning is guided by past experiences and the corrective action initiated by control function aims to improve future performance. Thus, planning and controlling are both backward-looking as well as a forward-looking function.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs108",
+        "chapterNo": 8,
+        "page": 205,
+        "section": "Relationship between Planning and Controlling"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "planning-controlling"
+      ],
+      "order": 605,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.business_studies.directing.def-directing-mgmt",
@@ -7010,6 +7178,34 @@
         "directing"
       ],
       "order": 1330
+    },
+    {
+      "id": "kc.business_studies.directing.ex-max-contribution-motivation-plan",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.directing",
+      "chapter": "Directing",
+      "unit": "Directing",
+      "kind": "example",
+      "front": "A good motivation plan with monetary and non-monetary rewards makes an employee give maximum efforts. Which principle of directing is this?",
+      "back": "Maximum individual contribution\nFor example, a good motivation plan with suitable monetary and non-monetary rewards can motivate an employee to contribute his maximum efforts for the organisation as he or she may feel that their efforts will bring them suitable rewards.",
+      "quote": "For example, a good motivation plan with suitable monetary and non-monetary rewards can motivate an employee to contribute his maximum efforts for the organisation as he or she may feel that their efforts will bring them suitable rewards.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs107",
+        "chapterNo": 7,
+        "page": 172,
+        "section": "Principles of Directing"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "principles"
+      ],
+      "order": 1335,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.business_studies.financial-management.def-business-finance",
@@ -14789,6 +14985,34 @@
       "order": 200
     },
     {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-group-activity-different-purposes",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "Management is a group activity. Why does every member join the organisation, and what do they work towards?",
+      "back": "Different purposes for joining, one common goal\nEvery member of the group has a different purpose for joining the organisation but as members of the organisation they work towards fulfilling the common organisational goal. This requires team work and coordination of individual effort in a common direction.",
+      "quote": "Every member of the group has a different purpose for joining the organisation but as members of the organisation they work towards fulfilling the common organisational goal. This requires team work and coordination of individual effort in a common direction.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 8,
+        "section": "Characteristics of Management"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "characteristics"
+      ],
+      "order": 207,
+      "addedIn": "gap-1031"
+    },
+    {
       "id": "kc.business_studies.nature-and-significance-of-management.kl-group-activity",
       "v": 1,
       "subject": "business_studies",
@@ -15908,6 +16132,90 @@
         "coordination"
       ],
       "order": 680
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-unity-of-action",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "Coordination ensures unity of action. What is its purpose?",
+      "back": "Coordination ensures unity of action\nThe purpose of coordination is to secure unity of action in the realisation of a common purpose.",
+      "quote": "The purpose of coordination is to secure unity of action in the realisation of a common purpose.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 22,
+        "section": "Characteristics of Coordination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 682,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-continuous",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "Coordination is a continuous process. When does it begin and till where does it continue?",
+      "back": "Coordination is a continuous process\nCoordination is not a one-time function but a continuous process. It begins at the planning stage and continues till controlling.",
+      "quote": "Coordination is not a one-time function but a continuous process. It begins at the planning stage and continues till controlling.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 22,
+        "section": "Characteristics of Coordination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 683,
+      "addedIn": "gap-1031"
+    },
+    {
+      "id": "kc.business_studies.nature-and-significance-of-management.fact-coordination-all-pervasive",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "chapter": "Nature & Significance of Management",
+      "unit": "Nature and Significance of Management",
+      "kind": "fact",
+      "front": "Coordination is an all pervasive function. Where is it required, and why?",
+      "back": "Coordination is an all pervasive function\nCoordination is required at all levels of management due to the interdependent nature of activities of various departments.",
+      "quote": "Coordination is required at all levels of management due to the interdependent nature of activities of various departments.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs101",
+        "chapterNo": 1,
+        "page": 22,
+        "section": "Characteristics of Coordination"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "coordination"
+      ],
+      "order": 684,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.business_studies.nature-and-significance-of-management.def-management-summary",
@@ -17854,6 +18162,34 @@
         "decentralisation"
       ],
       "order": 870
+    },
+    {
+      "id": "kc.business_studies.organising.fact-reporting-relationships-who-to-obey",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.organising",
+      "chapter": "Organising",
+      "unit": "Organising",
+      "kind": "fact",
+      "front": "Step 4 of organising: once work is allocated, what should each individual also know?",
+      "back": "Establishing authority and reporting relationships\nMerely allocating work is not enough. Each individual should also know who he has to take orders from and to whom he is accountable.",
+      "quote": "Merely allocating work is not enough. Each individual should also know who he has to take orders from and to whom he is accountable.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs105",
+        "chapterNo": 5,
+        "page": 112,
+        "section": "Process of Organising"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "process"
+      ],
+      "order": 875,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.business_studies.planning.def-planning",
@@ -21889,6 +22225,34 @@
         "principles"
       ],
       "order": 1120
+    },
+    {
+      "id": "kc.business_studies.principles-of-management.def-fayol-equity",
+      "v": 1,
+      "subject": "business_studies",
+      "chapterKey": "business_studies.principles-of-management",
+      "chapter": "Principles of Management",
+      "unit": "Principles of Management",
+      "kind": "definition",
+      "front": "What is the principle of equity (Fayol)?",
+      "back": "Good sense and experience are needed to ensure fairness to all employees, who should be treated as fairly as possible,\" according to Fayol. This principle emphasises kindliness and justice in the behaviour of managers towards workers.",
+      "quote": "Good sense and experience are needed to ensure fairness to all employees, who should be treated as fairly as possible,\" according to Fayol. This principle emphasises kindliness and justice in the behaviour of managers towards workers.",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Business Studies Part 1",
+        "code": "lebs102",
+        "chapterNo": 2,
+        "page": 59,
+        "section": "Principles of Management (Fayol)"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "fayol"
+      ],
+      "order": 1125,
+      "addedIn": "gap-1031"
     },
     {
       "id": "kc.business_studies.staffing.def-staffing-putting-people",

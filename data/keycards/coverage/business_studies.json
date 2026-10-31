@@ -2,8 +2,8 @@
   "subject": "business_studies",
   "chapters": {
     "business_studies.business-environment": {
-      "published": 36,
-      "quarantined": 0,
+      "published": 38,
+      "quarantined": 2,
       "byKind": {
         "definition": 6,
         "fact": 3,
@@ -11,59 +11,59 @@
         "key_line": 13,
         "difference": 1,
         "term": 4,
-        "example": 4,
+        "example": 6,
         "types": 1
       },
       "byImportance": {
-        "must": 27,
+        "must": 29,
         "good": 9
       },
       "coverage_note": null,
-      "mustShare": 0.75,
+      "mustShare": 0.76,
       "belowMinimum": false
     },
     "business_studies.consumer-protection": {
-      "published": 55,
+      "published": 58,
       "quarantined": 6,
       "byKind": {
         "key_line": 15,
         "term": 1,
-        "fact": 7,
+        "fact": 10,
         "definition": 22,
         "list": 9,
         "types": 1
       },
       "byImportance": {
-        "must": 41,
+        "must": 44,
         "good": 14
       },
       "coverage_note": null,
-      "mustShare": 0.75,
+      "mustShare": 0.76,
       "belowMinimum": false
     },
     "business_studies.controlling": {
-      "published": 49,
-      "quarantined": 0,
+      "published": 50,
+      "quarantined": 1,
       "byKind": {
         "definition": 6,
         "key_line": 18,
         "list": 6,
-        "fact": 13,
+        "fact": 14,
         "difference": 2,
         "steps": 1,
         "types": 1,
         "example": 2
       },
       "byImportance": {
-        "must": 35,
+        "must": 36,
         "good": 14
       },
       "coverage_note": null,
-      "mustShare": 0.71,
+      "mustShare": 0.72,
       "belowMinimum": false
     },
     "business_studies.directing": {
-      "published": 108,
+      "published": 109,
       "quarantined": 3,
       "byKind": {
         "definition": 28,
@@ -74,19 +74,19 @@
         "steps": 1,
         "fact": 6,
         "types": 6,
-        "example": 5
+        "example": 6
       },
       "byImportance": {
-        "must": 64,
+        "must": 65,
         "good": 44
       },
       "coverage_note": null,
-      "mustShare": 0.59,
+      "mustShare": 0.6,
       "belowMinimum": false
     },
     "business_studies.financial-management": {
       "published": 124,
-      "quarantined": 2,
+      "quarantined": 4,
       "byKind": {
         "definition": 23,
         "types": 3,
@@ -108,7 +108,7 @@
     },
     "business_studies.marketing-management": {
       "published": 133,
-      "quarantined": 1,
+      "quarantined": 5,
       "byKind": {
         "definition": 55,
         "fact": 22,
@@ -128,28 +128,28 @@
       "belowMinimum": false
     },
     "business_studies.nature-and-significance-of-management": {
-      "published": 61,
-      "quarantined": 2,
+      "published": 65,
+      "quarantined": 5,
       "byKind": {
         "definition": 25,
         "key_line": 8,
         "list": 9,
         "example": 6,
-        "fact": 7,
+        "fact": 11,
         "types": 3,
         "steps": 2,
         "term": 1
       },
       "byImportance": {
-        "must": 39,
+        "must": 43,
         "good": 22
       },
       "coverage_note": null,
-      "mustShare": 0.64,
+      "mustShare": 0.66,
       "belowMinimum": false
     },
     "business_studies.organising": {
-      "published": 65,
+      "published": 66,
       "quarantined": 3,
       "byKind": {
         "definition": 22,
@@ -157,12 +157,12 @@
         "term": 2,
         "list": 14,
         "key_line": 8,
-        "fact": 7,
+        "fact": 8,
         "types": 1,
         "difference": 10
       },
       "byImportance": {
-        "must": 57,
+        "must": 58,
         "good": 8
       },
       "coverage_note": null,
@@ -171,7 +171,7 @@
     },
     "business_studies.planning": {
       "published": 48,
-      "quarantined": 3,
+      "quarantined": 4,
       "byKind": {
         "definition": 17,
         "term": 1,
@@ -193,10 +193,10 @@
       "belowMinimum": false
     },
     "business_studies.principles-of-management": {
-      "published": 94,
+      "published": 95,
       "quarantined": 1,
       "byKind": {
-        "definition": 23,
+        "definition": 24,
         "key_line": 23,
         "difference": 12,
         "fact": 21,
@@ -204,11 +204,11 @@
         "types": 2
       },
       "byImportance": {
-        "must": 69,
+        "must": 70,
         "good": 25
       },
       "coverage_note": null,
-      "mustShare": 0.73,
+      "mustShare": 0.74,
       "belowMinimum": false
     },
     "business_studies.staffing": {

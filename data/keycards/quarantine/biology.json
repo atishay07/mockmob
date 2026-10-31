@@ -2,6 +2,66 @@
   "subject": "biology",
   "cards": [
     {
+      "id": "kc.biology.human-reproduction.fact-sperms-per-ejaculate",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.human-reproduction",
+      "chapter": "Human Reproduction",
+      "unit": "Reproduction",
+      "blanks": [],
+      "asked": 0,
+      "tags": [],
+      "addedIn": "gap-1031",
+      "kind": "fact",
+      "front": "How many sperms does the human male ejaculate during a coitus, and what must a normal fraction show?",
+      "back": "The human male ejaculates about 200 to 300 million sperms during a coitus of which, for normal fertility, at least 60 per cent sperms must have normal shape and size and at least 40 per cent of them must show vigorous motility.",
+      "quote": "The human male ejaculates about 200 to 300 million sperms during a coitus of which, for normal fertility, at least 60 per cent sperms must have normal shape and size and at least 40 per cent of them must show vigorous motility.",
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo102",
+        "chapterNo": 2,
+        "page": 32,
+        "section": "2.3 Gametogenesis"
+      },
+      "importance": "must",
+      "order": 1240,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Two-part numeric fact; testable but narrow, should be good, not must."
+      ]
+    },
+    {
+      "id": "kc.biology.human-reproduction.fact-one-ovum-per-cycle",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.human-reproduction",
+      "chapter": "Human Reproduction",
+      "unit": "Reproduction",
+      "blanks": [],
+      "asked": 0,
+      "tags": [],
+      "addedIn": "gap-1031",
+      "kind": "fact",
+      "front": "How many ova are released during ovulation in each menstrual cycle?",
+      "back": "During ovulation only one ovum is released per menstrual cycle.",
+      "quote": "During ovulation only one ovum is released per menstrual cycle.",
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo102",
+        "chapterNo": 2,
+        "page": 39,
+        "section": "Summary"
+      },
+      "importance": "must",
+      "order": 1250,
+      "reasons": [
+        "review:not_importanceRight",
+        "review:Single trivial fact; should be good, not must."
+      ]
+    },
+    {
       "id": "kc.biology.reproductive-health.fact-nirodh-brand",
       "v": 1,
       "subject": "biology",
@@ -362,6 +422,37 @@
       "reasons": [
         "review:not_unambiguous",
         "review:Blank 'new varieties' has obvious synonyms (improved varieties, new plants, new plant varieties); no single fill"
+      ]
+    },
+    {
+      "id": "kc.biology.biotechnology-and-its-applications.list-biotech-applications",
+      "v": 1,
+      "subject": "biology",
+      "chapterKey": "biology.biotechnology-and-its-applications",
+      "chapter": "Biotechnology & its Applications",
+      "unit": "Biotechnology and its Applications",
+      "blanks": [],
+      "asked": 0,
+      "tags": [],
+      "addedIn": "gap-1031",
+      "kind": "list",
+      "front": "Name the applications of biotechnology listed by NCERT.",
+      "back": "therapeutics\ndiagnostics\ngenetically modified crops for agriculture\nprocessed food\nbioremediation\nwaste treatment\nenergy production",
+      "quote": "The applications of biotechnology include therapeutics, diagnostics, genetically modified crops for agriculture, processed food, bioremediation, waste treatment, and energy production.",
+      "source": {
+        "kind": "ncert",
+        "book": "Biology",
+        "code": "lebo110",
+        "chapterNo": 10,
+        "page": 177,
+        "section": "Biotechnology and its Applications (introduction)"
+      },
+      "importance": "must",
+      "order": 800,
+      "reasons": [
+        "review:not_important",
+        "review:not_importanceRight",
+        "review:Generic chapter-opening list of application areas; CUET lists specific applications (agriculture, medicine), not this overview. Also not headed text."
       ]
     },
     {
