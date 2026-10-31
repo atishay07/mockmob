@@ -98,11 +98,13 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   // The remembered subject (per device) when the link names none; the link's own subject always wins. The first read waits for it, so a
   // student who last chose Economics never sees the first subject flash by.
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- the remembered subject is read once after mount (no storage on the server)
     if (subjectProp) setSubject(subjectProp);
     else if (!booted) { const saved = read(STORE_SUBJECT); if (saved) setSubject(saved); }
     setBooted(true);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [subjectProp]);
+  // eslint-disable-next-line react-hooks/set-state-in-effect -- a new link (Chapters or Find) resets the switch
   useEffect(() => { setView(initialView === 'find' ? 'find' : 'chapters'); }, [initialView]);
 
   const body = useLearnRead(() => (booted ? learnSubject(subject) : Promise.resolve(null)), [subject, booted]);

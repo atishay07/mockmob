@@ -356,10 +356,10 @@ export default function RunPlayer(props) {
   return client ? createPortal(<Player {...props} />, document.body) : null;
 }
 
-function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [] }) {
+function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds = null }) {
   useBodyLock();
   const links = useLearnLinks();
-  const [params, setParams] = useState(() => ({ chapterKey, minutes, kind, leaveOut, cardIds: null }));
+  const [params, setParams] = useState(() => ({ chapterKey, minutes, kind, leaveOut, cardIds: cardIds?.length ? cardIds : null }));
   const [load, setLoad] = useState({ status: 'loading', error: null });
   const [run, setRun] = useState(null);
   const [items, setItems] = useState([]);

@@ -84,6 +84,7 @@ function OptionGroup({ units, choice, links, enter, offset, instant }) {
   useEffect(() => {
     if (sig === shownSig) {
       // Back to what is drawn (a failed save, or a refresh that changed nothing): fade it back in.
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- a timed cross-fade between two drawn states, not derived state
       if (stage === 'out') setStage('in');
       return undefined;
     }
@@ -112,14 +113,10 @@ function OptionGroup({ units, choice, links, enter, offset, instant }) {
     return () => window.clearTimeout(timer);
   }, [stage, shownSig]);
 
-  let at = offset;
+  const starts = shown.reduce((list, unit, i) => [...list, i ? list[i - 1] + shown[i - 1].chapters.length : offset], []);
   return (
     <div className="lh-optgroup" ref={box} data-stage={stage} aria-hidden={stage === 'out' || undefined}>
-      {shown.map((unit) => {
-        const el = <Unit key={`${unit.optionId}:${unit.title}`} unit={unit} links={links} enter={enter} offset={at} />;
-        at += unit.chapters.length;
-        return el;
-      })}
+      {shown.map((unit, i) => <Unit key={`${unit.optionId}:${unit.title}`} unit={unit} links={links} enter={enter} offset={starts[i]} />)}
     </div>
   );
 }
@@ -243,6 +240,7 @@ export default function ChapterMap({ parts, subjectId, links, refresh }) {
   }, [local, subjectId, refresh]);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- drops a held choice once the server's body agrees with it
     setLocal((l) => {
       const n = { ...l };
       let changed = false;
