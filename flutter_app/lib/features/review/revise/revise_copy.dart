@@ -72,6 +72,11 @@ abstract final class ReviseCopy {
   /// The website's `revise.run.head`: "8 due today, about 7 minutes."
   static String runHead(int n, int m) => '$n due today, about ${m == 1 ? '1 minute' : '$m minutes'}.';
 
+  /// The same head when this run holds part of what is due (Key cards come 20 at a time): "20 of 30 due today,
+  /// about 5 minutes." The minutes are this run's.
+  static String runHeadOf(int n, int whole, int m) =>
+      whole > n ? '$n of $whole due today, about ${m == 1 ? '1 minute' : '$m minutes'}.' : runHead(n, m);
+
   /// The website's `revise.run.mix`: the parts that exist, in play order.
   static String mixBack(int n) => n == 1 ? '1 question back' : '$n questions back';
   static String mixChecks(int n) => '$n Check it held';

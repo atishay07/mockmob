@@ -5,6 +5,7 @@ import '../../../core/models/question.dart';
 import '../../../core/theme/theme.dart';
 import '../../../core/widgets/widgets.dart';
 import '../../insights/ask_mobi.dart' show AskMobiLink, askMobiAboutLabel;
+import '../../keycards/widgets/line_you_needed.dart' show LineYouNeeded;
 import '../copy.dart';
 import '../result_copy.dart';
 import '../model/practice_result_model.dart';
@@ -138,14 +139,23 @@ class ResultQuestionRow extends StatelessWidget {
         if (expanded)
           Padding(
             padding: const EdgeInsets.fromLTRB(MmSpace.s4, MmSpace.s4, MmSpace.s4, MmSpace.s20),
-            child: _Body(
-              item: item,
-              keyView: keyView,
-              blankMode: blankMode,
-              tried: tried,
-              onTry: onTry,
-              onShowAnswer: onShowAnswer,
-              onTryPick: onTryPick,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                _Body(
+                  item: item,
+                  keyView: keyView,
+                  blankMode: blankMode,
+                  tried: tried,
+                  onTry: onTry,
+                  onShowAnswer: onShowAnswer,
+                  onTryPick: onTryPick,
+                ),
+                // "The line you needed" (KEYCARDS-BUILD-SPEC 4), as under a mock's wrong answer: only where the key
+                // shows, and nothing at all (no space) while Key cards are off or there is no line.
+                if (item.verdict == Verdict.wrong && keyView.state == KeyState.ready && item.question != null)
+                  LineYouNeeded(questionId: item.qid),
+              ],
             ),
           ),
         // The mistake's one action, then (once) the quiet Ask Mobi line under it. Nothing else here asks.

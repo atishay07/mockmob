@@ -239,6 +239,7 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
         onNext: _next,
         onCap: _setCap,
         keyCards: keyCards,
+        kcDueToday: keyCardsRead?.value.today.due ?? 0,
         kcRevealed: _kcRevealed,
         kcSending: _kcSending,
         kcError: _kcError,
@@ -253,6 +254,7 @@ class _ReviseScreenState extends ConsumerState<ReviseScreen> {
       // can be: from the server, or as this phone kept them. They play on their own; ratings wait in the outbox.
       body = _KeyCardsOnly(
         cards: keyCards,
+        dueToday: keyCardsRead?.value.today.due ?? 0,
         keptAt: keyCardsRead?.savedAt,
         offline: read?.error is ApiError && (read!.error! as ApiError).isOffline,
         bottomPadding: pad.bottom + MmSpace.s32,
@@ -330,6 +332,7 @@ class _Run extends StatelessWidget {
     required this.onNext,
     required this.onCap,
     this.keyCards = const [],
+    this.kcDueToday = 0,
     this.kcRevealed = false,
     this.kcSending,
     this.kcError,
@@ -342,6 +345,9 @@ class _Run extends StatelessWidget {
 
   /// The Key cards due now, played after the questions and the checks with the same card UI as Study.
   final List<KeyCard> keyCards;
+
+  /// Every Key card due today (the run holds at most 20 of them).
+  final int kcDueToday;
   final bool kcRevealed;
   final int? kcSending;
   final String? kcError;
@@ -531,7 +537,11 @@ class _Run extends StatelessWidget {
                   header: true,
                   child: Text(
                     // A server that merges Key cards counts their minutes too; the phone adds the ones it plays.
-                    ReviseCopy.runHead((queue?.total ?? 0) + kcTotal, (queue?.minutesWithoutKeyCards ?? 0) + kcMinutes),
+                    ReviseCopy.runHeadOf(
+                      (queue?.total ?? 0) + kcTotal,
+                      (queue?.total ?? 0) + (kcCapped || kcDueToday < kcTotal ? kcTotal : kcDueToday),
+                      (queue?.minutesWithoutKeyCards ?? 0) + kcMinutes,
+                    ),
                     style: type.title,
                   ),
                 ),
@@ -628,6 +638,7 @@ class _Run extends StatelessWidget {
 class _KeyCardsOnly extends StatelessWidget {
   const _KeyCardsOnly({
     required this.cards,
+    this.dueToday = 0,
     required this.keptAt,
     required this.offline,
     required this.bottomPadding,
@@ -635,6 +646,9 @@ class _KeyCardsOnly extends StatelessWidget {
   });
 
   final List<KeyCard> cards;
+
+  /// Every Key card due today (the run holds at most 20 of them).
+  final int dueToday;
 
   /// When this phone kept them, if the server could not be reached.
   final DateTime? keptAt;
@@ -658,7 +672,7 @@ class _KeyCardsOnly extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Semantics(header: true, child: Text(ReviseCopy.runHead(n, KeyCardRules.minutesFor(n)), style: type.title)),
+              Semantics(header: true, child: Text(ReviseCopy.runHeadOf(n, dueToday, KeyCardRules.minutesFor(n)), style: type.title)),
               const SizedBox(height: MmSpace.s4),
               Text(
                 [KeyCardsCopy.mixKeyCards(n), ?asOf].join('. '),
