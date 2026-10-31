@@ -2,8 +2,12 @@
 // The card itself, shared by Read, Study, Last look, Revise and "The line you needed" (KEYCARDS-BUILD-SPEC.md section 3).
 //   CardHead     the kind label ("Definition"), "Must-know" when it is, "Asked in 2 past papers" when certain, and a small
 //                overflow menu with "Report this card"
-//   Prompt       the front; blanks drawn as short ruled gaps, never as underscores
-//   NcertText    the back: NCERT's exact words in the reading face, the blanked words marked by weight and a fine rule
+//   Prompt       the front; blanks drawn as short ruled gaps, never as underscores; a front that repeats the kind ("Formula:
+//                Current ratio" under "Formula") drops the repeat (kinds.js cardFace)
+//   NcertText    the back: NCERT's exact words in the reading face, the blanked words marked by weight and a fine rule.
+//                Set as the book sets them: a list keeps NCERT's own numbers instead of adding bullets, a formula breaks before
+//                its "=", a journal entry is drawn as one (Dr. lines, To lines set in, the narration below), and any other
+//                line break in the book's words is kept.
 //   CardSource   "Business Studies Part 1, Ch 1, p. 3"
 //   InShort      the optional paraphrase, labelled, in the app's own face so it never passes for the book
 //   KeyCardPlayer   one card to recall: front first, Show answer (space, the key, or a tap anywhere on the card), then
@@ -13,13 +17,13 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { LoaderCircle, MoreHorizontal } from 'lucide-react';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
-import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, kindLabel, markBlanks, plural, sourceLine, splitBlanks, startsMidSentence, withLead } from './kinds';
+import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, cardFace, entryRows, formulaLines, isNcert, markBlanks, ownMarker, plural, sourceLine, splitBlanks, startsMidSentence, withLead } from './kinds';
 import { isProRequired, sendReport, sendReview } from './api';
 
 const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
 
 export function Prompt({ card, as: Tag = 'p', className = 'kc-prompt', id }) {
-  const parts = splitBlanks(card?.front);
+  const parts = splitBlanks(cardFace(card).front);
   return (
     <Tag className={className} id={id}>
       {parts.map((p, i) => (p.blank
@@ -29,26 +33,66 @@ export function Prompt({ card, as: Tag = 'p', className = 'kc-prompt', id }) {
   );
 }
 
+// A list whose lines carry NCERT's own numbers or letters draws those, and no bullets at all (a lead-in line stays bare).
+function ListLine({ line, first, card, bare }) {
+  const own = ownMarker(line);
+  if (own) return <li data-own=""><span className="kc-lm">{own[0]}</span><span>{own[1]}</span></li>;
+  return <li data-bare={bare || undefined}>{first ? withLead(line, card) : line}</li>;
+}
+
+function EntryText({ rows, className }) {
+  return (
+    <div className={`${className} kc-ncert--entry`} role="group" aria-label="Journal entry">
+      {rows.map((r, i) => (
+        <p key={i} className="kc-je" data-k={r.kind}>
+          <span className="kc-je__text">{r.text}</span>
+          {r.kind === 'dr' ? <span className="kc-je__dr">Dr.</span> : null}
+          {r.amount ? <span className="kc-je__amt">{r.amount}</span> : null}
+        </p>
+      ))}
+    </div>
+  );
+}
+
 export function NcertText({ card, className = '' }) {
   const lines = LIST_KINDS.includes(card?.kind) ? backLines(card.back) : [];
   const cls = `kc-ncert ${className}`.trim();
   if (lines.length > 1) {
     const Tag = card.kind === 'steps' ? 'ol' : 'ul';
-    return <Tag className={`${cls} kc-ncert--list`}>{lines.map((l, i) => <li key={i}>{i === 0 ? withLead(l) : l}</li>)}</Tag>;
+    const bare = lines.some((l) => ownMarker(l));
+    return <Tag className={`${cls} kc-ncert--list`}>{lines.map((l, i) => <ListLine key={i} line={l} first={i === 0} card={card} bare={bare} />)}</Tag>;
   }
   if (card?.kind === 'formula') {
-    const [first, ...rest] = backLines(card.back);
+    const [first, ...rest] = formulaLines(card.back);
     return (
       <div className={`${cls} kc-ncert--formula`}>
-        <p className="kc-formula">{withLead(first)}</p>
-        {rest.map((l, i) => <p key={i}>{l}</p>)}
+        {first?.rhs ? <p className="kc-formula"><span>{withLead(first.lhs, card)}</span> <span className="kc-formula__rhs">{first.rhs}</span></p>
+          : <p className="kc-formula">{withLead(first?.text || '', card)}</p>}
+        {rest.map((l, i) => <p key={i}>{l.text}</p>)}
       </div>
     );
   }
+  const rows = card?.kind === 'entry' ? entryRows(card.back) : null;
+  if (rows) return <EntryText rows={rows} className={cls} />;
   const marked = BLANK_KINDS.includes(card?.kind) ? markBlanks(card.back, card.blanks) : [{ text: card?.back || '' }];
-  // A back that starts mid-sentence is an NCERT excerpt: shown with a leading ellipsis, the stored text untouched.
-  const lead = startsMidSentence(card?.back) ? '…' : null;
-  return <p className={cls}>{lead}{marked.map((p, i) => (p.mark ? <mark key={i} className="kc-mark">{p.mark}</mark> : <span key={i}>{p.text}</span>))}</p>;
+  // A line break in the book's words starts a new paragraph (a fact's short answer above the NCERT line it comes from, a
+  // rule's Wrong and Right). A paragraph that starts mid-sentence is an NCERT excerpt: shown with a leading ellipsis, the
+  // stored text untouched.
+  const paras = paragraphsOf(marked);
+  const draw = (parts) => parts.map((p, i) => (p.mark ? <mark key={i} className="kc-mark">{p.mark}</mark> : <span key={i}>{p.text}</span>));
+  const lead = (parts) => (parts[0]?.text && startsMidSentence(parts[0].text, card) ? '…' : null);
+  if (paras.length < 2) return <p className={cls}>{lead(paras[0] || [])}{draw(paras[0] || [])}</p>;
+  return <div className={`${cls} kc-ncert--paras`}>{paras.map((parts, i) => <p key={i}>{lead(parts)}{draw(parts)}</p>)}</div>;
+}
+
+/** Marked parts split into paragraphs at the back's line breaks, each paragraph's first text trimmed. */
+function paragraphsOf(parts) {
+  const out = [[]];
+  for (const p of parts) {
+    if (p.mark) { out[out.length - 1].push(p); continue; }
+    String(p.text).split(/\n+/).forEach((t, i) => { if (i > 0) out.push([]); if (t) out[out.length - 1].push({ text: out[out.length - 1].length ? t : t.trimStart() }); });
+  }
+  return out.filter((ps) => ps.some((x) => String(x.mark || x.text).trim()));
 }
 
 export function CardSource({ card }) {
@@ -58,6 +102,8 @@ export function CardSource({ card }) {
 
 export function InShort({ card }) {
   if (!card?.note) return null;
+  // The English deck's notes name themselves ("Synonym: clear. Antonym: obscure.", "Example: ..."); "In short" would mislabel them.
+  if (!isNcert(card)) return <p className="kc-short">{card.note}</p>;
   return <p className="kc-short"><b>In short</b> {card.note}</p>;
 }
 
@@ -119,7 +165,7 @@ export function ReportForm({ card, onClose }) {
 }
 
 export function CardHead({ card, onReport, menu = [], children = null }) {
-  const label = kindLabel(card);
+  const { label } = cardFace(card);
   return (
     <div className="kc-head">
       <span className="kc-head__tags">

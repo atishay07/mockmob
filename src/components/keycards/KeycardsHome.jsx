@@ -5,7 +5,8 @@
 //   Subjects  the student's subjects (a row of tabs); for Mathematics, Computer Science and Accountancy the one-tap option picker
 //   Units     CUET units in order, each chapter in NCERT order: title, "Business Studies Part 1, Ch 1", the chip, the state in
 //             words with a shape beside it (never colour alone), "27 cards, 6 due", and for Free "5 of 27 open" under it.
-//             A subject whose units each hold one chapter is one plain list (blocksOf); otherwise each unit is headed.
+//             A subject whose units each hold one chapter is one plain list (blocksOf); otherwise each unit is a group,
+//             headed only when the heading is not the one chapter's own name again.
 //   Free      one quiet Pro line (InlineNudge, placement keycards), dismissable, never a modal on entry
 import { useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
@@ -15,7 +16,7 @@ import { SubjectObject } from '@/components/brand/SubjectObject';
 import { InlineNudge } from '@/components/pro';
 import { ErrorState } from '@/components/ui/Skeleton';
 import { refreshHome, saveOption, useKeycardsHome } from './api';
-import { chapterRef, chapterRefSpoken, countsLine, plural, stateCue } from './kinds';
+import { blocksOf, chapterRef, chapterRefSpoken, countsLine, plural, stateCue } from './kinds';
 import { useCardsLinks } from './links';
 import { ncertFont } from './ncertFont';
 import './keycards.css';
@@ -41,9 +42,10 @@ export function StateGlyph({ state }) {
   );
 }
 
-function ChapterRow({ ch, isPro, href, index }) {
+function ChapterRow({ ch, isPro, href, index, heading = null }) {
   const cue = stateCue(ch.state);
-  const ref = chapterRef(ch.ncert);
+  // Under a unit heading that is the book's own name, the row says just "Ch 7"; the spoken label keeps the whole reference.
+  const ref = chapterRef(ch.ncert, { title: ch.title, unit: heading });
   const counts = countsLine(ch, isPro);
   const unit = ch.unit && String(ch.unit).trim().toLowerCase() !== String(ch.title).trim().toLowerCase() ? `CUET unit: ${ch.unit}` : null;
   const spoken = [ch.title, chapterRefSpoken(ch.ncert), unit, ch.chip, cue.label, counts.line, counts.open].filter(Boolean).join('. ');
@@ -65,24 +67,15 @@ function ChapterRow({ ch, isPro, href, index }) {
   );
 }
 
-/**
- * The subject's units as blocks [{ unit | null, chapters }]. When every unit holds one chapter (Business Studies, Economics)
- * the units are one plain list in CUET order, so no name is printed twice and no lone heading floats; otherwise every unit
- * is a headed group (Accountancy: "Accounting for Partnership Firms" with its chapters), so the grouping is never ambiguous.
- */
-function blocksOf(units = []) {
-  const live = units.filter((u) => (u.chapters || []).length);
-  if (live.every((u) => u.chapters.length === 1)) return live.length ? [{ unit: null, chapters: live.map((u) => ({ ...u.chapters[0], unit: u.unit })) }] : [];
-  return live.map((u) => ({ unit: u.unit, chapters: u.chapters }));
-}
-
 function OptionPicker({ subject }) {
   const opts = subject.options;
   const [pending, setPending] = useState(null);
   const [failed, setFailed] = useState(false);
   if (!opts?.choices?.length) return null;
-  const current = subject.option || opts.default;
+  // Nothing saved yet: no choice is shown as made, since every part's chapters are listed until one is chosen.
+  const current = pending || subject.option || null;
   const word = String(opts.label || 'option').toLowerCase();
+  const all = opts.choices.length === 2 ? `both ${word}s` : `every ${word}`;
   async function choose(id) {
     if (id === current || pending) return;
     setPending(id);
@@ -95,12 +88,13 @@ function OptionPicker({ subject }) {
       <p className="kc-opt__label" id={labelId}>{`Your ${word} in ${subject.title}`}</p>
       <div className="kc-opt__row" role="radiogroup" aria-labelledby={labelId}>
         {opts.choices.map((c) => (
-          <button key={c.id} type="button" role="radio" aria-checked={(pending || current) === c.id} aria-busy={pending === c.id || undefined} className="kc-opt__btn" onClick={() => choose(c.id)}>{c.label}</button>
+          <button key={c.id} type="button" role="radio" aria-checked={current === c.id} aria-busy={pending === c.id || undefined} className="kc-opt__btn" onClick={() => choose(c.id)}>{c.label}</button>
         ))}
       </div>
       {pending ? <p className="kc-fine" role="status">Saving your choice</p>
         : failed ? <p className="kc-err" role="alert">Your choice was not saved. Try again.</p>
-          : <p className="kc-fine">Only that {word}’s chapters show here and in your practice. You can change it at any time.</p>}
+          : subject.option ? <p className="kc-fine">Only that {word}’s chapters show here and in your practice. You can change it at any time.</p>
+            : <p className="kc-fine">Choose your {word} and only its chapters show here and in your practice. Until then, {all} show.</p>}
     </div>
   );
 }
@@ -127,10 +121,29 @@ export default function KeycardsHome() {
   const subjects = useMemo(() => data?.subjects || [], [data]);
   const subject = subjects.find((s) => s.subject === chosen) || subjects[0] || null;
   const blocks = useMemo(() => blocksOf(subject?.units), [subject]);
+  // A subject with no NCERT book behind any chapter (English) says where its cards come from, once, above its chapters.
+  const bookless = blocks.length > 0 && blocks.every((b) => b.chapters.every((c) => !c.ncert));
   const pick = (id) => {
     setChosen(id);
     try { const u = new URL(window.location.href); u.searchParams.set('subject', id); window.history.replaceState(window.history.state, '', u); } catch { /* the URL keeps the old subject */ }
   };
+  // Four subjects overflow a phone's row: the chosen one (English, from ?subject= or the back link) is scrolled into the row's
+  // view, sideways only, so the student always sees which subject the chapters below belong to.
+  const current = subject?.subject || null;
+  useEffect(() => {
+    if (!current) return;
+    const tab = document.getElementById(`kc-sub-${current}`);
+    const row = tab?.parentElement;
+    if (!tab || !row || row.scrollWidth <= row.clientWidth) return;
+    const left = tab.offsetLeft - row.offsetLeft;
+    const right = left + tab.offsetWidth;
+    if (left >= row.scrollLeft && right <= row.scrollLeft + row.clientWidth) return;
+    let still = false;
+    try { still = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch { /* moves smoothly */ }
+    // To a snap position of the row (a tab's start, or the last tab's end), so the row's snapping keeps it there.
+    const to = left < row.scrollLeft ? left - 4 : right - row.clientWidth + 4;
+    row.scrollTo({ left: Math.max(0, to), behavior: still ? 'auto' : 'smooth' });
+  }, [current, read.state]);
   const frame = (body) => <div className={`kc kc--home ${ncertFont.variable}`}><Head />{body}</div>;
 
   if (read.state === 'loading') {
@@ -191,12 +204,13 @@ export default function KeycardsHome() {
             </div>
           ) : null}
           {subject ? <OptionPicker key={`opt-${subject.subject}`} subject={subject} /> : null}
+          {bookless ? <p className="kc-fine">{subject.title} cards are written for MockMob, not taken from an NCERT book.</p> : null}
           <div id="kc-units" role={subjects.length > 1 ? 'tabpanel' : undefined} aria-labelledby={subjects.length > 1 ? `kc-sub-${subject?.subject}` : undefined} className="kc-units" key={subject?.subject}>
             {blocks.length ? blocks.map((b, bi) => (
-              <section key={b.unit || `plain-${bi}`} className="kc-unit" data-headed={b.unit ? '' : undefined} aria-label={b.unit || `${subject.title} chapters`}>
+              <section key={b.label || `plain-${bi}`} className="kc-unit" data-headed={b.unit ? '' : undefined} data-group={b.group ? '' : undefined} aria-label={b.label || `${subject.title} chapters`}>
                 {b.unit ? <h2 className="kc-unit__h">{b.unit}</h2> : null}
                 <ul className="kc-rows">
-                  {b.chapters.map((ch, i) => <ChapterRow key={ch.key} ch={ch} index={bi * 2 + i} isPro={isPro} href={links.deck(ch.key)} />)}
+                  {b.chapters.map((ch, i) => <ChapterRow key={ch.key} ch={ch} index={bi * 2 + i} isPro={isPro} href={links.deck(ch.key)} heading={b.unit} />)}
                 </ul>
               </section>
             )) : <p className="kc-empty-line">No chapters with cards in {subject?.title} yet.</p>}
