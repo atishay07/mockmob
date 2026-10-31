@@ -1,3 +1,62 @@
+## 31 October 2026, about 1:20 pm IST: Key cards release DEPLOYED with the flag off (main 5c1d03a37, then this STATUS commit); syllabus v2 and Key cards migrations applied; 561 re-tags; 59 flawed questions fixed
+
+**Owner's go-ahead (31 Oct):** "Yes, run them".
+
+- **Deploy:**
+  - `git push origin HEAD:main` 0b7d6bc03..5c1d03a37 (fast-forward; main had not moved).
+  - Vercel dpl_jzeVzYF2yT6F8EwUQxM9EcnPvPau READY, aliased to www.mockmob.in and mockmob.in.
+  - **Rollback point for the code:** dpl_5QtNxZUkLvxXBWxJfJLDL6tLxaXE (0b7d6bc03).
+- **Smoke (no sign-in):**
+  - Pages: /, /pricing, /login, /signup, /cuet, /cuet/accountancy, /privacy, /help, /cards and /learn all 200.
+  - /api/keycards, /api/keycards/deck and /api/me/chapters: 404 KEY_CARDS_OFF.
+  - /api/me/revise and /api/me/review: 401 signed out.
+  - /preview/arena/realdeck: 404.
+  - get_runtime_errors: none in the 40 minutes after READY.
+- **Production dry runs, each in one transaction ended by a raised error, so everything rolled back:**
+  - syllabus v2: 567 questions retired, 59 renamed, 191 live chapters, none without a unit.
+  - key_cards: key_card_review() on a real user answered ok, then replay, then conflict, with 2 allowances claimed.
+  - After each rollback, no column, table or flag was left behind.
+- **Applied with the Supabase MCP (recorded in schema_migrations), in order:**
+  1. syllabus_v2 (20261031130000).
+  2. syllabus_v2_fix_live_rows (20261031150000). Eight live chapters got no row in step 1, because their generated id was held by the old-named row (for example business_studies__financial_management = "Business Finance"). This adds them; there are now 199 live chapters, all with units.
+  3. key_cards (20261031140000).
+- **Re-tags through public.apply_syllabus_retag:**
+  - data/syllabus/retag-2026-10-31.json: 85 of 85 moved. 80 moved at first; 5 moved after step 2.
+  - data/syllabus/retag-live-2026-10-31.json: 476 of 476 moved.
+- **Pools after (live, in syllabus):**
+
+  | Subject | Before | After |
+  |---|---|---|
+  | Biology | 451 | 369 |
+  | Chemistry | 466 | 395 |
+  | Computer Science | 387 | 347 |
+  | Political Science | 281 | 252 |
+  | Business Studies | 422 | 417 |
+  | Economics | 466 | 454 |
+  | History | 273 | 259 |
+  | Geography | 223 | 214 |
+  | Physics | 383 | 373 |
+  | Psychology | 161 | 145 |
+
+  Accountancy, English, Mathematics, Sociology and GAT are unchanged.
+  - **Not yet in a live chapter:** 16 in Computer Science "Data Structures" and 2 in Geography "Resources & Development" wait for a split re-tag. 15 in Computer Science "Communication Technologies" are resolved by code aliases.
+- **Flawed questions:** 59 fixed, from docs/brain/intel-1031/answer-keys-2026-10-31.
+  - 3 keys corrected, 31 reworded (the key kept), 25 set to pending.
+  - Every guard was checked before applying, and every batch was checked after.
+  - The learning_evidence_change trigger invalidates learning episodes built on a changed question. This is intended.
+- **Flag:** KEY_CARDS_ENABLED is unset (off). **To turn it on:** set KEY_CARDS_ENABLED=true in Vercel Production and redeploy, after the owner has seen the screens.
+- **Undo, in order:**
+  1. Keep the flag off.
+  2. Run each answer-keys batch's undo.sql.
+  3. Run docs/brain/intel-1031/retag-live-2026-10-31.undo.sql.
+  4. Run supabase/undo/20261031140000_key_cards.undo.sql.
+  5. Run supabase/undo/20261031130000_syllabus_v2.undo.sql. It also reverses the 85 re-tags and removes the fix rows.
+  6. For the code, promote dpl_5QtNxZUkLvxXBWxJfJLDL6tLxaXE.
+- **Open:**
+  - The inventory recounts in full at the next cron (logic version 4).
+  - The 218 outside-syllabus questions wait for the owner (docs/brain/intel-1031/POOL-AUDIT-2026-10-31.md).
+  - The syllabus v2 SQL generator should not skip a live chapter whose id is held by another name. The fix migration covers production.
+
 ## 20 October 2026, 9:25 pm IST: website release 15 DEPLOYED (main 2c71cb810, then this STATUS commit); 7 migrations applied on production; MOB_FORMATS_ENABLED=true
 - **Migrations applied on production (isrxrxzjocewrdureyhp) with the Supabase MCP, in order:** 20261020150000_attempts_lean_fn, 20261020150100_attempt_question_ids_fn, 20261020150200_referral_any_practice, 20261020152000_mob_den_fix, 20261020160100_inventory_content_digest_fn, 20261020160000_usage_consent_d183, 20261020151000_mob_hours (recorded under their names in schema_migrations). Undo files: supabase/undo/<same name>.undo.sql. Staging dry runs were NOT done (staging is off-limits while the egress quota is fragile, D177/D178); each file was applied twice and undone twice on PGlite against the real migration chain in its tests.
 - **Pre/post checks:** mob_members 1 -> 1 (sharing 0), usage_consent 4 rows -> 4 (4 on), checks usage_consent_adult_only -> usage_consent_minor_off, all 9 functions present after.
