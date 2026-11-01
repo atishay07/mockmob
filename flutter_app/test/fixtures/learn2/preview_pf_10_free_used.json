@@ -1,0 +1,100 @@
+{
+  "chapter": {
+    "key": "accountancy.partnership-fundamentals",
+    "title": "Accounting for Partnership: Basic Concepts",
+    "ref": "Ch 1",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": null,
+    "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+    }
+  },
+  "minutes": 10,
+  "realMinutes": 1,
+  "startLabel": "Start 1 minute",
+  "piles": [
+    {
+      "id": "cards",
+      "count": 5,
+      "minutes": 1,
+      "label": "Key cards",
+      "minutesLabel": "about 1 min",
+      "left": false,
+      "held": null
+    },
+    {
+      "id": "questions",
+      "count": 0,
+      "minutes": 0,
+      "label": "Questions",
+      "minutesLabel": "Left out",
+      "left": true,
+      "held": "free"
+    },
+    {
+      "id": "mistakes",
+      "count": 0,
+      "minutes": 0,
+      "label": "Your mistakes",
+      "minutesLabel": "Left out",
+      "left": true,
+      "held": "free"
+    }
+  ],
+  "leaveOut": [
+    "questions",
+    "mistakes"
+  ],
+  "coach": "Tap a pile to leave it out.",
+  "note": "Ratings join Revise. Questions are free.",
+  "recap": {
+    "count": 5,
+    "minutes": 1,
+    "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+  },
+  "shrink": {
+    "minutes": 1,
+    "reason": "pool",
+    "text": "This chapter has about 1 minute of new things today.",
+    "addNext": {
+      "key": "accountancy.profit-and-loss-appropriation-account",
+      "title": "Profit and Loss Appropriation Account",
+      "label": "Add the next chapter, Profit and Loss Appropriation Account",
+      "ref": "Ch 1"
+    }
+  },
+  "free": {
+    "text": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+  },
+  "resume": null,
+  "firstVisit": false,
+  "asked": 10,
+  "capped": null,
+  "freeSession": {
+    "used": true,
+    "maxMinutes": 10,
+    "line": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like."
+  },
+  "added": null,
+  "shelf": {
+    "cards": {
+      "count": 46,
+      "open": 5,
+      "mustKnow": 12,
+      "inRevise": 5
+    },
+    "questions": {
+      "linked": 10,
+      "total": 10
+    },
+    "mistakes": {
+      "open": 3
+    },
+    "lesson": null,
+    "print": {
+      "mustKnow": 12,
+      "locked": true
+    }
+  }
+}

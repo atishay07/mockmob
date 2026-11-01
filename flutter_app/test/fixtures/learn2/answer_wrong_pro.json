@@ -1,0 +1,88 @@
+{
+  "correct": false,
+  "key": "B",
+  "choice": "A",
+  "explanation": "Existing goodwill is considered an accumulated profit/loss of the old partnership and is therefore written off by debiting the old partners' capital accounts in their old profit-sharing ratio.",
+  "fixed": false,
+  "fixedText": null,
+  "retired": false,
+  "line": {
+    "card": {
+      "id": "kc.accountancy.admission-of-partner.kl-exists-written-off-old-ratio",
+      "v": 1,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapter": "Admission of Partner",
+      "unit": "Reconstitution of a Partnership firm",
+      "kind": "key_line",
+      "front": "Goodwill appearing in the books will be ____ by debiting old partners' capital accounts in their ____.",
+      "back": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
+      "quote": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
+      "blanks": [
+        "written-off",
+        "old profit sharing ratio"
+      ],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy : Partnership Accounts",
+        "code": "leac102",
+        "chapterNo": 2,
+        "page": 70,
+        "section": "When goodwill exists in the books"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "goodwill"
+      ],
+      "order": 720,
+      "authorImportance": "must"
+    },
+    "source": "linked",
+    "collapsed": false
+  },
+  "reinsert": {
+    "itemId": "lr_af9a41e08178605d8825acbd-r1",
+    "at": 15,
+    "item": {
+      "id": "lr_af9a41e08178605d8825acbd-r1",
+      "type": "card",
+      "stage": "again",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-exists-written-off-old-ratio",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Goodwill appearing in the books will be ____ by debiting old partners' capital accounts in their ____.",
+        "back": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
+        "quote": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
+        "blanks": [
+          "written-off",
+          "old profit sharing ratio"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 70,
+          "section": "When goodwill exists in the books"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 720,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12,
+      "reason": "line"
+    }
+  }
+}

@@ -14,6 +14,8 @@ import 'core/sync/sync_providers.dart' show syncCoordinatorProvider;
 import 'features/keycards/data/keycards_api.dart' show HttpKeyCardsApi;
 import 'features/keycards/data/keycards_providers.dart' show keyCardReviewsProvider, keyCardsApiProvider;
 import 'features/keycards/data/keycards_reviews.dart' show OutboxKeyCardReviews;
+import 'features/learn2/data/learn_api.dart' show HttpLearnApi;
+import 'features/learn2/data/learn_providers.dart' show learnApiProvider, learnRequestKeysProvider;
 import 'features/practice/data/practice_catalog.dart' show practiceSubjectProvider, practiceSubjectsProvider, subjectChoices;
 import 'features/practice/data/start_entries.dart' show practiceQuickNtaProvider;
 import 'features/review/data/review_providers.dart' show openRepairsProvider, quickRepairFromReviewProvider;
@@ -29,8 +31,10 @@ import 'features/today/logic/today_model.dart' show GoTo, ResumeHero;
 /// journal; the app and the device demo both use this one list, so they cannot drift apart.
 ///
 /// Key cards (KEYCARDS-BUILD-SPEC 4) read the real routes and send every rating through the outbox; the
-/// device demo passes [keyCards] false and wires its fixture deck instead.
-List<Override> liveAppOverrides({bool keyCards = true}) => [
+/// device demo passes [keyCards] false and wires its fixture deck instead. Learn v2 (APP-1101) reads the real
+/// `/api/learn` routes; the device demo passes [learn] false and wires the web preview's engine instead.
+List<Override> liveAppOverrides({bool keyCards = true, bool learn = true}) => [
+  if (learn) learnApiProvider.overrideWith((ref) => HttpLearnApi(ref.watch(apiClientProvider), keys: ref.watch(learnRequestKeysProvider))),
   if (keyCards) ...[
     keyCardsApiProvider.overrideWith((ref) => HttpKeyCardsApi(ref.watch(apiClientProvider))),
     keyCardReviewsProvider.overrideWith((ref) {

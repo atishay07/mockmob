@@ -1,0 +1,383 @@
+{
+  "id": "lr_aa19581b98132d65737b96f0",
+  "kind": "mix",
+  "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "number": 2
+  },
+  "minutes": 8,
+  "asked": 8,
+  "items": [
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i7",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.fact-accumulated-profits-distributed",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "On admission of a new partner, how are the firm’s accumulated profits distributed?",
+        "back": "The new partner is not entitled to have any share in such accumulated profits. These are distributed among the partners by transferring it to their capital current accounts in old profit sharing ratio.",
+        "quote": "The new partner is not entitled to have any share in such accumulated profits. These are distributed among the partners by transferring it to their capital current accounts in old profit sharing ratio.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 76,
+          "section": "2.6 Adjustment for Accumulated Profits and Losses"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "reserves"
+        ],
+        "order": 850,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i8",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-premium-ratio-of-sacrifice",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "The amount of premium brought in by the new partner is shared by the existing partners in their ____.",
+        "back": "The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice.",
+        "quote": "The amount of premium brought in by the new partner is shared by the existing partners in their ratio of sacrifice.",
+        "blanks": [
+          "ratio of sacrifice"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 64,
+          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "sacrificing ratio"
+        ],
+        "order": 580,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i9",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
+        "back": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
+        "quote": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
+        "blanks": [
+          "no entry"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 64,
+          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 590,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i10",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-premium-received",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Journal entry: new partner brings premium for goodwill in cash through the firm (first entry).",
+        "back": "Bank A/c Dr.\nTo Premium for Goodwill A/c\n(Amount brought by new partner as premium)",
+        "quote": "Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 64,
+          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 600,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i11",
+      "type": "question",
+      "origin": "linked",
+      "question": {
+        "id": "2ca403e13da61d66ebcb9dc2870cf3df",
+        "body": "At the admission of T, X and Y are the existing partners, sharing profits in the ratio 3:2. The agreed profit-sharing ratio after T’s admission is X:Y:T = 4:3:3. The firm has an untransferred reserve of ₹24,000, a general reserve of ₹18,000 and a credit balance of ₹33,000 in the Profit and Loss Account. All three balances are accumulated profits from before T’s admission. What amounts should be allocated to X, Y and T, respectively, from these accumulated profits?",
+        "options": [
+          {
+            "key": "A",
+            "text": "₹25,200, ₹16,800 and Nil"
+          },
+          {
+            "key": "B",
+            "text": "₹30,000, ₹22,500 and ₹22,500"
+          },
+          {
+            "key": "C",
+            "text": "₹45,000, ₹30,000 and Nil"
+          },
+          {
+            "key": "D",
+            "text": "₹37,500, ₹37,500 and Nil"
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 85
+    },
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i12",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.def-sacrificing-ratio",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "What is the sacrificing ratio?",
+        "back": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
+        "quote": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 52,
+          "section": "2.4 Sacrificing Ratio"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "sacrificing ratio"
+        ],
+        "order": 160,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i13",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.fact-retained-no-additional-entry",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "Goodwill premium credited to old partners is retained in business: what additional entry is passed?",
+        "back": "If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed.",
+        "quote": "If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 65,
+          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 620,
+        "authorImportance": "good"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i14",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-existing-goodwill-written-off",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Goodwill, if existing in the books of the firm, it is ____ at the time of admission of a partner.",
+        "back": "Goodwill, if existing in the books of the firm, it is written off at the time of admission of a partner.",
+        "quote": "Goodwill, if existing in the books of the firm, it is written off at the time of admission of a partner.",
+        "blanks": [
+          "written off"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 68,
+          "section": "When goodwill already exists in books"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 650,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i15",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-exists-written-off-old-ratio",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Goodwill appearing in the books will be ____ by debiting old partners' capital accounts in their ____.",
+        "back": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
+        "quote": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
+        "blanks": [
+          "written-off",
+          "old profit sharing ratio"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 70,
+          "section": "When goodwill exists in the books"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 720,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_aa19581b98132d65737b96f0-i16",
+      "type": "question",
+      "origin": "linked",
+      "question": {
+        "id": "10d99687-8714-4145-8afa-8f8d336a5000",
+        "body": "When a new partner is admitted and the existing partners give up part of their share in favour of the newcomer, the ratio in which the existing partners surrender their shares is called:",
+        "options": [
+          {
+            "key": "A",
+            "text": "Sacrifice ratio"
+          },
+          {
+            "key": "B",
+            "text": "Gaining ratio"
+          },
+          {
+            "key": "C",
+            "text": "Profit sharing ratio"
+          },
+          {
+            "key": "D",
+            "text": "Capital ratio"
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 50
+    }
+  ],
+  "revisePile": {
+    "count": 0
+  },
+  "resumed": {
+    "done": 6,
+    "of": 16
+  },
+  "added": null,
+  "looks": null,
+  "free": null,
+  "capped": null,
+  "shrink": null
+}

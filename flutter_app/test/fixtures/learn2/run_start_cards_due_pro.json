@@ -1,0 +1,132 @@
+{
+  "id": "lr_f8e3868b1d51759f264e01ee",
+  "kind": "cards",
+  "chapter": {
+    "key": "accountancy.profit-and-loss-appropriation-account",
+    "title": "Profit and Loss Appropriation Account",
+    "ref": "Ch 1",
+    "partTitle": "Part 1, Partnership Accounts",
+    "number": 1
+  },
+  "minutes": 1,
+  "asked": 1,
+  "items": [
+    {
+      "id": "lr_f8e3868b1d51759f264e01ee-i1",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.profit-and-loss-appropriation-account.def-pl-appropriation-meaning",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+        "chapter": "Profit & Loss Appropriation Account",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is the Profit and Loss Appropriation Account?",
+        "back": "Profit and Loss Appropriation Account is merely an extension of the Profit and Loss Account of the firm.",
+        "quote": "Profit and Loss Appropriation Account is merely an extension of the Profit and Loss Account of the firm.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 8,
+          "section": "1.5.1 Profit and Loss Appropriation Account"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "p&l appropriation"
+        ],
+        "order": 550,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_f8e3868b1d51759f264e01ee-i2",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-adjustments",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+        "chapter": "Profit & Loss Appropriation Account",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "Which adjustments are made through the Profit and Loss Appropriation Account?",
+        "back": "All adjustments in respect of partner’s salary, partner’s commission, interest on capital, interest on drawings, etc. are made through this account.",
+        "quote": "All adjustments in respect of partner’s salary, partner’s commission, interest on capital, interest on drawings, etc. are made through this account.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 8,
+          "section": "1.5.1 Profit and Loss Appropriation Account"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "p&l appropriation"
+        ],
+        "order": 570,
+        "authorImportance": "good"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_f8e3868b1d51759f264e01ee-i3",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-starts-with",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+        "chapter": "Profit & Loss Appropriation Account",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "The Profit and Loss Appropriation Account starts with which figure?",
+        "back": "It starts with the net profit/net loss as per Profit and Loss Account.",
+        "quote": "It starts with the net profit/net loss as per Profit and Loss Account.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 8,
+          "section": "1.5.1 Profit and Loss Appropriation Account"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "p&l appropriation"
+        ],
+        "order": 580,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    }
+  ],
+  "revisePile": {
+    "count": 0
+  },
+  "resumed": null,
+  "added": null,
+  "looks": null,
+  "free": null,
+  "capped": null,
+  "shrink": null
+}

@@ -1,0 +1,213 @@
+{
+  "id": "lr_5d687873bf0b34c00231219a",
+  "kind": "mix",
+  "chapter": {
+    "key": "accountancy.partnership-fundamentals",
+    "title": "Accounting for Partnership: Basic Concepts",
+    "ref": "Ch 1",
+    "partTitle": "Part 1, Partnership Accounts",
+    "number": 1
+  },
+  "minutes": 1,
+  "asked": 10,
+  "items": [
+    {
+      "id": "lr_5d687873bf0b34c00231219a-i1",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is partnership?",
+        "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+        "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 1,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership"
+        ],
+        "order": 10,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_5d687873bf0b34c00231219a-i2",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is a Partnership Deed?",
+        "back": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
+        "quote": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 3,
+          "section": "1.2 Partnership Deed"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership deed"
+        ],
+        "order": 170,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_5d687873bf0b34c00231219a-i3",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "Define partnership.",
+        "back": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
+        "quote": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 48,
+          "section": "Introduction"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership"
+        ],
+        "order": 10,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_5d687873bf0b34c00231219a-i4",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.kl-act-no-writing",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "key_line",
+        "front": "The Partnership Act does not require that the agreement must be in ____.",
+        "back": "The Partnership Act does not require that the agreement must be in writing.",
+        "quote": "The Partnership Act does not require that the agreement must be in writing.",
+        "blanks": [
+          "writing"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 3,
+          "section": "1.2 Partnership Deed"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership deed"
+        ],
+        "order": 190,
+        "authorImportance": "good"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_5d687873bf0b34c00231219a-i5",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.kl-deed-alter",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "key_line",
+        "front": "The clauses of partnership deed can be altered with the ____ of all the partners.",
+        "back": "The clauses of partnership deed can be altered with the consent of all the partners.",
+        "quote": "The clauses of partnership deed can be altered with the consent of all the partners.",
+        "blanks": [
+          "consent"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 3,
+          "section": "1.2 Partnership Deed"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership deed"
+        ],
+        "order": 210,
+        "authorImportance": "good"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    }
+  ],
+  "revisePile": {
+    "count": 0
+  },
+  "resumed": null,
+  "added": null,
+  "looks": null,
+  "free": {
+    "text": "Your free Learn session today is used, so this one is Key cards only. Questions come back tomorrow."
+  },
+  "capped": null,
+  "shrink": {
+    "reason": "pool",
+    "text": "This chapter has about 1 minute of new things today."
+  }
+}

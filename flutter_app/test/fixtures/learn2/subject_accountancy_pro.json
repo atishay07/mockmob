@@ -1,0 +1,442 @@
+{
+  "plan": "pro",
+  "student": {
+    "isNew": false
+  },
+  "subjects": [
+    {
+      "id": "accountancy",
+      "name": "Accountancy"
+    },
+    {
+      "id": "business_studies",
+      "name": "Business Studies"
+    },
+    {
+      "id": "economics",
+      "name": "Economics"
+    },
+    {
+      "id": "english",
+      "name": "English"
+    }
+  ],
+  "subject": {
+    "id": "accountancy",
+    "name": "Accountancy",
+    "cards": 868,
+    "chapters": 15,
+    "lessons": 4,
+    "note": null
+  },
+  "freeNote": null,
+  "free": null,
+  "suggestions": [
+    {
+      "kind": "pickup",
+      "chapterKey": "accountancy.admission-of-partner",
+      "title": "Pick up Admission of a Partner",
+      "headline": "Pick up",
+      "chapterTitle": "Admission of a Partner",
+      "evidence": "You stopped at 6 of 16. About 5 minutes left.",
+      "action": {
+        "label": "Pick up, 5 minutes",
+        "run": {
+          "chapterKey": "accountancy.admission-of-partner",
+          "minutes": 5,
+          "leaveOut": [],
+          "kind": "mix",
+          "resume": "lr_aa19581b98132d65737b96f0"
+        }
+      }
+    },
+    {
+      "kind": "due",
+      "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+      "title": "3 cards due in Profit and Loss Appropriation Account",
+      "headline": "3 cards due",
+      "chapterTitle": "Profit and Loss Appropriation Account",
+      "evidence": "Due today, about 1 minute.",
+      "action": {
+        "label": "Revise these",
+        "run": {
+          "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+          "minutes": 1,
+          "leaveOut": [
+            "questions",
+            "mistakes",
+            "lesson"
+          ],
+          "kind": "cards",
+          "cardIds": [
+            "kc.accountancy.profit-and-loss-appropriation-account.def-pl-appropriation-meaning",
+            "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-adjustments",
+            "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-starts-with"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "fix",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "title": "3 open mistakes in Accounting for Partnership: Basic Concepts",
+      "headline": "3 open mistakes",
+      "chapterTitle": "Accounting for Partnership: Basic Concepts",
+      "evidence": "From Mock 3 on 16 Oct.",
+      "action": {
+        "label": "Fix them, about 3 minutes",
+        "run": {
+          "chapterKey": "accountancy.partnership-fundamentals",
+          "minutes": 3,
+          "leaveOut": [
+            "questions",
+            "cards",
+            "lesson"
+          ],
+          "kind": "mix"
+        }
+      }
+    }
+  ],
+  "parts": [
+    {
+      "id": "p1",
+      "title": "Part 1, Partnership Accounts",
+      "option": null,
+      "units": [
+        {
+          "title": "Accounting for Partnership",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "accountancy.partnership-fundamentals",
+              "title": "Accounting for Partnership: Basic Concepts",
+              "ref": "Ch 1",
+              "cards": 46,
+              "mustKnow": 12,
+              "due": 3,
+              "mistakes": 3,
+              "questions": 10,
+              "lesson": null,
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": "3 due, 3 open mistakes",
+              "marksOpen": null
+            },
+            {
+              "key": "accountancy.profit-and-loss-appropriation-account",
+              "title": "Profit and Loss Appropriation Account",
+              "ref": "Ch 1",
+              "cards": 42,
+              "mustKnow": 11,
+              "due": 3,
+              "mistakes": 0,
+              "questions": 1,
+              "lesson": null,
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": "3 due",
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Reconstitution of a Partnership firm",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "accountancy.change-in-profit-sharing-ratio",
+              "title": "Change in Profit Sharing Ratio",
+              "ref": "Ch 2",
+              "cards": 8,
+              "mustKnow": 6,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 7,
+              "lesson": {
+                "id": "accountancy-sacrificing-gaining",
+                "title": "Sacrificing and gaining ratios",
+                "minutes": 7,
+                "read": false
+              },
+              "state": {
+                "key": "needs_work",
+                "label": "Needs work"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null
+            },
+            {
+              "key": "accountancy.goodwill-valuation",
+              "title": "Goodwill: Nature and Valuation",
+              "ref": "Ch 2",
+              "cards": 39,
+              "mustKnow": 10,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "holding",
+                "label": "Holding"
+              },
+              "meta": null,
+              "marksOpen": null
+            },
+            {
+              "key": "accountancy.admission-of-partner",
+              "title": "Admission of a Partner",
+              "ref": "Ch 2",
+              "cards": 53,
+              "mustKnow": 14,
+              "due": 0,
+              "mistakes": 2,
+              "questions": 10,
+              "lesson": {
+                "id": "accountancy-revaluation",
+                "title": "Revaluation of assets and liabilities",
+                "minutes": 7,
+                "read": false
+              },
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": "6 of 16 done today, 2 open mistakes",
+              "marksOpen": null
+            },
+            {
+              "key": "accountancy.retirement-and-death-of-partner",
+              "title": "Retirement and Death of a Partner",
+              "ref": "Ch 3",
+              "cards": 65,
+              "mustKnow": 17,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": null,
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Dissolution of Partnership Firm",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "accountancy.dissolution-of-partnership-firm",
+              "title": "Dissolution of Partnership Firm",
+              "ref": "Ch 4",
+              "cards": 59,
+              "mustKnow": 15,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "title": "Part 2, Company Accounts and Analysis of Financial Statements",
+      "option": {
+        "label": "Your part",
+        "choices": [
+          {
+            "id": "AFS",
+            "label": "Analysis of Financial Statements"
+          },
+          {
+            "id": "CAS",
+            "label": "Computerised Accounting"
+          }
+        ],
+        "chosen": null,
+        "hint": "Both parts show until you choose."
+      },
+      "units": [
+        {
+          "title": "Company Accounts: Accounting for Share and Debenture Capital",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "accountancy.share-capital",
+              "title": "Accounting for Share Capital",
+              "ref": "Ch 1",
+              "cards": 106,
+              "mustKnow": 27,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "accountancy-capital-stages",
+                "title": "Authorised, issued or subscribed?",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null
+            },
+            {
+              "key": "accountancy.debentures",
+              "title": "Issue and Redemption of Debentures",
+              "ref": "Ch 2",
+              "cards": 86,
+              "mustKnow": 22,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Analysis of Financial Statements",
+          "optionId": "AFS",
+          "chapters": [
+            {
+              "key": "accountancy.financial-statements-of-company",
+              "title": "Financial Statements of a Company",
+              "ref": "Ch 3",
+              "cards": 85,
+              "mustKnow": 22,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "needs_work",
+                "label": "Needs work"
+              },
+              "meta": null,
+              "marksOpen": null
+            },
+            {
+              "key": "accountancy.analysis-of-financial-statements",
+              "title": "Analysis of Financial Statements",
+              "ref": "Ch 4",
+              "cards": 16,
+              "mustKnow": 6,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null
+            },
+            {
+              "key": "accountancy.comparative-and-common-size-statements",
+              "title": "Comparative and Common Size Statements",
+              "ref": "Ch 4",
+              "cards": 18,
+              "mustKnow": 6,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "holding",
+                "label": "Holding"
+              },
+              "meta": null,
+              "marksOpen": null
+            },
+            {
+              "key": "accountancy.accounting-ratios",
+              "title": "Accounting Ratios",
+              "ref": "Ch 5",
+              "cards": 164,
+              "mustKnow": 40,
+              "due": 3,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "accountancy-liquidity-ratios",
+                "title": "Current ratio and quick ratio",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": "3 due, 1 lesson",
+              "marksOpen": null
+            },
+            {
+              "key": "accountancy.cash-flow-statement",
+              "title": "Cash Flow Statement",
+              "ref": "Ch 6",
+              "cards": 81,
+              "mustKnow": 21,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": null,
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Computerised Accounting System",
+          "optionId": "CAS",
+          "chapters": [
+            {
+              "key": "accountancy.computerized-accounting-system",
+              "title": "Computerised Accounting System",
+              "ref": null,
+              "cards": 0,
+              "mustKnow": 0,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "needs_work",
+                "label": "Needs work"
+              },
+              "meta": "No Key cards yet.",
+              "marksOpen": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

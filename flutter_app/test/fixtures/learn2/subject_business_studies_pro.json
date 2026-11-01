@@ -1,0 +1,427 @@
+{
+  "plan": "pro",
+  "student": {
+    "isNew": false
+  },
+  "subjects": [
+    {
+      "id": "accountancy",
+      "name": "Accountancy"
+    },
+    {
+      "id": "business_studies",
+      "name": "Business Studies"
+    },
+    {
+      "id": "economics",
+      "name": "Economics"
+    },
+    {
+      "id": "english",
+      "name": "English"
+    }
+  ],
+  "subject": {
+    "id": "business_studies",
+    "name": "Business Studies",
+    "cards": 900,
+    "chapters": 12,
+    "lessons": 5,
+    "note": null
+  },
+  "freeNote": null,
+  "free": null,
+  "suggestions": [
+    {
+      "kind": "next",
+      "chapterKey": "business_studies.organising",
+      "title": "Next in the book: Organising",
+      "headline": "Next in the book",
+      "chapterTitle": "Organising",
+      "evidence": "Chapter 5 of Business Studies Part 1. 10 minutes of its Key cards.",
+      "action": {
+        "label": "Start 10 minutes",
+        "run": {
+          "chapterKey": "business_studies.organising",
+          "minutes": 10,
+          "leaveOut": [],
+          "kind": "mix"
+        }
+      }
+    },
+    {
+      "kind": "due",
+      "chapterKey": "business_studies.nature-and-significance-of-management",
+      "title": "3 cards due in Nature and Significance of Management",
+      "headline": "3 cards due",
+      "chapterTitle": "Nature and Significance of Management",
+      "evidence": "Due today, about 1 minute.",
+      "action": {
+        "label": "Revise these",
+        "run": {
+          "chapterKey": "business_studies.nature-and-significance-of-management",
+          "minutes": 1,
+          "leaveOut": [
+            "questions",
+            "mistakes",
+            "lesson"
+          ],
+          "kind": "cards",
+          "cardIds": [
+            "kc.business_studies.nature-and-significance-of-management.def-management-process",
+            "kc.business_studies.nature-and-significance-of-management.def-process-meaning",
+            "kc.business_studies.nature-and-significance-of-management.def-effectiveness"
+          ]
+        }
+      }
+    },
+    {
+      "kind": "recap",
+      "chapterKey": "business_studies.principles-of-management",
+      "title": "Quick recap: Principles of Management",
+      "headline": "Quick recap",
+      "chapterTitle": "Principles of Management",
+      "evidence": "Its 24 Must-know lines, about 4 minutes.",
+      "action": {
+        "label": "Start the recap",
+        "run": {
+          "chapterKey": "business_studies.principles-of-management",
+          "minutes": 4,
+          "leaveOut": [],
+          "kind": "recap"
+        }
+      }
+    }
+  ],
+  "parts": [
+    {
+      "id": "p1",
+      "title": "Business Studies Part 1",
+      "option": null,
+      "units": [
+        {
+          "title": "Nature and Significance of Management",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.nature-and-significance-of-management",
+              "title": "Nature and Significance of Management",
+              "ref": "Ch 1",
+              "cards": 67,
+              "mustKnow": 17,
+              "due": 3,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": "3 due",
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Principles of Management",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.principles-of-management",
+              "title": "Principles of Management",
+              "ref": "Ch 2",
+              "cards": 96,
+              "mustKnow": 24,
+              "due": 3,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": "3 due",
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Business Environment",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.business-environment",
+              "title": "Business Environment",
+              "ref": "Ch 3",
+              "cards": 38,
+              "mustKnow": 10,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "needs_work",
+                "label": "Needs work"
+              },
+              "meta": null,
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Planning",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.planning",
+              "title": "Planning",
+              "ref": "Ch 4",
+              "cards": 51,
+              "mustKnow": 13,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "business-studies-plan-types",
+                "title": "Policy, procedure or rule?",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "holding",
+                "label": "Holding"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Organising",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.organising",
+              "title": "Organising",
+              "ref": "Ch 5",
+              "cards": 69,
+              "mustKnow": 18,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "business-studies-delegation-decentralisation",
+                "title": "Delegation and decentralisation",
+                "minutes": 6,
+                "read": false
+              },
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Staffing",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.staffing",
+              "title": "Staffing",
+              "ref": "Ch 6",
+              "cards": 98,
+              "mustKnow": 25,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "business-studies-staffing",
+                "title": "Attract, choose, train",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "getting_there",
+                "label": "Getting there"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Directing",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.directing",
+              "title": "Directing",
+              "ref": "Ch 7",
+              "cards": 112,
+              "mustKnow": 28,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "business-studies-directing",
+                "title": "What makes people act?",
+                "minutes": 5,
+                "read": false
+              },
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Controlling",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.controlling",
+              "title": "Controlling",
+              "ref": "Ch 8",
+              "cards": 48,
+              "mustKnow": 12,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": {
+                "id": "business-studies-planning-controlling",
+                "title": "Planning, controlling and the control process",
+                "minutes": 7,
+                "read": false
+              },
+              "state": {
+                "key": "thin",
+                "label": "Too few answers"
+              },
+              "meta": "1 lesson",
+              "marksOpen": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p2",
+      "title": "Business Studies Part 2",
+      "option": null,
+      "units": [
+        {
+          "title": "Business Finance",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.financial-management",
+              "title": "Financial Management",
+              "ref": "Ch 9",
+              "cards": 127,
+              "mustKnow": 32,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p3",
+      "title": "Business Studies",
+      "option": null,
+      "units": [
+        {
+          "title": "Financial Markets",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.financial-markets",
+              "title": "Financial Markets",
+              "ref": null,
+              "cards": 0,
+              "mustKnow": 0,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "needs_work",
+                "label": "Needs work"
+              },
+              "meta": "No Key cards yet.",
+              "marksOpen": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "p4",
+      "title": "Business Studies Part 2",
+      "option": null,
+      "units": [
+        {
+          "title": "Marketing",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.marketing-management",
+              "title": "Marketing",
+              "ref": "Ch 10",
+              "cards": 134,
+              "mustKnow": 34,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "none",
+                "label": "Not started"
+              },
+              "meta": null,
+              "marksOpen": null
+            }
+          ]
+        },
+        {
+          "title": "Consumer Protection",
+          "optionId": null,
+          "chapters": [
+            {
+              "key": "business_studies.consumer-protection",
+              "title": "Consumer Protection",
+              "ref": "Ch 11",
+              "cards": 60,
+              "mustKnow": 15,
+              "due": 0,
+              "mistakes": 0,
+              "questions": 0,
+              "lesson": null,
+              "state": {
+                "key": "holding",
+                "label": "Holding"
+              },
+              "meta": null,
+              "marksOpen": null
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

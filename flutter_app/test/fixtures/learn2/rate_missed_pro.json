@@ -1,0 +1,48 @@
+{
+  "ok": true,
+  "stamp": "Back later in this run",
+  "revisePile": {
+    "count": 0
+  },
+  "limit": null,
+  "reinsert": {
+    "itemId": "lr_e3e80c8ba3e6f0aa27dcba0d-r1",
+    "at": 3,
+    "item": {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-r1",
+      "type": "card",
+      "stage": "again",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is partnership?",
+        "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+        "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 1,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership"
+        ],
+        "order": 10,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    }
+  }
+}

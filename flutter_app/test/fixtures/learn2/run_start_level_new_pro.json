@@ -1,0 +1,198 @@
+{
+  "id": "lr_0866c3852e2d5b8c321059a6",
+  "kind": "level",
+  "chapter": {
+    "key": "accountancy.partnership-fundamentals",
+    "title": "Accounting for Partnership: Basic Concepts",
+    "ref": "Ch 1",
+    "partTitle": "Part 1, Partnership Accounts",
+    "number": 1
+  },
+  "minutes": 6,
+  "asked": 6,
+  "items": [
+    {
+      "id": "lr_0866c3852e2d5b8c321059a6-i1",
+      "type": "question",
+      "origin": "chapter",
+      "question": {
+        "id": "4115a8da29d5db85791e1ebac2a51510",
+        "body": "Under the fixed capital method, a partner first introduces additional capital and later receives a share of profit and makes drawings. Assume there are no other partner transactions and that, after the profit and drawings are recorded, the Partner’s Current Account has a credit balance. Arrange the following steps in the order for recording the transactions and presenting the year-end balances:\n(A) Record the share of profit and drawings in the Partner’s Current Account.\n(B) Record the additional capital in the Partner’s Capital Account.\n(C) Confirm the credit balance of the Partner’s Current Account after its items are recorded.\n(D) Show the Partner’s Capital Account and the credit-balance Current Account on the liabilities side of the balance sheet.\nChoose the correct sequence.",
+        "options": [
+          {
+            "key": "A",
+            "text": "(A), (B), (C), (D)"
+          },
+          {
+            "key": "B",
+            "text": "(B), (A), (C), (D)"
+          },
+          {
+            "key": "C",
+            "text": "(B), (C), (A), (D)"
+          },
+          {
+            "key": "D",
+            "text": "(B), (A), (D), (C)"
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 55
+    },
+    {
+      "id": "lr_0866c3852e2d5b8c321059a6-i2",
+      "type": "question",
+      "origin": "chapter",
+      "question": {
+        "id": "472649398aea0050e35860544ec8f803",
+        "body": "Four stages in a partnership are described below. The partners first reach an agreement orally on business terms. They then record those agreed terms in a written document. At a later stage, they decide to change one clause in that document; all partners give consent before the clause is changed. Arrange the listed events in the order they occur.\n(A) All partners consent to the proposed clause change.\n(B) The written document containing the agreed terms is identified as the Partnership Deed.\n(C) The partners reach the agreement on the business terms.\n(D) The clause is changed.\nChoose the correct sequence.",
+        "options": [
+          {
+            "key": "A",
+            "text": "(C), (B), (A), (D)"
+          },
+          {
+            "key": "B",
+            "text": "(C), (A), (B), (D)"
+          },
+          {
+            "key": "C",
+            "text": "(B), (C), (A), (D)"
+          },
+          {
+            "key": "D",
+            "text": "(C), (B), (D), (A)"
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 55
+    },
+    {
+      "id": "lr_0866c3852e2d5b8c321059a6-i3",
+      "type": "question",
+      "origin": "chapter",
+      "question": {
+        "id": "1daaddc92c0285704924e8448eafbb35",
+        "body": "Leena and Farah agree orally to enter into a partnership. They have not prepared a written document. Which statement correctly describes whether their agreement must be in writing?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Their partnership cannot come into existence until the oral terms are put in writing."
+          },
+          {
+            "key": "B",
+            "text": "Their oral agreement is itself a Partnership Deed."
+          },
+          {
+            "key": "C",
+            "text": "Their oral agreement can establish the partnership; a written document is not compulsory."
+          },
+          {
+            "key": "D",
+            "text": "Their partnership can come into existence without an agreement if they prepare a written deed later."
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 55
+    },
+    {
+      "id": "lr_0866c3852e2d5b8c321059a6-i4",
+      "type": "question",
+      "origin": "chapter",
+      "question": {
+        "id": "1e446d2c4fe8062640b863b9fc58c95c",
+        "body": "Partners have no specific agreement on a matter affecting the distribution of profits. Which provisions apply in this situation?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The provisions of the Indian Partnership Act, 1932"
+          },
+          {
+            "key": "B",
+            "text": "The terms of a specific agreement between the partners"
+          },
+          {
+            "key": "C",
+            "text": "The rules for calculating interest on drawings"
+          },
+          {
+            "key": "D",
+            "text": "The adjustments made when a partner is admitted or dies"
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 55
+    },
+    {
+      "id": "lr_0866c3852e2d5b8c321059a6-i5",
+      "type": "question",
+      "origin": "chapter",
+      "question": {
+        "id": "3b59e422f1bb829b8427fb3609581aa0",
+        "body": "A partnership firm has no specific agreement among its partners about the distribution of profits. Which rule governs this issue?",
+        "options": [
+          {
+            "key": "A",
+            "text": "The provisions of the Indian Partnership Act, 1932 apply."
+          },
+          {
+            "key": "B",
+            "text": "A specific term in the partners’ agreement governs the distribution."
+          },
+          {
+            "key": "C",
+            "text": "Sole-proprietorship accounting rules govern the distribution."
+          },
+          {
+            "key": "D",
+            "text": "Rules for admission, retirement, death or dissolution govern the distribution."
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 55
+    },
+    {
+      "id": "lr_0866c3852e2d5b8c321059a6-i6",
+      "type": "question",
+      "origin": "chapter",
+      "question": {
+        "id": "8efd0113e531609d22cd8d0ed84efab6",
+        "body": "A firm maintains partners’ accounts under the fixed capital method. During the year, partner R is allocated a share of profit and makes ordinary drawings. No additional capital is introduced, and no part of R’s capital is withdrawn under the partnership agreement. What happens to R’s Capital Account during the year?",
+        "options": [
+          {
+            "key": "A",
+            "text": "It is increased by the share of profit allocated to R."
+          },
+          {
+            "key": "B",
+            "text": "It remains unchanged during the year."
+          },
+          {
+            "key": "C",
+            "text": "It is reduced by the ordinary drawings made by R."
+          },
+          {
+            "key": "D",
+            "text": "It is adjusted for both the share of profit and the ordinary drawings."
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 55
+    }
+  ],
+  "revisePile": {
+    "count": 0
+  },
+  "resumed": null,
+  "added": null,
+  "looks": null,
+  "free": null,
+  "capped": null,
+  "shrink": null
+}

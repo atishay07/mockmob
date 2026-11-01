@@ -1,0 +1,485 @@
+{
+  "plan": "pro",
+  "filter": "due",
+  "lockedCount": 0,
+  "chapters": [
+    {
+      "key": "accountancy.partnership-fundamentals",
+      "title": "Accounting for Partnership: Basic Concepts",
+      "ref": "Ch 1",
+      "counts": {
+        "total": 46,
+        "all": 46,
+        "must": 12,
+        "revise": 12,
+        "missed": 3,
+        "due": 3
+      },
+      "cards": [
+        {
+          "id": "kc.accountancy.partnership-fundamentals.def-partnership",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.partnership-fundamentals",
+          "chapter": "Partnership Fundamentals",
+          "unit": "Accounting for Partnership",
+          "kind": "definition",
+          "front": "Define partnership.",
+          "back": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
+          "quote": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 48,
+            "section": "Introduction"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "partnership"
+          ],
+          "order": 10,
+          "authorImportance": "must",
+          "inRevise": true,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.partnership-fundamentals",
+          "chapter": "Partnership Fundamentals",
+          "unit": "Accounting for Partnership",
+          "kind": "definition",
+          "front": "What is partnership?",
+          "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+          "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy – Partnership Accounts",
+            "code": "leac101",
+            "chapterNo": 1,
+            "page": 1,
+            "section": "1.1 Nature of Partnership"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "partnership"
+          ],
+          "order": 10,
+          "authorImportance": "must",
+          "inRevise": true,
+          "missedLately": true,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.partnership-fundamentals",
+          "chapter": "Partnership Fundamentals",
+          "unit": "Accounting for Partnership",
+          "kind": "definition",
+          "front": "What is a Partnership Deed?",
+          "back": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
+          "quote": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy – Partnership Accounts",
+            "code": "leac101",
+            "chapterNo": 1,
+            "page": 3,
+            "section": "1.2 Partnership Deed"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "partnership deed"
+          ],
+          "order": 170,
+          "authorImportance": "must",
+          "inRevise": true,
+          "missedLately": false,
+          "locked": false
+        }
+      ]
+    },
+    {
+      "key": "accountancy.profit-and-loss-appropriation-account",
+      "title": "Profit and Loss Appropriation Account",
+      "ref": "Ch 1",
+      "counts": {
+        "total": 42,
+        "all": 42,
+        "must": 11,
+        "revise": 11,
+        "missed": 1,
+        "due": 3
+      },
+      "cards": [
+        {
+          "id": "kc.accountancy.profit-and-loss-appropriation-account.def-pl-appropriation-meaning",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+          "chapter": "Profit & Loss Appropriation Account",
+          "unit": "Accounting for Partnership",
+          "kind": "definition",
+          "front": "What is the Profit and Loss Appropriation Account?",
+          "back": "Profit and Loss Appropriation Account is merely an extension of the Profit and Loss Account of the firm.",
+          "quote": "Profit and Loss Appropriation Account is merely an extension of the Profit and Loss Account of the firm.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy – Partnership Accounts",
+            "code": "leac101",
+            "chapterNo": 1,
+            "page": 8,
+            "section": "1.5.1 Profit and Loss Appropriation Account"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "p&l appropriation"
+          ],
+          "order": 550,
+          "authorImportance": "must",
+          "inRevise": true,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-adjustments",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+          "chapter": "Profit & Loss Appropriation Account",
+          "unit": "Accounting for Partnership",
+          "kind": "fact",
+          "front": "Which adjustments are made through the Profit and Loss Appropriation Account?",
+          "back": "All adjustments in respect of partner’s salary, partner’s commission, interest on capital, interest on drawings, etc. are made through this account.",
+          "quote": "All adjustments in respect of partner’s salary, partner’s commission, interest on capital, interest on drawings, etc. are made through this account.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy – Partnership Accounts",
+            "code": "leac101",
+            "chapterNo": 1,
+            "page": 8,
+            "section": "1.5.1 Profit and Loss Appropriation Account"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "p&l appropriation"
+          ],
+          "order": 570,
+          "authorImportance": "good",
+          "inRevise": true,
+          "missedLately": true,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.profit-and-loss-appropriation-account.fact-pl-appropriation-starts-with",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+          "chapter": "Profit & Loss Appropriation Account",
+          "unit": "Accounting for Partnership",
+          "kind": "fact",
+          "front": "The Profit and Loss Appropriation Account starts with which figure?",
+          "back": "It starts with the net profit/net loss as per Profit and Loss Account.",
+          "quote": "It starts with the net profit/net loss as per Profit and Loss Account.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy – Partnership Accounts",
+            "code": "leac101",
+            "chapterNo": 1,
+            "page": 8,
+            "section": "1.5.1 Profit and Loss Appropriation Account"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "p&l appropriation"
+          ],
+          "order": 580,
+          "authorImportance": "must",
+          "inRevise": true,
+          "missedLately": false,
+          "locked": false
+        }
+      ]
+    },
+    {
+      "key": "accountancy.change-in-profit-sharing-ratio",
+      "title": "Change in Profit Sharing Ratio",
+      "ref": "Ch 2",
+      "counts": {
+        "total": 8,
+        "all": 8,
+        "must": 6,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.goodwill-valuation",
+      "title": "Goodwill: Nature and Valuation",
+      "ref": "Ch 2",
+      "counts": {
+        "total": 39,
+        "all": 39,
+        "must": 10,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.admission-of-partner",
+      "title": "Admission of a Partner",
+      "ref": "Ch 2",
+      "counts": {
+        "total": 53,
+        "all": 53,
+        "must": 14,
+        "revise": 0,
+        "missed": 2,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.retirement-and-death-of-partner",
+      "title": "Retirement and Death of a Partner",
+      "ref": "Ch 3",
+      "counts": {
+        "total": 65,
+        "all": 65,
+        "must": 17,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.dissolution-of-partnership-firm",
+      "title": "Dissolution of Partnership Firm",
+      "ref": "Ch 4",
+      "counts": {
+        "total": 59,
+        "all": 59,
+        "must": 15,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.share-capital",
+      "title": "Accounting for Share Capital",
+      "ref": "Ch 1",
+      "counts": {
+        "total": 106,
+        "all": 106,
+        "must": 27,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.debentures",
+      "title": "Issue and Redemption of Debentures",
+      "ref": "Ch 2",
+      "counts": {
+        "total": 86,
+        "all": 86,
+        "must": 22,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.financial-statements-of-company",
+      "title": "Financial Statements of a Company",
+      "ref": "Ch 3",
+      "counts": {
+        "total": 85,
+        "all": 85,
+        "must": 22,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.analysis-of-financial-statements",
+      "title": "Analysis of Financial Statements",
+      "ref": "Ch 4",
+      "counts": {
+        "total": 16,
+        "all": 16,
+        "must": 6,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.comparative-and-common-size-statements",
+      "title": "Comparative and Common Size Statements",
+      "ref": "Ch 4",
+      "counts": {
+        "total": 18,
+        "all": 18,
+        "must": 6,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    },
+    {
+      "key": "accountancy.accounting-ratios",
+      "title": "Accounting Ratios",
+      "ref": "Ch 5",
+      "counts": {
+        "total": 164,
+        "all": 164,
+        "must": 40,
+        "revise": 3,
+        "missed": 0,
+        "due": 3
+      },
+      "cards": [
+        {
+          "id": "kc.accountancy.accounting-ratios.def-a-ratio",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.accounting-ratios",
+          "chapter": "Accounting Ratios",
+          "unit": "Analysis of Financial Statements",
+          "kind": "definition",
+          "front": "What is a ratio?",
+          "back": "A ratio is a mathematical number calculated as a reference to relationship of two or more numbers and can be expressed as a fraction, proportion, percentage and a number of times.",
+          "quote": "A ratio is a mathematical number calculated as a reference to relationship of two or more numbers and can be expressed as a fraction, proportion, percentage and a number of times.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy: Company Accounts and Analysis of Financial Statements",
+            "code": "leac205",
+            "chapterNo": 5,
+            "page": 194,
+            "section": "5.1 Meaning of Accounting Ratios"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "ratio"
+          ],
+          "order": 10,
+          "authorImportance": "must",
+          "inRevise": true,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.accounting-ratios.def-financial-statement-analysis",
+          "v": 2,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.accounting-ratios",
+          "chapter": "Accounting Ratios",
+          "unit": "Analysis of Financial Statements",
+          "kind": "definition",
+          "front": "What is the analysis, comparison and interpretation of data in financial statements termed?",
+          "back": "These statements provide financial data which require analysis, comparison and interpretation for taking decision by the external as well as internal users of accounting information. This act is termed as financial statement analysis.",
+          "quote": "These statements provide financial data which require analysis, comparison and interpretation for taking decision by the external as well as internal users of accounting information. This act is termed as financial statement analysis.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy: Company Accounts and Analysis of Financial Statements",
+            "code": "leac205",
+            "chapterNo": 5,
+            "page": 194,
+            "section": "5.1 Meaning of Accounting Ratios"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "financial-analysis"
+          ],
+          "order": 20,
+          "authorImportance": "must",
+          "inRevise": true,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.accounting-ratios.def-why-do-weaknesses-in-financial-statements-li",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.accounting-ratios",
+          "chapter": "Accounting Ratios",
+          "unit": "Analysis of Financial Statements",
+          "kind": "definition",
+          "front": "Why do weaknesses in financial statements limit ratio analysis (NCERT)?",
+          "back": "Since the ratios are derived from the financial statements, any weakness in the original financial statements will also creep in the derived analysis in the form of ratio analysis.",
+          "quote": "Since the ratios are derived from the financial statements, any weakness in the original financial statements will also creep in the derived analysis in the form of ratio analysis.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy: Company Accounts and Analysis of Financial Statements",
+            "code": "leac205",
+            "chapterNo": 5,
+            "page": 197,
+            "section": "5.4 Limitations of Ratio Analysis"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "limitations"
+          ],
+          "order": 160,
+          "authorImportance": "good",
+          "inRevise": true,
+          "missedLately": false,
+          "locked": false
+        }
+      ]
+    },
+    {
+      "key": "accountancy.cash-flow-statement",
+      "title": "Cash Flow Statement",
+      "ref": "Ch 6",
+      "counts": {
+        "total": 81,
+        "all": 81,
+        "must": 21,
+        "revise": 0,
+        "missed": 0,
+        "due": 0
+      },
+      "cards": []
+    }
+  ]
+}

@@ -1,0 +1,747 @@
+{
+  "id": "lr_e3e80c8ba3e6f0aa27dcba0d",
+  "kind": "mix",
+  "chapter": {
+    "key": "accountancy.partnership-fundamentals",
+    "title": "Accounting for Partnership: Basic Concepts",
+    "ref": "Ch 1",
+    "partTitle": "Part 1, Partnership Accounts",
+    "number": 1
+  },
+  "minutes": 10,
+  "asked": 10,
+  "items": [
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i1",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is partnership?",
+        "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+        "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 1,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership"
+        ],
+        "order": 10,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i2",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is a Partnership Deed?",
+        "back": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
+        "quote": "But wherever it is in writing, the document, which contains terms of the agreement is called ‘Partnership Deed’.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 3,
+          "section": "1.2 Partnership Deed"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership deed"
+        ],
+        "order": 170,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i3",
+      "type": "card",
+      "stage": "due",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-partnership",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "Define partnership.",
+        "back": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
+        "quote": "Partnership is an agreement between two or more persons (called partners) for sharing the profits of a business carried on by all or any of them acting for all.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 48,
+          "section": "Introduction"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "partnership"
+        ],
+        "order": 10,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 12
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i4",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.term-partners-firm",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "term",
+        "front": "Persons who have entered into partnership with one another are individually called ‘____’ and collectively called ‘____’.",
+        "back": "Persons who have entered into partnership with one another are individually called ‘partners’ and collectively called ‘firm’.",
+        "quote": "Persons who have entered into partnership with one another are individually called ‘partners’ and collectively called ‘firm’.",
+        "blanks": [
+          "partners",
+          "firm"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership"
+        ],
+        "order": 30,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i5",
+      "type": "question",
+      "origin": "mistake",
+      "question": {
+        "id": "76760959-d603-443c-aec0-d39c8c5bf67a",
+        "body": "When the partners' capital accounts are fixed, on which side of which account are the drawings recorded?",
+        "options": [
+          {
+            "key": "A",
+            "text": "Debit side of Capital A/c"
+          },
+          {
+            "key": "B",
+            "text": "Credit side of Capital A/c"
+          },
+          {
+            "key": "C",
+            "text": "Debit side of Current A/c"
+          },
+          {
+            "key": "D",
+            "text": "Credit side of Current A/c"
+          }
+        ]
+      },
+      "mistake": {
+        "where": "Mock 3",
+        "when": "16 Oct",
+        "label": "You missed this in Mock 3 on 16 Oct"
+      },
+      "seconds": 60
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i6",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.kl-no-legal-entity",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "key_line",
+        "front": "A partnership firm has no ____, apart from the partners constituting it.",
+        "back": "A partnership firm has no separate legal entity, apart from the partners constituting it.",
+        "quote": "A partnership firm has no separate legal entity, apart from the partners constituting it.",
+        "blanks": [
+          "separate legal entity"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership"
+        ],
+        "order": 40,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i7",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.list-features-six",
+        "v": 2,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "list",
+        "front": "Name the 6 essential features of partnership.",
+        "back": "Two or More Persons\nAgreement\nBusiness\nMutual Agency\nSharing of Profit\nLiability of Partners",
+        "quote": "Thus, the essential features of partnership are: 1. Two or More Persons: In order to form partnership, there should be at least two persons coming together for a common goal. In other words, the minimum number of partners in a firm can be two. There is however, a limit on their maximum number. By virtue of Section 464 of the Companies Act 2013, the Central Government is empowered to prescribe maximum number of partners in a firm but the number of partners can not be more than 100. The Central government has prescribed the maximum number of partness in a firm to be 50. 2. Agreement: Partnership is the result of an agreement between two or more persons to do business and share its profits and losses. The agreement becomes the basis of relationship between the partners. It is not necessary that such agreement is in written form. An oral agreement is equally valid. But in order to avoid disputes, it is preferred that the partners have a written agreement. 3. Business: The agreement should be to carry on some business. Mere co-ownership of a property does not amount to partnership. For example, if Rohit and Sachin jointly purchase a plot of land, they become the joint owners of the property and not the partners. But if they are in the business of purchase and sale of land for the purpose of making profit, they will be called partners. 4. Mutual Agency: The business of a partnership concern may be carried on by all the partners or any of them acting for all. This statement has two important implications. First, every partner is entitled to participate in the conduct of the affairs of its business. Second, that there exists a relationship of mutual agency between all the partners. Each partner carrying on the business is the principal as well as the agent for all the other partners. He can bind other partners by his acts and also is bound by the acts of other partners with regard to business of the firm. Relationship of mutual agency is so important that one can say that there would be no partnership, if the element of mutual agency is absent. 5. Sharing of Profit: Another important element of partnership is that, the agreement between partners must be to share profits and losses of a business. Though the definition contained in the Partnership Act describes partnership as relation between people who agree to share the profits of a business, the sharing of loss is implied. Thus, sharing of profits and losses is important. If some persons join hands for the purpose of some charitable activity, it will not be termed as partnership. 6. Liability of Partners:",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "features"
+        ],
+        "order": 50,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 26
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i8",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-min-partners",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "What is the minimum number of partners in a firm?",
+        "back": "In other words, the minimum number of partners in a firm can be two.",
+        "quote": "In other words, the minimum number of partners in a firm can be two.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership"
+        ],
+        "order": 60,
+        "authorImportance": "good"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i9",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-max-partners-companies-act",
+        "v": 2,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "Companies Act 2013, Section 464: the number of partners in a firm can not be more than how many?",
+        "back": "By virtue of Section 464 of the Companies Act 2013, the Central Government is empowered to prescribe maximum number of partners in a firm but the number of partners can not be more than 100.",
+        "quote": "By virtue of Section 464 of the Companies Act 2013, the Central Government is empowered to prescribe maximum number of partners in a firm but the number of partners can not be more than 100.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "max partners"
+        ],
+        "order": 70,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i10",
+      "type": "question",
+      "origin": "mistake",
+      "question": {
+        "id": "cc60f0fc-32b9-46b0-9b7e-645b57149a63",
+        "body": "Assertion: A partnership firm must have a partnership deed. Reason: The partnership deed outlines the terms and conditions of the partnership, including profit-sharing ratio and partners' duties.",
+        "options": [
+          {
+            "key": "A",
+            "text": "Both Assertion and Reason are true, and Reason is the correct explanation of Assertion."
+          },
+          {
+            "key": "B",
+            "text": "Both Assertion and Reason are true, but Reason is NOT the correct explanation of Assertion."
+          },
+          {
+            "key": "C",
+            "text": "Assertion is true, but Reason is false."
+          },
+          {
+            "key": "D",
+            "text": "Assertion is false, but Reason is true."
+          }
+        ]
+      },
+      "mistake": {
+        "where": "Mock 3",
+        "when": "16 Oct",
+        "label": "You missed this in Mock 3 on 16 Oct"
+      },
+      "seconds": 60
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i11",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-fixed-balance-sheet",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "Fixed capital method: where do the capital and current account balances appear in the balance sheet?",
+        "back": "While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
+        "quote": "While the partners’ capital accounts shall always appear on the liabilities side in the balance sheet, the partners’ current account’s balance shall be shown on the liabilities side, if they have credit balance and on the assets side, if they have debit balance.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 5,
+          "section": "1.4 Maintenance of Capital Accounts of Partners"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "capital accounts",
+          "balance sheet"
+        ],
+        "order": 440,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i12",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-max-partners-prescribed-50",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "What maximum number of partners in a firm has the Central Government prescribed?",
+        "back": "The Central government has prescribed the maximum number of partness in a firm to be 50.",
+        "quote": "The Central government has prescribed the maximum number of partness in a firm to be 50.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "max partners"
+        ],
+        "order": 80,
+        "note": "The Central Government has fixed the maximum at 50 (the Act's outer limit is 100).",
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i13",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-co-ownership-not-partnership",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "What does mere co-ownership of a property not amount to?",
+        "back": "Mere co-ownership of a property does not amount to partnership.",
+        "quote": "Mere co-ownership of a property does not amount to partnership.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "business"
+        ],
+        "order": 100,
+        "authorImportance": "good"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i14",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.kl-mutual-agency-principal-agent",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "key_line",
+        "front": "Each partner carrying on the business is the ____ as well as the ____ for all the other partners.",
+        "back": "Each partner carrying on the business is the principal as well as the agent for all the other partners.",
+        "quote": "Each partner carrying on the business is the principal as well as the agent for all the other partners.",
+        "blanks": [
+          "principal",
+          "agent"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "mutual agency"
+        ],
+        "order": 110,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i15",
+      "type": "question",
+      "origin": "linked",
+      "question": {
+        "id": "4115a8da29d5db85791e1ebac2a51510",
+        "body": "Under the fixed capital method, a partner first introduces additional capital and later receives a share of profit and makes drawings. Assume there are no other partner transactions and that, after the profit and drawings are recorded, the Partner’s Current Account has a credit balance. Arrange the following steps in the order for recording the transactions and presenting the year-end balances:\n(A) Record the share of profit and drawings in the Partner’s Current Account.\n(B) Record the additional capital in the Partner’s Capital Account.\n(C) Confirm the credit balance of the Partner’s Current Account after its items are recorded.\n(D) Show the Partner’s Capital Account and the credit-balance Current Account on the liabilities side of the balance sheet.\nChoose the correct sequence.",
+        "options": [
+          {
+            "key": "A",
+            "text": "(A), (B), (C), (D)"
+          },
+          {
+            "key": "B",
+            "text": "(B), (A), (C), (D)"
+          },
+          {
+            "key": "C",
+            "text": "(B), (C), (A), (D)"
+          },
+          {
+            "key": "D",
+            "text": "(B), (A), (D), (C)"
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 85
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i16",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.def-fixed-capital-method",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "definition",
+        "front": "What is the fixed capital method?",
+        "back": "Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners.",
+        "quote": "Under the fixed capital method, the capitals of the partners shall remain fixed unless additional capital is introduced or a part of the capital is withdrawn as per the agreement among the partners.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 5,
+          "section": "1.4 Maintenance of Capital Accounts of Partners"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "capital accounts",
+          "fixed capital"
+        ],
+        "order": 400,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i17",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.fact-loss-sharing-implied",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "fact",
+        "front": "The Partnership Act speaks of sharing of profits. What does it imply about sharing of loss?",
+        "back": "Though the definition contained in the Partnership Act describes partnership as relation between people who agree to share the profits of a business, the sharing of loss is implied.",
+        "quote": "Though the definition contained in the Partnership Act describes partnership as relation between people who agree to share the profits of a business, the sharing of loss is implied.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 2,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "sharing of profit"
+        ],
+        "order": 130,
+        "authorImportance": "good"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i18",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.kl-liability-joint-several",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "key_line",
+        "front": "Each partner is liable ____ with all the other partners and also ____ to the third party for all the acts of the firm done while he is a partner.",
+        "back": "Each partner is liable jointly with all the other partners and also severally to the third party for all the acts of the firm done while he is a partner.",
+        "quote": "Each partner is liable jointly with all the other partners and also severally to the third party for all the acts of the firm done while he is a partner.",
+        "blanks": [
+          "jointly",
+          "severally"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 3,
+          "section": "1.1 Nature of Partnership"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "partnership",
+          "liability"
+        ],
+        "order": 140,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 18
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i19",
+      "type": "card",
+      "stage": "new",
+      "card": {
+        "id": "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items",
+        "v": 2,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "chapter": "Partnership Fundamentals",
+        "unit": "Accounting for Partnership",
+        "kind": "difference",
+        "front": "Fixed vs Fluctuating capital: the difference on items related to the deed (drawings, salary, interest on capital).",
+        "back": "Fixed Capital\nDrawings, salary, interest on capital, etc. are posted (transfered) in the current accounts and not in the capital accounts.\nFluctuating Capital\nAll adjustments for drawings, salary, interest on capital, etc., are posted (transfered) in the capital accounts.",
+        "quote": "Fixed Capital Fluctuating Capital (i) Number of accounts (ii) Items related to deed (iii) Fixed balance (iv) Credit balance Under this method, two separate accounts are maintained for each partner viz., ‘capital account’ and ‘current account’. Drawings, salary,interest on capital,etc. are posted (transfered) in the current accounts and not in the capital accounts. The capital account balance remain unchanged unless there is addition to or withdrawal of capital. The capital accounts always show a credit balance. Each partner has one account, i.e. capital account, under this method All adjustments for drawings, salary interest on capital, etc., are posted (transfered) in the capital accounts,",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac101",
+          "chapterNo": 1,
+          "page": 7,
+          "section": "1.4.1 Distinction between Fixed and Fluctuating Capital Accounts"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "capital accounts",
+          "fixed capital",
+          "fluctuating capital"
+        ],
+        "order": 490,
+        "authorImportance": "must"
+      },
+      "look": false,
+      "recap": false,
+      "seconds": 26
+    },
+    {
+      "id": "lr_e3e80c8ba3e6f0aa27dcba0d-i20",
+      "type": "question",
+      "origin": "linked",
+      "question": {
+        "id": "8efd0113e531609d22cd8d0ed84efab6",
+        "body": "A firm maintains partners’ accounts under the fixed capital method. During the year, partner R is allocated a share of profit and makes ordinary drawings. No additional capital is introduced, and no part of R’s capital is withdrawn under the partnership agreement. What happens to R’s Capital Account during the year?",
+        "options": [
+          {
+            "key": "A",
+            "text": "It is increased by the share of profit allocated to R."
+          },
+          {
+            "key": "B",
+            "text": "It remains unchanged during the year."
+          },
+          {
+            "key": "C",
+            "text": "It is reduced by the ordinary drawings made by R."
+          },
+          {
+            "key": "D",
+            "text": "It is adjusted for both the share of profit and the ordinary drawings."
+          }
+        ]
+      },
+      "mistake": null,
+      "seconds": 50
+    }
+  ],
+  "revisePile": {
+    "count": 0
+  },
+  "resumed": null,
+  "added": null,
+  "looks": null,
+  "free": null,
+  "capped": null,
+  "shrink": null
+}

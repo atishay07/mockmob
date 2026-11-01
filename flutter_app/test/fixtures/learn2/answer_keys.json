@@ -1,0 +1,110 @@
+{
+  "01cfb56e-96e6-4871-979e-87408f33983e": {
+    "key": "C",
+    "explanation": ""
+  },
+  "01dbaa4a-b7f1-4e25-b7e9-94f89a1406b5": {
+    "key": "D",
+    "explanation": "Sacrificing ratio is the old share minus the new share of the partner whose share falls, and gaining ratio is the new share minus the old share of the partner whose share rises, so Statements I and II are correct. Goodwill adjustment is needed mainly when the profit-sharing ratio changes among existing partners, so Statement III is also correct."
+  },
+  "04443a9d-3ed0-4425-a17b-3dd297801db2": {
+    "key": "A",
+    "explanation": "Writing off goodwill reduces partners' capital accounts by the goodwill amount apportioned in the agreed ratio, decreasing total partners' capital by ₹40,000."
+  },
+  "05bd57e2-e4e6-4f23-ab88-14989056e8df": {
+    "key": "A",
+    "explanation": "Old ratio is 3:1. New is 1:1. Bhavna's old share = 3/4. New = 1/2. Sacrifice/Gain = 3/4 - 1/2. Adjusting goodwill of ₹50,000 gives the result."
+  },
+  "10d99687-8714-4145-8afa-8f8d336a5000": {
+    "key": "A",
+    "explanation": "Sacrifice ratio is the proportion in which old partners give up their shares to a new partner."
+  },
+  "17fd61d6-ebf5-497d-84ea-aa1e115dde19": {
+    "key": "B",
+    "explanation": "Existing goodwill is considered an accumulated profit/loss of the old partnership and is therefore written off by debiting the old partners' capital accounts in their old profit-sharing ratio."
+  },
+  "1b1b7a4b-355f-48e5-861c-d7b546975896": {
+    "key": "A",
+    "explanation": "Premium (goodwill) paid by new partner is a capital receipt and is distributed to old partners' capital/accounts, so both statements and the explanatory link are true."
+  },
+  "1b4b7422-1842-4e20-9afc-9d31b7c1ffc0": {
+    "key": "B",
+    "explanation": "Revaluation gains relate to past period and therefore belong to old partners and are credited to their capital accounts."
+  },
+  "1daaddc92c0285704924e8448eafbb35": {
+    "key": "C",
+    "explanation": "A partnership comes into existence as a result of an agreement, which may be oral or written. The agreement is not required to be in writing, so the oral agreement can establish the partnership. A Partnership Deed is the document containing the terms when the agreement is in writing."
+  },
+  "1e446d2c4fe8062640b863b9fc58c95c": {
+    "key": "A",
+    "explanation": "When there is no specific agreement on a matter affecting the distribution of profits, the provisions of the Indian Partnership Act, 1932 apply. The stem states this exact circumstance, so option A is correct."
+  },
+  "1f5c08d4-61b2-49c7-8bb7-be1d514600d0": {
+    "key": "A",
+    "explanation": "Revaluation profit is distributed to existing partners' capital accounts in their old profit sharing ratio."
+  },
+  "20fa6daa-c601-4672-a976-365c7f4296c9": {
+    "key": "A",
+    "explanation": "Old shares 15/25 and 10/25 becoming 12/25 and 8/25 means sacrifices of 3/25 and 2/25 respectively, i.e., 3:2."
+  },
+  "2ca403e13da61d66ebcb9dc2870cf3df": {
+    "key": "C",
+    "explanation": "The accumulated profits total ₹24,000 + ₹18,000 + ₹33,000 = ₹75,000. They are distributed among the existing partners in their old profit-sharing ratio of 3:2, so X receives ₹45,000 and Y receives ₹30,000. T receives no share of these accumulated profits."
+  },
+  "341d2ffb9c69a0f0bef64c9eea5e2706": {
+    "key": "D",
+    "explanation": "Both ratios total 20, so each partner’s share is the partner’s ratio part divided by 20. A’s share falls from 8/20 to 5/20, B’s rises from 5/20 to 6/20, C’s rises from 3/20 to 5/20, and D’s remains 4/20. These changes match option D."
+  },
+  "3b59e422f1bb829b8427fb3609581aa0": {
+    "key": "A",
+    "explanation": "When there is no specific agreement about the distribution of profits, the provisions of the Indian Partnership Act, 1932 apply. The stem states that this is the situation, so option A is correct."
+  },
+  "404761d3-32d9-418a-934d-a97dcec09cb8": {
+    "key": "C",
+    "explanation": "A's old share is 3/5 and A's new share is 2/5, so A's share falls by 3/5 - 2/5 = 1/5 of total profits. This is a sacrifice of 1/5 of profits."
+  },
+  "4115a8da29d5db85791e1ebac2a51510": {
+    "key": "B",
+    "explanation": "Under the fixed capital method, additional capital is recorded in the Partner’s Capital Account, while the share of profit and drawings are recorded in the Partner’s Current Account. Since the additional capital is introduced first, B precedes A; the Current Account balance is confirmed after its items are recorded, and its stated credit balance is then shown on the liabilities side. The correct sequence is B–A–C–D."
+  },
+  "43dba584009752ea6e97144240929090": {
+    "key": "B",
+    "explanation": "A's and B's shares decrease by 1/2 − 13/30 = 1/15 and 1/4 − 3/20 = 1/10, respectively, so their sacrificing ratio is 2:3. C's and D's shares increase by 13/60 − 1/6 = 1/20 and 1/5 − 1/12 = 7/60, respectively, so their gaining ratio is 3:7."
+  },
+  "472649398aea0050e35860544ec8f803": {
+    "key": "A",
+    "explanation": "The partners first reach the agreement, and the written document containing its terms is the Partnership Deed. Since the clause is changed only after all partners consent, the sequence ends with consent followed by the change."
+  },
+  "495c4536f5869a65e46ae8a6d92010c8": {
+    "key": "B",
+    "explanation": "Asset increases, liability decreases and unrecorded assets are credited to the Revaluation Account; asset decreases, liability increases and unrecorded liabilities are debited. Credits total ₹34,000 and debits total ₹17,000, so the account shows a credit balance of ₹17,000. This gain is transferred to P and Q in their old ratio of 3:2, giving P ₹10,200 and Q ₹6,800."
+  },
+  "5bde762f1a36a3a7d894f0aa45f655e9": {
+    "key": "D",
+    "explanation": "A premium paid directly and privately to the existing partners requires no entry in the firm’s books. When the premium is received through the firm, the entries depend on whether it is credited initially to Premium for Goodwill A/c or to the new partner’s capital account. If the credited amounts are retained in the business, no additional entry is passed."
+  },
+  "625c82bf-6bfb-4d51-a369-2751bfbbdf62": {
+    "key": "A",
+    "explanation": ""
+  },
+  "76760959-d603-443c-aec0-d39c8c5bf67a": {
+    "key": "C",
+    "explanation": "When capital accounts are fixed, the capital accounts do not record drawings. Drawings are debited to the partner's Current Account, so the entry falls on the debit side of the Current A/c."
+  },
+  "7b4662c4e2166c62f863a6ae1da78ba6": {
+    "key": "B",
+    "explanation": "Under the fixed capital method, separate Capital and Current Accounts are maintained. Capital introductions or withdrawals affect the Capital Account, while the other listed partner transactions are recorded in the Current Account. The coherent reasoning therefore identifies the method, establishes the two accounts, allocates the transactions, and then states the effect on the capital balance."
+  },
+  "8efd0113e531609d22cd8d0ed84efab6": {
+    "key": "B",
+    "explanation": "Under the fixed capital method, a partner’s capital remains fixed unless additional capital is introduced or part of the capital is withdrawn under the agreement. Neither occurs here, so R’s Capital Account remains unchanged; the share of profit and drawings are recorded in R’s Current Account."
+  },
+  "97bd2137-9adb-48a8-9c14-4c297f3a24c4": {
+    "key": "A",
+    "explanation": ""
+  },
+  "cc60f0fc-32b9-46b0-9b7e-645b57149a63": {
+    "key": "D",
+    "explanation": "The Assertion is false; a partnership deed is not mandatory (it can be oral), though highly recommended. The Reason is true; the deed details the partnership terms."
+  }
+}

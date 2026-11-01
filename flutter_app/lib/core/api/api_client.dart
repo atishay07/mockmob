@@ -221,6 +221,7 @@ class ApiClient {
     final clean = path.split('?').first;
     if (clean.startsWith('/api/study') || clean.startsWith('/api/learning')) return 'learning';
     if (clean.startsWith('/api/sessions') || clean.startsWith('/api/attempts')) return 'sessions';
+    if (clean == '/api/learn' || clean.startsWith('/api/learn/')) return 'learn';
     final parts = clean.split('/').where((p) => p.isNotEmpty).take(3).toList();
     return parts.join('/');
   }

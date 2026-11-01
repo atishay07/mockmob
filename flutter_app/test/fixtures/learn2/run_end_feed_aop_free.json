@@ -1,0 +1,119 @@
+{
+  "feed": {
+    "title": "10 minutes on Admission of a Partner",
+    "done": {
+      "reached": 2,
+      "of": 12,
+      "minutes": 1
+    },
+    "kept": {
+      "count": 1,
+      "cards": [
+        {
+          "id": "kc.accountancy.admission-of-partner.def-sacrificing-ratio",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "definition",
+          "front": "What is the sacrificing ratio?",
+          "back": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
+          "quote": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 52,
+            "section": "2.4 Sacrificing Ratio"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "sacrificing ratio"
+          ],
+          "order": 160,
+          "authorImportance": "must"
+        }
+      ],
+      "groups": [],
+      "stamp": "In Revise",
+      "line": "1 kept. They are first in Revise."
+    },
+    "lines": [
+      {
+        "label": "Fixed",
+        "text": "1 of 2 old mistakes"
+      }
+    ],
+    "lead": null,
+    "free": {
+      "text": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like."
+    },
+    "next": {
+      "label": "Next chapter: Retirement and Death of a Partner",
+      "key": "accountancy.retirement-and-death-of-partner",
+      "run": null
+    },
+    "dueOffer": null
+  },
+  "title": "10 minutes on Admission of a Partner",
+  "done": {
+    "reached": 2,
+    "of": 12,
+    "minutes": 1
+  },
+  "numbers": {
+    "cards": 0,
+    "questions": 0,
+    "fixed": 1,
+    "mistakes": 1,
+    "detail": {
+      "cards": null,
+      "questions": null,
+      "fixed": "1 of 2, 1 still open"
+    }
+  },
+  "lines": [
+    {
+      "label": "Mistakes",
+      "text": "1 of 2 fixed, 1 still open"
+    }
+  ],
+  "revisePile": [],
+  "reviseCards": [],
+  "moved": null,
+  "free": null,
+  "lead": {
+    "line": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.",
+    "label": "See Pro",
+    "href": "/pricing",
+    "go": "pro"
+  },
+  "options": [
+    {
+      "kind": "recap",
+      "title": "Quick recap of this chapter",
+      "minutes": 1,
+      "label": "Quick recap of this chapter",
+      "evidence": "Its 5 Must-know lines, answers showing.",
+      "run": {
+        "chapterKey": "accountancy.admission-of-partner",
+        "minutes": 1,
+        "leaveOut": [],
+        "kind": "recap"
+      }
+    },
+    {
+      "kind": "explore",
+      "title": "Questions on this chapter in Explore",
+      "minutes": null,
+      "label": "Questions on this chapter in Explore",
+      "evidence": "Explore questions stay free.",
+      "href": "/explore?subject=accountancy&chapter=Admission+of+Partner",
+      "go": "explore"
+    }
+  ]
+}

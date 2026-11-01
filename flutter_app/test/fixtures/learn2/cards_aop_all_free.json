@@ -1,0 +1,190 @@
+{
+  "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2"
+  },
+  "plan": "free",
+  "counts": {
+    "total": 53,
+    "all": 5,
+    "must": 5,
+    "revise": 0,
+    "missed": 0,
+    "due": 0
+  },
+  "sections": [
+    {
+      "title": "Introduction",
+      "cards": [
+        {
+          "id": "kc.accountancy.admission-of-partner.def-reconstitution",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "definition",
+          "front": "What is reconstitution of a partnership firm?",
+          "back": "Any change in the existing agreement amounts to reconstitution of the partnership firm. This results in an end of the existing agreement and a new agreement comes into being with a changed relationship among the members of the partnership firm and/or their composition. However, the firm continues.",
+          "quote": "Any change in the existing agreement amounts to reconstitution of the partnership firm. This results in an end of the existing agreement and a new agreement comes into being with a changed relationship among the members of the partnership firm and/or their composition. However, the firm continues.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 48,
+            "section": "Introduction"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "reconstitution"
+          ],
+          "order": 20,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        }
+      ]
+    },
+    {
+      "title": "2.3 New Profit Sharing Ratio",
+      "cards": [
+        {
+          "id": "kc.accountancy.admission-of-partner.fact-nothing-specified-old-ratio",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "fact",
+          "front": "If nothing is specified, how is the new partner assumed to acquire his share from the old partners?",
+          "back": "However, if nothing is specified as to how does the new partner acquire his share from the old partners; it may be assumed that he gets it from them in their profit sharing ratio.",
+          "quote": "However, if nothing is specified as to how does the new partner acquire his share from the old partners; it may be assumed that he gets it from them in their profit sharing ratio.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 50,
+            "section": "2.3 New Profit Sharing Ratio"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "new ratio"
+          ],
+          "order": 140,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.admission-of-partner.formula-new-share-old-partner",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "formula",
+          "front": "Formula: an old partner's new share when the share he surrenders to the new partner is given.",
+          "back": "Old share − Share Surrendered",
+          "quote": "Nitu's new share = Old share − Share Surrendered",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 51,
+            "section": "2.3 New Profit Sharing Ratio"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "new ratio"
+          ],
+          "order": 150,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        }
+      ]
+    },
+    {
+      "title": "2.4 Sacrificing Ratio",
+      "cards": [
+        {
+          "id": "kc.accountancy.admission-of-partner.def-sacrificing-ratio",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "definition",
+          "front": "What is the sacrificing ratio?",
+          "back": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
+          "quote": "The ratio in which the old partners agree to sacrifice their share of profit in favour of the incoming partner is called sacrificing ratio.",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 52,
+            "section": "2.4 Sacrificing Ratio"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "sacrificing ratio"
+          ],
+          "order": 160,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        },
+        {
+          "id": "kc.accountancy.admission-of-partner.formula-sacrifice-formula",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "formula",
+          "front": "Formula: the sacrifice by a partner.",
+          "back": "Old Share of Profit − New Share of Profit",
+          "quote": "The sacrifice by a partner is equal to : Old Share of Profit − New Share of Profit",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 52,
+            "section": "2.4 Sacrificing Ratio"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "sacrificing ratio"
+          ],
+          "order": 170,
+          "authorImportance": "must",
+          "inRevise": false,
+          "missedLately": false,
+          "locked": false
+        }
+      ]
+    }
+  ],
+  "lockedCount": 48,
+  "lockedLine": "48 more cards in this chapter. Pro opens every card in every chapter and keeps them on a schedule."
+}

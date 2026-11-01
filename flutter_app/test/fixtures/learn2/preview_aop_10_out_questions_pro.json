@@ -1,0 +1,94 @@
+{
+  "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+      "key": "getting_there",
+      "label": "Getting there"
+    }
+  },
+  "minutes": 10,
+  "realMinutes": 10,
+  "startLabel": "Start 10 minutes",
+  "piles": [
+    {
+      "id": "cards",
+      "count": 23,
+      "minutes": 8,
+      "label": "Key cards",
+      "minutesLabel": "about 8 min",
+      "left": false,
+      "held": null
+    },
+    {
+      "id": "questions",
+      "count": 0,
+      "minutes": 0,
+      "label": "Questions",
+      "minutesLabel": "Left out",
+      "left": true,
+      "held": null
+    },
+    {
+      "id": "mistakes",
+      "count": 2,
+      "minutes": 2,
+      "label": "Your mistakes",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+    }
+  ],
+  "leaveOut": [
+    "questions"
+  ],
+  "coach": "Tap a pile to leave it out.",
+  "note": "Ratings join Revise. Questions are free.",
+  "recap": {
+    "count": 14,
+    "minutes": 3,
+    "label": "Or a quick recap: the 14 Must-know lines, about 3 min"
+  },
+  "shrink": null,
+  "free": null,
+  "resume": {
+    "runId": "lr_aa19581b98132d65737b96f0",
+    "done": 6,
+    "of": 16,
+    "minutesLeft": 5,
+    "kind": "mix"
+  },
+  "firstVisit": false,
+  "asked": 10,
+  "capped": null,
+  "freeSession": null,
+  "added": null,
+  "shelf": {
+    "cards": {
+      "count": 53,
+      "open": 53,
+      "mustKnow": 14,
+      "inRevise": 0
+    },
+    "questions": {
+      "linked": 10,
+      "total": 10
+    },
+    "mistakes": {
+      "open": 2
+    },
+    "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+    },
+    "print": {
+      "mustKnow": 14,
+      "locked": false
+    }
+  }
+}

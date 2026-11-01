@@ -1,0 +1,2526 @@
+{
+  "query": "goodwill",
+  "tooShort": false,
+  "chapters": [
+    {
+      "key": "accountancy.goodwill-valuation",
+      "title": "Goodwill: Nature and Valuation",
+      "cards": 39,
+      "match": {
+        "title": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "name": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ]
+      }
+    }
+  ],
+  "lessons": [],
+  "cards": [
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.fact-method-decided-by-agreement",
+        "v": 2,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "Goodwill calculated by one method may differ from that by another. Who may specifically decide the method to be used?",
+        "back": "Goodwill calculated by one method may differ from the goodwill calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner.",
+        "quote": "Goodwill calculated by one method may differ from the goodwill calculated by another method. Hence, the method by which goodwill is to be calculated, may be specifically decided between the existing partners and the incoming partner.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 56,
+          "section": "2.5.4 Methods of Valuation of Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 315,
+        "addedIn": "gap-1031",
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "quote": [
+          {
+            "start": 0,
+            "end": 8
+          },
+          {
+            "start": 54,
+            "end": 62
+          },
+          {
+            "start": 120,
+            "end": 128
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-existing-goodwill-written-off",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Goodwill, if existing in the books of the firm, it is ____ at the time of admission of a partner.",
+        "back": "Goodwill, if existing in the books of the firm, it is written off at the time of admission of a partner.",
+        "quote": "Goodwill, if existing in the books of the firm, it is written off at the time of admission of a partner.",
+        "blanks": [
+          "written off"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 68,
+          "section": "When goodwill already exists in books"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 650,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "quote": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-exists-written-off-old-ratio",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Goodwill appearing in the books will be ____ by debiting old partners' capital accounts in their ____.",
+        "back": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
+        "quote": "Goodwill appearing in the books will be written-off by debiting old partners' capital accounts in their old profit sharing ratio.",
+        "blanks": [
+          "written-off",
+          "old profit sharing ratio"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 70,
+          "section": "When goodwill exists in the books"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 720,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "quote": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-capitalisation-avg-profits-def",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "Goodwill by capitalisation of average profits: how is it ascertained?",
+        "back": "Under this method, the value of goodwill is ascertained by deducting the actual firm's capital in the business from the capitalized value of the average profits on the basis of normal rate of return.",
+        "quote": "Under this method, the value of goodwill is ascertained by deducting the actual firm's capital in the business from the capitalized value of the average profits on the basis of normal rate of return.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 62,
+          "section": "2.5.4.3 Capitalisation Method"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "capitalisation"
+        ],
+        "order": 490,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "quote": [
+          {
+            "start": 32,
+            "end": 40
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.fact-retained-no-additional-entry",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "Goodwill premium credited to old partners is retained in business: what additional entry is passed?",
+        "back": "If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed.",
+        "quote": "If the partners decide that the amount of premium for goodwill credited to their capital accounts should be retained in business, an additional entry is not passed.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 65,
+          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 620,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "quote": [
+          {
+            "start": 54,
+            "end": 62
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.fact-no-goodwill-books-credit-debit",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "Goodwill does not exist in the books: which partners are credited and which partner is debited?",
+        "back": "When goodwill does not exist in the books, sacrificing partners are credited with their share of goodwill and new partner is debited by the amount of goodwill not brought by him.",
+        "quote": "When goodwill does not exist in the books, sacrificing partners are credited with their share of goodwill and new partner is debited by the amount of goodwill not brought by him.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 69,
+          "section": "Goodwill does not exist in the books"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 690,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "quote": [
+          {
+            "start": 5,
+            "end": 13
+          },
+          {
+            "start": 97,
+            "end": 105
+          },
+          {
+            "start": 150,
+            "end": 158
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-not-in-books-rule",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "Goodwill does not appear in the firm's books on retirement. How is credit given to the retiring partner?",
+        "back": "credit is given to the retiring partner for the share in goodwill by debiting the goodwill account to gaining partners capital accounts (individually) in their gaining ratio",
+        "quote": "When goodwill does not appear in the books of the firm, credit is given to the retiring partner for the share in goodwill by debiting the goodwill account to gaining partners capital accounts (individually) in their gaining ratio.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 113,
+          "section": "3.4.1 When goodwill does not appear in the books"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 290,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "quote": [
+          {
+            "start": 5,
+            "end": 13
+          },
+          {
+            "start": 113,
+            "end": 121
+          },
+          {
+            "start": 138,
+            "end": 146
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
+        "v": 3,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "Define goodwill in terms of the reputation of a firm.",
+        "back": "Goodwill is the value of the reputation of a firm in respect of the profits expected in future over and above the normal profits.",
+        "quote": "Goodwill is the value of the reputation of a firm in respect of the profits expected in future over and above the normal profits.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 55,
+          "section": "2.5.1 Meaning of Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "normal profits"
+        ],
+        "order": 240,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 7,
+            "end": 15
+          }
+        ],
+        "quote": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.formula-cap-avg-goodwill-formula",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "formula",
+        "front": "Formula: Goodwill by capitalisation of average profits.",
+        "back": "Goodwill = Capitalised value − Net Assets",
+        "quote": "Goodwill = Capitalised value − Net Assets",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 63,
+          "section": "2.5.4.3 Capitalisation Method"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "capitalisation"
+        ],
+        "order": 530,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 9,
+            "end": 17
+          }
+        ],
+        "quote": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.formula-cap-super-goodwill-formula",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "formula",
+        "front": "Formula: Goodwill by capitalisation of super profits.",
+        "back": "Goodwill = Super Profits × 100 / Normal Rate of Return",
+        "quote": "Goodwill = Super Profits × 100 Normal Rate of Return",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 63,
+          "section": "2.5.4.3 Capitalisation Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "capitalisation"
+        ],
+        "order": 540,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 9,
+            "end": 17
+          }
+        ],
+        "quote": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.change-in-profit-sharing-ratio.entry-e-goodwill-gain-sacrifice",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+        "chapter": "Change in Profit Sharing Ratio",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Entry (Illustration 29): goodwill adjusted when partners change their ratio (Suresh gains; Dinesh and Ramesh sacrifice).",
+        "back": "Suresh's Capital A/c Dr.\nTo Dinesh's Capital A/c\nTo Ramesh's Capital A/c\n(Goodwill adjusted in partners' capital accounts in their sacrificing/gaining ratio)",
+        "quote": "Suresh's Capital A/c Dr. To Dinesh's Capital A/c To Ramesh's Capital A/c (Goodwill adjusted in partners' capital accounts in their sacrificing/gaining ratio)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 95,
+          "section": "Illustration 29"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "gaining ratio"
+        ],
+        "order": 1120,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapterTitle": "Change in Profit Sharing Ratio",
+      "match": {
+        "front": [
+          {
+            "start": 25,
+            "end": 33
+          }
+        ],
+        "quote": [
+          {
+            "start": 74,
+            "end": 82
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-goodwill-meaning",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "What is goodwill?",
+        "back": "Over a period of time, a well-established business develops an advantage of good name, reputation and wide business connections. This helps the business to earn more profits as compared to a newly set up business. In accounting, the monetary value of such advantage is known as \"goodwill\".",
+        "quote": "Over a period of time, a well-established business develops an advantage of good name, reputation and wide business connections. This helps the business to earn more profits as compared to a newly set up business. In accounting, the monetary value of such advantage is known as \"goodwill\".",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 55,
+          "section": "2.5.1 Meaning of Goodwill"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 230,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 8,
+            "end": 16
+          }
+        ],
+        "quote": [
+          {
+            "start": 279,
+            "end": 287
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-goodwill-simple-words",
+        "v": 2,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "Define goodwill in simple words.",
+        "back": "In simple words, goodwill can be defined as \"the present value of a firm's anticipated excess earnings\" or as \"the capitalised value attached to the differential profit capacity of a business\".",
+        "quote": "In simple words, goodwill can be defined as \"the present value of a firm's anticipated excess earnings\" or as \"the capitalised value attached to the differential profit capacity of a business\".",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 56,
+          "section": "2.5.1 Meaning of Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 250,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 7,
+            "end": 15
+          }
+        ],
+        "quote": [
+          {
+            "start": 17,
+            "end": 25
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.list-five-factors",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "Name the 5 main factors affecting the value of goodwill.",
+        "back": "1. Nature of business: A firm that produces high value added products or having a stable demand is able to earn more profits and therefore has more goodwill.\n2. Location: If the business is centrally located or is at a place having heavy customer traffic, the goodwill tends to be high.\n3. Efficiency of management: A well-managed concern usually enjoys the advantage of high productivity and cost efficiency.\n4. Market situation: The monopoly condition or limited competition enables the concern to earn high profits which leads to higher value of goodwill.\n5. Special advantages",
+        "quote": "The main factors affecting the value of goodwill are as follows: 1. Nature of business: A firm that produces high value added products or having a stable demand is able to earn more profits and therefore has more goodwill. 2. Location: If the business is centrally located or is at a place having heavy customer traffic, the goodwill tends to be high. 3. Efficiency of management: A well-managed concern usually enjoys the advantage of high productivity and cost efficiency. This leads to higher profits and so the value of goodwill will also be high. 4. Market situation: The monopoly condition or limited competition enables the concern to earn high profits which leads to higher value of goodwill. 5. Special advantages: The firm that enjoys special advantages like import licences, low rate and assured supply of electricity, long-term contracts for supply of materials, well-known collaborators, patents, trademarks, etc. enjoy higher value of goodwill.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 56,
+          "section": "2.5.2 Factors Affecting the Value of Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "factors"
+        ],
+        "order": 270,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 47,
+            "end": 55
+          }
+        ],
+        "quote": [
+          {
+            "start": 40,
+            "end": 48
+          },
+          {
+            "start": 213,
+            "end": 221
+          },
+          {
+            "start": 325,
+            "end": 333
+          },
+          {
+            "start": 524,
+            "end": 532
+          },
+          {
+            "start": 691,
+            "end": 699
+          },
+          {
+            "start": 949,
+            "end": 957
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-factor-location",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Location: If the business is ____ or is at a place having heavy customer traffic, the goodwill tends to be high.",
+        "back": "Location: If the business is centrally located or is at a place having heavy customer traffic, the goodwill tends to be high.",
+        "quote": "Location: If the business is centrally located or is at a place having heavy customer traffic, the goodwill tends to be high.",
+        "blanks": [
+          "centrally located"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 56,
+          "section": "2.5.2 Factors Affecting the Value of Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "factors"
+        ],
+        "order": 280,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 86,
+            "end": 94
+          }
+        ],
+        "quote": [
+          {
+            "start": 99,
+            "end": 107
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-factor-market",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Market situation: The ____ condition or limited competition enables the concern to earn high profits which leads to higher value of goodwill.",
+        "back": "Market situation: The monopoly condition or limited competition enables the concern to earn high profits which leads to higher value of goodwill.",
+        "quote": "Market situation: The monopoly condition or limited competition enables the concern to earn high profits which leads to higher value of goodwill.",
+        "blanks": [
+          "monopoly"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 56,
+          "section": "2.5.2 Factors Affecting the Value of Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "factors"
+        ],
+        "order": 290,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 132,
+            "end": 140
+          }
+        ],
+        "quote": [
+          {
+            "start": 136,
+            "end": 144
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.list-need-for-valuation",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "In a partnership firm, name the circumstances in which valuation of goodwill may be needed.",
+        "back": "1. Change in the profit sharing ratio amongst the existing partners;\n2. Admission of new partner;\n3. Retirement of a partner;\n4. Death of a partner; and\n5. Dissolution of a firm involving sale of business as a going concern.\n6. Amalgamation of partnership firms.",
+        "quote": "Normally, the need for valuation of goodwill arises at the time of sale of a business. But, in the context of a partnership firm it may also arise in the following circumstances: 1. Change in the profit sharing ratio amongst the existing partners; 2. Admission of new partner; 3. Retirement of a partner; 4. Death of a partner; and 5. Dissolution of a firm involving sale of business as a going concern. 6. Amalgamation of partnership firms.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 56,
+          "section": "2.5.3 Need for Valuation of Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 300,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 68,
+            "end": 76
+          }
+        ],
+        "quote": [
+          {
+            "start": 36,
+            "end": 44
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-goodwill-intangible-difficult",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Since goodwill is an ____ it is very difficult to accurately calculate its value.",
+        "back": "Since goodwill is an intangible asset it is very difficult to accurately calculate its value.",
+        "quote": "Since goodwill is an intangible asset it is very difficult to accurately calculate its value.",
+        "blanks": [
+          "intangible asset"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 56,
+          "section": "2.5.4 Methods of Valuation of Goodwill"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 310,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 6,
+            "end": 14
+          }
+        ],
+        "quote": [
+          {
+            "start": 6,
+            "end": 14
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.types-three-methods",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "types",
+        "front": "Name the important methods of valuation of goodwill.",
+        "back": "1. Average Profits Method\n2. Super Profits Method\n3. Capitalisation Method",
+        "quote": "The important methods of valuation of goodwill are as follows: 1. Average Profits Method 2. Super Profits Method 3. Capitalisation Method",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 57,
+          "section": "2.5.4 Methods of Valuation of Goodwill"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "methods"
+        ],
+        "order": 320,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 43,
+            "end": 51
+          }
+        ],
+        "quote": [
+          {
+            "start": 38,
+            "end": 46
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-average-profits-method",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "Average profits method: how is goodwill valued?",
+        "back": "Under this method, the goodwill is valued at agreed number of 'years' purchase of the average profits of the past few years.",
+        "quote": "Under this method, the goodwill is valued at agreed number of 'years' purchase of the average profits of the past few years.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 57,
+          "section": "2.5.4.1 Average Profits Method"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "average profits"
+        ],
+        "order": 330,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 31,
+            "end": 39
+          }
+        ],
+        "quote": [
+          {
+            "start": 23,
+            "end": 31
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.fact-avg-goodwill-multiply",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "Average profits method: how should goodwill be calculated from the past average profits?",
+        "back": "The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue.",
+        "quote": "The goodwill, therefore, should be calculated by multiplying the past average profits by the number of years during which the anticipated profits are expected to accrue.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 57,
+          "section": "2.5.4.1 Average Profits Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "average profits"
+        ],
+        "order": 350,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 35,
+            "end": 43
+          }
+        ],
+        "quote": [
+          {
+            "start": 4,
+            "end": 12
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.example-avg-example-60000",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "example",
+        "front": "Past average profits Rs. 20,000, likely to continue for another three years: goodwill by average profits method?",
+        "back": "the value of goodwill will be Rs. 60,000 (Rs. 20,000 × 3)",
+        "quote": "if the past average profits of a business works out at Rs. 20,000 and it is expected that such profits are likely to continue for another three years, the value of goodwill will be Rs. 60,000 (Rs. 20,000 × 3),",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 57,
+          "section": "2.5.4.1 Average Profits Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "average profits"
+        ],
+        "order": 360,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 77,
+            "end": 85
+          }
+        ],
+        "quote": [
+          {
+            "start": 164,
+            "end": 172
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-firm-capital-includes",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Firms capital includes partners capital and ____ but excludes ____ and goodwill.",
+        "back": "Firms capital includes partners capital and reserves and surplus but excludes fictitious assets and goodwill.",
+        "quote": "Firms capital includes partners capital and reserves and surplus but excludes fictitious assets and goodwill.",
+        "blanks": [
+          "reserves and surplus",
+          "fictitious assets"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 60,
+          "section": "2.5.4.2 Super Profits Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "normal profit"
+        ],
+        "order": 410,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 71,
+            "end": 79
+          }
+        ],
+        "quote": [
+          {
+            "start": 100,
+            "end": 108
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-super-multiply-years",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "The goodwill under the super profit method is ascertained by ____ the super profits by certain number of years' purchase.",
+        "back": "The goodwill under the super profit method is ascertained by multiplying the super profits by certain number of years' purchase.",
+        "quote": "The goodwill under the super profit method is ascertained by multiplying the super profits by certain number of years' purchase.",
+        "blanks": [
+          "multiplying"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 60,
+          "section": "2.5.4.2 Super Profits Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "super profits"
+        ],
+        "order": 430,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 4,
+            "end": 12
+          }
+        ],
+        "quote": [
+          {
+            "start": 4,
+            "end": 12
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.example-super-example-goodwill-15000",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "example",
+        "front": "Super profits Rs. 3,000, benefit likely to last 5 years: goodwill by the super profits method?",
+        "back": "the goodwill will be valued at Rs. 15,000 (3,000 × 5)",
+        "quote": "If, in the above example, it is expected that the benefit of super profits is likely to be available for 5 years in future, the goodwill will be valued at Rs. 15,000 (3,000 × 5).",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 60,
+          "section": "2.5.4.2 Super Profits Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "super profits"
+        ],
+        "order": 440,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 57,
+            "end": 65
+          }
+        ],
+        "quote": [
+          {
+            "start": 128,
+            "end": 136
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.steps-super-profit-steps",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "steps",
+        "front": "Steps in the super profits method of valuing goodwill, in order.",
+        "back": "1. Calculate the average profit,\n2. Calculate the normal profit on the firm's capital on the basis of the normal rate of return,\n3. Calculate the super profits by deducting normal profit from the average profits, and\n4. Calculate goodwill by multiplying the super profits by the given number of years' purchase.",
+        "quote": "Thus, the steps involved under the method are: 1. Calculate the average profit, 2. Calculate the normal profit on the firm's capital on the basis of the normal rate of return, 3. Calculate the super profits by deducting normal profit from the average profits, and 4. Calculate goodwill by multiplying the super profits by the given number of years' purchase.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 60,
+          "section": "2.5.4.2 Super Profits Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "super profits"
+        ],
+        "order": 450,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 45,
+            "end": 53
+          }
+        ],
+        "quote": [
+          {
+            "start": 277,
+            "end": 285
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.types-capitalisation-two-ways",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "types",
+        "front": "In how many ways can goodwill be calculated under the capitalisation method? Name them.",
+        "back": "(a) by capitalizing the average profits, or\n(b) by capitalising the super profits.",
+        "quote": "Under this method the goodwill can be calculated in two ways: (a) by capitalizing the average profits, or (b) by capitalising the super profits.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 62,
+          "section": "2.5.4.3 Capitalisation Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "capitalisation"
+        ],
+        "order": 480,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 21,
+            "end": 29
+          }
+        ],
+        "quote": [
+          {
+            "start": 22,
+            "end": 30
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.fact-goodwill-capitalised-super",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "Under the capitalisation of super profits method, goodwill is what?",
+        "back": "In other words, goodwill is the capitalised value of super profits.",
+        "quote": "In other words, goodwill is the capitalised value of super profits.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 63,
+          "section": "2.5.4.3 Capitalisation Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "capitalisation"
+        ],
+        "order": 550,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 50,
+            "end": 58
+          }
+        ],
+        "quote": [
+          {
+            "start": 16,
+            "end": 24
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-both-cap-methods-same",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "The amount of goodwill worked out by this method will be ____ as calculated by capitalising the average profits.",
+        "back": "The amount of goodwill worked out by this method will be exactly the same as calculated by capitalising the average profits.",
+        "quote": "The amount of goodwill worked out by this method will be exactly the same as calculated by capitalising the average profits.",
+        "blanks": [
+          "exactly the same"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 63,
+          "section": "2.5.4.3 Capitalisation Method"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "capitalisation"
+        ],
+        "order": 560,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 14,
+            "end": 22
+          }
+        ],
+        "quote": [
+          {
+            "start": 14,
+            "end": 22
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-hidden-goodwill",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "Hidden goodwill: how is the value of goodwill found when it is not given?",
+        "back": "Sometimes the value of goodwill is not given at the time of admission of a new partner. In such a situation it has to be inferred from the arrangement of the capital and profit sharing ratio.",
+        "quote": "Sometimes the value of goodwill is not given at the time of admission of a new partner. In such a situation it has to be inferred from the arrangement of the capital and profit sharing ratio.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 74,
+          "section": "2.5.5.2 Hidden Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "hidden goodwill"
+        ],
+        "order": 800,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 7,
+            "end": 15
+          },
+          {
+            "start": 37,
+            "end": 45
+          }
+        ],
+        "quote": [
+          {
+            "start": 23,
+            "end": 31
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.example-hidden-example-30000",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "example",
+        "front": "A and B, equal partners with capitals of Rs. 45,000 each, admit C for 1/3 share; C brings Rs. 60,000. Find the goodwill.",
+        "back": "Hence, it can be inferred that the difference is on account of goodwill i.e., Rs. 30,000 (Rs. 1,80,000 − Rs. 1,50,000).",
+        "quote": "Hence, it can be inferred that the difference is on account of goodwill i.e., Rs. 30,000 (Rs. 1,80,000 − Rs. 1,50,000).",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 74,
+          "section": "2.5.5.2 Hidden Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "hidden goodwill"
+        ],
+        "order": 810,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 111,
+            "end": 119
+          }
+        ],
+        "quote": [
+          {
+            "start": 63,
+            "end": 71
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.example-hidden-example-treatment",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "example",
+        "front": "In the hidden goodwill example (goodwill Rs. 30,000, C's share one-third), how is C's share treated?",
+        "back": "In this, C's Current account will be debited by Rs. 10,000 (his share of goodwill) and A and B's Capital accounts credited by Rs. 5,000 each.",
+        "quote": "In this, C's Current account will be debited by Rs. 10,000 (his share of goodwill) and A and B's Capital accounts credited by Rs. 5,000 each.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 74,
+          "section": "2.5.5.2 Hidden Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "hidden goodwill"
+        ],
+        "order": 820,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 14,
+            "end": 22
+          },
+          {
+            "start": 32,
+            "end": 40
+          }
+        ],
+        "quote": [
+          {
+            "start": 73,
+            "end": 81
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.fact-summary-goodwill-old-partners",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "On the admission of a new partner, to whom does the goodwill of the firm belong?",
+        "back": "On the admission of a new partner the goodwill of the firm belongs to the old partners.",
+        "quote": "On the admission of a new partner the goodwill of the firm belongs to the old partners.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 97,
+          "section": "Summary"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 1150,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 52,
+            "end": 60
+          }
+        ],
+        "quote": [
+          {
+            "start": 38,
+            "end": 46
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.def-premium-for-goodwill-def",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "What is the new partner's share of goodwill (premium for goodwill)?",
+        "back": "As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in super profits. It is termed as his share of goodwill (also called premium for goodwill).",
+        "quote": "As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in super profits. It is termed as his share of goodwill (also called premium for goodwill).",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 64,
+          "section": "2.5.5 Treatment of Goodwill"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "premium"
+        ],
+        "order": 570,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 35,
+            "end": 43
+          },
+          {
+            "start": 57,
+            "end": 65
+          }
+        ],
+        "quote": [
+          {
+            "start": 235,
+            "end": 243
+          },
+          {
+            "start": 269,
+            "end": 277
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-premium-received",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Journal entry: new partner brings premium for goodwill in cash through the firm (first entry).",
+        "back": "Bank A/c Dr.\nTo Premium for Goodwill A/c\n(Amount brought by new partner as premium)",
+        "quote": "Bank A/c Dr. To Premium for Goodwill A/c (Amount brought by new partner as premium)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 64,
+          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 600,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 46,
+            "end": 54
+          }
+        ],
+        "quote": [
+          {
+            "start": 28,
+            "end": 36
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-new-partner-capital-alt",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Alternative entries: premium for goodwill credited to the new partner's capital account and then adjusted to the sacrificing partners.",
+        "back": "Bank A/c Dr.\nTo New Partner's Capital A/c\n(Amount brought by new partner for his share of goodwill).\nNew Partner's Capital A/c Dr.\nTo Sacrificing Partner's Capital A/c's (Individually)\n(Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio)",
+        "quote": "(i) Bank A/c Dr. To New Partner's Capital A/c (Amount brought by new partner for his share of goodwill). (ii) New Partner's Capital A/c Dr. To Sacrificing Partner's Capital A/c's (Individually) (Goodwill brought by new partners distributed among the existing partners in their sacrificing ratio)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 65,
+          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 610,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 33,
+            "end": 41
+          }
+        ],
+        "quote": [
+          {
+            "start": 94,
+            "end": 102
+          },
+          {
+            "start": 195,
+            "end": 203
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-goodwill-withdrawn",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Journal entry: existing partners withdraw the goodwill amount credited to them.",
+        "back": "Existing Partner's Capital A/c (Individually) Dr.\nTo Bank A/c\n(The amount of goodwill withdrawn by the existing partners)",
+        "quote": "Existing Partner's Capital A/c (Individually) Dr. To Bank A/c (The amount of goodwill withdrawn by the existing partners)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 65,
+          "section": "2.5.5.1 When the new Partner brings goodwill in cash"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 630,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 46,
+            "end": 54
+          }
+        ],
+        "quote": [
+          {
+            "start": 77,
+            "end": 85
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.list-not-brought-two-possibilities",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "When the new partner does not bring his share of goodwill, what two possibilities exist?",
+        "back": "(a) Goodwill does not exist in the books;\n(b) Goodwill exists in the books.",
+        "quote": "When the new partner does not bring the share of goodwill, there exists two possibilities : (a) Goodwill does not exist in the books; and. (b) Goodwill exists in the books.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 69,
+          "section": "When the new partner does not bring goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 670,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 49,
+            "end": 57
+          }
+        ],
+        "quote": [
+          {
+            "start": 49,
+            "end": 57
+          },
+          {
+            "start": 96,
+            "end": 104
+          },
+          {
+            "start": 143,
+            "end": 151
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-goodwill-not-brought",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Journal entry: new partner does not bring his share of goodwill (no goodwill in the books).",
+        "back": "Incoming (New) Partners Current A/c Dr.\nTo Sacrificing Partners Capital A/c (individually)\n(Account of goodwill not brought in by new partner)",
+        "quote": "Incoming (New) Partners Current A/c Dr. To Sacrificing Partners Capital A/c (individually) (Account of goodwill not brought in by new partner)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 69,
+          "section": "Goodwill does not exist in the books"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 700,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 55,
+            "end": 63
+          },
+          {
+            "start": 68,
+            "end": 76
+          }
+        ],
+        "quote": [
+          {
+            "start": 103,
+            "end": 111
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.fact-part-brought-current-debited",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "New partner brings only part of the goodwill premium in cash: which account is debited for the rest?",
+        "back": "Sometimes the new partner brings part of premium for goodwill in cash. In such a situation, new partners current account will be debited by the amount not brought by new partner.",
+        "quote": "Sometimes the new partner brings part of premium for goodwill in cash. In such a situation, new partners current account will be debited by the amount not brought by new partner.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 69,
+          "section": "Goodwill does not exist in the books"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 710,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 36,
+            "end": 44
+          }
+        ],
+        "quote": [
+          {
+            "start": 53,
+            "end": 61
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-exists-new-value-sacrificing",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Thereafter new value of goodwill will be given effect by crediting ____ and debiting ____.",
+        "back": "Thereafter new value of goodwill will be given effect by crediting sacrificing partners' capital accounts and debiting new partners' current account.",
+        "quote": "Thereafter new value of goodwill will be given effect by crediting sacrificing partners' capital accounts and debiting new partners' current account.",
+        "blanks": [
+          "sacrificing partners' capital accounts",
+          "new partners' current account"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 70,
+          "section": "When goodwill exists in the books"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 730,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 24,
+            "end": 32
+          }
+        ],
+        "quote": [
+          {
+            "start": 24,
+            "end": 32
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-goodwill-writeoff-old-ratio",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.admission-of-partner",
+        "chapter": "Admission of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Journal entry: goodwill appearing in the books is written off when it exists (old partners' capital accounts).",
+        "back": "Partners capital A/c (old)\nDr. (In profit sharing ratio)\nTo Goodwill A/c\n(Goodwill appearing in the books written-off)",
+        "quote": "Partners capital A/c (old) Dr. (In profit sharing ratio) To Goodwill A/c (Goodwill appearing in the books written-off)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 71,
+          "section": "When goodwill exists in the books"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 740,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 15,
+            "end": 23
+          }
+        ],
+        "quote": [
+          {
+            "start": 60,
+            "end": 68
+          },
+          {
+            "start": 74,
+            "end": 82
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-entitled",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "On retirement or death of a partner, what is the retiring or deceased partner entitled to in respect of goodwill?",
+        "back": "The retiring or deceased partner is entitled to his share of goodwill at the time of retirement/death",
+        "quote": "The retiring or deceased partner is entitled to his share of goodwill at the time of retirement/death",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 113,
+          "section": "3.4 Treatment of Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 270,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 104,
+            "end": 112
+          }
+        ],
+        "quote": [
+          {
+            "start": 61,
+            "end": 69
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-who-compensates",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "On retirement/death, who compensates the outgoing partner for his share of goodwill, and in what ratio?",
+        "back": "the retiring/ deceased partner compensated for his share of goodwill by the continuing partners (who have gained due to acquisition of share of profit from the retiring/ deceased partner) in their gaining ratio.",
+        "quote": "Hence, at the time of retirement/death of a partner, goodwill is valued as per agreement among the partners the retiring/ deceased partner compensated for his share of goodwill by the continuing partners (who have gained due to acquisition of share of profit from the retiring/ deceased partner) in their gaining ratio.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 113,
+          "section": "3.4 Treatment of Goodwill"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "gaining ratio"
+        ],
+        "order": 280,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 75,
+            "end": 83
+          }
+        ],
+        "quote": [
+          {
+            "start": 53,
+            "end": 61
+          },
+          {
+            "start": 168,
+            "end": 176
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.entry-goodwill-not-in-books",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Journal entry: goodwill not in the books; retiring partner's share of goodwill adjusted to gaining partners.",
+        "back": "Gaining Partners Capital A/c\nDr. (Individually)\nTo Retiring Partners Capital A/c\n(Share in goodwill of retiring partner adjusted)",
+        "quote": "Gaining Partners Capital A/c\nDr. (Individually)\nTo Retiring Partners Capital A/c\n(Share in goodwill of retiring partner adjusted)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 114,
+          "section": "3.4.1 When goodwill does not appear in the books"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "journal entry"
+        ],
+        "order": 300,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 15,
+            "end": 23
+          },
+          {
+            "start": 70,
+            "end": 78
+          }
+        ],
+        "quote": [
+          {
+            "start": 91,
+            "end": 99
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.entry-shilpa-neeru-deepa",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Journal entry: Shilpa compensates retiring Neeru and sacrificing Deepa for goodwill.",
+        "back": "Shilpa's Capital A/c\nDr.\nTo Neeru's Capital A/c\nTo Deepa's Capital A/c\n(Shilpa compensated Neeru for her share of\ngoodwill and to Deepa for the sacrifice made\nby her on Neeru's retirement)",
+        "quote": "Shilpa's Capital A/c\nDr.\nTo Neeru's Capital A/c\nTo Deepa's Capital A/c\n(Shilpa compensated Neeru for her share of\ngoodwill and to Deepa for the sacrifice made\nby her on Neeru's retirement)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 116,
+          "section": "3.4.1 When goodwill does not appear in the books"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "journal entry",
+          "example"
+        ],
+        "order": 340,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 75,
+            "end": 83
+          }
+        ],
+        "quote": [
+          {
+            "start": 114,
+            "end": 122
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.entry-pammy-goodwill-adjusted",
+        "v": 2,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Journal entry: after writing off old goodwill, Pammy's share of new goodwill is adjusted to Hanny and Sunny.",
+        "back": "Hanny's Capital\nDr.\nSunny's Capital\nDr.\nTo Pammy's Capital A/c\n(Pammy's share of goodwill adjusted to\nHanny's and Sunny's capital account\nto the extent of their gain)",
+        "quote": "Hanny's Capital\nDr.\nSunny's Capital\nDr.\nTo Pammy's Capital A/c\n(Pammy's share of goodwill adjusted to\nHanny's and Sunny's capital account\nto the extent of their gain)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 118,
+          "section": "3.4.1 When goodwill does not appear in the books"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "journal entry",
+          "example"
+        ],
+        "order": 360,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 37,
+            "end": 45
+          },
+          {
+            "start": 68,
+            "end": 76
+          }
+        ],
+        "quote": [
+          {
+            "start": 81,
+            "end": 89
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.def-hidden-goodwill",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "What is hidden goodwill (retiring/deceased partner settled by a lump sum)?",
+        "back": "If the firm has agreed to settle the retiring or deceased partner's account by paying him a lump sum amount, then the amount paid to him in excess of what is due to him, based on the balance in his capital account after making necessary adjustments in respect of accumulated profits and losses and revaluation of assets and liabilities, etc., shall be treated as his share of goodwill (known as hidden goodwill).",
+        "quote": "If the firm has agreed to settle the retiring or deceased partner's account by paying him a lump sum amount, then the amount paid to him in excess of what is due to him, based on the balance in his capital account after making necessary adjustments in respect of accumulated profits and losses and revaluation of assets and liabilities, etc., shall be treated as his share of goodwill (known as hidden goodwill).",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 118,
+          "section": "3.4.2 Hidden Goodwill"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "hidden goodwill",
+          "goodwill"
+        ],
+        "order": 370,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 15,
+            "end": 23
+          }
+        ],
+        "quote": [
+          {
+            "start": 376,
+            "end": 384
+          },
+          {
+            "start": 402,
+            "end": 410
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.entry-hidden-goodwill-entry",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "entry",
+        "front": "Journal entry: hidden goodwill; R's share of goodwill adjusted in P's and Q's capital accounts in gaining ratio 3:2.",
+        "back": "P's Capital A/c\nDr.\nQ's Capital A/c\nDr.\nTo R's Capital A/c\n(R's share of goodwill adjusted in P's\nand Q's capital accounts in their\ngaining ratio of 3:2)",
+        "quote": "P's Capital A/c\nDr.\nQ's Capital A/c\nDr.\nTo R's Capital A/c\n(R's share of goodwill adjusted in P's\nand Q's capital accounts in their\ngaining ratio of 3:2)",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 119,
+          "section": "3.4.2 Hidden Goodwill"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "hidden goodwill",
+          "journal entry"
+        ],
+        "order": 390,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 22,
+            "end": 30
+          },
+          {
+            "start": 45,
+            "end": 53
+          }
+        ],
+        "quote": [
+          {
+            "start": 73,
+            "end": 81
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.fact-summary-goodwill-written-off",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "fact",
+        "front": "If goodwill already appears in the books on retirement/death, how is it written off?",
+        "back": "it will be written off by debiting all partner's capital account in their old profit sharing ratio.",
+        "quote": "If goodwill already appears in the books, it will be written off by debiting all partner's capital account in their old profit sharing ratio.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 147,
+          "section": "Summary"
+        },
+        "importance": "good",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 850,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 3,
+            "end": 11
+          }
+        ],
+        "quote": [
+          {
+            "start": 3,
+            "end": 11
+          }
+        ]
+      },
+      "locked": false
+    }
+  ],
+  "more": 20,
+  "total": 70,
+  "cardCounts": {
+    "accountancy.goodwill-valuation": 33,
+    "accountancy.admission-of-partner": 17,
+    "accountancy.retirement-and-death-of-partner": 15,
+    "accountancy.change-in-profit-sharing-ratio": 2,
+    "accountancy.dissolution-of-partnership-firm": 1,
+    "accountancy.debentures": 1,
+    "accountancy.cash-flow-statement": 1
+  }
+}

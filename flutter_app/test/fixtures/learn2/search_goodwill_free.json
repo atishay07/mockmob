@@ -1,0 +1,964 @@
+{
+  "query": "goodwill",
+  "tooShort": false,
+  "chapters": [
+    {
+      "key": "accountancy.goodwill-valuation",
+      "title": "Goodwill: Nature and Valuation",
+      "cards": 39,
+      "match": {
+        "title": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ],
+        "name": [
+          {
+            "start": 0,
+            "end": 8
+          }
+        ]
+      }
+    }
+  ],
+  "lessons": [],
+  "cards": [
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-goodwill-meaning",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "What is goodwill?",
+        "back": "Over a period of time, a well-established business develops an advantage of good name, reputation and wide business connections. This helps the business to earn more profits as compared to a newly set up business. In accounting, the monetary value of such advantage is known as \"goodwill\".",
+        "quote": "Over a period of time, a well-established business develops an advantage of good name, reputation and wide business connections. This helps the business to earn more profits as compared to a newly set up business. In accounting, the monetary value of such advantage is known as \"goodwill\".",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 55,
+          "section": "2.5.1 Meaning of Goodwill"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 230,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 8,
+            "end": 16
+          }
+        ],
+        "quote": [
+          {
+            "start": 279,
+            "end": 287
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-goodwill-intangible-difficult",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "key_line",
+        "front": "Since goodwill is an ____ it is very difficult to accurately calculate its value.",
+        "back": "Since goodwill is an intangible asset it is very difficult to accurately calculate its value.",
+        "quote": "Since goodwill is an intangible asset it is very difficult to accurately calculate its value.",
+        "blanks": [
+          "intangible asset"
+        ],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 56,
+          "section": "2.5.4 Methods of Valuation of Goodwill"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill"
+        ],
+        "order": 310,
+        "authorImportance": "good"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 6,
+            "end": 14
+          }
+        ],
+        "quote": [
+          {
+            "start": 6,
+            "end": 14
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.types-three-methods",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "types",
+        "front": "Name the important methods of valuation of goodwill.",
+        "back": "1. Average Profits Method\n2. Super Profits Method\n3. Capitalisation Method",
+        "quote": "The important methods of valuation of goodwill are as follows: 1. Average Profits Method 2. Super Profits Method 3. Capitalisation Method",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 57,
+          "section": "2.5.4 Methods of Valuation of Goodwill"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "goodwill",
+          "methods"
+        ],
+        "order": 320,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 43,
+            "end": 51
+          }
+        ],
+        "quote": [
+          {
+            "start": 38,
+            "end": 46
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-average-profits-method",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "definition",
+        "front": "Average profits method: how is goodwill valued?",
+        "back": "Under this method, the goodwill is valued at agreed number of 'years' purchase of the average profits of the past few years.",
+        "quote": "Under this method, the goodwill is valued at agreed number of 'years' purchase of the average profits of the past few years.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 57,
+          "section": "2.5.4.1 Average Profits Method"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "average profits"
+        ],
+        "order": 330,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 31,
+            "end": 39
+          }
+        ],
+        "quote": [
+          {
+            "start": 23,
+            "end": 31
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.change-in-profit-sharing-ratio.list-other-adjustments",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+        "chapter": "Change in Profit Sharing Ratio",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "Besides goodwill, what adjustments may a change in profit sharing ratio involve?",
+        "back": "revaluation of assets and liabilities\ntransfer of accumulated profit and losses to partners' capital accounts in the old profit sharing ratio\nadjustment of partners' capitals, if specified, so as to make them proportionate to the new profit sharing ratio",
+        "quote": "Any change, in the profit sharing ratio, like admission of partner, may also involve adjustments in respect of revaluation of assets and liabilities, transfer of accumulated profit and losses to partners' capital accounts in the old profit sharing ratio and adjustment of partners' capitals, if specified, so as to make them proportionate to the new profit sharing ratio.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 94,
+          "section": "2.9 Change in Profit Sharing Ratio among the Existing Partners"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "profit sharing ratio"
+        ],
+        "order": 1110,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapterTitle": "Change in Profit Sharing Ratio",
+      "match": {
+        "front": [
+          {
+            "start": 8,
+            "end": 16
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.formula-avg-goodwill-formula",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.goodwill-valuation",
+        "chapter": "Goodwill Valuation",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "formula",
+        "front": "Formula: goodwill under the average profits method.",
+        "back": "Average Profits × No. of years purchased",
+        "quote": "Average Profits × No. of years purchased",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy : Partnership Accounts",
+          "code": "leac102",
+          "chapterNo": 2,
+          "page": 57,
+          "section": "2.5.4.1 Average Profits Method"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "average profits"
+        ],
+        "order": 370,
+        "note": "Goodwill = Average Profits × No. of years purchased.",
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": {
+        "front": [
+          {
+            "start": 9,
+            "end": 17
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-2",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "Sum due to a retiring/deceased partner: name items (vi) to (viii), after the capital, goodwill and reserve items.",
+        "back": "(vi) his share of profits up to the date of retirement/death;\n(vii) interest on his capital, if involved, up to the date of retirement/death; and\n(viii) salary/commission, if any, due to him up to the date of retirement/death.",
+        "quote": "(vi) his share of profits up to the date of retirement/death; (vii) interest on his capital, if involved, up to the date of retirement/death; and (viii) salary/commission, if any, due to him up to the date of retirement/death.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 108,
+          "section": "3.1 Ascertaining the Amount Due to Retiring/ Deceased Partner"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "amount due",
+          "retirement",
+          "death"
+        ],
+        "order": 40,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "front": [
+          {
+            "start": 86,
+            "end": 94
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-credits-1",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "Sum due to a retiring/deceased partner includes: name items (i) to (v).",
+        "back": "(i) credit balance of his capital account;\n(ii) credit balance of his current account (if any);\n(iii) his share of goodwill;\n(iv) his share of accumulated profits (reserves);\n(v) his share in the gain of revaluation of assets and liabilities;",
+        "quote": "The sum due to the retiring partner (in case of retirement) and to the legal representatives/ executors (in case of death) includes: (i) credit balance of his capital account; (ii) credit balance of his current account (if any); (iii) his share of goodwill; (iv) his share of accumulated profits (reserves); (v) his share in the gain of revaluation of assets and liabilities;",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 107,
+          "section": "3.1 Ascertaining the Amount Due to Retiring/ Deceased Partner"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "amount due",
+          "retirement",
+          "death"
+        ],
+        "order": 30,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "quote": [
+          {
+            "start": 248,
+            "end": 256
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.list-dues-deductions",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "Name the deductions that may have to be made from the retiring/deceased partner's share.",
+        "back": "(i) debit balance of his current account (if any);\n(ii) his share of goodwill to be written off, if necessary;\n(iii) his share of accumulated losses;\n(iv) his share of loss on revaluation of assets and liabilities;\n(v) his share of loss up to the date of retirement/death;\n(vi) his drawings up to the date of retirement/death;\n(vii) interest on drawings, if involved, up to the date of retirement/death.",
+        "quote": "The following deductions, if any, may have to be made from his share: (i) debit balance of his current account (if any); (ii) his share of goodwill to be written off, if necessary; (iii) his share of accumulated losses; (iv) his share of loss on revaluation of assets and liabilities; (v) his share of loss up to the date of retirement/death; (vi) his drawings up to the date of retirement/death; (vii) interest on drawings, if involved, up to the date of retirement/death.",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 108,
+          "section": "3.1 Ascertaining the Amount Due to Retiring/ Deceased Partner"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "amount due",
+          "deductions"
+        ],
+        "order": 50,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "quote": [
+          {
+            "start": 139,
+            "end": 147
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.list-accounting-aspects",
+        "v": 1,
+        "subject": "accountancy",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "chapter": "Retirement & Death of Partner",
+        "unit": "Reconstitution of a Partnership firm",
+        "kind": "list",
+        "front": "Name the 8 accounting aspects involved on retirement or death of a partner.",
+        "back": "1. Ascertainment of new profit sharing ratio and gaining ratio;\n2. Treatment of goodwill;\n3. Revaluation of assets and liabilities;\n4. Adjustment in respect of unrecorded assets and liabilities;\n5. Distribution of accumulated profits and losses;\n6. Ascertainment of share of profit or loss up to the date of retirement/death;\n7. Adjustment of capital, if required;\n8. Settlement of the amounts due to retired/deceased partner;",
+        "quote": "Thus, similar to admission, the various accounting aspects involved on retirement or death of a partner are as follows: 1. Ascertainment of new profit sharing ratio and gaining ratio; 2. Treatment of goodwill; 3. Revaluation of assets and liabilities; 4. Adjustment in respect of unrecorded assets and liabilities; 5. Distribution of accumulated profits and losses; 6. Ascertainment of share of profit or loss up to the date of retirement/death; 7. Adjustment of capital, if required; 8. Settlement of the amounts due to retired/deceased partner;",
+        "blanks": [],
+        "source": {
+          "kind": "ncert",
+          "book": "Accountancy – Partnership Accounts",
+          "code": "leac103",
+          "chapterNo": 3,
+          "page": 108,
+          "section": "3.1 Ascertaining the Amount Due to Retiring/ Deceased Partner"
+        },
+        "importance": "must",
+        "asked": 0,
+        "tags": [
+          "accounting aspects",
+          "retirement",
+          "death"
+        ],
+        "order": 60,
+        "authorImportance": "must"
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": {
+        "quote": [
+          {
+            "start": 200,
+            "end": 208
+          }
+        ]
+      },
+      "locked": false
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.fact-method-decided-by-agreement",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-existing-goodwill-written-off",
+        "kind": "key_line",
+        "label": "Key line",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-exists-written-off-old-ratio",
+        "kind": "key_line",
+        "label": "Key line",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-capitalisation-avg-profits-def",
+        "kind": "definition",
+        "label": "Definition",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.fact-retained-no-additional-entry",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.fact-no-goodwill-books-credit-debit",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-not-in-books-rule",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-goodwill-super-profits-def",
+        "kind": "definition",
+        "label": "Definition",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.formula-cap-avg-goodwill-formula",
+        "kind": "formula",
+        "label": "Formula",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.formula-cap-super-goodwill-formula",
+        "kind": "formula",
+        "label": "Formula",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.change-in-profit-sharing-ratio.entry-e-goodwill-gain-sacrifice",
+        "kind": "entry",
+        "label": "Entry",
+        "locked": true
+      },
+      "chapterKey": "accountancy.change-in-profit-sharing-ratio",
+      "chapterTitle": "Change in Profit Sharing Ratio",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-goodwill-simple-words",
+        "kind": "definition",
+        "label": "Definition",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.list-five-factors",
+        "kind": "list",
+        "label": "List",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-factor-location",
+        "kind": "key_line",
+        "label": "Key line",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-factor-market",
+        "kind": "key_line",
+        "label": "Key line",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.list-need-for-valuation",
+        "kind": "list",
+        "label": "List",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.fact-avg-goodwill-multiply",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.example-avg-example-60000",
+        "kind": "example",
+        "label": "Example",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-firm-capital-includes",
+        "kind": "key_line",
+        "label": "Key line",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-super-multiply-years",
+        "kind": "key_line",
+        "label": "Key line",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.example-super-example-goodwill-15000",
+        "kind": "example",
+        "label": "Example",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.steps-super-profit-steps",
+        "kind": "steps",
+        "label": "Steps",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.types-capitalisation-two-ways",
+        "kind": "types",
+        "label": "Types",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.fact-goodwill-capitalised-super",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.kl-both-cap-methods-same",
+        "kind": "key_line",
+        "label": "Key line",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.def-hidden-goodwill",
+        "kind": "definition",
+        "label": "Definition",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.example-hidden-example-30000",
+        "kind": "example",
+        "label": "Example",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.example-hidden-example-treatment",
+        "kind": "example",
+        "label": "Example",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.goodwill-valuation.fact-summary-goodwill-old-partners",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.goodwill-valuation",
+      "chapterTitle": "Goodwill: Nature and Valuation",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.def-premium-for-goodwill-def",
+        "kind": "definition",
+        "label": "Definition",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-premium-received",
+        "kind": "entry",
+        "label": "Entry",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-new-partner-capital-alt",
+        "kind": "entry",
+        "label": "Entry",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-goodwill-withdrawn",
+        "kind": "entry",
+        "label": "Entry",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.list-not-brought-two-possibilities",
+        "kind": "list",
+        "label": "List",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-goodwill-not-brought",
+        "kind": "entry",
+        "label": "Entry",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.fact-part-brought-current-debited",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.kl-exists-new-value-sacrificing",
+        "kind": "key_line",
+        "label": "Key line",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.admission-of-partner.entry-e-goodwill-writeoff-old-ratio",
+        "kind": "entry",
+        "label": "Entry",
+        "locked": true
+      },
+      "chapterKey": "accountancy.admission-of-partner",
+      "chapterTitle": "Admission of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-entitled",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": null,
+      "locked": true
+    },
+    {
+      "card": {
+        "id": "kc.accountancy.retirement-and-death-of-partner.fact-goodwill-who-compensates",
+        "kind": "fact",
+        "label": "Fact",
+        "locked": true
+      },
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "chapterTitle": "Retirement and Death of a Partner",
+      "match": null,
+      "locked": true
+    }
+  ],
+  "more": 20,
+  "total": 70,
+  "cardCounts": {
+    "accountancy.goodwill-valuation": 33,
+    "accountancy.change-in-profit-sharing-ratio": 2,
+    "accountancy.retirement-and-death-of-partner": 15,
+    "accountancy.admission-of-partner": 17,
+    "accountancy.dissolution-of-partnership-firm": 1,
+    "accountancy.debentures": 1,
+    "accountancy.cash-flow-statement": 1
+  }
+}

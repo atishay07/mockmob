@@ -1,0 +1,83 @@
+{
+  "chapter": {
+    "key": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+      "key": "none",
+      "label": "Not started"
+    }
+  },
+  "minutes": 10,
+  "realMinutes": 10,
+  "startLabel": "Start 10 minutes",
+  "piles": [
+    {
+      "id": "cards",
+      "count": 5,
+      "minutes": 2,
+      "label": "Key cards",
+      "minutesLabel": "about 2 min",
+      "left": false,
+      "held": null
+    },
+    {
+      "id": "questions",
+      "count": 7,
+      "minutes": 8,
+      "label": "Questions",
+      "minutesLabel": "about 8 min",
+      "left": false,
+      "held": null
+    }
+  ],
+  "leaveOut": [],
+  "coach": "Tap a pile to leave it out.",
+  "note": "Ratings join Revise, so cards come back when they are due.",
+  "recap": {
+    "count": 5,
+    "minutes": 1,
+    "label": "Or a quick recap: the 5 Must-know lines, about 1 min"
+  },
+  "shrink": null,
+  "free": {
+    "text": "Free opens 5 of this chapter's 53 cards."
+  },
+  "resume": null,
+  "firstVisit": true,
+  "asked": 10,
+  "capped": null,
+  "freeSession": {
+    "used": false,
+    "maxMinutes": 10,
+    "line": null
+  },
+  "added": null,
+  "shelf": {
+    "cards": {
+      "count": 53,
+      "open": 5,
+      "mustKnow": 14,
+      "inRevise": 0
+    },
+    "questions": {
+      "linked": 10,
+      "total": 10
+    },
+    "mistakes": {
+      "open": 0
+    },
+    "lesson": {
+      "id": "accountancy-revaluation",
+      "title": "Revaluation of assets and liabilities",
+      "minutes": 7,
+      "read": false
+    },
+    "print": {
+      "mustKnow": 14,
+      "locked": true
+    }
+  }
+}

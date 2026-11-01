@@ -1,0 +1,162 @@
+{
+  "feed": {
+    "title": "10 minutes on Admission of a Partner",
+    "done": {
+      "reached": 13,
+      "of": 17,
+      "minutes": 1
+    },
+    "kept": {
+      "count": 1,
+      "cards": [
+        {
+          "id": "kc.accountancy.admission-of-partner.def-premium-for-goodwill-def",
+          "v": 1,
+          "subject": "accountancy",
+          "chapterKey": "accountancy.admission-of-partner",
+          "chapter": "Admission of Partner",
+          "unit": "Reconstitution of a Partnership firm",
+          "kind": "definition",
+          "front": "What is the new partner's share of goodwill (premium for goodwill)?",
+          "back": "As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in super profits. It is termed as his share of goodwill (also called premium for goodwill).",
+          "quote": "As stated earlier, the incoming partner who acquires his share in the profits of the firm from the existing partners brings in additional amount to compensate them for loss of their share in super profits. It is termed as his share of goodwill (also called premium for goodwill).",
+          "blanks": [],
+          "source": {
+            "kind": "ncert",
+            "book": "Accountancy : Partnership Accounts",
+            "code": "leac102",
+            "chapterNo": 2,
+            "page": 64,
+            "section": "2.5.5 Treatment of Goodwill"
+          },
+          "importance": "must",
+          "asked": 0,
+          "tags": [
+            "goodwill",
+            "premium"
+          ],
+          "order": 570,
+          "authorImportance": "must"
+        }
+      ],
+      "groups": [],
+      "stamp": "In Revise",
+      "line": "1 kept. They are first in Revise."
+    },
+    "lines": [
+      {
+        "label": "Questions",
+        "text": "1 of 1 right"
+      },
+      {
+        "label": "Old mistakes",
+        "text": "2 still open"
+      }
+    ],
+    "lead": {
+      "label": "Another 10 minutes",
+      "run": {
+        "kind": "feed",
+        "chapterKey": "accountancy.admission-of-partner",
+        "minutes": 10,
+        "fresh": true
+      }
+    },
+    "free": null,
+    "next": {
+      "label": "Next chapter: Retirement and Death of a Partner",
+      "key": "accountancy.retirement-and-death-of-partner",
+      "run": {
+        "kind": "feed",
+        "chapterKey": "accountancy.retirement-and-death-of-partner",
+        "minutes": 10
+      }
+    },
+    "dueOffer": null
+  },
+  "title": "10 minutes on Admission of a Partner",
+  "done": {
+    "reached": 13,
+    "of": 17,
+    "minutes": 1
+  },
+  "numbers": {
+    "cards": 0,
+    "questions": 1,
+    "fixed": 0,
+    "mistakes": 1,
+    "detail": {
+      "cards": null,
+      "questions": "1 of 1 right",
+      "fixed": "0 of 2, 2 still open"
+    }
+  },
+  "lines": [
+    {
+      "label": "Questions",
+      "text": "1 of 1 right"
+    },
+    {
+      "label": "Mistakes",
+      "text": "0 of 2 fixed, 2 still open"
+    }
+  ],
+  "revisePile": [],
+  "reviseCards": [],
+  "moved": null,
+  "free": null,
+  "lead": {
+    "kind": "next",
+    "title": "Next: Retirement and Death of a Partner",
+    "minutes": 10,
+    "label": "Next: Retirement and Death of a Partner, 10 minutes",
+    "evidence": "The next chapter in your book.",
+    "run": {
+      "chapterKey": "accountancy.retirement-and-death-of-partner",
+      "minutes": 10,
+      "leaveOut": [],
+      "kind": "mix"
+    }
+  },
+  "options": [
+    {
+      "kind": "here",
+      "title": "Another 5 minutes here",
+      "minutes": 5,
+      "label": "Another 5 minutes here",
+      "evidence": "6 Key cards and 3 questions",
+      "run": {
+        "chapterKey": "accountancy.admission-of-partner",
+        "minutes": 5,
+        "leaveOut": [],
+        "kind": "mix"
+      }
+    },
+    {
+      "kind": "fix",
+      "title": "Fix 3 open mistakes",
+      "minutes": 3,
+      "label": "Fix 3 open mistakes",
+      "evidence": "Accounting for Partnership: Basic Concepts, 3 min",
+      "run": {
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "minutes": 3,
+        "leaveOut": [
+          "questions",
+          "cards",
+          "lesson"
+        ],
+        "kind": "mix"
+      }
+    },
+    {
+      "kind": "mock",
+      "title": "Test it in a full mock",
+      "minutes": null,
+      "label": "Test it in a full mock",
+      "evidence": "A timed 50-question paper of the whole subject.",
+      "href": "/test?subject=accountancy&count=50&mode=full",
+      "go": "mock"
+    }
+  ]
+}

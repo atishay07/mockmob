@@ -1,0 +1,114 @@
+{
+  "feed": null,
+  "title": "10 minutes on Accounting for Partnership: Basic Concepts",
+  "done": {
+    "reached": 6,
+    "of": 21,
+    "minutes": 1
+  },
+  "numbers": {
+    "cards": 3,
+    "questions": 0,
+    "fixed": 1,
+    "mistakes": 1,
+    "detail": {
+      "cards": "1 got it, 1 easy, 1 missed",
+      "questions": null,
+      "fixed": "1 of 2, 1 still open"
+    }
+  },
+  "lines": [
+    {
+      "label": "Cards",
+      "text": "1 got it, 1 easy, 1 missed"
+    },
+    {
+      "label": "Mistakes",
+      "text": "1 of 2 fixed, 1 still open"
+    }
+  ],
+  "revisePile": [
+    {
+      "label": "back tomorrow",
+      "count": 1
+    },
+    {
+      "label": "back in 20 days",
+      "count": 1
+    },
+    {
+      "label": "back in 35 days",
+      "count": 1
+    }
+  ],
+  "reviseCards": [
+    {
+      "id": "kc.accountancy.partnership-fundamentals.def-deed-meaning",
+      "kind": "definition",
+      "front": "What is a Partnership Deed?",
+      "mustKnow": true
+    },
+    {
+      "id": "kc.accountancy.partnership-fundamentals.def-partnership",
+      "kind": "definition",
+      "front": "Define partnership.",
+      "mustKnow": true
+    }
+  ],
+  "moved": null,
+  "free": null,
+  "lead": {
+    "kind": "next",
+    "title": "Next: Profit and Loss Appropriation Account",
+    "minutes": 10,
+    "label": "Next: Profit and Loss Appropriation Account, 10 minutes",
+    "evidence": "The next chapter in your book.",
+    "run": {
+      "chapterKey": "accountancy.profit-and-loss-appropriation-account",
+      "minutes": 10,
+      "leaveOut": [],
+      "kind": "mix"
+    }
+  },
+  "options": [
+    {
+      "kind": "here",
+      "title": "Another 5 minutes here",
+      "minutes": 5,
+      "label": "Another 5 minutes here",
+      "evidence": "8 Key cards and 2 questions",
+      "run": {
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "minutes": 5,
+        "leaveOut": [],
+        "kind": "mix"
+      }
+    },
+    {
+      "kind": "fix",
+      "title": "Fix your last open mistake",
+      "minutes": 1,
+      "label": "Fix your last open mistake",
+      "evidence": "Admission of a Partner, 1 min",
+      "run": {
+        "chapterKey": "accountancy.admission-of-partner",
+        "minutes": 1,
+        "leaveOut": [
+          "questions",
+          "cards",
+          "lesson"
+        ],
+        "kind": "mix"
+      }
+    },
+    {
+      "kind": "mock",
+      "title": "Test it in a full mock",
+      "minutes": null,
+      "label": "Test it in a full mock",
+      "evidence": "A timed 50-question paper of the whole subject.",
+      "href": "/test?subject=accountancy&count=50&mode=full",
+      "go": "mock"
+    }
+  ]
+}

@@ -73,6 +73,7 @@ import '../unit/you/you_test_support.dart' as you;
 import 'demo_book.dart';
 import 'demo_insights.dart';
 import 'demo_keycards.dart';
+import 'demo_learn.dart';
 import 'demo_nudges.dart';
 import 'demo_questions.dart';
 import 'demo_repair.dart';
@@ -220,9 +221,10 @@ List<Override> _overrides() {
   final now = DateTime.now();
   return [
     // Start, the bar's live capsule and its badges: the real app's own wiring. Key cards read the fixture deck
-    // instead of the real routes.
-    ...liveAppOverrides(keyCards: false),
+    // instead of the real routes; Learn v2 talks to the web dev preview's engine (demo_learn.dart).
+    ...liveAppOverrides(keyCards: false, learn: false),
     ...demoKeyCardsOverrides(),
+    ...demoLearnOverrides(),
     authSnapshotProvider.overrideWith(() => practice.FakeAuth(_asha)),
     if (_demoWelcomeCredits) welcomeCreditsDemoProvider.overrideWithValue(true),
     networkStatusProvider.overrideWith(() => practice.FakeNetwork(NetworkStatus.online)),

@@ -1,0 +1,44 @@
+{
+  "correct": true,
+  "key": "C",
+  "choice": "C",
+  "explanation": "When capital accounts are fixed, the capital accounts do not record drawings. Drawings are debited to the partner's Current Account, so the entry falls on the debit side of the Current A/c.",
+  "fixed": true,
+  "fixedText": "Right this time. Back on Wed to check it held.",
+  "retired": false,
+  "line": {
+    "card": {
+      "id": "kc.accountancy.partnership-fundamentals.diff-fixed-vs-fluc-items",
+      "v": 2,
+      "subject": "accountancy",
+      "chapterKey": "accountancy.partnership-fundamentals",
+      "chapter": "Partnership Fundamentals",
+      "unit": "Accounting for Partnership",
+      "kind": "difference",
+      "front": "Fixed vs Fluctuating capital: the difference on items related to the deed (drawings, salary, interest on capital).",
+      "back": "Fixed Capital\nDrawings, salary, interest on capital, etc. are posted (transfered) in the current accounts and not in the capital accounts.\nFluctuating Capital\nAll adjustments for drawings, salary, interest on capital, etc., are posted (transfered) in the capital accounts.",
+      "quote": "Fixed Capital Fluctuating Capital (i) Number of accounts (ii) Items related to deed (iii) Fixed balance (iv) Credit balance Under this method, two separate accounts are maintained for each partner viz., ‘capital account’ and ‘current account’. Drawings, salary,interest on capital,etc. are posted (transfered) in the current accounts and not in the capital accounts. The capital account balance remain unchanged unless there is addition to or withdrawal of capital. The capital accounts always show a credit balance. Each partner has one account, i.e. capital account, under this method All adjustments for drawings, salary interest on capital, etc., are posted (transfered) in the capital accounts,",
+      "blanks": [],
+      "source": {
+        "kind": "ncert",
+        "book": "Accountancy – Partnership Accounts",
+        "code": "leac101",
+        "chapterNo": 1,
+        "page": 7,
+        "section": "1.4.1 Distinction between Fixed and Fluctuating Capital Accounts"
+      },
+      "importance": "must",
+      "asked": 0,
+      "tags": [
+        "capital accounts",
+        "fixed capital",
+        "fluctuating capital"
+      ],
+      "order": 490,
+      "authorImportance": "must"
+    },
+    "source": "linked",
+    "collapsed": true
+  },
+  "reinsert": null
+}

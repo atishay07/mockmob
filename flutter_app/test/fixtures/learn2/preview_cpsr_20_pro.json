@@ -1,0 +1,96 @@
+{
+  "chapter": {
+    "key": "accountancy.change-in-profit-sharing-ratio",
+    "title": "Change in Profit Sharing Ratio",
+    "ref": "Ch 2",
+    "partTitle": "Part 1, Partnership Accounts",
+    "unitTitle": "Reconstitution of a Partnership firm",
+    "state": {
+      "key": "needs_work",
+      "label": "Needs work"
+    }
+  },
+  "minutes": 20,
+  "realMinutes": 19,
+  "startLabel": "Start 19 minutes",
+  "piles": [
+    {
+      "id": "cards",
+      "count": 8,
+      "minutes": 3,
+      "label": "Key cards",
+      "minutesLabel": "about 3 min",
+      "left": false,
+      "held": null
+    },
+    {
+      "id": "questions",
+      "count": 7,
+      "minutes": 9,
+      "label": "Questions",
+      "minutesLabel": "about 9 min",
+      "left": false,
+      "held": null
+    },
+    {
+      "id": "lesson",
+      "count": 1,
+      "minutes": 7,
+      "label": "Lesson",
+      "minutesLabel": "7 min",
+      "left": false,
+      "held": null
+    }
+  ],
+  "leaveOut": [],
+  "coach": "Tap a pile to leave it out.",
+  "note": "Ratings join Revise. Questions are free.",
+  "recap": {
+    "count": 6,
+    "minutes": 1,
+    "label": "Or a quick recap: the 6 Must-know lines, about 1 min"
+  },
+  "shrink": {
+    "minutes": 19,
+    "reason": "pool",
+    "text": "This chapter has about 19 minutes of new things today.",
+    "addNext": {
+      "key": "accountancy.goodwill-valuation",
+      "title": "Goodwill: Nature and Valuation",
+      "label": "Add the next chapter, Goodwill: Nature and Valuation",
+      "ref": "Ch 2"
+    }
+  },
+  "free": null,
+  "resume": null,
+  "firstVisit": false,
+  "asked": 20,
+  "capped": null,
+  "freeSession": null,
+  "added": null,
+  "shelf": {
+    "cards": {
+      "count": 8,
+      "open": 8,
+      "mustKnow": 6,
+      "inRevise": 0
+    },
+    "questions": {
+      "linked": 6,
+      "total": 7
+    },
+    "mistakes": {
+      "open": 0
+    },
+    "lesson": {
+      "id": "accountancy-sacrificing-gaining",
+      "title": "Sacrificing and gaining ratios",
+      "minutes": 7,
+      "read": false
+    },
+    "print": {
+      "mustKnow": 6,
+      "locked": false
+    }
+  }
+}

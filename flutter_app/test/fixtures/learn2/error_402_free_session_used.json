@@ -1,0 +1,42 @@
+{
+  "error": "FREE_SESSION_USED",
+  "reason": "learn_session",
+  "line": "Your free Learn session for today is done. Explore questions stay free. Pro has as many as you like.",
+  "options": [
+    {
+      "label": "Revise 3 due cards",
+      "run": {
+        "kind": "cards",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "cardIds": [
+          "kc.accountancy.partnership-fundamentals.def-partnership",
+          "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
+          "kc.accountancy.partnership-fundamentals.def-deed-meaning"
+        ],
+        "minutes": 1
+      }
+    },
+    {
+      "label": "Quick recap of this chapter",
+      "run": {
+        "kind": "recap",
+        "chapterKey": "accountancy.partnership-fundamentals",
+        "minutes": 1
+      }
+    },
+    {
+      "label": "Questions on this chapter in Explore",
+      "href": "/explore?subject=accountancy&chapter=Partnership+Fundamentals",
+      "go": "explore"
+    }
+  ],
+  "resume": {
+    "id": "lr_75a9421b815fb51529aa67e6",
+    "chapterKey": "accountancy.admission-of-partner",
+    "title": "Admission of a Partner",
+    "done": 2,
+    "of": 12,
+    "minutesLeft": 8,
+    "kind": "feed"
+  }
+}
