@@ -1,5 +1,17 @@
 # NOW: MockMob current state
 
+## 2 Nov 2026, about 3 am IST: Chemistry and History Key cards are live (LK34)
+- **Live:** main 90679d8c0, deployment dpl_Bb2sB56bG5wADahBaBkiQvzAQEyh. No runtime errors; rollback is the previous deployment.
+- **Chemistry:** 1,257 cards from 10 NCERT chapters.
+  - Formulas are drawn as real chemistry (CH₃OH, [Co(NH₃)₆]³⁺, 3d⁸).
+  - I looked at them on screen.
+- **History:** 1,418 cards from 12 NCERT chapters.
+- **Both subjects:** exact NCERT text with book, chapter and page. Each chapter was checked by an independent reviewer, and the cards it flagged are held back.
+- **Being written now:**
+  - Geography, Psychology and Sociology
+  - Physics, Mathematics and Computer Science
+  - Physics and Maths cards hold only text that reads right without formulas, because extraction flattens powers and fractions.
+
 ## 1 Nov 2026, about 11:55 pm IST: Learn v2 rounds 2 to 4 are live (his LK24-LK33)
 - **Live:** main 668341aea, deployment dpl_kmM3Rym59riGDcmQ1MVgRzs9RbGa.
   - No runtime errors.
