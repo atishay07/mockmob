@@ -24,8 +24,8 @@ abstract final class CardStyles {
   static TextStyle barCompact(BuildContext context) =>
       context.mmType.label.copyWith(fontSize: 13, height: 1.3, fontWeight: FontWeight.w600, color: context.mmColors.ink3);
 
-  static TextStyle barCount(BuildContext context) =>
-      context.mmType.label.copyWith(fontSize: 13, height: 1.3, fontWeight: FontWeight.w600, color: context.mmColors.ink3);
+  /// A group's count, at its right.
+  static TextStyle barCount(BuildContext context) => barCompact(context);
 
   /// A search's words: underlined in the accent, nothing boxed.
   static TextStyle hitStyle(BuildContext context) {
@@ -34,39 +34,24 @@ abstract final class CardStyles {
   }
 }
 
-/// Fades its child in once when it first appears (an opening row's line, the NCERT block).
+/// Fades its child in once when it first appears (an opening row's line, the NCERT block, the pick bar). Nothing under reduced
+/// motion.
 class CardFadeIn extends StatelessWidget {
-  const CardFadeIn({super.key, required this.child, this.duration = const Duration(milliseconds: 220), this.delay = Duration.zero});
+  const CardFadeIn({super.key, required this.child, this.duration = const Duration(milliseconds: 220)});
 
   final Widget child;
   final Duration duration;
-  final Duration delay;
 
   @override
   Widget build(BuildContext context) {
-    final total = Motion.of(context, duration + delay);
+    final total = Motion.of(context, duration);
     if (total == Duration.zero) return child;
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0, end: 1),
       duration: total,
-      curve: _Delayed(delay: delay, total: total, curve: Motion.out),
+      curve: Motion.out,
       builder: (context, t, child) => Opacity(opacity: t, child: child),
       child: child,
     );
-  }
-}
-
-class _Delayed extends Curve {
-  const _Delayed({required this.delay, required this.total, required this.curve});
-
-  final Duration delay;
-  final Duration total;
-  final Curve curve;
-
-  @override
-  double transformInternal(double t) {
-    if (delay == Duration.zero) return curve.transform(t);
-    final start = delay.inMicroseconds / total.inMicroseconds;
-    return t <= start ? 0 : curve.transform((t - start) / (1 - start));
   }
 }
