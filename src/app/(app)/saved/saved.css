@@ -47,8 +47,6 @@
 
 .sv-actions { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 8px 4px 0; position: relative; z-index: 1; }
 .sv-act { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0 14px; border-radius: 12px; border: 1px solid var(--a-line-strong); background: transparent; color: var(--a-ink-2); font: 700 13px var(--font-display); text-decoration: none; cursor: pointer; }
-.sv-act--go { color: var(--a-accent-text); border-color: var(--a-volt-line); }
-.sv-act--go:hover { background: var(--a-volt-wash); }
 .sv-act--rm:hover:not(:disabled) { color: var(--a-bad-text); border-color: var(--a-bad-text); background: var(--a-bad-wash); }
 .sv-act:disabled { opacity: 0.55; cursor: default; }
 
@@ -91,7 +89,6 @@
   .sv-row { margin-bottom: 22px; }
   .sv-actions { gap: 8px; }
   .sv-act { min-height: 48px; border-radius: 14px; font-size: 14px; }
-  .sv-act--go { flex: 1 1 auto; justify-content: center; }
 }
 @media (min-width: 640px) {
   .app-shell .saved-aside { flex-wrap: nowrap; gap: 8px; }
@@ -101,10 +98,31 @@
 /* Saved is a ruled list, not stacked cards: each question is one row between hairlines, the options open on
    "Try it again", and the row's own actions sit in its footer (QuestionCard variant="saved"). */
 .sv-row { margin-bottom: 0; border-radius: 0; }
-.sv-list > .sv-row:first-child { border-top: 1px solid var(--a-line); }
 .sv-row { border-bottom: 1px solid var(--a-line); }
 .sv-card { border-radius: 0; }
 .sv-row .ex-question { padding: 20px 0; border: 0; border-radius: 0; background: transparent; box-shadow: none; }
 .sv-row .ex-question__actions--saved { justify-content: flex-start; gap: 8px 10px; margin-top: 14px; padding-top: 0; border-top: 0; }
 .sv-row .ex-question__actions--saved .sv-act--rm { margin-left: auto; }
-@media (max-width: 639px) { .sv-row { margin-bottom: 0; } .sv-row .ex-question__actions--saved .sv-act--go { flex: 1 1 100%; order: -1; } }
+@media (max-width: 639px) { .sv-row { margin-bottom: 0; } }
+
+/* R4 owner-eye#11, first-timer#16: Saved is grouped by chapter. One heading and one "Practise this chapter" key per group; each
+   question is its stem (tap it to open the options) and one quiet Remove. No wall of three keys on every row. */
+.sv-group { padding-top: 26px; }
+.sv-group:first-child { padding-top: 6px; }
+.sv-rows { list-style: none; margin: 0; padding: 0; }
+.sv-ghead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 16px; padding-bottom: 2px; border-bottom: 1px solid var(--a-line-strong); }
+.sv-ghead__t { margin: 0; flex: 1 1 14em; min-width: 0; padding: 6px 0 0; font: 700 16px/1.3 var(--font-display); letter-spacing: -0.01em; color: var(--a-ink); text-wrap: balance; overflow-wrap: anywhere; }
+.sv-gkey { flex: none; display: inline-flex; align-items: center; min-height: 44px; margin-block: -4px 0; margin-inline: -4px; padding: 0 4px; border: 0; background: none; color: var(--a-accent-text); font: 700 14px/1.2 var(--font-body); text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 4px; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+.sv-gkey:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 3px; border-radius: 6px; }
+@media (hover: hover) { .sv-gkey:hover { color: var(--a-ink); } }
+.sv-row .ex-question__meta[data-solo] { justify-content: flex-start; margin-bottom: 8px; }
+.sv-row .ex-question__body--key { margin-bottom: 0; }
+.sv-row .ex-question { padding-block: 16px 2px; }
+.sv-row .ex-question__open { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; width: 100%; min-height: 44px; margin: 0; padding: 0; border: 0; background: none; color: inherit; font: inherit; text-align: left; cursor: pointer; -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+.sv-row .ex-question__open > svg { flex: none; margin-top: 0.4em; color: var(--a-ink-3); transition: color 150ms var(--mk-settle, ease); }
+.sv-row .ex-question__open:focus-visible { outline: 2px solid var(--a-focus); outline-offset: 4px; border-radius: 6px; }
+@media (hover: hover) { .sv-row .ex-question__open:hover > svg { color: var(--a-ink); } }
+.sv-row .ex-question__actions--saved { margin-top: 2px; }
+.sv-row .ex-question__actions--saved .sv-act--rm { min-height: 44px; padding: 0 4px; margin-inline: auto -4px; border-color: transparent; border-radius: 8px; color: var(--a-ink-3); font: 600 13.5px/1.2 var(--font-body); }
+.sv-row .ex-question__actions--saved .sv-act--rm:hover:not(:disabled) { border-color: transparent; background: none; color: var(--a-bad-text); }
+@media (max-width: 639px) { .sv-row .ex-question__actions--saved .sv-act--rm { min-height: 44px; font-size: 13.5px; } }

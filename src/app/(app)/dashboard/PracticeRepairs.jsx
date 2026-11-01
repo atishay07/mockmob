@@ -14,9 +14,10 @@ import Link from 'next/link';
 import { MessageCircle, Wrench } from 'lucide-react';
 import { apiGet } from '@/lib/fetcher';
 import AskMobiLink from '@/components/ai/AskMobiLink';
-import { ENTRY_LABELS, practiceContext, practicePreview } from '@/components/ai/askContexts.mjs';
+import { ENTRY_LABELS, practiceContext } from '@/components/ai/askContexts.mjs';
+import { chapterTitle } from '@/lib/today/chapterTitle.mjs';
 import { useInsights } from '@/components/ai/useInsights';
-import { plural, repairsFor, REVIEW_WINDOW, sessionsWord } from './repairsLine.mjs';
+import { plural, repairsFor, REVIEW_WINDOW, sessionsWord, weakestLine } from './repairsLine.mjs';
 
 export default function PracticeRepairs({ userId, attempts, subjectId, subjectName }) {
   const [record, setRecord] = useState({ state: 'loading', rows: null, keyHeld: null });
@@ -40,7 +41,7 @@ export default function PracticeRepairs({ userId, attempts, subjectId, subjectNa
   if (!subjectId) return null;
   const name = subjectName || 'this subject';
   // What the record says about the weakest chapter, with its denominator; left out when the record has none.
-  const preview = practicePreview(insights);
+  const preview = weakestLine(insights, chapterTitle);
   const askLine = preview ? `${preview}.` : `About ${name} or how to practise it.`;
 
   let title; let detail; let primary = null;

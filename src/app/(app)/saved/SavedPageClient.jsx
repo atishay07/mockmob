@@ -22,10 +22,9 @@ import { mobiMoment } from '@/lib/mobiMoments';
 import { NUDGE_AFTER_MS, nudgeToday } from '@/lib/mobiRation';
 import { useShrug } from '@/lib/mobiHooks';
 import { foldExit, useSwipeCommit } from '@/lib/motion';
-import { SUBJECTS } from '@/../data/subjects';
 import { ChevronLeft } from 'lucide-react';
 import { useLearn2On } from '@/components/learn2/flag';
-import { syllabusTitle } from '@/components/feed/exploreModel.mjs';
+import { groupByChapter, practiseHref, subjectName } from './savedModel.mjs';
 import './saved.css';
 
 const FREE_LIMIT = 25;
@@ -37,14 +36,6 @@ const JUST_SAVED_MS = 10 * 60 * 1000;
 // First-time cue (R2 ruling 7, phone-clarity 17): in place of the sentence "Swipe a question left to remove it...", on a touch
 // screen the first row slides 40 px left showing its red Remove edge, then back (500 ms), once per student on this device.
 const SWIPE_CUE_KEY = 'mm:saved:swipe-cue:v1';
-
-const subjectName = (id) => SUBJECTS.find((s) => s.id === id)?.name || (id ? String(id) : 'Other');
-
-export function practiseHref(question) {
-  const params = new URLSearchParams({ subject: question.subject || '', mode: 'quick', count: '10' });
-  if (question.chapter) params.set('chapter', question.chapter);
-  return `/test?${params}`;
-}
 
 // Matches a touch screen. Mouse drags would fight text selection, so swiping stays off for them.
 function useCoarsePointer() {
@@ -84,7 +75,6 @@ function SavedRow({ question, coarse, pending, shake, onRemove, onPractise, rowR
     disabled: !coarse || pending,
     onCommit: (dir) => { if (dir === 'left') onRemove(question); else onPractise(href); },
   });
-  const hasChapter = Boolean(question.subject);
   return (
     <li
       ref={rowRef}
@@ -98,10 +88,11 @@ function SavedRow({ question, coarse, pending, shake, onRemove, onPractise, rowR
         <span className="sv-under__rm">Remove</span>
       </div>
       <div {...bind} className={`${bind.className} sv-card`}>
-        <QuestionCard row={question} variant="saved" chapterTitle={syllabusTitle(question.subject, question.chapter)} onProgressChange={(event) => { if (event?.type === 'unsave') onRemove(question, { confirmed: true }); }} actions={<>
-          {hasChapter ? <Link className="sv-act sv-act--go mk-press" href={href}>Practise {question.chapter ? 'this chapter' : subjectName(question.subject)}</Link> : null}
+        {/* R4 owner-eye#11: the stem opens the question; the row's one quiet key is Remove. "Practise this chapter" is said once
+            per chapter group (the group's heading), and a right swipe still practises it. */}
+        <QuestionCard row={question} variant="saved" hideChapter onProgressChange={(event) => { if (event?.type === 'unsave') onRemove(question, { confirmed: true }); }} actions={
           <button type="button" className="sv-act sv-act--rm mk-press" disabled={pending} onClick={() => onRemove(question)}>{pending ? 'Removing…' : 'Remove'}</button>
-        </>} />
+        } />
       </div>
     </li>
   );
@@ -331,19 +322,29 @@ export default function SavedPageClient() {
             </div>
           ) : null}
           <ul className="sv-list">
-            {visible.map((question) => (
-              <SavedRow
-                key={question.id}
-                question={question}
-                coarse={coarse}
-                pending={pending.has(question.id)}
-                shake={shake === question.id}
-                enter={entered === question.id}
-                cue={cueId === question.id}
-                rowRef={(node) => { if (node) rows.current.set(question.id, node); else rows.current.delete(question.id); }}
-                onRemove={remove}
-                onPractise={(href) => router.push(href)}
-              />
+            {groupByChapter(visible).map((group) => (
+              <li key={group.key} className="sv-group">
+                <div className="sv-ghead">
+                  <h2 className="sv-ghead__t">{group.title}</h2>
+                  {group.href ? <Link className="sv-gkey mk-press" href={group.href}>{group.practise}</Link> : null}
+                </div>
+                <ul className="sv-rows">
+                  {group.items.map((question) => (
+                    <SavedRow
+                      key={question.id}
+                      question={question}
+                      coarse={coarse}
+                      pending={pending.has(question.id)}
+                      shake={shake === question.id}
+                      enter={entered === question.id}
+                      cue={cueId === question.id}
+                      rowRef={(node) => { if (node) rows.current.set(question.id, node); else rows.current.delete(question.id); }}
+                      onRemove={remove}
+                      onPractise={(href) => router.push(href)}
+                    />
+                  ))}
+                </ul>
+              </li>
             ))}
           </ul>
         </>

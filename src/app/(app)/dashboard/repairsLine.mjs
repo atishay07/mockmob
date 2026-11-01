@@ -78,3 +78,18 @@ export function repairsFor({ attempts = [], repairs = null, subjectId, keyHeld =
   return { sessions, listed, open, openElsewhere, blanks, saved: saved.length, revisit: saved[0] || null, ask };
 }
 
+
+/**
+ * The weakest chapter's record line for Practice's row (R4 ui-correctness#2): the counts first, then the chapter by its syllabus
+ * title ("6 wrong of 10 answered in Accounting for Partnership: Basic Concepts"), never the stored name ("Partnership Fundamentals").
+ * `titleOf(subject, storedName)` gives the title (src/lib/today/chapterTitle.mjs); null when the record has no ranked chapter.
+ */
+export function weakestLine(insights, titleOf = (subject, chapter) => chapter) {
+  if (insights?.state !== 'ready') return null;
+  const c = insights.chapters?.ranked?.[0];
+  const whole = (v) => Number.isInteger(v) && v >= 0;
+  if (!c || !whole(c.wrong) || !whole(c.n) || c.n <= 0) return null;
+  const stored = String(c.chapter ?? '').replace(/\s+/g, ' ').trim();
+  const name = stored ? String(titleOf(c.subject, stored) || stored) : '';
+  return `${c.wrong} wrong of ${c.n} answered${name ? ` in ${name}` : ''}`;
+}

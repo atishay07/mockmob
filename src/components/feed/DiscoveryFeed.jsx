@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Bookmark, ChevronRight } from 'lucide-react';
 import ArenaHead from '@/components/arena/ArenaHead';
@@ -15,10 +15,11 @@ import { useLearn2On } from '@/components/learn2/flag';
 import { chapterNameOf } from '@/components/learn2/feed/coverModel';
 import { useAuth } from '@/components/AuthProvider';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { firstShown, moreShown, pickSingles, savedLabel, syllabusTitle } from './exploreModel.mjs';
+import { firstShown, moreShown, savedLabel, stableSingles, syllabusTitle } from './exploreModel.mjs';
 
 const PAGE_SIZE = 12;
-const EMPTY_PAGE = { questions: [], nextOffset: 0, hasMore: false, state: 'idle', error: null };
+// `singles` is the ordered list Explore shows (R4 client-code#3): it only ever appends once a question has been shown.
+const EMPTY_PAGE = { questions: [], singles: [], nextOffset: 0, hasMore: false, state: 'idle', error: null };
 // Learn v2's Explore (A2-explore-covers.md 4.10 Option A, BUILD-1101 B7): the Subject control in the page head with the page's
 // one subject object, the chapter covers full width under the head, a "Questions" heading with the Chapter and Difficulty
 // filters, and the right column demoted to follow the questions. Only when Learn v2 is on (NEXT_PUBLIC_LEARN2 = 'on') and
@@ -116,7 +117,10 @@ export function DiscoveryFeed() {
       const nextOffset = Number.isFinite(data.nextOffset) ? data.nextOffset : offset + PAGE_SIZE;
       const hasMore = Boolean(data.hasMore && nextOffset > offset);
       const finishesFocusedControl = !reset && !hasMore && document.activeElement === moreButton.current;
-      setPage((current) => ({ questions: appendUniqueQuestions(reset ? [] : current.questions, data.questions), nextOffset, hasMore, state: 'ready', error: null }));
+      setPage((current) => {
+        const questions = appendUniqueQuestions(reset ? [] : current.questions, data.questions);
+        return { questions, singles: stableSingles(questions, reset ? [] : current.singles, { subject: filters.subject }), nextOffset, hasMore, state: 'ready', error: null };
+      });
       if (finishesFocusedControl) requestAnimationFrame(() => { if (document.activeElement === document.body) endStatus.current?.focus({ preventScroll: true }); });
     } catch (error) {
       if (error.name !== 'AbortError' && sequence === request.current.sequence) setPage((current) => ({ ...current, state: 'error', error: { offset, reset } }));
@@ -152,10 +156,13 @@ export function DiscoveryFeed() {
   const subjectName = subjects.find((subject) => subject.id === filters.subject)?.name || 'your subject';
   const busy = page.state === 'loading';
   const hasFilters = Boolean(filters.chapter || filters.difficulty);
-  // R3 X1: only syllabus chapters, no repeated stem, the first 3 from different chapters where the page allows.
-  const singles = useMemo(() => pickSingles(page.questions, { subject: filters.subject }), [page.questions, filters.subject]);
+  // R3 X1: only syllabus chapters, no repeated stem, the first 3 from different chapters where the page allows. R4 client-code#3: the
+  // order is kept once shown (stableSingles, run when a page lands), so a later page only appends and nothing moves under a thumb.
+  const singles = page.singles;
   // A page whose rows were mostly out of syllabus or repeats leaves fewer than the 3 asked for: the next page is read (at most 5 in a row).
   const topUps = useRef(0);
+  // R4 client-code#8: a new subject, chapter or level starts its own count of top-ups (it ran before the effect below reads it).
+  useEffect(() => { topUps.current = 0; }, [filterKey]);
   useEffect(() => {
     if (!v2 || page.state !== 'ready') return;
     if (singles.length >= shown) { topUps.current = 0; return; }

@@ -1,6 +1,7 @@
 "use client";
 
 import { memo, useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { ChevronDown } from 'lucide-react';
 import { AppIcon, StatusIcon } from '@/components/ui/Glyph';
 import { interactWithQuestion, setQuestionBookmark } from '@/lib/services/questionService';
 import { VoteControls } from '@/components/questions/VoteControls';
@@ -18,7 +19,9 @@ import { claimFeedMobi, feedMobiOwner, feedMobiServerOwner, subscribeFeedMobi } 
 // no vote control and no save toggle (the row's own actions replace it).
 // closed (Learn v2 Explore's single questions, R2 ruling 11): the stem first; "Answer it" opens the options in place.
 // chapterTitle (Learn v2 Explore only, R9): the chapter's title as the covers and Learn print it, in place of the syllabus name the row carries.
-export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, variant = 'feed', actions = null, chapterTitle = null, closed = false }) {
+// hideChapter (Saved, R4 owner-eye#11): the chapter is the group's heading above the row, so the meta line keeps the level alone.
+// In the Saved list the stem itself is the key that opens the options (there is no separate key for it).
+export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, variant = 'feed', hideChapter = false, actions = null, chapterTitle = null, closed = false }) {
   const savedList = variant === 'saved';
   const [open, setOpen] = useState(!savedList && !closed);
   const q = row?.questions ?? row ?? {};
@@ -93,9 +96,13 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
 
   return (
     <article ref={card} className="ex-question" data-closed={!open && !savedList ? '' : undefined}>
-      <header className="ex-question__meta"><span>{chapterTitle || q.chapter || 'Practice question'}</span><span className="ex-difficulty" data-level={q.difficulty}>{['easy', 'medium', 'hard'].includes(q.difficulty) ? q.difficulty : 'Unlabelled'}</span></header>
+      <header className="ex-question__meta" data-solo={hideChapter || undefined}>{hideChapter ? null : <span>{chapterTitle || q.chapter || 'Practice question'}</span>}<span className="ex-difficulty" data-level={q.difficulty}>{['easy', 'medium', 'hard'].includes(q.difficulty) ? q.difficulty : 'Unlabelled'}</span></header>
       {(q.passage_text || q.passageText) && <section aria-label="Reading passage" className="ex-passage"><p className="ex-passage__label">Reading passage</p><div>{q.passage_text || q.passageText}</div></section>}
-      <h3 className="ex-question__body">{formatQuestionText(q.body ?? q.question ?? 'Question unavailable')}</h3>
+      {savedList && !open ? (
+        <h3 className="ex-question__body ex-question__body--key"><button type="button" className="ex-question__open" aria-expanded="false" onClick={() => setOpen(true)}>
+          <span>{formatQuestionText(q.body ?? q.question ?? 'Question unavailable')}</span><ChevronDown size={18} strokeWidth={2.2} aria-hidden="true" />
+        </button></h3>
+      ) : <h3 className="ex-question__body">{formatQuestionText(q.body ?? q.question ?? 'Question unavailable')}</h3>}
       {open ? <div className="ex-options" role="group" aria-label="Answer options">
         {options.map((option, index) => {
           const correct = revealed && feedback.correctKey != null && String(option.key) === String(feedback.correctKey);
@@ -108,7 +115,6 @@ export const QuestionCard = memo(function QuestionCard({ row, onProgressChange, 
       {feedback.state === 'unavailable' && !revealed && <p className="ex-recorderror">This question has no usable answer key. Try the next one.</p>}
       {savedList ? (
         <footer className="ex-question__actions ex-question__actions--saved">
-          {!open ? <button type="button" className="ex-action" aria-expanded="false" onClick={() => setOpen(true)}>Try it again</button> : null}
           {actions}
         </footer>
       ) : <footer className="ex-question__actions">

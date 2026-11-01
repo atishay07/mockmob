@@ -35,6 +35,7 @@ import { StateRing } from '../home/ChapterMap';
 import { minutesFor } from '../run/runMath';
 import { usePrintSheet } from '../print/ChapterPrintSheet';
 import { useAuth } from '@/components/AuthProvider';
+import { chapterShort } from '../../../../data/learn/words.js';
 import { chapterQuietLine, chapterVerdict, coachKeyFor, continueLabel, firstUpCards, hasSeenCards, headLines, isChapterMissing, pileView, recapLabel, shelfView, startKeyLabel, titleSize, withFlag } from './chapterModel.mjs';
 import '../../keycards/keycards.css';
 import './chapter.css';
@@ -191,9 +192,9 @@ export function FaceHint({ id }) {
   );
 }
 
-function Pile({ pile, index, busy, onToggle, shaking, onShaken, describedBy }) {
+function Pile({ pile, index, busy, onToggle, shaking, onShaken, describedBy, minutes }) {
   const { value } = useCountUpState(pile.count, { duration: 180, curve: 'out' });
-  const v = pileView(pile);
+  const v = pileView(pile, { minutes });
   const paper = (
     <span className="lc-fan" key={`${pile.count}-${pile.left}`}>
       <span className="lc-sheet lc-sheet--c" aria-hidden="true" />
@@ -240,7 +241,8 @@ function Pile({ pile, index, busy, onToggle, shaking, onShaken, describedBy }) {
 
 /** A short chapter: the next chapter can join this run (the server's addNext dry run); added, it can be taken out again. */
 function NextPile({ next, added, plus, minutes, index, busy, onToggle }) {
-  const ref = next?.ref || null;
+  // R4 ruling N: the next chapter is named by its place ("Chapter 6"), never its NCERT number; no place, no label.
+  const ref = chapterShort(next?.place || added?.place) || null;
   const title = added?.title || next?.title || '';
   return (
     <li className="lc-pile" data-kind="next" data-added={added ? '' : undefined} style={{ '--i': index }}>
@@ -545,7 +547,7 @@ export default function ChapterPage({ chapterKey, minutes: asked = null }) {
                           <>
                             <ul className="lc-piles" aria-label="Lined up for this run" data-n={n}>
                               {piles.map((p, i) => (
-                                <Pile key={p.id} pile={p} index={i} busy={refreshing} onToggle={toggle} shaking={shake === p.id} onShaken={() => setShake(null)} describedBy={p.held ? quietId : undefined} />
+                                <Pile key={p.id} pile={p} index={i} minutes={minutes} busy={refreshing} onToggle={toggle} shaking={shake === p.id} onShaken={() => setShake(null)} describedBy={p.held ? quietId : undefined} />
                               ))}
                               {next || added ? (
                                 <NextPile next={next} added={added} plus={plus} minutes={minutes} index={piles.length} busy={refreshing} onToggle={() => setAddNext((a) => !a)} />
