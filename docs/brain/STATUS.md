@@ -1,4 +1,4 @@
-## 2 Nov 2026, about 6:45 am IST: Key cards +911 to production (owner LK34): wording recovery, English top-up, Accountancy thin chapters
+## 2 Nov 2026, about 4:35 am IST: Key cards +911 to production (owner LK34): wording recovery, English top-up, Accountancy thin chapters
 
 **What shipped (14,801 cards, from 13,890):**
 - **Recovery round:** 778 cards were held back only for front wording (a front opening with It/This/These, a front over 140 characters, a back that is not the quote). Fixers re-cut them under ncert-books/FIX-BRIEF-2026-10-31.md, and an independent reviewer judged every edited or new card. Published gain: Chemistry +97, Geography +76, History +79, Mathematics +30, Physics +112, Psychology +52, Sociology +119.
@@ -14,7 +14,7 @@
 
 **Rollback:** the previous production deployment (main feb30935e).
 
-## 2 Nov 2026, about 5:30 am IST: Key cards for Computer Science to production (owner LK34); a blank keeps its punctuation on its line
+## 2 Nov 2026, about 4:15 am IST: Key cards for Computer Science to production (owner LK34); a blank keeps its punctuation on its line
 
 **What shipped:**
 - **Computer Science:** 1,350 cards across 18 chapters, from 19 NCERT PDFs (Computer Science XII Ch 1-12, Informatics Practices XII Ch 1-7). 567 are held back with reasons.
