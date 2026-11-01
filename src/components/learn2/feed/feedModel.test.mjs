@@ -20,7 +20,7 @@ test('the checkpoint: right of answered, else cards seen and kept; the line only
   assert.match(a.line, /already in Revise/);
   const b = checkpointText({ answered: 0, right: 0, seen: 6, kept: 0 }, { done: 8, of: 21, seconds: 0 });
   assert.equal(b.big, '6 cards seen, 0 kept');
-  assert.equal(b.line, 'Keep going, or stop here.');
+  assert.equal(b.line, 'Keep going, or end here.');
 });
 
 test('Up next names the next slot', () => {

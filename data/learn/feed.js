@@ -23,7 +23,7 @@ export const FEED_RULES = Object.freeze({
 
 /** The line under a feed when Free's day is used. Kept under its old name for older importers (LK15, allowance.js). */
 export const FREE_FEED_DONE = FREE_SESSION_DONE;
-export const CHECKPOINT_LINE = 'Keep going, or stop here. What you kept is already in Revise.';
+export const CHECKPOINT_LINE = 'Keep going, or end here. What you kept is already in Revise.';
 
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
 

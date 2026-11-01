@@ -3,7 +3,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  refLineOf, hasHistory, isFreePlan, leadLine, studentLineOf, mixLineOf, keyLabelOf, hookTier, mediaOf, chapterNameOf, slugOf, readLength,
+  refLineOf, hasHistory, isFreePlan, leadLine, studentLineOf, mixLineOf, keyLabelOf, hookTier, mediaOf, opensQuestions, chapterNameOf, slugOf, readLength,
 } from './coverModel.js';
 
 test('ref line: the server line wins, else derived from part and ref, else the unit', () => {
@@ -59,6 +59,11 @@ test('mix line and key: the picked length, short chapters, Free, resume and the 
   assert.equal(keyLabelOf(r, 20), 'Pick up, 4 minutes');
   assert.equal(mixLineOf(r, 5), 'About 4 minutes left');
   assert.equal(keyLabelOf(c, 10, { freeDone: true }), 'Questions on this chapter');
+  // M3: at Free's day limit a cover with a feed to pick up says so (the feed resumes its own run); only the others open questions.
+  assert.equal(keyLabelOf(r, 10, { freeDone: true }), 'Pick up, 4 minutes');
+  assert.equal(opensQuestions(r, { freeDone: true }), false);
+  assert.equal(opensQuestions(c, { freeDone: true }), true);
+  assert.equal(opensQuestions(c, { freeDone: false }), false);
   assert.equal(isFreePlan({ covers: [c, { counts: { 20: { capped: true } } }] }), true);
   assert.equal(isFreePlan({ covers: [c] }), false);
 });
@@ -67,6 +72,9 @@ test('media: the opening card, a locked card never prints null, a questions-only
   assert.deepEqual(mediaOf({ hook: { front: 'What is goodwill?' } }), { kind: 'card', text: 'What is goodwill?' });
   assert.deepEqual(mediaOf({ hook: { front: null, kind: 'definition', locked: true } }), { kind: 'locked', label: 'Definition' });
   assert.deepEqual(mediaOf({ hook: null, counts: { 10: { cards: 0, questions: 8, minutes: 10 } } }), { kind: 'questions', text: '8 questions', note: 'No Key cards here yet.' });
+  // A chapter that still has cards (kept or due, so none is served in a feed) says where they are, not that it has none.
+  assert.deepEqual(mediaOf({ hook: null, due: 6, kept: 6, counts: { 10: { cards: 0, questions: 4, minutes: 10 } } }), { kind: 'questions', text: '4 questions', note: 'Your cards here are in Revise.' });
+  assert.equal(mediaOf({ hook: null, kept: 2, counts: { 10: { cards: 0, questions: 4, minutes: 10 } } }).note, 'Your cards here are in Revise.');
   assert.equal(hookTier('What is goodwill?'), 's');
   assert.equal(hookTier('What is reconstitution of a partnership firm?'), 'm');
   assert.equal(hookTier('Sum due to a retiring/deceased partner includes: name items (i) to (v).'), 'l');

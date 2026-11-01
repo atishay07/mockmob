@@ -22,7 +22,7 @@ import { feedSlots } from '@/../data/learn/feed.js';
 import { answerItem, getRun, isQuestionSkipped, isRunClosed, isSessionUsed, keepItem, runEnd, saveQuestion, startRun } from '../api';
 import { useLearnLinks } from '../links';
 import {
-  Stage, Ticks, TopBar, Panel, MiniPile, KeptCount, RailKey, ActionBar, PrevKey, StepKey, SkipKey, KeysList, buzz, flyTo, visible, seePro, still, watchMore,
+  Stage, Ticks, TopBar, Panel, MiniPile, KeptCount, RailKey, ActionBar, PrevKey, StepKey, SkipKey, KeysList, buzz, flyTo, visible, seePro, still, watchMore, watchBelow, BelowChip, goToOptions,
 } from '../stage/Stage';
 import { CardFace } from '../stage/CardFace';
 import { QuestionView, letterOf } from '../stage/Question';
@@ -236,6 +236,15 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
 
   // A long question shows that it goes on: its page fades at the foot while more waits below.
   useEffect(() => watchMore(mode === 'items' ? trackRef.current?.querySelector('.st-page--q:not([inert])') : null), [active, mode, list, load.status]);
+
+  // A long question whose first option waits below the fold says so: a quiet "Options below" chip above the bar (M10).
+  const [optBelow, setOptBelow] = useState(false);
+  useEffect(() => {
+    const page = mode === 'items' ? trackRef.current?.querySelector('.st-page--q:not([inert])') : null;
+    if (!page) { setOptBelow(false); return undefined; }
+    const bar = rootRef.current?.querySelector('.st-bar');
+    return watchBelow({ roots: [page], limits: [{ el: page, edge: 'bottom' }, { el: bar, edge: 'top' }], find: () => page.querySelector('.st-opt'), onChange: setOptBelow });
+  }, [active, mode, list, load.status]);
 
   // The end title takes focus when the end comes into view (the summary is read first).
   useEffect(() => {
@@ -515,7 +524,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
       ? <StepKey onClick={() => go(endAt)}>See how it went</StepKey>
       : (
         <>
-          <button type="button" className="kc-btn kc-btn--line st-step" onClick={() => go(endAt)}>Stop here</button>
+          <button type="button" className="kc-btn kc-btn--line st-step" onClick={() => go(endAt)}>End here</button>
           <StepKey onClick={() => go(active + 1)}>Keep going</StepKey>
         </>
       );
@@ -541,7 +550,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
     <ActionBar left={wide ? null : sideKey('bar')} right={wide ? null : chapterKeyEl('bar')} wide={wide}
       prev={<PrevKey onClick={() => go(active - 1)} disabled={active === 0} />}
       hint={showHint ? 'The mouse wheel and the arrow keys move between items too.' : null}
-      extra={sheet === 'keys' ? <KeysList onClose={() => setSheet(null)} /> : null}>
+      extra={<>{optBelow && item?.type === 'question' && !st.answer && !st.skipped ? <BelowChip show onClick={() => goToOptions(trackRef.current?.querySelector('.st-page--q:not([inert]) .st-opt'))} /> : null}{sheet === 'keys' ? <KeysList onClose={() => setSheet(null)} /> : null}</>}>
       {step}
     </ActionBar>
   ) : null;
@@ -604,7 +613,7 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
           );
         })}
       </ol>
-      <div className="st-drawer__keys"><button type="button" className="st-textkey" onClick={() => { setSheet(null); go(endAt); }}>Stop here and see how it went</button></div>
+      <div className="st-drawer__keys"><button type="button" className="st-textkey" onClick={() => { setSheet(null); go(endAt); }}>End here, see how it went</button></div>
     </Sheet>
   ) : null;
 

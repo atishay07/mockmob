@@ -247,6 +247,11 @@ test('E2: one due count: the sidebar badge (Key cards overview) equals Find\'s d
       rows += body.parts.flatMap((p) => p.units.flatMap((u) => u.chapters)).reduce((s, r) => s + r.due, 0);
     }
     assert.equal(rows, badge, `${plan}: chapter rows ${rows}`);
+    // M5: the subject rows' own due counts add up to the badge the shell draws under Learn v2, and the shelf's count is its own subject's.
+    const by = shelves.body.due.bySubject;
+    assert.deepEqual(Object.keys(by).sort(), ['accountancy', 'business_studies', 'economics', 'english'], `${plan}: every subject has a count`);
+    assert.equal(Object.values(by).reduce((s, n) => s + n, 0), badge, `${plan}: subject rows ${JSON.stringify(by)} add up to the badge ${badge}`);
+    assert.equal(by.accountancy, shelves.body.due.count);
     assert.equal(shelves.body.missed.days, 7);
   }
 });

@@ -19,7 +19,7 @@ import { openUpgrade } from '@/components/pro/proNudgeStore';
 import { feedCovers, useLearnRead } from '../api';
 import { useLearnLinks } from '../links';
 import {
-  COVER_START_KEY, LENGTHS, hasHistory, hookTier, isFreePlan, keyLabelOf, leadLine, mediaOf, mixLineOf, readLength, refLineOf, studentLineOf,
+  COVER_START_KEY, LENGTHS, hasHistory, hookTier, isFreePlan, keyLabelOf, leadLine, mediaOf, mixLineOf, opensQuestions, readLength, refLineOf, studentLineOf,
 } from './coverModel';
 import '@/components/keycards/keycards.css';
 import './covers.css';
@@ -82,13 +82,14 @@ function Skeleton() {
   );
 }
 
-function Cover({ c, index, minutes, lead, history, free, freeDone, swap, tabIndex, href, onFocus, onQuestions }) {
+function Cover({ c, index, minutes, lead, history, free, freeDone, swap, tabIndex, href, feedHref, onFocus, onQuestions }) {
   const id = useId().replace(/:/g, '');
   const media = mediaOf(c, minutes);
   const ref = refLineOf(c);
   const top = lead ? leadLine(c, { history }) : null;
   const line = lead ? null : studentLineOf(c, { history });
-  const mix = freeDone ? '' : mixLineOf(c, minutes, { free });
+  const toQuestions = opensQuestions(c, { freeDone });
+  const mix = toQuestions ? '' : mixLineOf(c, minutes, { free });
   const label = keyLabelOf(c, minutes, { freeDone });
   const ids = { t: `${id}t`, k: `${id}k`, l: `${id}l`, m: `${id}m`, h: `${id}h` };
   const describedBy = [(top || line) ? ids.l : null, mix ? ids.m : null, ids.h].filter(Boolean).join(' ');
@@ -111,15 +112,16 @@ function Cover({ c, index, minutes, lead, history, free, freeDone, swap, tabInde
         <span className="fxc-foot">
           {mix ? <span className={swap ? 'fxc-mix fxc-swap' : 'fxc-mix'} key={swap ? `m${minutes}` : 'm'} id={ids.m}>{mix}</span> : null}
           <span className={`kc-btn ${lead ? 'kc-btn--volt' : 'kc-btn--line'} fxc-key`} id={ids.k} data-page-primary={lead ? '' : undefined}>
-            {freeDone ? null : <Play size={16} strokeWidth={2.4} fill="currentColor" aria-hidden="true" />}
+            {toQuestions ? null : <Play size={16} strokeWidth={2.4} fill="currentColor" aria-hidden="true" />}
             <span className={swap ? 'fxc-swap' : undefined} key={swap ? `k${minutes}` : 'k'}>{label}</span>
           </span>
         </span>
       </span>
     </>
   );
-  if (freeDone) return <button type="button" {...props} onClick={() => onQuestions?.(c)}>{inner}</button>;
-  return <Link href={href} {...props} onClick={() => noteStart(c, index)}>{inner}</Link>;
+  if (toQuestions) return <button type="button" {...props} onClick={() => onQuestions?.(c)}>{inner}</button>;
+  // A cover with a feed to pick up opens that run by its id (Free at the day's limit can still finish its own feed).
+  return <Link href={c.resume?.runId ? feedHref(c, { runId: c.resume.runId }) : href} {...props} onClick={() => { if (!c.resume?.runId) noteStart(c, index); }}>{inner}</Link>;
 }
 
 /**
@@ -288,7 +290,7 @@ export default function ExploreCovers({ subject, subjectName = null, enabled, on
               <li key={c.key} className="fxc-item">
                 <Cover
                   c={c} index={i} minutes={minutes} lead={Boolean(c.forYou)} history={history} free={free} freeDone={freeDone} swap={swap}
-                  tabIndex={i === Math.min(focusIndex, n - 1) ? 0 : -1} href={links.feed(c.key, minutes)}
+                  tabIndex={i === Math.min(focusIndex, n - 1) ? 0 : -1} href={links.feed(c.key, minutes)} feedHref={(cv, o) => links.feed(cv.key, minutes, o)}
                   onFocus={() => setFocusIndex(i)} onQuestions={onQuestions}
                 />
               </li>

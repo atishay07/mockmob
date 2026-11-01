@@ -72,7 +72,7 @@ test('a returning Pro student: pick up, due, fix, each naming its reason; due an
   assert.deepEqual(list[1].action.run, { chapterKey: 'accountancy.accounting-ratios', minutes: cardRunMinutes(5), leaveOut: ['questions', 'mistakes', 'lesson'], kind: 'cards', cardIds: ['d1', 'd2', 'd3', 'd4', 'd5'] }, 'only the due cards');
   assert.equal(list[1].evidence, `Due today, about ${cardRunMinutes(5)} minute${cardRunMinutes(5) === 1 ? '' : 's'}.`);
   assert.equal(list[2].title, '3 open mistakes in Accounting for Partnership: Basic Concepts');
-  assert.equal(list[2].evidence, 'From Mock 3 on 16 Oct, with the lines you needed.');
+  assert.equal(list[2].evidence, 'From Mock 3 on 16 Oct.');
   assert.deepEqual(list[2].action.run.leaveOut, ['questions', 'cards', 'lesson'], 'only the mistakes');
   assert.equal(list[2].action.label, `Fix them, about ${fixMinutes(3)} minutes`);
   assert.equal(list[2].action.run.minutes, fixMinutes(3));

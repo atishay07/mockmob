@@ -75,6 +75,27 @@ export function matchLists(stem) {
   return { lead, one, two, tail };
 }
 
+/**
+ * A "Statement I / Statement II / Statement III" stem as { lead, items: [{ label, text }], tail }, else null. The lead is what
+ * comes before the first statement ("Read the following statements ..."); the tail is the ask that closes the last one
+ * ("Choose the correct option.", "Which of the above ..."). Two or more statements are needed; set as a list they read.
+ */
+export function statementList(stem) {
+  const s = String(stem || '').replace(/\s+/g, ' ').trim();
+  const re = /Statement\s+(I{1,3}|IV|V|[1-5])\s*[:.–-]\s*/g;
+  const marks = [];
+  for (let m = re.exec(s); m; m = re.exec(s)) marks.push({ label: m[1], at: m.index, end: m.index + m[0].length });
+  if (marks.length < 2) return null;
+  const items = marks.map((x, i) => ({ label: x.label, text: s.slice(x.end, i + 1 < marks.length ? marks[i + 1].at : s.length).trim() }));
+  let tail = '';
+  const last = items[items.length - 1];
+  // The ask starts at a capital "Choose", "Which", "Select" or "Pick" after a full stop, question mark or colon.
+  const ask = /(?<=[.?!:])\s+(?=(?:Choose|Which|Select|Pick|Identify)\b)/.exec(last.text);
+  if (ask) { tail = last.text.slice(ask.index).trim(); last.text = last.text.slice(0, ask.index).trim(); }
+  if (items.some((x) => !x.text)) return null;
+  return { lead: s.slice(0, marks[0].at).trim(), items, tail };
+}
+
 /** The stem's size step (A1 3.5): 's' up to 200 characters, else 'l'. */
 export const stemSize = (stem) => (String(stem || '').length <= 200 ? 's' : 'l');
 

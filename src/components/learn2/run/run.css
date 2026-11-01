@@ -67,6 +67,7 @@
 
 /* ---------- The body: the item and its keys ---------- */
 .lr-body { position: relative; flex: 1 1 auto; min-height: 0; overflow-y: auto; overflow-x: hidden; overscroll-behavior: contain; }
+.lr-body[data-top], .lr-area[data-top] { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 24px); mask-image: linear-gradient(to bottom, transparent 0, #000 24px); }
 .lr-frame { display: flex; flex-direction: column; min-height: 100%; }
 .lr-panel, .lr-side { display: none; }
 .lr-stagecol { display: flex; flex-direction: column; flex: 1 1 auto; min-width: 0; }
@@ -82,7 +83,7 @@
 @media (min-width: 768px) {
   /* The item's top stays put while it grows (a verdict, the line): the column starts where a card at its least would be
      centred, so a card looks centred and a question never jumps up when its line opens (B7 F). */
-  .lr-frame { width: min(100% - 32px, 600px); margin-inline: auto; justify-content: flex-start; padding: max(16px, calc((100dvh - var(--lr-top-h) - clamp(340px, 50vh, 480px) - 120px) / 2)) 0 24px; }
+  .lr-frame { width: min(100% - 32px, 600px); margin-inline: auto; justify-content: flex-start; padding: max(16px, calc((100dvh - var(--lr-top-h) - clamp(300px, 46dvh, 380px) - 120px) / 2)) 0 24px; }
   .lr-stagecol { flex: none; }
   .lr-area { flex: none; padding: 0; max-height: calc(100dvh - var(--lr-top-h) - var(--lr-bar-h) - 56px); overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
   .lr-area[data-type='question'] { padding: 4px 2px 8px; }
@@ -102,7 +103,7 @@
   .lr-close { justify-self: start; }
   .lr-frame {
     display: grid; width: auto; grid-template-columns: 240px 640px 72px; column-gap: 40px; justify-content: center; align-content: start; align-items: start;
-    padding: max(24px, calc((100vh - 64px - clamp(320px, 52vh, 520px) - 140px) / 2)) 0 32px; min-height: 100%;
+    padding: max(24px, calc((100vh - 64px - clamp(300px, 40vh, 360px) - 140px) / 2)) 0 32px; min-height: 100%;
   }
   .lr-panel, .lr-side { display: flex; }
   .lr-area { max-height: calc(100vh - 64px - var(--lr-bar-h) - 72px); }
@@ -213,7 +214,7 @@
 .lr-lesson__line { margin-top: 12px; font: 500 15px/1.5 var(--font-body); color: var(--a-ink-2); max-width: 44ch; }
 .lr-report { margin-top: 12px; }
 @media (min-width: 768px) {
-  .lr-card { min-height: clamp(340px, 50vh, 480px); perspective: 1600px; }
+  .lr-card { min-height: clamp(300px, 46dvh, 380px); perspective: 1600px; }
   .lr-face { padding: 26px 28px 22px; }
   .lr-front { font-size: 40px; }
   .lr-card[data-size='m'] .lr-front { font-size: 32px; }
@@ -221,7 +222,7 @@
   .lr-ncert.kc-ncert { font-size: 19px; }
 }
 @media (min-width: 1200px) {
-  .lr-card { min-height: clamp(320px, 52vh, 520px); }
+  .lr-card { min-height: clamp(300px, 40vh, 360px); }
   .lr-face { padding: 32px 36px 28px; }
   .lr-front { font-size: 44px; letter-spacing: -0.03em; }
   .lr-card[data-size='m'] .lr-front { font-size: 36px; letter-spacing: -0.025em; }
@@ -251,6 +252,7 @@
 .lr-steps li { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 6px; color: var(--a-ink-2); }
 .lr-steps__label { font: 700 14px/1.6 var(--font-display); color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .lr-opts { display: grid; gap: 10px; margin-top: 4px; }
+.lr-opt { scroll-margin-top: 12px; }
 .lr-opt {
   position: relative; display: grid; grid-template-columns: 30px minmax(0, 1fr) 20px; align-items: center; gap: 12px; width: 100%; min-height: 58px;
   padding: 11px 14px; border-radius: 16px; border: 1px solid var(--a-line-strong); background: var(--a-raised); color: var(--a-ink);
@@ -359,10 +361,10 @@
 .lr-panel--skel { gap: 14px; }
 .lr-panel--skel > * + * { margin-top: 0; }
 @media (min-width: 768px) {
-  .lr-skel__card { min-height: clamp(340px, 50vh, 480px); }
+  .lr-skel__card { min-height: clamp(300px, 46dvh, 380px); }
   .lr-skel__key { width: 360px; }
 }
-@media (min-width: 1200px) { .lr-skel__card { min-height: clamp(320px, 52vh, 520px); } }
+@media (min-width: 1200px) { .lr-skel__card { min-height: clamp(300px, 40vh, 360px); } }
 .lr-round { display: grid; justify-items: center; gap: 10px; width: min(100% - 32px, 520px); margin: 0 auto; padding: 18vh 0 40px; text-align: center; }
 .lr-round__n { display: grid; justify-items: center; gap: 4px; font: 800 56px/1 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); font-variant-numeric: tabular-nums; }
 .lr-round__n span { font: 500 15px/1.4 var(--font-body); letter-spacing: 0; color: var(--a-ink-2); }

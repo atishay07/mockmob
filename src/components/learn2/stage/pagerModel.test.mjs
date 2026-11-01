@@ -2,7 +2,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { WHEEL, wheelState, wheelStep, rubber, releaseVelocity, releaseTarget, touchLock, canScroll, scrollerThatCanMove, keyAction } from './pagerModel.mjs';
-import { frontSize, backSize, optionTexts, twoColumns, assertionReason, doneLine, timeLeft, speakable, chapterRef, matchLists } from './stageText.mjs';
+import { readFileSync } from 'node:fs';
+import { frontSize, backSize, optionTexts, twoColumns, assertionReason, doneLine, timeLeft, speakable, chapterRef, matchLists, statementList } from './stageText.mjs';
 
 const run = (events) => {
   let s = wheelState();
@@ -144,4 +145,26 @@ test('text: a List-I / List-II stem is set as two lists; a plain stem is not', (
   assert.deepEqual(m.two.map((x) => [x.label, x.text]), [['I', 'No entry.'], ['II', 'Bank A/c Dr.'], ['III', 'Nil.']]);
   assert.equal(m.tail, 'Choose the correct answer from the options given below:');
   assert.equal(matchLists('What is goodwill?'), null);
+});
+
+test('text: a Statement I / II / III stem is set as a list with its lead and its ask; a plain stem is not', () => {
+  const m = statementList('Read the following statements. Statement I: Goodwill is an asset. Statement II: It can be sold. Statement III: It is tangible. Choose the correct option.');
+  assert.equal(m.lead, 'Read the following statements.');
+  assert.deepEqual(m.items.map((x) => [x.label, x.text]), [['I', 'Goodwill is an asset.'], ['II', 'It can be sold.'], ['III', 'It is tangible.']]);
+  assert.equal(m.tail, 'Choose the correct option.');
+  assert.equal(statementList('What is goodwill?'), null);
+  assert.equal(statementList('Statement I: only one statement here.'), null);
+  assert.equal(statementList('Which of the following is right? Statement 1: a. Statement 2: b.').items.length, 2);
+});
+
+test('text: every fixture question that has Statement lines splits into 2 or more statements, each with words', () => {
+  const rows = JSON.parse(readFileSync(new URL('../../../../data/fixtures/learn-preview-questions.json', import.meta.url), 'utf8')).questions;
+  const withStatements = rows.filter((q) => /Statement\s+(I|1)\s*[:.–-]/.test(q.body || ''));
+  assert.ok(withStatements.length >= 3, 'the fixtures hold statement questions');
+  for (const q of withStatements) {
+    const m = statementList(q.body);
+    assert.ok(m && m.items.length >= 2, `splits: ${q.body.slice(0, 60)}`);
+    assert.ok(m.items.every((x) => x.text.length > 3 && !/Statement\s+(I|II|III)\s*:/.test(x.text)), 'no statement text swallows the next label');
+    assert.ok(m.lead.length > 0 && !/Statement/.test(m.lead), 'the lead is the lead-in only');
+  }
 });

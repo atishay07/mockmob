@@ -48,22 +48,33 @@ html[data-theme='light'] .lh {
    peek's fit of the item width moves nothing below it. */
 @media (max-width: 639px) { .app-shell .pr.lh-shelf[data-long] .pr-subject__name { min-height: 2.43em; } }
 @media (min-width: 640px) { .app-shell .pr.lh-shelf { margin-bottom: 20px; } }
+/* From 1024 px the loop is one line of chips (M6): the object at 40 px beside the name, the subject's due count and (for the chosen one) its
+   counts under the name; a chip is 72 px tall at most, so the first chapter row is on the first screen of a 1366x650 laptop. */
 @media (min-width: 1024px) {
-  .app-shell .pr.lh-shelf .pr-subjects { padding: 0 0 8px; }
-  .app-shell .pr.lh-shelf .pr-subject { --pr-obj: 80px; width: auto; padding: 0 0 8px; gap: 2px; }
-  .app-shell .pr.lh-shelf .pr-subject__name { font-size: 16px; font-weight: 700; }
+  .app-shell .pr.lh-shelf .pr-subjects { padding: 0 0 8px; gap: 8px; justify-content: stretch; }
+  .app-shell .pr.lh-shelf .pr-subject {
+    --pr-obj: 40px; flex: 1 1 0; width: auto; min-height: 56px; max-height: 72px; padding: 6px 8px 8px 4px;
+    grid-template-columns: 40px minmax(0, 1fr); grid-template-rows: auto 1fr; grid-template-areas: 'obj name' 'obj sub'; justify-items: start; align-content: start; align-items: start; column-gap: 12px; row-gap: 1px; text-align: left;
+  }
+  /* The names share one line across the row whatever the counts under them; the object sits level with its name. */
+  .app-shell .pr.lh-shelf .pr-subject__obj { grid-area: obj; align-self: start; margin-top: 2px; }
+  .app-shell .pr.lh-shelf .pr-subject__name { grid-area: name; font-size: 16px; font-weight: 700; text-align: left; text-wrap: pretty; }
+  .app-shell .pr.lh-shelf .pr-subject::after { left: 4px; margin-left: 0; width: 40px; }
 }
 .lh-shelf .pr-subject[data-busy] { cursor: progress; }
 /* The sideways peek is the cue: the cut subject and the fade. The round chevron sat on top of its label, so Learn's loop draws none. */
 .app-shell .pr.lh-shelf .pr-shelf__hint { display: none; }
-/* The chosen subject's counts sit under its own name from 1024 px; on a phone the field's placeholder already says the card count. */
+/* Each subject's own due count sits under its name (ink-2, 13 px), so the sidebar's total adds up (M5). The chosen subject's counts follow it
+   from 1300 px ("9 due, 868 Key cards, 15 chapters, 4 lessons"); on a phone the field's placeholder already says the card count, and in a
+   narrow window (the sidebar takes 252 px) the placeholder carries it too. */
+.lh-shelf__sub { display: block; min-height: 17px; font: 500 13px/1.3 var(--font-body); color: var(--a-ink-2); font-variant-numeric: tabular-nums; text-wrap: pretty; }
+.lh-shelf__sub:empty { display: none; }
 .lh-shelf__line { display: none; }
-@media (min-width: 1024px) {
-  .app-shell .pr.lh-shelf .lh-shelf__line { display: block; min-height: 18px; margin-top: -2px; font: 500 13.5px/1.35 var(--font-body); color: var(--a-ink-3); font-variant-numeric: tabular-nums; text-wrap: balance; }
-  .app-shell .pr.lh-shelf .pr-subject[aria-pressed='true'] .lh-shelf__line { color: var(--a-ink-2); }
+@media (min-width: 1024px) { .app-shell .pr.lh-shelf .lh-shelf__sub { grid-area: sub; text-align: left; } }
+@media (min-width: 1300px) {
+  .app-shell .pr.lh-shelf .lh-shelf__line { display: inline; }
+  .app-shell .pr.lh-shelf .lh-shelf__due:not(:empty) + .lh-shelf__line:not(:empty)::before { content: ', '; }
 }
-/* In a narrow window (the sidebar takes 252 px) the counts wrap to two lines: both are reserved, so nothing moves when they arrive. */
-@media (min-width: 1024px) and (max-width: 1299px) { .app-shell .pr.lh-shelf .lh-shelf__line { min-height: 36px; } }
 
 /* ---------- The find band: the one search field and the three shelf keys ---------- */
 .lh-sentinel { display: block; height: 1px; margin-bottom: -1px; pointer-events: none; }
@@ -190,23 +201,25 @@ html[data-theme='light'] .lh {
 .lh-sug[data-lead] .lh-sug__why { font-size: 15px; line-height: 1.45; color: var(--a-ink-2); }
 .lh-sug[data-lead] .lh-key { width: 100%; margin-top: 14px; }
 
+/* Under 560 px the key sits under the text, full width and 44 px tall, as the lead tile's does (M7): no title beside a key squeezed into four
+   lines, and no line cut with an ellipsis. */
 .lh-sug:not([data-lead]) {
-  display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: 'text key'; align-items: center; column-gap: 12px;
-  padding: 12px 12px 12px 16px; border-radius: 16px;
+  display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: 'text' 'key'; align-items: start; row-gap: 12px;
+  padding: 16px; border-radius: 16px;
 }
 .lh-sug:not([data-lead]) .lh-sug__text { grid-area: text; }
-.lh-sug:not([data-lead]) .lh-sug__ev { margin-top: 2px; }
-.lh-sug:not([data-lead]) .lh-sug__why { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.lh-sug:not([data-lead]) .lh-key { grid-area: key; min-width: 88px; padding: 0 14px; white-space: nowrap; }
-.lh-sug:not([data-lead]) .lh-key__full { display: none; }
-.lh-sug:not([data-lead]) .lh-key__short { display: inline; }
+.lh-sug:not([data-lead]) .lh-sug__ev { margin-top: 4px; }
+.lh-sug:not([data-lead]) .lh-sug__why { display: block; font-size: 14px; color: var(--a-ink-2); }
+.lh-sug:not([data-lead]) .lh-key { grid-area: key; width: 100%; min-height: 44px; padding: 0 14px; }
+.lh-sug:not([data-lead]) .lh-key__full { display: inline; }
+.lh-sug:not([data-lead]) .lh-key__short { display: none; }
 
 /* Tablet (container 560 to 879): the lead across, the other two side by side on shared rows */
 @container lh (min-width: 560px) {
   .lh-sugs { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: repeat(4, auto); column-gap: 12px; row-gap: 0; margin-bottom: 32px; }
   .lh-sug, .lh-sug:not([data-lead]) { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-areas: none; grid-template-rows: subgrid; row-gap: 0; align-items: start; align-content: start; border-radius: 20px; }
-  .lh-sug[data-lead] { grid-column: 1 / -1; grid-row: 1 / span 2; padding: 20px 20px 18px; }
-  .lh-sug:not([data-lead]) { grid-row: 3 / span 2; padding: 18px 18px 16px; margin-top: 12px; }
+  .lh-sug[data-lead] { grid-column: 1 / -1; grid-row: 1 / span 2; padding: 16px; }
+  .lh-sug:not([data-lead]) { grid-row: 3 / span 2; padding: 16px; margin-top: 12px; }
   /* Rows of a tile: 1 the words (title, evidence, the pick-up track), 2 the key. Shared across tiles, so the keys sit on one line. */
   .lh-sug .lh-sug__text, .lh-sug:not([data-lead]) .lh-sug__text { grid-area: 1 / 1; }
   .lh-sug .lh-key, .lh-sug:not([data-lead]) .lh-key { grid-area: 2 / 1; align-self: start; }
@@ -225,7 +238,7 @@ html[data-theme='light'] .lh {
 @container lh (min-width: 880px) {
   .lh-sugs { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr) minmax(0, 1fr); grid-template-rows: repeat(2, auto); }
   .lh-sugs[data-count='2'] { grid-template-columns: minmax(0, 1.45fr) minmax(0, 1fr); }
-  .lh-sug[data-lead] { grid-column: auto; grid-row: 1 / span 2; padding: 20px 20px 18px; }
+  .lh-sug[data-lead] { grid-column: auto; grid-row: 1 / span 2; padding: 16px; }
   .lh-sug:not([data-lead]) { grid-row: 1 / span 2; margin-top: 0; }
 }
 
@@ -235,10 +248,10 @@ html[data-theme='light'] .lh {
 .lh-sk--t { height: 26px; width: 72%; }
 .lh-sk--l { height: 18px; width: 90%; margin-top: 8px; }
 .lh-sk--key { height: 44px; width: 100%; margin-top: 14px; border-radius: 14px; }
-.lh-sugs--skel .lh-sug:not([data-lead]) { min-height: 84px; grid-template-areas: 't key' 'l key'; }
+.lh-sugs--skel .lh-sug:not([data-lead]) { min-height: 150px; grid-template-areas: 't' 'l' 'key'; }
 .lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--t { grid-area: t; width: 80%; height: 20px; }
 .lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--l { grid-area: l; width: 60%; margin-top: 0; }
-.lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--key { grid-area: key; width: 88px; margin-top: 0; }
+.lh-sugs--skel .lh-sug:not([data-lead]) .lh-sk--key { grid-area: key; width: 100%; height: 44px; margin-top: 0; }
 @container lh (min-width: 560px) {
   .lh-sugs--skel { grid-template-rows: none; row-gap: 12px; }
   .lh-sugs--skel .lh-sug, .lh-sugs--skel .lh-sug:not([data-lead]) { grid-template-rows: none; grid-row: auto; margin-top: 0; }

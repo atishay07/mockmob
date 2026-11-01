@@ -286,7 +286,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
         <h1 className="lh-title">Learn</h1>
       </header>
 
-      <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} />
+      <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} dues={shelves.data?.due?.bySubject || null} />
       <h2 className="lh-sr">{subjectName}</h2>
 
       <span className="lh-sentinel" ref={sentinel} aria-hidden="true" />

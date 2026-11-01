@@ -74,10 +74,13 @@ export function mixLineOf(c = {}, minutes = 10, { free = false } = {}) {
   return `${parts.join(', ')}${short ? ', all it has today' : ''}`;
 }
 
-/** The key's words: "Play 10 minutes", "Pick up, 4 minutes", or at Free's daily limit "Questions on this chapter". */
+/**
+ * The key's words: "Play 10 minutes", "Pick up, 4 minutes" (also at Free's daily limit: the feed resumes its own run, M3), or at
+ * Free's daily limit, for a chapter with no feed to resume, "Questions on this chapter".
+ */
 export function keyLabelOf(c = {}, minutes = 10, { freeDone = false } = {}) {
-  if (freeDone) return 'Questions on this chapter';
   if (c.resume && c.resume.of) return `Pick up, ${minutesText(Math.max(1, Math.round(c.resume.minutesLeft || 1)))}`;
+  if (freeDone) return 'Questions on this chapter';
   return `Play ${minutesText(countsOf(c, minutes).minutes || minutes)}`;
 }
 
@@ -89,15 +92,21 @@ export function hookTier(text = '') {
 
 /**
  * What the cover's media shows: { kind: 'card', text } (the feed's opening card), { kind: 'locked', label } (a card Free cannot
- * open: its kind and "Pro card", never null), or { kind: 'questions', text, note } for a chapter with no cards.
+ * open: its kind and "Pro card", never null), or { kind: 'questions', text, note } when the feed opens on a question (the hook is null):
+ * "Your cards here are in Revise." when the chapter's cards are kept or due, else "No Key cards here yet."
  */
 export function mediaOf(c = {}, minutes = 10) {
   const h = c.hook;
   if (h && h.front) return { kind: 'card', text: String(h.front) };
   if (h && h.locked) return { kind: 'locked', label: kindLabel(h.kind) };
   const q = countsOf(c, minutes).questions || countsOf(c, 10).questions || 0;
-  return { kind: 'questions', text: q ? plural(q, 'question') : 'Questions', note: 'No Key cards here yet.' };
+  // A chapter with a kept or due card still has cards: they wait in Revise, so the line says that (never "No Key cards here yet").
+  const inRevise = Number(c.kept) > 0 || Number(c.due) > 0;
+  return { kind: 'questions', text: q ? plural(q, 'question') : 'Questions', note: inRevise ? 'Your cards here are in Revise.' : 'No Key cards here yet.' };
 }
+
+/** Whether a cover's key opens the chapter's own questions on the page (Free at the day's limit, no feed of its own to pick up). */
+export const opensQuestions = (c = {}, { freeDone = false } = {}) => Boolean(freeDone) && !(c.resume && c.resume.of);
 
 export const kindLabel = (k) => KIND_LABELS[String(k || '').toLowerCase()] || 'Key card';
 

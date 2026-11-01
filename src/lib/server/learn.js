@@ -1336,9 +1336,19 @@ export function createLearn(deps) {
     const missed = new Set(live.filter((s) => s.last_rating === 1 && Date.parse(s.last_review_at) >= recent).map((s) => s.card_id));
     for (const list of S.mistakes.values()) for (const m of list) for (const id of S.questionsById.get(m.id)?.cards || []) if (S.isOpen(id) && S.pub.byId.has(id)) missed.add(id);
     const must = S.cards.filter((x) => x.importance === 'must' && S.isOpen(x.id));
+    // Each subject's own due count (the subject row's "12 due"; the sidebar badge is their sum, so the numbers add up, M5): the
+    // same rule as `due` above, read for every subject the student has. A subject whose read fails is left out, never a zero.
+    const bySubject = {};
+    await Promise.all(S.subjects.map(async (id) => {
+      try {
+        const rows = id === sid ? S.states : await store.states(userId, { subject: id });
+        const taste = S.isPro ? null : tasteIds(S.pub.cardsOf(id));
+        bySubject[id] = rows.filter((s) => !s.suspended && (S.isPro || taste.has(s.card_id)) && S.pub.byId.has(s.card_id) && cardStage(s, S.now) === 'due').length;
+      } catch { /* left out */ }
+    }));
     return ok({
       // The same count over every subject (the sidebar's due badge, CRITIQUE-1 E2): the Key cards service's own dueCount.
-      due: { count: due, minutes: cardRunMinutes(due, live.filter((st) => cardStage(st, S.now) === 'due').reduce((sum, st) => sum + cardSeconds({ stage: 'due', words: cardWords(S.pub.byId.get(st.card_id)) }), 0)), all: dueAll, subjects: S.subjects.length },
+      due: { bySubject, count: due, minutes: cardRunMinutes(due, live.filter((st) => cardStage(st, S.now) === 'due').reduce((sum, st) => sum + cardSeconds({ stage: 'due', words: cardWords(S.pub.byId.get(st.card_id)) }), 0)), all: dueAll, subjects: S.subjects.length },
       missed: { count: missed.size, days: LEARN_LIMITS.missedDays },
       revise: { count: live.length, chapters: new Set(live.map((s) => s.chapter_key)).size },
       must: { count: must.length, chapters: new Set(must.map((x) => x.chapterKey)).size },

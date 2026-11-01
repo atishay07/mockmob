@@ -40,7 +40,7 @@ export function checkpointText(numbers, { done, of, seconds }) {
   const n = numbers || {};
   const big = checkpointNumber({ answered: n.answered, right: n.right, seen: n.seen, kept: n.kept });
   const mins = seconds > 0 ? (seconds * 1.1 < 60 ? ' Under a minute left.' : ` About ${Math.max(1, Math.round((seconds * 1.1) / 60))} min left.`) : '';
-  return { big, status: `${done} of ${of} done.${mins}`, line: n.kept > 0 ? CHECKPOINT_LINE : 'Keep going, or stop here.' };
+  return { big, status: `${done} of ${of} done.${mins}`, line: n.kept > 0 ? CHECKPOINT_LINE : 'Keep going, or end here.' };
 }
 
 /** "Up next: ..." from the next slot (A1 3.3), null when nothing follows. */

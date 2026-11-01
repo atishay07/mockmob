@@ -37,17 +37,75 @@ export const visible = (els) => (els || []).find((el) => el && el.getClientRects
 
 /**
  * Marks a scroll box `data-more` while content waits below its foot (the stage fades the foot then, so a long question shows
- * that it goes on). Returns the cleanup. Call it on the page in view: `useEffect(() => watchMore(el), [active])`.
+ * that it goes on) and `data-top` once it is scrolled off its top (the head fades 24 px, so a line is never cut hard under the
+ * ticks). Returns the cleanup. Call it on the page in view: `useEffect(() => watchMore(el), [active])`.
  */
 export function watchMore(el) {
   if (!el) return () => {};
-  const read = () => { if (el.scrollHeight - el.scrollTop - el.clientHeight > 4) el.setAttribute('data-more', ''); else el.removeAttribute('data-more'); };
+  const flag = (name, on) => { if (on) el.setAttribute(name, ''); else el.removeAttribute(name); };
+  const read = () => { flag('data-more', el.scrollHeight - el.scrollTop - el.clientHeight > 4); flag('data-top', el.scrollTop > 2); };
   read();
   el.addEventListener('scroll', read, { passive: true });
   let ro = null;
   if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(read); ro.observe(el); for (const c of el.children) ro.observe(c); }
-  return () => { el.removeEventListener('scroll', read); ro?.disconnect(); el.removeAttribute('data-more'); };
+  return () => { el.removeEventListener('scroll', read); ro?.disconnect(); el.removeAttribute('data-more'); el.removeAttribute('data-top'); };
 }
+
+/**
+ * Whether the first option of an unanswered question waits below the fold (M10): `onChange(true)` while less than half of
+ * option A is above the highest of `limits` ([{ el, edge: 'top' | 'bottom' }]: the scroll boxes' bottom, the bar's top). The rects
+ * are read, so it does not matter which box scrolls. `roots` are the scroll boxes (scroll listeners); `find()` gives option A.
+ */
+export function watchBelow({ roots = [], limits = [], find, onChange }) {
+  const els = roots.filter(Boolean);
+  if (!els.length || typeof find !== 'function') { onChange(false); return () => {}; }
+  let last = null;
+  const read = () => {
+    const a = find();
+    let below = false;
+    if (a && a.getClientRects().length && !a.closest('.st-opts, .lr-opts')?.querySelector('[data-state]')) {
+      const edge = Math.min(window.innerHeight, ...limits.filter((l) => l?.el).map((l) => l.el.getBoundingClientRect()[l.edge || 'bottom']));
+      below = a.getBoundingClientRect().top + 28 > edge;
+    }
+    if (below !== last) { last = below; onChange(below); }
+  };
+  read();
+  for (const el of els) el.addEventListener('scroll', read, { passive: true });
+  window.addEventListener('resize', read);
+  let ro = null;
+  if (typeof ResizeObserver !== 'undefined') { ro = new ResizeObserver(read); for (const el of els) { ro.observe(el); for (const c of el.children) ro.observe(c); } }
+  return () => { for (const el of els) el.removeEventListener('scroll', read); window.removeEventListener('resize', read); ro?.disconnect(); };
+}
+
+/** The quiet "Options below" chip: 36 px, ink-2, a down chevron, centred 8 px above the bar. A tap goes to option A. */
+export function BelowChip({ show, onClick }) {
+  if (!show) return null;
+  return (
+    <button type="button" className="st-below" onClick={onClick}>
+      Options below<ChevronDown size={16} strokeWidth={2.2} aria-hidden="true" />
+    </button>
+  );
+}
+
+/**
+ * Scroll `row` to the top of the box that scrolls it, clear by the row's own scroll-margin-top (12 px). Like scrollIntoView
+ * ({ block: 'start' }) but it moves only the nearest scroll box: scrollIntoView would also slide the pager's clipped view.
+ */
+export function scrollToRow(row, behavior = 'auto') {
+  let box = row?.parentElement;
+  while (box && box !== document.body) {
+    const oy = getComputedStyle(box).overflowY;
+    if ((oy === 'auto' || oy === 'scroll') && box.scrollHeight > box.clientHeight + 1) break;
+    box = box.parentElement;
+  }
+  if (!row || !box || box === document.body) return;
+  const margin = parseFloat(getComputedStyle(row).scrollMarginTop) || 0;
+  const top = box.scrollTop + row.getBoundingClientRect().top - box.getBoundingClientRect().top - margin;
+  box.scrollTo({ top: Math.max(0, top), behavior });
+}
+
+/** Option A to the top of its scroll box (smooth unless motion is reduced). */
+export const goToOptions = (a) => { try { scrollToRow(a, still() ? 'auto' : 'smooth'); } catch { /* old browser */ } };
 
 /** A small copy of a card flies from `from` to `to` in 320 ms (Keep). Nothing under reduced motion. */
 export function flyTo(from, to) {

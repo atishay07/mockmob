@@ -137,6 +137,28 @@ export const chapterCards = ({ chapter, filter = 'all' }) => call(`/api/learn/ca
 /** Find's shelf over a whole subject in one request: { plan, filter, lockedCount, chapters: [{ key, title, ref, counts, cards }] }. */
 export const subjectCards = ({ subject, filter = 'all' }) => call(`/api/learn/cards?${q({ subject, filter })}`);
 export const learnShelves = (subject) => call(`/api/learn/shelves?${q({ subject })}`);
+
+/** The Key cards due today over every subject: the sum of each subject's own count (shelves.due.bySubject), so the sidebar's badge and the subject rows add up (M5). */
+export const dueTotal = (shelves) => {
+  const by = shelves?.due?.bySubject;
+  if (by && typeof by === 'object') return Object.values(by).reduce((s, n) => s + (Number(n) || 0), 0);
+  return Number(shelves?.due?.all) || 0;
+};
+
+/**
+ * { due: number | null } for the shell's Learn badge under Learn v2: the due count summed over the subjects, read again whenever
+ * `refreshKey` changes (a student coming back from a run), null while it loads or when the read fails (no badge, never a wrong one).
+ */
+export function useLearnDue({ enabled = true, refreshKey = '' } = {}) {
+  const [due, setDue] = useState(null);
+  useEffect(() => {
+    if (!enabled) return undefined;
+    let alive = true;
+    learnShelves().then((d) => { if (alive) setDue(dueTotal(d)); }).catch(() => { if (alive) setDue((prev) => prev); });
+    return () => { alive = false; };
+  }, [enabled, refreshKey]);
+  return due;
+}
 export const learnSearch = ({ subject, query }) => call(`/api/learn/search?${q({ subject, q: query })}`);
 /**
  * The Explore covers. Each cover's `counts[m]` (m = 5, 10, 20) is `{ cards, questions, minutes, hook, shrink?, capped? }`: `hook` is the

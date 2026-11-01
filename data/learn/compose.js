@@ -341,6 +341,52 @@ export function orderRun({ cards = [], questions = [], lesson = null }) {
   return best.seq;
 }
 
+// ---------------------------------------------------------------- the opening card of a feed (M4)
+
+/**
+ * A front that points at something not on the card ("If this amount is paid ...", "These are called ..."): it makes no sense
+ * as the first thing a student reads in a chapter, so a feed does not open on one.
+ */
+export const ANAPHOR = /^\s*(if\s+)?(this|these|that|such|it|they|the above|the same)\b/i;
+export const isAnaphoric = (front) => ANAPHOR.test(String(front ?? ''));
+
+/**
+ * The feed's first card read on its own (B7 M4). Of the first eight cards, the best opener goes first: a Definition, else a Term,
+ * else any card that does not open on an anaphor; a card never moves ahead unless it is a better opener than the one that was
+ * first. It moves by swapping places with the first card or, when the first card is a linked question's card that must stay
+ * 3 to 6 places before it, by going to the front with the others shifting down. A move is kept only when it makes no new A3
+ * problem and no new back-to-back questions; a look (a held card) never goes ahead of a fresh card. A feed with no such move
+ * keeps its order. `cardOf(cardId)` gives { front, kind }.
+ */
+export function openingCard(items, cardOf) {
+  const list = items || [];
+  const start = list[0]?.type === 'lesson' ? 1 : 0;
+  if (!list[start] || list[start].type !== 'card') return items;
+  const cls = (i) => {
+    const c = cardOf(list[i].cardId);
+    if (!c || isAnaphoric(c.front)) return 3;
+    return c.kind === 'definition' ? 0 : c.kind === 'term' ? 1 : 2;
+  };
+  const here = cls(start);
+  if (here === 0) return items;
+  const cardAt = [];
+  for (let i = start; i < list.length && cardAt.length < 8; i += 1) if (list[i].type === 'card') cardAt.push(i);
+  const order = cardAt
+    .filter((i) => i !== start && cls(i) < here && Boolean(list[i].look) === Boolean(list[start].look))
+    .sort((x, y) => cls(x) - cls(y) || x - y);
+  const base = { problems: orderProblems(list).length, back: rhythm(list).backToBack };
+  const fine = (seq) => orderProblems(seq).length <= base.problems && rhythm(seq).backToBack <= base.back;
+  for (const i of order) {
+    const swapped = list.slice();
+    [swapped[start], swapped[i]] = [swapped[i], swapped[start]];
+    if (fine(swapped)) return swapped;
+    const front = list.slice();
+    front.splice(start, 0, front.splice(i, 1)[0]);
+    if (fine(front)) return front;
+  }
+  return items;
+}
+
 // ---------------------------------------------------------------- the composer
 
 const shrinkMinutes = (n) => plural(n, 'minute');
@@ -611,7 +657,9 @@ export function composeRun({
     ...fin.plain.other.map((q) => qItem(q, 'chapter')),
   ];
   const lessonItem = useLesson ? { type: 'lesson', lessonId: lesson.id, minutes: lessonMinutes, seconds: lessonSecs } : null;
-  const items = orderRun({ cards: cardItems, questions: questionItems, lesson: lessonItem });
+  const ordered = orderRun({ cards: cardItems, questions: questionItems, lesson: lessonItem });
+  // A feed's first card is read on its own (the cover shows it too): never one that opens on "this amount ..." (M4).
+  const items = feed ? openingCard(ordered, (id) => byId.get(id)) : ordered;
   const cardSecs = sum(cardItems);
   const plainSecs = questionItems.filter((q) => q.origin !== 'mistake').reduce((s, q) => s + q.seconds, 0);
   const mistakeSecs = questionItems.filter((q) => q.origin === 'mistake').reduce((s, q) => s + q.seconds, 0);

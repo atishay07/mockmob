@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { CHECKPOINT_LINE, FEED_RULES, FREE_FEED_DONE, checkpointNumber, coverLine, coverOrder, feedEndLines, feedOrderProblems, feedSlots, feedsOnDay, freeFeed, keptLine } from '../learn/feed.js';
-import { composeRun, feedCardPool, orderProblems } from '../learn/compose.js';
+import { composeRun, feedCardPool, isAnaphoric, orderProblems } from '../learn/compose.js';
 import { FREE_SESSION_DONE } from '../learn/allowance.js';
 import { istDay, schedule, tasteIds } from '../keycards.js';
 import { previewAnswer } from '../../src/lib/server/keycardsPreview.js';
@@ -45,7 +45,7 @@ test('checkpoints: after item 8, 16, ... only when 4 or more items follow; never
   const s = feedSlots(items(30));
   for (let i = 1; i < s.length; i += 1) assert.ok(!(s[i].type === 'checkpoint' && s[i - 1].type === 'checkpoint'));
   assert.deepEqual(s.filter((x) => x.type === 'item').map((x) => x.n), Array.from({ length: 30 }, (_, i) => i + 1));
-  assert.equal(CHECKPOINT_LINE, 'Keep going, or stop here. What you kept is already in Revise.');
+  assert.equal(CHECKPOINT_LINE, 'Keep going, or end here. What you kept is already in Revise.');
 });
 
 // A5 section 4 item 7: no checkpoint with fewer than 4 items after it, over every composed feed.
@@ -265,4 +265,48 @@ test('preview: the covers row is the suggested chapter first with the real count
   assert.equal(aop.counts[10].cards, run.items.filter((i) => i.type === 'card').length, 'the cover counts are the feed it plays');
   assert.equal(aop.counts[10].questions, run.items.filter((i) => i.type === 'question').length);
   for (const c of body.covers) assert.ok(c.counts[5].cards <= c.counts[10].cards && c.counts[10].cards <= c.counts[20].cards);
+});
+// M4 (1 Nov final critic): the first card of a feed is read on its own, in the cover's art and as the stage's first item, so it never
+// opens on an anaphor ("If this amount is paid ..."); a Definition is preferred; the cover's hook is that very card.
+test('the feed opens on a card that makes sense alone: no anaphor first, in every chapter of every deck, at 5, 10 and 20 minutes', () => {
+  assert.equal(isAnaphoric('If this amount is paid to the old partners directly (privately), ___ is passed'), true);
+  assert.equal(isAnaphoric('These are called ___.'), true);
+  assert.equal(isAnaphoric('What is the sacrificing ratio?'), false);
+  assert.equal(isAnaphoric('Itemised statement of ___'), false, 'a word that merely starts with it is not an anaphor');
+  let feeds = 0;
+  for (const deck of ['accountancy', 'biology', 'business_studies', 'economics', 'english', 'political_science']) {
+    const cards = JSON.parse(readFileSync(path.join(process.cwd(), `data/keycards/decks/${deck}.json`), 'utf8')).cards;
+    for (const key of new Set(cards.map((c) => c.chapterKey))) {
+      const chapter = cards.filter((c) => c.chapterKey === key && !c.locked);
+      const alone = chapter.filter((c) => !isAnaphoric(c.front));
+      for (const minutes of [5, 10, 20]) {
+        const run = composeRun({ kind: 'feed', minutes, cards: chapter, states: new Map(), now: NOW, questions: [] });
+        const first = run.items.find((i) => i.type === 'card');
+        if (!first) continue;
+        feeds += 1;
+        const card = chapter.find((c) => c.id === first.cardId);
+        if (alone.length > 6) assert.equal(isAnaphoric(card.front), false, `${key} at ${minutes}: opens on "${card.front.slice(0, 50)}"`);
+        // A Definition is first when one of the opening stretch is not an anaphor.
+        const stretch = run.items.filter((i) => i.type === 'card').slice(0, 6).map((i) => chapter.find((c) => c.id === i.cardId));
+        if (stretch.some((c) => c.kind === 'definition' && !isAnaphoric(c.front))) assert.equal(card.kind, 'definition', `${key} at ${minutes}: a Definition opens`);
+        assert.deepEqual(orderProblems(run.items).filter((p) => p.rule === 'first'), []);
+      }
+    }
+  }
+  assert.ok(feeds > 30, 'many feeds were checked');
+});
+
+test('preview: every cover hook is the first card of the feed it opens (Admission no longer opens on "this amount")', async () => {
+  const call = student('pro');
+  const { body } = await call('/api/learn/covers', { query: { subject: 'accountancy' } });
+  const aop = body.covers.find((c) => c.key === AOP);
+  assert.equal(isAnaphoric(aop.hook.front), false, 'the cover art of Admission reads on its own');
+  for (const c of body.covers.filter((x) => x.hook?.id && !x.resume)) {
+    const run = (await call('/api/learn/runs', { method: 'POST', body: { chapterKey: c.key, minutes: 10, kind: 'feed' } })).body;
+    const first = run.items.find((i) => i.type === 'card');
+    assert.equal(c.counts[10].hook.id, first.card.id, `${c.key}: the cover hook is the feed's first card`);
+    assert.equal(c.hook.id, first.card.id);
+    assert.equal(run.items[0].type, 'card');
+    assert.equal(isAnaphoric(first.card.front), false, `${c.key}: the first card reads on its own`);
+  }
 });

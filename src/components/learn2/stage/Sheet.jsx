@@ -6,7 +6,7 @@
 //                                                    The one stop rule of the feed and the run (critic 2 row 9; A4 3.3.10): after
 //                                                    at least one item Close and Escape open it. It says what was done (done of
 //                                                    of, then detail), then Stop here (volt; shows the end), Keep going (line),
-//                                                    Leave, pick it up later today (text). No guilt copy. Escape closes it only.
+//                                                    Leave for now, pick up later today (text). No guilt copy. Escape closes it only.
 import { useEffect, useId, useRef } from 'react';
 import { X } from 'lucide-react';
 
@@ -49,14 +49,14 @@ export function Sheet({ title, onClose, bottom = false, children, closeLabel = '
   );
 }
 
-export function StopSheet({ done = 0, of = 0, detail = null, endLabel = 'Stop here', onEnd, onKeepGoing, onLeave }) {
+export function StopSheet({ done = 0, of = 0, detail = null, endLabel = 'End here, see how it went', onEnd, onKeepGoing, onLeave }) {
   return (
     <Sheet title="Stop for now?" onClose={onKeepGoing} closeLabel="Keep going">
       <p className="st-drawer__line">{of ? `${done} of ${of} done. ` : ''}{detail ? `${detail} ` : ''}Everything you did is saved.</p>
       <div className="st-drawer__keys">
         <button type="button" className="kc-btn kc-btn--volt" onClick={onEnd} data-autofocus="">{endLabel}</button>
         <button type="button" className="kc-btn kc-btn--line" onClick={onKeepGoing}>Keep going</button>
-        {onLeave ? <button type="button" className="st-textkey" onClick={onLeave}>Leave, pick it up later today</button> : null}
+        {onLeave ? <button type="button" className="st-textkey" onClick={onLeave}>Leave for now, pick up later today</button> : null}
       </div>
     </Sheet>
   );

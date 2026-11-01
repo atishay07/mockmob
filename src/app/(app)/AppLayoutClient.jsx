@@ -36,6 +36,8 @@ import mascot from '@/../public/brand/mascot/manifest.json';
 import PlaceTabs from '@/components/nav/PlaceTabs';
 import { useReviseBadge } from '@/lib/reviewRead';
 import { useKeycardsHome } from '@/components/keycards/api';
+import { LEARN2_ENV_ON } from '@/components/learn2/flag';
+import { useLearnDue } from '@/components/learn2/api';
 import { dueBadge, dueLabel } from '@/lib/nav/dueCount.mjs';
 import { shownName } from '@/lib/displayName.mjs';
 import { VIEW_TRANSITION_PROPS, isFocusPath } from '@/lib/motion/placeTransition';
@@ -89,8 +91,19 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   // It sits on Practice in the phone dock and on Your papers in the sidebar and in Practice's row of tabs.
   const reviseBadge = useReviseBadge({ enabled: status === 'authenticated' && !chromeless });
   // The Key cards due today, beside "Learn, Key cards" in the sidebar (B 2.2: today.due). One shared read with the other Key cards entries.
-  const keycardsHome = useKeycardsHome({ enabled: status === 'authenticated' && !chromeless && (studyEnabled || previewRoute === '/learn') });
-  const learnDue = keycardsHome.state === 'ready' ? Number(keycardsHome.data?.today?.due) || 0 : 0;
+  // Under Learn v2 the number comes from Learn's own home, summed over the subjects (each subject row shows its share), so it never
+  // disagrees with "9 due today" on the page (M5); with v2 off it is the Key cards home's, as before.
+  // (The flag is read here without useSearchParams: the shell has no Suspense boundary; the preview's &l2=off is read from the address.)
+  const [l2Off] = useState(() => {
+    if (!previewRoute || typeof window === 'undefined') return false;
+    try { return new URLSearchParams(window.location.search).get('l2') === 'off'; } catch { return false; }
+  });
+  const learn2 = LEARN2_ENV_ON || (Boolean(previewRoute) && !l2Off);
+  const learnShell = status === 'authenticated' && !chromeless && (studyEnabled || previewRoute === '/learn');
+  const keycardsHome = useKeycardsHome({ enabled: learnShell && !learn2 });
+  const learnPlace = /^\/(learn|explore)(\/|$)/.test(activePath) ? activePath : '';
+  const learnDue2 = useLearnDue({ enabled: learnShell && learn2, refreshKey: learnPlace });
+  const learnDue = learn2 ? learnDue2 || 0 : keycardsHome.state === 'ready' ? Number(keycardsHome.data?.today?.due) || 0 : 0;
   // The development preview's &nav=n1 draws Learn as a place of its own in the sidebar (B 6.4), for the owner's call.
   const [navAlt, setNavAlt] = useState(false);
   useEffect(() => {

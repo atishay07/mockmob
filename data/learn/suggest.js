@@ -113,10 +113,11 @@ export function suggestions({ subject, isNew = false, chapters = [], run = null,
       if (!c) return null;
       // R9.3: only the open mistakes, each with its line on the answer.
       const m = fixMinutes(c.mistakes, c.mistakeSeconds);
-      const from = c.mistakeWhere && c.mistakeWhen ? `From ${c.mistakeWhere} on ${c.mistakeWhen}, with` : 'With';
+      // M7: one short line a phone shows whole ("From Mock 3 on 16 Oct."), never cut.
+      const evidence = c.mistakeWhere && c.mistakeWhen ? `From ${c.mistakeWhere} on ${c.mistakeWhen}.` : 'With the lines you needed.';
       return {
         kind: 'fix', chapterKey: c.key, title: `${plural(c.mistakes, 'open mistake')} in ${c.title}`, headline: plural(c.mistakes, 'open mistake'), chapterTitle: c.title,
-        evidence: `${from} the lines you needed.`,
+        evidence,
         action: { label: `Fix them, about ${minutesWord(m)}`, run: mixRun(c, m, ['questions', 'cards', 'lesson']) },
       };
     },

@@ -25,7 +25,7 @@ import { answerItem, getRun, isQuestionSkipped, isRunClosed, isSessionUsed, rate
 import { isChapterMissing, partShort } from '../chapter/chapterModel.mjs';
 import { useLearnLinks } from '../links';
 import RunEnd from './RunEnd';
-import { StopSheet } from '../stage';
+import { BelowChip, StopSheet, goToOptions, scrollToRow, watchBelow, watchMore } from '../stage';
 import { CardItem, LessonItem, QuestionItem, SaveKey, SessionPanel, TopBar } from './RunParts';
 import { FLIGHT, minutesLeftLine, upNextLine } from './runMath';
 import { answerTally, placeReinsert, positionWords, runPiles } from './runView.mjs';
@@ -331,15 +331,32 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
   // Next takes focus once a question is answered (the options keep theirs: aria-disabled, never disabled; A8 F7).
   useEffect(() => { if (answered) nextKey.current?.focus({ preventScroll: true }); }, [answered, item?.id]);
 
-  // After a wrong answer the line's title is brought into view above the action bar (A1 3.5, A8 3.7).
+  // After a wrong answer the student's own pick goes to the top of its scroll box (12 px clear), so what they chose, the verdict and
+  // the line they needed read together; the box fades 24 px at its head while it is scrolled (M2).
   useEffect(() => {
     if (!answerState?.result || answerState.result.correct) return undefined;
     const t = setTimeout(() => {
-      const line = document.querySelector('.lr-q .lr-line');
-      line?.scrollIntoView?.({ block: 'nearest', behavior: isMotionReduced() ? 'auto' : 'smooth' });
+      const row = document.querySelector('.lr-q .lr-opt[aria-pressed="true"]') || document.querySelector('.lr-q .lr-line');
+      scrollToRow(row, isMotionReduced() ? 'auto' : 'smooth');
     }, 300);
     return () => clearTimeout(t);
   }, [answerState?.result]);
+
+  // The two boxes that can scroll (the whole body on a phone, the item's area from tablet) fade at their head while scrolled.
+  useEffect(() => {
+    if (phase !== 'play') return undefined;
+    const offs = [document.querySelector('.lr-body'), document.querySelector('.lr-area')].map((el) => watchMore(el));
+    return () => offs.forEach((off) => off());
+  }, [phase, item?.id, item?.type]);
+
+  // A long question whose first option waits below the fold says so: a quiet "Options below" chip above the bar (M10).
+  const [optBelow, setOptBelow] = useState(false);
+  useEffect(() => {
+    const body = phase === 'play' && item?.type === 'question' ? document.querySelector('.lr-body') : null;
+    if (!body) { setOptBelow(false); return undefined; }
+    const area = document.querySelector('.lr-area');
+    return watchBelow({ roots: [body, area], limits: [{ el: area, edge: 'bottom' }, { el: document.querySelector('.lr-bar'), edge: 'top' }], find: () => document.querySelector('.lr-q .lr-opt'), onChange: setOptBelow });
+  }, [phase, item?.id, item?.type]);
 
   const reinsert = useCallback((r, base) => {
     if (!r?.itemId) return;
@@ -726,6 +743,7 @@ function Player({ chapterKey, minutes = 10, kind = 'mix', leaveOut = [], cardIds
               </div>
             </div>
             <div className="lr-bar">
+              {optBelow && item.type === 'question' && !answered ? <BelowChip show onClick={() => goToOptions(document.querySelector('.lr-q .lr-opt'))} /> : null}
               <div className="lr-bar__in" data-keys={item.type === 'card' && isTurned && !look && !isRecap ? 'rate' : item.type}>
                 {keys}
                 <p className="lr-status" data-tone={status?.tone} data-stamp={status?.stamp || undefined} role={status?.tone === 'bad' ? 'alert' : undefined}>

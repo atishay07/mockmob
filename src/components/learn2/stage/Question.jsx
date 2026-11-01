@@ -14,7 +14,8 @@ import { useEffect, useId, useRef } from 'react';
 import { Check, LoaderCircle, X } from 'lucide-react';
 import { CardSource, NcertText } from '@/components/keycards/KeyCard';
 import { stemParts } from '../run/runMath';
-import { assertionReason, matchLists, optionTexts, stemSize, twoColumns } from './stageText.mjs';
+import { scrollToRow } from './Stage';
+import { assertionReason, matchLists, optionTexts, statementList, stemSize, twoColumns } from './stageText.mjs';
 
 export const LETTERS = ['A', 'B', 'C', 'D', 'E', 'F'];
 
@@ -42,6 +43,16 @@ export function Stem({ text, id }) {
           ))}
         </div>
         {lists.tail ? <p style={{ marginTop: 6 }}>{lists.tail}</p> : null}
+      </div>
+    );
+  }
+  const stmts = statementList(text);
+  if (stmts) {
+    return (
+      <div className="st-stem" id={id} data-size={stemSize(text)}>
+        {stmts.lead ? <p>{stmts.lead}</p> : null}
+        <ol className="st-stmts">{stmts.items.map((r) => <li key={r.label}><span aria-hidden="true">{r.label}</span><span><span className="sr-only">{`Statement ${r.label}. `}</span>{r.text}</span></li>)}</ol>
+        {stmts.tail ? <p style={{ marginTop: 6 }}>{stmts.tail}</p> : null}
       </div>
     );
   }
@@ -137,16 +148,21 @@ export function QuestionView({ head, mistake = false, stem, options, answer, onC
   const res = answer?.res || null;
   const line = useRef(null);
   const titleRef = lineTitleRef || line;
-  // After a wrong answer the line's title is brought into view (+300 ms), clear of the action bar.
+  // After a wrong answer the student's own pick goes to the top of the box (12 px clear), so what they chose, the verdict and the
+  // line they needed read together; the box fades 24 px at its head while it is scrolled (M2).
+  const root = useRef(null);
   useEffect(() => {
     if (!res || res.correct) return undefined;
     const t = setTimeout(() => {
-      try { titleRef.current?.scrollIntoView({ block: 'nearest', behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' }); } catch { /* old browser */ }
+      try {
+        const row = root.current?.querySelector('.st-opt[aria-pressed="true"]') || titleRef.current;
+        scrollToRow(row, window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
+      } catch { /* old browser */ }
     }, 300);
     return () => clearTimeout(t);
   }, [res, titleRef]);
   return (
-    <div className="st-q">
+    <div className="st-q" ref={root}>
       <p className="st-qhead" data-mistake={mistake || undefined}>{head}</p>
       <Stem text={stem} id={`${id}-stem`} />
       {skipped ? <p className="st-leftout">{skipped}</p> : (
