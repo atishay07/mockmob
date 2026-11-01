@@ -104,11 +104,11 @@ export default function AppLayoutClient({ children, previewRoute = null, preview
   const learnDue2 = useLearnDue({ enabled: learnShell && learn2, refreshKey: learnPlace });
   const learnDue = learn2 ? learnDue2 || 0 : 0;
   // The development preview's &nav=n1 draws Learn as a place of its own in the sidebar (B 6.4), for the owner's call.
-  const [navAlt, setNavAlt] = useState(false);
-  useEffect(() => {
-    if (!previewRoute) return;
-    try { setNavAlt(new URLSearchParams(window.location.search).get('nav') === 'n1'); } catch { /* the default sidebar */ }
-  }, [previewRoute, pathname]);
+  // Read once from the address, like &l2=off above (the preview reloads on every view change).
+  const [navAlt] = useState(() => {
+    if (!previewRoute || typeof window === 'undefined') return false;
+    try { return new URLSearchParams(window.location.search).get('nav') === 'n1'; } catch { return false; }
+  });
 
   useEffect(() => {
     if (!mobileMenuOpen) return;
