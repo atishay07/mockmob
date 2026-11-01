@@ -1,8 +1,8 @@
 {
   "accountancy": {
-    "version": 6,
-    "sha256": "2c0cf5713bd2d01003b494b330a51032ab33d8cdb973248d7ced5820f601f12b",
-    "cards": 868
+    "version": 7,
+    "sha256": "2c0716d0161a4da544f477e04c816172039fd519e474b2766876edcd43bcea2f",
+    "cards": 866
   },
   "biology": {
     "version": 5,

@@ -1,6 +1,6 @@
 {
   "subject": "accountancy",
-  "version": 6,
+  "version": 7,
   "source": "NCERT Reprint 2026-27",
   "cards": [
     {
@@ -4955,35 +4955,6 @@
         "sacrificing ratio"
       ],
       "order": 580
-    },
-    {
-      "id": "kc.accountancy.admission-of-partner.kl-paid-privately-no-entry",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.admission-of-partner",
-      "chapter": "Admission of Partner",
-      "unit": "Reconstitution of a Partnership firm",
-      "kind": "key_line",
-      "front": "If this amount is paid to the old partners directly (privately) by the new partner, ____ is passed in the books of the firm.",
-      "back": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-      "quote": "If this amount is paid to the old partners directly (privately) by the new partner, no entry is passed in the books of the firm.",
-      "blanks": [
-        "no entry"
-      ],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy : Partnership Accounts",
-        "code": "leac102",
-        "chapterNo": 2,
-        "page": 64,
-        "section": "2.5.5.1 When the new Partner brings goodwill in cash"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "goodwill"
-      ],
-      "order": 590
     },
     {
       "id": "kc.accountancy.admission-of-partner.entry-e-premium-received",
@@ -16682,33 +16653,6 @@
         "chapterNo": 2,
         "page": 48,
         "section": "Introduction"
-      },
-      "importance": "must",
-      "asked": 0,
-      "tags": [
-        "partnership"
-      ],
-      "order": 10
-    },
-    {
-      "id": "kc.accountancy.partnership-fundamentals.def-partnership-meaning",
-      "v": 1,
-      "subject": "accountancy",
-      "chapterKey": "accountancy.partnership-fundamentals",
-      "chapter": "Partnership Fundamentals",
-      "unit": "Accounting for Partnership",
-      "kind": "definition",
-      "front": "What is partnership?",
-      "back": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-      "quote": "When two or more persons join hands to set up a business and share its profits and losses, they are said to be in partnership.",
-      "blanks": [],
-      "source": {
-        "kind": "ncert",
-        "book": "Accountancy – Partnership Accounts",
-        "code": "leac101",
-        "chapterNo": 1,
-        "page": 1,
-        "section": "1.1 Nature of Partnership"
       },
       "importance": "must",
       "asked": 0,
