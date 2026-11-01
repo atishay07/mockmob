@@ -623,3 +623,22 @@ His summary: "Some parts are good and some are very confusing." Study mode is "e
 | BUILT IN PREVIEW, AWAITING HIS LOOK (1 Nov 6:20 am) | **LK21:** he loves the Explore covers, but every Accountancy cover shows the same subject object. Make each cover chapter-specific. |
 | BUILT IN PREVIEW, AWAITING HIS LOOK (1 Nov 6:20 am) | **LK22:** the chapter run (chapter, time, adjusted mix) is "quite good"; refine it a lot; too much blank space and UI refinement across Learn. |
 | WEB BUILT AND TESTED behind flags (1 Nov 6:20 am); app port next | **LK23:** build the feature completely now, test everything, fix every issue, refine UI/UX and logic, make it more useful with the systems around it; then tell him what is needed from him. |
+
+
+## Learn v2 live, 1 Nov afternoon (LK24-LK35; verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md, section "1 Nov 2026, about 4:05 pm")
+His frame: "Keep going. You have a bit of a direction and a taste of what I have wanted initially. Now you have to double down on it."
+
+| Status | Item |
+|---|---|
+| OPEN (round 2) | **LK24** The phone website is too cluttered. |
+| OPEN (after the app port's walk) | **LK25** Ship a fresh Google Play release as soon as the app update is ready. |
+| OPEN (round 2) | **LK26** The Explore / Saved / All top tabs confuse a first-time visitor. |
+| OPEN (round 2) | **LK27** Learn leads with a clear offer to start learning ("Start learning <subject>", "Your roadmap"), never a line of zeros. |
+| OPEN (round 2) | **LK28** The phone website and the website are slow. |
+| OPEN (round 2) | **LK29** First-time cues: the Explore feed moves by swiping down, so show how. Think about cues everywhere. |
+| OPEN (round 2) | **LK30** Too much blank space; use it. |
+| OPEN (round 2) | **LK31** End screens carry too many lines and walls of text. |
+| OPEN (round 2) | **LK32** Home hero: 10-20% less space for the details, more branded, reacts to taps (Mobi). Use the animation and promo-film assets. |
+| STANDING GOAL | **LK33** Keep improving the feature and the whole UI/UX, plus the usefulness of every feature, until satisfied. |
+| OPEN (content waves) | **LK34** Populate every subject and chapter: at least 3 hours of study per subject, more is fine. |
+| STANDING GOAL | **LK35** Keep going; double down on this direction. |

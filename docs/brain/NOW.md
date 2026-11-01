@@ -1,5 +1,18 @@
 # NOW: MockMob current state
 
+## 1 Nov 2026, about 4:15 pm IST: his first live feedback on Learn v2 (LK24-LK35); round 2 starting
+- **His words:** verbatim in OWNER-FEEDBACK-2026-10-31-LEARN.md (1 Nov, about 4:05 pm). Items LK24-LK35 are in the ledger.
+- **What he asked for:**
+  - the phone website is cluttered and slow
+  - Learn leads with a real start offer, not zeros
+  - first-time cues (the feed swipe)
+  - less blank space and fewer walls of text on end screens
+  - a home hero that is more branded, tighter and reacts to taps
+  - content for every subject (3 hours or more each)
+  - a fresh Play release when the app update is ready
+  - keep going
+- **Done since he went live:** the stop-sheet count fix, web/1031-learn-v2 584542985 (not pushed). Live: main 978edc236, with no runtime errors.
+
 ## 1 Nov 2026, about 1 pm IST: Learn v2 and the Explore feed are LIVE (switches on)
 - Owner applied the migration (dry run OK, then apply); verified by read: both tables, both functions, flow_context learn, no anon read.
 - LEARN2_ENABLED=true, NEXT_PUBLIC_LEARN2=on (Vercel production); main 978edc236 READY (dpl_DoGHp6AAWaCKngaFxKAckyhq7vAy).

@@ -88,3 +88,46 @@ Right now your task is to build this feature completely and test out everything,
 - **LK21:** he loves the Explore covers' direction, but every Accountancy cover shows the same Accountancy object. Replace it with something chapter-specific.
 - **LK22:** the chapter run in Learn (pick a chapter, pick a time, the mix adjusts) is "quite good". The direction is right but needs a lot of refinement; many screens have too much blank space.
 - **LK23:** build the whole feature completely now: test everything, fix every issue, refine the UI/UX and the logic, make it more useful, using the systems already around it. Then tell him what is needed from him and his next steps.
+
+
+## 1 Nov 2026, about 4:05 pm IST: his first live look at Learn v2, the Explore feed and the home page (verbatim)
+
+> Okay, I can give you brief feedback only right now. I didn't have much time, but I think you will get some direction from it and see what exactly to do.
+>
+> * The UI on the phone, the website part, is a bit too cluttered. I am talking about the web mobile experience, not the mobile app. I have not seen what you have done on the mobile app that you can do yourself.
+> * When the Google Play Store app is ready for the update, you can make a fresh release right now of the new Google Play app.
+> * In the Learn Your Way section, Explore, Saved, and All are in the top tab for horizontal scroll in the Practice section. It's a good approach, but I don't know. It seems a bit confusing for a first-time visitor of the site.
+> * When going to the Learn section, there should also be something like a CTA or an offer, a straight thing you can do, like actually learn some stuff. It should not show on top: "Just do today: 0 in, revise 0 mistakenly." Revise should not be 0. It should show "Start learning for the subject," "Your roadmap," or something like that. You can think about it.
+> * Overall, the UI on the phone is a bit slow, and the website is also a bit slow.
+> * One small thing I'll tell you, from which you can see what I'm saying: when I go to the Explore feed and start something there, the section is designed like an Instagram story thing, but I have to actually swipe down. For a first-time user, you have to somehow integrate this through the UI, or show some toggle or hover first time to nudge them that this is the way to operate it. These kinds of things you have to think about.
+> * Overall, there is too much blank space, which can be utilized somehow, maybe.
+> * When it is ended, there are also too many lines and walls of text everywhere. We should not have it.
+> * I'll just go to the home page once, and I'll sign out.
+> * The hero section design: love the direction, but maybe we can consume a bit less of the details space there, like 10%, 20%, and make it a bit more branded somehow, rather than this vague SVG and PNG integration. Maybe make it reactive on tapping something, tapping on the mobi or stuff like that. We had many assets for the animation and promotion videos that we used, so these kinds of things you can take care of.
+> * Overall, right now our goal is to work on this feature and, again, keep making the entire UI/UX better to the point when you are satisfied with it. Not only the UI/UX, but the overall usefulness of every feature also.
+> * Even if that part is done, you can start populating it more, like adding more cards and more things for the subjects. I think the content is not exactly populated for all subjects and chapters, so it should be at least fine, maybe 1 to 2 hours, 3 hours bare minimum for each subject. This is the bare minimum, even if a subject has 100+ hours of study content, and also it's not an issue.
+> * Keep going. You have a bit of a direction and a taste of what I have wanted initially. Now you have to double down on it.
+
+**Transcription guesses (confirm):**
+- "Just do today: 0 in, revise 0 mistakenly" is probably the top status line, which reads something like "Today: 0 due · Revise 0 mistakes".
+- "Learn Your Way" is the Learn home's heading or section.
+- "I'll just go to the home page once, and I'll sign out" means he looked at the home page (the hero) signed out.
+
+**Folded in** (OWNER-MASTER-LEDGER.md, section "Learn v2 live, 1 Nov afternoon"):
+
+| ID | Item |
+|---|---|
+| LK24 | The phone website (web on a phone, not the app) is too cluttered. |
+| LK25 | Ship a fresh Google Play release of the app as soon as the app update is ready. |
+| LK26 | The Explore / Saved / All top tabs (horizontal scroll) confuse a first-time visitor. |
+| LK27 | Learn opens with a clear offer to start learning ("Start learning <subject>", "Your roadmap"), never a status line full of zeros ("0 due, Revise 0"). |
+| LK28 | The phone website and the website are slow. Make them fast. |
+| LK29 | The Explore feed works like a story, but it moves by swiping down. A first-time user gets a nudge that shows how it works. Think about such first-time cues everywhere. |
+| LK30 | Too much blank space; use it. |
+| LK31 | End screens: too many lines and walls of text. |
+| LK32 | Home hero: he loves the direction. Use 10-20% less space for the details. Make it more branded, with less vague SVG/PNG. Make it react to taps (for example on Mobi), using our animation and promo-film assets. |
+| LK33 | Goal: keep improving this feature and the whole UI/UX, and the usefulness of every feature, until we are satisfied. |
+| LK34 | Content: populate cards (and more) for every subject and chapter. At least 3 hours of study per subject is the bare minimum, and more is fine. |
+| LK35 | Keep going, and double down on this direction. |
+
+**Content calls still open:** the near-duplicate pair "Define partnership." / "What is partnership?", and the card "If this amount is paid to the old partners...". He did not answer them; the CTO decides in round 2 (LK35: keep going).
