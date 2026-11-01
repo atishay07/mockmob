@@ -13,7 +13,7 @@ const css = (path) => read(path).replace(/\/\*[\s\S]*?\*\//g, '');
 
 test('D90: the two choices say they swap the lead, carry a swap mark, and press in', () => {
   const move = read('src/components/today/TodayMove.jsx');
-  assert.match(move, /<p className="tm__or-h" id="tm-or-h" key=\{coach \? 'coach' : 'plain'\}>\{coach \? 'Tap one to swap it in as your move' : 'Or make one of these your move'\}<\/p>/);
+  assert.match(move, /<p className="tm__or-h" id="tm-or-h" key=\{coach \? 'coach' : 'plain'\}>\{coach \? 'Or start with one of these' : 'Or make one of these your move'\}<\/p>/);
   assert.match(move, /aria-labelledby="tm-or-h"/);
   assert.match(move, /<Repeat2 className="tm__choice-i" size=\{16\}/);
   const sheet = css('src/components/today/today.css');
@@ -152,7 +152,7 @@ test('Road: the overall goal reads as three lines, the NTA caveat folded into "e
 test('Weak chapters: the misses say they open (chevron, no bare "+"); rows after the first get a round Play key up to 600 px', () => {
   const weak = read('src/components/today/TodayWeak.jsx');
   assert.doesNotMatch(weak, /<Plus /);
-  assert.match(weak, /<span className="twk__peek">\{missed\} of \{c\.n\} missed<ChevronDown className="twk__plus"/);
+  assert.match(weak, /<span className="twk__peek">\{missed\} of \{c\.n\} wrong or blank<ChevronDown className="twk__plus"/);
   assert.match(weak, /data-compact=\{i > 0 \|\| undefined\}/);
   assert.match(weak, /aria-label=\{`Practise \$\{chapterTitle\(c\.subject, c\.chapter\)\}`\}/, 'the round key keeps its name (the syllabus title, R3 T5)');
   const sheet = css('src/components/today/today.css');

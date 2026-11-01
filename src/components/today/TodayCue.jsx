@@ -3,8 +3,8 @@
 // Release 10 (taste pass, owner D89): a 40 px glass circle with a down chevron, centred just above the dock, in the dock's own glass.
 // It shows at the top of the page whenever the week starts below the fold. It says "Your week and road" for its first 2.4 s, then folds
 // to the circle (240 ms). It steps away on the student's first scroll of 24 px or more (they have found that the page goes on), once
-// the week is on screen, and while the card's key or its reason is under it; the card's footer cells may sit under it, since the
-// circle reads over them in glass. A tap brings the week into view. On a wide screen the week and the road sit beside the move, so the
+// the week is on screen, and while the card's key, its reason or its swap row is under it (R4 owner-eye#5: a floating cue never
+// draws over content, so it stays away rather than cut "Or start with one of these" in two). A tap brings the week into view. On a wide screen the week and the road sit beside the move, so the
 // cue is not drawn.
 import { useEffect, useRef, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
@@ -14,8 +14,9 @@ const reduced = () => {
   try { return window.matchMedia('(prefers-reduced-motion: reduce)').matches || document.documentElement.dataset.motion === 'reduced'; } catch { return false; }
 };
 
-// What the circle must never cover: the lead card's one key and its reason. Everything else on the card may pass under the glass.
-const KEEP_CLEAR = '.tm .tm__key, .tm .tm__why';
+// What the circle must never cover: the lead card's one key, its reason and its swap row (the line and the two moves). R4: the swap row
+// was added after a brand-new student's first screen showed the cue sitting on "Tap one to swap it in as your move".
+export const KEEP_CLEAR = '.tm .tm__key, .tm .tm__why, .tm .tm__or';
 
 /**
  * `ready`: the move has landed; until then the cue holds back, so it never lands before the card (W-042).
@@ -24,6 +25,8 @@ export default function TodayCue({ target = 'week', ready = true }) {
   const [seen, setSeen] = useState(false);
   const [covered, setCovered] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  // Nothing is drawn until the first measure has said whether the cue would sit on content (R4: no one-frame flash over the swap row).
+  const [measured, setMeasured] = useState(false);
   const [wide, setWide] = useState(true);
   const keyRef = useRef(null);
 
@@ -41,6 +44,7 @@ export default function TodayCue({ target = 'week', ready = true }) {
       if (window.scrollY >= CUE_SCROLLED) setScrolled(true);
       const half = (keyRef.current?.offsetWidth || 40) / 2;
       setCovered([...document.querySelectorAll(KEEP_CLEAR)].some((el) => coversCue(el.getBoundingClientRect(), { height, width, half })));
+      setMeasured(true);
     };
     const ask = () => { if (!frame) frame = window.requestAnimationFrame(measure); };
     measure();
@@ -69,9 +73,9 @@ export default function TodayCue({ target = 'week', ready = true }) {
   };
 
   const away = seen || covered || scrolled;
-  const hidden = away || !ready;
+  const hidden = away || !ready || !measured;
   return (
-    <div className="tcue" data-seen={away || undefined} data-wait={ready ? undefined : ''} data-wide={wide || undefined}>
+    <div className="tcue" data-seen={away || undefined} data-wait={ready && measured ? undefined : ''} data-wide={wide || undefined}>
       <button ref={keyRef} type="button" className="tcue__key" onClick={go} tabIndex={hidden ? -1 : 0} aria-hidden={hidden || undefined} aria-label="Your week and road, further down">
         <span className="tcue__text" aria-hidden="true"><span>Your week and road</span></span>
         <span className="tcue__chev" aria-hidden="true"><ChevronDown size={20} strokeWidth={2} /></span>

@@ -60,7 +60,7 @@ test('T1: the card draws no caption element for a student with no history', () =
 // ---- Z: no zero leads ----------------------------------------------------------------------------------------------------
 
 test('Z: This week leads with the goal while nothing is counted ("4 study days this week"), never "0 of 4"', () => {
-  assert.deepEqual(weekDays({ studyDays: 0, daysGoal: 4 }), { done: 0, total: 4, figure: 4, of: '', unit: 'study days this week', text: '4 study days this week' });
+  assert.deepEqual(weekDays({ studyDays: 0, daysGoal: 4 }), { done: 0, total: 4, figure: 4, of: '', unit: 'study days', text: '4 study days this week' });
   assert.equal(weekDays({ studyDays: 3, daysGoal: 4 }).text, '3 of 4 study days');
   const zero = weekDays({ studyDays: 0, daysGoal: 4 });
   assert.equal(hasZeroCount(`${zero.figure} ${zero.of} ${zero.unit} ${zero.text}`), false);
@@ -187,8 +187,12 @@ test('T5: a chapter is named as the syllabus (and the roadmap) names it', () => 
 
 test('T3: for a student with no saved session the Your colleges strip sits under the start card, not above it (both entries stay)', () => {
   const page = read('src/app/(app)/today/page.jsx');
-  assert.match(page, /\{dayOne \? <div className="today__colleges-head"><TodayCollegesStrip userId=\{userId\} hold=\{landing\} \/><\/div> : <TodayCollegesStrip userId=\{userId\} hold=\{landing\} \/>\}/, 'the header strip is for everyone else, and for the new student from 1100 px');
-  assert.match(page, /\{dayOne \? <div className="today__colleges"><TodayCollegesStrip userId=\{userId\} hold=\{landing\} \/><\/div> : null\}/);
+  // R4 client-code#2: ONE strip is built, once the first-session fact is known, and placed in one slot.
+  assert.equal((page.match(/<TodayCollegesStrip /g) || []).length, 1, 'one strip element in the page, never two copies');
+  assert.match(page, /const strip = everSessions !== null \? <TodayCollegesStrip userId=\{userId\} hold=\{landing\} \/> : null;/, 'nothing is drawn while the first-session fact is unknown');
+  assert.match(page, /const stripBelow = dayOne && !wideHead;/);
+  assert.match(page, /\{stripBelow \? null : dayOne \? <div className="today__colleges-head">\{strip\}<\/div> : strip\}/, 'the header strip is for everyone else, and for the new student from 1100 px');
+  assert.match(page, /\{stripBelow \? <div className="today__colleges">\{strip\}<\/div> : null\}/);
   assert.match(page, /<TodayColleges userId=\{userId\} subjects=\{user\?\.subjects \|\| \[\]\} hold=\{landing\} \/>/, 'the block at the end stays');
   const sheet = read('src/components/today/today.css');
   assert.match(sheet, /\.app-shell \.today-grid \.today__colleges \{ order: 2; \}\n\.app-shell \.today__colleges-head \{ display: none; \}/);

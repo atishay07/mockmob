@@ -134,7 +134,7 @@ export function choiceMoves({ papers = null, revise = null, facts = null, repair
     const chapterName = chapterTitle(top.subject, top.chapter); // R3 T5: the syllabus's own title
     out.push(leadOf({
       id: 'weakest', overline: 'Up next', number: count, label: `questions on ${chapterName}`, chapter: chapterName, chapterOpen: top.open, chapterSessions: top.sessions,
-      why: `${chapterName} has ${plural(top.open, 'mark')} open in your record: ${(top.wrong || 0) + (top.skip || 0)} of ${top.n} questions missed. Marked +5 and −1, the CUET way.`,
+      why: `${chapterName} has ${plural(top.open, 'mark')} open in your record: ${(top.wrong || 0) + (top.skip || 0)} of ${top.n} questions wrong or blank. Marked +5 and −1, the CUET way.`,
       key: { label: 'Start practice', href: `/dashboard?${new URLSearchParams({ subject: top.subject, chapter: top.chapter, mode: 'quick', count: String(count) })}`, minutes: length },
       pills: pills(), art: 'object', subject: top.subject,
     }, { now }));
