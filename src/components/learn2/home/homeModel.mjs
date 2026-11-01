@@ -46,11 +46,27 @@ export function optionLine(part, at = 0) {
 /** The one line when the picked option has no chapters with cards at all (R5). */
 export const OPTION_COMING = 'Cards for this option are coming.';
 
-/** "5 free in each chapter" for the roadmap's header, said once; null on Pro (R5). `rows` are the roadmap rows. */
+/**
+ * "5 Key cards free in each chapter" for the roadmap's header, said once; null on Pro (R5, R4 first-timer#1: it says 5 of what).
+ * `rows` are the roadmap rows; the 5 is the open count a Free chapter carries in `progress.of`, never a row's own size.
+ */
 export function freeEach(rows, isPro) {
   if (isPro) return null;
   const n = Math.max(0, ...(rows || []).map((r) => Number(r?.progress?.of) || 0));
-  return n > 0 ? `${n} free in each chapter` : null;
+  return n > 0 ? `${plural(n, 'Key card')} free in each chapter` : null;
+}
+
+/**
+ * The line under the part's pills while no option is saved (R4 owner-eye#4, first-timer#8): which option the list below really shows.
+ * The name is the choice's own label from the data, never typed here. When both options show, or one is saved, there is nothing to say.
+ * `part.units` are the playable ones, so an option with no cards is not among them.
+ */
+export function impliedOptionLine(part, choice) {
+  if (!part?.option || choice) return null;
+  const ids = [...new Set((part.units || []).filter((u) => u.optionId).map((u) => u.optionId))];
+  if (ids.length !== 1) return null;
+  const label = (part.option.choices || []).find((c) => c.id === ids[0])?.label;
+  return label ? `Showing ${label} until you pick.` : null;
 }
 
 /** The count at the end of a row. A chapter with no cards says so in its meta line instead (B 3.1 states). */
@@ -254,11 +270,28 @@ export function shelfKeys(shelves, subjectName = '') {
   ].filter((k) => k.count > 0);
 }
 
-/** A roadmap row (R2 ruling 2): the coverage line, the 3 px bar's share and the one verdict word. Never a zero, a % or "mastered". */
-export function roadmapRow(row, { isPro = true } = {}) {
+/**
+ * The verdict a row carries (R2 ruling 2, R4 ruling V): "Needs work" and nothing else. When the evidence is only from the student's
+ * papers (`needsWorkFrom === 'papers'`) it says so; `'learn'`, a missing field or any other value reads plainly.
+ */
+export function verdictText(row) {
+  const word = row?.verdict ?? verdictOf(row?.state?.key);
+  if (!word) return null;
+  return row?.needsWorkFrom === 'papers' ? `${word} · from your papers` : word;
+}
+
+/**
+ * A roadmap row (R2 ruling 2, R4 ui-correctness#1): the coverage line, the 3 px bar's share and the verdict. The size is the chapter's
+ * real card count (`row.cards`) on Free and Pro alike: Free's open count (`progress.of`, 5) is only what it may play, so it is the
+ * header's line and never a row's total ("5 of 45 cards seen"). A row without `cards` (an old body) falls back to `progress.of`.
+ * Never a zero, a % or "mastered".
+ */
+export function roadmapRow(row) {
   const p = row?.progress || null;
-  if (!p) return { line: '', share: 0, seen: 0, verdict: null };
-  return { line: coverageLine(p, { isPro }), share: coverageShare(p), seen: Number(p.seen) || 0, verdict: row.verdict ?? verdictOf(row.state?.key) };
+  if (!p) return { line: '', share: 0, seen: 0, verdict: verdictText(row), total: 0 };
+  const total = Number(row?.cards) > 0 ? Number(row.cards) : Number(p.of) || 0;
+  const cover = { ...p, of: total };
+  return { line: coverageLine(cover), share: coverageShare(cover), seen: Math.min(Number(p.seen) || 0, total), verdict: verdictText(row), total };
 }
 
 /** Find with nothing typed: a few words from the book to start with, per subject (a tap searches it). */
