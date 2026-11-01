@@ -134,7 +134,7 @@ export default function TodayWeak({ insights, loadAttempt, repairRows = null, su
               <div className="twk__row">
                 <button type="button" className="twk__open" aria-expanded={isOpen} aria-controls={id} onClick={() => toggle(c)}>
                   {/* Release 10 (#4): the misses themselves say they open, with a chevron that turns, in place of an unlabelled "+". */}
-                  <span className="twk__t"><b>{chapterTitle(c.subject, c.chapter)}</b><span>{c.subjectName || subjectName(c.subject)}, <span className="twk__peek">{missed} of {c.n} missed<ChevronDown className="twk__plus" size={15} strokeWidth={2} aria-hidden="true" /></span></span></span>
+                  <span className="twk__t"><b>{chapterTitle(c.subject, c.chapter)}</b><span>{c.subjectName || subjectName(c.subject)}, <span className="twk__peek">{missed} of {c.n} wrong or blank<ChevronDown className="twk__plus" size={15} strokeWidth={2} aria-hidden="true" /></span></span></span>
                   <span className="twk__fig"><b>{c.open}</b><span>marks</span></span>
                 </button>
                 <Link className="tm__pill twk__practise" href={practiseHref(c)} aria-label={`Practise ${chapterTitle(c.subject, c.chapter)}`}><Play size={15} strokeWidth={1.75} aria-hidden="true" /><span className="twk__practise-t">Practise</span></Link>

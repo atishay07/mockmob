@@ -49,6 +49,13 @@ import { todayContext } from '@/components/ai/askContexts.mjs';
 import '@/components/today/today.css';
 
 const noSubscribe = () => () => {};
+// From 1100 px the greeting's header is two columns and the colleges strip sits in its right one (today.css); on a phone a brand-new student
+// finds it under the start card instead. One strip is mounted, in one slot, chosen by this query (R4 client-code#2: never two copies).
+const WIDE_HEAD = '(min-width: 1100px)';
+const subscribeWide = (notify) => {
+  try { const q = window.matchMedia(WIDE_HEAD); q.addEventListener('change', notify); return () => q.removeEventListener('change', notify); } catch { return () => {}; }
+};
+const wideNow = () => { try { return window.matchMedia(WIDE_HEAD).matches; } catch { return false; } };
 const DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 const MONTHS = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 const dayLine = () => { const d = new Date(); return `${DAYS[d.getDay()]}, ${d.getDate()} ${MONTHS[d.getMonth()]}`; };
@@ -295,6 +302,11 @@ export default function Today() {
   const away = data.rhythm.data?.daysSinceLastActivity;
   const hello = greetingAt({ hour, name: user?.name, email: user?.email, returning: Number.isInteger(away) && away >= 7 });
   const dayOne = everSessions === 0;
+  // The strip waits for the one fact that places it (R4 client-code#2): while everSessions is unknown nothing is drawn in the header, so a
+  // brand-new student's start card never jumps up when the strip leaves it. Once known it mounts once, in its one slot.
+  const wideHead = useSyncExternalStore(subscribeWide, wideNow, () => false);
+  const strip = everSessions !== null ? <TodayCollegesStrip userId={userId} hold={landing} /> : null;
+  const stripBelow = dayOne && !wideHead;
   const word = hour != null && (hour >= 17 || hour < 4) ? 'Tonight’s move' : 'Today’s move';
 
   return (
@@ -305,7 +317,7 @@ export default function Today() {
           <h1 className="today__hello">{hello ? <span className="today__in">{hello}</span> : <span className="sr-only">Today</span>}</h1>
           {/* Your colleges, one tap from the first screen every day (D126 B, owner H9); the block at the end stays. */}
           {/* R3 T3: a brand-new student's phone shows the start card and its key above the dock, so the strip sits just under the card for them (from 1100 px it stays under the greeting). */}
-          {dayOne ? <div className="today__colleges-head"><TodayCollegesStrip userId={userId} hold={landing} /></div> : <TodayCollegesStrip userId={userId} hold={landing} />}
+          {stripBelow ? null : dayOne ? <div className="today__colleges-head">{strip}</div> : strip}
         </header>
         {/* One quiet ask while the account has no name worth showing (the app's name card, I11): never the email's prefix. */}
         <NameAsk />
@@ -322,7 +334,7 @@ export default function Today() {
               />
             )}
             {phase !== 'failed' ? <TodayCue target="week" ready={phase === 'ready'} /> : null}
-            {dayOne ? <div className="today__colleges"><TodayCollegesStrip userId={userId} hold={landing} /></div> : null}
+            {stripBelow ? <div className="today__colleges">{strip}</div> : null}
             <TodayWeak insights={insights} loadAttempt={data.loadAttempt} repairRows={data.repairRows} subjectName={subjectName} hold={landing} />
             {dayOne ? null : <TodayPaper papers={data.papers} loadAttempt={data.loadAttempt} subjectName={subjectName} repairRows={data.repairRows} hold={landing} />}
           </div>

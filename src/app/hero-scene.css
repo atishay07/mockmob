@@ -220,6 +220,10 @@
   }
   /* The bubble over the window, 16 px from the room's top and the gutter; its right edge never passes his antenna. */
   .lp-mobi--room .lp-mobi__bubble { top: 16px; left: var(--bleed); max-width: min(11rem, 46%); }
+  /* The tail points at his head (R4, owner-eye#1 residue). The bubble sits up and to the left of him, his head just below its right
+     edge, so the tail leans down and to the right from the flat part of the bottom edge (the corner's 16 px curve is left clear)
+     instead of dropping straight onto the bookshelf. */
+  .lp-mobi--room .lp-mobi__bubble::after { right: 1.2rem; bottom: -9px; width: 18px; height: 18px; rotate: 22deg; }
 
   /* One key, then the second action as a quiet text link under it (the app's "Build my plan" and its text link).
      By position, not by style: after the sample is answered the first key steps down to the secondary style. */

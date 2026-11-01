@@ -95,11 +95,11 @@ export default function TodayPaper({ papers, loadAttempt, subjectName = (id) => 
       <p className="tpp__key" aria-hidden="true"><span><i data-k="r" />{right} right</span><span><i data-k="w" />{wrong} wrong</span><span><i data-k="b" />{blank} blank</span><span>of {n}</span></p>
       <div className="tpp__leak">
         {l.status === 'ready' && l.value ? (
-          <p>Biggest leak: <b>{l.value.chapter}</b>, {l.value.here} of your {l.value.misses} {l.value.misses === 1 ? 'miss' : 'misses'} ({l.value.wrong} wrong, {l.value.blank} blank).</p>
+          <p>Biggest leak: <b>{l.value.chapter}</b>, {l.value.here} of the {l.value.misses} {l.value.misses === 1 ? 'question' : 'questions'} you lost ({l.value.wrong} wrong, {l.value.blank} blank).</p>
         ) : l.status === 'ready' ? (
-          <p>{misses ? `${misses} ${misses === 1 ? 'miss' : 'misses'} on this paper, each explained in the result.` : 'No misses on this paper.'}</p>
+          <p>{misses ? `${misses} ${misses === 1 ? 'question' : 'questions'} lost on this paper, each explained in the result.` : 'No questions lost on this paper.'}</p>
         ) : l.status === 'error' ? (
-          <p>{misses} {misses === 1 ? 'miss' : 'misses'} on this paper. The result shows each one.</p>
+          <p>{misses} {misses === 1 ? 'question' : 'questions'} lost on this paper. The result shows each one.</p>
         ) : <span className="tpp__skl tpp__skl--s" aria-hidden="true" />}
       </div>
       <div className="tpp__acts">

@@ -48,11 +48,11 @@ const ATTEMPTS = [
   attempt('p1', 1, [
     { chapter: 'Partnership Fundamentals', final: R }, { chapter: 'Partnership Fundamentals', final: W }, { chapter: 'Partnership Fundamentals', first: R, final: W, dwell: 190 },
     { chapter: 'Goodwill', final: R }, { chapter: 'Goodwill' }, { chapter: 'Goodwill', final: R, difficulty: 'easy' },
-    { chapter: 'Ratios', final: W, difficulty: 'easy' }, { chapter: 'Ratios', first: W, final: R }, { chapter: 'Ratios', final: R }, { chapter: 'Ratios' },
+    { chapter: 'Accounting Ratios', final: W, difficulty: 'easy' }, { chapter: 'Accounting Ratios', first: W, final: R }, { chapter: 'Accounting Ratios', final: R }, { chapter: 'Accounting Ratios' },
   ]),
   attempt('p2', 3, [
     { chapter: 'Partnership Fundamentals', final: W }, { chapter: 'Partnership Fundamentals', final: W }, { chapter: 'Partnership Fundamentals', final: R }, { chapter: 'Goodwill', final: W },
-    { chapter: 'Goodwill', final: R }, { chapter: 'Ratios', final: R, difficulty: 'easy' }, { chapter: 'Ratios', final: W, difficulty: 'easy' }, { chapter: 'Ratios', final: R },
+    { chapter: 'Goodwill', final: R }, { chapter: 'Accounting Ratios', final: R, difficulty: 'easy' }, { chapter: 'Accounting Ratios', final: W, difficulty: 'easy' }, { chapter: 'Accounting Ratios', final: R },
   ]),
   attempt('p3', 10, Array.from({ length: 8 }, (_, k) => ({ chapter: k < 4 ? 'Partnership Fundamentals' : 'Goodwill', final: k % 3 === 0 ? R : W }))),
 ];

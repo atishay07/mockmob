@@ -91,7 +91,7 @@ test('W-044 (release 10): the cue is a 44 px glass circle centred above the dock
   const comp = read('src/components/today/TodayCue.jsx');
   assert.match(comp, /Your week and road/);
   assert.match(comp, /setTimeout\(\(\) => setWide\(false\), 2400\)/, 'the words fold to the circle after 2.4 s');
-  assert.match(comp, /const KEEP_CLEAR = '\.tm \.tm__key, \.tm \.tm__why';/, 'only the key and the reason are off-limits; the footer may pass under the glass');
+  assert.match(comp, /const KEEP_CLEAR = '\.tm \.tm__key, \.tm \.tm__why, \.tm \.tm__or';/, 'R4: the key, the reason and the swap row are off-limits; the footer cells may pass under the glass');
   assert.match(comp, /if \(window\.scrollY >= CUE_SCROLLED\) setScrolled\(true\);/, 'the first scroll of 24 px steps it away');
 });
 
@@ -115,7 +115,7 @@ test('W-044 (release 9 audit intent, kept in release 10): the cue never blinks w
   const cue = read('src/components/today/TodayCue.jsx');
   assert.doesNotMatch(cue, /setScrolled\(false\)/, 'scrolled is kept for the visit');
   assert.match(cue, /const away = seen \|\| covered \|\| scrolled;/);
-  assert.match(cue, /const hidden = away \|\| !ready;/, 'faded out means out of the tab order and the reading order too');
+  assert.match(cue, /const hidden = away \|\| !ready \|\| !measured;/, 'faded out (or not yet measured) means out of the tab order and the reading order too');
   assert.match(cue, /tabIndex=\{hidden \? -1 : 0\} aria-hidden=\{hidden \|\| undefined\}/);
   const sheet = css('src/components/today/today.css');
   assert.match(sheet, /\.app-shell \.tcue\[data-seen\] \.tcue__key/, 'the key takes no tap once faded');
@@ -140,7 +140,7 @@ test('D27: "Today already counts toward your week" is This week\'s line only', (
 
 test('D27: one count of the week\'s study days, in one wording, in This week and in Road to CUET', () => {
   assert.deepEqual(weekDays({ studyDays: 4, daysGoal: 4 }), { done: 4, total: 4, figure: 4, of: 'of 4', unit: 'study days', text: '4 of 4 study days' });
-  assert.deepEqual(weekDays({ studyDays: 0, daysGoal: 1 }), { done: 0, total: 1, figure: 1, of: '', unit: 'study day this week', text: '1 study day this week' }, 'R3 Z: the goal leads, never "0 of 1"');
+  assert.deepEqual(weekDays({ studyDays: 0, daysGoal: 1 }), { done: 0, total: 1, figure: 1, of: '', unit: 'study day', text: '1 study day this week' }, 'R3 Z: the goal leads, never "0 of 1"');
   assert.equal(weekDays({ studyDays: 3, daysGoal: null }), null, 'unknown goal: no count, never "3 of 0"');
   assert.equal(weekDays({ daysGoal: 4 }), null, 'unknown days: never 0');
   assert.equal(weekDays(null), null);

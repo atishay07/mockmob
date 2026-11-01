@@ -47,7 +47,7 @@ export default function TodayWeek({ rhythm, goal, everSessions = null, mobiFree 
     const at = r?.milestones?.find?.((m) => m.id === 'first_scored_session')?.achievedAt;
     return at && r ? todayKeyIn(tz, Date.parse(at)) : today;
   }, [r, today, tz]);
-  const marks = useMemo(() => (r ? weekMarks({ rhythm: r, today, weekdays: goal.data?.weekdays || null, firstDay }) : []).map((m) => ({ ...m, look: m.state === 'planned' && m.key < today ? 'missed' : m.state })), [r, today, goal.data, firstDay]);
+  const marks = useMemo(() => (r ? weekMarks({ rhythm: r, today, weekdays: goal.data?.weekdays || null, firstDay, fresh: everSessions === 0 }) : []).map((m) => ({ ...m, look: m.state === 'planned' && m.key < today ? 'missed' : m.state })), [r, today, goal.data, firstDay, everSessions]);
   const count = weekDays(r);
   const caption = r ? weekCaption({ rhythm: r, marks, today, everSessions, pausedUntil: goal.data?.pausedUntil || null }) : null;
   const receipt = useMemo(() => (r ? weekReceipt({ repairs, weekStart: r.weekStart, dayKey: (at) => todayKeyIn(tz, Date.parse(at)) }) : null), [r, repairs, tz]);

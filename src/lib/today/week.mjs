@@ -22,8 +22,10 @@ export function firstDayKey(rhythm, toDay) {
 /**
  * The seven marks: { key, name, state: 'counted' | 'planned' | 'open' | 'rest' | 'before', today }.
  * `weekdays` is the student's chosen days (0 = Monday) or null when none are held: then an uncounted day is 'open'.
+ * `fresh` (R4, ui-correctness#15): the student has no saved session at all, so today is their planned first day, an empty ring, never
+ * a rest day (the page says "Day 1" and "Start now" above it).
  */
-export function weekMarks({ rhythm, today, weekdays = null, firstDay = null }) {
+export function weekMarks({ rhythm, today, weekdays = null, firstDay = null, fresh = false }) {
   const start = rhythm?.weekStart;
   if (!start) return [];
   const counted = new Set(rhythm.studyDayDates || []);
@@ -33,6 +35,7 @@ export function weekMarks({ rhythm, today, weekdays = null, firstDay = null }) {
     let state;
     if (counted.has(key)) state = 'counted';
     else if (key < today && (!firstDay || key < firstDay)) state = 'before';
+    else if (fresh && key === today) state = 'planned';
     else if (plan) state = plan.has(i) ? 'planned' : 'rest';
     else state = 'open';
     return { key, name, state, today: key === today };
@@ -50,7 +53,8 @@ export function weekDays(rhythm) {
   const done = rhythm.studyDays;
   const days = total === 1 ? 'day' : 'days';
   // R3 Z: never a zero lead ("0 of 4"): with nothing counted yet the figure is the goal, "4 study days this week".
-  if (done === 0) return { done, total, figure: total, of: '', unit: `study ${days} this week`, text: `${total} study ${days} this week` };
+  // R4 (first-timer#15): the header already says "This week", so the unit does not say it again; the sentence (text) still does.
+  if (done === 0) return { done, total, figure: total, of: '', unit: `study ${days}`, text: `${total} study ${days} this week` };
   return { done, total, figure: done, of: `of ${total}`, unit: `study ${days}`, text: `${done} of ${total} study ${days}` };
 }
 
