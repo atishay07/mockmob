@@ -42,6 +42,8 @@ export const isRunClosed = (error) => error?.kind === 'run_expired' || error?.ki
 export const isChapterMissing = (error) => error?.kind === 'chapter_not_found';
 
 async function call(path, { method = 'GET', body } = {}) {
+  // A write (a start, an answer, a rating) changes what Learn home says: the kept home reads go (speed.md item 3).
+  if (method !== 'GET') clearLearnHome();
   const res = await fetch(path, {
     method,
     cache: 'no-store',
@@ -102,6 +104,40 @@ export function forgetRun(runId) {
 // ---------------------------------------------------------------- the routes
 
 export const learnSubject = (subject) => call(`/api/learn/subject?${q({ subject })}`);
+
+// ---------------------------------------------------------------- Learn home in one read, shared with the shell's badge
+
+const HOME_TTL_MS = 30_000;
+const homeCache = new Map(); // subject ('' = the student's default) -> { at, promise }
+/** Forget the kept home reads (a write, or a run's end). */
+export function clearLearnHome() { homeCache.clear(); }
+/**
+ * GET /api/learn/home: the /subject body plus `shelves`, from one snapshot. A read under 30 seconds old (or still in flight) is
+ * shared, so Learn home and the shell's due badge cost one call between them; `fresh` reads again (a refresh after a run).
+ */
+export function learnHome(subject = null, { fresh = false } = {}) {
+  const key = subject || '';
+  const hit = homeCache.get(key);
+  if (!fresh && hit && Date.now() - hit.at < HOME_TTL_MS) return hit.promise;
+  const promise = call(`/api/learn/home?${q({ subject })}`);
+  homeCache.set(key, { at: Date.now(), promise });
+  promise.catch(() => { if (homeCache.get(key)?.promise === promise) homeCache.delete(key); });
+  return promise;
+}
+/** The newest kept home read for any subject, or null: the badge's due total is the same over every subject. */
+function anyHome() {
+  let best = null;
+  for (const hit of homeCache.values()) if (Date.now() - hit.at < HOME_TTL_MS && (!best || hit.at > best.at)) best = hit;
+  return best?.promise || null;
+}
+/** The subject Learn home will ask for: the address's own, else the one this device remembers (LearnHome's STORE_SUBJECT). */
+function homeSubject() {
+  try {
+    const own = new URL(window.location.href).searchParams.get('subject');
+    if (own) return own;
+    return window.localStorage.getItem('mm:learn:subject:v1') || null;
+  } catch { return null; }
+}
 export const previewRun = ({ chapterKey, minutes, leaveOut = [], addNext }) => call('/api/learn/runs/preview', { method: 'POST', body: { chapterKey, minutes, leaveOut, ...(addNext ? { addNext: true } : {}) } });
 /**
  * Start a run or a feed (or pick one up). `requestKey` defaults to the page's kept key for this start (see requestKeyFor);
@@ -130,6 +166,7 @@ export const rateItem = (runId, { itemId, rating }) => call(`/api/learn/runs/${e
  */
 export async function runEnd(runId) {
   const data = await call(`/api/learn/runs/${encodeURIComponent(runId)}/end`);
+  clearLearnHome();
   forgetRun(runId);
   return data;
 }
@@ -154,7 +191,8 @@ export function useLearnDue({ enabled = true, refreshKey = '' } = {}) {
   useEffect(() => {
     if (!enabled) return undefined;
     let alive = true;
-    learnShelves().then((d) => { if (alive) setDue(dueTotal(d)); }).catch(() => { if (alive) setDue((prev) => prev); });
+    // The same answer Learn home reads (one call between them on /learn and /explore); elsewhere it is still one call.
+    (anyHome() || learnHome(homeSubject())).then((d) => { if (alive) setDue(dueTotal(d?.shelves)); }).catch(() => { if (alive) setDue((prev) => prev); });
     return () => { alive = false; };
   }, [enabled, refreshKey]);
   return due;

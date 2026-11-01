@@ -3,7 +3,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   allNotStarted, cardsText, chapterTotal, distinctKinds, effectiveChoice, filterParts, homeSuggestions, istDay, marksOrder, marksText, metaLine, nothingToPlay, optionChapterCount, pickupProgress, plural,
-  searchPlaceholder, setHead, shelfFromParam, shelfKeys, shownOptionUnits, sortRows, sortsFor, splitTitle, stateShape, subjectLine, suggestionTarget, unitHeading, unitsSignature, visibleRefs,
+  findHintLine, findHints, roadmapRow, searchPlaceholder, setHead, shelfFromParam, shelfKeys, shownOptionUnits, sortRows, sortsFor, splitTitle, stateShape, subjectLine, suggestionTarget, unitHeading, unitsSignature, visibleRefs,
 } from '../homeModel.mjs';
 
 const row = (key, extra = {}) => ({ key, title: key.toUpperCase(), ref: 'Ch 1', cards: 10, questions: 4, mistakes: 0, due: 0, state: { key: 'none', label: 'Not started' }, meta: '', marksOpen: null, lesson: null, ...extra });
@@ -148,16 +148,36 @@ test('the pick-up track shows only real done and total', () => {
 
 test('the shelf keys say exactly what they hold, and zero is drawn as zero', () => {
   const keys = shelfKeys({ due: { count: 9, minutes: 2, all: 27 }, missed: { count: 6, days: 14 }, revise: { count: 26, chapters: 3 }, must: { count: 229, chapters: 14 } }, 'Accountancy');
-  assert.deepEqual(keys.map((k) => [k.id, k.count, k.label]), [['due', 9, 'due today'], ['missed', 6, 'missed lately'], ['revise', 26, 'in Revise']]);
+  assert.deepEqual(keys.map((k) => [k.id, k.count, k.label]), [['due', 9, 'due'], ['missed', 6, 'missed'], ['revise', 26, 'in Revise']]);
   assert.equal(keys[0].name, 'Due today: 9 Accountancy cards. Show them');
   assert.equal(keys[1].name, 'Missed lately: 6 cards in the last 14 days. Show them');
   assert.equal(keys[2].name, 'In Revise: 26 cards in 3 chapters. Show them');
+  // R2 ruling 1 (LK27): a count that is 0 is never drawn; all zero, no keys at all.
   const zero = shelfKeys({ due: { count: 0 }, missed: { count: 0 }, revise: { count: 1, chapters: 1 } });
-  assert.deepEqual(zero.map((k) => k.zero), [true, true, false]);
-  assert.equal(zero[0].name, 'No cards due today');
-  assert.equal(zero[1].name, 'None missed lately');
-  assert.equal(zero[2].name, 'In Revise: 1 card in 1 chapter. Show them');
+  assert.deepEqual(zero.map((k) => k.id), ['revise']);
+  assert.equal(zero[0].name, 'In Revise: 1 card in 1 chapter. Show them');
+  assert.deepEqual(shelfKeys({ due: { count: 0 }, missed: { count: 0 }, revise: { count: 0 } }), []);
   assert.deepEqual(shelfKeys(null), []);
+});
+
+test('a roadmap row: coverage through the chapter, the bar share, and "Needs work" as the only verdict', () => {
+  const r = roadmapRow({ progress: { of: 46, seen: 31, questions: 10, tried: 4 }, state: { key: 'needs_work' } });
+  assert.equal(r.line, '31 of 46 cards seen · 4 of 10 questions tried');
+  assert.equal(r.verdict, 'Needs work');
+  assert.ok(r.share > 0.67 && r.share < 0.68);
+  const fresh = roadmapRow({ progress: { of: 46, seen: 0, questions: 10, tried: 0 }, state: { key: 'none' } });
+  assert.equal(fresh.line, '46 cards · 10 questions');
+  assert.equal(fresh.verdict, null);
+  for (const key of ['getting_there', 'holding', 'thin', 'none']) assert.equal(roadmapRow({ progress: { of: 5, seen: 2, questions: 0, tried: 0 }, state: { key } }).verdict, null);
+  assert.equal(roadmapRow({ progress: { of: 5, seen: 2, questions: 0, tried: 0 } }, { isPro: false }).line, '2 of 5 free cards seen');
+  assert.doesNotMatch(roadmapRow({ progress: { of: 5, seen: 5, questions: 3, tried: 3 } }).line, /%|master|0 of/i);
+});
+
+test('Find with nothing typed: four words to start from, and one line that names the first', () => {
+  assert.equal(findHints('accountancy').length, 4);
+  assert.equal(findHintLine('accountancy'), 'Search any word from the book, like “goodwill”.');
+  assert.deepEqual(findHints('physics'), []);
+  assert.equal(findHintLine('physics'), 'Search any word from the book.');
 });
 
 test('an opened set has a name and one true line', () => {

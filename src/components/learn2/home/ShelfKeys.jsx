@@ -1,29 +1,24 @@
 'use client';
-// The three shelf keys in Learn home's find band (A3 3.2.3): "9 due today", "6 missed lately", "26 in Revise". The student's own
-// cards were a feature behind a focus; now they are one line of keys under (or beside) the search field. A key opens that set in
-// place; the set that is open shows its key pressed. Zero is a true value: it is drawn, quiet, and says so in its name.
+// The student's own cards under the search field (R2 ruling 1, LK27): one line of text keys, "9 due · 6 missed · 26 in Revise".
+// A count that is 0 is never drawn; with nothing in any of them there is no line at all (no "Nothing in Revise yet"). A key opens
+// that set in place; the set that is open shows its key pressed.
 import { shelfKeys } from './homeModel.mjs';
 
-/** The keys' place before the numbers land: three at the final height, so nothing moves. */
+/** The line's place before the numbers land, at its final height, so nothing moves. */
 export function ShelfKeysSkeleton() {
-  return (
-    <div className="lh-skeys" aria-hidden="true">
-      {[0, 1, 2].map((i) => <span key={i} className="skeleton lh-skey lh-skey--skel" />)}
-    </div>
-  );
+  return <div className="lh-skeys lh-skeys--skel" aria-hidden="true"><span className="skeleton lh-skey--skel" /></div>;
 }
 
 export default function ShelfKeys({ shelves, subjectName, selected, onSelect }) {
   const keys = shelfKeys(shelves, subjectName);
   if (!keys.length) return null;
-  if (keys.every((k) => k.zero)) return <p className="lh-skeys-line">Nothing in Revise yet. Cards you study land here.</p>;
   return (
     <div className="lh-skeys" role="group" aria-label="Your cards">
       {keys.map((k) => (
-        <button key={k.id} type="button" className="lh-skey" data-skey={k.id} data-zero={k.zero || undefined}
-          aria-pressed={k.zero ? undefined : selected === k.id} aria-disabled={k.zero || undefined} aria-label={k.name}
-          onClick={() => { if (!k.zero) onSelect(selected === k.id ? null : k.id); }}>
-          <b className="lh-skey__n">{k.count}</b>
+        <button key={k.id} type="button" className="lh-skey" data-skey={k.id}
+          aria-pressed={selected === k.id} aria-label={k.name}
+          onClick={() => onSelect(selected === k.id ? null : k.id)}>
+          <b className="lh-skey__n">{k.count.toLocaleString('en-IN')}</b>
           <span className="lh-skey__l">{k.label}</span>
         </button>
       ))}

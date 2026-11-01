@@ -183,6 +183,7 @@ export async function learnAnswer({ entry, to, method, params, body, isPro, user
   const m = String(method || 'GET').toUpperCase();
   const run = /^\/api\/learn\/runs\/([^/]+)(?:\/(answer|rate|end))?$/.exec(to);
   if (m === 'GET' && to === '/api/learn/subject') return svc.subject(user, params);
+  if (m === 'GET' && to === '/api/learn/home') return svc.home(user, params);
   if (m === 'POST' && to === '/api/learn/runs/preview') return svc.preview(user, body);
   if (m === 'POST' && to === '/api/learn/runs') return svc.start(user, body || {});
   if (run && run[1] !== 'preview') {

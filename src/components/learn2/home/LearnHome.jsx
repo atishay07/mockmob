@@ -1,30 +1,30 @@
 'use client';
-// Learn home (BUILD-1101 B5, A3): the place the owner's LK10 flow starts, in the order he knows, with less air and nothing hidden.
-//   Subjects   the student's own subjects as the Practice loop (lamp-lit objects)
-//   Find band  the one search field ("Search 868 Key cards") and three shelf keys: due today, missed lately, in Revise. A key opens
-//              that set in place; typing opens the results in place; Cancel returns to the chapters. Focusing the field changes
-//              nothing (WCAG 3.2.1). The query and the open set live in the address (q, shelf), so Back returns to them.
-//   Chapters   the three suggestions (the first leads, with the page's one volt key), then the chapter map in book order, then the
-//              foot row. Free's line shows only when today's session is used.
-// Every number and line comes from GET /api/learn/subject and /shelves (API-CONTRACT.md); nothing is made up here.
+// Learn home (R2 rulings 1 to 3, LK27, LK24, LK30; was BUILD-1101 B5, A3): one start offer first, never a line of zeros.
+//   Subjects   the student's own subjects as the Practice loop (compact on a phone)
+//   The offer  the roadmap's headline, one line, the page's one volt key, at most two quiet "Or" rows (RoadmapHero)
+//   Find       the one search field; under it the student's own sets as text keys, each drawn only when it holds cards. A key opens
+//              that set in place; typing opens the results in place; Cancel returns. Focusing the field changes nothing (WCAG
+//              3.2.1). The query and the open set live in the address (q, shelf), so Back returns to them. /learn/find (lv=find)
+//              opens Find on its own: the offer and the roadmap step aside and the field leads.
+//   Roadmap    "Your roadmap": the chapters in book order with their coverage (ChapterMap)
+// Every number and line comes from ONE read, GET /api/learn/home (the /subject body plus the shelves, speed.md item 3), which the
+// shell's due badge shares (learn2/api.js); nothing is made up here.
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
-import { CalendarCheck, ChevronRight, Search, TrendingUp, X } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
+import { Search, X } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
-import { openUpgrade } from '@/components/pro';
 import { useLearnLinks } from '../links';
-import { learnShelves, learnSubject, useLearnRead } from '../api';
+import { learnHome, useLearnRead } from '../api';
 import FindView from '../cards/FindView';
 import SubjectShelf from './SubjectShelf';
 import ShelfKeys, { ShelfKeysSkeleton } from './ShelfKeys';
-import Suggestions, { SuggestionsSkeleton } from './Suggestions';
+import RoadmapHero, { HeroSkeleton } from './RoadmapHero';
+import FindHome from './FindHome';
 import ChapterMap, { MapError, MapSkeleton } from './ChapterMap';
-import { displayTitle, istDay, searchPlaceholder, setHead, shelfFromParam, subjectLine } from './homeModel.mjs';
+import { displayTitle, findHints, flatRows, nothingToPlay, setHead, shelfFromParam, subjectLine } from './homeModel.mjs';
 import './learn-home.css';
 
 const STORE_SUBJECT = 'mm:learn:subject:v1';
-const STORE_FREE = 'mm:learn:free-line:';
 const STORE_RECENT = 'mm:learn:recent:v1';
 const TOPBAR = 63;
 const NAMES = { accountancy: 'Accountancy', business_studies: 'Business Studies', economics: 'Economics', english: 'English', biology: 'Biology', political_science: 'Political Science', mathematics: 'Mathematics', physics: 'Physics', chemistry: 'Chemistry', computer_science: 'Computer Science', history: 'History', geography: 'Geography' };
@@ -51,10 +51,10 @@ function useStuck(sentinel, active) {
 }
 
 /**
- * The search field (A3 3.2.3): 52 px, ink border and the soft ring on focus, a "/" hint where a keyboard is, a Clear key while there
- * is text, and a Cancel key beside it while there is text (and on a phone while it has focus).
+ * The search field (A3 3.2.3): 48 px, ink border and the soft ring on focus, a "/" hint where a keyboard is, a Clear key while there
+ * is text, and a Cancel key beside it while there is text (and on a phone while it has focus, or while Find is open).
  */
-function SearchField({ placeholder, text, focused, recent, onText, onFocus, onBlur, onCancel, onKeyDown, onPickRecent, onClearRecent, inputRef }) {
+function SearchField({ placeholder, text, focused, recent, finding, onText, onFocus, onBlur, onCancel, onKeyDown, onPickRecent, onClearRecent, inputRef }) {
   const [closed, setClosed] = useState(false);
   const open = focused && !text && recent.length > 0 && !closed;
   return (
@@ -70,7 +70,7 @@ function SearchField({ placeholder, text, focused, recent, onText, onFocus, onBl
         {text ? <button type="button" className="l2f-clear" aria-label="Clear the search" onClick={() => { onText(''); inputRef.current?.focus(); }}><X size={18} strokeWidth={2.2} aria-hidden="true" /></button>
           : <kbd className="lh-find__hint" aria-hidden="true">/</kbd>}
       </div>
-      {text || focused ? <button type="button" className="lh-find__cancel" data-empty={!text || undefined} onMouseDown={(e) => e.preventDefault()} onClick={onCancel}>Cancel</button> : null}
+      {text || focused || finding ? <button type="button" className="lh-find__cancel" data-empty={(!text && !finding) || undefined} onMouseDown={(e) => e.preventDefault()} onClick={onCancel}>Cancel</button> : null}
       {open ? (
         <div className="lh-recent" role="group" aria-label="Recent searches">
           <div className="lh-recent__head"><span>Recent searches</span><button type="button" className="lh-textkey" onMouseDown={(e) => e.preventDefault()} onClick={() => { onClearRecent(); inputRef.current?.focus(); }}>Clear</button></div>
@@ -83,46 +83,6 @@ function SearchField({ placeholder, text, focused, recent, onText, onFocus, onBl
   );
 }
 
-/** Free: one quiet line under the find band, only when today's one Learn session is used. Never a modal, dismissable until tomorrow. */
-function FreeLine({ text }) {
-  const day = useMemo(() => istDay(), []);
-  const [gone, setGone] = useState(() => read(`${STORE_FREE}${day}`) === '1');
-  if (!text || gone) return null;
-  return (
-    <p className="lh-free">
-      <span>{text}</span>
-      <button type="button" className="lh-free__link" onClick={(e) => openUpgrade({ trigger: 'learn_home', opener: e.currentTarget })}>See Pro</button>
-      <button type="button" className="lh-free__x" aria-label="Dismiss" onClick={() => { write(`${STORE_FREE}${day}`, '1'); setGone(true); }}><X size={16} strokeWidth={2.2} aria-hidden="true" /></button>
-    </p>
-  );
-}
-
-/** The foot row: Study plan and Your record, one tap each. In the development preview they open the preview's own views. */
-function FootRow() {
-  const params = useSearchParams();
-  const pathname = usePathname() || '';
-  const to = (view, path) => {
-    if (!pathname.startsWith('/preview/')) return path;
-    const next = new URLSearchParams({ view });
-    for (const k of ['plan', 'data', 'decks', 'student', 'kcs', 'theme', 'study']) if (params?.get(k)) next.set(k, params.get(k));
-    return `/preview/arena?${next.toString()}`;
-  };
-  return (
-    <nav className="lh-foot" aria-label="More about your study">
-      <Link className="lh-foot__link" href={to('today', '/today')}>
-        <CalendarCheck className="lh-foot__icon" size={20} strokeWidth={1.9} aria-hidden="true" />
-        <span className="lh-foot__text"><b>Study plan</b><span>What to do today, in order</span></span>
-        <ChevronRight className="lh-foot__chev" size={18} strokeWidth={2} aria-hidden="true" />
-      </Link>
-      <Link className="lh-foot__link" href={to('progress', '/progress')}>
-        <TrendingUp className="lh-foot__icon" size={20} strokeWidth={1.9} aria-hidden="true" />
-        <span className="lh-foot__text"><b>Your record</b><span>How each subject is going</span></span>
-        <ChevronRight className="lh-foot__chev" size={18} strokeWidth={2} aria-hidden="true" />
-      </Link>
-    </nav>
-  );
-}
-
 export default function LearnHome({ subject: subjectProp = null, initialView = 'chapters', initialQuery = null, initialShelf = null, navAlt = false }) {
   const links = useLearnLinks();
   const { user } = useAuth() || {};
@@ -130,6 +90,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   const [subject, setSubject] = useState(subjectProp);
   const [text, setText] = useState(() => String(initialQuery ?? params?.get('q') ?? '').slice(0, 80));
   const [shelf, setShelf] = useState(() => (String(initialQuery ?? params?.get('q') ?? '').trim() ? null : shelfFromParam(initialShelf ?? params?.get('shelf'))));
+  const [finding, setFinding] = useState(initialView === 'find');
   const [focused, setFocused] = useState(false);
   const [swapped, setSwapped] = useState(false);
   const [booted, setBooted] = useState(false);
@@ -137,6 +98,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   const field = useRef(null);
   const sentinel = useRef(null);
   const before = useRef(null); // the page's scroll before the field docked, restored on Cancel
+  const fresh = useRef(false); // the next read skips the kept answer (a refresh after a change)
 
   // The remembered subject (per device) when the link names none; the link's own subject always wins. The first read waits for it, so a
   // student who last chose Economics never sees the first subject flash by.
@@ -149,20 +111,27 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
   }, [subjectProp]);
 
   // A new link to this same page (a different q or shelf from outside) replaces what is open; the student's own typing never does.
-  const seen = useRef({ q: initialQuery, s: initialShelf });
+  const seen = useRef({ q: initialQuery, s: initialShelf, v: initialView });
   useEffect(() => {
     if (initialQuery !== seen.current.q) { seen.current.q = initialQuery; setText(String(initialQuery ?? '').slice(0, 80)); }
     if (initialShelf !== seen.current.s) { seen.current.s = initialShelf; setShelf(shelfFromParam(initialShelf)); }
-  }, [initialQuery, initialShelf]);
+    if (initialView !== seen.current.v) { seen.current.v = initialView; setFinding(initialView === 'find'); }
+  }, [initialQuery, initialShelf, initialView]);
 
   // The find link (/learn/find) arrives with the field ready to type in.
-  useEffect(() => { if (initialView === 'find' && !text && !shelf) field.current?.focus(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (initialView === 'find' && !text && !shelf) field.current?.focus({ preventScroll: true }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const body = useLearnRead(() => (booted ? learnSubject(subject) : Promise.resolve(null)), [subject, booted]);
-  const data = body.data;
+  const home = useLearnRead(() => {
+    if (!booted) return Promise.resolve(null);
+    const out = learnHome(subject, { fresh: fresh.current });
+    fresh.current = false;
+    return out;
+  }, [subject, booted]);
+  const refresh = useCallback(() => { fresh.current = true; return home.refresh(); }, [home]);
+  const data = home.data;
+  const shelves = data?.shelves || null;
   const active = data?.subject?.id || subject;
-  const stale = body.status === 'refreshing' && data && subject && data.subject?.id !== subject;
-  const shelves = useLearnRead(() => (booted ? learnShelves(subject) : Promise.resolve(null)), [subject, booted]);
+  const stale = home.status === 'refreshing' && data && subject && data.subject?.id !== subject;
 
   // The subjects loop is drawn at once from the profile; the server's own list (the student's subjects, their order) replaces it.
   const profile = useMemo(() => (user?.subjects || []).map((id) => ({ id, name: NAMES[id] || id.replace(/_/g, ' ').replace(/^./, (c) => c.toUpperCase()) })), [user?.subjects]);
@@ -189,8 +158,8 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
     writeRecent(active, next);
   }, [text, active, recent]);
 
-  const mode = text.trim() ? 'results' : shelf ? 'set' : 'chapters';
-  // The panel's own fade belongs to a swap (chapters to results and back); the first arrival keeps the tiles' one load moment.
+  const mode = text.trim() ? 'results' : shelf ? 'set' : finding ? 'find' : 'chapters';
+  // The panel's own fade belongs to a swap (chapters to results and back); the first arrival keeps the offer's one load moment.
   const lastMode = useRef(mode);
   useEffect(() => { if (lastMode.current !== mode) { lastMode.current = mode; setSwapped(true); } }, [mode]);
   const stuck = useStuck(sentinel, mode !== 'chapters');
@@ -203,12 +172,12 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
         const q = text.trim();
         if (q) url.searchParams.set('q', q); else url.searchParams.delete('q');
         if (shelf && !q) url.searchParams.set('shelf', shelf); else url.searchParams.delete('shelf');
-        url.searchParams.delete('lv');
+        if (!finding) url.searchParams.delete('lv');
         if (url.href !== window.location.href) window.history.replaceState(window.history.state, '', url);
       } catch { /* the address is only a convenience */ }
     }, 400);
     return () => clearTimeout(t);
-  }, [text, shelf]);
+  }, [text, shelf, finding]);
 
   // "/" focuses the search from anywhere on the page that is not a text field.
   useEffect(() => {
@@ -240,6 +209,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
     const hadText = Boolean(text);
     setText('');
     setShelf(null);
+    if (!hadText) setFinding(false);
     if (before.current !== null) { const top = before.current; before.current = null; window.scrollTo({ top, behavior: reduced() ? 'auto' : 'smooth' }); }
     const fine = (() => { try { return window.matchMedia('(hover: hover) and (pointer: fine)').matches; } catch { return false; } })();
     if (hadText && fine) field.current?.focus(); else { field.current?.blur(); toPanel(); }
@@ -249,7 +219,7 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
     if (e.key === 'Enter') remember();
     if (e.key === 'Escape') {
       e.preventDefault();
-      if (text || shelf) cancel(); else { field.current?.blur(); toPanel(); }
+      if (text || shelf || finding) cancel(); else { field.current?.blur(); toPanel(); }
     } else if (e.key === 'ArrowDown') {
       const first = document.querySelector('#lh-panel .l2c-hit-area');
       if (first) { e.preventDefault(); first.focus(); }
@@ -262,61 +232,67 @@ export default function LearnHome({ subject: subjectProp = null, initialView = '
     setShelf(null);
     requestAnimationFrame(() => { (document.querySelector(`[data-skey="${was}"]`) || field.current)?.focus({ preventScroll: true }); });
   }, [shelf]);
+  const toRoadmap = useCallback(() => {
+    const el = document.getElementById('lh-roadmap');
+    if (!el) return;
+    const top = el.getBoundingClientRect().top + window.scrollY - (TOPBAR + 8);
+    window.scrollTo({ top, behavior: reduced() ? 'auto' : 'smooth' });
+    el.focus({ preventScroll: true });
+  }, []);
 
-  // The tiles, the keys and the free line arrive in one frame: the panel waits for the shelves too (a failed read does not hold it), so
-  // nothing drawn moves when the second read lands.
-  const shelvesSettled = shelves.status === 'ready' || shelves.status === 'error';
-  const ready = body.status !== 'loading' && body.status !== 'error' && data && !stale && shelvesSettled;
-  const failed = body.status === 'error';
+  const ready = home.status !== 'loading' && home.status !== 'error' && data && !stale;
+  const failed = home.status === 'error';
   const hasCards = !(ready && data.subject?.cards === 0);
+  const routeRows = useMemo(() => (ready ? flatRows(data.parts || []).map(({ row }) => row).filter((row) => !nothingToPlay(row)) : []), [ready, data]);
 
   let keys = null;
-  if (hasCards) {
+  if (hasCards && mode !== 'find') {
     // A read for another subject keeps the old numbers on hand; they are never drawn under the new subject's name.
-    if (shelves.status === 'ready' && shelves.data) keys = <ShelfKeys shelves={shelves.data} subjectName={subjectName} selected={shelf} onSelect={(id) => (id ? openShelf(id) : backFromSet())} />;
-    else if (shelves.status === 'error' && !shelves.data) keys = <p className="lh-skeys-line">Your cards did not load. <button type="button" className="lh-textkey" onClick={shelves.refresh}>Try again</button></p>;
-    else keys = <ShelfKeysSkeleton />;
+    if (ready && shelves) keys = <ShelfKeys shelves={shelves} subjectName={subjectName} selected={shelf} onSelect={(id) => (id ? openShelf(id) : backFromSet())} />;
+    else if (!ready && !failed) keys = <ShelfKeysSkeleton />;
   }
 
-  const panelName = mode === 'results' ? 'Results' : mode === 'set' ? setHead(shelf, {}).title : 'Chapters';
+  const panelName = mode === 'results' ? 'Results' : mode === 'set' ? setHead(shelf, {}).title : mode === 'find' ? 'Find' : 'Your roadmap';
+  const offer = mode === 'chapters' ? (ready ? <RoadmapHero roadmap={data.roadmap} links={links} rows={routeRows} onRoute={toRoadmap} /> : failed ? null : <HeroSkeleton />) : null;
+  const hint = findHints(active)[0];
+  const placeholder = hint ? `Find a topic, like ${hint}` : 'Find a chapter or topic';
 
   return (
     <div className="lh" data-nav={navAlt ? 'n1' : undefined} data-panel={mode}>
       <header className="lh-head">
-        <h1 className="lh-title">Learn</h1>
+        <h1 className="lh-title">{mode === 'chapters' ? 'Learn' : 'Find'}</h1>
       </header>
 
-      <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} dues={shelves.data?.due?.bySubject || null} />
+      {mode === 'find' || mode === 'results' ? null : (
+        <SubjectShelf subjects={subjects} current={active} onPick={pick} busy={!ready && !failed} line={ready ? subjectLine(data.subject) : ''} dues={shelves?.due?.bySubject || null} />
+      )}
       <h2 className="lh-sr">{subjectName}</h2>
+
+      {offer}
 
       <span className="lh-sentinel" ref={sentinel} aria-hidden="true" />
       <div className="lh-findband" data-stuck={stuck || undefined}>
-        <SearchField placeholder={searchPlaceholder(data?.subject?.cards)} text={text} focused={focused} inputRef={field} recent={recent}
+        <SearchField placeholder={placeholder} text={text} focused={focused} inputRef={field} recent={recent} finding={finding}
           onPickRecent={(q) => setText(q)} onClearRecent={() => { setRecent([]); if (active) writeRecent(active, []); }}
           onText={(v) => { setText(v); if (v && shelf) setShelf(null); }}
           onFocus={() => { setFocused(true); dock(); }} onBlur={() => setFocused(false)} onCancel={cancel} onKeyDown={onFieldKey} />
         {keys}
       </div>
 
-      {ready && data.free ? <FreeLine text={data.free.text} /> : null}
-      {ready && data.subject?.note ? <p className="lh-note">{data.subject.note}</p> : null}
+      {ready && data.subject?.note && mode === 'chapters' ? <p className="lh-note">{data.subject.note}</p> : null}
 
       <div id="lh-panel" className="lh-panel" key={mode} data-swap={swapped || undefined} tabIndex={-1} onClickCapture={(e) => { if (mode === 'results' && e.target.closest?.('a')) remember(); }} aria-label={panelName} role="region">
-        {mode !== 'chapters' ? (
-          <FindView subject={active} text={text} shelf={shelf} shelves={shelves.data} onShelf={openShelf} onBack={backFromSet} />
+        {mode === 'results' || mode === 'set' ? (
+          <FindView subject={active} text={text} shelf={shelf} shelves={shelves} onShelf={openShelf} onBack={backFromSet} />
         ) : failed ? (
-          <MapError onRetry={body.refresh} busy={body.status === 'refreshing'} />
-        ) : ready ? (
-          <>
-            <Suggestions suggestions={data.suggestions} links={links} />
-            <ChapterMap key={data.subject.id} parts={data.parts || []} subjectId={data.subject.id} links={links} refresh={body.refresh} />
-            <FootRow />
-          </>
+          <MapError onRetry={home.refresh} busy={home.status === 'refreshing'} />
+        ) : !ready ? (
+          <div role="status" aria-label="Loading Learn" className="lh-loading"><MapSkeleton /></div>
+        ) : mode === 'find' ? (
+          <FindHome subject={active} shelves={shelves} onShelf={openShelf} onSearch={(w) => { setText(w); field.current?.focus({ preventScroll: true }); }} />
         ) : (
-          <div role="status" aria-label="Loading Learn" className="lh-loading">
-            <SuggestionsSkeleton />
-            <MapSkeleton />
-          </div>
+          <ChapterMap key={data.subject.id} id="lh-roadmap" parts={data.parts || []} subjectId={data.subject.id} links={links} refresh={refresh}
+            isPro={data.plan === 'pro'} position={data.roadmap?.position?.chapterKey || null} isNew={data.roadmap?.mode === 'new'} />
         )}
       </div>
     </div>
