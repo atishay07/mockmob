@@ -232,6 +232,25 @@ void main() {
       expect(_go('/mentor?tab=ask'), const NativeTarget('/ask'));
     });
 
+    test('Learn v2: runs, feeds, Find and the chapter pages (APP-1101 6)', () {
+      expect(_go('/learn/run?chapter=accountancy.admission-of-partner&min=10&kind=mix&out=lesson'),
+          const NativeTarget('/learn/session?chapter=accountancy.admission-of-partner&min=10&kind=mix&out=lesson'));
+      expect(_go('/learn/run?run=lr_8f2a&end=1'), const NativeTarget('/learn/session?run=lr_8f2a&end=1'));
+      expect(_go('/learn/run?kind=cards&cards=kc.accountancy.goodwill.def-goodwill,kc.accountancy.goodwill.fact-x&min=5'),
+          const NativeTarget('/learn/session?min=5&kind=cards&cards=kc.accountancy.goodwill.def-goodwill%2Ckc.accountancy.goodwill.fact-x'));
+      expect(_go('/learn/run?chapter=../x&kind=drop&min=9999'), const NativeTarget('/learn/session'), reason: 'every bad field is dropped');
+      expect(_go('/explore/run?chapter=accountancy.admission-of-partner&min=20'),
+          const NativeTarget('/explore/feed?chapter=accountancy.admission-of-partner&min=20'));
+      expect(_go('/learn/find?subject=accountancy&q=goodwill'), const NativeTarget('/practice?subject=accountancy&find=1&q=goodwill&door=learn'));
+      expect(_go('/learn/c/accountancy.admission-of-partner?min=20'), const NativeTarget('/learn/c/accountancy.admission-of-partner?min=20'));
+      expect(_go('/learn/c/accountancy.admission-of-partner/cards?f=must'), const NativeTarget('/learn/c/accountancy.admission-of-partner/cards?f=must'));
+      expect(_go('/learn/c/accountancy.admission-of-partner/cards?f=all-of-it'), const NativeTarget('/learn/c/accountancy.admission-of-partner/cards'));
+      expect(_go('/learn/c/NOT A KEY'), const UnsupportedTarget());
+      // The lesson paths are unchanged.
+      expect(_go('/learn/unit-3'), const NativeTarget('/learn/unit-3'));
+      expect(_go('/study/run-7'), const NativeTarget('/learn/run/run-7'));
+    });
+
     test('the DU tools and the 2027 guide', () {
       expect(_go('/admission-compass'), const NativeTarget('/tools/compass'));
       expect(_go('/cuet-cutoff-calculator'), const NativeTarget('/colleges/cutoff'), reason: 'Check a score on Colleges');

@@ -199,6 +199,20 @@ abstract final class ActionRouter {
         if (s.length == 2) return _id.hasMatch(s[1]) ? _result(s[1], q) : _reject;
       case 'explore':
         if (s.length == 1) return _stream(q);
+        // Learn v2 (APP-1101 6): a chapter feed.
+        if (s.length == 2 && s[1] == 'run') return _feed(q);
+      // Learn v2's web places (APP-1101 6). A run is /learn/session here (the lesson engine owns /learn/run/:runId), and
+      // Find is the Learn door with its search open; the chapter page and its Cards view keep their paths. Lessons
+      // (/learn/:unitId, /learn/run/:runId) fall through to the native table as before.
+      case 'learn':
+        if (s.length == 2 && s[1] == 'run') return _run(q);
+        if (s.length == 2 && s[1] == 'find') return _find(q);
+        if (s.length >= 3 && s[1] == 'c') {
+          if (!_chapterKey.hasMatch(s[2])) return _reject;
+          if (s.length == 3) return _withParams(AppRoutes.learn2Chapter(s[2]), {if (_minutes(q['min']) != null) 'min': q['min']});
+          if (s.length == 4 && s[3] == 'cards') return _withParams(AppRoutes.learn2Cards(s[2]), {if (_cardFilters.contains(q['f'])) 'f': q['f']});
+          return _reject;
+        }
       case 'saved':
         if (s.length == 1) return AppRoutes.reviewSaved;
       case 'analytics':
@@ -279,6 +293,69 @@ abstract final class ActionRouter {
 
   static String _withParams(String path, Map<String, dynamic> params) =>
       params.isEmpty ? path : Uri(path: path, queryParameters: params).toString();
+
+  /// A Learn v2 chapter key: `accountancy.admission-of-partner`.
+  static final RegExp _chapterKey = RegExp(r'^[a-z][a-z0-9_]{0,40}\.[a-z0-9][a-z0-9-]{0,99}$');
+
+  /// A Key card id: `kc.accountancy.partnership-fundamentals.term-partners-firm`.
+  static final RegExp _cardId = RegExp(r'^[A-Za-z0-9_.-]{1,160}$');
+  static const Set<String> _cardFilters = {'must', 'revise', 'missed'};
+  static const Set<String> _runKinds = {'mix', 'cards', 'recap', 'level', 'feed'};
+  static const Set<String> _leaveOut = {'cards', 'questions', 'mistakes', 'lesson'};
+
+  /// A run or feed length in minutes, 1 to 180, else null.
+  static String? _minutes(String? v) {
+    final n = int.tryParse(v ?? '');
+    return n != null && n >= 1 && n <= 180 && '$n' == v ? v : null;
+  }
+
+  /// A comma list whose every item passes [ok], at most [max] items, else null.
+  static String? _list(String? v, bool Function(String) ok, {int max = 100}) {
+    if (v == null || v.isEmpty) return null;
+    final items = v.split(',');
+    return items.length <= max && items.every(ok) ? v : null;
+  }
+
+  /// A Learn v2 run (`/learn/run?chapter=&min=&kind=&out=&cards=&run=&end=1`) as `/learn/session`, each field checked.
+  static String _run(Map<String, String> q) {
+    final chapter = q['chapter'];
+    final run = q['run'];
+    return _withParams(AppRoutes.learn2Session, {
+      if (chapter != null && _chapterKey.hasMatch(chapter)) 'chapter': chapter,
+      if (_minutes(q['min']) != null) 'min': q['min'],
+      if (_runKinds.contains(q['kind'])) 'kind': q['kind'],
+      if (_list(q['out'], _leaveOut.contains, max: 4) != null) 'out': q['out'],
+      if (_list(q['cards'], _cardId.hasMatch) != null) 'cards': q['cards'],
+      if (run != null && _id.hasMatch(run)) 'run': run,
+      if (q['end'] == '1') 'end': '1',
+    });
+  }
+
+  /// A Learn v2 feed (`/explore/run?chapter=&min=&run=&end=1`) as `/explore/feed`, each field checked.
+  static String _feed(Map<String, String> q) {
+    final chapter = q['chapter'];
+    final run = q['run'];
+    return _withParams(AppRoutes.exploreFeed, {
+      if (chapter != null && _chapterKey.hasMatch(chapter)) 'chapter': chapter,
+      if (_minutes(q['min']) != null) 'min': q['min'],
+      if (run != null && _id.hasMatch(run)) 'run': run,
+      if (q['end'] == '1') 'end': '1',
+    });
+  }
+
+  /// Learn v2's Find (`/learn/find?subject=&q=`): the Learn door with its search open.
+  static String _find(Map<String, String> q) {
+    final subject = q['subject'];
+    final text = q['q'];
+    return AppRoutes.practiceDoorLocation(
+      'learn',
+      from: Uri(queryParameters: {
+        if (subject != null && _subject.hasMatch(subject)) 'subject': subject,
+        'find': '1',
+        if (text != null && text.length <= 80 && !text.contains(RegExp(r'[ -]'))) 'q': text,
+      }),
+    );
+  }
 
   /// The full result, optionally opened at question `q`.
   static String _result(String attemptId, Map<String, String> q) {
