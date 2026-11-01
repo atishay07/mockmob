@@ -157,6 +157,9 @@ function labState(c) {
 
 function planState(c) {
   if (c.planSaved === true) return { done: true, ready: true };
+  // R3 T1: a student with no saved session has done nothing yet. A date or study days already on the account (a default from
+  // sign-up) is not a plan the student made, so day 7 is never ticked before it happens.
+  if (c.sessions === 0) return { done: false, ready: true };
   const road = c.road && typeof c.road === 'object' ? c.road : null;
   const days = Array.isArray(c.weekdays) && c.weekdays.length > 0;
   const set = Boolean(road && (road.examDate || Number.isInteger(road.mockTarget))) || days;
@@ -272,6 +275,8 @@ export function firstWeekPath(c = {}) {
   const lead = today && today.done === false && today.ready === true && LEAD[today.step.id] ? mark(LEAD[today.step.id](c), today.step, day) : null;
   return {
     day,
+    // R3 T1: a student with no history sees no caption under the rail (there is nothing yet to say) and no step ticked ahead of its day.
+    fresh: c.sessions === 0,
     steps: rows.map((r) => ({ id: r.step.id, day: r.step.day, name: r.step.name, short: r.step.short, state: markState(r, day), done: r.done === true, ready: r.ready === true, early: r.done === true && r.step.day > day })),
     done: live.filter((r) => r.done === true).length,
     total: live.length,
@@ -292,7 +297,9 @@ export function railLine(path) {
   if (!path?.day) return '';
   const names = path.steps.filter((s) => s.state === 'done').map((s) => s.name);
   const todays = path.steps.find((s) => s.state === 'today');
-  return `Your first week, day ${path.day}. ${path.done} of ${path.total} steps done${names.length ? `: ${names.join(', ')}` : ''}.${todays ? ` Today: ${todays.name}.` : ''}`;
+  // R3 Z: nothing done yet is not said as "0 of 7"; the line names the day and today's step.
+  const doneLine = path.done > 0 ? ` ${path.done} of ${path.total} steps done${names.length ? `: ${names.join(', ')}` : ''}.` : '';
+  return `Your first week, day ${path.day}.${doneLine}${todays ? ` Today: ${todays.name}.` : ''}`;
 }
 
 /**
@@ -318,7 +325,7 @@ export function pathLeads(path, move, { picked = false } = {}) {
  * your plan is set."), so a tick ahead of today is never a puzzle. '' with no path.
  */
 export function railCaption(path, leads = false) {
-  if (!path?.day) return '';
+  if (!path?.day || path.fresh) return '';
   const steps = Array.isArray(path.steps) ? path.steps : [];
   const today = steps.find((s) => s.day === path.day) || null;
   const ahead = steps.find((s) => s.day > path.day && s.state !== 'na' && !s.done) || null;

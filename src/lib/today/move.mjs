@@ -21,6 +21,8 @@
 import { TEST_MODES } from '../../../data/test_modes.js';
 import { isGoalMinutes, practiceFor } from '../../../data/goal_minutes.js';
 import { isMinutes } from '../goalMinutes.mjs';
+import { chapterTitle } from './chapterTitle.mjs';
+import { WORDS } from '../../../data/learn/words.js';
 import { FIRST_TIMED_COPY, firstTimedMockHref, shortestTimedPaper } from '../../../data/first_timed_mock.js';
 
 export const RETURNING_AFTER_DAYS = 7;
@@ -92,7 +94,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
   const primary = plan?.primary || null;
 
   if (primary?.kind === 'resume_session') {
-    return { id: 'resume', overline: 'Pick up your session', title: 'Your session is waiting', number: null, label: '', why: 'The server is holding your answers. Carry on where you stopped.', key: { label: 'Resume your practice', href: primary.href, minutes: null }, pills: { length: false, second: 'else' }, art: 'object', subject: null };
+    return { id: 'resume', overline: 'Up next', title: 'Your session is waiting', number: null, label: '', why: 'The server is holding your answers. Carry on where you stopped.', key: { label: WORDS.continue, href: primary.href, minutes: null }, pills: { length: false, second: 'else' }, art: 'object', subject: null };
   }
 
   const sessions = whole(facts?.sessions) ? facts.sessions : whole(rhythm?.counts?.sessions) ? rhythm.counts.sessions : papers ? papers.length : null;
@@ -133,7 +135,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
     if (open > 0) {
       const n = Math.min(3, open);
       return {
-        id: 'returning', overline: 'Pick up where you left off', number: n, label: n === 1 ? 'mistake to repair' : 'mistakes to repair',
+        id: 'returning', overline: 'Welcome back', number: n, label: n === 1 ? 'mistake to repair' : 'mistakes to repair',
         why: `Your last paper was ${lastName} on ${lastWhen}. ${open === n ? `${open === 1 ? 'Its one mistake is' : `All ${word(open)} of its mistakes are`} still open.` : `Its ${word(open)} open mistakes are still here; start with ${word(n)}.`}`,
         key: { label: 'Start repair', href: `/result/${encodeURIComponent(last.id)}`, minutes: repairMinutes(n) },
         link: open > n ? { label: `See all ${open} mistakes`, href: `/result/${encodeURIComponent(last.id)}` } : null,
@@ -141,7 +143,7 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
       };
     }
     return {
-      id: 'returning', overline: 'Pick up where you left off', number: 10, label: 'questions to warm up',
+      id: 'returning', overline: 'Welcome back', number: 10, label: 'questions to warm up',
       why: `Your last session was ${away} days ago. Ten questions find your footing again, marked the CUET way.`,
       key: { label: 'Start 10 questions', href: '/dashboard?mode=quick&count=10', minutes: 10 },
       pills: pills(), art: 'mobi', mobiAct: 'hello', subject: last?.subject || null, returning: true,
@@ -213,15 +215,16 @@ export function buildMove({ plan = null, planFailed = false, papers = null, rhyt
 
   // Ordinary practice: the plan's own session, aimed at the chapter with the most marks open.
   const { count, review } = practiceFor(length);
+  const chapterName = top?.chapter ? chapterTitle(top.subject, top.chapter) : null; // R3 T5: the syllabus's own title (links keep the stored name)
   const href = primary?.kind === 'ordinary_practice' ? primary.href : `/dashboard?mode=quick&count=${count}`;
   const aim = top?.subject && top?.chapter ? `${href}${href.includes('?') ? '&' : '?'}${new URLSearchParams({ subject: top.subject, chapter: top.chapter })}` : href;
   return {
-    id: 'practice', overline: weekLine || moveWord, number: count, label: top?.chapter ? `questions on ${top.chapter}` : 'practice questions',
-    why: top?.chapter ? `${top.chapter} has ${plural(top.open, 'mark')} open in your record, over ${plural(top.sessions, 'session')}.${sparseClause}` : `Marked +5 and −1, the CUET way. Each miss waits in Your papers with its explanation.${sparseClause}`,
+    id: 'practice', overline: weekLine || moveWord, number: count, label: top?.chapter ? `questions on ${chapterName}` : 'practice questions',
+    why: top?.chapter ? `${chapterName} has ${plural(top.open, 'mark')} open in your record, over ${plural(top.sessions, 'session')}.${sparseClause}` : `Marked +5 and −1, the CUET way. Each miss waits in Your papers with its explanation.${sparseClause}`,
     key: { label: `Start ${count} questions`, href: aim, minutes: count + review },
     link: top?.chapter ? { label: 'See why', href: '/mentor?tab=record' } : null,
     pills: pills(), art: 'object', subject: top?.subject || last?.subject || null, firstWeek,
-    chapter: top?.chapter || null, chapterOpen: top?.chapter ? top.open : null, chapterSessions: top?.chapter ? top.sessions : null,
+    chapter: top?.chapter ? chapterName : null, chapterOpen: top?.chapter ? top.open : null, chapterSessions: top?.chapter ? top.sessions : null,
   };
 }
 

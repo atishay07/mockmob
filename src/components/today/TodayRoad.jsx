@@ -22,7 +22,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, ChevronDown, Flag, SlidersHorizontal } from 'lucide-react';
 import { api } from '@/lib/fetcher';
-import { roadFigures, roadLayers, stripColumns, targetFor, weekdayDay, shortDay, goalLines } from '@/lib/today/road.mjs';
+import { roadFigures, roadLayers, stripColumns, targetFor, weekdayDay, shortDay, goalLines, dueStop, goalStop, weekItemDetail } from '@/lib/today/road.mjs';
 import { todayKeyIn, weekDays } from '@/lib/today/week.mjs';
 import { clock } from '@/lib/today/move.mjs';
 import TodayPlanFlow from './TodayPlanFlow';
@@ -180,26 +180,24 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
   const mocksItem = week.items.find((i) => i.id === 'mocks');
   const mockLine = mocksItem ? `and ${mocksItem.done} of ${mocksItem.total} full ${mocksItem.total === 1 ? 'mock' : 'mocks'}` : '';
 
-  // The three stops, near to far.
+  // The three stops, near to far (R3 Z: a stop with nothing counted leads with its goal, never "0 of").
   const stops = [
     {
       id: 'today', label: 'Due today',
-      figure: day.rest ? 'Rest' : day.total ? day.done : day.unknown.length ? '?' : day.done, of: day.rest || !day.total ? '' : `of ${day.total}`,
-      unit: day.rest ? 'nothing due' : day.unknown.length ? (day.total ? 'done so far' : 'Revise unknown') : 'done',
+      ...dueStop(day),
       stretch: <Stretch done={day.done} total={day.rest ? 0 : day.total} order={0} />,
-      aria: `Due today: ${day.rest ? 'nothing, a rest day' : day.total ? `${day.done} of ${day.total} done` : 'not known yet'}. ${day.left}`,
     },
     {
       id: 'week', label: 'This week',
-      figure: weekCount ? weekCount.done : '?', of: weekCount ? `of ${weekCount.total}` : '', unit: weekCount ? `study ${weekCount.total === 1 ? 'day' : 'days'}` : 'study days unknown', also: mockLine,
+      figure: weekCount ? weekCount.figure : '?', of: weekCount ? weekCount.of : '', unit: weekCount ? weekCount.unit : 'study days unknown', also: mockLine,
       stretch: <Stretch done={weekCount ? Math.min(weekCount.done, weekCount.total) : 0} total={weekCount ? weekCount.total : 0} order={1} />,
       aria: `This week: ${weekCount ? `${weekCount.text}${mockLine ? `, ${mockLine}` : ''}` : 'your weekly goal did not load'}. ${week.line}`,
     },
     {
       id: 'goal', label: 'Overall goal',
-      figure: inWindow ? 'Now' : taken == null ? target : taken, of: inWindow || taken == null ? '' : `of ${target}`, unit: inWindow ? 'the window is open' : taken == null ? 'full mocks planned' : 'full mocks',
+      ...goalStop({ taken, target, inWindow }),
       stretch: <Stretch done={taken ?? 0} total={inWindow ? 0 : target} order={2} flag />,
-      aria: `Overall goal: ${taken == null ? `${target} full mocks planned; your full mocks did not load` : `${taken} of ${target} full mocks`}${plan.mockTarget == null ? ', suggested' : ''}. ${inWindow ? 'The CUET UG window is open.' : `${g.count} ${g.unit} to CUET UG. ${examLine}.`}`,
+      aria: `Overall goal: ${taken == null ? `${target} full mocks planned; your full mocks did not load` : taken === 0 ? `${target} full ${target === 1 ? 'mock' : 'mocks'} planned` : `${taken} of ${target} full mocks`}${plan.mockTarget == null ? ', suggested' : ''}. ${inWindow ? 'The CUET UG window is open.' : `${g.count} ${g.unit} to CUET UG. ${examLine}.`}`,
     },
   ];
   const stop = stops[sel];
@@ -217,9 +215,9 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
             {day.items.map((i) => (
               <li key={i.id} data-done={i.done || undefined} data-extra={i.extra || undefined}>
                 <span className="trd__mark" aria-hidden="true">{i.done ? <Check size={13} strokeWidth={2.6} /> : null}</span>
-                <span className="trd__item-t"><b>{i.title}</b><span>{i.done ? (i.id === 'revise' ? `${i.detail}, done` : i.detail) : i.detail}</span></span>
+                <span className="trd__item-t"><b>{i.title}</b>{i.detail ? <span>{i.done ? (i.id === 'revise' ? `${i.detail}, done` : i.detail) : i.detail}</span> : null}</span>
                 {/* One label per action (release 10, D15): the row's key is the lead card's own key and length ("Start Revise 5 min"). */}
-                {!i.done && i.href ? <Link className="tm__pill trd__go" href={i.href}>{i.id === 'revise' ? 'Start Revise' : i.key?.label || 'Start'}{(i.id === 'revise' ? i.minutes : i.key?.minutes) ? <span className="trd__go-len">{i.id === 'revise' ? i.minutes : i.key.minutes} min</span> : null}</Link> : null}
+                {!i.done && i.href ? <Link className="tm__pill trd__go" href={i.href}>{i.id === 'revise' ? 'Start Revise' : i.key?.label || 'Start'}{(i.id === 'revise' ? i.minutes : i.key?.minutes) ? <span className="trd__go-len">· {i.id === 'revise' ? i.minutes : i.key.minutes} min</span> : null}</Link> : null}
               </li>
             ))}
             {day.unknown.map((i) => (
@@ -243,7 +241,7 @@ export default function TodayRoad({ road, goal, rhythm, facts, revise, papers, l
             {week.items.map((i) => (
               <li key={i.id} data-done={i.done >= i.total || undefined}>
                 <span className="trd__mark" aria-hidden="true">{i.done >= i.total ? <Check size={13} strokeWidth={2.6} /> : null}</span>
-                <span className="trd__item-t"><b>{i.title}</b><span>{i.done} of {i.total}{i.id === 'days' ? ' this week' : ' planned this week'}</span></span>
+                <span className="trd__item-t"><b>{i.title}</b><span>{weekItemDetail(i)}</span></span>
               </li>
             ))}
           </ul>

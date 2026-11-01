@@ -104,12 +104,12 @@ const pathOn = (day, o = {}) => firstWeekPath({
 
 test('first week: the caption says what the next step brings, and a step done before its day is explained', () => {
   const p1 = pathOn(1);
-  assert.equal(railCaption(p1, true), 'Tomorrow: your first mistakes come back.');
-  const early = pathOn(1, { road: { onAccount: true, examDate: '2027-05-08', mockTarget: null } });
+  assert.equal(railCaption(p1, true), '', 'R3 T1: a student with no history has no caption under the rail');
+  const early = pathOn(2, { road: { onAccount: true, examDate: '2027-05-08', mockTarget: null } });
   const plan = early.steps.find((s) => s.id === 'plan');
   assert.equal(plan.done, true);
   assert.equal(plan.early, true, 'done before its day');
-  assert.equal(railCaption(early, true), 'Tomorrow: your first mistakes come back. Day 7 is done already: your plan is set.');
+  assert.equal(railCaption(early, true), 'Tomorrow: practice aimed at your weakest chapter. Day 7 is done already: your plan is set.');
   for (const id of ['revise', 'aim', 'spread', 'mock', 'lab', 'plan']) assert.match(STEP_PROMISE[id], /^[a-z].*\.$/, id);
   const move = read('src/components/today/TodayMove.jsx');
   assert.match(move, /data-early=\{s\.early \|\| undefined\}/);
@@ -154,7 +154,7 @@ test('Weak chapters: the misses say they open (chevron, no bare "+"); rows after
   assert.doesNotMatch(weak, /<Plus /);
   assert.match(weak, /<span className="twk__peek">\{missed\} of \{c\.n\} missed<ChevronDown className="twk__plus"/);
   assert.match(weak, /data-compact=\{i > 0 \|\| undefined\}/);
-  assert.match(weak, /aria-label=\{`Practise \$\{c\.chapter\}`\}/, 'the round key keeps its name');
+  assert.match(weak, /aria-label=\{`Practise \$\{chapterTitle\(c\.subject, c\.chapter\)\}`\}/, 'the round key keeps its name (the syllabus title, R3 T5)');
   const sheet = css('src/components/today/today.css');
   assert.match(sheet, /\.twk__open\[aria-expanded='true'\] \.twk__plus \{ transform: rotate\(180deg\); \}/);
   assert.match(sheet, /@media \(max-width: 600px\) \{[\s\S]*?li\[data-compact\] \.twk__practise \{ position: relative; justify-self: end; width: 40px;[\s\S]*?li\[data-compact\] \.twk__practise::after \{ content: ''; position: absolute; inset: -2px; \}/, 'a 44 px hit area');
@@ -249,7 +249,7 @@ test('D15: every choice cell carries its card title word for word, so the cell t
   assert.deepEqual(pool.map((m) => m.id), ['repair', 'revise', 'weakest', 'mock', 'another']);
   for (const m of pool) assert.equal(m.choice.title, leadTitle(m, R2_NOW), `${m.id}: the cell title is the lead title`);
   assert.deepEqual(pool.map((m) => m.choice.title), ['Repair your last paper', 'Revise what came back', 'Practise your weakest chapter', 'A full mock instead', 'Start with another subject']);
-  assert.equal(pool[1].choice.value, '5 of 8 due today', 'the variable part lives in the value line');
+  assert.equal(pool[1].choice.value, '5 of 8 questions today', 'the variable part lives in the value line');
   for (const id of ['dayOne', 'returning', 'smart', 'practice', 'firstMock']) {
     const m = leadOf({ id, number: 10, label: 'questions', key: { minutes: 10 }, chapter: id === 'practice' ? 'X' : null }, { now: R2_NOW });
     assert.equal(m.choice.title, m.title, `${id}: the cell title is the lead title`);
@@ -289,7 +289,8 @@ test('#10: "Done for tonight" with mistakes still due says so, keys Revise in ou
   assert.equal(layers.today.total, 1, 'Due today 1 of 1');
   const rev = layers.today.items.find((i) => i.id === 'revise');
   assert.equal(rev.extra, true);
-  assert.equal(rev.detail, '0 of 5 questions, extra tonight');
+  assert.equal(rev.detail, 'extra tonight', 'R3 Z: never "0 of 5 questions"');
+  assert.equal(rev.title, 'Revise · 5 questions');
   assert.equal(rev.minutes, 5);
   assert.equal(layers.today.left, 'Everything due today is done. 5 Revise questions are extra tonight, about 5 min.');
   // With any other lead, Revise counts as before.

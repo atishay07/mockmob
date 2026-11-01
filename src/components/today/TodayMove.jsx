@@ -265,9 +265,9 @@ export default function TodayMove({ phase, lead, choices = [], picked = false, o
         {isPlan ? (
           <button type="button" className="tm__key" data-page-primary aria-haspopup="dialog" onClick={onPlan}>{m.key.label}</button>
         ) : offline ? (
-          <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{minutes ? <span className="tm__key-len">{lenChip(minutes)}</span> : null}</span>
+          <span className="tm__key" aria-disabled="true" role="link">{m.key.label}{minutes ? <span className="tm__key-len">· {lenChip(minutes)}</span> : null}</span>
         ) : (
-          <Link className="tm__key" data-page-primary data-outline={done || undefined} href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">{lenChip(minutes)}</span> : null}</Link>
+          <Link className="tm__key" data-page-primary data-outline={done || undefined} href={m.key.href}>{m.key.label}{minutes ? <span className="tm__key-len">· {lenChip(minutes)}</span> : null}</Link>
         )}
         {price}
       </div>

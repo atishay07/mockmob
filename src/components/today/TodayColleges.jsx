@@ -10,6 +10,7 @@ import { useMyColleges } from '@/components/colleges/useMyColleges';
 import { decodeSelection, loadOfferings, loadRules, formatScore, readSaved } from '@/lib/du/client';
 import { roundOneCutoff, startingList } from '@/lib/du/compassLine.mjs';
 import { evaluateGroup, gapSize } from '@/lib/du/eligibility';
+import { COLLEGES_EMPTY } from '@/lib/today/copy.mjs';
 
 // Does the student's subject list meet the programme's DU subject rules? The same engine and the same starting subjects
 // as the Compass page (a choice kept on this device, else the profile), so Today never disagrees with Compass.
@@ -71,7 +72,7 @@ export default function TodayColleges({ userId, subjects = [], hold = false }) {
     return (
       <section className="tc" aria-labelledby="tc-h">
         {head}
-        <div className="tc__fit"><p>Choose up to 8 colleges you are aiming for. Your first choice shows here with its 2026 cutoff.</p><Link className="tm__pill" href="/admission-compass"><Plus size={16} strokeWidth={1.75} aria-hidden="true" />Choose colleges</Link></div>
+        <div className="tc__fit"><p>{COLLEGES_EMPTY}</p><Link className="tm__pill" href="/admission-compass"><Plus size={16} strokeWidth={1.75} aria-hidden="true" />Choose colleges</Link></div>
       </section>
     );
   }
