@@ -78,7 +78,7 @@ export function useStartSheet({ open = false, user = null }) {
   // Learn v2's "Learn a chapter" row: on the live site only with NEXT_PUBLIC_LEARN2 on; always in the development preview.
   const pathname = usePathname() || '';
   const learn2 = LEARN2_ENV_ON || pathname.startsWith('/preview/');
-  const model = useMemo(() => startRows({ plan: mine?.plan || null, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock, learn2 }), [mine, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock, learn2]);
+  const model = useMemo(() => startRows({ learn2, plan: mine?.plan || null, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock }), [mine, subjects, subject, pro, balance, tonightKey, dailySet, firstFullMock, learn2]);
   const selectSubject = useCallback((id) => { setChosen(id); writeStored(id); }, []);
   const retry = useCallback(() => { fetched.current = { userId: null, at: 0 }; setRecord(null); setNonce((n) => n + 1); }, []);
 
