@@ -504,9 +504,21 @@ List<RouteBase> _routes(GlobalKey<NavigatorState> rootKey, Set<RouteBase> sheets
       page('run/:runId', learnRunScreen, root: true, routes: [
         page('done', learnRunDoneScreen, transition: MmTransition.fade, root: true),
       ]),
+      // Learn v2 (APP-1101): the chapter page and its Cards view, and a run (full screen, fades in like the
+      // runner), all before the :unitId pattern.
+      page('c/:chapterKey', learn2ChapterScreen, root: true, routes: [
+        page('cards', learn2CardsScreen, root: true),
+      ]),
+      page('session', learn2SessionScreen, transition: MmTransition.fade, root: true),
       // The chapter reader, before the :unitId pattern.
       page(LearnPaths.summaryTemplate, learnSummaryScreen, root: true),
       page(':unitId', learnUnitScreen, root: true),
+    ]),
+
+    // Explore (APP-1101): the chapter feed covers, pushed over the shell from Practise's More ways in; a feed is a
+    // full-screen page over it that fades in like the runner.
+    page(AppRoutes.explore, learn2ExploreScreen, root: true, routes: [
+      page('feed', learn2FeedScreen, transition: MmTransition.fade, root: true),
     ]),
 
     // Key cards (KEYCARDS-BUILD-SPEC 4): pushed over the shell from Learn, Review and Revise; no tab.

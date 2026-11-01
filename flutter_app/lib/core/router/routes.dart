@@ -120,6 +120,15 @@ abstract final class AppRoutes {
   static String learnRun(String runId) => '/learn/run/${Uri.encodeComponent(runId)}';
   static String learnRunDone(String runId) => '${learnRun(runId)}/done';
 
+  // Learn v2 (APP-1101): root pages over the shell, no tab. The chapter page and its Cards view sit under /learn/c/
+  // (before the lesson's /learn/:unitId); a run is /learn/session (the lesson engine owns /learn/run/:runId); the
+  // Explore covers and a feed live under /explore. Every location is built by Learn2Links.
+  static String learn2Chapter(String chapterKey) => '/learn/c/${Uri.encodeComponent(chapterKey)}';
+  static String learn2Cards(String chapterKey) => '${learn2Chapter(chapterKey)}/cards';
+  static const String learn2Session = '/learn/session';
+  static const String explore = '/explore';
+  static const String exploreFeed = '/explore/feed';
+
   // Key cards (KEYCARDS-BUILD-SPEC 4): pushed over the shell from Learn, Review's chapters and Revise; no tab.
   static const String keyCards = '/cards';
   static String keyCardsChapter(String chapterKey) => '/cards/${Uri.encodeComponent(chapterKey)}';
@@ -224,6 +233,11 @@ abstract final class AppRoutes {
     '/learn/:unitId',
     '/learn/run/:runId',
     '/learn/summary/:subject/:chapter',
+    '/learn/c/:chapterKey',
+    '/learn/c/:chapterKey/cards',
+    learn2Session,
+    explore,
+    exploreFeed,
     keyCards,
     '/cards/:chapter',
     you,
