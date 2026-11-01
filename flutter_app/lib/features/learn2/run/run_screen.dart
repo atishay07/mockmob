@@ -238,12 +238,19 @@ class LearnRunScreenState extends ConsumerState<LearnRunScreen> {
     router.go(Learn2Links.home(subject: subject.isEmpty ? null : subject));
   }
 
-  /// A server href as an app location: the Learn places by `Learn2Links.resolve`; any other place on the site through the
-  /// app's ActionRouter, like any other link of it.
+  /// A server href as an app location: the Learn places by `Learn2Links.resolve`; a filtered Explore link ("Questions on this
+  /// chapter in Explore") is Explore's question stream, as the web keeps its filters, so it goes through the app's
+  /// ActionRouter, like any other place on the site.
   String? _hrefLocation(String? href) {
     if (href == null || href.isEmpty) return null;
-    final own = Learn2Links.resolve(href);
-    if (own != null) return own;
+    final uri = Uri.tryParse(href);
+    if (uri == null) return null;
+    final path = uri.path.length > 1 && uri.path.endsWith('/') ? uri.path.substring(0, uri.path.length - 1) : uri.path;
+    final filtered = path == '/explore' && uri.queryParameters.keys.any((k) => k != 'subject');
+    if (!filtered) {
+      final own = Learn2Links.resolve(href);
+      if (own != null) return own;
+    }
     final target = ActionRouter.resolve(href);
     return target is NativeTarget ? target.location : null;
   }

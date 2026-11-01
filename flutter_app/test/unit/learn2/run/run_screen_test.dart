@@ -480,6 +480,21 @@ void main() {
       await finish(tester);
     });
 
+    testWidgets("Free after its day: the volt key starts its recap in this run's place; Questions in Explore opens the stream, not the covers", (tester) async {
+      final api = _FreeEnd();
+      await toEnd(tester, api, rated: 1);
+      await tap(tester, find.text('Quick recap of this chapter'));
+      expect(api.starts.last.kind, 'recap');
+      expect(api.starts.last.chapterKey, 'accountancy.admission-of-partner');
+      await finish(tester);
+      await toEnd(tester, _FreeEnd(), rated: 1);
+      await tap(tester, find.text('Questions on this chapter in Explore'));
+      expect(find.textContaining('at /'), findsOneWidget);
+      expect(find.text('at /explore'), findsNothing);
+      expect(find.textContaining('at /explore?'), findsNothing, reason: 'the question stream, as the web keeps its filters');
+      await finish(tester);
+    });
+
     testWidgets('Free with Pro on offer shows See Pro as a text key', (tester) async {
       final api = _FreeEnd();
       await pumpRun(tester, api, proNudges: true);
