@@ -242,7 +242,51 @@
     },
     "coneFootY": 0.318,
     "ground": "#12110E",
-    "groundBlendFrom": 0.93
+    "groundBlendFrom": 0.93,
+    "stars": [
+      [
+        0.135,
+        0.29
+      ],
+      [
+        0.27,
+        0.33
+      ],
+      [
+        0.09,
+        0.4
+      ]
+    ],
+    "sheetBubbles": {
+      "note": "Six empty bubbles on the pinned sheet, in the order a tap fills them: (row 2, col 3), (3, 2), (4, 4), (2, 6), (6, 1), (5, 5) of its 6 x 6 grid. Centres measured from the 1296 x 1620 master by fitting the grid to its six painted fills (residual under 2 px); r is the fill radius, all as fractions of the painting width (x, r) and height (y).",
+      "r": 0.0127,
+      "centers": [
+        [
+          0.7245,
+          0.4237
+        ],
+        [
+          0.6851,
+          0.4631
+        ],
+        [
+          0.7635,
+          0.5001
+        ],
+        [
+          0.8423,
+          0.4214
+        ],
+        [
+          0.6454,
+          0.5796
+        ],
+        [
+          0.8026,
+          0.5379
+        ]
+      ]
+    }
   },
   "planSeal": {
     "file": {

@@ -32,7 +32,9 @@ function saveData() {
 const pct = (n) => `${Math.round(n * 100000) / 1000}%`;
 const num = (n) => Math.round(n * 10000) / 10000;
 
-export default function SceneLife({ scene, night, run = true }) {
+// `breaths`: how many 8 s breaths it runs before it removes itself (the app's three by default; the home hero asks
+// for one, LK32). `scene` may also be 'welcome', the tall welcome room (sceneModel.mjs welcomeLife).
+export default function SceneLife({ scene, night, run = true, breaths }) {
   const prefs = useMobiPrefs();
   const hidden = useSyncExternalStore(subscribeVisibility, hiddenSnapshot, serverHidden);
   const [done, setDone] = useState(false);
@@ -40,7 +42,8 @@ export default function SceneLife({ scene, night, run = true }) {
   const life = lifeLayers(anchors, scene, { night });
   if (!life) return null;
 
-  const { breathSeconds, cycles, fadeEndsMs } = life.timing;
+  const { breathSeconds, fadeEndsMs } = life.timing;
+  const cycles = Number.isInteger(breaths) && breaths > 0 ? breaths : life.timing.cycles;
   const span = breathSeconds * cycles;
   const swayPeriod = breathSeconds / 1.5;
   const starPeriod = breathSeconds / 2;

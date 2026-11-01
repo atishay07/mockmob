@@ -12,6 +12,9 @@ export const SCENE_VERSION = 'v2';
 export const SCENE_DIR = '/art/scenes';
 export const WIDE_WIDTHS = [768, 1280, 1536];
 export const TALL_WIDTHS = [1080, 1296];
+// The home hero's room band (LK32): the welcome room cropped to y 0.20 to 0.95 of the painting, Night only.
+export const BAND_WIDTHS = [780, 1170];
+export const WELCOME_BAND = { cropY: [0.2, 0.95] };
 
 /** The app's StateScene values, in its order. */
 export const STATE_SCENES = ['allClear', 'offline', 'nothingYet', 'saved', 'noResults', 'unreachable'];
@@ -42,6 +45,8 @@ export function sceneArt(kind, { night = true } = {}) {
   if (kind === 'milestone') return { kind, base: `scene-milestone-check-${theme}`, width: 1536, height: 1024, widths: WIDE_WIDTHS };
   if (kind === 'welcome') return { kind, base: 'scene-welcome-hero-night', width: 1296, height: 1620, widths: TALL_WIDTHS };
   if (kind === 'planSeal') return { kind, base: 'scene-plan-seal-night', width: 1296, height: 1944, widths: TALL_WIDTHS };
+  // The band's own file is 1296 x 1215 of the 1296 x 1620 painting; `painting` and `cropY` place it inside it.
+  if (kind === 'welcomeBand') return { kind, base: 'scene-welcome-band-night', width: 1296, height: 1215, widths: BAND_WIDTHS, painting: { width: 1296, height: 1620 }, cropY: WELCOME_BAND.cropY };
   return null;
 }
 
@@ -57,7 +62,7 @@ export function sceneSrcSet(art, format) {
 export function allSceneFiles() {
   const arts = [];
   for (const kind of [...STATE_SCENES, 'milestone']) arts.push(sceneArt(kind, { night: true }), sceneArt(kind, { night: false }));
-  arts.push(sceneArt('welcome'), sceneArt('planSeal'));
+  arts.push(sceneArt('welcome'), sceneArt('planSeal'), sceneArt('welcomeBand'));
   return arts.flatMap((art) => art.widths.flatMap((w) => ['avif', 'webp'].map((format) => ({ art, width: w, format, src: sceneSrc(art, w, format) }))));
 }
 
@@ -114,6 +119,7 @@ export function vignetteLayout(anchors, scene, { night = true } = {}) {
  *   stars    each pulses as sin^3 over half a breath (4 s), staggered 0.31 of a pulse
  */
 export function lifeLayers(anchors, scene, { night = true } = {}) {
+  if (scene === 'welcome') return welcomeLife(anchors);
   const room = anchors.vignette.scenes[scene];
   if (!room) return null;
   const spec = room.life;
@@ -144,5 +150,39 @@ export function lifeLayers(anchors, scene, { night = true } = {}) {
     };
   });
   const stars = spec.stars.map(([x, y], i) => ({ x, y, phase: (i * 0.31) % 1, periodSeconds: L.breathSeconds / 2 }));
+  return { timing, pool, glow, motes, stars, aspect };
+}
+
+/**
+ * The tall welcome room's life (Night only; the home hero, LK32): the same layers as a vignette's, from the welcome
+ * anchors (lamp, cone foot, floor ellipse) and the window's sky. `aspect` is the painting's height over its width
+ * (1.25), so the motes' container units land where they do on the 1296 x 1620 painting.
+ */
+export function welcomeLife(anchors) {
+  const w = anchors.welcome;
+  const L = anchors.vignette.life;
+  const aspect = w.file.height / w.file.width;
+  const timing = { breathSeconds: L.breathSeconds, cycles: L.cycles, fadeEndsMs: L.fadeEndsMs };
+  const pool = { x: w.ellipse.cx, y: w.ellipse.cy, width: w.ellipse.w, squash: 0.3, alpha: L.poolAlphaNight };
+  const glow = { x: w.lamp.x, y: w.lamp.y, radius: L.glowRadiusOfWidth, alphaLow: 0.06, alphaHigh: 0.13 };
+  const top = w.lamp.y + 0.03;
+  const foot = w.coneFootY;
+  const motes = Array.from({ length: L.motes }, (_, i) => {
+    const r = ((i * 37) % 17) / 16;
+    const lean = (r * 2 - 1) * 0.8;
+    const radiusPx = 0.7 + 0.9 * (((i * 5) % 4) / 3);
+    return {
+      phase: i / L.motes,
+      x0: w.lamp.x + lean * 0.16,
+      x1: w.lamp.x + lean * 0.03,
+      y0: foot,
+      y1: top,
+      alpha: 0.22 + 0.4 * (((i * 11) % 7) / 6),
+      size: (2 * radiusPx) / 380,
+      sway: (i * 0.37) % 1,
+      swayOfWidth: 0.004,
+    };
+  });
+  const stars = (w.stars || []).map(([x, y], i) => ({ x, y, phase: (i * 0.31) % 1, periodSeconds: L.breathSeconds / 2 }));
   return { timing, pool, glow, motes, stars, aspect };
 }

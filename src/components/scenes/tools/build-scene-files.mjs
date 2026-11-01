@@ -1,7 +1,7 @@
 // Builds the website's painted scenes (public/art/scenes/*.v2.{avif,webp}) from the app's full-size
 // masters. Not part of the app bundle: run it by hand when the masters change.
 //
-//   node src/components/scenes/tools/build-scene-files.mjs [masters folder]
+//   node src/components/scenes/tools/build-scene-files.mjs [masters folder] [--only bands]
 //
 // Default masters: ../mockmob-next/tmp/feature-wave-1015/masters/I1 (written by the app's
 // flutter_app/tool/build_scenes.py). It reads:
@@ -15,7 +15,9 @@
 //   the app's way from the native (tall_room() in build_scenes.py: LANCZOS once, 2 percent grain,
 //   then blended into the ground from 0.93 welcome, 0.95 seal). Nothing goes past 1296, because
 //   1440 would upscale a 1122 or 1024 px native.
-// Every size is AVIF and WebP. Prints each file's size.
+//   the home hero's room band (LK32, 1 Nov): the processed welcome room cropped to y 0.20 to 0.95 of the painting
+//   (1296 x 1215) at 780 and 1170 px wide, so a phone fetches only the band it shows (BANDS below).
+// Every size is AVIF and WebP. Prints each file's size. `--only bands` rebuilds the bands alone.
 
 import { existsSync, mkdirSync, statSync } from 'node:fs';
 import path from 'node:path';
@@ -23,7 +25,10 @@ import { fileURLToPath } from 'node:url';
 import sharp from 'sharp';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..', '..');
-const MASTERS = path.resolve(process.argv[2] || path.join(ROOT, '..', 'mockmob-next', 'tmp', 'feature-wave-1015', 'masters', 'I1'));
+const ARGS = process.argv.slice(2);
+const ONLY = ARGS.includes('--only') ? ARGS[ARGS.indexOf('--only') + 1] : null;
+const MASTER_ARG = ARGS.find((a, i) => !a.startsWith('--') && ARGS[i - 1] !== '--only');
+const MASTERS = path.resolve(MASTER_ARG || path.join(ROOT, '..', 'mockmob-next', 'tmp', 'feature-wave-1015', 'masters', 'I1'));
 const OUT = path.join(ROOT, 'public', 'art', 'scenes');
 const VERSION = 'v2';
 
@@ -44,6 +49,11 @@ const TALL = [
   { name: 'scene-plan-seal-night', native: 'plan-seal.png', size: [1296, 1944], blendFrom: 0.95, ground: NIGHT_GROUND },
 ];
 const TALL_WIDTHS = [1080, 1296];
+// Bands: a horizontal cut of a processed tall room (fractions of its height), for a box wider than it is tall.
+// The home hero draws the welcome room W wide and shows y 0.25 to 0.91 of it; the band keeps a margin each side.
+const BANDS = [
+  { name: 'scene-welcome-band-night', from: 'scene-welcome-hero-night', size: [1296, 1620], cropY: [0.2, 0.95], widths: [780, 1170] },
+];
 
 const WEBP = { quality: 86, alphaQuality: 90, effort: 6, smartSubsample: true };
 const AVIF = { quality: 60, effort: 6, chromaSubsampling: '4:4:4' };
@@ -100,10 +110,31 @@ async function write(image, base, width) {
   return files;
 }
 
+async function bands() {
+  let total = 0;
+  for (const band of BANDS) {
+    const src = path.join(MASTERS, 'processed', `${band.from}.png`);
+    const meta = await sharp(src).metadata();
+    if (meta.width !== band.size[0] || meta.height !== band.size[1]) throw new Error(`${src} is ${meta.width} x ${meta.height}; want ${band.size.join(' x ')}`);
+    const top = Math.round(band.cropY[0] * meta.height);
+    const height = Math.round(band.cropY[1] * meta.height) - top;
+    for (const width of band.widths) {
+      const image = sharp(src).removeAlpha().extract({ left: 0, top, width: meta.width, height }).resize(width, Math.round((width * height) / meta.width), { kernel: 'lanczos3', fit: 'fill' });
+      for (const file of await write(image, band.name, width)) total += statSync(file).size;
+    }
+  }
+  return total;
+}
+
 async function main() {
   if (!existsSync(MASTERS)) throw new Error(`No masters at ${MASTERS}`);
   mkdirSync(OUT, { recursive: true });
-  let total = 0;
+  if (ONLY === 'bands') {
+    const total = await bands();
+    console.log(`total ${(total / 1e6).toFixed(2)} MB in ${OUT}`);
+    return;
+  }
+  let total = await bands();
   for (const name of WIDE) {
     const src = path.join(MASTERS, 'processed', `${name}.png`);
     const meta = await sharp(src).metadata();

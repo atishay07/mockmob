@@ -60,8 +60,9 @@ test('the anchors hold the numbers the app draws with', () => {
 
 test('every scene file exists at every width and format, at its true size', () => {
   const files = allSceneFiles();
-  // 6 rooms and the band, Night and Day, at 3 widths; 2 tall rooms at 2 widths; AVIF and WebP each.
-  assert.equal(files.length, (7 * 2 * 3 + 2 * 2) * 2);
+  // 6 rooms and the band, Night and Day, at 3 widths; 2 tall rooms at 2 widths; the home hero's welcome band (Night,
+  // 780 and 1170, LK32); AVIF and WebP each.
+  assert.equal(files.length, (7 * 2 * 3 + 2 * 2 + 2) * 2);
   for (const file of files) {
     const disk = path.join(ROOT, 'public', file.src);
     assert.ok(existsSync(disk), `${file.src} is missing (run src/components/scenes/tools/build-scene-files.mjs)`);
