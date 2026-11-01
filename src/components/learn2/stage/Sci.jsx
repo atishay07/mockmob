@@ -6,7 +6,7 @@
 //   <SciNcert card className />     NCERT's line for a chemistry card: its lines as a list (list kinds) or as paragraphs, with
 //                                   the blanks a term card marks; the same classes as KeyCard's NcertText, so it looks the same
 import { Fragment } from 'react';
-import { LIST_KINDS, backLines, markBlanks, splitBlanks } from '@/components/keycards/kinds';
+import { LIST_KINDS, backLines, blankRuns, gapClass, markBlanks } from '@/components/keycards/kinds';
 import { sciText } from './sciText.mjs';
 
 export function Sci({ text }) {
@@ -16,8 +16,8 @@ export function Sci({ text }) {
 }
 
 export function SciFront({ text, numbered = false }) {
-  return splitBlanks(text).map((p, i) => (p.blank
-    ? <span key={i} className="kc-gap" role="img" aria-label={numbered ? `blank ${p.n}` : 'blank'} />
+  return blankRuns(text).map((p, i) => (p.blank
+    ? <span key={i} className="kc-gaprun">{p.lead}<span className={gapClass(p)} role="img" aria-label={numbered ? `blank ${p.n}` : 'blank'} />{p.tail}</span>
     : <span key={i}><Sci text={p.text} /></span>));
 }
 

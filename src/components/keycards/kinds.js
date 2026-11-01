@@ -132,6 +132,32 @@ export function splitBlanks(front) {
   return out.length ? out : [{ text }];
 }
 
+// Punctuation that belongs to a blank: a comma, stop or closing bracket or quote right after it, an opening bracket or
+// quote right before it.
+const GAP_TAIL = /^[,.;:!?)\]}’”'"…%]+/;
+const GAP_LEAD = /[([{‘“'"]+$/;
+
+/**
+ * splitBlanks, with that punctuation moved onto the blank part as `lead` and `tail`, so a screen draws the gap and its
+ * punctuation in one unbreakable run: a line never starts with ", and" or ends with "(". No character is lost.
+ */
+export function blankRuns(front) {
+  const parts = splitBlanks(front).map((p) => ({ ...p }));
+  parts.forEach((p, i) => {
+    if (!p.blank) return;
+    const before = parts[i - 1];
+    const after = parts[i + 1];
+    const lead = before && !before.blank ? before.text.match(GAP_LEAD) : null;
+    if (lead) { p.lead = lead[0]; before.text = before.text.slice(0, -lead[0].length); }
+    const tail = after && !after.blank ? after.text.match(GAP_TAIL) : null;
+    if (tail) { p.tail = tail[0]; after.text = after.text.slice(tail[0].length); }
+  });
+  return parts.filter((p) => p.blank || p.text);
+}
+
+/** The gap's class for a blankRuns part: punctuation that touches it sits close, with no word space between. */
+export const gapClass = (p) => `kc-gap${p?.lead ? ' kc-gap--lead' : ''}${p?.tail ? ' kc-gap--tail' : ''}`;
+
 /**
  * The quote with its blanked words marked: [{ text } | { mark: word }], each blank found in order after the last one. A blank
  * that is not in the quote (it should always be: content check 3) is simply not marked.

@@ -18,13 +18,13 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import { BookOpen, Check } from 'lucide-react';
 import { CardSource, NcertText } from '@/components/keycards/KeyCard';
-import { cardFace, splitBlanks, sourceLine } from '@/components/keycards/kinds';
+import { blankRuns, gapClass, cardFace, sourceLine } from '@/components/keycards/kinds';
 import { backSize, frontSize, speakable } from './stageText.mjs';
 import { SciFront, SciNcert } from './Sci';
 
 function Front({ text }) {
-  return splitBlanks(text).map((p, i) => (p.blank
-    ? <span key={i} className="kc-gap" role="img" aria-label="blank" />
+  return blankRuns(text).map((p, i) => (p.blank
+    ? <span key={i} className="kc-gaprun">{p.lead}<span className={gapClass(p)} role="img" aria-label="blank" />{p.tail}</span>
     : <span key={i} style={{ display: 'inline' }}>{p.text}</span>));
 }
 

@@ -19,18 +19,18 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react';
 import { Check, CheckCheck, LoaderCircle, MoreHorizontal, RotateCcw } from 'lucide-react';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
-import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, cardFace, entryRows, formulaLines, isNcert, limitKind, markBlanks, ownMarker, plural, sourceLine, splitBlanks, startsMidSentence, stampFor, withLead } from './kinds';
+import { BLANK_KINDS, LIST_KINDS, PRO_LINE, RATINGS, backLines, blankRuns, gapClass, cardFace, entryRows, formulaLines, isNcert, limitKind, markBlanks, ownMarker, plural, sourceLine, startsMidSentence, stampFor, withLead } from './kinds';
 import { isProRequired, proReason, sendReport, sendReview } from './api';
 import { badgeFor, leaveMs } from './studyMotion';
 
 const typing = (el) => el && (el.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName));
 
 export function Prompt({ card, as: Tag = 'p', className = 'kc-prompt', id }) {
-  const parts = splitBlanks(cardFace(card).front);
+  const parts = blankRuns(cardFace(card).front);
   return (
     <Tag className={className} id={id}>
       {parts.map((p, i) => (p.blank
-        ? <span key={i} className="kc-gap" role="img" aria-label={`blank ${p.n}`} />
+        ? <span key={i} className="kc-gaprun">{p.lead}<span className={gapClass(p)} role="img" aria-label={`blank ${p.n}`} />{p.tail}</span>
         : <span key={i}>{p.text}</span>))}
     </Tag>
   );

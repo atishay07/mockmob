@@ -215,6 +215,9 @@ html[data-theme='light'] :is(.kc, .kc-line) {
 .kc-prompt { font: 600 15px/1.5 var(--font-body); color: var(--a-ink-2); max-width: 64ch; text-wrap: pretty; }
 .kc-prompt--small { font-size: 14px; }
 .kc-gap { display: inline-block; width: 3.4em; height: 1em; margin: 0 0.18em; vertical-align: -0.18em; border-bottom: 1.5px solid var(--a-ink-3); }
+.kc-gaprun { white-space: nowrap; }
+.kc-gap--tail { margin-right: 0.04em; }
+.kc-gap--lead { margin-left: 0.04em; }
 
 /* NCERT's own words: the hero of a card. A book page's measure, size and leading, a 1px rule like a quoted passage. */
 .kc-ncert {

@@ -14,7 +14,7 @@ import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import Link from 'next/link';
 import { Check, Lock } from 'lucide-react';
 import { CardSource, InShort, NcertText, ReportForm } from '@/components/keycards/KeyCard';
-import { cardFace, splitBlanks } from '@/components/keycards/kinds';
+import { blankRuns, gapClass, cardFace } from '@/components/keycards/kinds';
 import { openUpgrade } from '@/components/pro/proNudgeStore';
 import { hitParts, snippet } from './cardsShared';
 
@@ -23,9 +23,9 @@ function Marked({ text, query }) {
 }
 
 function Front({ card, query }) {
-  const parts = splitBlanks(cardFace(card).front);
+  const parts = blankRuns(cardFace(card).front);
   return parts.map((p, i) => (p.blank
-    ? <span key={i} className="kc-gap" role="img" aria-label={`blank ${p.n}`} />
+    ? <span key={i} className="kc-gaprun">{p.lead}<span className={gapClass(p)} role="img" aria-label={`blank ${p.n}`} />{p.tail}</span>
     : <Marked key={i} text={p.text} query={query} />));
 }
 

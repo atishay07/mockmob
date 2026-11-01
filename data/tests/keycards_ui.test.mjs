@@ -5,7 +5,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import {
-  KIND_LABELS, PRO_LINE, RATINGS, backLines, chapterRef, chapterRefSpoken, countsLine, endCounts, findChapter, markBlanks, readingRows, slugChapter,
+  KIND_LABELS, PRO_LINE, RATINGS, backLines, blankRuns, chapterRef, gapClass, chapterRefSpoken, countsLine, endCounts, findChapter, markBlanks, readingRows, slugChapter,
   sourceLine, splitBlanks, splitDeck, stateCue, todayLine, addedLine, limitCopy, limitKind, stampFor,
 } from '../../src/components/keycards/kinds.js';
 import {
@@ -30,6 +30,18 @@ test('blanks: the front splits on ____ and the quote marks the blanked words in 
     { text: 'Poor management is due to both ' }, { blank: true, n: 1 }, { text: ' and ' }, { blank: true, n: 2 }, { text: '.' },
   ]);
   assert.deepEqual(splitBlanks('No blanks here'), [{ text: 'No blanks here' }]);
+  // The punctuation that touches a blank travels with it, so a line never starts with ", and"; no character is lost.
+  const front = 'Rather, we simply specify ____, and SQL does the rest. It is called (____) or "____".';
+  const runs = blankRuns(front);
+  assert.deepEqual(runs, [
+    { text: 'Rather, we simply specify ' }, { blank: true, n: 1, tail: ',' }, { text: ' and SQL does the rest. It is called ' },
+    { blank: true, n: 2, lead: '(', tail: ')' }, { text: ' or ' }, { blank: true, n: 3, lead: '"', tail: '".' },
+  ]);
+  assert.equal(runs.map((p) => (p.blank ? `${p.lead || ''}____${p.tail || ''}` : p.text)).join(''), front);
+  assert.deepEqual(blankRuns('____ and ____.'), [{ blank: true, n: 1 }, { text: ' and ' }, { blank: true, n: 2, tail: '.' }]);
+  assert.deepEqual(blankRuns('No blanks here'), [{ text: 'No blanks here' }]);
+  assert.deepEqual(runs.filter((p) => p.blank).map(gapClass), ['kc-gap kc-gap--tail', 'kc-gap kc-gap--lead kc-gap--tail', 'kc-gap kc-gap--lead kc-gap--tail']);
+  assert.equal(gapClass({ blank: true, n: 1 }), 'kc-gap');
   assert.deepEqual(markBlanks('Poor management is due to both inefficiency and ineffectiveness.', ['inefficiency', 'ineffectiveness']), [
     { text: 'Poor management is due to both ' }, { mark: 'inefficiency' }, { text: ' and ' }, { mark: 'ineffectiveness' }, { text: '.' },
   ]);
