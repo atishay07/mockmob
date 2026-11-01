@@ -152,12 +152,12 @@ span.st-counter { cursor: default; }
 
 /* The first feed's cue (R2 ruling 7): a chip with Mobi's head, 12 px above the bar; it bobs 3 times (420 ms up, 380 ms
    back) and fades (160 ms) on the first move. Reduced motion: still. */
-.st-chip { position: absolute; left: 0; right: 0; bottom: calc(100% + 12px); z-index: 2; display: flex; justify-content: center; pointer-events: none; transition: opacity 160ms var(--st-out); }
-.st-chip[data-leaving] { opacity: 0; }
-.st-chip__in { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; border-radius: 20px; border: 1px solid var(--a-line-strong); background: var(--a-sheet, var(--a-raised)); box-shadow: var(--a-shadow-2); color: var(--a-ink); font: 650 14px/1 var(--font-body); white-space: nowrap; animation: st-in 220ms var(--st-out) 300ms both, st-bob 800ms cubic-bezier(0.22, 1, 0.36, 1) 700ms 3; }
-.st-chip__in svg { color: var(--a-accent-text); }
-.st-chip__mobi { display: block; width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background: color-mix(in srgb, var(--a-select) 16%, transparent); }
-.st-chip__mobi > * { margin: -2px 0 0 -2px; }
+.st-cue { position: absolute; left: 0; right: 0; bottom: calc(100% + 12px); z-index: 2; display: flex; justify-content: center; pointer-events: none; transition: opacity 160ms var(--st-out); }
+.st-cue[data-leaving] { opacity: 0; }
+.st-cue__in { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; border-radius: 20px; border: 1px solid var(--a-line-strong); background: var(--a-sheet, var(--a-raised)); box-shadow: var(--a-shadow-2); color: var(--a-ink); font: 650 14px/1 var(--font-body); white-space: nowrap; animation: st-in 220ms var(--st-out) 300ms both, st-bob 800ms cubic-bezier(0.22, 1, 0.36, 1) 700ms 3; }
+.st-cue__in svg { color: var(--a-accent-text); }
+.st-cue__mobi { display: block; width: 30px; height: 30px; border-radius: 50%; overflow: hidden; background: color-mix(in srgb, var(--a-select) 16%, transparent); }
+.st-cue__mobi > * { margin: -2px 0 0 -2px; }
 /* The line you needed: at most 4 lines with a 32 px fade, then "Read the whole line" (R2 screens 6). */
 .st-clamp { max-height: calc(4 * 1.5em + 2px); overflow: hidden; -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 32px), transparent); mask-image: linear-gradient(to bottom, #000 calc(100% - 32px), transparent); }
 .st-clamp:not([data-long]) { -webkit-mask-image: none; mask-image: none; }
@@ -289,9 +289,10 @@ span.st-counter { cursor: default; }
 .st-endx > .st-endx__head { margin-top: 6px; }
 .st-endx__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; }
 .st-endx__h { font: 750 34px/1.08 var(--font-display); letter-spacing: -0.03em; color: var(--a-ink); text-wrap: balance; outline: none; animation: st-in 240ms var(--st-out) both; font-variant-numeric: tabular-nums; }
-.st-endx__mobi { display: block; width: 64px; height: 64px; margin: -6px 0 -6px; animation: st-nod 420ms var(--st-out) 120ms both; transform-origin: 50% 90%; }
+.st-endx__mobi { display: block; width: 64px; height: 64px; margin: 0; animation: st-nod 420ms var(--st-out) 120ms both; transform-origin: 50% 90%; }
 .st-endx__pile { display: flex; justify-content: center; }
-.st-endx__pile .st-pile__fan { height: 112px; }
+.st-endx__pile .st-pile__fan { height: 124px; }
+.st-endx > .st-endx__nums { margin-top: 24px; }
 .st-endx__nums { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 12px; }
 .st-endx__nums > div { display: grid; gap: 4px; align-content: start; min-width: 0; animation: st-in 220ms var(--st-out) calc(var(--i, 0) * 60ms) both; }
 .st-endx__nums dt { font: 700 32px/1 var(--font-display); letter-spacing: -0.02em; color: var(--a-ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -330,7 +331,7 @@ span.st-counter { cursor: default; }
   .st-endx__top { height: 120px; align-items: flex-start; padding-top: 32px; }
   .st-endx__keys { grid-template-columns: 360px auto; justify-content: start; align-items: center; gap: 20px; }
   .st-endx__keys > :only-child { grid-column: 1; }
-  .st-endx__keys .st-textkey, .st-endx__keys .lr-textkey { justify-self: start; }
+  .st-endx__keys .st-textkey, .st-endx__keys .lr-textkey { justify-self: start; text-align: left; white-space: nowrap; }
   .st-endx__nums dt { font-size: 32px !important; }
 }
 
@@ -529,7 +530,7 @@ html[data-theme='light'] .st-scrim { background: rgb(20 24 20 / 0.28); }
   .st-lineopen { transition: none; }
   .st-seg[data-state='now'] i, .st-ticks--bar i { transition: none; }
   .st-pile__card { transition: none; }
-  .st-endx__h, .st-endx__mobi, .st-endx__nums > div, .st-cp__n, .st-chip, .st-chip__in { animation: none !important; }
+  .st-endx__h, .st-endx__mobi, .st-endx__nums > div, .st-cp__n, .st-cue, .st-cue__in { animation: none !important; }
   .st-endx__bar i[data-grow] { animation: none; transform: scaleX(var(--to, 1)); }
   .st-grid, .st-top__title { transition: none; }
 }

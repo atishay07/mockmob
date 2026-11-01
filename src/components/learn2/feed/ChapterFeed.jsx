@@ -399,8 +399,9 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const keptCount = numbers.kept;
   const counter = load.status === 'ready' && of ? <><b>{pos}</b>&nbsp;of {of}</> : null;
   const panelRows = [];
-  if (numbers.answered) panelRows.push({ label: 'Questions', value: `${numbers.right} of ${numbers.answered} right`, sub: streak >= 3 ? `${streak} in a row` : null });
-  if (numbers.mistakes) panelRows.push({ label: 'Old mistakes', value: `${numbers.fixed} of ${numbers.mistakes} fixed` });
+  // Never a zero (R2 ruling 1): "0 of 1 right" reads "1 tried".
+  if (numbers.answered) panelRows.push({ label: 'Questions', value: numbers.right ? `${numbers.right} of ${numbers.answered} right` : `${numbers.answered} tried`, sub: streak >= 3 ? `${streak} in a row` : null });
+  if (numbers.mistakes) panelRows.push({ label: 'Old mistakes', value: numbers.fixed ? `${numbers.fixed} of ${numbers.mistakes} fixed` : `${numbers.mistakes} tried` });
   if (keptCount) panelRows.push({ label: 'In Revise', value: keptCount, extra: <MiniPile refEl={pileEl} /> });
 
   const top = (
@@ -519,9 +520,9 @@ function Feed({ chapterKey = null, minutes = 10, runId = null, end: endAsked = f
   const chapterKeyEl = (place) => (item ? <RailKey key={`ch-${place}`} icon={BookOpen} label="Chapter" href={chapterHref} /> : null);
   const below = optBelow && item?.type === 'question' && !st.answer && !st.skipped;
   const chip = hints.nudge && mode === 'items' && !below && active < endAt ? (
-    <p className="st-chip" data-leaving={hints.leaving || undefined} role="note">
-      <span className="st-chip__in">
-        <span className="st-chip__mobi" aria-hidden="true"><MobiReact act="idle" size={34} still /></span>
+    <p className="st-cue" data-leaving={hints.leaving || undefined} role="note">
+      <span className="st-cue__in">
+        <span className="st-cue__mobi" aria-hidden="true"><MobiReact act="idle" size={34} still /></span>
         <span>{hints.desk ? 'Scroll or press \u2193 for the next one' : 'Swipe up for the next one'}</span>
         <ChevronUp size={16} strokeWidth={2.4} aria-hidden="true" />
       </span>

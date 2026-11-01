@@ -132,7 +132,7 @@ export function SessionPanel({ chapter, refLine, position, total, left, upNext, 
           </div>
           {tally.answered ? (
             <div className="lr-panel__right">
-              <p>Right so far: {tally.right} of {tally.answered}</p>
+              <p>{tally.right ? `Right so far: ${tally.right} of ${tally.answered}` : `${tally.answered} ${tally.answered === 1 ? 'question' : 'questions'} tried`}</p>
               {tally.streak >= 3 ? <p className="lr-panel__streak"><b>{tally.streak}</b> in a row</p> : null}
             </div>
           ) : null}

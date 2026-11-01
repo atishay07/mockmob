@@ -110,7 +110,7 @@
     width: auto; grid-template-columns: 240px 640px 72px; grid-template-rows: 64px; grid-template-areas: 'close ticks .';
     column-gap: 40px; justify-content: center; padding: 0;
   }
-  .lr-top__title, .lr-top__pile, .lr-top__pos, .lr-top__left { display: none; }
+  .lr-top .lr-top__title, .lr-top .lr-top__pile, .lr-top .lr-top__pos, .lr-top .lr-top__left { display: none; }
   .lr-close { justify-self: start; }
   .lr-frame {
     display: grid; width: auto; grid-template-columns: 240px 640px 72px; column-gap: 40px; justify-content: center; align-content: start; align-items: start;
@@ -393,7 +393,7 @@
 .lr-body--end { display: block; padding: 0 16px 40px; }
 .lr-endform { display: grid; gap: 28px; width: 100%; padding: 16px 16px 48px; align-content: start; }
 .lr-endform__left, .lr-endform__right { display: grid; gap: 22px; align-content: start; min-width: 0; }
-.lr-close--end { grid-area: auto; justify-self: start; margin-bottom: -10px; }
+.lr-close--end { grid-area: auto; justify-self: start; margin-bottom: 0; }
 .lr-endform__head { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 12px; }
 .lr-endform__titles { display: grid; gap: 8px; }
 .lr-endform__title { display: grid; gap: 6px; margin: 0; }
