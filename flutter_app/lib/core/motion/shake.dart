@@ -23,7 +23,8 @@ class MmShake extends StatefulWidget {
     this.haptic = true,
     this.size = amplitude,
     this.length = duration,
-  });
+    int cycles = MmShake.cycles,
+  }) : cycleCount = cycles;
 
   final Widget child;
 
@@ -37,13 +38,17 @@ class MmShake extends StatefulWidget {
   final double size;
   final Duration length;
 
+  /// This shake's full cycles (the `cycles` argument; the default is [cycles]). A wrong answer on the
+  /// Learn stage shakes twice in 240 ms.
+  final int cycleCount;
+
   static const double amplitude = 4;
   static const int cycles = 3;
   static const Duration duration = Duration(milliseconds: 220);
 
   /// The sideways offset at [t] (0 to 1) of a shake: [amplitude] dp, [cycles] full cycles, a linear
   /// decay so the last cycle is small and it ends at exactly 0.
-  static double offsetAt(double t, {double size = amplitude}) {
+  static double offsetAt(double t, {double size = amplitude, int cycles = MmShake.cycles}) {
     if (t <= 0 || t >= 1) return 0;
     return size * math.sin(t * cycles * 2 * math.pi) * (1 - t);
   }
@@ -90,7 +95,10 @@ class MmShakeState extends State<MmShake> with SingleTickerProviderStateMixin {
     return RepaintBoundary(
       child: AnimatedBuilder(
         animation: _t,
-        builder: (context, child) => Transform.translate(offset: Offset(MmShake.offsetAt(_t.value, size: widget.size), 0), child: child),
+        builder: (context, child) => Transform.translate(
+          offset: Offset(MmShake.offsetAt(_t.value, size: widget.size, cycles: widget.cycleCount), 0),
+          child: child,
+        ),
         child: widget.child,
       ),
     );
