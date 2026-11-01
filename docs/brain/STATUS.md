@@ -9,6 +9,14 @@
 - **Checks:** test:keycards 76/76, test:keycards-ui 40/40, test:recovery 637/637, test:study 61/62 (the known WordNet licence check, also failing on main), study_feel and vercel_config 18/18, eslint clean on changed files, `next build --webpack` passes and traces tiers.json into /api/keycards, /deck and /api/me/revise.
 - **Rollback:** delete data/keycards/tiers.json (author marks return, with one [keycards] warning) or revert the merge.
 
+## 1 Nov 2026: Learn v2 and the Explore feed ON (owner "Ship it")
+- Code: web/1031-learn-v2 fast-forwarded into main (106e53720), deployed first with the switches off and smoke-tested.
+- Migration 20261101150000_learn_runs.sql: dry run then apply by the owner in the SQL editor; verified (both tables, both
+  security-definer functions, flow_context accepts learn, no anon read). Undo: supabase/undo/20261101150000_learn_runs.undo.sql.
+- Switches: LEARN2_ENABLED=true and NEXT_PUBLIC_LEARN2=on (production). Off = set them off and redeploy.
+- Verified before deploy: test:learn 244, keycards 81, auth 137, recovery 637/640 (0 fail), billing 453, egress 101, today 120, dock 55;
+  test:app 986/990 (2 landing hero tests that also fail on main). Not verified: real phone, trackpad, screen reader.
+
 ## 31 October 2026, about 4:50 pm IST: 218 off-syllabus questions pulled; 25 earlier pulls actually frozen
 
 **Owner:** "Pull them all" (the 218 questions the pool audit found outside the CUET 2026 syllabus).
